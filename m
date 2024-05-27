@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5060F8D0BB9
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 21:12:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E91538D0E05
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 21:36:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9948B10FC79;
-	Mon, 27 May 2024 19:12:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8718310E041;
+	Mon, 27 May 2024 19:36:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QaMmIqrx";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QDFYxLtl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C628010FC79
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 19:12:18 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E241110E041
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 19:36:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5063E61BB2;
- Mon, 27 May 2024 19:12:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85472C2BBFC;
- Mon, 27 May 2024 19:12:16 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 91C88CE0EBE;
+ Mon, 27 May 2024 19:35:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E9A7C2BBFC;
+ Mon, 27 May 2024 19:35:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1716837137;
- bh=SKzXpGwDw/Wsnk8n3O07xvh4RTKKDxP/3tzrIotizuE=;
+ s=korg; t=1716838557;
+ bh=RnQsE+g1WbsoIYd0GlNAqXRKKt0zYGbgChagRPzx2f8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QaMmIqrxS01UjgaH4FzJ4gN8dtgI/GeNW7FXyFbLqa7HHbQOjLgqFMJYvCf0diKl4
- VJTopG1Pgm2O/x4t+YGtZYPzty5s/8zTaegEso8PWUtRuSC3vaoT0HXlFRzDIcm2Aq
- 0pfS3aVOgTyIMz18EqFqYLCAFZQjRu3slwS3meLY=
+ b=QDFYxLtlMMM/Kiva+32zRAY/H3v8IT268DronmdEEM32NIYmDxwHw3KCGuA7ZJiuY
+ dNpBuMFHUl/OX8ir6P5tbEOJg/rBQxk++f6k3uHRiP3SpogDeSRS6xcLFu+kvJ4mQd
+ mcha9L9o28E96x4V5t2RqiR9ofpIUG2o87FlsYtU=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -38,12 +38,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Sam Ravnborg <sam@ravnborg.org>, Helge Deller <deller@gmx.de>,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.9 325/427] fbdev: sh7760fb: allow modular build
-Date: Mon, 27 May 2024 20:56:12 +0200
-Message-ID: <20240527185631.879632423@linuxfoundation.org>
+Subject: [PATCH 6.8 399/493] fbdev: sh7760fb: allow modular build
+Date: Mon, 27 May 2024 20:56:41 +0200
+Message-ID: <20240527185643.328813921@linuxfoundation.org>
 X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240527185601.713589927@linuxfoundation.org>
-References: <20240527185601.713589927@linuxfoundation.org>
+In-Reply-To: <20240527185626.546110716@linuxfoundation.org>
+References: <20240527185626.546110716@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -64,7 +64,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.9-stable review patch.  If anyone has any objections, please let me know.
+6.8-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -96,10 +96,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 197b6d5268e94..3f46663aa563d 100644
+index ba4ab33f6094b..411bf2b2c4d03 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1648,8 +1648,8 @@ config FB_COBALT
+@@ -1680,8 +1680,8 @@ config FB_COBALT
  	select FB_IOMEM_HELPERS
  
  config FB_SH7760
