@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECFF78CFBD0
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 10:43:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E9A8CFC60
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 11:02:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 496E210F27F;
-	Mon, 27 May 2024 08:43:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB62E10F993;
+	Mon, 27 May 2024 09:02:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HoEs/vc4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TRMPiNiI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65A7A10EA65;
- Mon, 27 May 2024 08:43:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716799390; x=1748335390;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=3sa3lpEiwx9HTVK8LslboedQYY6sDl3RKopOjsBMOKs=;
- b=HoEs/vc4Y5pHd4UByC6Zq69cxTrsOIDmLTW/eTTOCxWnMcie/hviZVSG
- 70zN3cUQkfgwHBAacWv5Ormt0QVuhk7ngdf+JBbZ4PWH4VAJEIIBclWxA
- qK8kryQZD/uoa8XjEEhRCVFjgsvj59MCQju2xzj1u+gwcL0GRM3/SS/Dr
- 7GBwm0j6Z6DM12IYIhcARiRg5fPJldyQJH13m5Q2jg3U3R4/Evkm/9G8v
- G+w3nuO4p1AAzEnoFUPXO5s0ZgDnNg3yT8+2qfJE6R8+o+6cURncEJzIn
- 0zTc3nRvusoXmGl8JWxm0B6MaeurneSfCwlfK5cLPqwDk/5mlPxq81Fby g==;
-X-CSE-ConnectionGUID: Gz3wxTqKSl2tRKRePmSUTw==
-X-CSE-MsgGUID: hHP50eEwRwODBtMz+jjRvg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="13049015"
-X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; d="scan'208";a="13049015"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2024 01:43:08 -0700
-X-CSE-ConnectionGUID: 5qY789XwR6C+NzgbaYSCDg==
-X-CSE-MsgGUID: 0iMhrMJbSGq7FVptfGOkVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; d="scan'208";a="34676864"
-Received: from srr4-3-linux-101-amanna.iind.intel.com ([10.223.74.76])
- by fmviesa008.fm.intel.com with ESMTP; 27 May 2024 01:43:06 -0700
-From: Animesh Manna <animesh.manna@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: jani.nikula@intel.com, jouni.hogander@intel.com, arun.r.murthy@intel.com,
- Animesh Manna <animesh.manna@intel.com>
-Subject: [PATCH v6 6/6] drm/i915/alpm: Add debugfs for LOBF
-Date: Mon, 27 May 2024 13:56:36 +0530
-Message-Id: <20240527082636.1519057-7-animesh.manna@intel.com>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20240527082636.1519057-1-animesh.manna@intel.com>
-References: <20240527082636.1519057-1-animesh.manna@intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC21910F993
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 09:02:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 81B04CE0B26;
+ Mon, 27 May 2024 09:02:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A944C2BBFC;
+ Mon, 27 May 2024 09:02:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1716800536;
+ bh=uYAFBgtM5vXI9g7/LeVQ+pczQ1yooR+keQpxvhcuA8k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TRMPiNiIHap5cUpLkC3niSfLnS5r5ay/7/AKD7dAXmxw4VtzFUte71pZ8s4wYxN6C
+ 5N7gB4+obnBGFvTNNxSuXzK/U5TbAzL9ZplGMilaZr1KdblJ6LczlqxIQ8GuuBy7nc
+ 9i1Xee/2KLe/dEp3NpfRWXYMXpQGjWGZRqeXwpsjJf83/GO2GxAql5Y4nbHCV2YGjz
+ rYh02qQutduLCSqGeaeXpUEYU9uSWnlHpo/iwn2FqW2k+BzSyYmty//oZ6FRorGIBN
+ +xcOBIRc0ZuQyvFii3U1AO5zNKn47fmXCnneBR7Hq+ycIaKg4tSKiWLgwSvWA5gvkB
+ +hbDCAwtJxCnQ==
+Date: Mon, 27 May 2024 11:02:13 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v14 17/28] drm/connector: hdmi: Add Broadcast RGB property
+Message-ID: <20240527-adamant-just-spaniel-ebed4e@houat>
+References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
+ <20240521-kms-hdmi-connector-state-v14-17-51950db4fedb@kernel.org>
+ <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="wqcwbvnihqwt2l7e"
+Content-Disposition: inline
+In-Reply-To: <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,113 +74,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For validation purpose add debugfs for LOBF.
 
-v1: Initial version.
-v2: Add aux-wake/less info along with lobf status. [Jouni]
+--wqcwbvnihqwt2l7e
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Animesh Manna <animesh.manna@intel.com>
----
- drivers/gpu/drm/i915/display/intel_alpm.c     | 49 +++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_alpm.h     |  2 +
- .../drm/i915/display/intel_display_debugfs.c  |  2 +
- 3 files changed, 53 insertions(+)
+Hi,
 
-diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/i915/display/intel_alpm.c
-index a8ae5f65a250..a26716c14aa3 100644
---- a/drivers/gpu/drm/i915/display/intel_alpm.c
-+++ b/drivers/gpu/drm/i915/display/intel_alpm.c
-@@ -360,3 +360,52 @@ void intel_alpm_configure(struct intel_dp *intel_dp,
- {
- 	lnl_alpm_configure(intel_dp, crtc_state);
- }
-+
-+static int i915_edp_lobf_info_show(struct seq_file *m, void *data)
-+{
-+	struct intel_connector *connector = m->private;
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	struct drm_crtc *crtc;
-+	struct intel_crtc_state *crtc_state;
-+	enum transcoder cpu_transcoder;
-+	u32 alpm_ctl;
-+	int ret;
-+
-+	ret = drm_modeset_lock_single_interruptible(&dev_priv->drm.mode_config.connection_mutex);
-+	if (ret)
-+		return ret;
-+
-+	crtc = connector->base.state->crtc;
-+	if (connector->base.status != connector_status_connected || !crtc) {
-+		ret = -ENODEV;
-+		goto out;
-+	}
-+
-+	crtc_state = to_intel_crtc_state(crtc->state);
-+	cpu_transcoder = crtc_state->cpu_transcoder;
-+	alpm_ctl = intel_de_read(dev_priv, ALPM_CTL(dev_priv, cpu_transcoder));
-+	seq_printf(m, "LOBF status: %s\n", str_enabled_disabled(alpm_ctl & ALPM_CTL_LOBF_ENABLE));
-+	seq_printf(m, "Aux-wake alpm status: %s\n",
-+		   str_enabled_disabled(!(alpm_ctl & ALPM_CTL_ALPM_AUX_LESS_ENABLE)));
-+	seq_printf(m, "Aux-less alpm status: %s\n",
-+		   str_enabled_disabled(alpm_ctl & ALPM_CTL_ALPM_AUX_LESS_ENABLE));
-+out:
-+	drm_modeset_unlock(&dev_priv->drm.mode_config.connection_mutex);
-+
-+	return ret;
-+}
-+
-+DEFINE_SHOW_ATTRIBUTE(i915_edp_lobf_info);
-+
-+void intel_alpm_lobf_debugfs_add(struct intel_connector *connector)
-+{
-+	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct dentry *root = connector->base.debugfs_entry;
-+
-+	if (DISPLAY_VER(i915) < 20 ||
-+	    connector->base.connector_type != DRM_MODE_CONNECTOR_eDP)
-+		return;
-+
-+	debugfs_create_file("i915_edp_lobf_info", 0444, root,
-+			    connector, &i915_edp_lobf_info_fops);
-+}
-diff --git a/drivers/gpu/drm/i915/display/intel_alpm.h b/drivers/gpu/drm/i915/display/intel_alpm.h
-index 80b9ca086a49..c82ecc7b4001 100644
---- a/drivers/gpu/drm/i915/display/intel_alpm.h
-+++ b/drivers/gpu/drm/i915/display/intel_alpm.h
-@@ -11,6 +11,7 @@
- struct intel_dp;
- struct intel_crtc_state;
- struct drm_connector_state;
-+struct intel_connector;
- 
- void intel_alpm_init_dpcd(struct intel_dp *intel_dp);
- bool intel_alpm_compute_params(struct intel_dp *intel_dp,
-@@ -20,4 +21,5 @@ void intel_alpm_lobf_compute_config(struct intel_dp *intel_dp,
- 				    struct drm_connector_state *conn_state);
- void intel_alpm_configure(struct intel_dp *intel_dp,
- 			  const struct intel_crtc_state *crtc_state);
-+void intel_alpm_lobf_debugfs_add(struct intel_connector *connector);
- #endif
-diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-index 35f9f86ef70f..86d9900c40af 100644
---- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-@@ -13,6 +13,7 @@
- #include "i915_debugfs.h"
- #include "i915_irq.h"
- #include "i915_reg.h"
-+#include "intel_alpm.h"
- #include "intel_crtc.h"
- #include "intel_de.h"
- #include "intel_crtc_state_dump.h"
-@@ -1515,6 +1516,7 @@ void intel_connector_debugfs_add(struct intel_connector *connector)
- 	intel_drrs_connector_debugfs_add(connector);
- 	intel_pps_connector_debugfs_add(connector);
- 	intel_psr_connector_debugfs_add(connector);
-+	intel_alpm_lobf_debugfs_add(connector);
- 
- 	if (connector_type == DRM_MODE_CONNECTOR_DisplayPort ||
- 	    connector_type == DRM_MODE_CONNECTOR_HDMIA ||
--- 
-2.29.0
+Thanks again for that thorough review :)
 
+On Thu, May 23, 2024 at 01:22:56PM GMT, Dmitry Baryshkov wrote:
+> On Tue, May 21, 2024 at 12:13:50PM +0200, Maxime Ripard wrote:
+> > The i915 driver has a property to force the RGB range of an HDMI output.
+> > The vc4 driver then implemented the same property with the same
+> > semantics. KWin has support for it, and a PR for mutter is also there to
+> > support it.
+> >=20
+> > Both drivers implementing the same property with the same semantics,
+> > plus the userspace having support for it, is proof enough that it's
+> > pretty much a de-facto standard now and we can provide helpers for it.
+> >=20
+> > Let's plumb it into the newly created HDMI connector.
+> >=20
+> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  Documentation/gpu/kms-properties.csv            |  1 -
+> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +-
+> >  drivers/gpu/drm/drm_atomic.c                    |  2 +
+> >  drivers/gpu/drm/drm_atomic_uapi.c               |  4 ++
+> >  drivers/gpu/drm/drm_connector.c                 | 88 +++++++++++++++++=
+++++++++
+> >  include/drm/drm_connector.h                     | 36 ++++++++++
+> >  6 files changed, 133 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/k=
+ms-properties.csv
+> > index 0f9590834829..caef14c532d4 100644
+> > --- a/Documentation/gpu/kms-properties.csv
+> > +++ b/Documentation/gpu/kms-properties.csv
+> > @@ -15,11 +15,10 @@ Owner Module/Drivers,Group,Property Name,Type,Prope=
+rty Values,Object attached,De
+> >  ,,=E2=80=9Csaturation=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connector,TBD
+> >  ,,=E2=80=9Chue=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connector,TBD
+> >  ,Virtual GPU,=E2=80=9Csuggested X=E2=80=9D,RANGE,"Min=3D0, Max=3D0xfff=
+fffff",Connector,property to suggest an X offset for a connector
+> >  ,,=E2=80=9Csuggested Y=E2=80=9D,RANGE,"Min=3D0, Max=3D0xffffffff",Conn=
+ector,property to suggest an Y offset for a connector
+> >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Co=
+nnector,TDB
+> > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Li=
+mited 16:235"" }",Connector,"When this property is set to Limited 16:235 an=
+d CTM is set, the hardware will be programmed with the result of the multip=
+lication of CTM by the limited range matrix to ensure the pixels normally i=
+n the range 0..1.0 are remapped to the range 16/255..235/255."
+>=20
+> Should it still be defined as a generic property?
+
+I'm not sure what you mean here, sorry. It's being documented as a
+connector property now, so it's very much still listed as a generic
+property?
+
+Maxime
+
+--wqcwbvnihqwt2l7e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZlRMEAAKCRAnX84Zoj2+
+dhGAAYDS1llqP+ICZyWXx+g6L1EiXrG7OIB0z7t7KF3yJW5Y1zN4+dIvVNhFS6LU
+gAXKTp4BgKUepq65FIlFjrRN3gyXTVxmbiIMJd5mPgjySS4scgX65VNBO5cc0Qvt
+qThCHUrQ2A==
+=K55A
+-----END PGP SIGNATURE-----
+
+--wqcwbvnihqwt2l7e--
