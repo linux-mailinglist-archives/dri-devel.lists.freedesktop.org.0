@@ -2,43 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A098D052C
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B788D0562
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:09:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9949110E4E4;
-	Mon, 27 May 2024 15:03:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E114D10EA82;
+	Mon, 27 May 2024 15:08:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="cURU/Aju";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Rs3PPKCl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail02.habana.ai (habanamailrelay02.habana.ai [62.90.112.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2633910E8D8
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:02:36 +0000 (UTC)
-Received: internal info suppressed
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=habana.ai; s=default;
- t=1716822151; bh=mO1wTBrjD0PxLOyQ4AqovbqlEFzmz5ozW7rB391zFZg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cURU/AjuxgUwR+8nWz1e4LtyXs/e1DBcpK1wFmxlXep0ObfgsF5ZvgtPS+d1JnRxA
- IDCRW/4Q3AqLNCwF8+pE/UIHPPfOy17xNm2u4UmbHubR8HHKn/mLwi24TOgL9ARuY3
- SgAxj0YCbgtYPDjAPpVD0+tRVCv5Mwlr//PIZFxz92HZhXJ/E9QzANce44CgngQVa6
- n3GgTwg7LvtvysfhUUHW4uv3O/Ke6DreKA38CmDl//SOQWDafxsMm7tE8Dk+I9kQwK
- a95TKV6v7BESJqVpzvIKI0wBbPga4hVmshbGBnMIQd/H+b+2L1NRqxgzYdbNlfLXb+
- SV8Zm+6KAnVaw==
-Received: from obitton-vm-u22.habana-labs.com (localhost [127.0.0.1])
- by obitton-vm-u22.habana-labs.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP
- id 44RF2PiZ1954007; Mon, 27 May 2024 18:02:26 +0300
-From: Ofir Bitton <obitton@habana.ai>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Tal Cohen <talcohen@habana.ai>
-Subject: [PATCH 8/8] accel/habanalabs: disable EQ interrupt after disabling pci
-Date: Mon, 27 May 2024 18:02:24 +0300
-Message-Id: <20240527150224.1953969-8-obitton@habana.ai>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240527150224.1953969-1-obitton@habana.ai>
-References: <20240527150224.1953969-1-obitton@habana.ai>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29F6310EA82
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:08:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0326161A36
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:08:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 96015C4AF0A
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:08:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1716822534;
+ bh=SEKZSfay7lYcTUCCBi8JtksXfgIYTsWIjSYJvxgRjPY=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=Rs3PPKCl1SboY7jrs5UAZ6tXwOHOQK5bTIr3WZ0RCjEfyPYEb9Av8roVDitLdwj2U
+ dvfaJ+Wlp9XzJuUmuzrxpnec2dn63SAeSvxQkhBMjFZJNdGLZ3hqvaH9F4HwZz3FDH
+ A8pxFYG6t/m7w/JTRAZoTIDBdpNlBForUE/P4Xu4hVseQrsQIPnwVXdtHvh5Oios6n
+ ub0Kx9zxro5GZ6NqoDIN5aN1wFGbSssgVzV8qsBXSP3UqpwAdKTUKsN4Lt/yMocdaa
+ X7RLbUlNTab2UXCdzB7muc3Gr8ibQiJ2sOrZb4gbCoT4aA00Jhy52AGrEcvOREoQGZ
+ Y2MBVV60oZ/cg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 8FAD9C53BA7; Mon, 27 May 2024 15:08:54 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 218900] amdgpu: Fatal error during GPU init
+Date: Mon, 27 May 2024 15:08:53 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: jean-christophe@guillain.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-218900-2300-GyAIHkPaUv@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218900-2300@https.bugzilla.kernel.org/>
+References: <bug-218900-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,38 +74,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tal Cohen <talcohen@habana.ai>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218900
 
-When sending disable pci msg towards firmware, there is a
-possibility that an EQ packet is already pending,
-disabling EQ interrupt will prevent this from happening.
-The interrupt will be re-enabled after reset.
+--- Comment #1 from Jean-Christophe Guillain (jean-christophe@guillain.net)=
+ ---
+Created attachment 306354
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D306354&action=3Dedit
+Full logs of the boot.
 
-Signed-off-by: Tal Cohen <talcohen@habana.ai>
-Reviewed-by: Ofir Bitton <obitton@habana.ai>
----
- drivers/accel/habanalabs/common/device.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+I added the full log of the boot process showing all the errors.
 
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index 5ca7014def00..78e65c6b76a7 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -1502,10 +1502,11 @@ static void send_disable_pci_access(struct hl_device *hdev, u32 flags)
- 		if (hl_fw_send_pci_access_msg(hdev, CPUCP_PACKET_DISABLE_PCI_ACCESS, 0x0))
- 			return;
- 
--		/* verify that last EQs are handled before disabled is set */
-+		/* disable_irq also generates sync irq, this verifies that last EQs are handled
-+		 * before disabled is set. The IRQ will be enabled again in request_irq call.
-+		 */
- 		if (hdev->cpu_queues_enable)
--			synchronize_irq(pci_irq_vector(hdev->pdev,
--					hdev->asic_prop.eq_interrupt_id));
-+			disable_irq(pci_irq_vector(hdev->pdev, hdev->asic_prop.eq_interrupt_id));
- 	}
- }
- 
--- 
-2.34.1
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
