@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5FD8D0529
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:03:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B43AB8D0522
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:02:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 870D910E2D0;
-	Mon, 27 May 2024 15:03:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E94D10E46D;
+	Mon, 27 May 2024 15:02:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="b3UkZcLJ";
+	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="JwYIrAxl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail02.habana.ai (habanamailrelay02.habana.ai [62.90.112.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A80CB10E838
+Received: from mail02.habana.ai (habanamailrelay.habana.ai [213.57.90.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EFB410E774
  for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:02:36 +0000 (UTC)
 Received: internal info suppressed
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=habana.ai; s=default;
- t=1716822151; bh=ZcfMiJyaPvcvjXhfFV/nyPzUmJd+dTs0K+agxcaJbBY=;
+ t=1716822162; bh=A7hb/8XwlGIYcRbyAd3Z+DLTG2+4TxEgmPGbtk3dXII=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=b3UkZcLJW39/vkf1VZmonAUe6ysAQe8LFeZXSyI409Iv/rfGPy4xxazxDo3Bj7lCh
- 9qCJrvA+vLI3JqZ6jK5pUU8IPwfTy/Z5OoVq6iyBV8OoctwMrhT8jsBIPid4sWWdpc
- eDHClNSyqwuvcLi5RwH1Nqm9YTBUVFayc+6drxR74Ro+luToqO6e/6RWuLSQIJfMgt
- 0Djm2tVmxa6SLtPJpDua3W1tGhoYoOBdM4AzWmteb/TxZl6Uq5JPhadyaQiHw5ZaIq
- qlWgZ46xfvYMpGir+aDJ+7FsmqtStezwIW5pLc4qQ/M+BXKNCToSe8Hx9GFolwHzNJ
- wQc1YKlz1uyhA==
+ b=JwYIrAxlp9i/xR2v+Ewocpm/r7XEA0pGJiklc7Agj0sIRbV5H4WC8pqlIFJqwufF3
+ HlzTMa/1sKwROHZh5A9iUTFOHwkiESRtPDKVSoeSFjZK7x/uLdVvPI7bMyO5xL9gl6
+ N8W5CF8S7aVpY3cwEYhnWOFBasdadKFtFaIGTyg7OJjliL+wowjrZCNKHpzXdY83Fd
+ /APllACUdSvQqLfeTtfo2+bK2w7U+7q9sc1DsfQRR7jB4ij+tKq6/IOJXSGXrF4npb
+ iu198Fxv93ODFf+gAlwF7I6c7jrag9RjSmD6j3xd027b7CjBgjrtn53YQ8UGXVJzur
+ q2PgHLRhLFQZg==
 Received: from obitton-vm-u22.habana-labs.com (localhost [127.0.0.1])
  by obitton-vm-u22.habana-labs.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP
- id 44RF2PiT1954007; Mon, 27 May 2024 18:02:25 +0300
+ id 44RF2PiU1954007; Mon, 27 May 2024 18:02:26 +0300
 From: Ofir Bitton <obitton@habana.ai>
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Cc: Tomer Tayar <ttayar@habana.ai>
-Subject: [PATCH 2/8] accel/habanalabs: use device-name directory in
- debugfs-driver-habanalabs
-Date: Mon, 27 May 2024 18:02:18 +0300
-Message-Id: <20240527150224.1953969-2-obitton@habana.ai>
+Subject: [PATCH 3/8] accel/habanalabs: add a common handler for clock change
+ events
+Date: Mon, 27 May 2024 18:02:19 +0300
+Message-Id: <20240527150224.1953969-3-obitton@habana.ai>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240527150224.1953969-1-obitton@habana.ai>
 References: <20240527150224.1953969-1-obitton@habana.ai>
@@ -57,40 +57,82 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomer Tayar <ttayar@habana.ai>
 
-The device debugfs directory was modified to be named as the parent
-device name.
-Update the description of 'mmu' and 'mmu_error' to use the new path.
+As the new dynamic EQ includes clock change events which are common and
+not ASIC-specific, add a common handler for these events.
 
 Signed-off-by: Tomer Tayar <ttayar@habana.ai>
 Reviewed-by: Ofir Bitton <obitton@habana.ai>
 ---
- Documentation/ABI/testing/debugfs-driver-habanalabs | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/accel/habanalabs/common/device.c     | 46 ++++++++++++++++++++
+ drivers/accel/habanalabs/common/habanalabs.h |  1 +
+ 2 files changed, 47 insertions(+)
 
-diff --git a/Documentation/ABI/testing/debugfs-driver-habanalabs b/Documentation/ABI/testing/debugfs-driver-habanalabs
-index efbb78bedb8b..3318a14f35b9 100644
---- a/Documentation/ABI/testing/debugfs-driver-habanalabs
-+++ b/Documentation/ABI/testing/debugfs-driver-habanalabs
-@@ -217,7 +217,7 @@ Description:    Displays the hop values and physical address for a given ASID
-                 and virtual address. The user should write the ASID and VA into
-                 the file and then read the file to get the result.
-                 e.g. to display info about VA 0x1000 for ASID 1 you need to do:
--                echo "1 0x1000" > /sys/kernel/debug/accel/0/mmu
-+                echo "1 0x1000" > /sys/kernel/debug/accel/<parent_device>/mmu
+diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
+index fd117489a05a..31daa9184537 100644
+--- a/drivers/accel/habanalabs/common/device.c
++++ b/drivers/accel/habanalabs/common/device.c
+@@ -2860,3 +2860,49 @@ void hl_eq_heartbeat_event_handle(struct hl_device *hdev)
+ 	hdev->heartbeat_debug_info.heartbeat_event_counter++;
+ 	hdev->eq_heartbeat_received = true;
+ }
++
++void hl_handle_clk_change_event(struct hl_device *hdev, u16 event_type, u64 *event_mask)
++{
++	struct hl_clk_throttle *clk_throttle = &hdev->clk_throttling;
++	ktime_t zero_time = ktime_set(0, 0);
++
++	mutex_lock(&clk_throttle->lock);
++
++	switch (event_type) {
++	case EQ_EVENT_POWER_EVT_START:
++		clk_throttle->current_reason |= HL_CLK_THROTTLE_POWER;
++		clk_throttle->aggregated_reason |= HL_CLK_THROTTLE_POWER;
++		clk_throttle->timestamp[HL_CLK_THROTTLE_TYPE_POWER].start = ktime_get();
++		clk_throttle->timestamp[HL_CLK_THROTTLE_TYPE_POWER].end = zero_time;
++		dev_dbg_ratelimited(hdev->dev, "Clock throttling due to power consumption\n");
++		break;
++
++	case EQ_EVENT_POWER_EVT_END:
++		clk_throttle->current_reason &= ~HL_CLK_THROTTLE_POWER;
++		clk_throttle->timestamp[HL_CLK_THROTTLE_TYPE_POWER].end = ktime_get();
++		dev_dbg_ratelimited(hdev->dev, "Power envelop is safe, back to optimal clock\n");
++		break;
++
++	case EQ_EVENT_THERMAL_EVT_START:
++		clk_throttle->current_reason |= HL_CLK_THROTTLE_THERMAL;
++		clk_throttle->aggregated_reason |= HL_CLK_THROTTLE_THERMAL;
++		clk_throttle->timestamp[HL_CLK_THROTTLE_TYPE_THERMAL].start = ktime_get();
++		clk_throttle->timestamp[HL_CLK_THROTTLE_TYPE_THERMAL].end = zero_time;
++		*event_mask |= HL_NOTIFIER_EVENT_USER_ENGINE_ERR;
++		dev_info_ratelimited(hdev->dev, "Clock throttling due to overheating\n");
++		break;
++
++	case EQ_EVENT_THERMAL_EVT_END:
++		clk_throttle->current_reason &= ~HL_CLK_THROTTLE_THERMAL;
++		clk_throttle->timestamp[HL_CLK_THROTTLE_TYPE_THERMAL].end = ktime_get();
++		*event_mask |= HL_NOTIFIER_EVENT_USER_ENGINE_ERR;
++		dev_info_ratelimited(hdev->dev, "Thermal envelop is safe, back to optimal clock\n");
++		break;
++
++	default:
++		dev_err(hdev->dev, "Received invalid clock change event %d\n", event_type);
++		break;
++	}
++
++	mutex_unlock(&clk_throttle->lock);
++}
+diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
+index 0d16b5310add..3ea1b131cd42 100644
+--- a/drivers/accel/habanalabs/common/habanalabs.h
++++ b/drivers/accel/habanalabs/common/habanalabs.h
+@@ -4063,6 +4063,7 @@ void hl_enable_err_info_capture(struct hl_error_info *captured_err_info);
+ void hl_init_cpu_for_irq(struct hl_device *hdev);
+ void hl_set_irq_affinity(struct hl_device *hdev, int irq);
+ void hl_eq_heartbeat_event_handle(struct hl_device *hdev);
++void hl_handle_clk_change_event(struct hl_device *hdev, u16 event_type, u64 *event_mask);
  
- What:           /sys/kernel/debug/accel/<parent_device>/mmu_error
- Date:           Mar 2021
-@@ -226,8 +226,8 @@ Contact:        fkassabri@habana.ai
- Description:    Check and display page fault or access violation mmu errors for
-                 all MMUs specified in mmu_cap_mask.
-                 e.g. to display error info for MMU hw cap bit 9, you need to do:
--                echo "0x200" > /sys/kernel/debug/accel/0/mmu_error
--                cat /sys/kernel/debug/accel/0/mmu_error
-+                echo "0x200" > /sys/kernel/debug/accel/<parent_device>/mmu_error
-+                cat /sys/kernel/debug/accel/<parent_device>/mmu_error
+ #ifdef CONFIG_DEBUG_FS
  
- What:           /sys/kernel/debug/accel/<parent_device>/monitor_dump
- Date:           Mar 2022
 -- 
 2.34.1
 
