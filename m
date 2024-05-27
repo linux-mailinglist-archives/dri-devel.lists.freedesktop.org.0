@@ -2,123 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FEB88D0003
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 14:28:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2588D0133
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 15:20:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EA5410E04D;
-	Mon, 27 May 2024 12:28:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB64710F54D;
+	Mon, 27 May 2024 13:20:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="n0aAFAhX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Dc+68W/P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2079.outbound.protection.outlook.com [40.107.95.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3087210EACF
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 12:28:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WozWHkG3MNUUUOfU4yIchwLOS0rOTSZ1vcjQWFBD5sPhodxok+SbANal/6A0vWq9f14JWq81QQ01D76waCl5t1NYT1R+ZkrttXe7vv0ekIUDsl2vlpakFiZF3wmK5scsaVWbydpf0QhU+1Z3qks/qx2XH4fvgrKJr+4RuDX7e0jKuGZAu18Gp6ejdr6Pl9SEQBMsykefDwkUmBmoQPj8IxC0BKfciut2OAyZPJ0eGh/Q9QF2EbOI+JEgvtF18vs3VE4yoysRDjTwNvNHZZfZEuLTgBYPlL4cmd0/ZA/EWBbAC3fx2UYGjVLt7vlVQ6Gy+dn70k2nnx1pFRIUs1g4+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=spMpB184Nw7mrpFhsvyKOv1V1/q23aFE72jh1rKcHY0=;
- b=oR+mRD4DPd6DlVmFOt7tYneZqpii8HTPqnJ3i0jLGEv0l0PTdSleezLJgZ6dSzbbhclDiE+0t569z5FUUgEPj8zMThQe3tBPok929kZMAP6ngKCRTNrNWYXN3N00esh7tiE5l8LWHpoIvV2lbN/A2tl/Y7o6mMO/4qq/LtImYyIQTnUFXlcc1vwpd5hu2cSxQacrrWraj12EXOffvXxbqJvXxQn0A4b8BYjxuehjtQeohJ0eA7LPlyHUg1jgQlWdUSA43OfiJZ36Yx89bGwlEelSUalg9l0qAi7TgokgYcDf8f6uKREqXRq+YhtTniPnM/1D0tH5FreYE7l26YXAMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=spMpB184Nw7mrpFhsvyKOv1V1/q23aFE72jh1rKcHY0=;
- b=n0aAFAhXTQ9jc7l9LrjQR4sF19lnMM99e1CWlm+HY0v2QBqtHyTpWXHMDbAzNRV10XtztR1HFmOT0nv2YoITE0qt+APu1AD1teKlZ7Fq71vTWwROCs+x3bRnmaXGlsgNBytL1nHEkQOdwjo6FR/wrGicVmgk3HJpqdXuU5G/qQs=
-Received: from BYAPR21CA0022.namprd21.prod.outlook.com (2603:10b6:a03:114::32)
- by CH3PR12MB9099.namprd12.prod.outlook.com (2603:10b6:610:1a5::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.30; Mon, 27 May
- 2024 12:28:06 +0000
-Received: from CO1PEPF000044F3.namprd05.prod.outlook.com
- (2603:10b6:a03:114:cafe::48) by BYAPR21CA0022.outlook.office365.com
- (2603:10b6:a03:114::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.5 via Frontend
- Transport; Mon, 27 May 2024 12:28:06 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CO1PEPF000044F3.mail.protection.outlook.com (10.167.241.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7633.15 via Frontend Transport; Mon, 27 May 2024 12:28:05 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 27 May
- 2024 07:28:04 -0500
-Received: from wayne-dev-lnx.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
- Transport; Mon, 27 May 2024 07:28:01 -0500
-From: Wayne Lin <Wayne.Lin@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-CC: <lyude@redhat.com>, <jani.nikula@intel.com>, <harry.wentland@amd.com>,
- <jerry.zuo@amd.com>, Wayne Lin <Wayne.Lin@amd.com>, Harry Wentland
- <hwentlan@amd.com>, <stable@vger.kernel.org>
-Subject: [PATCH] drm/dp_mst: Fix all mstb marked as not probed after
- suspend/resume
-Date: Mon, 27 May 2024 20:27:56 +0800
-Message-ID: <20240527122756.3900099-1-Wayne.Lin@amd.com>
-X-Mailer: git-send-email 2.37.3
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E70D10F4CF;
+ Mon, 27 May 2024 13:20:14 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-578517c7ae9so3878660a12.3; 
+ Mon, 27 May 2024 06:20:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1716816012; x=1717420812; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=583OMcuKvHNT1Ww+Sb5JEHcYkO2V/RPQQEiPPcbZRAU=;
+ b=Dc+68W/PdmArLfyy7a38U3XT23pEEjxvbnow3rpTmWIBS22JqoM7X+dJqMWsQabxsP
+ xLFaAwt1jIqauxES1EaXUxGYadHIQq70Qbdbvn+BX5kXFHA3q7RJWkD2u313stzQpfhJ
+ Bw5LFyHrXyvIdxuIZSFgrG5xewMUvwKpq1SEFOSbBD/sZIFyuFwXk5FV/SlcGgtouQqP
+ cLp/GnjvGgPgBq04bWOF0JZY2+NixRS/ExZTEz5YsdfBr2u97hT0M5p4lwxGed8uv2WG
+ SfF7oBkjH3s3baaO9cjhIZVgnHY3da5efOpf0ZDrzz/3Dx/fg/BRYHGnfjqHYPIL43Uq
+ C21A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716816012; x=1717420812;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=583OMcuKvHNT1Ww+Sb5JEHcYkO2V/RPQQEiPPcbZRAU=;
+ b=sBZbBlDnNcxo1jOwtk0TStoHYKnurVWyzFqukw1iwY/jN15lh2/D00kcH5fp9203Jk
+ VBitvTc4ojndODf4w4HUSZilylz9SbIRhfO1PQm5chyvr9wKmU6vEX6L1L2AH5e0xkI4
+ 9FPH3XRcIv4oC20FolQu6sm23XTE1FcrGvF8ST6BLPJc2NQrY3Uh3v4nLXSz3fIunwaz
+ EaziEQC7+x0KeMH5GBpbD4yG9SB7gfosDRe0eeqoKj1yCK30jiMcTcczkh34r6/QMxLv
+ cEASq5+KLHfNyiRvQHCLGTC/fcnfzB6bPq08J/VG3Ch8OOvb4EOW70k6U0fdnMYiXf4H
+ PKDQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU0JIw/DuEryJaUIAqDsvhjFLixooXGSkmk2dgk/PzHyth5iRH9VcrOwnPUPZPyjZ9CZ0cqDfVYy0q4+9BcrSNRVmDioGCcA31x9i4eAIwXi3E9utNvPJ/to2VFApyBRns8qGtdYz33wKb9xr/QqR0h
+X-Gm-Message-State: AOJu0YyZDOuGRr7rzxsxLBGdqAbdJXP/dMNNNNnCxZ/lx+Bckx78Ed51
+ E6v8BVKEE7XvrjPGeZ5WgThlAul1ToSK8eGUKAS/oKzXbwUtjEoTiTBh/B2FpUovovgDT4RWsJn
+ sK5OsqbRiX6W7d2emsfLUATIVBlg=
+X-Google-Smtp-Source: AGHT+IFAU5YkoQQCpo2YBJF5cZ7P9SUOU+cK1hlCD0x11A8DdQnGvCOJ3WRTYFceD3JkPIeraFXM9GsH58VbgH3clsU=
+X-Received: by 2002:a17:907:971c:b0:a62:cecd:26e3 with SMTP id
+ a640c23a62f3a-a62cecd2767mr357363566b.39.1716816012441; Mon, 27 May 2024
+ 06:20:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB03.amd.com: Wayne.Lin@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F3:EE_|CH3PR12MB9099:EE_
-X-MS-Office365-Filtering-Correlation-Id: 010200d8-475b-451a-af01-08dc7e4875db
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230031|376005|1800799015|82310400017|36860700004; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9yd8prODUt7PAWbTWw9TykzbGLz6Mpe7uz6/RcMkLRA3gfxr/zixFKYIw0xL?=
- =?us-ascii?Q?bIykakClJb3ebnyMbB3o6CcLqYyl2ZPl8lYL79wUtVOuf7OWnz/nkLnAffcr?=
- =?us-ascii?Q?3TwyKtms6aNr9ImAz7YhajmieH3CiayBfG9f0/kyPlD9DAS0LKCLSZ2SLZ2+?=
- =?us-ascii?Q?Pj2ol8S5zxO6Yt22HQj1eXo5IYT014pgNV1a6VjHP9/YkUbrrYq0QMKQw8MU?=
- =?us-ascii?Q?ZWChWKFsbYpJHAuzHYNhz5rHiO3LhwmEELqDNPe6+mcen7DXrRZfaPzvcSOI?=
- =?us-ascii?Q?lxkbvx3wmx6/DdmOaArjDg9HYFuRgLQvs2btO0b1xP9z4FZGS5x28/y+BxUV?=
- =?us-ascii?Q?yBzIkbrsv5aJdSCIjvyOI7XYqC8tJO3IKSJHuSgy1+orSSMsjK7OoJ8ZtszJ?=
- =?us-ascii?Q?e/vfOh+zAG4EKlNiodapKVgZZWNy5dsKDMzjDFJPTMGGeRD97lqYpSGsBoyF?=
- =?us-ascii?Q?PpH5aRoqyeNBX08cCR+Ak0hVkH1ZcAXnI1OV63mDJ7y8TbM+z02R7B5+wCwI?=
- =?us-ascii?Q?Y8qom9O4E04WHNHQPYTLvd0B6uo2xHSpk3kWDre0OxjN5Ir6MVPqqN3f9dSg?=
- =?us-ascii?Q?RewsSDaRTOrPi/hOU30c6HXdTNNrpKt3c6veAxHRUbosG1XZMVo+VvIvO+t3?=
- =?us-ascii?Q?Mi6+Q5lQn58Qh80KB2c9lo7QzzgnbgtW6GSneMG2WuAoO3Aijv2bo2wNCcOH?=
- =?us-ascii?Q?b8ovwG+73ASLadJyGwQM24b2oNsPHXGUqCoWGVRMksZQ1yddVk7mEp5eS4XQ?=
- =?us-ascii?Q?H0IGHCF4nKQRvxzHjg4i1CinaieBR0nuxLwPfRTaAspM9ym2MSRxt6eQpT8K?=
- =?us-ascii?Q?h7CcQCVw250CA8vMg007E1N8i73po90hYjKgM/4oQZOD7D07C1ZiUhYWH/8E?=
- =?us-ascii?Q?5BAdhSje5ttXLgBPhpco68+uv3Yj+ug06wPNbLxRPXgrB+3qj/RjmDC902X1?=
- =?us-ascii?Q?l9ICopn5ZkS58cONwVlsL0BdaePYD5KhOUPPtNDfhy5SnOoqVxxRHE4K5jFR?=
- =?us-ascii?Q?OkLLqBqf8THuri2YMY6hhDuE24va23KwGqsPTsLRUh8PObQxy7y1Vn7xa3bB?=
- =?us-ascii?Q?6PcuehkK0Q1ZV1rffqHXkSPuVtzlTJFHY47cmHZSZVPTYjAoh74bKrCWGasO?=
- =?us-ascii?Q?MHKHj1px29WGitoCjp2gl8wOAkyD9q9InjsQ/hQzk80PNFbCtD5Aax6FLrng?=
- =?us-ascii?Q?qRUm7fOvVv0y19DhJhDQAvjBWgrrFnnC6SqXPAK0bI8tIAtyyBAkpZyuaD75?=
- =?us-ascii?Q?JhKiZz9dUiS6EZSpial7XOo0B4jfEaWabDorF1WdAcDgIVO/qh1VP2Tf3mKQ?=
- =?us-ascii?Q?F7tko8aerA9Izq9kNa1t+CFIadPP8kfUv/6xnXTBsSTsKwFbhJjEFIunvxdV?=
- =?us-ascii?Q?+Keuy1lPoisPvR5scIJ0NF5s98iZ?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(376005)(1800799015)(82310400017)(36860700004); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2024 12:28:05.8438 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 010200d8-475b-451a-af01-08dc7e4875db
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F3.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9099
+References: <20240527094320.2653177-1-jani.nikula@intel.com>
+ <20240527094320.2653177-2-jani.nikula@intel.com>
+In-Reply-To: <20240527094320.2653177-2-jani.nikula@intel.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 27 May 2024 16:19:35 +0300
+Message-ID: <CAHp75Ve0vyOv3KNY_7286wLKd8u6HOvu0Trm17rs46h-BOGsfA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm: use mem_is_zero() instead of !memchr_inv(s, 0, n)
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org, Kees Cook <keescook@chromium.org>, 
+ Andy Shevchenko <andy@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,49 +81,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Why]
-After supend/resume, with topology unchanged, observe that
-link_address_sent of all mstb are marked as false even the topology probing
-is done without any error.
+On Mon, May 27, 2024 at 12:43=E2=80=AFPM Jani Nikula <jani.nikula@intel.com=
+> wrote:
+>
+> Use the mem_is_zero() helper where possible.
 
-It is caused by wrongly also include "ret == 0" case as a probing failure
-case.
+...
 
-[How]
-Remove inappropriate checking conditions.
+> -       if (memchr_inv(guid, 0, 16) =3D=3D NULL) {
+> +       if (mem_is_zero(guid, 16)) {
+>                 tmp64 =3D get_jiffies_64();
+>                 memcpy(&guid[0], &tmp64, sizeof(u64));
+>                 memcpy(&guid[8], &tmp64, sizeof(u64));
 
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Harry Wentland <hwentlan@amd.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: stable@vger.kernel.org
-Fixes: 37dfdc55ffeb ("drm/dp_mst: Cleanup drm_dp_send_link_address() a bit")
-Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
----
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+What is the type of guid? Shouldn't it be guid_t with the respective
+guid_is_null()
 
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 7f8e1cfbe19d..68831f4e502a 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -2929,7 +2929,7 @@ static int drm_dp_send_link_address(struct drm_dp_mst_topology_mgr *mgr,
- 
- 	/* FIXME: Actually do some real error handling here */
- 	ret = drm_dp_mst_wait_tx_reply(mstb, txmsg);
--	if (ret <= 0) {
-+	if (ret < 0) {
- 		drm_err(mgr->dev, "Sending link address failed with %d\n", ret);
- 		goto out;
- 	}
-@@ -2981,7 +2981,7 @@ static int drm_dp_send_link_address(struct drm_dp_mst_topology_mgr *mgr,
- 	mutex_unlock(&mgr->lock);
- 
- out:
--	if (ret <= 0)
-+	if (ret < 0)
- 		mstb->link_address_sent = false;
- 	kfree(txmsg);
- 	return ret < 0 ? ret : changed;
--- 
-2.37.3
+...
 
+> -       if (memchr_inv(guid, 0, 16))
+> +       if (!mem_is_zero(guid, 16))
+>                 return true;
+
+Ditto.
+
+--=20
+With Best Regards,
+Andy Shevchenko
