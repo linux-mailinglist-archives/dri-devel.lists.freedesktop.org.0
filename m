@@ -2,70 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89CB98D0930
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 19:08:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C37448D0976
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 19:36:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E930C10E098;
-	Mon, 27 May 2024 17:08:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A020C10F330;
+	Mon, 27 May 2024 17:36:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="UqEHkVvt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Zye5Y2M6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEEFD10E098
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 17:08:12 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 4533540E01E8; 
- Mon, 27 May 2024 17:08:10 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
- header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
- by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id bimxyUlM5shO; Mon, 27 May 2024 17:08:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1716829686; bh=zzMPJ6U6LHHCwo8zSeCN578JvIc5clkBHFvMwav3ulA=;
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4CF10E331
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 17:36:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5B80A61B9A;
+ Mon, 27 May 2024 17:36:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1853C2BBFC;
+ Mon, 27 May 2024 17:36:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1716831396;
+ bh=9azP1CoqBgVzc1Ap21svaHMHj3h571dn+Ed1pu/oZnU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UqEHkVvtmndf7yBXhPjClvB23jAwbCH2y9mrqWuQVDLzPL5LKRkma5X0WAIXAslDI
- OWVmIJ6/GQh6MyHgNXH12gJzDPwF0OdhwM57t/S13aSva8RZqSNOaZBXycdRifKOfv
- 0nvKCVZHTyaWAw7nHg6JeCT936cjd8IHWbDZetP9R64GkqGGbhn/Rq2o5O1lyk3xV/
- nYbgRJAb6ONjxRmC5hUl9xcu+okxrmSuyhHurHx00V4k20COwpr6rwpzQwAnyXHLMV
- m+czfkJWEL1NjV2TVhDcJ7mBL7mIdcM1fI5dycnLvxv1o9EI8YpByQh6R2sDWMk4An
- cyNP5dzV8x2tieKXMH4ReySNhZogLEwuhTGWdRnt928uQUmNRt4zprDoIAHQL2n21X
- lXVQ8ULIoVGrW3v4XqisVCko5CYOCA7b7kJ3zZKQ0w+pU8jRgndQBA4PekevN9v4C/
- w3YVJhZ84GxfQ2Jik3lPfedBlRPhMRAq2l2f+Vcoqu4HBD5/+MgUTgLY61H9GyG6+u
- foPRRlYX+NMMmBytfFA9fURUfzSdFIQaPgb/IPIcecIx2VtLoNK4Odm8q386PsdDba
- yPB0wl/TmUP+FPiUpIIrpy1wELmaq/xXv7yeZPb769FOhG57ozS+Z17YhfsAIYc+rJ
- 8LVjMkN2N08NqOt51W4fqTAo=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2CF0E40E016A;
- Mon, 27 May 2024 17:07:41 +0000 (UTC)
-Date: Mon, 27 May 2024 19:07:34 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
- hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
- tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
- richardcochran@gmail.com, linux-input@vger.kernel.org,
- dmitry.torokhov@gmail.com, zackr@vmware.com,
- linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
- timothym@vmware.com, akaher@vmware.com,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
- tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, horms@kernel.org,
- kirill.shutemov@linux.intel.com
-Subject: Re: [PATCH v10 1/8] x86/vmware: Introduce VMware hypercall API
-Message-ID: <20240527170734.GCZlS91uXD68HRN1na@fat_crate.local>
-References: <20240523191446.54695-1-alexey.makhalov@broadcom.com>
- <20240523191446.54695-2-alexey.makhalov@broadcom.com>
+ b=Zye5Y2M6ZcwVdvsk5HTNp16+CzXgCstjS1xb9IxfH4+tcOhW0sR7W9u0/bCC4mRr+
+ yh8xka7Oj//VwikLVjQ/a1J4ULjGTAZR9BTXzaaC9Me/U9cttPvRwq7JjYeYOfPFgM
+ wTD2X1BPGVI+HcaQPOyatPyo7ZOBJGU3RCDci8lR7XNQNGJHNWl01ouq3JAhpN+9le
+ Q5n83MV6Wji9XSwh+MP/R4TGaf8fKV4ZgmQNI+Bmw6J1/8UwKih+cIF2qDRgHmiuwT
+ BPIdf5HQfXTu7gZbMcD9YJVjWtMlb0TD7JiU+9nG/dX2WpeqV9d8iRMiYwWzGH7DVH
+ +Ou4bN2/Bejtg==
+Date: Mon, 27 May 2024 18:36:30 +0100
+From: Conor Dooley <conor@kernel.org>
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+Cc: Jassi Brar <jassisinghbrar@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Shawn Sung <shawn.sung@mediatek.com>, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH RESEND,v6 2/8] dt-bindings: mailbox: Add property for
+ CMDQ secure driver
+Message-ID: <20240527-bullion-slapping-d35fcddb56d5@spud>
+References: <20240526144443.14345-1-jason-jh.lin@mediatek.com>
+ <20240526144443.14345-3-jason-jh.lin@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="gfL6Eu9ihKM1A1EB"
 Content-Disposition: inline
-In-Reply-To: <20240523191446.54695-2-alexey.makhalov@broadcom.com>
+In-Reply-To: <20240526144443.14345-3-jason-jh.lin@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,149 +71,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 23, 2024 at 12:14:39PM -0700, Alexey Makhalov wrote:
-> +#define VMWARE_HYPERCALL						\
-> +	ALTERNATIVE_3("",						\
-> +		      "jmp .Lport_call%=", X86_FEATURE_HYPERVISOR,	\
-> +		      "jmp .Lvmcall%=", X86_FEATURE_VMCALL,		\
-> +		      "vmmcall\n\t"					\
-> +		      "jmp .Lend%=", X86_FEATURE_VMW_VMMCALL)		\
-> +		      "cmpb $"						\
-> +			__stringify(CPUID_VMWARE_FEATURES_ECX_VMMCALL)	\
-> +			", %[mode]\n\t"					\
-> +		      "jg .Lvmcall%=\n\t"				\
-> +		      "je .Lvmmcall%=\n\t"				\
-> +		      ".Lport_call%=: movw %[port], %%dx\n\t"		\
-> +		      "inl (%%dx), %%eax\n\t"				\
-> +		      "jmp .Lend%=\n\t"					\
-> +		      ".Lvmmcall%=: vmmcall\n\t"			\
-> +		      "jmp .Lend%=\n\t"					\
-> +		      ".Lvmcall%=: vmcall\n\t"				\
-> +		      ".Lend%=:"
 
-So applied (and with minor fixups for the proper indentation, see end of
-this mail) this looks like this:
+--gfL6Eu9ihKM1A1EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-.pushsection .altinstructions,"a"
- .long 661b - .
- .long 6641f - .
- .4byte ( 4*32+31)
- .byte 663b-661b
- .byte 6651f-6641f
- .long 661b - .
- .long 6642f - .
- .4byte ( 8*32+18)
- .byte 663b-661b
- .byte 6652f-6642f
- .long 661b - .
- .long 6643f - .
- .4byte ( 8*32+19)
- .byte 663b-661b
- .byte 6653f-6643f
-.popsection
-.pushsection .altinstr_replacement, "ax"
-# ALT: replacement 1
-6641:
-        jmp .Lport_call72
-6651:
-# ALT: replacement 2
-6642:
-        jmp .Lvmcall72
-6652:
-# ALT: replacement 3
-6643:
-        vmmcall
-        jmp .Lend72
-6653:
-.popsection
-        cmpb $((((1UL))) << (0)), vmware_hypercall_mode(%rip)   # vmware_hypercall_mode
-        jg .Lvmcall72
-        je .Lvmmcall72
-.Lport_call72:
-        movw $22104, %dx        #
-        inl (%dx), %eax
-        jmp .Lend72
-.Lvmmcall72:
-        vmmcall
-        jmp .Lend72 
-.Lvmcall72:
-        vmcall
-.Lend72:
+On Sun, May 26, 2024 at 10:44:37PM +0800, Jason-JH.Lin wrote:
+> 1. Add mboxes property to define a GCE loopping thread as a secure IRQ
+> handler.
+> The CMDQ secure driver requests a mbox channel and sends a looping
+> command to the GCE thread. The looping command will wait for a secure
+> packet done event signal from secure world and then jump back to the
+> first instuction. Each time it waits for an event, it notifies the
+> CMDQ driver to perform the same action as the IRQ handler.
+>=20
+> 2. Add gce-events property from gce-props.yaml to define a
+> secure packet done signal in secure world.
+> There are 1024 events IDs for GCE to use to execute instructions in
+> the specific event happened. These events could be signaled by HW or SW
+> and their value would be different in different SoC because of HW event
+> IDs distribution range from 0 to 1023.
+> If we set a static event ID: 855 for mt8188, it might be conflict the
+> event ID original set in mt8195.
 
----
+Two different SoCs, two different compatibles, no problem.
+I'm almost certain you previously told me that the firmware changing
+could result in a different event ID, but I see no mention of that here.
+The commit messages makes it seem like this can be determined by the
+compatible, so either give me a commit message that explains why the
+compatible is not sufficient or drop the patch.
 
-so AFAICT, you want three things:
+> So we define an event ID that will be set when GCE runs to the end of
+> secure cmdq packet in the secure world.
+>=20
+> This can reduce the latency of software communication between normal
+> world and secure world. In addition, we can also remove the complex
+> logic after the secure packet done in the secure world.
+>=20
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
+> ---
+>  .../devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailb=
+ox.yaml b/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.ya=
+ml
+> index cef9d7601398..6e5e848d61d9 100644
+> --- a/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml
+> +++ b/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml
+> @@ -49,6 +49,10 @@ properties:
+>      items:
+>        - const: gce
+> =20
+> +  mboxes:
+> +    items:
+> +      - description: GCE looping thread as a secure IRQ handler
 
-1. X86_FEATURE_HYPERVISOR - that is always set when running as a guest.
-   For that it should do:
+Why is this needed? It's going to be a reference to itself, right?
+Why can't you just reserve a channel in the driver?
 
-        movw $22104, %dx        #
-        inl (%dx), %eax
+Thanks,
+Conor.
 
-2. X86_FEATURE_VMCALL:
+> +
+>  required:
+>    - compatible
+>    - "#mbox-cells"
+> @@ -57,6 +61,8 @@ required:
+>    - clocks
+> =20
+>  allOf:
+> +  - $ref: /schemas/mailbox/mediatek,gce-props.yaml#
+> +
+>    - if:
+>        not:
+>          properties:
+> @@ -67,7 +73,7 @@ allOf:
+>        required:
+>          - clock-names
+> =20
+> -additionalProperties: false
+> +unevaluatedProperties: false
+> =20
+>  examples:
+>    - |
+> --=20
+> 2.18.0
+>=20
 
-	vmcall
+--gfL6Eu9ihKM1A1EB
+Content-Type: application/pgp-signature; name="signature.asc"
 
-3. X86_FEATURE_VMW_VMMCALL:
+-----BEGIN PGP SIGNATURE-----
 
-	vmmcall
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZlTEngAKCRB4tDGHoIJi
+0to1AQDxMdlkCNTKNL4Cai++qtW6p5V+CLhlWwb1OMH0cnYOqgEArzOexHmWlxUE
+80S67d+XuFdcAciAe/PNG2Dd7EsXdwA=
+=ITK7
+-----END PGP SIGNATURE-----
 
-So why don't you simply do that?
-
-vmware_set_capabilities() sets vmware_hypercall_mode *and* those feature
-flags at the same time.
-
-And you either support VMCALL or VMMCALL so the first thing should be the
-fallback for some ancient crap.
-
-IOW, your hypercall alternative should simply be:
-
-	ALTERNATIVE_2("vmcall", "vmmcall", X86_FEATURE_VMW_VMMCALL, "movw %[port], %%dx; "inl (%%dx), %%eax", X86_FEATURE_HYPERVISOR);
-
-without any more silly dance?
-
-Hmmm?
-
----
-
-Fixup indentation for proper .s output:
-
-diff --git a/arch/x86/include/asm/vmware.h b/arch/x86/include/asm/vmware.h
-index 5114f4c75c54..8be877d8bb7c 100644
---- a/arch/x86/include/asm/vmware.h
-+++ b/arch/x86/include/asm/vmware.h
-@@ -70,17 +70,18 @@ extern u8 vmware_hypercall_mode;
- 		      "jmp .Lvmcall%=", X86_FEATURE_VMCALL,		\
- 		      "vmmcall\n\t"					\
- 		      "jmp .Lend%=", X86_FEATURE_VMW_VMMCALL)		\
--		      "cmpb $"						\
--			__stringify(CPUID_VMWARE_FEATURES_ECX_VMMCALL)	\
--			", %[mode]\n\t"					\
-+		      "\tcmpb $" __stringify(CPUID_VMWARE_FEATURES_ECX_VMMCALL) ", %[mode]\n\t" \
- 		      "jg .Lvmcall%=\n\t"				\
--		      "je .Lvmmcall%=\n\t"				\
--		      ".Lport_call%=: movw %[port], %%dx\n\t"		\
-+		      "je .Lvmmcall%=\n"				\
-+		      ".Lport_call%=:\n\t"				\
-+		      "movw %[port], %%dx\n\t"				\
- 		      "inl (%%dx), %%eax\n\t"				\
--		      "jmp .Lend%=\n\t"					\
--		      ".Lvmmcall%=: vmmcall\n\t"			\
--		      "jmp .Lend%=\n\t"					\
--		      ".Lvmcall%=: vmcall\n\t"				\
-+		      "jmp .Lend%=\n"					\
-+		      ".Lvmmcall%=:\n\t"				\
-+		      "vmmcall\n\t"					\
-+		      "jmp .Lend%=\n"					\
-+		      ".Lvmcall%=:\n\t"					\
-+		      "vmcall\n"					\
- 		      ".Lend%=:"
- 
- static inline
-
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+--gfL6Eu9ihKM1A1EB--
