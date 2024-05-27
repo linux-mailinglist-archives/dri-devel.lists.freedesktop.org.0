@@ -2,60 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6918CFD58
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 11:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B9378CFD5F
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 11:45:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF50D10EE07;
-	Mon, 27 May 2024 09:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D29D10F9DC;
+	Mon, 27 May 2024 09:45:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kjPVcqnm";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="GZjfPuYJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CD1710F9DC;
- Mon, 27 May 2024 09:43:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716803017; x=1748339017;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=kX/sBp/2yGju2wTUjHprdWNQAUXdkMNFUKH9WEbbo14=;
- b=kjPVcqnmOMPrqzgbCXWGaPPOf2pzswVGs2vZmsZiBNK57ya1hQkUc3AH
- o5qE0L+X54ZM5TFHM+F8kIt8dlKmb0aPS50o0SaVyHue6lngTI8y52bh7
- ot9+TwDtW6NwcPTQjN2XfMZw5oGg73GH5LQhDsWuTNuHrkdnLPBKUwbm1
- oA1bVjxvfN7fTXS6OcO288zNfZMe6VN0kzpJLhiUL/hjQtOHDyw+Ia6cC
- ZwjWsqmts+Wxm3ms/rZv2R0NUdH6l6b8Vnf2Jks3mvefysf8Mk3WvY9JM
- LQtGJHCygfwAa1OTrxc7cse6HGyOA0xZ0zsSe7AwGmpi3KjGbJf9Dk3SJ Q==;
-X-CSE-ConnectionGUID: 3K5mzBIQRXyECEPvhXhDkA==
-X-CSE-MsgGUID: PDlTKCs/Say0DNLNCN3DUA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="30622011"
-X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; d="scan'208";a="30622011"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2024 02:43:37 -0700
-X-CSE-ConnectionGUID: BU8w17P/RTOaD3mKYYsjRg==
-X-CSE-MsgGUID: ltom8v50RYuZpBF6zoHqSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; d="scan'208";a="35187640"
-Received: from lfiedoro-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.246.200])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2024 02:43:35 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, jani.nikula@intel.com,
- Kees Cook <keescook@chromium.org>, Andy Shevchenko <andy@kernel.org>
-Subject: [PATCH 2/2] drm: use mem_is_zero() instead of !memchr_inv(s, 0, n)
-Date: Mon, 27 May 2024 12:43:20 +0300
-Message-Id: <20240527094320.2653177-2-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240527094320.2653177-1-jani.nikula@intel.com>
-References: <20240527094320.2653177-1-jani.nikula@intel.com>
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B186E10F9DC
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 09:45:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1716803136; x=1717407936; i=markus.elfring@web.de;
+ bh=b0hWRCQXVgCjXUi18BLPuJgUdQMZo6dOE/TxIyOa5qE=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=GZjfPuYJWaALaaTQHYbcyIs00O6+Ji7r6Sx+7MHU7QwP/199r8reePOjg2nXJ9sV
+ qsAHcxbKcEZuPo6NJRnjRQZUaSL11hHJ3zWh08BHZYV6qMzhY8dtvvzOozzo5oDjv
+ 5iiX9ZApyBvvehaD2femcX33EsUUMtcIMj7/9zS4xT7ZcNtgFSUrsKyuJfmEGxypZ
+ NziUfLAh/+YKOeX+Cfm+JRDQU5O8ElpCBUawx1f2/EXFRhmhU+RX5hYE87/iW9D7r
+ +JZSA8Tj3ycm+jdpOzDIUDz15wQE8a3U0g4aNs3bCc7WAOHClAxHijT2V3YEE2D49
+ HnJ0HjpDBdKonqu92Q==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MODmV-1rrvjK41IP-00U476; Mon, 27
+ May 2024 11:45:36 +0200
+Message-ID: <568162b8-563e-4ec7-8f31-bd16f329b245@web.de>
+Date: Mon, 27 May 2024 11:45:34 +0200
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] drm/loongson: Add dummy gpu driver as a
+ subcomponent
+To: Sui Jingfeng <sui.jingfeng@linux.dev>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <20240526195826.109008-1-sui.jingfeng@linux.dev>
+ <20240526195826.109008-4-sui.jingfeng@linux.dev>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240526195826.109008-4-sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:QBWQBXE9g1+Sf2ppixiXzVQP3Rkay7qyHC4DgAIEj4DyWUs46yv
+ wOIsyoWViQeITi8HOTwcOdse/1pCAu1/TbBlr7O+Ytl95ibvCbyJuYZ6VucOGA8qMmcqJeM
+ GhsHUC3ej/dQQJu+/zwqtRlOT5OlSmlrbdR5hHbnoHO8p1Mnh2mM1FHgp1LjN3pqPtt7Dxg
+ zrq1vYLhsdm2eAEC+2J2Q==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:NYLnz5L0av4=;5CfIPCZ4HKcxCI2iE3OBU+9r8Bt
+ w5qKMdMZfB67NYxwP5F1YmER+TqhJqLpK6o3i50no16Ges0MRsRcxMC3HUhKeMiqgrnmZSHkk
+ fHzHpaEk6Cr0yXYSuRgdicvOer7cIAJW91+8rgiQPqX0Ary0ci/LAHwxIllS5Z3NO/s2CufuP
+ 0iv4MwA2Uw4uFRU7az5H/dvVzI6MHe11dQ82PCD8ltsJuZ1wDAwdDapX4oALNzDrEuMrBWkvd
+ uHi8d7AYgEwcmssD07f9MiiHUFwgcTb0iZ+ZI2eglFxqGR3UGAtUn3SBRy81Sy7+XYrPlZY6r
+ w+n5GD+ZgiAS1f85rq/ABDBRdn2sIzIKebfQIEzmr6SHqX3n0HcD5izWZxne4MXNxDw8KqMIt
+ 0OS7gfL4nirEwf2ElcWKV5uPDgbpkHa530WofBRh+CSbcVqMTYAR+ljji8eWJ1atLmuz/fwza
+ FWZtQUw3uikcg/Xd+05b5B+wO+9RKDg7/nz4umi1z1CL3MVm+bLZwGyy1rabDzGx6UwWWWp0A
+ Euau3irXtpGFPwACV/ApUq/uqdljH+YyaBmmzRnNIfCOxHQe5RnQeqaUpyY/Qff31A/KWR1Ft
+ LD1R2h7W4ApeREWynbYTfQGdck9Yo/aEUOskFLPLRO9dDliETE+4X3yMrrh0IYDGnHGVuQ4FI
+ UJ97DTe2CbktgSf1nLFfh7jjhTDbx7chHyZrY1AtFN3r5VRf5DkuQCJifHnFW9Bc8sIqrYwTd
+ Bd44se47iXPe/+dANwGYsL+/lb0C90+TpNG616vpjOD97T3DZMa0RUF9d78aJfahQeo0xWwnk
+ 71koy2ilJNryfj+61v34WbPNAM5lMEwA8Ozl77HYetsO8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,149 +84,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the mem_is_zero() helper where possible.
+=E2=80=A6
+> loose coupling, but still be able to works togather to provide a unified
 
-Conversion done using cocci:
+  use loose?          should?          work together?            an?
 
-| @@
-| expression PTR;
-| expression SIZE;
-| @@
-|
-|   <...
-| (
-| - memchr_inv(PTR, 0, SIZE) == NULL
-| + mem_is_zero(PTR, SIZE)
-| |
-| - !memchr_inv(PTR, 0, SIZE)
-| + mem_is_zero(PTR, SIZE)
-| |
-| - memchr_inv(PTR, 0, SIZE)
-| + !mem_is_zero(PTR, SIZE)
-| )
-|   ...>
 
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+=E2=80=A6
+> Add a dummy driver for the GPU, it functional as a subcomponent as well.
 
----
+                                     is?
 
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Andy Shevchenko <andy@kernel.org>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 2 +-
- drivers/gpu/drm/display/drm_dp_mst_topology.c        | 2 +-
- drivers/gpu/drm/drm_edid.c                           | 2 +-
- drivers/gpu/drm/i915/display/intel_dp.c              | 2 +-
- drivers/gpu/drm/i915/display/intel_opregion.c        | 2 +-
- drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c | 2 +-
- drivers/gpu/drm/imagination/pvr_device.h             | 2 +-
- drivers/gpu/drm/udl/udl_edid.c                       | 2 +-
- 8 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 516eb3968e26..7d847021ddc9 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -2432,7 +2432,7 @@ static void resume_mst_branch_status(struct drm_dp_mst_topology_mgr *mgr)
- 		goto out_fail;
- 	}
- 
--	if (memchr_inv(guid, 0, 16) == NULL) {
-+	if (mem_is_zero(guid, 16)) {
- 		tmp64 = get_jiffies_64();
- 		memcpy(&guid[0], &tmp64, sizeof(u64));
- 		memcpy(&guid[8], &tmp64, sizeof(u64));
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 7f8e1cfbe19d..3d3097422235 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -2697,7 +2697,7 @@ static bool drm_dp_validate_guid(struct drm_dp_mst_topology_mgr *mgr,
- {
- 	u64 salt;
- 
--	if (memchr_inv(guid, 0, 16))
-+	if (!mem_is_zero(guid, 16))
- 		return true;
- 
- 	salt = get_jiffies_64();
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index f68a41eeb1fa..9970c22f616b 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -1817,7 +1817,7 @@ static int edid_block_tag(const void *_block)
- 
- static bool edid_block_is_zero(const void *edid)
- {
--	return !memchr_inv(edid, 0, EDID_LENGTH);
-+	return mem_is_zero(edid, EDID_LENGTH);
- }
- 
- static bool drm_edid_eq(const struct drm_edid *drm_edid,
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index c0a3b6d50681..be3685e115ab 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -5055,7 +5055,7 @@ intel_dp_check_mst_status(struct intel_dp *intel_dp)
- 			ack[3] |= DP_TUNNELING_IRQ;
- 		}
- 
--		if (!memchr_inv(ack, 0, sizeof(ack)))
-+		if (mem_is_zero(ack, sizeof(ack)))
- 			break;
- 
- 		if (!intel_dp_ack_sink_irq_esi(intel_dp, ack))
-diff --git a/drivers/gpu/drm/i915/display/intel_opregion.c b/drivers/gpu/drm/i915/display/intel_opregion.c
-index 68bd5101ec89..293c4d920cf9 100644
---- a/drivers/gpu/drm/i915/display/intel_opregion.c
-+++ b/drivers/gpu/drm/i915/display/intel_opregion.c
-@@ -1117,7 +1117,7 @@ const struct drm_edid *intel_opregion_get_edid(struct intel_connector *intel_con
- 
- 	/* Validity corresponds to number of 128-byte blocks */
- 	len = (opregion->asle_ext->phed & ASLE_PHED_EDID_VALID_MASK) * 128;
--	if (!len || !memchr_inv(edid, 0, len))
-+	if (!len || mem_is_zero(edid, len))
- 		return NULL;
- 
- 	drm_edid = drm_edid_alloc(edid, len);
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-index 3527b8f446fe..2fda549dd82d 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-@@ -506,7 +506,7 @@ static int igt_dmabuf_export_vmap(void *arg)
- 		goto out;
- 	}
- 
--	if (memchr_inv(ptr, 0, dmabuf->size)) {
-+	if (!mem_is_zero(ptr, dmabuf->size)) {
- 		pr_err("Exported object not initialised to zero!\n");
- 		err = -EINVAL;
- 		goto out;
-diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-index ecdd5767d8ef..b574e23d484b 100644
---- a/drivers/gpu/drm/imagination/pvr_device.h
-+++ b/drivers/gpu/drm/imagination/pvr_device.h
-@@ -668,7 +668,7 @@ pvr_ioctl_union_padding_check(void *instance, size_t union_offset,
- 	void *padding_start = ((u8 *)instance) + union_offset + member_size;
- 	size_t padding_size = union_size - member_size;
- 
--	return !memchr_inv(padding_start, 0, padding_size);
-+	return mem_is_zero(padding_start, padding_size);
- }
- 
- /**
-diff --git a/drivers/gpu/drm/udl/udl_edid.c b/drivers/gpu/drm/udl/udl_edid.c
-index d67e6bf1f2ae..12f48ae17073 100644
---- a/drivers/gpu/drm/udl/udl_edid.c
-+++ b/drivers/gpu/drm/udl/udl_edid.c
-@@ -69,7 +69,7 @@ bool udl_probe_edid(struct udl_device *udl)
- 	 * The adapter sends all-zeros if no monitor has been
- 	 * connected. We consider anything else a connection.
- 	 */
--	return !!memchr_inv(hdr, 0, sizeof(hdr));
-+	return !mem_is_zero(hdr, sizeof(hdr));
- }
- 
- const struct drm_edid *udl_edid_read(struct drm_connector *connector)
--- 
-2.39.2
+Please improve your change descriptions considerably.
 
+
+=E2=80=A6
+> +++ b/drivers/gpu/drm/loongson/loongson_module.c
+> @@ -29,8 +29,15 @@ static int __init loongson_module_init(void)
+>  	if (ret)
+>  		return ret;
+>
+> +	ret =3D pci_register_driver(&loong_gpu_pci_driver);
+> +	if (ret) {
+> +		platform_driver_unregister(&lsdc_output_port_platform_driver);
+> +		return ret;
+> +	}
+> +
+>  	ret =3D pci_register_driver(&lsdc_pci_driver);
+>  	if (ret) {
+> +		pci_unregister_driver(&loong_gpu_pci_driver);
+>  		platform_driver_unregister(&lsdc_output_port_platform_driver);
+>  		return ret;
+>  	}
+
+How do you think about to use another goto chain for common exception hand=
+ling?
+https://wiki.sei.cmu.edu/confluence/display/c/MEM12-C.+Consider+using+a+go=
+to+chain+when+leaving+a+function+on+error+when+using+and+releasing+resourc=
+es
+
+Would you become interested in the application of scope-based resource man=
+agement here?
+
+
+> @@ -43,6 +50,8 @@ static void __exit loongson_module_exit(void)
+>  {
+>  	pci_unregister_driver(&lsdc_pci_driver);
+>
+> +	pci_unregister_driver(&loong_gpu_pci_driver);
+> +
+>  	platform_driver_unregister(&lsdc_output_port_platform_driver);
+>  }
+
+I suggest to avoid blank lines for this function implementation.
+
+Regards,
+Markus
