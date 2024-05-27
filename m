@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC5D8CFF75
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 13:58:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A40548CFF3C
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 13:48:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BB3310EBB3;
-	Mon, 27 May 2024 11:58:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A2EC10E206;
+	Mon, 27 May 2024 11:48:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="kksWOI0+";
+	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="hW8JHFtW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 630 seconds by postgrey-1.36 at gabe;
- Mon, 27 May 2024 11:58:36 UTC
-Received: from mail02.habana.ai (habanamailrelay.habana.ai [213.57.90.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 360E210E2CF
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 11:58:35 +0000 (UTC)
+Received: from mail02.habana.ai (habanamailrelay02.habana.ai [62.90.112.121])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC81310E1E3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 11:48:05 +0000 (UTC)
 Received: internal info suppressed
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=habana.ai; s=default;
- t=1716810492; bh=pXheFYeAWfi+J/oHigZFL4ImqWPHDuO3tD3An/fuwbA=;
+ t=1716810481; bh=ilFlKvDjUOWwDTTLLUhcCL8nUKgNxe8o+4Fl4gvGbvk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kksWOI0+lODuu7gon+aY5FVIRM6zlYgSD/dXWUpWYaF5BKIMaW/A0N0nM1CdejpMa
- obTxpSrIYEkJToFjUfEipDx+gFGVs+pWfCwrTrOimwiwPQsmlQPa50ATEerFn+KZ/v
- jEfxbCtPftQ7WGRfIHmDLNjAScPRWrJin/ARvnSymg+7uvIqpsu/90n/pVHN5Vu2gj
- 9s483rN/xP0CqlUFEDqiJwchacB3glQhpns4rXESAH7gix6B//PKMu/7y0HLmlYiM3
- h5kyEPO6B5Ub31+0znDFn3IlAA/u//ZMdr95YIOaQ7xmusqpLqUxez/BSZexGTNGXl
- sEEj2W6VRWuGw==
+ b=hW8JHFtWJEuEKxKrXTYIP2v4tu6yLxLvTWog/t/c2BN4HMoSjJ3hkHMgaoJE7p+lV
+ D9Irj8K0sw5TUouEe+9J9kz6NX9U/nVSSoPKTi1agWGUeSVK9g7jxXkzFjnqiWaX4m
+ 4Xu6SvSVloohX0FhzsskLYuc4jvv0O7lible8rPEtZgixSjyVVtPgJkn0hbsApTMGp
+ ea/dAX4OrVpZ4mFoYl1riTMBjQ7vVgzvRDUL40qE+6Gq6PNb3Z78oVPwRManRGcW1A
+ 63B2cekzew7A/erGrhmj5rKktTMUzu9n0hULE/qDI5x16f8t+B7QBuUBHrmV/36lUW
+ DfDfkb94YrOfA==
 Received: from obitton-vm-u22.habana-labs.com (localhost [127.0.0.1])
  by obitton-vm-u22.habana-labs.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP
- id 44RBltNl1919357; Mon, 27 May 2024 14:47:55 +0300
+ id 44RBltNm1919357; Mon, 27 May 2024 14:47:55 +0300
 From: Ofir Bitton <obitton@habana.ai>
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Tal Risin <trisin@habana.ai>
-Subject: [PATCH 7/9] accel/habanalabs: expose server type in debugfs
-Date: Mon, 27 May 2024 14:47:44 +0300
-Message-Id: <20240527114746.1919292-7-obitton@habana.ai>
+Cc: Ohad Sharabi <osharabi@habana.ai>
+Subject: [PATCH 8/9] accel/habanalabs: add device name to invalidation failure
+ msg
+Date: Mon, 27 May 2024 14:47:45 +0300
+Message-Id: <20240527114746.1919292-8-obitton@habana.ai>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240527114746.1919292-1-obitton@habana.ai>
 References: <20240527114746.1919292-1-obitton@habana.ai>
@@ -56,51 +55,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tal Risin <trisin@habana.ai>
+From: Ohad Sharabi <osharabi@habana.ai>
 
-Exposing server type through debugfs to enable easier access via
-scripts.
+This addition helps log parsers better define the error without the need
+to go back and search the device name on former log lines.
 
-Signed-off-by: Tal Risin <trisin@habana.ai>
+Signed-off-by: Ohad Sharabi <osharabi@habana.ai>
 Reviewed-by: Ofir Bitton <obitton@habana.ai>
 ---
- Documentation/ABI/testing/debugfs-driver-habanalabs | 6 ++++++
- drivers/accel/habanalabs/common/debugfs.c           | 5 +++++
- 2 files changed, 11 insertions(+)
+ drivers/accel/habanalabs/common/mmu/mmu.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/ABI/testing/debugfs-driver-habanalabs b/Documentation/ABI/testing/debugfs-driver-habanalabs
-index a7a432dc4015..efbb78bedb8b 100644
---- a/Documentation/ABI/testing/debugfs-driver-habanalabs
-+++ b/Documentation/ABI/testing/debugfs-driver-habanalabs
-@@ -253,6 +253,12 @@ Description:    Triggers dump of monitor data. The value to trigger the operatio
-                 When the write is finished, the user can read the "monitor_dump"
-                 blob
+diff --git a/drivers/accel/habanalabs/common/mmu/mmu.c b/drivers/accel/habanalabs/common/mmu/mmu.c
+index 166c7da8b937..a9813ffcde14 100644
+--- a/drivers/accel/habanalabs/common/mmu/mmu.c
++++ b/drivers/accel/habanalabs/common/mmu/mmu.c
+@@ -645,7 +645,8 @@ int hl_mmu_invalidate_cache(struct hl_device *hdev, bool is_hard, u32 flags)
+ 	rc = hdev->asic_funcs->mmu_invalidate_cache(hdev, is_hard, flags);
+ 	if (rc)
+ 		dev_err_ratelimited(hdev->dev,
+-				"%s cache invalidation failed, rc=%d\n",
++				"%s: %s cache invalidation failed, rc=%d\n",
++				dev_name(&hdev->pdev->dev),
+ 				flags == VM_TYPE_USERPTR ? "PMMU" : "HMMU", rc);
  
-+What:           /sys/kernel/debug/accel/<parent_device>/server_type
-+Date:           Feb 2024
-+KernelVersion:  6.11
-+Contact:        trisin@habana.ai
-+Description:    Exposes the device's server type, maps to enum hl_server_type.
-+
- What:           /sys/kernel/debug/accel/<parent_device>/set_power_state
- Date:           Jan 2019
- KernelVersion:  5.1
-diff --git a/drivers/accel/habanalabs/common/debugfs.c b/drivers/accel/habanalabs/common/debugfs.c
-index de3ae2e47ec4..ca7677293a55 100644
---- a/drivers/accel/habanalabs/common/debugfs.c
-+++ b/drivers/accel/habanalabs/common/debugfs.c
-@@ -1717,6 +1717,11 @@ static void add_files_to_device(struct hl_device *hdev, struct hl_dbg_device_ent
- 				root,
- 				&hdev->device_release_watchdog_timeout_sec);
+ 	return rc;
+@@ -660,8 +661,9 @@ int hl_mmu_invalidate_cache_range(struct hl_device *hdev, bool is_hard,
+ 								asid, va, size);
+ 	if (rc)
+ 		dev_err_ratelimited(hdev->dev,
+-				"%s cache range invalidation failed: va=%#llx, size=%llu, rc=%d",
+-				flags == VM_TYPE_USERPTR ? "PMMU" : "HMMU", va, size, rc);
++			"%s: %s cache range invalidation failed: va=%#llx, size=%llu, rc=%d",
++			dev_name(&hdev->pdev->dev), flags == VM_TYPE_USERPTR ? "PMMU" : "HMMU",
++			va, size, rc);
  
-+	debugfs_create_u16("server_type",
-+				0444,
-+				root,
-+				&hdev->asic_prop.server_type);
-+
- 	for (i = 0, entry = dev_entry->entry_arr ; i < count ; i++, entry++) {
- 		debugfs_create_file(hl_debugfs_list[i].name,
- 					0644,
+ 	return rc;
+ }
 -- 
 2.34.1
 
