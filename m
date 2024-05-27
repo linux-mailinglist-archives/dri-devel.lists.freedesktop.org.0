@@ -2,51 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D7058D06A2
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:52:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E808D06A8
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:52:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2527110F1E9;
-	Mon, 27 May 2024 15:52:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4818310ED57;
+	Mon, 27 May 2024 15:52:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c1q6Q5Oj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="laRt2/bJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 527D210ED57;
- Mon, 27 May 2024 15:52:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCF0610EFFB;
+ Mon, 27 May 2024 15:52:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9C40D61A74;
- Mon, 27 May 2024 15:52:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFA1AC2BBFC;
- Mon, 27 May 2024 15:52:01 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3240461972;
+ Mon, 27 May 2024 15:52:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CDF8C4AF07;
+ Mon, 27 May 2024 15:52:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716825124;
- bh=ypB96dWGLy8iJdOom+0sKyOXUXvjUh7LdOWWwNomkhU=;
+ s=k20201202; t=1716825133;
+ bh=4qGzyDgggI9vY/tAHYyyyh3GGYNJZYIMcr3Sj0JRccw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=c1q6Q5OjK1vsT0wqFZozAZlZ+dDfHt9+4QrzpF1y2RPJCzlREzhr1upbPeJPvduun
- taJr9bt2U08novDYtyV7QDcfu/fpZzr2GB91N2KWZ/ArA7g0/RZFblV550U7ReUIfb
- 9IKAshtH9byDCHL3v55N+s2YcmcgwvIDQLQITgWTdCISKDFPwocKJGkLndhsOKbLb8
- jn9d8fct2IK+z0EgbBIiYsWk/w7sygueMit/lEVhvLhaOajNkjow7SEu4y8yejGVUY
- EciQNazhb8gTjR37KVLt8Wg0xo9b0VzmxqVK99+GdwF0ZqdhHWvhlifXnffphGkZDj
- s/BEAPHonjsXQ==
+ b=laRt2/bJqQ9keB9HdlBAcaJ5cB9yQnMkwT1NXj9JGuNihY1KvjOWMnE+yEBVs86DY
+ iDnNOQnrjJBkTFi+8+4GFA02JsTuOe3mxshQs+VMnOhdIOD/cu+D89UogDC4pcmwy1
+ z2oVYFq7P9OMWLUwnLBdHPoRngvjZPkCeU+7cUEQTG1F19t+HWh17Se+QQGu4nueZG
+ RbmMkKrs3gpJNPyH9+yg89aMuMPWsX+RFUq8I1P8ti0wrEAgdf2UG6ot33kxCQVo9F
+ l9ffkujHJkgwbSyewqWGLKfdTp/osvYjtfSLz2QiTpjZA02Wc+jkd6JZ3fmf2JD3Av
+ dgsBrrxsBEzIg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: "Xi (Alex) Liu" <xi.liu@amd.com>, Daniel Miess <daniel.miess@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Roman Li <roman.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Sasha Levin <sashal@kernel.org>, harry.wentland@amd.com,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- chiahsuan.chung@amd.com, charlene.liu@amd.com, sungjoon.kim@amd.com,
- duncan.ma@amd.com, allen.pan@amd.com, danny.wang@amd.com,
- alvin.lee2@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.9 07/23] drm/amd/display: add root clock control
- function pointer to fix display corruption
-Date: Mon, 27 May 2024 11:50:08 -0400
-Message-ID: <20240527155123.3863983-7-sashal@kernel.org>
+Cc: Erico Nunes <nunes.erico@gmail.com>, Qiang Yu <yuq825@gmail.com>,
+ Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ lima@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.9 10/23] drm/lima: add mask irq callback to gp and pp
+Date: Mon, 27 May 2024 11:50:11 -0400
+Message-ID: <20240527155123.3863983-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240527155123.3863983-1-sashal@kernel.org>
 References: <20240527155123.3863983-1-sashal@kernel.org>
@@ -70,36 +64,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Xi (Alex) Liu" <xi.liu@amd.com>
+From: Erico Nunes <nunes.erico@gmail.com>
 
-[ Upstream commit de2d1105a3757742b45b0d8270b3c8734cd6b6f8 ]
+[ Upstream commit 49c13b4d2dd4a831225746e758893673f6ae961c ]
 
-[Why and how]
+This is needed because we want to reset those devices in device-agnostic
+code such as lima_sched.
+In particular, masking irqs will be useful before a hard reset to
+prevent race conditions.
 
-External display has corruption because no root clock control function. Add the function pointer to fix the issue.
-
-Reviewed-by: Daniel Miess <daniel.miess@amd.com>
-Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Acked-by: Roman Li <roman.li@amd.com>
-Signed-off-by: Xi (Alex) Liu <xi.liu@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
+Signed-off-by: Qiang Yu <yuq825@gmail.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240405152951.1531555-2-nunes.erico@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/hwss/dcn351/dcn351_init.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/lima/lima_bcast.c | 12 ++++++++++++
+ drivers/gpu/drm/lima/lima_bcast.h |  3 +++
+ drivers/gpu/drm/lima/lima_gp.c    |  8 ++++++++
+ drivers/gpu/drm/lima/lima_pp.c    | 18 ++++++++++++++++++
+ drivers/gpu/drm/lima/lima_sched.h |  1 +
+ 5 files changed, 42 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn351/dcn351_init.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn351/dcn351_init.c
-index 670255c9bc822..4dca5c5a8318f 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn351/dcn351_init.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn351/dcn351_init.c
-@@ -147,6 +147,7 @@ static const struct hwseq_private_funcs dcn351_private_funcs = {
- 	//.hubp_pg_control = dcn35_hubp_pg_control,
- 	.enable_power_gating_plane = dcn35_enable_power_gating_plane,
- 	.dpp_root_clock_control = dcn35_dpp_root_clock_control,
-+	.dpstream_root_clock_control = dcn35_dpstream_root_clock_control,
- 	.program_all_writeback_pipes_in_tree = dcn30_program_all_writeback_pipes_in_tree,
- 	.update_odm = dcn35_update_odm,
- 	.set_hdr_multiplier = dcn10_set_hdr_multiplier,
+diff --git a/drivers/gpu/drm/lima/lima_bcast.c b/drivers/gpu/drm/lima/lima_bcast.c
+index fbc43f243c54d..6d000504e1a4e 100644
+--- a/drivers/gpu/drm/lima/lima_bcast.c
++++ b/drivers/gpu/drm/lima/lima_bcast.c
+@@ -43,6 +43,18 @@ void lima_bcast_suspend(struct lima_ip *ip)
+ 
+ }
+ 
++int lima_bcast_mask_irq(struct lima_ip *ip)
++{
++	bcast_write(LIMA_BCAST_BROADCAST_MASK, 0);
++	bcast_write(LIMA_BCAST_INTERRUPT_MASK, 0);
++	return 0;
++}
++
++int lima_bcast_reset(struct lima_ip *ip)
++{
++	return lima_bcast_hw_init(ip);
++}
++
+ int lima_bcast_init(struct lima_ip *ip)
+ {
+ 	int i;
+diff --git a/drivers/gpu/drm/lima/lima_bcast.h b/drivers/gpu/drm/lima/lima_bcast.h
+index 465ee587bceb2..cd08841e47879 100644
+--- a/drivers/gpu/drm/lima/lima_bcast.h
++++ b/drivers/gpu/drm/lima/lima_bcast.h
+@@ -13,4 +13,7 @@ void lima_bcast_fini(struct lima_ip *ip);
+ 
+ void lima_bcast_enable(struct lima_device *dev, int num_pp);
+ 
++int lima_bcast_mask_irq(struct lima_ip *ip);
++int lima_bcast_reset(struct lima_ip *ip);
++
+ #endif
+diff --git a/drivers/gpu/drm/lima/lima_gp.c b/drivers/gpu/drm/lima/lima_gp.c
+index 6b354e2fb61d4..e15295071533b 100644
+--- a/drivers/gpu/drm/lima/lima_gp.c
++++ b/drivers/gpu/drm/lima/lima_gp.c
+@@ -233,6 +233,13 @@ static void lima_gp_task_mmu_error(struct lima_sched_pipe *pipe)
+ 	lima_sched_pipe_task_done(pipe);
+ }
+ 
++static void lima_gp_task_mask_irq(struct lima_sched_pipe *pipe)
++{
++	struct lima_ip *ip = pipe->processor[0];
++
++	gp_write(LIMA_GP_INT_MASK, 0);
++}
++
+ static int lima_gp_task_recover(struct lima_sched_pipe *pipe)
+ {
+ 	struct lima_ip *ip = pipe->processor[0];
+@@ -365,6 +372,7 @@ int lima_gp_pipe_init(struct lima_device *dev)
+ 	pipe->task_error = lima_gp_task_error;
+ 	pipe->task_mmu_error = lima_gp_task_mmu_error;
+ 	pipe->task_recover = lima_gp_task_recover;
++	pipe->task_mask_irq = lima_gp_task_mask_irq;
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/lima/lima_pp.c b/drivers/gpu/drm/lima/lima_pp.c
+index d0d2db0ef1ce8..a4a2ffe6527c2 100644
+--- a/drivers/gpu/drm/lima/lima_pp.c
++++ b/drivers/gpu/drm/lima/lima_pp.c
+@@ -429,6 +429,9 @@ static void lima_pp_task_error(struct lima_sched_pipe *pipe)
+ 
+ 		lima_pp_hard_reset(ip);
+ 	}
++
++	if (pipe->bcast_processor)
++		lima_bcast_reset(pipe->bcast_processor);
+ }
+ 
+ static void lima_pp_task_mmu_error(struct lima_sched_pipe *pipe)
+@@ -437,6 +440,20 @@ static void lima_pp_task_mmu_error(struct lima_sched_pipe *pipe)
+ 		lima_sched_pipe_task_done(pipe);
+ }
+ 
++static void lima_pp_task_mask_irq(struct lima_sched_pipe *pipe)
++{
++	int i;
++
++	for (i = 0; i < pipe->num_processor; i++) {
++		struct lima_ip *ip = pipe->processor[i];
++
++		pp_write(LIMA_PP_INT_MASK, 0);
++	}
++
++	if (pipe->bcast_processor)
++		lima_bcast_mask_irq(pipe->bcast_processor);
++}
++
+ static struct kmem_cache *lima_pp_task_slab;
+ static int lima_pp_task_slab_refcnt;
+ 
+@@ -468,6 +485,7 @@ int lima_pp_pipe_init(struct lima_device *dev)
+ 	pipe->task_fini = lima_pp_task_fini;
+ 	pipe->task_error = lima_pp_task_error;
+ 	pipe->task_mmu_error = lima_pp_task_mmu_error;
++	pipe->task_mask_irq = lima_pp_task_mask_irq;
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/lima/lima_sched.h b/drivers/gpu/drm/lima/lima_sched.h
+index 6bd4f3b701091..85b23ba901d53 100644
+--- a/drivers/gpu/drm/lima/lima_sched.h
++++ b/drivers/gpu/drm/lima/lima_sched.h
+@@ -80,6 +80,7 @@ struct lima_sched_pipe {
+ 	void (*task_error)(struct lima_sched_pipe *pipe);
+ 	void (*task_mmu_error)(struct lima_sched_pipe *pipe);
+ 	int (*task_recover)(struct lima_sched_pipe *pipe);
++	void (*task_mask_irq)(struct lima_sched_pipe *pipe);
+ 
+ 	struct work_struct recover_work;
+ };
 -- 
 2.43.0
 
