@@ -2,63 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75E9A8CFC60
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 11:02:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A82D8CFC8A
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 11:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB62E10F993;
-	Mon, 27 May 2024 09:02:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BCD810E5D9;
+	Mon, 27 May 2024 09:13:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TRMPiNiI";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="Kbyu4WXF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC21910F993
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 09:02:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 81B04CE0B26;
- Mon, 27 May 2024 09:02:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A944C2BBFC;
- Mon, 27 May 2024 09:02:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716800536;
- bh=uYAFBgtM5vXI9g7/LeVQ+pczQ1yooR+keQpxvhcuA8k=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TRMPiNiIHap5cUpLkC3niSfLnS5r5ay/7/AKD7dAXmxw4VtzFUte71pZ8s4wYxN6C
- 5N7gB4+obnBGFvTNNxSuXzK/U5TbAzL9ZplGMilaZr1KdblJ6LczlqxIQ8GuuBy7nc
- 9i1Xee/2KLe/dEp3NpfRWXYMXpQGjWGZRqeXwpsjJf83/GO2GxAql5Y4nbHCV2YGjz
- rYh02qQutduLCSqGeaeXpUEYU9uSWnlHpo/iwn2FqW2k+BzSyYmty//oZ6FRorGIBN
- +xcOBIRc0ZuQyvFii3U1AO5zNKn47fmXCnneBR7Hq+ycIaKg4tSKiWLgwSvWA5gvkB
- +hbDCAwtJxCnQ==
-Date: Mon, 27 May 2024 11:02:13 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
- Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v14 17/28] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <20240527-adamant-just-spaniel-ebed4e@houat>
-References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
- <20240521-kms-hdmi-connector-state-v14-17-51950db4fedb@kernel.org>
- <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9625810E5D9
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 09:13:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1716801200; x=1717406000; i=markus.elfring@web.de;
+ bh=cQmjal3CjS/j+6M+2XYTIrwdOTGkVSbVdktpb0tEJ1Q=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=Kbyu4WXFrqFMYYDiwq8+/drLDGuOgt32T3LyYMnRObmRwndKFg/e3lhC3G5SZMrP
+ BLtThCnMYBfLYsr1Svpu6RVDW1Mv8i1JPcSxE9UUmH3p/cXDnvl4lPQyv4aiJhiS1
+ n4ncXV4WOdsyuH3kuNFDVcTvsIcruxlRRziYl41iefy8XQXIxQWOzNb0UjfO0iW3H
+ TYdhNxcLsWiiHVJ8JVIf56E2yBBbyCUrvff6RkQ+KjxH1VfO5dXogsyt+dBzt/ZpO
+ ieTtBUpMJ148xNw9N87G6F2tefuBg4k4LghWlJHLp4kASoI8nHEsBcDnyosWX5CAP
+ eqbE084wGxGPkMFUKQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1N4vRm-1sauyp37Bs-010xJV; Mon, 27
+ May 2024 11:07:43 +0200
+Message-ID: <6ee0b36c-5ea0-4a0a-9d30-865f5b823e78@web.de>
+Date: Mon, 27 May 2024 11:07:42 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="wqcwbvnihqwt2l7e"
-Content-Disposition: inline
-In-Reply-To: <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] drm/loongson: Add a helper for creating child
+ devices
+To: Sui Jingfeng <sui.jingfeng@linux.dev>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <20240526195826.109008-1-sui.jingfeng@linux.dev>
+ <20240526195826.109008-2-sui.jingfeng@linux.dev>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240526195826.109008-2-sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:fuak37MKdt1gdQD3nd04PvrGf9PL1iGX348e3REJD+6AlRnnm4i
+ H9i03KpL3MUnrdt47SQs446hFV10lycuGT5nmaqo36Bc+hdPZ1nqQDEK88yYhae24RJbrqw
+ j1DT3hB0OKdZPo7gB8bNhfybJE0uZDjt9oupAP6FiLJDb/3h/X5xictayypvsAmq7SIcvE7
+ AiK2U8XMEPG52POAFy4TQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:W/r4YSFSM28=;OcTn1HBcOTWnKyiD2N/pbQCCESk
+ BWTXE6F1mgJuurRIBNT6obCFmg9X22OOcXaG/sADVqHhr8Vj6oVadOc5lJhP4fv+qf+UFoDQ5
+ dhWq6tKYTVKagII0DFniInVaoyvePa27lFLKNUSzEzww+Eil9S5t66pTjUZCi6Xy6yAlJOgCC
+ jXcd08ivUgwKb2CE+c93/WB9AOlTm2WBgH82DTCoeEfl49AcaoQASMo1RVaFYDcdZNYbhJWoM
+ XfMoPcle3KLQ8XALEUcNFxu9W8+ItpgZzDIcigPhFt2Dpqgf21fMwSKrcIO1Q7+uqt1AOxJ0Y
+ 4lq1Z3KvvGqQSHLhnYA0FJ7Ybf6fYytxNBHwr55bFbq29JWi9Wr+WKp7bpOIYzdK92ASmm8WJ
+ vd4tfALECI8B1ucuPvjqI7olTJUjbGnfQY1ClMTtXFCqbUGfdlZZfnRNG6rMI7rq8tHCYh8dh
+ xnYIMFNGnSLAs/p1hCcPUJhXd1Ef3+HOXXsOlkMoNMl9d7Qviag12DpdUiqLIa8G7UJs4rb79
+ wucwj6qE1HXDu0YdCisDL9VyrF9VI0ojCBMHdAzoSOa3AcsJTcsk0NAqj/5/OJu0IgPrEsyZg
+ S33FI604xiYGI8WfvImsmcfXJlUT0S7Tazi8t5bIGQu9KPofYemjkmXLvUZuq3w2nMZy9ByPZ
+ PeCfT7mMr3yMcKMSqdn2z4dZ8UDp5XhS+PILX2LqQU4ZksSb8AYrpCCFs+9dBIOMZiRhefS+E
+ V0nzkGXHEwy+PlYGe43ntL1sIW1TbgchPW5Rglg1kdOvrNjuEL11WeKjcraI1ibhT3weldrpy
+ YPlXVUPyVitw3GRfSIeFZGLqwPVHzKjaJ+J14XStFxO3A=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,82 +84,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+> In some display subsystems, the functionality of a PCIe device may too
 
---wqcwbvnihqwt2l7e
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+                                                                 might be?
 
-Hi,
 
-Thanks again for that thorough review :)
+=E2=80=A6
+> into child devices can helpful to =E2=80=A6
 
-On Thu, May 23, 2024 at 01:22:56PM GMT, Dmitry Baryshkov wrote:
-> On Tue, May 21, 2024 at 12:13:50PM +0200, Maxime Ripard wrote:
-> > The i915 driver has a property to force the RGB range of an HDMI output.
-> > The vc4 driver then implemented the same property with the same
-> > semantics. KWin has support for it, and a PR for mutter is also there to
-> > support it.
-> >=20
-> > Both drivers implementing the same property with the same semantics,
-> > plus the userspace having support for it, is proof enough that it's
-> > pretty much a de-facto standard now and we can provide helpers for it.
-> >=20
-> > Let's plumb it into the newly created HDMI connector.
-> >=20
-> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  Documentation/gpu/kms-properties.csv            |  1 -
-> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +-
-> >  drivers/gpu/drm/drm_atomic.c                    |  2 +
-> >  drivers/gpu/drm/drm_atomic_uapi.c               |  4 ++
-> >  drivers/gpu/drm/drm_connector.c                 | 88 +++++++++++++++++=
-++++++++
-> >  include/drm/drm_connector.h                     | 36 ++++++++++
-> >  6 files changed, 133 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/k=
-ms-properties.csv
-> > index 0f9590834829..caef14c532d4 100644
-> > --- a/Documentation/gpu/kms-properties.csv
-> > +++ b/Documentation/gpu/kms-properties.csv
-> > @@ -15,11 +15,10 @@ Owner Module/Drivers,Group,Property Name,Type,Prope=
-rty Values,Object attached,De
-> >  ,,=E2=80=9Csaturation=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connector,TBD
-> >  ,,=E2=80=9Chue=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connector,TBD
-> >  ,Virtual GPU,=E2=80=9Csuggested X=E2=80=9D,RANGE,"Min=3D0, Max=3D0xfff=
-fffff",Connector,property to suggest an X offset for a connector
-> >  ,,=E2=80=9Csuggested Y=E2=80=9D,RANGE,"Min=3D0, Max=3D0xffffffff",Conn=
-ector,property to suggest an Y offset for a connector
-> >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Co=
-nnector,TDB
-> > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Li=
-mited 16:235"" }",Connector,"When this property is set to Limited 16:235 an=
-d CTM is set, the hardware will be programmed with the result of the multip=
-lication of CTM by the limited range matrix to ensure the pixels normally i=
-n the range 0..1.0 are remapped to the range 16/255..235/255."
->=20
-> Should it still be defined as a generic property?
+                         be?
 
-I'm not sure what you mean here, sorry. It's being documented as a
-connector property now, so it's very much still listed as a generic
-property?
 
-Maxime
+> Another benefit is that we could migrate the dependency on exterinal
 
---wqcwbvnihqwt2l7e
-Content-Type: application/pgp-signature; name="signature.asc"
+                                                             external?
 
------BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZlRMEAAKCRAnX84Zoj2+
-dhGAAYDS1llqP+ICZyWXx+g6L1EiXrG7OIB0z7t7KF3yJW5Y1zN4+dIvVNhFS6LU
-gAXKTp4BgKUepq65FIlFjrRN3gyXTVxmbiIMJd5mPgjySS4scgX65VNBO5cc0Qvt
-qThCHUrQ2A==
-=K55A
------END PGP SIGNATURE-----
+=E2=80=A6
+> and rising cyclic dependency problems if not process correctly.
 
---wqcwbvnihqwt2l7e--
+                                               processed?
+
+
+=E2=80=A6
+> driver to create sub-devices for it. The manually created decice acts as
+
+                                                            device?
+
+
+> agents for the principal part, migrate the potential issue to submodule.
+
+  an agent?
+
+
+Please improve your change descriptions considerably.
+
+
+=E2=80=A6
+> +++ b/drivers/gpu/drm/loongson/loongson_device.c
+=E2=80=A6
+> @@ -100,3 +101,44 @@ lsdc_device_probe(struct pci_dev *pdev, enum loongs=
+on_chip_id chip_id)
+>  {
+>  	return __chip_id_desc_table[chip_id];
+>  }
+> +
+> +int loongson_create_platform_device(struct device *parent,
+> +				    const char *name, int id,
+> +				    struct resource *pres,
+> +				    void *data,
+> +				    struct platform_device **ppdev)
+> +{
+=E2=80=A6
+> +		ret =3D platform_device_add_resources(pdev, pres, 1);
+> +		if (ret) {
+> +			platform_device_put(pdev);
+> +			return ret;
+> +		}
+=E2=80=A6
+> +	ret =3D platform_device_add(pdev);
+> +	if (ret) {
+> +		platform_device_put(pdev);
+> +		return ret;
+> +	}
+=E2=80=A6
+
+Please use a goto chain for common exception handling.
+https://wiki.sei.cmu.edu/confluence/display/c/MEM12-C.+Consider+using+a+go=
+to+chain+when+leaving+a+function+on+error+when+using+and+releasing+resourc=
+es
+
+Regards,
+Markus
