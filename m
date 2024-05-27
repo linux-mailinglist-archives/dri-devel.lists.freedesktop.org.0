@@ -2,92 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056CD8D1036
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 00:23:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3F28D1061
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 00:52:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A86FB10E2A6;
-	Mon, 27 May 2024 22:23:52 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="D4dZKY/m";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="GP+hsWTR";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC6CE10E028;
+	Mon, 27 May 2024 22:52:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh6-smtp.messagingengine.com
- (fhigh6-smtp.messagingengine.com [103.168.172.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A78410E2A6
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 22:23:50 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailfhigh.nyi.internal (Postfix) with ESMTP id F147E11400A9;
- Mon, 27 May 2024 18:23:49 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
- by compute5.internal (MEProxy); Mon, 27 May 2024 18:23:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
- h=cc:cc:content-type:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm1; t=1716848629; x=
- 1716935029; bh=DUOZu0UGShFWgVguBazhgGtegaOl661c55YH05FpAYg=; b=D
- 4dZKY/mgNFKJfIRxfFQinE9P3nz06VoiPzDKoXxO8DMF05HvJiQ+niDWeJljfB4O
- BMlAAAycO7wympnvw64FqiWlh2Hf0X1mA8zNASl2h7a5pTLiX2Bj+s+Mv6HDXJ5l
- pLzJIU0ButvP5EmQcyiSDUl+9CGXnL/Crw2GYfw8wgZTqzoUm/3BjqB89elVBHLy
- j+IcXq5R9lEjhUsLNhN0I4yxG2vtNMjrsJmiMRMSFV0ZGMKBQVCmkA3X3mksbPX5
- GfPW2OkrQbSYsQrOtTcowAVn8Nebiwd6FYuFirj1jLMN3CbzkQI2CkhVRWXvJxFr
- E1nRLGzt1v6T9/N6T4Obg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1716848629; x=1716935029; bh=DUOZu0UGShFWgVguBazhgGtegaOl
- 661c55YH05FpAYg=; b=GP+hsWTRGAaIq7GJiUukQhbqq09NcqJj94aIgbj9G5Ck
- LwehYnFf7/19YP00lYgogotw6hX80NqVecQYzvL4so/db6fbj70zWCrkme/5ohmF
- lU1C1UWHTdVX3Xl5xSqHuAIJVCOD6SW95exsl95ZmtPJIE0QoqyzCXiY9X7lDm6H
- C0VUjcNLThcydTCVM26CVDRWe/wUMzG2nqQRq+lmYleXX6nks8KO1GNcEJoyHtN9
- jsuqePAPYbyxK7iQhK4028IFU04Sph1upI+uLIrPkdNqRe391OYvm1X9H2BWzOl/
- eNqSatLzOkAldg3/1IBfW+UT0zhZZfrxEtMsFKeXow==
-X-ME-Sender: <xms:9QdVZk0Xz23OXcvK2q9SBV3m3_-IkAIbrJe7NFquCzR1zbtXHVzq2g>
- <xme:9QdVZvE1Dlk734YUssSGCDLa4jFXCHjMdSMMdKTUFg9uRvWEgXrmGmPFLm6E-Ml6C
- ZVL1DRaiuonaWY5Fw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejhedgtdelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftfih
- rghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecugg
- ftrfgrthhtvghrnhephedvveeigedujeeufeegffehhfffveduhfeijefgtdffteelgfet
- ueevieduieejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
- homheprhihrghnsehtvghsthhtohgrshhtrdgtohhm
-X-ME-Proxy: <xmx:9QdVZs7VD1-_HP9QOlhUq7zlqJ2lSusWMWV6FZLuf7pxaYKM2KM4pQ>
- <xmx:9QdVZt2IoLaqmQ_rMIkroY_yuhJF4SOJyxeGMqzZ4n_QOn7bWKxUig>
- <xmx:9QdVZnGYUAsP_mXTpPQHIf7lh5Ap-pcvZI6a8ctXbwHWCXqE3Jomag>
- <xmx:9QdVZm8KWUH0ZvBnxhhsvQKTqpmvZIjbEQDAnqyLBr9-1_3cbnkAPQ>
- <xmx:9QdVZhGrzb_2L-bER7VXJJPu-KTwZuLp-rx0YQ3OkatrbnPFzq3qhVYc>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 62940A60078; Mon, 27 May 2024 18:23:49 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-491-g033e30d24-fm-20240520.001-g033e30d2
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6C7810E028
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 22:52:16 +0000 (UTC)
+Received: from i5e86193d.versanet.de ([94.134.25.61] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1sBjC4-0005YB-Ez; Tue, 28 May 2024 00:51:52 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Val Packett <val@packett.cool>
+Cc: stable@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] drm/rockchip: vop: clear DMA stop bit upon vblank
+ on RK3066
+Date: Tue, 28 May 2024 00:51:51 +0200
+Message-ID: <2972856.VdNmn5OnKV@diego>
+In-Reply-To: <BF06ES.TD22854ZPLB92@packett.cool>
+References: <2024051930-canteen-produce-1ba7@gregkh> <1817371.3VsfAaAtOV@diego>
+ <BF06ES.TD22854ZPLB92@packett.cool>
 MIME-Version: 1.0
-Message-Id: <6ae18669-7ca9-4e5d-82a5-4821a2ec4236@app.fastmail.com>
-In-Reply-To: <ZlUGWSdbvZqQirrt@titan>
-References: <20240524103506.187277-1-ryan@testtoast.com>
- <20240524103506.187277-3-ryan@testtoast.com> <ZlUGWSdbvZqQirrt@titan>
-Date: Tue, 28 May 2024 10:23:28 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "John Watts" <contact@jookia.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Jessica Zhang" <quic_jesszhan@quicinc.com>,
- "Sam Ravnborg" <sam@ravnborg.org>, "David Airlie" <airlied@gmail.com>,
- "Daniel Vetter" <daniel@ffwll.ch>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Hironori KIKUCHI" <kikuchan98@gmail.com>,
- "Chris Morgan" <macroalpha82@gmail.com>
-Subject: Re: [PATCH 2/2] drm: panel: nv3052c: Add WL-355608-A8 panel
-Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,17 +51,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 May 2024, at 10:16 AM, John Watts wrote:
+Hey,
 
-> This all looks good to me, though I understand you may need to change the
-> compatible. Please CC me if this happens so I can re-review.
+Am Dienstag, 28. Mai 2024, 00:13:59 CEST schrieb Val Packett:
+> On Mon, May 27 2024 at 22:43:18 +02:00:00, Heiko St=FCbner=20
+> <heiko@sntech.de> wrote:
+> > Am Montag, 27. Mai 2024, 09:16:33 CEST schrieb Val Packett:
+> >>  On the RK3066, there is a bit that must be cleared, otherwise
+> >>  the picture does not show up
+> >> on the display (at least for RGB).
+> >>=20
+> >>  Fixes: f4a6de8 ("drm: rockchip: vop: add rk3066 vop definitions")
+> >>  Cc: stable@vger.kernel.org
+> >>  Signed-off-by: Val Packett <val@packett.cool>
+> >>  ---
+> >>  v2: doing this on vblank makes more sense; added fixes tag
+> >=20
+> > can you give a rationale for this please?
+> >=20
+> > I.e. does this dma-stop bit need to be set on each vblank that happens
+> > to push this frame to the display somehow?
+>=20
+>=20
+> The only things I'm 100% sure about:
+>=20
+> - that bit is called dma_stop in the Android kernel's header;
+> - without ever setting that bit to 1, it was getting set to 1 by the=20
+> chip itself, as logging the register on flush was showing a 1 in that=20
+> position (it was the only set bit - I guess others aren't readable=20
+> after cfg_done?);
+> - without clearing it "between" frames, the whole screen is always=20
+> filled with noise, the picture is not visible.
+>=20
+> The rest is at least a bit (ha) speculative:
+>=20
+> As I understand from what the name implies, the hardware sets it to=20
+> indicate that it has scanned out the frame and is waiting for=20
+> acknowledgment (clearing) to be able to scan out the next frame. I=20
+> guess it's a redundant synchronization mechanism that was removed in=20
+> later iterations of the VOP hardware block.
+>=20
+> I've been trying to see if moving where I clear the bit affects the=20
+> sort-of-tearing-but-vertical glitches that sometimes happen, especially=20
+> early on after the system has just booted, but that seems to be=20
+> completely unrelated pixel clock craziness (the Android kernel runs the=20
+> screen at 66 fps, interestingly).
+>=20
+> I'm fairly confident that both places are "correct". The reason I'm=20
+> more on the side of vblank now is that it made logical sense to me when=20
+> I thought about it more: acknowledging that the frame has been scanned=20
+> out is a reaction to the frame having been scanned out. It's a=20
+> consequence of *that* that the acknowledgment is required for the next=20
+> frame to be drawn.
+>=20
+> Unless we can get the opinion of someone closely familiar with this=20
+> decade-old hardware, we only have this reasoning to go off of :)
 
-I think the consensus is to accept an absent vendor-prefix rather than use the device manufacturer, so I will submit a v2 with the documentation changes presently.
+Actually that reasoning was exactly what I was hoping for :-) .
+And it actually also makes perfect sense.
 
-> Reviewed-by: John Watts <contact@jookia.org>
+I was somehow thinking this needs to be set only when starting output
+and not as sort of an Ack.
 
-Thanks!
+Could you do a v3 with:
+=2D the findings from above slightly condensed in the commit message
+  It's really helpful when someone stumbles onto that commit 10 years
+  from now and can get this really helpful explanation from the commit
+  message.
+=2D sending it as a _new_ thread
+  Having v2 as reply to v1 patches confuses tooling that then can't
+  distinguish what is actually part of this v2
 
-Regards,
 
-Ryan
+Thanks a lot
+Heiko
+
+
