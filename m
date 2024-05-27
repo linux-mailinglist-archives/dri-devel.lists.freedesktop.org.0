@@ -2,87 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D428CF9B9
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 09:07:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0668CF9D5
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 09:18:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8664210F8FF;
-	Mon, 27 May 2024 07:07:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C9AB10E658;
+	Mon, 27 May 2024 07:18:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="R9kZ1SeL";
+	dkim=pass (2048-bit key; unprotected) header.d=packett.cool header.i=@packett.cool header.b="iy9ORCzh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FA5010F8FF
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 07:07:25 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-5295bcb9bc1so2498479e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 00:07:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1716793643; x=1717398443;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RcSwrAOBgk0SabpBSOsxuNeS90Z/JnZDn0cwEFk4oc8=;
- b=R9kZ1SeLoGcA+8UHW/9CvO2rkBMyZ2U4noixGwBJskc1xK9JNoc5gJtjoti5GnZDOG
- LDeXwUXvUF6vcGCWz87endXxVvxsMyasO5WXmI/rcEWaMvFZDa8cD8nW/zZmezxo4V3E
- gEfHDk85Ztoq7k7UAXZpG2X7Pb2Fz65w1YX4Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716793643; x=1717398443;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RcSwrAOBgk0SabpBSOsxuNeS90Z/JnZDn0cwEFk4oc8=;
- b=owcm/7rTM6aLrT+WfuyvYErjxX5Lc0DJSZLofGT4U9VqxS6BpnjtzfB7+um3/2QP3E
- HpTe6ae4x9P1aSg3bRryhM2f2RL0pZd0FoDzmgLP4QoqumuDXUYhjL9m4J/GQPpY0L+7
- cK1FI22KUKvijk8DU4DNnYKtVbMZ0bKjvWXZdeGcwv5MickfvfEApsu3OEOUYwK7lroz
- ou3weYYJQl0wV8rdKKnYUKEGd0W6njyUGTBDO7c1AcNfxXQQItPQbVDNfUZ+5jw15azs
- 1rDz0d4CYbLZMVbRx8oDisD9sFKlJCebrCvnvFs3QeVCIbTcFl+Gg26wmCeFsQ0daE30
- 8KLA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUReP3LfKW+u22I47mjD51k5fFZy5Eff8YbPmeL8BXQBH1vk9x0/HNHaBxD5NP6OrFmwe5cg9B1XMcGNTigF5vCDtES8Ajwv+Cf4bkerOFp
-X-Gm-Message-State: AOJu0YxNICnJ/C8ElmUS4x6jriOVxiF/5gxExp6jjUJ+T3jd9B5QOJVO
- PaD4FyO62LVLsQOSP3LaseoQWlfvJj8+edeIep+1aprMGvge3ESF3TYYWYQViQEDzhsoUa6xrmz
- /XhQLzeqIp9vaZbiOriXOKEIJ9zxKIMKKQcJ8
-X-Google-Smtp-Source: AGHT+IH6hkPVE7ofiPKTM1LpKdq3IVMXIknOENA5KSdXkvMNG/QOho/QQ2nuWyvBQu7FsSYAuoYRgFJca6ReR+79/8Q=
-X-Received: by 2002:a19:5f07:0:b0:51f:3cb3:48a4 with SMTP id
- 2adb3069b0e04-529646e3b70mr4742266e87.1.1716793643444; Mon, 27 May 2024
- 00:07:23 -0700 (PDT)
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com
+ [95.215.58.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEA7210E658
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 07:18:41 +0000 (UTC)
+X-Envelope-To: val@packett.cool
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
+ s=key1; t=1716794318;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=X/HcY+X0iAsHdzRuxUa8q7blOFA1qc44VzdOT0NN0pc=;
+ b=iy9ORCzh7lapaOkZMTEJsmXVG/+BIMfnecYQMWgUjZ2+sq98W3zFVnqaDLifxgDJS2XrSH
+ pqXfwVLJ8PIpmhN4yufkns0BlQG4ykCgGjQLMpzlINXF14ulgAuORgPV+1j9sJRxrbebzI
+ b7hnSCmVc9jO6U7KghD6m/ICuf5rLFHDJ/1JqSIec75UTBjYmG6RDXz8/46cYrxAxT0iIY
+ uGtYK/+pQc+T97tX+QT8gnz6JNrWV2k88u3VWgnHklhVArsgqcKwxOaBh7LbUh0KQOfJs0
+ DEBJe40GfOwFR5n90lNX2zfx1KbjYxwvL4vg0SmjWklkoAiZL/M375No+Jnq1Q==
+X-Envelope-To: stable@vger.kernel.org
+X-Envelope-To: hjc@rock-chips.com
+X-Envelope-To: heiko@sntech.de
+X-Envelope-To: andy.yan@rock-chips.com
+X-Envelope-To: maarten.lankhorst@linux.intel.com
+X-Envelope-To: mripard@kernel.org
+X-Envelope-To: tzimmermann@suse.de
+X-Envelope-To: airlied@gmail.com
+X-Envelope-To: daniel@ffwll.ch
+X-Envelope-To: dri-devel@lists.freedesktop.org
+X-Envelope-To: linux-arm-kernel@lists.infradead.org
+X-Envelope-To: linux-rockchip@lists.infradead.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Val Packett <val@packett.cool>
+To: 
+Cc: Val Packett <val@packett.cool>, stable@vger.kernel.org,
+ Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] drm/rockchip: vop: clear DMA stop bit upon vblank on
+ RK3066
+Date: Mon, 27 May 2024 04:16:33 -0300
+Message-ID: <20240527071736.21784-1-val@packett.cool>
+In-Reply-To: <2024051930-canteen-produce-1ba7@gregkh>
+References: <2024051930-canteen-produce-1ba7@gregkh>
 MIME-Version: 1.0
-References: <20240516122102.16379-1-yunfei.dong@mediatek.com>
- <20240516122102.16379-15-yunfei.dong@mediatek.com>
-In-Reply-To: <20240516122102.16379-15-yunfei.dong@mediatek.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 27 May 2024 15:07:12 +0800
-Message-ID: <CAGXv+5Fo2x1R1=rJgC6ymLPMJYOypQdu9wQNdgSrjREyiQWHPw@mail.gmail.com>
-Subject: Re: [PATCH v6,14/24] media: mediatek: vcodec: Add capture format to
- support one plane memory
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Cc: Jeffrey Kardatzke <jkardatzke@google.com>, 
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
- Nathan Hebert <nhebert@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Tomasz Figa <tfiga@chromium.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Yong Wu <yong.wu@mediatek.com>, Hsin-Yi Wang <hsinyi@chromium.org>, 
- Fritz Koenig <frkoenig@chromium.org>, Daniel Vetter <daniel@ffwll.ch>, 
- Steve Cho <stevecho@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T . J . Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Project_Global_Chrome_Upstream_Group@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,117 +80,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On the RK3066, there is a bit that must be cleared, otherwise
+the picture does not show up on the display (at least for RGB).
 
-On Thu, May 16, 2024 at 8:21=E2=80=AFPM Yunfei Dong <yunfei.dong@mediatek.c=
-om> wrote:
->
-> Define one uncompressed capture format V4L2_PIX_FMT_MS21 in order to
-> support one plane memory. The buffer size is luma + chroma, luma is
-> stored at the start and chrome is stored at the end.
->
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->  Documentation/userspace-api/media/v4l/pixfmt-reserved.rst | 8 ++++++++
->  drivers/media/v4l2-core/v4l2-common.c                     | 2 ++
->  drivers/media/v4l2-core/v4l2-ioctl.c                      | 1 +
->  include/uapi/linux/videodev2.h                            | 1 +
->  4 files changed, 12 insertions(+)
->
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/=
-Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> index 886ba7b08d6b..6ec899649d50 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> @@ -295,6 +295,14 @@ please make a proposal on the linux-media mailing li=
-st.
->        - Compressed format used by Nuvoton NPCM video driver. This format=
- is
->          defined in Remote Framebuffer Protocol (RFC 6143, chapter 7.7.4 =
-Hextile
->          Encoding).
-> +    * .. _V4L2-PIX-FMT-MS21:
-> +
-> +      - ``V4L2_PIX_FMT_MS21``
-> +      - 'MS21'
-> +      - This format has one plane, luma and chroma are stored in a conti=
-guous
-> +        memory. Luma pixel in 16x32 tiles at the start, chroma pixel in =
-16x16
-> +        tiles at the end. The image height must be aligned with 32 and t=
-he image
-> +        width must be aligned with 16.
->  .. raw:: latex
->
->      \normalsize
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
-ore/v4l2-common.c
-> index 4165c815faef..5ae54cf48dc7 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -271,6 +271,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
-ormat)
->                   .block_w =3D { 16, 8, 0, 0 }, .block_h =3D { 32, 16, 0,=
- 0 }},
->                 { .format =3D V4L2_PIX_FMT_MT2110R, .pixel_enc =3D V4L2_P=
-IXEL_ENC_YUV, .mem_planes =3D 2, .comp_planes =3D 2, .bpp =3D { 5, 10, 0, 0=
- }, .bpp_div =3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
->                   .block_w =3D { 16, 8, 0, 0 }, .block_h =3D { 32, 16, 0,=
- 0 }},
-> +               { .format =3D V4L2_PIX_FMT_MS21, pixel_enc =3D V4L2_PIXEL=
-_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .=
-bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
+Fixes: f4a6de8 ("drm: rockchip: vop: add rk3066 vop definitions")
+Cc: stable@vger.kernel.org
+Signed-off-by: Val Packett <val@packett.cool>
+---
+v2: doing this on vblank makes more sense; added fixes tag
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 6 ++++++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h | 1 +
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 1 +
+ 3 files changed, 8 insertions(+)
 
-                                                 ^
-This is missing a '.' before 'pixel_enc', which breaks the build.
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index a13473b2d..2731fe2b2 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -1766,6 +1766,12 @@ static void vop_handle_vblank(struct vop *vop)
+ 	}
+ 	spin_unlock(&drm->event_lock);
+ 
++	if (VOP_HAS_REG(vop, common, dma_stop)) {
++		spin_lock(&vop->reg_lock);
++		VOP_REG_SET(vop, common, dma_stop, 0);
++		spin_unlock(&vop->reg_lock);
++	}
++
+ 	if (test_and_clear_bit(VOP_PENDING_FB_UNREF, &vop->pending))
+ 		drm_flip_work_commit(&vop->fb_unref_work, system_unbound_wq);
+ }
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+index b33e5bdc2..0cf512cc1 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+@@ -122,6 +122,7 @@ struct vop_common {
+ 	struct vop_reg lut_buffer_index;
+ 	struct vop_reg gate_en;
+ 	struct vop_reg mmu_en;
++	struct vop_reg dma_stop;
+ 	struct vop_reg out_mode;
+ 	struct vop_reg standby;
+ };
+diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+index b9ee02061..9bcb40a64 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
++++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+@@ -466,6 +466,7 @@ static const struct vop_output rk3066_output = {
+ };
+ 
+ static const struct vop_common rk3066_common = {
++	.dma_stop = VOP_REG(RK3066_SYS_CTRL0, 0x1, 0),
+ 	.standby = VOP_REG(RK3066_SYS_CTRL0, 0x1, 1),
+ 	.out_mode = VOP_REG(RK3066_DSP_CTRL0, 0xf, 0),
+ 	.cfg_done = VOP_REG(RK3066_REG_CFG_DONE, 0x1, 0),
+-- 
+2.45.1
 
-ChenYu
-
-> +                 .block_w =3D { 16, 8, 0, 0 }, .block_h =3D { 32, 16, 0,=
- 0 }},
->
->                 /* YUV planar formats */
->                 { .format =3D V4L2_PIX_FMT_NV12,    .pixel_enc =3D V4L2_P=
-IXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 =
-}, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
-re/v4l2-ioctl.c
-> index 4c76d17b4629..3a68f2b9e7a4 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1529,6 +1529,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
-mt)
->                 case V4L2_PIX_FMT_MT2110T:      descr =3D "Mediatek 10bit=
- Tile Mode"; break;
->                 case V4L2_PIX_FMT_MT2110R:      descr =3D "Mediatek 10bit=
- Raster Mode"; break;
->                 case V4L2_PIX_FMT_HEXTILE:      descr =3D "Hextile Compre=
-ssed Format"; break;
-> +               case V4L2_PIX_FMT_MS21:         descr =3D "MediaTek One P=
-lane Format"; break;
->                 default:
->                         if (fmt->description[0])
->                                 return;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
-2.h
-> index 89eb1a3c6555..7aff2f2c8f9c 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -800,6 +800,7 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_MM21     v4l2_fourcc('M', 'M', '2', '1') /* Mediate=
-k 8-bit block mode, two non-contiguous planes */
->  #define V4L2_PIX_FMT_MT2110T  v4l2_fourcc('M', 'T', '2', 'T') /* Mediate=
-k 10-bit block tile mode */
->  #define V4L2_PIX_FMT_MT2110R  v4l2_fourcc('M', 'T', '2', 'R') /* Mediate=
-k 10-bit block raster mode */
-> +#define V4L2_PIX_FMT_MS21     v4l2_fourcc('M', 'S', '2', '1') /* MediaTe=
-k 8-bit block mode with one plane */
->  #define V4L2_PIX_FMT_INZI     v4l2_fourcc('I', 'N', 'Z', 'I') /* Intel P=
-lanar Greyscale 10-bit and Depth 16-bit */
->  #define V4L2_PIX_FMT_CNF4     v4l2_fourcc('C', 'N', 'F', '4') /* Intel 4=
--bit packed depth confidence information */
->  #define V4L2_PIX_FMT_HI240    v4l2_fourcc('H', 'I', '2', '4') /* BTTV 8-=
-bit dithered RGB */
-> --
-> 2.25.1
->
