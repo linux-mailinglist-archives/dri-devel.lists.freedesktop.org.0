@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E7E8CFFAB
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 14:13:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3F78CFFA4
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 14:13:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D40010F4F0;
-	Mon, 27 May 2024 12:13:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A72410E94D;
+	Mon, 27 May 2024 12:13:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="WhXVwlkD";
+	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="pE2znx8n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail02.habana.ai (habanamailrelay02.habana.ai [62.90.112.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42AA310F4FC
+Received: from mail02.habana.ai (habanamailrelay.habana.ai [213.57.90.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A61110F4E7
  for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 12:13:07 +0000 (UTC)
 Received: internal info suppressed
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=habana.ai; s=default;
- t=1716811982; bh=w8EooheyDNYzk0b5wQ7asK4PXY81sD5/wVdKuo7m5AE=;
+ t=1716811993; bh=3gGM8Mlv1pxxuRoIYA9WhbGp72S3CJF4GKc75niPLk0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WhXVwlkDVTCSkIpOkx+Z8SzJ+JAEf2u2aJDj1mFbvSU1D5jive0u8eGX0Q5ACjW++
- GzVj8m/iaeAJPTSAlrZYPWrBwvx22XrdAlL/ZlawD4Uy3OcDDUgB0VnTJAdihq+Gjq
- qirrK2gVhSBFMjpX6JQMdGDTovm/ii9unK+DLFEzRCdjW6t32H3fbmjZu6Zq/kbWG7
- DzWnOihtRLokhWFb4yUoPGPfOj/vowba/x1u12TqMnfQSFVNbq7fHlO3coel7Nf6WH
- v9hMjeCX8EjIhmpVflVdTmkNRUPW2+TQ5vMNS8Ji78p/M+aDRQsIdT7D7jMXKbuWq1
- WmltzRhbSSUBA==
+ b=pE2znx8ngj+qRv7DjNTNbVO635BiKxt1o7ArbCDzGHCDGWomD4xgFuJiBOQ3mypjH
+ Naz3Xuw/85QSrSvjLDbbbL85IzoirLfKuc7jUTuVfumrwAOeA34whgcHPWG1o4wpSu
+ vQpYZyVhQ3P7Swpy8K4lyQidDMxtOlg50qyz0VmmK31xJ0izkvtAYwkQ+zSi2N/NlM
+ TIGRZQUVebU90VUISGN3RUQXuZdodFwZC6GkC7jXMMg35GKp2EDMQf2wBcZnqwrc3q
+ HeBzswYyAyHAMFouA12JR1q/FgZpCUdlhQaBXYHnWefYi6qVX/5eOdSHqTxCqUwdSF
+ GbXsMGtiiuc0Q==
 Received: from obitton-vm-u22.habana-labs.com (localhost [127.0.0.1])
  by obitton-vm-u22.habana-labs.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP
- id 44RCCuat1921351; Mon, 27 May 2024 15:12:57 +0300
+ id 44RCCuau1921351; Mon, 27 May 2024 15:12:57 +0300
 From: Ofir Bitton <obitton@habana.ai>
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Ariel Suller <asuller@habana.ai>
-Subject: [PATCH 3/8] accel/habanalabs/gaudi2: align interrupt names to table
-Date: Mon, 27 May 2024 15:12:49 +0300
-Message-Id: <20240527121254.1921306-3-obitton@habana.ai>
+Cc: Tomer Tayar <ttayar@habana.ai>
+Subject: [PATCH 4/8] accel/habanalabs/gaudi2: revise return value handling in
+ gaudi2_hbm_sei_handle_read_err()
+Date: Mon, 27 May 2024 15:12:50 +0300
+Message-Id: <20240527121254.1921306-4-obitton@habana.ai>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240527121254.1921306-1-obitton@habana.ai>
 References: <20240527121254.1921306-1-obitton@habana.ai>
@@ -54,312 +55,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ariel Suller <asuller@habana.ai>
+From: Tomer Tayar <ttayar@habana.ai>
 
-when reporting tpc events, the dcore and tpc in dcore should
-be reported and propagated, and not the generatl tpc number
+The return value in gaudi2_hbm_sei_handle_read_err() is boolean and not
+a bitmask, so there is need for "|= true".
+In addition, rename the 'rc' variable, as no "return code" is returned
+here but an indication if a hard reset is required.
 
-Signed-off-by: Ariel Suller <asuller@habana.ai>
+Signed-off-by: Tomer Tayar <ttayar@habana.ai>
 Reviewed-by: Ofir Bitton <obitton@habana.ai>
 ---
- .../gaudi2/gaudi2_async_ids_map_extended.h    | 150 +++++++++---------
- 1 file changed, 75 insertions(+), 75 deletions(-)
+ drivers/accel/habanalabs/gaudi2/gaudi2.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h b/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h
-index 1db73923de62..82d639990cca 100644
---- a/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h
-+++ b/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h
-@@ -856,55 +856,55 @@ static struct gaudi2_async_events_ids_map gaudi2_irq_map_table[] = {
- 	{ .fc_id = 412, .cpu_id = 84, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_HARD,
- 		 .name = "PCIE_ADDR_DEC_ERR" },
- 	{ .fc_id = 413, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC0_AXI_ERR_RSP" },
-+		 .name = "DCORE0_TPC0_AXI_ERR_RSP" },
- 	{ .fc_id = 414, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC1_AXI_ERR_RSP" },
-+		 .name = "DCORE0_TPC1_AXI_ERR_RSP" },
- 	{ .fc_id = 415, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC2_AXI_ERR_RSP" },
-+		 .name = "DCORE0_TPC2_AXI_ERR_RSP" },
- 	{ .fc_id = 416, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC3_AXI_ERR_RSP" },
-+		 .name = "DCORE0_TPC3_AXI_ERR_RSP" },
- 	{ .fc_id = 417, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC4_AXI_ERR_RSP" },
-+		 .name = "DCORE0_TPC4_AXI_ERR_RSP" },
- 	{ .fc_id = 418, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC5_AXI_ERR_RSP" },
-+		 .name = "DCORE0_TPC5_AXI_ERR_RSP" },
- 	{ .fc_id = 419, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC6_AXI_ERR_RSP" },
-+		 .name = "DCORE1_TPC0_AXI_ERR_RSP" },
- 	{ .fc_id = 420, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC7_AXI_ERR_RSP" },
-+		 .name = "DCORE1_TPC1_AXI_ERR_RSP" },
- 	{ .fc_id = 421, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC8_AXI_ERR_RSP" },
-+		 .name = "DCORE1_TPC2_AXI_ERR_RSP" },
- 	{ .fc_id = 422, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC9_AXI_ERR_RSP" },
-+		 .name = "DCORE1_TPC3_AXI_ERR_RSP" },
- 	{ .fc_id = 423, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC10_AXI_ERR_RSP" },
-+		 .name = "DCORE1_TPC4_AXI_ERR_RSP" },
- 	{ .fc_id = 424, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC11_AXI_ERR_RSP" },
-+		 .name = "DCORE1_TPC5_AXI_ERR_RSP" },
- 	{ .fc_id = 425, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC12_AXI_ERR_RSP" },
-+		 .name = "DCORE2_TPC0_AXI_ERR_RSP" },
- 	{ .fc_id = 426, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC13_AXI_ERR_RSP" },
-+		 .name = "DCORE2_TPC1_AXI_ERR_RSP" },
- 	{ .fc_id = 427, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC14_AXI_ERR_RSP" },
-+		 .name = "DCORE2_TPC2_AXI_ERR_RSP" },
- 	{ .fc_id = 428, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC15_AXI_ERR_RSP" },
-+		 .name = "DCORE2_TPC3_AXI_ERR_RSP" },
- 	{ .fc_id = 429, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC16_AXI_ERR_RSP" },
-+		 .name = "DCORE2_TPC4_AXI_ERR_RSP" },
- 	{ .fc_id = 430, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC17_AXI_ERR_RSP" },
-+		 .name = "DCORE2_TPC5_AXI_ERR_RSP" },
- 	{ .fc_id = 431, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC18_AXI_ERR_RSP" },
-+		 .name = "DCORE3_TPC0_AXI_ERR_RSP" },
- 	{ .fc_id = 432, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC19_AXI_ERR_RSP" },
-+		 .name = "DCORE3_TPC1_AXI_ERR_RSP" },
- 	{ .fc_id = 433, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC20_AXI_ERR_RSP" },
-+		 .name = "DCORE3_TPC2_AXI_ERR_RSP" },
- 	{ .fc_id = 434, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC21_AXI_ERR_RSP" },
-+		 .name = "DCORE3_TPC3_AXI_ERR_RSP" },
- 	{ .fc_id = 435, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC22_AXI_ERR_RSP" },
-+		 .name = "DCORE3_TPC4_AXI_ERR_RSP" },
- 	{ .fc_id = 436, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC23_AXI_ERR_RSP" },
-+		 .name = "DCORE3_TPC5_AXI_ERR_RSP" },
- 	{ .fc_id = 437, .cpu_id = 85, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC24_AXI_ERR_RSP" },
-+		 .name = "DCORE4_TPC0_AXI_ERR_RSP" },
- 	{ .fc_id = 438, .cpu_id = 86, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_HARD,
- 		 .name = "AXI_ECC" },
- 	{ .fc_id = 439, .cpu_id = 87, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_HARD,
-@@ -1298,103 +1298,103 @@ static struct gaudi2_async_events_ids_map gaudi2_irq_map_table[] = {
- 	{ .fc_id = 633, .cpu_id = 130, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC0_BMON_SPMU" },
- 	{ .fc_id = 634, .cpu_id = 131, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC0_KERNEL_ERR" },
-+		 .name = "DCORE0_TPC0_KERNEL_ERR" },
- 	{ .fc_id = 635, .cpu_id = 132, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC1_BMON_SPMU" },
- 	{ .fc_id = 636, .cpu_id = 133, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC1_KERNEL_ERR" },
-+		 .name = "DCORE0_TPC1_KERNEL_ERR" },
- 	{ .fc_id = 637, .cpu_id = 134, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC2_BMON_SPMU" },
- 	{ .fc_id = 638, .cpu_id = 135, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC2_KERNEL_ERR" },
-+		 .name = "DCORE0_TPC2_KERNEL_ERR" },
- 	{ .fc_id = 639, .cpu_id = 136, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC3_BMON_SPMU" },
- 	{ .fc_id = 640, .cpu_id = 137, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC3_KERNEL_ERR" },
-+		 .name = "DCORE0_TPC3_KERNEL_ERR" },
- 	{ .fc_id = 641, .cpu_id = 138, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC4_BMON_SPMU" },
- 	{ .fc_id = 642, .cpu_id = 139, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC4_KERNEL_ERR" },
-+		 .name = "DCORE0_TPC4_KERNEL_ERR" },
- 	{ .fc_id = 643, .cpu_id = 140, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC5_BMON_SPMU" },
- 	{ .fc_id = 644, .cpu_id = 141, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC5_KERNEL_ERR" },
-+		 .name = "DCORE0_TPC5_KERNEL_ERR" },
- 	{ .fc_id = 645, .cpu_id = 150, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC6_BMON_SPMU" },
- 	{ .fc_id = 646, .cpu_id = 151, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC6_KERNEL_ERR" },
-+		 .name = "DCORE1_TPC0_KERNEL_ERR" },
- 	{ .fc_id = 647, .cpu_id = 152, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC7_BMON_SPMU" },
- 	{ .fc_id = 648, .cpu_id = 153, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC7_KERNEL_ERR" },
-+		 .name = "DCORE1_TPC1_KERNEL_ERR" },
- 	{ .fc_id = 649, .cpu_id = 146, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC8_BMON_SPMU" },
- 	{ .fc_id = 650, .cpu_id = 147, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC8_KERNEL_ERR" },
-+		 .name = "DCORE1_TPC2_KERNEL_ERR" },
- 	{ .fc_id = 651, .cpu_id = 148, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC9_BMON_SPMU" },
- 	{ .fc_id = 652, .cpu_id = 149, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC9_KERNEL_ERR" },
-+		 .name = "DCORE1_TPC3_KERNEL_ERR" },
- 	{ .fc_id = 653, .cpu_id = 142, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC10_BMON_SPMU" },
- 	{ .fc_id = 654, .cpu_id = 143, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC10_KERNEL_ERR" },
-+		 .name = "DCORE1_TPC4_KERNEL_ERR" },
- 	{ .fc_id = 655, .cpu_id = 144, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC11_BMON_SPMU" },
- 	{ .fc_id = 656, .cpu_id = 145, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC11_KERNEL_ERR" },
-+		 .name = "DCORE1_TPC5_KERNEL_ERR" },
- 	{ .fc_id = 657, .cpu_id = 162, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC12_BMON_SPMU" },
- 	{ .fc_id = 658, .cpu_id = 163, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC12_KERNEL_ERR" },
-+		 .name = "DCORE2_TPC0_KERNEL_ERR" },
- 	{ .fc_id = 659, .cpu_id = 164, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC13_BMON_SPMU" },
- 	{ .fc_id = 660, .cpu_id = 165, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC13_KERNEL_ERR" },
-+		 .name = "DCORE2_TPC1_KERNEL_ERR" },
- 	{ .fc_id = 661, .cpu_id = 158, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC14_BMON_SPMU" },
- 	{ .fc_id = 662, .cpu_id = 159, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC14_KERNEL_ERR" },
-+		 .name = "DCORE2_TPC2_KERNEL_ERR" },
- 	{ .fc_id = 663, .cpu_id = 160, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC15_BMON_SPMU" },
- 	{ .fc_id = 664, .cpu_id = 161, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC15_KERNEL_ERR" },
-+		 .name = "DCORE2_TPC3_KERNEL_ERR" },
- 	{ .fc_id = 665, .cpu_id = 154, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC16_BMON_SPMU" },
- 	{ .fc_id = 666, .cpu_id = 155, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC16_KERNEL_ERR" },
-+		 .name = "DCORE2_TPC4_KERNEL_ERR" },
- 	{ .fc_id = 667, .cpu_id = 156, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC17_BMON_SPMU" },
- 	{ .fc_id = 668, .cpu_id = 157, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC17_KERNEL_ERR" },
-+		 .name = "DCORE2_TPC5_KERNEL_ERR" },
- 	{ .fc_id = 669, .cpu_id = 166, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC18_BMON_SPMU" },
- 	{ .fc_id = 670, .cpu_id = 167, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC18_KERNEL_ERR" },
-+		 .name = "DCORE3_TPC0_KERNEL_ERR" },
- 	{ .fc_id = 671, .cpu_id = 168, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC19_BMON_SPMU" },
- 	{ .fc_id = 672, .cpu_id = 169, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC19_KERNEL_ERR" },
-+		 .name = "DCORE3_TPC1_KERNEL_ERR" },
- 	{ .fc_id = 673, .cpu_id = 170, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC20_BMON_SPMU" },
- 	{ .fc_id = 674, .cpu_id = 171, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC20_KERNEL_ERR" },
-+		 .name = "DCORE3_TPC2_KERNEL_ERR" },
- 	{ .fc_id = 675, .cpu_id = 172, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC21_BMON_SPMU" },
- 	{ .fc_id = 676, .cpu_id = 173, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC21_KERNEL_ERR" },
-+		 .name = "DCORE3_TPC3_KERNEL_ERR" },
- 	{ .fc_id = 677, .cpu_id = 174, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC22_BMON_SPMU" },
- 	{ .fc_id = 678, .cpu_id = 175, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC22_KERNEL_ERR" },
-+		 .name = "DCORE3_TPC4_KERNEL_ERR" },
- 	{ .fc_id = 679, .cpu_id = 176, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC23_BMON_SPMU" },
- 	{ .fc_id = 680, .cpu_id = 177, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC23_KERNEL_ERR" },
-+		 .name = "DCORE3_TPC5_KERNEL_ERR" },
- 	{ .fc_id = 681, .cpu_id = 178, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "TPC24_BMON_SPMU" },
- 	{ .fc_id = 682, .cpu_id = 179, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC24_KERNEL_ERR" },
-+		 .name = "DCORE4_TPC0_KERNEL_ERR" },
- 	{ .fc_id = 683, .cpu_id = 180, .valid = 0, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "" },
- 	{ .fc_id = 684, .cpu_id = 180, .valid = 0, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
-@@ -2442,55 +2442,55 @@ static struct gaudi2_async_events_ids_map gaudi2_irq_map_table[] = {
- 	{ .fc_id = 1205, .cpu_id = 511, .valid = 0, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "" },
- 	{ .fc_id = 1206, .cpu_id = 512, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC0_QM" },
-+		 .name = "DCORE0_TPC0_QM" },
- 	{ .fc_id = 1207, .cpu_id = 513, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC1_QM" },
-+		 .name = "DCORE0_TPC1_QM" },
- 	{ .fc_id = 1208, .cpu_id = 514, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC2_QM" },
-+		 .name = "DCORE0_TPC2_QM" },
- 	{ .fc_id = 1209, .cpu_id = 515, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC3_QM" },
-+		 .name = "DCORE0_TPC3_QM" },
- 	{ .fc_id = 1210, .cpu_id = 516, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC4_QM" },
-+		 .name = "DCORE0_TPC4_QM" },
- 	{ .fc_id = 1211, .cpu_id = 517, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC5_QM" },
-+		 .name = "DCORE0_TPC5_QM" },
- 	{ .fc_id = 1212, .cpu_id = 518, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC6_QM" },
-+		 .name = "DCORE1_TPC0_QM" },
- 	{ .fc_id = 1213, .cpu_id = 519, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC7_QM" },
-+		 .name = "DCORE1_TPC1_QM" },
- 	{ .fc_id = 1214, .cpu_id = 520, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC8_QM" },
-+		 .name = "DCORE1_TPC2_QM" },
- 	{ .fc_id = 1215, .cpu_id = 521, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC9_QM" },
-+		 .name = "DCORE1_TPC3_QM" },
- 	{ .fc_id = 1216, .cpu_id = 522, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC10_QM" },
-+		 .name = "DCORE1_TPC4_QM" },
- 	{ .fc_id = 1217, .cpu_id = 523, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC11_QM" },
-+		 .name = "DCORE1_TPC5_QM" },
- 	{ .fc_id = 1218, .cpu_id = 524, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC12_QM" },
-+		 .name = "DCORE2_TPC0_QM" },
- 	{ .fc_id = 1219, .cpu_id = 525, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC13_QM" },
-+		 .name = "DCORE2_TPC1_QM" },
- 	{ .fc_id = 1220, .cpu_id = 526, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC14_QM" },
-+		 .name = "DCORE2_TPC2_QM" },
- 	{ .fc_id = 1221, .cpu_id = 527, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC15_QM" },
-+		 .name = "DCORE2_TPC3_QM" },
- 	{ .fc_id = 1222, .cpu_id = 528, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC16_QM" },
-+		 .name = "DCORE2_TPC4_QM" },
- 	{ .fc_id = 1223, .cpu_id = 529, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC17_QM" },
-+		 .name = "DCORE2_TPC5_QM" },
- 	{ .fc_id = 1224, .cpu_id = 530, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC18_QM" },
-+		 .name = "DCORE3_TPC0_QM" },
- 	{ .fc_id = 1225, .cpu_id = 531, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC19_QM" },
-+		 .name = "DCORE3_TPC1_QM" },
- 	{ .fc_id = 1226, .cpu_id = 532, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC20_QM" },
-+		 .name = "DCORE3_TPC2_QM" },
- 	{ .fc_id = 1227, .cpu_id = 533, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC21_QM" },
-+		 .name = "DCORE3_TPC3_QM" },
- 	{ .fc_id = 1228, .cpu_id = 534, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC22_QM" },
-+		 .name = "DCORE3_TPC4_QM" },
- 	{ .fc_id = 1229, .cpu_id = 535, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC23_QM" },
-+		 .name = "DCORE3_TPC5_QM" },
- 	{ .fc_id = 1230, .cpu_id = 536, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "TPC24_QM" },
-+		 .name = "DCORE4_TPC0_QM" },
- 	{ .fc_id = 1231, .cpu_id = 537, .valid = 0, .msg = 1, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "" },
- 	{ .fc_id = 1232, .cpu_id = 538, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index 08276f03c80f..18cc7b773650 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -9263,8 +9263,8 @@ static int gaudi2_handle_mmu_spi_sei_err(struct hl_device *hdev, u16 event_type,
+ static bool gaudi2_hbm_sei_handle_read_err(struct hl_device *hdev,
+ 			struct hl_eq_hbm_sei_read_err_intr_info *rd_err_data, u32 err_cnt)
+ {
++	bool require_hard_reset = false;
+ 	u32 addr, beat, beat_shift;
+-	bool rc = false;
+ 
+ 	dev_err_ratelimited(hdev->dev,
+ 			"READ ERROR count: ECC SERR: %d, ECC DERR: %d, RD_PARITY: %d\n",
+@@ -9296,7 +9296,7 @@ static bool gaudi2_hbm_sei_handle_read_err(struct hl_device *hdev,
+ 						beat,
+ 						le32_to_cpu(rd_err_data->dbg_rd_err_dm),
+ 						le32_to_cpu(rd_err_data->dbg_rd_err_syndrome));
+-			rc |= true;
++			require_hard_reset = true;
+ 		}
+ 
+ 		beat_shift = beat * HBM_RD_ERR_BEAT_SHIFT;
+@@ -9309,7 +9309,7 @@ static bool gaudi2_hbm_sei_handle_read_err(struct hl_device *hdev,
+ 					(le32_to_cpu(rd_err_data->dbg_rd_err_misc) &
+ 						(HBM_RD_ERR_PAR_DATA_BEAT0_MASK << beat_shift)) >>
+ 						(HBM_RD_ERR_PAR_DATA_BEAT0_SHIFT + beat_shift));
+-			rc |= true;
++			require_hard_reset = true;
+ 		}
+ 
+ 		dev_err_ratelimited(hdev->dev, "Beat%d DQ data:\n", beat);
+@@ -9319,7 +9319,7 @@ static bool gaudi2_hbm_sei_handle_read_err(struct hl_device *hdev,
+ 					le32_to_cpu(rd_err_data->dbg_rd_err_data[beat * 2 + 1]));
+ 	}
+ 
+-	return rc;
++	return require_hard_reset;
+ }
+ 
+ static void gaudi2_hbm_sei_print_wr_par_info(struct hl_device *hdev,
 -- 
 2.34.1
 
