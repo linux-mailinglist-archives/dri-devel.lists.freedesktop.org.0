@@ -2,58 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868628D0660
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:40:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A405B8D067B
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:46:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B953910E4A0;
-	Mon, 27 May 2024 15:40:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20EA310E02D;
+	Mon, 27 May 2024 15:46:23 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Hn1JH8Ff";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F4F110E4A0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:40:23 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1sBcSC-0005Mf-IW; Mon, 27 May 2024 17:40:04 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1sBcSB-003D3H-BW; Mon, 27 May 2024 17:40:03 +0200
-Received: from pza by lupine with local (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1sBcSB-000EmW-0r;
- Mon, 27 May 2024 17:40:03 +0200
-Message-ID: <fbb666b99104241aae09fc5b2ae72433e1249c23.camel@pengutronix.de>
-Subject: Re: [PATCH v2 00/12] drm/imx/ipuv3: switch LDB and parallel-display
- driver to use drm_bridge_connector
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>,  Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>
-Cc: Chris Healy <cphealy@gmail.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org
-Date: Mon, 27 May 2024 17:40:03 +0200
-In-Reply-To: <yh4r2pgdl2m5wp627r35zse3obacmeanin5rjo34f7tctgpix2@dme3vwzaivag>
-References: <20240331-drm-imx-cleanup-v2-0-d81c1d1c1026@linaro.org>
- <yh4r2pgdl2m5wp627r35zse3obacmeanin5rjo34f7tctgpix2@dme3vwzaivag>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8112B10E02D
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:46:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 875CFCE0CEF
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:46:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BD61EC4AF07
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:46:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1716824778;
+ bh=Q9CPIYF3MXT2XyfuMVZP7xnPrnHLstl8qCy0i5pYVQM=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=Hn1JH8FfE3izDULJSpyVtjkEC3w0tfFd7e123ZYFnUjIq7irgKIDD/+C7G5ERUAOQ
+ bf8bdo4tNySxNc+m6gsjkkohEozkFPg4hgoe5Mv8vikKAf5usgkBTmllRRZziMM8EH
+ grYIZWbeBDfYI/TJq5cv4tdjQ17arOFy5+cXUnImqq3rc6rfhNCgApWdqiGr8kJZdt
+ Xv4WkOb1tHRp2hddl6x4wBsxTd0DyGMEyUuRJ4cRjqTNTXQU4LBwkZ01sqt3r/UOto
+ 6SjQMBfpvrHWB3V2ATi9SpbRIyQ6XA1NxHO8ISdxjGE8C7k4gUqU8CjAHVs6cR5gfO
+ YXzAJf2e2gO0A==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id B001AC53BB8; Mon, 27 May 2024 15:46:18 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 218900] amdgpu: Fatal error during GPU init
+Date: Mon, 27 May 2024 15:46:18 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: jean-christophe@guillain.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-218900-2300-sBp06bZtgA@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218900-2300@https.bugzilla.kernel.org/>
+References: <bug-218900-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,39 +74,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218900
 
-On Mi, 2024-04-17 at 00:58 +0300, Dmitry Baryshkov wrote:
-> On Sun, Mar 31, 2024 at 11:28:57PM +0300, Dmitry Baryshkov wrote:
-> > The IPUv3 DRM i.MX driver contains several codepaths for different
-> > usescases: both LDB and paralllel-display drivers handle next-bridge,
-> > panel and the legacy display-timings DT node on their own.
-> >=20
-> > Drop unused ddc-i2c-bus and edid handling (none of the DT files merged
-> > upstream ever used these features), switch to panel-bridge driver,
-> > removing the need to handle drm_panel codepaths separately and finally
-> > switch to drm_bridge_connector, removing requirement for the downstream
-> > bridges to create drm_connector on their own.
-> >=20
-> > This has been tested on the iMX53 with the DPI panel attached to LDB vi=
-a
-> > LVDS decoder, using all possible usecases (lvds-codec + panel, panel
-> > linked directly to LDB node and the display-timings node).
-> >=20
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> > Changes in v2:
-> > - Fixed drm_bridge_attach flags in imx/parallel-display driver.
-> > - Moved the legacy bridge to drivers/gpu/drm/bridge
-> > - Added missing EXPORT_SYMBOL_GPL to the iMX legacy bridge
-> > - Link to v1: https://lore.kernel.org/r/20240311-drm-imx-cleanup-v1-0-e=
-104f05caa51@linaro.org
->=20
-> Phillip, Shawn, Sascha, any comments on this patchset?
+--- Comment #3 from Jean-Christophe Guillain (jean-christophe@guillain.net)=
+ ---
+Bisecting: 5720 revisions left to test after this (roughly 13 steps)
 
-Sorry for the delay, this all looks sane to me. I can't find any users
-of the "edid" and "ddc-i2c-bus" properties either. But let me test on
-i.MX6 and with parallel-display as well.
+I'll try, but it will take some time. My machine is not very powerful...
 
-regards
-Philipp
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
