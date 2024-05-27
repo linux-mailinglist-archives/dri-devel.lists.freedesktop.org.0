@@ -2,53 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176648CFCC9
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 11:25:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282538CFCEA
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 11:31:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 495FA10EB3D;
-	Mon, 27 May 2024 09:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A101E10EBCB;
+	Mon, 27 May 2024 09:31:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GRHZOFIy";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Zi1vIitP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5376610EB3D
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 09:25:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1716801919;
- bh=8GuiXIytBzEOOq1loh/sdanwydxd8B84OUGGGBmQrxs=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GRHZOFIy40cxzRCBKR+sKYr7lZcoxq9hRzQ2jzpd8M6DvzTEaVIX6Vk1n7lI7Fmoo
- /X//2fYrJWzFYjgzijs9LgplhhSayI/QI3ZGX6zgqv+kDMADoxaQ4IcJ8o8CyXQQg3
- OUdqIGwhHgFE5VBgqip57mhY7reXuhzqc85uWcMtTneQiA7lfyjbnOQPx4S6+M2vtZ
- sqkxPWIo90IaEUn6gKN70T0Tia8+bjrmtM08QGqOHLAPprDDSitINYaFG96sanzRb8
- 3/u04bga92Pbq6Uv39DFL+kPW1BTqmUWwxxZIgh2+GOhI7ZBzhDnaWp5CFtmnDrDFC
- XvUpWaLKBS+Cg==
-Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
- [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 631A1378212E;
- Mon, 27 May 2024 09:25:18 +0000 (UTC)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: boris.brezillon@collabora.com
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, steven.price@arm.com, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Subject: [PATCH 2/2] drm/panfrost: Add support for Mali on the MT8188 SoC
-Date: Mon, 27 May 2024 11:25:13 +0200
-Message-ID: <20240527092513.91385-3-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240527092513.91385-1-angelogioacchino.delregno@collabora.com>
-References: <20240527092513.91385-1-angelogioacchino.delregno@collabora.com>
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1B7510EBCB
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 09:31:28 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-5295a66e775so3323844e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 02:31:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1716802287; x=1717407087;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Nsle90kquxqyGATVLGaUwfEqMygpQJmcBP3wYD4Xyos=;
+ b=Zi1vIitPkUlrxRgAl4HYbDuvuZgKKfybQvfSoAq5u+dJUuGStcIenZpDp1i5PVs11u
+ USJnxqZO+MYc4IzQkihCh7S1e8gGuh0G2s9U8GQBuFuG2WtE7VMy2PDZL+xzSJM7KdIt
+ wwivQrCcHKoOyFosU1GvBmhjAV9r0lmSNybEY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716802287; x=1717407087;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Nsle90kquxqyGATVLGaUwfEqMygpQJmcBP3wYD4Xyos=;
+ b=LMnlyqQmZuq3quEP05IGOXRmO02YCI9wSpboaDLBXgk0tIN/BTkwA/oE5YMQTIBJ3M
+ tJ5P6pix79ft3xJw9jS2wMjppAESw8jijwH3mtoTEZIfmAr246uTmZzpjB5hECDDKBxi
+ OgmAjfD+sQXh7gXP/eB8LdDb4m0ES9IobFnYByNWE68G7PJOBRSEqyAtSjL2oIEDguoY
+ d9zmVh2c5CZgbowD/YS0FgQb4HoLrX6yGibQO2uElLMsxkdelO/38r5ghrhBulG4Kpmq
+ 6f5DXAXoJPKTNHYcwh/hJ7dtHrVVCzxxUD0W0Unjwwt/ZyF21izznZd5TYWIVnYz4rCu
+ AyYQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWyuE6hM3NilLXqD+w1xsx7zhZto9Y9V58lbSMfDP5xC1HXLYvT4RAvQMF+Rhbb0rIPSVjoLuepDdqVMyzQ/7hhIzGcVg+YDOy0Ax8KPC4+
+X-Gm-Message-State: AOJu0YwYWY9UDYYHxKzr7jq+4qXRiaagw9qqSdWkX69h0+cY/HKpLim1
+ JmSi5sXUEW1SXhQ0hnyCco74YfaxHURr70yRFUm5vcKoR5vjX9w7/WsLx4EBwbC2SCPjBEP18aE
+ XsuhmcjnUCCufBVN/66ZgEYyKyALTfx3IXvG5
+X-Google-Smtp-Source: AGHT+IEkCNM2qY1QxwWMjQ5Y6VGnSYpnCwe9tanGjyyeQWcnQ9MczhIoPwNeqRZhqbClYjaT+d8vnb65A/W5+FPMd1k=
+X-Received: by 2002:ac2:4d91:0:b0:51f:53e0:1bc8 with SMTP id
+ 2adb3069b0e04-5296556f885mr7749628e87.25.1716802286862; Mon, 27 May 2024
+ 02:31:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240527092513.91385-1-angelogioacchino.delregno@collabora.com>
+ <20240527092513.91385-2-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240527092513.91385-2-angelogioacchino.delregno@collabora.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 27 May 2024 17:31:15 +0800
+Message-ID: <CAGXv+5G_n1B0yaoOBx0k8syRPma=7NnuRcSL4M0N0BJONa5fCA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: gpu: mali-bifrost: Add compatible for
+ MT8188 SoC
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: boris.brezillon@collabora.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ steven.price@arm.com, matthias.bgg@gmail.com, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,43 +83,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MediaTek MT8188 has a Mali-G57 MC3 (Valhall-JM): add a new
-compatible and platform data using the same supplies and the
-same power domain lists as MT8183 (one regulator, three power
-domains).
+On Mon, May 27, 2024 at 5:25=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> Add a compatible for the MediaTek MT8188 SoC, with an integrated
+> ARM Mali G57 MC3 (Valhall-JM) GPU.
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
+> ---
+>  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml =
+b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> index e796a1ff8c82..4cf676190ae8 100644
+> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> @@ -34,6 +34,7 @@ properties:
+>            - const: arm,mali-valhall-jm # Mali Valhall GPU model/revision=
+ is fully discoverable
+>        - items:
+>            - enum:
+> +              - mediatek,mt8188-mali
+>                - mediatek,mt8192-mali
+>            - const: arm,mali-valhall-jm # Mali Valhall GPU model/revision=
+ is fully discoverable
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_drv.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+I believe you also need to edit one of the conditionals below so that the
+number and names of the power domains are properly constrained?
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index ef9f6c0716d5..4e2d9f671a0d 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -777,6 +777,14 @@ static const struct panfrost_compatible mediatek_mt8186_data = {
- 	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
- };
- 
-+static const struct panfrost_compatible mediatek_mt8188_data = {
-+	.num_supplies = ARRAY_SIZE(mediatek_mt8183_b_supplies) - 1,
-+	.supply_names = mediatek_mt8183_b_supplies,
-+	.num_pm_domains = ARRAY_SIZE(mediatek_mt8183_pm_domains),
-+	.pm_domain_names = mediatek_mt8183_pm_domains,
-+	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
-+};
-+
- static const char * const mediatek_mt8192_supplies[] = { "mali", NULL };
- static const char * const mediatek_mt8192_pm_domains[] = { "core0", "core1", "core2",
- 							   "core3", "core4" };
-@@ -808,6 +816,7 @@ static const struct of_device_id dt_match[] = {
- 	{ .compatible = "mediatek,mt8183-mali", .data = &mediatek_mt8183_data },
- 	{ .compatible = "mediatek,mt8183b-mali", .data = &mediatek_mt8183_b_data },
- 	{ .compatible = "mediatek,mt8186-mali", .data = &mediatek_mt8186_data },
-+	{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
- 	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
- 	{}
- };
--- 
-2.45.1
-
+ChenYu
