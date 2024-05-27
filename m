@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA148D06ED
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:56:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 388D78D0702
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:57:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07EA710FB6A;
-	Mon, 27 May 2024 15:56:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18E4A10FB9D;
+	Mon, 27 May 2024 15:57:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nSydWsvk";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EF4fXxGR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0E4E10FB6C;
- Mon, 27 May 2024 15:56:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81BCA10FB9C;
+ Mon, 27 May 2024 15:57:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id F226A61B19;
- Mon, 27 May 2024 15:56:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58BC4C4AF0B;
- Mon, 27 May 2024 15:56:09 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id DBBD561A77;
+ Mon, 27 May 2024 15:57:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E935C2BBFC;
+ Mon, 27 May 2024 15:57:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716825370;
- bh=cf8XzjTe6lVStDhowj3ysukGsoEDDfWWJU9f3Jmwcns=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nSydWsvka3gT1kpcHrVuN/JbOUb47lzJG+03M9XVKrnewTfoKCXgjzJQKzDR2+mJ/
- htHL4F3owvxMWEdQlO1/lOvvR2wO/LFkOas4dUvQMYB+R7N8HUVOblpCnxW8naD6aI
- iiqxQw06l/sglkXhuVWd5BBsqF3V0BFeexGIBwjT0fXbVOxwhulUYmJknxjo2APuux
- QdPR/rrhdv2GhRt6ldIVa+6Q8FKCIF77bXy2S9+kcXtdwrEHRpTKaaeiWZ2JZAxBjl
- BZcG+rHuunT9niQqF4tY7W8AH7JzQLVyGPh+kTJXAI4JXH/htTv9wwumB4efuugpsC
- 8V5xYzExO2L4A==
+ s=k20201202; t=1716825444;
+ bh=Bx1v8vw994CWMzcge9Pp+GPABdpFSNEB2dedqwadJYI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=EF4fXxGRi6pvsxyEvqna0BLa0EUN51gyXvlDsEwcq4dfbJBDp/f3sReVRUtdzwHU0
+ D0lZLOvFLCEec2y/14TT2vYSBnnPsadONl1a9r2zLprM5SmKPNsAcplXBdnytRtBnm
+ Oa+q6FzlcV2exllZDWJM8QcfhWcJtbS/Xuti7jEbFxamDHWpSVFRr5EVRawUk/jha5
+ PkF+0F06GdjUQiejvcnWgQJZle7o/0GzuYp5rT2PB60aXMrf7FNrLjDS+bmjlkVRgh
+ 5CfeIls/+8VA7B5YjHuYL5Ve/an519a4/UrSGY39nzbX41bT9QnUcWvP73LZjygPs3
+ LUDHkS7/oxfRA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Erico Nunes <nunes.erico@gmail.com>, Qiang Yu <yuq825@gmail.com>,
- Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- lima@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 07/16] drm/lima: mask irqs in timeout path before
- hard reset
-Date: Mon, 27 May 2024 11:54:58 -0400
-Message-ID: <20240527155541.3865428-7-sashal@kernel.org>
+Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Charlene Liu <charlene.liu@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, Sasha Levin <sashal@kernel.org>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, martin.leung@amd.com, wayne.lin@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.1 01/11] drm/amd/display: Exit idle optimizations
+ before HDCP execution
+Date: Mon, 27 May 2024 11:56:38 -0400
+Message-ID: <20240527155710.3865826-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240527155541.3865428-1-sashal@kernel.org>
-References: <20240527155541.3865428-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.32
+X-stable-base: Linux 6.1.92
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,60 +67,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Erico Nunes <nunes.erico@gmail.com>
+From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 
-[ Upstream commit a421cc7a6a001b70415aa4f66024fa6178885a14 ]
+[ Upstream commit f30a3bea92bdab398531129d187629fb1d28f598 ]
 
-There is a race condition in which a rendering job might take just long
-enough to trigger the drm sched job timeout handler but also still
-complete before the hard reset is done by the timeout handler.
-This runs into race conditions not expected by the timeout handler.
-In some very specific cases it currently may result in a refcount
-imbalance on lima_pm_idle, with a stack dump such as:
+[WHY]
+PSP can access DCN registers during command submission and we need
+to ensure that DCN is not in PG before doing so.
 
-[10136.669170] WARNING: CPU: 0 PID: 0 at drivers/gpu/drm/lima/lima_devfreq.c:205 lima_devfreq_record_idle+0xa0/0xb0
-...
-[10136.669459] pc : lima_devfreq_record_idle+0xa0/0xb0
-...
-[10136.669628] Call trace:
-[10136.669634]  lima_devfreq_record_idle+0xa0/0xb0
-[10136.669646]  lima_sched_pipe_task_done+0x5c/0xb0
-[10136.669656]  lima_gp_irq_handler+0xa8/0x120
-[10136.669666]  __handle_irq_event_percpu+0x48/0x160
-[10136.669679]  handle_irq_event+0x4c/0xc0
+[HOW]
+Add a callback to DM to lock and notify DC for idle optimization exit.
+It can't be DC directly because of a potential race condition with the
+link protection thread and the rest of DM operation.
 
-We can prevent that race condition entirely by masking the irqs at the
-beginning of the timeout handler, at which point we give up on waiting
-for that job entirely.
-The irqs will be enabled again at the next hard reset which is already
-done as a recovery by the timeout handler.
-
-Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
-Reviewed-by: Qiang Yu <yuq825@gmail.com>
-Signed-off-by: Qiang Yu <yuq825@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240405152951.1531555-4-nunes.erico@gmail.com
+Cc: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Charlene Liu <charlene.liu@amd.com>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/lima/lima_sched.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/amd/display/modules/hdcp/hdcp.c    | 10 ++++++++++
+ drivers/gpu/drm/amd/display/modules/inc/mod_hdcp.h |  8 ++++++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-index ffd91a5ee2990..1114bffe38c83 100644
---- a/drivers/gpu/drm/lima/lima_sched.c
-+++ b/drivers/gpu/drm/lima/lima_sched.c
-@@ -402,6 +402,13 @@ static enum drm_gpu_sched_stat lima_sched_timedout_job(struct drm_sched_job *job
- 	struct lima_sched_task *task = to_lima_task(job);
- 	struct lima_device *ldev = pipe->ldev;
+diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.c
+index 5e01c6e24cbc8..9a5a1726acaf8 100644
+--- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.c
++++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.c
+@@ -88,6 +88,14 @@ static uint8_t is_cp_desired_hdcp2(struct mod_hdcp *hdcp)
+ 			!hdcp->connection.is_hdcp2_revoked;
+ }
  
-+	/*
-+	 * The task might still finish while this timeout handler runs.
-+	 * To prevent a race condition on its completion, mask all irqs
-+	 * on the running core until the next hard reset completes.
-+	 */
-+	pipe->task_mask_irq(pipe);
++static void exit_idle_optimizations(struct mod_hdcp *hdcp)
++{
++	struct mod_hdcp_dm *dm = &hdcp->config.dm;
 +
- 	if (!pipe->error)
- 		DRM_ERROR("lima job timeout\n");
++	if (dm->funcs.exit_idle_optimizations)
++		dm->funcs.exit_idle_optimizations(dm->handle);
++}
++
+ static enum mod_hdcp_status execution(struct mod_hdcp *hdcp,
+ 		struct mod_hdcp_event_context *event_ctx,
+ 		union mod_hdcp_transition_input *input)
+@@ -543,6 +551,8 @@ enum mod_hdcp_status mod_hdcp_process_event(struct mod_hdcp *hdcp,
+ 	memset(&event_ctx, 0, sizeof(struct mod_hdcp_event_context));
+ 	event_ctx.event = event;
+ 
++	exit_idle_optimizations(hdcp);
++
+ 	/* execute and transition */
+ 	exec_status = execution(hdcp, &event_ctx, &hdcp->auth.trans_input);
+ 	trans_status = transition(
+diff --git a/drivers/gpu/drm/amd/display/modules/inc/mod_hdcp.h b/drivers/gpu/drm/amd/display/modules/inc/mod_hdcp.h
+index 3348bb97ef81a..dfa8168e51890 100644
+--- a/drivers/gpu/drm/amd/display/modules/inc/mod_hdcp.h
++++ b/drivers/gpu/drm/amd/display/modules/inc/mod_hdcp.h
+@@ -155,6 +155,13 @@ struct mod_hdcp_ddc {
+ 	} funcs;
+ };
+ 
++struct mod_hdcp_dm {
++	void *handle;
++	struct {
++		void (*exit_idle_optimizations)(void *handle);
++	} funcs;
++};
++
+ struct mod_hdcp_psp {
+ 	void *handle;
+ 	void *funcs;
+@@ -271,6 +278,7 @@ struct mod_hdcp_display_query {
+ struct mod_hdcp_config {
+ 	struct mod_hdcp_psp psp;
+ 	struct mod_hdcp_ddc ddc;
++	struct mod_hdcp_dm dm;
+ 	uint8_t index;
+ };
  
 -- 
 2.43.0
