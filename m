@@ -2,84 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBBCC8D0612
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:27:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D427F8D0615
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:29:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F27E88CFA;
-	Mon, 27 May 2024 15:27:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFAC10FB62;
+	Mon, 27 May 2024 15:29:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="FfgPGAoH";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="i615Y8vL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
- [95.215.58.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25B6110FB5C
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:27:35 +0000 (UTC)
-X-Envelope-To: mripard@kernel.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1716823652;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Vsw4ZGatsr0eZbdbPVbaiC9GTnbbEm5u3nRWlw+hGUc=;
- b=FfgPGAoHB1qlQWojPKPbc3dqBZe+TrUH4BSedSn814UMa4siCJ0fTL/3BQ2TGlKsDjfXHM
- 5Y9klSvpPbdA23gk4DwM/9zAoaIfAXh1ELhXijHvf9FSzUNt0hDVBjkpojFdAEUePklnFY
- qvmpTQ9v8Z3A6HOiYnsXGLu5kOJRqyE=
-X-Envelope-To: maarten.lankhorst@linux.intel.com
-X-Envelope-To: tzimmermann@suse.de
-X-Envelope-To: airlied@gmail.com
-X-Envelope-To: daniel@ffwll.ch
-X-Envelope-To: corbet@lwn.net
-X-Envelope-To: hjc@rock-chips.com
-X-Envelope-To: heiko@sntech.de
-X-Envelope-To: wens@csie.org
-X-Envelope-To: jernej.skrabec@gmail.com
-X-Envelope-To: samuel@sholland.org
-X-Envelope-To: andy.yan@rock-chips.com
-X-Envelope-To: hverkuil@xs4all.nl
-X-Envelope-To: sebastian.wick@redhat.com
-X-Envelope-To: ville.syrjala@linux.intel.com
-X-Envelope-To: dri-devel@lists.freedesktop.org
-X-Envelope-To: linux-arm-kernel@lists.infradead.org
-X-Envelope-To: linux-doc@vger.kernel.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: linux-media@vger.kernel.org
-X-Envelope-To: linux-rockchip@lists.infradead.org
-X-Envelope-To: linux-sunxi@lists.linux.dev
-X-Envelope-To: dave.stevenson@raspberrypi.com
-X-Envelope-To: dmitry.baryshkov@linaro.org
-Message-ID: <50622688-c1ab-4dde-8735-0456722fab14@linux.dev>
-Date: Mon, 27 May 2024 23:27:21 +0800
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62D8F10FB62
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:29:00 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44RDRf0H030322;
+ Mon, 27 May 2024 17:28:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ i+7AfMovLzF2bNEht1wnwdgHNoNpV4Ekv7u2xky9FxA=; b=i615Y8vLDvhlpi/z
+ iAdj/4ieNKY2XnppaxWAT3QMinPuCCd1GQ6ERSAN265rkyNGbAjJcc4jzaB/ZBT7
+ VNN6Ai043nkOz09D504NSaiutB47Zm9JIHRhva3pzvkBw5SaeYVgTjjaovXmpS9I
+ K1RHzHLEfCtcFOzOXBwb9no/5imLZsqZmdUeWfuS/eXLxlOAgzsq5/0YUe9n9Dll
+ 3b+R8XX4uEkIEsPpottnoplkw41xcEtFGtTCFJolF+ETtu9giNZ1lqmYOyVQzIRO
+ 7b+3rzfUvRi1K5Z+BwGDpDbDEUW5e+OHmgPv8vru+Rs3GZKpc5VlvDsQ5vQInbTN
+ ksfXoQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3yba51qjtb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 May 2024 17:28:55 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 0E9F14002D;
+ Mon, 27 May 2024 17:28:51 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id DF69C221EAE;
+ Mon, 27 May 2024 17:28:41 +0200 (CEST)
+Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 27 May
+ 2024 17:28:41 +0200
+Date: Mon, 27 May 2024 17:28:36 +0200
+From: Alain Volmat <alain.volmat@foss.st.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+CC: <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 06/21] drm/sti: Include linux/io.h for devm_ioremap()
+Message-ID: <20240527152836.GA714350@gnbcxd0016.gnb.st.com>
+References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
+ <20240408170426.9285-7-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-Subject: Re: [v15,06/29] drm/tests: Add output bpc tests
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Dave Stevenson
- <dave.stevenson@raspberrypi.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20240527-kms-hdmi-connector-state-v15-6-c5af16c3aae2@kernel.org>
-Content-Language: en-US, en-AU
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240527-kms-hdmi-connector-state-v15-6-c5af16c3aae2@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240408170426.9285-7-ville.syrjala@linux.intel.com>
+X-Disclaimer: ce message est personnel / this message is private
+X-Originating-IP: [10.129.178.213]
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-27_04,2024-05-27_01,2024-05-17_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,15 +78,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Ville,
 
+thank you for your patch.
 
-On 5/27/24 21:57, Maxime Ripard wrote:
-> Now that we're tracking the output bpc count in the connector state,
-> let's add a few tests to make sure it works as expected.
+On Mon, Apr 08, 2024 at 08:04:11PM +0300, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> Include linux/io.h for devm_ioremap().
+> 
+> When built on x86_64 w/ COMPILE_TEST=y:
+> ../drivers/gpu/drm/sti/sti_dvo.c:531:21: error: implicit declaration of function ‘devm_ioremap’ [-Werror=implicit-function-declaration]
+>   531 |         dvo->regs = devm_ioremap(dev, res->start,
+>       |                     ^~~~~~~~~~~~
+> ../drivers/gpu/drm/sti/sti_dvo.c:531:19: error: assignment to ‘void *’ from ‘int’ makes pointer from integer without a cast [-Werror=int-conversion]
+>   531 |         dvo->regs = devm_ioremap(dev, res->start,
+>       |                   ^
+> 
+> Cc: Alain Volmat <alain.volmat@foss.st.com>
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> ---
+>  drivers/gpu/drm/sti/sti_dvo.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.c
+> index fd1df4ce3852..48a5d49fc131 100644
+> --- a/drivers/gpu/drm/sti/sti_dvo.c
+> +++ b/drivers/gpu/drm/sti/sti_dvo.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/clk.h>
+>  #include <linux/component.h>
+>  #include <linux/debugfs.h>
+> +#include <linux/io.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+> -- 
+> 2.43.2
+> 
 
-Tested-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+Acked-by: Alain Volmat <alain.volmat@foss.st.com>
+
+Alain
