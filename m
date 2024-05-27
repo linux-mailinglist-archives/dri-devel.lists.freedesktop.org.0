@@ -2,63 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A405B8D067B
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:46:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8908D069C
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:51:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20EA310E02D;
-	Mon, 27 May 2024 15:46:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3569910E4FD;
+	Mon, 27 May 2024 15:51:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Hn1JH8Ff";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U98CLGit";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8112B10E02D
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:46:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B8A910E389;
+ Mon, 27 May 2024 15:51:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 875CFCE0CEF
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:46:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BD61EC4AF07
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:46:18 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id BC109CE0FE7;
+ Mon, 27 May 2024 15:51:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D88D2C2BBFC;
+ Mon, 27 May 2024 15:51:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716824778;
- bh=Q9CPIYF3MXT2XyfuMVZP7xnPrnHLstl8qCy0i5pYVQM=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Hn1JH8FfE3izDULJSpyVtjkEC3w0tfFd7e123ZYFnUjIq7irgKIDD/+C7G5ERUAOQ
- bf8bdo4tNySxNc+m6gsjkkohEozkFPg4hgoe5Mv8vikKAf5usgkBTmllRRZziMM8EH
- grYIZWbeBDfYI/TJq5cv4tdjQ17arOFy5+cXUnImqq3rc6rfhNCgApWdqiGr8kJZdt
- Xv4WkOb1tHRp2hddl6x4wBsxTd0DyGMEyUuRJ4cRjqTNTXQU4LBwkZ01sqt3r/UOto
- 6SjQMBfpvrHWB3V2ATi9SpbRIyQ6XA1NxHO8ISdxjGE8C7k4gUqU8CjAHVs6cR5gfO
- YXzAJf2e2gO0A==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id B001AC53BB8; Mon, 27 May 2024 15:46:18 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218900] amdgpu: Fatal error during GPU init
-Date: Mon, 27 May 2024 15:46:18 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: jean-christophe@guillain.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-218900-2300-sBp06bZtgA@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218900-2300@https.bugzilla.kernel.org/>
-References: <bug-218900-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1716825098;
+ bh=X5KGBxxFXxnv3x0Ob+GF5Asew3YBonDrWe3a4Pa7rZs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=U98CLGitS+2ZMQaflueQm7lxxUVRkffEOjmyQRpiX1nnuirGGe3goS8OIeBrUaAP+
+ Z8oSVx70fKCVqPTCfPG7x4F3d1yNYB+Lh1rOhl4A9TbtoEc+PgaBdXn40X9xn2Hcvc
+ /DEcBdnz4q7fxY2AGbAhklafjoX3tw09rW2dJTK+bGAL1ADaVuB6m4KXKY99GHu7Rx
+ wW/OUzJp5a7XTDWBiTtqti22LxcZh7ATTV7F/4vMcoalZJlaQI3uJISb7HGiABChai
+ 0iC/gVevaQvwFXMtfoNdos4owkFFSPik8jdjHEX9ax9Ny9WPHFIvaF3k8EJ/Pm5z8I
+ svNgRHyw022sg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Charlene Liu <charlene.liu@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, Sasha Levin <sashal@kernel.org>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, martin.leung@amd.com, wayne.lin@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.9 01/23] drm/amd/display: Exit idle optimizations
+ before HDCP execution
+Date: Mon, 27 May 2024 11:50:02 -0400
+Message-ID: <20240527155123.3863983-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.9.2
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,16 +67,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218900
+From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 
---- Comment #3 from Jean-Christophe Guillain (jean-christophe@guillain.net)=
- ---
-Bisecting: 5720 revisions left to test after this (roughly 13 steps)
+[ Upstream commit f30a3bea92bdab398531129d187629fb1d28f598 ]
 
-I'll try, but it will take some time. My machine is not very powerful...
+[WHY]
+PSP can access DCN registers during command submission and we need
+to ensure that DCN is not in PG before doing so.
 
---=20
-You may reply to this email to add a comment.
+[HOW]
+Add a callback to DM to lock and notify DC for idle optimization exit.
+It can't be DC directly because of a potential race condition with the
+link protection thread and the rest of DM operation.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Cc: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Charlene Liu <charlene.liu@amd.com>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/modules/hdcp/hdcp.c    | 10 ++++++++++
+ drivers/gpu/drm/amd/display/modules/inc/mod_hdcp.h |  8 ++++++++
+ 2 files changed, 18 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.c
+index 5e01c6e24cbc8..9a5a1726acaf8 100644
+--- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.c
++++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.c
+@@ -88,6 +88,14 @@ static uint8_t is_cp_desired_hdcp2(struct mod_hdcp *hdcp)
+ 			!hdcp->connection.is_hdcp2_revoked;
+ }
+ 
++static void exit_idle_optimizations(struct mod_hdcp *hdcp)
++{
++	struct mod_hdcp_dm *dm = &hdcp->config.dm;
++
++	if (dm->funcs.exit_idle_optimizations)
++		dm->funcs.exit_idle_optimizations(dm->handle);
++}
++
+ static enum mod_hdcp_status execution(struct mod_hdcp *hdcp,
+ 		struct mod_hdcp_event_context *event_ctx,
+ 		union mod_hdcp_transition_input *input)
+@@ -543,6 +551,8 @@ enum mod_hdcp_status mod_hdcp_process_event(struct mod_hdcp *hdcp,
+ 	memset(&event_ctx, 0, sizeof(struct mod_hdcp_event_context));
+ 	event_ctx.event = event;
+ 
++	exit_idle_optimizations(hdcp);
++
+ 	/* execute and transition */
+ 	exec_status = execution(hdcp, &event_ctx, &hdcp->auth.trans_input);
+ 	trans_status = transition(
+diff --git a/drivers/gpu/drm/amd/display/modules/inc/mod_hdcp.h b/drivers/gpu/drm/amd/display/modules/inc/mod_hdcp.h
+index a4d344a4db9e1..cdb17b093f2b8 100644
+--- a/drivers/gpu/drm/amd/display/modules/inc/mod_hdcp.h
++++ b/drivers/gpu/drm/amd/display/modules/inc/mod_hdcp.h
+@@ -156,6 +156,13 @@ struct mod_hdcp_ddc {
+ 	} funcs;
+ };
+ 
++struct mod_hdcp_dm {
++	void *handle;
++	struct {
++		void (*exit_idle_optimizations)(void *handle);
++	} funcs;
++};
++
+ struct mod_hdcp_psp {
+ 	void *handle;
+ 	void *funcs;
+@@ -272,6 +279,7 @@ struct mod_hdcp_display_query {
+ struct mod_hdcp_config {
+ 	struct mod_hdcp_psp psp;
+ 	struct mod_hdcp_ddc ddc;
++	struct mod_hdcp_dm dm;
+ 	uint8_t index;
+ };
+ 
+-- 
+2.43.0
+
