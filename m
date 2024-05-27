@@ -2,123 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB6D8D035C
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 16:23:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F11F8D0597
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:13:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9273F10EED6;
-	Mon, 27 May 2024 14:23:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15C0410E524;
+	Mon, 27 May 2024 15:13:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="2qNMAeQj";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="K8yz68cz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2074.outbound.protection.outlook.com [40.107.93.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AA9810ED0D;
- Mon, 27 May 2024 14:23:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B7uorN/ISrpSUwgDQwvvnuVAEWU2p+tP8ay3HDkCxqET/NNA6bQrcb+2qqTnVWwHd3CY+RrXgA+6RRXLyIkd0FvTaFtYaLPlueSO1PJa+Kh+Hna9gBazyVkVb902QbL0IWq7Ug3Ojw1BH29nECww2UUEWglHFMC7HcG8LHuDVG49XKn19jeXqQd3FRksAs885I1NarpWwQgd5uCIN64PdW7XPA3w8rRQcmls4c185lDQJdRZsrAezokzPQeUN34kz37sDX6D1BPAGki9jEYqgzffRXcMgENNTGbW7sbaVhHQyjiLfDIX/GjJgGUCKSJhZCiWE5Iu82NRXm0pWYl5YA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=phMXJe+DHK3g7n6LlPjha+ZNbJvzU2d8pm1P7DmcJaU=;
- b=GrgaLY2sneYDSeyzjrN+g4aEQaqPYefwftmeK76NFw58tWIgoe3dckXJ+6SFT2cNcEZPvWsv+Xp9jBEotjEM4SFgYaPncsVnMVWfR1UaqRE8SaxxrBElm5wJfnbK9OpJpqhmaUl0cDgs7Z+yLgtVo8tRyJxs990v3mK94WhMEKVRqRItEIftAzgnE84g5DYDfLrJVx0UqWilIpN6DxfxVkp0oa0tkWTdUQf5+/gwohTe4BWES7LVPGHkTxaJiDoUeJ+h560tzOBwUArcBUenaRVuVz5KMm+RaQaNSvkC1jcQQy9lvr9lmvIPto8ijFujPDKgxO7utoUUSEEzpu180g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
- is 165.204.84.17)
- smtp.rcpttodomain=lists.freedesktop.org
- smtp.mailfrom=amd.com; dmarc=temperror action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=phMXJe+DHK3g7n6LlPjha+ZNbJvzU2d8pm1P7DmcJaU=;
- b=2qNMAeQjpuiHBT6YRYKUKoQsGCUZUwENAwHNeHpsF8gTLHopSvFYFI1IpwuE+w/pVoCTS0zaoiPovmUaeRPD36Dlj2ALgk9bQSbfWRBZ5oeoWhMP5o7w87MxZo1xZsRcbdrNKvmm6jlmUA8TMaMx4RxuBOoUp9ETU+hwzaE2FjM=
-Received: from BY5PR13CA0024.namprd13.prod.outlook.com (2603:10b6:a03:180::37)
- by BY5PR12MB4228.namprd12.prod.outlook.com (2603:10b6:a03:20b::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.30; Mon, 27 May
- 2024 14:23:30 +0000
-Received: from SJ1PEPF00002316.namprd03.prod.outlook.com
- (2603:10b6:a03:180:cafe::5b) by BY5PR13CA0024.outlook.office365.com
- (2603:10b6:a03:180::37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.16 via Frontend
- Transport; Mon, 27 May 2024 14:23:30 +0000
-X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is
- 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=temperror action=none header.from=amd.com;
-Received-SPF: TempError (protection.outlook.com: error in processing during
- lookup of amd.com: DNS Timeout)
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF00002316.mail.protection.outlook.com (10.167.242.170) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7633.15 via Frontend Transport; Mon, 27 May 2024 14:23:29 +0000
-Received: from AUS-P9-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 347D510E13F
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:13:23 +0000 (UTC)
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44RASHJb018304;
+ Mon, 27 May 2024 16:41:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=selector1; bh=GtOJliylw3esNK5w3idFfAAg
+ TFca1UIiVljMLLSaS9I=; b=K8yz68czoHk6FeHiy/sxHjxyo5lgQo+tNV+hOkOA
+ PhLzirDPrGVOgsJHMHxyACP+2rfKYtnHIPTwMdHJ61RgF1XGaDhQpypfujjTUyC6
+ Q2dZgxQSoXCxZCBkFeAxGuZ9qXGTO3ET4gvK2G8XmrvYTkr6MaFdynSLUl2cTAII
+ plhi42v2s9AvqAIpCc5lSRpDnyDoSq5zEzDRQZwE0NIwiL55BHNIn28C8mh563bf
+ saB976hb1E4s8H2dZliCLSfWw/EjtVSejiAYIV8aYOcEkdOsJQ9LpXn4D4l0yqok
+ C30Cu7DW8zBhprvbVi9S869+F/rjfIb01bG2/H7A810GHw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ybtxh59y2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 May 2024 16:41:32 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 4ABA440045;
+ Mon, 27 May 2024 16:41:26 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id AD53022365F;
+ Mon, 27 May 2024 16:40:51 +0200 (CEST)
+Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 27 May
- 2024 09:23:27 -0500
-From: Mario Limonciello <mario.limonciello@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ 2024 16:40:51 +0200
+Date: Mon, 27 May 2024 16:40:43 +0200
+From: Alain Volmat <alain.volmat@foss.st.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
  <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-CC: <linux-kernel@vger.kernel.org>, Mario Limonciello
- <mario.limonciello@amd.com>, Alex Deucher <alexander.deucher@amd.com>, "Chris
- Bainbridge" <chris.bainbridge@gmail.com>
-Subject: [PATCH] drm/client: Detect when ACPI lid is closed during
- initialization
-Date: Mon, 27 May 2024 09:23:11 -0500
-Message-ID: <20240527142311.3053-1-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.34.1
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/4] drm/sti: dvo: drop driver owner assignment
+Message-ID: <20240527144043.GA585402@gnbcxd0016.gnb.st.com>
+Mail-Followup-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240330203831.87003-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002316:EE_|BY5PR12MB4228:EE_
-X-MS-Office365-Filtering-Correlation-Id: 61704e10-a7bd-4a3d-5dce-08dc7e5894e3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230031|36860700004|376005|82310400017|1800799015; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?tztx4y1ickvl4tjpOt27ld5+/szlep+iKC13uDGobgcjqLm4Ojy19/9ROWuY?=
- =?us-ascii?Q?0U0ZiXFKoEuWyExehVvbtt9kNq1MHArsvg8evkinflqwVfRBqr9f8ahRObEK?=
- =?us-ascii?Q?nJ/cmEZGA2Z58O6kUr7ddNIl9jFElvVCs+L6xLVoiHR9aX8CNc2GQVJCPRnO?=
- =?us-ascii?Q?8a5nVnk/6752WcTrfsc+0svksEVOQviFy2ggjN+WCprqKubJHBzzTPVBZ35R?=
- =?us-ascii?Q?uSzGf6QZLQmCekGtB+FXCcsrz2PKuUqkOE9Se777FeJaKMUWnxyVZABICisR?=
- =?us-ascii?Q?TXCiRe59VoG86YRhPhAihspULXdYtVXA+WvWxP8AtCT1YBiZmb+iS5WEWytw?=
- =?us-ascii?Q?iuKCJUMXtlhQ6m0xj0k0hZJkPIftJrmolPm+J7f6zQmNK/Hm+nLwtWChj49I?=
- =?us-ascii?Q?nmDPpIEmwRla4Pyq0ifVd3999J7QMkO1IY8FmOCOM6sCjNnAM2oKEC/UtxIp?=
- =?us-ascii?Q?XjtLuDqTLjeOVcjQeBTwZwHosLdMGvjmWg3rPdfxovps10x9isiqdqnIqfCQ?=
- =?us-ascii?Q?O1xtKeuEfy2Z90brcX/31GR/V+grJQdE1x1XjIgDdzl03V+uxsaqKjbTvWYx?=
- =?us-ascii?Q?MJPtR4DM1l7wwsEVNHbUuNW2ObAgDjh5zBp6QXlvOOwgTBBcklMcxoouC/GY?=
- =?us-ascii?Q?F8nu8FKalI7aYJms/HSxVLl+d8MRU+Q8qACMHEggl7DvtBJs6fX+m6DULnfr?=
- =?us-ascii?Q?ogu9gtci6BDD4KPSUEiNAtdbPB1bOudUmPPODTfUTaEjCIrhgSMnRkxtVaJI?=
- =?us-ascii?Q?Q9ClpVd/GdbtaheBLbPPQmOR1swanp0esmZlVhxR+USNKdJqg//shqmKzM60?=
- =?us-ascii?Q?wwvKA7FmfJz0lq8nSYUEIl9DrmupRhb1nyq62G1L1iPIUipvvErKLL9Jj1rp?=
- =?us-ascii?Q?guTN3dG43mgvAzW/OgNrcLmOxwExRtVHd0gDXiTOF7SLI0rPe46QBRHCAeeo?=
- =?us-ascii?Q?NuP4P9aEkezbsjz7MfcWeCTcwkFT6qdzoJy+cAGnmRvKXU1opITlWaBbrbYd?=
- =?us-ascii?Q?H5JblxC9dfk8Vvin4SZUEonzNo7/v0p9h+bFka3C5ubbUPPfgVIN1tIdt0Wb?=
- =?us-ascii?Q?m6RizSkvH5UmURKzVONRBpDdGQjOaVroMQ/N5eokGTRpjfdDJVn089+wVtVR?=
- =?us-ascii?Q?KSPSMOj9bk9RP3CxHd7Z31j4zyhZBOi4edcqNH7RIiXVayjM7zKLdySdA6Nj?=
- =?us-ascii?Q?rep9K0FsNvN70CT3fWqNeM++TAkgkqdcS+YzTHlht+3Zd0Ti8dInq2UL0010?=
- =?us-ascii?Q?poVv0Aatk/r8fyr7M6i9iBtvbgr0lTtggvjTorWqKTNrSbsqpsPmzB2XoRX6?=
- =?us-ascii?Q?9l6m+mVGHpjYwtcj1yI1EKsD?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(36860700004)(376005)(82310400017)(1800799015); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2024 14:23:29.8668 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61704e10-a7bd-4a3d-5dce-08dc7e5894e3
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00002316.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4228
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240330203831.87003-1-krzysztof.kozlowski@linaro.org>
+X-Disclaimer: ce message est personnel / this message is private
+X-Originating-IP: [10.129.178.213]
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-27_04,2024-05-24_01,2024-05-17_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,69 +84,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the lid on a laptop is closed when eDP connectors are populated
-then it remains enabled when the initial framebuffer configuration
-is built.
+Hi Krzysztof,
 
-When creating the initial framebuffer configuration detect the ACPI
-lid status and if it's closed disable any eDP connectors.
+sorry for the delay.
 
-Suggested-by: Alex Deucher <alexander.deucher@amd.com>
-Reported-by: Chris Bainbridge <chris.bainbridge@gmail.com>
-Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3349
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- drivers/gpu/drm/drm_client_modeset.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+On Sat, Mar 30, 2024 at 09:38:28PM +0100, Krzysztof Kozlowski wrote:
+> Core in platform_driver_register() already sets the .owner, so driver
+> does not need to.  Whatever is set here will be anyway overwritten by
+> main driver calling platform_driver_register().
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  drivers/gpu/drm/sti/sti_dvo.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.c
+> index fd1df4ce3852..00502889c7f4 100644
+> --- a/drivers/gpu/drm/sti/sti_dvo.c
+> +++ b/drivers/gpu/drm/sti/sti_dvo.c
+> @@ -581,7 +581,6 @@ MODULE_DEVICE_TABLE(of, dvo_of_match);
+>  struct platform_driver sti_dvo_driver = {
+>  	.driver = {
+>  		.name = "sti-dvo",
+> -		.owner = THIS_MODULE,
+>  		.of_match_table = dvo_of_match,
+>  	},
+>  	.probe = sti_dvo_probe,
+> -- 
+> 2.34.1
+> 
 
-diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index 31af5cf37a09..b76438c31761 100644
---- a/drivers/gpu/drm/drm_client_modeset.c
-+++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -8,6 +8,7 @@
-  */
- 
- #include "drm/drm_modeset_lock.h"
-+#include <acpi/button.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/slab.h>
-@@ -257,6 +258,27 @@ static void drm_client_connectors_enabled(struct drm_connector **connectors,
- 		enabled[i] = drm_connector_enabled(connectors[i], false);
- }
- 
-+static void drm_client_match_edp_lid(struct drm_device *dev,
-+				     struct drm_connector **connectors,
-+				     unsigned int connector_count,
-+				     bool *enabled)
-+{
-+	int i;
-+
-+	for (i = 0; i < connector_count; i++) {
-+		struct drm_connector *connector = connectors[i];
-+
-+		if (connector->connector_type != DRM_MODE_CONNECTOR_eDP || !enabled[i])
-+			continue;
-+
-+		if (!acpi_lid_open()) {
-+			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] lid is closed, disabling\n",
-+				    connector->base.id, connector->name);
-+			enabled[i] = false;
-+		}
-+	}
-+}
-+
- static bool drm_client_target_cloned(struct drm_device *dev,
- 				     struct drm_connector **connectors,
- 				     unsigned int connector_count,
-@@ -844,6 +866,7 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
- 		memset(crtcs, 0, connector_count * sizeof(*crtcs));
- 		memset(offsets, 0, connector_count * sizeof(*offsets));
- 
-+		drm_client_match_edp_lid(dev, connectors, connector_count, enabled);
- 		if (!drm_client_target_cloned(dev, connectors, connector_count, modes,
- 					      offsets, enabled, width, height) &&
- 		    !drm_client_target_preferred(dev, connectors, connector_count, modes,
--- 
-2.43.0
+Acked-by: Alain Volmat <alain.volmat@foss.st.com>
+
+Alain
 
