@@ -2,72 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282538CFCEA
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 11:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3378CFD50
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 11:43:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A101E10EBCB;
-	Mon, 27 May 2024 09:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6525310EBE3;
+	Mon, 27 May 2024 09:43:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Zi1vIitP";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Lvc+f8+5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1B7510EBCB
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 09:31:28 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-5295a66e775so3323844e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 02:31:28 -0700 (PDT)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB83110EBE3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 09:43:22 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-2e95afec7e6so23836961fa.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 02:43:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1716802287; x=1717407087;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Nsle90kquxqyGATVLGaUwfEqMygpQJmcBP3wYD4Xyos=;
- b=Zi1vIitPkUlrxRgAl4HYbDuvuZgKKfybQvfSoAq5u+dJUuGStcIenZpDp1i5PVs11u
- USJnxqZO+MYc4IzQkihCh7S1e8gGuh0G2s9U8GQBuFuG2WtE7VMy2PDZL+xzSJM7KdIt
- wwivQrCcHKoOyFosU1GvBmhjAV9r0lmSNybEY=
+ d=linaro.org; s=google; t=1716803000; x=1717407800; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=0N7iqS/jW6psWnJVJQjJRax8oZv8fa2R262LhPDLB+4=;
+ b=Lvc+f8+5OFOs7ADPYNI57n8Qy0t6LSyIIhwHSlWnwDdT5neBAY4GWcLtxuGSu0HF/I
+ vbkOFMOZFmL+YfgJ9wjIcKz0Cu110QFbAGL5yE1QRcw/E6FvXd0Yct7mDuK3bhX2dy0r
+ DXBp7xLLp7edl6hRXj+yULkOneK8ZM1yjPU5pa8mrTJEHOuDf0W8GXgOCmaIOm41A904
+ NEWLPIKtIr2oE8Rv7VQGk6JgOeXNT0dTTDZRfa4n1jKcgNlXYBWYs2+o0WcUdKXHVuGj
+ tmhNNjm/2Ut3Z1Sea1QMZiildrCnMqMAic/7PAchJQroRGozYKdSnGnGloD40AXTrkk1
+ rJ1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716802287; x=1717407087;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Nsle90kquxqyGATVLGaUwfEqMygpQJmcBP3wYD4Xyos=;
- b=LMnlyqQmZuq3quEP05IGOXRmO02YCI9wSpboaDLBXgk0tIN/BTkwA/oE5YMQTIBJ3M
- tJ5P6pix79ft3xJw9jS2wMjppAESw8jijwH3mtoTEZIfmAr246uTmZzpjB5hECDDKBxi
- OgmAjfD+sQXh7gXP/eB8LdDb4m0ES9IobFnYByNWE68G7PJOBRSEqyAtSjL2oIEDguoY
- d9zmVh2c5CZgbowD/YS0FgQb4HoLrX6yGibQO2uElLMsxkdelO/38r5ghrhBulG4Kpmq
- 6f5DXAXoJPKTNHYcwh/hJ7dtHrVVCzxxUD0W0Unjwwt/ZyF21izznZd5TYWIVnYz4rCu
- AyYQ==
+ d=1e100.net; s=20230601; t=1716803000; x=1717407800;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0N7iqS/jW6psWnJVJQjJRax8oZv8fa2R262LhPDLB+4=;
+ b=BVzJo1qQwDgbGEvSpVLm/inmbhmIXxAT92/x9oVHHXqe4A+kW1tykNHI5BHplufkA3
+ xFmICdTaiMO5voxftd739iPfTIAqbVPYtC0fPH+x1uIUPvvwj78GDlO//fcrGnmCapyF
+ 9vX3THo+JrSg6dQPp7uvS/5yQw4yAmp2hv1IMmS0V87tIMNp3QO/vjfYpI5lmyWMZBsd
+ dTweQpuZiNJzSIMeGpPwu9IPFk7AW2A4JoDEdQMhu7axGISCS17HotbCu5mlaTBHu8LX
+ IwghWe7KeBaS/eUSnmc0MozaSiftI6xSbnRRpeXO/n4GTXsj1ud2l2Zz8zS5whvd9KJ0
+ UC6Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWyuE6hM3NilLXqD+w1xsx7zhZto9Y9V58lbSMfDP5xC1HXLYvT4RAvQMF+Rhbb0rIPSVjoLuepDdqVMyzQ/7hhIzGcVg+YDOy0Ax8KPC4+
-X-Gm-Message-State: AOJu0YwYWY9UDYYHxKzr7jq+4qXRiaagw9qqSdWkX69h0+cY/HKpLim1
- JmSi5sXUEW1SXhQ0hnyCco74YfaxHURr70yRFUm5vcKoR5vjX9w7/WsLx4EBwbC2SCPjBEP18aE
- XsuhmcjnUCCufBVN/66ZgEYyKyALTfx3IXvG5
-X-Google-Smtp-Source: AGHT+IEkCNM2qY1QxwWMjQ5Y6VGnSYpnCwe9tanGjyyeQWcnQ9MczhIoPwNeqRZhqbClYjaT+d8vnb65A/W5+FPMd1k=
-X-Received: by 2002:ac2:4d91:0:b0:51f:53e0:1bc8 with SMTP id
- 2adb3069b0e04-5296556f885mr7749628e87.25.1716802286862; Mon, 27 May 2024
- 02:31:26 -0700 (PDT)
+ AJvYcCVXSm9N7XlaVAFpfUk9eGIy7AXfBKtrWAvrKMGdY+zsvSzUheGvBO+Xmd26J+JjsRhJVqAdzEVlqaF6XxejPvbyUvRPnc79aH97/ms00tS8
+X-Gm-Message-State: AOJu0YwKiJfJeNAHD7EinDuwOJ5rKWMKzsHc4DX0xnRdl0JnqTFBnYG/
+ HMP3475EM1+kUMu3f1LaHkiggK7obd6f4eyFkyYaGYXRiNoqoI40j3kwfqYM2lM=
+X-Google-Smtp-Source: AGHT+IEiQ8C9Lceia0g8JujCBp7raFBHsn1Pi+Zhb5Y4D5nikSTHmLnkevBZXNf8N4rIWwJyGf6zsw==
+X-Received: by 2002:a05:6512:3145:b0:520:ed4e:2206 with SMTP id
+ 2adb3069b0e04-527ef9d9483mr3265363e87.17.1716803000505; 
+ Mon, 27 May 2024 02:43:20 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-529a7fb982esm230632e87.265.2024.05.27.02.43.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 May 2024 02:43:20 -0700 (PDT)
+Date: Mon, 27 May 2024 12:43:18 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v14 17/28] drm/connector: hdmi: Add Broadcast RGB property
+Message-ID: <a65wtf2hy7ufimkcgo5k2c34ygvtv7erwh567ngsnuaha7qiny@nl6lx67qsjuw>
+References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
+ <20240521-kms-hdmi-connector-state-v14-17-51950db4fedb@kernel.org>
+ <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
+ <20240527-adamant-just-spaniel-ebed4e@houat>
 MIME-Version: 1.0
-References: <20240527092513.91385-1-angelogioacchino.delregno@collabora.com>
- <20240527092513.91385-2-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240527092513.91385-2-angelogioacchino.delregno@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 27 May 2024 17:31:15 +0800
-Message-ID: <CAGXv+5G_n1B0yaoOBx0k8syRPma=7NnuRcSL4M0N0BJONa5fCA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: gpu: mali-bifrost: Add compatible for
- MT8188 SoC
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: boris.brezillon@collabora.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- steven.price@arm.com, matthias.bgg@gmail.com, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240527-adamant-just-spaniel-ebed4e@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,34 +102,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 27, 2024 at 5:25=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Add a compatible for the MediaTek MT8188 SoC, with an integrated
-> ARM Mali G57 MC3 (Valhall-JM) GPU.
->
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
-> ---
->  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml =
-b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> index e796a1ff8c82..4cf676190ae8 100644
-> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> @@ -34,6 +34,7 @@ properties:
->            - const: arm,mali-valhall-jm # Mali Valhall GPU model/revision=
- is fully discoverable
->        - items:
->            - enum:
-> +              - mediatek,mt8188-mali
->                - mediatek,mt8192-mali
->            - const: arm,mali-valhall-jm # Mali Valhall GPU model/revision=
- is fully discoverable
+On Mon, May 27, 2024 at 11:02:13AM +0200, Maxime Ripard wrote:
+> Hi,
+> 
+> Thanks again for that thorough review :)
+> 
+> On Thu, May 23, 2024 at 01:22:56PM GMT, Dmitry Baryshkov wrote:
+> > On Tue, May 21, 2024 at 12:13:50PM +0200, Maxime Ripard wrote:
+> > > The i915 driver has a property to force the RGB range of an HDMI output.
+> > > The vc4 driver then implemented the same property with the same
+> > > semantics. KWin has support for it, and a PR for mutter is also there to
+> > > support it.
+> > > 
+> > > Both drivers implementing the same property with the same semantics,
+> > > plus the userspace having support for it, is proof enough that it's
+> > > pretty much a de-facto standard now and we can provide helpers for it.
+> > > 
+> > > Let's plumb it into the newly created HDMI connector.
+> > > 
+> > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
+> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > ---
+> > >  Documentation/gpu/kms-properties.csv            |  1 -
+> > >  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +-
+> > >  drivers/gpu/drm/drm_atomic.c                    |  2 +
+> > >  drivers/gpu/drm/drm_atomic_uapi.c               |  4 ++
+> > >  drivers/gpu/drm/drm_connector.c                 | 88 +++++++++++++++++++++++++
+> > >  include/drm/drm_connector.h                     | 36 ++++++++++
+> > >  6 files changed, 133 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/kms-properties.csv
+> > > index 0f9590834829..caef14c532d4 100644
+> > > --- a/Documentation/gpu/kms-properties.csv
+> > > +++ b/Documentation/gpu/kms-properties.csv
+> > > @@ -15,11 +15,10 @@ Owner Module/Drivers,Group,Property Name,Type,Property Values,Object attached,De
+> > >  ,,“saturation”,RANGE,"Min=0, Max=100",Connector,TBD
+> > >  ,,“hue”,RANGE,"Min=0, Max=100",Connector,TBD
+> > >  ,Virtual GPU,“suggested X”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an X offset for a connector
+> > >  ,,“suggested Y”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an Y offset for a connector
+> > >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Connector,TDB
+> > > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Limited 16:235"" }",Connector,"When this property is set to Limited 16:235 and CTM is set, the hardware will be programmed with the result of the multiplication of CTM by the limited range matrix to ensure the pixels normally in the range 0..1.0 are remapped to the range 16/255..235/255."
+> > 
+> > Should it still be defined as a generic property?
+> 
+> I'm not sure what you mean here, sorry. It's being documented as a
+> connector property now, so it's very much still listed as a generic
+> property?
 
-I believe you also need to edit one of the conditionals below so that the
-number and names of the power domains are properly constrained?
+I didn't perform my duty well enough and I didn't check the file for
+other instances of the property. Now I indeed see a generic "Broadcast
+RGB" property, but to me it looks like having a different set of values:
 
-ChenYu
+,,"""Broadcast RGB""",ENUM,"{ “off”, “auto”, “on” }",Connector,TBD
+
+-- 
+With best wishes
+Dmitry
