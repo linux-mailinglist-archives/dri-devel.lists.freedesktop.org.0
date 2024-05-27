@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F1EE8CFFA3
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 14:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9888CFFAE
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 14:13:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9892E10FA1D;
-	Mon, 27 May 2024 12:13:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C459F10F4FC;
+	Mon, 27 May 2024 12:13:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="OjZ20Tx9";
+	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="fZHcM75B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail02.habana.ai (habanamailrelay02.habana.ai [62.90.112.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 766D410E94D
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 12:13:06 +0000 (UTC)
+Received: from mail02.habana.ai (habanamailrelay.habana.ai [213.57.90.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 479DE10FA35
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 12:13:07 +0000 (UTC)
 Received: internal info suppressed
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=habana.ai; s=default;
- t=1716811982; bh=Gweql/mYSZp0D9OIhCBaIAviu0sxLWqrmSCFgLSuNRw=;
+ t=1716811993; bh=hikixPhgw118twEP+21boqHR0BCJuA1UyHNIo4eFSHc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OjZ20Tx90j0hd7nl5hmcrPTat70TO6SQ6WRyUe6FE8V4QbtQ+zPbYRUKkPQw65Csi
- gcg4qB6ZAwSrP/Alh64/jfqXDyJ4yfvQCjOANI1r+71rAjaIObEutwwHBg19qTFK3n
- lyTknEjr8h+j0afti7ZrFFKNszw2z4NqwuMfzDQReNNIV19Imtzqia0coAB3NLcwtN
- y7yCqrz1taeQw+GTKOlalQUWmJmtILAHnSL+2h4DdgnGO8YkewnACP6PaUHRJC+ZQw
- KbNAuuX17u6nH66jXOSPT10sKHs7yZoKLBUcYJ0vIbxZXdQ6B+c/MAxGG7QxyYhfD5
- YIGxQVkExws8A==
+ b=fZHcM75BM/ZPCm5dogM9PnM2+U6VWsKfHNApocPn57lLGXJ8tUPoYjLT1F86ne5cr
+ mEOtlWPuSo6frJzyxu3p8jU4NhvJpASqHThmvzrDpawGeN3riUTZ+YW8P95ddU4kmt
+ VMYYDPnEmluzgrRQPDKLYCNsUe0C8UGa1np/60FHiKRBJYLGLsi0yOJEICtk5m8tYf
+ oWQU7qildiZgUmLj0YfvGe66zMDKLz9crvlzbG4NhUFlZJSXBsqa29lUdW1VKs/VhD
+ zF2tz5ULOMOzoTHx6+xnWogyd5u4mLIfrkz+m8hohlIxI4N7YxC5hw5yCWRd6PYV6L
+ DlXsPryuK/8Uw==
 Received: from obitton-vm-u22.habana-labs.com (localhost [127.0.0.1])
  by obitton-vm-u22.habana-labs.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP
- id 44RCCuav1921351; Mon, 27 May 2024 15:12:57 +0300
+ id 44RCCuaw1921351; Mon, 27 May 2024 15:12:57 +0300
 From: Ofir Bitton <obitton@habana.ai>
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Tomer Tayar <ttayar@habana.ai>
-Subject: [PATCH 5/8] accel/habanalabs/gaudi2: assume hard-reset by FW upon MC
- SEI severe error
-Date: Mon, 27 May 2024 15:12:51 +0300
-Message-Id: <20240527121254.1921306-5-obitton@habana.ai>
+Cc: Dani Liberman <dliberman@habana.ai>
+Subject: [PATCH 6/8] accel/habanalabs: separate nonce from max_size in
+ cpucp_packet struct
+Date: Mon, 27 May 2024 15:12:52 +0300
+Message-Id: <20240527121254.1921306-6-obitton@habana.ai>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240527121254.1921306-1-obitton@habana.ai>
 References: <20240527121254.1921306-1-obitton@habana.ai>
@@ -55,40 +55,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomer Tayar <ttayar@habana.ai>
+From: Dani Liberman <dliberman@habana.ai>
 
-FW initiates a hard reset upon an MC SEI severe error.
-Align the driver to expect this reset and avoid accessing the device
-until the reset is done.
+In struct cpucp_packet both nonce and data_max_size members are in an
+union overlapping each other. This is a problem as they both are used
+in attestation and info_signed packets.
+The solution here is to move the nonce member to a different union under
+the same structure.
 
-Signed-off-by: Tomer Tayar <ttayar@habana.ai>
+Signed-off-by: Dani Liberman <dliberman@habana.ai>
 Reviewed-by: Ofir Bitton <obitton@habana.ai>
 ---
- drivers/accel/habanalabs/gaudi2/gaudi2.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/linux/habanalabs/cpucp_if.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index 18cc7b773650..4791582d157c 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -10004,6 +10004,7 @@ static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_ent
- 		if (gaudi2_handle_hbm_mc_sei_err(hdev, event_type, &eq_entry->sei_data)) {
- 			reset_flags |= HL_DRV_RESET_FW_FATAL_ERR;
- 			reset_required = true;
-+			is_critical = eq_entry->sei_data.hdr.is_critical;
- 		}
- 		error_count++;
- 		break;
-@@ -10235,8 +10236,7 @@ static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_ent
- 		gaudi2_print_event(hdev, event_type, true,
- 				"No error cause for H/W event %u", event_type);
+diff --git a/include/linux/habanalabs/cpucp_if.h b/include/linux/habanalabs/cpucp_if.h
+index 1ac1d68193e3..0913415243e8 100644
+--- a/include/linux/habanalabs/cpucp_if.h
++++ b/include/linux/habanalabs/cpucp_if.h
+@@ -859,9 +859,6 @@ struct cpucp_packet {
+ 		 * result cannot be used to hold general purpose data.
+ 		 */
+ 		__le32 status_mask;
+-
+-		/* random, used once number, for security packets */
+-		__le32 nonce;
+ 	};
  
--	if ((gaudi2_irq_map_table[event_type].reset != EVENT_RESET_TYPE_NONE) ||
--				reset_required) {
-+	if ((gaudi2_irq_map_table[event_type].reset != EVENT_RESET_TYPE_NONE) || reset_required) {
- 		if (reset_required ||
- 				(gaudi2_irq_map_table[event_type].reset == EVENT_RESET_TYPE_HARD))
- 			reset_flags |= HL_DRV_RESET_HARD;
+ 	union {
+@@ -870,6 +867,9 @@ struct cpucp_packet {
+ 
+ 		/* For Generic packet sub index */
+ 		__le32 pkt_subidx;
++
++		/* random, used once number, for security packets */
++		__le32 nonce;
+ 	};
+ };
+ 
 -- 
 2.34.1
 
