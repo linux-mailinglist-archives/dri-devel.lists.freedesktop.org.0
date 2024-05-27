@@ -2,85 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 466B68D0A82
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 21:00:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC9F8D0C62
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 21:19:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC2EB10FC4E;
-	Mon, 27 May 2024 19:00:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E90A510E373;
+	Mon, 27 May 2024 19:19:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A/rIdlmd";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UBurDy4+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
- [209.85.219.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6972210E48E
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 19:00:49 +0000 (UTC)
-Received: by mail-yb1-f173.google.com with SMTP id
- 3f1490d57ef6-df7719583d0so81201276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 12:00:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716836448; x=1717441248; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6Ja7vlfEqAriKa+FwY5Dmg/udaegLnmPF1+eRGrrskg=;
- b=A/rIdlmdO0d+X5rEQtDdw+9X6HjfRYT8d/H2rDmCBnb/WtDKZgPuAX7Tn2GmlgQ2HF
- FnS/uEzDbmlddkNRpa8VRnTuKs9QxVs2wbqA3OTju/n3+UUi82BOZV96AQddyPqfmWBq
- WejSNTZ3EaX05AaNXkn3Mdsw5MuIj4EXjOU8ioGjPLJRXB/oqB4Jon7DZmd6LadVd2wb
- Jec8XxagKJkTAsmUoOc5pgyeIZ4MWDdEBXUHpP5R4pHkZUDDG2HVlZquP9NfiCWtRsGW
- OytvqEPxcAGAg5oAxU98h8u2Cym1IyBW5Ok4mJHPQ7UJC/4zG18wZOxnW6kLc+z9ur24
- HelA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B00E610E373
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 19:19:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1716837539;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=loF/Mw/iiB0HChmBYp73+/pJGWRpuF8gSDZHmx+bf5o=;
+ b=UBurDy4+FK+C8xdNcXaFwwOU7T4EAKTa33YxJVHYi/XzLEpDN72lqnjmP8ki3iEd4PfzU8
+ X2e5DmzPiqC8ePFdpHw3KJIOcP5qyYAEvCiLpREZHmXLjeQZwYd2F3x+jZa7zNRFMaLU3l
+ f9kb0/lOjjDel4/LPS/GcC0C+xjbPxk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-136-V-_hHiBiOBuDDcOAsfkLVw-1; Mon, 27 May 2024 15:18:58 -0400
+X-MC-Unique: V-_hHiBiOBuDDcOAsfkLVw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-42110ebba8bso121335e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 12:18:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716836448; x=1717441248;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6Ja7vlfEqAriKa+FwY5Dmg/udaegLnmPF1+eRGrrskg=;
- b=QC9ALEMs4qSH/S+cySBlIoWY1ZwqXpwgff/CpfUpZZj6+pQaDwYzXt1/s+5kKmscyh
- DPJEsek61Y8u+SdY9UbWGVGhqJoppX/ZEumKmcAO9IrHxjaO00wl193Rwmli7pcr0XBc
- EHq+aGlMQgWdpzmX+fmMNnMBUqso8GRXOQsNs4tA5lKQ4ofI+c9sKPlKCXSJA5QGP/PI
- hejFE6WXClR1RFy7O6k+2kTkMNBRFsug1GN8mioV4YrU9I15xZMfYSba/fPFHOtiwOLV
- EfwxKVGMeDt9iF2ugF5z8k/1czjlvmcGl9h7+Hazk4BmrF1bnhY7v1YOlcwbCS22D+io
- iuIQ==
+ d=1e100.net; s=20230601; t=1716837537; x=1717442337;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=loF/Mw/iiB0HChmBYp73+/pJGWRpuF8gSDZHmx+bf5o=;
+ b=Ut1V0XQW4+9RAUIPuD3xOfHMNLclkL/9dfAytIxbWljh5gBEgV8VMClWDJTmTVc3XO
+ Pi25WI3D1a2PVO2Hr6BMBjSjmYf+qOUvPSJz1TZg3PAqjYm+qNR1MoNiD/DHKSMh0yzo
+ ZlqsHRaBwOWRbP0JITJSBxc+9Wvs/xqbCx6zLnAN9WXjOOxq4qD+FcfvL/zko3rWW++L
+ udS4DsywHuC6Msq2kQ8n/LfSNf8WmADJgL111+s0do6Zr2ZC0kuXiAKrH4/gbtegUxYF
+ g3Q73oMujv893v2rafu5CUBUxKAVOcJXwoOerADjuDfYP8JH3MlJ3e1etWcjTwrIaCEr
+ LUmw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVDLgUw0J2M6Zh+5GKdsoPfto14iJJJU98KdLgIojZVVGLCrIeIv/grqCDLeh0xUtEEN7kNCFjc0aIPE0yWvTZW8C3aezK+F2wlYHp9EQ3Y
-X-Gm-Message-State: AOJu0Yw1e6/K7NUV2MqpJ5d8FlfZSW5LrZ1/rDwTRdLwM20gJELYJygP
- 637jiAZjHK2mrBcQvIVEY9D1shKjxpRD+RMJ3FlUATBl8syQhsQUPuvYrWi1jUa7VO98X60sLQW
- yQYplgKp+7kDbbAzxb2LmAi6ceAOucBSLK8YOYA==
-X-Google-Smtp-Source: AGHT+IFCtPi34MiO9HbMkpVChKlNZ5PYokKGNe1Zkm5+YriPlaD5ppmt2yv+lpMdcC4aRafyvtA23o5zBngE0l9ui5s=
-X-Received: by 2002:a25:86c7:0:b0:df7:94d3:5555 with SMTP id
- 3f1490d57ef6-df794d357fcmr5601696276.41.1716836447989; Mon, 27 May 2024
- 12:00:47 -0700 (PDT)
+ AJvYcCVXEL11e6nhXDob2NTaqgjDTmxYGoGmbcsq4C6YHRoxbSpQ8rclEPn9mVc9LNSl8GKrsm42mavnRfBxW78tkawbgHcAXArCTwaRSypwYqVa
+X-Gm-Message-State: AOJu0YwlA7He/k6I18cjYfATe7LHsmasOJjf+FDuRLHgeoyC6bpMCMkY
+ TaU2jj2abbbA4ilWs29q2JB8UtrbhEezYDtdGRgU9bMMbtOw/RGaiIG0VijgCbUTWqR+OAQhnYA
+ 1K4quAaxK2y39sYldBQEpm/xoi2hP2N6F1s+/aTNTPtcsiAvlCGitkPimcfmysYiUAQ==
+X-Received: by 2002:a05:600c:4689:b0:41c:258:9b70 with SMTP id
+ 5b1f17b1804b1-42108aa8976mr66428615e9.28.1716837536958; 
+ Mon, 27 May 2024 12:18:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHKHkf3fuR3OotFm1vYpWip60TZra03wLXGfTzr8DfdrTUs58Tc9BX3jnSjZDeprGP/Fk6eoQ==
+X-Received: by 2002:a05:600c:4689:b0:41c:258:9b70 with SMTP id
+ 5b1f17b1804b1-42108aa8976mr66428285e9.28.1716837536522; 
+ Mon, 27 May 2024 12:18:56 -0700 (PDT)
+Received: from pollux.localdomain ([2a02:810d:4b3f:ee94:748f:dc54:236c:b760])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-421089cc4e2sm118071795e9.39.2024.05.27.12.18.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 May 2024 12:18:55 -0700 (PDT)
+Date: Mon, 27 May 2024 21:18:53 +0200
+From: Danilo Krummrich <dakr@redhat.com>
+To: Zhi Wang <zhiw@nvidia.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ ojeda@kernel.org, alex.gaynor@gmail.com, wedsonaf@gmail.com,
+ boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ benno.lossin@proton.me, a.hindborg@samsung.com,
+ aliceryhl@google.com, fujita.tomonori@gmail.com, lina@asahilina.net,
+ pstanner@redhat.com, ajanulgu@redhat.com, lyude@redhat.com,
+ gregkh@linuxfoundation.org, rust-for-linux@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+Subject: Re: [RFC PATCH 7/8] rust: add firmware abstractions
+Message-ID: <ZlTcnYNff2EDQJdj@pollux.localdomain>
+References: <20240520172059.181256-1-dakr@redhat.com>
+ <20240520172422.181763-4-dakr@redhat.com>
+ <20240521083231.000074c2.zhiw@nvidia.com>
 MIME-Version: 1.0
-References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
- <20240521-kms-hdmi-connector-state-v14-17-51950db4fedb@kernel.org>
- <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
- <20240527-adamant-just-spaniel-ebed4e@houat>
- <a65wtf2hy7ufimkcgo5k2c34ygvtv7erwh567ngsnuaha7qiny@nl6lx67qsjuw>
- <20240527-colorful-orange-bug-bbeefe@houat>
-In-Reply-To: <20240527-colorful-orange-bug-bbeefe@houat>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 27 May 2024 22:00:36 +0300
-Message-ID: <CAA8EJpre5u_tD7VVnHwcjzJEV=9X_0Z+U==+gJGQBz6ie8FzFA@mail.gmail.com>
-Subject: Re: [PATCH v14 17/28] drm/connector: hdmi: Add Broadcast RGB property
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
- Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Pekka Paalanen <pekka.paalanen@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240521083231.000074c2.zhiw@nvidia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,100 +100,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 May 2024 at 16:30, Maxime Ripard <mripard@kernel.org> wrote:
->
-> Hi,
->
-> On Mon, May 27, 2024 at 12:43:18PM GMT, Dmitry Baryshkov wrote:
-> > On Mon, May 27, 2024 at 11:02:13AM +0200, Maxime Ripard wrote:
-> > > Hi,
-> > >
-> > > Thanks again for that thorough review :)
-> > >
-> > > On Thu, May 23, 2024 at 01:22:56PM GMT, Dmitry Baryshkov wrote:
-> > > > On Tue, May 21, 2024 at 12:13:50PM +0200, Maxime Ripard wrote:
-> > > > > The i915 driver has a property to force the RGB range of an HDMI =
-output.
-> > > > > The vc4 driver then implemented the same property with the same
-> > > > > semantics. KWin has support for it, and a PR for mutter is also t=
-here to
-> > > > > support it.
-> > > > >
-> > > > > Both drivers implementing the same property with the same semanti=
-cs,
-> > > > > plus the userspace having support for it, is proof enough that it=
-'s
-> > > > > pretty much a de-facto standard now and we can provide helpers fo=
-r it.
-> > > > >
-> > > > > Let's plumb it into the newly created HDMI connector.
-> > > > >
-> > > > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > > > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
-> > > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > > ---
-> > > > >  Documentation/gpu/kms-properties.csv            |  1 -
-> > > > >  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +-
-> > > > >  drivers/gpu/drm/drm_atomic.c                    |  2 +
-> > > > >  drivers/gpu/drm/drm_atomic_uapi.c               |  4 ++
-> > > > >  drivers/gpu/drm/drm_connector.c                 | 88 +++++++++++=
-++++++++++++++
-> > > > >  include/drm/drm_connector.h                     | 36 ++++++++++
-> > > > >  6 files changed, 133 insertions(+), 2 deletions(-)
-> > > > >
-> > > > > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation=
-/gpu/kms-properties.csv
-> > > > > index 0f9590834829..caef14c532d4 100644
-> > > > > --- a/Documentation/gpu/kms-properties.csv
-> > > > > +++ b/Documentation/gpu/kms-properties.csv
-> > > > > @@ -15,11 +15,10 @@ Owner Module/Drivers,Group,Property Name,Type=
-,Property Values,Object attached,De
-> > > > >  ,,=E2=80=9Csaturation=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connec=
-tor,TBD
-> > > > >  ,,=E2=80=9Chue=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connector,TBD
-> > > > >  ,Virtual GPU,=E2=80=9Csuggested X=E2=80=9D,RANGE,"Min=3D0, Max=
-=3D0xffffffff",Connector,property to suggest an X offset for a connector
-> > > > >  ,,=E2=80=9Csuggested Y=E2=80=9D,RANGE,"Min=3D0, Max=3D0xffffffff=
-",Connector,property to suggest an Y offset for a connector
-> > > > >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9""=
- }",Connector,TDB
-> > > > > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full""=
-, ""Limited 16:235"" }",Connector,"When this property is set to Limited 16:=
-235 and CTM is set, the hardware will be programmed with the result of the =
-multiplication of CTM by the limited range matrix to ensure the pixels norm=
-ally in the range 0..1.0 are remapped to the range 16/255..235/255."
-> > > >
-> > > > Should it still be defined as a generic property?
-> > >
-> > > I'm not sure what you mean here, sorry. It's being documented as a
-> > > connector property now, so it's very much still listed as a generic
-> > > property?
-> >
-> > I didn't perform my duty well enough and I didn't check the file for
-> > other instances of the property. Now I indeed see a generic "Broadcast
-> > RGB" property, but to me it looks like having a different set of values=
-:
-> >
-> > ,,"""Broadcast RGB""",ENUM,"{ =E2=80=9Coff=E2=80=9D, =E2=80=9Cauto=E2=
-=80=9D, =E2=80=9Con=E2=80=9D }",Connector,TBD
->
-> That's not really what I meant: that file is deprecated now and it's not
-> where we document the properties anymore. This patch has improved that
-> documentation and moved it to the new place, and removed the deprecated
-> part.
->
-> However, this line shouldn't be there at all. I'll add a patch to remove
-> it.
+On Tue, May 21, 2024 at 08:32:31AM +0300, Zhi Wang wrote:
+> On Mon, 20 May 2024 19:24:19 +0200
+> Danilo Krummrich <dakr@redhat.com> wrote:
+> 
+> > Add an abstraction around the kernels firmware API to request firmware
+> > images. The abstraction provides functions to access the firmware
+> > buffer and / or copy it to a new buffer allocated with a given
+> > allocator backend.
+> > 
+> 
+> Was playing with firmware extractions based on this patch.
+> Unfortunately I ended up with a lot of pointer operations, unsafe
+> statements.
+> 
+> As we know many vendors have a C headers for the definitions of the
+> firwmare content, the driver extract the data by applying a struct
+> pointer on it.
+> 
+> But in rust, I feel it would nice that we can also have a common
+> firmware extractor for drivers, that can wrap the pointer operations,
+> take a list of the firmware struct members that converted from C headers
+> as the input, offer the driver some common ABI methods to query them.
+> Maybe that would ease the pain a lot.
 
-SG
+So, you mean some abstraction that takes a list of types, offsets in the
+firmware and a reference to the firmware itself and provides references to the
+corresponding objects?
 
->
-> Thanks!
-> Maxime
+I agree it might be helpful to have some common infrastructure for this, but the
+operations on it would still be unsafe, since ultimately it involves
+dereferencing pointers.
 
+> 
+> Thanks,
+> Zhi.
+> 
+> > The firmware is released once the abstraction is dropped.
+> > 
+> > Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> > ---
+> >  rust/bindings/bindings_helper.h |  1 +
+> >  rust/kernel/firmware.rs         | 74
+> > +++++++++++++++++++++++++++++++++ rust/kernel/lib.rs              |
+> > 1 + 3 files changed, 76 insertions(+)
+> >  create mode 100644 rust/kernel/firmware.rs
+> > 
+> > diff --git a/rust/bindings/bindings_helper.h
+> > b/rust/bindings/bindings_helper.h index b245db8d5a87..e4ffc47da5ec
+> > 100644 --- a/rust/bindings/bindings_helper.h
+> > +++ b/rust/bindings/bindings_helper.h
+> > @@ -14,6 +14,7 @@
+> >  #include <kunit/test.h>
+> >  #include <linux/errname.h>
+> >  #include <linux/ethtool.h>
+> > +#include <linux/firmware.h>
+> >  #include <linux/jiffies.h>
+> >  #include <linux/mdio.h>
+> >  #include <linux/pci.h>
+> > diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
+> > new file mode 100644
+> > index 000000000000..700504fb3c9c
+> > --- /dev/null
+> > +++ b/rust/kernel/firmware.rs
+> > @@ -0,0 +1,74 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +
+> > +//! Firmware abstraction
+> > +//!
+> > +//! C header:
+> > [`include/linux/firmware.h`](../../../../include/linux/firmware.h") +
+> > +use crate::{bindings, device::Device, error::Error, error::Result,
+> > str::CStr, types::Opaque}; +
+> > +/// Abstraction around a C firmware struct.
+> > +///
+> > +/// This is a simple abstraction around the C firmware API. Just
+> > like with the C API, firmware can +/// be requested. Once requested
+> > the abstraction provides direct access to the firmware buffer as +///
+> > `&[u8]`. Alternatively, the firmware can be copied to a new buffer
+> > using `Firmware::copy`. The +/// firmware is released once
+> > [`Firmware`] is dropped. +/// +/// # Examples
+> > +///
+> > +/// ```
+> > +/// let fw = Firmware::request("path/to/firmware.bin",
+> > dev.as_ref())?; +/// driver_load_firmware(fw.data());
+> > +/// ```
+> > +pub struct Firmware(Opaque<*const bindings::firmware>);
+> > +
+> > +impl Firmware {
+> > +    /// Send a firmware request and wait for it. See also
+> > `bindings::request_firmware`.
+> > +    pub fn request(name: &CStr, dev: &Device) -> Result<Self> {
+> > +        let fw = Opaque::uninit();
+> > +
+> > +        let ret = unsafe { bindings::request_firmware(fw.get(),
+> > name.as_char_ptr(), dev.as_raw()) };
+> > +        if ret != 0 {
+> > +            return Err(Error::from_errno(ret));
+> > +        }
+> > +
+> > +        Ok(Firmware(fw))
+> > +    }
+> > +
+> > +    /// Send a request for an optional fw module. See also
+> > `bindings::request_firmware_nowarn`.
+> > +    pub fn request_nowarn(name: &CStr, dev: &Device) -> Result<Self>
+> > {
+> > +        let fw = Opaque::uninit();
+> > +
+> > +        let ret = unsafe {
+> > +            bindings::firmware_request_nowarn(fw.get(),
+> > name.as_char_ptr(), dev.as_raw())
+> > +        };
+> > +        if ret != 0 {
+> > +            return Err(Error::from_errno(ret));
+> > +        }
+> > +
+> > +        Ok(Firmware(fw))
+> > +    }
+> > +
+> > +    /// Returns the size of the requested firmware in bytes.
+> > +    pub fn size(&self) -> usize {
+> > +        unsafe { (*(*self.0.get())).size }
+> > +    }
+> > +
+> > +    /// Returns the requested firmware as `&[u8]`.
+> > +    pub fn data(&self) -> &[u8] {
+> > +        unsafe {
+> > core::slice::from_raw_parts((*(*self.0.get())).data, self.size()) }
+> > +    }
+> > +}
+> > +
+> > +impl Drop for Firmware {
+> > +    fn drop(&mut self) {
+> > +        unsafe { bindings::release_firmware(*self.0.get()) };
+> > +    }
+> > +}
+> > +
+> > +// SAFETY: `Firmware` only holds a pointer to a C firmware struct,
+> > which is safe to be used from any +// thread.
+> > +unsafe impl Send for Firmware {}
+> > +
+> > +// SAFETY: `Firmware` only holds a pointer to a C firmware struct,
+> > references to which are safe to +// be used from any thread.
+> > +unsafe impl Sync for Firmware {}
+> > diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+> > index 6415968ee3b8..ed97d131661a 100644
+> > --- a/rust/kernel/lib.rs
+> > +++ b/rust/kernel/lib.rs
+> > @@ -35,6 +35,7 @@
+> >  #[cfg(CONFIG_DRM = "y")]
+> >  pub mod drm;
+> >  pub mod error;
+> > +pub mod firmware;
+> >  pub mod init;
+> >  pub mod ioctl;
+> >  #[cfg(CONFIG_KUNIT)]
+> 
 
-
---=20
-With best wishes
-Dmitry
