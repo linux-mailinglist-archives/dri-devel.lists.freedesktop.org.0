@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DCC8D069D
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:51:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7058D06A2
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:52:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFC1110E61E;
-	Mon, 27 May 2024 15:51:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2527110F1E9;
+	Mon, 27 May 2024 15:52:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="owC2v79c";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c1q6Q5Oj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 969A210E61E;
- Mon, 27 May 2024 15:51:45 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 527D210ED57;
+ Mon, 27 May 2024 15:52:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 91414CE0DAB;
- Mon, 27 May 2024 15:51:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57D10C4AF07;
- Mon, 27 May 2024 15:51:40 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9C40D61A74;
+ Mon, 27 May 2024 15:52:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFA1AC2BBFC;
+ Mon, 27 May 2024 15:52:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716825102;
- bh=FlBZCzmT0a6aZg1CQ2btL1d7i3NzplDFKuGezfER560=;
+ s=k20201202; t=1716825124;
+ bh=ypB96dWGLy8iJdOom+0sKyOXUXvjUh7LdOWWwNomkhU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=owC2v79ce3AwK8Jqpu75DyIMdP8wI0HAWP49jlHdAtHthPHjltVrZOJDS1CtCRFUU
- OvI01Wsmh7wjkrpfx9QMkAvuaaTP6gEUtoMpC+ujZKrEvVM5Ta+H4gZSxb1Hy1TkDZ
- fkVpYz+JhmPZmnMuXBJOctVlvJ+u4YkuUsaL/oFlOJykhp3imluZmQoSWkE8AMtG/R
- iboP6sYf1yCwNX5KISBDgiqBFxIKG4rdR5/KltS2pKuPdQBf6hu1LQYkKXDPFT5LNj
- Wq3ie7XrfFnMKEy1gKj7CubjWGZND3DxRBcNws+oyGofyP+3SMizFdBb3MlePSflZp
- +mNoDjSp8Tbgg==
+ b=c1q6Q5OjK1vsT0wqFZozAZlZ+dDfHt9+4QrzpF1y2RPJCzlREzhr1upbPeJPvduun
+ taJr9bt2U08novDYtyV7QDcfu/fpZzr2GB91N2KWZ/ArA7g0/RZFblV550U7ReUIfb
+ 9IKAshtH9byDCHL3v55N+s2YcmcgwvIDQLQITgWTdCISKDFPwocKJGkLndhsOKbLb8
+ jn9d8fct2IK+z0EgbBIiYsWk/w7sygueMit/lEVhvLhaOajNkjow7SEu4y8yejGVUY
+ EciQNazhb8gTjR37KVLt8Wg0xo9b0VzmxqVK99+GdwF0ZqdhHWvhlifXnffphGkZDj
+ s/BEAPHonjsXQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Duncan Ma <duncan.ma@amd.com>, Wayne Lin <wayne.lin@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, chiahsuan.chung@amd.com, samson.tam@amd.com,
- dillon.varone@amd.com, alvin.lee2@amd.com, jinze.xu@amd.com,
- Qingqing.Zhuo@amd.com, cruise.hung@amd.com, amd-gfx@lists.freedesktop.org,
+Cc: "Xi (Alex) Liu" <xi.liu@amd.com>, Daniel Miess <daniel.miess@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Roman Li <roman.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Sasha Levin <sashal@kernel.org>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ chiahsuan.chung@amd.com, charlene.liu@amd.com, sungjoon.kim@amd.com,
+ duncan.ma@amd.com, allen.pan@amd.com, danny.wang@amd.com,
+ alvin.lee2@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.9 02/23] drm/amd/display: Workaround register access
- in idle race with cursor
-Date: Mon, 27 May 2024 11:50:03 -0400
-Message-ID: <20240527155123.3863983-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.9 07/23] drm/amd/display: add root clock control
+ function pointer to fix display corruption
+Date: Mon, 27 May 2024 11:50:08 -0400
+Message-ID: <20240527155123.3863983-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240527155123.3863983-1-sashal@kernel.org>
 References: <20240527155123.3863983-1-sashal@kernel.org>
@@ -70,82 +70,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+From: "Xi (Alex) Liu" <xi.liu@amd.com>
 
-[ Upstream commit b5b6d6251579a29dafdad25f4bc7f3ff7bfd2c86 ]
+[ Upstream commit de2d1105a3757742b45b0d8270b3c8734cd6b6f8 ]
 
-[Why]
-Cursor update can be pre-empted by a request for setting target flip
-submission.
+[Why and how]
 
-This causes an issue where we're in the middle of the exit sequence
-trying to log to DM, but the pre-emption starts another DMCUB
-command submission that requires being out of idle.
+External display has corruption because no root clock control function. Add the function pointer to fix the issue.
 
-The DC lock aqusition can fail, and depending on the DM/OS interface
-it's possible that the function inserted into this thread must not fail.
-
-This means that lock aqusition must be skipped and exit *must* occur.
-
-[How]
-Modify when we consider idle as active. Consider it exited only once
-the exit has fully finished.
-
-Consider it as entered prior to actual notification.
-
-Since we're on the same core/thread the cached values are coherent
-and we'll see that we still need to exit. Once the cursor update resumes
-it'll continue doing the double exit but this won't cause a functional
-issue, just a (potential) redundant operation.
-
-Reviewed-by: Duncan Ma <duncan.ma@amd.com>
-Acked-by: Wayne Lin <wayne.lin@amd.com>
-Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Reviewed-by: Daniel Miess <daniel.miess@amd.com>
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Acked-by: Roman Li <roman.li@amd.com>
+Signed-off-by: Xi (Alex) Liu <xi.liu@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c | 23 +++++++++++++++-----
- 1 file changed, 17 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/display/dc/hwss/dcn351/dcn351_init.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-index 6083b1dcf050a..a72e849eced3f 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-+++ b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-@@ -1340,16 +1340,27 @@ void dc_dmub_srv_apply_idle_power_optimizations(const struct dc *dc, bool allow_
- 	 * Powering up the hardware requires notifying PMFW and DMCUB.
- 	 * Clearing the driver idle allow requires a DMCUB command.
- 	 * DMCUB commands requires the DMCUB to be powered up and restored.
--	 *
--	 * Exit out early to prevent an infinite loop of DMCUB commands
--	 * triggering exit low power - use software state to track this.
- 	 */
--	dc_dmub_srv->idle_allowed = allow_idle;
- 
--	if (!allow_idle)
-+	if (!allow_idle) {
- 		dc_dmub_srv_exit_low_power_state(dc);
--	else
-+		/*
-+		 * Idle is considered fully exited only after the sequence above
-+		 * fully completes. If we have a race of two threads exiting
-+		 * at the same time then it's safe to perform the sequence
-+		 * twice as long as we're not re-entering.
-+		 *
-+		 * Infinite command submission is avoided by using the
-+		 * dm_execute_dmub_cmd submission instead of the "wake" helpers.
-+		 */
-+		dc_dmub_srv->idle_allowed = false;
-+	} else {
-+		/* Consider idle as notified prior to the actual submission to
-+		 * prevent multiple entries. */
-+		dc_dmub_srv->idle_allowed = true;
-+
- 		dc_dmub_srv_notify_idle(dc, allow_idle);
-+	}
- }
- 
- bool dc_wake_and_execute_dmub_cmd(const struct dc_context *ctx, union dmub_rb_cmd *cmd,
+diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn351/dcn351_init.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn351/dcn351_init.c
+index 670255c9bc822..4dca5c5a8318f 100644
+--- a/drivers/gpu/drm/amd/display/dc/hwss/dcn351/dcn351_init.c
++++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn351/dcn351_init.c
+@@ -147,6 +147,7 @@ static const struct hwseq_private_funcs dcn351_private_funcs = {
+ 	//.hubp_pg_control = dcn35_hubp_pg_control,
+ 	.enable_power_gating_plane = dcn35_enable_power_gating_plane,
+ 	.dpp_root_clock_control = dcn35_dpp_root_clock_control,
++	.dpstream_root_clock_control = dcn35_dpstream_root_clock_control,
+ 	.program_all_writeback_pipes_in_tree = dcn30_program_all_writeback_pipes_in_tree,
+ 	.update_odm = dcn35_update_odm,
+ 	.set_hdr_multiplier = dcn10_set_hdr_multiplier,
 -- 
 2.43.0
 
