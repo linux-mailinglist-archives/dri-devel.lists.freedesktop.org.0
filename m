@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765048D0520
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:02:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A197D8D052D
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 17:03:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57F0210E774;
-	Mon, 27 May 2024 15:02:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7823110E4F2;
+	Mon, 27 May 2024 15:03:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="Y6/M1a2h";
+	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="wel+q3Hg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail02.habana.ai (habanamailrelay.habana.ai [213.57.90.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 722DD10E3BD
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:02:35 +0000 (UTC)
+Received: from mail02.habana.ai (habanamailrelay02.habana.ai [62.90.112.121])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ADF510E932
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 15:02:37 +0000 (UTC)
 Received: internal info suppressed
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=habana.ai; s=default;
- t=1716822162; bh=PZJIzad51lipFAHvPkTrc6zNNzNFwz6JZWAXDJXz+zs=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Y6/M1a2hlOV2P5yxkk35EU6rN/XFtO/V97JMUNWgiA/gJKKCcCNrU8ca+gPJwyy+V
- +1V1Y0jTNnq7HMgpGM5GtdNqU/UQOjCeEofq2EpSYRlAA/Ycge5icZ+b8J+X+x4ZOE
- P/zKT5ucAvX9q1cMP8ASyOYA7MuDkzSgrB6teOjOjPuShV4h1CNMQfW9BELTpRjxgF
- 4WfLy0JO1TJJ/l/TbE+W2uZlMPM48NiYT6kS5GSXpiJlCVW5rGNNblZICjbAwcbc7c
- IVuYEiqLlzvTxXNyjFUF+/APB/n6dr+hmVtZk4UeUPjaXvLNIdJh6JRwUL7IKiLXJx
- 3KnylbaNzhEQg==
+ t=1716822151; bh=RWXMU3GyJCU75uomT+8y1qOi6l/HEYh3drr95SCacsU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=wel+q3HgXrc/bEV8os0BtkKGeV5x5N2XLFJBMj19VHjQ916hKFtUmleHzdcXnHMft
+ BfEciLuwqXQXqoPcLSAU9uny37EyszoqQNda/5nhP5Z469ckni8EpZg/wqgabsP9Wk
+ QTVXAvgBzlDf0dLvMTIdhhlINzU66hqYA1RdkmYzwo/kD7WpbfoMRwExgHWVvp5p05
+ XRcQmSQC+vcMjbr6e3VeRr29J4s/x/6Ukrtm4ekTT9aVRRmoteyHAFDk3FFm3JX67S
+ C5Mtjios1KjfHAlOOY3iRwmYz34ruxKWcrk2+Ks0pWNpVVyNk46Fc0LufiKkBfSe6+
+ cxyhkKoWeTFmw==
 Received: from obitton-vm-u22.habana-labs.com (localhost [127.0.0.1])
  by obitton-vm-u22.habana-labs.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP
- id 44RF2PiW1954007; Mon, 27 May 2024 18:02:26 +0300
+ id 44RF2PiX1954007; Mon, 27 May 2024 18:02:26 +0300
 From: Ofir Bitton <obitton@habana.ai>
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/8] accel/habanalabs: remove timestamp registration debug
- prints
-Date: Mon, 27 May 2024 18:02:21 +0300
-Message-Id: <20240527150224.1953969-5-obitton@habana.ai>
+Cc: Rakesh Ughreja <rughreja@habana.ai>
+Subject: [PATCH 6/8] accel/habanalabs/gaudi2: unsecure edma max outstanding
+ register
+Date: Mon, 27 May 2024 18:02:22 +0300
+Message-Id: <20240527150224.1953969-6-obitton@habana.ai>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240527150224.1953969-1-obitton@habana.ai>
 References: <20240527150224.1953969-1-obitton@habana.ai>
@@ -54,53 +55,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are several timestamp registration debug prints which
-spams the kernel log whenever dyn debug is enabled.
-Remove those prints.
+From: Rakesh Ughreja <rughreja@habana.ai>
 
-Signed-off-by: Ofir Bitton <obitton@habana.ai>
+Netowrk EDMAs uses more outstanding transfers so this needs to be
+programmed by EDMA firmware.
+
+Signed-off-by: Rakesh Ughreja <rughreja@habana.ai>
+Reviewed-by: Ofir Bitton <obitton@habana.ai>
 ---
- .../accel/habanalabs/common/command_submission.c    | 13 -------------
- 1 file changed, 13 deletions(-)
+ drivers/accel/habanalabs/gaudi2/gaudi2_security.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/accel/habanalabs/common/command_submission.c b/drivers/accel/habanalabs/common/command_submission.c
-index 39e23d625a3c..59823e3c3bf7 100644
---- a/drivers/accel/habanalabs/common/command_submission.c
-+++ b/drivers/accel/habanalabs/common/command_submission.c
-@@ -3284,12 +3284,6 @@ static int ts_get_and_handle_kernel_record(struct hl_device *hdev, struct hl_ctx
- 
- 	/* In case the node already registered, need to unregister first then re-use */
- 	if (req_offset_record->ts_reg_info.in_use) {
--		dev_dbg(data->buf->mmg->dev,
--				"Requested record %p is in use on irq: %u ts addr: %p, unregister first then put on irq: %u\n",
--				req_offset_record,
--				req_offset_record->ts_reg_info.interrupt->interrupt_id,
--				req_offset_record->ts_reg_info.timestamp_kernel_addr,
--				data->interrupt->interrupt_id);
- 		/*
- 		 * Since interrupt here can be different than the one the node currently registered
- 		 * on, and we don't want to lock two lists while we're doing unregister, so
-@@ -3345,10 +3339,6 @@ static int _hl_interrupt_ts_reg_ioctl(struct hl_device *hdev, struct hl_ctx *ctx
- 		goto put_cq_cb;
- 	}
- 
--	dev_dbg(hdev->dev, "Timestamp registration: interrupt id: %u, handle: 0x%llx, ts offset: %llu, cq_offset: %llu\n",
--					data->interrupt->interrupt_id, data->ts_handle,
--					data->ts_offset, data->cq_offset);
--
- 	data->buf = hl_mmap_mem_buf_get(data->mmg, data->ts_handle);
- 	if (!data->buf) {
- 		rc = -EINVAL;
-@@ -3370,9 +3360,6 @@ static int _hl_interrupt_ts_reg_ioctl(struct hl_device *hdev, struct hl_ctx *ctx
- 	if (*pend->cq_kernel_addr >= data->target_value) {
- 		spin_unlock_irqrestore(&data->interrupt->ts_list_lock, flags);
- 
--		dev_dbg(hdev->dev, "Target value already reached release ts record: pend: %p, offset: %llu, interrupt: %u\n",
--				pend, data->ts_offset, data->interrupt->interrupt_id);
--
- 		pend->ts_reg_info.in_use = 0;
- 		*status = HL_WAIT_CS_STATUS_COMPLETED;
- 		*pend->ts_reg_info.timestamp_kernel_addr = ktime_get_ns();
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2_security.c b/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
+index 34bf80c5a44b..307ccb912ccd 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
+@@ -479,6 +479,7 @@ static const u32 gaudi2_pb_dcr0_edma0_unsecured_regs[] = {
+ 	mmDCORE0_EDMA0_CORE_CTX_TE_NUMROWS,
+ 	mmDCORE0_EDMA0_CORE_CTX_IDX,
+ 	mmDCORE0_EDMA0_CORE_CTX_IDX_INC,
++	mmDCORE0_EDMA0_CORE_WR_COMP_MAX_OUTSTAND,
+ 	mmDCORE0_EDMA0_CORE_RD_LBW_RATE_LIM_CFG,
+ 	mmDCORE0_EDMA0_QM_CQ_CFG0_0,
+ 	mmDCORE0_EDMA0_QM_CQ_CFG0_1,
 -- 
 2.34.1
 
