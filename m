@@ -2,89 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF7E28D0D29
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 21:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D39D8D0EA1
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 22:33:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E01910E516;
-	Mon, 27 May 2024 19:26:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08C5210F1A0;
+	Mon, 27 May 2024 20:33:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZuYOtORv";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KK/AUkPD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83D2110E5E3
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 19:26:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1716838013;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=04BP6JgJRJaoyE7XZo+qyeTn0Ydmjf+GQEv5dhrT/JU=;
- b=ZuYOtORvg2mpZP9geldKLomThbu+qZhF+Igmd2gMBZjwaB/qvEkjX3h/dPQV7kIfFKl/R4
- Z5uH26bWwlEwp7RbZwPLMjq/XylR0+MKYU0CZLbR/oM3jLPqgxcFPgSmPQIaUkkab+xfhC
- UkTI0AJdN8rwRFu6Oxqhr2i0Fr9bBm0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-338-2TVFcC56PtKvNXPdvA-3Dg-1; Mon, 27 May 2024 15:26:52 -0400
-X-MC-Unique: 2TVFcC56PtKvNXPdvA-3Dg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-354fc1122baso54775f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 12:26:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716838011; x=1717442811;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=04BP6JgJRJaoyE7XZo+qyeTn0Ydmjf+GQEv5dhrT/JU=;
- b=dazxoS4zdC8Mhq+kLyhTy4UYfFaLfjLQuTSIKOqvycQmcFqrEGLDllDOojSR4nhntR
- PkX7ANZ1KcaucPFT2D7vyMxAeffZAE8E7mQeDWfC9JL7uly+umKmCDNgFbenYtTvvHFB
- l3esL4Z4Fs5ZTqD7w7sUETR7ungUZ27fXHFVg6ifFTf4HruzbC3matwTLw4BH972GnAm
- LYmnn3bNlkgBw7cjSZ0MH4DYgBY8ZjYn4anrQjnSTFRf311shYrettY+ZVM8i8D1E/qp
- XrYHDDTPtgF7jYRGh2A5e9uFUmbfJ7S/n2dAsajmg7iswS5rxnAKIIr99bnFdOjCxr8N
- YVaw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUWbIw+FsM3JJ5m28utB9WlvauZDodK9zuFz0hToJ+pPG+zLs2QdfJTNfJAfqCJ6gcD7zwscevw8YZ+mqQLY937pdxS30bWoi1DoP5G9OEZ
-X-Gm-Message-State: AOJu0YxQx1So7DnPPkdUEyw1erxLK+7fYbRrA0bsimGXiQdenlBEv0yn
- B8J/CquAvHdLcjk2EkkgEh0d+rXjnoEY4aHDgIHszctNRmwLlvcCpr+Ug5tbyapwrN9kdJsx4Bs
- tPz5q2rbMGTMsaJGbl7KgpzbJS3M0768iKEp1zIJ7nenQDylbWDWzA6mDgH5iASywoA==
-X-Received: by 2002:a05:6000:1001:b0:354:db70:3815 with SMTP id
- ffacd0b85a97d-355270567abmr9871318f8f.7.1716838010930; 
- Mon, 27 May 2024 12:26:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGpX5a3JazHsekJBC6hkppw/PzK2VdF3Dw2Az33nM3NarNt2rZRaGhpKwlikcM94rwQ/PNJkA==
-X-Received: by 2002:a05:6000:1001:b0:354:db70:3815 with SMTP id
- ffacd0b85a97d-355270567abmr9871283f8f.7.1716838010499; 
- Mon, 27 May 2024 12:26:50 -0700 (PDT)
-Received: from pollux.localdomain ([2a02:810d:4b3f:ee94:748f:dc54:236c:b760])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-35aa40ee42bsm846020f8f.47.2024.05.27.12.26.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 May 2024 12:26:50 -0700 (PDT)
-Date: Mon, 27 May 2024 21:26:47 +0200
-From: Danilo Krummrich <dakr@redhat.com>
-To: Rob Herring <robh@kernel.org>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- ojeda@kernel.org, alex.gaynor@gmail.com, wedsonaf@gmail.com,
- boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- benno.lossin@proton.me, a.hindborg@samsung.com,
- aliceryhl@google.com, fujita.tomonori@gmail.com, lina@asahilina.net,
- pstanner@redhat.com, ajanulgu@redhat.com, lyude@redhat.com,
- gregkh@linuxfoundation.org, rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
-Subject: Re: [RFC PATCH 3/8] rust: drm: Add Device and Driver abstractions
-Message-ID: <ZlTed15hXf7UROP9@pollux.localdomain>
-References: <20240520172059.181256-1-dakr@redhat.com>
- <20240520172059.181256-4-dakr@redhat.com>
- <20240521212333.GA731457-robh@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0482810F1A0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 20:33:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716841989; x=1748377989;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=eGuvLmAFDMBNic0R9NNNrwmtI2kmtPfEq4B6DQH8URA=;
+ b=KK/AUkPDsAXAQayCQhTk10oHYqc0Hy2yzWQqBDvcmRVDp0G5H8vDJb3n
+ fECOVof+jrLnrNfssALrn3AbbAF4bOzrhDcQHdh8oyBWheRRAzb3pjcW/
+ q63Sai5LVL/MMTAdEogwqexecIJLqSCLaAx+OoBwpj6o14RolExr/Rjuh
+ i6Vx0y+wAtom53RGluMnJ651YvMegpwNUxc3tnIbfswIF2SkUZA3fawWy
+ eLdBTSQKuEcrSUeSc0pkn+b5rY5UO0PqtSZtEaZ/4obN7mw6tSNs8pVuN
+ o8bCzJ4w0tFc938LnHfDBhu7Pj6NW7ciWEVHBq57Pg/ZYHDTzeyaSX0fa w==;
+X-CSE-ConnectionGUID: oWeEFBFjSZiR5BrTyBil9w==
+X-CSE-MsgGUID: 5S4+sXS5SKSa6NirHtcTYw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="12944993"
+X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; d="scan'208";a="12944993"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2024 13:33:08 -0700
+X-CSE-ConnectionGUID: VyQofwBuS9WLYkfeol/4jQ==
+X-CSE-MsgGUID: WoN3zhSWQHOW6JVz220nkw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; d="scan'208";a="58037903"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2024 13:33:02 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1sBh1d-0000000BMh0-3tYh; Mon, 27 May 2024 23:32:57 +0300
+Date: Mon, 27 May 2024 23:32:57 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com,
+ akpm@linux-foundation.org, gregkh@linuxfoundation.org,
+ adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
+ vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
+ detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
+ andrzej.p@collabora.com, nicolas@ndufresne.ca, davidgow@google.com,
+ dlatypov@google.com
+Subject: Re: [PATCH v9 06/10] math.h: Add macros for rounding to closest value
+Message-ID: <ZlTt-YWzyRyhmT9n@smile.fi.intel.com>
+References: <20240526175655.1093707-1-devarsht@ti.com>
+ <20240526180856.1124470-1-devarsht@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <20240521212333.GA731457-robh@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240526180856.1124470-1-devarsht@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,86 +82,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 21, 2024 at 04:23:33PM -0500, Rob Herring wrote:
-> On Mon, May 20, 2024 at 07:20:50PM +0200, Danilo Krummrich wrote:
-> > From: Asahi Lina <lina@asahilina.net>
-> > 
-> > Add abstractions for DRM drivers and devices. These go together in one
-> > commit since both are fairly tightly coupled types.
-> > 
-> > A few things have been stubbed out, to be implemented as further bits of
-> > the DRM subsystem are introduced.
-> > 
-> > Signed-off-by: Asahi Lina <lina@asahilina.net>
-> > Co-developed-by: Danilo Krummrich <dakr@redhat.com>
-> > Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-> > ---
-> >  rust/bindings/bindings_helper.h |   2 +
-> >  rust/kernel/drm/device.rs       |  87 +++++++++
-> >  rust/kernel/drm/drv.rs          | 318 ++++++++++++++++++++++++++++++++
-> >  rust/kernel/drm/mod.rs          |   2 +
-> >  4 files changed, 409 insertions(+)
-> >  create mode 100644 rust/kernel/drm/device.rs
-> >  create mode 100644 rust/kernel/drm/drv.rs
+On Sun, May 26, 2024 at 11:38:56PM +0530, Devarsh Thakkar wrote:
+> Add below rounding related macros:
 > 
-> [...]
+> round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
+> power of 2, with a preference to round up in case two nearest values are
+> possible.
 > 
-> > diff --git a/rust/kernel/drm/drv.rs b/rust/kernel/drm/drv.rs
-> > new file mode 100644
-> > index 000000000000..5dd8f3f8df7c
-> > --- /dev/null
-> > +++ b/rust/kernel/drm/drv.rs
-> > @@ -0,0 +1,318 @@
-> > +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> > +
-> > +//! DRM driver core.
-> > +//!
-> > +//! C header: [`include/linux/drm/drm_drv.h`](../../../../include/linux/drm/drm_drv.h)
-> > +
-> > +use crate::{
-> > +    alloc::flags::*,
-> > +    bindings, device, drm,
-> > +    error::code::*,
-> > +    error::{Error, Result},
-> > +    prelude::*,
-> > +    private::Sealed,
-> > +    str::CStr,
-> > +    types::{ARef, ForeignOwnable},
-> > +    ThisModule,
-> > +};
-> > +use core::{
-> > +    marker::{PhantomData, PhantomPinned},
-> > +    pin::Pin,
-> > +};
-> > +use macros::vtable;
-> > +
-> > +/// Driver use the GEM memory manager. This should be set for all modern drivers.
-> > +pub const FEAT_GEM: u32 = bindings::drm_driver_feature_DRIVER_GEM;
-> > +/// Driver supports mode setting interfaces (KMS).
-> > +pub const FEAT_MODESET: u32 = bindings::drm_driver_feature_DRIVER_MODESET;
-> > +/// Driver supports dedicated render nodes.
-> > +pub const FEAT_RENDER: u32 = bindings::drm_driver_feature_DRIVER_RENDER;
-> > +/// Driver supports the full atomic modesetting userspace API.
-> > +///
-> > +/// Drivers which only use atomic internally, but do not support the full userspace API (e.g. not
-> > +/// all properties converted to atomic, or multi-plane updates are not guaranteed to be tear-free)
-> > +/// should not set this flag.
-> > +pub const FEAT_ATOMIC: u32 = bindings::drm_driver_feature_DRIVER_ATOMIC;
-> > +/// Driver supports DRM sync objects for explicit synchronization of command submission.
-> > +pub const FEAT_SYNCOBJ: u32 = bindings::drm_driver_feature_DRIVER_SYNCOBJ;
-> > +/// Driver supports the timeline flavor of DRM sync objects for explicit synchronization of command
-> > +/// submission.
-> > +pub const FEAT_SYNCOBJ_TIMELINE: u32 = bindings::drm_driver_feature_DRIVER_SYNCOBJ_TIMELINE;
+> round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
+> power of 2, with a preference to round down in case two nearest values are
+> possible.
 > 
-> This is missing an entry for DRIVER_GEM_GPUVA. And some others perhaps. 
-> I suppose some are legacy which won't be needed any time soon if ever. 
-> Not sure if you intend for this to be complete, or you are just adding 
-> what you are using? Only FEAT_GEM is used by nova ATM.
+> roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
+> generally be used only when y is not multiple of 2 as otherwise
+> round_closest* macros should be used which are much faster.
+> 
+> Examples:
+>  * round_closest_up(17, 4) = 16
+>  * round_closest_up(15, 4) = 16
+>  * round_closest_up(14, 4) = 16
+>  * round_closest_down(17, 4) = 16
+>  * round_closest_down(15, 4) = 16
+>  * round_closest_down(14, 4) = 12
+>  * roundclosest(21, 5) = 20
+>  * roundclosest(19, 5) = 20
+>  * roundclosest(17, 5) = 15
 
-Good catch, I think we should add all of them, except the legacy ones. If no one
-disagrees, I will fix this in v2.
+...
 
-> 
-> Rob
-> 
+> +/**
+> + * round_closest_up - round closest to be multiple of specified value (which is
+> + *                    power of 2) with preference to rounding up
+> +
+
+Not that big deal, but missing '*' here. Personally I would not even put
+a blank line between Summary and Field Descriptions.
+
+> + * @x: the value to round
+> + * @y: multiple to round closest to (must be a power of 2)
+> + *
+> + * Rounds @x to closest multiple of @y (which must be a power of 2).
+> + * The value can be either rounded up or rounded down depending upon rounded
+> + * value's closeness to the specified value. If there are two closest possible
+> + * values, i.e. the difference between the specified value and it's rounded up
+> + * and rounded down values is same then preference is given to rounded up
+> + * value.
+> + *
+> + * To perform arbitrary rounding to closest value (not multiple of 2), use
+> + * roundclosest().
+> + *
+> + * Examples :
+
+What is this suppose to be rendered to?
+
+> + * round_closest_up(17, 4) = 16
+> + * round_closest_up(15, 4) = 16
+> + * round_closest_up(14, 4) = 16
+
+Btw, is kernel-doc validator happy about all kernel docs you added?
+
+> + */
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
