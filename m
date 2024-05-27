@@ -2,72 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FA38D0EAD
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 22:38:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF5628D0EBD
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 22:44:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0934810EF15;
-	Mon, 27 May 2024 20:38:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PwfxDtuP";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC1AE10E216;
+	Mon, 27 May 2024 20:44:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B827510EF15
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 20:38:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716842301; x=1748378301;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=5ij4LoZCJaP0Z3WwRoKYheiONp4dxGoT34/7Tch/SL4=;
- b=PwfxDtuPyzgKO+5gNzuqSAWpTuc33Njs1W6xumif8lDUgDyAf6gL4zKw
- /IDYHBklW6wI4SwFfwuz3fsd7l4to/iGN+197aebQs5iqk3BP+cw0LjYS
- xpN5lDTiYUb9z2gqtU2dc6zJjbit75URnkE5yPUpuKUxRgr7/jA7jiMZj
- vINc/Lamc/AkgbzM+svJajkfZJ9od6OqorhSiM/4EAxlL2lHQgd0LH8KT
- 3+o2xI0lTGRNtAfgWUixvQLWhXWgQyw6qN0GvJXPFn8WEP+6kgkrGqqr6
- QNljQnDPQDwOQ/RWpH5MrFfvO6FlwZYa1EHKaEnEijMIKGiR8ZfYkj2SI Q==;
-X-CSE-ConnectionGUID: 5LEDp8iqRsmrm6Iz7v4TYw==
-X-CSE-MsgGUID: r8XrerEnRHieFzGb8Wgn8w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="11717970"
-X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; d="scan'208";a="11717970"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2024 13:38:15 -0700
-X-CSE-ConnectionGUID: yCvC5PYWRQyenQLni3tKYQ==
-X-CSE-MsgGUID: 7w34H7sKRcmaBGSayhQRxA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; d="scan'208";a="65660436"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2024 13:38:09 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sBh6b-0000000BMks-1LiV; Mon, 27 May 2024 23:38:05 +0300
-Date: Mon, 27 May 2024 23:38:05 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com,
- akpm@linux-foundation.org, gregkh@linuxfoundation.org,
- adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
- vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
- detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
- andrzej.p@collabora.com, nicolas@ndufresne.ca, davidgow@google.com,
- dlatypov@google.com
-Subject: Re: [PATCH v9 07/10] lib: add basic KUnit test for lib/math
-Message-ID: <ZlTvLS8oTPcvZKQN@smile.fi.intel.com>
-References: <20240526175655.1093707-1-devarsht@ti.com>
- <20240526180933.1126116-1-devarsht@ti.com>
- <ZlTu_9orsuosNiGk@smile.fi.intel.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21A9110E216
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2024 20:43:59 +0000 (UTC)
+Received: from i5e86193d.versanet.de ([94.134.25.61] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1sBhBf-0004Tg-UH; Mon, 27 May 2024 22:43:19 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Val Packett <val@packett.cool>
+Cc: Val Packett <val@packett.cool>, stable@vger.kernel.org,
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] drm/rockchip: vop: clear DMA stop bit upon vblank
+ on RK3066
+Date: Mon, 27 May 2024 22:43:18 +0200
+Message-ID: <1817371.3VsfAaAtOV@diego>
+In-Reply-To: <20240527071736.21784-1-val@packett.cool>
+References: <2024051930-canteen-produce-1ba7@gregkh>
+ <20240527071736.21784-1-val@packett.cool>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZlTu_9orsuosNiGk@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,19 +51,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 27, 2024 at 11:37:20PM +0300, Andy Shevchenko wrote:
-> On Sun, May 26, 2024 at 11:39:33PM +0530, Devarsh Thakkar wrote:
+Hi Val,
 
-...
-
-> > +MODULE_LICENSE("GPL");
+Am Montag, 27. Mai 2024, 09:16:33 CEST schrieb Val Packett:
+> On the RK3066, there is a bit that must be cleared, otherwise
+> the picture does not show up on the display (at least for RGB).
 > 
-> modpost validator won't be happy about this, i.e. missing MODULE_DESCRIPTION().
+> Fixes: f4a6de8 ("drm: rockchip: vop: add rk3066 vop definitions")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Val Packett <val@packett.cool>
+> ---
+> v2: doing this on vblank makes more sense; added fixes tag
 
-And obviously + module.h in the inclusion block.
+can you give a rationale for this please?
 
--- 
-With Best Regards,
-Andy Shevchenko
+I.e. does this dma-stop bit need to be set on each vblank that happens
+to push this frame to the display somehow?
+
+Because at least in theory atomic_flush where this was living in in v1,
+might happen at a slower interval?
+
+
+Thanks
+Heiko
+
+> ---
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 6 ++++++
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.h | 1 +
+>  drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 1 +
+>  3 files changed, 8 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> index a13473b2d..2731fe2b2 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> @@ -1766,6 +1766,12 @@ static void vop_handle_vblank(struct vop *vop)
+>  	}
+>  	spin_unlock(&drm->event_lock);
+>  
+> +	if (VOP_HAS_REG(vop, common, dma_stop)) {
+> +		spin_lock(&vop->reg_lock);
+> +		VOP_REG_SET(vop, common, dma_stop, 0);
+> +		spin_unlock(&vop->reg_lock);
+> +	}
+> +
+>  	if (test_and_clear_bit(VOP_PENDING_FB_UNREF, &vop->pending))
+>  		drm_flip_work_commit(&vop->fb_unref_work, system_unbound_wq);
+>  }
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> index b33e5bdc2..0cf512cc1 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> @@ -122,6 +122,7 @@ struct vop_common {
+>  	struct vop_reg lut_buffer_index;
+>  	struct vop_reg gate_en;
+>  	struct vop_reg mmu_en;
+> +	struct vop_reg dma_stop;
+>  	struct vop_reg out_mode;
+>  	struct vop_reg standby;
+>  };
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+> index b9ee02061..9bcb40a64 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+> @@ -466,6 +466,7 @@ static const struct vop_output rk3066_output = {
+>  };
+>  
+>  static const struct vop_common rk3066_common = {
+> +	.dma_stop = VOP_REG(RK3066_SYS_CTRL0, 0x1, 0),
+>  	.standby = VOP_REG(RK3066_SYS_CTRL0, 0x1, 1),
+>  	.out_mode = VOP_REG(RK3066_DSP_CTRL0, 0xf, 0),
+>  	.cfg_done = VOP_REG(RK3066_REG_CFG_DONE, 0x1, 0),
+> 
+
+
 
 
