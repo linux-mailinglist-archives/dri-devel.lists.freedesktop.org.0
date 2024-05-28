@@ -2,47 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36DC78D1FD3
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 17:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A118D204B
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 17:23:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C55D10FADD;
-	Tue, 28 May 2024 15:11:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC87810E27A;
+	Tue, 28 May 2024 15:23:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pb+pVNlp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HCvBDtlM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4663010FADD
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 15:11:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 901C761CE2;
- Tue, 28 May 2024 15:11:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11148C4AF0C;
- Tue, 28 May 2024 15:10:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716909060;
- bh=10mBhbGP5wI6FGotMQGbvTjAThkAnYP2/Z6/ijDpFWg=;
- h=From:To:Cc:Subject:Date:From;
- b=pb+pVNlpjuAw7xP9X1DnxFbpS4/38Uekk2/EujLgAdmw2fsYbeQr/sMcz2NBrLVVC
- 29gTZ1NY5FVcpjV5OBsRQ41JmjvGeU+txU5/hjyi/VpbziivgLBzyJMnnP1ZWPg+V5
- eprR1QGIuheAl7bKTVr2oaJfrEW14vzTk/clm/8VEtzfP+BoOKhUUFQyBfFKMFMEm4
- F372tXhQAc8MK/J3a88rWFp4Nc9aalSzULmcgRvpUM3iohsxs7OlSmaTDneQXE+OeW
- WXSTgkUB1lj2lm46ksilN4KCUtmJAvZqhRhJSJvrv6qDMnOu1KogjMugDpZSiW/ma0
- Uu4/phKt87OMg==
-From: Maxime Ripard <mripard@kernel.org>
-To: dri-devel@lists.freedesktop.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, kernel test robot <lkp@intel.com>
-Subject: [PATCH] drm/sun4i: Fix compilation error
-Date: Tue, 28 May 2024 17:10:56 +0200
-Message-ID: <20240528151056.2104153-1-mripard@kernel.org>
-X-Mailer: git-send-email 2.45.0
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5797E10E1C8;
+ Tue, 28 May 2024 15:23:48 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-1f4a6a54416so6580055ad.0; 
+ Tue, 28 May 2024 08:23:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1716909828; x=1717514628; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9GZ82+6X/m8/WJiwoeD4lBp/SWA2880Fz0PinrORm+A=;
+ b=HCvBDtlMrgVcms5cNJqfZx9y8LxNyJ6Xb5gYZaza4hcn2djnbc95Y7VpciahfOrxqA
+ jlOcqOmbS3UcUwmN5Y/J2NbgE7UvYFcg5muIiwRMnMDswytkTvjt1LxKmfXZAXznNhow
+ xnE6xQCfaauK4a9c29uaNgzVOgXyX7id8PMtG++c3Qc+JNTJPDawsEcyf9hzSwL+1N9e
+ H9oWoNLqHkB8wnzOoYvMADXCin5rPdnQpx7dfJ+JSQ383UYpkNOK/DLQrpUrW+DNJh5J
+ CVVmqyOiYrefBK8cN25aK+7+3A6RkPbGG2JbY4/V4zKpARbhNKZEKBO2isv4oPwd3vGB
+ gG9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716909828; x=1717514628;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9GZ82+6X/m8/WJiwoeD4lBp/SWA2880Fz0PinrORm+A=;
+ b=tAJa+56vChpdb0vWJTOLrQ0rWq+bDTL1iop4fw04gL9UyVfwxOsvFzxbZNZtZZ7bP+
+ aHBTSjwb2yXQSypzEIKCYtmQvvcmdt8VKlGgLFYv3Vj+UkNagXdg5yCJvRJ72d2mTA6q
+ 4m+cTdbMXLr2h8zmilj25dfB1nkBkiCTWne/cICxEU2BMKN3HTfVetCrkcpO22yKg3iE
+ FNSlu6hIHSOKOCFyHpYOFwycXjYcNVgq8xvXL8g+BWnINKVe0k9EF7LEdfmQtMz8xZA0
+ lQGvdEMdJPONN5xbaXdseFaj8nuTm6fRvvnlOZ9BKYekR0oLh7l+VxeDPdO4k9M9S474
+ xGsg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVf94p3KJLdT9hROktGNBB6AdhSg3cg5uny5rHmOeCeCHTG5wiVx1rVjrt3tv8/KLnEcLr0etmEB2Ibbt5uPHm4bw1tW78i4mIapsxc9duQW6MJwS7AwV5j5DuhJnxqQ8XSqn3kvsWWJ5tml3IweA==
+X-Gm-Message-State: AOJu0YzCpyNLLLVjw10/ovjSk87ds40zZLVf2ahz3V/RVMb8zQqmNhVi
+ H8ndrcRfm5uL6xFXAuY3HYcPId2QjhAl+g93TDcQGbi+S99Y7icRe0VXe5Ze+c/R7iDdpT/KNqr
+ PLsqRS69QoWxBVEvy+JMVOd/fxmY=
+X-Google-Smtp-Source: AGHT+IFzNXDUZW+UVGdJz4b1hVU9pW6xiuihea/LYhjhoIqtktFL6NfYLHOdq4dJm9ZXLqpgwzKoRhQLsCdMWo/5mfY=
+X-Received: by 2002:a17:902:e5cd:b0:1f4:913d:7257 with SMTP id
+ d9443c01a7336-1f4913d8295mr96471125ad.8.1716909827697; Tue, 28 May 2024
+ 08:23:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240528131026.214773-1-brunolevilevi@usp.br>
+ <20240528131026.214773-3-brunolevilevi@usp.br>
+In-Reply-To: <20240528131026.214773-3-brunolevilevi@usp.br>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 28 May 2024 11:23:36 -0400
+Message-ID: <CADnq5_PrP7jVyyJ85TZyRnpFVb5rVzPJ2vY78ZZp+YVSoneJZQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drivers/gpu: Fix misalignment in comment block
+To: Bruno Rocha Levi <brunolevilevi@usp.br>
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
+ airlied@gmail.com, daniel@ffwll.ch, 
+ Lucas Antonio <lucasantonio.santos@usp.br>, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,39 +82,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit ea64761a54a2 ("drm/sun4i: hdmi: Switch to HDMI connector")
-introduced a dependency that got renamed in a previous version, but
-wasn't properly updated in that driver. Fix the name of the function.
+Applied.  Thanks!
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202405282205.EU7NUoeQ-lkp@intel.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202405282248.U2lhPvCK-lkp@intel.com/
-Fixes: ea64761a54a2 ("drm/sun4i: hdmi: Switch to HDMI connector")
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Alex
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 0e652dd480c9..b3649449de30 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -207,13 +207,12 @@ static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
- 
- static enum drm_mode_status
- sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
- 				struct drm_display_mode *mode)
- {
--	unsigned long long rate =
--		drm_connector_hdmi_compute_mode_clock(mode, 8,
--						      HDMI_COLORSPACE_RGB);
-+	unsigned long long rate = drm_hdmi_compute_mode_clock(mode, 8,
-+							      HDMI_COLORSPACE_RGB);
- 
- 	return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
- }
- 
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
--- 
-2.45.0
-
+On Tue, May 28, 2024 at 10:47=E2=80=AFAM Bruno Rocha Levi <brunolevilevi@us=
+p.br> wrote:
+>
+> This patch fixes a warning from checkpatch by ensuring the trailing */ is
+> aligned with the rest of the *, improving readability.
+>
+> Co-developed-by: Lucas Antonio <lucasantonio.santos@usp.br>
+> Signed-off-by: Lucas Antonio <lucasantonio.santos@usp.br>
+> Signed-off-by: Bruno Rocha Levi <brunolevilevi@usp.br>
+> ---
+>  drivers/gpu/drm/amd/acp/include/acp_gfx_if.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/acp/include/acp_gfx_if.h b/drivers/gpu/d=
+rm/amd/acp/include/acp_gfx_if.h
+> index feab8eb7f..b26710cae 100644
+> --- a/drivers/gpu/drm/amd/acp/include/acp_gfx_if.h
+> +++ b/drivers/gpu/drm/amd/acp/include/acp_gfx_if.h
+> @@ -19,7 +19,7 @@
+>   * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+>   * OTHER DEALINGS IN THE SOFTWARE.
+>   *
+> -*/
+> + */
+>
+>  #ifndef _ACP_GFX_IF_H
+>  #define _ACP_GFX_IF_H
+> --
+> 2.45.1
+>
