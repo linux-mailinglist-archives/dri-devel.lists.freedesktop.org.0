@@ -2,88 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3F98D26A6
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 23:01:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EBDE8D26A8
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 23:01:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86A691127C3;
-	Tue, 28 May 2024 21:01:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A71281127C4;
+	Tue, 28 May 2024 21:01:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="dJOEqD6S";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="VJG8uM3N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
- [209.85.160.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B77D71127C6
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 21:01:21 +0000 (UTC)
-Received: by mail-qt1-f171.google.com with SMTP id
- d75a77b69052e-43fe0f361b5so772211cf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 14:01:21 -0700 (PDT)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C09BF1127C4
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 21:01:30 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id
+ d9443c01a7336-1f47728fa4cso9280195ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 14:01:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1716930080; x=1717534880;
+ d=chromium.org; s=google; t=1716930090; x=1717534890;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wAiZLH4SqBbY1UwV3SCGGHNBB/wuO7Z17nSxSfKqNPs=;
- b=dJOEqD6SJvsadgUnrUDHMUFqW3qC/It0Fiqio09N58J6KV9h4SHx1yeuS+Dum2BP+P
- 8qbJ8/BJ/CEvhfArsRdgTpRyecWbXvvMveiyd03crmaqQ+ZJyGOSksiCTieMtiEh9uds
- ci86OShT+/+3NNq0TWK0BRmCA6qCZSHLpbj6k=
+ bh=kldUlHGlYelMN62LBMJjgiLYRVJsAWF6QEo1XLUDCEo=;
+ b=VJG8uM3NOeAnsbYzPsXpgE3oQS7Y2KBeZ01K7EDlMW3yv7mREyTn0YqIkkyprnh8tv
+ oym0ZuFzTtVXF5j1dMWVpmpAwjt2mNnn/27w9+UwOHEzdCVYAu7r36yq40lF2pVbVE3m
+ JRK2YBuZOLJoYxUNkYvj/cE8qUn9o9s4RwhL8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716930080; x=1717534880;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1716930090; x=1717534890;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wAiZLH4SqBbY1UwV3SCGGHNBB/wuO7Z17nSxSfKqNPs=;
- b=TD/aICl/XLWh4LmRAF7boIiVaRjcKOHTplttqAY/4uHIedj7yS53iU89upz752H0rm
- 3FDTIUglJ/G4qJq2UEsPtN+CQjiE9whabrWRcpDgzfush4SDeaICnW/av3xc1Bjkot5H
- oQJ3NBqylOFksNBXuJdfv1//aHGAbzlO1WCWgeQsJrixOjpN/IdLldi6Aux8qgJYmkRH
- O2Nyh11RVLfCFg6PbNtlkTYpmkvdFB+jaXZIWmAY51Gafmk1lgi7TGmAWOqTUATcm+a2
- YtbYptYCpBFOwAVYZrbT47QT0gg9kin0JmnzAonntgwSXbYQTsIFVg19bkwrFaNGdffu
- UWKQ==
+ bh=kldUlHGlYelMN62LBMJjgiLYRVJsAWF6QEo1XLUDCEo=;
+ b=iBO1FpyeruPPKI6R5noA4SgIP9yldCN4CDVvjx291k2Kze6JlPreevmIYTxlZTrYvS
+ 6r6DPMmDkL+hBH928TQSYlH1DKBhjHO63bZdeA/SlTxRQA/JtAPsO5sI2eTa0Sfbv1cz
+ 1t7amGQt0HkuIiWISuk/WhQa/4I9HGgs0lC2stFlCNAVM6ggzcHlmG8vVPdTOQ1Smeft
+ ItqClU8kNLIyFeGJX9cc+4byc2ErIOzL+3b+TJlHJnmMa5F2JFgoDxT5B58n691NTEUu
+ u7Mh6W+w13JnzGG1kb0wom6U0eyLOgr5ebfz6wsVUgAWdWfyt0iNdxDT9J3FJzTlL9i4
+ 4Ung==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW6k7hpd06bDKKddIjJi61YGZ7RcLN/5yysa3d97NLSW9EcmA0zmLGbQPwVtKjKMlsgg36ISewI7ggVjco3Eb5gP153iv9YWLOEgxPYWB8E
-X-Gm-Message-State: AOJu0Yzc5IRKZ4vzJ/hP7cUgrWM3EVp10X8p0kWQbYgx2EZp9fq5AvpI
- pvrjDjKmr+gzb5ECAGEttMKVPOJPSbUJwC3qLjAgrX83tFfBH4gHhBhjV/ckKS7NUXkegT3Q61Q
- =
-X-Google-Smtp-Source: AGHT+IH/aDj7bMiV8Xi1QJ5PpPajJikjpnmE57h81Rji/nYDnPgdWuQBBcciFZ3lYiefzUkzn7W3Ig==
-X-Received: by 2002:a05:622a:199c:b0:43c:5d51:9e88 with SMTP id
- d75a77b69052e-43fb0e41208mr122945341cf.16.1716930080198; 
- Tue, 28 May 2024 14:01:20 -0700 (PDT)
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com.
- [209.85.160.176]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-43fe20ea4acsm85531cf.80.2024.05.28.14.01.14
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 May 2024 14:01:19 -0700 (PDT)
-Received: by mail-qt1-f176.google.com with SMTP id
- d75a77b69052e-43dfe020675so156931cf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 14:01:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUb8nHkmHFQM1cjSdq+tTd7uKSJyOZnDJnRZ/Pawrtj8kpwnfE6bFmKdpKqGLC+WdMwfS5H+ZceWCdy2b9oiOY/kb82eojw4LKG/7zwy8iV
-X-Received: by 2002:a05:622a:4d91:b0:43f:b182:df58 with SMTP id
- d75a77b69052e-43fe0f4cf97mr504881cf.4.1716930074114; Tue, 28 May 2024
- 14:01:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240527095511.719825-1-treapking@chromium.org>
- <20240527095511.719825-3-treapking@chromium.org>
-In-Reply-To: <20240527095511.719825-3-treapking@chromium.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 28 May 2024 14:01:02 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WS+3V0EfXnS2b_t+CFZqea5OM=fs9NMRKapLiQ9qB12Q@mail.gmail.com>
-Message-ID: <CAD=FV=WS+3V0EfXnS2b_t+CFZqea5OM=fs9NMRKapLiQ9qB12Q@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/panel-edp: Add more panels with conservative
- timings
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>,
+ AJvYcCUbtFStCJLN7crlRE9j61zd7hLN54NXz6x2TdaosQJ0y5l7mgV4Z9Thw3uxG8YG1LQDhuGAT0Vg62+5tTw/tEanJlpRXvP5T6ljgM4+Ir/s
+X-Gm-Message-State: AOJu0Ywh7goso5idqplUEITQadcAbqerbnTy/bDpKDjr9LlPnRXzF1Jl
+ j8JsZzreTe1sT7z9YWuNS/SzQ16gv7e1w/AEVOpvk9OcVFUjREc99dCExGTatw==
+X-Google-Smtp-Source: AGHT+IG0kNYVDsSVx+Xsf6GkcBdGPX/DHNTyq9JYFaso+nYgLEMtrbd/KFyjo1fC5f0hK7H3VKK7mQ==
+X-Received: by 2002:a17:903:22cd:b0:1f3:7ba:db1f with SMTP id
+ d9443c01a7336-1f448704932mr141299485ad.16.1716930090171; 
+ Tue, 28 May 2024 14:01:30 -0700 (PDT)
+Received: from dianders.sjc.corp.google.com
+ ([2620:15c:9d:2:8d59:feec:9939:40d7])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f481d5a77bsm53167725ad.298.2024.05.28.14.01.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 May 2024 14:01:29 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Pin-yen Lin <treapking@chromium.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+In-Reply-To: <20240527095511.719825-2-treapking@chromium.org>
+References: <20240527095511.719825-1-treapking@chromium.org>
+ <20240527095511.719825-2-treapking@chromium.org>
+Subject: Re: (subset) [PATCH 1/2] drm/panel-edp: Add support for several panels
+Message-Id: <171693008901.3691502.12900282593868774684.b4-ty@chromium.org>
+Date: Tue, 28 May 2024 14:01:29 -0700
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,32 +88,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Mon, May 27, 2024 at 2:56=E2=80=AFAM Pin-yen Lin <treapking@chromium.org=
-> wrote:
->
-> Same as commit 7c8690d8fc80 ("drm/panel-edp: Add some panels with
-> conservative timings"), the 3 panels added in this patch are used by
-> Mediatek MT8173 Chromebooks and they used to work with the downstream
-> v4.19 kernel without any specified delay.
->
-> These panel IDs were found from in-field reports, but their datahseets
-> are not available. For BOE 0x0623 and SHP 0x153a, their product names
-> are retrieved from the EDIDs. The EDID of AUO 0x1999 does not contain
-> such information, so list as "Unknown" in this patch.
->
-> Update these entries with less-conservative timings from other panels of
-> the same vendor.
->
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
->
-> ---
->
->  drivers/gpu/drm/panel/panel-edp.c | 3 +++
->  1 file changed, 3 insertions(+)
+On Mon, 27 May 2024 17:54:49 +0800, Pin-yen Lin wrote:
+> Add support for the following models:
+> AUO B140HTN02.0
+> BOE NT116WHM-N21 V4.1
+> BOE NT116WHM-N21
+> 
+> 
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Applied, thanks!
 
-...and as usual with small updates to this table I've pushed it to
-drm-misc-next without a big wait.
+[1/2] drm/panel-edp: Add support for several panels
+      commit: e4f9fd9edbc22faceb4c9c57242440bb9e17924b
+
+Best regards,
+-- 
+Douglas Anderson <dianders@chromium.org>
+
