@@ -2,173 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301218D1A6C
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 13:57:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8225C8D18E7
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 12:50:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 621CB112105;
-	Tue, 28 May 2024 11:57:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54D4010E48B;
+	Tue, 28 May 2024 10:50:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="UgtYl7GS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Hc5Xj+3U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2087.outbound.protection.outlook.com [40.107.100.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF48B10E0C0;
- Tue, 28 May 2024 10:45:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GiI4RKFGWG4PDkhJS3fC0r+CBtbBgN+DrzBu/SbPAirHsUPQOZV0v2xY4QwqXaObap01OXpkwPbkMYCFRqssZprVHvcciwJw62DT9hUYEGBR4LT51JdbKrW5ormxhizN4s1MRF8GafCsk414FWFzldzhYf3O8M38XX5WFr3W6E4xQ6nFo3HASRsRF2BIG84tPTj68c01664WXlEPoIpggFqHrCuvxYbr/DDHz6VMiuTY/ZYXXxvofa/7Go24u8NQ7Uq+7uweIeEZe6vF0+b5DlkNRdk5pKIuC3lFMzBsn3U9U3fqie584wNbzMWDNrHBduueNqMRDqgXfRHut8xrHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N3KYo7PIpA/oF/ig+sEeyfCsq4LzgI5SKlvQPP3EDJo=;
- b=LbpYxnan39kWTuvQ7IuYkKcxb/tdN46mzpUukPQ7jR95yL1OTN6lMwsQvNnbBS+Cg/aB4wxfa6PVWI98sJ/fejjXyOsvokymRhXN7a+noGSHkKlLbx12eW7nERZ0XVOI6jjbGuTyPEK30T8h4GZWHMItWjrRIe6zTBHD1BQKxiKk0IuZ9jk7ipy1nZuCE29YlZX0gN9ojaKtaIrAqxKGQEjRNKRpjU67fm1gaul50eg2UeKtFlkovc2gGsFMa6rM8Lkj9ht8I7kUfkgRyDYJqAEAnOImtjFlGsi/DNsMbY0BNFKqKjjir3s01LP213jSj+uozgnXNJw+oqE3ZxRj4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N3KYo7PIpA/oF/ig+sEeyfCsq4LzgI5SKlvQPP3EDJo=;
- b=UgtYl7GSuRyNUTvouwT/EYb+15wMcjiN+rFs/qn57XuAJXoykCV6Pw1oNYMAdc2jU6dTO5eN71d88sDNbNFGLhlk1+Vo0KWjvC9vDKu2dXgcdQ9u+fa3h+AF8rxfAQ1gx5NDdSuCMoyhKCNtDahlka93UDrn8MkpE4z2vGk+KupONYLFctRtXu/Kn6XvzuVfBL58ZcG/4nvUyVqcmFgWhLmM9jk/ZVc8IhdwVvar+L3E368KRJrQtC/ROPqI+AA5OmLALPFz+MY6IYvjVdD5s3KCKjSN58YdivRixs4CI5vgN5EFGMXfZ/8RXRkK5NAAJ40UrhlRetDsiLpcZt8d6w==
-Received: from SA1PR12MB6870.namprd12.prod.outlook.com (2603:10b6:806:25e::22)
- by SA1PR12MB5672.namprd12.prod.outlook.com (2603:10b6:806:23c::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.30; Tue, 28 May
- 2024 10:45:32 +0000
-Received: from SA1PR12MB6870.namprd12.prod.outlook.com
- ([fe80::8e11:7d4b:f9ae:911a]) by SA1PR12MB6870.namprd12.prod.outlook.com
- ([fe80::8e11:7d4b:f9ae:911a%5]) with mapi id 15.20.7611.030; Tue, 28 May 2024
- 10:45:31 +0000
-From: Zhi Wang <zhiw@nvidia.com>
-To: FUJITA Tomonori <fujita.tomonori@gmail.com>
-CC: "dakr@redhat.com" <dakr@redhat.com>, "maarten.lankhorst@linux.intel.com"
- <maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
- <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, 
- "ojeda@kernel.org" <ojeda@kernel.org>, "alex.gaynor@gmail.com"
- <alex.gaynor@gmail.com>, "wedsonaf@gmail.com" <wedsonaf@gmail.com>,
- "boqun.feng@gmail.com" <boqun.feng@gmail.com>, "gary@garyguo.net"
- <gary@garyguo.net>, "bjorn3_gh@protonmail.com" <bjorn3_gh@protonmail.com>,
- "benno.lossin@proton.me" <benno.lossin@proton.me>, "a.hindborg@samsung.com"
- <a.hindborg@samsung.com>, "aliceryhl@google.com" <aliceryhl@google.com>,
- "lina@asahilina.net" <lina@asahilina.net>, "pstanner@redhat.com"
- <pstanner@redhat.com>, "ajanulgu@redhat.com" <ajanulgu@redhat.com>,
- "lyude@redhat.com" <lyude@redhat.com>, "gregkh@linuxfoundation.org"
- <gregkh@linuxfoundation.org>, "rust-for-linux@vger.kernel.org"
- <rust-for-linux@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "nouveau@lists.freedesktop.org"
- <nouveau@lists.freedesktop.org>
-Subject: Re: [RFC PATCH 7/8] rust: add firmware abstractions
-Thread-Topic: [RFC PATCH 7/8] rust: add firmware abstractions
-Thread-Index: AQHasGq9PdWC/vvfakyx3/WUuSONP7GsVISAgAAbQQCAAAe5AA==
-Date: Tue, 28 May 2024 10:45:31 +0000
-Message-ID: <1e09c517-123f-442d-8184-c33ba52a37bf@nvidia.com>
-References: <20240521083231.000074c2.zhiw@nvidia.com>
- <ZlTcnYNff2EDQJdj@pollux.localdomain>
- <fd5dbd42-24b7-422b-bc0b-393347b3fdca@nvidia.com>
- <20240528.191754.1306229738730927340.fujita.tomonori@gmail.com>
-In-Reply-To: <20240528.191754.1306229738730927340.fujita.tomonori@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR12MB6870:EE_|SA1PR12MB5672:EE_
-x-ms-office365-filtering-correlation-id: 28f83e39-a9f9-4f48-6a9c-08dc7f034c24
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230031|1800799015|7416005|376005|366007|38070700009; 
-x-microsoft-antispam-message-info: =?utf-8?B?STdFTGlZUEdnaHRaUTB3NzVQN05XZ0ozUHV0clRoREI1SGFtUHNsanYwMXJE?=
- =?utf-8?B?R05MNGRpRmV4eFJvWkxScGFVODV6UE9nL2tBWnc1NWF3SjI2V2FaM3pDY05h?=
- =?utf-8?B?Mk5zS0NDdVg1TE5XODJ2emY3WjJiT2JMOStxbmZMdUlpU1VnZ0QxQU8ycmtn?=
- =?utf-8?B?cGtmNjdJT1B6QVV6cDRINDVtZkREbjZmTkpxUkZVbTl4QmpBcldtM2wxV1RE?=
- =?utf-8?B?cWkzQ3hsMkJTZlNXMnFFRmlrc1AwZENVMTUyenB5Q1ZWdWF6YURKOHczOUJD?=
- =?utf-8?B?Y25Kb0xKdjFudzR2dHRXdHl3MGVld3lMSTRqWmhvQVorV08rK1kxRUpER3Ar?=
- =?utf-8?B?dEdNWnBobTVLSzZMb09DVmJZWGhNQWk2Smx1Zm05MXFCTlorRnp5ZWhWZ1dD?=
- =?utf-8?B?VmVyeGNhYjBuZDNLOHlKSWFyM3IzSENwNXcrSXBKL0JwSW1LV2xwa25OLzZv?=
- =?utf-8?B?dTVKdVBXMFkrMDdMTTUweDM5aEVQcHpKL2hWeEw4NXdJV3hrQjBLT3Z2eGc2?=
- =?utf-8?B?dkxXSlc4bTJvN3JrbmRYd2R1TEQ4aXNIWHZQdjc0ZnhQeGNLUnRUZGVNM0Ja?=
- =?utf-8?B?YmYvTTBtQm40dkVPdm5sQXc4ZmNYT01PbzM3SG1FeVJMSkxFeDJpSERaVm5h?=
- =?utf-8?B?VjFNUHNQaFRXL1FCWFR4T1p1ME1nOTVEcnRDSnZNWHVoQ2FMM0FHMXpKbWp1?=
- =?utf-8?B?ZjdFTTJ2TUpqd3lNbHVHdFlsZUF1UkVwRnUvakNmS0NlN0NOOFd4b3M0VXV4?=
- =?utf-8?B?WHlPcXUwRHkxNnRnTnE0MHYzY1d0YVcrMGF2a2JpY2xpUlBxZlZraVYrMG5l?=
- =?utf-8?B?bEs4SDZ2Z2ZUcEluYTQ1QTdxYkVUb2c2V0V0cUJleFpQNmtNRFRFcTVhNG9Y?=
- =?utf-8?B?aU9lT0MrTnBwdDB1YlFremR4TEs5Z0FPQ3VFdElZaFk3NjE1SzRQYzVBQUJx?=
- =?utf-8?B?QmRVRENIMTlhNmJQWjlqL1lHbE1EVlNqaTUrbXlXSk1zaCtZVG5DWnVLeW40?=
- =?utf-8?B?SWhjYWxxclZzak9iNTEvMnBkMWRBbWxTSEgveVNoT0NIV2NnVkRVWGdiaTBJ?=
- =?utf-8?B?aVZJNzhQNWJqSkR4L3krY3hsQ0k3SlowV0dmUVhqaWdLc053blJSQnRQeDRN?=
- =?utf-8?B?d2Y5MUNlL3ZjUlFXUmc2d1ZFR3BYdjRCV2VoSm05TGExWDRITUNIOGx6c0cx?=
- =?utf-8?B?OGxvMGZ3K25tUmF4Nm9pVjJLUll3N2VxckRyZTlsK2owdDEzMHFSNkoyMFhI?=
- =?utf-8?B?T1IxdjhaYTYwNGdqcFA2UEFmSFNENEluYUVZRHExSkxBTVZpcmlGSEZTYm55?=
- =?utf-8?B?SEJaemhIL1hWNEJBZVdNUHBSN2FrNVVjbVpGU1lpWExTb0xnQm1kYlJjOTc3?=
- =?utf-8?B?bWxQTEdHdTBwZk1oMlVDRHpjRFdNUzl6N0tqZ3hMVmNTTm1DVGdhRkR2S0xr?=
- =?utf-8?B?NUVDbG8yeDd5MkgrMWZTd285Zm9DSlMxVFh4MkllTnFQRGxCcjk0d1BMaFNZ?=
- =?utf-8?B?dkFSalo0eEcvblVLYk5yQkJscUdOYUNSb2pGREx5cXVSTnpJeGZvOFg2TUpO?=
- =?utf-8?B?d2Q3NWtDTVJwd0FGdkdOSUxFcERaWUtSWjQvQlhoQUJVd3V4RktVTEV2djZr?=
- =?utf-8?B?Zjd1dGJiK1hwL3VLV3FVZUMwcmw3Nm5hV0VhMWs3UmpRa2dwNWp6dEN1Uno2?=
- =?utf-8?B?UXVFaTNYU2MvMlZyZG5McVkxZ1p3aCtibDk3S3huMWVqTGJDZFVTRmQ4Qkd6?=
- =?utf-8?B?d0FIWlJSYWxnRXBkWEJzMU9yVXlLMUVWQlJrM05RZVpEZWhvYXJpOEE4VDBr?=
- =?utf-8?B?UzJicWJ5WjM4N1FZQSsvUT09?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR12MB6870.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(7416005)(376005)(366007)(38070700009); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ei8ranNHQkxTUk53b2tJRkZicGpWZTNUeHEyQy9Dbkh3QytSMmZTYUpLVXpk?=
- =?utf-8?B?emNRc2xOOTZRem5rWWt1YUxGeDZGOGxVdkYwbWVETGsrMUVUQlN3TnVJR0lk?=
- =?utf-8?B?TnZ1U01DZFFuYmZiTXZOZ0dUdUhSM1FEWDZrOU92MU9weXpsZzV4UE5IV0pn?=
- =?utf-8?B?YUFMbDhneUN1eXUxWnVDbnB5TytseFNvNDhMblA1VmNMNVl4dFRER2d2Y3No?=
- =?utf-8?B?ZlVUdm55aENlVDVHUVVFZ3RSbkNjaWk2Zk9za0RMcUgranpGQVozcVRyTmI5?=
- =?utf-8?B?U0xDWXdma3Z2cFhEeUUyQUhFMGttY1dDcWRSVlRUaUFjK1V6bjZ5MHd0Um4x?=
- =?utf-8?B?bkdGNjRvWFJZbkpJeVR4b1kwSjhUOCtNQk5uNDVZSERKVDlzK3lqOSs0d2F5?=
- =?utf-8?B?TTl4YVFrMUxUNWFhbGFlRmtyOWZ0RmxLNm5QNTBuK1RkUStWT2dna2NxdlhT?=
- =?utf-8?B?SFlKeUJsTWxtT0dTNE05Mi9vUC81WmI1akpWdkJwSXhRRndLci91U3hVUWNL?=
- =?utf-8?B?Z0NFL0FkZVZoMUIrb05vTmFaRkl5MTY1d3RIQXI5ZUN0a01lckhqaEF2VHJr?=
- =?utf-8?B?WEwvNUlpQ2FmZTNvVTU4eE5FN0tNVWN2YWxuMVBYL3gvUmc4bjZRWjhhU1VO?=
- =?utf-8?B?L3lPSGRVN1hwV2x2YVYzQmE4VXh1Z0d0bUdqTDZ4dTVmYzZibGxGMVZibEhP?=
- =?utf-8?B?dHV0bzJ4TUN0ZkQ3SGhyd0RBcGp0bEF3ejkvaXFhcnppVVlqcmJOd1RveHpp?=
- =?utf-8?B?T0NrWVdpL3JyRXNJb2tzNjdSMkxBOUtkZXMxMUFWaGxuRVFRSHZzV1UxeTZH?=
- =?utf-8?B?YlN4WDhHb0RHOW9qMHVKWXZ2SjY1R2w4a0RkRWFRTVErV2ptd0QvbktKdk9u?=
- =?utf-8?B?N3Izd0hNVzVKUUUvWmZlclhUYWwwNzdIeFVDTFlvSXBIbTNFbng0dXYrTlp4?=
- =?utf-8?B?RmV0a3I0aFhQcVJNRERtVjNad1V6Z1JoV2dtYk1ES1Rzcy9XaDBObHN4c2tx?=
- =?utf-8?B?VXpoUU9vVHhpdythSzA4NWwzUG16Z2gwTUhzUE1TMlBGRnZDUEFyMnNYdjJF?=
- =?utf-8?B?MHpCQ0tEZDBDZVc0d3BCVU0rU2hkTjd1c0JDSE1ST0VPeE9sSnhHcW5VZExh?=
- =?utf-8?B?cDVrWHVHRDJ1OEVTOWJoOUo4TDMxdGFuQlJCbElhM3kxS0hjSEdjdUdob0c4?=
- =?utf-8?B?LytaOG5zQ1E1Mmp6aTF6MXRJSWlmV3BMdjlHUzlNdzI3U0kzbHJSbzEyNGhj?=
- =?utf-8?B?a1g4cVk4YjI5WElFY0w5NzdLN3dRK3dNQmdhQXc1L3hUbzNZbG9MYlgyRi9J?=
- =?utf-8?B?N3p5S2psaHQ3c0R2TzdXYk5hcHExbFk2aUY3M0swMUNTUDdCQy9reWlEWEJq?=
- =?utf-8?B?UFRJZDBoM2loSmxZc1hkYXJrR1RQejRnR1phSFpGTmt2MzFFdjljNDVPdzFp?=
- =?utf-8?B?S3dNWDhJSW1tNWQyUmFOdVhBRWlHZDJJN3BLN1hxQTJGZWFWQ2ViYmZxeWRl?=
- =?utf-8?B?bzA3Q3R2dG5FRFFKRlJBN3o2N3hSdUx6OUJPamhyZ0EyV2VBMWhKamsvOHBq?=
- =?utf-8?B?bkQ3ZXErVEtmWk1jSTVldkd4TUNDMmNGRmVYSER5bDRtbURsbTA4aDJFVm80?=
- =?utf-8?B?SzFFUk5sSTVOR05qUy9mRnc0UW1jUmpPUnhpaHVzcWxYbzB3dEpOdnZJRjZP?=
- =?utf-8?B?TXB4NkRNVHJIZVZKU0Naa1VLanhoRVNFOXl3RlNUcS9RcXBHSmJrR1dZR2xx?=
- =?utf-8?B?YSsxOTZleFpTdjJ5YWNic3V0MDBDY2VHVDVnM1UvaGZ5TzI3U3ZxNTIxL3dZ?=
- =?utf-8?B?SDc1T1VRWlBmcTdUdy9NYlppRVR2RTlTcjdTNUNiSnU5Rmd0blp1Q1BCbVEv?=
- =?utf-8?B?Snc1UXdodnBsU040ZXV1dXB6YS9VN3BTTldBaGw0aXgwVlB2NG9xSWptUzlM?=
- =?utf-8?B?dmt0bVFmZEIwMVZ3RFpJTXFaTmQzdkJwM2xYZUx3RllqT050a0k5QkZOUDMr?=
- =?utf-8?B?T0N0S21idllndzlOcmtLUWJicVlpMFdBeEtCZEhZSHZSckdmOGtTR2wxTGZt?=
- =?utf-8?B?WndPU1ZYK1RUNldRWlduZlQzbGphQkxGaVFLT3lNcmJuVlZ2VHhWL29BUm9j?=
- =?utf-8?Q?Ohyg=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B01111229C76544AB8AF90C0BDF5DE1F@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B0AE10E26F;
+ Tue, 28 May 2024 10:50:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716893448; x=1748429448;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=YdPUdMV79QZEdlrPLgN7eJGrOsuZMxf0AuN4XLP9fbs=;
+ b=Hc5Xj+3Uvrr7fRwnbDfQp8nXNN6C2H90HlDLx+IcVvG+FSuKIXkx0aAf
+ mCgTrXeHxc+9ijgSiHAZhjpHBlgKkF/BwxbPoddPNwdculYxU/VuczDfE
+ YWBKEeMiTERV4RLl9E4Kkrijcej32zJTSijdZT3tSUGyReQQv5oxYpVlp
+ JoQOFFSXhEQM/TftwgT5RcgSl+cpzvHP2ipvLe1BHvskUD+2ooqYrj1rj
+ PbXNYP9NyFSRjbWKNmdZzAtNQ7hcAKJ7qCBtakDpNeD0U+BOkTcg9u0WK
+ feoGkyXVgMvBf/HlHVtOHf4+q9yuTmbtFsnMSKAlw91kqxeJ9VhcK7o8Z g==;
+X-CSE-ConnectionGUID: EaVzCM/EQa6yBu88cL9Q5w==
+X-CSE-MsgGUID: mAnO1CQJRdG0kDvDaTdauA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="24357531"
+X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; d="scan'208";a="24357531"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2024 03:50:47 -0700
+X-CSE-ConnectionGUID: S5yKiV05R4W2810eC4Izvw==
+X-CSE-MsgGUID: zLycjUr9SNWY3ahZhgUYzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; d="scan'208";a="58217497"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2024 03:50:41 -0700
+Date: Tue, 28 May 2024 13:50:46 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 3/9] drm/i915: Introduce plane->min_alignment() vfunc
+Message-ID: <ZlW3BuUrXuNr7qMK@ideak-desk.fi.intel.com>
+References: <20240513175942.12910-1-ville.syrjala@linux.intel.com>
+ <20240513175942.12910-4-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB6870.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28f83e39-a9f9-4f48-6a9c-08dc7f034c24
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 May 2024 10:45:31.8754 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UhWAYWrt5j3hLeQfcwJINs5uj+TyCDv/TndtmcWJn9EZcuXxCW6BZUu5XM49FsHT
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB5672
-X-Mailman-Approved-At: Tue, 28 May 2024 11:57:27 +0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240513175942.12910-4-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,60 +66,428 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjgvMDUvMjAyNCAxMy4xNywgRlVKSVRBIFRvbW9ub3JpIHdyb3RlOg0KPiBFeHRlcm5hbCBl
-bWFpbDogVXNlIGNhdXRpb24gb3BlbmluZyBsaW5rcyBvciBhdHRhY2htZW50cw0KPiANCj4gDQo+
-IEhpLA0KPiANCj4gT24gVHVlLCAyOCBNYXkgMjAyNCAwODo0MDoyMCArMDAwMA0KPiBaaGkgV2Fu
-ZyA8emhpd0BudmlkaWEuY29tPiB3cm90ZToNCj4gDQo+PiBPbiAyNy8wNS8yMDI0IDIyLjE4LCBE
-YW5pbG8gS3J1bW1yaWNoIHdyb3RlOg0KPj4+IEV4dGVybmFsIGVtYWlsOiBVc2UgY2F1dGlvbiBv
-cGVuaW5nIGxpbmtzIG9yIGF0dGFjaG1lbnRzDQo+Pj4NCj4+Pg0KPj4+IE9uIFR1ZSwgTWF5IDIx
-LCAyMDI0IGF0IDA4OjMyOjMxQU0gKzAzMDAsIFpoaSBXYW5nIHdyb3RlOg0KPj4+PiBPbiBNb24s
-IDIwIE1heSAyMDI0IDE5OjI0OjE5ICswMjAwDQo+Pj4+IERhbmlsbyBLcnVtbXJpY2ggPGRha3JA
-cmVkaGF0LmNvbT4gd3JvdGU6DQo+Pj4+DQo+Pj4+PiBBZGQgYW4gYWJzdHJhY3Rpb24gYXJvdW5k
-IHRoZSBrZXJuZWxzIGZpcm13YXJlIEFQSSB0byByZXF1ZXN0IGZpcm13YXJlDQo+Pj4+PiBpbWFn
-ZXMuIFRoZSBhYnN0cmFjdGlvbiBwcm92aWRlcyBmdW5jdGlvbnMgdG8gYWNjZXNzIHRoZSBmaXJt
-d2FyZQ0KPj4+Pj4gYnVmZmVyIGFuZCAvIG9yIGNvcHkgaXQgdG8gYSBuZXcgYnVmZmVyIGFsbG9j
-YXRlZCB3aXRoIGEgZ2l2ZW4NCj4+Pj4+IGFsbG9jYXRvciBiYWNrZW5kLg0KPj4+Pj4NCj4+Pj4N
-Cj4+Pj4gV2FzIHBsYXlpbmcgd2l0aCBmaXJtd2FyZSBleHRyYWN0aW9ucyBiYXNlZCBvbiB0aGlz
-IHBhdGNoLg0KPj4+PiBVbmZvcnR1bmF0ZWx5IEkgZW5kZWQgdXAgd2l0aCBhIGxvdCBvZiBwb2lu
-dGVyIG9wZXJhdGlvbnMsIHVuc2FmZQ0KPj4+PiBzdGF0ZW1lbnRzLg0KPj4+Pg0KPj4+PiBBcyB3
-ZSBrbm93IG1hbnkgdmVuZG9ycyBoYXZlIGEgQyBoZWFkZXJzIGZvciB0aGUgZGVmaW5pdGlvbnMg
-b2YgdGhlDQo+Pj4+IGZpcndtYXJlIGNvbnRlbnQsIHRoZSBkcml2ZXIgZXh0cmFjdCB0aGUgZGF0
-YSBieSBhcHBseWluZyBhIHN0cnVjdA0KPj4+PiBwb2ludGVyIG9uIGl0Lg0KPj4+Pg0KPj4+PiBC
-dXQgaW4gcnVzdCwgSSBmZWVsIGl0IHdvdWxkIG5pY2UgdGhhdCB3ZSBjYW4gYWxzbyBoYXZlIGEg
-Y29tbW9uDQo+Pj4+IGZpcm13YXJlIGV4dHJhY3RvciBmb3IgZHJpdmVycywgdGhhdCBjYW4gd3Jh
-cCB0aGUgcG9pbnRlciBvcGVyYXRpb25zLA0KPj4+PiB0YWtlIGEgbGlzdCBvZiB0aGUgZmlybXdh
-cmUgc3RydWN0IG1lbWJlcnMgdGhhdCBjb252ZXJ0ZWQgZnJvbSBDIGhlYWRlcnMNCj4+Pj4gYXMg
-dGhlIGlucHV0LCBvZmZlciB0aGUgZHJpdmVyIHNvbWUgY29tbW9uIEFCSSBtZXRob2RzIHRvIHF1
-ZXJ5IHRoZW0uDQo+Pj4+IE1heWJlIHRoYXQgd291bGQgZWFzZSB0aGUgcGFpbiBhIGxvdC4NCj4+
-Pg0KPj4+IFNvLCB5b3UgbWVhbiBzb21lIGFic3RyYWN0aW9uIHRoYXQgdGFrZXMgYSBsaXN0IG9m
-IHR5cGVzLCBvZmZzZXRzIGluIHRoZQ0KPj4+IGZpcm13YXJlIGFuZCBhIHJlZmVyZW5jZSB0byB0
-aGUgZmlybXdhcmUgaXRzZWxmIGFuZCBwcm92aWRlcyByZWZlcmVuY2VzIHRvIHRoZQ0KPj4+IGNv
-cnJlc3BvbmRpbmcgb2JqZWN0cz8NCj4+Pg0KPj4+IEkgYWdyZWUgaXQgbWlnaHQgYmUgaGVscGZ1
-bCB0byBoYXZlIHNvbWUgY29tbW9uIGluZnJhc3RydWN0dXJlIGZvciB0aGlzLCBidXQgdGhlDQo+
-Pj4gb3BlcmF0aW9ucyBvbiBpdCB3b3VsZCBzdGlsbCBiZSB1bnNhZmUsIHNpbmNlIHVsdGltYXRl
-bHkgaXQgaW52b2x2ZXMNCj4+PiBkZXJlZmVyZW5jaW5nIHBvaW50ZXJzLg0KPj4+DQo+Pg0KPj4g
-SSB0aGluayB0aGUgZ29hbCBpcyB0byAxKSBjb25jZW50cmF0ZSB0aGUgInVuc2FmZSIgb3BlcmF0
-aW9ucyBpbiBhDQo+PiBhYnN0cmFjdGlvbiBzbyB0aGUgZHJpdmVyIGRvZXNuJ3QgaGF2ZSB0byB3
-cml0ZSBleHBsYW5hdGlvbiBvZiB1bnNhZmUNCj4+IG9wZXJhdGlvbnMgaGVyZSBhbmQgdGhlcmUs
-IGltcHJvdmUgdGhlIHJlYWRhYmlsaXR5IG9mIHRoZSBkcml2ZXIgdGhhdA0KPj4gaW50ZXJhY3Rz
-IHdpdGggdmVuZG9yLWZpcm13YXJlIGJ1ZmZlci4gMikgZWFzZSB0aGUgZHJpdmVyIG1haW50ZW5h
-bmNlDQo+PiBidXJkZW4uDQo+Pg0KPj4gU29tZSBzb2x1dGlvbnMgSSBzYXcgaW4gZGlmZmVyZW50
-IHByb2plY3RzIHdyaXR0ZW4gaW4gcnVzdCBmb3INCj4+IGRlLXJlZmVyZW5jaW5nIGEgcGVyLWRl
-ZmluZWQgc3RydWN0Og0KPiANCj4gQXJlbid0IHRoZXJlIG90aGVyIGFic3RyYWN0aW9ucyB0aGF0
-IHJlcXVpcmUgdGhhdCBmdW5jdGlvbmFsaXR5LCBub3QNCj4ganVzdCB0aGUgZmlybXdhcmUgYWJz
-dHJhY3Rpb25zPw0KDQpTdXJlLCBidXQgdGhleSBtaWdodCBpbXBsZW1lbnQgaXQgaW4gYSBkaWZm
-ZXJlbnQgd2F5IGR1ZSB0byB0aGVpciANCmRpZmZlcmVudCBzY2FsZSBhbmQgcmVxdWlyZW1lbnRz
-IG9mIG1haW50ZW5hbmNlLg0KDQpJIGFtIG1vcmUgaW50ZXJlc3RlZCBpbiB3aGF0IGlzIHRoZSBi
-ZXR0ZXIgb3B0aW9uIGZvciBmaXJtd2FyZSANCmFic3RyYWN0aW9ucyBiYXNlZCBvbiBpdHMgc2Nh
-bGUgYW5kIHJlcXVpcmVtZW50cy4gMSkgaG93IHRvIGltcHJvdmUgdGhlIA0KcmVhZGFiaWxpdHkg
-b2YgdGhlIGRyaXZlciwgbWVhbndoaWxlIGtlZXAgdGhlIG9wZXJhdGlvbnMgc2FmZS4gMikgdGhl
-cmUgDQpoYXMgYmVlbiBDLXZlcnNpb24gdmVuZG9yLWZpcm13YXJlIGRlZmluaXRpb25zLCB3aGF0
-IHdvdWxkIGJlIHRoZSBiZXN0IA0KZm9yIHRoZSBydXN0IGRyaXZlciB0byBsZXZlcmFnZSBpdCBi
-YXNlZCBvbiB0aGUgcm91dGluZXMgdGhhdCB0aGUgcnVzdCANCmtlcm5lbCBoYXMgYWxyZWFkeSBo
-YWQuIDMpIGhvdyB0byBhdm9pZCBzeW5jaW5nIHRoZSBoZWFkZXJzIG9mIHZlbmRvciANCmZpcm13
-YXJlIGJldHdlZW4gQyBhbmQgcnVzdCB2ZXJzaW9uLCBhcyB0aGUgZGVmaW5pdGlvbiBjYW4gc2Nh
-bGUgdXAgZHVlIA0KdG8gSFcgZ2VuZXJhdGlvbnMgb3IgQUJJIGNoYW5nZXMuDQoNClRoYW5rcywN
-ClpoaS4NCg==
+On Mon, May 13, 2024 at 08:59:36PM +0300, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> 
+> Different hardware generations have different scanout alignment
+> requirements. Introduce a new vfunc that will allow us to
+> make that distinction without horrible if-ladders.
+> 
+> For now we directly plug in the existing intel_surf_alignment()
+> and intel_cursor_alignment() functions.
+> 
+> For fbdev we (temporarily) introduce intel_fbdev_min_alignment()
+> that simply queries the alignment from the primary plane of
+> the first crtc.
+> 
+> TODO: someone will need to fix xe's alignment handling
+> 
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+Reviewed-by: Imre Deak <imre.deak@intel.com>
+
+> ---
+>  drivers/gpu/drm/i915/display/i9xx_plane.c     |  8 ++--
+>  drivers/gpu/drm/i915/display/intel_cursor.c   |  2 +
+>  .../drm/i915/display/intel_display_types.h    |  3 ++
+>  drivers/gpu/drm/i915/display/intel_fb.c       | 22 +++++-----
+>  drivers/gpu/drm/i915/display/intel_fb.h       |  7 +++-
+>  drivers/gpu/drm/i915/display/intel_fb_pin.c   | 40 ++++++++++++++-----
+>  drivers/gpu/drm/i915/display/intel_fb_pin.h   |  3 +-
+>  drivers/gpu/drm/i915/display/intel_fbdev.c    | 21 +++++++++-
+>  drivers/gpu/drm/i915/display/intel_sprite.c   |  2 +
+>  .../drm/i915/display/skl_universal_plane.c    | 11 +++--
+>  drivers/gpu/drm/xe/display/xe_fb_pin.c        |  3 +-
+>  drivers/gpu/drm/xe/display/xe_plane_initial.c |  4 +-
+>  12 files changed, 89 insertions(+), 37 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/i9xx_plane.c b/drivers/gpu/drm/i915/display/i9xx_plane.c
+> index ea4d8ba55ad8..85dbf5b950e2 100644
+> --- a/drivers/gpu/drm/i915/display/i9xx_plane.c
+> +++ b/drivers/gpu/drm/i915/display/i9xx_plane.c
+> @@ -224,8 +224,8 @@ static u32 i9xx_plane_ctl(const struct intel_crtc_state *crtc_state,
+>  
+>  int i9xx_check_plane_surface(struct intel_plane_state *plane_state)
+>  {
+> -	struct drm_i915_private *dev_priv =
+> -		to_i915(plane_state->uapi.plane->dev);
+> +	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
+> +	struct drm_i915_private *dev_priv = to_i915(plane->base.dev);
+>  	const struct drm_framebuffer *fb = plane_state->hw.fb;
+>  	int src_x, src_y, src_w;
+>  	u32 offset;
+> @@ -266,7 +266,7 @@ int i9xx_check_plane_surface(struct intel_plane_state *plane_state)
+>  	 * despite them not using the linear offset anymore.
+>  	 */
+>  	if (DISPLAY_VER(dev_priv) >= 4 && fb->modifier == I915_FORMAT_MOD_X_TILED) {
+> -		unsigned int alignment = intel_surf_alignment(fb, 0);
+> +		unsigned int alignment = plane->min_alignment(plane, fb, 0);
+>  		int cpp = fb->format->cpp[0];
+>  
+>  		while ((src_x + src_w) * cpp > plane_state->view.color_plane[0].mapping_stride) {
+> @@ -867,6 +867,8 @@ intel_primary_plane_create(struct drm_i915_private *dev_priv, enum pipe pipe)
+>  			plane->max_stride = ilk_primary_max_stride;
+>  	}
+>  
+> +	plane->min_alignment = intel_surf_alignment;
+> +
+>  	if (IS_I830(dev_priv) || IS_I845G(dev_priv)) {
+>  		plane->update_arm = i830_plane_update_arm;
+>  	} else {
+> diff --git a/drivers/gpu/drm/i915/display/intel_cursor.c b/drivers/gpu/drm/i915/display/intel_cursor.c
+> index 2118b87ccb10..026975f569a7 100644
+> --- a/drivers/gpu/drm/i915/display/intel_cursor.c
+> +++ b/drivers/gpu/drm/i915/display/intel_cursor.c
+> @@ -896,6 +896,8 @@ intel_cursor_plane_create(struct drm_i915_private *dev_priv,
+>  		cursor->check_plane = i9xx_check_cursor;
+>  	}
+>  
+> +	cursor->min_alignment = intel_cursor_alignment;
+> +
+>  	cursor->cursor.base = ~0;
+>  	cursor->cursor.cntl = ~0;
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index fec3de25ea54..40d6e5f4c350 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -1550,6 +1550,9 @@ struct intel_plane {
+>  	int (*max_height)(const struct drm_framebuffer *fb,
+>  			  int color_plane,
+>  			  unsigned int rotation);
+> +	unsigned int (*min_alignment)(struct intel_plane *plane,
+> +				      const struct drm_framebuffer *fb,
+> +				      int color_plane);
+>  	unsigned int (*max_stride)(struct intel_plane *plane,
+>  				   u32 pixel_format, u64 modifier,
+>  				   unsigned int rotation);
+> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
+> index b6638726949d..3f3a9cd534f4 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fb.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
+> @@ -775,8 +775,12 @@ bool intel_fb_uses_dpt(const struct drm_framebuffer *fb)
+>  		intel_fb_modifier_uses_dpt(to_i915(fb->dev), fb->modifier);
+>  }
+>  
+> -unsigned int intel_cursor_alignment(const struct drm_i915_private *i915)
+> +unsigned int intel_cursor_alignment(struct intel_plane *plane,
+> +				    const struct drm_framebuffer *fb,
+> +				    int color_plane)
+>  {
+> +	struct drm_i915_private *i915 = to_i915(plane->base.dev);
+> +
+>  	if (IS_I830(i915))
+>  		return 16 * 1024;
+>  	else if (IS_I85X(i915))
+> @@ -800,10 +804,11 @@ static unsigned int intel_linear_alignment(const struct drm_i915_private *dev_pr
+>  		return 0;
+>  }
+>  
+> -unsigned int intel_surf_alignment(const struct drm_framebuffer *fb,
+> +unsigned int intel_surf_alignment(struct intel_plane *plane,
+> +				  const struct drm_framebuffer *fb,
+>  				  int color_plane)
+>  {
+> -	struct drm_i915_private *dev_priv = to_i915(fb->dev);
+> +	struct drm_i915_private *dev_priv = to_i915(plane->base.dev);
+>  
+>  	if (intel_fb_uses_dpt(fb)) {
+>  		/* AUX_DIST needs only 4K alignment */
+> @@ -1098,17 +1103,12 @@ u32 intel_plane_compute_aligned_offset(int *x, int *y,
+>  				       const struct intel_plane_state *state,
+>  				       int color_plane)
+>  {
+> -	struct intel_plane *intel_plane = to_intel_plane(state->uapi.plane);
+> -	struct drm_i915_private *i915 = to_i915(intel_plane->base.dev);
+> +	struct intel_plane *plane = to_intel_plane(state->uapi.plane);
+> +	struct drm_i915_private *i915 = to_i915(plane->base.dev);
+>  	const struct drm_framebuffer *fb = state->hw.fb;
+>  	unsigned int rotation = state->hw.rotation;
+>  	unsigned int pitch = state->view.color_plane[color_plane].mapping_stride;
+> -	unsigned int alignment;
+> -
+> -	if (intel_plane->id == PLANE_CURSOR)
+> -		alignment = intel_cursor_alignment(i915);
+> -	else
+> -		alignment = intel_surf_alignment(fb, color_plane);
+> +	unsigned int alignment = plane->min_alignment(plane, fb, color_plane);
+>  
+>  	return intel_compute_aligned_offset(i915, x, y, fb, color_plane,
+>  					    pitch, rotation, alignment);
+> diff --git a/drivers/gpu/drm/i915/display/intel_fb.h b/drivers/gpu/drm/i915/display/intel_fb.h
+> index 23db6628f53e..86c01a3ce81e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fb.h
+> +++ b/drivers/gpu/drm/i915/display/intel_fb.h
+> @@ -60,8 +60,11 @@ unsigned int intel_tile_height(const struct drm_framebuffer *fb, int color_plane
+>  unsigned int intel_tile_row_size(const struct drm_framebuffer *fb, int color_plane);
+>  unsigned int intel_fb_align_height(const struct drm_framebuffer *fb,
+>  				   int color_plane, unsigned int height);
+> -unsigned int intel_cursor_alignment(const struct drm_i915_private *i915);
+> -unsigned int intel_surf_alignment(const struct drm_framebuffer *fb,
+> +unsigned int intel_cursor_alignment(struct intel_plane *plane,
+> +				    const struct drm_framebuffer *fb,
+> +				    int color_plane);
+> +unsigned int intel_surf_alignment(struct intel_plane *plane,
+> +				  const struct drm_framebuffer *fb,
+>  				  int color_plane);
+>  
+>  void intel_fb_plane_get_subsampling(int *hsub, int *vsub,
+> diff --git a/drivers/gpu/drm/i915/display/intel_fb_pin.c b/drivers/gpu/drm/i915/display/intel_fb_pin.c
+> index 1acc11fa19f4..9b0f1ea41b70 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fb_pin.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fb_pin.c
+> @@ -103,8 +103,9 @@ intel_fb_pin_to_dpt(const struct drm_framebuffer *fb,
+>  
+>  struct i915_vma *
+>  intel_fb_pin_to_ggtt(const struct drm_framebuffer *fb,
+> -		     bool phys_cursor,
+>  		     const struct i915_gtt_view *view,
+> +		     unsigned int alignment,
+> +		     unsigned int phys_alignment,
+>  		     bool uses_fence,
+>  		     unsigned long *out_flags)
+>  {
+> @@ -113,7 +114,6 @@ intel_fb_pin_to_ggtt(const struct drm_framebuffer *fb,
+>  	struct drm_i915_gem_object *obj = intel_fb_obj(fb);
+>  	intel_wakeref_t wakeref;
+>  	struct i915_gem_ww_ctx ww;
+> -	unsigned int alignment;
+>  	struct i915_vma *vma;
+>  	unsigned int pinctl;
+>  	int ret;
+> @@ -121,10 +121,6 @@ intel_fb_pin_to_ggtt(const struct drm_framebuffer *fb,
+>  	if (drm_WARN_ON(dev, !i915_gem_object_is_framebuffer(obj)))
+>  		return ERR_PTR(-EINVAL);
+>  
+> -	if (phys_cursor)
+> -		alignment = intel_cursor_alignment(dev_priv);
+> -	else
+> -		alignment = intel_surf_alignment(fb, 0);
+>  	if (drm_WARN_ON(dev, alignment && !is_power_of_2(alignment)))
+>  		return ERR_PTR(-EINVAL);
+>  
+> @@ -162,8 +158,8 @@ intel_fb_pin_to_ggtt(const struct drm_framebuffer *fb,
+>  	i915_gem_ww_ctx_init(&ww, true);
+>  retry:
+>  	ret = i915_gem_object_lock(obj, &ww);
+> -	if (!ret && phys_cursor)
+> -		ret = i915_gem_object_attach_phys(obj, alignment);
+> +	if (!ret && phys_alignment)
+> +		ret = i915_gem_object_attach_phys(obj, phys_alignment);
+>  	else if (!ret && HAS_LMEM(dev_priv))
+>  		ret = i915_gem_object_migrate(obj, &ww, INTEL_REGION_LMEM_0);
+>  	if (!ret)
+> @@ -234,6 +230,27 @@ void intel_fb_unpin_vma(struct i915_vma *vma, unsigned long flags)
+>  	i915_vma_put(vma);
+>  }
+>  
+> +static unsigned int
+> +intel_plane_fb_min_alignment(const struct intel_plane_state *plane_state)
+> +{
+> +	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
+> +	const struct drm_framebuffer *fb = plane_state->hw.fb;
+> +
+> +	return plane->min_alignment(plane, fb, 0);
+> +}
+> +
+> +static unsigned int
+> +intel_plane_fb_min_phys_alignment(const struct intel_plane_state *plane_state)
+> +{
+> +	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
+> +	const struct drm_framebuffer *fb = plane_state->hw.fb;
+> +
+> +	if (!intel_plane_needs_physical(plane))
+> +		return 0;
+> +
+> +	return plane->min_alignment(plane, fb, 0);
+> +}
+> +
+>  int intel_plane_pin_fb(struct intel_plane_state *plane_state)
+>  {
+>  	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
+> @@ -242,8 +259,9 @@ int intel_plane_pin_fb(struct intel_plane_state *plane_state)
+>  	struct i915_vma *vma;
+>  
+>  	if (!intel_fb_uses_dpt(&fb->base)) {
+> -		vma = intel_fb_pin_to_ggtt(&fb->base, intel_plane_needs_physical(plane),
+> -					   &plane_state->view.gtt,
+> +		vma = intel_fb_pin_to_ggtt(&fb->base, &plane_state->view.gtt,
+> +					   intel_plane_fb_min_alignment(plane_state),
+> +					   intel_plane_fb_min_phys_alignment(plane_state),
+>  					   intel_plane_uses_fence(plane_state),
+>  					   &plane_state->flags);
+>  		if (IS_ERR(vma))
+> @@ -261,7 +279,7 @@ int intel_plane_pin_fb(struct intel_plane_state *plane_state)
+>  			plane_state->phys_dma_addr =
+>  				i915_gem_object_get_dma_address(intel_fb_obj(&fb->base), 0);
+>  	} else {
+> -		unsigned int alignment = intel_surf_alignment(&fb->base, 0);
+> +		unsigned int alignment = intel_plane_fb_min_alignment(plane_state);
+>  
+>  		vma = intel_dpt_pin_to_ggtt(fb->dpt_vm, alignment / 512);
+>  		if (IS_ERR(vma))
+> diff --git a/drivers/gpu/drm/i915/display/intel_fb_pin.h b/drivers/gpu/drm/i915/display/intel_fb_pin.h
+> index 3f8245edcd15..ac0319b53af0 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fb_pin.h
+> +++ b/drivers/gpu/drm/i915/display/intel_fb_pin.h
+> @@ -15,8 +15,9 @@ struct i915_gtt_view;
+>  
+>  struct i915_vma *
+>  intel_fb_pin_to_ggtt(const struct drm_framebuffer *fb,
+> -		     bool phys_cursor,
+>  		     const struct i915_gtt_view *view,
+> +		     unsigned int alignment,
+> +		     unsigned int phys_alignment,
+>  		     bool uses_fence,
+>  		     unsigned long *out_flags);
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> index 5ad0b4c8a0fd..ff685aebbd1a 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> @@ -46,6 +46,7 @@
+>  #include "gem/i915_gem_mman.h"
+>  
+>  #include "i915_drv.h"
+> +#include "intel_crtc.h"
+>  #include "intel_display_types.h"
+>  #include "intel_fb.h"
+>  #include "intel_fb_pin.h"
+> @@ -171,6 +172,21 @@ static const struct fb_ops intelfb_ops = {
+>  
+>  __diag_pop();
+>  
+> +static unsigned int intel_fbdev_min_alignment(const struct drm_framebuffer *fb)
+> +{
+> +	struct drm_i915_private *i915 = to_i915(fb->dev);
+> +	struct intel_plane *plane;
+> +	struct intel_crtc *crtc;
+> +
+> +	crtc = intel_first_crtc(i915);
+> +	if (!crtc)
+> +		return 0;
+> +
+> +	plane = to_intel_plane(crtc->base.primary);
+> +
+> +	return plane->min_alignment(plane, fb, 0);
+> +}
+> +
+>  static int intelfb_create(struct drm_fb_helper *helper,
+>  			  struct drm_fb_helper_surface_size *sizes)
+>  {
+> @@ -227,8 +243,9 @@ static int intelfb_create(struct drm_fb_helper *helper,
+>  	 * This also validates that any existing fb inherited from the
+>  	 * BIOS is suitable for own access.
+>  	 */
+> -	vma = intel_fb_pin_to_ggtt(&fb->base, false,
+> -				   &view, false, &flags);
+> +	vma = intel_fb_pin_to_ggtt(&fb->base, &view,
+> +				   intel_fbdev_min_alignment(&fb->base), 0,
+> +				   false, &flags);
+>  	if (IS_ERR(vma)) {
+>  		ret = PTR_ERR(vma);
+>  		goto out_unlock;
+> diff --git a/drivers/gpu/drm/i915/display/intel_sprite.c b/drivers/gpu/drm/i915/display/intel_sprite.c
+> index 36a253a19c74..1727d98d1339 100644
+> --- a/drivers/gpu/drm/i915/display/intel_sprite.c
+> +++ b/drivers/gpu/drm/i915/display/intel_sprite.c
+> @@ -1623,6 +1623,8 @@ intel_sprite_plane_create(struct drm_i915_private *dev_priv,
+>  		}
+>  	}
+>  
+> +	plane->min_alignment = intel_surf_alignment;
+> +
+>  	if (IS_CHERRYVIEW(dev_priv) && pipe == PIPE_B) {
+>  		supported_rotations =
+>  			DRM_MODE_ROTATE_0 | DRM_MODE_ROTATE_180 |
+> diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> index 7b79704fa674..27782f5060ad 100644
+> --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> @@ -1615,11 +1615,12 @@ skl_check_main_ccs_coordinates(struct intel_plane_state *plane_state,
+>  			       int main_x, int main_y, u32 main_offset,
+>  			       int ccs_plane)
+>  {
+> +	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
+>  	const struct drm_framebuffer *fb = plane_state->hw.fb;
+>  	int aux_x = plane_state->view.color_plane[ccs_plane].x;
+>  	int aux_y = plane_state->view.color_plane[ccs_plane].y;
+>  	u32 aux_offset = plane_state->view.color_plane[ccs_plane].offset;
+> -	unsigned int alignment = intel_surf_alignment(fb, ccs_plane);
+> +	unsigned int alignment = plane->min_alignment(plane, fb, ccs_plane);
+>  	int hsub;
+>  	int vsub;
+>  
+> @@ -1663,7 +1664,7 @@ int skl_calc_main_surface_offset(const struct intel_plane_state *plane_state,
+>  	const struct drm_framebuffer *fb = plane_state->hw.fb;
+>  	int aux_plane = skl_main_to_aux_plane(fb, 0);
+>  	u32 aux_offset = plane_state->view.color_plane[aux_plane].offset;
+> -	unsigned int alignment = intel_surf_alignment(fb, 0);
+> +	unsigned int alignment = plane->min_alignment(plane, fb, 0);
+>  	int w = drm_rect_width(&plane_state->uapi.src) >> 16;
+>  
+>  	intel_add_fb_offsets(x, y, plane_state, 0);
+> @@ -1719,7 +1720,7 @@ static int skl_check_main_surface(struct intel_plane_state *plane_state)
+>  	int min_width = intel_plane_min_width(plane, fb, 0, rotation);
+>  	int max_width = intel_plane_max_width(plane, fb, 0, rotation);
+>  	int max_height = intel_plane_max_height(plane, fb, 0, rotation);
+> -	unsigned int alignment = intel_surf_alignment(fb, 0);
+> +	unsigned int alignment = plane->min_alignment(plane, fb, 0);
+>  	int aux_plane = skl_main_to_aux_plane(fb, 0);
+>  	u32 offset;
+>  	int ret;
+> @@ -1808,7 +1809,7 @@ static int skl_check_nv12_aux_surface(struct intel_plane_state *plane_state)
+>  
+>  	if (ccs_plane) {
+>  		u32 aux_offset = plane_state->view.color_plane[ccs_plane].offset;
+> -		unsigned int alignment = intel_surf_alignment(fb, uv_plane);
+> +		unsigned int alignment = plane->min_alignment(plane, fb, uv_plane);
+>  
+>  		if (offset > aux_offset)
+>  			offset = intel_plane_adjust_aligned_offset(&x, &y,
+> @@ -2366,6 +2367,8 @@ skl_universal_plane_create(struct drm_i915_private *dev_priv,
+>  	else
+>  		plane->max_stride = skl_plane_max_stride;
+>  
+> +	plane->min_alignment = intel_surf_alignment;
+> +
+>  	if (DISPLAY_VER(dev_priv) >= 11) {
+>  		plane->update_noarm = icl_plane_update_noarm;
+>  		plane->update_arm = icl_plane_update_arm;
+> diff --git a/drivers/gpu/drm/xe/display/xe_fb_pin.c b/drivers/gpu/drm/xe/display/xe_fb_pin.c
+> index 36e15c4961c1..0319941b7e1e 100644
+> --- a/drivers/gpu/drm/xe/display/xe_fb_pin.c
+> +++ b/drivers/gpu/drm/xe/display/xe_fb_pin.c
+> @@ -334,8 +334,9 @@ static void __xe_unpin_fb_vma(struct i915_vma *vma)
+>  
+>  struct i915_vma *
+>  intel_fb_pin_to_ggtt(const struct drm_framebuffer *fb,
+> -		     bool phys_cursor,
+>  		     const struct i915_gtt_view *view,
+> +		     unsigned int alignment,
+> +		     unsigned int phys_alignment,
+>  		     bool uses_fence,
+>  		     unsigned long *out_flags)
+>  {
+> diff --git a/drivers/gpu/drm/xe/display/xe_plane_initial.c b/drivers/gpu/drm/xe/display/xe_plane_initial.c
+> index 9eaa29e733e1..a9d6c31cb683 100644
+> --- a/drivers/gpu/drm/xe/display/xe_plane_initial.c
+> +++ b/drivers/gpu/drm/xe/display/xe_plane_initial.c
+> @@ -211,8 +211,8 @@ intel_find_initial_plane_obj(struct intel_crtc *crtc,
+>  	intel_fb_fill_view(to_intel_framebuffer(fb),
+>  			   plane_state->uapi.rotation, &plane_state->view);
+>  
+> -	vma = intel_fb_pin_to_ggtt(fb, false, &plane_state->view.gtt,
+> -				   false, &plane_state->flags);
+> +	vma = intel_fb_pin_to_ggtt(fb, &plane_state->view.gtt,
+> +				   0, 0, false, &plane_state->flags);
+>  	if (IS_ERR(vma))
+>  		goto nofb;
+>  
+> -- 
+> 2.43.2
+> 
