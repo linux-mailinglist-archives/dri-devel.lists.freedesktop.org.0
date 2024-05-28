@@ -2,84 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C088D1D76
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 15:50:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0E78D1DC3
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 15:58:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64EDE11228F;
-	Tue, 28 May 2024 13:50:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9DF810E824;
+	Tue, 28 May 2024 13:58:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WgDihtUv";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VMHF84Sz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BB4D11228F
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 13:50:15 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-52388d9ca98so1458992e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 06:50:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716904213; x=1717509013; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=+YOjKZxiHniPt2FbhVxoFXUUn7j1oHntVdmo/lNO0HI=;
- b=WgDihtUvnPO61DlMTF07r4Id6koA6uqYcQKaqdG10DF6phbdXzKw7tB5Q59smEfjtv
- d/C2ewBXzaTVjmg2jMFg1fif1C9uCUoLXMruQhLj7wlGmTgLLPle0H6+87gzvmHjGEVB
- eR/OL3JQfgH3NdTzoPOFuIYjuho/yFCwDLXgiv7JSeKSu/GqHi3324EMVPqUV/XSHG7+
- MmccgPQhUY95eJ0yE1fvvqzBSU2Yi9HSfunL7F28Y3Jf3fbL5NSPmnx2yxMoQDUi6Tym
- OBwK7aFloCgr2wDFm7AC9hnliCx5FqE4Gcx7nNmGgLz+Yj3yyT2ecdRRGnjveKwrJivk
- xMfw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC3A10E622
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 13:58:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1716904721;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=54PHYlJ0PDEnDWhop/PaR+jnOIH2PsxLKNR7Lww/RKs=;
+ b=VMHF84Szi7wSXjM9HU8RbBOhYLezt1AQtx5BkQ38lg+9tMI2fQJDpZ1faS/U8TqgKB35LY
+ qbQbdgysOkeKafhStWvk8/qYtxNGrPy4Fw7jSI2Lil3pPLFC6B4oGjz4/uYY1kiSTQz9n9
+ q+YXEGW4RINCI3HAkgfJZFUjwY/j55s=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-552-1y1SUi_hNGCwFgvXnkKapA-1; Tue, 28 May 2024 09:58:39 -0400
+X-MC-Unique: 1y1SUi_hNGCwFgvXnkKapA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-a6266ffe72eso60736566b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 06:58:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716904213; x=1717509013;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+YOjKZxiHniPt2FbhVxoFXUUn7j1oHntVdmo/lNO0HI=;
- b=n8NCeA8n2iVKwGJBpD0zo1cCmAoSNSSGqs8KrJ1FvNJJJZu6OrHOD7ae23a3L6xtgq
- Zo847oTCmGBpi5Vx+ji0H2yGFHD8N9J2la7LOHnoJ8dCDVwBO225DINl2mZM0RtcbthV
- 3P5MGKAfhfDkkhYdqSHBivEzZIAFhgP9EntdL2K0TEmKI95tCIyBh61308nweFmgCxq6
- r8ny5iGHz2aUsUI6hrmc7cwRYDS1Sv/bmgc74HKxaqrhlQ1ylW1JzybWjYXhJSoZ2opY
- OZWp6I0rKLF+OLTLSQyAeqi7xWKixEuPXxu0fV+j5er2MMQYeo39/IGbQsWlBXLrwh9R
- ok3A==
+ d=1e100.net; s=20230601; t=1716904718; x=1717509518;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=54PHYlJ0PDEnDWhop/PaR+jnOIH2PsxLKNR7Lww/RKs=;
+ b=kAhU+JcQVKqF4Wo+n7zmhhHeuSvvJlnJuYy/IhWZ4FnRnDBKvZdFsBxIkmHrsa+uFu
+ WoBmOk7uaZ0M0e3i9/ITZ8NFRUk6wEjcpR3MLMPVr9lMTUHE6re3O0UKGizAQljdH5ry
+ VNu/+2EPNsuv21gzoWacloGtsHFUaE5+v1dEUTSbqprqrLK6eLAFNAihssAnYMtBC3O4
+ No13X/ljPhP2zfeG8fz7peR1Pl1Ov3zJWZ9Eu/Hr9Ko7M1R2+TT7T92WvfSq88mem4x4
+ 3WYENbRACLOgK3963zoGf4ryMefuHZmFur/Fkze/uLeggKsI8a7YYQGR7G5e7kPG0sxz
+ JYAQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXLirklATyjnAyVmQc6XW+t3ess/R9In+d3BvsOguZ6Do+FR4QS9rkyb/USa77+uyyKk6LrqJD7sxDFsJJlLB3pybSSHBKq5P6d0PQoXacM
-X-Gm-Message-State: AOJu0YzJ6nzOL+cXvgI4LSAoK3pKArEch0cov8AofixvUKNQ6wUdsJkW
- lEaBHb+GWDe4ZRUMIuhE43pQ3nozUh7nLD9x0BRwe5XlWtaxuqigD7nreHU3vU8=
-X-Google-Smtp-Source: AGHT+IEYdENVELxM1Ej78vo7fOdCUMMC32ELkIDmnKyQ4bpI8/w9kVUIb1v5HVJnEKodMA4+swLpiw==
-X-Received: by 2002:ac2:5111:0:b0:523:772c:2c1c with SMTP id
- 2adb3069b0e04-52966005f5emr9200307e87.38.1716904212845; 
- Tue, 28 May 2024 06:50:12 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ AJvYcCV0yw3R8MMtjpi5yR0FZSO32/uqobM5APoulAO3sYNuq4GxXVmgOWcWZk3OjcTj7UOzWL0WiGXDSEIwK2o7fZI40WdhghqeAUAsvgrwaK7e
+X-Gm-Message-State: AOJu0Yw3gcEBS0PX9F7n+fp+K9FAIbrUKhJ1fjma0VzzTUKmIzfHgUcb
+ cKRpmQHF4LOTwDzpyIuVK80a5ug0/TrhhfkNMpI7G4QaF3mDKguOFrd4F2RQbIeJwJ63UrIRkae
+ qWcWodAWXVVa9aoSoVPPLSXQO8j0G389Gp/KcFSgvCXhn6af8jjEGB6x4v91PZmH7Zg==
+X-Received: by 2002:a17:906:bc42:b0:a62:3c94:3bd2 with SMTP id
+ a640c23a62f3a-a6265011270mr904384666b.73.1716904718492; 
+ Tue, 28 May 2024 06:58:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEQIR74emKom8ATw+snuAUy13d6llophtQiniGptcCuWj8oFnstnUM6NEvnixIbkTAxpA1/sA==
+X-Received: by 2002:a17:906:bc42:b0:a62:3c94:3bd2 with SMTP id
+ a640c23a62f3a-a6265011270mr904382466b.73.1716904718020; 
+ Tue, 28 May 2024 06:58:38 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f28:4600:d3a7:6c26:54cf:e01e?
+ (p200300d82f284600d3a76c2654cfe01e.dip0.t-ipconnect.de.
+ [2003:d8:2f28:4600:d3a7:6c26:54cf:e01e])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-529712f1f42sm976495e87.280.2024.05.28.06.50.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 May 2024 06:50:12 -0700 (PDT)
-Date: Tue, 28 May 2024 16:50:10 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Arnaud Vrac <avrac@freebox.fr>, Marc Gonzalez <marc.w.gonzalez@free.fr>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- DRI <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Bryan O Donoghue <bryan.odonoghue@linaro.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Pierre-Hugues Husson <phhusson@freebox.fr>
-Subject: Re: [PATCH v1] drm/bridge: simple-bridge: Add support for TI TDP158
-Message-ID: <3tiuyvc2bg3d3wz3eqrou3ngkpb3h5gamtocv74bfkkqty4qag@it5publzvl5z>
-References: <d3de652f-ce89-4f57-b900-07b11f8bf8f9@free.fr>
- <20240528-potoo-of-pragmatic-tempering-df08f1@houat>
- <0cd0136a-bbaf-482f-8e81-a858a6cdce2e@freebox.fr>
- <20240528-prophetic-masterful-hyrax-563f82@houat>
+ a640c23a62f3a-a626c818362sm617978566b.34.2024.05.28.06.58.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 May 2024 06:58:37 -0700 (PDT)
+Message-ID: <93ee4e04-bdc7-4ac6-b93b-b6cf1b3311af@redhat.com>
+Date: Tue, 28 May 2024 15:58:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240528-prophetic-masterful-hyrax-563f82@houat>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] udmabuf: add CONFIG_MMU dependency
+To: Arnd Bergmann <arnd@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dave Airlie <airlied@redhat.com>, Vivek Kasireddy
+ <vivek.kasireddy@intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org
+References: <20240528133138.2237237-1-arnd@kernel.org>
+From: David Hildenbrand <david@redhat.com>
+In-Reply-To: <20240528133138.2237237-1-arnd@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,47 +101,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 28, 2024 at 11:17:56AM +0200, Maxime Ripard wrote:
-> On Tue, May 28, 2024 at 10:05:50AM GMT, Arnaud Vrac wrote:
-> > On 28/05/2024 09:43, Maxime Ripard wrote:
-> > > Hi,
-> > > 
-> > > On Mon, May 27, 2024 at 06:03:56PM GMT, Marc Gonzalez wrote:
-> > > > From: Arnaud Vrac <avrac@freebox.fr>
-> > > > 
-> > > > The TI TDP158 is an AC-Coupled HDMI signal to TMDS Redriver supporting
-> > > > DVI 1.0 and HDMI 1.4b and 2.0b output signals.
-> > > > 
-> > > > Since it's an I2C-programmable bridge, it could have a proper driver,
-> > > > but the default settings work fine, thus simple bridge is sufficient.
-> > > 
-> > > No it doesn't. That bridge supports HDMI 2.0 which means you'll need to
-> > > change the TMDS clock ratio when programming a TMDS character rate
-> > > higher than 340MHz. And you'll need hotplug support to deal with it
-> > > properly too.
-> > > 
-> > > So sorry, you need a real driver there.
-> > 
-> > Hello, this is an HDMI redriver, which simply cleans up the HDMI
-> > signal, so no programming is needed to support HDMI 2.0.
+Am 28.05.24 um 15:31 schrieb Arnd Bergmann:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> I mean, if I'm to trust the datasheet, it is more complicated than that.
-> It snoops the DDC bus so it can update the TMDS clock ratio bit if it's
-> sent on its input side, but that wouldn't happen with DP for example.
+> There is no !CONFIG_MMU version of vmf_insert_pfn():
+> 
+> arm-linux-gnueabi-ld: drivers/dma-buf/udmabuf.o: in function `udmabuf_vm_fault':
+> udmabuf.c:(.text+0xaa): undefined reference to `vmf_insert_pfn'
+> 
+> Fixes: f7254e043ff1 ("udmabuf: use vmf_insert_pfn and VM_PFNMAP for handling mmap")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>   drivers/dma-buf/Kconfig | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+> index e4dc53a36428..b46eb8a552d7 100644
+> --- a/drivers/dma-buf/Kconfig
+> +++ b/drivers/dma-buf/Kconfig
+> @@ -35,6 +35,7 @@ config UDMABUF
+>   	default n
+>   	depends on DMA_SHARED_BUFFER
+>   	depends on MEMFD_CREATE || COMPILE_TEST
+> +	depends on MMU
+>   	help
+>   	  A driver to let userspace turn memfd regions into dma-bufs.
+>   	  Qemu can use this to create host dmabufs for guest framebuffers.
 
-If I understand correctly, this chip can work in two modes: dummy and
-I2C-programmed. In the former case it is fully transparent, including
-HPD passthrough, it doesn't require any additional programming, just
-Vcc, Vdd and pin straps, etc.  And the second mode is a 'brainy' one,
-when the chip is fully controlled over I2C.
-
-From the Linux standpoint these two modes will use single compat string,
-but two distinct drivers: for the former mode is is enough to use
-simple-bridge (fixed to support two supplies), while the latter one
-needs a proper I2C driver.
-
-Does that solve your concern?
+Acked-by: David Hildenbrand <david@redhat.com>
 
 -- 
-With best wishes
-Dmitry
+Thanks,
+
+David / dhildenb
+
