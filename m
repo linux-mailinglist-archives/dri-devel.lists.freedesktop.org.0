@@ -2,61 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA67E8D1882
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 12:25:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4444F8D188F
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 12:27:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1D0410E3E6;
-	Tue, 28 May 2024 10:25:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EFD610E676;
+	Tue, 28 May 2024 10:27:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="s8mN3T2R";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="qo0ABDpD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1A9910E3E6
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 10:24:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94E3010E676
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 10:26:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1716891891;
- bh=3ozJkRbRnqcBMiG82KQYzYUrYBmNg5J09V7+FZcUdyI=;
+ s=mail; t=1716892018;
+ bh=ShbB0egsqc+viF42q6rsRBuCb+8DgZ4kwsWT9hgU0u8=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=s8mN3T2RTRaFj0NmkozsR2LG+4RPMKanCLADbo180l85bH6IVkqVCCiswIW65g6Ui
- rSi7D36NVMhui/P3AyoWRH3maXdhhxQ4y+cDCGswrkBk4dlXEO1jEEKile8xcG9ry/
- qh8vmsrNhzBusjCZwZPY9zZz7B3EXjr0hWm+vgJcE6k5aGXCIqVle0kvM3wDDLBMlJ
- lIa4pro8b1wvBw/Y919SkmeM12EsmrRGCvkl8xLVWpcciu7DXj0CobA2khLLQzNB4p
- 700lTsL5iRaQX1dyzbhswDTid3cYyAKMsjTpOw9xZZb91ZR7riyilJ/Vgl6z2Q0eps
- 4fX8t5IxwM4TQ==
+ b=qo0ABDpDeGyeb5AM6CvxMAHNti9En+O5JJ7JH2bf5Kz7yu4heP+HUSyNzNLBu9l4v
+ r6G+r6Xjl5Q34vGGu+TXIib93qalmPg7v5r7lyS330vgVmLB7adu2KP8H+lX7rrfIu
+ zJzxuXF37jfduvnRfRK/e8nQU1J25bdFgPMWSPOB7M3qUfMJFNBYvZoUeVe2eDL7OI
+ IhiyY4tRqs1ePuvCQhmrTEcAjzVzMjtN3LeaZzlImY/eHCHvRfjLs4jdpNhm0HiC1L
+ MeJYVO6vs3cdX8W6jVn4un+D6X7h+XF5EW/FG6J2SfjzNJDaYpsv4bglD9wNkfq/7P
+ tdkzEA4zshBBg==
 Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id A61BE3782160;
- Tue, 28 May 2024 10:24:50 +0000 (UTC)
-Message-ID: <f1d85b54-f0d6-4274-923c-2ad31eab2b19@collabora.com>
-Date: Tue, 28 May 2024 12:24:50 +0200
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id D4030378215E;
+ Tue, 28 May 2024 10:26:56 +0000 (UTC)
+Message-ID: <430cf0a6-4d8c-4819-8a95-d436eb044eec@collabora.com>
+Date: Tue, 28 May 2024 12:26:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/8] dt-bindings: mailbox: Add property for CMDQ secure
- driver
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>,
- Jason-ch Chen <jason-ch.chen@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Shawn Sung <shawn.sung@mediatek.com>, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20240525230810.24623-1-jason-jh.lin@mediatek.com>
- <20240525230810.24623-3-jason-jh.lin@mediatek.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: mailbox: Add mediatek,gce-props.yaml
+To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
+ "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ =?UTF-8?B?Sm9obnNvbiBXYW5nICjnjovogZbpkasp?= <Johnson.Wang@mediatek.com>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ =?UTF-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?=
+ <Jason-ch.Chen@mediatek.com>, =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?=
+ <Shawn.Sung@mediatek.com>, =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?=
+ <Nancy.Lin@mediatek.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "fshao@chromium.org" <fshao@chromium.org>
+References: <20240124011459.12204-1-jason-jh.lin@mediatek.com>
+ <20240124011459.12204-2-jason-jh.lin@mediatek.com>
+ <f91d3ac1-0a7d-4ca2-bf0f-c5e471c2f6bb@collabora.com>
+ <2a2a939c9cb56de0383ec3e42db9bcf8e8518775.camel@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20240525230810.24623-3-jason-jh.lin@mediatek.com>
+In-Reply-To: <2a2a939c9cb56de0383ec3e42db9bcf8e8518775.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,77 +85,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 26/05/24 01:08, Jason-JH.Lin ha scritto:
-> 1. Add mboxes property to define a GCE loopping thread as a secure IRQ
-> handler.
-> The CMDQ secure driver requests a mbox channel and sends a looping
-> command to the GCE thread. The looping command will wait for a secure
-> packet done event signal from secure world and then jump back to the
-> first instuction. Each time it waits for an event, it notifies the
-> CMDQ driver to perform the same action as the IRQ handler.
+Il 26/05/24 17:04, Jason-JH Lin (林睿祥) ha scritto:
+> Hi Angelo, Jassi,
 > 
-> 2. Add gce-events property from gce-props.yaml to define a
-> secure packet done signal in secure world.
-> There are 1024 events IDs for GCE to use to execute instructions in
-> the specific event happened. These events could be signaled by HW or SW
-> and their value would be different in different SoC because of HW event
-> IDs distribution range from 0 to 1023.
-> If we set a static event ID: 855 for mt8188, it might be conflict the
-> event ID original set in mt8195.
-> So we define an event ID that will be set when GCE runs to the end of
-> secure cmdq packet in the secure world.
-> 
-> This can reduce the latency of software communication between normal
-> world and secure world. In addition, we can also remove the complex
-> logic after the secure packet done in the secure world.
+> Could you help me apply this series?
+> Thanks!
 > 
 
-Hello Jason,
+That's not me, it's Jassi - green light from me, btw.
 
-Is this looping thread SoC specific, board specific or firmware specific?
-
-Thanks,
+Cheers,
 Angelo
 
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
-> ---
->   .../devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml | 8 +++++++-
->   1 file changed, 7 insertions(+), 1 deletion(-)
+> Regards,
+> Jason-JH.Lin
 > 
-> diff --git a/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml b/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml
-> index cef9d7601398..6e5e848d61d9 100644
-> --- a/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml
-> +++ b/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml
-> @@ -49,6 +49,10 @@ properties:
->       items:
->         - const: gce
->   
-> +  mboxes:
-> +    items:
-> +      - description: GCE looping thread as a secure IRQ handler
-> +
->   required:
->     - compatible
->     - "#mbox-cells"
-> @@ -57,6 +61,8 @@ required:
->     - clocks
->   
->   allOf:
-> +  - $ref: /schemas/mailbox/mediatek,gce-props.yaml#
-> +
->     - if:
->         not:
->           properties:
-> @@ -67,7 +73,7 @@ allOf:
->         required:
->           - clock-names
->   
-> -additionalProperties: false
-> +unevaluatedProperties: false
->   
->   examples:
->     - |
-
+> On Wed, 2024-01-24 at 09:57 +0100, AngeloGioacchino Del Regno wrote:
+>> Il 24/01/24 02:14, Jason-JH.Lin ha scritto:
+>>> Add mediatek,gce-props.yaml for common GCE properties that is used
+>>> for
+>>> both mailbox providers and consumers. We place the common property
+>>> "mediatek,gce-events" in this binding currently.
+>>>
+>>> The property "mediatek,gce-events" is used for GCE event ID
+>>> corresponding
+>>> to a hardware event signal sent by the hardware or a software
+>>> driver.
+>>> If the mailbox providers or consumers want to manipulate the value
+>>> of
+>>> the event ID, they need to know the specific event ID.
+>>>
+>>> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+>>> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+>>
+>> Reviewed-by: AngeloGioacchino Del Regno <
+>> angelogioacchino.delregno@collabora.com>
+>>
+> 
 
 
