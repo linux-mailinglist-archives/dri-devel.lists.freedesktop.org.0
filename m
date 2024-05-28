@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1EB48D24C5
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 21:39:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E23DF8D24CF
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 21:39:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB43D10E551;
-	Tue, 28 May 2024 19:39:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50D5610E2FE;
+	Tue, 28 May 2024 19:39:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="O1SyDtJG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LmG+roZO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6658610E2FE
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 19:39:22 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-52a54d664e3so72904e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 12:39:22 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2967310E21A
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 19:39:23 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-5238b5c080cso1468217e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 12:39:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716925160; x=1717529960; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=GsvN+JKnRavl5QSzlBkV48YEdvFno7OOnb/yOsGADHU=;
- b=O1SyDtJGpK2KhT/WjeL6bxM5IjHKJN1tR5zccbzeqcCkxAWdteZMtxadcGyQA3+yvy
- yQFaFngRrwJ6kxUImixiKKoDz/20tn5lrNwI3QDdOG1AHX5O315H7gsTzN2jhnvGE1AL
- sSMXGBapQ6f2aJq2nC2kdV9SyOQkskMIkhzOynb0+RXwRFrb+K8ZY7mLvHgjtkj+Gg0C
- qUhqsitPJBQcUTY/+1Z32s03Oki+ifZ1uUEio5WfuF7odLZuOWpmCx83Oc88pxYR2O5d
- ryxCgAP2Tl9nBwl/Y+KorCP1Z1CoPZ8qvOQdHkydgM/YyIbvyAAFuC8ZoNB77xN7ANR7
- MULw==
+ d=linaro.org; s=google; t=1716925161; x=1717529961; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=OMzDrUPXBetRBxhwNhxvFwAUk90y+ybpda/UwhIo+Wg=;
+ b=LmG+roZOpcODjqVXa1u52MuFIoiR44074wbnhYgSIhepbDM4/WQM3AF/aipPpqY/KH
+ 7wg5cJ0OjiyoK5HfeO9UTMrmqPM89B95GhZx79ofkLlBjEhTqta2aflkpEorHuVArxM/
+ IsbjXrB+ERAdrXH5O7/DDwpufLnKf1Y32KHQSycmMBqMAQDl6VEJB+df3oxyq9S3Kwyn
+ tsxDhD+D6P+G4dhxCiMhNqsY5dDKhgGiiZd2e2ImzGLGq39fZIsk2p628oMYjIq9lHT8
+ PO5H9EsOUY1YD+5cxPLC9SL5e9qQSMed6yaieSA62Dmbc0svi7S2e9SqaD6YAxxXbOKq
+ 8EFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716925160; x=1717529960;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GsvN+JKnRavl5QSzlBkV48YEdvFno7OOnb/yOsGADHU=;
- b=U3FE5FOOIUvt7jL5IwrOntW0QQFN0GHLBGKArJHYiPrHNPVRYSY5gYQtdIcNolHriL
- m0FWuQChSFFIcwgkR/vWSLykhbIWi4kughfbKxafqnuNYm/R2xR7DjJUJcwjWWVjRlfM
- /fa2O+eKGAur+HhtHMHhwUZjBQoP2f+KDD1DOvPY6IUYN/+iyilCB+sttfLNc+Mch1R4
- DsQHIaoix1qLSKAcpmkCdnXK5LLehJScyEhVJitXRCxo0x662HqwMWJHhf0Y00UpdRao
- IOIbiWkDJnOoufGwHzlDzzW/GGDVxWdfQvLZZNs/1kXRULbffFKqR59PIYBpSlqCHFfp
- S/rw==
-X-Gm-Message-State: AOJu0YxQzhFgJb2CCdd/lX477dmtn7u6jTiP8EV/3xfb8uu7R5dgKcea
- ZYkSrbh7dMjEUburfwkT9R/laEc9m4/rS+hrxuyFJoOGvOmM9wSw4nnskaWD+G4=
-X-Google-Smtp-Source: AGHT+IG4Bg7IjMdNadZXXn/36zsu8ZDorgbs/IEsWcGO+A4iZozCmrOizaHidaPk9MqyT8DHXEBeFg==
-X-Received: by 2002:a05:6512:4004:b0:529:a55d:8d7 with SMTP id
- 2adb3069b0e04-529a55d0bbfmr6389655e87.14.1716925160173; 
- Tue, 28 May 2024 12:39:20 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1716925161; x=1717529961;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OMzDrUPXBetRBxhwNhxvFwAUk90y+ybpda/UwhIo+Wg=;
+ b=lka+/bj9ddz9cgMxKxnUqeqpMa+vAVDO0oSdROXWJ28RKlaHIjWEjSb37uG+E1GSf7
+ 6iYC/A51MECCCI6fZatqafee6v5seSdBX470/I7Q3CLfrODPTXVLxkzs5Fy92nZ5E6z7
+ jo4WUqRejqJvygEPJprkhY5nJr/paegpRUhA0oWJn7I4VkGK+zS2X3sQAsHEbf9cPg0W
+ wUAES6j/0Kx1TFSpj8s8EOkIZCJGNsUn6lsok/duSPBiik9YwLE0IrZGwlCcotgZT3+H
+ DZNpULkuH9hhlUSPdV+MCbYDzT8RINiVUibVg2T70r22G3vGsSenotcPu8UnuVoB40DN
+ cc9Q==
+X-Gm-Message-State: AOJu0Yx/wbRzMcRcdYNmjhVt2mpWND7fJhwxOaQ6bq8G/RyNvWOw/ceq
+ 1TVz/jY9TR7d3AjrauYwt3qxsfIZ3UgyqYZRX3eY5zL65CfUrjy1o7fkzx4jHp8=
+X-Google-Smtp-Source: AGHT+IErWuce9aRTgzYsOItaSivJAYEUeHJGEILEAjjDTx4aWbFd8+75S49CKu4CNqVt+Ys3JPc30Q==
+X-Received: by 2002:ac2:561c:0:b0:523:88aa:237 with SMTP id
+ 2adb3069b0e04-52964caab7cmr7869500e87.33.1716925161160; 
+ Tue, 28 May 2024 12:39:21 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-529711f96c9sm1045234e87.245.2024.05.28.12.39.19
+ 2adb3069b0e04-529711f96c9sm1045234e87.245.2024.05.28.12.39.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 May 2024 12:39:19 -0700 (PDT)
+ Tue, 28 May 2024 12:39:20 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v4 0/3] drm/panel: two fixes for lg-sw43408
-Date: Tue, 28 May 2024 22:39:17 +0300
-Message-Id: <20240528-panel-sw43408-fix-v4-0-330b42445bcc@linaro.org>
+Date: Tue, 28 May 2024 22:39:18 +0300
+Subject: [PATCH v4 1/3] drm/panel/lg-sw43408: select
+ CONFIG_DRM_DISPLAY_DP_HELPER
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOUyVmYC/33NTQ6CMBCG4auQrq3pDOXPlfcwLqBMoQlpSWtQQ
- 7i7hY0aicv3S+aZmQXyhgI7JTPzNJlgnI0hDwlTfW074qaNzVCgFBIFH2tLAw93mUpRcm0eXOs
- 8k5UChIZYvBs9xXkzL9fYvQk355/biwnW9Z82ARe8wRK1LjBDiefB2Nq7o/MdW7kJ30QGuwRGo
- gXSFRBBU7Q/RPpBIO4RaSTySiCWWd0qJb6IZVlermC2JjkBAAA=
+Message-Id: <20240528-panel-sw43408-fix-v4-1-330b42445bcc@linaro.org>
+References: <20240528-panel-sw43408-fix-v4-0-330b42445bcc@linaro.org>
+In-Reply-To: <20240528-panel-sw43408-fix-v4-0-330b42445bcc@linaro.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -84,16 +83,16 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
  kernel test robot <lkp@intel.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1552;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1108;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=onL8Mw3fVTnsVXTG9+UAfGyF9JpZXOhojGn8QWOqrnA=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmVjLmMvog05l/rjjZInaoUZ1R3/bqphbSLBIfW
- aq0YIVDkQWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZlYy5gAKCRCLPIo+Aiko
- 1QNTB/4zOPgYNZ7IwjqDIlZP52hwwALdFOgW40rNUxQK3Bt6S4RFuv5WnMmuoCt5j9FHXYdykoC
- CtUjUijy6ejoLZM0sEpqMUpxzMcvLjY+XONRDuCJQPUx5/4G7PUOxkVwafCxCoKm1DGagx0jEYO
- VnSsUqRcNqmx+em7fuef89wv+7WQIENkqTGMF7hJ/5tiSzTlYcr29p+NkYF1uR+GC5qS5+Up4kt
- ifjq01NFjn4Jp6VqjQJLB8sXMZZurnY0uP/k8i4DCW2HyvFfA8EVqXn/dwwBiUBy9J2l366rpiI
- ypKLjqXG3bsSObFF8OvQitHTwmnrEEcD1LlWNloeahJPpj6N
+ bh=JpBownv2A/v5s9u+r2T7bmswrFK7bcF3CJY4XHaV/rs=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmVjLm9PT4rgSufs1N1DQ9nR+ydH1+hIK4hVb0O
+ UFdMizG9E6JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZlYy5gAKCRCLPIo+Aiko
+ 1WTGB/9oJhsxnoP8SaNvbslvwO4vwB8P5YM1pgHeTK4f5awBy1BrzWHcn24PItaIkNG3cJQ9C6G
+ Aq5N0gZ+eFpDMlgog7O6er+IxajzglH+FexACjtnCGhtaLUCCEXIYcxfO759My0X2E7HlKY3Ytb
+ S7Ba3tcWJMb1w0kWduqhEKFVogO0HzdB8tpoLvGVdtS2tkTnGFy5sHGgFZbGfdABLI8ifeddA9D
+ SuArUCPBtWwPNypPH9qgK2zNjOase6dyf2pswXwVuUbrIUPZ5frqzOQSGmqcizEZS7GbM32Z8DN
+ it0a1IQmiGb7yAC3rakxmf03wLnnLWjvrp3WUKIoeZs+0Tra
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,44 +110,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix two issues with the panel-lg-sw43408 driver reported by the kernel
-test robot.
+This panel driver uses DSC PPS functions and as such depends on the
+DRM_DISPLAY_DP_HELPER. Select this symbol to make required functions
+available to the driver.
 
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202404200800.kYsRYyli-lkp@intel.com/
+Fixes: 069a6c0e94f9 ("drm: panel: Add LG sw43408 panel driver")
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Changes in v4:
-- Reoder patches so that fixes come first, to be able to land them to
-  drm-misc-fixes
-- Link to v3: https://lore.kernel.org/r/20240522-panel-sw43408-fix-v3-0-6902285adcc0@linaro.org
+ drivers/gpu/drm/panel/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Changes in v3:
-- Split DRM_DISPLAY_DSC_HELPER from DRM_DISPLAY_DP_HELPER
-- Added missing Fixes tags
-- Link to v2: https://lore.kernel.org/r/20240510-panel-sw43408-fix-v2-0-d1ef91ee1b7d@linaro.org
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 982324ef5a41..2ae0eb0638f3 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -340,6 +340,8 @@ config DRM_PANEL_LG_SW43408
+ 	depends on OF
+ 	depends on DRM_MIPI_DSI
+ 	depends on BACKLIGHT_CLASS_DEVICE
++	select DRM_DISPLAY_DP_HELPER
++	select DRM_DISPLAY_HELPER
+ 	help
+ 	  Say Y here if you want to enable support for LG sw43408 panel.
+ 	  The panel has a 1080x2160@60Hz resolution and uses 24 bit RGB per
 
-Changes in v2:
-- use SELECT instead of DEPEND to follow the reverted Kconfig changes
-- Link to v1: https://lore.kernel.org/r/20240420-panel-sw43408-fix-v1-0-b282ff725242@linaro.org
-
----
-Dmitry Baryshkov (3):
-      drm/panel/lg-sw43408: select CONFIG_DRM_DISPLAY_DP_HELPER
-      drm/panel/lg-sw43408: mark sw43408_backlight_ops as static
-      drm/display: split DSC helpers from DP helpers
-
- drivers/gpu/drm/amd/amdgpu/Kconfig       | 1 +
- drivers/gpu/drm/display/Kconfig          | 6 ++++++
- drivers/gpu/drm/display/Makefile         | 3 ++-
- drivers/gpu/drm/i915/Kconfig             | 1 +
- drivers/gpu/drm/msm/Kconfig              | 1 +
- drivers/gpu/drm/panel/Kconfig            | 6 ++++--
- drivers/gpu/drm/panel/panel-lg-sw43408.c | 2 +-
- 7 files changed, 16 insertions(+), 4 deletions(-)
----
-base-commit: 6dc544b66971c7f9909ff038b62149105272d26a
-change-id: 20240420-panel-sw43408-fix-ff6549c121be
-
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.2
 
