@@ -2,59 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E098D1AA8
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 14:07:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C54718D1AF3
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 14:19:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1FA110ECF2;
-	Tue, 28 May 2024 12:07:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC5E811222C;
+	Tue, 28 May 2024 12:19:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KWaC/vJ+";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FFKwbQV3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D21A10F17B;
- Tue, 28 May 2024 12:07:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716898062; x=1748434062;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=9SmO4j+0IRlfjo2NqoLPJx5f/H/8iAONJNTvmhy4mIU=;
- b=KWaC/vJ+WkX0E/5MCtYxxV75lmk4pdxKRpMlH+WLZscwAE5PBlB64+x9
- dJgl1AnWJuGsagdSRG2y8oxpnAMIkUxNriII+/XOuSsuol4cwXbuhGM/4
- L8kygviFbEN8TKcYGScokuHID17nmT1fvKVkyaM8iKzbxsO5+RfydCtp/
- 6NBuUia56F/aVYyncnD5goKaRrGKya/rH6R9cFu+aGD9UzFd/2Yj6EO23
- n9LNWnzHYYlV+3+QkDR2BlhzMkAfY9dftZS6/DDYVhQ4+cMv03a923Oyg
- JunoTCzmuseh38D5fMFuhPYi2IqdZH0PNGSSaPLQw6ynAuIy95Z6CBCNV w==;
-X-CSE-ConnectionGUID: Lo22ecnuRaGTkp8t5y/akA==
-X-CSE-MsgGUID: cH5e0/qBR8CUGuUy+yT/iA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13358835"
-X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; d="scan'208";a="13358835"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2024 05:07:41 -0700
-X-CSE-ConnectionGUID: RpNXHzuURnizVSsOuZwMOA==
-X-CSE-MsgGUID: c5AkZZsJRW2AyF7i+9KjoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; d="scan'208";a="39492773"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2024 05:07:40 -0700
-Date: Tue, 28 May 2024 15:07:45 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 7/9] drm/i915: Move intel_surf_alignment() into
- skl_univerals_plane.c
-Message-ID: <ZlXJEa2KSJqKZCKf@ideak-desk.fi.intel.com>
-References: <20240513175942.12910-1-ville.syrjala@linux.intel.com>
- <20240513175942.12910-8-ville.syrjala@linux.intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D11F1121EB
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 12:19:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1716898770;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=W8XZc0KQa/7mBqFNDuE3e/08IvQR5wAGqbLL04XHCHU=;
+ b=FFKwbQV3+KeYNsUwQTWWcdUYxQKM9yaDWTf8Y8x2xx27XTjt+uGQMN8uQkZ8XyLtaoN2vj
+ cKVxZxLsUGNZE3tZA2YNDoPubsk56V7Mhp/myMvfICFnmg+2sWA/D1W9xMzCwFKVpBT3LZ
+ 4rV1tfGkgyyQXWQv+o7M7iGWGg9ofPI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-541-dqLK2PLDMia9hCvCJk0fxg-1; Tue, 28 May 2024 08:19:29 -0400
+X-MC-Unique: dqLK2PLDMia9hCvCJk0fxg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-35808073fbfso438060f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 05:19:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716898768; x=1717503568;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=W8XZc0KQa/7mBqFNDuE3e/08IvQR5wAGqbLL04XHCHU=;
+ b=CjkeRTL9Ap1rmI0EOa8IYIdpLVEfHKHskg0zS0C1pJUdn5YjI5ZaBzeORbkvMztCIh
+ Sjw2O7+ETFJ70LNxCKCjE/2Y5CUMmV3b3MpgG3L7ye0lYJz76thGs75OyHRnBszvx2d0
+ 2BnPlEgMRucUqQ5zYD/caL2b443/DYThroA2DpaC0M63rgjhk2BZ1Tg9xto6ukJ3gi5B
+ YRWaEL7/a75Gzn0YIglG5A57aGFrlP6zBCEq8vdd056aFHlEMpXONg3xZwmXUrVYzsxI
+ jug5LFjIQYvlvuWDDnvCZLsf7V/iKpLqdtO6sICgIXZqcu7wEgofZlngJyItaJGFQhGi
+ iGtg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXr5RwrUU/Zo2TOVkEsLY4G4QdrRjoUNPdlkIV2KKkbOhLrN3BBd0gAj3bVM5aggw4kTl6I38vCjZKgZn7OpuxjPJ13RgSmx3QNfcevTPzX
+X-Gm-Message-State: AOJu0YwnFxegobqcUIwhwIliVfuk2sdqBjTPjS9vTjED7LCU4pw1OLE9
+ aAQrBOg1z2dRMYJMYLr+qix6wNOH1ExquyVoRBH/603AZuwCZ8ywQMoA0VAy1FrNupivQC3Y4j+
+ RDEIoCfKckEQM2FWBRmUdOMWB80PJ+dw29NLhK8OKn6wKnBKHCc1N1DuBHqFC4G2vSQ==
+X-Received: by 2002:a5d:424a:0:b0:354:fa35:368a with SMTP id
+ ffacd0b85a97d-3552f4fd78bmr8185142f8f.65.1716898768010; 
+ Tue, 28 May 2024 05:19:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFxDYY3oHYAp9UWhyVGdke925o2d37XRD3jeQMgZG4iIZJ4+zl4uAQvL8nW2ISmd53ela8P8Q==
+X-Received: by 2002:a5d:424a:0:b0:354:fa35:368a with SMTP id
+ ffacd0b85a97d-3552f4fd78bmr8185109f8f.65.1716898767572; 
+ Tue, 28 May 2024 05:19:27 -0700 (PDT)
+Received: from pollux ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-358093ede7fsm7266534f8f.37.2024.05.28.05.19.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 May 2024 05:19:27 -0700 (PDT)
+Date: Tue, 28 May 2024 14:19:24 +0200
+From: Danilo Krummrich <dakr@redhat.com>
+To: FUJITA Tomonori <fujita.tomonori@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ ojeda@kernel.org, alex.gaynor@gmail.com, wedsonaf@gmail.com,
+ boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ benno.lossin@proton.me, a.hindborg@samsung.com,
+ aliceryhl@google.com, lina@asahilina.net, pstanner@redhat.com,
+ ajanulgu@redhat.com, lyude@redhat.com, gregkh@linuxfoundation.org,
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, mcgrof@kernel.org, russ.weight@linux.dev
+Subject: Re: [RFC PATCH 7/8] rust: add firmware abstractions
+Message-ID: <ZlXLzCYiwdMxic3X@pollux>
+References: <20240520172422.181763-4-dakr@redhat.com>
+ <20240522.085334.1009573112046880609.fujita.tomonori@gmail.com>
+ <ZlTdh/eQAIhxNn9e@pollux.localdomain>
+ <20240528.200126.99248529380429957.fujita.tomonori@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+In-Reply-To: <20240528.200126.99248529380429957.fujita.tomonori@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240513175942.12910-8-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,239 +98,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 13, 2024 at 08:59:40PM +0300, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On Tue, May 28, 2024 at 08:01:26PM +0900, FUJITA Tomonori wrote:
+> On Mon, 27 May 2024 21:22:47 +0200
+> Danilo Krummrich <dakr@redhat.com> wrote:
 > 
-> Now that all pre-skl platforms have their own .min_alignment()
-> functions the remainder of intel_surf_alignment() can be hoisted
-> into skl_univerals_plane.c (and renamed appropriately).
+> >> > +/// Abstraction around a C firmware struct.
+> >> > +///
+> >> > +/// This is a simple abstraction around the C firmware API. Just like with the C API, firmware can
+> >> > +/// be requested. Once requested the abstraction provides direct access to the firmware buffer as
+> >> > +/// `&[u8]`. Alternatively, the firmware can be copied to a new buffer using `Firmware::copy`. The
+> >> > +/// firmware is released once [`Firmware`] is dropped.
+> >> > +///
+> >> > +/// # Examples
+> >> > +///
+> >> > +/// ```
+> >> > +/// let fw = Firmware::request("path/to/firmware.bin", dev.as_ref())?;
+> >> > +/// driver_load_firmware(fw.data());
+> >> > +/// ```
+> >> > +pub struct Firmware(Opaque<*const bindings::firmware>);
+> >> 
+> >> Wrapping a raw pointer is not the intended use of Qpaque type?
+> >> 
+> > 
+> > Indeed, will fix this in v2 and use NonNull instead. I'll also offload most of
+> > the boilerplate in the 'request' functions to some common 'request_internal' one.
 > 
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> You might need to add 'Invariants' comment on Firmware struct.
 
-Reviewed-by: Imre Deak <imre.deak@intel.com>
+Which ones do you think should be documented?
 
-> ---
->  drivers/gpu/drm/i915/display/intel_fb.c       | 77 +------------------
->  drivers/gpu/drm/i915/display/intel_fb.h       |  4 +-
->  .../drm/i915/display/skl_universal_plane.c    | 77 ++++++++++++++++++-
->  3 files changed, 78 insertions(+), 80 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
-> index eea93d84a16e..c80f866f3fb6 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fb.c
-> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
-> @@ -584,7 +584,7 @@ static bool is_gen12_ccs_cc_plane(const struct drm_framebuffer *fb, int color_pl
->  	return intel_fb_rc_ccs_cc_plane(fb) == color_plane;
->  }
->  
-> -static bool is_semiplanar_uv_plane(const struct drm_framebuffer *fb, int color_plane)
-> +bool is_semiplanar_uv_plane(const struct drm_framebuffer *fb, int color_plane)
->  {
->  	return intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier) &&
->  		color_plane == 1;
-> @@ -776,81 +776,6 @@ bool intel_fb_uses_dpt(const struct drm_framebuffer *fb)
->  		intel_fb_modifier_uses_dpt(to_i915(fb->dev), fb->modifier);
->  }
->  
-> -unsigned int intel_surf_alignment(struct intel_plane *plane,
-> -				  const struct drm_framebuffer *fb,
-> -				  int color_plane)
-> -{
-> -	struct drm_i915_private *dev_priv = to_i915(plane->base.dev);
-> -
-> -	if (intel_fb_uses_dpt(fb)) {
-> -		/* AUX_DIST needs only 4K alignment */
-> -		if (intel_fb_is_ccs_aux_plane(fb, color_plane))
-> -			return 512 * 4096;
-> -
-> -		/*
-> -		 * FIXME ADL sees GGTT/DMAR faults with async
-> -		 * flips unless we align to 16k at least.
-> -		 * Figure out what's going on here...
-> -		 */
-> -		if (IS_ALDERLAKE_P(dev_priv) &&
-> -		    !intel_fb_is_ccs_modifier(fb->modifier) &&
-> -		    HAS_ASYNC_FLIPS(dev_priv))
-> -			return 512 * 16 * 1024;
-> -
-> -		return 512 * 4096;
-> -	}
-> -
-> -	/* AUX_DIST needs only 4K alignment */
-> -	if (intel_fb_is_ccs_aux_plane(fb, color_plane))
-> -		return 4096;
-> -
-> -	if (is_semiplanar_uv_plane(fb, color_plane)) {
-> -		/*
-> -		 * TODO: cross-check wrt. the bspec stride in bytes * 64 bytes
-> -		 * alignment for linear UV planes on all platforms.
-> -		 */
-> -		if (DISPLAY_VER(dev_priv) >= 12) {
-> -			if (fb->modifier == DRM_FORMAT_MOD_LINEAR)
-> -				return 256 * 1024;
-> -
-> -			return intel_tile_row_size(fb, color_plane);
-> -		}
-> -
-> -		return 4096;
-> -	}
-> -
-> -	drm_WARN_ON(&dev_priv->drm, color_plane != 0);
-> -
-> -	switch (fb->modifier) {
-> -	case DRM_FORMAT_MOD_LINEAR:
-> -		return 256 * 1024;
-> -	case I915_FORMAT_MOD_X_TILED:
-> -		if (HAS_ASYNC_FLIPS(dev_priv))
-> -			return 256 * 1024;
-> -		return 0;
-> -	case I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS:
-> -	case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS:
-> -	case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC:
-> -	case I915_FORMAT_MOD_4_TILED_MTL_MC_CCS:
-> -	case I915_FORMAT_MOD_4_TILED_MTL_RC_CCS:
-> -	case I915_FORMAT_MOD_4_TILED_MTL_RC_CCS_CC:
-> -		return 16 * 1024;
-> -	case I915_FORMAT_MOD_Y_TILED_CCS:
-> -	case I915_FORMAT_MOD_Yf_TILED_CCS:
-> -	case I915_FORMAT_MOD_Y_TILED:
-> -	case I915_FORMAT_MOD_4_TILED:
-> -	case I915_FORMAT_MOD_Yf_TILED:
-> -		return 1 * 1024 * 1024;
-> -	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
-> -	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
-> -	case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
-> -		return 16 * 1024;
-> -	default:
-> -		MISSING_CASE(fb->modifier);
-> -		return 0;
-> -	}
-> -}
-> -
->  void intel_fb_plane_get_subsampling(int *hsub, int *vsub,
->  				    const struct drm_framebuffer *fb,
->  				    int color_plane)
-> diff --git a/drivers/gpu/drm/i915/display/intel_fb.h b/drivers/gpu/drm/i915/display/intel_fb.h
-> index 16ebb573643f..1b1fef2dc39a 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fb.h
-> +++ b/drivers/gpu/drm/i915/display/intel_fb.h
-> @@ -34,6 +34,7 @@ bool intel_fb_is_ccs_modifier(u64 modifier);
->  bool intel_fb_is_rc_ccs_cc_modifier(u64 modifier);
->  bool intel_fb_is_mc_ccs_modifier(u64 modifier);
->  
-> +bool is_semiplanar_uv_plane(const struct drm_framebuffer *fb, int color_plane);
->  bool intel_fb_is_ccs_aux_plane(const struct drm_framebuffer *fb, int color_plane);
->  int intel_fb_rc_ccs_cc_plane(const struct drm_framebuffer *fb);
->  
-> @@ -60,9 +61,6 @@ unsigned int intel_tile_height(const struct drm_framebuffer *fb, int color_plane
->  unsigned int intel_tile_row_size(const struct drm_framebuffer *fb, int color_plane);
->  unsigned int intel_fb_align_height(const struct drm_framebuffer *fb,
->  				   int color_plane, unsigned int height);
-> -unsigned int intel_surf_alignment(struct intel_plane *plane,
-> -				  const struct drm_framebuffer *fb,
-> -				  int color_plane);
->  
->  void intel_fb_plane_get_subsampling(int *hsub, int *vsub,
->  				    const struct drm_framebuffer *fb,
-> diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> index 27782f5060ad..1ecd7c691317 100644
-> --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> @@ -502,6 +502,81 @@ skl_plane_max_stride(struct intel_plane *plane,
->  				max_pixels, max_bytes);
->  }
->  
-> +static unsigned int skl_plane_min_alignment(struct intel_plane *plane,
-> +					    const struct drm_framebuffer *fb,
-> +					    int color_plane)
-> +{
-> +	struct drm_i915_private *dev_priv = to_i915(plane->base.dev);
-> +
-> +	if (intel_fb_uses_dpt(fb)) {
-> +		/* AUX_DIST needs only 4K alignment */
-> +		if (intel_fb_is_ccs_aux_plane(fb, color_plane))
-> +			return 512 * 4096;
-> +
-> +		/*
-> +		 * FIXME ADL sees GGTT/DMAR faults with async
-> +		 * flips unless we align to 16k at least.
-> +		 * Figure out what's going on here...
-> +		 */
-> +		if (IS_ALDERLAKE_P(dev_priv) &&
-> +		    !intel_fb_is_ccs_modifier(fb->modifier) &&
-> +		    HAS_ASYNC_FLIPS(dev_priv))
-> +			return 512 * 16 * 1024;
-> +
-> +		return 512 * 4096;
-> +	}
-> +
-> +	/* AUX_DIST needs only 4K alignment */
-> +	if (intel_fb_is_ccs_aux_plane(fb, color_plane))
-> +		return 4096;
-> +
-> +	if (is_semiplanar_uv_plane(fb, color_plane)) {
-> +		/*
-> +		 * TODO: cross-check wrt. the bspec stride in bytes * 64 bytes
-> +		 * alignment for linear UV planes on all platforms.
-> +		 */
-> +		if (DISPLAY_VER(dev_priv) >= 12) {
-> +			if (fb->modifier == DRM_FORMAT_MOD_LINEAR)
-> +				return 256 * 1024;
-> +
-> +			return intel_tile_row_size(fb, color_plane);
-> +		}
-> +
-> +		return 4096;
-> +	}
-> +
-> +	drm_WARN_ON(&dev_priv->drm, color_plane != 0);
-> +
-> +	switch (fb->modifier) {
-> +	case DRM_FORMAT_MOD_LINEAR:
-> +		return 256 * 1024;
-> +	case I915_FORMAT_MOD_X_TILED:
-> +		if (HAS_ASYNC_FLIPS(dev_priv))
-> +			return 256 * 1024;
-> +		return 0;
-> +	case I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS:
-> +	case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS:
-> +	case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC:
-> +	case I915_FORMAT_MOD_4_TILED_MTL_MC_CCS:
-> +	case I915_FORMAT_MOD_4_TILED_MTL_RC_CCS:
-> +	case I915_FORMAT_MOD_4_TILED_MTL_RC_CCS_CC:
-> +		return 16 * 1024;
-> +	case I915_FORMAT_MOD_Y_TILED_CCS:
-> +	case I915_FORMAT_MOD_Yf_TILED_CCS:
-> +	case I915_FORMAT_MOD_Y_TILED:
-> +	case I915_FORMAT_MOD_4_TILED:
-> +	case I915_FORMAT_MOD_Yf_TILED:
-> +		return 1 * 1024 * 1024;
-> +	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
-> +	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
-> +	case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
-> +		return 16 * 1024;
-> +	default:
-> +		MISSING_CASE(fb->modifier);
-> +		return 0;
-> +	}
-> +}
-> +
->  /* Preoffset values for YUV to RGB Conversion */
->  #define PREOFF_YUV_TO_RGB_HI		0x1800
->  #define PREOFF_YUV_TO_RGB_ME		0x0000
-> @@ -2367,7 +2442,7 @@ skl_universal_plane_create(struct drm_i915_private *dev_priv,
->  	else
->  		plane->max_stride = skl_plane_max_stride;
->  
-> -	plane->min_alignment = intel_surf_alignment;
-> +	plane->min_alignment = skl_plane_min_alignment;
->  
->  	if (DISPLAY_VER(dev_priv) >= 11) {
->  		plane->update_noarm = icl_plane_update_noarm;
-> -- 
-> 2.43.2
+> BTW, what merge window are you aiming for? As I wrote before, I have a
+> driver that needs the firmware abstractions (the minimum device
+> abstractions is enough; Device::as_raw() and as_ref()). So the sooner,
+> the better for me.
+
+I'm not aiming this on a specific merge window.
+
+However, if you have a driver that needs the firmware abstractions, I would be
+surprised if there were any hesitations to already merge the minimum device
+abstractions [1] and this one (once reviewed) without the rest. At least there
+aren't any from my side.
+
+[1] https://lore.kernel.org/rust-for-linux/20240520172554.182094-2-dakr@redhat.com/
+
 > 
+
