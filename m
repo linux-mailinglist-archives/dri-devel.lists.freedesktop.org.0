@@ -2,55 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9104A8D192F
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 13:13:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CA68D194D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 13:22:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E8E410E614;
-	Tue, 28 May 2024 11:13:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36EB310FD9B;
+	Tue, 28 May 2024 11:22:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nlZruYZH";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="wuGTpzYn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B930210E600;
- Tue, 28 May 2024 11:12:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id BEFB861E75;
- Tue, 28 May 2024 11:12:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DBE5C32781;
- Tue, 28 May 2024 11:12:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716894777;
- bh=3rPjQMH0spyLRLysMnC+8uLAxHoFyiHsGR9/+icJuTA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nlZruYZHNcdYggDSw6i0+eu6AbyHAH2ek9Q/r6rDvh+/SIXPNz87b7WHzSC3/cOq7
- 3MBEv71WCFDlQPl/2oJJ0im7BtkwVVi6ufcX5TlGdbve/XXx6B1pNec4CsWq8cRPCl
- tFFeRtTU6z1RXQPcadVTyw4d4tjH/aCJ2IqjNxpPONeD9amIF+VGG3eIJbTfG4yly3
- 1r6kLUAPHMB/QXDBuHxlmZ3pS5FV//+L276Mhg5HN+GH2nUqcJOFGXD78Re8I41w/g
- v3JwdfuwUr+r5ngnzZegSL49OOi4Kenk3+T8xKo/0EENMmPX5K124pcDCj5PknT66Y
- y2REO4hdHI7aw==
-Date: Tue, 28 May 2024 13:12:54 +0200
-From: "mripard@kernel.org" <mripard@kernel.org>
-To: "Manna, Animesh" <animesh.manna@intel.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, 
- "Nikula, Jani" <jani.nikula@intel.com>, "Hogander,
- Jouni" <jouni.hogander@intel.com>, 
- "Murthy, Arun R" <arun.r.murthy@intel.com>, 
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH v6 3/6] drm/display: Add missing aux less alpm wake
- related bits
-Message-ID: <20240528-mongoose-of-eminent-aurora-0503bb@houat>
-References: <20240527082636.1519057-1-animesh.manna@intel.com>
- <20240527082636.1519057-4-animesh.manna@intel.com>
- <PH7PR11MB5981DB0A17046BFC9E5A6BE0F9F12@PH7PR11MB5981.namprd11.prod.outlook.com>
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D065C112120
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 11:22:09 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44SBLueP049633;
+ Tue, 28 May 2024 06:21:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1716895316;
+ bh=LsFWexuqmOIvPySLRES2Xzrrtm5Z8axMJcdqDhRHPIU=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=wuGTpzYnhl01qto8/tnlANOM/r0jXRM08h9L6jT3vpx+HKPSyZFE91q9bj9aJFi8g
+ 1HXCdhmat6FK/RzElvVGnhxo1Bsjcn/fPgXO/2Zlt0Ibpi0wtow5wW0i5HIQ+l5UhN
+ U9vh0FjduxBxcEhRqpI77VJv4YdAG4wDmtowNoyA=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44SBLuU9046143
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 28 May 2024 06:21:56 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 28
+ May 2024 06:21:56 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 28 May 2024 06:21:56 -0500
+Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be
+ forged))
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44SBLkbg062841;
+ Tue, 28 May 2024 06:21:47 -0500
+Message-ID: <4a8cea8c-4575-bdd8-e8a8-634a2b267ff5@ti.com>
+Date: Tue, 28 May 2024 16:51:46 +0530
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="oou6hmo2hd3odedr"
-Content-Disposition: inline
-In-Reply-To: <PH7PR11MB5981DB0A17046BFC9E5A6BE0F9F12@PH7PR11MB5981.namprd11.prod.outlook.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v9 07/10] lib: add basic KUnit test for lib/math
+Content-Language: en-US
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+ <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
+ <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
+ <adobriyan@gmail.com>, <jani.nikula@intel.com>,
+ <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <laurent.pinchart@ideasonboard.com>,
+ <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
+ <j-luthra@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
+ <p-mantena@ti.com>, <vijayp@ti.com>, <andrzej.p@collabora.com>,
+ <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
+References: <20240526175655.1093707-1-devarsht@ti.com>
+ <20240526180933.1126116-1-devarsht@ti.com>
+ <ZlTu_9orsuosNiGk@smile.fi.intel.com>
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <ZlTu_9orsuosNiGk@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,34 +83,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Andy,
 
---oou6hmo2hd3odedr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for the review.
 
-On Tue, May 28, 2024 at 10:04:06AM GMT, Manna, Animesh wrote:
-> + drm-core maintainer
->=20
-> Hi,
->=20
-> Could you please have a look and ack this patch.
-> Received r-b from Jouni on 0th patch for the whole patch series.
+On 28/05/24 02:07, Andy Shevchenko wrote:
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+[..]
+>> +#include <kunit/test.h>
+>> +#include <linux/gcd.h>
+>> +#include <linux/lcm.h>
+> 
+> + math.h (where abs()/DIV_ROUND_*()/etc come from?)
+> I believe I mentioned that.
+> 
 
-Maxime
+I did compile and test this, so math.h was indirectly getting included via
+some other header file already included but I would not rely on that and
+include math.h separately as you suggested.
 
---oou6hmo2hd3odedr
-Content-Type: application/pgp-signature; name="signature.asc"
+>> +#include <linux/reciprocal_div.h>
+> 
+> ...
+> 
+>> +MODULE_LICENSE("GPL");
+> 
+> modpost validator won't be happy about this, i.e. missing MODULE_DESCRIPTION().
+> 
 
------BEGIN PGP SIGNATURE-----
+Indeed, it gives below logs, let me add that too.
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/math_kunit.o
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZlW8MQAKCRAnX84Zoj2+
-dg7AAX0WtNJTSIbNWDohFUoZq/n00H16cZALk+6rVlos/7kX4KF4J9p/51Ucn+ut
-l5gKafwBfjvrFUUXn/LuIJCUXYlwLUFeDTXljY8Y/d5TO7bdgRnpZjF9Qjh5eRb3
-EGYtzBtf0Q==
-=BYek
------END PGP SIGNATURE-----
 
---oou6hmo2hd3odedr--
+Regards
+Devarsh
