@@ -2,61 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8F18D14A5
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 08:46:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D926A8D14A9
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 08:47:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A35410FFFB;
-	Tue, 28 May 2024 06:46:38 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.b="xLYc97HZ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB1F489919;
+	Tue, 28 May 2024 06:47:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C124710FFFB;
- Tue, 28 May 2024 06:46:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
- Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
- In-Reply-To:References; bh=Om+3DdDNz34eTk9PGG2WbSavGEIpa9Fm2b7xW+H1qWQ=;
- t=1716878796; x=1717310796; b=xLYc97HZ1/a987w9u1HjNlURGoUAlHCrPZudu2MRN2DFeSB
- 0Rs23nuHi/z9o77/Qhjya9Hg3ulI0lHYAggY/F8b3K/umGYbsrfEBir/ZHlbWw4I5NJLWY+OuoBzv
- I9XJFO+ZOhltkVjLxtbZVFtMnoWi4Mmhx8aT0Uy3BMuzz4eWipafspjFgcLV3aPCXz/orUMUZF06+
- Ucpb3xJnrWmgY8HAFhhU8/slIovXsrU13J0ZykAI4I2/krAPmcTUBs+oQqLVLYBWnR8PewnqAA7kP
- PCccfbUTWAouaFNP2tu0uZB6Ytbepr1B2qv9BB30D2DtYb3t3UZsBtM0lwhmnDTA==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1sBqbP-0007a4-SQ; Tue, 28 May 2024 08:46:31 +0200
-Message-ID: <de703fe7-1cf8-4f51-a282-bdca4a3c6634@leemhuis.info>
-Date: Tue, 28 May 2024 08:46:31 +0200
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F057F10FFFC
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 06:47:36 +0000 (UTC)
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-127-IkAEgiRtMOakeJBviBB-HQ-1; Tue,
+ 28 May 2024 02:47:33 -0400
+X-MC-Unique: IkAEgiRtMOakeJBviBB-HQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 590B129AA390;
+ Tue, 28 May 2024 06:47:33 +0000 (UTC)
+Received: from dreadlord.redhat.com (unknown [10.64.136.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5751F28E5;
+ Tue, 28 May 2024 06:47:32 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Subject: [PATCH] nouveau/uconn: drop WARN_ON and pointless ret setting.
+Date: Tue, 28 May 2024 16:47:30 +1000
+Message-ID: <20240528064730.9907-1-airlied@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: 6.10/regression/bisected commit c4cb23111103 causes sleeping
- function called from invalid context at kernel/locking/mutex.c:585
-To: Chris Bainbridge <chris.bainbridge@gmail.com>,
- Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Cc: regressions@lists.linux.dev, vasant.hegde@amd.com,
- suravee.suthikulpanit@amd.com, jgg@nvidia.com, jroedel@suse.de,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
- Borislav Petkov <bp@alien8.de>
-References: <CABXGCsN1z2gj99zSdhQWynpTXBymrqHejDfF8axxxoiZ_0g_-g@mail.gmail.com>
- <Zk5hJrY_lGmuW1G9@debian.local>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Content-Language: en-US, de-DE
-In-Reply-To: <Zk5hJrY_lGmuW1G9@debian.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1716878796;
- 3bfcac6a; 
-X-HE-SMSGID: 1sBqbP-0007a4-SQ
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,28 +52,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22.05.24 23:18, Chris Bainbridge wrote:
-> On Tue, May 21, 2024 at 02:39:06PM +0500, Mikhail Gavrilov wrote:
->> Yesterday on the fresh kernel snapshot
->> I spotted a new bug message with follow stacktrace:
->> [    4.307097] BUG: sleeping function called from invalid context at
->> kernel/locking/mutex.c:585
-> I am also getting this error on every boot. Decoded stacktrace:
+From: Dave Airlie <airlied@redhat.com>
 
-TWIMC & for the record: Boris also reported this; Vasant Hegde replied
-and said a fix is in the works:
+With GSP on my laptop I get an 0xff connector type, it appears
+this is normal behaviour and we should ignore that connector.
 
-https://lore.kernel.org/all/898d356d-ec7d-41de-82d8-3ed4dc5598b3@amd.com/
+Now we don't handle that all properly, but anywhere I try to
+ignore it at that point causes driver load to fail, so let's
+not do that, and just drop the warn and ret setting (which gets
+set to 0 a few lines later).
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+Cc: stable@vger.kernel.org
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-#regzbot dup:
-https://lore.kernel.org/all/CABXGCsN1z2gj99zSdhQWynpTXBymrqHejDfF8axxxoiZ_0g_-g@mail.gmail.com/
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c b/drivers/gpu=
+/drm/nouveau/nvkm/engine/disp/uconn.c
+index 2dab6612c4fc..5f460e3d1bb5 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c
+@@ -211,8 +211,6 @@ nvkm_uconn_new(const struct nvkm_oclass *oclass, void *=
+argv, u32 argc, struct nv
+ =09=09case DCB_CONNECTOR_HDMI_1   :
+ =09=09case DCB_CONNECTOR_HDMI_C   : args->v0.type =3D NVIF_CONN_V0_HDMI; b=
+reak;
+ =09=09default:
+-=09=09=09WARN_ON(1);
+-=09=09=09ret =3D -EINVAL;
+ =09=09=09break;
+ =09=09}
+=20
+--=20
+2.45.1
+
