@@ -2,72 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF338D197F
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 13:31:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEAAB8D19AF
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 13:35:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C217A1121DF;
-	Tue, 28 May 2024 11:31:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C04710F545;
+	Tue, 28 May 2024 11:35:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="TmK2Z8ez";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HYaY5UPs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E1FE1121D5
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 11:31:53 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44SBVenp062222;
- Tue, 28 May 2024 06:31:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1716895900;
- bh=VpSNru19mBz9l4/n9K1fomuoEtlk8IP8cCmAhFDqj9k=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=TmK2Z8ezSKCZDHjB/iSRmrlXraznKS7RMMA+qdqEiftotR/sCS9Vzjzc4zgo24O0s
- h2JSxOhqLRvw3+8fYE1FAJ2tykEIoHb9RwtN/GyjQ8jrhMhuhk0epVj+Dk/W4bbQsA
- ndHKMSvNYdQqNRncDgz+G+cgH4zgu1fDoe/BJOdQ=
-Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44SBVect036639
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 28 May 2024 06:31:40 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 28
- May 2024 06:31:40 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 28 May 2024 06:31:40 -0500
-Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be
- forged))
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44SBVVrb076827;
- Tue, 28 May 2024 06:31:32 -0500
-Message-ID: <9c88bc47-35f0-86ed-2df7-dd83640d9997@ti.com>
-Date: Tue, 28 May 2024 17:01:31 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDE7310E746;
+ Tue, 28 May 2024 11:35:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716896143; x=1748432143;
+ h=date:from:to:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=Djw9ZgFoe1/UlvS0+QnC9yz7ntgBapg5+DLCsagzLjY=;
+ b=HYaY5UPsQDQNnGjM5W1h++Wac6EyEiFaGRLQvyVaMOQ/faTBcqJWtjti
+ mATmjG6TfR23tJy5ibYYRIaq3Xhs277YY1hPlbFH/ivnLJyyjyVF8+yX+
+ HiZbkzWl0rGO7uaxiaXPCiaSjzcKWJO/NNQ0f0djqfyr0vpP2edIB+FFq
+ DAxxQYbyanu1tS2oQ3wUplh2Xwpx1tsbVYX77Wp+K/nk0xOgGJXpWoTtm
+ jYFRs+Cv7TwldZj4qMATByg7BvewGroLAhk8q1YKtoSWwDIPYEvoAWX4v
+ PEOXKdHtIniA311BpLOFWhlPdVKeCelkFuUTiLgjFE6Pq176M/VMZjepn A==;
+X-CSE-ConnectionGUID: w3AwHbf4SKqoiTGpTkYy0w==
+X-CSE-MsgGUID: R+zJk689Qye/8W1kK7tbRg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13455750"
+X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; d="scan'208";a="13455750"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2024 04:35:07 -0700
+X-CSE-ConnectionGUID: Bz/blXswSmScctsW9MfXow==
+X-CSE-MsgGUID: ExzH7pscQeW0zP8jlUDk+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; d="scan'208";a="35660778"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2024 04:35:05 -0700
+Date: Tue, 28 May 2024 14:35:10 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 4/9] drm/i915: Introduce fb->min_alignment
+Message-ID: <ZlXBbkseoMxfXzlZ@ideak-desk.fi.intel.com>
+References: <20240513175942.12910-1-ville.syrjala@linux.intel.com>
+ <20240513175942.12910-5-ville.syrjala@linux.intel.com>
+ <ZlW/uMCDFles0dyv@ideak-desk.fi.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v9 07/10] lib: add basic KUnit test for lib/math
-Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
- <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
- <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
- <adobriyan@gmail.com>, <jani.nikula@intel.com>,
- <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <laurent.pinchart@ideasonboard.com>,
- <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
- <j-luthra@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
- <p-mantena@ti.com>, <vijayp@ti.com>, <andrzej.p@collabora.com>,
- <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
-References: <20240526175655.1093707-1-devarsht@ti.com>
- <20240526180933.1126116-1-devarsht@ti.com>
- <ZlTu_9orsuosNiGk@smile.fi.intel.com> <ZlTvLS8oTPcvZKQN@smile.fi.intel.com>
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <ZlTvLS8oTPcvZKQN@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZlW/uMCDFles0dyv@ideak-desk.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,31 +66,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 28/05/24 02:08, Andy Shevchenko wrote:
-> On Mon, May 27, 2024 at 11:37:20PM +0300, Andy Shevchenko wrote:
->> On Sun, May 26, 2024 at 11:39:33PM +0530, Devarsh Thakkar wrote:
+On Tue, May 28, 2024 at 02:27:58PM +0300, Imre Deak wrote:
+> [...]
+> > +}
+> > +
+> >  static unsigned int
+> >  intel_plane_fb_min_alignment(const struct intel_plane_state *plane_state)
+> >  {
+> >  	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
+> > -	const struct drm_framebuffer *fb = plane_state->hw.fb;
+> > +	const struct intel_framebuffer *fb = to_intel_framebuffer(plane_state->hw.fb);
+> >  
+> > -	return plane->min_alignment(plane, fb, 0);
+> > +	/*
+> > +	 * Only use plane specific alignment for binding
+> > +	 * a per-plane gtt view (remapped or rotated),
+> > +	 * otherwise make sure the alignment is suitable
+> > +	 * for all planes.
+> > +	 */
+> > +	if (!gtt_view_is_per_plane(plane_state))
+> > +		return fb->min_alignment;
+> > +
+> > +	if (intel_plane_needs_physical(plane))
+> > +		return 0;
 > 
-> ...
-> 
->>> +MODULE_LICENSE("GPL");
->>
->> modpost validator won't be happy about this, i.e. missing MODULE_DESCRIPTION().
-> 
-> And obviously + module.h in the inclusion block.
-> 
+> I guess the above is ok, though looks like an unrelated change: the
+> cursor plane min_alignment() for relevant platforms is <= 4k, which will
+> be rounded up to 4k anyway when binding the vma.
 
-The module.h is already included under include/kunit/test.h and that's the
-reason compiler did not give any error. But I can still include it under
-math.h for better readability as you suggested as anyway compiler will not
-re-include if already included by another header file.
+Hm, actually this would change the current 16k vma alignment for cursors on i830?
 
-Also I see we were missing a dependency between math_kunit and kunit modules,
-so adding a dependency there too.
-
-Regards
-Devarsh
+> 
+> > +
+> > +	return plane->min_alignment(plane, &fb->base, 0);
+> 
+> The commit could've had more details about the rational for the above.
+> As I understand it avoids having to rebind the vma for different plane
+> types, though this is already handled to some degree by
+> i915_vma::display_alignment.
+> 
+> >  }
+> >  
+> >  static unsigned int
+> > diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> > index ff685aebbd1a..124aac172acb 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> > @@ -46,7 +46,6 @@
+> >  #include "gem/i915_gem_mman.h"
+> >  
+> >  #include "i915_drv.h"
+> > -#include "intel_crtc.h"
+> >  #include "intel_display_types.h"
+> >  #include "intel_fb.h"
+> >  #include "intel_fb_pin.h"
+> > @@ -172,21 +171,6 @@ static const struct fb_ops intelfb_ops = {
+> >  
+> >  __diag_pop();
+> >  
+> > -static unsigned int intel_fbdev_min_alignment(const struct drm_framebuffer *fb)
+> > -{
+> > -	struct drm_i915_private *i915 = to_i915(fb->dev);
+> > -	struct intel_plane *plane;
+> > -	struct intel_crtc *crtc;
+> > -
+> > -	crtc = intel_first_crtc(i915);
+> > -	if (!crtc)
+> > -		return 0;
+> > -
+> > -	plane = to_intel_plane(crtc->base.primary);
+> > -
+> > -	return plane->min_alignment(plane, fb, 0);
+> > -}
+> > -
+> >  static int intelfb_create(struct drm_fb_helper *helper,
+> >  			  struct drm_fb_helper_surface_size *sizes)
+> >  {
+> > @@ -244,7 +228,7 @@ static int intelfb_create(struct drm_fb_helper *helper,
+> >  	 * BIOS is suitable for own access.
+> >  	 */
+> >  	vma = intel_fb_pin_to_ggtt(&fb->base, &view,
+> > -				   intel_fbdev_min_alignment(&fb->base), 0,
+> > +				   fb->min_alignment, 0,
+> >  				   false, &flags);
+> >  	if (IS_ERR(vma)) {
+> >  		ret = PTR_ERR(vma);
+> > -- 
+> > 2.43.2
+> > 
