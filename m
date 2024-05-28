@@ -2,68 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8918B8D1F60
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 17:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2DBC8D1F65
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 17:00:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE4861122EB;
-	Tue, 28 May 2024 15:00:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 307221122DD;
+	Tue, 28 May 2024 15:00:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FbpYpfXF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iZk0rrbk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38FF41122E8
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 15:00:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3563C1122DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 15:00:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 9248DCE12E8;
- Tue, 28 May 2024 15:00:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E7ADC3277B;
- Tue, 28 May 2024 14:59:58 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 24F96CE12E4;
+ Tue, 28 May 2024 15:00:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3868C3277B;
+ Tue, 28 May 2024 15:00:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716908401;
- bh=co0yewf5Nf8gH5InRBPqwfu+SsVpATT6AoAR9evNQmA=;
+ s=k20201202; t=1716908445;
+ bh=sX6wzAUSMEhtMUKCcCMwDsLeJBXgG/h6JdPOcH0zBOo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FbpYpfXFmoZ6QUldMJNidZ992oLKlxy14Awp5SWxJMJjIedQYDVhmPOOni2Xu71Po
- utr7F7jIUzSmcBAHMcT3PMknBYSPSLVShq7Xs2cY8f+q7vIALvkiJaxlr8Oh+AtiEq
- jT9SrL2msw3km1Fukl5UZiS3EAoZDzYP2/fXpamq1Zs1fXxr7+pbbk/BndtECB4qya
- s9ZYNJb1L4v0FqlMQaE+t1SK7RXTS2mNXJm+JX1nG88kWc03GFDyowZzYBbV56hKUu
- qbRsraQJLzzhobE+C14dfNkM7Chpe/AoRDz2HT5TuzzCiVjsSjxwi6OtjY94zj9M/D
- aIqz25q0Tw19A==
-Date: Tue, 28 May 2024 15:59:56 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Jason-JH Lin =?utf-8?B?KOael+edv+elpSk=?= <Jason-JH.Lin@mediatek.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- Singo Chang =?utf-8?B?KOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- Jason-ch Chen =?utf-8?B?KOmZs+W7uuixqik=?= <Jason-ch.Chen@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- Shawn Sung =?utf-8?B?KOWui+WtneismSk=?= <Shawn.Sung@mediatek.com>,
- Nancy Lin =?utf-8?B?KOael+aso+ieoik=?= <Nancy.Lin@mediatek.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH RESEND,v6 2/8] dt-bindings: mailbox: Add property for
- CMDQ secure driver
-Message-ID: <20240528-herbicide-starving-3d162906914e@spud>
-References: <20240526144443.14345-1-jason-jh.lin@mediatek.com>
- <20240526144443.14345-3-jason-jh.lin@mediatek.com>
- <20240527-bullion-slapping-d35fcddb56d5@spud>
- <3541454c6f60b8a16f4930dd91173ed24c9b5fd5.camel@mediatek.com>
+ b=iZk0rrbkcR6SlmZYmL1ZhTZ5I2x3VGapzHDW8/6DZvdBVfn4BadZGiN3dktPzJSCI
+ kcwrzrlXbXttqUJGncV89791OAlC8LG5potYO4t8dBhQoorNaVzefDVsRanNsJ9RxP
+ Ykfw6iIEt6GwGYsJpBbADjaxn0u90JG6+l2MXFadBAJX57eV+ysyHY5x/NAxx3qcnz
+ 2F2TdqeUXZ5bjessaGLLNJPd4/eTJCBcnotITekPcRjbGNpg83vz9geP1Hh6YXSKZq
+ yq3SQxw/Z2fizgRcxIMr7RMmd1fvbz2Fn8HqKx3l+ptE7TYPQ2Sg5Q82WC3L0A7HK0
+ Xt3XvI/1zVhUA==
+Date: Tue, 28 May 2024 17:00:42 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Arnaud Vrac <avrac@freebox.fr>, Marc Gonzalez <marc.w.gonzalez@free.fr>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ DRI <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Bryan O Donoghue <bryan.odonoghue@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Pierre-Hugues Husson <phhusson@freebox.fr>
+Subject: Re: [PATCH v1] drm/bridge: simple-bridge: Add support for TI TDP158
+Message-ID: <20240528-placid-eccentric-axolotl-cc9fdc@houat>
+References: <d3de652f-ce89-4f57-b900-07b11f8bf8f9@free.fr>
+ <20240528-potoo-of-pragmatic-tempering-df08f1@houat>
+ <0cd0136a-bbaf-482f-8e81-a858a6cdce2e@freebox.fr>
+ <20240528-prophetic-masterful-hyrax-563f82@houat>
+ <3tiuyvc2bg3d3wz3eqrou3ngkpb3h5gamtocv74bfkkqty4qag@it5publzvl5z>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cuwqECPCpLBF9Uu6"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="zd4whrcixumyw3dz"
 Content-Disposition: inline
-In-Reply-To: <3541454c6f60b8a16f4930dd91173ed24c9b5fd5.camel@mediatek.com>
+In-Reply-To: <3tiuyvc2bg3d3wz3eqrou3ngkpb3h5gamtocv74bfkkqty4qag@it5publzvl5z>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,84 +72,76 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---cuwqECPCpLBF9Uu6
-Content-Type: text/plain; charset=utf-8
+--zd4whrcixumyw3dz
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 28, 2024 at 02:38:46PM +0000, Jason-JH Lin (=E6=9E=97=E7=9D=BF=
-=E7=A5=A5) wrote:
-> Hi Conor,
->=20
-> On Mon, 2024-05-27 at 18:36 +0100, Conor Dooley wrote:
-> > On Sun, May 26, 2024 at 10:44:37PM +0800, Jason-JH.Lin wrote:
-> > > 1. Add mboxes property to define a GCE loopping thread as a secure
-> > > IRQ
-> > > handler.
-> > > The CMDQ secure driver requests a mbox channel and sends a looping
-> > > command to the GCE thread. The looping command will wait for a
-> > > secure
-> > > packet done event signal from secure world and then jump back to
-> > > the
-> > > first instuction. Each time it waits for an event, it notifies the
-> > > CMDQ driver to perform the same action as the IRQ handler.
+On Tue, May 28, 2024 at 04:50:10PM GMT, Dmitry Baryshkov wrote:
+> On Tue, May 28, 2024 at 11:17:56AM +0200, Maxime Ripard wrote:
+> > On Tue, May 28, 2024 at 10:05:50AM GMT, Arnaud Vrac wrote:
+> > > On 28/05/2024 09:43, Maxime Ripard wrote:
+> > > > Hi,
+> > > >=20
+> > > > On Mon, May 27, 2024 at 06:03:56PM GMT, Marc Gonzalez wrote:
+> > > > > From: Arnaud Vrac <avrac@freebox.fr>
+> > > > >=20
+> > > > > The TI TDP158 is an AC-Coupled HDMI signal to TMDS Redriver suppo=
+rting
+> > > > > DVI 1.0 and HDMI 1.4b and 2.0b output signals.
+> > > > >=20
+> > > > > Since it's an I2C-programmable bridge, it could have a proper dri=
+ver,
+> > > > > but the default settings work fine, thus simple bridge is suffici=
+ent.
+> > > >=20
+> > > > No it doesn't. That bridge supports HDMI 2.0 which means you'll nee=
+d to
+> > > > change the TMDS clock ratio when programming a TMDS character rate
+> > > > higher than 340MHz. And you'll need hotplug support to deal with it
+> > > > properly too.
+> > > >=20
+> > > > So sorry, you need a real driver there.
 > > >=20
-> > > 2. Add gce-events property from gce-props.yaml to define a
-> > > secure packet done signal in secure world.
-> > > There are 1024 events IDs for GCE to use to execute instructions in
-> > > the specific event happened. These events could be signaled by HW
-> > > or SW
-> > > and their value would be different in different SoC because of HW
-> > > event
-> > > IDs distribution range from 0 to 1023.
-> > > If we set a static event ID: 855 for mt8188, it might be conflict
-> > > the
-> > > event ID original set in mt8195.
+> > > Hello, this is an HDMI redriver, which simply cleans up the HDMI
+> > > signal, so no programming is needed to support HDMI 2.0.
 > >=20
-> > Two different SoCs, two different compatibles, no problem.
-> > I'm almost certain you previously told me that the firmware changing
-> > could result in a different event ID, but I see no mention of that
-> > here.
+> > I mean, if I'm to trust the datasheet, it is more complicated than that.
+> > It snoops the DDC bus so it can update the TMDS clock ratio bit if it's
+> > sent on its input side, but that wouldn't happen with DP for example.
 >=20
-> Yes, it could be, but we don't use it that way.
->=20
-> > The commit messages makes it seem like this can be determined by the
-> > compatible, so either give me a commit message that explains why the
-> > compatible is not sufficient or drop the patch.
-> >=20
->=20
-> Yes, this can be determined by compatible in CMDQ mailbox driver,
-> so I think it's possible to put this in the CMDQ mailbox driver data
-> and configure by different SoC.
->=20
-> The problem is these events are defined in include/dt-
-> bindings/mailbox/mediatek,mt8188-gce.h and include/dt-
-> bindings/gce/mt8195-gce.h.
-> I can only use them in their mt8188.dts or mt8195.dts.
->=20
-> If I want to use the same event define in 2 different headers in the
-> same CMDQ mailbox driver, I think I just can parse their dts to get the
-> corresponding one.
-> Do you know how to generally deal with this problem?
-> Or I can just use the number of event ID in driver data without the
-> event define in dt-bindings header.
+> If I understand correctly, this chip can work in two modes: dummy and
+> I2C-programmed. In the former case it is fully transparent, including
+> HPD passthrough, it doesn't require any additional programming, just
+> Vcc, Vdd and pin straps, etc.  And the second mode is a 'brainy' one,
+> when the chip is fully controlled over I2C.
 
-I don't think I really understand the problem. You get the
-channelid/event data from the match data, right? Is the problem that
-both files define the same "word" to mean different numbers? In that
-case, just define the numbers locally in the driver, you don't need to
-include a binding header when there's no data sharing between dts and
-kernel.
+Right, and like I said, the situation is more complicated than "it just
+does passthrough" like simple-bridge does.
 
---cuwqECPCpLBF9Uu6
+> From the Linux standpoint these two modes will use single compat string,
+> but two distinct drivers: for the former mode is is enough to use
+> simple-bridge (fixed to support two supplies), while the latter one
+> needs a proper I2C driver.
+>=20
+> Does that solve your concern?
+
+We need to be careful here: if there's two drivers with the same
+compatible and bus, both will be probed. So we need to take it into
+account when designing the binding.
+
+Maxime
+
+--zd4whrcixumyw3dz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZlXxbAAKCRB4tDGHoIJi
-0n1PAQDIqzN2Y459EMSK27l5lJSPc73hebZRJ8aOWJZ6wobBRgD+I1ylKlO4SJRc
-3ilhYMuDDovCE3uYaltdN+VsijtgbQo=
-=SPNb
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZlXxlAAKCRAnX84Zoj2+
+dmBQAYDLRairXfvl50HQfMZ0MQqwSkyArWU/BlsE9M+UkUNa0RpDbW8DkxqdRPyE
+cpQKCaEBfjDKBRFAGSthNvbSKMTP2bSosWTBrQCeB41YlcXUtKWc5+v5AGLKidz8
+ORE16/s8rw==
+=iRKL
 -----END PGP SIGNATURE-----
 
---cuwqECPCpLBF9Uu6--
+--zd4whrcixumyw3dz--
