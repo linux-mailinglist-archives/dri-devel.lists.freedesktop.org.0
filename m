@@ -2,47 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E138D1D06
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 15:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD8418D1D0F
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 15:33:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25A6710E36A;
-	Tue, 28 May 2024 13:31:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30D8B10E211;
+	Tue, 28 May 2024 13:33:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pGCvZfVH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Tyc6h+vy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 373A710E36A
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 13:31:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7E8310E152;
+ Tue, 28 May 2024 13:32:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 68657620A0;
- Tue, 28 May 2024 13:31:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AFBBC3277B;
- Tue, 28 May 2024 13:31:41 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 14D90620B6;
+ Tue, 28 May 2024 13:32:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E656C3277B;
+ Tue, 28 May 2024 13:32:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716903104;
- bh=vAWFowi/ZtCoWVCtCiP9IvNYrXqa5Ge8ez16WM4Swes=;
+ s=k20201202; t=1716903177;
+ bh=Dz+CC+JZWQtuG8vRgbBmaJAyi+jOVLXABQMl0q6O1kM=;
  h=From:To:Cc:Subject:Date:From;
- b=pGCvZfVHhZ3L6Pzx7NnHPDucViDWDEXfo30Quks0js3n/M15sESgT5MwXxE/XAai9
- fJQk6BkT+ZZxD9WMXXxk9ycI0azOl7qkJnkYXfmLJVlKI2MCibPbzOfv/h7ih4EZt+
- iuLKQMkhCgQAO1p1nQ2OhTnOOz+PA1xtN8YxGXp+tOJKuJraLxxl+BhOKn8GnMCa12
- 9oTy3b86sC/2D0vyhiNo8O4UFgcxKML9hf+5ka4S1eog8mw8JqUy9X3DszxHPnDgv3
- fTwUMSd3rX6hQlKQQsonajId75IWesJxK/f3WmiZbRuxlByQXJ3m0WTRrzwUvXyxPQ
- laRSU/cuxHlXA==
+ b=Tyc6h+vyN/0ZtgmqlBVQivGgvzaHDwhnURTNTqAzCNT1CAUF4+XoAWWP9zIVozyWh
+ JaEUiYWPKRClmYh7/hg8fx0BhqsyfmzRPFKrsIlNebfX4kyQkuA7VP1suJrYUwfiuq
+ FcB2RZi/cn6mo1q8HsxG5a3nOV89f6WZN6sQpi1HI2LOy+ifhc8MWSrxO/X90ljkgR
+ DRKZuzwiwHV3WpPXA4HWBW720Xyhrk/4Nmw+tB/JG4BNOGbFmsuo7HSMYxoN1j3tjG
+ CjQgVM3G606etOfuHQc1B+i8n96rmS5SmhLVIR596pmD4YIGfOrWwc0cUs5Y2BclbN
+ ujPRZU2Cl+dEQ==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Dave Airlie <airlied@redhat.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+To: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>,
+ Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] udmabuf: add CONFIG_MMU dependency
-Date: Tue, 28 May 2024 15:31:31 +0200
-Message-Id: <20240528133138.2237237-1-arnd@kernel.org>
+Subject: [PATCH] drm/xe: replace format-less snprintf() with strscpy()
+Date: Tue, 28 May 2024 15:32:36 +0200
+Message-Id: <20240528133251.2310868-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,29 +68,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-There is no !CONFIG_MMU version of vmf_insert_pfn():
+Using snprintf() with a format string from task->comm is a bit
+dangerous since the string may be controlled by unprivileged
+userspace:
 
-arm-linux-gnueabi-ld: drivers/dma-buf/udmabuf.o: in function `udmabuf_vm_fault':
-udmabuf.c:(.text+0xaa): undefined reference to `vmf_insert_pfn'
+drivers/gpu/drm/xe/xe_devcoredump.c: In function 'devcoredump_snapshot':
+drivers/gpu/drm/xe/xe_devcoredump.c:184:9: error: format not a string literal and no format arguments [-Werror=format-security]
+  184 |         snprintf(ss->process_name, sizeof(ss->process_name), process_name);
+      |         ^~~~~~~~
 
-Fixes: f7254e043ff1 ("udmabuf: use vmf_insert_pfn and VM_PFNMAP for handling mmap")
+In this case there is no reason for an snprintf(), so use a simpler
+string copy.
+
+Fixes: b10d0c5e9df7 ("drm/xe: Add process name to devcoredump")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/dma-buf/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/xe/xe_devcoredump.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-index e4dc53a36428..b46eb8a552d7 100644
---- a/drivers/dma-buf/Kconfig
-+++ b/drivers/dma-buf/Kconfig
-@@ -35,6 +35,7 @@ config UDMABUF
- 	default n
- 	depends on DMA_SHARED_BUFFER
- 	depends on MEMFD_CREATE || COMPILE_TEST
-+	depends on MMU
- 	help
- 	  A driver to let userspace turn memfd regions into dma-bufs.
- 	  Qemu can use this to create host dmabufs for guest framebuffers.
+diff --git a/drivers/gpu/drm/xe/xe_devcoredump.c b/drivers/gpu/drm/xe/xe_devcoredump.c
+index 1643d44f8bc4..1973bfaece40 100644
+--- a/drivers/gpu/drm/xe/xe_devcoredump.c
++++ b/drivers/gpu/drm/xe/xe_devcoredump.c
+@@ -181,7 +181,7 @@ static void devcoredump_snapshot(struct xe_devcoredump *coredump,
+ 		if (task)
+ 			process_name = task->comm;
+ 	}
+-	snprintf(ss->process_name, sizeof(ss->process_name), process_name);
++	strscpy(ss->process_name, process_name);
+ 	if (task)
+ 		put_task_struct(task);
+ 
 -- 
 2.39.2
 
