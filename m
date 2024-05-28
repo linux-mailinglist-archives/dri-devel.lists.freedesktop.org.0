@@ -2,58 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8225C8D18E7
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 12:50:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D94C8D1914
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 13:01:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54D4010E48B;
-	Tue, 28 May 2024 10:50:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 124D5112124;
+	Tue, 28 May 2024 11:01:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Hc5Xj+3U";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CZSQeSGz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B0AE10E26F;
- Tue, 28 May 2024 10:50:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716893448; x=1748429448;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=YdPUdMV79QZEdlrPLgN7eJGrOsuZMxf0AuN4XLP9fbs=;
- b=Hc5Xj+3Uvrr7fRwnbDfQp8nXNN6C2H90HlDLx+IcVvG+FSuKIXkx0aAf
- mCgTrXeHxc+9ijgSiHAZhjpHBlgKkF/BwxbPoddPNwdculYxU/VuczDfE
- YWBKEeMiTERV4RLl9E4Kkrijcej32zJTSijdZT3tSUGyReQQv5oxYpVlp
- JoQOFFSXhEQM/TftwgT5RcgSl+cpzvHP2ipvLe1BHvskUD+2ooqYrj1rj
- PbXNYP9NyFSRjbWKNmdZzAtNQ7hcAKJ7qCBtakDpNeD0U+BOkTcg9u0WK
- feoGkyXVgMvBf/HlHVtOHf4+q9yuTmbtFsnMSKAlw91kqxeJ9VhcK7o8Z g==;
-X-CSE-ConnectionGUID: EaVzCM/EQa6yBu88cL9Q5w==
-X-CSE-MsgGUID: mAnO1CQJRdG0kDvDaTdauA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="24357531"
-X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; d="scan'208";a="24357531"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2024 03:50:47 -0700
-X-CSE-ConnectionGUID: S5yKiV05R4W2810eC4Izvw==
-X-CSE-MsgGUID: zLycjUr9SNWY3ahZhgUYzw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; d="scan'208";a="58217497"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2024 03:50:41 -0700
-Date: Tue, 28 May 2024 13:50:46 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 3/9] drm/i915: Introduce plane->min_alignment() vfunc
-Message-ID: <ZlW3BuUrXuNr7qMK@ideak-desk.fi.intel.com>
-References: <20240513175942.12910-1-ville.syrjala@linux.intel.com>
- <20240513175942.12910-4-ville.syrjala@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240513175942.12910-4-ville.syrjala@linux.intel.com>
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43538112124;
+ Tue, 28 May 2024 11:01:44 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id
+ 98e67ed59e1d1-2bde882ab2bso131209a91.3; 
+ Tue, 28 May 2024 04:01:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1716894103; x=1717498903; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to:from
+ :subject:cc:to:message-id:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=iiu6Rm5CIFCk4QRomYxhTqrZVCrSfLMD8/o2TBnR/WU=;
+ b=CZSQeSGzuodYnd6jpZyIzKFnAJY/4DTu4fr3GkhqYdn4G5UHW91671OuuAoGh4hYIa
+ pix3sv9yj1KL4lMORR6liyKvQfYH7m5FikOVyog5wjix4fbWg52OY6R8dlsWnDesH39b
+ 1RwenV57AY5xgIhkM2SrrWk8xq19Pofc4VpS4ZbG+ttAcZg0Ju9NNLKsQfUH+iYb6JV5
+ Wa1lsQAdoP140+M3h+gtjcVneu83m9ElOmWyAPtG2KvKGz1Ng484OP3uofH07yFGedTG
+ mHyU42j3GeAk0Z4ei/+VsPeU0OnUuvD4urQiCXSl6vXRUSTe87J56tYA1Uuv+hPfIkHk
+ g4RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716894103; x=1717498903;
+ h=content-transfer-encoding:mime-version:references:in-reply-to:from
+ :subject:cc:to:message-id:date:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=iiu6Rm5CIFCk4QRomYxhTqrZVCrSfLMD8/o2TBnR/WU=;
+ b=Am0x8PMMA4mxjXT27bFudTDB5AaSIBgbbI6u8x+2PUsd40T2baEyd19jtnWmt35Qvi
+ kYGOiBnwXljjwz8+yESL9QPD9I+0w/lGxGTKH/57CniekXvJH/56jHC+CHF8OmM46jpM
+ 2XD80i6rQFlx1s7n0+b6KNBdpv2x59vvG5AAUlNEXl7dwrrssPCL2y++8uM77e0jIEwg
+ Uy5m2ua7UfNy2CNGjFAin+OVcgh99yk29w0f5vAXksyKfNZr5sNmeu2qcmU/LYCVIekD
+ 0MFmxuSNFqQpI8Uf4NchOXGFnEbeEh0ub30KGxJ46KNnRvlMs/fKRvlBJIexF1lnQZK1
+ JxSg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXP08fQWcU/cPtqCnuIJrH6S9w/wDgn5HG3VWlh/sPxD7g2PO+NMxbVgCMeS6CE5PnnCtdAJ1/mQosxTICTkvlic/gb0RAl5/hcVqCJE53Iws05d0sUW1cwj/a9whQBPlJpp/j1A04AX5pTFbkurg==
+X-Gm-Message-State: AOJu0Ywrlm+1YEogD18k7nb7gAvYZ5m8fgMbHy/9V/FGWV/PkOmaY0jZ
+ U5GTMDgV6m7uXVNQ0gAI8Si8V8xA64VVp04CU+Voqo6KCHzZ8/xi
+X-Google-Smtp-Source: AGHT+IHK5eumprqwAuUfIcVd4VaPDiipzyGfVLdzZ2wsfbiHrJjeTv0bZYczA03Xit3eWLGqqN68hg==
+X-Received: by 2002:a17:902:db08:b0:1f4:8ca4:411f with SMTP id
+ d9443c01a7336-1f48ca44187mr62400315ad.6.1716894103380; 
+ Tue, 28 May 2024 04:01:43 -0700 (PDT)
+Received: from localhost (p5261226-ipxg23801hodogaya.kanagawa.ocn.ne.jp.
+ [180.15.241.226]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f44c7afcf5sm77259205ad.87.2024.05.28.04.01.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 May 2024 04:01:43 -0700 (PDT)
+Date: Tue, 28 May 2024 20:01:26 +0900 (JST)
+Message-Id: <20240528.200126.99248529380429957.fujita.tomonori@gmail.com>
+To: dakr@redhat.com
+Cc: fujita.tomonori@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, ojeda@kernel.org, alex.gaynor@gmail.com,
+ wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
+ bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@samsung.com,
+ aliceryhl@google.com, lina@asahilina.net, pstanner@redhat.com,
+ ajanulgu@redhat.com, lyude@redhat.com, gregkh@linuxfoundation.org,
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Subject: Re: [RFC PATCH 7/8] rust: add firmware abstractions
+From: FUJITA Tomonori <fujita.tomonori@gmail.com>
+In-Reply-To: <ZlTdh/eQAIhxNn9e@pollux.localdomain>
+References: <20240520172422.181763-4-dakr@redhat.com>
+ <20240522.085334.1009573112046880609.fujita.tomonori@gmail.com>
+ <ZlTdh/eQAIhxNn9e@pollux.localdomain>
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,428 +88,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 13, 2024 at 08:59:36PM +0300, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> 
-> Different hardware generations have different scanout alignment
-> requirements. Introduce a new vfunc that will allow us to
-> make that distinction without horrible if-ladders.
-> 
-> For now we directly plug in the existing intel_surf_alignment()
-> and intel_cursor_alignment() functions.
-> 
-> For fbdev we (temporarily) introduce intel_fbdev_min_alignment()
-> that simply queries the alignment from the primary plane of
-> the first crtc.
-> 
-> TODO: someone will need to fix xe's alignment handling
-> 
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On Mon, 27 May 2024 21:22:47 +0200
+Danilo Krummrich <dakr@redhat.com> wrote:
 
-Reviewed-by: Imre Deak <imre.deak@intel.com>
+>> > +/// Abstraction around a C firmware struct.
+>> > +///
+>> > +/// This is a simple abstraction around the C firmware API. Just like with the C API, firmware can
+>> > +/// be requested. Once requested the abstraction provides direct access to the firmware buffer as
+>> > +/// `&[u8]`. Alternatively, the firmware can be copied to a new buffer using `Firmware::copy`. The
+>> > +/// firmware is released once [`Firmware`] is dropped.
+>> > +///
+>> > +/// # Examples
+>> > +///
+>> > +/// ```
+>> > +/// let fw = Firmware::request("path/to/firmware.bin", dev.as_ref())?;
+>> > +/// driver_load_firmware(fw.data());
+>> > +/// ```
+>> > +pub struct Firmware(Opaque<*const bindings::firmware>);
+>> 
+>> Wrapping a raw pointer is not the intended use of Qpaque type?
+>> 
+> 
+> Indeed, will fix this in v2 and use NonNull instead. I'll also offload most of
+> the boilerplate in the 'request' functions to some common 'request_internal' one.
 
-> ---
->  drivers/gpu/drm/i915/display/i9xx_plane.c     |  8 ++--
->  drivers/gpu/drm/i915/display/intel_cursor.c   |  2 +
->  .../drm/i915/display/intel_display_types.h    |  3 ++
->  drivers/gpu/drm/i915/display/intel_fb.c       | 22 +++++-----
->  drivers/gpu/drm/i915/display/intel_fb.h       |  7 +++-
->  drivers/gpu/drm/i915/display/intel_fb_pin.c   | 40 ++++++++++++++-----
->  drivers/gpu/drm/i915/display/intel_fb_pin.h   |  3 +-
->  drivers/gpu/drm/i915/display/intel_fbdev.c    | 21 +++++++++-
->  drivers/gpu/drm/i915/display/intel_sprite.c   |  2 +
->  .../drm/i915/display/skl_universal_plane.c    | 11 +++--
->  drivers/gpu/drm/xe/display/xe_fb_pin.c        |  3 +-
->  drivers/gpu/drm/xe/display/xe_plane_initial.c |  4 +-
->  12 files changed, 89 insertions(+), 37 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/i9xx_plane.c b/drivers/gpu/drm/i915/display/i9xx_plane.c
-> index ea4d8ba55ad8..85dbf5b950e2 100644
-> --- a/drivers/gpu/drm/i915/display/i9xx_plane.c
-> +++ b/drivers/gpu/drm/i915/display/i9xx_plane.c
-> @@ -224,8 +224,8 @@ static u32 i9xx_plane_ctl(const struct intel_crtc_state *crtc_state,
->  
->  int i9xx_check_plane_surface(struct intel_plane_state *plane_state)
->  {
-> -	struct drm_i915_private *dev_priv =
-> -		to_i915(plane_state->uapi.plane->dev);
-> +	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
-> +	struct drm_i915_private *dev_priv = to_i915(plane->base.dev);
->  	const struct drm_framebuffer *fb = plane_state->hw.fb;
->  	int src_x, src_y, src_w;
->  	u32 offset;
-> @@ -266,7 +266,7 @@ int i9xx_check_plane_surface(struct intel_plane_state *plane_state)
->  	 * despite them not using the linear offset anymore.
->  	 */
->  	if (DISPLAY_VER(dev_priv) >= 4 && fb->modifier == I915_FORMAT_MOD_X_TILED) {
-> -		unsigned int alignment = intel_surf_alignment(fb, 0);
-> +		unsigned int alignment = plane->min_alignment(plane, fb, 0);
->  		int cpp = fb->format->cpp[0];
->  
->  		while ((src_x + src_w) * cpp > plane_state->view.color_plane[0].mapping_stride) {
-> @@ -867,6 +867,8 @@ intel_primary_plane_create(struct drm_i915_private *dev_priv, enum pipe pipe)
->  			plane->max_stride = ilk_primary_max_stride;
->  	}
->  
-> +	plane->min_alignment = intel_surf_alignment;
-> +
->  	if (IS_I830(dev_priv) || IS_I845G(dev_priv)) {
->  		plane->update_arm = i830_plane_update_arm;
->  	} else {
-> diff --git a/drivers/gpu/drm/i915/display/intel_cursor.c b/drivers/gpu/drm/i915/display/intel_cursor.c
-> index 2118b87ccb10..026975f569a7 100644
-> --- a/drivers/gpu/drm/i915/display/intel_cursor.c
-> +++ b/drivers/gpu/drm/i915/display/intel_cursor.c
-> @@ -896,6 +896,8 @@ intel_cursor_plane_create(struct drm_i915_private *dev_priv,
->  		cursor->check_plane = i9xx_check_cursor;
->  	}
->  
-> +	cursor->min_alignment = intel_cursor_alignment;
-> +
->  	cursor->cursor.base = ~0;
->  	cursor->cursor.cntl = ~0;
->  
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index fec3de25ea54..40d6e5f4c350 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -1550,6 +1550,9 @@ struct intel_plane {
->  	int (*max_height)(const struct drm_framebuffer *fb,
->  			  int color_plane,
->  			  unsigned int rotation);
-> +	unsigned int (*min_alignment)(struct intel_plane *plane,
-> +				      const struct drm_framebuffer *fb,
-> +				      int color_plane);
->  	unsigned int (*max_stride)(struct intel_plane *plane,
->  				   u32 pixel_format, u64 modifier,
->  				   unsigned int rotation);
-> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
-> index b6638726949d..3f3a9cd534f4 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fb.c
-> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
-> @@ -775,8 +775,12 @@ bool intel_fb_uses_dpt(const struct drm_framebuffer *fb)
->  		intel_fb_modifier_uses_dpt(to_i915(fb->dev), fb->modifier);
->  }
->  
-> -unsigned int intel_cursor_alignment(const struct drm_i915_private *i915)
-> +unsigned int intel_cursor_alignment(struct intel_plane *plane,
-> +				    const struct drm_framebuffer *fb,
-> +				    int color_plane)
->  {
-> +	struct drm_i915_private *i915 = to_i915(plane->base.dev);
-> +
->  	if (IS_I830(i915))
->  		return 16 * 1024;
->  	else if (IS_I85X(i915))
-> @@ -800,10 +804,11 @@ static unsigned int intel_linear_alignment(const struct drm_i915_private *dev_pr
->  		return 0;
->  }
->  
-> -unsigned int intel_surf_alignment(const struct drm_framebuffer *fb,
-> +unsigned int intel_surf_alignment(struct intel_plane *plane,
-> +				  const struct drm_framebuffer *fb,
->  				  int color_plane)
->  {
-> -	struct drm_i915_private *dev_priv = to_i915(fb->dev);
-> +	struct drm_i915_private *dev_priv = to_i915(plane->base.dev);
->  
->  	if (intel_fb_uses_dpt(fb)) {
->  		/* AUX_DIST needs only 4K alignment */
-> @@ -1098,17 +1103,12 @@ u32 intel_plane_compute_aligned_offset(int *x, int *y,
->  				       const struct intel_plane_state *state,
->  				       int color_plane)
->  {
-> -	struct intel_plane *intel_plane = to_intel_plane(state->uapi.plane);
-> -	struct drm_i915_private *i915 = to_i915(intel_plane->base.dev);
-> +	struct intel_plane *plane = to_intel_plane(state->uapi.plane);
-> +	struct drm_i915_private *i915 = to_i915(plane->base.dev);
->  	const struct drm_framebuffer *fb = state->hw.fb;
->  	unsigned int rotation = state->hw.rotation;
->  	unsigned int pitch = state->view.color_plane[color_plane].mapping_stride;
-> -	unsigned int alignment;
-> -
-> -	if (intel_plane->id == PLANE_CURSOR)
-> -		alignment = intel_cursor_alignment(i915);
-> -	else
-> -		alignment = intel_surf_alignment(fb, color_plane);
-> +	unsigned int alignment = plane->min_alignment(plane, fb, color_plane);
->  
->  	return intel_compute_aligned_offset(i915, x, y, fb, color_plane,
->  					    pitch, rotation, alignment);
-> diff --git a/drivers/gpu/drm/i915/display/intel_fb.h b/drivers/gpu/drm/i915/display/intel_fb.h
-> index 23db6628f53e..86c01a3ce81e 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fb.h
-> +++ b/drivers/gpu/drm/i915/display/intel_fb.h
-> @@ -60,8 +60,11 @@ unsigned int intel_tile_height(const struct drm_framebuffer *fb, int color_plane
->  unsigned int intel_tile_row_size(const struct drm_framebuffer *fb, int color_plane);
->  unsigned int intel_fb_align_height(const struct drm_framebuffer *fb,
->  				   int color_plane, unsigned int height);
-> -unsigned int intel_cursor_alignment(const struct drm_i915_private *i915);
-> -unsigned int intel_surf_alignment(const struct drm_framebuffer *fb,
-> +unsigned int intel_cursor_alignment(struct intel_plane *plane,
-> +				    const struct drm_framebuffer *fb,
-> +				    int color_plane);
-> +unsigned int intel_surf_alignment(struct intel_plane *plane,
-> +				  const struct drm_framebuffer *fb,
->  				  int color_plane);
->  
->  void intel_fb_plane_get_subsampling(int *hsub, int *vsub,
-> diff --git a/drivers/gpu/drm/i915/display/intel_fb_pin.c b/drivers/gpu/drm/i915/display/intel_fb_pin.c
-> index 1acc11fa19f4..9b0f1ea41b70 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fb_pin.c
-> +++ b/drivers/gpu/drm/i915/display/intel_fb_pin.c
-> @@ -103,8 +103,9 @@ intel_fb_pin_to_dpt(const struct drm_framebuffer *fb,
->  
->  struct i915_vma *
->  intel_fb_pin_to_ggtt(const struct drm_framebuffer *fb,
-> -		     bool phys_cursor,
->  		     const struct i915_gtt_view *view,
-> +		     unsigned int alignment,
-> +		     unsigned int phys_alignment,
->  		     bool uses_fence,
->  		     unsigned long *out_flags)
->  {
-> @@ -113,7 +114,6 @@ intel_fb_pin_to_ggtt(const struct drm_framebuffer *fb,
->  	struct drm_i915_gem_object *obj = intel_fb_obj(fb);
->  	intel_wakeref_t wakeref;
->  	struct i915_gem_ww_ctx ww;
-> -	unsigned int alignment;
->  	struct i915_vma *vma;
->  	unsigned int pinctl;
->  	int ret;
-> @@ -121,10 +121,6 @@ intel_fb_pin_to_ggtt(const struct drm_framebuffer *fb,
->  	if (drm_WARN_ON(dev, !i915_gem_object_is_framebuffer(obj)))
->  		return ERR_PTR(-EINVAL);
->  
-> -	if (phys_cursor)
-> -		alignment = intel_cursor_alignment(dev_priv);
-> -	else
-> -		alignment = intel_surf_alignment(fb, 0);
->  	if (drm_WARN_ON(dev, alignment && !is_power_of_2(alignment)))
->  		return ERR_PTR(-EINVAL);
->  
-> @@ -162,8 +158,8 @@ intel_fb_pin_to_ggtt(const struct drm_framebuffer *fb,
->  	i915_gem_ww_ctx_init(&ww, true);
->  retry:
->  	ret = i915_gem_object_lock(obj, &ww);
-> -	if (!ret && phys_cursor)
-> -		ret = i915_gem_object_attach_phys(obj, alignment);
-> +	if (!ret && phys_alignment)
-> +		ret = i915_gem_object_attach_phys(obj, phys_alignment);
->  	else if (!ret && HAS_LMEM(dev_priv))
->  		ret = i915_gem_object_migrate(obj, &ww, INTEL_REGION_LMEM_0);
->  	if (!ret)
-> @@ -234,6 +230,27 @@ void intel_fb_unpin_vma(struct i915_vma *vma, unsigned long flags)
->  	i915_vma_put(vma);
->  }
->  
-> +static unsigned int
-> +intel_plane_fb_min_alignment(const struct intel_plane_state *plane_state)
-> +{
-> +	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
-> +	const struct drm_framebuffer *fb = plane_state->hw.fb;
-> +
-> +	return plane->min_alignment(plane, fb, 0);
-> +}
-> +
-> +static unsigned int
-> +intel_plane_fb_min_phys_alignment(const struct intel_plane_state *plane_state)
-> +{
-> +	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
-> +	const struct drm_framebuffer *fb = plane_state->hw.fb;
-> +
-> +	if (!intel_plane_needs_physical(plane))
-> +		return 0;
-> +
-> +	return plane->min_alignment(plane, fb, 0);
-> +}
-> +
->  int intel_plane_pin_fb(struct intel_plane_state *plane_state)
->  {
->  	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
-> @@ -242,8 +259,9 @@ int intel_plane_pin_fb(struct intel_plane_state *plane_state)
->  	struct i915_vma *vma;
->  
->  	if (!intel_fb_uses_dpt(&fb->base)) {
-> -		vma = intel_fb_pin_to_ggtt(&fb->base, intel_plane_needs_physical(plane),
-> -					   &plane_state->view.gtt,
-> +		vma = intel_fb_pin_to_ggtt(&fb->base, &plane_state->view.gtt,
-> +					   intel_plane_fb_min_alignment(plane_state),
-> +					   intel_plane_fb_min_phys_alignment(plane_state),
->  					   intel_plane_uses_fence(plane_state),
->  					   &plane_state->flags);
->  		if (IS_ERR(vma))
-> @@ -261,7 +279,7 @@ int intel_plane_pin_fb(struct intel_plane_state *plane_state)
->  			plane_state->phys_dma_addr =
->  				i915_gem_object_get_dma_address(intel_fb_obj(&fb->base), 0);
->  	} else {
-> -		unsigned int alignment = intel_surf_alignment(&fb->base, 0);
-> +		unsigned int alignment = intel_plane_fb_min_alignment(plane_state);
->  
->  		vma = intel_dpt_pin_to_ggtt(fb->dpt_vm, alignment / 512);
->  		if (IS_ERR(vma))
-> diff --git a/drivers/gpu/drm/i915/display/intel_fb_pin.h b/drivers/gpu/drm/i915/display/intel_fb_pin.h
-> index 3f8245edcd15..ac0319b53af0 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fb_pin.h
-> +++ b/drivers/gpu/drm/i915/display/intel_fb_pin.h
-> @@ -15,8 +15,9 @@ struct i915_gtt_view;
->  
->  struct i915_vma *
->  intel_fb_pin_to_ggtt(const struct drm_framebuffer *fb,
-> -		     bool phys_cursor,
->  		     const struct i915_gtt_view *view,
-> +		     unsigned int alignment,
-> +		     unsigned int phys_alignment,
->  		     bool uses_fence,
->  		     unsigned long *out_flags);
->  
-> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-> index 5ad0b4c8a0fd..ff685aebbd1a 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-> @@ -46,6 +46,7 @@
->  #include "gem/i915_gem_mman.h"
->  
->  #include "i915_drv.h"
-> +#include "intel_crtc.h"
->  #include "intel_display_types.h"
->  #include "intel_fb.h"
->  #include "intel_fb_pin.h"
-> @@ -171,6 +172,21 @@ static const struct fb_ops intelfb_ops = {
->  
->  __diag_pop();
->  
-> +static unsigned int intel_fbdev_min_alignment(const struct drm_framebuffer *fb)
-> +{
-> +	struct drm_i915_private *i915 = to_i915(fb->dev);
-> +	struct intel_plane *plane;
-> +	struct intel_crtc *crtc;
-> +
-> +	crtc = intel_first_crtc(i915);
-> +	if (!crtc)
-> +		return 0;
-> +
-> +	plane = to_intel_plane(crtc->base.primary);
-> +
-> +	return plane->min_alignment(plane, fb, 0);
-> +}
-> +
->  static int intelfb_create(struct drm_fb_helper *helper,
->  			  struct drm_fb_helper_surface_size *sizes)
->  {
-> @@ -227,8 +243,9 @@ static int intelfb_create(struct drm_fb_helper *helper,
->  	 * This also validates that any existing fb inherited from the
->  	 * BIOS is suitable for own access.
->  	 */
-> -	vma = intel_fb_pin_to_ggtt(&fb->base, false,
-> -				   &view, false, &flags);
-> +	vma = intel_fb_pin_to_ggtt(&fb->base, &view,
-> +				   intel_fbdev_min_alignment(&fb->base), 0,
-> +				   false, &flags);
->  	if (IS_ERR(vma)) {
->  		ret = PTR_ERR(vma);
->  		goto out_unlock;
-> diff --git a/drivers/gpu/drm/i915/display/intel_sprite.c b/drivers/gpu/drm/i915/display/intel_sprite.c
-> index 36a253a19c74..1727d98d1339 100644
-> --- a/drivers/gpu/drm/i915/display/intel_sprite.c
-> +++ b/drivers/gpu/drm/i915/display/intel_sprite.c
-> @@ -1623,6 +1623,8 @@ intel_sprite_plane_create(struct drm_i915_private *dev_priv,
->  		}
->  	}
->  
-> +	plane->min_alignment = intel_surf_alignment;
-> +
->  	if (IS_CHERRYVIEW(dev_priv) && pipe == PIPE_B) {
->  		supported_rotations =
->  			DRM_MODE_ROTATE_0 | DRM_MODE_ROTATE_180 |
-> diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> index 7b79704fa674..27782f5060ad 100644
-> --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> @@ -1615,11 +1615,12 @@ skl_check_main_ccs_coordinates(struct intel_plane_state *plane_state,
->  			       int main_x, int main_y, u32 main_offset,
->  			       int ccs_plane)
->  {
-> +	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
->  	const struct drm_framebuffer *fb = plane_state->hw.fb;
->  	int aux_x = plane_state->view.color_plane[ccs_plane].x;
->  	int aux_y = plane_state->view.color_plane[ccs_plane].y;
->  	u32 aux_offset = plane_state->view.color_plane[ccs_plane].offset;
-> -	unsigned int alignment = intel_surf_alignment(fb, ccs_plane);
-> +	unsigned int alignment = plane->min_alignment(plane, fb, ccs_plane);
->  	int hsub;
->  	int vsub;
->  
-> @@ -1663,7 +1664,7 @@ int skl_calc_main_surface_offset(const struct intel_plane_state *plane_state,
->  	const struct drm_framebuffer *fb = plane_state->hw.fb;
->  	int aux_plane = skl_main_to_aux_plane(fb, 0);
->  	u32 aux_offset = plane_state->view.color_plane[aux_plane].offset;
-> -	unsigned int alignment = intel_surf_alignment(fb, 0);
-> +	unsigned int alignment = plane->min_alignment(plane, fb, 0);
->  	int w = drm_rect_width(&plane_state->uapi.src) >> 16;
->  
->  	intel_add_fb_offsets(x, y, plane_state, 0);
-> @@ -1719,7 +1720,7 @@ static int skl_check_main_surface(struct intel_plane_state *plane_state)
->  	int min_width = intel_plane_min_width(plane, fb, 0, rotation);
->  	int max_width = intel_plane_max_width(plane, fb, 0, rotation);
->  	int max_height = intel_plane_max_height(plane, fb, 0, rotation);
-> -	unsigned int alignment = intel_surf_alignment(fb, 0);
-> +	unsigned int alignment = plane->min_alignment(plane, fb, 0);
->  	int aux_plane = skl_main_to_aux_plane(fb, 0);
->  	u32 offset;
->  	int ret;
-> @@ -1808,7 +1809,7 @@ static int skl_check_nv12_aux_surface(struct intel_plane_state *plane_state)
->  
->  	if (ccs_plane) {
->  		u32 aux_offset = plane_state->view.color_plane[ccs_plane].offset;
-> -		unsigned int alignment = intel_surf_alignment(fb, uv_plane);
-> +		unsigned int alignment = plane->min_alignment(plane, fb, uv_plane);
->  
->  		if (offset > aux_offset)
->  			offset = intel_plane_adjust_aligned_offset(&x, &y,
-> @@ -2366,6 +2367,8 @@ skl_universal_plane_create(struct drm_i915_private *dev_priv,
->  	else
->  		plane->max_stride = skl_plane_max_stride;
->  
-> +	plane->min_alignment = intel_surf_alignment;
-> +
->  	if (DISPLAY_VER(dev_priv) >= 11) {
->  		plane->update_noarm = icl_plane_update_noarm;
->  		plane->update_arm = icl_plane_update_arm;
-> diff --git a/drivers/gpu/drm/xe/display/xe_fb_pin.c b/drivers/gpu/drm/xe/display/xe_fb_pin.c
-> index 36e15c4961c1..0319941b7e1e 100644
-> --- a/drivers/gpu/drm/xe/display/xe_fb_pin.c
-> +++ b/drivers/gpu/drm/xe/display/xe_fb_pin.c
-> @@ -334,8 +334,9 @@ static void __xe_unpin_fb_vma(struct i915_vma *vma)
->  
->  struct i915_vma *
->  intel_fb_pin_to_ggtt(const struct drm_framebuffer *fb,
-> -		     bool phys_cursor,
->  		     const struct i915_gtt_view *view,
-> +		     unsigned int alignment,
-> +		     unsigned int phys_alignment,
->  		     bool uses_fence,
->  		     unsigned long *out_flags)
->  {
-> diff --git a/drivers/gpu/drm/xe/display/xe_plane_initial.c b/drivers/gpu/drm/xe/display/xe_plane_initial.c
-> index 9eaa29e733e1..a9d6c31cb683 100644
-> --- a/drivers/gpu/drm/xe/display/xe_plane_initial.c
-> +++ b/drivers/gpu/drm/xe/display/xe_plane_initial.c
-> @@ -211,8 +211,8 @@ intel_find_initial_plane_obj(struct intel_crtc *crtc,
->  	intel_fb_fill_view(to_intel_framebuffer(fb),
->  			   plane_state->uapi.rotation, &plane_state->view);
->  
-> -	vma = intel_fb_pin_to_ggtt(fb, false, &plane_state->view.gtt,
-> -				   false, &plane_state->flags);
-> +	vma = intel_fb_pin_to_ggtt(fb, &plane_state->view.gtt,
-> +				   0, 0, false, &plane_state->flags);
->  	if (IS_ERR(vma))
->  		goto nofb;
->  
-> -- 
-> 2.43.2
-> 
+You might need to add 'Invariants' comment on Firmware struct.
+
+BTW, what merge window are you aiming for? As I wrote before, I have a
+driver that needs the firmware abstractions (the minimum device
+abstractions is enough; Device::as_raw() and as_ref()). So the sooner,
+the better for me.
