@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A3B8D1956
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 13:23:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E05B98D195A
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 13:23:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 781E210E46E;
-	Tue, 28 May 2024 11:23:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBD7010E752;
+	Tue, 28 May 2024 11:23:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ibEARcBi";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mRW+QmsO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
- [209.85.219.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B86DB10E46E
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 11:23:24 +0000 (UTC)
-Received: by mail-yb1-f175.google.com with SMTP id
- 3f1490d57ef6-df771db8b24so656305276.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 04:23:24 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
+ [209.85.219.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18E3710E752
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 11:23:54 +0000 (UTC)
+Received: by mail-yb1-f169.google.com with SMTP id
+ 3f1490d57ef6-df4dce67becso613791276.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 04:23:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716895403; x=1717500203; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1716895434; x=1717500234; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=o0jVo10rUkf0hnMGC1osUVoTzkkTpvLNKjNHzwYPz2o=;
- b=ibEARcBivnC4scYjL1MiePeKUVxG587/Pja9EU8sjhOdO9j5LYLFG4DdpHx2z4/00O
- PeaOr05MLb+f7XFiMsrOkdTVCSZPxNOavodiXIrPpufN0jmUc+s8ID5M+Z/Dr4evMdJ3
- hSR8ZfXxvS294gEO7K5WGWT9q4ZbBWzSt7uTgrMrS3KaMadx9RwthQASqbmNnHvUuHmX
- wiNj9nSCM/HIHPHDn+MSsIIFPhK5QiNtukQURWrDinstyMPbfS28uX6lqBQyLE+ksstQ
- ZvbUQxyJeD6zIzbsL0X/Laowu7kED8p0/YUR+Ey4aGPjj/4w53XMWwD0J8eULLx7XfyC
- +s2Q==
+ bh=Tkkk6bms4T2MwW4ForLDxoxSswp5URWOO7BFzeJQoaw=;
+ b=mRW+QmsOrHeZYY8nLl+VQLI58964EvaWI/sSlaJtZ7iQw73nSRdOdLJRiyllMbZTxh
+ y5Aox2wbX9Ky2GoUlYSyCg7dSgzJk3W0k5UtfEI7SDHQIXm64DO0BLrXYJlCq+S/Yj7m
+ zwlt3aXsvtlXo1oudBOA8iZFCNuFTYgcOu2CDiCLVwtCfhewDPVlfaiclxzvF/bk1r0b
+ GM2yuL+nPsmVHIdCCQQ/yg0bktKyZK66lcHzvTKjS+5BKwjIisPF3X0z1zJFH/8XTkJN
+ BPjMm2uhR2ceClSo0Zc9osAHjYFmxlIMmxx8uHoF/kZ5WTTDzTXFRDAAARq83d9+kHX1
+ ENvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716895403; x=1717500203;
+ d=1e100.net; s=20230601; t=1716895434; x=1717500234;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=o0jVo10rUkf0hnMGC1osUVoTzkkTpvLNKjNHzwYPz2o=;
- b=lPjzr0VCJtkthxWcFqT//i1U2tDauOeMyMlgdvV+IB5UalcSpn6FtkUgawd5tbvM8p
- baaPlvTdORu5Kn2t/6ADur0kWZcs0IfAI2BHzeesOe3POV62HxUPo6miBNox6zW/0fPj
- f/rQpLNVdnLWf0HffshysP6rdiq3PT/2rfQRcGbkPwb1tCUuorg8pUn+p8LjhK9ph0r5
- VcrYfxi353m8ZBq8MZZNO7i2EnObwRhtLNzpQEGr7SEcyZoBLutO8cPB8LwlSy48g5wS
- xtcKYEMi+UPXMH9kniqYv+aF/iemPUAVNxQR5CNnad9YkFX/06h08sI1Cm4ZMUUnaFxd
- 3Apg==
+ bh=Tkkk6bms4T2MwW4ForLDxoxSswp5URWOO7BFzeJQoaw=;
+ b=mL6wTIe6YRZy2xlYKoVrcCiEDJMNBc1VSrvLhgPMOb5or43YRk3vNfOHgIhboUbSnO
+ EK6AuALXnJJVe/9up92xlvt1Fmz0BAbQZPNR1HIrAr/irNiQ2JuxkcApEYYFlMOwXLRb
+ ZxgVY1xWecpoeLNDB/xCSJVQETMNbVvUlJYgIU5JQYE107HR/fHZwpodczNM8gRHYdyP
+ pSvxqc3gtcTsq6FO4kHfgd4U+xcpBm83emQKsE/D/C6h/q4GU5Gj6TxywZLredCscyYd
+ 4ee3nbB7eYFVPsJBnzihY9I9a4SFlh/tzb9LSkBFKH0vV8kBTRotywsqRN9NsVfAB14d
+ EnOg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUwBEzYYMeuWWGsqfe3xsXeRPm/UcMh7p/EGFy2840P6zGzc9HQHri8AF+yJ+cNDtYpCI6saaztO1prSQx6TrKbEHqY2HSF/x/1Rvvv2PlW
-X-Gm-Message-State: AOJu0YyzllzBzcWH+tzy1VwmJE+Ey2NXLM5Wu2NJc9yuVCQltD6UGgZs
- 2P9OC/qwN6t9Z49DSww3NBhwDrCzUyZ3EjWClGVfynnI10d+jLgdG4Ka48fj4Y1zG/JbZy+2CZ8
- cyQRpzhdlpS2MmW6LpcH7/enQOZN3eoCnaEGpMQ==
-X-Google-Smtp-Source: AGHT+IFM89jAkbAeUASNdtBBxhAcMHFPFYE/DuNZA8xET9DT6Q3ZDVSx4aTUQ9VgOHYs59aDbb7k8SWmtYtPVwlakAo=
-X-Received: by 2002:a05:6902:1342:b0:de8:9a4b:47e4 with SMTP id
- 3f1490d57ef6-df7721c75famr10787522276.35.1716895403027; Tue, 28 May 2024
- 04:23:23 -0700 (PDT)
+ AJvYcCW4Oy9CEVX1oW2BFQcuvc2/bqwbBreX2OUa4AP0Jf3y6d5/9KL22Le9e1MXRazF6JmF7BoagaKRt6wNiWGdyZspNx/cI1cCqykaDAPsQO03
+X-Gm-Message-State: AOJu0YxV7OzfSil0VOuVkXPGbNhXbKSoVw7u5NiCBBUMra44yaiR80kH
+ d4BMhd5azpVEhUiv+PmhlQ6V3FqagH3zy3RH5zKv4aMTPU9CFP8sgtMsAMN3hypDtLsrdOpOwlN
+ CW2A//CJj68AGkcY/RjDi62b01x+eD50kvXyvMg==
+X-Google-Smtp-Source: AGHT+IEQoF8wL8Xqvylpsi0+6rsl4Gki2TH+Hij9qPQIiP5sR3UjVGJmWc3MmbKhLdXvBfgAKWQPmLdqQrxpSxBuYNw=
+X-Received: by 2002:a25:868a:0:b0:df7:6c37:5bb3 with SMTP id
+ 3f1490d57ef6-df7721a6eeemr11706166276.15.1716895433961; Tue, 28 May 2024
+ 04:23:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240515014643.2715010-1-yangcong5@huaqin.corp-partner.google.com>
- <20240515014643.2715010-5-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20240515014643.2715010-5-yangcong5@huaqin.corp-partner.google.com>
+ <20240515014643.2715010-7-yangcong5@huaqin.corp-partner.google.com>
+In-Reply-To: <20240515014643.2715010-7-yangcong5@huaqin.corp-partner.google.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 28 May 2024 13:23:12 +0200
-Message-ID: <CACRpkdZEXB4t6V67FwexOPYtpovXkJ+WsG57VG_p04Kv1LSatw@mail.gmail.com>
-Subject: Re: [v7 4/7] dt-bindings: display: panel: Add compatible for BOE
- nv110wum-l60
+Date: Tue, 28 May 2024 13:23:42 +0200
+Message-ID: <CACRpkdbeMXrjZutEH8keWeW-CfWH-J-O_rSpBwEOVxzWHuyg_g@mail.gmail.com>
+Subject: Re: [v7 6/7] dt-bindings: display: panel: Add compatible for IVO
+ t109nw41
 To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
  dianders@chromium.org, krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, 
@@ -88,7 +88,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Wed, May 15, 2024 at 3:47=E2=80=AFAM Cong Yang
 <yangcong5@huaqin.corp-partner.google.com> wrote:
 
-> The BOE nv110wum-l60 is a 11.0" WUXGA TFT LCD panel with himax-hx83102
+> The IVO t109nw41 is a 11.0" WUXGA TFT LCD panel with himax-hx83102
 > controller. Hence, we add a new compatible with panel specific config.
 >
 > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
