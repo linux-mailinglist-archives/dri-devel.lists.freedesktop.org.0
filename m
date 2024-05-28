@@ -2,47 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC9268D1A47
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 13:52:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 489038D1A4F
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 13:52:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2848510FB44;
-	Tue, 28 May 2024 11:52:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 437CD10E496;
+	Tue, 28 May 2024 11:52:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AUNRaBey";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D03AwHuD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91ECE10EA31;
- Tue, 28 May 2024 11:52:06 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 865D910E5E8;
+ Tue, 28 May 2024 11:52:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D4A1762022;
- Tue, 28 May 2024 11:52:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F038C32782;
- Tue, 28 May 2024 11:52:02 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 88EDDCE11AB;
+ Tue, 28 May 2024 11:52:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80F68C32782;
+ Tue, 28 May 2024 11:52:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716897125;
- bh=TcxjokVtWXmJOGhnJW9abbtWL0y6hS0Uwog6v9HcmCo=;
+ s=k20201202; t=1716897159;
+ bh=c6HLmHQgr+K+/opF/OiiYVpCKahYXfgVPr1CgHqBTgk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AUNRaBeyx6rMagKw2XMqLf9UxVbVUCTU2rz+d4rU4OCqWKbmh5yZKOeCTs6WLWIE0
- DZTfDaO43bdToSAa9iTrSUiL8kN6YtVzvgiRhYsxN5MTAEdf/0xSLI3xh6N6sDT9g6
- HGUmkVieB7F5nkqMDWqn5t82+8xOjPQJ1oaexjat73SuPNkBc+4Yh/jZwZ1u3xeDxo
- ZWInPMfjVS6gn1zkEmqaXBrNQLCu2aWuHvqzTHBYQnwRo45PfdxW86GYzN0tNMqvqN
- q77+16Lt9PwE7NVgG0TGTg0/9+IgY6NjTaey2/yGcr2KpcRjlIeXqlz5B+07KCe7PW
- 8XiA2fM2c7dmQ==
+ b=D03AwHuDsKvcUkDlecqDtEPZZhMjTaMFd/0vPhG4U2wi15wGBBRYxi+a50oIIBAD3
+ kKAzYiBT1/iSoy4fgo1HuQYlVrjGJRadJCOGeXHrEpHjmtG5x2+kEt/49Zn++EPv+4
+ yeyFdAE0FhAbD49JWO4q62bg33zoI0vP/C8pwYSFZ30Fh2GsOjzJTbRobGkohqR5rr
+ +m1pqpaXPIfHzUI95y9nwRik70fTPhQk/0KhuQAFuk92y8DNShIWo2NiRIKgACLAsd
+ nq64oSyxXi+S9t5Pd+97UwuemMAMEJYbXLnE1eMhYtqw+0vuS/pjB9/noBCtL5TtS4
+ XbAPM52H58fyQ==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 Cc: Arnd Bergmann <arnd@arndb.de>, Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Roman Li <roman.li@amd.com>,
- Mounika Adhuri <moadhuri@amd.com>, Martin Leung <martin.leung@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] [RESEND] drm/amd/display: fix graphics_object_id size
-Date: Tue, 28 May 2024 13:51:19 +0200
-Message-Id: <20240528115146.2870032-2-arnd@kernel.org>
+ Daniel Vetter <daniel@ffwll.ch>, Dillon Varone <dillon.varone@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Chaitanya Dhere <chaitanya.dhere@amd.com>,
+ Alvin Lee <alvin.lee2@amd.com>, Joshua Aberback <joshua.aberback@amd.com>,
+ Charlene Liu <charlene.liu@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Wenjing Liu <wenjing.liu@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 3/4] drm/amd/display: avoid large on-stack structures
+Date: Tue, 28 May 2024 13:51:20 +0200
+Message-Id: <20240528115146.2870032-3-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240528115146.2870032-1-arnd@kernel.org>
 References: <20240528115146.2870032-1-arnd@kernel.org>
@@ -65,40 +69,100 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The graphics_object_id structure is meant to fit into 32 bits, as it's
-passed by value in and out of functions. A recent change increased
-the size to 128 bits, so it's now always passed by reference, which
-is clearly not intended and ends up producing a compile-time warning:
+Putting excessively large objects on a function stack causes
+a warning about possibly overflowing the 8KiB of kernel stack:
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c: In function 'construct_phy':
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c:743:1: error: the frame size of 1040 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
+drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn401/dcn401_resource.c: In function 'dcn401_update_bw_bounding_box':
+drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn401/dcn401_resource.c:1599:1: error: the frame size of 1196 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
+ 1599 | }
+      | ^
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_state.c: In function 'dc_state_create':
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_state.c:221:1: error: the frame size of 1196 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
+  221 | }
+      | ^
 
-Add back the bitfields to revert to the original size, while keeping
-the 'enum' type change.
+Use dynamic allocation instead.
 
-fec85f995a4b ("drm/amd/display: Fix compiler redefinition warnings for certain configs")
+Fixes: e779f4587f61 ("drm/amd/display: Add handling for DC power mode")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
-Originally sent as https://lore.kernel.org/all/20240418083421.3956461-2-arnd@kernel.org/
----
- drivers/gpu/drm/amd/display/include/grph_object_id.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc_state.c   | 16 +++++++++++-----
+ .../display/dc/resource/dcn401/dcn401_resource.c | 16 +++++++++++-----
+ 2 files changed, 22 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/include/grph_object_id.h b/drivers/gpu/drm/amd/display/include/grph_object_id.h
-index 08ee0350b31f..54e33062b3c0 100644
---- a/drivers/gpu/drm/amd/display/include/grph_object_id.h
-+++ b/drivers/gpu/drm/amd/display/include/grph_object_id.h
-@@ -226,8 +226,8 @@ enum dp_alt_mode {
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_state.c b/drivers/gpu/drm/amd/display/dc/core/dc_state.c
+index 70928223b642..8ea9391c60b7 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_state.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_state.c
+@@ -193,7 +193,11 @@ static void init_state(struct dc *dc, struct dc_state *state)
+ struct dc_state *dc_state_create(struct dc *dc, struct dc_state_create_params *params)
+ {
+ #ifdef CONFIG_DRM_AMD_DC_FP
+-	struct dml2_configuration_options dml2_opt = dc->dml2_options;
++	struct dml2_configuration_options *dml2_opt;
++
++	dml2_opt = kmemdup(&dc->dml2_options, sizeof(*dml2_opt), GFP_KERNEL);
++	if (!dml2_opt)
++		return NULL;
+ #endif
+ 	struct dc_state *state = kvzalloc(sizeof(struct dc_state),
+ 			GFP_KERNEL);
+@@ -207,12 +211,14 @@ struct dc_state *dc_state_create(struct dc *dc, struct dc_state_create_params *p
  
- struct graphics_object_id {
- 	uint32_t  id:8;
--	enum object_enum_id  enum_id;
--	enum object_type  type;
-+	enum object_enum_id  enum_id :4;
-+	enum object_type  type :4;
- 	uint32_t  reserved:16; /* for padding. total size should be u32 */
- };
+ #ifdef CONFIG_DRM_AMD_DC_FP
+ 	if (dc->debug.using_dml2) {
+-		dml2_opt.use_clock_dc_limits = false;
+-		dml2_create(dc, &dml2_opt, &state->bw_ctx.dml2);
++		dml2_opt->use_clock_dc_limits = false;
++		dml2_create(dc, dml2_opt, &state->bw_ctx.dml2);
  
+-		dml2_opt.use_clock_dc_limits = true;
+-		dml2_create(dc, &dml2_opt, &state->bw_ctx.dml2_dc_power_source);
++		dml2_opt->use_clock_dc_limits = true;
++		dml2_create(dc, dml2_opt, &state->bw_ctx.dml2_dc_power_source);
+ 	}
++
++	kfree(dml2_opt);
+ #endif
+ 
+ 	kref_init(&state->refcount);
+diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c
+index 247bac177d1b..8dfb0a3d21cb 100644
+--- a/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c
+@@ -1581,21 +1581,27 @@ static struct dc_cap_funcs cap_funcs = {
+ 
+ static void dcn401_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw_params)
+ {
+-	struct dml2_configuration_options dml2_opt = dc->dml2_options;
++	struct dml2_configuration_options *dml2_opt;
++
++	dml2_opt = kmemdup(&dc->dml2_options, sizeof(*dml2_opt), GFP_KERNEL);
++	if (!dml2_opt)
++		return;
+ 
+ 	DC_FP_START();
+ 
+ 	dcn401_update_bw_bounding_box_fpu(dc, bw_params);
+ 
+-	dml2_opt.use_clock_dc_limits = false;
++	dml2_opt->use_clock_dc_limits = false;
+ 	if (dc->debug.using_dml2 && dc->current_state && dc->current_state->bw_ctx.dml2)
+-		dml2_reinit(dc, &dml2_opt, &dc->current_state->bw_ctx.dml2);
++		dml2_reinit(dc, dml2_opt, &dc->current_state->bw_ctx.dml2);
+ 
+-	dml2_opt.use_clock_dc_limits = true;
++	dml2_opt->use_clock_dc_limits = true;
+ 	if (dc->debug.using_dml2 && dc->current_state && dc->current_state->bw_ctx.dml2_dc_power_source)
+-		dml2_reinit(dc, &dml2_opt, &dc->current_state->bw_ctx.dml2_dc_power_source);
++		dml2_reinit(dc, dml2_opt, &dc->current_state->bw_ctx.dml2_dc_power_source);
+ 
+ 	DC_FP_END();
++
++	kfree(dml2_opt);
+ }
+ 
+ enum dc_status dcn401_patch_unknown_plane_state(struct dc_plane_state *plane_state)
 -- 
 2.39.2
 
