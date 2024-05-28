@@ -2,87 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79CEB8D28EC
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 01:53:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CAED8D2900
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 01:55:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20B8910FD7E;
-	Tue, 28 May 2024 23:53:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9195D10FF51;
+	Tue, 28 May 2024 23:55:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SIbbgASS";
+	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="OC9/Um0X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FC1A10F68B
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 23:52:59 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-5295c65d3fdso385390e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 16:52:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716940378; x=1717545178; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=wOdTyLpX4s9ixOOhNkfBWNVCbfHaxbhfgJLe0YOKBzg=;
- b=SIbbgASSiwLjW6VJfNmxzudnO3m1yX/qHpqlr2qzZWrCMmPqomz0O5/sVoLXkNcOvW
- 16Kfc8EZbtt9CKN4Jyk5ra0hMqEi15N14PX8duG8Bjt+Hr2kTL5ydr84g9OZlb516X+B
- XCJ1bGwdYqieaGzaVMbXWyBcs+QpmdVMtok4KrtVwPkQRdqRDINYeSxoK5pSiVJSX/bh
- vivj/XAJf0Bt8TXN25It5moWF4INy0qntdlsdREjjfs9W81zM+IJtcCjO0kN0Dwz9keV
- GJEB3xBx5g9dY9TIHS4He9lU0/ZZ2Z4fSDs7fxuo/nRiSZ4V2qt+cKbDkU9V9NjBDD10
- vEzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716940378; x=1717545178;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wOdTyLpX4s9ixOOhNkfBWNVCbfHaxbhfgJLe0YOKBzg=;
- b=UTBvoFV0hZk1WPdXVqplBhY99y0y2h6tUzbPQImLPTLbuGXAlOloHCey/6z0Glhg+4
- B4z+TKV/ShTaTnOwnlX5kAWpyQOS1kwQMTvgl8c1Th+35VvnUdGtUOsEcWrHPu68TN/B
- zvzfN5KVAMHMFo4p8uDmzmBXpng6FDCRLzUeGQ9/KARuzA7hq64hXkta2BCOrRK0SY7m
- qgvTNCOeTyjqkPIvXRs5AE6xaMVly9/qef9r6IK7afgG2x41mJp2f3nSH5PF9ZMq9sOM
- eQDFKx0Fz7AFQF80WH2T8k10PsSPI6f02lNOBEk1J/HQROFzh3YdY+K2ZdEcgT9n4B/6
- G4bA==
-X-Gm-Message-State: AOJu0YxP+AtY6ZNTlUd0yukBCbqfoDoze3Np1Xos9+WsTuTo0NsuPWGp
- cSOWY/Kfq66bh5XGD3K/i7uzEFPj4Ti8Tk8HtUk1Tcy9P8MI77onzTBCLs9XcFo=
-X-Google-Smtp-Source: AGHT+IHEFIeU2xsKDrxCZSWUBFLxClJz5PmO2gczoLHisBLH1qwbbCGbkJGrqhAoWf4jDn56ewdLYw==
-X-Received: by 2002:a05:6512:3ed:b0:529:b6d1:572c with SMTP id
- 2adb3069b0e04-52a848cf73bmr116026e87.32.1716940378027; 
- Tue, 28 May 2024 16:52:58 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5297066bd0bsm1099869e87.165.2024.05.28.16.52.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 May 2024 16:52:57 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 29 May 2024 02:52:56 +0300
-Subject: [PATCH v2 3/3] drm/panel-edp: drop several legacy panels
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com
+ (mail-tycjpn01on2059.outbound.protection.outlook.com [40.107.114.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EADD410FF51
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 23:55:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oPICc75G5epq1cRxJLRyjQ8AUQi90x+63pMRtBhGnIueBGEY30s45aBEABUn5MXlNvgqY8qe7U5fDdq5xxJvy63RhL870npKMVK380CmR0MIKx2GMIjJjIQp/cyazK03RMqYRQ9Mo+eilhkcAhMaGgNWCCEW1Auxg+iDIeYxPeIaioSepAtltOMbsAbdcDZ6CQbNAzvXuOpj7nh7LVg+Mg1lD1zDLJVcxgmuPnYz2HxKyXX3s81s5q4wUrVCv0wewDMzq2sXNWBWUBzMUL6lX05FCBz2vvUnNnkG1hmlZ2sPQ+jZvinopTK/mlgGITcBJ//gwKrBg85CUOIKxKJZuA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oC2ZTa3dTfEU9ANJwfy5zKSSA47kz8WDmL9rACZ35iU=;
+ b=nWrEuQthpvf1BGue2g/E5u+cb0Tiw6qXYGxJVgJj2zsKrroUneN5SH9TQbIVlO+9T305I/ctOSgyXsQYr8fFnbfJMiLnTxZ8oQNz7A64wPjqWTH6CUiz2VBsUVnlPqvIdAXhX5kHXO/x5g6aGziMzNdrvrJYZHDgPAP/XPifaFK25VpOJCsb5VNoVcjUMkc/7+OOQK37mUO9/EGKNVYf3ayOWu8rC/jNPoDooEPjG2xpujllrA+j9hEDR6DD8N7TxI+pWZwl2+YnTr5ZmMpUc88eVuECyhzoZ/4lya7UNYDtVgH6DGIICHWjI4wiWavP9HXcUYBTVgySNvgCuD+bOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oC2ZTa3dTfEU9ANJwfy5zKSSA47kz8WDmL9rACZ35iU=;
+ b=OC9/Um0X979mjzRVgoh2Ai7OazwjOprGY6KijWibyngPhrovWIo5DEYw7luNvvunoAJxJcRZw7IOnWBpGhpNESi+bh9aLr+P6MC1VxaDSA2qE2AmrascXJhckDw6jok6z357ePkKgDek5xSo1xn4MBtmPAPH43MJ2b2b9VcTfjI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYCPR01MB11224.jpnprd01.prod.outlook.com
+ (2603:1096:400:3bf::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.17; Tue, 28 May
+ 2024 23:55:02 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.7611.030; Tue, 28 May 2024
+ 23:55:02 +0000
+Date: Wed, 29 May 2024 08:55:02 +0900
+Message-ID: <87ikyx4hm1.wl-kuninori.morimoto.gx@renesas.com>
+To: <prabhakar.csengg@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Eugen Hristev <eugen.hristev@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Michal Simek <michal.simek@amd.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Rob Herring <robh+dt@kernel.org>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, coresight@lists.linaro.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-fbdev@vger.kernel.org
+ , linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH v2 resend 0/8] use for_each_endpoint_of_node()
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+X-ClientProxiedBy: TYCP286CA0166.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c6::17) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240529-edp-panel-drop-v2-3-fcfc457fc8dd@linaro.org>
-References: <20240529-edp-panel-drop-v2-0-fcfc457fc8dd@linaro.org>
-In-Reply-To: <20240529-edp-panel-drop-v2-0-fcfc457fc8dd@linaro.org>
-To: Douglas Anderson <dianders@chromium.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- Jeffrey Hugo <quic_jhugo@quicinc.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7126;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=4AEHzhZ7klNl9R6P/rVcHC42cvlcOM0LoXvZQ32OLm0=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ1pYXtjvjbzVrioeBkuPz3/zLTRL4kKN3ILDsuJi6uE2D
- Dy/U0o7GY1ZGBi5GGTFFFl8ClqmxmxKDvuwY2o9zCBWJpApDFycAjCRwK/s/53+ZecWLbjLpf3L
- 4GJmomDL5JD5F03L3hg83CmV3mDBsOmr3zsupa2ynVsyTh7rYqwNPy+dKm2UV+f4VHriy84X63T
- lxd4F7pxbu/7xzOUXzFR1+DZ1xund1e04cSDjCg/HnLLPQe2Rwj96U5t4d/+7NlfWKu5Jas+Gn3
- 1cfC9WRTIdKG9cVZKq+8RYc9mzy/NfPOXJFevPaFw2j0v0/BO9gjN6tXnbb/9YJJ7KOjG2//PM6
- 6qvH7ld2i8TnavcYe3ke2pr7u+OOYZiwXaT9Na/t2i8KDed44al8eTJTw46d1tHKG6fH7LFzPxH
- aNVc59+3Nn/49ehikkDSj9iYqiCmsLn8AWy83YL8+zMdAA==
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB11224:EE_
+X-MS-Office365-Filtering-Correlation-Id: eae2f8cb-70da-41fd-a468-08dc7f719750
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230031|52116005|1800799015|7416005|376005|366007|38350700005|921011; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?3Ba+Gea94MLbwIvV4AXJKCwwBQ4Wm90W+wcZ2XWKRAgPFhmPPQW+zKSjLJIp?=
+ =?us-ascii?Q?baCFzRkUo3nVqELcFhMrByXq0ObrHGjxnS01Um0dx7CElCaL+9GF39VpmhtX?=
+ =?us-ascii?Q?N2LVTFZ3som943dwQiV1GCBtlxjwANDVS+X2XLkHnPaZChYON54sHNhDIKpf?=
+ =?us-ascii?Q?cAFNAu7sJpwcX6Jp09H1MjFi48EX03jnNFEmidEL9Nhe2nDEeeF+zk7Laeo5?=
+ =?us-ascii?Q?6EI7tXrT6jm4HdmVbkWNcdpuamoC6GHNVoO1+LqQB5na+16F3nrSX9Of4W3O?=
+ =?us-ascii?Q?J5uMqXqKSRWq5lePSxnkIFzVDeb1mIIf/nCQvWTpszLt2xO1UoU+RXQ2Dams?=
+ =?us-ascii?Q?KqJHHBeQO6WPUN1IVN0CdP8Lbf4WG4bLHpktfAcQO1YBBcSp7M5bnyzW3rET?=
+ =?us-ascii?Q?zxz3DBtWalSMLzEzPFY+Daqlksgfv3D8+naossADp/5WgAJdEPW5K+cWEuva?=
+ =?us-ascii?Q?TYxdvwDlGl6KpKiMnfuVIzeh27LMug4eixD3JUv5CddHAqaAf6an6nhIayYi?=
+ =?us-ascii?Q?U+up+ybfzyPi7o+yDDkD3g6W3HIzCY3vaTxaKwCq10U85vIXatJx5ToAB1qJ?=
+ =?us-ascii?Q?xOx9GBsaENewbIp2ck0DIU8DGCmgJ1IHEUGdNbj5CNmQhKSQFQ7C4T+hBrhA?=
+ =?us-ascii?Q?CvQmafT4rVh9/89wpLaD9YAI0rbhtynw+HE6eJ8ic4yKUqdZdV/J1lCrVczu?=
+ =?us-ascii?Q?d2/pP/hjEXxfMfYDqI4roxTwwek6HaSOxTRjwFN1I/33L/fnSMtuK7rP78BF?=
+ =?us-ascii?Q?nqBesO+B0044beKDjw1Aj5Nt64l4gb3GhixQotIVQOX8sCNpTgoJLEJKKgcw?=
+ =?us-ascii?Q?mYDByBHcAc6oJqUcZbbv4JtyaV1wWmBZc6KUSXvix6YrQYfuh7BHAA5Uth7o?=
+ =?us-ascii?Q?XoL7GIFVqcoRtAOgtGVwcoqp9gIUnjP8fd9kDgiaqyMl84UMmoHwZWMYYQQk?=
+ =?us-ascii?Q?K4PayRTud/fQDsdMtMjRK3nMbM+CD67ogJso7vHxd0NFGTmHC71EF43OKOJ6?=
+ =?us-ascii?Q?NGd7dJZVFQ6qY9izdP5MpVszrYoO19+7NjSZghqV6eGDhhKAk082m7MojsFq?=
+ =?us-ascii?Q?PKEkIegd3jJYq1aE5XAKmC8cK0EsUUZgbOTRSl5gbJajhsjYQeoEY5daYKlI?=
+ =?us-ascii?Q?rBUz4SwV+pX8HYtJaUwv9wv8G20/vFsK9vslzD8ronCk9OtSS0zs4jXVexuV?=
+ =?us-ascii?Q?oihgpXR0OIaLM/KC8kHztT2sDzbYVvEDiCtFmfDMbZHnuHFRIlKKT4N0ECRX?=
+ =?us-ascii?Q?j9BdSUPKXGhBAa+OkqOr/RTnNRcWeMG1eeW600SukE1vrmiKYJnyIYkM6/An?=
+ =?us-ascii?Q?TKM=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCPR01MB10914.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(52116005)(1800799015)(7416005)(376005)(366007)(38350700005)(921011);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?X1qyHp5msnXHnmQyhfwZyYaCqFhXTAthAVkcoMJj0JWgeEnE9WJDxPJSc+kB?=
+ =?us-ascii?Q?T+ybG0AeFMcKq0ZNjhZ/iH6qekMJBn5xT3T4u6CgmRzR9qrcvYhBKnxC4sZI?=
+ =?us-ascii?Q?upCYB8TNnmNiU6/Nnj5S/0J7VhJSXClucu6OS99xSKOYjIumn7+D9nRx2Zt7?=
+ =?us-ascii?Q?rakyxEzMCv8RiVmw08r4A1KuCDFQVcG312VWpgBrbJP21gwd0VNeg8FhHlMH?=
+ =?us-ascii?Q?c8D1I8uulHQBTvBMqAv/sh4qgNFZaD5Ru1cVGH9qW0WXNbTFK4d46mE38FOp?=
+ =?us-ascii?Q?8Ktc2fburYLxZocZHNeqRDNFj++pbYJno7BaY1MBwFiGYEkRqbsvaI3/gS/Y?=
+ =?us-ascii?Q?9fJ+QsooWSQF98VXzrOiL7ybsBg0QIVf/FRzV8EKrFIhoffNaGCCj0x9s0hj?=
+ =?us-ascii?Q?0D84dBQiNrXDikVsIYs6YdJWnAMdmbYaKGeyF1lt0JUqJSn6FmryieR98nl9?=
+ =?us-ascii?Q?5jxaLOmjEIi7OfJR97VFNlxlDN8NjSDGkjAZz7AB5RXBmCixgD02rih6KhSa?=
+ =?us-ascii?Q?engjs++Q72dvuXBZqgrU16wW3/x/FD1UuXrLPZ2NJjPqDa/eRE/gW9l6Kbjm?=
+ =?us-ascii?Q?HxvNuTaIKdYq/QVah72BIuF0POHYbccEwN1/iCMfwH7R3fHWRYlGAfhG1r4p?=
+ =?us-ascii?Q?B352x+V5rn8MIbZRODin3HMnIHO2yv1R2tOSGYkxLkJFwVbk685x40IEJoHl?=
+ =?us-ascii?Q?l13LzxQAEDa96D0m0mBiV2Ce4oTYuLyngjliuJ5viFZrI/DO3pem+NWiq6+b?=
+ =?us-ascii?Q?XNhXjMr+7eH8TEFszG/GyEzg220F4TbTGsNibf/NnnD1f6m+xiUnJwo6TexK?=
+ =?us-ascii?Q?ESc4N6prBle4NSvAZAgnXuTrCa19UyViL1SSN8rw1mz0DOZrQ7ennCSQsboX?=
+ =?us-ascii?Q?wa8Q7CNY2pTFNAzCFuycC7pk4/5Xag/coCEWAMhxFcZQKQibBXGMYHhBLF9k?=
+ =?us-ascii?Q?vGlJcwxHJ3P7ediQtCm1ap1g5KqoP25w/mRvmzQ8/VzM3oTCllf8qzqsdrv7?=
+ =?us-ascii?Q?jAypKTbBUo+uxdHFhEF+diR923WU7boGgnmDlRehbVAGjr3EGVmhB2/Ymcwd?=
+ =?us-ascii?Q?XH52QF2v1IZOKRoY3K0Th/F3Qc3wiPuT7t+0Hd7/a+mGsQ+PJq4oSt2QGWSO?=
+ =?us-ascii?Q?weXExBJhPuY5i5o5lZ7nYng58qZ+RM0L6IuaK2jDCkEOUjYV9r/63LFTo1BG?=
+ =?us-ascii?Q?f+9FZnkKLselGTfBtfLCSK5n6sETz0I+eeD+sNvfBc+u5CXFQAaxYQMUCLQt?=
+ =?us-ascii?Q?VWYt3Iv2VmkFsfjcmQu2CQRQQb1LJq8EUOiegVQv/Z6qwG0j3yXhUlBQu3JY?=
+ =?us-ascii?Q?mxjcHL4EmIsIiUGwwYhvdvQUL4BE+XsDz/3IFkdvJjibymw6bViPGHRW6DE1?=
+ =?us-ascii?Q?0LWtu+oACIZZ0OkePXz7ijj2F2qyg3bI+7gtk/sQMlbZCPtcaTw+vUAEdGsp?=
+ =?us-ascii?Q?wDsff2MSJsCHmMd9EbigWbnby9EKIZq3gFtQtLEn3iiDsfGbBNQFd1+/bUqP?=
+ =?us-ascii?Q?8sll8VfrmIx/CVcbHvXP7yfz9Z6zFAMk8rvU3P80HbR7DtwWg73f+vDSjGK8?=
+ =?us-ascii?Q?ZhCEms3WC1H26WqnFtrlCOUQ91tQk+JTWHxgZ6rFH9M2b8/X37eJobsu2KHo?=
+ =?us-ascii?Q?I2/yu5s7xycBGVXIde9+S8k=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eae2f8cb-70da-41fd-a468-08dc7f719750
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2024 23:55:02.8648 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6XANBxYVmLEmTqW4HLfNln5KxAvuPDUL61UPBOt7YNSwtrgaBsf9v5kzHYDSCUpF5HhvYXLMAlSK/bL/6EInDbMwC6YkbtWRxlVtSi5bWu5J5MRLnyteUbCS/2UlwZmZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB11224
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,264 +159,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The panel-edp driver supports legacy compatible strings for several eDP
-panels which were never used in DT files present in Linux tree and most
-likely have never been used with the upstream kernel. Drop compatibles
-for these panels in favour of using a generic "edp-panel" device on the
-AUX bus.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/panel/panel-edp.c | 173 ++------------------------------------
- 1 file changed, 7 insertions(+), 166 deletions(-)
+Hi Rob, Helge
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 95b25ec67168..120780e5d34d 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1059,33 +1059,6 @@ static const struct panel_desc auo_b116xak01 = {
- 	},
- };
- 
--static const struct drm_display_mode auo_b133han05_mode = {
--	.clock = 142600,
--	.hdisplay = 1920,
--	.hsync_start = 1920 + 58,
--	.hsync_end = 1920 + 58 + 42,
--	.htotal = 1920 + 58 + 42 + 60,
--	.vdisplay = 1080,
--	.vsync_start = 1080 + 3,
--	.vsync_end = 1080 + 3 + 5,
--	.vtotal = 1080 + 3 + 5 + 54,
--};
--
--static const struct panel_desc auo_b133han05 = {
--	.modes = &auo_b133han05_mode,
--	.num_modes = 1,
--	.bpc = 8,
--	.size = {
--		.width = 293,
--		.height = 165,
--	},
--	.delay = {
--		.hpd_reliable = 100,
--		.enable = 20,
--		.unprepare = 50,
--	},
--};
--
- static const struct drm_display_mode auo_b133htn01_mode = {
- 	.clock = 150660,
- 	.hdisplay = 1920,
-@@ -1135,33 +1108,6 @@ static const struct panel_desc auo_b133xtn01 = {
- 	},
- };
- 
--static const struct drm_display_mode auo_b140han06_mode = {
--	.clock = 141000,
--	.hdisplay = 1920,
--	.hsync_start = 1920 + 16,
--	.hsync_end = 1920 + 16 + 16,
--	.htotal = 1920 + 16 + 16 + 152,
--	.vdisplay = 1080,
--	.vsync_start = 1080 + 3,
--	.vsync_end = 1080 + 3 + 14,
--	.vtotal = 1080 + 3 + 14 + 19,
--};
--
--static const struct panel_desc auo_b140han06 = {
--	.modes = &auo_b140han06_mode,
--	.num_modes = 1,
--	.bpc = 8,
--	.size = {
--		.width = 309,
--		.height = 174,
--	},
--	.delay = {
--		.hpd_reliable = 100,
--		.enable = 20,
--		.unprepare = 50,
--	},
--};
--
- static const struct drm_display_mode boe_nv101wxmn51_modes[] = {
- 	{
- 		.clock = 71900,
-@@ -1428,33 +1374,6 @@ static const struct panel_desc innolux_p120zdg_bf1 = {
- 	},
- };
- 
--static const struct drm_display_mode ivo_m133nwf4_r0_mode = {
--	.clock = 138778,
--	.hdisplay = 1920,
--	.hsync_start = 1920 + 24,
--	.hsync_end = 1920 + 24 + 48,
--	.htotal = 1920 + 24 + 48 + 88,
--	.vdisplay = 1080,
--	.vsync_start = 1080 + 3,
--	.vsync_end = 1080 + 3 + 12,
--	.vtotal = 1080 + 3 + 12 + 17,
--	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
--};
--
--static const struct panel_desc ivo_m133nwf4_r0 = {
--	.modes = &ivo_m133nwf4_r0_mode,
--	.num_modes = 1,
--	.bpc = 8,
--	.size = {
--		.width = 294,
--		.height = 165,
--	},
--	.delay = {
--		.hpd_absent = 200,
--		.unprepare = 500,
--	},
--};
--
- static const struct drm_display_mode kingdisplay_kd116n21_30nv_a010_mode = {
- 	.clock = 81000,
- 	.hdisplay = 1366,
-@@ -1703,75 +1622,6 @@ static const struct panel_desc sharp_lq123p1jx31 = {
- 	},
- };
- 
--static const struct drm_display_mode sharp_lq140m1jw46_mode[] = {
--	{
--		.clock = 346500,
--		.hdisplay = 1920,
--		.hsync_start = 1920 + 48,
--		.hsync_end = 1920 + 48 + 32,
--		.htotal = 1920 + 48 + 32 + 80,
--		.vdisplay = 1080,
--		.vsync_start = 1080 + 3,
--		.vsync_end = 1080 + 3 + 5,
--		.vtotal = 1080 + 3 + 5 + 69,
--		.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
--	}, {
--		.clock = 144370,
--		.hdisplay = 1920,
--		.hsync_start = 1920 + 48,
--		.hsync_end = 1920 + 48 + 32,
--		.htotal = 1920 + 48 + 32 + 80,
--		.vdisplay = 1080,
--		.vsync_start = 1080 + 3,
--		.vsync_end = 1080 + 3 + 5,
--		.vtotal = 1080 + 3 + 5 + 69,
--		.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
--	},
--};
--
--static const struct panel_desc sharp_lq140m1jw46 = {
--	.modes = sharp_lq140m1jw46_mode,
--	.num_modes = ARRAY_SIZE(sharp_lq140m1jw46_mode),
--	.bpc = 8,
--	.size = {
--		.width = 309,
--		.height = 174,
--	},
--	.delay = {
--		.hpd_absent = 80,
--		.enable = 50,
--		.unprepare = 500,
--	},
--};
--
--static const struct drm_display_mode starry_kr122ea0sra_mode = {
--	.clock = 147000,
--	.hdisplay = 1920,
--	.hsync_start = 1920 + 16,
--	.hsync_end = 1920 + 16 + 16,
--	.htotal = 1920 + 16 + 16 + 32,
--	.vdisplay = 1200,
--	.vsync_start = 1200 + 15,
--	.vsync_end = 1200 + 15 + 2,
--	.vtotal = 1200 + 15 + 2 + 18,
--	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
--};
--
--static const struct panel_desc starry_kr122ea0sra = {
--	.modes = &starry_kr122ea0sra_mode,
--	.num_modes = 1,
--	.size = {
--		.width = 263,
--		.height = 164,
--	},
--	.delay = {
--		/* TODO: should be hpd-absent and no-hpd should be set? */
--		.hpd_reliable = 10 + 200,
--		.enable = 50,
--		.unprepare = 10 + 500,
--	},
--};
--
- static const struct of_device_id platform_of_match[] = {
- 	{
- 		/* Must be first */
-@@ -1798,18 +1648,12 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "auo,b116xa01",
- 		.data = &auo_b116xak01,
--	}, {
--		.compatible = "auo,b133han05",
--		.data = &auo_b133han05,
- 	}, {
- 		.compatible = "auo,b133htn01",
- 		.data = &auo_b133htn01,
- 	}, {
- 		.compatible = "auo,b133xtn01",
- 		.data = &auo_b133xtn01,
--	}, {
--		.compatible = "auo,b140han06",
--		.data = &auo_b140han06,
- 	}, {
- 		.compatible = "boe,nv101wxmn51",
- 		.data = &boe_nv101wxmn51,
-@@ -1837,9 +1681,6 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "innolux,p120zdg-bf1",
- 		.data = &innolux_p120zdg_bf1,
--	}, {
--		.compatible = "ivo,m133nwf4-r0",
--		.data = &ivo_m133nwf4_r0,
- 	}, {
- 		.compatible = "kingdisplay,kd116n21-30nv-a010",
- 		.data = &kingdisplay_kd116n21_30nv_a010,
-@@ -1870,12 +1711,6 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "sharp,lq123p1jx31",
- 		.data = &sharp_lq123p1jx31,
--	}, {
--		.compatible = "sharp,lq140m1jw46",
--		.data = &sharp_lq140m1jw46,
--	}, {
--		.compatible = "starry,kr122ea0sra",
--		.data = &starry_kr122ea0sra,
- 	}, {
- 		/* sentinel */
- 	}
-@@ -1927,6 +1762,12 @@ static const struct panel_delay delay_200_500_e80_d50 = {
- 	.disable = 50,
- };
- 
-+static const struct panel_delay delay_80_500_e50 = {
-+	.hpd_absent = 80,
-+	.unprepare = 500,
-+	.enable = 50,
-+};
-+
- static const struct panel_delay delay_100_500_e200 = {
- 	.hpd_absent = 100,
- 	.unprepare = 500,
-@@ -2128,7 +1969,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('S', 'D', 'C', 0x416d, &delay_100_500_e200, "ATNA45AF01"),
- 
- 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x1511, &delay_200_500_e50, "LQ140M1JW48"),
--	EDP_PANEL_ENTRY('S', 'H', 'P', 0x1523, &sharp_lq140m1jw46.delay, "LQ140M1JW46"),
-+	EDP_PANEL_ENTRY('S', 'H', 'P', 0x1523, &delay_80_500_e50, "LQ140M1JW46"),
- 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x154c, &delay_200_500_p2e100, "LQ116M1JW10"),
- 
- 	EDP_PANEL_ENTRY('S', 'T', 'A', 0x0100, &delay_100_500_e200, "2081116HHD028001-51D"),
+This is resend of v2 patch-set
+
+We already have for_each_endpoint_of_node(), but some drivers are
+not using it. This patch-set replace it.
+
+This patch-set is related to "OF" (= Rob), but many driveres are for
+"MultiMedia" (= Helge). I'm not sure who handle these.
+
+I will re-post this patch-set because I couldn't find these on
+linus/master branch.
+
+[o] done
+[*] this patch-set
+
+	[o] tidyup of_graph_get_endpoint_count()
+	[o] replace endpoint func - use endpoint_by_regs()
+	[*] replace endpoint func - use for_each()
+	[ ] rename endpoint func to device_endpoint
+	[ ] add new port function
+	[ ] add new endpont function
+	[ ] remove of_graph_get_next_device_endpoint()
+
+v1 -> v2
+	- fixup TI patch
+
+Link: https://lore.kernel.org/r/8734sf6mgn.wl-kuninori.morimoto.gx@renesas.com
+
+Kuninori Morimoto (8):
+  gpu: drm: use for_each_endpoint_of_node()
+  hwtracing: use for_each_endpoint_of_node()
+  media: platform: microchip: use for_each_endpoint_of_node()
+  media: platform: ti: use for_each_endpoint_of_node()
+  media: platform: xilinx: use for_each_endpoint_of_node()
+  staging: media: atmel: use for_each_endpoint_of_node()
+  video: fbdev: use for_each_endpoint_of_node()
+  fbdev: omapfb: use of_graph_get_remote_port()
+
+ drivers/gpu/drm/omapdrm/dss/base.c            |  3 +--
+ .../hwtracing/coresight/coresight-platform.c  |  4 ++--
+ .../microchip/microchip-sama5d2-isc.c         | 19 +++++++------------
+ .../microchip/microchip-sama7g5-isc.c         | 19 +++++++------------
+ .../media/platform/ti/am437x/am437x-vpfe.c    | 12 +++++-------
+ .../media/platform/ti/davinci/vpif_capture.c  | 12 ++++++------
+ drivers/media/platform/xilinx/xilinx-vipp.c   |  7 +------
+ .../deprecated/atmel/atmel-sama5d2-isc.c      |  6 +-----
+ .../deprecated/atmel/atmel-sama7g5-isc.c      |  6 +-----
+ drivers/video/fbdev/omap2/omapfb/dss/dss-of.c | 15 +--------------
+ .../omap2/omapfb/dss/omapdss-boot-init.c      |  3 +--
+ 11 files changed, 33 insertions(+), 73 deletions(-)
 
 -- 
-2.39.2
+2.43.0
 
