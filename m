@@ -2,60 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28648D272A
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 23:37:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F37D8D274B
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 23:54:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEDA810E1B8;
-	Tue, 28 May 2024 21:37:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CF5310F844;
+	Tue, 28 May 2024 21:54:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LhHKfspz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m53EpN/F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7718310E1B8;
- Tue, 28 May 2024 21:37:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716932247; x=1748468247;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=tBsR1AeUFiFrTqZyrPKtYz8N12cLCZA9Zwx+LRExDko=;
- b=LhHKfspzsIpalyCvTf89veBuPkJHK9YxPodbOikwdKCZI2+syKAXL84U
- /GPNJF+IyzsiJa3sTIeQWissB/IDrkYmV4Sndz/m8eRcFqiwd8qa2U5dK
- MUf9d5KXfp9cz4MaAVzhb34xsE2o6TOGjPF+6qsKWvelABcekcoMBKZ7h
- i6o69dFdD6QDj+Zk5l7ZxYm177UsSDtZiLakrr2n/vwdYl/gLXv83JnU0
- 1uPfN6UUJ2GwitQDB0wIQk7FFwjg4z8knKPFdCtbWeQQGsAHtomENXKnu
- glSS6YLwpeF1w4cfV8v1Csemf4t2ESPPzJYjYbcfVvEaCQ5j+6skPbBc1 Q==;
-X-CSE-ConnectionGUID: NvNV6I/pT4WsZflfbtMLfg==
-X-CSE-MsgGUID: tpe7n0urQ0yDCEpaDCTA+w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="17097466"
-X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; d="scan'208";a="17097466"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2024 14:37:26 -0700
-X-CSE-ConnectionGUID: AVs/OAepTla3rBCc3YTT7A==
-X-CSE-MsgGUID: Mxt4eYjVT9aA0uLns26Xtg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; d="scan'208";a="35130741"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2024 14:37:25 -0700
-Date: Wed, 29 May 2024 00:37:30 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 4/9] drm/i915: Introduce fb->min_alignment
-Message-ID: <ZlZOmp3618kpi+zz@ideak-desk.fi.intel.com>
-References: <20240513175942.12910-1-ville.syrjala@linux.intel.com>
- <20240513175942.12910-5-ville.syrjala@linux.intel.com>
- <ZlW/uMCDFles0dyv@ideak-desk.fi.intel.com>
- <ZlYynhN6QJoAkTDm@intel.com>
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8B410F844;
+ Tue, 28 May 2024 21:54:53 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-1f347e8f6acso849625ad.1; 
+ Tue, 28 May 2024 14:54:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1716933292; x=1717538092; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=KzIu37DqkkW+Cz1sVAEbgQDsbfYiYv2kMR+B6yEhDS0=;
+ b=m53EpN/Fl5kceh/GbyNkieExB1NR5CNQNTez8QHlIQvsfpBViCTkui98BcF89vr3ME
+ LGv2Pu+XrDS0pvFNyP0Zl+h7UJeFupMT7zlU8x8cYr0gVGaBGi4xWx+t8xpWNDxhCViz
+ v5OCIi0xwcMJCSXamG8++ahVCwFx7Fun3ec90/2uR44QbvX+fQI/KkZd6JiD/841v8ZN
+ WtMn5emIxyNPP34DNB5CoBRju2Ojilr2tMH+M4JuU3/JEm+Puqh/PA/ch9UO62bjEGCw
+ XqsJeZbffM4VyksJhV9obdmE9nY79be56DML8KGj3pGb33yUSSpQyHM7b3+CWqKlc98j
+ d26w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716933292; x=1717538092;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KzIu37DqkkW+Cz1sVAEbgQDsbfYiYv2kMR+B6yEhDS0=;
+ b=N8+ociCkn/1wF7Np0jmcOz7ygfuhfvRLN1z7FyySMr3xXEu5ZdAdDvdecYhsZo0XOY
+ NLHwwum98bm4gRP6VsGqh6yG6RHW+B2T0WVfFEQ/hYvTdj/CyL6uvR2YCx7V4a9lGJfk
+ RsScZ+mzysUZnXV2yH0G6buDBa7/kXG9itSC4vECrPIANb6DPATx2oxtvs8+/COUdUV7
+ hp9QSgtLTXFM0X7dHbn8rJp6X1OctHQhh206NwQaIjMR165ysw0WpjkldgatbaT71kjQ
+ umUUwer2dCYC8NngUfge/p4yAjtn1Nza+IVj8765R/zsK+TNfE5dHi2LQ3H6xty0ALwK
+ 451g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWCQsYA+xNvz7un9hEM8C3OzziVEPDC00jNKD5AvwTXSghlX3TSBrRn+qYA1m2wLeRx4Pkjh+TqsjVWm71l28ZUUTJYjDQgtlv3+ARB0FOeuSqXA1NnutPEY2i0VXtHjkB3t6ohs+H0upkQqdMeYQ==
+X-Gm-Message-State: AOJu0YzMfvS1UhfuEFMeKa/IIbHzBHyDZzXJ875hbUAca1abwyzyI9UW
+ 3JWI7fl71JPUY8F+gy5FIxCHl9suTEXtvpG5kfWY0RuYOVnT1T3o
+X-Google-Smtp-Source: AGHT+IHcgJCvLsBRskDkUaDAWfOlyZcYlxZHzOY7xZdSR9m1gVY7jRLbD0C+mCcacgZ/89vJZUaWeQ==
+X-Received: by 2002:a17:902:db11:b0:1f4:5ad1:b659 with SMTP id
+ d9443c01a7336-1f45ad1c3ecmr132940195ad.3.1716933292537; 
+ Tue, 28 May 2024 14:54:52 -0700 (PDT)
+Received: from anarsoul-xps15.lan ([2604:3d08:7780:1ca9::398])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f4bcf3a0besm27586795ad.306.2024.05.28.14.54.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 May 2024 14:54:52 -0700 (PDT)
+From: Vasily Khoruzhick <anarsoul@gmail.com>
+To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Ben Skeggs <bskeggs@redhat.com>,
+ Jani Nikula <jani.nikula@intel.com>, Wayne Lin <Wayne.Lin@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>
+Subject: [PATCH] drm/nouveau: don't attempt to schedule hpd_work on headless
+ cards
+Date: Tue, 28 May 2024 14:52:43 -0700
+Message-ID: <20240528215344.2442-1-anarsoul@gmail.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZlYynhN6QJoAkTDm@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,248 +82,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 28, 2024 at 10:38:06PM +0300, Ville Syrjälä wrote:
-> On Tue, May 28, 2024 at 02:27:52PM +0300, Imre Deak wrote:
-> > On Mon, May 13, 2024 at 08:59:37PM +0300, Ville Syrjala wrote:
-> > > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > 
-> > > Different planes could have different alignment requirements
-> > > even for the same format/modifier. Collect the alignment
-> > > requirements across all planes capable of scanning out the
-> > > fb such that the alignment used when pinning the normal ggtt
-> > > view is satisfactory to all those planes.
-> > > 
-> > > When pinning per-plane views we only have to satisfy the
-> > > alignment requirements of the specific plane.
-> > > 
-> > > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > ---
-> > >  .../drm/i915/display/intel_display_types.h    |  2 ++
-> > >  drivers/gpu/drm/i915/display/intel_fb.c       | 23 ++++++++++++++++
-> > >  drivers/gpu/drm/i915/display/intel_fb_pin.c   | 27 +++++++++++++++++--
-> > >  drivers/gpu/drm/i915/display/intel_fbdev.c    | 18 +------------
-> > >  4 files changed, 51 insertions(+), 19 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> > > index 40d6e5f4c350..58bb65832adf 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> > > +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> > > @@ -145,6 +145,8 @@ struct intel_framebuffer {
-> > >  	};
-> > >  
-> > >  	struct i915_address_space *dpt_vm;
-> > > +
-> > > +	unsigned int min_alignment;
-> > >  };
-> > >  
-> > >  enum intel_hotplug_state {
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
-> > > index 3f3a9cd534f4..c5bae05cbbc3 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_fb.c
-> > > +++ b/drivers/gpu/drm/i915/display/intel_fb.c
-> > > @@ -10,6 +10,7 @@
-> > >  #include <linux/dma-resv.h>
-> > >  
-> > >  #include "i915_drv.h"
-> > > +#include "intel_atomic_plane.h"
-> > >  #include "intel_display.h"
-> > >  #include "intel_display_types.h"
-> > >  #include "intel_dpt.h"
-> > > @@ -1616,6 +1617,26 @@ bool intel_fb_supports_90_270_rotation(const struct intel_framebuffer *fb)
-> > >  	       fb->base.modifier == I915_FORMAT_MOD_Yf_TILED;
-> > >  }
-> > >  
-> > > +static unsigned int intel_fb_min_alignment(const struct drm_framebuffer *fb)
-> > > +{
-> > > +	struct drm_i915_private *i915 = to_i915(fb->dev);
-> > > +	struct intel_plane *plane;
-> > > +	unsigned int min_alignment = 0;
-> > > +
-> > > +	for_each_intel_plane(&i915->drm, plane) {
-> > > +		if (!drm_plane_has_format(&plane->base, fb->format->format, fb->modifier))
-> > > +			continue;
-> > > +
-> > > +		if (intel_plane_needs_physical(plane))
-> > > +			continue;
-> > > +
-> > > +		min_alignment = max(min_alignment,
-> > > +				    plane->min_alignment(plane, fb, 0));
-> > > +	}
-> > > +
-> > > +	return min_alignment;
-> > > +}
-> > > +
-> > >  int intel_fill_fb_info(struct drm_i915_private *i915, struct intel_framebuffer *fb)
-> > >  {
-> > >  	struct drm_i915_gem_object *obj = intel_fb_obj(&fb->base);
-> > > @@ -1698,6 +1719,8 @@ int intel_fill_fb_info(struct drm_i915_private *i915, struct intel_framebuffer *
-> > >  		return -EINVAL;
-> > >  	}
-> > >  
-> > > +	fb->min_alignment = intel_fb_min_alignment(&fb->base);
-> > > +
-> > >  	return 0;
-> > >  }
-> > >  
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_fb_pin.c b/drivers/gpu/drm/i915/display/intel_fb_pin.c
-> > > index 9b0f1ea41b70..1ae02de906f5 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_fb_pin.c
-> > > +++ b/drivers/gpu/drm/i915/display/intel_fb_pin.c
-> > > @@ -230,13 +230,36 @@ void intel_fb_unpin_vma(struct i915_vma *vma, unsigned long flags)
-> > >  	i915_vma_put(vma);
-> > >  }
-> > >  
-> > > +static bool gtt_view_is_per_plane(const struct intel_plane_state *plane_state)
-> > > +{
-> > > +	const struct intel_framebuffer *fb = to_intel_framebuffer(plane_state->hw.fb);
-> > > +
-> > > +	if (plane_state->view.gtt.type == I915_GTT_VIEW_REMAPPED &&
-> > > +	    intel_fb_needs_pot_stride_remap(fb))
-> > > +		return false;
-> > 
-> > The above view is created only once for the FB, I suppose this is how
-> > you differentiate it from views created each time due to a stride
-> > limit (based on intel_plane_needs_remap()).
-> > 
-> > > +
-> > > +	return plane_state->view.gtt.type != I915_GTT_VIEW_NORMAL;
-> > 
-> > So the rotated and remapped views created for a stride limit are
-> > per-plane based on the above. There is also a rotated view created only
-> > once for the FB, is it intentional to regard this kind of view as
-> > per-plane as well?
-> 
-> No. Forgot those exist. I guess I should just remove this per-plane
-> alignment logic for now. Need to think of a proper way to add it back,
-> or just quietly bury the whole idea.
+If the card doesn't have display hardware, hpd_work and hpd_lock are
+left uninitialized which causes BUG when attempting to schedule hpd_work
+on runtime PM resume.
 
-Another variation is that intel_fb_pin_to_ggtt() etc. tries to bind the
-vma in max -> min alignment order considering all the plane types here
-always, though that's almost the opposite to what you want to solve
-I suppose (avoid to overalign?).
+Fix it by adding headless flag to DRM and skip any hpd if it's set.
 
-> > > +}
-> > > +
-> > >  static unsigned int
-> > >  intel_plane_fb_min_alignment(const struct intel_plane_state *plane_state)
-> > >  {
-> > >  	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
-> > > -	const struct drm_framebuffer *fb = plane_state->hw.fb;
-> > > +	const struct intel_framebuffer *fb = to_intel_framebuffer(plane_state->hw.fb);
-> > >  
-> > > -	return plane->min_alignment(plane, fb, 0);
-> > > +	/*
-> > > +	 * Only use plane specific alignment for binding
-> > > +	 * a per-plane gtt view (remapped or rotated),
-> > > +	 * otherwise make sure the alignment is suitable
-> > > +	 * for all planes.
-> > > +	 */
-> > > +	if (!gtt_view_is_per_plane(plane_state))
-> > > +		return fb->min_alignment;
-> > > +
-> > > +	if (intel_plane_needs_physical(plane))
-> > > +		return 0;
-> > 
-> > I guess the above is ok, though looks like an unrelated change: the
-> > cursor plane min_alignment() for relevant platforms is <= 4k, which will
-> > be rounded up to 4k anyway when binding the vma.
-> 
-> When intel_plane_needs_physical()==true the alignment declared
-> by the plane only applies to the physical/dma address, as that
-> is what the hardware will consume. Doesn't actually matter
-> where it gets bound in the ggtt.
+Fixes: ae1aadb1eb8d ("nouveau: don't fail driver load if no display hw present.")
+Link: https://gitlab.freedesktop.org/drm/nouveau/-/issues/337
+Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+---
+ drivers/gpu/drm/nouveau/dispnv04/disp.c     |  2 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c     |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_connector.c |  3 +++
+ drivers/gpu/drm/nouveau/nouveau_display.c   | 11 ++++++++++-
+ drivers/gpu/drm/nouveau/nouveau_drv.h       |  1 +
+ 5 files changed, 16 insertions(+), 3 deletions(-)
 
-Ok, it's unclear why the same physical alignment was used then to bind
-the vma as well, but didn't probably matter in practice since the
-alignment was small. The commit log could still mention this change.
+diff --git a/drivers/gpu/drm/nouveau/dispnv04/disp.c b/drivers/gpu/drm/nouveau/dispnv04/disp.c
+index 13705c5f1497..4b7497a8755c 100644
+--- a/drivers/gpu/drm/nouveau/dispnv04/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv04/disp.c
+@@ -68,7 +68,7 @@ nv04_display_fini(struct drm_device *dev, bool runtime, bool suspend)
+ 	if (nv_two_heads(dev))
+ 		NVWriteCRTC(dev, 1, NV_PCRTC_INTR_EN_0, 0);
+ 
+-	if (!runtime)
++	if (!runtime && !drm->headless)
+ 		cancel_work_sync(&drm->hpd_work);
+ 
+ 	if (!suspend)
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index 88728a0b2c25..674dc567e179 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -2680,7 +2680,7 @@ nv50_display_fini(struct drm_device *dev, bool runtime, bool suspend)
+ 			nv50_mstm_fini(nouveau_encoder(encoder));
+ 	}
+ 
+-	if (!runtime)
++	if (!runtime && !drm->headless)
+ 		cancel_work_sync(&drm->hpd_work);
+ }
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+index 856b3ef5edb8..b315a2ef5b28 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -1190,6 +1190,9 @@ nouveau_connector_hpd(struct nouveau_connector *nv_connector, u64 bits)
+ 	u32 mask = drm_connector_mask(&nv_connector->base);
+ 	unsigned long flags;
+ 
++	if (drm->headless)
++		return;
++
+ 	spin_lock_irqsave(&drm->hpd_lock, flags);
+ 	if (!(drm->hpd_pending & mask)) {
+ 		nv_connector->hpd_pending |= bits;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
+index aed5d5b51b43..1961ef665e97 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_display.c
++++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+@@ -450,6 +450,9 @@ nouveau_display_hpd_resume(struct drm_device *dev)
+ {
+ 	struct nouveau_drm *drm = nouveau_drm(dev);
+ 
++	if (drm->headless)
++		return;
++
+ 	spin_lock_irq(&drm->hpd_lock);
+ 	drm->hpd_pending = ~0;
+ 	spin_unlock_irq(&drm->hpd_lock);
+@@ -468,6 +471,11 @@ nouveau_display_hpd_work(struct work_struct *work)
+ 	int changed = 0;
+ 	struct drm_connector *first_changed_connector = NULL;
+ 
++	WARN_ON_ONCE(drm->headless);
++
++	if (drm->headless)
++		return;
++
+ 	pm_runtime_get_sync(dev->dev);
+ 
+ 	spin_lock_irq(&drm->hpd_lock);
+@@ -635,7 +643,7 @@ nouveau_display_fini(struct drm_device *dev, bool suspend, bool runtime)
+ 	}
+ 	drm_connector_list_iter_end(&conn_iter);
+ 
+-	if (!runtime)
++	if (!runtime && !drm->headless)
+ 		cancel_work_sync(&drm->hpd_work);
+ 
+ 	drm_kms_helper_poll_disable(dev);
+@@ -729,6 +737,7 @@ nouveau_display_create(struct drm_device *dev)
+ 		/* no display hw */
+ 		if (ret == -ENODEV) {
+ 			ret = 0;
++			drm->headless = true;
+ 			goto disp_create_err;
+ 		}
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
+index e239c6bf4afa..25fca98a20bc 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drv.h
++++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+@@ -276,6 +276,7 @@ struct nouveau_drm {
+ 	/* modesetting */
+ 	struct nvbios vbios;
+ 	struct nouveau_display *display;
++	bool headless;
+ 	struct work_struct hpd_work;
+ 	spinlock_t hpd_lock;
+ 	u32 hpd_pending;
+-- 
+2.45.1
 
-> > > +
-> > > +	return plane->min_alignment(plane, &fb->base, 0);
-> > 
-> > The commit could've had more details about the rational for the above.
-> > As I understand it avoids having to rebind the vma for different plane
-> > types, though this is already handled to some degree by
-> > i915_vma::display_alignment.
-> 
-> It was also semi-handled by intel_surf_alignment() trying to
-> return the max alignment for all the planes more or less.
-> But it was a fairly big mess.
-> 
-> I did't really remember that the display_alignment
-> thing even exists. Hmm. I wonder if it's even needed 
-> anymore. I suppose we can have cases where the display was
-> previously using the vma, which was subsequency unbound,
-> and later rebound due to some other reason. We probably
-> want to preserve the alignment to make sure it'll again
-> be ready to be used by the display without an extra
-> rebind.  I guess that only really happens with pre-ppgtt
-> platforms and/or software rendering via ggtt.
-
-Okay, thanks for clarifying. So the idea behind it wasn't using the same
-vma for multiple plane types. It makes sense to optimize the alignment
-upfront as done in this patch in any case and regard display_alignment
-as independent to this logic.
-
-> Hmm. We could perpaps change the implementation to adjust
-> display_alignment when the framebuffer is created instead
-> of doing it when the vma actually gets pinned. Might not
-> matter for real world uses cases though.
-> 
-> > 
-> > >  }
-> > >  
-> > >  static unsigned int
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-> > > index ff685aebbd1a..124aac172acb 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-> > > +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-> > > @@ -46,7 +46,6 @@
-> > >  #include "gem/i915_gem_mman.h"
-> > >  
-> > >  #include "i915_drv.h"
-> > > -#include "intel_crtc.h"
-> > >  #include "intel_display_types.h"
-> > >  #include "intel_fb.h"
-> > >  #include "intel_fb_pin.h"
-> > > @@ -172,21 +171,6 @@ static const struct fb_ops intelfb_ops = {
-> > >  
-> > >  __diag_pop();
-> > >  
-> > > -static unsigned int intel_fbdev_min_alignment(const struct drm_framebuffer *fb)
-> > > -{
-> > > -	struct drm_i915_private *i915 = to_i915(fb->dev);
-> > > -	struct intel_plane *plane;
-> > > -	struct intel_crtc *crtc;
-> > > -
-> > > -	crtc = intel_first_crtc(i915);
-> > > -	if (!crtc)
-> > > -		return 0;
-> > > -
-> > > -	plane = to_intel_plane(crtc->base.primary);
-> > > -
-> > > -	return plane->min_alignment(plane, fb, 0);
-> > > -}
-> > > -
-> > >  static int intelfb_create(struct drm_fb_helper *helper,
-> > >  			  struct drm_fb_helper_surface_size *sizes)
-> > >  {
-> > > @@ -244,7 +228,7 @@ static int intelfb_create(struct drm_fb_helper *helper,
-> > >  	 * BIOS is suitable for own access.
-> > >  	 */
-> > >  	vma = intel_fb_pin_to_ggtt(&fb->base, &view,
-> > > -				   intel_fbdev_min_alignment(&fb->base), 0,
-> > > +				   fb->min_alignment, 0,
-> > >  				   false, &flags);
-> > >  	if (IS_ERR(vma)) {
-> > >  		ret = PTR_ERR(vma);
-> > > -- 
-> > > 2.43.2
-> > > 
-> 
-> -- 
-> Ville Syrjälä
-> Intel
