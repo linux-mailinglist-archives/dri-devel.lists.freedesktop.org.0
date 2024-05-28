@@ -2,81 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50FF78D1F83
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 17:02:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D02D18D1FC5
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 17:10:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98C1210E33C;
-	Tue, 28 May 2024 15:02:48 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="onedG0Hi";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 535C610FA2B;
+	Tue, 28 May 2024 15:09:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
- [209.85.128.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3196F10E3D5
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 15:02:47 +0000 (UTC)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-62a083d7ee9so8078657b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 08:02:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716908566; x=1717513366; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=z++uhhvIB2oDHAa6QHEw7J8dkFtocwFpzuVPNehNXnk=;
- b=onedG0HiQZ4fzIdPGdMucYGeWx8EV5RB0byGSpA1cyJLMJR8SxwDLNn/SoIBRyljhA
- 4703s23ocAOQhgG0LW8EFkcu8rKHXCV86HV4bwV86z4861FEG4wv/1xP45N4Svkc8yG4
- q4s12m5oCtRIBVA56C3GLtDcMEItqvuAEWzIyOnzf4JAHx5O1kt4aA+yuyVMzZn6XEF8
- y/SC3892NeCS1KKqZgQ7KiA5kC0MIqRFQr8ub3BniIQ4WCZcOzuoGKB6X8y0hcNk2naK
- eCSPxLyMunvhUpCoC/xvK2FUF2Z6disRfgFArZMis1c8xxx8LXqiPceHth67njYnX23J
- 0dWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716908566; x=1717513366;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=z++uhhvIB2oDHAa6QHEw7J8dkFtocwFpzuVPNehNXnk=;
- b=SgtCMFZ9NxZyipDsBJZ1x/cWNz0Nfmac3Wa4z4I/SCj+bTcOYeLeDcC3+DLEi/iH83
- 8vJbSQJd2T2FZT30s/fDU1nRHaezfEV6k0u0024aYKOrLK10f0jpiZgSwqcpvWIxuWYf
- ObTe+WNj5U/KeKSRHYQWKdDJfh/vXQoqxSIMYcRmYCHn6rXtVYoGrfI8Sj0+0K7sym12
- V4p0We8AnWsecjgD+JN9ULR61nTL/q3+GWEzfbZfn2efm62GT+fSY1NzxfohoFJVx/+t
- WaHmXkKBGxbLyXZwmxqjQRHjE03GOEevxWBobv4A4fV6tkvt4baH+Tclz/f70AfEFbL0
- Swog==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUaBsJUe4SKb7AihXLFP1h3demBtnoEgt8B+RSOxJrSl0pwzGcCd/GejRqf3QytO8Y+Jnz8ZjcSYrk0vdLbv2Go1WIZG05jHnKLZocHTl3a
-X-Gm-Message-State: AOJu0YwuQqMEJTDbS12vHSgYeQe1EIZ0i0wHkgHFxTerRi45qIMlDcWc
- vSguVgNYmaL/EUQUCZ9siDzeslhHdAzMbAn2oFHMYjMAD2h1NctYJBpYRi3LBBNEMpCvrmYEGZm
- 1NCaq0wekA1p72PJgPBsAbrHoa2a67wuBMnkULQ==
-X-Google-Smtp-Source: AGHT+IGP1znZ3LDpAzmQtOKli77ftgpKpvGh++LuRA4lLhU3jCZJJbgZDa3scINgUvUv9bv+tUK4rihdTfM+OChzfh8=
-X-Received: by 2002:a05:6902:2489:b0:df4:8147:4e19 with SMTP id
- 3f1490d57ef6-df77226363bmr15382555276.62.1716908566001; Tue, 28 May 2024
- 08:02:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <d3de652f-ce89-4f57-b900-07b11f8bf8f9@free.fr>
- <20240528-potoo-of-pragmatic-tempering-df08f1@houat>
- <0cd0136a-bbaf-482f-8e81-a858a6cdce2e@freebox.fr>
- <20240528-prophetic-masterful-hyrax-563f82@houat>
- <3tiuyvc2bg3d3wz3eqrou3ngkpb3h5gamtocv74bfkkqty4qag@it5publzvl5z>
- <20240528-placid-eccentric-axolotl-cc9fdc@houat>
-In-Reply-To: <20240528-placid-eccentric-axolotl-cc9fdc@houat>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 28 May 2024 18:02:34 +0300
-Message-ID: <CAA8EJprNNovVPDmeJNCNi3c4F2-Bnh=Y1ZbiDEw6DtFs8w1pKQ@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/bridge: simple-bridge: Add support for TI TDP158
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Arnaud Vrac <avrac@freebox.fr>, Marc Gonzalez <marc.w.gonzalez@free.fr>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, DRI <dri-devel@lists.freedesktop.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ECEE10FA2B
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 15:09:56 +0000 (UTC)
+Received: from [213.70.33.226] (helo=phil.sntech)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1sBySJ-0004pm-E9; Tue, 28 May 2024 17:09:39 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Alex Bee <knaerzche@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Bryan O Donoghue <bryan.odonoghue@linaro.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Pierre-Hugues Husson <phhusson@freebox.fr>
-Content-Type: text/plain; charset="UTF-8"
+ Andy Yan <andy.yan@rock-chips.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sandy Huang <hjc@rock-chips.com>,
+ David Airlie <airlied@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+Subject: Re: (subset) [PATCH v3 0/7] Add DSI support for RK3128
+Date: Tue, 28 May 2024 17:09:23 +0200
+Message-Id: <171690893341.1899981.5685030462624644928.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240509140653.168591-1-knaerzche@gmail.com>
+References: <20240509140653.168591-1-knaerzche@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,67 +55,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 May 2024 at 18:00, Maxime Ripard <mripard@kernel.org> wrote:
->
-> On Tue, May 28, 2024 at 04:50:10PM GMT, Dmitry Baryshkov wrote:
-> > On Tue, May 28, 2024 at 11:17:56AM +0200, Maxime Ripard wrote:
-> > > On Tue, May 28, 2024 at 10:05:50AM GMT, Arnaud Vrac wrote:
-> > > > On 28/05/2024 09:43, Maxime Ripard wrote:
-> > > > > Hi,
-> > > > >
-> > > > > On Mon, May 27, 2024 at 06:03:56PM GMT, Marc Gonzalez wrote:
-> > > > > > From: Arnaud Vrac <avrac@freebox.fr>
-> > > > > >
-> > > > > > The TI TDP158 is an AC-Coupled HDMI signal to TMDS Redriver supporting
-> > > > > > DVI 1.0 and HDMI 1.4b and 2.0b output signals.
-> > > > > >
-> > > > > > Since it's an I2C-programmable bridge, it could have a proper driver,
-> > > > > > but the default settings work fine, thus simple bridge is sufficient.
-> > > > >
-> > > > > No it doesn't. That bridge supports HDMI 2.0 which means you'll need to
-> > > > > change the TMDS clock ratio when programming a TMDS character rate
-> > > > > higher than 340MHz. And you'll need hotplug support to deal with it
-> > > > > properly too.
-> > > > >
-> > > > > So sorry, you need a real driver there.
-> > > >
-> > > > Hello, this is an HDMI redriver, which simply cleans up the HDMI
-> > > > signal, so no programming is needed to support HDMI 2.0.
-> > >
-> > > I mean, if I'm to trust the datasheet, it is more complicated than that.
-> > > It snoops the DDC bus so it can update the TMDS clock ratio bit if it's
-> > > sent on its input side, but that wouldn't happen with DP for example.
-> >
-> > If I understand correctly, this chip can work in two modes: dummy and
-> > I2C-programmed. In the former case it is fully transparent, including
-> > HPD passthrough, it doesn't require any additional programming, just
-> > Vcc, Vdd and pin straps, etc.  And the second mode is a 'brainy' one,
-> > when the chip is fully controlled over I2C.
->
-> Right, and like I said, the situation is more complicated than "it just
-> does passthrough" like simple-bridge does.
->
-> > From the Linux standpoint these two modes will use single compat string,
-> > but two distinct drivers: for the former mode is is enough to use
-> > simple-bridge (fixed to support two supplies), while the latter one
-> > needs a proper I2C driver.
-> >
-> > Does that solve your concern?
->
-> We need to be careful here: if there's two drivers with the same
-> compatible and bus, both will be probed.
+On Thu, 9 May 2024 16:06:46 +0200, Alex Bee wrote:
+> This series aims to add support for the DesignWare MIPI DSI controller and
+> the Innoslicon D-PHY found in RK3128 SoCs. The code additions are rather
+> tiny: It only need some code in the Rockchip dw-mipi-dsi glue layer for
+> this SoC and do some changes in the SoC's clock driver. Support for the phy
+> was already added when the Innosilicon D-PHY driver was initially
+> submitted. I tested it with a 800x1280 DSI panel where all 4 lanes that are
+> supported are used.
+> 
+> [...]
 
-I was thinking about i2c_driver and platform_driver, so there should
-have been no conflict. But Arnaud wrote on IRC that on this device the
-bridge is connected over I2C. This rules out simple-bridge anyway.
+Applied, thanks!
 
-> So we need to take it into
-> account when designing the binding.
->
-> Maxime
+[2/7] dt-bindings: clock: rk3128: Add PCLK_MIPIPHY
+      commit: 14a1d1dc35d346a1523f38f6517c349dfa447a58
+[3/7] clk: rockchip: rk3128: Export PCLK_MIPIPHY
+      commit: 577c04fbf255f81f26507a7ffb2477fce50c214d
+[4/7] clk: rockchip: rk3128: Add hclk_vio_h2p to critical clocks
+      commit: e745698209837a952d4515bc02cddd5a31a644b9
+[6/7] ARM: dts: rockchip: Add D-PHY for RK3128
+      commit: 45b22b83e00b1ec36d5de53b797cd9d8545a0d34
+[7/7] ARM: dts: rockchip: Add DSI for RK3128
+      commit: 73fc389129dfe22b5706b4b6cbc1a4f86d1fbc1b
 
-
-
+Best regards,
 -- 
-With best wishes
-Dmitry
+Heiko Stuebner <heiko@sntech.de>
