@@ -2,54 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E89B8D1F69
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 17:01:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50FF78D1F83
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 17:02:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D4BD1122E8;
-	Tue, 28 May 2024 15:01:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98C1210E33C;
+	Tue, 28 May 2024 15:02:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EhadhZBe";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="onedG0Hi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DABE1122E8
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 15:01:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0FBEB62183;
- Tue, 28 May 2024 15:01:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70411C3277B;
- Tue, 28 May 2024 15:01:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716908468;
- bh=griTV/d48tFOAXbKZWjbvzau5IV3Ow0cB3k5rjAzDCA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EhadhZBeE18WbKLGgiooW0VxGSBMEhOGF0MwqnuuP6kyWUWmWddS1L6G9AB8+8lm5
- jd1V5dCU0ZRklMWsON+LU9+l0O1ByZ/Y/GmZcuj+JmkXJ4KJgwz7ebYT+N0RXxE8Ho
- RYFvX1N6JjSPzDnv+ut2SQFeIBGkeyW1blw4RemLnIUH0d/6ZH6f4/2NPFmLXfsiEJ
- 4bf9tDYqxR3zJ40ngwSx60e5oa/NG0NRfU5cYq8NB2LXw9ECQLxIAXSdmyIMlO58s4
- i8JBbcvamnRvXTHGyIgoaPbSQs2UO3v5DCr+FVPkSJNsHSi2QUHSpSBXpUn9MlF49l
- fsEWFwyBrCeKw==
-Date: Tue, 28 May 2024 16:01:03 +0100
-From: Conor Dooley <conor@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: boris.brezillon@collabora.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, steven.price@arm.com, matthias.bgg@gmail.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 1/2] dt-bindings: gpu: mali-bifrost: Add compatible for
- MT8188 SoC
-Message-ID: <20240528-flattop-foe-05d6ba73cc06@spud>
-References: <20240527092513.91385-1-angelogioacchino.delregno@collabora.com>
- <20240527092513.91385-2-angelogioacchino.delregno@collabora.com>
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3196F10E3D5
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 15:02:47 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-62a083d7ee9so8078657b3.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 08:02:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1716908566; x=1717513366; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=z++uhhvIB2oDHAa6QHEw7J8dkFtocwFpzuVPNehNXnk=;
+ b=onedG0HiQZ4fzIdPGdMucYGeWx8EV5RB0byGSpA1cyJLMJR8SxwDLNn/SoIBRyljhA
+ 4703s23ocAOQhgG0LW8EFkcu8rKHXCV86HV4bwV86z4861FEG4wv/1xP45N4Svkc8yG4
+ q4s12m5oCtRIBVA56C3GLtDcMEItqvuAEWzIyOnzf4JAHx5O1kt4aA+yuyVMzZn6XEF8
+ y/SC3892NeCS1KKqZgQ7KiA5kC0MIqRFQr8ub3BniIQ4WCZcOzuoGKB6X8y0hcNk2naK
+ eCSPxLyMunvhUpCoC/xvK2FUF2Z6disRfgFArZMis1c8xxx8LXqiPceHth67njYnX23J
+ 0dWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716908566; x=1717513366;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=z++uhhvIB2oDHAa6QHEw7J8dkFtocwFpzuVPNehNXnk=;
+ b=SgtCMFZ9NxZyipDsBJZ1x/cWNz0Nfmac3Wa4z4I/SCj+bTcOYeLeDcC3+DLEi/iH83
+ 8vJbSQJd2T2FZT30s/fDU1nRHaezfEV6k0u0024aYKOrLK10f0jpiZgSwqcpvWIxuWYf
+ ObTe+WNj5U/KeKSRHYQWKdDJfh/vXQoqxSIMYcRmYCHn6rXtVYoGrfI8Sj0+0K7sym12
+ V4p0We8AnWsecjgD+JN9ULR61nTL/q3+GWEzfbZfn2efm62GT+fSY1NzxfohoFJVx/+t
+ WaHmXkKBGxbLyXZwmxqjQRHjE03GOEevxWBobv4A4fV6tkvt4baH+Tclz/f70AfEFbL0
+ Swog==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUaBsJUe4SKb7AihXLFP1h3demBtnoEgt8B+RSOxJrSl0pwzGcCd/GejRqf3QytO8Y+Jnz8ZjcSYrk0vdLbv2Go1WIZG05jHnKLZocHTl3a
+X-Gm-Message-State: AOJu0YwuQqMEJTDbS12vHSgYeQe1EIZ0i0wHkgHFxTerRi45qIMlDcWc
+ vSguVgNYmaL/EUQUCZ9siDzeslhHdAzMbAn2oFHMYjMAD2h1NctYJBpYRi3LBBNEMpCvrmYEGZm
+ 1NCaq0wekA1p72PJgPBsAbrHoa2a67wuBMnkULQ==
+X-Google-Smtp-Source: AGHT+IGP1znZ3LDpAzmQtOKli77ftgpKpvGh++LuRA4lLhU3jCZJJbgZDa3scINgUvUv9bv+tUK4rihdTfM+OChzfh8=
+X-Received: by 2002:a05:6902:2489:b0:df4:8147:4e19 with SMTP id
+ 3f1490d57ef6-df77226363bmr15382555276.62.1716908566001; Tue, 28 May 2024
+ 08:02:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lmQ6jMLH/WOT5YCV"
-Content-Disposition: inline
-In-Reply-To: <20240527092513.91385-2-angelogioacchino.delregno@collabora.com>
+References: <d3de652f-ce89-4f57-b900-07b11f8bf8f9@free.fr>
+ <20240528-potoo-of-pragmatic-tempering-df08f1@houat>
+ <0cd0136a-bbaf-482f-8e81-a858a6cdce2e@freebox.fr>
+ <20240528-prophetic-masterful-hyrax-563f82@houat>
+ <3tiuyvc2bg3d3wz3eqrou3ngkpb3h5gamtocv74bfkkqty4qag@it5publzvl5z>
+ <20240528-placid-eccentric-axolotl-cc9fdc@houat>
+In-Reply-To: <20240528-placid-eccentric-axolotl-cc9fdc@houat>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 28 May 2024 18:02:34 +0300
+Message-ID: <CAA8EJprNNovVPDmeJNCNi3c4F2-Bnh=Y1ZbiDEw6DtFs8w1pKQ@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/bridge: simple-bridge: Add support for TI TDP158
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Arnaud Vrac <avrac@freebox.fr>, Marc Gonzalez <marc.w.gonzalez@free.fr>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>, DRI <dri-devel@lists.freedesktop.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Bryan O Donoghue <bryan.odonoghue@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Pierre-Hugues Husson <phhusson@freebox.fr>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,33 +92,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 28 May 2024 at 18:00, Maxime Ripard <mripard@kernel.org> wrote:
+>
+> On Tue, May 28, 2024 at 04:50:10PM GMT, Dmitry Baryshkov wrote:
+> > On Tue, May 28, 2024 at 11:17:56AM +0200, Maxime Ripard wrote:
+> > > On Tue, May 28, 2024 at 10:05:50AM GMT, Arnaud Vrac wrote:
+> > > > On 28/05/2024 09:43, Maxime Ripard wrote:
+> > > > > Hi,
+> > > > >
+> > > > > On Mon, May 27, 2024 at 06:03:56PM GMT, Marc Gonzalez wrote:
+> > > > > > From: Arnaud Vrac <avrac@freebox.fr>
+> > > > > >
+> > > > > > The TI TDP158 is an AC-Coupled HDMI signal to TMDS Redriver supporting
+> > > > > > DVI 1.0 and HDMI 1.4b and 2.0b output signals.
+> > > > > >
+> > > > > > Since it's an I2C-programmable bridge, it could have a proper driver,
+> > > > > > but the default settings work fine, thus simple bridge is sufficient.
+> > > > >
+> > > > > No it doesn't. That bridge supports HDMI 2.0 which means you'll need to
+> > > > > change the TMDS clock ratio when programming a TMDS character rate
+> > > > > higher than 340MHz. And you'll need hotplug support to deal with it
+> > > > > properly too.
+> > > > >
+> > > > > So sorry, you need a real driver there.
+> > > >
+> > > > Hello, this is an HDMI redriver, which simply cleans up the HDMI
+> > > > signal, so no programming is needed to support HDMI 2.0.
+> > >
+> > > I mean, if I'm to trust the datasheet, it is more complicated than that.
+> > > It snoops the DDC bus so it can update the TMDS clock ratio bit if it's
+> > > sent on its input side, but that wouldn't happen with DP for example.
+> >
+> > If I understand correctly, this chip can work in two modes: dummy and
+> > I2C-programmed. In the former case it is fully transparent, including
+> > HPD passthrough, it doesn't require any additional programming, just
+> > Vcc, Vdd and pin straps, etc.  And the second mode is a 'brainy' one,
+> > when the chip is fully controlled over I2C.
+>
+> Right, and like I said, the situation is more complicated than "it just
+> does passthrough" like simple-bridge does.
+>
+> > From the Linux standpoint these two modes will use single compat string,
+> > but two distinct drivers: for the former mode is is enough to use
+> > simple-bridge (fixed to support two supplies), while the latter one
+> > needs a proper I2C driver.
+> >
+> > Does that solve your concern?
+>
+> We need to be careful here: if there's two drivers with the same
+> compatible and bus, both will be probed.
 
---lmQ6jMLH/WOT5YCV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I was thinking about i2c_driver and platform_driver, so there should
+have been no conflict. But Arnaud wrote on IRC that on this device the
+bridge is connected over I2C. This rules out simple-bridge anyway.
 
-On Mon, May 27, 2024 at 11:25:12AM +0200, AngeloGioacchino Del Regno wrote:
-> Add a compatible for the MediaTek MT8188 SoC, with an integrated
-> ARM Mali G57 MC3 (Valhall-JM) GPU.
->=20
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
+> So we need to take it into
+> account when designing the binding.
+>
+> Maxime
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Chers,
-Conor.
 
---lmQ6jMLH/WOT5YCV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZlXxrwAKCRB4tDGHoIJi
-0gxEAQCJxm0YW/F3sE3EG2ygW0Xz2I0KMa2JKGoLWElXy5gVRgEA4qAauCj9sAWK
-GjEwoDHxelJzjM0hfALT/Qy2rP/GQQg=
-=atEx
------END PGP SIGNATURE-----
-
---lmQ6jMLH/WOT5YCV--
+-- 
+With best wishes
+Dmitry
