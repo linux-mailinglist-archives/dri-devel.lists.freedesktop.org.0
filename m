@@ -2,59 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B6908D1DCA
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 16:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 628F58D1E8B
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 16:24:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0556C10EE6B;
-	Tue, 28 May 2024 14:00:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38C9D10E492;
+	Tue, 28 May 2024 14:24:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hr2cb1JY";
+	dkim=pass (2048-bit key; secure) header.d=usp.br header.i=@usp.br header.b="EvN9Cct9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33E0E1122E4;
- Tue, 28 May 2024 14:00:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716904837; x=1748440837;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=wuwD9M3OnrW3S+ZzJk0mp/tDlv32D7qXk0sSujXymA0=;
- b=hr2cb1JYCJl9yHQmkiYUisgf2AZmPhsCKP1gCrGcvwCaMgkUHs5YalV6
- z8pM7lG1+xwrF7QRc1bumlk/dlq/bzsfgkbxHY5o/yax0+kIH+AZKlw0H
- GTLBmffRmeQUXWTD4lGoPfnHn7BKgwnxiD3f5VboIhZufKsdm1+saT1Ar
- InKz6fnH0NtiK7opbg5fIBfco1yQ58f1q214xY78Cm+PRbUynFobbnPbW
- rlbiR8aTM5/YZd2vFZj6cRPlCVfuWfwllEyQ3Xm5Q/m6jtsbZeFU+ZVyE
- 42O4GiMWP3W4mO3bpGeOZd9iddTnjOz0eUmDx2T6KC/vsXASK66kspLHK w==;
-X-CSE-ConnectionGUID: EoFD0fHXTn6YEftwJpWILA==
-X-CSE-MsgGUID: uqhmJ2eoSCexQFGlXTBxfg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13021713"
-X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; d="scan'208";a="13021713"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2024 07:00:36 -0700
-X-CSE-ConnectionGUID: orumg5ZrQfmT5LXl4BDupw==
-X-CSE-MsgGUID: IU7j43npSA2F7ZOilOgQ7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; d="scan'208";a="72507202"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2024 07:00:35 -0700
-Date: Tue, 28 May 2024 17:00:40 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 9/9] drm/i915: Nuke the TGL+ chroma plane tile row
- alignment stuff
-Message-ID: <ZlXjiHRpcEa37hU9@ideak-desk.fi.intel.com>
-References: <20240513175942.12910-1-ville.syrjala@linux.intel.com>
- <20240513175942.12910-10-ville.syrjala@linux.intel.com>
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B838010E0E7
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 13:10:50 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id
+ d2e1a72fcca58-701e1eaa6cfso275158b3a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 06:10:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=usp.br; s=usp-google; t=1716901850; x=1717506650; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=N4tw5Zk4wf6z5pZ1c7E5nJ8v49b+H89ox9BNVmWVrgc=;
+ b=EvN9Cct9BFBpY6Ridwh81XDow6SPDVf00TQtBDuqpCHTfcaFr8WHgjP0bMA8GXEuqE
+ fZZWUoXpPOWY8PHug8XRQwc71jC7s7yoqKDbCz8M3EBCbQmVfPBxZMIkxSUBITOYQZMC
+ 3+gChVH2Zx99g74H7Rcr5ZuLs1J/s/WHqWIn8F/YUJ8f38RSVuQYQhWNHKj6QPqNlPly
+ 3qfpuIvATMFudW5Qeg5VsaajRwmecGkq9krGd0h/Al82z456nuW9d38z0tn54TfbpnKV
+ leCGWzKgEnvCHc/Pa1fS1DzWpK/Gjg5iFb+xlQHeOWTkE0/2oewsw85dw+RJK6jzD5oX
+ bgeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716901850; x=1717506650;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=N4tw5Zk4wf6z5pZ1c7E5nJ8v49b+H89ox9BNVmWVrgc=;
+ b=P+Zux+HCwilanGUqfVTcjA4ePiKTsWE/p98I/vkqywhlYqvwBgfY8uT2+/8lDPSN+P
+ hvydwv2ndpx97eDQia91D//nUzQfZeGZMl0CtJ44UeCJuJvj3ioTF768zrKh53PM1HRC
+ VxZFdq4IywBUAFmForaKWVFLZMXO0IPDSS2LkBN7wvseg9M9I6epwP5+HniB1yrTPo5t
+ tPZZCGUP8Pv/HME/4zghJ/l5MDAz7xy6jk6HM7VaRqQfxkbz1E0UZXa4dxYM0o5JLgUO
+ wtJSVE+HWtS07/pRJNpxm4ahdeIIUgOtiB3RttrJlBD39hOFW0MTva/+pQdqb+8e1hHd
+ lqpg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVbOLlY/JDLf9/LVfW6AVz9Hybd1soywOfixy2HZUlylKSdgoHoXXEafBIReDXSYVUCdp55+pHDNkcErGCMldhi/xP8J6x5/eKzbtviHZRb
+X-Gm-Message-State: AOJu0Yyh6h0W+ejc6GNeOksQi65SIoYc5a0dntKs0FOeal+Npo8XtOw4
+ /PBZaBsuWaoqgLA8BS1ChDCOlCbwzeAMaj3HVI4jtFps+KtCrqjVwBWObWx2DJ0=
+X-Google-Smtp-Source: AGHT+IENIbL4eqrAuRni3H9gjq87QLavVAgLpj1kLIlhPBLtOpZrF1dvpvJpm4KfTgXo+QjOzfVo8w==
+X-Received: by 2002:a05:6a20:3cac:b0:1af:ab23:82ce with SMTP id
+ adf61e73a8af0-1b205c7ac3fmr22367809637.3.1716901849903; 
+ Tue, 28 May 2024 06:10:49 -0700 (PDT)
+Received: from ccsl-Inspiron-7472.semfio.usp.br ([143.107.45.1])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-682226fc4dcsm7507164a12.42.2024.05.28.06.10.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 May 2024 06:10:49 -0700 (PDT)
+From: Bruno Rocha Levi <brunolevilevi@usp.br>
+To: airlied@gmail.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
+ melissa.srw@gmail.com, mripard@kernel.org, rodrigosiqueiramelo@gmail.com,
+ tzimmermann@suse.de, Xinhui.Pan@amd.com
+Cc: Bruno Rocha Levi <brunolevilevi@usp.br>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/2] Fix alignment in comment blocks
+Date: Tue, 28 May 2024 10:08:02 -0300
+Message-ID: <20240528131026.214773-1-brunolevilevi@usp.br>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240513175942.12910-10-ville.syrjala@linux.intel.com>
+X-Mailman-Approved-At: Tue, 28 May 2024 14:24:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,113 +81,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 13, 2024 at 08:59:42PM +0300, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> 
-> I don't think the display hardware really has such chroma
-> plane tile row alignment requirements as outlined in
-> commit d156135e6a54 ("drm/i915/tgl: Make sure a semiplanar
-> UV plane is tile row size aligned")
-> 
-> Bspec had the same exact thing to say about earlier hardware
-> as well, but we never cared and things work just fine.
-> 
-> The one thing mentioned in that commit that is definitely
-> true however is the fence alignment issue. But we don't
-> deal with that on earlier hardware either. We do have code
-> to deal with that issue for the first color plane, but not
-> the chroma planes. So I think if we did want to check this
-> more extensively we should do it in the same places where
-> we already check the first color plane (namely
-> convert_plane_offset_to_xy() and intel_fb_bo_framebuffer_init()).
+Hi!
 
-Imo a correct alignment should be required to help users figure out why
-a given config doesn't work (even if an incorrect alignment doesn't
-cause other HW issues). But agreed that it should be the same then for
-all platforms, so ok to remove it in its current form.
+This patchset fixes two alignment issues in comment blocks throughout
+the codebase. These changes fix codestyle warnings reported from
+checkpatch and are intended to improve code readability.
 
-> 
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_fb.c            | 12 +-----------
->  drivers/gpu/drm/i915/display/intel_fb.h            |  1 -
->  drivers/gpu/drm/i915/display/skl_universal_plane.c | 11 -----------
->  3 files changed, 1 insertion(+), 23 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
-> index c80f866f3fb6..fc18da3106fd 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fb.c
-> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
-> @@ -584,12 +584,6 @@ static bool is_gen12_ccs_cc_plane(const struct drm_framebuffer *fb, int color_pl
->  	return intel_fb_rc_ccs_cc_plane(fb) == color_plane;
->  }
->  
-> -bool is_semiplanar_uv_plane(const struct drm_framebuffer *fb, int color_plane)
-> -{
-> -	return intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier) &&
-> -		color_plane == 1;
-> -}
-> -
->  bool is_surface_linear(const struct drm_framebuffer *fb, int color_plane)
->  {
->  	return fb->modifier == DRM_FORMAT_MOD_LINEAR ||
-> @@ -1019,11 +1013,7 @@ static int intel_fb_offset_to_xy(int *x, int *y,
->  	struct drm_i915_private *i915 = to_i915(fb->dev);
->  	unsigned int height, alignment, unused;
->  
-> -	if (DISPLAY_VER(i915) >= 12 &&
-> -	    !intel_fb_needs_pot_stride_remap(to_intel_framebuffer(fb)) &&
-> -	    is_semiplanar_uv_plane(fb, color_plane))
-> -		alignment = intel_tile_row_size(fb, color_plane);
-> -	else if (fb->modifier != DRM_FORMAT_MOD_LINEAR)
-> +	if (fb->modifier != DRM_FORMAT_MOD_LINEAR)
->  		alignment = intel_tile_size(i915);
->  	else
->  		alignment = 0;
-> diff --git a/drivers/gpu/drm/i915/display/intel_fb.h b/drivers/gpu/drm/i915/display/intel_fb.h
-> index 1b1fef2dc39a..6dee0c8b7f22 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fb.h
-> +++ b/drivers/gpu/drm/i915/display/intel_fb.h
-> @@ -34,7 +34,6 @@ bool intel_fb_is_ccs_modifier(u64 modifier);
->  bool intel_fb_is_rc_ccs_cc_modifier(u64 modifier);
->  bool intel_fb_is_mc_ccs_modifier(u64 modifier);
->  
-> -bool is_semiplanar_uv_plane(const struct drm_framebuffer *fb, int color_plane);
->  bool intel_fb_is_ccs_aux_plane(const struct drm_framebuffer *fb, int color_plane);
->  int intel_fb_rc_ccs_cc_plane(const struct drm_framebuffer *fb);
->  
-> diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> index ca7fc9fae990..476f5b7d9497 100644
-> --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> @@ -514,17 +514,6 @@ static u32 tgl_plane_min_alignment(struct intel_plane *plane,
->  	if (intel_fb_is_ccs_aux_plane(fb, color_plane))
->  		return mult * 4 * 1024;
->  
-> -	if (is_semiplanar_uv_plane(fb, color_plane)) {
-> -		/*
-> -		 * TODO: cross-check wrt. the bspec stride in bytes * 64 bytes
-> -		 * alignment for linear UV planes on all platforms.
-> -		 */
-> -		if (fb->modifier == DRM_FORMAT_MOD_LINEAR)
-> -			return 256 * 1024;
-> -
-> -		return intel_tile_row_size(fb, color_plane);
-> -	}
+Thanks,
 
-The above will also use the correct 2MB for DPT, which the previous
-patch should've kept already. Other than that looks ok:
+Bruno Rocha Levi (2):
+  drm/vkms: Fix misalignment in comment block
+  drivers/gpu: Fix misalignment in comment block
 
-Reviewed-by: Imre Deak <imre.deak@intel.com>
+ drivers/gpu/drm/amd/acp/include/acp_gfx_if.h | 2 +-
+ drivers/gpu/drm/vkms/vkms_drv.c              | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-> -
->  	switch (fb->modifier) {
->  	case DRM_FORMAT_MOD_LINEAR:
->  	case I915_FORMAT_MOD_X_TILED:
-> -- 
-> 2.43.2
-> 
+-- 
+2.45.1
+
