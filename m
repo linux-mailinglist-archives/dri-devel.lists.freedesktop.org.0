@@ -2,90 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0E78D1DC3
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 15:58:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6908D1DCA
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 16:00:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9DF810E824;
-	Tue, 28 May 2024 13:58:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0556C10EE6B;
+	Tue, 28 May 2024 14:00:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VMHF84Sz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hr2cb1JY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC3A10E622
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 13:58:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1716904721;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=54PHYlJ0PDEnDWhop/PaR+jnOIH2PsxLKNR7Lww/RKs=;
- b=VMHF84Szi7wSXjM9HU8RbBOhYLezt1AQtx5BkQ38lg+9tMI2fQJDpZ1faS/U8TqgKB35LY
- qbQbdgysOkeKafhStWvk8/qYtxNGrPy4Fw7jSI2Lil3pPLFC6B4oGjz4/uYY1kiSTQz9n9
- q+YXEGW4RINCI3HAkgfJZFUjwY/j55s=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-552-1y1SUi_hNGCwFgvXnkKapA-1; Tue, 28 May 2024 09:58:39 -0400
-X-MC-Unique: 1y1SUi_hNGCwFgvXnkKapA-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-a6266ffe72eso60736566b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 06:58:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716904718; x=1717509518;
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=54PHYlJ0PDEnDWhop/PaR+jnOIH2PsxLKNR7Lww/RKs=;
- b=kAhU+JcQVKqF4Wo+n7zmhhHeuSvvJlnJuYy/IhWZ4FnRnDBKvZdFsBxIkmHrsa+uFu
- WoBmOk7uaZ0M0e3i9/ITZ8NFRUk6wEjcpR3MLMPVr9lMTUHE6re3O0UKGizAQljdH5ry
- VNu/+2EPNsuv21gzoWacloGtsHFUaE5+v1dEUTSbqprqrLK6eLAFNAihssAnYMtBC3O4
- No13X/ljPhP2zfeG8fz7peR1Pl1Ov3zJWZ9Eu/Hr9Ko7M1R2+TT7T92WvfSq88mem4x4
- 3WYENbRACLOgK3963zoGf4ryMefuHZmFur/Fkze/uLeggKsI8a7YYQGR7G5e7kPG0sxz
- JYAQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV0yw3R8MMtjpi5yR0FZSO32/uqobM5APoulAO3sYNuq4GxXVmgOWcWZk3OjcTj7UOzWL0WiGXDSEIwK2o7fZI40WdhghqeAUAsvgrwaK7e
-X-Gm-Message-State: AOJu0Yw3gcEBS0PX9F7n+fp+K9FAIbrUKhJ1fjma0VzzTUKmIzfHgUcb
- cKRpmQHF4LOTwDzpyIuVK80a5ug0/TrhhfkNMpI7G4QaF3mDKguOFrd4F2RQbIeJwJ63UrIRkae
- qWcWodAWXVVa9aoSoVPPLSXQO8j0G389Gp/KcFSgvCXhn6af8jjEGB6x4v91PZmH7Zg==
-X-Received: by 2002:a17:906:bc42:b0:a62:3c94:3bd2 with SMTP id
- a640c23a62f3a-a6265011270mr904384666b.73.1716904718492; 
- Tue, 28 May 2024 06:58:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEQIR74emKom8ATw+snuAUy13d6llophtQiniGptcCuWj8oFnstnUM6NEvnixIbkTAxpA1/sA==
-X-Received: by 2002:a17:906:bc42:b0:a62:3c94:3bd2 with SMTP id
- a640c23a62f3a-a6265011270mr904382466b.73.1716904718020; 
- Tue, 28 May 2024 06:58:38 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f28:4600:d3a7:6c26:54cf:e01e?
- (p200300d82f284600d3a76c2654cfe01e.dip0.t-ipconnect.de.
- [2003:d8:2f28:4600:d3a7:6c26:54cf:e01e])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a626c818362sm617978566b.34.2024.05.28.06.58.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 May 2024 06:58:37 -0700 (PDT)
-Message-ID: <93ee4e04-bdc7-4ac6-b93b-b6cf1b3311af@redhat.com>
-Date: Tue, 28 May 2024 15:58:34 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33E0E1122E4;
+ Tue, 28 May 2024 14:00:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716904837; x=1748440837;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=wuwD9M3OnrW3S+ZzJk0mp/tDlv32D7qXk0sSujXymA0=;
+ b=hr2cb1JYCJl9yHQmkiYUisgf2AZmPhsCKP1gCrGcvwCaMgkUHs5YalV6
+ z8pM7lG1+xwrF7QRc1bumlk/dlq/bzsfgkbxHY5o/yax0+kIH+AZKlw0H
+ GTLBmffRmeQUXWTD4lGoPfnHn7BKgwnxiD3f5VboIhZufKsdm1+saT1Ar
+ InKz6fnH0NtiK7opbg5fIBfco1yQ58f1q214xY78Cm+PRbUynFobbnPbW
+ rlbiR8aTM5/YZd2vFZj6cRPlCVfuWfwllEyQ3Xm5Q/m6jtsbZeFU+ZVyE
+ 42O4GiMWP3W4mO3bpGeOZd9iddTnjOz0eUmDx2T6KC/vsXASK66kspLHK w==;
+X-CSE-ConnectionGUID: EoFD0fHXTn6YEftwJpWILA==
+X-CSE-MsgGUID: uqhmJ2eoSCexQFGlXTBxfg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13021713"
+X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; d="scan'208";a="13021713"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2024 07:00:36 -0700
+X-CSE-ConnectionGUID: orumg5ZrQfmT5LXl4BDupw==
+X-CSE-MsgGUID: IU7j43npSA2F7ZOilOgQ7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,195,1712646000"; d="scan'208";a="72507202"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2024 07:00:35 -0700
+Date: Tue, 28 May 2024 17:00:40 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 9/9] drm/i915: Nuke the TGL+ chroma plane tile row
+ alignment stuff
+Message-ID: <ZlXjiHRpcEa37hU9@ideak-desk.fi.intel.com>
+References: <20240513175942.12910-1-ville.syrjala@linux.intel.com>
+ <20240513175942.12910-10-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] udmabuf: add CONFIG_MMU dependency
-To: Arnd Bergmann <arnd@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Dave Airlie <airlied@redhat.com>, Vivek Kasireddy
- <vivek.kasireddy@intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-References: <20240528133138.2237237-1-arnd@kernel.org>
-From: David Hildenbrand <david@redhat.com>
-In-Reply-To: <20240528133138.2237237-1-arnd@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240513175942.12910-10-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,40 +67,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 28.05.24 um 15:31 schrieb Arnd Bergmann:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Mon, May 13, 2024 at 08:59:42PM +0300, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
-> There is no !CONFIG_MMU version of vmf_insert_pfn():
+> I don't think the display hardware really has such chroma
+> plane tile row alignment requirements as outlined in
+> commit d156135e6a54 ("drm/i915/tgl: Make sure a semiplanar
+> UV plane is tile row size aligned")
 > 
-> arm-linux-gnueabi-ld: drivers/dma-buf/udmabuf.o: in function `udmabuf_vm_fault':
-> udmabuf.c:(.text+0xaa): undefined reference to `vmf_insert_pfn'
+> Bspec had the same exact thing to say about earlier hardware
+> as well, but we never cared and things work just fine.
 > 
-> Fixes: f7254e043ff1 ("udmabuf: use vmf_insert_pfn and VM_PFNMAP for handling mmap")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> The one thing mentioned in that commit that is definitely
+> true however is the fence alignment issue. But we don't
+> deal with that on earlier hardware either. We do have code
+> to deal with that issue for the first color plane, but not
+> the chroma planes. So I think if we did want to check this
+> more extensively we should do it in the same places where
+> we already check the first color plane (namely
+> convert_plane_offset_to_xy() and intel_fb_bo_framebuffer_init()).
+
+Imo a correct alignment should be required to help users figure out why
+a given config doesn't work (even if an incorrect alignment doesn't
+cause other HW issues). But agreed that it should be the same then for
+all platforms, so ok to remove it in its current form.
+
+> 
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > ---
->   drivers/dma-buf/Kconfig | 1 +
->   1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/i915/display/intel_fb.c            | 12 +-----------
+>  drivers/gpu/drm/i915/display/intel_fb.h            |  1 -
+>  drivers/gpu/drm/i915/display/skl_universal_plane.c | 11 -----------
+>  3 files changed, 1 insertion(+), 23 deletions(-)
 > 
-> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-> index e4dc53a36428..b46eb8a552d7 100644
-> --- a/drivers/dma-buf/Kconfig
-> +++ b/drivers/dma-buf/Kconfig
-> @@ -35,6 +35,7 @@ config UDMABUF
->   	default n
->   	depends on DMA_SHARED_BUFFER
->   	depends on MEMFD_CREATE || COMPILE_TEST
-> +	depends on MMU
->   	help
->   	  A driver to let userspace turn memfd regions into dma-bufs.
->   	  Qemu can use this to create host dmabufs for guest framebuffers.
+> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
+> index c80f866f3fb6..fc18da3106fd 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fb.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
+> @@ -584,12 +584,6 @@ static bool is_gen12_ccs_cc_plane(const struct drm_framebuffer *fb, int color_pl
+>  	return intel_fb_rc_ccs_cc_plane(fb) == color_plane;
+>  }
+>  
+> -bool is_semiplanar_uv_plane(const struct drm_framebuffer *fb, int color_plane)
+> -{
+> -	return intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier) &&
+> -		color_plane == 1;
+> -}
+> -
+>  bool is_surface_linear(const struct drm_framebuffer *fb, int color_plane)
+>  {
+>  	return fb->modifier == DRM_FORMAT_MOD_LINEAR ||
+> @@ -1019,11 +1013,7 @@ static int intel_fb_offset_to_xy(int *x, int *y,
+>  	struct drm_i915_private *i915 = to_i915(fb->dev);
+>  	unsigned int height, alignment, unused;
+>  
+> -	if (DISPLAY_VER(i915) >= 12 &&
+> -	    !intel_fb_needs_pot_stride_remap(to_intel_framebuffer(fb)) &&
+> -	    is_semiplanar_uv_plane(fb, color_plane))
+> -		alignment = intel_tile_row_size(fb, color_plane);
+> -	else if (fb->modifier != DRM_FORMAT_MOD_LINEAR)
+> +	if (fb->modifier != DRM_FORMAT_MOD_LINEAR)
+>  		alignment = intel_tile_size(i915);
+>  	else
+>  		alignment = 0;
+> diff --git a/drivers/gpu/drm/i915/display/intel_fb.h b/drivers/gpu/drm/i915/display/intel_fb.h
+> index 1b1fef2dc39a..6dee0c8b7f22 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fb.h
+> +++ b/drivers/gpu/drm/i915/display/intel_fb.h
+> @@ -34,7 +34,6 @@ bool intel_fb_is_ccs_modifier(u64 modifier);
+>  bool intel_fb_is_rc_ccs_cc_modifier(u64 modifier);
+>  bool intel_fb_is_mc_ccs_modifier(u64 modifier);
+>  
+> -bool is_semiplanar_uv_plane(const struct drm_framebuffer *fb, int color_plane);
+>  bool intel_fb_is_ccs_aux_plane(const struct drm_framebuffer *fb, int color_plane);
+>  int intel_fb_rc_ccs_cc_plane(const struct drm_framebuffer *fb);
+>  
+> diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> index ca7fc9fae990..476f5b7d9497 100644
+> --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> @@ -514,17 +514,6 @@ static u32 tgl_plane_min_alignment(struct intel_plane *plane,
+>  	if (intel_fb_is_ccs_aux_plane(fb, color_plane))
+>  		return mult * 4 * 1024;
+>  
+> -	if (is_semiplanar_uv_plane(fb, color_plane)) {
+> -		/*
+> -		 * TODO: cross-check wrt. the bspec stride in bytes * 64 bytes
+> -		 * alignment for linear UV planes on all platforms.
+> -		 */
+> -		if (fb->modifier == DRM_FORMAT_MOD_LINEAR)
+> -			return 256 * 1024;
+> -
+> -		return intel_tile_row_size(fb, color_plane);
+> -	}
 
-Acked-by: David Hildenbrand <david@redhat.com>
+The above will also use the correct 2MB for DPT, which the previous
+patch should've kept already. Other than that looks ok:
 
--- 
-Thanks,
+Reviewed-by: Imre Deak <imre.deak@intel.com>
 
-David / dhildenb
-
+> -
+>  	switch (fb->modifier) {
+>  	case DRM_FORMAT_MOD_LINEAR:
+>  	case I915_FORMAT_MOD_X_TILED:
+> -- 
+> 2.43.2
+> 
