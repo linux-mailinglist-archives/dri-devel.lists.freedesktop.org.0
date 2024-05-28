@@ -2,80 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C58BE8D217F
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 18:20:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC028D21A0
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2024 18:28:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6B1A89B30;
-	Tue, 28 May 2024 16:20:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2296A10E3A1;
+	Tue, 28 May 2024 16:28:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="YbkTLRxu";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="XK1WuSga";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D6E689B30
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 16:20:04 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-6f8e98760fcso795608b3a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 09:20:04 -0700 (PDT)
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com
+ [209.85.167.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC50D10E3A1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 16:28:03 +0000 (UTC)
+Received: by mail-oi1-f179.google.com with SMTP id
+ 5614622812f47-3c9cc681ee4so499201b6e.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 09:28:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1716913203; x=1717518003;
+ d=chromium.org; s=google; t=1716913682; x=1717518482;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WwozNjHzia8oslBT34REru3KdIh80yY+OvMr8Rvverc=;
- b=YbkTLRxurm9lSHcExspBEAK3Fb7X/HPELvP74Kn9EPiaDJT4JaKI8jwejLqBH8G4Lz
- 61yHqrMbvHLGh9b9fBO6YuuLsJMTo0pXcCysZUVk931d+pvKgtReZAf/xUszKmR7dR9D
- g852RYuAnrGTLBLZVNGXnZ7uxeeAQhK9KtdIw=
+ bh=t74W54+/Ll0YLi8c76pQC7uwzEIjWDtBfp3CisuTzmI=;
+ b=XK1WuSgaoMYI23bjZ5cVoakUwjH5tG6W2tskJV6+w/7B0cBbc12UrjUUGHS2e1AtjG
+ yJhnz7ExVt+OQRLxEtiRjUO1dC7MYtZ3icDOt7lPAHonvyFUJ1lm70AoUMLH487AiZjK
+ 4+kBWHd7PWGnKrUm+zRyLnHcZ/Kis6acu4MqA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716913203; x=1717518003;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1716913682; x=1717518482;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WwozNjHzia8oslBT34REru3KdIh80yY+OvMr8Rvverc=;
- b=giXq3UqlbKamh7pdFxbhWeCv+L69uvk+KqU/HPrPHfkup9+q4PO8TrEPC/HdqQTVXw
- ekc6LJaQ9XdCqZ8e7T8864K4mKSq9UCHp0WzWZCOufXCqjB6hQvceGryi7yJJPnmbMrH
- 3c8M5XOUfu+xCh08btybbqH/6Bn0Agd8RnFL3RWDFzd5ncsAs8D7T9Rqt7AHgviwTNgG
- s0jzBsaWYP+RMx/J4ddKgnCLjTz0wzrql9iUEMvAiPi6zHj4GUABwu2dhE/8GxuB62pV
- BmboV96Ej8NvOtvsx178fxRH/i+5vfcttUTW275xD+SUdw54+BzFFN25RB1VWpgiBqR6
- aMIA==
+ bh=t74W54+/Ll0YLi8c76pQC7uwzEIjWDtBfp3CisuTzmI=;
+ b=LKQAjOtFRgkrc/7dSjmdQM4KrwZRpRKc/m6SPmp1qUuB03mYs3ns7tmJfCpTrNFoIs
+ xHia5QrtwK4SOqEMDnAFmEaPZryFp83rMCPeYJvf3OSqAr4Fr6WleLIVbf6ADyVY5sol
+ fNa8HMyvD7TubQDQfPf5dJEs6H6kX9cB592SvdS/FJ/TVEpfLcHaiuHOBGWrHJQBdLsb
+ H1KIRzIYottZm6/c0Mt3TQGq9jtlfKZSSdHTvhr61YfQUY4OP7uUffy8lnOUxN4Kw0Gh
+ HR0MQv4s0K2IXUKH4nq7hLqjgl1VuyY0yT51HuCv64JMOnBEdzFatMtqy8/D+oKrJRJr
+ YY2g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWQAJr3PeNI0YENPZlhKiCyBtjWlNhYRFLZKrgxj4V5+EDeQKATeERQcsTTSu/oAEFs8OoMGypiET0J1pbryrd9t2Vf3h9mJ5c3v3zExlmh
-X-Gm-Message-State: AOJu0YwbE/+5ukHKv/rTqov+vOllFOSIZ9GkQWxVausBj+bE8IfTbLEM
- 6YoB/AMXSBAWcWFDsWsrDHUn+g0/ln1B5ptYBW1qwe/zCqQrdPb3gZXl2a3p/g==
-X-Google-Smtp-Source: AGHT+IG8rDpNehph5P7FZF3+M+WL7sxADGSNYgbXmeSk+9wKTNEhBfeV+JPxzH7+f7NbZBvjBsjVHA==
-X-Received: by 2002:a05:6a00:4405:b0:6f8:e998:3c5c with SMTP id
- d2e1a72fcca58-6f8f4192fd7mr19286701b3a.34.1716913203651; 
- Tue, 28 May 2024 09:20:03 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com
- ([2620:15c:9d:2:8d59:feec:9939:40d7])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-6822092a678sm6473780a12.11.2024.05.28.09.20.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 May 2024 09:20:02 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Maxime Ripard <mripard@kernel.org>, 
- Ankit Nautiyal <ankit.k.nautiyal@intel.com>, 
- Imre Deak <imre.deak@intel.com>, Jani Nikula <jani.nikula@intel.com>, 
- Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- MarileneGarcia <marilene.agarcia@gmail.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240519031027.433751-1-marilene.agarcia@gmail.com>
-References: <20240519031027.433751-1-marilene.agarcia@gmail.com>
-Subject: Re: [PATCH] drm/dp: Fix documentation warning
-Message-Id: <171691320208.2507294.7545188870163730565.b4-ty@chromium.org>
-Date: Tue, 28 May 2024 09:20:02 -0700
+ AJvYcCUMmzh02FBe844kZeg9noWf0qBr3HeXwxDiLuL65lPUtJ9zDS6/HD6oZA40TZlTLmsZZ3kpT6/t2a3WyxmdGe4BxrYyWQ/dJeVuFu3HEfBc
+X-Gm-Message-State: AOJu0YyuK81B7hSADwL/jQuaCx96lWAaeXV5SWNfYC98AlkIzSSW5yBD
+ /qsdAGYHu56hQCG/OWnUZe9ncDjnfyBVuax90FCXYbABHgnKQPWj0dvCAj68b3TMQj5/1vSwNBw
+ =
+X-Google-Smtp-Source: AGHT+IEnc7KG/Gc3a8mPS72Tmcekd2RoS1lwM+9fZQE9UwkC3L8AqueJKKo2m6wrNWfeP1Ov0maT2w==
+X-Received: by 2002:aca:2407:0:b0:3d1:d217:91f9 with SMTP id
+ 5614622812f47-3d1d2179259mr1560302b6e.13.1716913681874; 
+ Tue, 28 May 2024 09:28:01 -0700 (PDT)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com.
+ [209.85.160.169]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6ad79daf087sm25947826d6.135.2024.05.28.09.28.00
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 May 2024 09:28:01 -0700 (PDT)
+Received: by mail-qt1-f169.google.com with SMTP id
+ d75a77b69052e-43e14f0bd75so857351cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 09:28:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW3KHip/kVGYq+kJ6wVRjo2hBlnZBtHlShjrtt0WfuGLINibEfO8K2hiiTUuYib5YluhnSJZqDYOG2UHvBnUYlcZKVRNnk+Ad83NbWMjCRP
+X-Received: by 2002:a05:622a:1ccb:b0:43d:85ae:bee with SMTP id
+ d75a77b69052e-43fbb0588e9mr7721931cf.7.1716913679727; Tue, 28 May 2024
+ 09:27:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+References: <20240422060811.670693-1-xuxinxiong@huaqin.corp-partner.google.com>
+ <CAD=FV=WRLLuOkCJeM6RdAb6xLN-cPH+hfWbOv9-LujB-WMGEFw@mail.gmail.com>
+ <CAGoogDB-mj8_xu04w3V2ZxOBTWoXcPKrVR1NRt6BFcpjHX3-7Q@mail.gmail.com>
+ <CAD=FV=WwsR9e-ZXJRY11FvdUZ66YPy9vqmY_=sGDw5Wqk1eV3w@mail.gmail.com>
+ <CAGoogDBCzfKwkAA-VAs3_Cdw_4oFO94mt7yjy47Sp2RAtqtPxA@mail.gmail.com>
+ <CAD=FV=WYiD-BUpksBnZrkWvORepZqtaAvm5645X-_oJPea0s0w@mail.gmail.com>
+In-Reply-To: <CAD=FV=WYiD-BUpksBnZrkWvORepZqtaAvm5645X-_oJPea0s0w@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 28 May 2024 09:27:43 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WMC0XZBc3UKP+Qzb5aeiWBnXrYDf31PNP5cGeAT-8XcA@mail.gmail.com>
+Message-ID: <CAD=FV=WMC0XZBc3UKP+Qzb5aeiWBnXrYDf31PNP5cGeAT-8XcA@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add panel CSOT MNB601LS1-1
+To: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
+Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
+ hsinyi@google.com, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,23 +98,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On Sun, 19 May 2024 00:10:27 -0300, MarileneGarcia wrote:
-> It fixes the following warnings when
-> the kernel documentation is generated:
-> 
-> ./include/drm/display/drm_dp_helper.h:126:
-> warning: Function parameter or struct member
-> 'mode' not described in 'drm_dp_as_sdp'
-> 
-> [...]
+On Mon, May 6, 2024 at 8:54=E2=80=AFAM Doug Anderson <dianders@chromium.org=
+> wrote:
+>
+> Hi,
+>
+> On Tue, Apr 23, 2024 at 6:55=E2=80=AFPM Xuxin Xiong
+> <xuxinxiong@huaqin.corp-partner.google.com> wrote:
+> >
+> > Hi Doug, thank you!
+> > We had reported this info to the CSOT to correct the vendor id.
+> > If they confirm to fix this with the same product ID, we will submit a
+> > patch to fix this.
+>
+> FYI, "top posting" like this is generally frowned upon on kernel
+> mailing lists. One such reference about this is [1]. Some folks are
+> very passionate about this topic, so please keep it in mind to avoid
+> upsetting people in the community.
+>
+> In any case: did you get any response from CSOT about the improper EDID?
 
-Applied, thanks!
+Just following up here. Was there any response from CSOT?
 
-[1/1] drm/dp: Fix documentation warning
-      commit: c7ce956bb6d0f32ab921b6ffba1a6a834df96f21
-
-Best regards,
--- 
-Douglas Anderson <dianders@chromium.org>
-
+-Doug
