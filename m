@@ -2,73 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45DD8D308C
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:15:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 589568D30EE
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:21:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B75DB10E2E7;
-	Wed, 29 May 2024 08:15:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E466D10E0B5;
+	Wed, 29 May 2024 08:21:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="QZHNzQzw";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="X0yjbkyS";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cSpQdxVf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43F3B10E2E7
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:15:27 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28DCC10E0B5
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:21:06 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-2e968e77515so21666061fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 01:21:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1716970528; x=1748506528;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=qPzqmbhWrWgXeytPFFr8ZnaAVt6ESUekqElZje8ecik=;
- b=QZHNzQzwm0qFrgoOLEhkcQQQnO3iq43VNmwZPxRobkA+yNMCi+Md0Azp
- PIumymSHTTYCkDSOVvK8iA21E2GcCqh7Q2R2UqdM5mJs07BBKcOFZUYHd
- Z254ZiloN8tUMLS/k+JVdbMx3yeYCBmteUnLkR9Tm/99St8P94i/bVctq
- sKTNCr3bNnl8t/jODl66dZYiHdkm4yfzbuZfiSsaAcr0pATl55tOWiMWu
- wBltK/Dbzzagp7yoA/gm48i54s+4/vT1xavXxByM5BP8VfgaG7HTxsPfI
- FUHjMAhCYNGXlIpU7JZVy9y+B4yikt3y6Nxli+x70clvnrBe7IE/aYDW+ Q==;
-X-CSE-ConnectionGUID: peETRQxgQGeJmBnaAiv4Qw==
-X-CSE-MsgGUID: BGCkLORMQzqJRAr6qC55Sg==
-X-IronPort-AV: E=Sophos;i="6.08,197,1712613600"; d="scan'208";a="37120964"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 29 May 2024 10:15:26 +0200
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 428F516564F; Wed, 29 May 2024 10:15:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1716970522;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=qPzqmbhWrWgXeytPFFr8ZnaAVt6ESUekqElZje8ecik=;
- b=X0yjbkySyuGTbdlhNBO93Jh68pO3BA/mg1Zd40iUSbpOU95OxQ52P5PGEqzn1uViTP7tbV
- iI62wxWbD0xc/OKGyawp1b6dojDbnY8akxQlxY9e9l8JkWzE3k8w9yJmXsbEuVLi3mJy1Z
- JWLzPP+GEyTf1xbuixIphwW1jshgmDGJbhsM26wmH70SZ73nvIg5vrj5VBP1ZF6LGgAhaq
- k1Z+w27V+CgqhxshxYlgoiDkKrmpmW0XUdSUFjJhKyEs0PHT1Ko4d+UnBTvf5+kOrl05eD
- LiJ5XSthmZoI6noWYj4kLdu/pdMTUiWfawdrHwOFq4NddGxNyi62if1v7I6qCA==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Liu Ying <victor.liu@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] drm/bridge: imx93-mipi-dsi: Use dev_err_probe
-Date: Wed, 29 May 2024 10:15:18 +0200
-Message-ID: <6130653.lOV4Wx5bFT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <091f1d5c-0bff-4dcb-b823-b82989eac628@nxp.com>
-References: <20240529065400.461633-1-alexander.stein@ew.tq-group.com>
- <091f1d5c-0bff-4dcb-b823-b82989eac628@nxp.com>
+ d=linaro.org; s=google; t=1716970864; x=1717575664; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=NlPH0P994GSLr65I7MtbS6ikre4n5vkaipn9KH2517g=;
+ b=cSpQdxVfLGZ/DjfXkAcy67dOGaqnzbmWGEsVN3Op9ci47ayKFXx8dEhP8IGxzkzooK
+ vzrUFy/UI1vXqs8o2NvIbtdOzRDWklLyLeMnW+1zjiXHBP85sWAVUq02RFGw1TwFUin+
+ M1Y5tzI56EzlkE42MwsXVJLbRXrpICp2yEUQChibUW8qrxJoWV3dRSotw8RYISRS5YCH
+ U9aYVCFZ3ArCs2D/SiBFLpsm39UCw3Z4usfPXoNWQa0+8wRyC/aRcSLkrW5wAukKQNsa
+ 2WFGUWqFuWq46EBl7ULQ97VsF2l+anNPz9890DTH7K0Ljhj9nVvWad10tlP/pdWWLQxe
+ 1EJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716970864; x=1717575664;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NlPH0P994GSLr65I7MtbS6ikre4n5vkaipn9KH2517g=;
+ b=gSjc6JGX7Z8AN4pmk601mY6E4FxShOpiMvZLuSe+hYUsNjANe1CQc9i8Jy5lg5WUuR
+ hU7K4QankLNYy9t+5dOUjCOeHslPHLeUOFK9mQOE8sKWDNPYRi9AvkNjA0ISDGY1eDuR
+ na3ePXheDHTTy7VZxQtF7hilOjgG/6VBPjsYCkD3W6mw5Q+MZy1T7O7WX6sZS/7g1Z44
+ df1uJONqT69kYATCAdOXJmkaEuzS5Jz47dY1Q9E1yYIByukVmxCxA2SH00f9AijsQL8w
+ 0+xBQSCw0AS7DBi9kZYZCIvvveusZSYits0KA1OetPqybsG9w2bpe7We1JxWlr5Gu9hz
+ 3+kQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU1/Y5ENjvi38BCN8BqVQDjSSOVpjXF4XJTPfnjxWRufDIMsk9XV43a4qmENPFq1fohriQUa56MR428Dl4Sft7qmWTaCg0Qw7l2aphfwURs
+X-Gm-Message-State: AOJu0Yx9Hlt2SXv3+U0eO6EVwcCYy5+uq7wW5CJ6U4NfFYTkw5rqlRe2
+ I+ykK5ppOwEK/hDLQFkOb7314haOg386iPOrrX+VGfP0iApolNAtUmYx0gNjVlI=
+X-Google-Smtp-Source: AGHT+IGHFRFnp+MyYG+YuWo3CGNhxr5zVQkELmm+9aSx5PbZeqdQ7lHk7UJdLwxeRsOL0b9TVbrimQ==
+X-Received: by 2002:a2e:99c2:0:b0:2df:e0c4:8429 with SMTP id
+ 38308e7fff4ca-2e95b0c22abmr100784511fa.18.1716970864023; 
+ Wed, 29 May 2024 01:21:04 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2e95bcc48c8sm25085331fa.14.2024.05.29.01.21.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 May 2024 01:21:03 -0700 (PDT)
+Date: Wed, 29 May 2024 11:21:02 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Kevin Tian <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Kalle Valo <kvalo@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, 
+ Alex Williamson <alex.williamson@redhat.com>, mst@redhat.com,
+ Jason Wang <jasowang@redhat.com>, 
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, iommu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 06/20] drm/msm: Use iommu_paging_domain_alloc()
+Message-ID: <jd7df7jshswukstxwbfoxuswyltyemdmkx272i5mpldlfsk4t7@ad36olyvmw27>
+References: <20240529053250.91284-1-baolu.lu@linux.intel.com>
+ <20240529053250.91284-7-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240529053250.91284-7-baolu.lu@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,91 +95,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, May 29, 2024 at 01:32:36PM +0800, Lu Baolu wrote:
+> The domain allocated in msm_iommu_new() is for the @dev. Replace
+> iommu_domain_alloc() with iommu_paging_domain_alloc() to make it explicit.
+> 
+> Update msm_iommu_new() to always return ERR_PTR in failure cases instead
+> of NULL.
 
-Am Mittwoch, 29. Mai 2024, 09:50:24 CEST schrieb Liu Ying:
-> On 05/29/2024, Alexander Stein wrote:
-> > Although very unlike to occur (media_blk_ctrl needs 'syscon' compatible
-> > removed), it lines up with the other error paths in probe function.
->=20
-> Why media_blk_ctrl needs 'syscon' compatible removed?
+Please don't mix unrelated changes, because ...
 
-No, it does not. As media_blk_ctrl is also used as power-domain the device
-will not even be probed if media_blk_ctrl is not available.
-I just mentioned it under which conditions this error path could happen.
+> 
+> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+> ---
+>  drivers/gpu/drm/msm/msm_iommu.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
+> index d5512037c38b..f7e28d4b5f62 100644
+> --- a/drivers/gpu/drm/msm/msm_iommu.c
+> +++ b/drivers/gpu/drm/msm/msm_iommu.c
+> @@ -407,9 +407,9 @@ struct msm_mmu *msm_iommu_new(struct device *dev, unsigned long quirks)
+>  	struct msm_iommu *iommu;
+>  	int ret;
+>  
+> -	domain = iommu_domain_alloc(dev->bus);
+> -	if (!domain)
+> -		return NULL;
+> +	domain = iommu_paging_domain_alloc(dev);
+> +	if (IS_ERR(domain))
+> +		return ERR_CAST(domain);
+>  
+>  	iommu_set_pgtable_quirks(domain, quirks);
+>  
+> @@ -441,7 +441,7 @@ struct msm_mmu *msm_iommu_gpu_new(struct device *dev, struct msm_gpu *gpu, unsig
+>  	struct msm_mmu *mmu;
+>  
+>  	mmu = msm_iommu_new(dev, quirks);
+> -	if (IS_ERR_OR_NULL(mmu))
+> +	if (IS_ERR(mmu))
+>  		return mmu;
 
-Best regards,
-Alexander
+NAK, not having an IOMMU is a poor but legit usecase for some of devices
+which don't have IOMMU support yet (for example because of the buggy
+implementation for which we were not able to get all the hooks in).
 
-> device_node_get_regmap may return error pointer other than
-> ERR_PTR(-EPROBE_DEFER), like ERR_PTR(-ENOMEM).
->=20
-> struct regmap *syscon_node_to_regmap(struct device_node *np)             =
-       =20
-> {                                                                        =
-       =20
->         if (!of_device_is_compatible(np, "syscon"))                      =
-       =20
->                 return ERR_PTR(-EINVAL);                                 =
-       =20
->                                                                          =
-       =20
->         return device_node_get_regmap(np, true);                         =
-       =20
-> }                                                                        =
-       =20
-> EXPORT_SYMBOL_GPL(syscon_node_to_regmap);
->=20
-> Regard,
-> Liu Ying
->=20
-> >=20
-> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > ---
-> > Changes in v2:
-> > * Removed unused variable
-> > * Added missing \n at end of string
-> >=20
-> >  drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c | 9 +++------
-> >  1 file changed, 3 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c b/drivers/gpu/=
-drm/bridge/imx/imx93-mipi-dsi.c
-> > index 2347f8dd632f9..13025f47f3902 100644
-> > --- a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-> > +++ b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-> > @@ -834,18 +834,15 @@ static int imx93_dsi_probe(struct platform_device=
- *pdev)
-> >  	struct device *dev =3D &pdev->dev;
-> >  	struct device_node *np =3D dev->of_node;
-> >  	struct imx93_dsi *dsi;
-> > -	int ret;
-> > =20
-> >  	dsi =3D devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
-> >  	if (!dsi)
-> >  		return -ENOMEM;
-> > =20
-> >  	dsi->regmap =3D syscon_regmap_lookup_by_phandle(np, "fsl,media-blk-ct=
-rl");
-> > -	if (IS_ERR(dsi->regmap)) {
-> > -		ret =3D PTR_ERR(dsi->regmap);
-> > -		dev_err(dev, "failed to get block ctrl regmap: %d\n", ret);
-> > -		return ret;
-> > -	}
-> > +	if (IS_ERR(dsi->regmap))
-> > +		return dev_err_probe(dev, PTR_ERR(dsi->regmap),
-> > +				     "failed to get block ctrl regmap\n");
-> > =20
-> >  	dsi->clk_pixel =3D devm_clk_get(dev, "pix");
-> >  	if (IS_ERR(dsi->clk_pixel))
->=20
->=20
+Please don't break compatibility for existing platforms.
 
+>  
+>  	iommu = to_msm_iommu(mmu);
+> -- 
+> 2.34.1
+> 
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+-- 
+With best wishes
+Dmitry
