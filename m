@@ -2,65 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A7778D4113
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 00:06:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 775548D4198
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 00:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8193A10F6BB;
-	Wed, 29 May 2024 22:06:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19F8710F74B;
+	Wed, 29 May 2024 22:58:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="amwE75pg";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="jPjYbR+K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9938210F007
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 22:06:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- sang-engineering.com; h=date:from:to:cc:subject:message-id
- :references:mime-version:content-type:in-reply-to; s=k1; bh=gqku
- +zLIpBCbEoUm2t9b4G4s51CT4cKXq/2L2o+D2Qg=; b=amwE75pgV5dK+4xFnPqo
- DyDtcsml9QX3OQIqAcBMzxdsM7JT9ENaCeu9m8uDlo/IqI+1/L8UL2GZtO/+wTMa
- 1ocT/UUAYAdYP7eu7cHOpMbba8tznOdPTUWXkH3ed+bfSYKpEyTbyYS4zOuazQxQ
- Eh6ZPXh9FSt3dq+L/Ke6awVZt95S9hLnsoqiyLrAujdBeek8gWD6g9Uq6G1NQQO0
- bjyEqY5GdORi2p2OTgUb0kBJwdWjmuGV45y7EFH8sT2uSAfFX9h+hL+B41SutjiN
- 0pSWM3LT+tkthnpuUpeYnRbOCDYAm+i1aOyKzPYGqOBqqR4s5QxJgUD5LwpPKXAL
- 0Q==
-Received: (qmail 701441 invoked from network); 30 May 2024 00:06:33 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
- authenticated); 30 May 2024 00:06:33 +0200
-X-UD-Smtp-Session: l3s3148p1@Ddue9p4Z5olehhYM
-Date: Thu, 30 May 2024 00:06:33 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>, Evan Quan <evan.quan@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>, 
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:AMD KFD" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/amd/pm: remove deprecated I2C_CLASS_SPD support from
- newly added SMU_14_0_2
-Message-ID: <u7nhecqpzwxlwdygbbdza7savhjiy4y4ogvnv63gk6ywfqf4ju@negufshp53rs>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- Alex Deucher <alexdeucher@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
- Evan Quan <evan.quan@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>, 
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:AMD KFD" <dri-devel@lists.freedesktop.org>
-References: <ed236ed6-0e6d-4243-8316-28485c9797c0@gmail.com>
- <CADnq5_O6YMr2EK3J+NnnfycLpq321PTwgt2-NNE0X82Jq+DC=A@mail.gmail.com>
- <x7p5tf6tdgyflv4niimtvjc3hwovj72bo54a6dkmk3uxy4qvc6@2i2atfyfvgsv>
- <CADnq5_M=sd_spEFnboWECMU2t4--y0XF-CcMAL8e_49Zt4dTig@mail.gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E389910F67A;
+ Wed, 29 May 2024 22:57:51 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44TMuvRA016844;
+ Wed, 29 May 2024 22:57:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ MMJs3co4mvSkL4XZ0cNe7QgiSUAwcWuDvZTL61W3bNY=; b=jPjYbR+KObqoOIv6
+ 7oQUKSi5oSQwVcfsrKcq1k3/SNO8nKru98PUPk7kP+ljnEk8qHGwplWJmOnzwhLh
+ JOdL3HWAXP0twqn1EpfNxNn0U09L8IF1h8lY9HEB0mL7jQ2LKA3Eik8Rg8NY9+E/
+ kSXQPSoU/JYxisQidLaFlQ6CEve4D72FnvVPR2dSumsLcEVtXsE3tf4aZhyYhBS7
+ bl+psx7i/y19a+V5UxepOY1Ppyb806J9LAmvy0V88M3qf4WDJuwfs2JawzMSJT5l
+ UYJc5VxJpxDr1U8bjA27Wlzad56J/DACornuWwb/peJB2yPBC04dd0JM6EUTx9uH
+ mCzdlA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yba0ptc58-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 May 2024 22:57:43 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44TMvgrB006929
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 May 2024 22:57:42 GMT
+Received: from [10.71.110.249] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 29 May
+ 2024 15:57:36 -0700
+Message-ID: <d1a9be5d-b0a0-73bc-c66f-6d45049fbaf1@quicinc.com>
+Date: Wed, 29 May 2024 15:57:35 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="jxe733gkonoiyxnn"
-Content-Disposition: inline
-In-Reply-To: <CADnq5_M=sd_spEFnboWECMU2t4--y0XF-CcMAL8e_49Zt4dTig@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/7] dt-bindings: display/msm/dsi: allow specifying TE
+ source
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
+References: <20240520-dpu-handle-te-signal-v1-0-f273b42a089c@linaro.org>
+ <20240520-dpu-handle-te-signal-v1-1-f273b42a089c@linaro.org>
+ <224fa477-07ba-e7b2-2f7d-8f7d21f4a0c7@quicinc.com>
+ <CAA8EJpp8kRPKboHNHwD+R5f1AcndjaQdGG=Q4ygmRE9VMNievQ@mail.gmail.com>
+ <5cde2f43-89ab-d2d4-d68e-605f8f5d1da7@quicinc.com>
+ <CAA8EJpoMtr6OGjL8qq-cHadQSOVyDAaL8=2TLvOjBbYV2Z7+Mg@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJpoMtr6OGjL8qq-cHadQSOVyDAaL8=2TLvOjBbYV2Z7+Mg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: jC9m0TZ3p9B7s5YTbJuMUWSKFQnJGUWq
+X-Proofpoint-GUID: jC9m0TZ3p9B7s5YTbJuMUWSKFQnJGUWq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-29_16,2024-05-28_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 bulkscore=0
+ suspectscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501
+ mlxscore=0 spamscore=0 adultscore=0 phishscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2405290164
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,38 +106,149 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---jxe733gkonoiyxnn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
+On 5/23/2024 2:58 AM, Dmitry Baryshkov wrote:
+> On Thu, 23 May 2024 at 02:57, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 5/22/2024 1:05 PM, Dmitry Baryshkov wrote:
+>>> On Wed, 22 May 2024 at 21:38, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>>>
+>>>>
+>>>>
+>>>> On 5/20/2024 5:12 AM, Dmitry Baryshkov wrote:
+>>>>> Command mode panels provide TE signal back to the DSI host to signal
+>>>>> that the frame display has completed and update of the image will not
+>>>>> cause tearing. Usually it is connected to the first GPIO with the
+>>>>> mdp_vsync function, which is the default. In such case the property can
+>>>>> be skipped.
+>>>>>
+>>>>
+>>>> This is a good addition overall. Some comments below.
+>>>>
+>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>> ---
+>>>>>     .../bindings/display/msm/dsi-controller-main.yaml        | 16 ++++++++++++++++
+>>>>>     1 file changed, 16 insertions(+)
+>>>>>
+>>>>> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+>>>>> index 1fa28e976559..c1771c69b247 100644
+>>>>> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+>>>>> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+>>>>> @@ -162,6 +162,21 @@ properties:
+>>>>>                     items:
+>>>>>                       enum: [ 0, 1, 2, 3 ]
+>>>>>
+>>>>> +              qcom,te-source:
+>>>>> +                $ref: /schemas/types.yaml#/definitions/string
+>>>>> +                description:
+>>>>> +                  Specifies the source of vsync signal from the panel used for
+>>>>> +                  tearing elimination. The default is mdp_gpio0.
+>>>>
+>>>> panel --> command mode panel?
+>>>>
+>>>>> +                enum:
+>>>>> +                  - mdp_gpio0
+>>>>> +                  - mdp_gpio1
+>>>>> +                  - mdp_gpio2
+>>>>
+>>>> are gpio0, gpio1 and gpio2 referring to the vsync_p, vsync_s and vsync_e
+>>>> sources?
+>>>
+>>> No idea, unfortunately. They are gpioN or just mdp_vsync all over the
+>>> place. For the reference, in case of the SDM845 and Pixel3 the signal
+>>> is routed through SoC GPIO12.
+>>>
+>>
+>> GPIO12 on sdm845 is mdp_vsync_e.
+>>
+>> Thats why I think its better we use mdp_vsync_p/s/e instead of mdp_gpio0/1/2
+> 
+> Sure. This matches pins description. Are you fine with changing
+> defines in DPU driver to VSYNC_P / _S / _E too ?
+> 
 
-> > remove I2C_CLASS_SPD without further dependencies? If you prefer to push
-> > it through your tree, can you send it to Linus soon?
->=20
-> Yes, I'll include the patch in my PR for this week.
+Sorry for the delay in responding.
 
-Awesome, thank you!
+As per the software docs, the registers still use GPIO0/1/2.
 
+Only the pin descriptions use vsync_p/s/e.
 
---jxe733gkonoiyxnn
-Content-Type: application/pgp-signature; name="signature.asc"
+Hence I think we can make DPU driver to use 0/1/2.
 
------BEGIN PGP SIGNATURE-----
+>>
+>>>> In that case wouldnt it be better to name it like that?
+>>>>
+>>>>> +                  - timer0
+>>>>> +                  - timer1
+>>>>> +                  - timer2
+>>>>> +                  - timer3
+>>>>> +                  - timer4
+>>>>> +
+>>>>
+>>>> These are indicating watchdog timer sources right?
+>>>
+>>> Yes.
+>>>
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZXpukACgkQFA3kzBSg
-KbYAdQ//UqdmClsxjsSeZBz7JPdgtAFNhuqS5n2rZWzeQc7KReKCwlK2a4RRAgs/
-0LgD55L4tHD1UQABiwDVvU9O9wiT4j2S6f8b+vfHjvXLJBRq7jSymCtyFlD+vZPN
-pwS/WKCtp2XO+UDD/uRxihTFgvaImUsap5KAL/yQ7XJOAImhxvcKpEO4SV5HJEA3
-vARvBwQp3daxxG3htBfGyb952+sm2qCmYaEGTYX+sdbbqdJ6CCbXvjhYwNOl647e
-aJJk7yMvOJ01njJBPSiyUES6nLBdmY0cBrJyyc2osyOzQljTuaYQ+ftO3JDZW7jS
-EEbtmi7ZhdueZBcrhCWi6G/IKq03JTH8Ve+xzqGAQ7/KHHROHPeeydr5NKfkfKSh
-3bz9cDdVlbwBrzww1KM0hcWgOpJ05uaGt8gmDcb6skJNY4uf5N8yTCnD1TmkZg0E
-Z60sm6BIady20o2pVk4NbQ3GDda7w0I6UIsgjZIZuJitq2H7sFbuIySpsz3z9LiY
-umSRGL+a6QcqmZ35MRKaMxsye/2Dsi3AyM9kviQnv3s5t9AY3JdX6UONgztXsEW1
-h35VOzqXvUhRUjWHSMNojqFDUqZnmg4kQrkP3yldb/oPXPJK+pXoBJzZfxR4+vip
-bEa0tp6VWQJvIIMuUTriVHRHoWYKi2p22UHzoBg5sCGI1nZdkJE=
-=g8mb
------END PGP SIGNATURE-----
+ack.
 
---jxe733gkonoiyxnn--
+>>>>
+>>>>>         required:
+>>>>>           - port@0
+>>>>>           - port@1
+>>>>> @@ -452,6 +467,7 @@ examples:
+>>>>>                               dsi0_out: endpoint {
+>>>>>                                        remote-endpoint = <&sn65dsi86_in>;
+>>>>>                                        data-lanes = <0 1 2 3>;
+>>>>> +                                   qcom,te-source = "mdp_gpio2";
+>>>>
+>>>> I have a basic doubt on this. Should te-source should be in the input
+>>>> port or the output one for the controller? Because TE is an input to the
+>>>> DSI. And if the source is watchdog timer then it aligns even more as a
+>>>> property of the input endpoint.
+>>>
+>>> I don't really want to split this. Both data-lanes and te-source are
+>>> properties of the link between the DSI and panel. You can not really
+>>> say which side has which property.
+>>>
+>>
+>> TE is an input to the DSI from the panel. Between input and output port,
+>> I think it belongs more to the input port.
+> 
+> Technically we don't have in/out ports. There are two ports which
+> define a link between two instances. For example, if the panel
+> supports getting information through DCS commands, then "panel input"
+> also becomes "panel output".
+> 
+
+The ports are labeled dsi0_in and dsi0_out. Putting te source in 
+dsi0_out really looks very confusing to me.
+
+>>
+>> I didnt follow why this is a link property. Sorry , I didnt follow the
+>> split part.
+> 
+> There is a link between the DSI host and the panel. I don't want to
+> end up in a situation when the properties of the link are split
+> between two different nodes.
+> 
+
+It really depends on what the property denotes. I do not think this 
+should be the reason to do it this way.
+
+>>
+>> If we are unsure about input vs output port, do you think its better we
+>> make it a property of the main dsi node instead?
+> 
+> No, it's not a property of the DSI node at all. If the vendor rewires
+> the panel GPIOs or (just for example regulators), it has nothing to do
+> with the DSI host.
+
+Ack to this.
+
+> 
+> --
+> With best wishes
+> Dmitry
