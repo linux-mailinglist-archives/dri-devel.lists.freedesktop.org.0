@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5228D391F
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 16:26:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6E558D3929
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 16:27:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B740310E3DD;
-	Wed, 29 May 2024 14:26:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BFED112D1E;
+	Wed, 29 May 2024 14:27:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="InGzHoov";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U0K4nCHr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A27110E3DD
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:26:07 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A91DB112D1E
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:27:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7EA3D60FC6
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:26:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8853C4AF07
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:26:05 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 79963CE1818
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:27:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C21E2C4AF0A
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:27:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716992766;
- bh=rS8lHkl0yDWqapcZK5pUVWvpWXVL4mAki+yp37yJuu8=;
+ s=k20201202; t=1716992860;
+ bh=TOXMaYgFSnalOyTIuHAlPv3SCMAfk1IALrsvuxgztxc=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=InGzHoovdYBG10zht5uKhrvEsr6kqPSyNn+9IAQDcvsCnG6cvJvMiF/5Es7W/FfyW
- rPinXvv5mawBQ5RQCWxMmqx6Te7jN63uZg3Z7poh5Igf/U3fUhic8qJG3BAI8te8at
- rQiy8BXLSa8gk4EYme+MnmCBXe8xQUa3o/39olwVRhrT3edm263IMuILOCzAhnSmi4
- rGS4velIYjWEHeQ3ZFD1mnrKBzjawunQ4F7oColIYWsJ9FscyuE8C4Jd0VPFh0TEMn
- gKqQmDf/PWqNWvgog58K2SqvNuUHYGK0jjvSDKkUVGQbzqrwVXebapvWBYAlurCwpW
- bNgOJIY2bHIpg==
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-62c5fd61d2bso8026657b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 07:26:05 -0700 (PDT)
+ b=U0K4nCHra1tOtYa5bxk7uboHqK5t/KQSI28LgEWSbMR3+rRzvNoudhLm9JbI1YmW8
+ fY/+LFtfnyRvc5vufh0zgJYNRopC31I+TqRWd0MAX6QpdsliyyuNgap6ugQh3cfIhD
+ TC0kYEKWOAExAThaL7ZkMbRPkAvA4Tnb6/yT1FKuchsA+YOQGYJ713C72nHbpWjoHT
+ 5jS9hFSyCOCAoeU0v6OX2ogGiWzUCatyriBcad9QAwyT+T8LJlxKx2xCvpn80JAljV
+ e4+cAkWv8CT80+gtjp+aeRzLP9ubJ+iIpKkiz98hI21VB7+DCu0nf84oM8MGArCuLY
+ LMrRcP2O42gFQ==
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-627ea4e0becso21038547b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 07:27:40 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVsM4ntukhObwCDSZvTtE1WokKfS3v9iNyiNU8/KpFaE5xLahHIbnIkKMZh2f5Yv4gt3Ha5Ipg6EkPyTvmB1uvBPLmy2Lhg5LX4DDaq++/V
-X-Gm-Message-State: AOJu0Yye3E3R3p2RfaHQHJwKLp6hH+GnyyMoWzGzYYRQ1icE3cFcpU0p
- nV4KQpDkMhTtzA++ycjNUjWP0Sl5BkA3mxVcVjKOTz3MyqEfdYVjXltn3sVDVFfZ0hyiT6tOgEU
- UAUhtWgOdQLHymp6r4d76sJZIstq5kcmYfZJ8pw==
-X-Google-Smtp-Source: AGHT+IHAwOMmyh9/XBaOY+iVXfegBjzP9smD+dTIpmQP1hKF6dqZExqcqKHcXuI1FgcxJdkSo4bajtY6D9Pcqk3s9AE=
-X-Received: by 2002:a81:b625:0:b0:620:50e0:c38 with SMTP id
- 00721157ae682-62a08ddeb70mr146870877b3.24.1716992765062; Wed, 29 May 2024
- 07:26:05 -0700 (PDT)
+ AJvYcCW15Fi23wUUEKBpeS9cRhIRB17cMPNB0R1lVgwTmx8nbmyjgxoQFcvCrc2H22Ejus1x1PrLaX+P7Q/8nxuS20Pgi10UcMcT/UU7c7V/00Xl
+X-Gm-Message-State: AOJu0YzNcsp6xLMzgk3NgfvlPm54VqZqSbrOosuN5WbdZd26j0U2Yk1T
+ ndtq2AtJ4dkS6AtkS0Q4vJYebtbnnqSGep9YWukZf7fJrTQLcWn5GCvneJTHUxaj+E5CAfh6JFX
+ AnMjjCn8NIJQX4dAq7RZGteuGU/h7SPrFg0mdAQ==
+X-Google-Smtp-Source: AGHT+IGiEwVWmg0b5+Rnms3113uyzDZEKDYKS/y8gEuJf4bfibbDVFImtob0m2MxBuljDG1zuRcX5bIiIHBzGSbGLaA=
+X-Received: by 2002:a81:a14a:0:b0:618:e5c:f7a with SMTP id
+ 00721157ae682-62a08ea6630mr158602187b3.33.1716992860023; 
+ Wed, 29 May 2024 07:27:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240318203925.2837689-1-l.stach@pengutronix.de>
- <20240318203925.2837689-2-l.stach@pengutronix.de>
-In-Reply-To: <20240318203925.2837689-2-l.stach@pengutronix.de>
+ <20240318203925.2837689-3-l.stach@pengutronix.de>
+In-Reply-To: <20240318203925.2837689-3-l.stach@pengutronix.de>
 From: Robert Foss <rfoss@kernel.org>
-Date: Wed, 29 May 2024 16:25:54 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi46s1ux3yvz6QR22Wd=upjsPAmy47woUkiJRaJw6X6d3Q@mail.gmail.com>
-Message-ID: <CAN6tsi46s1ux3yvz6QR22Wd=upjsPAmy47woUkiJRaJw6X6d3Q@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/bridge: analogix_dp: simplify
- analogix_dp_{set/get}_lane_link_training helpers
+Date: Wed, 29 May 2024 16:27:29 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi53-NQBfEX5aNBSQYiGw_WvCNnb3ND5Db5a9jcYmWGjMw@mail.gmail.com>
+Message-ID: <CAN6tsi53-NQBfEX5aNBSQYiGw_WvCNnb3ND5Db5a9jcYmWGjMw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/bridge: analogix_dp: don't adjust further when
+ clock recovery succeeded
 To: Lucas Stach <l.stach@pengutronix.de>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -79,373 +79,127 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Mon, Mar 18, 2024 at 9:39=E2=80=AFPM Lucas Stach <l.stach@pengutronix.de=
 > wrote:
 >
-> From: Wyon Bi <bivvy.bi@rock-chips.com>
+> Take a early return from the clock recovery training when the sink report=
+s
+> CR_DONE for all lanes. There is no point in trying to adjust the link
+> parameters further.
 >
-> There is no need for separate functions for each lane, as we can deduct t=
-he
-> register offset to read/write from the lane index.
->
-> Signed-off-by: Wyon Bi <bivvy.bi@rock-chips.com>
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 > ---
->  .../drm/bridge/analogix/analogix_dp_core.c    |  97 ++-------------
->  .../drm/bridge/analogix/analogix_dp_core.h    |  22 +---
->  .../gpu/drm/bridge/analogix/analogix_dp_reg.c | 114 +++---------------
->  3 files changed, 26 insertions(+), 207 deletions(-)
+>  .../drm/bridge/analogix/analogix_dp_core.c    | 58 +++++++++----------
+>  1 file changed, 29 insertions(+), 29 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers=
 /gpu/drm/bridge/analogix/analogix_dp_core.c
-> index df9370e0ff23..300385db7502 100644
+> index 300385db7502..98454f0af90e 100644
 > --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
 > +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> @@ -234,28 +234,6 @@ static int analogix_dp_training_pattern_dis(struct a=
-nalogix_dp_device *dp)
->         return ret < 0 ? ret : 0;
->  }
->
-> -static void
-> -analogix_dp_set_lane_lane_pre_emphasis(struct analogix_dp_device *dp,
-> -                                      int pre_emphasis, int lane)
-> -{
-> -       switch (lane) {
-> -       case 0:
-> -               analogix_dp_set_lane0_pre_emphasis(dp, pre_emphasis);
-> -               break;
-> -       case 1:
-> -               analogix_dp_set_lane1_pre_emphasis(dp, pre_emphasis);
-> -               break;
-> -
-> -       case 2:
-> -               analogix_dp_set_lane2_pre_emphasis(dp, pre_emphasis);
-> -               break;
-> -
-> -       case 3:
-> -               analogix_dp_set_lane3_pre_emphasis(dp, pre_emphasis);
-> -               break;
-> -       }
-> -}
-> -
->  static int analogix_dp_link_start(struct analogix_dp_device *dp)
->  {
->         u8 buf[4];
-> @@ -286,10 +264,12 @@ static int analogix_dp_link_start(struct analogix_d=
-p_device *dp)
->                 return retval;
->         }
->
-> -       /* Set TX pre-emphasis to minimum */
-> +       /* Set TX voltage-swing and pre-emphasis to minimum */
->         for (lane =3D 0; lane < lane_count; lane++)
-> -               analogix_dp_set_lane_lane_pre_emphasis(dp,
-> -                       PRE_EMPHASIS_LEVEL_0, lane);
-> +               dp->link_train.training_lane[lane] =3D
-> +                                       DP_TRAIN_VOLTAGE_SWING_LEVEL_0 |
-> +                                       DP_TRAIN_PRE_EMPH_LEVEL_0;
-> +       analogix_dp_set_lane_link_training(dp);
->
->         /* Wait for PLL lock */
->         pll_tries =3D 0;
-> @@ -384,54 +364,6 @@ static unsigned char analogix_dp_get_adjust_request_=
-pre_emphasis(
->         return ((link_value >> shift) & 0xc) >> 2;
->  }
->
-> -static void analogix_dp_set_lane_link_training(struct analogix_dp_device=
- *dp,
-> -                                              u8 training_lane_set, int =
-lane)
-> -{
-> -       switch (lane) {
-> -       case 0:
-> -               analogix_dp_set_lane0_link_training(dp, training_lane_set=
-);
-> -               break;
-> -       case 1:
-> -               analogix_dp_set_lane1_link_training(dp, training_lane_set=
-);
-> -               break;
-> -
-> -       case 2:
-> -               analogix_dp_set_lane2_link_training(dp, training_lane_set=
-);
-> -               break;
-> -
-> -       case 3:
-> -               analogix_dp_set_lane3_link_training(dp, training_lane_set=
-);
-> -               break;
-> -       }
-> -}
-> -
-> -static unsigned int
-> -analogix_dp_get_lane_link_training(struct analogix_dp_device *dp,
-> -                                  int lane)
-> -{
-> -       u32 reg;
-> -
-> -       switch (lane) {
-> -       case 0:
-> -               reg =3D analogix_dp_get_lane0_link_training(dp);
-> -               break;
-> -       case 1:
-> -               reg =3D analogix_dp_get_lane1_link_training(dp);
-> -               break;
-> -       case 2:
-> -               reg =3D analogix_dp_get_lane2_link_training(dp);
-> -               break;
-> -       case 3:
-> -               reg =3D analogix_dp_get_lane3_link_training(dp);
-> -               break;
-> -       default:
-> -               WARN_ON(1);
-> -               return 0;
-> -       }
-> -
-> -       return reg;
-> -}
-> -
->  static void analogix_dp_reduce_link_rate(struct analogix_dp_device *dp)
->  {
->         analogix_dp_training_pattern_dis(dp);
-> @@ -523,10 +455,7 @@ static int analogix_dp_process_clock_recovery(struct=
+> @@ -410,11 +410,6 @@ static int analogix_dp_process_clock_recovery(struct=
  analogix_dp_device *dp)
+>         if (retval < 0)
+>                 return retval;
+>
+> -       retval =3D drm_dp_dpcd_read(&dp->aux, DP_ADJUST_REQUEST_LANE0_1,
+> -                                 adjust_request, 2);
+> -       if (retval < 0)
+> -               return retval;
+> -
+>         if (analogix_dp_clock_recovery_ok(link_status, lane_count) =3D=3D=
+ 0) {
+>                 /* set training pattern 2 for EQ */
+>                 analogix_dp_set_training_pattern(dp, TRAINING_PTN2);
+> @@ -427,30 +422,35 @@ static int analogix_dp_process_clock_recovery(struc=
+t analogix_dp_device *dp)
+>
+>                 dev_dbg(dp->dev, "Link Training Clock Recovery success\n"=
+);
+>                 dp->link_train.lt_state =3D EQUALIZER_TRAINING;
+> -       } else {
+> -               for (lane =3D 0; lane < lane_count; lane++) {
+> -                       training_lane =3D analogix_dp_get_lane_link_train=
+ing(
+> -                                                       dp, lane);
+> -                       voltage_swing =3D analogix_dp_get_adjust_request_=
+voltage(
+> -                                                       adjust_request, l=
+ane);
+> -                       pre_emphasis =3D analogix_dp_get_adjust_request_p=
+re_emphasis(
+> -                                                       adjust_request, l=
+ane);
+> -
+> -                       if (DPCD_VOLTAGE_SWING_GET(training_lane) =3D=3D
+> -                                       voltage_swing &&
+> -                           DPCD_PRE_EMPHASIS_GET(training_lane) =3D=3D
+> -                                       pre_emphasis)
+> -                               dp->link_train.cr_loop[lane]++;
+> -
+> -                       if (dp->link_train.cr_loop[lane] =3D=3D MAX_CR_LO=
+OP ||
+> -                           voltage_swing =3D=3D VOLTAGE_LEVEL_3 ||
+> -                           pre_emphasis =3D=3D PRE_EMPHASIS_LEVEL_3) {
+> -                               dev_err(dp->dev, "CR Max reached (%d,%d,%=
+d)\n",
+> -                                       dp->link_train.cr_loop[lane],
+> -                                       voltage_swing, pre_emphasis);
+> -                               analogix_dp_reduce_link_rate(dp);
+> -                               return -EIO;
+> -                       }
+> +
+> +               return 0;
+> +       }
+> +
+> +       retval =3D drm_dp_dpcd_read(&dp->aux, DP_ADJUST_REQUEST_LANE0_1,
+> +                                 adjust_request, 2);
+> +       if (retval < 0)
+> +               return retval;
+> +
+> +       for (lane =3D 0; lane < lane_count; lane++) {
+> +               training_lane =3D analogix_dp_get_lane_link_training(
+> +                                               dp, lane);
+> +               voltage_swing =3D analogix_dp_get_adjust_request_voltage(
+> +                                               adjust_request, lane);
+> +               pre_emphasis =3D analogix_dp_get_adjust_request_pre_empha=
+sis(
+> +                                               adjust_request, lane);
+> +
+
+checkpatch --strict is throwing some warnings. Could these be fixed?
+
+-:67: CHECK:OPEN_ENDED_LINE: Lines should not end with a '('
+#67: FILE: drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:435:
++        training_lane =3D analogix_dp_get_lane_link_training(
+
+-:69: CHECK:OPEN_ENDED_LINE: Lines should not end with a '('
+#69: FILE: drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:437:
++        voltage_swing =3D analogix_dp_get_adjust_request_voltage(
+
+-:71: CHECK:OPEN_ENDED_LINE: Lines should not end with a '('
+#71: FILE: drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:439:
++        pre_emphasis =3D analogix_dp_get_adjust_request_pre_emphasis(
+
+
+> +               if (DPCD_VOLTAGE_SWING_GET(training_lane) =3D=3D voltage_=
+swing &&
+> +                   DPCD_PRE_EMPHASIS_GET(training_lane) =3D=3D pre_empha=
+sis)
+> +                       dp->link_train.cr_loop[lane]++;
+> +
+> +               if (dp->link_train.cr_loop[lane] =3D=3D MAX_CR_LOOP ||
+> +                   voltage_swing =3D=3D VOLTAGE_LEVEL_3 ||
+> +                   pre_emphasis =3D=3D PRE_EMPHASIS_LEVEL_3) {
+> +                       dev_err(dp->dev, "CR Max reached (%d,%d,%d)\n",
+> +                               dp->link_train.cr_loop[lane],
+> +                               voltage_swing, pre_emphasis);
+> +                       analogix_dp_reduce_link_rate(dp);
+> +                       return -EIO;
+>                 }
 >         }
 >
->         analogix_dp_get_adjust_training_lane(dp, adjust_request);
-> -
-> -       for (lane =3D 0; lane < lane_count; lane++)
-> -               analogix_dp_set_lane_link_training(dp,
-> -                       dp->link_train.training_lane[lane], lane);
-> +       analogix_dp_set_lane_link_training(dp);
->
->         retval =3D drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET,
->                                    dp->link_train.training_lane, lane_cou=
-nt);
-> @@ -538,7 +467,7 @@ static int analogix_dp_process_clock_recovery(struct =
-analogix_dp_device *dp)
->
->  static int analogix_dp_process_equalizer_training(struct analogix_dp_dev=
-ice *dp)
->  {
-> -       int lane, lane_count, retval;
-> +       int lane_count, retval;
->         u32 reg;
->         u8 link_align, link_status[2], adjust_request[2];
->
-> @@ -598,9 +527,7 @@ static int analogix_dp_process_equalizer_training(str=
-uct analogix_dp_device *dp)
->                 return -EIO;
->         }
->
-> -       for (lane =3D 0; lane < lane_count; lane++)
-> -               analogix_dp_set_lane_link_training(dp,
-> -                       dp->link_train.training_lane[lane], lane);
-> +       analogix_dp_set_lane_link_training(dp);
->
->         retval =3D drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET,
->                                    dp->link_train.training_lane, lane_cou=
-nt);
-> @@ -712,7 +639,7 @@ static int analogix_dp_full_link_train(struct analogi=
-x_dp_device *dp,
->
->  static int analogix_dp_fast_link_train(struct analogix_dp_device *dp)
->  {
-> -       int i, ret;
-> +       int ret;
->         u8 link_align, link_status[2];
->         enum pll_status status;
->
-> @@ -720,11 +647,7 @@ static int analogix_dp_fast_link_train(struct analog=
-ix_dp_device *dp)
->
->         analogix_dp_set_link_bandwidth(dp, dp->link_train.link_rate);
->         analogix_dp_set_lane_count(dp, dp->link_train.lane_count);
-> -
-> -       for (i =3D 0; i < dp->link_train.lane_count; i++) {
-> -               analogix_dp_set_lane_link_training(dp,
-> -                       dp->link_train.training_lane[i], i);
-> -       }
-> +       analogix_dp_set_lane_link_training(dp);
->
->         ret =3D readx_poll_timeout(analogix_dp_get_pll_lock_status, dp, s=
-tatus,
->                                  status !=3D PLL_UNLOCKED, 120,
-> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h b/drivers=
-/gpu/drm/bridge/analogix/analogix_dp_core.h
-> index 433f2d7efa0c..382b2f068ab9 100644
-> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h
-> @@ -213,26 +213,8 @@ void analogix_dp_enable_enhanced_mode(struct analogi=
-x_dp_device *dp,
->                                       bool enable);
->  void analogix_dp_set_training_pattern(struct analogix_dp_device *dp,
->                                       enum pattern_set pattern);
-> -void analogix_dp_set_lane0_pre_emphasis(struct analogix_dp_device *dp,
-> -                                       u32 level);
-> -void analogix_dp_set_lane1_pre_emphasis(struct analogix_dp_device *dp,
-> -                                       u32 level);
-> -void analogix_dp_set_lane2_pre_emphasis(struct analogix_dp_device *dp,
-> -                                       u32 level);
-> -void analogix_dp_set_lane3_pre_emphasis(struct analogix_dp_device *dp,
-> -                                       u32 level);
-> -void analogix_dp_set_lane0_link_training(struct analogix_dp_device *dp,
-> -                                        u32 training_lane);
-> -void analogix_dp_set_lane1_link_training(struct analogix_dp_device *dp,
-> -                                        u32 training_lane);
-> -void analogix_dp_set_lane2_link_training(struct analogix_dp_device *dp,
-> -                                        u32 training_lane);
-> -void analogix_dp_set_lane3_link_training(struct analogix_dp_device *dp,
-> -                                        u32 training_lane);
-> -u32 analogix_dp_get_lane0_link_training(struct analogix_dp_device *dp);
-> -u32 analogix_dp_get_lane1_link_training(struct analogix_dp_device *dp);
-> -u32 analogix_dp_get_lane2_link_training(struct analogix_dp_device *dp);
-> -u32 analogix_dp_get_lane3_link_training(struct analogix_dp_device *dp);
-> +void analogix_dp_set_lane_link_training(struct analogix_dp_device *dp);
-> +u32 analogix_dp_get_lane_link_training(struct analogix_dp_device *dp, u8=
- lane);
->  void analogix_dp_reset_macro(struct analogix_dp_device *dp);
->  void analogix_dp_init_video(struct analogix_dp_device *dp);
->
-> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c b/drivers/=
-gpu/drm/bridge/analogix/analogix_dp_reg.c
-> index 7b0bc9704eac..d267cf05cbca 100644
-> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c
-> @@ -557,6 +557,20 @@ void analogix_dp_get_lane_count(struct analogix_dp_d=
-evice *dp, u32 *count)
->         *count =3D reg;
->  }
->
-> +void analogix_dp_set_lane_link_training(struct analogix_dp_device *dp)
-> +{
-> +       u8 lane;
-> +
-> +       for (lane =3D 0; lane < dp->link_train.lane_count; lane++)
-> +               writel(dp->link_train.training_lane[lane],
-> +                      dp->reg_base + ANALOGIX_DP_LN0_LINK_TRAINING_CTL +=
- 4 * lane);
-> +}
-> +
-> +u32 analogix_dp_get_lane_link_training(struct analogix_dp_device *dp, u8=
- lane)
-> +{
-> +       return readl(dp->reg_base + ANALOGIX_DP_LN0_LINK_TRAINING_CTL + 4=
- * lane);
-> +}
-> +
->  void analogix_dp_enable_enhanced_mode(struct analogix_dp_device *dp,
->                                       bool enable)
->  {
-> @@ -606,106 +620,6 @@ void analogix_dp_set_training_pattern(struct analog=
-ix_dp_device *dp,
->         }
->  }
->
-> -void analogix_dp_set_lane0_pre_emphasis(struct analogix_dp_device *dp,
-> -                                       u32 level)
-> -{
-> -       u32 reg;
-> -
-> -       reg =3D readl(dp->reg_base + ANALOGIX_DP_LN0_LINK_TRAINING_CTL);
-> -       reg &=3D ~PRE_EMPHASIS_SET_MASK;
-> -       reg |=3D level << PRE_EMPHASIS_SET_SHIFT;
-> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN0_LINK_TRAINING_CTL);
-> -}
-> -
-> -void analogix_dp_set_lane1_pre_emphasis(struct analogix_dp_device *dp,
-> -                                       u32 level)
-> -{
-> -       u32 reg;
-> -
-> -       reg =3D readl(dp->reg_base + ANALOGIX_DP_LN1_LINK_TRAINING_CTL);
-> -       reg &=3D ~PRE_EMPHASIS_SET_MASK;
-> -       reg |=3D level << PRE_EMPHASIS_SET_SHIFT;
-> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN1_LINK_TRAINING_CTL);
-> -}
-> -
-> -void analogix_dp_set_lane2_pre_emphasis(struct analogix_dp_device *dp,
-> -                                       u32 level)
-> -{
-> -       u32 reg;
-> -
-> -       reg =3D readl(dp->reg_base + ANALOGIX_DP_LN2_LINK_TRAINING_CTL);
-> -       reg &=3D ~PRE_EMPHASIS_SET_MASK;
-> -       reg |=3D level << PRE_EMPHASIS_SET_SHIFT;
-> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN2_LINK_TRAINING_CTL);
-> -}
-> -
-> -void analogix_dp_set_lane3_pre_emphasis(struct analogix_dp_device *dp,
-> -                                       u32 level)
-> -{
-> -       u32 reg;
-> -
-> -       reg =3D readl(dp->reg_base + ANALOGIX_DP_LN3_LINK_TRAINING_CTL);
-> -       reg &=3D ~PRE_EMPHASIS_SET_MASK;
-> -       reg |=3D level << PRE_EMPHASIS_SET_SHIFT;
-> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN3_LINK_TRAINING_CTL);
-> -}
-> -
-> -void analogix_dp_set_lane0_link_training(struct analogix_dp_device *dp,
-> -                                        u32 training_lane)
-> -{
-> -       u32 reg;
-> -
-> -       reg =3D training_lane;
-> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN0_LINK_TRAINING_CTL);
-> -}
-> -
-> -void analogix_dp_set_lane1_link_training(struct analogix_dp_device *dp,
-> -                                        u32 training_lane)
-> -{
-> -       u32 reg;
-> -
-> -       reg =3D training_lane;
-> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN1_LINK_TRAINING_CTL);
-> -}
-> -
-> -void analogix_dp_set_lane2_link_training(struct analogix_dp_device *dp,
-> -                                        u32 training_lane)
-> -{
-> -       u32 reg;
-> -
-> -       reg =3D training_lane;
-> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN2_LINK_TRAINING_CTL);
-> -}
-> -
-> -void analogix_dp_set_lane3_link_training(struct analogix_dp_device *dp,
-> -                                        u32 training_lane)
-> -{
-> -       u32 reg;
-> -
-> -       reg =3D training_lane;
-> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN3_LINK_TRAINING_CTL);
-> -}
-> -
-> -u32 analogix_dp_get_lane0_link_training(struct analogix_dp_device *dp)
-> -{
-> -       return readl(dp->reg_base + ANALOGIX_DP_LN0_LINK_TRAINING_CTL);
-> -}
-> -
-> -u32 analogix_dp_get_lane1_link_training(struct analogix_dp_device *dp)
-> -{
-> -       return readl(dp->reg_base + ANALOGIX_DP_LN1_LINK_TRAINING_CTL);
-> -}
-> -
-> -u32 analogix_dp_get_lane2_link_training(struct analogix_dp_device *dp)
-> -{
-> -       return readl(dp->reg_base + ANALOGIX_DP_LN2_LINK_TRAINING_CTL);
-> -}
-> -
-> -u32 analogix_dp_get_lane3_link_training(struct analogix_dp_device *dp)
-> -{
-> -       return readl(dp->reg_base + ANALOGIX_DP_LN3_LINK_TRAINING_CTL);
-> -}
-> -
->  void analogix_dp_reset_macro(struct analogix_dp_device *dp)
->  {
->         u32 reg;
 > --
 > 2.39.2
 >
+
+With the above corrected or checked, feel free to add my r-b.
 
 Reviewed-by: Robert Foss <rfoss@kernel.org>
