@@ -2,67 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC928D2C92
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 07:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5996B8D2CFD
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 08:16:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92E95112A26;
-	Wed, 29 May 2024 05:37:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5279A10E03E;
+	Wed, 29 May 2024 06:15:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gaZT/mxp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BgNakwL0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C52C0113147
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 05:36:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716961004; x=1748497004;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=uZ18e0DpTIgHLOpzfBuHcXvVKSj+fUz+S5osI7EsSTY=;
- b=gaZT/mxpLDIP2gP2yr2JZam0yRyejPM5ASQJzfEpJ3Ukat7/5DYG/XKY
- 2MEvXKQNL56+IVwyENHHdIEaPX9A8NrLsRSDYXGxlxGFNVqz3MCwgL8Am
- eXCycmTq9JAghEfqGYiDTA1dQg4opKQWqovTedHahmFxgFqG3fpquv95L
- T1gROj+Dsl26KxbIpe6PrwTy8x6vmgZWDaAtlWEP3tZKEJJ58Q0+BD1Sx
- 8u9YZjLN4dN8vz9YStHPG1942TaJ/JMAHolaiW7xRvSpxN5pwM1O3sHkE
- GTTmBteZplAY2AFU7HKA0LAMAif3DUUALxYsJuKv4WE7oC9GsAHYMa1Kj Q==;
-X-CSE-ConnectionGUID: s7p4HG/oRyGHeNh9+fGUaA==
-X-CSE-MsgGUID: Y2nrLKzgRt6f9fyPqSHedg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13569136"
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="13569136"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2024 22:36:37 -0700
-X-CSE-ConnectionGUID: X+RiNsarRtKW3lpRtSJ0IA==
-X-CSE-MsgGUID: nvefUVcKRTqj8DSSs+S92A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="35257811"
-Received: from unknown (HELO allen-box.sh.intel.com) ([10.239.159.127])
- by fmviesa007.fm.intel.com with ESMTP; 28 May 2024 22:36:32 -0700
-From: Lu Baolu <baolu.lu@linux.intel.com>
-To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>
-Cc: Yi Liu <yi.l.liu@intel.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Kalle Valo <kvalo@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>, mst@redhat.com,
- Jason Wang <jasowang@redhat.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, iommu@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Lu Baolu <baolu.lu@linux.intel.com>
-Subject: [PATCH 20/20] iommu/vt-d: Remove domain_update_iommu_superpage()
-Date: Wed, 29 May 2024 13:32:50 +0800
-Message-Id: <20240529053250.91284-21-baolu.lu@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240529053250.91284-1-baolu.lu@linux.intel.com>
-References: <20240529053250.91284-1-baolu.lu@linux.intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1BA710E03E
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 06:15:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id E9D7D62120
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 06:15:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A0D87C4AF08
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 06:15:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1716963351;
+ bh=3XKx55gL19+QWokNjIZYZascnnHhH9gXZlpw9LQGQ0g=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=BgNakwL0vueozEd9xpAA7671cY63QBME9/NP2P9bGJNl4p1A+41cDKCfp0uAJtwhE
+ DGGBzEkzxbSTOX78f7/eODKgX/LtC02cptvftLCvXGlZluXBUwT9MWUZdzNGtfwlJF
+ inVYqMfx1bUfVOVfL9H+bxNzPy8y0sl2/dTL/rbNkdSngm30T2X3kLHxOWd7Omj8FV
+ M6plttt1RhKwVcN9qDSS+AG8HOMt1HeEbwkP6vsbexYayhH4qvyUdYxU89cgY1nW2T
+ 5n4LiqEKUM+545VPGmLa5+ZO3H9pj5vTb5AOJOcmjPD1X1JJhofJQM2i+BC7YIm04x
+ 6mcdu5Ut1WTeg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 93ED6C53B73; Wed, 29 May 2024 06:15:51 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 218900] amdgpu: Fatal error during GPU init
+Date: Wed, 29 May 2024 06:15:51 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: vasant.hegde@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc attachments.created
+Message-ID: <bug-218900-2300-AwDNdqJNdc@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218900-2300@https.bugzilla.kernel.org/>
+References: <bug-218900-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,83 +74,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The requirement for consistent super page support across all the IOMMU
-hardware in the system has been removed. In the past, if a new IOMMU
-was hot-added and lacked consistent super page capability, the hot-add
-process would be aborted. However, with the updated attachment semantics,
-it is now permissible for the super page capability to vary among
-different IOMMU hardware units.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218900
 
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
----
- drivers/iommu/intel/iommu.c | 39 +------------------------------------
- 1 file changed, 1 insertion(+), 38 deletions(-)
+Vasant Hegde (vasant.hegde@amd.com) changed:
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 74e005b1c4b4..660d2b6c531b 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -366,36 +366,6 @@ static bool iommu_paging_structure_coherency(struct intel_iommu *iommu)
- 			ecap_smpwc(iommu->ecap) : ecap_coherent(iommu->ecap);
- }
- 
--static int domain_update_iommu_superpage(struct dmar_domain *domain,
--					 struct intel_iommu *skip)
--{
--	struct dmar_drhd_unit *drhd;
--	struct intel_iommu *iommu;
--	int mask = 0x3;
--
--	if (!intel_iommu_superpage)
--		return 0;
--
--	/* set iommu_superpage to the smallest common denominator */
--	rcu_read_lock();
--	for_each_active_iommu(iommu, drhd) {
--		if (iommu != skip) {
--			if (domain && domain->use_first_level) {
--				if (!cap_fl1gp_support(iommu->cap))
--					mask = 0x1;
--			} else {
--				mask &= cap_super_page_val(iommu->cap);
--			}
--
--			if (!mask)
--				break;
--		}
--	}
--	rcu_read_unlock();
--
--	return fls(mask);
--}
--
- /* Return the super pagesize bitmap if supported. */
- static unsigned long domain_super_pgsize_bitmap(struct dmar_domain *domain)
- {
-@@ -2845,8 +2815,8 @@ int dmar_parse_one_satc(struct acpi_dmar_header *hdr, void *arg)
- 
- static int intel_iommu_add(struct dmar_drhd_unit *dmaru)
- {
--	int sp, ret;
- 	struct intel_iommu *iommu = dmaru->iommu;
-+	int ret;
- 
- 	ret = intel_cap_audit(CAP_AUDIT_HOTPLUG_DMAR, iommu);
- 	if (ret)
-@@ -2858,13 +2828,6 @@ static int intel_iommu_add(struct dmar_drhd_unit *dmaru)
- 		return -ENXIO;
- 	}
- 
--	sp = domain_update_iommu_superpage(NULL, iommu) - 1;
--	if (sp >= 0 && !(cap_super_page_val(iommu->cap) & (1 << sp))) {
--		pr_warn("%s: Doesn't support large page.\n",
--			iommu->name);
--		return -ENXIO;
--	}
--
- 	/*
- 	 * Disable translation if already enabled prior to OS handover.
- 	 */
--- 
-2.34.1
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |vasant.hegde@amd.com
 
+--- Comment #5 from Vasant Hegde (vasant.hegde@amd.com) ---
+Created attachment 306364
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D306364&action=3Dedit
+Check Enhanced PPR support before enabling PPR
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
