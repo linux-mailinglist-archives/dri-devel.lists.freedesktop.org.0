@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70F958D3692
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 14:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FADE8D369F
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 14:43:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95EB410E35C;
-	Wed, 29 May 2024 12:41:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A456A10E5BA;
+	Wed, 29 May 2024 12:43:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k6VuPpUv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jKaSeM2K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01B9010E35C
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 12:41:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55E4B10E5BA
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 12:43:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9D0436289A
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 12:41:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 51F43C32789
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 12:41:06 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 97CE16289F
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 12:43:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4E27EC4AF08
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 12:43:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716986466;
- bh=thm4PPMCYrMc5icOVWlZlJGCBN0ci5mDdAn/E4qtODw=;
+ s=k20201202; t=1716986622;
+ bh=k7fnp1KGPT+vL5xLFX8K8qM60ceoKRLLXz60Bbs24Co=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=k6VuPpUviO9Fl1Mkxq7z7rJMD8uX8UDfYpjBrslZuSmZi/HCU/QBJDZVc+fP+ty4V
- sPHdOOgOFL983W860KAklhdKGUYnlXJ/i2gAx8At+dEOmQ0S0k6S2ilxLXsfTEGSF+
- epk/cH3XS8FaTm2CEl35s22aGhTJonQ1Axs/aXkX33CanLuj6LexwlcVUVsbEMjrYz
- ahF7WH/wHLEBOCq5Bc9GaE7DZIJe7Q2/Qf/IJ478Z1YIZMgbtBIabV4BIRNwUTf6am
- BiTAD6wQVHbAkR1gXBWZmvXLoBhx7KbK78NO982mHgomjHkCQjqg64mGMv8oscpn4I
- Je+slHN8hNMEQ==
+ b=jKaSeM2K+vgmQuNpXNXjQVhARaFZMZkueqsmmGg0k4yfOunTbNsBtkn4BN4uQ/bzq
+ t7fGvI3PR/gP0hqGgBmJchYdWWEQ4KWyEoYfhpL3xba+nADgfr/7T4fa8dWxnQjVPi
+ ACeliUkHXizSKIZkSyc4/Ys6J08fqjIoPiiwCK0MbKUrOgHS8jtJaw5dtVaOwI63Hn
+ RfoCbQSBTDmSlxhN5Y7BwRmrYmQqRpzDR4YZc41yC7PQLukt31F40JJgY3Eq0FwNUh
+ rrbUfhCEMfa8ktg0sQZFG5H6ouDS/OsMGhnRJEQh0qgysdE9WJXmIWMLrsTTAvBhWH
+ AJtydHgyctHmQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 48072C53BB9; Wed, 29 May 2024 12:41:06 +0000 (UTC)
+ from userid 48) id 45494C53BB9; Wed, 29 May 2024 12:43:42 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 218900] amdgpu: Fatal error during GPU init
-Date: Wed, 29 May 2024 12:41:05 +0000
+Date: Wed, 29 May 2024 12:43:41 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -50,8 +50,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-218900-2300-ARWJeJZCxT@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-218900-2300-tsPVTdEm9G@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218900-2300@https.bugzilla.kernel.org/>
 References: <bug-218900-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,17 +76,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218900
 
---- Comment #10 from Jean-Christophe Guillain (jean-christophe@guillain.net=
+--- Comment #11 from Jean-Christophe Guillain (jean-christophe@guillain.net=
 ) ---
-I applied your patch to the 6.10.0-rc1 kernel, and I confirm that it fixes =
-this
-bug.
-
-Thank you very much !
-
-jC
-
-(full dmesg attached)
+Created attachment 306367
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D306367&action=3Dedit
+Full dmesg after applying Vasant's patch
 
 --=20
 You may reply to this email to add a comment.
