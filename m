@@ -2,58 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD31A8D2E48
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 09:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF5C8D2E64
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 09:39:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAA1010E46B;
-	Wed, 29 May 2024 07:32:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3421133FE;
+	Wed, 29 May 2024 07:39:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BrZRV001";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gbYPmQrV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D19110E46B
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 07:32:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1716967939;
- bh=cADutWs2Dsx1o9inKNPez5xFnY+sOuOUeUDqJ44drFk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=BrZRV001CJRtCqhATXy9C/FXVikr+5BdllJGZ2rStBbfQk7E4RecsGhHyLUYYTaIX
- DdX1+wJBWQFYV5tjrx9nrd9tQQJymjFfZSy6VjmJioLWGMpiRHvVXQcCdNqEjHg2nc
- 5Ofxh4snXgHT9f0visanV+QcHJiyJBN05ySKzTc3bXeWPSMtlxnPKH6PZ80J06d8dh
- S9WP60/wwTTEDRUGmWqBV3OvWMlJ/QKPqS3N9XUPm0tVd+j32q0IXhPWDAzVjl0jg6
- RjMI6caeXqeU15q9tG1E37Yw3kWZXMAASFBGSEMNh/yZchKQ5k8TQK7AdofrfG5BSK
- Nino7JsVpA7dA==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0DFB63780627;
- Wed, 29 May 2024 07:32:18 +0000 (UTC)
-Date: Wed, 29 May 2024 09:32:16 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Dmitry Osipenko
- <dmitry.osipenko@collabora.com>, Zack Rusin <zack.rusin@broadcom.com>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 0/3] drm: Fix dma_resv deadlock at drm object pin time
-Message-ID: <20240529093216.6640d05d@collabora.com>
-In-Reply-To: <20240523113236.432585-1-adrian.larumbe@collabora.com>
-References: <20240523113236.432585-1-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E8AC10E7FB
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 07:38:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1716968337;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JnkCGFPfhuNEaifGjl6Wu5/aJpK3is1mn/NKpIiOtjo=;
+ b=gbYPmQrVNOOsRJipMfJvKv6RjDRmTNsQ5i+1njJMrHi87z46A9tsTH88IjexrnQj0SJbdz
+ CJ2dFaq95BtEOQf8WCIuxkVtTW47NGxvjwDqqelLNyDJf2E5HUWNWEB3howhOkm1ZgJO09
+ jRT3GpSoCX6nMV4OiXyNonVFpe6eYR4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-551-r6xvJwCpPQ-8Up_UELCv7A-1; Wed, 29 May 2024 03:38:52 -0400
+X-MC-Unique: r6xvJwCpPQ-8Up_UELCv7A-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-354fa62abd7so1361603f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 00:38:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716968331; x=1717573131;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JnkCGFPfhuNEaifGjl6Wu5/aJpK3is1mn/NKpIiOtjo=;
+ b=EMD/qkxUeH2hhiR9F5Rmih2kDR6ISl5V32bb6ltqEMyl9ZCvVyqO0t3FJaiS5b1BmD
+ UQlIlMvv8wf8rt1vPLkjFiow68Qg86tcxhiCYMIcDZaYRCEaTACOLS4XcvHxZE3rJOm9
+ 1xBEzNJU9dH7dvrzZMo3AOZ870ovZinhix+55QqV1A76oppB8cg2SwTvYv2cbPipkcHa
+ l+auDlVAczWAZd9WA77WiwYLZirD7Ubr0goq42C7kx61ZNRYGCT6WJ/rd621HdeRgCP5
+ lrAHQzhJPYq01tQFb8CmNKDqHQxuE+/y9Hda3egDOZ+jXLXanN0nzm6Dr8BuNXnCL4DO
+ BecA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUZk97M8C9mrdXr1QByseThcte8by8OMPwziU98TRQfNbGGCXVlq5ouiDWjIoo9Elqd2xAkGHZSFmcyeln7Vmh6lTfBya5NOjwZBDcPS8LA
+X-Gm-Message-State: AOJu0Yxi8pDRV0sua8sVdL8ndPhDymjq0Aegpjku5Aw7DCucgBAfCLwX
+ eWoyGkhlFR3UQwQ5LQLw7g97lEIMvvMGr8KFcd42OqYv8Fn4lLHK4MmR0PIvgvy9+i2iR1CmbIl
+ KuzqkmJQwkLlEXDD9SLXHUB8W8qYLhd1RtGsODuhpCZGnHT2AG8TyDQfxMnk0+aEWNw==
+X-Received: by 2002:a05:6000:1541:b0:359:733c:c8d6 with SMTP id
+ ffacd0b85a97d-359733cc9fbmr7064240f8f.67.1716968331072; 
+ Wed, 29 May 2024 00:38:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IErLallLH/zYnic/TMGFq7yP1g8Tm0V8eifkv+49sPriMHIZkLYfV85qlv0c9QhOqX5rV6Jyg==
+X-Received: by 2002:a05:6000:1541:b0:359:733c:c8d6 with SMTP id
+ ffacd0b85a97d-359733cc9fbmr7064219f8f.67.1716968330471; 
+ Wed, 29 May 2024 00:38:50 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3557a1c930esm13833012f8f.84.2024.05.29.00.38.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 May 2024 00:38:50 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
+ <samuel@sholland.org>, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] drm/sun4i: Fix compilation error
+In-Reply-To: <20240528151056.2104153-1-mripard@kernel.org>
+References: <20240528151056.2104153-1-mripard@kernel.org>
+Date: Wed, 29 May 2024 09:38:49 +0200
+Message-ID: <87sey11306.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,39 +91,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 23 May 2024 12:32:16 +0100
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+Maxime Ripard <mripard@kernel.org> writes:
 
-> This is v4 of https://lore.kernel.org/lkml/20240521181817.097af5e1@collab=
-ora.com/T/
->=20
-> The goal of this patch series is fixing a deadlock upon locking the dma r=
-eservation
-> of a DRM gem object when pinning it, at a prime import operation.
->=20
-> Changelog:
-> v3:
->  - Split driver fixes into separate commits for Panfrost and Lima
->  - Make drivers call drm_gem_shmem_pin_locked instead of drm_gem_shmem_ob=
-ject_pin
->  - Improved commit message for first patch to explain why dma resv lockin=
-g in the=20
->  pin callback is no longer necessary.
-> v2:
->  - Removed comment explaining reason why an already-locked
-> pin function replaced the locked variant inside Panfrost's
-> object pin callback.
->  - Moved already-assigned attachment warning into generic
-> already-locked gem object pin function
->=20
->=20
-> Adri=C3=A1n Larumbe (3):
->   drm/panfrost: Fix dma_resv deadlock at drm object pin time
->   drm/lima: Fix dma_resv deadlock at drm object pin time
->   drm/gem-shmem: Add import attachment warning to locked pin function
+Hello Maxime,
 
-Queued to drm-misc-fixes.
+> Commit ea64761a54a2 ("drm/sun4i: hdmi: Switch to HDMI connector")
+> introduced a dependency that got renamed in a previous version, but
+> wasn't properly updated in that driver. Fix the name of the function.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202405282205.EU7NUoeQ-lkp@intel.com/
+> Closes: https://lore.kernel.org/oe-kbuild-all/202405282248.U2lhPvCK-lkp@intel.com/
+> Fixes: ea64761a54a2 ("drm/sun4i: hdmi: Switch to HDMI connector")
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
 
-Thanks!
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Boris
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
