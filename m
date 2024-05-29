@@ -2,112 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53A298D3715
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 15:07:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 784FF8D3763
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 15:17:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D65D1120ED;
-	Wed, 29 May 2024 13:07:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B816810E2F0;
+	Wed, 29 May 2024 13:17:21 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xf/UdYNf";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
- [209.85.160.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A464C113A75
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 13:07:14 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-43fb909d45cso10191421cf.3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 06:07:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716988031; x=1717592831;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xVFbPQ9StvkoNrq/0lKZWIQ4ZOA4XJTj64cZbKmwivY=;
- b=FO2Ro6tsZ2cSrowE7iAn3PbeEKVtcuKb//+6H5/9HJnj++LtKoySxnVete/CZuzSDo
- Ki89CtiLRvzVkkF+/OBqfqhzaVQakurGZxzwFXFVbhnYdwPSpl/CcBsS91dkCYfYhMqH
- g3w3rgc8gODVl+brk5/UyVoXhCBcKZBZOyxcJDmJbofdqJfVttZnCGGAMY2ERtgNxUc0
- xL7WJAjOoMBj03chr3La2fNv3cSpkwrJ7sj3xqFCzt8IOORCd+OX+Spfilr3DHX+UhuJ
- 61zckexBM8s06Z54hBq4RKkkQa3HIjaS96QGj0mTo8Y7Q1woD4NK+hpp2lkS8X9KnEOO
- kNPg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVhYqNjtTD4X7/nTmBTCLPUAjlMzTjpkSWlkdqYtJ+Y9MLReXOhIdvhinnKDZRjy3UWYH8T99MQvBmiXqtAItEAVJ2krL7Nd1lkc2YIY8iY
-X-Gm-Message-State: AOJu0Yx6rD1hFfyZG0SD24+Hs1zHUAXVYsQ7IZ87l2yBJ3D8M7/KlY4C
- iZaZpYZ6U2PjOzpl9DowBGZNMETDSg6VC1vnFE28IuWH0cHZ0OgLLDsE5z9ZgSo=
-X-Google-Smtp-Source: AGHT+IEocPZbdPbRgcs1jAuCPLMitTGnR5+MUdR20wNp5baOiEAyZpwIOIdRZJy1WTQrpoSaCCQXKg==
-X-Received: by 2002:a05:6214:3b83:b0:6ad:77ef:3302 with SMTP id
- 6a1803df08f44-6ad77ef35e8mr120065656d6.53.1716988030657; 
- Wed, 29 May 2024 06:07:10 -0700 (PDT)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com.
- [209.85.219.54]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6ad71678996sm39975586d6.139.2024.05.29.06.07.09
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 May 2024 06:07:10 -0700 (PDT)
-Received: by mail-qv1-f54.google.com with SMTP id
- 6a1803df08f44-6ad654913a0so11223746d6.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 06:07:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUNZS7AiFFCVB4kWZDaNAFORL/WnPbZFDnTh+xdzSRlZeVjxqPgkEDw5JyF+VMFyaGgaWhWJ9Rx6K0zKXRpdga//iTtAUoOz6vllWo1OvvU
-X-Received: by 2002:a25:a565:0:b0:dfa:48ec:c4b2 with SMTP id
- 3f1490d57ef6-dfa48ecc64cmr1707039276.22.1716988008813; Wed, 29 May 2024
- 06:06:48 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4182710E2F0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 13:17:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716988639; x=1748524639;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=BmD7dT9t87GMS04NIpQ27MfyjLdW9OC9lzhy731bihs=;
+ b=Xf/UdYNf1gez9RBGAdwYBx7XTuDBK2gI2YvzB4ZlrIvbt9q5xfgc7xcQ
+ 8cVjJMkgj2SJEas/+9gCQVTuOxd9g0jXQ7nd3b4H+nzIDCVS8p4lI9o5O
+ 4Oz9WCwiu2bm1l39QEMi6IIGsfl+XCRr0wQAl5EDu/60U5o6B7uckh0sF
+ 95e5nSjYU12c4m/z1CzFAde7tovOreIe/DNRc1vNexyqpdRPvnqDvpoaG
+ 0ZphpHmAGxBNx91vZ8P2SQQsKgMaDlHG9+vt09bbfIFGuy6eeUc27I90q
+ 97wXBcGnYV/TPu3yyqtPZGiBDddAU70soeIkEpTh3JSuPhLXx/cvNTbRc Q==;
+X-CSE-ConnectionGUID: EN8SGd/4TFSqhptTomfo6g==
+X-CSE-MsgGUID: E1CWWfB1S7SmXy+SRkONVw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="17221012"
+X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="17221012"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 May 2024 06:17:19 -0700
+X-CSE-ConnectionGUID: TLr+a4g+QUyEQtMQ22Ef+w==
+X-CSE-MsgGUID: HbHpf9VKSu6jNVQR0Pd0ZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="40328426"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 May 2024 06:17:12 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1sCJAy-0000000Bnsd-0MYz; Wed, 29 May 2024 16:17:08 +0300
+Date: Wed, 29 May 2024 16:17:07 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com,
+ akpm@linux-foundation.org, gregkh@linuxfoundation.org,
+ adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
+ vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
+ detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
+ andrzej.p@collabora.com, nicolas@ndufresne.ca, davidgow@google.com,
+ dlatypov@google.com
+Subject: Re: [PATCH v9 06/10] math.h: Add macros for rounding to closest value
+Message-ID: <Zlcq07G697jGqHAg@smile.fi.intel.com>
+References: <20240526175655.1093707-1-devarsht@ti.com>
+ <20240526180856.1124470-1-devarsht@ti.com>
+ <ZlTt-YWzyRyhmT9n@smile.fi.intel.com>
+ <86f9ed66-c58e-0b2d-dd2b-4372ff26a3c3@ti.com>
 MIME-Version: 1.0
-References: <cover.1716965617.git.ysato@users.sourceforge.jp>
- <b1fc49269919c7d6c2e5c607ae29d1a6f2ab40d2.1716965617.git.ysato@users.sourceforge.jp>
-In-Reply-To: <b1fc49269919c7d6c2e5c607ae29d1a6f2ab40d2.1716965617.git.ysato@users.sourceforge.jp>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 29 May 2024 15:06:36 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWdR=SfNBFdABXRqdng8b=68mP_BnnXfpQcUvjCmvOmVA@mail.gmail.com>
-Message-ID: <CAMuHMdWdR=SfNBFdABXRqdng8b=68mP_BnnXfpQcUvjCmvOmVA@mail.gmail.com>
-Subject: Re: [DO NOT MERGE v8 13/36] dt-bindings: clock: sh7750-cpg: Add
- renesas,sh7750-cpg header.
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>, 
- Niklas Cassel <cassel@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Thomas Gleixner <tglx@linutronix.de>, 
- Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, 
- Magnus Damm <magnus.damm@gmail.com>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
- Lee Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>, 
- Heiko Stuebner <heiko.stuebner@cherry.de>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Chris Morgan <macromorgan@hotmail.com>, Sebastian Reichel <sre@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
- Masahiro Yamada <masahiroy@kernel.org>, Baoquan He <bhe@redhat.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>, 
- Kefeng Wang <wangkefeng.wang@huawei.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>, 
- Azeem Shaikh <azeemshaikh38@gmail.com>, Guo Ren <guoren@kernel.org>, 
- Max Filippov <jcmvbkbc@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Herve Codina <herve.codina@bootlin.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Anup Patel <apatel@ventanamicro.com>, 
- Jacky Huang <ychuang3@nuvoton.com>, Hugo Villeneuve <hvilleneuve@dimonoff.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Sam Ravnborg <sam@ravnborg.org>, 
- Javier Martinez Canillas <javierm@redhat.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-ide@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
- linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <86f9ed66-c58e-0b2d-dd2b-4372ff26a3c3@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,49 +84,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sato-san,
+On Tue, May 28, 2024 at 04:02:30PM +0530, Devarsh Thakkar wrote:
+> On 28/05/24 02:02, Andy Shevchenko wrote:
+> > On Sun, May 26, 2024 at 11:38:56PM +0530, Devarsh Thakkar wrote:
 
-Thanks for the update!
+...
 
-On Wed, May 29, 2024 at 10:01=E2=80=AFAM Yoshinori Sato
-<ysato@users.sourceforge.jp> wrote:
-> SH7750 CPG Clock output define.
+> >> +/**
+> >> + * round_closest_up - round closest to be multiple of specified value (which is
+> >> + *                    power of 2) with preference to rounding up
+> >> +
+> > 
+> > Not that big deal, but missing '*' here. Personally I would not even put
+> > a blank line between Summary and Field Descriptions.
+> 
+> My bad. Yes I would remove the blank line here. This is picked up as warning
+> from kernel-doc too.
+> 
+> >> + * @x: the value to round
+> >> + * @y: multiple to round closest to (must be a power of 2)
+> >> + *
+> >> + * Rounds @x to closest multiple of @y (which must be a power of 2).
+> >> + * The value can be either rounded up or rounded down depending upon rounded
+> >> + * value's closeness to the specified value. If there are two closest possible
+> >> + * values, i.e. the difference between the specified value and it's rounded up
+> >> + * and rounded down values is same then preference is given to rounded up
+> >> + * value.
+> >> + *
+> >> + * To perform arbitrary rounding to closest value (not multiple of 2), use
+> >> + * roundclosest().
+> >> + *
+> >> + * Examples :
+> > 
+> > What is this suppose to be rendered to?
+> 
+> The file math.h is not rendered as part of kernel-doc right now. I can put
+> this under Documentation/core-api/kernel-api.rst perhaps I can create a new
+> section as below:
+> 
+> Rounding, absolute diff and 32bit division macros
+> -------------------------------------------------
+> 
+> under the section:
+> CRC and Math Functions in Linux
+> 
+> ===============================
+> 
+> is that okay ?
 
-(from my comments on v6 and v7) Please improve the patch description.
+This is up to you, but what I meant is that you always can render manually
+yourself. And I was asking about the result you got when you tried (and you
+did, right?) to render to man, html, and pdf.
 
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> >> + * round_closest_up(17, 4) = 16
+> >> + * round_closest_up(15, 4) = 16
+> >> + * round_closest_up(14, 4) = 16
+> > 
+> > Btw, is kernel-doc validator happy about all kernel docs you added?
+> 
+> Yes, except the aforementioned blank line.
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/clock/renesas,sh7750-cpg.yaml
-> @@ -0,0 +1,107 @@
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/sh7750-cpg.h>
-> +    cpg: clock-controller@ffc00000 {
-> +        compatible =3D "renesas,sh7751r-cpg";
-> +        reg =3D <0xffc00000 20>, <0xfe0a0000 16>;
-> +        reg-names =3D "FRQCR", "CLKSTP00";
-> +        clocks =3D <&extal>;
-> +        clock-names =3D "extal";
-> +        renesas,mode =3D <0>;
 
-Nit: please move "renesas,mode" last.
-
-> +        #clock-cells =3D <1>;
-> +        #power-domain-cells =3D <0>;
-> +    };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
