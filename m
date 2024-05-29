@@ -2,54 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF04C8D2E44
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 09:32:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD31A8D2E48
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 09:32:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2473610E77A;
-	Wed, 29 May 2024 07:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAA1010E46B;
+	Wed, 29 May 2024 07:32:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BrZRV001";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7779310E7FB
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 07:31:56 +0000 (UTC)
-Received: from SoMainline.org
- (2a02-a420-77-cc79-164f-8aff-fee4-5930.mobile6.kpn.net
- [IPv6:2a02:a420:77:cc79:164f:8aff:fee4:5930])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D19110E46B
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 07:32:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1716967939;
+ bh=cADutWs2Dsx1o9inKNPez5xFnY+sOuOUeUDqJ44drFk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=BrZRV001CJRtCqhATXy9C/FXVikr+5BdllJGZ2rStBbfQk7E4RecsGhHyLUYYTaIX
+ DdX1+wJBWQFYV5tjrx9nrd9tQQJymjFfZSy6VjmJioLWGMpiRHvVXQcCdNqEjHg2nc
+ 5Ofxh4snXgHT9f0visanV+QcHJiyJBN05ySKzTc3bXeWPSMtlxnPKH6PZ80J06d8dh
+ S9WP60/wwTTEDRUGmWqBV3OvWMlJ/QKPqS3N9XUPm0tVd+j32q0IXhPWDAzVjl0jg6
+ RjMI6caeXqeU15q9tG1E37Yw3kWZXMAASFBGSEMNh/yZchKQ5k8TQK7AdofrfG5BSK
+ Nino7JsVpA7dA==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
- server-digest SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 013031F8E2;
- Wed, 29 May 2024 09:31:52 +0200 (CEST)
-Date: Wed, 29 May 2024 09:31:51 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Caleb Connolly <caleb.connolly@linaro.org>,
- Alex Deucher <alexander.deucher@amd.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Vinod Koul <vkoul@kernel.org>, 
- Caleb Connolly <caleb@connolly.tech>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v4 3/3] drm/display: split DSC helpers from DP helpers
-Message-ID: <nfo5qbqwuq6zlywayt5pt2xh63wvg6eofjusz2wlelzi76busf@tuj5kaubcznl>
-References: <20240528-panel-sw43408-fix-v4-0-330b42445bcc@linaro.org>
- <20240528-panel-sw43408-fix-v4-3-330b42445bcc@linaro.org>
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0DFB63780627;
+ Wed, 29 May 2024 07:32:18 +0000 (UTC)
+Date: Wed, 29 May 2024 09:32:16 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Dmitry Osipenko
+ <dmitry.osipenko@collabora.com>, Zack Rusin <zack.rusin@broadcom.com>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v4 0/3] drm: Fix dma_resv deadlock at drm object pin time
+Message-ID: <20240529093216.6640d05d@collabora.com>
+In-Reply-To: <20240523113236.432585-1-adrian.larumbe@collabora.com>
+References: <20240523113236.432585-1-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240528-panel-sw43408-fix-v4-3-330b42445bcc@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,126 +69,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-05-28 22:39:20, Dmitry Baryshkov wrote:
-> Currently the DRM DSC functions are selected by the
-> DRM_DISPLAY_DP_HELPER Kconfig symbol. This is not optimal, since the DSI
-> code (both panel and host drivers) end up selecting the seemingly
-> irrelevant DP helpers. Split the DSC code to be guarded by the separate
-> DRM_DISPLAY_DSC_HELPER Kconfig symbol.
-> 
-> Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Thu, 23 May 2024 12:32:16 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> This is v4 of https://lore.kernel.org/lkml/20240521181817.097af5e1@collab=
+ora.com/T/
+>=20
+> The goal of this patch series is fixing a deadlock upon locking the dma r=
+eservation
+> of a DRM gem object when pinning it, at a prime import operation.
+>=20
+> Changelog:
+> v3:
+>  - Split driver fixes into separate commits for Panfrost and Lima
+>  - Make drivers call drm_gem_shmem_pin_locked instead of drm_gem_shmem_ob=
+ject_pin
+>  - Improved commit message for first patch to explain why dma resv lockin=
+g in the=20
+>  pin callback is no longer necessary.
+> v2:
+>  - Removed comment explaining reason why an already-locked
+> pin function replaced the locked variant inside Panfrost's
+> object pin callback.
+>  - Moved already-assigned attachment warning into generic
+> already-locked gem object pin function
+>=20
+>=20
+> Adri=C3=A1n Larumbe (3):
+>   drm/panfrost: Fix dma_resv deadlock at drm object pin time
+>   drm/lima: Fix dma_resv deadlock at drm object pin time
+>   drm/gem-shmem: Add import attachment warning to locked pin function
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/Kconfig | 1 +
->  drivers/gpu/drm/display/Kconfig    | 6 ++++++
->  drivers/gpu/drm/display/Makefile   | 3 ++-
->  drivers/gpu/drm/i915/Kconfig       | 1 +
->  drivers/gpu/drm/msm/Kconfig        | 1 +
->  drivers/gpu/drm/panel/Kconfig      | 6 +++---
->  6 files changed, 14 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
-> index 4232ab27f990..5933ca8c6b96 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/Kconfig
-> +++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
-> @@ -6,6 +6,7 @@ config DRM_AMDGPU
->  	depends on !UML
->  	select FW_LOADER
->  	select DRM_DISPLAY_DP_HELPER
-> +	select DRM_DISPLAY_DSC_HELPER
->  	select DRM_DISPLAY_HDMI_HELPER
->  	select DRM_DISPLAY_HDCP_HELPER
->  	select DRM_DISPLAY_HELPER
-> diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
-> index 864a6488bfdf..f524cf95dec3 100644
-> --- a/drivers/gpu/drm/display/Kconfig
-> +++ b/drivers/gpu/drm/display/Kconfig
-> @@ -59,6 +59,12 @@ config DRM_DISPLAY_DP_TUNNEL_STATE_DEBUG
->  
->  	  If in doubt, say "N".
->  
-> +config DRM_DISPLAY_DSC_HELPER
-> +	bool
-> +	depends on DRM_DISPLAY_HELPER
-> +	help
-> +	  DRM display helpers for VESA DSC (used by DSI and DisplayPort).
-> +
->  config DRM_DISPLAY_HDCP_HELPER
->  	bool
->  	depends on DRM_DISPLAY_HELPER
-> diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
-> index 17d2cc73ff56..2ec71e15c3cb 100644
-> --- a/drivers/gpu/drm/display/Makefile
-> +++ b/drivers/gpu/drm/display/Makefile
-> @@ -6,7 +6,8 @@ drm_display_helper-y := drm_display_helper_mod.o
->  drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_HELPER) += \
->  	drm_dp_dual_mode_helper.o \
->  	drm_dp_helper.o \
-> -	drm_dp_mst_topology.o \
-> +	drm_dp_mst_topology.o
-> +drm_display_helper-$(CONFIG_DRM_DISPLAY_DSC_HELPER) += \
->  	drm_dsc_helper.o
->  drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_TUNNEL) += \
->  	drm_dp_tunnel.o
-> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-> index 5932024f8f95..117b84260b1c 100644
-> --- a/drivers/gpu/drm/i915/Kconfig
-> +++ b/drivers/gpu/drm/i915/Kconfig
-> @@ -11,6 +11,7 @@ config DRM_I915
->  	select SHMEM
->  	select TMPFS
->  	select DRM_DISPLAY_DP_HELPER
-> +	select DRM_DISPLAY_DSC_HELPER
->  	select DRM_DISPLAY_HDCP_HELPER
->  	select DRM_DISPLAY_HDMI_HELPER
->  	select DRM_DISPLAY_HELPER
-> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
-> index 1931ecf73e32..6dcd26180611 100644
-> --- a/drivers/gpu/drm/msm/Kconfig
-> +++ b/drivers/gpu/drm/msm/Kconfig
-> @@ -111,6 +111,7 @@ config DRM_MSM_DSI
->  	depends on DRM_MSM
->  	select DRM_PANEL
->  	select DRM_MIPI_DSI
-> +	select DRM_DISPLAY_DSC_HELPER
->  	default y
->  	help
->  	  Choose this option if you have a need for MIPI DSI connector
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index 2ae0eb0638f3..3e3f63479544 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -340,7 +340,7 @@ config DRM_PANEL_LG_SW43408
->  	depends on OF
->  	depends on DRM_MIPI_DSI
->  	depends on BACKLIGHT_CLASS_DEVICE
-> -	select DRM_DISPLAY_DP_HELPER
-> +	select DRM_DISPLAY_DSC_HELPER
->  	select DRM_DISPLAY_HELPER
->  	help
->  	  Say Y here if you want to enable support for LG sw43408 panel.
-> @@ -549,7 +549,7 @@ config DRM_PANEL_RAYDIUM_RM692E5
->  	depends on OF
->  	depends on DRM_MIPI_DSI
->  	depends on BACKLIGHT_CLASS_DEVICE
-> -	select DRM_DISPLAY_DP_HELPER
-> +	select DRM_DISPLAY_DSC_HELPER
->  	select DRM_DISPLAY_HELPER
->  	help
->  	  Say Y here if you want to enable support for Raydium RM692E5-based
-> @@ -907,7 +907,7 @@ config DRM_PANEL_VISIONOX_R66451
->  	depends on OF
->  	depends on DRM_MIPI_DSI
->  	depends on BACKLIGHT_CLASS_DEVICE
-> -	select DRM_DISPLAY_DP_HELPER
-> +	select DRM_DISPLAY_DSC_HELPER
->  	select DRM_DISPLAY_HELPER
->  	help
->  	  Say Y here if you want to enable support for Visionox
-> 
-> -- 
-> 2.39.2
-> 
+Queued to drm-misc-fixes.
+
+Thanks!
+
+Boris
