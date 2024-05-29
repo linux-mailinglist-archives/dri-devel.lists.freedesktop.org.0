@@ -2,75 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F1F38D3878
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 15:55:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A43D48D3892
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 16:03:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8CEB11398F;
-	Wed, 29 May 2024 13:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78A7610E1C9;
+	Wed, 29 May 2024 14:03:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TUCBfWLw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ioooeFAH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA72610FF9D;
- Wed, 29 May 2024 13:55:14 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-1f47f07aceaso17814565ad.0; 
- Wed, 29 May 2024 06:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1716990913; x=1717595713; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sGlIeA8hMcr9Fm/VlCdK2KdthFpKjfRPf//jK9Gb9e8=;
- b=TUCBfWLwtJOkG92TNhQLvv2yhimHWbtByHBI3dL1Vqv5SN8vq8hCot65ULH3f1Dxq6
- dEDZAKBsarz3L1QMfDVN6PiIh6MCxQSjTPGVnt3nQSR55lUPUrvYltKBu/C+N2AkWfFG
- PTrCLxPQzaP54ml+GNrzikzA1RzhrnLxgAHC1b9oFi/Vfb4DESV02laRf3LJOu3lz1ZB
- KI6ckSQvoAPUqYFVGOX1W9zZb/wGe1lejO+Z8zOeWR/Rr5qy+7Ikhf4C5sMHbn53iybA
- W++Z1IbCwQ/vbuUhbErUcS+RxbNvKOhuSfTCxdTakECvVkNo//hOggYlZzDljvGaKZH3
- tfqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716990913; x=1717595713;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sGlIeA8hMcr9Fm/VlCdK2KdthFpKjfRPf//jK9Gb9e8=;
- b=PySX3Ds2/3MBBOAnmZbO86+qbf9x9U//r+nb5PcVN/83vWBLzmXd1HnMrL1eoXzmFM
- Vb+bpoy+uf6VKbbp9YBgdS40lsTm8dr9GcMuF0THvoyz+YAqiL2do14RmrLz4fmqDUWu
- Ray8k7cQ7ZYHG7769CbvhojIplEezgYknmMewardS5vexLsldjX/339xKqHb5eSVOJXh
- ZgHiTkkg/On8JLRM7R2k+xUjHkYWG4UY3IcC4k3ZNjBxmt7yZ7PgZVMfcQMOrEyKEZDh
- re0795/SqMxARwyNFLis1w7AK8z1p+oFYItRB3/YIxqame1N+1/nvbub1Ob4eXG/MbsR
- 9U6A==
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A24F10E1C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:02:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id A71EFCE1684
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:02:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F156C116B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:02:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1716991373;
+ bh=ClKliciffLvAYOJd0zEs/omJQhLpuiCBv2RFdMFaVkg=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ioooeFAHqJUVENw/TxzwW2AKwslsUnB5913QU+BV3I+cHtjiY4574Ez/5pKv2nlor
+ h75rqS+IhFWufHIL/DbPKdvwh2XU+LAbvIY7lhEDeELB/bFpiKdGcpqiJC40gVY3S7
+ U1SklR0qELVmyMoWpx/FTGrWloxKD35OUTxIYiejGk/4KkwxjSialuWmsnRgeGXtw3
+ gjeDfSQimxVUyZ78Pn0FcKT5tWnhdZkHfrKGn/1V8xmMXIIIf8tDfmhoU+hmRHIuqr
+ p6ULJwweJc7LrT3EbkYQaJjSPepzAIJip7BX2bF4UzWpLiJhMLwMu8XKvqP+DbUKDu
+ SHdfThbgsaXyA==
+Received: by mail-yw1-f180.google.com with SMTP id
+ 00721157ae682-627f3265898so22231977b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 07:02:53 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXfiaGRIFIQ+x+3GMMMcWzJXW394fen193YnzneqkK9RlRGSMURGYwt2UcmNrbz6WdoETVBuInKB601Gr5MuI3x3AZL+m81vN3gwCXqPfybi3u4xiK/vHMFMAjgu6ydVqC8Lr45hoI5e/6StwI2dw==
-X-Gm-Message-State: AOJu0YydXplNjKtJ4WCI/wApifEQoJCFidFoJhBO3B1KzzDqrH1aaSMo
- wIse/Bp2aKh6/miXHd0Lw/MKvT+inOzmmnq2z7emkBcggZ/v3e8zCBhEG/eG7gXEqxlh/BMwzmv
- l2lgpqP+GiiTqRMYO98jxbihLYRY=
-X-Google-Smtp-Source: AGHT+IHm0zRTpU3i/A0JVmM25LoggLAhFbg2a1hrsXcUm7MHJr4WHud5PBcWgghHM0zxa3+8cHQc/tmkKlFrhHf/w18=
-X-Received: by 2002:a17:903:188:b0:1f4:ee68:3bc5 with SMTP id
- d9443c01a7336-1f4ee683c53mr18900995ad.57.1716990913482; Wed, 29 May 2024
- 06:55:13 -0700 (PDT)
+ AJvYcCWtJ82ktjwQKbF4j9/Du0mJxxDr6QAN5UJYaSgwFkib5AqmwxxR3KvKYRJRIUzJzlz2tz8JMLA8g2gmGIid6u+twy8wR38NOWdnzkaYnGng
+X-Gm-Message-State: AOJu0YwdUpFBVolcuiqWapkhie+rRKR97f6/Ei4yNcO81yxkSpzE0j5c
+ baNebiCx5KP/OrndMj3ktiiGTv/5tFujk7diVO2FD7QPMgU+Uf16dnZVq56JUdmiJYEDdEed+2E
+ qmelc4jeMDuikqzBFWk0St6CPtgyh5pCcrZsv9Q==
+X-Google-Smtp-Source: AGHT+IEQfAx4JIxkU4lwhsuOXXdkyjbqTK/TzbD39b2JjThMlG91WmwmEdm1flu1c5ds/ZRYMrcp6sgaL0vcye4/joQ=
+X-Received: by 2002:a81:840c:0:b0:620:255a:a5c5 with SMTP id
+ 00721157ae682-62a08ea7e3fmr150098277b3.32.1716991372687; Wed, 29 May 2024
+ 07:02:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240528210319.1242-1-mario.limonciello@amd.com>
- <CADnq5_OzPT1MVnsqXs2vjr1L2_6jeM6x7jgs4ZtYpNzdDHM6uA@mail.gmail.com>
- <87r0dkiv4o.fsf@intel.com>
-In-Reply-To: <87r0dkiv4o.fsf@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 29 May 2024 09:55:01 -0400
-Message-ID: <CADnq5_NiJ9a7uYPGj9iuePTRBFKGhhFA6G982bxO2kHe-_5ASA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/client: Detect when ACPI lid is closed during
- initialization
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+References: <20240516062455.106266-1-alexander.stein@ew.tq-group.com>
+ <20240516062455.106266-3-alexander.stein@ew.tq-group.com>
+In-Reply-To: <20240516062455.106266-3-alexander.stein@ew.tq-group.com>
+From: Robert Foss <rfoss@kernel.org>
+Date: Wed, 29 May 2024 16:02:41 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi6k3Fv5oQaWbDakaq6_=f-gmVY21OsQ5vxAdepUvU5VBQ@mail.gmail.com>
+Message-ID: <CAN6tsi6k3Fv5oQaWbDakaq6_=f-gmVY21OsQ5vxAdepUvU5VBQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] drm/bridge: tc358767: Only print GPIO debug output
+ if they actually occur
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, 
- linux-kernel@vger.kernel.org, Chris Bainbridge <chris.bainbridge@gmail.com>, 
- hughsient@gmail.com
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,123 +80,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 29, 2024 at 9:51=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
-l.com> wrote:
+On Thu, May 16, 2024 at 8:25=E2=80=AFAM Alexander Stein
+<alexander.stein@ew.tq-group.com> wrote:
 >
-> On Wed, 29 May 2024, Alex Deucher <alexdeucher@gmail.com> wrote:
-> > On Tue, May 28, 2024 at 5:03=E2=80=AFPM Mario Limonciello
-> > <mario.limonciello@amd.com> wrote:
-> >>
-> >> If the lid on a laptop is closed when eDP connectors are populated
-> >> then it remains enabled when the initial framebuffer configuration
-> >> is built.
-> >>
-> >> When creating the initial framebuffer configuration detect the ACPI
-> >> lid status and if it's closed disable any eDP connectors.
-> >>
-> >> Reported-by: Chris Bainbridge <chris.bainbridge@gmail.com>
-> >> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3349
-> >> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> >
-> > Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-> >
-> > Do you have drm-misc access or do you need someone to apply this for yo=
-u?
+> Currently the output the following output is printed upon each interrupt:
+>  tc358767 1-000f: GPIO0:
+> This spams the kernel log while debugging an IRQ storm from the bridge.
+> Only print the debug output if the GPIO hotplug event actually happened.
 >
-> I've bounced this to intel-gfx and intel-xe lists to get CI testing. I'd
-> appreciate holding off on merging until we have results.
-
-Sure.
-
-Alex
-
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+>  drivers/gpu/drm/bridge/tc358767.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> Thanks,
-> Jani.
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/t=
+c358767.c
+> index de62a7e2eafec..8874713bdd4a4 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -2146,11 +2146,11 @@ static irqreturn_t tc_irq_handler(int irq, void *=
+arg)
+>                 bool h =3D val & INT_GPIO_H(tc->hpd_pin);
+>                 bool lc =3D val & INT_GPIO_LC(tc->hpd_pin);
 >
-> >
-> > Alex
-> >
-> >> ---
-> >> Cc: hughsient@gmail.com
-> >> v1->v2:
-> >>  * Match LVDS as well
-> >> ---
-> >>  drivers/gpu/drm/drm_client_modeset.c | 30 +++++++++++++++++++++++++++=
-+
-> >>  1 file changed, 30 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/dr=
-m_client_modeset.c
-> >> index 31af5cf37a09..0b0411086e76 100644
-> >> --- a/drivers/gpu/drm/drm_client_modeset.c
-> >> +++ b/drivers/gpu/drm/drm_client_modeset.c
-> >> @@ -8,6 +8,7 @@
-> >>   */
-> >>
-> >>  #include "drm/drm_modeset_lock.h"
-> >> +#include <acpi/button.h>
-> >>  #include <linux/module.h>
-> >>  #include <linux/mutex.h>
-> >>  #include <linux/slab.h>
-> >> @@ -257,6 +258,34 @@ static void drm_client_connectors_enabled(struct =
-drm_connector **connectors,
-> >>                 enabled[i] =3D drm_connector_enabled(connectors[i], fa=
-lse);
-> >>  }
-> >>
-> >> +static void drm_client_match_edp_lid(struct drm_device *dev,
-> >> +                                    struct drm_connector **connectors=
-,
-> >> +                                    unsigned int connector_count,
-> >> +                                    bool *enabled)
-> >> +{
-> >> +       int i;
-> >> +
-> >> +       for (i =3D 0; i < connector_count; i++) {
-> >> +               struct drm_connector *connector =3D connectors[i];
-> >> +
-> >> +               switch (connector->connector_type) {
-> >> +               case DRM_MODE_CONNECTOR_LVDS:
-> >> +               case DRM_MODE_CONNECTOR_eDP:
-> >> +                       if (!enabled[i])
-> >> +                               continue;
-> >> +                       break;
-> >> +               default:
-> >> +                       continue;
-> >> +               }
-> >> +
-> >> +               if (!acpi_lid_open()) {
-> >> +                       drm_dbg_kms(dev, "[CONNECTOR:%d:%s] lid is clo=
-sed, disabling\n",
-> >> +                                   connector->base.id, connector->nam=
-e);
-> >> +                       enabled[i] =3D false;
-> >> +               }
-> >> +       }
-> >> +}
-> >> +
-> >>  static bool drm_client_target_cloned(struct drm_device *dev,
-> >>                                      struct drm_connector **connectors=
-,
-> >>                                      unsigned int connector_count,
-> >> @@ -844,6 +873,7 @@ int drm_client_modeset_probe(struct drm_client_dev=
- *client, unsigned int width,
-> >>                 memset(crtcs, 0, connector_count * sizeof(*crtcs));
-> >>                 memset(offsets, 0, connector_count * sizeof(*offsets))=
-;
-> >>
-> >> +               drm_client_match_edp_lid(dev, connectors, connector_co=
-unt, enabled);
-> >>                 if (!drm_client_target_cloned(dev, connectors, connect=
-or_count, modes,
-> >>                                               offsets, enabled, width,=
- height) &&
-> >>                     !drm_client_target_preferred(dev, connectors, conn=
-ector_count, modes,
-> >> --
-> >> 2.43.0
-> >>
+> -               dev_dbg(tc->dev, "GPIO%d: %s %s\n", tc->hpd_pin,
+> -                       h ? "H" : "", lc ? "LC" : "");
+> -
+> -               if (h || lc)
+> +               if (h || lc) {
+> +                       dev_dbg(tc->dev, "GPIO%d: %s %s\n", tc->hpd_pin,
+> +                               h ? "H" : "", lc ? "LC" : "");
+>                         drm_kms_helper_hotplug_event(tc->bridge.dev);
+> +               }
+>         }
 >
+>         regmap_write(tc->regmap, INTSTS_G, val);
 > --
-> Jani Nikula, Intel
+> 2.34.1
+>
+>
+
+Reviewed-by: Robert Foss <rfoss@kernel.org>
