@@ -2,68 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D205A8D2E41
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 09:30:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF04C8D2E44
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 09:32:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEF3E10E4A1;
-	Wed, 29 May 2024 07:30:35 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dUaLrWXg";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2473610E77A;
+	Wed, 29 May 2024 07:31:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 008A210E4A1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 07:30:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716967832; x=1748503832;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=HhJt1HONsIjlD0Q+6x/PridWqQe6ezeXYzhlVv+oYFg=;
- b=dUaLrWXghZnFtaMfzkCzOG2R54BfN33/vjHh+wi2r3d/tnFAa4Cpuqis
- GT1fhfpib2/OH9WNaXuXw3VEi+sZoT9oL8QQhguwVe6coJ9v1T0/NzVxN
- 27lBnYpH5K/PW6ijFIPkaSDuvEu4Djnr16v23zAXmBS82ybJ2llV0OPP0
- MAsbVtYTuNfdVZX3JTYp8hPSsuhhqG71upPS4hjGoob2Vm+Jr0yARu07I
- 0W9wttWLme4iBeI0KY0gXg1b3EhSNNvIrF7fDd3mfX0GFVwMlZ7uzqjcC
- qUHbKwEsw05lYE2Tg/L4Sba4F1bzR6YsWLWvQY3F8QojuO/HpotGzdDjm A==;
-X-CSE-ConnectionGUID: Dl895CjxTmSDQJYlV6+9XQ==
-X-CSE-MsgGUID: VcjeuQ14R/yhuhmXKZQ2EQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13177670"
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="13177670"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2024 00:30:31 -0700
-X-CSE-ConnectionGUID: 7v2p8jTuTGKxBJElG4OnWA==
-X-CSE-MsgGUID: Ov1u2DCLRRyLUb/rtwzgbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="40174031"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.86])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2024 00:30:28 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>, Melissa Wen
- <mwen@igalia.com>, Iago
- Toral <itoral@igalia.com>, Jose Maria Casanova Crespo
- <jmcasanova@igalia.com>, =?utf-8?Q?Juan_A_=2E_Su=C3=A1rez?=
- <jasuarez@igalia.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: Re: [PATCH v2 0/6] drm/v3d: Improve Performance Counters handling
-In-Reply-To: <8a86f1a3-f59e-41f9-a6ea-17526944e0ac@igalia.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240512222655.2792754-1-mcanal@igalia.com>
- <8702e7f7-0f3f-4ee6-b2f3-e44217dbed36@igalia.com>
- <87msojqv89.fsf@intel.com>
- <8a86f1a3-f59e-41f9-a6ea-17526944e0ac@igalia.com>
-Date: Wed, 29 May 2024 10:30:24 +0300
-Message-ID: <87ed9lkrcf.fsf@intel.com>
+Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7779310E7FB
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 07:31:56 +0000 (UTC)
+Received: from SoMainline.org
+ (2a02-a420-77-cc79-164f-8aff-fee4-5930.mobile6.kpn.net
+ [IPv6:2a02:a420:77:cc79:164f:8aff:fee4:5930])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 013031F8E2;
+ Wed, 29 May 2024 09:31:52 +0200 (CEST)
+Date: Wed, 29 May 2024 09:31:51 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Caleb Connolly <caleb.connolly@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Vinod Koul <vkoul@kernel.org>, 
+ Caleb Connolly <caleb@connolly.tech>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v4 3/3] drm/display: split DSC helpers from DP helpers
+Message-ID: <nfo5qbqwuq6zlywayt5pt2xh63wvg6eofjusz2wlelzi76busf@tuj5kaubcznl>
+References: <20240528-panel-sw43408-fix-v4-0-330b42445bcc@linaro.org>
+ <20240528-panel-sw43408-fix-v4-3-330b42445bcc@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240528-panel-sw43408-fix-v4-3-330b42445bcc@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,64 +65,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 21 May 2024, Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
-> Hi Jani,
->
-> On 5/21/24 08:07, Jani Nikula wrote:
->> On Mon, 20 May 2024, Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
->>> On 5/12/24 19:23, Ma=C3=ADra Canal wrote:>
->>>> Ma=C3=ADra Canal (6):
->>>>     drm/v3d: Add Performance Counters descriptions for V3D 4.2 and 7.1
->>>>     drm/v3d: Different V3D versions can have different number of perfc=
-nt
->>>>     drm/v3d: Create a new V3D parameter for the maximum number of perf=
-cnt
->>>>     drm/v3d: Create new IOCTL to expose performance counters informati=
-on
->>>>     drm/v3d: Use V3D_MAX_COUNTERS instead of V3D_PERFCNT_NUM
->>>>     drm/v3d: Deprecate the use of the Performance Counters enum >
->>>>    drivers/gpu/drm/v3d/v3d_drv.c                 |  11 +
->>>>    drivers/gpu/drm/v3d/v3d_drv.h                 |  14 +-
->>>>    drivers/gpu/drm/v3d/v3d_perfmon.c             |  36 ++-
->>>>    .../gpu/drm/v3d/v3d_performance_counters.h    | 208 +++++++++++++++=
-+++
->>>>    drivers/gpu/drm/v3d/v3d_sched.c               |   2 +-
->>>>    include/uapi/drm/v3d_drm.h                    |  48 ++++
->>>>    6 files changed, 316 insertions(+), 3 deletions(-)
->>>>    create mode 100644 drivers/gpu/drm/v3d/v3d_performance_counters.h
->>>>
->>>
->>> Applied to drm-misc/drm-misc-next!
->>=20
->> What compiler do you use? I'm hitting the same as kernel test robot [1]
->> with arm-linux-gnueabihf-gcc 12.2.0.
->
-> I use clang version 17.0.6.
->
->>=20
->> In general, I don't think it's a great idea to put arrays in headers,
->> and then include it everywhere via v3d_drv.h. You're not just relying on
->> the compiler to optimize it away in compilation units where its not
->> referenced (likely to happen), but also for the linker to deduplicate
->> rodata (possible, but I'm not sure that it will happen).
->>=20
->> I think you need to move the arrays to a .c file, and then either a) add
->> interfaces to access the arrays, or b) declare the arrays and make them
->> global. For the latter you also need to figure out how to expose the
->> size.
->
-> I'll write a patch to fix it. Sorry for the disturbance, I didn't notice
-> it with clang.
+On 2024-05-28 22:39:20, Dmitry Baryshkov wrote:
+> Currently the DRM DSC functions are selected by the
+> DRM_DISPLAY_DP_HELPER Kconfig symbol. This is not optimal, since the DSI
+> code (both panel and host drivers) end up selecting the seemingly
+> irrelevant DP helpers. Split the DSC code to be guarded by the separate
+> DRM_DISPLAY_DSC_HELPER Kconfig symbol.
+> 
+> Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Another report [1].
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-
-BR,
-Jani.
-
-[1] https://lore.kernel.org/all/20240529122955.4cc16889@canb.auug.org.au
-
-
-
---=20
-Jani Nikula, Intel
+> ---
+>  drivers/gpu/drm/amd/amdgpu/Kconfig | 1 +
+>  drivers/gpu/drm/display/Kconfig    | 6 ++++++
+>  drivers/gpu/drm/display/Makefile   | 3 ++-
+>  drivers/gpu/drm/i915/Kconfig       | 1 +
+>  drivers/gpu/drm/msm/Kconfig        | 1 +
+>  drivers/gpu/drm/panel/Kconfig      | 6 +++---
+>  6 files changed, 14 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
+> index 4232ab27f990..5933ca8c6b96 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/Kconfig
+> +++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
+> @@ -6,6 +6,7 @@ config DRM_AMDGPU
+>  	depends on !UML
+>  	select FW_LOADER
+>  	select DRM_DISPLAY_DP_HELPER
+> +	select DRM_DISPLAY_DSC_HELPER
+>  	select DRM_DISPLAY_HDMI_HELPER
+>  	select DRM_DISPLAY_HDCP_HELPER
+>  	select DRM_DISPLAY_HELPER
+> diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
+> index 864a6488bfdf..f524cf95dec3 100644
+> --- a/drivers/gpu/drm/display/Kconfig
+> +++ b/drivers/gpu/drm/display/Kconfig
+> @@ -59,6 +59,12 @@ config DRM_DISPLAY_DP_TUNNEL_STATE_DEBUG
+>  
+>  	  If in doubt, say "N".
+>  
+> +config DRM_DISPLAY_DSC_HELPER
+> +	bool
+> +	depends on DRM_DISPLAY_HELPER
+> +	help
+> +	  DRM display helpers for VESA DSC (used by DSI and DisplayPort).
+> +
+>  config DRM_DISPLAY_HDCP_HELPER
+>  	bool
+>  	depends on DRM_DISPLAY_HELPER
+> diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
+> index 17d2cc73ff56..2ec71e15c3cb 100644
+> --- a/drivers/gpu/drm/display/Makefile
+> +++ b/drivers/gpu/drm/display/Makefile
+> @@ -6,7 +6,8 @@ drm_display_helper-y := drm_display_helper_mod.o
+>  drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_HELPER) += \
+>  	drm_dp_dual_mode_helper.o \
+>  	drm_dp_helper.o \
+> -	drm_dp_mst_topology.o \
+> +	drm_dp_mst_topology.o
+> +drm_display_helper-$(CONFIG_DRM_DISPLAY_DSC_HELPER) += \
+>  	drm_dsc_helper.o
+>  drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_TUNNEL) += \
+>  	drm_dp_tunnel.o
+> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+> index 5932024f8f95..117b84260b1c 100644
+> --- a/drivers/gpu/drm/i915/Kconfig
+> +++ b/drivers/gpu/drm/i915/Kconfig
+> @@ -11,6 +11,7 @@ config DRM_I915
+>  	select SHMEM
+>  	select TMPFS
+>  	select DRM_DISPLAY_DP_HELPER
+> +	select DRM_DISPLAY_DSC_HELPER
+>  	select DRM_DISPLAY_HDCP_HELPER
+>  	select DRM_DISPLAY_HDMI_HELPER
+>  	select DRM_DISPLAY_HELPER
+> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+> index 1931ecf73e32..6dcd26180611 100644
+> --- a/drivers/gpu/drm/msm/Kconfig
+> +++ b/drivers/gpu/drm/msm/Kconfig
+> @@ -111,6 +111,7 @@ config DRM_MSM_DSI
+>  	depends on DRM_MSM
+>  	select DRM_PANEL
+>  	select DRM_MIPI_DSI
+> +	select DRM_DISPLAY_DSC_HELPER
+>  	default y
+>  	help
+>  	  Choose this option if you have a need for MIPI DSI connector
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 2ae0eb0638f3..3e3f63479544 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -340,7 +340,7 @@ config DRM_PANEL_LG_SW43408
+>  	depends on OF
+>  	depends on DRM_MIPI_DSI
+>  	depends on BACKLIGHT_CLASS_DEVICE
+> -	select DRM_DISPLAY_DP_HELPER
+> +	select DRM_DISPLAY_DSC_HELPER
+>  	select DRM_DISPLAY_HELPER
+>  	help
+>  	  Say Y here if you want to enable support for LG sw43408 panel.
+> @@ -549,7 +549,7 @@ config DRM_PANEL_RAYDIUM_RM692E5
+>  	depends on OF
+>  	depends on DRM_MIPI_DSI
+>  	depends on BACKLIGHT_CLASS_DEVICE
+> -	select DRM_DISPLAY_DP_HELPER
+> +	select DRM_DISPLAY_DSC_HELPER
+>  	select DRM_DISPLAY_HELPER
+>  	help
+>  	  Say Y here if you want to enable support for Raydium RM692E5-based
+> @@ -907,7 +907,7 @@ config DRM_PANEL_VISIONOX_R66451
+>  	depends on OF
+>  	depends on DRM_MIPI_DSI
+>  	depends on BACKLIGHT_CLASS_DEVICE
+> -	select DRM_DISPLAY_DP_HELPER
+> +	select DRM_DISPLAY_DSC_HELPER
+>  	select DRM_DISPLAY_HELPER
+>  	help
+>  	  Say Y here if you want to enable support for Visionox
+> 
+> -- 
+> 2.39.2
+> 
