@@ -2,59 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5618D2BB1
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 06:17:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCF28D2C80
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 07:36:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2597C11303E;
-	Wed, 29 May 2024 04:17:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9576113108;
+	Wed, 29 May 2024 05:36:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RldXIDgA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TFUfN7yV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E679113041
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 04:16:58 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46964112324
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 05:36:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716956231; x=1748492231;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=FlVjeaoK5e3mUqNLLzqLSdVOojCzcNH993lhPpyKO4Y=;
- b=RldXIDgA6jizyOCPUr4U3gN2wW0yrNdOVOR5c8TvezH7CfR/b8HSQc1G
- G7PqP6AgDuaMPSWgVSHHipQNNYx2ueS8nrrdPdbE6Tw+qZb8jtbFQgtkY
- DMUgXZXo6BkTsZdIkI9o9ZsYgPzpy3qFbUgO6ItEoVPj6H3VW/mR3fArV
- xYozfGgXMoc3yQ6n2vQGLCxpfgbL5eAMuOzFOVm9MGFf1w06CJ0uqJG4c
- /WnYY16TCWA5HoihdcupWF4d05L70khQ3LiNfPa7/QbR4nwjfWi4DzdgO
- gx8yT5u43dKAAB0yN/AUDjSGINQ4gmS7Jm1W/KNic9vO4q5F269+GMLCU Q==;
-X-CSE-ConnectionGUID: rALfNTGaTsqc2fk1eW2ukA==
-X-CSE-MsgGUID: vrim/F2wQPmZ+ZY8bP3fXg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="30838502"
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="30838502"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2024 21:16:58 -0700
-X-CSE-ConnectionGUID: iQZjsEaxQvavrrWGzLmZZw==
-X-CSE-MsgGUID: mZY/nrGgTYeuko7d06PvGg==
+ t=1716960971; x=1748496971;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=jeXpPTPjJIlOE9JrMGFrdmPdU1WHNyP76S68yxLZIYk=;
+ b=TFUfN7yVG1bwnqYmHQKOxKfxEqRMRg5egyF7l6KfmtPRHs55CclNZ5s+
+ SrccswOAUMcYZ0UjhmtfjMoTGM1R04TPdGlzzl+TLUdWwiptPY1UUDlf5
+ bfymRIMG48LDcr5NElJhi03g129yUbqliq5nZpJoNJxNEtsqwD1+Z2QgV
+ ech6+tNu7cHlHM4ITIujmhsUiP+2yGfK34ArLTcATVs4sPAHU4Swbsisi
+ OKxzo0nQWmvWmL2dWmi9HfP+OXgY3aS1rMfbHYUgHUqzMJpZJpU+4OHve
+ eFs33WN4ArkNCZUqq3YY8/fK2JHYqYsuq1okPpJYnulvDQmK5xufwlEBi Q==;
+X-CSE-ConnectionGUID: ua24I69kSLmccf9msL8+MQ==
+X-CSE-MsgGUID: xo69wXciQY+Ggl/3owv0Mg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13568737"
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="13568737"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2024 22:35:02 -0700
+X-CSE-ConnectionGUID: COa8Vg/1TJ+DOYohn2WZPQ==
+X-CSE-MsgGUID: kjXbaTeoRi+UtA/joP+AHQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="58474485"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
- by fmviesa002.fm.intel.com with ESMTP; 28 May 2024 21:16:56 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sCAis-000D6R-2z;
- Wed, 29 May 2024 04:16:15 +0000
-Date: Wed, 29 May 2024 12:15:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [drm-misc:drm-misc-next 11/29] ERROR: modpost:
- "drm_hdmi_compute_mode_clock"
- [drivers/gpu/drm/display/drm_display_helper.ko] undefined!
-Message-ID: <202405291221.a0NStxHE-lkp@intel.com>
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="35257413"
+Received: from unknown (HELO allen-box.sh.intel.com) ([10.239.159.127])
+ by fmviesa007.fm.intel.com with ESMTP; 28 May 2024 22:34:56 -0700
+From: Lu Baolu <baolu.lu@linux.intel.com>
+To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Kevin Tian <kevin.tian@intel.com>
+Cc: Yi Liu <yi.l.liu@intel.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Kalle Valo <kvalo@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>, mst@redhat.com,
+ Jason Wang <jasowang@redhat.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, iommu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Lu Baolu <baolu.lu@linux.intel.com>
+Subject: [PATCH 00/20] iommu: Refactoring domain allocation interface
+Date: Wed, 29 May 2024 13:32:30 +0800
+Message-Id: <20240529053250.91284-1-baolu.lu@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,128 +76,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   336dca397dcefc5d7436be1fee3c814ed6512996
-commit: f035f4097f1e0a35a457b72427bb0c06ca0c81c4 [11/29] drm/connector: hdmi: Calculate TMDS character rate
-config: x86_64-randconfig-122-20240529 (https://download.01.org/0day-ci/archive/20240529/202405291221.a0NStxHE-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405291221.a0NStxHE-lkp@intel.com/reproduce)
+The IOMMU subsystem has undergone some changes, including the removal
+of iommu_ops from the bus structure. Consequently, the existing domain
+allocation interface, which relies on a bus type argument, is no longer
+relevant:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405291221.a0NStxHE-lkp@intel.com/
+    struct iommu_domain *iommu_domain_alloc(struct bus_type *bus)
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+This series is designed to refactor the use of this interface. It
+proposes two new interfaces to replace iommu_domain_alloc():
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8-selftest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/rational-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libchacha.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hexdump.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hash.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ida.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-kstrtox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sort.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_user_copy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_uuid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_free_pages.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kprobes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_encoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_gem_shmem_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_hdmi_state_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-auo-a030jtn01.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-orisetech-ota5601a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spi-avmm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/line-display.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-maltron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
-ERROR: modpost: "drm_hdmi_compute_mode_clock" [drivers/gpu/drm/tests/drm_connector_test.ko] undefined!
->> ERROR: modpost: "drm_hdmi_compute_mode_clock" [drivers/gpu/drm/display/drm_display_helper.ko] undefined!
+- iommu_user_domain_alloc(): This interface is intended for allocating
+  iommu domains managed by userspace for device passthrough scenarios,
+  such as those used by iommufd, vfio, and vdpa. It clearly indicates
+  that the domain is for user-managed device DMA.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_DISPLAY_HDMI_STATE_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_DISPLAY_HELPER [=m] && DRM_DISPLAY_HDMI_HELPER [=n]
-   Selected by [m]:
-   - DRM_KUNIT_TEST [=m] && HAS_IOMEM [=y] && DRM [=y] && KUNIT [=y] && MMU [=y]
+  If an IOMMU driver does not implement iommu_ops->domain_alloc_user,
+  this interface will rollback to the generic paging domain allocation.
+
+- iommu_paging_domain_alloc(): This interface is for allocating iommu
+  domains managed by kernel drivers for kernel DMA purposes. It takes a
+  device pointer as a parameter, which better reflects the current
+  design of the IOMMU subsystem.
+
+The majority of device drivers currently using iommu_domain_alloc() do
+so to allocate a domain for a specific device and then attach that
+domain to the device. These cases can be straightforwardly migrated to
+the new interfaces.
+
+However, there are some drivers with more complex use cases that do
+not fit neatly into this new scheme. For example:
+
+$ git grep "= iommu_domain_alloc"
+arch/arm/mm/dma-mapping.c:      mapping->domain = iommu_domain_alloc(bus);
+drivers/gpu/drm/rockchip/rockchip_drm_drv.c:    private->domain = iommu_domain_alloc(private->iommu_dev->bus);
+drivers/gpu/drm/tegra/drm.c:            tegra->domain = iommu_domain_alloc(&platform_bus_type);
+drivers/infiniband/hw/usnic/usnic_uiom.c:       pd->domain = domain = iommu_domain_alloc(dev->bus);
+
+This series leave those cases unchanged and keep iommu_domain_alloc()
+for their usage. But new drivers should not use it anymore.
+
+The whole series is also available on GitHub:
+https://github.com/LuBaolu/intel-iommu/commits/iommu-domain-allocation-refactor-v1
+
+Lu Baolu (20):
+  iommu: Add iommu_user_domain_alloc() interface
+  iommufd: Use iommu_user_domain_alloc()
+  vfio/type1: Use iommu_paging_domain_alloc()
+  vhost-vdpa: Use iommu_user_domain_alloc()
+  iommu: Add iommu_paging_domain_alloc() interface
+  drm/msm: Use iommu_paging_domain_alloc()
+  drm/nouveau/tegra: Use iommu_paging_domain_alloc()
+  gpu: host1x: Use iommu_paging_domain_alloc()
+  media: nvidia: tegra: Use iommu_paging_domain_alloc()
+  media: venus: firmware: Use iommu_paging_domain_alloc()
+  ath10k: Use iommu_paging_domain_alloc()
+  wifi: ath11k: Use iommu_paging_domain_alloc()
+  remoteproc: Use iommu_paging_domain_alloc()
+  soc/fsl/qbman: Use iommu_paging_domain_alloc()
+  iommu/vt-d: Add helper to allocate paging domain
+  iommu/vt-d: Add domain_alloc_paging support
+  iommu/vt-d: Simplify compatibility check for identity domain
+  iommu/vt-d: Enhance compatibility check for paging domain attach
+  iommu/vt-d: Remove domain_update_iommu_cap()
+  iommu/vt-d: Remove domain_update_iommu_superpage()
+
+ include/linux/iommu.h                         |  12 +
+ drivers/gpu/drm/msm/msm_iommu.c               |   8 +-
+ .../drm/nouveau/nvkm/engine/device/tegra.c    |   4 +-
+ drivers/gpu/host1x/dev.c                      |   6 +-
+ drivers/iommu/intel/iommu.c                   | 319 ++++++++----------
+ drivers/iommu/intel/pasid.c                   |  28 +-
+ drivers/iommu/iommu.c                         |  62 ++++
+ drivers/iommu/iommufd/hw_pagetable.c          |  20 +-
+ .../media/platform/nvidia/tegra-vde/iommu.c   |   6 +-
+ drivers/media/platform/qcom/venus/firmware.c  |   6 +-
+ drivers/net/wireless/ath/ath10k/snoc.c        |   6 +-
+ drivers/net/wireless/ath/ath11k/ahb.c         |   6 +-
+ drivers/remoteproc/remoteproc_core.c          |   6 +-
+ drivers/soc/fsl/qbman/qman_portal.c           |   4 +-
+ drivers/vfio/vfio_iommu_type1.c               |   7 +-
+ drivers/vhost/vdpa.c                          |  11 +-
+ 16 files changed, 253 insertions(+), 258 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
