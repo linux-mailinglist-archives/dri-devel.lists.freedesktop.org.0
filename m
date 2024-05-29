@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2A58D3A24
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 17:00:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33AC58D3A27
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 17:00:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EB3010FDD4;
-	Wed, 29 May 2024 15:00:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D72BF11200E;
+	Wed, 29 May 2024 15:00:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56A3A112966
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:59:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C714610FA4E
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 15:00:28 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1sCKmL-0003hh-JG; Wed, 29 May 2024 16:59:49 +0200
+ id 1sCKmm-0003s0-GG; Wed, 29 May 2024 17:00:16 +0200
 Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
  by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1sCKmK-003TeI-Qd; Wed, 29 May 2024 16:59:48 +0200
+ id 1sCKml-003TeM-Nb; Wed, 29 May 2024 17:00:15 +0200
 Received: from pza by lupine with local (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1sCKmK-000Dg2-2P;
- Wed, 29 May 2024 16:59:48 +0200
-Message-ID: <604e3e34ca98484e938d775379441f2a82a73fbb.camel@pengutronix.de>
-Subject: Re: [PATCH v2 05/12] drm/imx: ldb: drop custom EDID support
+ (envelope-from <p.zabel@pengutronix.de>) id 1sCKml-000Dhq-21;
+ Wed, 29 May 2024 17:00:15 +0200
+Message-ID: <1f6475267bcd16db21080c90a77592ba0f7db9b9.camel@pengutronix.de>
+Subject: Re: [PATCH v2 06/12] drm/imx: ldb: drop custom DDC bus support
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, David Airlie
  <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
@@ -40,10 +40,10 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, David Airlie
 Cc: Chris Healy <cphealy@gmail.com>, dri-devel@lists.freedesktop.org, 
  devicetree@vger.kernel.org, imx@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org
-Date: Wed, 29 May 2024 16:59:48 +0200
-In-Reply-To: <20240331-drm-imx-cleanup-v2-5-d81c1d1c1026@linaro.org>
+Date: Wed, 29 May 2024 17:00:15 +0200
+In-Reply-To: <20240331-drm-imx-cleanup-v2-6-d81c1d1c1026@linaro.org>
 References: <20240331-drm-imx-cleanup-v2-0-d81c1d1c1026@linaro.org>
- <20240331-drm-imx-cleanup-v2-5-d81c1d1c1026@linaro.org>
+ <20240331-drm-imx-cleanup-v2-6-d81c1d1c1026@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4-2 
@@ -69,9 +69,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On So, 2024-03-31 at 23:29 +0300, Dmitry Baryshkov wrote:
-> Bindings for the imx-ldb never allowed specifying the EDID in DT. None
-> of the existing DT files use it. Drop it now in favour of using debugfs
-> overrides or the drm.edid_firmware support.
+> None of the boards ever supported by the upstream kernel used the custom
+> DDC bus support with the LDB connector. If a need arises to do so, one
+> should use panel-simple and its DDC bus code. Drop ddc-i2c-bus support
+> from the imx-ldb driver.
 >=20
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
@@ -79,4 +80,3 @@ Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
 regards
 Philipp
-
