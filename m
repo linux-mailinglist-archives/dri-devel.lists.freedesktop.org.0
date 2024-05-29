@@ -2,107 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221848D36D5
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 14:56:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F9C8D36E7
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 14:58:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB0BB113471;
-	Wed, 29 May 2024 12:56:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0962D10E184;
+	Wed, 29 May 2024 12:58:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DX//w0VW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SNUX57Ak";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76C511135DD
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 12:56:14 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB95410E184
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 12:58:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716987374; x=1748523374;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=gz8z8N5bHTtjf1WXKP3VLR7zy+2ou75tSdQdUmX2Vx4=;
- b=DX//w0VWaxrNsKYr2M2lopKmf0Sv7vaVdQ+HhvtbIJ1XJstoa3SFuzqJ
- CuCLhG0V5CloWChvrG8xnWY+eMhX1TaVQ4orI/1AArB34VfglxRD/D+zb
- 1cWZo19Dae2e5KMZvKfihnZHb78io+LT79v5rV2ZQKqAhx5noun+x0WgO
- K20tm322b3SJyvsgzFel58veIcFvAhmbt+QJfzqWvCX0fLPrByD8aV3cy
- IGiXedQdSw0RIwPhBu+dG6BcavlILIRQMQVTl3KL7UW8LqLC1v6ViiOOl
- AaTDwEY/W9aV38eHf0uIEQbR8vDsH8TfmHKVvdFUdtcoWKbWR7wimr8Da A==;
-X-CSE-ConnectionGUID: F84x8TOFR6q53PtM+MY/dw==
-X-CSE-MsgGUID: QELSMZGnTGyvrvcnNR3n1A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="13618482"
-X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="13618482"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2024 05:56:13 -0700
-X-CSE-ConnectionGUID: H5QcdFF9TbONM172UGdoGg==
-X-CSE-MsgGUID: zqE6bIAkQpSvlFOcfBHkJw==
+ t=1716987530; x=1748523530;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=ARFwAN0P3/JFV80lQxZ2MX5W+mNtcNTSN9n5MI/fDds=;
+ b=SNUX57Ak5C1LsS2+GiuYYaEumQXl23RjslZXUR2LEfw+BYmUuEak4Ts0
+ Xlp6HNZvcKz9uWLuBGKD0BO57FdMxaWUg96vx2nk+wLVSMBP1zR2du/GC
+ mGrEE7xWRdhxIB5/9wij9ScioFyzzdcjcu9BzUDcH+Rtyk4gnT5DEDXWe
+ SDh4rnJq3LQ8BYn5+rNq6FkpMY9atnqzUSr0yHSxJ+d/hMlI91DBBGe87
+ q5tWDeeA+H+9HMjOwt3v3kAYJBiHpiDdsLNs7MA44xd4R3c7TIHJRssEe
+ 1WGtbmZLnVp5ybkSgCkTg1KwywBDy3z3CFHEBn5i/KVX5oRavVdNvq68X w==;
+X-CSE-ConnectionGUID: Qfano+JiQh2QR8gx9mFPHQ==
+X-CSE-MsgGUID: p2YyKaOPQmWTGlYwt8FXOg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="17221011"
+X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="17221011"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 May 2024 05:58:46 -0700
+X-CSE-ConnectionGUID: XvlLSQY4SRGgIHnQhCE1Qw==
+X-CSE-MsgGUID: DDKw2/8YRzO6uQVqjJny+A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="35963852"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2024 05:56:00 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sCIqP-0000000BnVT-2SiK; Wed, 29 May 2024 15:55:53 +0300
-Date: Wed, 29 May 2024 15:55:53 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
- Niklas Cassel <cassel@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Thomas Gleixner <tglx@linutronix.de>, Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Lee Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>,
- Heiko Stuebner <heiko.stuebner@cherry.de>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Chris Morgan <macromorgan@hotmail.com>, Sebastian Reichel <sre@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
- Masahiro Yamada <masahiroy@kernel.org>, Baoquan He <bhe@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Kefeng Wang <wangkefeng.wang@huawei.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Azeem Shaikh <azeemshaikh38@gmail.com>, Guo Ren <guoren@kernel.org>,
- Max Filippov <jcmvbkbc@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Herve Codina <herve.codina@bootlin.com>,
- Anup Patel <apatel@ventanamicro.com>, Jacky Huang <ychuang3@nuvoton.com>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Sam Ravnborg <sam@ravnborg.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-fbdev@vger.kernel.org
-Subject: Re: [DO NOT MERGE v8 08/36] clocksource: sh_tmu: CLOCKSOURCE support.
-Message-ID: <Zlcl2QxRDDrGh7Ru@smile.fi.intel.com>
-References: <cover.1716965617.git.ysato@users.sourceforge.jp>
- <f40e91e3f010880b0cf7a1c3a18d0c57bb55d93a.1716965617.git.ysato@users.sourceforge.jp>
+X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="35521135"
+Received: from maurocar-mobl2.ger.corp.intel.com (HELO [10.245.245.54])
+ ([10.245.245.54])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 May 2024 05:58:41 -0700
+Message-ID: <43d9493358353fc40df56023e474ae827dbfd2ec.camel@linux.intel.com>
+Subject: Re: [PATCH v12 06/10] drm/ttm/tests: Add tests with mock resource
+ managers
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Karolina Stolarek <karolina.stolarek@intel.com>, 
+ dri-devel@lists.freedesktop.org
+Cc: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Matthew
+ Auld <matthew.auld@intel.com>, Amaranath Somalapuram <asomalap@amd.com>
+Date: Wed, 29 May 2024 14:58:39 +0200
+In-Reply-To: <fc62475ddc5ee32f9be197ee72b146209f31972e.1715767062.git.karolina.stolarek@intel.com>
+References: <cover.1715767062.git.karolina.stolarek@intel.com>
+ <fc62475ddc5ee32f9be197ee72b146209f31972e.1715767062.git.karolina.stolarek@intel.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f40e91e3f010880b0cf7a1c3a18d0c57bb55d93a.1716965617.git.ysato@users.sourceforge.jp>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,76 +76,766 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 29, 2024 at 05:00:54PM +0900, Yoshinori Sato wrote:
-> Allows initialization as CLOCKSOURCE.
+On Wed, 2024-05-15 at 13:24 +0200, Karolina Stolarek wrote:
+> Add mock resource manager to test ttm_bo_validate() with non-system
+> placements. Update KConfig entry to enable DRM Buddy allocator, used
+> by the mock manager. Update move function to do more than just assign
+> a resource.
+>=20
+> Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
+> Tested-by: Somalapuram, Amaranath <asomalap@amd.com>
+> ---
+> =C2=A0drivers/gpu/drm/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> =C2=A0drivers/gpu/drm/ttm/tests/.kunitconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> =C2=A0drivers/gpu/drm/ttm/tests/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> =C2=A0.../gpu/drm/ttm/tests/ttm_bo_validate_test.c=C2=A0 | 274
+> ++++++++++++++++++
+> =C2=A0drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c |=C2=A0 38 ++-
+> =C2=A0drivers/gpu/drm/ttm/tests/ttm_mock_manager.c=C2=A0 | 207 ++++++++++=
++++
+> =C2=A0drivers/gpu/drm/ttm/tests/ttm_mock_manager.h=C2=A0 |=C2=A0 31 ++
+> =C2=A07 files changed, 551 insertions(+), 2 deletions(-)
+> =C2=A0create mode 100644 drivers/gpu/drm/ttm/tests/ttm_mock_manager.c
+> =C2=A0create mode 100644 drivers/gpu/drm/ttm/tests/ttm_mock_manager.h
+>=20
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 026444eeb5c6..4ba16501dbf7 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -234,6 +234,7 @@ config DRM_TTM_KUNIT_TEST
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default n
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 depends on DRM && KUNIT =
+&& MMU && (UML || COMPILE_TEST)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_TTM
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_BUDDY
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_EXPORT_FOR_TE=
+STS if m
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_KUNIT_TEST_HE=
+LPERS
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default KUNIT_ALL_TESTS
+> diff --git a/drivers/gpu/drm/ttm/tests/.kunitconfig
+> b/drivers/gpu/drm/ttm/tests/.kunitconfig
+> index 1ae1ffabd51e..772f0e1f4103 100644
+> --- a/drivers/gpu/drm/ttm/tests/.kunitconfig
+> +++ b/drivers/gpu/drm/ttm/tests/.kunitconfig
+> @@ -1,3 +1,4 @@
+> =C2=A0CONFIG_KUNIT=3Dy
+> =C2=A0CONFIG_DRM=3Dy
+> =C2=A0CONFIG_DRM_TTM_KUNIT_TEST=3Dy
+> +CONFIG_DRM_BUDDY=3Dy
 
-...
+Is this strictly needed when CONFIG_DRM_TTM_KUNIT_TEST is selected?
+Wouldn't that be enabled implicitly?
 
-> -	dev_info(&ch->tmu->pdev->dev, "ch%u: used for %s clock events\n",
-> -		 ch->index, periodic ? "periodic" : "oneshot");
-> +	pr_info("%s ch%u: used for %s clock events\n",
-> +		ch->tmu->name, ch->index, periodic ? "periodic" : "oneshot");
+> diff --git a/drivers/gpu/drm/ttm/tests/Makefile
+> b/drivers/gpu/drm/ttm/tests/Makefile
+> index 2e5ed63fb414..f3149de77541 100644
+> --- a/drivers/gpu/drm/ttm/tests/Makefile
+> +++ b/drivers/gpu/drm/ttm/tests/Makefile
+> @@ -7,4 +7,5 @@ obj-$(CONFIG_DRM_TTM_KUNIT_TEST) +=3D \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_tt_test.o \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_bo_test.o \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_bo_validate_test.o \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_mock_manager.o \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_kunit_helpers.o
+> diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+> b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+> index a5520b0631a3..8b62d95b8ab8 100644
+> --- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+> +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+> @@ -8,12 +8,15 @@
+> =C2=A0#include <drm/ttm/ttm_tt.h>
+> =C2=A0
+> =C2=A0#include "ttm_kunit_helpers.h"
+> +#include "ttm_mock_manager.h"
+> =C2=A0
+> =C2=A0#define BO_SIZE		SZ_4K
+> +#define MANAGER_SIZE	SZ_1M
+> =C2=A0
+> =C2=A0struct ttm_bo_validate_test_case {
+> =C2=A0	const char *description;
+> =C2=A0	enum ttm_bo_type bo_type;
+> +	uint32_t mem_type;
 
-This is a step back change. We should use dev_*() if we have a device
-available. And I believe this is the case (at least for the previous boards),
-no?
+Please use u32 instead of unit32_t in new code. The unit32_t usage in
+TTM is a remnant from when much of the drm- and ttm code was shared
+with *bsd. Same in a couple of places below.
 
-...
-
-> -	ch->irq = platform_get_irq(tmu->pdev, index);
-> +	if (tmu->np)
-> +		ch->irq = of_irq_get(tmu->np, index);
-> +	else if (tmu->pdev)
-> +		ch->irq = platform_get_irq(tmu->pdev, index);
-
-I found these changes counterproductive. Instead better to have up to three
-files to cover:
-- the common code (library)
-- the platform device support
-- the pure OF support.
-
-...
-
-> -	res = platform_get_resource(tmu->pdev, IORESOURCE_MEM, 0);
-> -	if (!res) {
-> -		dev_err(&tmu->pdev->dev, "failed to get I/O memory\n");
-> -		return -ENXIO;
-> +	if (tmu->pdev) {
-> +		res = platform_get_resource(tmu->pdev, IORESOURCE_MEM, 0);
-> +		if (!res) {
-> +			pr_err("sh_tmu failed to get I/O memory\n");
-> +			return -ENXIO;
-> +		}
+> =C2=A0	bool with_ttm;
+> =C2=A0};
+> =C2=A0
+> @@ -102,6 +105,49 @@ static void ttm_bo_init_reserved_sys_man(struct
+> kunit *test)
+> =C2=A0	ttm_bo_put(bo);
+> =C2=A0}
+> =C2=A0
+> +static void ttm_bo_init_reserved_mock_man(struct kunit *test)
+> +{
+> +	const struct ttm_bo_validate_test_case *params =3D test-
+> >param_value;
+> +	enum ttm_bo_type bo_type =3D params->bo_type;
+> +	struct ttm_test_devices *priv =3D test->priv;
+> +	uint32_t size =3D ALIGN(BO_SIZE, PAGE_SIZE);
+> +	struct ttm_operation_ctx ctx =3D { };
+> +	struct ttm_placement *placement;
+> +	uint32_t mem_type =3D TTM_PL_VRAM;
+> +	struct ttm_buffer_object *bo;
+> +	struct ttm_place *place;
+> +	int err;
 > +
-> +		tmu->mapbase = ioremap(res->start, resource_size(res));
-
-devm_platform_ioremap_resource() should be good to have.
-Again, consider proper splitting.
-
->  	}
-> +	if (tmu->np)
-> +		tmu->mapbase = of_iomap(tmu->np, 0);
-
-So, how many boards are non-OF compatible? Maybe makes sense to move them to OF
-and drop these platform code entirely from everywhere?
-
-...
-
-> +	tmu->name = dev_name(&pdev->dev);
-> +	tmu->clk = clk_get(&tmu->pdev->dev, "fck");
-
-devm_ approach can help a lot in case of platform device code.
-
-> +	if (IS_ERR(tmu->clk)) {
-> +		dev_err(&tmu->pdev->dev, "cannot get clock\n");
-> +		return PTR_ERR(tmu->clk);
-
-		return dev_err_probe() ?
-
+> +	ttm_mock_manager_init(priv->ttm_dev, mem_type,
+> MANAGER_SIZE);
+> +
+> +	bo =3D kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, bo);
+> +
+> +	place =3D ttm_place_kunit_init(test, mem_type, 0);
+> +	placement =3D ttm_placement_kunit_init(test, place, 1);
+> +
+> +	drm_gem_private_object_init(priv->drm, &bo->base, size);
+> +
+> +	err =3D ttm_bo_init_reserved(priv->ttm_dev, bo, bo_type,
+> placement,
+> +				=C2=A0=C2=A0 PAGE_SIZE, &ctx, NULL, NULL,
+> +				=C2=A0=C2=A0 &dummy_ttm_bo_destroy);
+> +	dma_resv_unlock(bo->base.resv);
+> +
+> +	KUNIT_EXPECT_EQ(test, err, 0);
+> +	KUNIT_EXPECT_EQ(test, kref_read(&bo->kref), 1);
+> +	KUNIT_EXPECT_PTR_EQ(test, bo->bdev, priv->ttm_dev);
+> +	KUNIT_EXPECT_EQ(test, bo->type, bo_type);
+> +	KUNIT_EXPECT_EQ(test, ctx.bytes_moved, size);
+> +
+> +	if (bo_type !=3D ttm_bo_type_kernel)
+> +		KUNIT_EXPECT_TRUE(test,
+> +				=C2=A0 drm_mm_node_allocated(&bo-
+> >base.vma_node.vm_node));
+> +
+> +	ttm_resource_free(bo, &bo->resource);
+> +	ttm_bo_put(bo);
+> +	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
+> +}
+> +
+> =C2=A0static void ttm_bo_init_reserved_resv(struct kunit *test)
+> =C2=A0{
+> =C2=A0	enum ttm_bo_type bo_type =3D ttm_bo_type_device;
+> @@ -136,6 +182,51 @@ static void ttm_bo_init_reserved_resv(struct
+> kunit *test)
+> =C2=A0	ttm_bo_put(bo);
+> =C2=A0}
+> =C2=A0
+> +static void ttm_bo_validate_basic(struct kunit *test)
+> +{
+> +	const struct ttm_bo_validate_test_case *params =3D test-
+> >param_value;
+> +	uint32_t fst_mem =3D TTM_PL_SYSTEM, snd_mem =3D TTM_PL_VRAM;
+> +	struct ttm_operation_ctx ctx_init =3D { }, ctx_val =3D { };
+> +	struct ttm_placement *fst_placement, *snd_placement;
+> +	struct ttm_test_devices *priv =3D test->priv;
+> +	struct ttm_place *fst_place, *snd_place;
+> +	uint32_t size =3D ALIGN(SZ_8K, PAGE_SIZE);
+> +	struct ttm_buffer_object *bo;
+> +	int err;
+> +
+> +	ttm_mock_manager_init(priv->ttm_dev, snd_mem, MANAGER_SIZE);
+> +
+> +	fst_place =3D ttm_place_kunit_init(test, fst_mem, 0);
+> +	fst_placement =3D ttm_placement_kunit_init(test, fst_place,
+> 1);
+> +
+> +	bo =3D kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, bo);
+> +
+> +	drm_gem_private_object_init(priv->drm, &bo->base, size);
+> +
+> +	err =3D ttm_bo_init_reserved(priv->ttm_dev, bo, params-
+> >bo_type,
+> +				=C2=A0=C2=A0 fst_placement, PAGE_SIZE,
+> &ctx_init, NULL,
+> +				=C2=A0=C2=A0 NULL, &dummy_ttm_bo_destroy);
+> +	KUNIT_EXPECT_EQ(test, err, 0);
+> +
+> +	snd_place =3D ttm_place_kunit_init(test, snd_mem,
+> DRM_BUDDY_TOPDOWN_ALLOCATION);
+> +	snd_placement =3D ttm_placement_kunit_init(test, snd_place,
+> 1);
+> +
+> +	err =3D ttm_bo_validate(bo, snd_placement, &ctx_val);
+> +	dma_resv_unlock(bo->base.resv);
+> +
+> +	KUNIT_EXPECT_EQ(test, err, 0);
+> +	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, bo->base.size);
+> +	KUNIT_EXPECT_NOT_NULL(test, bo->ttm);
+> +	KUNIT_EXPECT_TRUE(test, ttm_tt_is_populated(bo->ttm));
+> +	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, snd_mem);
+> +	KUNIT_EXPECT_EQ(test, bo->resource->placement,
+> +			DRM_BUDDY_TOPDOWN_ALLOCATION);
+> +
+> +	ttm_bo_put(bo);
+> +	ttm_mock_manager_fini(priv->ttm_dev, snd_mem);
+> +}
+> +
+> =C2=A0static void ttm_bo_validate_invalid_placement(struct kunit *test)
+> =C2=A0{
+> =C2=A0	enum ttm_bo_type bo_type =3D ttm_bo_type_device;
+> @@ -162,6 +253,36 @@ static void
+> ttm_bo_validate_invalid_placement(struct kunit *test)
+> =C2=A0	ttm_bo_put(bo);
+> =C2=A0}
+> =C2=A0
+> +static void ttm_bo_validate_failed_alloc(struct kunit *test)
+> +{
+> +	enum ttm_bo_type bo_type =3D ttm_bo_type_device;
+> +	struct ttm_test_devices *priv =3D test->priv;
+> +	uint32_t size =3D ALIGN(BO_SIZE, PAGE_SIZE);
+> +	struct ttm_operation_ctx ctx =3D { };
+> +	struct ttm_placement *placement;
+> +	uint32_t mem_type =3D TTM_PL_VRAM;
+> +	struct ttm_buffer_object *bo;
+> +	struct ttm_place *place;
+> +	int err;
+> +
+> +	bo =3D ttm_bo_kunit_init(test, test->priv, size, NULL);
+> +	bo->type =3D bo_type;
+> +
+> +	ttm_bad_manager_init(priv->ttm_dev, mem_type, MANAGER_SIZE);
+> +
+> +	place =3D ttm_place_kunit_init(test, mem_type, 0);
+> +	placement =3D ttm_placement_kunit_init(test, place, 1);
+> +
+> +	ttm_bo_reserve(bo, false, false, NULL);
+> +	err =3D ttm_bo_validate(bo, placement, &ctx);
+> +	dma_resv_unlock(bo->base.resv);
+> +
+> +	KUNIT_EXPECT_EQ(test, err, -ENOMEM);
+> +
+> +	ttm_bo_put(bo);
+> +	ttm_bad_manager_fini(priv->ttm_dev, mem_type);
+> +}
+> +
+> =C2=A0static void ttm_bo_validate_pinned(struct kunit *test)
+> =C2=A0{
+> =C2=A0	enum ttm_bo_type bo_type =3D ttm_bo_type_device;
+> @@ -193,11 +314,164 @@ static void ttm_bo_validate_pinned(struct
+> kunit *test)
+> =C2=A0	ttm_bo_put(bo);
+> =C2=A0}
+> =C2=A0
+> +static const struct ttm_bo_validate_test_case ttm_mem_type_cases[] =3D
+> {
+> +	{
+> +		.description =3D "System manager",
+> +		.mem_type =3D TTM_PL_SYSTEM,
+> +	},
+> +	{
+> +		.description =3D "VRAM manager",
+> +		.mem_type =3D TTM_PL_VRAM,
+> +	},
+> +};
+> +
+> +KUNIT_ARRAY_PARAM(ttm_bo_validate_mem, ttm_mem_type_cases,
+> +		=C2=A0 ttm_bo_validate_case_desc);
+> +
+> +static void ttm_bo_validate_same_placement(struct kunit *test)
+> +{
+> +	const struct ttm_bo_validate_test_case *params =3D test-
+> >param_value;
+> +	struct ttm_operation_ctx ctx_init =3D { }, ctx_val =3D { };
+> +	struct ttm_test_devices *priv =3D test->priv;
+> +	uint32_t size =3D ALIGN(BO_SIZE, PAGE_SIZE);
+> +	struct ttm_placement *placement;
+> +	struct ttm_buffer_object *bo;
+> +	struct ttm_place *place;
+> +	int err;
+> +
+> +	place =3D ttm_place_kunit_init(test, params->mem_type, 0);
+> +	placement =3D ttm_placement_kunit_init(test, place, 1);
+> +
+> +	if (params->mem_type !=3D TTM_PL_SYSTEM)
+> +		ttm_mock_manager_init(priv->ttm_dev, params-
+> >mem_type, MANAGER_SIZE);
+> +
+> +	bo =3D kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, bo);
+> +
+> +	drm_gem_private_object_init(priv->drm, &bo->base, size);
+> +
+> +	err =3D ttm_bo_init_reserved(priv->ttm_dev, bo, params-
+> >bo_type,
+> +				=C2=A0=C2=A0 placement, PAGE_SIZE, &ctx_init,
+> NULL,
+> +				=C2=A0=C2=A0 NULL, &dummy_ttm_bo_destroy);
+> +	KUNIT_EXPECT_EQ(test, err, 0);
+> +
+> +	err =3D ttm_bo_validate(bo, placement, &ctx_val);
+> +	dma_resv_unlock(bo->base.resv);
+> +
+> +	KUNIT_EXPECT_EQ(test, err, 0);
+> +	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, 0);
+> +
+> +	ttm_bo_put(bo);
+> +
+> +	if (params->mem_type !=3D TTM_PL_SYSTEM)
+> +		ttm_mock_manager_fini(priv->ttm_dev, params-
+> >mem_type);
+> +}
+> +
+> +static void ttm_bo_validate_busy_placement(struct kunit *test)
+> +{
+> +	uint32_t fst_mem =3D TTM_PL_VRAM, snd_mem =3D TTM_PL_VRAM + 1;
+> +	struct ttm_operation_ctx ctx_init =3D { }, ctx_val =3D { };
+> +	struct ttm_placement *placement_init, *placement_val;
+> +	enum ttm_bo_type bo_type =3D ttm_bo_type_device;
+> +	struct ttm_test_devices *priv =3D test->priv;
+> +	uint32_t size =3D ALIGN(BO_SIZE, PAGE_SIZE);
+> +	struct ttm_place *init_place, places[2];
+> +	struct ttm_resource_manager *man;
+> +	struct ttm_buffer_object *bo;
+> +	int err;
+> +
+> +	ttm_bad_manager_init(priv->ttm_dev, fst_mem, MANAGER_SIZE);
+> +	ttm_mock_manager_init(priv->ttm_dev, snd_mem, MANAGER_SIZE);
+> +
+> +	init_place =3D ttm_place_kunit_init(test, TTM_PL_SYSTEM, 0);
+> +	placement_init =3D ttm_placement_kunit_init(test, init_place,
+> 1);
+> +
+> +	bo =3D kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, bo);
+> +
+> +	drm_gem_private_object_init(priv->drm, &bo->base, size);
+> +
+> +	err =3D ttm_bo_init_reserved(priv->ttm_dev, bo, bo_type,
+> placement_init,
+> +				=C2=A0=C2=A0 PAGE_SIZE, &ctx_init, NULL, NULL,
+> +				=C2=A0=C2=A0 &dummy_ttm_bo_destroy);
+> +	KUNIT_EXPECT_EQ(test, err, 0);
+> +
+> +	places[0] =3D (struct ttm_place){ .mem_type =3D fst_mem, .flags
+> =3D TTM_PL_FLAG_DESIRED };
+> +	places[1] =3D (struct ttm_place){ .mem_type =3D snd_mem, .flags
+> =3D TTM_PL_FLAG_FALLBACK };
+> +	placement_val =3D ttm_placement_kunit_init(test, places, 2);
+> +
+> +	err =3D ttm_bo_validate(bo, placement_val, &ctx_val);
+> +	dma_resv_unlock(bo->base.resv);
+> +
+> +	man =3D ttm_manager_type(priv->ttm_dev, snd_mem);
+> +
+> +	KUNIT_EXPECT_EQ(test, err, 0);
+> +	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, bo->base.size);
+> +	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, snd_mem);
+> +	KUNIT_ASSERT_TRUE(test, list_is_singular(&man->lru[bo-
+> >priority]));
+> +
+> +	ttm_bo_put(bo);
+> +	ttm_bad_manager_fini(priv->ttm_dev, fst_mem);
+> +	ttm_mock_manager_fini(priv->ttm_dev, snd_mem);
+> +}
+> +
+> +static void ttm_bo_validate_multihop(struct kunit *test)
+> +{
+> +	const struct ttm_bo_validate_test_case *params =3D test-
+> >param_value;
+> +	struct ttm_operation_ctx ctx_init =3D { }, ctx_val =3D { };
+> +	struct ttm_placement *placement_init, *placement_val;
+> +	uint32_t fst_mem =3D TTM_PL_VRAM, tmp_mem =3D TTM_PL_TT,
+> +		 final_mem =3D TTM_PL_SYSTEM;
+> +	struct ttm_test_devices *priv =3D test->priv;
+> +	struct ttm_place *fst_place, *final_place;
+> +	uint32_t size =3D ALIGN(BO_SIZE, PAGE_SIZE);
+> +	struct ttm_buffer_object *bo;
+> +	int err;
+> +
+> +	ttm_mock_manager_init(priv->ttm_dev, fst_mem, MANAGER_SIZE);
+> +	ttm_mock_manager_init(priv->ttm_dev, tmp_mem, MANAGER_SIZE);
+> +
+> +	fst_place =3D ttm_place_kunit_init(test, fst_mem, 0);
+> +	placement_init =3D ttm_placement_kunit_init(test, fst_place,
+> 1);
+> +
+> +	bo =3D kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, bo);
+> +
+> +	drm_gem_private_object_init(priv->drm, &bo->base, size);
+> +
+> +	err =3D ttm_bo_init_reserved(priv->ttm_dev, bo, params-
+> >bo_type,
+> +				=C2=A0=C2=A0 placement_init, PAGE_SIZE,
+> &ctx_init, NULL,
+> +				=C2=A0=C2=A0 NULL, &dummy_ttm_bo_destroy);
+> +	KUNIT_EXPECT_EQ(test, err, 0);
+> +
+> +	final_place =3D ttm_place_kunit_init(test, final_mem, 0);
+> +	placement_val =3D ttm_placement_kunit_init(test, final_place,
+> 1);
+> +
+> +	err =3D ttm_bo_validate(bo, placement_val, &ctx_val);
+> +	dma_resv_unlock(bo->base.resv);
+> +
+> +	KUNIT_EXPECT_EQ(test, err, 0);
+> +	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, size * 2);
+> +	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, final_mem);
+> +
+> +	ttm_bo_put(bo);
+> +
+> +	ttm_mock_manager_fini(priv->ttm_dev, fst_mem);
+> +	ttm_mock_manager_fini(priv->ttm_dev, tmp_mem);
+> +}
+> +
+> =C2=A0static struct kunit_case ttm_bo_validate_test_cases[] =3D {
+> =C2=A0	KUNIT_CASE_PARAM(ttm_bo_init_reserved_sys_man,
+> ttm_bo_types_gen_params),
+> +	KUNIT_CASE_PARAM(ttm_bo_init_reserved_mock_man,
+> ttm_bo_types_gen_params),
+> =C2=A0	KUNIT_CASE(ttm_bo_init_reserved_resv),
+> +	KUNIT_CASE_PARAM(ttm_bo_validate_basic,
+> ttm_bo_types_gen_params),
+> =C2=A0	KUNIT_CASE(ttm_bo_validate_invalid_placement),
+> +	KUNIT_CASE_PARAM(ttm_bo_validate_same_placement,
+> +			 ttm_bo_validate_mem_gen_params),
+> +	KUNIT_CASE(ttm_bo_validate_failed_alloc),
+> =C2=A0	KUNIT_CASE(ttm_bo_validate_pinned),
+> +	KUNIT_CASE(ttm_bo_validate_busy_placement),
+> +	KUNIT_CASE_PARAM(ttm_bo_validate_multihop,
+> ttm_bo_types_gen_params),
+> =C2=A0	{}
+> =C2=A0};
+> =C2=A0
+> diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+> b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+> index 2f590bae53f8..2a2585b37118 100644
+> --- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+> +++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+> @@ -27,8 +27,42 @@ static int mock_move(struct ttm_buffer_object *bo,
+> bool evict,
+> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_resource *new_mem,
+> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_place *hop)
+> =C2=A0{
+> -	bo->resource =3D new_mem;
+> -	return 0;
+> +	struct ttm_resource *old_mem =3D bo->resource;
+> +	int ret;
+> +
+> +	if (!old_mem || (old_mem->mem_type =3D=3D TTM_PL_SYSTEM && !bo-
+> >ttm)) {
+> +		ttm_bo_move_null(bo, new_mem);
+> +		return 0;
 > +	}
+> +
+> +	if (bo->resource->mem_type =3D=3D TTM_PL_VRAM &&
+> +	=C2=A0=C2=A0=C2=A0 new_mem->mem_type =3D=3D TTM_PL_SYSTEM) {
+> +		hop->mem_type =3D TTM_PL_TT;
+> +		hop->flags =3D TTM_PL_FLAG_TEMPORARY;
+> +		hop->fpfn =3D 0;
+> +		hop->lpfn =3D 0;
+> +		return -EMULTIHOP;
+> +	}
+> +
+> +	if (old_mem->mem_type =3D=3D TTM_PL_SYSTEM &&
+> +	=C2=A0=C2=A0=C2=A0 new_mem->mem_type =3D=3D TTM_PL_TT) {
+> +		ttm_bo_move_null(bo, new_mem);
+> +		return 0;
+> +	}
+> +
+> +	if (old_mem->mem_type =3D=3D TTM_PL_TT &&
+> +	=C2=A0=C2=A0=C2=A0 new_mem->mem_type =3D=3D TTM_PL_SYSTEM) {
+> +		ret =3D ttm_bo_wait_ctx(bo, ctx);
 
--- 
-With Best Regards,
-Andy Shevchenko
+We're not doing any accelerated move here, so ttm_bo_move_null() should
+be sufficient also in this case?
 
+> +
+> +		if (ret)
+> +			return ret;
+> +
+> +		ttm_resource_free(bo, &bo->resource);
+> +		ttm_bo_assign_mem(bo, new_mem);
+> +		return 0;
+> +	}
+> +
+> +	return ttm_bo_move_memcpy(bo, ctx, new_mem);
+
+Do we hit this move_memcpy()? Since the mock manager doesn't actually
+reserve any memory to manager, I'd expect this to run into problems?
+
+
+
+> =C2=A0}
+> =C2=A0
+> =C2=A0struct ttm_device_funcs ttm_dev_funcs =3D {
+> diff --git a/drivers/gpu/drm/ttm/tests/ttm_mock_manager.c
+> b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.c
+> new file mode 100644
+> index 000000000000..eb9dca1de1a2
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.c
+> @@ -0,0 +1,207 @@
+> +// SPDX-License-Identifier: GPL-2.0 AND MIT
+> +/*
+> + * Copyright =C2=A9 2023 Intel Corporation
+> + */
+> +#include <drm/ttm/ttm_resource.h>
+> +#include <drm/ttm/ttm_device.h>
+> +#include <drm/ttm/ttm_placement.h>
+> +
+> +#include "ttm_mock_manager.h"
+> +
+> +static inline struct ttm_mock_manager *
+> +to_mock_mgr(struct ttm_resource_manager *man)
+> +{
+> +	return container_of(man, struct ttm_mock_manager, man);
+> +}
+> +
+> +static inline struct ttm_mock_resource *
+> +to_mock_mgr_resource(struct ttm_resource *res)
+> +{
+> +	return container_of(res, struct ttm_mock_resource, base);
+> +}
+> +
+> +static int ttm_mock_manager_alloc(struct ttm_resource_manager *man,
+> +				=C2=A0 struct ttm_buffer_object *bo,
+> +				=C2=A0 const struct ttm_place *place,
+> +				=C2=A0 struct ttm_resource **res)
+> +{
+> +	struct ttm_mock_manager *manager =3D to_mock_mgr(man);
+> +	struct ttm_mock_resource *mock_res;
+> +	struct drm_buddy *mm =3D &manager->mm;
+> +	uint64_t lpfn, fpfn, alloc_size;
+> +	int err;
+> +
+> +	mock_res =3D kzalloc(sizeof(*mock_res), GFP_KERNEL);
+> +
+> +	if (!mock_res)
+> +		return -ENOMEM;
+> +
+> +	fpfn =3D 0;
+> +	lpfn =3D man->size;
+> +
+> +	ttm_resource_init(bo, place, &mock_res->base);
+> +	INIT_LIST_HEAD(&mock_res->blocks);
+> +
+> +	if (place->flags & TTM_PL_FLAG_TOPDOWN)
+> +		mock_res->flags |=3D DRM_BUDDY_TOPDOWN_ALLOCATION;
+> +
+> +	if (place->flags & TTM_PL_FLAG_CONTIGUOUS)
+> +		mock_res->flags |=3D DRM_BUDDY_CONTIGUOUS_ALLOCATION;
+> +
+> +	alloc_size =3D (uint64_t)mock_res->base.size;
+> +	mutex_lock(&manager->lock);
+> +	err =3D drm_buddy_alloc_blocks(mm, fpfn, lpfn, alloc_size,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 manager->default_page_size,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 &mock_res->blocks,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 mock_res->flags);
+> +
+> +	if (err)
+> +		goto error_free_blocks;
+> +	mutex_unlock(&manager->lock);
+> +
+> +	*res =3D &mock_res->base;
+> +	return 0;
+> +
+> +error_free_blocks:
+> +	drm_buddy_free_list(mm, &mock_res->blocks, 0);
+> +	ttm_resource_fini(man, &mock_res->base);
+> +	mutex_unlock(&manager->lock);
+> +
+> +	return err;
+> +}
+> +
+> +static void ttm_mock_manager_free(struct ttm_resource_manager *man,
+> +				=C2=A0 struct ttm_resource *res)
+> +{
+> +	struct ttm_mock_manager *manager =3D to_mock_mgr(man);
+> +	struct ttm_mock_resource *mock_res =3D
+> to_mock_mgr_resource(res);
+> +	struct drm_buddy *mm =3D &manager->mm;
+> +
+> +	mutex_lock(&manager->lock);
+> +	drm_buddy_free_list(mm, &mock_res->blocks, 0);
+> +	mutex_unlock(&manager->lock);
+> +
+> +	ttm_resource_fini(man, res);
+> +	kfree(mock_res);
+> +}
+> +
+> +static const struct ttm_resource_manager_func ttm_mock_manager_funcs
+> =3D {
+> +	.alloc =3D ttm_mock_manager_alloc,
+> +	.free =3D ttm_mock_manager_free,
+> +};
+> +
+> +int ttm_mock_manager_init(struct ttm_device *bdev, uint32_t
+> mem_type, uint32_t size)
+> +{
+> +	struct ttm_mock_manager *manager;
+> +	struct ttm_resource_manager *base;
+> +	int err;
+> +
+> +	manager =3D kzalloc(sizeof(*manager), GFP_KERNEL);
+> +	if (!manager)
+> +		return -ENOMEM;
+> +
+> +	mutex_init(&manager->lock);
+> +
+> +	err =3D drm_buddy_init(&manager->mm, size, PAGE_SIZE);
+> +
+> +	if (err) {
+> +		kfree(manager);
+> +		return err;
+> +	}
+> +
+> +	manager->default_page_size =3D PAGE_SIZE;
+> +	base =3D &manager->man;
+> +	base->func =3D &ttm_mock_manager_funcs;
+> +	base->use_tt =3D true;
+> +
+> +	ttm_resource_manager_init(base, bdev, size);
+> +	ttm_set_driver_manager(bdev, mem_type, base);
+> +	ttm_resource_manager_set_used(base, true);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(ttm_mock_manager_init);
+> +
+> +void ttm_mock_manager_fini(struct ttm_device *bdev, uint32_t
+> mem_type)
+> +{
+> +	struct ttm_resource_manager *man;
+> +	struct ttm_mock_manager *mock_man;
+> +	int err;
+> +
+> +	man =3D ttm_manager_type(bdev, mem_type);
+> +	mock_man =3D to_mock_mgr(man);
+> +
+> +	err =3D ttm_resource_manager_evict_all(bdev, man);
+> +	if (err)
+> +		return;
+> +
+> +	ttm_resource_manager_set_used(man, false);
+> +
+> +	mutex_lock(&mock_man->lock);
+> +	drm_buddy_fini(&mock_man->mm);
+> +	mutex_unlock(&mock_man->lock);
+> +
+> +	ttm_set_driver_manager(bdev, mem_type, NULL);
+> +}
+> +EXPORT_SYMBOL_GPL(ttm_mock_manager_fini);
+> +
+> +static int ttm_bad_manager_alloc(struct ttm_resource_manager *man,
+> +				 struct ttm_buffer_object *bo,
+> +				 const struct ttm_place *place,
+> +				 struct ttm_resource **res)
+> +{
+> +	return -ENOSPC;
+> +}
+> +
+> +static void ttm_bad_manager_free(struct ttm_resource_manager *man,
+> +				 struct ttm_resource *res)
+> +{
+> +}
+> +
+> +static bool ttm_bad_manager_compatible(struct ttm_resource_manager
+> *man,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_resource *res,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct ttm_place
+> *place,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t size)
+> +{
+> +	return true;
+> +}
+> +
+> +static const struct ttm_resource_manager_func ttm_bad_manager_funcs
+> =3D {
+> +	.alloc =3D ttm_bad_manager_alloc,
+> +	.free =3D ttm_bad_manager_free,
+> +	.compatible =3D ttm_bad_manager_compatible
+> +};
+> +
+> +int ttm_bad_manager_init(struct ttm_device *bdev, uint32_t mem_type,
+> +			 uint32_t size)
+> +{
+> +	struct ttm_resource_manager *man;
+> +
+> +	man =3D kzalloc(sizeof(*man), GFP_KERNEL);
+> +	if (!man)
+> +		return -ENOMEM;
+> +
+> +	man->func =3D &ttm_bad_manager_funcs;
+> +
+> +	ttm_resource_manager_init(man, bdev, size);
+> +	ttm_set_driver_manager(bdev, mem_type, man);
+> +	ttm_resource_manager_set_used(man, true);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(ttm_bad_manager_init);
+> +
+> +void ttm_bad_manager_fini(struct ttm_device *bdev, uint32_t
+> mem_type)
+> +{
+> +	struct ttm_resource_manager *man;
+> +
+> +	man =3D ttm_manager_type(bdev, mem_type);
+> +
+> +	ttm_resource_manager_set_used(man, false);
+> +	ttm_set_driver_manager(bdev, mem_type, NULL);
+> +
+> +	kfree(man);
+> +}
+> +EXPORT_SYMBOL_GPL(ttm_bad_manager_fini);
+> +
+> +MODULE_LICENSE("GPL");
+
+When the module is dual-licensed IIRC the correct option to use here is
+"GPL and additional rights"
+
+> diff --git a/drivers/gpu/drm/ttm/tests/ttm_mock_manager.h
+> b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.h
+> new file mode 100644
+> index 000000000000..d2db9de9d876
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.h
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: GPL-2.0 AND MIT */
+> +/*
+> + * Copyright =C2=A9 2023 Intel Corporation
+> + */
+> +#ifndef TTM_MOCK_MANAGER_H
+> +#define TTM_MOCK_MANAGER_H
+> +
+> +#include <drm/drm_buddy.h>
+> +
+> +struct ttm_mock_manager {
+> +	struct ttm_resource_manager man;
+> +	struct drm_buddy mm;
+> +	uint64_t default_page_size;
+> +	/* protects allocations of mock buffer objects */
+> +	struct mutex lock;
+> +};
+> +
+> +struct ttm_mock_resource {
+> +	struct ttm_resource base;
+> +	struct list_head blocks;
+> +	unsigned long flags;
+> +};
+> +
+> +int ttm_mock_manager_init(struct ttm_device *bdev, uint32_t
+> mem_type,
+> +			=C2=A0 uint32_t size);
+> +int ttm_bad_manager_init(struct ttm_device *bdev, uint32_t mem_type,
+> +			 uint32_t size);
+> +void ttm_mock_manager_fini(struct ttm_device *bdev, uint32_t
+> mem_type);
+> +void ttm_bad_manager_fini(struct ttm_device *bdev, uint32_t
+> mem_type);
+> +
+> +#endif // TTM_MOCK_MANAGER_H
+
+Thanks,
+Thomas
 
