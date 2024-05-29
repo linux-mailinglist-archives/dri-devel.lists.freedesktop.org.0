@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5338D3298
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 11:10:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A53B8D32B1
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 11:15:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE3E10EE3B;
-	Wed, 29 May 2024 09:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7F810E396;
+	Wed, 29 May 2024 09:15:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MudG43KL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C9oxEa9n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6167410E719
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 09:10:32 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EDFD59CA;
- Wed, 29 May 2024 11:10:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1716973827;
- bh=IEUi73jCmIHopcI+PIslSxJcfOa39sAY/95W5YG3we8=;
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81E1A10E396
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 09:15:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 59FF4626FC;
+ Wed, 29 May 2024 09:15:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE52CC2BD10;
+ Wed, 29 May 2024 09:15:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1716974138;
+ bh=LDFHlp29MsF66t15bWkCXBcW6utPfAUvtUB74pab8eQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MudG43KLzRTZLbdMpqyA/KlvCsX3uMrEIF0Oph6sEcVNXQG+y6s0kACHcUi1rNPPT
- jucqC5nxy7F1k0w+IA6CPMz4pfd2QKZ0LVl7b6SQ6w6r1zS3xvAxESxluz0NewFFQJ
- L3FtvU6SJj8LA7/F/uvQYtb7oZRxb/+6ZRLJU7sI=
-Date: Wed, 29 May 2024 12:10:18 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ b=C9oxEa9nEv94sHWebiiSrJYpnOSfqLaaJNeJwD98mblLeiRsHBJGOOn5IUI7fF9Xp
+ nht4XKOGcJr2xU4m+y8nNphNaBQ2MsEATw+Q+D5Q6l6uNaUX40+eGXKXsfVSVqxpBX
+ 5Ln84fyD4DMQblhABeG0zwzDOe6IPxVSfQNr4ijVMi+C/0xetcvd09SWauTHSljV1E
+ LQ0xjnMhk+GOgazWIc89r7VHgbH0waK/lgbJtFrUMykfXqkg+bxxA/g/kXKYkMT24f
+ 4OjzmNS94c45gb8amPS6jDh+I0dsTYN9+GRVj5nQC519eKmtDEWyIG29LMTGjs25kS
+ ueFgzTbN22ICg==
+Date: Wed, 29 May 2024 11:15:35 +0200
+From: Maxime Ripard <mripard@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc: dri-devel@lists.freedesktop.org, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jocelyn Falempe <jfalempe@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] drm: renesas: shmobile: Add drm_panic support
-Message-ID: <20240529091018.GK1436@pendragon.ideasonboard.com>
-References: <292638fde9aef8b00e984245f43dc02a818cf322.1716816827.git.geert+renesas@glider.be>
- <20240529010320.GI1436@pendragon.ideasonboard.com>
- <u5aijnvotestpgjynawcx7oxsp2lncnsda5w4jfzeovvdlfcyt@5fxnyfbk4ocb>
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] drm/sun4i: Fix compilation error
+Message-ID: <20240529-private-ruddy-rottweiler-1afcb3@houat>
+References: <20240528151056.2104153-1-mripard@kernel.org>
+ <171697049522.2533828.193549550194715590.b4-ty@kernel.org>
+ <dcfkn4bgsdzxbgzdlpycnyuj76ycydwavn2tqd2k6kuw5puuge@wkun3c6i5qqt>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="oy25qsc765rcypgq"
 Content-Disposition: inline
-In-Reply-To: <u5aijnvotestpgjynawcx7oxsp2lncnsda5w4jfzeovvdlfcyt@5fxnyfbk4ocb>
+In-Reply-To: <dcfkn4bgsdzxbgzdlpycnyuj76ycydwavn2tqd2k6kuw5puuge@wkun3c6i5qqt>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,80 +63,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
 
-On Wed, May 29, 2024 at 11:27:02AM +0300, Dmitry Baryshkov wrote:
-> On Wed, May 29, 2024 at 04:03:20AM +0300, Laurent Pinchart wrote:
-> > On Mon, May 27, 2024 at 03:34:48PM +0200, Geert Uytterhoeven wrote:
-> > > Add support for the drm_panic module, which displays a message on
-> > > the screen when a kernel panic occurs.
-> > > 
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > > Tested on Armadillo-800-EVA.
-> > > ---
-> > >  drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 14 +++++++++++++-
-> > >  1 file changed, 13 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> > > index 07ad17d24294d5e6..9d166ab2af8bd231 100644
-> > > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> > > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> > > @@ -273,6 +273,13 @@ static const struct drm_plane_helper_funcs shmob_drm_plane_helper_funcs = {
-> > >  	.atomic_disable = shmob_drm_plane_atomic_disable,
-> > >  };
-> > >  
-> > > +static const struct drm_plane_helper_funcs shmob_drm_primary_plane_helper_funcs = {
-> > > +	.atomic_check = shmob_drm_plane_atomic_check,
-> > > +	.atomic_update = shmob_drm_plane_atomic_update,
-> > > +	.atomic_disable = shmob_drm_plane_atomic_disable,
-> > > +	.get_scanout_buffer = drm_fb_dma_get_scanout_buffer,
-> > > +};
-> > > +
-> > >  static const struct drm_plane_funcs shmob_drm_plane_funcs = {
-> > >  	.update_plane = drm_atomic_helper_update_plane,
-> > >  	.disable_plane = drm_atomic_helper_disable_plane,
-> > > @@ -310,7 +317,12 @@ struct drm_plane *shmob_drm_plane_create(struct shmob_drm_device *sdev,
-> > >  
-> > >  	splane->index = index;
-> > >  
-> > > -	drm_plane_helper_add(&splane->base, &shmob_drm_plane_helper_funcs);
-> > > +	if (type == DRM_PLANE_TYPE_PRIMARY)
-> > > +		drm_plane_helper_add(&splane->base,
-> > > +				     &shmob_drm_primary_plane_helper_funcs);
-> > > +	else
-> > > +		drm_plane_helper_add(&splane->base,
-> > > +				     &shmob_drm_plane_helper_funcs);
-> > 
-> > It's not very nice to have to provide different operations for the
-> > primary and overlay planes. The documentation of
-> > drm_fb_dma_get_scanout_buffer() states
-> > 
-> >  * @plane: DRM primary plane
-> > 
-> > If the intent is that only primary planes will be used to display the
-> > panic message, shouldn't drm_panic_register() skip overlay planes ? It
-> > would simplify drivers.
-> 
-> What about the drivers where all the planes are actually universal?
-> In such a case the planes registered as primary can easily get replaced
-> by 'overlay' planes.
+--oy25qsc765rcypgq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Good point.
+On Wed, May 29, 2024 at 11:33:43AM GMT, Dmitry Baryshkov wrote:
+> On Wed, May 29, 2024 at 10:14:55AM +0200, Maxime Ripard wrote:
+> > On Tue, 28 May 2024 17:10:56 +0200, Maxime Ripard wrote:
+> > > Commit ea64761a54a2 ("drm/sun4i: hdmi: Switch to HDMI connector")
+> > > introduced a dependency that got renamed in a previous version, but
+> > > wasn't properly updated in that driver. Fix the name of the function.
+> > >=20
+> > >=20
+> >=20
+> > Applied to misc/kernel.git (drm-misc-next).
+>=20
+> Just to note, I don't see this commit in drm-misc-next.
 
-Another option, if we wanted to avoid duplicating the drm_plane_funcs,
-would be to add a field to drm_plane to indicate whether the plane is
-suitable for drm_panic.
+Thanks for the notice, I forgot to push it indeed.
 
-I don't think this patch should be blocked just for this reason, but I'm
-a bit bothered by duplicating the ops structure to indicate drm_panic
-support.
+It's now fixed
 
-> > >  
-> > >  	return &splane->base;
-> > >  }
+Maxime
 
--- 
-Regards,
+--oy25qsc765rcypgq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Laurent Pinchart
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZlbyNgAKCRAnX84Zoj2+
+diBUAX99YHjwUc9q1Sk5IOUdCA6s14Wulqcf+oG1OzMZ4zcKrdKvr+1mDdKZmhlf
+rqLecRUBf2kIz1YSf9t1D6yHOvDOCZC61zmZ0N4XHbGIauJcIC1H/uzq9PnuztIw
+SdzGwPi77Q==
+=Xl0t
+-----END PGP SIGNATURE-----
+
+--oy25qsc765rcypgq--
