@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134A68D39E1
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 16:50:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A2F58D39F7
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 16:53:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6C50113CCA;
-	Wed, 29 May 2024 14:49:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73B2E10E084;
+	Wed, 29 May 2024 14:53:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dgcZtJ76";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gipnSN5D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 582F9113CA2;
- Wed, 29 May 2024 14:49:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716994196; x=1748530196;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=hfcaESIUq+K1Ir52clUOBDByxjsdRKPZCin1+6wSWIo=;
- b=dgcZtJ76YyDWsXD4BJI0o5cnrqFJhUqRculSeb22qxEW3R8DWtBq+x8Z
- +2dh3bp0QeL5mOUmB5Yv8CCgNZpTyWo3loF9b07DQz2oJY6l/QEYqCRKn
- q5fAQb2OcXE4061M+0gpFEiAngAweL2gAQgL6eOSP4L5Tib/oVn/BNssB
- hot7YX/zzkf8h0KtTe6neTnuu9vx1CD5iJtMGVM6Wk4y9L+6YjKEw0xq8
- ILkg5wB6DECoxjG+kBTb/1+LiUGFrSj+7IAUAhhsP2WDEZo2i2dCmv9Lw
- m9OdrYYYATHEkfHrM893+hD2qd2GthQHinds4HS2TGy/WWwW54l3iPYeA g==;
-X-CSE-ConnectionGUID: U1q6BAA9TXW9tLek/b5mwg==
-X-CSE-MsgGUID: KPlCJuX3TC6Z9/j2pblZmg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="24534739"
-X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="24534739"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2024 07:49:55 -0700
-X-CSE-ConnectionGUID: xREn7QdzT7e7xdrwE7W2FA==
-X-CSE-MsgGUID: vjCZHBr8RSOMHYj/Nc1Lww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="35542691"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.213.20.171])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2024 07:49:52 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
- Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: Re: [PATCH] drm/i915/selftest_hangcheck: Fix potential UAF after HW
- fence revoke
-Date: Wed, 29 May 2024 16:49:50 +0200
-Message-ID: <2325099.ElGaqSPkdT@jkrzyszt-mobl2.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20240529113809.145084-2-janusz.krzysztofik@linux.intel.com>
-References: <20240529113809.145084-2-janusz.krzysztofik@linux.intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5023E10E084
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:53:06 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 12868A27;
+ Wed, 29 May 2024 16:53:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1716994381;
+ bh=IPyfsviMHfRYRP5OZ3gUy0wQdIM5xIEx1uKWNBREPF0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gipnSN5DBSj7oGWyxrhcwgzrXtRO4mDyWNTPqcrwjA/+03UGbhkwmzFj8ylSGPTqL
+ KGy13WpqOq5al1juCr4RQwjk+vfLlpsYbUU3HFJ2gx6Vx6PLgMiKZhLCbATiKFN75Q
+ FEuwyHELmIqr5ylVSDlC+XDIecCjxRDc1itzm03g=
+Date: Wed, 29 May 2024 17:52:53 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ prabhakar.csengg@gmail.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Eugen Hristev <eugen.hristev@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helge Deller <deller@gmx.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 resend 2/8] hwtracing: use for_each_endpoint_of_node()
+Message-ID: <20240529145253.GE19014@pendragon.ideasonboard.com>
+References: <87ikyx4hm1.wl-kuninori.morimoto.gx@renesas.com>
+ <87fru14hl7.wl-kuninori.morimoto.gx@renesas.com>
+ <20240529004047.GB1436@pendragon.ideasonboard.com>
+ <7fbf421c-6477-4fc4-93a5-10e2788522c4@moroto.mountain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <7fbf421c-6477-4fc4-93a5-10e2788522c4@moroto.mountain>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,70 +76,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, 29 May 2024 13:37:23 GMT+2 Janusz Krzysztofik wrote:
-> CI is sporadically reporting the following issue triggered by
-> igt@i915_selftest@live@hangcheck test case:
+On Wed, May 29, 2024 at 05:34:41PM +0300, Dan Carpenter wrote:
+> On Wed, May 29, 2024 at 03:40:47AM +0300, Laurent Pinchart wrote:
+> > > @@ -286,7 +286,7 @@ static int of_get_coresight_platform_data(struct device *dev,
+> > >  	}
+> > >  
+> > >  	/* Iterate through each output port to discover topology */
+> > > -	while ((ep = of_graph_get_next_endpoint(parent, ep))) {
+> > > +	for_each_endpoint_of_node(parent, ep) {
+> > >  		/*
+> > >  		 * Legacy binding mixes input/output ports under the
+> > >  		 * same parent. So, skip the input ports if we are dealing
+> > 
+> > I think there's a bug below. The loop contains
+> > 
+> > 		ret = of_coresight_parse_endpoint(dev, ep, pdata);
+> > 		if (ret)
+> > 			return ret;
+> > 
+> > which leaks the reference to ep. This is not introduced by this patch,
 > 
-> <6> [414.049203] i915: Running intel_hangcheck_live_selftests/igt_reset_evict_fence
-> ...
-> <6> [414.068804] i915 0000:00:02.0: [drm] GT0: GUC: submission enabled
-> <6> [414.068812] i915 0000:00:02.0: [drm] GT0: GUC: SLPC enabled
-> <3> [414.070354] Unable to pin Y-tiled fence; err:-4
-> <3> [414.071282] i915_vma_revoke_fence:301 GEM_BUG_ON(!i915_active_is_idle(&fence->active))
-> ...
-> <4>[  609.603992] ------------[ cut here ]------------
-> <2>[  609.603995] kernel BUG at drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c:301!
-> <4>[  609.604003] invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
-> <4>[  609.604006] CPU: 0 PID: 268 Comm: kworker/u64:3 Tainted: G     U  W          6.9.0-CI_DRM_14785-g1ba62f8cea9c+ #1
-> <4>[  609.604008] Hardware name: Intel Corporation Alder Lake Client Platform/AlderLake-P DDR4 RVP, BIOS RPLPFWI1.R00.4035.A00.2301200723 01/20/2023
-> <4>[  609.604010] Workqueue: i915 __i915_gem_free_work [i915]
-> <4>[  609.604149] RIP: 0010:i915_vma_revoke_fence+0x187/0x1f0 [i915]
-> ...
-> <4>[  609.604271] Call Trace:
-> <4>[  609.604273]  <TASK>
-> ...
-> <4>[  609.604716]  __i915_vma_evict+0x2e9/0x550 [i915]
-> <4>[  609.604852]  __i915_vma_unbind+0x7c/0x160 [i915]
-> <4>[  609.604977]  force_unbind+0x24/0xa0 [i915]
-> <4>[  609.605098]  i915_vma_destroy+0x2f/0xa0 [i915]
-> <4>[  609.605210]  __i915_gem_object_pages_fini+0x51/0x2f0 [i915]
-> <4>[  609.605330]  __i915_gem_free_objects.isra.0+0x6a/0xc0 [i915]
-> <4>[  609.605440]  process_scheduled_works+0x351/0x690
+> Someone should create for_each_endpoint_of_node_scoped().
 > 
-> Since no other tests nor users report that issue, 
+> #define for_each_endpoint_of_node_scoped(parent, child) \
+>         for (struct device_node *child __free(device_node) =           \
+>              of_graph_get_next_endpoint(parent, NULL); child != NULL;  \
+>              child = of_graph_get_next_endpoint(parent, child))
 
-I was wrong, there were similar CI reports from other tests, not within last 3 
-months but still looking the same.  Please ignore this patch, I need to try 
-again to identify a common root cause of all those occurrences.
+I was thinking about that too :-) I wondered if we should then bother
+taking and releasing references, given that references to the children
+can't be leaked out of the loop. My reasoning was that the parent
+device_node is guaranteed to be valid throughout the loop, so borrowing
+references to children instead of creating new ones within the loop
+should be fine. This assumes that endpoints and ports can't vanish while
+the parent is there. Thinking further about it, it may not be a safe
+assumption for the future. As we anyway use functions internally that
+create new references, we can as well handle them correctly.
 
-Thanks,
-Janusz
+Using this new macro, the loop body would need to call of_node_get() if
+it wants to get a reference out of the loop. That's the right thing to
+do, and I think it would be less error-prone than having to drop
+references when exiting from the loop as we do today. It would still be
+nice if we could have an API that allows catching this missing
+of_node_get() automatically, but I don't see a simple way to do so at
+the moment.
 
-> I believe it is specific
-> to that test case, which should just wait after reset it triggers for
-> actual completion of a request that it forced to claim using a hardware
-> fence before it releases allocated resources.  Fix it.
-> 
-> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/selftest_hangcheck.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> index 9ce8ff1c04fe5..b47c99f38a525 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> @@ -1568,6 +1568,8 @@ static int __igt_reset_evict_vma(struct intel_gt *gt,
->  
->  out_rq:
->  	i915_request_put(rq);
-> +	if (flags & EXEC_OBJECT_NEEDS_FENCE)
-> +		i915_active_wait(&arg.vma->fence->active);
->  out_obj:
->  	i915_gem_object_put(obj);
->  fini:
-> 
+-- 
+Regards,
 
-
-
-
+Laurent Pinchart
