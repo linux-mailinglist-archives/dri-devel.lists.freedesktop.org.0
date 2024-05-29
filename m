@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E8E8D2F33
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:02:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA098D2F40
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:02:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D4C011344A;
-	Wed, 29 May 2024 08:02:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 697BD10E3ED;
+	Wed, 29 May 2024 08:02:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id BEEE4113437
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:02:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7A4A511343C
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:02:06 +0000 (UTC)
 Received: from SIOS1075.ysato.name (al128006.dynamic.ppp.asahi-net.or.jp
  [111.234.128.6])
- by sakura.ysato.name (Postfix) with ESMTPSA id 6F1231C0FB0;
- Wed, 29 May 2024 17:02:02 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 35E141C0E59;
+ Wed, 29 May 2024 17:02:04 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
@@ -67,10 +67,9 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-Subject: [DO NOT MERGE v8 19/36] dt-bindings: interrupt-controller: renesas,
- sh7751-irl-ext: Add json-schema
-Date: Wed, 29 May 2024 17:01:05 +0900
-Message-Id: <e35aa188e5176544c6884f2d1d7aa1b242a51acf.1716965617.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v8 20/36] serial: sh-sci: fix SH4 OF support.
+Date: Wed, 29 May 2024 17:01:06 +0900
+Message-Id: <57525900a4876323467612d73eded183315c1680.1716965617.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1716965617.git.ysato@users.sourceforge.jp>
 References: <cover.1716965617.git.ysato@users.sourceforge.jp>
@@ -91,77 +90,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Renesas SH7751 external interrupt encoder json-schema.
+- Separated RZ's earlycon initialization from normal SCIF.
+- fix earlyprintk hung (NULL pointer reference).
+- fix SERIAL_SH_SCI_EARLYCON enablement
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- .../renesas,sh7751-irl-ext.yaml               | 57 +++++++++++++++++++
- 1 file changed, 57 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-irl-ext.yaml
+ drivers/tty/serial/Kconfig  | 2 +-
+ drivers/tty/serial/sh-sci.c | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-irl-ext.yaml b/Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-irl-ext.yaml
-new file mode 100644
-index 000000000000..ff70d57b86cd
---- /dev/null
-+++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-irl-ext.yaml
-@@ -0,0 +1,57 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/interrupt-controller/renesas,sh7751-irl-ext.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas SH7751 external interrupt encoder with enable regs.
-+
-+maintainers:
-+  - Yoshinori Sato <ysato@users.sourceforge.jp>
-+
-+description:
-+  This is the generally used external interrupt encoder on SH7751 based boards.
-+
-+properties:
-+  compatible:
-+    items:
-+      - const: renesas,sh7751-irl-ext
-+
-+  reg: true
-+
-+  interrupt-controller: true
-+
-+  '#interrupt-cells':
-+    const: 2
-+
-+  '#address-cells':
-+    const: 0
-+
-+  renesas,set-to-disable:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description: Invert enable registers. Setting the bit to 0 enables interrupts.
-+
-+  renesas,enable-reg:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    description: |
-+      IRQ enable register bit mapping
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupt-controller
-+  - '#interrupt-cells'
-+  - renesas,enable-reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    r2dintc: interrupt-controller@a4000000 {
-+        compatible = "renesas,sh7751-irl-ext";
-+        reg = <0xa4000000 0x02>;
-+        interrupt-controller;
-+        #address-cells = <0>;
-+        #interrupt-cells = <2>;
-+        renesas,enable-reg = <12 9 10 3 0 4 1 2 8 5 6 7 15 15 15 11>;
-+    };
+diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
+index 4fdd7857ef4d..eeb22b582470 100644
+--- a/drivers/tty/serial/Kconfig
++++ b/drivers/tty/serial/Kconfig
+@@ -664,7 +664,7 @@ config SERIAL_SH_SCI_EARLYCON
+ 	depends on SERIAL_SH_SCI=y
+ 	select SERIAL_CORE_CONSOLE
+ 	select SERIAL_EARLYCON
+-	default ARCH_RENESAS
++	default ARCH_RENESAS || SUPERH
+ 
+ config SERIAL_SH_SCI_DMA
+ 	bool "DMA support" if EXPERT
+diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+index f738980a8b2c..068f483401e3 100644
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -2723,7 +2723,7 @@ static int sci_remap_port(struct uart_port *port)
+ 	if (port->membase)
+ 		return 0;
+ 
+-	if (port->dev->of_node || (port->flags & UPF_IOREMAP)) {
++	if (dev_of_node(port->dev) || (port->flags & UPF_IOREMAP)) {
+ 		port->membase = ioremap(port->mapbase, sport->reg_size);
+ 		if (unlikely(!port->membase)) {
+ 			dev_err(port->dev, "can't remap port#%d\n", port->line);
+@@ -3551,8 +3551,8 @@ static int __init hscif_early_console_setup(struct earlycon_device *device,
+ 
+ OF_EARLYCON_DECLARE(sci, "renesas,sci", sci_early_console_setup);
+ OF_EARLYCON_DECLARE(scif, "renesas,scif", scif_early_console_setup);
+-OF_EARLYCON_DECLARE(scif, "renesas,scif-r7s9210", rzscifa_early_console_setup);
+-OF_EARLYCON_DECLARE(scif, "renesas,scif-r9a07g044", rzscifa_early_console_setup);
++OF_EARLYCON_DECLARE(rzscifa, "renesas,scif-r7s9210", rzscifa_early_console_setup);
++OF_EARLYCON_DECLARE(rzscifa, "renesas,scif-r9a07g044", rzscifa_early_console_setup);
+ OF_EARLYCON_DECLARE(scifa, "renesas,scifa", scifa_early_console_setup);
+ OF_EARLYCON_DECLARE(scifb, "renesas,scifb", scifb_early_console_setup);
+ OF_EARLYCON_DECLARE(hscif, "renesas,hscif", hscif_early_console_setup);
 -- 
 2.39.2
 
