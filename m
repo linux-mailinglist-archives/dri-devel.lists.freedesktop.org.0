@@ -2,57 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E311B8D294F
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 02:15:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEEDA8D296D
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 02:28:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71C3510E929;
-	Wed, 29 May 2024 00:14:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1652010E11B;
+	Wed, 29 May 2024 00:28:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MFs8Oey5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aZnXbmof";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4223E10E929
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 00:14:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716941696; x=1748477696;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=/WHlXx9rIIwP1V/JbyVMHDssBiIF+AfJKYBiHSL1WLk=;
- b=MFs8Oey5G8ZKzZupK7wkiYRphhTKDt9tGg0WPYEjy9AzZCnlw2VaLfHO
- Nu78+cJP8cswA6CJmk6NjLGrbjgAvBJ/CyC9JUidX+/iiZeXwXU5vd9ee
- WHG0nIyuVJfYLsJQR7C1JeRTD0X09Kb+BeHW8Sh1MJD8mub81YVxcWDis
- xj3uNdiIvtoX7rd/7qqxz5CrRriX1dUypZGYceb7N1if/+VhyVdX7kzi4
- TflRsq10H1elrAQhRNz0UgDj1THaaRo5xpTCLcfXBP3J6+hdVdKjJHABu
- SM2N1gpUHkCPE3omXCyAjCSkmdPKbfdiuPrBlDg3C0ZWsu53mcjP6L8Tg g==;
-X-CSE-ConnectionGUID: 0eylG1USRHiIlNBZAO9TAw==
-X-CSE-MsgGUID: +EoDrd4wQ/u+6NRS9fVNRA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13167724"
-X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; d="scan'208";a="13167724"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2024 17:14:55 -0700
-X-CSE-ConnectionGUID: WvWT+1SLRd6oty53MwfHLA==
-X-CSE-MsgGUID: iuuzlohgQYeWnsjfhQHVYA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; d="scan'208";a="66093147"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
- by orviesa002.jf.intel.com with ESMTP; 28 May 2024 17:14:53 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sC6xu-000CuV-2h;
- Wed, 29 May 2024 00:14:50 +0000
-Date: Wed, 29 May 2024 08:14:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [drm-misc:drm-misc-next 22/29] drm_hdmi_state_helper.c:undefined
- reference to `drm_hdmi_avi_infoframe_colorimetry'
-Message-ID: <202405290803.c3178DYT-lkp@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22B8E10ED65;
+ Wed, 29 May 2024 00:28:39 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-2bf5bb3508fso254958a91.1; 
+ Tue, 28 May 2024 17:28:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1716942518; x=1717547318; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to:from
+ :subject:cc:to:message-id:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=4eMuIJmm0synmzUpAEjB2/Qw25q266fbvF5PpgPMIUM=;
+ b=aZnXbmof+hrRcQqUQNzAqjYic5IXtj45z4FgiZQ009/2DkLDFvOgQR2j8HuWdnkARK
+ OjPx9ws7vxL+H32aaXxK6Jc4DEkfM4jvig1cj+RLz1noU4xMtjzZViPs38cEzpeNCaAx
+ qsR/W+3TYvdAeiuUTA7S7dfoyF0pw3Tyaxum9sEJIDPZ6WbI7+sYaBILcI4GXv3y31yb
+ JUkNO+arL5KTqeeqPBlyawfW4rI2epQhdnMo7SdlqqAsAk50eXop0eiu4b5XYgFaFKAB
+ lAWbLnuPFnLrFJy8txOAX8A1xR17hZ6IPYV15xN5mLBnTMy38MjtBJjgMvGEJvpgYrCE
+ hGLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716942518; x=1717547318;
+ h=content-transfer-encoding:mime-version:references:in-reply-to:from
+ :subject:cc:to:message-id:date:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=4eMuIJmm0synmzUpAEjB2/Qw25q266fbvF5PpgPMIUM=;
+ b=ZHpEsJnTxVYfZoLTr7BZ7wX59pDcnU5j5xdAcfRzZxFtacZjdkZn1MReqmdBWivdBg
+ R/57ncdWg5tKxYHKfgKnOiYTgTclWtf2Nc5WlvECUoG3vg29SAh3LlkcRBTl68kDXmM/
+ juVQkSijO0cxuFu0i8lasLD9CfMJa0133e5v/mPjRAFpxLWVh6nLfnvhA4WUPfVRIO6J
+ zChj61pN2vSf9HoMyKsU2XH+iSDVy4EQ6IIe9FOqSulviQRRgZWWm7p4foUJ2EzAzDyj
+ BL3f39/3pYfiiJEEF8+BHwJ8NKcwcjboXtYLw3THumEwGDJaImZwWccbF4H/MDSOR+Zk
+ js1A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUYVurTztggYHIEiUpIIFi9VCE4YFeQ8CZf+DKtYGyRcWPJxvJX2n1dVqAHgFCoHisY51ahNdxMnzWJdyo71pZDYk4o8/5W7r2pHG+y91XB2nTF0kO0j0s3nNOfOKDWnnFe/lTx1lXP90uLSHpkLQ==
+X-Gm-Message-State: AOJu0YwoPlpUjBNJfJ5MGN4sfcHNkCLB1NduuzlsZ6He2BqV/7i9y3Yr
+ pLNavR+1VtulRaj4Thf5mhTjIpe6nB7+dHu1mrAf+gcVXVkzDlVz
+X-Google-Smtp-Source: AGHT+IGc9ZzqXE5VI7kAmJ+mY5TMUDEyuSRao39hpUlFK4aO54sLIH9Yegqm8gK1UZH+FfXdl/BHbQ==
+X-Received: by 2002:a17:903:2347:b0:1f4:4618:8948 with SMTP id
+ d9443c01a7336-1f4486eacc4mr161493165ad.2.1716942518346; 
+ Tue, 28 May 2024 17:28:38 -0700 (PDT)
+Received: from localhost (p5261226-ipxg23801hodogaya.kanagawa.ocn.ne.jp.
+ [180.15.241.226]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f44c9c2a65sm86550575ad.272.2024.05.28.17.28.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 May 2024 17:28:38 -0700 (PDT)
+Date: Wed, 29 May 2024 09:28:21 +0900 (JST)
+Message-Id: <20240529.092821.1593412345609718860.fujita.tomonori@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dakr@redhat.com, fujita.tomonori@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, ojeda@kernel.org,
+ alex.gaynor@gmail.com, wedsonaf@gmail.com, boqun.feng@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+ a.hindborg@samsung.com, aliceryhl@google.com, lina@asahilina.net,
+ pstanner@redhat.com, ajanulgu@redhat.com, lyude@redhat.com,
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, mcgrof@kernel.org, russ.weight@linux.dev
+Subject: Re: [RFC PATCH 7/8] rust: add firmware abstractions
+From: FUJITA Tomonori <fujita.tomonori@gmail.com>
+In-Reply-To: <2024052816-makeshift-irrigate-cef5@gregkh>
+References: <20240528.200126.99248529380429957.fujita.tomonori@gmail.com>
+ <ZlXLzCYiwdMxic3X@pollux>
+ <2024052816-makeshift-irrigate-cef5@gregkh>
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,43 +91,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   336dca397dcefc5d7436be1fee3c814ed6512996
-commit: f378b77227bc4732922c57f92be89438bb1018a1 [22/29] drm/connector: hdmi: Add Infoframes generation
-config: arc-randconfig-002-20240529 (https://download.01.org/0day-ci/archive/20240529/202405290803.c3178DYT-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290803.c3178DYT-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405290803.c3178DYT-lkp@intel.com/
+On Tue, 28 May 2024 14:45:02 +0200
+Greg KH <gregkh@linuxfoundation.org> wrote:
 
-All errors (new ones prefixed by >>):
+> On Tue, May 28, 2024 at 02:19:24PM +0200, Danilo Krummrich wrote:
+>> However, if you have a driver that needs the firmware abstractions, I would be
+>> surprised if there were any hesitations to already merge the minimum device
+>> abstractions [1] and this one (once reviewed) without the rest. At least there
+>> aren't any from my side.
+>> 
+>> [1] https://lore.kernel.org/rust-for-linux/20240520172554.182094-2-dakr@redhat.com/
+> 
+> No, the device abstractions are NOT ready for merging just yet, sorry,
+> if for no other reason than a non-RFC has never been posted :)
 
-   arc-elf-ld: drivers/gpu/drm/tests/drm_connector_test.o: in function `drm_test_connector_hdmi_compute_mode_clock_yuv422_12_bpc':
-   drm_connector_test.c:(.text+0x230): undefined reference to `drm_hdmi_compute_mode_clock'
-   arc-elf-ld: drm_connector_test.c:(.text+0x230): undefined reference to `drm_hdmi_compute_mode_clock'
-   arc-elf-ld: drivers/gpu/drm/tests/drm_connector_test.o: in function `drm_test_connector_hdmi_compute_mode_clock_yuv422_10_bpc':
-   drm_connector_test.c:(.text+0x378): undefined reference to `drm_hdmi_compute_mode_clock'
-   arc-elf-ld: drm_connector_test.c:(.text+0x378): undefined reference to `drm_hdmi_compute_mode_clock'
-   arc-elf-ld: drivers/gpu/drm/tests/drm_connector_test.o: in function `drm_test_connector_hdmi_compute_mode_clock_yuv422_8_bpc':
-   drm_connector_test.c:(.text+0x4c0): undefined reference to `drm_hdmi_compute_mode_clock'
-   arc-elf-ld: drivers/gpu/drm/tests/drm_connector_test.o:drm_connector_test.c:(.text+0x4c0): more undefined references to `drm_hdmi_compute_mode_clock' follow
-   arc-elf-ld: drivers/gpu/drm/display/drm_hdmi_state_helper.o: in function `drm_atomic_helper_connector_hdmi_check':
->> drm_hdmi_state_helper.c:(.text+0x824): undefined reference to `drm_hdmi_avi_infoframe_colorimetry'
->> arc-elf-ld: drm_hdmi_state_helper.c:(.text+0x824): undefined reference to `drm_hdmi_avi_infoframe_colorimetry'
->> arc-elf-ld: drm_hdmi_state_helper.c:(.text+0x82c): undefined reference to `drm_hdmi_avi_infoframe_bars'
->> arc-elf-ld: drm_hdmi_state_helper.c:(.text+0x82c): undefined reference to `drm_hdmi_avi_infoframe_bars'
->> arc-elf-ld: drm_hdmi_state_helper.c:(.text+0x866): undefined reference to `drm_hdmi_infoframe_set_hdr_metadata'
->> arc-elf-ld: drm_hdmi_state_helper.c:(.text+0x866): undefined reference to `drm_hdmi_infoframe_set_hdr_metadata'
+Indeed, I understand that you aren't convinced.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_DISPLAY_HDMI_STATE_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_DISPLAY_HELPER [=y] && DRM_DISPLAY_HDMI_HELPER [=n]
-   Selected by [y]:
-   - DRM_KUNIT_TEST [=y] && HAS_IOMEM [=y] && DRM [=y] && KUNIT [=y] && MMU [=y]
+We can start with much simpler device abstractions than the above
+minimum for the firmware abstractions.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+All the firmware abstractions need is wrapping C's pointer to a device
+object with Rust struct only during a caller knows the pointer is
+valid. No play with the reference count of a struct device.
+
+For a Rust PHY driver, you know that you have a valid pointer to C's
+device object of C's PHY device during the probe callback. The driver
+creates a Rust device object to wrap the C pointer to the C's device
+object and passes it to the firmware abstractions. The firmware
+abstractions gets the C's pointer from the Rust object and calls C's
+function to load firmware, returns the result.
+
+You have concerns about the simple code like the following?
+
+
+diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
+new file mode 100644
+index 000000000000..6144437984a9
+--- /dev/null
++++ b/rust/kernel/device.rs
+@@ -0,0 +1,30 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! Generic devices that are part of the kernel's driver model.
++//!
++//! C header: [`include/linux/device.h`](srctree/include/linux/device.h)
++
++use crate::types::Opaque;
++
++#[repr(transparent)]
++pub struct Device(Opaque<bindings::device>);
++
++impl Device {
++    /// Creates a new [`Device`] instance from a raw pointer.
++    ///
++    /// # Safety
++    ///
++    /// For the duration of 'a, the pointer must point at a valid `device`.
++    pub unsafe fn from_raw<'a>(ptr: *mut bindings::device) -> &'a Self {
++        // CAST: `Self` is a `repr(transparent)` wrapper around `bindings::device`.
++        let ptr = ptr.cast::<Self>();
++        // SAFETY: by the function requirements the pointer is valid and we have unique access for
++        // the duration of `'a`.
++        unsafe { &mut *ptr }
++    }
++
++    /// Returns the raw pointer to the device.
++    pub fn as_raw(&self) -> *mut bindings::device {
++        self.0.get()
++    }
++}
