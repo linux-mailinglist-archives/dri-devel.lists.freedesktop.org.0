@@ -2,91 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0B98D2934
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 02:01:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E311B8D294F
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 02:15:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B61F4112B37;
-	Wed, 29 May 2024 00:01:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71C3510E929;
+	Wed, 29 May 2024 00:14:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="e8HwZDij";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MFs8Oey5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA463112B37
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 00:01:47 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-2e73359b900so15223391fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 17:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716940906; x=1717545706; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=JbSUJZ3lWVi558UySXJCbOkQXUwg/BY6swouuGo3h3M=;
- b=e8HwZDijfh022FxNaWcCawFDlZsMbYQ1lurl0fT/YxozP0gQdtT4LxY53rY6O4Cplw
- bepj8DEycwwXr+EQMu1I+1VwNsSqEqyxkcOhV3MLOufmHr1lcocBPWnaxL8zSzHLaWPo
- Zh6b6lciTr5qOPDSn6DXJfKCVQi3HPJNYfhho11YigxL375R0X2acI2QM/a7TCzZrYe3
- 5Vq7jTJhBuSO6DMDQwFYqwXaWh1J/wsX/wUYuS/S9ipI0Oxsr49F8nNdH2399KqiB9WD
- 7bT5fOhCLnSdEd/z/aHn29mNSWR/qmkE00nSs1tpbS2rQNumdfPCG5rD/cPq+lEObAYK
- YQ7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716940906; x=1717545706;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JbSUJZ3lWVi558UySXJCbOkQXUwg/BY6swouuGo3h3M=;
- b=l8knj3a9UkCYFgRNQ/NJF9QkyKWjW0KbHdVNBeb4RPDtYu6zFyzBUf9xjAunbwiZli
- mNqkYeMTJuO5704NEHEwWgT/ikLjhcoUdWYb9NpS9MaTPay5cSWyDvOC1MnxtY9PxlHu
- TmQZ5F0NWiFZhGdd/Zyg+QMh/mhzc2xVnyRiIPuDeuiQkXs3cfqrkCi3VxQxIg136r9i
- ssXJrdN/zsnfU2x01jnumSx5wHZhEPRSJBAxNQjprw3YduSZQBhjklLCaYElqObpDgCd
- Ul/Si7xOuyqmQzsEPzG2gyKjJnc57dXNBb0vGlgXZvhpqBHFZtU1ZooOC+bqp89aWVLJ
- Pkvg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU8umARap/7FGC6p9MQSddlbyIbrwHqDeRht9ER1/InlQzulu/X6TnfxNt/omg4RG9urViZUmlpvkpGKnU5HxFJMleL/mvObUqP3uFLGFzP
-X-Gm-Message-State: AOJu0YyaRc5Z/CkzOPELKBqdHqU5BHNs5JMkpFPGv2lEx9ZkXrCqUVlm
- Qj2+m7I/AOpKN892J8DGmJTJQJL9xnT9B+qK3ll2yU5BC29XhfZh40Y9NBF6uF8=
-X-Google-Smtp-Source: AGHT+IGMFvu7tNMpu3hd4ZI4DzSWJEhLR+W1+ptB5RwKxDpz/xmWeD3EGSsLralZrE8N3ltg8VCBsw==
-X-Received: by 2002:a2e:9e57:0:b0:2e9:795a:c25c with SMTP id
- 38308e7fff4ca-2e9795ac301mr46868491fa.39.1716940905814; 
- Tue, 28 May 2024 17:01:45 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2e95bdd159fsm23674921fa.94.2024.05.28.17.01.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 May 2024 17:01:45 -0700 (PDT)
-Date: Wed, 29 May 2024 03:01:43 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: prabhakar.csengg@gmail.com, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Eugen Hristev <eugen.hristev@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Helge Deller <deller@gmx.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, Rob Herring <robh+dt@kernel.org>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, coresight@lists.linaro.org,
- dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 resend 1/8] gpu: drm: use for_each_endpoint_of_node()
-Message-ID: <3wxib4xs4shnhn6ekokmi2uwo5daqhomefqosmocvyuashxqsq@wwp6a6yrl7ag>
-References: <87ikyx4hm1.wl-kuninori.morimoto.gx@renesas.com>
- <87h6eh4hld.wl-kuninori.morimoto.gx@renesas.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4223E10E929
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 00:14:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716941696; x=1748477696;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=/WHlXx9rIIwP1V/JbyVMHDssBiIF+AfJKYBiHSL1WLk=;
+ b=MFs8Oey5G8ZKzZupK7wkiYRphhTKDt9tGg0WPYEjy9AzZCnlw2VaLfHO
+ Nu78+cJP8cswA6CJmk6NjLGrbjgAvBJ/CyC9JUidX+/iiZeXwXU5vd9ee
+ WHG0nIyuVJfYLsJQR7C1JeRTD0X09Kb+BeHW8Sh1MJD8mub81YVxcWDis
+ xj3uNdiIvtoX7rd/7qqxz5CrRriX1dUypZGYceb7N1if/+VhyVdX7kzi4
+ TflRsq10H1elrAQhRNz0UgDj1THaaRo5xpTCLcfXBP3J6+hdVdKjJHABu
+ SM2N1gpUHkCPE3omXCyAjCSkmdPKbfdiuPrBlDg3C0ZWsu53mcjP6L8Tg g==;
+X-CSE-ConnectionGUID: 0eylG1USRHiIlNBZAO9TAw==
+X-CSE-MsgGUID: +EoDrd4wQ/u+6NRS9fVNRA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13167724"
+X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; d="scan'208";a="13167724"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2024 17:14:55 -0700
+X-CSE-ConnectionGUID: WvWT+1SLRd6oty53MwfHLA==
+X-CSE-MsgGUID: iuuzlohgQYeWnsjfhQHVYA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; d="scan'208";a="66093147"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+ by orviesa002.jf.intel.com with ESMTP; 28 May 2024 17:14:53 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sC6xu-000CuV-2h;
+ Wed, 29 May 2024 00:14:50 +0000
+Date: Wed, 29 May 2024 08:14:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [drm-misc:drm-misc-next 22/29] drm_hdmi_state_helper.c:undefined
+ reference to `drm_hdmi_avi_infoframe_colorimetry'
+Message-ID: <202405290803.c3178DYT-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87h6eh4hld.wl-kuninori.morimoto.gx@renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,18 +68,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 28, 2024 at 11:55:26PM +0000, Kuninori Morimoto wrote:
-> We already have for_each_endpoint_of_node(), don't use
-> of_graph_get_next_endpoint() directly. Replace it.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  drivers/gpu/drm/omapdrm/dss/base.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   336dca397dcefc5d7436be1fee3c814ed6512996
+commit: f378b77227bc4732922c57f92be89438bb1018a1 [22/29] drm/connector: hdmi: Add Infoframes generation
+config: arc-randconfig-002-20240529 (https://download.01.org/0day-ci/archive/20240529/202405290803.c3178DYT-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290803.c3178DYT-lkp@intel.com/reproduce)
 
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405290803.c3178DYT-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arc-elf-ld: drivers/gpu/drm/tests/drm_connector_test.o: in function `drm_test_connector_hdmi_compute_mode_clock_yuv422_12_bpc':
+   drm_connector_test.c:(.text+0x230): undefined reference to `drm_hdmi_compute_mode_clock'
+   arc-elf-ld: drm_connector_test.c:(.text+0x230): undefined reference to `drm_hdmi_compute_mode_clock'
+   arc-elf-ld: drivers/gpu/drm/tests/drm_connector_test.o: in function `drm_test_connector_hdmi_compute_mode_clock_yuv422_10_bpc':
+   drm_connector_test.c:(.text+0x378): undefined reference to `drm_hdmi_compute_mode_clock'
+   arc-elf-ld: drm_connector_test.c:(.text+0x378): undefined reference to `drm_hdmi_compute_mode_clock'
+   arc-elf-ld: drivers/gpu/drm/tests/drm_connector_test.o: in function `drm_test_connector_hdmi_compute_mode_clock_yuv422_8_bpc':
+   drm_connector_test.c:(.text+0x4c0): undefined reference to `drm_hdmi_compute_mode_clock'
+   arc-elf-ld: drivers/gpu/drm/tests/drm_connector_test.o:drm_connector_test.c:(.text+0x4c0): more undefined references to `drm_hdmi_compute_mode_clock' follow
+   arc-elf-ld: drivers/gpu/drm/display/drm_hdmi_state_helper.o: in function `drm_atomic_helper_connector_hdmi_check':
+>> drm_hdmi_state_helper.c:(.text+0x824): undefined reference to `drm_hdmi_avi_infoframe_colorimetry'
+>> arc-elf-ld: drm_hdmi_state_helper.c:(.text+0x824): undefined reference to `drm_hdmi_avi_infoframe_colorimetry'
+>> arc-elf-ld: drm_hdmi_state_helper.c:(.text+0x82c): undefined reference to `drm_hdmi_avi_infoframe_bars'
+>> arc-elf-ld: drm_hdmi_state_helper.c:(.text+0x82c): undefined reference to `drm_hdmi_avi_infoframe_bars'
+>> arc-elf-ld: drm_hdmi_state_helper.c:(.text+0x866): undefined reference to `drm_hdmi_infoframe_set_hdr_metadata'
+>> arc-elf-ld: drm_hdmi_state_helper.c:(.text+0x866): undefined reference to `drm_hdmi_infoframe_set_hdr_metadata'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_HDMI_STATE_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_DISPLAY_HELPER [=y] && DRM_DISPLAY_HDMI_HELPER [=n]
+   Selected by [y]:
+   - DRM_KUNIT_TEST [=y] && HAS_IOMEM [=y] && DRM [=y] && KUNIT [=y] && MMU [=y]
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
