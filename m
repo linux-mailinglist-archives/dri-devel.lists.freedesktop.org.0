@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E6C68D2F17
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:02:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1320C8D2F5E
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:03:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2601112E8A;
-	Wed, 29 May 2024 08:02:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5834F10E991;
+	Wed, 29 May 2024 08:03:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id 18C0D113437
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:01:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 35D3110F164
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:01:43 +0000 (UTC)
 Received: from SIOS1075.ysato.name (al128006.dynamic.ppp.asahi-net.or.jp
  [111.234.128.6])
- by sakura.ysato.name (Postfix) with ESMTPSA id B1C6F1C05A7;
- Wed, 29 May 2024 17:01:38 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 9ED681C0659;
+ Wed, 29 May 2024 17:01:40 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
@@ -67,9 +67,9 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-Subject: [DO NOT MERGE v8 06/36] sh: kernel/setup Update DT support.
-Date: Wed, 29 May 2024 17:00:52 +0900
-Message-Id: <d294851372d1003573439d81fb3ed22ace103304.1716965617.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v8 07/36] sh: Fix COMMON_CLK support in CONFIG_OF=y.
+Date: Wed, 29 May 2024 17:00:53 +0900
+Message-Id: <4433650694e36ab9fb7748904c5e424865edece6.1716965617.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1716965617.git.ysato@users.sourceforge.jp>
 References: <cover.1716965617.git.ysato@users.sourceforge.jp>
@@ -90,96 +90,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix extrnal fdt initialize and bootargs.
+Initialize the clock and timer using the COMMON_CLK procedure.
+sh's earlytimer mechanism doesn't work properly in OF,
+so timer initialization is delayed.
+If CONFIG_OF=y, perform the general timer initialization procedure.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- arch/sh/Kconfig        |  1 -
- arch/sh/kernel/setup.c | 31 ++++++++++++++++++++-----------
- 2 files changed, 20 insertions(+), 12 deletions(-)
+ arch/sh/boards/of-generic.c | 28 ++++------------------------
+ arch/sh/kernel/time.c       | 12 ++++++++++++
+ 2 files changed, 16 insertions(+), 24 deletions(-)
 
-diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
-index 91c7c72bc0db..5c9b50884995 100644
---- a/arch/sh/Kconfig
-+++ b/arch/sh/Kconfig
-@@ -712,7 +712,6 @@ config ROMIMAGE_MMCIF
- choice
- 	prompt "Kernel command line"
- 	default CMDLINE_OVERWRITE
--	depends on !OF || USE_BUILTIN_DTB
- 	help
- 	  Setting this option allows the kernel command line arguments
- 	  to be set.
-diff --git a/arch/sh/kernel/setup.c b/arch/sh/kernel/setup.c
-index 620e5cf8ae1e..03ec6f7a1153 100644
---- a/arch/sh/kernel/setup.c
-+++ b/arch/sh/kernel/setup.c
-@@ -30,6 +30,7 @@
- #include <linux/memblock.h>
+diff --git a/arch/sh/boards/of-generic.c b/arch/sh/boards/of-generic.c
+index cc88cb8908cc..64f80d2878b1 100644
+--- a/arch/sh/boards/of-generic.c
++++ b/arch/sh/boards/of-generic.c
+@@ -8,6 +8,7 @@
  #include <linux/of.h>
+ #include <linux/of_clk.h>
  #include <linux/of_fdt.h>
-+#include <linux/libfdt.h>
- #include <linux/uaccess.h>
- #include <uapi/linux/mount.h>
- #include <asm/io.h>
-@@ -269,8 +270,22 @@ void __ref sh_fdt_init(phys_addr_t dt_phys)
++#include <linux/of_platform.h>
+ #include <linux/clocksource.h>
+ #include <linux/irqchip.h>
  
- void __init setup_arch(char **cmdline_p)
- {
-+#if defined(CONFIG_OF) && defined(CONFIG_OF_EARLY_FLATTREE)
-+	if (IS_ENABLED(CONFIG_USE_BUILTIN_DTB)) {
-+		/* Relocate Embedded DTB */
-+		unflatten_and_copy_device_tree();
-+	} else if (initial_boot_params) {
-+		/* Reserve external DTB area */
-+		memblock_reserve(__pa(initial_boot_params),
-+				 fdt_totalsize(initial_boot_params));
-+		unflatten_device_tree();
-+	}
-+	/* copy from /chosen/bootargs */
-+	strscpy(command_line, boot_command_line, COMMAND_LINE_SIZE);
-+#endif
- 	enable_mmu();
+@@ -100,16 +101,7 @@ static void sh_of_smp_probe(void)
  
-+#ifndef CONFIG_OF
- 	ROOT_DEV = old_decode_dev(ORIG_ROOT_DEV);
- 
- 	printk(KERN_NOTICE "Boot params:\n"
-@@ -299,14 +314,16 @@ void __init setup_arch(char **cmdline_p)
- 	bss_resource.start = virt_to_phys(__bss_start);
- 	bss_resource.end = virt_to_phys(__bss_stop)-1;
- 
-+#endif
- #ifdef CONFIG_CMDLINE_OVERWRITE
- 	strscpy(command_line, CONFIG_CMDLINE, sizeof(command_line));
--#else
--	strscpy(command_line, COMMAND_LINE, sizeof(command_line));
-+#elif !defined(CONFIG_OF) || defined(CONFIG_USE_BUILTIN_DTB)
-+	if (*COMMAND_LINE)
-+		strscpy(command_line, COMMAND_LINE, sizeof(command_line));
-+#endif
- #ifdef CONFIG_CMDLINE_EXTEND
- 	strlcat(command_line, " ", sizeof(command_line));
- 	strlcat(command_line, CONFIG_CMDLINE, sizeof(command_line));
--#endif
  #endif
  
- 	/* Save unparsed command line copy for /proc/cmdline */
-@@ -322,14 +339,6 @@ void __init setup_arch(char **cmdline_p)
- 	/* Let earlyprintk output early console messages */
- 	sh_early_platform_driver_probe("earlyprintk", 1, 1);
- 
--#ifdef CONFIG_OF_EARLY_FLATTREE
--#ifdef CONFIG_USE_BUILTIN_DTB
--	unflatten_and_copy_device_tree();
--#else
--	unflatten_device_tree();
--#endif
--#endif
+-static void noop(void)
+-{
+-}
 -
- 	paging_init();
+-static int noopi(void)
+-{
+-	return 0;
+-}
+-
+-static void __init sh_of_mem_reserve(void)
++static void __init sh_of_mem_init(void)
+ {
+ 	early_init_fdt_reserve_self();
+ 	early_init_fdt_scan_reserved_mem();
+@@ -142,25 +134,13 @@ static void __init sh_of_init_irq(void)
+ 	irqchip_init();
+ }
  
- 	/* Perform the machine specific initialisation */
+-static int __init sh_of_clk_init(void)
+-{
+-#ifdef CONFIG_COMMON_CLK
+-	/* Disabled pending move to COMMON_CLK framework. */
+-	pr_info("SH generic board support: scanning for clk providers\n");
+-	of_clk_init(NULL);
+-#endif
+-	return 0;
+-}
+-
+ static struct sh_machine_vector __initmv sh_of_generic_mv = {
+ 	.mv_setup	= sh_of_setup,
+ 	.mv_name	= "devicetree", /* replaced by DT root's model */
+ 	.mv_irq_demux	= sh_of_irq_demux,
+ 	.mv_init_irq	= sh_of_init_irq,
+-	.mv_clk_init	= sh_of_clk_init,
+-	.mv_mode_pins	= noopi,
+-	.mv_mem_init	= noop,
+-	.mv_mem_reserve	= sh_of_mem_reserve,
++	.mv_mode_pins	= generic_mode_pins,
++	.mv_mem_init	= sh_of_mem_init,
+ };
+ 
+ struct sh_clk_ops;
+diff --git a/arch/sh/kernel/time.c b/arch/sh/kernel/time.c
+index 821a09cbd605..ce5b7c2f8628 100644
+--- a/arch/sh/kernel/time.c
++++ b/arch/sh/kernel/time.c
+@@ -19,7 +19,9 @@
+ #include <asm/clock.h>
+ #include <asm/rtc.h>
+ #include <asm/platform_early.h>
++#include <linux/of_clk.h>
+ 
++#ifndef CONFIG_SH_DEVICE_TREE
+ static void __init sh_late_time_init(void)
+ {
+ 	/*
+@@ -43,3 +45,13 @@ void __init time_init(void)
+ 
+ 	late_time_init = sh_late_time_init;
+ }
++#else
++/* CONFIG_SH_DEVICE_TREE */
++void __init time_init(void)
++{
++	pr_info("SH generic board support: scanning for clk providers\n");
++
++	of_clk_init(NULL);
++	timer_probe();
++}
++#endif
 -- 
 2.39.2
 
