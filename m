@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9203C8D2F31
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:02:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9598D2F59
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:03:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88C8810F5EE;
-	Wed, 29 May 2024 08:02:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A23B10E687;
+	Wed, 29 May 2024 08:03:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8B3E611344A
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:02:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4834011343D
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:02:29 +0000 (UTC)
 Received: from SIOS1075.ysato.name (al128006.dynamic.ppp.asahi-net.or.jp
  [111.234.128.6])
- by sakura.ysato.name (Postfix) with ESMTPSA id DF3A31C102B;
- Wed, 29 May 2024 17:02:25 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id B451C1C1064;
+ Wed, 29 May 2024 17:02:27 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
@@ -67,9 +67,9 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-Subject: [DO NOT MERGE v8 32/36] sh: j2_mimas_v2.dts update
-Date: Wed, 29 May 2024 17:01:18 +0900
-Message-Id: <82f265311a16717f9f07f69dfa242af7d773b512.1716965617.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v8 33/36] sh: Add dtbs target support.
+Date: Wed, 29 May 2024 17:01:19 +0900
+Message-Id: <453720d8182ce94d20dff57ee44b6a2092b3773f.1716965617.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1716965617.git.ysato@users.sourceforge.jp>
 References: <cover.1716965617.git.ysato@users.sourceforge.jp>
@@ -91,23 +91,23 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/sh/boot/dts/j2_mimas_v2.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/sh/boot/dts/Makefile | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/arch/sh/boot/dts/j2_mimas_v2.dts b/arch/sh/boot/dts/j2_mimas_v2.dts
-index faf884f53804..b6ee682c5737 100644
---- a/arch/sh/boot/dts/j2_mimas_v2.dts
-+++ b/arch/sh/boot/dts/j2_mimas_v2.dts
-@@ -16,7 +16,7 @@ cpus {
- 
- 		cpu@0 {
- 			device_type = "cpu";
--			compatible = "jcore,j2";
-+			compatible = "jcore,j2", "renesas,sh2";
- 			reg = <0>;
- 			clock-frequency = <50000000>;
- 			d-cache-size = <8192>;
+diff --git a/arch/sh/boot/dts/Makefile b/arch/sh/boot/dts/Makefile
+index 4a6dec9714a9..e6b93360c213 100644
+--- a/arch/sh/boot/dts/Makefile
++++ b/arch/sh/boot/dts/Makefile
+@@ -1,2 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-$(CONFIG_USE_BUILTIN_DTB) += $(addsuffix .dtb.o, $(CONFIG_BUILTIN_DTB_SOURCE))
++
++dtb-$(CONFIG_CPU_J2) += j2_mimas_v2.dtb
++dtb-$(CONFIG_CPU_SUBTYPE_SH7751R) += landisk.dtb
++dtb-$(CONFIG_CPU_SUBTYPE_SH7751R) += rts7751r2dplus.dtb
++dtb-$(CONFIG_CPU_SUBTYPE_SH7751R) += usl-5p.dtb
 -- 
 2.39.2
 
