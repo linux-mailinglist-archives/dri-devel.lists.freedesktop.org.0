@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37BB48D3028
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:10:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B238D307C
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:14:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A1C110E663;
-	Wed, 29 May 2024 08:09:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C36E10E123;
+	Wed, 29 May 2024 08:14:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="y6WY+R+O";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="L4HMLEMO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80B2710E663
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:09:57 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-529682e013dso2086978e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 01:09:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716970195; x=1717574995; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=enlxS5GkWub7qfeq6FBQU5uJl3JqVotYfwFdD9Rt9Ng=;
- b=y6WY+R+OOt3nFg/9O5UrjVUUAIA2P2ALNNcFi/HGwuLZLkvI3C45eS+hRmoU1QgeTy
- k5xcMLChJy3qxCUuQZcY0MkPQCaRh2CxAcHuADIxO2DURGB0TzfJOaEwMtLN1IXBLL4A
- xA1d2X13XfN/PbkbkuUO1YBT2yAOAagObkth54gccdFHUF/KrB4BVw3SOm9D5qO9nHXT
- GiM1lyLjiIG+VWRb36wNGrrOA52OVbKgL7VR6nWjdC1D61YwKdoYomC14gUQ3vXgrQk7
- YK2I4UqoMLTFQTPZt0+A4FI2SP88D3R5dFKSR5I0btC5/eABy3yQ3WL4879MYsyuLbu5
- dN2w==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 202D610E123
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:14:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1716970440;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uA6xkDpBDBv0Pede4O9Bhc1jEnUuZpOgNchQ5M2rx9I=;
+ b=L4HMLEMO+xl41GgEC4dBM1sfr6Xun6OiaPYlGVbHVGlPe07NVy76T7pV/qy080Xe2ugeOY
+ SaGmDfiEJzJNzy0toDYYWEPWWjEv2OCOFn/pL4tzUrbvUKEjrxAe1ZbyUE+JyosqKgsew7
+ 57Q23ppoQcxabojISOR0Yj+0wQh3ogo=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-659-d-7gnnqZN0ia2Y8ZfJsx-g-1; Wed, 29 May 2024 04:13:58 -0400
+X-MC-Unique: d-7gnnqZN0ia2Y8ZfJsx-g-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ 2adb3069b0e04-529a8c727d3so1643756e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 01:13:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716970195; x=1717574995;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=enlxS5GkWub7qfeq6FBQU5uJl3JqVotYfwFdD9Rt9Ng=;
- b=exClfJtoiAQlR6GUO3j2eRymFrTGivMoeoSYS8eDV9mXSGlnoPB2n5jpVzuJ36nGFn
- 0yRs88qGpG6PTrhx1N9LdWBHm8Cd6sKFYxO6xo8BFTodfkPoCl9apYgbHpJfHmEpw8nj
- L0/ex72Hh3BvYw5uENVwcAsjReYF8ncsC/Snq3545EFwBQsxENhgEsy0KTvD+YTI+Eoq
- QX8NWJl0/62fnMkZuDmxlX4774oO69wljbWLvgpPe/TnDHegnneAgoQROC6v8VZvT+Lw
- 0c6GJ0IAcGaCiMCnATNN5AEzSdRwNY7Gb9NNtgjbWXB+XQJI/yNmjzXF4Fs6uEs8npvv
- kOLQ==
-X-Gm-Message-State: AOJu0YxSrwOjjRx4IiRVJCz0cYGSUkmLJa/nxI7WL9eVBpxJioMTaCNU
- rGkPMLmTwR9icEexBH9vH5J4RfWhSephXmeG0oPuZiZ+eQStKDeL1B63vUTpnsU=
-X-Google-Smtp-Source: AGHT+IHAAOSe1YF9ohma3qLilcNBhTgUrp5XW+R17Dfxhf/XQBKuTb9CXtbrrq9LBMBwT336LwrXXQ==
-X-Received: by 2002:a05:6512:3128:b0:522:33cd:64bd with SMTP id
- 2adb3069b0e04-52964aba466mr8988769e87.27.1716970195416; 
- Wed, 29 May 2024 01:09:55 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-529aa049e3csm859093e87.167.2024.05.29.01.09.54
+ d=1e100.net; s=20230601; t=1716970437; x=1717575237;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uA6xkDpBDBv0Pede4O9Bhc1jEnUuZpOgNchQ5M2rx9I=;
+ b=wlYvBpxQoHDKjnbur7inedJbEfZVNK96RHt4PvlfrXgTBR3q6LH1j8+66zOuAPlyC2
+ EJxDuvUDV3TU7K7SNYyDfOLB6kBkqMPZ0Mc2wW7m/pFegqdjhEPhrOgMr5cSLSmXPD5A
+ WogkPTMfEvia99zzSSJ3m0RXGBFob/5eY7f1H8DLsjP5sQOLaGakHYkdaizUqSMJOFKI
+ Js98jOHpeNMGko4oV3R1LxoTO8JifvYu2XJ0Wgk0YN3YryLdjodmoGCRBJuIzFC4q3B3
+ jRMx3ekMBBIh3nz8s430BMSsqgdWjdBhZjsVRS+XKzwnrI8xN0GJfQAetoixXSmdqfQ+
+ e0lw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUkBBfTeGFnRghrt6hpoksAcpoakMeEuAVsApYyvgxK5JQuUvte0UK/5SqdPusrzIfv/ePT4bxQ3V1WOzR07QzSpmNMF6PlOO5d53Db+2Sj
+X-Gm-Message-State: AOJu0Yw6j7feBrbJfFYPTfY7nDw2usLdFg3GzCSnyCpk33NHp5lPfrgi
+ msSfXKeGzR0U1la9mtFz1Ikrrr+Fuse/BmpESKSDYfdSaTnxw+wmsamdJZKBmrhs0l256radBb9
+ mqVaP7eKPZlcm0NO7WhAmPT1EgNdcmALoph+0Aj24jOFcY/6wZez6d6BPLL+IO8Ag/A==
+X-Received: by 2002:a05:6512:3ca0:b0:51d:1d42:3eef with SMTP id
+ 2adb3069b0e04-52965b39a01mr17153684e87.29.1716970436736; 
+ Wed, 29 May 2024 01:13:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF91LhbQ4xNYnr9pEFoIbT00oSKdkKO+oULgmQYLO/NGeumTW/UalTZfnHhy8glLfcustu7kA==
+X-Received: by 2002:a05:6512:3ca0:b0:51d:1d42:3eef with SMTP id
+ 2adb3069b0e04-52965b39a01mr17153660e87.29.1716970436208; 
+ Wed, 29 May 2024 01:13:56 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4210145cbb5sm205151015e9.30.2024.05.29.01.13.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 May 2024 01:09:55 -0700 (PDT)
-Date: Wed, 29 May 2024 11:09:53 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Vignesh Raman <vignesh.raman@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, 
- helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
- robdclark@gmail.com, 
- david.heidelberg@collabora.com, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, 
- mcanal@igalia.com, linux-mediatek@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, 
- virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/6] drm/ci: uprev IGT
-Message-ID: <bj6mpegmxo6i5o34xyxwiytdaokv2u6p5iu4eoek3ctqimwviy@jbo5aw7gy4ue>
-References: <20240529024049.356327-1-vignesh.raman@collabora.com>
- <20240529024049.356327-5-vignesh.raman@collabora.com>
+ Wed, 29 May 2024 01:13:55 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, kernel test
+ robot <lkp@intel.com>
+Subject: Re: [PATCH] drm/display: Fix HDMI state helper dependency
+In-Reply-To: <20240529080013.2325748-1-mripard@kernel.org>
+References: <20240529080013.2325748-1-mripard@kernel.org>
+Date: Wed, 29 May 2024 10:13:55 +0200
+Message-ID: <87plt511do.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240529024049.356327-5-vignesh.raman@collabora.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,65 +90,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 29, 2024 at 08:10:47AM +0530, Vignesh Raman wrote:
-> test-list.txt and test-list-full.txt are not generated for
-> cross-builds and they are required by drm-ci for testing
-> arm32 targets. This is fixed in igt-gpu-tools. So uprev
-> IGT to include the commit which fixes this issue. Also
-> disable building xe driver tests for non-intel platforms.
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
-> ---
-> 
-> v2:
->   - Split IGT uprev to seperate patch.
-> 
-> v3:
->   - No changes.
-> 
-> ---
->  drivers/gpu/drm/ci/build-igt.sh  | 4 ++++
->  drivers/gpu/drm/ci/gitlab-ci.yml | 2 +-
->  2 files changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/ci/build-igt.sh b/drivers/gpu/drm/ci/build-igt.sh
-> index b7d2a49a6db3..eddb5f782a5e 100644
-> --- a/drivers/gpu/drm/ci/build-igt.sh
-> +++ b/drivers/gpu/drm/ci/build-igt.sh
-> @@ -45,6 +45,10 @@ MESON_OPTIONS="-Doverlay=disabled                    \
->                 -Dlibunwind=enabled                   \
->                 -Dprefix=/igt"
->  
-> +if [[ "$KERNEL_ARCH" = "arm64" ]] || [[ "$KERNEL_ARCH" = "arm" ]]; then
-> +    MESON_OPTIONS="$MESON_OPTIONS -Dxe_driver=disabled"
-> +fi
-> +
->  mkdir -p /igt
->  meson build $MESON_OPTIONS $EXTRA_MESON_ARGS
->  ninja -C build -j${FDO_CI_CONCURRENT:-4} || ninja -C build -j 1
-> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
-> index 8f32de63d92e..1b29c3b6406b 100644
-> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
-> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
-> @@ -5,7 +5,7 @@ variables:
->    UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
->    TARGET_BRANCH: drm-next
->  
-> -  IGT_VERSION: d2af13d9f5be5ce23d996e4afd3e45990f5ab977
-> +  IGT_VERSION: 0df7b9b97f9da0e364f5ee30fe331004b8c86b56
+Maxime Ripard <mripard@kernel.org> writes:
 
-Let's land this, then I'll ask to uprev to
-dc2d7fb4f978048b87707ea9ec32da748b01b378, which fixes an issue with the
-writeback tests on MSM devices.
+> During the life of the series that introduced the
+> DRM_DISPLAY_HDMI_STATE_HELPER option, we reworked the Kconfig option
+> dependency setup to rely on depends on with commit f6d2dc03fa85 ("drm:
+> Switch DRM_DISPLAY_HDMI_HELPER to depends on") which got reverted later
+> on because it was creating too many issues by commit d7c128cb775e
+> ("Revert "drm: Switch DRM_DISPLAY_HDMI_HELPER to depends on"").
+>
+> However, since the series was out of tree at that time,
+> DRM_DISPLAY_HDMI_STATE_HELPER wasn't properly updated to take the revert
+> into account and is now creating build issues.
+>
+> Let's switch the depends on to a select to fix this.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202405290332.Sqtt0ix0-lkp@intel.com/
+> Closes: https://lore.kernel.org/oe-kbuild-all/202405290438.TOYhXMIn-lkp@intel.com/
+> Closes: https://lore.kernel.org/oe-kbuild-all/202405290803.c3178DYT-lkp@intel.com/
+> Closes: https://lore.kernel.org/oe-kbuild-all/202405291109.PQdqc46g-lkp@intel.com/
+> Closes: https://lore.kernel.org/oe-kbuild-all/202405291221.a0NStxHE-lkp@intel.com/
+> Fixes: 54cb39e2293b ("drm/connector: hdmi: Create an HDMI sub-state")
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
 
->  
->    DEQP_RUNNER_GIT_URL: https://gitlab.freedesktop.org/anholt/deqp-runner.git
->    DEQP_RUNNER_GIT_TAG: v0.15.0
-> -- 
-> 2.40.1
-> 
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-With best wishes
-Dmitry
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
