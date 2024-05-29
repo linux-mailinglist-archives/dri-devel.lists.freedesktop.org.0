@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D148D2C7F
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 07:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B49628D2C89
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 07:36:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51A42113126;
-	Wed, 29 May 2024 05:36:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E837113140;
+	Wed, 29 May 2024 05:36:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NXlvGmYd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Cc/gmgwj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77FD21130D3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 05:36:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 633A8113108
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 05:36:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716960983; x=1748496983;
+ t=1716960989; x=1748496989;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=b4g7oPuUpFCf7ehXVGbGAAANzK1lpGoRJJpR32Cbgc4=;
- b=NXlvGmYdQkJ08XN+Wu0A7SjTu/Ob6qSqMmknHVVY92s15Osl3n642fYU
- jgWvum5ITAhZiNDvGMFKLmPaI4gqdYy2Dx3auhzmEagLB55/CC9eDwQ+P
- zdylUOjub5kaT02W/pqjnp0kk1o6u1rexoEU8Y3qvWNv3P1PX4PyyFarV
- u3c0EDuPcp2qzV/otS8J8lajlPVprFniujHqGfB1hSBV3nGZsq8vu0kps
- cVLiBDqy6k3RD+pm0dwEXNWLYH+8/YxHRdSAe8cXzGAUU/t+FHiUXK970
- p8/oEZ+KZhyQcDF6SQemw/QMLGdIegxup3EEmFnXvXwiNZSBWvd2/RZHK g==;
-X-CSE-ConnectionGUID: k2WrTQZVQBO+3nRh1VIzAw==
-X-CSE-MsgGUID: obtW69M/QiGh1M1jPWXCfQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13569012"
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="13569012"
+ bh=kDJcZN33ntEvZZurzXrpsoEVgCNzk8vicnqImPO/kUg=;
+ b=Cc/gmgwjMVfgvIyhmX5Pf0Ek6vCf6Y5AUTC+sae2IfvBenvGTzh/Walg
+ oh6l2O8okOiygO6RI0MrXneJTtriTrLhMO3q5fQaLVwY+uZwtn0kRVe2a
+ OeEzDdAV8KqpCEFIMVpa9yWAOi/qKnmLkcPT+Hu8exrA+J9Je+Vl9uW6N
+ v3th35rSENgek5c5ZMO5maDFcN/auZ6wRFqyNCNoCrFig4C/I4EPC3oVf
+ Z0CGdm+CGAHFpbFzY5cV2mVn4ZVuSpgQNr6dofOrQu5PwPswsciMi+IXb
+ v4KVlGVA/PUhw9c4TQ2QpOay4WA0t9CYNmeyfR0Tir73Los7UKD98VGzI Q==;
+X-CSE-ConnectionGUID: aR1ThhAuQjqYX5mowu8eDw==
+X-CSE-MsgGUID: W14YngHISOC/6QA0oKJ49A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13569025"
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="13569025"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2024 22:35:58 -0700
-X-CSE-ConnectionGUID: V3zZjpVoRS2Q2WQoWQMxtQ==
-X-CSE-MsgGUID: 5T9hg/jYScSPheKhITTpNw==
+ 28 May 2024 22:36:03 -0700
+X-CSE-ConnectionGUID: ENb7rn90RI6j1x4NRe3Etw==
+X-CSE-MsgGUID: Ih7YA2CfRI2pwJKPhSeR1g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="35257707"
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="35257728"
 Received: from unknown (HELO allen-box.sh.intel.com) ([10.239.159.127])
- by fmviesa007.fm.intel.com with ESMTP; 28 May 2024 22:35:53 -0700
+ by fmviesa007.fm.intel.com with ESMTP; 28 May 2024 22:35:58 -0700
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
@@ -55,9 +55,9 @@ Cc: Yi Liu <yi.l.liu@intel.com>, David Airlie <airlied@gmail.com>,
  Mikko Perttunen <mperttunen@nvidia.com>, iommu@lists.linux.dev,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Lu Baolu <baolu.lu@linux.intel.com>
-Subject: [PATCH 12/20] wifi: ath11k: Use iommu_paging_domain_alloc()
-Date: Wed, 29 May 2024 13:32:42 +0800
-Message-Id: <20240529053250.91284-13-baolu.lu@linux.intel.com>
+Subject: [PATCH 13/20] remoteproc: Use iommu_paging_domain_alloc()
+Date: Wed, 29 May 2024 13:32:43 +0800
+Message-Id: <20240529053250.91284-14-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240529053250.91284-1-baolu.lu@linux.intel.com>
 References: <20240529053250.91284-1-baolu.lu@linux.intel.com>
@@ -78,34 +78,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-An iommu domain is allocated in ath11k_ahb_fw_resources_init() and is
-attached to ab_ahb->fw.dev in the same function.
+An iommu domain is allocated in rproc_enable_iommu() and is attached to
+rproc->dev.parent in the same function.
 
 Use iommu_paging_domain_alloc() to make it explicit.
 
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 ---
- drivers/net/wireless/ath/ath11k/ahb.c | 6 +++---
+ drivers/remoteproc/remoteproc_core.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/wireless/ath/ath11k/ahb.c b/drivers/net/wireless/ath/ath11k/ahb.c
-index ca0f17ddebba..a469647719f9 100644
---- a/drivers/net/wireless/ath/ath11k/ahb.c
-+++ b/drivers/net/wireless/ath/ath11k/ahb.c
-@@ -1001,10 +1001,10 @@ static int ath11k_ahb_fw_resources_init(struct ath11k_base *ab)
- 
- 	ab_ahb->fw.dev = &pdev->dev;
- 
--	iommu_dom = iommu_domain_alloc(&platform_bus_type);
--	if (!iommu_dom) {
-+	iommu_dom = iommu_paging_domain_alloc(ab_ahb->fw.dev);
-+	if (IS_ERR(iommu_dom)) {
- 		ath11k_err(ab, "failed to allocate iommu domain\n");
--		ret = -ENOMEM;
-+		ret = PTR_ERR(iommu_dom);
- 		goto err_unregister;
+diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
+index f276956f2c5c..eb66f78ec8b7 100644
+--- a/drivers/remoteproc/remoteproc_core.c
++++ b/drivers/remoteproc/remoteproc_core.c
+@@ -109,10 +109,10 @@ static int rproc_enable_iommu(struct rproc *rproc)
+ 		return 0;
  	}
  
+-	domain = iommu_domain_alloc(dev->bus);
+-	if (!domain) {
++	domain = iommu_paging_domain_alloc(dev);
++	if (IS_ERR(domain)) {
+ 		dev_err(dev, "can't alloc iommu domain\n");
+-		return -ENOMEM;
++		return PTR_ERR(domain);
+ 	}
+ 
+ 	iommu_set_fault_handler(domain, rproc_iommu_fault, rproc);
 -- 
 2.34.1
 
