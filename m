@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9598D2F59
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8F68D2F5B
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:03:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A23B10E687;
-	Wed, 29 May 2024 08:03:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 377CD10E957;
+	Wed, 29 May 2024 08:03:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4834011343D
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:02:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 20FC511343D
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:02:31 +0000 (UTC)
 Received: from SIOS1075.ysato.name (al128006.dynamic.ppp.asahi-net.or.jp
  [111.234.128.6])
- by sakura.ysato.name (Postfix) with ESMTPSA id B451C1C1064;
- Wed, 29 May 2024 17:02:27 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 97AE11C1066;
+ Wed, 29 May 2024 17:02:29 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
@@ -67,9 +67,9 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-Subject: [DO NOT MERGE v8 33/36] sh: Add dtbs target support.
-Date: Wed, 29 May 2024 17:01:19 +0900
-Message-Id: <453720d8182ce94d20dff57ee44b6a2092b3773f.1716965617.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v8 34/36] sh: RTS7751R2D Plus OF defconfig
+Date: Wed, 29 May 2024 17:01:20 +0900
+Message-Id: <bd9b38bec6376d52e2e547702f0b6fbd2bde5b32.1716965617.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1716965617.git.ysato@users.sourceforge.jp>
 References: <cover.1716965617.git.ysato@users.sourceforge.jp>
@@ -91,23 +91,94 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/sh/boot/dts/Makefile | 5 +++++
- 1 file changed, 5 insertions(+)
+ arch/sh/configs/rts7751r2dplus-of_defconfig | 77 +++++++++++++++++++++
+ 1 file changed, 77 insertions(+)
+ create mode 100644 arch/sh/configs/rts7751r2dplus-of_defconfig
 
-diff --git a/arch/sh/boot/dts/Makefile b/arch/sh/boot/dts/Makefile
-index 4a6dec9714a9..e6b93360c213 100644
---- a/arch/sh/boot/dts/Makefile
-+++ b/arch/sh/boot/dts/Makefile
-@@ -1,2 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- obj-$(CONFIG_USE_BUILTIN_DTB) += $(addsuffix .dtb.o, $(CONFIG_BUILTIN_DTB_SOURCE))
-+
-+dtb-$(CONFIG_CPU_J2) += j2_mimas_v2.dtb
-+dtb-$(CONFIG_CPU_SUBTYPE_SH7751R) += landisk.dtb
-+dtb-$(CONFIG_CPU_SUBTYPE_SH7751R) += rts7751r2dplus.dtb
-+dtb-$(CONFIG_CPU_SUBTYPE_SH7751R) += usl-5p.dtb
+diff --git a/arch/sh/configs/rts7751r2dplus-of_defconfig b/arch/sh/configs/rts7751r2dplus-of_defconfig
+new file mode 100644
+index 000000000000..e85523a3c821
+--- /dev/null
++++ b/arch/sh/configs/rts7751r2dplus-of_defconfig
+@@ -0,0 +1,77 @@
++CONFIG_SYSVIPC=y
++CONFIG_LOG_BUF_SHIFT=14
++CONFIG_PROFILING=y
++CONFIG_CPU_SUBTYPE_SH7751R=y
++CONFIG_MEMORY_START=0x0c000000
++CONFIG_SH_OF_BOARD=y
++CONFIG_HEARTBEAT=y
++CONFIG_ZERO_PAGE_OFFSET=0x00010000
++CONFIG_CMDLINE_BOOTLOADER=y
++CONFIG_MODULES=y
++CONFIG_FLATMEM_MANUAL=y
++CONFIG_NET=y
++CONFIG_PACKET=y
++CONFIG_UNIX=y
++CONFIG_INET=y
++# CONFIG_IPV6 is not set
++CONFIG_PCI=y
++CONFIG_HOTPLUG_PCI=y
++CONFIG_PCI_SH7751=y
++CONFIG_UEVENT_HELPER=y
++CONFIG_MTD=y
++CONFIG_MTD_CMDLINE_PARTS=y
++CONFIG_MTD_CFI=y
++CONFIG_MTD_CFI_AMDSTD=y
++CONFIG_MTD_PHYSMAP=y
++CONFIG_BLK_DEV_RAM=y
++CONFIG_BLK_DEV_SD=y
++# CONFIG_BLK_DEV_BSG is not set
++CONFIG_ATA=y
++CONFIG_PATA_OF_PLATFORM=y
++CONFIG_NETDEVICES=y
++CONFIG_8139TOO=y
++# CONFIG_8139TOO_PIO is not set
++# CONFIG_INPUT_KEYBOARD is not set
++# CONFIG_INPUT_MOUSE is not set
++# CONFIG_SERIO is not set
++CONFIG_SERIAL_8250=y
++CONFIG_SERIAL_SH_SCI=y
++CONFIG_HW_RANDOM=y
++CONFIG_SPI=y
++CONFIG_SPI_SH_SCI=y
++CONFIG_MFD_SM501=y
++CONFIG_FB=y
++CONFIG_FB_SH_MOBILE_LCDC=m
++CONFIG_FB_SM501=y
++CONFIG_FRAMEBUFFER_CONSOLE=y
++CONFIG_LOGO=y
++# CONFIG_LOGO_LINUX_MONO is not set
++# CONFIG_LOGO_LINUX_VGA16 is not set
++# CONFIG_LOGO_LINUX_CLUT224 is not set
++# CONFIG_LOGO_SUPERH_MONO is not set
++# CONFIG_LOGO_SUPERH_VGA16 is not set
++CONFIG_SOUND=y
++CONFIG_SND=m
++CONFIG_SND_YMFPCI=m
++CONFIG_HID_GYRATION=y
++CONFIG_HID_PANTHERLORD=y
++CONFIG_HID_PETALYNX=y
++CONFIG_HID_SAMSUNG=y
++CONFIG_HID_SUNPLUS=y
++CONFIG_USB=y
++CONFIG_USB_ANNOUNCE_NEW_DEVICES=y
++CONFIG_USB_OHCI_HCD=y
++CONFIG_USB_STORAGE=y
++CONFIG_RTC_CLASS=y
++CONFIG_RTC_DRV_R9701=y
++CONFIG_RENESAS_SH7751_INTC=y
++CONFIG_RENESAS_SH7751IRL_INTC=y
++CONFIG_EXT2_FS=y
++CONFIG_MSDOS_FS=y
++CONFIG_VFAT_FS=y
++CONFIG_PROC_KCORE=y
++CONFIG_TMPFS=y
++CONFIG_MINIX_FS=y
++CONFIG_NLS_CODEPAGE_932=y
++CONFIG_CRC_T10DIF=y
++CONFIG_DEBUG_FS=y
 -- 
 2.39.2
 
