@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AADFA8D2C76
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 07:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C83E8D2C7A
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 07:36:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6A51112324;
-	Wed, 29 May 2024 05:36:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2B81130BF;
+	Wed, 29 May 2024 05:36:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Sw+M80eX";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lobssp4S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13008113034
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 850F911307D
  for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 05:36:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716960972; x=1748496972;
+ t=1716960973; x=1748496973;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=i2g4o4FMSNI6vy56g2mVccrM+MuXNKNyXwoqmECaK9M=;
- b=Sw+M80eXVuj3vsA5/GVukWgXQq6e3kxxZGr5BekeLXHjiNSD0lYz/aRx
- of1HmBKp/S2IAPiDGBCf8EQ4FbgildLEXN8Kk42ZLW7hXCAPvMNN7f1aa
- sYXKOf67jxOLxfhAiQXHkB3+TaSF7i1oYanjgxyLewDDZG5IZQH9J1x4g
- RviNdTnnxFpDet2uJdP/YyKpitHXE4/6hqrUN6zbn0gfqTgbNkwLyzUig
- N/cMcK5F9yDtDC5tvW9cMeFcB/MZT5fn2E8L7hZcHiDWp0UgP4GyPlxvp
- a3tzuAcSQW4R6DOLldZe5e9wzFtLOlGPAq/Drh4/n0O7xarHcZTsBqK9Z Q==;
-X-CSE-ConnectionGUID: MD2jyBy/TKmTw4dCqJD82g==
-X-CSE-MsgGUID: 3Id+FhcaSg6VlpnovU2vRQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13568768"
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="13568768"
+ bh=Ku98pK7UgGN8K4Vqi8YCUxqt/MmWDBRD7GnhYQUhVEg=;
+ b=lobssp4SlPn4FD1ObriFep3zHr2EfzpftuRLSaiCqAYyercF5DmOen01
+ b42zZie6swzm5d5oGOOrZof991iuwvThIkpdTnPTvm8+/PF0mhloFnjtR
+ bEfbxJW2ftrZ1SBADTAWdRY7yx8NNotey854+PEXb9300+EDAuVsKaUpa
+ dB1jG6gZ9QDmnVOKaG/e6bM7J/IhOPHrw6ttm9zN5rHpcD9gnuZLvA/sf
+ ndfXF9kec00CJM0PcfhV5nmq3WjcABjFyPteYbbYl+0dow5ULY6vblbwG
+ wGh3ETK4LeoG+5xlxLjmlgVaiavbkZ/XQyFA5k2E6moJo4YjKjJi1ZMJa A==;
+X-CSE-ConnectionGUID: CnHwhSt4TjaqDTbsXX8viA==
+X-CSE-MsgGUID: T5eSNWaBS8CGlUboTRyNtQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13568790"
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="13568790"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2024 22:35:11 -0700
-X-CSE-ConnectionGUID: ooEsLAqOTEq37Hrx3ZeYbQ==
-X-CSE-MsgGUID: FAzliAhcS6u1szAMWmJLKQ==
+ 28 May 2024 22:35:16 -0700
+X-CSE-ConnectionGUID: WiRHsEl4TRC1JXRxiW5i8g==
+X-CSE-MsgGUID: 4zBoCP3eR6Ce1YRhsCapLQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="35257473"
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="35257489"
 Received: from unknown (HELO allen-box.sh.intel.com) ([10.239.159.127])
- by fmviesa007.fm.intel.com with ESMTP; 28 May 2024 22:35:06 -0700
+ by fmviesa007.fm.intel.com with ESMTP; 28 May 2024 22:35:11 -0700
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
@@ -55,9 +55,9 @@ Cc: Yi Liu <yi.l.liu@intel.com>, David Airlie <airlied@gmail.com>,
  Mikko Perttunen <mperttunen@nvidia.com>, iommu@lists.linux.dev,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Lu Baolu <baolu.lu@linux.intel.com>
-Subject: [PATCH 02/20] iommufd: Use iommu_user_domain_alloc()
-Date: Wed, 29 May 2024 13:32:32 +0800
-Message-Id: <20240529053250.91284-3-baolu.lu@linux.intel.com>
+Subject: [PATCH 03/20] vfio/type1: Use iommu_paging_domain_alloc()
+Date: Wed, 29 May 2024 13:32:33 +0800
+Message-Id: <20240529053250.91284-4-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240529053250.91284-1-baolu.lu@linux.intel.com>
 References: <20240529053250.91284-1-baolu.lu@linux.intel.com>
@@ -82,40 +82,37 @@ Replace iommu_domain_alloc() with iommu_user_domain_alloc().
 
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 ---
- drivers/iommu/iommufd/hw_pagetable.c | 20 +++++---------------
- 1 file changed, 5 insertions(+), 15 deletions(-)
+ drivers/vfio/vfio_iommu_type1.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/iommu/iommufd/hw_pagetable.c b/drivers/iommu/iommufd/hw_pagetable.c
-index 33d142f8057d..ada05fccb36a 100644
---- a/drivers/iommu/iommufd/hw_pagetable.c
-+++ b/drivers/iommu/iommufd/hw_pagetable.c
-@@ -127,21 +127,11 @@ iommufd_hwpt_paging_alloc(struct iommufd_ctx *ictx, struct iommufd_ioas *ioas,
- 	hwpt_paging->ioas = ioas;
- 	hwpt_paging->nest_parent = flags & IOMMU_HWPT_ALLOC_NEST_PARENT;
+diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+index 3a0218171cfa..1d553f7f7c26 100644
+--- a/drivers/vfio/vfio_iommu_type1.c
++++ b/drivers/vfio/vfio_iommu_type1.c
+@@ -2135,7 +2135,7 @@ static int vfio_iommu_domain_alloc(struct device *dev, void *data)
+ {
+ 	struct iommu_domain **domain = data;
  
--	if (ops->domain_alloc_user) {
--		hwpt->domain = ops->domain_alloc_user(idev->dev, flags, NULL,
--						      user_data);
--		if (IS_ERR(hwpt->domain)) {
--			rc = PTR_ERR(hwpt->domain);
--			hwpt->domain = NULL;
--			goto out_abort;
--		}
--		hwpt->domain->owner = ops;
--	} else {
--		hwpt->domain = iommu_domain_alloc(idev->dev->bus);
--		if (!hwpt->domain) {
--			rc = -ENOMEM;
--			goto out_abort;
--		}
-+	hwpt->domain = iommu_user_domain_alloc(idev->dev, flags);
-+	if (IS_ERR(hwpt->domain)) {
-+		rc = PTR_ERR(hwpt->domain);
-+		hwpt->domain = NULL;
-+		goto out_abort;
- 	}
+-	*domain = iommu_domain_alloc(dev->bus);
++	*domain = iommu_user_domain_alloc(dev, 0);
+ 	return 1; /* Don't iterate */
+ }
  
- 	/*
+@@ -2192,11 +2192,12 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
+ 	 * us a representative device for the IOMMU API call. We don't actually
+ 	 * want to iterate beyond the first device (if any).
+ 	 */
+-	ret = -EIO;
+ 	iommu_group_for_each_dev(iommu_group, &domain->domain,
+ 				 vfio_iommu_domain_alloc);
+-	if (!domain->domain)
++	if (IS_ERR(domain->domain)) {
++		ret = PTR_ERR(domain->domain);
+ 		goto out_free_domain;
++	}
+ 
+ 	if (iommu->nesting) {
+ 		ret = iommu_enable_nesting(domain->domain);
 -- 
 2.34.1
 
