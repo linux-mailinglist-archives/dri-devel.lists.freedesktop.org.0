@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76F18D2F81
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:04:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 028FB8D2F35
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:02:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAFA110F443;
-	Wed, 29 May 2024 08:04:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E69E11343D;
+	Wed, 29 May 2024 08:02:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id D8E69113435
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:01:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id D87E0112E8A
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:01:53 +0000 (UTC)
 Received: from SIOS1075.ysato.name (al128006.dynamic.ppp.asahi-net.or.jp
  [111.234.128.6])
- by sakura.ysato.name (Postfix) with ESMTPSA id 779261C0BDE;
- Wed, 29 May 2024 17:01:49 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 5AC691C03A3;
+ Wed, 29 May 2024 17:01:51 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
@@ -67,9 +67,10 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-Subject: [DO NOT MERGE v8 12/36] dt-bindings: pci: pci-sh7751: Add SH7751 PCI
-Date: Wed, 29 May 2024 17:00:58 +0900
-Message-Id: <587a2968539690a240f157ff860e148dea2bd167.1716965617.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v8 13/36] dt-bindings: clock: sh7750-cpg: Add renesas,
+ sh7750-cpg header.
+Date: Wed, 29 May 2024 17:00:59 +0900
+Message-Id: <b1fc49269919c7d6c2e5c607ae29d1a6f2ab40d2.1716965617.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1716965617.git.ysato@users.sourceforge.jp>
 References: <cover.1716965617.git.ysato@users.sourceforge.jp>
@@ -90,95 +91,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Renesas SH7751 PCI Controller json-schema.
+SH7750 CPG Clock output define.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- .../bindings/pci/renesas,sh7751-pci.yaml      | 75 +++++++++++++++++++
- 1 file changed, 75 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml
+ .../bindings/clock/renesas,sh7750-cpg.yaml    | 107 ++++++++++++++++++
+ include/dt-bindings/clock/sh7750-cpg.h        |  26 +++++
+ 2 files changed, 133 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/clock/renesas,sh7750-cpg.yaml
+ create mode 100644 include/dt-bindings/clock/sh7750-cpg.h
 
-diff --git a/Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml b/Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml
+diff --git a/Documentation/devicetree/bindings/clock/renesas,sh7750-cpg.yaml b/Documentation/devicetree/bindings/clock/renesas,sh7750-cpg.yaml
 new file mode 100644
-index 000000000000..3c3e8f9253c3
+index 000000000000..0cdcab6fb4bc
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml
-@@ -0,0 +1,75 @@
++++ b/Documentation/devicetree/bindings/clock/renesas,sh7750-cpg.yaml
+@@ -0,0 +1,107 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/pci/renesas,sh7751-pci.yaml#
++$id: http://devicetree.org/schemas/clock/renesas,sh7750-cpg.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Renesas SH7751 PCI Host controller
++title: Renesas SH7750/7751 Clock Pulse Generator (CPG)
 +
 +maintainers:
 +  - Yoshinori Sato <ysato@users.sourceforge.jp>
 +
-+allOf:
-+  - $ref: /schemas/pci/pci-bus.yaml#
++description:
++  The Clock Pulse Generator (CPG) generates core clocks for the SoC.  It
++  includes PLLs, and variable ratio dividers.
++
++  The CPG may also provide a Clock Domain for SoC devices, in combination with
++  the CPG Module Stop (MSTP) Clocks.
 +
 +properties:
 +  compatible:
-+    const: renesas,sh7751-pci
++    enum:
++      - renesas,sh7750-cpg             # SH7750
++      - renesas,sh7750s-cpg            # SH775S
++      - renesas,sh7750r-cpg            # SH7750R
++      - renesas,sh7751-cpg             # SH7751
++      - renesas,sh7751r-cpg            # SH7751R
 +
 +  reg:
-+    minItems: 2
++    minItems: 1
 +    maxItems: 2
 +
-+  reg-names:
-+    items:
-+      - const: PCI Controller
-+      - const: Bus State Controller
++  reg-names: true
 +
-+  interrupt-controller: true
++  clocks:
++    maxItems: 1
 +
-+  renesas,bus-arbit-round-robin:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description:
-+      Set DMA bus arbitration to round robin.
++  clock-names:
++    const: extal
++
++  '#clock-cells':
++    const: 1
++
++  renesas,mode:
++    description: Board-specific settings of the MD[0-2] pins on SoC
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 6
++
++  '#power-domain-cells':
++    const: 0
 +
 +required:
 +  - compatible
 +  - reg
-+  - "#interrupt-cells"
-+  - interrupt-map
-+  - interrupt-map-mask
++  - reg-names
++  - clocks
++  - clock-names
++  - '#clock-cells'
 +
-+unevaluatedProperties: false
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - renesas,sh7750-cpg
++              - renesas,sh7750s-cpg
++    then:
++      properties:
++        reg:
++          maxItems: 1
++        reg-names:
++          items:
++            - const: FRQCR
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - renesas,sh7750r-cpg
++              - renesas,sh7751-cpg
++              - renesas,sh7751r-cpg
++    then:
++      properties:
++        reg:
++          minItems: 2
++        reg-names:
++          items:
++            - const: FRQCR
++            - const: CLKSTP00
++
++additionalProperties: false
 +
 +examples:
 +  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    pci@fe200000 {
-+            compatible = "renesas,sh7751-pci";
-+            #address-cells = <3>;
-+            #size-cells = <2>;
-+            #interrupt-cells = <1>;
-+            interrupt-controller;
-+            device_type = "pci";
-+            bus-range = <0 0>;
-+            ranges = <0x02000000 0 0xfd000000 0xfd000000 0 0x01000000>,
-+                     <0x01000000 0 0x00000000 0xfe240000 0 0x00040000>;
-+            dma-ranges = <0x03000000 0 0xab000000 0xab000000 0 0x00000001>,
-+                         <0x02000000 0 0x0c000000 0x0c000000 0 0x04000000>,
-+                         <0x02000000 0 0xd0000000 0xd0000000 0 0x00000001>;
-+            reg = <0xfe200000 0x0400>,
-+                  <0xff800000 0x0100>;
-+            interrupt-map = <0x0000 0 0 1 &julianintc 5 IRQ_TYPE_LEVEL_LOW>,
-+                            <0x0000 0 0 2 &julianintc 6 IRQ_TYPE_LEVEL_LOW>,
-+                            <0x0000 0 0 3 &julianintc 7 IRQ_TYPE_LEVEL_LOW>,
-+                            <0x0000 0 0 4 &julianintc 8 IRQ_TYPE_LEVEL_LOW>,
-+                            <0x0800 0 0 1 &julianintc 6 IRQ_TYPE_LEVEL_LOW>,
-+                            <0x0800 0 0 2 &julianintc 7 IRQ_TYPE_LEVEL_LOW>,
-+                            <0x0800 0 0 3 &julianintc 8 IRQ_TYPE_LEVEL_LOW>,
-+                            <0x0800 0 0 4 &julianintc 5 IRQ_TYPE_LEVEL_LOW>,
-+                            <0x1000 0 0 1 &julianintc 7 IRQ_TYPE_LEVEL_LOW>,
-+                            <0x1000 0 0 2 &julianintc 8 IRQ_TYPE_LEVEL_LOW>,
-+                            <0x1000 0 0 3 &julianintc 5 IRQ_TYPE_LEVEL_LOW>,
-+                            <0x1000 0 0 4 &julianintc 6 IRQ_TYPE_LEVEL_LOW>;
-+            interrupt-map-mask = <0x1800 0 0 7>;
++    #include <dt-bindings/clock/sh7750-cpg.h>
++    cpg: clock-controller@ffc00000 {
++        compatible = "renesas,sh7751r-cpg";
++        reg = <0xffc00000 20>, <0xfe0a0000 16>;
++        reg-names = "FRQCR", "CLKSTP00";
++        clocks = <&extal>;
++        clock-names = "extal";
++        renesas,mode = <0>;
++        #clock-cells = <1>;
++        #power-domain-cells = <0>;
 +    };
+diff --git a/include/dt-bindings/clock/sh7750-cpg.h b/include/dt-bindings/clock/sh7750-cpg.h
+new file mode 100644
+index 000000000000..ec267be91adf
+--- /dev/null
++++ b/include/dt-bindings/clock/sh7750-cpg.h
+@@ -0,0 +1,26 @@
++/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++ *
++ * Copyright 2023 Yoshinori Sato
++ */
++
++#ifndef __DT_BINDINGS_CLOCK_SH7750_H__
++#define __DT_BINDINGS_CLOCK_SH7750_H__
++
++#define SH7750_CPG_PLLOUT	0
++
++#define SH7750_CPG_PCK		1
++#define SH7750_CPG_BCK		2
++#define SH7750_CPG_ICK		3
++
++#define SH7750_MSTP_SCI		4
++#define SH7750_MSTP_RTC		5
++#define SH7750_MSTP_TMU012	6
++#define SH7750_MSTP_SCIF	7
++#define SH7750_MSTP_DMAC	8
++#define SH7750_MSTP_UBC		9
++#define SH7750_MSTP_SQ		10
++#define SH7750_CSTP_INTC	11
++#define SH7750_CSTP_TMU34	12
++#define SH7750_CSTP_PCIC	13
++
++#endif
 -- 
 2.39.2
 
