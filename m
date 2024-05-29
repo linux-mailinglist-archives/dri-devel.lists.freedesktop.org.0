@@ -2,75 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4A78D3174
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:33:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0178D31A6
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:38:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C117110E1D1;
-	Wed, 29 May 2024 08:33:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F2E8112256;
+	Wed, 29 May 2024 08:38:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fLm64ol5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="AAQ0X0Jz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9D1E10E1D1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:33:48 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-2e724bc46bfso19388571fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 01:33:48 -0700 (PDT)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D003B10F0FA
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:38:26 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-52aea6067c8so435585e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 01:38:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716971627; x=1717576427; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=x5EEaYGJ1D8byJ8SJtJTmXoqVH/YjaxmFU54Kpu6AHk=;
- b=fLm64ol5NCBSMYdoGxJvU6hu6c1I8tfjglxp1wHXzodUjiwCL4c0skVWmlgm1OGByE
- f1lZBL3/ZPYedvxjVu/pK22GQCOAZ1H8cGxB7wg9H/U7CoL2kQ4xMpSTZfDkJl4mG6e1
- sWDklJSwkVTXDphBXsYLoeT4MN2AcU8XwDeKVzvWE43u4aCujnEqHdFINYEVdsXSCZYA
- qEKFTHCVAWhkm/U2+8nHyCPUTXHkBlLOzLFHqfSlB6KRpAkdM3e6BIlmH3JLw+HExJ0W
- LszuCUh0lPfiqH+EfIJCvpXRKLJ497dMP0ghqZXtvPiXy8CmELM5KrV4ItYpRJoehFAi
- aVyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716971627; x=1717576427;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1716971905; x=1717576705; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=x5EEaYGJ1D8byJ8SJtJTmXoqVH/YjaxmFU54Kpu6AHk=;
- b=sw85dfuv6Ls1Cgp7GPEGCmK9ThhJdCr5rUDVZgRfhzZ3XH8kQMH0ulhp/nLxfs5zPU
- M15T8N0qzEgq5deF0QV9xVJfoFYKKcNIcyaDbYrkLTFce8o4K4RebAbAJXVnE71fAv+m
- FKkE9p/SoYirx27htYPj6kNkDesdd40aQCJgHy+8Zy0P4FJ/VKb4GX8AoFmXOwRcEK4u
- Vg2zT0Y6iquks0zq/GDLNfkV7GJHCyNmIQqf5HVGR8RB5y5tQPZa3dFUZeVFAqLEk79g
- hi5RCU6DGhegE+XKzCn/T7Z42xIAZGEIz5EuYyxlFrTPzkqfNXOz5ViA91JuCtlNmYij
- tzRA==
-X-Gm-Message-State: AOJu0YyXLitlAmbPADo1jtxMFHKmlDvq6ZIPsetonSZdxbG+5bpA6wBX
- d/idLg71MhPXVahVOyAzNXN4kaW6dqupsYObs60YKUvZXICE6nCIsOv9agfuQ50mx8h0SB/9YX+
- 7
-X-Google-Smtp-Source: AGHT+IGXd/mOmVvjcZBERVulKftudCI3L16kztf3VlESzDwzxnSCEt1H6iGXEZq9p+pnqIwuRko7Xg==
-X-Received: by 2002:a05:651c:1992:b0:2da:a3ff:524e with SMTP id
- 38308e7fff4ca-2e95b03e9d1mr100322571fa.9.1716971626954; 
- Wed, 29 May 2024 01:33:46 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2e9866d87c5sm4769911fa.95.2024.05.29.01.33.45
+ bh=IqrQnHagTsqc8XSpxu+I+AI5vFFrCWmKxdpq/9RvgHQ=;
+ b=AAQ0X0JzpkTJPr8jEb7cCPXU0GIXsVaIzvtnh7UaO1CwBvFwNTXIE4yBTTAOP8J9gQ
+ 4Pu69fEq/eXCuzCW6GEfGQmpZGRIe6dmlFcDseRs+wS8N+EF8BFCHC6xJIScGRnCiq66
+ 4CI7WmIqUzLW8elxBQ2rBqJ4cB/Vs4edINqY2ijZxIxOA1V2PM0y9Zwzm7cqqGQWDrIo
+ 0sj5DzV3nn95t6U2NNhGwqZ1gAfDnfYFJqXjUN6RTIRUE/A6ctDxsjB5Hdk2Uut0GpgC
+ FF7+o7LSeUiu5oiXtoZM2uDE2x7g1ijdi4NhPjSgjlw4PowFBSQSkLgosyjRai+zhnyi
+ I/eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716971905; x=1717576705;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IqrQnHagTsqc8XSpxu+I+AI5vFFrCWmKxdpq/9RvgHQ=;
+ b=BZYK+ZGGWPJbJmPnBSQLGCO3II4uD4mwZY67OV4QS/xBNoBIhc9JEbXHzazrjZe/Ge
+ WG7SrGeu1rQdaspJ9yctM3KhOaLBhbun83EJC/3nPLKjRHHgAOHcslVpWCxA6hzIL3Pp
+ BeDHL83dUaW4OrHe3+lYCqitVKzvWhe+Fi6Ho9QJCk3IcD3UxMC4d7SUQ1uEsRIrkFgE
+ yx/PsGeViKgijhjkBYkPTwzTMXwRFb4ooT7825okrRyvs6+f6gvC3zOyAYe4MvkRY3pv
+ 3UDM3A4VuMM7tPwEfBIJIwmviHUpOcmexA3r0eNqmyFjtLfGDtrIBjXWJgdRz+sAP6RM
+ pD0g==
+X-Gm-Message-State: AOJu0Ywg2DoeMMVMhxTzxGbFA71t1aczQzQbw6IclISBAj3OBjo5V5Sd
+ i+gS2ScVentf+Rkq8fIFHA7R7qW4hrH6T5gQiJLrjWHgqW0YQoz+fVUxCDNUe5k=
+X-Google-Smtp-Source: AGHT+IFxNS9ivx6ftoot6k7b4A5XcOe5Biw65h+SXYi89WIc3qRRrD3Vy3EqpcmprR3+hTvfeKjCOg==
+X-Received: by 2002:a19:f613:0:b0:523:ef21:8e2c with SMTP id
+ 2adb3069b0e04-529664dac67mr7731487e87.51.1716971904911; 
+ Wed, 29 May 2024 01:38:24 -0700 (PDT)
+Received: from eriador.lan (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00::227]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52b3d918a5csm59684e87.257.2024.05.29.01.38.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 May 2024 01:33:45 -0700 (PDT)
-Date: Wed, 29 May 2024 11:33:43 +0300
+ Wed, 29 May 2024 01:38:24 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, 
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
- Samuel Holland <samuel@sholland.org>, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] drm/sun4i: Fix compilation error
-Message-ID: <dcfkn4bgsdzxbgzdlpycnyuj76ycydwavn2tqd2k6kuw5puuge@wkun3c6i5qqt>
-References: <20240528151056.2104153-1-mripard@kernel.org>
- <171697049522.2533828.193549550194715590.b4-ty@kernel.org>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Caleb Connolly <caleb.connolly@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Vinod Koul <vkoul@kernel.org>, Caleb Connolly <caleb@connolly.tech>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ kernel test robot <lkp@intel.com>
+Subject: Re: (subset) [PATCH v4 0/3] drm/panel: two fixes for lg-sw43408
+Date: Wed, 29 May 2024 11:38:22 +0300
+Message-ID: <171697189027.975427.12036219693814257280.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240528-panel-sw43408-fix-v4-0-330b42445bcc@linaro.org>
+References: <20240528-panel-sw43408-fix-v4-0-330b42445bcc@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <171697049522.2533828.193549550194715590.b4-ty@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,23 +100,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 29, 2024 at 10:14:55AM +0200, Maxime Ripard wrote:
-> On Tue, 28 May 2024 17:10:56 +0200, Maxime Ripard wrote:
-> > Commit ea64761a54a2 ("drm/sun4i: hdmi: Switch to HDMI connector")
-> > introduced a dependency that got renamed in a previous version, but
-> > wasn't properly updated in that driver. Fix the name of the function.
-> > 
-> > 
+On Tue, 28 May 2024 22:39:17 +0300, Dmitry Baryshkov wrote:
+> Fix two issues with the panel-lg-sw43408 driver reported by the kernel
+> test robot.
 > 
-> Applied to misc/kernel.git (drm-misc-next).
-
-Just to note, I don't see this commit in drm-misc-next.
-
-> 
-> Thanks!
-> Maxime
 > 
 
+Applied to drm-misc-fixes, thanks!
+
+[1/3] drm/panel/lg-sw43408: select CONFIG_DRM_DISPLAY_DP_HELPER
+      commit: 33defcacd207196a6b35857087e6335590adad62
+[2/3] drm/panel/lg-sw43408: mark sw43408_backlight_ops as static
+      commit: 8c318cb70c88aa02068db7518e852b909c9b400f
+
+Best regards,
 -- 
 With best wishes
 Dmitry
+
