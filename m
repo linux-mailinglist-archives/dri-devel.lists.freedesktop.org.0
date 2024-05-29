@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9BC8D3AE4
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 17:29:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C85858D3B26
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 17:39:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBB9110E331;
-	Wed, 29 May 2024 15:29:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBA6B10E522;
+	Wed, 29 May 2024 15:39:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WLoOLl0x";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OfHDOC7/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B5A210E331
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 15:29:38 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6DBEB2B5A;
- Wed, 29 May 2024 17:29:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1716996573;
- bh=sewIJaD9QjZaC5xG2CE6xvk6MR9xCopp4nwFzwuQONM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WLoOLl0xQ/o4oH3fuxV5VZLyyC+IFLMk/tN24fONYBJtHmBv0J8zLd/owMU1b2inJ
- n89/s7xlgzydAjqnXu3r+loDucHc+8Tpio+GVgEsUpWLbxf8qL112tSKA0c+71vIXW
- LVWq/nFLWvzyy8AgV0ZDCjYht8t7NcRSEKnVay1M=
-Date: Wed, 29 May 2024 18:29:25 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- prabhakar.csengg@gmail.com,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Eugen Hristev <eugen.hristev@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helge Deller <deller@gmx.de>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 380A510E31E;
+ Wed, 29 May 2024 15:39:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716997166; x=1748533166;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=e8LQcNcc3AEDHWS/nnMWgpljz4Z9RaTLNp7fyN5hGww=;
+ b=OfHDOC7/o27T3rzmU0bUEWwqDh5EFDyGBXJJF2b9xTRhCTiP8c92Ur3H
+ MMoAWt+GYvXMjWZOznoJB7w4SAFMA7jGcsWpnx7XJhvhfl95ZPfOEbHGD
+ GmG7H5GnAcAmBe5o27DLMGOhsoyZC3eEbAmGu30pIfI0Ul04p6jP72vdI
+ aDGcfiitKTV62gJK+vPl2xkhBfzXrwUd50UTrkkfxSzvPPlynKkzC6EEm
+ 3jEW4xKgmyow+CXvD/G6SHqztXrU64bkZ1j+N715Zn0dRFijVmZ1ChMQz
+ cKMaNGoub5YXY14iT02yhtiN8EVpger89i76dI4j3GxGD8bJHnkI7kn1U g==;
+X-CSE-ConnectionGUID: DkEO5BXYSIG3dwkyMsGEpQ==
+X-CSE-MsgGUID: W1HkuHx9SNKI6tzl/nat+Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="13361456"
+X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="13361456"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 May 2024 08:39:25 -0700
+X-CSE-ConnectionGUID: KVlOEYYNRHi42GMY8d74Jg==
+X-CSE-MsgGUID: swQ38J9XTGKPuzKtr3+jwg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="35445669"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 29 May 2024 08:39:22 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 29 May 2024 18:39:21 +0300
+Date: Wed, 29 May 2024 18:39:21 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Rob Herring <robh+dt@kernel.org>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 resend 2/8] hwtracing: use for_each_endpoint_of_node()
-Message-ID: <20240529152925.GT1436@pendragon.ideasonboard.com>
-References: <87ikyx4hm1.wl-kuninori.morimoto.gx@renesas.com>
- <87fru14hl7.wl-kuninori.morimoto.gx@renesas.com>
- <20240529004047.GB1436@pendragon.ideasonboard.com>
- <7fbf421c-6477-4fc4-93a5-10e2788522c4@moroto.mountain>
- <20240529145253.GE19014@pendragon.ideasonboard.com>
- <501d8e92-43c8-4205-9c3a-819888fbd5f2@moroto.mountain>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel@vger.kernel.org,
+ Chris Bainbridge <chris.bainbridge@gmail.com>, hughsient@gmail.com
+Subject: Re: [PATCH v2] drm/client: Detect when ACPI lid is closed during
+ initialization
+Message-ID: <ZldMKZ1MzSDXOheJ@intel.com>
+References: <20240528210319.1242-1-mario.limonciello@amd.com>
+ <Zlc4V1goFvU2antl@intel.com>
+ <197d195f-9206-41dd-8ff1-f4bb4988fb9b@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <501d8e92-43c8-4205-9c3a-819888fbd5f2@moroto.mountain>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <197d195f-9206-41dd-8ff1-f4bb4988fb9b@amd.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,87 +79,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 29, 2024 at 06:19:33PM +0300, Dan Carpenter wrote:
-> On Wed, May 29, 2024 at 05:52:53PM +0300, Laurent Pinchart wrote:
-> > On Wed, May 29, 2024 at 05:34:41PM +0300, Dan Carpenter wrote:
-> > > On Wed, May 29, 2024 at 03:40:47AM +0300, Laurent Pinchart wrote:
-> > > > > @@ -286,7 +286,7 @@ static int of_get_coresight_platform_data(struct device *dev,
-> > > > >  	}
-> > > > >  
-> > > > >  	/* Iterate through each output port to discover topology */
-> > > > > -	while ((ep = of_graph_get_next_endpoint(parent, ep))) {
-> > > > > +	for_each_endpoint_of_node(parent, ep) {
-> > > > >  		/*
-> > > > >  		 * Legacy binding mixes input/output ports under the
-> > > > >  		 * same parent. So, skip the input ports if we are dealing
-> > > > 
-> > > > I think there's a bug below. The loop contains
-> > > > 
-> > > > 		ret = of_coresight_parse_endpoint(dev, ep, pdata);
-> > > > 		if (ret)
-> > > > 			return ret;
-> > > > 
-> > > > which leaks the reference to ep. This is not introduced by this patch,
-> > > 
-> > > Someone should create for_each_endpoint_of_node_scoped().
-> > > 
-> > > #define for_each_endpoint_of_node_scoped(parent, child) \
-> > >         for (struct device_node *child __free(device_node) =           \
-> > >              of_graph_get_next_endpoint(parent, NULL); child != NULL;  \
-> > >              child = of_graph_get_next_endpoint(parent, child))
+On Wed, May 29, 2024 at 09:45:55AM -0500, Mario Limonciello wrote:
+> On 5/29/2024 09:14, Ville Syrjälä wrote:
+> > On Tue, May 28, 2024 at 04:03:19PM -0500, Mario Limonciello wrote:
+> >> If the lid on a laptop is closed when eDP connectors are populated
+> >> then it remains enabled when the initial framebuffer configuration
+> >> is built.
+> >>
+> >> When creating the initial framebuffer configuration detect the ACPI
+> >> lid status and if it's closed disable any eDP connectors.
+> >>
+> >> Reported-by: Chris Bainbridge <chris.bainbridge@gmail.com>
+> >> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3349
+> >> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> >> ---
+> >> Cc: hughsient@gmail.com
+> >> v1->v2:
+> >>   * Match LVDS as well
+> >> ---
+> >>   drivers/gpu/drm/drm_client_modeset.c | 30 ++++++++++++++++++++++++++++
+> >>   1 file changed, 30 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+> >> index 31af5cf37a09..0b0411086e76 100644
+> >> --- a/drivers/gpu/drm/drm_client_modeset.c
+> >> +++ b/drivers/gpu/drm/drm_client_modeset.c
+> >> @@ -8,6 +8,7 @@
+> >>    */
+> >>   
+> >>   #include "drm/drm_modeset_lock.h"
+> >> +#include <acpi/button.h>
+> >>   #include <linux/module.h>
+> >>   #include <linux/mutex.h>
+> >>   #include <linux/slab.h>
+> >> @@ -257,6 +258,34 @@ static void drm_client_connectors_enabled(struct drm_connector **connectors,
+> >>   		enabled[i] = drm_connector_enabled(connectors[i], false);
+> >>   }
+> >>   
+> >> +static void drm_client_match_edp_lid(struct drm_device *dev,
+> >> +				     struct drm_connector **connectors,
+> >> +				     unsigned int connector_count,
+> >> +				     bool *enabled)
+> >> +{
+> >> +	int i;
+> >> +
+> >> +	for (i = 0; i < connector_count; i++) {
+> >> +		struct drm_connector *connector = connectors[i];
+> >> +
+> >> +		switch (connector->connector_type) {
+> >> +		case DRM_MODE_CONNECTOR_LVDS:
+> >> +		case DRM_MODE_CONNECTOR_eDP:
+> >> +			if (!enabled[i])
+> >> +				continue;
+> >> +			break;
+> >> +		default:
+> >> +			continue;
+> >> +		}
+> >> +
+> >> +		if (!acpi_lid_open()) {
+> >> +			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] lid is closed, disabling\n",
+> >> +				    connector->base.id, connector->name);
+> >> +			enabled[i] = false;
+> >> +		}
+> >> +	}
+> >> +}
 > > 
-> > I was thinking about that too :-) I wondered if we should then bother
-> > taking and releasing references, given that references to the children
-> > can't be leaked out of the loop. My reasoning was that the parent
-> > device_node is guaranteed to be valid throughout the loop, so borrowing
-> > references to children instead of creating new ones within the loop
-> > should be fine. This assumes that endpoints and ports can't vanish while
-> > the parent is there. Thinking further about it, it may not be a safe
-> > assumption for the future. As we anyway use functions internally that
-> > create new references, we can as well handle them correctly.
-> > 
-> > Using this new macro, the loop body would need to call of_node_get() if
-> > it wants to get a reference out of the loop.
+> > If you don't hook into some lid notify event how is one supposed to get
+> > the display back to life after opening the lid?
 > 
-> The child pointer is declared local to just the loop so you'd need
-> create a different function scoped variable.  If it's not local to the
-> loop then we'd end up taking a reference on each iteration and never
-> releasing anything except on error paths.
+> I guess in my mind it's a tangential to the "initial modeset".  The DRM 
+> master can issue a modeset to enable the combination as desired.
+
+This code is run whenever there's a hotplug/etc. Not sure why you're
+only thinking about the initial modeset.
+
 > 
-> > That's the right thing to
-> > do, and I think it would be less error-prone than having to drop
-> > references when exiting from the loop as we do today. It would still be
-> > nice if we could have an API that allows catching this missing
-> > of_node_get() automatically, but I don't see a simple way to do so at
-> > the moment.
+> When I tested I did confirm that with mutter such an event is received 
+> and it does the modeset to enable the eDP when lid is opened.
+
+This code isn't relevant when you have a userspace drm master
+calling the shots.
+
 > 
-> That's an interesting point.
-> 
-> If we did "function_scope_var = ep;" here then we'd need to take a
-> second reference as you say.
+> Let me ask this - what happens if no DRM master running and you hotplug 
+> a DP cable?  Does a "new" clone configuration get done?
 
-Yes, that's what I meant above, sorry if that wasn't clear.
+Yes, this code reprobes the displays and comes up with a new
+config to suit the new situation.
 
-> With other cleanup stuff like kfree() it's
-> very hard to miss it if we forget to call "no_free_ptr(&ep)" because
-> it's on the success path.  It leads to an immediate crash in testing.
-> But here it's just ref counting so possibly we might miss that sort of
-> bug.
+The other potential issue here is whether acpi_lid_open() is actually
+trustworthy. Some kms drivers have/had some lid handling in their own
+code, and I'm pretty sure those have often needed quirks/modparams
+to actually do sensible things on certain machines.
 
-All this calls for std::shared_ptr<struct device_node> :-D
+FWIW I ripped out all the lid crap from i915 long ago since it was
+half backed, mostly broken, and ugly, and I'm not looking to add it
+back there. But I do think handling that in drm_client does seem
+somewhat sane, as that should more or less match what userspace
+clients would do. Just a question of how bad the quirk situation
+will get...
 
-Jokes aside, I think for_each_endpoint_of_node_scoped() would still be
-safer, as the number of cases where we would have to pass a reference to
-the outer scope should be quite smaller than the number of cases where
-we break from for_each_endpoint_of_node() loops today.
 
-On the other hand, the consequence of a bug with
-for_each_endpoint_of_node_scoped() would be a dangling reference,
-instead of a reference leak with for_each_endpoint_of_node(), so it may
-be more dangerous the same way that UAF is more dangerous than memory
-leaks.
+Also a direct acpi_lid_open() call seems a bit iffy. But I guess if
+someone needs this to work on non-ACPI system they get to figure out
+how to abstract it better. acpi_lid_open() does seem to return != 0
+when ACPI is not supported, so at least it would err on the side
+of enabling everything.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Ville Syrjälä
+Intel
