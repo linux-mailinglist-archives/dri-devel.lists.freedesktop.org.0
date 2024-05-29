@@ -2,85 +2,186 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D168D4210
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 01:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC568D421F
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 01:49:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C548E1130B8;
-	Wed, 29 May 2024 23:45:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0EA110E119;
+	Wed, 29 May 2024 23:49:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="FBuEGCsu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m5XiwSdt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAE2B112B1D;
- Wed, 29 May 2024 23:45:10 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44TGtwUv015776;
- Wed, 29 May 2024 23:45:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 0V/J51ksjryewttimNdL8YTXP7fZivxPCL/jGXR7jas=; b=FBuEGCsukpJO2edC
- WvBJeCR3EYT8lDWERRU5HD7cnvarZVh8j0gtpod5kaxRR2mAo1pEraPFi8Qi4VcJ
- HmPqN9P05acDJeqW5BlFn15MXEzU1AxQ5sK4ilcW4gH5JiX/Lby84jriUPCfy+/M
- klQrDVbIW9gtYJCVz8h9wWz0OJCk3jvTLePYOgdsYj2ZfUJ0sTCEu789myKgO5s3
- UjIbAH17YwKlNbFjE8CNQZJFRoyMB0Wl4qFsyIzYa30Xq0AMNFjcXuSG826M6T08
- lHS1Iw5gPABwBi4F2pbptTA+aRd/3KC1seLs84bzfjCbPFv/nh229y/XwTRd4+Kj
- UUO1SA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ydyws28em-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 May 2024 23:45:07 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44TNj6h9017030
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 May 2024 23:45:06 GMT
-Received: from [10.71.110.249] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 29 May
- 2024 16:45:02 -0700
-Message-ID: <961cee30-33fa-5048-901e-b192a735b529@quicinc.com>
-Date: Wed, 29 May 2024 16:44:59 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] Revert "drm/msm/dpu: drop
- dpu_encoder_phys_ops.atomic_mode_set"
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240522-dpu-revert-ams-v2-1-b37825d708e1@linaro.org>
- <d9a502a2-9ad3-3b95-670a-3a67887ef54b@quicinc.com>
- <2qm32wkjdxynmovw5gd5xh4awy2gh4byt3ddkpvuvi4lq7f67d@y3dntcusfwxs>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <2qm32wkjdxynmovw5gd5xh4awy2gh4byt3ddkpvuvi4lq7f67d@y3dntcusfwxs>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59E9B10E119
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 23:49:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717026548; x=1748562548;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=tHWN4R+aHk5VftIPhL67FIr9t8IB1mmNcA4v38DL4d4=;
+ b=m5XiwSdtq5prfXBOVVgnmTSjBBaVfAz0gAOb5eZ1y29wgC9CVJPp3/rf
+ ITlsgGhGc7DWAfAhweS6Sb+qZDyDNI8IJzbUssmM85CL69ZvEaXQruroj
+ 8f749E2UyyZgpfVldMr+qiz8KpTEgyJIT4nzHtcMO8aNkNhgCIwZEeHv1
+ 9jA8p9QqMYSnz3qH7b9iyuqsq69itFB3FPWj3poCn3PDdkvnyk08i1Lcd
+ 6hUICpPsYaM2wio0kjjzzOtAsIjWkwnNiVIWuUQy3LFZGzs/7WL4+m0+F
+ EnHfm4icena/Y6lEwsMu0KbU2rWKSrZAt2LAoqLULA3foGNlEqbAOo0Bw g==;
+X-CSE-ConnectionGUID: jl8dWwvLQ0KpxD2r5Z6NEw==
+X-CSE-MsgGUID: VZUntZ4XTmGgQTs3rd8k+A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="24597475"
+X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; d="scan'208";a="24597475"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 May 2024 16:49:07 -0700
+X-CSE-ConnectionGUID: 80LIM82cTuOHGSfAQUt43A==
+X-CSE-MsgGUID: hFIzOV10TCmrHCmntGY49A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; d="scan'208";a="40618470"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 29 May 2024 16:49:07 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 29 May 2024 16:49:06 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 29 May 2024 16:49:06 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Wed, 29 May 2024 16:49:06 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 29 May 2024 16:49:05 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CF/5bjBiJsq3hmH0Bvct3Rf6KAcP5fMKhmVDZyS/9e48BraYQ5PeD5c0GBs3KlFcXHhJgCCI2ChhJE/BDkaENUyz8r/e1ESmCzbszdmmD2xDJdKwdUYgokcDtNw8GAHdow9AwMOVKowhVmdT87v2v9AGtBIF+lOrnvneCVgo9L6biSuuiN/cuvEUOpUYipeUkZBQhH2+6jju9WHjjhwrTQKWZVImuZNIl8tUeURmZSyzx8IuLMW2/+tiX1tsnZOBthw4h0gysoTSaL0RfQDJ+DQ3slNpHP686V3ne7j+qVPxM1yfG8qNdQLig2qoLVmqhWYHFliZLWzEbSdCXah36g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=br9R/eecSZy59DDdhLQSWXFnnX/nbLUXZa7KD0TfjQA=;
+ b=jc+ZPMdBfUX5bvZGcOslhQG2YUCMAYSdR5OSVh0au1SZodGfoyEJPhpgZAqLjcNmRy0/spw7d9F+GFTO71gQ1m3u00LenDBTzqaf5S2YEzfn9R/0UC7Am2DiHkiP8aHK/A+PPGbCcl3oxw81cPSs7lgPa2d2Eu1F9oy9MSknzrxMIrIX7Aq/x87GlGX1kv/X7bKg7pmyFzEzfREsRNrPlNATAvMz2ZTpDdlgLtIJ9ebFKvR8RR3qjLCz3K3esQQYqnVyk44+qO49bpdnUMNmB4/Uq1SamXvPPFyVGfRlVHtjg6wkmMUUbMRlRdY7Exw5Lf3HLIdB8w6OzB0HoxLdxQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CH3PR11MB8441.namprd11.prod.outlook.com (2603:10b6:610:1bc::12)
+ by CO1PR11MB4820.namprd11.prod.outlook.com (2603:10b6:303:6f::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.19; Wed, 29 May
+ 2024 23:48:56 +0000
+Received: from CH3PR11MB8441.namprd11.prod.outlook.com
+ ([fe80::bc66:f083:da56:8550]) by CH3PR11MB8441.namprd11.prod.outlook.com
+ ([fe80::bc66:f083:da56:8550%4]) with mapi id 15.20.7633.018; Wed, 29 May 2024
+ 23:48:56 +0000
+Message-ID: <1bf31a4b-fede-4044-8390-abb2b833608d@intel.com>
+Date: Wed, 29 May 2024 16:48:52 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/print: Introduce drm_line_printer
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: Jani Nikula <jani.nikula@intel.com>
+References: <20240528130622.1152-1-michal.wajdeczko@intel.com>
+Content-Language: en-GB
+From: John Harrison <john.c.harrison@intel.com>
+In-Reply-To: <20240528130622.1152-1-michal.wajdeczko@intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 0qjVT5cKKimidTDb8js1SSqKaSK4tCPi
-X-Proofpoint-GUID: 0qjVT5cKKimidTDb8js1SSqKaSK4tCPi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-29_16,2024-05-28_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0
- malwarescore=0 impostorscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999
- priorityscore=1501 spamscore=0 lowpriorityscore=0 bulkscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2405290171
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR03CA0359.namprd03.prod.outlook.com
+ (2603:10b6:a03:39c::34) To CH3PR11MB8441.namprd11.prod.outlook.com
+ (2603:10b6:610:1bc::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8441:EE_|CO1PR11MB4820:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1613f045-a6c4-4729-319a-08dc8039e74e
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|1800799015|376005;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZHI0YzBVUmNrcTEvU0M1bEljak5DcUQwaVVYTkJ0TWhaZGwydHdIT21UYklp?=
+ =?utf-8?B?Q1FZdE1pR29NZkdYeGx3WDUwbENtTHJEaHdrc3NRa0Q2T2FMc205TEFkSFYx?=
+ =?utf-8?B?QXloUmFHTVUyMXdTWWVmQk5Eb3dwQUZLZWdPbjlhU1NIU0RWeXY1VEp3VWhG?=
+ =?utf-8?B?WjFUMlQ3UHNTOXFHbjRaODNkR09kNFduRmcxNmxuZ0o0akhxVHozalpQSy9q?=
+ =?utf-8?B?RW9CNUFkYWtsbENMQ0pQcmg3OXpucFV6WERnZFFBQ2p1ZXhxckNjcFJjcDUr?=
+ =?utf-8?B?aEd2bVFIcWl0MHRvUGJHUGg2L2o0NEpxaDFaZVlPTDhBQ2dxa1Y3Um9DTWxV?=
+ =?utf-8?B?SXhDbGFpL0g4aUpyemdWcGNSWk9yZUhMWm9lSjhXSFFVUzM3Nmd2ZE13RjA1?=
+ =?utf-8?B?UGFRRnBZRnlvTXlOcm1rMVUveUpqcXF2b3Q3d21NQlFkVWIzazhLc3dqYWlG?=
+ =?utf-8?B?SFRLdFVYU2N2K2cyNVphRVNQUDd2UEdrendFTVBCK0NFbW9EOFlDTU5Cd3J2?=
+ =?utf-8?B?Q0JyUUpTR1BIWm9jdUlPQ09Ud0pFaWw3eEZRbDlnSlpPa2pNejM0WmRDWmI5?=
+ =?utf-8?B?Z2psV0tPSWc3RzJhSXIvSXd3MDhOZ2pXRUpkMXhuelNZVGxWU0p4MDBuMFhz?=
+ =?utf-8?B?ZWx2WWg3US9IekdacEhLb25RdVNpOHY0Y1ZLSTRzVHE3UDFKUmI0eGw0ckNv?=
+ =?utf-8?B?MzlNMGtPRlNZWFp5UDU2LzZDajBFYmpVSlkxUzR0bStXNEI3V0lEc0YrYS9v?=
+ =?utf-8?B?NkdIS0FpT3pmbzBZMHVobC9GVjN5cHJLUFREKytjL2RzRjU4dWNCUnA2S01S?=
+ =?utf-8?B?VFhTK0JadFNIVWhHbDRITFJFL0J5dk9qK0oxRkxTQWNsaVg3NDBrSUZkZmtZ?=
+ =?utf-8?B?bUZIOWU4ZUhwUWMwb2FoT3MrMW1GNXpvSTZxRUwzYlZ3SmE0Q2RzTnJGdEhk?=
+ =?utf-8?B?a1RNWUtabm1HOVpBSTFUTjZhTmtRaU0wZHpHVjZNNWY4dTh3aTNaQ0lqRXVD?=
+ =?utf-8?B?bXdmYjF3U280azlzOHVvV2lVd1F4R2hGZHZySml0WXR3Q0pRbFBVNXd1WFFp?=
+ =?utf-8?B?b3JoSlFOK2JVeWgrTXVPczFqN0wrWEEyMUprZTRjYUxiYlpQbnVuOWNHZ1dJ?=
+ =?utf-8?B?N2M0TTc3K25McXBMQk5NcE1nZEpNQ1N4SVZOQkpSVXlybU45N3dDYmhwTGdW?=
+ =?utf-8?B?dkxLanAyeGc1dVU1U2xlQVdKKzRvQkZyZlpWZGluU21NZDhVWkhPTFJDMVFa?=
+ =?utf-8?B?SGt5N1crTnpnWVJiOUQrbHJML0FHK0NacTRRYnpoNE5BNE9YTWFwVE10cUlZ?=
+ =?utf-8?B?UXl3REVEZDNsT3JCQVNPcTNTWndSaHFjOUo2d3hEa29VRnovQXVwZ0JXa1o0?=
+ =?utf-8?B?aWo3czE0ZTJTWUh3d1NVVmFONGtLTTBPUjdrRXVwcm12ZUdrUitheWhEVmwv?=
+ =?utf-8?B?VXoxV2w0ZjdTOFBkN1JPek8wanpjNHU5bUlHT0lnSXpCR2pFVi8rRjU3dWI4?=
+ =?utf-8?B?aW5tZVRvZEJCdXpFRU9mR09GekE2dm13bTlvbkNrVExzOEFtZDNkdE1kTjRi?=
+ =?utf-8?B?azVZNW10aWtsR3MxR2pOWWxlWnlZditCL3lrdWVxbDdQZWEzZmNYbVlvTnRs?=
+ =?utf-8?B?K05jZVY3U09oQUJuUG5adUpBa041TndvQ0E1MUVTd1htNnlBd21tUmo0bTBj?=
+ =?utf-8?B?SUU4TUhuTSt5QTZYaXp2VXV1cUFGNHVPa09DNzhWVFAyNmxnUXRkUnVRPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR11MB8441.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366007)(1800799015)(376005); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NFpwTVBsc3pTY0FOV01ubi9Uams2WHdpMFd2MmJ5MEE3eW14OXFZbkZidDk4?=
+ =?utf-8?B?RXZBanorS3JvMDRsQzdYWGVLQlN4VlU5bU5aMWRpenJCVHBqTHBTN1I1NFEy?=
+ =?utf-8?B?OWxieGpCcW5pSGM1dTdQQW0zaC9iRUtpenpCOVk2eGxqUnZ4OXN3ZUNLVEc5?=
+ =?utf-8?B?enhnc2hrTlh5STRxblJPMnlHWGJadWlYS3BuMXhSNVdWWVFQVDRLa0VmSEYw?=
+ =?utf-8?B?ZGpqVWpOclM2MCtLaThhQlNSdjFOTkhmNTN0cUpkbEsxR0VGSS9FWmhuL0Jn?=
+ =?utf-8?B?ZnJpU2hsZ1lMYjRBb1JLNlhCMkhaYm1UNFR6dVMwWTIwM2NyRXFUSGhaMWpt?=
+ =?utf-8?B?UFcyTWZUTmMwcExuU0Y4MkwrWVUydzB6OXY5cjB6S2ViM3hHem0vS2hGSkhU?=
+ =?utf-8?B?UnVRczRNSmdLV1R0K2xnZFU3Rm14L2V2RVhRWHk3SkRWUUxaZWwrdk9iMVFn?=
+ =?utf-8?B?c01XZHN0OXdlRVZ0VVlWTkdJdWw0akxxSTZ3aVZwZlZETXAxYllsQVZ1ZDI0?=
+ =?utf-8?B?YktKNWJhUWxIeHlTRDBjMncybkdnRnBRcjRZTWNPODZYWTllakl4YzJUclJD?=
+ =?utf-8?B?OVprbElrUVRkYkFhYk5SVWdiUXU1aVdUTTE1VURNRWJWYzh6NTZnMVZBcy9O?=
+ =?utf-8?B?RHFmbWJoTWN2MDQwVUs4aFpGVTl0RjkxNHNjY3BBR016V29naU1vcXFIc0hX?=
+ =?utf-8?B?WG9CV0U2WU0xZkdkOTk5Rkd0Q1VNT1Z1ZG1kRW51OFBPY01YN3QzN2JUNUF5?=
+ =?utf-8?B?UENrdG4rcjNvOXhYcWZGZllNT2t6dnJxZlpCM3JhOUZxU0dsOVk5QzZIVVk0?=
+ =?utf-8?B?QnFMMmFoakE3YU10NkhoQ3ZUeFFnM3lxaW5IOFM4RitLbG5lbnpVRGNBMGhO?=
+ =?utf-8?B?VkVaMzh0anJXWHFvRFkwZG1wRFFKdmxvbHlVMFY4NHczSTMrbDZ5ZTNEc3RT?=
+ =?utf-8?B?b2lFRDVEcFZhYVNQa3dtbzVxbWpVaFdvdUM5V2YxNkNoWHB3V1hKQlhWZmM4?=
+ =?utf-8?B?a0s1NkVqRFc0U0ZvQlZSUWJiQXFRcU5kb0VTRHUvMllscEcrenNrRkhjejdu?=
+ =?utf-8?B?dkNjbVl4Wnh5NVBOY2JIcDBzUWJqd3U4d1M5K21seENmbnpNb2N4enpqU2NW?=
+ =?utf-8?B?c1J2Vm1KTU5FYXg0amFjREx3NnNyMy96TDJJTFRKek96MWZRZUNFaHJ5Y1Vj?=
+ =?utf-8?B?dE9kZlJiRXRhK1I3OS91eENDRnhDWWNNZ25JclNET0FYMityaCtqWmljVjlL?=
+ =?utf-8?B?TmZKeWptM0FpSG90WVlidVRKdEQycU9sdFZkazE1cm9yaXJpbWI4eFhzZmFR?=
+ =?utf-8?B?SDFSV3lkbkIyN1pxSVo1QTJSTU1Mb201c3JzcHY2UWxZUVlvWWQyY2lsblRB?=
+ =?utf-8?B?YjRuc1ZKVWR1NmUrWnNUVnVidHBqSEFZQzF2c1VWNjNUZHFMbnFqK0tTVlBt?=
+ =?utf-8?B?QkZyZTR4S0FWMlVEZkNQVXAzais1SWVxYktTczJZTjJ2bGRzcUxFUm1rYjRU?=
+ =?utf-8?B?OS9IUVpXTFB0NmpFeSs3ZWdIbGxnNTMwQ1N4dW1VSnNZQ1BIZ2UxU201SVRO?=
+ =?utf-8?B?ZGd5djFRdDljY2dMOXpNbmt0ZURJczhBYXBRNjVwVXNaVWZJUWx3T1NDRm5M?=
+ =?utf-8?B?VzZRMGltTmtVeEVUMGFVcDZwZFJZQVJFdCtvQllEMzhDZS9pQmdKN0ppZ0VR?=
+ =?utf-8?B?RGgvb2xHZzlUOGU2Y0FLa0IwTXRNeHluOEg2NGd0bWIwdXZKM21Wd3V2TTY3?=
+ =?utf-8?B?VmhEZGR1RzRHUXlreDhMTHMwckFNZ1Q4cTNKUVlDMzYzQTdIVlhINGFYcERi?=
+ =?utf-8?B?cUdtblhXckpGdDgrY1VEK3ZwOHVUQmxpcm9sRGlKVXdYU3R3R05iM3J4bFNj?=
+ =?utf-8?B?TFF4QmZOSXdCKzJKQm93eXY2K1phZDViNmpsNk00N3llNHNnZ2ZTZ20vc1hF?=
+ =?utf-8?B?ejJsYmNMNzJFNjRhS2tpRTM4YTRlRVNKS3VUVGQzb29CM1RoTmU3MmlGZ1JS?=
+ =?utf-8?B?RktCemQxOGM3Z2lHeEVuelBCbFpONUZrTWtQRzdVNG8zTEU3ODRiQXZxMkdp?=
+ =?utf-8?B?Y3pCUSt0aXZNQTEzNkx2VU9rNGlwcGhzVVdnbFUrSFlwRkw2S1RMWEJUTk0x?=
+ =?utf-8?B?REdFL3cyVTlRc0FwZTlLRnY1OWFCeUVnU1cxblYzTWNKa3NmVUtOSUdLOWNi?=
+ =?utf-8?B?Y2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1613f045-a6c4-4729-319a-08dc8039e74e
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8441.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2024 23:48:56.3408 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: P2AhSB2ty5ppa8ETqBEY7FUJy7UtrIVkBvYHtx8FrS3iydsJZePG6hywPcA7d98s4CojgbOAYRpBuwOUIHnsCVLgGxKyr6kSGMw4QOwlY8w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4820
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,267 +197,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 5/28/2024 06:06, Michal Wajdeczko wrote:
+> This drm printer wrapper can be used to increase the robustness of
+> the captured output generated by any other drm_printer to make sure
+> we didn't lost any intermediate lines of the output by adding line
+> numbers to each output line. Helpful for capturing some crash data.
+>
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: John Harrison <John.C.Harrison@Intel.com>
+> ---
+> v2: don't abuse prefix, use union instead (Jani)
+>      don't use 'dp' as name, prefer 'p' (Jani)
+>      add support for unique series identifier (John)
+> ---
+>   drivers/gpu/drm/drm_print.c | 14 ++++++++
+>   include/drm/drm_print.h     | 68 ++++++++++++++++++++++++++++++++++++-
+>   2 files changed, 81 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index cf2efb44722c..be9cbebff5b3 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -214,6 +214,20 @@ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
+>   }
+>   EXPORT_SYMBOL(__drm_printfn_err);
+>   
+> +void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf)
+> +{
+> +	unsigned int counter = ++p->line.counter;
+Wrong units, but see below anyway...
 
+> +	const char *prefix = p->prefix ?: "";
+> +	const char *pad = p->prefix ? " " : "";
+> +
+> +	if (p->line.series)
+> +		drm_printf(p->arg, "%s%s%u.%u: %pV",
+> +			   prefix, pad, p->line.series, counter, vaf);
+> +	else
+> +		drm_printf(p->arg, "%s%s%u: %pV", prefix, pad, counter, vaf);
+> +}
+> +EXPORT_SYMBOL(__drm_printfn_line);
+> +
+>   /**
+>    * drm_puts - print a const string to a &drm_printer stream
+>    * @p: the &drm printer
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index 089950ad8681..f4d9b98d7909 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -176,7 +176,13 @@ struct drm_printer {
+>   	void (*puts)(struct drm_printer *p, const char *str);
+>   	void *arg;
+>   	const char *prefix;
+> -	enum drm_debug_category category;
+> +	union {
+> +		enum drm_debug_category category;
+> +		struct {
+> +			unsigned short series;
+> +			unsigned short counter;
+Any particular reason for using 'short' rather than 'int'? Short is only 
+16bits right? That might seem huge but a GuC log buffer with 16MB debug 
+log (and minimum sizes for the other sections) when dumped via the 
+original debugfs hexdump mechanism is 1,245,444 lines. That line count 
+goes down a lot when you start using longer lines for the dump, but it 
+is still in the tens of thousands of lines.  So limiting to 16 bits is 
+an overflow just waiting to happen.
 
-On 5/24/2024 1:22 PM, Dmitry Baryshkov wrote:
-> On Fri, May 24, 2024 at 12:58:53PM -0700, Abhinav Kumar wrote:
->>
->>
->> On 5/22/2024 3:24 AM, Dmitry Baryshkov wrote:
->>> In the DPU driver blank IRQ handling is called from a vblank worker and
->>> can happen outside of the irq_enable / irq_disable pair. Using the
->>> worker makes that completely asynchronous with the rest of the code.
->>> Revert commit d13f638c9b88 ("drm/msm/dpu: drop
->>> dpu_encoder_phys_ops.atomic_mode_set") to fix vblank IRQ assignment for
->>> CMD DSI panels.
->>>
->>> Call trace:
->>>    dpu_encoder_phys_cmd_control_vblank_irq+0x218/0x294
->>>     dpu_encoder_toggle_vblank_for_crtc+0x160/0x194
->>>     dpu_crtc_vblank+0xbc/0x228
->>>     dpu_kms_enable_vblank+0x18/0x24
->>>     vblank_ctrl_worker+0x34/0x6c
->>>     process_one_work+0x218/0x620
->>>     worker_thread+0x1ac/0x37c
->>>     kthread+0x114/0x118
->>>     ret_from_fork+0x10/0x20
->>>
->>
->> Thanks for the stack.
->>
->> Agreed that vblank can be controlled asynchronously through the worker.
->>
->> And I am guessing that the worker thread ran and printed this error message
->> because phys_enc->irq[INTR_IDX_VSYNC] was not valid as modeset had not
->> happened by then?
-> 
-> modeset happened, but the vblanks can be enabled and disabled
-> afterwards.
-> 
->>
->> 272 end:
->> 273 	if (ret) {
->> 274 		DRM_ERROR("vblank irq err id:%u pp:%d ret:%d, enable %s/%d\n",
->> 275 			  DRMID(phys_enc->parent),
->> 276 			  phys_enc->hw_pp->idx - PINGPONG_0, ret,
->> 277 			  enable ? "true" : "false", refcount);
->> 278 	}
->>
->> But how come this did not happen even with this revert.
->>
->> IOW, I am still missing how moving the irq assignment back to modeset from
->> enable is fixing this?
-> 
-> It removes clearing of the IRQ fields in the irq_disable path, which
-> removes a requirement that vblank IRQ manipulations are called only
-> within the irq_enable/irq_disable brackets. I didn't have time to debug
-> this further on, so I think it's better to revert it now and return to
-> this cleanup later.
-> 
+> +		} line;
+> +	};
+>   };
+>   
+>   void __drm_printfn_coredump(struct drm_printer *p, struct va_format *vaf);
+> @@ -186,6 +192,7 @@ void __drm_puts_seq_file(struct drm_printer *p, const char *str);
+>   void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
+>   void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf);
+>   void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
+> +void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf);
+>   
+>   __printf(2, 3)
+>   void drm_printf(struct drm_printer *p, const char *f, ...);
+> @@ -357,6 +364,65 @@ static inline struct drm_printer drm_err_printer(struct drm_device *drm,
+>   	return p;
+>   }
+>   
+> +/**
+> + * drm_line_printer - construct a &drm_printer that prefixes outputs with line numbers
+> + * @p: the &struct drm_printer which actually generates the output
+> + * @prefix: optional output prefix, or NULL for no prefix
+> + * @series: optional unique series identifier, or 0 to omit identifier in the output
+> + *
+> + * This printer can be used to increase the robustness of the captured output
+> + * to make sure we didn't lost any intermediate lines of the output. Helpful
+> + * while capturing some crash data.
+> + *
+> + * Example 1::
+> + *
+> + *	void crash_dump(struct drm_device *drm)
+> + *	{
+> + *		static unsigned short id;
+> + *		struct drm_printer p = drm_err_printer(drm, "crash");
+> + *		struct drm_printer lp = drm_line_printer(&p, "dump", ++id);
+Is there any benefit or other reason to split the prefix across two 
+separate printers? It seems like a source of confusion. As in, the code 
+will allow a double prefix, there is not much you can do about that 
+because losing the prefix from drm_line_printer would mean no prefix at 
+all when not using drm_err_printer underneath. But why explicitly split 
+the message across both printers in the usage example? This is saying 
+that this is the recommended way to use the interface, but with no 
+explanation of why the split is required or how the split should be done.
 
-I see your point.
+Also, there is really no specific connection to crashes. The purpose of 
+this is for allowing the dumping of multi-line blocks of data. One use 
+is for debugging crashes. But there are many debug operations that 
+require the same dump and do not involve a crash. And this support is 
+certainly not intended to be used on general end-user GPU hangs. For 
+those, everything should be part of the devcoredump core file that is 
+produced and accessible via sysfs. We absolutely should not be dumping 
+huge data blocks in customer release drivers except in very extreme 
+circumstances.
 
-So before we moved the irq assignment to enable/disable, modeset was 
-setting it up but nothing was clearing it.
+> + *
+> + *		drm_printf(&lp, "foo");
+> + *		drm_printf(&lp, "bar");
+> + *	}
+> + *
+> + * Above code will print into the dmesg something like::
+> + *
+> + *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.1: foo
+> + *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.2: bar
+> + *
+> + * Example 2::
+> + *
+> + *	void line_dump(struct device *dev)
+> + *	{
+> + *		struct drm_printer p = drm_info_printer(dev);
+> + *		struct drm_printer lp = drm_line_printer(&p, NULL, 0);
+> + *
+> + *		drm_printf(&lp, "foo");
+> + *		drm_printf(&lp, "bar");
+> + *	}
+> + *
+> + * Above code will print::
+> + *
+> + *	[ ] 0000:00:00.0: [drm] 1: foo
+> + *	[ ] 0000:00:00.0: [drm] 2: bar
+Not really seeing the point of having two examples listed. The first 
+includes all the optional extras, the second is just repeating with no 
+new information.
 
-But after the change, disable was clearing it leading to the error.
+John.
 
-Probably should have happened quite easily then?
+> + *
+> + * RETURNS:
+> + * The &drm_printer object
+> + */
+> +static inline struct drm_printer drm_line_printer(struct drm_printer *p,
+> +						  const char *prefix,
+> +						  unsigned short series)
+> +{
+> +	struct drm_printer lp = {
+> +		.printfn = __drm_printfn_line,
+> +		.arg = p,
+> +		.prefix = prefix,
+> +		.line = { .series = series, },
+> +	};
+> +	return lp;
+> +}
+> +
+>   /*
+>    * struct device based logging
+>    *
 
-Then if we kept only the assignment in enable and drop the parts in 
-disable it should have worked too.
-
-If you would like to post that separately after some more investigation, 
-I am fine with this for now,
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
->>
->>> Fixes: d13f638c9b88 ("drm/msm/dpu: drop dpu_encoder_phys_ops.atomic_mode_set")
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>> Changes in v2:
->>> - Expanded commit message to describe the reason for revert and added a
->>>     call trace (Abhinav)
->>> - Link to v1: https://lore.kernel.org/r/20240514-dpu-revert-ams-v1-1-b13623d6cd5f@linaro.org
->>> ---
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  2 ++
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  5 ++++
->>>    .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   | 32 ++++++++++++----------
->>>    .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   | 13 +++++++--
->>>    .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    | 11 +++++++-
->>>    5 files changed, 46 insertions(+), 17 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> index 119f3ea50a7c..a7d8ecf3f5be 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> @@ -1200,6 +1200,8 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->>>    		phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
->>>    		phys->cached_mode = crtc_state->adjusted_mode;
->>> +		if (phys->ops.atomic_mode_set)
->>> +			phys->ops.atomic_mode_set(phys, crtc_state, conn_state);
->>>    	}
->>>    }
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>> index 002e89cc1705..30470cd15a48 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>> @@ -69,6 +69,8 @@ struct dpu_encoder_phys;
->>>     * @is_master:			Whether this phys_enc is the current master
->>>     *				encoder. Can be switched at enable time. Based
->>>     *				on split_role and current mode (CMD/VID).
->>> + * @atomic_mode_set:		DRM Call. Set a DRM mode.
->>> + *				This likely caches the mode, for use at enable.
->>>     * @enable:			DRM Call. Enable a DRM mode.
->>>     * @disable:			DRM Call. Disable mode.
->>>     * @control_vblank_irq		Register/Deregister for VBLANK IRQ
->>> @@ -93,6 +95,9 @@ struct dpu_encoder_phys;
->>>    struct dpu_encoder_phys_ops {
->>>    	void (*prepare_commit)(struct dpu_encoder_phys *encoder);
->>>    	bool (*is_master)(struct dpu_encoder_phys *encoder);
->>> +	void (*atomic_mode_set)(struct dpu_encoder_phys *encoder,
->>> +			struct drm_crtc_state *crtc_state,
->>> +			struct drm_connector_state *conn_state);
->>>    	void (*enable)(struct dpu_encoder_phys *encoder);
->>>    	void (*disable)(struct dpu_encoder_phys *encoder);
->>>    	int (*control_vblank_irq)(struct dpu_encoder_phys *enc, bool enable);
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
->>> index 489be1c0c704..95cd39b49668 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
->>> @@ -142,6 +142,23 @@ static void dpu_encoder_phys_cmd_underrun_irq(void *arg)
->>>    	dpu_encoder_underrun_callback(phys_enc->parent, phys_enc);
->>>    }
->>> +static void dpu_encoder_phys_cmd_atomic_mode_set(
->>> +		struct dpu_encoder_phys *phys_enc,
->>> +		struct drm_crtc_state *crtc_state,
->>> +		struct drm_connector_state *conn_state)
->>> +{
->>> +	phys_enc->irq[INTR_IDX_CTL_START] = phys_enc->hw_ctl->caps->intr_start;
->>> +
->>> +	phys_enc->irq[INTR_IDX_PINGPONG] = phys_enc->hw_pp->caps->intr_done;
->>> +
->>> +	if (phys_enc->has_intf_te)
->>> +		phys_enc->irq[INTR_IDX_RDPTR] = phys_enc->hw_intf->cap->intr_tear_rd_ptr;
->>> +	else
->>> +		phys_enc->irq[INTR_IDX_RDPTR] = phys_enc->hw_pp->caps->intr_rdptr;
->>> +
->>> +	phys_enc->irq[INTR_IDX_UNDERRUN] = phys_enc->hw_intf->cap->intr_underrun;
->>> +}
->>> +
->>>    static int _dpu_encoder_phys_cmd_handle_ppdone_timeout(
->>>    		struct dpu_encoder_phys *phys_enc)
->>>    {
->>> @@ -280,14 +297,6 @@ static void dpu_encoder_phys_cmd_irq_enable(struct dpu_encoder_phys *phys_enc)
->>>    					  phys_enc->hw_pp->idx - PINGPONG_0,
->>>    					  phys_enc->vblank_refcount);
->>> -	phys_enc->irq[INTR_IDX_CTL_START] = phys_enc->hw_ctl->caps->intr_start;
->>> -	phys_enc->irq[INTR_IDX_PINGPONG] = phys_enc->hw_pp->caps->intr_done;
->>> -
->>> -	if (phys_enc->has_intf_te)
->>> -		phys_enc->irq[INTR_IDX_RDPTR] = phys_enc->hw_intf->cap->intr_tear_rd_ptr;
->>> -	else
->>> -		phys_enc->irq[INTR_IDX_RDPTR] = phys_enc->hw_pp->caps->intr_rdptr;
->>> -
->>>    	dpu_core_irq_register_callback(phys_enc->dpu_kms,
->>>    				       phys_enc->irq[INTR_IDX_PINGPONG],
->>>    				       dpu_encoder_phys_cmd_pp_tx_done_irq,
->>> @@ -318,10 +327,6 @@ static void dpu_encoder_phys_cmd_irq_disable(struct dpu_encoder_phys *phys_enc)
->>>    	dpu_core_irq_unregister_callback(phys_enc->dpu_kms, phys_enc->irq[INTR_IDX_UNDERRUN]);
->>>    	dpu_encoder_phys_cmd_control_vblank_irq(phys_enc, false);
->>>    	dpu_core_irq_unregister_callback(phys_enc->dpu_kms, phys_enc->irq[INTR_IDX_PINGPONG]);
->>> -
->>> -	phys_enc->irq[INTR_IDX_CTL_START] = 0;
->>> -	phys_enc->irq[INTR_IDX_PINGPONG] = 0;
->>> -	phys_enc->irq[INTR_IDX_RDPTR] = 0;
->>>    }
->>>    static void dpu_encoder_phys_cmd_tearcheck_config(
->>> @@ -698,6 +703,7 @@ static void dpu_encoder_phys_cmd_init_ops(
->>>    		struct dpu_encoder_phys_ops *ops)
->>>    {
->>>    	ops->is_master = dpu_encoder_phys_cmd_is_master;
->>> +	ops->atomic_mode_set = dpu_encoder_phys_cmd_atomic_mode_set;
->>>    	ops->enable = dpu_encoder_phys_cmd_enable;
->>>    	ops->disable = dpu_encoder_phys_cmd_disable;
->>>    	ops->control_vblank_irq = dpu_encoder_phys_cmd_control_vblank_irq;
->>> @@ -736,8 +742,6 @@ struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(struct drm_device *dev,
->>>    	dpu_encoder_phys_cmd_init_ops(&phys_enc->ops);
->>>    	phys_enc->intf_mode = INTF_MODE_CMD;
->>> -	phys_enc->irq[INTR_IDX_UNDERRUN] = phys_enc->hw_intf->cap->intr_underrun;
->>> -
->>>    	cmd_enc->stream_sel = 0;
->>>    	if (!phys_enc->hw_intf) {
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
->>> index ef69c2f408c3..636a97432d51 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
->>> @@ -356,6 +356,16 @@ static bool dpu_encoder_phys_vid_needs_single_flush(
->>>    	return phys_enc->split_role != ENC_ROLE_SOLO;
->>>    }
->>> +static void dpu_encoder_phys_vid_atomic_mode_set(
->>> +		struct dpu_encoder_phys *phys_enc,
->>> +		struct drm_crtc_state *crtc_state,
->>> +		struct drm_connector_state *conn_state)
->>> +{
->>> +	phys_enc->irq[INTR_IDX_VSYNC] = phys_enc->hw_intf->cap->intr_vsync;
->>> +
->>> +	phys_enc->irq[INTR_IDX_UNDERRUN] = phys_enc->hw_intf->cap->intr_underrun;
->>> +}
->>> +
->>>    static int dpu_encoder_phys_vid_control_vblank_irq(
->>>    		struct dpu_encoder_phys *phys_enc,
->>>    		bool enable)
->>> @@ -699,6 +709,7 @@ static int dpu_encoder_phys_vid_get_frame_count(
->>>    static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops *ops)
->>>    {
->>>    	ops->is_master = dpu_encoder_phys_vid_is_master;
->>> +	ops->atomic_mode_set = dpu_encoder_phys_vid_atomic_mode_set;
->>>    	ops->enable = dpu_encoder_phys_vid_enable;
->>>    	ops->disable = dpu_encoder_phys_vid_disable;
->>>    	ops->control_vblank_irq = dpu_encoder_phys_vid_control_vblank_irq;
->>> @@ -737,8 +748,6 @@ struct dpu_encoder_phys *dpu_encoder_phys_vid_init(struct drm_device *dev,
->>>    	dpu_encoder_phys_vid_init_ops(&phys_enc->ops);
->>>    	phys_enc->intf_mode = INTF_MODE_VIDEO;
->>> -	phys_enc->irq[INTR_IDX_VSYNC] = phys_enc->hw_intf->cap->intr_vsync;
->>> -	phys_enc->irq[INTR_IDX_UNDERRUN] = phys_enc->hw_intf->cap->intr_underrun;
->>>    	DPU_DEBUG_VIDENC(phys_enc, "created intf idx:%d\n", p->hw_intf->idx);
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
->>> index d3ea91c1d7d2..356dca5e5ea9 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
->>> @@ -404,6 +404,15 @@ static void dpu_encoder_phys_wb_irq_disable(struct dpu_encoder_phys *phys)
->>>    		dpu_core_irq_unregister_callback(phys->dpu_kms, phys->irq[INTR_IDX_WB_DONE]);
->>>    }
->>> +static void dpu_encoder_phys_wb_atomic_mode_set(
->>> +		struct dpu_encoder_phys *phys_enc,
->>> +		struct drm_crtc_state *crtc_state,
->>> +		struct drm_connector_state *conn_state)
->>> +{
->>> +
->>> +	phys_enc->irq[INTR_IDX_WB_DONE] = phys_enc->hw_wb->caps->intr_wb_done;
->>> +}
->>> +
->>>    static void _dpu_encoder_phys_wb_handle_wbdone_timeout(
->>>    		struct dpu_encoder_phys *phys_enc)
->>>    {
->>> @@ -640,6 +649,7 @@ static bool dpu_encoder_phys_wb_is_valid_for_commit(struct dpu_encoder_phys *phy
->>>    static void dpu_encoder_phys_wb_init_ops(struct dpu_encoder_phys_ops *ops)
->>>    {
->>>    	ops->is_master = dpu_encoder_phys_wb_is_master;
->>> +	ops->atomic_mode_set = dpu_encoder_phys_wb_atomic_mode_set;
->>>    	ops->enable = dpu_encoder_phys_wb_enable;
->>>    	ops->disable = dpu_encoder_phys_wb_disable;
->>>    	ops->wait_for_commit_done = dpu_encoder_phys_wb_wait_for_commit_done;
->>> @@ -685,7 +695,6 @@ struct dpu_encoder_phys *dpu_encoder_phys_wb_init(struct drm_device *dev,
->>>    	dpu_encoder_phys_wb_init_ops(&phys_enc->ops);
->>>    	phys_enc->intf_mode = INTF_MODE_WB_LINE;
->>> -	phys_enc->irq[INTR_IDX_WB_DONE] = phys_enc->hw_wb->caps->intr_wb_done;
->>>    	atomic_set(&wb_enc->wbirq_refcount, 0);
->>>
->>> ---
->>> base-commit: 75fa778d74b786a1608d55d655d42b480a6fa8bd
->>> change-id: 20240514-dpu-revert-ams-9410abc1ee48
->>>
->>> Best regards,
-> 
