@@ -2,66 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B838D38EC
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 16:14:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E388D390D
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 16:24:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C650910E2FB;
-	Wed, 29 May 2024 14:14:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE4810E248;
+	Wed, 29 May 2024 14:24:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hRFRYPhZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pB6IFwY3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2335710E2FB;
- Wed, 29 May 2024 14:14:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716992093; x=1748528093;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=91LqUhcqm7aQDNXFER1289HrXrJMi31z3CJTTjdUUdg=;
- b=hRFRYPhZPi7l0/Caa2Kw/Nv9CQF/+KE2j82zvK2YPqR+2Xe3oQs0hGVM
- aBA4XqUGYfFrvlHiZ8J8JpP1dm5vjnqy/GENxJLYQ019Kjayr7bjtqLsA
- yvHXUYBobEEYHLtAheJ+NVh6G1+XgCnvR/QHTD423rRHFvo5W21IqE7+A
- Nhh0+V7KS3C6fWDxo5DhjN9//4QYsvrKxdNPVREq4+OumgfIpYu3i/IUg
- ADbtNQz3Jx9DjIb9CGBe2H74z93zurr+Lrf2hgTMXE175nTWCUxipiIdD
- ab48kS4pctrjnLsYtgKTJkXJTrr8JRcFBoQgGG80hSPt7F/PHm0TxI0OS Q==;
-X-CSE-ConnectionGUID: MwmFLn+IRkiatjfj0rBRHQ==
-X-CSE-MsgGUID: N0PcugynTMaIjgaKpBzxqQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="13346250"
-X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="13346250"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2024 07:14:52 -0700
-X-CSE-ConnectionGUID: gfjwUD+ETqqOi74aEUnPvw==
-X-CSE-MsgGUID: TKPn6DtTQy2SMKQYEMVB8A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="35419053"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 29 May 2024 07:14:48 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 29 May 2024 17:14:47 +0300
-Date: Wed, 29 May 2024 17:14:47 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-kernel@vger.kernel.org,
- Chris Bainbridge <chris.bainbridge@gmail.com>, hughsient@gmail.com
-Subject: Re: [PATCH v2] drm/client: Detect when ACPI lid is closed during
- initialization
-Message-ID: <Zlc4V1goFvU2antl@intel.com>
-References: <20240528210319.1242-1-mario.limonciello@amd.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 768F310E248
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:24:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 7DFDFCE181E
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:24:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B3EFC4AF08
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:24:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1716992653;
+ bh=J9bXQQcn82HRK+7qW7m6UeP+djEwRqb8/xU4UMLW4M0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=pB6IFwY30ztTkop+mN+gqUhlht61cokKEB+FnmtCNPjShuNzVxRoyVpUy5F+uvKSP
+ LVxl6mfhl8yycI5IQnt+ao4zD1JXkVIEBuiQ4npVHhSrJDNHnKLsvNd+95NVA2X6vc
+ 042hAPxc5yRCbZySpu2YgdYDEEOMJn6qWjMtnbpQaojJChusEOSFIhkpPwEWKZEXBY
+ vmNgpbd7bZ+2P0n/EGS69nYhCkTUce+IuWS1k0zZ2Sm6pp7JKI7InsC7tsHrYjV6bM
+ uDWe89M/614xVJQiLkJWD+krYWIeXAD7nIGQgnzmyj1BEtjRT1lpmV7ep8SPH8EE6V
+ BVvy0R5PycF9w==
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-62a08091c2bso22648707b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 07:24:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUC+ovky/wnn1umLfZ4iF0Qg5K7RLNoXjGR+QvF3sx/lZaIbJRGre/TwkjHgzUYfnuF6kIsW/fRJsOx3hWbk2BGvXBc+qpxHncRxA1E3hcL
+X-Gm-Message-State: AOJu0YwSXb+VSrzVS2Wg+2X+gFNZ+IomzuJO72FSGEz5KsWkgXJu6cIk
+ iEHTTGY4cSd37jS/XjKBXLOJL6TsCMbs9u3nTH/W8f/G231JIErFien+WgdnTY8i86OhZ1fOclf
+ CJDzxFLbznx2UguzETRYhj26t/f9Kn2jEDpPZnw==
+X-Google-Smtp-Source: AGHT+IG3NrMdq5icXclhouvhAC+oMs3JrM4oAozTU/Nw1dFbZ7HouQs7P6uoTB519YHx+t6MydzqRSiGQGYd3jr6jIg=
+X-Received: by 2002:a81:af4a:0:b0:61b:3356:a679 with SMTP id
+ 00721157ae682-62a08da0b4bmr157789687b3.17.1716992652301; Wed, 29 May 2024
+ 07:24:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240528210319.1242-1-mario.limonciello@amd.com>
-X-Patchwork-Hint: comment
+References: <20240318203925.2837689-1-l.stach@pengutronix.de>
+In-Reply-To: <20240318203925.2837689-1-l.stach@pengutronix.de>
+From: Robert Foss <rfoss@kernel.org>
+Date: Wed, 29 May 2024 16:24:01 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi6obSkxwwCfUe81VMYMBeG=Nt-9mPJrZ9WPwyqVoJqthg@mail.gmail.com>
+Message-ID: <CAN6tsi6obSkxwwCfUe81VMYMBeG=Nt-9mPJrZ9WPwyqVoJqthg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/bridge: analogix_dp: properly handle zero sized
+ AUX transactions
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org, 
+ kernel@pengutronix.de, patchwork-lst@pengutronix.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,87 +75,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 28, 2024 at 04:03:19PM -0500, Mario Limonciello wrote:
-> If the lid on a laptop is closed when eDP connectors are populated
-> then it remains enabled when the initial framebuffer configuration
-> is built.
-> 
-> When creating the initial framebuffer configuration detect the ACPI
-> lid status and if it's closed disable any eDP connectors.
-> 
-> Reported-by: Chris Bainbridge <chris.bainbridge@gmail.com>
-> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3349
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+On Mon, Mar 18, 2024 at 9:39=E2=80=AFPM Lucas Stach <l.stach@pengutronix.de=
+> wrote:
+>
+> Address only transactions without any data are valid and should not
+> be flagged as short transactions. Simply return the message size when
+> no transaction errors occured.
+>
+> CC: stable@vger.kernel.org
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 > ---
-> Cc: hughsient@gmail.com
-> v1->v2:
->  * Match LVDS as well
-> ---
->  drivers/gpu/drm/drm_client_modeset.c | 30 ++++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-> index 31af5cf37a09..0b0411086e76 100644
-> --- a/drivers/gpu/drm/drm_client_modeset.c
-> +++ b/drivers/gpu/drm/drm_client_modeset.c
-> @@ -8,6 +8,7 @@
->   */
->  
->  #include "drm/drm_modeset_lock.h"
-> +#include <acpi/button.h>
->  #include <linux/module.h>
->  #include <linux/mutex.h>
->  #include <linux/slab.h>
-> @@ -257,6 +258,34 @@ static void drm_client_connectors_enabled(struct drm_connector **connectors,
->  		enabled[i] = drm_connector_enabled(connectors[i], false);
->  }
->  
-> +static void drm_client_match_edp_lid(struct drm_device *dev,
-> +				     struct drm_connector **connectors,
-> +				     unsigned int connector_count,
-> +				     bool *enabled)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < connector_count; i++) {
-> +		struct drm_connector *connector = connectors[i];
-> +
-> +		switch (connector->connector_type) {
-> +		case DRM_MODE_CONNECTOR_LVDS:
-> +		case DRM_MODE_CONNECTOR_eDP:
-> +			if (!enabled[i])
-> +				continue;
-> +			break;
-> +		default:
-> +			continue;
-> +		}
-> +
-> +		if (!acpi_lid_open()) {
-> +			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] lid is closed, disabling\n",
-> +				    connector->base.id, connector->name);
-> +			enabled[i] = false;
-> +		}
-> +	}
-> +}
+>  drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c b/drivers/=
+gpu/drm/bridge/analogix/analogix_dp_reg.c
+> index 6a4f20fccf84..7b0bc9704eac 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c
+> @@ -1027,7 +1027,6 @@ ssize_t analogix_dp_transfer(struct analogix_dp_dev=
+ice *dp,
+>         u32 status_reg;
+>         u8 *buffer =3D msg->buffer;
+>         unsigned int i;
+> -       int num_transferred =3D 0;
+>         int ret;
+>
+>         /* Buffer size of AUX CH is 16 bytes */
+> @@ -1079,7 +1078,6 @@ ssize_t analogix_dp_transfer(struct analogix_dp_dev=
+ice *dp,
+>                         reg =3D buffer[i];
+>                         writel(reg, dp->reg_base + ANALOGIX_DP_BUF_DATA_0=
+ +
+>                                4 * i);
+> -                       num_transferred++;
+>                 }
+>         }
+>
+> @@ -1127,7 +1125,6 @@ ssize_t analogix_dp_transfer(struct analogix_dp_dev=
+ice *dp,
+>                         reg =3D readl(dp->reg_base + ANALOGIX_DP_BUF_DATA=
+_0 +
+>                                     4 * i);
+>                         buffer[i] =3D (unsigned char)reg;
+> -                       num_transferred++;
+>                 }
+>         }
+>
+> @@ -1144,7 +1141,7 @@ ssize_t analogix_dp_transfer(struct analogix_dp_dev=
+ice *dp,
+>                  (msg->request & ~DP_AUX_I2C_MOT) =3D=3D DP_AUX_NATIVE_RE=
+AD)
+>                 msg->reply =3D DP_AUX_NATIVE_REPLY_ACK;
+>
+> -       return num_transferred > 0 ? num_transferred : -EBUSY;
+> +       return msg->size;
+>
+>  aux_error:
+>         /* if aux err happen, reset aux */
+> --
+> 2.39.2
+>
 
-If you don't hook into some lid notify event how is one supposed to get
-the display back to life after opening the lid?
-
-> +
->  static bool drm_client_target_cloned(struct drm_device *dev,
->  				     struct drm_connector **connectors,
->  				     unsigned int connector_count,
-> @@ -844,6 +873,7 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
->  		memset(crtcs, 0, connector_count * sizeof(*crtcs));
->  		memset(offsets, 0, connector_count * sizeof(*offsets));
->  
-> +		drm_client_match_edp_lid(dev, connectors, connector_count, enabled);
->  		if (!drm_client_target_cloned(dev, connectors, connector_count, modes,
->  					      offsets, enabled, width, height) &&
->  		    !drm_client_target_preferred(dev, connectors, connector_count, modes,
-> -- 
-> 2.43.0
-
--- 
-Ville Syrjälä
-Intel
+Reviewed-by: Robert Foss <rfoss@kernel.org>
