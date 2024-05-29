@@ -2,90 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61EC8D3E88
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 20:48:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0314F8D3F0E
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 21:49:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9AA010F036;
-	Wed, 29 May 2024 18:48:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01A5110E13B;
+	Wed, 29 May 2024 19:49:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="YYNj6qob";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="KjD29eSo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 475CD10F0B4;
- Wed, 29 May 2024 18:48:31 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44TBVbJQ012157;
- Wed, 29 May 2024 18:48:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- ab81luCQi39eJfDPVl2fNVgypINjt9s7zOvtaAtxDg8=; b=YYNj6qobyCffIr2g
- WnEBNc1XeMzQROmhvtKSiBwUJBZkv1vdyqn44Jc71ALpmMOAi04pP0GbJp6kd+wk
- wu1ZZkRYC0ISAIF1zla//7Nw8rpn0yy2iowAa0pFsACqPQyo6EgxFmZjo26jUYs/
- NtukDGd3MB68iJGDZT6UtytdIZOcvM1qEvLHRxjBBFBi4xPDpgu2okLRMpbAEgC4
- MWe6T8KLTaQVLwQQC2/lBrVKU0HR+p98SJcNBW8GqY1Qk2fQQoh28a0dNt8YMFOX
- YJed9XiOy830qKYWp5poffWMYkJQ116MsI5fo3nzPujVoAwawVtjt6+4HpBHbTYt
- hO5XAg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yb9yja498-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 May 2024 18:48:18 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44TImGmU026691
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 May 2024 18:48:16 GMT
-Received: from [10.71.110.249] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 29 May
- 2024 11:48:10 -0700
-Message-ID: <05306686-922c-6646-3308-ebd6bc3e1219@quicinc.com>
-Date: Wed, 29 May 2024 11:48:01 -0700
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91CDF10E31B
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 19:49:24 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-57857e0f464so151103a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 12:49:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1717012162; x=1717616962;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Mc6m1mM9m4Ud5DdSGHmt9Zcx4NpBQQ1agEgintMCgFk=;
+ b=KjD29eSocXbMxfVLa01iydWBSWzLnNLU/tOYDQ8bDFKLrz2zAMRu15j8ZCJcrfI3Yl
+ wbKBLcTJ9DoLYCceU49l55fbUFE2hXnH0YijICkwxHySvkyagwz/ss2ohkyMGHmYk9nw
+ k6MhvqrXVLqS5d9/9gDuQPawOIgtzn5y7cv9HbXDa0Q4jEY1UEEaN67Lv64PQAl5iVuu
+ YU80TzlpNoNuAohicqZ8wOkOL5fSqZv6ds3OIO+LfeiGQ8ICVKW7H/ZQIYfXe0zylq8V
+ Cd48Qk81Gh8BFJYWGPc8kmuyxwMbXuquW1mTNkvGwcOzKV845KDp28yO6MRqEdPmb3Hs
+ 6jSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717012162; x=1717616962;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Mc6m1mM9m4Ud5DdSGHmt9Zcx4NpBQQ1agEgintMCgFk=;
+ b=AAvcQL73tQTKVJpdBcsygDV2YlFSmmgbvkHX8Yc3J2M9JGmTPkB6DHjHJNgziVIeib
+ 7Cu4T8iNjT7UyaTud0sIm9sZB1GEA6CsjFnjaWU8XWzzXlTp2V/nuzDTe0/inVRTx/bW
+ 66H+AxVkT3b3tfyBHgK/RYCiNEr5RuQD31eyjzncXq+oGiZo69EZykIKY+kdcSXzGP+Q
+ CJreJ/awAiQhJIUkwf+luneEnLkkeXYhxdGBQYoIufI3MSpjZyABbn8CRVjuX3ExjYAM
+ FElOglGUMKSIzszW4laBpfQBrnq9KzrfPHoVnQ+0B/y746MILbmhAqGXNryJcK/uOV4u
+ bASg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU4QGax7SHzOE0UiOS9BUygqf58JZfPecufxoGMJa/OXzLUHjN1XXohDYYkoY6Kt/tCygbvNPg++CsHuaapdQb5M3rv1pqUttAvvX/U/muk
+X-Gm-Message-State: AOJu0Yy//SIAR7lhRRX4MnbC+NXuiig0Pd7oBq7P1wIAXzi/gJkZSocl
+ htZIBbGYaGT1MH8vNt23a2EWigCnl9MCygv3nm6/0mQzFwA/dBWby59gebPuRYTK9t3oMoJP6Lk
+ aLXwZ/HxXKbW7ABmnMus0FXAtuyRB2fY9qu5i
+X-Google-Smtp-Source: AGHT+IF9PV9JeYxxToH3qJtJfXsnwGUXtNUCB5FusC4DI8sGVRwbRTrnhLkmsIc9tQHh+KHAMPViyk6pTFPRs1HCH10=
+X-Received: by 2002:a17:906:c18f:b0:a63:49a5:9390 with SMTP id
+ a640c23a62f3a-a65e8f74d3dmr11845366b.41.1717012162364; Wed, 29 May 2024
+ 12:49:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 4/6] drm/ci: uprev IGT
-To: Vignesh Raman <vignesh.raman@collabora.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>
-CC: <dri-devel@lists.freedesktop.org>, <daniels@collabora.com>,
- <helen.koike@collabora.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <robdclark@gmail.com>, <david.heidelberg@collabora.com>,
- <guilherme.gallo@collabora.com>, <sergi.blanch.torne@collabora.com>,
- <mcanal@igalia.com>, <linux-mediatek@lists.infradead.org>,
- <linux-amlogic@lists.infradead.org>,
- <linux-rockchip@lists.infradead.org>, <amd-gfx@lists.freedesktop.org>,
- <linux-arm-msm@vger.kernel.org>, <intel-gfx@lists.freedesktop.org>,
- <virtualization@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>
-References: <20240529024049.356327-1-vignesh.raman@collabora.com>
- <20240529024049.356327-5-vignesh.raman@collabora.com>
- <bj6mpegmxo6i5o34xyxwiytdaokv2u6p5iu4eoek3ctqimwviy@jbo5aw7gy4ue>
- <12f14064-fd1c-4e9c-94ee-ba7d492a4056@collabora.com>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <12f14064-fd1c-4e9c-94ee-ba7d492a4056@collabora.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: yAOcEUDxqMb3ILGVj-wikK1cqOlETKxm
-X-Proofpoint-ORIG-GUID: yAOcEUDxqMb3ILGVj-wikK1cqOlETKxm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-29_15,2024-05-28_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 mlxscore=0 phishscore=0 mlxlogscore=999 spamscore=0
- clxscore=1011 impostorscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2405290129
+References: <20240510232128.1105145-1-almasrymina@google.com>
+ <20240510232128.1105145-5-almasrymina@google.com>
+ <d85f4ba4-774f-4577-985f-45a5a1866da7@davidwei.uk>
+In-Reply-To: <d85f4ba4-774f-4577-985f-45a5a1866da7@davidwei.uk>
+From: Mina Almasry <almasrymina@google.com>
+Date: Wed, 29 May 2024 12:49:08 -0700
+Message-ID: <CAHS8izPVhDaokO9C+S4RR9b6+77OV2CsNb8jnGGKxNqGTa6DXg@mail.gmail.com>
+Subject: Re: [PATCH net-next v9 04/14] netdev: support binding dma-buf to
+ netdevice
+To: David Wei <dw@davidwei.uk>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, 
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, 
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,78 +121,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sat, May 18, 2024 at 11:46=E2=80=AFAM David Wei <dw@davidwei.uk> wrote:
+>
+> On 2024-05-10 16:21, Mina Almasry wrote:
+> > +void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *bindin=
+g)
+> > +{
+> > +     struct netdev_rx_queue *rxq;
+> > +     unsigned long xa_idx;
+> > +     unsigned int rxq_idx;
+> > +
+> > +     if (!binding)
+> > +             return;
+> > +
+> > +     if (binding->list.next)
+> > +             list_del(&binding->list);
+> > +
+> > +     xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
+> > +             if (rxq->mp_params.mp_priv =3D=3D binding) {
+> > +                     /* We hold the rtnl_lock while binding/unbinding
+> > +                      * dma-buf, so we can't race with another thread =
+that
+> > +                      * is also modifying this value. However, the pag=
+e_pool
+> > +                      * may read this config while it's creating its
+> > +                      * rx-queues. WRITE_ONCE() here to match the
+> > +                      * READ_ONCE() in the page_pool.
+> > +                      */
+> > +                     WRITE_ONCE(rxq->mp_params.mp_ops, NULL);
+> > +                     WRITE_ONCE(rxq->mp_params.mp_priv, NULL);
+> > +
+> > +                     rxq_idx =3D get_netdev_rx_queue_index(rxq);
+> > +
+> > +                     netdev_rx_queue_restart(binding->dev, rxq_idx);
+>
+> What if netdev_rx_queue_restart() fails? Depending on where it failed, a
+> queue might still be filled from struct net_devmem_dmabuf_binding. This
+> is one downside of the current situation with netdev_rx_queue_restart()
+> needing to do allocations each time.
+>
+> Perhaps a full reset if individual queue restart fails?
+>
 
+Sorry for the late reply, I've been out on vacation for a few days and
+caught up to some other work.
 
-On 5/29/2024 2:48 AM, Vignesh Raman wrote:
-> Hi Dmitry,
-> 
-> On 29/05/24 13:39, Dmitry Baryshkov wrote:
->> On Wed, May 29, 2024 at 08:10:47AM +0530, Vignesh Raman wrote:
->>> test-list.txt and test-list-full.txt are not generated for
->>> cross-builds and they are required by drm-ci for testing
->>> arm32 targets. This is fixed in igt-gpu-tools. So uprev
->>> IGT to include the commit which fixes this issue. Also
->>> disable building xe driver tests for non-intel platforms.
->>>
->>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
->>> ---
->>>
->>> v2:
->>>    - Split IGT uprev to seperate patch.
->>>
->>> v3:
->>>    - No changes.
->>>
->>> ---
->>>   drivers/gpu/drm/ci/build-igt.sh  | 4 ++++
->>>   drivers/gpu/drm/ci/gitlab-ci.yml | 2 +-
->>>   2 files changed, 5 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/ci/build-igt.sh 
->>> b/drivers/gpu/drm/ci/build-igt.sh
->>> index b7d2a49a6db3..eddb5f782a5e 100644
->>> --- a/drivers/gpu/drm/ci/build-igt.sh
->>> +++ b/drivers/gpu/drm/ci/build-igt.sh
->>> @@ -45,6 +45,10 @@ 
->>> MESON_OPTIONS="-Doverlay=disabled                    \
->>>                  -Dlibunwind=enabled                   \
->>>                  -Dprefix=/igt"
->>> +if [[ "$KERNEL_ARCH" = "arm64" ]] || [[ "$KERNEL_ARCH" = "arm" ]]; then
->>> +    MESON_OPTIONS="$MESON_OPTIONS -Dxe_driver=disabled"
->>> +fi
->>> +
->>>   mkdir -p /igt
->>>   meson build $MESON_OPTIONS $EXTRA_MESON_ARGS
->>>   ninja -C build -j${FDO_CI_CONCURRENT:-4} || ninja -C build -j 1
->>> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml 
->>> b/drivers/gpu/drm/ci/gitlab-ci.yml
->>> index 8f32de63d92e..1b29c3b6406b 100644
->>> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
->>> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
->>> @@ -5,7 +5,7 @@ variables:
->>>     UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
->>>     TARGET_BRANCH: drm-next
->>> -  IGT_VERSION: d2af13d9f5be5ce23d996e4afd3e45990f5ab977
->>> +  IGT_VERSION: 0df7b9b97f9da0e364f5ee30fe331004b8c86b56
->>
->> Let's land this, then I'll ask to uprev to
->> dc2d7fb4f978048b87707ea9ec32da748b01b378, which fixes an issue with the
->> writeback tests on MSM devices.
-> 
-> Sure. Once this is merged, we can uprev to the latest IGT.
-> 
-> Regards,
-> Vignesh
-> 
+Yes, netdev_rx_queue_restart() can fail, but I'm not sure how to
+recover. Full reset would be an option, but it may be way too big of a
+hammer to do a full reset on this failure. Also, last I discussed with
+Jakub, AFAIU, there is no way for core to reset the driver? I had
+suggested to Jakub to use ndo_stop/ndo_open to reset the driver on
+queue binding/unbinding, but he rejected that as it could cause the
+driver to fail to come back up, which would leave the machine stranded
+from the network. This is why we implemented the queue API, as a way
+to do the binding/unbinding without risking the machine stranding via
+a full reset. This is the previous convo from months back[1].
 
-Thanks, yes moving to latest IGT after this is merged will be great.
+So, all in all, I don't see anything amazing we can do here to
+recover. How about just log? I will add a warning in the next
+iteration.
 
->>
->>>     DEQP_RUNNER_GIT_URL: 
->>> https://gitlab.freedesktop.org/anholt/deqp-runner.git
->>>     DEQP_RUNNER_GIT_TAG: v0.15.0
->>> -- 
->>> 2.40.1
->>>
->>
+(I applied most of the rest of your suggestions btw).
+
+[1] https://patchwork.kernel.org/project/netdevbpf/patch/20231106024413.280=
+1438-13-almasrymina@google.com/#25590262
+
+--=20
+Thanks,
+Mina
