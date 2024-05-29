@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 365998D2F14
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7AE68D2F16
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:01:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4C5310F164;
-	Wed, 29 May 2024 08:01:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24D66113433;
+	Wed, 29 May 2024 08:01:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id EA7A4113433
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:01:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id DC12511343E
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:01:37 +0000 (UTC)
 Received: from SIOS1075.ysato.name (al128006.dynamic.ppp.asahi-net.or.jp
  [111.234.128.6])
- by sakura.ysato.name (Postfix) with ESMTPSA id 4961B1C03C6;
- Wed, 29 May 2024 17:01:33 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 2DD6D1C0554;
+ Wed, 29 May 2024 17:01:35 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
@@ -67,10 +67,10 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-Subject: [DO NOT MERGE v8 03/36] sh: Enable OF support for build and
- configuration.
-Date: Wed, 29 May 2024 17:00:49 +0900
-Message-Id: <8249ec600f70f80c5a755a9e1d233af21907d7f9.1716965617.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v8 04/36] dt-bindings: interrupt-controller: Add header
+ for Renesas SH3/4 INTC.
+Date: Wed, 29 May 2024 17:00:50 +0900
+Message-Id: <98a4466e189f5f0358b0525d96d0207398907009.1716965617.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1716965617.git.ysato@users.sourceforge.jp>
 References: <cover.1716965617.git.ysato@users.sourceforge.jp>
@@ -91,120 +91,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-IRQ, CLK and PCI will be migrated to a common driver framework.
-So if OF, disable the SH specific drivers.
+Renesas SH7751 Interrupt controller priority register define.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- arch/sh/Kconfig                 | 11 ++++++-----
- arch/sh/drivers/Makefile        |  2 ++
- arch/sh/kernel/cpu/Makefile     |  9 +++++++--
- arch/sh/kernel/cpu/sh4/Makefile |  3 +++
- 4 files changed, 18 insertions(+), 7 deletions(-)
+ .../renesas,sh7751-intc.h                     | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+ create mode 100644 include/dt-bindings/interrupt-controller/renesas,sh7751-intc.h
 
-diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
-index d6704c57f9dc..91c7c72bc0db 100644
---- a/arch/sh/Kconfig
-+++ b/arch/sh/Kconfig
-@@ -66,10 +66,10 @@ config SUPERH
- 	select MODULES_USE_ELF_RELA
- 	select NEED_SG_DMA_LENGTH
- 	select NO_DMA if !MMU && !DMA_COHERENT
--	select NO_GENERIC_PCI_IOPORT_MAP if PCI
-+	select NO_GENERIC_PCI_IOPORT_MAP if !SH_DEVICE_TREE
- 	select OLD_SIGACTION
- 	select OLD_SIGSUSPEND
--	select PCI_DOMAINS if PCI
-+	select PCI_DOMAINS if PCI && !SH_DEVICE_TREE
- 	select PERF_EVENTS
- 	select PERF_USE_VMALLOC
- 	select RTC_LIB
-@@ -154,7 +154,7 @@ menu "System type"
- #
- config CPU_SH2
- 	bool
--	select SH_INTC
-+	select SH_INTC if !SH_DEVICE_TREE
- 
- config CPU_SH2A
- 	bool
-@@ -180,7 +180,7 @@ config CPU_SH4
- 	select CPU_HAS_INTEVT
- 	select CPU_HAS_SR_RB
- 	select CPU_HAS_FPU if !CPU_SH4AL_DSP
--	select SH_INTC
-+	select SH_INTC if !SH_DEVICE_TREE
- 	select SYS_SUPPORTS_SH_TMU
- 
- config CPU_SH4A
-@@ -523,6 +523,7 @@ config SH_PCLK_FREQ
- 
- config SH_CLK_CPG
- 	def_bool y
-+	depends on !COMMON_CLK
- 
- config SH_CLK_CPG_LEGACY
- 	depends on SH_CLK_CPG
-@@ -667,7 +668,7 @@ config BUILTIN_DTB_SOURCE
- 	  kernel.
- 
- config ZERO_PAGE_OFFSET
--	hex
-+	hex "Zero page offset"
- 	default "0x00010000" if PAGE_SIZE_64KB || SH_RTS7751R2D || \
- 				SH_7751_SOLUTION_ENGINE
- 	default "0x00004000" if PAGE_SIZE_16KB || SH_SH03
-diff --git a/arch/sh/drivers/Makefile b/arch/sh/drivers/Makefile
-index 8bd10b904bf9..83f609ca1eb4 100644
---- a/arch/sh/drivers/Makefile
-+++ b/arch/sh/drivers/Makefile
-@@ -5,6 +5,8 @@
- 
- obj-y		+= dma/ platform_early.o
- 
-+ifndef CONFIG_SH_DEVICE_TREE
- obj-$(CONFIG_PCI)		+= pci/
-+endif
- obj-$(CONFIG_PUSH_SWITCH)	+= push-switch.o
- obj-$(CONFIG_HEARTBEAT)		+= heartbeat.o
-diff --git a/arch/sh/kernel/cpu/Makefile b/arch/sh/kernel/cpu/Makefile
-index 46118236bf04..e00ebf134985 100644
---- a/arch/sh/kernel/cpu/Makefile
-+++ b/arch/sh/kernel/cpu/Makefile
-@@ -16,6 +16,11 @@ obj-$(CONFIG_ARCH_SHMOBILE)	+= shmobile/
- # Common interfaces.
- 
- obj-$(CONFIG_SH_ADC)		+= adc.o
-+ifndef CONFIG_COMMON_CLK
-+obj-y += clock.o
- obj-$(CONFIG_SH_CLK_CPG_LEGACY)	+= clock-cpg.o
--
--obj-y	+= irq/ init.o clock.o fpu.o pfc.o proc.o
-+endif
-+ifndef CONFIG_GENERIC_IRQ_CHIP
-+obj-y	+= irq/
-+endif
-+obj-y	+= init.o fpu.o pfc.o proc.o
-diff --git a/arch/sh/kernel/cpu/sh4/Makefile b/arch/sh/kernel/cpu/sh4/Makefile
-index 02e3ee16e15c..33da4c86feff 100644
---- a/arch/sh/kernel/cpu/sh4/Makefile
-+++ b/arch/sh/kernel/cpu/sh4/Makefile
-@@ -15,6 +15,7 @@ perf-$(CONFIG_CPU_SUBTYPE_SH7750)	:= perf_event.o
- perf-$(CONFIG_CPU_SUBTYPE_SH7750S)	:= perf_event.o
- perf-$(CONFIG_CPU_SUBTYPE_SH7091)	:= perf_event.o
- 
-+ifndef CONFIG_SH_DEVICE_TREE
- # CPU subtype setup
- obj-$(CONFIG_CPU_SUBTYPE_SH7750)	+= setup-sh7750.o
- obj-$(CONFIG_CPU_SUBTYPE_SH7750R)	+= setup-sh7750.o
-@@ -29,5 +30,7 @@ ifndef CONFIG_CPU_SH4A
- clock-$(CONFIG_CPU_SH4)			:= clock-sh4.o
- endif
- 
-+endif # CONFIG_SH_DEVICE_TREE
+diff --git a/include/dt-bindings/interrupt-controller/renesas,sh7751-intc.h b/include/dt-bindings/interrupt-controller/renesas,sh7751-intc.h
+new file mode 100644
+index 000000000000..0543bd1b895e
+--- /dev/null
++++ b/include/dt-bindings/interrupt-controller/renesas,sh7751-intc.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++ *
++ * SH3/4 INTC IPR register offsets (Address / bits)
++ */
 +
- obj-y					+= $(clock-y)
- obj-$(CONFIG_PERF_EVENTS)		+= $(perf-y)
++#ifndef __DT_BINDINGS_RENESAS_SH7751_INTC
++#define __DT_BINDINGS_RENESAS_SH7751_INTC
++
++#define IPRA			0
++#define IPRB			4
++#define IPRC			8
++#define IPRD			12
++#define INTPRI00		256
++#define IPR_B12			12
++#define IPR_B8			8
++#define IPR_B4			4
++#define IPR_B0			0
++
++#endif
 -- 
 2.39.2
 
