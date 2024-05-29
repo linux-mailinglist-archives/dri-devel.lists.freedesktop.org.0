@@ -2,69 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0498D2DA3
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 08:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D46F18D2DAC
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 08:56:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F9C410E245;
-	Wed, 29 May 2024 06:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B9E7113320;
+	Wed, 29 May 2024 06:56:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="H3asLmz3";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="Bdfeg6gH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QS6sbDxv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 439EA10E245
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 06:54:14 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CA1F11331D
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 06:56:09 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-2e6f2534e41so17035071fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2024 23:56:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1716965655; x=1748501655;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=QNRzo83mZGl9G2410HmioNDgIdVNX31t5SpCkoFYr+8=;
- b=H3asLmz3YGZaRi55ERBEPIbPVy5EA+g6s7hzy5bUkQfqDQ4hp8ZbetTf
- HxHzq4QJfhwD9nHrPS9nUG25kKXvCHu8WE2ciefzhlci+yvj7OpzxrCA5
- gLi3aG/KU2l/VU4oZbkGBU58Myn7N/T/FXdoP4rs3srzJrfFhd1QdF9Ph
- LYbi24+Rs7LpmrtzyDFbJkT7hWkDmWQXRvumM++m0B9Lbp91ZCxXZAWvG
- Sa6FlIMSmS+kLO9D2l8xEJSweQWJ3+crrC7WSvutyCKH2SYCmw4Vh4mjy
- B8SSX4epra9Bfn0v3DIUOWlhEARTNmpTy2GE86MOYZc4SI1sckpQ74XoB g==;
-X-CSE-ConnectionGUID: SJwekOs4SRqwQrXOawD0mA==
-X-CSE-MsgGUID: DYZpWyxERPibBz6M9pvhCA==
-X-IronPort-AV: E=Sophos;i="6.08,197,1712613600"; d="scan'208";a="37117803"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 29 May 2024 08:54:12 +0200
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 78F8F165466; Wed, 29 May 2024 08:54:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1716965648; h=from:subject:date:message-id:to:cc:mime-version:
- content-transfer-encoding; bh=QNRzo83mZGl9G2410HmioNDgIdVNX31t5SpCkoFYr+8=;
- b=Bdfeg6gH84Vlbe+i8jRR2jAr7aux6uMweLpkeI7vw7sP3H2weCpr9L3pkQ/FQQFpXu67Z6
- n9o2+XU0DjmRnsL6E9p7DoXxSmWDyn3kGa6UDEPKITRSPMzsm6Ay3AvRpJ0juX7uGRwerf
- toYPhm4AO86z2B0O51REBXe8G2/YfuNQL1l44tNk3fPT+P6v3eBG9Eb+x6g6icv0eSkCFb
- n1mcImCbeiR+Zue9qf2KX6iO0pXvrpjuwlcyLFE8dxhBCKhEsDb6w1/YBSsBvUNlz+rwIt
- MDjtTfp7Dm/CA6SesEOfykOEgvyiWeNfD7nX6yjtkO8Iv7NRLE0YEI/0pciNhA==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/1] drm/bridge: imx93-mipi-dsi: Use dev_err_probe
-Date: Wed, 29 May 2024 08:53:58 +0200
-Message-Id: <20240529065400.461633-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
+ d=linaro.org; s=google; t=1716965767; x=1717570567; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=l8XM/FgEx6d8NuTgtXrGUs5+LoMJwxG6LNXhNDqRvo0=;
+ b=QS6sbDxvy32R86xcQ82yc+FUzzVvIII/qRF5taLYe8SIRc/TIqJh0RrsHbPgPyIwm5
+ 2D02X+EQ/TBb1cuTiw5L1iQcDaGB7UqZSH0zaytmqGhwE9cDCnBLCJeK6NDWTfHfhb0t
+ bbpopzJdFHFGsoSsxDMfRfHqmJYHSzwDmVo7zbfpRgctPe65fqVL9I3IiYcr48uDxuuC
+ Kt4J2cUdBLxvzVSkLtr5t+iVI4stnc7dIKQ3E8z39clV+TnDAZjK9tBtTo+lFri1GnM8
+ WfF5M4lMWUM78TSUfq26tqTqMmq7pIeYrgVIQY3E5UAfdJItKLsy2T0KHu6csQ64udcp
+ gMvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716965767; x=1717570567;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=l8XM/FgEx6d8NuTgtXrGUs5+LoMJwxG6LNXhNDqRvo0=;
+ b=MLTvkQ766LBN2kB42llMNoSjnFeLHU8pTwVGRIXICmHV0BwtN2EPKqzA6LRdZ4D/zz
+ HqUuq95P2gUYGCJyabCiy1V2Q0f1nlWPm+BJmnPDfVft+T3AYHNEtByuweZX7PnXm0ZG
+ IOip8IeE6KJSOJxwXBeQohVPfIwUiYvCymk1XeXH+c9HuJq+5j+U88YTLUYv0rzSrJdr
+ mKsUi0+2U+QHlgAtxkc0jb7AGz2Gn+PT2mJzPOlkJE6X7GpdSp6A6VzAEjnHMNrCZUkH
+ baLZj+fi7+Ai59xF8VHBurjMXCuzMnIOnXoYbEKvwNxQT4N09SfsIAvFZKwjaregEXFH
+ NVZA==
+X-Gm-Message-State: AOJu0YyP+nynqfAv61rTbJtJqypOoWEGoWRWefqm7wpPKho39Wq+GFOE
+ Y4ni1+LWRUO0rzALUWazXm6GBLhiX6upfSYEIF/spKdfV6XpjPHaTNaYQ6e3p/g=
+X-Google-Smtp-Source: AGHT+IE8Vr6rfevCpWjYYJnFoMwyjAbgft8519qmMf8AdXmrOTwD8aPPvmWsyWzNiVDX4RqJ44Re8w==
+X-Received: by 2002:a05:6512:902:b0:51d:4af6:bb86 with SMTP id
+ 2adb3069b0e04-529612c529amr9109860e87.0.1716965767480; 
+ Tue, 28 May 2024 23:56:07 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52aff3f65d8sm88039e87.181.2024.05.28.23.56.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 May 2024 23:56:07 -0700 (PDT)
+Date: Wed, 29 May 2024 09:56:05 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Vignesh Raman <vignesh.raman@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, 
+ helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
+ robdclark@gmail.com, 
+ david.heidelberg@collabora.com, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, 
+ mcanal@igalia.com, linux-mediatek@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, 
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/6] drm/ci: uprev mesa version
+Message-ID: <jzb7oa2qtbavelujxwzk5vmcchazvva4aynxo2ceoigthgth2f@j3kjkj6okmwz>
+References: <20240529024049.356327-1-vignesh.raman@collabora.com>
+ <20240529024049.356327-2-vignesh.raman@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240529024049.356327-2-vignesh.raman@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,44 +90,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Although very unlike to occur (media_blk_ctrl needs 'syscon' compatible
-removed), it lines up with the other error paths in probe function.
+On Wed, May 29, 2024 at 08:10:44AM +0530, Vignesh Raman wrote:
+> zlib.net is not allowing tarball download anymore and results
+> in below error in kernel+rootfs_arm32 container build,
+> urllib.error.HTTPError: HTTP Error 403: Forbidden
+> urllib.error.HTTPError: HTTP Error 415: Unsupported Media Type
+> 
+> Uprev mesa to latest version which includes a fix for this issue.
+> https://gitlab.freedesktop.org/mesa/mesa/-/commit/908f444e
+> 
+> Use id_tokens for JWT authentication. Since s3 bucket is migrated to
+> mesa-rootfs, update the variables accordingly. Also copy helper scripts
+> to install, so that the ci jobs can use these scripts for logging.
+> 
+> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> ---
+> 
+> v2:
+>   - Uprev to recent version and use id_tokens for JWT authentication
+> 
+> v3:
+>   - Move adding farm variable and updating device type variable to seperate commit
+> 
+> ---
+>  drivers/gpu/drm/ci/build-igt.sh   |  2 +-
+>  drivers/gpu/drm/ci/build.sh       |  6 +++--
+>  drivers/gpu/drm/ci/container.yml  | 12 +++------
+>  drivers/gpu/drm/ci/gitlab-ci.yml  | 44 +++++++++++++++++++++----------
+>  drivers/gpu/drm/ci/image-tags.yml |  2 +-
+>  drivers/gpu/drm/ci/lava-submit.sh |  4 +--
+>  6 files changed, 42 insertions(+), 28 deletions(-)
+> 
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
-Changes in v2:
-* Removed unused variable
-* Added missing \n at end of string
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
- drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-index 2347f8dd632f9..13025f47f3902 100644
---- a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-@@ -834,18 +834,15 @@ static int imx93_dsi_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct device_node *np = dev->of_node;
- 	struct imx93_dsi *dsi;
--	int ret;
- 
- 	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
- 	if (!dsi)
- 		return -ENOMEM;
- 
- 	dsi->regmap = syscon_regmap_lookup_by_phandle(np, "fsl,media-blk-ctrl");
--	if (IS_ERR(dsi->regmap)) {
--		ret = PTR_ERR(dsi->regmap);
--		dev_err(dev, "failed to get block ctrl regmap: %d\n", ret);
--		return ret;
--	}
-+	if (IS_ERR(dsi->regmap))
-+		return dev_err_probe(dev, PTR_ERR(dsi->regmap),
-+				     "failed to get block ctrl regmap\n");
- 
- 	dsi->clk_pixel = devm_clk_get(dev, "pix");
- 	if (IS_ERR(dsi->clk_pixel))
 -- 
-2.34.1
-
+With best wishes
+Dmitry
