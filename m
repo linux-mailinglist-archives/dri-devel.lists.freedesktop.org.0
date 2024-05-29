@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C3598D2F5A
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:03:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B49BC8D2F7D
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:04:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E60DB10E8B8;
-	Wed, 29 May 2024 08:03:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE0B810F8DC;
+	Wed, 29 May 2024 08:04:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id 97AD811343C
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:02:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 97B52113446
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:02:26 +0000 (UTC)
 Received: from SIOS1075.ysato.name (al128006.dynamic.ppp.asahi-net.or.jp
  [111.234.128.6])
- by sakura.ysato.name (Postfix) with ESMTPSA id 3C24B1C103A;
- Wed, 29 May 2024 17:02:22 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 0BDF11C1052;
+ Wed, 29 May 2024 17:02:24 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
@@ -67,9 +67,9 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-Subject: [DO NOT MERGE v8 30/36] sh: Add IO DATA LANDISK dts
-Date: Wed, 29 May 2024 17:01:16 +0900
-Message-Id: <ffded7fc0fb4d1d8cc0191dee1a8c780f65a1fdd.1716965617.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v8 31/36] sh: Add IO DATA USL-5P dts
+Date: Wed, 29 May 2024 17:01:17 +0900
+Message-Id: <35a1260f8d77ef872da6274c8822ea9574516b9c.1716965617.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1716965617.git.ysato@users.sourceforge.jp>
 References: <cover.1716965617.git.ysato@users.sourceforge.jp>
@@ -90,23 +90,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-IO DATA DEVICE Inc. LANDISK HDL-U devicetree.
+IO DATA DEVICE Inc. USL-5P devicetree.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- arch/sh/boot/dts/landisk.dts | 77 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
- create mode 100644 arch/sh/boot/dts/landisk.dts
+ arch/sh/boot/dts/usl-5p.dts | 85 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 85 insertions(+)
+ create mode 100644 arch/sh/boot/dts/usl-5p.dts
 
-diff --git a/arch/sh/boot/dts/landisk.dts b/arch/sh/boot/dts/landisk.dts
+diff --git a/arch/sh/boot/dts/usl-5p.dts b/arch/sh/boot/dts/usl-5p.dts
 new file mode 100644
-index 000000000000..1ac1f532947b
+index 000000000000..bfbcb9e466bc
 --- /dev/null
-+++ b/arch/sh/boot/dts/landisk.dts
-@@ -0,0 +1,77 @@
++++ b/arch/sh/boot/dts/usl-5p.dts
+@@ -0,0 +1,85 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Device Tree Source for the IO DATA DEVICE LANDISK
++ * Device Tree Source for the IO DATA DEVICE USL-5P
 + */
 +
 +/dts-v1/;
@@ -114,8 +114,8 @@ index 000000000000..1ac1f532947b
 +#include "sh7751r.dtsi"
 +
 +/ {
-+	model = "IO DATA Device LANDISK";
-+	compatible = "iodata,landisk", "renesas,sh7751r";
++	model = "IO-DATA Device USL-5P";
++	compatible = "iodata,usl-5p", "renesas,sh7751r";
 +
 +	aliases {
 +		serial0 = &scif1;
@@ -136,16 +136,24 @@ index 000000000000..1ac1f532947b
 +		interrupt-controller;
 +		#interrupt-cells = <2>;
 +		/*
-+		 * b7: Not assigned
++		 * b7: Button
 +		 * b6: Power switch
-+		 * b5: Not assigned
-+		 * b4: Not assigned
++		 * b5: Compact Flash
++		 * b4: ATA
 +		 * b3: PCI-INTD
 +		 * b2: PCI-INTC
 +		 * b1: PCI-INTB
 +		 * b0: PCI-INTA
 +		 */
-+		renesas,enable-reg = <15 11 15 15 8 7 6 5>;
++		renesas,enable-reg = <12 11 10 9 8 7 6 5>;
++	};
++
++	compact-flash@b4000040 {
++		compatible = "iodata,usl-5p-ata", "ata-generic";
++		reg = <0xb4000040 0x0e>, <0xb400002c 2>;
++		reg-shift = <1>;
++		interrupt-parent = <&julianintc>;
++		interrupts = <10 IRQ_TYPE_LEVEL_LOW>;
 +	};
 +};
 +
