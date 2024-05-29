@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6A78D2985
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 02:41:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B048D298A
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 02:43:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C000710E8F9;
-	Wed, 29 May 2024 00:41:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2573710F2B6;
+	Wed, 29 May 2024 00:43:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rkavKJ8M";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JSMnw6Vn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7F2310EA32
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 00:41:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFC2510E92E
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 00:43:02 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3431B9CA;
- Wed, 29 May 2024 02:40:56 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 610799CA;
+ Wed, 29 May 2024 02:42:58 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1716943256;
- bh=Jzvg0gaDh077syTl3HB0M/PZNo1+VAja2QmyQX3maLg=;
+ s=mail; t=1716943378;
+ bh=WRQmk2bmrtgVScrWpDc5GmDMyi9WKStNv5pUGwSRIXQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rkavKJ8Mi52QiNM+H/7vfuobrkjZ4hAccZi3QOF9QOFGLi8CZi7VgPmS0KNW4EW6z
- tfdMCa6bzpsG7MlEZtv9DL4rEZmzZALPg7gTKRBpm4Y740kYSCaAoePBzW+PQD33LX
- wSPAZkSbPLby3N2So84A2SXA1iMfrfcuiHeRrNIw=
-Date: Wed, 29 May 2024 03:40:47 +0300
+ b=JSMnw6Vnu2Hia2/lDQYZ7abQinPotiFgt/lqod2BqX7NVv/gTHRbc1IWBwqiF5acw
+ qJxLJ5uBMCJKSOYKWgx+KRTxPPmaJf24C8qo27+DvhqfBZvi9p4IAT4BD47X926agq
+ WRh64JO0cMOhJueK81uMiwsMlosmqJ3OEV948624=
+Date: Wed, 29 May 2024 03:42:49 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: prabhakar.csengg@gmail.com,
@@ -50,14 +50,15 @@ Cc: prabhakar.csengg@gmail.com,
  coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
  linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 resend 2/8] hwtracing: use for_each_endpoint_of_node()
-Message-ID: <20240529004047.GB1436@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 resend 3/8] media: platform: microchip: use
+ for_each_endpoint_of_node()
+Message-ID: <20240529004249.GC1436@pendragon.ideasonboard.com>
 References: <87ikyx4hm1.wl-kuninori.morimoto.gx@renesas.com>
- <87fru14hl7.wl-kuninori.morimoto.gx@renesas.com>
+ <87ed9l4hl2.wl-kuninori.morimoto.gx@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87fru14hl7.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87ed9l4hl2.wl-kuninori.morimoto.gx@renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,53 +74,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Morimoto-san,
+Hello Morimoto-san,
 
 Thank you for the patch.
 
-On Tue, May 28, 2024 at 11:55:32PM +0000, Kuninori Morimoto wrote:
+On Tue, May 28, 2024 at 11:55:37PM +0000, Kuninori Morimoto wrote:
 > We already have for_each_endpoint_of_node(), don't use
 > of_graph_get_next_endpoint() directly. Replace it.
 > 
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 > ---
->  drivers/hwtracing/coresight/coresight-platform.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  .../microchip/microchip-sama5d2-isc.c         | 19 +++++++------------
+>  .../microchip/microchip-sama7g5-isc.c         | 19 +++++++------------
+>  2 files changed, 14 insertions(+), 24 deletions(-)
 > 
-> diff --git a/drivers/hwtracing/coresight/coresight-platform.c b/drivers/hwtracing/coresight/coresight-platform.c
-> index 9d550f5697fa8..e9683e613d520 100644
-> --- a/drivers/hwtracing/coresight/coresight-platform.c
-> +++ b/drivers/hwtracing/coresight/coresight-platform.c
-> @@ -275,7 +275,7 @@ static int of_get_coresight_platform_data(struct device *dev,
->  	 */
->  	if (!parent) {
->  		/*
-> -		 * Avoid warnings in of_graph_get_next_endpoint()
-> +		 * Avoid warnings in for_each_endpoint_of_node()
->  		 * if the device doesn't have any graph connections
->  		 */
->  		if (!of_graph_is_present(node))
-> @@ -286,7 +286,7 @@ static int of_get_coresight_platform_data(struct device *dev,
->  	}
->  
->  	/* Iterate through each output port to discover topology */
-> -	while ((ep = of_graph_get_next_endpoint(parent, ep))) {
-> +	for_each_endpoint_of_node(parent, ep) {
->  		/*
->  		 * Legacy binding mixes input/output ports under the
->  		 * same parent. So, skip the input ports if we are dealing
+> diff --git a/drivers/media/platform/microchip/microchip-sama5d2-isc.c b/drivers/media/platform/microchip/microchip-sama5d2-isc.c
+> index 5ac149cf3647f..d9298771f5097 100644
+> --- a/drivers/media/platform/microchip/microchip-sama5d2-isc.c
+> +++ b/drivers/media/platform/microchip/microchip-sama5d2-isc.c
+> @@ -356,30 +356,26 @@ static int isc_parse_dt(struct device *dev, struct isc_device *isc)
+>  	struct device_node *epn = NULL;
 
-I think there's a bug below. The loop contains
-
-		ret = of_coresight_parse_endpoint(dev, ep, pdata);
-		if (ret)
-			return ret;
-
-which leaks the reference to ep. This is not introduced by this patch,
-so
+There's no need anymore to initialize epn to NULL. Same in
+microchip-sama7g5-isc.c. With this addressed,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+>  	struct isc_subdev_entity *subdev_entity;
+>  	unsigned int flags;
+> -	int ret;
+>  
+>  	INIT_LIST_HEAD(&isc->subdev_entities);
+>  
+> -	while (1) {
+> +	for_each_endpoint_of_node(np, epn) {
+>  		struct v4l2_fwnode_endpoint v4l2_epn = { .bus_type = 0 };
+> -
+> -		epn = of_graph_get_next_endpoint(np, epn);
+> -		if (!epn)
+> -			return 0;
+> +		int ret;
+>  
+>  		ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(epn),
+>  						 &v4l2_epn);
+>  		if (ret) {
+> -			ret = -EINVAL;
+> +			of_node_put(epn);
+>  			dev_err(dev, "Could not parse the endpoint\n");
+> -			break;
+> +			return -EINVAL;
+>  		}
+>  
+>  		subdev_entity = devm_kzalloc(dev, sizeof(*subdev_entity),
+>  					     GFP_KERNEL);
+>  		if (!subdev_entity) {
+> -			ret = -ENOMEM;
+> -			break;
+> +			of_node_put(epn);
+> +			return -ENOMEM;
+>  		}
+>  		subdev_entity->epn = epn;
+>  
+> @@ -400,9 +396,8 @@ static int isc_parse_dt(struct device *dev, struct isc_device *isc)
+>  
+>  		list_add_tail(&subdev_entity->list, &isc->subdev_entities);
+>  	}
+> -	of_node_put(epn);
+>  
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  static int microchip_isc_probe(struct platform_device *pdev)
+> diff --git a/drivers/media/platform/microchip/microchip-sama7g5-isc.c b/drivers/media/platform/microchip/microchip-sama7g5-isc.c
+> index 73445f33d26ba..36204fee10aa2 100644
+> --- a/drivers/media/platform/microchip/microchip-sama7g5-isc.c
+> +++ b/drivers/media/platform/microchip/microchip-sama7g5-isc.c
+> @@ -339,33 +339,29 @@ static int xisc_parse_dt(struct device *dev, struct isc_device *isc)
+>  	struct device_node *epn = NULL;
+>  	struct isc_subdev_entity *subdev_entity;
+>  	unsigned int flags;
+> -	int ret;
+>  	bool mipi_mode;
+>  
+>  	INIT_LIST_HEAD(&isc->subdev_entities);
+>  
+>  	mipi_mode = of_property_read_bool(np, "microchip,mipi-mode");
+>  
+> -	while (1) {
+> +	for_each_endpoint_of_node(np, epn) {
+>  		struct v4l2_fwnode_endpoint v4l2_epn = { .bus_type = 0 };
+> -
+> -		epn = of_graph_get_next_endpoint(np, epn);
+> -		if (!epn)
+> -			return 0;
+> +		int ret;
+>  
+>  		ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(epn),
+>  						 &v4l2_epn);
+>  		if (ret) {
+> -			ret = -EINVAL;
+> +			of_node_put(epn);
+>  			dev_err(dev, "Could not parse the endpoint\n");
+> -			break;
+> +			return -EINVAL;
+>  		}
+>  
+>  		subdev_entity = devm_kzalloc(dev, sizeof(*subdev_entity),
+>  					     GFP_KERNEL);
+>  		if (!subdev_entity) {
+> -			ret = -ENOMEM;
+> -			break;
+> +			of_node_put(epn);
+> +			return -ENOMEM;
+>  		}
+>  		subdev_entity->epn = epn;
+>  
+> @@ -389,9 +385,8 @@ static int xisc_parse_dt(struct device *dev, struct isc_device *isc)
+>  
+>  		list_add_tail(&subdev_entity->list, &isc->subdev_entities);
+>  	}
+> -	of_node_put(epn);
+>  
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  static int microchip_xisc_probe(struct platform_device *pdev)
 
 -- 
 Regards,
