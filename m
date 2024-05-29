@@ -2,89 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA648D34C5
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 12:44:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92EB38D34C4
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 12:44:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84C5D10E67D;
-	Wed, 29 May 2024 10:44:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEE2810E5AA;
+	Wed, 29 May 2024 10:44:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="np0pjepo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="O9K3lbkl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5FF010E67D
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 10:44:38 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FCF710E5AA
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 10:44:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 187D9CE1792;
+ by dfw.source.kernel.org (Postfix) with ESMTP id DAF886283C;
  Wed, 29 May 2024 10:44:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07607C32781;
- Wed, 29 May 2024 10:44:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E84BC4AF09;
+ Wed, 29 May 2024 10:44:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716979475;
- bh=w2NUtcqQzhKZrCNj5AHZJLY6Ii4aW3hyDn3AwcSEkNk=;
+ s=k20201202; t=1716979476;
+ bh=s8KdvSWO6HOHAGUGJGDqeLCe+B13uuVSOHh4kq7jejg=;
  h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=np0pjepoSGg+tfmnkzQQQpy493Qf1VV2AL6xy/dHgphxXVYYYXe0eAHbGZmRs0wN+
- R1pG03TKfT13mCgnEfGR0W9D+abVpRhZNwJ/ebD3x6wMuoW4xNDqXVVVOgv04v4Ly8
- g6Gm7sxj+ao6znk0JoniHcRG9K6XWfNe8N6ri85nFajDUxVb1Y30g9c6M6tJlCPm5n
- bvLn2Dol8agheHA5c/GhNvm+F7X73Rwh5BXpHONBEWMzM4HZ2Qm8xa0Iz9AfAlOady
- y/vvIn/OGYic0xYR3CpV/3e0ZCgkKK+oxOoqxGtjD4Q7WsKdTrBkuEhg2TZHzLiR/z
- OAqoUUfGI46gA==
-Date: Wed, 29 May 2024 05:44:34 -0500
+ b=O9K3lbklkKB2Jie3QsfACPrRW8c9tFLYnkt2tyMY+RcM+3fncWnIGqA95YTsAs6pq
+ 0TJ5GwnaVa2sm1Exchz9DLbs1vX7ah6j0w9svRttzVoAy7miEcSpSFwJj+4Eo3NS63
+ SSG7q2XZ8fIizkOYQr1q/gRO85p14BNgBY/F0xQ8MXtejL9Qvb3+2Y6DNz9/d7sQUi
+ C40NMghnMIyZm5CgFiYpZL5BuEs4I2w/hXqSsFwxgttEkIbNTo0QFTIrPXormX7ptW
+ mBOMq4TNRfeYnCXCSNnTOafBydgMPca//J5IUGd3kLly0wh9soHqYlgOkexrkNY+SE
+ lqfzyYAot6hjw==
+Date: Wed, 29 May 2024 05:44:35 -0500
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
- Anup Patel <apatel@ventanamicro.com>, 
- Linus Walleij <linus.walleij@linaro.org>, Guo Ren <guoren@kernel.org>, 
- Kefeng Wang <wangkefeng.wang@huawei.com>, 
- Maxime Ripard <mripard@kernel.org>, Lee Jones <lee@kernel.org>, 
- Max Filippov <jcmvbkbc@gmail.com>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-renesas-soc@vger.kernel.org, 
- Herve Codina <herve.codina@bootlin.com>, 
- Bjorn Helgaas <bhelgaas@google.com>, Rich Felker <dalias@libc.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- linux-clk@vger.kernel.org, Jacky Huang <ychuang3@nuvoton.com>, 
- devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
- Masahiro Yamada <masahiroy@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- Hugo Villeneuve <hvilleneuve@dimonoff.com>, Sam Ravnborg <sam@ravnborg.org>, 
- linux-fbdev@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
- Stephen Boyd <sboyd@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>, 
- Jiri Slaby <jirislaby@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>, 
- Javier Martinez Canillas <javierm@redhat.com>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+Cc: Thomas Gleixner <tglx@linutronix.de>, 
  Daniel Lezcano <daniel.lezcano@linaro.org>, 
- Heiko Stuebner <heiko.stuebner@cherry.de>, linux-serial@vger.kernel.org, 
- Guenter Roeck <linux@roeck-us.net>, linux-ide@vger.kernel.org, 
- Thomas Gleixner <tglx@linutronix.de>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
- Thomas Zimmermann <tzimmermann@suse.de>, linux-sh@vger.kernel.org, 
- Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>, 
+ Herve Codina <herve.codina@bootlin.com>, linux-clk@vger.kernel.org, 
+ Rich Felker <dalias@libc.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org, 
+ Heiko Stuebner <heiko.stuebner@cherry.de>, 
+ Max Filippov <jcmvbkbc@gmail.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-ide@vger.kernel.org, 
+ Magnus Damm <magnus.damm@gmail.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Sergey Shtylyov <s.shtylyov@omp.ru>, linux-kernel@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ linux-serial@vger.kernel.org, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+ Jiri Slaby <jirislaby@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Sebastian Reichel <sre@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Jacky Huang <ychuang3@nuvoton.com>, Niklas Cassel <cassel@kernel.org>, 
+ linux-fbdev@vger.kernel.org, Azeem Shaikh <azeemshaikh38@gmail.com>, 
+ devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
+ David Airlie <airlied@gmail.com>, linux-sh@vger.kernel.org, 
+ Andrew Morton <akpm@linux-foundation.org>, linux-pci@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, 
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Chris Morgan <macromorgan@hotmail.com>, linux-pci@vger.kernel.org, 
- David Airlie <airlied@gmail.com>, Damien Le Moal <dlemoal@kernel.org>, 
- Niklas Cassel <cassel@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
- Baoquan He <bhe@redhat.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Helge Deller <deller@gmx.de>
-In-Reply-To: <2fb214e148e74fb0acc202543dca8dd8a170a6e6.1716965617.git.ysato@users.sourceforge.jp>
+ Helge Deller <deller@gmx.de>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+ Stephen Rothwell <sfr@canb.auug.org.au>, 
+ Kefeng Wang <wangkefeng.wang@huawei.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Masahiro Yamada <masahiroy@kernel.org>, 
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Maxime Ripard <mripard@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Baoquan He <bhe@redhat.com>, Guo Ren <guoren@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Anup Patel <apatel@ventanamicro.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>
+In-Reply-To: <d54cb668f3f19221fdbf34a70a9123fb3a6b4004.1716965617.git.ysato@users.sourceforge.jp>
 References: <cover.1716965617.git.ysato@users.sourceforge.jp>
- <2fb214e148e74fb0acc202543dca8dd8a170a6e6.1716965617.git.ysato@users.sourceforge.jp>
-Message-Id: <171697947326.1106773.218175911484134371.robh@kernel.org>
-Subject: Re: [DO NOT MERGE v8 22/36] dt-bindings: display: smi,sm501: SMI
- SM501 binding json-schema
+ <d54cb668f3f19221fdbf34a70a9123fb3a6b4004.1716965617.git.ysato@users.sourceforge.jp>
+Message-Id: <171697947401.1106915.1101535794733326128.robh@kernel.org>
+Subject: Re: [DO NOT MERGE v8 24/36] dt-binding: sh: cpus: Add SH CPUs
+ json-schema
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,12 +102,14 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed, 29 May 2024 17:01:08 +0900, Yoshinori Sato wrote:
+On Wed, 29 May 2024 17:01:10 +0900, Yoshinori Sato wrote:
+> Renesas SH series and compatible ISA CPUs.
+> 
 > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 > ---
->  .../bindings/display/smi,sm501.yaml           | 443 ++++++++++++++++++
->  1 file changed, 443 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/smi,sm501.yaml
+>  .../devicetree/bindings/sh/cpus.yaml          | 63 +++++++++++++++++++
+>  1 file changed, 63 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sh/cpus.yaml
 > 
 
 My bot found errors running 'make dt_binding_check' on your patch:
@@ -114,12 +117,12 @@ My bot found errors running 'make dt_binding_check' on your patch:
 yamllint warnings/errors:
 
 dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/smi,sm501.yaml: crt: Missing additionalProperties/unevaluatedProperties constraint
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/smi,sm501.yaml: panel: Missing additionalProperties/unevaluatedProperties constraint
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sh/cpus.example.dtb: cpu@0: 'clock-names', 'dcache-line-size', 'dcache-size', 'icache-line-size', 'icache-size' do not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/sh/cpus.yaml#
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/2fb214e148e74fb0acc202543dca8dd8a170a6e6.1716965617.git.ysato@users.sourceforge.jp
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/d54cb668f3f19221fdbf34a70a9123fb3a6b4004.1716965617.git.ysato@users.sourceforge.jp
 
 The base for the series is generally the latest rc1. A different dependency
 should be noted in *this* patch.
