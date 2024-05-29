@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996E38D5264
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 21:37:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 860B18D54AF
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 23:39:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3159510E455;
-	Thu, 30 May 2024 19:37:36 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q/sATynE";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48C4210E4EF;
+	Thu, 30 May 2024 21:39:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99C1110E455
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 19:37:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717097854; x=1748633854;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=s69XUBuNSqtW2N7py8+bRDlZkoqPxwARZ/NZbDuMcLk=;
- b=Q/sATynEdDFWZfCG97gLfQaxYXAdGijbEk8vrRIWkm++kTmtYsaDMbA5
- 2Zgjqapr+BUNWEhzy7N8mbtdm1prJbOtWnEBPogk00o8SBl1To1C0QS6x
- Bcf45P4qYy1DYxZo0Zy8Qf5IVbZHKBTzA4mcb84FaiM4QVet7jkBedRVL
- R+94XLxh4DK3hL/ynEXxKtjhUlOChfEi5yht6r8d75xq9cFfBF9MqKCwU
- uiY7FERLrdNMPPW5i/YBvZrXTrcxtbylTBosYrJHdsAZAvCXkgtYjs14a
- Y2OFjTVEp299QTYPYC6/JAdrqxN77zcSorVuPX1+0oaP3upRySezPqtYJ Q==;
-X-CSE-ConnectionGUID: AuCWNoOiSbScrefkmTxfMA==
-X-CSE-MsgGUID: DcQuFbfrTYKqyoTnk2B+Xw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="11825698"
-X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; d="scan'208";a="11825698"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2024 12:37:32 -0700
-X-CSE-ConnectionGUID: tlI6FsC7See4IdkDPoJUVg==
-X-CSE-MsgGUID: 0FBFVQVsSU6QaRVhHHXaaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; d="scan'208";a="59107119"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.167])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2024 12:37:25 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: John Harrison <john.c.harrison@intel.com>, Michal Wajdeczko
- <michal.wajdeczko@intel.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2] drm/print: Introduce drm_line_printer
-In-Reply-To: <146d5133-f3be-4411-b020-a177254a65bc@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240528130622.1152-1-michal.wajdeczko@intel.com>
- <1bf31a4b-fede-4044-8390-abb2b833608d@intel.com>
- <877cfbivrv.fsf@intel.com>
- <146d5133-f3be-4411-b020-a177254a65bc@intel.com>
-Date: Thu, 30 May 2024 22:37:21 +0300
-Message-ID: <87ed9jgkge.fsf@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6CF0710E2A3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 12:30:16 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D024D339;
+ Wed, 29 May 2024 05:30:39 -0700 (PDT)
+Received: from [192.168.1.100] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id
+ 8B1073F762; Wed, 29 May 2024 05:30:12 -0700 (PDT)
+Message-ID: <941db167-fda5-4d57-9623-58d8b8c0a7b5@arm.com>
+Date: Wed, 29 May 2024 13:30:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 resend 2/8] hwtracing: use for_each_endpoint_of_node()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ "coresight@lists.linaro.org" <coresight@lists.linaro.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ prabhakar.csengg@gmail.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ David Airlie <airlied@gmail.com>, Helge Deller <deller@gmx.de>,
+ linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Eugen Hristev <eugen.hristev@collabora.com>, Rob Herring
+ <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Michal Simek <michal.simek@amd.com>, linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <87ikyx4hm1.wl-kuninori.morimoto.gx@renesas.com>
+ <87fru14hl7.wl-kuninori.morimoto.gx@renesas.com>
+ <20240529004047.GB1436@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: James Clark <james.clark@arm.com>
+In-Reply-To: <20240529004047.GB1436@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Thu, 30 May 2024 21:39:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,23 +67,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 May 2024, John Harrison <john.c.harrison@intel.com> wrote:
-> Except that the whole reason this was started was because Michal
-> absolutely refuses to allow line counted output in a sysfs/debugfs
-> file because "it is unnecessary and breaks the decoding tools".
-
-I'm only looking at this patch at face value, it seems useful to me, but
-I'm not aware of any deeper context. And judging by the tone of the
-discussion, I also don't want to get into it.
-
-That said, might be prudent to post a patch using the line printer along
-with its addition.
-
-Over and out.
 
 
-BR,
-Jani.
+On 29/05/2024 01:40, Laurent Pinchart wrote:
+> Hi Morimoto-san,
+> 
+> Thank you for the patch.
+> 
+> On Tue, May 28, 2024 at 11:55:32PM +0000, Kuninori Morimoto wrote:
+>> We already have for_each_endpoint_of_node(), don't use
+>> of_graph_get_next_endpoint() directly. Replace it.
+>>
+>> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+>> ---
+>>  drivers/hwtracing/coresight/coresight-platform.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/hwtracing/coresight/coresight-platform.c b/drivers/hwtracing/coresight/coresight-platform.c
+>> index 9d550f5697fa8..e9683e613d520 100644
+>> --- a/drivers/hwtracing/coresight/coresight-platform.c
+>> +++ b/drivers/hwtracing/coresight/coresight-platform.c
+>> @@ -275,7 +275,7 @@ static int of_get_coresight_platform_data(struct device *dev,
+>>  	 */
+>>  	if (!parent) {
+>>  		/*
+>> -		 * Avoid warnings in of_graph_get_next_endpoint()
+>> +		 * Avoid warnings in for_each_endpoint_of_node()
+>>  		 * if the device doesn't have any graph connections
+>>  		 */
+>>  		if (!of_graph_is_present(node))
+>> @@ -286,7 +286,7 @@ static int of_get_coresight_platform_data(struct device *dev,
+>>  	}
+>>  
+>>  	/* Iterate through each output port to discover topology */
+>> -	while ((ep = of_graph_get_next_endpoint(parent, ep))) {
+>> +	for_each_endpoint_of_node(parent, ep) {
+>>  		/*
+>>  		 * Legacy binding mixes input/output ports under the
+>>  		 * same parent. So, skip the input ports if we are dealing
+> 
+> I think there's a bug below. The loop contains
+> 
+> 		ret = of_coresight_parse_endpoint(dev, ep, pdata);
+> 		if (ret)
+> 			return ret;
+> 
+> which leaks the reference to ep. This is not introduced by this patch,
+> so
+> 
 
--- 
-Jani Nikula, Intel
+Nice catch, I will send a patch.
+
+Also:
+
+Reviewed-by: James Clark <james.clark@arm.com>
+
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
