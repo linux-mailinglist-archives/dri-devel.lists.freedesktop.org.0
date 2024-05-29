@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 895848D2C7C
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 07:36:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D11FE8D2C86
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 07:36:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96562113034;
-	Wed, 29 May 2024 05:36:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61EDF113127;
+	Wed, 29 May 2024 05:36:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="G3+6zYeD";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lqiw3jwQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B56D113034
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5AC511307D
  for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 05:36:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716960974; x=1748496974;
+ t=1716960975; x=1748496975;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=xf05GvXEO+I215J3GQWK9zqCkzSYPhbVb/+Tz/JkYCQ=;
- b=G3+6zYeD+mjYTJww6E/DHC/b4MF+jX+lJ8CbJKXyk5DakmL2zA2Szohs
- BBhsye2DWJ+rENNilYHsipZWVhcdfoJt5/twUADc5z1pgDuzW7b87gXdi
- NDum1WEg82K+/OBSlWy8MjvUkaz2ujU1LNW0OWG+NrkXKsEKeEHb0oc48
- gxHCpXlyJui2owOIBjMuLgNYD6wQ4a17vEAfFKanE/2+7Bll+Xbfnb0F8
- rkGmAQVCVTs4rRKjbmezEmRzUIKW3Cy3jKcSZGcIiqiJuWviA2jy96OZb
- 6zepFmDhyHHauoj7Yj9A5XTfW/4mLjCZkp212Uk0/6jm7SVVxHwAt2H5c w==;
-X-CSE-ConnectionGUID: 1g5a3aJAQxGajdYmj16plg==
-X-CSE-MsgGUID: Bmtxo+3wR3iWSQyw5rNwiQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13568829"
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="13568829"
+ bh=btq9QncSBgyBYPM+1ZLAyc+X7006n3UNtW5/Bz7GLZE=;
+ b=lqiw3jwQc2SVq6O8cP5eBHlAXTvF8fgsmMPHNDDKg4UhX5OZscVXiLzP
+ 4CUd1VOQJyS2AgHoyeO5UArCs6uFKz06RTg7qRIkNVoPNV4KBXOONry3f
+ VQdxevMmIqG30TozSP74JZXgx2POGkIvoMVJEJscyWiVJQCicm+ukSoiP
+ Nq4IKV275BXvsmr0SwELFk2aUC5NS13ztmgbRmXghhxufG0vrTxCaacCa
+ dpUmKjMZa78OjTARHx0Ln4gpPR6aQogra0tunMlPKGQ+VUvm83NrF8ih+
+ wxGLHyByNDI/mJtylceqr3Vj0MgntuLlK8ScWkRlnam6GyqfozzX+UlBz g==;
+X-CSE-ConnectionGUID: cSdOSJPuQDeFdkZUJP/CQw==
+X-CSE-MsgGUID: +hrlLd9VSqGwnHnG0F7vDw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13568855"
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="13568855"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2024 22:35:25 -0700
-X-CSE-ConnectionGUID: WkFEj6PrQYqnAeoLtI1GfQ==
-X-CSE-MsgGUID: eszOZrvySa+kJnN3MKgnnw==
+ 28 May 2024 22:35:30 -0700
+X-CSE-ConnectionGUID: PJuAP/85SO2v/dKzt8Un2A==
+X-CSE-MsgGUID: fVOd5tHsThGjTLV7SoVvmQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="35257546"
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="35257574"
 Received: from unknown (HELO allen-box.sh.intel.com) ([10.239.159.127])
- by fmviesa007.fm.intel.com with ESMTP; 28 May 2024 22:35:20 -0700
+ by fmviesa007.fm.intel.com with ESMTP; 28 May 2024 22:35:25 -0700
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
@@ -55,9 +55,9 @@ Cc: Yi Liu <yi.l.liu@intel.com>, David Airlie <airlied@gmail.com>,
  Mikko Perttunen <mperttunen@nvidia.com>, iommu@lists.linux.dev,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Lu Baolu <baolu.lu@linux.intel.com>
-Subject: [PATCH 05/20] iommu: Add iommu_paging_domain_alloc() interface
-Date: Wed, 29 May 2024 13:32:35 +0800
-Message-Id: <20240529053250.91284-6-baolu.lu@linux.intel.com>
+Subject: [PATCH 06/20] drm/msm: Use iommu_paging_domain_alloc()
+Date: Wed, 29 May 2024 13:32:36 +0800
+Message-Id: <20240529053250.91284-7-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240529053250.91284-1-baolu.lu@linux.intel.com>
 References: <20240529053250.91284-1-baolu.lu@linux.intel.com>
@@ -78,83 +78,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit <17de3f5fdd35> ("iommu: Retire bus ops") removes iommu ops from
-bus. The iommu subsystem no longer relies on bus for operations. So the
-bus parameter in iommu_domain_alloc() is no longer relevant.
+The domain allocated in msm_iommu_new() is for the @dev. Replace
+iommu_domain_alloc() with iommu_paging_domain_alloc() to make it explicit.
 
-Add a new interface named iommu_paging_domain_alloc(), which explicitly
-indicates the allocation of a paging domain for DMA managed by a kernel
-driver. The new interface takes a device pointer as its parameter, that
-better aligns with the current iommu subsystem.
+Update msm_iommu_new() to always return ERR_PTR in failure cases instead
+of NULL.
 
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 ---
- include/linux/iommu.h |  6 ++++++
- drivers/iommu/iommu.c | 20 ++++++++++++++++++++
- 2 files changed, 26 insertions(+)
+ drivers/gpu/drm/msm/msm_iommu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 6648b2415474..16401de7802d 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -781,6 +781,7 @@ extern bool device_iommu_capable(struct device *dev, enum iommu_cap cap);
- extern bool iommu_group_has_isolated_msi(struct iommu_group *group);
- extern struct iommu_domain *iommu_domain_alloc(const struct bus_type *bus);
- struct iommu_domain *iommu_user_domain_alloc(struct device *dev, u32 flags);
-+struct iommu_domain *iommu_paging_domain_alloc(struct device *dev);
- extern void iommu_domain_free(struct iommu_domain *domain);
- extern int iommu_attach_device(struct iommu_domain *domain,
- 			       struct device *dev);
-@@ -1092,6 +1093,11 @@ static inline struct iommu_domain *iommu_user_domain_alloc(struct device *dev, u
- 	return ERR_PTR(-ENODEV);
- }
+diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
+index d5512037c38b..f7e28d4b5f62 100644
+--- a/drivers/gpu/drm/msm/msm_iommu.c
++++ b/drivers/gpu/drm/msm/msm_iommu.c
+@@ -407,9 +407,9 @@ struct msm_mmu *msm_iommu_new(struct device *dev, unsigned long quirks)
+ 	struct msm_iommu *iommu;
+ 	int ret;
  
-+static inline struct iommu_domain *iommu_paging_domain_alloc(struct device *dev)
-+{
-+	return ERR_PTR(-ENODEV);
-+}
-+
- static inline void iommu_domain_free(struct iommu_domain *domain)
- {
- }
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index f1416892ef8e..7df4a021b040 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2016,6 +2016,10 @@ static int __iommu_domain_alloc_dev(struct device *dev, void *data)
- 	return 0;
- }
+-	domain = iommu_domain_alloc(dev->bus);
+-	if (!domain)
+-		return NULL;
++	domain = iommu_paging_domain_alloc(dev);
++	if (IS_ERR(domain))
++		return ERR_CAST(domain);
  
-+/*
-+ * The iommu ops in bus has been retired. Do not use this interface in
-+ * new drivers.
-+ */
- struct iommu_domain *iommu_domain_alloc(const struct bus_type *bus)
- {
- 	const struct iommu_ops *ops = NULL;
-@@ -2074,6 +2078,22 @@ struct iommu_domain *iommu_user_domain_alloc(struct device *dev, u32 flags)
- }
- EXPORT_SYMBOL_GPL(iommu_user_domain_alloc);
+ 	iommu_set_pgtable_quirks(domain, quirks);
  
-+/**
-+ * iommu_paging_domain_alloc() - Allocate a paging domain
-+ * @dev: device for which the domain is allocated
-+ *
-+ * Allocate a paging domain which will be managed by a kernel driver. Return
-+ * allocated domain if successful, or a ERR pointer for failure.
-+ */
-+struct iommu_domain *iommu_paging_domain_alloc(struct device *dev)
-+{
-+	if (!dev_has_iommu(dev))
-+		return ERR_PTR(-ENODEV);
-+
-+	return __iommu_domain_alloc(dev_iommu_ops(dev), dev, IOMMU_DOMAIN_UNMANAGED);
-+}
-+EXPORT_SYMBOL_GPL(iommu_paging_domain_alloc);
-+
- void iommu_domain_free(struct iommu_domain *domain)
- {
- 	if (domain->type == IOMMU_DOMAIN_SVA)
+@@ -441,7 +441,7 @@ struct msm_mmu *msm_iommu_gpu_new(struct device *dev, struct msm_gpu *gpu, unsig
+ 	struct msm_mmu *mmu;
+ 
+ 	mmu = msm_iommu_new(dev, quirks);
+-	if (IS_ERR_OR_NULL(mmu))
++	if (IS_ERR(mmu))
+ 		return mmu;
+ 
+ 	iommu = to_msm_iommu(mmu);
 -- 
 2.34.1
 
