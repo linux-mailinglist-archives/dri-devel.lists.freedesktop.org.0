@@ -2,52 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A53B8D32B1
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 11:15:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 092B58D32CE
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 11:20:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7F810E396;
-	Wed, 29 May 2024 09:15:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17AA110E139;
+	Wed, 29 May 2024 09:20:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C9oxEa9n";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="T+oOdN6L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81E1A10E396
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 09:15:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 59FF4626FC;
- Wed, 29 May 2024 09:15:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE52CC2BD10;
- Wed, 29 May 2024 09:15:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716974138;
- bh=LDFHlp29MsF66t15bWkCXBcW6utPfAUvtUB74pab8eQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=C9oxEa9nEv94sHWebiiSrJYpnOSfqLaaJNeJwD98mblLeiRsHBJGOOn5IUI7fF9Xp
- nht4XKOGcJr2xU4m+y8nNphNaBQ2MsEATw+Q+D5Q6l6uNaUX40+eGXKXsfVSVqxpBX
- 5Ln84fyD4DMQblhABeG0zwzDOe6IPxVSfQNr4ijVMi+C/0xetcvd09SWauTHSljV1E
- LQ0xjnMhk+GOgazWIc89r7VHgbH0waK/lgbJtFrUMykfXqkg+bxxA/g/kXKYkMT24f
- 4OjzmNS94c45gb8amPS6jDh+I0dsTYN9+GRVj5nQC519eKmtDEWyIG29LMTGjs25kS
- ueFgzTbN22ICg==
-Date: Wed, 29 May 2024 11:15:35 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
- Samuel Holland <samuel@sholland.org>, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] drm/sun4i: Fix compilation error
-Message-ID: <20240529-private-ruddy-rottweiler-1afcb3@houat>
-References: <20240528151056.2104153-1-mripard@kernel.org>
- <171697049522.2533828.193549550194715590.b4-ty@kernel.org>
- <dcfkn4bgsdzxbgzdlpycnyuj76ycydwavn2tqd2k6kuw5puuge@wkun3c6i5qqt>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E006810E191
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 09:20:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716974415; x=1748510415;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=2eWD/aliZuypWQYfrX/FM2hkqJCz6h66OR04BByLO3Y=;
+ b=T+oOdN6LgapvgwLdfpBjcOIkZNXtV254CvVFtCgSsA6k0R/dGVIx+XoW
+ QHUgyVLpK0l6ujaWliAlUFOa/5KEN7EauO+TG/iCZlSh9+vgL9m/32NTG
+ cmzniOKLPuT1kjway/aZJ+88HqgYlo5eov+B463vWk0SJ7lC1aOxpU5jw
+ gUc5VDiQpRf+OrDMAj2l6jOx3cjet8/Vr3A8+caUgebKawAhiQbsBLj1l
+ +vt9R0Kdnlt0RFEqOJuG9lID4Lv1w2XsSQjqMPkWAEU7FgB8wNjfUZakd
+ hMBHF9Zt8YDsJiUn1h/fRTzmg0p8VM6Vd08xhtu0cGWodoh4Rdc2/+mUa Q==;
+X-CSE-ConnectionGUID: NeXwazIwRiWtqHlvgMRYYw==
+X-CSE-MsgGUID: s3DbsOJzRny3Hz8XECpYHw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13595909"
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="13595909"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 May 2024 02:20:14 -0700
+X-CSE-ConnectionGUID: AAoVM9izRIqWMWHclxMjtw==
+X-CSE-MsgGUID: NuSi3GfpRECjIlAJFXi2tw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="35306255"
+Received: from johunt-mobl9.ger.corp.intel.com (HELO fedora..)
+ ([10.245.245.38])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 May 2024 02:20:12 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedsktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/tests: Add a missing Kconfig select
+Date: Wed, 29 May 2024 11:19:55 +0200
+Message-ID: <20240529091955.173658-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="oy25qsc765rcypgq"
-Content-Disposition: inline
-In-Reply-To: <dcfkn4bgsdzxbgzdlpycnyuj76ycydwavn2tqd2k6kuw5puuge@wkun3c6i5qqt>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,41 +68,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Fix the following warning:
 
---oy25qsc765rcypgq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+WARNING: unmet direct dependencies detected for DRM_DISPLAY_HDMI_STATE_HELPER
+  Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_DISPLAY_HELPER [=y] && DRM_DISPLAY_HDMI_HELPER [=n]
+  Selected by [y]:
+  - DRM_KUNIT_TEST [=y] && HAS_IOMEM [=y] && DRM [=y] && KUNIT [=y] && MMU [=y]
 
-On Wed, May 29, 2024 at 11:33:43AM GMT, Dmitry Baryshkov wrote:
-> On Wed, May 29, 2024 at 10:14:55AM +0200, Maxime Ripard wrote:
-> > On Tue, 28 May 2024 17:10:56 +0200, Maxime Ripard wrote:
-> > > Commit ea64761a54a2 ("drm/sun4i: hdmi: Switch to HDMI connector")
-> > > introduced a dependency that got renamed in a previous version, but
-> > > wasn't properly updated in that driver. Fix the name of the function.
-> > >=20
-> > >=20
-> >=20
-> > Applied to misc/kernel.git (drm-misc-next).
->=20
-> Just to note, I don't see this commit in drm-misc-next.
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Fixes: 54cb39e2293b ("drm/connector: hdmi: Create an HDMI sub-state")
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks for the notice, I forgot to push it indeed.
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 9703429de6b9..47592b6fc868 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -79,6 +79,7 @@ config DRM_KUNIT_TEST
+ 	depends on DRM && KUNIT && MMU
+ 	select DRM_BUDDY
+ 	select DRM_DISPLAY_DP_HELPER
++	select DRM_DISPLAY_HDMI_HELPER
+ 	select DRM_DISPLAY_HDMI_STATE_HELPER
+ 	select DRM_DISPLAY_HELPER
+ 	select DRM_EXEC
+-- 
+2.44.0
 
-It's now fixed
-
-Maxime
-
---oy25qsc765rcypgq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZlbyNgAKCRAnX84Zoj2+
-diBUAX99YHjwUc9q1Sk5IOUdCA6s14Wulqcf+oG1OzMZ4zcKrdKvr+1mDdKZmhlf
-rqLecRUBf2kIz1YSf9t1D6yHOvDOCZC61zmZ0N4XHbGIauJcIC1H/uzq9PnuztIw
-SdzGwPi77Q==
-=Xl0t
------END PGP SIGNATURE-----
-
---oy25qsc765rcypgq--
