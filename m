@@ -2,72 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8185C8D31DB
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:43:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B408D3272
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 11:01:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 757F210F386;
-	Wed, 29 May 2024 08:43:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3770C10F894;
+	Wed, 29 May 2024 09:01:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aZRw53Do";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kyQ2JUX6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3752C10F386
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:43:26 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-4211249fdf4so16678385e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 01:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1716972204; x=1717577004; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=lvhs1YIV6pAjRxwybpgLmMel6kLADeGuuGr92YQQdas=;
- b=aZRw53DoAFk4kCNoYFoymG1wc9qm6w6sTHF7evkzUa4OK0qO87SV6S8xIS/h0KrPBk
- aAvDk4JKip0QyJfNXljnFyIynbk/R1jkRvWdgtBYHq8370S74uInTykcdj41kAQGq8iM
- ig+/owO3LReIClGHGnXGQbZNZ20bCNe8xDkDwWIOnUUZ5NYrYexErL3AZOqZSC9Hu489
- z5FBoRF4Bn2+upW5zceEqI7ba0NOaxqWNZ1GOdzYUYz1bPFEE5WKhsGNHWoOUoDa8gBF
- PnGWN+PfQhdcRNiG4tbr5ZCnUi6SYwir3pHopoQF5Q0mWUozL7vDS0ZlXGYOP8rZr2Fa
- XTBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716972204; x=1717577004;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lvhs1YIV6pAjRxwybpgLmMel6kLADeGuuGr92YQQdas=;
- b=N10QZsbctxXJEE57oozmsExckU+eCfxmvOlBBBm5xFer5S218CP/CmAS0PxZw6I3oW
- 26Qx57REIamDEPSkxTddGtpM4vQkdz+Hg7JdP3V5rTW7B9sjmsSvao9bLjtUhHzKlQh0
- r3YdASR399pbZad9j4trNby7JniG1mJoUbIylrb2fdK/YvjlJEVXKyMpAQIZvmzo4bWG
- wkiik24+ZL+F5k6cAg0E1Mb8or3itiQV9Yx6S6SIHADMQLBWxKPQ2cVxGfvnDQ24Lbp8
- kvVI1GVSAdcNLi/zgmjDXot6fI9dgXWWlBnwg2jb+pIH7w4EG6W6gEwoko0oGXv6Mku5
- fmCg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUBtfBEuONhR5H8Z8NBFHHPgR+j//pSK13H7nSeVRCNB4ngUBgZwS70psHkcSHYNNKXJDhak+QSlxnnTrT0Sl9/vqTmq1vTcs21gCRk9zdK
-X-Gm-Message-State: AOJu0YyaSd/yjFbC9ELC+AEGrMAJdJjUGOXCqGQ4XSJv/yt5BwFYC4JJ
- R0Z+sewlj2roq5xXoWUqmHyLHD8vBEfTTHxLys8iHbvJogjyrkF2
-X-Google-Smtp-Source: AGHT+IHKTLDXQAqpReBZKZ8jDWLCepRMhyiee8/k86QBffcnCdZq0RvxicFRDsDKZ2JIjkbbv4RAGQ==
-X-Received: by 2002:a05:600c:314d:b0:421:7ad:daab with SMTP id
- 5b1f17b1804b1-42108a4f606mr106018725e9.7.1716972204003; 
- Wed, 29 May 2024 01:43:24 -0700 (PDT)
-Received: from able.fritz.box ([2a00:e180:150d:a900:2eeb:e69b:7ecb:9c4f])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3577505a218sm10975107f8f.31.2024.05.29.01.43.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 May 2024 01:43:23 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Cc: sumit.semwal@linaro.org
-Subject: [PATCH] dma-buf: add a warning when drv try to reserve 0 fence slots
-Date: Wed, 29 May 2024 10:43:22 +0200
-Message-Id: <20240529084322.2284-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E00CB1135D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 09:01:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716973266; x=1748509266;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=z7atjvqtxVBxrq/vLyb0CPY1PtWVpC3PSAsdBuPUt04=;
+ b=kyQ2JUX6CLHnn112ytR0NSh0HQldEOspxjkRo8oNaenl6jTGgMU1cb9X
+ HXEhcdoTRAVzcyD/065inDzw33xm/UFvbVVPXefGBxcTVULr3IBlIZv1K
+ bs0vj2pexYQ2O9Q1rq5w/kb5xpIZKxjrkwlEDfoduvVqvVEHdgFbVBZuy
+ QQrdpOeolwJgcR29QOFQ/kLRuYqrMkpPuco4VJrU5Vcqw62feAhHMdFKs
+ rzUWfQ9OTflLoc9RXDb4+ZsBnwQaUz5e9tSC9cXYQTTBEWyG+8zKIjWE/
+ 1LUNqW7rs+QYsh+t3eRyAnxaCTA9h9Pw4TRED68D2u+VrrtlGaduVowyn Q==;
+X-CSE-ConnectionGUID: zDAvfbhYTQ6hgp8Iq9nPsQ==
+X-CSE-MsgGUID: T0mdH4uuR6+cvvFJ7ixZnw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="11746162"
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="11746162"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 May 2024 02:01:04 -0700
+X-CSE-ConnectionGUID: gYCFt5kjQwGzAJWy/eRMsQ==
+X-CSE-MsgGUID: af7w2ugDRV+Zyi/DBJliew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="35453266"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.86])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 May 2024 02:01:03 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>, John Harrison
+ <John.C.Harrison@Intel.com>
+Subject: Re: [PATCH v2] drm/print: Introduce drm_line_printer
+In-Reply-To: <20240528130622.1152-1-michal.wajdeczko@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240528130622.1152-1-michal.wajdeczko@intel.com>
+Date: Wed, 29 May 2024 12:01:02 +0300
+Message-ID: <871q5lkn5d.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,36 +70,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When dma_resv_reserve_fences() is called with num_fences=0 it usually
-means that a driver or other component messed up its calculation how
-many fences are needed. Warn in that situation.
+On Tue, 28 May 2024, Michal Wajdeczko <michal.wajdeczko@intel.com> wrote:
+> This drm printer wrapper can be used to increase the robustness of
+> the captured output generated by any other drm_printer to make sure
+> we didn't lost any intermediate lines of the output by adding line
+> numbers to each output line. Helpful for capturing some crash data.
+>
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: John Harrison <John.C.Harrison@Intel.com>
 
-When no fence are needed the function shouldn't be called in the first
-place.
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/dma-buf/dma-resv.c | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index e2869fb31140..5f8d010516f0 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -186,6 +186,13 @@ int dma_resv_reserve_fences(struct dma_resv *obj, unsigned int num_fences)
- 
- 	dma_resv_assert_held(obj);
- 
-+	/* Driver and component code should never call this function with
-+	 * num_fences=0. If they do it usually points to bugs when calculating
-+	 * the number of needed fences dynamically.
-+	 */
-+	if (WARN_ON(!num_fences))
-+		return -EINVAL;
-+
- 	old = dma_resv_fences_list(obj);
- 	if (old && old->max_fences) {
- 		if ((old->num_fences + num_fences) <= old->max_fences)
+> ---
+> v2: don't abuse prefix, use union instead (Jani)
+>     don't use 'dp' as name, prefer 'p' (Jani)
+>     add support for unique series identifier (John)
+> ---
+>  drivers/gpu/drm/drm_print.c | 14 ++++++++
+>  include/drm/drm_print.h     | 68 ++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 81 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index cf2efb44722c..be9cbebff5b3 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -214,6 +214,20 @@ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
+>  }
+>  EXPORT_SYMBOL(__drm_printfn_err);
+>  
+> +void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf)
+> +{
+> +	unsigned int counter = ++p->line.counter;
+> +	const char *prefix = p->prefix ?: "";
+> +	const char *pad = p->prefix ? " " : "";
+> +
+> +	if (p->line.series)
+> +		drm_printf(p->arg, "%s%s%u.%u: %pV",
+> +			   prefix, pad, p->line.series, counter, vaf);
+> +	else
+> +		drm_printf(p->arg, "%s%s%u: %pV", prefix, pad, counter, vaf);
+> +}
+> +EXPORT_SYMBOL(__drm_printfn_line);
+> +
+>  /**
+>   * drm_puts - print a const string to a &drm_printer stream
+>   * @p: the &drm printer
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index 089950ad8681..f4d9b98d7909 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -176,7 +176,13 @@ struct drm_printer {
+>  	void (*puts)(struct drm_printer *p, const char *str);
+>  	void *arg;
+>  	const char *prefix;
+> -	enum drm_debug_category category;
+> +	union {
+> +		enum drm_debug_category category;
+> +		struct {
+> +			unsigned short series;
+> +			unsigned short counter;
+> +		} line;
+> +	};
+>  };
+>  
+>  void __drm_printfn_coredump(struct drm_printer *p, struct va_format *vaf);
+> @@ -186,6 +192,7 @@ void __drm_puts_seq_file(struct drm_printer *p, const char *str);
+>  void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
+>  void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf);
+>  void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
+> +void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf);
+>  
+>  __printf(2, 3)
+>  void drm_printf(struct drm_printer *p, const char *f, ...);
+> @@ -357,6 +364,65 @@ static inline struct drm_printer drm_err_printer(struct drm_device *drm,
+>  	return p;
+>  }
+>  
+> +/**
+> + * drm_line_printer - construct a &drm_printer that prefixes outputs with line numbers
+> + * @p: the &struct drm_printer which actually generates the output
+> + * @prefix: optional output prefix, or NULL for no prefix
+> + * @series: optional unique series identifier, or 0 to omit identifier in the output
+> + *
+> + * This printer can be used to increase the robustness of the captured output
+> + * to make sure we didn't lost any intermediate lines of the output. Helpful
+> + * while capturing some crash data.
+> + *
+> + * Example 1::
+> + *
+> + *	void crash_dump(struct drm_device *drm)
+> + *	{
+> + *		static unsigned short id;
+> + *		struct drm_printer p = drm_err_printer(drm, "crash");
+> + *		struct drm_printer lp = drm_line_printer(&p, "dump", ++id);
+> + *
+> + *		drm_printf(&lp, "foo");
+> + *		drm_printf(&lp, "bar");
+> + *	}
+> + *
+> + * Above code will print into the dmesg something like::
+> + *
+> + *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.1: foo
+> + *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.2: bar
+> + *
+> + * Example 2::
+> + *
+> + *	void line_dump(struct device *dev)
+> + *	{
+> + *		struct drm_printer p = drm_info_printer(dev);
+> + *		struct drm_printer lp = drm_line_printer(&p, NULL, 0);
+> + *
+> + *		drm_printf(&lp, "foo");
+> + *		drm_printf(&lp, "bar");
+> + *	}
+> + *
+> + * Above code will print::
+> + *
+> + *	[ ] 0000:00:00.0: [drm] 1: foo
+> + *	[ ] 0000:00:00.0: [drm] 2: bar
+> + *
+> + * RETURNS:
+> + * The &drm_printer object
+> + */
+> +static inline struct drm_printer drm_line_printer(struct drm_printer *p,
+> +						  const char *prefix,
+> +						  unsigned short series)
+> +{
+> +	struct drm_printer lp = {
+> +		.printfn = __drm_printfn_line,
+> +		.arg = p,
+> +		.prefix = prefix,
+> +		.line = { .series = series, },
+> +	};
+> +	return lp;
+> +}
+> +
+>  /*
+>   * struct device based logging
+>   *
+
 -- 
-2.34.1
-
+Jani Nikula, Intel
