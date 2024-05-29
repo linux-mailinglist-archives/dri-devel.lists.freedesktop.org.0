@@ -2,77 +2,208 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD828D39A6
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 16:47:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B50468D39D4
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 16:49:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 718BA113C88;
-	Wed, 29 May 2024 14:47:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A64EA10FE33;
+	Wed, 29 May 2024 14:49:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="CLB8dsan";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="WkSwi8fM";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="iC+6b2wt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A671F10FE33
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:47:05 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44TEkqLQ125815;
- Wed, 29 May 2024 09:46:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1716994013;
- bh=lVACF7/ivESmEqZ237dH+5br2h2iBMnf9o032PKuje8=;
- h=Date:Subject:To:References:From:In-Reply-To;
- b=CLB8dsanLkReZaCjSUYbxkOK1R16rck5cs00GdpP9LdGnqOvwbH5PlN94uipLjfsC
- yY6TEr2lt/xxkyD3Iu+SepWU2KAwpvklPPc5Adge87zf+KKMlkZjqsOPO8VCAWmHvw
- busHn2O3Wl98BMCmvf9RlziZ2bcFy/vvO8GlHL5w=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44TEkqwx018000
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 29 May 2024 09:46:52 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 29
- May 2024 09:46:52 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 29 May 2024 09:46:52 -0500
-Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be
- forged))
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44TEkkft054115;
- Wed, 29 May 2024 09:46:47 -0500
-Message-ID: <b3b7fe51-ce9e-1dc4-27ee-e380c242d446@ti.com>
-Date: Wed, 29 May 2024 20:16:46 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RFC PATCH 2/3] drm/tidss: Add support for display sharing
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B632110FDBA
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:49:13 +0000 (UTC)
+X-UUID: 99e316161dca11ef8c37dd7afa272265-20240529
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=i0lvrHBLcyb7/eIWVnfATh/JznZ77voeTYL9OVkaD84=; 
+ b=WkSwi8fMl8SLwAzurcrhpOMqMjiJQsv/3uCnFjrYFqVW7t65/2+XHomn0wegA2PA6W9W1TVTwx6vTV0tiZhBttWVhsR+wrr8eGwCBBNAdK4cXfGmjxav3MmuMFtpQeMIdiLLyNNeCjQ5GKw4HGd/x9x4tETn2OhUWxmHO7RsmdY=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.39, REQID:74ed5698-58fa-450c-91ba-6efbb112d238, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:393d96e, CLOUDID:875cf543-4544-4d06-b2b2-d7e12813c598,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:1,EDM:-3,IP:nil,U
+ RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+ SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 99e316161dca11ef8c37dd7afa272265-20240529
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 255148765; Wed, 29 May 2024 22:49:07 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 29 May 2024 22:49:06 +0800
+Received: from HK2PR02CU002.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 29 May 2024 22:49:06 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I4fO0/rJCsNB8PEa+8R5aa5vwNQwgSckZjCKg+lKuvBhCDTgGsvIpiQnUscICvC9oo/r9MPMJ1lZafMnGbu1lg1th2OgbiugHcjJRoopHr6ymxV1kBFTZlhxfcrgb7DNYF71Pfjl5iMElvqK4vsk7X/Xgz+yfaq9GvYtsQsuGa/YBaJXW+vWbwM20OkSdy6yJjdp7onsboj/V3LFF4CJMFLI/B2noGBpM2ozeruZLqwarJVwT+WV3qV2mc92953iiZ4r8gSJgAE2te2Cjz9ZoghuS8Wat2LaeOmz6n0XAJCXQC+imZrFYkKS7Cv8HkEFqf+59k0OkpJ1NZAcmU8U7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QK089/vRTbxPkJL7I31xwfZhPOF+kdicELX2MfsD4HA=;
+ b=IsdoCzqUoNySGXlGjG50G9ZpnOT2yoh58+V46Qm/MjRQBxiQEZDPUcj6J/rZ8srtmalJxkXW36D/jv/P0N180iImoumrDN0ObHwhBlNyt/BqsrSkzGSQbGoTyDhwqm4klAiL89s1nHCNBCUACtA+xY/WxVxnolsT9RerXSeHry5L1mqmHYbMGWZu5sCbKiAVh8hPwnbRpNZmEAAOwupgdNIjw6Mczy1m8yDDj838jp95a67Kw/Dhiyo2M7v4lKb5azhuZd3LxIj7ArMaAusX3X5C0vSfTXwijzfPXCy0A1xWgicLMO8QyYw51Wg71j42HO3Vp1zpyO3y3cdqI/95Pw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QK089/vRTbxPkJL7I31xwfZhPOF+kdicELX2MfsD4HA=;
+ b=iC+6b2wtFAycmKS3qrD+8NbiVFupaXIJq3BH89qp+CJjLJvjiyD97Lua4cvod4C4Mp05DnHQ8RRtzao7WM8gXKfHflWeQ1//VrxR+q8KfRrcENsXvXWL2Hin/9K+tpNZIlLw1GQFZSZFlC3B63VtnxTC3/Z8JGlq92tOEPLw9wo=
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
+ by JH0PR03MB7879.apcprd03.prod.outlook.com (2603:1096:990:32::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.9; Wed, 29 May
+ 2024 14:49:04 +0000
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::c6cc:cbf7:59cf:62b6]) by SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::c6cc:cbf7:59cf:62b6%7]) with mapi id 15.20.7633.001; Wed, 29 May 2024
+ 14:49:04 +0000
+From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
+To: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "chunkuang.hu@kernel.org"
+ <chunkuang.hu@kernel.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ =?utf-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?=
+ <Jason-ch.Chen@mediatek.com>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?=
+ <Shawn.Sung@mediatek.com>, =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?=
+ <Nancy.Lin@mediatek.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH RESEND,v6 8/8] soc: mediatek: mtk-cmdq: Add secure
+ cmdq_pkt APIs
+Thread-Topic: [PATCH RESEND,v6 8/8] soc: mediatek: mtk-cmdq: Add secure
+ cmdq_pkt APIs
+Thread-Index: AQHar3tfI4StAhxEi0CN3KPsYLIClbGr95IAgADSGoCAAK7SgIAA1z2A
+Date: Wed, 29 May 2024 14:49:04 +0000
+Message-ID: <4ad87d6caf7788de5cfae82d5bdfa3ddd2040745.camel@mediatek.com>
+References: <20240526144443.14345-1-jason-jh.lin@mediatek.com>
+ <20240526144443.14345-9-jason-jh.lin@mediatek.com>
+ <98b5d60e0ca29e6ac126035c1594c8b0d0210aba.camel@mediatek.com>
+ <6141715c6f17ff5bb39460d87b88f93785a613a8.camel@mediatek.com>
+ <9959dc856288b30698c8990695b2ad50376dd21f.camel@mediatek.com>
+In-Reply-To: <9959dc856288b30698c8990695b2ad50376dd21f.camel@mediatek.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, Maxime Ripard
- <mripard@kernel.org>, <jyri.sarha@iki.fi>,
- <tomi.valkeinen@ideasonboard.com>, <airlied@gmail.com>,
- <maarten.lankhorst@linux.intel.com>, <tzimmermann@suse.de>,
- <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
- <conor+dt@kernel.org>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <nm@ti.com>, <vigneshr@ti.com>,
- <kristo@kernel.org>, <praneeth@ti.com>, <a-bhatia1@ti.com>,
- <j-luthra@ti.com>
-References: <20240116134142.2092483-1-devarsht@ti.com>
- <20240116134142.2092483-3-devarsht@ti.com>
- <vgfzhamtiwkpdyk5ndagsb63subclinotoe6tsi3wu6z7454ec@igxfzjc5gyqm>
- <88018f5f-a7db-7278-e5c3-bb1dbf0e3f14@ti.com>
- <qiqrhpqtnox47wj6az7t3fjp4vc6k32fw42tp5slqggrhe6utb@i7lkpaf3v3od>
- <2f4cf2a7-ce7a-bb34-f722-7e66ea41def7@ti.com>
- <20240314-hospitable-attractive-cuttlefish-a2f504@houat>
- <03e2d653-731c-bb30-321b-b5477d7b82b2@ti.com>
- <87ikzf16dm.fsf@minerva.mail-host-address-is-not-set>
- <ZkYBWnQO8AbGAt06@phenom.ffwll.local>
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <ZkYBWnQO8AbGAt06@phenom.ffwll.local>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|JH0PR03MB7879:EE_
+x-ms-office365-filtering-correlation-id: e7595217-9973-4ba8-4776-08dc7fee7c34
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230031|366007|376005|7416005|1800799015|38070700009; 
+x-microsoft-antispam-message-info: =?utf-8?B?Qzk3TEVZaEdzYW96bFF2SEQ2bFViNXcrekZwRkcyajgxYjhjZkpFQ0JIZmlw?=
+ =?utf-8?B?U1U1Z3FUbXF0K28vZ2doeXh1YnQra0NNbTZXaVBJcmhDQ003WUJ2QmQ0Nm1S?=
+ =?utf-8?B?Yk5NYjlBRXAwdFV3cCtCVFplamFNVkg2Nmd1dktvMzl2bHdURUNSSVFkTjIv?=
+ =?utf-8?B?clZ1NWxzemVaV0FiYmNody9RbUtzc1cyN3U2QXBRbkRKK0ZTTUZ3bCs1ODBI?=
+ =?utf-8?B?MkVxTlorMmhrb3JUUVQ5byt1dXNRVExqdWRYSXdkVncyQ0FwTEZodndBV0dw?=
+ =?utf-8?B?YVJUeFZSWVRGN01JMHNoYndSaVJNOUhTUy92Z2lRWDMyaWZRRFQwVUNIMUJv?=
+ =?utf-8?B?VDJDKzN2dlBDSjB3QlpyM0VuZGtMb3o0T29nQ0d4WlBpNXB1bnJUditESU5I?=
+ =?utf-8?B?L1RqWEV1d0NSNCtIYnJVYnNxV3E4dHEyVzZOQ1M2OHpiUWdiZFdFdVY2b2c3?=
+ =?utf-8?B?TmJhSTI2V1V6cE5yS0pZd25MNzJaMVFxYVdESXJyNm1ocTFjMFVVeWF2aG1t?=
+ =?utf-8?B?Y3JhSFJaMy9LZUNJWnVYNzRFVG9LckI4N1FwTHM5OGwvZWUxcTZueEZXU3dZ?=
+ =?utf-8?B?LzdlaEVrTWFtdUk1d3BGcC9kTDVNclhTOHlEWHV5VndGbWlCcTZxNzVJVmNJ?=
+ =?utf-8?B?b0FGM0owTmFQMCsrSkEyZmZ3UHN0SnM3SFN1aERRUzlhcCt0RUhGWEtxbERH?=
+ =?utf-8?B?NUxZVjhrKzJRdkN0M0lkTFpwaWpVNFd5Vm9ZVmtQV2hicWZ5R0NIbDlrbmhD?=
+ =?utf-8?B?Y0pMb2loTnpETGMrRjQ3bmNRUEFPKzkxTDlJeFFCQ2YxWko0QlV5Zmd5aTBP?=
+ =?utf-8?B?Mkd1NGNGT20xR1dRTnM4a1dzWEJ2Z3V3VWdPNmQ2eU8zQzBOQlM1RWpFS21t?=
+ =?utf-8?B?cFhRR01NUUVuQ3RkbmlzR1UvQXBNclZXZTlQcHJ5TCtWaEY2NUhGc2l4THRm?=
+ =?utf-8?B?K2FPQUUrM3dtN3hoT2h2M01lY1VRTVRwZjZzaEFnNXNIWXgwaUtaWEFLYmJW?=
+ =?utf-8?B?L1Yzc0N4NEpTREdVUFlPOWlGWEhiSWYzYUpqM1F2ck5CdktHOC9ZQ0FZOEdt?=
+ =?utf-8?B?VGhaWXF5UHd3b01HOStWdTdwNDc2aU90b2kyeG1ma2ZyTHBoMHpvMmlkb3Yy?=
+ =?utf-8?B?K2lYcnE5b1hjdTdVM044NnROS3BQZkpYQi9PTGZQVWpiaU12aGdVT0hlUi85?=
+ =?utf-8?B?SzZ4cFE0Z0RXTFBJRUtid2tqVXZVWTZoc1F2ekw2UUZVdjg2OHpSU05sSkVS?=
+ =?utf-8?B?a0hQUTd0NmVLSkdmdHFYQnBvQXJqTWdISXRSQUdyZVo0cEVxL3VhdkU2RVBN?=
+ =?utf-8?B?aFdaT3dGb1pseG01RXFCcGlsOHF4NFg0OWV1U1doSmkzT1BCNXVxSlJMU3dy?=
+ =?utf-8?B?K25ZYW56RWJDajF6N1FCK3J0NTVqQUR3Zi9reFEyRVArdmtKTTlSRVRHN3lx?=
+ =?utf-8?B?ekFtSEVJVTFkeWpMYktZUURJa2pkY1dUUnlVWnZidVJCR0dGVWtsNlpTOW8x?=
+ =?utf-8?B?TDRCTmxZRHNsREdwTjd0VUQ2MUFHb1Z3eW9MNFZIWnIrWmE3Q1dvcTNUMmtE?=
+ =?utf-8?B?alkyaGJvSFFCK1pqakdoZWJNTHdncXJNMStWUndUbnNneGEySXdoTjh6OWF3?=
+ =?utf-8?B?S3VUZlIrQVJva0pVUlJkOHV2SHpnb3Q3Q0RCR2pJcENWWlA5V3c0WGdWUUw1?=
+ =?utf-8?B?YmxhNXF5ZVhFWjF6eGpIU0wvQ0xnV3ZsckFieG1rRDg5NzBzaVNTZ0xSSnRi?=
+ =?utf-8?B?cGdPc0ExbHhlTmNVYnYwaElkUTJCRmF4WkxJV2JqNE9BNmp2aVh3dXBEZ1Ax?=
+ =?utf-8?B?K1ZUdHJvRGVEM1FvRDlBZz09?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SEYPR03MB7682.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366007)(376005)(7416005)(1800799015)(38070700009); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZjB3SjdBanNPMHk2bXFvVEplNWdLdDRxcjRDS0YzQUxOUDFrKytHTVJoMTQ4?=
+ =?utf-8?B?eEQ3bUZlSnNlQUlwcGVyNnZGcUpNbFgzd3h3VGpWSVhJbWVYcUtkMWRYa2Ft?=
+ =?utf-8?B?clVpMFo1b29DQjIySjk0ci9WM3ZZU3pJUzBNcXduTVVWcjZGWXVlYi8rUmIx?=
+ =?utf-8?B?YXgvRmg4QzZOakkxMHpLdE1RTTlqTDVmL3RHT0dRdmhOeVl5dUI2dXpKK3Ax?=
+ =?utf-8?B?amUxekIrSGx1NjN1cndYQkVuQ1B0bjdXU2NEdzVySUI3cHhCejZlMlVqTWtq?=
+ =?utf-8?B?ZHZjekUzK0lvc1JSdGk0MW5RNHV3Z3JyL0Y2YStzSFZaLzhxRFdoTVNSVEN5?=
+ =?utf-8?B?VUk5Rzc0NVpFYm1Ic010ek1UVXczWEV1ZVRBZU5CR0dueElTTXN5aXZVblVI?=
+ =?utf-8?B?S1FFVjNuSDFrNndLbTFPczI0czlQc1JBckdrbWMzNlFSbjVRZkhRZkRSOU9T?=
+ =?utf-8?B?WTI2SEs4RDVsQThIRjRxb25MSmZtcDJaWENBYVJHWHhyVUpQclhEVFAwK0hE?=
+ =?utf-8?B?VC9mNFQ5U2tMQ0FCUkg1T2ZHL3JFQk1QdGcxbFgzMjdQK1dSSWk1c0g1SkNP?=
+ =?utf-8?B?NzRaekJVK0tpUGZEdVZyQkd6YWRZMlZBSFMrcXYxWEYxNzdmWU81aGx5MytH?=
+ =?utf-8?B?L0dxUUtqbG9zWEVKMkxneDlEdGJxY2h6WkIyUDRYZ0lVMlJ0a05KaUxXRnE4?=
+ =?utf-8?B?TWdpZ0xINURiQ0FTclBwWkNqOEtwL3RSalVUYlpEN0FqREcvdGE3TFNGQmxM?=
+ =?utf-8?B?UlhxNEpDT2ZidFI5MHJLeXNlZnY0U1J0MUNaOGRybTRoeGdjTmMvWW9adzkr?=
+ =?utf-8?B?cmVWWU1GOTQ3YTlhTVpJeUd0TDdJb3ZGbi9VVFN2L2xhZFpmdm5CVGlyZWR4?=
+ =?utf-8?B?RERSRFVOUndxaEd2NTJyUFp5eDJoZFFEcXV6Vk1sYlpadTgveGN2MnBkY0Yy?=
+ =?utf-8?B?K1ovNEVaNGRqc2ZndEs1ajd2OGdmejN0Q0ZVN2czVEFsck5vbEtiODB1M3Yr?=
+ =?utf-8?B?MU9oN1IzZVpPL00vanMwNFAvOUNERjdRZnpPaWdlenJBUFFqQk5KWjJ3VzE4?=
+ =?utf-8?B?eFVnMXN4WUQzVHQ2cG84S1NUQytFUGsyb1Yxd0VlOGtkbk1UMWcxdnZhRGRu?=
+ =?utf-8?B?WWgzbDdrbVdIKzBvdC9kNVlXcW9qZDJnd0NrNHl1N2Z1Y29LRy9RcjQ5QVZz?=
+ =?utf-8?B?alZ0bFVhOFlQa0xEc3Y0S3BrYjU2MlVSWU40ZENnNWtnTG9HQUhOTDYrZ09v?=
+ =?utf-8?B?dndrMkk2cUdzMVlXVWJWU21iQ09JbGI0SWVRQ1JBQU1UQURFbjQrY25XY2Rq?=
+ =?utf-8?B?R3RvSXNiOTFOM293NURoUWtqUy9tcnBJdzVHVVlLblpJR3A1cUJZK1ljaTBu?=
+ =?utf-8?B?VGhuTjAwU3RMNHVvWHdjQmt1OXN1eEtON1ZBUmJDdUVYbWtsTXBER0ZSU1I3?=
+ =?utf-8?B?ZFN1MG9nZ1NWaTFSWDdQbUc1cWt2SjJ1TXNtYkdRS1Z0OWQzMC80SU12ZzZp?=
+ =?utf-8?B?S1o0eFJuaDBYUXdCUWpKdWluUmhXOHZIYk9LZjhNSFdlSWtFdjIweUJWdlBL?=
+ =?utf-8?B?bnhReWdJaFoxMFdiM3g1dG1OZU1uNGc0cTJ1d2ErVkp4L0ZkbEl1SG1QNURs?=
+ =?utf-8?B?VmhWazAyZ0t0SDdIRVZwcyt3cTRDZExxeHpGem1Rd2VwMC9PMnZEc2F5bDN5?=
+ =?utf-8?B?cngyc25mcVR0RWMzcTZFZHpLOExWVWQzdlhqcVU0Smg3MnNDU2htSG4yOUcw?=
+ =?utf-8?B?N3diT25USGZrOFJjR1p6dHR1NEExZzlDZFlyMVNQUUhUR0NCcGpMRzFPOWt6?=
+ =?utf-8?B?cFRqV2JGU0V4Yi9pZHlEZnZTWGFsZnlsdk5UNXpFMndNR3lsUk9xY050eDh6?=
+ =?utf-8?B?NjhGTHYwc3lGblBoQzNiNWpGWXAxY05YYlJ2Y0tSeWxKeTdKRExsUnRpNlpi?=
+ =?utf-8?B?Sk5ldGlvamwybjliRUd5Ly9hUjZJSnorSXhPV3kxemIrZUQyY0tDYXQzRGYy?=
+ =?utf-8?B?MU1GODN4TWZSbm1DV2lLVFIrei9TdXpSUTkwOWViRnJpMEU5dXc0dUNmcEpT?=
+ =?utf-8?B?U0E2VDBPYlVoZHZ4cndCSnpiaUJpcnlyLyswaFEwN3dmRHRYS09BeTU5V0hK?=
+ =?utf-8?B?aFpkMUNVWUl3cHFUQTN1Ym1zL2k4bEErczFURC84MUlQeFg1Z3hYVEprVjRS?=
+ =?utf-8?B?NWc9PQ==?=
+Content-ID: <194774024C7DF34A88675C593F682B89@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7595217-9973-4ba8-4776-08dc7fee7c34
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 May 2024 14:49:04.2334 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: n1OB01o+8pZpNZgY/r7bfoexd1xE8TlefiNvv0i7R4KfRXIqjx6Vv9Y/gakMZez7ZiLTyuN0K6fG/igOHCmZrD4YSxXPpO6lht1RcJ7ApnQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR03MB7879
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_004_1933520576.727026569"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,218 +219,241 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier, Maxime, Daniel,
+--__=_Part_Boundary_004_1933520576.727026569
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Sorry for the delay. Please find response inline.
+SGkgQ0ssDQoNCk9uIFdlZCwgMjAyNC0wNS0yOSBhdCAwMTo1OCArMDAwMCwgQ0sgSHUgKOiDoeS/
+iuWFiSkgd3JvdGU6DQo+IEhpLCBKYXNvbjoNCj4gDQo+IE9uIFR1ZSwgMjAyNC0wNS0yOCBhdCAx
+NTozMyArMDAwMCwgSmFzb24tSkggTGluICjmnpfnnb/npaUpIHdyb3RlOg0KPiA+IEhpIENLLA0K
+PiA+IA0KPiA+IE9uIFR1ZSwgMjAyNC0wNS0yOCBhdCAwMzowMSArMDAwMCwgQ0sgSHUgKOiDoeS/
+iuWFiSkgd3JvdGU6DQo+ID4gPiBIaSwgSmFzb246DQo+ID4gPiANCj4gPiA+IE9uIFN1biwgMjAy
+NC0wNS0yNiBhdCAyMjo0NCArMDgwMCwgSmFzb24tSkguTGluIHdyb3RlOg0KPiA+ID4gPiBPcGVu
+IHNlY3VyZSBjbWRxX3BrdCBBUElzIHRvIHN1cHBvcnQgZXhlY3V0aW5nIGNvbW1hbmRzIGluDQo+
+ID4gPiA+IHNlY3VyZQ0KPiA+ID4gPiB3b3JsZC4NCj4gPiA+ID4gDQo+ID4gPiA+IDEuIEFkZCBj
+bWRxX3NlY19wa3RfYWxsb2Nfc2VjX2RhdGEoKSwNCj4gPiA+ID4gY21kcV9zZWNfcGt0X2ZyZWVf
+c2VjX2RhdGEoKQ0KPiA+ID4gPiBhbmQNCj4gPiA+ID4gICAgY21kcV9zZWNfcGt0X3NldF9kYXRh
+KCkgdG8gcHJlcGFyZSB0aGUgc2VjX2RhdGEgaW4gY21kcV9wa3QNCj4gPiA+ID4gdGhhdA0KPiA+
+ID4gPiB3aWxsDQo+ID4gPiA+ICAgIGJlIHJlZmVyZW5jZWQgaW4gdGhlIHNlY3VyZSB3b3JsZC4N
+Cj4gPiA+ID4gDQo+ID4gPiA+IDIuIEFkZCBjbWRxX3NlY19pbnNlcnRfYmFja3VwX2Nvb2tpZSgp
+IGFuZCBjbWRxX3NlY19wa3Rfd3JpdGUoKQ0KPiA+ID4gPiB0bw0KPiA+ID4gPiAgICBnZW5lcmF0
+ZSBjb21tYW5kcyB0aGF0IG5lZWQgdG8gYmUgZXhlY3V0ZWQgaW4gdGhlIHNlY3VyZQ0KPiA+ID4g
+PiB3b3JsZC4NCj4gPiA+ID4gICAgSW4gY21kcV9zZWNfcGt0X3dyaXRlKCksIHdlIG5lZWQgdG8g
+cHJlcGFyZSB0aGUgbWV0YWRhdGEgdG8NCj4gPiA+ID4gc3RvcmUNCj4gPiA+ID4gICAgYnVmZmVy
+IG9mZnNldCBvZiB0aGUgc2VjdXJlIGJ1ZmZlciBoYW5kbGUgYmVjYXVzZSBzZWN1cmUNCj4gPiA+
+ID4gd29ybGQNCj4gPiA+ID4gY2FuDQo+ID4gPiA+ICAgIG9ubHkgdHJhbnNsYXRlIHRoZSBzdGFy
+dCBhZGRyZXNzIG9mIHNlY3VyZSBidWZmZXIgYnkgc2VjdXJlDQo+ID4gPiA+IGhhbmRsZS4NCj4g
+PiA+ID4gDQo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IEphc29uLUpILkxpbiA8amFzb24tamgubGlu
+QG1lZGlhdGVrLmNvbT4NCj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogSHNpYW8gQ2hpZW4gU3VuZyA8
+c2hhd24uc3VuZ0BtZWRpYXRlay5jb20+DQo+ID4gPiA+IC0tLQ0KPiA+ID4gDQo+ID4gPiBbc25p
+cF0NCj4gPiA+IA0KPiA+ID4gPiArDQo+ID4gPiA+ICtpbnQgY21kcV9zZWNfcGt0X3NldF9kYXRh
+KHN0cnVjdCBjbWRxX3BrdCAqcGt0LCBlbnVtDQo+ID4gPiA+IGNtZHFfc2VjX3NjZW5hcmlvIHNj
+ZW5hcmlvKQ0KPiA+ID4gPiArew0KPiA+ID4gPiArCXN0cnVjdCBjbWRxX3NlY19kYXRhICpzZWNf
+ZGF0YTsNCj4gPiA+ID4gKwlpbnQgcmV0Ow0KPiA+ID4gPiArDQo+ID4gPiA+ICsJaWYgKCFwa3Qp
+IHsNCj4gPiA+ID4gKwkJcHJfZXJyKCJpbnZhbGlkIHBrdDolcCIsIHBrdCk7DQo+ID4gPiA+ICsJ
+CXJldHVybiAtRUlOVkFMOw0KPiA+ID4gPiArCX0NCj4gPiA+ID4gKw0KPiA+ID4gPiArCXJldCA9
+IGNtZHFfc2VjX3BrdF9hbGxvY19zZWNfZGF0YShwa3QpOw0KPiA+ID4gPiArCWlmIChyZXQgPCAw
+KQ0KPiA+ID4gPiArCQlyZXR1cm4gcmV0Ow0KPiA+ID4gPiArDQo+ID4gPiA+ICsJcHJfZGVidWco
+IlslcyAlZF0gcGt0OiVwIHNlY19kYXRhOiVwIHNjZW46JXUiLA0KPiA+ID4gPiArCQkgX19mdW5j
+X18sIF9fTElORV9fLCBwa3QsIHBrdC0+c2VjX2RhdGEsDQo+ID4gPiA+IHNjZW5hcmlvKTsNCj4g
+PiA+ID4gKw0KPiA+ID4gPiArCXNlY19kYXRhID0gKHN0cnVjdCBjbWRxX3NlY19kYXRhICopcGt0
+LT5zZWNfZGF0YTsNCj4gPiA+ID4gKwlzZWNfZGF0YS0+c2NlbmFyaW8gPSBzY2VuYXJpbzsNCj4g
+PiA+ID4gKw0KPiA+ID4gPiArCXJldHVybiAwOw0KPiA+ID4gPiArfQ0KPiA+ID4gDQo+ID4gPiBX
+aGF0IGRvZXMgY21kcV9zZWNfcGt0X3NldF9kYXRhKCkgZXhhY3RseSBkbz8gSXQgc2VlbXMgdG8N
+Cj4gPiA+IGVuYWJsZS9kaXNhYmxlIHByb3RlY3Rpb24gb24gaGFyZHdhcmUgb2YgY2VydGFpbiBw
+aXBlbGluZS4NCj4gPiA+IEluIGZ1dHVyZSwgeW91IHdvdWxkIHVzZSBzZWN1cmUgR0NFIGZvciBu
+b3JtYWwgdmlkZW8gYW5kIHNlY3VyZQ0KPiA+ID4gdmlkZW8uDQo+ID4gPiBXb3VsZCB5b3UgYWxz
+byB1c2Ugc2VjdXJlIGRpc3BsYXkgcGlwZWxpbmUgZm9yIGJvdGggbm9ybWFsIHZpZGVvDQo+ID4g
+PiBhbmQNCj4gPiA+IHNlY3VyZSB2aWRlbz8NCj4gPiANCj4gPiBJIHRoaW5rIEkgd29uJ3QgZG8g
+dGhhdC4NCj4gPiANCj4gPiA+IElmIHNvLCBJIHRoaW5rIHdlIGNvdWxkIGRyb3AgdGhpcyBmdW5j
+dGlvbiBiZWNhdXNlIHRoZSBoYXJkd2FyZQ0KPiA+ID4gaXMNCj4gPiA+IGFsd2F5cyBwcm90ZWN0
+ZWQuDQo+ID4gPiANCj4gPiANCj4gPiBCdXQgd2Ugd2lsbCB1c2UgRU5BQkxFIGFuZCBESVNBQkxF
+IHNjZW5hcmlvIHRvIG5vdGlmeSBzZWN1cmUgd29ybGQNCj4gPiB0bw0KPiA+IGVuYWJsZS9kaXNh
+YmxlIHRoZSBwcm90ZWN0aW9uIG9mIHNlY3VyZSBidWZmZXIgYW5kIHJlZ2lzdGVyIGJ5DQo+ID4g
+c2V0dGluZw0KPiA+IGxhcmIgcG9ydCBhbmQgREFQQy4NCj4gPiANCj4gPiBJZiB0aGVyZSBpcyBz
+ZWN1cmUgbWVtb3J5IG91dHB1dCBzY2VuYXJpbyAoV2lGaSBEaXNwbGF5IHNjZW5hcmlvKQ0KPiA+
+IGluDQo+ID4gdGhlIHNhbWUgZGlzcGxheSBwaXBlbGluZSBhcyBtYWluIGRpc3BsYXkgc2NlbmFy
+aW8sIHdlIHdpbGwgbmVlZCB0bw0KPiA+IHVzZQ0KPiA+IHRoaXMgc2NlbmFyaW8gdG8gZGlmZmVy
+ZW50aWF0ZSB0aGVtLg0KPiANCj4gVGhpcyBBUEkgbG9va3Mgbm8gcmVsYXRpb24gd2l0aCBDTURR
+LiBBbGwgdGhlIGpvYiBpcyB0aGF0IGRpc3BsYXkNCj4gY29udHJvbCBsYXJiLCBkYXBjIHRvIHR1
+cm4gb24vb2ZmIHByb3RlY3Rpb24uDQo+IEFsbCB0aGUgcHJvY2VzcyBpcyBkb25lIGJ5IENQVSBu
+b3QgR0NFLCByaWdodD8NCg0KV2UgbmVlIHRvIG1ha2Ugc3VyZSBhbGwgdGhlIHNldHRpbmdzIGFy
+ZSBmaW5pc2hlZCBkdXJpbmcgdmJsYW5raW5nLCBzbw0KYWxsIHByb2Nlc3NlcyBhcmUgZG9uZSBi
+eSBHQ0UsIHdlIHdpbGwgaW5zZXJ0IHRoZSBzZXR0aW5ncyBvZiBsYXJiIGFuZA0KZGFwYyBieSBy
+ZWZlcmVuY2luZyB0byB0aGUgb3RoZXIgaW5zdHJ1Y3Rpb24gZm9yIGRpc3BsYXkgSFcgYW5kIGFs
+c28NCnRoZSBzY2VuYXJpbyBoZXJlLg0KDQo+IElmIHNvLCB0aGlzIEFQSSBzaG91bGQgYmUgcHJv
+dmlkZWQgYnkgZGlzcGxheSBUQSBub3QgQ01EUSBUQS4NCj4gDQpNYXliZSB3ZSBjb3VsZCBwYXJz
+aW5nIE9WTCBsYXllciBjb250cm9sIGFuZCBXRE1BIGluc3RydWN0aW9ucyB0bw0KZGVjaWRlIHRv
+IG9uL29mZiB0aGUgbGFyYiBhbmQgZGFwYyBzZXR0aW5ncyBhbmQgYWxzbyB0aGUgc2NlbmFyaW8g
+aW4NCnNlY3VyZSB3b3JsZC4NCg0KSSB3b3VsZCB0cnkgdG8gcmVtb3ZlIHRoaXMgYXMgd2VsbCwg
+dGhlbiB3ZSBvbmx5IG5lZWQgdG8gcGFzcyB0aGUNCmNvbW1hbmQgYnVmZmVyIGFuZCBtZXRhZGF0
+YSBsaXN0IGZvciBidWZmZXIgaGFuZGxlIGFuZCBpdHMgb2Zmc2V0IHRvDQp0aGUgc2VjdXJlIHdv
+cmxkLg0KDQpSZWdhcmRzLA0KSmFzb24tSkguTGluDQoNCj4gUmVnYXJkcywNCj4gQ0sNCj4gDQo+
+ID4gDQo+ID4gUmVnYXJkcywNCj4gPiBKYXNvbi1KSC5MaW4NCj4gPiANCj4gPiA+IFJlZ2FyZHMs
+DQo+ID4gPiBDSw0KPiA+ID4gDQo+ID4gPiA+ICtFWFBPUlRfU1lNQk9MX0dQTChjbWRxX3NlY19w
+a3Rfc2V0X2RhdGEpOw0KPiA+ID4gPiArDQo=
 
-On 16/05/24 18:21, Daniel Vetter wrote:
-> On Wed, May 15, 2024 at 04:45:09PM +0200, Javier Martinez Canillas wrote:
->> Devarsh Thakkar <devarsht@ti.com> writes:
+--__=_Part_Boundary_004_1933520576.727026569
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-[..]
+PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KSGkmIzMyO0NLLA0KDQpPbiYjMzI7V2VkLCYjMzI7MjAy
+NC0wNS0yOSYjMzI7YXQmIzMyOzAxOjU4JiMzMjsrMDAwMCwmIzMyO0NLJiMzMjtIdSYjMzI7KCYj
+MzI5OTM7JiMyMDQyNjsmIzIwODA5OykmIzMyO3dyb3RlOg0KJmd0OyYjMzI7SGksJiMzMjtKYXNv
+bjoNCiZndDsmIzMyOw0KJmd0OyYjMzI7T24mIzMyO1R1ZSwmIzMyOzIwMjQtMDUtMjgmIzMyO2F0
+JiMzMjsxNTozMyYjMzI7KzAwMDAsJiMzMjtKYXNvbi1KSCYjMzI7TGluJiMzMjsoJiMyNjUxOTsm
+IzMwNTkxOyYjMzEwNzc7KSYjMzI7d3JvdGU6DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtIaSYjMzI7Q0ss
+DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyO09uJiMzMjtUdWUsJiMzMjsy
+MDI0LTA1LTI4JiMzMjthdCYjMzI7MDM6MDEmIzMyOyswMDAwLCYjMzI7Q0smIzMyO0h1JiMzMjso
+JiMzMjk5MzsmIzIwNDI2OyYjMjA4MDk7KSYjMzI7d3JvdGU6DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsm
+Z3Q7JiMzMjtIaSwmIzMyO0phc29uOg0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7
+JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjtPbiYjMzI7U3VuLCYjMzI7MjAyNC0wNS0yNiYjMzI7YXQm
+IzMyOzIyOjQ0JiMzMjsrMDgwMCwmIzMyO0phc29uLUpILkxpbiYjMzI7d3JvdGU6DQomZ3Q7JiMz
+MjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjtPcGVuJiMzMjtzZWN1cmUmIzMyO2NtZHFfcGt0
+JiMzMjtBUElzJiMzMjt0byYjMzI7c3VwcG9ydCYjMzI7ZXhlY3V0aW5nJiMzMjtjb21tYW5kcyYj
+MzI7aW4NCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO3NlY3VyZQ0KJmd0OyYj
+MzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7d29ybGQuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsm
+Z3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOzEu
+JiMzMjtBZGQmIzMyO2NtZHFfc2VjX3BrdF9hbGxvY19zZWNfZGF0YSgpLA0KJmd0OyYjMzI7Jmd0
+OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Y21kcV9zZWNfcGt0X2ZyZWVfc2VjX2RhdGEoKQ0KJmd0
+OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7YW5kDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsm
+Z3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjtjbWRxX3NlY19wa3Rfc2V0X2RhdGEoKSYj
+MzI7dG8mIzMyO3ByZXBhcmUmIzMyO3RoZSYjMzI7c2VjX2RhdGEmIzMyO2luJiMzMjtjbWRxX3Br
+dA0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7dGhhdA0KJmd0OyYjMzI7Jmd0
+OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7d2lsbA0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7
+Jmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7YmUmIzMyO3JlZmVyZW5jZWQmIzMyO2luJiMzMjt0aGUm
+IzMyO3NlY3VyZSYjMzI7d29ybGQuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMz
+MjsNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOzIuJiMzMjtBZGQmIzMyO2Nt
+ZHFfc2VjX2luc2VydF9iYWNrdXBfY29va2llKCkmIzMyO2FuZCYjMzI7Y21kcV9zZWNfcGt0X3dy
+aXRlKCkNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO3RvDQomZ3Q7JiMzMjsm
+Z3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjtnZW5lcmF0ZSYjMzI7Y29t
+bWFuZHMmIzMyO3RoYXQmIzMyO25lZWQmIzMyO3RvJiMzMjtiZSYjMzI7ZXhlY3V0ZWQmIzMyO2lu
+JiMzMjt0aGUmIzMyO3NlY3VyZQ0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7
+d29ybGQuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7JiMz
+MjtJbiYjMzI7Y21kcV9zZWNfcGt0X3dyaXRlKCksJiMzMjt3ZSYjMzI7bmVlZCYjMzI7dG8mIzMy
+O3ByZXBhcmUmIzMyO3RoZSYjMzI7bWV0YWRhdGEmIzMyO3RvDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsm
+Z3Q7JiMzMjsmZ3Q7JiMzMjtzdG9yZQ0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYj
+MzI7JiMzMjsmIzMyOyYjMzI7YnVmZmVyJiMzMjtvZmZzZXQmIzMyO29mJiMzMjt0aGUmIzMyO3Nl
+Y3VyZSYjMzI7YnVmZmVyJiMzMjtoYW5kbGUmIzMyO2JlY2F1c2UmIzMyO3NlY3VyZQ0KJmd0OyYj
+MzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7d29ybGQNCiZndDsmIzMyOyZndDsmIzMyOyZn
+dDsmIzMyOyZndDsmIzMyO2Nhbg0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7
+JiMzMjsmIzMyOyYjMzI7b25seSYjMzI7dHJhbnNsYXRlJiMzMjt0aGUmIzMyO3N0YXJ0JiMzMjth
+ZGRyZXNzJiMzMjtvZiYjMzI7c2VjdXJlJiMzMjtidWZmZXImIzMyO2J5JiMzMjtzZWN1cmUNCiZn
+dDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO2hhbmRsZS4NCiZndDsmIzMyOyZndDsm
+IzMyOyZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYj
+MzI7U2lnbmVkLW9mZi1ieTomIzMyO0phc29uLUpILkxpbiYjMzI7Jmx0O2phc29uLWpoLmxpbkBt
+ZWRpYXRlay5jb20mZ3Q7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjtTaWdu
+ZWQtb2ZmLWJ5OiYjMzI7SHNpYW8mIzMyO0NoaWVuJiMzMjtTdW5nJiMzMjsmbHQ7c2hhd24uc3Vu
+Z0BtZWRpYXRlay5jb20mZ3Q7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjst
+LS0NCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYj
+MzI7W3NuaXBdDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMy
+OyZndDsmIzMyOyZndDsmIzMyOysNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMy
+OytpbnQmIzMyO2NtZHFfc2VjX3BrdF9zZXRfZGF0YShzdHJ1Y3QmIzMyO2NtZHFfcGt0JiMzMjsq
+cGt0LCYjMzI7ZW51bQ0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Y21kcV9z
+ZWNfc2NlbmFyaW8mIzMyO3NjZW5hcmlvKQ0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0
+OyYjMzI7K3sNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOytzdHJ1Y3QmIzMy
+O2NtZHFfc2VjX2RhdGEmIzMyOypzZWNfZGF0YTsNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMy
+OyZndDsmIzMyOytpbnQmIzMyO3JldDsNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsm
+IzMyOysNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOytpZiYjMzI7KCFwa3Qp
+JiMzMjt7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsrcHJfZXJyKCZxdW90
+O2ludmFsaWQmIzMyO3BrdDolcCZxdW90OywmIzMyO3BrdCk7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsm
+Z3Q7JiMzMjsmZ3Q7JiMzMjsrcmV0dXJuJiMzMjstRUlOVkFMOw0KJmd0OyYjMzI7Jmd0OyYjMzI7
+Jmd0OyYjMzI7Jmd0OyYjMzI7K30NCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMy
+OysNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOytyZXQmIzMyOz0mIzMyO2Nt
+ZHFfc2VjX3BrdF9hbGxvY19zZWNfZGF0YShwa3QpOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYj
+MzI7Jmd0OyYjMzI7K2lmJiMzMjsocmV0JiMzMjsmbHQ7JiMzMjswKQ0KJmd0OyYjMzI7Jmd0OyYj
+MzI7Jmd0OyYjMzI7Jmd0OyYjMzI7K3JldHVybiYjMzI7cmV0Ow0KJmd0OyYjMzI7Jmd0OyYjMzI7
+Jmd0OyYjMzI7Jmd0OyYjMzI7Kw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7
+K3ByX2RlYnVnKCZxdW90O1slcyYjMzI7JWRdJiMzMjtwa3Q6JXAmIzMyO3NlY19kYXRhOiVwJiMz
+MjtzY2VuOiV1JnF1b3Q7LA0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7KyYj
+MzI7X19mdW5jX18sJiMzMjtfX0xJTkVfXywmIzMyO3BrdCwmIzMyO3BrdC0mZ3Q7c2VjX2RhdGEs
+DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjtzY2VuYXJpbyk7DQomZ3Q7JiMz
+MjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMz
+MjsmZ3Q7JiMzMjsrc2VjX2RhdGEmIzMyOz0mIzMyOyhzdHJ1Y3QmIzMyO2NtZHFfc2VjX2RhdGEm
+IzMyOyopcGt0LSZndDtzZWNfZGF0YTsNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsm
+IzMyOytzZWNfZGF0YS0mZ3Q7c2NlbmFyaW8mIzMyOz0mIzMyO3NjZW5hcmlvOw0KJmd0OyYjMzI7
+Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Kw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7
+Jmd0OyYjMzI7K3JldHVybiYjMzI7MDsNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsm
+IzMyOyt9DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyOyZn
+dDsmIzMyO1doYXQmIzMyO2RvZXMmIzMyO2NtZHFfc2VjX3BrdF9zZXRfZGF0YSgpJiMzMjtleGFj
+dGx5JiMzMjtkbyYjNjM7JiMzMjtJdCYjMzI7c2VlbXMmIzMyO3RvDQomZ3Q7JiMzMjsmZ3Q7JiMz
+MjsmZ3Q7JiMzMjtlbmFibGUvZGlzYWJsZSYjMzI7cHJvdGVjdGlvbiYjMzI7b24mIzMyO2hhcmR3
+YXJlJiMzMjtvZiYjMzI7Y2VydGFpbiYjMzI7cGlwZWxpbmUuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsm
+Z3Q7JiMzMjtJbiYjMzI7ZnV0dXJlLCYjMzI7eW91JiMzMjt3b3VsZCYjMzI7dXNlJiMzMjtzZWN1
+cmUmIzMyO0dDRSYjMzI7Zm9yJiMzMjtub3JtYWwmIzMyO3ZpZGVvJiMzMjthbmQmIzMyO3NlY3Vy
+ZQ0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7dmlkZW8uDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsm
+Z3Q7JiMzMjtXb3VsZCYjMzI7eW91JiMzMjthbHNvJiMzMjt1c2UmIzMyO3NlY3VyZSYjMzI7ZGlz
+cGxheSYjMzI7cGlwZWxpbmUmIzMyO2ZvciYjMzI7Ym90aCYjMzI7bm9ybWFsJiMzMjt2aWRlbw0K
+Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7YW5kDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMz
+MjtzZWN1cmUmIzMyO3ZpZGVvJiM2MzsNCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0
+OyYjMzI7SSYjMzI7dGhpbmsmIzMyO0kmIzMyO3dvbiYjMzk7dCYjMzI7ZG8mIzMyO3RoYXQuDQom
+Z3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO0lmJiMzMjtzbywm
+IzMyO0kmIzMyO3RoaW5rJiMzMjt3ZSYjMzI7Y291bGQmIzMyO2Ryb3AmIzMyO3RoaXMmIzMyO2Z1
+bmN0aW9uJiMzMjtiZWNhdXNlJiMzMjt0aGUmIzMyO2hhcmR3YXJlDQomZ3Q7JiMzMjsmZ3Q7JiMz
+MjsmZ3Q7JiMzMjtpcw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7YWx3YXlzJiMzMjtwcm90
+ZWN0ZWQuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyOw0K
+Jmd0OyYjMzI7Jmd0OyYjMzI7QnV0JiMzMjt3ZSYjMzI7d2lsbCYjMzI7dXNlJiMzMjtFTkFCTEUm
+IzMyO2FuZCYjMzI7RElTQUJMRSYjMzI7c2NlbmFyaW8mIzMyO3RvJiMzMjtub3RpZnkmIzMyO3Nl
+Y3VyZSYjMzI7d29ybGQNCiZndDsmIzMyOyZndDsmIzMyO3RvDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtl
+bmFibGUvZGlzYWJsZSYjMzI7dGhlJiMzMjtwcm90ZWN0aW9uJiMzMjtvZiYjMzI7c2VjdXJlJiMz
+MjtidWZmZXImIzMyO2FuZCYjMzI7cmVnaXN0ZXImIzMyO2J5DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtz
+ZXR0aW5nDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtsYXJiJiMzMjtwb3J0JiMzMjthbmQmIzMyO0RBUEMu
+DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyO0lmJiMzMjt0aGVyZSYjMzI7
+aXMmIzMyO3NlY3VyZSYjMzI7bWVtb3J5JiMzMjtvdXRwdXQmIzMyO3NjZW5hcmlvJiMzMjsoV2lG
+aSYjMzI7RGlzcGxheSYjMzI7c2NlbmFyaW8pDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtpbg0KJmd0OyYj
+MzI7Jmd0OyYjMzI7dGhlJiMzMjtzYW1lJiMzMjtkaXNwbGF5JiMzMjtwaXBlbGluZSYjMzI7YXMm
+IzMyO21haW4mIzMyO2Rpc3BsYXkmIzMyO3NjZW5hcmlvLCYjMzI7d2UmIzMyO3dpbGwmIzMyO25l
+ZWQmIzMyO3RvDQomZ3Q7JiMzMjsmZ3Q7JiMzMjt1c2UNCiZndDsmIzMyOyZndDsmIzMyO3RoaXMm
+IzMyO3NjZW5hcmlvJiMzMjt0byYjMzI7ZGlmZmVyZW50aWF0ZSYjMzI7dGhlbS4NCiZndDsmIzMy
+Ow0KJmd0OyYjMzI7VGhpcyYjMzI7QVBJJiMzMjtsb29rcyYjMzI7bm8mIzMyO3JlbGF0aW9uJiMz
+Mjt3aXRoJiMzMjtDTURRLiYjMzI7QWxsJiMzMjt0aGUmIzMyO2pvYiYjMzI7aXMmIzMyO3RoYXQm
+IzMyO2Rpc3BsYXkNCiZndDsmIzMyO2NvbnRyb2wmIzMyO2xhcmIsJiMzMjtkYXBjJiMzMjt0byYj
+MzI7dHVybiYjMzI7b24vb2ZmJiMzMjtwcm90ZWN0aW9uLg0KJmd0OyYjMzI7QWxsJiMzMjt0aGUm
+IzMyO3Byb2Nlc3MmIzMyO2lzJiMzMjtkb25lJiMzMjtieSYjMzI7Q1BVJiMzMjtub3QmIzMyO0dD
+RSwmIzMyO3JpZ2h0JiM2MzsNCg0KV2UmIzMyO25lZSYjMzI7dG8mIzMyO21ha2UmIzMyO3N1cmUm
+IzMyO2FsbCYjMzI7dGhlJiMzMjtzZXR0aW5ncyYjMzI7YXJlJiMzMjtmaW5pc2hlZCYjMzI7ZHVy
+aW5nJiMzMjt2YmxhbmtpbmcsJiMzMjtzbw0KYWxsJiMzMjtwcm9jZXNzZXMmIzMyO2FyZSYjMzI7
+ZG9uZSYjMzI7YnkmIzMyO0dDRSwmIzMyO3dlJiMzMjt3aWxsJiMzMjtpbnNlcnQmIzMyO3RoZSYj
+MzI7c2V0dGluZ3MmIzMyO29mJiMzMjtsYXJiJiMzMjthbmQNCmRhcGMmIzMyO2J5JiMzMjtyZWZl
+cmVuY2luZyYjMzI7dG8mIzMyO3RoZSYjMzI7b3RoZXImIzMyO2luc3RydWN0aW9uJiMzMjtmb3Im
+IzMyO2Rpc3BsYXkmIzMyO0hXJiMzMjthbmQmIzMyO2Fsc28NCnRoZSYjMzI7c2NlbmFyaW8mIzMy
+O2hlcmUuDQoNCiZndDsmIzMyO0lmJiMzMjtzbywmIzMyO3RoaXMmIzMyO0FQSSYjMzI7c2hvdWxk
+JiMzMjtiZSYjMzI7cHJvdmlkZWQmIzMyO2J5JiMzMjtkaXNwbGF5JiMzMjtUQSYjMzI7bm90JiMz
+MjtDTURRJiMzMjtUQS4NCiZndDsmIzMyOw0KTWF5YmUmIzMyO3dlJiMzMjtjb3VsZCYjMzI7cGFy
+c2luZyYjMzI7T1ZMJiMzMjtsYXllciYjMzI7Y29udHJvbCYjMzI7YW5kJiMzMjtXRE1BJiMzMjtp
+bnN0cnVjdGlvbnMmIzMyO3RvDQpkZWNpZGUmIzMyO3RvJiMzMjtvbi9vZmYmIzMyO3RoZSYjMzI7
+bGFyYiYjMzI7YW5kJiMzMjtkYXBjJiMzMjtzZXR0aW5ncyYjMzI7YW5kJiMzMjthbHNvJiMzMjt0
+aGUmIzMyO3NjZW5hcmlvJiMzMjtpbg0Kc2VjdXJlJiMzMjt3b3JsZC4NCg0KSSYjMzI7d291bGQm
+IzMyO3RyeSYjMzI7dG8mIzMyO3JlbW92ZSYjMzI7dGhpcyYjMzI7YXMmIzMyO3dlbGwsJiMzMjt0
+aGVuJiMzMjt3ZSYjMzI7b25seSYjMzI7bmVlZCYjMzI7dG8mIzMyO3Bhc3MmIzMyO3RoZQ0KY29t
+bWFuZCYjMzI7YnVmZmVyJiMzMjthbmQmIzMyO21ldGFkYXRhJiMzMjtsaXN0JiMzMjtmb3ImIzMy
+O2J1ZmZlciYjMzI7aGFuZGxlJiMzMjthbmQmIzMyO2l0cyYjMzI7b2Zmc2V0JiMzMjt0bw0KdGhl
+JiMzMjtzZWN1cmUmIzMyO3dvcmxkLg0KDQpSZWdhcmRzLA0KSmFzb24tSkguTGluDQoNCiZndDsm
+IzMyO1JlZ2FyZHMsDQomZ3Q7JiMzMjtDSw0KJmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsN
+CiZndDsmIzMyOyZndDsmIzMyO1JlZ2FyZHMsDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtKYXNvbi1KSC5M
+aW4NCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7UmVnYXJk
+cywNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO0NLDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7
+JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOytFWFBPUlRfU1lNQk9M
+X0dQTChjbWRxX3NlY19wa3Rfc2V0X2RhdGEpOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7
+Jmd0OyYjMzI7Kw0KDQo8L3ByZT4NCjwvcD48L2JvZHk+PC9odG1sPjwhLS10eXBlOnRleHQtLT48
+IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90aWNl
+DQogKioqKioqKioqKioqKioqKioqKioNClRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaW4gdGhp
+cyBlLW1haWwgbWVzc2FnZSAoaW5jbHVkaW5nIGFueSANCmF0dGFjaG1lbnRzKSBtYXkgYmUgY29u
+ZmlkZW50aWFsLCBwcm9wcmlldGFyeSwgcHJpdmlsZWdlZCwgb3Igb3RoZXJ3aXNlDQpleGVtcHQg
+ZnJvbSBkaXNjbG9zdXJlIHVuZGVyIGFwcGxpY2FibGUgbGF3cy4gSXQgaXMgaW50ZW5kZWQgdG8g
+YmUgDQpjb252ZXllZCBvbmx5IHRvIHRoZSBkZXNpZ25hdGVkIHJlY2lwaWVudChzKS4gQW55IHVz
+ZSwgZGlzc2VtaW5hdGlvbiwgDQpkaXN0cmlidXRpb24sIHByaW50aW5nLCByZXRhaW5pbmcgb3Ig
+Y29weWluZyBvZiB0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGl0cyANCmF0dGFjaG1lbnRzKSBieSB1
+bmludGVuZGVkIHJlY2lwaWVudChzKSBpcyBzdHJpY3RseSBwcm9oaWJpdGVkIGFuZCBtYXkgDQpi
+ZSB1bmxhd2Z1bC4gSWYgeW91IGFyZSBub3QgYW4gaW50ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMg
+ZS1tYWlsLCBvciBiZWxpZXZlDQogDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWls
+IGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVseSAoYnkgcmVw
+bHlpbmcgdG8gdGhpcyBlLW1haWwpLCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVzIG9mIA0KdGhp
+cyBlLW1haWwgKGluY2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFu
+ZCBkbyBub3QNCmRpc2Nsb3NlIHRoZSBjb250ZW50IG9mIHRoaXMgZS1tYWlsIHRvIGFueSBvdGhl
+ciBwZXJzb24uIFRoYW5rIHlvdSENCjwvcHJlPjwhLS19LS0+
 
->>
->> If I understand you correctly, for now the only real use case is when the
->> the RTOS owns / manages the complete display pipeline and Linux can only
->> own video planes.
->>
+--__=_Part_Boundary_004_1933520576.727026569--
 
-Not exactly, What I mean is that this is the default configuration/example we
-intend to provide to customer as an out-of-box demo . But flexibility is
-provided to customer to modify the display sharing configuration per their
-use-case, for e.g at RTOS side in place of device-tree, we have a sysconfig
-menu [1] using which they can select the desired configuration, furthermore
-they can go ahead and edit the code too, so Linux driver is expected to be
-flexible to support different configurations as supported by the HW.
-
-I have a limited view of all possible use-cases which customer may try out
-with different configurations but few examples are shared below part from the
-one discussed earlier :
-
-[Examples]:
-1) Customer is running Linux as main OS but using RTOS to control some
-external peripherals like temperature sensor, motion sensor e.t.c. In that
-case if they want to display the sensor data too on the same monitor, then
-they can use the configuration where RTOS use single plane and Linux as the
-DSS master.
-
-2) Another configuration could be where RTOS want to control one full
-end-to-end pipeline going to one connector and Linux want to control full
-end-to-end pipeline going to another connector, that can be supported too
-using this scheme (as shared in this series).
-
-3) Also I think, this device-tree based scheme could be leveraged in
-virtualization too with static partitioning based scheme using Xen for e.g. we
-split the DSS resources between host (DOM0) and the guest (DOMU).
-
->> The opposite is supported by the DSS hardware (thanks to its feature that
->> allows partitioning the register space and having multiple per-host IRQs) 
->> but it's not a real use case yet. The reason why this case is added to the
->> DT binding is as you said for flexiblity and make the design future-proof.
->>
-
-Not really, as explained above we are documenting all possible configurations
-which hardware supports as supported in software in the SDK and that's what we
-are aiming for upstream too.
-
-[..]>>>> I'm probably missing something then here, but if the Linux side of
->>>> things is expected to keep the current configuration and keep it active
->>>> for it to work, what use-case would it be useful for?
->>>>
->>>
->>> It's just one of the partitioning possibilities that I mentioned here, that
->>> Linux is in control of DSS as a whole and the user want the other host (be it
->>> RTOS or any other core) to control a single plane. For e.g it could be Linux
->>> (with GPU rendering) displaying the graphics and RTOS overlaying a real time
->>> clock or any other signs which need to be displayed in real-time.
->>> But more than the use-case this is inspired by the fact that we want to be
->>> flexible and support in the linux driver whatever partitioning scheme
->>> possibilities are there which are supported in hardware and we let user decide
->>> on the partitioning scheme.
->>>
->>
->> A possible use case here could be if Linux is safer than the other host
->> owning a single plane, right? Then in that case the RTOS could fail but
->> the display pipeline won't be teared down.
->>
->> That is, if your safety tell-tales would be driven by Linux and having
->> other OS dislay the GPU-rendered QT based application on another plane.
->>
->> But as said, for now that's a theorethical use case since the one you
->> mentioned is the opposite.
->>
->> [....]
->>
-
-Yes that could be a possible use-case too, we want to provide customer the
-flexibility in their app design to select different configuration, as we say
-all these configurations as supported in the driver.
-
-[..]
->>>>> If there is a more complex use-case which requires dynamic
->>>>> assignment/arbitration of resources then I agree those require some sort of
->>>>> IPC scheme but this is not what we target with these series. This series is
->>>>> simply to support static partitioning feature (separate register space,
->>>>> separate irq, firewalling support etc) of TI DSS hardware across the multiple
->>>>> hosts and there are use-cases too for which this scheme suffices.
->>>>
->>>> I think you're right and we have a misunderstanding. My initial
->>>> assumption was that it was to prevent the Linux side of sides from
->>>> screwing up the output if it was to crash.
->>>>
->>>> But it looks like it's not the main point of this series, so could you
->>>> share some use-cases you're trying to address?
->>>>
->>>
->>> The end use-case we have demonstrated right now with this series is a
->>> proof-of-concept display cluster use-case where RTOS boots early on MCU core
->>> (launched at bootloader stage) and initializes the display (using the global
->>> common0 register space and irq) and starts displaying safety tell-tales on one
->>> plane, and once Linux boots up on application processor,
->>> Linux (using common1 register space and irq) controls the other plane with GPU
->>> rendering using a QT based application. And yes, we also support the scenario
->>> where Linux crashes but RTOS being the DSS master and in control of DSS power,
->>> clock domain and global register space is not impacted by the crash.
->>
->> You mention 2 scenarios but are actually the same? Or did I misunderstand?
->>
-
-I have explained the other examples (where Linux is the master) above with tag
-[Examples].
-
->> In both cases the RTOS own the display pipeline and Linux can just display
->> using a single plane.
->>
->> That's why I think that agree with Maxime, that a fwkms could be a simpler
->> solution to your use case instead of adding all this complexity to the DSS
->> driver. Yes, I understand the HW supports all this flexibility but there's
->> no real use case yet (you mentioned that don't even have firmware for this
->> single plane owned by the RTOS in the R5F case).
->>
-
-I analyzed the fwkms driver [2] from the RPi repo (as seems like it is not
-upstream), here the firmware is the entity owning the display register space
-completely and the fwkms driver simply acts as a translating layer which
-translates the incoming DRM/KMS ioctls into IPC messages (having unique
-message tags) sent over mailbox which the firmware receives and programs
-corresponding registers accordingly, so there is no display sharing achieved
-here as there is only single display context as coming from Linux and no
-separate display context running at firmware side.
-
-But yes, in general for simple display controllers having single register
-space and single IRQ, I think that a standard IPC based scheme would be
-required for sharing the display between Linux and RTOS where for e.g. RTOS
-would be in full control of display register space and the interrupt line.
-Linux would send messages to RTOS via IPC scheme (similar to RPi fwkms) to
-commit the framebuffer and RTOS would send a frame done message to LInux on
-receiving vblank irq which would eventually call drm_crtc_handle_vblank.
-Although the IPC layer would need to be standardized (virtio_kms?)
-
-
->> The DT binding for a fwkms driver would be trivial, in fact maybe we might
->> even leverage simpledrm for this case and not require a new driver at all.
-> 
-> I guess you can still do things like pageflipping and maybe use some of
-> the color/blending hardware? Maybe even have more than one plane
-> available? fwkms/simpledrm conceptually cannot really support pageflipping
-> even, so that's a much, much reduced feature set.
->
-
-Yes exactly, fwkms, simpledrm are not related to display sharing.
-
-> That all aside I do think we should limit the support to just the first
-> case, where linux gets a few pieces assigned to it and is not the DSS
-> master. From what I'm understanding you could assign entire crtc with
-> planes and everything to linux, so this shouldn't really constraint
-> real-world usage?
-> 
-> At least until there's support in firmware for this it's all way too
-> theoretical, and I agree with Maxime and Javier that there's some serious
-> design questions about how this kind of static leasing should work with
-> drm sitting on top.
-
-To summarize, as per my understanding there are two schemes for display
-sharing possible
-
-1) IPC based scheme  -> This would be useful for simple display controllers
-having single register space and single irq line to one host)
-2) Static partitioning scheme -> This would require some support in display
-controller (per host irq e.t.c) as explained below :
-
-And I think each one has it's own uniqueness and holds on it's own and both
-solutions can be pursued independently and development for one scheme should
-not block development for another.
-
-As TI display controller supports robust partitioning of DSS processing blocks
-(Pipelines, overlays, interrupts etc) among multiple processors allowing
-parallel and independent control of the DSS resources in an interference free
-environment, the static partitioning scheme was possible to implement and it
-sufficed the requirements of display sharing use-case without incurring any
-extra overhead and complexity of IPC.
-
-And If there is another display controller having similar feature-set as above
-then the bindings for the static partitioning scheme (or at-least some of
-them) could be generalized.
-
-	drm,shared-mode;
-	drm,shared-mode-crtc = "..";
-	drm,shared-mode-crtc-owned = "..";
-	drm,shared-mode-planes = "..";
-
-But I could not find any other display controller support above static
-partitioning feature and hence I put the bindings as specific to TI.
-
-I still feel the static partitioning approach as adopted in this series still
-holds on its own achieving the sharing without extra complexity/overhead of
-IPC by utilizing the above mentioned HW features, and all it aims is to simply
-add software support for the flexibility of sharing the display resources.
-
-Kindly let me know if we are aligned on this or any further thoughts or queries.
-
-[1]:
-https://software-dl.ti.com/mcu-plus-sdk/esd/AM62PX/latest/exports/docs/api_guide_am62px/DRIVERS_DSS_PAGE.html#autotoc_md311
-[2]:
-https://github.com/raspberrypi/linux/blob/rpi-6.6.y/drivers/gpu/drm/vc4/vc4_firmware_kms.c
-
-Regards
-Devarsh
