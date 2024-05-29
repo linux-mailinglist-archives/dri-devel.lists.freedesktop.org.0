@@ -2,63 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F152A8D31C6
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:42:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8185C8D31DB
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:43:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E43D110E2C6;
-	Wed, 29 May 2024 08:42:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 757F210F386;
+	Wed, 29 May 2024 08:43:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZSXRYAym";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aZRw53Do";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAB8310E106;
- Wed, 29 May 2024 08:42:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716972135; x=1748508135;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=v9qTfQQNVSHKFQJvGsalKNH/EXP4hSDPKzkYoVZxIYQ=;
- b=ZSXRYAymRwxOjlw1Is4UZ7yxQ0hc58ckOR1WppjrHa31Hrn6vSsVjX6P
- GGh5OZPaYK92bxgkccIaUGYOHGTR8y0E9nQzIVnk+87aUVzwXkzno2d3o
- wZRANPuFn1Iuh3tXgbb4a4q2JrVOyKR0N03cAlfPiUe0NT07WzJpVRU/p
- JWcsPbDkgxTST0bkE1QAUjdUq6d0+J3WCDeRyO12yMaQs+OhtHtVPOqa2
- N/5sjCw+9Ms5aQ36A8ijh7bxJwnEOgVEPCl4lk5LUG1T2kyLosjoXJfja
- 7oe3QlbK80oEnTnlvsCBWxCfzme3Z4CUzYvckuLdN9ExiMAeDozuZgnYT Q==;
-X-CSE-ConnectionGUID: mKlfgrfNRAKyMwdlhgFMmw==
-X-CSE-MsgGUID: XKFhlkxFQ3iT7FxFL/qMbg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="17153647"
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="17153647"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2024 01:42:14 -0700
-X-CSE-ConnectionGUID: EK72pWMqRV6KqEDw2+CxEw==
-X-CSE-MsgGUID: ujxQzvadSCebdWqFr8DPig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="35290243"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.246.33.194])
- ([10.246.33.194])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2024 01:42:11 -0700
-Message-ID: <f2c2f983-6e75-4cc6-b793-5ff928b5605d@linux.intel.com>
-Date: Wed, 29 May 2024 10:42:09 +0200
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3752C10F386
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:43:26 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-4211249fdf4so16678385e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 01:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1716972204; x=1717577004; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=lvhs1YIV6pAjRxwybpgLmMel6kLADeGuuGr92YQQdas=;
+ b=aZRw53DoAFk4kCNoYFoymG1wc9qm6w6sTHF7evkzUa4OK0qO87SV6S8xIS/h0KrPBk
+ aAvDk4JKip0QyJfNXljnFyIynbk/R1jkRvWdgtBYHq8370S74uInTykcdj41kAQGq8iM
+ ig+/owO3LReIClGHGnXGQbZNZ20bCNe8xDkDwWIOnUUZ5NYrYexErL3AZOqZSC9Hu489
+ z5FBoRF4Bn2+upW5zceEqI7ba0NOaxqWNZ1GOdzYUYz1bPFEE5WKhsGNHWoOUoDa8gBF
+ PnGWN+PfQhdcRNiG4tbr5ZCnUi6SYwir3pHopoQF5Q0mWUozL7vDS0ZlXGYOP8rZr2Fa
+ XTBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716972204; x=1717577004;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lvhs1YIV6pAjRxwybpgLmMel6kLADeGuuGr92YQQdas=;
+ b=N10QZsbctxXJEE57oozmsExckU+eCfxmvOlBBBm5xFer5S218CP/CmAS0PxZw6I3oW
+ 26Qx57REIamDEPSkxTddGtpM4vQkdz+Hg7JdP3V5rTW7B9sjmsSvao9bLjtUhHzKlQh0
+ r3YdASR399pbZad9j4trNby7JniG1mJoUbIylrb2fdK/YvjlJEVXKyMpAQIZvmzo4bWG
+ wkiik24+ZL+F5k6cAg0E1Mb8or3itiQV9Yx6S6SIHADMQLBWxKPQ2cVxGfvnDQ24Lbp8
+ kvVI1GVSAdcNLi/zgmjDXot6fI9dgXWWlBnwg2jb+pIH7w4EG6W6gEwoko0oGXv6Mku5
+ fmCg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUBtfBEuONhR5H8Z8NBFHHPgR+j//pSK13H7nSeVRCNB4ngUBgZwS70psHkcSHYNNKXJDhak+QSlxnnTrT0Sl9/vqTmq1vTcs21gCRk9zdK
+X-Gm-Message-State: AOJu0YyaSd/yjFbC9ELC+AEGrMAJdJjUGOXCqGQ4XSJv/yt5BwFYC4JJ
+ R0Z+sewlj2roq5xXoWUqmHyLHD8vBEfTTHxLys8iHbvJogjyrkF2
+X-Google-Smtp-Source: AGHT+IHKTLDXQAqpReBZKZ8jDWLCepRMhyiee8/k86QBffcnCdZq0RvxicFRDsDKZ2JIjkbbv4RAGQ==
+X-Received: by 2002:a05:600c:314d:b0:421:7ad:daab with SMTP id
+ 5b1f17b1804b1-42108a4f606mr106018725e9.7.1716972204003; 
+ Wed, 29 May 2024 01:43:24 -0700 (PDT)
+Received: from able.fritz.box ([2a00:e180:150d:a900:2eeb:e69b:7ecb:9c4f])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3577505a218sm10975107f8f.31.2024.05.29.01.43.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 May 2024 01:43:23 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Cc: sumit.semwal@linaro.org
+Subject: [PATCH] dma-buf: add a warning when drv try to reserve 0 fence slots
+Date: Wed, 29 May 2024 10:43:22 +0200
+Message-Id: <20240529084322.2284-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/i915: Increase FLR timeout from 3s to 9s
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Nirmoy Das <nirmoy.das@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Andi Shyti <andi.shyti@kernel.org>
-References: <20240523235853.171796-1-andi.shyti@linux.intel.com>
-Content-Language: en-US
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <20240523235853.171796-1-andi.shyti@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,49 +83,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+When dma_resv_reserve_fences() is called with num_fences=0 it usually
+means that a driver or other component messed up its calculation how
+many fences are needed. Warn in that situation.
 
-On 5/24/2024 1:58 AM, Andi Shyti wrote:
-> Following the guidelines it takes 3 seconds to perform an FLR
-> reset. Let's give it a bit more slack because this time can
-> change depending on the platform and on the firmware
->
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
-> ---
-> Hi,
->
-> In this second version I removed patch 2 that was ignoring the
-> FLR reset timeouts, until we develop a proper patch.
->
-> This first patch is basically the same as v1. Thanks Nirmoy for
-> your review.
->
-> Andi
->
->   drivers/gpu/drm/i915/intel_uncore.c | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-> index 729409a4bada..2eba289d88ad 100644
-> --- a/drivers/gpu/drm/i915/intel_uncore.c
-> +++ b/drivers/gpu/drm/i915/intel_uncore.c
-> @@ -2614,11 +2614,18 @@ void intel_uncore_prune_engine_fw_domains(struct intel_uncore *uncore,
->   static void driver_initiated_flr(struct intel_uncore *uncore)
->   {
->   	struct drm_i915_private *i915 = uncore->i915;
-> -	const unsigned int flr_timeout_ms = 3000; /* specs recommend a 3s wait */
-> +	unsigned int flr_timeout_ms;
->   	int ret;
->   
->   	drm_dbg(&i915->drm, "Triggering Driver-FLR\n");
->   
-> +	/*
-> +	 * The specification recommends a 3 seconds FLR reset timeout. To be
-> +	 * cautious, we will extend this to 9 seconds, three times the specified
-> +	 * timeout.
-> +	 */
-> +	flr_timeout_ms = 9000;
-> +
->   	/*
->   	 * Make sure any pending FLR requests have cleared by waiting for the
->   	 * FLR trigger bit to go to zero. Also clear GU_DEBUG's DRIVERFLR_STATUS
+When no fence are needed the function shouldn't be called in the first
+place.
+
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/dma-buf/dma-resv.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index e2869fb31140..5f8d010516f0 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -186,6 +186,13 @@ int dma_resv_reserve_fences(struct dma_resv *obj, unsigned int num_fences)
+ 
+ 	dma_resv_assert_held(obj);
+ 
++	/* Driver and component code should never call this function with
++	 * num_fences=0. If they do it usually points to bugs when calculating
++	 * the number of needed fences dynamically.
++	 */
++	if (WARN_ON(!num_fences))
++		return -EINVAL;
++
+ 	old = dma_resv_fences_list(obj);
+ 	if (old && old->max_fences) {
+ 		if ((old->num_fences + num_fences) <= old->max_fences)
+-- 
+2.34.1
+
