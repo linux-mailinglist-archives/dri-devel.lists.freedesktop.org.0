@@ -2,58 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6733F8D3F90
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 22:24:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D82618D3F7E
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 22:21:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1036311A111;
-	Wed, 29 May 2024 20:24:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C68E4112224;
+	Wed, 29 May 2024 20:21:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="l9K8CQU+";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="LhKwkkz9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D398A10FAAF;
- Wed, 29 May 2024 20:24:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717014255; x=1748550255;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=cmnmOHh0pHN5fMa3w0j3k/cIdJzo+G0eU+KofPw6dQ8=;
- b=l9K8CQU+TIYI7Si4z0uMuHWSIeHRiJivgjYqGNLN9KBuXIOBTOVpeJ1g
- c6kBcXz5ItkQo/b9CuqVmRihYVKtKF5MA/KneaRb7s+3MMo7iQ17atN6w
- aylhPO+vsE2+wtpQd1v2qaDmUohVkmWo0OQJoGc6FWgRXB9kinf1r+N8O
- A+B5pqwKOJYqyb0azVU6vg6/Y/tvpjx+JLrTXOx250CWJZl/hBSW3eIhB
- Ka9zz1ID1tsySztALs4Eo6GHUMGrI3cVdYQ3bdS+wq0foKTmjrsaFBCLL
- OFOHxWB/dCL9IU1I4x3ZM3gLDYPAjdsq6BgkE716w9mJKqgN1ZQrmUs2k g==;
-X-CSE-ConnectionGUID: ZgDr93WLSDeSdoN64BQ5LA==
-X-CSE-MsgGUID: ASNYATDLTsqgrMSnwbRRJA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="13397249"
-X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; d="scan'208";a="13397249"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2024 13:24:15 -0700
-X-CSE-ConnectionGUID: xxGS//PGTXaM4/3+k2rs2g==
-X-CSE-MsgGUID: 26Cy7CvBQ9OuSUXXoTOFEg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; d="scan'208";a="66760031"
-Received: from srr4-3-linux-101-amanna.iind.intel.com ([10.223.74.76])
- by fmviesa001.fm.intel.com with ESMTP; 29 May 2024 13:24:13 -0700
-From: Animesh Manna <animesh.manna@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Animesh Manna <animesh.manna@intel.com>,
- =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
-Subject: [PATCH v7 6/6] drm/i915/alpm: Add debugfs for LOBF
-Date: Thu, 30 May 2024 01:37:42 +0530
-Message-Id: <20240529200742.1694401-7-animesh.manna@intel.com>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20240529200742.1694401-1-animesh.manna@intel.com>
-References: <20240529200742.1694401-1-animesh.manna@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BDB7112224
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 20:21:11 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44TBtFDb010054;
+ Wed, 29 May 2024 20:20:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ VLxWnZgCKiEb6sjEGXxOy0SRrO7Z0dsEeQ0/LUXuLJc=; b=LhKwkkz9jku//r2O
+ sQDWlcBuVZbhY0HK1qEsvNjGg5N9GRQ6fE8ZdbI8hJYa89Zt+lpotT0POrAexuqn
+ WCaeNsmCbYNcjVIvZQeXWLbdMxjweeZtOgiNE1RrvuU46xashGxpUDDjhH6HcFmM
+ RVtIbHW8GwWrVBESRXXf9NkpWDmFDlMLlQ0ka4Oc1KuYYbUISCBi5O2Nzzm7Klll
+ uyKlJ9rgbdFjnbgXe/WZOXWVFBmJJdwWvSF9iooXqoa06tvx3/hSXyvn/4WJYDNX
+ jSAQCCXn5cjdrX27fkvjqGYIaHg4fv7mO2TzE+Qi0A3vuSkDFlxTbrvlQwK+x/hQ
+ v1OBbQ==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yba2n27rn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 May 2024 20:20:58 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44TKKuT1004009
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 May 2024 20:20:56 GMT
+Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 29 May
+ 2024 13:20:56 -0700
+Message-ID: <c5c5fe1f-5fdf-4f13-8b89-984072f52838@quicinc.com>
+Date: Wed, 29 May 2024 13:20:55 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] drm/panel: sitronix-st7789v: tweak timing for
+ jt240mhqs_hwt_ek_e3 panel
+Content-Language: en-US
+To: Gerald Loacker <gerald.loacker@wolfvision.net>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20240409-bugfix-jt240mhqs_hwt_ek_e3-timing-v2-0-e4821802443d@wolfvision.net>
+ <20240409-bugfix-jt240mhqs_hwt_ek_e3-timing-v2-2-e4821802443d@wolfvision.net>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20240409-bugfix-jt240mhqs_hwt_ek_e3-timing-v2-2-e4821802443d@wolfvision.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: rL9tqHFMZO8X8dg6ilTMKllG-lojgCqE
+X-Proofpoint-ORIG-GUID: rL9tqHFMZO8X8dg6ilTMKllG-lojgCqE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-29_16,2024-05-28_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0
+ malwarescore=0 spamscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2405290142
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,114 +94,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For validation purpose add debugfs for LOBF.
 
-v1: Initial version.
-v2: Add aux-wake/less info along with lobf status. [Jouni]
 
-Reviewed-by: Jouni Högander <jouni.hogander@intel.com>
-Signed-off-by: Animesh Manna <animesh.manna@intel.com>
----
- drivers/gpu/drm/i915/display/intel_alpm.c     | 49 +++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_alpm.h     |  2 +
- .../drm/i915/display/intel_display_debugfs.c  |  2 +
- 3 files changed, 53 insertions(+)
+On 5/29/2024 7:42 AM, Gerald Loacker wrote:
+> Use the default timing parameters to get a refresh rate of about 60 Hz for
+> a clock of 6 MHz.
+> 
+> Fixes: 0fbbe96bfa08 ("drm/panel: sitronix-st7789v: add jasonic jt240mhqs-hwt-ek-e3 support")
+> Signed-off-by: Gerald Loacker <gerald.loacker@wolfvision.net>
 
-diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/i915/display/intel_alpm.c
-index a8ae5f65a250..a26716c14aa3 100644
---- a/drivers/gpu/drm/i915/display/intel_alpm.c
-+++ b/drivers/gpu/drm/i915/display/intel_alpm.c
-@@ -360,3 +360,52 @@ void intel_alpm_configure(struct intel_dp *intel_dp,
- {
- 	lnl_alpm_configure(intel_dp, crtc_state);
- }
-+
-+static int i915_edp_lobf_info_show(struct seq_file *m, void *data)
-+{
-+	struct intel_connector *connector = m->private;
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	struct drm_crtc *crtc;
-+	struct intel_crtc_state *crtc_state;
-+	enum transcoder cpu_transcoder;
-+	u32 alpm_ctl;
-+	int ret;
-+
-+	ret = drm_modeset_lock_single_interruptible(&dev_priv->drm.mode_config.connection_mutex);
-+	if (ret)
-+		return ret;
-+
-+	crtc = connector->base.state->crtc;
-+	if (connector->base.status != connector_status_connected || !crtc) {
-+		ret = -ENODEV;
-+		goto out;
-+	}
-+
-+	crtc_state = to_intel_crtc_state(crtc->state);
-+	cpu_transcoder = crtc_state->cpu_transcoder;
-+	alpm_ctl = intel_de_read(dev_priv, ALPM_CTL(dev_priv, cpu_transcoder));
-+	seq_printf(m, "LOBF status: %s\n", str_enabled_disabled(alpm_ctl & ALPM_CTL_LOBF_ENABLE));
-+	seq_printf(m, "Aux-wake alpm status: %s\n",
-+		   str_enabled_disabled(!(alpm_ctl & ALPM_CTL_ALPM_AUX_LESS_ENABLE)));
-+	seq_printf(m, "Aux-less alpm status: %s\n",
-+		   str_enabled_disabled(alpm_ctl & ALPM_CTL_ALPM_AUX_LESS_ENABLE));
-+out:
-+	drm_modeset_unlock(&dev_priv->drm.mode_config.connection_mutex);
-+
-+	return ret;
-+}
-+
-+DEFINE_SHOW_ATTRIBUTE(i915_edp_lobf_info);
-+
-+void intel_alpm_lobf_debugfs_add(struct intel_connector *connector)
-+{
-+	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct dentry *root = connector->base.debugfs_entry;
-+
-+	if (DISPLAY_VER(i915) < 20 ||
-+	    connector->base.connector_type != DRM_MODE_CONNECTOR_eDP)
-+		return;
-+
-+	debugfs_create_file("i915_edp_lobf_info", 0444, root,
-+			    connector, &i915_edp_lobf_info_fops);
-+}
-diff --git a/drivers/gpu/drm/i915/display/intel_alpm.h b/drivers/gpu/drm/i915/display/intel_alpm.h
-index 80b9ca086a49..c82ecc7b4001 100644
---- a/drivers/gpu/drm/i915/display/intel_alpm.h
-+++ b/drivers/gpu/drm/i915/display/intel_alpm.h
-@@ -11,6 +11,7 @@
- struct intel_dp;
- struct intel_crtc_state;
- struct drm_connector_state;
-+struct intel_connector;
- 
- void intel_alpm_init_dpcd(struct intel_dp *intel_dp);
- bool intel_alpm_compute_params(struct intel_dp *intel_dp,
-@@ -20,4 +21,5 @@ void intel_alpm_lobf_compute_config(struct intel_dp *intel_dp,
- 				    struct drm_connector_state *conn_state);
- void intel_alpm_configure(struct intel_dp *intel_dp,
- 			  const struct intel_crtc_state *crtc_state);
-+void intel_alpm_lobf_debugfs_add(struct intel_connector *connector);
- #endif
-diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-index 35f9f86ef70f..86d9900c40af 100644
---- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-@@ -13,6 +13,7 @@
- #include "i915_debugfs.h"
- #include "i915_irq.h"
- #include "i915_reg.h"
-+#include "intel_alpm.h"
- #include "intel_crtc.h"
- #include "intel_de.h"
- #include "intel_crtc_state_dump.h"
-@@ -1515,6 +1516,7 @@ void intel_connector_debugfs_add(struct intel_connector *connector)
- 	intel_drrs_connector_debugfs_add(connector);
- 	intel_pps_connector_debugfs_add(connector);
- 	intel_psr_connector_debugfs_add(connector);
-+	intel_alpm_lobf_debugfs_add(connector);
- 
- 	if (connector_type == DRM_MODE_CONNECTOR_DisplayPort ||
- 	    connector_type == DRM_MODE_CONNECTOR_HDMIA ||
--- 
-2.29.0
+Hi Gerald,
 
+Acked-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
+Thanks,
+
+Jessica Zhang
+
+> ---
+>   drivers/gpu/drm/panel/panel-sitronix-st7789v.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+> index 32e5c0348038..c7e3f1280404 100644
+> --- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+> @@ -282,9 +282,9 @@ static const struct drm_display_mode et028013dma_mode = {
+>   static const struct drm_display_mode jt240mhqs_hwt_ek_e3_mode = {
+>   	.clock = 6000,
+>   	.hdisplay = 240,
+> -	.hsync_start = 240 + 28,
+> -	.hsync_end = 240 + 28 + 10,
+> -	.htotal = 240 + 28 + 10 + 10,
+> +	.hsync_start = 240 + 38,
+> +	.hsync_end = 240 + 38 + 10,
+> +	.htotal = 240 + 38 + 10 + 10,
+>   	.vdisplay = 280,
+>   	.vsync_start = 280 + 48,
+>   	.vsync_end = 280 + 48 + 4,
+> 
+> -- 
+> 2.37.2
+> 
