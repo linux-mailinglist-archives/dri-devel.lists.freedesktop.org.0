@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3130A8D3BD7
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 18:06:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C10C78D3C08
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 18:14:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B076113EEF;
-	Wed, 29 May 2024 16:06:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D35D10E31D;
+	Wed, 29 May 2024 16:14:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="eHBxF7Fo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EAuMJEGO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-176.mta0.migadu.com (out-176.mta0.migadu.com
- [91.218.175.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CD87113EC1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 16:06:45 +0000 (UTC)
-X-Envelope-To: geert+renesas@glider.be
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1716998802;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D0B0orRSVXeRsISQcfG64605/nqIQ5aF+rELBmkvuJc=;
- b=eHBxF7FoYnQeIJdXyrbp9wXAwXze6wqtzgUmOrfal4uvv7S2DWwITXkGQbLw5p+PWGLsWu
- mLj7UsNfX2ozuBS5aWD1eHvxtq6EtsZORZozhm3JFO/JKgK2yQgdmjvIv6LS8KG0vHUKLs
- +aWnDv3fsTqCMA82Crl7Y6Vb+4FsXA8=
-X-Envelope-To: laurent.pinchart@ideasonboard.com
-X-Envelope-To: maarten.lankhorst@linux.intel.com
-X-Envelope-To: mripard@kernel.org
-X-Envelope-To: tzimmermann@suse.de
-X-Envelope-To: airlied@gmail.com
-X-Envelope-To: daniel@ffwll.ch
-X-Envelope-To: dri-devel@lists.freedesktop.org
-X-Envelope-To: linux-renesas-soc@vger.kernel.org
-X-Envelope-To: dianders@chromium.org
-Message-ID: <170bf071-fc33-4892-bf65-b52eddd796b0@linux.dev>
-Date: Thu, 30 May 2024 00:03:59 +0800
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37D7E10E31D
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 16:14:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 3C84FCE1843
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 16:14:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E59CBC116B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 16:14:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1716999244;
+ bh=N0H/exlCUZ0rhJMKi1V7032s7fPl9m3SNNdnkVMleE8=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=EAuMJEGOSprsYFKRXnX1yl4FQIBDi/SZ/m6p+MfkPwPYazdFa95OJMDVmtu/nlnxm
+ 9ru9gO6Q7q2P2b8llk9LEGuT7he8LTAUht8pMAnVJgfokkC4SXvMnCrAdddCPpOGMZ
+ moqbL4jNnqtHKLOhxbByAmjEVVojZUE33WB6MtjrKomhLohOJAV0UjrTbg8Zs0+uk9
+ z8yYXxZH1yLSNG25L4MADyj8jq/6y4NLQdhvqv+7wmjbRAxrCq3t9axrsA50tYHk6W
+ 9yVxnu1TO/AEbyum8KPesGS1Bw49fq0BOxDIlzWmDq1mx5UXrJ5drjavYZqQISHrBy
+ X2+AoQDzXH0IQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id D8B9DC53BA7; Wed, 29 May 2024 16:14:04 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 218900] amdgpu: Fatal error during GPU init
+Date: Wed, 29 May 2024 16:14:04 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: jean-christophe@guillain.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cf_bisect_commit
+Message-ID: <bug-218900-2300-l16GRm2eEZ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218900-2300@https.bugzilla.kernel.org/>
+References: <bug-218900-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Subject: Re: [resend,v2] drm: renesas: shmobile: Call
- drm_helper_force_disable_all() at shutdown time
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>
-References: <6ae804c7163b4d933dbcf940b8dbd5f4c961f037.1716984934.git.geert+renesas@glider.be>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <6ae804c7163b4d933dbcf940b8dbd5f4c961f037.1716984934.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,38 +74,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218900
 
+Jean-Christophe Guillain (jean-christophe@guillain.net) changed:
 
-On 2024/5/29 20:16, Geert Uytterhoeven wrote:
-> From: Douglas Anderson <dianders@chromium.org>
->
-> Based on grepping through the source code, this driver appears to be
-> missing a call to drm_atomic_helper_shutdown() at system shutdown time.
-> This is important because drm_helper_force_disable_all() will cause
-> panels to get disabled cleanly which may be important for their power
-> sequencing.  Future changes will remove any custom powering off in
-> individual panel drivers so the DRM drivers need to start getting this
-> right.
->
-> The fact that we should call drm_atomic_helper_shutdown() in the case of
-> OS shutdown comes straight out of the kernel doc "driver instance
-> overview" in drm_drv.c.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Bisected commit-id|                            |c4cb23111103a841c2df3005859
+                   |                            |7398443bcad5f
 
+--=20
+You may reply to this email to add a comment.
 
-True, looks safer.
-
-
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> Link: https://lore.kernel.org/r/20230901164111.RFT.15.Iaf638a1d4c8b3c307a6192efabb4cbb06b195f15@changeid
-> [geert: s/drm_helper_force_disable_all/drm_atomic_helper_shutdown/]
-> [geert: shmob_drm_remove() already calls drm_atomic_helper_shutdown]
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-
-Best regards,
-Sui
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
