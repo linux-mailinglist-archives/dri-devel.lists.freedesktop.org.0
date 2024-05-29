@@ -2,80 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF5C8D2E64
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 09:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E37A8D2E9A
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 09:42:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3421133FE;
-	Wed, 29 May 2024 07:39:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E56C10E7FB;
+	Wed, 29 May 2024 07:42:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gbYPmQrV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lggEsg3n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E8AC10E7FB
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 07:38:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1716968337;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JnkCGFPfhuNEaifGjl6Wu5/aJpK3is1mn/NKpIiOtjo=;
- b=gbYPmQrVNOOsRJipMfJvKv6RjDRmTNsQ5i+1njJMrHi87z46A9tsTH88IjexrnQj0SJbdz
- CJ2dFaq95BtEOQf8WCIuxkVtTW47NGxvjwDqqelLNyDJf2E5HUWNWEB3howhOkm1ZgJO09
- jRT3GpSoCX6nMV4OiXyNonVFpe6eYR4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-551-r6xvJwCpPQ-8Up_UELCv7A-1; Wed, 29 May 2024 03:38:52 -0400
-X-MC-Unique: r6xvJwCpPQ-8Up_UELCv7A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-354fa62abd7so1361603f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 00:38:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716968331; x=1717573131;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JnkCGFPfhuNEaifGjl6Wu5/aJpK3is1mn/NKpIiOtjo=;
- b=EMD/qkxUeH2hhiR9F5Rmih2kDR6ISl5V32bb6ltqEMyl9ZCvVyqO0t3FJaiS5b1BmD
- UQlIlMvv8wf8rt1vPLkjFiow68Qg86tcxhiCYMIcDZaYRCEaTACOLS4XcvHxZE3rJOm9
- 1xBEzNJU9dH7dvrzZMo3AOZ870ovZinhix+55QqV1A76oppB8cg2SwTvYv2cbPipkcHa
- l+auDlVAczWAZd9WA77WiwYLZirD7Ubr0goq42C7kx61ZNRYGCT6WJ/rd621HdeRgCP5
- lrAHQzhJPYq01tQFb8CmNKDqHQxuE+/y9Hda3egDOZ+jXLXanN0nzm6Dr8BuNXnCL4DO
- BecA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUZk97M8C9mrdXr1QByseThcte8by8OMPwziU98TRQfNbGGCXVlq5ouiDWjIoo9Elqd2xAkGHZSFmcyeln7Vmh6lTfBya5NOjwZBDcPS8LA
-X-Gm-Message-State: AOJu0Yxi8pDRV0sua8sVdL8ndPhDymjq0Aegpjku5Aw7DCucgBAfCLwX
- eWoyGkhlFR3UQwQ5LQLw7g97lEIMvvMGr8KFcd42OqYv8Fn4lLHK4MmR0PIvgvy9+i2iR1CmbIl
- KuzqkmJQwkLlEXDD9SLXHUB8W8qYLhd1RtGsODuhpCZGnHT2AG8TyDQfxMnk0+aEWNw==
-X-Received: by 2002:a05:6000:1541:b0:359:733c:c8d6 with SMTP id
- ffacd0b85a97d-359733cc9fbmr7064240f8f.67.1716968331072; 
- Wed, 29 May 2024 00:38:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IErLallLH/zYnic/TMGFq7yP1g8Tm0V8eifkv+49sPriMHIZkLYfV85qlv0c9QhOqX5rV6Jyg==
-X-Received: by 2002:a05:6000:1541:b0:359:733c:c8d6 with SMTP id
- ffacd0b85a97d-359733cc9fbmr7064219f8f.67.1716968330471; 
- Wed, 29 May 2024 00:38:50 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3557a1c930esm13833012f8f.84.2024.05.29.00.38.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 May 2024 00:38:50 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
- <samuel@sholland.org>, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] drm/sun4i: Fix compilation error
-In-Reply-To: <20240528151056.2104153-1-mripard@kernel.org>
-References: <20240528151056.2104153-1-mripard@kernel.org>
-Date: Wed, 29 May 2024 09:38:49 +0200
-Message-ID: <87sey11306.fsf@minerva.mail-host-address-is-not-set>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D14210E7FB
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 07:42:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id AE21162064
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 07:42:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 659B7C32786
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 07:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1716968528;
+ bh=W6kTU8kZEGrMvihUxax25Kbrqpb6eDuotpFUyJJZQnI=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=lggEsg3niy5mZeiE6kpAOS2TrsR5PtHJmfbqoH0hH66KPhqaDdUhToJQ17jIC9xES
+ WMY9OJqACtcuO0qFG+3Ln/eN+hG6euNLA4cO4fqM08xpQAk6NpnV3rbHGDbFaayWbp
+ 5d/LaPfZ2ps39fQb9KUr7joEVrH0sup8TBpU8cIvNGTVHG5qNllvW65Y/3t4BK1tUv
+ /bIr4shJYG8EYRJ0rnXYjUS4YzJRjj2m4P96QTSrwXDCt4pbQC8i4VuG6FToWcif1r
+ vXJZciPgpoHeYHANW4+/kBDgsldksmA1ffNWJmKM/4hSZFvT97JE1XYeEkfcnPrI6k
+ 8bqwEj+Ma9R8w==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 5D9C0C53B7E; Wed, 29 May 2024 07:42:08 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 218900] amdgpu: Fatal error during GPU init
+Date: Wed, 29 May 2024 07:42:08 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: jean-christophe@guillain.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-218900-2300-jSaQdJahJ5@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218900-2300@https.bugzilla.kernel.org/>
+References: <bug-218900-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,27 +74,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maxime Ripard <mripard@kernel.org> writes:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218900
 
-Hello Maxime,
+--- Comment #8 from Jean-Christophe Guillain (jean-christophe@guillain.net)=
+ ---
+Hi,
 
-> Commit ea64761a54a2 ("drm/sun4i: hdmi: Switch to HDMI connector")
-> introduced a dependency that got renamed in a previous version, but
-> wasn't properly updated in that driver. Fix the name of the function.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202405282205.EU7NUoeQ-lkp@intel.com/
-> Closes: https://lore.kernel.org/oe-kbuild-all/202405282248.U2lhPvCK-lkp@intel.com/
-> Fixes: ea64761a54a2 ("drm/sun4i: hdmi: Switch to HDMI connector")
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
+I plan to finish the bisection today, and I'll test your patch.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+jC
 
--- 
-Best regards,
+--=20
+You may reply to this email to add a comment.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
