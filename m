@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FEB18D2F57
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:03:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E878D2F37
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 10:02:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 382F289811;
-	Wed, 29 May 2024 08:03:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8C5411344C;
+	Wed, 29 May 2024 08:02:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id AB90611343C
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:02:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2B2EE10FD8F
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 08:02:19 +0000 (UTC)
 Received: from SIOS1075.ysato.name (al128006.dynamic.ppp.asahi-net.or.jp
  [111.234.128.6])
- by sakura.ysato.name (Postfix) with ESMTPSA id D3D6E1C1017;
- Wed, 29 May 2024 17:02:14 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id C05391C101A;
+ Wed, 29 May 2024 17:02:16 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
@@ -67,9 +67,10 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-Subject: [DO NOT MERGE v8 26/36] dt-bindings: ata: ata-generic: Add new targets
-Date: Wed, 29 May 2024 17:01:12 +0900
-Message-Id: <8ff46a90c7be5eea45984f60b9b0db99219c82e6.1716965617.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v8 27/36] dt-bindings: soc: renesas: sh: Add SH7751
+ based target
+Date: Wed, 29 May 2024 17:01:13 +0900
+Message-Id: <11fc72e4417e0cc655153349037dcdeb3e0aea70.1716965617.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1716965617.git.ysato@users.sourceforge.jp>
 References: <cover.1716965617.git.ysato@users.sourceforge.jp>
@@ -90,30 +91,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Added new ata-generic target.
-- iodata,usl-5p-ata
-- renesas,rts7751r2d-ata
-
-Each boards have simple IDE Interface. Use ATA generic driver.
-
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- Documentation/devicetree/bindings/ata/ata-generic.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ .../devicetree/bindings/soc/renesas/sh.yaml   | 27 +++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/renesas/sh.yaml
 
-diff --git a/Documentation/devicetree/bindings/ata/ata-generic.yaml b/Documentation/devicetree/bindings/ata/ata-generic.yaml
-index 0697927f3d7e..1025b3b351d0 100644
---- a/Documentation/devicetree/bindings/ata/ata-generic.yaml
-+++ b/Documentation/devicetree/bindings/ata/ata-generic.yaml
-@@ -18,6 +18,8 @@ properties:
-       - enum:
-           - arm,vexpress-cf
-           - fsl,mpc8349emitx-pata
-+          - iodata,usl-5p-ata
-+          - renesas,rts7751r2d-ata
-       - const: ata-generic
- 
-   reg:
+diff --git a/Documentation/devicetree/bindings/soc/renesas/sh.yaml b/Documentation/devicetree/bindings/soc/renesas/sh.yaml
+new file mode 100644
+index 000000000000..9e0f69a8ee6a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/soc/renesas/sh.yaml
+@@ -0,0 +1,27 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/soc/renesas/sh.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas SuperH Platform
++
++maintainers:
++  - Yoshinori Sato <ysato@users.sourceforge.jp>
++
++properties:
++  $nodename:
++    const: '/'
++  compatible:
++    oneOf:
++      - description: SH7751R based platform
++        items:
++          - enum:
++              - renesas,rts7751r2d      # Renesas SH4 2D graphics board
++              - iodata,landisk          # LANDISK HDL-U
++              - iodata,usl-5p           # USL-5P
++          - const: renesas,sh7751r
++
++additionalProperties: true
++
++...
 -- 
 2.39.2
 
