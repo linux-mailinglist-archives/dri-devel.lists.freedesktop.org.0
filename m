@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F9C8D36E7
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 14:58:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5444F8D36EB
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 15:00:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0962D10E184;
-	Wed, 29 May 2024 12:58:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4168B112DAF;
+	Wed, 29 May 2024 13:00:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SNUX57Ak";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R7iE4eIE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB95410E184
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 12:58:47 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B44C9113A16;
+ Wed, 29 May 2024 13:00:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716987530; x=1748523530;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=ARFwAN0P3/JFV80lQxZ2MX5W+mNtcNTSN9n5MI/fDds=;
- b=SNUX57Ak5C1LsS2+GiuYYaEumQXl23RjslZXUR2LEfw+BYmUuEak4Ts0
- Xlp6HNZvcKz9uWLuBGKD0BO57FdMxaWUg96vx2nk+wLVSMBP1zR2du/GC
- mGrEE7xWRdhxIB5/9wij9ScioFyzzdcjcu9BzUDcH+Rtyk4gnT5DEDXWe
- SDh4rnJq3LQ8BYn5+rNq6FkpMY9atnqzUSr0yHSxJ+d/hMlI91DBBGe87
- q5tWDeeA+H+9HMjOwt3v3kAYJBiHpiDdsLNs7MA44xd4R3c7TIHJRssEe
- 1WGtbmZLnVp5ybkSgCkTg1KwywBDy3z3CFHEBn5i/KVX5oRavVdNvq68X w==;
-X-CSE-ConnectionGUID: Qfano+JiQh2QR8gx9mFPHQ==
-X-CSE-MsgGUID: p2YyKaOPQmWTGlYwt8FXOg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="17221011"
-X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="17221011"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2024 05:58:46 -0700
-X-CSE-ConnectionGUID: XvlLSQY4SRGgIHnQhCE1Qw==
-X-CSE-MsgGUID: DDKw2/8YRzO6uQVqjJny+A==
+ t=1716987612; x=1748523612;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=EOz16RDWipINStgZYSUOZ4L2SOm9Do+WthVUmcgii+w=;
+ b=R7iE4eIEDKWIx+egOJWqiHLXXQPSaT2JrX4AY+X8jHbcDRIJQItehrGP
+ YF23dJDOCq4TebvSaX8JCaJbqsjR0zipO06h5jfwGdKRvoRUPTp0A9xfc
+ mM/QRh14tvBnZCwKxxrDEkp4cJeWoF8YdbK/Dc/yyZsbL+Lr1LkyS9T0B
+ lIVmCO+ROnQyyMVHtIDJHaFHAjQztDldXvH6RPEmpdj1etUJ7O/MAdZc8
+ KS62x9tIgQmfHLlFHtKDKAD29lbtyXaKy/LmFbR0sUQlp2WXKz1WSUQdx
+ BUGkW9okK4RxZHiBr0CmXK1/mow4jImXrpwwws9HEFanztt0rnq+D9eos w==;
+X-CSE-ConnectionGUID: g4WAD9AISq+rJ65Va63hHA==
+X-CSE-MsgGUID: hRQwi4FwQ4yYGSh6gJ0r0A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="13552321"
+X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="13552321"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 May 2024 06:00:11 -0700
+X-CSE-ConnectionGUID: 3GEypAFFT16Ba57ym48f0Q==
+X-CSE-MsgGUID: GBVhJUXKSduiAejoWvGXPw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="35521135"
-Received: from maurocar-mobl2.ger.corp.intel.com (HELO [10.245.245.54])
- ([10.245.245.54])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2024 05:58:41 -0700
-Message-ID: <43d9493358353fc40df56023e474ae827dbfd2ec.camel@linux.intel.com>
-Subject: Re: [PATCH v12 06/10] drm/ttm/tests: Add tests with mock resource
- managers
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Karolina Stolarek <karolina.stolarek@intel.com>, 
- dri-devel@lists.freedesktop.org
-Cc: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Matthew
- Auld <matthew.auld@intel.com>, Amaranath Somalapuram <asomalap@amd.com>
-Date: Wed, 29 May 2024 14:58:39 +0200
-In-Reply-To: <fc62475ddc5ee32f9be197ee72b146209f31972e.1715767062.git.karolina.stolarek@intel.com>
-References: <cover.1715767062.git.karolina.stolarek@intel.com>
- <fc62475ddc5ee32f9be197ee72b146209f31972e.1715767062.git.karolina.stolarek@intel.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="35378955"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+ by fmviesa007.fm.intel.com with ESMTP; 29 May 2024 06:00:08 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sCIuU-000Dg7-2I;
+ Wed, 29 May 2024 13:00:06 +0000
+Date: Wed, 29 May 2024 21:00:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [drm-tip:drm-tip 704/756] drivers/gpu/drm/sti/sti_plane.h:32:28:
+ error: bitwise operation between different enumeration types ('enum
+ sti_plane_type' and 'enum sti_plane_id_of_type')
+Message-ID: <202405292010.YauFDJET-lkp@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,766 +69,205 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2024-05-15 at 13:24 +0200, Karolina Stolarek wrote:
-> Add mock resource manager to test ttm_bo_validate() with non-system
-> placements. Update KConfig entry to enable DRM Buddy allocator, used
-> by the mock manager. Update move function to do more than just assign
-> a resource.
->=20
-> Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
-> Tested-by: Somalapuram, Amaranath <asomalap@amd.com>
-> ---
-> =C2=A0drivers/gpu/drm/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> =C2=A0drivers/gpu/drm/ttm/tests/.kunitconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> =C2=A0drivers/gpu/drm/ttm/tests/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> =C2=A0.../gpu/drm/ttm/tests/ttm_bo_validate_test.c=C2=A0 | 274
-> ++++++++++++++++++
-> =C2=A0drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c |=C2=A0 38 ++-
-> =C2=A0drivers/gpu/drm/ttm/tests/ttm_mock_manager.c=C2=A0 | 207 ++++++++++=
-+++
-> =C2=A0drivers/gpu/drm/ttm/tests/ttm_mock_manager.h=C2=A0 |=C2=A0 31 ++
-> =C2=A07 files changed, 551 insertions(+), 2 deletions(-)
-> =C2=A0create mode 100644 drivers/gpu/drm/ttm/tests/ttm_mock_manager.c
-> =C2=A0create mode 100644 drivers/gpu/drm/ttm/tests/ttm_mock_manager.h
->=20
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 026444eeb5c6..4ba16501dbf7 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -234,6 +234,7 @@ config DRM_TTM_KUNIT_TEST
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default n
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 depends on DRM && KUNIT =
-&& MMU && (UML || COMPILE_TEST)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_TTM
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_BUDDY
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_EXPORT_FOR_TE=
-STS if m
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_KUNIT_TEST_HE=
-LPERS
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default KUNIT_ALL_TESTS
-> diff --git a/drivers/gpu/drm/ttm/tests/.kunitconfig
-> b/drivers/gpu/drm/ttm/tests/.kunitconfig
-> index 1ae1ffabd51e..772f0e1f4103 100644
-> --- a/drivers/gpu/drm/ttm/tests/.kunitconfig
-> +++ b/drivers/gpu/drm/ttm/tests/.kunitconfig
-> @@ -1,3 +1,4 @@
-> =C2=A0CONFIG_KUNIT=3Dy
-> =C2=A0CONFIG_DRM=3Dy
-> =C2=A0CONFIG_DRM_TTM_KUNIT_TEST=3Dy
-> +CONFIG_DRM_BUDDY=3Dy
+tree:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+head:   7f185f40c08953b3ba9e30c81ee74453e1af9aff
+commit: 74bde7581df3e18061119e1b27b63d0a9ea57b7a [704/756] drm/sti: Allow build with COMPILE_TEST=y
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240529/202405292010.YauFDJET-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405292010.YauFDJET-lkp@intel.com/reproduce)
 
-Is this strictly needed when CONFIG_DRM_TTM_KUNIT_TEST is selected?
-Wouldn't that be enabled implicitly?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405292010.YauFDJET-lkp@intel.com/
 
-> diff --git a/drivers/gpu/drm/ttm/tests/Makefile
-> b/drivers/gpu/drm/ttm/tests/Makefile
-> index 2e5ed63fb414..f3149de77541 100644
-> --- a/drivers/gpu/drm/ttm/tests/Makefile
-> +++ b/drivers/gpu/drm/ttm/tests/Makefile
-> @@ -7,4 +7,5 @@ obj-$(CONFIG_DRM_TTM_KUNIT_TEST) +=3D \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_tt_test.o \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_bo_test.o \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_bo_validate_test.o \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_mock_manager.o \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_kunit_helpers.o
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-> b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-> index a5520b0631a3..8b62d95b8ab8 100644
-> --- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-> @@ -8,12 +8,15 @@
-> =C2=A0#include <drm/ttm/ttm_tt.h>
-> =C2=A0
-> =C2=A0#include "ttm_kunit_helpers.h"
-> +#include "ttm_mock_manager.h"
-> =C2=A0
-> =C2=A0#define BO_SIZE		SZ_4K
-> +#define MANAGER_SIZE	SZ_1M
-> =C2=A0
-> =C2=A0struct ttm_bo_validate_test_case {
-> =C2=A0	const char *description;
-> =C2=A0	enum ttm_bo_type bo_type;
-> +	uint32_t mem_type;
+All errors (new ones prefixed by >>):
 
-Please use u32 instead of unit32_t in new code. The unit32_t usage in
-TTM is a remnant from when much of the drm- and ttm code was shared
-with *bsd. Same in a couple of places below.
-
-> =C2=A0	bool with_ttm;
-> =C2=A0};
-> =C2=A0
-> @@ -102,6 +105,49 @@ static void ttm_bo_init_reserved_sys_man(struct
-> kunit *test)
-> =C2=A0	ttm_bo_put(bo);
-> =C2=A0}
-> =C2=A0
-> +static void ttm_bo_init_reserved_mock_man(struct kunit *test)
-> +{
-> +	const struct ttm_bo_validate_test_case *params =3D test-
-> >param_value;
-> +	enum ttm_bo_type bo_type =3D params->bo_type;
-> +	struct ttm_test_devices *priv =3D test->priv;
-> +	uint32_t size =3D ALIGN(BO_SIZE, PAGE_SIZE);
-> +	struct ttm_operation_ctx ctx =3D { };
-> +	struct ttm_placement *placement;
-> +	uint32_t mem_type =3D TTM_PL_VRAM;
-> +	struct ttm_buffer_object *bo;
-> +	struct ttm_place *place;
-> +	int err;
-> +
-> +	ttm_mock_manager_init(priv->ttm_dev, mem_type,
-> MANAGER_SIZE);
-> +
-> +	bo =3D kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, bo);
-> +
-> +	place =3D ttm_place_kunit_init(test, mem_type, 0);
-> +	placement =3D ttm_placement_kunit_init(test, place, 1);
-> +
-> +	drm_gem_private_object_init(priv->drm, &bo->base, size);
-> +
-> +	err =3D ttm_bo_init_reserved(priv->ttm_dev, bo, bo_type,
-> placement,
-> +				=C2=A0=C2=A0 PAGE_SIZE, &ctx, NULL, NULL,
-> +				=C2=A0=C2=A0 &dummy_ttm_bo_destroy);
-> +	dma_resv_unlock(bo->base.resv);
-> +
-> +	KUNIT_EXPECT_EQ(test, err, 0);
-> +	KUNIT_EXPECT_EQ(test, kref_read(&bo->kref), 1);
-> +	KUNIT_EXPECT_PTR_EQ(test, bo->bdev, priv->ttm_dev);
-> +	KUNIT_EXPECT_EQ(test, bo->type, bo_type);
-> +	KUNIT_EXPECT_EQ(test, ctx.bytes_moved, size);
-> +
-> +	if (bo_type !=3D ttm_bo_type_kernel)
-> +		KUNIT_EXPECT_TRUE(test,
-> +				=C2=A0 drm_mm_node_allocated(&bo-
-> >base.vma_node.vm_node));
-> +
-> +	ttm_resource_free(bo, &bo->resource);
-> +	ttm_bo_put(bo);
-> +	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
-> +}
-> +
-> =C2=A0static void ttm_bo_init_reserved_resv(struct kunit *test)
-> =C2=A0{
-> =C2=A0	enum ttm_bo_type bo_type =3D ttm_bo_type_device;
-> @@ -136,6 +182,51 @@ static void ttm_bo_init_reserved_resv(struct
-> kunit *test)
-> =C2=A0	ttm_bo_put(bo);
-> =C2=A0}
-> =C2=A0
-> +static void ttm_bo_validate_basic(struct kunit *test)
-> +{
-> +	const struct ttm_bo_validate_test_case *params =3D test-
-> >param_value;
-> +	uint32_t fst_mem =3D TTM_PL_SYSTEM, snd_mem =3D TTM_PL_VRAM;
-> +	struct ttm_operation_ctx ctx_init =3D { }, ctx_val =3D { };
-> +	struct ttm_placement *fst_placement, *snd_placement;
-> +	struct ttm_test_devices *priv =3D test->priv;
-> +	struct ttm_place *fst_place, *snd_place;
-> +	uint32_t size =3D ALIGN(SZ_8K, PAGE_SIZE);
-> +	struct ttm_buffer_object *bo;
-> +	int err;
-> +
-> +	ttm_mock_manager_init(priv->ttm_dev, snd_mem, MANAGER_SIZE);
-> +
-> +	fst_place =3D ttm_place_kunit_init(test, fst_mem, 0);
-> +	fst_placement =3D ttm_placement_kunit_init(test, fst_place,
-> 1);
-> +
-> +	bo =3D kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, bo);
-> +
-> +	drm_gem_private_object_init(priv->drm, &bo->base, size);
-> +
-> +	err =3D ttm_bo_init_reserved(priv->ttm_dev, bo, params-
-> >bo_type,
-> +				=C2=A0=C2=A0 fst_placement, PAGE_SIZE,
-> &ctx_init, NULL,
-> +				=C2=A0=C2=A0 NULL, &dummy_ttm_bo_destroy);
-> +	KUNIT_EXPECT_EQ(test, err, 0);
-> +
-> +	snd_place =3D ttm_place_kunit_init(test, snd_mem,
-> DRM_BUDDY_TOPDOWN_ALLOCATION);
-> +	snd_placement =3D ttm_placement_kunit_init(test, snd_place,
-> 1);
-> +
-> +	err =3D ttm_bo_validate(bo, snd_placement, &ctx_val);
-> +	dma_resv_unlock(bo->base.resv);
-> +
-> +	KUNIT_EXPECT_EQ(test, err, 0);
-> +	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, bo->base.size);
-> +	KUNIT_EXPECT_NOT_NULL(test, bo->ttm);
-> +	KUNIT_EXPECT_TRUE(test, ttm_tt_is_populated(bo->ttm));
-> +	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, snd_mem);
-> +	KUNIT_EXPECT_EQ(test, bo->resource->placement,
-> +			DRM_BUDDY_TOPDOWN_ALLOCATION);
-> +
-> +	ttm_bo_put(bo);
-> +	ttm_mock_manager_fini(priv->ttm_dev, snd_mem);
-> +}
-> +
-> =C2=A0static void ttm_bo_validate_invalid_placement(struct kunit *test)
-> =C2=A0{
-> =C2=A0	enum ttm_bo_type bo_type =3D ttm_bo_type_device;
-> @@ -162,6 +253,36 @@ static void
-> ttm_bo_validate_invalid_placement(struct kunit *test)
-> =C2=A0	ttm_bo_put(bo);
-> =C2=A0}
-> =C2=A0
-> +static void ttm_bo_validate_failed_alloc(struct kunit *test)
-> +{
-> +	enum ttm_bo_type bo_type =3D ttm_bo_type_device;
-> +	struct ttm_test_devices *priv =3D test->priv;
-> +	uint32_t size =3D ALIGN(BO_SIZE, PAGE_SIZE);
-> +	struct ttm_operation_ctx ctx =3D { };
-> +	struct ttm_placement *placement;
-> +	uint32_t mem_type =3D TTM_PL_VRAM;
-> +	struct ttm_buffer_object *bo;
-> +	struct ttm_place *place;
-> +	int err;
-> +
-> +	bo =3D ttm_bo_kunit_init(test, test->priv, size, NULL);
-> +	bo->type =3D bo_type;
-> +
-> +	ttm_bad_manager_init(priv->ttm_dev, mem_type, MANAGER_SIZE);
-> +
-> +	place =3D ttm_place_kunit_init(test, mem_type, 0);
-> +	placement =3D ttm_placement_kunit_init(test, place, 1);
-> +
-> +	ttm_bo_reserve(bo, false, false, NULL);
-> +	err =3D ttm_bo_validate(bo, placement, &ctx);
-> +	dma_resv_unlock(bo->base.resv);
-> +
-> +	KUNIT_EXPECT_EQ(test, err, -ENOMEM);
-> +
-> +	ttm_bo_put(bo);
-> +	ttm_bad_manager_fini(priv->ttm_dev, mem_type);
-> +}
-> +
-> =C2=A0static void ttm_bo_validate_pinned(struct kunit *test)
-> =C2=A0{
-> =C2=A0	enum ttm_bo_type bo_type =3D ttm_bo_type_device;
-> @@ -193,11 +314,164 @@ static void ttm_bo_validate_pinned(struct
-> kunit *test)
-> =C2=A0	ttm_bo_put(bo);
-> =C2=A0}
-> =C2=A0
-> +static const struct ttm_bo_validate_test_case ttm_mem_type_cases[] =3D
-> {
-> +	{
-> +		.description =3D "System manager",
-> +		.mem_type =3D TTM_PL_SYSTEM,
-> +	},
-> +	{
-> +		.description =3D "VRAM manager",
-> +		.mem_type =3D TTM_PL_VRAM,
-> +	},
-> +};
-> +
-> +KUNIT_ARRAY_PARAM(ttm_bo_validate_mem, ttm_mem_type_cases,
-> +		=C2=A0 ttm_bo_validate_case_desc);
-> +
-> +static void ttm_bo_validate_same_placement(struct kunit *test)
-> +{
-> +	const struct ttm_bo_validate_test_case *params =3D test-
-> >param_value;
-> +	struct ttm_operation_ctx ctx_init =3D { }, ctx_val =3D { };
-> +	struct ttm_test_devices *priv =3D test->priv;
-> +	uint32_t size =3D ALIGN(BO_SIZE, PAGE_SIZE);
-> +	struct ttm_placement *placement;
-> +	struct ttm_buffer_object *bo;
-> +	struct ttm_place *place;
-> +	int err;
-> +
-> +	place =3D ttm_place_kunit_init(test, params->mem_type, 0);
-> +	placement =3D ttm_placement_kunit_init(test, place, 1);
-> +
-> +	if (params->mem_type !=3D TTM_PL_SYSTEM)
-> +		ttm_mock_manager_init(priv->ttm_dev, params-
-> >mem_type, MANAGER_SIZE);
-> +
-> +	bo =3D kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, bo);
-> +
-> +	drm_gem_private_object_init(priv->drm, &bo->base, size);
-> +
-> +	err =3D ttm_bo_init_reserved(priv->ttm_dev, bo, params-
-> >bo_type,
-> +				=C2=A0=C2=A0 placement, PAGE_SIZE, &ctx_init,
-> NULL,
-> +				=C2=A0=C2=A0 NULL, &dummy_ttm_bo_destroy);
-> +	KUNIT_EXPECT_EQ(test, err, 0);
-> +
-> +	err =3D ttm_bo_validate(bo, placement, &ctx_val);
-> +	dma_resv_unlock(bo->base.resv);
-> +
-> +	KUNIT_EXPECT_EQ(test, err, 0);
-> +	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, 0);
-> +
-> +	ttm_bo_put(bo);
-> +
-> +	if (params->mem_type !=3D TTM_PL_SYSTEM)
-> +		ttm_mock_manager_fini(priv->ttm_dev, params-
-> >mem_type);
-> +}
-> +
-> +static void ttm_bo_validate_busy_placement(struct kunit *test)
-> +{
-> +	uint32_t fst_mem =3D TTM_PL_VRAM, snd_mem =3D TTM_PL_VRAM + 1;
-> +	struct ttm_operation_ctx ctx_init =3D { }, ctx_val =3D { };
-> +	struct ttm_placement *placement_init, *placement_val;
-> +	enum ttm_bo_type bo_type =3D ttm_bo_type_device;
-> +	struct ttm_test_devices *priv =3D test->priv;
-> +	uint32_t size =3D ALIGN(BO_SIZE, PAGE_SIZE);
-> +	struct ttm_place *init_place, places[2];
-> +	struct ttm_resource_manager *man;
-> +	struct ttm_buffer_object *bo;
-> +	int err;
-> +
-> +	ttm_bad_manager_init(priv->ttm_dev, fst_mem, MANAGER_SIZE);
-> +	ttm_mock_manager_init(priv->ttm_dev, snd_mem, MANAGER_SIZE);
-> +
-> +	init_place =3D ttm_place_kunit_init(test, TTM_PL_SYSTEM, 0);
-> +	placement_init =3D ttm_placement_kunit_init(test, init_place,
-> 1);
-> +
-> +	bo =3D kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, bo);
-> +
-> +	drm_gem_private_object_init(priv->drm, &bo->base, size);
-> +
-> +	err =3D ttm_bo_init_reserved(priv->ttm_dev, bo, bo_type,
-> placement_init,
-> +				=C2=A0=C2=A0 PAGE_SIZE, &ctx_init, NULL, NULL,
-> +				=C2=A0=C2=A0 &dummy_ttm_bo_destroy);
-> +	KUNIT_EXPECT_EQ(test, err, 0);
-> +
-> +	places[0] =3D (struct ttm_place){ .mem_type =3D fst_mem, .flags
-> =3D TTM_PL_FLAG_DESIRED };
-> +	places[1] =3D (struct ttm_place){ .mem_type =3D snd_mem, .flags
-> =3D TTM_PL_FLAG_FALLBACK };
-> +	placement_val =3D ttm_placement_kunit_init(test, places, 2);
-> +
-> +	err =3D ttm_bo_validate(bo, placement_val, &ctx_val);
-> +	dma_resv_unlock(bo->base.resv);
-> +
-> +	man =3D ttm_manager_type(priv->ttm_dev, snd_mem);
-> +
-> +	KUNIT_EXPECT_EQ(test, err, 0);
-> +	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, bo->base.size);
-> +	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, snd_mem);
-> +	KUNIT_ASSERT_TRUE(test, list_is_singular(&man->lru[bo-
-> >priority]));
-> +
-> +	ttm_bo_put(bo);
-> +	ttm_bad_manager_fini(priv->ttm_dev, fst_mem);
-> +	ttm_mock_manager_fini(priv->ttm_dev, snd_mem);
-> +}
-> +
-> +static void ttm_bo_validate_multihop(struct kunit *test)
-> +{
-> +	const struct ttm_bo_validate_test_case *params =3D test-
-> >param_value;
-> +	struct ttm_operation_ctx ctx_init =3D { }, ctx_val =3D { };
-> +	struct ttm_placement *placement_init, *placement_val;
-> +	uint32_t fst_mem =3D TTM_PL_VRAM, tmp_mem =3D TTM_PL_TT,
-> +		 final_mem =3D TTM_PL_SYSTEM;
-> +	struct ttm_test_devices *priv =3D test->priv;
-> +	struct ttm_place *fst_place, *final_place;
-> +	uint32_t size =3D ALIGN(BO_SIZE, PAGE_SIZE);
-> +	struct ttm_buffer_object *bo;
-> +	int err;
-> +
-> +	ttm_mock_manager_init(priv->ttm_dev, fst_mem, MANAGER_SIZE);
-> +	ttm_mock_manager_init(priv->ttm_dev, tmp_mem, MANAGER_SIZE);
-> +
-> +	fst_place =3D ttm_place_kunit_init(test, fst_mem, 0);
-> +	placement_init =3D ttm_placement_kunit_init(test, fst_place,
-> 1);
-> +
-> +	bo =3D kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, bo);
-> +
-> +	drm_gem_private_object_init(priv->drm, &bo->base, size);
-> +
-> +	err =3D ttm_bo_init_reserved(priv->ttm_dev, bo, params-
-> >bo_type,
-> +				=C2=A0=C2=A0 placement_init, PAGE_SIZE,
-> &ctx_init, NULL,
-> +				=C2=A0=C2=A0 NULL, &dummy_ttm_bo_destroy);
-> +	KUNIT_EXPECT_EQ(test, err, 0);
-> +
-> +	final_place =3D ttm_place_kunit_init(test, final_mem, 0);
-> +	placement_val =3D ttm_placement_kunit_init(test, final_place,
-> 1);
-> +
-> +	err =3D ttm_bo_validate(bo, placement_val, &ctx_val);
-> +	dma_resv_unlock(bo->base.resv);
-> +
-> +	KUNIT_EXPECT_EQ(test, err, 0);
-> +	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, size * 2);
-> +	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, final_mem);
-> +
-> +	ttm_bo_put(bo);
-> +
-> +	ttm_mock_manager_fini(priv->ttm_dev, fst_mem);
-> +	ttm_mock_manager_fini(priv->ttm_dev, tmp_mem);
-> +}
-> +
-> =C2=A0static struct kunit_case ttm_bo_validate_test_cases[] =3D {
-> =C2=A0	KUNIT_CASE_PARAM(ttm_bo_init_reserved_sys_man,
-> ttm_bo_types_gen_params),
-> +	KUNIT_CASE_PARAM(ttm_bo_init_reserved_mock_man,
-> ttm_bo_types_gen_params),
-> =C2=A0	KUNIT_CASE(ttm_bo_init_reserved_resv),
-> +	KUNIT_CASE_PARAM(ttm_bo_validate_basic,
-> ttm_bo_types_gen_params),
-> =C2=A0	KUNIT_CASE(ttm_bo_validate_invalid_placement),
-> +	KUNIT_CASE_PARAM(ttm_bo_validate_same_placement,
-> +			 ttm_bo_validate_mem_gen_params),
-> +	KUNIT_CASE(ttm_bo_validate_failed_alloc),
-> =C2=A0	KUNIT_CASE(ttm_bo_validate_pinned),
-> +	KUNIT_CASE(ttm_bo_validate_busy_placement),
-> +	KUNIT_CASE_PARAM(ttm_bo_validate_multihop,
-> ttm_bo_types_gen_params),
-> =C2=A0	{}
-> =C2=A0};
-> =C2=A0
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-> b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-> index 2f590bae53f8..2a2585b37118 100644
-> --- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-> @@ -27,8 +27,42 @@ static int mock_move(struct ttm_buffer_object *bo,
-> bool evict,
-> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_resource *new_mem,
-> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_place *hop)
-> =C2=A0{
-> -	bo->resource =3D new_mem;
-> -	return 0;
-> +	struct ttm_resource *old_mem =3D bo->resource;
-> +	int ret;
-> +
-> +	if (!old_mem || (old_mem->mem_type =3D=3D TTM_PL_SYSTEM && !bo-
-> >ttm)) {
-> +		ttm_bo_move_null(bo, new_mem);
-> +		return 0;
-> +	}
-> +
-> +	if (bo->resource->mem_type =3D=3D TTM_PL_VRAM &&
-> +	=C2=A0=C2=A0=C2=A0 new_mem->mem_type =3D=3D TTM_PL_SYSTEM) {
-> +		hop->mem_type =3D TTM_PL_TT;
-> +		hop->flags =3D TTM_PL_FLAG_TEMPORARY;
-> +		hop->fpfn =3D 0;
-> +		hop->lpfn =3D 0;
-> +		return -EMULTIHOP;
-> +	}
-> +
-> +	if (old_mem->mem_type =3D=3D TTM_PL_SYSTEM &&
-> +	=C2=A0=C2=A0=C2=A0 new_mem->mem_type =3D=3D TTM_PL_TT) {
-> +		ttm_bo_move_null(bo, new_mem);
-> +		return 0;
-> +	}
-> +
-> +	if (old_mem->mem_type =3D=3D TTM_PL_TT &&
-> +	=C2=A0=C2=A0=C2=A0 new_mem->mem_type =3D=3D TTM_PL_SYSTEM) {
-> +		ret =3D ttm_bo_wait_ctx(bo, ctx);
-
-We're not doing any accelerated move here, so ttm_bo_move_null() should
-be sufficient also in this case?
-
-> +
-> +		if (ret)
-> +			return ret;
-> +
-> +		ttm_resource_free(bo, &bo->resource);
-> +		ttm_bo_assign_mem(bo, new_mem);
-> +		return 0;
-> +	}
-> +
-> +	return ttm_bo_move_memcpy(bo, ctx, new_mem);
-
-Do we hit this move_memcpy()? Since the mock manager doesn't actually
-reserve any memory to manager, I'd expect this to run into problems?
+   In file included from drivers/gpu/drm/sti/sti_mixer.c:14:
+   In file included from drivers/gpu/drm/sti/sti_compositor.h:15:
+   In file included from drivers/gpu/drm/sti/sti_mixer.h:12:
+   In file included from include/drm/drm_crtc.h:32:
+   In file included from include/drm/drm_modes.h:33:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:35:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/gpu/drm/sti/sti_mixer.c:14:
+   In file included from drivers/gpu/drm/sti/sti_compositor.h:15:
+   In file included from drivers/gpu/drm/sti/sti_mixer.h:12:
+   In file included from include/drm/drm_crtc.h:32:
+   In file included from include/drm/drm_modes.h:33:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:35:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/gpu/drm/sti/sti_mixer.c:14:
+   In file included from drivers/gpu/drm/sti/sti_compositor.h:15:
+   In file included from drivers/gpu/drm/sti/sti_mixer.h:12:
+   In file included from include/drm/drm_crtc.h:32:
+   In file included from include/drm/drm_modes.h:33:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:35:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/gpu/drm/sti/sti_mixer.c:14:
+   In file included from drivers/gpu/drm/sti/sti_compositor.h:15:
+   In file included from drivers/gpu/drm/sti/sti_mixer.h:12:
+   In file included from include/drm/drm_crtc.h:32:
+   In file included from include/drm/drm_modes.h:33:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:36:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/gpu/drm/sti/sti_mixer.c:14:
+   In file included from drivers/gpu/drm/sti/sti_compositor.h:15:
+   In file included from drivers/gpu/drm/sti/sti_mixer.h:17:
+>> drivers/gpu/drm/sti/sti_plane.h:32:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      32 |         STI_GDP_0       = STI_GDP | STI_ID_0,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:33:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      33 |         STI_GDP_1       = STI_GDP | STI_ID_1,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:34:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      34 |         STI_GDP_2       = STI_GDP | STI_ID_2,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:35:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      35 |         STI_GDP_3       = STI_GDP | STI_ID_3,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:36:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      36 |         STI_HQVDP_0     = STI_VDP | STI_ID_0,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   12 errors generated.
+--
+   In file included from drivers/gpu/drm/sti/sti_gdp.c:9:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/gpu/drm/sti/sti_gdp.c:9:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/gpu/drm/sti/sti_gdp.c:9:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/gpu/drm/sti/sti_gdp.c:9:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/gpu/drm/sti/sti_gdp.c:20:
+   In file included from drivers/gpu/drm/sti/sti_compositor.h:15:
+   In file included from drivers/gpu/drm/sti/sti_mixer.h:17:
+>> drivers/gpu/drm/sti/sti_plane.h:32:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      32 |         STI_GDP_0       = STI_GDP | STI_ID_0,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:33:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      33 |         STI_GDP_1       = STI_GDP | STI_ID_1,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:34:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      34 |         STI_GDP_2       = STI_GDP | STI_ID_2,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:35:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      35 |         STI_GDP_3       = STI_GDP | STI_ID_3,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:36:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      36 |         STI_HQVDP_0     = STI_VDP | STI_ID_0,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   12 errors generated.
 
 
+vim +32 drivers/gpu/drm/sti/sti_plane.h
 
-> =C2=A0}
-> =C2=A0
-> =C2=A0struct ttm_device_funcs ttm_dev_funcs =3D {
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_mock_manager.c
-> b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.c
-> new file mode 100644
-> index 000000000000..eb9dca1de1a2
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.c
-> @@ -0,0 +1,207 @@
-> +// SPDX-License-Identifier: GPL-2.0 AND MIT
-> +/*
-> + * Copyright =C2=A9 2023 Intel Corporation
-> + */
-> +#include <drm/ttm/ttm_resource.h>
-> +#include <drm/ttm/ttm_device.h>
-> +#include <drm/ttm/ttm_placement.h>
-> +
-> +#include "ttm_mock_manager.h"
-> +
-> +static inline struct ttm_mock_manager *
-> +to_mock_mgr(struct ttm_resource_manager *man)
-> +{
-> +	return container_of(man, struct ttm_mock_manager, man);
-> +}
-> +
-> +static inline struct ttm_mock_resource *
-> +to_mock_mgr_resource(struct ttm_resource *res)
-> +{
-> +	return container_of(res, struct ttm_mock_resource, base);
-> +}
-> +
-> +static int ttm_mock_manager_alloc(struct ttm_resource_manager *man,
-> +				=C2=A0 struct ttm_buffer_object *bo,
-> +				=C2=A0 const struct ttm_place *place,
-> +				=C2=A0 struct ttm_resource **res)
-> +{
-> +	struct ttm_mock_manager *manager =3D to_mock_mgr(man);
-> +	struct ttm_mock_resource *mock_res;
-> +	struct drm_buddy *mm =3D &manager->mm;
-> +	uint64_t lpfn, fpfn, alloc_size;
-> +	int err;
-> +
-> +	mock_res =3D kzalloc(sizeof(*mock_res), GFP_KERNEL);
-> +
-> +	if (!mock_res)
-> +		return -ENOMEM;
-> +
-> +	fpfn =3D 0;
-> +	lpfn =3D man->size;
-> +
-> +	ttm_resource_init(bo, place, &mock_res->base);
-> +	INIT_LIST_HEAD(&mock_res->blocks);
-> +
-> +	if (place->flags & TTM_PL_FLAG_TOPDOWN)
-> +		mock_res->flags |=3D DRM_BUDDY_TOPDOWN_ALLOCATION;
-> +
-> +	if (place->flags & TTM_PL_FLAG_CONTIGUOUS)
-> +		mock_res->flags |=3D DRM_BUDDY_CONTIGUOUS_ALLOCATION;
-> +
-> +	alloc_size =3D (uint64_t)mock_res->base.size;
-> +	mutex_lock(&manager->lock);
-> +	err =3D drm_buddy_alloc_blocks(mm, fpfn, lpfn, alloc_size,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0 manager->default_page_size,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0 &mock_res->blocks,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0 mock_res->flags);
-> +
-> +	if (err)
-> +		goto error_free_blocks;
-> +	mutex_unlock(&manager->lock);
-> +
-> +	*res =3D &mock_res->base;
-> +	return 0;
-> +
-> +error_free_blocks:
-> +	drm_buddy_free_list(mm, &mock_res->blocks, 0);
-> +	ttm_resource_fini(man, &mock_res->base);
-> +	mutex_unlock(&manager->lock);
-> +
-> +	return err;
-> +}
-> +
-> +static void ttm_mock_manager_free(struct ttm_resource_manager *man,
-> +				=C2=A0 struct ttm_resource *res)
-> +{
-> +	struct ttm_mock_manager *manager =3D to_mock_mgr(man);
-> +	struct ttm_mock_resource *mock_res =3D
-> to_mock_mgr_resource(res);
-> +	struct drm_buddy *mm =3D &manager->mm;
-> +
-> +	mutex_lock(&manager->lock);
-> +	drm_buddy_free_list(mm, &mock_res->blocks, 0);
-> +	mutex_unlock(&manager->lock);
-> +
-> +	ttm_resource_fini(man, res);
-> +	kfree(mock_res);
-> +}
-> +
-> +static const struct ttm_resource_manager_func ttm_mock_manager_funcs
-> =3D {
-> +	.alloc =3D ttm_mock_manager_alloc,
-> +	.free =3D ttm_mock_manager_free,
-> +};
-> +
-> +int ttm_mock_manager_init(struct ttm_device *bdev, uint32_t
-> mem_type, uint32_t size)
-> +{
-> +	struct ttm_mock_manager *manager;
-> +	struct ttm_resource_manager *base;
-> +	int err;
-> +
-> +	manager =3D kzalloc(sizeof(*manager), GFP_KERNEL);
-> +	if (!manager)
-> +		return -ENOMEM;
-> +
-> +	mutex_init(&manager->lock);
-> +
-> +	err =3D drm_buddy_init(&manager->mm, size, PAGE_SIZE);
-> +
-> +	if (err) {
-> +		kfree(manager);
-> +		return err;
-> +	}
-> +
-> +	manager->default_page_size =3D PAGE_SIZE;
-> +	base =3D &manager->man;
-> +	base->func =3D &ttm_mock_manager_funcs;
-> +	base->use_tt =3D true;
-> +
-> +	ttm_resource_manager_init(base, bdev, size);
-> +	ttm_set_driver_manager(bdev, mem_type, base);
-> +	ttm_resource_manager_set_used(base, true);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(ttm_mock_manager_init);
-> +
-> +void ttm_mock_manager_fini(struct ttm_device *bdev, uint32_t
-> mem_type)
-> +{
-> +	struct ttm_resource_manager *man;
-> +	struct ttm_mock_manager *mock_man;
-> +	int err;
-> +
-> +	man =3D ttm_manager_type(bdev, mem_type);
-> +	mock_man =3D to_mock_mgr(man);
-> +
-> +	err =3D ttm_resource_manager_evict_all(bdev, man);
-> +	if (err)
-> +		return;
-> +
-> +	ttm_resource_manager_set_used(man, false);
-> +
-> +	mutex_lock(&mock_man->lock);
-> +	drm_buddy_fini(&mock_man->mm);
-> +	mutex_unlock(&mock_man->lock);
-> +
-> +	ttm_set_driver_manager(bdev, mem_type, NULL);
-> +}
-> +EXPORT_SYMBOL_GPL(ttm_mock_manager_fini);
-> +
-> +static int ttm_bad_manager_alloc(struct ttm_resource_manager *man,
-> +				 struct ttm_buffer_object *bo,
-> +				 const struct ttm_place *place,
-> +				 struct ttm_resource **res)
-> +{
-> +	return -ENOSPC;
-> +}
-> +
-> +static void ttm_bad_manager_free(struct ttm_resource_manager *man,
-> +				 struct ttm_resource *res)
-> +{
-> +}
-> +
-> +static bool ttm_bad_manager_compatible(struct ttm_resource_manager
-> *man,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_resource *res,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct ttm_place
-> *place,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t size)
-> +{
-> +	return true;
-> +}
-> +
-> +static const struct ttm_resource_manager_func ttm_bad_manager_funcs
-> =3D {
-> +	.alloc =3D ttm_bad_manager_alloc,
-> +	.free =3D ttm_bad_manager_free,
-> +	.compatible =3D ttm_bad_manager_compatible
-> +};
-> +
-> +int ttm_bad_manager_init(struct ttm_device *bdev, uint32_t mem_type,
-> +			 uint32_t size)
-> +{
-> +	struct ttm_resource_manager *man;
-> +
-> +	man =3D kzalloc(sizeof(*man), GFP_KERNEL);
-> +	if (!man)
-> +		return -ENOMEM;
-> +
-> +	man->func =3D &ttm_bad_manager_funcs;
-> +
-> +	ttm_resource_manager_init(man, bdev, size);
-> +	ttm_set_driver_manager(bdev, mem_type, man);
-> +	ttm_resource_manager_set_used(man, true);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(ttm_bad_manager_init);
-> +
-> +void ttm_bad_manager_fini(struct ttm_device *bdev, uint32_t
-> mem_type)
-> +{
-> +	struct ttm_resource_manager *man;
-> +
-> +	man =3D ttm_manager_type(bdev, mem_type);
-> +
-> +	ttm_resource_manager_set_used(man, false);
-> +	ttm_set_driver_manager(bdev, mem_type, NULL);
-> +
-> +	kfree(man);
-> +}
-> +EXPORT_SYMBOL_GPL(ttm_bad_manager_fini);
-> +
-> +MODULE_LICENSE("GPL");
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  30  
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  31  enum sti_plane_desc {
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31 @32  	STI_GDP_0       = STI_GDP | STI_ID_0,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  33  	STI_GDP_1       = STI_GDP | STI_ID_1,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  34  	STI_GDP_2       = STI_GDP | STI_ID_2,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  35  	STI_GDP_3       = STI_GDP | STI_ID_3,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  36  	STI_HQVDP_0     = STI_VDP | STI_ID_0,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  37  	STI_CURSOR      = STI_CUR,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  38  	STI_BACK        = STI_BCK
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  39  };
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  40  
 
-When the module is dual-licensed IIRC the correct option to use here is
-"GPL and additional rights"
+:::::: The code at line 32 was first introduced by commit
+:::::: 871bcdfea68560991bd650406e47a801ab9d635d drm/sti: code clean up
 
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_mock_manager.h
-> b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.h
-> new file mode 100644
-> index 000000000000..d2db9de9d876
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.h
-> @@ -0,0 +1,31 @@
-> +/* SPDX-License-Identifier: GPL-2.0 AND MIT */
-> +/*
-> + * Copyright =C2=A9 2023 Intel Corporation
-> + */
-> +#ifndef TTM_MOCK_MANAGER_H
-> +#define TTM_MOCK_MANAGER_H
-> +
-> +#include <drm/drm_buddy.h>
-> +
-> +struct ttm_mock_manager {
-> +	struct ttm_resource_manager man;
-> +	struct drm_buddy mm;
-> +	uint64_t default_page_size;
-> +	/* protects allocations of mock buffer objects */
-> +	struct mutex lock;
-> +};
-> +
-> +struct ttm_mock_resource {
-> +	struct ttm_resource base;
-> +	struct list_head blocks;
-> +	unsigned long flags;
-> +};
-> +
-> +int ttm_mock_manager_init(struct ttm_device *bdev, uint32_t
-> mem_type,
-> +			=C2=A0 uint32_t size);
-> +int ttm_bad_manager_init(struct ttm_device *bdev, uint32_t mem_type,
-> +			 uint32_t size);
-> +void ttm_mock_manager_fini(struct ttm_device *bdev, uint32_t
-> mem_type);
-> +void ttm_bad_manager_fini(struct ttm_device *bdev, uint32_t
-> mem_type);
-> +
-> +#endif // TTM_MOCK_MANAGER_H
+:::::: TO: Vincent Abriou <vincent.abriou@st.com>
+:::::: CC: Benjamin Gaignard <benjamin.gaignard@linaro.org>
 
-Thanks,
-Thomas
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
