@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3648D2C78
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 07:36:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AADFA8D2C76
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 07:36:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F72A11307D;
-	Wed, 29 May 2024 05:36:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6A51112324;
+	Wed, 29 May 2024 05:36:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VaGQefDP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Sw+M80eX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C84B1113028
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 05:36:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13008113034
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 05:36:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1716960972; x=1748496972;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=WX+m07wt3DtPAOjU2K7TAng/knQriugPLDZHnttGpjU=;
- b=VaGQefDPRkneW/E9Kbi0WwIjw2vmsXbpcmSzPcSRbGV66YqmM3cZqVp/
- rsTdMRTgrrnJBp2tMbmBKZRUAqK90FkcmszS9LA53ibTl8V+iSPqeaDXb
- 0Myen88Qex7ersTUSyR3It0D7h9ldQyQTXIO1EVtENUJRarYOeHuO6Y8b
- o5i6a0heX4iv4k3fx6gAbL6OG94O+w7kmBMbhPntv1hg6vcfndTcQDYDw
- Uu4OXA4N/acsnWVcAiA0caYRMSDBwIYZGrjcwpQDUUsZCXWyPuKTD+c2C
- qSsFF94SyLUSe/Q7eWBMcY2goi5eRkSnFfVNigtOvye17Zh+kjkiEIAoH g==;
-X-CSE-ConnectionGUID: 0X1u3uUIRjOM6B+7khNqXQ==
-X-CSE-MsgGUID: g4zKeTIuTmic0zHm/rjI2A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13568753"
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="13568753"
+ bh=i2g4o4FMSNI6vy56g2mVccrM+MuXNKNyXwoqmECaK9M=;
+ b=Sw+M80eXVuj3vsA5/GVukWgXQq6e3kxxZGr5BekeLXHjiNSD0lYz/aRx
+ of1HmBKp/S2IAPiDGBCf8EQ4FbgildLEXN8Kk42ZLW7hXCAPvMNN7f1aa
+ sYXKOf67jxOLxfhAiQXHkB3+TaSF7i1oYanjgxyLewDDZG5IZQH9J1x4g
+ RviNdTnnxFpDet2uJdP/YyKpitHXE4/6hqrUN6zbn0gfqTgbNkwLyzUig
+ N/cMcK5F9yDtDC5tvW9cMeFcB/MZT5fn2E8L7hZcHiDWp0UgP4GyPlxvp
+ a3tzuAcSQW4R6DOLldZe5e9wzFtLOlGPAq/Drh4/n0O7xarHcZTsBqK9Z Q==;
+X-CSE-ConnectionGUID: MD2jyBy/TKmTw4dCqJD82g==
+X-CSE-MsgGUID: 3Id+FhcaSg6VlpnovU2vRQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13568768"
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="13568768"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2024 22:35:06 -0700
-X-CSE-ConnectionGUID: ff5BmhNMSBOq/6aqKuHlTw==
-X-CSE-MsgGUID: VRTTk5mGQciwJeBPrShRDw==
+ 28 May 2024 22:35:11 -0700
+X-CSE-ConnectionGUID: ooEsLAqOTEq37Hrx3ZeYbQ==
+X-CSE-MsgGUID: FAzliAhcS6u1szAMWmJLKQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="35257451"
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; d="scan'208";a="35257473"
 Received: from unknown (HELO allen-box.sh.intel.com) ([10.239.159.127])
- by fmviesa007.fm.intel.com with ESMTP; 28 May 2024 22:35:01 -0700
+ by fmviesa007.fm.intel.com with ESMTP; 28 May 2024 22:35:06 -0700
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
@@ -55,9 +55,9 @@ Cc: Yi Liu <yi.l.liu@intel.com>, David Airlie <airlied@gmail.com>,
  Mikko Perttunen <mperttunen@nvidia.com>, iommu@lists.linux.dev,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Lu Baolu <baolu.lu@linux.intel.com>
-Subject: [PATCH 01/20] iommu: Add iommu_user_domain_alloc() interface
-Date: Wed, 29 May 2024 13:32:31 +0800
-Message-Id: <20240529053250.91284-2-baolu.lu@linux.intel.com>
+Subject: [PATCH 02/20] iommufd: Use iommu_user_domain_alloc()
+Date: Wed, 29 May 2024 13:32:32 +0800
+Message-Id: <20240529053250.91284-3-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240529053250.91284-1-baolu.lu@linux.intel.com>
 References: <20240529053250.91284-1-baolu.lu@linux.intel.com>
@@ -78,104 +78,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit <909f4abd1097> ("iommu: Add new iommu op to create domains owned
-by userspace") added a dedicated iommu op to allocate a user domain.
-While IOMMUFD has already made use of this callback, other frameworks
-like vfio/type1 and vDPA still use the paging domain allocation interface.
-
-Add a new interface named iommu_user_domain_alloc(), which indicates the
-allocation of a domain for device DMA managed by user space driver. All
-device passthrough frameworks could use this interface for their domain
-allocation.
-
-Although it is expected that all iommu drivers could implement their own
-domain_alloc_user ops, most drivers haven't implemented it yet. Rollback
-to the paging domain allocation interface if the iommu driver hasn't
-implemented this op yet.
+Replace iommu_domain_alloc() with iommu_user_domain_alloc().
 
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 ---
- include/linux/iommu.h |  6 ++++++
- drivers/iommu/iommu.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 48 insertions(+)
+ drivers/iommu/iommufd/hw_pagetable.c | 20 +++++---------------
+ 1 file changed, 5 insertions(+), 15 deletions(-)
 
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 7bc8dff7cf6d..6648b2415474 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -780,6 +780,7 @@ extern bool iommu_present(const struct bus_type *bus);
- extern bool device_iommu_capable(struct device *dev, enum iommu_cap cap);
- extern bool iommu_group_has_isolated_msi(struct iommu_group *group);
- extern struct iommu_domain *iommu_domain_alloc(const struct bus_type *bus);
-+struct iommu_domain *iommu_user_domain_alloc(struct device *dev, u32 flags);
- extern void iommu_domain_free(struct iommu_domain *domain);
- extern int iommu_attach_device(struct iommu_domain *domain,
- 			       struct device *dev);
-@@ -1086,6 +1087,11 @@ static inline struct iommu_domain *iommu_domain_alloc(const struct bus_type *bus
- 	return NULL;
- }
+diff --git a/drivers/iommu/iommufd/hw_pagetable.c b/drivers/iommu/iommufd/hw_pagetable.c
+index 33d142f8057d..ada05fccb36a 100644
+--- a/drivers/iommu/iommufd/hw_pagetable.c
++++ b/drivers/iommu/iommufd/hw_pagetable.c
+@@ -127,21 +127,11 @@ iommufd_hwpt_paging_alloc(struct iommufd_ctx *ictx, struct iommufd_ioas *ioas,
+ 	hwpt_paging->ioas = ioas;
+ 	hwpt_paging->nest_parent = flags & IOMMU_HWPT_ALLOC_NEST_PARENT;
  
-+static inline struct iommu_domain *iommu_user_domain_alloc(struct device *dev, u32 flags)
-+{
-+	return ERR_PTR(-ENODEV);
-+}
-+
- static inline void iommu_domain_free(struct iommu_domain *domain)
- {
- }
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 9df7cc75c1bc..f1416892ef8e 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2032,6 +2032,48 @@ struct iommu_domain *iommu_domain_alloc(const struct bus_type *bus)
- }
- EXPORT_SYMBOL_GPL(iommu_domain_alloc);
+-	if (ops->domain_alloc_user) {
+-		hwpt->domain = ops->domain_alloc_user(idev->dev, flags, NULL,
+-						      user_data);
+-		if (IS_ERR(hwpt->domain)) {
+-			rc = PTR_ERR(hwpt->domain);
+-			hwpt->domain = NULL;
+-			goto out_abort;
+-		}
+-		hwpt->domain->owner = ops;
+-	} else {
+-		hwpt->domain = iommu_domain_alloc(idev->dev->bus);
+-		if (!hwpt->domain) {
+-			rc = -ENOMEM;
+-			goto out_abort;
+-		}
++	hwpt->domain = iommu_user_domain_alloc(idev->dev, flags);
++	if (IS_ERR(hwpt->domain)) {
++		rc = PTR_ERR(hwpt->domain);
++		hwpt->domain = NULL;
++		goto out_abort;
+ 	}
  
-+/**
-+ * iommu_user_domain_alloc() - Allocate a user domain
-+ * @dev: device for which the domain is allocated
-+ * @flags: iommufd_hwpt_alloc_flags defined in uapi/linux/iommufd.h
-+ *
-+ * Allocate a user domain which will be managed by a userspace driver. Return
-+ * allocated domain if successful, or a ERR pointer for failure.
-+ */
-+struct iommu_domain *iommu_user_domain_alloc(struct device *dev, u32 flags)
-+{
-+	struct iommu_domain *domain;
-+	const struct iommu_ops *ops;
-+
-+	if (!dev_has_iommu(dev))
-+		return ERR_PTR(-ENODEV);
-+
-+	ops = dev_iommu_ops(dev);
-+	if (ops->domain_alloc_user) {
-+		domain = ops->domain_alloc_user(dev, flags, NULL, NULL);
-+		if (IS_ERR(domain))
-+			return domain;
-+
-+		domain->type = IOMMU_DOMAIN_UNMANAGED;
-+		domain->owner = ops;
-+		domain->pgsize_bitmap = ops->pgsize_bitmap;
-+		domain->ops = ops->default_domain_ops;
-+
-+		return domain;
-+	}
-+
-+	/*
-+	 * The iommu driver doesn't support domain_alloc_user callback.
-+	 * Rollback to a UNMANAGED paging domain which doesn't support
-+	 * the allocation flags.
-+	 */
-+	if (flags)
-+		return ERR_PTR(-EOPNOTSUPP);
-+
-+	return __iommu_domain_alloc(ops, dev, IOMMU_DOMAIN_UNMANAGED);
-+}
-+EXPORT_SYMBOL_GPL(iommu_user_domain_alloc);
-+
- void iommu_domain_free(struct iommu_domain *domain)
- {
- 	if (domain->type == IOMMU_DOMAIN_SVA)
+ 	/*
 -- 
 2.34.1
 
