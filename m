@@ -2,63 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BCB38D391A
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 16:25:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5228D391F
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2024 16:26:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2184410E1EF;
-	Wed, 29 May 2024 14:25:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B740310E3DD;
+	Wed, 29 May 2024 14:26:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="i5q6BNb8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="InGzHoov";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53CD010E1EF;
- Wed, 29 May 2024 14:25:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716992719; x=1748528719;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=vQ50rCjgqYFBmHMBm5jv/4wrCT91ByUTipD4LruLnNw=;
- b=i5q6BNb8cS25RDUxykNhxb31Fx+1AIgSKCINPp7kaYUNjDcC96wDyu8V
- kqxFBxcUpwiiFfDtNAuCTHHTJhDm9TVFEy+GUbyo4he+5lgB9snaQDyA1
- qtHbv4phO0qJtbCIbWQFeu8BtRHizm+i3fw+2PVFbhRwLCCOLlD/HCWwc
- cz8isPJ2k3aj2NpmcGENNVyDRuovnDAYXi9XTCQ+i3wq/0VKqXQkOtEaV
- SqHJ93UhVfSk0wZo+NkrYuOXl6C8/dM1ecZJKh1T9nBPGzTq9j1PYlrvg
- 46ozRgq3N8Xw5GUPb9ZxMk573sOTKRAHIXPfIZYEjNIz2KSJpXihZXS7W Q==;
-X-CSE-ConnectionGUID: n5IkqpFST7yRvWI1mB8Hkw==
-X-CSE-MsgGUID: GryQL/hnTEKcHNjCqCj9DQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="13347775"
-X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="13347775"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2024 07:25:17 -0700
-X-CSE-ConnectionGUID: sx06G/L/RF2Lkl3vcOfzIQ==
-X-CSE-MsgGUID: xSyvcUOdSPOiZlOcGq+cvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; d="scan'208";a="35423084"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 29 May 2024 07:25:15 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 29 May 2024 17:25:14 +0300
-Date: Wed, 29 May 2024 17:25:14 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Imre Deak <imre.deak@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 4/9] drm/i915: Introduce fb->min_alignment
-Message-ID: <Zlc6yuQ111Os-CFh@intel.com>
-References: <20240513175942.12910-1-ville.syrjala@linux.intel.com>
- <20240513175942.12910-5-ville.syrjala@linux.intel.com>
- <ZlW/uMCDFles0dyv@ideak-desk.fi.intel.com>
- <ZlYynhN6QJoAkTDm@intel.com>
- <ZlZOmp3618kpi+zz@ideak-desk.fi.intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A27110E3DD
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:26:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7EA3D60FC6
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:26:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8853C4AF07
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 14:26:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1716992766;
+ bh=rS8lHkl0yDWqapcZK5pUVWvpWXVL4mAki+yp37yJuu8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=InGzHoovdYBG10zht5uKhrvEsr6kqPSyNn+9IAQDcvsCnG6cvJvMiF/5Es7W/FfyW
+ rPinXvv5mawBQ5RQCWxMmqx6Te7jN63uZg3Z7poh5Igf/U3fUhic8qJG3BAI8te8at
+ rQiy8BXLSa8gk4EYme+MnmCBXe8xQUa3o/39olwVRhrT3edm263IMuILOCzAhnSmi4
+ rGS4velIYjWEHeQ3ZFD1mnrKBzjawunQ4F7oColIYWsJ9FscyuE8C4Jd0VPFh0TEMn
+ gKqQmDf/PWqNWvgog58K2SqvNuUHYGK0jjvSDKkUVGQbzqrwVXebapvWBYAlurCwpW
+ bNgOJIY2bHIpg==
+Received: by mail-yw1-f179.google.com with SMTP id
+ 00721157ae682-62c5fd61d2bso8026657b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 07:26:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVsM4ntukhObwCDSZvTtE1WokKfS3v9iNyiNU8/KpFaE5xLahHIbnIkKMZh2f5Yv4gt3Ha5Ipg6EkPyTvmB1uvBPLmy2Lhg5LX4DDaq++/V
+X-Gm-Message-State: AOJu0Yye3E3R3p2RfaHQHJwKLp6hH+GnyyMoWzGzYYRQ1icE3cFcpU0p
+ nV4KQpDkMhTtzA++ycjNUjWP0Sl5BkA3mxVcVjKOTz3MyqEfdYVjXltn3sVDVFfZ0hyiT6tOgEU
+ UAUhtWgOdQLHymp6r4d76sJZIstq5kcmYfZJ8pw==
+X-Google-Smtp-Source: AGHT+IHAwOMmyh9/XBaOY+iVXfegBjzP9smD+dTIpmQP1hKF6dqZExqcqKHcXuI1FgcxJdkSo4bajtY6D9Pcqk3s9AE=
+X-Received: by 2002:a81:b625:0:b0:620:50e0:c38 with SMTP id
+ 00721157ae682-62a08ddeb70mr146870877b3.24.1716992765062; Wed, 29 May 2024
+ 07:26:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZlZOmp3618kpi+zz@ideak-desk.fi.intel.com>
-X-Patchwork-Hint: comment
+References: <20240318203925.2837689-1-l.stach@pengutronix.de>
+ <20240318203925.2837689-2-l.stach@pengutronix.de>
+In-Reply-To: <20240318203925.2837689-2-l.stach@pengutronix.de>
+From: Robert Foss <rfoss@kernel.org>
+Date: Wed, 29 May 2024 16:25:54 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi46s1ux3yvz6QR22Wd=upjsPAmy47woUkiJRaJw6X6d3Q@mail.gmail.com>
+Message-ID: <CAN6tsi46s1ux3yvz6QR22Wd=upjsPAmy47woUkiJRaJw6X6d3Q@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm/bridge: analogix_dp: simplify
+ analogix_dp_{set/get}_lane_link_training helpers
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org, 
+ kernel@pengutronix.de, patchwork-lst@pengutronix.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,167 +76,376 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 29, 2024 at 12:37:30AM +0300, Imre Deak wrote:
-> On Tue, May 28, 2024 at 10:38:06PM +0300, Ville Syrjälä wrote:
-> > On Tue, May 28, 2024 at 02:27:52PM +0300, Imre Deak wrote:
-> > > On Mon, May 13, 2024 at 08:59:37PM +0300, Ville Syrjala wrote:
-> > > > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > > 
-> > > > Different planes could have different alignment requirements
-> > > > even for the same format/modifier. Collect the alignment
-> > > > requirements across all planes capable of scanning out the
-> > > > fb such that the alignment used when pinning the normal ggtt
-> > > > view is satisfactory to all those planes.
-> > > > 
-> > > > When pinning per-plane views we only have to satisfy the
-> > > > alignment requirements of the specific plane.
-> > > > 
-> > > > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > > ---
-> > > >  .../drm/i915/display/intel_display_types.h    |  2 ++
-> > > >  drivers/gpu/drm/i915/display/intel_fb.c       | 23 ++++++++++++++++
-> > > >  drivers/gpu/drm/i915/display/intel_fb_pin.c   | 27 +++++++++++++++++--
-> > > >  drivers/gpu/drm/i915/display/intel_fbdev.c    | 18 +------------
-> > > >  4 files changed, 51 insertions(+), 19 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> > > > index 40d6e5f4c350..58bb65832adf 100644
-> > > > --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> > > > +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> > > > @@ -145,6 +145,8 @@ struct intel_framebuffer {
-> > > >  	};
-> > > >  
-> > > >  	struct i915_address_space *dpt_vm;
-> > > > +
-> > > > +	unsigned int min_alignment;
-> > > >  };
-> > > >  
-> > > >  enum intel_hotplug_state {
-> > > > diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
-> > > > index 3f3a9cd534f4..c5bae05cbbc3 100644
-> > > > --- a/drivers/gpu/drm/i915/display/intel_fb.c
-> > > > +++ b/drivers/gpu/drm/i915/display/intel_fb.c
-> > > > @@ -10,6 +10,7 @@
-> > > >  #include <linux/dma-resv.h>
-> > > >  
-> > > >  #include "i915_drv.h"
-> > > > +#include "intel_atomic_plane.h"
-> > > >  #include "intel_display.h"
-> > > >  #include "intel_display_types.h"
-> > > >  #include "intel_dpt.h"
-> > > > @@ -1616,6 +1617,26 @@ bool intel_fb_supports_90_270_rotation(const struct intel_framebuffer *fb)
-> > > >  	       fb->base.modifier == I915_FORMAT_MOD_Yf_TILED;
-> > > >  }
-> > > >  
-> > > > +static unsigned int intel_fb_min_alignment(const struct drm_framebuffer *fb)
-> > > > +{
-> > > > +	struct drm_i915_private *i915 = to_i915(fb->dev);
-> > > > +	struct intel_plane *plane;
-> > > > +	unsigned int min_alignment = 0;
-> > > > +
-> > > > +	for_each_intel_plane(&i915->drm, plane) {
-> > > > +		if (!drm_plane_has_format(&plane->base, fb->format->format, fb->modifier))
-> > > > +			continue;
-> > > > +
-> > > > +		if (intel_plane_needs_physical(plane))
-> > > > +			continue;
-> > > > +
-> > > > +		min_alignment = max(min_alignment,
-> > > > +				    plane->min_alignment(plane, fb, 0));
-> > > > +	}
-> > > > +
-> > > > +	return min_alignment;
-> > > > +}
-> > > > +
-> > > >  int intel_fill_fb_info(struct drm_i915_private *i915, struct intel_framebuffer *fb)
-> > > >  {
-> > > >  	struct drm_i915_gem_object *obj = intel_fb_obj(&fb->base);
-> > > > @@ -1698,6 +1719,8 @@ int intel_fill_fb_info(struct drm_i915_private *i915, struct intel_framebuffer *
-> > > >  		return -EINVAL;
-> > > >  	}
-> > > >  
-> > > > +	fb->min_alignment = intel_fb_min_alignment(&fb->base);
-> > > > +
-> > > >  	return 0;
-> > > >  }
-> > > >  
-> > > > diff --git a/drivers/gpu/drm/i915/display/intel_fb_pin.c b/drivers/gpu/drm/i915/display/intel_fb_pin.c
-> > > > index 9b0f1ea41b70..1ae02de906f5 100644
-> > > > --- a/drivers/gpu/drm/i915/display/intel_fb_pin.c
-> > > > +++ b/drivers/gpu/drm/i915/display/intel_fb_pin.c
-> > > > @@ -230,13 +230,36 @@ void intel_fb_unpin_vma(struct i915_vma *vma, unsigned long flags)
-> > > >  	i915_vma_put(vma);
-> > > >  }
-> > > >  
-> > > > +static bool gtt_view_is_per_plane(const struct intel_plane_state *plane_state)
-> > > > +{
-> > > > +	const struct intel_framebuffer *fb = to_intel_framebuffer(plane_state->hw.fb);
-> > > > +
-> > > > +	if (plane_state->view.gtt.type == I915_GTT_VIEW_REMAPPED &&
-> > > > +	    intel_fb_needs_pot_stride_remap(fb))
-> > > > +		return false;
-> > > 
-> > > The above view is created only once for the FB, I suppose this is how
-> > > you differentiate it from views created each time due to a stride
-> > > limit (based on intel_plane_needs_remap()).
-> > > 
-> > > > +
-> > > > +	return plane_state->view.gtt.type != I915_GTT_VIEW_NORMAL;
-> > > 
-> > > So the rotated and remapped views created for a stride limit are
-> > > per-plane based on the above. There is also a rotated view created only
-> > > once for the FB, is it intentional to regard this kind of view as
-> > > per-plane as well?
-> > 
-> > No. Forgot those exist. I guess I should just remove this per-plane
-> > alignment logic for now. Need to think of a proper way to add it back,
-> > or just quietly bury the whole idea.
-> 
-> Another variation is that intel_fb_pin_to_ggtt() etc. tries to bind the
-> vma in max -> min alignment order considering all the plane types here
-> always, though that's almost the opposite to what you want to solve
-> I suppose (avoid to overalign?).
-> 
-> > > > +}
-> > > > +
-> > > >  static unsigned int
-> > > >  intel_plane_fb_min_alignment(const struct intel_plane_state *plane_state)
-> > > >  {
-> > > >  	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
-> > > > -	const struct drm_framebuffer *fb = plane_state->hw.fb;
-> > > > +	const struct intel_framebuffer *fb = to_intel_framebuffer(plane_state->hw.fb);
-> > > >  
-> > > > -	return plane->min_alignment(plane, fb, 0);
-> > > > +	/*
-> > > > +	 * Only use plane specific alignment for binding
-> > > > +	 * a per-plane gtt view (remapped or rotated),
-> > > > +	 * otherwise make sure the alignment is suitable
-> > > > +	 * for all planes.
-> > > > +	 */
-> > > > +	if (!gtt_view_is_per_plane(plane_state))
-> > > > +		return fb->min_alignment;
-> > > > +
-> > > > +	if (intel_plane_needs_physical(plane))
-> > > > +		return 0;
-> > > 
-> > > I guess the above is ok, though looks like an unrelated change: the
-> > > cursor plane min_alignment() for relevant platforms is <= 4k, which will
-> > > be rounded up to 4k anyway when binding the vma.
-> > 
-> > When intel_plane_needs_physical()==true the alignment declared
-> > by the plane only applies to the physical/dma address, as that
-> > is what the hardware will consume. Doesn't actually matter
-> > where it gets bound in the ggtt.
-> 
-> Ok, it's unclear why the same physical alignment was used then to bind
-> the vma as well, but didn't probably matter in practice since the
-> alignment was small. The commit log could still mention this change.
+On Mon, Mar 18, 2024 at 9:39=E2=80=AFPM Lucas Stach <l.stach@pengutronix.de=
+> wrote:
+>
+> From: Wyon Bi <bivvy.bi@rock-chips.com>
+>
+> There is no need for separate functions for each lane, as we can deduct t=
+he
+> register offset to read/write from the lane index.
+>
+> Signed-off-by: Wyon Bi <bivvy.bi@rock-chips.com>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> ---
+>  .../drm/bridge/analogix/analogix_dp_core.c    |  97 ++-------------
+>  .../drm/bridge/analogix/analogix_dp_core.h    |  22 +---
+>  .../gpu/drm/bridge/analogix/analogix_dp_reg.c | 114 +++---------------
+>  3 files changed, 26 insertions(+), 207 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers=
+/gpu/drm/bridge/analogix/analogix_dp_core.c
+> index df9370e0ff23..300385db7502 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> @@ -234,28 +234,6 @@ static int analogix_dp_training_pattern_dis(struct a=
+nalogix_dp_device *dp)
+>         return ret < 0 ? ret : 0;
+>  }
+>
+> -static void
+> -analogix_dp_set_lane_lane_pre_emphasis(struct analogix_dp_device *dp,
+> -                                      int pre_emphasis, int lane)
+> -{
+> -       switch (lane) {
+> -       case 0:
+> -               analogix_dp_set_lane0_pre_emphasis(dp, pre_emphasis);
+> -               break;
+> -       case 1:
+> -               analogix_dp_set_lane1_pre_emphasis(dp, pre_emphasis);
+> -               break;
+> -
+> -       case 2:
+> -               analogix_dp_set_lane2_pre_emphasis(dp, pre_emphasis);
+> -               break;
+> -
+> -       case 3:
+> -               analogix_dp_set_lane3_pre_emphasis(dp, pre_emphasis);
+> -               break;
+> -       }
+> -}
+> -
+>  static int analogix_dp_link_start(struct analogix_dp_device *dp)
+>  {
+>         u8 buf[4];
+> @@ -286,10 +264,12 @@ static int analogix_dp_link_start(struct analogix_d=
+p_device *dp)
+>                 return retval;
+>         }
+>
+> -       /* Set TX pre-emphasis to minimum */
+> +       /* Set TX voltage-swing and pre-emphasis to minimum */
+>         for (lane =3D 0; lane < lane_count; lane++)
+> -               analogix_dp_set_lane_lane_pre_emphasis(dp,
+> -                       PRE_EMPHASIS_LEVEL_0, lane);
+> +               dp->link_train.training_lane[lane] =3D
+> +                                       DP_TRAIN_VOLTAGE_SWING_LEVEL_0 |
+> +                                       DP_TRAIN_PRE_EMPH_LEVEL_0;
+> +       analogix_dp_set_lane_link_training(dp);
+>
+>         /* Wait for PLL lock */
+>         pll_tries =3D 0;
+> @@ -384,54 +364,6 @@ static unsigned char analogix_dp_get_adjust_request_=
+pre_emphasis(
+>         return ((link_value >> shift) & 0xc) >> 2;
+>  }
+>
+> -static void analogix_dp_set_lane_link_training(struct analogix_dp_device=
+ *dp,
+> -                                              u8 training_lane_set, int =
+lane)
+> -{
+> -       switch (lane) {
+> -       case 0:
+> -               analogix_dp_set_lane0_link_training(dp, training_lane_set=
+);
+> -               break;
+> -       case 1:
+> -               analogix_dp_set_lane1_link_training(dp, training_lane_set=
+);
+> -               break;
+> -
+> -       case 2:
+> -               analogix_dp_set_lane2_link_training(dp, training_lane_set=
+);
+> -               break;
+> -
+> -       case 3:
+> -               analogix_dp_set_lane3_link_training(dp, training_lane_set=
+);
+> -               break;
+> -       }
+> -}
+> -
+> -static unsigned int
+> -analogix_dp_get_lane_link_training(struct analogix_dp_device *dp,
+> -                                  int lane)
+> -{
+> -       u32 reg;
+> -
+> -       switch (lane) {
+> -       case 0:
+> -               reg =3D analogix_dp_get_lane0_link_training(dp);
+> -               break;
+> -       case 1:
+> -               reg =3D analogix_dp_get_lane1_link_training(dp);
+> -               break;
+> -       case 2:
+> -               reg =3D analogix_dp_get_lane2_link_training(dp);
+> -               break;
+> -       case 3:
+> -               reg =3D analogix_dp_get_lane3_link_training(dp);
+> -               break;
+> -       default:
+> -               WARN_ON(1);
+> -               return 0;
+> -       }
+> -
+> -       return reg;
+> -}
+> -
+>  static void analogix_dp_reduce_link_rate(struct analogix_dp_device *dp)
+>  {
+>         analogix_dp_training_pattern_dis(dp);
+> @@ -523,10 +455,7 @@ static int analogix_dp_process_clock_recovery(struct=
+ analogix_dp_device *dp)
+>         }
+>
+>         analogix_dp_get_adjust_training_lane(dp, adjust_request);
+> -
+> -       for (lane =3D 0; lane < lane_count; lane++)
+> -               analogix_dp_set_lane_link_training(dp,
+> -                       dp->link_train.training_lane[lane], lane);
+> +       analogix_dp_set_lane_link_training(dp);
+>
+>         retval =3D drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET,
+>                                    dp->link_train.training_lane, lane_cou=
+nt);
+> @@ -538,7 +467,7 @@ static int analogix_dp_process_clock_recovery(struct =
+analogix_dp_device *dp)
+>
+>  static int analogix_dp_process_equalizer_training(struct analogix_dp_dev=
+ice *dp)
+>  {
+> -       int lane, lane_count, retval;
+> +       int lane_count, retval;
+>         u32 reg;
+>         u8 link_align, link_status[2], adjust_request[2];
+>
+> @@ -598,9 +527,7 @@ static int analogix_dp_process_equalizer_training(str=
+uct analogix_dp_device *dp)
+>                 return -EIO;
+>         }
+>
+> -       for (lane =3D 0; lane < lane_count; lane++)
+> -               analogix_dp_set_lane_link_training(dp,
+> -                       dp->link_train.training_lane[lane], lane);
+> +       analogix_dp_set_lane_link_training(dp);
+>
+>         retval =3D drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET,
+>                                    dp->link_train.training_lane, lane_cou=
+nt);
+> @@ -712,7 +639,7 @@ static int analogix_dp_full_link_train(struct analogi=
+x_dp_device *dp,
+>
+>  static int analogix_dp_fast_link_train(struct analogix_dp_device *dp)
+>  {
+> -       int i, ret;
+> +       int ret;
+>         u8 link_align, link_status[2];
+>         enum pll_status status;
+>
+> @@ -720,11 +647,7 @@ static int analogix_dp_fast_link_train(struct analog=
+ix_dp_device *dp)
+>
+>         analogix_dp_set_link_bandwidth(dp, dp->link_train.link_rate);
+>         analogix_dp_set_lane_count(dp, dp->link_train.lane_count);
+> -
+> -       for (i =3D 0; i < dp->link_train.lane_count; i++) {
+> -               analogix_dp_set_lane_link_training(dp,
+> -                       dp->link_train.training_lane[i], i);
+> -       }
+> +       analogix_dp_set_lane_link_training(dp);
+>
+>         ret =3D readx_poll_timeout(analogix_dp_get_pll_lock_status, dp, s=
+tatus,
+>                                  status !=3D PLL_UNLOCKED, 120,
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h b/drivers=
+/gpu/drm/bridge/analogix/analogix_dp_core.h
+> index 433f2d7efa0c..382b2f068ab9 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h
+> @@ -213,26 +213,8 @@ void analogix_dp_enable_enhanced_mode(struct analogi=
+x_dp_device *dp,
+>                                       bool enable);
+>  void analogix_dp_set_training_pattern(struct analogix_dp_device *dp,
+>                                       enum pattern_set pattern);
+> -void analogix_dp_set_lane0_pre_emphasis(struct analogix_dp_device *dp,
+> -                                       u32 level);
+> -void analogix_dp_set_lane1_pre_emphasis(struct analogix_dp_device *dp,
+> -                                       u32 level);
+> -void analogix_dp_set_lane2_pre_emphasis(struct analogix_dp_device *dp,
+> -                                       u32 level);
+> -void analogix_dp_set_lane3_pre_emphasis(struct analogix_dp_device *dp,
+> -                                       u32 level);
+> -void analogix_dp_set_lane0_link_training(struct analogix_dp_device *dp,
+> -                                        u32 training_lane);
+> -void analogix_dp_set_lane1_link_training(struct analogix_dp_device *dp,
+> -                                        u32 training_lane);
+> -void analogix_dp_set_lane2_link_training(struct analogix_dp_device *dp,
+> -                                        u32 training_lane);
+> -void analogix_dp_set_lane3_link_training(struct analogix_dp_device *dp,
+> -                                        u32 training_lane);
+> -u32 analogix_dp_get_lane0_link_training(struct analogix_dp_device *dp);
+> -u32 analogix_dp_get_lane1_link_training(struct analogix_dp_device *dp);
+> -u32 analogix_dp_get_lane2_link_training(struct analogix_dp_device *dp);
+> -u32 analogix_dp_get_lane3_link_training(struct analogix_dp_device *dp);
+> +void analogix_dp_set_lane_link_training(struct analogix_dp_device *dp);
+> +u32 analogix_dp_get_lane_link_training(struct analogix_dp_device *dp, u8=
+ lane);
+>  void analogix_dp_reset_macro(struct analogix_dp_device *dp);
+>  void analogix_dp_init_video(struct analogix_dp_device *dp);
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c b/drivers/=
+gpu/drm/bridge/analogix/analogix_dp_reg.c
+> index 7b0bc9704eac..d267cf05cbca 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c
+> @@ -557,6 +557,20 @@ void analogix_dp_get_lane_count(struct analogix_dp_d=
+evice *dp, u32 *count)
+>         *count =3D reg;
+>  }
+>
+> +void analogix_dp_set_lane_link_training(struct analogix_dp_device *dp)
+> +{
+> +       u8 lane;
+> +
+> +       for (lane =3D 0; lane < dp->link_train.lane_count; lane++)
+> +               writel(dp->link_train.training_lane[lane],
+> +                      dp->reg_base + ANALOGIX_DP_LN0_LINK_TRAINING_CTL +=
+ 4 * lane);
+> +}
+> +
+> +u32 analogix_dp_get_lane_link_training(struct analogix_dp_device *dp, u8=
+ lane)
+> +{
+> +       return readl(dp->reg_base + ANALOGIX_DP_LN0_LINK_TRAINING_CTL + 4=
+ * lane);
+> +}
+> +
+>  void analogix_dp_enable_enhanced_mode(struct analogix_dp_device *dp,
+>                                       bool enable)
+>  {
+> @@ -606,106 +620,6 @@ void analogix_dp_set_training_pattern(struct analog=
+ix_dp_device *dp,
+>         }
+>  }
+>
+> -void analogix_dp_set_lane0_pre_emphasis(struct analogix_dp_device *dp,
+> -                                       u32 level)
+> -{
+> -       u32 reg;
+> -
+> -       reg =3D readl(dp->reg_base + ANALOGIX_DP_LN0_LINK_TRAINING_CTL);
+> -       reg &=3D ~PRE_EMPHASIS_SET_MASK;
+> -       reg |=3D level << PRE_EMPHASIS_SET_SHIFT;
+> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN0_LINK_TRAINING_CTL);
+> -}
+> -
+> -void analogix_dp_set_lane1_pre_emphasis(struct analogix_dp_device *dp,
+> -                                       u32 level)
+> -{
+> -       u32 reg;
+> -
+> -       reg =3D readl(dp->reg_base + ANALOGIX_DP_LN1_LINK_TRAINING_CTL);
+> -       reg &=3D ~PRE_EMPHASIS_SET_MASK;
+> -       reg |=3D level << PRE_EMPHASIS_SET_SHIFT;
+> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN1_LINK_TRAINING_CTL);
+> -}
+> -
+> -void analogix_dp_set_lane2_pre_emphasis(struct analogix_dp_device *dp,
+> -                                       u32 level)
+> -{
+> -       u32 reg;
+> -
+> -       reg =3D readl(dp->reg_base + ANALOGIX_DP_LN2_LINK_TRAINING_CTL);
+> -       reg &=3D ~PRE_EMPHASIS_SET_MASK;
+> -       reg |=3D level << PRE_EMPHASIS_SET_SHIFT;
+> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN2_LINK_TRAINING_CTL);
+> -}
+> -
+> -void analogix_dp_set_lane3_pre_emphasis(struct analogix_dp_device *dp,
+> -                                       u32 level)
+> -{
+> -       u32 reg;
+> -
+> -       reg =3D readl(dp->reg_base + ANALOGIX_DP_LN3_LINK_TRAINING_CTL);
+> -       reg &=3D ~PRE_EMPHASIS_SET_MASK;
+> -       reg |=3D level << PRE_EMPHASIS_SET_SHIFT;
+> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN3_LINK_TRAINING_CTL);
+> -}
+> -
+> -void analogix_dp_set_lane0_link_training(struct analogix_dp_device *dp,
+> -                                        u32 training_lane)
+> -{
+> -       u32 reg;
+> -
+> -       reg =3D training_lane;
+> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN0_LINK_TRAINING_CTL);
+> -}
+> -
+> -void analogix_dp_set_lane1_link_training(struct analogix_dp_device *dp,
+> -                                        u32 training_lane)
+> -{
+> -       u32 reg;
+> -
+> -       reg =3D training_lane;
+> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN1_LINK_TRAINING_CTL);
+> -}
+> -
+> -void analogix_dp_set_lane2_link_training(struct analogix_dp_device *dp,
+> -                                        u32 training_lane)
+> -{
+> -       u32 reg;
+> -
+> -       reg =3D training_lane;
+> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN2_LINK_TRAINING_CTL);
+> -}
+> -
+> -void analogix_dp_set_lane3_link_training(struct analogix_dp_device *dp,
+> -                                        u32 training_lane)
+> -{
+> -       u32 reg;
+> -
+> -       reg =3D training_lane;
+> -       writel(reg, dp->reg_base + ANALOGIX_DP_LN3_LINK_TRAINING_CTL);
+> -}
+> -
+> -u32 analogix_dp_get_lane0_link_training(struct analogix_dp_device *dp)
+> -{
+> -       return readl(dp->reg_base + ANALOGIX_DP_LN0_LINK_TRAINING_CTL);
+> -}
+> -
+> -u32 analogix_dp_get_lane1_link_training(struct analogix_dp_device *dp)
+> -{
+> -       return readl(dp->reg_base + ANALOGIX_DP_LN1_LINK_TRAINING_CTL);
+> -}
+> -
+> -u32 analogix_dp_get_lane2_link_training(struct analogix_dp_device *dp)
+> -{
+> -       return readl(dp->reg_base + ANALOGIX_DP_LN2_LINK_TRAINING_CTL);
+> -}
+> -
+> -u32 analogix_dp_get_lane3_link_training(struct analogix_dp_device *dp)
+> -{
+> -       return readl(dp->reg_base + ANALOGIX_DP_LN3_LINK_TRAINING_CTL);
+> -}
+> -
+>  void analogix_dp_reset_macro(struct analogix_dp_device *dp)
+>  {
+>         u32 reg;
+> --
+> 2.39.2
+>
 
-I guess if I just drop the per-plane tricks then we should just 
-always use fb->min_alignment for the ggtt. Although I think that
-is going to be end up being 0 since currently we expose the ARGB
-format only for cursor planes on these platforms.
-
--- 
-Ville Syrjälä
-Intel
+Reviewed-by: Robert Foss <rfoss@kernel.org>
