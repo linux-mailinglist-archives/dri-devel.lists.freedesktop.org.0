@@ -2,86 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AECF8D53FC
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 22:44:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7D78D5427
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 23:06:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFB1610E42D;
-	Thu, 30 May 2024 20:44:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7CD311AD34;
+	Thu, 30 May 2024 21:06:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZU3WJDGJ";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="x03j2JuE";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="nOW58Ffh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9878810EBD4;
- Thu, 30 May 2024 20:44:11 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-70244776719so78479b3a.2; 
- Thu, 30 May 2024 13:44:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1717101851; x=1717706651; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=X1/q38ajc2cigpnUWtYXKrDTQJnogN5TA72dnoPxc4w=;
- b=ZU3WJDGJ1ixKKkVGarg8q6F3YDYIFJU50dpDWgDkC2pWE85C82IkJwH7AUrW7lMYMm
- 835AoBq8vCQTF9t9ihMDPDYpUDxfJ610+TPHLkkgyRE4suwD9xDk+SIw0b1OWPapZ5wK
- +e+IX0BX93ZGMz5Tn/0tq/3/CbzrVET6RWWeun9DFAW1t53oTdqVozxFNOUJEUfGkUVX
- 4wFenzowrGFj9OXwM0SoDDS/UduHv9LGShVAvapwXC8BFHkqJMnqMxnLbsWlNTgHFBk1
- nx/wvrY0OYVY9Fao+swGxDRl5+DyCkSmm1Z9Fwl3MHEbNZwLOfmwXfQBtXh83E8Plmtx
- K0WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717101851; x=1717706651;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=X1/q38ajc2cigpnUWtYXKrDTQJnogN5TA72dnoPxc4w=;
- b=HJAB/zGXaZ2n3KNPCc7NijxgZJMNj8oYx457jRE48vDAhH5ioGjcSC1XXjdNjBRX4z
- GKNUFaD1kRvxUwuTUyM9bSS9Y4xuGelcJX86/CKBRbKBIh6CP/7seNhaiW3X9M2cIKk6
- 2BqyJiTPJbeLtKwypwIHIS3P6Vc9Mxw0qmketVEkMxYjtmssVVIWCgXIQhU9yoURSMrb
- TPPYmdzsV0ZR/2wigML3R43O2J3FPxhR/WpB8HOWTBYrJfDonaN4jaechMRi+lXn4qt/
- XPBX97fZVQ7VhveDcSXMpUhB/Gj40iYWS0fvLyLNBVFUrzZGVdQKyDw5KfKX0UGDIbOx
- spuw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWn0WSsl+OcfE/OySlptfOFgZKwLn/PBJpPzSv5w4z3bghY6xss4www+e8WTlJsLsd/8OFolu2VFveduX7Rg3lTIZDpqCQ+F0zk2IpUQqqUuT8A5z9Q+05/8OUvSsgv7RRfGZ4zhmBM82RNN9KSRw==
-X-Gm-Message-State: AOJu0YxgKlBdMIW/ZualPCa8oqUIiA6z5dJvFoYuMvJHysVCFGvwdJQT
- 5uZyLuhuzCl1qSyYqx2TnrEkqCJ9x1v+3/lqTnWyq2GPifafYJvQMVP0iw==
-X-Google-Smtp-Source: AGHT+IHj8j/zqaOBcjIT/XxOQNe1B+xo2dkm5mX/TzMHOSAr352c3GTLXoqD+H9hb7VWqXR5OoAM0g==
-X-Received: by 2002:a05:6a20:3206:b0:1af:dae8:5eac with SMTP id
- adf61e73a8af0-1b26f23d501mr82943637.46.1717101850942; 
- Thu, 30 May 2024 13:44:10 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:509f:4b2e:3586:eb1])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-702423cb359sm146595b3a.5.2024.05.30.13.44.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 May 2024 13:44:10 -0700 (PDT)
-Date: Thu, 30 May 2024 13:44:07 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: "Limonciello, Mario" <mario.limonciello@amd.com>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-kernel@vger.kernel.org,
- Chris Bainbridge <chris.bainbridge@gmail.com>, hughsient@gmail.com,
- linux-input@vger.kernel.org
-Subject: Re: [PATCH v2] drm/client: Detect when ACPI lid is closed during
- initialization
-Message-ID: <ZljlF1fE5ypKWoGk@google.com>
-References: <20240528210319.1242-1-mario.limonciello@amd.com>
- <Zlc4V1goFvU2antl@intel.com>
- <197d195f-9206-41dd-8ff1-f4bb4988fb9b@amd.com>
- <ZldMKZ1MzSDXOheJ@intel.com>
- <g34f3sdk22grheq2vaaonkl543dtk7nb5sffqgmkl5ywtj5skk@p5ht5ug33q4z>
- <873b7a7b-139d-498e-89da-098cb3d7599d@amd.com>
- <CAA8EJpqODpGX-RthQ8qu3oU80qXp8a-N1Chz-dcQXjKYoDfEgw@mail.gmail.com>
+Received: from fout3-smtp.messagingengine.com (fout3-smtp.messagingengine.com
+ [103.168.172.146])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0A1811AD34
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 21:06:01 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailfout.nyi.internal (Postfix) with ESMTP id C6416138012B;
+ Thu, 30 May 2024 17:06:00 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+ by compute5.internal (MEProxy); Thu, 30 May 2024 17:06:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+ h=cc:cc:content-type:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:subject:subject:to:to; s=fm1; t=1717103160; x=
+ 1717189560; bh=cdEZZtyEVNawpjLdktDowv4ZgJhZACCtSCiNIQbi1uI=; b=x
+ 03j2JuExSsk0Pu7QgfUIZVcZxk6TDiS9mZOkDfiMXlAoFpkABpQxGSbGY+UJZjZQ
+ F5oF92n84Rb3RdQfh07Qm5J2RTftkxQOIO9Eac9Y/WVA1dBhM2VxbvGkkoSiKd2H
+ yMlpiZ2uA4ypR7e4TMsjJ/1UyQ7faFwZUakfvHddA15LnW1MTU/ZnfvgGpLM6yQa
+ Tcm1WIyblpFOX7vUa+oT2wA4sLOdsXGYjkuwukdg4n/tk3KEShgW9hFb0ow+rqmS
+ 3JHaQ6hbWfqp4IOSbz7d4zUXLerYDZFXTpMNN7yB2R8xQ+q/8HFIoTmZMTWBwiSH
+ rxZSxGeq0f4oYjxwPbHJQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1717103160; x=1717189560; bh=cdEZZtyEVNawpjLdktDowv4ZgJhZ
+ ACCtSCiNIQbi1uI=; b=nOW58Ffht0TQbxboOr3+gpiZCmmC5MGyOjg3pG8jfkDc
+ aygU9shAll7i75Rjd5moxO52bfQuwweZIq2YiBeZY9vN+VwUT3SH3ydbFyA95ZiR
+ DLAyljsn4boKrrr1a+CsKqFCHexPlnNj8AVviFf40mMj2wlgYlKEwsSBcTZIKQj2
+ iQag+WH/GJ9nsCO64Qo4knAYaGqHu19+XnnQKqZmEO1KC6mCe04qtjRD1H0XGtoe
+ N/k0TLJxaAJVkSeR+X0N7BiuDqwZ7KV3aTGyGywWMSp1QassB2zBrM+gtNXMUKHy
+ 67YKe8loqeTY+VXbeV1ADVZKet9h1Tby50sU2txSpw==
+X-ME-Sender: <xms:OOpYZnYkcWxjYWn1RY6XgXa87YWg8b_H6W6fDdL_2Hpd2PSGL0Oqpw>
+ <xme:OOpYZmamrAsgNg5WN9VIQYUCFHcY2wxBBUPmUkArcgbGbEM7wTkSzIxgS7xIpDF1n
+ TBCzLoObDhk3VQX9w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdekgedgudehgecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdft
+ higrnhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenuc
+ ggtffrrghtthgvrhhnpeehvdevieegudejueefgeffhefhffevudfhieejgfdtffetlefg
+ teeuveeiudeijeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+ hrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomh
+X-ME-Proxy: <xmx:OOpYZp_VaufiQdDsemuIzs6nzCJVWhwdgBiccNe8C9l9tKTTE2fD_Q>
+ <xmx:OOpYZto64Zm9P8Qx4PeyNFATw4Kdv1_zX_6P8-flEhu6HcepyZfV0g>
+ <xmx:OOpYZiqvAWnSMrg-guSJIt7MwcxgyHk8ZXB_TQje2sEMKFMJfYjXUg>
+ <xmx:OOpYZjTttaBhjIPlrD2lc1PgtUOlYmKDUy5kf-ng6y9WXdsDIwfzPw>
+ <xmx:OOpYZl_oKufJYXzK-Dp2dAEp09dvaL9ZBdYrpkELfunho_isEMHnV4UP>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id E76F1A60078; Thu, 30 May 2024 17:05:59 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-491-g033e30d24-fm-20240520.001-g033e30d2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA8EJpqODpGX-RthQ8qu3oU80qXp8a-N1Chz-dcQXjKYoDfEgw@mail.gmail.com>
+Message-Id: <7a7fac3f-47a0-4911-902d-1ea7a8520fe2@app.fastmail.com>
+In-Reply-To: <20240530-kinship-lucid-71610ff9cd93@spud>
+References: <20240530082318.40516-1-ryan@testtoast.com>
+ <20240530082318.40516-3-ryan@testtoast.com>
+ <20240530-kinship-lucid-71610ff9cd93@spud>
+Date: Fri, 31 May 2024 09:05:38 +1200
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Conor Dooley" <conor@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Jessica Zhang" <quic_jesszhan@quicinc.com>,
+ "Sam Ravnborg" <sam@ravnborg.org>, "David Airlie" <airlied@gmail.com>,
+ "Daniel Vetter" <daniel@ffwll.ch>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Hironori KIKUCHI" <kikuchan98@gmail.com>,
+ "Chris Morgan" <macroalpha82@gmail.com>,
+ "Andre Przywara" <andre.przywara@arm.com>, "John Watts" <contact@jookia.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: panel: Add WL-355608-A8 panel
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,48 +105,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 30, 2024 at 11:07:53AM +0300, Dmitry Baryshkov wrote:
-> On Thu, 30 May 2024 at 07:41, Limonciello, Mario
-> <mario.limonciello@amd.com> wrote:
-> >
-> >
-> > >> Also a direct acpi_lid_open() call seems a bit iffy. But I guess if
-> > >> someone needs this to work on non-ACPI system they get to figure out
-> > >> how to abstract it better. acpi_lid_open() does seem to return != 0
-> > >> when ACPI is not supported, so at least it would err on the side
-> > >> of enabling everything.
-> > >
-> > > Thanks. I was going to comment, but you got it first. I think a proper
-> > > implementation should check for SW_LID input device instead of simply
-> > > using acpi_lid_open(). This will handle the issue for other,
-> > > non-ACPI-based laptops.
-> > >
-> >
-> > Can you suggest how this would actually work?  AFAICT the only way to
-> > discover if input devices support SW_LID would be to iterate all the
-> > input devices in the kernel and look for whether ->swbit has SW_LID set.
-> >
-> > This then turns into a dependency problem of whether any myriad of
-> > drivers have started to report SW_LID.  It's also a state machine
-> > problem because other drivers can be unloaded at will.
-> >
-> > And then what do you if more than one sets SW_LID?
-> 
-> It might be easier to handle this in the input subsystem. For example
-> by using a refcount-like variable which handles all the LIDs and
-> counts if all of them are closed. Or if any of the LIDs is closed.
+On Fri, 31 May 2024, at 4:03 AM, Conor Dooley wrote:
+> You accidentally added a tab here:
+>             	endpoint {
 
-Yes, install an input handler matching on EV_SW/SW_LID so you will get
-notified when input devices capable of reporting SW_LID appear and
-disappear and also when SW_LID event is being generated, and handle as
-you wish. Something like
+Apologies, will fix along with the other redundant label for v3. Thanks for the review!
 
-https://chromium.googlesource.com/chromiumos/third_party/kernel/+/40e9f6a991856ee7d504ac1ccd587e435775cfc4%5E%21/#F0
-
-In practice I think it is pretty safe to assume only 1 lid for a
-laptop/device.
-
-Thanks.
-
--- 
-Dmitry
+Ryan
