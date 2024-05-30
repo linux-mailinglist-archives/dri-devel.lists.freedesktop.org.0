@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8638D472B
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 10:35:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9D938D4734
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 10:36:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B14410EDDC;
-	Thu, 30 May 2024 08:35:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B40C210FBCA;
+	Thu, 30 May 2024 08:36:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="eoZcqHzg";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="HMix2dvP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C51CD10E099
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 08:35:34 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-1f4c7b022f8so5681445ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 01:35:34 -0700 (PDT)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69EE410E099
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 08:35:38 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-1f3469382f2so5122345ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 01:35:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1717058134; x=1717662934;
+ d=chromium.org; s=google; t=1717058138; x=1717662938;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IHkwqtBAKIh1FT18Wf08tYxtDsD9mBo3yYE6cpTa5lo=;
- b=eoZcqHzg1NzpS4VWS/aRE1fS+aVt3oISvIYS0xTY9TCxmOWEb3fVh33l+eg9BW5EJj
- g8tEjPUyrCTSr2EujEg5vtKWvJpyXFJfc3LOHig7oLSB6c+Krj5I0m7jbuIhf7wo9Ne3
- XmWCi2CVh0Y3RTOu2mfLhpnEF5fiHC+lpysU8=
+ bh=SmWglR2Ij5/TGj5MHHzWjORF1jpZWpClgT/eZSAiwmw=;
+ b=HMix2dvPVUElgHGLtr1hFxsi2ssDIX2CGU5ydztG82pTc1GWbsO5WFiTsHZ5rsfRQM
+ 4pbfN/5NGIb/N6K2FJXBhbTOpVYY9cA9anwHKcYjR0PeLvxQ4+ket/09iUoplrZ94k38
+ Y6fjse67Bq4SMnIOsZVYyqMTX7EbSqj0gQxog=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717058134; x=1717662934;
+ d=1e100.net; s=20230601; t=1717058138; x=1717662938;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IHkwqtBAKIh1FT18Wf08tYxtDsD9mBo3yYE6cpTa5lo=;
- b=qoQfgdBGqy5v7KzccCTAG776m7ds3J5VU/l1O6dzxDkbYBpaDUEixy6IcqnvCVjQ23
- q3fqFZHnsxXCb6FC2jq+DDo6FEL8JAJcLPGWaEA4tXNaAme4O03mqum8XDNhEPfpSYhw
- TBFA6jMPxWmI8oCrJAuB6uNz3rs/GBNgr8GV7btep0q5UaT5l4Pwzzst54WAOFGTaQB9
- Q18TgrYhqbqr3GHFGHYF97ven6Xk/S3ELTNgzGP2T93nw5ZDOVwqz73Skdz0TcU9KH+D
- 9zqqqJW8bYYKhC6+/gtk57JCkb0SpCrFDHSQ+6unNI91cm2GGpqKNayZCJBnnbfGiEx5
- DQFQ==
+ bh=SmWglR2Ij5/TGj5MHHzWjORF1jpZWpClgT/eZSAiwmw=;
+ b=B5XIjDmfwoo8rrf9srLamX3WGRnLHKP5pLN3dxFleh3TKhT1msmszV4P2/PRC9T7lF
+ GAlCMVq1Dt7EkqFajkvDIcY/iUQI7sWudziFicFvYa+G30q01TRlAI6B7GQUk/GUiexD
+ Dc2xRd28dGZiVsy1aKy//5Y7xy1S0mG9bJa8DXqi9rwaLq9HrQx9V3zo2AsJc+HqStQC
+ QhdsvZ5xochEb8S3tFRYRSamOTPlnhN9/WAZu6Bi4m1mcWQOlaSA+Y1fsMiP0a8CUeZA
+ k0fT5mQd6sqOqn9T2XUbmJ+N1PMoYAXGDE/0SkeTqeIEO1AuuVPL62lz3ZfCCL1b7pi2
+ YyWw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWR5S4zsTkGir7XnxcZLoVAVEEMUwqkTS0j8WkjtJVy1VtCx+/XMnDRzTZt3MSsaJ4QWgNdXhKpreHMjXw84mE5HAlou6biaI2PcfE8XW55
-X-Gm-Message-State: AOJu0YywsH2yS2j500Vbw6CqtEk5bsI7QLRaz81SY0/tHORmHcOVNEd1
- DB5SIIXACsQIjop8ZCN/2NvwF5OfQQYkHeHWYjHjCwM6L1fG3+CAgVSaR7TXFA==
-X-Google-Smtp-Source: AGHT+IGaMXKlAuHj3tKDXFrEymwDvO07A1BRFroXZlN02EvX5mN7HsOfQHvylgHcYJoSPTNjRI9s+A==
-X-Received: by 2002:a17:903:2095:b0:1f4:768b:445e with SMTP id
- d9443c01a7336-1f619605ee4mr11933665ad.24.1717058134222; 
- Thu, 30 May 2024 01:35:34 -0700 (PDT)
+ AJvYcCXscm+YdqiUQWs696qCOTpj/7dlzxh0nz1KDTXWx/RIRWh4Xs/v9S0N+rFyUlignwcKVfhs+5OZuu72M2T1qiIW/BxFDHrpJEa8SL7DIt+H
+X-Gm-Message-State: AOJu0YyVwqMnugmn3mxE1N2tW/6uG86BG6Lrcr8E0WO0l9Vjgi0nf4e/
+ /zIGTgZ7rJMMvo98SM8xN3c+atwLxhgru/Sdyde8JqFWQdsdGuuXuE/k41MefA==
+X-Google-Smtp-Source: AGHT+IFpzoyjS8oEHpsPco6/0czovfTG+BgxZDwOvkJUGlKruUTXsaiUOVp8Alhb12YxLjpScrPXfA==
+X-Received: by 2002:a17:902:74c8:b0:1f4:7f18:6d7c with SMTP id
+ d9443c01a7336-1f61a4db927mr16665575ad.61.1717058137709; 
+ Thu, 30 May 2024 01:35:37 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com
  ([2401:fa00:1:10:65f0:63a9:90bb:50b8])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f617390fe7sm10950635ad.146.2024.05.30.01.35.31
+ d9443c01a7336-1f617390fe7sm10950635ad.146.2024.05.30.01.35.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 May 2024 01:35:33 -0700 (PDT)
+ Thu, 30 May 2024 01:35:37 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -69,9 +69,10 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>, David Airlie <airlied@gmail.com>,
  linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 4/6] drm/imagination: Add compatible string entry for Series6XT
-Date: Thu, 30 May 2024 16:35:03 +0800
-Message-ID: <20240530083513.4135052-5-wenst@chromium.org>
+Subject: [PATCH 5/6] arm64: dts: mediatek: mt8173: Fix MFG_ASYNC power domain
+ clock
+Date: Thu, 30 May 2024 16:35:04 +0800
+Message-ID: <20240530083513.4135052-6-wenst@chromium.org>
 X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
 In-Reply-To: <20240530083513.4135052-1-wenst@chromium.org>
 References: <20240530083513.4135052-1-wenst@chromium.org>
@@ -92,26 +93,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MediaTek MT8173 comes with a PowerVR Rogue GX6250, which is part
-of the Series6XT, another variation of the Rogue family of GPUs.
+The MFG_ASYNC domain, which is likely associated to the whole MFG block,
+currently specifies clk26m as its domain clock. This is bogus, since the
+clock is an external crystal with no controls. Also, the MFG block has
+a independent CLK_TOP_AXI_MFG_IN_SEL clock, which according to the block
+diagram, gates access to the hardware registers. Having this one as the
+domain clock makes much more sense. This also fixes access to the MFGTOP
+registers.
 
+Change the MFG_ASYNC domain clock to CLK_TOP_AXI_MFG_IN_SEL.
+
+Fixes: 8b6562644df9 ("arm64: dts: mediatek: Add mt8173 power domain controller")
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- drivers/gpu/drm/imagination/pvr_drv.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/mediatek/mt8173.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
-index 5c3b2d58d766..3d1a933c8303 100644
---- a/drivers/gpu/drm/imagination/pvr_drv.c
-+++ b/drivers/gpu/drm/imagination/pvr_drv.c
-@@ -1475,6 +1475,7 @@ pvr_remove(struct platform_device *plat_dev)
- 
- static const struct of_device_id dt_match[] = {
- 	{ .compatible = "img,img-axe", .data = NULL },
-+	{ .compatible = "img,powervr-6xt", .data = NULL },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, dt_match);
+diff --git a/arch/arm64/boot/dts/mediatek/mt8173.dtsi b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
+index 3458be7f7f61..136b28f80cc2 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8173.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
+@@ -497,7 +497,7 @@ power-domain@MT8173_POWER_DOMAIN_USB {
+ 				};
+ 				mfg_async: power-domain@MT8173_POWER_DOMAIN_MFG_ASYNC {
+ 					reg = <MT8173_POWER_DOMAIN_MFG_ASYNC>;
+-					clocks = <&clk26m>;
++					clocks = <&topckgen CLK_TOP_AXI_MFG_IN_SEL>;
+ 					clock-names = "mfg";
+ 					#address-cells = <1>;
+ 					#size-cells = <0>;
 -- 
 2.45.1.288.g0e0cd299f1-goog
 
