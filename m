@@ -2,94 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7D78D5427
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 23:06:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C6F8D543B
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 23:09:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7CD311AD34;
-	Thu, 30 May 2024 21:06:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CADB710EA8B;
+	Thu, 30 May 2024 21:09:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="x03j2JuE";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="nOW58Ffh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hQxW4b8c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout3-smtp.messagingengine.com (fout3-smtp.messagingengine.com
- [103.168.172.146])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0A1811AD34
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 21:06:01 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailfout.nyi.internal (Postfix) with ESMTP id C6416138012B;
- Thu, 30 May 2024 17:06:00 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
- by compute5.internal (MEProxy); Thu, 30 May 2024 17:06:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
- h=cc:cc:content-type:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm1; t=1717103160; x=
- 1717189560; bh=cdEZZtyEVNawpjLdktDowv4ZgJhZACCtSCiNIQbi1uI=; b=x
- 03j2JuExSsk0Pu7QgfUIZVcZxk6TDiS9mZOkDfiMXlAoFpkABpQxGSbGY+UJZjZQ
- F5oF92n84Rb3RdQfh07Qm5J2RTftkxQOIO9Eac9Y/WVA1dBhM2VxbvGkkoSiKd2H
- yMlpiZ2uA4ypR7e4TMsjJ/1UyQ7faFwZUakfvHddA15LnW1MTU/ZnfvgGpLM6yQa
- Tcm1WIyblpFOX7vUa+oT2wA4sLOdsXGYjkuwukdg4n/tk3KEShgW9hFb0ow+rqmS
- 3JHaQ6hbWfqp4IOSbz7d4zUXLerYDZFXTpMNN7yB2R8xQ+q/8HFIoTmZMTWBwiSH
- rxZSxGeq0f4oYjxwPbHJQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1717103160; x=1717189560; bh=cdEZZtyEVNawpjLdktDowv4ZgJhZ
- ACCtSCiNIQbi1uI=; b=nOW58Ffht0TQbxboOr3+gpiZCmmC5MGyOjg3pG8jfkDc
- aygU9shAll7i75Rjd5moxO52bfQuwweZIq2YiBeZY9vN+VwUT3SH3ydbFyA95ZiR
- DLAyljsn4boKrrr1a+CsKqFCHexPlnNj8AVviFf40mMj2wlgYlKEwsSBcTZIKQj2
- iQag+WH/GJ9nsCO64Qo4knAYaGqHu19+XnnQKqZmEO1KC6mCe04qtjRD1H0XGtoe
- N/k0TLJxaAJVkSeR+X0N7BiuDqwZ7KV3aTGyGywWMSp1QassB2zBrM+gtNXMUKHy
- 67YKe8loqeTY+VXbeV1ADVZKet9h1Tby50sU2txSpw==
-X-ME-Sender: <xms:OOpYZnYkcWxjYWn1RY6XgXa87YWg8b_H6W6fDdL_2Hpd2PSGL0Oqpw>
- <xme:OOpYZmamrAsgNg5WN9VIQYUCFHcY2wxBBUPmUkArcgbGbEM7wTkSzIxgS7xIpDF1n
- TBCzLoObDhk3VQX9w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdekgedgudehgecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdft
- higrnhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenuc
- ggtffrrghtthgvrhhnpeehvdevieegudejueefgeffhefhffevudfhieejgfdtffetlefg
- teeuveeiudeijeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
- hrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomh
-X-ME-Proxy: <xmx:OOpYZp_VaufiQdDsemuIzs6nzCJVWhwdgBiccNe8C9l9tKTTE2fD_Q>
- <xmx:OOpYZto64Zm9P8Qx4PeyNFATw4Kdv1_zX_6P8-flEhu6HcepyZfV0g>
- <xmx:OOpYZiqvAWnSMrg-guSJIt7MwcxgyHk8ZXB_TQje2sEMKFMJfYjXUg>
- <xmx:OOpYZjTttaBhjIPlrD2lc1PgtUOlYmKDUy5kf-ng6y9WXdsDIwfzPw>
- <xmx:OOpYZl_oKufJYXzK-Dp2dAEp09dvaL9ZBdYrpkELfunho_isEMHnV4UP>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id E76F1A60078; Thu, 30 May 2024 17:05:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-491-g033e30d24-fm-20240520.001-g033e30d2
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A99AE10E24C
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 21:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717103383; x=1748639383;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=SYrW9sHrdDTGWBBBoFp9b3kisxdztBnwBZv2xFBRQXw=;
+ b=hQxW4b8cf74h3+fjRPCWOSEQ4rBkgXVsRQ6OgSGebhMj/4NDrA7Qe4Bh
+ aVrHAcWuEWzrpGy8OHUsnzU7//vKDH0qNYDBSYEviUIj2MZMhaPVcwz9z
+ /QE53hz4bC/2bF51+H9v2js0LjCq2SAkP86Buxb38VqNNf/OW3Nd8k8SG
+ qx/zVOfzJNEsOCRcYocM9tlq+dBxGwb++5SWWbVWntIyyNBsvXGlxpVBf
+ 2VMn1++goubSzq9ge3FsIQQkj8gBAmM3ldsv3rmfEZx6+k6aYroRDuCb+
+ BmMsyjyOQFV0nv7OnwJmo7XBZyiMl1++UtkV8lQCm11rqob/6iStTjl67 g==;
+X-CSE-ConnectionGUID: cVRSz+QRRLSy3go0xkyxdQ==
+X-CSE-MsgGUID: fUcO1s5jSI++RoJhqTrX+Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="24285727"
+X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; d="scan'208";a="24285727"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 May 2024 14:09:43 -0700
+X-CSE-ConnectionGUID: 1FU6TztKSeesp87qdyKgiQ==
+X-CSE-MsgGUID: jQz9GzKgRB6bJbDUXaSGOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; d="scan'208";a="40516374"
+Received: from irvmail002.ir.intel.com ([10.43.11.120])
+ by fmviesa004.fm.intel.com with ESMTP; 30 May 2024 14:09:40 -0700
+Received: from [10.246.25.139] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.246.25.139])
+ by irvmail002.ir.intel.com (Postfix) with ESMTP id 3495828763;
+ Thu, 30 May 2024 22:09:38 +0100 (IST)
+Message-ID: <db83249d-a442-4744-8f15-f6a85c3bc10b@intel.com>
+Date: Thu, 30 May 2024 23:09:36 +0200
 MIME-Version: 1.0
-Message-Id: <7a7fac3f-47a0-4911-902d-1ea7a8520fe2@app.fastmail.com>
-In-Reply-To: <20240530-kinship-lucid-71610ff9cd93@spud>
-References: <20240530082318.40516-1-ryan@testtoast.com>
- <20240530082318.40516-3-ryan@testtoast.com>
- <20240530-kinship-lucid-71610ff9cd93@spud>
-Date: Fri, 31 May 2024 09:05:38 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Conor Dooley" <conor@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Jessica Zhang" <quic_jesszhan@quicinc.com>,
- "Sam Ravnborg" <sam@ravnborg.org>, "David Airlie" <airlied@gmail.com>,
- "Daniel Vetter" <daniel@ffwll.ch>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Hironori KIKUCHI" <kikuchan98@gmail.com>,
- "Chris Morgan" <macroalpha82@gmail.com>,
- "Andre Przywara" <andre.przywara@arm.com>, "John Watts" <contact@jookia.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: panel: Add WL-355608-A8 panel
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/print: Introduce drm_line_printer
+To: John Harrison <john.c.harrison@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>
+References: <20240528130622.1152-1-michal.wajdeczko@intel.com>
+ <1bf31a4b-fede-4044-8390-abb2b833608d@intel.com> <877cfbivrv.fsf@intel.com>
+ <496d5b58-51c8-4176-a60a-d238f6407dd2@intel.com>
+ <03d83dda-9609-477e-8b63-f33e7b46f649@intel.com>
+Content-Language: en-US
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <03d83dda-9609-477e-8b63-f33e7b46f649@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,10 +77,423 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 31 May 2024, at 4:03 AM, Conor Dooley wrote:
-> You accidentally added a tab here:
->             	endpoint {
 
-Apologies, will fix along with the other redundant label for v3. Thanks for the review!
 
-Ryan
+On 30.05.2024 20:47, John Harrison wrote:
+> On 5/30/2024 02:33, Michal Wajdeczko wrote:
+>> On 30.05.2024 09:49, Jani Nikula wrote:
+>>> On Wed, 29 May 2024, John Harrison <john.c.harrison@intel.com> wrote:
+>>>> On 5/28/2024 06:06, Michal Wajdeczko wrote:
+>>>>> This drm printer wrapper can be used to increase the robustness of
+>>>>> the captured output generated by any other drm_printer to make sure
+>>>>> we didn't lost any intermediate lines of the output by adding line
+>>>>> numbers to each output line. Helpful for capturing some crash data.
+>>>>>
+>>>>> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>>>>> Cc: Jani Nikula <jani.nikula@intel.com>
+>>>>> Cc: John Harrison <John.C.Harrison@Intel.com>
+>>>>> ---
+>>>>> v2: don't abuse prefix, use union instead (Jani)
+>>>>>       don't use 'dp' as name, prefer 'p' (Jani)
+>>>>>       add support for unique series identifier (John)
+>>>>> ---
+>>>>>    drivers/gpu/drm/drm_print.c | 14 ++++++++
+>>>>>    include/drm/drm_print.h     | 68
+>>>>> ++++++++++++++++++++++++++++++++++++-
+>>>>>    2 files changed, 81 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+>>>>> index cf2efb44722c..be9cbebff5b3 100644
+>>>>> --- a/drivers/gpu/drm/drm_print.c
+>>>>> +++ b/drivers/gpu/drm/drm_print.c
+>>>>> @@ -214,6 +214,20 @@ void __drm_printfn_err(struct drm_printer *p,
+>>>>> struct va_format *vaf)
+>>>>>    }
+>>>>>    EXPORT_SYMBOL(__drm_printfn_err);
+>>>>>    +void __drm_printfn_line(struct drm_printer *p, struct va_format
+>>>>> *vaf)
+>>>>> +{
+>>>>> +    unsigned int counter = ++p->line.counter;
+>>>> Wrong units, but see below anyway...
+>> it really doesn't matter as it is temporary var used in printf()
+>> actual 'short' counter will wrap on its own unit boundary
+> It should still match. Otherwise the code is ambiguous. Was it meant to
+> be an int? Was it meant to be a short? Just because code compiles
+> doesn't mean it is good.
+
+it is meant to be "unsigned int" as it is more than "short" counter that
+is initialized from and it will printed in printf() as %u
+
+I really don't get what is wrong here
+
+> 
+>>
+>>>>> +    const char *prefix = p->prefix ?: "";
+>>>>> +    const char *pad = p->prefix ? " " : "";
+>>>>> +
+>>>>> +    if (p->line.series)
+>>>>> +        drm_printf(p->arg, "%s%s%u.%u: %pV",
+>>>>> +               prefix, pad, p->line.series, counter, vaf);
+>>>>> +    else
+>>>>> +        drm_printf(p->arg, "%s%s%u: %pV", prefix, pad, counter, vaf);
+>>>>> +}
+>>>>> +EXPORT_SYMBOL(__drm_printfn_line);
+>>>>> +
+>>>>>    /**
+>>>>>     * drm_puts - print a const string to a &drm_printer stream
+>>>>>     * @p: the &drm printer
+>>>>> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+>>>>> index 089950ad8681..f4d9b98d7909 100644
+>>>>> --- a/include/drm/drm_print.h
+>>>>> +++ b/include/drm/drm_print.h
+>>>>> @@ -176,7 +176,13 @@ struct drm_printer {
+>>>>>        void (*puts)(struct drm_printer *p, const char *str);
+>>>>>        void *arg;
+>>>>>        const char *prefix;
+>>>>> -    enum drm_debug_category category;
+>>>>> +    union {
+>>>>> +        enum drm_debug_category category;
+>>>>> +        struct {
+>>>>> +            unsigned short series;
+>>>>> +            unsigned short counter;
+>>>> Any particular reason for using 'short' rather than 'int'? Short is
+>>>> only
+>> didn't want to increase the size of the struct drm_printer and with
+>> little luck sizeof two shorts will be less/equal sizeof enum
+> Depending on the compiler, the architecture and what values have been
+> defined within it, an enum is possibly (likely?) to be a char.
+
+except that is usually a int [1]
+
+but series/counter could be defined as long long int if you really want
+and don't care about struct size
+
+[1] https://en.cppreference.com/w/c/language/enum
+
+> 
+> 
+>>
+>>>> 16bits right? That might seem huge but a GuC log buffer with 16MB debug
+>>>> log (and minimum sizes for the other sections) when dumped via the
+>>>> original debugfs hexdump mechanism is 1,245,444 lines. That line count
+>> if your capture relies on collecting all 1,245,444 lines then likely you
+>> have other problem that needs solving than line counter overflow
+> Have you ever used a full 16MB GuC log? And read it out via debugfs?
+
+quite frequently over last 6+ years
+
+> Then that was 1.2 million lines of text that you read out. Did you have
+> other problems that meant reading that file was a waste of your time? Or
+> did it allow you to debug the issue you were working on?
+
+I read your reply about 1,245,444 lines in context of limitations of
+drm_line_printer planned to be used for dmesg output not about the
+debugfs output
+
+> 
+> The purpose of this patch is to 'improve' the fully working version that
+> was already posted. Causing unwanted wraps in the line count is not an
+> improvement. It is very definitely a bug. And now your argument is that
+> we shouldn't be doing this in the first place? That's a given! Dumping
+> huge streams of data to dmesg is a total hack. We absolutely should not
+> be doing it. But we have no choice because there is no other way
+> (without adding even bigger and more complicated mechanisms involving
+> external debug modules or something).
+
+my point was that blindly printing 1,245,444 lines of hex data to dmesg
+is rather sub-optimal way to get 'crash data' (as if it wouldn't be a
+crash then likely collecting log over debugfs/devcoredump should work)
+
+one of the idea that could minimize size of collected log data could be
+to actually try to decode it partially and copy only last N entries
+(yes, I know it requires extra development, but maybe in return we will
+be less spamming the dmesg)
+
+> 
+>>
+>>>> goes down a lot when you start using longer lines for the dump, but it
+>>>> is still in the tens of thousands of lines.  So limiting to 16 bits is
+>>>> an overflow just waiting to happen.
+>> but even in case of an overflow it should be relatively easy to teach
+>> any parser to deal with line .0 as indicator to restart any tracker
+> Wasn't your earlier argument that trivially parsing out the line count
+> prefix from a debugfs file was far too much effort and cannot possibly
+> be done by a developer. Now you are saying that coping with a broken
+> count is "easy to teach a parser". The one single purpose of this entire
+> change is to guarantee a valid dump can be extracted from a log.
+> Anything that potentially prevents that from working is a fundamental
+> failure.
+> 
+>>
+>> and it is highly unlikely that any captured logs will miss exactly
+>> 65,536 contiguous lines, but even then it should be noticeable gap
+> Or we could just use an integer count that is not going to wrap and be
+> ambiguous.
+
+maybe all we need is to define series/counter as:
+
+	unsigned int series : 8;
+	unsigned int counter : 24;
+
+which will give you 16,777,215 lines and 255 series without noticeable
+increasing sizeof struct drm_printer
+
+> 
+> 
+>>
+>>>>> +        } line;
+>>>>> +    };
+>>>>>    };
+>>>>>       void __drm_printfn_coredump(struct drm_printer *p, struct
+>>>>> va_format *vaf);
+>>>>> @@ -186,6 +192,7 @@ void __drm_puts_seq_file(struct drm_printer *p,
+>>>>> const char *str);
+>>>>>    void __drm_printfn_info(struct drm_printer *p, struct va_format
+>>>>> *vaf);
+>>>>>    void __drm_printfn_dbg(struct drm_printer *p, struct va_format
+>>>>> *vaf);
+>>>>>    void __drm_printfn_err(struct drm_printer *p, struct va_format
+>>>>> *vaf);
+>>>>> +void __drm_printfn_line(struct drm_printer *p, struct va_format
+>>>>> *vaf);
+>>>>>       __printf(2, 3)
+>>>>>    void drm_printf(struct drm_printer *p, const char *f, ...);
+>>>>> @@ -357,6 +364,65 @@ static inline struct drm_printer
+>>>>> drm_err_printer(struct drm_device *drm,
+>>>>>        return p;
+>>>>>    }
+>>>>>    +/**
+>>>>> + * drm_line_printer - construct a &drm_printer that prefixes
+>>>>> outputs with line numbers
+>>>>> + * @p: the &struct drm_printer which actually generates the output
+>>>>> + * @prefix: optional output prefix, or NULL for no prefix
+>>>>> + * @series: optional unique series identifier, or 0 to omit
+>>>>> identifier in the output
+>>>>> + *
+>>>>> + * This printer can be used to increase the robustness of the
+>>>>> captured output
+>>>>> + * to make sure we didn't lost any intermediate lines of the
+>>>>> output. Helpful
+>>>>> + * while capturing some crash data.
+>>>>> + *
+>>>>> + * Example 1::
+>>>>> + *
+>>>>> + *    void crash_dump(struct drm_device *drm)
+>>>>> + *    {
+>>>>> + *        static unsigned short id;
+>>>>> + *        struct drm_printer p = drm_err_printer(drm, "crash");
+>>>>> + *        struct drm_printer lp = drm_line_printer(&p, "dump", ++id);
+>>>> Is there any benefit or other reason to split the prefix across two
+>>>> separate printers? It seems like a source of confusion. As in, the code
+>> it's not any kind of the required 'split', as both printers used here
+>> can treat prefix as optional if NULL, but rather a way to show how to
+>> pass two potentially separated prefixes, as one of them could be already
+>> prepared (like engine name or any other alias) or if the primary printer
+>> does not accept any prefix at all (and this a limitation of our existing
+>> custom GT oriented printers [1] [2])
+>>
+>> [1]
+>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/xe/xe_gt_printk.h#L66
+>> [2]
+>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/xe/xe_gt_printk.h#L81
+> As per earlier comments, my point is not that you should change the
+> patch to remove one of the prefixes from the code. My point is that the
+> documentation is confusing. You are explicitly splitting a single phrase
+> "crash dump" across two separate printer objects with no explanation as
+
+but who said it is single phrase "crash dump" ?
+
+> to why. And as you just pointed out, there are many use cases where
+> there would not be the option to split it. So it would be much, much
+> clearer to pass NULL to your drm_err_printer example and have a single
+> line comment saying that multiple prefixes could be used if allowed by
+> the printer objects and if useful in the situation. Rather than having a
+> bizarrely split string with no explanation as to why it has been split.
+
+again, it wasn't a split but example how different prefixes will be
+presented in final output and I assumed that average engineer could
+figure out which part comes from which printer, but from your voice it
+looks that using "crash" and "dump" strings as light reference to
+example function name was too tricky, and you need raw example like:
+
+	struct drm_printer p = drm_err_printer(drm, "AAA");
+	struct drm_printer lp = drm_line_printer(&p, "BBB", ++id);
+
+	[ ] 0000:00:00.0: [drm] *ERROR* AAA BBB 1.1: foo
+	[ ] 0000:00:00.0: [drm] *ERROR* AAA BBB 1.2: bar
+
+> 
+>>
+>>>> will allow a double prefix, there is not much you can do about that
+>>>> because losing the prefix from drm_line_printer would mean no prefix at
+>> but why would we loose the prefix from the primary printer ?
+> I don't know what you mean by the primary printer? As above, I was
+
+by 'primary' printer I mean the one that is passed to the
+drm_line_printer and the drm_line_printer uses for actual output
+
+> simply trying to say that I am not requesting a code change but just a
+> clarification of the documentation.
+> 
+>>
+>>>> all when not using drm_err_printer underneath. But why explicitly split
+>>>> the message across both printers in the usage example? This is saying
+>>>> that this is the recommended way to use the interface, but with no
+>>>> explanation of why the split is required or how the split should be
+>>>> done.
+>> the drm_line_printer is flexible and can be used in many configurations,
+>> above is just one of the potential uses that shows full output
+>>
+>>> You could have a printer, and then add two separate line counted blocks.
+>>>
+>>>     struct drm_printer p = drm_err_printer(drm, "parent");
+>>>     struct drm_printer lp1 = drm_line_printer(&p, "child 1", 0);
+>>>
+>>>     ...
+>>>
+>>>     struct drm_printer lp2 = drm_line_printer(&p, "child 2", 0);
+>>>
+>>>     ...
+>>>
+>>> p could be defined elsewhere and passed into separate functions which
+>>> each have the line printing. The two prefixes can be useful.
+>> didn't considered that, but as stated above, drm_line_printer is
+>> flexible and can be used in many different ways, like this new one
+> And you really do not need to list them all out as massively verbose
+> examples with confusing differences between them that are not explained.
+> A single example plus a couple of lines of description would be much
+> clearer.
+
+but sometimes, especially in case of the formatting functions, it might
+be more beneficial to actually show some true outputs, than just
+describe what you might expect
+
+> 
+>>
+>>>> Also, there is really no specific connection to crashes. The purpose of
+>>>> this is for allowing the dumping of multi-line blocks of data. One use
+>>>> is for debugging crashes. But there are many debug operations that
+>>>> require the same dump and do not involve a crash. And this support is
+>>>> certainly not intended to be used on general end-user GPU hangs. For
+>>>> those, everything should be part of the devcoredump core file that is
+>>>> produced and accessible via sysfs. We absolutely should not be dumping
+>>>> huge data blocks in customer release drivers except in very extreme
+>>>> circumstances.
+>> if you are trying to convince me that we don't need any custom
+>> drm_printer that would take care of tracking and printing line numbers
+>> in kind of more robust way and instead we should be doing such line
+>> prints in a error prone way on it's own as you did in [3], then sorry,
+>> I'm not convinced, unless you just feel that it shouldn't be part of the
+>> drm yet, but then decision is drm maintainer hands (and also in the Xe
+>> maintainers who don't want to fall into i915-ish private solutions trap)
+>>
+>> [3] https://patchwork.freedesktop.org/patch/594021/?series=133349&rev=2
+> No. I am saying that your example use case seems to be implying a much
+> greater usage for this mechanism than should be expected. I'm saying
+> that it should never occur in an end user system because dumping
+> megabytes of data to dmesg is a bad user experience. It absolutely
+
+IMO, it's not always a dump of megabytes is where drm_line_printer could
+be beneficial, but again, it's idea was to show that you don't have to
+manually modify each printf to have a line prefix and, what's more
+important, don't pollute output if other printer (debugfs) will be used
+
+> should never be a standard part of handling a GPU hang type 'crash'. The
+> primary purpose is for internal debug by developers only. If a use case
+> gets shipped upstream then it should be an extremely hard to hit corner
+> case for which we are desperate to get any useful debug logs by any
+> means necessary.
+
+but there are many tools that we shouldn't over use in production
+systems but still we do have them defined as common code
+
+> 
+> As for error prone, I am not seeing how the original trivial (and
+> working) code is error prone but this complex abstraction of it is less
+> so. Especially given the integer truncation problem. I mean seriously,
+> how 'error prone' can it be to add a "%d, line++" to a print?! And how
+
+what if in the future someone else add new printf() but misses or
+misspells that %d, line++ in format line ?
+
+> much of a 'private solutions trap' is it to add such a trivial prefix to
+> a couple of prints in a single function that is really a big ugly hack
+> for getting logs out in a really dodgy manner anyway?
+> 
+> As you say, it is up to the DRM maintainers as to whether they want this
+> support in the generic DRM layers. If it lands and it is functional
+> (i.e. does not break its sole reason for being by truncating counts
+> partway through a dump) then sure, I'll use it. I just don't see that it
+> is even remotely worth the effort given that it is single use only and
+> given how trivial the local version is.
+
+if collecting GuC log over dmesg is so helpful/important in some
+situations then likely similar solution could be beneficial on i915, no?
+
+> 
+> John.
+> 
+>>
+>>> A devcoredump implementation could use a drm_printer too?
+>>>
+>>> Is this only about bikeshedding the example? I'm not sure I get the
+>>> point here.
+>>>
+>>>>> + *
+>>>>> + *        drm_printf(&lp, "foo");
+>>>>> + *        drm_printf(&lp, "bar");
+>>>>> + *    }
+>>>>> + *
+>>>>> + * Above code will print into the dmesg something like::
+>>>>> + *
+>>>>> + *    [ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.1: foo
+>>>>> + *    [ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.2: bar
+>>>>> + *
+>>>>> + * Example 2::
+>>>>> + *
+>>>>> + *    void line_dump(struct device *dev)
+>>>>> + *    {
+>>>>> + *        struct drm_printer p = drm_info_printer(dev);
+>>>>> + *        struct drm_printer lp = drm_line_printer(&p, NULL, 0);
+>>>>> + *
+>>>>> + *        drm_printf(&lp, "foo");
+>>>>> + *        drm_printf(&lp, "bar");
+>>>>> + *    }
+>>>>> + *
+>>>>> + * Above code will print::
+>>>>> + *
+>>>>> + *    [ ] 0000:00:00.0: [drm] 1: foo
+>>>>> + *    [ ] 0000:00:00.0: [drm] 2: bar
+>>>> Not really seeing the point of having two examples listed. The first
+>>>> includes all the optional extras, the second is just repeating with no
+>>>> new information.
+>>> You see how the "series" param behaves?
+>> exactly
+>>
+>>> BR,
+>>> Jani.
+>>>
+>>>> John.
+>>>>
+>>>>> + *
+>>>>> + * RETURNS:
+>>>>> + * The &drm_printer object
+>>>>> + */
+>>>>> +static inline struct drm_printer drm_line_printer(struct
+>>>>> drm_printer *p,
+>>>>> +                          const char *prefix,
+>>>>> +                          unsigned short series)
+>>>>> +{
+>>>>> +    struct drm_printer lp = {
+>>>>> +        .printfn = __drm_printfn_line,
+>>>>> +        .arg = p,
+>>>>> +        .prefix = prefix,
+>>>>> +        .line = { .series = series, },
+>>>>> +    };
+>>>>> +    return lp;
+>>>>> +}
+>>>>> +
+>>>>>    /*
+>>>>>     * struct device based logging
+>>>>>     *
+> 
