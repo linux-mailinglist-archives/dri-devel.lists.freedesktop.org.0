@@ -2,74 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B42FF8D4E7A
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 16:58:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B04908D4E87
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 17:00:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E46AC10E5D1;
-	Thu, 30 May 2024 14:58:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E138410F0AE;
+	Thu, 30 May 2024 15:00:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OyOXMKcW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AU0I+LOT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22CD010E0B8;
- Thu, 30 May 2024 14:58:11 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-70222db9bf1so902904b3a.0; 
- Thu, 30 May 2024 07:58:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1717081090; x=1717685890; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Pcneh6OdbXB2yw8eBub3uBTS5tn1ef9zWgBOmoSp/pE=;
- b=OyOXMKcWCuzXbIf2O4yquLPo24/YaVoBtRYTuOHqIL1MsTmbPCKiM5p/4rpnMajU8D
- YuoPNNjaB8b6zxMsz/tuF/X7ZSdvQ1ymXIjB+0wGN7gqjyEc0r0e8JG/GutZRtvOsf1V
- UhlBVwFruF7QcV5BBmTbZx0kAZdmw8OaBNUrvsqMlfpxmm00TdyjzAdRjiZmMU1jb1Qa
- 9RTFqdCsnoaoGMIFw6zDRgnDd5oKTyJfVLwfhGTH4acdPOJWan3of+oQFWThDpLQnTEk
- QN4Hi82EO4yDdY7JXgcFrMjLU4Ic73HzMC/14AKCHedCfRTzF3vsrmzzRGF7aOpsag4+
- rjkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717081090; x=1717685890;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Pcneh6OdbXB2yw8eBub3uBTS5tn1ef9zWgBOmoSp/pE=;
- b=maHA84/z7GL93qZ0F0ZEzUAqwNz7TqPIzWI8p/Rwqg6vAQKoPU7ZSdNzB3L81s6l1O
- jBKy5sST7qTLSWlP9FIKhAZmlyaL+vhe4lEWwsMEjTA18iUqu9eDYgo0rNhJZdd7Oda2
- jJzHjJLGpx4Zo9GKAyRuetUAoRM7d9F+hW2CB23TYJIT08qJsOjQKgSR282tvsPNAJg6
- eqv9BZW4SCH1E7wAOF3Ccl5nZT0J2OruH21eEZQrTnrGQnK1ms3pLTfbgAOKyjjN6ZMJ
- 1wdE9ht4bsL/+a7dkaCHEOldImrBb6iX4RC0IG6pRNap0fxDwakuNx2oyVqzg+28zumZ
- Q1Hg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX6mxAzky66cl7c0Lap13zYAaaRrtYm1PEWmnUrEImXDPeR+lMgc5pyjG2g1bzcqMGStUymAclI9fS9OYz2aUEOt87dZ+6zI/vQ1FJDVkakIRTEBVcxwyncL2Tuo+QUCYOBId7+rQ3fcZqpTVCJMQ==
-X-Gm-Message-State: AOJu0Yz6X9m0du27QGi63zzjMqcnjPJos4+qAgZoKaHs5L3cPb2n1o0+
- Klq4/CIa4LrbRb8JQqj0Omcr1pY3t/b9ByS4niK7/8hx76v2ZrAxVzh6NouHMqqFYIo19+FW1gD
- NNuWGgkj/y/y190UGo671pcbUEo4=
-X-Google-Smtp-Source: AGHT+IG/K9bjenhk0+Nldu2e8TDBOCESyblInvnkPhmih6+zxEhLkPmDFwz2LvGoFVaBBs/bIA3IpcKiiLGStFQRrDc=
-X-Received: by 2002:a05:6a00:4214:b0:6ed:60a4:6d9c with SMTP id
- d2e1a72fcca58-702310e53cdmr2970675b3a.4.1717081090330; Thu, 30 May 2024
- 07:58:10 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11BD910F923
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 15:00:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 74157CE1A99;
+ Thu, 30 May 2024 15:00:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56CACC2BBFC;
+ Thu, 30 May 2024 15:00:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1717081211;
+ bh=N06xxei0qF8YHD3ORAekKVfJgal94rp85DJmIMXMFWI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AU0I+LOT/hP1jltG1OPWDvFidJM9jpvcWvgvANWvwKs00hU3mF8q4qlfJwt97SfrZ
+ +UVjnfaX3G4/hNxtns+OMTwzPxNyY0fWvF1FJ323WeoqJbxFHLUg0eCxxHaBFD89Xu
+ 4ek2jSsvGIsepfpviP51d2EqNxIolJqpjb6Uw/5kk/tZBzqmPU4yARM7+DqDoDhACJ
+ n3+i1pz3yKjGWpSCf5njr/VK2oBsQtKl6Kci4+vfq0v2TMiovbKSCzUD0x+YNM1jM7
+ VhfvXRZF1IXJjThO8OAgM4N5DoVEFw8dzT6hgccmwvhWo2DUhDjnNpzqQFFc/v2095
+ heGJihWihnA/w==
+Date: Thu, 30 May 2024 17:00:09 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Arnaud Vrac <avrac@freebox.fr>
+Cc: Marc Gonzalez <marc.w.gonzalez@free.fr>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>, DRI <dri-devel@lists.freedesktop.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Bryan O Donoghue <bryan.odonoghue@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Pierre-Hugues Husson <phhusson@freebox.fr>
+Subject: Re: [PATCH v1] drm/bridge: simple-bridge: Add support for TI TDP158
+Message-ID: <20240530-hasty-dog-of-imagination-dbeedd@houat>
+References: <d3de652f-ce89-4f57-b900-07b11f8bf8f9@free.fr>
+ <20240528-potoo-of-pragmatic-tempering-df08f1@houat>
+ <0cd0136a-bbaf-482f-8e81-a858a6cdce2e@freebox.fr>
+ <20240528-prophetic-masterful-hyrax-563f82@houat>
+ <6d2789e1-b14a-4b65-95ce-60d23e49465e@freebox.fr>
 MIME-Version: 1.0
-References: <20240529-drop-counted-by-radeon-states-state-array-v1-1-5cdc1fb29be7@kernel.org>
-In-Reply-To: <20240529-drop-counted-by-radeon-states-state-array-v1-1-5cdc1fb29be7@kernel.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 30 May 2024 10:57:58 -0400
-Message-ID: <CADnq5_P5Mz=Acm0HURUUHu03eBmemcu7jYe8nYJ5WtBjb93Qgg@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: Remove __counted_by from StateArray.states[]
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Kees Cook <keescook@chromium.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-hardening@vger.kernel.org, 
- llvm@lists.linux.dev, patches@lists.linux.dev, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="xh2r67rrx46c5nxv"
+Content-Disposition: inline
+In-Reply-To: <6d2789e1-b14a-4b65-95ce-60d23e49465e@freebox.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,83 +73,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
 
-On Wed, May 29, 2024 at 5:54=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
+--xh2r67rrx46c5nxv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, May 28, 2024 at 01:39:52PM GMT, Arnaud Vrac wrote:
+> On 28/05/2024 11:17, Maxime Ripard wrote:
+> > On Tue, May 28, 2024 at 10:05:50AM GMT, Arnaud Vrac wrote:
+> > > On 28/05/2024 09:43, Maxime Ripard wrote:
+> > > > Hi,
+> > > >=20
+> > > > On Mon, May 27, 2024 at 06:03:56PM GMT, Marc Gonzalez wrote:
+> > > > > From: Arnaud Vrac <avrac@freebox.fr>
+> > > > >=20
+> > > > > The TI TDP158 is an AC-Coupled HDMI signal to TMDS Redriver suppo=
+rting
+> > > > > DVI 1.0 and HDMI 1.4b and 2.0b output signals.
+> > > > >=20
+> > > > > Since it's an I2C-programmable bridge, it could have a proper dri=
+ver,
+> > > > > but the default settings work fine, thus simple bridge is suffici=
+ent.
+> > > >=20
+> > > > No it doesn't. That bridge supports HDMI 2.0 which means you'll nee=
+d to
+> > > > change the TMDS clock ratio when programming a TMDS character rate
+> > > > higher than 340MHz. And you'll need hotplug support to deal with it
+> > > > properly too.
+> > > >=20
+> > > > So sorry, you need a real driver there.
+> > >=20
+> > > Hello, this is an HDMI redriver, which simply cleans up the HDMI
+> > > signal, so no programming is needed to support HDMI 2.0.
+> >=20
+> > I mean, if I'm to trust the datasheet, it is more complicated than that.
+> > It snoops the DDC bus so it can update the TMDS clock ratio bit if it's
+> > sent on its input side, but that wouldn't happen with DP for example.
+> >=20
+>=20
+> That's a use case we can't test and will never use as a device
+> integrator, unfortunately.
 >
-> From: Bill Wendling <morbo@google.com>
->
-> Work for __counted_by on generic pointers in structures (not just
-> flexible array members) has started landing in Clang 19 (current tip of
-> tree). During the development of this feature, a restriction was added
-> to __counted_by to prevent the flexible array member's element type from
-> including a flexible array member itself such as:
->
->   struct foo {
->     int count;
->     char buf[];
->   };
->
->   struct bar {
->     int count;
->     struct foo data[] __counted_by(count);
->   };
->
-> because the size of data cannot be calculated with the standard array
-> size formula:
->
->   sizeof(struct foo) * count
->
-> This restriction was downgraded to a warning but due to CONFIG_WERROR,
-> it can still break the build. The application of __counted_by on the
-> states member of 'struct _StateArray' triggers this restriction,
-> resulting in:
->
->   drivers/gpu/drm/radeon/pptable.h:442:5: error: 'counted_by' should not =
-be applied to an array with element of unknown size because 'ATOM_PPLIB_STA=
-TE_V2' (aka 'struct _ATOM_PPLIB_STATE_V2') is a struct type with a flexible=
- array member. This will be an error in a future compiler version [-Werror,=
--Wbounds-safety-counted-by-elt-type-unknown-size]
->     442 |     ATOM_PPLIB_STATE_V2 states[] __counted_by(ucNumEntries);
->         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   1 error generated.
->
-> Remove this use of __counted_by to fix the warning/error. However,
-> rather than remove it altogether, leave it commented, as it may be
-> possible to support this in future compiler releases.
->
-> Cc: stable@vger.kernel.org
-> Closes: https://github.com/ClangBuiltLinux/linux/issues/2028
-> Fixes: efade6fe50e7 ("drm/radeon: silence UBSAN warning (v3)")
-> Signed-off-by: Bill Wendling <morbo@google.com>
-> Co-developed-by: Nathan Chancellor <nathan@kernel.org>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->  drivers/gpu/drm/radeon/pptable.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/radeon/pptable.h b/drivers/gpu/drm/radeon/pp=
-table.h
-> index b7f22597ee95..969a8fb0ee9e 100644
-> --- a/drivers/gpu/drm/radeon/pptable.h
-> +++ b/drivers/gpu/drm/radeon/pptable.h
-> @@ -439,7 +439,7 @@ typedef struct _StateArray{
->      //how many states we have
->      UCHAR ucNumEntries;
->
-> -    ATOM_PPLIB_STATE_V2 states[] __counted_by(ucNumEntries);
-> +    ATOM_PPLIB_STATE_V2 states[] /* __counted_by(ucNumEntries) */;
->  }StateArray;
->
->
->
-> ---
-> base-commit: e64e8f7c178e5228e0b2dbb504b9dc75953a319f
-> change-id: 20240529-drop-counted-by-radeon-states-state-array-01936ded4c1=
-8
->
-> Best regards,
-> --
-> Nathan Chancellor <nathan@kernel.org>
->
+> To support our simple HDMI redriver use case, would it be ok to write
+> a driver just handling power up with documented bindings with the chip
+> default settings ? Someone with an actual need for more specific
+> setups could then implement the additional code needed to support
+> that. The bindings could be extended without breaking compatibility.
+
+Sure, that's what I meant. We need to make sure the binding is
+extensible enough / take all the possibilities into account, but the
+driver can definitely be minimal.
+
+Maxime
+
+--xh2r67rrx46c5nxv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZliUcQAKCRAnX84Zoj2+
+dpYkAX9yICA32oFaECUmgpYPIp54Wmw0fzMRAqprJ1PUnWOpqxWJcS0hSYYUlwE4
+tGO9JvkBgI+XGD1BiUtzfm3SAkQf9lC4jNZVLGLC0Dq4d/MHm5NEATgaOnCTLxo1
+q8PiWkbDpg==
+=9Ex0
+-----END PGP SIGNATURE-----
+
+--xh2r67rrx46c5nxv--
