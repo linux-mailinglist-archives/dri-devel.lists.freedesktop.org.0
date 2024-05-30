@@ -2,84 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 352F28D560E
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 01:11:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 765FD8D5612
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 01:13:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F46F10E06C;
-	Thu, 30 May 2024 23:11:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63EBC10E784;
+	Thu, 30 May 2024 23:13:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bgG3ZZcI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IQEb8rlm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCB1410E06C
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 23:11:13 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-52b86cfcbcaso488632e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 16:11:13 -0700 (PDT)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B95CE10E698
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 23:12:59 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-2e95a60454fso16114661fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 16:12:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717110672; x=1717715472; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=5rtVeYQ5u84CD0AA2JcRrrPlaJCkNb/Fj7mnCC/lgjg=;
- b=bgG3ZZcIdFhpYLH4sm2YQqdxZoCytEjOmAduwf2UYAOqDVoJh6ENICkAphI7cUfIs1
- xOoaMNWiuEJ0jaCVZSVR6PDl9OnAIrU5tzjlc8llpccrx1fLe8iij5veGvrWN7w0SpvW
- XXU10YwKA/WEWlQ1IpjUQ5in0s2q7n8IiKgK8YM2DMjeaieilDjka/DwUTD2+gfZScMl
- Je0ieJiH1aQvYu2a1LkuQutxwiWnuYdYBbMz59o7TrTk2RsIEh9h/C32n5B2Eirs3oGN
- DzQo+SBde1X2p3CgmH728J6hRtF36QC/f3lIZRdJgd8LncSnNKOWi4H+DB3XWWjgfiIg
- sZ7Q==
+ d=linaro.org; s=google; t=1717110777; x=1717715577; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=BxC+zkRQtnEbqEOZ0TSkFRxCG7VsNA8jgi0zgdIyDnk=;
+ b=IQEb8rlmUXykIFtRMazs84eTXIEbdyz4KmlL/G4K3ZFTE7bJrskQvUrWTolMRP7yuk
+ wvXmCGfuW2E2kt5d1sQa7uuaroxohblPhwh6OF/v5MckRlYKDndlm8pS5xy0feZzu3+/
+ rkMQH4VGEw6Pmdb5+lkVPQO2ayrsY2Im9tbeJlhfWP6hvkCVKHhMhRvtGOxc9PioeukM
+ UtU21n9Au+aZtstfGsP1Ub2akd1qIhX4XRueG+FsBZwF1yJS9LGqRKYhucCyKNFRBrVM
+ XNHPvB/MmZjAZ0VD/P0OVRvFdR8q67M0S7BQoKJYIfSdwchC74AGH4sXOs07bD3CBcn3
+ u/iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717110672; x=1717715472;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5rtVeYQ5u84CD0AA2JcRrrPlaJCkNb/Fj7mnCC/lgjg=;
- b=ehA/UlV7NejnLA1ZpGdv2AQOpZ5eqvnkhnV30T07/NRuNmdEWHHsA5vY0l8Uz6Dt7j
- t0TFSRaZ+EnL+sCYbQ3lToDWNF88N4OVmH4fHiT/yOOoJnbdt0sBOVEPaZ37qgqU94+9
- s6j1pymqpDEXKZ47qu3ZmxCjXBs7rmj+8L4abw2zgKegLHKTytFrXR2UUn3AL9D7WQPE
- u6dhG0VqH5/Rw/qpZi4lYKzB8qmiTuhnmTy7qmksq+tHxMoutimowep4bSk/XjJEA5TS
- AlG6eTPoWAZs6gjFkmRB12UwQgpfZ4Usnhb1nZdfNOsTULv4snT8nL5QCoEnBqw6zL6j
- 9SfA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVa9CU5YbwHqG36Nhaq/fVdI+nfrM+bawCiG++rhBsQXpxl836tt4/4dw3UaDxKKBiy/f+N5LUZ3sbf/RsrNbwbNyXF8G2/cZJpM1mADEdY
-X-Gm-Message-State: AOJu0YxBiRhk8GW8A32WeaZs4bL0bIq+jf39uJewzziYrIp9UYI139Dj
- pmqAyvIs7fjwmRBRmK/mHYhLr9HuTOQ28Fx9hmyQMPJqse2bAL7BNEqEaVdFrNg=
-X-Google-Smtp-Source: AGHT+IG0t3rZTPhtJybKaUF15LVmYhDBWgz6POuiQcknG9wUsiCJYYjByHxxMrF/IH17dhoIvEgTyA==
-X-Received: by 2002:ac2:51b0:0:b0:51f:9549:9c0d with SMTP id
- 2adb3069b0e04-52b895a4043mr42465e87.48.1717110671620; 
- Thu, 30 May 2024 16:11:11 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52b84d34d76sm120623e87.10.2024.05.30.16.11.10
+ d=1e100.net; s=20230601; t=1717110777; x=1717715577;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=BxC+zkRQtnEbqEOZ0TSkFRxCG7VsNA8jgi0zgdIyDnk=;
+ b=YTdxAYXCMNQVGYGH3sIiMxHbZVZgJewSm2iKZ/sSUEBc97mB+uKQvRZz3EX8AsiHwU
+ Ptu9Ccmbd77cskHxdrFob58ZgARiK1reDKBV/WcJhwKDFZ/5LAqlZY8cT50yUDVKf6lU
+ 5Lhd00SJUx0n5bH3dvuKLMUu4JH4UpmOW4gwo0W33nmXpDfqN/8wcGsG48KN8matrtHw
+ uEDCiEJ5sS+OVsuL5vX7DbK6qhqCEliLaIJqjeKrblz3UfHA6ZxECBlOppFV5Qm1eA2v
+ +sx5aQQ9CLLOV8kDvj3F+11ZBNsqqjyHVCpxevfLWKhaXBKLHcCxbsnotK1/zvGdqTxp
+ 9+xw==
+X-Gm-Message-State: AOJu0YyKr48/7Mtx+GlH4hhHmCQvPkk1MuGRSbovW3rwLOciVWq6UeAI
+ FHt3Q4PY2cIUrBaRqqzU3XupHId71KWoWMsrn0mNYJp5kLghuOZplyreuAJJEbAPohKadeqncc/
+ S
+X-Google-Smtp-Source: AGHT+IGGLsAMHbk6z9ggkIBZMdQMqoAHVm39g6bHGA+HdZAGC5BH/XBCKbp32FpXhgClt94lctQK5g==
+X-Received: by 2002:a05:6512:2085:b0:529:bc99:1cd8 with SMTP id
+ 2adb3069b0e04-52b896d917bmr39787e87.59.1717110777383; 
+ Thu, 30 May 2024 16:12:57 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52b84d75d96sm119005e87.120.2024.05.30.16.12.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 May 2024 16:11:11 -0700 (PDT)
-Date: Fri, 31 May 2024 02:11:09 +0300
+ Thu, 30 May 2024 16:12:57 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+Subject: [PATCH v3 0/3] drm/panel-edp: remove several legacy compatibles
+ used by the driver
+Date: Fri, 31 May 2024 02:12:54 +0300
+Message-Id: <20240531-edp-panel-drop-v3-0-4c98b2b95e3a@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPYHWWYC/3WMSwrCMBQAr1Ky9kk+TbWuvIe4SPNpH5QkJBKU0
+ rubdqWIyxmYWUi2CW0ml2YhyRbMGHwFcWiInpQfLaCpTDjlLZVcgDURovJ2BpNCBEqV4qIfhO4
+ GUqOYrMPnPrzdK0+YHyG99n9hm/27KgwY0FaajkvGDO2vM3qVwjGkkWyvwj/7/qfnQMFpp1t5c
+ vpszFe/rusbZq2K++0AAAA=
+To: Douglas Anderson <dianders@chromium.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
  Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH v2 1/3] drm/panel-edp: add fat warning against adding new
- panel compatibles
-Message-ID: <kxfuvsmi6eblpavtevwllqmkdnzdih7kfc73wlos7yozikerjv@si6jshczffjy>
-References: <20240529-edp-panel-drop-v2-0-fcfc457fc8dd@linaro.org>
- <20240529-edp-panel-drop-v2-1-fcfc457fc8dd@linaro.org>
- <CAD=FV=Uw+KYQQ2xFLhNdWSW0sNX9uV_zSAVO2uBWY4JEcaO2bA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=Uw+KYQQ2xFLhNdWSW0sNX9uV_zSAVO2uBWY4JEcaO2bA@mail.gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1895;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=VvftgDyvPN2Jo+dzgQt64qBzdF1Q5SyfOzczZqaDLmk=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmWQf4bgvbfxFD+03kBTAzGeWGmj39F9t7kiqCY
+ mEAskW2zLeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZlkH+AAKCRCLPIo+Aiko
+ 1b/LB/9dVqU653u3o+awrMXOsZ2xSPBHZpil6qLXw6GtARRG1dtdPHMwF2rxdPdl6v62vVz/zgt
+ xEA0N8hJPiquSjd22b4m+xShUbX4PMurjMqHnhxDX4+M1tWGeri67i4SkB1AZHxqTcb1076jJcq
+ Y46FhaBvHYCToEdZnSJDXBKCcaYqw5DBL0hBpv5BjT4wRlsIW1HldEBHV+g2JGcVDoUu3C2j6P9
+ ZfM/vgWE/UatGfLdjV6As/gGbDOV72Ts+LOPl0/wb/zp3Cob6JKWrM9sywDlM2fSzf6oOf76BF5
+ FJlGkS4BpBJHSzoa+fmoJVUKLBGHOYSLNw4OMLrnsG924fo5
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,83 +102,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 30, 2024 at 07:33:59AM -0700, Doug Anderson wrote:
-> Hi,
-> 
-> On Tue, May 28, 2024 at 4:52 PM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> >
-> > Add a fat warning against adding new panel compatibles to the panel-edp
-> > driver. All new users of the eDP panels are supposed to use the generic
-> > "edp-panel" compatible device on the AUX bus. The remaining compatibles
-> > are either used by the existing DT or were used previously and are
-> > retained for backwards compatibility.
-> >
-> > Suggested-by: Doug Anderson <dianders@chromium.org>
-> > Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  drivers/gpu/drm/panel/panel-edp.c | 18 +++++++++++++++++-
-> >  1 file changed, 17 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-> > index 6db277efcbb7..95b25ec67168 100644
-> > --- a/drivers/gpu/drm/panel/panel-edp.c
-> > +++ b/drivers/gpu/drm/panel/panel-edp.c
-> > @@ -1776,7 +1776,23 @@ static const struct of_device_id platform_of_match[] = {
-> >         {
-> >                 /* Must be first */
-> >                 .compatible = "edp-panel",
-> > -       }, {
-> > +       },
-> > +       /*
-> > +        * Do not add panels to the list below unless they cannot be handled by
-> > +        * the generic edp-panel compatible.
-> > +        *
-> > +        * The only two valid reasons are:
-> > +        * - because of the panel issues (e.g. broken EDID or broken
-> > +        *   identification),
-> > +        * - because the platform which uses the panel didn't wire up the AUX
-> > +        *   bus properly.
-> > +        *
-> > +        * In all other cases the platform should use the aux-bus and declare
-> > +        * the panel using the 'edp-panel' compatible as a device on the AUX
-> > +        * bus. The lack of the aux-bus support is not a valid case. Platforms
-> > +        * are urged to be converted to declaring panels in a proper way.
-> 
-> I'm still at least slightly confused by the wording. What is "the lack
-> of the aux-bus support". I guess this is different from the valid
-> reason of "the platform which uses the panel didn't wire up the AUX
-> bus properly" but I'm not sure how. Maybe you can explain?
-> 
-> I guess I'd write it like this:
-> 
->     /*
->      * Do not add panels to the list below unless they cannot be handled by
->      * the generic edp-panel compatible.
->      *
->      * The only two valid reasons are:
->      * - because of the panel issues (e.g. broken EDID or broken
->      *   identification).
->      * - because the platform which uses the panel didn't wire up the AUX
->      *   bus properly. NOTE that, though this is a marginally valid reason,
->      *   some justification needs to be made for why the platform can't
->      *   wire up the AUX bus properly.
->      *
->      * In all other cases the platform should use the aux-bus and declare
->      * the panel using the 'edp-panel' compatible as a device on the AUX
->      * bus.
->      */
-> 
-> What do you think? In any case, it probably doesn't matter much. The
-> important thing is some sort of warning here telling people not to add
-> to the table. In that sense:
+There are two ways to describe an eDP panel in device tree. The
+recommended way is to add a device on the AUX bus, ideally using the
+edp-panel compatible. The legacy way is to define a top-level platform
+device for the panel.
 
-Ack, I'l update the wording in a similar way.
+Document that adding support for eDP panels in a legacy way is strongly
+discouraged (if not forbidden at all).
 
-> 
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+While we are at it, also drop legacy compatible strings and bindings for
+five panels. These compatible strings were never used by a DT file
+present in Linux kernel and most likely were never used with the
+upstream Linux kernel.
 
+The following compatibles were never used by the devices supported by
+the upstream kernel and are a subject to possible removal:
+
+- lg,lp097qx1-spa1
+- samsung,lsn122dl01-c01
+- sharp,ld-d5116z01b
+
+I'm considering dropping them later, unless there is a good reason not
+to do so.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes in v3:
+- Rephrased the warning comment, following some of Doug's suggestions.
+- Link to v2: https://lore.kernel.org/r/20240529-edp-panel-drop-v2-0-fcfc457fc8dd@linaro.org
+
+Changes in v2:
+- Actually drop support for five panels acked by Doug Andersson
+- Link to v1: https://lore.kernel.org/r/20240523-edp-panel-drop-v1-1-045d62511d09@linaro.org
+
+---
+Dmitry Baryshkov (3):
+      drm/panel-edp: add fat warning against adding new panel compatibles
+      dt-bindings: display: panel-simple: drop several eDP panels
+      drm/panel-edp: drop several legacy panels
+
+ .../bindings/display/panel/panel-simple.yaml       |  10 --
+ drivers/gpu/drm/panel/panel-edp.c                  | 192 +++------------------
+ 2 files changed, 25 insertions(+), 177 deletions(-)
+---
+base-commit: 6dc544b66971c7f9909ff038b62149105272d26a
+change-id: 20240523-edp-panel-drop-00aa239b3c6b
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
