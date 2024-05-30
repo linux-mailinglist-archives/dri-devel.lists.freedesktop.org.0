@@ -2,69 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 400778D4E92
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 17:01:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6088D4F29
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 17:35:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31A8612B12A;
-	Thu, 30 May 2024 15:01:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D16A12B1B3;
+	Thu, 30 May 2024 15:35:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YBSAZJme";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="RXzlPC71";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FCA412B12A
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 15:01:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B7AEA62803;
- Thu, 30 May 2024 15:01:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E64C4C2BBFC;
- Thu, 30 May 2024 15:01:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717081314;
- bh=f9rXrmt7+8lC/knKP497JPEr1C/VriBpknTuw33hit0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YBSAZJmeLFUhs3Jcwhyp3/kZBkI/0GUWOjTf2m6GbQUWtJ7l8TGe6p7+ZasXZ5xEH
- dNiQW5VBgWpgu3R1pc05d7kqdmfT/8Dgv5dKot+NAqENkYOfCfTwe6I1jfG0twfVGR
- mqe5MNfQOmD8R1V6TPUJwzjleX1FwVnCDZZvs+b5fj/Tem9lDRr5AwwuExXfYZDEd9
- df/EjXzziWNKngavXZOR6W0jQvQZNgfhTzdnbt2BToaYRsO79+ZMJmVpoRh4XMa0Wm
- xq+2aTJEqG6jeiCmkjrhh9azTF4ik/jQrpOPaiP1bvEwHG7mnBC28voatWR8zGU0Le
- pZsaA+1PKvCiQ==
-Date: Thu, 30 May 2024 17:01:51 +0200
-From: "mripard@kernel.org" <mripard@kernel.org>
-To: Jason-JH Lin =?utf-8?B?KOael+edv+elpSk=?= <Jason-JH.Lin@mediatek.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
- Singo Chang =?utf-8?B?KOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>, 
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "jason-jh.lin@mediatek.corp-partner.google.com"
- <jason-jh.lin@mediatek.corp-partner.google.com>, 
- Jason-ch Chen =?utf-8?B?KOmZs+W7uuixqik=?= <Jason-ch.Chen@mediatek.com>, 
- Shawn Sung =?utf-8?B?KOWui+WtneismSk=?= <Shawn.Sung@mediatek.com>,
- Nancy Lin =?utf-8?B?KOael+aso+ieoik=?= <Nancy.Lin@mediatek.com>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "jkardatzke@google.com" <jkardatzke@google.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "airlied@gmail.com" <airlied@gmail.com>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v6 0/7] Add mediate-drm secure flow for SVP
-Message-ID: <20240530-inventive-nippy-bee-bb6fa6@houat>
-References: <20240525232928.5524-1-jason-jh.lin@mediatek.com>
- <20240527-determined-sage-piculet-bfec4a@houat>
- <4828461fa10101eec29e2885bc1aa0e2b7114e7c.camel@mediatek.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2075.outbound.protection.outlook.com [40.107.220.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EABF12B28A
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 15:34:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HVNLfRwmGfEtCp81crzEdm4c9JOj1l0IrDk9kkoSEFbWZ68d10uV4Q8YwQXshAatqObM2Z7q5rMuz547wP3PMUYFKdN3qI0Agj8m7GS+yx/hS1h9j0JxD+EDwrXxq8YJTBLiN7c3iREhxuZGKyKNbKcrjuUUlpm0o/1C7lSb5iR8VVnYKl9Xny38cT+VVgP2EZbduyrzoC+iEhjrH5xiCw5R8ZY9rLZh6pB7fInSHtMEvA+QFRjjYcsw5+SgQ0rWLd/o4WCjInsU+zmd3IYHnbF1EBw7w8g0UKGlVk1x1tYGHWtIctWh3n6B5HckvhubKiD36jodgQ8Y6hzqybiXeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sl82nhpI1R6cIhEKrULhx5Uk/nHEkaM0Gcc2A0reDIE=;
+ b=J85adKct+UgE1kmvppKegv+AoYMsjyPg+f5dINSnSU1vptobwDRzMZ0neWwu3swaDhRabYbZM3rvy5VGRO04CZuO4vH4SxaSAbG5LkUaY5a/uGHy7B+bHmt8OMigvq6vU2A8C4kawwCIX39bEOXfqzxUpKIDloZQchYWUklBnQ+VElesj2jcePYwKA4wgWaugr1ErKCLyctomSJuBQwIaymGDfXoIKIii5zYpxEuLMB9RErh1o6Imo5QLWJXrMjoSWywzYa7BrCN+QI+hcf1NxGdqrZjavZIi/va1ARx5ScA6gcfRs/PU8fzXYKgltHUxA1JAmLuvkfX1PpRD7xtDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sl82nhpI1R6cIhEKrULhx5Uk/nHEkaM0Gcc2A0reDIE=;
+ b=RXzlPC71mHtsGw92Lrv9zWwdUWd0hAdHKraw1K2vB4FOvvIyOkqMjZ6PxdBaI2QUxVYmHYAJW+X549tsw2/Fbhz05F0TS15e5tzPSAmQ0jXlWb/KzcZKX/9WuSyRro6e1n5n0+bQEk9Ar8ojvv8/7qH/sYwnxwp7SAmSu5yoiSs=
+Received: from BL6PEPF00013DF9.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:22e:400:0:1001:0:c) by DS7PR12MB6310.namprd12.prod.outlook.com
+ (2603:10b6:8:95::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.19; Thu, 30 May
+ 2024 15:34:56 +0000
+Received: from BL6PEPF0001AB56.namprd02.prod.outlook.com
+ (2a01:111:f403:f902::1) by BL6PEPF00013DF9.outlook.office365.com
+ (2603:1036:903:4::4) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.22 via Frontend
+ Transport; Thu, 30 May 2024 15:34:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL6PEPF0001AB56.mail.protection.outlook.com (10.167.241.8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7633.15 via Frontend Transport; Thu, 30 May 2024 15:34:55 +0000
+Received: from work-495456.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 30 May
+ 2024 10:34:54 -0500
+From: James Zhu <James.Zhu@amd.com>
+To: <dri-devel@lists.freedesktop.org>
+CC: <Alexander.Deucher@amd.com>, <christian.koenig@amd.com>,
+ <daniel.vetter@ffwll.ch>, <epilmore@gigaio.com>, <jamesz@amd.com>
+Subject: [PATCH] drm: register more drm device nodes
+Date: Thu, 30 May 2024 11:34:39 -0400
+Message-ID: <20240530153439.4331-1-James.Zhu@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="bsilt325yu2nqtmw"
-Content-Disposition: inline
-In-Reply-To: <4828461fa10101eec29e2885bc1aa0e2b7114e7c.camel@mediatek.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB56:EE_|DS7PR12MB6310:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7670247a-ac85-4c55-678c-08dc80be0e9b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230031|82310400017|1800799015|376005|36860700004; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9A8Oc6xI8stlWbr37dpL1TVAsnU/f+samncxgNmzvbRJu9Xzvg5vOLflw15B?=
+ =?us-ascii?Q?2P/V76/Oq13FrFX3BXrW4Zi0eEFAltjLFzERGlZx4pU6tlAUcvsE/ZLLX9y5?=
+ =?us-ascii?Q?Y5waHe3atobWi7gDz1EmAVXjicc86hD2vp4Yhm5i12zMCey6JTdnPhrty0iy?=
+ =?us-ascii?Q?WkqyCoebhT8X9f/sTiBrDozlrBpgWB1KrJnPgzDRPhqpQcQceuk+35PpIvpA?=
+ =?us-ascii?Q?4Zl+Vm6QG35RbdckD1o4sbDCVDU5O4Hx65A4agDam8GStAIan7LFbgDLMeAX?=
+ =?us-ascii?Q?C6shzkZi/sudJ9QnKjxuQtDMven4Whmx/vozkNWQH3t3hTAacKb03fYFhMFH?=
+ =?us-ascii?Q?i1j/W88eHMug+1MRKmAuykX7A+8xCAQG2fe3lafqoBwuPyOJGJl1YpnqHnof?=
+ =?us-ascii?Q?DgsvmjVDzwkGoJK22/2hnVh7HySdPw+ujse0tIuOa2uqCHFQ2lf1gGTT2Olu?=
+ =?us-ascii?Q?vWb5cF6LHQKnGmYN1yet5NjuXHXeD/TtyVou6Y9fSObeWDmbNLNUtMkxZBq+?=
+ =?us-ascii?Q?GonBkWQ6OtEcAmwM4ZVPraKlhNn57y7LQsmoCnrzDwWz9QRuiQOyynX6mpJx?=
+ =?us-ascii?Q?C7apmtJWpkm0NwQ9T5CO1G/TBec5EUexGuoY/aRPzuHRu8ccjF0L5+j16Tn7?=
+ =?us-ascii?Q?UqUYHkqZ8zumUHnv5RAyTQHsI5zpJ9hmJQq5jq8zK2kS0ISwIyMK946QbWPD?=
+ =?us-ascii?Q?PF+hWNkelL7wlONiQPTDG8jSVeA44LxzCnVtxwgGgXuk//XiZFgv8fWMsMHB?=
+ =?us-ascii?Q?VN3nYzgBOAkq1/bHYSH3nIdadTRqqTNZIuIGlwX6IQE6v3Ggpe0WfnRwu0PY?=
+ =?us-ascii?Q?dJzk9l8DmafkIVMyEjbu5L+eJhVG76nrZwIfjmSE4yVPEBQ/65sefGw4Z3zt?=
+ =?us-ascii?Q?R31+89Dyp/WTPg4ork40/O7AUiwinW1sSTT/KpIVSzkQ6FIfeCgXOqMCZ7t6?=
+ =?us-ascii?Q?plngE3SCCVJFKL1vI2RJT+YSlXwd9ma1jQzkqx7md7eADNynrOahswN+GuUz?=
+ =?us-ascii?Q?/MBLHEDOCLl3JdBcoAseDt1n80worA4uqNbAd+yZ8xSJ3pKdEkV+2sP3v8yI?=
+ =?us-ascii?Q?x8609BLaBvZcMAuVU7I7KLBgQFnqrf+FwWWJXoGOoIR6IlxaaNTobMtiYjHS?=
+ =?us-ascii?Q?WiTqzhnrCKtqSTuwZ82eUshRM15nc/rpRZkhehusdApiFlRa4BasTt2MY82j?=
+ =?us-ascii?Q?Jg8FEvaGFu8YcxW99Zj/DzBDWFyg14qOrs4TRjuWFSNnBC5R7p22UKUW6sXM?=
+ =?us-ascii?Q?Jva1NXVCsfyZt+w2WkRHu/OcCPRFUZC5aRIdRl4tRmgBqLI31VjyTqf4GqVi?=
+ =?us-ascii?Q?ro+B3GKvwrwodvhT0ychVDruzBfu/1ZgS5ly5D9AbqkN8XguNsJ2YiRddKfD?=
+ =?us-ascii?Q?obrl31eSYtMHwyafdY2s5+xfMKHO?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(82310400017)(1800799015)(376005)(36860700004); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2024 15:34:55.6506 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7670247a-ac85-4c55-678c-08dc80be0e9b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB56.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6310
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,109 +130,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Since the default number 256 can't handle large modern systems
+with large numbers of GPUs, specify a more reasonable default.
 
---bsilt325yu2nqtmw
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: James Zhu <James.Zhu@amd.com>
+---
+ drivers/gpu/drm/drm_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Tue, May 28, 2024 at 07:15:34AM GMT, Jason-JH Lin (=E6=9E=97=E7=9D=BF=E7=
-=A5=A5) wrote:
-> Hi Maxime,
->=20
-> On Mon, 2024-05-27 at 16:06 +0200, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Sun, May 26, 2024 at 07:29:21AM GMT, Jason-JH.Lin wrote:
-> > > From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
-> > >=20
-> > > Memory Definitions:
-> > > secure memory - Memory allocated in the TEE (Trusted Execution
-> > > Environment) which is inaccessible in the REE (Rich Execution
-> > > Environment, i.e. linux kernel/userspace).
-> > > secure handle - Integer value which acts as reference to 'secure
-> > > memory'. Used in communication between TEE and REE to reference
-> > > 'secure memory'.
-> > > secure buffer - 'secure memory' that is used to store decrypted,
-> > > compressed video or for other general purposes in the TEE.
-> > > secure surface - 'secure memory' that is used to store graphic
-> > > buffers.
-> > >=20
-> > > Memory Usage in SVP:
-> > > The overall flow of SVP starts with encrypted video coming in from
-> > > an
-> > > outside source into the REE. The REE will then allocate a 'secure
-> > > buffer' and send the corresponding 'secure handle' along with the
-> > > encrypted, compressed video data to the TEE. The TEE will then
-> > > decrypt
-> > > the video and store the result in the 'secure buffer'. The REE will
-> > > then allocate a 'secure surface'. The REE will pass the 'secure
-> > > handles' for both the 'secure buffer' and 'secure surface' into the
-> > > TEE for video decoding. The video decoder HW will then decode the
-> > > contents of the 'secure buffer' and place the result in the 'secure
-> > > surface'. The REE will then attach the 'secure surface' to the
-> > > overlay
-> > > plane for rendering of the video.
-> > >=20
-> > > Everything relating to ensuring security of the actual contents of
-> > > the
-> > > 'secure buffer' and 'secure surface' is out of scope for the REE
-> > > and
-> > > is the responsibility of the TEE.
-> > >=20
-> > > DRM driver handles allocation of gem objects that are backed by a
-> > > 'secure
-> > > surface' and for displaying a 'secure surface' on the overlay
-> > > plane.
-> > > This introduces a new flag for object creation called
-> > > DRM_MTK_GEM_CREATE_RESTRICTED which indicates it should be a
-> > > 'secure
-> > > surface'. All changes here are in MediaTek specific code.
-> > > ---
-> > > TODO:
-> > > 1) Drop MTK_DRM_IOCTL_GEM_CREATE and use DMA_HEAP_IOCTL_ALLOC in
-> > > userspace
-> > > 2) DRM driver use secure mailbox channel to handle normal and
-> > > secure flow
-> > > 3) Implement setting mmsys routing table in the secure world series
-> >=20
-> > I'm not sure what you mean here. Why are you trying to upstream
-> > something that still needs to be removed from your patch series?
-> >=20
-> Because their is too much patches need to be fixed in this series, so I
-> list down the remaining TODO items and send to review for the other
-> patches.
->=20
-> Sorry for the bothering, I'll drop this at the next version.
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 243cacb3575c..719ea57a70ab 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -1086,7 +1086,7 @@ static int __init drm_core_init(void)
+ 
+ 	drm_debugfs_root = debugfs_create_dir("dri", NULL);
+ 
+-	ret = register_chrdev(DRM_MAJOR, "drm", &drm_stub_fops);
++	ret = __register_chrdev(DRM_MAJOR, 0, 1024, "drm", &drm_stub_fops);
+ 	if (ret < 0)
+ 		goto error;
+ 
+-- 
+2.34.1
 
-If you don't intend to use it, we just shouldn't add it. Removing the
-TODO item doesn't make sense, even more so if heaps should be the way
-you handle this.
-
-> > Also, I made some comments on the previous version that have been
-> > entirely ignored and still apply on this version:
-> >=20
-> https://lore.kernel.org/dri-devel/20240415-guppy-of-perpetual-current-3a7=
-974@houat/
-> >=20
->=20
-> I lost that mail in my mailbox, so I didn't reply at that time.
-> I have imported that mail and replied to you. Hope you don't mind :)
-
-I haven't received that answer
-
-Maxime
-
---bsilt325yu2nqtmw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZliU3wAKCRAnX84Zoj2+
-dvrxAX0XabP7ScLHGhP6JhXAY0/kO0KsAhJ6bXLTnMOtM9E/W4y4qvPNP4LCV3Mo
-XV4YepABgM/zYB5oYrwydUNYU7q9S94P/MmmLhGyY8VJb52Xv+ugqz9UT6kvA1I0
-w0SqyRcoag==
-=wGDo
------END PGP SIGNATURE-----
-
---bsilt325yu2nqtmw--
