@@ -2,60 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86CFB8D4D0F
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 15:49:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F98D8D4DCF
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 16:24:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5739C12A4EB;
-	Thu, 30 May 2024 13:48:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C36310E9AF;
+	Thu, 30 May 2024 14:24:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZlaELCXw";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Qg1AgW6q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4354D12A491;
- Thu, 30 May 2024 13:48:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717076935; x=1748612935;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=mE0meffI5WUSNyn4mf7soUBM96k9Zg8P9lQGYLIp4Uk=;
- b=ZlaELCXws837Bcv6a+vk2GVpvrh7WknFL4j8TnXBpy608VWn8SV3/8IC
- jvPURijwsG9OblTUE8owsxvTa4HL1koHYksyrXGEX6X+lRObs9M3QESVT
- g5qmH7V/C62i1QvArYfDNUqOsAiE9yUYeJmTslQyezZ9OUJVTD7eeDrWk
- wRf6EI864rs5mYFTp5kgbV5OpBrBFvoygF4XsMFHcPoKbGFJTPUSNycVn
- Um+pJrmxewAh4VmaAb/G1Zg5P/dGc/hoC4LPa2ZR9HRD0iPoTcSVkgNGc
- cVRQ5O6g6Fy6Pqmx4Jt5VOUHVxL00HzUi3uhbICFbxvHTFZ9GYqDwCoD9 w==;
-X-CSE-ConnectionGUID: pUFWMRh/RKy52L3d+0TNKw==
-X-CSE-MsgGUID: 4KN0ooiuR9GCH5Yk0GNW0A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="24683938"
-X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; d="scan'208";a="24683938"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2024 06:48:55 -0700
-X-CSE-ConnectionGUID: PuD68Po6SRqG5BrmDYLuPQ==
-X-CSE-MsgGUID: P9TOWsZzT7mhYWPT4N1Hhg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; d="scan'208";a="40736246"
-Received: from unknown (HELO localhost) ([10.237.66.160])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2024 06:48:53 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
- intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, ankit.k.nautiyal@intel.com
-Subject: Re: [PATCH v10 1/8] drm/i915: Separate VRR related register
- definitions
-In-Reply-To: <20240530060408.67027-2-mitulkumar.ajitkumar.golani@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240530060408.67027-1-mitulkumar.ajitkumar.golani@intel.com>
- <20240530060408.67027-2-mitulkumar.ajitkumar.golani@intel.com>
-Date: Thu, 30 May 2024 16:48:49 +0300
-Message-ID: <87o78nh0la.fsf@intel.com>
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E81910E0BE
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 14:24:36 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-52b840a001dso137216e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 07:24:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1717079074; x=1717683874; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=A05XxoAt0LbeaH967nkgJpVk8uAg3uaftb22v/uUOsU=;
+ b=Qg1AgW6qNIl2SLkBRuLluIyhVsvI41iG+Geop5/65JUYIeS6ielb+NAPb7XzJDPamb
+ TEP758PIftAe6XV+Kpc13KDG2Wq4kAaEkIPXfgCuRoDVL8adfeP8CC05hWjcdMr7PZtW
+ ZokPh/8+QFCr+CkXF0vyw06iMZsAp177dtoTL+pFoq4wS/cTXKzlcGVS5tNaJQeHIPvk
+ HJFoSR04iXICURF8tuRjD3HnyNlGsU3mlDPC3xNmAWEeW+BeX1Iq4bAqXFfl01BfEe2C
+ mILgHPkFjDoFun0sW8vQK0kFY8G48+Y8rT8hrByriLvGxyWxEZ6CmXn/H9r7Om6SDRKP
+ jAnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717079074; x=1717683874;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=A05XxoAt0LbeaH967nkgJpVk8uAg3uaftb22v/uUOsU=;
+ b=BdB+/pdnlFzs4ji6Ej6aOPqj6HlgTEYJKd+6evo6vwEzfj/OLrpbX8Mph/uf8S+qrA
+ JjKd48mc6TnsnG59DTax2mO3UC4fmvDs7wDEZsp/+v6M1sN4DDxALH2aZoa3UX06g9bo
+ gLXhA9LnVWFmlcqr68lAiSx7Hw1NJ/kZknZGI4UbEZ87z1O6kpHmP1jXqJKOxTqR0/Tx
+ li2LhjHVkG2LEAW2C5BtAUjFVp9GXkxX+kYwp8bBR70EP2OKH/NrW2XhKDQH/w3ukD/f
+ TcBfL/75hKbmez6bw0XzgIbVUX9zMg4QfN7PN4FcE3v4lL9+2qNc7Rjh4gUWY2O/PyFS
+ xC7Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUXxA3iHun+WOG50o9vLoMOb34An7mQfPAt8PWoEzRcQBYCR201ASSXX8KiXBppW+eoi0+zW03iWVprMOIX/uqksbIE1gPyNULOPa6cawOB
+X-Gm-Message-State: AOJu0YyogcWshFnQ/iDhQIliRJSYkHlL3MVVORxRNQ8KKQ9vESqeQmCl
+ WZ+ZcLyV4yHJLUlj/lOwHp1bgwQnpE9CY70sjZkfRJyih80T8bc2upNvGWypzpg=
+X-Google-Smtp-Source: AGHT+IF3IPCOHPkCufej0E3S4vIkJZN0bwr+uOjkvz4pFX2pYHg8b+tGuvTkupUA/Cc6jzgAiPesyQ==
+X-Received: by 2002:a19:381d:0:b0:52b:8419:db27 with SMTP id
+ 2adb3069b0e04-52b8419db72mr77706e87.35.1717079072333; 
+ Thu, 30 May 2024 07:24:32 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52970c3343esm1600677e87.214.2024.05.30.07.24.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 May 2024 07:24:31 -0700 (PDT)
+Date: Thu, 30 May 2024 17:24:30 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Aradhya Bhatia <a-bhatia1@ti.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Jyri Sarha <jyri.sarha@iki.fi>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <treding@nvidia.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Nishanth Menon <nm@ti.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
+ Udit Kumar <u-kumar1@ti.com>, 
+ Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>, 
+ Jai Luthra <j-luthra@ti.com>
+Subject: Re: [PATCH v2 1/9] drm/bridge: cdns-dsi: Fix OF node pointer
+Message-ID: <mgl6dxypfj6mwzdj3l3xsb63vctxyoa3y32vuykzrojv5fuevr@akvrnmgdqwyg>
+References: <20240530093621.1925863-1-a-bhatia1@ti.com>
+ <20240530093621.1925863-2-a-bhatia1@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240530093621.1925863-2-a-bhatia1@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,317 +101,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 May 2024, Mitul Golani <mitulkumar.ajitkumar.golani@intel.com> w=
-rote:
-> Move VRR related register definitions to a separate file called
-> intel_vrr_regs.h.
+On Thu, May 30, 2024 at 03:06:13PM +0530, Aradhya Bhatia wrote:
+> Fix the OF node pointer passed to the of_drm_find_bridge() call to find
+> the next bridge in the display chain.
 
-But this is not just movement... there's a bunch of other (mostly
-unwanted?) changes there too.
+Please describe why, not what. In other words, please describe why you
+have to pass np, no device's of_node.
 
-'git show --color-moved' is a powerful tool for reviewing code
-movement. If it's not just movement, you have to fallback to manual
-review of the whole thing.
-
-> Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+> 
+> Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_vrr.c      |   1 +
->  drivers/gpu/drm/i915/display/intel_vrr_regs.h | 117 ++++++++++++++++++
->  drivers/gpu/drm/i915/i915_reg.h               | 100 ---------------
->  3 files changed, 118 insertions(+), 100 deletions(-)
->  create mode 100644 drivers/gpu/drm/i915/display/intel_vrr_regs.h
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_vrr.c b/drivers/gpu/drm/i=
-915/display/intel_vrr.c
-> index 5f3657aa8313..871e6e6a184a 100644
-> --- a/drivers/gpu/drm/i915/display/intel_vrr.c
-> +++ b/drivers/gpu/drm/i915/display/intel_vrr.c
-> @@ -9,6 +9,7 @@
->  #include "intel_de.h"
->  #include "intel_display_types.h"
->  #include "intel_vrr.h"
-> +#include "intel_vrr_regs.h"
->  #include "intel_dp.h"
->=20=20
->  bool intel_vrr_is_capable(struct intel_connector *connector)
-> diff --git a/drivers/gpu/drm/i915/display/intel_vrr_regs.h b/drivers/gpu/=
-drm/i915/display/intel_vrr_regs.h
-> new file mode 100644
-> index 000000000000..c6ad0a88cf88
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/display/intel_vrr_regs.h
-> @@ -0,0 +1,117 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright =C2=A9 2024 Intel Corporation
-> + */
-> +
-> +#ifndef __INTEL_VRR_REG_H__
-> +#define __INTEL_VRR_REG_H__
+>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> index 7457d38622b0..b016f2ba06bb 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> @@ -952,7 +952,7 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
+>  		bridge = drm_panel_bridge_add_typed(panel,
+>  						    DRM_MODE_CONNECTOR_DSI);
+>  	} else {
+> -		bridge = of_drm_find_bridge(dev->dev.of_node);
+> +		bridge = of_drm_find_bridge(np);
+>  		if (!bridge)
+>  			bridge = ERR_PTR(-EINVAL);
+>  	}
+> -- 
+> 2.34.1
+> 
 
-Does not match file name.
-
-BR,
-Jani.
-
-> +
-> +#include "intel_display_reg_defs.h"
-> +
-> +/* VRR registers */
-> +#define _TRANS_VRR_VSYNC_A                      0x60078
-> +#define TRANS_VRR_VSYNC(dev_priv, trans)        _MMIO_TRANS2(dev_priv, t=
-rans, \
-> +                                                _TRANS_VRR_VSYNC_A)
-> +#define VRR_VSYNC_END_MASK                      REG_GENMASK(28, 16)
-> +#define VRR_VSYNC_END(vsync_end)                REG_FIELD_PREP(VRR_VSYNC=
-_END_MASK, (vsync_end))
-> +#define VRR_VSYNC_START_MASK                    REG_GENMASK(12, 0)
-> +#define VRR_VSYNC_START(vsync_start)            REG_FIELD_PREP(VRR_VSYNC=
-_START_MASK, (vsync_start))
-> +
-> +#define _TRANS_VRR_CTL_A			0x60420
-> +#define _TRANS_VRR_CTL_B			0x61420
-> +#define _TRANS_VRR_CTL_C			0x62420
-> +#define _TRANS_VRR_CTL_D			0x63420
-> +#define TRANS_VRR_CTL(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans, _T=
-RANS_VRR_CTL_A)
-> +#define VRR_CTL_VRR_ENABLE			REG_BIT(31)
-> +#define VRR_CTL_IGN_MAX_SHIFT			REG_BIT(30)
-> +#define VRR_CTL_FLIP_LINE_EN			REG_BIT(29)
-> +#define VRR_CTL_PIPELINE_FULL_MASK		REG_GENMASK(10, 3)
-> +#define VRR_CTL_PIPELINE_FULL(x)		REG_FIELD_PREP(VRR_CTL_PIPELINE_FULL_M=
-ASK, (x))
-> +#define VRR_CTL_PIPELINE_FULL_OVERRIDE		REG_BIT(0)
-> +#define XELPD_VRR_CTL_VRR_GUARDBAND_MASK	REG_GENMASK(15, 0)
-> +#define XELPD_VRR_CTL_VRR_GUARDBAND(x)		REG_FIELD_PREP(XELPD_VRR_CTL_VRR=
-_GUARDBAND_MASK, \
-> +								(x))
-> +
-> +#define _TRANS_VRR_VMAX_A			0x60424
-> +#define _TRANS_VRR_VMAX_B			0x61424
-> +#define _TRANS_VRR_VMAX_C			0x62424
-> +#define _TRANS_VRR_VMAX_D			0x63424
-> +#define TRANS_VRR_VMAX(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans, _T=
-RANS_VRR_VMAX_A)
-> +#define VRR_VMAX_MASK				REG_GENMASK(19, 0)
-> +
-> +#define _TRANS_VRR_VMAXSHIFT_A			0x60428
-> +#define _TRANS_VRR_VMAXSHIFT_B			0x61428
-> +#define _TRANS_VRR_VMAXSHIFT_C			0x62428
-> +#define _TRANS_VRR_VMAXSHIFT_D			0x63428
-> +#define TRANS_VRR_VMAXSHIFT(dev_priv, trans)	_MMIO_TRANS2(dev_priv, tran=
-s, \
-> +						_TRANS_VRR_VMAXSHIFT_A)
-> +#define VRR_VMAXSHIFT_DEC_MASK			REG_GENMASK(29, 16)
-> +#define VRR_VMAXSHIFT_DEC			REG_BIT(16)
-> +#define VRR_VMAXSHIFT_INC_MASK			REG_GENMASK(12, 0)
-> +
-> +#define _TRANS_VRR_STATUS_A			0x6042C
-> +#define _TRANS_VRR_STATUS_B			0x6142C
-> +#define _TRANS_VRR_STATUS_C			0x6242C
-> +#define _TRANS_VRR_STATUS_D			0x6342C
-> +#define TRANS_VRR_STATUS(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans, \
-> +						_TRANS_VRR_STATUS_A)
-> +#define VRR_STATUS_VMAX_REACHED			REG_BIT(31)
-> +#define VRR_STATUS_NOFLIP_TILL_BNDR		REG_BIT(30)
-> +#define VRR_STATUS_FLIP_BEF_BNDR		REG_BIT(29)
-> +#define VRR_STATUS_NO_FLIP_FRAME		REG_BIT(28)
-> +#define VRR_STATUS_VRR_EN_LIVE			REG_BIT(27)
-> +#define VRR_STATUS_FLIPS_SERVICED		REG_BIT(26)
-> +#define VRR_STATUS_VBLANK_MASK			REG_GENMASK(22, 20)
-> +#define STATUS_FSM_IDLE			REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 0)
-> +#define STATUS_FSM_WAIT_TILL_FDB		REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK,=
- 1)
-> +#define STATUS_FSM_WAIT_TILL_FS		REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, =
-2)
-> +#define STATUS_FSM_WAIT_TILL_FLIP		REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK=
-, 3)
-> +#define STATUS_FSM_PIPELINE_FILL		REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK,=
- 4)
-> +#define STATUS_FSM_ACTIVE			REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 5)
-> +#define STATUS_FSM_LEGACY_VBLANK		REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK,=
- 6)
-> +
-> +#define _TRANS_VRR_VMIN_A                       0x60434
-> +#define _TRANS_VRR_VMIN_B                       0x61434
-> +#define _TRANS_VRR_VMIN_C                       0x62434
-> +#define _TRANS_VRR_VMIN_D                       0x63434
-> +#define TRANS_VRR_VMIN(dev_priv, trans) _MMIO_TRANS2(dev_priv, trans, _T=
-RANS_VRR_VMIN_A)
-> +#define VRR_VMIN_MASK                           REG_GENMASK(15, 0)
-> +
-> +#define _TRANS_VRR_FLIPLINE_A			0x60438
-> +#define _TRANS_VRR_FLIPLINE_B			0x61438
-> +#define _TRANS_VRR_FLIPLINE_C			0x62438
-> +#define _TRANS_VRR_FLIPLINE_D			0x63438
-> +#define TRANS_VRR_FLIPLINE(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans=
-, \
-> +						_TRANS_VRR_FLIPLINE_A)
-> +#define VRR_FLIPLINE_MASK			REG_GENMASK(19, 0)
-> +
-> +#define _TRANS_VRR_STATUS2_A			0x6043C
-> +#define _TRANS_VRR_STATUS2_B			0x6143C
-> +#define _TRANS_VRR_STATUS2_C			0x6243C
-> +#define _TRANS_VRR_STATUS2_D			0x6343C
-> +#define TRANS_VRR_STATUS2(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans,=
- \
-> +						_TRANS_VRR_STATUS2_A)
-> +#define VRR_STATUS2_VERT_LN_CNT_MASK		REG_GENMASK(19, 0)
-> +
-> +#define _TRANS_VRR_VTOTAL_PREV_A                0x60480
-> +#define _TRANS_VRR_VTOTAL_PREV_B                0x61480
-> +#define _TRANS_VRR_VTOTAL_PREV_C                0x62480
-> +#define _TRANS_VRR_VTOTAL_PREV_D                0x63480
-> +#define TRANS_VRR_VTOTAL_PREV(dev_priv, trans)  _MMIO_TRANS2(dev_priv, t=
-rans, \
-> +                                                _TRANS_VRR_VTOTAL_PREV_A)
-> +#define VRR_VTOTAL_FLIP_BEFR_BNDR               REG_BIT(31)
-> +#define VRR_VTOTAL_FLIP_AFTER_BNDR              REG_BIT(30)
-> +#define VRR_VTOTAL_FLIP_AFTER_DBLBUF            REG_BIT(29)
-> +#define VRR_VTOTAL_PREV_FRAME_MASK              REG_GENMASK(19, 0)
-> +
-> +#define _TRANS_PUSH_A				0x60A70
-> +#define _TRANS_PUSH_B				0x61A70
-> +#define _TRANS_PUSH_C				0x62A70
-> +#define _TRANS_PUSH_D				0x63A70
-> +#define TRANS_PUSH(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans, \
-> +						_TRANS_PUSH_A)
-> +#define TRANS_PUSH_EN				REG_BIT(31)
-> +#define TRANS_PUSH_SEND			REG_BIT(30)
-> +
-> +#endif /* __INTEL_VRR_REGS__ */
-> +
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_=
-reg.h
-> index be57812a6b07..a6a8464fcff8 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -1228,106 +1228,6 @@
->  #define PIPESRC(pipe)		_MMIO_TRANS2(dev_priv, (pipe), _PIPEASRC)
->  #define TRANS_MULT(trans)	_MMIO_TRANS2(dev_priv, (trans), _TRANS_MULT_A)
->=20=20
-> -/* VRR registers */
-> -#define _TRANS_VRR_CTL_A		0x60420
-> -#define _TRANS_VRR_CTL_B		0x61420
-> -#define _TRANS_VRR_CTL_C		0x62420
-> -#define _TRANS_VRR_CTL_D		0x63420
-> -#define TRANS_VRR_CTL(dev_priv, trans)			_MMIO_TRANS2(dev_priv, trans, _=
-TRANS_VRR_CTL_A)
-> -#define   VRR_CTL_VRR_ENABLE			REG_BIT(31)
-> -#define   VRR_CTL_IGN_MAX_SHIFT			REG_BIT(30)
-> -#define   VRR_CTL_FLIP_LINE_EN			REG_BIT(29)
-> -#define   VRR_CTL_PIPELINE_FULL_MASK		REG_GENMASK(10, 3)
-> -#define   VRR_CTL_PIPELINE_FULL(x)		REG_FIELD_PREP(VRR_CTL_PIPELINE_FULL=
-_MASK, (x))
-> -#define   VRR_CTL_PIPELINE_FULL_OVERRIDE	REG_BIT(0)
-> -#define	  XELPD_VRR_CTL_VRR_GUARDBAND_MASK	REG_GENMASK(15, 0)
-> -#define	  XELPD_VRR_CTL_VRR_GUARDBAND(x)	REG_FIELD_PREP(XELPD_VRR_CTL_VR=
-R_GUARDBAND_MASK, (x))
-> -
-> -#define _TRANS_VRR_VMAX_A		0x60424
-> -#define _TRANS_VRR_VMAX_B		0x61424
-> -#define _TRANS_VRR_VMAX_C		0x62424
-> -#define _TRANS_VRR_VMAX_D		0x63424
-> -#define TRANS_VRR_VMAX(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans, _=
-TRANS_VRR_VMAX_A)
-> -#define   VRR_VMAX_MASK			REG_GENMASK(19, 0)
-> -
-> -#define _TRANS_VRR_VMIN_A		0x60434
-> -#define _TRANS_VRR_VMIN_B		0x61434
-> -#define _TRANS_VRR_VMIN_C		0x62434
-> -#define _TRANS_VRR_VMIN_D		0x63434
-> -#define TRANS_VRR_VMIN(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans, _=
-TRANS_VRR_VMIN_A)
-> -#define   VRR_VMIN_MASK			REG_GENMASK(15, 0)
-> -
-> -#define _TRANS_VRR_VMAXSHIFT_A		0x60428
-> -#define _TRANS_VRR_VMAXSHIFT_B		0x61428
-> -#define _TRANS_VRR_VMAXSHIFT_C		0x62428
-> -#define _TRANS_VRR_VMAXSHIFT_D		0x63428
-> -#define TRANS_VRR_VMAXSHIFT(dev_priv, trans)	_MMIO_TRANS2(dev_priv, tran=
-s, \
-> -					_TRANS_VRR_VMAXSHIFT_A)
-> -#define   VRR_VMAXSHIFT_DEC_MASK	REG_GENMASK(29, 16)
-> -#define   VRR_VMAXSHIFT_DEC		REG_BIT(16)
-> -#define   VRR_VMAXSHIFT_INC_MASK	REG_GENMASK(12, 0)
-> -
-> -#define _TRANS_VRR_STATUS_A		0x6042C
-> -#define _TRANS_VRR_STATUS_B		0x6142C
-> -#define _TRANS_VRR_STATUS_C		0x6242C
-> -#define _TRANS_VRR_STATUS_D		0x6342C
-> -#define TRANS_VRR_STATUS(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans,=
- _TRANS_VRR_STATUS_A)
-> -#define   VRR_STATUS_VMAX_REACHED	REG_BIT(31)
-> -#define   VRR_STATUS_NOFLIP_TILL_BNDR	REG_BIT(30)
-> -#define   VRR_STATUS_FLIP_BEF_BNDR	REG_BIT(29)
-> -#define   VRR_STATUS_NO_FLIP_FRAME	REG_BIT(28)
-> -#define   VRR_STATUS_VRR_EN_LIVE	REG_BIT(27)
-> -#define   VRR_STATUS_FLIPS_SERVICED	REG_BIT(26)
-> -#define   VRR_STATUS_VBLANK_MASK	REG_GENMASK(22, 20)
-> -#define   STATUS_FSM_IDLE		REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 0)
-> -#define   STATUS_FSM_WAIT_TILL_FDB	REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK=
-, 1)
-> -#define   STATUS_FSM_WAIT_TILL_FS	REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK,=
- 2)
-> -#define   STATUS_FSM_WAIT_TILL_FLIP	REG_FIELD_PREP(VRR_STATUS_VBLANK_MAS=
-K, 3)
-> -#define   STATUS_FSM_PIPELINE_FILL	REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK=
-, 4)
-> -#define   STATUS_FSM_ACTIVE		REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 5)
-> -#define   STATUS_FSM_LEGACY_VBLANK	REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK=
-, 6)
-> -
-> -#define _TRANS_VRR_VTOTAL_PREV_A	0x60480
-> -#define _TRANS_VRR_VTOTAL_PREV_B	0x61480
-> -#define _TRANS_VRR_VTOTAL_PREV_C	0x62480
-> -#define _TRANS_VRR_VTOTAL_PREV_D	0x63480
-> -#define TRANS_VRR_VTOTAL_PREV(dev_priv, trans)	_MMIO_TRANS2(dev_priv, tr=
-ans, \
-> -					_TRANS_VRR_VTOTAL_PREV_A)
-> -#define   VRR_VTOTAL_FLIP_BEFR_BNDR	REG_BIT(31)
-> -#define   VRR_VTOTAL_FLIP_AFTER_BNDR	REG_BIT(30)
-> -#define   VRR_VTOTAL_FLIP_AFTER_DBLBUF	REG_BIT(29)
-> -#define   VRR_VTOTAL_PREV_FRAME_MASK	REG_GENMASK(19, 0)
-> -
-> -#define _TRANS_VRR_FLIPLINE_A		0x60438
-> -#define _TRANS_VRR_FLIPLINE_B		0x61438
-> -#define _TRANS_VRR_FLIPLINE_C		0x62438
-> -#define _TRANS_VRR_FLIPLINE_D		0x63438
-> -#define TRANS_VRR_FLIPLINE(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans=
-, \
-> -					_TRANS_VRR_FLIPLINE_A)
-> -#define   VRR_FLIPLINE_MASK		REG_GENMASK(19, 0)
-> -
-> -#define _TRANS_VRR_STATUS2_A		0x6043C
-> -#define _TRANS_VRR_STATUS2_B		0x6143C
-> -#define _TRANS_VRR_STATUS2_C		0x6243C
-> -#define _TRANS_VRR_STATUS2_D		0x6343C
-> -#define TRANS_VRR_STATUS2(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans,=
- _TRANS_VRR_STATUS2_A)
-> -#define   VRR_STATUS2_VERT_LN_CNT_MASK	REG_GENMASK(19, 0)
-> -
-> -#define _TRANS_PUSH_A			0x60A70
-> -#define _TRANS_PUSH_B			0x61A70
-> -#define _TRANS_PUSH_C			0x62A70
-> -#define _TRANS_PUSH_D			0x63A70
-> -#define TRANS_PUSH(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans, _TRAN=
-S_PUSH_A)
-> -#define   TRANS_PUSH_EN			REG_BIT(31)
-> -#define   TRANS_PUSH_SEND		REG_BIT(30)
-> -
-> -#define _TRANS_VRR_VSYNC_A		0x60078
-> -#define TRANS_VRR_VSYNC(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans, =
-_TRANS_VRR_VSYNC_A)
-> -#define VRR_VSYNC_END_MASK		REG_GENMASK(28, 16)
-> -#define VRR_VSYNC_END(vsync_end)	REG_FIELD_PREP(VRR_VSYNC_END_MASK, (vsy=
-nc_end))
-> -#define VRR_VSYNC_START_MASK		REG_GENMASK(12, 0)
-> -#define VRR_VSYNC_START(vsync_start)	REG_FIELD_PREP(VRR_VSYNC_START_MASK=
-, (vsync_start))
-> -
->  /* VGA port control */
->  #define ADPA			_MMIO(0x61100)
->  #define PCH_ADPA                _MMIO(0xe1100)
-
---=20
-Jani Nikula, Intel
+-- 
+With best wishes
+Dmitry
