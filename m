@@ -2,90 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A2D8D5630
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 01:21:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D08148D5635
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 01:25:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADBA810E409;
-	Thu, 30 May 2024 23:21:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B11BE10E188;
+	Thu, 30 May 2024 23:25:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sSgj45C8";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="i5D41tku";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 929A610E409
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 23:21:12 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-52b87505f01so294479e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 16:21:12 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
+ [209.85.219.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0A8310F884
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 23:25:28 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id
+ 3f1490d57ef6-dfa46cedc5aso1338374276.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 16:25:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717111270; x=1717716070; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=YE7nBWRP2r6qptkkjnhfqlN+45c+PRv7G0Q2JOIxAzQ=;
- b=sSgj45C8aDeEXKTmdaOmiBpe3jNEcWSmGJpKsp0q/pie19flltnws5NQ9J09p+DUOJ
- 2r00CqWdQuaLiW4uqaIHbgicwwrTC60feVrEbKSKil8+I8/MhC8FHnXKNLdsEhIz0K09
- wqDLU50C3fuCYYgJc/9roh2I2AvDGusyH/Tf6hZ8hNOQu+mQVquMePPPQI+3Gp3DqLKM
- EzgbAza91lR4by11nibd5+UTb0IMdCS49fbGWOhsekfSI938GU1pGWT+iPtjoMRZoTEp
- T1Z3Y4AQCSsDPDcNtHfN0a9VjhpxIGmUTvso7UPxz+yJGtg8GW3n69hRYxgMJ1Fg6KeC
- HUQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717111270; x=1717716070;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1717111527; x=1717716327; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YE7nBWRP2r6qptkkjnhfqlN+45c+PRv7G0Q2JOIxAzQ=;
- b=YsOb07TcIt5KgRbuUCtl5J/1gz5qtF0KFcycwWMSNX0Nfz6sY/nPtuZyiRBzHjoJ4O
- TezWRys1TdgMKUYnxwyinDj1rwJyk61m0o+SHjKk4b9uDtAHBTH0RmE4LMQvfIOyp0G5
- PP7lP2RQg0PV8fZk/ZzXCWeOYXGxUom8wdhoIOFsyHelhXQlNgGPnh/BqQkJjpL9EYGb
- NGFsAbYKQ6HYZvY1XIOaBUAN4B6Rk8cgha8y+HE5ZB45dV9QDoo5LmED76my2QrfMSdP
- 7vC3E5OXx385v78LU3d9LN1nhet3qMhLOygYztaVURBh0uI3EmWtDFIPO22fpeKYFV00
- ytxg==
+ bh=sv0LecyVOWd5yytKjjDHRWsA6Vnu0bk1m9ADGMShsuo=;
+ b=i5D41tkuCT6x83Ahh17UAG5lAFLq3l0OSigeV7VNkY0qTCHHFSaDQ3GHFSqbyfg2HK
+ D6rXkbz7cdO0cidvTEvLs3zxlEwizP7hCi/5EPe8492kbuAniISC4FQGYXekFyhrFBYO
+ a9xNo1xgB7zrLk+UnCIe9JtFLFpbevzhxMaArXPq9v5HZVWPJQY0VxDQb9/8/n2kg7HJ
+ PCRe1777The2ZC9BcHK6y5FzABVT65CFVgchJfNqNlliR3SYvsMxfxDW2O7kyW8LEOD9
+ Mzv5SIbcsYUa81mX1JaMGoPbpoPN/b9diJ7pDwk5X/LkQ8mY4DhGfuQ57KdolDC7ejK5
+ wwvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717111527; x=1717716327;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sv0LecyVOWd5yytKjjDHRWsA6Vnu0bk1m9ADGMShsuo=;
+ b=C7c+2gY/2tsZRFgQlRqQkMauHS4//4xm8tGEnlp+TsA5sAHt6utXJmsFV1aOFBrhe5
+ /EQLO6pwKFGOMPpTTO1wfichUa2nXVKceR8jmWEpJak4A9Qybn9+JAmIiHvh0lqycB1F
+ BBJbIChAJ8/c5ub3gdetZC73zptjubn1PNl0rEfTiZKdHhzUmgwtzEYSPDYmNwu1xyqY
+ PUJDoW5j5zDE2IUKodefuqBthqdGkrQC1nUwVUHFHnr45jOw/Bkz2aXIkWd4dUOVRWiW
+ 3KPDJoszENvqMQx+qfv0ABpbRZeMiudEqubTj8CGY3sjcmbYGMnhcXfXDYAzJ5qu0jKb
+ nscQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXKi/r37iF4gG3WWZQJOadXgBBUatqK4s0VzF1euL/wiXHYKNHdRUw9pHnzq5qxWifEMhW/JVQsX6vnPN7Ik5MFzEa8J4mT/G4x+kbiqWg7
-X-Gm-Message-State: AOJu0YwEEF20ahBDn7XSJdtWGZWof+aRPAyTRc2nIPXfW3wfYLyqtrzw
- Tlx4GoaJQTsQhWX+RJah2Ilyjjb8ZS15Y4e/GR6PTC8AK508KILQ4Bdz/vU/yxs=
-X-Google-Smtp-Source: AGHT+IGSYTyCk7NZstVbr2ZMY+F7VW77DKpKIwwwGH/JGXdol+c9u1s5nysiBUlt9LCyDxtOBxQSfg==
-X-Received: by 2002:a19:6a09:0:b0:523:8a14:9149 with SMTP id
- 2adb3069b0e04-52b8956b5c9mr47305e87.21.1717111270420; 
- Thu, 30 May 2024 16:21:10 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52b84d89c2dsm121896e87.258.2024.05.30.16.21.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 May 2024 16:21:10 -0700 (PDT)
-Date: Fri, 31 May 2024 02:21:08 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Aradhya Bhatia <a-bhatia1@ti.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Jyri Sarha <jyri.sarha@iki.fi>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>, 
- Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <treding@nvidia.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Nishanth Menon <nm@ti.com>, 
- Vignesh Raghavendra <vigneshr@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
- Udit Kumar <u-kumar1@ti.com>, 
- Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>, 
- Jai Luthra <j-luthra@ti.com>
-Subject: Re: [PATCH v2 7/9] drm/bridge: cdns-dsi: Support atomic bridge APIs
-Message-ID: <4fsu5fa5zbrqgc5bepxscoenrax5c6p5b4eyomavioy3bhwuq3@rjjbur3v52e3>
-References: <20240530093621.1925863-1-a-bhatia1@ti.com>
- <20240530093621.1925863-8-a-bhatia1@ti.com>
+ AJvYcCUdEMrsOag8sVqelhzi/CQAEkUlLHCr6dQfCLH7qtKzB1W4k5wBQIhn15zCruqJMYM87kI+zgQlGPeCroUifEituOmdztVoW6T51XB4MIni
+X-Gm-Message-State: AOJu0YzU3pf3DEmWKKqCZsU5MHzbr+bboAeR1iuMHwayNlu+eKuWsGwG
+ wQK6OWRfNC0r5XnxT5G9910R2BC/gvmjCP5bpE4mCJDqG4YOrwkI4yzKHkEzX38FGCCtbcNxFl6
+ o8IH11M+rs54u1VuUOv/Lj3vpNvJIuE+oEYDLpw==
+X-Google-Smtp-Source: AGHT+IGoT2aZ50ey6PYkXo4gk0t6FYv3SWVRLhfFVMNTxxcjrabn1SF849fjcmILla0ETMZvmc8wUcRAZ6PmWQmcsDw=
+X-Received: by 2002:a25:a2c6:0:b0:de5:852f:6afe with SMTP id
+ 3f1490d57ef6-dfa73c23234mr310487276.30.1717111527524; Thu, 30 May 2024
+ 16:25:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240530093621.1925863-8-a-bhatia1@ti.com>
+References: <20240531-edp-panel-drop-v3-0-4c98b2b95e3a@linaro.org>
+ <CAD=FV=XMgAnaEaHXZJL57+66OXs0afP9vurxf_ffqkum=xqEfA@mail.gmail.com>
+In-Reply-To: <CAD=FV=XMgAnaEaHXZJL57+66OXs0afP9vurxf_ffqkum=xqEfA@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 31 May 2024 02:25:16 +0300
+Message-ID: <CAA8EJpoy4vTGGFqoCXUKshWhLVUL8ME1i2Z_X5B+yRG45vx6+w@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] drm/panel-edp: remove several legacy compatibles
+ used by the driver
+To: Doug Anderson <dianders@chromium.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, Jeffrey Hugo <quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,79 +88,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 30, 2024 at 03:06:19PM +0530, Aradhya Bhatia wrote:
-> Change the existing (and deprecated) bridge hooks, to the bridge
-> atomic APIs.
-> 
-> Add drm helpers for duplicate_state, destroy_state, and bridge_reset
-> bridge hooks.
-> 
-> Further add support for the input format negotiation hook.
-> 
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> ---
->  .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 70 ++++++++++++++++---
->  1 file changed, 62 insertions(+), 8 deletions(-)
+On Fri, 31 May 2024 at 02:24, Doug Anderson <dianders@chromium.org> wrote:
+>
+> Hi,
+>
+> On Thu, May 30, 2024 at 4:13=E2=80=AFPM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> >
+> > There are two ways to describe an eDP panel in device tree. The
+> > recommended way is to add a device on the AUX bus, ideally using the
+> > edp-panel compatible. The legacy way is to define a top-level platform
+> > device for the panel.
+> >
+> > Document that adding support for eDP panels in a legacy way is strongly
+> > discouraged (if not forbidden at all).
+> >
+> > While we are at it, also drop legacy compatible strings and bindings fo=
+r
+> > five panels. These compatible strings were never used by a DT file
+> > present in Linux kernel and most likely were never used with the
+> > upstream Linux kernel.
+> >
+> > The following compatibles were never used by the devices supported by
+> > the upstream kernel and are a subject to possible removal:
+> >
+> > - lg,lp097qx1-spa1
+> > - samsung,lsn122dl01-c01
+> > - sharp,ld-d5116z01b
+> >
+> > I'm considering dropping them later, unless there is a good reason not
+> > to do so.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> > Changes in v3:
+> > - Rephrased the warning comment, following some of Doug's suggestions.
+> > - Link to v2: https://lore.kernel.org/r/20240529-edp-panel-drop-v2-0-fc=
+fc457fc8dd@linaro.org
+> >
+> > Changes in v2:
+> > - Actually drop support for five panels acked by Doug Andersson
+> > - Link to v1: https://lore.kernel.org/r/20240523-edp-panel-drop-v1-1-04=
+5d62511d09@linaro.org
+> >
+> > ---
+> > Dmitry Baryshkov (3):
+> >       drm/panel-edp: add fat warning against adding new panel compatibl=
+es
+> >       dt-bindings: display: panel-simple: drop several eDP panels
+> >       drm/panel-edp: drop several legacy panels
+> >
+> >  .../bindings/display/panel/panel-simple.yaml       |  10 --
+> >  drivers/gpu/drm/panel/panel-edp.c                  | 192 +++----------=
+--------
+> >  2 files changed, 25 insertions(+), 177 deletions(-)
+>
+> Thanks! I'm happy to apply this series or also happy if some other
+> drm-misc committer member wants to apply it. Probably we should wait
+> for a DT person to make sure that they don't have any problems with
+> the bindings change.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Yes, I'm waiting for an ack from DT maintainers.
 
-Minor nit below.
-
-> 
-> @@ -915,13 +920,62 @@ static void cdns_dsi_bridge_pre_enable(struct drm_bridge *bridge)
->  	cdns_dsi_hs_init(dsi);
->  }
->  
-> +static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
-> +					       struct drm_bridge_state *bridge_state,
-> +					       struct drm_crtc_state *crtc_state,
-> +					       struct drm_connector_state *conn_state,
-> +					       u32 output_fmt,
-> +					       unsigned int *num_input_fmts)
-> +{
-
-This code below looks pretty generic. Would be logical to extract it to
-a helper and allow it to be used by other DSI host bridges?
-
-> +	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
-> +	struct cdns_dsi *dsi = input_to_dsi(input);
-> +	struct cdns_dsi_output *output = &dsi->output;
-> +	u32 *input_fmts;
-> +
-> +	*num_input_fmts = 0;
-> +
-> +	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
-> +	if (!input_fmts)
-> +		return NULL;
-> +
-> +	switch (output->dev->format) {
-> +	case MIPI_DSI_FMT_RGB888:
-> +		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-> +		break;
-> +
-> +	case MIPI_DSI_FMT_RGB666:
-> +		input_fmts[0] = MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
-> +		break;
-> +
-> +	case MIPI_DSI_FMT_RGB666_PACKED:
-> +		input_fmts[0] = MEDIA_BUS_FMT_RGB666_1X18;
-> +		break;
-> +
-> +	case MIPI_DSI_FMT_RGB565:
-> +		input_fmts[0] = MEDIA_BUS_FMT_RGB565_1X16;
-> +		break;
-> +
-> +	default:
-> +		/* Unsupported DSI Format */
-> +		return NULL;
-> +	}
-> +
-> +	*num_input_fmts = 1;
-> +
-> +	return input_fmts;
-> +}
-> +
-
--- 
+--=20
 With best wishes
 Dmitry
