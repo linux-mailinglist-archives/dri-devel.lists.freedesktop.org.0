@@ -2,91 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0D08D50C8
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 19:15:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7BC8D50D1
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 19:17:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D57910F50A;
-	Thu, 30 May 2024 17:15:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2D02112CBA;
+	Thu, 30 May 2024 17:17:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M+fVHIQp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mAeiNqSa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2964710F50A
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 17:15:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 409F61129CA;
+ Thu, 30 May 2024 17:17:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A442F62925;
- Thu, 30 May 2024 17:15:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8289C32782;
- Thu, 30 May 2024 17:15:05 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 993E562886;
+ Thu, 30 May 2024 17:17:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A393EC2BBFC;
+ Thu, 30 May 2024 17:17:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717089306;
- bh=URqPQnPy5FP44S2DmmqfTAsVuS00f5pQbyJiST5YKkM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=M+fVHIQpg0T/3eHcd7tocoywDYwP17uK8cfkJ9zDeNZG04tV2jk609zvJsgA4Hw5k
- JWHPG8Rl9ABZDwBSelkCaspwJo+IzT70B44yyNeUkgNAcbfkvtnET3NeL2SpjlSA1F
- hHBHeenJ3skGKNDm2yi5jpgB37DFn2OOSXSyx5TQy8VZIEfoVo195wBfpt5pQKaklJ
- HWffN+mjUuHC0vpZiAQsmgeW2cNOaLYDhsqv0Gl3kRlhQ75j5lF3kjyN0p+zZ2LykL
- 8JZbuS9JYpvHpH2Ms4zZSpwAOi2BnRmi0dEEztlj2vh8seGJcK1FRaLwKJspFOkLwL
- 5ATVzGSbzf5sA==
-Date: Thu, 30 May 2024 12:15:03 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
- Niklas Cassel <cassel@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Thomas Gleixner <tglx@linutronix.de>, Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Lee Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>,
- Heiko Stuebner <heiko.stuebner@cherry.de>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Chris Morgan <macromorgan@hotmail.com>, Sebastian Reichel <sre@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
- Masahiro Yamada <masahiroy@kernel.org>, Baoquan He <bhe@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Kefeng Wang <wangkefeng.wang@huawei.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Azeem Shaikh <azeemshaikh38@gmail.com>, Guo Ren <guoren@kernel.org>,
- Max Filippov <jcmvbkbc@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Herve Codina <herve.codina@bootlin.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Anup Patel <apatel@ventanamicro.com>, Jacky Huang <ychuang3@nuvoton.com>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Sam Ravnborg <sam@ravnborg.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-fbdev@vger.kernel.org
-Subject: Re: [DO NOT MERGE v8 00/36] Device Tree support for SH7751 based board
-Message-ID: <20240530171503.GA551834@bhelgaas>
+ s=k20201202; t=1717089430;
+ bh=iZR6IHmeSBh9bdyLMQRmhd+tC//9mar20EMaEAByleM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=mAeiNqSaitwlpWJx2sMROMuiVppMSzVmQNnQscNcH6VAD15OKWh3S0t/nHo5zoIHt
+ qI4TWmysJM/fqEjNgUDtujYaeoNFppY3o1vK8iqGo3obrS4Zqa+uTTlwUSmzRLiLx9
+ X19po4tRjjqgkBjwJ15EzbuvS7EMCCxPED0AXb+1uOnwOPzlvYV5fAXFMPfw+qy3Ak
+ oIjzWpLbzh73Ts1JsBwReCgKEs0AGZAflNTAnTIldga/avQZYuktbMFZGRuEiApKrL
+ YI8xbY3Shm8tzTghbP3hOAbp3p1aPyYOaavBn/OVQ0Sa9fj25bBOWUblB+7N5JrbfG
+ gzKm7P45D3UYA==
+Date: Thu, 30 May 2024 20:17:04 +0300
+From: Zhi Wang <zhiwang@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Zhi Wang <zhi.wang.linux@gmail.com>, intel-gvt-dev@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 2/2] drm/edid: make drm_edid_block_valid() static
+Message-ID: <20240530201704.0000492c.zhiwang@kernel.org>
+In-Reply-To: <20240530124352.362736-2-jani.nikula@intel.com>
+References: <20240530124352.362736-1-jani.nikula@intel.com>
+ <20240530124352.362736-2-jani.nikula@intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1716965617.git.ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,17 +60,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 29, 2024 at 05:00:46PM +0900, Yoshinori Sato wrote:
-> This is an updated version of something I wrote about 7 years ago.
-> Minimum support for R2D-plus and LANDISK.
-> I think R2D-1 will work if you add AX88796 to dts.
-> And board-specific functions and SCI's SPI functions are not supported.
+On Thu, 30 May 2024 15:43:52 +0300
+Jani Nikula <jani.nikula@intel.com> wrote:
 
-I don't understand the point of this.  It's marked "DO NOT MERGE", so
-what do you want me to do?  I've posted comments several times and
-they've never been addressed, so I don't think there's any point in
-looking at this again:
+> drm_edid_block_valid() is no longer used outside of drm_edid.c. Make
+> it static.
+> 
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> 
+> ---
+> 
+> Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
+> Cc: Zhi Wang <zhi.wang.linux@gmail.com>
+> Cc: intel-gvt-dev@lists.freedesktop.org
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+>  drivers/gpu/drm/drm_edid.c | 17 ++++-------------
+>  include/drm/drm_edid.h     |  2 --
+>  2 files changed, 4 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index f68a41eeb1fa..13b3fd351b16 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -1966,22 +1966,14 @@ static void edid_block_dump(const char
+> *level, const void *block, int block_num) block, EDID_LENGTH, false);
+>  }
+>  
+> -/**
+> - * drm_edid_block_valid - Sanity check the EDID block (base or
+> extension)
+> - * @_block: pointer to raw EDID block
+> - * @block_num: type of block to validate (0 for base, extension
+> otherwise)
+> - * @print_bad_edid: if true, dump bad EDID blocks to the console
+> - * @edid_corrupt: if true, the header or checksum is invalid
+> - *
+> +/*
+>   * Validate a base or extension EDID block and optionally dump bad
+> blocks to
+>   * the console.
+> - *
+> - * Return: True if the block is valid, false otherwise.
+>   */
+> -bool drm_edid_block_valid(u8 *_block, int block_num, bool
+> print_bad_edid,
+> -			  bool *edid_corrupt)
+> +static bool drm_edid_block_valid(void *_block, int block_num, bool
+> print_bad_edid,
+> +				 bool *edid_corrupt)
+>  {
+> -	struct edid *block = (struct edid *)_block;
+> +	struct edid *block = _block;
+>  	enum edid_block_status status;
+>  	bool is_base_block = block_num == 0;
+>  	bool valid;
+> @@ -2024,7 +2016,6 @@ bool drm_edid_block_valid(u8 *_block, int
+> block_num, bool print_bad_edid, 
+>  	return valid;
+>  }
+> -EXPORT_SYMBOL(drm_edid_block_valid);
+>  
+>  /**
+>   * drm_edid_is_valid - sanity check EDID data
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> index 6bdfa254a1c1..eaac5e665892 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -440,8 +440,6 @@ int drm_add_modes_noedid(struct drm_connector
+> *connector, int hdisplay, int vdisplay);
+>  
+>  int drm_edid_header_is_valid(const void *edid);
+> -bool drm_edid_block_valid(u8 *raw_edid, int block, bool
+> print_bad_edid,
+> -			  bool *edid_corrupt);
+>  bool drm_edid_is_valid(struct edid *edid);
+>  void drm_edid_get_monitor_name(const struct edid *edid, char *name,
+>  			       int buflen);
 
-  https://lore.kernel.org/r/20240404134652.GA1910402@bhelgaas
-
-Bjorn
+Acked-by: Zhi Wang <zhiwang@kernel.rog>
