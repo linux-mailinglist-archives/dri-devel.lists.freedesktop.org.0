@@ -2,91 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 367E38D458C
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 08:40:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B5D8D45A0
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 08:51:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F79C10E622;
-	Thu, 30 May 2024 06:40:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE0DC11B570;
+	Thu, 30 May 2024 06:50:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NoP8c65P";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Zo/WB0qz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41CF710E622
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 06:40:11 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-57a1fe6392eso260260a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 23:40:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717051209; x=1717656009; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=hbYS8lpXExj7GV7sixwHtaV70JUaIYUrLKDua6V9Rwg=;
- b=NoP8c65Pcc06E7WI3abSCMRpBv6nyOQvxE91Cre7/Vwye7OCjVDw3QRyjWOoaiTVfR
- YFsNbf2jVKyUVxGCsbaM5L77pFHGh9KyC1IMTYYzI9H6tbP9V/7Tv8+IOFUkdjSH4gPe
- MsIEGGOVkKPrjmFgrQgHHlww4TCOck/CAdPRzKjXD0juDcL/8D69pl7ZUdSfsZ48cN36
- nrqj7uQgmvFzxy625bbxMhnrWBMhfwS6lVfKxTrAZyNf3hnaeazudLbbvoy93Ap9BFt5
- oiRD1jVhXLumF1Bg002xzOM0WRHfpAZ3Ci+SvbYqjBG4nSmOgsuMg7kyMEy5xxp19TJX
- UD3w==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9D0D11B570
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 06:50:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1717051855;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+6UhhRx41Z6T54/uX+rvRSIQ4bG3F0Fzy3rQ4r+M7Xw=;
+ b=Zo/WB0qzugDH8DHm26NNmeR2ftoDnhFlo6Wv33toMGxVO/OiaHUx4WInW1AaDecsZTEFyI
+ FG0oft5YXFF3om1mMH4IL/LFvRSCjDYExOUGIdKUYlqL8hEdmz/QtVFhfUQ6NW/xqYRUZS
+ u9LMMijqRl3IPtWmMngQThYW8QrimTM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-381-1zLBBQsdNEuvMg3TdKHGNg-1; Thu, 30 May 2024 02:47:31 -0400
+X-MC-Unique: 1zLBBQsdNEuvMg3TdKHGNg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-354f28306dfso448910f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 23:47:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717051209; x=1717656009;
+ d=1e100.net; s=20230601; t=1717051648; x=1717656448;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hbYS8lpXExj7GV7sixwHtaV70JUaIYUrLKDua6V9Rwg=;
- b=ZQreD68lxBDDMQFgnFpDzYp73mMrJsS36Q23nd9lo3p52R0gHwfVA6VJuDjx+y5Saf
- gN0I20DRTgO63gNFk/Jdjn0YehKA4T7YtkT45Rz2qWP1YnPCU1Emzp0cx/lSjb70KIgB
- Dj10FVYwnfkXHV3qJokv4DSPzuuxtMTJWHATRQN7JnKzOGJ+hOzjQvaiKuv3SHF5er0e
- oyA+8xuwLTElRm/FlljvJdc8rvMhR8utFh1WCGy5yFpRyHgorzdfjuw7YtRE2rKPFkWK
- 9n5ZhzFqb4nIE1Sk4iOCQ5TdXUy9PSVkwFPc5rhjObzQIVku/8XKn1Ntgj5kp5mBokNT
- uSkw==
+ bh=+6UhhRx41Z6T54/uX+rvRSIQ4bG3F0Fzy3rQ4r+M7Xw=;
+ b=QzoLCxS5oI0k5ULJP/N5ASzRp2iGNc0MWHjg91zrk/8KkOb3hXqMaVLeRfLTcPPwgl
+ ed9T5urNiJQ3nQ9JNxE9UMAu6nUD8Dk/btP/7YpKXX17aiDT8/K/6hatUVA7CxIb4bNJ
+ YAgMP+g+7EYzAyUMfIMWFmKAjUNO0e0SAhDKVCKyix6gb3vptG698SL3pS97E4OmTBPU
+ ey5TgzcX86TiqJPh2vOK01RC4Q2OzhnaIjrkrsZU2mKmpSWJggr1dbfSPXh1mwHG3t2y
+ oMbGH1g59pTXEupeZ0yMklMANxPeo05AM88OVunnQGVSkDz+iPsHtVKcS/JZbJXk5i61
+ ihxg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV6fTEYW2uUo9SH1+F25jpY1+bDHnBnafRvUhmaFWFM4zyuQ0ZFtaRB0pRpuAYU94+6mujLJa9ymBtEle2wSVRxB1eaBveVRwJS2lE6SZOA
-X-Gm-Message-State: AOJu0YweST8+LtK0xTcnfyN5HxmqDAifAJHqeT2PtfMm9DwG4BwllCMK
- w/bY8hYC6W2Cqso84AmWJVsFK+7538o0hDKUnNCt0OoSpvvQ1J9waPge/JQz7pE=
-X-Google-Smtp-Source: AGHT+IE6/VTwKZTsEcVkjHDXiwR4jbhWUjQNX+Zpjmyoqeke5OVHzCiHycLfInR8VWcYgsER/P3wXg==
-X-Received: by 2002:a50:9316:0:b0:579:c2fe:886 with SMTP id
- 4fb4d7f45d1cf-57a177b15b9mr645619a12.14.1717051209214; 
- Wed, 29 May 2024 23:40:09 -0700 (PDT)
-Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-579d69b49basm4770207a12.88.2024.05.29.23.40.08
+ AJvYcCUHgyIwQHMkmdlkKXNnMIhYf6PqwEih7J6aNi2OVn8nJrurzCVpIyLHeDQWNdwqB/JB7BfumFLeXbv6llNb58PBL3SvXLtu5ySI3iBZi/TL
+X-Gm-Message-State: AOJu0YzNP8ViJnpWouSDSo6Z0DmRLmuE7H+dPCs5o18nq2RFiS3LvrGi
+ YFf+EYo6ZZ5OwjqWGAI+SJvNYBOKiIAo2exOxEQDQqcWVWyL/4quzvEgqIUn6uuKcgXnKLPyCvX
+ WHPcrRkmgrFI21aSWnQeRglp2HITgc8Yp82kN6Ln80PyzA/poiciHRHuzIkew5LNjEw==
+X-Received: by 2002:a05:6000:1883:b0:35d:bfa7:5f12 with SMTP id
+ ffacd0b85a97d-35dc0091881mr968702f8f.19.1717051648526; 
+ Wed, 29 May 2024 23:47:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH2THkDfZkgav7wfIpmSg8axTLOU7esgmVr44vwAJ61wnkwr2ymTrnaq1t0RgEDsR5qCuZd2A==
+X-Received: by 2002:a05:6000:1883:b0:35d:bfa7:5f12 with SMTP id
+ ffacd0b85a97d-35dc0091881mr968678f8f.19.1717051648049; 
+ Wed, 29 May 2024 23:47:28 -0700 (PDT)
+Received: from pollux ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-35579d7d963sm16775384f8f.21.2024.05.29.23.47.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 May 2024 23:40:08 -0700 (PDT)
-Date: Thu, 30 May 2024 09:40:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Lad Prabhakar <prabhakar.csengg@gmail.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Eugen Hristev <eugen.hristev@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helge Deller <deller@gmx.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Rob Herring <robh+dt@kernel.org>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 7/9] staging: media: atmel: use
- for_each_endpoint_of_node()
-Message-ID: <f0f1b989-2166-44ad-ba70-caf56a4d93c4@moroto.mountain>
-References: <87le3soy08.wl-kuninori.morimoto.gx@renesas.com>
- <87bk4ooxya.wl-kuninori.morimoto.gx@renesas.com>
+ Wed, 29 May 2024 23:47:27 -0700 (PDT)
+Date: Thu, 30 May 2024 08:47:25 +0200
+From: Danilo Krummrich <dakr@redhat.com>
+To: FUJITA Tomonori <fujita.tomonori@gmail.com>
+Cc: gregkh@linuxfoundation.org, wedsonaf@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+ a.hindborg@samsung.com, aliceryhl@google.com, lina@asahilina.net,
+ pstanner@redhat.com, ajanulgu@redhat.com, lyude@redhat.com,
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, mcgrof@kernel.org, russ.weight@linux.dev
+Subject: Re: [RFC PATCH 7/8] rust: add firmware abstractions
+Message-ID: <Zlgg_Q5y3Q99Ts1s@pollux>
+References: <2024052950-purely-sandstone-36c7@gregkh>
+ <20240530.082824.289365952172442399.fujita.tomonori@gmail.com>
+ <ZlfeA7MEZRv404MO@pollux.localdomain>
+ <20240530.132433.2195707766186347550.fujita.tomonori@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <20240530.132433.2195707766186347550.fujita.tomonori@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87bk4ooxya.wl-kuninori.morimoto.gx@renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,52 +101,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 30, 2024 at 02:06:22AM +0000, Kuninori Morimoto wrote:
-> We already have for_each_endpoint_of_node(), don't use
-> of_graph_get_next_endpoint() directly. Replace it.
+On Thu, May 30, 2024 at 01:24:33PM +0900, FUJITA Tomonori wrote:
+> Hi,
 > 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  .../staging/media/deprecated/atmel/atmel-sama5d2-isc.c    | 8 ++------
->  .../staging/media/deprecated/atmel/atmel-sama7g5-isc.c    | 8 ++------
->  2 files changed, 4 insertions(+), 12 deletions(-)
+> On Thu, 30 May 2024 04:01:39 +0200
+> Danilo Krummrich <dakr@redhat.com> wrote:
 > 
-> diff --git a/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c b/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
-> index 31b2b48085c59..3b28a232418a9 100644
-> --- a/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
-> +++ b/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
-> @@ -333,20 +333,16 @@ static const u32 isc_sama5d2_gamma_table[][GAMMA_ENTRIES] = {
->  static int isc_parse_dt(struct device *dev, struct isc_device *isc)
->  {
->  	struct device_node *np = dev->of_node;
-> -	struct device_node *epn = NULL;
-> +	struct device_node *epn;
->  	struct isc_subdev_entity *subdev_entity;
->  	unsigned int flags;
->  	int ret;
->  
->  	INIT_LIST_HEAD(&isc->subdev_entities);
->  
-> -	while (1) {
-> +	for_each_endpoint_of_node(np, epn) {
->  		struct v4l2_fwnode_endpoint v4l2_epn = { .bus_type = 0 };
->  
-> -		epn = of_graph_get_next_endpoint(np, epn);
-> -		if (!epn)
-> -			return 0;
-> -
->  		ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(epn),
->  						 &v4l2_epn);
->  		if (ret) {
+> > On Thu, May 30, 2024 at 08:28:24AM +0900, FUJITA Tomonori wrote:
+> >> Hi,
+> >> 
+> >> On Wed, 29 May 2024 21:57:03 +0200
+> >> Greg KH <gregkh@linuxfoundation.org> wrote:
+> >> 
+> >> >> For a Rust PHY driver, you know that you have a valid pointer to C's
+> >> >> device object of C's PHY device during the probe callback. The driver
+> >> >> creates a Rust device object to wrap the C pointer to the C's device
+> >> >> object and passes it to the firmware abstractions. The firmware
+> >> >> abstractions gets the C's pointer from the Rust object and calls C's
+> >> >> function to load firmware, returns the result.
+> >> >> 
+> >> >> You have concerns about the simple code like the following?
+> >> >> 
+> >> >> 
+> >> >> diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
+> >> >> new file mode 100644
+> >> >> index 000000000000..6144437984a9
+> >> >> --- /dev/null
+> >> >> +++ b/rust/kernel/device.rs
+> >> >> @@ -0,0 +1,30 @@
+> >> >> +// SPDX-License-Identifier: GPL-2.0
+> >> >> +
+> >> >> +//! Generic devices that are part of the kernel's driver model.
+> >> >> +//!
+> >> >> +//! C header: [`include/linux/device.h`](srctree/include/linux/device.h)
+> >> >> +
+> >> >> +use crate::types::Opaque;
+> >> >> +
+> >> >> +#[repr(transparent)]
+> >> >> +pub struct Device(Opaque<bindings::device>);
+> >> >> +
+> >> >> +impl Device {
+> >> >> +    /// Creates a new [`Device`] instance from a raw pointer.
+> >> >> +    ///
+> >> >> +    /// # Safety
+> >> >> +    ///
+> >> >> +    /// For the duration of 'a, the pointer must point at a valid `device`.
+> >> > 
+> >> > If the following rust code does what this comment says, then sure, I'm
+> >> > ok with it for now if it helps you all out with stuff like the firmware
+> >> > interface for the phy rust code.
+> >> 
+> >> Great, thanks a lot!
+> >> 
+> >> Danilo and Wedson, are there any concerns about pushing this patch [1]
+> >> for the firmware abstractions?
+> > 
+> > Well, if everyone is fine with this one I don't see why we can't we go with [1]
+> > directly? AFAICS, we'd only need the following fix:
+> > 
+> > -//! C header: [`include/linux/device.h`](../../../../include/linux/device.h)
+> > +//! C header: [`include/linux/device.h`](srctree/include/linux/device.h)
+> > 
+> > [1] https://lore.kernel.org/rust-for-linux/20240520172554.182094-2-dakr@redhat.com/
+> 
+> The difference is that your patch touches the reference count of a
+> struct device. My patch doesn't.
+> 
+> The following part in your patch allows the rust code to freely play
+> with the reference count of a struct device. Your Rust drm driver
+> interact with the reference count in a different way than C's drm
+> drivers if I understand correctly. I'm not sure that Greg will be
+> convinenced with that approach.
 
-This introduces a Smatch warning because now "ret" is uninitialized if
-the for_each_endpoint_of_node() list is empty.  Is that something which
-is possible?
+I don't see how this is different than what we do in C. If you (for whatever
+reason) want to keep a pointer to a struct device you should make sure to
+increase the reference count of this device, such that it can't get freed for
+the time being.
 
-I've been meaning to make a list of loops which always iterate at least
-one time.  for_each_cpu() etc.
+This is a 1:1 representation of that and conceptually identical.
 
-regards,
-dan carpenter
+> 
+> +// SAFETY: Instances of `Device` are always ref-counted.
+> +unsafe impl crate::types::AlwaysRefCounted for Device {
+> +    fn inc_ref(&self) {
+> +        // SAFETY: The existence of a shared reference guarantees that the refcount is nonzero.
+> +        unsafe { bindings::get_device(self.as_raw()) };
+> +    }
+> +
+> +    unsafe fn dec_ref(obj: ptr::NonNull<Self>) {
+> +        // SAFETY: The safety requirements guarantee that the refcount is nonzero.
+> +        unsafe { bindings::put_device(obj.cast().as_ptr()) }
+> +    }
+> +}
+> 
+> The following comments give the impression that Rust abstractions
+> wrongly interact with the reference count; callers check out the
+> reference counter. Nobody should do that.
+
+No, saying that the caller must ensure that the device "has a non-zero reference
+count" is a perfectly valid requirement.
+
+It doensn't mean that the calling code has to peek the actual reference count,
+but it means that it must be ensured that while we try to increase the reference
+count it can't drop to zero unexpectedly.
+
+Your patch, as a subset of this one, has the same requirements as listed below.
+
+> 
+> +    /// Callers must ensure that `ptr` is valid, non-null, and has a non-zero reference count.
+> +    pub unsafe fn from_raw(ptr: *mut bindings::device) -> ARef<Self> {
+> 
+> +    /// Callers must ensure that `ptr` is valid, non-null, and has a non-zero reference count for
+> +    /// the entire duration when the returned reference exists.
+> +    pub unsafe fn as_ref<'a>(ptr: *mut bindings::device) -> &'a Self {
+> +        // SAFETY: Guaranteed by the safety requirements of the function.
+> +        unsafe { &*ptr.cast() }
+> +    }
+> 
 
