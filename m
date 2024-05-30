@@ -2,83 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894F18D508C
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 19:08:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C8AD8D50B1
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 19:12:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B28AF10E077;
-	Thu, 30 May 2024 17:07:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61EA010E443;
+	Thu, 30 May 2024 17:12:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MmaiGfS3";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="UydH+mEx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
- [209.85.208.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8AD910E077;
- Thu, 30 May 2024 17:07:54 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-2e95a1f9c53so14055071fa.0; 
- Thu, 30 May 2024 10:07:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1717088873; x=1717693673; darn=lists.freedesktop.org;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=S754fL6eVqgTIUZX2+nFqHKkShFVnRKXXFJgDcc1ZDI=;
- b=MmaiGfS3g+2rwkoXKgnJVOgeFzV6/jZK3ZFTMORLc1Uz7hQIqgnQngi3Pei2Il+Lyg
- 0k3j/QAF79XepVlZLToELxOnX5pV1amYZGqJcTBmHo4JX+fKg83XkYl+DdHLapAJ4aIz
- J/cGzMFzMogp4AjXIV5JrFHvm+atyTwiGc7Li8e4ydh1moRM95IUPjBeQsMHdlVbglXn
- LOKLdnGfFHWAax2WXcEB5SOeiuCenOLuSHsJuBCAaoAJ+BcDWI22sBdEe/Rs+KGjC+M+
- DpwSnooi7H2lW2KamR2PRU8fKLioSse2KwCxxyc+i5MMqqmfvniqTgdWZcT5ZA2maRR2
- dRcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717088873; x=1717693673;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=S754fL6eVqgTIUZX2+nFqHKkShFVnRKXXFJgDcc1ZDI=;
- b=aqbV1VnEdFnTdLm2gMwnsq7NI6lJY1JGDmHZJU661MlHreCAb5oyuHCLDPPAPSiDxk
- cL+CkT/M3bAT/EnBBvaVHrNTM9EgYw46aCL1lrEdKGXYvXWAu8R/QEvCJUm5bun7GwqE
- EYLU0Up2OBRnHlA4e1ZYXWNmWUPhTTqd+QLVDb1yMIdE01qG1omqkwEMMdD9a+5KB04W
- tMCOFF1GMSGL3vQag92mjvgfDICi1GAWo81YivmoqFovUXiwVWCt9h+9M051SnblPHOk
- ZdLTNQhTVboEivOw0FaUz75RDY9xTAA171UqpALMt/jTn2ZIkOi0vNO5HMaF2qaqoBUJ
- dY2A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV85CGF1njoq8k8G84NhI/vB0ZjV+eoHp6mqL5FIuiy4XcuhQlkF0FYSbH2lbBJekR7/n5aK0+C5ZL/TuCNckhDl/weHSzVnlQOIrfldk6sNVmvXlmsQxpskGa8rX7ohIzSs1/ECre7DVuIHb/qScDp
-X-Gm-Message-State: AOJu0YwGEefeWue4WOd46CZeUllTaoRi0SFaW/s3OK7u4d4sOoN2tMTe
- L7Uy3zlW9O9aoqPVJ+NThvw1RsXh0Id1A0g4OfznznXwuFV08KQF
-X-Google-Smtp-Source: AGHT+IHwjTCFVGR50yNchGzCdFfdFMN0b/atDi7Tr/wiD7aw8w8AAvWmC3KTr7YpU1+nPKK4cCRg1g==
-X-Received: by 2002:a2e:a417:0:b0:2ea:844b:1b16 with SMTP id
- 38308e7fff4ca-2ea84830962mr16211881fa.34.1717088872356; 
- Thu, 30 May 2024 10:07:52 -0700 (PDT)
-Received: from localhost
- (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-421270ad410sm30167835e9.45.2024.05.30.10.07.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 May 2024 10:07:51 -0700 (PDT)
-Content-Type: multipart/signed;
- boundary=e8d29550c8c6ecc345e96308e31e05adf5d0599eed8c116befc5ef55e617;
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Mime-Version: 1.0
-Date: Thu, 30 May 2024 19:07:51 +0200
-Message-Id: <D1N57DK5Z2XU.2VP8OXFUMC709@gmail.com>
-Cc: "Mauro Carvalho Chehab" <mchehab@kernel.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@linaro.org>, "Jonathan Corbet" <corbet@lwn.net>, "Abhinav
- Kumar" <quic_abhinavk@quicinc.com>, "Sean Paul" <sean@poorly.run>, "Marijn
- Suijten" <marijn.suijten@somainline.org>, <workflows@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Masahiro
- Yamada" <masahiroy@kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>
-Subject: Re: [PATCH] docs: document python version used for compilation
-From: "Thierry Reding" <thierry.reding@gmail.com>
-To: "Rob Clark" <robdclark@gmail.com>, "Jani Nikula" <jani.nikula@intel.com>
-X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
-References: <20240509-python-version-v1-1-a7dda3a95b5f@linaro.org>
- <878r0ijdh5.fsf@intel.com> <20240510102036.3ea40b37@sal.lan>
- <87o79ehtbz.fsf@intel.com>
- <CAF6AEGvTkL=JxGDaOab9XpJ4htWQnBA1dTEOUxBUTAavM0DB4w@mail.gmail.com>
-In-Reply-To: <CAF6AEGvTkL=JxGDaOab9XpJ4htWQnBA1dTEOUxBUTAavM0DB4w@mail.gmail.com>
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAF5011B2A3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 17:12:40 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44UHCRCg026237;
+ Thu, 30 May 2024 12:12:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1717089147;
+ bh=3aNzr9uceqg3pOicXXuyXGK/Y+G9kDvzv2RfMYKcupU=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References;
+ b=UydH+mExLY4K4NTEty6agejlBOLfVB80LF3G2auLiJTi6Wrjho9N5eaQdWokVRmmN
+ ePPCH38pfLEjcR9PspOBxP4G6BjE0oAR0HJ4CuzDaSHdQlmRYRaYQDdhp7S5sHlccN
+ wG2xIWw+Zckf0g3jhI0xgIcHHy4NONQlq5QfgyQ4=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44UHCRYl025196
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 30 May 2024 12:12:27 -0500
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 30
+ May 2024 12:12:26 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 30 May 2024 12:12:26 -0500
+Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44UHCQgu056152;
+ Thu, 30 May 2024 12:12:26 -0500
+From: Devarsh Thakkar <devarsht@ti.com>
+To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+ <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
+ <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
+ <andriy.shevchenko@linux.intel.com>, <adobriyan@gmail.com>,
+ <jani.nikula@intel.com>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
+CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
+ <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
+ <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
+ <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
+ <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
+Subject: [PATCH v10 06/11] math.h: Add macros for rounding to closest value
+Date: Thu, 30 May 2024 22:42:25 +0530
+Message-ID: <20240530171225.2749312-1-devarsht@ti.com>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20240530165925.2715837-1-devarsht@ti.com>
+References: <20240530165925.2715837-1-devarsht@ti.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,92 +78,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---e8d29550c8c6ecc345e96308e31e05adf5d0599eed8c116befc5ef55e617
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Add below rounding related macros:
 
-On Fri May 10, 2024 at 10:04 PM CEST, Rob Clark wrote:
-> On Fri, May 10, 2024 at 3:09=E2=80=AFAM Jani Nikula <jani.nikula@intel.co=
-m> wrote:
-> >
-> > On Fri, 10 May 2024, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
-> > > Em Fri, 10 May 2024 11:08:38 +0300
-> > > Jani Nikula <jani.nikula@intel.com> escreveu:
-> > >
-> > >> On Thu, 09 May 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =
-wrote:
-> > >> > The drm/msm driver had adopted using Python3 script to generate re=
-gister
-> > >> > header files instead of shipping pre-generated header files. Docum=
-ent
-> > >> > the minimal Python version supported by the script.
-> > >> >
-> > >> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > >> > ---
-> > >> >  Documentation/process/changes.rst | 1 +
-> > >> >  1 file changed, 1 insertion(+)
-> > >> >
-> > >> > diff --git a/Documentation/process/changes.rst b/Documentation/pro=
-cess/changes.rst
-> > >> > index 5685d7bfe4d0..8d225a9f65a2 100644
-> > >> > --- a/Documentation/process/changes.rst
-> > >> > +++ b/Documentation/process/changes.rst
-> > >> > @@ -63,6 +63,7 @@ cpio                   any              cpio --v=
-ersion
-> > >> >  GNU tar                1.28             tar --version
-> > >> >  gtags (optional)       6.6.5            gtags --version
-> > >> >  mkimage (optional)     2017.01          mkimage --version
-> > >> > +Python (optional)      3.5.x            python3 --version
-> > >>
-> > >> Python 3.5 reached end-of-life 3=C2=BD years ago [1]. What's the poi=
-nt in
-> > >> using anything older than the oldest supported version of Python,
-> > >> i.e. 3.8 at this time?
-> > >
-> > > What's the point of breaking compilation with on older distros?
-> > > The idea of minimal versions here is to specify the absolute minimum
-> > > version that it is required for the build to happen. If 3.5 is
-> > > the minimal one, then be it.
-> >
-> > AFAICT 3.5 was an arbitrary rather than a deliberate choice. We should
-> > at least be aware *why* we'd be sticking to old versions.
-> >
-> > Minimum versions here also means sticking to features available in said
-> > versions, for Python just as well as for GCC or any other tool. That's
-> > not zero cost.
->
-> At this point, the cost to having a lower minimum version is pretty
-> small, so I'm not worrying too much about it.
->
-> Maybe once kernel developers discover mako, and start generating more
-> at build time, we'll have to re-evaluate. ;-)
+round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
+power of 2, with a preference to round up in case two nearest values are
+possible.
 
-You're making an interesting point. Does the build dependency here
-denote Python (& standard library) or do we assume that if people have
-Python installed that they can also install arbitrary extra packages?
-Would a Mako dependency need to be explicitly mentioned here?
+round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
+power of 2, with a preference to round down in case two nearest values are
+possible.
 
-Thierry
+roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
+generally be used only when y is not multiple of 2 as otherwise
+round_closest* macros should be used which are much faster.
 
---e8d29550c8c6ecc345e96308e31e05adf5d0599eed8c116befc5ef55e617
-Content-Type: application/pgp-signature; name="signature.asc"
+Examples:
+ * round_closest_up(17, 4) = 16
+ * round_closest_up(15, 4) = 16
+ * round_closest_up(14, 4) = 16
+ * round_closest_down(17, 4) = 16
+ * round_closest_down(15, 4) = 16
+ * round_closest_down(14, 4) = 12
+ * roundclosest(21, 5) = 20
+ * roundclosest(19, 5) = 20
+ * roundclosest(17, 5) = 15
 
------BEGIN PGP SIGNATURE-----
+Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+---
+NOTE: This patch is inspired from the Mentor Graphics IPU driver [1]
+which uses similar macro locally and which is updated in further patch
+in the series to use this generic macro instead along with other drivers
+having similar requirements.
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZYsmcACgkQ3SOs138+
-s6GwDhAAk7AgMlJlfnIXUZpOj/rOLWcb600MiHHFNHwSQCe4Uth9OdBvDjdFqsUH
-IOsRHerjzQEwlXmSafIOpXa2PZIdyxpGhW5b3regoBNfy9BeGgQLPyFwcQht6qh2
-VI2nrMek6YghkNYEOJgj/mR3pKgPdubbvenIHKRqjoOVO+dviJfnRCWGyBAmD/A7
-vBa21JJQ8xMZ4+uBFmwGfD6z3wzmNJejyeMTrSEspmmWzp1EouxwEy/gtUPv4xKQ
-zC1HEk/hWUEYaFgY0zgsT+HH80QhfpO2A93RM/DhcON8UPG0zkPXjNGy7PR49kAm
-8dHvyVnT42uD2ziXfp6sDAlCw5StvmPNyEDxltCBmZXWlana1DkQZarfNuBpuTBl
-Uf1C2GBc1I9AjH0Dui+jdzBurfBTRi0p5OTMh4xtfTuBKLQnNwCZ+Loc+Ft4uzX1
-ziaoZtR9q2PpElDhruxNAHH19a7DpfB71HYvcnhkrlpCH85ivsFIGditzYlMxuOK
-uoMZchMwVyzqptRpyKHsfgaIYNWffFB/vmLI27m4HrRYGl5qg4tx7te8FK9RP7cC
-mSM7KS36BA/BlJV9dLePmcKHylabI1HgJRKQ5nwFo5TyCHIh00EEpC01k7hcW/N3
-qrVTwB7kDgm0w1udks5zBp0D9+xquWiRWF9uVpwLQOvTfzcp434=
-=RSh3
------END PGP SIGNATURE-----
+[1]:
+https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480
 
---e8d29550c8c6ecc345e96308e31e05adf5d0599eed8c116befc5ef55e617--
+V10:
+- Update example comment to fix formatting issues as observed with html docs
+
+V9:
+- No change
+
+V8:
+- Add new macro to round to nearest value for non-multiple of 2
+- Update commit message as suggested:
+
+V1->V6 (No change, patch introduced in V7)
+---
+ include/linux/math.h | 72 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 72 insertions(+)
+
+diff --git a/include/linux/math.h b/include/linux/math.h
+index dd4152711de7..1f6177191b66 100644
+--- a/include/linux/math.h
++++ b/include/linux/math.h
+@@ -34,6 +34,58 @@
+  */
+ #define round_down(x, y) ((x) & ~__round_mask(x, y))
+ 
++/**
++ * round_closest_up - round closest to be multiple of specified value (which is
++ *                    power of 2) with preference to rounding up
++ * @x: the value to round
++ * @y: multiple to round closest to (must be a power of 2)
++ *
++ * Rounds @x to closest multiple of @y (which must be a power of 2).
++ * The value can be either rounded up or rounded down depending upon rounded
++ * value's closeness to the specified value. If there are two closest possible
++ * values, i.e. the difference between the specified value and it's rounded up
++ * and rounded down values is same then preference is given to rounded up
++ * value.
++ *
++ * To perform arbitrary rounding to closest value (not multiple of 2), use
++ * roundclosest().
++ *
++ * Examples :
++ *
++ * 	round_closest_up(17, 4) = 16
++ *
++ * 	round_closest_up(15, 4) = 16
++ *
++ * 	round_closest_up(14, 4) = 16
++ */
++#define round_closest_up(x, y) round_down((x) + (y) / 2, (y))
++
++/**
++ * round_closest_down - round closest to be multiple of specified value (which
++ *			is power of 2) with preference to rounding down
++ * @x: the value to round
++ * @y: multiple to round closest to (must be a power of 2)
++ *
++ * Rounds @x to closest multiple of @y (which must be a power of 2).
++ * The value can be either rounded up or rounded down depending upon rounded
++ * value's closeness to the specified value. If there are two closest possible
++ * values, i.e. the difference between the specified value and it's rounded up
++ * and rounded down values is same then preference is given to rounded up
++ * value.
++ *
++ * To perform arbitrary rounding to closest value (not multiple of 2), use
++ * roundclosest().
++ *
++ * Examples:
++ *
++ * 	round_closest_down(17, 4) = 16
++ *
++ * 	round_closest_down(15, 4) = 16
++ *
++ * 	round_closest_down(14, 4) = 12
++ */
++#define round_closest_down(x, y) round_up((x) - (y) / 2, (y))
++
+ #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
+ 
+ #define DIV_ROUND_DOWN_ULL(ll, d) \
+@@ -77,6 +129,26 @@
+ }							\
+ )
+ 
++/**
++ * roundclosest - round to nearest multiple
++ * @x: the value to round
++ * @y: multiple to round nearest to
++ *
++ * Rounds @x to nearest multiple of @y.
++ * The rounded value can be greater than or less than @x depending
++ * upon it's nearness to @x. If @y will always be a power of 2, consider
++ * using the faster round_closest_up() or round_closest_down().
++ *
++ * Examples :
++ *
++ * 	roundclosest(21, 5) = 20
++ *
++ * 	roundclosest(19, 5) = 20
++ *
++ * 	roundclosest(17, 5) = 15
++ */
++#define roundclosest(x, y) rounddown((x) + (y) / 2, (y))
++
+ /*
+  * Divide positive or negative dividend by positive or negative divisor
+  * and round to closest integer. Result is undefined for negative
+-- 
+2.39.1
+
