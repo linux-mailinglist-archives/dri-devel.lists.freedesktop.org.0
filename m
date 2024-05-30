@@ -2,58 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282578D55A6
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 00:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706F08D55CB
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 00:51:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E22C10E514;
-	Thu, 30 May 2024 22:45:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D648310E8E5;
+	Thu, 30 May 2024 22:51:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="cgv/Q7eC";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="LABTvMMT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 937EA10E514
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 22:45:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=e3NB/mDwRctn3iwAMjuc5/uFGUFjegxDUG7u7jpVJ+s=; b=cgv/Q7eC94kt5eEfPb5w5slwyv
- RTKpG43piRHMly9hzg+YvIAsIVZI03XQ79HeT3acLdWu8BGSwE3GPOvNHhUw0hG++yfArv0aVVJfr
- /ji7WJKmORZ0p9dNNwelSs2k4U9+LbZJbH3iQxTrHzPTX1JAS+t+wZm+ck++NOAWCmivP7PTLwCvn
- 5VkBq7r6mxrdOaxy0BM8kOx9dEIL+wxp8TV6yO5QbOsXi23inDrq/1lSo8KS9JgCspxWeTCZzeOOg
- XMy6YPcjotgXy31GclMpcKiHeu5o+3/1/DGr9czv5/Of9674/JfkLINloooBQYADQTTjYKa7RdvN1
- Tl3kC3pg==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
- by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
- id 1sCoVu-00000008b9H-1B8a; Thu, 30 May 2024 22:44:50 +0000
-Message-ID: <4951656c-2d15-49f6-89d8-aa7b5c333ec7@infradead.org>
-Date: Thu, 30 May 2024 15:44:46 -0700
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E8ED10E8E5;
+ Thu, 30 May 2024 22:51:18 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44UMGSm8015967;
+ Thu, 30 May 2024 22:51:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ MZrhJ+sMGCGsSXipGknhXmqSpHpFL272b3upKmN0bnY=; b=LABTvMMTa+OCXbwD
+ CagS4Kp4XLwSafSpcCLwaSTrn0n6xbHcNq5I6JHP0x3Bx3v7yT8ZpkJEQy+kWF0d
+ SxQjSmA7fCTQebQCpl4LnPEoXyYKPypcTVFa6zlzOvhGsRdpFs+ypHgfmyjf95EO
+ 8uZkQjpzXpxxZA70sIXVQ2D2t1UrricTAd0Y3b13Q05P8hLzX6kM1CLXpPA7BhNr
+ LrBVOE3h+eMSoqk4aU6AUtkxGuMnMXSGiXGYHjx3ynvkdVOE811o8YGYUoG4TvUB
+ pRF49AWqt6O3jfR96DuCFtSm2/bQlVLLQC+q0XeX4CMqzP5lfNjiMrmxLMuFMetq
+ YMNhbg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yf23sr1ks-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 30 May 2024 22:51:12 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44UMpBsb001829
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 30 May 2024 22:51:11 GMT
+Received: from [10.71.110.249] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 30 May
+ 2024 15:51:07 -0700
+Message-ID: <fd520806-e362-f79a-26e6-a924acc4f067@quicinc.com>
+Date: Thu, 30 May 2024 15:51:05 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 07/11] Documentation: core-api: Add math.h macros and
- functions
-To: Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
- sebastian.fricke@collabora.com, akpm@linux-foundation.org,
- gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
- adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- corbet@lwn.net, broonie@kernel.org, linux-doc@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
- vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
- detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
- nicolas@ndufresne.ca, davidgow@google.com, dlatypov@google.com
-References: <20240530165925.2715837-1-devarsht@ti.com>
- <20240530171740.2763221-1-devarsht@ti.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v4 01/13] drm/msm/dpu: take plane rotation into account
+ for wide planes
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240530171740.2763221-1-devarsht@ti.com>
-Content-Type: text/plain; charset=UTF-8
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+CC: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20240314000216.392549-1-dmitry.baryshkov@linaro.org>
+ <20240314000216.392549-2-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240314000216.392549-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: W37KfcNBnqvdsPve45JrDrMfKvKCY8Dm
+X-Proofpoint-GUID: W37KfcNBnqvdsPve45JrDrMfKvKCY8Dm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-30_17,2024-05-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ adultscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 phishscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2405300173
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,42 +98,21 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 5/30/24 10:17 AM, Devarsh Thakkar wrote:
-> Add documentation for rounding, scaling, absolute value and difference,
-> 32-bit division related macros and functions exported by math.h header
-> file.
+On 3/13/2024 5:02 PM, Dmitry Baryshkov wrote:
+> Take into account the plane rotation and flipping when calculating src
+> positions for the wide plane parts.
 > 
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> ---
-> V1->V9 (No change)
-> V10: Patch introduced
-> ---
->  Documentation/core-api/kernel-api.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
+> This is not an issue yet, because rotation is only supported for the
+> UBWC planes and wide UBWC planes are rejected anyway because in parallel
+> multirect case only the half of the usual width is supported for tiled
+> formats. However it's better to fix this now rather than stumbling upon
+> it later.
 > 
-> diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-> index ae92a2571388..fb467783d491 100644
-> --- a/Documentation/core-api/kernel-api.rst
-> +++ b/Documentation/core-api/kernel-api.rst
-> @@ -185,6 +185,12 @@ Division Functions
->  .. kernel-doc:: lib/math/gcd.c
->     :export:
->  
-> +Rounding, absolute value, scaling and 32bit division functions
+> Fixes: 80e8ae3b38ab ("drm/msm/dpu: add support for wide planes")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
+> 
 
-                                         32-bit
-please.
-
-> +--------------------------------------------------------------
-> +
-> +.. kernel-doc:: include/linux/math.h
-> +   :internal:
-> +
->  UUID/GUID
->  ---------
->  
-
--- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
