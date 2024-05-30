@@ -2,81 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D68E8D472F
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 10:35:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF718D4778
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 10:49:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12CA110F63F;
-	Thu, 30 May 2024 08:35:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9110810E05E;
+	Thu, 30 May 2024 08:49:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="MK3uoMQf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lBSF5qn6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3D0410EDDC
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 08:35:41 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id
- d2e1a72fcca58-6f693fb0ad4so556516b3a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 01:35:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1717058141; x=1717662941;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=P3dPYP7w2xcwwD4ezxBwzChfzLxfVatZgNqWhWYFewg=;
- b=MK3uoMQfRIZlwvnU6wt6HJOI0zrnq4zE3UeU7QnqNj+256CgW13ebVoX9teCDg1izF
- 2qSClJc7uyivWru95vEeK4ju/LZT39uS4s3odASLfY5o4h6e154495cQB9dTbms9WKYy
- yx3VYp7MycP6L4OJeKtnnnU7eLXD2WtMws/Dc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717058141; x=1717662941;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=P3dPYP7w2xcwwD4ezxBwzChfzLxfVatZgNqWhWYFewg=;
- b=YatKEk9yeKdNrJ6aKaCHPoYW9C4melaY2wgesnpuF7oo4KWJSo6P2NG5WJXlmu4bm4
- 7a9jpc1KynWzWgQGuhOyZR/t8MnrMsVylZwsjGWN+mxp/IHTC9/jNWYXERk6WWmqgwEK
- NAv5vXX/dMtepYDFM+K30HfB8qThm9DC0FwJ+VyfQtueCaP9YcIWXtN6gGl9V949W4AW
- WWIEo9mog8X1eucM8u9bJG2xnO9R9bHJzCoDMN43iUrPAQwxfWp7FhCi9t4t9uVnSorM
- 1f0lD/7wwYdHM0qDxKEcqx1xoR/zSjlnH3TaK6wRepu5TKuMXhWwKecSkCLH4yUzGg7L
- i+Iw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVo9raIRVFgYFbkN/NmPCKXV4RjkaQKLkDDXzt9e2boVj2B4T4YQwyODubJS5IycccWt9ONChfEGBdPmfqV1Itv70nJdeZj7OveVVbDEQjP
-X-Gm-Message-State: AOJu0Yzc3p0VY4DL4KEYGIf8q0s93z3ae/+y9bjYDVDpHYHGHaHKSger
- nAsWQ9w/WiFsHxuLEaMuYayidAp371ytKXcua1BQVs8T4nnrzC3oybakDq3eNA==
-X-Google-Smtp-Source: AGHT+IFl9n7DktKEcpEJ4WGQz7AcjFouxFiRzMPk6dDKBcDqPpXqbxbt5Utw0hXKMF4XUXofIeg46w==
-X-Received: by 2002:a05:6a21:99a3:b0:1b1:ec17:e59c with SMTP id
- adf61e73a8af0-1b264618a95mr1679425637.61.1717058141165; 
- Thu, 30 May 2024 01:35:41 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com
- ([2401:fa00:1:10:65f0:63a9:90bb:50b8])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f617390fe7sm10950635ad.146.2024.05.30.01.35.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 May 2024 01:35:40 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Stephen Boyd <sboyd@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 6/6] arm64: dts: mediatek: mt8173: Add GPU device nodes
-Date: Thu, 30 May 2024 16:35:05 +0800
-Message-ID: <20240530083513.4135052-7-wenst@chromium.org>
-X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
-In-Reply-To: <20240530083513.4135052-1-wenst@chromium.org>
-References: <20240530083513.4135052-1-wenst@chromium.org>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9F5110E05E;
+ Thu, 30 May 2024 08:49:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 7BFCCCE1A28;
+ Thu, 30 May 2024 08:49:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BF8BC3277B;
+ Thu, 30 May 2024 08:49:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1717058968;
+ bh=RMlDUxJiGobRFguc3DRtHWTv7WiNMiDof+uoZrSLUA8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lBSF5qn63ZTxet3h/KgfI84iXyPbcZ7m5UVIGT4Zh94nALn7/QyNuPD566qQJSpK5
+ +j7sNiyUcFxomJhas0mIMXGD4wU7YBq4nefDAv6hrMcyG6D/I5uulEmMIElQnPrrlw
+ CPgQOb52Zg3a/Kq0j9RjknhjnLKzCEyUgyPBeEFSZW64HY2+nYJJpCJ2RM1Ro9dY14
+ 3+hqt3XtD4GEqQFHT0v+c4IMSKpJeonXM7jWz6mC3UyEyDovCwxvWajQsz4UlqxkIO
+ qJR8XxIAf/QhhsBC66Ej7PaXU59n7GQJAfT1ET3FK1KcAb0w4CfmIr6kWZ8eTTR926
+ rATiKQfQzbyRA==
+Date: Thu, 30 May 2024 10:49:26 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/7] drm/connector: hdmi: accept NULL for Audio
+ Infoframe
+Message-ID: <20240530-daffy-satisfied-sheep-5b9e16@houat>
+References: <20240530-bridge-hdmi-connector-v3-0-a1d184d68fe3@linaro.org>
+ <20240530-bridge-hdmi-connector-v3-1-a1d184d68fe3@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="takwrixyv5pp4e4s"
+Content-Disposition: inline
+In-Reply-To: <20240530-bridge-hdmi-connector-v3-1-a1d184d68fe3@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,54 +70,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MediaTek MT8173 comes with a PowerVR Rogue GX6250, which is part
-of the Series6XT, another variation of the Rogue family of GPUs.
 
-On top of the GPU is a glue layer that handles some clock and power
-signals.
+--takwrixyv5pp4e4s
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Add device nodes for both.
+Hi,
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
- arch/arm64/boot/dts/mediatek/mt8173.dtsi | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+On Thu, May 30, 2024 at 02:12:24AM GMT, Dmitry Baryshkov wrote:
+> Allow passing NULL as audio infoframe as a way to disable Audio
+> Infoframe generation.
+>=20
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
+u/drm/display/drm_hdmi_state_helper.c
+> index ce96837eea65..5356723d21f5 100644
+> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> @@ -681,7 +681,7 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_update=
+_infoframes);
+>  /**
+>   * drm_atomic_helper_connector_hdmi_update_audio_infoframe - Update the =
+Audio Infoframe
+>   * @connector: A pointer to the HDMI connector
+> - * @frame: A pointer to the audio infoframe to write
+> + * @frame: A pointer to the audio infoframe to write or NULL to disable =
+sending the frame
+>   *
+>   * This function is meant for HDMI connector drivers to update their
+>   * audio infoframe. It will typically be used in one of the ALSA hooks
+> @@ -704,10 +704,16 @@ drm_atomic_helper_connector_hdmi_update_audio_infof=
+rame(struct drm_connector *co
+> =20
+>  	mutex_lock(&connector->hdmi.infoframes.lock);
+> =20
+> -	memcpy(&infoframe->data, frame, sizeof(infoframe->data));
+> -	infoframe->set =3D true;
+> +	if (frame) {
+> +		memcpy(&infoframe->data, frame, sizeof(infoframe->data));
+> +		infoframe->set =3D true;
+> +
+> +		ret =3D write_infoframe(connector, infoframe);
+> +	} else {
+> +		infoframe->set =3D false;
+> =20
+> -	ret =3D write_infoframe(connector, infoframe);
+> +		ret =3D clear_infoframe(connector, infoframe);
+> +	}
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173.dtsi b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-index 136b28f80cc2..3d7b9cc20a16 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-@@ -993,6 +993,30 @@ u2port1: usb-phy@11291000 {
- 			};
- 		};
- 
-+		gpu: gpu@13000000 {
-+			compatible = "mediatek,mt8173-gpu", "img,powervr-6xt";
-+			reg = <0 0x13000000 0 0x10000>;
-+			interrupts = <GIC_SPI 217 IRQ_TYPE_LEVEL_LOW>;
-+			clocks = <&mfgtop CLK_MFG_G3D>,
-+				 <&mfgtop CLK_MFG_MEM>,
-+				 <&mfgtop CLK_MFG_AXI>;
-+			clock-names = "core", "mem", "sys";
-+			power-domains = <&mfgtop>;
-+		};
-+
-+		mfgtop: clock-controller@13fff000 {
-+			compatible = "mediatek,mt8173-mfgtop";
-+			reg = <0 0x13fff000 0 0x1000>;
-+			clocks = <&topckgen CLK_TOP_AXI_MFG_IN_SEL>,
-+				 <&topckgen CLK_TOP_MEM_MFG_IN_SEL>,
-+				 <&topckgen CLK_TOP_MFG_SEL>,
-+				 <&clk26m>;
-+			clock-names = "sys", "mem", "core", "clk26m";
-+			power-domains = <&spm MT8173_POWER_DOMAIN_MFG>;
-+			#clock-cells = <1>;
-+			#power-domain-cells = <0>;
-+		};
-+
- 		mmsys: syscon@14000000 {
- 			compatible = "mediatek,mt8173-mmsys", "syscon";
- 			reg = <0 0x14000000 0 0x1000>;
--- 
-2.45.1.288.g0e0cd299f1-goog
+I'm not entirely sure your commit matches your commit log? It looks like
+you follow the same pattern than the other infoframes and call
+write_infoframe if there's one, or clear_infoframe if there isn't.
 
+So we're never passing NULL to disable? clear_infoframe is called.
+
+Maxime
+
+--takwrixyv5pp4e4s
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZlg9kQAKCRAnX84Zoj2+
+dk3pAYCbS/9eXzTy0YlUFvQaOXrLJprI9gx8B2mCC+SSaUyqq6oITErczWwScJwQ
+fgXhMFIBgJOU255qv1o/4bocu6tu2hF/D9FGax6f1ae+MKrdPFUmJ0PhyEX/zJY/
+D+quLGMFQg==
+=gGq3
+-----END PGP SIGNATURE-----
+
+--takwrixyv5pp4e4s--
