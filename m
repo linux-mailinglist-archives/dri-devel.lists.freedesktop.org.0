@@ -2,55 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A05F38D4808
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 11:05:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CCDD8D4831
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 11:16:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9899611AD68;
-	Thu, 30 May 2024 09:05:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8726211BA41;
+	Thu, 30 May 2024 09:16:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="O23mOYk4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LkAHxZxm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D796B11AD68;
- Thu, 30 May 2024 09:05:03 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F4D911B81F;
+ Thu, 30 May 2024 09:16:12 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 9C800CE1A6E;
- Thu, 30 May 2024 09:05:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AA16C32786;
- Thu, 30 May 2024 09:05:00 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id EF0AE6255A;
+ Thu, 30 May 2024 09:16:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 276A1C2BBFC;
+ Thu, 30 May 2024 09:16:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717059900;
- bh=58FOPhDGg37DCL3uM5t+hUaE4DGFtdvOm40IzQDdEe0=;
- h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=O23mOYk4WWzsOCev8z14+dawmroIIeCufXyf+6euF96z/TJFm+06YEwTnOtXoFQzJ
- 7QUZkpY8xYAhjL36iLjIUbkzBLQRR8qzvNS5ArqzgmhwAqdQDtSzZY/z36IoVYxkND
- zan/dRRgAInLmzkaOxJthGwSEgxko1KgLr6KgiQSk/0XihdpUiJJbX7nrdlogcdr/a
- 3iD5+kpX+AW+NDk5knxn3crB4NzukoEcUTLVKfx/A6WDVkTEXjuxVLbNmCGAcHLMhf
- OFZnRML6JXHCPg6svrXTlgeLR5b6AhBxcy8CeYar+JypYZ5Iix3fDbpg/hsmd2c5wh
- dPd8MnZjBrOrA==
-Message-ID: <116e3e2d57d20833fb2b7ae5ac23d9c0@kernel.org>
-Date: Thu, 30 May 2024 09:04:58 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v3 4/7] drm/msm/hdmi: switch to atomic bridge callbacks
-In-Reply-To: <20240530-bridge-hdmi-connector-v3-4-a1d184d68fe3@linaro.org>
-References: <20240530-bridge-hdmi-connector-v3-4-a1d184d68fe3@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, "Abhinav
- Kumar" <quic_abhinavk@quicinc.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Daniel
- Vetter" <daniel@ffwll.ch>, "David Airlie" <airlied@gmail.com>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Marijn
- Suijten" <marijn.suijten@somainline.org>, "Maxime Ripard" <mripard@kernel.org>,
- "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Rob Clark" <robdclark@gmail.com>,
- "Robert Foss" <rfoss@kernel.org>, "Sean Paul" <sean@poorly.run>,
- "Thomas Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: 7bit
+ s=k20201202; t=1717060571;
+ bh=AQM2lahhdlmVdayxw+qgYQXGA18NxsTQtlliH668hJE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LkAHxZxmhRTGUGj2f/G9QVsM8D2wrN7oOowdxnoP7N6WJwEfDiuZX8/9nzcmH/biA
+ oBavLoTbTAPZm7vcTo0+Afpr6JDTGaDkjq33No4kNo0P5PSjJEfziInY0Bu0qhx6iA
+ 1ABi1ogr2oJvJmQoweDbBHHupRbvVs+nZN5xc9jgupqQub/JdgI4shrW2rZEesTIO1
+ PjzlAOR0q6NmiJSaPtPWarr9DQGeimOHgRqr3MPMUzHSSMX7jEr62fyq3CeGj926gH
+ tAmo8NYb7e8+Whde8PIkKZeyAWzWXrfO281beyIXR3bsnC/QdO+MMPV0A6prb+fzdI
+ /L2K1HqhXt3+Q==
+Date: Thu, 30 May 2024 11:16:08 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/7] drm/msm/hdmi: make use of the drm_connector_hdmi
+ framework
+Message-ID: <20240530-poised-burgundy-petrel-7affed@houat>
+References: <20240530-bridge-hdmi-connector-v3-0-a1d184d68fe3@linaro.org>
+ <20240530-bridge-hdmi-connector-v3-5-a1d184d68fe3@linaro.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="5forzva7txjtgmqb"
+Content-Disposition: inline
+In-Reply-To: <20240530-bridge-hdmi-connector-v3-5-a1d184d68fe3@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,13 +70,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 May 2024 02:12:27 +0300, Dmitry Baryshkov wrote:
-> Change MSM HDMI bridge to use atomic_* callbacks in preparation to
-> enablign the HDMI connector support.
-> 
+
+--5forzva7txjtgmqb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Thu, May 30, 2024 at 02:12:28AM GMT, Dmitry Baryshkov wrote:
+> Setup the HDMI connector on the MSM HDMI outputs. Make use of
+> atomic_check hook and of the provided Infoframe infrastructure.
+>=20
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+As a general comment: I really like it, it looks super tidy. Thanks!
 
-Thanks!
+There's a couple of minor issues below
+
+> -int msm_hdmi_audio_update(struct hdmi *hdmi)
+> +static int msm_hdmi_audio_update(struct hdmi *hdmi)
+>  {
+>  	struct hdmi_audio *audio =3D &hdmi->audio;
+> -	struct hdmi_audio_infoframe *info =3D &audio->infoframe;
+>  	const struct hdmi_msm_audio_arcs *arcs =3D NULL;
+>  	bool enabled =3D audio->enabled;
+>  	uint32_t acr_pkt_ctrl, vbi_pkt_ctrl, aud_pkt_ctrl;
+> -	uint32_t infofrm_ctrl, audio_config;
+> +	uint32_t audio_config;
+> +
+> +	if (!hdmi->hdmi_mode)
+> +		return -EINVAL;
+> +
+> +	DBG("audio: enabled=3D%d, channels=3D%d, rate=3D%d",
+> +	    audio->enabled, audio->channels, audio->rate);
+> =20
+> -	DBG("audio: enabled=3D%d, channels=3D%d, channel_allocation=3D0x%x, "
+> -		"level_shift_value=3D%d, downmix_inhibit=3D%d, rate=3D%d",
+> -		audio->enabled, info->channels,  info->channel_allocation,
+> -		info->level_shift_value, info->downmix_inhibit, audio->rate);
+>  	DBG("video: power_on=3D%d, pixclock=3D%lu", hdmi->power_on, hdmi->pixcl=
+ock);
+
+pixclock should come from the connector state too. It's still calculated
+by the driver in msm_hdmi_bridge_mode_set
+
+> @@ -341,8 +425,11 @@ int msm_hdmi_bridge_init(struct hdmi *hdmi)
+>  	bridge->funcs =3D &msm_hdmi_bridge_funcs;
+>  	bridge->ddc =3D hdmi->i2c;
+>  	bridge->type =3D DRM_MODE_CONNECTOR_HDMIA;
+> +	bridge->vendor =3D "Qualcomm";
+> +	bridge->product =3D "Snapdragon";
+>  	bridge->ops =3D DRM_BRIDGE_OP_HPD |
+>  		DRM_BRIDGE_OP_DETECT |
+> +		DRM_BRIDGE_OP_HDMI |
+>  		DRM_BRIDGE_OP_EDID;
+> =20
+>  	ret =3D devm_drm_bridge_add(hdmi->dev->dev, bridge);
+
+It looks like you're not setting either the supported formats or bpc?
+
 Maxime
+
+--5forzva7txjtgmqb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZlhD2AAKCRAnX84Zoj2+
+dvdkAYCryHF7SD2wn1N8TdrGd15DJPIga+r9drDaxTr0rBTOxzbQF7x7YiyX2hH0
+CTeY9AsBgKWaEKe7Dbe67TtNLnv9K8XLecp8Gdd4Q7qOdun/xGlo9UWqcOTNeHVb
+uIQEISEO9A==
+=tPbA
+-----END PGP SIGNATURE-----
+
+--5forzva7txjtgmqb--
