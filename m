@@ -2,80 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD9AF8D5032
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 18:54:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D4F48D5047
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 18:56:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C390710E5BF;
-	Thu, 30 May 2024 16:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B721810E728;
+	Thu, 30 May 2024 16:56:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CEWV/WKA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HwjFQjzh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC8E10E313;
- Thu, 30 May 2024 16:54:28 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-356c4e926a3so1022014f8f.1; 
- Thu, 30 May 2024 09:54:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1717088066; x=1717692866; darn=lists.freedesktop.org;
- h=in-reply-to:references:subject:cc:to:from:message-id:date
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=v9zqU8JnmYAjrDHWI6QwaCI3aTg0IhkQKhlHefZwcxU=;
- b=CEWV/WKAxkp8mRqqjRtRqFuojspB3YDO9PnCecA91hxTkXWXGXlmTmjwXNdw+zYqRy
- TyW/ZdFye5mAwOLgnW2qE+2AG7kUuPMyqROdqHMMjMhFDpGqE1swm6SPzoDjqmvMjb+v
- JsJ7cXJXQTuu5d2AB6OwE+GUpGuxsSCgBS3ZnZz5bD5kA3CFV4Humt+MompmVbsGlwv2
- zrWDbUZQkkEfGvfNOuVGuchV/ajMoqgiO2SLyPP3OzjJCYKqnXe11j7eBguBOgPMYCwP
- fhxSYX6utUPXp7OjfoO4KmsPhKcq/I9i8BNphYbIJetIRnWem3NavK6RWOUKSUenpsiC
- KaRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717088066; x=1717692866;
- h=in-reply-to:references:subject:cc:to:from:message-id:date
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=v9zqU8JnmYAjrDHWI6QwaCI3aTg0IhkQKhlHefZwcxU=;
- b=OL1N843Wn8wssT8Z0/a2ExNB9TSGUjVp1k8L65BLOZwzvZyHC4VS2dbcUxFXZQLEdw
- t+3hc/CZ2aX/mqNjuVaLRcKJkapi+ChpDF3nQwR+NbDgzEZNSpV6h2QCUHPZ8/6cIEWO
- nOvAqw3MXi8v40pi+fJ6tJ6I6lCIN+bgncFEfjHC4YQ9bqnJ8AYfCQStrDVLrgj2bzd4
- +wDZ6p6HJDUKVWXIm4+MxGqn0I/f/EMWbNi71/MZ+4UjblZ/92438w8WUFgsz0vs4Nah
- GQXnCqkOPMTVUfgJOjNTqf3jhin3/KNLlFEwveZCfvpWrYdRyFsZqnu6s5C96ljR+eaf
- 5tvg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWIyDAQkNYT/KnOOd8rpwZ1xa8xHsCLdbrJGKDl0vGX7kER/YhSdSiRgrAZPmlAyViwWro2teKFP47BlUdcNPG3rNGFjoDlw1Ow+jZtvAsU
-X-Gm-Message-State: AOJu0YwMnYcroXhSFS51pmov7BeHfMPQkAHVjRwgk15ce0F46dSlJobB
- RoGBMNqcp2i8tJMELhKJzspaM1I8Xnrz2jEVSSJN9Cc9O7RN6Xos
-X-Google-Smtp-Source: AGHT+IFEfBLTzmjmcG32USMXfmcuN3/ok4lb789rZYIugWZrptHh8T6N9Opj4wdIck7hY3jhiBhxzg==
-X-Received: by 2002:adf:ec45:0:b0:355:21d:ab9d with SMTP id
- ffacd0b85a97d-35dc00c70a6mr1886123f8f.65.1717088066020; 
- Thu, 30 May 2024 09:54:26 -0700 (PDT)
-Received: from localhost
- (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-35dcbb0965dsm1626683f8f.91.2024.05.30.09.54.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 May 2024 09:54:25 -0700 (PDT)
-Content-Type: multipart/signed;
- boundary=357c9420193d77c21cae851122d418a2d2433a7d1bb8c98af37a194714df;
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Mime-Version: 1.0
-Date: Thu, 30 May 2024 18:54:24 +0200
-Message-Id: <D1N4X37C55M8.PW8BXBL6ZHN4@gmail.com>
-From: "Thierry Reding" <thierry.reding@gmail.com>
-To: "Abhinav Kumar" <quic_abhinavk@quicinc.com>,
- <freedreno@lists.freedesktop.org>, "Rob Clark" <robdclark@gmail.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, "Sean Paul"
- <sean@poorly.run>, "Marijn Suijten" <marijn.suijten@somainline.org>, "David
- Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>
-Cc: <dri-devel@lists.freedesktop.org>, <seanpaul@chromium.org>,
- <swboyd@chromium.org>, <quic_jesszhan@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/msm: remove python 3.9 dependency for compiling msm
-X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
-References: <20240507230440.3384949-1-quic_abhinavk@quicinc.com>
-In-Reply-To: <20240507230440.3384949-1-quic_abhinavk@quicinc.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1F6010E12B;
+ Thu, 30 May 2024 16:55:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id EED88CE1B08;
+ Thu, 30 May 2024 16:55:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 350D5C2BBFC;
+ Thu, 30 May 2024 16:55:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1717088156;
+ bh=y9NCFZ2r7d1RUlF0MdnMJsnplEp0MXxCrVSUOSZQRC4=;
+ h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+ b=HwjFQjzh27GeUw64vzkp+R2RQfD9cS2BWClNN+muvviU1GUsUzKkxI6aLXiCXvj5O
+ 6kzm0mkIhqbpis4AUlw5nRtjE2SCflJCCEQAiZka/7S1olX/wppKf/2b8lqO9skDDi
+ ExSsfy7wj2x9f6qhRTyKt7UnrmIX1sEjcZhfeblJhcGfsFH+AUF3D0kG8zmswE1oVp
+ zOeqfX/u7L0eLHRCNJJI7UQ8uvtEFUtXWiWzDdwzhT0BWyP2cJ3TeJBNKnK2Yhe8hn
+ C/Ce7G1Qnd+OSiI4PAtFA6LJCZpYkiYXEbyY2IdVZhTjmimLE+Ffcuw14kYIvlYCDS
+ TzI1P3eULcFgQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+ id 32A06CE075F; Thu, 30 May 2024 09:55:55 -0700 (PDT)
+Date: Thu, 30 May 2024 09:55:55 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: sfr@canb.auug.org.au, Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jon Hunter <jonathanh@nvidia.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [BUG] Build failure and alleged fix for next-20240523
+Message-ID: <4f821c7f-6201-470f-b39d-ba689ca027d9@paulmck-laptop>
+References: <287206c0-b53d-4aa1-b35c-0725adc5e9ef@paulmck-laptop>
+ <28db820c-860d-be1c-bb94-ed534622fdc8@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <28db820c-860d-be1c-bb94-ed534622fdc8@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,55 +64,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: paulmck@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---357c9420193d77c21cae851122d418a2d2433a7d1bb8c98af37a194714df
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Fri, May 24, 2024 at 12:57:58PM -0700, Abhinav Kumar wrote:
+> Hello
+> 
+> On 5/24/2024 12:55 PM, Paul E. McKenney wrote:
+> > Hello!
+> > 
+> > I get the following allmodconfig build error on x86 in next-20240523:
+> > 
+> > Traceback (most recent call last):
+> >    File "drivers/gpu/drm/msm/registers/gen_header.py", line 970, in <module>
+> >      main()
+> >    File "drivers/gpu/drm/msm/registers/gen_header.py", line 951, in main
+> >      parser.add_argument('--validate', action=argparse.BooleanOptionalAction)
+> > AttributeError: module 'argparse' has no attribute 'BooleanOptionalAction'
+> > 
+> > The following patch allows the build to complete successfully:
+> > 
+> > https://patchwork.kernel.org/project/dri-devel/patch/20240508091751.336654-1-jonathanh@nvidia.com/#25842751
+> > 
+> > As to whether this is a proper fix, I must defer to the DRM folks on CC.
+> 
+> Thanks for the report.
+> 
+> I have raised a merge request for
+> https://patchwork.freedesktop.org/patch/593057/ to make it available for the
+> next fixes release for msm.
 
-On Wed May 8, 2024 at 1:04 AM CEST, Abhinav Kumar wrote:
-> Since commit 5acf49119630 ("drm/msm: import gen_header.py script from Mes=
-a"),
-> compilation is broken on machines having python versions older than 3.9
-> due to dependency on argparse.BooleanOptionalAction.
->
-> Switch to use simple bool for the validate flag to remove the dependency.
->
-> Fixes: 5acf49119630 ("drm/msm: import gen_header.py script from Mesa")
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/registers/gen_header.py | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+Thank you!
 
-Irrespective of whether we want to allow Python as a build dependency or
-not, it already is since v6.10-rc1, so in the meantime I'm going to
-apply this to drm-misc-fixes to unbreak things.
+This still is not in -next, so I am putting it into -rcu just to silence
+the diagnostic.  Or should I push this to mainline via -rcu?
 
-If we decide that we don't want the extra dependency we need revert the
-whole generation infrastructure.
-
-Thierry
-
---357c9420193d77c21cae851122d418a2d2433a7d1bb8c98af37a194714df
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZYr0EACgkQ3SOs138+
-s6H0qA//VtOBk1k9qHZdQF+5oC1HaKmclp+MFecexS2w1fOic7SRCaXXaVe+yLTh
-d+rY3ge9/sxGxL8vBHnpDPty4yg37cu77XbF0GntvjvB81PWoIqazUK3fX45qHTF
-B67gyZDV/5HvLQXSk8XjAodp1yoMBcBSxiCgm9WM3oYbwrs6iI5mBrbWQX0WLX3A
-o+2X+XppsqlTlXBnFPHtWQS+DoxMPXTbKC8IotqP6Oi0YHthDAC0L8urYJgJa/VY
-vXHImnoJoFJkP9z1H3uoHOFE7kaVNK0WNoNPejHPls7Rr9AkCMhWKBmzOfOVMw/t
-Lv0hVK03TrDTu4jZYUL15yqHRR9MZrVgwYeaTbxNHriHBFZMIkATWS6gu43bnXDI
-Sj4PXeuttsi0MQHBrE184IkjGC/VQ4gC3pxuuurqAVs5uaXICwb8DYU2fkaIiIdr
-lWnyZZwmmWkzaDd1T7w7mF149Mid+kHrueNJFAigRjGE02BNZzXnjCfKLoyYgeom
-EIDx6QAUSyV1qSAjfG1J8dV4Ag6joFiBAdsO8yk7teOtaH8JuPWQauoPC7Q+7BF7
-89UgDVkWPjJUuaktWqyPhUPpcINzJ7IQZ8sF2DdgPkq+Z9vbCP/jZs0VEVSpMF6d
-DStI+QzysQhcpHFpT7DqaR7ryeMbS1/AtHkkKgaXJP2mKXmXyoU=
-=eLTd
------END PGP SIGNATURE-----
-
---357c9420193d77c21cae851122d418a2d2433a7d1bb8c98af37a194714df--
+							Thanx, Paul
