@@ -2,70 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D6238D519A
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 20:04:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BACE8D51C5
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 20:28:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E93110E49D;
-	Thu, 30 May 2024 18:04:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C083810EB56;
+	Thu, 30 May 2024 18:28:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fEmKXiJ9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="F6w8BU7R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBE2110E49D
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 18:04:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717092245; x=1748628245;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=BEIEhrG9qX9RIUaoual1xQdHFV9ZgAZNbmY16Qsocp4=;
- b=fEmKXiJ9a9KI3LhofMaAmYU2k8sEPfaU4GdHcnShcAfaj92M5ql6eyQz
- qYuHLiqLc2NopnOvRsmpXGECdwTY3ydpErSDRmmZYNV79Ke1i6YkLxTaE
- wtv1smQNGzQXt1So3L81lyo+f4N8AFlPI2NSfFZU9/99M4+ritZOvErL4
- /remByHzWARVQA1d7NqREm7RYQmo8RMmwLodlplc8cOWRx5maBK5I4ZAs
- 5DynTB/V2Jm65MbCOTmEc1/PGyXo3w9hoxNcrdZ/1mBGBieqSzxVZy0Tg
- ilSFhqjQjHteY5LSWpauNhnP7PmZHpBnBbDRriqDqWmqdiUM3QittDvbO Q==;
-X-CSE-ConnectionGUID: ZxkV8KlDSkCqug0quGNrCw==
-X-CSE-MsgGUID: Rspw5rZpSnqUe5jb2GkjCg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="13828135"
-X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; d="scan'208";a="13828135"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2024 11:04:05 -0700
-X-CSE-ConnectionGUID: zucVqWpJR0mBCJBFt7Bqzw==
-X-CSE-MsgGUID: p3huy5JiRFKNX17xuU9R6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; d="scan'208";a="36389437"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
- by orviesa006.jf.intel.com with ESMTP; 30 May 2024 11:04:00 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sCk85-000For-1p;
- Thu, 30 May 2024 18:03:57 +0000
-Date: Fri, 31 May 2024 02:03:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>, Frank Binns <frank.binns@imgtec.com>,
- Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, Chen-Yu Tsai <wenst@chromium.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/6] clk: mediatek: Add mt8173-mfgtop driver
-Message-ID: <202405310123.KWoPspRr-lkp@intel.com>
-References: <20240530083513.4135052-3-wenst@chromium.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240530083513.4135052-3-wenst@chromium.org>
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86B9910E3CD;
+ Thu, 30 May 2024 18:28:21 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-52a54d664e3so392756e87.0; 
+ Thu, 30 May 2024 11:28:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1717093699; x=1717698499; darn=lists.freedesktop.org;
+ h=in-reply-to:references:subject:cc:to:from:message-id:date
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=9xvggD5zyG5hkDkxWfILJwXhYiELErkkmtBD0MYsbXM=;
+ b=F6w8BU7RxLuDzAuxvw5HKp+JaKCpKq3Vc0V/Xof31f/QJOrwDJpjjdaRA5QimnTvEf
+ Pp37PMBAjnt+bzC2US+sX4/+JSUnERc9xyb00bvVD/VhY6aYPqcFAsSA7sqqBr/fWOA/
+ 23GKX9gPk5Kd+9NabQp/N7ec/Rl/Ki7nVq++kVckjkC4bRkzVY0UoUu5sEJiHxiRFZp1
+ hd6QRiRqF39Xj0bkOeUTAda1+fxSdlRNK66/G1FGYrYbEtklyC5g+CIyAknu2HoDg4lR
+ EvIm/y8IIZbWV4ZEnse2QGh+z4k1/E4ikqXYI3OOxbMDDyN22xSWIZ9VE72vIdQ3lAxp
+ r0vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717093699; x=1717698499;
+ h=in-reply-to:references:subject:cc:to:from:message-id:date
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9xvggD5zyG5hkDkxWfILJwXhYiELErkkmtBD0MYsbXM=;
+ b=Vwo1DZ31Rjw7cQgCG9F6lkuByKk1iA6ifMg0sUTPGbx4IEylhN28srSv7MU+rxxlpS
+ NVc7vK01MfUZnvZbUzbSh+McL+zr/7Nv9iGQH8lyD7rthusA2IVETWaqKcB+d6iCTxBt
+ 4kUjxH37NP3PhRsf/MZ/Y1v4ZDudWLSFBy6T/vrGmzqwbzT4lVRZPvnvae8yZFRJvfbb
+ fHNCX6HCCNd83pQ6ra0VZtkldLhqeNk3nzu/Xqr1TogSLU/qUUVgL4kjdpmNPU5d2WkL
+ dEZftFqQ+O0slozwcb4KknWHcAooIEGThAIeVkSs+K9QyQQOJY0lHD8tM23UVbMHHJ7T
+ fx2w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXYA5YKVOkVi0NATDUedNEmLwVZaXjPNqcIDqR+JLdOZSRWJWw6tMev0EYHTqcQcYt+Ff3iNYb2HzrNG4NMxGHZaLLaBRgLVPiiKuLCIk7tCYe/Ec6NXfYE4VPG0sTK6rD48dSMb0E704k8iUy80Sfn
+X-Gm-Message-State: AOJu0YxNo+UrULYAVLtIqEN2or1eV5DHcxGTHhykAKfrkL6cWCbU9w58
+ iRNNiKg02YB8BhxB3c220qfbYffHCzjDTVH51JPxDT02e3jNni9g
+X-Google-Smtp-Source: AGHT+IEQ0HOg2nVCclhwyMBh137n9XiHsinuwEbUK5FBdZaY8TZg5QzJKYc6yUFpiMsZXoVqvHEN7Q==
+X-Received: by 2002:ac2:54ba:0:b0:529:adc0:2129 with SMTP id
+ 2adb3069b0e04-52b7d4186eemr1751587e87.11.1717093698952; 
+ Thu, 30 May 2024 11:28:18 -0700 (PDT)
+Received: from localhost
+ (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a67eab85e98sm2416566b.176.2024.05.30.11.28.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 May 2024 11:28:18 -0700 (PDT)
+Content-Type: multipart/signed;
+ boundary=3c63f374e1b0ea791262a8278936583225c80209dd68e31d90030b5f68c0;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Mime-Version: 1.0
+Date: Thu, 30 May 2024 20:28:17 +0200
+Message-Id: <D1N6WYWR463J.3UVC2PP2CUIY4@gmail.com>
+From: "Thierry Reding" <thierry.reding@gmail.com>
+To: <paulmck@kernel.org>, "Abhinav Kumar" <quic_abhinavk@quicinc.com>
+Cc: <sfr@canb.auug.org.au>, "Rob Clark" <robdclark@gmail.com>, "Dmitry
+ Baryshkov" <dmitry.baryshkov@linaro.org>, "Sean Paul" <sean@poorly.run>,
+ "Marijn Suijten" <marijn.suijten@somainline.org>, "David Airlie"
+ <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, "Jon Hunter"
+ <jonathanh@nvidia.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [BUG] Build failure and alleged fix for next-20240523
+X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
+References: <287206c0-b53d-4aa1-b35c-0725adc5e9ef@paulmck-laptop>
+ <28db820c-860d-be1c-bb94-ed534622fdc8@quicinc.com>
+ <4f821c7f-6201-470f-b39d-ba689ca027d9@paulmck-laptop>
+In-Reply-To: <4f821c7f-6201-470f-b39d-ba689ca027d9@paulmck-laptop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,47 +93,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chen-Yu,
+--3c63f374e1b0ea791262a8278936583225c80209dd68e31d90030b5f68c0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-kernel test robot noticed the following build warnings:
+On Thu May 30, 2024 at 6:55 PM CEST, Paul E. McKenney wrote:
+> On Fri, May 24, 2024 at 12:57:58PM -0700, Abhinav Kumar wrote:
+> > Hello
+> >=20
+> > On 5/24/2024 12:55 PM, Paul E. McKenney wrote:
+> > > Hello!
+> > >=20
+> > > I get the following allmodconfig build error on x86 in next-20240523:
+> > >=20
+> > > Traceback (most recent call last):
+> > >  =C2=A0=C2=A0File "drivers/gpu/drm/msm/registers/gen_header.py", line=
+ 970, in <module>
+> > >  =C2=A0=C2=A0=C2=A0=C2=A0main()
+> > >  =C2=A0=C2=A0File "drivers/gpu/drm/msm/registers/gen_header.py", line=
+ 951, in main
+> > >  =C2=A0=C2=A0=C2=A0=C2=A0parser.add_argument('--validate', action=3Da=
+rgparse.BooleanOptionalAction)
+> > > AttributeError: module 'argparse' has no attribute 'BooleanOptionalAc=
+tion'
+> > >=20
+> > > The following patch allows the build to complete successfully:
+> > >=20
+> > > https://patchwork.kernel.org/project/dri-devel/patch/20240508091751.3=
+36654-1-jonathanh@nvidia.com/#25842751
+> > >=20
+> > > As to whether this is a proper fix, I must defer to the DRM folks on =
+CC.
+> >=20
+> > Thanks for the report.
+> >=20
+> > I have raised a merge request for
+> > https://patchwork.freedesktop.org/patch/593057/ to make it available fo=
+r the
+> > next fixes release for msm.
+>
+> Thank you!
+>
+> This still is not in -next, so I am putting it into -rcu just to silence
+> the diagnostic.  Or should I push this to mainline via -rcu?
 
-[auto build test WARNING on 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0]
+I pushed this to drm-misc-fixes earlier today, so should show up in
+linux-next soon and hopefully in v6.10-rc2.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/dt-bindings-clock-mediatek-Add-mt8173-mfgtop/20240530-163739
-base:   1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
-patch link:    https://lore.kernel.org/r/20240530083513.4135052-3-wenst%40chromium.org
-patch subject: [PATCH 2/6] clk: mediatek: Add mt8173-mfgtop driver
-config: x86_64-buildonly-randconfig-002-20240531 (https://download.01.org/0day-ci/archive/20240531/202405310123.KWoPspRr-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405310123.KWoPspRr-lkp@intel.com/reproduce)
+Thierry
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405310123.KWoPspRr-lkp@intel.com/
+--3c63f374e1b0ea791262a8278936583225c80209dd68e31d90030b5f68c0
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All warnings (new ones prefixed by >>):
+-----BEGIN PGP SIGNATURE-----
 
->> drivers/pmdomain/core.c:2965:34: warning: 'idle_state_match' defined but not used [-Wunused-const-variable=]
-    2965 | static const struct of_device_id idle_state_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZYxUIACgkQ3SOs138+
+s6EtthAAp41m3IJzGSaKe1+TCFp5MCBxweTKfght0Ks+7Djtk1yp0Nek6he8G8YO
+f5GWHEizfKgfdQO8NLGt9qw3ENJJOTgiG+TdjQAg/p4Z3uNN5EUqB17l4HR/+ph8
+cXB5ZrHqS5nb2jrDGHc4ZJGW/4drN4D246LepgcudAuLD9jy6P9oU5V5tLQMJk3g
+d/f24vawHEgVb+IC1q4kyz1rYyFhKOGuLs8KDAUSgR2SN2SQwiA8733mzpjULjCG
+dAjSUKFun7EIhEwGTijkwUTVOps4VM6Ya0qHmJSlFbmrRQ37NgUB8A9UGDy7wGiC
+yxBM4d4qhbfdyux/NXxSi9xQ0iGHpzi22JlPUFHLp3x9yRmVp4YwQe1gsTtSWHWH
+FLW1NdJutUg7L4HQC0roSxwbGgTcEzoMkXD5AJz7OCA8WIG20VidVkAgjUu/qEyk
+ZjGofu4Trkr7n0B7TuQtHiJsaCaZ5fPtlqhXYVuo682bcqDqwwWgBVlTBByA9LYY
+kAtOYkYWtBAAdQT7r2VeLh5MNiA9o8hbC+dehtickVC+RDWlbAo/M+CZl8rhcDEj
+8PY2iRdOtpmOB1KwuVUVzCQSOio8l0B0CTWz92S0Y9vae75uT0wWNAVqskDyK0eN
+UgrYLijKMWhHtxKPbnmpQyo0o8FXJSrpPApR2r7ox67VDZRX4P0=
+=rMdd
+-----END PGP SIGNATURE-----
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS_OF
-   Depends on [n]: PM_GENERIC_DOMAINS [=y] && OF [=n]
-   Selected by [y]:
-   - COMMON_CLK_MT8173_MFGTOP [=y] && COMMON_CLK [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y]) && COMMON_CLK_MT8173 [=y]
-
-
-vim +/idle_state_match +2965 drivers/pmdomain/core.c
-
-5d6be70add65e3 drivers/base/power/domain.c Ulf Hansson 2018-06-29  2964  
-30f604283e05d3 drivers/base/power/domain.c Lina Iyer   2016-10-14 @2965  static const struct of_device_id idle_state_match[] = {
-598da548ef7892 drivers/base/power/domain.c Lina Iyer   2016-11-03  2966  	{ .compatible = "domain-idle-state", },
-30f604283e05d3 drivers/base/power/domain.c Lina Iyer   2016-10-14  2967  	{ }
-30f604283e05d3 drivers/base/power/domain.c Lina Iyer   2016-10-14  2968  };
-30f604283e05d3 drivers/base/power/domain.c Lina Iyer   2016-10-14  2969  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--3c63f374e1b0ea791262a8278936583225c80209dd68e31d90030b5f68c0--
