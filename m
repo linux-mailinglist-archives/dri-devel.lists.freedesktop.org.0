@@ -2,63 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0A698D5499
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 23:27:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282578D55A6
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 00:45:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC2DD10E0CA;
-	Thu, 30 May 2024 21:27:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E22C10E514;
+	Thu, 30 May 2024 22:45:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TUbsgA0D";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="cgv/Q7eC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0246B10E0CA
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 21:27:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717104462; x=1748640462;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=aLO8VYVDvBsV3vRzpJUX5kk1LzS2wQ0ptGib7CHa84g=;
- b=TUbsgA0DE2v1OutSptITqoUDciLdoddf5oZoAjdj8ea7zlwNdmKEET8z
- I2iAiJaKXINSH2UauSflclaLUOD2iLCW00j/UQmmZeCpFuVze20bBFBCF
- 1JL3A/Cfoc9xCmN1uQQOks9jMJ8NgEkHlHcAd5uB0TEEdLzE/Cr8FA4IX
- XzMX3e+kRVmYMWt7PJ61Tpt3QPSbtBWMNl+nG4YfG3T/hM8dEe9CiIRCJ
- qcbwnjTWf3RSYJKdgmJP6Z8zhkhJOzMCZVNXjWt/uzXM+TBkb+3y6mppw
- ZGnjV3hOJc8cOuQfQCvYwZGbHYZg05rJtEIApotSx4EaC1Ng6IE/Yet+Z A==;
-X-CSE-ConnectionGUID: MyeIiYFYSbGWdJV/VqnOMg==
-X-CSE-MsgGUID: i4NpPQFQT26UtpyZYmfeRA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="13500304"
-X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; d="scan'208";a="13500304"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2024 14:27:41 -0700
-X-CSE-ConnectionGUID: wl4EeDbdRj24yRQEsxrGng==
-X-CSE-MsgGUID: zvHNJzR+TTerwRoX0aX2KA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; d="scan'208";a="59132521"
-Received: from irvmail002.ir.intel.com ([10.43.11.120])
- by fmviesa002.fm.intel.com with ESMTP; 30 May 2024 14:27:39 -0700
-Received: from [10.246.25.139] (mwajdecz-MOBL.ger.corp.intel.com
- [10.246.25.139])
- by irvmail002.ir.intel.com (Postfix) with ESMTP id E90AF28763;
- Thu, 30 May 2024 22:27:28 +0100 (IST)
-Message-ID: <82333a8e-1951-41e0-a08c-9d2abfb480ad@intel.com>
-Date: Thu, 30 May 2024 23:27:24 +0200
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 937EA10E514
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 22:45:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=e3NB/mDwRctn3iwAMjuc5/uFGUFjegxDUG7u7jpVJ+s=; b=cgv/Q7eC94kt5eEfPb5w5slwyv
+ RTKpG43piRHMly9hzg+YvIAsIVZI03XQ79HeT3acLdWu8BGSwE3GPOvNHhUw0hG++yfArv0aVVJfr
+ /ji7WJKmORZ0p9dNNwelSs2k4U9+LbZJbH3iQxTrHzPTX1JAS+t+wZm+ck++NOAWCmivP7PTLwCvn
+ 5VkBq7r6mxrdOaxy0BM8kOx9dEIL+wxp8TV6yO5QbOsXi23inDrq/1lSo8KS9JgCspxWeTCZzeOOg
+ XMy6YPcjotgXy31GclMpcKiHeu5o+3/1/DGr9czv5/Of9674/JfkLINloooBQYADQTTjYKa7RdvN1
+ Tl3kC3pg==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+ by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+ id 1sCoVu-00000008b9H-1B8a; Thu, 30 May 2024 22:44:50 +0000
+Message-ID: <4951656c-2d15-49f6-89d8-aa7b5c333ec7@infradead.org>
+Date: Thu, 30 May 2024 15:44:46 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/print: Introduce drm_line_printer
-To: John Harrison <john.c.harrison@intel.com>,
- Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-References: <20240528130622.1152-1-michal.wajdeczko@intel.com>
- <1bf31a4b-fede-4044-8390-abb2b833608d@intel.com> <877cfbivrv.fsf@intel.com>
- <146d5133-f3be-4411-b020-a177254a65bc@intel.com>
+Subject: Re: [PATCH v10 07/11] Documentation: core-api: Add math.h macros and
+ functions
+To: Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
+ hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
+ sebastian.fricke@collabora.com, akpm@linux-foundation.org,
+ gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
+ adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ corbet@lwn.net, broonie@kernel.org, linux-doc@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
+ vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
+ detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
+ nicolas@ndufresne.ca, davidgow@google.com, dlatypov@google.com
+References: <20240530165925.2715837-1-devarsht@ti.com>
+ <20240530171740.2763221-1-devarsht@ti.com>
 Content-Language: en-US
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <146d5133-f3be-4411-b020-a177254a65bc@intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240530171740.2763221-1-devarsht@ti.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,258 +71,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 30.05.2024 20:47, John Harrison wrote:
-> On 5/30/2024 00:49, Jani Nikula wrote:
->> On Wed, 29 May 2024, John Harrison <john.c.harrison@intel.com> wrote:
->>> On 5/28/2024 06:06, Michal Wajdeczko wrote:
->>>> This drm printer wrapper can be used to increase the robustness of
->>>> the captured output generated by any other drm_printer to make sure
->>>> we didn't lost any intermediate lines of the output by adding line
->>>> numbers to each output line. Helpful for capturing some crash data.
->>>>
->>>> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
->>>> Cc: Jani Nikula <jani.nikula@intel.com>
->>>> Cc: John Harrison <John.C.Harrison@Intel.com>
->>>> ---
->>>> v2: don't abuse prefix, use union instead (Jani)
->>>>       don't use 'dp' as name, prefer 'p' (Jani)
->>>>       add support for unique series identifier (John)
->>>> ---
->>>>    drivers/gpu/drm/drm_print.c | 14 ++++++++
->>>>    include/drm/drm_print.h     | 68
->>>> ++++++++++++++++++++++++++++++++++++-
->>>>    2 files changed, 81 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
->>>> index cf2efb44722c..be9cbebff5b3 100644
->>>> --- a/drivers/gpu/drm/drm_print.c
->>>> +++ b/drivers/gpu/drm/drm_print.c
->>>> @@ -214,6 +214,20 @@ void __drm_printfn_err(struct drm_printer *p,
->>>> struct va_format *vaf)
->>>>    }
->>>>    EXPORT_SYMBOL(__drm_printfn_err);
->>>>    +void __drm_printfn_line(struct drm_printer *p, struct va_format
->>>> *vaf)
->>>> +{
->>>> +    unsigned int counter = ++p->line.counter;
->>> Wrong units, but see below anyway...
->>>
->>>> +    const char *prefix = p->prefix ?: "";
->>>> +    const char *pad = p->prefix ? " " : "";
->>>> +
->>>> +    if (p->line.series)
->>>> +        drm_printf(p->arg, "%s%s%u.%u: %pV",
->>>> +               prefix, pad, p->line.series, counter, vaf);
->>>> +    else
->>>> +        drm_printf(p->arg, "%s%s%u: %pV", prefix, pad, counter, vaf);
->>>> +}
->>>> +EXPORT_SYMBOL(__drm_printfn_line);
->>>> +
->>>>    /**
->>>>     * drm_puts - print a const string to a &drm_printer stream
->>>>     * @p: the &drm printer
->>>> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
->>>> index 089950ad8681..f4d9b98d7909 100644
->>>> --- a/include/drm/drm_print.h
->>>> +++ b/include/drm/drm_print.h
->>>> @@ -176,7 +176,13 @@ struct drm_printer {
->>>>        void (*puts)(struct drm_printer *p, const char *str);
->>>>        void *arg;
->>>>        const char *prefix;
->>>> -    enum drm_debug_category category;
->>>> +    union {
->>>> +        enum drm_debug_category category;
->>>> +        struct {
->>>> +            unsigned short series;
->>>> +            unsigned short counter;
->>> Any particular reason for using 'short' rather than 'int'? Short is only
->>> 16bits right? That might seem huge but a GuC log buffer with 16MB debug
->>> log (and minimum sizes for the other sections) when dumped via the
->>> original debugfs hexdump mechanism is 1,245,444 lines. That line count
->>> goes down a lot when you start using longer lines for the dump, but it
->>> is still in the tens of thousands of lines.  So limiting to 16 bits is
->>> an overflow just waiting to happen.
->>>
->>>> +        } line;
->>>> +    };
->>>>    };
->>>>       void __drm_printfn_coredump(struct drm_printer *p, struct
->>>> va_format *vaf);
->>>> @@ -186,6 +192,7 @@ void __drm_puts_seq_file(struct drm_printer *p,
->>>> const char *str);
->>>>    void __drm_printfn_info(struct drm_printer *p, struct va_format
->>>> *vaf);
->>>>    void __drm_printfn_dbg(struct drm_printer *p, struct va_format
->>>> *vaf);
->>>>    void __drm_printfn_err(struct drm_printer *p, struct va_format
->>>> *vaf);
->>>> +void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf);
->>>>       __printf(2, 3)
->>>>    void drm_printf(struct drm_printer *p, const char *f, ...);
->>>> @@ -357,6 +364,65 @@ static inline struct drm_printer
->>>> drm_err_printer(struct drm_device *drm,
->>>>        return p;
->>>>    }
->>>>    +/**
->>>> + * drm_line_printer - construct a &drm_printer that prefixes
->>>> outputs with line numbers
->>>> + * @p: the &struct drm_printer which actually generates the output
->>>> + * @prefix: optional output prefix, or NULL for no prefix
->>>> + * @series: optional unique series identifier, or 0 to omit
->>>> identifier in the output
->>>> + *
->>>> + * This printer can be used to increase the robustness of the
->>>> captured output
->>>> + * to make sure we didn't lost any intermediate lines of the
->>>> output. Helpful
->>>> + * while capturing some crash data.
->>>> + *
->>>> + * Example 1::
->>>> + *
->>>> + *    void crash_dump(struct drm_device *drm)
->>>> + *    {
->>>> + *        static unsigned short id;
->>>> + *        struct drm_printer p = drm_err_printer(drm, "crash");
->>>> + *        struct drm_printer lp = drm_line_printer(&p, "dump", ++id);
->>> Is there any benefit or other reason to split the prefix across two
->>> separate printers? It seems like a source of confusion. As in, the code
->>> will allow a double prefix, there is not much you can do about that
->>> because losing the prefix from drm_line_printer would mean no prefix at
->>> all when not using drm_err_printer underneath. But why explicitly split
->>> the message across both printers in the usage example? This is saying
->>> that this is the recommended way to use the interface, but with no
->>> explanation of why the split is required or how the split should be
->>> done.
->> You could have a printer, and then add two separate line counted blocks.
->>
->>     struct drm_printer p = drm_err_printer(drm, "parent");
->>     struct drm_printer lp1 = drm_line_printer(&p, "child 1", 0);
->>
->>     ...
->>
->>     struct drm_printer lp2 = drm_line_printer(&p, "child 2", 0);
->>
->>     ...
->>
->> p could be defined elsewhere and passed into separate functions which
->> each have the line printing. The two prefixes can be useful.
-> Except you can't have a multi-level prefix if using the info level
-> printer as that does not take a prefix. And I'm really not seeing a
-
-but it's up to you which printer you choose as 'primary' printer that
-will render final output
-
-> reason why you would want the line count to restart in the middle of a
-> single atomic dump operation.
+On 5/30/24 10:17 AM, Devarsh Thakkar wrote:
+> Add documentation for rounding, scaling, absolute value and difference,
+> 32-bit division related macros and functions exported by math.h header
+> file.
 > 
->>
->>> Also, there is really no specific connection to crashes. The purpose of
->>> this is for allowing the dumping of multi-line blocks of data. One use
->>> is for debugging crashes. But there are many debug operations that
->>> require the same dump and do not involve a crash. And this support is
->>> certainly not intended to be used on general end-user GPU hangs. For
->>> those, everything should be part of the devcoredump core file that is
->>> produced and accessible via sysfs. We absolutely should not be dumping
->>> huge data blocks in customer release drivers except in very extreme
->>> circumstances.
->> A devcoredump implementation could use a drm_printer too?
-> You mean for reading the devcoredump file from sysfs? Except that the
-> whole reason this was started was because Michal absolutely refuses to
-> allow line counted output in a sysfs/debugfs file because "it is
-> unnecessary and breaks the decoding tools".
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+> ---
+> V1->V9 (No change)
+> V10: Patch introduced
+> ---
+>  Documentation/core-api/kernel-api.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
->>
->> Is this only about bikeshedding the example? I'm not sure I get the
->> point here.
-> I would call it getting accurate and understandable documentation.
-> 
-> The existing example is splitting what should be an atomic name "crash
-> dump" across two separate line printer objects. That is something that
-> is so unrealistic that it implies there is a required reason to break
-> the prefix up. Documentation that is ambiguous and confusing is
-> potentially worse than no documentation at all.
-> 
+> diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+> index ae92a2571388..fb467783d491 100644
+> --- a/Documentation/core-api/kernel-api.rst
+> +++ b/Documentation/core-api/kernel-api.rst
+> @@ -185,6 +185,12 @@ Division Functions
+>  .. kernel-doc:: lib/math/gcd.c
+>     :export:
+>  
+> +Rounding, absolute value, scaling and 32bit division functions
 
-all below setups will render the same output.
-which one, in your opinion, shows all potential of the drm_line_printer?
+                                         32-bit
+please.
 
-	struct drm_printer p = drm_err_printer(drm, "AAA BBB");
-	struct drm_printer lp = drm_line_printer(&p, NULL, id);
+> +--------------------------------------------------------------
+> +
+> +.. kernel-doc:: include/linux/math.h
+> +   :internal:
+> +
+>  UUID/GUID
+>  ---------
+>  
 
-	struct drm_printer p = drm_err_printer(drm, NULL);
-	struct drm_printer lp = drm_line_printer(&p, "AAA BBB", id);
-
-	struct drm_printer p = drm_err_printer(drm, "AAA");
-	struct drm_printer lp = drm_line_printer(&p, "BBB", ++id);
-
-> 
->>
->>>> + *
->>>> + *        drm_printf(&lp, "foo");
->>>> + *        drm_printf(&lp, "bar");
->>>> + *    }
->>>> + *
->>>> + * Above code will print into the dmesg something like::
->>>> + *
->>>> + *    [ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.1: foo
->>>> + *    [ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.2: bar
->>>> + *
->>>> + * Example 2::
->>>> + *
->>>> + *    void line_dump(struct device *dev)
->>>> + *    {
->>>> + *        struct drm_printer p = drm_info_printer(dev);
->>>> + *        struct drm_printer lp = drm_line_printer(&p, NULL, 0);
->>>> + *
->>>> + *        drm_printf(&lp, "foo");
->>>> + *        drm_printf(&lp, "bar");
->>>> + *    }
->>>> + *
->>>> + * Above code will print::
->>>> + *
->>>> + *    [ ] 0000:00:00.0: [drm] 1: foo
->>>> + *    [ ] 0000:00:00.0: [drm] 2: bar
->>> Not really seeing the point of having two examples listed. The first
->>> includes all the optional extras, the second is just repeating with no
->>> new information.
->> You see how the "series" param behaves?
-> The second example doesn't have a series parameter. If the only purpose
-> is to say "the print of the series value is suppressed if zero" then why
-> not just have that one line? Documentation should also be concise.
-
-it was already documented in that way:
-
-@series: optional unique series identifier, or 0 to omit identifier in
-the output
-
-> 
-> John.
-> 
->>
->> BR,
->> Jani.
->>
->>> John.
->>>
->>>> + *
->>>> + * RETURNS:
->>>> + * The &drm_printer object
->>>> + */
->>>> +static inline struct drm_printer drm_line_printer(struct
->>>> drm_printer *p,
->>>> +                          const char *prefix,
->>>> +                          unsigned short series)
->>>> +{
->>>> +    struct drm_printer lp = {
->>>> +        .printfn = __drm_printfn_line,
->>>> +        .arg = p,
->>>> +        .prefix = prefix,
->>>> +        .line = { .series = series, },
->>>> +    };
->>>> +    return lp;
->>>> +}
->>>> +
->>>>    /*
->>>>     * struct device based logging
->>>>     *
-> 
+-- 
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
