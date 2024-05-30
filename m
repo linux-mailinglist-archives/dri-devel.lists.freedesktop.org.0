@@ -2,59 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD358D53F6
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 22:41:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AECF8D53FC
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 22:44:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFFE11A854;
-	Thu, 30 May 2024 20:41:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFB1610E42D;
+	Thu, 30 May 2024 20:44:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A/dmQNd+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZU3WJDGJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C73C711A854;
- Thu, 30 May 2024 20:40:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 7C941CE1B38;
- Thu, 30 May 2024 20:40:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B775AC2BBFC;
- Thu, 30 May 2024 20:40:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717101655;
- bh=WnrKe/9pHs5nuVA9Y9cr8+yFs4LEuqdMGeXWbC5IBRY=;
- h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
- b=A/dmQNd+wVul3Ok9rrYia9eqQpGIAtHMtr3VwMyZskZiiJGxI9+1iTTaXt2+GV2ny
- rfSwaYzND+LspQW3M1xP2YlLvJOzHtFcsDOhMl9596b4cecPJnsaTYwJa5WgeVYKnN
- 17Xiu8kTZxTw1s2CN+7fgE8w1+mNtokEVyOHEmFpbgjlFtnMhjGYk3xaf8UEC6rTI5
- qXWyDCJTxHp6fzAwtQbzSqZ9TwG12Z9nORp6nlD07CAxbUBhPc7l/RV+z2CNMC05km
- 8JZ2AhBZV2hQPmLZdMCPtnyzZQ3mD5g7AUzBCicP/qmNfDZqUl+hNHEfhauRobbzDp
- 7/d1kyIAWAJ7A==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
- id 03FC5CE095C; Thu, 30 May 2024 13:40:55 -0700 (PDT)
-Date: Thu, 30 May 2024 13:40:54 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, sfr@canb.auug.org.au,
- Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9878810EBD4;
+ Thu, 30 May 2024 20:44:11 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id
+ d2e1a72fcca58-70244776719so78479b3a.2; 
+ Thu, 30 May 2024 13:44:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1717101851; x=1717706651; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=X1/q38ajc2cigpnUWtYXKrDTQJnogN5TA72dnoPxc4w=;
+ b=ZU3WJDGJ1ixKKkVGarg8q6F3YDYIFJU50dpDWgDkC2pWE85C82IkJwH7AUrW7lMYMm
+ 835AoBq8vCQTF9t9ihMDPDYpUDxfJ610+TPHLkkgyRE4suwD9xDk+SIw0b1OWPapZ5wK
+ +e+IX0BX93ZGMz5Tn/0tq/3/CbzrVET6RWWeun9DFAW1t53oTdqVozxFNOUJEUfGkUVX
+ 4wFenzowrGFj9OXwM0SoDDS/UduHv9LGShVAvapwXC8BFHkqJMnqMxnLbsWlNTgHFBk1
+ nx/wvrY0OYVY9Fao+swGxDRl5+DyCkSmm1Z9Fwl3MHEbNZwLOfmwXfQBtXh83E8Plmtx
+ K0WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717101851; x=1717706651;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=X1/q38ajc2cigpnUWtYXKrDTQJnogN5TA72dnoPxc4w=;
+ b=HJAB/zGXaZ2n3KNPCc7NijxgZJMNj8oYx457jRE48vDAhH5ioGjcSC1XXjdNjBRX4z
+ GKNUFaD1kRvxUwuTUyM9bSS9Y4xuGelcJX86/CKBRbKBIh6CP/7seNhaiW3X9M2cIKk6
+ 2BqyJiTPJbeLtKwypwIHIS3P6Vc9Mxw0qmketVEkMxYjtmssVVIWCgXIQhU9yoURSMrb
+ TPPYmdzsV0ZR/2wigML3R43O2J3FPxhR/WpB8HOWTBYrJfDonaN4jaechMRi+lXn4qt/
+ XPBX97fZVQ7VhveDcSXMpUhB/Gj40iYWS0fvLyLNBVFUrzZGVdQKyDw5KfKX0UGDIbOx
+ spuw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWn0WSsl+OcfE/OySlptfOFgZKwLn/PBJpPzSv5w4z3bghY6xss4www+e8WTlJsLsd/8OFolu2VFveduX7Rg3lTIZDpqCQ+F0zk2IpUQqqUuT8A5z9Q+05/8OUvSsgv7RRfGZ4zhmBM82RNN9KSRw==
+X-Gm-Message-State: AOJu0YxgKlBdMIW/ZualPCa8oqUIiA6z5dJvFoYuMvJHysVCFGvwdJQT
+ 5uZyLuhuzCl1qSyYqx2TnrEkqCJ9x1v+3/lqTnWyq2GPifafYJvQMVP0iw==
+X-Google-Smtp-Source: AGHT+IHj8j/zqaOBcjIT/XxOQNe1B+xo2dkm5mX/TzMHOSAr352c3GTLXoqD+H9hb7VWqXR5OoAM0g==
+X-Received: by 2002:a05:6a20:3206:b0:1af:dae8:5eac with SMTP id
+ adf61e73a8af0-1b26f23d501mr82943637.46.1717101850942; 
+ Thu, 30 May 2024 13:44:10 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:509f:4b2e:3586:eb1])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-702423cb359sm146595b3a.5.2024.05.30.13.44.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 May 2024 13:44:10 -0700 (PDT)
+Date: Thu, 30 May 2024 13:44:07 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: "Limonciello, Mario" <mario.limonciello@amd.com>,
+ Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jon Hunter <jonathanh@nvidia.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [BUG] Build failure and alleged fix for next-20240523
-Message-ID: <72a4d07d-3ac8-4c39-8501-b3f93a26654a@paulmck-laptop>
-References: <287206c0-b53d-4aa1-b35c-0725adc5e9ef@paulmck-laptop>
- <28db820c-860d-be1c-bb94-ed534622fdc8@quicinc.com>
- <4f821c7f-6201-470f-b39d-ba689ca027d9@paulmck-laptop>
- <D1N6WYWR463J.3UVC2PP2CUIY4@gmail.com>
+ linux-kernel@vger.kernel.org,
+ Chris Bainbridge <chris.bainbridge@gmail.com>, hughsient@gmail.com,
+ linux-input@vger.kernel.org
+Subject: Re: [PATCH v2] drm/client: Detect when ACPI lid is closed during
+ initialization
+Message-ID: <ZljlF1fE5ypKWoGk@google.com>
+References: <20240528210319.1242-1-mario.limonciello@amd.com>
+ <Zlc4V1goFvU2antl@intel.com>
+ <197d195f-9206-41dd-8ff1-f4bb4988fb9b@amd.com>
+ <ZldMKZ1MzSDXOheJ@intel.com>
+ <g34f3sdk22grheq2vaaonkl543dtk7nb5sffqgmkl5ywtj5skk@p5ht5ug33q4z>
+ <873b7a7b-139d-498e-89da-098cb3d7599d@amd.com>
+ <CAA8EJpqODpGX-RthQ8qu3oU80qXp8a-N1Chz-dcQXjKYoDfEgw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <D1N6WYWR463J.3UVC2PP2CUIY4@gmail.com>
+In-Reply-To: <CAA8EJpqODpGX-RthQ8qu3oU80qXp8a-N1Chz-dcQXjKYoDfEgw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,47 +94,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 30, 2024 at 08:28:17PM +0200, Thierry Reding wrote:
-> On Thu May 30, 2024 at 6:55 PM CEST, Paul E. McKenney wrote:
-> > On Fri, May 24, 2024 at 12:57:58PM -0700, Abhinav Kumar wrote:
-> > > Hello
-> > > 
-> > > On 5/24/2024 12:55 PM, Paul E. McKenney wrote:
-> > > > Hello!
-> > > > 
-> > > > I get the following allmodconfig build error on x86 in next-20240523:
-> > > > 
-> > > > Traceback (most recent call last):
-> > > >    File "drivers/gpu/drm/msm/registers/gen_header.py", line 970, in <module>
-> > > >      main()
-> > > >    File "drivers/gpu/drm/msm/registers/gen_header.py", line 951, in main
-> > > >      parser.add_argument('--validate', action=argparse.BooleanOptionalAction)
-> > > > AttributeError: module 'argparse' has no attribute 'BooleanOptionalAction'
-> > > > 
-> > > > The following patch allows the build to complete successfully:
-> > > > 
-> > > > https://patchwork.kernel.org/project/dri-devel/patch/20240508091751.336654-1-jonathanh@nvidia.com/#25842751
-> > > > 
-> > > > As to whether this is a proper fix, I must defer to the DRM folks on CC.
-> > > 
-> > > Thanks for the report.
-> > > 
-> > > I have raised a merge request for
-> > > https://patchwork.freedesktop.org/patch/593057/ to make it available for the
-> > > next fixes release for msm.
+On Thu, May 30, 2024 at 11:07:53AM +0300, Dmitry Baryshkov wrote:
+> On Thu, 30 May 2024 at 07:41, Limonciello, Mario
+> <mario.limonciello@amd.com> wrote:
 > >
-> > Thank you!
 > >
-> > This still is not in -next, so I am putting it into -rcu just to silence
-> > the diagnostic.  Or should I push this to mainline via -rcu?
+> > >> Also a direct acpi_lid_open() call seems a bit iffy. But I guess if
+> > >> someone needs this to work on non-ACPI system they get to figure out
+> > >> how to abstract it better. acpi_lid_open() does seem to return != 0
+> > >> when ACPI is not supported, so at least it would err on the side
+> > >> of enabling everything.
+> > >
+> > > Thanks. I was going to comment, but you got it first. I think a proper
+> > > implementation should check for SW_LID input device instead of simply
+> > > using acpi_lid_open(). This will handle the issue for other,
+> > > non-ACPI-based laptops.
+> > >
+> >
+> > Can you suggest how this would actually work?  AFAICT the only way to
+> > discover if input devices support SW_LID would be to iterate all the
+> > input devices in the kernel and look for whether ->swbit has SW_LID set.
+> >
+> > This then turns into a dependency problem of whether any myriad of
+> > drivers have started to report SW_LID.  It's also a state machine
+> > problem because other drivers can be unloaded at will.
+> >
+> > And then what do you if more than one sets SW_LID?
 > 
-> I pushed this to drm-misc-fixes earlier today, so should show up in
-> linux-next soon and hopefully in v6.10-rc2.
+> It might be easier to handle this in the input subsystem. For example
+> by using a refcount-like variable which handles all the LIDs and
+> counts if all of them are closed. Or if any of the LIDs is closed.
 
-Thank you, Thierry!
+Yes, install an input handler matching on EV_SW/SW_LID so you will get
+notified when input devices capable of reporting SW_LID appear and
+disappear and also when SW_LID event is being generated, and handle as
+you wish. Something like
 
-							Thanx, Paul
+https://chromium.googlesource.com/chromiumos/third_party/kernel/+/40e9f6a991856ee7d504ac1ccd587e435775cfc4%5E%21/#F0
+
+In practice I think it is pretty safe to assume only 1 lid for a
+laptop/device.
+
+Thanks.
+
+-- 
+Dmitry
