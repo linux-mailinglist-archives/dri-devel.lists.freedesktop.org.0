@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C37B38D48BC
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 11:37:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 967268D48BA
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 11:37:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B422611B54E;
-	Thu, 30 May 2024 09:37:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CA2811B504;
+	Thu, 30 May 2024 09:37:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="ZkKKcUrY";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="WOGRVM/8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E08EB11B1B3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 09:36:52 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44U9aXEf030983;
- Thu, 30 May 2024 04:36:33 -0500
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C6DE11B412
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 09:36:55 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44U9aZ7I128557;
+ Thu, 30 May 2024 04:36:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1717061793;
- bh=1KYYm54tymbTNJp06YFH1DJi8RZj+jpPyPwKIKxm3dU=;
+ s=ti-com-17Q1; t=1717061795;
+ bh=o7FPsMUosCJlq8x5azKA7fpUh+z4uIS9lv2AcdMHgGY=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=ZkKKcUrYwzoDEBJwh6aF1ZM+Nz48NfAzRfxRsup6fndN9i4JRQQz+2e0llKrvsS3i
- jmpby4fHjGTm6XzGW7nS47kz9A+r8d5Cb6QPqWvVBz09h3aOq5o5U+J/4HqUhX5Luu
- r4L43K3zVbZ7M/kiIBlaeXVLd7x9uzN2PoM//Yns=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44U9aXl8104060
+ b=WOGRVM/8krM24LO/DjAU/KQ4QdT7nnQleRGuydKgs7Jr4wk7x3rAHfvARLEuNL82e
+ Djm2kgBKpb/VKHA2G3n4w9A7wBLhtVGWm2xOFYav2UmnVUNROYwFCo+NKBz7pWOrGG
+ 5k3OYG2wn0f4OtxL3O6jVSlDOS5y/AHHkoBi67+0=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44U9aZ5F055322
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 30 May 2024 04:36:33 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 30 May 2024 04:36:35 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 30
- May 2024 04:36:33 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ May 2024 04:36:35 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 30 May 2024 04:36:33 -0500
+ Frontend Transport; Thu, 30 May 2024 04:36:35 -0500
 Received: from localhost (uda0496377.dhcp.ti.com [172.24.227.31])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44U9aWk2086397;
- Thu, 30 May 2024 04:36:32 -0500
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44U9aYpP000634;
+ Thu, 30 May 2024 04:36:34 -0500
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda
  <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
@@ -59,9 +59,9 @@ CC: DRI Development List <dri-devel@lists.freedesktop.org>, Linux Kernel List
  Devarsh Thakkar <devarsht@ti.com>, Jayesh
  Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
  Aradhya Bhatia <a-bhatia1@ti.com>
-Subject: [PATCH v2 6/9] drm/bridge: cdns-dsi: Reset the DCS write FIFO
-Date: Thu, 30 May 2024 15:06:18 +0530
-Message-ID: <20240530093621.1925863-7-a-bhatia1@ti.com>
+Subject: [PATCH v2 7/9] drm/bridge: cdns-dsi: Support atomic bridge APIs
+Date: Thu, 30 May 2024 15:06:19 +0530
+Message-ID: <20240530093621.1925863-8-a-bhatia1@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240530093621.1925863-1-a-bhatia1@ti.com>
 References: <20240530093621.1925863-1-a-bhatia1@ti.com>
@@ -84,32 +84,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allow the DCS Write FIFO in the cdns-dsi controller to reset before any
-DCS packet is transmitted to the DSI sink device.
+Change the existing (and deprecated) bridge hooks, to the bridge
+atomic APIs.
 
-The DCS FIFO reset is optional. Not all panels require it. But at
-least one of the DSI based panel that uses Ilitek ILI9881C (DSI to DPI
-bridge) doesn't work with without this reset.
+Add drm helpers for duplicate_state, destroy_state, and bridge_reset
+bridge hooks.
+
+Further add support for the input format negotiation hook.
 
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 3 +++
- 1 file changed, 3 insertions(+)
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 70 ++++++++++++++++---
+ 1 file changed, 62 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 05d2f4cc50da..87fdd07ca0bc 100644
+index 87fdd07ca0bc..6a2223ecff7d 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -1037,6 +1037,9 @@ static ssize_t cdns_dsi_transfer(struct mipi_dsi_host *host,
+@@ -13,6 +13,7 @@
+ #include <linux/clk.h>
+ #include <linux/interrupt.h>
+ #include <linux/iopoll.h>
++#include <linux/media-bus-format.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_graph.h>
+@@ -655,7 +656,8 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge *bridge,
+ 	return MODE_OK;
+ }
  
- 	cdns_dsi_init_link(dsi);
+-static void cdns_dsi_bridge_disable(struct drm_bridge *bridge)
++static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
++					   struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+ 	struct cdns_dsi *dsi = input_to_dsi(input);
+@@ -675,7 +677,8 @@ static void cdns_dsi_bridge_disable(struct drm_bridge *bridge)
+ 	pm_runtime_put(dsi->base.dev);
+ }
  
-+	/* Reset the DCS Write FIFO */
-+	writel(0x00, dsi->regs + DIRECT_CMD_FIFO_RST);
+-static void cdns_dsi_bridge_post_disable(struct drm_bridge *bridge)
++static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
++						struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+ 	struct cdns_dsi *dsi = input_to_dsi(input);
+@@ -752,7 +755,8 @@ static void cdns_dsi_init_link(struct cdns_dsi *dsi)
+ 	dsi->link_initialized = true;
+ }
+ 
+-static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
++static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
++					  struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+ 	struct cdns_dsi *dsi = input_to_dsi(input);
+@@ -903,7 +907,8 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
+ 	writel(tmp, dsi->regs + MCTL_MAIN_EN);
+ }
+ 
+-static void cdns_dsi_bridge_pre_enable(struct drm_bridge *bridge)
++static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
++					      struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+ 	struct cdns_dsi *dsi = input_to_dsi(input);
+@@ -915,13 +920,62 @@ static void cdns_dsi_bridge_pre_enable(struct drm_bridge *bridge)
+ 	cdns_dsi_hs_init(dsi);
+ }
+ 
++static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
++					       struct drm_bridge_state *bridge_state,
++					       struct drm_crtc_state *crtc_state,
++					       struct drm_connector_state *conn_state,
++					       u32 output_fmt,
++					       unsigned int *num_input_fmts)
++{
++	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
++	struct cdns_dsi *dsi = input_to_dsi(input);
++	struct cdns_dsi_output *output = &dsi->output;
++	u32 *input_fmts;
 +
- 	ret = mipi_dsi_create_packet(&packet, msg);
- 	if (ret)
- 		goto out;
++	*num_input_fmts = 0;
++
++	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
++	if (!input_fmts)
++		return NULL;
++
++	switch (output->dev->format) {
++	case MIPI_DSI_FMT_RGB888:
++		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
++		break;
++
++	case MIPI_DSI_FMT_RGB666:
++		input_fmts[0] = MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
++		break;
++
++	case MIPI_DSI_FMT_RGB666_PACKED:
++		input_fmts[0] = MEDIA_BUS_FMT_RGB666_1X18;
++		break;
++
++	case MIPI_DSI_FMT_RGB565:
++		input_fmts[0] = MEDIA_BUS_FMT_RGB565_1X16;
++		break;
++
++	default:
++		/* Unsupported DSI Format */
++		return NULL;
++	}
++
++	*num_input_fmts = 1;
++
++	return input_fmts;
++}
++
+ static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
+ 	.attach = cdns_dsi_bridge_attach,
+ 	.mode_valid = cdns_dsi_bridge_mode_valid,
+-	.disable = cdns_dsi_bridge_disable,
+-	.pre_enable = cdns_dsi_bridge_pre_enable,
+-	.enable = cdns_dsi_bridge_enable,
+-	.post_disable = cdns_dsi_bridge_post_disable,
++	.atomic_disable = cdns_dsi_bridge_atomic_disable,
++	.atomic_pre_enable = cdns_dsi_bridge_atomic_pre_enable,
++	.atomic_enable = cdns_dsi_bridge_atomic_enable,
++	.atomic_post_disable = cdns_dsi_bridge_atomic_post_disable,
++	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
++	.atomic_reset = drm_atomic_helper_bridge_reset,
++	.atomic_get_input_bus_fmts = cdns_dsi_bridge_get_input_bus_fmts,
+ };
+ 
+ static int cdns_dsi_attach(struct mipi_dsi_host *host,
 -- 
 2.34.1
 
