@@ -2,74 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0888D4BFE
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 14:49:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E26A58D4C3A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 15:03:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C02910EA0D;
-	Thu, 30 May 2024 12:49:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBC5910E078;
+	Thu, 30 May 2024 13:03:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pTgPSCAC";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TqA++nXn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
- [209.85.219.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9080A10E459
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 12:49:07 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-df4f05e5901so834921276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 05:49:07 -0700 (PDT)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B858711BF15
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 13:02:45 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-35dc0472b7eso801503f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 06:02:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717073346; x=1717678146; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1717074164; x=1717678964; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tcIw3mu21mSIThLbo4pmWvQMyDGmEVJ0zhtv+cfxk84=;
- b=pTgPSCACP4QzOGU/xIFLc9UrayQ8ZY8EQ5gcbZVWTs1HTEWxm+hEKdUifjVdWuux/x
- HrVqSH4KjJ+AdQeomsMZ77vhY30WvR3WDM+pxTeJaU43v4yfRoF5h54T9uhs7macOQjR
- AQYS0ovPcXQOjlDvfT4/PfdwkkgVyGZjfIQOSLXeao0jiC2VQRf+d+wv4P22YhPB92TW
- kwvKY2AJ6STnCcpnaGUoS2Hsmb0HOE5m/ny+5eaC1bJp3AYSEWTHj2QIjmNX3I7mIis4
- dabWgilGpf8397WoP3UyRRs6+CEgyPuXqSt0ALJuUx2E1jP8dKLpRTEDllNLGNaFWM/D
- yL7Q==
+ bh=49+GMxNWhLkVW4rmL96a1CAqr3zak+IQF7tujObyMU8=;
+ b=TqA++nXnU9Gz1P4JraERNK+b2ywD0C9h5ghRlkAd/xvfZb9itFvbN6xGAlDkeUu789
+ Fdr2XpG6Op9Rs5a9hAKAZdgw9e0ifpwQxVSxdhtNMnAhTuQNf/e1Msu1o4Kk9+b9gV0j
+ /olHJxmAZZq9hOzm0pbv4M6eJKTGhuwnvJevXkw4uHL445fO2OKnhkWkMj/4tY/qN+7C
+ 3/sl8ibMZlaXuj43UrP6cL7oFETGa9gizTFzvSTw7OzBKsfmQP7XjjHRuoWjAFRTD+q+
+ Z5h0hXyYtZF2QsGrui7h6lBTiL/RJrt4Tmk49xwHeNimfRA8XxjIHh12F5JySKY3Gf05
+ zQJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717073346; x=1717678146;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1717074164; x=1717678964;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tcIw3mu21mSIThLbo4pmWvQMyDGmEVJ0zhtv+cfxk84=;
- b=j+IQQjiQ7kOu4xYJGoGLeA3tehgHWy64592kMIrvQzAnnA6JvZ0PLnxhc2N2/RZQ0u
- QkSEgGHjj0V0CWDv8ERkX7EG/PVRDgHGVI4fkfzkFME3erAr9JpzQiZbZr9A3F4kDQbv
- 3AABKTstj7+uyckD8AUQyW/EXc31SbR7rVANBjKiPJ6oPl9ptAmrR0imoS/PkyXwVFg6
- 2K+xbRNTUJX+8zHz/iqZZ+TkjC71PjYmV0uTdbw3NYhhHKoknYTXuN1HRTunZs29otYv
- +OxTmpidqyYQBiwgKKl/iKCF6wyhhwjwu+uRkaFIdDzQdBxwzp5dkhHmOFoQgNupI0Nr
- l1wA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWhIBiISl2dWWfAilX4UfDrmGzVY8kIr08a38OX6dcFSfjMsW1kF6lLQuAgg1FSq5FwcXrwjqyei/nyk2iY6S8n/EJogqpBYh9fe2fpOi7b
-X-Gm-Message-State: AOJu0YzST5gr28CPQiaNZpxkQrRRDVpSmGMfneFMLBFs/8Q+jdF9ghBC
- Xay74hw8yv56jylptSSiigwaxmW+lvRfB+q7PL8OJVdT1gDLEzm4ZLxan0w10q7KIzeHDOUjN+U
- 6oTTzXoLjGafnl69GnRWxyXRIOhDiYISht5olVA==
-X-Google-Smtp-Source: AGHT+IH9reN3k9B5alZuQHzGsBX3pJuGAJhOvhCUMJYzD/NF7mywytMlezP/lEAG+hGzVP28iGPYs0J0xalsNECb288=
-X-Received: by 2002:a25:ad51:0:b0:dfa:6c83:81d7 with SMTP id
- 3f1490d57ef6-dfa6c8382d2mr202060276.38.1717073346405; Thu, 30 May 2024
- 05:49:06 -0700 (PDT)
+ bh=49+GMxNWhLkVW4rmL96a1CAqr3zak+IQF7tujObyMU8=;
+ b=lGRHKV9+gGgL8rkV4G7qeVnPrs7e1Fiahx7IjRFi3rajLKpUlDQUdNDM819KDKUqCM
+ SrbA8wcsBMQGL4yP1UlxucWGRO3N95tjmRRLQiPaEbZNLWW25KLrawiktkqGW4NXj+U+
+ vs8BL382gpGYDkV0ukO3WlnwGwJWfhfXpbqgoKtcYhEU3PWvdHQv1XIlglRcr89Lok4Y
+ OzIYVscwcKWa25pmLH5LNmvv74V693Y5MNr8ovCpkZn2G1ObWtEv845iadoX+vKRs8O0
+ bEUjyePJUPKKbXz7tv16w0/Tlxr1SN/c6k8or/iQq6azhoV8SUoc7N5Cb5H5bc69et6s
+ /Cxw==
+X-Gm-Message-State: AOJu0Ywx1Q8YLdFzbqQ1xOhSmebpJOdrl+XiKQGtl3bJvsu8exuvA+Hf
+ ixZt0cIEDzpGA8fGJmX1/EO79G1VlywzPpy6B8Pir3fZqChtTsmTH4Rr4hbFqA0=
+X-Google-Smtp-Source: AGHT+IHNGCVX8UsXryv51jGEZDjnSTfAQ7QHc5uIJgMOYfUdLU99pXCIdvPzL4LOxkd6BoZkmXFpDA==
+X-Received: by 2002:a5d:58fa:0:b0:354:fb1a:25f5 with SMTP id
+ ffacd0b85a97d-35dc00c9a4cmr1567928f8f.52.1717074163561; 
+ Thu, 30 May 2024 06:02:43 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-35c19618fa3sm5708331f8f.52.2024.05.30.06.02.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 May 2024 06:02:43 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Gerald Loacker <gerald.loacker@wolfvision.net>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240409-bugfix-jt240mhqs_hwt_ek_e3-timing-v2-0-e4821802443d@wolfvision.net>
+References: <20240409-bugfix-jt240mhqs_hwt_ek_e3-timing-v2-0-e4821802443d@wolfvision.net>
+Subject: Re: [PATCH v2 0/3] drm/panel: sitronix-st7789v: fixes for
+ jt240mhqs_hwt_ek_e3 panel
+Message-Id: <171707416276.4156460.9937231106022840438.b4-ty@linaro.org>
+Date: Thu, 30 May 2024 15:02:42 +0200
 MIME-Version: 1.0
-References: <cover.1715691257.git.jani.nikula@intel.com>
- <93d6c446ed4831dadfb4a77635a67cf5f27e19ff.1715691257.git.jani.nikula@intel.com>
- <i7labithttzkv62nybrtpucoklycz76ykgj2zjf3qnwycjjsyt@wck7s5uxg2bt>
- <CAD=FV=XgpD_JqxpVezZ=RzudwxLJb+gN3Br8U03ONLGv9n_JmQ@mail.gmail.com>
- <871q5jii2u.fsf@intel.com>
-In-Reply-To: <871q5jii2u.fsf@intel.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 30 May 2024 15:48:55 +0300
-Message-ID: <CAA8EJpqoOtoidm3kBWrQ8RzxoWOPVfrvgsmBkyFX6PGQSg00xQ@mail.gmail.com>
-Subject: Re: [PATCH 08/11] drm/msm/dp: switch to struct drm_edid
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Doug Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,46 +87,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 May 2024 at 15:45, Jani Nikula <jani.nikula@intel.com> wrote:
->
-> On Mon, 20 May 2024, Doug Anderson <dianders@chromium.org> wrote:
-> > Hi,
-> >
-> > On Sun, May 19, 2024 at 2:01=E2=80=AFAM Dmitry Baryshkov
-> > <dmitry.baryshkov@linaro.org> wrote:
-> >>
-> >> On Tue, May 14, 2024 at 03:55:14PM +0300, Jani Nikula wrote:
-> >> > Prefer the struct drm_edid based functions for reading the EDID and
-> >> > updating the connector.
-> >> >
-> >> > Simplify the flow by updating the EDID property when the EDID is rea=
-d
-> >> > instead of at .get_modes.
-> >> >
-> >> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> >> >
-> >> > ---
-> >>
-> >> The patch looks good to me, I'd like to hear an opinion from Doug (add=
-ed
-> >> to CC).
-> >>
-> >> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >>
-> >> What is the merge strategy for the series? Do you plan to pick up all
-> >> the patches to drm-misc or should we pick up individual patches into
-> >> driver trees?
-> >
-> > I'm not sure I have too much to add here aside from what you guys have
-> > already talked about. I'm OK with:
-> >
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-> I assume you'll want to pick this up for msm instead of me merging to
-> drm-misc.
+Hi,
 
-Yes, it's on my todo list.
+On Wed, 29 May 2024 16:42:44 +0200, Gerald Loacker wrote:
+> At the jt240mhqs_hwt_ek_e3 panel, noticeable flickering occurs. This is
+> addressed by patch 1, which adjusts the vertical timing. Patch 2 and 3 are
+> two more minor fixes for timing and dimension.
+> 
+> 
 
---=20
-With best wishes
-Dmitry
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
+
+[1/3] drm/panel: sitronix-st7789v: fix timing for jt240mhqs_hwt_ek_e3 panel
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0e5895ff7fab0fc05ec17daf9a568368828fa6ea
+[2/3] drm/panel: sitronix-st7789v: tweak timing for jt240mhqs_hwt_ek_e3 panel
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/2ba50582634d0bfe3a333ab7575a7f0122a7cde8
+[3/3] drm/panel: sitronix-st7789v: fix display size for jt240mhqs_hwt_ek_e3 panel
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/b62c150c3bae72ac1910dcc588f360159eb0744a
+
+-- 
+Neil
+
