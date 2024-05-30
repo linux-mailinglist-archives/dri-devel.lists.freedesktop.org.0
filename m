@@ -2,67 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C8AD8D50B1
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 19:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9F78D50BC
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 19:14:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61EA010E443;
-	Thu, 30 May 2024 17:12:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04C3B10E239;
+	Thu, 30 May 2024 17:14:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="UydH+mEx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EdfECa1E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAF5011B2A3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 17:12:40 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44UHCRCg026237;
- Thu, 30 May 2024 12:12:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1717089147;
- bh=3aNzr9uceqg3pOicXXuyXGK/Y+G9kDvzv2RfMYKcupU=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=UydH+mExLY4K4NTEty6agejlBOLfVB80LF3G2auLiJTi6Wrjho9N5eaQdWokVRmmN
- ePPCH38pfLEjcR9PspOBxP4G6BjE0oAR0HJ4CuzDaSHdQlmRYRaYQDdhp7S5sHlccN
- wG2xIWw+Zckf0g3jhI0xgIcHHy4NONQlq5QfgyQ4=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44UHCRYl025196
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 30 May 2024 12:12:27 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 30
- May 2024 12:12:26 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 30 May 2024 12:12:26 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44UHCQgu056152;
- Thu, 30 May 2024 12:12:26 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
- <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
- <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
- <andriy.shevchenko@linux.intel.com>, <adobriyan@gmail.com>,
- <jani.nikula@intel.com>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
- <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
- <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
- <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
- <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
-Subject: [PATCH v10 06/11] math.h: Add macros for rounding to closest value
-Date: Thu, 30 May 2024 22:42:25 +0530
-Message-ID: <20240530171225.2749312-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20240530165925.2715837-1-devarsht@ti.com>
-References: <20240530165925.2715837-1-devarsht@ti.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 544A010E00F;
+ Thu, 30 May 2024 17:14:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 057BBCE1B15;
+ Thu, 30 May 2024 17:14:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8734CC2BBFC;
+ Thu, 30 May 2024 17:14:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1717089274;
+ bh=EtJPMO8Qsbmacd1a3SLmAxIagzEDdqfsAqMgxfjoBO0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=EdfECa1EM7VH7Kw+eI1rSxkEbyBZHklpOdNL6ZMDygZiZlxj6HOe4ltF9a7h3jofm
+ pkuuo4lBaHKz3PbcunHVpVX+tuo7NzoufrGOmJaIA6BTDDdq6cRc1Ar0BmodJ0uRDZ
+ HWqVEdK5shm6pf6v+cNpCjcspAgbsWQeZfqTXd8KnnAhKDhM29/MGa1WIRWeAskGxL
+ iBQ7dJPop3h7ulPdCQKvaYaeaeIddTsjNhoPErFOTx4DNs6E4iowE22Pf7Mbd1aABU
+ R3AtXBfRhSKZ3iInEdY7s3buxLO9UhnTg0vX+8LXRGee2gH9ZSPx1yOldghi1f0bmn
+ mlPrIX5PUW55Q==
+Date: Thu, 30 May 2024 20:14:26 +0300
+From: Zhi Wang <zhiwang@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Zhi Wang <zhi.wang.linux@gmail.com>, intel-gvt-dev@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/2] drm/i915/gvt: stop using drm_edid_block_valid()
+Message-ID: <20240530201426.00006d57.zhiwang@kernel.org>
+In-Reply-To: <20240530124352.362736-1-jani.nikula@intel.com>
+References: <20240530124352.362736-1-jani.nikula@intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,146 +59,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add below rounding related macros:
+On Thu, 30 May 2024 15:43:51 +0300
+Jani Nikula <jani.nikula@intel.com> wrote:
 
-round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
-power of 2, with a preference to round up in case two nearest values are
-possible.
+> We'll want to stop drm_edid_block_valid() usage. KVMGT is the last
+> user. Replace with drm_edid_valid(), which unfortunately requires an
+> allocated drm_edid. However, on the plus side, this would be required
+> to handle the TODO comment about EDID extension block support.
+> 
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> 
+> ---
+> 
+> Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
+> Cc: Zhi Wang <zhi.wang.linux@gmail.com>
+> Cc: intel-gvt-dev@lists.freedesktop.org
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+>  drivers/gpu/drm/i915/gvt/kvmgt.c | 18 +++++++++++++-----
+>  1 file changed, 13 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c
+> b/drivers/gpu/drm/i915/gvt/kvmgt.c index 4f74d867fe1a..7e3e5382c0c0
+> 100644 --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
+> +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+> @@ -425,6 +425,18 @@ static const struct intel_vgpu_regops
+> intel_vgpu_regops_opregion = { .release =
+> intel_vgpu_reg_release_opregion, };
+>  
+> +static bool edid_valid(const void *edid, size_t size)
+> +{
+> +	const struct drm_edid *drm_edid;
+> +	bool is_valid;
+> +
+> +	drm_edid = drm_edid_alloc(edid, size);
+> +	is_valid = drm_edid_valid(drm_edid);
+> +	drm_edid_free(drm_edid);
+> +
+> +	return is_valid;
+> +}
+> +
+>  static int handle_edid_regs(struct intel_vgpu *vgpu,
+>  			struct vfio_edid_region *region, char *buf,
+>  			size_t count, u16 offset, bool is_write)
+> @@ -443,11 +455,7 @@ static int handle_edid_regs(struct intel_vgpu
+> *vgpu, switch (offset) {
+>  		case offsetof(struct vfio_region_gfx_edid,
+> link_state): if (data == VFIO_DEVICE_GFX_LINK_STATE_UP) {
+> -				if (!drm_edid_block_valid(
+> -					(u8 *)region->edid_blob,
+> -					0,
+> -					true,
+> -					NULL)) {
+> +				if (!edid_valid(region->edid_blob,
+> EDID_SIZE)) { gvt_vgpu_err("invalid EDID blob\n");
+>  					return -EINVAL;
+>  				}
 
-round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
-power of 2, with a preference to round down in case two nearest values are
-possible.
-
-roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
-generally be used only when y is not multiple of 2 as otherwise
-round_closest* macros should be used which are much faster.
-
-Examples:
- * round_closest_up(17, 4) = 16
- * round_closest_up(15, 4) = 16
- * round_closest_up(14, 4) = 16
- * round_closest_down(17, 4) = 16
- * round_closest_down(15, 4) = 16
- * round_closest_down(14, 4) = 12
- * roundclosest(21, 5) = 20
- * roundclosest(19, 5) = 20
- * roundclosest(17, 5) = 15
-
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
----
-NOTE: This patch is inspired from the Mentor Graphics IPU driver [1]
-which uses similar macro locally and which is updated in further patch
-in the series to use this generic macro instead along with other drivers
-having similar requirements.
-
-[1]:
-https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480
-
-V10:
-- Update example comment to fix formatting issues as observed with html docs
-
-V9:
-- No change
-
-V8:
-- Add new macro to round to nearest value for non-multiple of 2
-- Update commit message as suggested:
-
-V1->V6 (No change, patch introduced in V7)
----
- include/linux/math.h | 72 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 72 insertions(+)
-
-diff --git a/include/linux/math.h b/include/linux/math.h
-index dd4152711de7..1f6177191b66 100644
---- a/include/linux/math.h
-+++ b/include/linux/math.h
-@@ -34,6 +34,58 @@
-  */
- #define round_down(x, y) ((x) & ~__round_mask(x, y))
- 
-+/**
-+ * round_closest_up - round closest to be multiple of specified value (which is
-+ *                    power of 2) with preference to rounding up
-+ * @x: the value to round
-+ * @y: multiple to round closest to (must be a power of 2)
-+ *
-+ * Rounds @x to closest multiple of @y (which must be a power of 2).
-+ * The value can be either rounded up or rounded down depending upon rounded
-+ * value's closeness to the specified value. If there are two closest possible
-+ * values, i.e. the difference between the specified value and it's rounded up
-+ * and rounded down values is same then preference is given to rounded up
-+ * value.
-+ *
-+ * To perform arbitrary rounding to closest value (not multiple of 2), use
-+ * roundclosest().
-+ *
-+ * Examples :
-+ *
-+ * 	round_closest_up(17, 4) = 16
-+ *
-+ * 	round_closest_up(15, 4) = 16
-+ *
-+ * 	round_closest_up(14, 4) = 16
-+ */
-+#define round_closest_up(x, y) round_down((x) + (y) / 2, (y))
-+
-+/**
-+ * round_closest_down - round closest to be multiple of specified value (which
-+ *			is power of 2) with preference to rounding down
-+ * @x: the value to round
-+ * @y: multiple to round closest to (must be a power of 2)
-+ *
-+ * Rounds @x to closest multiple of @y (which must be a power of 2).
-+ * The value can be either rounded up or rounded down depending upon rounded
-+ * value's closeness to the specified value. If there are two closest possible
-+ * values, i.e. the difference between the specified value and it's rounded up
-+ * and rounded down values is same then preference is given to rounded up
-+ * value.
-+ *
-+ * To perform arbitrary rounding to closest value (not multiple of 2), use
-+ * roundclosest().
-+ *
-+ * Examples:
-+ *
-+ * 	round_closest_down(17, 4) = 16
-+ *
-+ * 	round_closest_down(15, 4) = 16
-+ *
-+ * 	round_closest_down(14, 4) = 12
-+ */
-+#define round_closest_down(x, y) round_up((x) - (y) / 2, (y))
-+
- #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
- 
- #define DIV_ROUND_DOWN_ULL(ll, d) \
-@@ -77,6 +129,26 @@
- }							\
- )
- 
-+/**
-+ * roundclosest - round to nearest multiple
-+ * @x: the value to round
-+ * @y: multiple to round nearest to
-+ *
-+ * Rounds @x to nearest multiple of @y.
-+ * The rounded value can be greater than or less than @x depending
-+ * upon it's nearness to @x. If @y will always be a power of 2, consider
-+ * using the faster round_closest_up() or round_closest_down().
-+ *
-+ * Examples :
-+ *
-+ * 	roundclosest(21, 5) = 20
-+ *
-+ * 	roundclosest(19, 5) = 20
-+ *
-+ * 	roundclosest(17, 5) = 15
-+ */
-+#define roundclosest(x, y) rounddown((x) + (y) / 2, (y))
-+
- /*
-  * Divide positive or negative dividend by positive or negative divisor
-  * and round to closest integer. Result is undefined for negative
--- 
-2.39.1
-
+Acked-by: Zhi Wang <zhiwang@kernel.org>
