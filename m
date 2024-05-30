@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA11A8D4513
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 07:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C872F8D4518
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 07:57:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFE4011B421;
-	Thu, 30 May 2024 05:56:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A11911B3FC;
+	Thu, 30 May 2024 05:57:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sTKKpNys";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kIq9JAdl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 338AC11B420
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 05:56:57 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-1f44b441b08so4556235ad.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 22:56:57 -0700 (PDT)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CED8711B3FD
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 05:57:06 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-1f44b5d0c50so4557905ad.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 22:57:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717048616; x=1717653416; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1717048626; x=1717653426; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=3Q2dQm7nGZxBRKpXC++099T4NGLN3Sf0rMWvCRq/ORE=;
- b=sTKKpNyscIZDqZAHMO8QKY68nXm+3NnpGFRDuA4y8uXmwBSNipE0S9hf0pkMBrH/0s
- BdvAQtVFUSZJIVwA5ev3oyz6ZjxYDZ5smYvTUX7E+Y9HU8JtmxUtdnEz0oPaQMf6PbAE
- p0agyzWLcsBiLcA2pGLvSfgURu+4wxMyxDOcIpWEZBf6GNEbbB+ct7acIc1fjzre2aZM
- wti1pVbsovOCxvy6r88u67pguJQ1dycmNCLTRUdtDNj6/xifgi5nZiR+8v/rFMWoiLPy
- gnzzP2xphnUP4mjO3S3ejzWjnMquly+aGQZhmWG85OPuJFG3RIXcJelMvJki/oJf0vg4
- WLKA==
+ :reply-to; bh=y0Xqkh4+NXd6q1efxpu5bKSp5PxV9NZYNMFbg5c3nFo=;
+ b=kIq9JAdlvUbjnyincUTcAUFZLmMS8ANmQ3O/EsGb8ZlidQn+tUENE3Azq4ZhDyZBML
+ biJKYGv7anENzz1kAED5CQFJz2qt+AIKRQZTW2tr/q3/fgUMP9fyU1+iDDOrlb5I54cz
+ xiO3pyGaBXd2KIbl9LTRyXrSmuKuYI5O/c8jJqSwzi68LHFYqx+thxw49asqZn9KA2Pk
+ VkQJNk81bcdbHmHBlXYIafZY0bYhK9Nwqrvb4pdaAzcJHCth4Jt8GUBF1geoNVExZjkh
+ qBtK35/slVCuxxZCKt+V3fXMXnptq0bFIDY8TeB+cbe02T67h3qHIEBNPp22JsSKx8kk
+ YM7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717048616; x=1717653416;
+ d=1e100.net; s=20230601; t=1717048626; x=1717653426;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3Q2dQm7nGZxBRKpXC++099T4NGLN3Sf0rMWvCRq/ORE=;
- b=ajhxtTX1qMLkZ3C/hocHFyJP+9VMv4hw1aLyvKhKCSP1SMHx2PPZ3yzk5C5y6HnJ3M
- Fp2Gufp/Tf9CLjj6OTW0gO4V4UGv9vWlFexMdXKbE5/ND2BzgQ6HESackcTbffQZmGBQ
- miukRP8uc6yyCO7Wun6kyBrkFZjJgjsDVGZLI6gFBaQrX2ni03WYG+/6pLNudVNox2XX
- Kb/JvvrWqLYglCYlO3JTcpqUS97txmKCUF9Jz0BvhU7uO/rJ4mXcLdYKT1vr4GciAfBH
- 1KRZYpYznQaamyA1/nBP8J+97FaM+ilNwFlxVYwKCRss/JzT8xIplhWwZ6d83aHl4x5Q
- uKxQ==
+ bh=y0Xqkh4+NXd6q1efxpu5bKSp5PxV9NZYNMFbg5c3nFo=;
+ b=nP/18p3PfdsWXNKVKrnq3AZxoPlfO44krUtc9fOUoC35S79nbxEf/gEzHouz5X1Wr3
+ kKOnGcK/bQwgPV7ngnDOJkhQ6KFCkPH85y6ANoo7/kTBHOLdkDguaI/6vrgAbmr/u5WZ
+ j0doXa/aufzyTySNuZIfKGQRYVopYDD1K8zNcDaUbQE9DCbv3On4hkl+MVMg3sPCBdwg
+ CFLoIu2vhBhHpWNAli0cCMeoR086E7cGbkzAmvDBhwrE4s4afobegQZxhI8pV7FwQywt
+ xANOoGGDDc3tKZmQ7afj0F7ko2x2JMvwrO5ujT96RSqSXXB8FW7X1JTxg4Sgqq8BVx6u
+ LQQg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV9/1MRvEQcjf+42NyVSpWwGvGb945rqGYh+1PHwVj0rpGLHcHNWfj1T5ooWNW4rJqo7BDcfKb2OXUB52WB5SS91c+Zjl8VChN+5CEsgZyI
-X-Gm-Message-State: AOJu0YwN2ZoOgaoN/69wKGITzagSlyU80JtBkuyP0s0LeoJnTqGJJLwh
- +55FexyPCD2YZqeVPf9taHaCwO8tZY23REjvyUzehs551diELP3GHC0CcHVz+s4=
-X-Google-Smtp-Source: AGHT+IFO/Geqv96DJ2x7VEbic3CPcO41EhCM/kO6eOFtgrS539vWSkBfSlTbuVm2DCcEKokaKBV//g==
-X-Received: by 2002:a17:903:1d1:b0:1f5:e796:f279 with SMTP id
- d9443c01a7336-1f6193f880amr12124605ad.9.1717048616304; 
- Wed, 29 May 2024 22:56:56 -0700 (PDT)
+ AJvYcCUw4bqaHt6pnGLx7xdSeWY4WktSkQMacIWStqggH1AgNEiOc1FdM1zn7lQfKHSs43IlqgsJf/Hu9GxsLzz7Jr+7iCsTmuviSoL6By1ma8nd
+X-Gm-Message-State: AOJu0YxFyJsa9Z4WFfx+6QgLBMctDoLnaQMck42O2nko4sAKfd37lW7R
+ vL9C3fvoNo5+dyNCCY4wG2I1JFMIsJu2/vBTIDUuSLzfGdegYXJdgchC4DooT6EKW8qb+5nntrk
+ APbvL1Q==
+X-Google-Smtp-Source: AGHT+IGitKpJuWn2uC/Fkq1l7O2dA+3u6AlBtRO2jqrLeHtja/lo/mNqVB7pEmOUo9t/OvrS4Kt1YA==
+X-Received: by 2002:a17:902:f545:b0:1f4:7a5c:65bf with SMTP id
+ d9443c01a7336-1f61960c4ccmr14073285ad.38.1717048626082; 
+ Wed, 29 May 2024 22:57:06 -0700 (PDT)
 Received: from [127.0.1.1] ([112.64.61.67]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f44c75ffc6sm110006705ad.9.2024.05.29.22.56.48
+ d9443c01a7336-1f44c75ffc6sm110006705ad.9.2024.05.29.22.56.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 May 2024 22:56:55 -0700 (PDT)
+ Wed, 29 May 2024 22:57:05 -0700 (PDT)
 From: Jun Nie <jun.nie@linaro.org>
-Date: Thu, 30 May 2024 13:56:45 +0800
-Subject: [PATCH v6 1/6] drm/msm/dpu: fix video mode DSC for DSI
+Date: Thu, 30 May 2024 13:56:46 +0800
+Subject: [PATCH v6 2/6] drm/msm/dpu: adjust data width for widen bus case
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240530-msm-drm-dsc-dsi-video-upstream-4-v6-1-2ab1d334c657@linaro.org>
+Message-Id: <20240530-msm-drm-dsc-dsi-video-upstream-4-v6-2-2ab1d334c657@linaro.org>
 References: <20240530-msm-drm-dsc-dsi-video-upstream-4-v6-0-2ab1d334c657@linaro.org>
 In-Reply-To: <20240530-msm-drm-dsc-dsi-video-upstream-4-v6-0-2ab1d334c657@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -71,14 +72,13 @@ To: Rob Clark <robdclark@gmail.com>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, Vinod Koul <vkoul@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jun Nie <jun.nie@linaro.org>, Jonathan Marek <jonathan@marek.ca>, 
- Neil Armstrong <neil.armstrong@linaro.org>
+ Jun Nie <jun.nie@linaro.org>, Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1717048617; l=3798;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1717048617; l=1362;
  i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
- bh=7/Tbk8+Q7zUBUA35jCKdBQKG2nj1ozoalJhqd4RQMnk=;
- b=Dhlz3AsXrGGPXqlA2+lGadxOh+L1AjtcGB6npyI0d9ojvc8k/NkO8+/YfRe/IyM/VfF9SJVyd
- OH/km1k/wQ/DlMtij0zP2N2sJJrUar3jLkRTu/HoShmSfieTWRj/ftB
+ bh=OHNAcN5o/LJmbpUIEbr4VX14s/2cSy3xBsOYCqYDXXs=;
+ b=GWWPS3UkIhGISQYgdng1Ghi+C91yCmA4fP4R/VWTpImKe8IVXkBrgo5h9osj1IbqvCnPn33Ok
+ F3ae/xA2GZvDFT7qTdU1GZTFyvyOqaKwxDHEufeCcWKrmx/gix8pxAj
 X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
  pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,12 +96,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jonathan Marek <jonathan@marek.ca>
+data is valid for only half the active window if widebus
+is enabled
 
-Add width change in DPU timing for DSC compression case to work with
-DSI video mode.
-
-Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 Signed-off-by: Jun Nie <jun.nie@linaro.org>
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
@@ -109,79 +106,29 @@ Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c          |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h     |  8 ++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 18 ++++++++++++++++++
- 3 files changed, 27 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 119f3ea50a7c..48cef6e79c70 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -564,7 +564,7 @@ bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
- 	return (num_dsc > 0) && (num_dsc > intf_count);
- }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+index 225c1c7768ff..f97221423249 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+@@ -168,6 +168,15 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *intf,
  
--static struct drm_dsc_config *dpu_encoder_get_dsc_config(struct drm_encoder *drm_enc)
-+struct drm_dsc_config *dpu_encoder_get_dsc_config(struct drm_encoder *drm_enc)
- {
- 	struct msm_drm_private *priv = drm_enc->dev->dev_private;
- 	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-index 002e89cc1705..2167c46c1a45 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-@@ -334,6 +334,14 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
-  */
- unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc);
+ 	data_width = p->width;
  
-+/**
-+ * dpu_encoder_get_dsc_config - get DSC config for the DPU encoder
-+ *   This helper function is used by physical encoder to get DSC config
-+ *   used for this encoder.
-+ * @drm_enc: Pointer to encoder structure
-+ */
-+struct drm_dsc_config *dpu_encoder_get_dsc_config(struct drm_encoder *drm_enc);
-+
- /**
-  * dpu_encoder_get_drm_fmt - return DRM fourcc format
-  * @phys_enc: Pointer to physical encoder structure
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index ef69c2f408c3..925ec6ada0e1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -11,6 +11,7 @@
- #include "dpu_trace.h"
- #include "disp/msm_disp_snapshot.h"
- 
-+#include <drm/display/drm_dsc_helper.h>
- #include <drm/drm_managed.h>
- 
- #define DPU_DEBUG_VIDENC(e, fmt, ...) DPU_DEBUG("enc%d intf%d " fmt, \
-@@ -115,6 +116,23 @@ static void drm_mode_to_intf_timing_params(
- 		timing->h_front_porch = timing->h_front_porch >> 1;
- 		timing->hsync_pulse_width = timing->hsync_pulse_width >> 1;
- 	}
-+
 +	/*
-+	 * for DSI, if compression is enabled, then divide the horizonal active
-+	 * timing parameters by compression ratio. bits of 3 components(R/G/B)
-+	 * is compressed into bits of 1 pixel.
++	 * If widebus is enabled, data is valid for only half the active window
++	 * since the data rate is doubled in this mode. But for the compression
++	 * mode in DP case, the p->width is already adjusted in
++	 * drm_mode_to_intf_timing_params()
 +	 */
-+	if (phys_enc->hw_intf->cap->type != INTF_DP && timing->compression_en) {
-+		struct drm_dsc_config *dsc =
-+		       dpu_encoder_get_dsc_config(phys_enc->parent);
-+		/*
-+		 * TODO: replace drm_dsc_get_bpp_int with logic to handle
-+		 * fractional part if there is fraction
-+		 */
-+		timing->width = timing->width * drm_dsc_get_bpp_int(dsc) /
-+				(dsc->bits_per_component * 3);
-+		timing->xres = timing->width;
-+	}
- }
++	if (p->wide_bus_en && !dp_intf)
++		data_width = p->width >> 1;
++
+ 	hsync_data_start_x = hsync_start_x;
+ 	hsync_data_end_x =  hsync_start_x + data_width - 1;
  
- static u32 get_horizontal_total(const struct dpu_hw_intf_timing_params *timing)
 
 -- 
 2.34.1
