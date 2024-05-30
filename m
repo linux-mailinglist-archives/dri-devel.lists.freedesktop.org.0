@@ -2,45 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57FEA8D5193
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 19:59:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6238D519A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 20:04:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7EFA10E2BE;
-	Thu, 30 May 2024 17:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E93110E49D;
+	Thu, 30 May 2024 18:04:09 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fEmKXiJ9";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4FA2710E2BE
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 17:59:21 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 15C161424;
- Thu, 30 May 2024 10:59:45 -0700 (PDT)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 75BA43F641;
- Thu, 30 May 2024 10:59:18 -0700 (PDT)
-Message-ID: <ac5d8f21-5fb7-4193-9a0b-cdaff39e8493@arm.com>
-Date: Thu, 30 May 2024 18:59:16 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBE2110E49D
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 18:04:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717092245; x=1748628245;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=BEIEhrG9qX9RIUaoual1xQdHFV9ZgAZNbmY16Qsocp4=;
+ b=fEmKXiJ9a9KI3LhofMaAmYU2k8sEPfaU4GdHcnShcAfaj92M5ql6eyQz
+ qYuHLiqLc2NopnOvRsmpXGECdwTY3ydpErSDRmmZYNV79Ke1i6YkLxTaE
+ wtv1smQNGzQXt1So3L81lyo+f4N8AFlPI2NSfFZU9/99M4+ritZOvErL4
+ /remByHzWARVQA1d7NqREm7RYQmo8RMmwLodlplc8cOWRx5maBK5I4ZAs
+ 5DynTB/V2Jm65MbCOTmEc1/PGyXo3w9hoxNcrdZ/1mBGBieqSzxVZy0Tg
+ ilSFhqjQjHteY5LSWpauNhnP7PmZHpBnBbDRriqDqWmqdiUM3QittDvbO Q==;
+X-CSE-ConnectionGUID: ZxkV8KlDSkCqug0quGNrCw==
+X-CSE-MsgGUID: Rspw5rZpSnqUe5jb2GkjCg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="13828135"
+X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; d="scan'208";a="13828135"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 May 2024 11:04:05 -0700
+X-CSE-ConnectionGUID: zucVqWpJR0mBCJBFt7Bqzw==
+X-CSE-MsgGUID: p3huy5JiRFKNX17xuU9R6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; d="scan'208";a="36389437"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+ by orviesa006.jf.intel.com with ESMTP; 30 May 2024 11:04:00 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sCk85-000For-1p;
+ Thu, 30 May 2024 18:03:57 +0000
+Date: Fri, 31 May 2024 02:03:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chen-Yu Tsai <wenst@chromium.org>, Frank Binns <frank.binns@imgtec.com>,
+ Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chen-Yu Tsai <wenst@chromium.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/6] clk: mediatek: Add mt8173-mfgtop driver
+Message-ID: <202405310123.KWoPspRr-lkp@intel.com>
+References: <20240530083513.4135052-3-wenst@chromium.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/20] iommu: Refactoring domain allocation interface
-To: Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>
-Cc: Yi Liu <yi.l.liu@intel.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Kalle Valo <kvalo@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>, mst@redhat.com,
- Jason Wang <jasowang@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, iommu@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240529053250.91284-1-baolu.lu@linux.intel.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20240529053250.91284-1-baolu.lu@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240530083513.4135052-3-wenst@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,121 +81,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/05/2024 6:32 am, Lu Baolu wrote:
-> The IOMMU subsystem has undergone some changes, including the removal
-> of iommu_ops from the bus structure. Consequently, the existing domain
-> allocation interface, which relies on a bus type argument, is no longer
-> relevant:
-> 
->      struct iommu_domain *iommu_domain_alloc(struct bus_type *bus)
-> 
-> This series is designed to refactor the use of this interface. It
-> proposes two new interfaces to replace iommu_domain_alloc():
-> 
-> - iommu_user_domain_alloc(): This interface is intended for allocating
->    iommu domains managed by userspace for device passthrough scenarios,
->    such as those used by iommufd, vfio, and vdpa. It clearly indicates
->    that the domain is for user-managed device DMA.
-> 
->    If an IOMMU driver does not implement iommu_ops->domain_alloc_user,
->    this interface will rollback to the generic paging domain allocation.
-> 
-> - iommu_paging_domain_alloc(): This interface is for allocating iommu
->    domains managed by kernel drivers for kernel DMA purposes. It takes a
->    device pointer as a parameter, which better reflects the current
->    design of the IOMMU subsystem.
-> 
-> The majority of device drivers currently using iommu_domain_alloc() do
-> so to allocate a domain for a specific device and then attach that
-> domain to the device. These cases can be straightforwardly migrated to
-> the new interfaces.
+Hi Chen-Yu,
 
-Ooh, nice! This was rising back up my to-do list as well, but I concur 
-it's rather more straightforward than my version that did devious things 
-to keep the iommu_domain_alloc() name...
+kernel test robot noticed the following build warnings:
 
-> However, there are some drivers with more complex use cases that do
-> not fit neatly into this new scheme. For example:
-> 
-> $ git grep "= iommu_domain_alloc"
-> arch/arm/mm/dma-mapping.c:      mapping->domain = iommu_domain_alloc(bus);
+[auto build test WARNING on 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0]
 
-This one's simple enough, the refactor just needs to go one step deeper. 
-I've just rebased and pushed my old patch for that, if you'd like it [1].
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/dt-bindings-clock-mediatek-Add-mt8173-mfgtop/20240530-163739
+base:   1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+patch link:    https://lore.kernel.org/r/20240530083513.4135052-3-wenst%40chromium.org
+patch subject: [PATCH 2/6] clk: mediatek: Add mt8173-mfgtop driver
+config: x86_64-buildonly-randconfig-002-20240531 (https://download.01.org/0day-ci/archive/20240531/202405310123.KWoPspRr-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405310123.KWoPspRr-lkp@intel.com/reproduce)
 
-> drivers/gpu/drm/rockchip/rockchip_drm_drv.c:    private->domain = iommu_domain_alloc(private->iommu_dev->bus);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405310123.KWoPspRr-lkp@intel.com/
 
-Both this one and usnic_uiom_alloc_pd() should be OK - back when I did 
-all the figuring out to clean up iommu_present(), I specifically 
-reworked them into "dev->bus" style as a reminder that it *is* supposed 
-to be the right device for doing this with, even if the attach is a bit 
-more distant.
+All warnings (new ones prefixed by >>):
 
-> drivers/gpu/drm/tegra/drm.c:            tegra->domain = iommu_domain_alloc(&platform_bus_type);
+>> drivers/pmdomain/core.c:2965:34: warning: 'idle_state_match' defined but not used [-Wunused-const-variable=]
+    2965 | static const struct of_device_id idle_state_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~
 
-This is the tricky one, where the device to hand may *not* be the right 
-device for IOMMU API use [2]. FWIW my plan was to pull the "walk the 
-platform bus to find any IOMMU-mapped device" trick into this code and 
-use it both to remove the final iommu_present() and for a device-based 
-domain allocation.
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS_OF
+   Depends on [n]: PM_GENERIC_DOMAINS [=y] && OF [=n]
+   Selected by [y]:
+   - COMMON_CLK_MT8173_MFGTOP [=y] && COMMON_CLK [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y]) && COMMON_CLK_MT8173 [=y]
 
-> drivers/infiniband/hw/usnic/usnic_uiom.c:       pd->domain = domain = iommu_domain_alloc(dev->bus);
-> 
-> This series leave those cases unchanged and keep iommu_domain_alloc()
-> for their usage. But new drivers should not use it anymore.
 
-I'd certainly be keen for it to be gone ASAP, since I'm seeing 
-increasing demand for supporting multiple IOMMU drivers, and this is the 
-last bus-based thing standing in the way of that.
+vim +/idle_state_match +2965 drivers/pmdomain/core.c
 
-Thanks,
-Robin.
+5d6be70add65e3 drivers/base/power/domain.c Ulf Hansson 2018-06-29  2964  
+30f604283e05d3 drivers/base/power/domain.c Lina Iyer   2016-10-14 @2965  static const struct of_device_id idle_state_match[] = {
+598da548ef7892 drivers/base/power/domain.c Lina Iyer   2016-11-03  2966  	{ .compatible = "domain-idle-state", },
+30f604283e05d3 drivers/base/power/domain.c Lina Iyer   2016-10-14  2967  	{ }
+30f604283e05d3 drivers/base/power/domain.c Lina Iyer   2016-10-14  2968  };
+30f604283e05d3 drivers/base/power/domain.c Lina Iyer   2016-10-14  2969  
 
-[1] 
-https://gitlab.arm.com/linux-arm/linux-rm/-/commit/f048cc6a323d8641898025ca96071df7cbe8bd52
-[2] 
-https://lore.kernel.org/linux-iommu/add31812-50d5-6cb0-3908-143c523abd37@collabora.com/
-
-> The whole series is also available on GitHub:
-> https://github.com/LuBaolu/intel-iommu/commits/iommu-domain-allocation-refactor-v1
-> 
-> Lu Baolu (20):
->    iommu: Add iommu_user_domain_alloc() interface
->    iommufd: Use iommu_user_domain_alloc()
->    vfio/type1: Use iommu_paging_domain_alloc()
->    vhost-vdpa: Use iommu_user_domain_alloc()
->    iommu: Add iommu_paging_domain_alloc() interface
->    drm/msm: Use iommu_paging_domain_alloc()
->    drm/nouveau/tegra: Use iommu_paging_domain_alloc()
->    gpu: host1x: Use iommu_paging_domain_alloc()
->    media: nvidia: tegra: Use iommu_paging_domain_alloc()
->    media: venus: firmware: Use iommu_paging_domain_alloc()
->    ath10k: Use iommu_paging_domain_alloc()
->    wifi: ath11k: Use iommu_paging_domain_alloc()
->    remoteproc: Use iommu_paging_domain_alloc()
->    soc/fsl/qbman: Use iommu_paging_domain_alloc()
->    iommu/vt-d: Add helper to allocate paging domain
->    iommu/vt-d: Add domain_alloc_paging support
->    iommu/vt-d: Simplify compatibility check for identity domain
->    iommu/vt-d: Enhance compatibility check for paging domain attach
->    iommu/vt-d: Remove domain_update_iommu_cap()
->    iommu/vt-d: Remove domain_update_iommu_superpage()
-> 
->   include/linux/iommu.h                         |  12 +
->   drivers/gpu/drm/msm/msm_iommu.c               |   8 +-
->   .../drm/nouveau/nvkm/engine/device/tegra.c    |   4 +-
->   drivers/gpu/host1x/dev.c                      |   6 +-
->   drivers/iommu/intel/iommu.c                   | 319 ++++++++----------
->   drivers/iommu/intel/pasid.c                   |  28 +-
->   drivers/iommu/iommu.c                         |  62 ++++
->   drivers/iommu/iommufd/hw_pagetable.c          |  20 +-
->   .../media/platform/nvidia/tegra-vde/iommu.c   |   6 +-
->   drivers/media/platform/qcom/venus/firmware.c  |   6 +-
->   drivers/net/wireless/ath/ath10k/snoc.c        |   6 +-
->   drivers/net/wireless/ath/ath11k/ahb.c         |   6 +-
->   drivers/remoteproc/remoteproc_core.c          |   6 +-
->   drivers/soc/fsl/qbman/qman_portal.c           |   4 +-
->   drivers/vfio/vfio_iommu_type1.c               |   7 +-
->   drivers/vhost/vdpa.c                          |  11 +-
->   16 files changed, 253 insertions(+), 258 deletions(-)
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
