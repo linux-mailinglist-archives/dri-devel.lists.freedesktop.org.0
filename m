@@ -2,84 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967C18D5624
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 01:14:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3B768D562B
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 01:17:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B5F810E25E;
-	Thu, 30 May 2024 23:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 934C211BDC7;
+	Thu, 30 May 2024 23:16:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="hOzCJKKL";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="OOn5Lt4P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C7E910E188;
- Thu, 30 May 2024 23:14:32 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44UHlCH9023423;
- Thu, 30 May 2024 23:14:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- TN/ki8hrqt/ex9Fbdh4KmvlMLrBN4HU3jhTQ8Q8cIYc=; b=hOzCJKKLbG3ADx1C
- SzW+2zUfLY9uvVz6r3ERwK2CmG7MXx3w/kZO+xxyOIAo//IpIsHs+HmQ1qZaDYX+
- IEkXz9klljAyMiqccieLNERHOM7BicpkvpqWlv6bei9qTNhMmC1+cwcuC8mxn+J4
- 0vVAti1vmhDI6AgHmUvnYu7qM8J/Lri7AZnEcBbdTJarNbrCwqzNaiN0kjM9WdI9
- 15fze6kjqFlASFwSGHLGJVII6rGaxAPb/TMbsClVjgPinZEphKMBsVkFf3a8tvB8
- FMKdxnr6FZOoQwvO4HDBKd5+TYgXo1Y/Urq830J8N+976rKnyln5RwNGeIzyPnbn
- iSXRVg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yb9yjddv2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 30 May 2024 23:14:17 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44UNEGJ9029954
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 30 May 2024 23:14:16 GMT
-Received: from [10.71.110.249] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 30 May
- 2024 16:14:12 -0700
-Message-ID: <6cd26e03-47b9-e18e-c8bf-2e9465734f74@quicinc.com>
-Date: Thu, 30 May 2024 16:14:09 -0700
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+ [209.85.210.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46DB011BDC7
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 23:16:57 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id
+ 46e09a7af769-6f8d688ba3cso271646a34.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 16:16:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1717111014; x=1717715814;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=h8KNeqwgU441IhOlEftCeN31AWUkQGVDTw621Xo3rrs=;
+ b=OOn5Lt4Pdat/NwwiKgAM3D+pXbtcxSS1fcqQKfGIyhQaSSexkwlVfYSbxpzFPfoT/8
+ XCFGNCCRudHzYOn56feJTQGu96vY4oHrUx3IXYHCJAC/GSj6H28CM1LjdNycMOpKifLd
+ ksH5m6AU0SP7F0nDlqe/dB3fY2hFVRwQdLwsc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717111014; x=1717715814;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=h8KNeqwgU441IhOlEftCeN31AWUkQGVDTw621Xo3rrs=;
+ b=F3rnwHXkaUEtO2iSlvvRu5qzpwJwgNTpkxzjpCWQT+5+fbVD0RE1E6Lfg36ORfY4tL
+ OoEy1A0vQTR102EUGZOM4bx2AwJVyqAkXgfxhpNxI6G5IAim/wVijHZHstrQzegNrOQd
+ KHGEo9q17/09J0q35mEtPJjKoPFzxqk1kjy9RLRCPjFJ4jKhlQoTHwMObRrdQ5WcDgdm
+ jd+NnHyFLiBwa+S+bqXbThUvkEbeuaDHHEkYiA2bNpEB62y3BeCZFQigm5LgGACzzisG
+ UISmitcjeNSoTYjFk1mBIIB3PAell8Th5t/PeXhkbgConJOg/v381cCenfn4JrKxsJmz
+ 7F0w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXcl/M0Rb+riPegh6kh8WEYMq2VjaBvjzV5RzM9gIjYusm+edfLPTgnV0+2CrB+jf1+sJDu3jfh9bSZL+9OGdLON27gYtslPkrhibQ1tlMk
+X-Gm-Message-State: AOJu0YyM9jGNy8tZbWBiKF6rHGE2Ee1xrpfByeuAB26QkttoPec8LlJO
+ 1aUDJWqERhsovmqabEGldxozoE+pjkz5Mcsq4bWWSaqIo7o5LSNkBx8tb9E5IFLYdZoH09TGMQo
+ N4g==
+X-Google-Smtp-Source: AGHT+IHvDng10eqNC8TfN6KAgdG8kts/8+5itQZRVVb969Yh2PQpiTfpImlLS5GqRufXTaDCp1x2iw==
+X-Received: by 2002:a9d:765a:0:b0:6ee:102d:bd05 with SMTP id
+ 46e09a7af769-6f911f48510mr307378a34.19.1717111013819; 
+ Thu, 30 May 2024 16:16:53 -0700 (PDT)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com.
+ [209.85.160.182]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-43ff2595290sm2532261cf.89.2024.05.30.16.16.52
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 May 2024 16:16:53 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id
+ d75a77b69052e-43f87dd6866so125461cf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 16:16:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVN9tqJpnUm8F+Y0052NpANJr1g/HY7hRM1YgJ7tbVrzPPbRLOXwLXqr8taZ+LrPftmpqKW3Cq0yHcwsnwTxmNpgAh/2jO/5f079lgGisJI
+X-Received: by 2002:a05:622a:1cc3:b0:43d:e001:69bc with SMTP id
+ d75a77b69052e-43ff4f80e4cmr291431cf.17.1717111012344; Thu, 30 May 2024
+ 16:16:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v4 02/13] drm/msm/dpu: use drm_rect_fp_to_int()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-CC: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20240314000216.392549-1-dmitry.baryshkov@linaro.org>
- <20240314000216.392549-3-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240314000216.392549-3-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 6VWUgXB0usqwqj-7XlA7mYBIBIMIEYOD
-X-Proofpoint-ORIG-GUID: 6VWUgXB0usqwqj-7XlA7mYBIBIMIEYOD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-30_17,2024-05-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 mlxscore=0 phishscore=0 mlxlogscore=838 spamscore=0
- clxscore=1015 impostorscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2405300176
+References: <20240531-edp-panel-drop-v3-0-4c98b2b95e3a@linaro.org>
+In-Reply-To: <20240531-edp-panel-drop-v3-0-4c98b2b95e3a@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 30 May 2024 16:16:35 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XMgAnaEaHXZJL57+66OXs0afP9vurxf_ffqkum=xqEfA@mail.gmail.com>
+Message-ID: <CAD=FV=XMgAnaEaHXZJL57+66OXs0afP9vurxf_ffqkum=xqEfA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] drm/panel-edp: remove several legacy compatibles
+ used by the driver
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, Jeffrey Hugo <quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,16 +100,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-
-On 3/13/2024 5:02 PM, Dmitry Baryshkov wrote:
-> Use the drm_rect_fp_to_int() helper instead of using the hand-written
-> code.
-> 
+On Thu, May 30, 2024 at 4:13=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> There are two ways to describe an eDP panel in device tree. The
+> recommended way is to add a device on the AUX bus, ideally using the
+> edp-panel compatible. The legacy way is to define a top-level platform
+> device for the panel.
+>
+> Document that adding support for eDP panels in a legacy way is strongly
+> discouraged (if not forbidden at all).
+>
+> While we are at it, also drop legacy compatible strings and bindings for
+> five panels. These compatible strings were never used by a DT file
+> present in Linux kernel and most likely were never used with the
+> upstream Linux kernel.
+>
+> The following compatibles were never used by the devices supported by
+> the upstream kernel and are a subject to possible removal:
+>
+> - lg,lp097qx1-spa1
+> - samsung,lsn122dl01-c01
+> - sharp,ld-d5116z01b
+>
+> I'm considering dropping them later, unless there is a good reason not
+> to do so.
+>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 7 +------
->   1 file changed, 1 insertion(+), 6 deletions(-)
-> 
+> Changes in v3:
+> - Rephrased the warning comment, following some of Doug's suggestions.
+> - Link to v2: https://lore.kernel.org/r/20240529-edp-panel-drop-v2-0-fcfc=
+457fc8dd@linaro.org
+>
+> Changes in v2:
+> - Actually drop support for five panels acked by Doug Andersson
+> - Link to v1: https://lore.kernel.org/r/20240523-edp-panel-drop-v1-1-045d=
+62511d09@linaro.org
+>
+> ---
+> Dmitry Baryshkov (3):
+>       drm/panel-edp: add fat warning against adding new panel compatibles
+>       dt-bindings: display: panel-simple: drop several eDP panels
+>       drm/panel-edp: drop several legacy panels
+>
+>  .../bindings/display/panel/panel-simple.yaml       |  10 --
+>  drivers/gpu/drm/panel/panel-edp.c                  | 192 +++------------=
+------
+>  2 files changed, 25 insertions(+), 177 deletions(-)
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Thanks! I'm happy to apply this series or also happy if some other
+drm-misc committer member wants to apply it. Probably we should wait
+for a DT person to make sure that they don't have any problems with
+the bindings change.
+
+
+-Doug
