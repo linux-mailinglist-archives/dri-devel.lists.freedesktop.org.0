@@ -2,70 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4258D43FB
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 05:12:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D71B8D4411
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 05:25:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0FC510E18A;
-	Thu, 30 May 2024 03:11:59 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eqehyLWY";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE0B311AF80;
+	Thu, 30 May 2024 03:25:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 511D910E18A
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 03:11:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717038718; x=1748574718;
- h=message-id:date:mime-version:cc:subject:to:references:
- from:in-reply-to:content-transfer-encoding;
- bh=AtVs/mAUfq0zsyGVzKlFt9Vs7GAGvhJdHEZppaw/M7Y=;
- b=eqehyLWYkSNCKIvXf9qnxHdTVkkTCGjea7/EvYoNleVT7XF6m57fePhs
- 373qoXsfg4p/2IFm1poesXEGURO2aw0g3hyv8a07VZa65VTAivbK1YYyS
- i6keupHxfA+5OVXA2xJj6vkYwatKscsDexkKxYv1rEUCjl3gGotZ3a+Fn
- eDmnXvXVDTelLqOv3ZIq1uE9KvSmsd92DqmhLmcA9Aw3fVJR20U1dqGRa
- RaPu4iP7Z7Kf8+IzgYM3YpuX8O4B/9kLLRG53V4u7LdB0GGOMOJ6Gdpfy
- +LRNtTLGw8TiUVavBhQPFxMraLl9VwkcHpJeOt6r9G2QCHYqGQnMKkZFX g==;
-X-CSE-ConnectionGUID: CWwDLVbpR96GiBHyoYdr+g==
-X-CSE-MsgGUID: nhg/4N5ZSvGdAE8n9owVYw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="13334707"
-X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; d="scan'208";a="13334707"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2024 20:11:57 -0700
-X-CSE-ConnectionGUID: o/wZ19gZRkKu+qUIFx0MAQ==
-X-CSE-MsgGUID: ASzVpoGHRkiecU00cNHKxA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; d="scan'208";a="40093824"
-Received: from unknown (HELO [10.239.159.127]) ([10.239.159.127])
- by fmviesa005.fm.intel.com with ESMTP; 29 May 2024 20:11:51 -0700
-Message-ID: <ad3d0781-08aa-4cab-8dc8-eaf753c6671a@linux.intel.com>
-Date: Thu, 30 May 2024 11:09:45 +0800
+Received: from mail-io1-f80.google.com (mail-io1-f80.google.com
+ [209.85.166.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32ED811AF80
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 03:25:29 +0000 (UTC)
+Received: by mail-io1-f80.google.com with SMTP id
+ ca18e2360f4ac-7e8e558d366so49391839f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2024 20:25:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717039529; x=1717644329;
+ h=to:from:subject:message-id:in-reply-to:date:mime-version
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=S4K7HM1D3AqG6NeUGOCxHtK8VbYgvci8iQeTeS4D2C0=;
+ b=cGE9yPVQT+dvzPZZs4KnXB+hABiUnJdkz12n9m+P5UF1O99kOP0tmw5owbDDw5VbmQ
+ VCQs5NLOkrIbD5qOaPQ28JWndZx/4nT/tksPIv7gThwSsHNAalkwXaVZ1vkoVHIAwD1o
+ J/68FhWYeJIoD65hMRxsDohYy3u3ogmtFrDOfienCUIHs1NI5AcK+xv/i2AGH9ENSit5
+ +DekhQzME/SCpzXkgBnMqLxsdyWPuFO0GP0NKXKG0scD6V4GBh1WGLsJWj1zhS1FM7bg
+ z/BNyF6Tg6993xBJkxfzqsdeNnp6ZP8rUcdWk4Uo/F50zG7NAtXCPeXhwQyV+Z4VO0hO
+ ZB2g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXt+rK6BVBp8RItY61UzVnRQ7wsE5HhjRZc2ussY7L8iaQNTPIbZgPFAcWSxn7wagM2YEyS7QojLcjjVvNZe/+yXOF6/eyMOy+edKo1MeK9
+X-Gm-Message-State: AOJu0YzovOIfSj+jSIE6px633RQkej4PAaUrpenLByzy2ab47Fn8m3ob
+ 6XPy19O6CAITVwuWyYL1b6np6ewjmvD2HImKP6TC7VG92yj+hUU6RVYxiy9h9ZjlhdFIagvBNAg
+ IeyuDWIqC/3HojoUWZ3JE7flyE6Y4J5x/3taTsNr5oYqIE9MgjK7ClGQ=
+X-Google-Smtp-Source: AGHT+IEXUql0FXR+Lxaqa/6M5rhOpI0OL0iAbamY3PgObpec9S40jP00gT/th087johTJy7XjD35dWWqwVRAD56+EkC9yKg58FZD
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: baolu.lu@linux.intel.com, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Kalle Valo <kvalo@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>, mst@redhat.com,
- Jason Wang <jasowang@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, iommu@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 05/20] iommu: Add iommu_paging_domain_alloc() interface
-To: Yi Liu <yi.l.liu@intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>
-References: <20240529053250.91284-1-baolu.lu@linux.intel.com>
- <20240529053250.91284-6-baolu.lu@linux.intel.com>
- <eedb1df0-e745-4b48-9261-faa0ff320ee9@intel.com>
- <dc9fa861-628f-4a96-ae37-e419b23c6ea0@linux.intel.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <dc9fa861-628f-4a96-ae37-e419b23c6ea0@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6e02:1a46:b0:36c:11a0:7878 with SMTP id
+ e9e14a558f8ab-3747dfb5aa8mr438305ab.2.1717039528943; Wed, 29 May 2024
+ 20:25:28 -0700 (PDT)
+Date: Wed, 29 May 2024 20:25:28 -0700
+In-Reply-To: <0000000000002174ba06197f39c1@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000003032c50619a36bd7@google.com>
+Subject: Re: [syzbot] [dri?] [media?] general protection fault in
+ udmabuf_create (2)
+From: syzbot <syzbot+40c7dad27267f61839d4@syzkaller.appspotmail.com>
+To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
+ kraxel@redhat.com, linaro-mm-sig-bounces@lists.linaro.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,24 +66,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/30/24 9:59 AM, Baolu Lu wrote:
-> On 5/29/24 5:04 PM, Yi Liu wrote:
->> On 2024/5/29 13:32, Lu Baolu wrote:
->>> Commit <17de3f5fdd35> ("iommu: Retire bus ops") removes iommu ops from
->>> bus. The iommu subsystem no longer relies on bus for operations. So the
->>> bus parameter in iommu_domain_alloc() is no longer relevant.
->>>
->>> Add a new interface named iommu_paging_domain_alloc(), which explicitly
->>> indicates the allocation of a paging domain for DMA managed by a kernel
->>> driver. The new interface takes a device pointer as its parameter, that
->>> better aligns with the current iommu subsystem.
->>
->> you may want to move this patch before patch 03/04.
-> 
-> Emm, why?
+syzbot has found a reproducer for the following issue on:
 
-I see. The commit subject is misleading. It should be "vfio/type1: Use
-iommu_user_domain_alloc()".
+HEAD commit:    9d99040b1bc8 Add linux-next specific files for 20240529
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=14c083e6980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=735e953fee00ec19
+dashboard link: https://syzkaller.appspot.com/bug?extid=40c7dad27267f61839d4
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=176b79d2980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10266eaa980000
 
-Best regards,
-baolu
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/f0deeb27b28b/disk-9d99040b.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/5acd2205cee1/vmlinux-9d99040b.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/222eebb6b9d8/bzImage-9d99040b.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+40c7dad27267f61839d4@syzkaller.appspotmail.com
+
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] PREEMPT SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
+CPU: 1 PID: 5101 Comm: syz-executor479 Not tainted 6.10.0-rc1-next-20240529-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/02/2024
+RIP: 0010:PageTail include/linux/page-flags.h:284 [inline]
+RIP: 0010:const_folio_flags include/linux/page-flags.h:312 [inline]
+RIP: 0010:folio_test_head include/linux/page-flags.h:837 [inline]
+RIP: 0010:folio_test_large include/linux/page-flags.h:858 [inline]
+RIP: 0010:folio_nr_pages include/linux/mm.h:2076 [inline]
+RIP: 0010:udmabuf_create+0xa54/0x11c0 drivers/dma-buf/udmabuf.c:376
+Code: 01 00 00 48 8b 44 24 70 42 80 3c 28 00 48 8b 5c 24 68 74 08 48 89 df e8 9a 63 ed fb 4c 8b 3b 49 8d 5f 08 48 89 d8 48 c1 e8 03 <42> 80 3c 28 00 74 08 48 89 df e8 7d 63 ed fb 48 8b 1b 48 89 de 48
+RSP: 0018:ffffc9000357fbe0 EFLAGS: 00010202
+RAX: 0000000000000001 RBX: 0000000000000008 RCX: dffffc0000000000
+RDX: 0000000000000000 RSI: ffff888022207028 RDI: ffff8880295ee248
+RBP: ffffc9000357fd70 R08: ffffffff8fad8daf R09: 1ffffffff1f5b1b5
+R10: dffffc0000000000 R11: fffffbfff1f5b1b6 R12: 0000000000000001
+R13: dffffc0000000000 R14: ffff888022207028 R15: 0000000000000000
+FS:  00005555645a9480(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007feee7c0f0d0 CR3: 0000000022b26000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ udmabuf_ioctl_create drivers/dma-buf/udmabuf.c:420 [inline]
+ udmabuf_ioctl+0x304/0x4f0 drivers/dma-buf/udmabuf.c:451
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:907 [inline]
+ __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:893
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7feee7b981b9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 c1 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffda54957e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007feee7b981b9
+RDX: 00000000200002c0 RSI: 0000000040187542 RDI: 0000000000000003
+RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000246 R12: 0000000000000001
+R13: 431bde82d7b634db R14: 00007ffda5495820 R15: 0000000000000001
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:PageTail include/linux/page-flags.h:284 [inline]
+RIP: 0010:const_folio_flags include/linux/page-flags.h:312 [inline]
+RIP: 0010:folio_test_head include/linux/page-flags.h:837 [inline]
+RIP: 0010:folio_test_large include/linux/page-flags.h:858 [inline]
+RIP: 0010:folio_nr_pages include/linux/mm.h:2076 [inline]
+RIP: 0010:udmabuf_create+0xa54/0x11c0 drivers/dma-buf/udmabuf.c:376
+Code: 01 00 00 48 8b 44 24 70 42 80 3c 28 00 48 8b 5c 24 68 74 08 48 89 df e8 9a 63 ed fb 4c 8b 3b 49 8d 5f 08 48 89 d8 48 c1 e8 03 <42> 80 3c 28 00 74 08 48 89 df e8 7d 63 ed fb 48 8b 1b 48 89 de 48
+RSP: 0018:ffffc9000357fbe0 EFLAGS: 00010202
+RAX: 0000000000000001 RBX: 0000000000000008 RCX: dffffc0000000000
+RDX: 0000000000000000 RSI: ffff888022207028 RDI: ffff8880295ee248
+RBP: ffffc9000357fd70 R08: ffffffff8fad8daf R09: 1ffffffff1f5b1b5
+R10: dffffc0000000000 R11: fffffbfff1f5b1b6 R12: 0000000000000001
+R13: dffffc0000000000 R14: ffff888022207028 R15: 0000000000000000
+FS:  00005555645a9480(0000) GS:ffff8880b9400000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000005fdeb8 CR3: 0000000022b26000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	01 00                	add    %eax,(%rax)
+   2:	00 48 8b             	add    %cl,-0x75(%rax)
+   5:	44 24 70             	rex.R and $0x70,%al
+   8:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1)
+   d:	48 8b 5c 24 68       	mov    0x68(%rsp),%rbx
+  12:	74 08                	je     0x1c
+  14:	48 89 df             	mov    %rbx,%rdi
+  17:	e8 9a 63 ed fb       	call   0xfbed63b6
+  1c:	4c 8b 3b             	mov    (%rbx),%r15
+  1f:	49 8d 5f 08          	lea    0x8(%r15),%rbx
+  23:	48 89 d8             	mov    %rbx,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1) <-- trapping instruction
+  2f:	74 08                	je     0x39
+  31:	48 89 df             	mov    %rbx,%rdi
+  34:	e8 7d 63 ed fb       	call   0xfbed63b6
+  39:	48 8b 1b             	mov    (%rbx),%rbx
+  3c:	48 89 de             	mov    %rbx,%rsi
+  3f:	48                   	rex.W
+
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
