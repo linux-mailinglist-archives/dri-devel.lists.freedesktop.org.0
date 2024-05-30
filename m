@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10AAB8D52F9
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 22:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C1C8D5332
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 22:17:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3C2A12B6DC;
-	Thu, 30 May 2024 20:16:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95CC812B761;
+	Thu, 30 May 2024 20:17:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="AtRzejE1";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="1a6hFMcR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com
- [209.85.128.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0157C11BDE9
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 20:16:23 +0000 (UTC)
-Received: by mail-yw1-f202.google.com with SMTP id
- 00721157ae682-629638f1cb0so4181757b3.3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 13:16:23 -0700 (PDT)
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com
+ [209.85.219.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEEF911BDE9
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 20:16:25 +0000 (UTC)
+Received: by mail-yb1-f201.google.com with SMTP id
+ 3f1490d57ef6-dfa4b878450so1951222276.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 13:16:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1717100183; x=1717704983;
+ d=google.com; s=20230601; t=1717100185; x=1717704985;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=2EPevCT7/2IjjDXAWaiob99tAoIzY7exVAkr0lb7mAI=;
- b=AtRzejE1rRH2e2z4jqT5LU/2YW5f8rVJaGzObWRL+rfXLQKaKwuVrX64Ejp3Bl2I+h
- 1SNKPX8SS2PCEnxsxjitYi7nvTr6u44xpXc+25u3U4Fr1uaC3Dt4rxO1oGrbHicGKTYu
- qPD/wtC9xYkNxp3Wldqzl+kuvPHEyy410Cox3B4nwu0f6ntOCnjtbaN9w2mI4rhijbLH
- Z+FRk+wGk7JTSUtZ1CkiOXsbue/DuihqYn6gwtHcy9AfjVYDIZ0s1/bVpUQj5GcZDYAe
- kE5F1sIClMB0WhS5wkjr+Ffo1qlXz1j8JymLT7TL4hQI5LmGMHU81iO3/JOTWpu79fp2
- hYwA==
+ bh=yJQZrjL3fAaVAAxIz6awvHeEgsghUCpoVOhJcFeUWmM=;
+ b=1a6hFMcRpsfI7nzCDTeyjt93VbY67NQAPoXSOLlcXM97wRofn/iv76K4iFKGgn8M1T
+ xiu8/1FYaExSoV0YzuU2bFSIL7wm49MzzLwOdO8XVGRSvFYjEPY+DRbiSPWtlp+RE+AN
+ PEFEZglH5BCk+KxXwqHOY+IrPA7AXV4xFFfKuJr21930Rw+PiyB2UFajr0s5C0i+X075
+ SCxXb2GjToaDiH2djdeCPikq9/02b7hExpvYDCGc5pFONxw5OE2xDBYET6pSbce0Kku2
+ xEgxfW7DKczV/2SQREaPI9hbG0DdwU5nC8YB3sZfVishLq8/frhdt7N28aURCxtX4J25
+ 6YwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717100183; x=1717704983;
+ d=1e100.net; s=20230601; t=1717100185; x=1717704985;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2EPevCT7/2IjjDXAWaiob99tAoIzY7exVAkr0lb7mAI=;
- b=dSlmkVd9jEfqdxjFWxatdKsW6FEw2dI9duhzDiG7zhbP/v36y5G/p6Ic/54ikmHjAp
- uVGIHNyZexBpnjewbVNx0b9RivIble4X3AAIjxXjRCPTiP6aZGvqwIhKDOUo/JBE3R7K
- 9NNMsdOclbsG/HQbXv+1zYWZTZmAfqSTTnwBIdkb0mHbcaRToQP3Ier2kGSDwiMuBK9s
- 5HnYyPo+le9AcWuJiwScnQ6xeD16tYwc+Gd5E+uucxUH13VxWIWD1DoY79eFCXmZ2Iw4
- 2HzkZletyykD79vgyOzY3UGcxaNkIqqcJqIyxX6Dqh1f5aWaAisl/u03e8wCgQ4WxYVA
- tQYQ==
+ bh=yJQZrjL3fAaVAAxIz6awvHeEgsghUCpoVOhJcFeUWmM=;
+ b=aY4k3DHBbkX20+1PA3JHoZvu02L0GrC/144O2sT9bBoPKyOtxIiPb6mAlSqlRthLIl
+ BUShnR4LOdk61m7HTrhQDk+gmYR3vNDZMeWe6b6+mw1jkE/43nVKPODpdC6rAEzcXm0u
+ wzQdG5uaQm7URgHUv0RtPL9zpxhT0U6FOgpiOhq46AEaR41ngSV0Nwh7ZnpwbleG1IJ6
+ b071o8P5hG178Cc6WiQC+PyrXR301pbPF8LBfRhfV53F218kbqy6KYba0Mawz2nTaiGO
+ xzX2WC2vdSdNaBGeEk0wFkGWv/vqjRsxgXeaYwm3B68uWWKd+tE+ZdUkKECSLr70mO9w
+ imTA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWn00L2190eBqxV9m8hMdBsOOJJsBHxLsqd/i9zfqen5V3uG5j4cBgdJWPXdjskCNrNS86ehNZc/GVxT3kKT7eJV861vTRQBXZVYdK7vAjL
-X-Gm-Message-State: AOJu0Yx0ElmLAQybl0rCPNGM1IqTdA1/92/aIw1WWp9CWNXNKfUZnMVL
- SA3RM2chRoCW+09ZASru3qIkzsABPLU/tLEz8suo9g46muiBTCeHRZkGi0/y9IakIaGhmzQBQhY
- mbKRLsOjLULFBtZRFFh0iew==
-X-Google-Smtp-Source: AGHT+IEzZ69JqoW6GJOeqts3Sq7g6h07tqQC0w1VVoiY60y4YSnBAwIT5aGEAkdPhLJOkoxRCW8vNj1B6RaErZFLlg==
+ AJvYcCUbJ0sPUuQmqqMAJl/jpGR/Hmq1gJv0e6Zo7z2ZTKeeN+dfhaco+kyVmSXOgYiJtw1eZEuvPROjhqXTpR2mGPIMFbAdC115ygqHYg08ij9p
+X-Gm-Message-State: AOJu0YzSCvhFP9fWm+YOxUUCa1hDoNL7oO7VyWbhrWJB2g7BJve9a9Qw
+ w2fiZ17hxHtxQQTYsT3dFerT4TYW3A06Rwq94kJFi4/OmjMjkiNEEVvmGcnR6IHW0VMvLIjufIc
+ O4kmhMeAjlQhO9fe/wveCUg==
+X-Google-Smtp-Source: AGHT+IFJHRymMhVx2kNojn8cuDfuSw1O074HBC5/EHJAQIihEPZ+b8/aw/b4SY49bCfKwarAmlg1XkPIF9LwyoBLCg==
 X-Received: from almasrymina.c.googlers.com
  ([fda3:e722:ac3:cc00:20:ed76:c0a8:4bc5])
- (user=almasrymina job=sendgmr) by 2002:a05:690c:e:b0:62a:415b:a137 with SMTP
- id 00721157ae682-62c6bc22eecmr8577877b3.1.1717100182928; Thu, 30 May 2024
- 13:16:22 -0700 (PDT)
-Date: Thu, 30 May 2024 20:16:01 +0000
+ (user=almasrymina job=sendgmr) by 2002:a05:6902:703:b0:df4:7830:2525 with
+ SMTP id 3f1490d57ef6-dfa5a5ad877mr291768276.2.1717100184824; Thu, 30 May 2024
+ 13:16:24 -0700 (PDT)
+Date: Thu, 30 May 2024 20:16:02 +0000
 In-Reply-To: <20240530201616.1316526-1-almasrymina@google.com>
 Mime-Version: 1.0
 References: <20240530201616.1316526-1-almasrymina@google.com>
 X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
-Message-ID: <20240530201616.1316526-3-almasrymina@google.com>
-Subject: [PATCH net-next v10 02/14] net: page_pool: create hooks for custom
- page providers
+Message-ID: <20240530201616.1316526-4-almasrymina@google.com>
+Subject: [PATCH net-next v10 03/14] net: netdev netlink api to bind dma-buf to
+ a net device
 From: Mina Almasry <almasrymina@google.com>
 To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
@@ -104,8 +104,7 @@ Cc: Mina Almasry <almasrymina@google.com>,
  Shailend Chand <shailend@google.com>,
  Harshitha Ramamurthy <hramamurthy@google.com>, 
  Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Christoph Hellwig <hch@infradead.org>
+ Praveen Kaligineedi <pkaligineedi@google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -122,193 +121,258 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jakub Kicinski <kuba@kernel.org>
+API takes the dma-buf fd as input, and binds it to the netdevice. The
+user can specify the rx queues to bind the dma-buf to.
 
-The page providers which try to reuse the same pages will
-need to hold onto the ref, even if page gets released from
-the pool - as in releasing the page from the pp just transfers
-the "ownership" reference from pp to the provider, and provider
-will wait for other references to be gone before feeding this
-page back into the pool.
-
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+Suggested-by: Stanislav Fomichev <sdf@google.com>
 Signed-off-by: Mina Almasry <almasrymina@google.com>
 
 ---
 
-- This is implemented by Jakub in his RFC:
-https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@redhat.com/T/
+v7:
+- Use flags: [ admin-perm ] instead of a CAP_NET_ADMIN check.
 
-I take no credit for the idea or implementation; I only added minor
-edits to make this workable with device memory TCP, and removed some
-hacky test code. This is a critical dependency of device memory TCP
-and thus I'm pulling it into this series to make it revewable and
-mergeable.
+Changes in v1:
+- Add rx-queue-type to distingish rx from tx (Jakub)
+- Return dma-buf ID from netlink API (David, Stan)
 
-- There is a pending discussion about the acceptance of the page_pool
-  memory provider hooks:
-
-https://lore.kernel.org/netdev/20240403002053.2376017-3-almasrymina@google.com/
-
-I'm unsure if the discussion has been resolved yet. Sending the series
-anyway to get reviews/feedback on the (unrelated) rest of the series.
-
-Cc: Christoph Hellwig <hch@infradead.org>
-
-v10:
-- Renamed alloc_pages -> alloc_netmems. alloc_pages is now
-  a preprocessor macro, and reusing the string results in a build error.
-
-RFC v3 -> v1
-- Removed unusued mem_provider. (Yunsheng).
-- Replaced memory_provider & mp_priv with netdev_rx_queue (Jakub).
+Changes in RFC-v3:
+- Support binding multiple rx rx-queues
 
 ---
- include/net/page_pool/types.h | 12 ++++++++++
- net/core/page_pool.c          | 43 +++++++++++++++++++++++++++++++----
- 2 files changed, 50 insertions(+), 5 deletions(-)
+ Documentation/netlink/specs/netdev.yaml | 53 +++++++++++++++++++++++++
+ include/uapi/linux/netdev.h             | 19 +++++++++
+ net/core/netdev-genl-gen.c              | 19 +++++++++
+ net/core/netdev-genl-gen.h              |  2 +
+ net/core/netdev-genl.c                  |  6 +++
+ tools/include/uapi/linux/netdev.h       | 19 +++++++++
+ 6 files changed, 118 insertions(+)
 
-diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.h
-index b088d131aeb0d..b038b838f042f 100644
---- a/include/net/page_pool/types.h
-+++ b/include/net/page_pool/types.h
-@@ -51,6 +51,7 @@ struct pp_alloc_cache {
-  * @dev:	device, for DMA pre-mapping purposes
-  * @netdev:	netdev this pool will serve (leave as NULL if none or multiple)
-  * @napi:	NAPI which is the sole consumer of pages, otherwise NULL
-+ * @queue:	struct netdev_rx_queue this page_pool is being created for.
-  * @dma_dir:	DMA mapping direction
-  * @max_len:	max DMA sync memory size for PP_FLAG_DMA_SYNC_DEV
-  * @offset:	DMA sync address offset for PP_FLAG_DMA_SYNC_DEV
-@@ -64,6 +65,7 @@ struct page_pool_params {
- 		int		nid;
- 		struct device	*dev;
- 		struct napi_struct *napi;
-+		struct netdev_rx_queue *queue;
- 		enum dma_data_direction dma_dir;
- 		unsigned int	max_len;
- 		unsigned int	offset;
-@@ -127,6 +129,13 @@ struct page_pool_stats {
- };
- #endif
+diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
+index 11a32373365ab..e5e91b39e9b71 100644
+--- a/Documentation/netlink/specs/netdev.yaml
++++ b/Documentation/netlink/specs/netdev.yaml
+@@ -268,6 +268,45 @@ attribute-sets:
+         name: napi-id
+         doc: ID of the NAPI instance which services this queue.
+         type: u32
++  -
++    name: queue-dmabuf
++    attributes:
++      -
++        name: type
++        doc: rx or tx queue
++        type: u8
++        enum: queue-type
++      -
++        name: idx
++        doc: queue index
++        type: u32
++
++  -
++    name: bind-dmabuf
++    attributes:
++      -
++        name: ifindex
++        doc: netdev ifindex to bind the dma-buf to.
++        type: u32
++        checks:
++          min: 1
++      -
++        name: queues
++        doc: receive queues to bind the dma-buf to.
++        type: nest
++        nested-attributes: queue-dmabuf
++        multi-attr: true
++      -
++        name: dmabuf-fd
++        doc: dmabuf file descriptor to bind.
++        type: u32
++      -
++        name: dmabuf-id
++        doc: id of the dmabuf binding
++        type: u32
++        checks:
++          min: 1
++
  
-+struct memory_provider_ops {
-+	int (*init)(struct page_pool *pool);
-+	void (*destroy)(struct page_pool *pool);
-+	struct page *(*alloc_netmems)(struct page_pool *pool, gfp_t gfp);
-+	bool (*release_page)(struct page_pool *pool, struct page *page);
+   -
+     name: qstats
+@@ -575,6 +614,20 @@ operations:
+           attributes:
+             - ifindex
+         reply: *queue-get-op
++    -
++      name: bind-rx
++      doc: Bind dmabuf to netdev
++      attribute-set: bind-dmabuf
++      flags: [ admin-perm ]
++      do:
++        request:
++          attributes:
++            - ifindex
++            - dmabuf-fd
++            - queues
++        reply:
++          attributes:
++            - dmabuf-id
+     -
+       name: napi-get
+       doc: Get information about NAPI instances configured on the system.
+diff --git a/include/uapi/linux/netdev.h b/include/uapi/linux/netdev.h
+index a8188202413ec..53244084e5330 100644
+--- a/include/uapi/linux/netdev.h
++++ b/include/uapi/linux/netdev.h
+@@ -136,6 +136,24 @@ enum {
+ 	NETDEV_A_QUEUE_MAX = (__NETDEV_A_QUEUE_MAX - 1)
+ };
+ 
++enum {
++	NETDEV_A_QUEUE_DMABUF_TYPE = 1,
++	NETDEV_A_QUEUE_DMABUF_IDX,
++
++	__NETDEV_A_QUEUE_DMABUF_MAX,
++	NETDEV_A_QUEUE_DMABUF_MAX = (__NETDEV_A_QUEUE_DMABUF_MAX - 1)
 +};
 +
- struct page_pool {
- 	struct page_pool_params_fast p;
- 
-@@ -193,6 +202,9 @@ struct page_pool {
- 	 */
- 	struct ptr_ring ring;
- 
-+	void *mp_priv;
-+	const struct memory_provider_ops *mp_ops;
++enum {
++	NETDEV_A_BIND_DMABUF_IFINDEX = 1,
++	NETDEV_A_BIND_DMABUF_QUEUES,
++	NETDEV_A_BIND_DMABUF_DMABUF_FD,
++	NETDEV_A_BIND_DMABUF_DMABUF_ID,
 +
- #ifdef CONFIG_PAGE_POOL_STATS
- 	/* recycle stats are per-cpu to avoid locking */
- 	struct page_pool_recycle_stats __percpu *recycle_stats;
-diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-index f4444b4e39e63..251c9356c9202 100644
---- a/net/core/page_pool.c
-+++ b/net/core/page_pool.c
-@@ -26,6 +26,8 @@
- 
- #include "page_pool_priv.h"
- 
-+static DEFINE_STATIC_KEY_FALSE(page_pool_mem_providers);
++	__NETDEV_A_BIND_DMABUF_MAX,
++	NETDEV_A_BIND_DMABUF_MAX = (__NETDEV_A_BIND_DMABUF_MAX - 1)
++};
 +
- #define DEFER_TIME (msecs_to_jiffies(1000))
- #define DEFER_WARN_INTERVAL (60 * HZ)
+ enum {
+ 	NETDEV_A_QSTATS_IFINDEX = 1,
+ 	NETDEV_A_QSTATS_QUEUE_TYPE,
+@@ -183,6 +201,7 @@ enum {
+ 	NETDEV_CMD_PAGE_POOL_CHANGE_NTF,
+ 	NETDEV_CMD_PAGE_POOL_STATS_GET,
+ 	NETDEV_CMD_QUEUE_GET,
++	NETDEV_CMD_BIND_RX,
+ 	NETDEV_CMD_NAPI_GET,
+ 	NETDEV_CMD_QSTATS_GET,
  
-@@ -186,6 +188,7 @@ static int page_pool_init(struct page_pool *pool,
- 			  int cpuid)
+diff --git a/net/core/netdev-genl-gen.c b/net/core/netdev-genl-gen.c
+index 8350a0afa9ec7..9acd0d893765a 100644
+--- a/net/core/netdev-genl-gen.c
++++ b/net/core/netdev-genl-gen.c
+@@ -27,6 +27,11 @@ const struct nla_policy netdev_page_pool_info_nl_policy[NETDEV_A_PAGE_POOL_IFIND
+ 	[NETDEV_A_PAGE_POOL_IFINDEX] = NLA_POLICY_FULL_RANGE(NLA_U32, &netdev_a_page_pool_ifindex_range),
+ };
+ 
++const struct nla_policy netdev_queue_dmabuf_nl_policy[NETDEV_A_QUEUE_DMABUF_IDX + 1] = {
++	[NETDEV_A_QUEUE_DMABUF_TYPE] = NLA_POLICY_MAX(NLA_U8, 1),
++	[NETDEV_A_QUEUE_DMABUF_IDX] = { .type = NLA_U32, },
++};
++
+ /* NETDEV_CMD_DEV_GET - do */
+ static const struct nla_policy netdev_dev_get_nl_policy[NETDEV_A_DEV_IFINDEX + 1] = {
+ 	[NETDEV_A_DEV_IFINDEX] = NLA_POLICY_MIN(NLA_U32, 1),
+@@ -58,6 +63,13 @@ static const struct nla_policy netdev_queue_get_dump_nl_policy[NETDEV_A_QUEUE_IF
+ 	[NETDEV_A_QUEUE_IFINDEX] = NLA_POLICY_MIN(NLA_U32, 1),
+ };
+ 
++/* NETDEV_CMD_BIND_RX - do */
++static const struct nla_policy netdev_bind_rx_nl_policy[NETDEV_A_BIND_DMABUF_DMABUF_FD + 1] = {
++	[NETDEV_A_BIND_DMABUF_IFINDEX] = NLA_POLICY_MIN(NLA_U32, 1),
++	[NETDEV_A_BIND_DMABUF_DMABUF_FD] = { .type = NLA_U32, },
++	[NETDEV_A_BIND_DMABUF_QUEUES] = NLA_POLICY_NESTED(netdev_queue_dmabuf_nl_policy),
++};
++
+ /* NETDEV_CMD_NAPI_GET - do */
+ static const struct nla_policy netdev_napi_get_do_nl_policy[NETDEV_A_NAPI_ID + 1] = {
+ 	[NETDEV_A_NAPI_ID] = { .type = NLA_U32, },
+@@ -130,6 +142,13 @@ static const struct genl_split_ops netdev_nl_ops[] = {
+ 		.maxattr	= NETDEV_A_QUEUE_IFINDEX,
+ 		.flags		= GENL_CMD_CAP_DUMP,
+ 	},
++	{
++		.cmd		= NETDEV_CMD_BIND_RX,
++		.doit		= netdev_nl_bind_rx_doit,
++		.policy		= netdev_bind_rx_nl_policy,
++		.maxattr	= NETDEV_A_BIND_DMABUF_DMABUF_FD,
++		.flags		= GENL_ADMIN_PERM | GENL_CMD_CAP_DO,
++	},
+ 	{
+ 		.cmd		= NETDEV_CMD_NAPI_GET,
+ 		.doit		= netdev_nl_napi_get_doit,
+diff --git a/net/core/netdev-genl-gen.h b/net/core/netdev-genl-gen.h
+index 4db40fd5b4a9e..ca5a0983f2834 100644
+--- a/net/core/netdev-genl-gen.h
++++ b/net/core/netdev-genl-gen.h
+@@ -13,6 +13,7 @@
+ 
+ /* Common nested types */
+ extern const struct nla_policy netdev_page_pool_info_nl_policy[NETDEV_A_PAGE_POOL_IFINDEX + 1];
++extern const struct nla_policy netdev_queue_dmabuf_nl_policy[NETDEV_A_QUEUE_DMABUF_IDX + 1];
+ 
+ int netdev_nl_dev_get_doit(struct sk_buff *skb, struct genl_info *info);
+ int netdev_nl_dev_get_dumpit(struct sk_buff *skb, struct netlink_callback *cb);
+@@ -26,6 +27,7 @@ int netdev_nl_page_pool_stats_get_dumpit(struct sk_buff *skb,
+ int netdev_nl_queue_get_doit(struct sk_buff *skb, struct genl_info *info);
+ int netdev_nl_queue_get_dumpit(struct sk_buff *skb,
+ 			       struct netlink_callback *cb);
++int netdev_nl_bind_rx_doit(struct sk_buff *skb, struct genl_info *info);
+ int netdev_nl_napi_get_doit(struct sk_buff *skb, struct genl_info *info);
+ int netdev_nl_napi_get_dumpit(struct sk_buff *skb, struct netlink_callback *cb);
+ int netdev_nl_qstats_get_dumpit(struct sk_buff *skb,
+diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
+index 1f6ae6379e0fc..e254503723626 100644
+--- a/net/core/netdev-genl.c
++++ b/net/core/netdev-genl.c
+@@ -721,6 +721,12 @@ int netdev_nl_qstats_get_dumpit(struct sk_buff *skb,
+ 	return err;
+ }
+ 
++/* Stub */
++int netdev_nl_bind_rx_doit(struct sk_buff *skb, struct genl_info *info)
++{
++	return 0;
++}
++
+ static int netdev_genl_netdevice_event(struct notifier_block *nb,
+ 				       unsigned long event, void *ptr)
  {
- 	unsigned int ring_qsize = 1024; /* Default */
-+	int err;
+diff --git a/tools/include/uapi/linux/netdev.h b/tools/include/uapi/linux/netdev.h
+index a8188202413ec..53244084e5330 100644
+--- a/tools/include/uapi/linux/netdev.h
++++ b/tools/include/uapi/linux/netdev.h
+@@ -136,6 +136,24 @@ enum {
+ 	NETDEV_A_QUEUE_MAX = (__NETDEV_A_QUEUE_MAX - 1)
+ };
  
- 	page_pool_struct_check();
- 
-@@ -267,7 +270,22 @@ static int page_pool_init(struct page_pool *pool,
- 	if (pool->dma_map)
- 		get_device(pool->p.dev);
- 
-+	if (pool->mp_ops) {
-+		err = pool->mp_ops->init(pool);
-+		if (err) {
-+			pr_warn("%s() mem-provider init failed %d\n", __func__,
-+				err);
-+			goto free_ptr_ring;
-+		}
++enum {
++	NETDEV_A_QUEUE_DMABUF_TYPE = 1,
++	NETDEV_A_QUEUE_DMABUF_IDX,
 +
-+		static_branch_inc(&page_pool_mem_providers);
-+	}
++	__NETDEV_A_QUEUE_DMABUF_MAX,
++	NETDEV_A_QUEUE_DMABUF_MAX = (__NETDEV_A_QUEUE_DMABUF_MAX - 1)
++};
 +
- 	return 0;
++enum {
++	NETDEV_A_BIND_DMABUF_IFINDEX = 1,
++	NETDEV_A_BIND_DMABUF_QUEUES,
++	NETDEV_A_BIND_DMABUF_DMABUF_FD,
++	NETDEV_A_BIND_DMABUF_DMABUF_ID,
 +
-+free_ptr_ring:
-+	ptr_ring_cleanup(&pool->ring, NULL);
-+	return err;
- }
- 
- static void page_pool_uninit(struct page_pool *pool)
-@@ -569,7 +587,10 @@ struct page *page_pool_alloc_pages(struct page_pool *pool, gfp_t gfp)
- 		return page;
- 
- 	/* Slow-path: cache empty, do real allocation */
--	page = __page_pool_alloc_pages_slow(pool, gfp);
-+	if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_ops)
-+		page = pool->mp_ops->alloc_netmems(pool, gfp);
-+	else
-+		page = __page_pool_alloc_pages_slow(pool, gfp);
- 	return page;
- }
- EXPORT_SYMBOL(page_pool_alloc_pages);
-@@ -627,10 +648,13 @@ void __page_pool_release_page_dma(struct page_pool *pool, struct page *page)
- void page_pool_return_page(struct page_pool *pool, struct page *page)
- {
- 	int count;
-+	bool put;
- 
--	__page_pool_release_page_dma(pool, page);
--
--	page_pool_clear_pp_info(page);
-+	put = true;
-+	if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_ops)
-+		put = pool->mp_ops->release_page(pool, page);
-+	else
-+		__page_pool_release_page_dma(pool, page);
- 
- 	/* This may be the last page returned, releasing the pool, so
- 	 * it is not safe to reference pool afterwards.
-@@ -638,7 +662,10 @@ void page_pool_return_page(struct page_pool *pool, struct page *page)
- 	count = atomic_inc_return_relaxed(&pool->pages_state_release_cnt);
- 	trace_page_pool_state_release(pool, page, count);
- 
--	put_page(page);
-+	if (put) {
-+		page_pool_clear_pp_info(page);
-+		put_page(page);
-+	}
- 	/* An optimization would be to call __free_pages(page, pool->p.order)
- 	 * knowing page is not part of page-cache (thus avoiding a
- 	 * __page_cache_release() call).
-@@ -937,6 +964,12 @@ static void __page_pool_destroy(struct page_pool *pool)
- 
- 	page_pool_unlist(pool);
- 	page_pool_uninit(pool);
++	__NETDEV_A_BIND_DMABUF_MAX,
++	NETDEV_A_BIND_DMABUF_MAX = (__NETDEV_A_BIND_DMABUF_MAX - 1)
++};
 +
-+	if (pool->mp_ops) {
-+		pool->mp_ops->destroy(pool);
-+		static_branch_dec(&page_pool_mem_providers);
-+	}
-+
- 	kfree(pool);
- }
+ enum {
+ 	NETDEV_A_QSTATS_IFINDEX = 1,
+ 	NETDEV_A_QSTATS_QUEUE_TYPE,
+@@ -183,6 +201,7 @@ enum {
+ 	NETDEV_CMD_PAGE_POOL_CHANGE_NTF,
+ 	NETDEV_CMD_PAGE_POOL_STATS_GET,
+ 	NETDEV_CMD_QUEUE_GET,
++	NETDEV_CMD_BIND_RX,
+ 	NETDEV_CMD_NAPI_GET,
+ 	NETDEV_CMD_QSTATS_GET,
  
 -- 
 2.45.1.288.g0e0cd299f1-goog
