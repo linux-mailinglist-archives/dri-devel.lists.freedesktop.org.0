@@ -2,64 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23258D489A
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 11:34:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7208D489F
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 11:34:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B36E112BB3;
-	Thu, 30 May 2024 09:34:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1812111A9A2;
+	Thu, 30 May 2024 09:34:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I6jNBJUi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uJyu+LBg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91782112BB3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 09:34:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717061644; x=1748597644;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=Ocz7+CYfvI5y0FGXH7EbprNlKleZP/syPwERYKx0hig=;
- b=I6jNBJUiSn0kDRl/RlrO8K6k15zEiLRMlktM+Bc1JzOR987wNHii/wnk
- ZwIo6cVozxJf1QJdqOYrXZ1hCgw+EfBVoOwxI5caZ1QKL4LU/vb03Qk6P
- ioGjSFYtTL4X/m0ochtRSe0amIRVSJD/jVh6KZSsMe7D3D33QqHWvgix3
- YLW7/OVMtgahhSzLy0pvrtHqBfcu2bHYP+/l4ZNh6B15kovVmnXLY3RJf
- yVoiX+kRWLtNpV3FpCOVFAuySuT8ba3YoI8fS9zih92IF/mfbatnoFDOA
- 0KSK0H7aGwvhsokVOrQxirE7NBtA5comxkRnD4mAS2DlcQZwHD6d9ygXx w==;
-X-CSE-ConnectionGUID: 5Q97N5/ERaqb9AgaQdjdfQ==
-X-CSE-MsgGUID: IvPkacR8RkiVmRFND7dxWQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="11793802"
-X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; d="scan'208";a="11793802"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2024 02:34:03 -0700
-X-CSE-ConnectionGUID: kUwxMxxjSXOZaeXdWYG/HA==
-X-CSE-MsgGUID: 1dquqGKMRN6W2ZWT6SUnAQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; d="scan'208";a="73229160"
-Received: from irvmail002.ir.intel.com ([10.43.11.120])
- by orviesa001.jf.intel.com with ESMTP; 30 May 2024 02:33:56 -0700
-Received: from [10.246.25.139] (mwajdecz-MOBL.ger.corp.intel.com
- [10.246.25.139])
- by irvmail002.ir.intel.com (Postfix) with ESMTP id 01ACF12414;
- Thu, 30 May 2024 10:33:53 +0100 (IST)
-Message-ID: <496d5b58-51c8-4176-a60a-d238f6407dd2@intel.com>
-Date: Thu, 30 May 2024 11:33:52 +0200
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E5E611A8AF
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 09:34:30 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 470B3CE1802;
+ Thu, 30 May 2024 09:34:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F31D2C2BBFC;
+ Thu, 30 May 2024 09:34:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1717061667;
+ bh=tEQu35CaxhT9+Q6qAEJEskYUshMXy0do6KkUt7ceXLw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uJyu+LBgo9JPAAsFFLlXJ1qJFP+qD0BC7jiXxbKMh0txds+0+h8QZeLsZs5yn95tj
+ rIBoQINUONJ1IgqwfT+eXCz7QwhlNHCdJTj9uHbAcpmwFbhLTzjMbp8PmZ5uQhcJ4q
+ Y2rlMKe+XYLdEFmN0vvC7xw4YLX68qGDBrUEP1fdvx0mxVGbHVNnh8rOc5145zvEWT
+ 4NEuknsI7Q1I7vpgAC2eBqe2fxpawGQ4UxsKqZo8dMU17QNWb6kjRL/lz8qxfQ50d8
+ /smnXzxTnDqo2ql3epJ2Hs0c+hYeH615vfDPT43W4MVaqEjCghDVG4XMAtUJ2RlAPl
+ 7JjMDbNIB+hWg==
+Date: Thu, 30 May 2024 11:34:24 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Jayesh Choudhary <j-choudhary@ti.com>
+Cc: linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org, 
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, sam@ravnborg.org, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, a-bhatia1@ti.com, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 2/2] drm/bridge: Add pixel clock check in atomic_check
+Message-ID: <20240530-spiked-psychedelic-monkey-ddd0b0@houat>
+References: <20240530092930.434026-1-j-choudhary@ti.com>
+ <20240530092930.434026-3-j-choudhary@ti.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/print: Introduce drm_line_printer
-To: Jani Nikula <jani.nikula@intel.com>,
- John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>
-References: <20240528130622.1152-1-michal.wajdeczko@intel.com>
- <1bf31a4b-fede-4044-8390-abb2b833608d@intel.com> <877cfbivrv.fsf@intel.com>
-Content-Language: en-US
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <877cfbivrv.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="eqvyt5rrxiedz2k4"
+Content-Disposition: inline
+In-Reply-To: <20240530092930.434026-3-j-choudhary@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,262 +64,54 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--eqvyt5rrxiedz2k4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 30.05.2024 09:49, Jani Nikula wrote:
-> On Wed, 29 May 2024, John Harrison <john.c.harrison@intel.com> wrote:
->> On 5/28/2024 06:06, Michal Wajdeczko wrote:
->>> This drm printer wrapper can be used to increase the robustness of
->>> the captured output generated by any other drm_printer to make sure
->>> we didn't lost any intermediate lines of the output by adding line
->>> numbers to each output line. Helpful for capturing some crash data.
->>>
->>> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
->>> Cc: Jani Nikula <jani.nikula@intel.com>
->>> Cc: John Harrison <John.C.Harrison@Intel.com>
->>> ---
->>> v2: don't abuse prefix, use union instead (Jani)
->>>      don't use 'dp' as name, prefer 'p' (Jani)
->>>      add support for unique series identifier (John)
->>> ---
->>>   drivers/gpu/drm/drm_print.c | 14 ++++++++
->>>   include/drm/drm_print.h     | 68 ++++++++++++++++++++++++++++++++++++-
->>>   2 files changed, 81 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
->>> index cf2efb44722c..be9cbebff5b3 100644
->>> --- a/drivers/gpu/drm/drm_print.c
->>> +++ b/drivers/gpu/drm/drm_print.c
->>> @@ -214,6 +214,20 @@ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
->>>   }
->>>   EXPORT_SYMBOL(__drm_printfn_err);
->>>   
->>> +void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf)
->>> +{
->>> +	unsigned int counter = ++p->line.counter;
->> Wrong units, but see below anyway...
+Hi,
 
-it really doesn't matter as it is temporary var used in printf()
-actual 'short' counter will wrap on its own unit boundary
+On Thu, May 30, 2024 at 02:59:30PM GMT, Jayesh Choudhary wrote:
+> Check the pixel clock for the mode in atomic_check and ensure that
+> it is within the range supported by the bridge.
+>=20
+> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> ---
+>  drivers/gpu/drm/bridge/sii902x.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/si=
+i902x.c
+> index 6a6055a4ccf9..1bf2f14a772d 100644
+> --- a/drivers/gpu/drm/bridge/sii902x.c
+> +++ b/drivers/gpu/drm/bridge/sii902x.c
+> @@ -494,6 +494,12 @@ static int sii902x_bridge_atomic_check(struct drm_br=
+idge *bridge,
+>  				       struct drm_crtc_state *crtc_state,
+>  				       struct drm_connector_state *conn_state)
+>  {
+> +	if (crtc_state->mode.clock < SII902X_MIN_PIXEL_CLOCK_KHZ)
+> +		return MODE_CLOCK_LOW;
+> +
+> +	if (crtc_state->mode.clock > SII902X_MAX_PIXEL_CLOCK_KHZ)
+> +		return MODE_CLOCK_HIGH;
+> +
 
->>
->>> +	const char *prefix = p->prefix ?: "";
->>> +	const char *pad = p->prefix ? " " : "";
->>> +
->>> +	if (p->line.series)
->>> +		drm_printf(p->arg, "%s%s%u.%u: %pV",
->>> +			   prefix, pad, p->line.series, counter, vaf);
->>> +	else
->>> +		drm_printf(p->arg, "%s%s%u: %pV", prefix, pad, counter, vaf);
->>> +}
->>> +EXPORT_SYMBOL(__drm_printfn_line);
->>> +
->>>   /**
->>>    * drm_puts - print a const string to a &drm_printer stream
->>>    * @p: the &drm printer
->>> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
->>> index 089950ad8681..f4d9b98d7909 100644
->>> --- a/include/drm/drm_print.h
->>> +++ b/include/drm/drm_print.h
->>> @@ -176,7 +176,13 @@ struct drm_printer {
->>>   	void (*puts)(struct drm_printer *p, const char *str);
->>>   	void *arg;
->>>   	const char *prefix;
->>> -	enum drm_debug_category category;
->>> +	union {
->>> +		enum drm_debug_category category;
->>> +		struct {
->>> +			unsigned short series;
->>> +			unsigned short counter;
->> Any particular reason for using 'short' rather than 'int'? Short is only 
+atomic_check doesn't return drm_mode_status but regular error codes (0
+on success, negative error code on failure)
 
-didn't want to increase the size of the struct drm_printer and with
-little luck sizeof two shorts will be less/equal sizeof enum
+Maxime
 
->> 16bits right? That might seem huge but a GuC log buffer with 16MB debug 
->> log (and minimum sizes for the other sections) when dumped via the 
->> original debugfs hexdump mechanism is 1,245,444 lines. That line count 
+--eqvyt5rrxiedz2k4
+Content-Type: application/pgp-signature; name="signature.asc"
 
-if your capture relies on collecting all 1,245,444 lines then likely you
-have other problem that needs solving than line counter overflow
+-----BEGIN PGP SIGNATURE-----
 
->> goes down a lot when you start using longer lines for the dump, but it 
->> is still in the tens of thousands of lines.  So limiting to 16 bits is 
->> an overflow just waiting to happen.
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZlhIIAAKCRAnX84Zoj2+
+dmtDAYDKG/BmH6pQDT3/a9jAZw6MLC3PDP1ck88oGHUNjjKiyUhwBwrTl/m0ZG4E
+BnoybWsBgMVO4kmBlXkJ4Ee2H26nQTt68ithsfMMFyxYYmZ6gS2qoV6snRnbJ9SF
+KUcF31qy8g==
+=SvhA
+-----END PGP SIGNATURE-----
 
-but even in case of an overflow it should be relatively easy to teach
-any parser to deal with line .0 as indicator to restart any tracker
-
-and it is highly unlikely that any captured logs will miss exactly
-65,536 contiguous lines, but even then it should be noticeable gap
-
->>
->>> +		} line;
->>> +	};
->>>   };
->>>   
->>>   void __drm_printfn_coredump(struct drm_printer *p, struct va_format *vaf);
->>> @@ -186,6 +192,7 @@ void __drm_puts_seq_file(struct drm_printer *p, const char *str);
->>>   void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
->>>   void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf);
->>>   void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
->>> +void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf);
->>>   
->>>   __printf(2, 3)
->>>   void drm_printf(struct drm_printer *p, const char *f, ...);
->>> @@ -357,6 +364,65 @@ static inline struct drm_printer drm_err_printer(struct drm_device *drm,
->>>   	return p;
->>>   }
->>>   
->>> +/**
->>> + * drm_line_printer - construct a &drm_printer that prefixes outputs with line numbers
->>> + * @p: the &struct drm_printer which actually generates the output
->>> + * @prefix: optional output prefix, or NULL for no prefix
->>> + * @series: optional unique series identifier, or 0 to omit identifier in the output
->>> + *
->>> + * This printer can be used to increase the robustness of the captured output
->>> + * to make sure we didn't lost any intermediate lines of the output. Helpful
->>> + * while capturing some crash data.
->>> + *
->>> + * Example 1::
->>> + *
->>> + *	void crash_dump(struct drm_device *drm)
->>> + *	{
->>> + *		static unsigned short id;
->>> + *		struct drm_printer p = drm_err_printer(drm, "crash");
->>> + *		struct drm_printer lp = drm_line_printer(&p, "dump", ++id);
->> Is there any benefit or other reason to split the prefix across two 
->> separate printers? It seems like a source of confusion. As in, the code
-
-it's not any kind of the required 'split', as both printers used here
-can treat prefix as optional if NULL, but rather a way to show how to
-pass two potentially separated prefixes, as one of them could be already
-prepared (like engine name or any other alias) or if the primary printer
-does not accept any prefix at all (and this a limitation of our existing
-custom GT oriented printers [1] [2])
-
-[1]
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/xe/xe_gt_printk.h#L66
-[2]
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/xe/xe_gt_printk.h#L81
-
->> will allow a double prefix, there is not much you can do about that 
->> because losing the prefix from drm_line_printer would mean no prefix at 
-
-but why would we loose the prefix from the primary printer ?
-
->> all when not using drm_err_printer underneath. But why explicitly split 
->> the message across both printers in the usage example? This is saying 
->> that this is the recommended way to use the interface, but with no 
->> explanation of why the split is required or how the split should be done.
-
-the drm_line_printer is flexible and can be used in many configurations,
-above is just one of the potential uses that shows full output
-
-> 
-> You could have a printer, and then add two separate line counted blocks.
-> 
-> 	struct drm_printer p = drm_err_printer(drm, "parent");
-> 	struct drm_printer lp1 = drm_line_printer(&p, "child 1", 0);
-> 
-> 	...
-> 
-> 	struct drm_printer lp2 = drm_line_printer(&p, "child 2", 0);
-> 
-> 	...
-> 
-> p could be defined elsewhere and passed into separate functions which
-> each have the line printing. The two prefixes can be useful.
-
-didn't considered that, but as stated above, drm_line_printer is
-flexible and can be used in many different ways, like this new one
-
-> 
->> Also, there is really no specific connection to crashes. The purpose of 
->> this is for allowing the dumping of multi-line blocks of data. One use 
->> is for debugging crashes. But there are many debug operations that 
->> require the same dump and do not involve a crash. And this support is 
->> certainly not intended to be used on general end-user GPU hangs. For 
->> those, everything should be part of the devcoredump core file that is 
->> produced and accessible via sysfs. We absolutely should not be dumping 
->> huge data blocks in customer release drivers except in very extreme 
->> circumstances.
-
-if you are trying to convince me that we don't need any custom
-drm_printer that would take care of tracking and printing line numbers
-in kind of more robust way and instead we should be doing such line
-prints in a error prone way on it's own as you did in [3], then sorry,
-I'm not convinced, unless you just feel that it shouldn't be part of the
-drm yet, but then decision is drm maintainer hands (and also in the Xe
-maintainers who don't want to fall into i915-ish private solutions trap)
-
-[3] https://patchwork.freedesktop.org/patch/594021/?series=133349&rev=2
-
-> 
-> A devcoredump implementation could use a drm_printer too?
-> 
-> Is this only about bikeshedding the example? I'm not sure I get the
-> point here.
-> 
->>
->>> + *
->>> + *		drm_printf(&lp, "foo");
->>> + *		drm_printf(&lp, "bar");
->>> + *	}
->>> + *
->>> + * Above code will print into the dmesg something like::
->>> + *
->>> + *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.1: foo
->>> + *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.2: bar
->>> + *
->>> + * Example 2::
->>> + *
->>> + *	void line_dump(struct device *dev)
->>> + *	{
->>> + *		struct drm_printer p = drm_info_printer(dev);
->>> + *		struct drm_printer lp = drm_line_printer(&p, NULL, 0);
->>> + *
->>> + *		drm_printf(&lp, "foo");
->>> + *		drm_printf(&lp, "bar");
->>> + *	}
->>> + *
->>> + * Above code will print::
->>> + *
->>> + *	[ ] 0000:00:00.0: [drm] 1: foo
->>> + *	[ ] 0000:00:00.0: [drm] 2: bar
->> Not really seeing the point of having two examples listed. The first 
->> includes all the optional extras, the second is just repeating with no 
->> new information.
-> 
-> You see how the "series" param behaves?
-
-exactly
-
-> 
-> BR,
-> Jani.
-> 
->>
->> John.
->>
->>> + *
->>> + * RETURNS:
->>> + * The &drm_printer object
->>> + */
->>> +static inline struct drm_printer drm_line_printer(struct drm_printer *p,
->>> +						  const char *prefix,
->>> +						  unsigned short series)
->>> +{
->>> +	struct drm_printer lp = {
->>> +		.printfn = __drm_printfn_line,
->>> +		.arg = p,
->>> +		.prefix = prefix,
->>> +		.line = { .series = series, },
->>> +	};
->>> +	return lp;
->>> +}
->>> +
->>>   /*
->>>    * struct device based logging
->>>    *
->>
-> 
+--eqvyt5rrxiedz2k4--
