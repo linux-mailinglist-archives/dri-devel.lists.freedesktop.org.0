@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1057D8D48B0
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 11:36:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3302D8D48B5
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 11:37:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 999F111ABA3;
-	Thu, 30 May 2024 09:36:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C327511B412;
+	Thu, 30 May 2024 09:36:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="bBc7W6pf";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="xk3H5/86";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF0F211ABA3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 09:36:41 +0000 (UTC)
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC18F11AE60
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 09:36:48 +0000 (UTC)
 Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44U9aSMb128511;
- Thu, 30 May 2024 04:36:28 -0500
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44U9aUxL055565;
+ Thu, 30 May 2024 04:36:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1717061788;
- bh=o5wG54oHAcp8t7FU4H5j+XKlq4EeECM+G2XW18HGS7I=;
+ s=ti-com-17Q1; t=1717061790;
+ bh=+a/BEq/jotd7F7kcHNtW6KCfAyRRYr6msGCCq8I6qJM=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=bBc7W6pf9IWPDYomeMsFhwqjeRCOOLESv4pEnBtGFqtKDyMPT+7i/1xJqgTARUY4b
- 9i+NROn03wtaT4qR5mtOZ3JOyGceCDUf8rs1z0+u1iLVRYWGey1CoTG+YFsqDlCvnQ
- qBpOwlke25sRgwwfyi2PMkl/gvbySsiXXBVJJs3s=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44U9aSeG055280
+ b=xk3H5/861BlCKOmuG5867UTooPoIjPC2FkQLz2JduFcDB8YypYXydEizVLpZCpnpx
+ LIrck51mqyY3ojBa409m0+1Kvvy80vyDhL3HEKTUWISdv1c5xYlUKJ1YTcVFT/Qu7l
+ qwvXFqWTvOuf6JO32b/rC53gzY08V+5EJj6Z6fdM=
+Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44U9aTTR055288
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 30 May 2024 04:36:28 -0500
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 30 May 2024 04:36:29 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 30
- May 2024 04:36:28 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ May 2024 04:36:29 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 30 May 2024 04:36:27 -0500
+ Frontend Transport; Thu, 30 May 2024 04:36:29 -0500
 Received: from localhost (uda0496377.dhcp.ti.com [172.24.227.31])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44U9aR91086311;
- Thu, 30 May 2024 04:36:27 -0500
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44U9aS68000546;
+ Thu, 30 May 2024 04:36:29 -0500
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda
  <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
@@ -59,9 +59,10 @@ CC: DRI Development List <dri-devel@lists.freedesktop.org>, Linux Kernel List
  Devarsh Thakkar <devarsht@ti.com>, Jayesh
  Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
  Aradhya Bhatia <a-bhatia1@ti.com>
-Subject: [PATCH v2 3/9] drm/bridge: cdns-dsi: Fix the link and phy init order
-Date: Thu, 30 May 2024 15:06:15 +0530
-Message-ID: <20240530093621.1925863-4-a-bhatia1@ti.com>
+Subject: [PATCH v2 4/9] drm/bridge: cdns-dsi: Fix the clock variable for
+ mode_valid()
+Date: Thu, 30 May 2024 15:06:16 +0530
+Message-ID: <20240530093621.1925863-5-a-bhatia1@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240530093621.1925863-1-a-bhatia1@ti.com>
 References: <20240530093621.1925863-1-a-bhatia1@ti.com>
@@ -84,14 +85,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The order of init of DSI link and DSI phy is wrong. The DSI link needs
-to be configured before the DSI phy is getting configured. Otherwise,
-the D-Phy is unable to lock in on the incoming PLL Reference clock[0].
-
-Fix the order of inits.
-
-[0]: See section 12.6.5.7.3 "Start-up Procedure" in J721E SoC TRM
-     TRM Link: http://www.ti.com/lit/pdf/spruil1
+Allow the D-Phy config checks to use mode->clock instead of
+mode->crtc_clock during mode_valid checks, like everywhere else in the
+driver.
 
 Fixes: fced5a364dee ("drm/bridge: cdns: Convert to phy framework")
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
@@ -100,19 +96,18 @@ Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 42565e253b2d..371a3453970c 100644
+index 371a3453970c..557b037bbc67 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -775,8 +775,8 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
+@@ -574,7 +574,7 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
+ 	if (ret)
+ 		return ret;
  
- 	WARN_ON_ONCE(cdns_dsi_check_conf(dsi, mode, &dsi_cfg, false));
+-	phy_mipi_dphy_get_default_config(mode->crtc_clock * 1000,
++	phy_mipi_dphy_get_default_config((mode_valid_check ? mode->clock : mode->crtc_clock) * 1000,
+ 					 mipi_dsi_pixel_format_to_bpp(output->dev->format),
+ 					 nlanes, phy_cfg);
  
--	cdns_dsi_hs_init(dsi);
- 	cdns_dsi_init_link(dsi);
-+	cdns_dsi_hs_init(dsi);
- 
- 	writel(HBP_LEN(dsi_cfg.hbp) | HSA_LEN(dsi_cfg.hsa),
- 	       dsi->regs + VID_HSIZE1);
 -- 
 2.34.1
 
