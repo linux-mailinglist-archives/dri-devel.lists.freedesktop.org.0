@@ -2,85 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1439B8D4AED
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 13:35:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B526B8D4BCE
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 14:44:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9000010E3FA;
-	Thu, 30 May 2024 11:35:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A065210E0D4;
+	Thu, 30 May 2024 12:44:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="axBRK9N+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Mn9lFHQe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FFEA10E3FA
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 11:35:08 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-52b4fcbf078so975311e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 04:35:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717068906; x=1717673706; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=wxpMuKi+LXyXGnJgFY2tdfzN1kQoY6oVI5V7Y+J38bw=;
- b=axBRK9N+33V6ot7jAboC2T5hHnaXzZ+Qub8ReCQcim1wxXGh1vQxWIM7WEn2b9k25x
- tSMfCKugMi0T0LEV8eL+aATx5J1vVwrmwcp8AnYRx3VNoRv9c2cBdp2aRgFpMlsPD0v1
- GKyaB4a8gauqCB4RZW2B8prke77wG/vumgZ1hRLgE7dWLu1w3/69lU7UstQhZwvy0WFR
- Vz3SBr15vlS+/6TCNcdOpOMBFeItim9RgcnsRWL1NMfp+bB49H+Ux64qnL7BvfLS51i6
- tp+59jTP+7KKkU+VVF5Eqhk8AXnYgjmylzlm9VV/3zA8ZXPTTmijALwUxVY+gNnOMl+Z
- VYDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717068906; x=1717673706;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wxpMuKi+LXyXGnJgFY2tdfzN1kQoY6oVI5V7Y+J38bw=;
- b=ica6KYrSAFjRbSKQ8XnUpES+DxCWp9PtJnOWLOOaNE2z2wETfXigwzUziDrQXSRl5C
- YJw48dYnF0dEDLTlKRzZl4M0Mee2k8djUZp5CIQn20GnUk/6femdhBaDk/ZetSOjLuwz
- zATM7qm0WE61RA91hKOMIvOVyVTYgpmAaQQu6SkQab6TqDGzfGBHMBkibZvI5+PY3hrn
- GMtirJPVuUU6DeF/YMzlX5bTC8e2k/iUHqGEC0W/fU1NoPdntz8judjO+DJ7Bs0VnjSO
- twC2cwAlUogE4ibD24F5nM4lTmmKKaRh/8LXYQanuWYjJuqQYO4T52JldueNQZ3zwqCn
- htbg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVhKunB+VjBUfi6fb+vrYJoz9O082YTOa8DKrdwatj3bpBf/AfQ+EnNWK09pBpy32tPgaAhp0RlQ7KZMFw6N/ZJRdz1WPdWlisRLtqgQkO7
-X-Gm-Message-State: AOJu0YweZOL968c7PxcOWFh7amUJA9f6kIkQg/OKmD44Fsp7FdU/oPIq
- lQnmeG9b7xZPkBd4GmqpIqYvQo1oBGbRk29l+nQSZwLTT6Q3kudDlvZQM5J76W4=
-X-Google-Smtp-Source: AGHT+IEa+chLqLIDVqsM++sBJf0eXp91/FeFjOPnSviE3q1lQzzwC22rOXWI7iSC6GcMFIT55xs9Rg==
-X-Received: by 2002:a19:521a:0:b0:51d:9e17:29ea with SMTP id
- 2adb3069b0e04-52b7d422099mr1055198e87.15.1717068906185; 
- Thu, 30 May 2024 04:35:06 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52b7043b402sm344963e87.211.2024.05.30.04.35.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 May 2024 04:35:05 -0700 (PDT)
-Date: Thu, 30 May 2024 14:35:04 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 5/7] drm/msm/hdmi: make use of the drm_connector_hdmi
- framework
-Message-ID: <u63p7wuvtrcdnbzikbgucedhsgjtyrx7zknkytcy5cu3hbbsxx@jm46d2od2jmi>
-References: <20240530-bridge-hdmi-connector-v3-0-a1d184d68fe3@linaro.org>
- <20240530-bridge-hdmi-connector-v3-5-a1d184d68fe3@linaro.org>
- <20240530-poised-burgundy-petrel-7affed@houat>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D43DF10E0D4;
+ Thu, 30 May 2024 12:43:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717073048; x=1748609048;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=jkH81MlUsy3b/KKRGwyQFrW7hboGUblmvfxpa2H6Nxw=;
+ b=Mn9lFHQegizAos7vwny61mzYmwtSHO9uzZoSaA3sKdt/ItjnF2uoBuo+
+ jYhfa9PaOsUejn+x0wDE0pJKurH4KicfdsWLrX0JqjShbDMxk+t/wtaji
+ lqz4c048O6OOn3FRph+RuZYJo3lPqb9BfSwKkuqKlP6EsUJqFqzqkcjY8
+ 96tBbi+x2WkvMSylrIm8wN8CxMbcGipFsy8NjQTzFeWtq76Drl5/ZrH+V
+ V7XChgx3bxlq3btct8ngqGowIwY9LmY6rYO2x2OlHoHxtFTlYrtvRomwI
+ q90MrUMb6JnsmeB9qzwSh00nw9aWMRs6mijXBnTQhreqejQhTSWA5/Ha2 Q==;
+X-CSE-ConnectionGUID: jQFBiqokS0uKdpnJrn4pdg==
+X-CSE-MsgGUID: B2NnICBcQSODy4VfArZuPA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="38943159"
+X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; d="scan'208";a="38943159"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 May 2024 05:43:59 -0700
+X-CSE-ConnectionGUID: jV+0OyEdQzqHuXLLWBCh/Q==
+X-CSE-MsgGUID: mJwPgkeXSOGwKXLycCepRA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; d="scan'208";a="66665269"
+Received: from unknown (HELO localhost) ([10.237.66.160])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 May 2024 05:43:56 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: jani.nikula@intel.com, Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Zhi Wang <zhi.wang.linux@gmail.com>, intel-gvt-dev@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/i915/gvt: stop using drm_edid_block_valid()
+Date: Thu, 30 May 2024 15:43:51 +0300
+Message-Id: <20240530124352.362736-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240530-poised-burgundy-petrel-7affed@houat>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,71 +68,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 30, 2024 at 11:16:08AM +0200, Maxime Ripard wrote:
-> Hi,
-> 
-> On Thu, May 30, 2024 at 02:12:28AM GMT, Dmitry Baryshkov wrote:
-> > Setup the HDMI connector on the MSM HDMI outputs. Make use of
-> > atomic_check hook and of the provided Infoframe infrastructure.
-> > 
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> As a general comment: I really like it, it looks super tidy. Thanks!
-> 
-> There's a couple of minor issues below
-> 
-> > -int msm_hdmi_audio_update(struct hdmi *hdmi)
-> > +static int msm_hdmi_audio_update(struct hdmi *hdmi)
-> >  {
-> >  	struct hdmi_audio *audio = &hdmi->audio;
-> > -	struct hdmi_audio_infoframe *info = &audio->infoframe;
-> >  	const struct hdmi_msm_audio_arcs *arcs = NULL;
-> >  	bool enabled = audio->enabled;
-> >  	uint32_t acr_pkt_ctrl, vbi_pkt_ctrl, aud_pkt_ctrl;
-> > -	uint32_t infofrm_ctrl, audio_config;
-> > +	uint32_t audio_config;
-> > +
-> > +	if (!hdmi->hdmi_mode)
-> > +		return -EINVAL;
-> > +
-> > +	DBG("audio: enabled=%d, channels=%d, rate=%d",
-> > +	    audio->enabled, audio->channels, audio->rate);
-> >  
-> > -	DBG("audio: enabled=%d, channels=%d, channel_allocation=0x%x, "
-> > -		"level_shift_value=%d, downmix_inhibit=%d, rate=%d",
-> > -		audio->enabled, info->channels,  info->channel_allocation,
-> > -		info->level_shift_value, info->downmix_inhibit, audio->rate);
-> >  	DBG("video: power_on=%d, pixclock=%lu", hdmi->power_on, hdmi->pixclock);
-> 
-> pixclock should come from the connector state too. It's still calculated
-> by the driver in msm_hdmi_bridge_mode_set
+We'll want to stop drm_edid_block_valid() usage. KVMGT is the last
+user. Replace with drm_edid_valid(), which unfortunately requires an
+allocated drm_edid. However, on the plus side, this would be required to
+handle the TODO comment about EDID extension block support.
 
-Yes, that's why I asked on IRC regarding the char rate and ALSA codec.
-I'll see what I can do.
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-> 
-> > @@ -341,8 +425,11 @@ int msm_hdmi_bridge_init(struct hdmi *hdmi)
-> >  	bridge->funcs = &msm_hdmi_bridge_funcs;
-> >  	bridge->ddc = hdmi->i2c;
-> >  	bridge->type = DRM_MODE_CONNECTOR_HDMIA;
-> > +	bridge->vendor = "Qualcomm";
-> > +	bridge->product = "Snapdragon";
-> >  	bridge->ops = DRM_BRIDGE_OP_HPD |
-> >  		DRM_BRIDGE_OP_DETECT |
-> > +		DRM_BRIDGE_OP_HDMI |
-> >  		DRM_BRIDGE_OP_EDID;
-> >  
-> >  	ret = devm_drm_bridge_add(hdmi->dev->dev, bridge);
-> 
-> It looks like you're not setting either the supported formats or bpc?
+---
 
-I've added what looks to be sane defaults to the drm_bridge_connector:
-RGB only and bpc = 8. If at some point we get to YUV or HDR support,
-that would need to be reflected here.
+Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: Zhi Wang <zhi.wang.linux@gmail.com>
+Cc: intel-gvt-dev@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/i915/gvt/kvmgt.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-
-
-
+diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
+index 4f74d867fe1a..7e3e5382c0c0 100644
+--- a/drivers/gpu/drm/i915/gvt/kvmgt.c
++++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+@@ -425,6 +425,18 @@ static const struct intel_vgpu_regops intel_vgpu_regops_opregion = {
+ 	.release = intel_vgpu_reg_release_opregion,
+ };
+ 
++static bool edid_valid(const void *edid, size_t size)
++{
++	const struct drm_edid *drm_edid;
++	bool is_valid;
++
++	drm_edid = drm_edid_alloc(edid, size);
++	is_valid = drm_edid_valid(drm_edid);
++	drm_edid_free(drm_edid);
++
++	return is_valid;
++}
++
+ static int handle_edid_regs(struct intel_vgpu *vgpu,
+ 			struct vfio_edid_region *region, char *buf,
+ 			size_t count, u16 offset, bool is_write)
+@@ -443,11 +455,7 @@ static int handle_edid_regs(struct intel_vgpu *vgpu,
+ 		switch (offset) {
+ 		case offsetof(struct vfio_region_gfx_edid, link_state):
+ 			if (data == VFIO_DEVICE_GFX_LINK_STATE_UP) {
+-				if (!drm_edid_block_valid(
+-					(u8 *)region->edid_blob,
+-					0,
+-					true,
+-					NULL)) {
++				if (!edid_valid(region->edid_blob, EDID_SIZE)) {
+ 					gvt_vgpu_err("invalid EDID blob\n");
+ 					return -EINVAL;
+ 				}
 -- 
-With best wishes
-Dmitry
+2.39.2
+
