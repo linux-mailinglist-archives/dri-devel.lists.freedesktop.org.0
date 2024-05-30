@@ -2,78 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92C38D468A
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 09:59:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85DC8D46B6
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2024 10:08:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16C0B10E073;
-	Thu, 30 May 2024 07:58:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93F2510F533;
+	Thu, 30 May 2024 08:08:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VyVSZ8W5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uHuyEpux";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D52D10E073
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 07:58:54 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-dfa682a4025so45010276.2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 00:58:54 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
+ [209.85.219.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5538810F51F
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 08:08:06 +0000 (UTC)
+Received: by mail-yb1-f173.google.com with SMTP id
+ 3f1490d57ef6-df4dda88ce9so393921276.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2024 01:08:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717055934; x=1717660734; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1717056485; x=1717661285; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=B+oJ9AQU1WwAFE3BTuASvQX6ynujHPOOLDvZ4IBH4iY=;
- b=VyVSZ8W5fXrr6UqKQIrQkZzVe35/9JRp1Rxg29kUe2If+avk1e5i0oIkAAhsZ9nBsB
- lNV727NLi0ZcyyF5N/FBNtz8X5s5mj190oGH7QBMaTHOhsBgmzRKopXfl0EcI9EPHf9a
- +pfNVLCOygEJzlSlcuodzgTR9VJLpE8XneQjlNxAiuPekjoz8ppEBr2598jq6VYaAQDf
- mdHMKnK7fDvIf38Yl3GACCjIaPF56jRCLh8ALcDP3cwkJh4mOqPk32QzhkUxDn9coFPE
- b3dAa4q2YA3rn84NZQWZQeqvqKStsNRyqDNPI27/8Pj3kcqs9R8San/LF/jMIBepYuy6
- h/og==
+ bh=Ea398ookltKnMcZe9XrXhw80TYHn5RUehEf25oaXTj0=;
+ b=uHuyEpux2eD7fRwKQlW5BZ6lfcm3edePuirZPnUiy1Md6FWAAnLDIGfTagSaNhitDJ
+ gZetgXAG5g4/xQuo7hZcFf/YQ9RvLLcoU1YPSeSgjfyNYiqudRyFm90mHx2+hbNcb098
+ eJeo19OKDv73rqHwTtmwWF7X6qYZ8crRwR50srpClnk80vESjiBbqQDEGdZyTcXHljou
+ 86hdhgZhwtCY80sP6wtHvTiOeqq7WN6HDbu0tXjVYcL9KspCSDTkpY26FDumFLS9T2Pq
+ scXmkTgYo4cWyEelpgS9txoYrAQaVd/6sVxwe5/H7AY42s1r9182pv51jQX7fz24hkV8
+ QOjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717055934; x=1717660734;
+ d=1e100.net; s=20230601; t=1717056485; x=1717661285;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=B+oJ9AQU1WwAFE3BTuASvQX6ynujHPOOLDvZ4IBH4iY=;
- b=PNR60WHa20y1N5FXwqjU73uNRqzvy+UL2usfPSw7rSrAIbW/c1ILWsiY/45Q7cjSsp
- 64XmiQuilCakPmJNWVz9tqAcCBJPMsJKALRc0FgtJVmiOF8QN/9vWdk5ASU5tTle2O3w
- u/YG7DA2s4hv0Py3l/Or84kAd9KHLzzd6EeXrv15g+mJOUQ6DIpoghmsdjnyvp/lOir4
- bKR5I8P9F0Tzi0q6Z5INuqFaf45ZjhQFOAWU9ZChWqG1XgmgkDxJ9sBstMc46pcdcnmD
- CTUlHhq79mNff2JImm4SsF391c84LaxzCamPhNNL6uyEBqYehEdEhuwW+HqKAp5imXMe
- xFVA==
+ bh=Ea398ookltKnMcZe9XrXhw80TYHn5RUehEf25oaXTj0=;
+ b=CSbKwOEUATgcytPpMzpYGlRIOc6WI8l6M1/iAjsUTF79jWrjaoJkaOviPNDpJvDKm/
+ /XY3vO2vyBQhJDqqAWPImlpYQXPkoj7CE9jDr1RD+6nltU0e4NAfa3oCAzoW6e5iGU/F
+ 7iUm2tu/2SxHjpflcdcOc8uI8xEr9ZUu0BqnZHzzzEzVWfvVVKL3KmYPigcHo3lXns9Q
+ imjDBkVdGDEnQYpLp8Usqr42Bw1kVovjOy0kWS97Hl5epPWxwjHBMQRaTuXE2jGdtYsU
+ c4wUb59aT8frkF/cQHzDWnuG0xXkbR8F2nej24hkC8eEH8pets277vMBVMG+N4SrnPJG
+ sJMw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUknJaOTtQFPN71CWgk3JSZGYp+AppFZgKJ6XOtB6REEx5Wv9QkxQ3AgM/eNptJ11WgtIhjHx9EAHT+QU7E+h/WYoiTdZ1zafwTNQBCgBjw
-X-Gm-Message-State: AOJu0Ywv+FSFWcsJzvE7cZeCgrZbANm715L0hNGk85N3AqGka2zJEeId
- zIlKzyBoQZLbbPY0wJDoX/So9qyqReAVjVYr7z19etiuY7x0SRz5lHkEZyQbTwqCUV28VcekoyH
- OqFU+/AlBWG1xH+KbEFJG5u/Zrz/I6nBNI2rJgQ==
-X-Google-Smtp-Source: AGHT+IHWn8jqCUpUtwn4GZB8DSUWhC0pqZv08o7PmbgCc14pEd89tke9BgPzyPGi5xXBW4hatiPVYSqRFMZI/ea2rj8=
-X-Received: by 2002:a25:2e07:0:b0:de5:558c:e9b9 with SMTP id
- 3f1490d57ef6-dfa5a5bb588mr1579742276.11.1717055933851; Thu, 30 May 2024
- 00:58:53 -0700 (PDT)
+ AJvYcCXSsZQWwEwe4K820vAykFUQwaflRyxyiVlUXBaOWIrYzLIMpYByr56UY4TdSGA0DdaQ245gXNs67iOe+c10F/2d7wLS2STrnB+2o/iHRVAk
+X-Gm-Message-State: AOJu0YxFUMfGHjgiZVvZj5+XvF0xvq1Nm4kXQm/oMQVpJQuWqRrqGNIf
+ 6YWlgHyCZUdTU5W8QcsA0zL5QsvEh9sc9jUCfj2GH5OsZOdYTvoqHNV3xwdTajBgmwV28b6ZvFI
+ QDShBJkxTnay/0JvThBKtFPqFIo06rXcRYvWOMQ==
+X-Google-Smtp-Source: AGHT+IGz+ZsfJJB5VdBGOljgIkzRdHhgei+gaKgI65RBquJxbv4kncJ2bpBR1QliVBmCJF1PLzPJlIZVnBu5WHt6piI=
+X-Received: by 2002:a25:ac92:0:b0:dca:c369:fac2 with SMTP id
+ 3f1490d57ef6-dfa5a5baeb4mr1629327276.3.1717056485217; Thu, 30 May 2024
+ 01:08:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240529053250.91284-1-baolu.lu@linux.intel.com>
- <20240529053250.91284-7-baolu.lu@linux.intel.com>
- <jd7df7jshswukstxwbfoxuswyltyemdmkx272i5mpldlfsk4t7@ad36olyvmw27>
- <960bfc23-22b3-48d1-baa6-2707767875c5@linux.intel.com>
-In-Reply-To: <960bfc23-22b3-48d1-baa6-2707767875c5@linux.intel.com>
+References: <20240528210319.1242-1-mario.limonciello@amd.com>
+ <Zlc4V1goFvU2antl@intel.com> <197d195f-9206-41dd-8ff1-f4bb4988fb9b@amd.com>
+ <ZldMKZ1MzSDXOheJ@intel.com>
+ <g34f3sdk22grheq2vaaonkl543dtk7nb5sffqgmkl5ywtj5skk@p5ht5ug33q4z>
+ <873b7a7b-139d-498e-89da-098cb3d7599d@amd.com>
+In-Reply-To: <873b7a7b-139d-498e-89da-098cb3d7599d@amd.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 30 May 2024 10:58:42 +0300
-Message-ID: <CAA8EJppZU5yy4g85oMWzV_O9Qo91-Cr6d+W9Rz+K+mS6tfU8kw@mail.gmail.com>
-Subject: Re: [PATCH 06/20] drm/msm: Use iommu_paging_domain_alloc()
-To: Baolu Lu <baolu.lu@linux.intel.com>
-Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, 
- Yi Liu <yi.l.liu@intel.com>, David Airlie <airlied@gmail.com>,
+Date: Thu, 30 May 2024 11:07:53 +0300
+Message-ID: <CAA8EJpqODpGX-RthQ8qu3oU80qXp8a-N1Chz-dcQXjKYoDfEgw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/client: Detect when ACPI lid is closed during
+ initialization
+To: "Limonciello, Mario" <mario.limonciello@amd.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, 
- Kalle Valo <kvalo@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>, mst@redhat.com, 
- Jason Wang <jasowang@redhat.com>, Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- iommu@lists.linux.dev, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+ linux-kernel@vger.kernel.org, Chris Bainbridge <chris.bainbridge@gmail.com>, 
+ hughsient@gmail.com, linux-input@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,64 +89,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 May 2024 at 04:59, Baolu Lu <baolu.lu@linux.intel.com> wrote:
+On Thu, 30 May 2024 at 07:41, Limonciello, Mario
+<mario.limonciello@amd.com> wrote:
 >
-> On 5/29/24 4:21 PM, Dmitry Baryshkov wrote:
-> > On Wed, May 29, 2024 at 01:32:36PM +0800, Lu Baolu wrote:
-> >> The domain allocated in msm_iommu_new() is for the @dev. Replace
-> >> iommu_domain_alloc() with iommu_paging_domain_alloc() to make it explicit.
-> >>
-> >> Update msm_iommu_new() to always return ERR_PTR in failure cases instead
-> >> of NULL.
-> > Please don't mix unrelated changes, because ...
-> >
-> >> Signed-off-by: Lu Baolu<baolu.lu@linux.intel.com>
-> >> ---
-> >>   drivers/gpu/drm/msm/msm_iommu.c | 8 ++++----
-> >>   1 file changed, 4 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-> >> index d5512037c38b..f7e28d4b5f62 100644
-> >> --- a/drivers/gpu/drm/msm/msm_iommu.c
-> >> +++ b/drivers/gpu/drm/msm/msm_iommu.c
-> >> @@ -407,9 +407,9 @@ struct msm_mmu *msm_iommu_new(struct device *dev, unsigned long quirks)
-> >>      struct msm_iommu *iommu;
-> >>      int ret;
-> >>
-> >> -    domain = iommu_domain_alloc(dev->bus);
-> >> -    if (!domain)
-> >> -            return NULL;
-> >> +    domain = iommu_paging_domain_alloc(dev);
-> >> +    if (IS_ERR(domain))
-> >> +            return ERR_CAST(domain);
-> >>
-> >>      iommu_set_pgtable_quirks(domain, quirks);
-> >>
-> >> @@ -441,7 +441,7 @@ struct msm_mmu *msm_iommu_gpu_new(struct device *dev, struct msm_gpu *gpu, unsig
-> >>      struct msm_mmu *mmu;
-> >>
-> >>      mmu = msm_iommu_new(dev, quirks);
-> >> -    if (IS_ERR_OR_NULL(mmu))
-> >> +    if (IS_ERR(mmu))
-> >>              return mmu;
-> > NAK, not having an IOMMU is a poor but legit usecase for some of devices
-> > which don't have IOMMU support yet (for example because of the buggy
-> > implementation for which we were not able to get all the hooks in).
-> >
-> > Please don't break compatibility for existing platforms.
 >
-> Sure. I will remove this line of change. Though I have no idea in which
-> case msm_iommu_new() could return NULL after this patch.
+> >> Also a direct acpi_lid_open() call seems a bit iffy. But I guess if
+> >> someone needs this to work on non-ACPI system they get to figure out
+> >> how to abstract it better. acpi_lid_open() does seem to return != 0
+> >> when ACPI is not supported, so at least it would err on the side
+> >> of enabling everything.
+> >
+> > Thanks. I was going to comment, but you got it first. I think a proper
+> > implementation should check for SW_LID input device instead of simply
+> > using acpi_lid_open(). This will handle the issue for other,
+> > non-ACPI-based laptops.
+> >
+>
+> Can you suggest how this would actually work?  AFAICT the only way to
+> discover if input devices support SW_LID would be to iterate all the
+> input devices in the kernel and look for whether ->swbit has SW_LID set.
+>
+> This then turns into a dependency problem of whether any myriad of
+> drivers have started to report SW_LID.  It's also a state machine
+> problem because other drivers can be unloaded at will.
+>
+> And then what do you if more than one sets SW_LID?
 
-So, even without this chunk you are going to break the no-IOMMU case.
-Please don't. This will result in a regression report and a revert.
+It might be easier to handle this in the input subsystem. For example
+by using a refcount-like variable which handles all the LIDs and
+counts if all of them are closed. Or if any of the LIDs is closed.
 
-Instead please provide a way for the existing drivers to continue
-working. For example, something like:
+>
+> IOW - a lot of complexity for a non-ACPI system.  Does such a problem
+> exist in non-ACPI systems?
 
-if (IS_ERR(mmu) && ERR_PTR(mmu) == -ENODEV))
-    return NULL;
-
+There are non-ACPI laptops. For example Chromebooks. Or Lenovo X13s,
+Lenovo Yoga C630, Lenovo Flex5G, etc. We are expecting more to come in
+the next few months. And I don't see why they won't have the same
+problem.
 
 
 -- 
