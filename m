@@ -2,85 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2B78D5776
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 03:02:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD79C8D5876
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 04:00:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3D8A10FC7C;
-	Fri, 31 May 2024 01:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FAF210F52F;
+	Fri, 31 May 2024 02:00:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="f9h1QTPB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZPotFBUd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8576E10FB67;
- Fri, 31 May 2024 01:02:47 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44UHDn25024256;
- Fri, 31 May 2024 01:02:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- BPPcczdJf/UcAPn07oic5fGsvewdXZJnmPMWlsGhOlU=; b=f9h1QTPBKU3D5JQy
- InbK+9m3ORbXRVBDhs1qVNWjGKTdgrwoxs5CKuXraJ9oCqpWDH5oLa67CwSCoSfk
- KUnigxlrZDHSEKFgvHGG8YxCwv5r8wTwB929qiugvnpPLClMBs4iN7Dvd3wVe7Oc
- zBZuIOGnKGOL19eN8YVWQS+sczbPPjV5aniPXBsMt8B/DiWNk+bYofThlh1nsFux
- WOOfZrBZL8lR/TaAfGRfxS3bvMPRFWvcEpR5EwGyODQR2do3vtAGWYjHFiXKqcC1
- qZaDeaRRqBrW7JEpWc8JhHuHLLkGMskHn93kkcyP42Yw5ewcoWvIWVS0WshFsstn
- wSkcSw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ybadxdjnm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 May 2024 01:02:41 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44V12ew4027294
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 May 2024 01:02:40 GMT
-Received: from [10.71.110.249] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 30 May
- 2024 18:02:36 -0700
-Message-ID: <6a335026-77c1-a112-69af-a8d9d86d5528@quicinc.com>
-Date: Thu, 30 May 2024 18:02:34 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5250B10E5F7
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 02:00:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717120810; x=1748656810;
+ h=message-id:date:mime-version:cc:subject:to:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=2fUiLAe0vLP2hoMqQ1N3E6uckKGVMNj5dHoJ19Y+sN0=;
+ b=ZPotFBUdzP7nC5MFApOnOaWLDTB4SeKCmeM0R+CF0ZV3qOL9+LPKMnGZ
+ OgJOuS+BY/hazJny/8/PJw88EM8jxR3Yxpg10b7Qk6wQjHCoRYwmPmdNi
+ 2DXpKizh2oW8E2O79IUDNVHwMYrBLfaGZDMs1wb83weYP2x3djtMK8K+N
+ jHW9Mu5wR1v8wN5vOXhbL4WSVHoIjKoQpjgBOFgGszudUsYM/hiSjwVBZ
+ UCaRI4wy4hWVUC4BTMxe17Wo7FxOzYx1IKtvriXKNFe25DBfLpDqQ8/44
+ 26K5A08FXJ6irC/rI9r5kqIGOmSphXSUpx/JSFkq2D64KFNPdzpCZwVtT A==;
+X-CSE-ConnectionGUID: bwyucErOQXCuoAeuVUKsXg==
+X-CSE-MsgGUID: uXEnBq0BRjihDrrv8TlmFQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="17479952"
+X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; d="scan'208";a="17479952"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 May 2024 19:00:08 -0700
+X-CSE-ConnectionGUID: U2f5FXHqTNiG/j8alR7vOg==
+X-CSE-MsgGUID: +b1UL6wJRJyLg9EzJxqHvw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; d="scan'208";a="40936569"
+Received: from unknown (HELO [10.239.159.127]) ([10.239.159.127])
+ by orviesa005.jf.intel.com with ESMTP; 30 May 2024 19:00:02 -0700
+Message-ID: <dda59cd5-b227-4f42-a7f2-b9fe03e1b020@linux.intel.com>
+Date: Fri, 31 May 2024 09:57:54 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v4 05/13] drm/msm/dpu: move scaling limitations out of the
- hw_catalog
+User-Agent: Mozilla Thunderbird
+Cc: baolu.lu@linux.intel.com, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
+ Yi Liu <yi.l.liu@intel.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Kalle Valo <kvalo@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>, mst@redhat.com,
+ Jason Wang <jasowang@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, iommu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 06/20] drm/msm: Use iommu_paging_domain_alloc()
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20240529053250.91284-1-baolu.lu@linux.intel.com>
+ <20240529053250.91284-7-baolu.lu@linux.intel.com>
+ <jd7df7jshswukstxwbfoxuswyltyemdmkx272i5mpldlfsk4t7@ad36olyvmw27>
+ <960bfc23-22b3-48d1-baa6-2707767875c5@linux.intel.com>
+ <CAA8EJppZU5yy4g85oMWzV_O9Qo91-Cr6d+W9Rz+K+mS6tfU8kw@mail.gmail.com>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-CC: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20240314000216.392549-1-dmitry.baryshkov@linaro.org>
- <20240314000216.392549-6-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240314000216.392549-6-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <CAA8EJppZU5yy4g85oMWzV_O9Qo91-Cr6d+W9Rz+K+mS6tfU8kw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: QNXNN7eTdiT5GMQmuvh7p6VYdKB_UxZ2
-X-Proofpoint-GUID: QNXNN7eTdiT5GMQmuvh7p6VYdKB_UxZ2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-30_21,2024-05-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0
- impostorscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
- priorityscore=1501 mlxscore=0 suspectscore=0 spamscore=0
- lowpriorityscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2405170001 definitions=main-2405310006
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,87 +83,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 3/13/2024 5:02 PM, Dmitry Baryshkov wrote:
-> Max upscale / downscale factors are constant between platforms. In
-> preparation to adding support for virtual planes and allocating SSPP
-> blocks on demand move max scaling factors out of the HW catalog and
-> handle them in the dpu_plane directly. If any of the scaling blocks gets
-> different limitations, this will have to be handled separately, after
-> the plane refactoring.
+On 5/30/24 3:58 PM, Dmitry Baryshkov wrote:
+> On Thu, 30 May 2024 at 04:59, Baolu Lu<baolu.lu@linux.intel.com>  wrote:
+>> On 5/29/24 4:21 PM, Dmitry Baryshkov wrote:
+>>> On Wed, May 29, 2024 at 01:32:36PM +0800, Lu Baolu wrote:
+>>>> The domain allocated in msm_iommu_new() is for the @dev. Replace
+>>>> iommu_domain_alloc() with iommu_paging_domain_alloc() to make it explicit.
+>>>>
+>>>> Update msm_iommu_new() to always return ERR_PTR in failure cases instead
+>>>> of NULL.
+>>> Please don't mix unrelated changes, because ...
+>>>
+>>>> Signed-off-by: Lu Baolu<baolu.lu@linux.intel.com>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/msm_iommu.c | 8 ++++----
+>>>>    1 file changed, 4 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
+>>>> index d5512037c38b..f7e28d4b5f62 100644
+>>>> --- a/drivers/gpu/drm/msm/msm_iommu.c
+>>>> +++ b/drivers/gpu/drm/msm/msm_iommu.c
+>>>> @@ -407,9 +407,9 @@ struct msm_mmu *msm_iommu_new(struct device *dev, unsigned long quirks)
+>>>>       struct msm_iommu *iommu;
+>>>>       int ret;
+>>>>
+>>>> -    domain = iommu_domain_alloc(dev->bus);
+>>>> -    if (!domain)
+>>>> -            return NULL;
+>>>> +    domain = iommu_paging_domain_alloc(dev);
+>>>> +    if (IS_ERR(domain))
+>>>> +            return ERR_CAST(domain);
+>>>>
+>>>>       iommu_set_pgtable_quirks(domain, quirks);
+>>>>
+>>>> @@ -441,7 +441,7 @@ struct msm_mmu *msm_iommu_gpu_new(struct device *dev, struct msm_gpu *gpu, unsig
+>>>>       struct msm_mmu *mmu;
+>>>>
+>>>>       mmu = msm_iommu_new(dev, quirks);
+>>>> -    if (IS_ERR_OR_NULL(mmu))
+>>>> +    if (IS_ERR(mmu))
+>>>>               return mmu;
+>>> NAK, not having an IOMMU is a poor but legit usecase for some of devices
+>>> which don't have IOMMU support yet (for example because of the buggy
+>>> implementation for which we were not able to get all the hooks in).
+>>>
+>>> Please don't break compatibility for existing platforms.
+>> Sure. I will remove this line of change. Though I have no idea in which
+>> case msm_iommu_new() could return NULL after this patch.
+> So, even without this chunk you are going to break the no-IOMMU case.
+> Please don't. This will result in a regression report and a revert.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 12 ------------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 ----
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 16 +++++++++++++---
->   3 files changed, 13 insertions(+), 19 deletions(-)
+> Instead please provide a way for the existing drivers to continue
+> working. For example, something like:
 > 
+> if (IS_ERR(mmu) && ERR_PTR(mmu) == -ENODEV))
+>      return NULL;
 
-<Snip>
+Oh I see. msm_iommu_new() returning NULL indicates a no-IOMMU case,
+right? So perhaps we can make it explicit like below?
 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 70d6a8989e1a..6360052523b5 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -785,12 +785,15 @@ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
->   	return 0;
->   }
->   
-> +#define MAX_UPSCALE_RATIO	20
-> +#define MAX_DOWNSCALE_RATIO	4
-> +
->   static int dpu_plane_atomic_check(struct drm_plane *plane,
->   				  struct drm_atomic_state *state)
->   {
->   	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
->   										 plane);
-> -	int ret = 0, min_scale;
-> +	int ret = 0, min_scale, max_scale;
->   	struct dpu_plane *pdpu = to_dpu_plane(plane);
->   	struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
->   	u64 max_mdp_clk_rate = kms->perf.max_core_clk_rate;
-> @@ -822,10 +825,17 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   	pipe_hw_caps = pipe->sspp->cap;
->   	sblk = pipe->sspp->cap->sblk;
->   
-> -	min_scale = FRAC_16_16(1, sblk->maxupscale);
-> +	if (sblk->scaler_blk.len) {
-> +		min_scale = FRAC_16_16(1, MAX_UPSCALE_RATIO);
-> +		max_scale = MAX_DOWNSCALE_RATIO << 16;
-> +	} else {
-> +		min_scale = 1 << 16;
-> +		max_scale = 1 << 16;
+         if (!device_iommu_mapped(dev))
+                 return NULL;
 
-You can use DRM_PLANE_NO_SCALING instead.
+         domain = iommu_paging_domain_alloc(dev);
+         if (IS_ERR(domain))
+                 return ERR_CAST(domain);
 
-> +	}
-> +
->   	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
->   						  min_scale,
-> -						  sblk->maxdwnscale << 16,
-> +						  max_scale,
->   						  true, true);
-
-I am missing something here.
-
-As per the documentation of this API, min and max are the scaling limits 
-of both directions and not max_upscale and max_downscale.
-
-**
-837  * drm_atomic_helper_check_plane_state() - Check plane state for 
-validity
-838  * @plane_state: plane state to check
-839  * @crtc_state: CRTC state to check
-840  * @min_scale: minimum @src:@dest scaling factor in 16.16 fixed point
-841  * @max_scale: maximum @src:@dest scaling factor in 16.16 fixed point
-842  * @can_position: is it legal to position the plane such that it
-
-
-But this change is passing max_upscale and max_downscale as the min and 
-max resp. Isnt that wrong?
-
-
->   	if (ret) {
->   		DPU_DEBUG_PLANE(pdpu, "Check plane state failed (%d)\n", ret);
+Best regards,
+baolu
