@@ -2,77 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13F88D5B6E
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 09:29:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E02288D5B8D
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 09:33:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5524C10E653;
-	Fri, 31 May 2024 07:29:26 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="k10XI+Em";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DA9210E33E;
+	Fri, 31 May 2024 07:33:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0234911253E
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 07:29:19 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-52b03d66861so1827444e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 00:29:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1717140558; x=1717745358;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7AuBpLgSZMEBo2XzwoYxF5FL6n7LRJe6EeX7UzHv+C4=;
- b=k10XI+EmEP1L2Yfxl+HKZPIkeVw8fUHOqoBsq3GWSbChU7XXC5xK8OyMSakIm5YJ8Y
- fhomKJxFzgltLtKjproikSuYvIxC/AzQ8I9vbUUNQG1NNkH2YE4MoXhDmrCkFQnE8Tt6
- MHqAZzhdLfn16FiDWwr3enGDyGLi9MyiX4fAg=
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96D2D10E33E;
+ Fri, 31 May 2024 07:33:28 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-62a2a6a5ccfso17839717b3.3; 
+ Fri, 31 May 2024 00:33:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717140558; x=1717745358;
+ d=1e100.net; s=20230601; t=1717140806; x=1717745606;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7AuBpLgSZMEBo2XzwoYxF5FL6n7LRJe6EeX7UzHv+C4=;
- b=k/o1ETs5SkZGAy+K5bCjNofs/At04LwSSkIXXmDHDZ4j4x9jG4HUUy2/72lfAMYJir
- 9tISkJN7Vs862NqhJA10fyn3zXdKxxH2hKfEvPKyMRJNHzFuEbjtDXlrYrxgnDLTjW4m
- W/NoAVVvTZZWYUJRTzwNeeBuhyhk5Q9gJF2tzsJUDZ9gOTsiV3vhOggGHtyrWNTGRsQx
- M1MbAHwcUZOyGOUXrrwoUrNx1O3IQpx3xh36BYNTTuBX1/PNYNYD1l/f/QWfl5mPtaUH
- I6yUVxsKBqaXK9DZopljAOSZtQ3vWc7gPPGHGLk5Kwr0IE72uGJL16uoyKGbPaBDlRzF
- gbtw==
+ bh=qj6EusQ3A409SsVzLb4gC8GqQaE/mFAcX8PaYZZXXLw=;
+ b=j/g9Xp6JwsX5osBKS0h0bKJUDsmOI1zRnSgb7wFxmZR0UgYdxfsV2muOdjRBe2S3e0
+ yYdpZO6r0ZstERMTQ813NNCnAdJ45ID2Ca2CgaLhQxXSXdGjmiv86Ju9aPx7d7ePKdLw
+ QBb72DMaVpT6Y5OvDEGkmjn3TIajTWb32k3Cwf+P1WIPUNObeeziqMwIkWjXEKie1Ap6
+ gonmdThR0ThcagnCHyhGebF9RVD8Eje0GO/5AzCDBmixh92Adk0JFoUqWbyPMdyRge6v
+ 2A6TvqbUn869VDNSkDlYQL4djUekyCbnbz55u5Q1+kdkbpDABol8f3mNAaMZCFHMjr86
+ LVEQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUTJaWcuUD5IYoupCNA1vu1tEAuTrobLCT1orKPcnaByh7DnXsIajsrZFYf2WIK4FNvYmuJGJVZRHjrfBHf0+/mHqqnXYs+C1tWWc89aT1U
-X-Gm-Message-State: AOJu0YzqH2OLCWIt67dyuHNBfpdCcVrpkIxJVow11qP/OCsL9EGfQouM
- LcpSR2mPQ0lVtBeClHIEzupFK0+rlZO9bPuj/YsEHAeH9wcDGK/YEe5aSHpGviKUhYRAOxYHU7Y
- Op/RIZAgjSke6xmN8llWO48RlIZvIjUu4ZUyc
-X-Google-Smtp-Source: AGHT+IHG9cIqzvXzXFVSJ3u+mefhmJEYsDfRGLlyDYP+0F7chk9Cih1xUPNaF4GQKusTGlZd76NQwOCqr1Bnfxqn4zw=
-X-Received: by 2002:a05:6512:2029:b0:52b:8455:a9df with SMTP id
- 2adb3069b0e04-52b896b8210mr483694e87.34.1717140557358; Fri, 31 May 2024
- 00:29:17 -0700 (PDT)
+ AJvYcCX5HC8zVx6FfH/sa0fFt1X5igpgaNFSTumzhdt7vaFLe3tY3QRMoXQ9gPcJ8HLGbHm5zylP7Htfbp6oJDn9zJIVlBQ691l+bzcUUaKLSm9S4I1rVKKI4i4hOeMDLAtP0s8yqCsRWq9V09FBOLie1ktM
+X-Gm-Message-State: AOJu0YytS9NOsFmeJInxlgOADdIz+xQ7Bynj7JTm5xKeerv/ib68FSL0
+ awydxb5yhkwG62s1UVwjKAPHrY+3gdu/3nbk+SlMxhwOO7eN4lpatC5yp95H
+X-Google-Smtp-Source: AGHT+IGTxk0OZCv0sELQU1jUINdo83x6XtsQJgWrrcOLZUwCTFXQlyiqMYmuGfC81h6eDvNg/8oAnQ==
+X-Received: by 2002:a81:928a:0:b0:627:a917:76b1 with SMTP id
+ 00721157ae682-62c798270b4mr9821057b3.44.1717140804352; 
+ Fri, 31 May 2024 00:33:24 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
+ [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-62c765b8c28sm2416777b3.28.2024.05.31.00.33.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 May 2024 00:33:24 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-df4f05e5901so1809108276.0; 
+ Fri, 31 May 2024 00:33:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWKm2784XY9qm8q4QgwONGZuUp++OSYUI5+B1ngbXJyUU2wasE7aU4lMb5O+CArmAeg4f77HerYWd6hf/kTPorZ1D9UgMjphdxq+IRKi78JfXevchoC5W2k6Mi95pQRX1xPGSw1XnFPzMCtZvrQDDlH
+X-Received: by 2002:a25:d047:0:b0:dfa:56a9:8869 with SMTP id
+ 3f1490d57ef6-dfa73c48294mr1121789276.34.1717140803859; Fri, 31 May 2024
+ 00:33:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240530083513.4135052-1-wenst@chromium.org>
- <20240530083513.4135052-2-wenst@chromium.org>
- <20240530-revisit-profanity-889f1bcae21a@spud>
-In-Reply-To: <20240530-revisit-profanity-889f1bcae21a@spud>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 31 May 2024 15:29:06 +0800
-Message-ID: <CAGXv+5F=AEE7t=YQ0hNGtV9rbVBm75D=ftJdZKwD_JmUW9gQWQ@mail.gmail.com>
-Subject: Re: [PATCH 1/6] dt-bindings: clock: mediatek: Add mt8173 mfgtop
-To: Conor Dooley <conor@kernel.org>
-Cc: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Stephen Boyd <sboyd@kernel.org>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, 
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org
+References: <20240509-python-version-v1-1-a7dda3a95b5f@linaro.org>
+ <87o79faq4a.fsf@meer.lwn.net> <D1N564M136RW.3CRPYTGKMW1NP@gmail.com>
+In-Reply-To: <D1N564M136RW.3CRPYTGKMW1NP@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 31 May 2024 09:33:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVA7MU8LMUW6rR=VWtCDs8erpKgx30woL5eUucRYiK-Fg@mail.gmail.com>
+Message-ID: <CAMuHMdVA7MU8LMUW6rR=VWtCDs8erpKgx30woL5eUucRYiK-Fg@mail.gmail.com>
+Subject: Re: [PATCH] docs: document python version used for compilation
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,109 +84,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 30, 2024 at 11:43=E2=80=AFPM Conor Dooley <conor@kernel.org> wr=
-ote:
->
-> On Thu, May 30, 2024 at 04:35:00PM +0800, Chen-Yu Tsai wrote:
-> > The MFG (GPU) block on the MT8173 has a small glue layer, named MFG_TOP
-> > in the datasheet, that contains clock gates, some power sequence signal
-> > delays, and other unknown registers that get toggled when the GPU is
-> > powered on.
-> >
-> > The clock gates are exposed as clocks provided by a clock controller,
-> > while the power sequencing bits are exposed as one singular power domai=
-n.
-> >
-> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > ---
-> >  .../clock/mediatek,mt8173-mfgtop.yaml         | 71 +++++++++++++++++++
-> >  include/dt-bindings/clock/mt8173-clk.h        |  7 ++
-> >  2 files changed, 78 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/clock/mediatek,mt=
-8173-mfgtop.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/clock/mediatek,mt8173-mf=
-gtop.yaml b/Documentation/devicetree/bindings/clock/mediatek,mt8173-mfgtop.=
-yaml
-> > new file mode 100644
-> > index 000000000000..03c3c1f8cf75
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/clock/mediatek,mt8173-mfgtop.ya=
-ml
-> > @@ -0,0 +1,71 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +
-> > +$id: http://devicetree.org/schemas/clock/mediatek,mt8173-mfgtop.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: MediaTek MT8173 MFG TOP controller
-> > +
-> > +maintainers:
-> > +  - AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.co=
-m>
-> > +
-> > +description:
-> > +  The MFG TOP glue layer controls various signals going to the MFG (GP=
-U)
-> > +  block on the MT8173.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: mediatek,mt8173-mfgtop
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    minItems: 4
->
-> minItems is not needed when minItems =3D=3D maxItems.
+Hi Thierry,
 
-Ack.
+On Thu, May 30, 2024 at 7:07=E2=80=AFPM Thierry Reding <thierry.reding@gmai=
+l.com> wrote:
+> Alternatively, maybe Kconfig could be taught about build dependencies?
 
-> > +    maxItems: 4
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: sys
-> > +      - const: mem
-> > +      - const: core
-> > +      - const: clk26m
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  '#clock-cells':
-> > +    const: 1
-> > +
-> > +  '#power-domain-cells':
-> > +    const: 0
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - clock-names
-> > +  - power-domains
-> > +  - '#clock-cells'
-> > +  - '#power-domain-cells'
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +        #include <dt-bindings/clock/mt8173-clk.h>
-> > +        #include <dt-bindings/power/mt8173-power.h>
-> > +
-> > +        mfgtop: clock-controller@13fff000 {
->
-> The label here is used, so drop it.
+git grep "depends on \$(" -- "*Kconf*"
 
-Assume you mean _not_ used. Dropping. :D
+Gr{oetje,eeting}s,
 
-> Otherwise,
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+                        Geert
 
-Thanks!
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
