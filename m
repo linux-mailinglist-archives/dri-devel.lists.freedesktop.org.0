@@ -2,62 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B356D8D66CA
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 18:27:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF2A8D6745
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 18:51:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA4010E78C;
-	Fri, 31 May 2024 16:27:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5722B10E0E4;
+	Fri, 31 May 2024 16:51:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="CIkuXHSc";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="C1jqMh91";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com
- [91.218.175.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AD5B10E0E4
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 16:27:38 +0000 (UTC)
-X-Envelope-To: laurent.pinchart@ideasonboard.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1717172856;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Uv7gNDMkqzsIKclSBJRKfUZk9Zpd2hU6CV4axNOS95g=;
- b=CIkuXHSc9+HMumm/A8nQ+bocPbkN6VYJXUPFdVWMc9tbE9VZ5BVWWL0jNq0yKiiswM/tNR
- nEx+XZ787WUW2UNw3Y1c9AAHMCp+tkkAdSw7aBARksgtH9hthAP0VMGmLA0RNhNyX6mQ6n
- QmruA3hcyrE1KhRACb+UoZT7Fi/e5B4=
-X-Envelope-To: maarten.lankhorst@linux.intel.com
-X-Envelope-To: mripard@kernel.org
-X-Envelope-To: tzimmermann@suse.de
-X-Envelope-To: dri-devel@lists.freedesktop.org
-X-Envelope-To: linux-arm-kernel@lists.infradead.org
-X-Envelope-To: airlied@gmail.com
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: daniel@ffwll.ch
-X-Envelope-To: tomi.valkeinen@ideasonboard.com
-X-Envelope-To: michal.simek@amd.com
-Message-ID: <5ef45215-e1c3-4f65-bbb6-26ab690d2f1a@linux.dev>
-Date: Fri, 31 May 2024 12:27:31 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73FC310E0E4
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 16:51:27 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44V9DVbd016906;
+ Fri, 31 May 2024 16:51:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 2yALGhrqIJdnboggYEQ7s0oOkdMXFFvfY29GvTJKsx4=; b=C1jqMh91/HCNLsYp
+ 6vA0b0uij5adV0DIGh+mSk2889fAxxDFCLr2tEFroOAekW1b1SAR9R0h8CxXf/3s
+ qNLZTplUe2tBKjI+dRyPBEdO0GkzhRPsBtNBP63nOKbwAsUDu3OSUm8RH+/hAh60
+ 0b14QBs37+7EEtSSY1IIFOQapbMiJ9B/RHwPwyxU7hSrSoDe8KHYv+s50BJtfsqT
+ NEC7McfWpq3/h+LgAfd716kHhmnQouXV9wZpoVL56718AxTZOxzuHH7Y60JH+o3V
+ CNksDFkaKKHohU0kpyZyp56R/+kOUTd8yz8FnkweMwrdv7D2FlOov7n3O+U9kVB9
+ unkUNw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yf23stb7t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 31 May 2024 16:51:19 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44VGpIGm017814
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 31 May 2024 16:51:18 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 31 May
+ 2024 09:51:17 -0700
+Message-ID: <197777e0-e6e1-7004-be27-edb98f8a235e@quicinc.com>
+Date: Fri, 31 May 2024 10:51:16 -0600
 MIME-Version: 1.0
-Subject: Re: [PATCH v5 00/10] drm: zynqmp_dp: IRQ cleanups and debugfs support
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-Cc: linux-arm-kernel@lists.infradead.org, David Airlie <airlied@gmail.com>,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>
-References: <20240503192922.2172314-1-sean.anderson@linux.dev>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v3 0/3] drm/panel-edp: remove several legacy compatibles
+ used by the driver
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <20240503192922.2172314-1-sean.anderson@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+To: Doug Anderson <dianders@chromium.org>
+CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ "Sam Ravnborg" <sam@ravnborg.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-rockchip@lists.infradead.org>
+References: <20240531-edp-panel-drop-v3-0-4c98b2b95e3a@linaro.org>
+ <7428a2f7-befc-6db8-76f4-3ca8dc12d31c@quicinc.com>
+ <CAD=FV=Xcq-p5OxSnDJVF-Wp88ZfXOaOKJmh941ymy-f0wkhdhw@mail.gmail.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <CAD=FV=Xcq-p5OxSnDJVF-Wp88ZfXOaOKJmh941ymy-f0wkhdhw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: UnRxngflkST1yO4Wn85mX4qBzF_yXrRa
+X-Proofpoint-GUID: UnRxngflkST1yO4Wn85mX4qBzF_yXrRa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-31_12,2024-05-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ adultscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 phishscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2405310127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,68 +99,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/3/24 15:29, Sean Anderson wrote:
-> This series cleans up the zyqnmp_dp IRQ and locking situation. Once
-> that's done, it adds debugfs support. The intent is to enable compliance
-> testing or to help debug signal-integrity issues.
+On 5/31/2024 10:20 AM, Doug Anderson wrote:
+> Hi,
 > 
-> Last time I discussed converting the HPD work(s) to a threaded IRQ. I
-> did not end up doing that for this series since the steps would be
+> On Fri, May 31, 2024 at 9:18 AM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
+>>
+>> On 5/30/2024 5:12 PM, Dmitry Baryshkov wrote:
+>>> There are two ways to describe an eDP panel in device tree. The
+>>> recommended way is to add a device on the AUX bus, ideally using the
+>>> edp-panel compatible. The legacy way is to define a top-level platform
+>>> device for the panel.
+>>>
+>>> Document that adding support for eDP panels in a legacy way is strongly
+>>> discouraged (if not forbidden at all).
+>>>
+>>> While we are at it, also drop legacy compatible strings and bindings for
+>>> five panels. These compatible strings were never used by a DT file
+>>> present in Linux kernel and most likely were never used with the
+>>> upstream Linux kernel.
+>>>
+>>> The following compatibles were never used by the devices supported by
+>>> the upstream kernel and are a subject to possible removal:
+>>>
+>>> - lg,lp097qx1-spa1
+>>> - samsung,lsn122dl01-c01
+>>> - sharp,ld-d5116z01b
+>>
+>> Ok to drop the sharp one I added.  It should be able to be handled by
+>> the (newish) edp-panel, but I think the TI bridge driver needs some work
+>> for the specific platform (no I2C connection) to verify.
 > 
-> - Add locking
-> - Move link retraining to a work function
-> - Harden the IRQ
-> - Merge the works into a threaded IRQ (omitted)
-> 
-> Which with the exception of the final step is the same as leaving those
-> works as-is. Conversion to a threaded IRQ can be done as a follow-up.
-> 
-> Changes in v5:
-> - Fix AUX bus not getting unregistered
-> - Rebase onto drm-misc/drm-misc-next
-> 
-> Changes in v4:
-> - Rebase onto drm/drm-next
-> 
-> Changes in v3:
-> - Don't delay work
-> - Convert to a hard IRQ
-> - Use AUX IRQs instead of polling
-> - Take dp->lock in zynqmp_dp_hpd_work_func
-> 
-> Changes in v2:
-> - Rearrange zynqmp_dp for better padding
-> - Split off the HPD IRQ work into another commit
-> - Expand the commit message
-> - Document hpd_irq_work
-> - Document debugfs files
-> - Add ignore_aux_errors and ignore_hpd debugfs files to replace earlier
->   implicit functionality
-> - Attempt to fix unreproducable, spurious build warning
-> - Drop "Optionally ignore DPCD errors" in favor of a debugfs file
->   directly affecting zynqmp_dp_aux_transfer.
-> 
-> Sean Anderson (10):
->   drm: zynqmp_kms: Fix AUX bus not getting unregistered
->   drm: zynqmp_dp: Rearrange zynqmp_dp for better padding
->   drm: zynqmp_dp: Don't delay work
->   drm: zynqmp_dp: Add locking
->   drm: zynqmp_dp: Don't retrain the link in our IRQ
->   drm: zynqmp_dp: Convert to a hard IRQ
->   drm: zynqmp_dp: Use AUX IRQs instead of polling
->   drm: zynqmp_dp: Split off several helper functions
->   drm: zynqmp_dp: Take dp->lock in zynqmp_dp_hpd_work_func
->   drm: zynqmp_dp: Add debugfs interface for compliance testing
-> 
->  Documentation/gpu/drivers.rst     |   1 +
->  Documentation/gpu/zynqmp.rst      | 149 +++++
->  MAINTAINERS                       |   1 +
->  drivers/gpu/drm/xlnx/zynqmp_dp.c  | 883 +++++++++++++++++++++++++++---
->  drivers/gpu/drm/xlnx/zynqmp_kms.c |  12 +-
->  5 files changed, 977 insertions(+), 69 deletions(-)
->  create mode 100644 Documentation/gpu/zynqmp.rst
-> 
+> Is the platform supported upstream? If so, which platform is it? Is
+> the TI bridge chip the ti-sn65dsi86? If so, I'm confused how you could
+> use that bridge chip without an i2c connection, but perhaps I'm
+> misunderstanding. :-P
 
-ping
+Yes, the platform is upstream.  The 8998 laptops (clamshell).  It is the 
+ti-sn65si86.  I suspect the I2C connection was not populated for cost 
+reasons, then determined its much more convenient to have it as every 
+generation after that I've seen has the I2C.
 
---Sean
+If you check the datasheet closely, the I2C connection is optional.  You 
+can also configure the bridge inband using DSI commands.  This is what 
+the FW and Windows does.
+
+So, the DT binding needs to make the I2C property optional (this should 
+be backwards compatible).  The driver needs to detect that the I2C 
+connection is not provided, and fall back to DSI commands.  Regmap would 
+be nice for this, but I got pushback on the proposal.  Then I got 
+sidetracked looking at other issues.
+
+-Jeff
+
