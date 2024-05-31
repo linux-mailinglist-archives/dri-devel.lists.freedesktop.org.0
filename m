@@ -2,90 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B42A58D66AE
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 18:21:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B356D8D66CA
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 18:27:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0476B10E033;
-	Fri, 31 May 2024 16:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA4010E78C;
+	Fri, 31 May 2024 16:27:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="mZaj4bNF";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="CIkuXHSc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
- [209.85.219.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 597A910E033
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 16:21:19 +0000 (UTC)
-Received: by mail-qv1-f42.google.com with SMTP id
- 6a1803df08f44-6aedd5167d1so3173236d6.1
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 09:21:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1717172477; x=1717777277;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=siXueITpdXmllfrhOnciz2l6HSxbQMeuCE6GtcEy6a8=;
- b=mZaj4bNF8banFiW1CCxSpBfzsAOTr0pDMhfuIrldklt7w2hzs1m4bKGvsHQekunDpy
- PhV984UmHlG99Va8ckatgqmp1HEgwAONrJKDWqo/OBB8eeaZhRxySTCcCfeobRW6dmcg
- eY8qJ++bMUEHd9iedHA6wr1GtFtDZ37McQAVY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717172477; x=1717777277;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=siXueITpdXmllfrhOnciz2l6HSxbQMeuCE6GtcEy6a8=;
- b=aDNwwBlgZBFXX2OIbTMwKlCk0xquAzUMJwTBourPkHRwLZcIQujQEWFK4WCeFYjki2
- +3p0rH/HG8kSY/FKsdjyBWSc6cawni8rlqYe7UoxurDu7iRC3HSXwxLfEF2YWe8AzBM3
- 8c0DwmganP+anFtzNsp30tR004dDve2HNCLbxiPAIGA/ozIPbfERtr+0J8M07SRnIqMN
- 7umZ6OQI6Tym+d47pOrfRXAupmo7+nhUcon/X6RW+o7r0Uo+v2gCrRlTReu93U+v/ZiN
- F32+0GLoe1pcL6R6FzVyyNZS48crbMfVkOm+D8ZJqob2x3Amgf97YQAWsy/zxNzRYyUl
- PprA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWUv3b++DtNgIhMn2g843B2oX0bxEDx4FH8bEnhTR+6WivO7pp4ZN0sD7CY5xo++Y1uLHM7YhDlPMB2AK0SUfD7+zyGyEMRpvy4gsdOCc4I
-X-Gm-Message-State: AOJu0YyzQV55flsporxlBMfTykieENr5lozTqDjdWpVh30pz+V9VK60h
- SG+AK/nkcU8K8p89UR6dLmH2jqXZaOpGR+TLBhM20RQ1xtJr9IZ8d2eRufJFP3mraUFc8uQeQ22
- 1LZfl
-X-Google-Smtp-Source: AGHT+IE4b1oUtxtP8DGPQPf/pjN2XfmpAep1FJHi6hw6XN1DZ/R7/QS9qnfnPhFCsWGPxAALAJ+vDQ==
-X-Received: by 2002:a05:6214:568f:b0:6a9:bf6d:27f5 with SMTP id
- 6a1803df08f44-6aecd56f0bdmr17606076d6.6.1717172476481; 
- Fri, 31 May 2024 09:21:16 -0700 (PDT)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com.
- [209.85.160.173]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6ae4a7463b0sm7574816d6.35.2024.05.31.09.21.15
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 May 2024 09:21:15 -0700 (PDT)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-43f87dd6866so435681cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 09:21:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWQOygwP+JAsTQEAzwQ9U4aBKS7LJZq111hZcNzZ1QSCN/1Ow+N63AqpMzSTM/1fNZCYwDMymM5tgWwB031h0nvJ88g85FL/pDkhIH6wt80
-X-Received: by 2002:a05:622a:4a14:b0:43f:b19e:d3ba with SMTP id
- d75a77b69052e-43ff2c5399bmr3052241cf.8.1717172475232; Fri, 31 May 2024
- 09:21:15 -0700 (PDT)
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com
+ [91.218.175.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AD5B10E0E4
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 16:27:38 +0000 (UTC)
+X-Envelope-To: laurent.pinchart@ideasonboard.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1717172856;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Uv7gNDMkqzsIKclSBJRKfUZk9Zpd2hU6CV4axNOS95g=;
+ b=CIkuXHSc9+HMumm/A8nQ+bocPbkN6VYJXUPFdVWMc9tbE9VZ5BVWWL0jNq0yKiiswM/tNR
+ nEx+XZ787WUW2UNw3Y1c9AAHMCp+tkkAdSw7aBARksgtH9hthAP0VMGmLA0RNhNyX6mQ6n
+ QmruA3hcyrE1KhRACb+UoZT7Fi/e5B4=
+X-Envelope-To: maarten.lankhorst@linux.intel.com
+X-Envelope-To: mripard@kernel.org
+X-Envelope-To: tzimmermann@suse.de
+X-Envelope-To: dri-devel@lists.freedesktop.org
+X-Envelope-To: linux-arm-kernel@lists.infradead.org
+X-Envelope-To: airlied@gmail.com
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: daniel@ffwll.ch
+X-Envelope-To: tomi.valkeinen@ideasonboard.com
+X-Envelope-To: michal.simek@amd.com
+Message-ID: <5ef45215-e1c3-4f65-bbb6-26ab690d2f1a@linux.dev>
+Date: Fri, 31 May 2024 12:27:31 -0400
 MIME-Version: 1.0
-References: <20240531-edp-panel-drop-v3-0-4c98b2b95e3a@linaro.org>
- <7428a2f7-befc-6db8-76f4-3ca8dc12d31c@quicinc.com>
-In-Reply-To: <7428a2f7-befc-6db8-76f4-3ca8dc12d31c@quicinc.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 31 May 2024 09:20:56 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Xcq-p5OxSnDJVF-Wp88ZfXOaOKJmh941ymy-f0wkhdhw@mail.gmail.com>
-Message-ID: <CAD=FV=Xcq-p5OxSnDJVF-Wp88ZfXOaOKJmh941ymy-f0wkhdhw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] drm/panel-edp: remove several legacy compatibles
- used by the driver
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+Subject: Re: [PATCH v5 00/10] drm: zynqmp_dp: IRQ cleanups and debugfs support
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org, David Airlie <airlied@gmail.com>,
+ linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>
+References: <20240503192922.2172314-1-sean.anderson@linux.dev>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+In-Reply-To: <20240503192922.2172314-1-sean.anderson@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,42 +73,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 5/3/24 15:29, Sean Anderson wrote:
+> This series cleans up the zyqnmp_dp IRQ and locking situation. Once
+> that's done, it adds debugfs support. The intent is to enable compliance
+> testing or to help debug signal-integrity issues.
+> 
+> Last time I discussed converting the HPD work(s) to a threaded IRQ. I
+> did not end up doing that for this series since the steps would be
+> 
+> - Add locking
+> - Move link retraining to a work function
+> - Harden the IRQ
+> - Merge the works into a threaded IRQ (omitted)
+> 
+> Which with the exception of the final step is the same as leaving those
+> works as-is. Conversion to a threaded IRQ can be done as a follow-up.
+> 
+> Changes in v5:
+> - Fix AUX bus not getting unregistered
+> - Rebase onto drm-misc/drm-misc-next
+> 
+> Changes in v4:
+> - Rebase onto drm/drm-next
+> 
+> Changes in v3:
+> - Don't delay work
+> - Convert to a hard IRQ
+> - Use AUX IRQs instead of polling
+> - Take dp->lock in zynqmp_dp_hpd_work_func
+> 
+> Changes in v2:
+> - Rearrange zynqmp_dp for better padding
+> - Split off the HPD IRQ work into another commit
+> - Expand the commit message
+> - Document hpd_irq_work
+> - Document debugfs files
+> - Add ignore_aux_errors and ignore_hpd debugfs files to replace earlier
+>   implicit functionality
+> - Attempt to fix unreproducable, spurious build warning
+> - Drop "Optionally ignore DPCD errors" in favor of a debugfs file
+>   directly affecting zynqmp_dp_aux_transfer.
+> 
+> Sean Anderson (10):
+>   drm: zynqmp_kms: Fix AUX bus not getting unregistered
+>   drm: zynqmp_dp: Rearrange zynqmp_dp for better padding
+>   drm: zynqmp_dp: Don't delay work
+>   drm: zynqmp_dp: Add locking
+>   drm: zynqmp_dp: Don't retrain the link in our IRQ
+>   drm: zynqmp_dp: Convert to a hard IRQ
+>   drm: zynqmp_dp: Use AUX IRQs instead of polling
+>   drm: zynqmp_dp: Split off several helper functions
+>   drm: zynqmp_dp: Take dp->lock in zynqmp_dp_hpd_work_func
+>   drm: zynqmp_dp: Add debugfs interface for compliance testing
+> 
+>  Documentation/gpu/drivers.rst     |   1 +
+>  Documentation/gpu/zynqmp.rst      | 149 +++++
+>  MAINTAINERS                       |   1 +
+>  drivers/gpu/drm/xlnx/zynqmp_dp.c  | 883 +++++++++++++++++++++++++++---
+>  drivers/gpu/drm/xlnx/zynqmp_kms.c |  12 +-
+>  5 files changed, 977 insertions(+), 69 deletions(-)
+>  create mode 100644 Documentation/gpu/zynqmp.rst
+> 
 
-On Fri, May 31, 2024 at 9:18=E2=80=AFAM Jeffrey Hugo <quic_jhugo@quicinc.co=
-m> wrote:
->
-> On 5/30/2024 5:12 PM, Dmitry Baryshkov wrote:
-> > There are two ways to describe an eDP panel in device tree. The
-> > recommended way is to add a device on the AUX bus, ideally using the
-> > edp-panel compatible. The legacy way is to define a top-level platform
-> > device for the panel.
-> >
-> > Document that adding support for eDP panels in a legacy way is strongly
-> > discouraged (if not forbidden at all).
-> >
-> > While we are at it, also drop legacy compatible strings and bindings fo=
-r
-> > five panels. These compatible strings were never used by a DT file
-> > present in Linux kernel and most likely were never used with the
-> > upstream Linux kernel.
-> >
-> > The following compatibles were never used by the devices supported by
-> > the upstream kernel and are a subject to possible removal:
-> >
-> > - lg,lp097qx1-spa1
-> > - samsung,lsn122dl01-c01
-> > - sharp,ld-d5116z01b
->
-> Ok to drop the sharp one I added.  It should be able to be handled by
-> the (newish) edp-panel, but I think the TI bridge driver needs some work
-> for the specific platform (no I2C connection) to verify.
+ping
 
-Is the platform supported upstream? If so, which platform is it? Is
-the TI bridge chip the ti-sn65dsi86? If so, I'm confused how you could
-use that bridge chip without an i2c connection, but perhaps I'm
-misunderstanding. :-P
-
-Thanks!
-
--Doug
+--Sean
