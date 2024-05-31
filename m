@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2FC98D6ABC
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 22:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E818D6ABE
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 22:33:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9109010E142;
-	Fri, 31 May 2024 20:32:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8C1E10E220;
+	Fri, 31 May 2024 20:33:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="R0DKPqLE";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="pUam/srP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75BFD10E142
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 20:32:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CEA810E220
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 20:33:53 +0000 (UTC)
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 4922D882CD;
- Fri, 31 May 2024 22:32:30 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id E7A00882CD;
+ Fri, 31 May 2024 22:33:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1717187551;
- bh=HafTpwYsUIsMHbeuTvWNa0o0zpE06tZlv32ZnNhf8zs=;
+ s=phobos-20191101; t=1717187631;
+ bh=bQOY1kmak5jStJ1OjSF8nwQ/+SL/q1qXLJOilmfYnPg=;
  h=From:To:Cc:Subject:Date:From;
- b=R0DKPqLEnC98Is1ILZPoxzd+N/r/9WjB/D3wf2Qnn1uVvbw25Iq0MVd7G7yDnpdC5
- JgNhsyxCCmefip5jx0vHkrNqU4r+azq1gaJgdW4B1H0xscd6HlxfPCl8T8wmRASjBo
- YJ/qWTTHLfcmdJM3+AireElLl+VfQYsFE1/3XNRP23ruGfaHfilcmUHxDCg02QKnTb
- 3B8PGjUt4JmXuTHKvZTYm+Kmyps+uqvf49muOhcvY20zyquRwhyafeYxkb8PqzMOzf
- EXn0Jc/2iUXpSJadQDVEB6k8j4Anj3uSIJ1YGIreuBzS2rPL4PlJfUR7+43TbxaABR
- Tt4SLHWkjUv6w==
+ b=pUam/srPxRJlc8bdo47QiBh00dLj4FkqwByZOG0CeoDcoQVexVPVT/SzjQGk+gSbJ
+ Q1LLGltWmWDnyg+mzwQWjCb3rOtTPZRk2nLd/jJEJvANunl2+Yk32fy5GTXT3izN25
+ Hu/lw9cl40yjYzY4GfGKHayncKQwkBc3Wv6cTZvjwskX+neE09dby5LpVB3Mlhh1WC
+ wL2VEv1XJBJcFy4cSNx2Uaelpc5JOlJFHaaV7lad7Mr60GsfEVzg8MGrN/0LPjvOFy
+ 85NnfnMQ02YqgljRpnx+lZweITidnn0NKQhd4Wwi49h7lH1aBqTAnmZdawXgTpnbS1
+ y8oDwnJwYuBZw==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -42,9 +42,10 @@ Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
-Subject: [PATCH] drm/bridge: tc358767: Fix comment in tc_edp_mode_valid
-Date: Fri, 31 May 2024 22:32:01 +0200
-Message-ID: <20240531203213.277421-1-marex@denx.de>
+Subject: [PATCH] drm/bridge: tc358767: Check if fully initialized before
+ signalling HPD event via IRQ
+Date: Fri, 31 May 2024 22:33:12 +0200
+Message-ID: <20240531203333.277476-1-marex@denx.de>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -65,9 +66,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix comment copy-paste error in tc_edp_mode_valid(), this function
-is validating DP/eDP clock, not DPI clock frequency. Update the
-comment to match. No functional change.
+Make sure the connector is fully initialized before signalling any
+HPD events via drm_kms_helper_hotplug_event(), otherwise this may
+lead to NULL pointer dereference.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
@@ -90,18 +91,18 @@ Cc: kernel@dh-electronics.com
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 818aea4f40b68..eab3a529e8c4f 100644
+index eab3a529e8c4f..029002938a5e8 100644
 --- a/drivers/gpu/drm/bridge/tc358767.c
 +++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1641,7 +1641,7 @@ tc_edp_mode_valid(struct drm_bridge *bridge,
- 	u32 req, avail;
- 	u32 bits_per_pixel = 24;
+@@ -2217,7 +2217,7 @@ static irqreturn_t tc_irq_handler(int irq, void *arg)
+ 		dev_err(tc->dev, "syserr %x\n", stat);
+ 	}
  
--	/* DPI interface clock limitation: upto 154 MHz */
-+	/* DPI->(e)DP interface clock limitation: up to 154 MHz */
- 	if (mode->clock > 154000)
- 		return MODE_CLOCK_HIGH;
- 
+-	if (tc->hpd_pin >= 0 && tc->bridge.dev) {
++	if (tc->hpd_pin >= 0 && tc->bridge.dev && tc->aux.drm_dev) {
+ 		/*
+ 		 * H is triggered when the GPIO goes high.
+ 		 *
 -- 
 2.43.0
 
