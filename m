@@ -2,63 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B228D5C59
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 10:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B67968D5C88
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 10:16:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B873710E386;
-	Fri, 31 May 2024 08:08:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD3BB10F15C;
+	Fri, 31 May 2024 08:16:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NhfH0xkH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZDOHcIzJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1E51113249
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 08:08:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1717142905;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GQ+6H8/ksuGqaatIJSB6x2l2hNP0z56ovJDtUaraPg4=;
- b=NhfH0xkHMVgWP4KtU8AQOtW02p0ZFpb0q9/DP6qqZxbyhMd/ZJAb5ti4VJ5qm3eNOHB8NO
- nZdEIvPUcvEXLOmYc4w3cqqjUmZPf6JpLYfQ6Lfbl+v7ZZuS0SswuXpiatCpuhkZEwCmnI
- u7/PFVHdItVNQ748sLo6/8SqFZJI1LM=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-682-BXynmbHQOkW_q80cnnZlow-1; Fri,
- 31 May 2024 04:08:21 -0400
-X-MC-Unique: BXynmbHQOkW_q80cnnZlow-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7DDAB1C0512B;
- Fri, 31 May 2024 08:08:21 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.193.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78AF840EFD4;
- Fri, 31 May 2024 08:08:20 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH 3/3] drm/panic: Add a kmsg dump screen
-Date: Fri, 31 May 2024 10:06:34 +0200
-Message-ID: <20240531080750.765982-4-jfalempe@redhat.com>
-In-Reply-To: <20240531080750.765982-1-jfalempe@redhat.com>
-References: <20240531080750.765982-1-jfalempe@redhat.com>
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
+ [209.85.219.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1458A11385F
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 08:16:33 +0000 (UTC)
+Received: by mail-yb1-f170.google.com with SMTP id
+ 3f1490d57ef6-dfa65af5367so1367675276.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 01:16:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1717143393; x=1717748193; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=bIrhnunVBUnQyrbNG299hSoNmJr03nYh4HIQ6p7Sw4Q=;
+ b=ZDOHcIzJpd7OBtWE45ur3cBxBFGw2UebS4FMbf+RC3TcAoeAnujtIL8YeJfc5q6Eop
+ XfrNE+UGPetQ0EyY9StxyiZF2bF+KHsXmLv56B/x0/jU9NcgiT/DhEGKkvgg94W3IaIz
+ hXQP1lkjf0NvDckxxRcESNWDukTYJJJNcBox7VJHmJy1m1celpii7oKUwKIIAsr8uDf3
+ VFBnyKmB5v1L7F0k8z7kUEWlu8TRzFrpOgZA1SAheAQglSeMpgAWZ2AOczpILSDIw380
+ /pil5vWxln4ZbzFotdRBiKckssuTY1W+l6vpqmvof98DqJwGaeJ9solecktvd2QRdGBb
+ ivCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717143393; x=1717748193;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bIrhnunVBUnQyrbNG299hSoNmJr03nYh4HIQ6p7Sw4Q=;
+ b=c4MLyBY/qdjYdZ+vai9g9+PSCMmkCyCJMuARyFC9zWS8XvQhLyBQoOEyu48FAh7uEJ
+ 7Xe+MBbmNeCeSCZfClKqIkM5WlvllxXcBus1PU9/G648EOiGxP0u45Rk1rQmxDjvLXxL
+ Gy1BP5mRs9I+k1v40o5+t8dSHwX805XtleesaY4eD/u83k+mnqnPnotTokLayNXkPuEy
+ GXKDe1z9P6zZI8cRax4PQgrg89tun6TUL+rWQKFHej6QuMbkShhyMn2OABsJChiD/8ge
+ H0t5ncZbphph2JHs1LxBuZOpHS7lHz0Yc7rHA4mxaNL4h2nXut0NmiAArUYpt9JTA8D8
+ x/0g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXX8iTnUPkxKoZ/rjzhEXwJACvEhTFz6vEWckYmabFJUK+U/xQXIdTkDNLr49NW29cKXVhXhUpnRp2StYEIh3HZABZifXWxnfs+5Xdhr/8H
+X-Gm-Message-State: AOJu0Yy8oA0AZmrEKPsIqDTU6aIZn15MSa/kyNF4a5L2EzG1xh0jUcjb
+ iRI+Adjbc+EAoReGw+nxK+5R8p2FeAsJZ1IOduuyjTTR93ZX56qKQbeL/9ubA5I6xobV2sMmMNM
+ 5zeWk9p1pj9mijvwXBs1rtx3wBIbl4cjh2X0b6w==
+X-Google-Smtp-Source: AGHT+IG/fn4yvDuVujCLL19BjnG0MrbOU321zzu3JqLux3NA6uPKcuLSf3NhlOeWgVpVZF7pjTgVjR4u1dLQ0MBKfEE=
+X-Received: by 2002:a25:ce92:0:b0:de5:1553:4351 with SMTP id
+ 3f1490d57ef6-dfa73be7b64mr1196776276.15.1717143391373; Fri, 31 May 2024
+ 01:16:31 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20240314000216.392549-1-dmitry.baryshkov@linaro.org>
+ <20240314000216.392549-6-dmitry.baryshkov@linaro.org>
+ <6a335026-77c1-a112-69af-a8d9d86d5528@quicinc.com>
+In-Reply-To: <6a335026-77c1-a112-69af-a8d9d86d5528@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 31 May 2024 11:16:20 +0300
+Message-ID: <CAA8EJpqKkTOkhrgJexw-D5TbgGYjBoUup3FHC80boR_cAUb2dA@mail.gmail.com>
+Subject: Re: [PATCH v4 05/13] drm/msm/dpu: move scaling limitations out of the
+ hw_catalog
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,242 +84,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a kmsg dump option, which will display the last lines of kmsg,
-and should be similar to fbcon.
-Add a Kconfig choice for the panic screen, so that the user can
-choose between this new kmsg dump, or the userfriendly option.
+On Fri, 31 May 2024 at 04:02, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 3/13/2024 5:02 PM, Dmitry Baryshkov wrote:
+> > Max upscale / downscale factors are constant between platforms. In
+> > preparation to adding support for virtual planes and allocating SSPP
+> > blocks on demand move max scaling factors out of the HW catalog and
+> > handle them in the dpu_plane directly. If any of the scaling blocks gets
+> > different limitations, this will have to be handled separately, after
+> > the plane refactoring.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 12 ------------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 ----
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 16 +++++++++++++---
+> >   3 files changed, 13 insertions(+), 19 deletions(-)
+> >
+>
+> <Snip>
+>
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > index 70d6a8989e1a..6360052523b5 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > @@ -785,12 +785,15 @@ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
+> >       return 0;
+> >   }
+> >
+> > +#define MAX_UPSCALE_RATIO    20
+> > +#define MAX_DOWNSCALE_RATIO  4
+> > +
+> >   static int dpu_plane_atomic_check(struct drm_plane *plane,
+> >                                 struct drm_atomic_state *state)
+> >   {
+> >       struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
+> >                                                                                plane);
+> > -     int ret = 0, min_scale;
+> > +     int ret = 0, min_scale, max_scale;
+> >       struct dpu_plane *pdpu = to_dpu_plane(plane);
+> >       struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
+> >       u64 max_mdp_clk_rate = kms->perf.max_core_clk_rate;
+> > @@ -822,10 +825,17 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+> >       pipe_hw_caps = pipe->sspp->cap;
+> >       sblk = pipe->sspp->cap->sblk;
+> >
+> > -     min_scale = FRAC_16_16(1, sblk->maxupscale);
+> > +     if (sblk->scaler_blk.len) {
+> > +             min_scale = FRAC_16_16(1, MAX_UPSCALE_RATIO);
+> > +             max_scale = MAX_DOWNSCALE_RATIO << 16;
+> > +     } else {
+> > +             min_scale = 1 << 16;
+> > +             max_scale = 1 << 16;
+>
+> You can use DRM_PLANE_NO_SCALING instead.
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/Kconfig     |  21 +++++
- drivers/gpu/drm/drm_panic.c | 151 +++++++++++++++++++++++++++---------
- 2 files changed, 136 insertions(+), 36 deletions(-)
+Ack
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 9703429de6b9..78d401b55102 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -137,6 +137,27 @@ config DRM_PANIC_DEBUG
- 	  This is unsafe and should not be enabled on a production build.
- 	  If in doubt, say "N".
- 
-+choice
-+	prompt "Panic screen formater"
-+	default DRM_PANIC_SCREEN_USERFRIENDLY
-+	depends on DRM_PANIC
-+	help
-+	  This option enable to choose what will be displayed when a kernel
-+	  panic occurs.
-+
-+	config DRM_PANIC_SCREEN_USERFRIENDLY
-+		bool "Default user friendly message"
-+		help
-+		  Only a short message telling the user to reboot the system.
-+
-+	config DRM_PANIC_SCREEN_KMSG
-+		bool "Display the last lines of kmsg"
-+		help
-+		  Display kmsg last lines on panic.
-+		  Enable if you are a kernel developer, and want to debug a
-+		  kernel panic.
-+endchoice
-+
- config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
-         bool "Enable refcount backtrace history in the DP MST helpers"
- 	depends on STACKTRACE_SUPPORT
-diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index 27e26b9d842c..71f6f566d64b 100644
---- a/drivers/gpu/drm/drm_panic.c
-+++ b/drivers/gpu/drm/drm_panic.c
-@@ -63,24 +63,6 @@ struct drm_panic_line {
- 	const char *txt;
- };
- 
--#define PANIC_LINE(s) {.len = sizeof(s) - 1, .txt = s}
--
--static struct drm_panic_line panic_msg[] = {
--	PANIC_LINE("KERNEL PANIC !"),
--	PANIC_LINE(""),
--	PANIC_LINE("Please reboot your computer."),
--};
--
--static const struct drm_panic_line logo[] = {
--	PANIC_LINE("     .--.        _"),
--	PANIC_LINE("    |o_o |      | |"),
--	PANIC_LINE("    |:_/ |      | |"),
--	PANIC_LINE("   //   \\ \\     |_|"),
--	PANIC_LINE("  (|     | )     _"),
--	PANIC_LINE(" /'\\_   _/`\\    (_)"),
--	PANIC_LINE(" \\___)=(___/"),
--};
--
- /*
-  * Color conversion
-  */
-@@ -385,16 +367,6 @@ static const u8 *get_char_bitmap(const struct font_desc *font, char c, size_t fo
- 	return font->data + (c * font->height) * font_pitch;
- }
- 
--static unsigned int get_max_line_len(const struct drm_panic_line *lines, int len)
--{
--	int i;
--	unsigned int max = 0;
--
--	for (i = 0; i < len; i++)
--		max = max(lines[i].len, max);
--	return max;
--}
--
- /*
-  * Draw a text in a rectangle on a framebuffer. The text is truncated if it overflows the rectangle
-  */
-@@ -431,24 +403,48 @@ static void draw_txt_rectangle(struct drm_scanout_buffer *sb,
- 	}
- }
- 
--/*
-- * Draw the panic message at the center of the screen
-- */
-+#if defined(CONFIG_DRM_PANIC_SCREEN_USERFRIENDLY)
-+
-+#define PANIC_LINE(s) {.len = sizeof(s) - 1, .txt = s}
-+
-+static struct drm_panic_line panic_msg[] = {
-+	PANIC_LINE("KERNEL PANIC !"),
-+	PANIC_LINE(""),
-+	PANIC_LINE("Please reboot your computer."),
-+};
-+
-+static const struct drm_panic_line logo[] = {
-+	PANIC_LINE("     .--.        _"),
-+	PANIC_LINE("    |o_o |      | |"),
-+	PANIC_LINE("    |:_/ |      | |"),
-+	PANIC_LINE("   //   \\ \\     |_|"),
-+	PANIC_LINE("  (|     | )     _"),
-+	PANIC_LINE(" /'\\_   _/`\\    (_)"),
-+	PANIC_LINE(" \\___)=(___/"),
-+};
-+
-+static unsigned int get_max_line_len(const struct drm_panic_line *lines, int len)
-+{
-+	int i;
-+	unsigned int max = 0;
-+
-+	for (i = 0; i < len; i++)
-+		max = max(lines[i].len, max);
-+	return max;
-+}
-+
- static void draw_panic_static(struct drm_scanout_buffer *sb)
- {
- 	size_t msg_lines = ARRAY_SIZE(panic_msg);
- 	size_t logo_lines = ARRAY_SIZE(logo);
--	u32 fg_color = CONFIG_DRM_PANIC_FOREGROUND_COLOR;
--	u32 bg_color = CONFIG_DRM_PANIC_BACKGROUND_COLOR;
-+	u32 fg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR, sb->format->format);
-+	u32 bg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_BACKGROUND_COLOR, sb->format->format);
- 	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
- 	struct drm_rect r_screen, r_logo, r_msg;
- 
- 	if (!font)
- 		return;
- 
--	fg_color = convert_from_xrgb8888(fg_color, sb->format->format);
--	bg_color = convert_from_xrgb8888(bg_color, sb->format->format);
--
- 	r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
- 
- 	r_logo = DRM_RECT_INIT(0, 0,
-@@ -471,6 +467,89 @@ static void draw_panic_static(struct drm_scanout_buffer *sb)
- 	draw_txt_rectangle(sb, font, panic_msg, msg_lines, true, &r_msg, fg_color);
- }
- 
-+#elif defined(CONFIG_DRM_PANIC_SCREEN_KMSG)
-+
-+#include <linux/kmsg_dump.h>
-+#include <linux/printk.h>
-+
-+/*
-+ * Draw one line of kmsg, and handle wrapping if it won't fit in the screen width.
-+ * Return the y-offset of the next line.
-+ */
-+static int draw_line_with_wrap(struct drm_scanout_buffer *sb, const struct font_desc *font,
-+			       struct drm_panic_line *line, int yoffset, u32 fg_color)
-+{
-+	int chars_per_row = sb->width / font->width;
-+	struct drm_rect r_txt = DRM_RECT_INIT(0, yoffset, sb->width, sb->height);
-+	struct drm_panic_line line_wrap;
-+
-+	if (line->len > chars_per_row) {
-+		line_wrap.len = line->len % chars_per_row;
-+		line_wrap.txt = line->txt + line->len - line_wrap.len;
-+		draw_txt_rectangle(sb, font, &line_wrap, 1, false, &r_txt, fg_color);
-+		r_txt.y1 -= font->height;
-+		if (r_txt.y1 < 0)
-+			return r_txt.y1;
-+		while (line_wrap.txt > line->txt) {
-+			line_wrap.txt -= chars_per_row;
-+			line_wrap.len = chars_per_row;
-+			draw_txt_rectangle(sb, font, &line_wrap, 1, false, &r_txt, fg_color);
-+			r_txt.y1 -= font->height;
-+			if (r_txt.y1 < 0)
-+				return r_txt.y1;
-+		}
-+	} else {
-+		draw_txt_rectangle(sb, font, line, 1, false, &r_txt, fg_color);
-+		r_txt.y1 -= font->height;
-+	}
-+	return r_txt.y1;
-+}
-+
-+/*
-+ * Draw the kmsg buffer to the screen, starting from the youngest message at the bottom,
-+ * and going up until reaching the top of the screen.
-+ */
-+static void draw_panic_static(struct drm_scanout_buffer *sb)
-+{
-+	u32 fg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR, sb->format->format);
-+	u32 bg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_BACKGROUND_COLOR, sb->format->format);
-+	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
-+	struct drm_rect r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
-+	struct kmsg_dump_iter iter;
-+	char kmsg_buf[512];
-+	size_t kmsg_len;
-+	struct drm_panic_line line;
-+	int yoffset = sb->height - font->height - (sb->height % font->height) / 2;
-+
-+	if (!font)
-+		return;
-+
-+	/* Fill with the background color, and draw text on top */
-+	drm_panic_fill(sb, &r_screen, bg_color);
-+
-+	kmsg_dump_rewind(&iter);
-+	while (kmsg_dump_get_buffer(&iter, false, kmsg_buf, sizeof(kmsg_buf), &kmsg_len)) {
-+		char *start;
-+		char *end;
-+
-+		/* ignore terminating NUL and newline */
-+		start = kmsg_buf + kmsg_len - 2;
-+		end = kmsg_buf + kmsg_len - 1;
-+		while (start > kmsg_buf && yoffset >= 0) {
-+			while (start > kmsg_buf && *start != '\n')
-+				start--;
-+			/* don't count the newline character */
-+			line.txt = start + (start == kmsg_buf ? 0 : 1);
-+			line.len = end - line.txt;
-+
-+			yoffset = draw_line_with_wrap(sb, font, &line, yoffset, fg_color);
-+			end = start;
-+			start--;
-+		}
-+	}
-+}
-+#endif
-+
- /*
-  * drm_panic_is_format_supported()
-  * @format: a fourcc color code
+>
+> > +     }
+> > +
+> >       ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
+> >                                                 min_scale,
+> > -                                               sblk->maxdwnscale << 16,
+> > +                                               max_scale,
+> >                                                 true, true);
+>
+> I am missing something here.
+>
+> As per the documentation of this API, min and max are the scaling limits
+> of both directions and not max_upscale and max_downscale.
+>
+> **
+> 837  * drm_atomic_helper_check_plane_state() - Check plane state for
+> validity
+> 838  * @plane_state: plane state to check
+> 839  * @crtc_state: CRTC state to check
+> 840  * @min_scale: minimum @src:@dest scaling factor in 16.16 fixed point
+> 841  * @max_scale: maximum @src:@dest scaling factor in 16.16 fixed point
+> 842  * @can_position: is it legal to position the plane such that it
+>
+>
+> But this change is passing max_upscale and max_downscale as the min and
+> max resp. Isnt that wrong?
+
+First of all, please notice that I'm not changing the values that are
+passed to the function. What was being passed beforehand gets passed
+after this commit. I just moved it out of the catalog.
+
+Second, if we take a look at drm_calc_scale(), we can see that it
+calculates src / dst and checks that it is within the min_scale and
+max_scale boundaries, just like documented.
+In our case, the boundaries are (I'm omitting 16.16 math):
+- upscale 20 times. dst = 20 * src, scale = src/dst = 1/20
+- downscale 4 times. dst = 1/4 * src, scale = src/dst = 4
+
+So, from the point of view of drm_calc_scale(), the min_scale is
+1/MAX_UPSCALE, max_scale = MAX_DOWNSCALE and the values the code is
+passing are correct.
+
+>
+>
+> >       if (ret) {
+> >               DPU_DEBUG_PLANE(pdpu, "Check plane state failed (%d)\n", ret);
+
+
+
 -- 
-2.45.1
-
+With best wishes
+Dmitry
