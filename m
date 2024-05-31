@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63B578D6AF4
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 22:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED2F38D6AF3
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 22:42:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8B9D10E4BD;
-	Fri, 31 May 2024 20:42:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2A8210E4B1;
+	Fri, 31 May 2024 20:42:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="b4PeMGBo";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="JEJracLN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D11D910E491
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 20:41:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEA7210E392
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 20:41:54 +0000 (UTC)
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id AFEA68831F;
- Fri, 31 May 2024 22:41:51 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 9F557885AF;
+ Fri, 31 May 2024 22:41:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1717188112;
- bh=gLrKCnK8FgpqnjtOsr2ptjUInBih2IH1ySBWh4U3mF8=;
+ s=phobos-20191101; t=1717188113;
+ bh=jNUfw6DlnFWdbcRDy4dDKSjnwpkNiZThBi4HC3hIy/M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=b4PeMGBo5qwS8cUC/Z+UagJQyunhWbaliKq4rUFpbLJQeo0MxtujBrm+8vh2YuYlt
- sYbca8DcdMq4mFr72QZHkzEqPoELglz0agy05j0jgWjHxJiJT5Y5LZuGG72kRKzMiz
- pIVgeECicrgnmufHOZO4zYljlq97qZyy1oZdI//nCcDumYhzCDWuqEw/BqiOV+dD7Y
- TSTZVrDEpf3VAE77K2kTUE4h31JCW8C//tHfv8iLuREEyXMpR/mP7PjyMcMQq0/XgL
- C4ZfPL2Fs+SHrmhVVtgDG8X5tkc0GhTX7+qtSde5JVMV2ZGccYMrhYgpjdkEcwwW5v
- YCvNuYnJ9aCvg==
+ b=JEJracLNr7/s4bjYdow/L677zOsPcSn7AsRrvH36Q0flf343/SG1zp3jxv9YiEZDI
+ Z9z/DGBP3WWvRVOMifYUAXPsFSyx0fBMsp8TZq84KdrikGX/TH0dL/qYcpQqRzait7
+ HoaQd38Rys6ixVd62zhK4+9gGgVUAQupEbCmrpSL0urF07cEcKmUrpON0ngYpV9/Xz
+ xbVTpgERrtH/vFTcw0JnCM22n1h8KX+qlr4D9cKRPQiG5oQ3EilWhs2vzDSaoGVVZf
+ UovGKh52T27x7EoEYp9s8xRftpB2CLQGh7+cx/TzH2HuknVKRPwXpAzt10gEoE21eo
+ AAfHbpgEFpf2Q==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -42,10 +42,9 @@ Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
-Subject: [PATCH 4/6] drm/bridge: tc358767: Disable
- MIPI_DSI_CLOCK_NON_CONTINUOUS
-Date: Fri, 31 May 2024 22:39:50 +0200
-Message-ID: <20240531204130.277800-4-marex@denx.de>
+Subject: [PATCH 5/6] drm/bridge: tc358767: Set LSCLK divider for SYSCLK to 1
+Date: Fri, 31 May 2024 22:39:51 +0200
+Message-ID: <20240531204130.277800-5-marex@denx.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240531204130.277800-1-marex@denx.de>
 References: <20240531204130.277800-1-marex@denx.de>
@@ -68,10 +67,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MIPI_DSI_CLOCK_NON_CONTINUOUS causes visible artifacts in high
-resolution modes, disable it. Namely, in DSI->DP mode 1920x1200 24
-bpp 59.95 Hz, with DSI bus at maximum 1 Gbps per lane setting, the
-image contains jittering empty lines.
+The only information in the datasheet regarding this divider is a note
+in SYS_PLLPARAM register documentation which states that when LSCLK is
+270 MHz, LSCLK_DIV should be 1. What should LSCLK_DIV be set to when
+LSCLK is 162 MHz (for DP 1.62G mode) is unclear, but empirical test
+confirms using LSCLK_DIV 1 has no adverse effects either. In the worst
+case, the internal TC358767 clock would run faster.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
@@ -94,18 +95,18 @@ Cc: kernel@dh-electronics.com
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index f16728256991a..926921a8d29d7 100644
+index 926921a8d29d7..156297131a6cc 100644
 --- a/drivers/gpu/drm/bridge/tc358767.c
 +++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -2303,7 +2303,7 @@ static int tc_mipi_dsi_host_attach(struct tc_data *tc)
- 	dsi->lanes = dsi_lanes;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
- 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
--			  MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
-+			  MIPI_DSI_MODE_LPM;
+@@ -738,7 +738,7 @@ static int tc_stream_clock_calc(struct tc_data *tc)
+ static int tc_set_syspllparam(struct tc_data *tc)
+ {
+ 	unsigned long rate;
+-	u32 pllparam = SYSCLK_SEL_LSCLK | LSCLK_DIV_2;
++	u32 pllparam = SYSCLK_SEL_LSCLK | LSCLK_DIV_1;
  
- 	ret = devm_mipi_dsi_attach(dev, dsi);
- 	if (ret < 0) {
+ 	rate = clk_get_rate(tc->refclk);
+ 	switch (rate) {
 -- 
 2.43.0
 
