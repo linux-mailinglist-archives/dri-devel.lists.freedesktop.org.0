@@ -2,89 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 911B48D5E54
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 11:32:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 736B98D5E55
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 11:33:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1523F10E32F;
-	Fri, 31 May 2024 09:32:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6784C10E9DD;
+	Fri, 31 May 2024 09:33:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="M3wxgUki";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="TFpVCl49";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 867E610E32F
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 09:32:43 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69B1D10E2A5
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 09:32:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1717147962;
+ s=mimecast20190719; t=1717147973;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2SeROL+Hu8TRX1uXF26mJkdFBlgFuFZhLZS/uCs4PqQ=;
- b=M3wxgUkiU8yMTbJ6ef06J99oSoL4986pj/tyNBz1IKsULMrnFk46qzTHr4t+3KVU+/6wM5
- +OCdQHdi2O6Qs9jqLjztBBcU+cyxndJNf1FD85EcHxoqQ6Ufi01KhQ3rKKv4Afy9LSvxx3
- Cmz87kJCTb0arwCM/QhZAJA7krGiA8U=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=daMc8fu8sqYoSXDKE0q2sVY1dHTtpbwHNRZkb+fMfsE=;
+ b=TFpVCl492j88DqoPTgLNX2+DQtpbRmbVUwV+WAwyO/8cq/V1nWsdsnWvLtWEYySKwuYu/J
+ dWeK9xsXIMvHtEFtg+PTCHFOK+yL79yMd0YMyyCxcclhYSf6dCDLoa8pc+1lPixmFCGg93
+ yNTmvLsOkJn7a5ItT28HJgOVVvf3zT0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-133-P7NhGh4sPmWpAD0ZYF5CcA-1; Fri, 31 May 2024 05:32:40 -0400
-X-MC-Unique: P7NhGh4sPmWpAD0ZYF5CcA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-35e0f069ad4so345555f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 02:32:40 -0700 (PDT)
+ us-mta-88-T2AQWDPpOcG6CGTd_g_tgw-1; Fri, 31 May 2024 05:32:49 -0400
+X-MC-Unique: T2AQWDPpOcG6CGTd_g_tgw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4212a20c447so8083745e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 02:32:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717147959; x=1717752759;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2SeROL+Hu8TRX1uXF26mJkdFBlgFuFZhLZS/uCs4PqQ=;
- b=kFTe7xUs5LVVTPSLmU72jaD1pm9ofX/qC6hbW27q/ftsQz+sJnMoXo7BID708Q4LTx
- 03eofqHpoHHKqePyhpSeYRIBrfL3smxRC4za6f6lsBV6Jjetlchvp9NlApE4FYM0mfRE
- LosUyZUKzzLL9Wb6yFZcqWFbJ4pWsyWbW7od8FRa8hmkbt/sDEvoO68gkTZzgzP1V6K/
- PoPEwWAUSKffxVIrJ57P6xL87N3boyVyajY3kItcxbHH3Awz7bkuobzng3+Agm4mjbLp
- NE+1oSusfqeA1TIT+yt4lsBuDcsGtK8blHZ7Xa223qlywfu5pKsFEQ0qJyb7nS45wBEC
- xh6g==
+ d=1e100.net; s=20230601; t=1717147968; x=1717752768;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=daMc8fu8sqYoSXDKE0q2sVY1dHTtpbwHNRZkb+fMfsE=;
+ b=DaHS0uU934KiW/aUYSlt6XoUF/cITUYO897PA+Aqzxt4lOdHVw6TJUMdFxYIb1dg2Q
+ Fi/fIdYG3VrdUe3mCBsIH2lPgRljjnuahSoN70C7vSHTcBxUBDPP3sggxB6lSur7+vGR
+ aRTZTLLZkObG6eb26BlMb7O+4g0vLy3yfnu/RInLAkrLIY+BcegbwPzoy5ICq6lPzFTA
+ ZfEHJHEwRRwM8Yh39/OvM9BYtwCpguW0WQaDBS9NkiyFI3wuWw0nEKxvSn7/1Uoa2AkO
+ TvCrqxLjG/1vd7IG8AxPV3FELcAsH8vsLdARal+lmsepju7vl1i0nVVB5aQAcjTKkHIb
+ Eerg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWQmuoJEleEbNDrHgx7OHmOt8IYFLStzpPyGmDu+ZtF1DJuMpl4PZH0KrLEcLG8bGT4trXaHIPzUyzSD3lg1LObtzlzLbNdFya9wE61Bm5p
-X-Gm-Message-State: AOJu0Yz+pQJi6OQqiuwrB9exeBu2BsgXybhODmL8o/mk0V3K0I0ernW9
- xHUdDbPGIh8UOv0HI0EidVU5uxNQ4QpiwGpisevJzVGlx4cb7f73HeDbObj2RfKCfKVnxXLk9I5
- J1b2Udx8Ytd8yMG2Q8Ih0vgY3hVHV9xtWR8VzvEAHZIc8np+7jC5o6oxqE04eM22Z5w==
-X-Received: by 2002:adf:fd92:0:b0:354:f359:735a with SMTP id
- ffacd0b85a97d-35e0f2550c2mr1145360f8f.5.1717147959264; 
- Fri, 31 May 2024 02:32:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGQ9uamLv/yL5S6+HEwYaI+D9n1amX51OZQ2STOq8pfx1J/Spvvmua5+6pdo7c8wvLj60cFnA==
-X-Received: by 2002:adf:fd92:0:b0:354:f359:735a with SMTP id
- ffacd0b85a97d-35e0f2550c2mr1145348f8f.5.1717147958913; 
- Fri, 31 May 2024 02:32:38 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:2ceb:e04a:af9c:bc9b?
- ([2a01:e0a:c:37e0:2ceb:e04a:af9c:bc9b])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-35dd064afe3sm1409645f8f.97.2024.05.31.02.32.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 May 2024 02:32:38 -0700 (PDT)
-Message-ID: <1d27d752-117b-4332-9582-bc0f3255d09f@redhat.com>
-Date: Fri, 31 May 2024 11:32:37 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] drm/panic: Add a set_pixel() callback to
- drm_scanout_buffer
-To: Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+ AJvYcCW+qMWZbkDeICzrDvxsdYOHYrXTlXE7A065QtacNGwHCxtWvivzQC79OCKF56DtczKejsUad73G8sv2s+Q2NeRqQJ0pmsHdC9bVVFHh+LcF
+X-Gm-Message-State: AOJu0YyCPK4FrIA4ml9Cr3rbQfVDByya+B3zJKSfiGNNI4xjjlrY983u
+ UammFS8/ZUmlzdpLsaUYOmsmtvQgPcGjwuQohomC042lxmP97a4PP/RFsi4/MCOD3FuTmPlzHTd
+ ipto/LAGpuJRg+86xKYhuVvqdM1Z4UOPrigo2uhkWCB2vc4zLt5/aqZswm4r/bxUqNA==
+X-Received: by 2002:a05:600c:4704:b0:41f:e098:53e with SMTP id
+ 5b1f17b1804b1-4212e05ec5bmr13350595e9.17.1717147968315; 
+ Fri, 31 May 2024 02:32:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGRsBFHw/ietlhwEpCQ4ZkdjjJp5uuzBsLdNRGNbf/5T+sO4bemWBkwqMJcMYSRSkLyljw0hw==
+X-Received: by 2002:a05:600c:4704:b0:41f:e098:53e with SMTP id
+ 5b1f17b1804b1-4212e05ec5bmr13350375e9.17.1717147967761; 
+ Fri, 31 May 2024 02:32:47 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4212b83cda8sm19603825e9.7.2024.05.31.02.32.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 May 2024 02:32:47 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH 3/3] drm/panic: Add a kmsg dump screen
+In-Reply-To: <20240531080750.765982-4-jfalempe@redhat.com>
 References: <20240531080750.765982-1-jfalempe@redhat.com>
- <20240531080750.765982-3-jfalempe@redhat.com>
- <87cyp21goh.fsf@minerva.mail-host-address-is-not-set>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <87cyp21goh.fsf@minerva.mail-host-address-is-not-set>
+ <20240531080750.765982-4-jfalempe@redhat.com>
+Date: Fri, 31 May 2024 11:32:46 +0200
+Message-ID: <87a5k61g3l.fsf@minerva.mail-host-address-is-not-set>
+MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,49 +92,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Jocelyn Falempe <jfalempe@redhat.com> writes:
 
+> Add a kmsg dump option, which will display the last lines of kmsg,
+> and should be similar to fbcon.
+> Add a Kconfig choice for the panic screen, so that the user can
+> choose between this new kmsg dump, or the userfriendly option.
+>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>  drivers/gpu/drm/Kconfig     |  21 +++++
+>  drivers/gpu/drm/drm_panic.c | 151 +++++++++++++++++++++++++++---------
+>  2 files changed, 136 insertions(+), 36 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 9703429de6b9..78d401b55102 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -137,6 +137,27 @@ config DRM_PANIC_DEBUG
+>  	  This is unsafe and should not be enabled on a production build.
+>  	  If in doubt, say "N".
+>  
+> +choice
+> +	prompt "Panic screen formater"
+> +	default DRM_PANIC_SCREEN_USERFRIENDLY
+> +	depends on DRM_PANIC
+> +	help
+> +	  This option enable to choose what will be displayed when a kernel
+> +	  panic occurs.
+> +
+> +	config DRM_PANIC_SCREEN_USERFRIENDLY
+> +		bool "Default user friendly message"
+> +		help
+> +		  Only a short message telling the user to reboot the system.
+> +
+> +	config DRM_PANIC_SCREEN_KMSG
+> +		bool "Display the last lines of kmsg"
+> +		help
+> +		  Display kmsg last lines on panic.
+> +		  Enable if you are a kernel developer, and want to debug a
+> +		  kernel panic.
+> +endchoice
 
-On 31/05/2024 11:20, Javier Martinez Canillas wrote:
-> Jocelyn Falempe <jfalempe@redhat.com> writes:
-> 
->> This allows drivers to draw the pixel, and handle tiling, or specific
->> color formats.
->>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> ---
->>   drivers/gpu/drm/drm_panic.c | 120 +++++++++++++++++++++++-------------
->>   include/drm/drm_panic.h     |   9 +++
->>   2 files changed, 85 insertions(+), 44 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
->> index 9d95c7eaae83..27e26b9d842c 100644
->> --- a/drivers/gpu/drm/drm_panic.c
->> +++ b/drivers/gpu/drm/drm_panic.c
->> @@ -241,40 +241,54 @@ static void drm_panic_blit32(struct iosys_map *dmap, unsigned int dpitch,
->>   				iosys_map_wr(dmap, y * dpitch + x * sizeof(u32), u32, color);
->>   }
->>   
->> +static void drm_panic_blit_pixel(struct drm_scanout_buffer *sb, struct drm_rect *clip,
->> +				 const u8 *sbuf8, unsigned int spitch, u32 color)
->> +{
->> +	unsigned int y, x;
->> +
->> +	for (y = 0; y < drm_rect_height(clip); y++)
->> +		for (x = 0; x < drm_rect_width(clip); x++)
->> +			if (sbuf8[(y * spitch) + x / 8] & (0x80 >> (x % 8)))
-> 
-> You have the same check for fb vs bg in all your blit helpers, so maybe
-> this can be a macro or static inline function instead ? That would also
-> help with the issue I mentioned about making the logic easier to read.
+Why having it as a compile time option and not a runtime option ? AFAICT
+this could be a drm.panic_format= kernel command line parameter instead.
 
-Sure, I can do a v2, or send an additional patch for that.
-> 
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> 
+[...]
+  
+> -/*
+> - * Draw the panic message at the center of the screen
+> - */
+> +#if defined(CONFIG_DRM_PANIC_SCREEN_USERFRIENDLY)
+> +
 
-Thanks,
+And that could avoid ifdefery in the C file.
+
+[...]
+
+> +#elif defined(CONFIG_DRM_PANIC_SCREEN_KMSG)
+> +
+> +#include <linux/kmsg_dump.h>
+> +#include <linux/printk.h>
+> +
+
+I would add these even if guarded by DRM_PANIC_SCREEN_KMSG, to the
+start of the C file where are the other headers include directives.
+
+The patch looks good to me though, so if you prefer to keep it as a
+build time option:
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
+Best regards,
 
-Jocelyn
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
