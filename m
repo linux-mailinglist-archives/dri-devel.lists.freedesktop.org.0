@@ -2,73 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E02288D5B8D
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 09:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E598D5BCB
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 09:48:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DA9210E33E;
-	Fri, 31 May 2024 07:33:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 492D210E040;
+	Fri, 31 May 2024 07:48:09 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SHY82Che";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
- [209.85.128.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96D2D10E33E;
- Fri, 31 May 2024 07:33:28 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-62a2a6a5ccfso17839717b3.3; 
- Fri, 31 May 2024 00:33:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717140806; x=1717745606;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qj6EusQ3A409SsVzLb4gC8GqQaE/mFAcX8PaYZZXXLw=;
- b=j/g9Xp6JwsX5osBKS0h0bKJUDsmOI1zRnSgb7wFxmZR0UgYdxfsV2muOdjRBe2S3e0
- yYdpZO6r0ZstERMTQ813NNCnAdJ45ID2Ca2CgaLhQxXSXdGjmiv86Ju9aPx7d7ePKdLw
- QBb72DMaVpT6Y5OvDEGkmjn3TIajTWb32k3Cwf+P1WIPUNObeeziqMwIkWjXEKie1Ap6
- gonmdThR0ThcagnCHyhGebF9RVD8Eje0GO/5AzCDBmixh92Adk0JFoUqWbyPMdyRge6v
- 2A6TvqbUn869VDNSkDlYQL4djUekyCbnbz55u5Q1+kdkbpDABol8f3mNAaMZCFHMjr86
- LVEQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX5HC8zVx6FfH/sa0fFt1X5igpgaNFSTumzhdt7vaFLe3tY3QRMoXQ9gPcJ8HLGbHm5zylP7Htfbp6oJDn9zJIVlBQ691l+bzcUUaKLSm9S4I1rVKKI4i4hOeMDLAtP0s8yqCsRWq9V09FBOLie1ktM
-X-Gm-Message-State: AOJu0YytS9NOsFmeJInxlgOADdIz+xQ7Bynj7JTm5xKeerv/ib68FSL0
- awydxb5yhkwG62s1UVwjKAPHrY+3gdu/3nbk+SlMxhwOO7eN4lpatC5yp95H
-X-Google-Smtp-Source: AGHT+IGTxk0OZCv0sELQU1jUINdo83x6XtsQJgWrrcOLZUwCTFXQlyiqMYmuGfC81h6eDvNg/8oAnQ==
-X-Received: by 2002:a81:928a:0:b0:627:a917:76b1 with SMTP id
- 00721157ae682-62c798270b4mr9821057b3.44.1717140804352; 
- Fri, 31 May 2024 00:33:24 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
- [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
- 00721157ae682-62c765b8c28sm2416777b3.28.2024.05.31.00.33.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 May 2024 00:33:24 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-df4f05e5901so1809108276.0; 
- Fri, 31 May 2024 00:33:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWKm2784XY9qm8q4QgwONGZuUp++OSYUI5+B1ngbXJyUU2wasE7aU4lMb5O+CArmAeg4f77HerYWd6hf/kTPorZ1D9UgMjphdxq+IRKi78JfXevchoC5W2k6Mi95pQRX1xPGSw1XnFPzMCtZvrQDDlH
-X-Received: by 2002:a25:d047:0:b0:dfa:56a9:8869 with SMTP id
- 3f1490d57ef6-dfa73c48294mr1121789276.34.1717140803859; Fri, 31 May 2024
- 00:33:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240509-python-version-v1-1-a7dda3a95b5f@linaro.org>
- <87o79faq4a.fsf@meer.lwn.net> <D1N564M136RW.3CRPYTGKMW1NP@gmail.com>
-In-Reply-To: <D1N564M136RW.3CRPYTGKMW1NP@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 31 May 2024 09:33:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVA7MU8LMUW6rR=VWtCDs8erpKgx30woL5eUucRYiK-Fg@mail.gmail.com>
-Message-ID: <CAMuHMdVA7MU8LMUW6rR=VWtCDs8erpKgx30woL5eUucRYiK-Fg@mail.gmail.com>
-Subject: Re: [PATCH] docs: document python version used for compilation
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1B7210E040
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 07:47:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717141676; x=1748677676;
+ h=from:to:cc:subject:date:message-id;
+ bh=Tu16eDOVCigfYW8Pz4VFPcNphxmr5sYpfmyZz/1SfQs=;
+ b=SHY82Che2tqjU++MtTJLlC49JYKqpjIoij2p/YbE3LFB/iIxjJl7eXQb
+ zo19oeJlsWUNESPY2AeI41coLbXhHPRRJjAO2LODdNAn/rT53mkHaYb3+
+ z/AHnnPxxXGhnr+VwSdmZ84NVpMtLcxixu4Ix0eEjWEDDGgPKX+kueU0C
+ sjE9yyiG2OuzSn4yaDAz1r+AEvz98PijwLgbYUN2ZQXUOaFdSI9UBYb7V
+ 8/gtq68XeFyGsiVKoWNiPN6cirNnI9TnuWeZgs0yUyTXHqpmjy8LZL5MZ
+ hzIrbbavcdSFUkMiujGfA4N7LwH2vg01UDJRqOi2OzDAZUiazzIcHQO/j Q==;
+X-CSE-ConnectionGUID: Jy1cutRqR6C1jdSbN74e2w==
+X-CSE-MsgGUID: eOXV5aFASHqmy2WZ7eF+QQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="13520037"
+X-IronPort-AV: E=Sophos;i="6.08,203,1712646000"; d="scan'208";a="13520037"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2024 00:47:55 -0700
+X-CSE-ConnectionGUID: CzEIJVuXTHuCo7DPY+hBFA==
+X-CSE-MsgGUID: vTWwWsuWRqiBcImIGrihwQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,203,1712646000"; d="scan'208";a="73567522"
+Received: from qiuxu-clx.sh.intel.com ([10.239.53.109])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2024 00:47:53 -0700
+From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ tony.luck@intel.com, qiuxu.zhuo@intel.com, yudong.wang@intel.com
+Subject: [PATCH 1/1] drm/fb-helper: Don't schedule_work() to flush frame
+ buffer during panic()
+Date: Fri, 31 May 2024 15:45:21 +0800
+Message-Id: <20240531074521.30406-1-qiuxu.zhuo@intel.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,24 +65,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thierry,
+Sometimes the system [1] hangs on x86 I/O machine checks. However, the
+expected behavior is to reboot the system, as the machine check handler
+ultimately triggers a panic(), initiating a reboot in the last step.
 
-On Thu, May 30, 2024 at 7:07=E2=80=AFPM Thierry Reding <thierry.reding@gmai=
-l.com> wrote:
-> Alternatively, maybe Kconfig could be taught about build dependencies?
+The root cause is that sometimes the panic() is blocked when
+drm_fb_helper_damage() invoking schedule_work() to flush the frame buffer.
+This occurs during the process of flushing all messages to the frame
+buffer driver as shown in the following call trace:
 
-git grep "depends on \$(" -- "*Kconf*"
+  Machine check occurs [2]:
+    panic()
+      console_flush_on_panic()
+        console_flush_all()
+          console_emit_next_record()
+            con->write()
+              vt_console_print()
+                hide_cursor()
+                  vc->vc_sw->con_cursor()
+                    fbcon_cursor()
+                      ops->cursor()
+                        bit_cursor()
+                          soft_cursor()
+                            info->fbops->fb_imageblit()
+                              drm_fbdev_generic_defio_imageblit()
+                                drm_fb_helper_damage_area()
+                                  drm_fb_helper_damage()
+                                    schedule_work() // <--- blocked here
+    ...
+    emergency_restart()  // wasn't invoked, so no reboot.
 
-Gr{oetje,eeting}s,
+During panic(), except the panic CPU, all the other CPUs are stopped.
+In schedule_work(), the panic CPU requires the lock of worker_pool to
+queue the work on that pool, while the lock may have been token by some
+other stopped CPU. So schedule_work() is blocked.
 
-                        Geert
+Additionally, during a panic(), since there is no opportunity to execute
+any scheduled work, it's safe to fix this issue by skipping schedule_work()
+on 'oops_in_progress' in drm_fb_helper_damage().
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+[1] Enable the kernel option CONFIG_FRAMEBUFFER_CONSOLE,
+    CONFIG_DRM_FBDEV_EMULATION, and boot with the 'console=tty0'
+    kernel command line parameter.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+[2] Set 'panic_timeout' to a non-zero value before calling panic().
+
+Reported-by: Yudong Wang <yudong.wang@intel.com>
+Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+---
+ drivers/gpu/drm/drm_fb_helper.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index d612133e2cf7..6d7b6f038821 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -628,6 +628,9 @@ static void drm_fb_helper_add_damage_clip(struct drm_fb_helper *helper, u32 x, u
+ static void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
+ 				 u32 width, u32 height)
+ {
++	if (oops_in_progress)
++		return;
++
+ 	drm_fb_helper_add_damage_clip(helper, x, y, width, height);
+ 
+ 	schedule_work(&helper->damage_work);
+-- 
+2.17.1
+
