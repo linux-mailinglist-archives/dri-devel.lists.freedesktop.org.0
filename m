@@ -2,67 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EAFD8D6ADF
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 22:38:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A8A08D6AEF
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 22:41:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC22710E2A1;
-	Fri, 31 May 2024 20:38:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A6D110E421;
+	Fri, 31 May 2024 20:41:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h9F41wSU";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="xLXVn37e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F128810E2A1
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 20:37:47 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E79F360C01;
- Fri, 31 May 2024 20:37:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 60A01C4AF09;
- Fri, 31 May 2024 20:37:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717187866;
- bh=WY531ZFWnLngKD/+q6EMBQ80fsxU9iBEBmfNN0fASI0=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=h9F41wSUTOvzpThewcM4UF1PqEF9QEJ1Sa6H5Yi2OEH/S4eFxd0v6Hd/YbbOQ5zYJ
- hchmcaUZnP0ak+JWCK4oS7sdrouSK+ThkaT4I7G8WQ4IgfjAvWZ6X6+bYiZXB+QZhP
- pKEUuVepzPqWGSe7gxc/MpUPuLC0AJRC2oeHQb++2+diZ4tuy5W32fXjAp5Prguish
- /gcKj+q3vpRfFzagmFXTFi+3VR4S5rMmF2Z337zZNcf+ShDPY3scAyTqi/O447biSI
- EUaUEuPrgLaiRhZ88ySL+2a+a1zlYM65R3B3YZTBRZSpULbnXAuKhu2Tz4ZmxqREvs
- a4s8D0OoJzfTg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 554E9C27C51;
- Fri, 31 May 2024 20:37:46 +0000 (UTC)
-From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Fri, 31 May 2024 22:37:46 +0200
-Subject: [PATCH 2/2] drm/bridge: Drop drm_bridge_chain_mode_fixup
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7AF510E392
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 20:41:51 +0000 (UTC)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id CA31B87DDF;
+ Fri, 31 May 2024 22:41:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1717188110;
+ bh=nv95Eo37oufyhQlWoRt2AuPuPi5j39leE657Q4bar1M=;
+ h=From:To:Cc:Subject:Date:From;
+ b=xLXVn37eURbWtHFL/MY8gorhBGAapnky324ehTrFV/yKU8nrEpR1lFC/2faN/grJB
+ i+BNT0OCaap28w5vAvKMkw1Yng2ZmWB7BcyzQIyh+HzEO94P5e0CLJuDFdTi8VkgO9
+ H5OdmkO0T4GE5acb7bSyeBwXrOKT3iTLbt9fYLBC0q/irHIxqSxyIs+myfQawROxzT
+ HVhLXmDkId+4SK0P9KUalGvegTB75gjJHmpDO9nUUdptHza2nUtwfOciIV0E7tamoB
+ oJsd7Uhb1B2hAWbaXlfzohnmKK6W9T+5Q7SwvrUBbNGaOBwWRIvEeD+iQNTIpIU6b5
+ I0DJ16d4HJSmw==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
+Subject: [PATCH 1/6] drm/bridge: tc358767: Split tc_pxl_pll_en() into
+ parameter calculation and enablement
+Date: Fri, 31 May 2024 22:39:47 +0200
+Message-ID: <20240531204130.277800-1-marex@denx.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240531-bridge_chain_mode-v1-2-8b49e36c5dd3@ravnborg.org>
-References: <20240531-bridge_chain_mode-v1-0-8b49e36c5dd3@ravnborg.org>
-In-Reply-To: <20240531-bridge_chain_mode-v1-0-8b49e36c5dd3@ravnborg.org>
-To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <mripard@kernel.org>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1717187865; l=2934;
- i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=xm7f++qnfzJgiUWk6f8lnMbUPrsPBwFJAzI7MRE8MMU=;
- b=CYV+punnp4i5EnYOF7WM7p5Tr4giEsg9rQzS+q54fSTqfQKj23xN+cQ8ABZfaxDnbquEbl+6FoCW
- 5FR+KJ7MAX4qOtndDEElXMeSxZvkijk2u4hK5hiv1rVSiF1eblpM
-X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
- pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
-X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
-X-Original-From: Sam Ravnborg <sam@ravnborg.org>
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,93 +63,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sam Ravnborg <sam@ravnborg.org>
+Split tc_pxl_pll_en() into tc_pxl_pll_calc() which does only Pixel PLL
+parameter calculation and tc_pxl_pll_en() which calls tc_pxl_pll_calc()
+and then configures the Pixel PLL register.
 
-There are no users left of drm_bridge_chain_mode_fixup() and we
-do not want to have this function available, so drop it.
+This is a preparatory patch for further rework, where tc_pxl_pll_calc()
+will also be used to find out the exact clock frequency generated by the
+Pixel PLL. This frequency will be used as adjusted_mode clock frequency
+and passed down the display pipeline to obtain exactly this frequency
+on input into this bridge.
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+The precise input frequency that matches the Pixel PLL frequency is
+important for this bridge, as if the frequencies do not match, the
+bridge does suffer VFIFO overruns or underruns.
+
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: kernel@dh-electronics.com
 ---
- drivers/gpu/drm/drm_bridge.c | 37 -------------------------------------
- include/drm/drm_bridge.h     |  3 ---
- 2 files changed, 40 deletions(-)
+ drivers/gpu/drm/bridge/tc358767.c | 32 ++++++++++++++++++++++++-------
+ 1 file changed, 25 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 584d109330ab..d44f055dbe3e 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -467,43 +467,6 @@ void drm_bridge_detach(struct drm_bridge *bridge)
-  *   needed, in order to gradually transition to the new model.
-  */
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index 029002938a5e8..45af31414ce48 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -580,9 +580,9 @@ static int tc_pllupdate(struct tc_data *tc, unsigned int pllctrl)
+ 	return 0;
+ }
  
--/**
-- * drm_bridge_chain_mode_fixup - fixup proposed mode for all bridges in the
-- *				 encoder chain
-- * @bridge: bridge control structure
-- * @mode: desired mode to be set for the bridge
-- * @adjusted_mode: updated mode that works for this bridge
-- *
-- * Calls &drm_bridge_funcs.mode_fixup for all the bridges in the
-- * encoder chain, starting from the first bridge to the last.
-- *
-- * Note: the bridge passed should be the one closest to the encoder
-- *
-- * RETURNS:
-- * true on success, false on failure
-- */
--bool drm_bridge_chain_mode_fixup(struct drm_bridge *bridge,
--				 const struct drm_display_mode *mode,
--				 struct drm_display_mode *adjusted_mode)
--{
--	struct drm_encoder *encoder;
--
--	if (!bridge)
--		return true;
--
--	encoder = bridge->encoder;
--	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
--		if (!bridge->funcs->mode_fixup)
--			continue;
--
--		if (!bridge->funcs->mode_fixup(bridge, mode, adjusted_mode))
--			return false;
--	}
--
--	return true;
--}
--EXPORT_SYMBOL(drm_bridge_chain_mode_fixup);
--
- /**
-  * drm_bridge_chain_mode_valid - validate the mode against all bridges in the
-  *				 encoder chain.
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 4baca0d9107b..5cf41f92d1f0 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -855,9 +855,6 @@ drm_bridge_chain_get_first_bridge(struct drm_encoder *encoder)
- #define drm_for_each_bridge_in_chain(encoder, bridge)			\
- 	list_for_each_entry(bridge, &(encoder)->bridge_chain, chain_node)
+-static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
++static int tc_pxl_pll_calc(struct tc_data *tc, u32 refclk, u32 pixelclock,
++			   int *out_best_pixelclock, u32 *out_pxl_pllparam)
+ {
+-	int ret;
+ 	int i_pre, best_pre = 1;
+ 	int i_post, best_post = 1;
+ 	int div, best_div = 1;
+@@ -678,11 +678,6 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
+ 	if (best_mul == 128)
+ 		best_mul = 0;
  
--bool drm_bridge_chain_mode_fixup(struct drm_bridge *bridge,
--				 const struct drm_display_mode *mode,
--				 struct drm_display_mode *adjusted_mode);
- enum drm_mode_status
- drm_bridge_chain_mode_valid(struct drm_bridge *bridge,
- 			    const struct drm_display_info *info,
-
+-	/* Power up PLL and switch to bypass */
+-	ret = regmap_write(tc->regmap, PXL_PLLCTRL, PLLBYP | PLLEN);
+-	if (ret)
+-		return ret;
+-
+ 	pxl_pllparam  = vco_hi << 24; /* For PLL VCO >= 300 MHz = 1 */
+ 	pxl_pllparam |= ext_div[best_pre] << 20; /* External Pre-divider */
+ 	pxl_pllparam |= ext_div[best_post] << 16; /* External Post-divider */
+@@ -690,6 +685,29 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
+ 	pxl_pllparam |= best_div << 8; /* Divider for PLL RefClk */
+ 	pxl_pllparam |= best_mul; /* Multiplier for PLL */
+ 
++	if (out_best_pixelclock)
++		*out_best_pixelclock = best_pixelclock;
++
++	if (out_pxl_pllparam)
++		*out_pxl_pllparam = pxl_pllparam;
++
++	return 0;
++}
++
++static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
++{
++	u32 pxl_pllparam = 0;
++	int ret;
++
++	ret = tc_pxl_pll_calc(tc, refclk, pixelclock, NULL, &pxl_pllparam);
++	if (ret)
++		return ret;
++
++	/* Power up PLL and switch to bypass */
++	ret = regmap_write(tc->regmap, PXL_PLLCTRL, PLLBYP | PLLEN);
++	if (ret)
++		return ret;
++
+ 	ret = regmap_write(tc->regmap, PXL_PLLPARAM, pxl_pllparam);
+ 	if (ret)
+ 		return ret;
 -- 
-2.34.1
-
+2.43.0
 
