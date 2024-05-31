@@ -2,70 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD658D74A6
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2024 11:47:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 642A48D74DB
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2024 13:08:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6F388FBD;
-	Sun,  2 Jun 2024 09:47:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B88CA10E0A3;
+	Sun,  2 Jun 2024 11:08:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SAYVDWjx";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=danishpraka.sh header.i=@danishpraka.sh header.b="CZ9uHnDW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F4BC88FBD
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Jun 2024 09:47:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717321622; x=1748857622;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=e/MmA0lqNIytmpj8MKctzTRAhRhDttTY7BgrLSVLdcM=;
- b=SAYVDWjxym4oyUhBdFIE7xWIsxRwRjahDV09FJ6UWE+/h3vOTe9V9Zdg
- YS92BveK8hXolsJkpXH7m/NIXImUFAk201qb9zY0+LVJWiTpKnVQ3AFUF
- HFuLOUxzP7cgnaL5O1vRuNYJJcMVysKsXu/aTjZNLxxWDGQhlz43UnnY1
- XGzT8IMVniQAMJiwnnq+KcAfgfSHKZEPF1ww89dKlQKJk6agvTir8uIet
- PSlIb0B8z4O1QD+yRxJANr5tdSo1hYJ3sHTHK6Efwc5Dr3XtDJO8/+MgT
- SoXWCndCjxN8Nu46QEItfRKSpPpIx/5FBXzuI04TzCRRF+PTWoJVXozNu Q==;
-X-CSE-ConnectionGUID: fv09311RQzW3qFGSs/QyAA==
-X-CSE-MsgGUID: L40REcuHRG2hm620kftKEw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11090"; a="14013856"
-X-IronPort-AV: E=Sophos;i="6.08,209,1712646000"; d="scan'208";a="14013856"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2024 02:47:01 -0700
-X-CSE-ConnectionGUID: hB+Y+hpcRFO514COcgAVVQ==
-X-CSE-MsgGUID: rCz+UrgQSRGFTu/loLXfMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,209,1712646000"; d="scan'208";a="41516784"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2024 02:46:57 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sDhnh-0000000Cz9y-40jX; Sun, 02 Jun 2024 12:46:53 +0300
-Date: Sun, 2 Jun 2024 12:46:53 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Johan Hovold <jhovold@gmail.com>
-Subject: Re: [PATCH v1 2/4] iio: light: lm3533-als: Remove the driver
-Message-ID: <Zlw_jVoJ7w3bTFYX@smile.fi.intel.com>
-References: <20240531170844.1595468-1-andriy.shevchenko@linux.intel.com>
- <20240531170844.1595468-3-andriy.shevchenko@linux.intel.com>
- <20240601140508.0466386e@jic23-huawei>
+X-Greylist: delayed 588 seconds by postgrey-1.36 at gabe;
+ Fri, 31 May 2024 06:20:09 UTC
+Received: from out-06.pe-b.jellyfish.systems (out-06.pe-b.jellyfish.systems
+ [198.54.127.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6815410F71B
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 06:20:01 +0000 (UTC)
+Received: from output-router-d5c465c44-d7pgd (new-01.privateemail.com
+ [198.54.118.220])
+ by pe-b.jellyfish.systems (Postfix) with ESMTPA id 4VrCQX2qQmzFpjr;
+ Fri, 31 May 2024 06:10:12 +0000 (UTC)
+Received: from MTA-11-1.privateemail.com (unknown [10.50.14.23])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by NEW-01.privateemail.com (Postfix) with ESMTPS id 53FA918000D0;
+ Fri, 31 May 2024 02:10:12 -0400 (EDT)
+Received: from mta-11.privateemail.com (localhost [127.0.0.1])
+ by mta-11.privateemail.com (Postfix) with ESMTP id 26E3018000AB;
+ Fri, 31 May 2024 02:10:12 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=danishpraka.sh;
+ s=default; t=1717135812;
+ bh=jgp/6vz5V2JFZNzmdgRvgt76fGnP/p9jwDavyuTA2x4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=CZ9uHnDWJwYV0T89EfGrrHtbGYozHYy7/V6P5ziIKYLiwWAcT0ptbB0rXP5NAr9QG
+ /Y9gKDGMzA74quXo5RDeOLrnidvSsA7e6FsYcQMa0I91iP9T+Drsh9SX6zRWX768Wy
+ w1JAZq8fNAVLlOeX6+QS1cexlR4hcfNWnEGztFHD/F08MZ8mJ9l17kYgLshM2FmfTz
+ SapSqOY81rlF5vYnF/CsqhijsQ3SdQGkm+rWed1SaMd4uImzQksFEdDTZoO9k3R1wv
+ 9GT9umEKVAXcmAiUUyLCmnBgs501S62DCBDfgDfZJIL6cYhHC9hSXHAh8GrFiEAHer
+ syfTGYslsolwQ==
+Received: from localhost.localdomain (unknown [106.196.30.82])
+ by mta-11.privateemail.com (Postfix) with ESMTPA;
+ Fri, 31 May 2024 02:09:55 -0400 (EDT)
+From: Danish Prakash <contact@danishpraka.sh>
+To: 
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+ Danish Prakash <contact@danishpraka.sh>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Carl Vanderlip <quic_carlv@quicinc.com>,
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-arm-msm@vger.kernel.org (open list:QUALCOMM CLOUD AI (QAIC) DRIVER),
+ dri-devel@lists.freedesktop.org (open list:QUALCOMM CLOUD AI (QAIC) DRIVER),
+ linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] Documentation/accel/qaic: Fix typo 'phsyical'
+Date: Fri, 31 May 2024 11:39:26 +0530
+Message-ID: <20240531060929.5281-1-contact@danishpraka.sh>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240601140508.0466386e@jic23-huawei>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
+X-Mailman-Approved-At: Sun, 02 Jun 2024 11:08:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,27 +79,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jun 01, 2024 at 02:05:08PM +0100, Jonathan Cameron wrote:
-> On Fri, 31 May 2024 19:56:14 +0300
-> Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> 
-> > The driver has no in kernel users and requires a board file
-> > to be instantiated. Remove basically a dead code.
-> > 
-> > If ever needed, it can be reinstantiated and converted to one
-> > that uses firmware node interfaces.
-> > 
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Given the header removal in patch 4, I assume these all need to go together
-> via mfd.
-> 
-> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+(as part of LFX Linux Mentorship program)
 
-Thank you! We are waiting for Johan to tell what his plans about the driver.
-If it comes to removal, I add your tag to the new version of this mini-series.
+Signed-off-by: Danish Prakash <contact@danishpraka.sh>
+---
+ Documentation/accel/qaic/qaic.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/Documentation/accel/qaic/qaic.rst b/Documentation/accel/qaic/qaic.rst
+index efb7771273bb..628bf2f7a416 100644
+--- a/Documentation/accel/qaic/qaic.rst
++++ b/Documentation/accel/qaic/qaic.rst
+@@ -93,7 +93,7 @@ commands (does not impact QAIC).
+ uAPI
+ ====
+ 
+-QAIC creates an accel device per phsyical PCIe device. This accel device exists
++QAIC creates an accel device per physical PCIe device. This accel device exists
+ for as long as the PCIe device is known to Linux.
+ 
+ The PCIe device may not be in the state to accept requests from userspace at
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.45.1
 
