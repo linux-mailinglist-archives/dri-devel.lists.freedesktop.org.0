@@ -2,71 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD2A8D684D
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 19:43:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 512A78D6850
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 19:43:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AF2710E353;
-	Fri, 31 May 2024 17:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 579A710E3A7;
+	Fri, 31 May 2024 17:43:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ezI5Syhq";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="syhF+z71";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 631B710E353
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 17:42:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717177376; x=1748713376;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=3KEhrfextvC5rwr5916NhC2mHXO/ytPVGMei+vC/RAg=;
- b=ezI5SyhqB26IuRxOqYfJ+DRbDGcYLyJU1cfz02MXDddGaTqQU08fsEZv
- DxYYrMkkF4kaxK6DcVsRYqg/7H4/JmOqjdOn2nrkv6EMoU/43devXlRh7
- rKq+/vbF0+9mhVFS4skC1eVCYprayyPVwsYc3X0A29QTI6pigOstsUM7r
- JEmNDekhE6OHjmUef28MlSKgZPBYg5AiM8JBtDvI+rK+Xj5No/iAvLZ04
- 9Rhxn2isisZngli3C+SJXf35vm+H/s+YU7Cnov8IruQDtPQtle5btdkWD
- MVH3QeqA1jgkKhIhgWKUYOR/LYfMVYupVlkyI7U2dV4NJyQZjbJ23GOgM Q==;
-X-CSE-ConnectionGUID: HM48yhGtRxaBELANrMEKJQ==
-X-CSE-MsgGUID: fUOdaOAhTwy+85r5d1PLog==
-X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="24307808"
-X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; d="scan'208";a="24307808"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2024 10:42:55 -0700
-X-CSE-ConnectionGUID: 6CJF/SC+TdyRV/1op7y8+w==
-X-CSE-MsgGUID: 1zmOFBwkRO6RzSK5//qJew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; d="scan'208";a="36247877"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2024 10:42:49 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sD6H8-0000000CXbb-0lgH; Fri, 31 May 2024 20:42:46 +0300
-Date: Fri, 31 May 2024 20:42:45 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com,
- akpm@linux-foundation.org, gregkh@linuxfoundation.org,
- adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
- vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
- detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
- andrzej.p@collabora.com, nicolas@ndufresne.ca, davidgow@google.com,
- dlatypov@google.com
-Subject: Re: [PATCH v11 06/11] math.h: Add macros for rounding to closest value
-Message-ID: <ZloMFfGKLry6EWNL@smile.fi.intel.com>
-References: <20240531170229.1270828-1-devarsht@ti.com>
- <20240531171136.1293905-1-devarsht@ti.com>
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05F3010E2C1
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 17:43:40 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-52b8254338dso2319177e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 10:43:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1717177419; x=1717782219; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=++A9eRTepXKaQlX/n7y1YLYk+bRzmeV2OxSEniWyl9Y=;
+ b=syhF+z712POs7v8WDR4KtmP5sa4ypNaN7nC/niDNvzj7wZ90zkLkwTn76h8vG+6YG2
+ nWcaDe1KL/vJMAHwiCm09G5DETG8xJP9o0Iw6K6wdvxFwXFzC/OHc0cKK6do/Hu32zzI
+ hYnBNkSli3NzRJGjCnQUmKKXNypHB2nTevfb78e3fZML9FpViiOOGton51B4KpjP5443
+ 3qPwpXgZXBU5KWFqa5AnUhJama+kF8LFEIdY7zzy49ceXhOd0SSLrD8sDDr/MipnTHvi
+ aVKSuoIYmlB0qtQTM3C5KmUpuerVxNPLa1lJKY7sxTDXNFPRG+moQblhxs5IZRl+U/Db
+ +ODw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717177419; x=1717782219;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=++A9eRTepXKaQlX/n7y1YLYk+bRzmeV2OxSEniWyl9Y=;
+ b=EETzzYKdwu06yEi3OhfNVERcugwKGbTdGIPYnUgaAZREuqBs6BJHzmI7pasJT+E2Jc
+ vVhv6XiwFG/tdPdVHYjq90IZcXKtaTHYLjLNPGDKDHxvRjE/2TVkoe/ayoRrp6KVdbOf
+ +g5L90RPbiREOFKEk4EfETX2TKxEGjLqm107k6kgFxNZaNM8Uw0d7BjZ0U0re5TcZ3eh
+ XulbHVvU0CSh4kRZ40FMP5Xm8JhfbPWiZBrEkdWthB/MLvYxxK9F0f2AulqVR53ktx0D
+ 7rDAfQ21jBPD2n3eikFDOrlmV7Imw+DDJljcFpxxgJR3yh2cFfSb4XU+lFcDb4cjH0Qe
+ /F0A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVWyADWISe0ZPRRp6/866ga18EPl4dAoxTAXJDlSWnqAWAIzNPbqAAkUQvjF6P4HSehsvTxJ2aeU6V4NvmoJAbKH6PfzNhr04RyPuRZ6Azo
+X-Gm-Message-State: AOJu0Yzb8uFkoDJiq8k29EAnnH84F/0HETFvwhlYhQ0AiE9ktiPOZfqU
+ hNCimfXt222eAfu0AhYztT72yjXOGbKib1wKakisKxkiIo8ZDrSd8rXxgd5WLzA=
+X-Google-Smtp-Source: AGHT+IFyvYzgg/xDu6GcGjRimu3ZdjRNTdvZZXX3T2C8F9djKPfbZ79k2XyO7ksg7mNcH2hCy7HTxQ==
+X-Received: by 2002:ac2:4354:0:b0:52b:404:914f with SMTP id
+ 2adb3069b0e04-52b8958aed8mr1697776e87.34.1717177418909; 
+ Fri, 31 May 2024 10:43:38 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52b8e43a5e2sm54511e87.298.2024.05.31.10.43.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 May 2024 10:43:38 -0700 (PDT)
+Date: Fri, 31 May 2024 20:43:37 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc: Douglas Anderson <dianders@chromium.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v3 0/3] drm/panel-edp: remove several legacy compatibles
+ used by the driver
+Message-ID: <6kmhrxip4xb44bspptwdaoqsod5gm7ccr27fn3jr4ouh4jszi4@fuxht25n5wki>
+References: <20240531-edp-panel-drop-v3-0-4c98b2b95e3a@linaro.org>
+ <7428a2f7-befc-6db8-76f4-3ca8dc12d31c@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240531171136.1293905-1-devarsht@ti.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <7428a2f7-befc-6db8-76f4-3ca8dc12d31c@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,39 +93,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 31, 2024 at 10:41:36PM +0530, Devarsh Thakkar wrote:
-> Add below rounding related macros:
+On Fri, May 31, 2024 at 10:18:07AM -0600, Jeffrey Hugo wrote:
+> On 5/30/2024 5:12 PM, Dmitry Baryshkov wrote:
+> > There are two ways to describe an eDP panel in device tree. The
+> > recommended way is to add a device on the AUX bus, ideally using the
+> > edp-panel compatible. The legacy way is to define a top-level platform
+> > device for the panel.
+> > 
+> > Document that adding support for eDP panels in a legacy way is strongly
+> > discouraged (if not forbidden at all).
+> > 
+> > While we are at it, also drop legacy compatible strings and bindings for
+> > five panels. These compatible strings were never used by a DT file
+> > present in Linux kernel and most likely were never used with the
+> > upstream Linux kernel.
+> > 
+> > The following compatibles were never used by the devices supported by
+> > the upstream kernel and are a subject to possible removal:
+> > 
+> > - lg,lp097qx1-spa1
+> > - samsung,lsn122dl01-c01
+> > - sharp,ld-d5116z01b
 > 
-> round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
-> power of 2, with a preference to round up in case two nearest values are
-> possible.
-> 
-> round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
-> power of 2, with a preference to round down in case two nearest values are
-> possible.
-> 
-> roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
-> generally be used only when y is not multiple of 2 as otherwise
-> round_closest* macros should be used which are much faster.
-> 
-> Examples:
->  * round_closest_up(17, 4) = 16
->  * round_closest_up(15, 4) = 16
->  * round_closest_up(14, 4) = 16
->  * round_closest_down(17, 4) = 16
->  * round_closest_down(15, 4) = 16
->  * round_closest_down(14, 4) = 12
->  * roundclosest(21, 5) = 20
->  * roundclosest(19, 5) = 20
->  * roundclosest(17, 5) = 15
+> Ok to drop the sharp one I added.  It should be able to be handled by the
+> (newish) edp-panel, but I think the TI bridge driver needs some work for the
+> specific platform (no I2C connection) to verify.
 
-I don't know the estimation on how these will really useful or not, but I'm not
-objecting if people think it's needed API.
-
-Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Thanks. I'm tempted to merge the series as is now and drop
+sharp,ld-d5116z01b once you can confirm that it can be handled by
+edp-panel on your platform.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+With best wishes
+Dmitry
