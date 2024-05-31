@@ -2,69 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A4A8D6809
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 19:17:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 307078D6810
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 19:17:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B02F10E6AA;
-	Fri, 31 May 2024 17:17:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD79610E6F4;
+	Fri, 31 May 2024 17:17:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="myDf/3Yp";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="n4P59IhM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6F0010E6F4
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 17:17:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717175862; x=1748711862;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=J9gDH3bKlwWrZve8Rr8EmXrmd2I73nnMrlBHNuPI7IM=;
- b=myDf/3YppPN/Rtadcg4DzBemmcGTOyAr49fgjauw9IXeqV306312HNgT
- IfeLEBv+HXWeYx7MUt6A+WMB62CdmzHipLfJ7UiJQyT7PslrO7aXWpZMz
- pw3v2pcwCVRGAEx4Bfo/sZL55SyNoUjvox6BA0yCs+9o5zlwL1vt4A3ct
- Y4KX2lSYihA2vhhS7gcq+bfdvEtJgbmpyhXCvNNip1mDcOPV+46IfEIUp
- PVK53XK5UqNmjngWNgDbYAGj82Mm7KjtWNxqc1LvjH72S4AMQ6JxrnZWU
- E91fKszq7X2pwfPukFPp4QWhNw/tm2kJLwvdb9fbkqkWQxOM+E2ofdu4+ Q==;
-X-CSE-ConnectionGUID: wsXbKFvNS4Cz4neU8e3CIA==
-X-CSE-MsgGUID: t0Fm1QItTZWPRohHvrrJug==
-X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="16681457"
-X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; d="scan'208";a="16681457"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2024 10:17:41 -0700
-X-CSE-ConnectionGUID: bTIUQv84QRGUIQbKOV3/7A==
-X-CSE-MsgGUID: VFQalBeHT6e9S7cQurApGg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; d="scan'208";a="36682890"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2024 10:17:37 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sD5sk-0000000CX1u-1qfC; Fri, 31 May 2024 20:17:34 +0300
-Date: Fri, 31 May 2024 20:17:34 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, johan@kernel.org,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Cc: Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Johan Hovold <jhovold@gmail.com>, Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v1 0/4] lm3533: Remove the outdated drivers
-Message-ID: <ZloGLmlfHIfWfWV9@smile.fi.intel.com>
-References: <20240531170844.1595468-1-andriy.shevchenko@linux.intel.com>
- <ZloFgnKC6S2B_oz0@smile.fi.intel.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6192F10E5F4;
+ Fri, 31 May 2024 17:17:49 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44V8rvuo027031;
+ Fri, 31 May 2024 17:17:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ SGYwVXLuJsO0EuoHM+Hb27z+fptn96KmO30dpEai5aU=; b=n4P59IhMe+BZsxKi
+ L76zu1H4Zgpv4pIYHs/X9wR9p9ejD9W+VAYRfDrRWgmjW9xaWbnFoZatecc+KsQa
+ 1FYsE8oWaOmnza9+QhSf/3v7R3lv2xLG/Er7xWIMW3UQM4M/ZG8ERFQLku9WaYZe
+ VQS87xGLKbC0Q5VEOVjBlQ9/DB0RMtTe3FrMB9Nv8OzyHCou5iOp5MeQ2Sdkw2X5
+ DHvCo+ipgxHErvJfP9EfWWNh2RJyh+RaH5PB2n5BRMjlL+Zbxd8M5yLWS00ObKaP
+ fk7+SLMhxMJv9lxC5MZiYtbicQcu58BZ0ezKmiAdIV3T8T/qKrHiPsjP7ZeWgS9i
+ W3hLUQ==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yba2hfgd3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 31 May 2024 17:17:40 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44VHHeiE021373
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 31 May 2024 17:17:40 GMT
+Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 31 May
+ 2024 10:17:39 -0700
+Message-ID: <fdd2a53c-d7a1-45aa-b169-776fe0b016cf@quicinc.com>
+Date: Fri, 31 May 2024 10:17:38 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZloFgnKC6S2B_oz0@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/6] drm/msm/dpu: enable compression bit in cfg2 for DSC
+Content-Language: en-US
+To: Jun Nie <jun.nie@linaro.org>, Rob Clark <robdclark@gmail.com>, "Abhinav
+ Kumar" <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>
+References: <20240530-msm-drm-dsc-dsi-video-upstream-4-v6-0-2ab1d334c657@linaro.org>
+ <20240530-msm-drm-dsc-dsi-video-upstream-4-v6-3-2ab1d334c657@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20240530-msm-drm-dsc-dsi-video-upstream-4-v6-3-2ab1d334c657@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: CPr-yzlPCDGI4ohCXAJedTBR_mI58iC7
+X-Proofpoint-ORIG-GUID: CPr-yzlPCDGI4ohCXAJedTBR_mI58iC7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-31_12,2024-05-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0
+ malwarescore=0 priorityscore=1501 impostorscore=0 suspectscore=0
+ phishscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 spamscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2405310131
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,25 +95,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+Cc: Johan (via kernel.org)
 
-On Fri, May 31, 2024 at 08:14:43PM +0300, Andy Shevchenko wrote:
-> On Fri, May 31, 2024 at 07:56:12PM +0300, Andy Shevchenko wrote:
-> > Driver is quite outdated from the Linux kernel internal APIs
-> > perspective. In particular GPIO code is using legacy calls,
-> > that started being replaced by a new API ca. 2014, i.e. ten
-> > years ago.
-> > 
-> > Suggested-by: Linus Walleij <linus.walleij@linaro.org>
+
+On 5/29/2024 10:56 PM, Jun Nie wrote:
+> Enable compression bit in cfg2 register for DSC in the DSI case
+> per hardware version.
 > 
-> >  drivers/mfd/lm3533-core.c           | 645 -------------------
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Hi Jun,
+
+LGTM
+
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
+Thanks,
+
+Jessica Zhang
+
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 3 ++-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          | 8 +++++++-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          | 3 ++-
+>   3 files changed, 11 insertions(+), 3 deletions(-)
 > 
-> Oops, still leftovers: one file and Kconfig/Makefile updates...
-> If needed I'll send a v2, but now I leave it to Lee and Johan to decide
-> the destiny of the drivers.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> index 925ec6ada0e1..f2aab3e7c783 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> @@ -307,7 +307,8 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
+>   
+>   	spin_lock_irqsave(phys_enc->enc_spinlock, lock_flags);
+>   	phys_enc->hw_intf->ops.setup_timing_gen(phys_enc->hw_intf,
+> -			&timing_params, fmt);
+> +			&timing_params, fmt,
+> +			phys_enc->dpu_kms->catalog->mdss_ver);
+>   	phys_enc->hw_ctl->ops.setup_intf_cfg(phys_enc->hw_ctl, &intf_cfg);
+>   
+>   	/* setup which pp blk will connect to this intf */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> index f97221423249..fa6debda0774 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> @@ -98,7 +98,8 @@
+>   
+>   static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *intf,
+>   		const struct dpu_hw_intf_timing_params *p,
+> -		const struct msm_format *fmt)
+> +		const struct msm_format *fmt,
+> +		const struct dpu_mdss_version *mdss_ver)
+>   {
+>   	struct dpu_hw_blk_reg_map *c = &intf->hw;
+>   	u32 hsync_period, vsync_period;
+> @@ -177,6 +178,11 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *intf,
+>   	if (p->wide_bus_en && !dp_intf)
+>   		data_width = p->width >> 1;
+>   
+> +	/* TODO: handle DSC+DP case, we only handle DSC+DSI case so far */
+> +	if (p->compression_en && !dp_intf &&
+> +	    mdss_ver->core_major_ver >= 7)
+> +		intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
+> +
+>   	hsync_data_start_x = hsync_start_x;
+>   	hsync_data_end_x =  hsync_start_x + data_width - 1;
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> index f9015c67a574..ef947bf77693 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> @@ -81,7 +81,8 @@ struct dpu_hw_intf_cmd_mode_cfg {
+>   struct dpu_hw_intf_ops {
+>   	void (*setup_timing_gen)(struct dpu_hw_intf *intf,
+>   			const struct dpu_hw_intf_timing_params *p,
+> -			const struct msm_format *fmt);
+> +			const struct msm_format *fmt,
+> +			const struct dpu_mdss_version *mdss_ver);
+>   
+>   	void (*setup_prg_fetch)(struct dpu_hw_intf *intf,
+>   			const struct dpu_hw_intf_prog_fetch *fetch);
+> 
+> -- 
+> 2.34.1
+> 
