@@ -2,75 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E80F8D6920
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 20:43:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E718D695D
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 21:04:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A2F610E312;
-	Fri, 31 May 2024 18:43:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C78DB10E253;
+	Fri, 31 May 2024 19:04:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CTEsoS62";
+	dkim=pass (2048-bit key; secure) header.d=math.uni-bielefeld.de header.i=@math.uni-bielefeld.de header.b="w+5RfYmC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4986D10E312
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 18:43:30 +0000 (UTC)
+Received: from smtp2.math.uni-bielefeld.de (smtp2.math.uni-bielefeld.de
+ [129.70.45.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EBD910E253
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 19:04:12 +0000 (UTC)
+Received: from [192.168.0.100]
+ (dslb-088-074-203-220.088.074.pools.vodafone-ip.de [88.74.203.220])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by smtp2.math.uni-bielefeld.de (Postfix) with ESMTPSA id C27B56015A;
+ Fri, 31 May 2024 21:04:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717181010; x=1748717010;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=2998ZpVyEGYSKDxYSM479TmMh5OPYVOX8crtu3Z6n7M=;
- b=CTEsoS624FJb/BCp/Xwn5WHBfwabCbtOzXhn7n/Al6F3128qj9SbhNb2
- O7iAWPq9KIWpM9U5x0GeXG3NKMKvdFrjaoJrcy+0YHglRawZPICEUp+RS
- CML7rzhjFVvcsCEvkMlxiTSxJav/giswcGj3vfLzEIGdqLpAIwsg87lhc
- xtVtt5/TVIpTT9JApSMzd8FlXyTUaodAZFiD7b81mQ8TFXKPDtpOFJF32
- lld6FnM8LyhhTrvqFJviTFPJqa/AABeDRZY91puW704vmBXm2cgm6yqCA
- c8vVGj8r+LdgpO0WgAJiqXWYvPlCA/sTDrd9ks4W9tdUYfg1QEOJwWmm5 g==;
-X-CSE-ConnectionGUID: GYZlkDR/Rs2cJV7R85rE4w==
-X-CSE-MsgGUID: WEH4wV7cTDOX1viV9H4yiA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="13906092"
-X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; d="scan'208";a="13906092"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2024 11:43:30 -0700
-X-CSE-ConnectionGUID: XalLKdCvTZiIXlO2BFstSA==
-X-CSE-MsgGUID: x6tLlc2wR5SjtXITRwjjtw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; d="scan'208";a="41322240"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.190])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2024 11:43:20 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang
- <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick
- <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, Maxime
- Ripard <mripard@kernel.org>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, Sui Jingfeng <sui.jingfeng@linux.dev>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Pekka Paalanen
- <pekka.paalanen@collabora.com>, =?utf-8?Q?Ma=C3=ADra?= Canal
- <mcanal@igalia.com>, Andy Yan <andyshrk@163.com>
-Subject: Re: [PATCH v15 00/29] drm/connector: Create HDMI Connector
- infrastructure
-In-Reply-To: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
-Date: Fri, 31 May 2024 21:43:16 +0300
-Message-ID: <874jadesaj.fsf@intel.com>
+ d=math.uni-bielefeld.de; s=default; t=1717182249;
+ bh=l6Noy5qDuga5ddzS3uhFndxB/qs8GrX99aTIdEU4qGo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=w+5RfYmCDLL39Us+JDOzdHqgmRGlqo8OWHhr7mWY2eJVoyJXFo93+GRnBB/dx/rav
+ z33rrAesPCMaPGXP5CFXthePyVYRhxhAmlLqC5gBlzqzGFQnkwhA+FrjDVZFwl8HSc
+ BMF1UWHrVR4IJPvoiEEnJcu/UCuU79MGCN6UeLRItizp7vfN68qnNSy5K/zjVhqJHZ
+ 6vyxOSsUki4qNll8xlw4Xv/hBGOReZcin50XjiV3qAW41P5Qxn/4tc40kwCOfvfYDe
+ zgT8D96tzaNmwKu0rHTdN6FFHM6LBe9c6vDtvKA2BajuknkaLhHkslmshDahNpEowZ
+ eEtT7dZb0q3Gg==
+Message-ID: <a4069a85-b990-42b4-8cde-8906a740ec27@math.uni-bielefeld.de>
+Date: Fri, 31 May 2024 21:04:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] drm: panel-orientation-quirks: Add quirk for Aya
+ Neo KUN
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Hans de Goede <hdegoede@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240310220401.895591-1-tjakobi@math.uni-bielefeld.de>
+Content-Language: en-US
+From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+Autocrypt: addr=tjakobi@math.uni-bielefeld.de; keydata=
+ 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
+ JRHWPGCL3BhOxQ==
+In-Reply-To: <20240310220401.895591-1-tjakobi@math.uni-bielefeld.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,43 +109,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 May 2024, Maxime Ripard <mripard@kernel.org> wrote:
-> Let me know what you think,
+On 3/10/24 23:04, tjakobi@math.uni-bielefeld.de wrote:
 
-Sorry to report that this series generates a bunch of kernel-doc
-warnings in include/drm/drm_connector.h. Documenting nested struct
-members doesn't work as smoothly as you'd expect:
+> From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+>
+> Similar to the other Aya Neo devices this one features
+> again a portrait screen, here with a native resolution
+> of 1600x2560.
+>
+> Signed-off-by: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+> ---
+>   drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> index 3d92f66e550c..5d3fb11fd45f 100644
+> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> @@ -196,6 +196,12 @@ static const struct dmi_system_id orientation_data[] = {
+>   		  DMI_MATCH(DMI_BOARD_NAME, "NEXT"),
+>   		},
+>   		.driver_data = (void *)&lcd800x1280_rightside_up,
+> +	}, {	/* AYA NEO KUN */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
+> +		  DMI_MATCH(DMI_BOARD_NAME, "KUN"),
+> +		},
+> +		.driver_data = (void *)&lcd1600x2560_rightside_up,
+>   	}, {	/* Chuwi HiBook (CWI514) */
+>   		.matches = {
+>   			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
 
-../include/drm/drm_connector.h:1138: warning: Excess struct member 'broadcast_rgb' description in 'drm_connector_state'
-../include/drm/drm_connector.h:1138: warning: Excess struct member 'infoframes' description in 'drm_connector_state'
-../include/drm/drm_connector.h:1138: warning: Excess struct member 'avi' description in 'drm_connector_state'
-../include/drm/drm_connector.h:1138: warning: Excess struct member 'hdr_drm' description in 'drm_connector_state'
-../include/drm/drm_connector.h:1138: warning: Excess struct member 'spd' description in 'drm_connector_state'
-../include/drm/drm_connector.h:1138: warning: Excess struct member 'vendor' description in 'drm_connector_state'
-../include/drm/drm_connector.h:1138: warning: Excess struct member 'is_limited_range' description in 'drm_connector_state'
-../include/drm/drm_connector.h:1138: warning: Excess struct member 'output_bpc' description in 'drm_connector_state'
-../include/drm/drm_connector.h:1138: warning: Excess struct member 'output_format' description in 'drm_connector_state'
-../include/drm/drm_connector.h:1138: warning: Excess struct member 'tmds_char_rate' description in 'drm_connector_state'
-../include/drm/drm_connector.h:2112: warning: Excess struct member 'vendor' description in 'drm_connector'
-../include/drm/drm_connector.h:2112: warning: Excess struct member 'product' description in 'drm_connector'
-../include/drm/drm_connector.h:2112: warning: Excess struct member 'supported_formats' description in 'drm_connector'
-../include/drm/drm_connector.h:2112: warning: Excess struct member 'infoframes' description in 'drm_connector'
-../include/drm/drm_connector.h:2112: warning: Excess struct member 'lock' description in 'drm_connector'
-../include/drm/drm_connector.h:2112: warning: Excess struct member 'audio' description in 'drm_connector'
+Trying yet another ping! Also adding Hans to the list of recipients, as 
+he committed the last quirk for an Ayaneo device. Someone pick this up, 
+pretty please! :-)
 
-Noticed this when I was rebasing [1]. Having that merged would find
-issues in headers at build time instead of 'make htmldocs'.
+- Tobias
 
-In the mean time, this is the quick reproducer:
-
-$ scripts/kernel-doc -none include/drm/drm_connector.h
-
-
-BR,
-Jani.
-
-[1] https://lore.kernel.org/r/20240402140136.1722533-1-jani.nikula@intel.com
-
-
--- 
-Jani Nikula, Intel
