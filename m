@@ -2,77 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AADD58D5DE5
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 11:12:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4D98D5E03
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 11:16:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C82D210E19D;
-	Fri, 31 May 2024 09:12:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 426C510E09F;
+	Fri, 31 May 2024 09:16:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gt/Otg4X";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fGR0iwZm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE12E10E19D;
- Fri, 31 May 2024 09:12:18 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-35dcff36522so821552f8f.1; 
- Fri, 31 May 2024 02:12:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1717146737; x=1717751537; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CAisdGkVjiY+zTim1HeKneK2aR6c95AqSfk99w//tUg=;
- b=gt/Otg4Xo4WHpoYj3HrCtiDOUSG/SZbEdTE3MPvMub7UbKLV53ieIFY0OOkt1uflnZ
- t7VlkZvC+bSvW1I2gnmzXcMT1eceVmWpuLPIJCg463LsGHepquK4XFDotmjvR7ZaN7P1
- S1rXBeEXxWZIP9Ihl4DCO+clPBwuu+LNUx8f4cPoYEetYfl8P8NBAldylZazVW9sVsLP
- gK3Kj0HttDdppMkhcY16xxBN/pWm9UhOu32Heij0wySM9RtTmaDQ8uBDgz3YJt2LBZb4
- uNmWpepbModXFXnkZ75Jy9UCQ+TDxM9JfVrUcSWk/IrGzyh109JTRJ5x+reBwGDSxhtA
- pK/Q==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C2BA10E09F
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 09:16:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1717146962;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=t27nEi6UIMG/D7b8yK9PBdBkplZb905A3ZpyjyJvCWs=;
+ b=fGR0iwZm0hWgM7djRGTyFsetEgJPlsCBi4kF60kejT4lM7dNC1ukD3z8OfRJ5m8DqrJohW
+ iIiXfSgRJb79BRTArO2qygXRX4Nk/vY9BZI7JwtRDq2H+gq5/whnTxyng/nkspWwgp6k71
+ XiOm4ck82HUf8DjSaxj4EfkHQh/zcC4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-280-2X0Y3BDqOOKZEyKNENNh0w-1; Fri, 31 May 2024 05:15:59 -0400
+X-MC-Unique: 2X0Y3BDqOOKZEyKNENNh0w-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-354fa62abd7so616718f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 02:15:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717146737; x=1717751537;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CAisdGkVjiY+zTim1HeKneK2aR6c95AqSfk99w//tUg=;
- b=Er5Q0jT0lAG1MD+kntcKAmLY05qYRWJmFiZUtmldTNc2qfC/qiEnB7aV/QC/BXBp7B
- mHQr17VSGMEGU4QFQ+ziN2XtrlHPw+XhijAED0Fnj/vbFscFByHSdNZsYxz7lsmC2ukf
- 8BSZ+cqOnF7gSo6DuZblNH1M7kTLsCeugxT45XWi3EWcN/tbni1a/WGGT0y4aBKtRsh/
- 5IYyYAlm3m7XdScBwUYxnQiDzdlF8oyYTFOCBJt+bjU383yQ6CH0768jLc8S7sHUTEte
- sl7aTXZtVik6M4odWpKHMPyYPiSpJPs9h7x6iSHW6cnZvINZRfL2IXVqIwNy/m7sIsy9
- LbwQ==
+ d=1e100.net; s=20230601; t=1717146958; x=1717751758;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=t27nEi6UIMG/D7b8yK9PBdBkplZb905A3ZpyjyJvCWs=;
+ b=LCE3IzT8DMrThlzJbN4g/t8DX8sGF0noyb/QEnpZzZQTptnA6wXoPNJSiVINsysd38
+ RbDWaCaAoYTYxflcZr9HN2PfRcw0aI0lXA3/k3diKGj1DP9yfGNDIBfpV80IW94d8QIn
+ Tf7+xlOm4VJ4wKcaw+qI4m/zEgre5TgDNcIlap4EX6U/gtu2XHqz3ZJKUCa7sRK8B8Jv
+ s4+hAJaB4UpHbzm/fXYgzoxw9c20XYjhXYxEZ49tFpQN3bUTZlI92c7LBWFTbFwbOcFV
+ 6HZBh0dZkVQEJAnUxXI6inhxw6gkgvmhCEgjOcc7olMgEKhmjE+YHsh58oGSrioMVItx
+ 5LpQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXxrdivqqvPrg0m0stCvFKWlTRwkGp0abZ3Wyk4oKSw4O3PHXew1ko+ObZ9RaMfri8qUPKKrGF3RvsqKn89ul59DFyn1Fy9q9oV0v++R1Hl
-X-Gm-Message-State: AOJu0YwjLVqmPhx4SCtdhJS/lNT9dHyfgO6oDbYrbMZJYQxVhO+nwt9v
- krwoZLMjLktSFLjvhZ93HuFB3ctqSpSmZZ4fwXaALB4nwbsYnJpW
-X-Google-Smtp-Source: AGHT+IHdUyzpVaYaryp6byJTrVZ1E5WKPaIPQ/7VJ3BCYNfe3MOMtHWasSEEBSV8ZpB1CiMpjGNNSQ==
-X-Received: by 2002:adf:f3c6:0:b0:354:f2a7:97d6 with SMTP id
- ffacd0b85a97d-35e0f285b04mr912447f8f.30.1717146736866; 
- Fri, 31 May 2024 02:12:16 -0700 (PDT)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-35dd04e845bsm1384959f8f.65.2024.05.31.02.12.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 May 2024 02:12:16 -0700 (PDT)
-Message-ID: <bd1d46ca-044b-468b-9458-4e9e43472930@gmail.com>
-Date: Fri, 31 May 2024 11:12:13 +0200
+ AJvYcCWCzj5eoR3sAqKfnxo/SizLfyyTVi/362orVR+kTvB0SijY6DxIxQ8bUNGHpKfyZOeNQfPkhiFg5bvMQIhdNqm0S1WkWdQuqd4yGZv0aYvX
+X-Gm-Message-State: AOJu0YyhM20u0v04Oc3/UhjYcsJhtsRr1L2371a9BvWiQskwlcsoTwZe
+ WWJ6TDnFt6p0th9JSKW6Iex8fQDybCtRd9UyLHY5A8kdpRGM3vmuWcdo79DLVBXsuKzamhrvxo1
+ OcDnf8mjq3F6sLlCVqB5MMFDrzL/AdFC8Z5BANuPE36+mf5bwrCs3NWLuhcamzDad9w==
+X-Received: by 2002:a5d:560f:0:b0:354:f802:f3a6 with SMTP id
+ ffacd0b85a97d-35e0f25dcb1mr884344f8f.9.1717146958112; 
+ Fri, 31 May 2024 02:15:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHrkRGzKUmisjuN7VhScdSjUynwoyILqUA1mdoxx/Htzl4GOeC+VC3zjfLnNVjYgUcCur6uLw==
+X-Received: by 2002:a5d:560f:0:b0:354:f802:f3a6 with SMTP id
+ ffacd0b85a97d-35e0f25dcb1mr884325f8f.9.1717146957468; 
+ Fri, 31 May 2024 02:15:57 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-35dd0630010sm1399243f8f.76.2024.05.31.02.15.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 May 2024 02:15:57 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH 1/3] drm/panic: only draw the foreground color in
+ drm_panic_blit()
+In-Reply-To: <20240531080750.765982-2-jfalempe@redhat.com>
+References: <20240531080750.765982-1-jfalempe@redhat.com>
+ <20240531080750.765982-2-jfalempe@redhat.com>
+Date: Fri, 31 May 2024 11:15:56 +0200
+Message-ID: <87frty1gvn.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v2 0/2] Discussion around eviction improvements
-To: Alex Deucher <alexdeucher@gmail.com>, Tvrtko Ursulin <tursulin@igalia.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Friedrich Vock <friedrich.vock@gmx.de>
-References: <20240516121822.19036-1-tursulin@igalia.com>
- <CADnq5_PhZ5bqEJKQ+bPQAeXihMfZrFVqLN-+nd69+zZooBT6BA@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <CADnq5_PhZ5bqEJKQ+bPQAeXihMfZrFVqLN-+nd69+zZooBT6BA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,69 +93,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 16.05.24 um 21:21 schrieb Alex Deucher:
-> On Thu, May 16, 2024 at 8:18 AM Tvrtko Ursulin <tursulin@igalia.com> wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>
->> Reduced re-spin of my previous series after Christian corrected a few
->> misconceptions that I had. So lets see if what remains makes sense or is still
->> misguided.
->>
->> To summarise, the series address the following two issues:
->>
->>   * Migration rate limiting does not work, at least not for the common case
->>     where userspace configures VRAM+GTT. It thinks it can stop migration attempts
->>     by playing with bo->allowed_domains vs bo->preferred domains but, both from
->>     the code, and from empirical experiments, I see that not working at all. When
->>     both masks are identical fiddling with them achieves nothing. Even when they
->>     are not identical allowed has a fallback GTT placement which means that when
->>     over the migration budget ttm_bo_validate with bo->allowed_domains can cause
->>     migration from GTT to VRAM.
->>
->>   * Driver thinks it will be re-validating evicted buffers on the next submission
->>     but it does not for the very common case of VRAM+GTT because it only checks
->>     if current placement is *none* of the preferred placements.
-> For APUs at least, we should never migrate because GTT and VRAM are
-> both system memory so are effectively equal performance-wise.  Maybe
-> this regressed when Christian reworked ttm to better handle migrating
-> buffers back to VRAM after suspend on dGPUs?
+Jocelyn Falempe <jfalempe@redhat.com> writes:
 
-Yeah, that's quite likely. I'm already looking into this.
+Hello Jocelyn,
 
-Regards,
-Christian.
-
+> The whole framebuffer is cleared, so it's useless to rewrite the
+> background colored pixels. It allows to simplify the drawing
+> functions, and prepare the work for the set_pixel() callback.
 >
-> Alex
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_panic.c | 63 +++++++++++++++----------------------
+>  1 file changed, 26 insertions(+), 37 deletions(-)
 >
->> These two patches appear to have a positive result for a memory intensive game
->> like Assassin's Creed Valhalla. On an APU like Steam Deck the game has a working
->> set around 5 GiB, while the VRAM is configured to 1 GiB. Correctly respecting
->> the migration budget appears to keep buffer blits at bay and improves the
->> minimum frame rate, ie. makes things smoother.
->>
->>  From the game's built-in benchmark, average of three runs each:
->>
->>                                                  FPS
->>                  migrated KiB    min     avg     max     min-1%  min-0.1%
->>    because          20784781     10.00  37.00   89.67    22.00    12.33
->>    patched           4227688     13.67  37.00   81.33    23.33    15.00
->>
->> Disclaimers that I have is that more runs would be needed to be more confident
->> about the results. And more games. And APU versus discrete.
->>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Friedrich Vock <friedrich.vock@gmx.de>
->>
->> Tvrtko Ursulin (2):
->>    drm/amdgpu: Re-validate evicted buffers
->>    drm/amdgpu: Actually respect buffer migration budget
->>
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 112 +++++++++++++++++++------
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c |  21 ++++-
->>   2 files changed, 103 insertions(+), 30 deletions(-)
->>
->> --
->> 2.44.0
->>
+> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+> index 7ece67086cec..9d95c7eaae83 100644
+> --- a/drivers/gpu/drm/drm_panic.c
+> +++ b/drivers/gpu/drm/drm_panic.c
+> @@ -197,37 +197,33 @@ static u32 convert_from_xrgb8888(u32 color, u32 format)
+>  static void drm_panic_blit16(struct iosys_map *dmap, unsigned int dpitch,
+>  			     const u8 *sbuf8, unsigned int spitch,
+>  			     unsigned int height, unsigned int width,
+> -			     u16 fg16, u16 bg16)
+> +			     u16 color)
+
+What about calling this fg16 instead of color? That way is clear that only
+the fb is written and not the background ?
+
+>  {
+>  	unsigned int y, x;
+> -	u16 val16;
+>  
+> -	for (y = 0; y < height; y++) {
+> -		for (x = 0; x < width; x++) {
+> -			val16 = (sbuf8[(y * spitch) + x / 8] & (0x80 >> (x % 8))) ? fg16 : bg16;
+> -			iosys_map_wr(dmap, y * dpitch + x * sizeof(u16), u16, val16);
+> -		}
+> -	}
+> +	for (y = 0; y < height; y++)
+> +		for (x = 0; x < width; x++)
+
+I would add here a comment that this check is about determining if a color
+is suitable for foreground or background, depending on the luminance
+threshold (which I understand is the 0x80 value?).
+
+> +			if (sbuf8[(y * spitch) + x / 8] & (0x80 >> (x % 8)))
+> +				iosys_map_wr(dmap, y * dpitch + x * sizeof(u16), u16, color);
+>  }
+>  
+>  static void drm_panic_blit24(struct iosys_map *dmap, unsigned int dpitch,
+>  			     const u8 *sbuf8, unsigned int spitch,
+>  			     unsigned int height, unsigned int width,
+> -			     u32 fg32, u32 bg32)
+> +			     u32 color)
+>  {
+>  	unsigned int y, x;
+> -	u32 val32;
+>
+
+Same here, I would left the variable name as fg32.
+
+[...]
+
+and also here would add a comment or use a variable to make it more readable.
+
+Same comments for drm_panic_blit32().
+
+[...]
+
+>  /*
+> @@ -256,8 +249,7 @@ static void drm_panic_blit32(struct iosys_map *dmap, unsigned int dpitch,
+>   * @spitch: source pitch in bytes
+>   * @height: height of the image to copy, in pixels
+>   * @width: width of the image to copy, in pixels
+> - * @fg_color: foreground color, in destination format
+> - * @bg_color: background color, in destination format
+> + * @color: foreground color, in destination format
+
+Leaving as fg_color would even be consistent with your comment.
+
+Feel free to ignore my comments though if you disagree, the patch looks
+good to me regardless.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
