@@ -2,72 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A758D5FEA
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 12:46:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 583D68D6016
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 12:58:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1872910E281;
-	Fri, 31 May 2024 10:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A06410E12A;
+	Fri, 31 May 2024 10:58:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="wjEgyRqw";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="oK6eeztN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C6C810E281
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 10:46:45 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-a66e9eac48fso127037866b.2
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 03:46:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1717152403; x=1717757203;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=WMWnkmBtFZXXX3I47gpNP4mWpXGqK4R1nikBku4RkBk=;
- b=wjEgyRqwSxZwfpH2BO9EK0wWSv7yyp4eLcbxY8gzAM1f4c7OPmjprgPbHqsQuUuwcE
- rjqjCW5vHnwLV+C+6qIUkV9lsvJxnsTSqnWx0BSJqBMga1KsEYksaLUmbTc9054C5nlB
- vcS5VnqVykf12vdAZ3uEEFwRbzl/1WVh77Ui3X4DfVBCRYAo+c2MG9/jvymqtCzEkT0Y
- 5nVGtCLSJaKwnkQdrJJ41ap89WGDDs5rOlNYEYF1bAKXFlR+cjQJNX015eD09xlRtAFZ
- wfAz6vlbQLNhG5Y6Ewi+HscOBaWpY0zfNl0aj9YYjMNiX7wMXpFPHqNOZGVXg4gadz2/
- Tccw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717152403; x=1717757203;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WMWnkmBtFZXXX3I47gpNP4mWpXGqK4R1nikBku4RkBk=;
- b=EKI8aeNbzNOz1+5AbPVItvzg5a0ARLai7StrpDM+6TAcQea52I39rTWCcEInnIO7Pm
- /RI/TUMlbWIoLwBeZYwxZLmZywqHwDGvrWKkpz0WofWcK1jH2w8taLnP238qtD2Q8TBO
- 8CG+DvXJ6/xY9hW0k6EBc077omdTdyYLLP0jIPhaeod97TVUJ7CiZMJeyUZ1BTLLZ63T
- dsEvBi36hPgN9P+favQ2aDTMLyrH7szFcRbcPPNtRSMgFU0Ua4GAMP08sltuH9yOzdUN
- AgT6mgAsFA34B2jwaVJlE8YQmvY0H8lUOqjnH/k+iH+ni1CfsMb7f4KSHDD/BGXwbe9A
- 7okg==
-X-Gm-Message-State: AOJu0YwhI0h4bQT5bzQhQC1awLqMjvQGCFxuQVu3yC3M30i5DyM7BBmS
- nxCh1Vu4nQ2kgUmwvXmU40emdGxxNDj1qOhbxyyZebMXO4x08kLqMAP6bsHI2hM=
-X-Google-Smtp-Source: AGHT+IHwz8F4YsOxCoVyVgxPSwfloqZY14sdnu2nUYWH+snrNLWB7uClqMFZJyHAj9wrQ4oqtxQn1g==
-X-Received: by 2002:a17:907:6183:b0:a5a:88ac:fbbe with SMTP id
- a640c23a62f3a-a6820be9589mr98501966b.46.1717152403391; 
- Fri, 31 May 2024 03:46:43 -0700 (PDT)
-Received: from fedora.fritz.box (aftr-82-135-80-160.dynamic.mnet-online.de.
- [82.135.80.160]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a67eb6214efsm72928666b.220.2024.05.31.03.46.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 May 2024 03:46:43 -0700 (PDT)
-From: Thorsten Blum <thorsten.blum@toblux.com>
-To: Oded Gabbay <ogabbay@kernel.org>, Tomer Tayar <ttayar@habana.ai>,
- Ofir Bitton <obitton@habana.ai>, Farah Kassabri <fkassabri@habana.ai>,
- Dani Liberman <dliberman@habana.ai>,
- Dafna Hirschfeld <dhirschfeld@habana.ai>, Koby Elbaz <kelbaz@habana.ai>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thorsten Blum <thorsten.blum@toblux.com>
-Subject: [RESEND PATCH] accel/habanalabs/gaudi2: Use kvfree() for memory
- allocated with kvcalloc()
-Date: Fri, 31 May 2024 12:46:22 +0200
-Message-ID: <20240531104622.564778-1-thorsten.blum@toblux.com>
-X-Mailer: git-send-email 2.45.1
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E150410E12A
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 10:58:00 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44VAvXH5079927;
+ Fri, 31 May 2024 05:57:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1717153053;
+ bh=hjtdY2sRv/3Z2vbHsQ/ld4i7cSC58nLl8ghKakpaSR0=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=oK6eeztNfdoiPYCwCSlA1WgYvfUjzbUmrRUgFJ+YKeI8U3j1a7UiLvYErfx1jWI5d
+ y/yek9LTAxEDobjM8UcErw5+eUOjtBQ8zHEsfBv0X0VES5JrJfR48pnCNQmBflJGQK
+ Ch6TF5Agi/q5Hu6WdhJ0Eglb9EkiIlbQ+RQqQkA0=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44VAvXew012283
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 31 May 2024 05:57:33 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 31
+ May 2024 05:57:32 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 31 May 2024 05:57:32 -0500
+Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be
+ forged))
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44VAvNwo116858;
+ Fri, 31 May 2024 05:57:24 -0500
+Message-ID: <0858f5d9-a694-7ee4-0edf-3f0610703b92@ti.com>
+Date: Fri, 31 May 2024 16:27:23 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v10 07/11] Documentation: core-api: Add math.h macros and
+ functions
+Content-Language: en-US
+To: Randy Dunlap <rdunlap@infradead.org>, <mchehab@kernel.org>,
+ <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <benjamin.gaignard@collabora.com>,
+ <sebastian.fricke@collabora.com>, <akpm@linux-foundation.org>,
+ <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
+ <adobriyan@gmail.com>, <jani.nikula@intel.com>,
+ <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <corbet@lwn.net>,
+ <broonie@kernel.org>, <linux-doc@vger.kernel.org>
+CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
+ <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
+ <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
+ <vijayp@ti.com>, <andrzej.p@collabora.com>, <nicolas@ndufresne.ca>,
+ <davidgow@google.com>, <dlatypov@google.com>
+References: <20240530165925.2715837-1-devarsht@ti.com>
+ <20240530171740.2763221-1-devarsht@ti.com>
+ <4951656c-2d15-49f6-89d8-aa7b5c333ec7@infradead.org>
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <4951656c-2d15-49f6-89d8-aa7b5c333ec7@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,29 +86,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use kvfree() to fix the following Coccinelle/coccicheck warning reported
-by kfree_mismatch.cocci:
+Hi Randy,
 
-	WARNING kvmalloc is used to allocate this memory at line 10398
+Thanks for the review.
 
-Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
----
- drivers/accel/habanalabs/gaudi2/gaudi2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 31/05/24 04:14, Randy Dunlap wrote:
+> 
+> 
+> On 5/30/24 10:17 AM, Devarsh Thakkar wrote:
+>> Add documentation for rounding, scaling, absolute value and difference,
+>> 32-bit division related macros and functions exported by math.h header
+>> file.
+>>
+>> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+>> ---
+>> V1->V9 (No change)
+>> V10: Patch introduced
+>> ---
+>>  Documentation/core-api/kernel-api.rst | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+>> index ae92a2571388..fb467783d491 100644
+>> --- a/Documentation/core-api/kernel-api.rst
+>> +++ b/Documentation/core-api/kernel-api.rst
+>> @@ -185,6 +185,12 @@ Division Functions
+>>  .. kernel-doc:: lib/math/gcd.c
+>>     :export:
+>>  
+>> +Rounding, absolute value, scaling and 32bit division functions
+> 
+>                                          32-bit
+> please.
+> 
 
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index fa1c4feb9f89..8024047962ec 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -10489,7 +10489,7 @@ static int gaudi2_memset_device_memory(struct hl_device *hdev, u64 addr, u64 siz
- 				(u64 *)(lin_dma_pkts_arr), DEBUGFS_WRITE64);
- 	WREG32(sob_addr, 0);
- 
--	kfree(lin_dma_pkts_arr);
-+	kvfree(lin_dma_pkts_arr);
- 
- 	return rc;
- }
--- 
-2.45.1
+Good catch. Also I see some division functions supporting non-32bit functions
+too, so I would make it as below :
+Rounding, absolute value, division and 32-bit scaling functions
+---------------------------------------------------------------
 
+Regards
+Devarsh
