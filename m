@@ -2,84 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307078D6810
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 19:17:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA1D98D6813
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 19:18:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD79610E6F4;
-	Fri, 31 May 2024 17:17:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6078B10E5F4;
+	Fri, 31 May 2024 17:18:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="n4P59IhM";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="CtUrBG91";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6192F10E5F4;
- Fri, 31 May 2024 17:17:49 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44V8rvuo027031;
- Fri, 31 May 2024 17:17:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- SGYwVXLuJsO0EuoHM+Hb27z+fptn96KmO30dpEai5aU=; b=n4P59IhMe+BZsxKi
- L76zu1H4Zgpv4pIYHs/X9wR9p9ejD9W+VAYRfDrRWgmjW9xaWbnFoZatecc+KsQa
- 1FYsE8oWaOmnza9+QhSf/3v7R3lv2xLG/Er7xWIMW3UQM4M/ZG8ERFQLku9WaYZe
- VQS87xGLKbC0Q5VEOVjBlQ9/DB0RMtTe3FrMB9Nv8OzyHCou5iOp5MeQ2Sdkw2X5
- DHvCo+ipgxHErvJfP9EfWWNh2RJyh+RaH5PB2n5BRMjlL+Zbxd8M5yLWS00ObKaP
- fk7+SLMhxMJv9lxC5MZiYtbicQcu58BZ0ezKmiAdIV3T8T/qKrHiPsjP7ZeWgS9i
- W3hLUQ==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yba2hfgd3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 May 2024 17:17:40 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44VHHeiE021373
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 May 2024 17:17:40 GMT
-Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 31 May
- 2024 10:17:39 -0700
-Message-ID: <fdd2a53c-d7a1-45aa-b169-776fe0b016cf@quicinc.com>
-Date: Fri, 31 May 2024 10:17:38 -0700
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7900A10E5F4
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 17:18:32 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44VHIL35063534;
+ Fri, 31 May 2024 12:18:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1717175902;
+ bh=Un12nQNSmZAEW86dzSpgGrIq+plSTAlSnQhQo3l8dic=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References;
+ b=CtUrBG91nwREiDkdVkgO4x36gm/1+n0w9UZZ/pChQDsupnjJePb4Q3c1i3nG0NTjv
+ f1k/7Jq+RQozu6UqSN6tGHv232fnp6BVFb5kvq0djkyRdlvpgPqc1HZDGT9Gnj/Cvg
+ H4LiqRMe7hD1ke3D5eE+4UlS7UgjSoG2VQlAxMYs=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44VHILOm028388
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 31 May 2024 12:18:21 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 31
+ May 2024 12:18:21 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 31 May 2024 12:18:21 -0500
+Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44VHIKH4061281;
+ Fri, 31 May 2024 12:18:21 -0500
+From: Devarsh Thakkar <devarsht@ti.com>
+To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+ <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
+ <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
+ <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
+ <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
+ <nicolas@ndufresne.ca>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <akpm@linux-foundation.org>,
+ <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
+ <adobriyan@gmail.com>, <jani.nikula@intel.com>
+Subject: [PATCH v11 10/11] media: imagination: Round to closest multiple for
+ cropping region
+Date: Fri, 31 May 2024 22:48:20 +0530
+Message-ID: <20240531171820.1311037-1-devarsht@ti.com>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20240531170229.1270828-1-devarsht@ti.com>
+References: <20240531170229.1270828-1-devarsht@ti.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/6] drm/msm/dpu: enable compression bit in cfg2 for DSC
-Content-Language: en-US
-To: Jun Nie <jun.nie@linaro.org>, Rob Clark <robdclark@gmail.com>, "Abhinav
- Kumar" <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>
-References: <20240530-msm-drm-dsc-dsi-video-upstream-4-v6-0-2ab1d334c657@linaro.org>
- <20240530-msm-drm-dsc-dsi-video-upstream-4-v6-3-2ab1d334c657@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20240530-msm-drm-dsc-dsi-video-upstream-4-v6-3-2ab1d334c657@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: CPr-yzlPCDGI4ohCXAJedTBR_mI58iC7
-X-Proofpoint-ORIG-GUID: CPr-yzlPCDGI4ohCXAJedTBR_mI58iC7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-31_12,2024-05-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0
- malwarescore=0 priorityscore=1501 impostorscore=0 suspectscore=0
- phishscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2405310131
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,89 +79,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+If neither of the flags to round down (V4L2_SEL_FLAG_LE) or round up
+(V4L2_SEL_FLAG_GE) are specified by the user, then round to nearest
+multiple of requested value while updating the crop rectangle coordinates.
 
+Use the rounding macro which gives preference to rounding down in case two
+nearest values (high and low) are possible to raise the probability of
+cropping rectangle falling inside the bound region.
 
-On 5/29/2024 10:56 PM, Jun Nie wrote:
-> Enable compression bit in cfg2 register for DSC in the DSI case
-> per hardware version.
-> 
-> Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+This complies with the VIDIOC_G_SELECTION, VIDIOC_S_SELECTION ioctl
+description as documented in v4l uapi [1] which specifies that driver
+should choose crop rectangle as close as possible if no flags are passed by
+user-space, as quoted below :
 
-Hi Jun,
+"``0`` - The driver can adjust the rectangle size freely and shall choose a
+crop/compose rectangle as close as possible to the requested
+ one."
 
-LGTM
+[1] :
+https://www.kernel.org/doc/Documentation/userspace-api/media/v4l/vidioc-g-selection.rst
 
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+---
+V11: No change
+V10: No change
+V9:  No change
+V8:  Update commit message with specification reference
+V1->V7 (No change, patch introduced in V7)
+---
+ drivers/media/platform/imagination/e5010-jpeg-enc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Thanks,
+diff --git a/drivers/media/platform/imagination/e5010-jpeg-enc.c b/drivers/media/platform/imagination/e5010-jpeg-enc.c
+index e701d573a26a..d65646f0c38c 100644
+--- a/drivers/media/platform/imagination/e5010-jpeg-enc.c
++++ b/drivers/media/platform/imagination/e5010-jpeg-enc.c
+@@ -517,10 +517,10 @@ static int e5010_s_selection(struct file *file, void *fh, struct v4l2_selection
+ 
+ 	switch (s->flags) {
+ 	case 0:
+-		s->r.width = round_down(s->r.width, queue->fmt->frmsize.step_width);
+-		s->r.height = round_down(s->r.height, queue->fmt->frmsize.step_height);
+-		s->r.left = round_down(s->r.left, queue->fmt->frmsize.step_width);
+-		s->r.top = round_down(s->r.top, 2);
++		s->r.width = round_closest_down(s->r.width, queue->fmt->frmsize.step_width);
++		s->r.height = round_closest_down(s->r.height, queue->fmt->frmsize.step_height);
++		s->r.left = round_closest_down(s->r.left, queue->fmt->frmsize.step_width);
++		s->r.top = round_closest_down(s->r.top, 2);
+ 
+ 		if (s->r.left + s->r.width > queue->width)
+ 			s->r.width = round_down(s->r.width + s->r.left - queue->width,
+-- 
+2.39.1
 
-Jessica Zhang
-
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 3 ++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          | 8 +++++++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          | 3 ++-
->   3 files changed, 11 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> index 925ec6ada0e1..f2aab3e7c783 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> @@ -307,7 +307,8 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
->   
->   	spin_lock_irqsave(phys_enc->enc_spinlock, lock_flags);
->   	phys_enc->hw_intf->ops.setup_timing_gen(phys_enc->hw_intf,
-> -			&timing_params, fmt);
-> +			&timing_params, fmt,
-> +			phys_enc->dpu_kms->catalog->mdss_ver);
->   	phys_enc->hw_ctl->ops.setup_intf_cfg(phys_enc->hw_ctl, &intf_cfg);
->   
->   	/* setup which pp blk will connect to this intf */
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> index f97221423249..fa6debda0774 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> @@ -98,7 +98,8 @@
->   
->   static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *intf,
->   		const struct dpu_hw_intf_timing_params *p,
-> -		const struct msm_format *fmt)
-> +		const struct msm_format *fmt,
-> +		const struct dpu_mdss_version *mdss_ver)
->   {
->   	struct dpu_hw_blk_reg_map *c = &intf->hw;
->   	u32 hsync_period, vsync_period;
-> @@ -177,6 +178,11 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *intf,
->   	if (p->wide_bus_en && !dp_intf)
->   		data_width = p->width >> 1;
->   
-> +	/* TODO: handle DSC+DP case, we only handle DSC+DSI case so far */
-> +	if (p->compression_en && !dp_intf &&
-> +	    mdss_ver->core_major_ver >= 7)
-> +		intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
-> +
->   	hsync_data_start_x = hsync_start_x;
->   	hsync_data_end_x =  hsync_start_x + data_width - 1;
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> index f9015c67a574..ef947bf77693 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> @@ -81,7 +81,8 @@ struct dpu_hw_intf_cmd_mode_cfg {
->   struct dpu_hw_intf_ops {
->   	void (*setup_timing_gen)(struct dpu_hw_intf *intf,
->   			const struct dpu_hw_intf_timing_params *p,
-> -			const struct msm_format *fmt);
-> +			const struct msm_format *fmt,
-> +			const struct dpu_mdss_version *mdss_ver);
->   
->   	void (*setup_prg_fetch)(struct dpu_hw_intf *intf,
->   			const struct dpu_hw_intf_prog_fetch *fetch);
-> 
-> -- 
-> 2.34.1
-> 
