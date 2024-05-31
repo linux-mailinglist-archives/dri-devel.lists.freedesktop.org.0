@@ -2,89 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8AE18D5E42
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 11:29:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 097318D5E50
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 11:32:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0589A10E042;
-	Fri, 31 May 2024 09:29:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35F1310E20C;
+	Fri, 31 May 2024 09:32:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Asm1lQ69";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gZZctsip";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3332D10E042
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 09:29:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1717147767;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TCFPXFrpx3KBvtv6qktcipr22uLNyejGkNsNz1rKKLo=;
- b=Asm1lQ69VPljfOp87eIfeerKwfgvXtOTpFSrb9pxCgT8vuK8f6XcIbfWGs7QUGJbrt1Jc2
- qfhNBoh34UoUYMzuzsb8P6b4GB3t+6n1E9x7dFVH8fEh3Q38x4UjIE29Fg4zPPFS5B6Mn8
- RO4fgDNVBjcalc339z9r37R5p1fzBIs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-428-r_0JXhILPz2ABCX1VnlCnw-1; Fri, 31 May 2024 05:29:24 -0400
-X-MC-Unique: r_0JXhILPz2ABCX1VnlCnw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-35dced40d17so734651f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 02:29:24 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ADC610E20C;
+ Fri, 31 May 2024 09:32:14 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-42101a2ac2cso8556305e9.0; 
+ Fri, 31 May 2024 02:32:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1717147933; x=1717752733; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=plB5SAM6IxvDio+P+8hN6eVaq+FHOovulQhKLCG8UQo=;
+ b=gZZctsipAXslFsjPaTFLcgH3MqUjDUKPZGdakrvB09EObbRCD16TNipoQpHPGew0nV
+ e3Ku7Mirtry1GfpAWapkrANBkWu/N1ASw5TZtu9z8CFAt+JidpdHDBbO3ATDnou/A1fk
+ YDJdzbcbX1KH/sHhKQAGS6dWdIKzUp+P7v3StPXCoZsxMBYlKCK7KZ0b8a+EEKJsMLsv
+ Y+PJ43dm1hTqYri6mFBRqLqtDby5SFnCbkqDRinO3c+zNjGKAXE8FPuc4fK8299oMIP+
+ I+623cEsQkCN/QIqY2pv/i6/lzpLYkLRRz7M5aC2nTIVb4/JYxoC4IAjKWUbrwjXA2Sb
+ IrZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717147763; x=1717752563;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TCFPXFrpx3KBvtv6qktcipr22uLNyejGkNsNz1rKKLo=;
- b=Dpn3pOdyyrrU+hE1QVloz5TF81pybZl/hOLTF72RdhoI213+keanngJR/5O7P8X7x3
- KVLy/jFUfKiJ7l/FZK/hkG0yQQi0PO385Yr0XYXv1YeFHJFwkO5m0JiDYBGgCgjr25/1
- 5BSzgPBGdJIU8uo3hN5eu2cY3f3hwhXCgHDSh7C8/PmSpma+PJuYSp+xl5qjwNYRzLE3
- 86XbPIYdBdt/3hy3aW38J7MP3KyKCWxP6SjLRgRdLHoeL65MyGLy3rK+HJNbpElnwwjD
- P2YTYWxli0okChkfjncsQoGs0a0e8Zg28448LSyMtKjIK7X/ckQlLivxC5qLQuNshdIP
- SdHw==
+ d=1e100.net; s=20230601; t=1717147933; x=1717752733;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=plB5SAM6IxvDio+P+8hN6eVaq+FHOovulQhKLCG8UQo=;
+ b=cOv1TfLZlGeewoUHTD1QUPo0py5BcQ0KTNzGsSrhSs/Ot9MO9TFfdAHZFUjX7KVcyK
+ VBPQjf6oqfH50IkhrzMWrfp/06OYGwUydUokua6RtNvOakCDnEZENQdV1C16AAxBXE9s
+ LxcCCFNpXRYbbPotOHl+bM71QYfVdBX/ilJ9rI1zQU+ts0oBTlpeAnp1mGrOVjp1Nkbq
+ M4F5CzBoH7KIK8wxDnOaU9m40fDYf0yy+EYTBZwfqu5ES2FPAXdzU7orQFOOiHGL0anQ
+ gE7qVPtxxO+CHfYXmKY0XUJwyP1/MY/tVoOQLpoj350YlJF0dOhprm1X2acUpsNyTSTW
+ I1ew==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVC8mmbyqkf+vZe4Y2fpAVl0pSHHiRplja/4AcAFTTYneokM4uWG9AAhHxjnKbgkQBcuauDmhIlJsrE4TecncMB5NrAxoOrKNrvIOIlPIVq
-X-Gm-Message-State: AOJu0Yy5SIcogIHcP5hemif+Iu5pG0xc28YZ7JjLWYinOHFEUqM2Ct/H
- C6hNURC8Nzb8//3tZxbWjm7BPESsjmZvEEFPp6FtT2DyBcPHOe8Y1pdzsATM0W+M2RluU9WfytW
- hSd7gM6fUzP3kp1Ge1vXA1UXiijyvxRHny0zC3cP8Sw+/y/zhpvz0AazmzlhxMuqSAg==
-X-Received: by 2002:adf:f7c4:0:b0:34e:9342:6b8 with SMTP id
- ffacd0b85a97d-35e0f28800emr817898f8f.40.1717147763326; 
- Fri, 31 May 2024 02:29:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHk8G6Dn/1vBy0cwqajHS7WEuke5UeTlPPcjBqETFKT486pWBaYWFB0G+HvV3+ilBEEmexKqA==
-X-Received: by 2002:adf:f7c4:0:b0:34e:9342:6b8 with SMTP id
- ffacd0b85a97d-35e0f28800emr817881f8f.40.1717147762930; 
- Fri, 31 May 2024 02:29:22 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:2ceb:e04a:af9c:bc9b?
- ([2a01:e0a:c:37e0:2ceb:e04a:af9c:bc9b])
+ AJvYcCV7xUFjU2v/wfgNtXKRwhAQHFouWgMNZ/3503lrvCx8hYM+pGzymFSsQYOaXIextDc0xHAfBcvvRQru17LVhoQO8sExvyvMVRxB4aiIZJB72/XIkAKIF13wKCwDWZ14Sb77G20SBYZSXaB4jCmJdQ==
+X-Gm-Message-State: AOJu0YwzzZc7DgfXZLeZ6R3zrNFFd+E6EwtLojE1I2qxT+xZd8OKAdAh
+ nnsT+bAqmUuRhl2WjvtH/37IAhVauDvIEdde6Mj0h5yAQcZyRHzj
+X-Google-Smtp-Source: AGHT+IE0bKHCwG5bfyvuPS7N7Apz8rTAjCab6PPLcxedkbysqK6uLhGHr5+E0AiGg3Sxa4fUof6gSg==
+X-Received: by 2002:a05:600c:4f95:b0:420:151e:b205 with SMTP id
+ 5b1f17b1804b1-4212e0d30cdmr12779385e9.39.1717147932369; 
+ Fri, 31 May 2024 02:32:12 -0700 (PDT)
+Received: from localhost
+ (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-35dd04da5acsm1426068f8f.62.2024.05.31.02.29.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 May 2024 02:29:22 -0700 (PDT)
-Message-ID: <463dcc2e-92e3-441e-b1ec-226a3ffbcca5@redhat.com>
-Date: Fri, 31 May 2024 11:29:21 +0200
+ 5b1f17b1804b1-4212709d4c7sm49326525e9.38.2024.05.31.02.32.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 May 2024 02:32:11 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui.Pan@amd.com, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Alex Hung <alex.hung@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/amd/display: Fix a handful of spelling mistakes
+Date: Fri, 31 May 2024 10:32:11 +0100
+Message-Id: <20240531093211.498880-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] drm/panic: only draw the foreground color in
- drm_panic_blit()
-To: Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20240531080750.765982-1-jfalempe@redhat.com>
- <20240531080750.765982-2-jfalempe@redhat.com>
- <87frty1gvn.fsf@minerva.mail-host-address-is-not-set>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <87frty1gvn.fsf@minerva.mail-host-address-is-not-set>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,106 +88,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+There are a few spelling mistakes in dml2_printf messages. Fix them.
 
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ .../dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c      | 6 +++---
+ .../display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c  | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-On 31/05/2024 11:15, Javier Martinez Canillas wrote:
-> Jocelyn Falempe <jfalempe@redhat.com> writes:
-> 
-> Hello Jocelyn,
-> 
->> The whole framebuffer is cleared, so it's useless to rewrite the
->> background colored pixels. It allows to simplify the drawing
->> functions, and prepare the work for the set_pixel() callback.
->>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> ---
->>   drivers/gpu/drm/drm_panic.c | 63 +++++++++++++++----------------------
->>   1 file changed, 26 insertions(+), 37 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
->> index 7ece67086cec..9d95c7eaae83 100644
->> --- a/drivers/gpu/drm/drm_panic.c
->> +++ b/drivers/gpu/drm/drm_panic.c
->> @@ -197,37 +197,33 @@ static u32 convert_from_xrgb8888(u32 color, u32 format)
->>   static void drm_panic_blit16(struct iosys_map *dmap, unsigned int dpitch,
->>   			     const u8 *sbuf8, unsigned int spitch,
->>   			     unsigned int height, unsigned int width,
->> -			     u16 fg16, u16 bg16)
->> +			     u16 color)
-> 
-> What about calling this fg16 instead of color? That way is clear that only
-> the fb is written and not the background ?
-
-Yes I can keep the fg16 name.
-> 
->>   {
->>   	unsigned int y, x;
->> -	u16 val16;
->>   
->> -	for (y = 0; y < height; y++) {
->> -		for (x = 0; x < width; x++) {
->> -			val16 = (sbuf8[(y * spitch) + x / 8] & (0x80 >> (x % 8))) ? fg16 : bg16;
->> -			iosys_map_wr(dmap, y * dpitch + x * sizeof(u16), u16, val16);
->> -		}
->> -	}
->> +	for (y = 0; y < height; y++)
->> +		for (x = 0; x < width; x++)
-> 
-> I would add here a comment that this check is about determining if a color
-> is suitable for foreground or background, depending on the luminance
-> threshold (which I understand is the 0x80 value?).
-
-The source buffer is monochrome, so store 8 pixels per byte.
-the (0x80 >> (x % 8)) is a bit mask, to check if the source pixel is 
-foreground or background. I will add a comment about this, to make it clear.
-
-> 
->> +			if (sbuf8[(y * spitch) + x / 8] & (0x80 >> (x % 8)))
->> +				iosys_map_wr(dmap, y * dpitch + x * sizeof(u16), u16, color);
->>   }
->>   
->>   static void drm_panic_blit24(struct iosys_map *dmap, unsigned int dpitch,
->>   			     const u8 *sbuf8, unsigned int spitch,
->>   			     unsigned int height, unsigned int width,
->> -			     u32 fg32, u32 bg32)
->> +			     u32 color)
->>   {
->>   	unsigned int y, x;
->> -	u32 val32;
->>
-> 
-> Same here, I would left the variable name as fg32.
-> 
-> [...]
-> 
-> and also here would add a comment or use a variable to make it more readable.
-> 
-> Same comments for drm_panic_blit32().
-> 
-> [...]
-> 
->>   /*
->> @@ -256,8 +249,7 @@ static void drm_panic_blit32(struct iosys_map *dmap, unsigned int dpitch,
->>    * @spitch: source pitch in bytes
->>    * @height: height of the image to copy, in pixels
->>    * @width: width of the image to copy, in pixels
->> - * @fg_color: foreground color, in destination format
->> - * @bg_color: background color, in destination format
->> + * @color: foreground color, in destination format
-> 
-> Leaving as fg_color would even be consistent with your comment.
-> 
-> Feel free to ignore my comments though if you disagree, the patch looks
-> good to me regardless.
-
-sure I will keep the fg_* name
-> 
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> 
-
-Thanks for the reviews,
-
---
-
-Jocelyn
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
+index 8062144a5a6d..e7e6751f4477 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
+@@ -5731,7 +5731,7 @@ static bool CalculatePrefetchSchedule(struct dml2_core_internal_scratch *scratch
+ 		dml2_printf("DML: Tvm: %fus - time to fetch vm\n", s->TimeForFetchingVM);
+ 		dml2_printf("DML: Tr0: %fus - time to fetch first row of data pagetables\n", s->TimeForFetchingRowInVBlank);
+ 		dml2_printf("DML: Tsw: %fus = time to fetch enough pixel data and cursor data to feed the scalers init position and detile\n", (double)s->LinesToRequestPrefetchPixelData * s->LineTime);
+-		dml2_printf("DML: To: %fus - time for propogation from scaler to optc\n", (*p->DSTYAfterScaler + ((double)(*p->DSTXAfterScaler) / (double)p->myPipe->HTotal)) * s->LineTime);
++		dml2_printf("DML: To: %fus - time for propagation from scaler to optc\n", (*p->DSTYAfterScaler + ((double)(*p->DSTXAfterScaler) / (double)p->myPipe->HTotal)) * s->LineTime);
+ 		dml2_printf("DML: Tvstartup - TSetup - Tcalc - TWait - Tpre - To > 0\n");
+ 		dml2_printf("DML: Tslack(pre): %fus - time left over in schedule\n", p->VStartup * s->LineTime - s->TimeForFetchingVM - 2 * s->TimeForFetchingRowInVBlank - (*p->DSTYAfterScaler + ((double)(*p->DSTXAfterScaler) / (double)p->myPipe->HTotal)) * s->LineTime - p->TWait - p->TCalc - *p->TSetup);
+ 		dml2_printf("DML: row_bytes = dpte_row_bytes (per_pipe) = PixelPTEBytesPerRow = : %u\n", p->PixelPTEBytesPerRow);
+@@ -8268,7 +8268,7 @@ static bool dml_core_mode_support(struct dml2_core_calcs_mode_support_ex *in_out
+ 	dml2_printf("DML::%s: mode_lib->ms.DCFCLK = %f\n", __func__, mode_lib->ms.DCFCLK);
+ 	dml2_printf("DML::%s: mode_lib->ms.FabricClock = %f\n", __func__, mode_lib->ms.FabricClock);
+ 	dml2_printf("DML::%s: mode_lib->ms.uclk_freq_mhz = %f\n", __func__, mode_lib->ms.uclk_freq_mhz);
+-	dml2_printf("DML::%s: urgent latency tolarance = %f\n", __func__, ((mode_lib->ip.rob_buffer_size_kbytes - mode_lib->ip.pixel_chunk_size_kbytes) * 1024 / (mode_lib->ms.DCFCLK * mode_lib->soc.return_bus_width_bytes)));
++	dml2_printf("DML::%s: urgent latency tolerance = %f\n", __func__, ((mode_lib->ip.rob_buffer_size_kbytes - mode_lib->ip.pixel_chunk_size_kbytes) * 1024 / (mode_lib->ms.DCFCLK * mode_lib->soc.return_bus_width_bytes)));
+ #endif
+ 
+ 	mode_lib->ms.support.OutstandingRequestsSupport = true;
+@@ -11089,7 +11089,7 @@ static bool dml_core_mode_programming(struct dml2_core_calcs_mode_programming_ex
+ 				if (display_cfg->plane_descriptors[k].immediate_flip && mode_lib->mp.ImmediateFlipSupportedForPipe[k] == false) {
+ 					mode_lib->mp.ImmediateFlipSupported = false;
+ #ifdef __DML_VBA_DEBUG__
+-					dml2_printf("DML::%s: Pipe %0d not supporing iflip!\n", __func__, k);
++					dml2_printf("DML::%s: Pipe %0d not supporting iflip!\n", __func__, k);
+ #endif
+ 				}
+ 			}
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
+index f2e2250d28d3..6eb3fec87ec1 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
+@@ -1988,7 +1988,7 @@ bool dml2_core_shared_mode_support(struct dml2_core_calcs_mode_support_ex *in_ou
+ 	dml2_printf("DML::%s: mode_lib->ms.FabricClock = %f\n", __func__, mode_lib->ms.FabricClock);
+ 	dml2_printf("DML::%s: mode_lib->ms.uclk_freq_mhz = %f\n", __func__, mode_lib->ms.uclk_freq_mhz);
+ 	dml2_printf("DML::%s: max_urgent_latency_us = %f\n", __func__, mode_lib->ms.support.max_urgent_latency_us);
+-	dml2_printf("DML::%s: urgent latency tolarance = %f\n", __func__, ((mode_lib->ip.rob_buffer_size_kbytes - mode_lib->ip.pixel_chunk_size_kbytes) * 1024 / (mode_lib->ms.DCFCLK * mode_lib->soc.return_bus_width_bytes)));
++	dml2_printf("DML::%s: urgent latency tolerance = %f\n", __func__, ((mode_lib->ip.rob_buffer_size_kbytes - mode_lib->ip.pixel_chunk_size_kbytes) * 1024 / (mode_lib->ms.DCFCLK * mode_lib->soc.return_bus_width_bytes)));
+ #endif
+ 
+ 	mode_lib->ms.support.OutstandingRequestsSupport = true;
+@@ -8131,7 +8131,7 @@ static bool CalculatePrefetchSchedule(struct dml2_core_internal_scratch *scratch
+ 		dml2_printf("DML: Tvm: %fus - time to fetch vm\n", s->TimeForFetchingVM);
+ 		dml2_printf("DML: Tr0: %fus - time to fetch first row of data pagetables\n", s->TimeForFetchingRowInVBlank);
+ 		dml2_printf("DML: Tsw: %fus = time to fetch enough pixel data and cursor data to feed the scalers init position and detile\n", (double)s->LinesToRequestPrefetchPixelData * s->LineTime);
+-		dml2_printf("DML: To: %fus - time for propogation from scaler to optc\n", (*p->DSTYAfterScaler + ((double)(*p->DSTXAfterScaler) / (double)p->myPipe->HTotal)) * s->LineTime);
++		dml2_printf("DML: To: %fus - time for propagation from scaler to optc\n", (*p->DSTYAfterScaler + ((double)(*p->DSTXAfterScaler) / (double)p->myPipe->HTotal)) * s->LineTime);
+ 		dml2_printf("DML: Tvstartup - TSetup - Tcalc - TWait - Tpre - To > 0\n");
+ 		dml2_printf("DML: Tslack(pre): %fus - time left over in schedule\n", p->VStartup * s->LineTime - s->TimeForFetchingVM - 2 * s->TimeForFetchingRowInVBlank - (*p->DSTYAfterScaler + ((double)(*p->DSTXAfterScaler) / (double)p->myPipe->HTotal)) * s->LineTime - p->TWait - p->TCalc - *p->TSetup);
+ 		dml2_printf("DML: row_bytes = dpte_row_bytes (per_pipe) = PixelPTEBytesPerRow = : %u\n", p->PixelPTEBytesPerRow);
+@@ -10959,7 +10959,7 @@ bool dml2_core_shared_mode_programming(struct dml2_core_calcs_mode_programming_e
+ 				if (display_cfg->plane_descriptors[k].immediate_flip && mode_lib->mp.ImmediateFlipSupportedForPipe[k] == false) {
+ 					mode_lib->mp.ImmediateFlipSupported = false;
+ #ifdef __DML_VBA_DEBUG__
+-					dml2_printf("DML::%s: Pipe %0d not supporing iflip!\n", __func__, k);
++					dml2_printf("DML::%s: Pipe %0d not supporting iflip!\n", __func__, k);
+ #endif
+ 				}
+ 			}
+-- 
+2.39.2
 
