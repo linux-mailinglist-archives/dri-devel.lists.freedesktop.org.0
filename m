@@ -2,58 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6248D6900
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 20:31:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E80F8D6920
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 20:43:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34B8610E0C9;
-	Fri, 31 May 2024 18:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A2F610E312;
+	Fri, 31 May 2024 18:43:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="JbDwwtoZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CTEsoS62";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C26210E0C9
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 18:31:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=Y29TmkHKYUwNvGcW0y3qxFwKo3onKquOFuAOIt1KwWk=; b=JbDwwtoZyGApmQT3cWI28iV9h2
- bnK+AzMfkDP0VylFy6mrmPYJ5D6RuWSUvkn4On0u7ltxr22WqyCL8BtlOa9/GVIGHTQHmXI+G157W
- xfNnSAHTe0PQni+yiCql0ZnAZRaolA9hMtdW6uf916xMqpg5pihKXKbEJgV+QLKxO1Ew5RkkGEJjj
- mWuOoz9HghVXp5bwnkCfb/sOjOLh9jygymSCOjLbCnF1FbCzWbaysc4BThCbSafR4gRLUj0G09ufV
- XVyiMikS5ndPn2JuFq1Mh6REHlN7q3Cq9XRse2Qi6WvkVJoCqwZk+eIFJUVQOcdXBqDaAcDKe1s4l
- WXy/bi0w==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
- by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
- id 1sD722-0000000B89T-2GB5; Fri, 31 May 2024 18:31:14 +0000
-Message-ID: <c14215bd-96ff-4aec-83c4-e25375f6fe88@infradead.org>
-Date: Fri, 31 May 2024 11:31:13 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4986D10E312
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 18:43:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717181010; x=1748717010;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=2998ZpVyEGYSKDxYSM479TmMh5OPYVOX8crtu3Z6n7M=;
+ b=CTEsoS624FJb/BCp/Xwn5WHBfwabCbtOzXhn7n/Al6F3128qj9SbhNb2
+ O7iAWPq9KIWpM9U5x0GeXG3NKMKvdFrjaoJrcy+0YHglRawZPICEUp+RS
+ CML7rzhjFVvcsCEvkMlxiTSxJav/giswcGj3vfLzEIGdqLpAIwsg87lhc
+ xtVtt5/TVIpTT9JApSMzd8FlXyTUaodAZFiD7b81mQ8TFXKPDtpOFJF32
+ lld6FnM8LyhhTrvqFJviTFPJqa/AABeDRZY91puW704vmBXm2cgm6yqCA
+ c8vVGj8r+LdgpO0WgAJiqXWYvPlCA/sTDrd9ks4W9tdUYfg1QEOJwWmm5 g==;
+X-CSE-ConnectionGUID: GYZlkDR/Rs2cJV7R85rE4w==
+X-CSE-MsgGUID: WEH4wV7cTDOX1viV9H4yiA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="13906092"
+X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; d="scan'208";a="13906092"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2024 11:43:30 -0700
+X-CSE-ConnectionGUID: XalLKdCvTZiIXlO2BFstSA==
+X-CSE-MsgGUID: x6tLlc2wR5SjtXITRwjjtw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; d="scan'208";a="41322240"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.190])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2024 11:43:20 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang
+ <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick
+ <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, Maxime
+ Ripard <mripard@kernel.org>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Sui Jingfeng <sui.jingfeng@linux.dev>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Pekka Paalanen
+ <pekka.paalanen@collabora.com>, =?utf-8?Q?Ma=C3=ADra?= Canal
+ <mcanal@igalia.com>, Andy Yan <andyshrk@163.com>
+Subject: Re: [PATCH v15 00/29] drm/connector: Create HDMI Connector
+ infrastructure
+In-Reply-To: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
+Date: Fri, 31 May 2024 21:43:16 +0300
+Message-ID: <874jadesaj.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 07/11] Documentation: core-api: Add math.h macros and
- functions
-To: Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
- sebastian.fricke@collabora.com, akpm@linux-foundation.org,
- gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
- adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- corbet@lwn.net, broonie@kernel.org, linux-doc@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
- vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
- detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
- nicolas@ndufresne.ca, davidgow@google.com, dlatypov@google.com
-References: <20240531170229.1270828-1-devarsht@ti.com>
- <20240531171220.1295881-1-devarsht@ti.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240531171220.1295881-1-devarsht@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,48 +86,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, 27 May 2024, Maxime Ripard <mripard@kernel.org> wrote:
+> Let me know what you think,
 
-On 5/31/24 10:12 AM, Devarsh Thakkar wrote:
-> Add documentation for rounding, scaling, absolute value and difference,
-> 32-bit division related macros and functions exported by math.h header
-> file.
-> 
+Sorry to report that this series generates a bunch of kernel-doc
+warnings in include/drm/drm_connector.h. Documenting nested struct
+members doesn't work as smoothly as you'd expect:
 
-I don't see any kernel-doc for division functions in this header file.
+../include/drm/drm_connector.h:1138: warning: Excess struct member 'broadcast_rgb' description in 'drm_connector_state'
+../include/drm/drm_connector.h:1138: warning: Excess struct member 'infoframes' description in 'drm_connector_state'
+../include/drm/drm_connector.h:1138: warning: Excess struct member 'avi' description in 'drm_connector_state'
+../include/drm/drm_connector.h:1138: warning: Excess struct member 'hdr_drm' description in 'drm_connector_state'
+../include/drm/drm_connector.h:1138: warning: Excess struct member 'spd' description in 'drm_connector_state'
+../include/drm/drm_connector.h:1138: warning: Excess struct member 'vendor' description in 'drm_connector_state'
+../include/drm/drm_connector.h:1138: warning: Excess struct member 'is_limited_range' description in 'drm_connector_state'
+../include/drm/drm_connector.h:1138: warning: Excess struct member 'output_bpc' description in 'drm_connector_state'
+../include/drm/drm_connector.h:1138: warning: Excess struct member 'output_format' description in 'drm_connector_state'
+../include/drm/drm_connector.h:1138: warning: Excess struct member 'tmds_char_rate' description in 'drm_connector_state'
+../include/drm/drm_connector.h:2112: warning: Excess struct member 'vendor' description in 'drm_connector'
+../include/drm/drm_connector.h:2112: warning: Excess struct member 'product' description in 'drm_connector'
+../include/drm/drm_connector.h:2112: warning: Excess struct member 'supported_formats' description in 'drm_connector'
+../include/drm/drm_connector.h:2112: warning: Excess struct member 'infoframes' description in 'drm_connector'
+../include/drm/drm_connector.h:2112: warning: Excess struct member 'lock' description in 'drm_connector'
+../include/drm/drm_connector.h:2112: warning: Excess struct member 'audio' description in 'drm_connector'
 
-Do some division functions get rendered somehow?
+Noticed this when I was rebasing [1]. Having that merged would find
+issues in headers at build time instead of 'make htmldocs'.
 
-Thanks.
+In the mean time, this is the quick reproducer:
 
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> ---
-> V11: Fix title for math function header
-> V10: Patch introduced
-> V1->V9 (No change)
-> ---
->  Documentation/core-api/kernel-api.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-> index ae92a2571388..7de494e76fa6 100644
-> --- a/Documentation/core-api/kernel-api.rst
-> +++ b/Documentation/core-api/kernel-api.rst
-> @@ -185,6 +185,12 @@ Division Functions
->  .. kernel-doc:: lib/math/gcd.c
->     :export:
->  
-> +Rounding, absolute value, division and 32-bit scaling functions
-> +---------------------------------------------------------------
-> +
-> +.. kernel-doc:: include/linux/math.h
-> +   :internal:
-> +
->  UUID/GUID
->  ---------
->  
+$ scripts/kernel-doc -none include/drm/drm_connector.h
+
+
+BR,
+Jani.
+
+[1] https://lore.kernel.org/r/20240402140136.1722533-1-jani.nikula@intel.com
+
 
 -- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+Jani Nikula, Intel
