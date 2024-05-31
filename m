@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 532D48D67D6
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 19:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA4D8D67D9
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 19:12:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C8D010E547;
-	Fri, 31 May 2024 17:11:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 196CF89DA9;
+	Fri, 31 May 2024 17:12:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="uTEqqbiz";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="XX7TDT5g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 151B810E547
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 17:11:51 +0000 (UTC)
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5616710E634
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 17:12:38 +0000 (UTC)
 Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44VHBcTw055970;
- Fri, 31 May 2024 12:11:38 -0500
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44VHCMVT034497;
+ Fri, 31 May 2024 12:12:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1717175498;
- bh=hw2Yrj4LcxBZgFZdTy8i462oQh9qD794bEc0WFHu3n0=;
+ s=ti-com-17Q1; t=1717175542;
+ bh=2rNMIILgKlNzeXzRzdQgwxJkUuZXyruFMSuxEMftOW4=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=uTEqqbizltqzZzbHUqqJyLSoJYe4geJv2fzCxbufFRUseKFkfPe31uh4ILbZXUNxC
- QERhrxgRF06GdCJvKU08Y3iMh6cKQHTihGG7L5cRyGgYC3OaJo638nKUoOaPsYt18E
- gK7IsCLD+bKe/myHEzMYBymY4eZ0pwTmuuWodNu4=
-Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44VHBca9022944
+ b=XX7TDT5gsbDbGHNz060zChdoXnucz2ixNZM98WKTloyOR8EyTLdLMSQw4r/WNSxO1
+ nlBUcU4mD9sSZTzB+W4PNSz2gmLNs9Fr63YgOHVTFxxMokkW3MM23FJ1IYIoBxSoR2
+ iyexsdyjtWKjT5WiGdVtwPbF28m4/KokeOF2ZT+Q=
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44VHCMoG023460
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 31 May 2024 12:11:38 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ Fri, 31 May 2024 12:12:22 -0500
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 31
- May 2024 12:11:38 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ May 2024 12:12:22 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 31 May 2024 12:11:38 -0500
+ Frontend Transport; Fri, 31 May 2024 12:12:22 -0500
 Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44VHBbwC050138;
- Fri, 31 May 2024 12:11:38 -0500
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44VHCLu8051240;
+ Fri, 31 May 2024 12:12:21 -0500
 From: Devarsh Thakkar <devarsht@ti.com>
 To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
  <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
@@ -47,15 +47,17 @@ To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
  <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
  <andriy.shevchenko@linux.intel.com>, <adobriyan@gmail.com>,
  <jani.nikula@intel.com>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
+ <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>, <corbet@lwn.net>,
+ <broonie@kernel.org>, <rdunlap@infradead.org>, <linux-doc@vger.kernel.org>
 CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
  <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
  <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
  <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
  <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
-Subject: [PATCH v11 06/11] math.h: Add macros for rounding to closest value
-Date: Fri, 31 May 2024 22:41:36 +0530
-Message-ID: <20240531171136.1293905-1-devarsht@ti.com>
+Subject: [PATCH v11 07/11] Documentation: core-api: Add math.h macros and
+ functions
+Date: Fri, 31 May 2024 22:42:20 +0530
+Message-ID: <20240531171220.1295881-1-devarsht@ti.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20240531170229.1270828-1-devarsht@ti.com>
 References: <20240531170229.1270828-1-devarsht@ti.com>
@@ -78,139 +80,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add below rounding related macros:
-
-round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
-power of 2, with a preference to round up in case two nearest values are
-possible.
-
-round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
-power of 2, with a preference to round down in case two nearest values are
-possible.
-
-roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
-generally be used only when y is not multiple of 2 as otherwise
-round_closest* macros should be used which are much faster.
-
-Examples:
- * round_closest_up(17, 4) = 16
- * round_closest_up(15, 4) = 16
- * round_closest_up(14, 4) = 16
- * round_closest_down(17, 4) = 16
- * round_closest_down(15, 4) = 16
- * round_closest_down(14, 4) = 12
- * roundclosest(21, 5) = 20
- * roundclosest(19, 5) = 20
- * roundclosest(17, 5) = 15
+Add documentation for rounding, scaling, absolute value and difference,
+32-bit division related macros and functions exported by math.h header
+file.
 
 Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
 ---
-NOTE: This patch is inspired from the Mentor Graphics IPU driver [1]
-which uses similar macro locally and which is updated in further patch
-in the series to use this generic macro instead along with other drivers
-having similar requirements.
-
-[1]:
-https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480
-V11:
-- Fix commenting style per review comments and remove extra whitespace
-
-V10:
-- Update example comment to fix formatting issues as observed with html docs
-
-V9:
-- No change
-
-V8:
-- Add new macro to round to nearest value for non-multiple of 2
-- Update commit message as suggested:
-
-V1->V6 (No change, patch introduced in V7)
+V11: Fix title for math function header
+V10: Patch introduced
+V1->V9 (No change)
 ---
- include/linux/math.h | 63 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ Documentation/core-api/kernel-api.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/include/linux/math.h b/include/linux/math.h
-index dd4152711de7..79e3dfda77fc 100644
---- a/include/linux/math.h
-+++ b/include/linux/math.h
-@@ -34,6 +34,52 @@
-  */
- #define round_down(x, y) ((x) & ~__round_mask(x, y))
+diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+index ae92a2571388..7de494e76fa6 100644
+--- a/Documentation/core-api/kernel-api.rst
++++ b/Documentation/core-api/kernel-api.rst
+@@ -185,6 +185,12 @@ Division Functions
+ .. kernel-doc:: lib/math/gcd.c
+    :export:
  
-+/**
-+ * round_closest_up - round closest to be multiple of specified value (which is
-+ *                    power of 2) with preference to rounding up
-+ * @x: the value to round
-+ * @y: multiple to round closest to (must be a power of 2)
-+ *
-+ * Rounds @x to closest multiple of @y (which must be a power of 2).
-+ * The value can be either rounded up or rounded down depending upon rounded
-+ * value's closeness to the specified value. If there are two closest possible
-+ * values, i.e. the difference between the specified value and it's rounded up
-+ * and rounded down values is same then preference is given to rounded up
-+ * value.
-+ *
-+ * To perform arbitrary rounding to closest value (not multiple of 2), use
-+ * roundclosest().
-+ *
-+ * Examples:
-+ * * round_closest_up(17, 4) = 16
-+ * * round_closest_up(15, 4) = 16
-+ * * round_closest_up(14, 4) = 16
-+ */
-+#define round_closest_up(x, y) round_down((x) + (y) / 2, (y))
++Rounding, absolute value, division and 32-bit scaling functions
++---------------------------------------------------------------
 +
-+/**
-+ * round_closest_down - round closest to be multiple of specified value (which
-+ *			is power of 2) with preference to rounding down
-+ * @x: the value to round
-+ * @y: multiple to round closest to (must be a power of 2)
-+ *
-+ * Rounds @x to closest multiple of @y (which must be a power of 2).
-+ * The value can be either rounded up or rounded down depending upon rounded
-+ * value's closeness to the specified value. If there are two closest possible
-+ * values, i.e. the difference between the specified value and it's rounded up
-+ * and rounded down values is same then preference is given to rounded up
-+ * value.
-+ *
-+ * To perform arbitrary rounding to closest value (not multiple of 2), use
-+ * roundclosest().
-+ *
-+ * Examples:
-+ * * round_closest_down(17, 4) = 16
-+ * * round_closest_down(15, 4) = 16
-+ * * round_closest_down(14, 4) = 12
-+ */
-+#define round_closest_down(x, y) round_up((x) - (y) / 2, (y))
++.. kernel-doc:: include/linux/math.h
++   :internal:
 +
- #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
+ UUID/GUID
+ ---------
  
- #define DIV_ROUND_DOWN_ULL(ll, d) \
-@@ -77,6 +123,23 @@
- }							\
- )
- 
-+/**
-+ * roundclosest - round to nearest multiple
-+ * @x: the value to round
-+ * @y: multiple to round nearest to
-+ *
-+ * Rounds @x to nearest multiple of @y.
-+ * The rounded value can be greater than or less than @x depending
-+ * upon it's nearness to @x. If @y will always be a power of 2, consider
-+ * using the faster round_closest_up() or round_closest_down().
-+ *
-+ * Examples:
-+ * * roundclosest(21, 5) = 20
-+ * * roundclosest(19, 5) = 20
-+ * * roundclosest(17, 5) = 15
-+ */
-+#define roundclosest(x, y) rounddown((x) + (y) / 2, (y))
-+
- /*
-  * Divide positive or negative dividend by positive or negative divisor
-  * and round to closest integer. Result is undefined for negative
 -- 
 2.39.1
 
