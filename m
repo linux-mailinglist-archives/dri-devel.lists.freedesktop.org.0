@@ -2,58 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9611B8D6413
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 16:11:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB3758D641C
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 16:12:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61A2F10E2B0;
-	Fri, 31 May 2024 14:11:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF0F10E1E9;
+	Fri, 31 May 2024 14:12:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QVd9zaMo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DNHR+J8B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31A7B10E1E9;
- Fri, 31 May 2024 14:11:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717164665; x=1748700665;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Jr9+4d626a6bVHXAZebNVIeaEt+0aIeZfHVPmB0HWTU=;
- b=QVd9zaMoR7xCIEOMHvzG1m3s+IrH+58MHiLV+3IXhVkqniszyfbPyDoP
- cBf+8rdcznVKGXDhJKVOvKTYE2+9NGkRrjvqHaUkWU9Ds0dDPgQQPRCT0
- n76gfm5PIqYG1ZqB/U9YwpTOgygxPBntDP/ycKODj/m9RmPxf9UJqVloE
- 8R4sRaIo3oo9QUB6JKhbVljbGsbX5b4eZJZzB0C1v0TOXW/47qSyoW4wR
- aOsw7f0NCvHBCL561JDcnwiSaceo8DWl8h29GrVqgn2hih3pF/qpvIDfa
- +qk93kIqxY20Fs0bOKWyKiGoHvYmSeYzmr6Vzb/9pWMhlmOh7pilpJvhT w==;
-X-CSE-ConnectionGUID: kkcietbSSUi4/CI/yePF/A==
-X-CSE-MsgGUID: MOGQT7HhQPKzJvuHfUQL6A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="24370439"
-X-IronPort-AV: E=Sophos;i="6.08,204,1712646000"; d="scan'208";a="24370439"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2024 07:11:04 -0700
-X-CSE-ConnectionGUID: RQ0/L3NvR1S6TrsgYIma9Q==
-X-CSE-MsgGUID: ARK77DD+QoKLLid+umIJOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,204,1712646000"; d="scan'208";a="67369288"
-Received: from unknown (HELO fedora..) ([10.245.245.125])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2024 07:11:02 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] MAINTAINERS: Update Xe driver maintainers
-Date: Fri, 31 May 2024 16:10:51 +0200
-Message-ID: <20240531141051.504610-1-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.44.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33D0010E1E9
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 14:12:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id E9CD962CCC;
+ Fri, 31 May 2024 14:12:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2049EC4AF08;
+ Fri, 31 May 2024 14:12:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1717164744;
+ bh=nE28feJXr8MPuJwuEZRSEsHxpTmzh4iG2yFFSYfyIBA=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=DNHR+J8BC5mW9id4WWWHd7JyQ+k4VIq8JWrWB1y4icmwRs26+ZlCFFDBI9SUREwac
+ RUNKB7A6lF5higO8ga1VVxKf4p3OLjycx28XoEINCg/0Fp5ysq2QBj1TSQ/yedIT8z
+ xuShXtCgyrYgelRbnb+4Q2tdfZKEwUS058HByGfRvvHrP1B4yBdmPzmoU8RHfOnTZC
+ g5pGpKiuX7Z6aWYyjOyfWKfQVI4bGIxmlRrUAaUEpIMmDHic5v13kiIHWhNHr5YXDR
+ 4PFagZxclHfaMeHC1BzS1vDQXyBzzml8MeSJd2kbcNJRCFBNp/CG0nOcVRFNEJS85d
+ UPJI01ya2jm6Q==
+From: Lee Jones <lee@kernel.org>
+To: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, Patrick Gansterer <paroga@paroga.com>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
+ Sam Ravnborg <sam@ravnborg.org>
+In-Reply-To: <20240526105136.721529-1-paroga@paroga.com>
+References: <20240526105136.721529-1-paroga@paroga.com>
+Subject: Re: [PATCH v6 0/2] backlight: Add new lm3509 backlight driver
+Message-Id: <171716474187.1122706.14204003162391534648.b4-ty@kernel.org>
+Date: Fri, 31 May 2024 15:12:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,31 +64,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Rodrigo Vivi as an Xe driver maintainer.
+On Sun, 26 May 2024 12:51:28 +0200, Patrick Gansterer wrote:
+> This is a general driver for LM3509 backlight chip of TI.
+> LM3509 is High Efficiency Boost for White LEDs and/or OLED Displays with
+> Dual Current Sinks. This driver supports OLED/White LED select, brightness
+> control and sub/main control.
+> The datasheet can be found at http://www.ti.com/product/lm3509.
+> 
 
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
+Applied, thanks!
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+[1/2] dt-bindings: backlight: Add Texas Instruments LM3509
+      commit: 0aaee23d49a614b573ca51ab7758e77fcc3d7d14
+[2/2] backlight: Add new lm3509 backlight driver
+      commit: b72755f5b577357cac661cbf9048cad704eb4ad8
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 572be0546e21..8f9982c99257 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11037,6 +11037,7 @@ F:	include/uapi/drm/i915_drm.h
- INTEL DRM XE DRIVER (Lunar Lake and newer)
- M:	Lucas De Marchi <lucas.demarchi@intel.com>
- M:	Thomas Hellström <thomas.hellstrom@linux.intel.com>
-+M:	Rodrigo Vivi <rodrigo.vivi@intel.com>
- L:	intel-xe@lists.freedesktop.org
- S:	Supported
- W:	https://drm.pages.freedesktop.org/intel-docs/
--- 
-2.44.0
+--
+Lee Jones [李琼斯]
 
