@@ -2,53 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3758D641C
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 16:12:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F278D6453
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2024 16:20:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF0F10E1E9;
-	Fri, 31 May 2024 14:12:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0AA410E002;
+	Fri, 31 May 2024 14:20:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DNHR+J8B";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ik4OvtyV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33D0010E1E9
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 14:12:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E9CD962CCC;
- Fri, 31 May 2024 14:12:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2049EC4AF08;
- Fri, 31 May 2024 14:12:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717164744;
- bh=nE28feJXr8MPuJwuEZRSEsHxpTmzh4iG2yFFSYfyIBA=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=DNHR+J8BC5mW9id4WWWHd7JyQ+k4VIq8JWrWB1y4icmwRs26+ZlCFFDBI9SUREwac
- RUNKB7A6lF5higO8ga1VVxKf4p3OLjycx28XoEINCg/0Fp5ysq2QBj1TSQ/yedIT8z
- xuShXtCgyrYgelRbnb+4Q2tdfZKEwUS058HByGfRvvHrP1B4yBdmPzmoU8RHfOnTZC
- g5pGpKiuX7Z6aWYyjOyfWKfQVI4bGIxmlRrUAaUEpIMmDHic5v13kiIHWhNHr5YXDR
- 4PFagZxclHfaMeHC1BzS1vDQXyBzzml8MeSJd2kbcNJRCFBNp/CG0nOcVRFNEJS85d
- UPJI01ya2jm6Q==
-From: Lee Jones <lee@kernel.org>
-To: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-fbdev@vger.kernel.org, Patrick Gansterer <paroga@paroga.com>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
- Sam Ravnborg <sam@ravnborg.org>
-In-Reply-To: <20240526105136.721529-1-paroga@paroga.com>
-References: <20240526105136.721529-1-paroga@paroga.com>
-Subject: Re: [PATCH v6 0/2] backlight: Add new lm3509 backlight driver
-Message-Id: <171716474187.1122706.14204003162391534648.b4-ty@kernel.org>
-Date: Fri, 31 May 2024 15:12:21 +0100
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
+ [209.85.166.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CF1710E002
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 14:20:36 +0000 (UTC)
+Received: by mail-io1-f42.google.com with SMTP id
+ ca18e2360f4ac-7e95d1a6c9fso11048539f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2024 07:20:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google; t=1717165235; x=1717770035;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7+VibLQtwZz7JsVuJcW09ZTb85DGOzOVeX9MBCZ9kfg=;
+ b=ik4OvtyVP+izc+X9ZCh6XR/FXXiE6kgW+4xAV0+pb1d/m0My+5IYTrP+cjXxhfBgxL
+ NmMtpLaI9MIM69otV5W3UoJAelC6s7ejC1tqXfxFHTyUyeiUgOAWCgCIH0viCxWvQGYl
+ nGwm8NIjA/eqrghjTnmViHHjJxuQLZmSKoPAY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717165235; x=1717770035;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7+VibLQtwZz7JsVuJcW09ZTb85DGOzOVeX9MBCZ9kfg=;
+ b=aEyM6pHjCyQosyWcJi6LgxzoWsW6WghdKQz7uajJqGYoRkzb6UUtlWxlLQhtkVPlt4
+ iNiNqPMEpikjdfq1Ckl0ahqNN7gVdWcE4r/Py+t9WdX7yt5Rcl+HuDW4B4pX/J1CzwiP
+ 9XEnHDCrywNoqOU3o2j+IvQ0FslsnW63hcZlIEX8+XOxXlLWwlA30HBXZ6c22l2Nh7Yp
+ C7vdj0Y2tfEati37rDWNxv8LDsTzSXisiCIg7fHDcvK4av0c2H+M/2PUV5FxeNzKfbZE
+ GUQDrn/k5VqFnzX18XMWbxJlzJ51ZgVfDHDkCB4u8aeiAFEoOrd8R0D9N7fwE04XxUVO
+ XJxw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXjJ6LGrejCpGagSJBicaifwUWPWQYtIdNIMF6IzmWoPgVGUR49eJ0jTWvsoPlBHNsQllaF7L3UkhlRqagQnCwc8OV6OLeFfv0J9nW9whF/
+X-Gm-Message-State: AOJu0YxaquEO2Oe0kfENxrmrdB/y5gif7aLGS0R2A8CFO/eA7D8jeKcf
+ tqTCG0y53bu/8qehh24HB3ye6Nlh55JdXi8GAqIP37UerWg2Q5uXMURhaMyZyJ8=
+X-Google-Smtp-Source: AGHT+IFucIP1XY+8lNyDc497JR3Cn/S9ZLDLxEWsA4aPUq5KWN7j+jKcMbBK72UCzEokx4RbxnQdFA==
+X-Received: by 2002:a5e:8b09:0:b0:7e1:8829:51f6 with SMTP id
+ ca18e2360f4ac-7eafff1f512mr226430539f.1.1717165235070; 
+ Fri, 31 May 2024 07:20:35 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+ by smtp.gmail.com with ESMTPSA id
+ 8926c6da1cb9f-4b4881d64a1sm500136173.43.2024.05.31.07.20.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 May 2024 07:20:34 -0700 (PDT)
+Message-ID: <16b1bcb5-00c6-4b59-a880-188bed32d175@linuxfoundation.org>
+Date: Fri, 31 May 2024 08:20:32 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.4
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/accel/qaic: Fix typo 'phsyical'
+To: Danish Prakash <contact@danishpraka.sh>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Carl Vanderlip <quic_carlv@quicinc.com>,
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ "open list:QUALCOMM CLOUD AI (QAIC) DRIVER" <linux-arm-msm@vger.kernel.org>,
+ "open list:QUALCOMM CLOUD AI (QAIC) DRIVER"
+ <dri-devel@lists.freedesktop.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20240531060929.5281-1-contact@danishpraka.sh>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240531060929.5281-1-contact@danishpraka.sh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,21 +91,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 26 May 2024 12:51:28 +0200, Patrick Gansterer wrote:
-> This is a general driver for LM3509 backlight chip of TI.
-> LM3509 is High Efficiency Boost for White LEDs and/or OLED Displays with
-> Dual Current Sinks. This driver supports OLED/White LED select, brightness
-> control and sub/main control.
-> The datasheet can be found at http://www.ti.com/product/lm3509.
+On 5/31/24 00:09, Danish Prakash wrote:
+> (as part of LFX Linux Mentorship program)
 > 
 
-Applied, thanks!
+Please add proper commit log for this change.
 
-[1/2] dt-bindings: backlight: Add Texas Instruments LM3509
-      commit: 0aaee23d49a614b573ca51ab7758e77fcc3d7d14
-[2/2] backlight: Add new lm3509 backlight driver
-      commit: b72755f5b577357cac661cbf9048cad704eb4ad8
+> Signed-off-by: Danish Prakash <contact@danishpraka.sh>
 
---
-Lee Jones [李琼斯]
+> ---
+>   Documentation/accel/qaic/qaic.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/accel/qaic/qaic.rst b/Documentation/accel/qaic/qaic.rst
+> index efb7771273bb..628bf2f7a416 100644
+> --- a/Documentation/accel/qaic/qaic.rst
+> +++ b/Documentation/accel/qaic/qaic.rst
+> @@ -93,7 +93,7 @@ commands (does not impact QAIC).
+>   uAPI
+>   ====
+>   
+> -QAIC creates an accel device per phsyical PCIe device. This accel device exists
+> +QAIC creates an accel device per physical PCIe device. This accel device exists
+>   for as long as the PCIe device is known to Linux.
+>   
+>   The PCIe device may not be in the state to accept requests from userspace at
 
+thanks,
+-- Shuah
