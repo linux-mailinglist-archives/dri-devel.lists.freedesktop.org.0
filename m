@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F6768D6FFA
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2024 15:13:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF0A8D6FFC
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2024 15:13:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41BAB10E0FB;
-	Sat,  1 Jun 2024 13:13:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C18E10E0FD;
+	Sat,  1 Jun 2024 13:13:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="hHur09TU";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="pO6OX9Oj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D3B810E0D2
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2024 13:13:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FACA10E0D2
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2024 13:13:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1717247581;
- bh=+1+H1itjV3UR3Fw4Yh7rx2gqvEy9OFRsyg6/yt5V/lY=;
+ s=mail; t=1717247582;
+ bh=Potzyhce4Kbwz3ncwPjojzHRgtcLidd3K5wALNG0/oc=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=hHur09TUqKckQnc7S5hhyVmCTf0yJ4AYQLIRqYPJp0KFKXga8LUgiwDKYBtlVkqgP
- kfvxUMhANWh+ZU3PJzvenO4Di4F4wU6JhX+y2zbNGcygXLUX8sA//Lzi3uEwQOxwnC
- CDvimYRIIykjqIVGkiwP7gOiXCX5nQzZb6O0yiJHZwdG0jYL+XpN+4QZxqoo6/ydMx
- /s2w/mH5NQsjq47EJw8K35a8/RXMiecbm+duGadabSdIL2XhoN050PQxZqc4k2TG4e
- 8tii+AxE3+mJP4+UiVTKz9Jyj0OgTF6Y75Uz7q+B3znd+BOIFVGHwSvmDM8iSIoIrH
- VQO+Ltd2Hwblg==
+ b=pO6OX9OjOlVw2zgG4UMuwGPgr5eFHKPkM6BxwVf91cGAoBdeHPp/mHCOh5y209HHc
+ DE/TQtHE4PRl4TxnlN1oiKNv5ZHIa726dDR14f3edfE3W6DNBCXMkuF1lE6rwH5Ep4
+ zlG/G0IjilZe1HjP23lAhe7sXxlGRBNwtMIFQTQ1gI0hzbAhRcPerXFXqHVwsW6si0
+ AgW2jfWvrByf50eA/ftQEKmYSkWCJYYKT8kWH7N/LTwByntz/LlU8ugj5hn0m9erkH
+ 4lbGM38X9d/wKUw8HGngoK2qTrPdcOejSgfGkVgyplAK4NsIU1G6Ca+XK0tWEsjRQg
+ utPcLRCnIjZPg==
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id BF05437821EA;
- Sat,  1 Jun 2024 13:13:00 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 02CEF37821EC;
+ Sat,  1 Jun 2024 13:13:02 +0000 (UTC)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Sat, 01 Jun 2024 16:12:24 +0300
-Subject: [PATCH 02/14] drm/bridge: dw-hdmi: Add dw-hdmi-common.h header
+Date: Sat, 01 Jun 2024 16:12:25 +0300
+Subject: [PATCH 03/14] drm/bridge: dw-hdmi: Commonize dw_hdmi_i2c_adapter()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240601-b4-rk3588-bridge-upstream-v1-2-f6203753232b@collabora.com>
+Message-Id: <20240601-b4-rk3588-bridge-upstream-v1-3-f6203753232b@collabora.com>
 References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
 In-Reply-To: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -75,517 +75,68 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 In preparation to add support for the HDMI 2.1 Quad-Pixel TX Controller
-and minimize code duplication as much as possible, export all reusable
-functions and provide the related declarations and structs within a new
-header file.
-
-For consistency, ensure the newly exported symbols share the 'dw_'
-prefix.
+and minimize code duplication, export dw_hdmi_i2c_adapter() while adding
+a new parameter to allow using a different i2c_algorithm.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-common.h | 167 ++++++++++++++++++++++
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c        | 170 ++++-------------------
- 2 files changed, 194 insertions(+), 143 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-common.h | 2 ++
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c        | 8 +++++---
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-common.h b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-common.h
-new file mode 100644
-index 000000000000..28e26ac142e6
---- /dev/null
+index 28e26ac142e6..ffd2ee16466c 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-common.h
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-common.h
-@@ -0,0 +1,167 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+#ifndef __DW_HDMI_COMMON_H__
-+#define __DW_HDMI_COMMON_H__
-+
-+#include <linux/i2c.h>
-+#include <linux/completion.h>
-+#include <linux/mutex.h>
-+#include <linux/spinlock_types.h>
-+
-+#include <drm/bridge/dw_hdmi.h>
-+#include <drm/drm_connector.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_modes.h>
-+
-+#include <sound/hdmi-codec.h>
-+
-+struct cec_notifier;
-+struct device;
-+struct drm_bridge_state;
-+struct drm_crtc_state;
-+struct drm_edid;
-+struct pinctrl;
-+struct pinctrl_state;
-+struct platform_device;
-+struct regmap;
-+
-+#define DDC_CI_ADDR		0x37
-+#define DDC_SEGMENT_ADDR	0x30
-+
-+#define HDMI_EDID_LEN		512
-+
-+/* DW-HDMI Controller >= 0x200a are at least compliant with SCDC version 1 */
-+#define SCDC_MIN_SOURCE_VERSION	0x1
-+
-+#define HDMI14_MAX_TMDSCLK	340000000
-+
-+struct hdmi_vmode {
-+	bool mdataenablepolarity;
-+
-+	unsigned int mpixelclock;
-+	unsigned int mpixelrepetitioninput;
-+	unsigned int mpixelrepetitionoutput;
-+	unsigned int mtmdsclock;
-+};
-+
-+struct hdmi_data_info {
-+	unsigned int enc_in_bus_format;
-+	unsigned int enc_out_bus_format;
-+	unsigned int enc_in_encoding;
-+	unsigned int enc_out_encoding;
-+	unsigned int pix_repet_factor;
-+	unsigned int hdcp_enable;
-+	struct hdmi_vmode video_mode;
-+	bool rgb_limited_range;
-+};
-+
-+struct dw_hdmi_i2c {
-+	struct i2c_adapter	adap;
-+
-+	struct mutex		lock;	/* used to serialize data transfers */
-+	struct completion	cmp;
-+	u8			stat;
-+
-+	u8			slave_reg;
-+	bool			is_regaddr;
-+	bool			is_segment;
-+};
-+
-+struct dw_hdmi_phy_data {
-+	enum dw_hdmi_phy_type type;
-+	const char *name;
-+	unsigned int gen;
-+	bool has_svsret;
-+	int (*configure)(struct dw_hdmi *hdmi,
-+			 const struct dw_hdmi_plat_data *pdata,
-+			 unsigned long mpixelclock);
-+};
-+
-+struct dw_hdmi {
-+	struct drm_connector connector;
-+	struct drm_bridge bridge;
-+	struct drm_bridge *next_bridge;
-+
-+	unsigned int version;
-+
-+	struct platform_device *audio;
-+	struct platform_device *cec;
-+	struct device *dev;
-+	struct dw_hdmi_i2c *i2c;
-+
-+	struct hdmi_data_info hdmi_data;
-+	const struct dw_hdmi_plat_data *plat_data;
-+
-+	int vic;
-+
-+	u8 edid[HDMI_EDID_LEN];
-+
-+	struct {
-+		const struct dw_hdmi_phy_ops *ops;
-+		const char *name;
-+		void *data;
-+		bool enabled;
-+	} phy;
-+
-+	struct drm_display_mode previous_mode;
-+
-+	struct i2c_adapter *ddc;
-+	void __iomem *regs;
-+	bool sink_is_hdmi;
-+	bool sink_has_audio;
-+
-+	struct pinctrl *pinctrl;
-+	struct pinctrl_state *default_state;
-+	struct pinctrl_state *unwedge_state;
-+
-+	struct mutex mutex;		/* for state below and previous_mode */
-+	enum drm_connector_force force;	/* mutex-protected force state */
-+	struct drm_connector *curr_conn;/* current connector (only valid when !disabled) */
-+	bool disabled;			/* DRM has disabled our bridge */
-+	bool bridge_is_on;		/* indicates the bridge is on */
-+	bool rxsense;			/* rxsense state */
-+	u8 phy_mask;			/* desired phy int mask settings */
-+	u8 mc_clkdis;			/* clock disable register */
-+
-+	spinlock_t audio_lock;
-+	struct mutex audio_mutex;
-+	unsigned int sample_non_pcm;
-+	unsigned int sample_width;
-+	unsigned int sample_rate;
-+	unsigned int channels;
-+	unsigned int audio_cts;
-+	unsigned int audio_n;
-+	bool audio_enable;
-+
-+	unsigned int reg_shift;
-+	struct regmap *regm;
-+	void (*enable_audio)(struct dw_hdmi *hdmi);
-+	void (*disable_audio)(struct dw_hdmi *hdmi);
-+
-+	struct mutex cec_notifier_mutex;
-+	struct cec_notifier *cec_notifier;
-+
-+	hdmi_codec_plugged_cb plugged_cb;
-+	struct device *codec_dev;
-+	enum drm_connector_status last_connector_result;
-+};
-+
-+void dw_handle_plugged_change(struct dw_hdmi *hdmi, bool plugged);
-+bool dw_hdmi_support_scdc(struct dw_hdmi *hdmi,
-+			  const struct drm_display_info *display);
-+
-+enum drm_connector_status
-+dw_hdmi_connector_detect(struct drm_connector *connector, bool force);
-+
-+int dw_hdmi_bridge_atomic_check(struct drm_bridge *bridge,
-+				struct drm_bridge_state *bridge_state,
-+				struct drm_crtc_state *crtc_state,
-+				struct drm_connector_state *conn_state);
-+void dw_hdmi_bridge_detach(struct drm_bridge *bridge);
-+void dw_hdmi_bridge_mode_set(struct drm_bridge *bridge,
-+			     const struct drm_display_mode *orig_mode,
-+			     const struct drm_display_mode *mode);
-+enum drm_connector_status dw_hdmi_bridge_detect(struct drm_bridge *bridge);
-+const struct drm_edid *
-+dw_hdmi_bridge_edid_read(struct drm_bridge *bridge,
-+			 struct drm_connector *connector);
-+#endif /* __DW_HDMI_COMMON_H__ */
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 0031f3c54882..b66877771f56 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -10,10 +10,8 @@
- #include <linux/delay.h>
- #include <linux/err.h>
- #include <linux/hdmi.h>
--#include <linux/i2c.h>
- #include <linux/irq.h>
- #include <linux/module.h>
--#include <linux/mutex.h>
- #include <linux/of.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/regmap.h>
-@@ -25,12 +23,10 @@
- #include <uapi/linux/media-bus-format.h>
- #include <uapi/linux/videodev2.h>
- 
--#include <drm/bridge/dw_hdmi.h>
- #include <drm/display/drm_hdmi_helper.h>
- #include <drm/display/drm_scdc_helper.h>
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
--#include <drm/drm_bridge.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_of.h>
- #include <drm/drm_print.h>
-@@ -38,18 +34,9 @@
- 
- #include "dw-hdmi-audio.h"
- #include "dw-hdmi-cec.h"
-+#include "dw-hdmi-common.h"
- #include "dw-hdmi.h"
- 
--#define DDC_CI_ADDR		0x37
--#define DDC_SEGMENT_ADDR	0x30
--
--#define HDMI_EDID_LEN		512
--
--/* DW-HDMI Controller >= 0x200a are at least compliant with SCDC version 1 */
--#define SCDC_MIN_SOURCE_VERSION	0x1
--
--#define HDMI14_MAX_TMDSCLK	340000000
--
- static const u16 csc_coeff_default[3][4] = {
- 	{ 0x2000, 0x0000, 0x0000, 0x0000 },
- 	{ 0x0000, 0x2000, 0x0000, 0x0000 },
-@@ -86,117 +73,6 @@ static const u16 csc_coeff_rgb_full_to_rgb_limited[3][4] = {
- 	{ 0x0000, 0x0000, 0x1b7c, 0x0020 }
+@@ -146,6 +146,8 @@ struct dw_hdmi {
  };
  
--struct hdmi_vmode {
--	bool mdataenablepolarity;
--
--	unsigned int mpixelclock;
--	unsigned int mpixelrepetitioninput;
--	unsigned int mpixelrepetitionoutput;
--	unsigned int mtmdsclock;
--};
--
--struct hdmi_data_info {
--	unsigned int enc_in_bus_format;
--	unsigned int enc_out_bus_format;
--	unsigned int enc_in_encoding;
--	unsigned int enc_out_encoding;
--	unsigned int pix_repet_factor;
--	unsigned int hdcp_enable;
--	struct hdmi_vmode video_mode;
--	bool rgb_limited_range;
--};
--
--struct dw_hdmi_i2c {
--	struct i2c_adapter	adap;
--
--	struct mutex		lock;	/* used to serialize data transfers */
--	struct completion	cmp;
--	u8			stat;
--
--	u8			slave_reg;
--	bool			is_regaddr;
--	bool			is_segment;
--};
--
--struct dw_hdmi_phy_data {
--	enum dw_hdmi_phy_type type;
--	const char *name;
--	unsigned int gen;
--	bool has_svsret;
--	int (*configure)(struct dw_hdmi *hdmi,
--			 const struct dw_hdmi_plat_data *pdata,
--			 unsigned long mpixelclock);
--};
--
--struct dw_hdmi {
--	struct drm_connector connector;
--	struct drm_bridge bridge;
--	struct drm_bridge *next_bridge;
--
--	unsigned int version;
--
--	struct platform_device *audio;
--	struct platform_device *cec;
--	struct device *dev;
--	struct dw_hdmi_i2c *i2c;
--
--	struct hdmi_data_info hdmi_data;
--	const struct dw_hdmi_plat_data *plat_data;
--
--	int vic;
--
--	u8 edid[HDMI_EDID_LEN];
--
--	struct {
--		const struct dw_hdmi_phy_ops *ops;
--		const char *name;
--		void *data;
--		bool enabled;
--	} phy;
--
--	struct drm_display_mode previous_mode;
--
--	struct i2c_adapter *ddc;
--	void __iomem *regs;
--	bool sink_is_hdmi;
--	bool sink_has_audio;
--
--	struct pinctrl *pinctrl;
--	struct pinctrl_state *default_state;
--	struct pinctrl_state *unwedge_state;
--
--	struct mutex mutex;		/* for state below and previous_mode */
--	enum drm_connector_force force;	/* mutex-protected force state */
--	struct drm_connector *curr_conn;/* current connector (only valid when !disabled) */
--	bool disabled;			/* DRM has disabled our bridge */
--	bool bridge_is_on;		/* indicates the bridge is on */
--	bool rxsense;			/* rxsense state */
--	u8 phy_mask;			/* desired phy int mask settings */
--	u8 mc_clkdis;			/* clock disable register */
--
--	spinlock_t audio_lock;
--	struct mutex audio_mutex;
--	unsigned int sample_non_pcm;
--	unsigned int sample_width;
--	unsigned int sample_rate;
--	unsigned int channels;
--	unsigned int audio_cts;
--	unsigned int audio_n;
--	bool audio_enable;
--
--	unsigned int reg_shift;
--	struct regmap *regm;
--	void (*enable_audio)(struct dw_hdmi *hdmi);
--	void (*disable_audio)(struct dw_hdmi *hdmi);
--
--	struct mutex cec_notifier_mutex;
--	struct cec_notifier *cec_notifier;
--
--	hdmi_codec_plugged_cb plugged_cb;
--	struct device *codec_dev;
--	enum drm_connector_status last_connector_result;
--};
--
- #define HDMI_IH_PHY_STAT0_RX_SENSE \
- 	(HDMI_IH_PHY_STAT0_RX_SENSE0 | HDMI_IH_PHY_STAT0_RX_SENSE1 | \
- 	 HDMI_IH_PHY_STAT0_RX_SENSE2 | HDMI_IH_PHY_STAT0_RX_SENSE3)
-@@ -219,11 +95,12 @@ static inline u8 hdmi_readb(struct dw_hdmi *hdmi, int offset)
- 	return val;
- }
+ void dw_handle_plugged_change(struct dw_hdmi *hdmi, bool plugged);
++struct i2c_adapter *dw_hdmi_i2c_adapter(struct dw_hdmi *hdmi,
++					const struct i2c_algorithm *algo);
+ bool dw_hdmi_support_scdc(struct dw_hdmi *hdmi,
+ 			  const struct drm_display_info *display);
  
--static void handle_plugged_change(struct dw_hdmi *hdmi, bool plugged)
-+void dw_handle_plugged_change(struct dw_hdmi *hdmi, bool plugged)
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index b66877771f56..5dd0e2bc080d 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -376,7 +376,8 @@ static const struct i2c_algorithm dw_hdmi_algorithm = {
+ 	.functionality	= dw_hdmi_i2c_func,
+ };
+ 
+-static struct i2c_adapter *dw_hdmi_i2c_adapter(struct dw_hdmi *hdmi)
++struct i2c_adapter *dw_hdmi_i2c_adapter(struct dw_hdmi *hdmi,
++					const struct i2c_algorithm *algo)
  {
- 	if (hdmi->plugged_cb && hdmi->codec_dev)
- 		hdmi->plugged_cb(hdmi->codec_dev, plugged);
+ 	struct i2c_adapter *adap;
+ 	struct dw_hdmi_i2c *i2c;
+@@ -392,7 +393,7 @@ static struct i2c_adapter *dw_hdmi_i2c_adapter(struct dw_hdmi *hdmi)
+ 	adap = &i2c->adap;
+ 	adap->owner = THIS_MODULE;
+ 	adap->dev.parent = hdmi->dev;
+-	adap->algo = &dw_hdmi_algorithm;
++	adap->algo = algo ? algo : &dw_hdmi_algorithm;
+ 	strscpy(adap->name, "DesignWare HDMI", sizeof(adap->name));
+ 	i2c_set_adapdata(adap, hdmi);
+ 
+@@ -409,6 +410,7 @@ static struct i2c_adapter *dw_hdmi_i2c_adapter(struct dw_hdmi *hdmi)
+ 
+ 	return adap;
  }
-+EXPORT_SYMBOL_GPL(dw_handle_plugged_change);
++EXPORT_SYMBOL_GPL(dw_hdmi_i2c_adapter);
  
- int dw_hdmi_set_plugged_cb(struct dw_hdmi *hdmi, hdmi_codec_plugged_cb fn,
- 			   struct device *codec_dev)
-@@ -234,7 +111,7 @@ int dw_hdmi_set_plugged_cb(struct dw_hdmi *hdmi, hdmi_codec_plugged_cb fn,
- 	hdmi->plugged_cb = fn;
- 	hdmi->codec_dev = codec_dev;
- 	plugged = hdmi->last_connector_result == connector_status_connected;
--	handle_plugged_change(hdmi, plugged);
-+	dw_handle_plugged_change(hdmi, plugged);
- 	mutex_unlock(&hdmi->mutex);
+ static void hdmi_set_cts_n(struct dw_hdmi *hdmi, unsigned int cts,
+ 			   unsigned int n)
+@@ -3373,7 +3375,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 			}
+ 		}
  
- 	return 0;
-@@ -1361,8 +1238,8 @@ void dw_hdmi_phy_i2c_write(struct dw_hdmi *hdmi, unsigned short data,
- EXPORT_SYMBOL_GPL(dw_hdmi_phy_i2c_write);
- 
- /* Filter out invalid setups to avoid configuring SCDC and scrambling */
--static bool dw_hdmi_support_scdc(struct dw_hdmi *hdmi,
--				 const struct drm_display_info *display)
-+bool dw_hdmi_support_scdc(struct dw_hdmi *hdmi,
-+			  const struct drm_display_info *display)
- {
- 	/* Completely disable SCDC support for older controllers */
- 	if (hdmi->version < 0x200a)
-@@ -1387,6 +1264,7 @@ static bool dw_hdmi_support_scdc(struct dw_hdmi *hdmi,
- 
- 	return true;
- }
-+EXPORT_SYMBOL_GPL(dw_hdmi_support_scdc);
- 
- /*
-  * HDMI2.0 Specifies the following procedure for High TMDS Bit Rates:
-@@ -2486,13 +2364,14 @@ static const struct drm_edid *dw_hdmi_edid_read(struct dw_hdmi *hdmi,
-  * DRM Connector Operations
-  */
- 
--static enum drm_connector_status
-+enum drm_connector_status
- dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
- {
- 	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
- 					     connector);
- 	return dw_hdmi_detect(hdmi);
- }
-+EXPORT_SYMBOL_GPL(dw_hdmi_connector_detect);
- 
- static int dw_hdmi_connector_get_modes(struct drm_connector *connector)
- {
-@@ -2868,10 +2747,10 @@ static u32 *dw_hdmi_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
- 	return input_fmts;
- }
- 
--static int dw_hdmi_bridge_atomic_check(struct drm_bridge *bridge,
--				       struct drm_bridge_state *bridge_state,
--				       struct drm_crtc_state *crtc_state,
--				       struct drm_connector_state *conn_state)
-+int dw_hdmi_bridge_atomic_check(struct drm_bridge *bridge,
-+				struct drm_bridge_state *bridge_state,
-+				struct drm_crtc_state *crtc_state,
-+				struct drm_connector_state *conn_state)
- {
- 	struct dw_hdmi *hdmi = bridge->driver_private;
- 
-@@ -2887,6 +2766,7 @@ static int dw_hdmi_bridge_atomic_check(struct drm_bridge *bridge,
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(dw_hdmi_bridge_atomic_check);
- 
- static int dw_hdmi_bridge_attach(struct drm_bridge *bridge,
- 				 enum drm_bridge_attach_flags flags)
-@@ -2900,7 +2780,7 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge,
- 	return dw_hdmi_connector_create(hdmi);
- }
- 
--static void dw_hdmi_bridge_detach(struct drm_bridge *bridge)
-+void dw_hdmi_bridge_detach(struct drm_bridge *bridge)
- {
- 	struct dw_hdmi *hdmi = bridge->driver_private;
- 
-@@ -2909,6 +2789,7 @@ static void dw_hdmi_bridge_detach(struct drm_bridge *bridge)
- 	hdmi->cec_notifier = NULL;
- 	mutex_unlock(&hdmi->cec_notifier_mutex);
- }
-+EXPORT_SYMBOL_GPL(dw_hdmi_bridge_detach);
- 
- static enum drm_mode_status
- dw_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
-@@ -2930,9 +2811,9 @@ dw_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
- 	return mode_status;
- }
- 
--static void dw_hdmi_bridge_mode_set(struct drm_bridge *bridge,
--				    const struct drm_display_mode *orig_mode,
--				    const struct drm_display_mode *mode)
-+void dw_hdmi_bridge_mode_set(struct drm_bridge *bridge,
-+			     const struct drm_display_mode *orig_mode,
-+			     const struct drm_display_mode *mode)
- {
- 	struct dw_hdmi *hdmi = bridge->driver_private;
- 
-@@ -2943,6 +2824,7 @@ static void dw_hdmi_bridge_mode_set(struct drm_bridge *bridge,
- 
- 	mutex_unlock(&hdmi->mutex);
- }
-+EXPORT_SYMBOL_GPL(dw_hdmi_bridge_mode_set);
- 
- static void dw_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
- 					  struct drm_bridge_state *old_state)
-@@ -2954,7 +2836,7 @@ static void dw_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
- 	hdmi->curr_conn = NULL;
- 	dw_hdmi_update_power(hdmi);
- 	dw_hdmi_update_phy_mask(hdmi);
--	handle_plugged_change(hdmi, false);
-+	dw_handle_plugged_change(hdmi, false);
- 	mutex_unlock(&hdmi->mutex);
- }
- 
-@@ -2973,24 +2855,26 @@ static void dw_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
- 	hdmi->curr_conn = connector;
- 	dw_hdmi_update_power(hdmi);
- 	dw_hdmi_update_phy_mask(hdmi);
--	handle_plugged_change(hdmi, true);
-+	dw_handle_plugged_change(hdmi, true);
- 	mutex_unlock(&hdmi->mutex);
- }
- 
--static enum drm_connector_status dw_hdmi_bridge_detect(struct drm_bridge *bridge)
-+enum drm_connector_status dw_hdmi_bridge_detect(struct drm_bridge *bridge)
- {
- 	struct dw_hdmi *hdmi = bridge->driver_private;
- 
- 	return dw_hdmi_detect(hdmi);
- }
-+EXPORT_SYMBOL_GPL(dw_hdmi_bridge_detect);
- 
--static const struct drm_edid *dw_hdmi_bridge_edid_read(struct drm_bridge *bridge,
--						       struct drm_connector *connector)
-+const struct drm_edid *dw_hdmi_bridge_edid_read(struct drm_bridge *bridge,
-+						struct drm_connector *connector)
- {
- 	struct dw_hdmi *hdmi = bridge->driver_private;
- 
- 	return dw_hdmi_edid_read(hdmi, connector);
- }
-+EXPORT_SYMBOL_GPL(dw_hdmi_bridge_edid_read);
- 
- static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+-		hdmi->ddc = dw_hdmi_i2c_adapter(hdmi);
++		hdmi->ddc = dw_hdmi_i2c_adapter(hdmi, NULL);
+ 		if (IS_ERR(hdmi->ddc))
+ 			hdmi->ddc = NULL;
+ 	}
 
 -- 
 2.45.0
