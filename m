@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522668D7002
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2024 15:13:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B898D7006
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2024 15:13:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7CE410E114;
-	Sat,  1 Jun 2024 13:13:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43AD310E13C;
+	Sat,  1 Jun 2024 13:13:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="agtYFt5D";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="IIy+T7m5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4999B10E13C
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2024 13:13:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F96910E13C
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2024 13:13:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1717247591;
- bh=HWApbGy8pFS7Vsa2ZQei9h62S5jglttPFVuJl0Mc/wg=;
+ s=mail; t=1717247592;
+ bh=d5X/8LXvanfZpU40XKa3+2Yctw0Lkl4wDDDRx6WrtBs=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=agtYFt5DDg3nO7lz5aQBZfcHt7ybFymt5RNZ8V7F1OQviNjofhYujBm8El3xXarUR
- nnoJjhRiL9BbHth0ks5MQStvyNpG1cSJ5aHsYfHHdRSHRO1lvwHniruBA1LQVAtS4t
- B6U+BiF9dkmsrjN280u+545b2oeL5BWEuuJdvVJslEW31t5FPUuDMfDERbJCmK+cDv
- ph6OW9gH/fz0eb/Ev2lkmqwLNsIqgpS9Kyg/ErRyg3/oRWuzZ8xcnA1pduFCW4Cf7q
- FO3qTzNfU5mxfT3X/ijTSFBbavcSXKmB80T4D2U+KuNLB/+rGBT/B3pl3inSXp2pXG
- l34MxYSQ8dW1w==
+ b=IIy+T7m5Qb+LrE2Ao6FFImU62A+YOJp0DV6h8zy4f5XvJs1nF8Y2glvsEzNhmmh23
+ gEDJWrn+NTWR1+mD9CQcoVZS8SQYzHrkOkIhpdw5jur0BujwRL2MljjKsvsxtCgOWz
+ wNVlWT2W30i02Rx4e8SDx1+0vZ3eDwdQtjS3Oyy4UszibXm8FNUpTQEbYD3F+dP1uy
+ ILQTocAnjSLSs+mwmCWknleJQjHqcIZN2Fpd9H5nLg4L5P4AWffWHjP9rYB/+mwHJ6
+ USfDd4xp8Z7NPst6srWfWhasfLupoVNtMmpY0TZQcxubuusGy2s4B5zEyI1WVUGxEz
+ FZytqcn4UJxAw==
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id B37BB37821AE;
- Sat,  1 Jun 2024 13:13:10 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id F2F2837821F3;
+ Sat,  1 Jun 2024 13:13:11 +0000 (UTC)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Sat, 01 Jun 2024 16:12:32 +0300
-Subject: [PATCH 10/14] drm/rockchip: dw_hdmi: Use devm_regulator_get_enable()
+Date: Sat, 01 Jun 2024 16:12:33 +0300
+Subject: [PATCH 11/14] drm/rockchip: dw_hdmi: Drop superfluous assignments
+ of mpll_cfg, cur_ctr and phy_config
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240601-b4-rk3588-bridge-upstream-v1-10-f6203753232b@collabora.com>
+Message-Id: <20240601-b4-rk3588-bridge-upstream-v1-11-f6203753232b@collabora.com>
 References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
 In-Reply-To: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -74,90 +75,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The regulators are only enabled at bind() and disabled at unbind(),
-hence replace the boilerplate code by making use of
-devm_regulator_get_enable() helper.
+The mpll_cfg, cur_ctr and phy_config members in struct dw_hdmi_plat_data
+are only used to configure the Synopsys PHYs supported internally by DW
+HDMI transmitter driver (gpu/drm/bridge/synopsys/dw-hdmi.c), via
+hdmi_phy_configure_dwc_hdmi_3d_tx(), which is further invoked from
+dw_hdmi_phy_init().  This is part of the internal
+dw_hdmi_synopsys_phy_ops struct, managed within dw_hdmi_detect_phy().
+
+To handle vendor PHYs, DW HDMI driver doesn't make use of the internal
+PHY ops and, instead, relies on the glue layer to provide the phy_ops
+and phy_name members of struct dw_hdmi_plat_data.
+
+Drop the unnecessary assignments of DW internal PHY related members from
+structs rk3228_hdmi_drv_data and rk3328_hdmi_drv_data, since both set
+the phy_force_vendor flag and correctly provide the expected vendor PHY
+data.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 34 +++++------------------------
- 1 file changed, 6 insertions(+), 28 deletions(-)
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index 7d07039ef096..edfd877c98fc 100644
+index edfd877c98fc..ca6728a43159 100644
 --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
 +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -77,8 +77,6 @@ struct rockchip_hdmi {
- 	struct clk *ref_clk;
- 	struct clk *grf_clk;
- 	struct dw_hdmi *hdmi;
--	struct regulator *avdd_0v9;
--	struct regulator *avdd_1v8;
- 	struct phy *phy;
- };
+@@ -444,9 +444,6 @@ static struct rockchip_hdmi_chip_data rk3228_chip_data = {
  
-@@ -236,15 +234,13 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
- 		return ret;
- 	}
+ static const struct dw_hdmi_plat_data rk3228_hdmi_drv_data = {
+ 	.mode_valid = dw_hdmi_rockchip_mode_valid,
+-	.mpll_cfg = rockchip_mpll_cfg,
+-	.cur_ctr = rockchip_cur_ctr,
+-	.phy_config = rockchip_phy_config,
+ 	.phy_data = &rk3228_chip_data,
+ 	.phy_ops = &rk3228_hdmi_phy_ops,
+ 	.phy_name = "inno_dw_hdmi_phy2",
+@@ -481,9 +478,6 @@ static struct rockchip_hdmi_chip_data rk3328_chip_data = {
  
--	hdmi->avdd_0v9 = devm_regulator_get(hdmi->dev, "avdd-0v9");
--	if (IS_ERR(hdmi->avdd_0v9))
--		return PTR_ERR(hdmi->avdd_0v9);
-+	ret = devm_regulator_get_enable(hdmi->dev, "avdd-0v9");
-+	if (ret)
-+		return ret;
- 
--	hdmi->avdd_1v8 = devm_regulator_get(hdmi->dev, "avdd-1v8");
--	if (IS_ERR(hdmi->avdd_1v8))
--		return PTR_ERR(hdmi->avdd_1v8);
-+	ret = devm_regulator_get_enable(hdmi->dev, "avdd-1v8");
- 
--	return 0;
-+	return ret;
- }
- 
- static enum drm_mode_status
-@@ -602,18 +598,6 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
- 		return ret;
- 	}
- 
--	ret = regulator_enable(hdmi->avdd_0v9);
--	if (ret) {
--		drm_err(hdmi, "failed to enable avdd0v9: %d\n", ret);
--		goto err_avdd_0v9;
--	}
--
--	ret = regulator_enable(hdmi->avdd_1v8);
--	if (ret) {
--		drm_err(hdmi, "failed to enable avdd1v8: %d\n", ret);
--		goto err_avdd_1v8;
--	}
--
- 	if (hdmi->chip_data == &rk3568_chip_data) {
- 		regmap_write(hdmi->regmap, RK3568_GRF_VO_CON1,
- 			     HIWORD_UPDATE(RK3568_HDMI_SDAIN_MSK |
-@@ -642,10 +626,7 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
- 
- err_bind:
- 	drm_encoder_cleanup(encoder);
--	regulator_disable(hdmi->avdd_1v8);
--err_avdd_1v8:
--	regulator_disable(hdmi->avdd_0v9);
--err_avdd_0v9:
-+
- 	return ret;
- }
- 
-@@ -656,9 +637,6 @@ static void dw_hdmi_rockchip_unbind(struct device *dev, struct device *master,
- 
- 	dw_hdmi_unbind(hdmi->hdmi);
- 	drm_encoder_cleanup(&hdmi->encoder.encoder);
--
--	regulator_disable(hdmi->avdd_1v8);
--	regulator_disable(hdmi->avdd_0v9);
- }
- 
- static const struct component_ops dw_hdmi_rockchip_ops = {
+ static const struct dw_hdmi_plat_data rk3328_hdmi_drv_data = {
+ 	.mode_valid = dw_hdmi_rockchip_mode_valid,
+-	.mpll_cfg = rockchip_mpll_cfg,
+-	.cur_ctr = rockchip_cur_ctr,
+-	.phy_config = rockchip_phy_config,
+ 	.phy_data = &rk3328_chip_data,
+ 	.phy_ops = &rk3328_hdmi_phy_ops,
+ 	.phy_name = "inno_dw_hdmi_phy2",
 
 -- 
 2.45.0
