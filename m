@@ -2,48 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A7E8D6FF7
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2024 15:13:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B6248D6FF8
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2024 15:13:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E2A610E0E5;
-	Sat,  1 Jun 2024 13:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 733B710E0F2;
+	Sat,  1 Jun 2024 13:13:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="i+8QZ1ck";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BsoXUfw5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8603710E0D2
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2024 13:13:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2568B10E0E5
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2024 13:13:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1717247578;
- bh=h58JsD+SebyiyL2HCvGvq4VST8PeU6RDgSW12Kr6f70=;
- h=From:Subject:Date:To:Cc:From;
- b=i+8QZ1ckn9fn0MNYXlvoDa1BwwVl3iWJXXphGhoixfP0siuIUWV+i0drhAffhWN5q
- Qq+dnv5IhTJALQk0gHMaUIeD1foqJWZN3iIjcR6l2xvHFk38KfSSTT9Y3tG9nSQVJN
- hgqpVjmUb0tIm7cymZRCxcP4NCahLJiSRngakt++NzI9ffbRfUygfciuXoq9Jt8Rt/
- NU2BaG+OgFRlHP2JuSVuwjMqEmxcvX0q+SEQ0lrWqcU2WtFFDDpijLqiDL06mT9JIV
- sqDbwWxfsqJ9PtVr0qi+CM1t165hSgP+flA9P7jt9nOXgmsg2ng0N8H5zOvlnC37Cz
- IDwY+6jDFWiyw==
+ s=mail; t=1717247579;
+ bh=l8XtBaTwAnkRuYmXmxTYBbTkRdQIUV1mvvps+vRhY14=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=BsoXUfw5X2BcNbgtXuoysLYNsZmBXgQBS0JlqduU0I638QwCeXWzIRpNhGwUwnrzI
+ PdOi+EiCgCAL7Qu3bzGvUEcb4yw0bjHPRBiLxT37fKTAzDkKHDmmcgm1HJHmRL0QY1
+ SZ2z/3xkjFKeMNJ6xZpTMgVOjW6aITR98S4l9oMSCNe41qvHuJ+YtdDCQplp9WLKZO
+ 0FmZgkAjrnwkZSx9P1USIugxHJNIBsm2iFOkMusxCYyPULldtiVkuEg84JNtGoesJ+
+ zoqNyFYY5xy6sVzpUF7IKZhL8Xg5MpX6UQdtJKnFxrDVZRrUoSGs61364tun+WIoC4
+ 7pQvRmLXHL3iQ==
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5A752378203E;
- Sat,  1 Jun 2024 13:12:58 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 95A1A37821AE;
+ Sat,  1 Jun 2024 13:12:59 +0000 (UTC)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: [PATCH 00/14] Add initial support for the Rockchip RK3588 HDMI TX
- Controller
-Date: Sat, 01 Jun 2024 16:12:22 +0300
-Message-Id: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
+Date: Sat, 01 Jun 2024 16:12:23 +0300
+Subject: [PATCH 01/14] drm/bridge: dw-hdmi: Simplify clock handling
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADYeW2YC/x2MQQrDIBAAvyJ7zoLaNJF+JfSgcU2WUitrWgqSv
- 1d6HIaZBpWEqcJNNRD6cOVX7mAGBevu80bIsTNYbUc9aYNhRHlcrs5hEI7dv0s9hPwTvZ2DT8k
- El1bofRFK/P2/l/t5/gDw2BPpawAAAA==
+Message-Id: <20240601-b4-rk3588-bridge-upstream-v1-1-f6203753232b@collabora.com>
+References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
+In-Reply-To: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -59,8 +57,7 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  devicetree@vger.kernel.org, kernel@collabora.com, 
- Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>, 
- Algea Cao <algea.cao@rock-chips.com>
+ Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>
 X-Mailer: b4 0.14-dev-f7c49
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,92 +74,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The RK3588 SoC family integrates a Quad-Pixel (QP) variant of the
-Synopsys DesignWare HDMI TX controller used in the previous SoCs.
+Make use of devm_clk_get_enabled() to replace devm_clk_get() and
+clk_prepare_enable() for isfr and iahb clocks, and drop the now
+unnecessary calls to clk_disable_unprepare().
 
-It is HDMI 2.1 compliant and supports the following features, among
-others:
+Similarly, use devm_clk_get_optional_enabled() helper for cec clock,
+which additionally allows to remove the -ENOENT test.
 
-* Fixed Rate Link (FRL)
-* 4K@120Hz and 8K@60Hz video modes
-* Variable Refresh Rate (VRR) including Quick Media Switching (QMS)
-* Fast Vactive (FVA)
-* SCDC I2C DDC access
-* TMDS Scrambler enabling 2160p@60Hz with RGB/YCbCr4:4:4
-* YCbCr4:2:0 enabling 2160p@60Hz at lower HDMI link speeds
-* Multi-stream audio
-* Enhanced Audio Return Channel (EARC)
-
-This is the last required component that needs to be supported in order
-to enable the HDMI output functionality on the RK3588 based SBCs, such
-as the RADXA Rock 5B. The other components are the Video Output
-Processor (VOP2) and the Samsung IP based HDMI/eDP TX Combo PHY, for
-which basic support has been already made available via [1] and [2],
-respectively.
-
-The patches are grouped as follows:
-* PATCH 1..7: DW HDMI TX driver refactor to minimize code duplication in
-  the new QP driver (no functional changes intended)
-
-* PATCH 8..11: Rockchip DW HDMI glue driver cleanup/improvements (no
-  functional changes intended)
-
-* PATCH 12..13: The new DW HDMI QP TX driver reusing the previously
-  exported functions and structs from existing DW HDMI TX driver
-
-* PATCH 14: Rockchip DW HDMI glue driver update to support RK3588 and
-  make use of DW HDMI QP TX
-
-They provide just the basic HDMI support for now, i.e. RGB output up to
-4K@60Hz, without audio, CEC or any of the HDMI 2.1 specific features.
-Also note the vop2 driver is currently not able to properly handle all
-display modes supported by the connected screens, e.g. it doesn't cope
-with non-integer refresh rates.
-
-A possible workaround consists of enabling the display controller to
-make use of the clock provided by the HDMI PHY PLL. This is still work
-in progress and will be submitted later, as well as the required DTS
-updates.
-
-To facilitate testing and experimentation, all HDMI output related
-patches, including those part of this series, are available at [3].
-So far I could only verify this on the RADXA Rock 3A and 5B boards.
-
-Thanks,
-Cristian
-
-[1]: 5a028e8f062f ("drm/rockchip: vop2: Add support for rk3588")
-[2]: 553be2830c5f ("phy: rockchip: Add Samsung HDMI/eDP Combo PHY driver")
-[3]: https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/-/commits/rk3588-hdmi-bridge-v6.10-rc1
+Moreover, the clock related members of struct dw_hdmi are not required
+anymore, hence drop them.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
-Cristian Ciocaltea (14):
-      drm/bridge: dw-hdmi: Simplify clock handling
-      drm/bridge: dw-hdmi: Add dw-hdmi-common.h header
-      drm/bridge: dw-hdmi: Commonize dw_hdmi_i2c_adapter()
-      drm/bridge: dw-hdmi: Factor out AVI infoframe setup
-      drm/bridge: dw-hdmi: Factor out vmode setup
-      drm/bridge: dw-hdmi: Factor out hdmi_data_info setup
-      drm/bridge: dw-hdmi: Commonize dw_hdmi_connector_create()
-      drm/rockchip: dw_hdmi: Use modern drm_device based logging
-      drm/rockchip: dw_hdmi: Simplify clock handling
-      drm/rockchip: dw_hdmi: Use devm_regulator_get_enable()
-      drm/rockchip: dw_hdmi: Drop superfluous assignments of mpll_cfg, cur_ctr and phy_config
-      dt-bindings: display: rockchip,dw-hdmi: Add compatible for RK3588
-      drm/bridge: synopsys: Add DW HDMI QP TX controller driver
-      drm/rockchip: dw_hdmi: Add basic RK3588 support
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 66 ++++++++-----------------------
+ 1 file changed, 16 insertions(+), 50 deletions(-)
 
- .../display/rockchip/rockchip,dw-hdmi.yaml         | 127 +++-
- drivers/gpu/drm/bridge/synopsys/Makefile           |   2 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-common.h   | 179 +++++
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c       | 787 +++++++++++++++++++
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h       | 831 +++++++++++++++++++++
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          | 353 +++------
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c        | 351 +++++++--
- include/drm/bridge/dw_hdmi.h                       |   8 +
- 8 files changed, 2290 insertions(+), 348 deletions(-)
----
-base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
-change-id: 20240601-b4-rk3588-bridge-upstream-a27baff1b8fc
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 9f2bc932c371..0031f3c54882 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -138,9 +138,6 @@ struct dw_hdmi {
+ 	struct platform_device *audio;
+ 	struct platform_device *cec;
+ 	struct device *dev;
+-	struct clk *isfr_clk;
+-	struct clk *iahb_clk;
+-	struct clk *cec_clk;
+ 	struct dw_hdmi_i2c *i2c;
+ 
+ 	struct hdmi_data_info hdmi_data;
+@@ -3326,6 +3323,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 	struct device_node *ddc_node;
+ 	struct dw_hdmi_cec_data cec;
+ 	struct dw_hdmi *hdmi;
++	struct clk *clk;
+ 	struct resource *iores = NULL;
+ 	int irq;
+ 	int ret;
+@@ -3405,50 +3403,27 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 		hdmi->regm = plat_data->regm;
+ 	}
+ 
+-	hdmi->isfr_clk = devm_clk_get(hdmi->dev, "isfr");
+-	if (IS_ERR(hdmi->isfr_clk)) {
+-		ret = PTR_ERR(hdmi->isfr_clk);
++	clk = devm_clk_get_enabled(hdmi->dev, "isfr");
++	if (IS_ERR(clk)) {
++		ret = PTR_ERR(clk);
+ 		dev_err(hdmi->dev, "Unable to get HDMI isfr clk: %d\n", ret);
+ 		goto err_res;
+ 	}
+ 
+-	ret = clk_prepare_enable(hdmi->isfr_clk);
+-	if (ret) {
+-		dev_err(hdmi->dev, "Cannot enable HDMI isfr clock: %d\n", ret);
+-		goto err_res;
+-	}
+-
+-	hdmi->iahb_clk = devm_clk_get(hdmi->dev, "iahb");
+-	if (IS_ERR(hdmi->iahb_clk)) {
+-		ret = PTR_ERR(hdmi->iahb_clk);
++	clk = devm_clk_get_enabled(hdmi->dev, "iahb");
++	if (IS_ERR(clk)) {
++		ret = PTR_ERR(clk);
+ 		dev_err(hdmi->dev, "Unable to get HDMI iahb clk: %d\n", ret);
+-		goto err_isfr;
+-	}
+-
+-	ret = clk_prepare_enable(hdmi->iahb_clk);
+-	if (ret) {
+-		dev_err(hdmi->dev, "Cannot enable HDMI iahb clock: %d\n", ret);
+-		goto err_isfr;
++		goto err_res;
+ 	}
+ 
+-	hdmi->cec_clk = devm_clk_get(hdmi->dev, "cec");
+-	if (PTR_ERR(hdmi->cec_clk) == -ENOENT) {
+-		hdmi->cec_clk = NULL;
+-	} else if (IS_ERR(hdmi->cec_clk)) {
+-		ret = PTR_ERR(hdmi->cec_clk);
++	clk = devm_clk_get_optional_enabled(hdmi->dev, "cec");
++	if (IS_ERR(clk)) {
++		ret = PTR_ERR(clk);
+ 		if (ret != -EPROBE_DEFER)
+ 			dev_err(hdmi->dev, "Cannot get HDMI cec clock: %d\n",
+ 				ret);
+-
+-		hdmi->cec_clk = NULL;
+-		goto err_iahb;
+-	} else {
+-		ret = clk_prepare_enable(hdmi->cec_clk);
+-		if (ret) {
+-			dev_err(hdmi->dev, "Cannot enable HDMI cec clock: %d\n",
+-				ret);
+-			goto err_iahb;
+-		}
++		goto err_res;
+ 	}
+ 
+ 	/* Product and revision IDs */
+@@ -3462,12 +3437,12 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 		dev_err(dev, "Unsupported HDMI controller (%04x:%02x:%02x)\n",
+ 			hdmi->version, prod_id0, prod_id1);
+ 		ret = -ENODEV;
+-		goto err_iahb;
++		goto err_res;
+ 	}
+ 
+ 	ret = dw_hdmi_detect_phy(hdmi);
+ 	if (ret < 0)
+-		goto err_iahb;
++		goto err_res;
+ 
+ 	dev_info(dev, "Detected HDMI TX controller v%x.%03x %s HDCP (%s)\n",
+ 		 hdmi->version >> 12, hdmi->version & 0xfff,
+@@ -3479,14 +3454,14 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0) {
+ 		ret = irq;
+-		goto err_iahb;
++		goto err_res;
+ 	}
+ 
+ 	ret = devm_request_threaded_irq(dev, irq, dw_hdmi_hardirq,
+ 					dw_hdmi_irq, IRQF_SHARED,
+ 					dev_name(dev), hdmi);
+ 	if (ret)
+-		goto err_iahb;
++		goto err_res;
+ 
+ 	/*
+ 	 * To prevent overflows in HDMI_IH_FC_STAT2, set the clk regenerator
+@@ -3603,11 +3578,6 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 
+ 	return hdmi;
+ 
+-err_iahb:
+-	clk_disable_unprepare(hdmi->iahb_clk);
+-	clk_disable_unprepare(hdmi->cec_clk);
+-err_isfr:
+-	clk_disable_unprepare(hdmi->isfr_clk);
+ err_res:
+ 	i2c_put_adapter(hdmi->ddc);
+ 
+@@ -3627,10 +3597,6 @@ void dw_hdmi_remove(struct dw_hdmi *hdmi)
+ 	/* Disable all interrupts */
+ 	hdmi_writeb(hdmi, ~0, HDMI_IH_MUTE_PHY_STAT0);
+ 
+-	clk_disable_unprepare(hdmi->iahb_clk);
+-	clk_disable_unprepare(hdmi->isfr_clk);
+-	clk_disable_unprepare(hdmi->cec_clk);
+-
+ 	if (hdmi->i2c)
+ 		i2c_del_adapter(&hdmi->i2c->adap);
+ 	else
+
+-- 
+2.45.0
 
