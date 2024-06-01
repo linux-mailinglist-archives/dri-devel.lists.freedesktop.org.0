@@ -2,89 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334E88D7122
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2024 18:32:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 019118D712D
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2024 18:42:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A619F890BB;
-	Sat,  1 Jun 2024 16:32:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92CAF10E1A3;
+	Sat,  1 Jun 2024 16:42:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DOHaOVE2";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="sIS3bpZw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD2A510E1A3
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2024 16:32:37 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-52b8b7b8698so1895120e87.1
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Jun 2024 09:32:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717259556; x=1717864356; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=HeNWgTvWB9NOiq+Vqu2GBpsAJX9qGaBSyXZdTFfGgGw=;
- b=DOHaOVE2QFqgwu8Q/74qB2aDefCm6LX88bubQBczCJj70ApVQBVjxru77Soo4L49lG
- vKE+qaHPrSTmuAy5a6iBcJC9ALLA/rZcFxKQGG25qohU2xSEJ2ZKrLAeW/yExRH3aAr7
- e6fWbc/5Vnpro7LpGaRuPGATD8bMR0Um1vJ8YINYX4MrfJU7ViwlV7bsJBb+eqrA5/d3
- PUZWWmDQ5fXwQvRrhxIln0aXOMQ/ajnhgxJYBGjZ3ujMYyZp3M/YYNQhgmywwwB0XU7s
- 8E20CMqQmK/8PWIG5i5CzYqD9ec3QFWyOHPys0HrGQe9O+aqYOuPExnGmTgi+JABe71Z
- SJwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717259556; x=1717864356;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HeNWgTvWB9NOiq+Vqu2GBpsAJX9qGaBSyXZdTFfGgGw=;
- b=oaFTKvYaI+V5P2ozriY8zBXBkeXB00Dap9VeIEiiLR/loek0Pu+KDYwsSTg9af9ops
- +DFuUNHVJMyD58oIO99YPd2jBQX9hPNTTk5Ke5HlF7XZLwQ9gceq+82Kz2l3elkGPSwP
- nBfwKwmAiqy4BrW6WaQQ/WmBVu4gLgb6sYNgSMVgbLu69x5fBPdlSV6H4qdkQyhSmTeJ
- 0kKfRmg6DKEPru8H/Duapi0+JBPXUeA5cFsW/LNyPqvqXDwRxjVYJZ7s0CrUiYAcrH/b
- NxbNDcPUepTYVgn+aCW2O42x4YJyVuw6juh61um3aYzQJb42zl272aIq/y3fvXzKYtaZ
- 1yHQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWcv6891Z/zYXIxE7nV9ENvOAnlW3L1/bKptP4kw5eegonlBhfPL0y71l5Y+KgZGDg1xnWJ1bM/bFtuVOpMs+xFvEgMZrKxcguI2lp1CMWi
-X-Gm-Message-State: AOJu0YzqvW+vaFy+Ap7wco6Ye1/JrugvYcVylzgOIi5TirifYcDFhndz
- F5QLpXVjTIj3TlvBypDKqfnrZIhP+D1nGxrx9gFqykGcZ9k1wOg3lK0V3jugXLE=
-X-Google-Smtp-Source: AGHT+IEGq9nFbnbn3YZLDr5pbWxznGwX+oNfINNXl+JWzilp9OJBdS+502iu7P5yQzsdmL9dipjc6g==
-X-Received: by 2002:ac2:518f:0:b0:529:a646:932b with SMTP id
- 2adb3069b0e04-52b8956c4dbmr3060104e87.20.1717259555422; 
- Sat, 01 Jun 2024 09:32:35 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52b84d3eb89sm713308e87.70.2024.06.01.09.32.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Jun 2024 09:32:35 -0700 (PDT)
-Date: Sat, 1 Jun 2024 19:32:33 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Mark Yao <markyao0591@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, 
- kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>, 
- Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
-Subject: Re: [PATCH 00/14] Add initial support for the Rockchip RK3588 HDMI
- TX Controller
-Message-ID: <a5jlj5hncv2p7lxk6pbgynkqfovlg3lzz2muzrbrkd73afiopu@n5tmd4zfyeik>
-References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53FB310E1A3
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2024 16:42:04 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 451GffZ8036681;
+ Sat, 1 Jun 2024 11:41:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1717260101;
+ bh=+ocxchH9u2Icz4prOAtSV5xvLRJJKRxfx+7US0r/Pik=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=sIS3bpZwCELHxccweU6x52eq+2O1Ue4QnQ+3wx6sWd9Ph/5SBvnFK0mTKgHaGJndb
+ vKZsUkZ3Oe7to6ThCH6xsu0xc89qM9QE8q7nFH1EGG/+3PLTYE1IabyCy1d1zv0tG/
+ +1848s9cQKrZRfDRz9FDEJPR6fOi8gD/x+EeypAc=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 451GffhU069778
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Sat, 1 Jun 2024 11:41:41 -0500
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 1
+ Jun 2024 11:41:40 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Sat, 1 Jun 2024 11:41:40 -0500
+Received: from [10.249.130.181] ([10.249.130.181])
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 451GfTpn129505;
+ Sat, 1 Jun 2024 11:41:30 -0500
+Message-ID: <1d35fe9f-79f3-4d64-81d6-97a63b333bfc@ti.com>
+Date: Sat, 1 Jun 2024 22:11:28 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 07/11] Documentation: core-api: Add math.h macros and
+ functions
+To: Randy Dunlap <rdunlap@infradead.org>, <mchehab@kernel.org>,
+ <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <benjamin.gaignard@collabora.com>,
+ <sebastian.fricke@collabora.com>, <akpm@linux-foundation.org>,
+ <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
+ <adobriyan@gmail.com>, <jani.nikula@intel.com>,
+ <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <corbet@lwn.net>,
+ <broonie@kernel.org>, <linux-doc@vger.kernel.org>
+CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
+ <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
+ <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
+ <vijayp@ti.com>, <andrzej.p@collabora.com>, <nicolas@ndufresne.ca>,
+ <davidgow@google.com>, <dlatypov@google.com>
+References: <20240531170229.1270828-1-devarsht@ti.com>
+ <20240531171220.1295881-1-devarsht@ti.com>
+ <c14215bd-96ff-4aec-83c4-e25375f6fe88@infradead.org>
+Content-Language: en-US
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <c14215bd-96ff-4aec-83c4-e25375f6fe88@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,105 +84,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jun 01, 2024 at 04:12:22PM +0300, Cristian Ciocaltea wrote:
-> The RK3588 SoC family integrates a Quad-Pixel (QP) variant of the
-> Synopsys DesignWare HDMI TX controller used in the previous SoCs.
+On 01/06/24 00:01, Randy Dunlap wrote:
+> Hi,
 > 
-> It is HDMI 2.1 compliant and supports the following features, among
-> others:
+> On 5/31/24 10:12 AM, Devarsh Thakkar wrote:
+>> Add documentation for rounding, scaling, absolute value and difference,
+>> 32-bit division related macros and functions exported by math.h header
+>> file.
+>>
 > 
-> * Fixed Rate Link (FRL)
-> * 4K@120Hz and 8K@60Hz video modes
-> * Variable Refresh Rate (VRR) including Quick Media Switching (QMS)
-> * Fast Vactive (FVA)
-> * SCDC I2C DDC access
-> * TMDS Scrambler enabling 2160p@60Hz with RGB/YCbCr4:4:4
-> * YCbCr4:2:0 enabling 2160p@60Hz at lower HDMI link speeds
-> * Multi-stream audio
-> * Enhanced Audio Return Channel (EARC)
-
-It would be really nice if you can take a look at using the HDMI
-connector framework (landed few days ago) with adaptations for the
-drm_bridge / drm_bridge_connector ([1]). Your comments for the
-drm_bridge patches would be defeinitely appreciated.
-
-[1] https://lore.kernel.org/dri-devel/20240531-bridge-hdmi-connector-v4-0-5110f7943622@linaro.org/
-
+> I don't see any kernel-doc for division functions in this header file.
 > 
-> This is the last required component that needs to be supported in order
-> to enable the HDMI output functionality on the RK3588 based SBCs, such
-> as the RADXA Rock 5B. The other components are the Video Output
-> Processor (VOP2) and the Samsung IP based HDMI/eDP TX Combo PHY, for
-> which basic support has been already made available via [1] and [2],
-> respectively.
-> 
-> The patches are grouped as follows:
-> * PATCH 1..7: DW HDMI TX driver refactor to minimize code duplication in
->   the new QP driver (no functional changes intended)
-> 
-> * PATCH 8..11: Rockchip DW HDMI glue driver cleanup/improvements (no
->   functional changes intended)
-> 
-> * PATCH 12..13: The new DW HDMI QP TX driver reusing the previously
->   exported functions and structs from existing DW HDMI TX driver
-> 
-> * PATCH 14: Rockchip DW HDMI glue driver update to support RK3588 and
->   make use of DW HDMI QP TX
-> 
-> They provide just the basic HDMI support for now, i.e. RGB output up to
-> 4K@60Hz, without audio, CEC or any of the HDMI 2.1 specific features.
-> Also note the vop2 driver is currently not able to properly handle all
-> display modes supported by the connected screens, e.g. it doesn't cope
-> with non-integer refresh rates.
-> 
-> A possible workaround consists of enabling the display controller to
-> make use of the clock provided by the HDMI PHY PLL. This is still work
-> in progress and will be submitted later, as well as the required DTS
-> updates.
-> 
-> To facilitate testing and experimentation, all HDMI output related
-> patches, including those part of this series, are available at [3].
-> So far I could only verify this on the RADXA Rock 3A and 5B boards.
-> 
-> Thanks,
-> Cristian
-> 
-> [1]: 5a028e8f062f ("drm/rockchip: vop2: Add support for rk3588")
-> [2]: 553be2830c5f ("phy: rockchip: Add Samsung HDMI/eDP Combo PHY driver")
-> [3]: https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/-/commits/rk3588-hdmi-bridge-v6.10-rc1
-> 
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
-> Cristian Ciocaltea (14):
->       drm/bridge: dw-hdmi: Simplify clock handling
->       drm/bridge: dw-hdmi: Add dw-hdmi-common.h header
->       drm/bridge: dw-hdmi: Commonize dw_hdmi_i2c_adapter()
->       drm/bridge: dw-hdmi: Factor out AVI infoframe setup
->       drm/bridge: dw-hdmi: Factor out vmode setup
->       drm/bridge: dw-hdmi: Factor out hdmi_data_info setup
->       drm/bridge: dw-hdmi: Commonize dw_hdmi_connector_create()
->       drm/rockchip: dw_hdmi: Use modern drm_device based logging
->       drm/rockchip: dw_hdmi: Simplify clock handling
->       drm/rockchip: dw_hdmi: Use devm_regulator_get_enable()
->       drm/rockchip: dw_hdmi: Drop superfluous assignments of mpll_cfg, cur_ctr and phy_config
->       dt-bindings: display: rockchip,dw-hdmi: Add compatible for RK3588
->       drm/bridge: synopsys: Add DW HDMI QP TX controller driver
->       drm/rockchip: dw_hdmi: Add basic RK3588 support
-> 
->  .../display/rockchip/rockchip,dw-hdmi.yaml         | 127 +++-
->  drivers/gpu/drm/bridge/synopsys/Makefile           |   2 +-
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi-common.h   | 179 +++++
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c       | 787 +++++++++++++++++++
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h       | 831 +++++++++++++++++++++
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          | 353 +++------
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c        | 351 +++++++--
->  include/drm/bridge/dw_hdmi.h                       |   8 +
->  8 files changed, 2290 insertions(+), 348 deletions(-)
-> ---
-> base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
-> change-id: 20240601-b4-rk3588-bridge-upstream-a27baff1b8fc
+> Do some division functions get rendered somehow?
 > 
 
--- 
-With best wishes
-Dmitry
+Good catch. I see couple of them having adequate documentation just
+missing the sphynx syntax, will enable for DIV_ROUND_CLOSEST and
+DIV_ROUND_CLOSEST_ULL.
+
+Regards
+Devarsh
