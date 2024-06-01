@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B898D7006
+	by mail.lfdr.de (Postfix) with ESMTPS id A01838D7005
 	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2024 15:13:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43AD310E13C;
-	Sat,  1 Jun 2024 13:13:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C14D010E15D;
+	Sat,  1 Jun 2024 13:13:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="IIy+T7m5";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="HuHx4KWn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F96910E13C
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2024 13:13:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB1A10E15D
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2024 13:13:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1717247592;
- bh=d5X/8LXvanfZpU40XKa3+2Yctw0Lkl4wDDDRx6WrtBs=;
+ s=mail; t=1717247593;
+ bh=evQjzendhCTVDwbxItOsj1lGHwRt7EcxvTuj1w7337E=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=IIy+T7m5Qb+LrE2Ao6FFImU62A+YOJp0DV6h8zy4f5XvJs1nF8Y2glvsEzNhmmh23
- gEDJWrn+NTWR1+mD9CQcoVZS8SQYzHrkOkIhpdw5jur0BujwRL2MljjKsvsxtCgOWz
- wNVlWT2W30i02Rx4e8SDx1+0vZ3eDwdQtjS3Oyy4UszibXm8FNUpTQEbYD3F+dP1uy
- ILQTocAnjSLSs+mwmCWknleJQjHqcIZN2Fpd9H5nLg4L5P4AWffWHjP9rYB/+mwHJ6
- USfDd4xp8Z7NPst6srWfWhasfLupoVNtMmpY0TZQcxubuusGy2s4B5zEyI1WVUGxEz
- FZytqcn4UJxAw==
+ b=HuHx4KWnzYf4g1IdO50vhHuxDFNsG/EF3JnR92wZ6GJYja7mwo8oHyDXMSYz1SZwl
+ smQLi+cbI5BLL+k0jX7WolM/PtwE1fadb4+aHpSDx1mYveQp1o0VMSNLmF5aEDCLlS
+ i02CvHHo85r41LPleA4dD7D5qGk77OuKv7fUkVnl7fVQ+vTJug3UdaCizU4JlCN9U+
+ hYk6fhGDBgBIV7+8ZND6Qmo2ujW1gk7I1SGh4cEv3KJmiGPvKTaI8u9brOfY5xma9U
+ 8JWQY8l/qjRqHtczCXBnPhezOv39ZMZdEaze9/R3FGDaGgg/p3ujwduJ072PNGEta/
+ LBaXs2ODKy35A==
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id F2F2837821F3;
- Sat,  1 Jun 2024 13:13:11 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2AB8637821EA;
+ Sat,  1 Jun 2024 13:13:13 +0000 (UTC)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Sat, 01 Jun 2024 16:12:33 +0300
-Subject: [PATCH 11/14] drm/rockchip: dw_hdmi: Drop superfluous assignments
- of mpll_cfg, cur_ctr and phy_config
+Date: Sat, 01 Jun 2024 16:12:34 +0300
+Subject: [PATCH 12/14] dt-bindings: display: rockchip,dw-hdmi: Add
+ compatible for RK3588
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240601-b4-rk3588-bridge-upstream-v1-11-f6203753232b@collabora.com>
+Message-Id: <20240601-b4-rk3588-bridge-upstream-v1-12-f6203753232b@collabora.com>
 References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
 In-Reply-To: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -75,51 +75,183 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mpll_cfg, cur_ctr and phy_config members in struct dw_hdmi_plat_data
-are only used to configure the Synopsys PHYs supported internally by DW
-HDMI transmitter driver (gpu/drm/bridge/synopsys/dw-hdmi.c), via
-hdmi_phy_configure_dwc_hdmi_3d_tx(), which is further invoked from
-dw_hdmi_phy_init().  This is part of the internal
-dw_hdmi_synopsys_phy_ops struct, managed within dw_hdmi_detect_phy().
+Document the Synopsys DesignWare HDMI 2.1 Quad-Pixel (QP) TX controller
+found on Rockchip RK3588 SoC family.
 
-To handle vendor PHYs, DW HDMI driver doesn't make use of the internal
-PHY ops and, instead, relies on the glue layer to provide the phy_ops
-and phy_name members of struct dw_hdmi_plat_data.
-
-Drop the unnecessary assignments of DW internal PHY related members from
-structs rk3228_hdmi_drv_data and rk3328_hdmi_drv_data, since both set
-the phy_force_vendor flag and correctly provide the expected vendor PHY
-data.
+Since RK3588 uses different clocks than previous Rockchip SoCs and also
+requires a couple of reset lines and some additional properties, provide
+the required changes in the binding to accommodate all variants.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 6 ------
- 1 file changed, 6 deletions(-)
+ .../display/rockchip/rockchip,dw-hdmi.yaml         | 127 +++++++++++++++------
+ 1 file changed, 90 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index edfd877c98fc..ca6728a43159 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -444,9 +444,6 @@ static struct rockchip_hdmi_chip_data rk3228_chip_data = {
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+index 2aac62219ff6..60d6b815227f 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+@@ -10,12 +10,10 @@ maintainers:
+   - Mark Yao <markyao0591@gmail.com>
  
- static const struct dw_hdmi_plat_data rk3228_hdmi_drv_data = {
- 	.mode_valid = dw_hdmi_rockchip_mode_valid,
--	.mpll_cfg = rockchip_mpll_cfg,
--	.cur_ctr = rockchip_cur_ctr,
--	.phy_config = rockchip_phy_config,
- 	.phy_data = &rk3228_chip_data,
- 	.phy_ops = &rk3228_hdmi_phy_ops,
- 	.phy_name = "inno_dw_hdmi_phy2",
-@@ -481,9 +478,6 @@ static struct rockchip_hdmi_chip_data rk3328_chip_data = {
+ description: |
+-  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+-  with a companion PHY IP.
+-
+-allOf:
+-  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+-  - $ref: /schemas/sound/dai-common.yaml#
++  For SoCs up to RK3568, the HDMI transmitter is a Synopsys DesignWare
++  HDMI 1.4 TX controller IP with a companion PHY IP.
++  The RK3588 SoC integrates the Synopsys DesignWare HDMI 2.1 Quad-Pixel (QP)
++  TX controller IP and a HDMI/eDP TX Combo PHY based on a Samsung IP block.
  
- static const struct dw_hdmi_plat_data rk3328_hdmi_drv_data = {
- 	.mode_valid = dw_hdmi_rockchip_mode_valid,
--	.mpll_cfg = rockchip_mpll_cfg,
--	.cur_ctr = rockchip_cur_ctr,
--	.phy_config = rockchip_phy_config,
- 	.phy_data = &rk3328_chip_data,
- 	.phy_ops = &rk3328_hdmi_phy_ops,
- 	.phy_name = "inno_dw_hdmi_phy2",
+ properties:
+   compatible:
+@@ -25,6 +23,7 @@ properties:
+       - rockchip,rk3328-dw-hdmi
+       - rockchip,rk3399-dw-hdmi
+       - rockchip,rk3568-dw-hdmi
++      - rockchip,rk3588-dw-hdmi
+ 
+   reg-io-width:
+     const: 4
+@@ -40,36 +39,6 @@ properties:
+       A 1.8V supply that powers up the SoC internal circuitry. The pin name on the
+       SoC usually is HDMI_TX_AVDD_1V8.
+ 
+-  clocks:
+-    minItems: 2
+-    items:
+-      - {}
+-      - {}
+-      # The next three clocks are all optional, but shall be specified in this
+-      # order when present.
+-      - description: The HDMI CEC controller main clock
+-      - description: Power for GRF IO
+-      - description: External clock for some HDMI PHY (old clock name, deprecated)
+-      - description: External clock for some HDMI PHY (new name)
+-
+-  clock-names:
+-    minItems: 2
+-    items:
+-      - {}
+-      - {}
+-      - enum:
+-          - cec
+-          - grf
+-          - vpll
+-          - ref
+-      - enum:
+-          - grf
+-          - vpll
+-          - ref
+-      - enum:
+-          - vpll
+-          - ref
+-
+   ddc-i2c-bus:
+     $ref: /schemas/types.yaml#/definitions/phandle
+     description:
+@@ -131,13 +100,97 @@ properties:
+ required:
+   - compatible
+   - reg
+-  - reg-io-width
+   - clocks
+   - clock-names
+   - interrupts
+   - ports
+   - rockchip,grf
+ 
++allOf:
++  - $ref: /schemas/sound/dai-common.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - rockchip,rk3588-dw-hdmi
++    then:
++      properties:
++        reg:
++          maxItems: 1
++
++        clocks:
++          minItems: 1
++          items:
++            - description: APB system interface clock
++            # The next clocks are optional, but shall be specified in this
++            # order when present.
++            - description: TMDS/FRL link clock
++            - description: EARC RX biphase clock
++            - description: Reference clock
++            - description: Audio interface clock
++            - description: Video datapath clock
++
++        clock-names:
++          minItems: 1
++          items:
++            - const: pclk
++            - enum: [hdp, earc, ref, aud, hclk_vo1]
++            - enum: [earc, ref, aud, hclk_vo1]
++            - enum: [ref, aud, hclk_vo1]
++            - enum: [aud, hclk_vo1]
++            - const: hclk_vo1
++
++        resets:
++          minItems: 2
++          maxItems: 2
++
++        reset-names:
++          items:
++            - const: ref
++            - const: hdp
++
++        interrupts:
++          minItems: 1
++          maxItems: 5
++
++        rockchip,vo1_grf:
++          $ref: /schemas/types.yaml#/definitions/phandle
++          description: Some QP related data is accessed through VO1 GRF regs
++
++      required:
++        - resets
++        - reset-names
++        - rockchip,vo1_grf
++
++    else:
++      $ref: ../bridge/synopsys,dw-hdmi.yaml#
++
++      properties:
++        clocks:
++          minItems: 2
++          items:
++            - {}
++            - {}
++            # The next three clocks are all optional, but shall be specified in this
++            # order when present.
++            - description: The HDMI CEC controller main clock
++            - description: Power for GRF IO
++            - description: External clock for some HDMI PHY (old clock name, deprecated)
++            - description: External clock for some HDMI PHY (new name)
++
++        clock-names:
++          minItems: 2
++          items:
++            - {}
++            - {}
++            - enum: [cec, grf, vpll, ref]
++            - enum: [grf, vpll, ref]
++            - enum: [vpll, ref]
++
++      required:
++        - reg-io-width
++
+ unevaluatedProperties: false
+ 
+ examples:
 
 -- 
 2.45.0
