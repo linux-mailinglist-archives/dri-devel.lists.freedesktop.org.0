@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD1528D6EF5
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2024 10:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3B788D6EFA
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2024 10:46:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C14E910E061;
-	Sat,  1 Jun 2024 08:46:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA84410E082;
+	Sat,  1 Jun 2024 08:46:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="cBbBA6+k";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="Ulm+rEtQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97A0F10E061
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2024 08:46:09 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id
- d2e1a72fcca58-701b0b0be38so2638869b3a.0
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Jun 2024 01:46:09 -0700 (PDT)
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A717810E082
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2024 08:46:34 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id
+ d2e1a72fcca58-702555eb23bso396815b3a.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Jun 2024 01:46:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1717231569; x=1717836369; darn=lists.freedesktop.org; 
- h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8W/njC8us0KW9wHmKF1n4OA9SOaALdpb4Qdax8q7WYs=;
- b=cBbBA6+k2/oE/KthdTtOCdwabxQjSktmVPhToYiUr5A4lxr5RnJePmpgUWIwqshW+x
- Tz137MoOhef29SokjT1IF263y2E73mP1UJSs+MXj56jPB1YQ2Tfm/Y/t25yg8T7ihaVN
- Ey6LnsqVak6fzUZ8bpYvxF5HSiik+h75lpb/ICBZoVhu+f17pt0JM5ZmWOEGEsDeEUIF
- iaP2M6YsZFCZAb14O6fYybTsdQL5q8bVyBOec7nC2r4yw77ZMdVG6d2sQdo5kmZSPiRs
- lguEVobhGxZ8Q+giGGfeF1jgN1XVaVGBvcRvS+FVw5dXJILF+SFsrC18FOIhebhEW3Cw
- uicQ==
+ t=1717231594; x=1717836394; darn=lists.freedesktop.org; 
+ h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=BWMKP5LFlkDOSxfrnz5yHlOyMbunRcU9qIKa5/oOPUc=;
+ b=Ulm+rEtQfxkVQJPYE/1A7/SbS+AxLrwna2rAUgrgyquFdxVCgxLIgndkrUAycOx0x6
+ X8NHmZeYmoPlb5dBioWJvXrWRiBLBEqMo8KkPsg6JG8cDtaPxamWNr+SzCXCTO/j7Vgz
+ NVqzwYFFGkwVZRh6mes9TmbsNVF8JIM0/bANlndlv5Q2hNhDFrj8sZAQ7aO85Lx7wycJ
+ 889njxroLBIaqDMJf93yRMiNILSUHxxlud/t4B1vww57jHZzlpcApx+53xwHNVMSBEOS
+ EGlPeHGADBRoFcdpu8MburRcueHZR7FYZqDfQL0i/GTGE1UbpNUE1/kIDPgvEpwA8LTs
+ 8tCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717231569; x=1717836369;
- h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8W/njC8us0KW9wHmKF1n4OA9SOaALdpb4Qdax8q7WYs=;
- b=aQZrj/qRFvDEdXcnYMxnst7zoXjPal4StEZZUytYt7CIzxBmECKY4vEzzU12UPD0Gz
- sw+TaQGJJGa37hJiE/xvphYJL7qTQj1QbN9fhXkvBFV3/yf//KHdsU9IFjrsopcpOX4a
- H9/JiWxSZ3rqJUVG5g3MIcRHs8G8gtKUN9m+ly6a66Gq+i2BPcfJfZqOIXNlVWhCcLNQ
- r6JyN8YFp5hCWVcmvNPErMZ0tZySQcPp8zX/fyLpfF4pdLCRN6ADpzJ9DQNHIpR/KVCd
- FB6g+hhpE12Td238rhJ2zb+dgntsyg3XHpLtINWp/xp9npGL2pu4AexQzri/QCUnCwV0
- Cbnw==
-X-Gm-Message-State: AOJu0YwpnH5CxYTudzOMEIkR1AOwuiCsx6+qKuWPA90z2DYb/GkJBhwM
- 95PKNZ3ZngwbXswWkTRPB+M92cEC5TbJqfuoTptzQegrgAm05rUV+zgxwsQDj18=
-X-Google-Smtp-Source: AGHT+IFmDV3Jqwu0YGOOnlIeAfrrik6DTGBn2D+eeZPZ5jFdR+A2cJFQgPvdZghdlvohqml57qK3bw==
-X-Received: by 2002:a05:6a20:100e:b0:1b1:ed95:6191 with SMTP id
- adf61e73a8af0-1b26f3059d4mr3641718637.52.1717231568693; 
- Sat, 01 Jun 2024 01:46:08 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1717231594; x=1717836394;
+ h=references:in-reply-to:message-id:date:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BWMKP5LFlkDOSxfrnz5yHlOyMbunRcU9qIKa5/oOPUc=;
+ b=NFGDV3TqJg0q9bh1aAhqyqHBrb4Ajex/zjf0OIvIyLiwii4fyWc1peUOYFXVE8HCNJ
+ edllIvXU/soxV3DmQ1gYQcjeZRjR9kPwh9VKw14niJwB3Q+MZ2FWGjhS3mVVlCs00cm7
+ IfLM3VgclL6m/3vov0/35QdJPVuJ1uQkaahMOTJEaRMs6wtQSRkgsA8xZB1dWHtyoISF
+ SDrEqz/ku7JQypcSLshteCvVrSWIuPFFZU3HvMOfErOPiyt2MjS+M8R/jbO0ZgmqL6ej
+ nfzlmusP4rpL+b54Al5vCoKTd8KnLcfkhjW+LXZ7jXNlQNbxQicGdXn7RidVwydqv61a
+ X03g==
+X-Gm-Message-State: AOJu0YzawCh/l73RKHw3/4TWzVj46gyhaf086xLb7IGTq5t8cxPSI+UT
+ Ss/fvuEM2J+xPX+oITvmyktiyWhH1X7dI2hC+zj8j2t0yXHPPoY/t39Cg5JC6yY=
+X-Google-Smtp-Source: AGHT+IGXPuE8dbUUxqNOYjw6L1iImTMU+Bb7Ncc2SHFeKOzPZbY2wYMNuci4TbwP5eGNNmY//5z8yg==
+X-Received: by 2002:a05:6a00:2e90:b0:702:56c0:299 with SMTP id
+ d2e1a72fcca58-70256c00467mr1173669b3a.20.1717231593905; 
+ Sat, 01 Jun 2024 01:46:33 -0700 (PDT)
 Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-702423c7b49sm2512044b3a.37.2024.06.01.01.46.06
+ d2e1a72fcca58-702423c7b49sm2512044b3a.37.2024.06.01.01.46.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Jun 2024 01:46:08 -0700 (PDT)
+ Sat, 01 Jun 2024 01:46:33 -0700 (PDT)
 From: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
 To: dmitry.torokhov@gmail.com, robh@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org,
@@ -60,11 +60,12 @@ To: dmitry.torokhov@gmail.com, robh@kernel.org,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Subject: [PATCH v2 0/4] Support Kingdisplay kd101ne3 and Starry er88577
- MIPI-DSI panel
-Date: Sat,  1 Jun 2024 16:45:24 +0800
-Message-Id: <20240601084528.22502-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: [PATCH v2 1/4] dt-bindings: display: panel: Add KD101NE3-40TI support
+Date: Sat,  1 Jun 2024 16:45:25 +0800
+Message-Id: <20240601084528.22502-2-lvzhaoxiong@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240601084528.22502-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+References: <20240601084528.22502-1-lvzhaoxiong@huaqin.corp-partner.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,31 +81,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Kingdisplay kd101ne3 and Starry er88577 both 10.1" WXGA TFT LCD panel,
-And the two panels have the same timing, so add compatible for Kingdisplay 
-kd101ne3 and Starry er88577 in dt-bindings and drivers.
+Create a new dt-scheam for the kd101ne3-40ti.
+The bias IC of this kindisplay-kd101ne3 panel is placed
+on the panel side, so when the panel is powered on,
+there is no need to control AVDD and AVEE in the driver.
 
-Changes in v2:
-- PATCH 1/4: Delete some unnecessary information.
-- PATCH 2/4: Use the new mipi_dsi_dcs_write_seq_multi() function, deleted some unnecessary functions.
-- PATCH 3/4: Add compatible for Starry-er88577.
-- PATCH 4/4: Add starry panel configuration in panel-kingdisplay-kd101ne3 driver.
-- Link to v1: https://lore.kernel.org/all/20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com/
+Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+---
 
-Zhaoxiong Lv (4):
-  dt-bindings: display: panel: Add KD101NE3-40TI support
-  drm/panel: kd101ne3: add new panel driver
-  dt-bindings: display: panel: Add compatible for Starry-er88577
-  drm/panel: starry: add new panel driver
+Chage since V2:
 
- .../panel/kingdisplay,kd101ne3-40ti.yaml      |  60 ++
- drivers/gpu/drm/panel/Kconfig                 |   9 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../drm/panel/panel-kingdisplay-kd101ne3.c    | 625 ++++++++++++++++++
- 4 files changed, 695 insertions(+)
+-  Drop some properties that have already been defined in panel-common.
+-  The header file 'dt-bindings/gpio/gpio.h' is not used, delete it
+
+V1: https://lore.kernel.org/all/20240418081548.12160-2-lvzhaoxiong@huaqin.corp-partner.google.com/
+
+---
+ .../panel/kingdisplay,kd101ne3-40ti.yaml      | 59 +++++++++++++++++++
+ 1 file changed, 59 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c
 
+diff --git a/Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml
+new file mode 100644
+index 000000000000..b0cf12bb727d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml
+@@ -0,0 +1,59 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/kingdisplay,kd101ne3-40ti.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Kingdisplay KD101NE3-40TI based MIPI-DSI panels
++
++maintainers:
++  - Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - kingdisplay,kd101ne3-40ti
++
++  reg:
++    description: the virtual channel number of a DSI peripheral
++
++  pp3300-supply:
++    description: core voltage supply
++
++required:
++  - compatible
++  - reg
++  - pp3300-supply
++  - enable-gpios
++  - backlight
++  - port
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        panel: panel@0 {
++            compatible = "kingdisplay,kd101ne3-40ti";
++            reg = <0>;
++            enable-gpios = <&pio 98 0>;
++            pinctrl-names = "default";
++            pinctrl-0 = <&panel_pins_default>;
++            pp3300-supply = <&en_pp6000_mipi_disp>;
++            backlight = <&backlight_lcd0>;
++            rotation = <90>;
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&dsi_out>;
++                };
++            };
++        };
++    };
++
++...
 -- 
 2.17.1
 
