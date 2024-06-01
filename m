@@ -2,64 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C80E8D7009
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2024 15:13:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CE6E8D7031
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2024 15:25:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA3E310E173;
-	Sat,  1 Jun 2024 13:13:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C0E610E17B;
+	Sat,  1 Jun 2024 13:25:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FyN2F3Ah";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e+NGwSt5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54A0F10E13C
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2024 13:13:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1717247596;
- bh=dHkP8AoXM9OeuHhfm4CkLokGlK4S7/NMp/ySjSWfBTA=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=FyN2F3AheUN0awtYaBAGablhrLpOTf6AVSlsDFHla87av/hL+KkdItp4nYjj6Hq7M
- gTUJ1JRde3N9aWehPv64QVSzBMGfLMflb5TKfGDytOPfJGdDNJBJ2cE3K+mQSQAKbL
- wr7hgsgfYZoMADL2BPTdE9hK6xC8x4DSfCz65x2NMYUKn+X71ZqcDIogl8j30FKvNf
- CcheRkYg6gRVrHvWR1bqZasujpwk3YOeJKCKNIzJzGyeDqkQHF3YttG7XiDDxkyv1S
- xZvUiVL3zYJxr1Qzwzj/JHEQveo1S07zrvaI0G+X7FgCv6IMlXFWHyUo/oIZRD9jn5
- tUKt9wGRRtiDA==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: cristicc)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id BD7B037821EC;
- Sat,  1 Jun 2024 13:13:15 +0000 (UTC)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Sat, 01 Jun 2024 16:12:36 +0300
-Subject: [PATCH 14/14] drm/rockchip: dw_hdmi: Add basic RK3588 support
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
+ [209.85.166.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 440C610E1B4
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2024 13:25:08 +0000 (UTC)
+Received: by mail-io1-f49.google.com with SMTP id
+ ca18e2360f4ac-7e201ab539eso123903039f.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Jun 2024 06:25:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1717248306; x=1717853106; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=w09m5vTOKIMdkXnAvM1fYzDWbROmAa/NqAt2dfCY8Wo=;
+ b=e+NGwSt5r98uWF7Nngyzr2gvaakfzuvZYK7WZBsc6vWILcTrXLwoY9yKXAqfm04tgH
+ QOsuOyuauTiI1Ss3J6Sq3Q4z7YhjSjkdNA/7MC4AbgTxnLCfclLLC0Uhq04uMgQLtLZC
+ w5FzhKRDobRHtqd+XIJ/gyaKiKuznLiEnr2j7xs2FuPXRxQ6jbjd2h8BYPvD2CvO2v9m
+ DTlpNsVP7Nbmwk44CuaLu5eq5PHyYTTi4XHk+0BHWDYcjwnjxcTYDUS+4YsPw9zaP8x9
+ 4dI4t4DSHWYc2o9UmcMS5/+YNPMQZz7hjsLUy7JTKze62V9Tt69KsRR4N2zAnJEJROmQ
+ Bl6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717248306; x=1717853106;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=w09m5vTOKIMdkXnAvM1fYzDWbROmAa/NqAt2dfCY8Wo=;
+ b=suBS6RoA0IzgF/PQuzwLXMNs77RPVVlKv8kmrELsTIhUUhks292YonEihPO2IADeFH
+ B23KETY/vcodkIU6PgsIVneYvT4fXLVDitUM7fxXecqvJpzDYRS4NFfXN84PLWHUV8cO
+ /UOIiI4dtK8/1DSHZ+rYEpfGunXkIa14VDmJYHmtwe4JcerjvIGH3NC+XwZk35sQUfgV
+ 5w7TsFT3qBf/86rKxpRwxdTwWqgx1AesfGTPIGVIoDrgr4U8Hzt4Rlvt8fu47+cpp/nq
+ LY7dWumqCY4WnHW1IyLkMUs+0YAA2ywfMvlv7NbiuJ16qPV1fKy07P+1QVtxpnp5kLTo
+ UYfg==
+X-Gm-Message-State: AOJu0YzrmQ0amG+5ZF0zdh3xiShOxphXB23+PWYJQ4h4I3w+KD7Ql5GO
+ J0tM7jYnHugjonp3DL83MUXn7Mnvfw8CKPc0ZApCL8cKtsoIbm7OkRUfiw==
+X-Google-Smtp-Source: AGHT+IFjuqDklUTdiBuZvD8uaoR3QaDup8xZ+XUePhALHNSRX19pnPobhKPmrqYcHcfILKL94r+bJw==
+X-Received: by 2002:a05:6602:6d16:b0:7ea:fdc9:ba61 with SMTP id
+ ca18e2360f4ac-7eaffe96fb0mr533246239f.1.1717248306196; 
+ Sat, 01 Jun 2024 06:25:06 -0700 (PDT)
+Received: from aford-System-Version.lan ([2601:447:d002:5be:e0b7:c613:ee:e8f3])
+ by smtp.gmail.com with ESMTPSA id
+ 8926c6da1cb9f-4b48764e0ccsm1014646173.13.2024.06.01.06.25.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 01 Jun 2024 06:25:05 -0700 (PDT)
+From: Adam Ford <aford173@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: dmitry.baryshkov@linaro.org, victor.liu@nxp.com, sui.jingfeng@linux.dev,
+ aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org
+Subject: [PATCH V2] drm/bridge: adv7511:  Fix Intermittent EDID failures
+Date: Sat,  1 Jun 2024 08:24:59 -0500
+Message-ID: <20240601132459.81123-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240601-b4-rk3588-bridge-upstream-v1-14-f6203753232b@collabora.com>
-References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
-In-Reply-To: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- devicetree@vger.kernel.org, kernel@collabora.com, 
- Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>, 
- Algea Cao <algea.cao@rock-chips.com>
-X-Mailer: b4 0.14-dev-f7c49
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,415 +86,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The RK3588 SoC family integrates the newer Synopsys DesignWare HDMI 2.1
-Quad-Pixel (QP) TX controller IP and a HDMI/eDP TX Combo PHY based on a
-Samsung IP block.
+In the process of adding support for shared IRQ pins, a scenario
+was accidentally created where adv7511_irq_process returned
+prematurely causing the EDID to fail randomly.
 
-Add just the basic support for now, i.e. RGB output up to 4K@60Hz,
-without audio, CEC or any of the HDMI 2.1 specific features.
+Since the interrupt handler is broken up into two main helper functions,
+update both of them to treat the helper functions as IRQ handlers. These
+IRQ routines process their respective tasks as before, but if they
+determine that actual work was done, mark the respective IRQ status
+accordingly, and delay the check until everything has been processed.
 
-Co-developed-by: Algea Cao <algea.cao@rock-chips.com>
-Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+This should guarantee the helper functions don't return prematurely
+while still returning proper values of either IRQ_HANDLED or IRQ_NONE.
+
+Reported-by: Liu Ying <victor.liu@nxp.com>
+Fixes: f3d9683346d6 ("drm/bridge: adv7511: Allow IRQ to share GPIO pins")
+Signed-off-by: Adam Ford <aford173@gmail.com>
+Tested-by: Liu Ying <victor.liu@nxp.com> # i.MX8MP EVK ADV7535 EDID retrieval w/o IRQ
 ---
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 261 +++++++++++++++++++++++++++-
- 1 file changed, 253 insertions(+), 8 deletions(-)
+V2:  Fix uninitialized cec_status
+     Cut back a little on error handling to return either IRQ_NONE or
+     IRQ_HANDLED.
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index ca6728a43159..48a777fe4214 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -29,8 +29,8 @@
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+index ea271f62b214..ec0b7f3d889c 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+@@ -401,7 +401,7 @@ struct adv7511 {
  
- #define RK3288_GRF_SOC_CON6		0x025C
- #define RK3288_HDMI_LCDC_SEL		BIT(4)
--#define RK3328_GRF_SOC_CON2		0x0408
- 
-+#define RK3328_GRF_SOC_CON2		0x0408
- #define RK3328_HDMI_SDAIN_MSK		BIT(11)
- #define RK3328_HDMI_SCLIN_MSK		BIT(10)
- #define RK3328_HDMI_HPD_IOE		BIT(2)
-@@ -54,6 +54,21 @@
- #define RK3568_HDMI_SDAIN_MSK		BIT(15)
- #define RK3568_HDMI_SCLIN_MSK		BIT(14)
- 
-+#define RK3588_GRF_SOC_CON2		0x0308
-+#define RK3588_HDMI0_HPD_INT_MSK	BIT(13)
-+#define RK3588_HDMI0_HPD_INT_CLR	BIT(12)
-+#define RK3588_GRF_SOC_CON7		0x031c
-+#define RK3588_SET_HPD_PATH_MASK	(0x3 << 12)
-+#define RK3588_GRF_SOC_STATUS1		0x0384
-+#define RK3588_HDMI0_LEVEL_INT		BIT(16)
-+#define RK3588_GRF_VO1_CON3		0x000c
-+#define RK3588_SCLIN_MASK		BIT(9)
-+#define RK3588_SDAIN_MASK		BIT(10)
-+#define RK3588_MODE_MASK		BIT(11)
-+#define RK3588_I2S_SEL_MASK		BIT(13)
-+#define RK3588_GRF_VO1_CON9		0x0024
-+#define RK3588_HDMI0_GRANT_SEL		BIT(10)
-+
- #define HIWORD_UPDATE(val, mask)	(val | (mask) << 16)
- 
- /**
-@@ -71,6 +86,7 @@ struct rockchip_hdmi_chip_data {
- struct rockchip_hdmi {
- 	struct device *dev;
- 	struct regmap *regmap;
-+	struct regmap *vo1_regmap;
- 	struct rockchip_encoder encoder;
- 	const struct rockchip_hdmi_chip_data *chip_data;
- 	const struct dw_hdmi_plat_data *plat_data;
-@@ -78,6 +94,10 @@ struct rockchip_hdmi {
- 	struct clk *grf_clk;
- 	struct dw_hdmi *hdmi;
- 	struct phy *phy;
-+
-+	bool is_hdmi_qp;
-+	struct gpio_desc *qp_enable_gpio;
-+	struct delayed_work qp_hpd_work;
- };
- 
- static struct rockchip_hdmi *to_rockchip_hdmi(struct drm_encoder *encoder)
-@@ -206,8 +226,12 @@ static const struct dw_hdmi_phy_config rockchip_phy_config[] = {
- 
- static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
+ #ifdef CONFIG_DRM_I2C_ADV7511_CEC
+ int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511);
+-void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1);
++int adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1);
+ #else
+ static inline int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
  {
-+	static const char * const qp_clk_names[] = {
-+		"pclk", "hdp", "earc", "aud", "hclk_vo1",
-+	};
- 	struct device_node *np = hdmi->dev->of_node;
--	int ret;
-+	struct clk *qp_clk;
-+	int ret, i;
- 
- 	hdmi->regmap = syscon_regmap_lookup_by_phandle(np, "rockchip,grf");
- 	if (IS_ERR(hdmi->regmap)) {
-@@ -234,6 +258,34 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
- 		return ret;
- 	}
- 
-+	if (hdmi->is_hdmi_qp) {
-+		hdmi->vo1_regmap = syscon_regmap_lookup_by_phandle(np, "rockchip,vo1_grf");
-+		if (IS_ERR(hdmi->vo1_regmap)) {
-+			drm_err(hdmi, "Unable to get rockchip,vo1_grf\n");
-+			return PTR_ERR(hdmi->vo1_regmap);
-+		}
-+
-+		for (i = 0; i < ARRAY_SIZE(qp_clk_names); i++) {
-+			qp_clk = devm_clk_get_optional_enabled(hdmi->dev, qp_clk_names[i]);
-+
-+			if (IS_ERR(qp_clk)) {
-+				ret = PTR_ERR(qp_clk);
-+				if (ret != -EPROBE_DEFER)
-+					drm_err(hdmi, "failed to get %s clock: %d\n",
-+						qp_clk_names[i], ret);
-+				return ret;
-+			}
-+		}
-+
-+		hdmi->qp_enable_gpio = devm_gpiod_get_optional(hdmi->dev, "enable",
-+							       GPIOD_OUT_HIGH);
-+		if (IS_ERR(hdmi->qp_enable_gpio)) {
-+			ret = PTR_ERR(hdmi->qp_enable_gpio);
-+			drm_err(hdmi, "failed to request enable GPIO: %d\n", ret);
-+			return ret;
-+		}
-+	}
-+
- 	ret = devm_regulator_get_enable(hdmi->dev, "avdd-0v9");
- 	if (ret)
- 		return ret;
-@@ -303,8 +355,32 @@ static void dw_hdmi_rockchip_encoder_mode_set(struct drm_encoder *encoder,
- static void dw_hdmi_rockchip_encoder_enable(struct drm_encoder *encoder)
- {
- 	struct rockchip_hdmi *hdmi = to_rockchip_hdmi(encoder);
-+	struct drm_crtc *crtc = encoder->crtc;
- 	u32 val;
--	int ret;
-+	int ret, rate;
-+
-+	if (hdmi->is_hdmi_qp) {
-+		/* Unconditionally switch to TMDS as FRL is not yet supported */
-+		gpiod_set_value(hdmi->qp_enable_gpio, 1);
-+
-+		if (crtc && crtc->state) {
-+			clk_set_rate(hdmi->ref_clk,
-+				     crtc->state->adjusted_mode.crtc_clock * 1000);
-+			/*
-+			 * FIXME: Temporary workaround to pass pixel clock rate
-+			 * to the PHY driver until phy_configure_opts_hdmi
-+			 * becomes available in the PHY API. See also the related
-+			 * comment in rk_hdptx_phy_power_on() from
-+			 * drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-+			 */
-+			if (hdmi->phy) {
-+				rate = crtc->state->mode.clock * 10;
-+				phy_set_bus_width(hdmi->phy, rate);
-+				drm_dbg(hdmi, "%s set bus_width=%u\n",
-+					__func__, rate);
-+			}
-+		}
-+	}
- 
- 	if (hdmi->chip_data->lcdsel_grf_reg < 0)
- 		return;
-@@ -356,6 +432,9 @@ static int dw_hdmi_rockchip_genphy_init(struct dw_hdmi *dw_hdmi, void *data,
- {
- 	struct rockchip_hdmi *hdmi = (struct rockchip_hdmi *)data;
- 
-+	if (hdmi->is_hdmi_qp)
-+		dw_hdmi_set_high_tmds_clock_ratio(dw_hdmi, display);
-+
- 	return phy_power_on(hdmi->phy);
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+index 44451a9658a3..651fb1dde780 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+@@ -119,7 +119,7 @@ static void adv7511_cec_rx(struct adv7511 *adv7511, int rx_buf)
+ 	cec_received_msg(adv7511->cec_adap, &msg);
  }
  
-@@ -430,6 +509,29 @@ static void dw_hdmi_rk3328_setup_hpd(struct dw_hdmi *dw_hdmi, void *data)
- 			      RK3328_HDMI_HPD_IOE));
- }
+-void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
++int adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
+ {
+ 	unsigned int offset = adv7511->info->reg_cec_offset;
+ 	const u32 irq_tx_mask = ADV7511_INT1_CEC_TX_READY |
+@@ -130,17 +130,21 @@ void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
+ 				ADV7511_INT1_CEC_RX_READY3;
+ 	unsigned int rx_status;
+ 	int rx_order[3] = { -1, -1, -1 };
+-	int i;
++	int i, ret = 0;
++	int irq_status = IRQ_NONE;
  
-+static enum drm_connector_status
-+dw_hdmi_rk3588_read_hpd(struct dw_hdmi *dw_hdmi, void *data)
-+{
-+	struct rockchip_hdmi *hdmi = (struct rockchip_hdmi *)data;
-+	u32 val;
-+
-+	regmap_read(hdmi->regmap, RK3588_GRF_SOC_STATUS1, &val);
-+
-+	return val & RK3588_HDMI0_LEVEL_INT ?
-+		connector_status_connected : connector_status_disconnected;
-+}
-+
-+static void dw_hdmi_rk3588_setup_hpd(struct dw_hdmi *dw_hdmi, void *data)
-+{
-+	struct rockchip_hdmi *hdmi = (struct rockchip_hdmi *)data;
-+
-+	regmap_write(hdmi->regmap,
-+		     RK3588_GRF_SOC_CON2,
-+		     HIWORD_UPDATE(RK3588_HDMI0_HPD_INT_CLR,
-+				   RK3588_HDMI0_HPD_INT_CLR |
-+				   RK3588_HDMI0_HPD_INT_MSK));
-+}
-+
- static const struct dw_hdmi_phy_ops rk3228_hdmi_phy_ops = {
- 	.init		= dw_hdmi_rockchip_genphy_init,
- 	.disable	= dw_hdmi_rockchip_genphy_disable,
-@@ -513,6 +615,82 @@ static const struct dw_hdmi_plat_data rk3568_hdmi_drv_data = {
- 	.use_drm_infoframe = true,
- };
- 
-+static const struct dw_hdmi_phy_ops rk3588_hdmi_phy_ops = {
-+	.init		= dw_hdmi_rockchip_genphy_init,
-+	.disable	= dw_hdmi_rockchip_genphy_disable,
-+	.read_hpd	= dw_hdmi_rk3588_read_hpd,
-+	.setup_hpd	= dw_hdmi_rk3588_setup_hpd,
-+};
-+
-+struct rockchip_hdmi_chip_data rk3588_chip_data = {
-+	.lcdsel_grf_reg = -1,
-+};
-+
-+static const struct dw_hdmi_plat_data rk3588_hdmi_drv_data = {
-+	.phy_data = &rk3588_chip_data,
-+	.phy_ops = &rk3588_hdmi_phy_ops,
-+	.phy_name = "samsung_hdptx_phy",
-+	.phy_force_vendor = true,
-+	.use_drm_infoframe = true,
-+	.is_hdmi_qp = true,
-+};
-+
-+static void dw_hdmi_rk3588_hpd_work(struct work_struct *p_work)
-+{
-+	struct rockchip_hdmi *hdmi = container_of(p_work, struct rockchip_hdmi,
-+						  qp_hpd_work.work);
-+
-+	struct drm_device *drm = hdmi->encoder.encoder.dev;
-+	bool changed;
-+
-+	if (drm) {
-+		changed = drm_helper_hpd_irq_event(drm);
-+		if (changed)
-+			drm_dbg(hdmi, "connector status changed\n");
+-	if (irq1 & irq_tx_mask)
++	if (irq1 & irq_tx_mask) {
+ 		adv_cec_tx_raw_status(adv7511, irq1);
++		irq_status = IRQ_HANDLED;
 +	}
-+}
-+
-+static irqreturn_t dw_hdmi_rk3588_hardirq(int irq, void *dev_id)
-+{
-+	struct rockchip_hdmi *hdmi = dev_id;
-+	u32 intr_stat, val;
-+
-+	regmap_read(hdmi->regmap, RK3588_GRF_SOC_STATUS1, &intr_stat);
-+
-+	if (intr_stat) {
-+		val = HIWORD_UPDATE(RK3588_HDMI0_HPD_INT_MSK,
-+				    RK3588_HDMI0_HPD_INT_MSK);
-+		regmap_write(hdmi->regmap, RK3588_GRF_SOC_CON2, val);
-+		return IRQ_WAKE_THREAD;
-+	}
-+
-+	return IRQ_NONE;
-+}
-+
-+static irqreturn_t dw_hdmi_rk3588_irq(int irq, void *dev_id)
-+{
-+	struct rockchip_hdmi *hdmi = dev_id;
-+	u32 intr_stat, val;
-+	int debounce_ms;
-+
-+	regmap_read(hdmi->regmap, RK3588_GRF_SOC_STATUS1, &intr_stat);
-+	if (!intr_stat)
-+		return IRQ_NONE;
-+
-+	val = HIWORD_UPDATE(RK3588_HDMI0_HPD_INT_CLR,
-+			    RK3588_HDMI0_HPD_INT_CLR);
-+	regmap_write(hdmi->regmap, RK3588_GRF_SOC_CON2, val);
-+
-+	debounce_ms = intr_stat & RK3588_HDMI0_LEVEL_INT ? 150 : 20;
-+	mod_delayed_work(system_wq, &hdmi->qp_hpd_work,
-+			 msecs_to_jiffies(debounce_ms));
-+
-+	val |= HIWORD_UPDATE(0, RK3588_HDMI0_HPD_INT_MSK);
-+	regmap_write(hdmi->regmap, RK3588_GRF_SOC_CON2, val);
-+
-+	return IRQ_HANDLED;
-+}
-+
- static const struct of_device_id dw_hdmi_rockchip_dt_ids[] = {
- 	{ .compatible = "rockchip,rk3228-dw-hdmi",
- 	  .data = &rk3228_hdmi_drv_data
-@@ -529,6 +707,9 @@ static const struct of_device_id dw_hdmi_rockchip_dt_ids[] = {
- 	{ .compatible = "rockchip,rk3568-dw-hdmi",
- 	  .data = &rk3568_hdmi_drv_data
- 	},
-+	{ .compatible = "rockchip,rk3588-dw-hdmi",
-+	  .data = &rk3588_hdmi_drv_data
-+	},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, dw_hdmi_rockchip_dt_ids);
-@@ -542,7 +723,8 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
- 	struct drm_device *drm = data;
- 	struct drm_encoder *encoder;
- 	struct rockchip_hdmi *hdmi;
--	int ret;
-+	int ret, irq;
-+	u32 val;
  
- 	if (!pdev->dev.of_node)
- 		return -ENODEV;
-@@ -553,13 +735,14 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+ 	if (!(irq1 & irq_rx_mask))
+-		return;
++		return irq_status;
  
- 	match = of_match_node(dw_hdmi_rockchip_dt_ids, pdev->dev.of_node);
- 	plat_data = devm_kmemdup(&pdev->dev, match->data,
--					     sizeof(*plat_data), GFP_KERNEL);
-+				 sizeof(*plat_data), GFP_KERNEL);
- 	if (!plat_data)
- 		return -ENOMEM;
- 
- 	hdmi->dev = &pdev->dev;
- 	hdmi->plat_data = plat_data;
- 	hdmi->chip_data = plat_data->phy_data;
-+	hdmi->is_hdmi_qp = plat_data->is_hdmi_qp;
- 	plat_data->phy_data = hdmi;
- 	plat_data->priv_data = hdmi;
- 	encoder = &hdmi->encoder.encoder;
-@@ -598,6 +781,37 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
- 					   RK3568_HDMI_SCLIN_MSK,
- 					   RK3568_HDMI_SDAIN_MSK |
- 					   RK3568_HDMI_SCLIN_MSK));
-+	} else if (hdmi->is_hdmi_qp) {
-+		val = HIWORD_UPDATE(RK3588_SCLIN_MASK, RK3588_SCLIN_MASK) |
-+		      HIWORD_UPDATE(RK3588_SDAIN_MASK, RK3588_SDAIN_MASK) |
-+		      HIWORD_UPDATE(RK3588_MODE_MASK, RK3588_MODE_MASK) |
-+		      HIWORD_UPDATE(RK3588_I2S_SEL_MASK, RK3588_I2S_SEL_MASK);
-+		regmap_write(hdmi->vo1_regmap, RK3588_GRF_VO1_CON3, val);
-+
-+		val = HIWORD_UPDATE(RK3588_SET_HPD_PATH_MASK,
-+				    RK3588_SET_HPD_PATH_MASK);
-+		regmap_write(hdmi->regmap, RK3588_GRF_SOC_CON7, val);
-+
-+		val = HIWORD_UPDATE(RK3588_HDMI0_GRANT_SEL,
-+				    RK3588_HDMI0_GRANT_SEL);
-+		regmap_write(hdmi->vo1_regmap, RK3588_GRF_VO1_CON9, val);
-+
-+		val = HIWORD_UPDATE(RK3588_HDMI0_HPD_INT_MSK, RK3588_HDMI0_HPD_INT_MSK);
-+		regmap_write(hdmi->regmap, RK3588_GRF_SOC_CON2, val);
-+
-+		INIT_DELAYED_WORK(&hdmi->qp_hpd_work, dw_hdmi_rk3588_hpd_work);
-+
-+		irq = platform_get_irq(pdev, 4);
-+		if (irq < 0)
-+			return irq;
-+
-+		ret = devm_request_threaded_irq(hdmi->dev, irq,
-+						dw_hdmi_rk3588_hardirq,
-+						dw_hdmi_rk3588_irq,
-+						IRQF_SHARED, "dw-hdmi-qp-hpd",
-+						hdmi);
-+		if (ret)
-+			return ret;
- 	}
- 
- 	drm_encoder_helper_add(encoder, &dw_hdmi_rockchip_encoder_helper_funcs);
-@@ -605,7 +819,10 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
- 
- 	platform_set_drvdata(pdev, hdmi);
- 
--	hdmi->hdmi = dw_hdmi_bind(pdev, encoder, plat_data);
-+	if (hdmi->is_hdmi_qp)
-+		hdmi->hdmi = dw_hdmi_qp_bind(pdev, encoder, plat_data);
-+	else
-+		hdmi->hdmi = dw_hdmi_bind(pdev, encoder, plat_data);
+-	if (regmap_read(adv7511->regmap_cec,
+-			ADV7511_REG_CEC_RX_STATUS + offset, &rx_status))
+-		return;
++	ret = regmap_read(adv7511->regmap_cec,
++			ADV7511_REG_CEC_RX_STATUS + offset, &rx_status);
++	if (ret < 0)
++		return irq_status;
  
  	/*
- 	 * If dw_hdmi_bind() fails we'll never call dw_hdmi_unbind(),
-@@ -629,7 +846,13 @@ static void dw_hdmi_rockchip_unbind(struct device *dev, struct device *master,
- {
- 	struct rockchip_hdmi *hdmi = dev_get_drvdata(dev);
+ 	 * ADV7511_REG_CEC_RX_STATUS[5:0] contains the reception order of RX
+@@ -172,6 +176,8 @@ void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
  
--	dw_hdmi_unbind(hdmi->hdmi);
-+	if (hdmi->is_hdmi_qp) {
-+		cancel_delayed_work_sync(&hdmi->qp_hpd_work);
-+		dw_hdmi_qp_unbind(hdmi->hdmi);
-+	} else {
-+		dw_hdmi_unbind(hdmi->hdmi);
-+	}
+ 		adv7511_cec_rx(adv7511, rx_buf);
+ 	}
 +
- 	drm_encoder_cleanup(&hdmi->encoder.encoder);
++	return IRQ_HANDLED;
  }
  
-@@ -651,8 +874,30 @@ static void dw_hdmi_rockchip_remove(struct platform_device *pdev)
- static int __maybe_unused dw_hdmi_rockchip_resume(struct device *dev)
+ static int adv7511_cec_adap_enable(struct cec_adapter *adap, bool enable)
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index 66ccb61e2a66..c8d2c4a157b2 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -469,6 +469,8 @@ static int adv7511_irq_process(struct adv7511 *adv7511, bool process_hpd)
  {
- 	struct rockchip_hdmi *hdmi = dev_get_drvdata(dev);
-+	u32 val;
-+
-+	if (hdmi->is_hdmi_qp) {
-+		val = HIWORD_UPDATE(RK3588_SCLIN_MASK, RK3588_SCLIN_MASK) |
-+		      HIWORD_UPDATE(RK3588_SDAIN_MASK, RK3588_SDAIN_MASK) |
-+		      HIWORD_UPDATE(RK3588_MODE_MASK, RK3588_MODE_MASK) |
-+		      HIWORD_UPDATE(RK3588_I2S_SEL_MASK, RK3588_I2S_SEL_MASK);
-+		regmap_write(hdmi->vo1_regmap, RK3588_GRF_VO1_CON3, val);
+ 	unsigned int irq0, irq1;
+ 	int ret;
++	int cec_status = IRQ_NONE;
++	int irq_status = IRQ_NONE;
  
--	dw_hdmi_resume(hdmi->hdmi);
-+		val = HIWORD_UPDATE(RK3588_SET_HPD_PATH_MASK,
-+				    RK3588_SET_HPD_PATH_MASK);
-+		regmap_write(hdmi->regmap, RK3588_GRF_SOC_CON7, val);
-+
-+		val = HIWORD_UPDATE(RK3588_HDMI0_GRANT_SEL,
-+				    RK3588_HDMI0_GRANT_SEL);
-+		regmap_write(hdmi->vo1_regmap, RK3588_GRF_VO1_CON9, val);
-+
-+		dw_hdmi_qp_resume(dev, hdmi->hdmi);
-+
-+		if (hdmi->encoder.encoder.dev)
-+			drm_helper_hpd_irq_event(hdmi->encoder.encoder.dev);
-+	} else {
-+		dw_hdmi_resume(hdmi->hdmi);
+ 	ret = regmap_read(adv7511->regmap, ADV7511_REG_INT(0), &irq0);
+ 	if (ret < 0)
+@@ -478,29 +480,31 @@ static int adv7511_irq_process(struct adv7511 *adv7511, bool process_hpd)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	/* If there is no IRQ to handle, exit indicating no IRQ data */
+-	if (!(irq0 & (ADV7511_INT0_HPD | ADV7511_INT0_EDID_READY)) &&
+-	    !(irq1 & ADV7511_INT1_DDC_ERROR))
+-		return -ENODATA;
+-
+ 	regmap_write(adv7511->regmap, ADV7511_REG_INT(0), irq0);
+ 	regmap_write(adv7511->regmap, ADV7511_REG_INT(1), irq1);
+ 
+-	if (process_hpd && irq0 & ADV7511_INT0_HPD && adv7511->bridge.encoder)
++	if (process_hpd && irq0 & ADV7511_INT0_HPD && adv7511->bridge.encoder) {
+ 		schedule_work(&adv7511->hpd_work);
++		irq_status = IRQ_HANDLED;
 +	}
  
- 	return 0;
+ 	if (irq0 & ADV7511_INT0_EDID_READY || irq1 & ADV7511_INT1_DDC_ERROR) {
+ 		adv7511->edid_read = true;
+ 
+ 		if (adv7511->i2c_main->irq)
+ 			wake_up_all(&adv7511->wq);
++		irq_status = IRQ_HANDLED;
+ 	}
+ 
+ #ifdef CONFIG_DRM_I2C_ADV7511_CEC
+-	adv7511_cec_irq_process(adv7511, irq1);
++	cec_status = adv7511_cec_irq_process(adv7511, irq1);
+ #endif
+ 
+-	return 0;
++	/* If there is no IRQ to handle, exit indicating no IRQ data */
++	if (irq_status == IRQ_HANDLED || cec_status == IRQ_HANDLED)
++		return IRQ_HANDLED;
++
++	return IRQ_NONE;
  }
-
+ 
+ static irqreturn_t adv7511_irq_handler(int irq, void *devid)
+@@ -509,7 +513,7 @@ static irqreturn_t adv7511_irq_handler(int irq, void *devid)
+ 	int ret;
+ 
+ 	ret = adv7511_irq_process(adv7511, true);
+-	return ret < 0 ? IRQ_NONE : IRQ_HANDLED;
++	return ret < 0 ? IRQ_NONE : ret;
+ }
+ 
+ /* -----------------------------------------------------------------------------
 -- 
-2.45.0
+2.43.0
 
