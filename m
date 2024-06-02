@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890648D7429
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2024 09:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A76D8D7435
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2024 09:59:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C80B10E034;
-	Sun,  2 Jun 2024 07:46:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A20F410E049;
+	Sun,  2 Jun 2024 07:59:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PQDwFeow";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZJjw1mNx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEB7810E034
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Jun 2024 07:46:39 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id
- a640c23a62f3a-a68f1017170so27159466b.0
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Jun 2024 00:46:39 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F49F10E049
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Jun 2024 07:59:12 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-a68f10171bdso24610866b.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Jun 2024 00:59:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1717314398; x=1717919198; darn=lists.freedesktop.org;
- h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=peQgzgOFwEBxOuMw39h0j1m4Aqhit21VmdrantfX6rM=;
- b=PQDwFeow24khXXdJN4YqQE3C00zZhSZ1zXtjhYdRo8R4SQbqsGrMR97de70d7xB/Yn
- XMjjyW56M17100Y/GEO7+m2/D9AoSIkXRyUFw4aprTHXLRQNoNiPsnrt3Hg0oNSKHJnG
- k3qQjxn5nZBR6i63BMq/1QJandmUAGEWloXuxxWObejN0toheLWvK2+qpNbfhsiBeskX
- iWX012w9POb39ZuKphOBBK0qG3RhjSAEeQMNat09uRm3MPEurV0XlWn+0tZ05++4bgQu
- IEN6yE6yxbAUwJzJ70k8JIyPQLZ0DL+iHPhoSGQPT6FtQz7+Fn+9tT/1kUNBbD/gdoo4
- OSMQ==
+ d=gmail.com; s=20230601; t=1717315150; x=1717919950; darn=lists.freedesktop.org;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GNH+q9S8FeOpIJMVISEmaZGU+MHC6ijhQj3KIdeVPco=;
+ b=ZJjw1mNxeM7i98m6dtjGBTId9dohIXkFb0I2mlR4bo+Da9JtumD4+AQhQPOpSMQHy/
+ NgQYBvwA8JG5haEfD45/BLc16Ine4BH3tYwdkFMEzya1QWFaE1A0KkQZjOCqsnPLa3V2
+ wESp7OeTkcuZ2xgWrYf136ae2mhsqTIhQPcFX+nv92MOVthauqQQts+tNLFP1ITtyM1c
+ yIjZTMy3Pmhh6/Ctz9L1hTg5SIFUV6ClRKrVnvcwJvHF/XHplDdvoKD0gXLbEojZdbWV
+ jR/akumoi2sz3lIpKChHJMMzixKaxVMf1DW7FYTCb33eeA0mm0SSBNEb5KqWarkg0rpi
+ spIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717314398; x=1717919198;
- h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=peQgzgOFwEBxOuMw39h0j1m4Aqhit21VmdrantfX6rM=;
- b=F2/aWsTUz9YoW0/TvgqaNMD8SUFkYxMuFg0BXVS3zkW3NNkDOb149zHn5ugjPnYs9F
- MGNOFKyRnvhB9dt9/jy7FKk0gGYLQRvKx5Hiuq1z4es/OiX26FGwMpzR4b1mHN14dVIL
- 7XvmPspagAxz7JvkIu7snEgOVy+uJHInWSUpPBPUfsLO44yCtzoORXnokpWTBsFBqF97
- PSm2U2YYr9Vkt7YyUOoxn8YCGrytr7zkkeC+pi1oC0G6wMXXeb6y4IkBKrEUCTITHaMy
- RYkfq54GFdoDaWb9WUxExa8+Y311Kge+pTwHgdNyYqgmxsF2eeakRY0mD+ZxyYJltMzQ
- oUrQ==
+ d=1e100.net; s=20230601; t=1717315150; x=1717919950;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GNH+q9S8FeOpIJMVISEmaZGU+MHC6ijhQj3KIdeVPco=;
+ b=Mr774l9e/PxKmoB6ph7tZsnsyTMrfFTm9BmGOlfsadeg3iEGKNFQobX9n/K0gmNhs5
+ x0rjPuWttS0z/X31ns8bMJSyjq+dvMaR62LDe9lZE9iU6HxWJhqGI+MK/s/hLUuAuyWH
+ jd89fHf94UWVOCopHfz7/kNIqohUWkGzx+2FLefD/Got2C/gT+bFwTgYwMqak7m0JiIi
+ 1pp0Fpr3zY+03AUsGPdDp1hBI0o8kxAZ9+2g4X1shcpBl+CUiBzusVEhn5sd06SkASqP
+ Fa7UDNWo6dFd+SqrS5t6DQd7BEs2WJm3QWQWDdAnLlkxADRzxhPiTLyI9y1tBYg3yxxT
+ Ujfg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWRv3ZCswH+7wIN0T6L6zEwFYGmHkDkRxVYAAIPdJLquq5V412tWsuaqR5qZxTDEGuwrjztNsBF7kevi9cmb+McTgBcR5xe5qCJswQS+HDP
-X-Gm-Message-State: AOJu0YwpOS9q1VwsHcDVmcyJ2qO7Br68NfUe8Zrf9O5Y4h8y8iasfLOu
- xn6vApLrl+QlPuE+fv+fjumKOV7qIyndxJmq8MMLZriZgtBEX0x9
-X-Google-Smtp-Source: AGHT+IE+hhZTVJ4Db/R3LSG5nZ6DuPZ9j8g360rBOT7zWuQY43KOpSxn7kZmflQPF2wF/USMiQBCTg==
-X-Received: by 2002:a17:907:ca2:b0:a66:e009:eb53 with SMTP id
- a640c23a62f3a-a681fe4d987mr334771366b.13.1717314397504; 
- Sun, 02 Jun 2024 00:46:37 -0700 (PDT)
+ AJvYcCXtzyrEcGHRY+nre5ts9cjICCVpRzcKBSGIvq2a4GkKPVi1ZtpqdODAJfBAOzyCkIoq9f6tZJES5BojF11CTUCFCbWaEqA7isoyL1frTHxt
+X-Gm-Message-State: AOJu0Yy1mMGARfgZZaYrfH4C30uZbnEK9NqhPVqiWltrgd+GWZsGnPGI
+ PCmJ+1h6RiMc9y6GIa6NgWCFak7mCAwwyn4qxQGVY8iTt8GH0Hd0
+X-Google-Smtp-Source: AGHT+IEzoVR/QekSFlxwlG1y8gK8vH3Bdx5XnDmjrRTB2zenBkCf2dUGrpltlAYKRVdfu3RIHU7Dww==
+X-Received: by 2002:a17:906:f59c:b0:a68:e335:3e67 with SMTP id
+ a640c23a62f3a-a68e3354039mr160861566b.17.1717315149813; 
+ Sun, 02 Jun 2024 00:59:09 -0700 (PDT)
 Received: from smtpclient.apple (84-10-100-139.static.chello.pl.
  [84.10.100.139]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a68ba90e185sm154187966b.157.2024.06.02.00.46.35
+ a640c23a62f3a-a68f6a557f9sm42073966b.83.2024.06.02.00.59.07
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 02 Jun 2024 00:46:37 -0700 (PDT)
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Message-Id: <684C2054-389F-40AE-B37B-1F30A85DA167@gmail.com>
-Content-Type: multipart/alternative;
- boundary="Apple-Mail=_43DD96C5-0AE0-4ED6-9540-79B04D75C412"
+ Sun, 02 Jun 2024 00:59:09 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.15\))
 Subject: Re: [PATCH 00/14] Add initial support for the Rockchip RK3588 HDMI TX
  Controller
-Date: Sun, 2 Jun 2024 09:46:29 +0200
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
 In-Reply-To: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
+Date: Sun, 2 Jun 2024 09:59:03 +0200
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
@@ -75,13 +76,14 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  devicetree@vger.kernel.org, kernel@collabora.com,
  Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>,
  Algea Cao <algea.cao@rock-chips.com>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <E1316DC2-0822-4B82-BCD0-99904D4741EF@gmail.com>
 References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 X-Mailer: Apple Mail (2.3654.120.0.1.15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -98,12 +100,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---Apple-Mail=_43DD96C5-0AE0-4ED6-9540-79B04D75C412
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
-
+(resent as plain text instead of html)
+=20
 Cristian,
 
 I was awaiting over year for this work!
@@ -124,13 +122,10 @@ cec?=E2=80=9D
 
 It will be fantastic to add (e.g. by backport Detlev =
 https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/-/tre=
-e/rk3588-hdmi-audio?ref_type=3Dheads =
-<https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/-/tr=
-ee/rk3588-hdmi-audio?ref_type=3Dheads> ) audio code to get basic support =
+e/rk3588-hdmi-audio?ref_type=3Dheads ) audio code to get basic support =
 hdmi audio?
   =20
 thx again for fantastic work!
-
 
 > Wiadomo=C5=9B=C4=87 napisana przez Cristian Ciocaltea =
 <cristian.ciocaltea@collabora.com> w dniu 01.06.2024, o godz. 15:12:
@@ -239,150 +234,3 @@ cur_ctr and phy_config
 > Linux-rockchip@lists.infradead.org
 > http://lists.infradead.org/mailman/listinfo/linux-rockchip
 
-
---Apple-Mail=_43DD96C5-0AE0-4ED6-9540-79B04D75C412
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
-charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; line-break: after-white-space;" =
-class=3D"">Cristian,<div class=3D""><br class=3D""></div><div class=3D"">I=
- was awaiting over year for this work!</div><div class=3D""><br =
-class=3D""></div><div class=3D"">I=E2=80=99m devel. 2 distros where =
-single mainline kernel serves =
-2835/2711/2712/h6/h313/h616/h618/rk3328/rk3399/rk3566/rk3568/rk3588/s905/s=
-912/sm1/g12.</div><div class=3D""><br class=3D""></div><div =
-class=3D"">Before this work rk3588 was excluded because rk3588 hdmi was =
-regressing hdmi on other socs.</div><div class=3D"">With this code all =
-other socs seems work ok now. Perfect.</div><div class=3D""><br =
-class=3D""></div><div class=3D"">As one of my project is multimedia =
-appliance - good news is that now i can nicely play hdtv on rk3588 using =
-mainline common 6.9.3 kernel and=E2=80=A6.started to hear from my users =
-a lot of Qs like: =E2=80=9Eah so nice! rk3588 now works nicely=E2=80=A6.bu=
-t where is hdmi audio and cec?=E2=80=9D</div><div class=3D""><br =
-class=3D""></div><div class=3D"">It will be fantastic to add (e.g. by =
-backport Detlev <a =
-href=3D"https://gitlab.collabora.com/hardware-enablement/rockchip-3588/lin=
-ux/-/tree/rk3588-hdmi-audio?ref_type=3Dheads" =
-class=3D"">https://gitlab.collabora.com/hardware-enablement/rockchip-3588/=
-linux/-/tree/rk3588-hdmi-audio?ref_type=3Dheads</a>&nbsp;) audio code to =
-get basic support hdmi audio?</div><div =
-class=3D"">&nbsp;&nbsp;&nbsp;</div><div class=3D"">thx again for =
-fantastic work!</div><div class=3D""><br class=3D""><div><br =
-class=3D""><blockquote type=3D"cite" class=3D""><div =
-class=3D"">Wiadomo=C5=9B=C4=87 napisana przez Cristian Ciocaltea &lt;<a =
-href=3D"mailto:cristian.ciocaltea@collabora.com" =
-class=3D"">cristian.ciocaltea@collabora.com</a>&gt; w dniu 01.06.2024, o =
-godz. 15:12:</div><br class=3D"Apple-interchange-newline"><div =
-class=3D""><div class=3D"">The RK3588 SoC family integrates a Quad-Pixel =
-(QP) variant of the<br class=3D"">Synopsys DesignWare HDMI TX controller =
-used in the previous SoCs.<br class=3D""><br class=3D"">It is HDMI 2.1 =
-compliant and supports the following features, among<br =
-class=3D"">others:<br class=3D""><br class=3D"">* Fixed Rate Link =
-(FRL)<br class=3D"">* 4K@120Hz and 8K@60Hz video modes<br class=3D"">* =
-Variable Refresh Rate (VRR) including Quick Media Switching (QMS)<br =
-class=3D"">* Fast Vactive (FVA)<br class=3D"">* SCDC I2C DDC access<br =
-class=3D"">* TMDS Scrambler enabling 2160p@60Hz with RGB/YCbCr4:4:4<br =
-class=3D"">* YCbCr4:2:0 enabling 2160p@60Hz at lower HDMI link speeds<br =
-class=3D"">* Multi-stream audio<br class=3D"">* Enhanced Audio Return =
-Channel (EARC)<br class=3D""><br class=3D"">This is the last required =
-component that needs to be supported in order<br class=3D"">to enable =
-the HDMI output functionality on the RK3588 based SBCs, such<br =
-class=3D"">as the RADXA Rock 5B. The other components are the Video =
-Output<br class=3D"">Processor (VOP2) and the Samsung IP based HDMI/eDP =
-TX Combo PHY, for<br class=3D"">which basic support has been already =
-made available via [1] and [2],<br class=3D"">respectively.<br =
-class=3D""><br class=3D"">The patches are grouped as follows:<br =
-class=3D"">* PATCH 1..7: DW HDMI TX driver refactor to minimize code =
-duplication in<br class=3D""> &nbsp;the new QP driver (no functional =
-changes intended)<br class=3D""><br class=3D"">* PATCH 8..11: Rockchip =
-DW HDMI glue driver cleanup/improvements (no<br class=3D""> =
-&nbsp;functional changes intended)<br class=3D""><br class=3D"">* PATCH =
-12..13: The new DW HDMI QP TX driver reusing the previously<br class=3D"">=
- &nbsp;exported functions and structs from existing DW HDMI TX driver<br =
-class=3D""><br class=3D"">* PATCH 14: Rockchip DW HDMI glue driver =
-update to support RK3588 and<br class=3D""> &nbsp;make use of DW HDMI QP =
-TX<br class=3D""><br class=3D"">They provide just the basic HDMI support =
-for now, i.e. RGB output up to<br class=3D"">4K@60Hz, without audio, CEC =
-or any of the HDMI 2.1 specific features.<br class=3D"">Also note the =
-vop2 driver is currently not able to properly handle all<br =
-class=3D"">display modes supported by the connected screens, e.g. it =
-doesn't cope<br class=3D"">with non-integer refresh rates.<br =
-class=3D""><br class=3D"">A possible workaround consists of enabling the =
-display controller to<br class=3D"">make use of the clock provided by =
-the HDMI PHY PLL. This is still work<br class=3D"">in progress and will =
-be submitted later, as well as the required DTS<br class=3D"">updates.<br =
-class=3D""><br class=3D"">To facilitate testing and experimentation, all =
-HDMI output related<br class=3D"">patches, including those part of this =
-series, are available at [3].<br class=3D"">So far I could only verify =
-this on the RADXA Rock 3A and 5B boards.<br class=3D""><br =
-class=3D"">Thanks,<br class=3D"">Cristian<br class=3D""><br =
-class=3D"">[1]: 5a028e8f062f ("drm/rockchip: vop2: Add support for =
-rk3588")<br class=3D"">[2]: 553be2830c5f ("phy: rockchip: Add Samsung =
-HDMI/eDP Combo PHY driver")<br class=3D"">[3]: <a =
-href=3D"https://gitlab.collabora.com/hardware-enablement/rockchip-3588/lin=
-ux/-/commits/rk3588-hdmi-bridge-v6.10-rc1" =
-class=3D"">https://gitlab.collabora.com/hardware-enablement/rockchip-3588/=
-linux/-/commits/rk3588-hdmi-bridge-v6.10-rc1</a><br class=3D""><br =
-class=3D"">Signed-off-by: Cristian Ciocaltea &lt;<a =
-href=3D"mailto:cristian.ciocaltea@collabora.com" =
-class=3D"">cristian.ciocaltea@collabora.com</a>&gt;<br class=3D"">---<br =
-class=3D"">Cristian Ciocaltea (14):<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drm/bridge: dw-hdmi: Simplify clock =
-handling<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drm/bridge: =
-dw-hdmi: Add dw-hdmi-common.h header<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drm/bridge: dw-hdmi: Commonize =
-dw_hdmi_i2c_adapter()<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drm/bridge: dw-hdmi: Factor out AVI =
-infoframe setup<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drm/bridge: =
-dw-hdmi: Factor out vmode setup<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drm/bridge: dw-hdmi: Factor out =
-hdmi_data_info setup<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drm/bridge: dw-hdmi: Commonize =
-dw_hdmi_connector_create()<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drm/rockchip: dw_hdmi: Use modern =
-drm_device based logging<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drm/rockchip: dw_hdmi: Simplify clock =
-handling<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drm/rockchip: =
-dw_hdmi: Use devm_regulator_get_enable()<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drm/rockchip: dw_hdmi: Drop superfluous =
-assignments of mpll_cfg, cur_ctr and phy_config<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dt-bindings: display: rockchip,dw-hdmi: =
-Add compatible for RK3588<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drm/bridge: synopsys: Add DW HDMI QP TX =
-controller driver<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drm/rockchip: dw_hdmi: Add basic RK3588 =
-support<br class=3D""><br class=3D""> =
-.../display/rockchip/rockchip,dw-hdmi.yaml =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 127 +++-<br class=3D""> =
-drivers/gpu/drm/bridge/synopsys/Makefile =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| =
-&nbsp;&nbsp;2 +-<br class=3D""> =
-drivers/gpu/drm/bridge/synopsys/dw-hdmi-common.h &nbsp;&nbsp;| 179 =
-+++++<br class=3D""> drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 787 +++++++++++++++++++<br =
-class=3D""> drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 831 +++++++++++++++++++++<br =
-class=3D""> drivers/gpu/drm/bridge/synopsys/dw-hdmi.c =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 353 +++------<br =
-class=3D""> drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 351 +++++++--<br class=3D""> =
-include/drm/bridge/dw_hdmi.h =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| =
-&nbsp;&nbsp;8 +<br class=3D""> 8 files changed, 2290 insertions(+), 348 =
-deletions(-)<br class=3D"">---<br class=3D"">base-commit: =
-1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0<br class=3D"">change-id: =
-20240601-b4-rk3588-bridge-upstream-a27baff1b8fc<br class=3D""><br =
-class=3D""><br =
-class=3D"">_______________________________________________<br =
-class=3D"">Linux-rockchip mailing list<br class=3D""><a =
-href=3D"mailto:Linux-rockchip@lists.infradead.org" =
-class=3D"">Linux-rockchip@lists.infradead.org</a><br =
-class=3D"">http://lists.infradead.org/mailman/listinfo/linux-rockchip<br =
-class=3D""></div></div></blockquote></div><br =
-class=3D""></div></body></html>=
-
---Apple-Mail=_43DD96C5-0AE0-4ED6-9540-79B04D75C412--
