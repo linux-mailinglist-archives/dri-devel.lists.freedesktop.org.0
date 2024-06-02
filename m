@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0ADF8D7865
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2024 23:40:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F3E58D7867
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2024 23:40:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8BF210E196;
-	Sun,  2 Jun 2024 21:40:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D96DB10E094;
+	Sun,  2 Jun 2024 21:40:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YBN8Ntsn";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Y0V4EYIm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6055710E0E8
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D302510E0E8
  for <dri-devel@lists.freedesktop.org>; Sun,  2 Jun 2024 21:39:58 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-52b92e73e2fso1549896e87.2
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-52b950aa47bso1238002e87.1
  for <dri-devel@lists.freedesktop.org>; Sun, 02 Jun 2024 14:39:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717364396; x=1717969196; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1717364397; x=1717969197; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=JUUdtGcMBRz5mB58GbECTLRyDS/sCIhf8D+cG1hOc6E=;
- b=YBN8NtsnbQi8qVXp2TPWYKcrbWDO8YNrieaB412A74nD1HpNRXnb+bCeEQb5zMBgsG
- fZWp55Jld1L8ZgwsrLK9ldXWJHgBPgd2Oc750/Yp152TDw/LVPAHC0mCkQ3+VDyPh8vu
- igKKpguJ2fsuI5Qqd+HrAeGVWO9Gq39yFUk85XcSORKchwzV0xfzmWs9y2Ax8hBCI2vD
- YGKGSq0I2YssuPkvX3gsALsUKjJ/VWA+Qj2aOrD3h9oauCI/hq0wlyk4hb1vKBGWsJ4Y
- GFsz5eKgUi+lvRYP4HYhNpkV/yzRn3mUy4G+GMt0KCee8gFIowsyWIriQEqo9oVj2JzO
- ip4g==
+ :reply-to; bh=EcbpVWRjdcbUgJJRZuH7Bn/JQTVuo4vjsCW3dScHVqc=;
+ b=Y0V4EYImn3oLPEl/9OQ2LHNYN8eTCWxv8XmF8hvmZk39kjovO8AkroQwBImg4ro8w9
+ eDsJ5BsHXsIt+cy5V81rFEvKQPxkxK9Y8tQ8yJa3v7Svc+fenikg0VWOFI6k3vtp7mCS
+ 4HLxU15C4kX9K7TSxXaGaCJTj/Y+1qIDOtuwi2tx3xU2USkoOp1m3SN+PWHt0NceLcls
+ 1SWl14g5RJP1M4f/db3Sl/FprrcPPjwQCjFXcFDuNutONjI80seu5bIiJDuhzioQO1/b
+ OtrdaedTWzRto/TA8uea7xM/Lyjrm4W6djoJgjAeESgcrh9U4MhHnq6EsmXl+IBQfPzB
+ BVjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717364396; x=1717969196;
+ d=1e100.net; s=20230601; t=1717364397; x=1717969197;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JUUdtGcMBRz5mB58GbECTLRyDS/sCIhf8D+cG1hOc6E=;
- b=CO2EwDUY1hs7FKe2sdCvyrSuK8NzaaiXdJlJkhLasfaZKQjIFr4GiQ2Iid1/1u2T0f
- Y2mgDgL4GI/Up+BFklC+bwlPvYSxmk+keQ2OM8pDd6MxGNHIIeIUtjO1bMq5VrSOacP4
- B2IwErSSpcANASV24YfMxh5fst738434LTVBtJOvuqgficffNAp5vo754mIXt9uux11E
- pHrlUQGYYP0uAbwpm6nG0W0RXXTCWq9PyCu/U5d9UfMFRr8wda/QvWyuRTE3ENFI7qH5
- VUJHwYVAte8a1KybW+QsYxy65y85oOYm5oV5N9+aTBX0w/Oe+sjc3daayc0NNUtPNBB3
- qFUg==
+ bh=EcbpVWRjdcbUgJJRZuH7Bn/JQTVuo4vjsCW3dScHVqc=;
+ b=roeU+mzJNp/BBjSGc939eSHU/zdWOxXoyXHW1eEVRDmLaDC68uCv+5lNWEotPVgD88
+ NxkTzePQfP7+jydLDnP0FLHoj6d9SNcehoFxb+aZXTCePoPzczT6o+/S+PHZqFBevwDK
+ HFlPFEM+qyvrRt8Rp8p6k2M8qF1O2lYc3eVKsZKHpf4cDF8/1RxLrxyeWVARQsAaYNFc
+ 0wWgbWMcw2+PH+KBAZGN7ldcby1bxJ5ypWgbyctxOr2Ur4yQVbp3Qox3fjU7w5RjyiLz
+ W9zl78X2N3u7U7fHr7paq591jQM4FenZbJDYydQTkzDl5wcbrottghsn3bYp3SxzRyqt
+ R2PQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXFVf8ssR+IcvZfVCP/UtxRvOAa5y5Ai9Gpp627e/BMCnBDizoktjECQqTb1E7nAoC3g7qdw5qt/3BmVXs7AB7udSr+T8WovyiBkRK3ZPmx
-X-Gm-Message-State: AOJu0YwOz0En5zsUhrv9uSVz5bAYyJdFElJSY5lKq4Rg8Yyr1BnemtO1
- xjwQkjbLGwjI4K6nlkNcpd31B2i7Q7BiSgTAeg+KaaFubxpKsraT2/9qhBp3t/A=
-X-Google-Smtp-Source: AGHT+IERKRhebLd0DtZWfojK8IucTmKmWzvBp99C1cHcHY5sB2GB/oyBCAAz99JJzRgoGrv0DkVShw==
-X-Received: by 2002:a19:7508:0:b0:523:48f2:e3fd with SMTP id
- 2adb3069b0e04-52b8956b5f5mr4551111e87.16.1717364396401; 
- Sun, 02 Jun 2024 14:39:56 -0700 (PDT)
+ AJvYcCVaaBVvZPVHOHVsRk8cIJGSmvbBe9w7B1JViHGKeRfl3tQYX+wlWlLuaRKJbt1ICy4dDn8BK5UvuKJu4rvEv5Lxuw6nOzZQnq0mF4MXTHqX
+X-Gm-Message-State: AOJu0YwaUz0wKktMh2fIHa5t7VeVa3VIoQ1ADX3jGxNmeJvuJLEiKoUS
+ I9Uf7tvuQMDpqnunThY6lXL9JDZHYqdjQoMhxDEAXeGyIqvCEb1ZnxLzCuz6T6k=
+X-Google-Smtp-Source: AGHT+IHz60PkWKk1NRMpJcn8TjxRZTtqgum1tGKy+1VleEMZYuUYgpb3OZofDSjCZ7qHmtMWyzKO+A==
+X-Received: by 2002:a05:6512:3592:b0:523:87b6:2ac2 with SMTP id
+ 2adb3069b0e04-52b896bfd01mr4266965e87.40.1717364397106; 
+ Sun, 02 Jun 2024 14:39:57 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52b84d3f648sm1021563e87.73.2024.06.02.14.39.55
+ 2adb3069b0e04-52b84d3f648sm1021563e87.73.2024.06.02.14.39.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 02 Jun 2024 14:39:56 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 03 Jun 2024 00:39:53 +0300
-Subject: [PATCH v2 7/9] drm/msm/dpu: check for overflow in
- _dpu_crtc_setup_lm_bounds()
+Date: Mon, 03 Jun 2024 00:39:54 +0300
+Subject: [PATCH v2 8/9] drm/msm/dpu: merge MAX_IMG_WIDTH/HEIGHT with
+ DPU_MAX_IMG_WIDTH/HEIGHT
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240603-dpu-mode-config-width-v2-7-16af520575a6@linaro.org>
+Message-Id: <20240603-dpu-mode-config-width-v2-8-16af520575a6@linaro.org>
 References: <20240603-dpu-mode-config-width-v2-0-16af520575a6@linaro.org>
 In-Reply-To: <20240603-dpu-mode-config-width-v2-0-16af520575a6@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -72,16 +72,16 @@ Cc: Abel Vesa <abel.vesa@linaro.org>,
  Johan Hovold <johan+linaro@kernel.org>, linux-arm-msm@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1950;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2255;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=fxq7vANQU/H+21S6fq9RrLi0S38AJrmn17I2cOqu7a0=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmXOalNHFtJfQwnpk7w7QKXCOSLvuRdnL1hc3VK
- 9mBYppZ23aJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZlzmpQAKCRCLPIo+Aiko
- 1VUwB/48+an/TqOGKy4wHXt7deIegErq3Uk6r3EcdLqx4Yeh0/2cEv+vkhdfgAAzHwyoFl9srKh
- fnDk04zzpLg6mCwOqHn+KNkq33EbVjt8QgE5WV3/c1kfoflAqswrtPYTHGsy8bBv513jKaXC+K/
- ZlPXB5qLHpOzAIA9YL9ASp2OPZf8xxexoiPgMzu/YYq9qGssUaOyBG+uggIeiOwLROsrANKHx9z
- S0LqqVkB2tfhlB45gqEztPnzw57zWSRPCGAK0ST2vAwW3pf6r0P+t/70Gss95q1LK1hMdSVFmHD
- nqAsXsCMpVbYoipvspdq9WTgw2gRJ7iQLF3cC0rMgPRJ+GoE
+ bh=kt+mUO/v24R5t4QFhxIPYKNo9RIjNHA9NWWDdfrHipk=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmXOalyn6cTyjM6xpyhZWng8UYIofhWpakKWUPq
+ +h2aXcd8dGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZlzmpQAKCRCLPIo+Aiko
+ 1fDYB/9fA+ZSwXraqbAljD5cg9JXqZZRR+1Gw+8Ov7NP/tRx8yN/hIMDapaQRnCPWZ+UO9k8bdc
+ NHLyrtOpm1iHwR1mom4Ytm1dJpPUXQiQJCr4nxGJlgI5GZNZJDdSDiSHu1TwJuJyyFFzTimHvQr
+ imzVFisFINLY28RRPLMdktZJpKKQzOOvxFl4lOU6tC6CzNhAfx2APRUCMKbZoyiysCUYVUzliVz
+ I/10D4b86ZIG84BgJIGnPJXxYR4bAp1IHYY5FJkUXFvn8s58hNjYq5691UlhCdr7TAc7l8rTuEE
+ Ufnlyam2nISIKlakzFPbc696wveo6RXXvAGr000Bw7tFrnEV
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,60 +99,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Check in _dpu_crtc_setup_lm_bounds() that CRTC width is not overflowing
-LM requirements.
+dpu_formats.c defines DPU_MAX_IMG_WIDTH and _HEIGHT, while
+dpu_hw_catalog.h defines just MAX_IMG_WIDTH and _HEIGHT. Merge these
+constants to remove duplication.
 
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c    | 3 ---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 4 ++--
+ 3 files changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index e3b1e5f55a92..c5e874a3656a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -711,12 +711,13 @@ void dpu_crtc_complete_commit(struct drm_crtc *crtc)
- 	_dpu_crtc_complete_flip(crtc);
- }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+index c6485cb6f1d2..6d7c4373bf84 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+@@ -13,9 +13,6 @@
  
--static void _dpu_crtc_setup_lm_bounds(struct drm_crtc *crtc,
-+static int _dpu_crtc_setup_lm_bounds(struct drm_crtc *crtc,
- 		struct drm_crtc_state *state)
- {
- 	struct dpu_crtc_state *cstate = to_dpu_crtc_state(state);
- 	struct drm_display_mode *adj_mode = &state->adjusted_mode;
- 	u32 crtc_split_width = adj_mode->hdisplay / cstate->num_mixers;
-+	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
- 	int i;
+ #define DPU_UBWC_PLANE_SIZE_ALIGNMENT	4096
  
- 	for (i = 0; i < cstate->num_mixers; i++) {
-@@ -727,7 +728,12 @@ static void _dpu_crtc_setup_lm_bounds(struct drm_crtc *crtc,
- 		r->y2 = adj_mode->vdisplay;
+-#define DPU_MAX_IMG_WIDTH		0x3FFF
+-#define DPU_MAX_IMG_HEIGHT		0x3FFF
+-
+ /*
+  * struct dpu_media_color_map - maps drm format to media format
+  * @format: DRM base pixel format
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index d1aef778340b..af2ead1c4886 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -21,8 +21,8 @@
  
- 		trace_dpu_crtc_setup_lm_bounds(DRMID(crtc), i, r);
-+
-+		if (drm_rect_width(r) > dpu_kms->catalog->caps->max_mixer_width)
-+			return -E2BIG;
- 	}
-+
-+	return 0;
- }
+ #define DPU_HW_BLK_NAME_LEN	16
  
- static void _dpu_crtc_get_pcc_coeff(struct drm_crtc_state *state,
-@@ -1195,8 +1201,11 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 	if (crtc_state->active_changed)
- 		crtc_state->mode_changed = true;
+-#define MAX_IMG_WIDTH 0x3fff
+-#define MAX_IMG_HEIGHT 0x3fff
++#define DPU_MAX_IMG_WIDTH 0x3fff
++#define DPU_MAX_IMG_HEIGHT 0x3fff
  
--	if (cstate->num_mixers)
--		_dpu_crtc_setup_lm_bounds(crtc, crtc_state);
-+	if (cstate->num_mixers) {
-+		rc = _dpu_crtc_setup_lm_bounds(crtc, crtc_state);
-+		if (rc)
-+			return rc;
-+	}
+ #define CRTC_DUAL_MIXERS	2
  
- 	/* FIXME: move this to dpu_plane_atomic_check? */
- 	drm_atomic_crtc_state_for_each_plane_state(plane, pstate, crtc_state) {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index b5848fae14ce..6000e84598c2 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -852,8 +852,8 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 	fb_rect.y2 = new_plane_state->fb->height;
+ 
+ 	/* Ensure fb size is supported */
+-	if (drm_rect_width(&fb_rect) > MAX_IMG_WIDTH ||
+-	    drm_rect_height(&fb_rect) > MAX_IMG_HEIGHT) {
++	if (drm_rect_width(&fb_rect) > DPU_MAX_IMG_WIDTH ||
++	    drm_rect_height(&fb_rect) > DPU_MAX_IMG_HEIGHT) {
+ 		DPU_DEBUG_PLANE(pdpu, "invalid framebuffer " DRM_RECT_FMT "\n",
+ 				DRM_RECT_ARG(&fb_rect));
+ 		return -E2BIG;
 
 -- 
 2.39.2
