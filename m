@@ -2,95 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56DE48D753B
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2024 14:05:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA73E8D762C
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2024 16:21:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCD7810E16F;
-	Sun,  2 Jun 2024 12:05:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B02910E010;
+	Sun,  2 Jun 2024 14:21:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uC+dCkI9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="U9Rs4twq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FEAA10E127
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Jun 2024 12:04:58 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-52b950aa47bso861466e87.1
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Jun 2024 05:04:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717329896; x=1717934696; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=kNuDl566fdESfLAQYfAX73LiPJqclp33YW6YrFo8/hQ=;
- b=uC+dCkI92mHniKjdu3UXwMydZek6kxd2MUikbZ0qu8P4qF9x/Nb+Mhvm1oaGu+LsCp
- V/Pw/fYjitF97txg/5KDGxQzVaInZ7g7j5aVS3X9YS5Octgdyd/SEGaL+0riF4ojYACu
- JvsJbQE5WlCUsklA/yPGywoUC0F7zq7cVuR6vbGZmdqwe0uI6Y9whRV8k9Vm46cnzxu9
- /w2heWXzYR2aw2iBzWov/QA0KOT5HKUikADJn+K70g+j95rZ99Vw3P4Z7HYRnMyPYL9F
- Arf+9wDm0M3x+0M6cEx45lwx66Ymcga2VWcJ0pN1y3PqtE9+nu9KMF8I+095nyEZaakK
- Dejg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717329896; x=1717934696;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kNuDl566fdESfLAQYfAX73LiPJqclp33YW6YrFo8/hQ=;
- b=paC+kv+G+jQKpQBhpw72qqNPLWfGnxN6GeJ0Z1Et0Kg3f7Hlqf68UyMMjjvQ86Wt7E
- k+74voWdqWRBV2rqGzMPS9oniQyo1b/EnMPu506Fyi61iZTzTk4z4IgW4NSKkFPgaoDT
- Dyuk12JR/0vRCTnH5NSEkF58I3Ti7atqhFdumLoWbvdpaGQ2dlcn6G7cw6ySt6sNRkXT
- 6ZQRe+YCFF+GufcuNbwF0eNGTcvs3naBoN8m6n1boKUFi3ItE0XGdSZnlxcLgFwyxsN3
- BchdwkURtB6ccmN4YWLt9+RfdbmjIQL0YNgF9mu34Mh9l+auMCCPag5tm0+RszpXugtn
- B+GQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWF6fukjGgRWhhRJPKp21p/nA/M9qR6HFzu+bxkmWMeT+0o58PG17N6YQXZPGS/sp39GKuXX8PR5fP8caU3TSc+WjRahXk35/D7nms3dACV
-X-Gm-Message-State: AOJu0Yxmk5H9V0PEdAEMdOo56auuu+xo6+bWf03gfcPuxyIOM8HoL24N
- a5scflgt1OGKHfeyoBjcCPQnEmdfUcHHsEfgme3SOFN58zLLrVI3seY2XYDhL3w=
-X-Google-Smtp-Source: AGHT+IEFQgWpWrVek9sgb57OqXvq4Yl2GmvGbIbFNiQhz8GQhgLZZKzZdXR7VkMjAFTMyvzTXG7Rfw==
-X-Received: by 2002:a19:c514:0:b0:523:70db:7a0f with SMTP id
- 2adb3069b0e04-52b8958b9fdmr4091009e87.8.1717329896464; 
- Sun, 02 Jun 2024 05:04:56 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52b8b56867fsm759398e87.44.2024.06.02.05.04.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Jun 2024 05:04:55 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 02 Jun 2024 15:04:52 +0300
-Subject: [PATCH v3 12/12] drm/imx: move imx_drm_connector_destroy to
- imx-tve
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71CE610E010;
+ Sun,  2 Jun 2024 14:21:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717338077; x=1748874077;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=oadUV7GI47XB1/5yBXbfmigyApPprinWQqP+x7Kl/Hk=;
+ b=U9Rs4twqpddq6X072IOOag3mkFc2UVl2gAwITmdcvc3z59ThQW9xqlw9
+ kd7iAN6p57oDf4cW3t7YZ3Uw+xnBHPctMNthTX0gvk3euDdZ0nfQbqb8i
+ 9xt5wro/q9T9fjTtDRRFDIGcprpurehSPiTUrvbdXkBH1hDsGTSQOuJ7I
+ ZhwFeaExxRV7JjmhzyEUDAg1naRGVf7eZxxbeqhiN/zT8reC67vbTzL1j
+ KfxqYFIEDApen41Kblf/5rvU0hDsgmoUCpjmye6WwFYLvM6AczIdiKDvV
+ tR3TSnC0UXR5E2QXoNY9IGYnUCxIUUBpP0WDGb7pcbxTEXFBRTWD1Ie2Q A==;
+X-CSE-ConnectionGUID: FqH1Dg0nSEmo+EWKDY7Sng==
+X-CSE-MsgGUID: IYNuKEcYTgyeSyGvJdlEgQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="25238384"
+X-IronPort-AV: E=Sophos;i="6.08,209,1712646000"; d="scan'208";a="25238384"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2024 07:21:12 -0700
+X-CSE-ConnectionGUID: x7cBwlDkQniQF7ZWg474Ag==
+X-CSE-MsgGUID: 9l107NcSSH+Iotuu6PVigA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,209,1712646000"; d="scan'208";a="59808440"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmviesa002.fm.intel.com with ESMTP; 02 Jun 2024 07:21:09 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+ id EF6921CB; Sun, 02 Jun 2024 17:21:07 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ Lewis Huang <lewis.huang@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] drm/amd/display: Fix too big frame size
+Date: Sun,  2 Jun 2024 17:21:03 +0300
+Message-ID: <20240602142103.3259613-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240602-drm-imx-cleanup-v3-12-e549e2a43100@linaro.org>
-References: <20240602-drm-imx-cleanup-v3-0-e549e2a43100@linaro.org>
-In-Reply-To: <20240602-drm-imx-cleanup-v3-0-e549e2a43100@linaro.org>
-To: Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>
-Cc: Chris Healy <cphealy@gmail.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2503;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=h/DSMM9BfsUckdlfOnVl0fUleOjgfbtfRzHBaAfH+mc=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmXF/eWV2GMqKPP+JRWmUQkel1cF728TylDcmgO
- 0eEmDycmaaJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZlxf3gAKCRCLPIo+Aiko
- 1dhZCACRu+PPllOgalpri1YjKo6EeMiZwJWGWbZB7vOG0XyWYSRR5eOJXBxq7Dj/kYq1tegFmZ3
- sXQtiS/j7TCmbhCYqvEG+QiVIv0VxmNuCjq9qOFsMBTD6/FUpIAzVeNrhl5Qy7mrMXjC1M6bHZ+
- v6/8k3KX4MHbqfZRU5Dpp2zbGsEAc2rTMc1oDNLCYVtEGVj6iBBwBREE39J09ROUeymKQxN9zyL
- eUrLTC+oNnRZxVOhJCFH3vqAPavR2QAJ0efqynRhJ+JKGykNLo0kYI/5rrBb/NVGncTm86QrMCI
- xXuY1XxZTkkPPdY/sYjc+KccNcaJHNxc/1mFxsBUvQSY06WQ
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,69 +73,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The imx-tve driver is the only remaining user of
-imx_drm_connector_destroy(). Move the function to imx-tve.c
+Compilation fails on arm with:
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+  link_factory.c:743:1: error: the frame size of 1032 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
+
+Fix the frame size by allocation one of the big structures.
+
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/gpu/drm/imx/ipuv3/imx-drm-core.c | 7 -------
- drivers/gpu/drm/imx/ipuv3/imx-drm.h      | 2 --
- drivers/gpu/drm/imx/ipuv3/imx-tve.c      | 8 +++++++-
- 3 files changed, 7 insertions(+), 10 deletions(-)
+ .../gpu/drm/amd/display/dc/link/link_factory.c    | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-index 4cfabcf7375a..189d395349b8 100644
---- a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-+++ b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-@@ -34,13 +34,6 @@ module_param(legacyfb_depth, int, 0444);
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_factory.c b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
+index cf22b8f28ba6..78f1b2102839 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_factory.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
+@@ -456,10 +456,10 @@ static bool construct_phy(struct dc_link *link,
+ 	struct dc_context *dc_ctx = init_params->ctx;
+ 	struct encoder_init_data enc_init_data = { 0 };
+ 	struct panel_cntl_init_data panel_cntl_init_data = { 0 };
+-	struct integrated_info info = { 0 };
+ 	struct dc_bios *bios = init_params->dc->ctx->dc_bios;
+ 	const struct dc_vbios_funcs *bp_funcs = bios->funcs;
+ 	struct bp_disp_connector_caps_info disp_connect_caps_info = { 0 };
++	struct integrated_info *info;
  
- DEFINE_DRM_GEM_DMA_FOPS(imx_drm_driver_fops);
+ 	DC_LOGGER_INIT(dc_ctx->logger);
  
--void imx_drm_connector_destroy(struct drm_connector *connector)
--{
--	drm_connector_unregister(connector);
--	drm_connector_cleanup(connector);
--}
--EXPORT_SYMBOL_GPL(imx_drm_connector_destroy);
--
- static int imx_drm_atomic_check(struct drm_device *dev,
- 				struct drm_atomic_state *state)
- {
-diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm.h b/drivers/gpu/drm/imx/ipuv3/imx-drm.h
-index e01f026047de..0c85bf83ffbf 100644
---- a/drivers/gpu/drm/imx/ipuv3/imx-drm.h
-+++ b/drivers/gpu/drm/imx/ipuv3/imx-drm.h
-@@ -25,8 +25,6 @@ extern struct platform_driver ipu_drm_driver;
- int imx_drm_encoder_parse_of(struct drm_device *drm,
- 	struct drm_encoder *encoder, struct device_node *np);
+@@ -672,12 +672,16 @@ static bool construct_phy(struct dc_link *link,
+ 	}
  
--void imx_drm_connector_destroy(struct drm_connector *connector);
--
- int ipu_planes_assign_pre(struct drm_device *dev,
- 			  struct drm_atomic_state *state);
+ 	if (bios->integrated_info)
+-		info = *bios->integrated_info;
++		info = kmemdup(bios->integrated_info, sizeof(*info), GFP_KERNEL);
++	else
++		info = kzalloc(sizeof(*info), GFP_KERNEL);
++	if (!info)
++		goto device_tag_fail;
  
-diff --git a/drivers/gpu/drm/imx/ipuv3/imx-tve.c b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
-index 29f494bfff67..d46d07d25f51 100644
---- a/drivers/gpu/drm/imx/ipuv3/imx-tve.c
-+++ b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
-@@ -305,9 +305,15 @@ static int imx_tve_atomic_check(struct drm_encoder *encoder,
- 	return 0;
- }
+ 	/* Look for channel mapping corresponding to connector and device tag */
+ 	for (i = 0; i < MAX_NUMBER_OF_EXT_DISPLAY_PATH; i++) {
+ 		struct external_display_path *path =
+-			&info.ext_disp_conn_info.path[i];
++			&info->ext_disp_conn_info.path[i];
  
-+static void imx_tve_connector_destroy(struct drm_connector *connector)
-+{
-+	drm_connector_unregister(connector);
-+	drm_connector_cleanup(connector);
-+}
-+
- static const struct drm_connector_funcs imx_tve_connector_funcs = {
- 	.fill_modes = drm_helper_probe_single_connector_modes,
--	.destroy = imx_drm_connector_destroy,
-+	.destroy = imx_tve_connector_destroy,
- 	.reset = drm_atomic_helper_connector_reset,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-
+ 		if (path->device_connector_id.enum_id == link->link_id.enum_id &&
+ 		    path->device_connector_id.id == link->link_id.id &&
+@@ -698,14 +702,15 @@ static bool construct_phy(struct dc_link *link,
+ 
+ 			if (link->chip_caps & EXT_DISPLAY_PATH_CAPS__DP_FIXED_VS_EN) {
+ 				link->bios_forced_drive_settings.VOLTAGE_SWING =
+-						(info.ext_disp_conn_info.fixdpvoltageswing & 0x3);
++						info->ext_disp_conn_info.fixdpvoltageswing & 0x3;
+ 				link->bios_forced_drive_settings.PRE_EMPHASIS =
+-						((info.ext_disp_conn_info.fixdpvoltageswing >> 2) & 0x3);
++						(info->ext_disp_conn_info.fixdpvoltageswing >> 2) & 0x3;
+ 			}
+ 
+ 			break;
+ 		}
+ 	}
++	kfree(info);
+ 
+ 	if (bios->funcs->get_atom_dc_golden_table)
+ 		bios->funcs->get_atom_dc_golden_table(bios);
 -- 
-2.39.2
+2.43.0.rc1.1336.g36b5255a03ac
 
