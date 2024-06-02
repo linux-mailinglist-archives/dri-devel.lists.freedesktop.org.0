@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 381A38D752A
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2024 14:05:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB8F8D7535
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2024 14:05:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A251D10E0D0;
-	Sun,  2 Jun 2024 12:04:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3252A10E0F7;
+	Sun,  2 Jun 2024 12:04:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ucok3w21";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ipkXjMJy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94F3E10E052
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Jun 2024 12:04:50 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-52965199234so3816646e87.2
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Jun 2024 05:04:50 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AB0510E052
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Jun 2024 12:04:51 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-52b919d1fc0so721455e87.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Jun 2024 05:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717329888; x=1717934688; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1717329889; x=1717934689; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=BGWVh/Zr3LGFqNC/PDJ+t+m+rq2p7BOWG0ebyvpQons=;
- b=ucok3w21h+i8MwX8/D4orfYGJQumNDWtKP/e9Rg8okgf/1Ie8NGfpF7lHb5HYdsNX0
- AAZkwOn5AflzVfFxPAG3oSq73ttrJSyIYBdWgHRKeCUVqexTmLPIJq3Vz5CeyCMiIuIH
- q/nAyfoJpB+lxRLd+jfkiTA7YGEo5vgkpS7gv7gBak22tEtvROiVtUS92cMIt0HW40lJ
- BEN39z6pM4KdBNVufuk7PfgA+uhyMoUSh6Ybo5AyV+w1CDrd7Vw8LYcMijlHdDoL3y2T
- lqzYQdHaCLirehcaSPdUEpB/TbwHmObeoG1Fm5mZEXOmOC8UlWmdsXgcrriTWlumRcUP
- 931Q==
+ :reply-to; bh=nxc4vHH87Y1eSO87AR835I7/5WLCpgJXyFLj/BGpZY0=;
+ b=ipkXjMJyTNH6KalO4lD5gpnaCGf7XelhICO0Bre8VgZtBKZL/MyNPoZtkCywgM3UTv
+ RViLYe3oUzfbN5TZ6IkOaC78041ad6rdx03oy/nsLcjEK0If+Q0IKMJTSlN40F1JuGjJ
+ Ogw2QOiK1aQw4kGvDWU1tCOf60Kd1JPPoQw/9ZfWMgDQu47s/IK9RJO9bLrMT2RtwVp6
+ CR5RRVJ3+cVh1CHExItD8NhYqTJe+r3PjD1Mf9rJiaLFw32qZN55BEScHhMhNoWhZ7cI
+ lDleIew/wTJaYRCHGE+e1sIB9pY22l5d3B4DTEdKwax3jBMSms2xZuCTX4P684O+s+Cb
+ rYlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717329888; x=1717934688;
+ d=1e100.net; s=20230601; t=1717329889; x=1717934689;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BGWVh/Zr3LGFqNC/PDJ+t+m+rq2p7BOWG0ebyvpQons=;
- b=LidkH2CwCzcgIvyw4aJS/g2X9ltYTVEdB+bIxMlDAahRqsPNOz58m6QVGG7PLrwL7H
- Y0Br/Cm+KmwS9BoLev8Sve228HVs56vlv7ZSWiNSgVulJM0KVhUDINoAdEg/RKSiXSQ5
- MO8hK7qmwW/0Rg7NmM1IcVskq86oNSNwrOl/hwAeE1o5MwQUCN7/IYXDz6SMOkXcsfCU
- 7aVJh7i8BBLhtgeRsK75Ayb8QBPnMn1nyq6fIguDcVtf9XMEMKsqt4h5UT10QRBfOW/V
- SBGHlgazP8bRqihg+QrVl+hcADgWt1K9fAGR9SB/f6jweye/78U+PlSVimue7mBdZw/X
- 6ulA==
+ bh=nxc4vHH87Y1eSO87AR835I7/5WLCpgJXyFLj/BGpZY0=;
+ b=vNHW3X1Qj9LF/HvLT2cUDNZLnJYy57YdGXQ6Rqad9dYt5thX3sDeHA7ccQFvW9P1/u
+ rWZPnOwEJpilk43oF34ccZ2EWrA7ajpGvEpAVY8i9JCKZNnNtLFdt62Qq95PaE+83r7z
+ oy5HtvCrQPkY9clPhmKG7yv9LySdjD3JQmQBtelJHPN2o1iO/frzg1XzNN4V9pyRTMHi
+ f8uzSCpkEYzGJzlUdhSPqpcfo9HbFBi3iVl4gIoHwg4a77cpTn4MXr4felFNSMxjU3Ye
+ c8zfAQO0cNomPLhB/gM36/qCg2Pf+RMF4cHcRRFKomxdt5586rIwgSUuRvSM38sxCmWQ
+ nrOg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXBENfbvBST0wYS79J3yxY+9jaSD6zR1b++dqkZtORu2SG8GS3dVrbj2WxDBMLPPYcgtSaELkZnqVjqcjDqpIZWuhyR5LXV/MK4TZb50esz
-X-Gm-Message-State: AOJu0Yw9kezIIPu1W1d6H/wiD72I3LD3AQKrEvHMYb4vAIwWu4TKOU1r
- 0loRoru4frgXmMb9M8F/1JRH0yOcB7WyjlcjCS/oxEMd5MMuoAcTBBycm9rcNbY=
-X-Google-Smtp-Source: AGHT+IFioojHdR8Li3FtAUmWNxJNZSvKgoMY/dETwt1uCPkRs8JMSzzF/VAu/d9Aejv8BYFZwW5OPw==
-X-Received: by 2002:ac2:4e94:0:b0:52b:7f00:5695 with SMTP id
- 2adb3069b0e04-52b896d26a1mr3567965e87.59.1717329888558; 
- Sun, 02 Jun 2024 05:04:48 -0700 (PDT)
+ AJvYcCVZky1SRuLkNkCfU2T3GETJLh4BsXifaNGGIiKckvJP3ia4ntVQH8G50dfokXE/MU4A6eZvX08/1tGru+ha6UUmCafGbDZIpx0hghpFgDMm
+X-Gm-Message-State: AOJu0Yy3C69K14586BL0TUxVcZfBAFm3wGzitX1P1nVWQLcm/569ZDnr
+ 0K4IK2fntPdm89AOYkY7YDI0Yp20booCCDmgJBFFR3vuJBeE1E+K2brt8iRW2ok=
+X-Google-Smtp-Source: AGHT+IFPOiv0yb9NenXs61eeyl+FTzUia9VO7YGHEV3B4cyF+m7yIyCA+pulo20IEMCgPXGBKi/V/A==
+X-Received: by 2002:a05:6512:3d20:b0:52b:963d:277c with SMTP id
+ 2adb3069b0e04-52b963d2864mr477027e87.33.1717329889449; 
+ Sun, 02 Jun 2024 05:04:49 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52b8b56867fsm759398e87.44.2024.06.02.05.04.47
+ 2adb3069b0e04-52b8b56867fsm759398e87.44.2024.06.02.05.04.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 02 Jun 2024 05:04:48 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 02 Jun 2024 15:04:42 +0300
-Subject: [PATCH v3 02/12] dt-bindings: display: imx/ldb: drop ddc-i2c-bus
- property
+Date: Sun, 02 Jun 2024 15:04:43 +0300
+Subject: [PATCH v3 03/12] drm/imx: cleanup the imx-drm header
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240602-drm-imx-cleanup-v3-2-e549e2a43100@linaro.org>
+Message-Id: <20240602-drm-imx-cleanup-v3-3-e549e2a43100@linaro.org>
 References: <20240602-drm-imx-cleanup-v3-0-e549e2a43100@linaro.org>
 In-Reply-To: <20240602-drm-imx-cleanup-v3-0-e549e2a43100@linaro.org>
 To: Philipp Zabel <p.zabel@pengutronix.de>, 
@@ -79,16 +78,16 @@ Cc: Chris Healy <cphealy@gmail.com>, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1144;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1410;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=3Nz5IHmPVWRwHFsw4a2c0uKZtmM9s7xJPi4nSL2SZJE=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmXF/cS9DynlRGL/q+FhwSBFBcGFVl4UCT9geOY
- UOhOg3+BfuJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZlxf3AAKCRCLPIo+Aiko
- 1dStB/9ur7o0ZT1BGSJZP85LBwNFyha0XzFbawRG0NkoKwEt/qs9Ss23XuP64+H0Cgyv/lVZjih
- EIYQvrftDLxdSueWB7OoHv+r853IRqJFX5s/L3FwrhUoWR4NxzSmt+dwf5i/uyMTsq00ulQE5cn
- bZEqh0UlBGShgZQEb8KmODQEGST0F5Y1hIct+TfuXs13DQYdkp02ie1uKCpXSeBRPqWG27zz+K4
- +1/03y1P7Nh61Dh/a0EX9L9v4YVhfWy/URMe2TNrE2Lt9GPP9AZjKCGZc6sPeAnsig6dVr6e1bd
- LvZnaiOQHvUe+FMP8pELJ2COAaNjL9n+YQrHqNflOdiRBK+b
+ bh=ZDw9je94QoyosO0168STtseYxQQ179pVpV6GiETvE+4=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmXF/c9m9P02PzAYv+Hvngg0pK/UDBTwhhmG1zr
+ 6YIzCrb9vGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZlxf3AAKCRCLPIo+Aiko
+ 1fjzCACVJAOnM38OBMjesvSYWvhCttUEqRnqa1cwq4nlLesJDTMZ2OUTNhRtlYVXOyjfQdPCZoY
+ sFg6k3yFt2WWYJBGVbYAc3fuchDTgb0HEb98vxj41NM9rI7BNJSWHJlLr6XS7RGIK7LtSQ9vpcj
+ ESAFP3iCtlpbs+a0als6qX4eWKJZOLwj8uq1Lt4aQSHCSo9e4RyTzhFKMcp9PsbQWyhhWQLek1u
+ ABZyZLlg4UbyRcy0FlQAFgPnpEw6Y5h4FovYheyJU3SjH1hxE5Ve5sHgaXMJ8/nqFD0scxw+dML
+ s3IqxYlKtclaMDhG8+vC5UlutqEjdAQVKc/YRM0Y6WMrzg/l
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,28 +105,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The in-kernel DT files do not use ddc-i2c-bus property with the iMX LVDS
-Display Bridge. If in future a need arises to support such usecase, the
-panel-simple should be used, which is able to handle the DDC bus.
+Drop unused defines and obsolete prototypes from the imx-drm.h header.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- Documentation/devicetree/bindings/display/imx/ldb.txt | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/imx/ipuv3/imx-drm.h | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/imx/ldb.txt b/Documentation/devicetree/bindings/display/imx/ldb.txt
-index 8e6e7d797943..03653a291b54 100644
---- a/Documentation/devicetree/bindings/display/imx/ldb.txt
-+++ b/Documentation/devicetree/bindings/display/imx/ldb.txt
-@@ -62,7 +62,6 @@ Required properties:
-    display-timings are used instead.
+diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm.h b/drivers/gpu/drm/imx/ipuv3/imx-drm.h
+index e721bebda2bd..e01f026047de 100644
+--- a/drivers/gpu/drm/imx/ipuv3/imx-drm.h
++++ b/drivers/gpu/drm/imx/ipuv3/imx-drm.h
+@@ -3,14 +3,9 @@
+ #define _IMX_DRM_H_
  
- Optional properties (required if display-timings are used):
-- - ddc-i2c-bus: phandle of an I2C controller used for DDC EDID probing
-  - display-timings : A node that describes the display timings as defined in
-    Documentation/devicetree/bindings/display/panel/display-timing.txt.
-  - fsl,data-mapping : should be "spwg" or "jeida"
+ struct device_node;
+-struct drm_crtc;
+ struct drm_connector;
+ struct drm_device;
+-struct drm_display_mode;
+ struct drm_encoder;
+-struct drm_framebuffer;
+-struct drm_plane;
+-struct platform_device;
+ 
+ struct imx_crtc_state {
+ 	struct drm_crtc_state			base;
+@@ -24,16 +19,9 @@ static inline struct imx_crtc_state *to_imx_crtc_state(struct drm_crtc_state *s)
+ {
+ 	return container_of(s, struct imx_crtc_state, base);
+ }
+-int imx_drm_init_drm(struct platform_device *pdev,
+-		int preferred_bpp);
+-int imx_drm_exit_drm(void);
+ 
+ extern struct platform_driver ipu_drm_driver;
+ 
+-void imx_drm_mode_config_init(struct drm_device *drm);
+-
+-struct drm_gem_dma_object *imx_drm_fb_get_obj(struct drm_framebuffer *fb);
+-
+ int imx_drm_encoder_parse_of(struct drm_device *drm,
+ 	struct drm_encoder *encoder, struct device_node *np);
+ 
 
 -- 
 2.39.2
