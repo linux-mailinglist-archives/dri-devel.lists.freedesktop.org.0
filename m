@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997BC8D753D
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2024 14:05:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56DE48D753B
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2024 14:05:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EEF710E175;
-	Sun,  2 Jun 2024 12:05:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCD7810E16F;
+	Sun,  2 Jun 2024 12:05:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="X+bZmOzi";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uC+dCkI9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 893FC10E141
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Jun 2024 12:04:57 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-52b7ffd9f6eso3121964e87.3
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Jun 2024 05:04:57 -0700 (PDT)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FEAA10E127
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Jun 2024 12:04:58 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-52b950aa47bso861466e87.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Jun 2024 05:04:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717329895; x=1717934695; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1717329896; x=1717934696; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=7bW+dexLEyW8/fiHalshdZSXyhb6haaJOjwgGuObPKc=;
- b=X+bZmOzikQTCt062w90tJpETRFUL6cYmndo4Pxf+UNJDhYsO/N5uocVCCFGcnPL/vf
- LiUfeENPX1KUhPGThkMBBUB4DgD/GEtMo16PeLfrmHDmFlyOq4Qmio2Y28OUrhY0V4/O
- msit20dml6hnuq2BCjiq0nb5KoCsPF7Pdt2bZ6eCrUWnqMERStUKjEU86GwPpUUUTC0N
- SEo4G6489WaWQajwCKtehy5PAb8L0vBZcj+C+Im/5Kz/B1wZYGnNLWvJ5vFxPXk6r9CR
- zLP3bi2qnulXa2MxxepezVhz+D8pT93ePvPHdm33np2xB9lh5aCc6Sn4QXqH0uID3j3v
- FzxQ==
+ :reply-to; bh=kNuDl566fdESfLAQYfAX73LiPJqclp33YW6YrFo8/hQ=;
+ b=uC+dCkI92mHniKjdu3UXwMydZek6kxd2MUikbZ0qu8P4qF9x/Nb+Mhvm1oaGu+LsCp
+ V/Pw/fYjitF97txg/5KDGxQzVaInZ7g7j5aVS3X9YS5Octgdyd/SEGaL+0riF4ojYACu
+ JvsJbQE5WlCUsklA/yPGywoUC0F7zq7cVuR6vbGZmdqwe0uI6Y9whRV8k9Vm46cnzxu9
+ /w2heWXzYR2aw2iBzWov/QA0KOT5HKUikADJn+K70g+j95rZ99Vw3P4Z7HYRnMyPYL9F
+ Arf+9wDm0M3x+0M6cEx45lwx66Ymcga2VWcJ0pN1y3PqtE9+nu9KMF8I+095nyEZaakK
+ Dejg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717329895; x=1717934695;
+ d=1e100.net; s=20230601; t=1717329896; x=1717934696;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7bW+dexLEyW8/fiHalshdZSXyhb6haaJOjwgGuObPKc=;
- b=EwIFDAFAJVVYl30hkCrmDJQf7cB4N5uRBGojhmpPYh7203sygIkd8/J1uJFhOEODGb
- ZKl6FW62fspfLxnfM6DQ+VUS4CCr8r1bd3cJFy7ebQO0++Yg/rkI9Kj+V0Er3Etq8VUW
- kAqzFqQwSk4W/2LLB74t1eH1TFYRh6JOj81iwQcw3KhL9DSpX2is1IcX/Ox/hNVNzYR0
- mLXb2w+ymSmATuy4r9/Rgri/2dobi9rGPG1RvdCa45ZYHdH9ebrkkS7OE+wUNqjkpocT
- j5MSD+2SfPw4WxJ0OoBORSSPB/512S74kahqLnaVMXEB/pIu5nVBZwEKwA/UFzKg829z
- 1ptg==
+ bh=kNuDl566fdESfLAQYfAX73LiPJqclp33YW6YrFo8/hQ=;
+ b=paC+kv+G+jQKpQBhpw72qqNPLWfGnxN6GeJ0Z1Et0Kg3f7Hlqf68UyMMjjvQ86Wt7E
+ k+74voWdqWRBV2rqGzMPS9oniQyo1b/EnMPu506Fyi61iZTzTk4z4IgW4NSKkFPgaoDT
+ Dyuk12JR/0vRCTnH5NSEkF58I3Ti7atqhFdumLoWbvdpaGQ2dlcn6G7cw6ySt6sNRkXT
+ 6ZQRe+YCFF+GufcuNbwF0eNGTcvs3naBoN8m6n1boKUFi3ItE0XGdSZnlxcLgFwyxsN3
+ BchdwkURtB6ccmN4YWLt9+RfdbmjIQL0YNgF9mu34Mh9l+auMCCPag5tm0+RszpXugtn
+ B+GQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWJ9k2BDVizBA0406kWCWHctx6PA2UKKHGe+MXpzyd3DRnSphwg2duKaSrsVYwaYAqQbl7VnKOaP5KIdeuqG/TR94OCWBr2OpsudlqG/aT5
-X-Gm-Message-State: AOJu0YwOneAKttFzqw+E+nCf70eFvZzfngd3G71KgOMc5OispHEh+FHH
- jG/seSV8yz7iY564RS4eX0P97EUDry0UXOjz1lHrRZOMqFsC2Z4X9eeawfMhVtw=
-X-Google-Smtp-Source: AGHT+IGFycV3aMGXXM7w38pYECCY2FQ381zT2HIaEMAjxO6NjwdIhauSI5+GR2ppjSfXkK6p3d9QBw==
-X-Received: by 2002:a19:f00a:0:b0:52b:7a10:4690 with SMTP id
- 2adb3069b0e04-52b896d4665mr3819559e87.61.1717329895551; 
- Sun, 02 Jun 2024 05:04:55 -0700 (PDT)
+ AJvYcCWF6fukjGgRWhhRJPKp21p/nA/M9qR6HFzu+bxkmWMeT+0o58PG17N6YQXZPGS/sp39GKuXX8PR5fP8caU3TSc+WjRahXk35/D7nms3dACV
+X-Gm-Message-State: AOJu0Yxmk5H9V0PEdAEMdOo56auuu+xo6+bWf03gfcPuxyIOM8HoL24N
+ a5scflgt1OGKHfeyoBjcCPQnEmdfUcHHsEfgme3SOFN58zLLrVI3seY2XYDhL3w=
+X-Google-Smtp-Source: AGHT+IEFQgWpWrVek9sgb57OqXvq4Yl2GmvGbIbFNiQhz8GQhgLZZKzZdXR7VkMjAFTMyvzTXG7Rfw==
+X-Received: by 2002:a19:c514:0:b0:523:70db:7a0f with SMTP id
+ 2adb3069b0e04-52b8958b9fdmr4091009e87.8.1717329896464; 
+ Sun, 02 Jun 2024 05:04:56 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52b8b56867fsm759398e87.44.2024.06.02.05.04.54
+ 2adb3069b0e04-52b8b56867fsm759398e87.44.2024.06.02.05.04.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 02 Jun 2024 05:04:55 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 02 Jun 2024 15:04:51 +0300
-Subject: [PATCH v3 11/12] drm/imx: parallel-display: switch to
- imx_legacy_bridge / drm_bridge_connector
+Date: Sun, 02 Jun 2024 15:04:52 +0300
+Subject: [PATCH v3 12/12] drm/imx: move imx_drm_connector_destroy to
+ imx-tve
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240602-drm-imx-cleanup-v3-11-e549e2a43100@linaro.org>
+Message-Id: <20240602-drm-imx-cleanup-v3-12-e549e2a43100@linaro.org>
 References: <20240602-drm-imx-cleanup-v3-0-e549e2a43100@linaro.org>
 In-Reply-To: <20240602-drm-imx-cleanup-v3-0-e549e2a43100@linaro.org>
 To: Philipp Zabel <p.zabel@pengutronix.de>, 
@@ -79,16 +79,16 @@ Cc: Chris Healy <cphealy@gmail.com>, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6706;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2503;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=IEi5tB9QWsMTs4OU15teLStUW+XzV63LDKlz+9Z8mwk=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmXF/eQ/9pfC4pxC633xsYpJpN7E8dltC541CrS
- uWvFa8Cfo+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZlxf3gAKCRCLPIo+Aiko
- 1bJnB/9ewG044cOJ9Z+3XAr5es1ilKXbDqOsgBLdk076O5JbhBtEYaRuBn4Vvzdkfb6Q1lqpseb
- ylaiIKj/bMVU0nPIFRz08DChVmSH6AAw36JD5yeJpYNFEc/ICcXqVLD7rNbxOkXrOzB4e03IqO9
- ALbl0kJy88/wF641MPMzCIa0mmj4bD5rvSZA5xFMls+bPAjtpVvqbROgRokyRdv+vOvlw8mXCad
- HzSupGBWUhuLI6NQFiHzzscWXTsHJXf9LM0Nn8EVyiMPixZfSQ7WzotZAiAuqrggrkZBZ6FQBgH
- 2esFVqL6t/X7G3AKWuPR3SdfHEOWX8PBtF9USQRR/yZhNZrT
+ bh=h/DSMM9BfsUckdlfOnVl0fUleOjgfbtfRzHBaAfH+mc=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmXF/eWV2GMqKPP+JRWmUQkel1cF728TylDcmgO
+ 0eEmDycmaaJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZlxf3gAKCRCLPIo+Aiko
+ 1dhZCACRu+PPllOgalpri1YjKo6EeMiZwJWGWbZB7vOG0XyWYSRR5eOJXBxq7Dj/kYq1tegFmZ3
+ sXQtiS/j7TCmbhCYqvEG+QiVIv0VxmNuCjq9qOFsMBTD6/FUpIAzVeNrhl5Qy7mrMXjC1M6bHZ+
+ v6/8k3KX4MHbqfZRU5Dpp2zbGsEAc2rTMc1oDNLCYVtEGVj6iBBwBREE39J09ROUeymKQxN9zyL
+ eUrLTC+oNnRZxVOhJCFH3vqAPavR2QAJ0efqynRhJ+JKGykNLo0kYI/5rrBb/NVGncTm86QrMCI
+ xXuY1XxZTkkPPdY/sYjc+KccNcaJHNxc/1mFxsBUvQSY06WQ
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,204 +106,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the imx_legacy bridge driver instead of handlign display modes via
-the connector node.
-
-All existing usecases already support attaching using
-the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, while the imx_legacy bridge
-doesn't support creating connector at all. Switch to
-drm_bridge_connector at the same time.
+The imx-tve driver is the only remaining user of
+imx_drm_connector_destroy(). Move the function to imx-tve.c
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/imx/ipuv3/parallel-display.c | 100 ++++++---------------------
- 1 file changed, 20 insertions(+), 80 deletions(-)
+ drivers/gpu/drm/imx/ipuv3/imx-drm-core.c | 7 -------
+ drivers/gpu/drm/imx/ipuv3/imx-drm.h      | 2 --
+ drivers/gpu/drm/imx/ipuv3/imx-tve.c      | 8 +++++++-
+ 3 files changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/ipuv3/parallel-display.c b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
-index 9ac2a94fa62b..70f62e89622e 100644
---- a/drivers/gpu/drm/imx/ipuv3/parallel-display.c
-+++ b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
-@@ -12,19 +12,18 @@
- #include <linux/platform_device.h>
- #include <linux/videodev2.h>
+diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
+index 4cfabcf7375a..189d395349b8 100644
+--- a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
++++ b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
+@@ -34,13 +34,6 @@ module_param(legacyfb_depth, int, 0444);
  
--#include <video/of_display_timing.h>
--
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
-+#include <drm/bridge/imx.h>
+ DEFINE_DRM_GEM_DMA_FOPS(imx_drm_driver_fops);
  
- #include "imx-drm.h"
- 
- struct imx_parallel_display_encoder {
--	struct drm_connector connector;
- 	struct drm_encoder encoder;
- 	struct drm_bridge bridge;
- 	struct imx_parallel_display *pd;
-@@ -33,51 +32,14 @@ struct imx_parallel_display_encoder {
- struct imx_parallel_display {
- 	struct device *dev;
- 	u32 bus_format;
--	u32 bus_flags;
--	struct drm_display_mode mode;
- 	struct drm_bridge *next_bridge;
- };
- 
--static inline struct imx_parallel_display *con_to_imxpd(struct drm_connector *c)
+-void imx_drm_connector_destroy(struct drm_connector *connector)
 -{
--	return container_of(c, struct imx_parallel_display_encoder, connector)->pd;
+-	drm_connector_unregister(connector);
+-	drm_connector_cleanup(connector);
 -}
+-EXPORT_SYMBOL_GPL(imx_drm_connector_destroy);
 -
- static inline struct imx_parallel_display *bridge_to_imxpd(struct drm_bridge *b)
+ static int imx_drm_atomic_check(struct drm_device *dev,
+ 				struct drm_atomic_state *state)
  {
- 	return container_of(b, struct imx_parallel_display_encoder, bridge)->pd;
- }
+diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm.h b/drivers/gpu/drm/imx/ipuv3/imx-drm.h
+index e01f026047de..0c85bf83ffbf 100644
+--- a/drivers/gpu/drm/imx/ipuv3/imx-drm.h
++++ b/drivers/gpu/drm/imx/ipuv3/imx-drm.h
+@@ -25,8 +25,6 @@ extern struct platform_driver ipu_drm_driver;
+ int imx_drm_encoder_parse_of(struct drm_device *drm,
+ 	struct drm_encoder *encoder, struct device_node *np);
  
--static int imx_pd_connector_get_modes(struct drm_connector *connector)
--{
--	struct imx_parallel_display *imxpd = con_to_imxpd(connector);
--	struct device_node *np = imxpd->dev->of_node;
--	int num_modes;
+-void imx_drm_connector_destroy(struct drm_connector *connector);
 -
--	if (np) {
--		struct drm_display_mode *mode = drm_mode_create(connector->dev);
--		int ret;
--
--		if (!mode)
--			return 0;
--
--		ret = of_get_drm_display_mode(np, &imxpd->mode,
--					      &imxpd->bus_flags,
--					      OF_USE_NATIVE_MODE);
--		if (ret) {
--			drm_mode_destroy(connector->dev, mode);
--			return 0;
--		}
--
--		drm_mode_copy(mode, &imxpd->mode);
--		mode->type |= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
--		drm_mode_probed_add(connector, mode);
--		num_modes++;
--	}
--
--	return num_modes;
--}
--
- static const u32 imx_pd_bus_fmts[] = {
- 	MEDIA_BUS_FMT_RGB888_1X24,
- 	MEDIA_BUS_FMT_BGR888_1X24,
-@@ -171,7 +133,6 @@ static int imx_pd_bridge_atomic_check(struct drm_bridge *bridge,
- {
- 	struct imx_crtc_state *imx_crtc_state = to_imx_crtc_state(crtc_state);
- 	struct drm_display_info *di = &conn_state->connector->display_info;
--	struct imx_parallel_display *imxpd = bridge_to_imxpd(bridge);
- 	struct drm_bridge_state *next_bridge_state = NULL;
- 	struct drm_bridge *next_bridge;
- 	u32 bus_flags, bus_fmt;
-@@ -183,10 +144,8 @@ static int imx_pd_bridge_atomic_check(struct drm_bridge *bridge,
+ int ipu_planes_assign_pre(struct drm_device *dev,
+ 			  struct drm_atomic_state *state);
  
- 	if (next_bridge_state)
- 		bus_flags = next_bridge_state->input_bus_cfg.flags;
--	else if (di->num_bus_formats)
--		bus_flags = di->bus_flags;
- 	else
--		bus_flags = imxpd->bus_flags;
-+		bus_flags = di->bus_flags;
- 
- 	bus_fmt = bridge_state->input_bus_cfg.format;
- 	if (!imx_pd_format_supported(bus_fmt))
-@@ -202,19 +161,16 @@ static int imx_pd_bridge_atomic_check(struct drm_bridge *bridge,
+diff --git a/drivers/gpu/drm/imx/ipuv3/imx-tve.c b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
+index 29f494bfff67..d46d07d25f51 100644
+--- a/drivers/gpu/drm/imx/ipuv3/imx-tve.c
++++ b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
+@@ -305,9 +305,15 @@ static int imx_tve_atomic_check(struct drm_encoder *encoder,
  	return 0;
  }
  
--static const struct drm_connector_funcs imx_pd_connector_funcs = {
--	.fill_modes = drm_helper_probe_single_connector_modes,
--	.destroy = imx_drm_connector_destroy,
--	.reset = drm_atomic_helper_connector_reset,
--	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
--};
-+static int imx_pd_bridge_attach(struct drm_bridge *bridge,
-+				enum drm_bridge_attach_flags flags)
++static void imx_tve_connector_destroy(struct drm_connector *connector)
 +{
-+	struct imx_parallel_display *imxpd = bridge_to_imxpd(bridge);
- 
--static const struct drm_connector_helper_funcs imx_pd_connector_helper_funcs = {
--	.get_modes = imx_pd_connector_get_modes,
--};
-+	return drm_bridge_attach(bridge->encoder, imxpd->next_bridge, bridge, flags);
++	drm_connector_unregister(connector);
++	drm_connector_cleanup(connector);
 +}
- 
- static const struct drm_bridge_funcs imx_pd_bridge_funcs = {
-+	.attach = imx_pd_bridge_attach,
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-@@ -239,7 +195,6 @@ static int imx_pd_bind(struct device *dev, struct device *master, void *data)
- 		return PTR_ERR(imxpd_encoder);
- 
- 	imxpd_encoder->pd = imxpd;
--	connector = &imxpd_encoder->connector;
- 	encoder = &imxpd_encoder->encoder;
- 	bridge = &imxpd_encoder->bridge;
- 
-@@ -247,28 +202,14 @@ static int imx_pd_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		return ret;
- 
--	/* set the connector's dpms to OFF so that
--	 * drm_helper_connector_dpms() won't return
--	 * immediately since the current state is ON
--	 * at this point.
--	 */
--	connector->dpms = DRM_MODE_DPMS_OFF;
--
- 	bridge->funcs = &imx_pd_bridge_funcs;
--	drm_bridge_attach(encoder, bridge, NULL, 0);
--
--	if (imxpd->next_bridge) {
--		ret = drm_bridge_attach(encoder, imxpd->next_bridge, bridge, 0);
--		if (ret < 0)
--			return ret;
--	} else {
--		drm_connector_helper_add(connector,
--					 &imx_pd_connector_helper_funcs);
--		drm_connector_init(drm, connector, &imx_pd_connector_funcs,
--				   DRM_MODE_CONNECTOR_DPI);
--
--		drm_connector_attach_encoder(connector, encoder);
--	}
-+	drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
 +
-+	connector = drm_bridge_connector_init(drm, encoder);
-+	if (IS_ERR(connector))
-+		return PTR_ERR(connector);
-+
-+	drm_connector_attach_encoder(connector, encoder);
- 
- 	return 0;
- }
-@@ -292,12 +233,11 @@ static int imx_pd_probe(struct platform_device *pdev)
- 
- 	/* port@1 is the output port */
- 	imxpd->next_bridge = devm_drm_of_get_bridge(dev, np, 1, 0);
-+	if (imxpd->next_bridge == ERR_PTR(-ENODEV))
-+		imxpd->next_bridge = devm_imx_drm_legacy_bridge(dev, np, DRM_MODE_CONNECTOR_DPI);
- 	if (IS_ERR(imxpd->next_bridge)) {
- 		ret = PTR_ERR(imxpd->next_bridge);
--		if (ret != -ENODEV)
--			return ret;
--
--		imxpd->next_bridge = NULL;
-+		return ret;
- 	}
- 
- 	ret = of_property_read_string(np, "interface-pix-fmt", &fmt);
+ static const struct drm_connector_funcs imx_tve_connector_funcs = {
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+-	.destroy = imx_drm_connector_destroy,
++	.destroy = imx_tve_connector_destroy,
+ 	.reset = drm_atomic_helper_connector_reset,
+ 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
 
 -- 
 2.39.2
