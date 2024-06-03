@@ -2,82 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BFC08FA2D1
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 23:44:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2EE8FA3B5
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 23:47:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9628510E3E7;
-	Mon,  3 Jun 2024 21:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A40910E3EA;
+	Mon,  3 Jun 2024 21:47:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="RD9suWTc";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XKjPCjSr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8709110E3E6;
- Mon,  3 Jun 2024 21:44:52 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 453DBsO5018795;
- Mon, 3 Jun 2024 21:44:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- czllgLJwquvsPz4sMdKe9Cr+PUHyUtH4Jy9GtsmUfqk=; b=RD9suWTctLFQFOX+
- zrb1U6FuUeY/NcBiFVuJVjqMR8v+ljOd+gYk8Kn4k9+SQbCdh+owVB3+mT8Vh/lL
- //goHxLcLLxZfNg+5Qozco/fsu+Po8nxFZpYiMlpaq4s6H1svahTn5WbqoflFYzg
- CiCzIjVxDPiPx/ZzJkDUm2kKpEmET58a5/+mGGu+x+uzul85lpAvmceQhSHbbq9I
- XfqveNlhMc/Tqjy+x6AxF83kWYdXGsEOU0xRUX9DPVgSBWvVf8BoXeXf7Y7U2ytv
- zcKfrTQHm0Hh3QzX8F3XzH3LqWyLENzgrwie/XEv3s8dPSiBMpPGWcKunYtbJBS+
- kzS3RQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yfw4bd22p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Jun 2024 21:44:50 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 453LinSq021933
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 3 Jun 2024 21:44:49 GMT
-Received: from [10.110.31.89] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 3 Jun 2024
- 14:44:45 -0700
-Message-ID: <30842f0c-0197-ef13-5880-4425e92eac65@quicinc.com>
-Date: Mon, 3 Jun 2024 14:44:43 -0700
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2FA610E3EA
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 21:47:06 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-2eaafda3b5cso3674361fa.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jun 2024 14:47:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1717451225; x=1718056025; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=FoNDEjuOcgHDOVnZsyqRle0CnqIa5i20V/byDmBZIYI=;
+ b=XKjPCjSr68bgrfGImyCO4qmfRpiFHhzrm4GsxDZE/iR3QujS7pvO3egY/hzUt4CqmM
+ krVj7sCOyP2bvMiQlcy0ThB4oGG6xzwAjbopub27c8ha18cYLp7rs/wDyRMI+g1rVAwp
+ zs3d0jDsVLas9va1wWqEtY8oIBw8hVlk/sgQTe/oXpHtW0WzKRWIZnLQrCHYveDTnxDf
+ UeHWiGMNls2gMKb5IMP5Y6m3fAhx5Lqu91oYCdLku2KgpccY3G0S6yhN0amSM5wz4FHn
+ YQ08R/WtcmNziN7al5pflx/bjlgKaoWlHBPTgvo5wdlIFosRod4oDfuRr5f5FtQR55+K
+ srcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717451225; x=1718056025;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FoNDEjuOcgHDOVnZsyqRle0CnqIa5i20V/byDmBZIYI=;
+ b=EZvIv00HuzZG+Zv2bXt2PH0eYTqBoSSNKsvBmT1iBPvzGHfllZctQgSeq7aGAFmdHf
+ kERGweO/GhFYOiR2dzf05lcu2pMMlGgQ85BoeopWoN1IQOfCf2E+ScadgVDl9/loahzg
+ op3eU1neDuhKknT430rw9frQ8IHkSx63XcAhR10UVKFeEdj6ArMcNNlQQ1eK+Q0ucc8S
+ PT/Z40+PYXDDcZdq/btO/UNetEro8CLWrGLtlUTJKGZfubhW3/cUVL+AySXHNyz1/2uP
+ w+ag3HLUEcxP9SN6wrW1yeeP1s8JhbzaEhkcCzGQIbU5HQXLRyP8sRv1hczIlNMRyxJf
+ ZIxg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUcq/7D0Nl8Id+9GbSVcG3VztnEL//qH+Fic+VAyHpFKq0aqhZ2R6FpFhwUuXsp0uM3t6d0RdHxd+M1y+/Z0YlWUJd6R2A+VxsuYRK7e0yb
+X-Gm-Message-State: AOJu0YzGZ1/kuS4VbnS1kJtZdwi9Q0ugYgIkB4QzXG5aVbOTEyD39tSo
+ 5KVLVpiGd9wsWmc0XtsKCaU8fI29AmUUewc7iuN1SptsfsDwd2ErpQ5imJnWapQ=
+X-Google-Smtp-Source: AGHT+IEj4vQ1nY8StZT7F/AmAO9Jl6Uf5hey1JkSdjWJ4OoehBOPXVZJP+dMJdd2kMJUgH8mBkF+vg==
+X-Received: by 2002:a2e:b8c7:0:b0:2d6:f69d:c74c with SMTP id
+ 38308e7fff4ca-2ea951e0961mr72022941fa.38.1717451224716; 
+ Mon, 03 Jun 2024 14:47:04 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2ea91bb4aedsm13686521fa.33.2024.06.03.14.47.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Jun 2024 14:47:04 -0700 (PDT)
+Date: Tue, 4 Jun 2024 00:47:02 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: noralf@tronnes.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ David Lechner <david@lechnology.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Subject: Re: [PATCH v3 4/5] drm/mipi-dbi: Add support for DRM_FORMAT_RGB888
+Message-ID: <qij3fk3psujfazigjt56hrpj2celdeyvsz3uzioo5aorbzzwql@kbglyrbkd6g6>
+References: <20240603-panel-mipi-dbi-rgb666-v3-0-59ed53ca73da@tronnes.org>
+ <20240603-panel-mipi-dbi-rgb666-v3-4-59ed53ca73da@tronnes.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] drm/msm/dpu: fix encoder irq wait skip
-Content-Language: en-US
-To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>, Rob Clark
- <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean
- Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240509-irq_wait-v2-1-b8b687b22cc4@gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240509-irq_wait-v2-1-b8b687b22cc4@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: I8w1bmFclYIoTOctYoR9qa5HE_kxvE9i
-X-Proofpoint-GUID: I8w1bmFclYIoTOctYoR9qa5HE_kxvE9i
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-06-03_17,2024-05-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- phishscore=0 malwarescore=0 priorityscore=1501 mlxscore=0 impostorscore=0
- bulkscore=0 lowpriorityscore=0 spamscore=0 mlxlogscore=880 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
- definitions=main-2406030176
+In-Reply-To: <20240603-panel-mipi-dbi-rgb666-v3-4-59ed53ca73da@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,27 +96,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 5/9/2024 12:40 PM, Barnabás Czémán wrote:
-> The irq_idx is unsigned so it cannot be lower than zero, better
-> to change the condition to check if it is equal with zero.
-> It could not cause any issue because a valid irq index starts from one.
+On Mon, Jun 03, 2024 at 01:21:35PM +0200, Noralf Tr�nnes via B4 Relay wrote:
+> From: Noralf Tr�nnes <noralf@tronnes.org>
 > 
-> Fixes: 5a9d50150c2c ("drm/msm/dpu: shift IRQ indices by 1")
-> Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
+> DRM_FORMAT_RGB888 is 24 bits per pixel and it would be natural to send it
+> on the SPI bus using a 24 bits per word transfer. The problem with this
+> is that not all SPI controllers support 24 bpw.
+> 
+> Since DRM_FORMAT_RGB888 is stored in memory as little endian and the SPI
+> bus is big endian we use 8 bpw to always get the same pixel format on the
+> bus: b8g8r8.
+> 
+> The MIPI DCS specification lists the standard commands that can be sent
+> over the MIPI DBI interface. The set_address_mode (36h) command has one
+> bit in the parameter that controls RGB/BGR order. This means that the
+> controller can be configured to receive the pixel as BGR.
+> 
+> RGB888 is rarely supported on these controllers but RGB666 is very common.
+> All datasheets I have seen do at least support the pixel format option
+> where each color is sent as one byte and the 6 MSB's are used.
+> 
+> All this put together means that we can send each pixel as b8g8r8 and an
+> RGB666 capable controller sees this as b6x2g6x2r6x2.
+> 
+> Signed-off-by: Noralf Tr�nnes <noralf@tronnes.org>
 > ---
-> Changes in v2:
-> - Add Fixes in commit message.
-> - Link to v1: https://lore.kernel.org/r/20240509-irq_wait-v1-1-41d653e3784e@gmail.com
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/drm_mipi_dbi.c | 29 +++++++++++++++++++++++++----
+>  include/drm/drm_mipi_dbi.h     |  5 +++++
+>  2 files changed, 30 insertions(+), 4 deletions(-)
+
+The patch generally LGTM. The only nit is the name of
+'emulation_format'. My first impression was that it is a format that the
+driver is emulating to userspace, however it looks like this is
+over-the-wire format (with the RGB666 vs RGB888 note kept in mind).
+
+If my understanding is correct, I'd suggest renaming emulation_format
+to something like 'raw_format' or 'panel_format'.
+
+> 
+> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+> index 77f8a828d6e0..eb330676857c 100644
+> --- a/drivers/gpu/drm/drm_mipi_dbi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
+> @@ -206,6 +206,7 @@ int mipi_dbi_buf_copy(void *dst, struct iosys_map *src, struct drm_framebuffer *
+>  		      struct drm_rect *clip, bool swap,
+>  		      struct drm_format_conv_state *fmtcnv_state)
+>  {
+> +	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(fb->dev);
+>  	struct drm_gem_object *gem = drm_gem_fb_get_obj(fb, 0);
+>  	struct iosys_map dst_map = IOSYS_MAP_INIT_VADDR(dst);
+>  	int ret;
+> @@ -222,8 +223,18 @@ int mipi_dbi_buf_copy(void *dst, struct iosys_map *src, struct drm_framebuffer *
+>  		else
+>  			drm_fb_memcpy(&dst_map, NULL, src, fb, clip);
+>  		break;
+> +	case DRM_FORMAT_RGB888:
+> +		drm_fb_memcpy(&dst_map, NULL, src, fb, clip);
+> +		break;
+>  	case DRM_FORMAT_XRGB8888:
+> -		drm_fb_xrgb8888_to_rgb565(&dst_map, NULL, src, fb, clip, fmtcnv_state, swap);
+> +		switch (dbidev->emulation_format) {
+> +		case DRM_FORMAT_RGB565:
+> +			drm_fb_xrgb8888_to_rgb565(&dst_map, NULL, src, fb, clip, fmtcnv_state, swap);
+> +			break;
+> +		case DRM_FORMAT_RGB888:
+> +			drm_fb_xrgb8888_to_rgb888(&dst_map, NULL, src, fb, clip, fmtcnv_state);
+> +			break;
+> +		}
+>  		break;
+>  	default:
+>  		drm_err_once(fb->dev, "Format is not supported: %p4cc\n",
+
+[skipped]
+
+> diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
+> index b36596efdcc3..85bf19b98cee 100644
+> --- a/include/drm/drm_mipi_dbi.h
+> +++ b/include/drm/drm_mipi_dbi.h
+> @@ -101,6 +101,11 @@ struct mipi_dbi_dev {
+>  	 */
+>  	struct drm_display_mode mode;
+>  
+> +	/**
+> +	 * @emulation_format: Pixel format to use when emulating XRGB8888
+> +	 */
+> +	u32 emulation_format;
+> +
+>  	/**
+>  	 * @tx_buf: Buffer used for transfer (copy clip rect area)
+>  	 */
+> 
+> -- 
+> 2.45.1
+> 
 > 
 
-To make patchwork happy, I am re-adding the tags this patch for 
-previously as they got lost.
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
+-- 
+With best wishes
+Dmitry
