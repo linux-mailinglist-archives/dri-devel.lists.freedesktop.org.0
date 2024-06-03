@@ -2,41 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C9E38D7D81
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 10:38:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 648448D7D8E
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 10:39:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2EDA10E0B5;
-	Mon,  3 Jun 2024 08:37:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66D9510E1A9;
+	Mon,  3 Jun 2024 08:39:52 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MJxK0SWH";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75CDF10E0B5
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 08:37:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 83A4060C6F;
- Mon,  3 Jun 2024 08:37:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 358FBC2BD10;
- Mon,  3 Jun 2024 08:37:50 +0000 (UTC)
-Message-ID: <6c9ffe4d-d00f-488f-87be-0370ce23eed2@xs4all.nl>
-Date: Mon, 3 Jun 2024 10:37:48 +0200
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D67BB10E1A9
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 08:39:50 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-4212b4eea2eso24879655e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jun 2024 01:39:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1717403989; x=1718008789; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=Uu2JN73iSUPpgd6Sc9H34jqx5548zSsn23/5EU+rPy4=;
+ b=MJxK0SWH0D7wmztlD1KpSWG5oGVW27XOWs8h+RoirSTXTBDpvQAFkxpWdyKpgpPMa9
+ JCQTvOnyzzviGcqBakpS0LLIo6zJwFGfzrQkpWi+X7Chfhe6jM5WAU/4qwPsqs3N3/8X
+ DgQxFlnuYc6JKHwz+n6/sqiAXN7ksR1p+ATHDPDfg/poBJQqopqC7Cvo+CuAhnPrapyf
+ WhGtFk4QYBLVge8IM+i7giUWJy977drQH/69ojpVwgoWxFoNEDMO4AtV6KJELKGekOR2
+ RD7VG2X+Xjm65g6FkYL/k1lX5Al3WsapVSlCy584mkNBb90/qK4c5+YGB4maStfNSv5G
+ fykw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717403989; x=1718008789;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Uu2JN73iSUPpgd6Sc9H34jqx5548zSsn23/5EU+rPy4=;
+ b=HYwOGP+/EYSvNAkDLsgZzo56JX6gOz9NhLqcDYtd4vcS5h5TAb66JMZbWfsbtqCdrb
+ AjdipFA10l7nq2ljCib+6RL8ThgVoCwdXJSZ5pRtlJJcWPrGySoT+in4bHPExa1CFUKK
+ YiV4TuwiFddzKzUnZGImGDAqrLQ/YyLQcK7/IkYvLr9r8W4P8lKyjSIWCUT+/6YAqANg
+ GEXofKr0UXwaTSi5Dsbp7SQsLtlZhqBVecjmKJWJPGk2mER4R6S1cSmXDpBUC983UXH3
+ 37E/tZ7R5EsEr5JOi2XLELbrXBBdVkx6wdZ7pdK0D3qkuEhrrROHOjBC7sCZOhKMA/Jd
+ GoDg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX+eI72hWjSbKFNQ2OMeXh2NFP06F0q8dQAcSQRZzDt2SYtzCKr73tOh3/njMPetjcQAnIsThoZchQ1etDyGJfBkLdYIIyjAxLWVZVb9RZ8
+X-Gm-Message-State: AOJu0YwtUj41JCR2uh9ehDiDOZjq/4pev2/k0/ijsJkeNDU/mu6VlpUC
+ r3BKDlzxeuLBuSfgXjEPth17fwWmWDNoa/0u3vbyTt/Q2d2K72yH6hl2kBSwYaI=
+X-Google-Smtp-Source: AGHT+IE1ERNB1VOEGQHUR+a5pOg4HwqlHw0emCPPDPhmDOTTS/H0vAtvg+ONaJitvri0E8L9WgWl7A==
+X-Received: by 2002:a7b:ce10:0:b0:421:2a14:3132 with SMTP id
+ 5b1f17b1804b1-4212e0a52c3mr66977685e9.25.1717403989009; 
+ Mon, 03 Jun 2024 01:39:49 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:79fe:b764:2b06:ab4b?
+ ([2a01:e0a:982:cbb0:79fe:b764:2b06:ab4b])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4212b2bc975sm110925335e9.29.2024.06.03.01.39.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Jun 2024 01:39:48 -0700 (PDT)
+Message-ID: <a408e549-164a-4969-83db-2a1f3ccb4d1f@linaro.org>
+Date: Mon, 3 Jun 2024 10:39:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/10] media: intel: Add Displayport RX IP driver
-To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>, airlied@gmail.com,
- akpm@linux-foundation.org, conor+dt@kernel.org, daniel@ffwll.ch,
- dinguyen@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- maarten.lankhorst@linux.intel.com, mchehab@kernel.org, mripard@kernel.org,
- robh+dt@kernel.org, tzimmermann@suse.de
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- chromeos-krk-upstreaming@google.com
-References: <20240507155413.266057-1-panikiel@google.com>
- <20240507155413.266057-8-panikiel@google.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240507155413.266057-8-panikiel@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v3 2/2] drm: panel: nv3052c: Add WL-355608-A8 panel
+To: Ryan Walklin <ryan@testtoast.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg
+ <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Hironori KIKUCHI <kikuchan98@gmail.com>,
+ Chris Morgan <macroalpha82@gmail.com>,
+ Andre Przywara <andre.przywara@arm.com>, John Watts <contact@jookia.org>
+References: <20240530211415.44201-1-ryan@testtoast.com>
+ <20240530211415.44201-4-ryan@testtoast.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20240530211415.44201-4-ryan@testtoast.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,2359 +118,314 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/05/2024 17:54, Paweł Anikiel wrote:
-> Add v4l2 subdev driver for the Intel Displayport receiver FPGA IP.
-> It is a part of the DisplayPort Intel FPGA IP Core, and supports
-> DisplayPort 1.4, HBR3 video capture and Multi-Stream Transport.
+On 30/05/2024 23:12, Ryan Walklin wrote:
+> The WL-355608-A8 is a 3.5" 640x480@60Hz RGB LCD display from an unknown
+> OEM used in a number of handheld gaming devices made by Anbernic.
+> Limited information is available online however the panel timing values
+> (below) have been obtained from the vendor BSP. The panel appears to
+> integrate a NV3052C LCD driver (or clone). Available devices address it
+> in SPI/RGB mode, with the timing signals generated from the device
+> SoC (Allwinner H700) and passed through.
 > 
-> Signed-off-by: Paweł Anikiel <panikiel@google.com>
+> Add a panel definition and display mode to the existing NV3502C driver.
+> 
+> It was assumed during bringup that the initialisation sequence was the
+> same as the existing Fascontek FS035VG158 panel, proved working during
+> experimentation, however subsequent dumping of the init sequence with a
+> logic analyser confirms one small change to VCOM_ADJ3 from 0x4a to 0x44,
+> therefore a separate set of registers is also added.
+> 
+> Timings:
+>             | Active |  FP  | Sync |  BP  | Total
+> -----------|--------|------|------|------|-------
+> Horizontal |   640  |  64  |  20  |  46  |  770
+>    Vertical |   480  |  21  |   4  |  15  |  520
+> 
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> Co-developed-by: Hironori KIKUCHI <kikuchan98@gmail.com>
+> Signed-off-by: Hironori KIKUCHI <kikuchan98@gmail.com>
+> Reviewed-by: John Watts <contact@jookia.org>
+> 
 > ---
->  drivers/media/platform/intel/Kconfig      |   12 +
->  drivers/media/platform/intel/Makefile     |    1 +
->  drivers/media/platform/intel/intel-dprx.c | 2283 +++++++++++++++++++++
->  3 files changed, 2296 insertions(+)
->  create mode 100644 drivers/media/platform/intel/intel-dprx.c
 > 
-> diff --git a/drivers/media/platform/intel/Kconfig b/drivers/media/platform/intel/Kconfig
-> index 724e80a9086d..eafcd47cce68 100644
-> --- a/drivers/media/platform/intel/Kconfig
-> +++ b/drivers/media/platform/intel/Kconfig
-> @@ -12,3 +12,15 @@ config VIDEO_PXA27x
->  	select V4L2_FWNODE
->  	help
->  	  This is a v4l2 driver for the PXA27x Quick Capture Interface
+> Changelog v1..v2:
+> - Update .compatible string to match dt-binding
+> - Add co-developer sign-off and review tags
+> 
+> Changelog v2..v3:
+> - Trailing whitespace as per checkpatch.pl (no functional changes)
+> ---
+>   .../gpu/drm/panel/panel-newvision-nv3052c.c   | 225 ++++++++++++++++++
+>   1 file changed, 225 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+> index 1aab0c9ae5..e986d98235 100644
+> --- a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+> +++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+> @@ -433,6 +433,202 @@ static const struct nv3052c_reg fs035vg158_panel_regs[] = {
+>   	{ 0x36, 0x0a }, // bgr = 1, ss = 1, gs = 0
+>   };
+>   
 > +
-> +config VIDEO_INTEL_DPRX
-> +	tristate "Intel DisplayPort RX IP driver"
-> +	depends on V4L_PLATFORM_DRIVERS
-> +	depends on VIDEO_DEV
-> +	select V4L2_FWNODE
-> +	select CRC_DP
-> +	help
-> +	  v4l2 subdev driver for Intel Displayport receiver FPGA IP.
-> +	  It is a part of the DisplayPort Intel FPGA IP Core.
-> +	  It implements a DisplayPort 1.4 receiver capable of HBR3
-> +	  video capture and Multi-Stream Transport.
-> diff --git a/drivers/media/platform/intel/Makefile b/drivers/media/platform/intel/Makefile
-> index 7e8889cbd2df..f571399f5aa8 100644
-> --- a/drivers/media/platform/intel/Makefile
-> +++ b/drivers/media/platform/intel/Makefile
-> @@ -1,2 +1,3 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  obj-$(CONFIG_VIDEO_PXA27x) += pxa_camera.o
-> +obj-$(CONFIG_VIDEO_INTEL_DPRX) += intel-dprx.o
-> diff --git a/drivers/media/platform/intel/intel-dprx.c b/drivers/media/platform/intel/intel-dprx.c
-> new file mode 100644
-> index 000000000000..734f6c2395bc
-> --- /dev/null
-> +++ b/drivers/media/platform/intel/intel-dprx.c
-> @@ -0,0 +1,2283 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright 2023-2024 Google LLC.
-> + * Author: Paweł Anikiel <panikiel@google.com>
-> + */
-> +
-> +#include <linux/crc-dp.h>
-> +#include <linux/delay.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-dv-timings.h>
-> +#include <media/v4l2-fwnode.h>
-> +#include <media/v4l2-subdev.h>
-> +#include <drm/display/drm_dp.h>
-> +#include <drm/display/drm_dp_mst.h>
-> +
-> +#define DPRX_MAX_EDID_BLOCKS	4
-> +
-> +/* DPRX registers */
-> +
-> +#define DPRX_RX_CONTROL				0x000
-> +#define DPRX_RX_CONTROL_LINK_RATE_SHIFT		16
-> +#define DPRX_RX_CONTROL_LINK_RATE_MASK		0xff
-> +#define DPRX_RX_CONTROL_RECONFIG_LINKRATE	13
-> +#define DPRX_RX_CONTROL_TP_SHIFT		8
-> +#define DPRX_RX_CONTROL_TP_MASK			0x7
-> +#define DPRX_RX_CONTROL_SCRAMBLER_DISABLE	7
-> +#define DPRX_RX_CONTROL_CHANNEL_CODING_SHIFT	5
-> +#define DPRX_RX_CONTROL_CHANNEL_CODING_8B10B	0x1
-> +#define DPRX_RX_CONTROL_LANE_COUNT_SHIFT	0
-> +#define DPRX_RX_CONTROL_LANE_COUNT_MASK		0x1f
-> +
-> +#define DPRX_RX_STATUS				0x001
-> +#define DPRX_RX_STATUS_INTERLANE_ALIGN		8
-> +#define DPRX_RX_STATUS_SYM_LOCK_SHIFT		4
-> +#define DPRX_RX_STATUS_SYM_LOCK(i)		(4 + i)
-> +#define DPRX_RX_STATUS_CR_LOCK_SHIFT		0
-> +#define DPRX_RX_STATUS_CR_LOCK(i)		(0 + i)
-> +
-> +#define DPRX_MSA_HTOTAL(i)			(0x022 + 0x20 * (i))
-> +#define DPRX_MSA_VTOTAL(i)			(0x023 + 0x20 * (i))
-> +#define DPRX_MSA_HSP(i)				(0x024 + 0x20 * (i))
-> +#define DPRX_MSA_HSW(i)				(0x025 + 0x20 * (i))
-> +#define DPRX_MSA_HSTART(i)			(0x026 + 0x20 * (i))
-> +#define DPRX_MSA_VSTART(i)			(0x027 + 0x20 * (i))
-> +#define DPRX_MSA_VSP(i)				(0x028 + 0x20 * (i))
-> +#define DPRX_MSA_VSW(i)				(0x029 + 0x20 * (i))
-> +#define DPRX_MSA_HWIDTH(i)			(0x02a + 0x20 * (i))
-> +#define DPRX_MSA_VHEIGHT(i)			(0x02b + 0x20 * (i))
-> +#define DPRX_VBID(i)				(0x02f + 0x20 * (i))
-> +#define DPRX_VBID_MSA_LOCK			7
-> +
-> +#define DPRX_MST_CONTROL1			0x0a0
-> +#define DPRX_MST_CONTROL1_VCPTAB_UPD_FORCE	31
-> +#define DPRX_MST_CONTROL1_VCPTAB_UPD_REQ	30
-> +#define DPRX_MST_CONTROL1_VCP_ID_SHIFT(i)	(4 + 4 * (i))
-> +#define DPRX_MST_CONTROL1_VCP_IDS_SHIFT		4
-> +#define DPRX_MST_CONTROL1_VCP_IDS_MASK		0xffff
-> +#define DPRX_MST_CONTROL1_MST_EN		0
-> +
-> +#define DPRX_MST_STATUS1			0x0a1
-> +#define DPRX_MST_STATUS1_VCPTAB_ACT_ACK		30
-> +
-> +#define DPRX_MST_VCPTAB(i)			(0x0a2 + i)
-> +
-> +#define DPRX_AUX_CONTROL			0x100
-> +#define DPRX_AUX_CONTROL_IRQ_EN			8
-> +#define DPRX_AUX_CONTROL_TX_STROBE		7
-> +#define DPRX_AUX_CONTROL_LENGTH_SHIFT		0
-> +#define DPRX_AUX_CONTROL_LENGTH_MASK		0x1f
-> +
-> +#define DPRX_AUX_STATUS				0x101
-> +#define DPRX_AUX_STATUS_MSG_READY		31
-> +#define DPRX_AUX_STATUS_READY_TO_TX		30
-> +
-> +#define DPRX_AUX_COMMAND			0x102
-> +
-> +#define DPRX_AUX_HPD				0x119
-> +#define DPRX_AUX_HPD_IRQ			12
-> +#define DPRX_AUX_HPD_EN				11
-> +
-> +/* DDC defines */
-> +
-> +#define DDC_EDID_ADDR		0x50
-> +#define DDC_SEGMENT_ADDR	0x30
-> +
-> +struct dprx_training_control {
-> +	u8 volt_swing;
-> +	u8 pre_emph;
-> +	bool max_swing;
-> +	bool max_pre_emph;
+> +static const struct nv3052c_reg wl_355608_a8_panel_regs[] = {
+> +	// EXTC Command set enable, select page 1
+> +	{ 0xff, 0x30 }, { 0xff, 0x52 }, { 0xff, 0x01 },
+> +	// Mostly unknown registers
+> +	{ 0xe3, 0x00 },
+> +	{ 0x40, 0x00 },
+> +	{ 0x03, 0x40 },
+> +	{ 0x04, 0x00 },
+> +	{ 0x05, 0x03 },
+> +	{ 0x08, 0x00 },
+> +	{ 0x09, 0x07 },
+> +	{ 0x0a, 0x01 },
+> +	{ 0x0b, 0x32 },
+> +	{ 0x0c, 0x32 },
+> +	{ 0x0d, 0x0b },
+> +	{ 0x0e, 0x00 },
+> +	{ 0x23, 0xa0 },
+> +	{ 0x24, 0x0c },
+> +	{ 0x25, 0x06 },
+> +	{ 0x26, 0x14 },
+> +	{ 0x27, 0x14 },
+> +	{ 0x38, 0xcc }, // VCOM_ADJ1
+> +	{ 0x39, 0xd7 }, // VCOM_ADJ2
+> +	{ 0x3a, 0x44 }, // VCOM_ADJ3
+> +	{ 0x28, 0x40 },
+> +	{ 0x29, 0x01 },
+> +	{ 0x2a, 0xdf },
+> +	{ 0x49, 0x3c },
+> +	{ 0x91, 0x77 }, // EXTPW_CTRL2
+> +	{ 0x92, 0x77 }, // EXTPW_CTRL3
+> +	{ 0xa0, 0x55 },
+> +	{ 0xa1, 0x50 },
+> +	{ 0xa4, 0x9c },
+> +	{ 0xa7, 0x02 },
+> +	{ 0xa8, 0x01 },
+> +	{ 0xa9, 0x01 },
+> +	{ 0xaa, 0xfc },
+> +	{ 0xab, 0x28 },
+> +	{ 0xac, 0x06 },
+> +	{ 0xad, 0x06 },
+> +	{ 0xae, 0x06 },
+> +	{ 0xaf, 0x03 },
+> +	{ 0xb0, 0x08 },
+> +	{ 0xb1, 0x26 },
+> +	{ 0xb2, 0x28 },
+> +	{ 0xb3, 0x28 },
+> +	{ 0xb4, 0x33 },
+> +	{ 0xb5, 0x08 },
+> +	{ 0xb6, 0x26 },
+> +	{ 0xb7, 0x08 },
+> +	{ 0xb8, 0x26 },
+> +	{ 0xf0, 0x00 },
+> +	{ 0xf6, 0xc0 },
+> +	// EXTC Command set enable, select page 2
+> +	{ 0xff, 0x30 }, { 0xff, 0x52 }, { 0xff, 0x02 },
+> +	// Set gray scale voltage to adjust gamma
+> +	{ 0xb0, 0x0b }, // PGAMVR0
+> +	{ 0xb1, 0x16 }, // PGAMVR1
+> +	{ 0xb2, 0x17 }, // PGAMVR2
+> +	{ 0xb3, 0x2c }, // PGAMVR3
+> +	{ 0xb4, 0x32 }, // PGAMVR4
+> +	{ 0xb5, 0x3b }, // PGAMVR5
+> +	{ 0xb6, 0x29 }, // PGAMPR0
+> +	{ 0xb7, 0x40 }, // PGAMPR1
+> +	{ 0xb8, 0x0d }, // PGAMPK0
+> +	{ 0xb9, 0x05 }, // PGAMPK1
+> +	{ 0xba, 0x12 }, // PGAMPK2
+> +	{ 0xbb, 0x10 }, // PGAMPK3
+> +	{ 0xbc, 0x12 }, // PGAMPK4
+> +	{ 0xbd, 0x15 }, // PGAMPK5
+> +	{ 0xbe, 0x19 }, // PGAMPK6
+> +	{ 0xbf, 0x0e }, // PGAMPK7
+> +	{ 0xc0, 0x16 }, // PGAMPK8
+> +	{ 0xc1, 0x0a }, // PGAMPK9
+> +	// Set gray scale voltage to adjust gamma
+> +	{ 0xd0, 0x0c }, // NGAMVR0
+> +	{ 0xd1, 0x17 }, // NGAMVR0
+> +	{ 0xd2, 0x14 }, // NGAMVR1
+> +	{ 0xd3, 0x2e }, // NGAMVR2
+> +	{ 0xd4, 0x32 }, // NGAMVR3
+> +	{ 0xd5, 0x3c }, // NGAMVR4
+> +	{ 0xd6, 0x22 }, // NGAMPR0
+> +	{ 0xd7, 0x3d }, // NGAMPR1
+> +	{ 0xd8, 0x0d }, // NGAMPK0
+> +	{ 0xd9, 0x07 }, // NGAMPK1
+> +	{ 0xda, 0x13 }, // NGAMPK2
+> +	{ 0xdb, 0x13 }, // NGAMPK3
+> +	{ 0xdc, 0x11 }, // NGAMPK4
+> +	{ 0xdd, 0x15 }, // NGAMPK5
+> +	{ 0xde, 0x19 }, // NGAMPK6
+> +	{ 0xdf, 0x10 }, // NGAMPK7
+> +	{ 0xe0, 0x17 }, // NGAMPK8
+> +	{ 0xe1, 0x0a }, // NGAMPK9
+> +	// EXTC Command set enable, select page 3
+> +	{ 0xff, 0x30 }, { 0xff, 0x52 }, { 0xff, 0x03 },
+> +	// Set various timing settings
+> +	{ 0x00, 0x2a }, // GIP_VST_1
+> +	{ 0x01, 0x2a }, // GIP_VST_2
+> +	{ 0x02, 0x2a }, // GIP_VST_3
+> +	{ 0x03, 0x2a }, // GIP_VST_4
+> +	{ 0x04, 0x61 }, // GIP_VST_5
+> +	{ 0x05, 0x80 }, // GIP_VST_6
+> +	{ 0x06, 0xc7 }, // GIP_VST_7
+> +	{ 0x07, 0x01 }, // GIP_VST_8
+> +	{ 0x08, 0x03 }, // GIP_VST_9
+> +	{ 0x09, 0x04 }, // GIP_VST_10
+> +	{ 0x70, 0x22 }, // GIP_ECLK1
+> +	{ 0x71, 0x80 }, // GIP_ECLK2
+> +	{ 0x30, 0x2a }, // GIP_CLK_1
+> +	{ 0x31, 0x2a }, // GIP_CLK_2
+> +	{ 0x32, 0x2a }, // GIP_CLK_3
+> +	{ 0x33, 0x2a }, // GIP_CLK_4
+> +	{ 0x34, 0x61 }, // GIP_CLK_5
+> +	{ 0x35, 0xc5 }, // GIP_CLK_6
+> +	{ 0x36, 0x80 }, // GIP_CLK_7
+> +	{ 0x37, 0x23 }, // GIP_CLK_8
+> +	{ 0x40, 0x03 }, // GIP_CLKA_1
+> +	{ 0x41, 0x04 }, // GIP_CLKA_2
+> +	{ 0x42, 0x05 }, // GIP_CLKA_3
+> +	{ 0x43, 0x06 }, // GIP_CLKA_4
+> +	{ 0x44, 0x11 }, // GIP_CLKA_5
+> +	{ 0x45, 0xe8 }, // GIP_CLKA_6
+> +	{ 0x46, 0xe9 }, // GIP_CLKA_7
+> +	{ 0x47, 0x11 }, // GIP_CLKA_8
+> +	{ 0x48, 0xea }, // GIP_CLKA_9
+> +	{ 0x49, 0xeb }, // GIP_CLKA_10
+> +	{ 0x50, 0x07 }, // GIP_CLKB_1
+> +	{ 0x51, 0x08 }, // GIP_CLKB_2
+> +	{ 0x52, 0x09 }, // GIP_CLKB_3
+> +	{ 0x53, 0x0a }, // GIP_CLKB_4
+> +	{ 0x54, 0x11 }, // GIP_CLKB_5
+> +	{ 0x55, 0xec }, // GIP_CLKB_6
+> +	{ 0x56, 0xed }, // GIP_CLKB_7
+> +	{ 0x57, 0x11 }, // GIP_CLKB_8
+> +	{ 0x58, 0xef }, // GIP_CLKB_9
+> +	{ 0x59, 0xf0 }, // GIP_CLKB_10
+> +	// Map internal GOA signals to GOA output pad
+> +	{ 0xb1, 0x01 }, // PANELD2U2
+> +	{ 0xb4, 0x15 }, // PANELD2U5
+> +	{ 0xb5, 0x16 }, // PANELD2U6
+> +	{ 0xb6, 0x09 }, // PANELD2U7
+> +	{ 0xb7, 0x0f }, // PANELD2U8
+> +	{ 0xb8, 0x0d }, // PANELD2U9
+> +	{ 0xb9, 0x0b }, // PANELD2U10
+> +	{ 0xba, 0x00 }, // PANELD2U11
+> +	{ 0xc7, 0x02 }, // PANELD2U24
+> +	{ 0xca, 0x17 }, // PANELD2U27
+> +	{ 0xcb, 0x18 }, // PANELD2U28
+> +	{ 0xcc, 0x0a }, // PANELD2U29
+> +	{ 0xcd, 0x10 }, // PANELD2U30
+> +	{ 0xce, 0x0e }, // PANELD2U31
+> +	{ 0xcf, 0x0c }, // PANELD2U32
+> +	{ 0xd0, 0x00 }, // PANELD2U33
+> +	// Map internal GOA signals to GOA output pad
+> +	{ 0x81, 0x00 }, // PANELU2D2
+> +	{ 0x84, 0x15 }, // PANELU2D5
+> +	{ 0x85, 0x16 }, // PANELU2D6
+> +	{ 0x86, 0x10 }, // PANELU2D7
+> +	{ 0x87, 0x0a }, // PANELU2D8
+> +	{ 0x88, 0x0c }, // PANELU2D9
+> +	{ 0x89, 0x0e }, // PANELU2D10
+> +	{ 0x8a, 0x02 }, // PANELU2D11
+> +	{ 0x97, 0x00 }, // PANELU2D24
+> +	{ 0x9a, 0x17 }, // PANELU2D27
+> +	{ 0x9b, 0x18 }, // PANELU2D28
+> +	{ 0x9c, 0x0f }, // PANELU2D29
+> +	{ 0x9d, 0x09 }, // PANELU2D30
+> +	{ 0x9e, 0x0b }, // PANELU2D31
+> +	{ 0x9f, 0x0d }, // PANELU2D32
+> +	{ 0xa0, 0x01 }, // PANELU2D33
+> +	// EXTC Command set enable, select page 2
+> +	{ 0xff, 0x30 }, { 0xff, 0x52 }, { 0xff, 0x02 },
+> +	// Unknown registers
+> +	{ 0x01, 0x01 },
+> +	{ 0x02, 0xda },
+> +	{ 0x03, 0xba },
+> +	{ 0x04, 0xa8 },
+> +	{ 0x05, 0x9a },
+> +	{ 0x06, 0x70 },
+> +	{ 0x07, 0xff },
+> +	{ 0x08, 0x91 },
+> +	{ 0x09, 0x90 },
+> +	{ 0x0a, 0xff },
+> +	{ 0x0b, 0x8f },
+> +	{ 0x0c, 0x60 },
+> +	{ 0x0d, 0x58 },
+> +	{ 0x0e, 0x48 },
+> +	{ 0x0f, 0x38 },
+> +	{ 0x10, 0x2b },
+> +	// EXTC Command set enable, select page 0
+> +	{ 0xff, 0x30 }, { 0xff, 0x52 }, { 0xff, 0x00 },
+> +	// Display Access Control
+> +	{ 0x36, 0x0a }, // bgr = 1, ss = 1, gs = 0
 > +};
 > +
-> +struct dprx_sink {
-> +	u8 edid[128 * DPRX_MAX_EDID_BLOCKS];
-> +	int blocks;
-> +	int offset;
-> +	int segment;
-> +};
-> +
-> +struct msg_transaction_rxbuf {
-> +	u8 buf[256];
-> +	int len;
-> +};
-> +
-> +struct msg_transaction_txbuf {
-> +	u8 buf[256];
-> +	int len;
-> +	int written;
-> +};
-> +
-> +struct msg_transaction_meta {
-> +	u8 lct;
-> +	u8 rad[8];
-> +	bool seqno;
-> +};
-> +
-> +struct dprx {
-> +	struct device *dev;
-> +	void __iomem *iobase;
-> +
-> +	struct v4l2_subdev subdev;
-> +	struct v4l2_ctrl_handler ctrl_handler;
-> +	struct media_pad pads[5];
-> +
-> +	struct dprx_sink sinks[4];
-> +
-> +	int max_link_rate;
-> +	int max_lane_count;
-> +	bool multi_stream_support;
-> +	int max_stream_count;
-> +
-> +	u8 caps[16];
-> +	u8 guid[16];
-> +
-> +	struct dprx_training_control training_control[4];
-> +
-> +	u8 payload_allocate_set;
-> +	u8 payload_allocate_start_time_slot;
-> +	u8 payload_allocate_time_slot_count;
-> +	u8 payload_table[64];
-> +	u8 payload_table_updated;
-> +
-> +	u8  payload_id[4];
-> +	u32 payload_pbn[4];
-> +	u32 payload_pbn_total;
-> +
-> +	u8 irq_vector;
-> +
-> +	u8 down_req_buf[48];
-> +	u8 down_rep_buf[48];
-> +
-> +	struct msg_transaction_rxbuf mt_rxbuf[2];
-> +	struct msg_transaction_txbuf mt_txbuf[2];
-> +	struct msg_transaction_meta mt_meta[2];
-> +	bool mt_seqno;
-> +	bool mt_pending;
-> +	bool down_rep_pending;
-> +
-> +	spinlock_t lock;
-> +
-> +	bool hpd_state;
-> +};
-> +
-> +struct aux_buf {
-> +	u8 data[20];
-> +	int len;
-> +};
-> +
-> +struct aux_msg {
-> +	u8 cmd;
-> +	u32 addr;
-> +	u8 len;
-> +	u8 data[16];
-> +};
-> +
-> +struct sideband_msg {
-> +	u8 lct;
-> +	u8 lcr;
-> +	u8 rad[8];
-> +	bool broadcast;
-> +	bool path_msg;
-> +	bool somt;
-> +	bool eomt;
-> +	bool seqno;
-> +
-> +	u8 body[48];
-> +	u8 body_len;
-> +};
-> +
-> +static int dprx_pad_to_sink_idx(struct dprx *dprx, int pad)
-> +{
-> +	int sink_idx = pad - 1;
-> +
-> +	if (sink_idx < 0 || sink_idx >= dprx->max_stream_count)
-> +		return -1;
-> +	else
-> +		return sink_idx;
-> +}
-> +
-> +static void dprx_write(struct dprx *dprx, int addr, u32 val)
-> +{
-> +	writel(val, dprx->iobase + (addr * 4));
-> +}
-> +
-> +static u32 dprx_read(struct dprx *dprx, int addr)
-> +{
-> +	return readl(dprx->iobase + (addr * 4));
-> +}
-> +
-> +static void dprx_set_irq(struct dprx *dprx, int val)
-> +{
-> +	u32 reg;
-> +
-> +	reg = dprx_read(dprx, DPRX_AUX_CONTROL);
-> +	reg |= ~(1 << DPRX_AUX_CONTROL_IRQ_EN);
-> +	reg |= val << DPRX_AUX_CONTROL_IRQ_EN;
-> +	dprx_write(dprx, DPRX_AUX_CONTROL, reg);
-> +}
-> +
-> +static void dprx_set_hpd(struct dprx *dprx, int val)
-> +{
-> +	u32 reg;
-> +
-> +	reg = dprx_read(dprx, DPRX_AUX_HPD);
-> +	reg &= ~(1 << DPRX_AUX_HPD_EN);
-> +	reg |= val << DPRX_AUX_HPD_EN;
-> +	dprx_write(dprx, DPRX_AUX_HPD, reg);
-> +}
-> +
-> +static void dprx_pulse_hpd(struct dprx *dprx)
-> +{
-> +	u32 reg;
-> +
-> +	reg = dprx_read(dprx, DPRX_AUX_HPD);
-> +	reg |= 1 << DPRX_AUX_HPD_IRQ;
-> +	dprx_write(dprx, DPRX_AUX_HPD, reg);
-> +}
-> +
-> +static void dprx_clear_vc_payload_table(struct dprx *dprx)
-> +{
-> +	u32 reg;
-> +	int i;
-> +
-> +	memset(dprx->payload_table, 0, sizeof(dprx->payload_table));
-> +
-> +	for (i = 0; i < 8; i++)
-> +		dprx_write(dprx, DPRX_MST_VCPTAB(i), 0);
-> +
-> +	reg = dprx_read(dprx, DPRX_MST_CONTROL1);
-> +	reg &= ~(DPRX_MST_CONTROL1_VCP_IDS_MASK << DPRX_MST_CONTROL1_VCP_IDS_SHIFT);
-> +	reg |= 1 << DPRX_MST_CONTROL1_VCPTAB_UPD_FORCE;
-> +	dprx_write(dprx, DPRX_MST_CONTROL1, reg);
-> +}
-> +
-> +static void dprx_set_vc_payload_table(struct dprx *dprx)
-> +{
-> +	int i, j;
-> +	u32 reg;
-> +	u8 val;
-> +
-> +	/*
-> +	 * The IP core only accepts VC payload IDs of 1-4. Thus, we need to
-> +	 * remap the 1-63 range allowed by DisplayPort into 1-4. However, some
-> +	 * hosts first set the VC payload table and then allocate the VC
-> +	 * payload IDs, which means we can't remap the range immediately.
-> +	 *
-> +	 * It is probably possible to force a VC payload table update (without
-> +	 * waiting for a ACT trigger) when the IDs change, but for now we just
-> +	 * ignore IDs higher than 4.
-> +	 */
-> +	for (i = 0; i < 8; i++) {
-> +		reg = 0;
-> +		for (j = 0; j < 8; j++) {
-> +			val = dprx->payload_table[i*8+j];
-> +			if (val <= 4)
-> +				reg |= val << (j * 4);
-> +		}
-> +		dprx_write(dprx, DPRX_MST_VCPTAB(i), reg);
-> +	}
-> +
-> +	reg = dprx_read(dprx, DPRX_MST_CONTROL1);
-> +	reg |= 1 << DPRX_MST_CONTROL1_VCPTAB_UPD_REQ;
-> +	dprx_write(dprx, DPRX_MST_CONTROL1, reg);
-> +}
-> +
-> +static void dprx_set_vc_ids(struct dprx *dprx)
-> +{
-> +	u32 reg;
-> +	int i;
-> +
-> +	reg = dprx_read(dprx, DPRX_MST_CONTROL1);
-> +	reg &= ~(DPRX_MST_CONTROL1_VCP_IDS_MASK << DPRX_MST_CONTROL1_VCP_IDS_SHIFT);
-> +	for (i = 0; i < dprx->max_stream_count; i++) {
-> +		if (dprx->payload_id[i] <= 4)
-> +			reg |= dprx->payload_id[i] << DPRX_MST_CONTROL1_VCP_ID_SHIFT(i);
-> +	}
-> +	dprx_write(dprx, DPRX_MST_CONTROL1, reg);
-> +}
-> +
-> +static void dprx_allocate_vc_payload(struct dprx *dprx, u8 start, u8 count, u8 id)
-> +{
-> +	if (count > sizeof(dprx->payload_table) - start)
-> +		count = sizeof(dprx->payload_table) - start;
-> +	memset(dprx->payload_table + start, id, count);
-> +}
-> +
-> +static void dprx_deallocate_vc_payload(struct dprx *dprx, int start, u8 id)
-> +{
-> +	u8 to = start;
-> +	u8 i;
-> +
-> +	for (i = start; i < sizeof(dprx->payload_table); i++) {
-> +		if (dprx->payload_table[i] == id)
-> +			dprx->payload_table[i] = 0;
-> +		else
-> +			dprx->payload_table[to++] = dprx->payload_table[i];
-> +	}
-> +}
-> +
-> +static u32 dprx_full_pbn(struct dprx *dprx)
-> +{
-> +	u32 reg;
-> +	u32 lane_count;
-> +	u32 link_rate;
-> +
-> +	if ((dprx_read(dprx, DPRX_RX_STATUS) >> DPRX_RX_STATUS_INTERLANE_ALIGN) & 1) {
-> +		/* link training done - get current bandwidth */
-> +		reg = dprx_read(dprx, DPRX_RX_CONTROL);
-> +		lane_count = (reg >> DPRX_RX_CONTROL_LANE_COUNT_SHIFT) &
-> +			     DPRX_RX_CONTROL_LANE_COUNT_MASK;
-> +		link_rate  = (reg >> DPRX_RX_CONTROL_LINK_RATE_SHIFT) &
-> +			     DPRX_RX_CONTROL_LINK_RATE_MASK;
-> +	} else {
-> +		/* link training not done - get max bandwidth */
-> +		lane_count = dprx->max_lane_count;
-> +		link_rate  = dprx->max_link_rate;
-> +	}
-> +
-> +	return lane_count * link_rate * 32;
-> +}
-> +
-> +static int dprx_port_number_to_sink_idx(struct dprx *dprx, u8 port_number)
-> +{
-> +	/* check if port number is valid */
-> +	if (port_number < DP_MST_LOGICAL_PORT_0 ||
-> +	    port_number >= DP_MST_LOGICAL_PORT_0 + dprx->max_stream_count)
-> +		return -1;
-> +
-> +	return port_number - DP_MST_LOGICAL_PORT_0;
-> +}
-> +
-> +static bool dprx_adjust_needed(struct dprx *dprx)
-> +{
-> +	u32 control;
-> +	u32 status;
-> +	u32 lane_count;
-> +	u32 lane_count_mask;
-> +	u32 pattern;
-> +
-> +	control = dprx_read(dprx, DPRX_RX_CONTROL);
-> +	status = dprx_read(dprx, DPRX_RX_STATUS);
-> +
-> +	pattern = (control >> DPRX_RX_CONTROL_TP_SHIFT) & DPRX_RX_CONTROL_TP_MASK;
-> +	lane_count = (control >> DPRX_RX_CONTROL_LANE_COUNT_SHIFT) &
-> +		     DPRX_RX_CONTROL_LANE_COUNT_MASK;
-> +	lane_count_mask = (1 << lane_count) - 1;
-> +
-> +	if (pattern == 0) {
-> +		/* link training not in progress */
-> +		return false;
-> +	} else if (pattern == 1) {
-> +		/* link training CR phase - check CR lock */
-> +		return (~status) & (lane_count_mask << DPRX_RX_STATUS_CR_LOCK_SHIFT);
-> +	}
-> +	/* link training EQ phase - check synbol lock and interlane align */
-> +	return (~status) & (lane_count_mask << DPRX_RX_STATUS_SYM_LOCK_SHIFT |
-> +			    1 << DPRX_RX_STATUS_INTERLANE_ALIGN);
-> +}
-> +
-> +/*
-> + * Return next allowed voltage swing, and pre-emphasis pair.
-> + * DisplayPort 1.2 spec, section 3.1.5.2
-> + */
-> +static void dprx_training_control_next(struct dprx_training_control *ctl,
-> +				       u8 *next_volt_swing, u8 *next_pre_emph)
-> +{
-> +	u8 volt_swing = ctl->volt_swing;
-> +	u8 pre_emph = ctl->pre_emph;
-> +
-> +	pre_emph++;
-> +	if (pre_emph > 2) {
-> +		volt_swing++;
-> +		pre_emph = 0;
-> +	}
-> +
-> +	if (volt_swing > 2 || (volt_swing == 2 && pre_emph == 2)) {
-> +		volt_swing = 0;
-> +		pre_emph = 0;
-> +	}
-> +
-> +	*next_volt_swing = volt_swing;
-> +	*next_pre_emph = pre_emph;
-> +}
-> +
-> +static int dprx_i2c_read(struct dprx_sink *sink, u8 addr, u8 *buf, int len)
-> +{
-> +	int offset;
-> +
-> +	if (len == 0)
-> +		return 0;
-> +
-> +	switch (addr) {
-> +	case DDC_EDID_ADDR:
-> +		offset = sink->offset + sink->segment * 256;
-> +		if (len + offset > sink->blocks * 128)
-> +			return -1;
-> +		memcpy(buf, sink->edid + offset, len);
-> +		sink->offset += len;
-> +		break;
-> +	case DDC_SEGMENT_ADDR:
-> +		if (len > 1)
-> +			return -1;
-> +		buf[0] = sink->segment;
-> +		break;
-> +	default:
-> +		return -1;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dprx_i2c_write(struct dprx_sink *sink, u8 addr, u8 *buf, int len)
-> +{
-> +	if (len == 0)
-> +		return 0;
-> +	if (len > 1)
-> +		return -1;
-> +
-> +	switch (addr) {
-> +	case DDC_EDID_ADDR:
-> +		sink->offset = buf[0];
-> +		break;
-> +	case DDC_SEGMENT_ADDR:
-> +		sink->segment = buf[0];
-> +		break;
-> +	default:
-> +		return -1;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void dprx_i2c_stop(struct dprx_sink *sink)
-> +{
-> +	sink->segment = 0;
-> +}
-> +
-> +static void dprx_write_nak(struct dprx *dprx,
-> +			   struct drm_dp_sideband_msg_reply_body *rep,
-> +			   u8 req_type, u8 reason)
-> +{
-> +	rep->reply_type = DP_SIDEBAND_REPLY_NAK;
-> +	rep->req_type = req_type;
-> +
-> +	memcpy(rep->u.nak.guid, dprx->guid, sizeof(dprx->guid));
-> +	rep->u.nak.reason = reason;
-> +	rep->u.nak.nak_data = 0;
-> +}
-> +
-> +static void dprx_execute_link_address(struct dprx *dprx,
-> +				      struct drm_dp_sideband_msg_req_body *req,
-> +				      struct drm_dp_sideband_msg_reply_body *rep)
-> +{
-> +	struct drm_dp_link_address_ack_reply *link_address = &rep->u.link_addr;
-> +	struct drm_dp_link_addr_reply_port *port = link_address->ports;
-> +	int i;
-> +
-> +	rep->reply_type = DP_SIDEBAND_REPLY_ACK;
-> +	rep->req_type = DP_LINK_ADDRESS;
-> +
-> +	memcpy(link_address->guid, dprx->guid, sizeof(dprx->guid));
-> +	link_address->nports = dprx->max_stream_count + 1;
-> +
-> +	/* Port 0: input (physical) */
-> +	port->input_port = true;
-> +	port->peer_device_type = DP_PEER_DEVICE_SOURCE_OR_SST;
-> +	port->port_number = 0;
-> +	port->mcs = false;
-> +	port->ddps = true;
-> +	port++;
-> +
-> +	for (i = 0; i < dprx->max_stream_count; i++) {
-> +		/* Port 8 + n: internal sink number n (logical) */
-> +		port->input_port = false;
-> +		port->port_number = DP_MST_LOGICAL_PORT_0 + i;
-> +		port->mcs = false;
-> +		if (dprx->sinks[i].blocks > 0) {
-> +			port->peer_device_type = DP_PEER_DEVICE_SST_SINK;
-> +			port->ddps = true;
-> +		} else {
-> +			port->peer_device_type = DP_PEER_DEVICE_NONE;
-> +			port->ddps = false;
-> +		}
-> +		port->legacy_device_plug_status = false;
-> +		port->dpcd_revision = 0;
-> +		memset(port->peer_guid, 0, 16);
-> +		port->num_sdp_streams = 0;
-> +		port->num_sdp_stream_sinks = 0;
-> +		port++;
-> +	}
-> +}
-> +
-> +static void dprx_execute_connection_status_notify(struct dprx *dprx,
-> +						  struct drm_dp_sideband_msg_req_body *req,
-> +						  struct drm_dp_sideband_msg_reply_body *rep)
-> +{
-> +	rep->reply_type = DP_SIDEBAND_REPLY_ACK;
-> +	rep->req_type = DP_CONNECTION_STATUS_NOTIFY;
-> +}
-> +
-> +static void dprx_execute_enum_path_resources(struct dprx *dprx,
-> +					     struct drm_dp_sideband_msg_req_body *req,
-> +					     struct drm_dp_sideband_msg_reply_body *rep)
-> +{
-> +	u32 full_pbn = dprx_full_pbn(dprx);
-> +
-> +	rep->reply_type = DP_SIDEBAND_REPLY_ACK;
-> +	rep->req_type = DP_ENUM_PATH_RESOURCES;
-> +
-> +	rep->u.path_resources.port_number = req->u.port_num.port_number;
-> +	rep->u.path_resources.fec_capable = false;
-> +	rep->u.path_resources.full_payload_bw_number = full_pbn;
-> +	if (dprx->payload_pbn_total > full_pbn)
-> +		rep->u.path_resources.avail_payload_bw_number = 0;
-> +	else
-> +		rep->u.path_resources.avail_payload_bw_number = full_pbn - dprx->payload_pbn_total;
-> +}
-> +
-> +static void dprx_execute_allocate_payload(struct dprx *dprx,
-> +					  struct drm_dp_sideband_msg_req_body *req,
-> +					  struct drm_dp_sideband_msg_reply_body *rep)
-> +{
-> +	struct drm_dp_allocate_payload *a_req = &req->u.allocate_payload;
-> +	struct drm_dp_allocate_payload_ack_reply *a_rep = &rep->u.allocate_payload;
-> +	int sink_idx;
-> +
-> +	sink_idx = dprx_port_number_to_sink_idx(dprx, a_req->port_number);
-> +	if (sink_idx == -1) {
-> +		dprx_write_nak(dprx, rep, req->req_type, DP_NAK_BAD_PARAM);
-> +		return;
-> +	}
-> +
-> +	if (a_req->vcpi == 0) {
-> +		dprx_write_nak(dprx, rep, req->req_type, DP_NAK_BAD_PARAM);
-> +		return;
-> +	}
-> +
-> +	if (a_req->pbn > 0) {
-> +		if (dprx->payload_pbn[sink_idx] == 0) {
-> +			/* New payload ID */
-> +			dprx->payload_id[sink_idx] = a_req->vcpi;
-> +		} else if (dprx->payload_id[sink_idx] != a_req->vcpi) {
-> +			/* At most one payload ID is allowed per sink */
-> +			dprx_write_nak(dprx, rep, req->req_type, DP_NAK_ALLOCATE_FAIL);
-> +			return;
-> +		}
-> +	}
-> +	WARN_ON_ONCE(dprx->payload_pbn_total < dprx->payload_pbn[sink_idx]);
-> +	dprx->payload_pbn_total -= dprx->payload_pbn[sink_idx];
-> +	dprx->payload_pbn_total += a_req->pbn;
-> +	dprx->payload_pbn[sink_idx] = a_req->pbn;
-> +
-> +	dprx_set_vc_ids(dprx);
-> +
-> +	rep->reply_type = DP_SIDEBAND_REPLY_ACK;
-> +	rep->req_type = DP_ALLOCATE_PAYLOAD;
-> +
-> +	a_rep->port_number = a_req->port_number;
-> +	a_rep->vcpi = a_req->vcpi;
-> +	a_rep->allocated_pbn = a_req->pbn;
-> +}
-> +
-> +static void dprx_execute_clear_payload_id_table(struct dprx *dprx,
-> +						struct drm_dp_sideband_msg_req_body *req,
-> +						struct drm_dp_sideband_msg_reply_body *rep)
-> +{
-> +	rep->reply_type = DP_SIDEBAND_REPLY_ACK;
-> +	rep->req_type = DP_CLEAR_PAYLOAD_ID_TABLE;
-> +
-> +	dprx_clear_vc_payload_table(dprx);
-> +}
-> +
-> +static void dprx_execute_remote_dpcd_read(struct dprx *dprx,
-> +					  struct drm_dp_sideband_msg_req_body *req,
-> +					  struct drm_dp_sideband_msg_reply_body *rep)
-> +{
-> +	struct drm_dp_remote_dpcd_read *read_req = &req->u.dpcd_read;
-> +	struct drm_dp_remote_dpcd_read_ack_reply *read_rep = &rep->u.remote_dpcd_read_ack;
-> +
-> +	rep->reply_type = DP_SIDEBAND_REPLY_ACK;
-> +	rep->req_type = DP_REMOTE_DPCD_READ;
-> +
-> +	read_rep->port_number = read_req->port_number;
-> +	read_rep->num_bytes = read_req->num_bytes;
-> +	memset(read_rep->bytes, 0, read_req->num_bytes);
-> +}
-> +
-> +static void dprx_execute_remote_i2c_read(struct dprx *dprx,
-> +					 struct drm_dp_sideband_msg_req_body *req,
-> +					 struct drm_dp_sideband_msg_reply_body *rep)
-> +{
-> +	struct drm_dp_remote_i2c_read *read_req = &req->u.i2c_read;
-> +	struct drm_dp_remote_i2c_read_ack_reply *read_rep = &rep->u.remote_i2c_read_ack;
-> +	struct drm_dp_remote_i2c_read_tx *tx;
-> +	struct dprx_sink *sink;
-> +	int sink_idx;
-> +	int res;
-> +	int i;
-> +
-> +	sink_idx = dprx_port_number_to_sink_idx(dprx, read_req->port_number);
-> +	if (sink_idx == -1) {
-> +		dprx_write_nak(dprx, rep, req->req_type, DP_NAK_BAD_PARAM);
-> +		return;
-> +	}
-> +	sink = &dprx->sinks[sink_idx];
-> +
-> +	for (i = 0; i < read_req->num_transactions; i++) {
-> +		tx = &read_req->transactions[i];
-> +		res = dprx_i2c_write(sink, tx->i2c_dev_id, tx->bytes, tx->num_bytes);
-> +		if (res)
-> +			goto i2c_err;
-> +		if (!tx->no_stop_bit)
-> +			dprx_i2c_stop(sink);
-> +	}
-> +
-> +	res = dprx_i2c_read(sink, read_req->read_i2c_device_id,
-> +				  read_rep->bytes, read_req->num_bytes_read);
-> +	if (res)
-> +		goto i2c_err;
-> +	dprx_i2c_stop(sink);
-> +
-> +	rep->reply_type = DP_SIDEBAND_REPLY_ACK;
-> +	rep->req_type = DP_REMOTE_I2C_READ;
-> +
-> +	read_rep->port_number = read_req->port_number;
-> +	read_rep->num_bytes = read_req->num_bytes_read;
-> +	return;
-> +
-> +i2c_err:
-> +	dprx_i2c_stop(sink);
-> +	dprx_write_nak(dprx, rep, req->req_type, DP_NAK_I2C_NAK);
-> +}
-> +
-> +static void dprx_execute_remote_i2c_write(struct dprx *dprx,
-> +					  struct drm_dp_sideband_msg_req_body *req,
-> +					  struct drm_dp_sideband_msg_reply_body *rep)
-> +{
-> +	struct drm_dp_remote_i2c_write *write_req = &req->u.i2c_write;
-> +	struct drm_dp_remote_i2c_write_ack_reply *write_rep = &rep->u.remote_i2c_write_ack;
-> +	struct dprx_sink *sink;
-> +	int sink_idx;
-> +	int res;
-> +
-> +	sink_idx = dprx_port_number_to_sink_idx(dprx, write_req->port_number);
-> +	if (sink_idx == -1) {
-> +		dprx_write_nak(dprx, rep, req->req_type, DP_NAK_BAD_PARAM);
-> +		return;
-> +	}
-> +	sink = &dprx->sinks[sink_idx];
-> +
-> +	res = dprx_i2c_write(sink, write_req->write_i2c_device_id,
-> +				   write_req->bytes, write_req->num_bytes);
-> +	dprx_i2c_stop(sink);
-> +	if (res) {
-> +		dprx_write_nak(dprx, rep, req->req_type, DP_NAK_I2C_NAK);
-> +		return;
-> +	}
-> +
-> +	rep->reply_type = DP_SIDEBAND_REPLY_ACK;
-> +	rep->req_type = DP_REMOTE_I2C_WRITE;
-> +	write_rep->port_number = write_req->port_number;
-> +}
-> +
-> +static void dprx_execute_power_up_phy(struct dprx *dprx,
-> +				      struct drm_dp_sideband_msg_req_body *req,
-> +				      struct drm_dp_sideband_msg_reply_body *rep)
-> +{
-> +	rep->reply_type = DP_SIDEBAND_REPLY_ACK;
-> +	rep->req_type = DP_POWER_UP_PHY;
-> +	rep->u.port_number.port_number = req->u.port_num.port_number;
-> +}
-> +
-> +static void dprx_execute_power_down_phy(struct dprx *dprx,
-> +					struct drm_dp_sideband_msg_req_body *req,
-> +					struct drm_dp_sideband_msg_reply_body *rep)
-> +{
-> +	rep->reply_type = DP_SIDEBAND_REPLY_ACK;
-> +	rep->req_type = DP_POWER_DOWN_PHY;
-> +	rep->u.port_number.port_number = req->u.port_num.port_number;
-> +}
-> +
-> +static void dprx_encode_sideband_msg(struct sideband_msg *msg, u8 *buf)
-> +{
-> +	int idx = 0;
-> +	int i;
-> +	u8 crc4;
-> +
-> +	buf[idx++] = ((msg->lct & 0xf) << 4) | (msg->lcr & 0xf);
-> +	for (i = 0; i < (msg->lct / 2); i++)
-> +		buf[idx++] = msg->rad[i];
-> +	buf[idx++] = (msg->broadcast << 7) | (msg->path_msg << 6) |
-> +		((msg->body_len + 1) & 0x3f);
-> +	buf[idx++] = (msg->somt << 7) | (msg->eomt << 6) | (msg->seqno << 4);
-> +
-> +	crc4 = crc_dp_msg_header(buf, (idx * 2) - 1);
-> +	buf[idx - 1] |= (crc4 & 0xf);
-> +
-> +	memcpy(&buf[idx], msg->body, msg->body_len);
-> +	idx += msg->body_len;
-> +	buf[idx] = crc_dp_msg_data(msg->body, msg->body_len);
-> +}
-> +
-> +static bool dprx_decode_sideband_msg(struct sideband_msg *msg, u8 *buf, int buflen)
-> +{
-> +	u8 hdr_crc;
-> +	u8 hdr_len;
-> +	u8 body_crc;
-> +	int i;
-> +	u8 idx;
-> +
-> +	if (buf[0] == 0)
-> +		return false;
-> +	hdr_len = 3;
-> +	hdr_len += ((buf[0] & 0xf0) >> 4) / 2;
-> +	if (hdr_len > buflen)
-> +		return false;
-> +	hdr_crc = crc_dp_msg_header(buf, (hdr_len * 2) - 1);
-> +	if ((hdr_crc & 0xf) != (buf[hdr_len - 1] & 0xf))
-> +		return false;
-> +
-> +	msg->lct = (buf[0] & 0xf0) >> 4;
-> +	msg->lcr = (buf[0] & 0xf);
-> +	idx = 1;
-> +	for (i = 0; i < (msg->lct / 2); i++)
-> +		msg->rad[i] = buf[idx++];
-> +	msg->broadcast = (buf[idx] >> 7) & 0x1;
-> +	msg->path_msg = (buf[idx] >> 6) & 0x1;
-> +	msg->body_len = (buf[idx] & 0x3f) - 1;
-> +	idx++;
-> +	msg->somt = (buf[idx] >> 7) & 0x1;
-> +	msg->eomt = (buf[idx] >> 6) & 0x1;
-> +	msg->seqno = (buf[idx] >> 4) & 0x1;
-> +	idx++;
-> +
-> +	if (hdr_len + msg->body_len + 1 != buflen)
-> +		return false;
-> +
-> +	body_crc = crc_dp_msg_data(&buf[idx], msg->body_len);
-> +	if (body_crc != buf[idx + msg->body_len])
-> +		return false;
-> +
-> +	memcpy(msg->body, &buf[idx], msg->body_len);
-> +	idx += msg->body_len;
-> +
-> +	return true;
-> +}
-> +
-> +static bool dprx_decode_port_number_req(struct drm_dp_port_number_req *port_num, u8 *buf, int len)
-> +{
-> +	if (len != 1)
-> +		return false;
-> +
-> +	port_num->port_number = buf[0] >> 4;
-> +
-> +	return true;
-> +}
-> +
-> +static bool
-> +dprx_decode_connection_status_notify_req(struct drm_dp_connection_status_notify *conn_stat,
-> +					 u8 *buf, int len)
-> +{
-> +	int idx = 0;
-> +
-> +	if (len != 18)
-> +		return false;
-> +
-> +	conn_stat->port_number = buf[idx++];
-> +	memcpy(conn_stat->guid, &buf[idx], 16);
-> +	idx += 16;
-> +	conn_stat->legacy_device_plug_status = (buf[idx] >> 6) & 1;
-> +	conn_stat->displayport_device_plug_status = (buf[idx] >> 5) & 1;
-> +	conn_stat->message_capability_status = (buf[idx] >> 4) & 1;
-> +	conn_stat->input_port = (buf[idx] >> 3) & 1;
-> +	conn_stat->peer_device_type = buf[idx] & 0x7;
-> +
-> +	return true;
-> +}
-> +
-> +static bool dprx_decode_allocate_payload_req(struct drm_dp_allocate_payload *alloc_payload,
-> +					     u8 *buf, int len)
-> +{
-> +	int idx = 0;
-> +	int i;
-> +
-> +	if (len < 4)
-> +		return false;
-> +
-> +	alloc_payload->port_number = buf[idx] >> 4;
-> +	alloc_payload->number_sdp_streams = buf[idx++] & 0xf;
-> +	alloc_payload->vcpi = buf[idx++] & 0x7f;
-> +	alloc_payload->pbn = buf[idx] << 8 | buf[idx + 1];
-> +	idx += 2;
-> +
-> +	if (len != idx + (alloc_payload->number_sdp_streams + 1) / 2)
-> +		return false;
-> +
-> +	for (i = 0; i < alloc_payload->number_sdp_streams; i++) {
-> +		if ((i & 1) == 0) {
-> +			alloc_payload->sdp_stream_sink[i] = buf[idx] >> 4;
-> +		} else {
-> +			alloc_payload->sdp_stream_sink[i] = buf[idx] & 0xf;
-> +			idx++;
-> +		}
-> +	}
-> +
-> +	return true;
-> +}
-> +
-> +static bool dprx_decode_remote_dpcd_read_req(struct drm_dp_remote_dpcd_read *dpcd_read,
-> +					     u8 *buf, int len)
-> +{
-> +	if (len != 4)
-> +		return false;
-> +
-> +	dpcd_read->port_number = buf[0] >> 4;
-> +	dpcd_read->dpcd_address = (buf[0] & 0xf) << 16 | buf[1] << 8 | buf[2];
-> +	dpcd_read->num_bytes = buf[3];
-> +
-> +	return true;
-> +}
-> +
-> +static bool dprx_decode_remote_i2c_read_req(struct drm_dp_remote_i2c_read *i2c_read,
-> +					    u8 *buf, int len)
-> +{
-> +	struct drm_dp_remote_i2c_read_tx *tx;
-> +	int idx = 0;
-> +	int i;
-> +
-> +	if (len < 1)
-> +		return false;
-> +
-> +	i2c_read->port_number = buf[idx] >> 4;
-> +	i2c_read->num_transactions = buf[idx] & 0x3;
-> +	idx++;
-> +
-> +	for (i = 0; i < i2c_read->num_transactions; i++) {
-> +		tx = &i2c_read->transactions[i];
-> +		if (len < idx + 2)
-> +			return false;
-> +		tx->i2c_dev_id = buf[idx++] & 0x7f;
-> +		tx->num_bytes = buf[idx++];
-> +		if (len < idx + tx->num_bytes + 1)
-> +			return -1;
-> +		tx->bytes = &buf[idx];
-> +		idx += tx->num_bytes;
-> +		tx->no_stop_bit = (buf[idx] >> 4) & 1;
-> +		tx->i2c_transaction_delay = buf[idx] & 0xf;
-> +		idx++;
-> +	}
-> +
-> +	if (len != idx + 2)
-> +		return false;
-> +
-> +	i2c_read->read_i2c_device_id = buf[idx++] & 0x7f;
-> +	i2c_read->num_bytes_read = buf[idx++];
-> +
-> +	return true;
-> +}
-> +
-> +static bool dprx_decode_remote_i2c_write_req(struct drm_dp_remote_i2c_write *i2c_write,
-> +					     u8 *buf, int len)
-> +{
-> +	int idx = 0;
-> +
-> +	if (len < 3)
-> +		return false;
-> +
-> +	i2c_write->port_number = buf[idx++] >> 4;
-> +	i2c_write->write_i2c_device_id = buf[idx++] & 0x7f;
-> +	i2c_write->num_bytes = buf[idx++];
-> +
-> +	if (len != idx + i2c_write->num_bytes)
-> +		return false;
-> +
-> +	i2c_write->bytes = &buf[idx];
-> +
-> +	return true;
-> +}
-> +
-> +static bool dprx_decode_sideband_req(struct drm_dp_sideband_msg_req_body *req, u8 *buf, int len)
-> +{
-> +	if (len == 0)
-> +		return false;
-> +
-> +	req->req_type = buf[0] & 0x7f;
-> +	buf++;
-> +	len--;
-> +
-> +	switch (req->req_type) {
-> +	case DP_LINK_ADDRESS:
-> +	case DP_CLEAR_PAYLOAD_ID_TABLE:
-> +		return len == 0; /* no request data */
-> +	case DP_ENUM_PATH_RESOURCES:
-> +	case DP_POWER_UP_PHY:
-> +	case DP_POWER_DOWN_PHY:
-> +		return dprx_decode_port_number_req(&req->u.port_num, buf, len);
-> +	case DP_CONNECTION_STATUS_NOTIFY:
-> +		return dprx_decode_connection_status_notify_req(&req->u.conn_stat, buf, len);
-> +	case DP_ALLOCATE_PAYLOAD:
-> +		return dprx_decode_allocate_payload_req(&req->u.allocate_payload, buf, len);
-> +	case DP_REMOTE_DPCD_READ:
-> +		return dprx_decode_remote_dpcd_read_req(&req->u.dpcd_read, buf, len);
-> +	case DP_REMOTE_I2C_READ:
-> +		return dprx_decode_remote_i2c_read_req(&req->u.i2c_read, buf, len);
-> +	case DP_REMOTE_I2C_WRITE:
-> +		return dprx_decode_remote_i2c_write_req(&req->u.i2c_write, buf, len);
-> +	default:
-> +		return false;
-> +	}
-> +}
-> +
-> +static void dprx_encode_sideband_rep(struct drm_dp_sideband_msg_reply_body *rep, u8 *buf, int *len)
-> +{
-> +	int idx = 0;
-> +	int i;
-> +
-> +	buf[idx++] = (rep->reply_type & 0x1) << 7 | (rep->req_type & 0x7f);
-> +
-> +	if (rep->reply_type) {
-> +		memcpy(&buf[idx], rep->u.nak.guid, 16);
-> +		idx += 16;
-> +		buf[idx++] = rep->u.nak.reason;
-> +		buf[idx++] = rep->u.nak.nak_data;
-> +		*len = idx;
-> +		return;
-> +	}
-> +
-> +	switch (rep->req_type) {
-> +	case DP_LINK_ADDRESS: {
-> +		struct drm_dp_link_address_ack_reply *link_addr = &rep->u.link_addr;
-> +		struct drm_dp_link_addr_reply_port *port;
-> +
-> +		memcpy(&buf[idx], link_addr->guid, 16);
-> +		idx += 16;
-> +		buf[idx++] = link_addr->nports;
-> +		for (i = 0; i < link_addr->nports; i++) {
-> +			port = &link_addr->ports[i];
-> +			buf[idx++] = port->input_port << 7 | port->peer_device_type << 4 |
-> +				     port->port_number;
-> +			if (port->input_port == 0) {
-> +				buf[idx++] = port->mcs << 7 | port->ddps << 6 |
-> +					     port->legacy_device_plug_status << 5;
-> +				buf[idx++] = port->dpcd_revision;
-> +				memcpy(&buf[idx], port->peer_guid, 16);
-> +				idx += 16;
-> +				buf[idx++] = port->num_sdp_streams << 4 |
-> +					     port->num_sdp_stream_sinks;
-> +			} else {
-> +				buf[idx++] = port->mcs << 7 | port->ddps << 6;
-> +			}
-> +		}
-> +		break;
-> +	}
-> +	case DP_ENUM_PATH_RESOURCES: {
-> +		struct drm_dp_enum_path_resources_ack_reply *path_res = &rep->u.path_resources;
-> +
-> +		buf[idx++] = path_res->port_number << 4 | path_res->fec_capable;
-> +		buf[idx++] = path_res->full_payload_bw_number >> 8;
-> +		buf[idx++] = path_res->full_payload_bw_number & 0xff;
-> +		buf[idx++] = path_res->avail_payload_bw_number >> 8;
-> +		buf[idx++] = path_res->avail_payload_bw_number & 0xff;
-> +		break;
-> +	}
-> +	case DP_ALLOCATE_PAYLOAD: {
-> +		struct drm_dp_allocate_payload_ack_reply *alloc_payload = &rep->u.allocate_payload;
-> +
-> +		buf[idx++] = alloc_payload->port_number << 4;
-> +		buf[idx++] = alloc_payload->vcpi & 0x3f;
-> +		buf[idx++] = alloc_payload->allocated_pbn >> 8;
-> +		buf[idx++] = alloc_payload->allocated_pbn & 0xff;
-> +		break;
-> +	}
-> +	case DP_REMOTE_DPCD_READ: {
-> +		struct drm_dp_remote_dpcd_read_ack_reply *dpcd_read = &rep->u.remote_dpcd_read_ack;
-> +
-> +		buf[idx++] = dpcd_read->port_number & 0xf;
-> +		buf[idx++] = dpcd_read->num_bytes;
-> +		memcpy(&buf[idx], dpcd_read->bytes, dpcd_read->num_bytes);
-> +		idx += dpcd_read->num_bytes;
-> +		break;
-> +	}
-> +	case DP_REMOTE_I2C_READ: {
-> +		struct drm_dp_remote_i2c_read_ack_reply *i2c_read = &rep->u.remote_i2c_read_ack;
-> +
-> +		buf[idx++] = i2c_read->port_number & 0xf;
-> +		buf[idx++] = i2c_read->num_bytes;
-> +		memcpy(&buf[idx], i2c_read->bytes, i2c_read->num_bytes);
-> +		idx += i2c_read->num_bytes;
-> +		break;
-> +	}
-> +	case DP_REMOTE_I2C_WRITE:
-> +		buf[idx++] = rep->u.remote_i2c_write_ack.port_number & 0xf;
-> +		break;
-> +	case DP_POWER_UP_PHY:
-> +	case DP_POWER_DOWN_PHY:
-> +		buf[idx++] = rep->u.port_number.port_number << 4;
-> +		break;
-> +	}
-> +	*len = idx;
-> +}
-> +
-> +static void dprx_execute_msg_transaction(struct dprx *dprx,
-> +					 struct drm_dp_sideband_msg_req_body *req,
-> +					 struct drm_dp_sideband_msg_reply_body *rep)
-> +{
-> +	switch (req->req_type) {
-> +	case DP_LINK_ADDRESS:
-> +		dprx_execute_link_address(dprx, req, rep);
-> +		break;
-> +	case DP_CONNECTION_STATUS_NOTIFY:
-> +		dprx_execute_connection_status_notify(dprx, req, rep);
-> +		break;
-> +	case DP_ENUM_PATH_RESOURCES:
-> +		dprx_execute_enum_path_resources(dprx, req, rep);
-> +		break;
-> +	case DP_ALLOCATE_PAYLOAD:
-> +		dprx_execute_allocate_payload(dprx, req, rep);
-> +		break;
-> +	case DP_CLEAR_PAYLOAD_ID_TABLE:
-> +		dprx_execute_clear_payload_id_table(dprx, req, rep);
-> +		break;
-> +	case DP_REMOTE_DPCD_READ:
-> +		dprx_execute_remote_dpcd_read(dprx, req, rep);
-> +		break;
-> +	case DP_REMOTE_I2C_READ:
-> +		dprx_execute_remote_i2c_read(dprx, req, rep);
-> +		break;
-> +	case DP_REMOTE_I2C_WRITE:
-> +		dprx_execute_remote_i2c_write(dprx, req, rep);
-> +		break;
-> +	case DP_POWER_UP_PHY:
-> +		dprx_execute_power_up_phy(dprx, req, rep);
-> +		break;
-> +	case DP_POWER_DOWN_PHY:
-> +		dprx_execute_power_down_phy(dprx, req, rep);
-> +		break;
-> +	default:
-> +		dprx_write_nak(dprx, rep, req->req_type, DP_NAK_BAD_PARAM);
-> +		break;
-> +	}
-> +}
-> +
-> +static void dprx_handle_msg_transaction(struct dprx *dprx,
-> +					struct msg_transaction_rxbuf *rxbuf,
-> +					struct msg_transaction_txbuf *txbuf)
-> +{
-> +	bool decoded;
-> +	struct drm_dp_sideband_msg_req_body req;
-> +	struct drm_dp_sideband_msg_reply_body rep;
-> +
-> +	decoded = dprx_decode_sideband_req(&req, rxbuf->buf, rxbuf->len);
-> +	if (decoded)
-> +		dprx_execute_msg_transaction(dprx, &req, &rep);
-> +	else
-> +		dprx_write_nak(dprx, &rep, req.req_type, DP_NAK_BAD_PARAM);
-> +	dprx_encode_sideband_rep(&rep, txbuf->buf, &txbuf->len);
-> +	txbuf->written = 0;
-> +}
-> +
-> +static void dprx_msg_transaction_append(struct msg_transaction_rxbuf *rxbuf,
-> +					struct msg_transaction_meta *meta,
-> +					struct sideband_msg *msg)
-> +{
-> +	int append_len;
-> +
-> +	append_len = min(msg->body_len, sizeof(rxbuf->buf) - rxbuf->len);
-> +	memcpy(rxbuf->buf + rxbuf->len, msg->body, append_len);
-> +	rxbuf->len += append_len;
-> +
-> +	if (msg->somt) {
-> +		meta->lct = msg->lct;
-> +		memcpy(meta->rad, msg->rad, msg->lct / 2);
-> +		meta->seqno = msg->seqno;
-> +	}
-> +}
-> +
-> +static void dprx_msg_transaction_extract(struct msg_transaction_txbuf *txbuf,
-> +					 struct msg_transaction_meta *meta,
-> +					 struct sideband_msg *msg)
-> +{
-> +	int hdr_len = 3 + meta->lct / 2;
-> +	int body_len;
-> +	bool somt;
-> +	bool eomt;
-> +
-> +	body_len = txbuf->len - txbuf->written;
-> +	/* trim body_len so that the sideband msg fits into 48 bytes */
-> +	body_len = min(body_len, 48 - 1 - hdr_len);
-> +
-> +	somt = (txbuf->written == 0);
-> +	eomt = (txbuf->written + body_len == txbuf->len);
-> +
-> +	msg->lct = meta->lct;
-> +	msg->lcr = meta->lct - 1;
-> +	memcpy(msg->rad, meta->rad, meta->lct / 2);
-> +	msg->broadcast = false;
-> +	msg->path_msg = false;
-> +	msg->somt = somt;
-> +	msg->eomt = eomt;
-> +	msg->seqno = meta->seqno;
-> +
-> +	memcpy(msg->body, txbuf->buf + txbuf->written, body_len);
-> +	msg->body_len = body_len;
-> +
-> +	txbuf->written += body_len;
-> +}
-> +
-> +static void dprx_msg_transaction_clear_rxbuf(struct msg_transaction_rxbuf *rxbuf)
-> +{
-> +	rxbuf->len = 0;
-> +}
-> +
-> +static void dprx_msg_transaction_clear_txbuf(struct msg_transaction_txbuf *txbuf)
-> +{
-> +	txbuf->len = 0;
-> +	txbuf->written = 0;
-> +}
-> +
-> +static bool dprx_msg_transaction_txbuf_empty(struct msg_transaction_txbuf *txbuf)
-> +{
-> +	return txbuf->written == txbuf->len;
-> +}
-> +
-> +static void dprx_write_pending_sideband_msg(struct dprx *dprx)
-> +{
-> +	struct msg_transaction_txbuf *txbuf;
-> +	struct msg_transaction_meta *meta;
-> +	struct sideband_msg msg;
-> +
-> +	if (WARN_ON_ONCE(!dprx->mt_pending))
-> +		return;
-> +
-> +	txbuf = &dprx->mt_txbuf[dprx->mt_seqno];
-> +	meta = &dprx->mt_meta[dprx->mt_seqno];
-> +
-> +	dprx_msg_transaction_extract(txbuf, meta, &msg);
-> +	if (dprx_msg_transaction_txbuf_empty(txbuf)) {
-> +		dprx->mt_seqno = !dprx->mt_seqno;
-> +		txbuf = &dprx->mt_txbuf[dprx->mt_seqno];
-> +		if (dprx_msg_transaction_txbuf_empty(txbuf))
-> +			dprx->mt_pending = false;
-> +	}
-> +
-> +	dprx_encode_sideband_msg(&msg, dprx->down_rep_buf);
-> +}
-> +
-> +static void dprx_signal_irq(struct dprx *dprx, int irq)
-> +{
-> +	dprx->irq_vector |= irq;
-> +	dprx_pulse_hpd(dprx);
-> +}
-> +
-> +static void dprx_handle_sideband_msg(struct dprx *dprx, struct sideband_msg *msg)
-> +{
-> +	struct msg_transaction_rxbuf *rxbuf = &dprx->mt_rxbuf[msg->seqno];
-> +	struct msg_transaction_txbuf *txbuf = &dprx->mt_txbuf[msg->seqno];
-> +	struct msg_transaction_meta *meta = &dprx->mt_meta[msg->seqno];
-> +
-> +	if (msg->somt)
-> +		dprx_msg_transaction_clear_rxbuf(rxbuf);
-> +	dprx_msg_transaction_append(rxbuf, meta, msg);
-> +
-> +	if (msg->eomt) {
-> +		/* drop the message if txbuf isn't empty */
-> +		if (!dprx_msg_transaction_txbuf_empty(txbuf))
-> +			return;
-> +		dprx_handle_msg_transaction(dprx, rxbuf, txbuf);
-> +
-> +		if (!dprx->mt_pending) {
-> +			dprx->mt_pending = true;
-> +			dprx->mt_seqno = msg->seqno;
-> +			if (!dprx->down_rep_pending) {
-> +				dprx_write_pending_sideband_msg(dprx);
-> +				dprx_signal_irq(dprx, DP_DOWN_REP_MSG_RDY);
-> +				dprx->down_rep_pending = true;
-> +			}
-> +		}
-> +	}
-> +}
-> +
-> +static void dprx_init_caps(struct dprx *dprx)
-> +{
-> +	memset(dprx->caps, 0, sizeof(dprx->caps));
-> +	dprx->caps[DP_DPCD_REV]			= DP_DPCD_REV_14;
-> +	dprx->caps[DP_MAX_LINK_RATE]		= dprx->max_link_rate;
-> +	dprx->caps[DP_MAX_LANE_COUNT]		= DP_ENHANCED_FRAME_CAP | DP_TPS3_SUPPORTED |
-> +						  dprx->max_lane_count;
-> +	dprx->caps[DP_MAX_DOWNSPREAD]		= DP_TPS4_SUPPORTED | DP_MAX_DOWNSPREAD_0_5;
-> +	dprx->caps[DP_MAIN_LINK_CHANNEL_CODING]	= DP_CAP_ANSI_8B10B;
-> +	dprx->caps[DP_RECEIVE_PORT_0_CAP_0]	= DP_LOCAL_EDID_PRESENT;
-> +}
-> +
-> +static u8 dprx_read_caps(struct dprx *dprx, u32 offset)
-> +{
-> +	return dprx->caps[offset];
-> +}
-> +
-> +static u8 dprx_read_mstm_cap(struct dprx *dprx)
-> +{
-> +	return dprx->multi_stream_support;
-> +}
-> +
-> +static u8 dprx_read_guid(struct dprx *dprx, u32 offset)
-> +{
-> +	return dprx->guid[offset];
-> +}
-> +
-> +static void dprx_write_guid(struct dprx *dprx, u32 offset, u8 val)
-> +{
-> +	dprx->guid[offset] = val;
-> +}
-> +
-> +static u8 dprx_read_link_bw(struct dprx *dprx)
-> +{
-> +	u32 reg = dprx_read(dprx, DPRX_RX_CONTROL);
-> +
-> +	return (reg >> DPRX_RX_CONTROL_LINK_RATE_SHIFT) & DPRX_RX_CONTROL_LINK_RATE_MASK;
-> +}
-> +
-> +static void dprx_write_link_bw(struct dprx *dprx, u8 val)
-> +{
-> +	u32 reg;
-> +
-> +	if (val != DP_LINK_BW_1_62 && val != DP_LINK_BW_2_7 &&
-> +	    val != DP_LINK_BW_5_4  && val != DP_LINK_BW_8_1)
-> +		return;
-> +
-> +	if (val > dprx->max_link_rate)
-> +		return;
-> +
-> +	reg = dprx_read(dprx, DPRX_RX_CONTROL);
-> +	reg &= ~(DPRX_RX_CONTROL_LINK_RATE_MASK << DPRX_RX_CONTROL_LINK_RATE_SHIFT);
-> +	reg |= val << DPRX_RX_CONTROL_LINK_RATE_SHIFT;
-> +	reg |= 1 << DPRX_RX_CONTROL_RECONFIG_LINKRATE;
-> +	dprx_write(dprx, DPRX_RX_CONTROL, reg);
-> +}
-> +
-> +static u8 dprx_read_lane_count(struct dprx *dprx)
-> +{
-> +	u32 reg = dprx_read(dprx, DPRX_RX_CONTROL);
-> +
-> +	return (reg >> DPRX_RX_CONTROL_LANE_COUNT_SHIFT) & DPRX_RX_CONTROL_LANE_COUNT_MASK;
-> +}
-> +
-> +static void dprx_write_lane_count(struct dprx *dprx, u8 val)
-> +{
-> +	u32 reg;
-> +	u8 lane_count;
-> +
-> +	lane_count = val & DP_LANE_COUNT_MASK;
-> +
-> +	if (lane_count != 1 && lane_count != 2 && lane_count != 4)
-> +		return;
-> +
-> +	if (lane_count > dprx->max_lane_count)
-> +		return;
-> +
-> +	reg = dprx_read(dprx, DPRX_RX_CONTROL);
-> +	reg &= ~(DPRX_RX_CONTROL_LANE_COUNT_MASK << DPRX_RX_CONTROL_LANE_COUNT_SHIFT);
-> +	reg |= lane_count << DPRX_RX_CONTROL_LANE_COUNT_SHIFT;
-> +	dprx_write(dprx, DPRX_RX_CONTROL, reg);
-> +}
-> +
-> +static u8 dprx_read_training_pattern(struct dprx *dprx)
-> +{
-> +	u32 reg;
-> +	u32 pattern;
-> +	u32 scrambler_disable;
-> +	u8 result = 0;
-> +
-> +	reg = dprx_read(dprx, DPRX_RX_CONTROL);
-> +	pattern = (reg >> DPRX_RX_CONTROL_TP_SHIFT) & DPRX_RX_CONTROL_TP_MASK;
-> +	scrambler_disable = (reg >> DPRX_RX_CONTROL_SCRAMBLER_DISABLE) & 1;
-> +
-> +	if (scrambler_disable)
-> +		result |= DP_LINK_SCRAMBLING_DISABLE;
-> +	result |= pattern;
-> +
-> +	return result;
-> +}
-> +
-> +static void dprx_write_training_pattern(struct dprx *dprx, u8 val)
-> +{
-> +	u8 pattern;
-> +	u8 scrambler_disable;
-> +	u32 reg;
-> +
-> +	pattern = val & DP_TRAINING_PATTERN_MASK_1_4;
-> +	scrambler_disable = !!(val & DP_LINK_SCRAMBLING_DISABLE);
-> +
-> +	reg = dprx_read(dprx, DPRX_RX_CONTROL);
-> +	reg &= ~(DPRX_RX_CONTROL_TP_MASK << DPRX_RX_CONTROL_TP_SHIFT);
-> +	reg |= pattern << DPRX_RX_CONTROL_TP_SHIFT;
-> +	reg &= ~(1 << DPRX_RX_CONTROL_SCRAMBLER_DISABLE);
-> +	reg |= scrambler_disable << DPRX_RX_CONTROL_SCRAMBLER_DISABLE;
-> +	dprx_write(dprx, DPRX_RX_CONTROL, reg);
-> +}
-> +
-> +static u8 dprx_read_training_lane(struct dprx *dprx, u32 offset)
-> +{
-> +	struct dprx_training_control *ctl = &dprx->training_control[offset];
-> +	u8 result = 0;
-> +
-> +	result |= ctl->volt_swing << DP_TRAIN_VOLTAGE_SWING_SHIFT;
-> +	if (ctl->max_swing)
-> +		result |= DP_TRAIN_MAX_SWING_REACHED;
-> +	result |= ctl->pre_emph << DP_TRAIN_PRE_EMPHASIS_SHIFT;
-> +	if (ctl->max_pre_emph)
-> +		result |= DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
-> +
-> +	return result;
-> +}
-> +
-> +static void dprx_write_training_lane(struct dprx *dprx, u32 offset, u8 val)
-> +{
-> +	struct dprx_training_control *ctl = &dprx->training_control[offset];
-> +
-> +	ctl->volt_swing   = (val & DP_TRAIN_VOLTAGE_SWING_MASK) >> DP_TRAIN_VOLTAGE_SWING_SHIFT;
-> +	ctl->max_swing    = (val & DP_TRAIN_MAX_SWING_REACHED);
-> +	ctl->pre_emph     = (val & DP_TRAIN_PRE_EMPHASIS_MASK) >> DP_TRAIN_PRE_EMPHASIS_SHIFT;
-> +	ctl->max_pre_emph = (val & DP_TRAIN_MAX_PRE_EMPHASIS_REACHED);
-> +}
-> +
-> +static u8 dprx_read_mstm_ctrl(struct dprx *dprx)
-> +{
-> +	return (dprx_read(dprx, DPRX_MST_CONTROL1) >> DPRX_MST_CONTROL1_MST_EN) & 1;
-> +}
-> +
-> +static void dprx_write_mstm_ctrl(struct dprx *dprx, u8 val)
-> +{
-> +	u8 mst_en = !!(val & DP_MST_EN);
-> +	u32 reg;
-> +
-> +	reg = dprx_read(dprx, DPRX_MST_CONTROL1);
-> +	reg &= ~(1 << DPRX_MST_CONTROL1_MST_EN);
-> +	reg |= mst_en << DPRX_MST_CONTROL1_MST_EN;
-> +	dprx_write(dprx, DPRX_MST_CONTROL1, reg);
-> +}
-> +
-> +static void dprx_handle_payload_allocate(struct dprx *dprx)
-> +{
-> +	u8 id = dprx->payload_allocate_set;
-> +	u8 start = dprx->payload_allocate_start_time_slot;
-> +	u8 count = dprx->payload_allocate_time_slot_count;
-> +
-> +	if (id == 0 && start == 0 && count == 0x3f) {
-> +		dprx_clear_vc_payload_table(dprx);
-> +	} else {
-> +		if (count == 0)
-> +			dprx_deallocate_vc_payload(dprx, start, id);
-> +		else
-> +			dprx_allocate_vc_payload(dprx, start, count, id);
-> +		dprx_set_vc_payload_table(dprx);
-> +	}
-> +	dprx->payload_table_updated = 1;
-> +}
-> +
-> +static u8 dprx_read_payload_allocate_set(struct dprx *dprx)
-> +{
-> +	return dprx->payload_allocate_set;
-> +}
-> +
-> +static void dprx_write_payload_allocate_set(struct dprx *dprx, u8 val)
-> +{
-> +	dprx->payload_allocate_set = val & DP_PAYLOAD_ALLOCATE_SET_MASK;
-> +}
-> +
-> +static u8 dprx_read_payload_allocate_start_time_slot(struct dprx *dprx)
-> +{
-> +	return dprx->payload_allocate_start_time_slot;
-> +}
-> +
-> +static void dprx_write_payload_allocate_start_time_slot(struct dprx *dprx, u8 val)
-> +{
-> +	dprx->payload_allocate_start_time_slot = val & DP_PAYLOAD_ALLOCATE_START_TIME_SLOT_MASK;
-> +}
-> +
-> +static u8 dprx_read_payload_allocate_time_slot_count(struct dprx *dprx)
-> +{
-> +	return dprx->payload_allocate_time_slot_count;
-> +}
-> +
-> +static void dprx_write_payload_allocate_time_slot_count(struct dprx *dprx, u8 val)
-> +{
-> +	dprx->payload_allocate_time_slot_count = val & DP_PAYLOAD_ALLOCATE_TIME_SLOT_COUNT_MASK;
-> +	dprx_handle_payload_allocate(dprx);
-> +}
-> +
-> +static u8 dprx_read_sink_count(struct dprx *dprx)
-> +{
-> +	return dprx->max_stream_count;
-> +}
-> +
-> +static u8 dprx_read_device_service_irq_vector(struct dprx *dprx)
-> +{
-> +	return dprx->irq_vector;
-> +}
-> +
-> +static void dprx_write_device_service_irq_vector(struct dprx *dprx, u8 val)
-> +{
-> +	dprx->irq_vector &= ~val;
-> +
-> +	if (val & DP_DOWN_REP_MSG_RDY) {
-> +		if (dprx->mt_pending) {
-> +			dprx_write_pending_sideband_msg(dprx);
-> +			dprx_signal_irq(dprx, DP_DOWN_REP_MSG_RDY);
-> +		} else {
-> +			dprx->down_rep_pending = false;
-> +		}
-> +	}
-> +}
-> +
-> +static u8 dprx_read_lane0_1_status(struct dprx *dprx)
-> +{
-> +	u32 reg;
-> +	u8 res = 0;
-> +
-> +	reg = dprx_read(dprx, DPRX_RX_STATUS);
-> +	if ((reg >> DPRX_RX_STATUS_CR_LOCK(0)) & 1)
-> +		res |= DP_LANE_CR_DONE;
-> +	if ((reg >> DPRX_RX_STATUS_CR_LOCK(1)) & 1)
-> +		res |= DP_LANE_CR_DONE << 4;
-> +	if ((reg >> DPRX_RX_STATUS_SYM_LOCK(0)) & 1)
-> +		res |= DP_LANE_CHANNEL_EQ_DONE | DP_LANE_SYMBOL_LOCKED;
-> +	if ((reg >> DPRX_RX_STATUS_SYM_LOCK(1)) & 1)
-> +		res |= (DP_LANE_CHANNEL_EQ_DONE | DP_LANE_SYMBOL_LOCKED) << 4;
-> +
-> +	return res;
-> +}
-> +
-> +static u8 dprx_read_lane2_3_status(struct dprx *dprx)
-> +{
-> +	u32 reg;
-> +	u8 res = 0;
-> +
-> +	reg = dprx_read(dprx, DPRX_RX_STATUS);
-> +	if ((reg >> DPRX_RX_STATUS_CR_LOCK(2)) & 1)
-> +		res |= DP_LANE_CR_DONE;
-> +	if ((reg >> DPRX_RX_STATUS_CR_LOCK(3)) & 1)
-> +		res |= DP_LANE_CR_DONE << 4;
-> +	if ((reg >> DPRX_RX_STATUS_SYM_LOCK(2)) & 1)
-> +		res |= DP_LANE_CHANNEL_EQ_DONE | DP_LANE_SYMBOL_LOCKED;
-> +	if ((reg >> DPRX_RX_STATUS_SYM_LOCK(3)) & 1)
-> +		res |= (DP_LANE_CHANNEL_EQ_DONE | DP_LANE_SYMBOL_LOCKED) << 4;
-> +
-> +	return res;
-> +}
-> +
-> +static u8 dprx_read_lane_align_status(struct dprx *dprx)
-> +{
-> +	return (dprx_read(dprx, DPRX_RX_STATUS) >> DPRX_RX_STATUS_INTERLANE_ALIGN) & 1;
-> +}
-> +
-> +static u8 dprx_read_sink_status(struct dprx *dprx)
-> +{
-> +	return (dprx_read(dprx, DPRX_VBID(0)) >> DPRX_VBID_MSA_LOCK) & 1;
-> +}
-> +
-> +static u8 dprx_read_adjust_request(struct dprx *dprx,
-> +				   struct dprx_training_control *ctl0,
-> +				   struct dprx_training_control *ctl1)
-> +{
-> +	u8 next_volt_swing0;
-> +	u8 next_pre_emph0;
-> +	u8 next_volt_swing1;
-> +	u8 next_pre_emph1;
-> +
-> +	if (dprx_adjust_needed(dprx)) {
-> +		dprx_training_control_next(ctl0, &next_volt_swing0, &next_pre_emph0);
-> +		dprx_training_control_next(ctl1, &next_volt_swing1, &next_pre_emph1);
-> +	} else {
-> +		next_volt_swing0 = ctl0->volt_swing;
-> +		next_pre_emph0 = ctl0->pre_emph;
-> +		next_volt_swing1 = ctl1->volt_swing;
-> +		next_pre_emph1 = ctl1->pre_emph;
-> +	}
-> +
-> +	return next_volt_swing0 << DP_ADJUST_VOLTAGE_SWING_LANE0_SHIFT |
-> +	       next_pre_emph0   << DP_ADJUST_PRE_EMPHASIS_LANE0_SHIFT  |
-> +	       next_volt_swing1 << DP_ADJUST_VOLTAGE_SWING_LANE1_SHIFT |
-> +	       next_pre_emph1   << DP_ADJUST_PRE_EMPHASIS_LANE1_SHIFT;
-> +}
-> +
-> +static u8 dprx_read_adjust_request_lane0_1(struct dprx *dprx)
-> +{
-> +	return dprx_read_adjust_request(dprx,
-> +					&dprx->training_control[0],
-> +					&dprx->training_control[1]);
-> +}
-> +
-> +static u8 dprx_read_adjust_request_lane2_3(struct dprx *dprx)
-> +{
-> +	return dprx_read_adjust_request(dprx,
-> +					&dprx->training_control[2],
-> +					&dprx->training_control[3]);
-> +}
-> +
-> +static u8 dprx_read_payload_table_update_status(struct dprx *dprx)
-> +{
-> +	u32 reg;
-> +	u32 act_handled;
-> +	u8 result = 0;
-> +
-> +	reg = dprx_read(dprx, DPRX_MST_STATUS1);
-> +	act_handled = (reg >> DPRX_MST_STATUS1_VCPTAB_ACT_ACK) & 1;
-> +
-> +	if (dprx->payload_table_updated)
-> +		result |= DP_PAYLOAD_TABLE_UPDATED;
-> +	if (act_handled)
-> +		result |= DP_PAYLOAD_ACT_HANDLED;
-> +
-> +	return result;
-> +}
-> +
-> +static void dprx_write_payload_table_update_status(struct dprx *dprx, u8 val)
-> +{
-> +	u32 reg;
-> +
-> +	if (val & DP_PAYLOAD_TABLE_UPDATED) {
-> +		dprx->payload_table_updated = 0;
-> +		reg = dprx_read(dprx, DPRX_MST_CONTROL1);
-> +		reg &= ~(1 << DPRX_MST_CONTROL1_VCPTAB_UPD_REQ);
-> +		dprx_write(dprx, DPRX_MST_CONTROL1, reg);
-> +	}
-> +}
-> +
-> +static u8 dprx_read_vc_payload_id_slot(struct dprx *dprx, u32 offset)
-> +{
-> +	return dprx->payload_table[offset + 1];
-> +}
-> +
-> +static u8 dprx_read_down_req(struct dprx *dprx, u32 offset)
-> +{
-> +	return dprx->down_req_buf[offset];
-> +}
-> +
-> +static void dprx_write_down_req(struct dprx *dprx, u32 offset, u8 val)
-> +{
-> +	struct sideband_msg msg;
-> +
-> +	dprx->down_req_buf[offset] = val;
-> +	if (dprx_decode_sideband_msg(&msg, dprx->down_req_buf, offset + 1))
-> +		dprx_handle_sideband_msg(dprx, &msg);
-> +}
-> +
-> +static u8 dprx_read_down_rep(struct dprx *dprx, u32 offset)
-> +{
-> +	return dprx->down_rep_buf[offset];
-> +}
-> +
-> +struct dprx_dpcd_handler {
-> +	u32 addr;
-> +	u32 range_len;
-> +	union {
-> +		u8 (*point)(struct dprx *dprx);
-> +		u8 (*range)(struct dprx *dprx, u32 offset);
-> +	} read;
-> +	union {
-> +		void (*point)(struct dprx *dprx, u8 val);
-> +		void (*range)(struct dprx *dprx, u32 offset, u8 val);
-> +	} write;
-> +};
-> +
-> +static void dprx_write_noop(struct dprx *dprx, u8 val)
-> +{
-> +}
-> +
-> +static void dprx_write_noop_range(struct dprx *dprx, u32 offset, u8 val)
-> +{
-> +}
-> +
-> +static struct dprx_dpcd_handler dprx_dpcd_handlers[] = {
-> +	{ 0x00000, 16,	{ .range = dprx_read_caps },
-> +			{ .range = dprx_write_noop_range } },
-> +	{ 0x00021, 0,	{ .point = dprx_read_mstm_cap },
-> +			{ .point = dprx_write_noop } },
-> +	{ 0x00030, 16,	{ .range = dprx_read_guid },
-> +			{ .range = dprx_write_guid } },
-> +	{ 0x00100, 0,	{ .point = dprx_read_link_bw },
-> +			{ .point = dprx_write_link_bw } },
-> +	{ 0x00101, 0,	{ .point = dprx_read_lane_count },
-> +			{ .point = dprx_write_lane_count } },
-> +	{ 0x00102, 0,	{ .point = dprx_read_training_pattern },
-> +			{ .point = dprx_write_training_pattern } },
-> +	{ 0x00103, 4,	{ .range = dprx_read_training_lane },
-> +			{ .range = dprx_write_training_lane } },
-> +	{ 0x00111, 0,	{ .point = dprx_read_mstm_ctrl },
-> +			{ .point = dprx_write_mstm_ctrl } },
-> +	{ 0x001c0, 0,	{ .point = dprx_read_payload_allocate_set },
-> +			{ .point = dprx_write_payload_allocate_set } },
-> +	{ 0x001c1, 0,	{ .point = dprx_read_payload_allocate_start_time_slot },
-> +			{ .point = dprx_write_payload_allocate_start_time_slot } },
-> +	{ 0x001c2, 0,	{ .point = dprx_read_payload_allocate_time_slot_count },
-> +			{ .point = dprx_write_payload_allocate_time_slot_count } },
-> +	{ 0x00200, 0,	{ .point = dprx_read_sink_count },
-> +			{ .point = dprx_write_noop } },
-> +	{ 0x00201, 0,	{ .point = dprx_read_device_service_irq_vector },
-> +			{ .point = dprx_write_device_service_irq_vector } },
-> +	{ 0x00202, 0,	{ .point = dprx_read_lane0_1_status },
-> +			{ .point = dprx_write_noop } },
-> +	{ 0x00203, 0,	{ .point = dprx_read_lane2_3_status },
-> +			{ .point = dprx_write_noop } },
-> +	{ 0x00204, 0,	{ .point = dprx_read_lane_align_status },
-> +			{ .point = dprx_write_noop } },
-> +	{ 0x00205, 0,	{ .point = dprx_read_sink_status },
-> +			{ .point = dprx_write_noop } },
-> +	{ 0x00206, 0,	{ .point = dprx_read_adjust_request_lane0_1 },
-> +			{ .point = dprx_write_noop } },
-> +	{ 0x00207, 0,	{ .point = dprx_read_adjust_request_lane2_3 },
-> +			{ .point = dprx_write_noop } },
-> +	{ 0x002c0, 0,	{ .point = dprx_read_payload_table_update_status },
-> +			{ .point = dprx_write_payload_table_update_status } },
-> +	{ 0x002c1, 63,	{ .range = dprx_read_vc_payload_id_slot },
-> +			{ .range = dprx_write_noop_range } },
-> +	{ 0x01000, 48,	{ .range = dprx_read_down_req },
-> +			{ .range = dprx_write_down_req } },
-> +	{ 0x01400, 48,	{ .range = dprx_read_down_rep },
-> +			{ .range = dprx_write_noop_range } },
-> +	/* Event Status Indicator is a copy of 200h - 205h */
-> +	{ 0x02002, 0,	{ .point = dprx_read_sink_count },
-> +			{ .point = dprx_write_noop } },
-> +	{ 0x02003, 0,	{ .point = dprx_read_device_service_irq_vector },
-> +			{ .point = dprx_write_device_service_irq_vector } },
-> +	{ 0x0200c, 0,	{ .point = dprx_read_lane0_1_status },
-> +			{ .point = dprx_write_noop } },
-> +	{ 0x0200d, 0,	{ .point = dprx_read_lane2_3_status },
-> +			{ .point = dprx_write_noop } },
-> +	{ 0x0200e, 0,	{ .point = dprx_read_lane_align_status },
-> +			{ .point = dprx_write_noop } },
-> +	{ 0x0200f, 0,	{ .point = dprx_read_sink_status },
-> +			{ .point = dprx_write_noop } },
-> +	/* Extended Receiver Capability is a copy of 0h - 0fh */
-> +	{ 0x02200, 16,	{ .range = dprx_read_caps },
-> +			{ .range = dprx_write_noop_range } },
-> +};
-> +
-> +static bool dprx_dpcd_handler_match(struct dprx_dpcd_handler *handler, u32 addr)
-> +{
-> +	if (handler->range_len == 0)
-> +		return addr == handler->addr;
-> +	else
-> +		return addr >= handler->addr && addr < handler->addr + handler->range_len;
-> +}
-> +
-> +static void dprx_dpcd_handler_run(struct dprx_dpcd_handler *handler,
-> +				  struct dprx *dprx, u32 addr, u8 *val, bool read)
-> +{
-> +	if (read) {
-> +		if (handler->range_len == 0)
-> +			*val = handler->read.point(dprx);
-> +		else
-> +			*val = handler->read.range(dprx, addr - handler->addr);
-> +	} else {
-> +		if (handler->range_len == 0)
-> +			handler->write.point(dprx, *val);
-> +		else
-> +			handler->write.range(dprx, addr - handler->addr, *val);
-> +	}
-> +}
-> +
-> +static void dprx_dpcd_access(struct dprx *dprx, u32 addr, u8 *val, bool read)
-> +{
-> +	struct dprx_dpcd_handler *handler;
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(dprx_dpcd_handlers); i++) {
-> +		handler = &dprx_dpcd_handlers[i];
-> +		if (dprx_dpcd_handler_match(handler, addr)) {
-> +			dprx_dpcd_handler_run(handler, dprx, addr, val, read);
-> +			return;
-> +		}
-> +	}
-> +
-> +	/* for unsupported registers, writes are ignored and reads return 0. */
-> +	if (read)
-> +		*val = 0;
-> +}
-> +
-> +static void dprx_handle_native_aux(struct dprx *dprx, struct aux_msg *req, struct aux_msg *rep)
-> +{
-> +	bool read = req->cmd & 1;
-> +	u8 *data;
-> +	int i;
-> +
-> +	rep->cmd = DP_AUX_NATIVE_REPLY_ACK;
-> +	if (read) {
-> +		rep->len = req->len;
-> +		data = rep->data;
-> +	} else {
-> +		rep->len = 0;
-> +		data = req->data;
-> +	}
-> +
-> +	for (i = 0; i < req->len; i++)
-> +		dprx_dpcd_access(dprx, req->addr + i, data + i, read);
-> +}
-> +
-> +static void dprx_handle_i2c_read(struct dprx *dprx, struct aux_msg *req, struct aux_msg *rep)
-> +{
-> +	int res;
-> +
-> +	res = dprx_i2c_read(&dprx->sinks[0], req->addr, rep->data, req->len);
-> +	if (!res) {
-> +		rep->cmd = DP_AUX_I2C_REPLY_ACK;
-> +		rep->len = req->len;
-> +	} else {
-> +		rep->cmd = DP_AUX_I2C_REPLY_NACK;
-> +		rep->len = 0;
-> +	}
-> +}
-> +
-> +static void dprx_handle_i2c_write(struct dprx *dprx, struct aux_msg *req, struct aux_msg *rep)
-> +{
-> +	int res;
-> +
-> +	res = dprx_i2c_write(&dprx->sinks[0], req->addr, req->data, req->len);
-> +	if (!res)
-> +		rep->cmd = DP_AUX_I2C_REPLY_ACK;
-> +	else
-> +		rep->cmd = DP_AUX_I2C_REPLY_NACK;
-> +	rep->len = 0;
-> +}
-> +
-> +static void dprx_decode_aux_request(struct aux_msg *req, struct aux_buf *buf)
-> +{
-> +	req->cmd = buf->data[0] >> 4;
-> +	req->addr = (buf->data[0] & 0xf) << 16 | buf->data[1] << 8 | buf->data[2];
-> +	if (buf->len < 4) {
-> +		req->len = 0;
-> +	} else {
-> +		req->len = buf->data[3] + 1;
-> +		memcpy(req->data, &buf->data[4], req->len);
-> +	}
-> +}
-> +
-> +static void dprx_encode_aux_reply(struct aux_msg *rep, struct aux_buf *buf)
-> +{
-> +	buf->data[0] = rep->cmd << 4;
-> +	memcpy(&buf->data[1], rep->data, rep->len);
-> +	buf->len = rep->len + 1;
-> +}
-> +
-> +static void dprx_handle_aux(struct dprx *dprx, struct aux_buf *req_buf, struct aux_buf *rep_buf)
-> +{
-> +	struct aux_msg req;
-> +	struct aux_msg rep;
-> +
-> +	dprx_decode_aux_request(&req, req_buf);
-> +
-> +	if (req.cmd & 8) {
-> +		dprx_handle_native_aux(dprx, &req, &rep);
-> +	} else {
-> +		if (req.cmd & 1)
-> +			dprx_handle_i2c_read(dprx, &req, &rep);
-> +		else
-> +			dprx_handle_i2c_write(dprx, &req, &rep);
-> +		if (!(req.cmd & DP_AUX_I2C_MOT))
-> +			dprx_i2c_stop(&dprx->sinks[0]);
-> +	}
-> +
-> +	dprx_encode_aux_reply(&rep, rep_buf);
-> +}
-> +
-> +static int dprx_read_aux(struct dprx *dprx, struct aux_buf *buf)
-> +{
-> +	u32 control = dprx_read(dprx, DPRX_AUX_CONTROL);
-> +	int i;
-> +
-> +	/* check MSG_READY */
-> +	if (!((dprx_read(dprx, DPRX_AUX_STATUS) >> DPRX_AUX_STATUS_MSG_READY) & 1))
-> +		return -1;
-> +
-> +	/* read LENGTH */
-> +	buf->len = (control >> DPRX_AUX_CONTROL_LENGTH_SHIFT) & DPRX_AUX_CONTROL_LENGTH_MASK;
-> +	if (buf->len > 20)
-> +		buf->len = 20;
-> +
-> +	/* read request */
-> +	for (i = 0; i < buf->len; i++)
-> +		buf->data[i] = dprx_read(dprx, DPRX_AUX_COMMAND + i);
-> +
-> +	return 0;
-> +}
-> +
-> +static void dprx_write_aux(struct dprx *dprx, struct aux_buf *buf)
-> +{
-> +	u32 reg;
-> +	int i;
-> +
-> +	if (!((dprx_read(dprx, DPRX_AUX_STATUS) >> DPRX_AUX_STATUS_READY_TO_TX) & 1))
-> +		return;
-> +
-> +	if (buf->len > 17)
-> +		buf->len = 17;
-> +	for (i = 0; i < buf->len; i++)
-> +		dprx_write(dprx, DPRX_AUX_COMMAND + i, buf->data[i]);
-> +
-> +	reg = dprx_read(dprx, DPRX_AUX_CONTROL);
-> +	reg &= ~(DPRX_AUX_CONTROL_LENGTH_MASK << DPRX_AUX_CONTROL_LENGTH_SHIFT);
-> +	reg |= buf->len << DPRX_AUX_CONTROL_LENGTH_SHIFT;
-> +	reg |= 1 << DPRX_AUX_CONTROL_TX_STROBE;
-> +	dprx_write(dprx, DPRX_AUX_CONTROL, reg);
-> +}
-> +
-> +static irqreturn_t dprx_isr(int irq, void *data)
-> +{
-> +	struct dprx *dprx = data;
-> +	struct aux_buf request;
-> +	struct aux_buf reply;
-> +
-> +	if (!dprx_read_aux(dprx, &request)) {
-> +		spin_lock(&dprx->lock);
-> +		dprx_handle_aux(dprx, &request, &reply);
-> +		spin_unlock(&dprx->lock);
-> +		dprx_write_aux(dprx, &reply);
-> +	}
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static void dprx_reset_hw(struct dprx *dprx)
-> +{
-> +	int i;
-> +
-> +	/* set link rate to 1.62 Gbps and lane count to 1 */
-> +	dprx_write(dprx, DPRX_RX_CONTROL,
-> +		   DP_LINK_BW_1_62 << DPRX_RX_CONTROL_LINK_RATE_SHIFT |
-> +		   1 << DPRX_RX_CONTROL_RECONFIG_LINKRATE |
-> +		   DPRX_RX_CONTROL_CHANNEL_CODING_8B10B << DPRX_RX_CONTROL_CHANNEL_CODING_SHIFT |
-> +		   1 << DPRX_RX_CONTROL_LANE_COUNT_SHIFT);
-> +	/* clear VC payload ID table */
-> +	for (i = 0; i < 8; i++)
-> +		dprx_write(dprx, DPRX_MST_VCPTAB(i), 0);
-> +	dprx_write(dprx, DPRX_MST_CONTROL1, 1 << DPRX_MST_CONTROL1_VCPTAB_UPD_FORCE);
-> +}
-> +
-> +static void dprx_reset(struct dprx *dprx)
-> +{
-> +	int i;
-> +
-> +	memset(dprx->guid, 0, sizeof(dprx->guid));
-> +	memset(dprx->training_control, 0, sizeof(dprx->training_control));
-> +
-> +	dprx->payload_allocate_set = 0;
-> +	dprx->payload_allocate_start_time_slot = 0;
-> +	dprx->payload_allocate_time_slot_count = 0;
-> +	memset(dprx->payload_table, 0, sizeof(dprx->payload_table));
-> +	dprx->payload_table_updated = 0;
-> +
-> +	memset(dprx->payload_id, 0, sizeof(dprx->payload_id));
-> +	memset(dprx->payload_pbn, 0, sizeof(dprx->payload_pbn));
-> +	dprx->payload_pbn_total = 0;
-> +
-> +	dprx->irq_vector = 0;
-> +
-> +	memset(dprx->down_req_buf, 0, sizeof(dprx->down_req_buf));
-> +	memset(dprx->down_rep_buf, 0, sizeof(dprx->down_rep_buf));
-> +
-> +	for (i = 0; i < 2; i++) {
-> +		dprx_msg_transaction_clear_rxbuf(&dprx->mt_rxbuf[i]);
-> +		dprx_msg_transaction_clear_txbuf(&dprx->mt_txbuf[i]);
-> +	}
-> +	dprx->mt_seqno = 0;
-> +	dprx->mt_pending = false;
-> +	dprx->down_rep_pending = false;
-> +
-> +	dprx_reset_hw(dprx);
-> +}
-> +
-> +#define to_dprx(sd) container_of(sd, struct dprx, subdev)
-> +
-> +static int dprx_get_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
-> +{
-> +	struct dprx *dprx = to_dprx(sd);
-> +	struct dprx_sink *sink;
-> +	int sink_idx;
-> +	u32 end_block = edid->start_block + edid->blocks;
-> +	unsigned long flags;
-> +	int res = 0;
-> +
-> +	memset(edid->reserved, 0, sizeof(edid->reserved));
-> +
-> +	sink_idx = dprx_pad_to_sink_idx(dprx, edid->pad);
-> +	if (sink_idx < 0)
-> +		return -EINVAL;
-> +	sink = &dprx->sinks[sink_idx];
-> +
-> +	spin_lock_irqsave(&dprx->lock, flags);
-> +
-> +	if (edid->start_block == 0 && edid->blocks == 0) {
-> +		edid->blocks = sink->blocks;
-> +		goto out;
-> +	}
-> +	if (sink->blocks == 0) {
-> +		res = -ENODATA;
-> +		goto out;
-> +	}
-> +	if (edid->start_block >= sink->blocks) {
-> +		res = -EINVAL;
-> +		goto out;
-> +	}
-> +	if (end_block > sink->blocks) {
-> +		end_block = sink->blocks;
-> +		edid->blocks = end_block - edid->start_block;
-> +	}
-> +
-> +	memcpy(edid->edid, sink->edid + edid->start_block * 128, edid->blocks * 128);
-> +
-> +out:
-> +	spin_unlock_irqrestore(&dprx->lock, flags);
-> +
-> +	return res;
-> +}
-> +
-> +static int dprx_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
-> +{
-> +	struct dprx *dprx = to_dprx(sd);
-> +	struct dprx_sink *sink;
-> +	int sink_idx;
-> +	bool prev_hpd;
-> +	bool cur_hpd;
-> +	unsigned long flags;
-> +
-> +	memset(edid->reserved, 0, sizeof(edid->reserved));
-> +
-> +	sink_idx = dprx_pad_to_sink_idx(dprx, edid->pad);
-> +	if (sink_idx < 0)
-> +		return -EINVAL;
-> +	sink = &dprx->sinks[sink_idx];
-> +
-> +	if (edid->start_block != 0)
-> +		return -EINVAL;
-> +	if (edid->blocks > DPRX_MAX_EDID_BLOCKS) {
-> +		edid->blocks = DPRX_MAX_EDID_BLOCKS;
-> +		return -E2BIG;
-> +	}
-> +
-> +	prev_hpd = dprx->hpd_state;
-> +	/*
-> +	 * This is an MST DisplayPort device, which means that one HPD
-> +	 * line controls all the video streams. The way this is handled
-> +	 * in s_edid is that the HPD line is controlled by the presence
-> +	 * of only the first stream's EDID. This allows, for example, to
-> +	 * first set the second streams's EDID and then the first one in
-> +	 * order to reduce the amount of AUX communication.
-> +	 */
-> +	if (sink_idx == 0)
-> +		dprx->hpd_state = edid->blocks > 0;
-> +	cur_hpd = dprx->hpd_state;
-> +
-> +	if (prev_hpd)
-> +		dprx_set_hpd(dprx, 0);
-> +
-> +	spin_lock_irqsave(&dprx->lock, flags);
-> +	sink->blocks = edid->blocks;
-> +	memcpy(sink->edid, edid->edid, edid->blocks * 128);
-> +	if (cur_hpd)
-> +		dprx_reset(dprx);
-> +	spin_unlock_irqrestore(&dprx->lock, flags);
-> +
-> +	if (cur_hpd) {
-> +		if (prev_hpd) {
-> +			/*
-> +			 * Some DisplayPort sources are not happy with 100ms
-> +			 * HPD pulses. Looking at the AUX message log, it
-> +			 * seemed the source was waiting for values of some
-> +			 * DPCD registers to change when it shouldn't be.
-> +			 *
-> +			 * Not sure whose fault that is, but 500ms appears
-> +			 * to be a safe duration for the source to "forget"
-> +			 * about the sink.
-> +			 */
-> +			msleep(500);
-> +		}
-> +		dprx_set_hpd(dprx, 1);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dprx_query_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
-> +				 struct v4l2_dv_timings *timings)
-> +{
-> +	struct dprx *dprx = to_dprx(sd);
-> +	int sink_idx;
-> +	u32 htotal, vtotal;
-> +	u32 hsp, hsw;
-> +	u32 hstart, vstart;
-> +	u32 vsp, vsw;
-> +	u32 hwidth, vheight;
-> +
-> +	sink_idx = dprx_pad_to_sink_idx(dprx, pad);
-> +	if (sink_idx < 0)
-> +		return -EINVAL;
-> +
-> +	if (!((dprx_read(dprx, DPRX_VBID(sink_idx)) >> DPRX_VBID_MSA_LOCK) & 1))
-> +		return -ENOLINK;
-> +
-> +	htotal  = dprx_read(dprx, DPRX_MSA_HTOTAL(sink_idx));
-> +	vtotal  = dprx_read(dprx, DPRX_MSA_VTOTAL(sink_idx));
-> +	hsp     = dprx_read(dprx, DPRX_MSA_HSP(sink_idx));
-> +	hsw     = dprx_read(dprx, DPRX_MSA_HSW(sink_idx));
-> +	hstart  = dprx_read(dprx, DPRX_MSA_HSTART(sink_idx));
-> +	vstart  = dprx_read(dprx, DPRX_MSA_VSTART(sink_idx));
-> +	vsp     = dprx_read(dprx, DPRX_MSA_VSP(sink_idx));
-> +	vsw     = dprx_read(dprx, DPRX_MSA_VSW(sink_idx));
-> +	hwidth  = dprx_read(dprx, DPRX_MSA_HWIDTH(sink_idx));
-> +	vheight = dprx_read(dprx, DPRX_MSA_VHEIGHT(sink_idx));
-> +
-> +	memset(timings, 0, sizeof(*timings));
-> +	timings->type = V4L2_DV_BT_656_1120;
-> +	timings->bt.width = hwidth;
-> +	timings->bt.height = vheight;
-> +	timings->bt.polarities = (!vsp) | (!hsp) << 1;
-> +	timings->bt.pixelclock = htotal * vtotal * 24;
-> +	timings->bt.hfrontporch = htotal - hstart - hwidth;
-> +	timings->bt.hsync = hsw;
-> +	timings->bt.hbackporch = hstart - hsw;
-> +	timings->bt.vfrontporch = vtotal - vstart - vheight;
-> +	timings->bt.vsync = vsw;
-> +	timings->bt.vbackporch = vstart - vsw;
-> +
-> +	return 0;
-> +}
-> +
-> +/* DisplayPort 1.4 capabilities */
-> +
-> +static const struct v4l2_dv_timings_cap dprx_timings_cap = {
-> +	.type = V4L2_DV_BT_656_1120,
-> +	.bt = {
-> +		.min_width = 640,
-> +		.max_width = 7680,
-> +		.min_height = 480,
-> +		.max_height = 4320,
-> +		.min_pixelclock = 25000000,
-> +		.max_pixelclock = 1080000000,
-> +		.standards = V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT |
-> +			V4L2_DV_BT_STD_CVT | V4L2_DV_BT_STD_GTF,
-> +		.capabilities = V4L2_DV_BT_CAP_PROGRESSIVE |
-> +			V4L2_DV_BT_CAP_REDUCED_BLANKING |
-> +			V4L2_DV_BT_CAP_CUSTOM,
+>   static inline struct nv3052c *to_nv3052c(struct drm_panel *panel)
+>   {
+>   	return container_of(panel, struct nv3052c, panel);
+> @@ -670,6 +866,21 @@ static const struct drm_display_mode fs035vg158_modes[] = {
+>   	},
+>   };
+>   
+> +static const struct drm_display_mode wl_355608_a8_mode[] = {
+> +	{
+> +		.clock = 24000,
+> +		.hdisplay = 640,
+> +		.hsync_start = 640 + 64,
+> +		.hsync_end = 640 + 64 + 20,
+> +		.htotal = 640 + 64 + 20 + 46,
+> +		.vdisplay = 480,
+> +		.vsync_start = 480 + 21,
+> +		.vsync_end = 480 + 21 + 4,
+> +		.vtotal = 480 + 21 + 4 + 15,
+> +		.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
 > +	},
 > +};
 > +
-> +static int dprx_enum_dv_timings(struct v4l2_subdev *sd, struct v4l2_enum_dv_timings *timings)
-> +{
-> +	return v4l2_enum_dv_timings_cap(timings, &dprx_timings_cap,
-> +					NULL, NULL);
-> +}
-> +
-> +static int dprx_dv_timings_cap(struct v4l2_subdev *sd, struct v4l2_dv_timings_cap *cap)
-> +{
-> +	*cap = dprx_timings_cap;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_subdev_pad_ops dprx_pad_ops = {
-> +	.get_edid = dprx_get_edid,
-> +	.set_edid = dprx_set_edid,
-> +	.dv_timings_cap = dprx_dv_timings_cap,
-> +	.enum_dv_timings = dprx_enum_dv_timings,
-> +	.query_dv_timings = dprx_query_dv_timings,
+>   static const struct nv3052c_panel_info ltk035c5444t_panel_info = {
+>   	.display_modes = ltk035c5444t_modes,
+>   	.num_modes = ARRAY_SIZE(ltk035c5444t_modes),
+> @@ -692,9 +903,21 @@ static const struct nv3052c_panel_info fs035vg158_panel_info = {
+>   	.panel_regs_len = ARRAY_SIZE(fs035vg158_panel_regs),
+>   };
+>   
+> +static const struct nv3052c_panel_info wl_355608_a8_panel_info = {
+> +	.display_modes = wl_355608_a8_mode,
+> +	.num_modes = ARRAY_SIZE(wl_355608_a8_mode),
+> +	.width_mm = 150,
+> +	.height_mm = 94,
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
+> +	.panel_regs = wl_355608_a8_panel_regs,
+> +	.panel_regs_len = ARRAY_SIZE(wl_355608_a8_panel_regs),
 > +};
 > +
-> +static const struct v4l2_subdev_ops dprx_subdev_ops = {
-> +	.pad = &dprx_pad_ops,
-> +};
-> +
-> +static const struct media_entity_operations dprx_entity_ops = {
-> +	.link_validate = v4l2_subdev_link_validate,
-> +	.get_fwnode_pad = v4l2_subdev_get_fwnode_pad_1_to_1,
-> +};
-> +
-> +static int dprx_parse_bus_cfg(struct dprx *dprx, struct v4l2_fwnode_endpoint *bus_cfg)
-> +{
-> +	u64 max_freq = 0;
-> +	int i;
-> +
-> +	for (i = 0; i < bus_cfg->nr_of_link_frequencies; i++) {
-> +		if (max_freq < bus_cfg->link_frequencies[i])
-> +			max_freq = bus_cfg->link_frequencies[i];
-> +	}
-> +
-> +	switch (max_freq) {
-> +	case 1620000000:
-> +		dprx->max_link_rate = 0x06;
-> +		break;
-> +	case 2700000000:
-> +		dprx->max_link_rate = 0x0a;
-> +		break;
-> +	case 5400000000:
-> +		dprx->max_link_rate = 0x14;
-> +		break;
-> +	case 8100000000:
-> +		dprx->max_link_rate = 0x1e;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	dprx->max_lane_count = bus_cfg->bus.displayport.num_data_lanes;
-> +	dprx->multi_stream_support = bus_cfg->bus.displayport.multi_stream_support;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dprx_parse_fwnode(struct dprx *dprx)
-> +{
-> +	struct fwnode_handle *fwnode = dev_fwnode(dprx->dev);
-> +	struct fwnode_handle *endpoint;
-> +	struct v4l2_fwnode_endpoint bus_cfg = {
-> +		.bus_type = V4L2_MBUS_DISPLAYPORT
-> +	};
-> +	int res;
-> +
-> +	/* get input port node */
-> +	endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
-> +	if (!endpoint)
-> +		return -EINVAL;
-> +
-> +	res = v4l2_fwnode_endpoint_alloc_parse(endpoint, &bus_cfg);
-> +	if (res) {
-> +		fwnode_handle_put(endpoint);
-> +		return res;
-> +	}
-> +
-> +	res = dprx_parse_bus_cfg(dprx, &bus_cfg);
-> +	if (res) {
-> +		v4l2_fwnode_endpoint_free(&bus_cfg);
-> +		fwnode_handle_put(endpoint);
-> +		return res;
-> +	}
-> +
-> +	v4l2_fwnode_endpoint_free(&bus_cfg);
-> +
-> +	/* count the number of output port nodes */
-> +	endpoint = fwnode_graph_get_next_endpoint(fwnode, endpoint);
-> +	dprx->max_stream_count = 0;
-> +	while (endpoint) {
-> +		endpoint = fwnode_graph_get_next_endpoint(fwnode, endpoint);
-> +		dprx->max_stream_count++;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dprx_probe(struct platform_device *pdev)
-> +{
-> +	struct dprx *dprx;
-> +	int irq;
-> +	int res;
-> +	int i;
-> +
-> +	dprx = devm_kzalloc(&pdev->dev, sizeof(*dprx), GFP_KERNEL);
-> +	if (!dprx)
-> +		return -ENOMEM;
-> +	dprx->dev = &pdev->dev;
-> +	platform_set_drvdata(pdev, dprx);
-> +
-> +	dprx->iobase = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(dprx->iobase))
-> +		return PTR_ERR(dprx->iobase);
-> +
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq < 0)
-> +		return irq;
-> +
-> +	res = devm_request_irq(dprx->dev, irq, dprx_isr, 0, "intel-dprx", dprx);
-> +	if (res)
-> +		return res;
-> +
-> +	res = dprx_parse_fwnode(dprx);
-> +	if (res)
-> +		return res;
-> +
-> +	dprx_init_caps(dprx);
-> +
-> +	dprx->subdev.owner = THIS_MODULE;
-> +	dprx->subdev.dev = &pdev->dev;
-> +	v4l2_subdev_init(&dprx->subdev, &dprx_subdev_ops);
-> +	v4l2_set_subdevdata(&dprx->subdev, &pdev->dev);
-> +	snprintf(dprx->subdev.name, sizeof(dprx->subdev.name), "%s %s",
-> +		 KBUILD_MODNAME, dev_name(&pdev->dev));
-> +	dprx->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +
-> +	dprx->subdev.entity.function = MEDIA_ENT_F_DV_DECODER;
-> +	dprx->subdev.entity.ops = &dprx_entity_ops;
-> +
-> +	v4l2_ctrl_handler_init(&dprx->ctrl_handler, 1);
-> +	v4l2_ctrl_new_std(&dprx->ctrl_handler, NULL,
-> +			  V4L2_CID_DV_RX_POWER_PRESENT, 0, 1, 0, 0);
+>   static const struct spi_device_id nv3052c_ids[] = {
+>   	{ "ltk035c5444t", },
+>   	{ "fs035vg158", },
+> +	{ "wl-355608-a8", },
+>   	{ /* sentinel */ }
+>   };
+>   MODULE_DEVICE_TABLE(spi, nv3052c_ids);
+> @@ -702,6 +925,7 @@ MODULE_DEVICE_TABLE(spi, nv3052c_ids);
+>   static const struct of_device_id nv3052c_of_match[] = {
+>   	{ .compatible = "leadtek,ltk035c5444t", .data = &ltk035c5444t_panel_info },
+>   	{ .compatible = "fascontek,fs035vg158", .data = &fs035vg158_panel_info },
+> +	{ .compatible = "wl-355608-a8", .data = &wl_355608_a8_panel_info },
+>   	{ /* sentinel */ }
+>   };
+>   MODULE_DEVICE_TABLE(of, nv3052c_of_match);
+> @@ -719,4 +943,5 @@ module_spi_driver(nv3052c_driver);
+>   
+>   MODULE_AUTHOR("Paul Cercueil <paul@crapouillou.net>");
+>   MODULE_AUTHOR("Christophe Branchereau <cbranchereau@gmail.com>");
+> +MODULE_AUTHOR("Ryan Walklin <ryan@testtoast.com");
+>   MODULE_LICENSE("GPL v2");
 
-You are creating this control, but it is never set to 1 when the driver detects
-that a source is connected. I am wondering if POWER_PRESENT makes sense for a
-DisplayPort connector. Is there a clean way for a sink driver to detect if a
-source is connected? For HDMI it detects the 5V pin, but it is not clear if
-there is an equivalent to that in the DP spec.
-
-If there is no good way to detect if a source is connected, then it might be
-better to drop POWER_PRESENT support.
-
-This control is supposed to signal that a source is connected as early as possible,
-ideally before link training etc. starts.
-
-It helps the software detect that there is a source, and report an error if a source
-is detected, but you never get a stable signal (e.g. link training fails).
-
-If this control is dropped, then we just accept the v4l2-compliance warning.
-
-Regards,
-
-	Hans
-
-> +	res = dprx->ctrl_handler.error;
-> +	if (res)
-> +		goto handler_free;
-> +
-> +	dprx->subdev.ctrl_handler = &dprx->ctrl_handler;
-> +
-> +	dprx->pads[0].flags = MEDIA_PAD_FL_SINK;
-> +	for (i = 1; i <= dprx->max_stream_count; i++)
-> +		dprx->pads[i].flags = MEDIA_PAD_FL_SOURCE;
-> +
-> +	res = media_entity_pads_init(&dprx->subdev.entity,
-> +				     dprx->max_stream_count + 1, dprx->pads);
-> +	if (res)
-> +		goto handler_free;
-> +
-> +	res = v4l2_async_register_subdev(&dprx->subdev);
-> +	if (res)
-> +		goto entity_cleanup;
-> +
-> +	dprx->hpd_state = 0;
-> +	dprx_set_hpd(dprx, 0);
-> +	dprx_reset_hw(dprx);
-> +
-> +	dprx_set_irq(dprx, 1);
-> +
-> +	return 0;
-> +
-> +entity_cleanup:
-> +	media_entity_cleanup(&dprx->subdev.entity);
-> +handler_free:
-> +	v4l2_ctrl_handler_free(&dprx->ctrl_handler);
-> +
-> +	return res;
-> +}
-> +
-> +static void dprx_remove(struct platform_device *pdev)
-> +{
-> +	struct dprx *dprx = platform_get_drvdata(pdev);
-> +
-> +	/* disable interrupts */
-> +	dprx_set_irq(dprx, 0);
-> +
-> +	v4l2_async_unregister_subdev(&dprx->subdev);
-> +	media_entity_cleanup(&dprx->subdev.entity);
-> +	v4l2_ctrl_handler_free(&dprx->ctrl_handler);
-> +}
-> +
-> +static const struct of_device_id dprx_match_table[] = {
-> +	{ .compatible = "intel,dprx-20.0.1" },
-> +	{ },
-> +};
-> +
-> +static struct platform_driver dprx_platform_driver = {
-> +	.probe = dprx_probe,
-> +	.remove_new = dprx_remove,
-> +	.driver = {
-> +		.name = "intel-dprx",
-> +		.of_match_table = dprx_match_table,
-> +	},
-> +};
-> +
-> +module_platform_driver(dprx_platform_driver);
-> +
-> +MODULE_AUTHOR("Paweł Anikiel <panikiel@google.com>");
-> +MODULE_DESCRIPTION("Intel DisplayPort RX IP core driver");
-> +MODULE_LICENSE("GPL");
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
