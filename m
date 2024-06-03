@@ -2,70 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FCA48FA576
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 00:20:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A99738FA587
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 00:29:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C877F10E02A;
-	Mon,  3 Jun 2024 22:20:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B69E10E070;
+	Mon,  3 Jun 2024 22:29:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=w_armin@gmx.de header.b="V4RZH6Ut";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oexfyiWu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F5AF10E02A;
- Mon,  3 Jun 2024 22:20:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1717453201; x=1718058001; i=w_armin@gmx.de;
- bh=1yYtmmbg+AELRU48mLWpjWdWzW6UWz52kC2jC8mXgao=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
- Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=V4RZH6Ut/Lc8vc6OhmR4vPLEvJEeNjfGWL2138dNSu/LqxL/1S4O3LfqcPMeLRNK
- 4iMAD7AEbyBks8Ti0GPirD3+J/yI62LHTjWWDTMEPbMDVCbydg2ohD+9WBLPZEm5I
- 0OeRCx0P5wxJvoF7QYEzMktd5kU6Am8gon8hiw5y+mF7iZE71uzQjtOC9XUd84poF
- IwAD6Vo5OsjGcwlKrBAtdqyZtfbYwW0YMvQQg8CRn28KFe5LqIfJDwN8+llnKRiO9
- MD8gdEglXGv3vEm2EooD/+aQZnBb1L5RB+ZfFPAKiyu3C+HPPSoC0Qcq/XmDPCaD6
- 73wkHMC/C+OkNBln3w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.2.35] ([91.137.126.34]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mwfac-1sOnrm2wfK-00yAJY; Tue, 04
- Jun 2024 00:20:01 +0200
-Message-ID: <663b8003-3970-4293-930e-e19dce054e01@gmx.de>
-Date: Tue, 4 Jun 2024 00:19:57 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A4F610E070;
+ Mon,  3 Jun 2024 22:29:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9269F60AFA;
+ Mon,  3 Jun 2024 22:29:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A8A0C2BD10;
+ Mon,  3 Jun 2024 22:29:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1717453791;
+ bh=5f9a0R2mCrPvkK7KpP8RCriUj65yzs0VJ4Rq1HprCHo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oexfyiWuBGQ+/9Cg8ujHUG6B0riV65lkBjuEnePYZNcLjEyO+CI5qux2nR6ft7A5Q
+ SXf7EZOnCmdmXC6OjEb7gZS7uQ+V6jY5UaKKgliYT0zquOr7UHIOUAfjxMaWHrIU0D
+ ddvNEn0UfprFqMKm6zYhRg8gazeTZWCpa9E1YlbESM8vyNeF4TprsELiTfnjUr7fW2
+ dEzh1yaZAyklVjzntj8Vfsjm6z2crenrg34Y3ZRGYf0o++JdxPDI6hBMhzQBE4PmEU
+ FHwQEws761kLwQ0G/ujr8U9tDNbH7aONIevDfdpYQbqcEQbEe58WoX742hcdBkWV59
+ 08DJQcL/ECTAg==
+Date: Mon, 3 Jun 2024 15:29:48 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Palmer Dabbelt <palmer@rivosinc.com>
+Cc: alexander.deucher@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com,
+ Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ Qingqing.Zhuo@amd.com, hamza.mahfooz@amd.com, chenhuacai@kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/amd/display: Increase frame-larger-than warning limit
+Message-ID: <20240603222948.GB1802995@thelio-3990X>
+References: <20240530145741.7506-2-palmer@rivosinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Revert "drm/amdgpu: init iommu after amdkfd device init"
-From: Armin Wolf <W_Armin@gmx.de>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- gregkh@linuxfoundation.org, sashal@kernel.org
-Cc: stable@vger.kernel.org, bkauler@gmail.com, yifan1.zhang@amd.com,
- Prike.Liang@amd.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <20240523173031.4212-1-W_Armin@gmx.de>
-Content-Language: en-US
-In-Reply-To: <20240523173031.4212-1-W_Armin@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:9Yy1R/vmaJ4klLAia29uf4AydX4Zn/cMRbnRvzhC9mwVnu7mcCY
- ooCRScbfqYp7Cy41cDFdVqGiHOaWjAfANCFCYeqnIdvlOPmJWAFk9LEsp0LP9ScfXStPrYo
- eO6+ucrsraxusHXFc1hiL+NVkbAqrnS+HtTa6WorXz5N4JXhRbz5/URkdwtLVP7sjS85wNN
- UQlunXr/ksbmnltZv/M2w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:rj2MlId6gAQ=;a2USGC2Fidug1zFjbaKD71cBonC
- zUdmm9roV5kOhaizgwO9gmqyO1k3IwZ+67fMcbjEum9ACyBS4t2+siU9eaVO8GjCdUqUsgkoq
- 7wRiR8qU0CX0GDFJoNf6dGPVP4sl6ZHGtUL1KJslPB7Gq+0psOjGu0csytlmnv/YRJmwf7KOZ
- I6lykPYrqKW4SdXXb3vN9tCooPg2I5IqInC9hoDWJ/gDfeWJIabIXasctQwhWkBuF2Y6f4qrQ
- 7s7cuVxg9uRTxk9855dX+QE+VQRYVjWIXB8aa+3J0PEEAI3msc6iJa39QcJiM1q4I2GDtIFQK
- S+QewYvxzSg0d64MiSiXTnCBElUC9zZYFJL+zkhGqGCSzZ++gZdmbMUm2fk87UNncbNbDA7WB
- L3ZTXYSktU1e4e+VqdBkHEolqG4X5fTUYTZXknSrEAVq4jPjVlLNGjEqkhMeXCPmK9NCHJFkE
- OhNgFpW9/Obofej0P+lakqS7HMcdS24+YIa807uyAP1c8a9T8Gzwh2FPNDTVLowRgNvPMcH19
- Sziq/ioRStVW6IOW5TOupJ+k0jcuQmXLHF6NGjXmXcw72W5/pkzjtQypw0OCxf1AQJwb9Dyya
- UGzYkrWVGAjJJf/OndOssadSxIv7ZM0uIUdPTYVHgapfog16T4mZnRuI+VoVz/OZghssDJ08g
- eEGHhevec2QN2sEOs+lSEWc0rGs6nCxFhSCE1HBYQ4H6N5lc/8AIrRBW2NcweE9Ryh8B7QHaI
- WbxTqwY1KSDv+XVBP4K85WFCaEk5Ivi0Yvk0X8A9aD0dnCLKw4PjDslFJs1JJAMgv9KsBzbFD
- 6NbgutPHbHTLNQuiFyOmQTObDjv2LNKNVHJhVLJ3Ak0j5owil/3fe7SnSqA7DPbj+h
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240530145741.7506-2-palmer@rivosinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,60 +61,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 23.05.24 um 19:30 schrieb Armin Wolf:
+Hi Palmer,
 
-> This reverts commit 56b522f4668167096a50c39446d6263c96219f5f.
->
-> A user reported that this commit breaks the integrated gpu of his
-> notebook, causing a black screen. He was able to bisect the problematic
-> commit and verified that by reverting it the notebook works again.
-> He also confirmed that kernel 6.8.1 also works on his device, so the
-> upstream commit itself seems to be ok.
->
-> An amdgpu developer (Alex Deucher) confirmed that this patch should
-> have never been ported to 5.15 in the first place, so revert this
-> commit from the 5.15 stable series.
+On Thu, May 30, 2024 at 07:57:42AM -0700, Palmer Dabbelt wrote:
+> From: Palmer Dabbelt <palmer@rivosinc.com>
+> 
+> I get a handful of build errors along the lines of
+> 
+>     linux/drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c:58:13: error: stack frame size (2352) exceeds limit (2048) in 'DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation' [-Werror,-Wframe-larger-than]
+>     static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation(
+>                 ^
+>     linux/drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c:1724:6: error: stack frame size (2096) exceeds limit (2048) in 'dml32_ModeSupportAndSystemConfigurationFull' [-Werror,-Wframe-larger-than]
+>     void dml32_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_lib)
+>          ^
 
-Hi,
+Judging from the message, this is clang/LLVM? What version? I assume
+this showed up in 6.10-rc1 because of commit 77acc6b55ae4 ("riscv: add
+support for kernel-mode FPU"), which allows this driver to be built for
+RISC-V. Is this allmodconfig or some other configuration?
 
-what is the status of this?
-
-Armin Wolf
-
->
-> Reported-by: Barry Kauler <bkauler@gmail.com>
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+> as of 6.10-rc1.
+> 
+> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 222a1d9ecf16..5f6c32ec674d 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -2487,6 +2487,10 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
->   	if (r)
->   		goto init_failed;
->
-> +	r = amdgpu_amdkfd_resume_iommu(adev);
-> +	if (r)
-> +		goto init_failed;
-> +
->   	r = amdgpu_device_ip_hw_init_phase1(adev);
->   	if (r)
->   		goto init_failed;
-> @@ -2525,10 +2529,6 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
->   	if (!adev->gmc.xgmi.pending_reset)
->   		amdgpu_amdkfd_device_init(adev);
->
-> -	r = amdgpu_amdkfd_resume_iommu(adev);
-> -	if (r)
-> -		goto init_failed;
-> -
->   	amdgpu_fru_get_product_info(adev);
->
->   init_failed:
-> --
-> 2.39.2
->
->
+>  drivers/gpu/drm/amd/display/dc/dml/Makefile | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> index c4a5efd2dda5..b2bd72e63734 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> @@ -62,9 +62,9 @@ endif
+>  
+>  ifneq ($(CONFIG_FRAME_WARN),0)
+>  ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
+> -frame_warn_flag := -Wframe-larger-than=3072
+> +frame_warn_flag := -Wframe-larger-than=4096
+>  else
+> -frame_warn_flag := -Wframe-larger-than=2048
+> +frame_warn_flag := -Wframe-larger-than=3072
+>  endif
+>  endif
+>  
+> -- 
+> 2.45.1
+> 
