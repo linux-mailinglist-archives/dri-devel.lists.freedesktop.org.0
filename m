@@ -2,78 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 582EC8D8869
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 20:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2633B8D893E
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 21:01:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B2B010E331;
-	Mon,  3 Jun 2024 18:07:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFE1410E1E2;
+	Mon,  3 Jun 2024 19:01:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="hSmY5FpO";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="D+WM5UcY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0205E10E331
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 18:07:05 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-57a16f4b8bfso1530a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jun 2024 11:07:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1717438024; x=1718042824;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lxEtH6ksqOT/HFLTQs72uRkOcc2agItJ6FV9YxsG9ic=;
- b=hSmY5FpOvXM92Gdps1k1SI/MbFcBC2L6btu64gaMPCTnjgkCicObe/oNg1VWs+UbX9
- MCkG1+nobCk9fuRl078Iqddsw9TOrQI5tEQbDZMEFStqeKAAdiHScx4OQPyiP46/T1cL
- A8fqTQbW66SwvXXLgY1evKc60wNolywCFhdS35Rk99pyxnEJo8JeeoGH0Qols0O+esKR
- jB1+FJJxG3HUPK0iqPG0o6Hoo7+Xx8SIerT6c9sbrOwmSjz3SuMi5wFdti/O1O4habCE
- vK89Jgn4vlY8XW9HSD15hPbhO2/OqzcZMflePmHpMZs74bWZ6gHgmFZIbORSV+PLLes3
- FMHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717438024; x=1718042824;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lxEtH6ksqOT/HFLTQs72uRkOcc2agItJ6FV9YxsG9ic=;
- b=vTmHvKDCTAY7yIFXF1jrRqa5+BmIS5+iI3bmqAtXXQG7aogcxoYy1pFfWetylofQuH
- Gu7nFR995DiwekVWIUv+suzM83/KlKm9APzK2TqYRKJeJb6WAIee+sqP9k7OuujEBHwY
- FNow/mlG2aoJwMBwyLM1QjO7M4CpfLBBnSwWRT7OwzqZuxgAzjWkKkUHkCKOOP14qb9g
- 7VA7UwK1Bu22xD7CBwcttIgZC20VeeuKso7ntLKhJUkB22aaONzsJHz63oaqyCZU8lJd
- XGkCdcD1kItzKYHOLwoLFNaxBV7XS44MgmlayS2bq3KiTZYyZKhZFrdHpaaAKazDckVu
- j0Cg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUvxiDaQGD4XvZ6QBTvWamyFrOF18V5dIFcK2AbMfYcz7DeQdlynQyA8C8mocqShs3EBrKpeYDhHnUh8sYNWX631gkVvdHeIpHzCQj9pBtP
-X-Gm-Message-State: AOJu0YxCIbkcsyuoaPG7CXxnIhwnowvfJ8qu5Q6BOXUre68X/KFH9x7g
- QsKq/O714ytTEgKClYfkWFiKYzrKwgv9pptZ9ypM92yZEg/si3TWNVTRIr+xfEG+HMG7EzpRwzh
- /+9eIMCYd0vlyA1qNIIF3l+RmgX0i8CIrVuE=
-X-Google-Smtp-Source: AGHT+IHh/FTn18V927nX7mLu4AOxZc/5TfIty1nDwy6MfFqeiSDSbjo6v1NtdviT15GPtNUFxHU2jnhiN9DQRoaPf/Q=
-X-Received: by 2002:a05:6402:12ca:b0:57a:2276:2a86 with SMTP id
- 4fb4d7f45d1cf-57a7dad73dbmr6429a12.4.1717438023960; Mon, 03 Jun 2024 11:07:03
- -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CFD110E174;
+ Mon,  3 Jun 2024 19:01:05 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 453CVxaU012671;
+ Mon, 3 Jun 2024 19:00:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ RBulczDkXO9VgkWgUh8tTAbcPK94WQcka0v8OaUlg8E=; b=D+WM5UcY+36wrX1Z
+ YOE56gjSC5TviSmjO8nv6KUxtNcQ3quQlj36+X4fnTWp/m/AYV5jNOUhGAAe7DWm
+ A5Iomd3yLV8xCGc5dOp23MjhOPjCUTTFO7/3oIAU9ReW3IE/MZegt4uKiTgL/8Ny
+ knz5oDdTUbw29c9i3XA4A53su00tPV10Zl1vD+OEUrdpcLROkkLJONjEbmGCWMzQ
+ 80M7DoTHd2MBKkJCyVBnOI9jEopBx1tqcQyZW3hxEFm5qBLkvuHbSiBQSQI1pQtl
+ hZVMZ5CUc/XHrYNHDoTTQQv1kHbWcZHTi1lj/jqqnbK2TR+aphLROcFUL5apUfiO
+ 9mKbZw==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yfw4an10t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 Jun 2024 19:00:58 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 453J0i2c004859
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 3 Jun 2024 19:00:44 GMT
+Received: from [10.110.31.89] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 3 Jun 2024
+ 12:00:34 -0700
+Message-ID: <55dae79d-6499-9329-f2c8-a1ef3c94e019@quicinc.com>
+Date: Mon, 3 Jun 2024 12:00:32 -0700
 MIME-Version: 1.0
-References: <20240603114008.16235-1-hailong.liu@oppo.com>
- <CANDhNCq50zPB+TS+_Oo0HY0aUuBAdik2KrC8eJRTygbis293sw@mail.gmail.com>
- <20240603172148.gb7txpg2ya43jyxn@oppo.com>
-In-Reply-To: <20240603172148.gb7txpg2ya43jyxn@oppo.com>
-From: John Stultz <jstultz@google.com>
-Date: Mon, 3 Jun 2024 11:06:51 -0700
-Message-ID: <CANDhNCrwgce7G5_-4tNfgTHcdL12zt3JKBg=o3bHrzMmfFMctg@mail.gmail.com>
-Subject: Re: [RFC PATCH v1] dma-buf: heaps: move the verification of
- heap_flags to the corresponding heap
-To: Hailong Liu <hailong.liu@oppo.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- "T.J. Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- 21cnbao@gmail.com, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/9] drm/msm/dpu: drop dpu_format_check_modified_format
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
+ Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan+linaro@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20240319-dpu-mode-config-width-v1-0-d0fe6bf81bf1@linaro.org>
+ <20240319-dpu-mode-config-width-v1-1-d0fe6bf81bf1@linaro.org>
+ <9c2f5f63-291c-c2b5-41a1-d2004055cf7a@quicinc.com>
+ <ccgx5mjsxf2asvadithitzl7shkboj6ipcg6onfawa5pskchgd@etighi5usone>
+ <c3021397-5d2e-c331-663f-eb3803cfc0e0@quicinc.com>
+ <wpc7hzr2xol6mz6j4se2a3j7u52fvs6rpikcbpzet7ebz24dbf@g7rlhiz72q46>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <wpc7hzr2xol6mz6j4se2a3j7u52fvs6rpikcbpzet7ebz24dbf@g7rlhiz72q46>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: GR_VIiS0sqdHC6F8KPjup1rPJ_H5mh12
+X-Proofpoint-ORIG-GUID: GR_VIiS0sqdHC6F8KPjup1rPJ_H5mh12
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-06-03_15,2024-05-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ mlxlogscore=581 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ suspectscore=0 mlxscore=0 bulkscore=0 spamscore=0 adultscore=0
+ clxscore=1011 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406030155
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,90 +99,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 3, 2024 at 10:21=E2=80=AFAM Hailong Liu <hailong.liu@oppo.com> =
-wrote:
-> On Mon, 03. Jun 09:01, John Stultz wrote:
-> > On Mon, Jun 3, 2024 at 4:40=E2=80=AFAM <hailong.liu@oppo.com> wrote:
-> > >
-> > > From: "Hailong.Liu" <hailong.liu@oppo.com>
-> > >
-> > > This help module use heap_flags to determine the type of dma-buf,
-> > > so that some mechanisms can be used to speed up allocation, such as
-> > > memory_pool, to optimize the allocation time of dma-buf.
-> >
-> > This feels like it's trying to introduce heap specific flags, but
-> > doesn't introduce any details about what those flags might be?
-> >
-> > This seems like it would re-allow the old opaque vendor specific heap
-> > flags that we saw in the ION days, which was problematic as different
-> > userspaces would use the same interface with potentially colliding
-> > heap flags with different meanings. Resulting in no way to properly
-> > move to an upstream solution.
-> >
-> > With the dma-heaps interface, we're trying to make sure it is well
-> > defined. One can register a number of heaps with different behaviors,
-> > and the heap name is used to differentiate the behavior. Any flags
-> > introduced will need to be well defined and behaviorally consistent
-> > between heaps. That way when an upstream solution lands, if necessary
-> > we can provide backwards compatibility via symlinks.
-> >
-> > So I don't think this is a good direction to go for dma-heaps.
-> >
-> > It would be better if you were able to clarify what flag requirements
-> > you need, so we can better understand how they might apply to other
-> > heaps, and see if it was something we would want to define as a flag
-> > (see the discussion here for similar thoughts:
-> > https://lore.kernel.org/lkml/CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPW=
-TyciVXMXQ@mail.gmail.com/
-> > )
-> >
-> > But if your vendor heap really needs some sort of flags argument that
-> > you can't generalize, you can always implement your own dmabuf
-> > exporter driver with whatever ioctl interface you'd prefer.
->
-> Thanks for your reply. Let=E2=80=99s continue our discussion here instead
-> of on android-review. We aim to enhance memory allocation on each
-> all heaps. Your pointer towards heap_flags used in /dev/ion for heap
-> identification was helpful.
->
-> We now aim to improve priority dma-buf allocation. Consider android
-> animations scene:
->
-> when device is in low memory, Allocating dma-buf as animation
-> buffers enter direct_reclaimation, longer allocation time result in a
-> laggy UI. But if we know the usage of the dma-buf, we can use some
-> mechanisms to boost, e.g. animation-memory-pool.
 
-Can you generalize this a bit further? When would userland know to use
-this new flag?
-If it is aware, would it make sense to just use a separate heap name instea=
-d?
 
-(Also: These other mechanisms you mention should probably also be
-submitted upstream, however for upstream there's also the requirement
-that we have open users and are not just enabling proprietary blob
-userspace, which makes any changes to dma-buf heaps for out of tree
-code quite difficult)
+On 4/22/2024 4:06 AM, Dmitry Baryshkov wrote:
+> On Fri, Apr 19, 2024 at 07:32:35PM -0700, Abhinav Kumar wrote:
+>>
+>>
+>> On 4/19/2024 6:26 PM, Dmitry Baryshkov wrote:
+>>> On Fri, Apr 19, 2024 at 04:43:20PM -0700, Abhinav Kumar wrote:
+>>>>
+>>>>
+>>>> On 3/19/2024 6:21 AM, Dmitry Baryshkov wrote:
+>>>>> The msm_kms_funcs::check_modified_format() callback is not used by the
+>>>>> driver. Drop it completely.
+>>>>>
+>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>> ---
+>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c | 45 -----------------------------
+>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h | 15 ----------
+>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  1 -
+>>>>>     drivers/gpu/drm/msm/msm_kms.h               |  5 ----
+>>>>>     4 files changed, 66 deletions(-)
+>>>>>
+>>>>
+>>>> I think in this case, I am leaning towards completing the implementation
+>>>> rather than dropping it as usual.
+>>>>
+>>>> It seems its easier to just add the support to call this like the attached
+>>>> patch?
+>>>
+>>> Please don't attach patches to the email. It makes it impossible to
+>>> respond to them.
+>>>
+>>
+>> I attached it because it was too much to paste over here.
+>>
+>> Please review msm_framebuffer_init() in the downstream sources.
+>>
+>> The only missing piece I can see is the handling of DRM_MODE_FB_MODIFIERS
+>> flags.
+> 
+> I checked and I don't like this approach.
+> 
+> With the generic formats database in place, there should be no
+> driver-specific code that handles formats. Moreover, I think this should
+> be handled by the generic code in framebuffer_check() if msm driver
+> implements a proper get_format_info() callback. Please consider sending
+> a patch that does it. For now I can only consider the function in
+> question to be a dead code which should be dropped.
+> 
 
-> However, dma-buf usage identification becomes a challenge. A potential
-> solution could be heap_flags. the use of heap_flags seems ugly and
-> contrary to the intended design as you said, How aboult extending
-> dma_heap_allocation_data as follows?
->
-> struct dma_heap_allocation_data {
->         __u64 len;
->         __u32 fd;
->         __u32 fd_flags;
->         __u64 heap_flags;
->         __u64 buf_flags: // buf usage
-> };
-
-This would affect the ABI (forcing a new ioctl number).  And it's
-unclear what flags you envision as buffer specific (rather than heap
-specific as this patch suggested).
-
-I think we need more details about the specific problem you're seeing
-and trying to resolve.
-
-thanks
--john
+Alright, lets revisit this implementation later on and for this series 
+we can go with dropping dpu_format_check_modified_format().
