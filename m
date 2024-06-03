@@ -2,187 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 266D88FA58C
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 00:31:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FCA48FA576
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 00:20:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CB4810E2FD;
-	Mon,  3 Jun 2024 22:31:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C877F10E02A;
+	Mon,  3 Jun 2024 22:20:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JWil5/qF";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=w_armin@gmx.de header.b="V4RZH6Ut";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAEF510E3E5
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 22:00:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8C50D60ED0;
- Mon,  3 Jun 2024 22:00:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54BDEC2BD10;
- Mon,  3 Jun 2024 22:00:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717452035;
- bh=ZMS/4Gp6hXyd9fPwx/y5x+q7VhsaGgJvMHFGFXB2aCI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=JWil5/qFuymosoPDATfZqx6FJDnMlkeS59q6fSB+oGtZnzLWlZsOYK17IUuX1oHS1
- +ZGbOlO5XGTxStebKzleLLdP/ku6ByksYgWD6+z1Mv7KGjnwR3GMzWiuZo1J++YQBe
- YnonzpNdWoLK+5fnowMqG8M5MeJ10EV/gsKGvDpIY4wVIBC1HO+F/kfe8gBd+/QboZ
- BrnDQ+EAlvw7Yi4J9eZ6M1GbDt3y6+iqhqMKYxUzNtAOVfJ3SN/iHY1B0HdRGk77/Z
- OryQ3BNvB0McYwdX86nz7FOZKP/BNHRMgHpGVTqXr+aaBtJCcPNM0ORUNnE3rDopfE
- 4lfytT5yAufhQ==
-Date: Mon, 3 Jun 2024 17:00:32 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Corey Minyard <minyard@acm.org>, Allen Pais <apais@linux.microsoft.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Perry Yuan <perry.yuan@amd.com>,
- Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Nuno Sa <nuno.sa@analog.com>, Guenter Roeck <linux@roeck-us.net>,
- Randy Dunlap <rdunlap@infradead.org>, Andi Shyti <andi.shyti@kernel.org>,
- Heiner Kallweit <hkallweit1@gmail.com>, Lee Jones <lee@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Elad Nachman <enachman@marvell.com>,
- Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
- Johannes Berg <johannes.berg@intel.com>,
- Gregory Greenman <gregory.greenman@intel.com>,
- Benjamin Berg <benjamin.berg@intel.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Robert Richter <rrichter@amd.com>, Vinod Koul <vkoul@kernel.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
- Nikita Kravets <teackot@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Stanley Chang <stanley_chang@realtek.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Abdel Alkuor <abdelalkuor@geotab.com>,
- Kent Overstreet <kent.overstreet@linux.dev>,
- Eric Biggers <ebiggers@google.com>,
- Kees Cook <keescook@chromium.org>, Ingo Molnar <mingo@kernel.org>,
- "Steven Rostedt (Google)" <rostedt@goodmis.org>,
- Daniel Bristot de Oliveira <bristot@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Hugh Dickins <hughd@google.com>, Abel Wu <wuyun.abel@bytedance.com>,
- John Johansen <john.johansen@canonical.com>,
- Mimi Zohar <zohar@linux.ibm.com>, Stefan Berger <stefanb@linux.ibm.com>,
- Roberto Sassu <roberto.sassu@huawei.com>,
- Eric Snowberg <eric.snowberg@oracle.com>, Takashi Iwai <tiwai@suse.de>,
- Takashi Sakamoto <o-takashi@sakamocchi.jp>,
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- Mark Brown <broonie@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- keyrings@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-ide@vger.kernel.org,
- openipmi-developer@lists.sourceforge.net, linux-clk@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-pm@vger.kernel.org, qat-linux@intel.com,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-omap@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-bcachefs@vger.kernel.org,
- linux-hardening@vger.kernel.org, cgroups@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
- apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
- linux-integrity@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, David Howells <dhowells@redhat.com>,
- "David S. Miller" <davem@davemloft.net>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Len Brown <lenb@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
- Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- Daniel Scally <djrscally@gmail.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Heiko Stuebner <heiko@sntech.de>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Huang Rui <ray.huang@amd.com>,
- "Gautham R. Shenoy" <gautham.shenoy@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>, Jean Delvare <jdelvare@suse.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Pavel Machek <pavel@ucw.cz>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Tony Lindgren <tony@atomide.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Hu Ziji <huziji@marvell.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Potnuri Bharat Teja <bharat@chelsio.com>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Miri Korenblit <miriam.rachel.korenblit@intel.com>,
- Kalle Valo <kvalo@kernel.org>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
- Oliver O'Halloran <oohall@gmail.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- JC Kuo <jckuo@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Sebastian Reichel <sre@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Helge Deller <deller@gmx.de>, Brian Foster <bfoster@redhat.com>,
- Zhihao Cheng <chengzhihao1@huawei.com>, Tejun Heo <tj@kernel.org>,
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
- Daniel Bristot de Oliveira <bristot@redhat.com>,
- Valentin Schneider <vschneid@redhat.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>,
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
- Clemens Ladisch <clemens@ladisch.de>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH v1 1/1] treewide: Align match_string() with
- sysfs_match_string()
-Message-ID: <20240603220032.GA701908@bhelgaas>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F5AF10E02A;
+ Mon,  3 Jun 2024 22:20:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1717453201; x=1718058001; i=w_armin@gmx.de;
+ bh=1yYtmmbg+AELRU48mLWpjWdWzW6UWz52kC2jC8mXgao=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
+ Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=V4RZH6Ut/Lc8vc6OhmR4vPLEvJEeNjfGWL2138dNSu/LqxL/1S4O3LfqcPMeLRNK
+ 4iMAD7AEbyBks8Ti0GPirD3+J/yI62LHTjWWDTMEPbMDVCbydg2ohD+9WBLPZEm5I
+ 0OeRCx0P5wxJvoF7QYEzMktd5kU6Am8gon8hiw5y+mF7iZE71uzQjtOC9XUd84poF
+ IwAD6Vo5OsjGcwlKrBAtdqyZtfbYwW0YMvQQg8CRn28KFe5LqIfJDwN8+llnKRiO9
+ MD8gdEglXGv3vEm2EooD/+aQZnBb1L5RB+ZfFPAKiyu3C+HPPSoC0Qcq/XmDPCaD6
+ 73wkHMC/C+OkNBln3w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.2.35] ([91.137.126.34]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mwfac-1sOnrm2wfK-00yAJY; Tue, 04
+ Jun 2024 00:20:01 +0200
+Message-ID: <663b8003-3970-4293-930e-e19dce054e01@gmx.de>
+Date: Tue, 4 Jun 2024 00:19:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240603211538.289765-1-andriy.shevchenko@linux.intel.com>
-X-Mailman-Approved-At: Mon, 03 Jun 2024 22:31:23 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Revert "drm/amdgpu: init iommu after amdkfd device init"
+From: Armin Wolf <W_Armin@gmx.de>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ gregkh@linuxfoundation.org, sashal@kernel.org
+Cc: stable@vger.kernel.org, bkauler@gmail.com, yifan1.zhang@amd.com,
+ Prike.Liang@amd.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <20240523173031.4212-1-W_Armin@gmx.de>
+Content-Language: en-US
+In-Reply-To: <20240523173031.4212-1-W_Armin@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:9Yy1R/vmaJ4klLAia29uf4AydX4Zn/cMRbnRvzhC9mwVnu7mcCY
+ ooCRScbfqYp7Cy41cDFdVqGiHOaWjAfANCFCYeqnIdvlOPmJWAFk9LEsp0LP9ScfXStPrYo
+ eO6+ucrsraxusHXFc1hiL+NVkbAqrnS+HtTa6WorXz5N4JXhRbz5/URkdwtLVP7sjS85wNN
+ UQlunXr/ksbmnltZv/M2w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:rj2MlId6gAQ=;a2USGC2Fidug1zFjbaKD71cBonC
+ zUdmm9roV5kOhaizgwO9gmqyO1k3IwZ+67fMcbjEum9ACyBS4t2+siU9eaVO8GjCdUqUsgkoq
+ 7wRiR8qU0CX0GDFJoNf6dGPVP4sl6ZHGtUL1KJslPB7Gq+0psOjGu0csytlmnv/YRJmwf7KOZ
+ I6lykPYrqKW4SdXXb3vN9tCooPg2I5IqInC9hoDWJ/gDfeWJIabIXasctQwhWkBuF2Y6f4qrQ
+ 7s7cuVxg9uRTxk9855dX+QE+VQRYVjWIXB8aa+3J0PEEAI3msc6iJa39QcJiM1q4I2GDtIFQK
+ S+QewYvxzSg0d64MiSiXTnCBElUC9zZYFJL+zkhGqGCSzZ++gZdmbMUm2fk87UNncbNbDA7WB
+ L3ZTXYSktU1e4e+VqdBkHEolqG4X5fTUYTZXknSrEAVq4jPjVlLNGjEqkhMeXCPmK9NCHJFkE
+ OhNgFpW9/Obofej0P+lakqS7HMcdS24+YIa807uyAP1c8a9T8Gzwh2FPNDTVLowRgNvPMcH19
+ Sziq/ioRStVW6IOW5TOupJ+k0jcuQmXLHF6NGjXmXcw72W5/pkzjtQypw0OCxf1AQJwb9Dyya
+ UGzYkrWVGAjJJf/OndOssadSxIv7ZM0uIUdPTYVHgapfog16T4mZnRuI+VoVz/OZghssDJ08g
+ eEGHhevec2QN2sEOs+lSEWc0rGs6nCxFhSCE1HBYQ4H6N5lc/8AIrRBW2NcweE9Ryh8B7QHaI
+ WbxTqwY1KSDv+XVBP4K85WFCaEk5Ivi0Yvk0X8A9aD0dnCLKw4PjDslFJs1JJAMgv9KsBzbFD
+ 6NbgutPHbHTLNQuiFyOmQTObDjv2LNKNVHJhVLJ3Ak0j5owil/3fe7SnSqA7DPbj+h
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -198,51 +81,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 02, 2024 at 06:57:12PM +0300, Andy Shevchenko wrote:
-> Make two APIs look similar. Hence convert match_string() to be
-> a 2-argument macro. In order to avoid unneeded churn, convert
-> all users as well. There is no functional change intended.
+Am 23.05.24 um 19:30 schrieb Armin Wolf:
 
-Looks nice, thanks for doing this.
+> This reverts commit 56b522f4668167096a50c39446d6263c96219f5f.
+>
+> A user reported that this commit breaks the integrated gpu of his
+> notebook, causing a black screen. He was able to bisect the problematic
+> commit and verified that by reverting it the notebook works again.
+> He also confirmed that kernel 6.8.1 also works on his device, so the
+> upstream commit itself seems to be ok.
+>
+> An amdgpu developer (Alex Deucher) confirmed that this patch should
+> have never been ported to 5.15 in the first place, so revert this
+> commit from the 5.15 stable series.
 
-> diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
-> index ac6293c24976..2d317c7e1cea 100644
-> --- a/drivers/pci/pcie/aer.c
-> +++ b/drivers/pci/pcie/aer.c
-> @@ -210,7 +210,7 @@ void pcie_ecrc_get_policy(char *str)
->  {
->  	int i;
->  
-> -	i = match_string(ecrc_policy_str, ARRAY_SIZE(ecrc_policy_str), str);
-> +	i = match_string(ecrc_policy_str, str);
->  	if (i < 0)
->  		return;
->  
+Hi,
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>	# drivers/pci/
+what is the status of this?
 
-> +++ b/mm/vmpressure.c
-> @@ -388,7 +388,7 @@ int vmpressure_register_event(struct mem_cgroup *memcg,
->  
->  	/* Find required level */
->  	token = strsep(&spec, ",");
-> -	ret = match_string(vmpressure_str_levels, VMPRESSURE_NUM_LEVELS, token);
-> +	ret = match_string(vmpressure_str_levels, token);
+Armin Wolf
 
-VMPRESSURE_NUM_LEVELS looks like it's no longer used?
-
->  	if (ret < 0)
->  		goto out;
->  	level = ret;
-> @@ -396,7 +396,7 @@ int vmpressure_register_event(struct mem_cgroup *memcg,
->  	/* Find optional mode */
->  	token = strsep(&spec, ",");
->  	if (token) {
-> -		ret = match_string(vmpressure_str_modes, VMPRESSURE_NUM_MODES, token);
-> +		ret = match_string(vmpressure_str_modes, token);
-
-Ditto.
-
->  		if (ret < 0)
->  			goto out;
->  		mode = ret;
+>
+> Reported-by: Barry Kauler <bkauler@gmail.com>
+> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index 222a1d9ecf16..5f6c32ec674d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -2487,6 +2487,10 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
+>   	if (r)
+>   		goto init_failed;
+>
+> +	r = amdgpu_amdkfd_resume_iommu(adev);
+> +	if (r)
+> +		goto init_failed;
+> +
+>   	r = amdgpu_device_ip_hw_init_phase1(adev);
+>   	if (r)
+>   		goto init_failed;
+> @@ -2525,10 +2529,6 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
+>   	if (!adev->gmc.xgmi.pending_reset)
+>   		amdgpu_amdkfd_device_init(adev);
+>
+> -	r = amdgpu_amdkfd_resume_iommu(adev);
+> -	if (r)
+> -		goto init_failed;
+> -
+>   	amdgpu_fru_get_product_info(adev);
+>
+>   init_failed:
+> --
+> 2.39.2
+>
+>
