@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F938D7C71
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 09:28:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB858D7CA8
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 09:42:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C40B410E2DB;
-	Mon,  3 Jun 2024 07:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97A7C89151;
+	Mon,  3 Jun 2024 07:42:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JfwCjBjW";
+	dkim=pass (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.b="mKfgfIw0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B98610E2DB;
- Mon,  3 Jun 2024 07:28:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717399716; x=1748935716;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=1uOBZ9DNGL1aMDu+BZY8z4um2Jts/ZdBXBPYGo1v13Y=;
- b=JfwCjBjWaxI+G+WgPLj+N0y57v3JrWDavVVHzyrYZrrHz8zeSLrUxBbj
- YUTMpQyuBE/XKF9cq5L2hy70uKiqZSQ/VcWJe4E4zPUw2zmL2TJ/pkUDw
- N5FgdsvdiyfW8SUMQ7no+V5YiWkTJgoZ2jJK7JETDatI0gVjJkFcRW9pd
- KMKWFtQdhIE4O2/5Y6Eru0r3O+lN0+5ILFbQzHvQA8gsZpgvBrVuq+DRf
- MCEGrlZNByjuO9QpQsUyjf73e+WYnqa1UKvH4Zhph68mrOcscDlSaGrV/
- StCr43wQpZgvUHm/LVtmFmGTo0DVAnCqYcftZ2Zl2JglyzV9hDCN9TkbR Q==;
-X-CSE-ConnectionGUID: 3pXqmbSfRjmghow6cGiWfQ==
-X-CSE-MsgGUID: IyjaXPR1SYG5F+mZMtZDPA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="24506599"
-X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; d="scan'208";a="24506599"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2024 00:28:35 -0700
-X-CSE-ConnectionGUID: BDzlFZdESZe9aQx9tWMGsg==
-X-CSE-MsgGUID: UpGVzFjxRRSssFOT0fwLWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; d="scan'208";a="67631644"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost)
- ([10.245.247.161])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2024 00:28:31 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 3 Jun 2024 10:28:27 +0300 (EEST)
-To: Chia-I Wu <olvaffe@gmail.com>
-cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- christian.koenig@amd.com, alexander.deucher@amd.com, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Alison Schofield <alison.schofield@intel.com>, 
- Dave Jiang <dave.jiang@intel.com>, Baoquan He <bhe@redhat.com>, 
- LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] kernel/resource: optimize find_next_iomem_res
-In-Reply-To: <CAPaKu7SsD+X7KAO=3vEYU_7YGM_f+7k1fdC9nEK=-NaJw8oYaA@mail.gmail.com>
-Message-ID: <492bba9e-2e22-e6dd-e2e3-c218ec413c3e@linux.intel.com>
-References: <20240531053704.2009827-1-olvaffe@gmail.com>
- <ZlmQ3_wcL3cgp4Hb@smile.fi.intel.com>
- <CAPaKu7SsD+X7KAO=3vEYU_7YGM_f+7k1fdC9nEK=-NaJw8oYaA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-2104200125-1717399707=:1529"
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7990C10E04C
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 07:42:37 +0000 (UTC)
+Received: from localhost (unknown [213.135.10.150])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256) (No client certificate requested)
+ by mail.3ffe.de (Postfix) with ESMTPSA id 30CEA136A;
+ Mon,  3 Jun 2024 09:42:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
+ s=mail2022082101; t=1717400554;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=l/sXJWAR9U+t8PuJjd67PbuHh01c02nSqxd7Y8bCUpM=;
+ b=mKfgfIw0rVXzUB2hP0B2WxtTyKBz9VHQ5GW0H/acJGDGO7XYNyllK5U2aU0laMQOncMNxb
+ 63+o3L3cwsC9BhAZl30ZY1W9aOEIKA0BadMQEvJfy28XQnJ6+Ag1UrmyyEpsPO+vKug+un
+ VIOmTj0ewguhvmUIc59KofVhqUsJ34y4Vz9XPQBBUgMTDGUnRQXFk6+nrb3CaP/4hXmPHs
+ bCgss0RdUhLImzMiLhXc+o9Y5G8Q2Shz99/HZYYA3JDlD/Bysg/DzDX2nPvCthzELAPQCH
+ N2RKaKynB4Z4wd5LO7zIxX5MplhmoRaMzAQ9NZNTakTdQUCwqGCiLUgX0z004g==
+Content-Type: multipart/signed;
+ boundary=3ed5ea633b485a24b502befa1bea475237ec606cb99637397be66d7a74b8;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Mon, 03 Jun 2024 09:42:31 +0200
+Message-Id: <D1Q7OPR0TRFG.1WLSI7EBAPUWX@walle.cc>
+From: "Michael Walle" <michael@walle.cc>
+To: "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+ <chunkuang.hu@kernel.org>
+Subject: Re: [PATCH v4 3/3] drm/mediatek: Implement OF graphs support for
+ display paths
+Cc: <robh@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+ <conor+dt@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <matthias.bgg@gmail.com>,
+ <shawn.sung@mediatek.com>, <yu-chang.lee@mediatek.com>,
+ <ck.hu@mediatek.com>, <jitao.shi@mediatek.com>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <wenst@chromium.org>,
+ <kernel@collabora.com>
+X-Mailer: aerc 0.16.0
+References: <20240516081104.83458-1-angelogioacchino.delregno@collabora.com>
+ <20240516081104.83458-4-angelogioacchino.delregno@collabora.com>
+ <D1BTQIQ2AQIS.G12ROFB149QB@walle.cc>
+ <84cd0ac7-99d9-42cb-af79-a0fba09c1ebb@collabora.com>
+In-Reply-To: <84cd0ac7-99d9-42cb-af79-a0fba09c1ebb@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,87 +72,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323328-2104200125-1717399707=:1529
+--3ed5ea633b485a24b502befa1bea475237ec606cb99637397be66d7a74b8
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Fri, 31 May 2024, Chia-I Wu wrote:
-> On Fri, May 31, 2024 at 1:57=E2=80=AFAM Andy Shevchenko <andriy.shevchenk=
-o@linux.intel.com>
-> wrote:
->       On Thu, May 30, 2024 at 10:36:57PM -0700, Chia-I Wu wrote:
->       > We can skip children resources when the parent resource does not =
-cover
->       > the range.
->       >
->       > This should help vmf_insert_* users on x86, such as several DRM
->       drivers.
->       > On my AMD Ryzen 5 7520C, when streaming data from cpu memory into
->       amdgpu
->       > bo, the throughput goes from 5.1GB/s to 6.6GB/s.=C2=A0 perf repor=
-t says
->       >
->       >=C2=A0 =C2=A034.69%--__do_fault
->       >=C2=A0 =C2=A034.60%--amdgpu_gem_fault
->       >=C2=A0 =C2=A034.00%--ttm_bo_vm_fault_reserved
->       >=C2=A0 =C2=A032.95%--vmf_insert_pfn_prot
->       >=C2=A0 =C2=A025.89%--track_pfn_insert
->       >=C2=A0 =C2=A024.35%--lookup_memtype
->       >=C2=A0 =C2=A021.77%--pat_pagerange_is_ram
->       >=C2=A0 =C2=A020.80%--walk_system_ram_range
->       >=C2=A0 =C2=A017.42%--find_next_iomem_res
->       >
->       > before this change, and
->       >
->       >=C2=A0 =C2=A026.67%--__do_fault
->       >=C2=A0 =C2=A026.57%--amdgpu_gem_fault
->       >=C2=A0 =C2=A025.83%--ttm_bo_vm_fault_reserved
->       >=C2=A0 =C2=A024.40%--vmf_insert_pfn_prot
->       >=C2=A0 =C2=A014.30%--track_pfn_insert
->       >=C2=A0 =C2=A012.20%--lookup_memtype
->       >=C2=A0 =C2=A09.34%--pat_pagerange_is_ram
->       >=C2=A0 =C2=A08.22%--walk_system_ram_range
->       >=C2=A0 =C2=A05.09%--find_next_iomem_res
->       >
->       > after.
->=20
->       Is there any documentation that explicitly says that the children
->       resources
->       must not overlap parent's one? Do we have some test cases? (Either =
-way
->       they
->       needs to be added / expanded).
->=20
-> I think it's the opposite.=C2=A0 The assumption here is that a child=C2=
-=A0is always a subset of
-> its parent.=C2=A0 Thus, if the range to be checked is not covered by a pa=
-rent, we can skip
-> the children.
+Hi Angelo,
+
+> >> Implement OF graphs support to the mediatek-drm drivers, allowing to
+> >> stop hardcoding the paths, and preventing this driver to get a huge
+> >> amount of arrays for each board and SoC combination, also paving the
+> >> way to share the same mtk_mmsys_driver_data between multiple SoCs,
+> >> making it more straightforward to add support for new chips.
+> >=20
+> > paths might be optional, see comment in mtk_drm_kms_init(). But with
+> > this patch, you'll get an -EINVAL with a disabled path. See my
+> > proposals how to fix that below.
 >
-> That's guaranteed by=C2=A0__request_resource.=C2=A0 I am less sure about=
-=C2=A0__insert_resource but
-> it appears to be the case too.=C2=A0 FWIW, resource_is_exclusive has the =
-same assumption
-> already.
+> I might not be understanding the reason behind allowing that but, per my =
+logic, if
+> a board does have a path, then it's written in devicetree and enabled - o=
+therwise,
+> it should not be there at all, in principle.
+>
+>
+> Can you explain a bit more extensively the reason(s) why we need to accou=
+nt
+> for disabled paths?
 
-Yes, the children resources are contained within the parent resource (at=20
-least in PCI but given the code, I'd expect that to be general state of=20
-affairs).
+Paths should be (and this was already supported before this patch
+with the hardcoded paths) disabled with the status property. This
+way you can have a common board configuration where all the paths
+are already described but are disabled. An overlay (or maybe another
+dts variant) can then just enable the pipeline/output port by
+overwriting the status property.
 
-> It looks like I need to do some refactoring to add tests.
->=20
->=20
->       P.S> I'm not so sure about this change. It needs a thoroughly testi=
-ng,
->       esp.
->       in PCI case. Cc'ing to Ilpo.
->=20
-> What's special about PCI?
+Also, this is the usual DT usage, as a node with status =3D "disabled"
+should just be skipped. Without handling this, the current code will
+return -EINVAL during probe (IIRC, my vacation might have reset my
+memory :o).
 
---=20
- i.
+-michael
 
---8323328-2104200125-1717399707=:1529--
+--3ed5ea633b485a24b502befa1bea475237ec606cb99637397be66d7a74b8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iKcEABMJAC8WIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCZl1z6BEcbWljaGFlbEB3
+YWxsZS5jYwAKCRASJzzuPgIf+EuiAYCiS0ktYeqW3WREzRyRaWz/fZqG9E+chTLp
+Eq2F71PR2kPsrQjcJqjw9P8PJP1Tb7IBf1Xo00KNX/YZCxZd7B2+oCO6cjri7/ym
+ZBbCHMlAM8XqJvXrDFXC1OxZkA8QuPDVng==
+=F2kN
+-----END PGP SIGNATURE-----
+
+--3ed5ea633b485a24b502befa1bea475237ec606cb99637397be66d7a74b8--
