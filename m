@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60BD48D7B1C
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 07:59:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBEB48D7B1E
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 07:59:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE6B010E26F;
-	Mon,  3 Jun 2024 05:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63FF010E28F;
+	Mon,  3 Jun 2024 05:59:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XLXO9DT0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Z2hfvrEs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBB1D10E10B;
- Mon,  3 Jun 2024 05:59:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B25D010E10B;
+ Mon,  3 Jun 2024 05:59:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717394365; x=1748930365;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=v+sDR6SQm4cJENbsECXEDYuCrk4opGKalohlbUGdoLk=;
- b=XLXO9DT0RdYf7dnBTSnrl/OADU+O6uNtsI+LBXJOM4yGghkbsEfJprwu
- 0V/hcuFhkyfXOFGp/Kt8HuB+8rNPmXhmmKtYTWplkoQCam+6wXX8ggS4y
- OBPf2fgMHop8Ay+1gi6XnCmS31xz8LFo0HyoTYRs3afUBf2z7t8+usi/z
- BYLJ8Hv/9NrspAER9zC1RyIUXPIVO2uUp+lKwjAkuUnDNTW36tjDgRGQw
- Vr9gIbHsuRrHdRwMepAvjXYGOYuYpWEsaGHlpY6IU+8CszwkNW72AL9/z
- uW00kavJn/z4fK4QqFNWpnKorEeXb7TsbVYspKaJELdyrkUBvEWbI89yT g==;
-X-CSE-ConnectionGUID: tHrMkqKnQWmQOOsRRNxrwg==
-X-CSE-MsgGUID: mI3vRqWEQWq+4UPJ9QbB/w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="24527509"
-X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; d="scan'208";a="24527509"
+ t=1717394367; x=1748930367;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=Zvx7YA6mILM5Q3kj6RcUdUXE9siufZLnVWzoC76pFCs=;
+ b=Z2hfvrEsX7/pZxLPXeRYl1/XjVkJ0Iqt/gX7yCdu6qGHPjqsLsh2jEi8
+ O+ZuM4QkqxWtmcgFXiX5A8/SG9RlLrGrUBRgS3HrQBPGZvZjZmCCq/029
+ qfyBjran0Br/i2buLEt/wq1wA86khWNr2rMukSBEMiqNirAfLPl5Hz0C8
+ hig1N6Gij3Aap7kP0nDAb6FALIFlbZ6z86gE/RYw5OZKVhI5wJJ+z40V7
+ AOzdyOWCfGCmqdrIbgNfaUV1CoxTR79WdOrDc7oafKX8L+hXMgt7oRID+
+ A6Bxr+AjRiaRp9wH6qHRCB880xVpK18W8IaCGeVfslYaQurY/08z6M0Rt A==;
+X-CSE-ConnectionGUID: AeujTeNqSfKEka+SDZd9nQ==
+X-CSE-MsgGUID: ADM7Kz5bSkyWPVmm5XlWLw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="24527513"
+X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; d="scan'208";a="24527513"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2024 22:59:24 -0700
-X-CSE-ConnectionGUID: pvmiE4mlQ+yZVDSCbseF0A==
-X-CSE-MsgGUID: GGI4rja9R3Kz205nAyIyoQ==
+ 02 Jun 2024 22:59:26 -0700
+X-CSE-ConnectionGUID: bixQvMbuQV2zSBkmQOLFew==
+X-CSE-MsgGUID: jr6X34shSACe2S4FN7z3HQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; d="scan'208";a="67616478"
+X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; d="scan'208";a="67616482"
 Received: from mgolanimitul-x299-ud4-pro.iind.intel.com ([10.190.239.114])
- by orviesa002.jf.intel.com with ESMTP; 02 Jun 2024 22:59:23 -0700
+ by orviesa002.jf.intel.com with ESMTP; 02 Jun 2024 22:59:25 -0700
 From: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, ankit.k.nautiyal@intel.com,
  jani.nikula@intel.com
-Subject: [PATCH v11 0/8] Implement CMRR Support
-Date: Mon,  3 Jun 2024 11:18:56 +0530
-Message-Id: <20240603054904.222589-1-mitulkumar.ajitkumar.golani@intel.com>
+Subject: [PATCH v11 1/8] drm/i915: Separate VRR related register definitions
+Date: Mon,  3 Jun 2024 11:18:57 +0530
+Message-Id: <20240603054904.222589-2-mitulkumar.ajitkumar.golani@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240603054904.222589-1-mitulkumar.ajitkumar.golani@intel.com>
+References: <20240603054904.222589-1-mitulkumar.ajitkumar.golani@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,83 +68,259 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CMRR is a display feature that uses adaptive sync
-framework to vary Vtotal slightly to match the
-content rate exactly without frame drops. This
-feature is a variation of VRR where it varies Vtotal
-slightly (between additional 0 and 1 Vtotal scanlines)
-to match content rate exactly without frame drops
-using the adaptive sync framework.
-
-enable this feature by programing new registers for
-CMRR enable, CMRR_M, CMRR_N, vmin=vmax=flipline.The
-CMRR_M/CMRR_N ratio represents the fractional part
-in (actual refresh rate/target refresh rate) * origVTotal.
-
---v6:
-- CMRR handling in co-existatnce of LRR and DRRS
-- Correct vtotal paramas accuracy and add 2 digit precision.
-
---v7:
-- Rebased patches in-accordance to AS SDP merge.
-- Add neccessary gaurd to prevent crtc_state mismatch
-during intel_vrr_get_config.
-
--v8:
-- Add support for AS SDP for CMRR.
-- update palce holder for CMRR register(Jani).
-- Make CMRR as subset of FAVT, as per comments in patch#3.
-
--v9:
-- Add CMRR register definitions to separate intel_vrr_reg.h.
-- Remove cmrr_enabling/disabling, use vrr.enable instead.
-- Update AS SDP pack function to accomodate target_rr_divider.
-- Remove duplicated lines to compute vrr_vsync params.
-- Set cmrr.enable with a separate patch at last.
-
--v10:
-- Separate VRR related register definitions.
-- Add dependency header intel_display_reg_defs.h.
-- Rename file name to intel_vrr_regs.h instead of reg.h.
-- Revert removed line.
-- Since vrr.enable and cmrr.enable are not mutually exclusive,
-handle accordingly.
-- is_edp is not required inside is_cmrr_frac_required function.
-- Add video_mode_required flag for future enhancement.
-- Correct cmrr_m/cmrr_n calculation.
-- target_rr_divider is bools so handle accordingly.
-
--v11:
-- Move VRR related register and bits to separate file
+Move VRR related register definitions to a separate file called
 intel_vrr_regs.h.
-- Correct file header macro to intel_vrr_regs.h.
-- Remove adding CMRR flag to vrr_ctl register during
-set_transcoder_timing.
-- Replace vrr.enable flag to cmrr.enable where added mistakenly.
-- Move cmrr computation patch to last and set other other required
-  params before computing cmrr.enable.
 
-Mitul Golani (8):
-  drm/i915: Separate VRR related register definitions
-  drm/i915: Define and compute Transcoder CMRR registers
-  drm/i915: Update trans_vrr_ctl flag when cmrr is computed
-  drm/dp: Add refresh rate divider to struct representing AS SDP
-  drm/i915/display: Add support for pack and unpack
-  drm/i915/display: Compute Adaptive sync SDP params
-  drm/i915/display: Compute vrr vsync params
-  drm/i915: Compute CMRR and calculate vtotal
-
- drivers/gpu/drm/i915/display/intel_display.c  |  24 +++-
- .../drm/i915/display/intel_display_device.h   |   1 +
- .../drm/i915/display/intel_display_types.h    |   6 +
- drivers/gpu/drm/i915/display/intel_dp.c       |  19 ++-
- drivers/gpu/drm/i915/display/intel_vrr.c      | 128 +++++++++++++++--
- drivers/gpu/drm/i915/display/intel_vrr_regs.h | 129 ++++++++++++++++++
- drivers/gpu/drm/i915/i915_reg.h               | 100 --------------
- include/drm/display/drm_dp_helper.h           |   1 +
- 8 files changed, 289 insertions(+), 119 deletions(-)
+Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_vrr.c      |   1 +
+ drivers/gpu/drm/i915/display/intel_vrr_regs.h | 113 ++++++++++++++++++
+ drivers/gpu/drm/i915/i915_reg.h               | 100 ----------------
+ 3 files changed, 114 insertions(+), 100 deletions(-)
  create mode 100644 drivers/gpu/drm/i915/display/intel_vrr_regs.h
 
+diff --git a/drivers/gpu/drm/i915/display/intel_vrr.c b/drivers/gpu/drm/i915/display/intel_vrr.c
+index 5f3657aa8313..871e6e6a184a 100644
+--- a/drivers/gpu/drm/i915/display/intel_vrr.c
++++ b/drivers/gpu/drm/i915/display/intel_vrr.c
+@@ -9,6 +9,7 @@
+ #include "intel_de.h"
+ #include "intel_display_types.h"
+ #include "intel_vrr.h"
++#include "intel_vrr_regs.h"
+ #include "intel_dp.h"
+ 
+ bool intel_vrr_is_capable(struct intel_connector *connector)
+diff --git a/drivers/gpu/drm/i915/display/intel_vrr_regs.h b/drivers/gpu/drm/i915/display/intel_vrr_regs.h
+new file mode 100644
+index 000000000000..b5695a95dd4a
+--- /dev/null
++++ b/drivers/gpu/drm/i915/display/intel_vrr_regs.h
+@@ -0,0 +1,113 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2024 Intel Corporation
++ */
++
++#ifndef __INTEL_VRR_REGS_H__
++#define __INTEL_VRR_REGS_H__
++
++#include "intel_display_reg_defs.h"
++
++/* VRR registers */
++#define _TRANS_VRR_CTL_A		0x60420
++#define _TRANS_VRR_CTL_B		0x61420
++#define _TRANS_VRR_CTL_C		0x62420
++#define _TRANS_VRR_CTL_D		0x63420
++#define TRANS_VRR_CTL(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans, _TRANS_VRR_CTL_A)
++#define   VRR_CTL_VRR_ENABLE			REG_BIT(31)
++#define   VRR_CTL_IGN_MAX_SHIFT			REG_BIT(30)
++#define   VRR_CTL_FLIP_LINE_EN			REG_BIT(29)
++#define   VRR_CTL_PIPELINE_FULL_MASK		REG_GENMASK(10, 3)
++#define   VRR_CTL_PIPELINE_FULL(x)		REG_FIELD_PREP(VRR_CTL_PIPELINE_FULL_MASK, (x))
++#define   VRR_CTL_PIPELINE_FULL_OVERRIDE	REG_BIT(0)
++#define   XELPD_VRR_CTL_VRR_GUARDBAND_MASK	REG_GENMASK(15, 0)
++#define   XELPD_VRR_CTL_VRR_GUARDBAND(x)	REG_FIELD_PREP(XELPD_VRR_CTL_VRR_GUARDBAND_MASK,\
++						(x))
++
++#define _TRANS_VRR_VMAX_A		0x60424
++#define _TRANS_VRR_VMAX_B		0x61424
++#define _TRANS_VRR_VMAX_C		0x62424
++#define _TRANS_VRR_VMAX_D		0x63424
++#define TRANS_VRR_VMAX(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans, _TRANS_VRR_VMAX_A)
++#define   VRR_VMAX_MASK			REG_GENMASK(19, 0)
++
++#define _TRANS_VRR_VMIN_A		0x60434
++#define _TRANS_VRR_VMIN_B		0x61434
++#define _TRANS_VRR_VMIN_C		0x62434
++#define _TRANS_VRR_VMIN_D		0x63434
++#define TRANS_VRR_VMIN(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans, _TRANS_VRR_VMIN_A)
++#define   VRR_VMIN_MASK			REG_GENMASK(15, 0)
++
++#define _TRANS_VRR_VMAXSHIFT_A		0x60428
++#define _TRANS_VRR_VMAXSHIFT_B		0x61428
++#define _TRANS_VRR_VMAXSHIFT_C		0x62428
++#define _TRANS_VRR_VMAXSHIFT_D		0x63428
++#define TRANS_VRR_VMAXSHIFT(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans, \
++					_TRANS_VRR_VMAXSHIFT_A)
++#define   VRR_VMAXSHIFT_DEC_MASK	REG_GENMASK(29, 16)
++#define   VRR_VMAXSHIFT_DEC		REG_BIT(16)
++#define   VRR_VMAXSHIFT_INC_MASK	REG_GENMASK(12, 0)
++
++#define _TRANS_VRR_STATUS_A		0x6042C
++#define _TRANS_VRR_STATUS_B		0x6142C
++#define _TRANS_VRR_STATUS_C		0x6242C
++#define _TRANS_VRR_STATUS_D		0x6342C
++#define TRANS_VRR_STATUS(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans, _TRANS_VRR_STATUS_A)
++#define   VRR_STATUS_VMAX_REACHED	REG_BIT(31)
++#define   VRR_STATUS_NOFLIP_TILL_BNDR	REG_BIT(30)
++#define   VRR_STATUS_FLIP_BEF_BNDR	REG_BIT(29)
++#define   VRR_STATUS_NO_FLIP_FRAME	REG_BIT(28)
++#define   VRR_STATUS_VRR_EN_LIVE	REG_BIT(27)
++#define   VRR_STATUS_FLIPS_SERVICED	REG_BIT(26)
++#define   VRR_STATUS_VBLANK_MASK	REG_GENMASK(22, 20)
++#define   STATUS_FSM_IDLE		REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 0)
++#define   STATUS_FSM_WAIT_TILL_FDB	REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 1)
++#define   STATUS_FSM_WAIT_TILL_FS	REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 2)
++#define   STATUS_FSM_WAIT_TILL_FLIP	REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 3)
++#define   STATUS_FSM_PIPELINE_FILL	REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 4)
++#define   STATUS_FSM_ACTIVE		REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 5)
++#define   STATUS_FSM_LEGACY_VBLANK	REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 6)
++
++#define _TRANS_VRR_VTOTAL_PREV_A	0x60480
++#define _TRANS_VRR_VTOTAL_PREV_B	0x61480
++#define _TRANS_VRR_VTOTAL_PREV_C	0x62480
++#define _TRANS_VRR_VTOTAL_PREV_D	0x63480
++#define TRANS_VRR_VTOTAL_PREV(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans, \
++					_TRANS_VRR_VTOTAL_PREV_A)
++#define   VRR_VTOTAL_FLIP_BEFR_BNDR	REG_BIT(31)
++#define   VRR_VTOTAL_FLIP_AFTER_BNDR	REG_BIT(30)
++#define   VRR_VTOTAL_FLIP_AFTER_DBLBUF	REG_BIT(29)
++#define   VRR_VTOTAL_PREV_FRAME_MASK	REG_GENMASK(19, 0)
++
++#define _TRANS_VRR_FLIPLINE_A		0x60438
++#define _TRANS_VRR_FLIPLINE_B		0x61438
++#define _TRANS_VRR_FLIPLINE_C		0x62438
++#define _TRANS_VRR_FLIPLINE_D		0x63438
++#define TRANS_VRR_FLIPLINE(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans, \
++					_TRANS_VRR_FLIPLINE_A)
++#define   VRR_FLIPLINE_MASK		REG_GENMASK(19, 0)
++
++#define _TRANS_VRR_STATUS2_A		0x6043C
++#define _TRANS_VRR_STATUS2_B		0x6143C
++#define _TRANS_VRR_STATUS2_C		0x6243C
++#define _TRANS_VRR_STATUS2_D		0x6343C
++#define TRANS_VRR_STATUS2(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans, _TRANS_VRR_STATUS2_A)
++#define   VRR_STATUS2_VERT_LN_CNT_MASK	REG_GENMASK(19, 0)
++
++#define _TRANS_PUSH_A			0x60A70
++#define _TRANS_PUSH_B			0x61A70
++#define _TRANS_PUSH_C			0x62A70
++#define _TRANS_PUSH_D			0x63A70
++#define TRANS_PUSH(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans, _TRANS_PUSH_A)
++#define   TRANS_PUSH_EN			REG_BIT(31)
++#define   TRANS_PUSH_SEND		REG_BIT(30)
++
++#define _TRANS_VRR_VSYNC_A		0x60078
++#define TRANS_VRR_VSYNC(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans, _TRANS_VRR_VSYNC_A)
++#define VRR_VSYNC_END_MASK		REG_GENMASK(28, 16)
++#define VRR_VSYNC_END(vsync_end)	REG_FIELD_PREP(VRR_VSYNC_END_MASK, (vsync_end))
++#define VRR_VSYNC_START_MASK		REG_GENMASK(12, 0)
++#define VRR_VSYNC_START(vsync_start)	REG_FIELD_PREP(VRR_VSYNC_START_MASK, (vsync_start))
++
++#endif /* __INTEL_VRR_REGS__ */
++
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 6877e2f0fbc3..4ff590114c52 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -1228,106 +1228,6 @@
+ #define PIPESRC(pipe)		_MMIO_TRANS2(dev_priv, (pipe), _PIPEASRC)
+ #define TRANS_MULT(trans)	_MMIO_TRANS2(dev_priv, (trans), _TRANS_MULT_A)
+ 
+-/* VRR registers */
+-#define _TRANS_VRR_CTL_A		0x60420
+-#define _TRANS_VRR_CTL_B		0x61420
+-#define _TRANS_VRR_CTL_C		0x62420
+-#define _TRANS_VRR_CTL_D		0x63420
+-#define TRANS_VRR_CTL(dev_priv, trans)			_MMIO_TRANS2(dev_priv, trans, _TRANS_VRR_CTL_A)
+-#define   VRR_CTL_VRR_ENABLE			REG_BIT(31)
+-#define   VRR_CTL_IGN_MAX_SHIFT			REG_BIT(30)
+-#define   VRR_CTL_FLIP_LINE_EN			REG_BIT(29)
+-#define   VRR_CTL_PIPELINE_FULL_MASK		REG_GENMASK(10, 3)
+-#define   VRR_CTL_PIPELINE_FULL(x)		REG_FIELD_PREP(VRR_CTL_PIPELINE_FULL_MASK, (x))
+-#define   VRR_CTL_PIPELINE_FULL_OVERRIDE	REG_BIT(0)
+-#define	  XELPD_VRR_CTL_VRR_GUARDBAND_MASK	REG_GENMASK(15, 0)
+-#define	  XELPD_VRR_CTL_VRR_GUARDBAND(x)	REG_FIELD_PREP(XELPD_VRR_CTL_VRR_GUARDBAND_MASK, (x))
+-
+-#define _TRANS_VRR_VMAX_A		0x60424
+-#define _TRANS_VRR_VMAX_B		0x61424
+-#define _TRANS_VRR_VMAX_C		0x62424
+-#define _TRANS_VRR_VMAX_D		0x63424
+-#define TRANS_VRR_VMAX(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans, _TRANS_VRR_VMAX_A)
+-#define   VRR_VMAX_MASK			REG_GENMASK(19, 0)
+-
+-#define _TRANS_VRR_VMIN_A		0x60434
+-#define _TRANS_VRR_VMIN_B		0x61434
+-#define _TRANS_VRR_VMIN_C		0x62434
+-#define _TRANS_VRR_VMIN_D		0x63434
+-#define TRANS_VRR_VMIN(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans, _TRANS_VRR_VMIN_A)
+-#define   VRR_VMIN_MASK			REG_GENMASK(15, 0)
+-
+-#define _TRANS_VRR_VMAXSHIFT_A		0x60428
+-#define _TRANS_VRR_VMAXSHIFT_B		0x61428
+-#define _TRANS_VRR_VMAXSHIFT_C		0x62428
+-#define _TRANS_VRR_VMAXSHIFT_D		0x63428
+-#define TRANS_VRR_VMAXSHIFT(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans, \
+-					_TRANS_VRR_VMAXSHIFT_A)
+-#define   VRR_VMAXSHIFT_DEC_MASK	REG_GENMASK(29, 16)
+-#define   VRR_VMAXSHIFT_DEC		REG_BIT(16)
+-#define   VRR_VMAXSHIFT_INC_MASK	REG_GENMASK(12, 0)
+-
+-#define _TRANS_VRR_STATUS_A		0x6042C
+-#define _TRANS_VRR_STATUS_B		0x6142C
+-#define _TRANS_VRR_STATUS_C		0x6242C
+-#define _TRANS_VRR_STATUS_D		0x6342C
+-#define TRANS_VRR_STATUS(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans, _TRANS_VRR_STATUS_A)
+-#define   VRR_STATUS_VMAX_REACHED	REG_BIT(31)
+-#define   VRR_STATUS_NOFLIP_TILL_BNDR	REG_BIT(30)
+-#define   VRR_STATUS_FLIP_BEF_BNDR	REG_BIT(29)
+-#define   VRR_STATUS_NO_FLIP_FRAME	REG_BIT(28)
+-#define   VRR_STATUS_VRR_EN_LIVE	REG_BIT(27)
+-#define   VRR_STATUS_FLIPS_SERVICED	REG_BIT(26)
+-#define   VRR_STATUS_VBLANK_MASK	REG_GENMASK(22, 20)
+-#define   STATUS_FSM_IDLE		REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 0)
+-#define   STATUS_FSM_WAIT_TILL_FDB	REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 1)
+-#define   STATUS_FSM_WAIT_TILL_FS	REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 2)
+-#define   STATUS_FSM_WAIT_TILL_FLIP	REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 3)
+-#define   STATUS_FSM_PIPELINE_FILL	REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 4)
+-#define   STATUS_FSM_ACTIVE		REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 5)
+-#define   STATUS_FSM_LEGACY_VBLANK	REG_FIELD_PREP(VRR_STATUS_VBLANK_MASK, 6)
+-
+-#define _TRANS_VRR_VTOTAL_PREV_A	0x60480
+-#define _TRANS_VRR_VTOTAL_PREV_B	0x61480
+-#define _TRANS_VRR_VTOTAL_PREV_C	0x62480
+-#define _TRANS_VRR_VTOTAL_PREV_D	0x63480
+-#define TRANS_VRR_VTOTAL_PREV(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans, \
+-					_TRANS_VRR_VTOTAL_PREV_A)
+-#define   VRR_VTOTAL_FLIP_BEFR_BNDR	REG_BIT(31)
+-#define   VRR_VTOTAL_FLIP_AFTER_BNDR	REG_BIT(30)
+-#define   VRR_VTOTAL_FLIP_AFTER_DBLBUF	REG_BIT(29)
+-#define   VRR_VTOTAL_PREV_FRAME_MASK	REG_GENMASK(19, 0)
+-
+-#define _TRANS_VRR_FLIPLINE_A		0x60438
+-#define _TRANS_VRR_FLIPLINE_B		0x61438
+-#define _TRANS_VRR_FLIPLINE_C		0x62438
+-#define _TRANS_VRR_FLIPLINE_D		0x63438
+-#define TRANS_VRR_FLIPLINE(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans, \
+-					_TRANS_VRR_FLIPLINE_A)
+-#define   VRR_FLIPLINE_MASK		REG_GENMASK(19, 0)
+-
+-#define _TRANS_VRR_STATUS2_A		0x6043C
+-#define _TRANS_VRR_STATUS2_B		0x6143C
+-#define _TRANS_VRR_STATUS2_C		0x6243C
+-#define _TRANS_VRR_STATUS2_D		0x6343C
+-#define TRANS_VRR_STATUS2(dev_priv, trans)	_MMIO_TRANS2(dev_priv, trans, _TRANS_VRR_STATUS2_A)
+-#define   VRR_STATUS2_VERT_LN_CNT_MASK	REG_GENMASK(19, 0)
+-
+-#define _TRANS_PUSH_A			0x60A70
+-#define _TRANS_PUSH_B			0x61A70
+-#define _TRANS_PUSH_C			0x62A70
+-#define _TRANS_PUSH_D			0x63A70
+-#define TRANS_PUSH(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans, _TRANS_PUSH_A)
+-#define   TRANS_PUSH_EN			REG_BIT(31)
+-#define   TRANS_PUSH_SEND		REG_BIT(30)
+-
+-#define _TRANS_VRR_VSYNC_A		0x60078
+-#define TRANS_VRR_VSYNC(dev_priv, trans)		_MMIO_TRANS2(dev_priv, trans, _TRANS_VRR_VSYNC_A)
+-#define VRR_VSYNC_END_MASK		REG_GENMASK(28, 16)
+-#define VRR_VSYNC_END(vsync_end)	REG_FIELD_PREP(VRR_VSYNC_END_MASK, (vsync_end))
+-#define VRR_VSYNC_START_MASK		REG_GENMASK(12, 0)
+-#define VRR_VSYNC_START(vsync_start)	REG_FIELD_PREP(VRR_VSYNC_START_MASK, (vsync_start))
+-
+ /* VGA port control */
+ #define ADPA			_MMIO(0x61100)
+ #define PCH_ADPA                _MMIO(0xe1100)
 -- 
 2.25.1
 
