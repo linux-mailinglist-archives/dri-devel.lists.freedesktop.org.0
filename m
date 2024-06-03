@@ -2,64 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149F38D8427
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 15:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6EE8D84B7
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 16:17:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C841810E1C1;
-	Mon,  3 Jun 2024 13:39:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F0DC10E0A0;
+	Mon,  3 Jun 2024 14:17:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ama7ZkBt";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="bTYHizDW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B706610E1C1
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 13:39:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AFB3460C6C;
- Mon,  3 Jun 2024 13:39:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D301DC2BD10;
- Mon,  3 Jun 2024 13:39:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717421961;
- bh=8ok/B/SKwxnEVlrKgCfgnVlO1/oDKY2C3MJSaCwQaKI=;
- h=Date:From:To:Subject:Cc:References:In-Reply-To:From;
- b=Ama7ZkBt8NAD6lXZL1WZXHaVHX1FXYyXteTPQgQ492yUo7Jnvdn9tXJijBJ6dgO77
- 71G0wWAVFOzvHxksNLpWzqkwfV5n8xzv2LoOW0CNxq6jPy/ps7DVREjV+vZF7jcbZi
- JwBBtLAKdZrhnwM+zVJgLFRIQMrTtL7XWx1AfpiljkJGUv3fkCUalwsm8rVn8SxwZ5
- tdSdNWpTelTvyBLq8rZKmuv/UHHiW4NpV9MDkXJUxoiYF0VGPr1Vp4ATKhB++Vn9Xz
- HQHGqT1D18+U+a7o9t4vnm1KXAfgKPsU4tknjGmC/QWkel4vQ8nOpihi33R6LVzevz
- iG9GZKLMN1J6w==
-Content-Type: multipart/signed;
- boundary=cf88f22391bd096e9bbbe91854ac9cb1367c0eed60ddb60b6fffffe02fdd;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Mon, 03 Jun 2024 15:39:17 +0200
-Message-Id: <D1QF9V8N7C06.2SPVUO4K4IMQJ@kernel.org>
-From: "Michael Walle" <mwalle@kernel.org>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, "Alexander Stein"
- <alexander.stein@ew.tq-group.com>
-Subject: Re: [PATCH 01/20] drm/bridge: add dsi_lp11_notify mechanism
-Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, "Chun-Kuang
- Hu" <chunkuang.hu@kernel.org>, "Philipp Zabel" <p.zabel@pengutronix.de>,
- "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
- <angelogioacchino.delregno@collabora.com>, "Sam Ravnborg"
- <sam@ravnborg.org>, "Vinay Simha BN" <simhavcs@gmail.com>, "Tony Lindgren"
- <tony@atomide.com>, <dri-devel@lists.freedesktop.org>, "Daniel Semkowicz"
- <dse@thaumatec.com>, <linux-kernel@vger.kernel.org>,
- <linux-mediatek@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, "Marek Vasut" <marex@denx.de>
-X-Mailer: aerc 0.16.0
-References: <20240506-tc358775-fix-powerup-v1-0-545dcf00b8dd@kernel.org>
- <20240506-tc358775-fix-powerup-v1-1-545dcf00b8dd@kernel.org>
- <2189493.irdbgypaU6@steina-w>
- <577v55mspa672t2bqbwwvdtfdgtbj6mpejo3n56qk7bt2j6bt3@q54dfnupcvs4>
-In-Reply-To: <577v55mspa672t2bqbwwvdtfdgtbj6mpejo3n56qk7bt2j6bt3@q54dfnupcvs4>
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AECF310E0A0
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 14:17:23 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a68c2915d99so237671866b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jun 2024 07:17:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1717424242; x=1718029042;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hX960fiFK86sEZShyroAmINX+eMw+I3MOlcUpYKxHw8=;
+ b=bTYHizDWVz+USvIEVohR+jg7uyEsxmAyD7AQVFwhdaDrjgk3wj0Zbs27znq64GUYQs
+ UndH1zIADcgGR/0M6QPHX0F1K7JIWXU8YwaM1Pt7/+mkVaCUHmeAtTzYwQ6GaKLD+fgQ
+ 817hkUGGN2km6ciNagZJPaqMjM2gR6DXd2kiHBDIWCEFg3ZLGXzpnO+FrBNQ09kknWxR
+ /kXdeRY4gO+mOirIqcMhvuP0SVOAm3equwnBIH6wlpz5w8xkb4FyvXW5KC/fVx0OHTRE
+ 73EZHh0zbgavBslPsSrL/YCn0qsLoIGvGKDrBcJt0S8uUiJyie7eqIUvfun0+9C0yDhI
+ 4pRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717424242; x=1718029042;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hX960fiFK86sEZShyroAmINX+eMw+I3MOlcUpYKxHw8=;
+ b=TId0L7ctS2KShCjDr2DREBtuYio9ia1taj19nNvdNESh6jBkqAPWC9H4apYce0l6U9
+ YfetJ1LTjfnbjQdiNAl98yChtg6L+IvaCqHxzPSD4Li77wiu3gkcbu+T4xK02eY22N9u
+ qnGzULXXrD8x3Qh6ypGwXm72t6CGLEqjV8FdrHf+0rAIfo/Ih7ysgQDmXr5vS5grkKQO
+ BkiAjefJgkmS/RKYIliuR79Qt52qTDqySbp44hdtyyS9IBXIGGAqtYvcjU1iX42dECzR
+ 2XxHfUQ5khlyECKcaegOpHpBhcQk8o8a/R+y4QuW9cdu9ACJ77ZYFOEeX3Yg1La08xAk
+ cM6A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU0VQkkhWk16JcRpLDfvR09Cj3BTS9v3DwgcXOjCpbRCHnN7VmBD5c6jQua6WwH5xUDV8gUZkqxRogAyYlxDejb3VNybi5GPxdKqAt2z6ih
+X-Gm-Message-State: AOJu0YxNfUXcBeMaibBA5vJvVM4nYTMYrxozPOmP3+WnFKQGaYYl2ddj
+ ZlZeD5cxvuHa0/AklcAMxMQuQmMo4WRqXQtIyfRovrgCZJC2ytdal0zYxv9WFX10Cul8xWvNPuN
+ H+MRPQ7LcWD1kHItXHqOdcSapVJqRQFSpjqwW
+X-Google-Smtp-Source: AGHT+IF2dM971g+G40jgbxNlCnWLD2vDmcmV06zLLO0GJhjluR0VCD0WMHMSdMpVvOnlSN5qx4LmzaU7Z6g2TUlHcjM=
+X-Received: by 2002:a17:907:914e:b0:a68:9621:a93c with SMTP id
+ a640c23a62f3a-a689621ab6fmr371329366b.8.1717424241215; Mon, 03 Jun 2024
+ 07:17:21 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240530201616.1316526-1-almasrymina@google.com>
+ <20240530201616.1316526-3-almasrymina@google.com>
+ <ZlqzER_ufrhlB28v@infradead.org>
+In-Reply-To: <ZlqzER_ufrhlB28v@infradead.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Mon, 3 Jun 2024 07:17:05 -0700
+Message-ID: <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+To: Christoph Hellwig <hch@infradead.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, 
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, 
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, 
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,168 +122,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---cf88f22391bd096e9bbbe91854ac9cb1367c0eed60ddb60b6fffffe02fdd
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-
-[+ Marek ]
-
-Hi Dmitry,
-
-> > > Some bridges have very strict power-up reqirements. In this case, the
-> > > Toshiba TC358775. The reset has to be deasserted while *both* the DSI
-> > > clock and DSI data lanes are in LP-11 mode. After the reset is relase=
-d,
-> > > the bridge needs the DSI clock to actually be able to process I2C
-> > > access. This access will configure the DSI side of the bridge during
-> > > which the DSI data lanes have to be in LP-11 mode.
-> >=20
-> > Apparently this is an issue for a lot of DSI bridges. But enabling LP-1=
-1 for
-> > a bridge is impossible with current documentation [1], which states "A =
-DSI
-> > host should keep the PHY powered down until the pre_enable operation is
-> > called."
-> > Additionally tc358767/tc9595 (DSI-DP bridge) needs LP-11 for AUX channe=
-l
-> > access to even get EDID. This is a requirement before pre_enable would
-> > even be possible.
-> >=20
-> > So some changes to the current flow are needed. But I am not so sure
-> > about LP-11 notification. IMHO a device request to the DSI host to
-> > enable LP-11 seems more sensible.
+On Fri, May 31, 2024 at 10:35=E2=80=AFPM Christoph Hellwig <hch@infradead.o=
+rg> wrote:
 >
-> Granted that there can be several DSI devices sharing the DSI bus (aka
-> split-link), I was toying with the idea of making the DSI host call
-> attached DSI devices when the transition happens.
+> On Thu, May 30, 2024 at 08:16:01PM +0000, Mina Almasry wrote:
+> > I'm unsure if the discussion has been resolved yet. Sending the series
+> > anyway to get reviews/feedback on the (unrelated) rest of the series.
+>
+> As far as I'm concerned it is not.  I've not seen any convincing
+> argument for more than page/folio allocator including larger order /
+> huge page and dmabuf.
+>
 
-So almost the same, as this patch?
+Thanks Christoph, this particular patch series adds dmabuf, so I
+assume no objection there. I assume the objection is that you want the
+generic, extensible hooks removed.
 
-> I don't have a fully working PoC and I probably won't have it ready til
-> the end of May because of the lack of time and different local
-> priorities.
+To be honest, I don't think the hooks are an integral part of the
+design, and at this point I think we've argued for them enough. I
+think we can easily achieve the same thing with just raw if statements
+in a couple of places. We can always add the hooks if and only if we
+actually justify many memory providers.
 
-Any news regarding this?
+Any objections to me removing the hooks and directing to memory
+allocations via simple if statements? Something like (very rough
+draft, doesn't compile):
 
--michael
+diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+index 92be1aaf18ccc..2cc986455bce6 100644
+--- a/net/core/page_pool.c
++++ b/net/core/page_pool.c
+@@ -557,8 +557,8 @@ netmem_ref page_pool_alloc_netmem(struct page_pool
+*pool, gfp_t gfp)
+                return netmem;
 
-> > Best regards,
-> > Alexander
-> >=20
-> > [1] https://www.kernel.org/doc/html/latest/gpu/drm-kms-helpers.html#mip=
-i-dsi-bridge-operation
-> >=20
-> > > After everything is
-> > > configured the video stream can finally be enabled.
-> > >=20
-> > > This means:
-> > >  (1) The bridge has to be configured completely in .pre_enable() op
-> > >      (with the clock turned on and data lanes in LP-11 mode, thus
-> > >      .pre_enable_prev_first has to be set).
-> > >  (2) The bridge will enable its output in the .enable() op
-> > >  (3) There must be some mechanism before (1) where the bridge can
-> > >      release its reset while the clock lane is still in LP-11 mode.
-> > >=20
-> > > Unfortunately, (3) is crucial for a correct operation of the bridge.
-> > > To satisfy this requriment, introduce a new callback .dsi_lp11_notify=
-()
-> > > which will be called by the DSI host driver.
-> > >=20
-> > > Signed-off-by: Michael Walle <mwalle@kernel.org>
-> > > ---
-> > >  drivers/gpu/drm/drm_bridge.c | 16 ++++++++++++++++
-> > >  include/drm/drm_bridge.h     | 12 ++++++++++++
-> > >  2 files changed, 28 insertions(+)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridg=
-e.c
-> > > index 28abe9aa99ca..98cd6558aecb 100644
-> > > --- a/drivers/gpu/drm/drm_bridge.c
-> > > +++ b/drivers/gpu/drm/drm_bridge.c
-> > > @@ -1339,6 +1339,22 @@ void drm_bridge_hpd_notify(struct drm_bridge *=
-bridge,
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(drm_bridge_hpd_notify);
-> > > =20
-> > > +/**
-> > > + * drm_bridge_dsi_lp11_notify - notify clock/data lanes LP-11 mode
-> > > + * @bridge: bridge control structure
-> > > + *
-> > > + * DSI host drivers shall call this function while the clock and dat=
-a lanes
-> > > + * are still in LP-11 mode.
-> > > + *
-> > > + * This function shall be called in a context that can sleep.
-> > > + */
-> > > +void drm_bridge_dsi_lp11_notify(struct drm_bridge *bridge)
-> > > +{
-> > > +	if (bridge->funcs->dsi_lp11_notify)
-> > > +		bridge->funcs->dsi_lp11_notify(bridge);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(drm_bridge_dsi_lp11_notify);
-> > > +
-> > >  #ifdef CONFIG_OF
-> > >  /**
-> > >   * of_drm_find_bridge - find the bridge corresponding to the device =
-node in
-> > > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> > > index 4baca0d9107b..4ef61274e0a8 100644
-> > > --- a/include/drm/drm_bridge.h
-> > > +++ b/include/drm/drm_bridge.h
-> > > @@ -630,6 +630,17 @@ struct drm_bridge_funcs {
-> > >  	 */
-> > >  	void (*hpd_disable)(struct drm_bridge *bridge);
-> > > =20
-> > > +	/**
-> > > +	 * dsi_lp11_notify:
-> > > +	 *
-> > > +	 * Will be called by the DSI host driver while both the DSI clock
-> > > +	 * lane as well as the DSI data lanes are in LP-11 mode. Some bridg=
-es
-> > > +	 * need this state while releasing the reset, for example.
-> > > +	 * Not all DSI host drivers will support this. Therefore, the DSI
-> > > +	 * bridge driver must not rely on this op to be called.
-> > > +	 */
-> > > +	void (*dsi_lp11_notify)(struct drm_bridge *bridge);
-> > > +
-> > >  	/**
-> > >  	 * @debugfs_init:
-> > >  	 *
-> > > @@ -898,6 +909,7 @@ void drm_bridge_hpd_enable(struct drm_bridge *bri=
-dge,
-> > >  void drm_bridge_hpd_disable(struct drm_bridge *bridge);
-> > >  void drm_bridge_hpd_notify(struct drm_bridge *bridge,
-> > >  			   enum drm_connector_status status);
-> > > +void drm_bridge_dsi_lp11_notify(struct drm_bridge *bridge);
-> > > =20
-> > >  #ifdef CONFIG_DRM_PANEL_BRIDGE
-> > >  bool drm_bridge_is_panel(const struct drm_bridge *bridge);
-> > >=20
-> > >=20
-> >=20
-> >=20
-> > --=20
-> > TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, =
-Germany
-> > Amtsgericht M=C3=BCnchen, HRB 105018
-> > Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan=
- Schneider
-> > http://www.tq-group.com/
-> >=20
-> >=20
+        /* Slow-path: cache empty, do real allocation */
+-       if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_op=
+s)
+-               netmem =3D pool->mp_ops->alloc_pages(pool, gfp);
++       if (unlikely(page_pool_is_dmabuf(pool)))
++               netmem =3D mp_dmabuf_devmem_alloc_pages():
+        else
+                netmem =3D __page_pool_alloc_pages_slow(pool, gfp);
+        return netmem;
 
 
---cf88f22391bd096e9bbbe91854ac9cb1367c0eed60ddb60b6fffffe02fdd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCZl3HhRIcbXdhbGxlQGtl
-cm5lbC5vcmcACgkQEic87j4CH/hJ/wGAw2m9ArER859FOX3/ufX868fxyr9c1boA
-J86YUXL6ZuonhsRMn8ngQOdVuJ7y6utcAYCcUCASrAqhAH+4jYUtnCXxQuLuhf2/
-ihY9uYV8vOVfpkcfMsUIIB3coGCTAA4a1ug=
-=Dse2
------END PGP SIGNATURE-----
-
---cf88f22391bd096e9bbbe91854ac9cb1367c0eed60ddb60b6fffffe02fdd--
+--=20
+Thanks,
+Mina
