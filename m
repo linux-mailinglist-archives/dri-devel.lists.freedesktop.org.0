@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C55B8D7E24
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 11:09:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BBF8D7E3B
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 11:14:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8874010E0EE;
-	Mon,  3 Jun 2024 09:09:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC94410E26E;
+	Mon,  3 Jun 2024 09:14:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="T648A4jU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JaT8tNYq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62A6E10E0EE;
- Mon,  3 Jun 2024 09:09:44 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CCB210E14D;
+ Mon,  3 Jun 2024 09:14:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 46D5560C05;
- Mon,  3 Jun 2024 09:09:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E1C2C2BD10;
- Mon,  3 Jun 2024 09:09:42 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 90AB9CE0B33;
+ Mon,  3 Jun 2024 09:14:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5334BC2BD10;
+ Mon,  3 Jun 2024 09:14:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717405783;
- bh=zts/QRsUM8k00Nfd4l4iKWD2XkKbZM/dD/eqgptURNI=;
+ s=k20201202; t=1717406072;
+ bh=kRaKkGVAxc9uve0nW7HSdUn07QqNL4yoUYMpcu8Ag0I=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=T648A4jUN6PelkRNGIl7hxRPXuYGfhKc0w4IhBdXrxin6cs+UrZQ3iATqdbNlnwO/
- KxPcKK6ZCShnQ+GaQC9n4ex2n28ltok8NIJ0V6EW3e5v0aeJ5IiClJmujEzx+TQ0+h
- MdNWLKLm+Y90vuEh2SCvq/zRyhx6SMrakl0xnH5uxMsRGDdKPYTn1eXvCNhUCML2GX
- Uw3VAizHiVNE0Di3sUDp6fp+o6LOQH/4uWYxowr8Cwj9t37ro+AAZMe665XGis/Zo/
- 3uVRKrB0nlv0jcHFZUcP9ITZznCVPZYLtDhwhYOUqjxAqrDTksyuEDzOUnq4TpKu3T
- Wa/Ig9liJjoyw==
-Date: Mon, 3 Jun 2024 11:09:40 +0200
+ b=JaT8tNYq6tChS62uoH5HkxxvhHNt0fq4UqSqXZ2BQ2WvvFHv8FDhVBKzak7GMUXZW
+ l5oYvRL15/zrdG+1W+v7aU/YY2gfPZu4GTJ272+854ztdXAADOBnuikBvgtfVl8A95
+ 1Mc4udT/IXB2iDuvG/DTa7kP8dqHN/ZOTEmE7oWiSi/xCcjSTUG9D6pKh2L3AxkqnL
+ B65EAooMZ3t5HXfuCRFz7U329MIdWeTDw/PYVmXdmBKuK6ocIESTkaQ2WXRToAh+g7
+ 7X9cBgt0BDBPmBr1WbeLrVwhX2mMXFO1O5Dc2b8f/aTY6wT3WTXT/DdJxXtPT6yKVQ
+ /3jcIQvCRvedw==
+Date: Mon, 3 Jun 2024 11:14:30 +0200
 From: Maxime Ripard <mripard@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -45,16 +45,16 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
  linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/9] drm/connector: hdmi: accept NULL for Audio
- Infoframe
-Message-ID: <20240603-therapeutic-warm-fox-890bee@houat>
+Subject: Re: [PATCH v4 3/9] drm/bridge-connector: implement glue code for
+ HDMI connector
+Message-ID: <20240603-proud-caiman-of-fertility-ceb36a@houat>
 References: <20240531-bridge-hdmi-connector-v4-0-5110f7943622@linaro.org>
- <20240531-bridge-hdmi-connector-v4-1-5110f7943622@linaro.org>
+ <20240531-bridge-hdmi-connector-v4-3-5110f7943622@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="cjo537cz6gzry5k7"
+ protocol="application/pgp-signature"; boundary="gko36zr2ozjx53lj"
 Content-Disposition: inline
-In-Reply-To: <20240531-bridge-hdmi-connector-v4-1-5110f7943622@linaro.org>
+In-Reply-To: <20240531-bridge-hdmi-connector-v4-3-5110f7943622@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,79 +71,67 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---cjo537cz6gzry5k7
+--gko36zr2ozjx53lj
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-Sorry for not answering your mail on the previous version sooner.
-
-On Fri, May 31, 2024 at 11:07:24PM GMT, Dmitry Baryshkov wrote:
-> Allow passing NULL as audio infoframe as a way to disable Audio
-> Infoframe generation.
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
-u/drm/display/drm_hdmi_state_helper.c
-> index ce96837eea65..5356723d21f5 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> @@ -681,7 +681,7 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_update=
-_infoframes);
->  /**
->   * drm_atomic_helper_connector_hdmi_update_audio_infoframe - Update the =
-Audio Infoframe
->   * @connector: A pointer to the HDMI connector
-> - * @frame: A pointer to the audio infoframe to write
-> + * @frame: A pointer to the audio infoframe to write or NULL to disable =
-sending the frame
-
-I'm still two-minded about this. I think I would like a separate helper
-better, to also make things consistent with the HDMI helpers.
-
-Most importantly, it looks like you're not using it at all in your series?
-
->   * This function is meant for HDMI connector drivers to update their
->   * audio infoframe. It will typically be used in one of the ALSA hooks
-> @@ -704,10 +704,16 @@ drm_atomic_helper_connector_hdmi_update_audio_infof=
-rame(struct drm_connector *co
-> =20
->  	mutex_lock(&connector->hdmi.infoframes.lock);
-> =20
-> -	memcpy(&infoframe->data, frame, sizeof(infoframe->data));
-> -	infoframe->set =3D true;
-> +	if (frame) {
-> +		memcpy(&infoframe->data, frame, sizeof(infoframe->data));
-> +		infoframe->set =3D true;
+On Fri, May 31, 2024 at 11:07:26PM GMT, Dmitry Baryshkov wrote:
+> +static int drm_bridge_connector_clear_infoframe(struct drm_connector *connector,
+> +						enum hdmi_infoframe_type type)
+> +{
+> +	struct drm_bridge_connector *bridge_connector =
+> +		to_drm_bridge_connector(connector);
+> +	struct drm_bridge *bridge;
 > +
-> +		ret =3D write_infoframe(connector, infoframe);
-> +	} else {
-> +		infoframe->set =3D false;
-> =20
-> -	ret =3D write_infoframe(connector, infoframe);
-> +		ret =3D clear_infoframe(connector, infoframe);
-> +	}
+> +	bridge = bridge_connector->bridge_hdmi;
+> +	if (!bridge)
+> +		return -EINVAL;
+> +
+> +	if (bridge->funcs->hdmi_clear_infoframe)
+> +		return bridge->funcs->hdmi_clear_infoframe(bridge, type);
+> +	else
+> +		return 0;
+> +}
+> +
+> +static int drm_bridge_connector_write_infoframe(struct drm_connector *connector,
+> +						enum hdmi_infoframe_type type,
+> +						const u8 *buffer, size_t len)
+> +{
+> +	struct drm_bridge_connector *bridge_connector =
+> +		to_drm_bridge_connector(connector);
+> +	struct drm_bridge *bridge;
+> +
+> +	bridge = bridge_connector->bridge_hdmi;
+> +	if (!bridge)
+> +		return -EINVAL;
+> +
+> +	return bridge->funcs->hdmi_write_infoframe(bridge, type, buffer, len);
+> +}
 
-We should probably clear infoframe->data here too
+
+Sorry, I didn't notice it before, but I think it would be good to try to
+make clear_infoframe mandatory just like write_infoframe. It wasn't
+possible for the main helpers because we didn't have enough info for
+some drivers, but I think we should try to make it mandatory, and be
+prepared to relax it if needs be.
+
+With that fixed:
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
 Maxime
 
---cjo537cz6gzry5k7
+--gko36zr2ozjx53lj
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZl2ITQAKCRAnX84Zoj2+
-dqkOAX9UmBzsHTKxHZS1nYELnt3AKt9186dxlneShEm4OxdrXK29/MwOCb+UL69k
-SkvYtVkBfiYyBRgWMuoXlPMgdMZe/SKJIwO19JoO1q6utvRCW6k9RMmkiAFCjD1d
-J6ZyAccWMA==
-=wp6q
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZl2JdQAKCRAnX84Zoj2+
+dnx8AX9XGJKgzSr6M5O5oiSn0kjo+G4+uANEp9GROPwPZJXKhHgP5Cc1hApfYjTc
+T5Sf7Z8BfR0cMmOS87bWO4k0zBEaJatMc7o2FVqt26H48mFflPAiip89PYJdUOZw
+f+QP0ptGZA==
+=D3hE
 -----END PGP SIGNATURE-----
 
---cjo537cz6gzry5k7--
+--gko36zr2ozjx53lj--
