@@ -2,86 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7F98D7A73
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 05:29:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60BD48D7B1C
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 07:59:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9B1E10E26C;
-	Mon,  3 Jun 2024 03:29:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE6B010E26F;
+	Mon,  3 Jun 2024 05:59:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="nl6hAAMT";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XLXO9DT0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AFA310E26C
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 03:29:15 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-52b87e8ba1eso3583988e87.3
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Jun 2024 20:29:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1717385354; x=1717990154;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gqoXXfkLNaBeFUlnpo3xHv3wq1HsyXPs641ijeJqfYU=;
- b=nl6hAAMTEFUW9wkVICvtgR3+DPon/HIbpHh5qqoGfrPTLC/wgFoi5Wvdonvg8YJLBP
- 1tQfSB1QpJI5tiF3tfgEQInDCWq6KkI7Rz2hjDyVTGcYvG1BB5MBUvy1nBWpnvWC1SOE
- nX7TWND+Pp7J6GDtM2mnV/R3sewgJUom4Yi14=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717385354; x=1717990154;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gqoXXfkLNaBeFUlnpo3xHv3wq1HsyXPs641ijeJqfYU=;
- b=GlMiasRjcow9oqSnZJ4SH3GMZX2IdKHEzq+ahCnX0NtNAWbE6BKVgzfZSryb5hW02p
- cFksizAgUzwxqjM3JmCOuKaI45yrUiK/9eW/sdgONVVpriG5Vn4fcnOHHrWzQ3HvsE5m
- tjJMwlHNBuoeGj4OczV2UAhtgkpJhkXhYGw0vo21VVG+5K7LoBaw9CJQBKYmEcLUuNxx
- lVxsDKhctJYFyB2IwdLIl2vNqyvdulHnTO8ME/g0UI+NxwECPbt0ZE4R9HfP8hosWsAI
- Q9o7GNy0oTwjM4B8oB1p7HI/QE8rx6dyT663trySiQQzsTe0R4rN9HGppMoGHuqqqjIi
- xXzg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUL2RfDz1LrAiC05JWai1Sphd3XqBlUWGV95xwppnI4vJBSqW7la1PKOAbEXLUfWIBgW+j8BYmAP67422UYn7QWuXecL/KGfhYZabbbHAP+
-X-Gm-Message-State: AOJu0Yz0yI+JZ8a0+Tt+02tiSuwpnLY0g5tI+h5YI/AGEig+yunoY7Yf
- p5WrPmGL+0kMrl5PoPabMXQqk/4Uco/SfHzAfBANp4d0Urj6+f5rVJKlvKqaymZFW15dcU6zzUp
- lfOSjlR1G46kQzY0JZ2jj79Juh/JlWYvpdggj
-X-Google-Smtp-Source: AGHT+IEDtRtBaOGSJnBChD4ejorRQ3d5tt8uQF6LU8aQIF4mUQzWnXLmkerka4FGapEkwbPEkl429n/sIzWje66CjaU=
-X-Received: by 2002:a05:6512:3145:b0:52b:7a3d:1e12 with SMTP id
- 2adb3069b0e04-52b896d9115mr5870986e87.65.1717385353646; Sun, 02 Jun 2024
- 20:29:13 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBB1D10E10B;
+ Mon,  3 Jun 2024 05:59:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717394365; x=1748930365;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=v+sDR6SQm4cJENbsECXEDYuCrk4opGKalohlbUGdoLk=;
+ b=XLXO9DT0RdYf7dnBTSnrl/OADU+O6uNtsI+LBXJOM4yGghkbsEfJprwu
+ 0V/hcuFhkyfXOFGp/Kt8HuB+8rNPmXhmmKtYTWplkoQCam+6wXX8ggS4y
+ OBPf2fgMHop8Ay+1gi6XnCmS31xz8LFo0HyoTYRs3afUBf2z7t8+usi/z
+ BYLJ8Hv/9NrspAER9zC1RyIUXPIVO2uUp+lKwjAkuUnDNTW36tjDgRGQw
+ Vr9gIbHsuRrHdRwMepAvjXYGOYuYpWEsaGHlpY6IU+8CszwkNW72AL9/z
+ uW00kavJn/z4fK4QqFNWpnKorEeXb7TsbVYspKaJELdyrkUBvEWbI89yT g==;
+X-CSE-ConnectionGUID: tHrMkqKnQWmQOOsRRNxrwg==
+X-CSE-MsgGUID: mI3vRqWEQWq+4UPJ9QbB/w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="24527509"
+X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; d="scan'208";a="24527509"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2024 22:59:24 -0700
+X-CSE-ConnectionGUID: pvmiE4mlQ+yZVDSCbseF0A==
+X-CSE-MsgGUID: GGI4rja9R3Kz205nAyIyoQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; d="scan'208";a="67616478"
+Received: from mgolanimitul-x299-ud4-pro.iind.intel.com ([10.190.239.114])
+ by orviesa002.jf.intel.com with ESMTP; 02 Jun 2024 22:59:23 -0700
+From: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, ankit.k.nautiyal@intel.com,
+ jani.nikula@intel.com
+Subject: [PATCH v11 0/8] Implement CMRR Support
+Date: Mon,  3 Jun 2024 11:18:56 +0530
+Message-Id: <20240603054904.222589-1-mitulkumar.ajitkumar.golani@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20240530083513.4135052-1-wenst@chromium.org>
- <20240530083513.4135052-5-wenst@chromium.org>
- <efdacd820d13368816973f57c4a817e039ec4a2d.camel@imgtec.com>
-In-Reply-To: <efdacd820d13368816973f57c4a817e039ec4a2d.camel@imgtec.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 3 Jun 2024 11:29:02 +0800
-Message-ID: <CAGXv+5EMMNCbxaBqiBSQwGrQt-0KXWAtJU54K20sUU8PBh8faQ@mail.gmail.com>
-Subject: Re: [PATCH 4/6] drm/imagination: Add compatible string entry for
- Series6XT
-To: Frank Binns <Frank.Binns@imgtec.com>
-Cc: "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, 
- Matt Coster <Matt.Coster@imgtec.com>, "sboyd@kernel.org" <sboyd@kernel.org>, 
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
- "mripard@kernel.org" <mripard@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>, 
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, 
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,54 +65,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 31, 2024 at 7:18=E2=80=AFPM Frank Binns <Frank.Binns@imgtec.com=
-> wrote:
->
-> On Thu, 2024-05-30 at 16:35 +0800, Chen-Yu Tsai wrote:
-> > The MediaTek MT8173 comes with a PowerVR Rogue GX6250, which is part
-> > of the Series6XT, another variation of the Rogue family of GPUs.
-> >
-> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > ---
-> >  drivers/gpu/drm/imagination/pvr_drv.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/im=
-agination/pvr_drv.c
-> > index 5c3b2d58d766..3d1a933c8303 100644
-> > --- a/drivers/gpu/drm/imagination/pvr_drv.c
-> > +++ b/drivers/gpu/drm/imagination/pvr_drv.c
-> > @@ -1475,6 +1475,7 @@ pvr_remove(struct platform_device *plat_dev)
-> >
-> >  static const struct of_device_id dt_match[] =3D {
-> >       { .compatible =3D "img,img-axe", .data =3D NULL },
-> > +     { .compatible =3D "img,powervr-6xt", .data =3D NULL },
->
-> I assume that by adding this to the list of supported devices we're essen=
-tially
-> freezing the existing uapi. This concerns me, as we've not yet started ru=
-nning
-> Vulkan conformance on any Series6XT GPUs and there's a chance we may need=
- to
-> make some tweaks.
->
-> I'm not really sure what the accepted approach is to hardware enablement =
-/
-> experimental support. I'm not sure if it's sufficient to hide support beh=
-ind a
-> Kconfig option and/or module parameter or whether we just have to hold th=
-is
-> patch back for the time being.
+CMRR is a display feature that uses adaptive sync
+framework to vary Vtotal slightly to match the
+content rate exactly without frame drops. This
+feature is a variation of VRR where it varies Vtotal
+slightly (between additional 0 and 1 Vtotal scanlines)
+to match content rate exactly without frame drops
+using the adaptive sync framework.
 
-I guess this is more of a question for the DRM maintainers.
-Added a couple Panfrost/Panthor folks for ideas.
+enable this feature by programing new registers for
+CMRR enable, CMRR_M, CMRR_N, vmin=vmax=flipline.The
+CMRR_M/CMRR_N ratio represents the fractional part
+in (actual refresh rate/target refresh rate) * origVTotal.
 
+--v6:
+- CMRR handling in co-existatnce of LRR and DRRS
+- Correct vtotal paramas accuracy and add 2 digit precision.
 
-ChenYu
+--v7:
+- Rebased patches in-accordance to AS SDP merge.
+- Add neccessary gaurd to prevent crtc_state mismatch
+during intel_vrr_get_config.
 
-> Thanks
-> Frank
->
-> >       {}
-> >  };
-> >  MODULE_DEVICE_TABLE(of, dt_match);
+-v8:
+- Add support for AS SDP for CMRR.
+- update palce holder for CMRR register(Jani).
+- Make CMRR as subset of FAVT, as per comments in patch#3.
+
+-v9:
+- Add CMRR register definitions to separate intel_vrr_reg.h.
+- Remove cmrr_enabling/disabling, use vrr.enable instead.
+- Update AS SDP pack function to accomodate target_rr_divider.
+- Remove duplicated lines to compute vrr_vsync params.
+- Set cmrr.enable with a separate patch at last.
+
+-v10:
+- Separate VRR related register definitions.
+- Add dependency header intel_display_reg_defs.h.
+- Rename file name to intel_vrr_regs.h instead of reg.h.
+- Revert removed line.
+- Since vrr.enable and cmrr.enable are not mutually exclusive,
+handle accordingly.
+- is_edp is not required inside is_cmrr_frac_required function.
+- Add video_mode_required flag for future enhancement.
+- Correct cmrr_m/cmrr_n calculation.
+- target_rr_divider is bools so handle accordingly.
+
+-v11:
+- Move VRR related register and bits to separate file
+intel_vrr_regs.h.
+- Correct file header macro to intel_vrr_regs.h.
+- Remove adding CMRR flag to vrr_ctl register during
+set_transcoder_timing.
+- Replace vrr.enable flag to cmrr.enable where added mistakenly.
+- Move cmrr computation patch to last and set other other required
+  params before computing cmrr.enable.
+
+Mitul Golani (8):
+  drm/i915: Separate VRR related register definitions
+  drm/i915: Define and compute Transcoder CMRR registers
+  drm/i915: Update trans_vrr_ctl flag when cmrr is computed
+  drm/dp: Add refresh rate divider to struct representing AS SDP
+  drm/i915/display: Add support for pack and unpack
+  drm/i915/display: Compute Adaptive sync SDP params
+  drm/i915/display: Compute vrr vsync params
+  drm/i915: Compute CMRR and calculate vtotal
+
+ drivers/gpu/drm/i915/display/intel_display.c  |  24 +++-
+ .../drm/i915/display/intel_display_device.h   |   1 +
+ .../drm/i915/display/intel_display_types.h    |   6 +
+ drivers/gpu/drm/i915/display/intel_dp.c       |  19 ++-
+ drivers/gpu/drm/i915/display/intel_vrr.c      | 128 +++++++++++++++--
+ drivers/gpu/drm/i915/display/intel_vrr_regs.h | 129 ++++++++++++++++++
+ drivers/gpu/drm/i915/i915_reg.h               | 100 --------------
+ include/drm/display/drm_dp_helper.h           |   1 +
+ 8 files changed, 289 insertions(+), 119 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/display/intel_vrr_regs.h
+
+-- 
+2.25.1
+
