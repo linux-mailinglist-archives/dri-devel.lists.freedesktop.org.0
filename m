@@ -2,47 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A3068D87F3
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 19:30:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C58E8D8850
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 19:59:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD0FE10E267;
-	Mon,  3 Jun 2024 17:30:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B458310E264;
+	Mon,  3 Jun 2024 17:59:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="d/I1cH1f";
+	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="Z0ljThrM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17AD810E267;
- Mon,  3 Jun 2024 17:30:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
- ; s=bytemarkmx;
- h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
- :Subject; bh=N1rA3ay0tZG+PPeHYHe8unqz8YmRW6XYkHVM0lfB4Dw=; b=d/I1cH1fk5K56xrJ
- nJHlCjeC/Gt73oh4PlPiL3mfaYyOMq4eUTIJy6ZVuYB0zxtn/SGyPd39jH2VUhEsqNxzeNuOdGWaW
- NMS8WAATQNy4apezaQHsCPsHD3U0QvpHGLfhgI1mvhu+hkM33TALSVtwl74ZL0R2GmDTj3QMijweG
- Yrxm3q3Jjd2LqRBgxUIbKXYLOU0eJMaFG0s5njtZjgiS16KO5fNhxeuYVkPKkdCRIbS7d9C4e8aSk
- L/Ob5zua3j1qmS8RRJP7cS5KNxPw/hF+V0Tzg1XMTMHZ6l+1s+xI0LPdp1Vl8/Lz3s4SbZnIi3rzv
- zw49hFDcVq8D9Hz7Pw==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
- (envelope-from <dg@treblig.org>) id 1sEBVz-003zuI-0j;
- Mon, 03 Jun 2024 17:30:35 +0000
-Date: Mon, 3 Jun 2024 17:30:35 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com
-Cc: bskeggs@redhat.com, daniel@ffwll.ch, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/6] drm/nouveau: remove unused struct 'init_exec'
-Message-ID: <Zl39u4zOif2Sw4Sa@gallifrey>
-References: <20240517232617.230767-1-linux@treblig.org>
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E497010E264
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 17:59:22 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id A806540E0081; 
+ Mon,  3 Jun 2024 17:59:19 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+ header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+ by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id 7Mb5g9ACslUU; Mon,  3 Jun 2024 17:59:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+ t=1717437555; bh=JlEEXKm5UWyQVgXc+ZFdVI6RfV+Z9Mo9xPKI1O7Cj/w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Z0ljThrMSGwn2+pIwvRGfY4P1x/K9CPSErW4n9pJLCn8Y9usR6cz1Pxul3L6qPZ6x
+ hZqlTRRQmxKeMO+0DXg+hC+tOycLpm0Qi4XtHwWl7vL26jV9lAF+RxeTy0JvazhqoK
+ Gnx+GE3YgXE98nNndiGi0Z6RTnvNlDMghQcHQgxI7dcb5rYYwCp6E8Xwmr5vqSdWBU
+ MHKCeUqaMW7EhMCtIxACwZCwTaZ4q696+rdosl8Obj6V8kC4EeedKUeAV3fNU/ludx
+ Rjv/0v3wPzp80gBayVRYGosrFPcq4w+Uhn1h4mbyJsWGfR68OZ/3RegBiz0gFqD/b1
+ JB5oQA5AA/eTvr5lZZ9fiN/tf5pJIFuY1ZRz49vNGKLWnWeCLJ5UEw5vmUkzeLT6/B
+ S2jf1RvAswwJw2IoQDg2ZLWO317dmCiyny+yAFHuY9U3eXculBCcQe8uU/IkKBBRXZ
+ /gZUWgx+M4vXBvxhQWY+6+PiILAtfwu74Np7A1CzhBWADR4H5wy+IuxiOf84kcbKus
+ +wzVHYJwi8awQS2Ihmr/p5yTZFpru9plvJK+b5KnKUII6NKYcMwbz3TyaXC7vasrzh
+ 0QOZrGn7PQDCbmkFpedLVjCJPs8TiSHKOuYBVS3pd9JZe8kF6kuLDAeynIMcYUdhmD
+ Bfx5erMdRVCP2a/JiVMogeMM=
+Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
+ SHA256) (No client certificate requested)
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D165940E016C;
+ Mon,  3 Jun 2024 17:58:49 +0000 (UTC)
+Date: Mon, 3 Jun 2024 19:58:44 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+ hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
+ tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
+ richardcochran@gmail.com, linux-input@vger.kernel.org,
+ dmitry.torokhov@gmail.com, zackr@vmware.com,
+ linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
+ timothym@vmware.com, akaher@vmware.com,
+ dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
+ tzimmermann@suse.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, horms@kernel.org,
+ kirill.shutemov@linux.intel.com
+Subject: Re: [PATCH v10 1/8] x86/vmware: Introduce VMware hypercall API
+Message-ID: <20240603175844.GKZl4EVGUxp2aQZnYJ@fat_crate.local>
+References: <20240523191446.54695-1-alexey.makhalov@broadcom.com>
+ <20240523191446.54695-2-alexey.makhalov@broadcom.com>
+ <20240527170734.GCZlS91uXD68HRN1na@fat_crate.local>
+ <9ca6230c-740c-4f1a-8fdf-73f74cf025a1@broadcom.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240517232617.230767-1-linux@treblig.org>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 17:29:59 up 26 days, 4:44, 1 user, load average: 0.00, 0.00, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+In-Reply-To: <9ca6230c-740c-4f1a-8fdf-73f74cf025a1@broadcom.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,44 +83,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* linux@treblig.org (linux@treblig.org) wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+On Wed, May 29, 2024 at 05:44:32PM -0700, Alexey Makhalov wrote:
+> While most of the vmware_hypercall callers are executed after alternative
+> patching applied, there are small amount of hypercalls running before that.
+> Only for them we have the logic of analyzing vmware_hypercall_mode as a
+> default alternative code. And there are 2 constraints:
+> 1. vmcall/vmmcall are not supported by old ESXi/Workstation/Fusion. We have
+> to use in/out instructions. After the end of support of old hypervisors the
+> alternative can be simplified as follow:
+> ALTERNATIVE("vmcall", "vmmcall", X86_FEATURE_VMW_VMMCALL);
+> 2. SEV-ES enabled VMs should use _only_ vmcall/vmmcall as in/out
+> instructions cause faults.
 > 
-> 'init_exec' is unused since
-> commit cb75d97e9c77 ("drm/nouveau: implement devinit subdev, and new
-> init table parser")
-> Remove it.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> Another approach that we discussed internally was to use
+> ALTERNATIVE_2("movw %[port], %%dx; "inl (%%dx), %%eax", "vmcall",
+> X86_FEATURE_VMW_VMCALL, "vmmcall", X86_FEATURE_VMW_VMMCALL) for
+> vmware_hypercallX family of functions, _and_ to have a separate API
+> vmware_sev_hypercallX, with the silly dance without an alternative inside,
+> to be used only by early boot code, before alternative application. But,
+> it's error prone when things come to boot time related code movements or
+> rearrangements as it puts additional requirement for SEV-ES
+> understanding/testing for VMware guests.
 
-Ping.
+Right, so since we're exporting that alternatives_patched thing already,
+you might also try to do:
 
+	if (unlikely(!alternatives_patched))
+		return slow_hypercall_X_in_c();
 
-> ---
->  drivers/gpu/drm/nouveau/nouveau_bios.c | 5 -----
->  1 file changed, 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bios.c b/drivers/gpu/drm/nouveau/nouveau_bios.c
-> index 79cfab53f80e..8c3c1f1e01c5 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bios.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bios.c
-> @@ -43,11 +43,6 @@
->  #define BIOSLOG(sip, fmt, arg...) NV_DEBUG(sip->dev, fmt, ##arg)
->  #define LOG_OLD_VALUE(x)
->  
-> -struct init_exec {
-> -	bool execute;
-> -	bool repeat;
-> -};
-> -
->  static bool nv_cksum(const uint8_t *data, unsigned int length)
->  {
->  	/*
-> -- 
-> 2.45.1
-> 
+	asm_inline volatile(VMWARE_HYPERCALL...
+
+where that slow_hypercall_X_in_c()* set of APIs does the checks in C.
+
+And the VMWARE_HYPERCALL thing is a lot simpler then.
+
+All in all, you'll have a lot less unreadable asm to pay attention to
+and those APIs should be all easy and readable.
+
+But in the end of the day, your call.
+
+Thanks for explaining the situation.
+
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
