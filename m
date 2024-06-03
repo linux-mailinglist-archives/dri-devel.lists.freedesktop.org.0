@@ -2,117 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3CB38D8381
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 15:08:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA0E8D840E
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 15:36:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0609E10E3BA;
-	Mon,  3 Jun 2024 13:08:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7D0A10E02F;
+	Mon,  3 Jun 2024 13:35:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KipBIS3Q";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="WXBHt8he";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24F4810E3BA
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 13:08:41 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-4211a86f124so37428205e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jun 2024 06:08:40 -0700 (PDT)
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com
+ [209.85.160.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D640110E02F
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 13:35:52 +0000 (UTC)
+Received: by mail-oa1-f41.google.com with SMTP id
+ 586e51a60fabf-24c9f892aeaso2450566fac.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jun 2024 06:35:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717420119; x=1718024919; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=Gx8F+Fp9SWNUY6Yomh+HNjqS3oRk4P5HF08WogPmZDs=;
- b=KipBIS3Qb+qi7wv8XAIH4G26+AYcintGam1ubue66DN4Lfvi+QP3X1X18xA8kBzWFF
- 9sQo66CxGuCIUmH8PQcjKZtf3VPrbjV0tjlUT0D2kCYgQClWY/SDmkdKHeHKZUbxd1D9
- FuFh1ajCMXdfMELpUqe/tC4xApSFc6YeQ31A4MkfXkt5l6UNg5i35Aozb7SWguITYgrg
- 5sE+1+cK5h+NjO2o3vYvTGxzOdu24RuATnAJP0XeXLqnjDvu3xJgTWsILQpBKJoDl1HV
- mXXpQQxLDrYJmv76YGZ4juTxHAj7q3rsLimHia0N2hR9fiBXT1aqjbnt6Q+W5jxMzRHo
- ZudA==
+ d=ziepe.ca; s=google; t=1717421752; x=1718026552; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=dpQgkoNkKgb0seCNmhxhfzV1gHyMbT/I1OQXluiQxwc=;
+ b=WXBHt8heAC1Y+BwLvchMRu9fpvtelCfXWgZNlBY0vTqcqZRwDLh23w7DZJaYXOvAnw
+ IaZrpCcwqhVqJd9T+c0JJXNdFYxiPUZnbRFrS/8DR1LAO5pL+0xeIxKLbTwFwQyIw6mc
+ aFhfDfdE7fA7TjskbXz7BSvvVXlWqOGztSldDSiqumOfglKmVX9VCLx6dFdSDwtNaadw
+ Ot3/cMHDWRfc6JRm2rcyVh5GCuPlIoVxuhLNKNspbQT7vZ4XJqWfPAi9VuJceyArCjdM
+ 8/Pypd/psqgIow7j9qarOxvWJba8y2LvmtF5AkAbAfnwGmok7n2Srgswd6BOqOet4bI2
+ w/Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717420119; x=1718024919;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Gx8F+Fp9SWNUY6Yomh+HNjqS3oRk4P5HF08WogPmZDs=;
- b=FE2ddxaQxOE04sKwgEFhpvrD0aNZFjYExUUYAelze7IMc8jI78vvy/zaFo91deZGWi
- p78lK1RyheUdxSf50qMrTda5mX2FqBI0xaxp+vyUiRC1qRm8+NaOQfTs7gHmZjtwR40Z
- VYartsdUXFlq0Blxhh7t+n41/+iaM8neKUZbR7U8PIe3YnOJ4APuIl8TdON7RKWwNAZ5
- pN5IOy432Z2h12dqLb2s2Sb3tMkLr6gDD43uIc6lQXaEKhHAjIUdgxh5m4SPofOAwP9a
- VrdXosqBpLIl1AnD6WmiACTPx5JpSSw7cGRnDkL3Gwo+0yDmPeciumUHH6w6KE9YKQIH
- co3A==
-X-Gm-Message-State: AOJu0Yzpg+KbM9lqtsQTTpOI3wM4Fz1KMtde33Dzp+fcz646AkuqPE94
- OWoAbZDfxoR+Cz1Vx5Cn9x77VR/2JiLr4axD0akYtBsoTdCRalGDouez1bmCs2Q=
-X-Google-Smtp-Source: AGHT+IGk0uTd6E9uGLIil4o8K0nvJynzZnkSYzkdwscvLlhumYGzjCi6eNdCTeQ3QEO7F5aMBDsE0Q==
-X-Received: by 2002:a05:600c:1550:b0:420:1fd2:e611 with SMTP id
- 5b1f17b1804b1-4212e0adf99mr54609955e9.27.1717420119183; 
- Mon, 03 Jun 2024 06:08:39 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:79fe:b764:2b06:ab4b?
- ([2a01:e0a:982:cbb0:79fe:b764:2b06:ab4b])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4212b8b76f3sm115776355e9.47.2024.06.03.06.08.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jun 2024 06:08:38 -0700 (PDT)
-Message-ID: <ef60403f-078f-411a-867b-9b551e863f56@linaro.org>
-Date: Mon, 3 Jun 2024 15:08:37 +0200
+ d=1e100.net; s=20230601; t=1717421752; x=1718026552;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dpQgkoNkKgb0seCNmhxhfzV1gHyMbT/I1OQXluiQxwc=;
+ b=w27zf+GBs2+HhwUm+lDua/FfGgH1dAEpg1Mw/p8RXtGmdl/F48vSSuuMgi0sRjdjf4
+ XRiij2GAJMM0lkLRnITFhDStKRmLIhknwHBwpH7B7eS/SRyZVZlHNztfbwOqChLrXq4b
+ DEWb5lhEpfeykaeSr1gPMZ0u16iuSosAE6anL30jGQo/WxW918RlK1XDfvVM5+qqMaiH
+ aoMqIb0/v9qBn1trf8zq5OasB0B7YybzLGFBFa67X0QNScQMD8nLJKHYWM/CAiF1+u2s
+ fvYrP1emeh/2cmYEo+hDVG8Cgs9TsH5g+GtM4zGolU0gK/WPIpatyETBVGpBTof377d9
+ OItA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUXA6cDHxnII0O8A2Z7MF3zWyTk0h/awqmMRodmGUHhMlYWe3vh5q7etKmv9uapK1gwhhwGwQrnJqHt6k0PVOj9Cmgh+D8oif37niI4MSiC
+X-Gm-Message-State: AOJu0YwF0Ya5TkBavrHYNyaShbjmfgx2x5BVxGxJmaz0HHSW6rbZJWkW
+ VQm+HYmk2FJDL0Ayk0IeV1S4aEVK8Xi+2k6q5T3qk72zAWiErtscppNCnyKsyFQ=
+X-Google-Smtp-Source: AGHT+IFk+PIg9jr3UzWb/ecm5ANWBtqD6TQzpjGRhkl/ZcSOByIZ3UxqiIS2caCT2io9CTuWhRCjQQ==
+X-Received: by 2002:a05:6870:c1cc:b0:24c:ae57:b4b9 with SMTP id
+ 586e51a60fabf-2508b7e469cmr11967214fac.14.1717421751641; 
+ Mon, 03 Jun 2024 06:35:51 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.80.239]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-794f3172d05sm283188385a.113.2024.06.03.06.35.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Jun 2024 06:35:51 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+ (envelope-from <jgg@ziepe.ca>) id 1sE7qo-000Eba-Az;
+ Mon, 03 Jun 2024 10:35:50 -0300
+Date: Mon, 3 Jun 2024 10:35:50 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Baolu Lu <baolu.lu@linux.intel.com>
+Cc: Yi Liu <yi.l.liu@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Kevin Tian <kevin.tian@intel.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Kalle Valo <kvalo@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>, mst@redhat.com,
+ Jason Wang <jasowang@redhat.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, iommu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/20] iommu: Refactoring domain allocation interface
+Message-ID: <20240603133550.GA21513@ziepe.ca>
+References: <20240529053250.91284-1-baolu.lu@linux.intel.com>
+ <efd902f6-eafc-4a26-8057-bdd9d7d6e535@intel.com>
+ <a1f2c08a-e92f-4080-b55e-8d6dbd94db78@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH 00/14] Add initial support for the Rockchip RK3588 HDMI TX
- Controller
-To: Heiko Stuebner <heiko@sntech.de>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- Andy Yan <andy.yan@rock-chips.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, kernel@collabora.com,
- Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>,
- Algea Cao <algea.cao@rock-chips.com>
-References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
- <a4b22708-e85d-448a-8145-244b49bca053@linaro.org>
- <ab0a6372-091b-4293-8907-a4b3ff4845c0@rock-chips.com>
- <11359776.NyiUUSuA9g@phil>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <11359776.NyiUUSuA9g@phil>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a1f2c08a-e92f-4080-b55e-8d6dbd94db78@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,84 +97,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, May 29, 2024 at 08:02:12PM +0800, Baolu Lu wrote:
+> > > drivers/infiniband/hw/usnic/usnic_uiom.c:       pd->domain = domain
+> > > = iommu_domain_alloc(dev->bus);
+> > > 
+> > > This series leave those cases unchanged and keep iommu_domain_alloc()
+> > > for their usage. But new drivers should not use it anymore.
+> > 
+> > does it mean there is still domains allocated via iommu_domain_alloc()
+> > on VT-d platform?
+> 
+> I think the drivers mentioned above do not run on x86 platforms, or do
+> they?
 
-On 03/06/2024 15:03, Heiko Stuebner wrote:
-> Am Montag, 3. Juni 2024, 14:14:17 CEST schrieb Andy Yan:
->> Hi Neil:
->>
->> On 6/3/24 16:55, Neil Armstrong wrote:
->>> Hi Christian,
->>>
->>> On 01/06/2024 15:12, Cristian Ciocaltea wrote:
->>>> The RK3588 SoC family integrates a Quad-Pixel (QP) variant of the
->>>> Synopsys DesignWare HDMI TX controller used in the previous SoCs.
->>>>
->>>> It is HDMI 2.1 compliant and supports the following features, among
->>>> others:
->>>>
->>> .
->>>
->>> ..
->>>
->>>> * SCDC I2C DDC access
->>>> * TMDS Scrambler enabling 2160p@60Hz with RGB/YCbCr4:4:4
->>>> * YCbCr4:2:0 enabling 2160p@60Hz at lower HDMI link speeds
->>>> * Multi-stream audio
->>>> * Enhanced Audio Return Channel (EARC)
->>> -> Those features were already supported by the HDMI 2.0a compliant HW, just
->>> list the _new_ features for HDMI 2.1
->>>
->>> I did a quick review of your patchset and I don't understand why you need
->>> to add a separate dw-hdmi-qp.c since you only need simple variants of the I2C
->>> bus, infoframe and bridge setup.
->>>
->>> Can you elaborate further ? isn't this Quad-Pixel (QP) TX controller version
->>> detectable at runtime ?
->>>
->>> I would prefer to keep a single dw-hdmi driver if possible.
->>
->>
->>
->> The QP HDMI controller is a completely different variant with totally different
->> registers layout, see PATCH 13/14.
->> I think make it a separate driver will be easier for development and maintenance.
-> 
-> I'm with Andy here. Trying to navigate a driver for two IP blocks really
-> sounds taxing especially when both are so different.
+usnic does.. What was preventing converting it?
 
-I agree, I just wanted more details than "variant of the
-Synopsys DesignWare HDMI TX controller", if the register mapping is 100%
-different, and does not match at all with the old IP, then it's indeed time
-to make a brand new driver, but instead of doing a mix up, it's time to extract
-the dw-hdmi code that could be common helpers into a dw-hdmi-common module
-and use them.
-
-As I see, no "driver" code can be shared, only DRM plumbings, so perhaps those
-plumbing code should go into the DRM core ?
-
-In any case, please add more details on the cover letter, including the detailed
-HW differrence and the design you chose so support this new IP.
-
-Neil
-
-> 
-> Synopsis also created a new dsi controller for the DSI2 standard, with
-> a vastly different registers layout.
-> 
-> I guess at some point there is time to say this really is a new IP ;-) .
-> 
-> 
-> Though while on that thought, I don't fully understand why both a compiled
-> under the dw_hdmi kconfig symbol. People going for a minimal kernel might
-> want one or the other, but not both for their specific board.
-> 
-> 
-> Heiko
-> 
-> 
-
+Jason
