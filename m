@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 571CB8D7CAF
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 09:45:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0F58D7CBA
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 09:50:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26EFC10E04C;
-	Mon,  3 Jun 2024 07:45:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B47F10E0EB;
+	Mon,  3 Jun 2024 07:50:16 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="it7kWkBN";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 35D2910E0EB
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 07:45:05 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C66D81042;
- Mon,  3 Jun 2024 00:45:28 -0700 (PDT)
-Received: from [10.57.39.221] (unknown [10.57.39.221])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 522F83F762;
- Mon,  3 Jun 2024 00:45:00 -0700 (PDT)
-Message-ID: <ebcbc9c6-d858-4774-be48-857b7d446e15@arm.com>
-Date: Mon, 3 Jun 2024 08:45:00 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/6] drm/imagination: Add compatible string entry for
- Series6XT
-To: Chen-Yu Tsai <wenst@chromium.org>, Frank Binns <Frank.Binns@imgtec.com>
-Cc: "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- Matt Coster <Matt.Coster@imgtec.com>, "sboyd@kernel.org" <sboyd@kernel.org>,
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>
-References: <20240530083513.4135052-1-wenst@chromium.org>
- <20240530083513.4135052-5-wenst@chromium.org>
- <efdacd820d13368816973f57c4a817e039ec4a2d.camel@imgtec.com>
- <CAGXv+5EMMNCbxaBqiBSQwGrQt-0KXWAtJU54K20sUU8PBh8faQ@mail.gmail.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <CAGXv+5EMMNCbxaBqiBSQwGrQt-0KXWAtJU54K20sUU8PBh8faQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 836B410E0EB;
+ Mon,  3 Jun 2024 07:50:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 56DE060C73;
+ Mon,  3 Jun 2024 07:50:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABFF3C2BD10;
+ Mon,  3 Jun 2024 07:50:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1717401013;
+ bh=bQlI9YMS22qymPKDMk4SXp/XJcph5kSjXXhPH31SMjE=;
+ h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+ b=it7kWkBNx425GZX9DlLNkdFDQEOHMB2O7V9ylBZd8A4QESV8J4/L/x/GezUCN7469
+ uQMJcjfJx93n44wWQkGZZ1Wme4LAAUneYA/8CpyheDo4ixNxORqjQsGrm9jxciKpuC
+ 6Lw/eHBa6xrRAnNZbrF5saPP6qeq2322l8/MFl0LR+gy9SdBb2SbG73zz4uIyLsp1m
+ gijbvJe51wcaX8Tj3/ukZE+36v6j4+tcOVwwVqEV7Zv8bvYlwlcFIANB5cLX4Vxrg2
+ +mTCaJb2B5Jqyg0b1n3d0EdzbICPhKFrb1hMJliXgGebmy6mdzI+6MJtD9i3l8Sn26
+ 8lTyKBHFEGOKQ==
+Message-ID: <f04da052e216872986251486c5d305ca@kernel.org>
+Date: Mon, 03 Jun 2024 07:50:10 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v4 5/9] drm/msm/hdmi: turn mode_set into atomic_enable
+In-Reply-To: <20240531-bridge-hdmi-connector-v4-5-5110f7943622@linaro.org>
+References: <20240531-bridge-hdmi-connector-v4-5-5110f7943622@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, "Abhinav
+ Kumar" <quic_abhinavk@quicinc.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
+ "Daniel
+ Vetter" <daniel@ffwll.ch>, "David Airlie" <airlied@gmail.com>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>, "Maxime Ripard" <mripard@kernel.org>,
+ "Neil
+ Armstrong" <neil.armstrong@linaro.org>, "Rob Clark" <robdclark@gmail.com>,
+ "Robert Foss" <rfoss@kernel.org>, "Sean Paul" <sean@poorly.run>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,66 +66,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/06/2024 04:29, Chen-Yu Tsai wrote:
-> On Fri, May 31, 2024 at 7:18 PM Frank Binns <Frank.Binns@imgtec.com> wrote:
->>
->> On Thu, 2024-05-30 at 16:35 +0800, Chen-Yu Tsai wrote:
->>> The MediaTek MT8173 comes with a PowerVR Rogue GX6250, which is part
->>> of the Series6XT, another variation of the Rogue family of GPUs.
->>>
->>> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
->>> ---
->>>  drivers/gpu/drm/imagination/pvr_drv.c | 1 +
->>>  1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
->>> index 5c3b2d58d766..3d1a933c8303 100644
->>> --- a/drivers/gpu/drm/imagination/pvr_drv.c
->>> +++ b/drivers/gpu/drm/imagination/pvr_drv.c
->>> @@ -1475,6 +1475,7 @@ pvr_remove(struct platform_device *plat_dev)
->>>
->>>  static const struct of_device_id dt_match[] = {
->>>       { .compatible = "img,img-axe", .data = NULL },
->>> +     { .compatible = "img,powervr-6xt", .data = NULL },
->>
->> I assume that by adding this to the list of supported devices we're essentially
->> freezing the existing uapi. This concerns me, as we've not yet started running
->> Vulkan conformance on any Series6XT GPUs and there's a chance we may need to
->> make some tweaks.
->>
->> I'm not really sure what the accepted approach is to hardware enablement /
->> experimental support. I'm not sure if it's sufficient to hide support behind a
->> Kconfig option and/or module parameter or whether we just have to hold this
->> patch back for the time being.
+On Fri, 31 May 2024 23:07:28 +0300, Dmitry Baryshkov wrote:
+> The mode_set callback is deprecated, it doesn't get the
+> drm_bridge_state, just mode-related argumetns. Turn it into the
+> atomic_enable callback as suggested by the documentation.
 > 
-> I guess this is more of a question for the DRM maintainers.
-> Added a couple Panfrost/Panthor folks for ideas.
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> [ ... ]
 
-I'm not sure quite what scale of "tweaks" you are expecting. Obviously
-adding new uAPI is possible at any time - the only requirement is "don't
-break user space" - i.e. don't remove old uAPI. Although obviously you
-want to be careful about adding it because that means supporting it
-forever more.
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
-Panfrost has had an "unstable_ioctls" module parameter that we've hidden
-performance counters behind. (Performance counters are hard from a uAPI
-perspective - Panthor has similar issues).
-
-We've also added support for GPUs in a deliberately "crippled" manner
-(e.g. only one core group - see panfrost_get_core_mask()). I think we're
-mostly just hoping those 'awkward' GPUs are not interesting enough and
-we'll never implement full support for them - but if we did I expect
-we'd implement support by providing a new uAPI for enabling the second
-core group so old user space can continue working with just the single
-core group.
-
-Of course if the support for this platform is actually 'broken' (the
-talk of GPU resets makes me think so - on Mali requiring a reset is a
-"should never happen" situation, but we do have errata...) then it's
-probably best holding off merging this until you've got something which
-is minimally functional and then add support as necessary. For Vulkan
-you can always have user space require a particular DRM kernel version
-if you discover extra uAPI is needed.
-
-Steve
-
+Thanks!
+Maxime
