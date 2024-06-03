@@ -2,64 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2FA8D7F6A
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 11:54:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B13118D7FA4
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 12:04:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D28BA10E323;
-	Mon,  3 Jun 2024 09:54:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DEFC10E354;
+	Mon,  3 Jun 2024 10:04:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="byl81WQu";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="T5Ei/x68";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07B5C10E063
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 09:53:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1717408437;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IoqJ5aGW9w3mGh1qFc2/crNq2tho/4emSSc/Mie410s=;
- b=byl81WQuGLLNTPjtPo2AmuUkNnfFrI8dfyZKFpLap1O2x+7WCOtqFK4yqXDCTsvD483NQA
- HUyaK1kw1ZW10k/tnNOudfg16J3wqezbefyY3w/Q7cVdLuXrd4pspA4UgXTb0sDCHvjrfj
- Lj6Vid/Ry2ZyIgiMBG4T3jVNjoMW5rs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-644-En7gck8PPFOOd4YFkr6UnQ-1; Mon, 03 Jun 2024 05:53:55 -0400
-X-MC-Unique: En7gck8PPFOOd4YFkr6UnQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D9FC800CA5;
- Mon,  3 Jun 2024 09:53:55 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.192.139])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C9310402EB5;
- Mon,  3 Jun 2024 09:53:53 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v2 3/3] drm/panic: Add a kmsg panic screen
-Date: Mon,  3 Jun 2024 11:47:27 +0200
-Message-ID: <20240603095343.39588-4-jfalempe@redhat.com>
-In-Reply-To: <20240603095343.39588-1-jfalempe@redhat.com>
-References: <20240603095343.39588-1-jfalempe@redhat.com>
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A456610E0BB
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 10:04:49 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-52b912198f1so2590641e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jun 2024 03:04:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1717409087; x=1718013887; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Wigpiq3UYcvYdqkrQhN7qI4WVcDObAutfXNLBLWz1Qs=;
+ b=T5Ei/x68foLuk3OST+CXcdRdLiFFW2JG5elO35gyf21X57pPsS7ZAHopCMgETYKy3a
+ c9WVT0cg7Jhzmct6mGLxE41DG+Ou5TI5mkgXT9yuvY+VDEER5G9SSUGyxOrjLTiGjH16
+ zBrkIfQSjyFIYVNlzs3DqqOqJPg9qbLWqsNuEtxGWHYBQe6ch1Zti34BFJDzjdYC3uCG
+ h81HzpXhOH5sJArZCMo2tXV95iwj5SxDnZoby4zHl1LGHgb7iuU1An36+76gb8tXHxr5
+ 4FCLwnK5CkirC9AsCNoqxZa7l6C2xKvbCApzz7tGFkRevo2ChmWc+2BdOWOUXT/W0n4T
+ BBdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717409087; x=1718013887;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Wigpiq3UYcvYdqkrQhN7qI4WVcDObAutfXNLBLWz1Qs=;
+ b=SbDVCivEJ2Sgts0i+e/3xTu9k0CaPWieDtNJcnJD+Uys+ASdyTQSLLSNmZSM68pI72
+ gB+fqnzJQR99PHKh271m94mZUXQbGM8PqIkGYALOJlG3BXukGwWbxbxaRTo1Dxv3pq/A
+ Xosol5Acxst5Cjy3rHwyGJVnLxS5XoaArDNW9coDKI8gYF3Ev5J2D4HGaezdJRpjAOMB
+ tRMVJPPUMTCA0/RcW/FJPdzGpLjGFxLznmcMn0jHPxY2FI0zS4oRp8jqoNAX6AMk9Yef
+ 1CWyVjkBxt1WzQW3UEZYSMQ90UzVgLqvbGKnEsJJXw0IVmFT93B6xzDavV2wbhkwDQy2
+ 2F1Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUlY2OFtH2pQRknVmSr+Xse/GLAERT90RLDnBBxfkV8ZhSsczlflpHEexQDRIF5xDhlMAj7I3oBsSSSQT1rwzT1vb9cOUQGL6o4RtmG2cTC
+X-Gm-Message-State: AOJu0YySzByrmpmoe4ICG8+rELJJE49B+Jv8wf3PWiGUBAS9Yr+YbYr7
+ jWSZCE8fFEkY5LDJ78mDi+frd2w+DF4Qq1kv7SDu+KLyIyBUIj+gOAhAlueEBYs=
+X-Google-Smtp-Source: AGHT+IF5KnG1FbQl2ZMSS1dblXe8W7iYWQvh17DRwDMEgS5aDyUVIouCkrUQXkbLDkWxPZaBVQnv9g==
+X-Received: by 2002:a05:6512:239f:b0:52b:9037:996d with SMTP id
+ 2adb3069b0e04-52b90379aafmr4283607e87.46.1717409087167; 
+ Mon, 03 Jun 2024 03:04:47 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52b92e66010sm666446e87.102.2024.06.03.03.04.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Jun 2024 03:04:46 -0700 (PDT)
+Date: Mon, 3 Jun 2024 13:04:45 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/9] drm/connector: hdmi: accept NULL for Audio
+ Infoframe
+Message-ID: <th7i4ugpnbifmthtam7p5nmtclygx6asvzzyibzl2oxdsxxnmj@rd7dujgjxzuv>
+References: <20240531-bridge-hdmi-connector-v4-0-5110f7943622@linaro.org>
+ <20240531-bridge-hdmi-connector-v4-1-5110f7943622@linaro.org>
+ <20240603-therapeutic-warm-fox-890bee@houat>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240603-therapeutic-warm-fox-890bee@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,212 +96,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a kmsg option, which will display the last lines of kmsg,
-and should be similar to fbcon.
-Add a drm.panic_screen module parameter, so you can choose between
-the different panic screens available.
-two options currently, but more will be added later:
- * "user": a short message telling the user to reboot the machine.
- * "kmsg": fill the screen with the last lines of kmsg.
+On Mon, Jun 03, 2024 at 11:09:40AM +0200, Maxime Ripard wrote:
+> Hi,
+> 
+> Sorry for not answering your mail on the previous version sooner.
+> 
+> On Fri, May 31, 2024 at 11:07:24PM GMT, Dmitry Baryshkov wrote:
+> > Allow passing NULL as audio infoframe as a way to disable Audio
+> > Infoframe generation.
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 14 ++++++++++----
+> >  1 file changed, 10 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> > index ce96837eea65..5356723d21f5 100644
+> > --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> > @@ -681,7 +681,7 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_update_infoframes);
+> >  /**
+> >   * drm_atomic_helper_connector_hdmi_update_audio_infoframe - Update the Audio Infoframe
+> >   * @connector: A pointer to the HDMI connector
+> > - * @frame: A pointer to the audio infoframe to write
+> > + * @frame: A pointer to the audio infoframe to write or NULL to disable sending the frame
+> 
+> I'm still two-minded about this. I think I would like a separate helper
+> better, to also make things consistent with the HDMI helpers.
+> 
+> Most importantly, it looks like you're not using it at all in your series?
 
-You can even change it at runtime by writing to
-/sys/module/drm/parameters/panic_screen
+It should have been a part of msm_hdmi_audio_disable(), but it seems
+with all the refactorings I forgot to use it. I'll check again the
+behaviour and either drop this patch or add a separate helper and fix
+other comments below.
 
-v2:
- * use module parameter instead of Kconfig choice
-   (Javier Martinez Canillas)
+> 
+> >   * This function is meant for HDMI connector drivers to update their
+> >   * audio infoframe. It will typically be used in one of the ALSA hooks
+> > @@ -704,10 +704,16 @@ drm_atomic_helper_connector_hdmi_update_audio_infoframe(struct drm_connector *co
+> >  
+> >  	mutex_lock(&connector->hdmi.infoframes.lock);
+> >  
+> > -	memcpy(&infoframe->data, frame, sizeof(infoframe->data));
+> > -	infoframe->set = true;
+> > +	if (frame) {
+> > +		memcpy(&infoframe->data, frame, sizeof(infoframe->data));
+> > +		infoframe->set = true;
+> > +
+> > +		ret = write_infoframe(connector, infoframe);
+> > +	} else {
+> > +		infoframe->set = false;
+> >  
+> > -	ret = write_infoframe(connector, infoframe);
+> > +		ret = clear_infoframe(connector, infoframe);
+> > +	}
+> 
+> We should probably clear infoframe->data here too
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/Kconfig     |  11 ++++
- drivers/gpu/drm/drm_panic.c | 108 ++++++++++++++++++++++++++++++++----
- 2 files changed, 109 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 9703429de6b9..944815cee080 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -137,6 +137,17 @@ config DRM_PANIC_DEBUG
- 	  This is unsafe and should not be enabled on a production build.
- 	  If in doubt, say "N".
- 
-+config DRM_PANIC_SCREEN
-+	string "Panic screen formater"
-+	default "user"
-+	depends on DRM_PANIC
-+	help
-+	  This option enable to choose what will be displayed when a kernel
-+	  panic occurs. You can choose between "user", a short message telling
-+	  the user to reboot the system, or "kmsg" which will display the last
-+	  lines of kmsg.
-+	  Default is "user"
-+
- config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
-         bool "Enable refcount backtrace history in the DP MST helpers"
- 	depends on STACKTRACE_SUPPORT
-diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index 5dc9e98108ed..2e11273a8ad6 100644
---- a/drivers/gpu/drm/drm_panic.c
-+++ b/drivers/gpu/drm/drm_panic.c
-@@ -12,6 +12,7 @@
- #include <linux/kmsg_dump.h>
- #include <linux/list.h>
- #include <linux/module.h>
-+#include <linux/printk.h>
- #include <linux/types.h>
- 
- #include <drm/drm_drv.h>
-@@ -27,6 +28,12 @@ MODULE_AUTHOR("Jocelyn Falempe");
- MODULE_DESCRIPTION("DRM panic handler");
- MODULE_LICENSE("GPL");
- 
-+static char drm_panic_screen[16] = CONFIG_DRM_PANIC_SCREEN;
-+module_param_string(panic_screen, drm_panic_screen, sizeof(drm_panic_screen), 0644);
-+MODULE_PARM_DESC(panic_screen,
-+		 "Choose what will be displayed by drm_panic, 'user' or 'kmsg' [default="
-+		 CONFIG_DRM_PANIC_SCREEN "]");
-+
- /**
-  * DOC: overview
-  *
-@@ -437,24 +444,18 @@ static void draw_txt_rectangle(struct drm_scanout_buffer *sb,
- 	}
- }
- 
--/*
-- * Draw the panic message at the center of the screen
-- */
--static void draw_panic_static(struct drm_scanout_buffer *sb)
-+static void draw_panic_static_user(struct drm_scanout_buffer *sb)
- {
- 	size_t msg_lines = ARRAY_SIZE(panic_msg);
- 	size_t logo_lines = ARRAY_SIZE(logo);
--	u32 fg_color = CONFIG_DRM_PANIC_FOREGROUND_COLOR;
--	u32 bg_color = CONFIG_DRM_PANIC_BACKGROUND_COLOR;
-+	u32 fg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR, sb->format->format);
-+	u32 bg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_BACKGROUND_COLOR, sb->format->format);
- 	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
- 	struct drm_rect r_screen, r_logo, r_msg;
- 
- 	if (!font)
- 		return;
- 
--	fg_color = convert_from_xrgb8888(fg_color, sb->format->format);
--	bg_color = convert_from_xrgb8888(bg_color, sb->format->format);
--
- 	r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
- 
- 	r_logo = DRM_RECT_INIT(0, 0,
-@@ -477,6 +478,84 @@ static void draw_panic_static(struct drm_scanout_buffer *sb)
- 	draw_txt_rectangle(sb, font, panic_msg, msg_lines, true, &r_msg, fg_color);
- }
- 
-+
-+/*
-+ * Draw one line of kmsg, and handle wrapping if it won't fit in the screen width.
-+ * Return the y-offset of the next line.
-+ */
-+static int draw_line_with_wrap(struct drm_scanout_buffer *sb, const struct font_desc *font,
-+			       struct drm_panic_line *line, int yoffset, u32 fg_color)
-+{
-+	int chars_per_row = sb->width / font->width;
-+	struct drm_rect r_txt = DRM_RECT_INIT(0, yoffset, sb->width, sb->height);
-+	struct drm_panic_line line_wrap;
-+
-+	if (line->len > chars_per_row) {
-+		line_wrap.len = line->len % chars_per_row;
-+		line_wrap.txt = line->txt + line->len - line_wrap.len;
-+		draw_txt_rectangle(sb, font, &line_wrap, 1, false, &r_txt, fg_color);
-+		r_txt.y1 -= font->height;
-+		if (r_txt.y1 < 0)
-+			return r_txt.y1;
-+		while (line_wrap.txt > line->txt) {
-+			line_wrap.txt -= chars_per_row;
-+			line_wrap.len = chars_per_row;
-+			draw_txt_rectangle(sb, font, &line_wrap, 1, false, &r_txt, fg_color);
-+			r_txt.y1 -= font->height;
-+			if (r_txt.y1 < 0)
-+				return r_txt.y1;
-+		}
-+	} else {
-+		draw_txt_rectangle(sb, font, line, 1, false, &r_txt, fg_color);
-+		r_txt.y1 -= font->height;
-+	}
-+	return r_txt.y1;
-+}
-+
-+/*
-+ * Draw the kmsg buffer to the screen, starting from the youngest message at the bottom,
-+ * and going up until reaching the top of the screen.
-+ */
-+static void draw_panic_static_kmsg(struct drm_scanout_buffer *sb)
-+{
-+	u32 fg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR, sb->format->format);
-+	u32 bg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_BACKGROUND_COLOR, sb->format->format);
-+	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
-+	struct drm_rect r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
-+	struct kmsg_dump_iter iter;
-+	char kmsg_buf[512];
-+	size_t kmsg_len;
-+	struct drm_panic_line line;
-+	int yoffset = sb->height - font->height - (sb->height % font->height) / 2;
-+
-+	if (!font)
-+		return;
-+
-+	/* Fill with the background color, and draw text on top */
-+	drm_panic_fill(sb, &r_screen, bg_color);
-+
-+	kmsg_dump_rewind(&iter);
-+	while (kmsg_dump_get_buffer(&iter, false, kmsg_buf, sizeof(kmsg_buf), &kmsg_len)) {
-+		char *start;
-+		char *end;
-+
-+		/* ignore terminating NUL and newline */
-+		start = kmsg_buf + kmsg_len - 2;
-+		end = kmsg_buf + kmsg_len - 1;
-+		while (start > kmsg_buf && yoffset >= 0) {
-+			while (start > kmsg_buf && *start != '\n')
-+				start--;
-+			/* don't count the newline character */
-+			line.txt = start + (start == kmsg_buf ? 0 : 1);
-+			line.len = end - line.txt;
-+
-+			yoffset = draw_line_with_wrap(sb, font, &line, yoffset, fg_color);
-+			end = start;
-+			start--;
-+		}
-+	}
-+}
-+
- /*
-  * drm_panic_is_format_supported()
-  * @format: a fourcc color code
-@@ -491,6 +570,15 @@ static bool drm_panic_is_format_supported(const struct drm_format_info *format)
- 	return convert_from_xrgb8888(0xffffff, format->format) != 0;
- }
- 
-+static void draw_panic_dispatch(struct drm_scanout_buffer *sb)
-+{
-+	if (!strcmp(drm_panic_screen, "kmsg")) {
-+		draw_panic_static_kmsg(sb);
-+	} else {
-+		draw_panic_static_user(sb);
-+	}
-+}
-+
- static void draw_panic_plane(struct drm_plane *plane)
- {
- 	struct drm_scanout_buffer sb;
-@@ -503,7 +591,7 @@ static void draw_panic_plane(struct drm_plane *plane)
- 	ret = plane->helper_private->get_scanout_buffer(plane, &sb);
- 
- 	if (!ret && drm_panic_is_format_supported(sb.format)) {
--		draw_panic_static(&sb);
-+		draw_panic_dispatch(&sb);
- 		if (plane->helper_private->panic_flush)
- 			plane->helper_private->panic_flush(plane);
- 	}
 -- 
-2.45.1
-
+With best wishes
+Dmitry
