@@ -2,86 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 395898D8AEA
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 22:32:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7C48D8B1B
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2024 22:57:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F73510E3D2;
-	Mon,  3 Jun 2024 20:32:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B98510E3DA;
+	Mon,  3 Jun 2024 20:57:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iWxATbto";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="UfP4IDxF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 624BF10E3D2
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2024 20:32:22 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-52b90038cf7so3208119e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jun 2024 13:32:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717446740; x=1718051540; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=j3xWHdXJHtkqPEG1gY7KE65O7IPK9mAb/+ZmZUO/aW4=;
- b=iWxATbtoQIidQmcuybCrbLrd/8zPnamSfKCbJarLNYv2BCxWpGCHDPTGyQBgHgAhzA
- QBLeND18MNpREcCH3hNWwDjHjCezwWBF6FhUcQ1bKthLuC1pGGHqhsErbMGtEuXDjgdH
- xD4J5QUO5fam3LjMtDgcd+GnE/xW0h0Fqq14naBIDrafTu9PQuWp1gVLiwEocFPa9frs
- v0L1YikJR6jrS4c7sdJs0NRx2ARGUUQmTgtyIbRBmlv6ExeLdXaRlH6kPw4FipCJtMJG
- VymQVx3crsxLwoOkr7bLZBL7gzUSBNdUSh3tANHepi6vxC/aJ00w+g4P+dqq7wU4ygao
- tSiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717446740; x=1718051540;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=j3xWHdXJHtkqPEG1gY7KE65O7IPK9mAb/+ZmZUO/aW4=;
- b=OtupPk7AO7zsi8h26EK/Vmf2nIOJpJVwGTxBDdwp1CYDGlRkoj8yNQbZBR16h5hpqT
- Cqp21yCnI9dhfdamus4uQa2jE9Zonp/enVUn3XAZeKXUMMw5A3GZH6Wac+oHyKCBMLkI
- gGUbJUMvCG7uWK04WE0IjRkDrF9O1yfJi1W+UJ+KLyYLBar9a0I3JVPF2eJuabNIcnBf
- ulwTDXMUr3rWfzH8UTB+BozW6UIVsOCDW+zA0qudRvXWhRL67pdiiyJ0lTnYubM5MHyV
- S8ZpOb2O0NCAKczjuO+aXFqlFVZJvIfGSIJ01fWG0pFcFKtZ663sGy47uZvHdf+futnM
- PXOQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVja9WG63C0ty3xR1mWBvFL+wE38nkbXjTfFs7lw6kcvvrffSBmG1nm/b7uqAtsHTgE4nUdWVTE3GwUOxDM1+9dOb+02/bK6ySmT7VVu0Ls
-X-Gm-Message-State: AOJu0Yz6xZz0tTQHslUuK/ApJohPZos+Cm6lCq0qK98dFVLaTIjpdshB
- w8eb73G4ICmGd1PevVFfC34jedmMcKyjpblAj1GHPyKf9KI04ZZ4ofgYD760dgo=
-X-Google-Smtp-Source: AGHT+IEN0ZKSc9dLsSicKTPHKeh3bX+MpeLnoaQErTFdnlruhE40PAEAx9f4Y40Xgy6T7Y3uFsAJJA==
-X-Received: by 2002:ac2:464d:0:b0:52b:7bac:476d with SMTP id
- 2adb3069b0e04-52b896cd271mr6412478e87.56.1717446740419; 
- Mon, 03 Jun 2024 13:32:20 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52b950c07f3sm702431e87.55.2024.06.03.13.32.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jun 2024 13:32:20 -0700 (PDT)
-Date: Mon, 3 Jun 2024 23:32:18 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: noralf@tronnes.org
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- David Lechner <david@lechnology.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-Subject: Re: [PATCH v3 3/5] drm/mipi-dbi: Make bits per word configurable for
- pixel transfers
-Message-ID: <ymr4xlth524itfdpsj4mjgjbtc7ivqdskawj62zddxyzgne6et@xdz6twnwc2pm>
-References: <20240603-panel-mipi-dbi-rgb666-v3-0-59ed53ca73da@tronnes.org>
- <20240603-panel-mipi-dbi-rgb666-v3-3-59ed53ca73da@tronnes.org>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1094D10E3D9;
+ Mon,  3 Jun 2024 20:57:18 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 453BYMvG013088;
+ Mon, 3 Jun 2024 20:57:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ Pl0vB4COwHKnjA6ZmsmMssilcx+pThwANLfiRS86IgE=; b=UfP4IDxFqzAF9UAD
+ bvXwnWldXuxVsTvnQCfVpX93IFj2kMaTvwgXkOXMlcrjHkqPVWlV+G3d0/o2M5Rf
+ nWxS4EzJ/DQlczqSgfQotnbL8HWNVtm16a1KZMiBD6U6KPSAl9ea5AXpC8JAp+OL
+ Zc1BvQDzmdzGJQdVCPenTTZsOcQZw1VcEchKp+cTbzDrSXTE5gpf54YG4yRCMtQf
+ sX41DdOAGGInkJ6KwLmogorpfYg6Gz3O7oMi1uLAJA5vyLIBEdFBL+2qDTSm30Px
+ v8u8z825HRCIKZ+YY6idmxwT2lOtYK3tQPQKqlAB8aUJMcSh1eJuNTXT5tAsA1OL
+ 2dUmAw==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yfw4d55a1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 Jun 2024 20:57:13 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 453KvCoX024844
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 3 Jun 2024 20:57:12 GMT
+Received: from [10.110.31.89] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 3 Jun 2024
+ 13:57:08 -0700
+Message-ID: <64c6e6a5-7ab2-cdf7-131a-7a1f79c48e0c@quicinc.com>
+Date: Mon, 3 Jun 2024 13:57:06 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240603-panel-mipi-dbi-rgb666-v3-3-59ed53ca73da@tronnes.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 7/9] drm/msm/dpu: check for overflow in
+ _dpu_crtc_setup_lm_bounds()
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+CC: Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan+linaro@kernel.org>, 
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20240603-dpu-mode-config-width-v2-0-16af520575a6@linaro.org>
+ <20240603-dpu-mode-config-width-v2-7-16af520575a6@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240603-dpu-mode-config-width-v2-7-16af520575a6@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: ylRLMhHsTVsR04KqndAvEqxlORUYuJGo
+X-Proofpoint-GUID: ylRLMhHsTVsR04KqndAvEqxlORUYuJGo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-06-03_17,2024-05-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 mlxscore=0 adultscore=0 impostorscore=0 bulkscore=0
+ spamscore=0 phishscore=0 clxscore=1015 mlxlogscore=999 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406030169
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,94 +96,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 03, 2024 at 01:21:34PM +0200, Noralf Trønnes via B4 Relay wrote:
-> From: Noralf Trønnes <noralf@tronnes.org>
-> 
-> This prepares for supporting other pixel formats than RGB565.
 
-Yes, the patch is pretty simple, however could you please expand the
-commit message by describing write_memory_bpw introduction.
 
+On 6/2/2024 2:39 PM, Dmitry Baryshkov wrote:
+> Check in _dpu_crtc_setup_lm_bounds() that CRTC width is not overflowing
+> LM requirements.
 > 
-> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/drm_mipi_dbi.c | 14 ++++++++++----
->  include/drm/drm_mipi_dbi.h     |  5 +++++
->  2 files changed, 15 insertions(+), 4 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 15 ++++++++++++---
+>   1 file changed, 12 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-> index fa8aba6dc81c..77f8a828d6e0 100644
-> --- a/drivers/gpu/drm/drm_mipi_dbi.c
-> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
-> @@ -1079,7 +1079,7 @@ static int mipi_dbi_typec1_command_read(struct mipi_dbi *dbi, u8 *cmd,
->  static int mipi_dbi_typec1_command(struct mipi_dbi *dbi, u8 *cmd,
->  				   u8 *parameters, size_t num)
->  {
-> -	unsigned int bpw = (*cmd == MIPI_DCS_WRITE_MEMORY_START) ? 16 : 8;
-> +	unsigned int bpw = 8;
->  	int ret;
->  
->  	if (mipi_dbi_command_is_read(dbi, *cmd))
-> @@ -1091,6 +1091,9 @@ static int mipi_dbi_typec1_command(struct mipi_dbi *dbi, u8 *cmd,
->  	if (ret || !num)
->  		return ret;
->  
-> +	if (*cmd == MIPI_DCS_WRITE_MEMORY_START)
-> +		bpw = dbi->write_memory_bpw;
-> +
->  	return mipi_dbi_spi1_transfer(dbi, 1, parameters, num, bpw);
->  }
->  
-> @@ -1184,8 +1187,8 @@ static int mipi_dbi_typec3_command(struct mipi_dbi *dbi, u8 *cmd,
->  	if (ret || !num)
->  		return ret;
->  
-> -	if (*cmd == MIPI_DCS_WRITE_MEMORY_START && !dbi->swap_bytes)
-> -		bpw = 16;
-> +	if (*cmd == MIPI_DCS_WRITE_MEMORY_START)
-> +		bpw = dbi->write_memory_bpw;
->  
->  	spi_bus_lock(spi->controller);
->  	gpiod_set_value_cansleep(dbi->dc, 1);
-> @@ -1256,12 +1259,15 @@ int mipi_dbi_spi_init(struct spi_device *spi, struct mipi_dbi *dbi,
->  
->  	dbi->spi = spi;
->  	dbi->read_commands = mipi_dbi_dcs_read_commands;
-> +	dbi->write_memory_bpw = 16;
->  
->  	if (dc) {
->  		dbi->command = mipi_dbi_typec3_command;
->  		dbi->dc = dc;
-> -		if (!spi_is_bpw_supported(spi, 16))
-> +		if (!spi_is_bpw_supported(spi, 16)) {
-> +			dbi->write_memory_bpw = 8;
->  			dbi->swap_bytes = true;
-> +		}
->  	} else {
->  		dbi->command = mipi_dbi_typec1_command;
->  		dbi->tx_buf9_len = SZ_16K;
-> diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
-> index e8e0f8d39f3a..b36596efdcc3 100644
-> --- a/include/drm/drm_mipi_dbi.h
-> +++ b/include/drm/drm_mipi_dbi.h
-> @@ -56,6 +56,11 @@ struct mipi_dbi {
->  	 */
->  	struct spi_device *spi;
->  
-> +	/**
-> +	 * @write_memory_bpw: Bits per word used on a MIPI_DCS_WRITE_MEMORY_START transfer
-> +	 */
-> +	unsigned int write_memory_bpw;
-> +
->  	/**
->  	 * @dc: Optional D/C gpio.
->  	 */
-> 
-> -- 
-> 2.45.1
-> 
-> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index e3b1e5f55a92..c5e874a3656a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -711,12 +711,13 @@ void dpu_crtc_complete_commit(struct drm_crtc *crtc)
+>   	_dpu_crtc_complete_flip(crtc);
+>   }
+>   
+> -static void _dpu_crtc_setup_lm_bounds(struct drm_crtc *crtc,
+> +static int _dpu_crtc_setup_lm_bounds(struct drm_crtc *crtc,
+>   		struct drm_crtc_state *state)
 
--- 
-With best wishes
-Dmitry
+Perhaps now we need to rename this to _dpu_crtc_setup_and_check_lm_bounds()?
+
+Also, prior to this change, we never had a bounds check for each LM 
+which we should have had . Does this qualify for a Fixes tag?
+
+With those two questions addressed,
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+>   {
+>   	struct dpu_crtc_state *cstate = to_dpu_crtc_state(state);
+>   	struct drm_display_mode *adj_mode = &state->adjusted_mode;
+>   	u32 crtc_split_width = adj_mode->hdisplay / cstate->num_mixers;
+> +	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
+>   	int i;
+>   
+>   	for (i = 0; i < cstate->num_mixers; i++) {
+> @@ -727,7 +728,12 @@ static void _dpu_crtc_setup_lm_bounds(struct drm_crtc *crtc,
+>   		r->y2 = adj_mode->vdisplay;
+>   
+>   		trace_dpu_crtc_setup_lm_bounds(DRMID(crtc), i, r);
+> +
+> +		if (drm_rect_width(r) > dpu_kms->catalog->caps->max_mixer_width)
+> +			return -E2BIG;
+>   	}
+
+> +
+> +	return 0;
+>   }
+>   
+>   static void _dpu_crtc_get_pcc_coeff(struct drm_crtc_state *state,
+> @@ -1195,8 +1201,11 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>   	if (crtc_state->active_changed)
+>   		crtc_state->mode_changed = true;
+>   
+> -	if (cstate->num_mixers)
+> -		_dpu_crtc_setup_lm_bounds(crtc, crtc_state);
+> +	if (cstate->num_mixers) {
+> +		rc = _dpu_crtc_setup_lm_bounds(crtc, crtc_state);
+> +		if (rc)
+> +			return rc;
+> +	}
+>   
+>   	/* FIXME: move this to dpu_plane_atomic_check? */
+>   	drm_atomic_crtc_state_for_each_plane_state(plane, pstate, crtc_state) {
+> 
