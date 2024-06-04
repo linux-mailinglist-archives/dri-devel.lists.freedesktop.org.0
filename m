@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A7E8FB422
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 15:44:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 662B48FB427
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 15:44:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35D0410E078;
-	Tue,  4 Jun 2024 13:44:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3400510E48B;
+	Tue,  4 Jun 2024 13:44:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fU/dSODL";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="s65NGHku";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6230210E078
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 13:44:07 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-2eab19e7034so17757881fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 06:44:07 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15D4210E48B
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 13:44:29 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-52b87e8ba1eso5830971e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 06:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717508645; x=1718113445; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1717508667; x=1718113467; darn=lists.freedesktop.org;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=TDyyivtsWKVto8Jf6XTYPyQtJ234vG34gbVNO+G82vg=;
- b=fU/dSODLX8YpFfqxTuP4IQuRuloffBesQ6hTWYQ4YLlL+9uabadvaDK4yzrMClt7km
- QqWGlEGCNTR78BdWs1B9BodululLMUn593nLOKJ6aVY91zuh73l30+x1crNkDVhbY+HZ
- Y4g+/BEZbatL6/RxyBD0HRoBz1KvL3xCqi4c97+LmWn/7l1u3nUNwWvfKBl6vGiSwHSf
- 3zzvKAeWeR9SIBi0bUJdyX6gaxiFj7JGYtg5Glym75Vn38wJYgOQ27EYaXdVmoGvCoOC
- fTfRdH0MCmpq+0fAl1SOOfouYl0+0SqXtr8X4PdScr9HK2vxLjXDBtYN7j1FRHme7lsH
- m8Zw==
+ bh=gXPZsC/Zt7fU/Whsjt7Ixqr0Q1zSlZNphtmL5xPMdKg=;
+ b=s65NGHkuoR2FGHrS1BfhwJ0xwmET9TeFV+NfsedKV5dTIU7QB3DAv7ahbTi8fRpzxD
+ Vj351DwJAoYxyqSAwh4X84ZydwqFoFF1xJIdLJ3MvsCWT/UUamOsOYRppGuQqzuj/9ew
+ Bc+j1sziV4zka5mefRXEL5ms/OQZtEgyoYet18yD729XWwbfTkdyjvv3z7NC3pRkUl0n
+ fGJRdiogL9jrjAxy8XzHCFQRx/KDMZWsFTw5HBkbyUmZH6EdcXzA1pclhUXPH+omZ5Bg
+ BAu6+sBxodb4uUqWjCEWzg9QXMauviRbhZirxHd57aItejvevX9QaK/OBsT8CAHUBgtE
+ B58A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717508645; x=1718113445;
+ d=1e100.net; s=20230601; t=1717508667; x=1718113467;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TDyyivtsWKVto8Jf6XTYPyQtJ234vG34gbVNO+G82vg=;
- b=Wv/0oX9SOe+nxTvAtMPppBlR4cs0oSY/NGn2K7/6fG0XCUr9LTNyzK6H7XKLfY5KOG
- Z/qlvmOqDtDVC6I0h4OP4iYbx0Hwo6OEmkEUp0QtbVrRt+/rpuCoHVx7WNDyq0shFDW0
- +zGyhnazvgZOQIZyOn+Kj8FDllDjWpMP68xys/RH/PB9fRafkZFJ7OsBgoZxc3objzoD
- TNUwNN4/41nQfzaOlAFZp5L3vbQ9Fr/PstZZ2ur23emhDe2RTKyr093qR9CXlylsswjf
- y35++YKD9Zm/2H8V+tlY+whcz6bhYaJLrStKKYJs9Eh6Wazwt9UP3BO+1lcwT6kIFZW7
- DX3g==
+ bh=gXPZsC/Zt7fU/Whsjt7Ixqr0Q1zSlZNphtmL5xPMdKg=;
+ b=weaa00ydusiDyL/FqvKKQB1HXgOMOHiFHgf+hCbQdwo0pdSiScWtYyk+ZmzDZPOCQ6
+ nLX8lTFx42CxeqxfM4t8arJIV7bUWjJzwkAM/fopV3Et38Q0JztKp+NZTIY+fNffWAaa
+ w8vAyBr0oIs6XWzpZoYikXuizpPmb2QO1ne8fD0IaOOZxrknkK69OWvIWFlZ1ZKcVrV4
+ idRGeIwKHbOE4818lpRBxEpmBfWIidN/2isEdoLGGPosaN0RkEXInB/t44MGRpNi+c2p
+ 4k4+BeFnmO0x654A19ff3nsLsqjaYz8wpBypTQaoP53mqF0BVBMZ4P21USCnCywb8sA9
+ bN9g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXlSIQsjt1wwLw99cwpz7K0Pnzpy+iYI4WqMdXnNvSKQY5xwJ+y4n5JIQsuoWjs8+i/jVMf/XZ4+vkyzdxR02bZ50miDNBYKMaMixrLbMjr
-X-Gm-Message-State: AOJu0YzKQPXBF6v4/s051Z8437TuYUqHQ5AzJexGF8KdVg8+DWGelADj
- N5mtX8u0pc+OWrqlWNKOT+xJO03BN7qmbwqQzhCMzn3q9UgLfrqob74fRPWjZzA=
-X-Google-Smtp-Source: AGHT+IG6ht8A62Pw8rpZ+11aDKYrmTFdH9Ws+Mkt+G2M8qmauAinc4sUedcPWhjbBE/5JRI3fEDVTw==
-X-Received: by 2002:a05:6512:1110:b0:51f:9a88:be2a with SMTP id
- 2adb3069b0e04-52ba229b339mr980152e87.23.1717508645253; 
- Tue, 04 Jun 2024 06:44:05 -0700 (PDT)
+ AJvYcCUiMGG/IxHLfjf1RreQMS5aeoPZnnXMp5xOrXvtpP/OmI7Ainj3HIEgaj7hJQlVfxNP6n++WGPW2aASnpjGGfUfhVskrOr8b0B9HBsz5R+c
+X-Gm-Message-State: AOJu0Yxn2X8Wfu1zr69K2oegAhFLfjLxdOQWUuPeiqYIweyszXc5IwuY
+ A0ucat2JVUlSvsIk2am4y5jWsVn5R0LmDaBPU8q5P3AcpbODoWedmPhm89b45OU=
+X-Google-Smtp-Source: AGHT+IFjdDAasq2jJous5ofmbY6kDP9p2KSr9f2oZG4CUsK3cc1cYhrCYj1n8+p3q7ghwpMRb0/X+Q==
+X-Received: by 2002:ac2:4822:0:b0:51a:d08d:bab4 with SMTP id
+ 2adb3069b0e04-52b896bea15mr9359093e87.55.1717508666890; 
+ Tue, 04 Jun 2024 06:44:26 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52b84d3f149sm1489949e87.74.2024.06.04.06.44.04
+ 2adb3069b0e04-52b9ae898d1sm568437e87.246.2024.06.04.06.44.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jun 2024 06:44:04 -0700 (PDT)
-Date: Tue, 4 Jun 2024 16:44:03 +0300
+ Tue, 04 Jun 2024 06:44:26 -0700 (PDT)
+Date: Tue, 4 Jun 2024 16:44:24 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: noralf@tronnes.org
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -72,16 +72,15 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-Subject: Re: [PATCH v4 3/5] drm/mipi-dbi: Make bits per word configurable for
- pixel transfers
-Message-ID: <ogplcvwjc7rkonyjoiz6kbxcydzlelokguguil2aghapgey6uv@ltfjdxyd5xaz>
+Subject: Re: [PATCH v4 4/5] drm/mipi-dbi: Add support for DRM_FORMAT_RGB888
+Message-ID: <ngney3w6vrnnfcpbq64d5pffc7zjw6hobu7fhmsqoke2zuq5tm@kdwfe3rwqjwq>
 References: <20240604-panel-mipi-dbi-rgb666-v4-0-d7c2bcb9b78d@tronnes.org>
- <20240604-panel-mipi-dbi-rgb666-v4-3-d7c2bcb9b78d@tronnes.org>
+ <20240604-panel-mipi-dbi-rgb666-v4-4-d7c2bcb9b78d@tronnes.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240604-panel-mipi-dbi-rgb666-v4-3-d7c2bcb9b78d@tronnes.org>
+In-Reply-To: <20240604-panel-mipi-dbi-rgb666-v4-4-d7c2bcb9b78d@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,32 +96,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 04, 2024 at 03:20:30PM +0200, Noralf Trønnes via B4 Relay wrote:
+On Tue, Jun 04, 2024 at 03:20:31PM +0200, Noralf Trønnes via B4 Relay wrote:
 > From: Noralf Trønnes <noralf@tronnes.org>
 > 
-> MIPI DCS write/set commands have 8 bit parameters except for the
-> write_memory commands where it depends on the pixel format.
-> drm_mipi_dbi does currently only support RGB565 which is 16-bit and it
-> has to make sure that the pixels enters the SPI bus in big endian format
-> since the MIPI DBI spec doesn't have support for little endian.
+> DRM_FORMAT_RGB888 is 24 bits per pixel and it would be natural to send it
+> on the SPI bus using a 24 bits per word transfer. The problem with this
+> is that not all SPI controllers support 24 bpw.
 > 
-> drm_mipi_dbi is optimized for DBI interface option 3 which means that the
-> 16-bit bytes are swapped by the upper layer if the SPI bus does not
-> support 16 bits per word, signified by the swap_bytes member.
+> Since DRM_FORMAT_RGB888 is stored in memory as little endian and the SPI
+> bus is big endian we use 8 bpw to always get the same pixel format on the
+> bus: b8g8r8.
 > 
-> In order to support both 16-bit and 24-bit pixel transfers we need a way
-> to tell the DBI command layer the format of the buffer. Add a
-> write_memory_bpw member that the upper layer can use to tell how many
-> bits per word to use for the SPI transfer.
+> The MIPI DCS specification lists the standard commands that can be sent
+> over the MIPI DBI interface. The set_address_mode (36h) command has one
+> bit in the parameter that controls RGB/BGR order. This means that the
+> controller can be configured to receive the pixel as BGR.
+> 
+> RGB888 is rarely supported on these controllers but RGB666 is very common.
+> All datasheets I have seen do at least support the pixel format option
+> where each color is sent as one byte and the 6 MSB's are used.
+> 
+> All this put together means that we can send each pixel as b8g8r8 and an
+> RGB666 capable controller sees this as b6x2g6x2r6x2.
 > 
 > v4:
-> - Expand the commit message (Dmitry)
+> - s/emulation_format/pixel_format/ (Dmitry)
 > 
 > Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
 > ---
->  drivers/gpu/drm/drm_mipi_dbi.c | 14 ++++++++++----
+>  drivers/gpu/drm/drm_mipi_dbi.c | 29 +++++++++++++++++++++++++----
 >  include/drm/drm_mipi_dbi.h     |  5 +++++
->  2 files changed, 15 insertions(+), 4 deletions(-)
+>  2 files changed, 30 insertions(+), 4 deletions(-)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
