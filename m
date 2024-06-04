@@ -2,86 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983778FB959
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 18:45:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF058FB95C
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 18:45:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBBC810E55F;
-	Tue,  4 Jun 2024 16:45:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2989110E56A;
+	Tue,  4 Jun 2024 16:45:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="bAWgCigQ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NlKNpiFM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com
- [209.85.160.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 915FB10E55F
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 16:45:02 +0000 (UTC)
-Received: by mail-oa1-f53.google.com with SMTP id
- 586e51a60fabf-250b1549b97so1827372fac.1
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 09:45:02 -0700 (PDT)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E44E10E59D;
+ Tue,  4 Jun 2024 16:45:30 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id
+ 98e67ed59e1d1-2c24109aca8so1694521a91.1; 
+ Tue, 04 Jun 2024 09:45:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1717519501; x=1718124301; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=13DrUW0wsjFsOLQQnsi9knf7av4PrVRrLk1t14myUlc=;
- b=bAWgCigQWx0uVI53QZygaEpGSaE8GnAJGjimCkyWoRFYo+FxvSm2j6Uz+aX0Pj1STq
- +9KDjgmzjIgxT6bF6oNfduqCe3IjRjbIIw+SnudmMhIxkbnmJDhGXx1+I2o/VpgImZKl
- pVq+6IIhcx5ee+9WSnqEeeHohxa+SAL8Zl3LccU0VwwbStF3RJdEGbwLmIFzwbQHhsim
- EVzeZUDqUr04WrRGODmZwf9uy70LA1FYQZZxHSaZQln+PiBY3lL0xRSpeLypQMHYmyUG
- pKnOpXY81Sek3f07B/c36wLnjoGIDevkxFLvKO9aRiaaUQmy3+dpd044fTRC6IPKmA5C
- /OjQ==
+ d=gmail.com; s=20230601; t=1717519530; x=1718124330; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QecifVAR+tvBUqTJQdxCWnDSVIat9xStXa2bm/K4Dng=;
+ b=NlKNpiFMlW4sC822kI1YhXPc/fUhGBkp3OSrO+POxc0luJtUBqgCJLNhLmzRDpjmfR
+ 51Xh4DqBYHoiKihh7lHLhinxHshJniyInqb7II+T/ES2zPfTlmfzOrHWkFhUI4fS3F2Z
+ 6zYYtjZOg2qPU68GjDIBJxlgitHjHFEO0Dtt8ix6cUrvmBU38IfbNRgyIyHbz8JUj5jK
+ Lh9umuWw/I+OkAqSOyvuyu0sTv1qhvJeX3uxS5ad5xUk7FQpneaV0BMRbtAzaUkk4V3j
+ 8l9W9bWZMDrBFC/akWw90ZL70Jo14GwgYeXKb6qHfXZc2opqJ/gp2C23AJpOw6E+/nay
+ tcQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717519501; x=1718124301;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=13DrUW0wsjFsOLQQnsi9knf7av4PrVRrLk1t14myUlc=;
- b=fyYRHnSkZ7Ijk7Di5ktIkvHkS3SOUsIVeKQNHByfnJooUAghrfnVsmT+hai6BnJXIj
- 8F94JPXPBla57Rn5yA3kIhuavTNDKackazYV8LbIwWukmILxqBqOftOkKN2mWuwwagcH
- IBb9u++ut7X5VKKJ9tX//l71w2w6gCJvR+BU7rf6IgUPRdNlJ8daZp1cHlSAK6Nn1ouG
- v73FYhx6cm0bG6IEVDY5Gv9GiPitngoidq5Y5maJ/exstVFCzQmbwtjv5ZYN54w2ZUe9
- jceZD+uUcoiNySxBbNLvJfSroUdl8jgAHEuWd5VizzneaeeCZCbHE822KM1RmmuWyIB3
- anvA==
+ d=1e100.net; s=20230601; t=1717519530; x=1718124330;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QecifVAR+tvBUqTJQdxCWnDSVIat9xStXa2bm/K4Dng=;
+ b=miRJo2aNADy7NluXoZj5qGs4YaIlaxUh1kqb0K8PUxR2KcRASpkTEhu0QB7kmiF6LK
+ pM018pg0aONptesDQjiq6SVnUyBuPkKaGmzn0vgTjiVCWQ20aQ8elv54Gc5YvSXOy4Q1
+ WT9bMhxg6UhDh88UP/yd7iciPB7B7MbEb7B+2MJ3O3T9wu8ueMqsMn7di+g2mq48CVfe
+ eYfEsGbMSU5LUPgHYJvm19xODxzdhT32Kw9BCMvU3+g8gJ1jszh1J9A8KqovY3Ued7Yd
+ VEzEVrycTXnCJdHWOi2BFkMa10mowAExbmTgFCfTJc/VGsBqvReMDRHY1rJuW6mJGpRH
+ /Sdg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXMkhDtzbul4t65xr2XyHL0ktw58fSdTARhOeJnusL3s2UjAPnOWImOs7p7IP/PSpWAlGy06o5oTPJi/ehlVOEtik++ajDo26Q4WkxWRVgy
-X-Gm-Message-State: AOJu0YxCokwmCVEgFQmeoHrvLsYx2WuL47kAvexNMXRTCgPvN1Nh+ghm
- j5nnzoPWu7J99zez6lID0RdgCpoaBqcEJ1KeaccDfcee4y0E6yAvGz8dnYcp78o=
-X-Google-Smtp-Source: AGHT+IEfas1lnZdFNBRgqZxmKWv2oXN51AWEQ8aiqFcaC4Ca/kraXgYuVuAGXMg9aTheAhe7N7CZog==
-X-Received: by 2002:a05:6870:4708:b0:24f:f297:3ff7 with SMTP id
- 586e51a60fabf-25122a6d964mr33165fac.38.1717519501608; 
- Tue, 04 Jun 2024 09:45:01 -0700 (PDT)
-Received: from ziepe.ca ([128.77.69.89]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-44009a2902csm30190921cf.38.2024.06.04.09.45.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jun 2024 09:45:00 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
- (envelope-from <jgg@ziepe.ca>) id 1sEXHP-002tE6-4C;
- Tue, 04 Jun 2024 13:44:59 -0300
-Date: Tue, 4 Jun 2024 13:44:59 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Kevin Tian <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Kalle Valo <kvalo@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>, mst@redhat.com,
- Jason Wang <jasowang@redhat.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, iommu@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 15/22] RDMA/usnic: Use iommu_paging_domain_alloc()
-Message-ID: <20240604164459.GC21513@ziepe.ca>
-References: <20240604015134.164206-1-baolu.lu@linux.intel.com>
- <20240604015134.164206-16-baolu.lu@linux.intel.com>
+ AJvYcCUjInV3ca4feL25uut/7gsx86QAkyGGr9FTbGBgDs9A+snWWAkQtseunvrFEdOEMKRtLwUiBUhnTdi/InRufSUxExq58CCDj5ZRr5hVmFJCo2Pp0+L9mhDK2nfTT3UNcAnmHN6ntrO/SLGXOXJEm2Gm
+X-Gm-Message-State: AOJu0YyNgpKESSOyqP9keVKuQ3U8sJ8CJ4YzSZMH+2dhoh4Fw36Y82yy
+ t2RhfdRic75jxhpw8YzG2fIARPOM4wVDiA+YpyVepcr3m/F3Yv5MWUz08LX4SHSEr7I/Al8S1oo
+ M6HiiREqyNP5ikxwUI8BNItW45IE=
+X-Google-Smtp-Source: AGHT+IFCTYi81ohxmB4GHF8R5ig10gXlGw/VXeg6Zyu7SRlO2MnRd3LHAj40rLREbkSJw9Vw999N2GkMUnudzwyOxwY=
+X-Received: by 2002:a17:90b:30c2:b0:2bf:9566:7c58 with SMTP id
+ 98e67ed59e1d1-2c1dc5d2962mr11454075a91.41.1717519530143; Tue, 04 Jun 2024
+ 09:45:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240604015134.164206-16-baolu.lu@linux.intel.com>
+References: <20240604-a505-v1-1-82ee1c04d200@gmail.com>
+ <49fe3b01-4f00-4ffc-80cf-2a0add1ebaad@linaro.org>
+ <CAGsSOWV=i2JHsYNvi5EC6q=NoD8v7SiTjbVQhTDLNw35+irTCQ@mail.gmail.com>
+In-Reply-To: <CAGsSOWV=i2JHsYNvi5EC6q=NoD8v7SiTjbVQhTDLNw35+irTCQ@mail.gmail.com>
+From: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>
+Date: Tue, 4 Jun 2024 18:45:19 +0200
+Message-ID: <CAGsSOWV9SRK1VUJiQfavEM1hL0PapxUBG6CNeD+Q=0qPT5ZnSA@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/adreno: Add support for Adreno 505 GPU
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Daniil Titov <daniilt971@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,17 +87,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 04, 2024 at 09:51:27AM +0800, Lu Baolu wrote:
-> usnic_uiom_alloc_pd() allocates a paging domain for a given device.
-> In this case, iommu_domain_alloc(dev->bus) is equivalent to 
-> iommu_paging_domain_alloc(dev). Replace it as iommu_domain_alloc()
-> has been deprecated.
-> 
-> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
-> ---
->  drivers/infiniband/hw/usnic/usnic_uiom.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-
-Acked-by: Jason Gunthorpe <jgg@nvidia.com>
-
-Jason
+On Tue, Jun 4, 2024 at 2:27=E2=80=AFPM Barnab=C3=A1s Cz=C3=A9m=C3=A1n <trab=
+arni@gmail.com> wrote:
+>
+> On Tue, Jun 4, 2024 at 1:55=E2=80=AFPM Konrad Dybcio <konrad.dybcio@linar=
+o.org> wrote:
+> >
+> >
+> >
+> > On 6/4/24 02:20, Barnab=C3=A1s Cz=C3=A9m=C3=A1n wrote:
+> > > From: Daniil Titov <daniilt971@gmail.com>
+> > >
+> > > This GPU is found on SoCs such as MSM8937 (450 MHz), MSM8940 (475 MHz=
+),
+> > > SDM439 (650 MHz).
+> > >
+> > > Signed-off-by: Daniil Titov <daniilt971@gmail.com>
+> > > Signed-off-by: Barnab=C3=A1s Cz=C3=A9m=C3=A1n <trabarni@gmail.com>
+> > > ---
+> >
+> > This all looks very good, just a nit
+> >
+> > [...]
+> >
+> > > +             /*
+> > > +              * Increase inactive period to 250 to avoid bouncing
+> > > +              * the GDSC which appears to make it grumpy
+> > > +              */
+> > > +             .inactive_period =3D 250,
+> >
+> > Are you sure this is actually necessary?
+> Every A5XX GPU is using the same value, but i have never tried with
+> DRM_MSM_INACTIVE_PERIOD.
+This was the original patch
+https://lore.kernel.org/all/20180507224750.9383-1-jcrouse@codeaurora.org/
+where the inactive period was increased for a530. I cannot test
+suspend on msm8937 yet.
+I can check on msm8953 with a506 maybe if a506 works fine with
+DRM_MSM_INACTIVE_PERIOD
+then a505 would be fine with it also.
+>
+> >
+> > Konrad
