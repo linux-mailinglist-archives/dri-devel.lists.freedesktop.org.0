@@ -2,63 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4418FB536
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 16:27:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE89D8FB5BA
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 16:41:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E789710E497;
-	Tue,  4 Jun 2024 14:27:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4491510E1D4;
+	Tue,  4 Jun 2024 14:41:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Jhz2Epqk";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OQUvskLU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B4EB10E497
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 14:27:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C55D10E49F;
+ Tue,  4 Jun 2024 14:41:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 514066130F
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 14:27:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 247D3C2BBFC
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 14:27:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9143D61299;
+ Tue,  4 Jun 2024 14:41:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93555C2BBFC;
+ Tue,  4 Jun 2024 14:40:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717511228;
- bh=LCLdaiwRwiKBrM/QLYdXoxfCcPWBk+nappsfFMPW6ps=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Jhz2Epqkxp8Y1MIigCbnrUb1MIcvtNdjUAEubAY0o9UuWbluy44ILfXgK3SHaSbNX
- M4jnUOuGN70M0tbTeSB39XAPViNrkC16yzur2yIPEIHOaLTa4/a11ZRhlDmgHyfaLn
- eNnysH4xiHU0n/+KxHyQmH2aJAfXKTzbbD8uXpmQOufGkuuR+skcR/ZNGTUW35x4Fr
- v9/kBD8vbHBq6vrxf35xDdR5Gv/M+f5HABpfng9Kaf+CBtHVlAc0hVMIZUJBCYjS1a
- AoP58WkMtg/n/RietCpxBOuOePae9pz/E5pxWsjM6ixbxX8ucsb/kribvJVx0T68gG
- ludq5CFhiz7Hw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 1E5ABC53B50; Tue,  4 Jun 2024 14:27:08 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201957] amdgpu: ring gfx timeout
-Date: Tue, 04 Jun 2024 14:27:04 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: mario.limonciello@amd.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-201957-2300-h1maL9AGDm@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
-References: <bug-201957-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1717512062;
+ bh=mMQkWVSXbYBsdOLYmzi5KmcMzPAUaVKm50X4Xsw56ak=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OQUvskLUvAt55dCN/pmYncolyVzQuWF9dIVGfKa0pBA+K25Oitp9cCR0TaJfjAF1Q
+ tC1lkodyEZ1uKzduXA77TZPeRyAB3dnPXYtZN3GCIR/FjJmK0bp0HrMRFPlgnsliRE
+ 9dCqASCJsTU1nWSGRc2BNKXaWuEe0cQX1Skz+Yob3gtgxVqVy8veZPMl0cqlp1taW6
+ gU1Vfna8PrJUGo6Rp9vow6MUPsuQmY+vqC65KgDqr6C0qo5TH3OufTgaxEppC6Ongy
+ XQn2NY3KUcZKI6kYTFIxGMqUP7jPzB+VAvWreSh0jtFha1d+ufyadgliZynsXkmG8f
+ OtoQPMZbd3lng==
+Date: Tue, 4 Jun 2024 15:40:56 +0100
+From: Will Deacon <will@kernel.org>
+To: Andrew Halaney <ahalaney@redhat.com>
+Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/msm/adreno: De-spaghettify the use of memory barriers
+Message-ID: <20240604144055.GE20384@willie-the-truck>
+References: <20240508-topic-adreno-v1-1-1babd05c119d@linaro.org>
+ <20240514183849.6lpyplifero5u35r@hu-akhilpo-hyd.qualcomm.com>
+ <ae4a77wt3kc73ejshptldqx6ugzrqguyq7etbbu54y4avhbdlt@qyt4r6gma7ev>
+ <20240516145005.gdksmvxp35m45ifh@hu-akhilpo-hyd.qualcomm.com>
+ <5vyrmxvkurdstqfiatxfqcqljwyiswda2vpkea27ighb2eqbav@n24yzdykbc23>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5vyrmxvkurdstqfiatxfqcqljwyiswda2vpkea27ighb2eqbav@n24yzdykbc23>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,20 +70,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
+On Thu, May 16, 2024 at 01:55:26PM -0500, Andrew Halaney wrote:
+> On Thu, May 16, 2024 at 08:20:05PM GMT, Akhil P Oommen wrote:
+> > On Thu, May 16, 2024 at 08:15:34AM -0500, Andrew Halaney wrote:
+> > > If I understand correctly, you don't need any memory barrier.
+> > > writel()/readl()'s are ordered to the same endpoint. That goes for all
+> > > the reordering/barrier comments mentioned below too.
+> > > 
+> > > device-io.rst:
+> > > 
+> > >     The read and write functions are defined to be ordered. That is the
+> > >     compiler is not permitted to reorder the I/O sequence. When the ordering
+> > >     can be compiler optimised, you can use __readb() and friends to
+> > >     indicate the relaxed ordering. Use this with care.
+> > > 
+> > > memory-barriers.txt:
+> > > 
+> > >      (*) readX(), writeX():
+> > > 
+> > > 	    The readX() and writeX() MMIO accessors take a pointer to the
+> > > 	    peripheral being accessed as an __iomem * parameter. For pointers
+> > > 	    mapped with the default I/O attributes (e.g. those returned by
+> > > 	    ioremap()), the ordering guarantees are as follows:
+> > > 
+> > > 	    1. All readX() and writeX() accesses to the same peripheral are ordered
+> > > 	       with respect to each other. This ensures that MMIO register accesses
+> > > 	       by the same CPU thread to a particular device will arrive in program
+> > > 	       order.
+> > > 
+> > 
+> > In arm64, a writel followed by readl translates to roughly the following
+> > sequence: dmb_wmb(), __raw_writel(), __raw_readl(), dmb_rmb(). I am not
+> > sure what is stopping compiler from reordering  __raw_writel() and __raw_readl()
+> > above? I am assuming iomem cookie is ignored during compilation.
+> 
+> It seems to me that is due to some usage of volatile there in
+> __raw_writel() etc, but to be honest after reading about volatile and
+> some threads from gcc mailing lists, I don't have a confident answer :)
+> 
+> > 
+> > Added Will to this thread if he can throw some light on this.
+> 
+> Hopefully Will can school us.
 
---- Comment #101 from Mario Limonciello (AMD) (mario.limonciello@amd.com) -=
---
-#100:
+The ordering in this case is ensured by the memory attributes used for
+ioremap(). When an MMIO region is mapped using Device-nGnRE attributes
+(as it the case for ioremap()), the "nR" part means "no reordering", so
+readX() and writeX() to that region are ordered wrt each other.
 
-You have a GFX10 product, this is not affected by amdgpu.mcbp=3D0/1.  That'=
-s only
-for GFX9.  Please open your own issue for it.  Also in the kernel bug track=
-er
-please only report issues with mainline kernels.  6.8 is already EoL.
+Note that guarantee _doesn't_ apply to other flavours of ioremap(), so
+e.g. ioremap_wc() won't give you the ordering.
 
---=20
-You may reply to this email to add a comment.
+Hope that helps,
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Will
