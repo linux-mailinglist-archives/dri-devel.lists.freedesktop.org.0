@@ -2,84 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 923928FA920
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 06:22:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A974D8FA975
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 07:05:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A122610E41D;
-	Tue,  4 Jun 2024 04:22:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7E5310E424;
+	Tue,  4 Jun 2024 05:05:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="LQzipQbA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MvFjUX9z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D472B10E41D
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 04:21:59 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-52b82d57963so5203765e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jun 2024 21:21:59 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
+ [209.85.219.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14D8110E319;
+ Tue,  4 Jun 2024 05:05:00 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id
+ 3f1490d57ef6-dfa5c4fb6e5so596150276.2; 
+ Mon, 03 Jun 2024 22:05:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1717474918; x=1718079718;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1717477500; x=1718082300; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sZTkPdaoUs8jQNyMlsxEd3PQVY77PvdNJflZvZlG4XM=;
- b=LQzipQbAgN7dvCqEzyBxWmebytzb9nxKGYDModyJrXBJQ9KNHwdAZReWGM0NHaBJLf
- PNWNKIBespI3Y8OOxDtuwIlSWHiEBDX2ZFss2nzTXf0ktNGK2Avi2LPHbxTwB5FXoe4W
- BjVwgWs+1AfKP69wsnehoib7hb2uiWnDb87Nw=
+ bh=/rdTDs4hgwusMN7HjgrC/GqmSUqafBHHaPPQoRHzBBI=;
+ b=MvFjUX9zCy2nrKrZULDPG5sBT3NRqlcVKflpByx0sWup51buyQ74J26f6ruPpZPHvj
+ zuIVBITpKF/xcfV3gShrbsVPaMfIw24qrqrydtQygH3VcK+Oy4fd6RHJmZ9qXXg7S5AH
+ JjiqKlL2WniSMpb4aupKQ1RsgiuM6sWjKNvYnHA87tnO6bIYHoOC/zFeKN953RaaarTL
+ DvR3bEENsLes+6f//n3gsTt5Q8dBy94sB0eAOjH7RsxOW/9kWaCCV3WuK7HT3SvLMYJu
+ nIMtHUh+Q2UZD9Cb+pq4moZ8FM+vK7NrrYqTEnw1s9AJho7M5lzbcTf/wN2FwstHj7R3
+ 9fcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717474918; x=1718079718;
+ d=1e100.net; s=20230601; t=1717477500; x=1718082300;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sZTkPdaoUs8jQNyMlsxEd3PQVY77PvdNJflZvZlG4XM=;
- b=A56FLm80YLR5QHBknf8abQYgpeaHjRRhtEkWCVwbIPGUAUUnvs4d8sEBRVK7JvYlwc
- okRy/HsoviweiUs/a/GJwYCnly3IAbLIV03l9r5DlMUmGu+KRbwCIbqJjJdgWn4X7OPh
- u3THp4LszOY5uXBNCiwRtv0OGSDA/vUVYLn3SKYP5dQshywvTdT70+bQSgRcTBrLnj9X
- bRBW+gycAnjr3oV5VJYEECEm/aCAClYuXa4KoAUV7NMylZRm8IBEGFLI7fzKiRY+WKyE
- iCBOwnt5kg9lDeWNWx1djDEvGovqqHUSLD61I33rCThbdGAczv41Tjl5q4a0X4pUsirn
- /e3Q==
+ bh=/rdTDs4hgwusMN7HjgrC/GqmSUqafBHHaPPQoRHzBBI=;
+ b=SVyGfl/ukjHQ6lmu9XiVAb6pFpEWD5/ePVtYrhgcK9J9bywTP0p5BAjovIYtexWvGD
+ DXZC82bjnu+KbPGJd23uNnUhQuhSWa26AtZbcG80IdR05AGsTKotlbAsY0ttsuJREAIN
+ 0GJZIimoJCmcM4ctyo3+F1u1+KzliFxy3DE6oX2VKyA4YAJIVhim4WQHqHaVf525GZnK
+ 6r1eFqdF5EipzcD7UmU5VMDRIU3VgA66epQbl4vPIFzHLoDNkJwh92L3qE/lEb5OlEk7
+ Jc/1poqlGbiF1b5BJC3UDyEWrxEoEpbirNzO4U8w5g4SILx1u0vto9wLamY1sVheObWb
+ EBDQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU8wiSWFvT7WmDEVE4mAG6TL3wz1gPRGWrBDvVXL7KbSClp8OM2ooTqcXUbmh8BMq687Rl+ZHbpPM19/g4JiV1zw3lBurz+P8MTXuS/zKBO
-X-Gm-Message-State: AOJu0YyOk/C/yNyrefmgMHQ9ZKkcm3Hw4fFAzBTD0Gve/yMY05A24qH9
- d9U4qTNy6mUR7I2mAlMI4FZfV7xoDHa+4UlQEixQkHaBhGTHuLYMQqKvAOIIWst2LLahJ5csocc
- x9X2EUzHPFdbaXECtTWRciDm7h58AaAkez6pA
-X-Google-Smtp-Source: AGHT+IGDgg2+V5eJ8x467mxNrV7nhwIMgXm1gR49RnrnhPkROZN8HdeL71iXvR/Wj+N6cLD7tGCc7y6sYjgN44bSwNQ=
-X-Received: by 2002:a19:5f53:0:b0:51d:5f0b:816f with SMTP id
- 2adb3069b0e04-52b89590e7cmr5639078e87.15.1717474917527; Mon, 03 Jun 2024
- 21:21:57 -0700 (PDT)
+ AJvYcCUoZXEEFg5O1M+JbboQtajdVt/xe7IpBcigoCUc4tpU0lkbyVw2mYm9yR1HzZ1lgViemDMav6eklCC+AzCuYtgm/MYuTvwS7zFSVY2cVsl44anbbCLzrif50chHJwJ4uSvyK95PtWvcH+JwRir+Dw==
+X-Gm-Message-State: AOJu0Ywk6ChrTz8raF8tQgk4f5l2JzZw27gEjmldbIE7XZ15Sb6Sradz
+ 3ND0wgdTwu61nh6a7CyDO+QkVpZGN6v6+9QF5azVytNolldZdzX+cUChe6BUQKD+m1tKMwihGyk
+ bCgXsQPSRgy9rYQJMfzCHK6kUtTw=
+X-Google-Smtp-Source: AGHT+IFC73Lv9UOogeJX2P9V3Saoj7ztmD07vUjK+txAz9VraaHiwJNLw/ON4EUQCOmYIyTGwjpcVty3afwCyxXhJTs=
+X-Received: by 2002:a05:6902:200d:b0:dfa:4ce6:d7a2 with SMTP id
+ 3f1490d57ef6-dfab9e6580emr1134766276.6.1717477499721; Mon, 03 Jun 2024
+ 22:04:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240530083513.4135052-1-wenst@chromium.org>
- <20240530083513.4135052-4-wenst@chromium.org>
- <cc5847a486a760921375f069a4f65cd29453a624.camel@imgtec.com>
- <CAHCN7xJ7X9_yNJa7-HyU=FzN2G1cV8i9R+PoTHm-DKyiOPenUQ@mail.gmail.com>
-In-Reply-To: <CAHCN7xJ7X9_yNJa7-HyU=FzN2G1cV8i9R+PoTHm-DKyiOPenUQ@mail.gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 4 Jun 2024 12:21:46 +0800
-Message-ID: <CAGXv+5GeWpBaFw89KsKyQi4t+Wjh=+58UQ7hyPaLM6pwGELiVA@mail.gmail.com>
-Subject: Re: [PATCH 3/6] dt-bindings: gpu: powervr-rogue: Add MediaTek MT8173
- GPU
-To: Adam Ford <aford173@gmail.com>
-Cc: Frank Binns <Frank.Binns@imgtec.com>, 
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, 
- Matt Coster <Matt.Coster@imgtec.com>, "sboyd@kernel.org" <sboyd@kernel.org>, 
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
- "mripard@kernel.org" <mripard@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>, 
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, 
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
+References: <20240531053704.2009827-1-olvaffe@gmail.com>
+ <ZlmQ3_wcL3cgp4Hb@smile.fi.intel.com>
+ <CAPaKu7SsD+X7KAO=3vEYU_7YGM_f+7k1fdC9nEK=-NaJw8oYaA@mail.gmail.com>
+ <Zlw1_n20oqchAYxH@smile.fi.intel.com>
+ <783e9d9a-e408-c6f0-9a4b-050e1979b919@linux.intel.com>
+In-Reply-To: <783e9d9a-e408-c6f0-9a4b-050e1979b919@linux.intel.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Mon, 3 Jun 2024 22:04:49 -0700
+Message-ID: <CAPaKu7R8avTfAZq-V5H6t6AKAGG1kGbdNK019-DQ5sOR=UOo-w@mail.gmail.com>
+Subject: Re: [PATCH] kernel/resource: optimize find_next_iomem_res
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com, 
+ alexander.deucher@amd.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Alison Schofield <alison.schofield@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>, 
+ Baoquan He <bhe@redhat.com>, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,137 +88,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 31, 2024 at 10:25=E2=80=AFPM Adam Ford <aford173@gmail.com> wro=
-te:
+On Mon, Jun 3, 2024 at 12:24=E2=80=AFAM Ilpo J=C3=A4rvinen
+<ilpo.jarvinen@linux.intel.com> wrote:
 >
-> On Fri, May 31, 2024 at 8:37=E2=80=AFAM Frank Binns <Frank.Binns@imgtec.c=
-om> wrote:
-> >
-> > Hi ChenYu,
-> >
-> > On Thu, 2024-05-30 at 16:35 +0800, Chen-Yu Tsai wrote:
-> > > The MediaTek MT8173 comes with a PowerVR Rogue GX6250, which is one
-> > > of the Series6XT GPUs, another sub-family of the Rogue family.
-> >
-> > I've added Adam Ford who sent out some DT related patches [1] for the R=
-enesas
-> > variant of GX6250 and the GX6650 (another Series6XT GPU).
-> >
+> On Sun, 2 Jun 2024, Andy Shevchenko wrote:
 >
-> Thanks for including me.
+> > On Fri, May 31, 2024 at 02:31:45PM -0700, Chia-I Wu wrote:
+> > > On Fri, May 31, 2024 at 1:57=E2=80=AFAM Andy Shevchenko <
+> > > andriy.shevchenko@linux.intel.com> wrote:
+> > > > On Thu, May 30, 2024 at 10:36:57PM -0700, Chia-I Wu wrote:
+> >
+> > ...
+> >
+> > > > P.S> I'm not so sure about this change. It needs a thoroughly testi=
+ng, esp.
+> > > > in PCI case. Cc'ing to Ilpo.
+> >
+> > > What's special about PCI?
+> >
+> > PCI, due to its nature, may rebuild resources either by shrinking or ex=
+panding
+> > of the entire subtree after the PCI bridge in question. And this may ha=
+ppen at
+> > run-time due to hotplug support. But I'm not a deep expert in this area=
+, Ilpo
+> > knows much more than me.
 >
-> > >
-> > > This was part of the very first few versions of the PowerVR submissio=
-n,
-> > > but was later dropped. The compatible string has been updated to foll=
-ow
-> > > the new naming scheme adopted for the AXE series.
-> > >
-> > > In a previous iteration of the PowerVR binding submission [1], the
-> > > number of clocks required for the 6XT family was mentioned to be
-> > > always 3. This is also reflected here.
-> > >
-> > > [1] https://lore.kernel.org/dri-devel/6eeccb26e09aad67fb30ffcd523c793=
-a43c79c2a.camel@imgtec.com/
-> > >
-> > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > > ---
-> > >  .../bindings/gpu/img,powervr-rogue.yaml       | 24 +++++++++++++++--=
---
-> > >  1 file changed, 20 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.=
-yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> > > index 256e252f8087..48aa205b66b4 100644
-> > > --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> > > +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> > > @@ -12,10 +12,17 @@ maintainers:
-> > >
-> > >  properties:
-> > >    compatible:
-> > > -    items:
-> > > -      - enum:
-> > > -          - ti,am62-gpu
-> > > -      - const: img,img-axe # IMG AXE GPU model/revision is fully dis=
-coverable
-> > > +    oneOf:
-> > > +      - items:
-> > > +          - enum:
-> > > +              - mediatek,mt8173-gpu
-> > > +          # PowerVR 6XT GPU model/revision is fully discoverable
-> > > +          - const: img,powervr-6xt
-> > > +      - items:
-> > > +          - enum:
-> > > +              - ti,am62-gpu
-> > > +          # IMG AXE GPU model/revision is fully discoverable
-> > > +          - const: img,img-axe
-> >
-> > The Series6XT GPU models have differing numbers of power domains (eithe=
-r 2, 4 or
-> > 5). Whereas, the AXE GPUs have a single power domain, so I assume there=
- should
-> > be a related change here.
-> >
-> > The GX6250 has two power domains (lets call them A and B). There's a co=
-nstraint
-> > that if domain B is powered then domain A must also be powered.
-> >
-> > In patch 6 [2] it's setting the power domain to MT8173_POWER_DOMAIN_MFG=
-, which I
-> > believe corresponds to power domain B. I assume this works because the =
-MTK power
-> > controller driver is encoding the constraint above, meaning that when w=
-e disable
-> > or enable MT8173_POWER_DOMAIN_MFG it's also disabling/enabling MT8173_P=
-OWER_DOMA
-> > IN_MFG_2D (domain A).
-> >
+> There is code which clearly tries to do expanding resource but that
+> usually fails to work as intended because of a parent resource whose size
+> is fixed because it's already assigned.
 >
-> In the cover letter of this series, it was noted that the GPU
-> enumerates, but it doesn' fully function yet.  This is also the case
-> for both of the Renesas variants I have been testing, and I was nicely
-> asked to postpone my series until the driver was closer to being
-> ready.
-
-Yeah. Frank laid out the current state of GX6250 support and future plans
-in his reply to the clk driver patch.
-
-> Even if the driver isn't ready yet, it would be nice to move the
-> bindings forward.
-
-Agreed. It would be nice to have an agreed upon set of bindings. We
-can then move our downstream stuff comply with it.
-
-
-Thanks
-ChenYu
-
-> adam
+> Some other code might block shrinking too under certain conditions.
 >
-> > Thanks
-> > Frank
-> >
-> > [1] https://lists.freedesktop.org/archives/dri-devel/2024-February/4435=
-48.html
-> > [2] https://lists.freedesktop.org/archives/dri-devel/2024-May/455833.ht=
-ml
-> >
-> > >
-> > >    reg:
-> > >      maxItems: 1
-> > > @@ -56,6 +63,15 @@ allOf:
-> > >        properties:
-> > >          clocks:
-> > >            maxItems: 1
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          contains:
-> > > +            const: img,powervr-6xt
-> > > +    then:
-> > > +      properties:
-> > > +        clocks:
-> > > +          minItems: 3
-> > >
-> > >  examples:
-> > >    - |
+> This area would need to be reworked in PCI core but it's massive and
+> scary looking change.
+Given the nature of this change (skip checking against children when
+the parent does not match), unless a child resource can exceed its
+parent resource, I don't think this change affects correctness.
+
+The walk does not hold the resource lock outside of
+find_next_iomem_res().  Updating the tree while the walk is in
+progress has always been a bit ill-defined.  The patch does not change
+that (but it might change the timing a bit).
+
+I can export __walk_iomem_res_desc() and write some unit tests against
+it.  Would that be enough to justify this change?
+
+>
+> --
+>  i.
