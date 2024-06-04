@@ -2,73 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617B08FBE1F
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 23:37:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 124E18FBE27
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 23:40:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44E3210E0F0;
-	Tue,  4 Jun 2024 21:37:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D31110E2A0;
+	Tue,  4 Jun 2024 21:40:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YGKf0o2z";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JtTDYOjT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ED9C10E0F0;
- Tue,  4 Jun 2024 21:37:50 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-627810d5d13so2512627b3.3; 
- Tue, 04 Jun 2024 14:37:50 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1BCD10E2A0;
+ Tue,  4 Jun 2024 21:40:21 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-421578c546eso917035e9.0; 
+ Tue, 04 Jun 2024 14:40:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1717537069; x=1718141869; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XjLR8zp8xaF9e7AIOZUXaas/fY4uKdUZFyE2m9Eo4uw=;
- b=YGKf0o2zRzUqyLY+DPi3g/PctKj/IOymUe1YoEH2arEy+hKX/hakSmsA+F0jrxpupT
- Lx7/OG9wvQ/mfpCiYgldbEg23FR8BmMdtCxFYaPS3UKjBAdarEm92keDtZ++rcoI3r+O
- 90fWjDX4ask764IOwjDJcf0DV3jclPqTuaugRp8/elf2G7gLHXcsh8cqgYY5jrCstlhW
- KqZaSWQTsmKvNgCeIKVDqzk+JAs2mChODnfCenLkfV5TwTrOuq3AFQOB8doTzIEA8aF8
- g6cIqjcw+vuts0pF2GNqNvmn/OkX/9sl51d4fKmRk6XzjTqqOP+urv6ijeGYgld0PUHl
- NKNA==
+ d=gmail.com; s=20230601; t=1717537220; x=1718142020; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rqq18CXoyGbGnQpbX01uKNmZ4w2EbKsUOPcap/enREU=;
+ b=JtTDYOjTFDpOnsW48R/e1dO6Vwfdbx3y/kWvTMpfQOvzHlu+Dm4jOKaBO6FAdGU+0u
+ 8Z4w05bKXq5iBWLu5asPW41I5GO6xhdt1xsW6xPpqES2cAy1wKl3TLUnLMCh+blzuz0e
+ BoNZLEOoBn0DV93A6JPPPgDcixjvvd4j26M5ymJoyXjlp3q250tOx73GE7qbgZuEXfdb
+ t5Lje6JP+mzd4Bs/t5FK8iCeNCcrzJ+ZWbSnvcO6qDdXiIeEqbM/7ttUniDFjGEKX8et
+ OthWvBOJxyNmOtARw6Qczv9cA5upHONaN/IqR92w2UmI7OrREaPNjzd+K+Y053TU4W19
+ bAPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717537069; x=1718141869;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XjLR8zp8xaF9e7AIOZUXaas/fY4uKdUZFyE2m9Eo4uw=;
- b=laouZmuaA1ciMPypqJ3/lGS/w0/Q3CoWKyotETLvStvG4n6p2s81VTc1oPOVT/3rZR
- ApMsRrVHWejQYiAGOWy7CzicLjUlReXeyXk6RMvRpCeISV5Wo9rWKG3EyKn7lcnhqklg
- zO3uaa+nkPZM4G+fCigQzJVRe+o4zHcz4rvldycZZDjuieTJsuPACH5Ck7vSfFCS99EF
- Q0M+20ks4LGON20KUHZFPjs4ECNx4uJA8cJ6MV7DznhjsYVNdvCsGETqexB6t+/uXJEp
- +DOkEy71SiuW9zVqU5D3KP7npCXS7BFAN8w5owmrR/ylCy8kPHJ5BVvOvHgTtsjzogm4
- 5S0A==
+ d=1e100.net; s=20230601; t=1717537220; x=1718142020;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rqq18CXoyGbGnQpbX01uKNmZ4w2EbKsUOPcap/enREU=;
+ b=O8hciGkJdxRhYnmsfQCU91kWFS3L8LFz6UtwpQrzqZcu3yY4uHxXOFMaEMcxarV6VH
+ P/+3FSZHZkRQvs3MIVqTYjqJINKwjFGaPaTe63/fyLrikH9VSDQmLW1qJ8Z5a/vzGG6C
+ xcrNUKLT0tRshEzcmvf8Vp0wwvnLaVtRUK3vyysXTpoy5jhGfdrewCU4hDAic/QMHx1G
+ w1CxdQOm3rfeXtBLg0JT1Ji/JRdZJJpR0GdgijybAdbTAUDL9qcCUKGQSx6UI0gvaKXi
+ 9ma8Z9Cec5w+njkQi0EN+fc8AqjjFhM4qngnk+f9YJum9RAK8JyPzzzXDFLkIjWSwP5Q
+ v//A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV5yScJHq5ELu6w8Y5IFzp+3iKZwg9AFY7nfiVP+8ad6mPo99Wx3mJpDtg+erkNmH6T8iae43h4aGZ0oM3uF5nWsF/Dhwl94VHXWFWyp0D6
-X-Gm-Message-State: AOJu0Yz17wCur1NYm5rEdlAVMls26AvBCY4cDn2nkGPjVLb/VnPw0NxE
- RUPT4EENUr3U3oBWXIh8G2x6UAKfdWW1OPeJKsNi9yvwycnmaRJerNj0wIyx+s2FxDrEpaxlQ4B
- 8QxJQ3hoLmvBOgEBxugN5+bJfIM8=
-X-Google-Smtp-Source: AGHT+IHMSUsN4L//fguDdOItLcFgQdOi1WGqnEsNTenvRjEawfGT374N9VMZDvhJqxFod7fN9YhFbGo+Smk6gtsoR2U=
-X-Received: by 2002:a05:6902:2507:b0:dfa:705c:6e3e with SMTP id
- 3f1490d57ef6-dfaca7e16b2mr682450276.0.1717537069283; Tue, 04 Jun 2024
- 14:37:49 -0700 (PDT)
+ AJvYcCWu1MPHGL/XgHfmERpfQIDMRe2WPfXNpNkjLydfsfbgwoMChyWKAdjLJH9JU/pr2KsAO59I/J3cd0IxOMjYdRAt+knmWi7YkuaxPx6SXzCG8OruQjHCE3hio2QPhxkcfLHv0YHhzVRs/2mQtRHyi9OG
+X-Gm-Message-State: AOJu0YyyUkpMtG/+AIST1rkC1eWipcHtyojxCUQoqc1Sble6dV0As1C8
+ F7QR4wU4+UTTp7gecBmPV+vZD450yGfNpReVDq6P1YIZyf1LKhgH
+X-Google-Smtp-Source: AGHT+IHpCQ2HAPA1QqPFRWearVj1yS2MowqKgCHg9WOONS+xyrz1IWSdlUNZ7OspAvgXBXnkGD7Bgg==
+X-Received: by 2002:a5d:484a:0:b0:358:4af8:b76e with SMTP id
+ ffacd0b85a97d-35e8ef9437fmr441650f8f.62.1717537219648; 
+ Tue, 04 Jun 2024 14:40:19 -0700 (PDT)
+Received: from morpheus.home.roving-it.com
+ (8.c.1.0.0.0.0.0.0.0.0.0.0.0.0.0.1.8.6.2.1.1.b.f.0.b.8.0.1.0.0.2.ip6.arpa.
+ [2001:8b0:fb11:2681::1c8]) by smtp.googlemail.com with ESMTPSA id
+ ffacd0b85a97d-35ed8b574e3sm270624f8f.79.2024.06.04.14.40.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jun 2024 14:40:19 -0700 (PDT)
+From: Peter Robinson <pbrobinson@gmail.com>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Cc: Peter Robinson <pbrobinson@gmail.com>
+Subject: [PATCH] drm/msm/adreno: Add some missing MODULE_FIRMWARE entries
+Date: Tue,  4 Jun 2024 22:40:05 +0100
+Message-ID: <20240604214018.238153-1-pbrobinson@gmail.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-References: <20240531053704.2009827-1-olvaffe@gmail.com>
- <2024060427-upstairs-jackal-b10a@gregkh>
-In-Reply-To: <2024060427-upstairs-jackal-b10a@gregkh>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Tue, 4 Jun 2024 14:37:38 -0700
-Message-ID: <CAPaKu7RWuLEts+niTEbTN2yMke=AGQuiWzpG6uH39qudvbr2hQ@mail.gmail.com>
-Subject: Re: [PATCH] kernel/resource: optimize find_next_iomem_res
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- christian.koenig@amd.com, alexander.deucher@amd.com, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Alison Schofield <alison.schofield@intel.com>,
- Dave Jiang <dave.jiang@intel.com>, 
- Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,62 +87,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 4, 2024 at 8:41=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Thu, May 30, 2024 at 10:36:57PM -0700, Chia-I Wu wrote:
-> > We can skip children resources when the parent resource does not cover
-> > the range.
-> >
-> > This should help vmf_insert_* users on x86, such as several DRM drivers=
-.
-> > On my AMD Ryzen 5 7520C, when streaming data from cpu memory into amdgp=
-u
-> > bo, the throughput goes from 5.1GB/s to 6.6GB/s.  perf report says
-> >
-> >   34.69%--__do_fault
-> >   34.60%--amdgpu_gem_fault
-> >   34.00%--ttm_bo_vm_fault_reserved
-> >   32.95%--vmf_insert_pfn_prot
-> >   25.89%--track_pfn_insert
-> >   24.35%--lookup_memtype
-> >   21.77%--pat_pagerange_is_ram
-> >   20.80%--walk_system_ram_range
-> >   17.42%--find_next_iomem_res
-> >
-> > before this change, and
-> >
-> >   26.67%--__do_fault
-> >   26.57%--amdgpu_gem_fault
-> >   25.83%--ttm_bo_vm_fault_reserved
-> >   24.40%--vmf_insert_pfn_prot
-> >   14.30%--track_pfn_insert
-> >   12.20%--lookup_memtype
-> >   9.34%--pat_pagerange_is_ram
-> >   8.22%--walk_system_ram_range
-> >   5.09%--find_next_iomem_res
-> >
-> > after.
->
-> That's great, but why is walk_system_ram_range() being called so often?
->
-> Shouldn't that be a "set up the device" only type of thing?  Why hammer
-> on "lookup_memtype" when you know the memtype, you just did the same
-> thing for the previous frame.
->
-> This feels like it could be optimized to just "don't call these things"
-> which would make it go faster, right?
->
-> What am I missing here, why does this always have to be calculated all
-> the time?  Resource mapping changes are rare, if at all, over the
-> lifetime of a system uptime.  Constantly calculating something that
-> never changes feels odd to me.
-Yeah, that would be even better.
+Add missing MODULE_FIRMWARE for firmware in linux-firmware,
+this is needed for automatically adding firmware to things
+like initrds when the drivers are built as modules. This is
+useful for devices like the X13s and the RBx devices on
+general distros.
 
-I am not familiar with x86 pat code.  I will have to defer that to
-those more familiar with the matter.
+Fixes: 5e7665b5e484b ("drm/msm/adreno: Add Adreno A690 support")
+Fixes: 18397519cb622 ("drm/msm/adreno: Add A702 support")
+Fixes: 3e7042ba87da ("drm/msm/adreno: Add ZAP firmware name to A635")
+Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+---
+ drivers/gpu/drm/msm/adreno/adreno_device.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
->
-> thanks,
->
-> greg k-h
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+index c3703a51287b4..fede5159e7f5b 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+@@ -609,8 +609,11 @@ MODULE_FIRMWARE("qcom/a650_gmu.bin");
+ MODULE_FIRMWARE("qcom/a650_sqe.fw");
+ MODULE_FIRMWARE("qcom/a660_gmu.bin");
+ MODULE_FIRMWARE("qcom/a660_sqe.fw");
++MODULE_FIRMWARE("qcom/a660_zap.mbn");
++MODULE_FIRMWARE("qcom/a702_sqe.fw");
+ MODULE_FIRMWARE("qcom/leia_pfp_470.fw");
+ MODULE_FIRMWARE("qcom/leia_pm4_470.fw");
++MODULE_FIRMWARE("qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn");
+ MODULE_FIRMWARE("qcom/yamato_pfp.fw");
+ MODULE_FIRMWARE("qcom/yamato_pm4.fw");
+ 
+-- 
+2.45.1
+
