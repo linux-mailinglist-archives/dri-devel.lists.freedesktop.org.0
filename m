@@ -2,164 +2,183 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51BEE8FBB03
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 19:54:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 995208FBBFC
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 20:59:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10EFF10E58F;
-	Tue,  4 Jun 2024 17:54:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D173910E5E2;
+	Tue,  4 Jun 2024 18:59:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WHrDorZd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bXYkUdIM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F271910E58F
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 17:54:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717523687; x=1749059687;
- h=from:to:cc:subject:date:message-id:
- content-transfer-encoding:mime-version;
- bh=6a4spuH3oa/hpyuJHHWMnMDMYtxgJLTlARIuDcNpyno=;
- b=WHrDorZdNmHaGEE06Xpf4JW7etsCweAqa/9/2VPWqZYDQwSmA/0+lNzR
- 6m3pTRMZDL6U502P7RI5sz+vJAtJ3wReooDXKy3n18Wd9ci3LmvdF2euH
- tLeag0p0iFamPXLn3vslBjs8FAPGpRDyLlUbuNfSAkFcCe5lSK0ImAHsN
- YzM2fvCjOtkPFyAgWbOXiTMwM2EJN12Trjc9B1L0QGQIM08mquOPa1T/i
- oo80c8xdoT8MKWPcQ3UGIayfNEBX61ppyCXVGtgsnMSDY1/mi44yZ6Aqv
- /mf1D4eSQyd5J1xQbdTb+ZOOV6axboXBq/qLFgAlOLaSYmtQWKXRiapFl A==;
-X-CSE-ConnectionGUID: 3i76Q4AnR7CG/wf41phiZQ==
-X-CSE-MsgGUID: +F6/TxtwTRWbf9Mw7Dp+/w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="14226768"
-X-IronPort-AV: E=Sophos;i="6.08,214,1712646000"; d="scan'208";a="14226768"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2024 10:54:47 -0700
-X-CSE-ConnectionGUID: EANJ2knYQXiO1TbCVTKWIQ==
-X-CSE-MsgGUID: dUhWrLmTQpiyz4RIu0x6Yw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,214,1712646000"; d="scan'208";a="37434611"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 04 Jun 2024 10:54:45 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 4 Jun 2024 10:54:45 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 4 Jun 2024 10:54:45 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 4 Jun 2024 10:54:45 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 4 Jun 2024 10:54:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jzVkIq46tjlzUizvQSzuZKm2qySdiIFpEFNX7Uq0t9lHmnnklbj5qKtheSKHhSqxtLpoAJcBNgW31qNHlybJa2hBfF4/HzjCejvTWTekzcQoUFI0m5ZR0SzZ6gh0hvNsFBANuEZLepvC5cRrB8X2/h8067OKLPaITidUghlbLLc0ECBAf4hFY+lyf3zSqvwaDi2dwhCV5FfaAnN8y7dIFZXhOCUJMbp7+wDPmudS5vdGr4/6KE+TGoJ3axEFvfiwrrcP2Q1HtYGy3/jb6dZ0g/Fc9D+K0MTZD1w/qcrl1yvyAA0ToYFIwhHO2P+FMqlluOVMM8Tp31PbO92UD2sWvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PKv0pdvB0T8WYeKRkwn7yu2GtG6CqzTairKNgh2nC24=;
- b=ZxBZP2WE9ECwrTqBzNRJR16NMmu/uq3aWhFNUpjWrPkNIxwMFRBVjTiQ/AJtfhjOUxP/xD7uF/pWwzJxt5dmudc6oreHzoY0CkYVhQ0uvmfetGF66FOqBbj82KM7bUZ5wrcmyQe5OMPyjnopUFzD7059xqdJkMaRAPDeiyF1zLC9UekAiLM1WWhtzWypmlN6AiMWegdGf9LCWoyT4LqHImze2LmMIQC3k60iKZW2gZ5lV6HdyGEK/AJ75d2k6LWRpMHI1x7C4k/k4PYPAihcZd1y7FJ9jSLn/rG+lzW0n8xorIqrYgX1+m5cXMrCoXDP7U9uyYD5qXWED9JULivuEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by CH3PR11MB7370.namprd11.prod.outlook.com (2603:10b6:610:14e::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36; Tue, 4 Jun
- 2024 17:54:42 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::cf6f:eb9e:9143:f413]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::cf6f:eb9e:9143:f413%4]) with mapi id 15.20.7633.018; Tue, 4 Jun 2024
- 17:54:42 +0000
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: <dri-devel@lists.freedesktop.org>
-CC: Rodrigo Vivi <rodrigo.vivi@intel.com>, Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH] drm/mm: Remove unused drm_mm_replace_node
-Date: Tue, 4 Jun 2024 13:54:38 -0400
-Message-ID: <20240604175438.48125-1-rodrigo.vivi@intel.com>
-X-Mailer: git-send-email 2.45.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR11CA0044.namprd11.prod.outlook.com
- (2603:10b6:a03:80::21) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 702DC10E48B
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 13:41:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id BCC45612BE;
+ Tue,  4 Jun 2024 13:41:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BE38C2BBFC;
+ Tue,  4 Jun 2024 13:41:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1717508491;
+ bh=FArcXwplL8wN1ALhCuGpUD+BoCuPOB8+aNe29ijJswU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bXYkUdIM5G5RAUoPD7MJYr//S1oqHl+LJ3fxfw7lfSFuBw8JhGTBW9PLufCUqHKjY
+ OJVFk7K+rOrq9HuH76qkiJL0A/sTi2rTQodn+TKkQocB/tbQHZeZKu3m3G2lM5wcf0
+ VD97GRCGMBes8MaOHcg8KM5fvFeye/FAQg9SKZN6tpIn5+9U5FE+VZJf0uRZu8AxbF
+ xrs4Rlqn5YOUS7D0btNT9APFrOK0n1Q8HZ/ji58Sj2kGEhPit3yyT7IaR0HjrbKKbe
+ 82WAiCP1NrKaOO3384inkZ8fhbN5SYnrWSCyMgS7pEXOOMKSO77chS2wlgGdCmIr5c
+ AAtt4MysOip3g==
+Date: Tue, 4 Jun 2024 14:41:26 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Corey Minyard <minyard@acm.org>, Allen Pais <apais@linux.microsoft.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Perry Yuan <perry.yuan@amd.com>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Nuno Sa <nuno.sa@analog.com>,
+ Guenter Roeck <linux@roeck-us.net>, 
+ Randy Dunlap <rdunlap@infradead.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Lee Jones <lee@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+ Elad Nachman <enachman@marvell.com>, Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
+ Johannes Berg <johannes.berg@intel.com>,
+ Gregory Greenman <gregory.greenman@intel.com>, 
+ Benjamin Berg <benjamin.berg@intel.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Robert Richter <rrichter@amd.com>, Vinod Koul <vkoul@kernel.org>, 
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Hans de Goede <hdegoede@redhat.com>,
+ Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+ Nikita Kravets <teackot@gmail.com>, Jiri Slaby <jirislaby@kernel.org>, 
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Stanley Chang <stanley_chang@realtek.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Abdel Alkuor <abdelalkuor@geotab.com>, 
+ Kent Overstreet <kent.overstreet@linux.dev>, Eric Biggers <ebiggers@google.com>,
+ Kees Cook <keescook@chromium.org>, Ingo Molnar <mingo@kernel.org>, 
+ "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+ Daniel Bristot de Oliveira <bristot@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>, 
+ Abel Wu <wuyun.abel@bytedance.com>, John Johansen <john.johansen@canonical.com>,
+ Mimi Zohar <zohar@linux.ibm.com>, Stefan Berger <stefanb@linux.ibm.com>, 
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ Eric Snowberg <eric.snowberg@oracle.com>, 
+ Takashi Iwai <tiwai@suse.de>, Takashi Sakamoto <o-takashi@sakamocchi.jp>, 
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ Mark Brown <broonie@kernel.org>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ keyrings@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-acpi@vger.kernel.org, 
+ linux-ide@vger.kernel.org, openipmi-developer@lists.sourceforge.net, 
+ linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-tegra@vger.kernel.org, 
+ linux-pm@vger.kernel.org, qat-linux@intel.com, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, 
+ linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-leds@vger.kernel.org, 
+ linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
+ linux-mmc@vger.kernel.org, 
+ linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, 
+ linux-pci@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, 
+ linux-bcachefs@vger.kernel.org, linux-hardening@vger.kernel.org,
+ cgroups@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
+ apparmor@lists.ubuntu.com, 
+ linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org,
+ alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>, 
+ Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+ Thomas Gleixner <tglx@linutronix.de>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, 
+ David Howells <dhowells@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, 
+ Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
+ Daniel Scally <djrscally@gmail.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+ Scott Branden <sbranden@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Heiko Stuebner <heiko@sntech.de>, 
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>, 
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Viresh Kumar <viresh.kumar@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, 
+ Danilo Krummrich <dakr@redhat.com>, Jean Delvare <jdelvare@suse.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Pavel Machek <pavel@ucw.cz>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Tony Lindgren <tony@atomide.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, Hu Ziji <huziji@marvell.com>, 
+ Ulf Hansson <ulf.hansson@linaro.org>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Potnuri Bharat Teja <bharat@chelsio.com>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+ Kalle Valo <kvalo@kernel.org>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+ Oliver O'Halloran <oohall@gmail.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ JC Kuo <jckuo@nvidia.com>, Andrew Lunn <andrew@lunn.ch>, 
+ Gregory Clement <gregory.clement@bootlin.com>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+ Sebastian Reichel <sre@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Helge Deller <deller@gmx.de>,
+ Brian Foster <bfoster@redhat.com>, 
+ Zhihao Cheng <chengzhihao1@huawei.com>, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Peter Zijlstra <peterz@infradead.org>, 
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, 
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ Valentin Schneider <vschneid@redhat.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>, 
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+ "Serge E. Hallyn" <serge@hallyn.com>,
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+ Clemens Ladisch <clemens@ladisch.de>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH v1 1/1] treewide: Align match_string() with
+ sysfs_match_string()
+Message-ID: <3ojs6btxgava4dcasys5tnrg5vsrqlshagcg7otvrdgfcwwje4@lcrd3r6gkfcs>
+References: <20240603211538.289765-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|CH3PR11MB7370:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8b637a76-04e8-4802-9c41-08dc84bf6968
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|376005|366007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5e7MKtI/QFxnVH0zS6SuIod9MDYwbQxebMEjpUabDKX3V0+IhUTGq+OSqpQm?=
- =?us-ascii?Q?l0RmJDghE/hEG8hIn6GgBPVtE2aRyRZjqDvk+ZBN72TvH0LbG7nhkXVtpCNy?=
- =?us-ascii?Q?YSlTMKO1ostj+fL4uStqoydCuTn8fR3joF4MsyQDrlj9J/P6qFNY61fu5/gf?=
- =?us-ascii?Q?HeBm+2rjZUVmijZHDdimXX5cKpj1tB26OroeSrLFktLdshtSLADhO+GK3TKK?=
- =?us-ascii?Q?LuxHJxzmIPUlbhWoUmTS6P/QpX8F2zmfQW3+HrOa5XvHc0sgF43Xp//uiavo?=
- =?us-ascii?Q?30Djwt5scPD0qbJvBjHxDbOfNobrAV/zLb1el9XgC2Kaj9WjVUQzRenvPZbQ?=
- =?us-ascii?Q?3chQlUzlsNOzT25Q067qGXLb++qt7DM+RzDh7tSWIF9hTI62qLdJxbe11k8F?=
- =?us-ascii?Q?BYfBTmSy6SiviAm1nM6v3QDIep/H28emRil17mkaAmKcwXULhRSiqP1zrB/7?=
- =?us-ascii?Q?wXff+lcqkepfrPge7R9TZ/tpr3gfzJLnDW0uv2I2pMPIqOg4QnKi4zrR6sgB?=
- =?us-ascii?Q?7t8EJraY4IjT+LoJsg9r50aw3GZECjwegPzSJ8eZj/e+1jgi00Gire9LqLQ3?=
- =?us-ascii?Q?VySIYLfrGi28Ji74qAHZG1p1pXVgmokzdLABZstk1yix31vs7RLBct36hZJs?=
- =?us-ascii?Q?zpFKltWtik9czGdxAdZy2UpymIi+nSxPGlj5D2G5MoWZ+1mvk+FpcPOVfMm2?=
- =?us-ascii?Q?xZnifMbrHIM4hXrl39RuVkLXjQ5cqSmbZbxaUH67o59FI2tanaigNGfTAFNN?=
- =?us-ascii?Q?a6gLzzYOzJu8tOVpMDMXIicQarMvYi/mjSSABIPJu2/oKj/p2TW/4MEHA6KC?=
- =?us-ascii?Q?GNZkeBYO/bIPgAqcrF5MroUiicMaOHO4s7eML5TO/sJmv9JEK3XLaRgE+soE?=
- =?us-ascii?Q?mWDPHucus8KkLYqUrkc11Hd1n4f7MlKVwPw/IziWa9AS2oPTXrKJCtdSzH3I?=
- =?us-ascii?Q?LHS0dy3FqHqYl9pTfLac+hGAAscDlWgtKhSPme/2B3l2sXUK6SpqB29872Ww?=
- =?us-ascii?Q?uX6VsXUBsqVlLUdXt99bpDxEzCZrWMgB6gZLH94xGlBanSJLOVDIVz+9+mUv?=
- =?us-ascii?Q?DLYAkXpNhvqHdZF8VmOZFfUflWV7w/xN67weZdOFqp71kG+j7Q/cEfSXWN2E?=
- =?us-ascii?Q?5nPD6J/yhrEkty3TW3y7C+yuTlVzgOe4jAGJQ7FMPS/MbC1SVgitrqn/5hbB?=
- =?us-ascii?Q?kKAux0U3Elaw1ZcXs9N4hbuhPnz5y9mrcWTEAKQzKZl9+UhZr5sCLFyKgr9P?=
- =?us-ascii?Q?pRpQJgCqIAMX5UpKN7U7EAezETQzuESaXjuirNtdyA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(376005)(366007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?neP/6kIwbzz+5CR9c3lKiewUc0Z2CYo3E6p/fkfd9KYFdo3q5As8n9Gd/QiB?=
- =?us-ascii?Q?AMotxiCiJ+KCfP9qwzP88kqyNFdjzzaLtarFA+Y1DFqLuOoQfe5kfehwIX5O?=
- =?us-ascii?Q?H4pzxVSLECu2J1Ej56o0K9jJxjhIrDkWV6UyKudvIYWVjoDTF5Gtw48WVUvZ?=
- =?us-ascii?Q?rJQ3iMtHRXGuDO4Wk7yNh49LV1F09D8iKkksdPvfNpnIHnsQ+/+dcyEpFttj?=
- =?us-ascii?Q?utd4S5eeuU53aYJTVlmCrivGmA01DdlxzfoGXBvS+ucpO5vM1M2ZT26JpAIH?=
- =?us-ascii?Q?bM7nLEtC9TWvexzEsZiKGmsnaiZmmti6AaVoTxp1zt8Lh1CYm4TJRkh/5Yhm?=
- =?us-ascii?Q?e7mH/x/NksS7c7muEo7mFOnRB7SxinDgVj8xaut0GfQpoChhg3UV4UXmTks2?=
- =?us-ascii?Q?+tHuXlghgD1IAc/ybjkwgNOikmjR5+A3zds5M+H8w7rlUiDhE8EZhxf5qYbB?=
- =?us-ascii?Q?dpID86yZjaNDxtXnz9Qmuibavo6h4gJ92lVRpFNwIjFwrZC/3qRgXcVtWbHg?=
- =?us-ascii?Q?82Of8JU7OUiqcAtgsszPoOA1veOEvE0vsD92vZ6LU6q6DKXxtf0Csj4MHXvg?=
- =?us-ascii?Q?hEh4+xYFy+4w/8UaI76EbeeR3q++uevxVSLCoUbhSy83KZgIG6qar3LxGkTc?=
- =?us-ascii?Q?YHWyouK4NnhoFqaviVX/Bd9ZlRQDVov6lBp3AMkT9F91FDKumfSn07bh4KBX?=
- =?us-ascii?Q?iWq9Lvu4AHljTInDqpTX05bB2yLrsyzuS7Hls6A1jTXPgyS3rrkM4x4c+3F/?=
- =?us-ascii?Q?5VekY3b/Kkkzh++2jhuadDQtrloG9uaj+G0ks96pMiGsnRMpEFydOjxLK+uE?=
- =?us-ascii?Q?n76sb6d5I1bhVFydgj5BammbTLlLbMyU0b9LdtS2W8RXFzdHASRll4fiUemi?=
- =?us-ascii?Q?++PfQPDVjbANpH6N8lCw+wkjWkJdQTsBmxX/2RA3A1RuJDO8mwURkYE6OeLH?=
- =?us-ascii?Q?YjpgGOErvJ6rJttGRcyrwl5XrxSgZQGB8Qnou0M7Xxa94z+G3BWglinaIBZ/?=
- =?us-ascii?Q?wczSDYopiWYKHHBVHzMrGp1k7hqWxxyEVNArOVob1EYqI1TtbwX0Qmqplc9n?=
- =?us-ascii?Q?3LQxK4oiruEkcPARZmAaOIDL5fE+l9ZBWFOzLZOYKmRoNoJARyksBok8IME+?=
- =?us-ascii?Q?Wvb6MaEeqVnAibU/GpqqnEcptIFBMIJ/xANmdTGi7QJHOIZk6+5t0KSUNa9A?=
- =?us-ascii?Q?KSa10C9NC0YXXfTVIMi5lOZWn/kTbB0d+Aw7V+4OCyBWia/92Vq04cCAIqE1?=
- =?us-ascii?Q?fEYZFznunxMMpZu9xRfSKiPE6X8UcDmD1GVj13IpfLtFyGUJf0pEfFddyoYi?=
- =?us-ascii?Q?48ljIrHWbgOi8cnkqaLY8h6wNxdb7cJe/uNa5PGiPjMpfQrfXFb9JGLor2E8?=
- =?us-ascii?Q?BcHuaI0uDMtc8WqOvh8CsmmWJWWyhSjqrks4jN/p11Zu1DCtT3PAll0KO8yi?=
- =?us-ascii?Q?s29M9+bd3bb/RagnuhYA2DKRda5KoUb5eMaet6peSy6wjD2t5Ax4yzkKBKxq?=
- =?us-ascii?Q?s8Kh/QLWtz2pUE1eusQ+UmyfkyDY0XMMvKw7RUt3xUm345i9bDLhgUsydQxg?=
- =?us-ascii?Q?+ShDCHedxe5qxbn5W3YfrYQ5DY3r5xkxqc3sRx2/?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b637a76-04e8-4802-9c41-08dc84bf6968
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2024 17:54:42.3889 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qNAYUEHeo/YWm29+AI31mVEL3uBODmIe6y/m4yDuKNLIdc2gXfn5axMgHY7Oy6AW/xr7hxdrC4QENcdRYdbeSg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7370
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240603211538.289765-1-andriy.shevchenko@linux.intel.com>
+X-Mailman-Approved-At: Tue, 04 Jun 2024 18:59:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,74 +194,233 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Last caller was removed with commit 078a5b498d6a ("drm/tests:
-Remove slow tests").
+Hi Andy,
 
-Cc: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
----
- drivers/gpu/drm/drm_mm.c | 35 -----------------------------------
- include/drm/drm_mm.h     |  1 -
- 2 files changed, 36 deletions(-)
+On Sun, Jun 02, 2024 at 06:57:12PM +0300, Andy Shevchenko wrote:
+> Make two APIs look similar. Hence convert match_string() to be
+> a 2-argument macro. In order to avoid unneeded churn, convert
+> all users as well. There is no functional change intended.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
-index 8257f9d4f619..5ace481c1901 100644
---- a/drivers/gpu/drm/drm_mm.c
-+++ b/drivers/gpu/drm/drm_mm.c
-@@ -648,41 +648,6 @@ void drm_mm_remove_node(struct drm_mm_node *node)
- }
- EXPORT_SYMBOL(drm_mm_remove_node);
- 
--/**
-- * drm_mm_replace_node - move an allocation from @old to @new
-- * @old: drm_mm_node to remove from the allocator
-- * @new: drm_mm_node which should inherit @old's allocation
-- *
-- * This is useful for when drivers embed the drm_mm_node structure and hence
-- * can't move allocations by reassigning pointers. It's a combination of remove
-- * and insert with the guarantee that the allocation start will match.
-- */
--void drm_mm_replace_node(struct drm_mm_node *old, struct drm_mm_node *new)
--{
--	struct drm_mm *mm = old->mm;
--
--	DRM_MM_BUG_ON(!drm_mm_node_allocated(old));
--
--	*new = *old;
--
--	__set_bit(DRM_MM_NODE_ALLOCATED_BIT, &new->flags);
--	list_replace(&old->node_list, &new->node_list);
--	rb_replace_node_cached(&old->rb, &new->rb, &mm->interval_tree);
--
--	if (drm_mm_hole_follows(old)) {
--		list_replace(&old->hole_stack, &new->hole_stack);
--		rb_replace_node_cached(&old->rb_hole_size,
--				       &new->rb_hole_size,
--				       &mm->holes_size);
--		rb_replace_node(&old->rb_hole_addr,
--				&new->rb_hole_addr,
--				&mm->holes_addr);
--	}
--
--	clear_bit_unlock(DRM_MM_NODE_ALLOCATED_BIT, &old->flags);
--}
--EXPORT_SYMBOL(drm_mm_replace_node);
--
- /**
-  * DOC: lru scan roster
-  *
-diff --git a/include/drm/drm_mm.h b/include/drm/drm_mm.h
-index ac33ba1b18bc..f654874c4ce6 100644
---- a/include/drm/drm_mm.h
-+++ b/include/drm/drm_mm.h
-@@ -463,7 +463,6 @@ static inline int drm_mm_insert_node(struct drm_mm *mm,
- }
- 
- void drm_mm_remove_node(struct drm_mm_node *node);
--void drm_mm_replace_node(struct drm_mm_node *old, struct drm_mm_node *new);
- void drm_mm_init(struct drm_mm *mm, u64 start, u64 size);
- void drm_mm_takedown(struct drm_mm *mm);
- 
--- 
-2.43.2
+nice patch, I checked some (maybe most) of your changes. There
+are a few unrelated changes which I don't mind, but there are two
+errors where the error value changes from ENODEV to EINVAL.
 
+Find the comments through the line.
+
+...
+
+> diff --git a/drivers/cpufreq/amd-pstate.c b/drivers/cpufreq/amd-pstate.c
+> index 1b7e82a0ad2e..b6f52f44625f 100644
+> --- a/drivers/cpufreq/amd-pstate.c
+> +++ b/drivers/cpufreq/amd-pstate.c
+> @@ -1117,9 +1117,9 @@ static ssize_t store_energy_performance_preference(
+>  	if (ret != 1)
+>  		return -EINVAL;
+>  
+> -	ret = match_string(energy_perf_strings, -1, str_preference);
+> +	ret = __match_string(energy_perf_strings, -1, str_preference);
+>  	if (ret < 0)
+> -		return -EINVAL;
+> +		return ret;
+
+a bit of unrelated changes here, but I guess no one will complain :-)
+
+>  
+>  	mutex_lock(&amd_pstate_limits_lock);
+>  	ret = amd_pstate_set_energy_pref_index(cpudata, ret);
+
+...
+
+> diff --git a/drivers/mmc/host/sdhci-xenon-phy.c b/drivers/mmc/host/sdhci-xenon-phy.c
+> index cc9d28b75eb9..1865e26ae736 100644
+> --- a/drivers/mmc/host/sdhci-xenon-phy.c
+> +++ b/drivers/mmc/host/sdhci-xenon-phy.c
+> @@ -135,15 +135,14 @@ struct xenon_emmc_phy_regs {
+>  	u32 logic_timing_val;
+>  };
+>  
+> -static const char * const phy_types[] = {
+> -	"emmc 5.0 phy",
+> -	"emmc 5.1 phy"
+> -};
+> -
+>  enum xenon_phy_type_enum {
+>  	EMMC_5_0_PHY,
+>  	EMMC_5_1_PHY,
+> -	NR_PHY_TYPES
+> +};
+> +
+> +static const char * const phy_types[] = {
+> +	[EMMC_5_0_PHY] = "emmc 5.0 phy",
+> +	[EMMC_5_1_PHY] = "emmc 5.1 phy",
+>  };
+
+Another unrelated cleanup, but I don't complain
+
+>  enum soc_pad_ctrl_type {
+
+...
+
+> -	tablet_found = match_string(tablet_chassis_types,
+> -				    ARRAY_SIZE(tablet_chassis_types),
+> -				    chassis_type) >= 0;
+> -	if (!tablet_found)
+> -		return -ENODEV;
+> +	ret = match_string(tablet_chassis_types, chassis_type);
+> +	if (ret < 0)
+> +		return ret;
+
+This is a logical change though, because we are changing from
+-ENODEV to -EINVAL. Even if it might look the right thing, but
+still, it's a logical change.
+
+>  
+>  	ret = hp_wmi_perform_query(HPWMI_SYSTEM_DEVICE_MODE, HPWMI_READ,
+>  				   system_device_mode, zero_if_sup(system_device_mode),
+> @@ -490,9 +487,7 @@ static bool is_omen_thermal_profile(void)
+>  	if (!board_name)
+>  		return false;
+>  
+> -	return match_string(omen_thermal_profile_boards,
+> -			    ARRAY_SIZE(omen_thermal_profile_boards),
+> -			    board_name) >= 0;
+> +	return match_string(omen_thermal_profile_boards, board_name) >= 0;
+>  }
+>  
+>  static int omen_get_thermal_policy_version(void)
+
+...
+
+> diff --git a/drivers/thermal/intel/int340x_thermal/processor_thermal_rfim.c b/drivers/thermal/intel/int340x_thermal/processor_thermal_rfim.c
+> index e56db75a94fb..dbd176b0fb1f 100644
+> --- a/drivers/thermal/intel/int340x_thermal/processor_thermal_rfim.c
+> +++ b/drivers/thermal/intel/int340x_thermal/processor_thermal_rfim.c
+> @@ -111,7 +111,7 @@ static ssize_t suffix##_show(struct device *dev,\
+>  		match_strs = (const char **)fivr_strings;\
+>  		mmio_regs = tgl_fivr_mmio_regs;\
+>  	} \
+> -	ret = match_string(match_strs, -1, attr->attr.name);\
+> +	ret = __match_string(match_strs, -1, attr->attr.name);\
+>  	if (ret < 0)\
+>  		return ret;\
+>  	reg_val = readl((void __iomem *) (proc_priv->mmio_base + mmio_regs[ret].offset));\
+> @@ -145,7 +145,7 @@ static ssize_t suffix##_store(struct device *dev,\
+>  		mmio_regs = tgl_fivr_mmio_regs;\
+>  	} \
+>  	\
+> -	ret = match_string(match_strs, -1, attr->attr.name);\
+> +	ret = __match_string(match_strs, -1, attr->attr.name);\
+>  	if (ret < 0)\
+>  		return ret;\
+>  	if (mmio_regs[ret].read_only)\
+> diff --git a/drivers/thermal/intel/int340x_thermal/processor_thermal_wt_req.c b/drivers/thermal/intel/int340x_thermal/processor_thermal_wt_req.c
+> index f298e7442662..57f456befb34 100644
+> --- a/drivers/thermal/intel/int340x_thermal/processor_thermal_wt_req.c
+> +++ b/drivers/thermal/intel/int340x_thermal/processor_thermal_wt_req.c
+> @@ -50,7 +50,7 @@ static ssize_t workload_type_store(struct device *dev,
+>  	if (ret != 1)
+>  		return -EINVAL;
+>  
+> -	ret = match_string(workload_types, -1, str_preference);
+> +	ret = __match_string(workload_types, -1, str_preference);
+
+We could even thing of a "match_string_terminated" (or a better
+name), but maybe it's too much?
+
+>  	if (ret < 0)
+>  		return ret;
+>  
+
+...
+
+> -	c->auth_hash_algo = match_string(hash_algo_name, HASH_ALGO__LAST,
+> -					 c->auth_hash_name);
+> -	if ((int)c->auth_hash_algo < 0) {
+> +	err = __match_string(hash_algo_name, HASH_ALGO__LAST, c->auth_hash_name);
+> +	if (err < 0) {
+>  		ubifs_err(c, "Unknown hash algo %s specified",
+>  			  c->auth_hash_name);
+> -		return -EINVAL;
+> +		return err;
+
+This is correct!
+
+>  	}
+> +	c->auth_hash_algo = err;
+>  
+>  	snprintf(hmac_name, CRYPTO_MAX_ALG_NAME, "hmac(%s)",
+>  		 c->auth_hash_name);
+
+...
+
+> +int __match_string(const char * const *array, size_t n, const char *string);
+> +
+> +/**
+> + * match_string - matches given string in an array
+> + * @_a: array of strings
+> + * @_s: string to match with
+> + *
+> + * Helper for __match_string(). Calculates the size of @a automatically.
+
+/@a/@_a/
+
+> + */
+> +#define match_string(_a, _s) __match_string(_a, ARRAY_SIZE(_a), _s)
+> +
+
+...
+
+> diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
+> index 6239777090c4..e3fc94b4c7e5 100644
+> --- a/security/apparmor/lsm.c
+> +++ b/security/apparmor/lsm.c
+> @@ -1820,9 +1820,9 @@ static int param_set_audit(const char *val, const struct kernel_param *kp)
+>  	if (apparmor_initialized && !aa_current_policy_admin_capable(NULL))
+>  		return -EPERM;
+>  
+> -	i = match_string(audit_mode_names, AUDIT_MAX_INDEX, val);
+> +	i = __match_string(audit_mode_names, AUDIT_MAX_INDEX, val);
+
+pity here... this could have been a match_string, but the
+MAX_INDEX is hardcoded outside the enum.
+
+>  	if (i < 0)
+> -		return -EINVAL;
+> +		return i;
+>  
+>  	aa_g_audit = i;
+>  	return 0;
+
+...
+
+> diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
+> index 16dad4a45443..7064f4cae549 100644
+> --- a/sound/soc/soc-dapm.c
+> +++ b/sound/soc/soc-dapm.c
+> @@ -769,14 +769,13 @@ static int dapm_connect_mux(struct snd_soc_dapm_context *dapm,
+>  		item = 0;
+>  	}
+>  
+> -	i = match_string(e->texts, e->items, control_name);
+> +	i = __match_string(e->texts, e->items, control_name);
+>  	if (i < 0)
+> -		return -ENODEV;
+> +		return i;
+
+Also this return value is wrong.
+
+Andi
+
+>  
+>  	path->name = e->texts[i];
+>  	path->connect = (i == item);
+>  	return 0;
+> -
+>  }
+>  
+>  /* set up initial codec paths */
+> -- 
+> 2.43.0.rc1.1336.g36b5255a03ac
+> 
