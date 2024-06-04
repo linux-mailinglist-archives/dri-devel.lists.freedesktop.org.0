@@ -2,91 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2200C8FC02F
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 01:49:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0902B8FC044
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 01:58:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E71510E155;
-	Tue,  4 Jun 2024 23:49:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F134810E188;
+	Tue,  4 Jun 2024 23:58:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DvbZ+5mq";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UGJdqg1f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13BE910E155
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 23:49:30 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-2e6f33150bcso63943661fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 16:49:30 -0700 (PDT)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CFF210E25E
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 23:58:50 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-52b78ef397bso339289e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 16:58:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717544969; x=1718149769; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1717545528; x=1718150328; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=OYlsPq/Nl2a6jpBnYLpUuE7MhnCmlQ2CakctggIcvoA=;
- b=DvbZ+5mqvaoD/lP1qIUh1CpWDaw4fnThEVl8hN8exRnc50fdvFNk1Ck1mmKGQwq7w0
- 7OAEejglLFbC8tH4VMMWWLzVA3T57v9GAic12Vt81wVDuDWT2VsiJ/KsjafR8OSa40C2
- nASMHBIzjg7WwFxX2jjJzVAASZfhSNsYAGe9MWT1efCIfPmat3ySZrwH1py1oyinZTjQ
- hXM9i234h9T28BQYRIU7u3Z+vqzrD1HOwKYG5ISMxQbngouMSjR0x7jwY/bIuwYJCr5x
- UXuazx/tJNYK/p01DctEWXbsrjmWjoaaHdWXD+aLDEPlA6boEuMAixSOORGXQFZyPyFr
- Pr0w==
+ bh=rp9nxGMclyuCeHHBHlnWIxO2+4DK9PTywFrhJz5uXfc=;
+ b=UGJdqg1fEmtkCMmn4gzvbcO6sKef103gZBFnavgvILW3fx4L1voaYUIHhPQvzXURI+
+ Bq8sLxGtemJ+Nc/FsRSMU9o1G0YsrA48+0b/1GsoFNlVgvwcgcEDOw6z6n+1ccmptbEh
+ RF2TP87mV4+nSXC0bngecp6kIGCM0BJhbqh9u1PfFC6KTHkWEIqS7fJXcSCVCRRAusTA
+ SK/qlZoBUVGG0ipjTPoY7ncyMuEcXBfxmRmhN/SPeAWM6uZURUyFiTYt+GSWOpw5gPCY
+ tySFaiTuHxbrb+2+J1vJ7NFm62k0pQaRNUOBaTvUNEeya0h69RAojFn+XU9FqUtd9hBu
+ RCqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717544969; x=1718149769;
+ d=1e100.net; s=20230601; t=1717545528; x=1718150328;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OYlsPq/Nl2a6jpBnYLpUuE7MhnCmlQ2CakctggIcvoA=;
- b=c1Kj98Z568y+8OfnlMCKf8PTNIZ+hNIgTf1wyd5hLOzTgGtQpFAMRS1LmAm+jcluOB
- oei9cG+sTF0V3MlA6t+6F+oKZ/ziC16StXgDVprNMfBdAPBQ+CoGtJAPBuZ1AjRHw/d4
- HBH6ExQvsMoRWsCPHrd/bhjgMloz7KXGVgb8Ji3zBC4OGLfspFlh0Olpo/uukFduyogi
- WOpr6oCWywGR8NhLNAOEsiHFu68OApn6JRXAQQea/zlydnngPb/B2DiwdcESnLnxqNRZ
- xnAVidSpDbrOU9D4oPwWiy0gQqEvxVgRKC2Jp15mkqVRYOo4oiYx36D9CSI4ax0Oil3F
- qcIQ==
+ bh=rp9nxGMclyuCeHHBHlnWIxO2+4DK9PTywFrhJz5uXfc=;
+ b=nb/FtN3MOyOtuCoCjGe76tFGiadQFtAIDOHFi3v1KhsD7o0KuDGd5GOr0lU78pn+3C
+ pll+f1QmO4soLSdHtgv8dTHpZNNmyRIq5YcFGAg+ILnA+gC0x3+ouDdO8MCVFeyQ7lTb
+ Spxhwd4qjqXTGZhzhGvqdTUz1bTLNFZf3vfsSJmRI0XRWUmFrlmWaPc/ArGUX9lZwptY
+ 3a+lWojInfDul5yfX4tYAhUtGJNrV3kwd1+nYJ9+TRiF+ChO0tJvcB6rfVUZkJikoG5I
+ lozXJ+Dw7IULUZnXhd1irTKoWd9BRkovcsnDB3fhsBSX6yuZHxp43OdR/tyrXAvWaTbS
+ 5nqA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXWdSZsAPTVcURFJQTgYYyvL8OHft6wXJYKL4PZuCqOJbF7AaCKXGYKWjl2iArWX0+vBL94HI6pkADqvuQB46mXp6hrrQ8Chc4nOzcIoyI8
-X-Gm-Message-State: AOJu0YzG4NCca7RmEkoxrRHeoHCMF6dTmKQJQF42ZvsmfasBm2AyhYXz
- afiNTVstm9mrNBxRAv1kuUkuP+G0PniUBpaGEFxTLgEk0flw+L5UOfR9Gci84NM=
-X-Google-Smtp-Source: AGHT+IEqt/1E9UYfq6hr7NwOOCvGfJFrmEaHjn1YhWsPZoauNt3zoMgMqQ+4sf+zBHTn4FHcfvCgIw==
-X-Received: by 2002:a2e:bc08:0:b0:2e9:5011:f6b1 with SMTP id
- 38308e7fff4ca-2eac7a73140mr3969551fa.42.1717544968775; 
- Tue, 04 Jun 2024 16:49:28 -0700 (PDT)
+ AJvYcCUJFr9zP6wNQW2KzI044a4uFQ2xI4lRHhoImka5MYfP8u/ZsxVuD5Z29T5MGoTnByUVmNBtO4JrBttjrgDt8voZwalvDPFZih7Gean2a/+u
+X-Gm-Message-State: AOJu0YybvYUxbPqPifG1OV4C9JPbbjz1Ux1PQef4bOR9EkyCp8SBdCQV
+ rGDmDi7Li31mfp9RT2XgZfW7WFzgrhL0OKlDPKc3Km07wbERX7A5OX4RlGq2LQw=
+X-Google-Smtp-Source: AGHT+IGE5EAJbwmPWB5kOhL+AkptvaK72rTbxNWsv9SyRDnHh+4+XE5+D1sVii4uysOWoD6ZlewHtg==
+X-Received: by 2002:a05:6512:3d9e:b0:520:359d:2145 with SMTP id
+ 2adb3069b0e04-52bab1d6879mr307776e87.20.1717545528496; 
+ Tue, 04 Jun 2024 16:58:48 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ea91cc65cbsm16085851fa.73.2024.06.04.16.49.28
+ 2adb3069b0e04-52b84d89ee8sm1624847e87.268.2024.06.04.16.58.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jun 2024 16:49:28 -0700 (PDT)
-Date: Wed, 5 Jun 2024 02:49:26 +0300
+ Tue, 04 Jun 2024 16:58:48 -0700 (PDT)
+Date: Wed, 5 Jun 2024 02:58:46 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Mark Yao <markyao0591@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, 
- kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>, 
- Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
-Subject: Re: [PATCH 00/14] Add initial support for the Rockchip RK3588 HDMI
- TX Controller
-Message-ID: <ymccadqprkxlvhv6ekyqr7utsgejxhqmxlki7nh23htgktlynl@7upjoc5whcy6>
-References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
- <a5jlj5hncv2p7lxk6pbgynkqfovlg3lzz2muzrbrkd73afiopu@n5tmd4zfyeik>
- <892b2070-2fd0-42b2-a8c2-811dc7382b0c@collabora.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Connor Abbott <cwabbott0@gmail.com>, 
+ dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
+ quic_jesszhan@quicinc.com, 
+ Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/msm/a6xx: use __always_unused to fix compiler
+ warnings for gen7_* includes
+Message-ID: <x42z2ykkpx7qkn2lr3y5sl3lm2m3fl2asy7qvswgemz5bpu62w@drh7b7wihrwg>
+References: <20240604215105.4057278-1-quic_abhinavk@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <892b2070-2fd0-42b2-a8c2-811dc7382b0c@collabora.com>
+In-Reply-To: <20240604215105.4057278-1-quic_abhinavk@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,39 +91,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 04, 2024 at 10:44:04PM +0300, Cristian Ciocaltea wrote:
-> On 6/1/24 7:32 PM, Dmitry Baryshkov wrote:
-> > On Sat, Jun 01, 2024 at 04:12:22PM +0300, Cristian Ciocaltea wrote:
-> >> The RK3588 SoC family integrates a Quad-Pixel (QP) variant of the
-> >> Synopsys DesignWare HDMI TX controller used in the previous SoCs.
-> >>
-> >> It is HDMI 2.1 compliant and supports the following features, among
-> >> others:
-> >>
-> >> * Fixed Rate Link (FRL)
-> >> * 4K@120Hz and 8K@60Hz video modes
-> >> * Variable Refresh Rate (VRR) including Quick Media Switching (QMS)
-> >> * Fast Vactive (FVA)
-> >> * SCDC I2C DDC access
-> >> * TMDS Scrambler enabling 2160p@60Hz with RGB/YCbCr4:4:4
-> >> * YCbCr4:2:0 enabling 2160p@60Hz at lower HDMI link speeds
-> >> * Multi-stream audio
-> >> * Enhanced Audio Return Channel (EARC)
-> > 
-> > It would be really nice if you can take a look at using the HDMI
-> > connector framework (landed few days ago) with adaptations for the
-> > drm_bridge / drm_bridge_connector ([1]). Your comments for the
-> > drm_bridge patches would be defeinitely appreciated.
-> > 
-> > [1] https://lore.kernel.org/dri-devel/20240531-bridge-hdmi-connector-v4-0-5110f7943622@linaro.org/
+On Tue, Jun 04, 2024 at 02:51:04PM -0700, Abhinav Kumar wrote:
+> GCC diagnostic pragma method throws below warnings in some of the versions
 > 
-> I will definitely check and try to use it, but I'd rather wait a bit
-> until this gets stabilized and focus instead on the mandatory changes
-> required to upstream this driver. That's mostly because my limited
-> availability and expertise on the matter, while trying to unblock other
-> work depending on this.
+> drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:16:9: warning: unknown option after '#pragma GCC diagnostic' kind [-Wpragmas]
+>  #pragma GCC diagnostic ignored "-Wunused-const-variable"
+>          ^
+> In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:18:0:
+> drivers/gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h:924:19: warning: 'gen7_0_0_external_core_regs__always_unused' defined but not used [-Wunused-variable]
+>  static const u32 *gen7_0_0_external_core_regs__always_unused[] = {
+>                    ^
 
-Ack.
+I don't see this symbol in upstream.
+
+> In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:19:0:
+> drivers/gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h:748:19: warning: 'gen7_2_0_external_core_regs' defined but not used [-Wunused-variable]
+>  static const u32 *gen7_2_0_external_core_regs[] = {
+>                    ^
+> In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:20:0:
+> drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h:1188:43: warning: 'gen7_9_0_sptp_clusters' defined but not used [-Wunused-variable]
+>  static struct gen7_sptp_cluster_registers gen7_9_0_sptp_clusters[] = {
+>                                            ^
+> drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h:1438:19: warning: 'gen7_9_0_external_core_regs' defined but not used [-Wunused-variable]
+>  static const u32 *gen7_9_0_external_core_regs[] = {
+> 
+> Remove GCC dependency by using __always_unused for the unused gen7_* includes.
+> 
+> Fixes: 64d6255650d4 ("drm/msm: More fully implement devcoredump for a7xx")
+> Suggested-by: Rob Clark <robdclark@chromium.org>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 13 ++++---------
+>  1 file changed, 4 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> index 0a7717a4fc2f..62ca0cf24005 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> @@ -8,19 +8,10 @@
+>  #include "a6xx_gpu_state.h"
+>  #include "a6xx_gmu.xml.h"
+>  
+> -/* Ignore diagnostics about register tables that we aren't using yet. We don't
+> - * want to modify these headers too much from their original source.
+> - */
+> -#pragma GCC diagnostic push
+> -#pragma GCC diagnostic ignored "-Wunused-variable"
+> -#pragma GCC diagnostic ignored "-Wunused-const-variable"
+> -
+>  #include "adreno_gen7_0_0_snapshot.h"
+>  #include "adreno_gen7_2_0_snapshot.h"
+>  #include "adreno_gen7_9_0_snapshot.h"
+>  
+> -#pragma GCC diagnostic pop
+> -
+>  struct a6xx_gpu_state_obj {
+>  	const void *handle;
+>  	u32 *data;
+> @@ -1350,6 +1341,10 @@ static void a7xx_get_registers(struct msm_gpu *gpu,
+>  	int index = 0;
+>  	const u32 *pre_crashdumper_regs;
+>  	const struct gen7_reg_list *reglist;
+> +	__always_unused const u32 **external_core_regs7_0_0 = gen7_0_0_external_core_regs;
+> +	__always_unused const u32 **external_core_regs_7_2_0 = gen7_2_0_external_core_regs;
+> +	__always_unused const u32 **external_core_regs_7_9_0 = gen7_9_0_external_core_regs;
+> +	__always_unused struct gen7_sptp_cluster_registers *sptp_gen7 = gen7_9_0_sptp_clusters;
+
+Wouldn't it be easier to add something like the following to the
+a6xx_gpu_state.c before including the headers:
+
+static const unsigned int *gen7_0_0_external_core_regs[] __attribute((__unused__));
+static const unsigned int *gen7_2_0_external_core_regs[] __attribute((__unused__));
+static const unsigned int *gen7_9_0_external_core_regs[] __attribute((__unused__));
+
+>  
+>  	if (adreno_is_a730(adreno_gpu)) {
+>  		reglist = gen7_0_0_reg_list;
+> -- 
+> 2.44.0
+> 
 
 -- 
 With best wishes
