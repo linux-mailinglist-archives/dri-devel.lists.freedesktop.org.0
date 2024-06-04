@@ -2,72 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A088FBEBD
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 00:18:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481FD8FBEEC
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 00:29:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F1E710E0AB;
-	Tue,  4 Jun 2024 22:18:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 939FE10E0CA;
+	Tue,  4 Jun 2024 22:29:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kgNpps3x";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aHb2KoWr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
- [209.85.219.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8DC210E0AB
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 22:18:03 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id
- 3f1490d57ef6-dfa4876a5bbso5620864276.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 15:18:03 -0700 (PDT)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AF3510E0CA;
+ Tue,  4 Jun 2024 22:29:17 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-a6269885572so46278966b.1; 
+ Tue, 04 Jun 2024 15:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717539482; x=1718144282; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=dju8euEud3tGI0Dc64zoJcqRLm8j+Mv/qSb1l+QDEd8=;
- b=kgNpps3xQoplY4EfmjKTfMn16xDonCw3mR8WoEMNGetbAplPYnj75ZiZL2ehLw6YLK
- drQs2Gb8yU3bYj1qVTU1XF8E8l9mubdkHbYNbdhi7OUoobyjUKyAzf+rI1jaedH7DICy
- 8IURyyAMH7IJdn/mZPESt0fJbXgVlVpvp6Fq4C/Q8IS9LlnVs6l1cGRs6IA0KadgEZvm
- pFBCQysncOpC7uFVPGb6P0q5I+Gp9jpqBp2Z5+Xko3hX0ZPCawbU9WgPsWBLaO4f03OG
- 2pU/4iNEvpC5nW3ZN7mFRTLwJ7fl12RShB+wo3SIvpJjnbtBrA8zzxyjEzrNEVjmmVfl
- jFrg==
+ d=gmail.com; s=20230601; t=1717540155; x=1718144955; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GqM2hxS4FR6EOD/ApBIrT8QZc14gXJNY9tub2xlKA5E=;
+ b=aHb2KoWrE8ZpGsGa2H/Z1z2qmZVhsUig+FOqXGQ3ujKU1I33lSoOq2K3QrYdmBb9zc
+ T9xkT2rej8s8COyPdU3PqLfRjC9ueX/1ll66wxBMihYUIphXAjmGT5SKOpqf6LhQiItc
+ R+q9m4zrQ9zc22QsemwUZStHkvUEnvNZ7p0ABgoykrPX8wtOQXynnahqYOachuU8Bgjs
+ 3pBGXqGeGBu9cPtBiftZVtO1yRfTkLr0ztv1xHaB6+/AZmY5gHW/qsroBOoXqLrtWdx3
+ 72/Q6ZUJFBYd99l9Y7znFcsbTaf9qg3HKTpzlJoMc5SG3Xbr33cqhLWgg4E8IDJiA1C9
+ 59oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717539482; x=1718144282;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dju8euEud3tGI0Dc64zoJcqRLm8j+Mv/qSb1l+QDEd8=;
- b=pF/0lvXQVG3uSRpIA2uBupAhn+jM3MrLRhXuhYeoNw2+W2PqIOI3GISC9R2GGTCPkY
- rRxmXXu8wHGdbi3UTrT7BbPOJx+38kP7c2DigEEEt9JPTtcNMy3iT1c7NtO/Z7aO2W8x
- eQJYASQj8DdmWXyb0qY0S+ITgq7BEppVWTUEEeLypyQMUEZjokM00LtuiuMTL7xU90ol
- M/lwOWS4HpdGxiSLt23X8+YpJuCOL195Ot+6AZMw7tR+m0uc/3L3NaS5Z2aUJinWpUm3
- +0B5CcMFkY1gWOnN42OLTGa3j1CqqZvko1JrrNpLTWy+PreJjD6IwZ/Ez9JvhuAkXkFj
- rzcg==
+ d=1e100.net; s=20230601; t=1717540155; x=1718144955;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GqM2hxS4FR6EOD/ApBIrT8QZc14gXJNY9tub2xlKA5E=;
+ b=BDjZaI++9xCOqIw/oD2RFApD37t+HO3HKjgy1PXZz9VfXgJm5cRVtcsuM9P3w5nz5B
+ Z7HaV2wN0Zw6hFuSqJQ4e6uZuqkKCRPcFSLp67GiIxeFJC+ppO8MpgGyaAEN6drtyBY6
+ 5NPsO8swng/jQ7joWsqz3AJxcHuEOJSHDMpHYgx5BkVn5gQXDZOKEBKuFLJGXsSnsHaT
+ ulwz2CZZiZ7fHUui4VnIw+554I8iJbqQCF0S2D4QvwASSS6ITHhUKd7rIdVvQZ0Ufoeq
+ siB0LzLUkY1W2eq4UWpodVty24W0iwkh4mUvp9uvJho8s4hCPqK4ajUONxEpzYCzWdkU
+ JRpg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWsX7pn5XyZf2QaelbzjqF0C8t9wgPLIUoDtvlCfFiI6GhqJTWaEkceVclmLqBDjQ0urQvLF/CUmeHj32GYD01ESWbWDWglL8wqlt2fmtfw
-X-Gm-Message-State: AOJu0Ywsm1gbYooRToCMP5e8vSu4xE9ZhLqZ7vAJTPxz8t2vsN3u0Ki7
- 5ZKqdtsVSb60uzpNr4FTOBLWHicRKgTcZfAs2rmF4Yur4qrJNMXrhToJqTCRVm/42FxCzoB9klI
- bvb+ZcO/Lea9UGjz6LxgHm4MbiLjWQYq2KzE9dw==
-X-Google-Smtp-Source: AGHT+IGjOfS4i93Row/X3jqzU0dH+hExXMYcFf+ZqDyJ2rsltsLw1J6GpgelC+gB54Q/xtCmXF7iFbUk4LEnR14NsBE=
-X-Received: by 2002:a25:828a:0:b0:df4:e791:867c with SMTP id
- 3f1490d57ef6-dfacacf972fmr736847276.43.1717539482510; Tue, 04 Jun 2024
- 15:18:02 -0700 (PDT)
+ AJvYcCXlFO1jJy942QrtEjEN8pbz78plZAp6KEHQYR5GT+rqRUTIbS0Ckrg4cX5ttTy+ML4e9/YeEmzdXu/qpNtSvrqhYpj3Yhnl/dIirseIsEcx
+X-Gm-Message-State: AOJu0YyMEtywoC3xOAzAb2phb5jxSymyHBqEJCzyG46V3BxHoZ6yylaM
+ 2smphZl9XjMmRMDfY86iGKdepMs+mGBIU55q6/1kqNgNHFXQG750K6Fez1z59jxumIhVHCvgiGW
+ OSbOZBZIL8g8Ay6e2a5FsFZAq8lM=
+X-Google-Smtp-Source: AGHT+IHIe8oojZHH3BSc04qDCY6rnCKtmhfue3eiADcCFUkd8n3J7o617bnUH1b9t9siCp6QOzcAxh569eqIcgKG92w=
+X-Received: by 2002:a17:907:8f0a:b0:a68:f43c:57dd with SMTP id
+ a640c23a62f3a-a699d63f681mr58766666b.23.1717540154999; Tue, 04 Jun 2024
+ 15:29:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240604214018.238153-1-pbrobinson@gmail.com>
-In-Reply-To: <20240604214018.238153-1-pbrobinson@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 5 Jun 2024 01:17:51 +0300
-Message-ID: <CAA8EJpr2ZKugjwYzFUq3Rqjdm6DO-PiZEfiuBjxSnJDmRcMRdw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/adreno: Add some missing MODULE_FIRMWARE entries
-To: Peter Robinson <pbrobinson@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+References: <20240602190959.2981-1-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20240602190959.2981-1-thomas.hellstrom@linux.intel.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 5 Jun 2024 08:29:03 +1000
+Message-ID: <CAPM=9ty=EMpFTumUCeAcHzn7j2Trs6r3_46jEvo_-CzPmAXcyg@mail.gmail.com>
+Subject: Re: [PATCH v2] MAINTAINERS: Update Xe driver maintainers
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: intel-xe@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,52 +81,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 5 Jun 2024 at 00:40, Peter Robinson <pbrobinson@gmail.com> wrote:
+Acked-by: Dave Airlie <airlied@redhat.com>
+
+Please merge through xe-fixes
+
+Dave.
+
+On Mon, 3 Jun 2024 at 05:13, Thomas Hellstr=C3=B6m
+<thomas.hellstrom@linux.intel.com> wrote:
 >
-> Add missing MODULE_FIRMWARE for firmware in linux-firmware,
-> this is needed for automatically adding firmware to things
-> like initrds when the drivers are built as modules. This is
-> useful for devices like the X13s and the RBx devices on
-> general distros.
+> Add Rodrigo Vivi as an Xe driver maintainer.
 >
-> Fixes: 5e7665b5e484b ("drm/msm/adreno: Add Adreno A690 support")
-> Fixes: 18397519cb622 ("drm/msm/adreno: Add A702 support")
-> Fixes: 3e7042ba87da ("drm/msm/adreno: Add ZAP firmware name to A635")
-> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+> v2:
+> - Cc also Lucas De Marchi (Rodrigo vivi)
+> - Remove a blank line in commit the commit message (Lucas De Marchi)
+>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Acked-by: Lucas De Marchi <lucas.demarchi@intel.com>
 > ---
->  drivers/gpu/drm/msm/adreno/adreno_device.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> index c3703a51287b4..fede5159e7f5b 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> @@ -609,8 +609,11 @@ MODULE_FIRMWARE("qcom/a650_gmu.bin");
->  MODULE_FIRMWARE("qcom/a650_sqe.fw");
->  MODULE_FIRMWARE("qcom/a660_gmu.bin");
->  MODULE_FIRMWARE("qcom/a660_sqe.fw");
-> +MODULE_FIRMWARE("qcom/a660_zap.mbn");
-
--ENOSUCHFILE. It should qcom/particular-SoC/a660_zap.mbn
-
-> +MODULE_FIRMWARE("qcom/a702_sqe.fw");
->  MODULE_FIRMWARE("qcom/leia_pfp_470.fw");
->  MODULE_FIRMWARE("qcom/leia_pm4_470.fw");
-> +MODULE_FIRMWARE("qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn");
-
-I'm a bit sceptical here. Each device has its own zap MBN file (this
-one is also a fancy named a690_zap.mbn).  Do we want to list all such
-files? Consider all the vendors, which are open-source / Linux
-friendly, like FairPhone, OnePlus, etc.
-
->  MODULE_FIRMWARE("qcom/yamato_pfp.fw");
->  MODULE_FIRMWARE("qcom/yamato_pm4.fw");
->
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 572be0546e21..8f9982c99257 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11037,6 +11037,7 @@ F:      include/uapi/drm/i915_drm.h
+>  INTEL DRM XE DRIVER (Lunar Lake and newer)
+>  M:     Lucas De Marchi <lucas.demarchi@intel.com>
+>  M:     Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> +M:     Rodrigo Vivi <rodrigo.vivi@intel.com>
+>  L:     intel-xe@lists.freedesktop.org
+>  S:     Supported
+>  W:     https://drm.pages.freedesktop.org/intel-docs/
 > --
-> 2.45.1
+> 2.44.0
 >
-
-
--- 
-With best wishes
-Dmitry
