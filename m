@@ -2,74 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A132B8FAF3C
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 11:49:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9CE8FAFA5
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 12:13:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD0AA10E294;
-	Tue,  4 Jun 2024 09:49:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96A7D10E3B7;
+	Tue,  4 Jun 2024 10:13:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="RIe/pMKA";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="RV52ppSm";
+	dkim=pass (2048-bit key; unprotected) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="0/K9RtZ8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F09910E294
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 09:49:33 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78A9110E3B7
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 10:13:50 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-4214fe0067fso3860115e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 03:13:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1717494573; x=1749030573;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=D9Y6aHzRSX1M/okafM5XvVMjeFxqQ8Pr99V3yM1nuJw=;
- b=RIe/pMKATrxMPv5/KFqgFL639WoOWrhVq6RoymCraDYK7TyQaAoIglWa
- 7hFP1Q8QZCLAUVqkKvZxcG/Fs+HQQNjlhH24eKev1CF4cePd+0LTeNFIJ
- JRlV8o8H1WjwoJTBJQe9zSj2M8AB+zaFmws588v4ZJQ3H6nIggAOO+gX2
- 8QifQdEkz9Pha7QLygkprgYoHsDvnAP6w5NoVP97TeQyVOcz98/fErVZp
- ZVQNbnLWSY2DxE781kEocI80X2FQb2gu8iHXHa7dVY5KhMgNZg0yHSnlG
- r6BbmspLjV/i11eSZjpp/2z8v/GANrddyLbb3HZuMy2+zfYPz/2ZAZgj5 g==;
-X-CSE-ConnectionGUID: Sz926JwiS86zQxa2TFptSA==
-X-CSE-MsgGUID: XBYM67s5Rail7HPGo7JZhg==
-X-IronPort-AV: E=Sophos;i="6.08,213,1712613600"; d="scan'208";a="37209046"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 04 Jun 2024 11:49:31 +0200
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 74B4917119C; Tue,  4 Jun 2024 11:49:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1717494567;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=D9Y6aHzRSX1M/okafM5XvVMjeFxqQ8Pr99V3yM1nuJw=;
- b=RV52ppSmdTYPddxBEmy0MyYN5N4ZMUCluhRtaum1yKFhQhhKTkHlr1FCSUjrXwrOu3vgLr
- A9Cj9vVyBIJvKgkgQQyL+Ez0egHsb3UxsYKLNdU4QrPYAVD5BRJ+cOGZXM0l5cN3YK2D08
- K26Nhmg6DudAUp9jKYYaaATdaoW+UuBxV9fAu4fqrzBT3gaLu5KPLNta1WrQ4VyooJiIEl
- fVTlUU3hT5got6E4Q5udHormbIm/hO0lCtFQIHyGMxn0TlPoTKoIwPc4VulUAYuCapeqgS
- vHbtSn9HFxv5Xz4qhJdR6GJHESD+fjQB34jX1jfsCautukq7ZKmFbGOypiqPKg==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Herring <robh@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- kernel@dh-electronics.com, Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 2/2] drm/bridge: tc358767: Add configurable default
- preemphasis
-Date: Tue, 04 Jun 2024 11:49:26 +0200
-Message-ID: <2272229.iZASKD2KPV@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20240531204339.277848-2-marex@denx.de>
-References: <20240531204339.277848-1-marex@denx.de>
- <20240531204339.277848-2-marex@denx.de>
+ d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1717496028; x=1718100828;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Hkz0DVSHPM581bQdM1mhT6UQMZ8po+xcZl4Qk7/o78g=;
+ b=0/K9RtZ8YxxJBDyd7EAeH+/8R2GUApxyMDhRiFRa0UP8BK/3ejHSwSXmUgUKRkzfFr
+ t7+US1u7AQBMDL/qTwSFlC5nKH8LeAD0tgFLp7KFEQRmlkm6KerxvrD7TWGEtscHc7nm
+ 4wUBpxtzaGMClLGC4HAByC17e5aUaoVENSvHHAOQu0ppQbjr258PBZGmSrzeorZUArjA
+ GFztTPLS2gQFqS3mEEarYGAuwdKB2yqKI1/16cPaxM4R+MPbnhe0HvPUMoiRge/V5LtN
+ tZeYfGNylgCcXSYiq61ICqaAmcgc1jncIq6IDb+s6xnexhKx/Gn6GmIiVuojPcQDoduU
+ pqqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717496028; x=1718100828;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Hkz0DVSHPM581bQdM1mhT6UQMZ8po+xcZl4Qk7/o78g=;
+ b=OcKAnBG7k+b0uwB63O1HPFTAStw9pEkswUO3m8q3RfodRSPrOinZVz/RUia35LszBH
+ lOTutkK/KdKReGmCvlJeZVuXaUfGX5tXlahxf97KNRtktZiwWgBXtVOsNFohhkgiox4j
+ gwllV2Ja8MLH7sUCzbxV7RsPh/2AElhYbs9O9i5Z2b+sgzFBnhnlRffrxTbPgcnqbLGK
+ bDaYOIkb80mQLnTuNVDdfd9l+A2t/Csqa6J4e5CUDuyHuYNK4xPNz/wiJBdMt+Q+3A46
+ xc2QQHdRxfCI0l0eIVcvMYv36irKvs2JxnnkfFwfgTM5qU1LQ6gIRfd104lpc+QroG7t
+ e0Gg==
+X-Gm-Message-State: AOJu0Yw+4X2bovZxYZa0QRk8nsOpRies6f9SRrVORiUaKGVKMi85Fg2k
+ HLpUqz4LJD346jUfcVpTYXBf5Am3WzxEZSTqIlSGN/JtW/+nwf5454C3lnMgQOQ=
+X-Google-Smtp-Source: AGHT+IGmr+mjlkB3IrxJZa093GkDQIwpDi38jRs3h2XnRLSE/PGxwx506ujykI/IZmoBxQJSs/mNrA==
+X-Received: by 2002:a05:600c:424b:b0:421:29d7:f87 with SMTP id
+ 5b1f17b1804b1-4212e09ba44mr90528305e9.27.1717496028497; 
+ Tue, 04 Jun 2024 03:13:48 -0700 (PDT)
+Received: from debian.fritz.box. (aftr-82-135-80-160.dynamic.mnet-online.de.
+ [82.135.80.160]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4214fdf4953sm12261565e9.25.2024.06.04.03.13.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jun 2024 03:13:48 -0700 (PDT)
+From: Thorsten Blum <thorsten.blum@toblux.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thorsten Blum <thorsten.blum@toblux.com>
+Subject: [RESEND PATCH] drm: Combine identical if/elif code blocks
+Date: Tue,  4 Jun 2024 12:13:07 +0200
+Message-Id: <20240604101306.2919-1-thorsten.blum@toblux.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,185 +80,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Merge the identical if/elif code blocks and remove the following two
+warnings reported by make includecheck:
 
-Am Freitag, 31. Mai 2024, 22:42:04 CEST schrieb Marek Vasut:
-> Make the default DP port preemphasis configurable via new DT property
-> "toshiba,pre-emphasis". This is useful in case the DP link properties
-> are known and starting link training from preemphasis setting of 0 dB
-> is not useful. The preemphasis can be set separately for both DP lanes
-> in range 0=3D0dB, 1=3D3.5dB, 2=3D6dB .
->=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: kernel@dh-electronics.com
-> ---
->  drivers/gpu/drm/bridge/tc358767.c | 49 ++++++++++++++++++++++++++-----
->  1 file changed, 42 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/t=
-c358767.c
-> index 1243918320a7d..32639865fea07 100644
-> --- a/drivers/gpu/drm/bridge/tc358767.c
-> +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -241,6 +241,10 @@
-> =20
->  /* Link Training */
->  #define DP0_SRCCTRL		0x06a0
-> +#define DP0_SRCCTRL_PRE1		GENMASK(29, 28)
-> +#define DP0_SRCCTRL_SWG1		GENMASK(25, 24)
-> +#define DP0_SRCCTRL_PRE0		GENMASK(21, 20)
-> +#define DP0_SRCCTRL_SWG0		GENMASK(17, 16)
->  #define DP0_SRCCTRL_SCRMBLDIS		BIT(13)
->  #define DP0_SRCCTRL_EN810B		BIT(12)
->  #define DP0_SRCCTRL_NOTP		(0 << 8)
-> @@ -278,6 +282,8 @@
->  #define AUDIFDATA6		0x0720	/* DP0 Audio Info Frame Bytes 27 to 24 */
-> =20
->  #define DP1_SRCCTRL		0x07a0	/* DP1 Control Register */
-> +#define DP1_SRCCTRL_PRE			GENMASK(21, 20)
-> +#define DP1_SRCCTRL_SWG			GENMASK(17, 16)
-> =20
->  /* PHY */
->  #define DP_PHY_CTRL		0x0800
-> @@ -369,6 +375,7 @@ struct tc_data {
-> =20
->  	u32			rev;
->  	u8			assr;
-> +	u8			pre_emphasis[2];
-> =20
->  	struct gpio_desc	*sd_gpio;
->  	struct gpio_desc	*reset_gpio;
-> @@ -1090,13 +1097,17 @@ static int tc_main_link_enable(struct tc_data *tc)
->  			return ret;
->  	}
-> =20
-> -	ret =3D regmap_write(tc->regmap, DP0_SRCCTRL, tc_srcctrl(tc));
-> +	ret =3D regmap_write(tc->regmap, DP0_SRCCTRL,
-> +			   tc_srcctrl(tc) |
-> +			   FIELD_PREP(DP0_SRCCTRL_PRE0, tc->pre_emphasis[0]) |
-> +			   FIELD_PREP(DP0_SRCCTRL_PRE1, tc->pre_emphasis[1]));
->  	if (ret)
->  		return ret;
->  	/* SSCG and BW27 on DP1 must be set to the same as on DP0 */
->  	ret =3D regmap_write(tc->regmap, DP1_SRCCTRL,
->  		 (tc->link.spread ? DP0_SRCCTRL_SSCG : 0) |
-> -		 ((tc->link.rate !=3D 162000) ? DP0_SRCCTRL_BW27 : 0));
-> +		 ((tc->link.rate !=3D 162000) ? DP0_SRCCTRL_BW27 : 0) |
-> +		 FIELD_PREP(DP1_SRCCTRL_PRE, tc->pre_emphasis[1]));
->  	if (ret)
->  		return ret;
-> =20
-> @@ -1188,8 +1199,10 @@ static int tc_main_link_enable(struct tc_data *tc)
->  		goto err_dpcd_write;
-> =20
->  	/* Reset voltage-swing & pre-emphasis */
-> -	tmp[0] =3D tmp[1] =3D DP_TRAIN_VOLTAGE_SWING_LEVEL_0 |
-> -			  DP_TRAIN_PRE_EMPH_LEVEL_0;
-> +	tmp[0] =3D DP_TRAIN_VOLTAGE_SWING_LEVEL_0 |
-> +		 FIELD_PREP(DP_TRAIN_PRE_EMPHASIS_MASK, tc->pre_emphasis[0]);
-> +	tmp[1] =3D DP_TRAIN_VOLTAGE_SWING_LEVEL_0 |
-> +		 FIELD_PREP(DP_TRAIN_PRE_EMPHASIS_MASK, tc->pre_emphasis[1]);
->  	ret =3D drm_dp_dpcd_write(aux, DP_TRAINING_LANE0_SET, tmp, 2);
->  	if (ret < 0)
->  		goto err_dpcd_write;
-> @@ -1213,7 +1226,9 @@ static int tc_main_link_enable(struct tc_data *tc)
->  	ret =3D regmap_write(tc->regmap, DP0_SRCCTRL,
->  			   tc_srcctrl(tc) | DP0_SRCCTRL_SCRMBLDIS |
->  			   DP0_SRCCTRL_AUTOCORRECT |
-> -			   DP0_SRCCTRL_TP1);
-> +			   DP0_SRCCTRL_TP1 |
-> +			   FIELD_PREP(DP0_SRCCTRL_PRE0, tc->pre_emphasis[0]) |
-> +			   FIELD_PREP(DP0_SRCCTRL_PRE1, tc->pre_emphasis[1]));
->  	if (ret)
->  		return ret;
-> =20
-> @@ -1248,7 +1263,9 @@ static int tc_main_link_enable(struct tc_data *tc)
->  	ret =3D regmap_write(tc->regmap, DP0_SRCCTRL,
->  			   tc_srcctrl(tc) | DP0_SRCCTRL_SCRMBLDIS |
->  			   DP0_SRCCTRL_AUTOCORRECT |
-> -			   DP0_SRCCTRL_TP2);
-> +			   DP0_SRCCTRL_TP2 |
-> +			   FIELD_PREP(DP0_SRCCTRL_PRE0, tc->pre_emphasis[0]) |
-> +			   FIELD_PREP(DP0_SRCCTRL_PRE1, tc->pre_emphasis[1]));
->  	if (ret)
->  		return ret;
-> =20
-> @@ -1274,7 +1291,9 @@ static int tc_main_link_enable(struct tc_data *tc)
-> =20
->  	/* Clear Training Pattern, set AutoCorrect Mode =3D 1 */
->  	ret =3D regmap_write(tc->regmap, DP0_SRCCTRL, tc_srcctrl(tc) |
-> -			   DP0_SRCCTRL_AUTOCORRECT);
-> +			   DP0_SRCCTRL_AUTOCORRECT |
-> +			   FIELD_PREP(DP0_SRCCTRL_PRE0, tc->pre_emphasis[0]) |
-> +			   FIELD_PREP(DP0_SRCCTRL_PRE1, tc->pre_emphasis[1]));
->  	if (ret)
->  		return ret;
-> =20
-> @@ -2346,6 +2365,7 @@ static int tc_probe_dpi_bridge_endpoint(struct tc_d=
-ata *tc)
->  static int tc_probe_edp_bridge_endpoint(struct tc_data *tc)
->  {
->  	struct device *dev =3D tc->dev;
-> +	struct device_node *port;
->  	struct drm_panel *panel;
->  	int ret;
-> =20
-> @@ -2372,6 +2392,21 @@ static int tc_probe_edp_bridge_endpoint(struct tc_=
-data *tc)
->  		tc->bridge.ops |=3D DRM_BRIDGE_OP_DETECT;
->  	tc->bridge.ops |=3D DRM_BRIDGE_OP_EDID;
-> =20
-> +	port =3D of_graph_get_port_by_id(dev->of_node, 2);
-> +	if (!port)
-> +		return 0;
-> +
-> +	of_property_read_u8_array(port, "toshiba,pre-emphasis",
-> +				  tc->pre_emphasis,
-> +				  ARRAY_SIZE(tc->pre_emphasis));
+	asm/ioctl.h is included more than once
+	linux/types.h is included more than once
 
-This doesn't match the bindings. Bindings say it's a property of the
-endpoint, not the port. Additionally it's uint32-array, not uint8-array.
+Reverts commit 00c9672606f7 ("drm: Untangle __KERNEL__ guards") because
+make headers_install seems to be able to handle this now.
 
-Best regards,
-Alexander
+Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+---
+ include/uapi/drm/drm.h | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-> +	of_node_put(port);
-> +
-> +	if (tc->pre_emphasis[0] < 0 || tc->pre_emphasis[0] > 2 ||
-> +	    tc->pre_emphasis[1] < 0 || tc->pre_emphasis[1] > 2) {
-> +		dev_err(dev, "Incorrect Pre-Emphasis setting, use either 0=3D0dB 1=3D3=
-=2E5dB 2=3D6dB\n");
-> +		return -EINVAL;
-> +	}
-> +
->  	return 0;
->  }
-> =20
->=20
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
+diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+index 16122819edfe..315af7b19c97 100644
+--- a/include/uapi/drm/drm.h
++++ b/include/uapi/drm/drm.h
+@@ -35,13 +35,7 @@
+ #ifndef _DRM_H_
+ #define _DRM_H_
+ 
+-#if defined(__KERNEL__)
+-
+-#include <linux/types.h>
+-#include <asm/ioctl.h>
+-typedef unsigned int drm_handle_t;
+-
+-#elif defined(__linux__)
++#if defined(__KERNEL__) || defined(__linux__)
+ 
+ #include <linux/types.h>
+ #include <asm/ioctl.h>
+-- 
+2.39.2
 
