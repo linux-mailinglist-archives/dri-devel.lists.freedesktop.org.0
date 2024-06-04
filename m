@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 093BB8FB080
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 12:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 368678FB089
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 12:53:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D2D310E44E;
-	Tue,  4 Jun 2024 10:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A07F410E452;
+	Tue,  4 Jun 2024 10:53:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="YDGB/fk1";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="CtLwSL70";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C68D710E44E
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 10:53:24 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 454ArDoY085968;
- Tue, 4 Jun 2024 05:53:13 -0500
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5368C10E451
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 10:53:49 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 454Arb7N104586;
+ Tue, 4 Jun 2024 05:53:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1717498393;
- bh=VH0U6ipfvCppDUeQDKUpcWDfD7uSeboDDJhYoTRy+XI=;
+ s=ti-com-17Q1; t=1717498417;
+ bh=d3r0wLtyLKE2OgIyTtkCM29t6IlewSqA7H9LkkdsBPw=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=YDGB/fk1NJ0OqOSrWzHMLPMq+tqbJ77ElChnMjpPyfdQ7VDU3j49WIWkVAdMa5ZBh
- O+zNwUCKbyRG355xqBd7ATm+RfmI5lqNsVOJ4hCx4sohBDUO9u+GPhTHRIPfMQ13Gv
- vK7Z3IAud3EEilUX62juQvfST7ipM5MTGD1Qt0P8=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 454ArD2g061520
+ b=CtLwSL70keUHFBB50CFPyV9Xe97veEwA50r8GiS2g8ibyISqDgrThKS9IERvz/5Ui
+ oNoNsbDrjjNuxt91C93nuS6iggmV1MQG9TKtzukpkENILf/5QDLj12f8O5We4iEhes
+ U3p1G4b3SHuZHsbcgt2Na+cG3rH+ltMC0rDpColA=
+Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 454ArbZC033176
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 4 Jun 2024 05:53:13 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 4 Jun 2024 05:53:37 -0500
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 4
- Jun 2024 05:53:13 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ Jun 2024 05:53:37 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 4 Jun 2024 05:53:12 -0500
+ Frontend Transport; Tue, 4 Jun 2024 05:53:37 -0500
 Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 454ArCR2122146;
- Tue, 4 Jun 2024 05:53:12 -0500
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 454Arado075929;
+ Tue, 4 Jun 2024 05:53:36 -0500
 From: Devarsh Thakkar <devarsht@ti.com>
-To: <devarsht@ti.com>, <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
  <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
- <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
- <andriy.shevchenko@linux.intel.com>, <adobriyan@gmail.com>,
- <jani.nikula@intel.com>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
+ <dri-devel@lists.freedesktop.org>
 CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
  <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
  <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
- <vijayp@ti.com>, <andrzej.p@collabora.com>, <nicolas@ndufresne.ca>,
- <davidgow@google.com>, <dlatypov@google.com>
-Subject: [PATCH v12 11/13] lib: math_kunit: Add tests for new macros related
- to rounding to nearest value
-Date: Tue, 4 Jun 2024 16:23:11 +0530
-Message-ID: <20240604105311.2256898-1-devarsht@ti.com>
+ <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
+ <nicolas@ndufresne.ca>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <akpm@linux-foundation.org>,
+ <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
+ <adobriyan@gmail.com>, <jani.nikula@intel.com>
+Subject: [PATCH v12 12/13] media: imagination: Round to closest multiple for
+ cropping region
+Date: Tue, 4 Jun 2024 16:23:35 +0530
+Message-ID: <20240604105335.2257629-1-devarsht@ti.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20240604104001.2235082-1-devarsht@ti.com>
 References: <20240604104001.2235082-1-devarsht@ti.com>
@@ -79,81 +79,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add tests for round_closest_up/down and roundclosest macros which round
-to nearest multiple of specified argument. These are tested with kunit
-tool as shared here [1] :
+If neither of the flags to round down (V4L2_SEL_FLAG_LE) or round up
+(V4L2_SEL_FLAG_GE) are specified by the user, then round to nearest
+multiple of requested value while updating the crop rectangle coordinates.
 
-Link: https://gist.github.com/devarsht/3f9042825be3da4e133b8f4eda067876 [1]
+Use the rounding macro which gives preference to rounding down in case two
+nearest values (high and low) are possible to raise the probability of
+cropping rectangle falling inside the bound region.
+
+This complies with the VIDIOC_G_SELECTION, VIDIOC_S_SELECTION ioctl
+description as documented in v4l uapi [1] which specifies that driver
+should choose crop rectangle as close as possible if no flags are passed by
+user-space, as quoted below :
+
+"``0`` - The driver can adjust the rectangle size freely and shall choose a
+crop/compose rectangle as close as possible to the requested
+ one."
+
+Link: https://www.kernel.org/doc/Documentation/userspace-api/media/v4l/vidioc-g-selection.rst [1]
 Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
-V1->V12 (No change, patch introduced in V8)
+V12: No change
+V11: No change
+V10: No change
+V9:  No change
+V8:  Update commit message with specification reference
+V1->V7 (No change, patch introduced in V7)
 ---
- lib/math/math_kunit.c | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ drivers/media/platform/imagination/e5010-jpeg-enc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/lib/math/math_kunit.c b/lib/math/math_kunit.c
-index be27f2afb8e4..05022f010be6 100644
---- a/lib/math/math_kunit.c
-+++ b/lib/math/math_kunit.c
-@@ -70,6 +70,26 @@ static void round_down_test(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, round_down((1 << 30) - 1, 1 << 29), 1 << 29);
- }
+diff --git a/drivers/media/platform/imagination/e5010-jpeg-enc.c b/drivers/media/platform/imagination/e5010-jpeg-enc.c
+index e701d573a26a..d65646f0c38c 100644
+--- a/drivers/media/platform/imagination/e5010-jpeg-enc.c
++++ b/drivers/media/platform/imagination/e5010-jpeg-enc.c
+@@ -517,10 +517,10 @@ static int e5010_s_selection(struct file *file, void *fh, struct v4l2_selection
  
-+static void round_closest_up_test(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, round_closest_up(17, 4), 16);
-+	KUNIT_EXPECT_EQ(test, round_closest_up(15, 4), 16);
-+	KUNIT_EXPECT_EQ(test, round_closest_up(14, 4), 16);
-+	KUNIT_EXPECT_EQ(test, round_closest_up((1 << 30) - 1, 1 << 30), 1 << 30);
-+	KUNIT_EXPECT_EQ(test, round_closest_up((1 << 30) + 1, 1 << 30), 1 << 30);
-+	KUNIT_EXPECT_EQ(test, round_closest_up((1 << 30) - 1, 2), 1 << 30);
-+}
-+
-+static void round_closest_down_test(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, round_closest_down(17, 4), 16);
-+	KUNIT_EXPECT_EQ(test, round_closest_down(15, 4), 16);
-+	KUNIT_EXPECT_EQ(test, round_closest_down(14, 4), 12);
-+	KUNIT_EXPECT_EQ(test, round_closest_down((1 << 30) - 1, 1 << 30), 1 << 30);
-+	KUNIT_EXPECT_EQ(test, round_closest_down((1 << 30) + 1, 1 << 30), 1 << 30);
-+	KUNIT_EXPECT_EQ(test, round_closest_down((1 << 30) - 1, 2), (1 << 30) - 2);
-+}
-+
- /* These versions can round to numbers that aren't a power of two */
- static void roundup_test(struct kunit *test)
- {
-@@ -95,6 +115,18 @@ static void rounddown_test(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, rounddown(4, 3), 3);
- }
+ 	switch (s->flags) {
+ 	case 0:
+-		s->r.width = round_down(s->r.width, queue->fmt->frmsize.step_width);
+-		s->r.height = round_down(s->r.height, queue->fmt->frmsize.step_height);
+-		s->r.left = round_down(s->r.left, queue->fmt->frmsize.step_width);
+-		s->r.top = round_down(s->r.top, 2);
++		s->r.width = round_closest_down(s->r.width, queue->fmt->frmsize.step_width);
++		s->r.height = round_closest_down(s->r.height, queue->fmt->frmsize.step_height);
++		s->r.left = round_closest_down(s->r.left, queue->fmt->frmsize.step_width);
++		s->r.top = round_closest_down(s->r.top, 2);
  
-+static void roundclosest_test(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, roundclosest(21, 5), 20);
-+	KUNIT_EXPECT_EQ(test, roundclosest(19, 5), 20);
-+	KUNIT_EXPECT_EQ(test, roundclosest(17, 5), 15);
-+	KUNIT_EXPECT_EQ(test, roundclosest((1 << 30), 3), (1 << 30) - 1);
-+	KUNIT_EXPECT_EQ(test, roundclosest((1 << 30) - 1, 1 << 29), 1 << 30);
-+
-+	KUNIT_EXPECT_EQ(test, roundclosest(4, 3), 3);
-+	KUNIT_EXPECT_EQ(test, roundclosest(5, 3), 6);
-+}
-+
- static void div_round_up_test(struct kunit *test)
- {
- 	KUNIT_EXPECT_EQ(test, DIV_ROUND_UP(0, 1), 0);
-@@ -272,8 +304,11 @@ static struct kunit_case math_test_cases[] = {
- 	KUNIT_CASE(int_sqrt_test),
- 	KUNIT_CASE(round_up_test),
- 	KUNIT_CASE(round_down_test),
-+	KUNIT_CASE(round_closest_up_test),
-+	KUNIT_CASE(round_closest_down_test),
- 	KUNIT_CASE(roundup_test),
- 	KUNIT_CASE(rounddown_test),
-+	KUNIT_CASE(roundclosest_test),
- 	KUNIT_CASE(div_round_up_test),
- 	KUNIT_CASE(div_round_closest_test),
- 	KUNIT_CASE_PARAM(gcd_test, gcd_gen_params),
+ 		if (s->r.left + s->r.width > queue->width)
+ 			s->r.width = round_down(s->r.width + s->r.left - queue->width,
 -- 
 2.39.1
 
