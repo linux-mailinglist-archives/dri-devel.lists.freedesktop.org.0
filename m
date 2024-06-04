@@ -2,51 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D92E8FB36C
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 15:20:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F6338FB366
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 15:20:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 049C510E484;
-	Tue,  4 Jun 2024 13:20:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 724F410E47E;
+	Tue,  4 Jun 2024 13:20:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JeWIPB0P";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lF3zsjgy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1FA410E47F
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 13:20:43 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A482210E47D
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 13:20:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 15E25CE113C;
- Tue,  4 Jun 2024 13:20:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 573C2C3277B;
+ by dfw.source.kernel.org (Postfix) with ESMTP id AFFC66126E;
+ Tue,  4 Jun 2024 13:20:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5B1C4C4AF07;
  Tue,  4 Jun 2024 13:20:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1717507239;
- bh=hGVtjDM96GPiibc2AFKhkSfhGrvU98AnTo1RVvLWr2c=;
- h=From:Subject:Date:To:Cc:Reply-To:From;
- b=JeWIPB0P3qWQHXcZKy8R50Iss/fsuFPOfYteEyM/6bcxX4S+I2XjHKYnWUIbGgO5L
- eIBAiMvO1K4KSNZz9yFzrNBpf1oSJIRWAUEijBLorecO23vsmWF58alJqpNO3gr3a7
- zJn5qHqv/cIlQg9efJj+DMvhneKqnWCFYdK6lfP4oBx/JmAyPwJW3qim+ny1DNjdwJ
- NLoQoLC5VYDSXMSKzhcoyGOWdvVjkUCkDop6qYbbXGBqQRjFixpGl+TC91GCRznUSJ
- NbB6JINNm52suU3DsGhCJVahJQ5hSXVKBPYCOyjIs3x7Vy7XV1H7Y1PDQwqmPcZWAS
- JJz4supYSbK2w==
+ bh=gNH7o0uB5n2M8ruKL+VTu1X79iL62sffpOhlGco74wk=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+ b=lF3zsjgyNq3gSnvep4BOrsvmrD6Ciil09eOiGWQSIbnNsZmWUHAsVif78Rsc0wAbH
+ PS4b6hx5VzaetAbTonVxZDn3D5B5S8Vk7cQv8a3E5Xk8D5JT0ZcykMqD6blWj9dIcg
+ WsMctZ79nY6nySZ6FA7htiLxiTkD8cG4h67ELgUb1aiEzpru20PLlazOY3UzXBYZsh
+ 1m2K5rN/HoCVUpYzLWDreh80eNMBWa3l1+KCoHRybqRw0tdlHDzW/fGaxo5oGpIPJn
+ CTJ7b3AVzyj/xDu7jLP+ZZ0PpFyW3kfD9imt9fK9D+ddY5SGKyOaet6mdL8m8ryifV
+ nI/0/wtRT9deA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 357BEC27C50;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 457CCC27C54;
  Tue,  4 Jun 2024 13:20:39 +0000 (UTC)
 From: =?utf-8?q?Noralf_Tr=C3=B8nnes_via_B4_Relay?=
  <devnull+noralf.tronnes.org@kernel.org>
-Subject: [PATCH v4 0/5] drm/tiny: panel-mipi-dbi: Support 18 bits per color
- RGB666
-Date: Tue, 04 Jun 2024 15:20:27 +0200
-Message-Id: <20240604-panel-mipi-dbi-rgb666-v4-0-d7c2bcb9b78d@tronnes.org>
+Date: Tue, 04 Jun 2024 15:20:28 +0200
+Subject: [PATCH v4 1/5] dt-bindings: display: panel: mipi-dbi-spi: Add a
+ pixel format property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAJsUX2YC/3XNQQ6CMBCF4auQrq0pndJSV97DuCh0xEm0kJYQD
- eHuVl2oMSz/l8w3M0sYCRPbFTOLOFGiPuRQm4K1Zxc65ORzMymkEkpUfHABL/xKA3HfEI9do7X
- mCgWAqY3XrWX5doh4otvLPRxznymNfby/3kzlc32LlTAr4lRywbWxVoJyJwe4H2MfAqZtHzv2N
- Cf55ZRyzZHZUdZ7qTXI2ol/Bz6OFrDmQHYqi76C1hnw7tdZluUBcdzMf0wBAAA=
+Message-Id: <20240604-panel-mipi-dbi-rgb666-v4-1-d7c2bcb9b78d@tronnes.org>
+References: <20240604-panel-mipi-dbi-rgb666-v4-0-d7c2bcb9b78d@tronnes.org>
+In-Reply-To: <20240604-panel-mipi-dbi-rgb666-v4-0-d7c2bcb9b78d@tronnes.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
@@ -62,11 +60,11 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>, 
  =?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1717507238; l=1651;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1717507238; l=4065;
  i=noralf@tronnes.org; s=20221122; h=from:subject:message-id;
- bh=hGVtjDM96GPiibc2AFKhkSfhGrvU98AnTo1RVvLWr2c=;
- b=vnBGh6Lt3xK3rg/hBAkv2zBvn/jF1Hke6fLG5mA8v6xGqS56OsmjWlfSyNUxWnwnjD3OUE+60
- Ib93heNhhopCbVgVg6OfKbXatAbPsQzGDXcdWsQXJp/hs1YrlIbw8MX
+ bh=rqNvjdSCUsjKcYeeCETT/jnXy2Sa85ePgrIqrhCdz9A=;
+ b=8RyH+Vlx1RLU0NK/IPBgiuqHK1odUfyyTolCr7c8Q6wh3GsmXnXNhF0ZToE7LVM4QTnByCbnp
+ B0dODZ0CpEkCWVRRZ8Z7dV6fH+d4ogYdbZx6aSaXW9MWVtL5dRRaepv
 X-Developer-Key: i=noralf@tronnes.org; a=ed25519;
  pk=0o9is4iddvvlrY3yON5SVtAbgPnVs0LfQsjfqR2Hvz8=
 X-Endpoint-Received: by B4 Relay for noralf@tronnes.org/20221122 with auth_id=8
@@ -87,47 +85,109 @@ Reply-To: noralf@tronnes.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Noralf Trønnes <noralf@tronnes.org>
 
-In this version I've fixed up a commit message that I had forgotten to 
-write before sending and improved a struct member name.
+The MIPI DBI 2.0 specification (2005) lists only two pixel formats for
+the Type C Interface (SPI) and that is 3-bits/pixel RGB111 with
+2 options for bit layout.
 
-See version 1 of the patchset for the full cover letter.
+For Type A and B (parallel) the following formats are listed: RGB332,
+RGB444, RGB565, RGB666 and RGB888 (some have 2 options for the bit layout).
 
+Many MIPI DBI compatible controllers support all interface types on the
+same chip and often the manufacturers have chosen to provide support for
+the Type A/B interface pixel formats also on the Type C interface.
+
+Some chips provide many pixel formats with optional bit layouts over SPI,
+but the most common by far are RGB565 and RGB666. So even if the
+specification doesn't list these formats for the Type C interface, the
+industry has chosen to include them.
+
+The MIPI DCS specification lists the standard commands that can be sent
+over the MIPI DBI interface. The set_address_mode (36h) command has one
+bit in the parameter that controls RGB/BGR order:
+    This bit controls the RGB data latching order transferred from the
+    peripheral’s frame memory to the display device.
+This means that each supported RGB format also has a BGR variant.
+
+Based on this rationale document the following pixel formats describing
+the bit layout going over the wire:
+- RGB111 (option 1): x2r1g1b1r1g1b1 (2 pixels per byte)
+- BGR111 (option 1): x2b1g1r1b1g1r1 (2 pixels per byte)
+- RGB111 (option 2): x1r1g1b1x1r1g1b1 (2 pixels per byte)
+- BGR111 (option 2): x1b1g1r1x1b1g1r1 (2 pixels per byte)
+- RGB565: r5g6b5 (2 bytes)
+- BGR565: b5g6r5 (2 bytes)
+- RGB666: r6x2g6x2b6x2 (3 bytes)
+- BGR666: b6x2g6x2r6x2 (3 bytes)
+(x: don't care)
+
+v2:
+- Use 'default: r5g6b5' (Rob)
+
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
 ---
-Changes in v4:
-- Expand the commit message (Dmitry)
-- s/emulation_format/pixel_format/ (Dmitry)
-- Link to v3: https://lore.kernel.org/r/20240603-panel-mipi-dbi-rgb666-v3-0-59ed53ca73da@tronnes.org
+ .../bindings/display/panel/panel-mipi-dbi-spi.yaml | 30 ++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-Changes in v3:
-- Added r-b's to patch 1 and 5
-- Link to v2: https://lore.kernel.org/r/20240512-panel-mipi-dbi-rgb666-v2-0-49dd266328a0@tronnes.org
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+index e808215cb39e..8994549b4bff 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+@@ -50,6 +50,12 @@ description: |
+       |        Command or data         |
+       |<D7><D6><D5><D4><D3><D2><D1><D0>|
+ 
++  The standard defines one pixel format for type C: RGB111. The industry
++  however has decided to provide the type A/B interface pixel formats also on
++  the Type C interface and most common among these are RGB565 and RGB666.
++  The MIPI DCS command set_address_mode (36h) has one bit that controls RGB/BGR
++  order. This gives each supported RGB format a BGR variant.
++
+   The panel resolution is specified using the panel-timing node properties
+   hactive (width) and vactive (height). The other mandatory panel-timing
+   properties should be set to zero except clock-frequency which can be
+@@ -90,6 +96,28 @@ properties:
+ 
+   spi-3wire: true
+ 
++  format:
++    description: >
++      Pixel format in bit order as going on the wire:
++        * `x2r1g1b1r1g1b1` - RGB111, 2 pixels per byte
++        * `x2b1g1r1b1g1r1` - BGR111, 2 pixels per byte
++        * `x1r1g1b1x1r1g1b1` - RGB111, 2 pixels per byte
++        * `x1b1g1r1x1b1g1r1` - BGR111, 2 pixels per byte
++        * `r5g6b5` - RGB565, 2 bytes
++        * `b5g6r5` - BGR565, 2 bytes
++        * `r6x2g6x2b6x2` - RGB666, 3 bytes
++        * `b6x2g6x2r6x2` - BGR666, 3 bytes
++    enum:
++      - x2r1g1b1r1g1b1
++      - x2b1g1r1b1g1r1
++      - x1r1g1b1x1r1g1b1
++      - x1b1g1r1x1b1g1r1
++      - r5g6b5
++      - b5g6r5
++      - r6x2g6x2b6x2
++      - b6x2g6x2r6x2
++    default: r5g6b5
++
+ required:
+   - compatible
+   - reg
+@@ -116,6 +144,8 @@ examples:
+             reset-gpios = <&gpio 25 GPIO_ACTIVE_HIGH>;
+             write-only;
+ 
++            format = "r5g6b5";
++
+             backlight = <&backlight>;
+ 
+             width-mm = <35>;
 
-Changes in v2:
-- binding: Use 'default: r5g6b5' (Rob)
-- Link to v1: https://lore.kernel.org/r/20240507-panel-mipi-dbi-rgb666-v1-0-6799234afa3e@tronnes.org
-
----
-Noralf Trønnes (5):
-      dt-bindings: display: panel: mipi-dbi-spi: Add a pixel format property
-      drm/mipi-dbi: Remove mipi_dbi_machine_little_endian()
-      drm/mipi-dbi: Make bits per word configurable for pixel transfers
-      drm/mipi-dbi: Add support for DRM_FORMAT_RGB888
-      drm/tiny: panel-mipi-dbi: Support the pixel format property
-
- .../bindings/display/panel/panel-mipi-dbi-spi.yaml | 30 +++++++++
- drivers/gpu/drm/drm_mipi_dbi.c                     | 76 +++++++++++++++-------
- drivers/gpu/drm/tiny/panel-mipi-dbi.c              | 55 +++++++++++++++-
- include/drm/drm_mipi_dbi.h                         | 10 +++
- 4 files changed, 147 insertions(+), 24 deletions(-)
----
-base-commit: 0209df3b4731516fe77638bfc52ba2e9629c67cd
-change-id: 20240405-panel-mipi-dbi-rgb666-4e033787d6c9
-
-Best regards,
 -- 
-Noralf Trønnes <noralf@tronnes.org>
+2.45.1
 
 
