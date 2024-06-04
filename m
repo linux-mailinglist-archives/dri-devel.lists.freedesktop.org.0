@@ -2,59 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE89D8FB5BA
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 16:41:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9EF8FB69D
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 17:09:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4491510E1D4;
-	Tue,  4 Jun 2024 14:41:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC54010E4A1;
+	Tue,  4 Jun 2024 15:09:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OQUvskLU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HoAcNauB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C55D10E49F;
- Tue,  4 Jun 2024 14:41:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9143D61299;
- Tue,  4 Jun 2024 14:41:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93555C2BBFC;
- Tue,  4 Jun 2024 14:40:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717512062;
- bh=mMQkWVSXbYBsdOLYmzi5KmcMzPAUaVKm50X4Xsw56ak=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OQUvskLUvAt55dCN/pmYncolyVzQuWF9dIVGfKa0pBA+K25Oitp9cCR0TaJfjAF1Q
- tC1lkodyEZ1uKzduXA77TZPeRyAB3dnPXYtZN3GCIR/FjJmK0bp0HrMRFPlgnsliRE
- 9dCqASCJsTU1nWSGRc2BNKXaWuEe0cQX1Skz+Yob3gtgxVqVy8veZPMl0cqlp1taW6
- gU1Vfna8PrJUGo6Rp9vow6MUPsuQmY+vqC65KgDqr6C0qo5TH3OufTgaxEppC6Ongy
- XQn2NY3KUcZKI6kYTFIxGMqUP7jPzB+VAvWreSh0jtFha1d+ufyadgliZynsXkmG8f
- OtoQPMZbd3lng==
-Date: Tue, 4 Jun 2024 15:40:56 +0100
-From: Will Deacon <will@kernel.org>
-To: Andrew Halaney <ahalaney@redhat.com>
-Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/adreno: De-spaghettify the use of memory barriers
-Message-ID: <20240604144055.GE20384@willie-the-truck>
-References: <20240508-topic-adreno-v1-1-1babd05c119d@linaro.org>
- <20240514183849.6lpyplifero5u35r@hu-akhilpo-hyd.qualcomm.com>
- <ae4a77wt3kc73ejshptldqx6ugzrqguyq7etbbu54y4avhbdlt@qyt4r6gma7ev>
- <20240516145005.gdksmvxp35m45ifh@hu-akhilpo-hyd.qualcomm.com>
- <5vyrmxvkurdstqfiatxfqcqljwyiswda2vpkea27ighb2eqbav@n24yzdykbc23>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 951CF10E3C0;
+ Tue,  4 Jun 2024 15:09:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717513767; x=1749049767;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=4HkQ9IV15yC4nyUw+pcsRuE8HZHiliExlLr304AM+fc=;
+ b=HoAcNauBf6V45x0gqE2vt7Ofny48M5xVp8mGFCr/ZfuDJjPm4MLTViJj
+ bpbE/oBZp19KPNfgkYvtAa1Rk0rnRK6FuL282OxUzXgHApu2uT4+K6s97
+ xYtDp6P3ty3c9rpfL/EDrRxQjLJVcjVVJoZT0puMMkHvBuXEJUMiu8Lbh
+ UUfspFGFuCwthS3ljGlvCMbtz7NSUFILSj82bhbODXEjGP1/ry+fpR1Lr
+ w2NkV4myVb3DFoTdqVaeLE69aDqFWi/4VoAGOvWZgBPsnz384Rpy/F8Wp
+ p+8xP5pjFE3A71IHvyQsdZYl4MeZrcWZZgQhjlkOmAk/ccDtgLGA1gd3e A==;
+X-CSE-ConnectionGUID: gu6tIUmXRsaIxa9mOdMCDQ==
+X-CSE-MsgGUID: 9XKliixkRou3dUwsPw7soA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="25181455"
+X-IronPort-AV: E=Sophos;i="6.08,214,1712646000"; d="scan'208";a="25181455"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2024 08:09:26 -0700
+X-CSE-ConnectionGUID: LBPryZVtTIOHMzj7SVtqVA==
+X-CSE-MsgGUID: Mc6AyjSFSQ2GGV0PgxHxNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,214,1712646000"; d="scan'208";a="68417002"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO fedora)
+ ([10.245.245.236])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2024 08:09:23 -0700
+Date: Tue, 4 Jun 2024 17:09:10 +0200
+From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-xe-fixes
+Message-ID: <Zl8uFrQp0YjTtX4p@fedora>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5vyrmxvkurdstqfiatxfqcqljwyiswda2vpkea27ighb2eqbav@n24yzdykbc23>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,57 +75,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 16, 2024 at 01:55:26PM -0500, Andrew Halaney wrote:
-> On Thu, May 16, 2024 at 08:20:05PM GMT, Akhil P Oommen wrote:
-> > On Thu, May 16, 2024 at 08:15:34AM -0500, Andrew Halaney wrote:
-> > > If I understand correctly, you don't need any memory barrier.
-> > > writel()/readl()'s are ordered to the same endpoint. That goes for all
-> > > the reordering/barrier comments mentioned below too.
-> > > 
-> > > device-io.rst:
-> > > 
-> > >     The read and write functions are defined to be ordered. That is the
-> > >     compiler is not permitted to reorder the I/O sequence. When the ordering
-> > >     can be compiler optimised, you can use __readb() and friends to
-> > >     indicate the relaxed ordering. Use this with care.
-> > > 
-> > > memory-barriers.txt:
-> > > 
-> > >      (*) readX(), writeX():
-> > > 
-> > > 	    The readX() and writeX() MMIO accessors take a pointer to the
-> > > 	    peripheral being accessed as an __iomem * parameter. For pointers
-> > > 	    mapped with the default I/O attributes (e.g. those returned by
-> > > 	    ioremap()), the ordering guarantees are as follows:
-> > > 
-> > > 	    1. All readX() and writeX() accesses to the same peripheral are ordered
-> > > 	       with respect to each other. This ensures that MMIO register accesses
-> > > 	       by the same CPU thread to a particular device will arrive in program
-> > > 	       order.
-> > > 
-> > 
-> > In arm64, a writel followed by readl translates to roughly the following
-> > sequence: dmb_wmb(), __raw_writel(), __raw_readl(), dmb_rmb(). I am not
-> > sure what is stopping compiler from reordering  __raw_writel() and __raw_readl()
-> > above? I am assuming iomem cookie is ignored during compilation.
-> 
-> It seems to me that is due to some usage of volatile there in
-> __raw_writel() etc, but to be honest after reading about volatile and
-> some threads from gcc mailing lists, I don't have a confident answer :)
-> 
-> > 
-> > Added Will to this thread if he can throw some light on this.
-> 
-> Hopefully Will can school us.
+Dave and Sima,
 
-The ordering in this case is ensured by the memory attributes used for
-ioremap(). When an MMIO region is mapped using Device-nGnRE attributes
-(as it the case for ioremap()), the "nR" part means "no reordering", so
-readX() and writeX() to that region are ordered wrt each other.
+A single fix for a missing Local Memory Translation Table update for -rc3.
 
-Note that guarantee _doesn't_ apply to other flavours of ioremap(), so
-e.g. ioremap_wc() won't give you the ordering.
+Thanks,
+Thomas
 
-Hope that helps,
+drm-xe-fixes-2024-06-04:
+Driver Changes:
+- drm/xe/pf: Update the LMTT when freeing VF GT config
 
-Will
+The following changes since commit 6c5cd0807c79eb4c0cda70b48f6be668a241d584:
+
+  drm/xe: Properly handle alloc_guc_id() failure (2024-05-28 08:53:45 +0200)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2024-06-04
+
+for you to fetch changes up to 0698ff57bf327d9a5735a898f78161b8dada160b:
+
+  drm/xe/pf: Update the LMTT when freeing VF GT config (2024-06-04 16:31:24 +0200)
+
+----------------------------------------------------------------
+Driver Changes:
+- drm/xe/pf: Update the LMTT when freeing VF GT config
+
+----------------------------------------------------------------
+Michal Wajdeczko (1):
+      drm/xe/pf: Update the LMTT when freeing VF GT config
+
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c | 1 +
+ 1 file changed, 1 insertion(+)
