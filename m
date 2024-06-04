@@ -2,64 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 809298FA84D
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 04:33:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A80C8FA8A9
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 05:10:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAA8110E07F;
-	Tue,  4 Jun 2024 02:33:40 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="GeCo7aEQ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE74710E236;
+	Tue,  4 Jun 2024 03:10:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B233910E07F
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 02:33:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=ongMRIDR9OJ67FPX959hIpLFcH5SoR5ACjgPGkxuvD4=;
- b=GeCo7aEQ1VpT4jZAxcyOm1qtfTcaSRkOQb3oIQ6N4/RitTv91zl3v7p2
- 3FGdDznDNM1EOv6ggm/o8P58uuUH9jM+0iaQaA4pqsQAeTxDsHgMyo4LU
- 2rUzIQFszOSoJDTiExz0AFmd0n/dXA2fIa/lEMNmExebDLunacE2/LRGU
- epMgXb3CfMHRTKKI7mpB79qXpCnBAinbf5cw0dF7mES09w7oLBoMNEjJl
- I3+aujMj8ewG3WBTU0kH3UdyUXpy9/MFAmMFCwraWpRWSGXqD9+5GBmcu
- hGdwL27XEWvVES0OW17plPTFjXprC8+z7Dm/BGAGac0o+HaACJg6NEiLU g==;
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 04 Jun 2024 10:33:34 +0800
-Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id 4542XTSn057581;
- Tue, 4 Jun 2024 10:33:29 +0800 (GMT-8)
- (envelope-from kuro.chung@ite.com.tw)
-Received: from ite-XPS-13-9360.internal.ite.com.tw (192.168.72.42) by
- CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 4 Jun 2024 10:33:28 +0800
-From: kuro <kuro.chung@ite.com.tw>
-To: Pin-yen Lin <treapking@chromium.org>, Kenneth Haung
- <kenneth.hung@ite.com.tw>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-CC: Kuro Chung <kuro.chung@ite.com.tw>, Hermes Wu <hermes.wu@ite.com.tw>
-Subject: [PATCH v1] drm/bridge: it6505: update usleep_range for RC circuit
- charge time
-Date: Tue, 4 Jun 2024 10:44:05 +0800
-Message-ID: <20240604024405.1122488-1-kuro.chung@ite.com.tw>
-X-Mailer: git-send-email 2.25.1
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 34E7210E236
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 03:10:50 +0000 (UTC)
+X-AuditID: a67dfc5b-d6dff70000001748-2d-665e85b718cd
+Date: Tue, 4 Jun 2024 12:10:42 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+ torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+ linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+ will@kernel.org, rostedt@goodmis.org, joel@joelfernandes.org,
+ sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
+ johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
+ willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
+ gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
+ akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
+ hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
+ jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+ penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+ ngupta@vflare.org, linux-block@vger.kernel.org,
+ josef@toxicpanda.com, linux-fsdevel@vger.kernel.org,
+ viro@zeniv.linux.org.uk, jack@suse.cz, jlayton@kernel.org,
+ dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
+ dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
+ melissa.srw@gmail.com, hamohammed.sa@gmail.com, 42.hyeyoo@gmail.com,
+ chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+ max.byungchul.park@gmail.com, boqun.feng@gmail.com,
+ longman@redhat.com, hdanton@sina.com, her0gyugyu@gmail.com
+Subject: Re: [PATCH v11 14/26] locking/lockdep, cpu/hotplus: Use a weaker
+ annotation in AP thread
+Message-ID: <20240604031042.GB20371@system.software.com>
+References: <20240124115938.80132-1-byungchul@sk.com>
+ <20240124115938.80132-15-byungchul@sk.com> <87il3ggfz9.ffs@tglx>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.72.42]
-X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
- CSBMAIL1.internal.ite.com.tw (192.168.65.58)
-X-TM-SNTS-SMTP: A32F6B6386882D419C459589941F989605B411FE5A98B4AC4E9B5DC4CAEDA3DC2002:8
-X-MAIL: mse.ite.com.tw 4542XTSn057581
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87il3ggfz9.ffs@tglx>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SX0yTZxTGfd/vL501H53EdzCzpNvCAs6BkeS4mG3hZt/FFmdMZqJh2sGH
+ NELVUlHMxlotBKsikiBQiZZKSgPMaiELDEqwRqD+7aDRFpGMDrMRinVo0Qrr1rKZeXPyy3Oe
+ 8+S5ODyliDGpvFqjk7QaVbGSldGyuZUtH/ZUflOY5W5MgTMnsyDyrJqGZkcnC95LHQg6uw0Y
+ Zq5/DvcXQggWb9+loKHei6Bl6iEF3UOTCFz2oyyMTa8CXyTMgqf+BAvHLjpY+GV2CcPE2ToM
+ Hc4v4WatFcNg9HcaGmZYONdwDMfHHxiitnYObPr3IWg3c7A0lQ2eyXsMuMYzoen8BAv9Lg8N
+ Qz1BDGM/N7Mw2fk3AzeHRmjwnjnFwI+PrSzMLtgosEXCHIwOWjBcNsaDqp7GGBg+NYihqvUK
+ Bl+gD8FA9a8YnJ33WLgWCWHoctZT8LLtOoJgzRwHlSejHJwz1CA4UXmWhrt/DTNgnMiBxRfN
+ 7Gcfi9dCYUo0dh0SXQsWWrxhJWKv+SEnGgfGOdHiPCh22TPEi/0zWGyZjzCis/04Kzrn6zjR
+ NOfD4uM7dzhxpHGRFqd9DfirtB2yzQVSsbpM0n70yW5ZkW/uArffTB32PxjBejSETSiJJ8JG
+ cqv2KHrFY6bAsk4L75GJQIxKMCukE78/usyrhQ/IldHxZaYEj4x4rbkJflPIJ4HfrjImxPNy
+ Achw1doEKoQjpNuUknDIhWTiaZqm/73MIP7YDE5YKCGNtMX4hJwkKEldtZFNcIrwLhn8aThu
+ kcWL9SURwxP3fy3fIlftfroWCebXYs2vxZr/j7Ugqh0p1JqyEpW6eOP6onKN+vD6/H0lThT/
+ Stv3Szt70Lx3mxsJPFKulGdZ8woVjKqstLzEjQhPKVfLayp2FirkBaryI5J23y7twWKp1I3S
+ eFq5Rr5h4VCBQtij0kl7JWm/pH21xXxSqh4deOe7KebRp8H0b083lc0aXoZw7/OKgdZw7htt
+ VQ7dlnUdXwRdUQ2XB+r0SyvyTstz1f3bHMyjVv3moj8bjf7tOZlB84oWPRVa3L1KpwgbArqt
+ X2dv75PdaL21peLt7uMGf/YP7r6uTXWxDGF27ajdkuJz9IZyktub7qfm2y+Aki4tUmVnUNpS
+ 1T9l0ZqOkQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SaUxTaRSG8313pbHMtYPxBp0YOxpNzbCoJMclbonx6ogaE0OCGw1epLKm
+ FRQjClIQixJhgpWCUsFURBQpxHFksYJQiluVBikCAmIUBUnEMiLIDMUY/XPy5Jz3Ob9elpB1
+ U96sKvqgqI5WRsppCSnZsiLlj79T94T5/dW3GLJO+4HrUzoJ+WWlNNhvXENQWpmMob9hAzwf
+ GUAw9ugJAfocO4JLPZ0EVDZ2IagpPkFDS58nOFxDNNhyMmhIKSqj4en7cQwd57IxXDMHwoOz
+ hRgso29I0PfTkKdPwZPjLYZRUwkDpqT50FtsYGC8xx9sXa0U1F+wUVDTvghyL3bQUF1jI6Hx
+ di+Gljv5NHSV/kfBg8YmEuxZZyi4/qGQhvcjJgJMriEGnlmMGG5qJ7+lDU9QYD1jwZB2uRyD
+ w1mFoDa9G4O5tJWGetcAhgpzDgFfrjQg6M0cZCD19CgDecmZCDJSz5Hw5KuVAm1HAIx9zqfX
+ rBDqB4YIQVtxSKgZMZJCcyEv/GPoZARtbTsjGM1xQkWxQiiq7sfCpY8uSjCXnKIF88dsRtAN
+ OrDw4fFjRmg6P0YKfQ493jY7WLJynxipihfVvqtCJOGOwQIm1kAcbnvRhJNQI9YhD5bnlvIt
+ OucUk9w8vsM5QbiZ5hbwbW2jU+zFLeTLn7VPMcHZJLy9cJ2bf+VCeeere5QOsayUA96a9psb
+ ZdwRvlI3w52QctN5W24f+c1U8G0T/dgdIbhZ/JUJ1r324OR8drqWdvMM7nfecsuKzyKp4Sfb
+ 8JNt+GEbEVGCvFTR8VFKVWSAjyYiPCFaddgnNCbKjCZ7Z0ocz7qNPrVsqEMci+TTpHB1d5iM
+ UsZrEqLqEM8Sci9p5rGdYTLpPmXCEVEds1cdFylq6tAslpTPlG4KEkNk3H7lQTFCFGNF9fcr
+ Zj28k1BPQPVYcmdEgfHPPb0NwbnDPuU+62/FrnL+8u/sd3SD1m/hgYD4uNXDx4+uTPRWeBc1
+ Byp2naweWlL1pXXTfcvmh5538l5nzI0I3dicvywTlfmmpAZx99Vpqw3mu8VrF2T7zqmt6A7M
+ Wr553Var4WVUcOL2oFi9p7/ej7GFVPlft++IkZOacKW/glBrlP8D/IAG+XMDAAA=
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,30 +97,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kuro Chung <kuro.chung@ite.com.tw>
+On Fri, Jan 26, 2024 at 06:30:02PM +0100, Thomas Gleixner wrote:
+> > Furthermore, now that Dept was introduced, false positive alarms was
+> > reported by that. Replaced it with try lock annotation.
+> 
+> I still have zero idea what this is about.
 
-The spec of timing between IVDD/OVDD and SYSRTEN is 10ms, but SYSRSTN RC
-circuit need at least 25ms for rising time, update for match spec
+Lockdep is working on lock/unlock, while dept is working on wait/event.
 
-Signed-off-by: Kuro Chung <kuro.chung@ite.com.tw>
-Signed-off-by: Hermes Wu <hermes.wu@ite.com.tw>
----
- drivers/gpu/drm/bridge/ite-it6505.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Two are similar but strickly speaking, different in what to track.
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index cd1b5057ddfb4..1e1c06fdf2064 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -2615,7 +2615,7 @@ static int it6505_poweron(struct it6505 *it6505)
- 		gpiod_set_value_cansleep(pdata->gpiod_reset, 0);
- 		usleep_range(1000, 2000);
- 		gpiod_set_value_cansleep(pdata->gpiod_reset, 1);
--		usleep_range(10000, 20000);
-+		usleep_range(25000, 35000);
- 	}
- 
- 	it6505->powered = true;
--- 
-2.25.1
-
+	Byungchul
