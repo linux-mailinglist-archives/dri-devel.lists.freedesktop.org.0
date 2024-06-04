@@ -2,76 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124E18FBE27
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 23:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B0978FBE4F
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 23:51:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D31110E2A0;
-	Tue,  4 Jun 2024 21:40:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EABEB10E613;
+	Tue,  4 Jun 2024 21:51:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JtTDYOjT";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="AJq/IzHv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1BCD10E2A0;
- Tue,  4 Jun 2024 21:40:21 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-421578c546eso917035e9.0; 
- Tue, 04 Jun 2024 14:40:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1717537220; x=1718142020; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=rqq18CXoyGbGnQpbX01uKNmZ4w2EbKsUOPcap/enREU=;
- b=JtTDYOjTFDpOnsW48R/e1dO6Vwfdbx3y/kWvTMpfQOvzHlu+Dm4jOKaBO6FAdGU+0u
- 8Z4w05bKXq5iBWLu5asPW41I5GO6xhdt1xsW6xPpqES2cAy1wKl3TLUnLMCh+blzuz0e
- BoNZLEOoBn0DV93A6JPPPgDcixjvvd4j26M5ymJoyXjlp3q250tOx73GE7qbgZuEXfdb
- t5Lje6JP+mzd4Bs/t5FK8iCeNCcrzJ+ZWbSnvcO6qDdXiIeEqbM/7ttUniDFjGEKX8et
- OthWvBOJxyNmOtARw6Qczv9cA5upHONaN/IqR92w2UmI7OrREaPNjzd+K+Y053TU4W19
- bAPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717537220; x=1718142020;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rqq18CXoyGbGnQpbX01uKNmZ4w2EbKsUOPcap/enREU=;
- b=O8hciGkJdxRhYnmsfQCU91kWFS3L8LFz6UtwpQrzqZcu3yY4uHxXOFMaEMcxarV6VH
- P/+3FSZHZkRQvs3MIVqTYjqJINKwjFGaPaTe63/fyLrikH9VSDQmLW1qJ8Z5a/vzGG6C
- xcrNUKLT0tRshEzcmvf8Vp0wwvnLaVtRUK3vyysXTpoy5jhGfdrewCU4hDAic/QMHx1G
- w1CxdQOm3rfeXtBLg0JT1Ji/JRdZJJpR0GdgijybAdbTAUDL9qcCUKGQSx6UI0gvaKXi
- 9ma8Z9Cec5w+njkQi0EN+fc8AqjjFhM4qngnk+f9YJum9RAK8JyPzzzXDFLkIjWSwP5Q
- v//A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWu1MPHGL/XgHfmERpfQIDMRe2WPfXNpNkjLydfsfbgwoMChyWKAdjLJH9JU/pr2KsAO59I/J3cd0IxOMjYdRAt+knmWi7YkuaxPx6SXzCG8OruQjHCE3hio2QPhxkcfLHv0YHhzVRs/2mQtRHyi9OG
-X-Gm-Message-State: AOJu0YyyUkpMtG/+AIST1rkC1eWipcHtyojxCUQoqc1Sble6dV0As1C8
- F7QR4wU4+UTTp7gecBmPV+vZD450yGfNpReVDq6P1YIZyf1LKhgH
-X-Google-Smtp-Source: AGHT+IHpCQ2HAPA1QqPFRWearVj1yS2MowqKgCHg9WOONS+xyrz1IWSdlUNZ7OspAvgXBXnkGD7Bgg==
-X-Received: by 2002:a5d:484a:0:b0:358:4af8:b76e with SMTP id
- ffacd0b85a97d-35e8ef9437fmr441650f8f.62.1717537219648; 
- Tue, 04 Jun 2024 14:40:19 -0700 (PDT)
-Received: from morpheus.home.roving-it.com
- (8.c.1.0.0.0.0.0.0.0.0.0.0.0.0.0.1.8.6.2.1.1.b.f.0.b.8.0.1.0.0.2.ip6.arpa.
- [2001:8b0:fb11:2681::1c8]) by smtp.googlemail.com with ESMTPSA id
- ffacd0b85a97d-35ed8b574e3sm270624f8f.79.2024.06.04.14.40.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jun 2024 14:40:19 -0700 (PDT)
-From: Peter Robinson <pbrobinson@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Cc: Peter Robinson <pbrobinson@gmail.com>
-Subject: [PATCH] drm/msm/adreno: Add some missing MODULE_FIRMWARE entries
-Date: Tue,  4 Jun 2024 22:40:05 +0100
-Message-ID: <20240604214018.238153-1-pbrobinson@gmail.com>
-X-Mailer: git-send-email 2.45.1
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE82210E475;
+ Tue,  4 Jun 2024 21:51:26 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 454Gr0hU009373;
+ Tue, 4 Jun 2024 21:51:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=YLq+m/pw8D/FB1z2FxCUtv
+ Ua9O85tXqCcv0sNFbrjkc=; b=AJq/IzHvYdlut9OFfNu0bXOuLwdixNBghCq2WB
+ mmLZica0lyoxqZImLQhJ5IWYuX3DQuzCmpM+2HdPYX9BoXl/RhAjku4INMzvUT/W
+ 7Q3fhKQ57sQHfWE1f/mfbhhqchQ4yOPsLsQs4LV32tkfoXttyjEmdpVlrWhDXqZ6
+ tQ1c14ueqx5rSg+sDFc/z02N+wS3wjs/V/ji/e4giqdovFZ28NnRcDEabFH4lqB/
+ 7ilpYJS9KsmngD6E0ipvxmRmuBiEkcrqUE6cNL5CZCBoayS4vYHRlPTR4FdVhTEG
+ nWT0vmWxaCEp0MSQf+RP0/2rc7tl7VBLiKgkPtjhv3NzI66A==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yj6u78mcx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Jun 2024 21:51:22 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 454LpLqb027421
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 4 Jun 2024 21:51:21 GMT
+Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 4 Jun 2024 14:51:21 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>, "Sean
+ Paul" <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, "Abhinav
+ Kumar" <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Connor Abbott <cwabbott0@gmail.com>
+CC: <dri-devel@lists.freedesktop.org>, <seanpaul@chromium.org>,
+ <quic_jesszhan@quicinc.com>, Rob Clark <robdclark@chromium.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/msm/a6xx: use __always_unused to fix compiler warnings
+ for gen7_* includes
+Date: Tue, 4 Jun 2024 14:51:04 -0700
+Message-ID: <20240604215105.4057278-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: YHtPMzSLTHxjnNphM8gVa4gqld3yRZp2
+X-Proofpoint-GUID: YHtPMzSLTHxjnNphM8gVa4gqld3yRZp2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-04_11,2024-06-04_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 suspectscore=0
+ mlxlogscore=999 spamscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0
+ clxscore=1011 malwarescore=0 adultscore=0 phishscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
+ definitions=main-2406040177
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,36 +92,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add missing MODULE_FIRMWARE for firmware in linux-firmware,
-this is needed for automatically adding firmware to things
-like initrds when the drivers are built as modules. This is
-useful for devices like the X13s and the RBx devices on
-general distros.
+GCC diagnostic pragma method throws below warnings in some of the versions
 
-Fixes: 5e7665b5e484b ("drm/msm/adreno: Add Adreno A690 support")
-Fixes: 18397519cb622 ("drm/msm/adreno: Add A702 support")
-Fixes: 3e7042ba87da ("drm/msm/adreno: Add ZAP firmware name to A635")
-Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:16:9: warning: unknown option after '#pragma GCC diagnostic' kind [-Wpragmas]
+ #pragma GCC diagnostic ignored "-Wunused-const-variable"
+         ^
+In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:18:0:
+drivers/gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h:924:19: warning: 'gen7_0_0_external_core_regs__always_unused' defined but not used [-Wunused-variable]
+ static const u32 *gen7_0_0_external_core_regs__always_unused[] = {
+                   ^
+In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:19:0:
+drivers/gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h:748:19: warning: 'gen7_2_0_external_core_regs' defined but not used [-Wunused-variable]
+ static const u32 *gen7_2_0_external_core_regs[] = {
+                   ^
+In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:20:0:
+drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h:1188:43: warning: 'gen7_9_0_sptp_clusters' defined but not used [-Wunused-variable]
+ static struct gen7_sptp_cluster_registers gen7_9_0_sptp_clusters[] = {
+                                           ^
+drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h:1438:19: warning: 'gen7_9_0_external_core_regs' defined but not used [-Wunused-variable]
+ static const u32 *gen7_9_0_external_core_regs[] = {
+
+Remove GCC dependency by using __always_unused for the unused gen7_* includes.
+
+Fixes: 64d6255650d4 ("drm/msm: More fully implement devcoredump for a7xx")
+Suggested-by: Rob Clark <robdclark@chromium.org>
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 ---
- drivers/gpu/drm/msm/adreno/adreno_device.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index c3703a51287b4..fede5159e7f5b 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -609,8 +609,11 @@ MODULE_FIRMWARE("qcom/a650_gmu.bin");
- MODULE_FIRMWARE("qcom/a650_sqe.fw");
- MODULE_FIRMWARE("qcom/a660_gmu.bin");
- MODULE_FIRMWARE("qcom/a660_sqe.fw");
-+MODULE_FIRMWARE("qcom/a660_zap.mbn");
-+MODULE_FIRMWARE("qcom/a702_sqe.fw");
- MODULE_FIRMWARE("qcom/leia_pfp_470.fw");
- MODULE_FIRMWARE("qcom/leia_pm4_470.fw");
-+MODULE_FIRMWARE("qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn");
- MODULE_FIRMWARE("qcom/yamato_pfp.fw");
- MODULE_FIRMWARE("qcom/yamato_pm4.fw");
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+index 0a7717a4fc2f..62ca0cf24005 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+@@ -8,19 +8,10 @@
+ #include "a6xx_gpu_state.h"
+ #include "a6xx_gmu.xml.h"
  
+-/* Ignore diagnostics about register tables that we aren't using yet. We don't
+- * want to modify these headers too much from their original source.
+- */
+-#pragma GCC diagnostic push
+-#pragma GCC diagnostic ignored "-Wunused-variable"
+-#pragma GCC diagnostic ignored "-Wunused-const-variable"
+-
+ #include "adreno_gen7_0_0_snapshot.h"
+ #include "adreno_gen7_2_0_snapshot.h"
+ #include "adreno_gen7_9_0_snapshot.h"
+ 
+-#pragma GCC diagnostic pop
+-
+ struct a6xx_gpu_state_obj {
+ 	const void *handle;
+ 	u32 *data;
+@@ -1350,6 +1341,10 @@ static void a7xx_get_registers(struct msm_gpu *gpu,
+ 	int index = 0;
+ 	const u32 *pre_crashdumper_regs;
+ 	const struct gen7_reg_list *reglist;
++	__always_unused const u32 **external_core_regs7_0_0 = gen7_0_0_external_core_regs;
++	__always_unused const u32 **external_core_regs_7_2_0 = gen7_2_0_external_core_regs;
++	__always_unused const u32 **external_core_regs_7_9_0 = gen7_9_0_external_core_regs;
++	__always_unused struct gen7_sptp_cluster_registers *sptp_gen7 = gen7_9_0_sptp_clusters;
+ 
+ 	if (adreno_is_a730(adreno_gpu)) {
+ 		reglist = gen7_0_0_reg_list;
 -- 
-2.45.1
+2.44.0
 
