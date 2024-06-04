@@ -2,80 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3CFD8FBB4F
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 20:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E56F8FBB63
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 20:17:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC4710E5A9;
-	Tue,  4 Jun 2024 18:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1550510E5DF;
+	Tue,  4 Jun 2024 18:17:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D7nsT8Gx";
+	dkim=pass (1024-bit key; unprotected) header.d=oppo.com header.i=@oppo.com header.b="sEIXPKds";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AB4E10E5A7;
- Tue,  4 Jun 2024 18:10:50 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-354be94c874so4933715f8f.3; 
- Tue, 04 Jun 2024 11:10:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1717524649; x=1718129449; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=rg6UIUhsA5R3P7t6NSlBZQMEWIFqCSy8a6ADHv0dKTc=;
- b=D7nsT8Gxwj/7Vx22ep453IC/k7gAEd/acuZKGqiHvVIK1uKPQyMNUDIW6mSdk+Mu9d
- wSXAoGPWfeScZJ5Usk6gn2ORCvKY+HEITTcEy1WuMde9pJoU9exdZDNiwn1Sum/8byC6
- a/yYNGNIix1juNFZqJewQNTMzCfaxDIgYLUHb8WHJc2f/dAyRIoxukbopPMutX02mzbj
- muzAjb6nbBHLldyW0hZ3Or/eDoxrTeERFDnCRuONdPhJ9RUtOCgyRkhT30kGjlXo9ZVn
- tzgQB/4oMUWR/4UO68cD6OjH9KomWk8PFuLRUHrvzNZ5RowwszF3WAzP9nCcGc+vw7G3
- Nf/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717524649; x=1718129449;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rg6UIUhsA5R3P7t6NSlBZQMEWIFqCSy8a6ADHv0dKTc=;
- b=mkNfv/nIX+/UdtlXamVOt4R+Hxjgaf3GneWzz4em+oe6iu22aC3vT+YBs5cmU13jjO
- lAFS4HL/+Os/QFuTwIqySO4vxOZ8L9waZnSyQ2tfnjZRkrUNg3gSJ8+GiDI/Bd1EGSDf
- FdDAc4MVvZDR3WBKkS0VH9rLRrHfJu0frPm3ucYj3oDYh9fwoW5a+MDyH29G3wG13a7m
- S0S5uAldA7adKLY9RpQsjIJ2OcJB6vMU9OLU1fDHZozx0GBuAriYiucHLpmWY2OUWQk8
- VI/6tKnVWfrnFpvkzkY3kREhDRuUoKEdmcVWuKH8DgU4CFfPEab4thjxcoWNxkVk4HrU
- FeQQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUFv6HoewBpAAavLo5k8L4YN4TnpnK74TADtNLQV1LvXmEypvoz7UaLhXWd3lUtXXQL9irwBfLisajuyU/PMudd/wnhzirGLRuNvU5tF/umnhoGkJj8wlUfmWlBcA6AY1bfo3Xrzt/k8wFAGiU07cjt
-X-Gm-Message-State: AOJu0YySoWAU9ZMjFI2GceEXyE1qbhkgQJBOQEdpkJw2uc+M9DuUg+Xs
- pI7F8CBPwhduWQ1MCZKCGSC/aNtREbgwBrWpzHAZIk8S0fHZ5Sbw
-X-Google-Smtp-Source: AGHT+IHETCX8BouUTH+Bzdh9s7ZGCkWVQY6/mu1jNdXlBkzuDzJU19LRsRpKRYRjzUv2xYYPqvU2tg==
-X-Received: by 2002:a5d:4287:0:b0:354:fa0d:1427 with SMTP id
- ffacd0b85a97d-35e8833a380mr149341f8f.15.1717524648807; 
- Tue, 04 Jun 2024 11:10:48 -0700 (PDT)
-Received: from [192.168.1.130] (51B6DB6F.dsl.pool.telekom.hu. [81.182.219.111])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-35dd04e48b9sm12336222f8f.64.2024.06.04.11.10.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jun 2024 11:10:48 -0700 (PDT)
-From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>
-Date: Tue, 04 Jun 2024 20:10:47 +0200
-Subject: [PATCH v2] drm/msm/adreno: Add support for Adreno 505 GPU
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on2076.outbound.protection.outlook.com [40.107.255.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B3CB10E5B1
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 18:17:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NHCWFwAk1E6NoA2S0igQJOY1aep8WYsSRvS9CQ+hb8a4X5JSOip0cdHjlj9qmQ2mmmW2eCZr0XXl/iItKM07I3PsDXJpU6MMwXvVYIFemZy3+MGhsJppxiFzkZec6GNO9c0e2QCPTZTGwTnwx3ociorb7WC4vpmukF11V1rsih3mnDWBq48Jl+8SMTSz720AQ3yPzp9fno75kEY6U/3asuev3+0CeW+rvHQRUicRhjwDnZ7BPKE5893+E9MCfy7Vczc5wgOsQcO+59Yrx2QP5NyuXw60ByudT42ozJmc1zpd/CTAF0evU6KFjSVebjLcMvOUHCOErmEXDQZXEjGDVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cswQKSqfHIlb46vh8M9APYnPW07el9ykaBkEOz3+C0g=;
+ b=Dtl1w2XIcryhRo7jasVjVjZn9gGGbMN+mcWL1pUFjB+Zm9zoF5xtqKGbt0wFsZT6jvahrWBaqSwhd15A5HNAXNz3ye+J7k41qSuIatyD0m+X91HHkykP17GFxL+kGDcS752KYhN1Bg5ewsmEiXxjwQWBZZzD0ErSyAx7iWOxnZahe7DkkEyULVwLtv8a6TGmv2+aUJ7vx9/RYXLznjd07OHNFIM1v6YB2p1wRiOdtNAd9M2bh9cLqWoqoAedoLai6PNqEYJy/J28fKvjXCfZQ6pu6B331Fla2viHQ4RzrTg52E0pT3WvSidD9JvK0tj+CBsNyNGS8xwnHqbC43JpiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 58.252.5.68) smtp.rcpttodomain=google.com smtp.mailfrom=oppo.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=oppo.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oppo.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cswQKSqfHIlb46vh8M9APYnPW07el9ykaBkEOz3+C0g=;
+ b=sEIXPKdsEIzdsvjt0tx5TswDKRPbd/eB0fpNYzD2C1UjCRkdOBMaNwVwmuPVR4R1Ah1BWTW3GsknoJmgq3lH1g/e0tixsyOBODER0OEcN6ruTYBJfHJ8K7SO6AjKjcbYY6+E56RM+uG2PxHhBGpYBdKwFIQGrDy+KNvzQphFpiE=
+Received: from PSBPR02CA0018.apcprd02.prod.outlook.com (2603:1096:301::28) by
+ SI2PR02MB5860.apcprd02.prod.outlook.com (2603:1096:4:1bf::5) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7611.28; Tue, 4 Jun 2024 18:16:58 +0000
+Received: from HK3PEPF0000021E.apcprd03.prod.outlook.com
+ (2603:1096:301:0:cafe::bb) by PSBPR02CA0018.outlook.office365.com
+ (2603:1096:301::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.31 via Frontend
+ Transport; Tue, 4 Jun 2024 18:16:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 58.252.5.68)
+ smtp.mailfrom=oppo.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=oppo.com;
+Received-SPF: Pass (protection.outlook.com: domain of oppo.com designates
+ 58.252.5.68 as permitted sender) receiver=protection.outlook.com;
+ client-ip=58.252.5.68; helo=mail.oppo.com; pr=C
+Received: from mail.oppo.com (58.252.5.68) by
+ HK3PEPF0000021E.mail.protection.outlook.com (10.167.8.40) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7633.15 via Frontend Transport; Tue, 4 Jun 2024 18:16:57 +0000
+Received: from [127.0.0.1] (172.16.40.118) by mailappw31.adc.com
+ (172.16.56.198) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 5 Jun
+ 2024 02:16:56 +0800
+Message-ID: <f6dcb031-9668-4387-b279-958e344bdbaf@oppo.com>
+Date: Wed, 5 Jun 2024 02:16:50 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v1] dma-buf: heaps: move the verification of
+ heap_flags to the corresponding heap
+To: John Stultz <jstultz@google.com>
+CC: Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
+ "T.J. Mercier" <tjmercier@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, <21cnbao@gmail.com>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>
+References: <20240603114008.16235-1-hailong.liu@oppo.com>
+ <CANDhNCq50zPB+TS+_Oo0HY0aUuBAdik2KrC8eJRTygbis293sw@mail.gmail.com>
+ <20240603172148.gb7txpg2ya43jyxn@oppo.com>
+ <CANDhNCrwgce7G5_-4tNfgTHcdL12zt3JKBg=o3bHrzMmfFMctg@mail.gmail.com>
+ <cff79c75-4c9c-46e0-a3ac-b9c0e8cad6f0@oppo.com>
+ <CANDhNCq1O9T6WxCpe9yNBycMu7U0SCVYBdW3R=J8jEqyqWYCiA@mail.gmail.com>
+Content-Language: en-US
+From: Hailong Liu <hailong.liu@oppo.com>
+In-Reply-To: <CANDhNCq1O9T6WxCpe9yNBycMu7U0SCVYBdW3R=J8jEqyqWYCiA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240604-a505-v2-1-dfa599a4d3c1@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAKZYX2YC/zXMQQ7CIBCF4as0sxYzUKjVlfcwXSCM7SS2GDBE0
- 3B3scbl//LyrZAoMiU4NStEypw4LDXUrgE32WUkwb42KFQaO2yFNWgEmUPbH6+d9MpCvT4i3fi
- 1MZeh9sTpGeJ7U7P8rn9A/4AshRS9IpIOtVeI53G2fN+7MMNQSvkAXX/JNJgAAAA=
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Daniil Titov <daniilt971@gmail.com>, 
- =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>
-X-Mailer: b4 0.13.0
+X-Originating-IP: [172.16.40.118]
+X-ClientProxiedBy: mailappw31.adc.com (172.16.56.198) To mailappw31.adc.com
+ (172.16.56.198)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: HK3PEPF0000021E:EE_|SI2PR02MB5860:EE_
+X-MS-Office365-Filtering-Correlation-Id: a1e685c1-8e15-4058-48ef-08dc84c28535
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230031|376005|82310400017|1800799015|36860700004|7416005; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OS9vVkdkTGNxN3NyQTdZTjEwaUgvaG15UnBDakFkQlJyNWxBY3V6MDZDLy92?=
+ =?utf-8?B?cGhPNmRXekZvaG15cVNWMHN1TEpVZ0pibnFVSk0yaTJDbHdwRERDQUhYa2hz?=
+ =?utf-8?B?MXZFM2VhZW9tdm1sZTM3NytOcnVKZzRjQ1RJd1JwbVdtZEZmTlBncHF4QTlx?=
+ =?utf-8?B?WlRxQUp6ajEyMjhiajFMZEx6K0k2dHgvUlFFUC9WbS9iWUxPRHd2dGxRNFJx?=
+ =?utf-8?B?MUdBZUFPdWp6U1V0OHhYZjZmOGw4K1FLSUUvSnVTbkxjN05vTUJJUEVYaEUy?=
+ =?utf-8?B?Q1JaUDZtemJCVHBqR1BsT3pLeWszZGUxbTJDZnNrSE9Sa0JNWWlGY21sRG5J?=
+ =?utf-8?B?emdIYmQ2aEx1NUtvSEhZdWVaYlBMdnBjSWVmUVhrUnNsdlF6STJOd0Fsc1I1?=
+ =?utf-8?B?Z3UwL2tyZWlScENSMU93alZ0TENmdWsrVW54eDhFNXljUlNjYVE2VTNzMHhz?=
+ =?utf-8?B?QVpuZ1VBM2UrUHl2U2pMWVJ6b3JVRFF1Y25uMGpiR2RreStZUU1aZWpKL0Jv?=
+ =?utf-8?B?NnFnMDdLODhYU3ZnN0xyOVB4VjJma1hhRnprNXJTUWg2ZURiUUUxOTJ4OFUy?=
+ =?utf-8?B?ZW40MmdJSStQOVRYMzdWMHYwQURJaUV4RGNhT3cwaFVZNCtNM29uS2Z6QmRN?=
+ =?utf-8?B?VGxNcDdEWEh2NkpoYnllVWFJYW1xeDlTdTNuV0dCektwbHp4RFhjMzJ6bU04?=
+ =?utf-8?B?Uzk0c2hOYkw1YUdiVlN1QVZZMnN0ZE91Q0pSVEI4czc3VE1kcTFZNWQvRzNZ?=
+ =?utf-8?B?R0E5ZmpjeXpGN21OeEVhOFA1bkFiODMxTk1pVEFteUNBN0F4a0JCSnFaWnp1?=
+ =?utf-8?B?Vkc4aCtrQm9XRVJmdURiSmRSSGg3Z3VSVkFOQ0VQSlE0N3hTdEtadUlsM0gv?=
+ =?utf-8?B?S0hUV1pzQThWSi9LM2tKN1RZVDJrTjBMQmhMQnV6d1d0UFJwcHAzUVRSMUpn?=
+ =?utf-8?B?K1NFSUlqM1hJdGpSMlNLZDJlb2NNUXUzbC9ETi9EZzlic2Q2QUNyaWxIT2dy?=
+ =?utf-8?B?WFdQc3FVK3Z5bHpEeDNtLzVuZWdubnFKRFpESVcyZ0FxVVhYR056WHhXRlg1?=
+ =?utf-8?B?TE12ZEdYYXdHa1NzZjVjM2tOY3p5aER5ZENEN3BkNm5adVlxalBQT0wxZU9M?=
+ =?utf-8?B?L2Z2TGJZTi9CN3VJMkpudm1uUzVFcElhWmhRV3ZhUzBFNWhwMEM3Ti91OGVH?=
+ =?utf-8?B?d3MvcWZqbXE0cml0Vm5SWFpoTVhGMkpocVhaUURXUHVXTi8yN1FvejVUUUZX?=
+ =?utf-8?B?a2pPam1uWElWZGRUUHJLNUVrNkNiM1Bob2JET0xONXVJVVdZN0lGQU1xZXM0?=
+ =?utf-8?B?LzBVVFNhSjIySEc5YnpEcEpHY0lEWk5PQnltV1liekgxZnFyTXdLVEh0NWdY?=
+ =?utf-8?B?cEFjNTV1SFhJb1VmSk5lRjYrS0ZMQmhVWDBwZVh1cjE2NXNYNk8xK2Q4b1BQ?=
+ =?utf-8?B?Qk0yaHl5Z0N6QW5waWRtSTNtTWsvRmNRdkhUZWswQnI3a1ZBWjRaQ2J6V2E0?=
+ =?utf-8?B?MVF3TUVEN3FISmdUWGR3YlZ5OFlZSkJsdzB2czhkbERNVjVGT1N0ajFicVBN?=
+ =?utf-8?B?RVFpRjRPOTMzUmtOTi9CdGx0eFZ5bUV1emVISG95NXI4anZSL0dOa2M0N05z?=
+ =?utf-8?B?L2dnQTVQMnVVNmN0aDNnVTdST0dNWFhlellEZ01keUtEZEZhQnJNc0NvUnVO?=
+ =?utf-8?B?bjVWV2doc05iQnk5NjZ0Mk40RWJ6T0gzQW92YjcyWjduTUhqOGpkYTJFQTZy?=
+ =?utf-8?B?Ky8xUXU4bDlxNFZLMEFWQVlKN2RxVjl0cFkzSy9jU2dIVkdQeWFxQ0ZtbWFz?=
+ =?utf-8?B?cE56SEliMGlsbjMrOVR4cEVuRnVEaFlybUNzd2xvMFlpdTdNSVEwMDNKSE5p?=
+ =?utf-8?Q?4QTemWqBkVqQ2?=
+X-Forefront-Antispam-Report: CIP:58.252.5.68; CTRY:CN; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.oppo.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(376005)(82310400017)(1800799015)(36860700004)(7416005); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: oppo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2024 18:16:57.0963 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1e685c1-8e15-4058-48ef-08dc84c28535
+X-MS-Exchange-CrossTenant-Id: f1905eb1-c353-41c5-9516-62b4a54b5ee6
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f1905eb1-c353-41c5-9516-62b4a54b5ee6; Ip=[58.252.5.68];
+ Helo=[mail.oppo.com]
+X-MS-Exchange-CrossTenant-AuthSource: HK3PEPF0000021E.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR02MB5860
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,152 +151,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniil Titov <daniilt971@gmail.com>
+On 6/4/2024 11:33 PM, John Stultz wrote:
+> On Mon, Jun 3, 2024 at 11:30 PM Hailong Liu <hailong.liu@oppo.com> wrote:
+>> On 6/4/2024 2:06 AM, John Stultz wrote:
+>>> On Mon, Jun 3, 2024 at 10:21 AM Hailong Liu <hailong.liu@oppo.com> wrote:
+>>>> We now aim to improve priority dma-buf allocation. Consider android
+>>>> animations scene:
+>>>>
+>>>> when device is in low memory, Allocating dma-buf as animation
+>>>> buffers enter direct_reclaimation, longer allocation time result in a
+>>>> laggy UI. But if we know the usage of the dma-buf, we can use some
+>>>> mechanisms to boost, e.g. animation-memory-pool.
+>>>
+>>> Can you generalize this a bit further? When would userland know to use
+>>> this new flag?
+>>> If it is aware, would it make sense to just use a separate heap name instead?
+>>>
+>>> (Also: These other mechanisms you mention should probably also be
+>>> submitted upstream, however for upstream there's also the requirement
+>>> that we have open users and are not just enabling proprietary blob
+>>> userspace, which makes any changes to dma-buf heaps for out of tree
+>>> code quite difficult)
+>>>
+>>>> However, dma-buf usage identification becomes a challenge. A potential
+>>>> solution could be heap_flags. the use of heap_flags seems ugly and
+>>>> contrary to the intended design as you said, How aboult extending
+>>>> dma_heap_allocation_data as follows?
+>>>>
+>>>> struct dma_heap_allocation_data {
+>>>>         __u64 len;
+>>>>         __u32 fd;
+>>>>         __u32 fd_flags;
+>>>>         __u64 heap_flags;
+>>>>         __u64 buf_flags: // buf usage
+>>>> };
+>>>
+>>> This would affect the ABI (forcing a new ioctl number).  And it's
+>>> unclear what flags you envision as buffer specific (rather than heap
+>>> specific as this patch suggested).
+>>>
+>>> I think we need more details about the specific problem you're seeing
+>>> and trying to resolve.
+>> This patch mainly focuses on optimization for Android scenarios. Let’s
+>> discuss it on the issue website.
+>> Bug: 344501512
+> 
+> Ok, we can do that if you need.
+> 
+> But if this is ever going to go upstream (and it's more and more
+> important that we minimize out of tree technical debt), conversations
+> about how to generalize this will need to happen on the list.
+> We need a more complete design and test results to convince upstream to accept. 
+Thank you again for your suggestion.
 
-This GPU is found on SoCs such as MSM8937 (450 MHz), MSM8940 (475 MHz),
-SDM439 (650 MHz).
-
-Signed-off-by: Daniil Titov <daniilt971@gmail.com>
-Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
----
-Changes in v2:
-- use DRM_MSM_INACTIVE_PERIOD instead of 250 ms.
-- Link to v1: https://lore.kernel.org/r/20240604-a505-v1-1-82ee1c04d200@gmail.com
----
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c      | 29 +++++++++++++++++------------
- drivers/gpu/drm/msm/adreno/adreno_device.c | 13 +++++++++++++
- drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++++
- 3 files changed, 35 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index c003f970189b..c0b5373e90d7 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -439,7 +439,8 @@ void a5xx_set_hwcg(struct msm_gpu *gpu, bool state)
- 	const struct adreno_five_hwcg_regs *regs;
- 	unsigned int i, sz;
- 
--	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu)) {
-+	if (adreno_is_a505(adreno_gpu) || adreno_is_a506(adreno_gpu) ||
-+	    adreno_is_a508(adreno_gpu)) {
- 		regs = a50x_hwcg;
- 		sz = ARRAY_SIZE(a50x_hwcg);
- 	} else if (adreno_is_a509(adreno_gpu) || adreno_is_a512(adreno_gpu)) {
-@@ -483,7 +484,8 @@ static int a5xx_me_init(struct msm_gpu *gpu)
- 	OUT_RING(ring, 0x00000000);
- 
- 	/* Specify workarounds for various microcode issues */
--	if (adreno_is_a506(adreno_gpu) || adreno_is_a530(adreno_gpu)) {
-+	if (adreno_is_a505(adreno_gpu) || adreno_is_a506(adreno_gpu) ||
-+	    adreno_is_a530(adreno_gpu)) {
- 		/* Workaround for token end syncs
- 		 * Force a WFI after every direct-render 3D mode draw and every
- 		 * 2D mode 3 draw
-@@ -752,10 +754,11 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
- 		0x00100000 + adreno_gpu->info->gmem - 1);
- 	gpu_write(gpu, REG_A5XX_UCHE_GMEM_RANGE_MAX_HI, 0x00000000);
- 
--	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu) ||
--	    adreno_is_a510(adreno_gpu)) {
-+	if (adreno_is_a505(adreno_gpu) || adreno_is_a506(adreno_gpu) ||
-+	    adreno_is_a508(adreno_gpu) || adreno_is_a510(adreno_gpu)) {
- 		gpu_write(gpu, REG_A5XX_CP_MEQ_THRESHOLDS, 0x20);
--		if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu))
-+		if (adreno_is_a505(adreno_gpu) || adreno_is_a506(adreno_gpu) ||
-+			adreno_is_a508(adreno_gpu))
- 			gpu_write(gpu, REG_A5XX_CP_MERCIU_SIZE, 0x400);
- 		else
- 			gpu_write(gpu, REG_A5XX_CP_MERCIU_SIZE, 0x20);
-@@ -771,7 +774,8 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
- 		gpu_write(gpu, REG_A5XX_CP_ROQ_THRESHOLDS_1, 0x40201B16);
- 	}
- 
--	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu))
-+	if (adreno_is_a505(adreno_gpu) || adreno_is_a506(adreno_gpu) ||
-+	    adreno_is_a508(adreno_gpu))
- 		gpu_write(gpu, REG_A5XX_PC_DBG_ECO_CNTL,
- 			  (0x100 << 11 | 0x100 << 22));
- 	else if (adreno_is_a509(adreno_gpu) || adreno_is_a510(adreno_gpu) ||
-@@ -789,8 +793,9 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
- 	 * Disable the RB sampler datapath DP2 clock gating optimization
- 	 * for 1-SP GPUs, as it is enabled by default.
- 	 */
--	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu) ||
--	    adreno_is_a509(adreno_gpu) || adreno_is_a512(adreno_gpu))
-+	if (adreno_is_a505(adreno_gpu) || adreno_is_a506(adreno_gpu) ||
-+	    adreno_is_a508(adreno_gpu) || adreno_is_a509(adreno_gpu) ||
-+	    adreno_is_a512(adreno_gpu))
- 		gpu_rmw(gpu, REG_A5XX_RB_DBG_ECO_CNTL, 0, (1 << 9));
- 
- 	/* Disable UCHE global filter as SP can invalidate/flush independently */
-@@ -1345,7 +1350,7 @@ static int a5xx_pm_resume(struct msm_gpu *gpu)
- 	if (ret)
- 		return ret;
- 
--	/* Adreno 506, 508, 509, 510, 512 needs manual RBBM sus/res control */
-+	/* Adreno 505, 506, 508, 509, 510, 512 needs manual RBBM sus/res control */
- 	if (!(adreno_is_a530(adreno_gpu) || adreno_is_a540(adreno_gpu))) {
- 		/* Halt the sp_input_clk at HM level */
- 		gpu_write(gpu, REG_A5XX_RBBM_CLOCK_CNTL, 0x00000055);
-@@ -1388,9 +1393,9 @@ static int a5xx_pm_suspend(struct msm_gpu *gpu)
- 	u32 mask = 0xf;
- 	int i, ret;
- 
--	/* A506, A508, A510 have 3 XIN ports in VBIF */
--	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu) ||
--	    adreno_is_a510(adreno_gpu))
-+	/* A505, A506, A508, A510 have 3 XIN ports in VBIF */
-+	if (adreno_is_a505(adreno_gpu) || adreno_is_a506(adreno_gpu) ||
-+	    adreno_is_a508(adreno_gpu) || adreno_is_a510(adreno_gpu))
- 		mask = 0x7;
- 
- 	/* Clear the VBIF pipe before shutting down */
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index c3703a51287b..82953217b0b6 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -149,6 +149,19 @@ static const struct adreno_info gpulist[] = {
- 		.gmem  = (SZ_1M + SZ_512K),
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.init  = a4xx_gpu_init,
-+	}, {
-+		.chip_ids = ADRENO_CHIP_IDS(0x05000500),
-+		.family = ADRENO_5XX,
-+		.revn = 505,
-+		.fw = {
-+			[ADRENO_FW_PM4] = "a530_pm4.fw",
-+			[ADRENO_FW_PFP] = "a530_pfp.fw",
-+		},
-+		.gmem = (SZ_128K + SZ_8K),
-+		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-+		.quirks = ADRENO_QUIRK_TWO_PASS_USE_WFI |
-+			  ADRENO_QUIRK_LMLOADKILL_DISABLE,
-+		.init = a5xx_gpu_init,
- 	}, {
- 		.chip_ids = ADRENO_CHIP_IDS(0x05000600),
- 		.family = ADRENO_5XX,
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 77526892eb8c..b80cc4772cc0 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -298,6 +298,11 @@ static inline int adreno_is_a430(const struct adreno_gpu *gpu)
- 	return adreno_is_revn(gpu, 430);
- }
- 
-+static inline int adreno_is_a505(const struct adreno_gpu *gpu)
-+{
-+	return adreno_is_revn(gpu, 505);
-+}
-+
- static inline int adreno_is_a506(const struct adreno_gpu *gpu)
- {
- 	return adreno_is_revn(gpu, 506);
-
----
-base-commit: 861a3cb5a2a8480d361fa6708da24747d6fa72fe
-change-id: 20240603-a505-e57389b61d2a
-
-Best regards,
--- 
-Barnabás Czémán <trabarni@gmail.com>
+Brs, 
+Hailong.
+> thanks
+> -john
 
