@@ -2,91 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967038FB762
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 17:32:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC87B8FB76F
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 17:34:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5576510E523;
-	Tue,  4 Jun 2024 15:32:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFFE710E520;
+	Tue,  4 Jun 2024 15:34:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pc0m1iYN";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="TvZN5eI4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47DB610E52E
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 15:32:23 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-52b976b5d22so2850682e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 08:32:23 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04B2810E520
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 15:34:01 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-4213a2acc59so104545e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 08:34:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717515141; x=1718119941; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=gHrM44L4syIp6QXQbLvLBhWUBG/rKUy59LnNZ47iEDo=;
- b=pc0m1iYNFIumIpUBv/mge248vjUxd9pMeZ5NWc7q9TR01e1nNyG4telq9vz8qHfjTJ
- MfYKuIL5NjG3FuqYiKU5A2Qfktp36ce9JO88CrHbgAMtqZ3d6B0u/st0S43ye9M0rgEA
- YQtG93dAjwXY+vuNhLde2kV9Bu2xuArBae3ZgUyupnvrEgrlWDptHd/CjtzQf2ECwX1j
- 9KxOf0s3FSJA/EW6gWP+05Rf63q8UJ+7iCNgps63ywWhHTldDSPAHi2mcRSsfqIJIDcI
- ruIkpg6DL9BBoRNjanHxpOBYPHTfhFGt/CWTeXhMKby+VFH6x5iKVc2nBQz+kF2NQ+Dd
- qEWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717515141; x=1718119941;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=google.com; s=20230601; t=1717515240; x=1718120040;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gHrM44L4syIp6QXQbLvLBhWUBG/rKUy59LnNZ47iEDo=;
- b=H9MgpS3sEARMCcvUszosoZAHruf9SOrfBRfNj+6z3io39YzVp7WgbBJ57r7klOd5fK
- TnMREjTlWFvcW200xrRok7fFOzEj4oGnfbKFU9ynVkemZQOXkflsjNj/2JRjPFUBT3gP
- 2Dn9ikRRjHXgQC1YoTn1H6kFOM1FfHSGXrOant789W90b+G9v5O5JJHM0azO7Im0qLfq
- aYfWSC24LZ+OQnfbpnHDrhF8pHU5Ua2M4RJX7g/z1ij8r2pmff3yil3rKUHlrwAPZwsd
- oOnLnkt18C83+WVh16dw5kXnORcaPSDqKjP5rTqBMs1gtk/7UaH0Hiv8KDw34ZlmpaCt
- OzRA==
+ bh=YPrZTWhMGfW1Op6H/y2W3cwWgY4x9WIkaqKqTA6XOsk=;
+ b=TvZN5eI4nWyY0XTI5ECUxEeuxBHPjyc96r4UNZn6iKfn5xbsI1DvQ2Kj+BDqvr6wLV
+ GD835u8pwZta/SzVuTgW+9mc/r12EKGjXR7PhY8Bgg57zVkigCIgexbI30SUi1zPl8lz
+ DXg+IvOkwNj5lg7QqF0KYzZqzUZFoKdQLDYh+anosE7CspzA/wqT0VbVJHPYcx8L/O7o
+ pSZ/Vb+YHFBcKgJdlZT4ZxGzx6U2ZyycLOSNvNKcSx5UCMZ1Tr1rbO4is0qfNTRe7VQ1
+ 5h6OyO7REbtv+tT7XbIO74Zf7sOyXiq1lVaK6nxOmcv5jX7TBOAYRd0ZZ5eGeWiCSX3F
+ 6Ilw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717515240; x=1718120040;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YPrZTWhMGfW1Op6H/y2W3cwWgY4x9WIkaqKqTA6XOsk=;
+ b=PMopJWHzlmR5XzaBs5X8E9WfrVXmM3ie937dJxx5JMUKBumgSqlZoLj5rzQB1dv8NY
+ qfLNSmUGaxHboCJ5bWP4GAJld9hV7VYvrELSgSZOPETbci2JmspAvcGkM1VTjaFbnh8g
+ H6uV2PmGbLkrBW7y4P5fSYIlj4Cz3FQJv33bVVndXHwACw8SGrxNv80bNZzJWkWdZvkS
+ js9MaXWqvBRetZ8n3A7XZoIHIheFRv9//A1i2LLSq8v6t9/SYbx9OOrE2TO02Yjjm8kG
+ K9xkjBRWcyZZ7BaTpfLcK7IoY+BaG8QLVxnyKoeSu1XGiywpuxGU6v2AEzTrajDbw/xg
+ 9mSw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVxANiUKnRamK32oMVw+5+LaXBRumXjBwEBc93XeCd13AZzvfQwuLhwDMb7jzoZbmWd10uVZ7GEJDx7fzcc0onch2J0zEjgm4x3e7/yYIx5
-X-Gm-Message-State: AOJu0Yz0yiVTuob/TZ1NfoI6f0/VdBUtq3HtIpb2X+z+EFOU9eQhfqxs
- XTDIuXZ93RafxKf9ywa2r96VmBUWTtcCTEUNNhz8Tpq4r/33zMP72mG8k3jW7+g=
-X-Google-Smtp-Source: AGHT+IGYLHNudiIaswlwjTUb/rMLM3nXqJvLYwLC+U0gfFCMtw5YjJkut7czzapYE+YZat6n4c3unQ==
-X-Received: by 2002:ac2:47ef:0:b0:521:9315:670 with SMTP id
- 2adb3069b0e04-52b8957f632mr7525530e87.9.1717515141146; 
- Tue, 04 Jun 2024 08:32:21 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52b84d7ecfdsm1538150e87.189.2024.06.04.08.32.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jun 2024 08:32:19 -0700 (PDT)
-Date: Tue, 4 Jun 2024 18:32:18 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/7] dt-bindings: display/msm/dsi: allow specifying TE
- source
-Message-ID: <xc4knruvh2kasc563vbatppof67w5ui7bnoiq73euogvkjw2hh@meq3vz2qeekk>
-References: <20240520-dpu-handle-te-signal-v1-1-f273b42a089c@linaro.org>
- <224fa477-07ba-e7b2-2f7d-8f7d21f4a0c7@quicinc.com>
- <CAA8EJpp8kRPKboHNHwD+R5f1AcndjaQdGG=Q4ygmRE9VMNievQ@mail.gmail.com>
- <5cde2f43-89ab-d2d4-d68e-605f8f5d1da7@quicinc.com>
- <CAA8EJpoMtr6OGjL8qq-cHadQSOVyDAaL8=2TLvOjBbYV2Z7+Mg@mail.gmail.com>
- <d1a9be5d-b0a0-73bc-c66f-6d45049fbaf1@quicinc.com>
- <CAA8EJppFZQTghtyweGG_8zSqqZpEp=ho0bXuRxgyU2qGL4+ppA@mail.gmail.com>
- <4b604c91-7b1f-46b3-6b41-fe7d45190b78@quicinc.com>
- <tymwexyhuujgrz2cvxkruimst3ff4mnevcm2k4h6qdmpmb7yqp@zqbwwc5t66ya>
- <c9cc5a0e-35b5-47a6-b271-46cac9e19872@kernel.org>
+ AJvYcCVGrp3pVq3g6sixmzKaudONDQshVA724qQiAMaiNFJCU3beMIgaGBHAQ/7bXaGwh/KhYBxcU98z3VG/O/DiBF2DoTTAU/UyK+LAi7LHZ5Tr
+X-Gm-Message-State: AOJu0YzYuwFf33m6VRm7MFEbDr2edBzIE6Fv5az6rxVCPyWbhd7SYTbZ
+ aEl07G9+oxCuL6IHtbTb4nj9Dp9qPDIv6F9R1dxBsG03/OFdqf/cc3rA2NrEPArqkAST/7mUdbn
+ +mO3WcFEnzM90K9x0bKVnHj9vEgxpH8/MZ9E=
+X-Google-Smtp-Source: AGHT+IGgt6qVmKsMEINkAA4HYjs0uN2WeNDrPuAe6rAIuy/AuDyc36S0WKxfN4JyUkzqKUjfzg5pNUGXlPz9X67UZxY=
+X-Received: by 2002:a7b:ca46:0:b0:41b:8715:1158 with SMTP id
+ 5b1f17b1804b1-4214947b20amr2777065e9.6.1717515240106; Tue, 04 Jun 2024
+ 08:34:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c9cc5a0e-35b5-47a6-b271-46cac9e19872@kernel.org>
+References: <20240603114008.16235-1-hailong.liu@oppo.com>
+ <CANDhNCq50zPB+TS+_Oo0HY0aUuBAdik2KrC8eJRTygbis293sw@mail.gmail.com>
+ <20240603172148.gb7txpg2ya43jyxn@oppo.com>
+ <CANDhNCrwgce7G5_-4tNfgTHcdL12zt3JKBg=o3bHrzMmfFMctg@mail.gmail.com>
+ <cff79c75-4c9c-46e0-a3ac-b9c0e8cad6f0@oppo.com>
+In-Reply-To: <cff79c75-4c9c-46e0-a3ac-b9c0e8cad6f0@oppo.com>
+From: John Stultz <jstultz@google.com>
+Date: Tue, 4 Jun 2024 08:33:47 -0700
+Message-ID: <CANDhNCq1O9T6WxCpe9yNBycMu7U0SCVYBdW3R=J8jEqyqWYCiA@mail.gmail.com>
+Subject: Re: [RFC PATCH v1] dma-buf: heaps: move the verification of
+ heap_flags to the corresponding heap
+To: Hailong Liu <hailong.liu@oppo.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ "T.J. Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ 21cnbao@gmail.com, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,47 +91,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 04, 2024 at 05:22:03PM +0200, Krzysztof Kozlowski wrote:
-> On 04/06/2024 17:14, Dmitry Baryshkov wrote:
-> >>>>>>
-> >>>>>> I didnt follow why this is a link property. Sorry , I didnt follow the
-> >>>>>> split part.
-> >>>>>
-> >>>>> There is a link between the DSI host and the panel. I don't want to
-> >>>>> end up in a situation when the properties of the link are split
-> >>>>> between two different nodes.
-> >>>>>
-> >>>>
-> >>>> It really depends on what the property denotes. I do not think this
-> >>>> should be the reason to do it this way.
-> >>>
-> >>> It denotes how the panel signals DPU that it finished processing the
-> >>> data (please excuse me for possibly inaccurate description). However
-> >>> there is no direct link between the panel and the DPU. So we should be
-> >>> using a link between DSI host and the panel.
-> >>>
+On Mon, Jun 3, 2024 at 11:30=E2=80=AFPM Hailong Liu <hailong.liu@oppo.com> =
+wrote:
+> On 6/4/2024 2:06 AM, John Stultz wrote:
+> > On Mon, Jun 3, 2024 at 10:21=E2=80=AFAM Hailong Liu <hailong.liu@oppo.c=
+om> wrote:
+> >> We now aim to improve priority dma-buf allocation. Consider android
+> >> animations scene:
 > >>
-> >> Yes, I totally agree that we should be using a link between DSI host and the
-> >> panel.
+> >> when device is in low memory, Allocating dma-buf as animation
+> >> buffers enter direct_reclaimation, longer allocation time result in a
+> >> laggy UI. But if we know the usage of the dma-buf, we can use some
+> >> mechanisms to boost, e.g. animation-memory-pool.
+> >
+> > Can you generalize this a bit further? When would userland know to use
+> > this new flag?
+> > If it is aware, would it make sense to just use a separate heap name in=
+stead?
+> >
+> > (Also: These other mechanisms you mention should probably also be
+> > submitted upstream, however for upstream there's also the requirement
+> > that we have open users and are not just enabling proprietary blob
+> > userspace, which makes any changes to dma-buf heaps for out of tree
+> > code quite difficult)
+> >
+> >> However, dma-buf usage identification becomes a challenge. A potential
+> >> solution could be heap_flags. the use of heap_flags seems ugly and
+> >> contrary to the intended design as you said, How aboult extending
+> >> dma_heap_allocation_data as follows?
 > >>
-> >> My question from the beginning has been why the output port?
-> >>
-> >> It looks like to me we need to have another input port to the controller
-> >> then?
-> >>
-> >> One from DPU and the other from panel?
-> > 
-> > Dear DT maintainers, could you please comment on the OF graph entries?
-> > Are they considered to be unidirectional or bidirectional?
-> > 
-> > Would you suggest adding another arc to the OF graph in our case or is
-> > it fine to have a signal generated by the panel in the 'panel_in' port?
-> 
-> Which pin are we talking about? DSI or panel? Commit msg suggests DSI,
-> so property is in DSI node part. Seems logical to me.
+> >> struct dma_heap_allocation_data {
+> >>         __u64 len;
+> >>         __u32 fd;
+> >>         __u32 fd_flags;
+> >>         __u64 heap_flags;
+> >>         __u64 buf_flags: // buf usage
+> >> };
+> >
+> > This would affect the ABI (forcing a new ioctl number).  And it's
+> > unclear what flags you envision as buffer specific (rather than heap
+> > specific as this patch suggested).
+> >
+> > I think we need more details about the specific problem you're seeing
+> > and trying to resolve.
+> This patch mainly focuses on optimization for Android scenarios. Let=E2=
+=80=99s
+> discuss it on the issue website.
+> Bug: 344501512
 
-Input pin on the DSI side.
+Ok, we can do that if you need.
 
--- 
-With best wishes
-Dmitry
+But if this is ever going to go upstream (and it's more and more
+important that we minimize out of tree technical debt), conversations
+about how to generalize this will need to happen on the list.
+
+thanks
+-john
