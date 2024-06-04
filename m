@@ -2,150 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E11E8FBE53
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 23:52:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 608888FBE55
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 23:53:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C49A910E503;
-	Tue,  4 Jun 2024 21:52:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F277E10E548;
+	Tue,  4 Jun 2024 21:53:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="YyKY/8nn";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="lWKmISBO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2069.outbound.protection.outlook.com [40.107.220.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21FB610E475;
- Tue,  4 Jun 2024 21:52:44 +0000 (UTC)
+ (mail-co1nam11on2046.outbound.protection.outlook.com [40.107.220.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24FD910E548;
+ Tue,  4 Jun 2024 21:53:06 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C16FvczZsMLNRt/ZDmGcth8Feqnp5aMvO9j1aLLzlCh6m1dWrIdzHoE3lZijtQHCqMZxLH+8W6dIHe/MwlANXWqG4p2e0aON6cZQFHRi/uFlped8FitiG/xCig4SJ+nqHINj9z0QuDbFBWBlEszRRQzgOWSsAvFzX2TRgrjzy4VlGnpPn+ingxBaHfskHZQ42nLP4hyV/BUT2RvSGpD6NxoBKtHrpUdXyATbO8NyHF6q39D80iE8SsQC75MSF8C1E4ISlX46mTd0p6k7d1mR06P8Wjeb/O3/fkKNOV4uB6F0xRbxb00IiNUnduWJnezS8wMgVuQqEPlSUL9tSaWaeA==
+ b=DhQB7hfeTXAl+UswqRp6GPg/H/NwRnPqZ3rSJQra/E9Zp3tiU8LvetugsBIC/yW0/740YxnVwucVurTkKot/SaU+yJ4fjfZAXzI3CrtIJjRYs3AU52XMTMADAWC0yZqr32Ba8C/YrmsKFKKJZo9OJujIwDKXkw0sjX8o7boaENzoPkQjk7lnMCravZ5HJBHHKpQNtxmIOlSheO9PofCLM8WfP766xCRT9BSYw6rfQNiXdw9mAVJln0gIklGN2u/J2FF9G7mm8I+un4ux7n7N7Wxb+DHS0aUvZmCljgVP8RAU6kuyZV+cgpKbCDsjAe8y5jjPsUuUhEr9k6oKdbs5gg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lCq3vL71pK/s4GXH4Rfb7nyEY8uATsFQn+G07rq33wE=;
- b=LIQfsiaDiAXuSj6nlzAQUx6vn/D/jXN3z3Quq8+rOonNofSfibGhiuQe3m0aekAQz0S3EE8EO8t6LtU9DnX0iuHyQXyn0oZI3xfOCFtxfKsetgHL6GKNt2WqkshIwggBcK9aJTbl6NPO9QIgB3VBB5s05boeLHAmXqPGhryc67IyFTTEREm2TPlBugujjKm1LhWIBcXtfs+hCSTwogbpetjvY/ckwpWsp2PjpldRKK00/ryu0jc0CGANx03vUTl5F0G385UL1NGNr0E9/yvSSDdZle2FNcoRdaF4VHP9/bOrPSH+T4RxY/2rVX+H/o2teGTEjVfQ6GgoMb8MRXonHA==
+ bh=4k9j4Qt53wmiprFceGNikLMR0607WY+upt9+a+sQQuw=;
+ b=UtB7jK0jg96I458SXaeJbU/yHx8qo4amZP/3IhqRQGtv137CKXXHovagxpzce9tMHiUVVwSlOWC5U3eFdw7OlQVUcjf6XRV8iHwTv1JN+UcyEhhkE1Fou4Am7cgLRO5nytYBpkNghO8UlElL6ya8o37w1i3cwnaU2iKdpc+wdPgsoxNnnkT9+uj9HTGsnmtk4ZOygqyKGyI0fPayZooXVDuVP7YJykkLesqyASACN3k+qKAW6tSpWZD7Kf4oPuUkY0jfU5/ppfDTD4OFmiQ2KyU9RMwpGsrsHLMZfQ8Rzmc40JY0THlHYFoX9TLenS2stEdAjHDBW8siH2yRIs5UKQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lCq3vL71pK/s4GXH4Rfb7nyEY8uATsFQn+G07rq33wE=;
- b=YyKY/8nnNrWaJvpJyHku7so8Cn13eGxkmCBt5AdOkmwB5T24AHTTllA4oOugqa/gjgKAjdUql516m5Fdw/GZErkaq7LchGAY6ILZr8qf4KtlsyGBGzuC0Na6v8IJtQ14OSLrPdPOu652W2U9EEvIsQRvTE1o4r1gcU+FM6yl9dg=
+ bh=4k9j4Qt53wmiprFceGNikLMR0607WY+upt9+a+sQQuw=;
+ b=lWKmISBOleXHml8O69YlXoiefDKDoNI++qIfJIuUfwN8+N+6QBvpXwZeTa3rgREDBsFrEZSWOus3iluwg8vBznyDqt7QQQf8oOJ9ZUBkr7kLPN3mxwEe20I6d8BRN3kWE/X4tT+t7iSZxkuz0shOr0aLmgohk4jjgkI+DoNs0vk=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from DM4PR12MB5311.namprd12.prod.outlook.com (2603:10b6:5:39f::7) by
  MW4PR12MB6900.namprd12.prod.outlook.com (2603:10b6:303:20e::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.19; Tue, 4 Jun
- 2024 21:52:39 +0000
+ 2024 21:53:01 +0000
 Received: from DM4PR12MB5311.namprd12.prod.outlook.com
  ([fe80::a846:49eb:e660:1b5b]) by DM4PR12MB5311.namprd12.prod.outlook.com
  ([fe80::a846:49eb:e660:1b5b%6]) with mapi id 15.20.7633.021; Tue, 4 Jun 2024
- 21:52:39 +0000
-Message-ID: <08cd3481-ec07-442c-aa79-bc9f68aa776b@amd.com>
-Date: Tue, 4 Jun 2024 17:52:17 -0400
+ 21:53:01 +0000
+Message-ID: <32a04412-6adc-4b3d-b8fb-06643878d5a8@amd.com>
+Date: Tue, 4 Jun 2024 17:52:59 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] drm/amd: Add power_saving_policy drm property to
- eDP connectors
+Subject: Re: [PATCH v2 1/2] drm: Introduce 'power saving policy' drm property
 To: Mario Limonciello <mario.limonciello@amd.com>,
  amd-gfx@lists.freedesktop.org, Simon Ser <contact@emersion.fr>
 Cc: Harry Wentland <Harry.Wentland@amd.com>, Xaver Hugl
  <xaver.hugl@gmail.com>, dri-devel@lists.freedesktop.org,
  Sean Paul <seanpaul@google.com>
 References: <20240522220531.32728-1-mario.limonciello@amd.com>
- <20240522220531.32728-3-mario.limonciello@amd.com>
+ <20240522220531.32728-2-mario.limonciello@amd.com>
 Content-Language: en-US
 From: Leo Li <sunpeng.li@amd.com>
-In-Reply-To: <20240522220531.32728-3-mario.limonciello@amd.com>
+In-Reply-To: <20240522220531.32728-2-mario.limonciello@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4PR01CA0401.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:108::25) To DM4PR12MB5311.namprd12.prod.outlook.com
+X-ClientProxiedBy: YT4PR01CA0405.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:108::18) To DM4PR12MB5311.namprd12.prod.outlook.com
  (2603:10b6:5:39f::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR12MB5311:EE_|MW4PR12MB6900:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4f70646b-2d97-4b63-b2e9-08dc84e09b79
+X-MS-Office365-Filtering-Correlation-Id: 88267355-8ddc-45a9-e024-08dc84e0b495
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|1800799015;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZW15cENjMEhkdk9TOEVaUGhVL3pVMm5iNDVZOHZDUVpDb0F4TXlPQVV6emo3?=
- =?utf-8?B?T1AyVkpZcmxwMmM1a0VhK1NIOGlvbjdZZ0lycmFwQzNGdWc3QkhWV1Q5Tlg4?=
- =?utf-8?B?WUQ4cUtmaE1Ic3N0OWt5OTIxUXkzS0J3TnlrcGVXM2EwaHg5Ui92YUl5SGtz?=
- =?utf-8?B?U1FRRHFVSE1tNWRDRFh4NWVjZTF0SHhJd05sVkUrcTJQMFloeEpEUDFKWGZv?=
- =?utf-8?B?RlpGRjcwSC9XT0J3eHZtdFZkaEhpR2dibGNuSmxqTnZkbTB0SzNPVk9VUWxp?=
- =?utf-8?B?UTBZeG9vOTNzQ0FXcE55N3RZWERsRTNIOURkUFJseXErc3RQWjVwdmtYZ0pt?=
- =?utf-8?B?eG5BMHZFdktYdlVHVGNObFFuOEtnaTRweTY1Q0gzUWZNZDNQRVhqS0E5UHBp?=
- =?utf-8?B?YjAzZ0JzMzlSQ2hsU2pRRzZpd2w4OG5OajBWQkVJVjEzTWhqRDcyVldDTkNY?=
- =?utf-8?B?UE8wUzIyR0xDa2hzdDhSTnVMVDJ4VTF5dWdHWGQ1RjNiTWtKc1VHVlV1ckZx?=
- =?utf-8?B?SEJzQlJYdS9tUjNEcEhmN245eWc1RzUrRmhEbXlWd2VBdE9Ic1pIczFGNFJ1?=
- =?utf-8?B?RlZpMm02MXplOVYvNGNkYXpQaDRZL1pqQTJjaHVETmU5Y20vUDM1OTZPaUFm?=
- =?utf-8?B?WGRDUElRMTkzMFM0OWV5YmZaV0NDWTJDVUFXSklqSGk4cFpTeHBwRWg5ZGJM?=
- =?utf-8?B?ZFYrUE1sOEYzWXJlRFp5d3VlTjJkdmtZa0ptTkVQVEdMTVJ5QkNMWFh3aVE2?=
- =?utf-8?B?bjYxVStVQVlhY3lSWnVrVDNXMm11SVV3TnN1bU1ZcVB6ZjA4bkdkN0x6QmpL?=
- =?utf-8?B?ODFpaDJMbkhqZ2MzOExxa2t1R1loT3hIdnAvNXkyVVJjdEJYeHBYZVlOR0ZJ?=
- =?utf-8?B?TWx6NDgwcE5CL29LaVR6N3ZRVEw3aXVLdmlhWkdlVDNvMjlyRzJUcDBIRU03?=
- =?utf-8?B?S1BnUG5DQ05UamRwVXhvRFNiZkNZbm9Wd0g4d2pQV1FqTkR3S0FNMlYrd2t1?=
- =?utf-8?B?N1hVVmtOOCtEcjU3Q2dWVmhPQ0FLeVhCbjZuSnlxZ0Y0VnlaUks4TXE5a2J3?=
- =?utf-8?B?Vk5sYmlUMzRzelpuNjNqbUZKd3NQeTJvR0N1cEN5c2xycVFLRmxQdEVRNU1h?=
- =?utf-8?B?c2ZocEVYOWhwSmpCM2dkcC93UEl2dS9haUp5QkRUeiswd3VhbFRST2pJTE45?=
- =?utf-8?B?S1gxcXJBeFBMaDRlZmZGYitxSTFhR016dmtaSmRZZ0pTQ0tVM3JiNHJCVVMy?=
- =?utf-8?B?TlNucUFZOVMweXgzSDJRMnRkcUR0cldzM2FjUzF4ODFlN2IrTFdpWWFuVzJZ?=
- =?utf-8?B?djk0QmdKTnI0VVFueFFlNGhuSWpGWTlRWGhOYkY1SFVEcjZKcWpGMVpZbHJU?=
- =?utf-8?B?Q21qSTR1R2Z6ZjRjQmp0UjIvWEtOWCtNa2dKeFZKR1h2T2R6dVlrZkJwVnd3?=
- =?utf-8?B?ZCtxZ05KSDJPZlJZYUZyOUprajMraHFMbVp4Qno0a25hSTBkb2JDUWVFeU51?=
- =?utf-8?B?c0dUT1BaeWFoMUlhQncwUStXaTF6UDl0UTlBN1N6VXEwV2Jtd0pRb0FleTlV?=
- =?utf-8?B?ZEdWeGhpZmZJMGxOQlNlSTgvTG15U2FzV0tHbFdtaWVjTlR0OFkyV0MxVDJj?=
- =?utf-8?B?ZW5nVWhCazRFVnUyV2pySGwyWmJwNExwNXVjUDE4c3FkVG5zVERzWDFxRHJV?=
- =?utf-8?B?Mjl0aTIrbFVMRk0vb3U0NWZxL3hJNVBFZTNPVGd0bzloWXhoSWVxd2NRPT0=?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TW9NYU1RSHRqNGJ2Yzg4SUM0R0RGNUVQZ0FzaVg5blEwQmxzd2xEaENyenBU?=
+ =?utf-8?B?NjFnTmNad0tpNlpGeWdiYTBudDVkUGx3Y1dGUDhlRGdpWHVoTHdITFVtQWda?=
+ =?utf-8?B?amoycXh3TWU0TG10cE9NTnY3bkZ2Q2lHM2hlZEt5K1E3cFhsWFphV3cvekpY?=
+ =?utf-8?B?NFd4bGdablVJTzkzcE5TUVpUdW9aQjRJb0VvN3ZaRW16cyt0S2tPQUp1ek1M?=
+ =?utf-8?B?czJFZld6cjUyZE1ybndjYW9xV0NRbVJKd29aeUZhOVpaVkMrQ1Y4MFp4L3h6?=
+ =?utf-8?B?WmRTdUF4V2VCUEo3alc4ZGhYcldIc3RMZUw0RmdJUVVLdTA2MDFOYXVRT0ZK?=
+ =?utf-8?B?YlVOT1NmNXBiUEFGdGFYTlhzbGNJaVAwREdPVTRiUWY0REFnbXEwUjMva1dl?=
+ =?utf-8?B?UjdyVFRNM3hmRDdKNHF5TjRrWWZ0OWhmbWUwWW5Pc2NnaklnS1dNM005ZDZy?=
+ =?utf-8?B?N09ma3ZrMkpyZXNrSXk5SEkwUStjNUlpZ3lneHFsaFN3azlTUjY5Ky9kcWcx?=
+ =?utf-8?B?OHZ2cnRtRFFBSC9QSlV2SE13NG5LSGdWRDk2M1pLSXV4OFRDc1VJM2JncDN1?=
+ =?utf-8?B?bEg2QjY0TzlaTGVRbmN4VW5vV3pmdGdUQ0dLbWwyc2ErQ0tubWk1cTVxM2U4?=
+ =?utf-8?B?SXo2YVFhQjdCU0p3ME45aDNXK1NTcm5yTjhzamhLcXYvMjFLbVo4dUQrblha?=
+ =?utf-8?B?azVhcDhFRnRTbVpDT3JZL2VIalJKcnZSd1ZiWmFzSWI3RkJTMXpHMStzcHgr?=
+ =?utf-8?B?Q2tKRzJ5VVVNMkhjTkJ2eEFGRUllaStXa1cwZ3dlblNxRGUvS0hqbWV6am10?=
+ =?utf-8?B?aEp1d1k2NWtlYUxJOWlBVG02T3E3WHVMUjdYTVNKUWFDMHNhbHd5VHNjRE5z?=
+ =?utf-8?B?cXFpSHh1cEhWQmY3WEQ4YlBCcUdYeWYzZFFncGkyb3RHZGdKQ0NESUVMT2xs?=
+ =?utf-8?B?QjN3T2xXVHdlUnRzTG5SWEVLanQ4Yzh1SWpreE5UVXJRQ0RTVld1aXM2L0xa?=
+ =?utf-8?B?TGs3MC9WWlJXWldtWWNPOHRkWi9QRXhqU25LaEQxRGRKZ2lkL3JSLzFrZHAw?=
+ =?utf-8?B?cWpNTHdKMmtnNHRRUlYzM0JXZlRxWWFEZk5xM1hsL21ZRG14bDk0VW5nTFZX?=
+ =?utf-8?B?ZmxWSlpqa0w2WmhZK0w2UGtMY2t2VE5DaEhsWlI4Z3FQOFdQS3V3NEFtK1kw?=
+ =?utf-8?B?R0JNcEF6QlhGT3NBV090STZ0aVhzS1A2KzlzckRXUlJsRFpzbGpHUTVUYXlp?=
+ =?utf-8?B?WjY0WHg1bFY0bUkyNk8rY2FHanFMSmhVUFJiQ3luTjBxT3RkUWN5RjN0SmFY?=
+ =?utf-8?B?akpGTFhUVXlWZDlrOENmQVlNUkJQMGx0TmN6bFBNMlRwTVNNRmJoS3lObWI3?=
+ =?utf-8?B?OUtNSzhBd2R4c2xaSHdHVFJhL1RrWXlKSVFiMnNHQnN2dEhuK1hDVk9mVjAr?=
+ =?utf-8?B?cG0wQlBmeUM3TmRMbWt6VThwU1ZmSFpnQnZaYysxQXFONityZnF1YVdiaEFV?=
+ =?utf-8?B?NmFJWlBNTlQ5Yk16RjJhaFY4eG9jdnRIQ3pjc2J1dzVYQlREaFIwN1hBTFd0?=
+ =?utf-8?B?dlRtUTMreDBDTXN5RndzQkRGRjdzdnJuaTVYTldwNVZoNEFTU0N5M3FzYTJ3?=
+ =?utf-8?B?clZRMHpVeEYxanFTZ3JVNnBRV3JBbGI1SzdUc0pvUHowQVdSKy9WdHNweHd1?=
+ =?utf-8?B?SDVUWnRCZ1RhQVc1R2FhVElIQmVobDlaKzlyam1KSGg3SkYvMzY1RVdRPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR12MB5311.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230031)(366007)(376005)(1800799015); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S3p6ZEx1VUF2YXBhWjMwaDJjekpDM0IvQ3JsRTZJNks0SXhVVjd4ODh2Y3RP?=
- =?utf-8?B?WnNkOUNNVDY2UEY1R3BUcUhqczhURGNReVdVYmpQSTJrK0ZuZDBhU0F3N1l6?=
- =?utf-8?B?MlJZa2pJdWNzV0JDYnU5Q05WMTJmTVRKdFQxWE1ZeWYxd0Rqay9aM1NYT3VR?=
- =?utf-8?B?L0hwNW8rSWw4MVg4ZnI3TlovNEpLRXIxL0hQSDllRHF2alArc1ZacnJYSW8x?=
- =?utf-8?B?cDBVd2xsMkpZMnpzYTVoNVVPSGRucUtOSHYxNll6c09vbXloU1VLZWorS29p?=
- =?utf-8?B?Y3NvMExwZm5KRzQ0eTY4ckNTUnZhN2g5cXE2RWsxOS90STBGdkFZY3ZWZ1Bp?=
- =?utf-8?B?VUdBRE9mQmlRZ3lHRGtYSVZJWGFLN1BZR3BiUXQ4eC9WQWtnSGV2NTVOTDlv?=
- =?utf-8?B?R1JCbno4bVR6LzBXV1VObytkWU5wL3dEQ05ESDlTZmZjVkY0S09qU2tSVnNV?=
- =?utf-8?B?L1NOMGQxRCtvd3ZHUVVkMzlJUmdlQWM5TWJXbG1wRFpHcFc4cCs0Um9hUVFO?=
- =?utf-8?B?bmN4cVN6b3Y1WXVDRmM2OHNobmhwRWdLWDBZdGtMdUJWZHEyKzMxWDJ5RkM4?=
- =?utf-8?B?MVdYVU92VURXQTkzRlpDN2Yyc2U1bmVqQyt6TC9vOFN4S2ZJTTQ0VHlNZkJs?=
- =?utf-8?B?NDR5REh1U3ZRcVJqMy9JeTZtb1laaXJrQi9rN3ZPem1MUWlLSGdVbm9hTmtQ?=
- =?utf-8?B?bXd0d1UxaUFrQVJxN3pxZ2RUTWdCVzhlWTl1aWxKeTcxc3NpS2ExTEtBZUt6?=
- =?utf-8?B?Ny9ZYkRGam5sdEtZczVqT2E4UmY0SlJVZTdiQnlOYzEyOFJiYmwwQjduNTZi?=
- =?utf-8?B?MXNKVGJ1c25xQmF4SXN4RFR5cCs1RlBCMTdFZWNzN1I1Z3lNT3JMVDFsOWMz?=
- =?utf-8?B?UDl0SSszUUJUdFF2UmhCNlRMUnhxbXo2TUF4L3c5RlhsZXMySVZzSWVGSjJT?=
- =?utf-8?B?TkRJMnJicmJLVEoxaEJPeDlMcVZ4Y3ZxRTdwTHU1TzVCVTdsbGJyekN1ZVpK?=
- =?utf-8?B?V0VSRzhxUFVhNFZycGp2ZVN6UlNUQ2xOSWk1THVzWEVHa20xSnlVQTRFMVY3?=
- =?utf-8?B?QzZ2YzNiSURJSmlLbW51MzY2c012MmdiVERSeFVlalZDRWN5WHNycUxEMEYy?=
- =?utf-8?B?bklLZlpVc3ZkMHRqUHVGS3l1R1FwUTZJUmZUaGVaNmM0K1NiUmlXWXpURy9O?=
- =?utf-8?B?T1k2Ris2ajRZMnRnTmJDL1YvVCtPOFlxRWdTRVAyUUNxbktvQzRhemh2Z3Fq?=
- =?utf-8?B?WDRkNDc2RnZVTU53emExZ3AwVjJMZW1mTTJDcDVseWZKSXZZbE5rU0NYYVcw?=
- =?utf-8?B?QjVBV2srY242M0o3SzlKRUM4R29GWk40N0tybGJjdjhYdDZ6dW9pK3ViTmFq?=
- =?utf-8?B?emsrZm1VaXpjWmF5ejVFd1RoUHRpY3cxWk4wKzRiUC9qdHpkMUcrVm9vMzdo?=
- =?utf-8?B?T3pFK3d0YUorVXBORkRnOXBKNE5FMG5ubk5lS3hnNHoya0E2cVdyS0JQNEd5?=
- =?utf-8?B?dGNCV1JWUDJkYnBqMVVtb3E5VnRXckZQSEs4TldKek1DWXBxdkpTVGVjNElj?=
- =?utf-8?B?TWdkT295aGhRaHFNRU1oNllFTG1NQkR1SDgvTjRZeEx0RWt5bnJpN0JRdENW?=
- =?utf-8?B?L2swWEs1bDIrUThpVnRYZnBuRTllUnMyeklqVlQxQUFwZW1qYVhFeTE5OUN0?=
- =?utf-8?B?S3JFSUNSYmNydlFiNlovdnBwVHBqOHUrUHNiRmVmaGs5VTFndWE5RWsxZmcw?=
- =?utf-8?B?eHhFdUVTVGlwc3FVdlpVcDhHOTNXVDRnS2pGU0FTUzFKWTc2K2FxWi91dit1?=
- =?utf-8?B?ajkzM3ZSaklCWHBpbGVJb29GMVluR0FkY2lYWFRFTGxPdm9HaVZkazlzS3FR?=
- =?utf-8?B?QXhBTUlLUW8xckxMaWRqcC8vamNVdjFaZThyM3h2cW5wdUJmUEN2aGxvQkR3?=
- =?utf-8?B?RHdJSWhIQXlpQmUyRUxVTHQvNm14WkVUUE5lZzB0c0tlSFd2eXJQdlE4dThx?=
- =?utf-8?B?UkFiVUpBd3dsUXZuekJkQ2V6TnFwUkhNSFJ0TXg3NzVGZzd0c01JZlFZSWFM?=
- =?utf-8?B?SkxWZlhqelN6UkZtVFdqUXFQdVdJOW80RmtmMEZCRVZCS25oYkNpOW1jUVMv?=
- =?utf-8?Q?oD0Q=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bnUxZ2F1Vm5hUWZ4a1RZYUJ5NVFVamplTDVwT1lwTFFTK1YxVGtzeWo5Wm1M?=
+ =?utf-8?B?YVFqdExCMHlDeldJNVZSSVJaa1FPd3FTWjJQem1qUjJuc2dvUjlFODlHV1Qr?=
+ =?utf-8?B?d1cyWlFTMnlCTTc4aEs1VEpsRm52V1RKUnF5M2E3aGcwaUZJMzlQQjlIRjlX?=
+ =?utf-8?B?NWhyWnR5YTNHVjB4VkJCVU1OcVVLNXZZL09XKzVreUhkZ0w1bVpIeE1tT3hj?=
+ =?utf-8?B?a2hjTmE1WDFBZzhZZVZpRHU4ZjBEdDdaTE4rVlRiWS9wcExkTVlqSnNmSndq?=
+ =?utf-8?B?TTZjeVZVTTlCeElsLzlRZVNIcG9WLzVFZS90N2VqbWJiOGhvNkZwdXlPQ21Q?=
+ =?utf-8?B?b2xjbHUvQUpjQXRHZkErS04vOEs2NHBnbFZjSXJTeW5SUDJGbkJ4Y3NDc2pG?=
+ =?utf-8?B?THZtR05zb1QreWVYYnVzd2hHMVNEWFR1KzRVQTMweVRDVEdVVE0yaER2aG52?=
+ =?utf-8?B?WFBlV0Ztb1BQQjd6OW85UnZEMGw0ajhnb2Qrbjc2QlJzNDI1c2xrL2k0MDQz?=
+ =?utf-8?B?N0VtcWRoRjM4bTFRQ3p0anozby9Ub3RGaGg2elNVSUMyMmNDTjh5WTlxQy8v?=
+ =?utf-8?B?RWRUQ0YvM0dqbXZMRWxXTzZWWDljTUt6V2Y4VnlITVlpeEpSWWdzZkVOSnI3?=
+ =?utf-8?B?Q0VOM2trd1M3MUwxc0RyYVZHaHV5RE4zUXJLb09XcE92ZTNpNVFJWWJITFhD?=
+ =?utf-8?B?US8yU1VpcDVnV21kUWtnWTZKMkhQZjFRK0ROY1pKTTd0VXhHam1FbkZ1N2xx?=
+ =?utf-8?B?RW9YQUNGT2lLQ3J6Z3hRaDNJM0NKbW01a05ZaWtJNmE2VUJUTnF5T05XeXdz?=
+ =?utf-8?B?VWNyMTV1cnI5d1NXUGJzNjhodVl5M1RTV2JSc05PaytGbUxjcFYycHdKWnFx?=
+ =?utf-8?B?SkJ1UXQ4bHZjejNCdStBd2JPMFU1Q1hoSS8yUHlGRzVVYTk5RWRPNzlHY0tO?=
+ =?utf-8?B?ZUdvcEN5MDdackZ6SHc2UGJaL2R0Z3RodGY5SFlNZCtDWlN6T3FFL3JUQ3lv?=
+ =?utf-8?B?cVZLWGtLeUJ5Z2dCNU5HZjlPaTJhMG5mYUNzaXE4RGo4K0VJTWk0VUZxWEdK?=
+ =?utf-8?B?NG9ncmh6OHVSemRJdmxraHFvSzZUOWZYTzZCTHgvRTAzMGtOSjRMTCtwVEdj?=
+ =?utf-8?B?Mk54QnY2c2htSEY5TUVFVjFtY1pjOXZyMnM2ajh6aStXeGtuRWhQZ1d1R043?=
+ =?utf-8?B?TE40RHh2ZGFsb2x2NzFaYWRGaW9nQ1I0d2k0VG9kb3RNbCtlQnh2NSt6YkY1?=
+ =?utf-8?B?emg3eFo3R0hWbWdxbGZ6MkhLTTQrU2tiakRpMVp1cGhQdWl0SlBKMDhOcVFh?=
+ =?utf-8?B?QjJSZ0RqbkVXMDZrS1BNZ0dDcDdSdDBoR202RVVWMkxvbWs2Y01xQmlpRkh6?=
+ =?utf-8?B?MFZ4akdBY2NrbGhNeXZ4TW9LUys1ZVp2cENyd3k1RWlYenowektmbjBnbmpJ?=
+ =?utf-8?B?RGxENDdCM1huQXUzTEpLVWhzTTNqaWpKczFEVDN6d2ErK1Q4NWhqUEQzSHZx?=
+ =?utf-8?B?MjRLSnBWWis4MGcrQWdKaFpUbXUyQW9jWk1FamNXMVVWSEN5K0ZFcXVLVHlX?=
+ =?utf-8?B?NUdSeW9VTjRuTkhZWGpGcFdyMG85cmNnVC9xNGttYUdITWdGSkNFciszU3Ns?=
+ =?utf-8?B?eFB1STBpVDRSd1EzaTdwTk5pTnliN1EvTTFaTUJueDZyTEVBWGVVcEcwTERx?=
+ =?utf-8?B?NGUveWNPQzFxcDZlbkFsaUo0VzBsTDZkbXpZanE5OFlBOXk2T3diSFZ1d3Vy?=
+ =?utf-8?B?RE9PZ2thdjZLVTJCcFVHc0ZVRFBXREVCZXROSlRSR3FQZUFwRkk4Q0hpK3JI?=
+ =?utf-8?B?ZXpsNjNvVUYvM3NCU25HcE1sV2FVay94OXFYM3VvYTRqcFhHT2VJaEpBWGpN?=
+ =?utf-8?B?aFhRVEo3dENDQ0J2VVJkK2pNNUhaVE8yT0FzZWhPU1ZXdUtOZjN3bVh1UTBm?=
+ =?utf-8?B?MnlOZDQzSlAwaDhJVisyRWVxWjRITC8xZWx4STk0R0g1YmNMSi91TVdhRmY5?=
+ =?utf-8?B?SXZmYzArNlVNMFhFaHZKVTZEZCtlVy9iTFJiUU5McUNVYmZvYy9DSUxHM1V6?=
+ =?utf-8?B?MW92akFyN0liZ25pWTFFUVRYQnNkQ0RFcm04Q25JSnNzK01SMmNSd2s2Vm5Z?=
+ =?utf-8?Q?jIkA=3D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f70646b-2d97-4b63-b2e9-08dc84e09b79
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88267355-8ddc-45a9-e024-08dc84e0b495
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5311.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2024 21:52:19.7576 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2024 21:53:01.8026 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dX4xPvAcvqfQlcBHOSoz9jb9zGHZCthGcL2ZRQOBXLQYV8Z62oCMSeskAEsdvk0X
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1AtZ2SufprUf3UTrzYLGfymPazFfr+1MMyab1gNgIhTo4/K1U2lQmvUOojrMxKTB
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6900
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -163,198 +162,142 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+
 On 2024-05-22 18:05, Mario Limonciello wrote:
-> When the `power_saving_policy` property is set to bit mask
-> "Require color accuracy" ABM should be disabled immediately and
-> any requests by sysfs to update will return an -EBUSY error.
+> The `power saving policy` DRM property is an optional property that
+> can be added to a connector by a driver.
 > 
-> When the `power_saving_policy` property is set to bit mask
-> "Require low latency" PSR should be disabled.
-> 
-> When the property is restored to an empty bit mask the previous
-> value of ABM and pSR will be restored.
+> This property is for compositors to indicate intent of policy of
+> whether a driver can use power saving features that may compromise
+> the experience intended by the compositor.
 > 
 > Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+
+Acked-by: Leo Li <sunpeng.li@amd.com>
+
+Thanks!
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  4 ++
->   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 51 +++++++++++++++++--
->   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  2 +
->   3 files changed, 52 insertions(+), 5 deletions(-)
+>   drivers/gpu/drm/drm_connector.c | 46 +++++++++++++++++++++++++++++++++
+>   include/drm/drm_connector.h     |  2 ++
+>   include/drm/drm_mode_config.h   |  5 ++++
+>   include/uapi/drm/drm_mode.h     |  7 +++++
+>   4 files changed, 60 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> index 3ecc7ef95172..cfb5220cf182 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> @@ -1350,6 +1350,10 @@ int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
->   					 "dither",
->   					 amdgpu_dither_enum_list, sz);
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 4d2df7f64dc5..088a5874c7a4 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -961,6 +961,11 @@ static const struct drm_prop_enum_list drm_scaling_mode_enum_list[] = {
+>   	{ DRM_MODE_SCALE_ASPECT, "Full aspect" },
+>   };
 >   
-> +	if (adev->dc_enabled)
-> +		drm_mode_create_power_saving_policy_property(adev_to_drm(adev),
-> +							     DRM_MODE_POWER_SAVING_POLICY_ALL);
+> +static const struct drm_prop_enum_list drm_power_saving_policy_enum_list[] = {
+> +	{ __builtin_ffs(DRM_MODE_REQUIRE_COLOR_ACCURACY) - 1, "Require color accuracy" },
+> +	{ __builtin_ffs(DRM_MODE_REQUIRE_LOW_LATENCY) - 1, "Require low latency" },
+> +};
 > +
->   	return 0;
+>   static const struct drm_prop_enum_list drm_aspect_ratio_enum_list[] = {
+>   	{ DRM_MODE_PICTURE_ASPECT_NONE, "Automatic" },
+>   	{ DRM_MODE_PICTURE_ASPECT_4_3, "4:3" },
+> @@ -1499,6 +1504,16 @@ static const u32 dp_colorspaces =
+>    *
+>    *	Drivers can set up these properties by calling
+>    *	drm_mode_create_tv_margin_properties().
+> + * power saving policy:
+> + *	This property is used to set the power saving policy for the connector.
+> + *	This property is populated with a bitmask of optional requirements set
+> + *	by the drm master for the drm driver to respect:
+> + *	- "Require color accuracy": Disable power saving features that will
+> + *	  affect color fidelity.
+> + *	  For example: Hardware assisted backlight modulation.
+> + *	- "Require low latency": Disable power saving features that will
+> + *	  affect latency.
+> + *	  For example: Panel self refresh (PSR)
+>    */
+>   
+>   int drm_connector_create_standard_properties(struct drm_device *dev)
+> @@ -1963,6 +1978,37 @@ int drm_mode_create_scaling_mode_property(struct drm_device *dev)
 >   }
+>   EXPORT_SYMBOL(drm_mode_create_scaling_mode_property);
 >   
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 01b0a331e4a6..a480e86892de 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -6421,6 +6421,13 @@ int amdgpu_dm_connector_atomic_set_property(struct drm_connector *connector,
->   	} else if (property == adev->mode_info.underscan_property) {
->   		dm_new_state->underscan_enable = val;
->   		ret = 0;
-> +	} else if (property == dev->mode_config.power_saving_policy) {
-> +		dm_new_state->abm_forbidden = val & DRM_MODE_REQUIRE_COLOR_ACCURACY;
-> +		dm_new_state->abm_level = (dm_new_state->abm_forbidden || !amdgpu_dm_abm_level) ?
-> +						ABM_LEVEL_IMMEDIATE_DISABLE :
-> +						amdgpu_dm_abm_level;
-> +		dm_new_state->psr_forbidden = val & DRM_MODE_REQUIRE_LOW_LATENCY;
-> +		ret = 0;
->   	}
->   
->   	return ret;
-> @@ -6463,6 +6470,13 @@ int amdgpu_dm_connector_atomic_get_property(struct drm_connector *connector,
->   	} else if (property == adev->mode_info.underscan_property) {
->   		*val = dm_state->underscan_enable;
->   		ret = 0;
-> +	} else if (property == dev->mode_config.power_saving_policy) {
-> +		*val = 0;
-> +		if (dm_state->psr_forbidden)
-> +			*val |= DRM_MODE_REQUIRE_LOW_LATENCY;
-> +		if (dm_state->abm_forbidden)
-> +			*val |= DRM_MODE_REQUIRE_COLOR_ACCURACY;
-> +		ret = 0;
->   	}
->   
->   	return ret;
-> @@ -6489,9 +6503,12 @@ static ssize_t panel_power_savings_show(struct device *device,
->   	u8 val;
->   
->   	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
-> -	val = to_dm_connector_state(connector->state)->abm_level ==
-> -		ABM_LEVEL_IMMEDIATE_DISABLE ? 0 :
-> -		to_dm_connector_state(connector->state)->abm_level;
-> +	if (to_dm_connector_state(connector->state)->abm_forbidden)
-> +		val = 0;
-> +	else
-> +		val = to_dm_connector_state(connector->state)->abm_level ==
-> +			ABM_LEVEL_IMMEDIATE_DISABLE ? 0 :
-> +			to_dm_connector_state(connector->state)->abm_level;
->   	drm_modeset_unlock(&dev->mode_config.connection_mutex);
->   
->   	return sysfs_emit(buf, "%u\n", val);
-> @@ -6515,10 +6532,16 @@ static ssize_t panel_power_savings_store(struct device *device,
->   		return -EINVAL;
->   
->   	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
-> -	to_dm_connector_state(connector->state)->abm_level = val ?:
-> -		ABM_LEVEL_IMMEDIATE_DISABLE;
-> +	if (to_dm_connector_state(connector->state)->abm_forbidden)
-> +		ret = -EBUSY;
-> +	else
-> +		to_dm_connector_state(connector->state)->abm_level = val ?:
-> +			ABM_LEVEL_IMMEDIATE_DISABLE;
->   	drm_modeset_unlock(&dev->mode_config.connection_mutex);
->   
-> +	if (ret)
-> +		return ret;
+> +/**
+> + * drm_mode_create_power_saving_policy_property - create power saving policy property
+> + * @dev: DRM device
+> + * @supported_policies: bitmask of supported power saving policies
+> + *
+> + * Called by a driver the first time it's needed, must be attached to desired
+> + * connectors.
+> + *
+> + * Returns: %0
+> + */
+> +int drm_mode_create_power_saving_policy_property(struct drm_device *dev,
+> +						 uint64_t supported_policies)
+> +{
+> +	struct drm_property *power_saving;
 > +
->   	drm_kms_helper_hotplug_event(dev);
->   
->   	return count;
-> @@ -7689,6 +7712,13 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
->   	aconnector->base.state->max_bpc = 16;
->   	aconnector->base.state->max_requested_bpc = aconnector->base.state->max_bpc;
->   
-> +	if (connector_type == DRM_MODE_CONNECTOR_eDP &&
-> +	    (dc_is_dmcu_initialized(adev->dm.dc) ||
-> +	     adev->dm.dc->ctx->dmub_srv)) {
-> +		drm_object_attach_property(&aconnector->base.base,
-> +				dm->ddev->mode_config.power_saving_policy, 0);
-> +	}
+> +	if (dev->mode_config.power_saving_policy)
+> +		return 0;
+> +	WARN_ON((supported_policies & DRM_MODE_POWER_SAVING_POLICY_ALL) == 0);
 > +
->   	if (connector_type == DRM_MODE_CONNECTOR_HDMIA) {
->   		/* Content Type is currently only implemented for HDMI. */
->   		drm_connector_attach_content_type_property(&aconnector->base);
-> @@ -9344,6 +9374,11 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
->   			stream_update.hdr_static_metadata = &hdr_packet;
->   		}
->   
-> +		if (dm_old_con_state->psr_forbidden && !dm_new_con_state->psr_forbidden)
-> +			amdgpu_dm_psr_disable(dm_new_crtc_state->stream);
-> +		else if (!dm_old_con_state->psr_forbidden && dm_new_con_state->psr_forbidden)
-> +			amdgpu_dm_psr_enable(dm_new_crtc_state->stream);
+> +	power_saving =
+> +		drm_property_create_bitmask(dev, 0, "power saving policy",
+> +					    drm_power_saving_policy_enum_list,
+> +					    ARRAY_SIZE(drm_power_saving_policy_enum_list),
+> +					    supported_policies);
 > +
-
-Thanks for the patch!
-
-Unfortunately, enabling/disabling PSR today isn't as straightforward as a call
-to amdgpu_dm_psr_enable/disable. The conditions for enabling PSR is quite
-convoluted and need some untangling...
-
-For now, I think the easiest way to pipe this property through is to hijack the
-`amdgpu_dm_connector->disallow_edp_enter_psr` flag. IIRC, it is currently hooked
-up to a debugfs that force disables PSR for testing purposes. Eventually, we can
-probably deprecate the debugfs and use this property instead.
-
-We could change the above 'if/else if' to something like the following:
-
-```
-struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
-<snip>
-
-aconnector->disallow_edp_enter_psr = dm_new_con_state->psr_forbidden
-
-/* immediately disable PSR if disallowed */
-if (aconnector->disallow_edp_enter_psr) {
-	mutex_lock(&dm->dc_lock);
-	amdgpu_dm_psr_disable(dm_new_crtc_state->stream);
-	mutex_unlock(&dm->dc_lock);
-}
-```
-
-The moment disallow_edp_enter_psr flips to 0, the next fast update should
-re-enable PSR. There isn't any guarantee of an immediate re-enable, but I think
-that should be fine.
-
-
->   		status = dc_stream_get_status(dm_new_crtc_state->stream);
->   
->   		if (WARN_ON(!status))
-> @@ -10019,6 +10054,12 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
->   		update_stream_scaling_settings(
->   			&new_crtc_state->mode, dm_new_conn_state, dm_new_crtc_state->stream);
->   
+> +	dev->mode_config.power_saving_policy = power_saving;
 > +
-> +	if (dm_old_conn_state->psr_forbidden && !dm_new_conn_state->psr_forbidden)
-> +		amdgpu_dm_psr_disable(dm_new_crtc_state->stream);
-> +	else if (!dm_old_conn_state->psr_forbidden && dm_new_conn_state->psr_forbidden)
-> +		amdgpu_dm_psr_enable(dm_new_crtc_state->stream);
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_mode_create_power_saving_policy_property);
 > +
-
-dm_update_crtc_state() can be called as part of atomic check, so we should not 
-do any hw programming here.
-
-There aren't any reasons I can think of to reject allow/disallowing PSR either, 
-so this part shouldn't be necessary and can be dropped.
-
-Thanks,
-Leo
-
->   	/* ABM settings */
->   	dm_new_crtc_state->abm_level = dm_new_conn_state->abm_level;
+>   /**
+>    * DOC: Variable refresh properties
+>    *
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index fe88d7fc6b8f..b0ec2ec48de7 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -2025,6 +2025,8 @@ int drm_mode_create_dp_colorspace_property(struct drm_connector *connector,
+>   					   u32 supported_colorspaces);
+>   int drm_mode_create_content_type_property(struct drm_device *dev);
+>   int drm_mode_create_suggested_offset_properties(struct drm_device *dev);
+> +int drm_mode_create_power_saving_policy_property(struct drm_device *dev,
+> +						 uint64_t supported_policies);
 >   
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> index 09519b7abf67..b246e82f5b0d 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> @@ -873,6 +873,8 @@ struct dm_connector_state {
->   	bool underscan_enable;
->   	bool freesync_capable;
->   	bool update_hdcp;
-> +	bool abm_forbidden;
-> +	bool psr_forbidden;
->   	uint8_t abm_level;
->   	int vcpi_slots;
->   	uint64_t pbn;
+>   int drm_connector_set_path_property(struct drm_connector *connector,
+>   				    const char *path);
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> index 973119a9176b..32077e701e2f 100644
+> --- a/include/drm/drm_mode_config.h
+> +++ b/include/drm/drm_mode_config.h
+> @@ -954,6 +954,11 @@ struct drm_mode_config {
+>   	 */
+>   	struct drm_atomic_state *suspend_state;
+>   
+> +	/**
+> +	 * @power_saving_policy: bitmask for power saving policy requests.
+> +	 */
+> +	struct drm_property *power_saving_policy;
+> +
+>   	const struct drm_mode_config_helper_funcs *helper_private;
+>   };
+>   
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index 7040e7ea80c7..c2c86623552c 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -152,6 +152,13 @@ extern "C" {
+>   #define DRM_MODE_SCALE_CENTER		2 /* Centered, no scaling */
+>   #define DRM_MODE_SCALE_ASPECT		3 /* Full screen, preserve aspect */
+>   
+> +/* power saving policy options */
+> +#define DRM_MODE_REQUIRE_COLOR_ACCURACY	BIT(0)	/* Compositor requires color accuracy */
+> +#define DRM_MODE_REQUIRE_LOW_LATENCY	BIT(1)	/* Compositor requires low latency */
+> +
+> +#define DRM_MODE_POWER_SAVING_POLICY_ALL	(DRM_MODE_REQUIRE_COLOR_ACCURACY |\
+> +						 DRM_MODE_REQUIRE_LOW_LATENCY)
+> +
+>   /* Dithering mode options */
+>   #define DRM_MODE_DITHERING_OFF	0
+>   #define DRM_MODE_DITHERING_ON	1
