@@ -2,55 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE09E8FA85B
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 04:41:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 809298FA84D
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2024 04:33:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA04B10E0F6;
-	Tue,  4 Jun 2024 02:41:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAA8110E07F;
+	Tue,  4 Jun 2024 02:33:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VBrsGbEO";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="GeCo7aEQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35ACF10E0F6
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 02:41:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717468869; x=1749004869;
+Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
+ [60.251.196.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B233910E07F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2024 02:33:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=eLp6WLKas21rieZUAKSbUw+QdxmalQnHeXGfg9oPOCs=;
- b=VBrsGbEOi22vORZfsiw+iREqJVZTIjo5kK8IaFsy6AuPh+35GSXZNcnz
- TNnhACJgM79ZdSw4DU9TDWDiobHpeFgBzA7R2UeXDGGVe67nWn+rJjd+i
- c9Sa1nbBMXo5i09nPvs1Ma4+ZX0NBadqFL1WY2ZJFZZUx2PNyw78Efx4w
- Kanq3zD5q7mkW8cBOZeazHURAWtbUztTXnbOw508wOZDETa2Xn00bJFAl
- 6CQ/jyRyzmzhPt+7am7SqGNAAcsfkXymkAXP+KB3Kbc8NLViX7vV/v8d4
- uQyfoV5AlVsrFv6OFbEXbeUKIOe7p6pJxunFvJj9kZ6JsP40cufStlzII Q==;
-X-CSE-ConnectionGUID: +M7CjTjvTPy0+uEUCTKgFA==
-X-CSE-MsgGUID: n/HmbA3ySlmbQYAwegP2RA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="25101262"
-X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; d="scan'208";a="25101262"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2024 19:41:09 -0700
-X-CSE-ConnectionGUID: YhHc/M9KRZed8YqOmybfnA==
-X-CSE-MsgGUID: eg7WVcW5QVuGAykAYgo6iQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; d="scan'208";a="74567188"
-Received: from orsosgc001.jf.intel.com ([10.165.21.138])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2024 19:41:08 -0700
-From: Ashutosh Dixit <ashutosh.dixit@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: mcanal@igalia.com
-Subject: [PATCH] drm/v3d: Fix compile with CONFIG_WERROR
-Date: Mon,  3 Jun 2024 19:40:55 -0700
-Message-ID: <20240604024055.1792731-1-ashutosh.dixit@intel.com>
-X-Mailer: git-send-email 2.41.0
+ bh=ongMRIDR9OJ67FPX959hIpLFcH5SoR5ACjgPGkxuvD4=;
+ b=GeCo7aEQ1VpT4jZAxcyOm1qtfTcaSRkOQb3oIQ6N4/RitTv91zl3v7p2
+ 3FGdDznDNM1EOv6ggm/o8P58uuUH9jM+0iaQaA4pqsQAeTxDsHgMyo4LU
+ 2rUzIQFszOSoJDTiExz0AFmd0n/dXA2fIa/lEMNmExebDLunacE2/LRGU
+ epMgXb3CfMHRTKKI7mpB79qXpCnBAinbf5cw0dF7mES09w7oLBoMNEjJl
+ I3+aujMj8ewG3WBTU0kH3UdyUXpy9/MFAmMFCwraWpRWSGXqD9+5GBmcu
+ hGdwL27XEWvVES0OW17plPTFjXprC8+z7Dm/BGAGac0o+HaACJg6NEiLU g==;
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+ by ironport.ite.com.tw with ESMTP; 04 Jun 2024 10:33:34 +0800
+Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
+ [192.168.65.58]) by mse.ite.com.tw with ESMTP id 4542XTSn057581;
+ Tue, 4 Jun 2024 10:33:29 +0800 (GMT-8)
+ (envelope-from kuro.chung@ite.com.tw)
+Received: from ite-XPS-13-9360.internal.ite.com.tw (192.168.72.42) by
+ CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 4 Jun 2024 10:33:28 +0800
+From: kuro <kuro.chung@ite.com.tw>
+To: Pin-yen Lin <treapking@chromium.org>, Kenneth Haung
+ <kenneth.hung@ite.com.tw>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+CC: Kuro Chung <kuro.chung@ite.com.tw>, Hermes Wu <hermes.wu@ite.com.tw>
+Subject: [PATCH v1] drm/bridge: it6505: update usleep_range for RC circuit
+ charge time
+Date: Tue, 4 Jun 2024 10:44:05 +0800
+Message-ID: <20240604024405.1122488-1-kuro.chung@ite.com.tw>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.72.42]
+X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
+ CSBMAIL1.internal.ite.com.tw (192.168.65.58)
+X-TM-SNTS-SMTP: A32F6B6386882D419C459589941F989605B411FE5A98B4AC4E9B5DC4CAEDA3DC2002:8
+X-MAIL: mse.ite.com.tw 4542XTSn057581
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,36 +75,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix compile with CONFIG_WERROR by explicitly computing the max number of
-7.1 and 4.2 counters.
+From: Kuro Chung <kuro.chung@ite.com.tw>
 
-In file included from ../drivers/gpu/drm/v3d/v3d_drv.h:14,
-                 from ../drivers/gpu/drm/v3d/v3d_bo.c:26:
-../drivers/gpu/drm/v3d/v3d_performance_counters.h:118:43: \
-	error: ‘v3d_v42_performance_counters’ defined but not used \
-	[-Werror=unused-const-variable=]
+The spec of timing between IVDD/OVDD and SYSRTEN is 10ms, but SYSRSTN RC
+circuit need at least 25ms for rising time, update for match spec
 
-Fixes: 3cbcbe016c31 ("drm/v3d: Add Performance Counters descriptions for V3D 4.2 and 7.1")
-Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Signed-off-by: Kuro Chung <kuro.chung@ite.com.tw>
+Signed-off-by: Hermes Wu <hermes.wu@ite.com.tw>
 ---
- drivers/gpu/drm/v3d/v3d_drv.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/ite-it6505.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index 556cbb400ba0..93dccb5f4c23 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -352,7 +352,9 @@ struct v3d_timestamp_query {
- };
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index cd1b5057ddfb4..1e1c06fdf2064 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -2615,7 +2615,7 @@ static int it6505_poweron(struct it6505 *it6505)
+ 		gpiod_set_value_cansleep(pdata->gpiod_reset, 0);
+ 		usleep_range(1000, 2000);
+ 		gpiod_set_value_cansleep(pdata->gpiod_reset, 1);
+-		usleep_range(10000, 20000);
++		usleep_range(25000, 35000);
+ 	}
  
- /* Maximum number of performance counters supported by any version of V3D */
--#define V3D_MAX_COUNTERS ARRAY_SIZE(v3d_v71_performance_counters)
-+#define MAX(a, b) ((a) > (b) ? (a) : (b))
-+#define V3D_MAX_COUNTERS MAX(ARRAY_SIZE(v3d_v71_performance_counters), \
-+			     ARRAY_SIZE(v3d_v42_performance_counters))
- 
- /* Number of perfmons required to handle all supported performance counters */
- #define V3D_MAX_PERFMONS DIV_ROUND_UP(V3D_MAX_COUNTERS, \
+ 	it6505->powered = true;
 -- 
-2.41.0
+2.25.1
 
