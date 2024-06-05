@@ -2,74 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94608FD0F0
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 16:36:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927008FD110
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 16:45:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA36C10E277;
-	Wed,  5 Jun 2024 14:36:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D309C10E0CC;
+	Wed,  5 Jun 2024 14:45:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ekVjC97W";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="b+HGNOjL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC5DD10E277;
- Wed,  5 Jun 2024 14:36:06 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id
- d2e1a72fcca58-6ff6fe215c6so20052b3a.3; 
- Wed, 05 Jun 2024 07:36:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1717598166; x=1718202966; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Yq1yy0Su5P7QN87mXYg9WXuNVfybQpz6GBQGEruYcrI=;
- b=ekVjC97WW76E5V23/n4hlhwiKdrtNoJdvTnuh5OthQdNiTC2T0qeli0I7x6FgJ7mX+
- dq+elL1cxPLuvc8JJX6dPm4rhBushDU90j7Iv+ZCi0TG+D4Wl4ln3Owo1zaQ08ttJ+3I
- gl/Ry4+ZjOc9YvoHqqpky8PtdRWYXVLqxL+bPtN/+w3AjfpaCRWicsWkOIU7h5vXL41J
- K2+fJZoYXXL3oL0LJq0+WEf53Id+3Tg0YKTKi8X6EVwmKt6cRHKtuz9M7LuZ2O4pkVtU
- PwuMUajqvgzB197J7v+N8fEL5DgQQqzIs9ELhRCjtYxr+Mz2OoTI+/3VjD7WYyi5cY5l
- NmsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717598166; x=1718202966;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Yq1yy0Su5P7QN87mXYg9WXuNVfybQpz6GBQGEruYcrI=;
- b=rxvMQQ3qhHkQpVZqr0Ujks9bI8wAQOxG6DiI058QibXbU793Lo/JTFSQtF9DpJlH8z
- P7r0xrxMHYo5+l/kz5+OR9QGHrvxTHZF1HNzxquCrR/SZPgHHM1gK07SzeoluACxshwL
- g+dmZZkW42stiJvWE4iB5T/5awVGEnuI5qK4fsgxIE+RBShjaAWSdit+fHv7hIcq8tYZ
- jjOuYIsi+Sb/e5KYHWg7l7Cr3aC8PCh+3z3FFqKiohV8otWnjqcPArg3M7dhV9zKEzrP
- 028CvfZ44O0ZX17gj083lSoeJR0FkaHFm1HNN38PX/O2RCG2MVmHDqv0s+QBszWO2F6e
- 77AA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVThxbAD5bmU2IsSV1wFX3fbGdcBs4T2QJi1uO2sJ6xo3bG0rgQLAn/rdIfahO7mxvAht4pG63wIVy81xqxJ8GcOCwGHD7Vo2lGuwbAcz+i8IBXAD7P4tJkbmUsOz8Gh4As6zFlSfDyQe1QJKy9pg==
-X-Gm-Message-State: AOJu0Yy5XJ5q1xzJc8XIOYejDxAuJPVEuplidejKFS0cZ45YVfszL8YJ
- cwSR1D/l6NhbsFAmnxReJWw486YVkwARM16H+k8l3SfBPaiKcexjvDoKnWivStmI1Czvc9BiL0B
- JCegt5Y3vghfB/w+epOdi0psuRiQ=
-X-Google-Smtp-Source: AGHT+IHzMIhmIExlPP2dOJMwUeHRzAG3Zqtu8CJwxbDQujyXLFtz5Pdob5xgc4REV0gHk7os55wc3YNBoweEki0mI8g=
-X-Received: by 2002:a05:6a20:918d:b0:1b0:111f:2b7f with SMTP id
- adf61e73a8af0-1b2b75a2cc8mr3145079637.39.1717598165835; Wed, 05 Jun 2024
- 07:36:05 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB9E010E0CC
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 14:45:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 969E8CE1802;
+ Wed,  5 Jun 2024 14:45:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5BC0C2BD11;
+ Wed,  5 Jun 2024 14:45:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1717598734;
+ bh=mHx8HVUaCOXB9TNFRsb/Kr5+jRe8xYJtJCTxzswwyL8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=b+HGNOjLTmLvbLanSFpFvA22GtGdn4J0i3MW2C5W4vRitwIq5oiSsfak1fBtzSLLr
+ eTB/yjYVnzdgcPNUn7xbSGXexZSgk4GVvGRR0A5mhG9xTe5Hnh5X1gDP9owkFQYKbs
+ 1EFC0SX8fgXlR/LRX7/yh925kcgccJU9pzYnO43yQBilSDoet1YyRanpsZRCbH3uwn
+ jkPqU8K2EvZAgER8jcR7EXLDmfUh1AgoTw9Vl3TgA0du0pWTJcG8ebTPkFyXZYfpoT
+ OBXDbACxvLYopLguh082VMxKZEFA8+YvKYBi8J1z9vDxfOFKUXqoCwkNDF7L9tSbXT
+ GiDej3pcclA8g==
+Date: Wed, 5 Jun 2024 08:45:31 -0600
+From: Rob Herring <robh@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Derek Kiernan <derek.kiernan@amd.com>,
+ Dragan Cvetic <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Paul Kocialkowski <contact@paulk.fr>,
+ =?iso-8859-1?Q?Herv=E9?= Codina <herve.codina@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v2 1/5] dt-bindings: connector: add GE SUNH hotplug addon
+ connector
+Message-ID: <20240605144531.GA2642279-robh@kernel.org>
+References: <20240510-hotplug-drm-bridge-v2-0-ec32f2c66d56@bootlin.com>
+ <20240510-hotplug-drm-bridge-v2-1-ec32f2c66d56@bootlin.com>
+ <20240510163625.GA336987-robh@kernel.org>
+ <20240514185125.58225238@booty>
 MIME-Version: 1.0
-References: <20240604103736.3068-1-thorsten.blum@toblux.com>
-In-Reply-To: <20240604103736.3068-1-thorsten.blum@toblux.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 5 Jun 2024 10:35:51 -0400
-Message-ID: <CADnq5_OtyaYJAcMpd6hmo4jShFq+1NjDHW5_TEcQB+Hf3yxaqQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Simplify if conditions
-To: Thorsten Blum <thorsten.blum@toblux.com>
-Cc: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
- daniel@ffwll.ch, Qingqing.Zhuo@amd.com, roman.li@amd.com, hersenxs.wu@amd.com, 
- chaitanya.dhere@amd.com, wenjing.liu@amd.com, alex.hung@amd.com, 
- sungkim@amd.com, syed.hassan@amd.com, syedsaaem.rizvi@amd.com, 
- dillon.varone@amd.com, charlene.liu@amd.com, hamza.mahfooz@amd.com, 
- nicholas.kazlauskas@amd.com, jerry.zuo@amd.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240514185125.58225238@booty>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,87 +82,219 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Tue, May 14, 2024 at 06:51:25PM +0200, Luca Ceresoli wrote:
+> Hello Rob,
+> 
+> +cc Srinivas and Miquèl for the NVMEM cell discussion below
+> 
+> On Fri, 10 May 2024 11:36:25 -0500
+> Rob Herring <robh@kernel.org> wrote:
+> 
+> > On Fri, May 10, 2024 at 09:10:37AM +0200, Luca Ceresoli wrote:
+> > > Add bindings for the GE SUNH add-on connector. This is a physical,
+> > > hot-pluggable connector that allows to attach and detach at runtime an
+> > > add-on adding peripherals on non-discoverable busses.
+> > > 
+> > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> 
+> [...]
+> 
+> > > +++ b/Documentation/devicetree/bindings/connector/ge,sunh-addon-connector.yaml
+> > > @@ -0,0 +1,197 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/connector/ge,sunh-addon-connector.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: GE SUNH hotplug add-on connector
+> > > +
+> > > +maintainers:
+> > > +  - Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > > +
+> > > +description:
+> > > +  Represent the physical connector present on GE SUNH devices that allows
+> > > +  to attach and detach at runtime an add-on adding peripherals on
+> > > +  non-discoverable busses.
+> > > +
+> > > +  This connector has status GPIOs to notify the connection status to the
+> > > +  CPU and a reset GPIO to allow the CPU to reset all the peripherals on the
+> > > +  add-on. It also has a 4-lane MIPI DSI bus.
+> > > +
+> > > +  Add-on removal can happen at any moment under user control and without
+> > > +  prior notice to the CPU, making all of its components not usable
+> > > +  anymore. Later on, the same or a different add-on model can be connected.  
+> > 
+> > Is there any documentation for this connector?
+> > 
+> > Is the connector supposed to be generic in that any board with any SoC 
+> > could have it? If so, the connector needs to be able to remap things so 
+> > overlays aren't tied to the base dts, but only the connector. If not, 
+> > then doing that isn't required, but still a good idea IMO.
+> 
+> It is not generic. The connector pinout is very specific to this
+> product, and there is no public documentation.
+> 
+> > > +examples:
+> > > +  # Main DTS describing the "main" board up to the connector
+> > > +  - |
+> > > +    / {
+> > > +        #include <dt-bindings/gpio/gpio.h>
+> > > +
+> > > +        addon_connector: addon-connector {  
+> > 
+> > Just 'connector' for the node name.
+> 
+> OK
+> 
+> > > +            compatible = "ge,sunh-addon-connector";
+> > > +            reset-gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+> > > +            plugged-gpios = <&gpio1 2 GPIO_ACTIVE_LOW>;
+> > > +            powergood-gpios = <&gpio1 3 GPIO_ACTIVE_HIGH>;
+> > > +
+> > > +            ports {
+> > > +                #address-cells = <1>;
+> > > +                #size-cells = <0>;
+> > > +
+> > > +                port@0 {
+> > > +                    reg = <0>;
+> > > +
+> > > +                    hotplug_conn_dsi_in: endpoint {
+> > > +                        remote-endpoint = <&previous_bridge_out>;
+> > > +                    };
+> > > +                };
+> > > +
+> > > +                port@1 {
+> > > +                    reg = <1>;
+> > > +
+> > > +                    hotplug_conn_dsi_out: endpoint {
+> > > +                        // remote-endpoint to be added by overlay
+> > > +                    };
+> > > +                };
+> > > +            };
+> > > +        };
+> > > +    };
+> > > +
+> > > +  # "base" overlay describing the common components on every add-on that
+> > > +  # are required to read the model ID  
+> > 
+> > This is located on the add-on board, right?
+> 
+> Exactly. Each add-on has an EEPROM with the add-on model ID stored
+> along with other data.
+> 
+> > Is it really any better to have this as a separate overlay rather than 
+> > just making it an include? Better to have just 1 overlay per board 
+> > applied atomically than splitting it up.
+> 
+> (see below)
+> 
+> > > +  - |
+> > > +    &i2c1 {  
+> > 
+> > Generally, I think everything on an add-on board should be underneath 
+> > the connector node. For starters, that makes controlling probing and 
+> > removal of devices easier. For example, you'll want to handle 
+> > reset-gpios and powergood-gpios before any devices 'appear'. Otherwise, 
+> > you add devices on i2c1, start probing them, and then reset them at some 
+> > async time?
+> 
+> This is not a problem because the code is asserting reset before
+> loading the first overlay. From patch 5/5:
 
-Alex
+What if the bootloader happened to load the overlay already? Or you 
+kexec into a new kernel?
 
-On Tue, Jun 4, 2024 at 9:07=E2=80=AFAM Thorsten Blum <thorsten.blum@toblux.=
-com> wrote:
+Keeping things underneath a connector node makes managing the 
+dependencies easier. It also can allow us to have some control over what 
+overlays can and can't modify. It also reflects reality that these 
+devices sit behind the connector.
+
+> 
+>     static int sunh_conn_attach(struct sunh_conn *conn)
+>     {
+> 	int err;
+> 
+> 	/* Reset the plugged board in order to start from a stable state */
+> 	sunh_conn_reset(conn, false);
+> 
+> 	err = sunh_conn_load_base_overlay(conn);
+>         ...
+>     }
+> 
+> > For i2c, it could look something like this:
+> > 
+> > connector {
+> >   i2c {
+> > 	i2c-parent = <&i2c1>;
+> > 
+> > 	eeprom@50 {...};
+> >   };
+> > };
+> 
+> I think this can be done, but I need to evaluate what is needed in the
+> driver code to support it.
+> 
+> > > +        #address-cells = <1>;
+> > > +        #size-cells = <0>;
+> > > +
+> > > +        eeprom@50 {
+> > > +            compatible = "atmel,24c64";
+> > > +            reg = <0x50>;
+> > > +
+> > > +            nvmem-layout {
+> > > +                compatible = "fixed-layout";
+> > > +                #address-cells = <1>;
+> > > +                #size-cells = <1>;
+> > > +
+> > > +                addon_model_id: addon-model-id@400 {
+> > > +                    reg = <0x400 0x1>;
+> > > +                };
+> > > +            };
+> > > +        };
+> > > +    };
+> > > +
+> > > +    &addon_connector {
+> > > +        nvmem-cells = <&addon_model_id>;
+> > > +        nvmem-cell-names = "id";
+> > > +    };  
+> > 
+> > It's kind of sad that an addon board has an eeprom to identify it, but 
+> > it's not itself discoverable...
+> 
+> Not sure I got what you mean exactly here, sorry.
+
+Only that to be discoverable, you shouldn't need DT.
+
+> The add-on board is discoverable in the sense that it has a GPIO
+> (actually two) to be notified of plug/unplug, and it has a way to
+> describe itself by reading a model ID. Conceptually this is what HDMI
+> monitors do: an HPD pin and an EEPROM at a fixed address with data at
+> fixed locations.
 >
-> The if conditions !A || A && B can be simplified to !A || B.
->
-> Fixes the following Coccinelle/coccicheck warnings reported by
-> excluded_middle.cocci:
->
->         WARNING !A || A && B is equivalent to !A || B
->         WARNING !A || A && B is equivalent to !A || B
->         WARNING !A || A && B is equivalent to !A || B
->
-> Compile-tested only.
->
-> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/dml2/dml2_dc_resource_mgmt.c | 6 +++---
->  .../gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c   | 2 +-
->  2 files changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml2_dc_resource_mgmt.c =
-b/drivers/gpu/drm/amd/display/dc/dml2/dml2_dc_resource_mgmt.c
-> index ad2a6b4769fe..940081df6dc0 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml2_dc_resource_mgmt.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml2_dc_resource_mgmt.c
-> @@ -68,7 +68,7 @@ static bool get_plane_id(struct dml2_context *dml2, con=
-st struct dc_state *state
->                 if (state->streams[i]->stream_id =3D=3D stream_id) {
->                         for (j =3D 0; j < state->stream_status[i].plane_c=
-ount; j++) {
->                                 if (state->stream_status[i].plane_states[=
-j] =3D=3D plane &&
-> -                                       (!is_plane_duplicate || (is_plane=
-_duplicate && (j =3D=3D plane_index)))) {
-> +                                       (!is_plane_duplicate || (j =3D=3D=
- plane_index))) {
->                                         *plane_id =3D (i << 16) | j;
->                                         return true;
->                                 }
-> @@ -707,8 +707,8 @@ static void free_unused_pipes_for_plane(struct dml2_c=
-ontext *ctx, struct dc_stat
->         for (i =3D 0; i < ctx->config.dcn_pipe_count; i++) {
->                 if (state->res_ctx.pipe_ctx[i].plane_state =3D=3D plane &=
-&
->                         state->res_ctx.pipe_ctx[i].stream->stream_id =3D=
-=3D stream_id &&
-> -                       (!is_plane_duplicate || (is_plane_duplicate &&
-> -                       ctx->v20.scratch.dml_to_dc_pipe_mapping.dml_pipe_=
-idx_to_plane_index[state->res_ctx.pipe_ctx[i].pipe_idx] =3D=3D plane_index)=
-) &&
-> +                       (!is_plane_duplicate ||
-> +                       ctx->v20.scratch.dml_to_dc_pipe_mapping.dml_pipe_=
-idx_to_plane_index[state->res_ctx.pipe_ctx[i].pipe_idx] =3D=3D plane_index)=
- &&
->                         !is_pipe_used(pool, state->res_ctx.pipe_ctx[i].pi=
-pe_idx)) {
->                         free_pipe(&state->res_ctx.pipe_ctx[i]);
->                 }
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.=
-c b/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
-> index a41812598ce8..b2bbf7988f92 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
-> @@ -979,7 +979,7 @@ static bool get_plane_id(struct dml2_context *dml2, c=
-onst struct dc_state *conte
->                 if (context->streams[i]->stream_id =3D=3D stream_id) {
->                         for (j =3D 0; j < context->stream_status[i].plane=
-_count; j++) {
->                                 if (context->stream_status[i].plane_state=
-s[j] =3D=3D plane &&
-> -                                       (!is_plane_duplicate || (is_plane=
-_duplicate && (j =3D=3D plane_index)))) {
-> +                                       (!is_plane_duplicate || (j =3D=3D=
- plane_index))) {
->                                         *plane_id =3D (i << 16) | j;
->                                         return true;
->                                 }
-> --
-> 2.39.2
->
+> If you mean the addon_connector node might be avoided, then I kind of
+> agree, but this seems not what the NVMEM DT representation expects so
+> I'm not sure removing it would be correct in the first place.
+> 
+> Srinivas, do you have any insights to share about this? The topic is a
+> device tree overlay that describes a hotplug-removable add-on, and in
+> particular the EEPROM present on all add-ons to provide the add-on
+> model ID.
+> 
+> > Do you load the first overlay and then from it decide which 
+> > specific overlay to apply?
+> 
+> Exactly.
+> 
+> The first overlay (the example you quoted above) describes enough to
+> reach the model ID in the EEPROM, and this is identical for all add-on
+> models. The second add-on is model-specific, there is one for each
+> model, and the model ID allows to know which one to load.
+
+So you don't really need an overlay for this unless the EEPROM model 
+changes or the model-id offset changes.
+
+I suppose nvmem needs something in DT to register a region. That's 
+really nvmem's problem, but I guess what you have is fine.
+
+Rob
