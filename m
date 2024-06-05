@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DEB48FC7BB
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 11:26:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4FF88FC7B7
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 11:25:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 823AD10E725;
-	Wed,  5 Jun 2024 09:26:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7A5B10E057;
+	Wed,  5 Jun 2024 09:25:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="CaiTNTk1";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gt/4iEqD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3993410E725
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 09:26:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=XbNrSIUGtH5s4Antd6eJbp0XqcbQ0iBo059NvamtQLc=; b=C
- aiTNTk1pEYkLZ6W2h0cuQLj6bMTuqVWhxgA0c1oLRFSD/F4GisFq/o7SoaUcdNui
- Q6m3N1rmxU9IEcv6GH87S4Tc4XGIriH/1Npt++RVBvRbiP5kUNbHbpSSzNPk56Da
- zvlxRde3CMRWGYJsBXY0z0EZtkXE9xB2DeqzJsYsTI=
-Received: from andyshrk$163.com ( [103.29.142.67] ) by
- ajax-webmail-wmsvr-40-133 (Coremail) ; Wed, 5 Jun 2024 17:25:07 +0800 (CST)
-X-Originating-IP: [103.29.142.67]
-Date: Wed, 5 Jun 2024 17:25:07 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
-Cc: neil.armstrong@linaro.org, "Heiko Stuebner" <heiko@sntech.de>, 
- "Andrzej Hajda" <andrzej.hajda@intel.com>, 
- "Robert Foss" <rfoss@kernel.org>, 
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, 
- "Jonas Karlman" <jonas@kwiboo.se>, 
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, 
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, 
- "Maxime Ripard" <mripard@kernel.org>, 
- "Thomas Zimmermann" <tzimmermann@suse.de>, 
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, 
- "Sandy Huang" <hjc@rock-chips.com>, "Rob Herring" <robh@kernel.org>, 
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, 
- "Conor Dooley" <conor+dt@kernel.org>, "Mark Yao" <markyao0591@gmail.com>, 
- "Andy Yan" <andy.yan@rock-chips.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
- kernel@collabora.com, "Alexandre ARNOUD" <aarnoud@me.com>, 
- "Luis de Arquer" <ldearquer@gmail.com>, 
- "Algea Cao" <algea.cao@rock-chips.com>
-Subject: Re:Re: [PATCH 00/14] Add initial support for the Rockchip RK3588
- HDMI TX Controller
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <b8066150-c147-4eb6-9f7a-2bd0268c274e@collabora.com>
-References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
- <a4b22708-e85d-448a-8145-244b49bca053@linaro.org>
- <ab0a6372-091b-4293-8907-a4b3ff4845c0@rock-chips.com>
- <11359776.NyiUUSuA9g@phil>
- <ef60403f-078f-411a-867b-9b551e863f56@linaro.org>
- <b8066150-c147-4eb6-9f7a-2bd0268c274e@collabora.com>
-X-NTES-SC: AL_Qu2aBfmctk0r4SWRZukXn0kXhec2W8Czvvgg34JRP5k0mSXX6CUwY09NEkf79cGgCSqTgCibcCB/zshrZotXco4pb8NUyXmQo3HgbM7/6SEH
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3BD110E057
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 09:25:24 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-57a9a3bc083so175718a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2024 02:25:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1717579523; x=1718184323; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EoJWhO/kN/nIDMel5oucInBCEkvezehjU4YBYZFp3Zg=;
+ b=gt/4iEqDv0EuMqKdTo44i18yrKBV/hT4Z3Hy5yzsHxPaJtg//M7/v/rBGIfo4Fnx7k
+ Xv74RM1FmaPuZSB8B90mlQ83ZvaJvn5LpfgV8jby2RHl26OWyVJmLCHg5Lv89kkw8mdB
+ MlZ4m5UcRrKyK/qQja0eqzYlK0+h9JUraHCkcU/5TAElCAxTbgGIZPQ6GcpAIzvJ6Hzn
+ nId6wxxQ0fgPkccfCzsF6vmfa9WjfRc+x+vLPPGmOfcoJ43w4RfLpmiAu82oqhqTpCcy
+ 7kscnzrNuU04OytQnE2jmYKavX3bwAdsaSM22bnl31PWat5zHX+UTr/4Ng1+r8k78/p+
+ 5XWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717579523; x=1718184323;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=EoJWhO/kN/nIDMel5oucInBCEkvezehjU4YBYZFp3Zg=;
+ b=IaoX83LJxKvDWDfqSxBtsNIiL54uf5llpLdU5xrY6b4oQiR3jDK5lVJ3Av3keutv5V
+ fvn7DXsk7b3e9I8UigxteXccGVdQehOPfC3dFaeogLugOQraT6oG5DOnPlc+txA62cIb
+ H0e8GTJWliAW6Bx1FKUXvPsctO+2+MHW0HH/ow6evDQsDKrTWmZOsVYo8usWmw1N2ADo
+ rnZYgSgFTeOrC9KlFFivLzkU39tMon/A7BLNnlUiFWqyeMs4qvzpFQvFW1MvLjRXila6
+ SMTXE2doqlEhNaDoK2CCe4929DUtSFE3qIU29PKW0kwuUWUo0MBXruDimjRobM6ViSiL
+ LtQA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/xo/VZIDWRqkvz+ylRYp2ODPv+qv1f6YgpV6ueZpIIYCEWtTUF7tauSIjqGBf5xufnXGGXzt2fYZKZ/X63A3hZQ8AZC+/H68l6ip9m2HK
+X-Gm-Message-State: AOJu0Yw3BLOAfkRPYVSCZO2bO9zwBVQL60LBVYqjFM0WxMqTue2O21fV
+ t35kAOMrbSUM8mgi2mGw7q/W1b86DMLZy7NOOoL38GccVGEQCg2Eb00+pvS+AnqLzIiNDpXtUFe
+ MbfHR3gHGt8hQs0qJaI1s9K/oxE6BiPQAAQ8mTA==
+X-Google-Smtp-Source: AGHT+IFiP2ByR690BX/p3xTWlgJRgSVR/t1BSJlG5eKWmT1URJ9DvEySnKdhmO6+OqTKFLDZLb8znMZmfpCG8k6SisY=
+X-Received: by 2002:a50:ab56:0:b0:57a:9159:df05 with SMTP id
+ 4fb4d7f45d1cf-57a9159df5fmr1279266a12.36.1717579522861; Wed, 05 Jun 2024
+ 02:25:22 -0700 (PDT)
 MIME-Version: 1.0
-Message-ID: <4456bc5a.9b2d.18fe7b76790.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: _____wD3P0HzLmBmcJo4AA--.25537W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqQj0XmVOAqkGGQABsV
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+References: <20240605012605.5341-1-21cnbao@gmail.com>
+In-Reply-To: <20240605012605.5341-1-21cnbao@gmail.com>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Wed, 5 Jun 2024 14:55:11 +0530
+Message-ID: <CAO_48GFq0Cd6rkWidN-=irT4kW9pEOqu_YxY9vd2nRRKcEy-tw@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-buf: align fd_flags and heap_flags with
+ dma_heap_allocation_data
+To: Barry Song <21cnbao@gmail.com>
+Cc: linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org, 
+ Brian.Starkey@arm.com, benjamin.gaignard@collabora.com, 
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org, jstultz@google.com, 
+ linux-kernel@vger.kernel.org, tjmercier@google.com, v-songbaohua@oppo.com, 
+ hailong.liu@oppo.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,81 +83,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpLAoKQXQgMjAyNC0wNi0wNSAwNDozMzo1NywgIkNyaXN0aWFuIENpb2NhbHRlYSIgPGNyaXN0
-aWFuLmNpb2NhbHRlYUBjb2xsYWJvcmEuY29tPiB3cm90ZToKPk9uIDYvMy8yNCA0OjA4IFBNLCBu
-ZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnIHdyb3RlOgo+PiBIaSwKPj4gCj4+IE9uIDAzLzA2LzIw
-MjQgMTU6MDMsIEhlaWtvIFN0dWVibmVyIHdyb3RlOgo+Pj4gQW0gTW9udGFnLCAzLiBKdW5pIDIw
-MjQsIDE0OjE0OjE3IENFU1Qgc2NocmllYiBBbmR5IFlhbjoKPj4+PiBIaSBOZWlsOgo+Pj4+Cj4+
-Pj4gT24gNi8zLzI0IDE2OjU1LCBOZWlsIEFybXN0cm9uZyB3cm90ZToKPj4+Pj4gSGkgQ2hyaXN0
-aWFuLAo+Pj4+Pgo+Pj4+PiBPbiAwMS8wNi8yMDI0IDE1OjEyLCBDcmlzdGlhbiBDaW9jYWx0ZWEg
-d3JvdGU6Cj4+Pj4+PiBUaGUgUkszNTg4IFNvQyBmYW1pbHkgaW50ZWdyYXRlcyBhIFF1YWQtUGl4
-ZWwgKFFQKSB2YXJpYW50IG9mIHRoZQo+Pj4+Pj4gU3lub3BzeXMgRGVzaWduV2FyZSBIRE1JIFRY
-IGNvbnRyb2xsZXIgdXNlZCBpbiB0aGUgcHJldmlvdXMgU29Dcy4KPj4+Pj4+Cj4+Pj4+PiBJdCBp
-cyBIRE1JIDIuMSBjb21wbGlhbnQgYW5kIHN1cHBvcnRzIHRoZSBmb2xsb3dpbmcgZmVhdHVyZXMs
-IGFtb25nCj4+Pj4+PiBvdGhlcnM6Cj4+Pj4+Pgo+Pj4+PiAuCj4+Pj4+Cj4+Pj4+IC4uCj4+Pj4+
-Cj4+Pj4+PiAqIFNDREMgSTJDIEREQyBhY2Nlc3MKPj4+Pj4+ICogVE1EUyBTY3JhbWJsZXIgZW5h
-YmxpbmcgMjE2MHBANjBIeiB3aXRoIFJHQi9ZQ2JDcjQ6NDo0Cj4+Pj4+PiAqIFlDYkNyNDoyOjAg
-ZW5hYmxpbmcgMjE2MHBANjBIeiBhdCBsb3dlciBIRE1JIGxpbmsgc3BlZWRzCj4+Pj4+PiAqIE11
-bHRpLXN0cmVhbSBhdWRpbwo+Pj4+Pj4gKiBFbmhhbmNlZCBBdWRpbyBSZXR1cm4gQ2hhbm5lbCAo
-RUFSQykKPj4+Pj4gLT4gVGhvc2UgZmVhdHVyZXMgd2VyZSBhbHJlYWR5IHN1cHBvcnRlZCBieSB0
-aGUgSERNSSAyLjBhIGNvbXBsaWFudAo+Pj4+PiBIVywganVzdAo+Pj4+PiBsaXN0IHRoZSBfbmV3
-XyBmZWF0dXJlcyBmb3IgSERNSSAyLjEKPj4+Pj4KPj4+Pj4gSSBkaWQgYSBxdWljayByZXZpZXcg
-b2YgeW91ciBwYXRjaHNldCBhbmQgSSBkb24ndCB1bmRlcnN0YW5kIHdoeSB5b3UKPj4+Pj4gbmVl
-ZAo+Pj4+PiB0byBhZGQgYSBzZXBhcmF0ZSBkdy1oZG1pLXFwLmMgc2luY2UgeW91IG9ubHkgbmVl
-ZCBzaW1wbGUgdmFyaWFudHMKPj4+Pj4gb2YgdGhlIEkyQwo+Pj4+PiBidXMsIGluZm9mcmFtZSBh
-bmQgYnJpZGdlIHNldHVwLgo+Pj4+Pgo+Pj4+PiBDYW4geW91IGVsYWJvcmF0ZSBmdXJ0aGVyID8g
-aXNuJ3QgdGhpcyBRdWFkLVBpeGVsIChRUCkgVFggY29udHJvbGxlcgo+Pj4+PiB2ZXJzaW9uCj4+
-Pj4+IGRldGVjdGFibGUgYXQgcnVudGltZSA/Cj4+Pj4+Cj4+Pj4+IEkgd291bGQgcHJlZmVyIHRv
-IGtlZXAgYSBzaW5nbGUgZHctaGRtaSBkcml2ZXIgaWYgcG9zc2libGUuCj4+Pj4KPj4+Pgo+Pj4+
-Cj4+Pj4gVGhlIFFQIEhETUkgY29udHJvbGxlciBpcyBhIGNvbXBsZXRlbHkgZGlmZmVyZW50IHZh
-cmlhbnQgd2l0aCB0b3RhbGx5Cj4+Pj4gZGlmZmVyZW50Cj4+Pj4gcmVnaXN0ZXJzIGxheW91dCwg
-c2VlIFBBVENIIDEzLzE0Lgo+Pj4+IEkgdGhpbmsgbWFrZSBpdCBhIHNlcGFyYXRlIGRyaXZlciB3
-aWxsIGJlIGVhc2llciBmb3IgZGV2ZWxvcG1lbnQgYW5kCj4+Pj4gbWFpbnRlbmFuY2UuCj4+Pgo+
-Pj4gSSdtIHdpdGggQW5keSBoZXJlLiBUcnlpbmcgdG8gbmF2aWdhdGUgYSBkcml2ZXIgZm9yIHR3
-byBJUCBibG9ja3MgcmVhbGx5Cj4+PiBzb3VuZHMgdGF4aW5nIGVzcGVjaWFsbHkgd2hlbiBib3Ro
-IGFyZSBzbyBkaWZmZXJlbnQuCj4KPlRoYW5rIHlvdSBhbGwgZm9yIHRoZSB2YWx1YWJsZSBmZWVk
-YmFjayEKPgo+PiBJIGFncmVlLCBJIGp1c3Qgd2FudGVkIG1vcmUgZGV0YWlscyB0aGFuICJ2YXJp
-YW50IG9mIHRoZQo+PiBTeW5vcHN5cyBEZXNpZ25XYXJlIEhETUkgVFggY29udHJvbGxlciIsIGlm
-IHRoZSByZWdpc3RlciBtYXBwaW5nIGlzIDEwMCUKPj4gZGlmZmVyZW50LCBhbmQgZG9lcyBub3Qg
-bWF0Y2ggYXQgYWxsIHdpdGggdGhlIG9sZCBJUCwgdGhlbiBpdCdzIGluZGVlZCB0aW1lCj4+IHRv
-IG1ha2UgYSBicmFuZCBuZXcgZHJpdmVyLCBidXQgaW5zdGVhZCBvZiBkb2luZyBhIG1peCB1cCwg
-aXQncyB0aW1lIHRvCj4+IGV4dHJhY3QKPj4gdGhlIGR3LWhkbWkgY29kZSB0aGF0IGNvdWxkIGJl
-IGNvbW1vbiBoZWxwZXJzIGludG8gYSBkdy1oZG1pLWNvbW1vbiBtb2R1bGUKPj4gYW5kIHVzZSB0
-aGVtLgo+Cj5Tb3VuZHMgZ29vZCwgd2lsbCBoYW5kbGUgdGhpcyBpbiB2Mi4KPgo+PiBBcyBJIHNl
-ZSwgbm8gImRyaXZlciIgY29kZSBjYW4gYmUgc2hhcmVkLCBvbmx5IERSTSBwbHVtYmluZ3MsIHNv
-IHBlcmhhcHMKPj4gdGhvc2UKPj4gcGx1bWJpbmcgY29kZSBzaG91bGQgZ28gaW50byB0aGUgRFJN
-IGNvcmUgPwo+PiAKPj4gSW4gYW55IGNhc2UsIHBsZWFzZSBhZGQgbW9yZSBkZXRhaWxzIG9uIHRo
-ZSBjb3ZlciBsZXR0ZXIsIGluY2x1ZGluZyB0aGUKPj4gZGV0YWlsZWQKPj4gSFcgZGlmZmVycmVu
-Y2UgYW5kIHRoZSBkZXNpZ24geW91IGNob3NlIHNvIHN1cHBvcnQgdGhpcyBuZXcgSVAuCj4KPkFu
-ZHksIGNvdWxkIHlvdSBwbGVhc2UgaGVscCB3aXRoIGEgc3VtbWFyeSBvZiB0aGUgSFcgY2hhbmdl
-cz8KPlRoZSBpbmZvcm1hdGlvbiBJIGNvdWxkIHByb3ZpZGUgaXMgcmF0aGVyIGxpbWl0ZWQsIHNp
-bmNlIEkgZG9uJ3QgaGF2ZQo+YWNjZXNzIHRvIGFueSBEVyBJUCBkYXRhc2hlZXRzIGFuZCBJJ20g
-YWxzbyBub3QgZmFtaWxpYXIgZW5vdWdoIHdpdGggdGhlCj5vbGQgdmFyaWFudC4KPgogQWNjdXJh
-dGVseSwgd2Ugc2hvdWxkIHJlZmVyIHRvIGl0IGFzIGFuIGVudGlyZWx5IG5ldyBJUO+8jGl0IGhh
-cyBub3RoaW5nIGluIGNvbW1vbiB3aXRoCnRoZSBjdXJyZW50IG1haW5saW5lIGR3LWhkbWnjgIIg
-VGhlIG9ubHkgIGNvbW1vbmFsaXR5IGlzIHRoYXQgdGhleSBib3RoIGNvbWUgZnJvbQpTeW5vcHN5
-cyBEZXNpZ25XYXJl77yaCu+8iDHvvIlJdCBoYXMgYSAxMDAlIGRpZmZlcmVudCByZWdpc3RlciBt
-YXBwaW5nCu+8iDLvvIlJdCBzdXBwb3J0cyBGUkwgYW5kIERTQyAK77yIM++8iWRpZmZlcmVudCBj
-b25maWd1cmF0aW9uIGZsb3cgaW4gbWFueSBwbGFjZXPjgIIKClNvIEkgaGF2ZSB0aGUgc2FtZSBm
-ZWVsaW5nIHdpdGggSGVpa28gYW5kIE1heGltZe+8mgpUaGUgRFdfSERNSV9RUCBzaG91bGQgaGF2
-ZSBhICBzZXBhcmF0ZSBkcml2ZXIgYW5kIHdpdGggaXQncyAgb3duIENPTkZJRyAgc3VjaCBhcyBE
-Uk1fRFdfSERNSV9RUCAgaW4gS2NvbmZpZy4KYW5kIHRoZSByb2NrY2hpcCBwYXJ0IHNob3VsZCBh
-bHNvIGJlIHNwbGl0IGZyb20gZHdfaGRtaS1yb2NrY2hpcC5jLiAgCkkgYW0gc29ycnkgd2UgbWl4
-ZWQgdGhlbSBpbiBkd19oZG1pLXJvY2tjaGlwLmMgd2hlbiB3ZSBkZXZlbG9wIHRoZSBic3AgZHJp
-dmVy77yMYnV0IHdlIHJlYWxseSByZWdyZXR0ZWQgdGhpcyBkZWNpc2lvbgp3aGVuICB3ZSByZXBl
-YXRlZGx5IGJyb2tlIGNvbXBhdGliaWxpdHkgd2l0aCBkdy1oZG1pIG9uIG90aGVyIHNvY3PjgIIg
-CgoKCj4+IE5laWwKPj4gCj4+Pgo+Pj4gU3lub3BzaXMgYWxzbyBjcmVhdGVkIGEgbmV3IGRzaSBj
-b250cm9sbGVyIGZvciB0aGUgRFNJMiBzdGFuZGFyZCwgd2l0aAo+Pj4gYSB2YXN0bHkgZGlmZmVy
-ZW50IHJlZ2lzdGVycyBsYXlvdXQuCj4+Pgo+Pj4gSSBndWVzcyBhdCBzb21lIHBvaW50IHRoZXJl
-IGlzIHRpbWUgdG8gc2F5IHRoaXMgcmVhbGx5IGlzIGEgbmV3IElQIDstKSAuCj4+Pgo+Pj4KPj4+
-IFRob3VnaCB3aGlsZSBvbiB0aGF0IHRob3VnaHQsIEkgZG9uJ3QgZnVsbHkgdW5kZXJzdGFuZCB3
-aHkgYm90aCBhCj4+PiBjb21waWxlZAo+Pj4gdW5kZXIgdGhlIGR3X2hkbWkga2NvbmZpZyBzeW1i
-b2wuIFBlb3BsZSBnb2luZyBmb3IgYSBtaW5pbWFsIGtlcm5lbCBtaWdodAo+Pj4gd2FudCBvbmUg
-b3IgdGhlIG90aGVyLCBidXQgbm90IGJvdGggZm9yIHRoZWlyIHNwZWNpZmljIGJvYXJkLgo+Cj5J
-bmRlZWQsIGl0IG1ha2VzIHNlbnNlIHRvIGhhdmUgYSBkZWRpY2F0ZWQgS2NvbmZpZyBvcHRpb24u
-IFRoaXMgaXMKPm1vc3RseSBhIGxlZnRvdmVyIGZyb20gZG93bnN0cmVhbSBpbXBsZW1lbnRhdGlv
-biwgd2lsbCBmaXggaW4gdjIuCj4KPlRoYW5rcyBhZ2FpbiwKPkNyaXN0aWFuCj4KPl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj5saW51eC1hcm0ta2VybmVs
-IG1haWxpbmcgbGlzdAo+bGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCj5odHRw
-Oi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWFybS1rZXJuZWwK
+Hello Barry,
 
+
+On Wed, 5 Jun 2024 at 06:56, Barry Song <21cnbao@gmail.com> wrote:
+>
+> From: Barry Song <v-songbaohua@oppo.com>
+>
+> dma_heap_allocation_data defines the UAPI as follows:
+>
+>  struct dma_heap_allocation_data {
+>         __u64 len;
+>         __u32 fd;
+>         __u32 fd_flags;
+>         __u64 heap_flags;
+>  };
+>
+> However, dma_heap_buffer_alloc() casts both fd_flags and heap_flags
+> into unsigned int. We're inconsistent with types in the non UAPI
+> arguments. This patch fixes it.
+
+Thank you for your patch; I've pushed it to drm-misc-next.
+
+Best,
+Sumit.
+>
+> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+> Acked-by: John Stultz <jstultz@google.com>
+> ---
+>  -v2:
+>  collect ack of John, thanks!
+>  refine commit message;
+>
+>  drivers/dma-buf/dma-heap.c    | 4 ++--
+>  include/uapi/linux/dma-heap.h | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> index 84ae708fafe7..2298ca5e112e 100644
+> --- a/drivers/dma-buf/dma-heap.c
+> +++ b/drivers/dma-buf/dma-heap.c
+> @@ -50,8 +50,8 @@ static struct class *dma_heap_class;
+>  static DEFINE_XARRAY_ALLOC(dma_heap_minors);
+>
+>  static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
+> -                                unsigned int fd_flags,
+> -                                unsigned int heap_flags)
+> +                                u32 fd_flags,
+> +                                u64 heap_flags)
+>  {
+>         struct dma_buf *dmabuf;
+>         int fd;
+> diff --git a/include/uapi/linux/dma-heap.h b/include/uapi/linux/dma-heap.=
+h
+> index 6f84fa08e074..a4cf716a49fa 100644
+> --- a/include/uapi/linux/dma-heap.h
+> +++ b/include/uapi/linux/dma-heap.h
+> @@ -19,7 +19,7 @@
+>  #define DMA_HEAP_VALID_FD_FLAGS (O_CLOEXEC | O_ACCMODE)
+>
+>  /* Currently no heap flags */
+> -#define DMA_HEAP_VALID_HEAP_FLAGS (0)
+> +#define DMA_HEAP_VALID_HEAP_FLAGS (0ULL)
+>
+>  /**
+>   * struct dma_heap_allocation_data - metadata passed from userspace for
+> --
+> 2.34.1
+>
+
+
+--=20
+Thanks and regards,
+
+Sumit Semwal (he / him)
+Tech Lead - LCG, Vertical Technologies
+Linaro.org =E2=94=82 Open source software for ARM SoCs
