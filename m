@@ -2,87 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C5C38FD5C6
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 20:31:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC6F8FD5D0
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 20:34:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 111CC10E597;
-	Wed,  5 Jun 2024 18:31:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2F5510E41E;
+	Wed,  5 Jun 2024 18:34:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="JPGAA+RA";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="GM3vsyOm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43EDA10E41E;
- Wed,  5 Jun 2024 18:31:40 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 455I2vod014213;
- Wed, 5 Jun 2024 18:31:34 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF3E10E270;
+ Wed,  5 Jun 2024 18:34:36 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 455B1Pmc024196;
+ Wed, 5 Jun 2024 18:34:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- lNDweJq8WOexpVGadm1HsCQHiC7xA9GF7/ziWHMu88Y=; b=JPGAA+RADzu5VcfB
- clQB0pVmdkOJ2WHOkJKwtCGR3KzeUgaNuZ3RlBnOFmVPaYr/JvW9km8DH7jxwvig
- S/kionDsgogj1oRR+mky5JqGe6fIu6SmPORi/pdpskF+d8nwGgDrEq18nNIzNlPs
- yxhtJm1ATEHMY6KSuahNsC9wrDukkoEsDQbQndcPrl3ejbAC/PyZe34fJXrX6+mU
- 0hSHdWcUyEnSKZI+7aNFrMWMeOWfkU5/GBND+bWDHf1cplThebJc4gI07mM+DzUM
- OGAgw1RSrugifbpmTez1qJBt7bv83rDxMcCZL+puHcSi8Bmz+q0bwrVDiLKlRJqM
- Gld9RQ==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=FxUUnIPEm3fV/GcwwMgj0+
+ 14R+k3EUMg7IHt4M7PXuw=; b=GM3vsyOmpRvoPPOWLdOsXC2be2ZGq4aeOAyuD2
+ tkrSzIzKefpB6yppTAKs5W8PZ7HgBGdwae0LK2cpH32mxACxaI0BqXr6e5QcSkiq
+ iGyIlUO8beH7j2x+Jel43367JGC0nZSHr4Hu2q/w/GMRbVfIJS7MZD0u5N12B7vC
+ kEjbX0qISl6cCv2ZVXZDpW6P/XvtvR9oDWwmcd4w0GFT4jdGYGjicmvf/6N49ne6
+ 08DsgTOj1tUWthGbZVHcdUJiretKGXojeggEG+M2Dd4qUKD2gKME8jUT9s8cZXYv
+ TvQE0NVpoZkeCzZXsXtFKM/lquR3H5Ru0D+F0whzZ4PaDYLA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yjvxy82av-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yjabgtn9m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jun 2024 18:31:34 +0000 (GMT)
+ Wed, 05 Jun 2024 18:34:28 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 455IVWUI022056
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 455IYQNE026265
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 5 Jun 2024 18:31:32 GMT
-Received: from [10.71.110.249] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 5 Jun 2024
- 11:31:28 -0700
-Message-ID: <77e34b55-b114-e807-b81e-a5525350e547@quicinc.com>
-Date: Wed, 5 Jun 2024 11:31:26 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3] drm/msm/a6xx: use __unused__ to fix compiler warnings
- for gen7_* includes
-Content-Language: en-US
-To: Nathan Chancellor <nathan@kernel.org>
-CC: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>, "Sean
- Paul" <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, "Dmitry
- Baryshkov" <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>,
- Connor Abbott <cwabbott0@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <seanpaul@chromium.org>, <quic_jesszhan@quicinc.com>,
- Rob Clark <robdclark@chromium.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20240605003829.4120343-1-quic_abhinavk@quicinc.com>
- <20240605180553.GA2457302@thelio-3990X>
+ Wed, 5 Jun 2024 18:34:26 GMT
+Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 5 Jun 2024 11:34:26 -0700
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240605180553.GA2457302@thelio-3990X>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>, "Sean
+ Paul" <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, "Abhinav
+ Kumar" <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Connor Abbott <cwabbott0@gmail.com>
+CC: <dri-devel@lists.freedesktop.org>, <seanpaul@chromium.org>,
+ <quic_jesszhan@quicinc.com>, <nathan@kernel.org>, Rob Clark
+ <robdclark@chromium.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4] drm/msm/a6xx: use __unused__ to fix compiler warnings for
+ gen7_* includes
+Date: Wed, 5 Jun 2024 11:34:15 -0700
+Message-ID: <20240605183415.259276-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.44.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: RoYk8VptRL-YRt4XhvlSzUgCYjr4uYX4
-X-Proofpoint-GUID: RoYk8VptRL-YRt4XhvlSzUgCYjr4uYX4
+X-Proofpoint-GUID: FDllBJvY2nL5LcCcruaVBxUmXF_JeuVj
+X-Proofpoint-ORIG-GUID: FDllBJvY2nL5LcCcruaVBxUmXF_JeuVj
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-06-05_02,2024-06-05_02,2024-05-17_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 spamscore=0
- mlxscore=0 adultscore=0 bulkscore=0 phishscore=0 priorityscore=1501
- lowpriorityscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=0 spamscore=0
+ bulkscore=0 malwarescore=0 phishscore=0 clxscore=1015 adultscore=0
+ priorityscore=1501 mlxlogscore=999 impostorscore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2405170001 definitions=main-2406050140
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,40 +93,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nathan
+GCC diagnostic pragma method throws below warnings in some of the versions
 
-On 6/5/2024 11:05 AM, Nathan Chancellor wrote:
-> Hi Abhinav,
-> 
-> Just a drive by style comment.
-> 
-> On Tue, Jun 04, 2024 at 05:38:28PM -0700, Abhinav Kumar wrote:
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->> index 0a7717a4fc2f..a958e2b3c025 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->> @@ -8,19 +8,15 @@
->>   #include "a6xx_gpu_state.h"
->>   #include "a6xx_gmu.xml.h"
->>   
->> -/* Ignore diagnostics about register tables that we aren't using yet. We don't
->> - * want to modify these headers too much from their original source.
->> - */
->> -#pragma GCC diagnostic push
->> -#pragma GCC diagnostic ignored "-Wunused-variable"
->> -#pragma GCC diagnostic ignored "-Wunused-const-variable"
->> +static const unsigned int *gen7_0_0_external_core_regs[] __attribute((__unused__));
->> +static const unsigned int *gen7_2_0_external_core_regs[] __attribute((__unused__));
->> +static const unsigned int *gen7_9_0_external_core_regs[] __attribute((__unused__));
->> +static struct gen7_sptp_cluster_registers gen7_9_0_sptp_clusters[] __attribute((__unused__));
-> 
-> Please do not open code attributes. This is available as either
-> '__always_unused' or '__maybe_unused', depending on the context.
-> checkpatch would have warned about this if it was '__attribute__'
-> instead of '__attribute'.
-> 
+drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:16:9: warning: unknown
+option after '#pragma GCC diagnostic' kind [-Wpragmas]
+  #pragma GCC diagnostic ignored "-Wunused-const-variable"
+          ^
+In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:18:0:
+drivers/gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h:924:19: warning:
+'gen7_0_0_external_core_regs' defined but not used [-Wunused-variable]
+  static const u32 *gen7_0_0_external_core_regs[] = {
+                    ^
+In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:19:0:
+drivers/gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h:748:19: warning:
+'gen7_2_0_external_core_regs' defined but not used [-Wunused-variable]
+  static const u32 *gen7_2_0_external_core_regs[] = {
+                    ^
+In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:20:0:
+drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h:1188:43: warning:
+'gen7_9_0_sptp_clusters' defined but not used [-Wunused-variable]
+  static struct gen7_sptp_cluster_registers gen7_9_0_sptp_clusters[] = {
+                                            ^
+drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h:1438:19: warning:
+'gen7_9_0_external_core_regs' defined but not used [-Wunused-variable]
+  static const u32 *gen7_9_0_external_core_regs[] = {
 
-Thanks for the note. Let me update the patch to use __always_unused.
+Remove GCC version dependency by using __unused__ for the unused gen7_* includes.
 
-> Cheers,
-> Nathan
+Changes in v2:
+	- Fix the warnings in the commit text
+	- Use __attribute((__unused__)) instead of local assignment
+
+changes in v3:
+	- drop the Link from the auto add
+
+changes in v4:
+	- replace __attribute((__unused__)) with __always_unused
+
+Fixes: 64d6255650d4 ("drm/msm: More fully implement devcoredump for a7xx")
+Suggested-by: Rob Clark <robdclark@chromium.org>
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+index 0a7717a4fc2f..59a4eb942b9b 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+@@ -8,19 +8,15 @@
+ #include "a6xx_gpu_state.h"
+ #include "a6xx_gmu.xml.h"
+ 
+-/* Ignore diagnostics about register tables that we aren't using yet. We don't
+- * want to modify these headers too much from their original source.
+- */
+-#pragma GCC diagnostic push
+-#pragma GCC diagnostic ignored "-Wunused-variable"
+-#pragma GCC diagnostic ignored "-Wunused-const-variable"
++static const unsigned int *gen7_0_0_external_core_regs[] __always_unused;
++static const unsigned int *gen7_2_0_external_core_regs[] __always_unused;
++static const unsigned int *gen7_9_0_external_core_regs[] __always_unused;
++static struct gen7_sptp_cluster_registers gen7_9_0_sptp_clusters[] __always_unused;
+ 
+ #include "adreno_gen7_0_0_snapshot.h"
+ #include "adreno_gen7_2_0_snapshot.h"
+ #include "adreno_gen7_9_0_snapshot.h"
+ 
+-#pragma GCC diagnostic pop
+-
+ struct a6xx_gpu_state_obj {
+ 	const void *handle;
+ 	u32 *data;
+-- 
+2.44.0
+
