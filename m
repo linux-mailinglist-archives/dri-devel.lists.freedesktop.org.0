@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE1618FCBB0
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 14:04:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A968FCBB1
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 14:04:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD9610E79A;
-	Wed,  5 Jun 2024 12:04:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 633D010E796;
+	Wed,  5 Jun 2024 12:04:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dy+Dhs3n";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Iv6DeN51";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CEAC10E796;
- Wed,  5 Jun 2024 12:04:39 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD1E710E796;
+ Wed,  5 Jun 2024 12:04:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 67E12CE1764;
- Wed,  5 Jun 2024 12:04:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D5B0C32781;
- Wed,  5 Jun 2024 12:04:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 296B861265;
+ Wed,  5 Jun 2024 12:04:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03F53C4AF09;
+ Wed,  5 Jun 2024 12:04:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717589076;
- bh=mhF2FMNKnJzLhKnTFHQyPQ5Vg1uXY8LbYLMJ+EGQuNA=;
+ s=k20201202; t=1717589080;
+ bh=Vjgiu0ILR3uskzK21Z0875GunoRwQmq+BkAqVYl9M+k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dy+Dhs3nnUWzMDjtYr53dzY9b3qtqladJB+cCDZS/v/CA2stXsid16hOruWk2c5ck
- urkXTiHQ06oMa5FCtuvnSCPsTy0oK7DxgoytcqcU+8xQH2gqTQra1n+QBWeNEQwNbE
- tfM+Ap+RDDM58GSZkMospq+5buP9kHTFSY0AP2C1MlfRgrE/PHNsTm/CQu6tkkuyp3
- Y33xBCNFaD61fHnLfYZKVxFnC360WHM7Y3mLIStLqbRH7TuLCMdmNOQCJZmWLsZDXp
- RAsKpG2V8Pf4vjr8AtvWay9DzDKj/sV/BIJZCMQjmUT6giDVe6P3iOjJvwUpXlCX7y
- 5k1wD8NA3XJrA==
+ b=Iv6DeN51QEggnAkiZVE+/TVBGNJ8z/dhDsrdGN1VrJUGkQWgrzeJ6aQ0472Tgnf+V
+ 1/myHM4lIEneJ9IjoYaxVnOlC/lywW/ZgBUbXVBkhphiXOxe5euLNsQNQwQ7mei/Qe
+ AkV0nveOyckT0/QZbl0EuQJEOnq6m6fVfrl7f9Jz0P6s/QfasWgyy39Rh7IAqHfhbo
+ 1oWrMCBxkqfBISsMBzuZP4akNgflmwbPh3eoj36SuXnSlvFU9KikMqypKkiMcIj7oX
+ dDB9wS7LoUI8X3ExTDBTclCwRrBCHQ9BVKrbOfx1wwCjMers/o1p1Ca8UMnhPoLD4n
+ ctUrt1xOm+XrQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
+Cc: Jesse Zhang <jesse.zhang@amd.com>, Jesse Zhang <Jesse.Zhang@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, Hawking.Zhang@amd.com, candice.li@amd.com, li.ma@amd.com,
- aurabindo.pillai@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-hardening@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 15/18] drm/amdgpu: silence UBSAN warning
-Date: Wed,  5 Jun 2024 08:03:54 -0400
-Message-ID: <20240605120409.2967044-15-sashal@kernel.org>
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ Felix.Kuehling@amd.com, shashank.sharma@amd.com, Philip.Yang@amd.com,
+ guchun.chen@amd.com, mukul.joshi@amd.com, xiaogang.chen@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 16/18] drm/amdgpu: fix dereference null return
+ value for the function amdgpu_vm_pt_parent
+Date: Wed,  5 Jun 2024 08:03:55 -0400
+Message-ID: <20240605120409.2967044-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240605120409.2967044-1-sashal@kernel.org>
 References: <20240605120409.2967044-1-sashal@kernel.org>
@@ -66,32 +68,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+From: Jesse Zhang <jesse.zhang@amd.com>
 
-[ Upstream commit 05d9e24ddb15160164ba6e917a88c00907dc2434 ]
+[ Upstream commit a0cf36546cc24ae1c95d72253c7795d4d2fc77aa ]
 
-Convert a variable sized array from [1] to [].
+The pointer parent may be NULLed by the function amdgpu_vm_pt_parent.
+To make the code more robust, check the pointer parent.
 
+Signed-off-by: Jesse Zhang <Jesse.Zhang@amd.com>
+Suggested-by: Christian König <christian.koenig@amd.com>
 Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/include/atomfirmware.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/include/atomfirmware.h b/drivers/gpu/drm/amd/include/atomfirmware.h
-index fa7d6ced786f1..06be085515200 100644
---- a/drivers/gpu/drm/amd/include/atomfirmware.h
-+++ b/drivers/gpu/drm/amd/include/atomfirmware.h
-@@ -3508,7 +3508,7 @@ struct atom_gpio_voltage_object_v4
-    uint8_t  phase_delay_us;                      // phase delay in unit of micro second
-    uint8_t  reserved;   
-    uint32_t gpio_mask_val;                         // GPIO Mask value
--   struct atom_voltage_gpio_map_lut voltage_gpio_lut[1];
-+   struct atom_voltage_gpio_map_lut voltage_gpio_lut[] __counted_by(gpio_entry_num);
- };
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
+index 0d51222f6f8eb..026a3db947298 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
+@@ -766,11 +766,15 @@ int amdgpu_vm_pde_update(struct amdgpu_vm_update_params *params,
+ 			 struct amdgpu_vm_bo_base *entry)
+ {
+ 	struct amdgpu_vm_bo_base *parent = amdgpu_vm_pt_parent(entry);
+-	struct amdgpu_bo *bo = parent->bo, *pbo;
++	struct amdgpu_bo *bo, *pbo;
+ 	struct amdgpu_vm *vm = params->vm;
+ 	uint64_t pde, pt, flags;
+ 	unsigned int level;
  
- struct  atom_svid2_voltage_object_v4
++	if (WARN_ON(!parent))
++		return -EINVAL;
++
++	bo = parent->bo;
+ 	for (level = 0, pbo = bo->parent; pbo; ++level)
+ 		pbo = pbo->parent;
+ 
 -- 
 2.43.0
 
