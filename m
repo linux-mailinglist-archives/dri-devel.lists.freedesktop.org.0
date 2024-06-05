@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4BD8FCC8E
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 14:23:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 608268FCC92
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 14:23:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E46310E120;
-	Wed,  5 Jun 2024 12:23:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 278B110E3A2;
+	Wed,  5 Jun 2024 12:23:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="a7F5QEsx";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="RsmsRcJc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
- [209.85.222.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D758310E120
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 12:23:03 +0000 (UTC)
-Received: by mail-qk1-f169.google.com with SMTP id
- af79cd13be357-795004bd75dso269901885a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2024 05:23:03 -0700 (PDT)
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
+ [209.85.222.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C509B10E3A2
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 12:23:31 +0000 (UTC)
+Received: by mail-qk1-f174.google.com with SMTP id
+ af79cd13be357-7952b60b4d7so14575685a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2024 05:23:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1717590182; x=1718194982;
+ d=broadcom.com; s=google; t=1717590211; x=1718195011;
  darn=lists.freedesktop.org; 
  h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=qchihNylUfU1dBnjvdTHz0Gc41igZH+jjZBcQj+4DOI=;
- b=a7F5QEsxKqtYnzEvYXkxCkWIngystgk5qAdLccOnpjL25nVzMCvPcu/Vi5CDv8wqAS
- q754mRyg8NgUjafoIz7BfEsziMFS5uhuFwaPyoqDIkYnLirUZ6l+DG7opoTBSfETTJQj
- ADbGrHMxzDOUEKQ29hm18pCd7n+k/SZhbr3uo=
+ :reply-to; bh=F9zvvOgloysCg8XR50VAg5BhQcY/FFr1wJ1IAzwIHuk=;
+ b=RsmsRcJccNiGoTL+Y0gjAwMsPZ6c2IBF0W6k9L+g7mVVcGgo7ZRG4AW0DQ82SIh/jX
+ PEQVtXZ4z+ls54AGkJLC75/fsW2Sv9Ts8HSjRRwprJ9lOzEdbjo4u5e5WzwZK4tad8O8
+ 5LF0o19iwrnwS6Cxmx0go+0xBcUuPbbLZqKY0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717590182; x=1718194982;
+ d=1e100.net; s=20230601; t=1717590211; x=1718195011;
  h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=qchihNylUfU1dBnjvdTHz0Gc41igZH+jjZBcQj+4DOI=;
- b=EcffE1adZ88Yg+aXLMXbA5I9+Tx2yXGMFP2aMZE/LRRE0Bv+auEgyqGlTV7LtURdul
- dHrSE/rYyNJauJfFPjCwqua2HCeCFiELV6DJbywOlYcQfCkOiCAn36rBvNJVZtEhW3ug
- jCODa11ISUHCPORSzX7GuWlsMzUkxL9N7jbtxcW773j7U7JPxJkrtB6Vu3icqb9RjAD3
- liNACXwWAh0klLgIT13nj6n9SuCv5FsO8XhAAIkX41kuKC2UGa88CUA7uD1oMN0OCpWu
- XANOjuRo8dwUUw8fZ2rt0+oL1ZS64Agn8Y7OfIqtk12DvZViUi/F1lZD8oLcfXZiV0Bh
- 0TVQ==
+ bh=F9zvvOgloysCg8XR50VAg5BhQcY/FFr1wJ1IAzwIHuk=;
+ b=RuzcevOWuUaMHpMTT6zfjuFd6HiNDLJoC4UsnU4f/efN5ACfNBbmL0mGVSHN2DAoxQ
+ Mq0i10HfxEh8kljxD1Xi9gH5mXgVcOnEjzqrOEkZVkXkRlfMkkvjP+BUcIpTSCzQVuYT
+ ookM3UebLPhCUpK+UfGWutAniotvZujdwil8XaoaNJotF5CK1NO9d1lG050+bMNChIXz
+ 7R0ulbyqln46LFWM+eSXrixwEeQD5/e6X6gKcpJTMhvFU5Z0TtUHnBOyV3owg6FTH8WF
+ H5M4X2DhpG5S8++Beo5LexxOiXXE3juAaM4RolOTt02F3T6V2ZtuEaaj9pTaTXhpncru
+ WRuQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWK5cb7uUKPglcn91nk2w0Qfxq22ZP0q3/KBKx2FH3VlCbwVyA9zAi5+GCZ5eDGDIgrgHgqTYkNrw6QUoIH9GjSrZlKG1QUixkUVhS+G4lA
-X-Gm-Message-State: AOJu0Yw1ozVeEZ3ZrRWbqT5BcSjPJZCuZ+uZ7vNuoGpXKZQpCCZ8v3k8
- m3LPKtgEkf0x4ikfhBGbILVU7cxBz6+dFF1nhj7Ae15dZOVHsWrx9LtQQhF5oQ==
-X-Google-Smtp-Source: AGHT+IGToDZb9WoifpnuNWwlhT20TqU6iik1R1tkuUbqWYGd9SYIE9jvN+iE/J9OOkOvcSuZdr+SGQ==
-X-Received: by 2002:a05:620a:198e:b0:795:79c:76df with SMTP id
- af79cd13be357-79523fd1f47mr300730185a.77.1717590182530; 
- Wed, 05 Jun 2024 05:23:02 -0700 (PDT)
+ AJvYcCVpwcX7KnNmziQafB7R9wwNfml/6jDbSo/rlNSY/eNDs0hAtxcmzc1Kh+Y/66309niK7XpbZ0nchyGIA43VVBv/BF5a6tP8KwSoSpnlyRij
+X-Gm-Message-State: AOJu0Yyqhxb9zvEvjImmhn4UXAmv3+Xc/Vg+0wyEb3lAGpwBr11xXTG9
+ ff6daISt5xTn1oo9uB92O0LPU0abzQXXOUJeqskDRku6FzVmeGft18tcTzmeZQ==
+X-Google-Smtp-Source: AGHT+IHi2TgIK3eoejzwhgG2wkwmVjed2sUowNNhKRGSEarwZx9leY7Faqz98IITLFwkqtOMKuIqWQ==
+X-Received: by 2002:a05:620a:2044:b0:794:f011:7a30 with SMTP id
+ af79cd13be357-79523c26d3cmr244394485a.14.1717590210504; 
+ Wed, 05 Jun 2024 05:23:30 -0700 (PDT)
 Received: from [10.230.30.114] ([192.19.223.252])
  by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7952d41343esm5099285a.57.2024.06.05.05.22.40
+ af79cd13be357-7952d41343esm5099285a.57.2024.06.05.05.23.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Jun 2024 05:23:01 -0700 (PDT)
-Message-ID: <7339328f-d8da-4057-b669-cc14823913d9@broadcom.com>
-Date: Wed, 5 Jun 2024 14:22:31 +0200
+ Wed, 05 Jun 2024 05:23:29 -0700 (PDT)
+Message-ID: <ea8944b6-28d2-4c4e-9ca9-eb7947a62588@broadcom.com>
+Date: Wed, 5 Jun 2024 14:23:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/18] ARM: dts: bcm283x: Update to use dma-channel-mask
+Subject: Re: [PATCH 13/18] arm: dt: Add dma-ranges to the bcm283x platforms
 To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Broadcom internal kernel review list
@@ -80,7 +80,7 @@ Cc: devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
  linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org, iommu@lists.linux.dev,
  linux-sound@vger.kernel.org
 References: <20240524182702.1317935-1-dave.stevenson@raspberrypi.com>
- <20240524182702.1317935-4-dave.stevenson@raspberrypi.com>
+ <20240524182702.1317935-14-dave.stevenson@raspberrypi.com>
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
@@ -114,9 +114,9 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20240524182702.1317935-4-dave.stevenson@raspberrypi.com>
+In-Reply-To: <20240524182702.1317935-14-dave.stevenson@raspberrypi.com>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000b99dd7061a23a024"
+ micalg=sha-256; boundary="000000000000656a8f061a23a24b"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,25 +132,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000b99dd7061a23a024
+--000000000000656a8f061a23a24b
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 5/24/2024 8:26 PM, Dave Stevenson wrote:
-> Now the driver looks for the common dma-channel-mask property
-> rather than the vendor-specific brcm,dma-channel-mask, update
-> the dt files to follow suit.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+On 5/24/2024 8:26 PM, 'Dave Stevenson' via BCM-KERNEL-FEEDBACK-LIST,PDL 
+wrote:
+> In order to use the dma_map_resource for mappings, add the
+> dma-ranges to the relevant DT files.
+
+Subject should be "arm: dts: " prefixed to be consistent with patch #2 
+and prior submissions to those files. With that:
 
 Acked-by: Florian Fainelli <florian.fainelli@broadcom.com>
 -- 
 Florian
 
---000000000000b99dd7061a23a024
+--000000000000656a8f061a23a24b
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -221,14 +222,14 @@ kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
 NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
 AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
 LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEID853FVqGAbufoag
-qyHU74mytOPEz0UFyReJtlhkv7qyMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTI0MDYwNTEyMjMwMlowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIMSuvc1kYt+F1j+9
+DWvF2X+P4hqFlJaeJyG798QFbYQ3MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTI0MDYwNTEyMjMzMFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
 AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQCiKOWqeh3FHgxfxeAPOt/R/Wmfi0fu5n8i
-/a2djyXjY7zHVHmviwRmcBwXFfsDLJktR2xOJ8IFMgYebz6OuC+ZThsZuHVepvJP5oouC1ja+N38
-e7kwl6RWGBa5YUACz4UCxm3toadU7VT7QIy/K4tLjowKek9isi0ZHAgoh1yWMKNZMs7iy4+GviOd
-muoTNqJSgPRjsV/vmnixkKBmJ0e1N9RDll49EmIj1G/Rnp45ATbPwOvHQw5xD9uPzkmc8iROJ5i2
-sNbmX+iRzhjYYPn55rqkfB9fzNe1k1/ubCFitI0tlbotcExsSXEMyPsSyotjw008pkd0wlI/nP1D
-oUuo
---000000000000b99dd7061a23a024--
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQBZ6glSaDLaD9xR98yffcQgCumTm4xfDnyV
+ONMddgFfGFbwOMITqs4CFnmILk7oGgmYVFhLHG/OC0xpg5CoKwrdxsSAyMs50bwpRzEvMaFJ/rGl
+jcWSYVLkhZGiD/T7l1LIWwL86v7l21xIXNnfQxtPOOB0AYsEM7u6kA4NaL+pzzPw4oSk2AVCAYxy
+gMVnwaf1U3jgZfnutd/F3hwaHYie3IKyIm66n+W23s+h+lQXlcbxLeOPhvDO67pUwLqSwzfmlMzr
+79AT0JbBdbiEmufvBQ/RU++Wj0T0PnHpbT6y61inq0XlArddLwGUBxIE8mifjyK2mlc9d3A+OzcL
+MPnP
+--000000000000656a8f061a23a24b--
