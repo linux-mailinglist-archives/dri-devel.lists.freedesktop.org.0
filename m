@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D7E8FC07A
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 02:24:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0568FC079
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 02:24:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C36E10E643;
-	Wed,  5 Jun 2024 00:24:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 431F510E640;
+	Wed,  5 Jun 2024 00:24:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="UeXEFVQc";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="H3rugRhN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6D1A10E640
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 00:24:44 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id
- d2e1a72fcca58-702555eb23bso3060602b3a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 17:24:44 -0700 (PDT)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAED510E640
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 00:24:46 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-1f44b5b9de6so41197465ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 17:24:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1717547083; x=1718151883;
+ d=chromium.org; s=google; t=1717547086; x=1718151886;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sysQzdwXJkfbSDELyE+0q9H4w1SnddVJlaF6DxjB+qk=;
- b=UeXEFVQchXAqBy3QtpzK0DOuC/O+ce5xQnJd4e0MUiy4U5RGBGgkX6UJIVnozykPhq
- nZPtFCRE9OK/kxbmpNrtmy0LiCJJCl1kQaPAeyCWgcbs7Iz3BFzrF6QJT9tAl9FGVG1p
- MvZLUwDbfru2AYzJ6Yovfo4lo4sv14OJi1e10=
+ bh=xFzIDtydxqVVGN3IYfhfbW6uYn49tP8HLCeKu1mdxF0=;
+ b=H3rugRhNnbv0YysBTmcu+qZVEssj2QEGzJBL/812i94kvnfkR4neYgyuMEM8ozmzKf
+ aHwXRZFWgrknQL1rmmC34yi+ir5PzQoKxGcPyrordDvUiSi8WOB4AOyH+KyKtYjRXoKp
+ 34BWtokEBjGbc9YsePGzP2QUBYlTAK2Nl0CZs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717547083; x=1718151883;
+ d=1e100.net; s=20230601; t=1717547086; x=1718151886;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sysQzdwXJkfbSDELyE+0q9H4w1SnddVJlaF6DxjB+qk=;
- b=scs91ZoolBE0z9RbgpARsawLGl8nNIzqfPYOSzvk3DNEnRj/E9a1+fKe+81zjUq2ss
- Pa/M6zd76bAgtpAUz6NchKweyygM2GNQoBMDWKqRkcESbFwhcc0Kg5QUKadLP/9UVQCe
- rrqHwXesMs6WPeKlN+aV+f/DRlLDNGyxDi5G8EdF6ahVVqt6sP5vp/COkmuyCLUlTAGv
- BwA4fMsKprpXRPCFOxiZXq/o4CP1ngZlPRjfvmcNx6D4+zw0mVWR43xnJLnZ6vEf6WG4
- DyVghZNYnpnguJG5HQjRVuaZ9YPTMdxpq3qBNlLxwLhNyFzIMzljNP5rBzLCeXntNt20
- 7uqQ==
-X-Gm-Message-State: AOJu0YzEJ20jf+zjPJpuYdjDdBZfX0ojuuqiRJWSi7Nj5KapgRLjBbWB
- +pBpQKdpT7w+8K/k2SUfLnRItehS7y5akFRKogpvsRuTY280HaY4KznFFMP0lIISeRHlOM8vkiU
+ bh=xFzIDtydxqVVGN3IYfhfbW6uYn49tP8HLCeKu1mdxF0=;
+ b=ie4NRNktV9YoInDWtjDkURXlNq6RK1yjvHafmc+Q8bJA8HbzVzDsHd5ue1WEV6hwC0
+ eYyXAimMsGRlxsv7jfc40izta3pN7stOCL5NU9g2wkCG+7w7LGECLIymkm1O/xwDmgAG
+ SbxmEr8ry7T58DT+8emB/LmZZWC/VWMLWgRubj1dlYB1UFC7E5DGPerqsedMNnFwonU5
+ 2XjsIoZCyVNuu+VZBzT828P7HQ6Yh85BqrwqqjfXD55WXoPYZSma0uZ8ZpZFPfXmFRJu
+ 9AC3sDvSgAqWpOy+es/ZwynBDZaWRv5ZXNkakJ+vRJuWbnVEK9dv5edBU7bmOwB+fEof
+ 4CRQ==
+X-Gm-Message-State: AOJu0Yx3Obss+6pFYBMRmPF09ziEcLEwR55f3LfNhrtIAdn9Zz/mJyTg
+ wIMesCy1Ce6/gUGgbXb0lgCjBlo4Betqf0wXaoJbxE5MmJ7DCDPm2PTnnpOOGlE7wEolf7ikvak
  =
-X-Google-Smtp-Source: AGHT+IHwO5H/zzgdm51Mput5e8kDxkReWlPt+ysnTlv9tYtyUriDJs0DOGcaXJK8sR0lU669dWg0YA==
-X-Received: by 2002:a05:6a21:6da9:b0:1af:a37e:367e with SMTP id
- adf61e73a8af0-1b2b6f81145mr1642375637.15.1717547082896; 
- Tue, 04 Jun 2024 17:24:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFm27+/fauZ3nMgvWWl74IN5ajXU9Ol2WKo4tVnIcK0hz7JGfbfsPcOkqAdhqR5nLRbBIMn9g==
+X-Received: by 2002:a17:902:e54f:b0:1f6:7fa4:e064 with SMTP id
+ d9443c01a7336-1f6a5a83917mr13819875ad.61.1717547085853; 
+ Tue, 04 Jun 2024 17:24:45 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:3609:ff79:4625:8a71])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f6323dd862sm89032025ad.147.2024.06.04.17.24.41
+ d9443c01a7336-1f6323dd862sm89032025ad.147.2024.06.04.17.24.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jun 2024 17:24:42 -0700 (PDT)
+ Tue, 04 Jun 2024 17:24:45 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
@@ -62,15 +62,17 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Yuran Pereira <yuran.pereira@hotmail.com>,
  Douglas Anderson <dianders@chromium.org>,
- Werner Johansson <werner.johansson@sonymobile.com>,
+ Marco Franchi <marco.franchi@nxp.com>, Fabio Estevam <festevam@denx.de>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, imx@lists.linux.dev,
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 14/24] drm/panel: panasonic-vvx10f034n00: Don't call
- disable at shutdown/remove
-Date: Tue,  4 Jun 2024 17:23:00 -0700
-Message-ID: <20240604172305.v3.14.I1562c864ee35a9c166765488c95104b7e4e562da@changeid>
+Subject: [PATCH v3 15/24] drm/panel: seiko-43wvf1g: Stop tracking
+ prepared/enabled
+Date: Tue,  4 Jun 2024 17:23:01 -0700
+Message-ID: <20240604172305.v3.15.Idda91d310ca2e4f5a4ab4ca6eaf1afdaf14eeb51@changeid>
 X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
 In-Reply-To: <20240605002401.2848541-1-dianders@chromium.org>
 References: <20240605002401.2848541-1-dianders@chromium.org>
@@ -91,25 +93,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's the responsibility of a correctly written DRM modeset driver to
-call drm_atomic_helper_shutdown() at shutdown time and that should be
-disabling / unpreparing the panel if needed. Panel drivers shouldn't
-be calling these functions themselves.
+As talked about in commit d2aacaf07395 ("drm/panel: Check for already
+prepared/enabled in drm_panel"), we want to remove needless code from
+panel drivers that was storing and double-checking the
+prepared/enabled state. Even if someone was relying on the
+double-check before, that double-check is now in the core and not
+needed in individual drivers.
 
-A recent effort was made to fix as many DRM modeset drivers as
-possible [1] [2] [3] and most drivers are fixed now.
-
-Unfortunately, grepping mainline for this panel's compatible string
-shows no hits, so we can't be 100% sure if the DRM modeset driver used
-with this panel has been fixed. If it is found that the DRM modeset
-driver hasn't been fixed then this patch could be temporarily reverted
-until it is.
-
-[1] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.org
-[2] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
-[3] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.org
-
-Cc: Werner Johansson <werner.johansson@sonymobile.com>
+Cc: Marco Franchi <marco.franchi@nxp.com>
+Cc: Fabio Estevam <festevam@denx.de>
+Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: imx@lists.linux.dev
 Acked-by: Linus Walleij <linus.walleij@linaro.org>
 Acked-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
@@ -121,46 +116,115 @@ Changes in v2:
 - Only handle 1 panel per patch.
 - Split removal of prepared/enabled from handling of remove/shutdown.
 
- drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c | 12 ------------
- 1 file changed, 12 deletions(-)
+ drivers/gpu/drm/panel/panel-seiko-43wvf1g.c | 40 ---------------------
+ 1 file changed, 40 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-index 822ca2f971eb..d1c5c9bc3c56 100644
---- a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-+++ b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-@@ -222,10 +222,6 @@ static void wuxga_nt_panel_remove(struct mipi_dsi_device *dsi)
- 	struct wuxga_nt_panel *wuxga_nt = mipi_dsi_get_drvdata(dsi);
- 	int ret;
+diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+index 658c7c040570..98480904126c 100644
+--- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
++++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+@@ -44,8 +44,6 @@ struct seiko_panel_desc {
  
--	ret = drm_panel_disable(&wuxga_nt->base);
--	if (ret < 0)
--		dev_err(&dsi->dev, "failed to disable panel: %d\n", ret);
--
- 	ret = mipi_dsi_detach(dsi);
- 	if (ret < 0)
- 		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", ret);
-@@ -233,13 +229,6 @@ static void wuxga_nt_panel_remove(struct mipi_dsi_device *dsi)
- 	wuxga_nt_panel_del(wuxga_nt);
+ struct seiko_panel {
+ 	struct drm_panel base;
+-	bool prepared;
+-	bool enabled;
+ 	const struct seiko_panel_desc *desc;
+ 	struct regulator *dvdd;
+ 	struct regulator *avdd;
+@@ -122,25 +120,10 @@ static int seiko_panel_get_fixed_modes(struct seiko_panel *panel,
+ 	return num;
  }
  
--static void wuxga_nt_panel_shutdown(struct mipi_dsi_device *dsi)
+-static int seiko_panel_disable(struct drm_panel *panel)
 -{
--	struct wuxga_nt_panel *wuxga_nt = mipi_dsi_get_drvdata(dsi);
+-	struct seiko_panel *p = to_seiko_panel(panel);
 -
--	drm_panel_disable(&wuxga_nt->base);
+-	if (!p->enabled)
+-		return 0;
+-
+-	p->enabled = false;
+-
+-	return 0;
 -}
 -
- static struct mipi_dsi_driver wuxga_nt_panel_driver = {
- 	.driver = {
- 		.name = "panel-panasonic-vvx10f034n00",
-@@ -247,7 +236,6 @@ static struct mipi_dsi_driver wuxga_nt_panel_driver = {
- 	},
- 	.probe = wuxga_nt_panel_probe,
- 	.remove = wuxga_nt_panel_remove,
--	.shutdown = wuxga_nt_panel_shutdown,
- };
- module_mipi_dsi_driver(wuxga_nt_panel_driver);
+ static int seiko_panel_unprepare(struct drm_panel *panel)
+ {
+ 	struct seiko_panel *p = to_seiko_panel(panel);
  
+-	if (!p->prepared)
+-		return 0;
+-
+ 	gpiod_set_value_cansleep(p->enable_gpio, 0);
+ 
+ 	regulator_disable(p->avdd);
+@@ -150,8 +133,6 @@ static int seiko_panel_unprepare(struct drm_panel *panel)
+ 
+ 	regulator_disable(p->dvdd);
+ 
+-	p->prepared = false;
+-
+ 	return 0;
+ }
+ 
+@@ -160,9 +141,6 @@ static int seiko_panel_prepare(struct drm_panel *panel)
+ 	struct seiko_panel *p = to_seiko_panel(panel);
+ 	int err;
+ 
+-	if (p->prepared)
+-		return 0;
+-
+ 	err = regulator_enable(p->dvdd);
+ 	if (err < 0) {
+ 		dev_err(panel->dev, "failed to enable dvdd: %d\n", err);
+@@ -180,8 +158,6 @@ static int seiko_panel_prepare(struct drm_panel *panel)
+ 
+ 	gpiod_set_value_cansleep(p->enable_gpio, 1);
+ 
+-	p->prepared = true;
+-
+ 	return 0;
+ 
+ disable_dvdd:
+@@ -189,18 +165,6 @@ static int seiko_panel_prepare(struct drm_panel *panel)
+ 	return err;
+ }
+ 
+-static int seiko_panel_enable(struct drm_panel *panel)
+-{
+-	struct seiko_panel *p = to_seiko_panel(panel);
+-
+-	if (p->enabled)
+-		return 0;
+-
+-	p->enabled = true;
+-
+-	return 0;
+-}
+-
+ static int seiko_panel_get_modes(struct drm_panel *panel,
+ 				 struct drm_connector *connector)
+ {
+@@ -228,10 +192,8 @@ static int seiko_panel_get_timings(struct drm_panel *panel,
+ }
+ 
+ static const struct drm_panel_funcs seiko_panel_funcs = {
+-	.disable = seiko_panel_disable,
+ 	.unprepare = seiko_panel_unprepare,
+ 	.prepare = seiko_panel_prepare,
+-	.enable = seiko_panel_enable,
+ 	.get_modes = seiko_panel_get_modes,
+ 	.get_timings = seiko_panel_get_timings,
+ };
+@@ -246,8 +208,6 @@ static int seiko_panel_probe(struct device *dev,
+ 	if (!panel)
+ 		return -ENOMEM;
+ 
+-	panel->enabled = false;
+-	panel->prepared = false;
+ 	panel->desc = desc;
+ 
+ 	panel->dvdd = devm_regulator_get(dev, "dvdd");
 -- 
 2.45.1.288.g0e0cd299f1-goog
 
