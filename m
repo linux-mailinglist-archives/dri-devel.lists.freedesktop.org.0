@@ -2,55 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD758FCBB6
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 14:04:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27DCF8FCBAB
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 14:04:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6CFD10E79B;
-	Wed,  5 Jun 2024 12:04:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF48B10E78E;
+	Wed,  5 Jun 2024 12:04:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LTWxmSWx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K67GihMb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05FAF10E79B;
- Wed,  5 Jun 2024 12:04:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 4B7FDCE17B0;
- Wed,  5 Jun 2024 12:04:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58380C3277B;
- Wed,  5 Jun 2024 12:04:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717589082;
- bh=ak9Vp86IkHKL5lFnKpGX/0AEgziySgCTH33SslKVXYU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LTWxmSWxWpvxHjinDHvCqR7244M+HHVY/BuhoXd8TXf3t57EVAJuBF4Nu4GvVhwOt
- FQIlqVzRTOO4E3rV6u4mDzw5c9IyXHcj/7RYDxxBcsL2PzOF54L7qdNVGTRUfiYrQd
- 09oQO+REXNIxOBGkmfAftiepmIu4f2rngr2ZKYDC9oRDDx9PpxbKcCHfjVwRJdDt4P
- rGbjWYODnVbh8xpc2BZvwgaurDRckxbVXwgHLYfXTYM1HiF2uqPl0OFKarz6ut3xN2
- 2b+I6wWbrT0ckKsIuJvYru0IFqBvhWMsxPFa5JF9pPX6AbJm71mHHvd583czoQs42W
- m2+6llNRtLU9A==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Alex Deucher <alexander.deucher@amd.com>, Feifei Xu <Feifei.Xu@amd.com>,
- Feifei Xu <feifei.xu@amd.com>, Sasha Levin <sashal@kernel.org>,
- Felix.Kuehling@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, nathan@kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- llvm@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.6 17/18] Revert "drm/amdkfd: fix gfx_target_version
- for certain 11.0.3 devices"
-Date: Wed,  5 Jun 2024 08:03:56 -0400
-Message-ID: <20240605120409.2967044-17-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240605120409.2967044-1-sashal@kernel.org>
-References: <20240605120409.2967044-1-sashal@kernel.org>
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48F3810E78E;
+ Wed,  5 Jun 2024 12:04:36 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id
+ d75a77b69052e-4402823e1fbso1089621cf.2; 
+ Wed, 05 Jun 2024 05:04:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1717589075; x=1718193875; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tPuTc08wjjwpO86SOuNZKeHCnjPvY6giUw1ze6bOSPo=;
+ b=K67GihMbRidRdN/RKjiUxufJMBQtb8kWzgmZTXJp+y7zM9ne1gtuyV7YqeDR+y/kML
+ ViuRy7Rh2UQSA3/ff9YEBVd+wYxPueBldREUSK+OHPlR2OI2mB7Zy+2I2d92EOlOUgkf
+ 1S3Y6cABfIbAt46MtelgBZ2WC6CsIxLUSjw1UuvXVjBKpOOCyIfTxvFUgs6HrgdJpLU7
+ ePfN/HPrhmFjjd6DJ5It4GzJ0POmjm813Y7o31Ghwg6Ji0w+HuPZlP/+GFVgWvftn6JX
+ hkJbrE+o9rfsUFODEaSusIqfWhXlxNYeltolEoScUxUbhcZflVpOu32aQqbhvycEcD4J
+ kGiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717589075; x=1718193875;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tPuTc08wjjwpO86SOuNZKeHCnjPvY6giUw1ze6bOSPo=;
+ b=jEn3D8ym92dcN1q0BH0WKo7REgn4tp9gPNLIX5p4Fm6B7p5M47gCCbTgUkvfFZUEFc
+ xwVm/5/Z96RRLiJ9plGu4KmYwRonXqPuX3RhA5l38OemxFMwGmwmJxoHb8mfpc8EuXTA
+ oYN+AqyTB7v8LfqNhkjSP872Qk+D369M3BrApFuSfRrGyuW0bbcnXAV46zCwZrj1fXZC
+ LK7cfhyfdmaAQFbCLB9KcAPuqNrg5kIK9viWhogI/wG7P9rHseWl8Fe1ziFdv935UPPC
+ OvTkqzuWUr7I2vNOXvvjRG07zhLP8oSP+OcgGqf7J3kaI0FVNwnVmAeai8wlmn0lxj21
+ 8T1w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUOQQQZ5DFl4bYcbx6coV0hilrKCTGq5OH8y248CEgJ7m3QUbNai6KkHTNvt2jb3VEoKkYTgA+2ZRD24kR0qI8LiMWT96AzUtpAtqpUQZQAHNPoHOU3tggfD1H0hKsCcBknoSUpcVSpWd9D29QrDg==
+X-Gm-Message-State: AOJu0Yx2vU9Q0+i67XvKNCSi8WgIEL2xomWZeGZCOtsDkT6kAIqvEjT8
+ PlADEbZBgM5R7P1YBw1TYQqzQ2fVEb443pMFS8ljUhAvMn948w8wKaSLKc4SeS7enYbbEwTnO8+
+ zcOK79xfD+9LDbma7TqhinHOEhmg=
+X-Google-Smtp-Source: AGHT+IH08DASZwWkloRJgaFzndX3ohxbVhpChXg8kKGgMmIS7uWE00LXdMQ3IF+ghEagWVLqDXyH4FitBoiNT2IQTPQ=
+X-Received: by 2002:a05:6214:765:b0:6ad:7a58:4e01 with SMTP id
+ 6a1803df08f44-6b030a489d7mr23866326d6.3.1717589074779; Wed, 05 Jun 2024
+ 05:04:34 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.32
-Content-Transfer-Encoding: 8bit
+References: <CABXGCsNptxsQO=5=qi-JYiFX=rX8Ok5inK80Gn0qrUFWbtBGng@mail.gmail.com>
+In-Reply-To: <CABXGCsNptxsQO=5=qi-JYiFX=rX8Ok5inK80Gn0qrUFWbtBGng@mail.gmail.com>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Wed, 5 Jun 2024 17:04:23 +0500
+Message-ID: <CABXGCsN=9UFvGgKztzkkAM1c8cVN-h=TKLLxWhKgTm11h+H-eg@mail.gmail.com>
+Subject: Re: 6.10/bisected/regression - commits bc87d666c05 and 6d4279cb99ac
+ cause appearing green flashing bar on top of screen on Radeon 6900XT and 120Hz
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>, Rodrigo.Siqueira@amd.com, 
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>, 
+ Linux regressions mailing list <regressions@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,45 +83,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
-
-[ Upstream commit dd2b75fd9a79bf418e088656822af06fc253dbe3 ]
-
-This reverts commit 28ebbb4981cb1fad12e0b1227dbecc88810b1ee8.
-
-Revert this commit as apparently the LLVM code to take advantage of
-this never landed.
-
-Reviewed-by: Feifei Xu <Feifei.Xu@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Cc: Feifei Xu <feifei.xu@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+On Sun, May 26, 2024 at 7:06=E2=80=AFPM Mikhail Gavrilov
+<mikhail.v.gavrilov@gmail.com> wrote:
+>
+> Hi,
+> Day before yesterday I replaced 7900XTX to 6900XT for got clear in
+> which kernel first time appeared warning message "DMA-API: amdgpu
+> 0000:0f:00.0: cacheline tracking EEXIST, overlapping mappings aren't
+> supported".
+> The kernel 6.3 and older won't boot on a computer with Radeon 7900XTX.
+> When I booted the system with 6900XT I saw a green flashing bar on top
+> of the screen when I typed commands in the gnome terminal which was
+> maximized on full screen.
+> Demonstration: https://youtu.be/tTvwQ_5pRkk
+> For reproduction you need Radeon 6900XT GPU connected to 120Hz OLED TV by=
+ HDMI.
+>
+> I bisected the issue and the first commit which I found was 6d4279cb99ac.
+> commit 6d4279cb99ac4f51d10409501d29969f687ac8dc (HEAD)
+> Author: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> Date:   Tue Mar 26 10:42:05 2024 -0600
+>
+>     drm/amd/display: Drop legacy code
+>
+>     This commit removes code that are not used by display anymore.
+>
+>     Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+>     Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+>     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+>
+>  drivers/gpu/drm/amd/display/dc/inc/hw/stream_encoder.h         |  4 ----
+>  drivers/gpu/drm/amd/display/dc/inc/resource.h                  |  7 ----=
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_device.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/optc/dcn20/dcn20_optc.c         | 10 ----=
+------
+>  drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c | 33
+> +--------------------------------
+>  4 files changed, 1 insertion(+), 53 deletions(-)
+>
+> Every time after bisecting I usually make sure that I found the right
+> commit and build the kernel with revert of the bad commit.
+> But this time I again observed an issue after running a kernel builded
+> without commit 6d4279cb99ac.
+> And I decided to find a second bad commit.
+> The second bad commit has been bc87d666c05.
+> commit bc87d666c05a13e6d4ae1ddce41fc43d2567b9a2 (HEAD)
+> Author: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> Date:   Tue Mar 26 11:55:19 2024 -0600
+>
+>     drm/amd/display: Add fallback configuration for set DRR in DCN10
+>
+>     Set OTG/OPTC parameters to 0 if something goes wrong on DCN10.
+>
+>     Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+>     Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+>     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+>
+>  drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c | 15 ++++++++++++=
+---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
+>
+> After reverting both these commits on top of 54f71b0369c9 the issue is go=
+ne.
+>
+> I also attach the build config.
+>
+> My hardware specs: https://linux-hardware.org/?probe=3Df25a873c5e
+>
+> Rodrigo or anyone else from the AMD team can you look please.
+>
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device.c b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-index 913c70a0ef44f..0c94bdfadaabf 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-@@ -402,15 +402,8 @@ struct kfd_dev *kgd2kfd_probe(struct amdgpu_device *adev, bool vf)
- 			f2g = &gfx_v11_kfd2kgd;
- 			break;
- 		case IP_VERSION(11, 0, 3):
--			if ((adev->pdev->device == 0x7460 &&
--			     adev->pdev->revision == 0x00) ||
--			    (adev->pdev->device == 0x7461 &&
--			     adev->pdev->revision == 0x00))
--				/* Note: Compiler version is 11.0.5 while HW version is 11.0.3 */
--				gfx_target_version = 110005;
--			else
--				/* Note: Compiler version is 11.0.1 while HW version is 11.0.3 */
--				gfx_target_version = 110001;
-+			/* Note: Compiler version is 11.0.1 while HW version is 11.0.3 */
-+			gfx_target_version = 110001;
- 			f2g = &gfx_v11_kfd2kgd;
- 			break;
- 		default:
--- 
-2.43.0
+Did anyone watch?
 
+--=20
+Best Regards,
+Mike Gavrilov.
