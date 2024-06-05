@@ -2,72 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DCF8FCBAB
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 14:04:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AF3B8FCBBD
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 14:05:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF48B10E78E;
-	Wed,  5 Jun 2024 12:04:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9E7810E7A2;
+	Wed,  5 Jun 2024 12:05:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K67GihMb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m4KDWDzv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
- [209.85.160.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48F3810E78E;
- Wed,  5 Jun 2024 12:04:36 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id
- d75a77b69052e-4402823e1fbso1089621cf.2; 
- Wed, 05 Jun 2024 05:04:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1717589075; x=1718193875; darn=lists.freedesktop.org;
- h=content-transfer-encoding:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tPuTc08wjjwpO86SOuNZKeHCnjPvY6giUw1ze6bOSPo=;
- b=K67GihMbRidRdN/RKjiUxufJMBQtb8kWzgmZTXJp+y7zM9ne1gtuyV7YqeDR+y/kML
- ViuRy7Rh2UQSA3/ff9YEBVd+wYxPueBldREUSK+OHPlR2OI2mB7Zy+2I2d92EOlOUgkf
- 1S3Y6cABfIbAt46MtelgBZ2WC6CsIxLUSjw1UuvXVjBKpOOCyIfTxvFUgs6HrgdJpLU7
- ePfN/HPrhmFjjd6DJ5It4GzJ0POmjm813Y7o31Ghwg6Ji0w+HuPZlP/+GFVgWvftn6JX
- hkJbrE+o9rfsUFODEaSusIqfWhXlxNYeltolEoScUxUbhcZflVpOu32aQqbhvycEcD4J
- kGiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717589075; x=1718193875;
- h=content-transfer-encoding:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tPuTc08wjjwpO86SOuNZKeHCnjPvY6giUw1ze6bOSPo=;
- b=jEn3D8ym92dcN1q0BH0WKo7REgn4tp9gPNLIX5p4Fm6B7p5M47gCCbTgUkvfFZUEFc
- xwVm/5/Z96RRLiJ9plGu4KmYwRonXqPuX3RhA5l38OemxFMwGmwmJxoHb8mfpc8EuXTA
- oYN+AqyTB7v8LfqNhkjSP872Qk+D369M3BrApFuSfRrGyuW0bbcnXAV46zCwZrj1fXZC
- LK7cfhyfdmaAQFbCLB9KcAPuqNrg5kIK9viWhogI/wG7P9rHseWl8Fe1ziFdv935UPPC
- OvTkqzuWUr7I2vNOXvvjRG07zhLP8oSP+OcgGqf7J3kaI0FVNwnVmAeai8wlmn0lxj21
- 8T1w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUOQQQZ5DFl4bYcbx6coV0hilrKCTGq5OH8y248CEgJ7m3QUbNai6KkHTNvt2jb3VEoKkYTgA+2ZRD24kR0qI8LiMWT96AzUtpAtqpUQZQAHNPoHOU3tggfD1H0hKsCcBknoSUpcVSpWd9D29QrDg==
-X-Gm-Message-State: AOJu0Yx2vU9Q0+i67XvKNCSi8WgIEL2xomWZeGZCOtsDkT6kAIqvEjT8
- PlADEbZBgM5R7P1YBw1TYQqzQ2fVEb443pMFS8ljUhAvMn948w8wKaSLKc4SeS7enYbbEwTnO8+
- zcOK79xfD+9LDbma7TqhinHOEhmg=
-X-Google-Smtp-Source: AGHT+IH08DASZwWkloRJgaFzndX3ohxbVhpChXg8kKGgMmIS7uWE00LXdMQ3IF+ghEagWVLqDXyH4FitBoiNT2IQTPQ=
-X-Received: by 2002:a05:6214:765:b0:6ad:7a58:4e01 with SMTP id
- 6a1803df08f44-6b030a489d7mr23866326d6.3.1717589074779; Wed, 05 Jun 2024
- 05:04:34 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3886C10E7A2;
+ Wed,  5 Jun 2024 12:05:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 844C6CE1773;
+ Wed,  5 Jun 2024 12:05:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F12EBC32781;
+ Wed,  5 Jun 2024 12:05:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1717589118;
+ bh=qQuitPoq93Dql+IO0stmpexe7lWd2SiPR91hJ0WDJ/k=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=m4KDWDzv78u4Qc5Lss1IhyGHk6z/lbEuJiS5k9O0oaDV5eLVC2+5cAjRqpHVP9tRi
+ y1YJLHqK39A551DJsgLkna3D5INDkS9azzdAD99dohCvL4hM9By6a/C6/x7uJ/grbb
+ EMbtz5wYWqrn+X694968tOaBgKGhr1lu6OpNujZBJV/EuGFI60bQqwXOeSHZouEf3a
+ 9aQtg497ASk6aJHZo6PAcp4hwnV5qvk1zp43gdNTRDn74JCKL0GRMDfg8U47gBn7aT
+ ctmvDFBoWsKA84KR5XmoyuehfWCnscgz6t2O1r1l9mFXrP12+H03gv+wYaaxV7Yh8y
+ CCx4JWy6LLdYw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Jesse Zhang <jesse.zhang@amd.com>, Jesse Zhang <Jesse.Zhang@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ Felix.Kuehling@amd.com, shashank.sharma@amd.com, guchun.chen@amd.com,
+ Philip.Yang@amd.com, mukul.joshi@amd.com, xiaogang.chen@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.1 13/14] drm/amdgpu: fix dereference null return
+ value for the function amdgpu_vm_pt_parent
+Date: Wed,  5 Jun 2024 08:04:46 -0400
+Message-ID: <20240605120455.2967445-13-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240605120455.2967445-1-sashal@kernel.org>
+References: <20240605120455.2967445-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <CABXGCsNptxsQO=5=qi-JYiFX=rX8Ok5inK80Gn0qrUFWbtBGng@mail.gmail.com>
-In-Reply-To: <CABXGCsNptxsQO=5=qi-JYiFX=rX8Ok5inK80Gn0qrUFWbtBGng@mail.gmail.com>
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Wed, 5 Jun 2024 17:04:23 +0500
-Message-ID: <CABXGCsN=9UFvGgKztzkkAM1c8cVN-h=TKLLxWhKgTm11h+H-eg@mail.gmail.com>
-Subject: Re: 6.10/bisected/regression - commits bc87d666c05 and 6d4279cb99ac
- cause appearing green flashing bar on top of screen on Radeon 6900XT and 120Hz
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>, Rodrigo.Siqueira@amd.com, 
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>, 
- Linux regressions mailing list <regressions@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.1.92
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,78 +68,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 26, 2024 at 7:06=E2=80=AFPM Mikhail Gavrilov
-<mikhail.v.gavrilov@gmail.com> wrote:
->
-> Hi,
-> Day before yesterday I replaced 7900XTX to 6900XT for got clear in
-> which kernel first time appeared warning message "DMA-API: amdgpu
-> 0000:0f:00.0: cacheline tracking EEXIST, overlapping mappings aren't
-> supported".
-> The kernel 6.3 and older won't boot on a computer with Radeon 7900XTX.
-> When I booted the system with 6900XT I saw a green flashing bar on top
-> of the screen when I typed commands in the gnome terminal which was
-> maximized on full screen.
-> Demonstration: https://youtu.be/tTvwQ_5pRkk
-> For reproduction you need Radeon 6900XT GPU connected to 120Hz OLED TV by=
- HDMI.
->
-> I bisected the issue and the first commit which I found was 6d4279cb99ac.
-> commit 6d4279cb99ac4f51d10409501d29969f687ac8dc (HEAD)
-> Author: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> Date:   Tue Mar 26 10:42:05 2024 -0600
->
->     drm/amd/display: Drop legacy code
->
->     This commit removes code that are not used by display anymore.
->
->     Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
->     Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
->     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
->
->  drivers/gpu/drm/amd/display/dc/inc/hw/stream_encoder.h         |  4 ----
->  drivers/gpu/drm/amd/display/dc/inc/resource.h                  |  7 ----=
----
->  drivers/gpu/drm/amd/display/dc/optc/dcn20/dcn20_optc.c         | 10 ----=
-------
->  drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c | 33
-> +--------------------------------
->  4 files changed, 1 insertion(+), 53 deletions(-)
->
-> Every time after bisecting I usually make sure that I found the right
-> commit and build the kernel with revert of the bad commit.
-> But this time I again observed an issue after running a kernel builded
-> without commit 6d4279cb99ac.
-> And I decided to find a second bad commit.
-> The second bad commit has been bc87d666c05.
-> commit bc87d666c05a13e6d4ae1ddce41fc43d2567b9a2 (HEAD)
-> Author: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> Date:   Tue Mar 26 11:55:19 2024 -0600
->
->     drm/amd/display: Add fallback configuration for set DRR in DCN10
->
->     Set OTG/OPTC parameters to 0 if something goes wrong on DCN10.
->
->     Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
->     Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
->     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
->
->  drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c | 15 ++++++++++++=
----
->  1 file changed, 12 insertions(+), 3 deletions(-)
->
-> After reverting both these commits on top of 54f71b0369c9 the issue is go=
-ne.
->
-> I also attach the build config.
->
-> My hardware specs: https://linux-hardware.org/?probe=3Df25a873c5e
->
-> Rodrigo or anyone else from the AMD team can you look please.
->
+From: Jesse Zhang <jesse.zhang@amd.com>
 
-Did anyone watch?
+[ Upstream commit a0cf36546cc24ae1c95d72253c7795d4d2fc77aa ]
 
---=20
-Best Regards,
-Mike Gavrilov.
+The pointer parent may be NULLed by the function amdgpu_vm_pt_parent.
+To make the code more robust, check the pointer parent.
+
+Signed-off-by: Jesse Zhang <Jesse.Zhang@amd.com>
+Suggested-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
+index 69b3829bbe53f..370d02bdde862 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
+@@ -754,11 +754,15 @@ int amdgpu_vm_pde_update(struct amdgpu_vm_update_params *params,
+ 			 struct amdgpu_vm_bo_base *entry)
+ {
+ 	struct amdgpu_vm_bo_base *parent = amdgpu_vm_pt_parent(entry);
+-	struct amdgpu_bo *bo = parent->bo, *pbo;
++	struct amdgpu_bo *bo, *pbo;
+ 	struct amdgpu_vm *vm = params->vm;
+ 	uint64_t pde, pt, flags;
+ 	unsigned int level;
+ 
++	if (WARN_ON(!parent))
++		return -EINVAL;
++
++	bo = parent->bo;
+ 	for (level = 0, pbo = bo->parent; pbo; ++level)
+ 		pbo = pbo->parent;
+ 
+-- 
+2.43.0
+
