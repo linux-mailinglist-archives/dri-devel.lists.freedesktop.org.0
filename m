@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D8AA8FC087
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 02:25:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6698FC083
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 02:25:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEEEA10E657;
-	Wed,  5 Jun 2024 00:25:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7618010E650;
+	Wed,  5 Jun 2024 00:25:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="YugFNowv";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="NfPwE/Zt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 957EF10E644
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 00:25:02 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-1f62fae8c3cso46592145ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 17:25:02 -0700 (PDT)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C287210E656
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 00:25:04 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-1f480624d0fso46315215ad.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 17:25:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1717547101; x=1718151901;
+ d=chromium.org; s=google; t=1717547103; x=1718151903;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9KycAHbM1YaBsC19utL2dTXUooV8ldiwTH4nNPolNGA=;
- b=YugFNowvAxUTF7LvyAEX2JJoSN9QUCa5hEVRugRCpfr6kAFOm143vMwoNlhh9soa8z
- uVo2aJml4qvO2G/vGjVVJ52jHxDxQQ7qmZnI8c2MfGPTrUFds0CVFQEYlqslT9g6TA+m
- 83D6+bxk7Cj1cl259YCXDgH4JK03q3WsIFE2U=
+ bh=WueavCuqsC++tgdW3b4kChJiO3Z5diw3u/WttA4fZGU=;
+ b=NfPwE/ZtCGnglaCtG5rPOMBQCsoQWl1CdWUSSl/N5aUbAAH/aU59WQXa5eDigRih84
+ yPFm/mW5G6BqmS8FvzrCLwLmlEWiKm6rFj30GCcok4KTRSomX23ixcsfkPRzHRVmvZzR
+ TjtiAj9lF92YksHX21xIslTyOtpL/DsppsZfQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717547101; x=1718151901;
+ d=1e100.net; s=20230601; t=1717547103; x=1718151903;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9KycAHbM1YaBsC19utL2dTXUooV8ldiwTH4nNPolNGA=;
- b=nJxDDYL6Xcv6tr9+HHnI+uaxGhOgCShiTDDA9DHzzJmbUpc6pPcI6PfRcEUafQA4r0
- VGPCVE6jqe2WL9KMx6g0dxoWfdulrc4ff4ru6W9B2/7OUhTumiUimDpGhWE1MqNh+DMA
- pK64195/vwQYNlfDoOGx78tjqkG2/qEbzkZfvxXRtRxAugFDAKCTP1CpA1xHWARmjezD
- XuR5DmSOB+fFR7j6uIljeySmQpEUMmFvGxf0EPNcUkfbfBwymwHa8YG+8Tx8RQEQJ5d6
- kIxi3WP4v6RyKCrehRdgVnd/Oh0ZUTM0bkXTY/00THY6snU9pNQGVLmSd/Zd+ASmONlV
- mYeg==
-X-Gm-Message-State: AOJu0YyXU+evAlYJmqbOZD8irOvl9HNTUxuiiDYwYPGt+XkgLiTgHYSI
- F7pCRYoF+T5geFw37pkoKZ0mLZMP9LFpcr53OhKEYqGGslK9Y82pBN2RyZp9ijq7IykbSQ1GHAM
+ bh=WueavCuqsC++tgdW3b4kChJiO3Z5diw3u/WttA4fZGU=;
+ b=UsLE9y/Uf0SYtFnIy3UBX7vtNzuhc+/nsa/ww0NjR9nuVRGYixwQUaQlihUKGP0H5O
+ dx7XCC7boX0kdvq9C2eexaNM1tqT6bXEuGDTHIS5xoTPHJdoQjG80L4AI9eKpLLIf5Kz
+ i/Y9kq2e/fBn9LGamWfsRNNIJitgUCsPuN/wdeD5zSTWxqtpLbC65dGu9c878xcQ2eBv
+ AWO4VS/Wv/egHNzqbKeTDQB8EkQMR023qaNRNjPf1o7B7jaZ8/imnc3a9rjJD+uoxK7U
+ TkBeONhHZ5jCBpMnBTsL4h0V/ntvI2mFf3QliDknoiid1USwTpDNQrNKlwRHviCSS5Ch
+ s0Bw==
+X-Gm-Message-State: AOJu0YyZn9yGvaBCioxGJxIV60/C5rMTbLiBSKLmVgxNiiFZ7HkgnDrl
+ MGz7dIg7LX7YAkbi/P0RMXNM6YObfFMKtJPwnX6H/zTKvjkF23mfJ2tnroX/r72VRRhK8i9IN+c
  =
-X-Google-Smtp-Source: AGHT+IGS08PCmE1Z7uwVEhya3rKGJf5usM/7rzf00Dp5D3r9ukR+JKiJgZjVJN3F4E95srjcIWbunA==
-X-Received: by 2002:a17:902:ccd2:b0:1f6:6a94:76be with SMTP id
- d9443c01a7336-1f6a5a6be45mr14458485ad.46.1717547100710; 
- Tue, 04 Jun 2024 17:25:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHZV8rnTIG07xU0wk0unrHRbIjagmzYiGL/t8yAbJMj8hc5iEhhmcsmlBP97t06k9Tu/aYGNQ==
+X-Received: by 2002:a17:902:b7ca:b0:1f4:b702:f143 with SMTP id
+ d9443c01a7336-1f6a5a094d5mr10864515ad.15.1717547103166; 
+ Tue, 04 Jun 2024 17:25:03 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:3609:ff79:4625:8a71])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f6323dd862sm89032025ad.147.2024.06.04.17.24.58
+ d9443c01a7336-1f6323dd862sm89032025ad.147.2024.06.04.17.25.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jun 2024 17:24:59 -0700 (PDT)
+ Tue, 04 Jun 2024 17:25:01 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
@@ -67,9 +67,10 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 21/24] drm/panel: raydium-rm67191: Stop tracking enabled
-Date: Tue,  4 Jun 2024 17:23:07 -0700
-Message-ID: <20240604172305.v3.21.I20f82e9dd1597a14ae37a64c6b8275add60fbdb1@changeid>
+Subject: [PATCH v3 22/24] drm/panel: raydium-rm67191: Don't call
+ unprepare+disable at shutdown
+Date: Tue,  4 Jun 2024 17:23:08 -0700
+Message-ID: <20240604172305.v3.22.Id14188f1a8af7d524751c27c343a5b583ff5361f@changeid>
 X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
 In-Reply-To: <20240605002401.2848541-1-dianders@chromium.org>
 References: <20240605002401.2848541-1-dianders@chromium.org>
@@ -90,26 +91,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As talked about in commit d2aacaf07395 ("drm/panel: Check for already
-prepared/enabled in drm_panel"), we want to remove needless code from
-panel drivers that was storing and double-checking the
-prepared/enabled state. Even if someone was relying on the
-double-check before, that double-check is now in the core and not
-needed in individual drivers.
+It's the responsibility of a correctly written DRM modeset driver to
+call drm_atomic_helper_shutdown() at shutdown time and that should be
+disabling / unpreparing the panel if needed. Panel drivers shouldn't
+be calling these functions themselves.
 
-The conversion of the rm67191 panel driver follows many of the other
-panel drivers but has a few differences that need to be called out.
+A recent effort was made to fix as many DRM modeset drivers as
+possible [1] [2] [3] and most drivers are fixed now.
 
-Like in commit 1e0465eb16a4 ("drm/panel: otm8009a: Don't double check
-prepared/enabled"), this panel also uses the "prepared" flag to
-prevent the backlight functions from running when the panel is powered
-off. This is probably not the safest thing to do but the old behavior
-was preserved. See the discussion in the otm8009a patch. Because of
-this, I've left the driver tracking "prepared" but removed its
-tracking of "enabled".
+A grep through mainline for compatible strings used by this driver
+indicates that it is used by IMX boards. The IMX driver appears to be
+correctly calling drm_atomic_helper_shutdown() so we can remove the
+calls.
 
-NOTE: as part of this, transition the panel's direct calls to its
-disable/unprepare functions in shutdown to call through DRM panel.
+[1] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.org
+[2] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
+[3] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.org
 
 Cc: Robert Chiras <robert.chiras@nxp.com>
 Acked-by: Linus Walleij <linus.walleij@linaro.org>
@@ -122,90 +119,36 @@ Signed-off-by: Douglas Anderson <dianders@chromium.org>
 Changes in v2:
 - Split removal of prepared/enabled from handling of remove/shutdown.
 
- drivers/gpu/drm/panel/panel-raydium-rm67191.c | 21 ++-----------------
- 1 file changed, 2 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/panel/panel-raydium-rm67191.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-raydium-rm67191.c b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
-index dbb1ed4efbed..fa9bf89d3bb5 100644
+index fa9bf89d3bb5..b2029e035635 100644
 --- a/drivers/gpu/drm/panel/panel-raydium-rm67191.c
 +++ b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
-@@ -205,7 +205,6 @@ struct rad_panel {
- 	unsigned int num_supplies;
- 
- 	bool prepared;
--	bool enabled;
- };
- 
- static const struct drm_display_mode default_mode = {
-@@ -267,9 +266,6 @@ static int rad_panel_prepare(struct drm_panel *panel)
- 	struct rad_panel *rad = to_rad_panel(panel);
- 	int ret;
- 
--	if (rad->prepared)
--		return 0;
--
- 	ret = regulator_bulk_enable(rad->num_supplies, rad->supplies);
- 	if (ret)
- 		return ret;
-@@ -291,9 +287,6 @@ static int rad_panel_unprepare(struct drm_panel *panel)
- 	struct rad_panel *rad = to_rad_panel(panel);
- 	int ret;
- 
--	if (!rad->prepared)
--		return 0;
--
- 	/*
- 	 * Right after asserting the reset, we need to release it, so that the
- 	 * touch driver can have an active connection with the touch controller
-@@ -322,9 +315,6 @@ static int rad_panel_enable(struct drm_panel *panel)
- 	int color_format = color_format_from_dsi_format(dsi->format);
- 	int ret;
- 
--	if (rad->enabled)
--		return 0;
--
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
- 
- 	ret = rad_panel_push_cmd_list(dsi);
-@@ -389,8 +379,6 @@ static int rad_panel_enable(struct drm_panel *panel)
- 
- 	backlight_enable(rad->backlight);
- 
--	rad->enabled = true;
--
- 	return 0;
- 
- fail:
-@@ -406,9 +394,6 @@ static int rad_panel_disable(struct drm_panel *panel)
- 	struct device *dev = &dsi->dev;
- 	int ret;
- 
--	if (!rad->enabled)
--		return 0;
--
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
- 
- 	backlight_disable(rad->backlight);
-@@ -429,8 +414,6 @@ static int rad_panel_disable(struct drm_panel *panel)
- 		return ret;
- 	}
- 
--	rad->enabled = false;
--
- 	return 0;
+@@ -612,14 +612,6 @@ static void rad_panel_remove(struct mipi_dsi_device *dsi)
+ 	drm_panel_remove(&rad->panel);
  }
  
-@@ -633,8 +616,8 @@ static void rad_panel_shutdown(struct mipi_dsi_device *dsi)
- {
- 	struct rad_panel *rad = mipi_dsi_get_drvdata(dsi);
- 
--	rad_panel_disable(&rad->panel);
--	rad_panel_unprepare(&rad->panel);
-+	drm_panel_disable(&rad->panel);
-+	drm_panel_unprepare(&rad->panel);
- }
- 
+-static void rad_panel_shutdown(struct mipi_dsi_device *dsi)
+-{
+-	struct rad_panel *rad = mipi_dsi_get_drvdata(dsi);
+-
+-	drm_panel_disable(&rad->panel);
+-	drm_panel_unprepare(&rad->panel);
+-}
+-
  static const struct of_device_id rad_of_match[] = {
+ 	{ .compatible = "raydium,rm67191", },
+ 	{ /* sentinel */ }
+@@ -633,7 +625,6 @@ static struct mipi_dsi_driver rad_panel_driver = {
+ 	},
+ 	.probe = rad_panel_probe,
+ 	.remove = rad_panel_remove,
+-	.shutdown = rad_panel_shutdown,
+ };
+ module_mipi_dsi_driver(rad_panel_driver);
+ 
 -- 
 2.45.1.288.g0e0cd299f1-goog
 
