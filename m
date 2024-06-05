@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406538FC080
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 02:25:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA678FC081
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 02:25:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 874B610E651;
-	Wed,  5 Jun 2024 00:25:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FD9210E644;
+	Wed,  5 Jun 2024 00:25:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="VXr4/bJk";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="MpA8hVG3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD8C510E647
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 00:24:57 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-1f6342c5faaso14001155ad.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 17:24:57 -0700 (PDT)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 106ED10E650
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 00:24:59 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-1f480624d0fso46314695ad.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 17:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1717547096; x=1718151896;
+ d=chromium.org; s=google; t=1717547098; x=1718151898;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=S5c4MKTgrGl4hq+d6zD/HFZfQGneGwPo9D4JV91mhW4=;
- b=VXr4/bJkjdMl2jH6tUztBUhoxE8CFkin0cMrOxLr0Q1mx/gJU1KyITg6vHN5IIk5Y0
- qKLulp79lGJ0tzTnVPF1ZfMDeCn7zQ55hyrYH2b1ir+q85Os0tv26gu2DMmoPnam7SAK
- QXtLOJTRzE+R7rn9t0/sWCKPXE02gssf5rxrI=
+ bh=HPVmtOP7OzClmuYgtUVqnYcO82gUWMj5hZYUvdlHA1M=;
+ b=MpA8hVG3WZOkxrv0X2hsNapX2yydmn5zzjtR9Uglr6MiRZ3sMpPmJFdu99N+ephgXR
+ Nd4wGX94/dAylH9rnwK055YRRTe3HQ4EJInzpIyJhDBdeajkUe8ZhVX8K6GY1KvfwgDG
+ ABevY3SM+axX+N+i2G7YJqbWkXeaKPrRwoMsQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717547096; x=1718151896;
+ d=1e100.net; s=20230601; t=1717547098; x=1718151898;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=S5c4MKTgrGl4hq+d6zD/HFZfQGneGwPo9D4JV91mhW4=;
- b=TAhuOAsE+I94R6KEJvz9g8iB2ehQ/GEflqsa6zaG2ZOnfR2GnqxQ9AR2zG9ow2nOc0
- zDKXu/1RuL+yK043dyrIZpxwaIPuvKqON+sb2Ap2yq+9AtgceXLi5s/11PMoWHLJZxxq
- IEwscKGRmyVrnEG4SKQCblTfY7HERzhj+kmaYKNalupbRqbVja7ciRbQPVxm5kIOYFm3
- 8563GWRxx13fMHREchNCYMVlFHepbQOfX/DTQmxA/g1BwrzS+/UXMHN42mVDDRL9Pu90
- xqzxEa2aibTYErcgZmhRWK1UaleAUmVBKNsNJ5pBBZu3MLfYokblsG4Ysm6OsDYNiBNB
- rlDQ==
-X-Gm-Message-State: AOJu0YxC3QiN3Ua8mP4mh6uU1dkpxkzdrbwObnqSi9zQ28/O5vSiPBjg
- JPv/FJInAxJsmg+GjFjKtUfoJoL0D9sRaYndhc7MEBTHzbGu9v8qedYvP/U2p7Arj/1SRj5EJAg
+ bh=HPVmtOP7OzClmuYgtUVqnYcO82gUWMj5hZYUvdlHA1M=;
+ b=jCX8J3mhB6IZEAEWBzGgrF5mV9J5B9M3A29Pn2mt4Plr2cGuexsOzO4+qsELdddDzL
+ dRHqYzEW9/ky9+Dfz6DQn1r5LaKtw5r6KQzGGl+wr0I6W3omvE3JGW+3eN8BbaH/oXAR
+ nJWRbhx3ObVaKq/l0PFH5zp1rmUWWEYOdGOQCASA4Z1r7LDR3VX3PewA9QHUnGt373mj
+ BjKOSzOu08X8q/W6FzNmfSKw/1yeSfB0X4wBKKEkuKlMqktZvfFzmi6nUtu0avOfZUvo
+ dMqgdKeUjweLB5narhhDTfhgmmxzewMzWFYb+ezMD0irnm8qnlrzAwpbPNKMROfnCQ66
+ 2utQ==
+X-Gm-Message-State: AOJu0YxYPy5H3hPT9XJ8o9R30HZ1RmGyf2X5uakKbWnm6pvDdK+g6F3p
+ UoIkhJBRTHJwluve5MqSBNaceqoEuDJZCtg4iwFMK/5DdBdCH8z2EUdF4ZVjk8HBOgtI/l96L78
  =
-X-Google-Smtp-Source: AGHT+IFBh/0CPO5W8OJJIzJ5oQC9KPttYAyT+WTPZMKapzK/LwmKYkDq0q16vzIBdd7d6vPSCvFMWw==
-X-Received: by 2002:a17:902:b18c:b0:1f4:867e:1486 with SMTP id
- d9443c01a7336-1f6a5a26f5amr10618805ad.40.1717547096147; 
- Tue, 04 Jun 2024 17:24:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH67K070V0V8KqyhBHJzGDM8yQfGPIOd6KDxeebE42qN9cRh+u2DvVgSXDxiouyJBsaN27tUw==
+X-Received: by 2002:a17:902:d2ce:b0:1f6:6939:ad23 with SMTP id
+ d9443c01a7336-1f6a5a1976emr12033745ad.37.1717547097993; 
+ Tue, 04 Jun 2024 17:24:57 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:3609:ff79:4625:8a71])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f6323dd862sm89032025ad.147.2024.06.04.17.24.53
+ d9443c01a7336-1f6323dd862sm89032025ad.147.2024.06.04.17.24.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jun 2024 17:24:55 -0700 (PDT)
+ Tue, 04 Jun 2024 17:24:57 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
@@ -68,9 +68,10 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 19/24] drm/panel: sharp-ls043t1le01: Stop tracking prepared
-Date: Tue,  4 Jun 2024 17:23:05 -0700
-Message-ID: <20240604172305.v3.19.I56849dbe7c906f0cff076dc5286fd05c7e3e9c18@changeid>
+Subject: [PATCH v3 20/24] drm/panel: sharp-ls043t1le01: Don't call disable at
+ shutdown/remove
+Date: Tue,  4 Jun 2024 17:23:06 -0700
+Message-ID: <20240604172305.v3.20.I89ee53f7fc2f0806cab318128e5fa927990d830f@changeid>
 X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
 In-Reply-To: <20240605002401.2848541-1-dianders@chromium.org>
 References: <20240605002401.2848541-1-dianders@chromium.org>
@@ -91,12 +92,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As talked about in commit d2aacaf07395 ("drm/panel: Check for already
-prepared/enabled in drm_panel"), we want to remove needless code from
-panel drivers that was storing and double-checking the
-prepared/enabled state. Even if someone was relying on the
-double-check before, that double-check is now in the core and not
-needed in individual drivers.
+It's the responsibility of a correctly written DRM modeset driver to
+call drm_atomic_helper_shutdown() at shutdown time and that should be
+disabling / unpreparing the panel if needed. Panel drivers shouldn't
+be calling these functions themselves.
+
+A recent effort was made to fix as many DRM modeset drivers as
+possible [1] [2] [3] and most drivers are fixed now.
+
+A grep through mainline for compatible strings used by this driver
+indicates that it is used by Qualcomm boards. The Qualcomm driver
+appears to be correctly calling drm_atomic_helper_shutdown() so we can
+remove the calls.
+
+[1] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.org
+[2] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
+[3] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.org
 
 Cc: Werner Johansson <werner.johansson@sonymobile.com>
 Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
@@ -115,56 +126,42 @@ Changes in v2:
  1 file changed, 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-index 855e64444daa..c86337954ad7 100644
+index c86337954ad7..729cbb0d8403 100644
 --- a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
 +++ b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-@@ -26,8 +26,6 @@ struct sharp_nt_panel {
- 
- 	struct regulator *supply;
- 	struct gpio_desc *reset_gpio;
--
--	bool prepared;
- };
- 
- static inline struct sharp_nt_panel *to_sharp_nt_panel(struct drm_panel *panel)
-@@ -99,9 +97,6 @@ static int sharp_nt_panel_unprepare(struct drm_panel *panel)
- 	struct sharp_nt_panel *sharp_nt = to_sharp_nt_panel(panel);
+@@ -267,10 +267,6 @@ static void sharp_nt_panel_remove(struct mipi_dsi_device *dsi)
+ 	struct sharp_nt_panel *sharp_nt = mipi_dsi_get_drvdata(dsi);
  	int ret;
  
--	if (!sharp_nt->prepared)
--		return 0;
+-	ret = drm_panel_disable(&sharp_nt->base);
+-	if (ret < 0)
+-		dev_err(&dsi->dev, "failed to disable panel: %d\n", ret);
 -
- 	ret = sharp_nt_panel_off(sharp_nt);
- 	if (ret < 0) {
- 		dev_err(panel->dev, "failed to set panel off: %d\n", ret);
-@@ -112,8 +107,6 @@ static int sharp_nt_panel_unprepare(struct drm_panel *panel)
- 	if (sharp_nt->reset_gpio)
- 		gpiod_set_value(sharp_nt->reset_gpio, 0);
- 
--	sharp_nt->prepared = false;
--
- 	return 0;
+ 	ret = mipi_dsi_detach(dsi);
+ 	if (ret < 0)
+ 		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", ret);
+@@ -278,13 +274,6 @@ static void sharp_nt_panel_remove(struct mipi_dsi_device *dsi)
+ 	sharp_nt_panel_del(sharp_nt);
  }
  
-@@ -122,9 +115,6 @@ static int sharp_nt_panel_prepare(struct drm_panel *panel)
- 	struct sharp_nt_panel *sharp_nt = to_sharp_nt_panel(panel);
- 	int ret;
- 
--	if (sharp_nt->prepared)
--		return 0;
+-static void sharp_nt_panel_shutdown(struct mipi_dsi_device *dsi)
+-{
+-	struct sharp_nt_panel *sharp_nt = mipi_dsi_get_drvdata(dsi);
 -
- 	ret = regulator_enable(sharp_nt->supply);
- 	if (ret < 0)
- 		return ret;
-@@ -152,8 +142,6 @@ static int sharp_nt_panel_prepare(struct drm_panel *panel)
- 		goto poweroff;
- 	}
- 
--	sharp_nt->prepared = true;
+-	drm_panel_disable(&sharp_nt->base);
+-}
 -
- 	return 0;
+ static const struct of_device_id sharp_nt_of_match[] = {
+ 	{ .compatible = "sharp,ls043t1le01-qhd", },
+ 	{ }
+@@ -298,7 +287,6 @@ static struct mipi_dsi_driver sharp_nt_panel_driver = {
+ 	},
+ 	.probe = sharp_nt_panel_probe,
+ 	.remove = sharp_nt_panel_remove,
+-	.shutdown = sharp_nt_panel_shutdown,
+ };
+ module_mipi_dsi_driver(sharp_nt_panel_driver);
  
- poweroff:
 -- 
 2.45.1.288.g0e0cd299f1-goog
 
