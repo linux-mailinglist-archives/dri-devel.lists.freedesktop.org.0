@@ -2,59 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 398198FD33C
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 18:56:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B978FD3A2
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 19:11:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC6B10E0F9;
-	Wed,  5 Jun 2024 16:56:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A811110E5E7;
+	Wed,  5 Jun 2024 17:11:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UnIbfvXz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WWinMKUN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ED5710E0F9
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 16:56:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 636576188F;
- Wed,  5 Jun 2024 16:56:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FFA2C2BD11;
- Wed,  5 Jun 2024 16:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717606565;
- bh=DY2nt+yBAcKyIj1DY6uk3CsThucW/03Qo/Lo9LSgM1E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UnIbfvXzPkP/kZ49+TPd7h9bSGyyF6qc+IZppDOt7SYp4aPPsN0fNiLA/uc0eg4m2
- x2QanzgKHq4fl6UJsFobyTqveNEw1kP8IU+uQcEshNTgiUEGdho29tEIGm8azVqCBQ
- TSsHlrov+912usOc4wDUIy0URbHcPgzvn79Ej9JHhPjGRSYUPaeDSS3SxhUMrPCg51
- h0ilW7gVXLZq41jkxzF1tEE2aPBsQ07YgWfGhdhta6fIMKXb03kIS/pAYayzlQDrTl
- n2ZbTVXrAkI4NU8pxyz85cy03/e+fVpgVcquTc7EDmBXwFRuawOmG5uonBNGh6L5c8
- EKWm8ypMYQS7A==
-Date: Wed, 5 Jun 2024 17:55:59 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Caleb Connolly <caleb.connolly@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, David Wronek <david@mainlining.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: display: panel: constrain 'reg' in DSI
- panels (part two)
-Message-ID: <20240605-onyx-gloomily-835e383c7be7@spud>
-References: <20240605105659.27433-1-krzysztof.kozlowski@linaro.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F71F10E0E4;
+ Wed,  5 Jun 2024 17:11:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717607490; x=1749143490;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Yjknk4NvV8Z3x2LRqNEKSbd0sjuSLVX8iTA/sVcps14=;
+ b=WWinMKUNmCOcvyOGYuF7RQbsPiO5sDLb+7QJ2iVm6dY788H2c9fZiJve
+ 6LbCd7HRrZn+GpPFS6AGkRJ87mwG3xpuXjaFVGnElLU88EswloO/rxwNm
+ RtDJUv7pdCLrveaFJ/wc0/AFbeMsx+QeCZzxkBSLYDOWRK0g6dVUNIMaV
+ n96h6ZW/cRMUbRZS/nhKkA41jHsUOzHRXtz31gG8Lo3XGXzpOTNshebBb
+ tDAqjSMggAI1gqAQZfALDpGdIay41/mCHt2oz13ZBl20wUDJc9bKzY6kS
+ wfO/qAJUXOipktuwiXFHxoMCEV7oenTrj3A39kdEeHauguM3zofsuUXYq Q==;
+X-CSE-ConnectionGUID: 7BoPJSG9TDaIe6JPYSOGBw==
+X-CSE-MsgGUID: fGxgWvkmTFSALnmrKCi/lw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="14452399"
+X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; d="scan'208";a="14452399"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2024 10:11:29 -0700
+X-CSE-ConnectionGUID: QKM9XOJhTAyuBKvbexvDKQ==
+X-CSE-MsgGUID: pW42mTuOQVSWZ2xWcdrqug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; d="scan'208";a="60848385"
+Received: from mgolanimitul-x299-ud4-pro.iind.intel.com ([10.190.239.114])
+ by fmviesa002.fm.intel.com with ESMTP; 05 Jun 2024 10:11:28 -0700
+From: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Subject: [PATCH v13 0/9] Implement CMRR Support
+Date: Wed,  5 Jun 2024 22:31:02 +0530
+Message-Id: <20240605170111.494784-1-mitulkumar.ajitkumar.golani@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LcKx6aW3d2vGZ/ji"
-Content-Disposition: inline
-In-Reply-To: <20240605105659.27433-1-krzysztof.kozlowski@linaro.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,37 +64,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+CMRR is a display feature that uses adaptive sync
+framework to vary Vtotal slightly to match the
+content rate exactly without frame drops. This
+feature is a variation of VRR where it varies Vtotal
+slightly (between additional 0 and 1 Vtotal scanlines)
+to match content rate exactly without frame drops
+using the adaptive sync framework.
 
---LcKx6aW3d2vGZ/ji
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+enable this feature by programing new registers for
+CMRR enable, CMRR_M, CMRR_N, vmin=vmax=flipline.The
+CMRR_M/CMRR_N ratio represents the fractional part
+in (actual refresh rate/target refresh rate) * origVTotal.
 
-On Wed, Jun 05, 2024 at 12:56:59PM +0200, Krzysztof Kozlowski wrote:
-> DSI-attached devices could respond to more than one virtual channel
-> number, thus their bindings are supposed to constrain the 'reg' property
-> to match hardware.  Add missing 'reg' constrain for DSI-attached display
-> panels, based on DTS sources in Linux kernel (assume all devices take
-> only one channel number).
->=20
-> Few bindings missed previous fixup: LG SW43408 and Raydium RM69380.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+--v6:
+- CMRR handling in co-existatnce of LRR and DRRS
+- Correct vtotal paramas accuracy and add 2 digit precision.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+--v7:
+- Rebased patches in-accordance to AS SDP merge.
+- Add neccessary gaurd to prevent crtc_state mismatch
+during intel_vrr_get_config.
 
-Thanks,
-Conor.
+-v8:
+- Add support for AS SDP for CMRR.
+- update palce holder for CMRR register(Jani).
+- Make CMRR as subset of FAVT, as per comments in patch#3.
 
---LcKx6aW3d2vGZ/ji
-Content-Type: application/pgp-signature; name="signature.asc"
+-v9:
+- Add CMRR register definitions to separate intel_vrr_reg.h.
+- Remove cmrr_enabling/disabling, use vrr.enable instead.
+- Update AS SDP pack function to accomodate target_rr_divider.
+- Remove duplicated lines to compute vrr_vsync params.
+- Set cmrr.enable with a separate patch at last.
 
------BEGIN PGP SIGNATURE-----
+-v10:
+- Separate VRR related register definitions.
+- Add dependency header intel_display_reg_defs.h.
+- Rename file name to intel_vrr_regs.h instead of reg.h.
+- Revert removed line.
+- Since vrr.enable and cmrr.enable are not mutually exclusive,
+handle accordingly.
+- is_edp is not required inside is_cmrr_frac_required function.
+- Add video_mode_required flag for future enhancement.
+- Correct cmrr_m/cmrr_n calculation.
+- target_rr_divider is bools so handle accordingly.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZmCYnwAKCRB4tDGHoIJi
-0i4wAQDQf0XShqF8XmyalzFwEDtX/8sM8MP1yBrYStOZ0Cxs2AEA0uIX9W82pvO5
-S2c0+9zOWtJ0bnh5sC8u7nNIqxhMVQI=
-=zN4v
------END PGP SIGNATURE-----
+-v11:
+- Move VRR related register and bits to separate file
+intel_vrr_regs.h.
+- Correct file header macro to intel_vrr_regs.h.
+- Remove adding CMRR flag to vrr_ctl register during
+set_transcoder_timing.
+- Replace vrr.enable flag to cmrr.enable where added mistakenly.
+- Move cmrr computation patch to last and set other other required
+  params before computing cmrr.enable.
 
---LcKx6aW3d2vGZ/ji--
+-v12:
+- Add patch to fix check patch issues for VRR related registers
+in i915_reg.h then move them to intel_vrr_regs.h with separate
+patch.
+
+-v13:
+- Reverted unrelated patches while rebase.
+
+Mitul Golani (9):
+  gpu/drm/i915: Update indentation for VRR registers and bits
+  drm/i915: Separate VRR related register definitions
+  drm/i915: Define and compute Transcoder CMRR registers
+  drm/i915: Update trans_vrr_ctl flag when cmrr is computed
+  drm/dp: Add refresh rate divider to struct representing AS SDP
+  drm/i915/display: Add support for pack and unpack
+  drm/i915/display: Compute Adaptive sync SDP params
+  drm/i915/display: Compute vrr vsync params
+  drm/i915: Compute CMRR and calculate vtotal
+
+ drivers/gpu/drm/i915/display/intel_display.c  |  24 +++-
+ .../drm/i915/display/intel_display_device.h   |   1 +
+ .../drm/i915/display/intel_display_types.h    |   6 +
+ drivers/gpu/drm/i915/display/intel_dp.c       |  18 ++-
+ drivers/gpu/drm/i915/display/intel_vrr.c      | 128 ++++++++++++++++--
+ drivers/gpu/drm/i915/display/intel_vrr_regs.h | 128 ++++++++++++++++++
+ drivers/gpu/drm/i915/i915_reg.h               | 100 --------------
+ include/drm/display/drm_dp_helper.h           |   1 +
+ 8 files changed, 287 insertions(+), 119 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/display/intel_vrr_regs.h
+
+-- 
+2.25.1
+
