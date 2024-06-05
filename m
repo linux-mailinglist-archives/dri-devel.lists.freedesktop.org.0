@@ -2,63 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC49E8FC563
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 10:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 880BC8FC5C4
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 10:16:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFE9C10E56F;
-	Wed,  5 Jun 2024 08:08:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCB7B10E653;
+	Wed,  5 Jun 2024 08:16:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cylr0XoT";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Z9y4eSyS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81BAD10E48C;
- Wed,  5 Jun 2024 08:08:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717574909; x=1749110909;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=2V6xeoSGk1ub4DiXjTFFRTD5i1/BCv57Wy1KYqhsyFU=;
- b=cylr0XoT5P0qPJtYBu0K2eIirfAJnBtLQpq4JEofxBtrKRGn4CkHW2PD
- oc7DPgWfQwzq8wk96m9I9zIKfy4RG9TI3M8s5P7nvWFbFb5od+NM7/EUj
- eXVVyFDEQRN9hRy7dlH4A3KItV2qYGiNLbSpFkPqUhUcaNzUCxBC3vqV/
- zLVxoFmgz54PuMmyja2/X/Gntl9RCe4OGXkXKwc501YHW9bID63Jg0gFs
- sc9IpjU9KNG1VTTRyE8q1bDu1DiIvtiVYgDL1XW074AthOEyY5Df3B4ld
- u+vdtILFThtudkli3RqhL2cUeCtk5/VTdffWct3CgMzoCyFGnKvAfl9wu A==;
-X-CSE-ConnectionGUID: O2Z+TMNZRfqkkRkj9nh0MQ==
-X-CSE-MsgGUID: 2XLBUjBSSii6Qqt6UYWFHA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="25276046"
-X-IronPort-AV: E=Sophos;i="6.08,216,1712646000"; d="scan'208";a="25276046"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2024 01:08:28 -0700
-X-CSE-ConnectionGUID: JiJLu5YeQACz341zrcmUwQ==
-X-CSE-MsgGUID: S5EEev3ASfm6RchQitZp2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,216,1712646000"; d="scan'208";a="38151310"
-Received: from sbutnari-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.204])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2024 01:08:26 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org
-Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] MAINTAINERS: Update Xe driver maintainers
-In-Reply-To: <20240602190959.2981-1-thomas.hellstrom@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240602190959.2981-1-thomas.hellstrom@linux.intel.com>
-Date: Wed, 05 Jun 2024 11:08:20 +0300
-Message-ID: <875xundd6z.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32C6310E653
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 08:16:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1717575380;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SUoXSWeoXOsbgxXSBKJ45MBRWfujZqDzQephBPI5Ke4=;
+ b=Z9y4eSySAhhyVN3AG9AeWo4oNXjkJPJvqyFezimXh/TpqQ+6kfYK+thJo7txDtLd1qJ2sc
+ 7sBqPgbkvJJWxxeoRPcCjC7Z7LiBaeJ8sXuPXTv5NRjTBmzl79lUFL/U28e5CP5kqhbdlI
+ Ba9MeUErNr+XKe0UOSGwIv61iLBZFxg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-449-4llcje1dNvCZjbL52bwixA-1; Wed, 05 Jun 2024 04:16:18 -0400
+X-MC-Unique: 4llcje1dNvCZjbL52bwixA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-4210e98f8d7so5392425e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2024 01:16:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717575377; x=1718180177;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SUoXSWeoXOsbgxXSBKJ45MBRWfujZqDzQephBPI5Ke4=;
+ b=cY1tS1zWzMf37CVMuRJB7a1spRsfJE1SaeoxOmP46aClH6HQK0N8ldXy9dNxx4v4yr
+ uPw/bATzGDCs0IpUWos9Pc7DDDop25qay6KaElEHU/6EXmLI8shqpoj4BiTkMZ24Ke9v
+ 2whDXgFSdABS97PzAOPa5UK7bAjlS5poFP1DwVXJvS/eBjX6uMTyomUCQLq0vx0kL7gE
+ XNnRt+OX5p2LAJNGu37G7DYfrbgIllD1rNFMXihDTmOeWBNpbCfL4nBt1jXgCoHFI995
+ 9kmIFkX3xS3zKj/rYWshkaJbF8SUxJBtZMjiUe61o64nylq6pLq9s7h8/NwyuH1JP0NP
+ y7jA==
+X-Gm-Message-State: AOJu0YwR+Q7NsodbvabXgKR7jkuhIRFs31YNo0GBrW71ZBtMFlSopp9x
+ Y5KSMVVOOvQHEA/8fWqs8ELQL1JrGznieM669urJdqmkDpeKGD8y/m8Cee1d5M+dgLRFM4aCrYh
+ Z/3vSPRTRlGB+Irk2wpkFHJ365X+XFCK3Jb+W16uG222fXINkbPPocKPTkrVmRmUXjA==
+X-Received: by 2002:a5d:49c5:0:b0:354:f768:aa00 with SMTP id
+ ffacd0b85a97d-35e8ef8f11amr1106931f8f.4.1717575376804; 
+ Wed, 05 Jun 2024 01:16:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGNME+MuDs5w69eiKZF/rVs+EPusz8gHZK/eFYZ4sGxhHM7f6xzEXsgalMyE21Hqjldof25wg==
+X-Received: by 2002:a5d:49c5:0:b0:354:f768:aa00 with SMTP id
+ ffacd0b85a97d-35e8ef8f11amr1106914f8f.4.1717575376336; 
+ Wed, 05 Jun 2024 01:16:16 -0700 (PDT)
+Received: from pstanner-thinkpadt14sgen1.fritz.box
+ ([2001:9e8:32e6:e600:c901:4daf:2476:80ad])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-35dd0630010sm13739163f8f.76.2024.06.05.01.16.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Jun 2024 01:16:16 -0700 (PDT)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>,
+ Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, Philipp Stanner <pstanner@redhat.com>
+Subject: [PATCH v7 00/13] Make PCI's devres API more consistent
+Date: Wed,  5 Jun 2024 10:15:52 +0200
+Message-ID: <20240605081605.18769-2-pstanner@redhat.com>
+X-Mailer: git-send-email 2.45.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,45 +94,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 02 Jun 2024, Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.co=
-m> wrote:
-> Add Rodrigo Vivi as an Xe driver maintainer.
->
-> v2:
-> - Cc also Lucas De Marchi (Rodrigo vivi)
-> - Remove a blank line in commit the commit message (Lucas De Marchi)
->
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Acked-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Hello Bjorn,
 
-Already acked on irc, but FWIW,
+I tried to meet your requests from the last feedback round as much as
+possible. Especially, I removed a lot of code, made almost all
+interfaces private and cut the series into smaller chunks where
+possible.
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+Splitting it even smaller is unfortunately not possible because of the
+Linux kernel build chain's rule on dead / unused code.
+
+See also the changelog below.
+
+Please tell me if that's enough to move forward here.
+
+Regards,
+P.
 
 
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 572be0546e21..8f9982c99257 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11037,6 +11037,7 @@ F:	include/uapi/drm/i915_drm.h
->  INTEL DRM XE DRIVER (Lunar Lake and newer)
->  M:	Lucas De Marchi <lucas.demarchi@intel.com>
->  M:	Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> +M:	Rodrigo Vivi <rodrigo.vivi@intel.com>
->  L:	intel-xe@lists.freedesktop.org
->  S:	Supported
->  W:	https://drm.pages.freedesktop.org/intel-docs/
+Changes in v7:
+  - Split the entire series in smaller, more atomic chunks / patches
+    (Bjorn)
+  - Remove functions (such as pcim_iomap_region_range()) that do not yet
+    have a user (Bjorn)
+  - Don't export interfaces publicly anymore, except for
+    pcim_iomap_range(), needed by vboxvideo (Bjorn)
+  - Mention the actual (vboxvideo) bug in "PCI: Warn users..." commit
+    (Bjorn)
+  - Drop docstring warnings on PCI-internal functions (Bjorn)
+  - Rework docstring warnings
+  - Fix spelling in a few places. Rewrapp paragraphs (Bjorn)
 
---=20
-Jani Nikula, Intel
+Changes in v6:
+  - Restructure the cleanup in pcim_iomap_regions_request_all() so that
+    it doesn't trigger a (false positive) test robot warning. No
+    behavior change intended. (Dan Carpenter)
+
+Changes in v5:
+  - Add Hans's Reviewed-by to vboxvideo patch (Hans de Goede)
+  - Remove stable-kernel from CC in vboxvideo patch (Hans de Goede)
+
+Changes in v4:
+  - Rebase against linux-next
+
+Changes in v3:
+  - Use the term "PCI devres API" at some forgotten places.
+  - Fix more grammar errors in patch #3.
+  - Remove the comment advising to call (the outdated) pcim_intx() in pci.c
+  - Rename __pcim_request_region_range() flags-field "exclusive" to
+    "req_flags", since this is what the int actually represents.
+  - Remove the call to pcim_region_request() from patch #10. (Hans)
+
+Changes in v2:
+  - Make commit head lines congruent with PCI's style (Bjorn)
+  - Add missing error checks for devm_add_action(). (Andy)
+  - Repair the "Returns: " marks for docu generation (Andy)
+  - Initialize the addr_devres struct with memset(). (Andy)
+  - Make pcim_intx() a PCI-internal function so that new drivers won't
+    be encouraged to use the outdated pci_intx() mechanism.
+    (Andy / Philipp)
+  - Fix grammar and spelling (Bjorn)
+  - Be more precise on why pcim_iomap_table() is problematic (Bjorn)
+  - Provide the actual structs' and functions' names in the commit
+    messages (Bjorn)
+  - Remove redundant variable initializers (Andy)
+  - Regroup PM bitfield members in struct pci_dev (Andy)
+  - Make pcim_intx() visible only for the PCI subsystem so that new    
+    drivers won't use this outdated API (Andy, Myself)
+  - Add a NOTE to pcim_iomap() to warn about this function being the    onee
+    xception that does just return NULL.
+  - Consistently use the term "PCI devres API"; also in Patch #10 (Bjorn)
+
+
+¡Hola!
+
+PCI's devres API suffers several weaknesses:
+
+1. There are functions prefixed with pcim_. Those are always managed
+   counterparts to never-managed functions prefixed with pci_ – or so one
+   would like to think. There are some apparently unmanaged functions
+   (all region-request / release functions, and pci_intx()) which
+   suddenly become managed once the user has initialized the device with
+   pcim_enable_device() instead of pci_enable_device(). This "sometimes
+   yes, sometimes no" nature of those functions is confusing and
+   therefore bug-provoking. In fact, it has already caused a bug in DRM.
+   The last patch in this series fixes that bug.
+2. iomappings: Instead of giving each mapping its own callback, the
+   existing API uses a statically allocated struct tracking one mapping
+   per bar. This is not extensible. Especially, you can't create
+   _ranged_ managed mappings that way, which many drivers want.
+3. Managed request functions only exist as "plural versions" with a
+   bit-mask as a parameter. That's quite over-engineered considering
+   that each user only ever mapps one, maybe two bars.
+
+This series:
+- add a set of new "singular" devres functions that use devres the way
+  its intended, with one callback per resource.
+- deprecates the existing iomap-table mechanism.
+- deprecates the hybrid nature of pci_ functions.
+- preserves backwards compatibility so that drivers using the existing
+  API won't notice any changes.
+- adds documentation, especially some warning users about the
+  complicated nature of PCI's devres.
+
+
+Note that this series is based on my "unify pci_iounmap"-series from a
+few weeks ago. [1]
+
+I tested this on a x86 VM with a simple pci test-device with two
+regions. Operates and reserves resources as intended on my system.
+Kasan and kmemleak didn't find any problems.
+
+I believe this series cleans the API up as much as possible without
+having to port all existing drivers to the new API. Especially, I think
+that this implementation is easy to extend if the need for new managed
+functions arises :)
+
+Greetings,
+P.
+
+Philipp Stanner (13):
+  PCI: Add and use devres helper for bit masks
+  PCI: Add devres helpers for iomap table
+  PCI: Reimplement plural devres functions
+  PCI: Deprecate two surplus devres functions
+  PCI: Make devres region requests consistent
+  PCI: Warn users about complicated devres nature
+  PCI: Move dev-enabled status bit to struct pci_dev
+  PCI: Move pinned status bit to struct pci_dev
+  PCI: Give pcim_set_mwi() its own devres callback
+  PCI: Give pci(m)_intx its own devres callback
+  PCI: Remove legacy pcim_release()
+  PCI: Add pcim_iomap_range()
+  drm/vboxvideo: fix mapping leaks
+
+ drivers/gpu/drm/vboxvideo/vbox_main.c |  20 +-
+ drivers/pci/devres.c                  | 897 +++++++++++++++++++++-----
+ drivers/pci/iomap.c                   |  16 +
+ drivers/pci/pci.c                     | 107 ++-
+ drivers/pci/pci.h                     |  23 +-
+ include/linux/pci.h                   |   6 +-
+ 6 files changed, 864 insertions(+), 205 deletions(-)
+
+-- 
+2.45.0
+
