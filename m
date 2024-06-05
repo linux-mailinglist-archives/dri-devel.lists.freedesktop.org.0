@@ -2,82 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FC6F8FD5D0
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 20:34:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBBE8FD645
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 21:10:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2F5510E41E;
-	Wed,  5 Jun 2024 18:34:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2C0710E185;
+	Wed,  5 Jun 2024 19:10:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="GM3vsyOm";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eydunKEC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF3E10E270;
- Wed,  5 Jun 2024 18:34:36 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 455B1Pmc024196;
- Wed, 5 Jun 2024 18:34:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=FxUUnIPEm3fV/GcwwMgj0+
- 14R+k3EUMg7IHt4M7PXuw=; b=GM3vsyOmpRvoPPOWLdOsXC2be2ZGq4aeOAyuD2
- tkrSzIzKefpB6yppTAKs5W8PZ7HgBGdwae0LK2cpH32mxACxaI0BqXr6e5QcSkiq
- iGyIlUO8beH7j2x+Jel43367JGC0nZSHr4Hu2q/w/GMRbVfIJS7MZD0u5N12B7vC
- kEjbX0qISl6cCv2ZVXZDpW6P/XvtvR9oDWwmcd4w0GFT4jdGYGjicmvf/6N49ne6
- 08DsgTOj1tUWthGbZVHcdUJiretKGXojeggEG+M2Dd4qUKD2gKME8jUT9s8cZXYv
- TvQE0NVpoZkeCzZXsXtFKM/lquR3H5Ru0D+F0whzZ4PaDYLA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yjabgtn9m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jun 2024 18:34:28 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 455IYQNE026265
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 5 Jun 2024 18:34:26 GMT
-Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 5 Jun 2024 11:34:26 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>, "Sean
- Paul" <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, "Abhinav
- Kumar" <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>, Connor Abbott <cwabbott0@gmail.com>
-CC: <dri-devel@lists.freedesktop.org>, <seanpaul@chromium.org>,
- <quic_jesszhan@quicinc.com>, <nathan@kernel.org>, Rob Clark
- <robdclark@chromium.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4] drm/msm/a6xx: use __unused__ to fix compiler warnings for
- gen7_* includes
-Date: Wed, 5 Jun 2024 11:34:15 -0700
-Message-ID: <20240605183415.259276-1-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.44.0
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0E3010E270
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 19:10:30 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-a6c7ae658d0so11342766b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2024 12:10:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1717614629; x=1718219429; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=mK7jrpMIhdpD4U0ZZC0s4s5iC8b3dd61akLC4S7+c5Y=;
+ b=eydunKECcULiEFIZIiPnZm1TKvECz5o+niRkci3nJJ3jVUGHOdMoFMvKvGJzPBVygj
+ RoJ49FRIJM46pBwKorXaTQ5zpTnNL9rZw4GyCh8HJUVwSK/lJ9XYAwhinZaDBOlNkRXg
+ A6vDBmtpKJtvQtY13JxkQJ8HE2VcrmF399ylbolMEq6k2b67OvuzlUDXO6s3DiEzJrkv
+ yVxgyyni9176bvv/lDEjZsUYRCMJPAxuHhIxN3RK60G4JnbvTw782AO67YhEJOJJCEnM
+ VIq4c3zI8V/zp33Ah0kZ8mMw7gPwukDSjwDca/IJ5fLdc1XeNG0bUtAl47ydFoaSVB6Q
+ DoiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717614629; x=1718219429;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mK7jrpMIhdpD4U0ZZC0s4s5iC8b3dd61akLC4S7+c5Y=;
+ b=jrj2asNP7NAyZlZP4tt73lPHdMALzW23kKRCKyntsWB+L/usGOqn1vdHLwsmosIfWV
+ biOxoQyQWxNfmHARN4uKt4HvLpb/ebhQOA8o2cdmUl/rvPp5BtxAws10Ec52eLyA0W6/
+ TQ7BwILNQAvQYs3SwPH/h35RRudoDHaiqnJRtvqhAHgA/lMexPXRfNVtWSwBNtC0/hMY
+ GWU2G8VRcUKCH8BVj9u5FBsOtU2owyYgSo5XHWkpmhSVxW1HFOHgOfFyCsaxNKn2n06g
+ BTgQ7/R5+G4SkLNmkETOWZvMW/EbA8zDIRRagipL+ADdStmGkO9cVfEgd/bH4P4I65Hf
+ gNZA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUYornldAvlaaCJ3NhX/TnsFb4m+ts2vvv54elLfzlSJTmZObZqWTppwlz+1w035AML8kzipZyR2U5Pb9WtsPQrpopdZnq52H15B+FDXN+p
+X-Gm-Message-State: AOJu0Yy4RrWiwA0TCrPQ5GjIMvQXUiPiPKOHajN8JSwcPnbAvW+3yxYX
+ mOiKanwu8AglDIko0mngHnLuMJH2xQRX1lkiFFW6qSpu7i5YkWT0wahKILYrEvM=
+X-Google-Smtp-Source: AGHT+IG7Yoh0cwlazZslygNHqbtdsNK+mwy8Kw6d+Q8/DfwIa0+9PztFlkd3fHRv81aX9ANBsPbXxg==
+X-Received: by 2002:a17:906:cc82:b0:a66:86f:cacb with SMTP id
+ a640c23a62f3a-a69a000eab7mr266720866b.61.1717614628705; 
+ Wed, 05 Jun 2024 12:10:28 -0700 (PDT)
+Received: from [192.168.128.139] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a681c4f2b6fsm813574566b.144.2024.06.05.12.10.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Jun 2024 12:10:28 -0700 (PDT)
+Message-ID: <c58bbdb6-ea81-4c4f-8e3f-0327d8db7729@linaro.org>
+Date: Wed, 5 Jun 2024 21:10:25 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/msm/adreno: Add support for Adreno 505 GPU
+To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Daniil Titov <daniilt971@gmail.com>
+References: <20240604-a505-v2-1-dfa599a4d3c1@gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20240604-a505-v2-1-dfa599a4d3c1@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: FDllBJvY2nL5LcCcruaVBxUmXF_JeuVj
-X-Proofpoint-ORIG-GUID: FDllBJvY2nL5LcCcruaVBxUmXF_JeuVj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-05_02,2024-06-05_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- bulkscore=0 malwarescore=0 phishscore=0 clxscore=1015 adultscore=0
- priorityscore=1501 mlxlogscore=999 impostorscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406050140
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,78 +127,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-GCC diagnostic pragma method throws below warnings in some of the versions
+On 4.06.2024 8:10 PM, Barnabás Czémán wrote:
+> From: Daniil Titov <daniilt971@gmail.com>
+> 
+> This GPU is found on SoCs such as MSM8937 (450 MHz), MSM8940 (475 MHz),
+> SDM439 (650 MHz).
+> 
+> Signed-off-by: Daniil Titov <daniilt971@gmail.com>
+> Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
+> ---
 
-drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:16:9: warning: unknown
-option after '#pragma GCC diagnostic' kind [-Wpragmas]
-  #pragma GCC diagnostic ignored "-Wunused-const-variable"
-          ^
-In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:18:0:
-drivers/gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h:924:19: warning:
-'gen7_0_0_external_core_regs' defined but not used [-Wunused-variable]
-  static const u32 *gen7_0_0_external_core_regs[] = {
-                    ^
-In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:19:0:
-drivers/gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h:748:19: warning:
-'gen7_2_0_external_core_regs' defined but not used [-Wunused-variable]
-  static const u32 *gen7_2_0_external_core_regs[] = {
-                    ^
-In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:20:0:
-drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h:1188:43: warning:
-'gen7_9_0_sptp_clusters' defined but not used [-Wunused-variable]
-  static struct gen7_sptp_cluster_registers gen7_9_0_sptp_clusters[] = {
-                                            ^
-drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h:1438:19: warning:
-'gen7_9_0_external_core_regs' defined but not used [-Wunused-variable]
-  static const u32 *gen7_9_0_external_core_regs[] = {
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-Remove GCC version dependency by using __unused__ for the unused gen7_* includes.
-
-Changes in v2:
-	- Fix the warnings in the commit text
-	- Use __attribute((__unused__)) instead of local assignment
-
-changes in v3:
-	- drop the Link from the auto add
-
-changes in v4:
-	- replace __attribute((__unused__)) with __always_unused
-
-Fixes: 64d6255650d4 ("drm/msm: More fully implement devcoredump for a7xx")
-Suggested-by: Rob Clark <robdclark@chromium.org>
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
----
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-index 0a7717a4fc2f..59a4eb942b9b 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-@@ -8,19 +8,15 @@
- #include "a6xx_gpu_state.h"
- #include "a6xx_gmu.xml.h"
- 
--/* Ignore diagnostics about register tables that we aren't using yet. We don't
-- * want to modify these headers too much from their original source.
-- */
--#pragma GCC diagnostic push
--#pragma GCC diagnostic ignored "-Wunused-variable"
--#pragma GCC diagnostic ignored "-Wunused-const-variable"
-+static const unsigned int *gen7_0_0_external_core_regs[] __always_unused;
-+static const unsigned int *gen7_2_0_external_core_regs[] __always_unused;
-+static const unsigned int *gen7_9_0_external_core_regs[] __always_unused;
-+static struct gen7_sptp_cluster_registers gen7_9_0_sptp_clusters[] __always_unused;
- 
- #include "adreno_gen7_0_0_snapshot.h"
- #include "adreno_gen7_2_0_snapshot.h"
- #include "adreno_gen7_9_0_snapshot.h"
- 
--#pragma GCC diagnostic pop
--
- struct a6xx_gpu_state_obj {
- 	const void *handle;
- 	u32 *data;
--- 
-2.44.0
-
+Konrad
