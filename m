@@ -2,55 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB5818FCAB6
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 13:43:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B9D8FCAD9
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 13:48:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B69C910E349;
-	Wed,  5 Jun 2024 11:43:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E56010E788;
+	Wed,  5 Jun 2024 11:48:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="5jRk+jKc";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ACOi/TSJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 150F510E26A
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 11:43:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1717587814;
- bh=CWJ8m9k7WusE+fmG21wSlZT3rCg6sq0zH32IpWyuQ0U=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=5jRk+jKcJEPA+o+9Boiu2p7P90UpgwbELQXXpYvVnKNho6f+uiWYAjsCkOlcaMXJr
- bzsIskYtljB6UeTDiqaLr2TzWjF7uxGT7GX7fzKww31DJel4RvMxO0N8pqNBQnuctv
- DpDRq6DdgIInmQ3KOZWkVrCZYdlIWlWQrq4YFtt60M/BTcBUNWQYAJrkqly/H7zkS4
- UK9Eu5ofLxO/+l9e0jymAePv9bhmn7B4QcjjmYKMZxXK9GN1akLS0ATYP4JCYl3Aaf
- yPPFdOWAMyyR6ixGQTA0hwVQE13YVqIXEn3lJsazBdFa5FxhhndEMhdYDq9EeiSckd
- WNbmKtgBLLQVA==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id AF1FC3781139;
- Wed,  5 Jun 2024 11:43:33 +0000 (UTC)
-Message-ID: <6dee4870-3ca2-46d7-a30b-014a7d34135a@collabora.com>
-Date: Wed, 5 Jun 2024 13:43:33 +0200
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7221310E77D
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 11:48:14 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-35dc984b3d2so4967045f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2024 04:48:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1717588092; x=1718192892; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=Sq/Mg5xdkn7VG051aeSlr0cnodPM8eEq6trD79vAGKI=;
+ b=ACOi/TSJYxDvOuKFELjLCzNU5jOBk+Tds0UD1qr96vhIzeTCGZMA3KSGh7Ym17m8We
+ CUZ0n7tFS2h4GHEPvEch8ndOMnpwFdZy62OAJ1ENsAWe0pjiibRb1SmjrXlRWwY9AFTW
+ SdKC7ebdua+sI+VZaT8hmJCpW1G/rOD//W5G6+cSefcjN/U3FDvgz6U/CyEyYpt46AUX
+ k4ssjQt8GU+vbmXyR0qLVpoWXhIrC7mX/AH4Az9vVh+c/UH9pg7vXWyP9x4H+DoKiQCV
+ 2cuVahCjZYG8dbmB5c3OGwxCVGv+TDnAdTb+HMRoo7RbXv2o50Lu7eT1d7ann7irYl9q
+ 7h7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717588092; x=1718192892;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Sq/Mg5xdkn7VG051aeSlr0cnodPM8eEq6trD79vAGKI=;
+ b=dx2IgmuJvIrGWm+EwLk0Xhi6tD4oLfUwwBHvQ9rLBw4exuASVYDz33aI5Fw/x9bLJP
+ dOeDJeBAkgflthryepa28wzTpbf3eZ6XAXnW98zoHiB+dPl0oyqxoj1xZg6k0pSGldub
+ DHcL4nlo2amTMdSXq8m4r7X2cuYhaSwU+432Yy3ED22s1jlHjp+dzB7/Qx23sMw8TkhE
+ zOI9/nP19n5Nf6juxXQUpu+tvnNDMa1LFuhcnpsBANnKEuCD4D8UIr824aWx0c4lwLcQ
+ 4QvTsa7/TNSkfjCoqyMS0I71xjYDeq+BK+ONAKK6cG4kTDFQLhaMjZtQidoV0+Q3hL3F
+ 5dmg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWdKJf7zhuHUp1dmpnG+ZziySEGWSSQkYZGEE/+AjlQQbeGX0tNllm/wQu5vQdseL0E1/qng04PwMzez5gDvubh/rZsaZUjAIxx7cvsP8sB
+X-Gm-Message-State: AOJu0Yz/vfmRa4cb+HTRbHEl5zsbx+brPsoUu9BAAuSQNA3vpqMerJyR
+ CNOst2m15r8gzPHMrSakaRfoMYD+c44qmN5K2rs1CxoYoF5hbPNta7eSQNZvziY=
+X-Google-Smtp-Source: AGHT+IHlR2SK96JLCdyyN00srFLb5WsC8iq/TUAeaI5Vi/UOfNYzNfpAYVSwhJmvRN6a17FGY+m4Ng==
+X-Received: by 2002:a05:6000:b84:b0:35a:dff9:73bd with SMTP id
+ ffacd0b85a97d-35e8ef8fc97mr1926848f8f.56.1717588092369; 
+ Wed, 05 Jun 2024 04:48:12 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:c7ce:7756:462d:a8bd?
+ ([2a01:e0a:982:cbb0:c7ce:7756:462d:a8bd])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-35dd04cac9asm14374570f8f.34.2024.06.05.04.48.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Jun 2024 04:48:11 -0700 (PDT)
+Message-ID: <5dc16b34-d638-4fab-84e1-cb7db08ad80e@linaro.org>
+Date: Wed, 5 Jun 2024 13:48:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] drm/panfrost: Add support for Mali on the MT8188
- SoC
-To: Steven Price <steven.price@arm.com>, boris.brezillon@collabora.com
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, matthias.bgg@gmail.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-References: <20240604123922.331469-1-angelogioacchino.delregno@collabora.com>
- <20240604123922.331469-3-angelogioacchino.delregno@collabora.com>
- <f44611fd-523a-4b4d-accd-20fdfbac178a@arm.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <f44611fd-523a-4b4d-accd-20fdfbac178a@arm.com>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 13/14] drm/bridge: synopsys: Add DW HDMI QP TX controller
+ driver
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, kernel@collabora.com,
+ Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>,
+ Algea Cao <algea.cao@rock-chips.com>
+References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
+ <20240601-b4-rk3588-bridge-upstream-v1-13-f6203753232b@collabora.com>
+ <20240601143226.GA2003970@ravnborg.org>
+ <59519381-2729-4839-9882-65a981a0c551@collabora.com>
+ <20240604204110.GA84949@ravnborg.org>
+ <f656c72e-fac8-4345-9b65-1031ebe81c25@collabora.com>
+ <304b4602-8722-4ed0-a555-8dada573ee79@collabora.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <304b4602-8722-4ed0-a555-8dada573ee79@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,124 +130,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 05/06/24 11:18, Steven Price ha scritto:
-> On 04/06/2024 13:39, AngeloGioacchino Del Regno wrote:
->> MediaTek MT8188 has a Mali-G57 MC3 (Valhall-JM): add a new
->> compatible and platform data using the same supplies and the
->> same power domain lists as MT8183 (one regulator, three power
->> domains).
+On 05/06/2024 12:11, Cristian Ciocaltea wrote:
+> On 6/5/24 12:34 AM, Cristian Ciocaltea wrote:
+>> On 6/4/24 11:41 PM, Sam Ravnborg wrote:
+>>> Hi Cristian.
+>>>
+>>> On Tue, Jun 04, 2024 at 10:32:04PM +0300, Cristian Ciocaltea wrote:
+>>>> Hi Sam,
+>>>>
+>>>> On 6/1/24 5:32 PM, Sam Ravnborg wrote:
+>>>>> Hi Cristian,
+>>>>>
+>>>>> a few drive-by comments below.
+>>>>>
+>>>>> 	Sam
+>>>>>
+>>>>>
+>>>>>> +
+>>>>>> +static const struct drm_connector_funcs dw_hdmi_qp_connector_funcs = {
+>>>>>> +	.fill_modes = drm_helper_probe_single_connector_modes,
+>>>>>> +	.detect = dw_hdmi_connector_detect,
+>>>>>> +	.destroy = drm_connector_cleanup,
+>>>>>> +	.force = dw_hdmi_qp_connector_force,
+>>>>>> +	.reset = drm_atomic_helper_connector_reset,
+>>>>>> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+>>>>>> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>>>>>> +};
+>>>>>> +
+>>>>>> +static int dw_hdmi_qp_bridge_attach(struct drm_bridge *bridge,
+>>>>>> +				    enum drm_bridge_attach_flags flags)
+>>>>>> +{
+>>>>>> +	struct dw_hdmi *hdmi = bridge->driver_private;
+>>>>>> +
+>>>>>> +	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
+>>>>>> +		return drm_bridge_attach(bridge->encoder, hdmi->next_bridge,
+>>>>>> +					 bridge, flags);
+>>>>>> +
+>>>>>> +	return dw_hdmi_connector_create(hdmi, &dw_hdmi_qp_connector_funcs);
+>>>>>> +}
+>>>>>
+>>>>> Are there any users left that requires the display driver to create the
+>>>>> connector?
+>>>>> In other words - could this driver fail if DRM_BRIDGE_ATTACH_NO_CONNECTOR
+>>>>> is not passed and drop dw_hdmi_connector_create()?
+>>>>>
+>>>>> I did not try to verify this - just a naive question.
+>>>>
+>>>> I've just tested this and it doesn't work - dw_hdmi_connector_create()
+>>>> is still needed.
+>>>
+>>> Hmm, seems the display driver or some other bridge driver fails to
+>>> support "DRM_BRIDGE_ATTACH_NO_CONNECTOR".
+>>> what other drivers are involved?
 >>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   drivers/gpu/drm/panfrost/panfrost_drv.c | 9 +++++++++
->>   1 file changed, 9 insertions(+)
+>> Could it be related to the glue driver (updated in the next patch) which
+>> is also responsible for setting up the encoder?
 >>
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
->> index ef9f6c0716d5..4e2d9f671a0d 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
->> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
->> @@ -777,6 +777,14 @@ static const struct panfrost_compatible mediatek_mt8186_data = {
->>   	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
->>   };
->>   
->> +static const struct panfrost_compatible mediatek_mt8188_data = {
->> +	.num_supplies = ARRAY_SIZE(mediatek_mt8183_b_supplies) - 1,
->> +	.supply_names = mediatek_mt8183_b_supplies,
+>>> Note that my comments here should be seen as potential future
+>>> improvements, and do not block the patch from being used.
+>>
+>> Thanks for the heads up! Will try to get back to this soon and investigate.
+>   
+> IIUC, modern bridges should not create the connector but rely on display
+> drivers to take care of, which in this case is the VOP2 driver. However,
+> it also handles some of the older SoCs relying on the non-QP variant of
+> DW HDMI IP. Hence the existing dw-hdmi driver would be also impacted in
+> order to come up with a proper solution.
 > 
-> I think this is a little confusing. Ideally we'd drop the existing
-> mediatek_xxx_supplies which are the same as default_supplies and just
-> use that instead.
+> A quick check shows there are several users of this IP:
 > 
->> +	.num_pm_domains = ARRAY_SIZE(mediatek_mt8183_pm_domains),
->> +	.pm_domain_names = mediatek_mt8183_pm_domains,
+> $ git grep -E '= dw_hdmi_(bind|probe)\('
+> drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c:    hdmi->dw_hdmi = dw_hdmi_probe(pdev, plat_data);
+> drivers/gpu/drm/bridge/synopsys/dw-hdmi.c:      hdmi = dw_hdmi_probe(pdev, plat_data);
+> drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c:        hdmi->hdmi = dw_hdmi_probe(pdev, match->data);
+> drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c:      hdmi = dw_hdmi_probe(pdev, &ingenic_dw_hdmi_plat_data);
+> drivers/gpu/drm/meson/meson_dw_hdmi.c:  meson_dw_hdmi->hdmi = dw_hdmi_probe(pdev, &meson_dw_hdmi->dw_plat_data);
+> drivers/gpu/drm/renesas/rcar-du/rcar_dw_hdmi.c: hdmi = dw_hdmi_probe(pdev, &rcar_dw_hdmi_plat_data);
+> drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c:            hdmi->hdmi = dw_hdmi_bind(pdev, encoder, plat_data);
+> drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c:  hdmi->hdmi = dw_hdmi_bind(pdev, encoder, plat_data);
 > 
-> We'd want at least a comment explaining that this isn't a typo (i.e. /*
-> mt8188 uses the same pm domains as mt8183 */). But I'm also wondering if
-> it would be sensible to simply have one domain list, something like:
+> I didn't check which display drivers would be involved, I'd guess there
+> are quite a few of them as well. So it seems this ends up being a pretty
+> complex task.
+
+If this would be a brand new driver, then it should only support DRM_BRIDGE_ATTACH_NO_CONNECTOR,
+so you should not create a connector from the driver.
+
+The fact dw-hdmi accepts an attach without the flag is for legacy purpose
+since some DRM drivers haven't switched to DRM_BRIDGE_ATTACH_NO_CONNECTOR yes,
+but it's a requirement for new bridges so at some point you'll need to make
+sure the rockchip glue and drm driver supports DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+
+This will greatly simplify the driver!
+
+Neil
+
 > 
-> --->8---
-> static const char * const mediatek_pm_domains[] = { "core0", "core1",
-> 						    "core2", "core3",
-> 						    "core4" };
-> 
-> static const struct panfrost_compatible mediatek_mt8183_data = {
-> 	...
-> 	.num_pm_domains = 3,
-> 	.pm_domain_names = mediatek_pm_domains,
-> };
-> ...
-> static const struct panfrost_compatible mediatek_mt8186_data = {
-> 	...
-> 	.num_pm_domains = 2,
-> 	.pm_domain_names = mediatek_pm_domains,
-> };
-> ...
-> static const struct panfrost_compatible mediatek_mt8188_data = {
-> 	...
-> 	.num_pm_domains = 3,
-> 	.pm_domain_names = mediatek_pm_domains,
-> };
-> ...
-> static const struct panfrost_compatible mediatek_mt8192_data = {
-> 	...
-> 	.num_pm_domains = 5,
-> 	.pm_domain_names = mediatek_pm_domains,
-> };
-> --->8---
-> 
-> OTOH what you've got it no worse than what we already had, so it's up to
-> you whether you want to tidy this up or just add a comment so it doesn't
-> look like there's a typo.
-> 
-
-I didn't disclose my plan, but you've already shown part of it, so seeing that
-you preventively agree with at least part of that is fun :-)
-
-I surely won't be able to do what I want to do for *this* cycle as I'm mostly
-sure that I won't have time for this in the next 3 weeks - but anyway....
-
-What I was thinking is that we should either look for a number of power domains
-limited by a max power domains definition (that should already be present somewhere
-in panfrost if I recall correctly) without even caring about the actual power
-domain names, or we should look for a number of PDs having any name matching,
-in a for loop, snprintf(*something, sizeof(something), "core%d", i).
-
-This means that, with the snprintf idea, we don't even have to set any
-pm_domain_names list anymore, at all, and we can either reuse num_pm_domains
-or just get the number of PDs limited by the binding - but that's a problem for
-the future me/us I guess...
-
-But since we're there...
-
-Please, I'd like to hear your opinion about the core%d idea :-)
-
-Anyway, I think that for now I'm choosing the "comment shortcut" for this patch.
-
-P.S.: Thanks for the feedback!
-
-Cheers,
-Angelo
-
-> Steve
-> 
->> +	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
->> +};
->> +
->>   static const char * const mediatek_mt8192_supplies[] = { "mali", NULL };
->>   static const char * const mediatek_mt8192_pm_domains[] = { "core0", "core1", "core2",
->>   							   "core3", "core4" };
->> @@ -808,6 +816,7 @@ static const struct of_device_id dt_match[] = {
->>   	{ .compatible = "mediatek,mt8183-mali", .data = &mediatek_mt8183_data },
->>   	{ .compatible = "mediatek,mt8183b-mali", .data = &mediatek_mt8183_b_data },
->>   	{ .compatible = "mediatek,mt8186-mali", .data = &mediatek_mt8186_data },
->> +	{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
->>   	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
->>   	{}
->>   };
-> 
-
-
+> Cristian
 
