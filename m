@@ -2,45 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B93C58FCA08
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 13:16:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9C28FC9F8
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 13:15:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB3A210E667;
-	Wed,  5 Jun 2024 11:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9CB110E2BC;
+	Wed,  5 Jun 2024 11:15:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="XzmtI09r";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="3G6hXb3P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30BAB10E667
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 11:16:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1717585744;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zZ1Ob78ZjWlZgX+z9DrKajLPpBuBZCqRum8/eJrHWnI=;
- b=XzmtI09rBY87MWojYhpPffNwV+tIMJP6oV+FTMNTTJFdgqd6aGorPN8QY9MEhjGs0p30GT
- UDdqbOzhHbVGVhxE6bULS4PlV2hNYB8TNXt+MPSR3S/QMXX9ISC/bgsOfQE1l+Dn8t2dnY
- BAIpk7/OcL7arzBDOyPGSrn5rpSGGuY=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Vinod Koul <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
- linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v10 6/6] Documentation: iio: Document high-speed DMABUF based
- API
-Date: Wed,  5 Jun 2024 13:08:45 +0200
-Message-ID: <20240605110845.86740-7-paul@crapouillou.net>
-In-Reply-To: <20240605110845.86740-1-paul@crapouillou.net>
-References: <20240605110845.86740-1-paul@crapouillou.net>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 025C610E2BC
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 11:15:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1717586105;
+ bh=EFu+zxcHRzssvsR1UGoPpPvJ2s8V2Pa5OGfZzBovS74=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=3G6hXb3PxIeAdZdzrZC3xDadf1Yv//GVtWhFRW/IJ8qYp422FWwx0zNYVaW90qSkB
+ 5dHxeTxNukk2XJPfjgrpQdDYt/5muhaDWY7SbTUeKJ2ZE2DFavQ03IUO67f1fF1gJK
+ XxgbksqWfWALZjKhdNCCalCk6S7cU5SBU25wJO4Zf13r9LsUazgC1RaPMd3t8jD4Mp
+ t/C656XB1eqvJ+/dkJ1hX9LOU4OjTszG0uqCsZPcgDpm49hJ15MDTiEGY/Gf0DqSpT
+ SqRBYmkTRXnmipS3/kQ38qfmjv3v1yXK1F6GuJqky6vbQ6MkabqtdnxzYtWZ72OClS
+ Nqm6mqlTQZXHA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7B84F3780BDB;
+ Wed,  5 Jun 2024 11:15:04 +0000 (UTC)
+Message-ID: <0e0fe86c-92da-43f5-89d7-8084274a908a@collabora.com>
+Date: Wed, 5 Jun 2024 13:15:03 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/3] dt-bindings: arm: mediatek: mmsys: Add OF graph
+ support for board path
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "robh@kernel.org" <robh@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ =?UTF-8?B?WXUtY2hhbmcgTGVlICjmnY7nprnnkosp?= <Yu-chang.Lee@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "amergnat@baylibre.com" <amergnat@baylibre.com>
+References: <20240521075717.50330-1-angelogioacchino.delregno@collabora.com>
+ <20240521075717.50330-3-angelogioacchino.delregno@collabora.com>
+ <e7845300fa822413f6308cb6297222cde89c39e0.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <e7845300fa822413f6308cb6297222cde89c39e0.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,104 +85,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document the new DMABUF based API.
+Il 05/06/24 03:38, CK Hu (胡俊光) ha scritto:
+> Hi, Angelo:
+> 
+> On Tue, 2024-05-21 at 09:57 +0200, AngeloGioacchino Del Regno wrote:
+>> Document OF graph on MMSYS/VDOSYS: this supports up to three DDP paths
+>> per HW instance (so potentially up to six displays for multi-vdo SoCs).
+>>
+>> The MMSYS or VDOSYS is always the first component in the DDP pipeline,
+>> so it only supports an output port with multiple endpoints - where each
+>> endpoint defines the starting point for one of the (currently three)
+>> possible hardware paths.
+>>
+>> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+>> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+>> Tested-by: Alexandre Mergnat <amergnat@baylibre.com>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+>>   .../bindings/arm/mediatek/mediatek,mmsys.yaml | 28 +++++++++++++++++++
+>>   1 file changed, 28 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> index b3c6888c1457..0ef67ca4122b 100644
+>> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> @@ -93,6 +93,34 @@ properties:
+>>     '#reset-cells':
+>>       const: 1
+>>   
+>> +  port:
+>> +    $ref: /schemas/graph.yaml#/properties/port
+>> +    description:
+>> +      Output port node. This port connects the MMSYS/VDOSYS output to
+>> +      the first component of one display pipeline, for example one of
+>> +      the available OVL or RDMA blocks.
+>> +      Some MediaTek SoCs support multiple display outputs per MMSYS.
+> 
+> This patch looks good to me. Just want to share another information for you.
+> Here is an example that mmsys/vdosys could point to the display interface node.
+> 
+> vdosys0: syscon@1c01a000 {
+>            mmsys-display-interface = <&dsi0>, <&dsi1>, <&dp_intf0>;
+> };
+>   
+> vdosys1: syscon@1c100000 {
+>            mmsys-display-interface = <&dp_intf1>;
+> };
+> 
+> There is no conflict that mmsys/vdosys point to first component of one display pipeline or point to display interface.
+> Both could co-exist.
+> 
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+Hey CK,
 
----
-v2: - Explicitly state that the new interface is optional and is
-      not implemented by all drivers.
-    - The IOCTLs can now only be called on the buffer FD returned by
-      IIO_BUFFER_GET_FD_IOCTL.
-    - Move the page up a bit in the index since it is core stuff and not
-      driver-specific.
+yes, this could be an alternative to the OF graphs, and I'm sure that it'd work,
+even though this kind of solution would still require partial hardcoding of the
+display paths up until mmsys-display-interface (so, up until DSI0, or DSI1, etc).
 
-v3: Update the documentation to reflect the new API.
+The problem with a solution like this is that, well, even though it would work,
+even if we ignore the suboptimal partial hardcoding, OF graphs are something
+generic, while the mmsys-display-interface would be a MediaTek specific/custom
+property.
 
-v5: Use description lists for the documentation of the three new IOCTLs
-    instead of abusing subsections.
+In the end, reusing generic kernel apis/interfaces/etc is always preferred
+compared to custom solutions, especially in this case, in which the generic
+stuff is on-par (or actually, depending purely on personal opinions, superior).
 
-v8: Renamed dmabuf_api.rst -> iio_dmabuf_api.rst, and updated index.rst
-    whose format changed in iio/togreg.
----
- Documentation/iio/iio_dmabuf_api.rst | 54 ++++++++++++++++++++++++++++
- Documentation/iio/index.rst          |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 Documentation/iio/iio_dmabuf_api.rst
+As for the two to co-exist, I'm not sure that this is actually needed, as the
+OF graphs are already (at the end of the graph) pointing to the display interface.
 
-diff --git a/Documentation/iio/iio_dmabuf_api.rst b/Documentation/iio/iio_dmabuf_api.rst
-new file mode 100644
-index 000000000000..1cd6cd51a582
---- /dev/null
-+++ b/Documentation/iio/iio_dmabuf_api.rst
-@@ -0,0 +1,54 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================================
-+High-speed DMABUF interface for IIO
-+===================================
-+
-+1. Overview
-+===========
-+
-+The Industrial I/O subsystem supports access to buffers through a
-+file-based interface, with read() and write() access calls through the
-+IIO device's dev node.
-+
-+It additionally supports a DMABUF based interface, where the userspace
-+can attach DMABUF objects (externally created) to a IIO buffer, and
-+subsequently use them for data transfers.
-+
-+A userspace application can then use this interface to share DMABUF
-+objects between several interfaces, allowing it to transfer data in a
-+zero-copy fashion, for instance between IIO and the USB stack.
-+
-+The userspace application can also memory-map the DMABUF objects, and
-+access the sample data directly. The advantage of doing this vs. the
-+read() interface is that it avoids an extra copy of the data between the
-+kernel and userspace. This is particularly useful for high-speed devices
-+which produce several megabytes or even gigabytes of data per second.
-+It does however increase the userspace-kernelspace synchronization
-+overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs have to
-+be used for data integrity.
-+
-+2. User API
-+===========
-+
-+As part of this interface, three new IOCTLs have been added. These three
-+IOCTLs have to be performed on the IIO buffer's file descriptor,
-+obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
-+
-+  ``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)``
-+    Attach the DMABUF object, identified by its file descriptor, to the
-+    IIO buffer. Returns zero on success, and a negative errno value on
-+    error.
-+
-+  ``IIO_BUFFER_DMABUF_DETACH_IOCTL(int)``
-+    Detach the given DMABUF object, identified by its file descriptor,
-+    from the IIO buffer. Returns zero on success, and a negative errno
-+    value on error.
-+
-+    Note that closing the IIO buffer's file descriptor will
-+    automatically detach all previously attached DMABUF objects.
-+
-+  ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *iio_dmabuf)``
-+    Enqueue a previously attached DMABUF object to the buffer queue.
-+    Enqueued DMABUFs will be read from (if output buffer) or written to
-+    (if input buffer) as long as the buffer is enabled.
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index 4c13bfa2865c..9cb4c50cb20d 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -9,6 +9,7 @@ Industrial I/O
- 
-    iio_configfs
-    iio_devbuf
-+   iio_dmabuf_api
-    iio_tools
- 
- Industrial I/O Kernel Drivers
--- 
-2.43.0
+In any case, just as a reminder: if there will be any need to add any custom
+MediaTek specific properties later, it's ok and we can do that at any time.
+
+Cheers!
+Angelo
+
+> Regards,
+> CK
+> 
+>> +    properties:
+>> +      endpoint@0:
+>> +        $ref: /schemas/graph.yaml#/properties/endpoint
+>> +        description: Output to the primary display pipeline
+>> +
+>> +      endpoint@1:
+>> +        $ref: /schemas/graph.yaml#/properties/endpoint
+>> +        description: Output to the secondary display pipeline
+>> +
+>> +      endpoint@2:
+>> +        $ref: /schemas/graph.yaml#/properties/endpoint
+>> +        description: Output to the tertiary display pipeline
+>> +
+>> +    anyOf:
+>> +      - required:
+>> +          - endpoint@0
+>> +      - required:
+>> +          - endpoint@1
+>> +      - required:
+>> +          - endpoint@2
+>> +
+>>   required:
+>>     - compatible
+>>     - reg
+
 
