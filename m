@@ -2,72 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0596C8FC2A4
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 06:25:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B2B58FC2E2
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 07:04:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1B4310E48F;
-	Wed,  5 Jun 2024 04:25:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C8BD10E687;
+	Wed,  5 Jun 2024 05:04:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="WHCwlJKV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eUidmhsw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FD8B10E48F
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 04:25:45 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-52b950aa47bso2475104e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 21:25:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1717561544; x=1718166344;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=waT0AcrUOg+uWZ0+qjh1ei9vxb3C0YTsDDg3ERd1AtM=;
- b=WHCwlJKVxOps294bylSydfMUfhZEbv9acPrL7Uz4fBRCsTkjhJ4HT7hG1AfUYVUL6K
- R+22fjsYW+eP57mAfONnoj2mcKW76CneOa0oVIFGLVXSkFiBtuPvmepVrQsCh6BT8/sx
- e5usSJyKdNHb0fyyJtMAODXBFWZMpTX6NfUnE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717561544; x=1718166344;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=waT0AcrUOg+uWZ0+qjh1ei9vxb3C0YTsDDg3ERd1AtM=;
- b=erP+thze900Qn6UJMN+xgW7YqqzO48546x+vcAyeLoNBwMVpoqj/asdtf1jaHTul9w
- hoq0uJ4GFxs7KpAu/GGvn7jP+ZeMAKq/h3om3i4lp59wYTiG06KSobOOuDm93NZzd2A4
- Oj+Hb/t4K7aGvKSlXuPuGfy1h1yaKPx16n9WLDaUJCwQmmUxc3qS4x/f8E7QRhC8T5Ix
- LPWFqNa5q6Zsn7qO0vwu6VzEUOU7aX2aRgPe8HB8W8hXmzkrOJhpov5ZLAvv/f8xwW+B
- LIWXKoSbwVSOC9GwyK0a3SoDfu/IxpoTMCu8dg/f0qZOAGeFpdc8m7uxKidIP1NSrOj5
- saFg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWPHF+ZVTwU940ZWz7ErhYGI50EhT0B0jv3WgPH91e8eY2VfvioXf5XHvDsIx/n2AYBseaLB/zvVoMBtunArsE9u+hdZNmbKohw9S6SHf7u
-X-Gm-Message-State: AOJu0YzRHUQSkJkQUuEP6dcOqAgwXdl9r0yAWcoFFU8ebQfrjdqtDMf8
- Nqlyidv4Z9tIpiHK4oACQt3ceyl6iwXjlPQY5QU4tSHpVSMzspuFtdRKvF+Ugg+9fDH4pFnZISU
- 0LOjDE7wda86vMjSdcMEeXtHNELKJAPsIZvp6
-X-Google-Smtp-Source: AGHT+IFVvcQWi5hirg6VyE5D099E/X3a3I1qA1m27sAUZLgof8ZGt7kAYof4SoSo6C5SbiaD1MLWTK9P2pF1kHV7ZcU=
-X-Received: by 2002:a19:520b:0:b0:52b:874a:a44 with SMTP id
- 2adb3069b0e04-52bab4dd1c0mr658131e87.25.1717561543571; Tue, 04 Jun 2024
- 21:25:43 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1138110E4E1;
+ Wed,  5 Jun 2024 05:04:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717563877; x=1749099877;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=x2ZW8cijAAACiOfJr+MbErW0fJMSAWOe6vL0+p9HPsc=;
+ b=eUidmhswdYaldfYrY4XLZCycCpFB2qQcb9lGOyEryDiCp0EZidmGvElv
+ iDIbmmVzIkK22lKXCPZVMNvPehvzRQ8n+hFCddX12XjrNd0ffAUmmn0eu
+ wzSU5iKXa4httFgEvV2QrjUA58euoQQivHd6TjaLQ9cHBgYK7Aq/7s4tS
+ f4theceAcPG8qjW6Jr0tHsHpEEcnOFScjaVRaSrpi0POiDotfK3l9CZyw
+ ibreHOtZIjo0Gz+dZyLRQcdkoyd6aSv/KNQi/1NdYWy9aRqqNC1efEHHB
+ EmucQaTYhpQjuHmNijmpgVk6FBi2v9eoYZ9DpGYM4g1nck329DzJwZTdY g==;
+X-CSE-ConnectionGUID: Tf3fLVD5SeCGgd5fHUbYQA==
+X-CSE-MsgGUID: gs3MVpg7TfKqJ4kjSOD4/w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="25257244"
+X-IronPort-AV: E=Sophos;i="6.08,215,1712646000"; d="scan'208";a="25257244"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2024 22:04:36 -0700
+X-CSE-ConnectionGUID: GJ7hVspwS1eWwapyAKcxKQ==
+X-CSE-MsgGUID: 1Q08XN4PTlG6z6cEZDUvkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,215,1712646000"; d="scan'208";a="68598678"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+ by fmviesa001.fm.intel.com with ESMTP; 04 Jun 2024 22:04:32 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sEip4-0000vn-0q;
+ Wed, 05 Jun 2024 05:04:30 +0000
+Date: Wed, 5 Jun 2024 13:03:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Connor Abbott <cwabbott0@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ seanpaul@chromium.org, quic_jesszhan@quicinc.com,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/msm/a6xx: use __always_unused to fix compiler
+ warnings for gen7_* includes
+Message-ID: <202406051244.xdNC6LyO-lkp@intel.com>
+References: <20240604215105.4057278-1-quic_abhinavk@quicinc.com>
 MIME-Version: 1.0
-References: <20240604123922.331469-1-angelogioacchino.delregno@collabora.com>
- <20240604123922.331469-3-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240604123922.331469-3-angelogioacchino.delregno@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 5 Jun 2024 12:25:32 +0800
-Message-ID: <CAGXv+5GXphBp-YMDtkNh1Q-FNQq4cmELR0tB6M==5tKptr8bZg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/panfrost: Add support for Mali on the MT8188
- SoC
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: boris.brezillon@collabora.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- steven.price@arm.com, matthias.bgg@gmail.com, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240604215105.4057278-1-quic_abhinavk@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,61 +78,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 4, 2024 at 8:39=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> MediaTek MT8188 has a Mali-G57 MC3 (Valhall-JM): add a new
-> compatible and platform data using the same supplies and the
-> same power domain lists as MT8183 (one regulator, three power
-> domains).
->
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
+Hi Abhinav,
 
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+kernel test robot noticed the following build warnings:
 
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/pa=
-nfrost/panfrost_drv.c
-> index ef9f6c0716d5..4e2d9f671a0d 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -777,6 +777,14 @@ static const struct panfrost_compatible mediatek_mt8=
-186_data =3D {
->         .pm_features =3D BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
->  };
->
-> +static const struct panfrost_compatible mediatek_mt8188_data =3D {
-> +       .num_supplies =3D ARRAY_SIZE(mediatek_mt8183_b_supplies) - 1,
-> +       .supply_names =3D mediatek_mt8183_b_supplies,
-> +       .num_pm_domains =3D ARRAY_SIZE(mediatek_mt8183_pm_domains),
-> +       .pm_domain_names =3D mediatek_mt8183_pm_domains,
-> +       .pm_features =3D BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
-> +};
-> +
->  static const char * const mediatek_mt8192_supplies[] =3D { "mali", NULL =
-};
->  static const char * const mediatek_mt8192_pm_domains[] =3D { "core0", "c=
-ore1", "core2",
->                                                            "core3", "core=
-4" };
-> @@ -808,6 +816,7 @@ static const struct of_device_id dt_match[] =3D {
->         { .compatible =3D "mediatek,mt8183-mali", .data =3D &mediatek_mt8=
-183_data },
->         { .compatible =3D "mediatek,mt8183b-mali", .data =3D &mediatek_mt=
-8183_b_data },
->         { .compatible =3D "mediatek,mt8186-mali", .data =3D &mediatek_mt8=
-186_data },
-> +       { .compatible =3D "mediatek,mt8188-mali", .data =3D &mediatek_mt8=
-188_data },
->         { .compatible =3D "mediatek,mt8192-mali", .data =3D &mediatek_mt8=
-192_data },
->         {}
->  };
-> --
-> 2.45.1
->
->
+[auto build test WARNING on drm-intel/for-linux-next-fixes]
+[also build test WARNING on drm-tip/drm-tip linus/master v6.10-rc2 next-20240604]
+[cannot apply to drm-intel/for-linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abhinav-Kumar/drm-msm-a6xx-use-__always_unused-to-fix-compiler-warnings-for-gen7_-includes/20240605-055341
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
+patch link:    https://lore.kernel.org/r/20240604215105.4057278-1-quic_abhinavk%40quicinc.com
+patch subject: [PATCH] drm/msm/a6xx: use __always_unused to fix compiler warnings for gen7_* includes
+config: i386-buildonly-randconfig-001-20240605 (https://download.01.org/0day-ci/archive/20240605/202406051244.xdNC6LyO-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240605/202406051244.xdNC6LyO-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406051244.xdNC6LyO-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:13:
+>> drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h:114:18: warning: 'gen7_9_0_cx_debugbus_blocks' defined but not used [-Wunused-const-variable=]
+     114 | static const u32 gen7_9_0_cx_debugbus_blocks[] = {
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/gen7_9_0_cx_debugbus_blocks +114 drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h
+
+6408a1b5a7d7a9 Connor Abbott 2024-05-03  113  
+6408a1b5a7d7a9 Connor Abbott 2024-05-03 @114  static const u32 gen7_9_0_cx_debugbus_blocks[] = {
+106414f8b60346 Connor Abbott 2024-05-03  115  	A7XX_DBGBUS_CX,
+106414f8b60346 Connor Abbott 2024-05-03  116  	A7XX_DBGBUS_GMU_CX,
+106414f8b60346 Connor Abbott 2024-05-03  117  	A7XX_DBGBUS_GBIF_CX,
+6408a1b5a7d7a9 Connor Abbott 2024-05-03  118  };
+6408a1b5a7d7a9 Connor Abbott 2024-05-03  119  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
