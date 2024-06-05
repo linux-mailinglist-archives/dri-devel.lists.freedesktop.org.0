@@ -2,49 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984B68FC6EF
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 10:49:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9EB8FC724
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 11:02:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DFEE10E05A;
-	Wed,  5 Jun 2024 08:49:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 258B610E570;
+	Wed,  5 Jun 2024 09:02:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="haV0aaQZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N1YHWF8b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 761FB10E05A
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 08:49:16 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E19F310E570
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 09:02:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id CF058CE169A;
- Wed,  5 Jun 2024 08:49:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C212EC3277B;
- Wed,  5 Jun 2024 08:49:12 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0B7CC61796
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 09:02:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CFDD6C32786
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 09:02:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717577353;
- bh=JjXycMB+UqofoXqKE5vSjfJF5EJSafdp3RsWbH44+Uo=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=haV0aaQZMcCfFpvDsWSdlKws6MJkEAYlKF9SwVCgMY5iXvbKdM5aDWyO3qews4MlB
- YlXcHhHL1qFKyH8PXmauJa0aYNI65a0YY1USSTqZKMlXx50hIv8Q/2wEx0YX+sSpPL
- npR+2G1LffhoKJGbJ/jSQSpLbuz3x0gtfBEBbpHixqurRFtg8sFnpjdMgPSe6p8JlD
- 3TARNfTqbprNbTjFP11frLXdTZOWxWGvwMurFu9Uu+nDnBDoHBT5gzGKoqP6kOAM8i
- 4b5wvBWEvgp6OhiQs90epXonLwlV9pGkFWPt0bSZIDllkaCm/L/fNeSuNNg7yCgQaU
- GJ8gW6bbA152g==
-From: Maxime Ripard <mripard@kernel.org>
-To: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tursulin@igalia.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
- kernel test robot <lkp@intel.com>, Iago Toral Quiroga <itoral@igalia.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Ashutosh Dixit <ashutosh.dixit@intel.com>
-In-Reply-To: <20240604160210.24073-1-tursulin@igalia.com>
-References: <20240604160210.24073-1-tursulin@igalia.com>
-Subject: Re: (subset) [PATCH] drm/v3d: Fix perfmon build error/warning
-Message-Id: <171757735030.3346529.18146792243875998148.b4-ty@kernel.org>
-Date: Wed, 05 Jun 2024 10:49:10 +0200
+ s=k20201202; t=1717578126;
+ bh=CvupMjeJyQGFt4m0etlNw+y9A4k7nMWJIaz3ODcSxJI=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=N1YHWF8bOYgHX5FGnYIC9IQEnnZq6gMUbgKgfzIYm6hn5V9iPSNGyU8H1PyZRLAvE
+ 3oN3O+4MWPV5sU/8jjT1KwIDPQlYwJnsiJK5dToAe2O5AbMWU5RAGNA55s0PS+gVzy
+ JHD12t8+9mP06q+fIgtqRtoL6RC7+3zIEMZtJcnlDQzqqo1ClHyf6BLUvlURkESOjG
+ d9ly2D/syeJ3/uwEhMDuDs3p7clAaE9kQ5NAtSIYhukDCYJIKZ0OZasLpd27M1Pbce
+ Dano+dcP0k76w8so6zHSyxl7nsTRXlTvOdtVNe3XwLYjgrN9yURAMUxJWXtbVZaQXJ
+ 3PDdohmhuxtYA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id C8D40C433E5; Wed,  5 Jun 2024 09:02:06 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201957] amdgpu: ring gfx timeout
+Date: Wed, 05 Jun 2024 09:02:04 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: mastercatz@hotmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-201957-2300-usSeNVsrPf@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
+References: <bug-201957-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,19 +74,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 04 Jun 2024 17:02:10 +0100, Tvrtko Ursulin wrote:
-> Move static const array into the source file to fix the "defined but not
-> used" errors.
-> 
-> The fix is perhaps not the prettiest due hand crafting the array sizes
-> in v3d_performance_counters.h, but I did add some build time asserts to
-> validate the counts look sensible, so hopefully it is good enough for a
-> quick fix.
-> 
-> [...]
+https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
 
-Applied to misc/kernel.git (drm-misc-next).
+--- Comment #102 from MasterCATZ (mastercatz@hotmail.com) ---
+issue seems to only be with xorg , used wayland today and could not trigger=
+ it
 
-Thanks!
-Maxime
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
