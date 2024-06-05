@@ -2,87 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C078FC051
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 02:13:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 120AC8FC068
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2024 02:24:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 819AE10E571;
-	Wed,  5 Jun 2024 00:13:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B50510E25E;
+	Wed,  5 Jun 2024 00:24:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="JERdFIUl";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="bj2VPPoZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4CA910E409;
- Wed,  5 Jun 2024 00:13:40 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 454IRpLs008712;
- Wed, 5 Jun 2024 00:13:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- yzQ0N1wxV3RPCvvF5PjfHJe7twnzcZr7JCVW4jChbDE=; b=JERdFIUlUhLAsCDw
- M5+EFrJjV52O6oW/UGxVc6SLR5njSIEFx3ORSWTg6J3R7iKwm01Dacy6M56qlYSC
- 9JKqMxwkQiGtkXnRVmSn/r3vaUcX5tfqTpmwqhRmIf+wr4cQ8MQC53IFLx92zNIR
- jxsz7ZDVb8RSE4Hukx7AZxzBThY4xfpUxQHAxWaBSRsMk6rQBH8UktVQ2stPpfPk
- 6xyg8/J8PKLArQCfx4icDaMd8ctlDIn3nOm+m7Kg3bRxRiPcGyxPFeaDoX9S7PJe
- POdftW8ptkF9kUoMyQx9csFdqp+acQVD7xU/wrh77kzzO4aoApo8FAbYUfKrMG5H
- UisSsA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yj87rgk15-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jun 2024 00:13:35 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4550DY83001612
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 5 Jun 2024 00:13:34 GMT
-Received: from [10.110.31.89] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 4 Jun 2024
- 17:13:29 -0700
-Message-ID: <efe9a303-47de-36a9-3a13-b6f89d1d8784@quicinc.com>
-Date: Tue, 4 Jun 2024 17:13:27 -0700
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6875B10E25E
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 00:24:11 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-1f692d6e990so16282415ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2024 17:24:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1717547050; x=1718151850;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=UXkqvnUlOHE+7g2Lf+Wpe/9y5rRcSPhO6InYqluayHc=;
+ b=bj2VPPoZOvQemqqPR7gIPtQf7GtPVdS1YTw8SG5DUOJfiVaGPk57x2XjFZVzwOFXRA
+ kPIRa3Y70lToj1PZIk14lg668fG4sJdR/lxeX0W1DsjYmThQXfTvPcuthiOtPuwr8v6W
+ D8BMhZFloKQWh0JfsseSbU/nl/uwiqByNycOU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717547050; x=1718151850;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UXkqvnUlOHE+7g2Lf+Wpe/9y5rRcSPhO6InYqluayHc=;
+ b=n6mo+tUELZX0cE6EYMbGmPG7mtBYaPx525ZCmDI8nOwMlzC79lzE9GyCy1T0u9LBvl
+ UYEtv9WjshO0F0VW/rCwhcXHTl4NUcMVtb5Mpb0KL1WmW3VVR7Pl4hZbaSBTmB2xCo+/
+ tJMekMBunsXOcXfZkXwljiZrkPMol8lMdPMqLlJWPevD+h1LraxQ6KbYkTHFxBCMksIp
+ NTUuDOHOF8x77V558AIOdhzcJBlrOjbkQ8OhdGFHH462SkTkBwcuM23oSoShEUYokdre
+ ktc4OPkq0H3oZ1UZxwax1Oj6bF+BnuSe0dtRwFi6WkwIHyXs4jAZCoowzYIWIdkbVdK4
+ q1/A==
+X-Gm-Message-State: AOJu0YzdVsI5X1bw90svutKtTK4JPFQbzELrAmbPmcoHkvzXYnoZXgzN
+ XXP/5/9ZRAYkd/Ef4Wd9ve4c9i8+S5XYILrT0I5Yg1q+KvRtqZdcttBBH6AwStZCTytcEMLDMJQ
+ =
+X-Google-Smtp-Source: AGHT+IGvUgTyAuYEN02i7ZduVODq/yACl5LSlZJPkmZP9QjjxS40pxNiem+pMYUDo4VgKeR8msH+hQ==
+X-Received: by 2002:a17:902:d512:b0:1f6:1c5f:e089 with SMTP id
+ d9443c01a7336-1f6a5a86e72mr14291545ad.60.1717547050047; 
+ Tue, 04 Jun 2024 17:24:10 -0700 (PDT)
+Received: from dianders.sjc.corp.google.com
+ ([2620:15c:9d:2:3609:ff79:4625:8a71])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f6323dd862sm89032025ad.147.2024.06.04.17.24.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jun 2024 17:24:09 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+ Chris Morgan <macromorgan@hotmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Yuran Pereira <yuran.pereira@hotmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Robert Chiras <robert.chiras@nxp.com>,
+ Stefan Mavrodiev <stefan@olimex.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: [PATCH v3 00/24] drm/panel: Remove most store/double-check of
+ prepared/enabled state
+Date: Tue,  4 Jun 2024 17:22:46 -0700
+Message-ID: <20240605002401.2848541-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/msm/a6xx: use __always_unused to fix compiler
- warnings for gen7_* includes
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>, "Sean
- Paul" <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, "Marijn
- Suijten" <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Connor Abbott <cwabbott0@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <seanpaul@chromium.org>, <quic_jesszhan@quicinc.com>,
- Rob Clark <robdclark@chromium.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20240604215105.4057278-1-quic_abhinavk@quicinc.com>
- <x42z2ykkpx7qkn2lr3y5sl3lm2m3fl2asy7qvswgemz5bpu62w@drh7b7wihrwg>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <x42z2ykkpx7qkn2lr3y5sl3lm2m3fl2asy7qvswgemz5bpu62w@drh7b7wihrwg>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: u5cmut2unrStAVqhKdDBze9iOQ4gMwVl
-X-Proofpoint-ORIG-GUID: u5cmut2unrStAVqhKdDBze9iOQ4gMwVl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-04_11,2024-06-04_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- suspectscore=0 phishscore=0 impostorscore=0 malwarescore=0 bulkscore=0
- clxscore=1015 spamscore=0 mlxlogscore=999 adultscore=0 lowpriorityscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406050000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,119 +96,119 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+As talked about in commit d2aacaf07395 ("drm/panel: Check for already
+prepared/enabled in drm_panel"), we want to remove needless code from
+panel drivers that was storing and double-checking the
+prepared/enabled state. Even if someone was relying on the
+double-check before, that double-check is now in the core and not
+needed in individual drivers.
 
-On 6/4/2024 4:58 PM, Dmitry Baryshkov wrote:
-> On Tue, Jun 04, 2024 at 02:51:04PM -0700, Abhinav Kumar wrote:
->> GCC diagnostic pragma method throws below warnings in some of the versions
->>
->> drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:16:9: warning: unknown option after '#pragma GCC diagnostic' kind [-Wpragmas]
->>   #pragma GCC diagnostic ignored "-Wunused-const-variable"
->>           ^
->> In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:18:0:
->> drivers/gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h:924:19: warning: 'gen7_0_0_external_core_regs__always_unused' defined but not used [-Wunused-variable]
->>   static const u32 *gen7_0_0_external_core_regs__always_unused[] = {
->>                     ^
-> 
-> I don't see this symbol in upstream.
-> 
+This series attempts to do just that. While the original grep, AKA:
+  git grep 'if.*>prepared' -- drivers/gpu/drm/panel
+  git grep 'if.*>enabled' -- drivers/gpu/drm/panel
+...still produces a few hits after my series, they are _mostly_ all
+gone. The ones that are left are less trivial to fix.
 
-This was a C&P mistake. Instead of pasting the warning message from the 
-default msm-next, I pasted the warning message from one of my trial runs 
-(a bad one). I will fix the commit message when I post a v2.
+One of the main reasons that many panels probably needed to store and
+double-check their prepared/enabled appears to have been to handle
+shutdown and/or remove. Panels drivers often wanted to force the power
+off for panels in these cases and this was a good reason for the
+double-check.
 
-The correct warnings are:
+In response to my V1 series [1] we had much discussion of what to
+do. The conclusion was that as long as DRM modeset drivers properly
+called drm_atomic_helper_shutdown() that we should be able to remove
+the explicit shutdown/remove handling in the panel drivers. Most of
+the patches to improve DRM modeset drivers [2] [3] [4] have now
+landed.
 
-drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:16:9: warning: unknown 
-option after '#pragma GCC diagnostic' kind [-Wpragmas]
-  #pragma GCC diagnostic ignored "-Wunused-const-variable"
-          ^
-In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:18:0:
-drivers/gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h:924:19: warning: 
-'gen7_0_0_external_core_regs' defined but not used [-Wunused-variable]
-  static const u32 *gen7_0_0_external_core_regs[] = {
-                    ^
-In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:19:0:
-drivers/gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h:748:19: warning: 
-'gen7_2_0_external_core_regs' defined but not used [-Wunused-variable]
-  static const u32 *gen7_2_0_external_core_regs[] = {
-                    ^
-In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:20:0:
-drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h:1188:43: warning: 
-'gen7_9_0_sptp_clusters' defined but not used [-Wunused-variable]
-  static struct gen7_sptp_cluster_registers gen7_9_0_sptp_clusters[] = {
-                                            ^
-drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h:1438:19: warning: 
-'gen7_9_0_external_core_regs' defined but not used [-Wunused-variable]
-  static const u32 *gen7_9_0_external_core_regs[] = {
+In contrast to my V1 series, I broke the V2 series up a lot
+more. Since a few of the panel drivers in V1 already landed, we had
+fewer total drivers and so we could devote a patch to each panel.
+Also, since we were now relying on DRM modeset drivers I felt like we
+should split the patches for each panel into two: one that's
+definitely safe and one that could be reverted if we found a
+problematic DRM modeset driver that we couldn't fix.
 
+Many of the patches in the V2 series [5] landed, so this V3 series is
+the patches that are left plus one new bonus patch. At this point, we
+may want to just land the patches that are left since it seems like
+nobody is going to test/review them and they've all been Acked by
+Linus and Maxime.
 
->> In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:19:0:
->> drivers/gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h:748:19: warning: 'gen7_2_0_external_core_regs' defined but not used [-Wunused-variable]
->>   static const u32 *gen7_2_0_external_core_regs[] = {
->>                     ^
->> In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:20:0:
->> drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h:1188:43: warning: 'gen7_9_0_sptp_clusters' defined but not used [-Wunused-variable]
->>   static struct gen7_sptp_cluster_registers gen7_9_0_sptp_clusters[] = {
->>                                             ^
->> drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h:1438:19: warning: 'gen7_9_0_external_core_regs' defined but not used [-Wunused-variable]
->>   static const u32 *gen7_9_0_external_core_regs[] = {
->>
->> Remove GCC dependency by using __always_unused for the unused gen7_* includes.
->>
->> Fixes: 64d6255650d4 ("drm/msm: More fully implement devcoredump for a7xx")
->> Suggested-by: Rob Clark <robdclark@chromium.org>
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 13 ++++---------
->>   1 file changed, 4 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->> index 0a7717a4fc2f..62ca0cf24005 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->> @@ -8,19 +8,10 @@
->>   #include "a6xx_gpu_state.h"
->>   #include "a6xx_gmu.xml.h"
->>   
->> -/* Ignore diagnostics about register tables that we aren't using yet. We don't
->> - * want to modify these headers too much from their original source.
->> - */
->> -#pragma GCC diagnostic push
->> -#pragma GCC diagnostic ignored "-Wunused-variable"
->> -#pragma GCC diagnostic ignored "-Wunused-const-variable"
->> -
->>   #include "adreno_gen7_0_0_snapshot.h"
->>   #include "adreno_gen7_2_0_snapshot.h"
->>   #include "adreno_gen7_9_0_snapshot.h"
->>   
->> -#pragma GCC diagnostic pop
->> -
->>   struct a6xx_gpu_state_obj {
->>   	const void *handle;
->>   	u32 *data;
->> @@ -1350,6 +1341,10 @@ static void a7xx_get_registers(struct msm_gpu *gpu,
->>   	int index = 0;
->>   	const u32 *pre_crashdumper_regs;
->>   	const struct gen7_reg_list *reglist;
->> +	__always_unused const u32 **external_core_regs7_0_0 = gen7_0_0_external_core_regs;
->> +	__always_unused const u32 **external_core_regs_7_2_0 = gen7_2_0_external_core_regs;
->> +	__always_unused const u32 **external_core_regs_7_9_0 = gen7_9_0_external_core_regs;
->> +	__always_unused struct gen7_sptp_cluster_registers *sptp_gen7 = gen7_9_0_sptp_clusters;
-> 
-> Wouldn't it be easier to add something like the following to the
-> a6xx_gpu_state.c before including the headers:
-> 
-> static const unsigned int *gen7_0_0_external_core_regs[] __attribute((__unused__));
-> static const unsigned int *gen7_2_0_external_core_regs[] __attribute((__unused__));
-> static const unsigned int *gen7_9_0_external_core_regs[] __attribute((__unused__));
-> 
+NOTE: this touches _a lot_ of drivers, is repetitive, and is not
+really possible to generate automatically. That means it's entirely
+possible that my eyes glazed over and I did something wrong. Please
+double-check me and don't assume that I got everything perfect, though
+I did my best. I have at least confirmed that "allmodconfig" for arm64
+doesn't fall on its face with this series. I haven't done a ton of
+other testing.
 
-Ack, this works too and its cleaner. let me push it this way. Thanks.
+[1] https://lore.kernel.org/r/20230804140605.RFC.4.I930069a32baab6faf46d6b234f89613b5cec0f14@changeid
+[2] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.org
+[3] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
+[4] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.org
+[5] https://lore.kernel.org/r/20240503213441.177109-1-dianders@chromium.org/
 
->>   
->>   	if (adreno_is_a730(adreno_gpu)) {
->>   		reglist = gen7_0_0_reg_list;
->> -- 
->> 2.44.0
->>
-> 
+Changes in v3:
+- drm/panel: Avoid warnings w/ panel-simple/panel-edp at shutdown
+
+Changes in v2:
+- Only handle 1 panel per patch.
+- Split removal of prepared/enabled from handling of remove/shutdown.
+
+Douglas Anderson (24):
+  drm/panel: boe-himax8279d: Stop tracking prepared/enabled
+  drm/panel: boe-himax8279d: Don't call unprepare+disable at
+    shutdown/remove
+  drm/panel: khadas-ts050: Stop tracking prepared/enabled
+  drm/panel: khadas-ts050: Don't call unprepare+disable at
+    shutdown/remove
+  drm/panel: olimex-lcd-olinuxino: Stop tracking prepared/enabled
+  drm/panel: olimex-lcd-olinuxino: Don't call unprepare+disable at
+    remove
+  drm/panel: osd-osd101t2587-53ts: Stop tracking prepared/enabled
+  drm/panel: osd-osd101t2587-53ts: Don't call unprepare+disable at
+    shutdown/remove
+  drm/panel: tdo-tl070wsh30: Stop tracking prepared
+  drm/panel: tdo-tl070wsh30: Don't call unprepare+disable at
+    shutdown/remove
+  drm/panel: jdi-lt070me05000: Stop tracking prepared/enabled
+  drm/panel: jdi-lt070me05000: Don't call disable at shutdown/remove
+  drm/panel: panasonic-vvx10f034n00: Stop tracking prepared/enabled
+  drm/panel: panasonic-vvx10f034n00: Don't call disable at
+    shutdown/remove
+  drm/panel: seiko-43wvf1g: Stop tracking prepared/enabled
+  drm/panel: seiko-43wvf1g: Don't call disable at shutdown/remove
+  drm/panel: sharp-lq101r1sx01: Stop tracking prepared/enabled
+  drm/panel: sharp-lq101r1sx01: Don't call disable at shutdown/remove
+  drm/panel: sharp-ls043t1le01: Stop tracking prepared
+  drm/panel: sharp-ls043t1le01: Don't call disable at shutdown/remove
+  drm/panel: raydium-rm67191: Stop tracking enabled
+  drm/panel: raydium-rm67191: Don't call unprepare+disable at shutdown
+  drm/panel: Update TODO list item for cleaning up prepared/enabled
+    tracking
+  drm/panel: Avoid warnings w/ panel-simple/panel-edp at shutdown
+
+ Documentation/gpu/todo.rst                    |  47 +++---
+ drivers/gpu/drm/drm_panel.c                   |  12 ++
+ drivers/gpu/drm/panel/panel-boe-himax8279d.c  |  40 -----
+ .../gpu/drm/panel/panel-drm-shutdown-check.h  | 151 ++++++++++++++++++
+ drivers/gpu/drm/panel/panel-edp.c             |  19 +--
+ .../gpu/drm/panel/panel-jdi-lt070me05000.c    |  35 ----
+ drivers/gpu/drm/panel/panel-khadas-ts050.c    |  39 -----
+ .../drm/panel/panel-olimex-lcd-olinuxino.c    |  44 -----
+ .../drm/panel/panel-osd-osd101t2587-53ts.c    |  41 +----
+ .../drm/panel/panel-panasonic-vvx10f034n00.c  |  47 +-----
+ drivers/gpu/drm/panel/panel-raydium-rm67191.c |  26 ---
+ drivers/gpu/drm/panel/panel-seiko-43wvf1g.c   |  49 ------
+ .../gpu/drm/panel/panel-sharp-lq101r1sx01.c   |  63 +-------
+ .../gpu/drm/panel/panel-sharp-ls043t1le01.c   |  24 ---
+ drivers/gpu/drm/panel/panel-simple.c          |  19 +--
+ drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c  |  23 ---
+ 16 files changed, 199 insertions(+), 480 deletions(-)
+ create mode 100644 drivers/gpu/drm/panel/panel-drm-shutdown-check.h
+
+-- 
+2.45.1.288.g0e0cd299f1-goog
+
