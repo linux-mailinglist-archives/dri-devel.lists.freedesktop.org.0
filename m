@@ -2,90 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F8E8FDF19
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 08:48:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C3B8FDF78
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 09:21:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 682BE10E0F5;
-	Thu,  6 Jun 2024 06:48:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24A4B10E852;
+	Thu,  6 Jun 2024 07:21:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Z9b78Yo6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BcqQ0nRX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4A4910E0F5
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 06:48:07 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-52b919d1fc0so477792e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2024 23:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1717656424; x=1718261224;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+rv1sDHR32RWCfZmFBg17q325stbG/XmstQRsoUj80I=;
- b=Z9b78Yo6t6E+ydfHHMJnLIHuHSCMv0i/s2SjEEerAXiPgsUVo3Iawt0c+ExkvFpJkv
- 2HdjBa054ZOjDLsTxUZc4R2lCEwyhDiNu4tcIzcehtWi019d1cHiJ5aCHIpaaelaaFBm
- z/qj8WPxwh8ISh0QAH3q3UXLb9Fcr1IXRRgO8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717656424; x=1718261224;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+rv1sDHR32RWCfZmFBg17q325stbG/XmstQRsoUj80I=;
- b=gFVZmcTp7FRm6OEWzcevV6mz2lYaHfcV8UStWY0DzXQJ44A8KqUHcFldamHJe67cpn
- 00OOi5CHOgavRbvgxAzgH8ZEhI1ULk9l1Q9lndgza5nHDjpxbkYO+Lj3t+mI4w+idZLV
- z9DKTtUxOEIyLzxvZxULsdNyXQrTuSqyTUMRTQs2P7HeoVJli5lJAtP+JJ2r1giJ0bs5
- 5jLy6khXUhxtZ74LSNkj8gdDFiTGHn44Zno/Dta1G7Xb2lx66GaJeLQLEe7dxu/KiXqs
- wtLudHLcD3PgOGLg96CO9lV6g+pUwJVnYLW0XZWs0xcqSQ85oQDbzcDq8b03NPSrDeaA
- wCGg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXaZkV0wJmpwBHrnGEYMZeo/6R+3MsBru27T2gXnFa9fXhJxxyM9evYqoy+HqftmSn8iihLgPTI6pRiZUbOtXy9nl9I+qYIoSoMxlg7w3jI
-X-Gm-Message-State: AOJu0YykfyktFuidnpXsCoPBEBqcBXAcle5tHIJVaPMQ7yh3Mrm9iuu/
- Yqnw6ujdxHF4Sp7AmwgSU83ccLhv1S8IYihPRGpSVemUIeEHWi1obnQJ8TxsfAQLbgQiqDGThhY
- 08iB9iBrUznoD2aacjXxXZIQpMAwNrhZKTz16
-X-Google-Smtp-Source: AGHT+IGeuCm9PsqMZJSdhMHCIrhen6KLNJPY05qssC+yap37aeWf5ikwB9VlUACAq1ji5UH3ecZrST5zcf6cfOqLI4U=
-X-Received: by 2002:a05:6512:2825:b0:52b:a50c:c23e with SMTP id
- 2adb3069b0e04-52bb2195a3cmr495256e87.34.1717656423496; Wed, 05 Jun 2024
- 23:47:03 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B52610E848;
+ Thu,  6 Jun 2024 07:21:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717658475; x=1749194475;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=QD4Dh8MLYOkud3AMPflq2aHwK8HUP7fobAgy/H0UKDA=;
+ b=BcqQ0nRXN3UAaO9qo0VPfA2KsOWeVHlICYIqwd54oYo+eleSDegNwMJR
+ +wP2hiBwT6aJVnFebrXMcnTldiTL+Zl/fAIuCnksEvSYSk1W8ndpZGlY0
+ 3Z8iNPgWppeAXZCbayuuXmh3t7PuJQ2bCYOSx7eTP2mvCeT387672ymBQ
+ PJeTCaH6iad9jaRfPi8N57OS40qiCLkVjXEDh/vj6BKxSYZvv+8PuJxav
+ D8hXulxfsN56znX+9K7zqtgvDCe9tWa3TazSui9bkNG8nKz2oA0tDj7Nf
+ c2lP6xtgSP5u648EixLgjlG7gHeG6cCfGaLYw2VWmJpVq6KDDyTEdYQ0T w==;
+X-CSE-ConnectionGUID: dHA8hGtdTh+SAW7B2LypOA==
+X-CSE-MsgGUID: AS7ViU6ZRECGw9KBOLZ43Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="14147841"
+X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; d="scan'208";a="14147841"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2024 00:21:14 -0700
+X-CSE-ConnectionGUID: v/EJ7GX4RJOkNXeZvA21Fg==
+X-CSE-MsgGUID: dO3Tae8ZQJKIx4SLwrVfQw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; d="scan'208";a="42794382"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.9])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2024 00:21:10 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Chris Bainbridge <chris.bainbridge@gmail.com>, kernel test robot
+ <lkp@intel.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ hughsient@gmail.com
+Subject: Re: [PATCH v2] drm/client: Detect when ACPI lid is closed during
+ initialization
+In-Reply-To: <ZmB_cs-7GU-m3GXX@debian.local>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240528210319.1242-1-mario.limonciello@amd.com>
+ <202406040928.Eu1gRIWv-lkp@intel.com> <ZmB_cs-7GU-m3GXX@debian.local>
+Date: Thu, 06 Jun 2024 10:21:07 +0300
+Message-ID: <87h6e6bkpo.fsf@intel.com>
 MIME-Version: 1.0
-References: <20240521075717.50330-1-angelogioacchino.delregno@collabora.com>
- <20240521075717.50330-3-angelogioacchino.delregno@collabora.com>
- <e7845300fa822413f6308cb6297222cde89c39e0.camel@mediatek.com>
- <0e0fe86c-92da-43f5-89d7-8084274a908a@collabora.com>
-In-Reply-To: <0e0fe86c-92da-43f5-89d7-8084274a908a@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 6 Jun 2024 14:46:51 +0800
-Message-ID: <CAGXv+5FgVk9z3DhAC5oYoGXSJ+wJf+sa6wFSyJ_Nhy3JrKkCng@mail.gmail.com>
-Subject: Re: [PATCH v5 2/3] dt-bindings: arm: mediatek: mmsys: Add OF graph
- support for board path
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>, 
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, 
- =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>, 
- "mripard@kernel.org" <mripard@kernel.org>,
- =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
- "conor+dt@kernel.org" <conor+dt@kernel.org>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "robh@kernel.org" <robh@kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@gmail.com" <airlied@gmail.com>, 
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, 
- "kernel@collabora.com" <kernel@collabora.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
- =?UTF-8?B?WXUtY2hhbmcgTGVlICjmnY7nprnnkosp?= <Yu-chang.Lee@mediatek.com>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "amergnat@baylibre.com" <amergnat@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,157 +77,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 5, 2024 at 7:15=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
+On Wed, 05 Jun 2024, Chris Bainbridge <chris.bainbridge@gmail.com> wrote:
+> On Tue, Jun 04, 2024 at 10:02:29AM +0800, kernel test robot wrote:
+>> Hi Mario,
+>> 
+>> kernel test robot noticed the following build errors:
+>> 
+>> [auto build test ERROR on drm-misc/drm-misc-next]
+>> [also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.10-rc2 next-20240603]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>> 
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-client-Detect-when-ACPI-lid-is-closed-during-initialization/20240529-050440
+>> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+>> patch link:    https://lore.kernel.org/r/20240528210319.1242-1-mario.limonciello%40amd.com
+>> patch subject: [PATCH v2] drm/client: Detect when ACPI lid is closed during initialization
+>> config: i386-randconfig-053-20240604 (https://download.01.org/0day-ci/archive/20240604/202406040928.Eu1gRIWv-lkp@intel.com/config)
+>> compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240604/202406040928.Eu1gRIWv-lkp@intel.com/reproduce)
+>> 
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202406040928.Eu1gRIWv-lkp@intel.com/
+>> 
+>> All errors (new ones prefixed by >>):
+>> 
+>>    ld: drivers/gpu/drm/drm_client_modeset.o: in function `drm_client_match_edp_lid':
+>> >> drivers/gpu/drm/drm_client_modeset.c:281:(.text+0x221b): undefined reference to `acpi_lid_open'
+>> 
+>> 
+>> vim +281 drivers/gpu/drm/drm_client_modeset.c
+>> 
+>>    260	
+>>    261	static void drm_client_match_edp_lid(struct drm_device *dev,
+>>    262					     struct drm_connector **connectors,
+>>    263					     unsigned int connector_count,
+>>    264					     bool *enabled)
+>>    265	{
+>>    266		int i;
+>>    267	
+>>    268		for (i = 0; i < connector_count; i++) {
+>>    269			struct drm_connector *connector = connectors[i];
+>>    270	
+>>    271			switch (connector->connector_type) {
+>>    272			case DRM_MODE_CONNECTOR_LVDS:
+>>    273			case DRM_MODE_CONNECTOR_eDP:
+>>    274				if (!enabled[i])
+>>    275					continue;
+>>    276				break;
+>>    277			default:
+>>    278				continue;
+>>    279			}
+>>    280	
+>>  > 281			if (!acpi_lid_open()) {
+>>    282				drm_dbg_kms(dev, "[CONNECTOR:%d:%s] lid is closed, disabling\n",
+>>    283					    connector->base.id, connector->name);
+>>    284				enabled[i] = false;
+>>    285			}
+>>    286		}
+>>    287	}
+>>    288	
+>> 
+>> -- 
+>> 0-DAY CI Kernel Test Service
+>> https://github.com/intel/lkp-tests/wiki
 >
-> Il 05/06/24 03:38, CK Hu (=E8=83=A1=E4=BF=8A=E5=85=89) ha scritto:
-> > Hi, Angelo:
-> >
-> > On Tue, 2024-05-21 at 09:57 +0200, AngeloGioacchino Del Regno wrote:
-> >> Document OF graph on MMSYS/VDOSYS: this supports up to three DDP paths
-> >> per HW instance (so potentially up to six displays for multi-vdo SoCs)=
-.
-> >>
-> >> The MMSYS or VDOSYS is always the first component in the DDP pipeline,
-> >> so it only supports an output port with multiple endpoints - where eac=
-h
-> >> endpoint defines the starting point for one of the (currently three)
-> >> possible hardware paths.
-> >>
-> >> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> >> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
-> >> Tested-by: Alexandre Mergnat <amergnat@baylibre.com>
-> >> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@c=
-ollabora.com>
-> >> ---
-> >>   .../bindings/arm/mediatek/mediatek,mmsys.yaml | 28 +++++++++++++++++=
-++
-> >>   1 file changed, 28 insertions(+)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,m=
-msys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.y=
-aml
-> >> index b3c6888c1457..0ef67ca4122b 100644
-> >> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.ya=
-ml
-> >> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.ya=
-ml
-> >> @@ -93,6 +93,34 @@ properties:
-> >>     '#reset-cells':
-> >>       const: 1
-> >>
-> >> +  port:
-> >> +    $ref: /schemas/graph.yaml#/properties/port
-> >> +    description:
-> >> +      Output port node. This port connects the MMSYS/VDOSYS output to
-> >> +      the first component of one display pipeline, for example one of
-> >> +      the available OVL or RDMA blocks.
-> >> +      Some MediaTek SoCs support multiple display outputs per MMSYS.
-> >
-> > This patch looks good to me. Just want to share another information for=
- you.
-> > Here is an example that mmsys/vdosys could point to the display interfa=
-ce node.
-> >
-> > vdosys0: syscon@1c01a000 {
-> >            mmsys-display-interface =3D <&dsi0>, <&dsi1>, <&dp_intf0>;
-> > };
-> >
-> > vdosys1: syscon@1c100000 {
-> >            mmsys-display-interface =3D <&dp_intf1>;
-> > };
-> >
-> > There is no conflict that mmsys/vdosys point to first component of one =
-display pipeline or point to display interface.
-> > Both could co-exist.
-> >
+> The failed config has CONFIG_ACPI_BUTTON=m. The build failure can be
+> fixed with:
 >
-> Hey CK,
+> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+> index b76438c31761..0271e66f44f8 100644
+> --- a/drivers/gpu/drm/drm_client_modeset.c
+> +++ b/drivers/gpu/drm/drm_client_modeset.c
+> @@ -271,11 +271,13 @@ static void drm_client_match_edp_lid(struct drm_device *dev,
+>                 if (connector->connector_type != DRM_MODE_CONNECTOR_eDP || !enabled[i])
+>                         continue;
 >
-> yes, this could be an alternative to the OF graphs, and I'm sure that it'=
-d work,
-> even though this kind of solution would still require partial hardcoding =
-of the
-> display paths up until mmsys-display-interface (so, up until DSI0, or DSI=
-1, etc).
+> +#if defined(CONFIG_ACPI_BUTTON)
+>                 if (!acpi_lid_open()) {
+>                         drm_dbg_kms(dev, "[CONNECTOR:%d:%s] lid is closed, disabling\n",
+>                                     connector->base.id, connector->name);
+>                         enabled[i] = false;
+>                 }
+> +#endif
+>         }
+>  }
 
-I think you might be misunderstanding CK's proposal? He's simply saying tha=
-t
-instead of pointing to the start of the pipeline, point to the end instead.
-You can still use the OF graph and work backwards from the output.
+No. This is because
 
-> The problem with a solution like this is that, well, even though it would=
- work,
-> even if we ignore the suboptimal partial hardcoding, OF graphs are someth=
-ing
-> generic, while the mmsys-display-interface would be a MediaTek specific/c=
-ustom
-> property.
->
-> In the end, reusing generic kernel apis/interfaces/etc is always preferre=
-d
-> compared to custom solutions, especially in this case, in which the gener=
-ic
-> stuff is on-par (or actually, depending purely on personal opinions, supe=
-rior).
+CONFIG_DRM=y
+CONFIG_ACPI_BUTTON=m
 
-Here you are mixing hardware descriptions and kernel implementation details=
-.
+The pedantically correct fix is probably having DRM
 
-I think this goes back to whether the mmsys/vdosys is actually part of the
-graph or not. It certainly controls the muxes within the graph. But that
-doesn't mean it has to be within the graph itself. It can just have pointer=
-s
-to entry points of the graph (for which you would have a couple lines of
-custom code [1]). If the data doesn't flow through the mmsys/vdosys, then
-I would argue that it is not part of the graph.
+	depends on ACPI_BUTTON || ACPI_BUTTON=n
 
-I would also argue that the data path should be fully described in the
-device tree, not hardcoding paths based on board usage. The latter is
-a policy / design decision, not a hardware capability.
+but seeing how i915 and xe just
+
+	select ACPI_BUTTON if ACPI
+
+and nouveau basically uses acpi_lid_open() it if it's reachable with no
+regard to kconfig, it's anyone's guess what will work.
 
 
-ChenYu
+BR,
+Jani.
 
-> As for the two to co-exist, I'm not sure that this is actually needed, as=
- the
-> OF graphs are already (at the end of the graph) pointing to the display i=
-nterface.
->
-> In any case, just as a reminder: if there will be any need to add any cus=
-tom
-> MediaTek specific properties later, it's ok and we can do that at any tim=
-e.
->
-> Cheers!
-> Angelo
->
-> > Regards,
-> > CK
-> >
-> >> +    properties:
-> >> +      endpoint@0:
-> >> +        $ref: /schemas/graph.yaml#/properties/endpoint
-> >> +        description: Output to the primary display pipeline
-> >> +
-> >> +      endpoint@1:
-> >> +        $ref: /schemas/graph.yaml#/properties/endpoint
-> >> +        description: Output to the secondary display pipeline
-> >> +
-> >> +      endpoint@2:
-> >> +        $ref: /schemas/graph.yaml#/properties/endpoint
-> >> +        description: Output to the tertiary display pipeline
-> >> +
-> >> +    anyOf:
-> >> +      - required:
-> >> +          - endpoint@0
-> >> +      - required:
-> >> +          - endpoint@1
-> >> +      - required:
-> >> +          - endpoint@2
-> >> +
-> >>   required:
-> >>     - compatible
-> >>     - reg
->
->
+
+
+-- 
+Jani Nikula, Intel
