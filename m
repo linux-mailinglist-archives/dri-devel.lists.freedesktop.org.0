@@ -2,66 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C3B8FDF78
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 09:21:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA85D8FE05B
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 10:00:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24A4B10E852;
-	Thu,  6 Jun 2024 07:21:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE4810E322;
+	Thu,  6 Jun 2024 08:00:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BcqQ0nRX";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=norik.com header.i=@norik.com header.b="guksln58";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B52610E848;
- Thu,  6 Jun 2024 07:21:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717658475; x=1749194475;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=QD4Dh8MLYOkud3AMPflq2aHwK8HUP7fobAgy/H0UKDA=;
- b=BcqQ0nRXN3UAaO9qo0VPfA2KsOWeVHlICYIqwd54oYo+eleSDegNwMJR
- +wP2hiBwT6aJVnFebrXMcnTldiTL+Zl/fAIuCnksEvSYSk1W8ndpZGlY0
- 3Z8iNPgWppeAXZCbayuuXmh3t7PuJQ2bCYOSx7eTP2mvCeT387672ymBQ
- PJeTCaH6iad9jaRfPi8N57OS40qiCLkVjXEDh/vj6BKxSYZvv+8PuJxav
- D8hXulxfsN56znX+9K7zqtgvDCe9tWa3TazSui9bkNG8nKz2oA0tDj7Nf
- c2lP6xtgSP5u648EixLgjlG7gHeG6cCfGaLYw2VWmJpVq6KDDyTEdYQ0T w==;
-X-CSE-ConnectionGUID: dHA8hGtdTh+SAW7B2LypOA==
-X-CSE-MsgGUID: AS7ViU6ZRECGw9KBOLZ43Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="14147841"
-X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; d="scan'208";a="14147841"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2024 00:21:14 -0700
-X-CSE-ConnectionGUID: v/EJ7GX4RJOkNXeZvA21Fg==
-X-CSE-MsgGUID: dO3Tae8ZQJKIx4SLwrVfQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; d="scan'208";a="42794382"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.9])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2024 00:21:10 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Chris Bainbridge <chris.bainbridge@gmail.com>, kernel test robot
- <lkp@intel.com>
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- hughsient@gmail.com
-Subject: Re: [PATCH v2] drm/client: Detect when ACPI lid is closed during
- initialization
-In-Reply-To: <ZmB_cs-7GU-m3GXX@debian.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240528210319.1242-1-mario.limonciello@amd.com>
- <202406040928.Eu1gRIWv-lkp@intel.com> <ZmB_cs-7GU-m3GXX@debian.local>
-Date: Thu, 06 Jun 2024 10:21:07 +0300
-Message-ID: <87h6e6bkpo.fsf@intel.com>
+X-Greylist: delayed 1905 seconds by postgrey-1.36 at gabe;
+ Thu, 06 Jun 2024 08:00:04 UTC
+Received: from cpanel.siel.si (cpanel.siel.si [46.19.9.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE65A10E204
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 08:00:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=norik.com; 
+ s=default;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=gBqBMEdpgSWaaWwBLc5khMuiytPxATXod4rTVijqgY4=; b=guksln58r54I04NYiWoMUl0V4R
+ pCDiwlA8jyLRRLoivVyXybmV9n+JYTFUd68C0CbL+PpNtVWCrmPbz5XzJRwB3hpvJsTTdPN+Rlqmq
+ Gf0JcluLl/NNm2x9jI9EbOFsJ1azWXGmu0j2s9OB3f4beDN+59cVloz8dEGS6u9fgyHZlZOhRDqyU
+ bCoz46D/PUlnEiAZ9id6eFAXLQQIHqFfhKQoAcnUTK+kWmKIhMbN24PkNoWR/aVVzh+SE+gspOFYR
+ Hkm/6FOy4MPgA1HFjvrLybbaTGOTagnRcgRbsLqnDccy+Q/YsOOc15lrq07p69kUPMGY4cQamZh01
+ I05tkzzw==;
+Received: from [89.212.21.243] (port=52108 helo=localhost.localdomain)
+ by cpanel.siel.si with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96.2)
+ (envelope-from <primoz.fiser@norik.com>) id 1sF7Xl-00BQOL-1w;
+ Thu, 06 Jun 2024 09:28:16 +0200
+From: Primoz Fiser <primoz.fiser@norik.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko.stuebner@cherry.de>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Chris Morgan <macromorgan@hotmail.com>, Sebastian Reichel <sre@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: upstream@lists.phytec.de
+Subject: [PATCH 1/3] dt-bindings: Add vendor prefix for PrimeView
+Date: Thu,  6 Jun 2024 09:28:12 +0200
+Message-Id: <20240606072814.3572965-1-primoz.fiser@norik.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel.siel.si
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - norik.com
+X-Get-Message-Sender-Via: cpanel.siel.si: authenticated_id:
+ primoz.fiser@norik.com
+X-Authenticated-Sender: cpanel.siel.si: primoz.fiser@norik.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,115 +79,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 05 Jun 2024, Chris Bainbridge <chris.bainbridge@gmail.com> wrote:
-> On Tue, Jun 04, 2024 at 10:02:29AM +0800, kernel test robot wrote:
->> Hi Mario,
->> 
->> kernel test robot noticed the following build errors:
->> 
->> [auto build test ERROR on drm-misc/drm-misc-next]
->> [also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.10-rc2 next-20240603]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->> 
->> url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-client-Detect-when-ACPI-lid-is-closed-during-initialization/20240529-050440
->> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
->> patch link:    https://lore.kernel.org/r/20240528210319.1242-1-mario.limonciello%40amd.com
->> patch subject: [PATCH v2] drm/client: Detect when ACPI lid is closed during initialization
->> config: i386-randconfig-053-20240604 (https://download.01.org/0day-ci/archive/20240604/202406040928.Eu1gRIWv-lkp@intel.com/config)
->> compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240604/202406040928.Eu1gRIWv-lkp@intel.com/reproduce)
->> 
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202406040928.Eu1gRIWv-lkp@intel.com/
->> 
->> All errors (new ones prefixed by >>):
->> 
->>    ld: drivers/gpu/drm/drm_client_modeset.o: in function `drm_client_match_edp_lid':
->> >> drivers/gpu/drm/drm_client_modeset.c:281:(.text+0x221b): undefined reference to `acpi_lid_open'
->> 
->> 
->> vim +281 drivers/gpu/drm/drm_client_modeset.c
->> 
->>    260	
->>    261	static void drm_client_match_edp_lid(struct drm_device *dev,
->>    262					     struct drm_connector **connectors,
->>    263					     unsigned int connector_count,
->>    264					     bool *enabled)
->>    265	{
->>    266		int i;
->>    267	
->>    268		for (i = 0; i < connector_count; i++) {
->>    269			struct drm_connector *connector = connectors[i];
->>    270	
->>    271			switch (connector->connector_type) {
->>    272			case DRM_MODE_CONNECTOR_LVDS:
->>    273			case DRM_MODE_CONNECTOR_eDP:
->>    274				if (!enabled[i])
->>    275					continue;
->>    276				break;
->>    277			default:
->>    278				continue;
->>    279			}
->>    280	
->>  > 281			if (!acpi_lid_open()) {
->>    282				drm_dbg_kms(dev, "[CONNECTOR:%d:%s] lid is closed, disabling\n",
->>    283					    connector->base.id, connector->name);
->>    284				enabled[i] = false;
->>    285			}
->>    286		}
->>    287	}
->>    288	
->> 
->> -- 
->> 0-DAY CI Kernel Test Service
->> https://github.com/intel/lkp-tests/wiki
->
-> The failed config has CONFIG_ACPI_BUTTON=m. The build failure can be
-> fixed with:
->
-> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-> index b76438c31761..0271e66f44f8 100644
-> --- a/drivers/gpu/drm/drm_client_modeset.c
-> +++ b/drivers/gpu/drm/drm_client_modeset.c
-> @@ -271,11 +271,13 @@ static void drm_client_match_edp_lid(struct drm_device *dev,
->                 if (connector->connector_type != DRM_MODE_CONNECTOR_eDP || !enabled[i])
->                         continue;
->
-> +#if defined(CONFIG_ACPI_BUTTON)
->                 if (!acpi_lid_open()) {
->                         drm_dbg_kms(dev, "[CONNECTOR:%d:%s] lid is closed, disabling\n",
->                                     connector->base.id, connector->name);
->                         enabled[i] = false;
->                 }
-> +#endif
->         }
->  }
+The Prime View International (PVI) is a LCD panel manufacturer.
 
-No. This is because
+Signed-off-by: Primoz Fiser <primoz.fiser@norik.com>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-CONFIG_DRM=y
-CONFIG_ACPI_BUTTON=m
-
-The pedantically correct fix is probably having DRM
-
-	depends on ACPI_BUTTON || ACPI_BUTTON=n
-
-but seeing how i915 and xe just
-
-	select ACPI_BUTTON if ACPI
-
-and nouveau basically uses acpi_lid_open() it if it's reachable with no
-regard to kconfig, it's anyone's guess what will work.
-
-
-BR,
-Jani.
-
-
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index fbf47f0bacf1..2bdfeaa3cc8f 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1154,6 +1154,8 @@ patternProperties:
+     description: Poslab Technology Co., Ltd.
+   "^pov,.*":
+     description: Point of View International B.V.
++  "^primeview,.*":
++    description: Prime View International (PVI)
+   "^powertip,.*":
+     description: Powertip Tech. Corp.
+   "^powervr,.*":
 -- 
-Jani Nikula, Intel
+2.25.1
+
