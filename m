@@ -2,57 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66228FF18F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 18:06:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8068FF1DB
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 18:13:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F66010E9E9;
-	Thu,  6 Jun 2024 16:06:05 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hzsTIkIH";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A78C10E9FE;
+	Thu,  6 Jun 2024 16:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E18810E9E9
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 16:06:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 46C24CE1BC2;
- Thu,  6 Jun 2024 16:05:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61B8DC32786;
- Thu,  6 Jun 2024 16:05:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717689956;
- bh=B8oFRLGBFf9oUJJabHP/G1kxoGfOaFOryqLjdH+SGSk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hzsTIkIHDNCs2FiL9YqqvipwrMQRBtAazzckMC8ufaumBOyktcGli0kpYrEn3OWkH
- M9NbkCj/S8PjYfNnEkjjaVXmP5sceIWntZ54jdkNCXXn+6HjWQKWERLcUSO82NsCfD
- CKKZLMu/KcQ7rFxoPtFjb2JCknafyR23JkcyunF134Knz9DswZbsQ4f3Yhmcqr1o8m
- mDeezxCkbMrnqRyFZTwy1EcIGR9q6KIj/1gPlm4XLvFGvAexzDztghIS5WNuxnmv+G
- /NichS6snCrCEL2oJqeJ9k/f8k5R+UlNVz8eoMmR0ua8WSBnE0PB+8g1JqPRpWyrEV
- waU9JgGUPRwVw==
-Date: Thu, 6 Jun 2024 17:05:51 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Primoz Fiser <primoz.fiser@norik.com>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Heiko Stuebner <heiko.stuebner@cherry.de>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Chris Morgan <macromorgan@hotmail.com>, Sebastian Reichel <sre@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, upstream@lists.phytec.de
-Subject: Re: [PATCH v2 2/3] dt-bindings: display: simple: Add PrimeView
- PM070WL4 panel
-Message-ID: <20240606-widow-siberian-c68601929e3a@spud>
-References: <20240606080104.3663355-1-primoz.fiser@norik.com>
- <20240606080104.3663355-2-primoz.fiser@norik.com>
+X-Greylist: delayed 312 seconds by postgrey-1.36 at gabe;
+ Thu, 06 Jun 2024 16:13:03 UTC
+Received: from ns.iliad.fr (ns.iliad.fr [212.27.33.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C77110E9FE;
+ Thu,  6 Jun 2024 16:13:03 +0000 (UTC)
+Received: from ns.iliad.fr (localhost [127.0.0.1])
+ by ns.iliad.fr (Postfix) with ESMTP id BF87720787;
+ Thu,  6 Jun 2024 18:07:49 +0200 (CEST)
+Received: from [127.0.1.1] (freebox.vlq16.iliad.fr [213.36.7.13])
+ by ns.iliad.fr (Postfix) with ESMTP id A76D6200AA;
+ Thu,  6 Jun 2024 18:07:49 +0200 (CEST)
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+Subject: [PATCH v3 0/4] HDMI TX support in msm8998
+Date: Thu, 06 Jun 2024 18:07:46 +0200
+Message-Id: <20240606-hdmi-tx-v3-0-9d7feb6d3647@freebox.fr>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jmniVyf0f5Z3Hun/"
-Content-Disposition: inline
-In-Reply-To: <20240606080104.3663355-2-primoz.fiser@norik.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANLeYWYC/x3MywrCMBCF4Vcps3ZkcjEaV76HuMhlYrPohWmRQ
+ um7G7r84D9nh4Wl8gLPbgfhX13qNDaYSwepD+OXseZm0KQtOXLY56HiuiER84PvOceQoNWzcKn
+ b+fT+NBeZBlx74XDug05RaU/omRRaZRz6m9eY2BofFXkX3asIc5y2axE4jj9aSdsmmwAAAA==
+To: Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, 
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, Arnaud Vrac <avrac@freebox.fr>, 
+ Pierre-Hugues Husson <phhusson@freebox.fr>, 
+ Marc Gonzalez <mgonzalez@freebox.fr>
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,28 +63,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+DT bits required for HDMI TX support in APQ8098 (msm8998 cousin)
 
---jmniVyf0f5Z3Hun/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Supersedes <a2cb1290-9e01-4136-9592-ce439b1096b6@freebox.fr>
 
-On Thu, Jun 06, 2024 at 10:01:03AM +0200, Primoz Fiser wrote:
-> Add PrimeView PM070WL4 7.0" 800x480 TFT LCD panel compatible string.
->=20
-> Signed-off-by: Primoz Fiser <primoz.fiser@norik.com>
+Changes in v3
+- Address Rob's comments on patch 2:
+  - 'maxItems: 5' for clocks in the 8996 if/then schema
+  - match the order of 8996 for the clock-names in common
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+---
+Arnaud Vrac (1):
+      arm64: dts: qcom: add HDMI nodes for msm8998
 
---jmniVyf0f5Z3Hun/
-Content-Type: application/pgp-signature; name="signature.asc"
+Marc Gonzalez (3):
+      dt-bindings: display/msm: hdmi: add qcom,hdmi-phy-8998
+      dt-bindings: display/msm: hdmi: add qcom,hdmi-tx-8998
+      arm64: dts: qcom: msm8998: add HDMI GPIOs
 
------BEGIN PGP SIGNATURE-----
+ .../devicetree/bindings/display/msm/hdmi.yaml      |  28 ++++-
+ .../devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml |   1 +
+ arch/arm64/boot/dts/qcom/msm8998.dtsi              | 128 ++++++++++++++++++++-
+ 3 files changed, 154 insertions(+), 3 deletions(-)
+---
+base-commit: 2c4f4d94dcbf6f500b92fff5600989ea23a207e8
+change-id: 20240606-hdmi-tx-00ee8e7ddbac
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZmHeXwAKCRB4tDGHoIJi
-0ncXAQDMt6euY2YYZi9oiMgKaMustD63H2w1UmQ/Mamircx+WwEAwURL0IUhLdyN
-k59gGQ4kRoEuKe/3upiVykYeA9CnoA0=
-=BFmt
------END PGP SIGNATURE-----
+Best regards,
+-- 
+Marc Gonzalez <mgonzalez@freebox.fr>
 
---jmniVyf0f5Z3Hun/--
