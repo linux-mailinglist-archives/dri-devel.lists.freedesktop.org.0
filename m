@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB668FDCCC
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 04:33:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA8748FDCD1
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 04:35:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CC0A10E83C;
-	Thu,  6 Jun 2024 02:33:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9371510E840;
+	Thu,  6 Jun 2024 02:35:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fPv+LylM";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="eSfMdGaN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D93A10E839;
- Thu,  6 Jun 2024 02:33:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717641222; x=1749177222;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=hCrp160SqI92JGYDKPyd17g9d4kt9kshydonV9EWx3I=;
- b=fPv+LylM68M3f7hgP1Pqm7gzryRPrirIwTPHTgMb77ByHSv1ECW1NhlG
- d0/O4+3JP+zxTT8pjXT3j6Nm2DCPY19+rGHaVSlDZ5k0rTyjI1zqwGR/v
- S5AbNFSJnT82KrVaCcfH20q7BR+hQC1jUJfw/DIr16rH6iR3KHqtsRjK9
- MUgQ8ROZ3dS1y7VolrPmFzM6+BWH/Pgjy6SK/f6pyzs7EIt3SFrbqszY2
- /jAqDZnjl1e3VVMmTkQ0zRDgOU88HLOq3vp9rL4z0J7NBMDkGAfatHyXr
- ZCiep5YsJ56H6Qa8OoblmP5Or3Sd6cIUJtLEQ0uqnXDesfUAmKkOfBr8u g==;
-X-CSE-ConnectionGUID: v1DrHauDS9K+Pub8wYmC0Q==
-X-CSE-MsgGUID: EA2KM33GRTaPAlNbfxBXXQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="24944133"
-X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; d="scan'208";a="24944133"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2024 19:33:40 -0700
-X-CSE-ConnectionGUID: F0uT4Q0gR9GnSLsjELoirw==
-X-CSE-MsgGUID: GGTkRMYhSp2Rv4xSH/hETA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; d="scan'208";a="42375008"
-Received: from mwiniars-desk2.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.242])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2024 19:33:37 -0700
-Date: Thu, 6 Jun 2024 04:33:34 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>
-Subject: Re: [PATCH] drm/i915/gt: Fix potential UAF by revoke of fence
- registers
-Message-ID: <ZmEf_m_H7kMc25T-@ashyti-mobl2.lan>
-References: <20240603195446.297690-2-janusz.krzysztofik@linux.intel.com>
- <Zl5ka7WSVAv3THW6@ashyti-mobl2.lan>
- <3565005.iIbC2pHGDl@jkrzyszt-mobl2.ger.corp.intel.com>
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 047C810E840
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 02:35:25 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-627ecda47d0so4274597b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2024 19:35:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1717641325; x=1718246125;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jWbZE4IHnSQNJX1Cr059FeAfCDjIY7ZcvY1qnkeTunU=;
+ b=eSfMdGaNGe/OmsF0/xO7/Qqbh5u0jR+ORBx7g7Iw/myh4Cr2+gyE+DZMuwLktPxikH
+ QnEe2rE75KrWJ0zMtxtJ0m9wS/pE69Am6LQrvC7nKP3u2wrXM/Fi9LJJ5wdPk0/4Nh94
+ khzGAtWeaoUoMh1uRVKNX/nYZluhPstdIhp54=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717641325; x=1718246125;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jWbZE4IHnSQNJX1Cr059FeAfCDjIY7ZcvY1qnkeTunU=;
+ b=ezPmzQc9t15MbOJ/hlThZsx7Oo6UXJEIuvF4bHXqRDoDlm5Ombzj6Bk/6KoYwi9/G1
+ M3x7TSPYS04u9c7x3folQAQSE725vr9/2llB0DJvupHSFg6CaARMZ09iZyOQJmOgdmPI
+ 25+zqa1+GXP+vR7OyrjsPUGlPDxVtTjadn1xtlRT6hXzlBKuN/eG4KBG9rSLx93LcHog
+ Bcdxf5iKCc+rrgXhEG0JZ2GjH9RIDI87eCXcIGgYhsG5z1m+j7HdIzLgf/EVJjtxAfWM
+ PAlFtFO9mBHT6ah+FYgvGVRG8JN2cKW+5dPfULNoiJ/5TEWLwp6LBYyjrrCJfFSSK2pV
+ NeDg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWlR4hKOgVrn03YL3XqytzGK7+ZnYg8YnrrUEk6jSosxihJHLPqSpTLv9ThqwDzIDM9IaC+GnP3zUsa0Aq1ICJCk1hlBVkqf+ikjAFBFUVJ
+X-Gm-Message-State: AOJu0Yw4rw8xOh5q5DXscQBqh7esAjXI7AcNy2bXeIJ/fZC3KoX3inQB
+ VE/nfzsgA/DbV52TzLAyZIVL5yIahQ77pOUwgL/TMx381IBwQQHEQfykThP6kd3RvvhOWgVUFth
+ 9NL/5uqrz2e6cKNJUPsSyRdo+gpMRYjblZWkO
+X-Google-Smtp-Source: AGHT+IEetZtg3sd1WRfUjCaJp694k1J+jq1d22kipTdG54+7IYVn7+AwLxlfHKh9spCBKCQDFhYxQNkIgI+5c7y8imY=
+X-Received: by 2002:a81:4c8b:0:b0:61d:fcf7:b79a with SMTP id
+ 00721157ae682-62cbb4ab5ecmr40559257b3.11.1717641318577; Wed, 05 Jun 2024
+ 19:35:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3565005.iIbC2pHGDl@jkrzyszt-mobl2.ger.corp.intel.com>
+References: <20240517232858.230860-1-linux@treblig.org>
+ <Zl38XRm7TAfb3azW@gallifrey>
+In-Reply-To: <Zl38XRm7TAfb3azW@gallifrey>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Wed, 5 Jun 2024 22:35:07 -0400
+Message-ID: <CABQX2QNG67dehASGQS-0C+9ikqk0Bb6Sfb3FtxrcXGhW+aXBaQ@mail.gmail.com>
+Subject: Re: [PATCH 3/6] drm/vmwgfx: remove unused struct 'vmw_stdu_dma'
+To: "Dr. David Alan Gilbert" <linux@treblig.org>
+Cc: bcm-kernel-feedback-list@broadcom.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, daniel@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,92 +79,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Janusz,
+On Mon, Jun 3, 2024 at 1:24=E2=80=AFPM Dr. David Alan Gilbert <linux@trebli=
+g.org> wrote:
+>
+> * linux@treblig.org (linux@treblig.org) wrote:
+> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> >
+> > 'vmw_stdu_dma' is unused since
+> > commit 39985eea5a6d ("drm/vmwgfx: Abstract placement selection")
+> > Remove it.
+>
+> Ping.
 
-On Tue, Jun 04, 2024 at 05:27:24PM +0200, Janusz Krzysztofik wrote:
-> On Tuesday, 4 June 2024 02:48:43 GMT+2 Andi Shyti wrote:
-> > On Mon, Jun 03, 2024 at 09:54:45PM +0200, Janusz Krzysztofik wrote:
-> > > CI has been sporadically reporting the following issue triggered by
-> > > igt@i915_selftest@live@hangcheck on ADL-P and similar machines:
-> > > 
-> > > <6> [414.049203] i915: Running intel_hangcheck_live_selftests/igt_reset_evict_fence
-> > > ...
-> > > <6> [414.068804] i915 0000:00:02.0: [drm] GT0: GUC: submission enabled
-> > > <6> [414.068812] i915 0000:00:02.0: [drm] GT0: GUC: SLPC enabled
-> > > <3> [414.070354] Unable to pin Y-tiled fence; err:-4
-> > > <3> [414.071282] i915_vma_revoke_fence:301 GEM_BUG_ON(!i915_active_is_idle(&fence->active))
-> > > ...
-> > > <4>[  609.603992] ------------[ cut here ]------------
-> > > <2>[  609.603995] kernel BUG at drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c:301!
-> > > <4>[  609.604003] invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
-> > > <4>[  609.604006] CPU: 0 PID: 268 Comm: kworker/u64:3 Tainted: G     U  W          6.9.0-CI_DRM_14785-g1ba62f8cea9c+ #1
-> > > <4>[  609.604008] Hardware name: Intel Corporation Alder Lake Client Platform/AlderLake-P DDR4 RVP, BIOS RPLPFWI1.R00.4035.A00.2301200723 01/20/2023
-> > > <4>[  609.604010] Workqueue: i915 __i915_gem_free_work [i915]
-> > > <4>[  609.604149] RIP: 0010:i915_vma_revoke_fence+0x187/0x1f0 [i915]
-> > > ...
-> > > <4>[  609.604271] Call Trace:
-> > > <4>[  609.604273]  <TASK>
-> > > ...
-> > > <4>[  609.604716]  __i915_vma_evict+0x2e9/0x550 [i915]
-> > > <4>[  609.604852]  __i915_vma_unbind+0x7c/0x160 [i915]
-> > > <4>[  609.604977]  force_unbind+0x24/0xa0 [i915]
-> > > <4>[  609.605098]  i915_vma_destroy+0x2f/0xa0 [i915]
-> > > <4>[  609.605210]  __i915_gem_object_pages_fini+0x51/0x2f0 [i915]
-> > > <4>[  609.605330]  __i915_gem_free_objects.isra.0+0x6a/0xc0 [i915]
-> > > <4>[  609.605440]  process_scheduled_works+0x351/0x690
-> > > ...
-> > > 
-> > > In the past, there were similar failures reported by CI from other IGT
-> > > tests, observed on other platforms.
-> > > 
-> > > Before commit 63baf4f3d587 ("drm/i915/gt: Only wait for GPU activity
-> > > before unbinding a GGTT fence"), i915_vma_revoke_fence() was waiting for
-> > > idleness of vma->active via fence_update().   That commit introduced
-> > > vma->fence->active in order for the fence_update() to be able to wait
-> > > selectively on that one instead of vma->active since only idleness of
-> > > fence registers was needed.  But then, another commit 0d86ee35097a
-> > > ("drm/i915/gt: Make fence revocation unequivocal") replaced the call to
-> > > fence_update() in i915_vma_revoke_fence() with only fence_write(), and
-> > > also added that GEM_BUG_ON(!i915_active_is_idle(&fence->active)) in front.
-> > > No justification was provided on why we might then expect idleness of
-> > > vma->fence->active without first waiting on it.
-> > > 
-> > > The issue can be potentially caused by a race among revocation of fence
-> > > registers on one side and sequential execution of signal callbacks invoked
-> > > on completion of a request that was using them on the other, still
-> > > processed in parallel to revocation of those fence registers.  Fix it by
-> > > waiting for idleness of vma->fence->active in i915_vma_revoke_fence().
-> > > 
-> > > Fixes: 0d86ee35097a ("drm/i915/gt: Make fence revocation unequivocal")
-> > > Closes: https://gitlab.freedesktop.org/drm/intel/issues/10021
-> > > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-> > > Cc: stable@vger.kernel.org # v5.8+
-> > 
-> > Just wondering whether we really need the stable kernel here.
-> > 
-> > We have just an alleged failure reported on a selftest. I think
-> > we can drop the stable requirement.
-> 
-> Please note there were similar failures from other tests reported by CI in the 
-> past, e.g., https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/8846, 
-> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10638.  Would you like 
-> me to mention them in commit description.
+Thanks. I pushed it to drm-misc-fixes.
 
-I guess that's fine.
-
-> OTOH, stable will probably pick this patch up themselves, based on the Fixes: 
-> commit ID, even if we drop the Cc: stable.
-
-I was referring to the whole Fixes+stable... but you are right,
-let's keep them... just an oversight from me.
-
-I retriggered another test... but I'm pretty sure this is good to
-go.
-
-Thanks,
-Andi
-
-> Anyway, please feel free to drop Cc: stable, you or anyone who will be 
-> pushing.
-
-
+z
