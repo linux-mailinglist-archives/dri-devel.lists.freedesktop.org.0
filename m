@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B34E68FF787
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 00:09:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C468FF792
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 00:12:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3F0A10EAE5;
-	Thu,  6 Jun 2024 22:09:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32D1210EB15;
+	Thu,  6 Jun 2024 22:12:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="f4oqPQq1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RvTcer7M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E43C10EADF;
- Thu,  6 Jun 2024 22:09:46 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B898E10EAE4;
+ Thu,  6 Jun 2024 22:12:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717711786; x=1749247786;
+ t=1717711921; x=1749247921;
  h=message-id:date:mime-version:from:to:cc:subject:
  content-transfer-encoding;
- bh=zP0kotE5FVo9el/DXFxkalN/XT6pkXcVELeA2h3cOcw=;
- b=f4oqPQq1YV1U+0m5O3ac7HA6fGpbVXum87RCq9vZFEx1uiESI8o8i+YX
- WNXPaLBuqn7N2rnCnyTfiL6JqYxNytFpSJI0qteTDomgo77ao99Ck1Hdh
- AcNpn5eP+ntPRxHRl1i+fXWld6B6GXRQXArJDX+MMAVZamplKLlpy8N3w
- B+dqTsZ4IXixayc6irGjsxPHhGi2BdCyjSV47p3+XFjLvm/KfA3X1pBbB
- i53UfnWBWOHvgxDBh8HjBKsnfVU7/fk8n/9VwmRlaJiXk95hjZt2jVZo4
- JNEd0xkWY1QzYPz4Hh7+5/9RLeO1AbuMUcdhz+vjf9JJQOQddl7h0+RZB g==;
-X-CSE-ConnectionGUID: DImmT9y3SqWfS6K+0CC8QQ==
-X-CSE-MsgGUID: O/LRuoB0RSGGwrZxddNoLQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="31959776"
-X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; d="scan'208";a="31959776"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2024 15:09:33 -0700
-X-CSE-ConnectionGUID: IjPgGKN3Qm6kYyoLzU+wTw==
-X-CSE-MsgGUID: uVgIMDG/TyCoW/5NA/2tRg==
+ bh=y/aYmwzATGiYRaVLP5/NPW1anTDo2bYjdI4u7CSBi1c=;
+ b=RvTcer7M5QUy+I4Ac0HoH63+pQAE8M0cZ86liYY/lSyk9zUnEZbfDugs
+ yig/Vj44jLjKA08DOQPDDx22JnUvXSp5r2cEuNLyj5UrNgWFgepsDi+Mj
+ TlEFC5J8Hxx+6V0Q3bG/gv/JEr62MFV1fe/NrnOQdbq4PLE4eL1HanmJ1
+ Bi7shgvP7l7KGCTS24ZOMWSbKoALV8rQfO3Lzi0vQb06Y34TeCuAKWG5T
+ Y2dkwoOqMGrkzgohVeR/oWzy2dqa/3nF2n7f2YwlE5N8tLvOi0z398ePO
+ mJHOuLuliJG1mh6LfNoT0lzfkahs/VkKIVkgDgoxVdgIDFu1XPLlxXz2L g==;
+X-CSE-ConnectionGUID: r7geqBfBQMi+CtX1uwKtcA==
+X-CSE-MsgGUID: r/9Azon3SUyr2KHUKeWl1w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="39818282"
+X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; d="scan'208";a="39818282"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2024 15:12:00 -0700
+X-CSE-ConnectionGUID: KIE+JsVITRSoNQblaqCpDA==
+X-CSE-MsgGUID: Nf6G0Q6MS9OdhqXVBcPP5A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; d="scan'208";a="38555454"
+X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; d="scan'208";a="38188039"
 Received: from mmiotk-mobl2.ger.corp.intel.com (HELO [10.249.37.149])
  ([10.249.37.149])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2024 15:09:29 -0700
-Message-ID: <d5645d00-a8cf-47d9-a2a0-4ff55842fc7d@linux.intel.com>
-Date: Fri, 7 Jun 2024 00:09:57 +0200
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2024 15:11:56 -0700
+Message-ID: <0251b6ae-bffa-44b2-b698-955712c25a27@linux.intel.com>
+Date: Fri, 7 Jun 2024 00:12:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
@@ -58,7 +58,7 @@ Cc: dim-tools@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
  <tursulin@ursulin.net>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PULL] drm-misc-fixes
+Subject: [PULL] drm-misc-next-fixes
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
@@ -79,58 +79,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Dave, Sima,
 
-Lots of fixes for vmwgfx all over the place, and one fix for sitronix panel.
+Pull request for a single patch lost in the wrong tree.
 
 Cheers,
-Maarten
+~Maarten
 
-drm-misc-fixes-2024-06-07:
-drm-misc-fixes for v6.10-rc3:
-- Robustness fixes for vmwgfx.
-- Error check for of_drm_get_panel_orientation failing in
-   sitronix-st7789v.
-The following changes since commit bb195358806847217efba98de62b7decec3b371f:
+drm-misc-next-fixes-2024-06-07:
+drm-misc-next-fixes for v6.10-rc3:
+- Single unused struct removal that should have been in -fixes.
+The following changes since commit 5a507b7d2be15fddb95bf8dee01110b723e2bcd9:
 
-   drm/msm: remove python 3.9 dependency for compiling msm (2024-05-30 
-18:49:23 +0200)
+   drm/mst: Fix NULL pointer dereference at drm_dp_add_payload_part2 
+(2024-05-21 16:36:59 -0400)
 
 are available in the Git repository at:
 
    https://gitlab.freedesktop.org/drm/misc/kernel.git 
-tags/drm-misc-fixes-2024-06-07
+tags/drm-misc-next-fixes-2024-06-07
 
-for you to fetch changes up to 5703fc058efdafcdd6b70776ee562478f0753acb:
+for you to fetch changes up to 539d33b5783804f22a62bd62ff463dfd1cef4265:
 
-   drm/vmwgfx: Don't memcmp equivalent pointers (2024-06-05 22:38:40 -0400)
-
-----------------------------------------------------------------
-drm-misc-fixes for v6.10-rc3:
-- Robustness fixes for vmwgfx.
-- Error check for of_drm_get_panel_orientation failing in
-   sitronix-st7789v.
+   drm/komeda: remove unused struct 'gamma_curve_segment' (2024-05-31 
+12:09:51 +0100)
 
 ----------------------------------------------------------------
-Chen Ni (1):
-       drm/panel: sitronix-st7789v: Add check for 
-of_drm_get_panel_orientation
+drm-misc-next-fixes for v6.10-rc3:
+- Single unused struct removal that should have been in -fixes.
 
+----------------------------------------------------------------
 Dr. David Alan Gilbert (1):
-       drm/vmwgfx: remove unused struct 'vmw_stdu_dma'
+       drm/komeda: remove unused struct 'gamma_curve_segment'
 
-Ian Forbes (6):
-       drm/vmwgfx: Filter modes which exceed graphics memory
-       drm/vmwgfx: 3D disabled should not effect STDU memory limits
-       drm/vmwgfx: Remove STDU logic from generic mode_valid function
-       drm/vmwgfx: Standardize use of kibibytes when logging
-       drm/vmwgfx: Don't destroy Screen Target when CRTC is enabled but 
-inactive
-       drm/vmwgfx: Don't memcmp equivalent pointers
-
-  drivers/gpu/drm/panel/panel-sitronix-st7789v.c |  4 +-
-  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c            | 19 +++-----
-  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h            |  3 --
-  drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c  |  4 +-
-  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c            | 28 +++++-------
-  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c           | 60 
-+++++++++++++++++++++++---
-  6 files changed, 74 insertions(+), 44 deletions(-)
+  drivers/gpu/drm/arm/display/komeda/komeda_color_mgmt.c | 5 -----
+  1 file changed, 5 deletions(-)
