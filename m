@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E623E8FE00D
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 09:41:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D18AB8FE008
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 09:39:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C51B610E85E;
-	Thu,  6 Jun 2024 07:41:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 092FE10E859;
+	Thu,  6 Jun 2024 07:39:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G0Lfx+Jo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U+zeswCk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E645610E85E
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 07:41:04 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C14110E859
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 07:39:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id E1790CE091F;
- Thu,  6 Jun 2024 07:40:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 524F3C3277B;
- Thu,  6 Jun 2024 07:38:34 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 08B1561B77;
+ Thu,  6 Jun 2024 07:39:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF188C2BD10;
+ Thu,  6 Jun 2024 07:39:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717659518;
- bh=uzbmRocbQ9LOXh5KTH3zx35ZlmDByyOImILk7ZIutSY=;
+ s=k20201202; t=1717659552;
+ bh=9ToNO8UqtxmtUcT/i5YWkStYTJTG1Jt7tmVsyM0TZFk=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=G0Lfx+JoxEXmvGeroKuPPIAbA+h9nmSf6RksRzzOFCmeBbM7YmVtPVhte4e/bGAAm
- RrQp49zuIhEAReb3c6JRMbcqi7k/3Mm9Ztk4E7XKWDF3kXIXKW35ePxn7lWuU32FqM
- u7OQ/Wd3t/77I2kpYocKOXv1jUkOpiT3aWTu8BwKZNKZQ2KCjW+gJcpwf24X/ZLBNW
- oUsvDC8iXABy2C4Ps9AV63ZPooboKiqWdHiTdAFs+4XwtOI7VHuOM1ejU263ZWmaaf
- +svTdMnyfs7Y7Umv5d3jvQ/9ZuTMoBQJfmpI97XE5ved0afKmBnK4WtLBMWADPGkIm
- m3fvVHZO74Mqw==
-Message-ID: <cec7d99f-dcee-4e32-9f9c-1507cc8af8b9@kernel.org>
-Date: Thu, 6 Jun 2024 09:38:32 +0200
+ b=U+zeswCkEoLMKQ0Hw4Of9QU1K6oJRZQSjHwD1rCQjsSm2gH+e43xkiSpQ9TWkNGNr
+ 2c8QAPd0pAcQn12UKwz2wV9tPBujtqI7kJzZdWCPoe1/jpAEfilxhoUGCzoB8unS7i
+ A+E+8Lzk1sFZfF36ksjuEnjI35SxxVAAt5eM8Syo7JEI5cNVdqpJXPx8GgD5hERdkU
+ 2WXKnpGe0FmdHT/SQglK7mQPGShhBxAf5U9eMMN7O3JL2nM35U7sce6CSxWGNkxhR4
+ 6bsgWHWaEZFiz751R5N5Cd762t67Z3qT9/F0/c6ZMzvMrYl5Ic1nmX0D78WO9CRLbB
+ g3qw/Ejx/ZUgw==
+Message-ID: <5331af7e-307c-4cb4-b639-6325b269452f@kernel.org>
+Date: Thu, 6 Jun 2024 09:39:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] dt-bindings: display: simple: Add PrimeView PM070WL4
- panel
+Subject: Re: [PATCH 1/3] dt-bindings: Add vendor prefix for PrimeView
 To: Primoz Fiser <primoz.fiser@norik.com>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -47,7 +46,6 @@ To: Primoz Fiser <primoz.fiser@norik.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc: upstream@lists.phytec.de
 References: <20240606072814.3572965-1-primoz.fiser@norik.com>
- <20240606072814.3572965-2-primoz.fiser@norik.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -93,7 +91,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240606072814.3572965-2-primoz.fiser@norik.com>
+In-Reply-To: <20240606072814.3572965-1-primoz.fiser@norik.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -112,23 +110,32 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 06/06/2024 09:28, Primoz Fiser wrote:
-> Add PrimeView PM070WL4 7.0" 800x480 TFT LCD panel compatible string.
+> The Prime View International (PVI) is a LCD panel manufacturer.
 > 
+
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+
+dt-bindings: vendor-prefixes:
+
 > Signed-off-by: Primoz Fiser <primoz.fiser@norik.com>
 > ---
->  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
 >  1 file changed, 2 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> index 5067f5c0a272..671da4991a5d 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> @@ -276,6 +276,8 @@ properties:
->        - osddisplays,osd070t1718-19ts
->          # One Stop Displays OSD101T2045-53TS 10.1" 1920x1200 panel
->        - osddisplays,osd101t2045-53ts
-> +        # PrimeView PM070WL4 7.0" 800x480 TFT LCD panel
-> +      - primeview,pm070wl4
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> index fbf47f0bacf1..2bdfeaa3cc8f 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -1154,6 +1154,8 @@ patternProperties:
+>      description: Poslab Technology Co., Ltd.
+>    "^pov,.*":
+>      description: Point of View International B.V.
+> +  "^primeview,.*":
+> +    description: Prime View International (PVI)
 
 Keep things sorted.
 
