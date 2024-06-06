@@ -2,98 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18AB8FE008
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 09:39:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 502648FE054
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 09:59:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 092FE10E859;
-	Thu,  6 Jun 2024 07:39:16 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U+zeswCk";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 375F310E074;
+	Thu,  6 Jun 2024 07:59:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C14110E859
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 07:39:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 08B1561B77;
- Thu,  6 Jun 2024 07:39:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF188C2BD10;
- Thu,  6 Jun 2024 07:39:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717659552;
- bh=9ToNO8UqtxmtUcT/i5YWkStYTJTG1Jt7tmVsyM0TZFk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=U+zeswCkEoLMKQ0Hw4Of9QU1K6oJRZQSjHwD1rCQjsSm2gH+e43xkiSpQ9TWkNGNr
- 2c8QAPd0pAcQn12UKwz2wV9tPBujtqI7kJzZdWCPoe1/jpAEfilxhoUGCzoB8unS7i
- A+E+8Lzk1sFZfF36ksjuEnjI35SxxVAAt5eM8Syo7JEI5cNVdqpJXPx8GgD5hERdkU
- 2WXKnpGe0FmdHT/SQglK7mQPGShhBxAf5U9eMMN7O3JL2nM35U7sce6CSxWGNkxhR4
- 6bsgWHWaEZFiz751R5N5Cd762t67Z3qT9/F0/c6ZMzvMrYl5Ic1nmX0D78WO9CRLbB
- g3qw/Ejx/ZUgw==
-Message-ID: <5331af7e-307c-4cb4-b639-6325b269452f@kernel.org>
-Date: Thu, 6 Jun 2024 09:39:07 +0200
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0466810E074
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 07:59:19 +0000 (UTC)
+X-UUID: a79610b823da11ef9305a59a3cc225df-20240606
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.38, REQID:b18f9f8c-2039-4090-b582-3a6fc4c2f8a9, IP:25,
+ URL:0,TC:0,Content:-5,EDM:25,RT:0,SF:-1,FILE:0,BULK:0,RULE:Release_Ham,ACT
+ ION:release,TS:44
+X-CID-INFO: VERSION:1.1.38, REQID:b18f9f8c-2039-4090-b582-3a6fc4c2f8a9, IP:25,
+ UR
+ L:0,TC:0,Content:-5,EDM:25,RT:0,SF:-1,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:44
+X-CID-META: VersionHash:82c5f88, CLOUDID:6242702a3fbea42b9ae4b3f3e5dc454a,
+ BulkI
+ D:240606155911IJGA8PEG,BulkQuantity:0,Recheck:0,SF:25|72|19|44|66|102,TC:n
+ il,Content:0,EDM:5,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL
+ :0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
+X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME,
+ HR_CTE_8B
+ HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+ HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
+ HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME
+ IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_UNTRUSTED, SA_UNFAMILIAR
+ SN_UNTRUSTED, SN_UNFAMILIAR, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
+ CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
+ GTI_C_BU, AMN_T1, AMN_GOOD, AMN_C_TI, AMN_C_BU ABX_MISS_RDNS
+X-UUID: a79610b823da11ef9305a59a3cc225df-20240606
+X-User: pengfuyuan@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.171)] by mailgw.kylinos.cn
+ (envelope-from <pengfuyuan@kylinos.cn>) (Generic MTA)
+ with ESMTP id 301779591; Thu, 06 Jun 2024 15:59:09 +0800
+From: pengfuyuan <pengfuyuan@kylinos.cn>
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, pengfuyuan <pengfuyuan@kylinos.cn>,
+ k2ci <kernel-bot@kylinos.cn>
+Subject: [PATCH] arm/komeda: Compile DEFINE_SHOW_ATTRIBUTE() only when
+ CONFIG_DEBUG_FS is enabled
+Date: Thu,  6 Jun 2024 15:58:46 +0800
+Message-Id: <20240606075846.1307007-1-pengfuyuan@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: Add vendor prefix for PrimeView
-To: Primoz Fiser <primoz.fiser@norik.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner
- <heiko.stuebner@cherry.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Chris Morgan <macromorgan@hotmail.com>, Sebastian Reichel <sre@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: upstream@lists.phytec.de
-References: <20240606072814.3572965-1-primoz.fiser@norik.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240606072814.3572965-1-primoz.fiser@norik.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,36 +73,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/06/2024 09:28, Primoz Fiser wrote:
-> The Prime View International (PVI) is a LCD panel manufacturer.
-> 
+We do not call komeda_debugfs_init() and the debugfs core function
+declaration if CONFIG_DEBUG_FS is not defined, but we should not
+compile it either because the debugfs core function declaration is
+not included.
 
-Please use subject prefixes matching the subsystem. You can get them for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching. For bindings, the preferred subjects are
-explained here:
-https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+Reported-by: k2ci <kernel-bot@kylinos.cn>
+Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
+---
+ drivers/gpu/drm/arm/display/komeda/komeda_dev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-dt-bindings: vendor-prefixes:
-
-> Signed-off-by: Primoz Fiser <primoz.fiser@norik.com>
-> ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index fbf47f0bacf1..2bdfeaa3cc8f 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -1154,6 +1154,8 @@ patternProperties:
->      description: Poslab Technology Co., Ltd.
->    "^pov,.*":
->      description: Point of View International B.V.
-> +  "^primeview,.*":
-> +    description: Prime View International (PVI)
-
-Keep things sorted.
-
-Best regards,
-Krzysztof
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
+index 14ee79becacb..7ada8e6f407c 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
+@@ -21,6 +21,7 @@
+ 
+ #include "komeda_dev.h"
+ 
++#ifdef CONFIG_DEBUG_FS
+ static int komeda_register_show(struct seq_file *sf, void *x)
+ {
+ 	struct komeda_dev *mdev = sf->private;
+@@ -43,7 +44,6 @@ static int komeda_register_show(struct seq_file *sf, void *x)
+ 
+ DEFINE_SHOW_ATTRIBUTE(komeda_register);
+ 
+-#ifdef CONFIG_DEBUG_FS
+ static void komeda_debugfs_init(struct komeda_dev *mdev)
+ {
+ 	if (!debugfs_initialized())
+-- 
+2.25.1
 
