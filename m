@@ -2,88 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71EC18FE5C0
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 13:47:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5438FE5BF
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 13:47:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7130C10E913;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 465E110E910;
 	Thu,  6 Jun 2024 11:47:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YwqKqQ+v";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="psrqJZSX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD17410E170
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2024 19:58:31 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-35e4aaa0f33so199292f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2024 12:58:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1717617510; x=1718222310; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=pf8r5yLzRWnbsxS/Ko313LwbjIGVpyyp6EBPhDw6O18=;
- b=YwqKqQ+v3EUkJ71A803Fx52pDtWtg7dWZxUVfaW14KKvQYYSWexwwBX3sD28TqtGWR
- UbkOiK1ci+GfElL1DLTfmrAGHaw5W189vV/Mmx/nrlw7ZheCxGQHvBU5/QqNsgdfZWxW
- 5qIupZI7a0PMLvH6TYfryFEDYhiE+vnJXjUQep5FqCLG49uexYkdRpIkQEjUF22rfbTB
- LYbMCc6EJeqdxnDsurkRh3nHJRyT29KeT4f0CW26KbaB3Iz0lIDcLe1K2do0Lxtx4byT
- GUuzh9IDQS7btWPRwIvA9a+Rth51mYF/o5EAJX9U8JFBvHOENE5KeBSh+U8b2ntQwdWD
- eLFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717617510; x=1718222310;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pf8r5yLzRWnbsxS/Ko313LwbjIGVpyyp6EBPhDw6O18=;
- b=RC42lmmNXoh05JlhpgGIS1Ut4dFwHiOqXYL2sSFrvok5fVaif/Go2L9KTJUVdynHCW
- KtJvQ30IrmAHmYjZly7yCwUxu3SUnkOCZEM06H0LrELr53Q2QR59shTCAK24Rnzo/m4D
- /EnHEdWK8pDVDZzwEIJfet2DtbTUQWrDKZa9ncOS274ee0bv0MRkb3Lv0UdLLoo2hJqG
- fekUtq6rt7v56/3blJdBiKt2tJzTwQExIidpYl8TeR6+QJdCNLCNY89qQsGWJu8ZBZMO
- TBM0rjAwxzQp/zzvYuL3JygqohCW2aLL5ccwV5BzNUHYI7v5bO4fRRvfKkSlO0hDC4Gd
- rwOQ==
-X-Gm-Message-State: AOJu0Yx20gsGtQcJXgqWO8JqKZL/D6MkOe1GIdT/9N5IQHhKu+EsCAtk
- PyBaSUPb9l6z3Ai4A5Tplmmjd5SyTGSR5BJfHYdoVLUqoGgqpDmi
-X-Google-Smtp-Source: AGHT+IFIRSDuYx9C8w8Mwft2Esuzx2rYHBnh1PEvECrLGF7NHqqpntJiuiOWp3KIW3ubAgGvnJx6DA==
-X-Received: by 2002:a05:6000:dcf:b0:354:fcbf:f3c0 with SMTP id
- ffacd0b85a97d-35e8406decfmr2999235f8f.4.1717617509710; 
- Wed, 05 Jun 2024 12:58:29 -0700 (PDT)
-Received: from [192.168.0.9] (cm-83-97-153-254.telecable.es. [83.97.153.254])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-35e0f97ba3csm15323756f8f.73.2024.06.05.12.58.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Jun 2024 12:58:29 -0700 (PDT)
-Message-ID: <02e22411-e22e-41f7-8bca-95c8ef5a4346@gmail.com>
-Date: Wed, 5 Jun 2024 21:58:23 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/14] drm/bridge: synopsys: Add DW HDMI QP TX controller
- driver
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+X-Greylist: delayed 2763 seconds by postgrey-1.36 at gabe;
+ Thu, 06 Jun 2024 09:38:06 UTC
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 743A010E8AD
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 09:38:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=/5nNd
+ xAHvn8XrVpENTsC9WADZwaWod7V36HzzLbSoTc=; b=psrqJZSXv4dSzC+cjOy1Y
+ DSL2U+wPy3MJD5VIpSzntUHwah7WbhEYWnAjD2IPLkTyXxomCG+HiqI/GpBWMNVh
+ t8/PqOOpJOwEtZ4ori0B2s2errC1yIpbpLUSMSaMtYyHSipQ+YbNKM+x8tnUwqk4
+ qzNulu9YcbhG3i6ACyesgE=
+Received: from localhost.localdomain (unknown [111.48.69.247])
+ by gzga-smtp-mta-g2-5 (Coremail) with SMTP id _____wDn77VGeGFmxpB0Dg--.65491S2;
+ Thu, 06 Jun 2024 16:50:15 +0800 (CST)
+From: oushixiong1025@163.com
+To: Xinliang Liu <xinliang.liu@linaro.org>
+Cc: Tian Tao <tiantao6@hisilicon.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, kernel@collabora.com,
- Alexandre ARNOUD <aarnoud@me.com>, Algea Cao <algea.cao@rock-chips.com>
-References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
- <20240601-b4-rk3588-bridge-upstream-v1-13-f6203753232b@collabora.com>
- <2554679.TLnPLrj5Ze@diego>
-Content-Language: en-US
-From: Luis de Arquer <ldearquer@gmail.com>
-In-Reply-To: <2554679.TLnPLrj5Ze@diego>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
+Subject: [PATCH] drm/hisilicon: Fix a NULL pointer access when call
+ hibmc_unload
+Date: Thu,  6 Jun 2024 16:50:12 +0800
+Message-Id: <20240606085012.284167-1-oushixiong1025@163.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wDn77VGeGFmxpB0Dg--.65491S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJF4kGryxGFy3XF4DGr4kZwb_yoW5Kw4UpF
+ W7XFW3tr4vq39xGF45JrW09FZ0ka1avayIkF1Sy3s3uws0kryDXF18JF4xCFy8XrWkCF95
+ Z3Z7Gr4UZr1UZw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UMCJdUUUUU=
+X-Originating-IP: [111.48.69.247]
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXRjyD2XAljx7NgABs7
 X-Mailman-Approved-At: Thu, 06 Jun 2024 11:47:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -100,19 +67,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/5/24 16:48, Heiko Stübner wrote:
-> Without this change, connecting to a DVI display does not work, and
-> reading the EDID ends in the "i2c read error" below.
+From: Shixiong Ou <oushixiong@kylinos.cn>
 
-I had a lot of problems initially with the vendor driver on my DVI 
-display, and am aware that several changes were required.
+If Calling hibmc_mm_init() failed in hibmc_load(), the hibmc_unload()
+will access a NULL pointer, as it don't call ww_mutex_init() to
+initialize mode_config.connection_mutex but try to lock it when
+calling drm_atomic_helper_shutdown() in hibmc_unload().
 
-However, I tested Cristian patch and worked fine. All modes were 
-apparently detected from the display and they all worked. But maybe I 
-was just lucky and it was using a somehow cached table, I can't say.
+[   50.939211][  0] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000018
+	......
+[   51.149882][  0] Call trace:
+[   51.152750][  0]  ww_mutex_lock+0xf0/0x1e0
+[   51.156829][  0]  drm_modeset_lock+0x184/0x2c0
+[   51.161254][  0]  drm_modeset_lock_all_ctx+0x98/0x188
+[   51.166284][  0]  drm_atomic_helper_shutdown+0xa4/0x128
+[   51.171487][  0]  hibmc_unload+0x50/0x2f0
+[   51.175479][  0]  hibmc_load+0x5d8/0x888
+[   51.179386][  0]  drm_dev_register+0x280/0x558
+[   51.183811][  0]  drm_get_pci_dev+0x140/0x3c8
+[   51.188150][  0]  hibmc_pci_probe+0x148/0x190
+[   51.192489][  0]  local_pci_probe+0xc4/0x180
+[   51.196742][  0]  pci_device_probe+0x328/0x530
+[   51.201167][  0]  really_probe+0x498/0x9a0
+[   51.205248][  0]  driver_probe_device+0x224/0x308
+[   51.209932][  0]  device_driver_attach+0xec/0x128
+[   51.214616][  0]  __driver_attach+0x144/0x280
+[   51.218955][  0]  bus_for_each_dev+0x120/0x1a0
+[   51.223380][  0]  driver_attach+0x48/0x60
+[   51.227372][  0]  bus_add_driver+0x328/0x578
+[   51.231625][  0]  driver_register+0x148/0x398
+[   51.235965][  0]  __pci_register_driver+0x15c/0x1c8
+[   51.240823][  0]  hibmc_init+0x2c/0x34
+[   51.244557][  0]  do_one_initcall+0xc8/0x4a8
+[   51.248810][  0]  kernel_init_freeable+0x678/0x75c
+[   51.253582][  0]  kernel_init+0x18/0x128
+[   51.257489][  0]  ret_from_fork+0x10/0x18
 
-This is an AOC DVI display from 2011 with a passive adapter.
+Add a initialized flag to avoid this.
 
+Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+---
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 8 ++++++--
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h | 1 +
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+index 57c21ec452b7..343f64d66e75 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+@@ -99,6 +99,7 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
+ 	ret = drmm_mode_config_init(dev);
+ 	if (ret)
+ 		return ret;
++	priv->mode_config_initialized = true;
+ 
+ 	dev->mode_config.min_width = 0;
+ 	dev->mode_config.min_height = 0;
+@@ -240,9 +241,12 @@ static int hibmc_hw_init(struct hibmc_drm_private *priv)
+ static int hibmc_unload(struct drm_device *dev)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+ 
+-	drm_atomic_helper_shutdown(dev);
+-
++	if(priv->mode_config_initialized){
++		drm_atomic_helper_shutdown(dev);
++		priv->mode_config_initialized = false;
++	}
+ 	free_irq(pdev->irq, dev);
+ 
+ 	pci_disable_msi(to_pci_dev(dev->dev));
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+index 207aa3f660b0..08fd7cb59bb5 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+@@ -37,6 +37,7 @@ struct hibmc_drm_private {
+ 	struct drm_crtc crtc;
+ 	struct drm_encoder encoder;
+ 	struct hibmc_connector connector;
++	bool mode_config_initialized;
+ };
+ 
+ static inline struct hibmc_connector *to_hibmc_connector(struct drm_connector *connector)
+-- 
+2.25.1
 
-Luis
