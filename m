@@ -2,60 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2192C8FF379
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 19:16:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F3D8FF392
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 19:20:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D805D10EA2B;
-	Thu,  6 Jun 2024 17:15:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0739010EA35;
+	Thu,  6 Jun 2024 17:20:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WC0azKJP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HUujiJkO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1859810EA2B;
- Thu,  6 Jun 2024 17:15:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717694158; x=1749230158;
- h=date:from:to:cc:subject:message-id;
- bh=eqMGJTLgofPsPKGp4XXpaFMGSwXn/UgaDzRLmPSGfZo=;
- b=WC0azKJPBUkY/WvoYUlG1qlubY73jM2D0qpAgt4T6yKBsloIyXVt9v/q
- M5zUwP2b50+/2iMxyiRUhPQnU/hEB6qnWLse6C/Rhax26q/fZqjn7CCSw
- YxmfmZ9igIOG6ShTKsN/XPdEy4NZyMJif6rtx8ifG+yZtvIBC9oCjC0lN
- hSmdG26ENzZPDVGAJGXBOvrOsVW5H8Sz2cHqS4X6wNV4j6lA+UhfAfGfP
- 2XszXRzVWn81vzc/E2wL0UK8B0f99ZiANAwR2tRm+SNryy16RrPo0muRf
- /Nt+Sjz3s6HXsMa3fNioVNlG7qDVE1/c0jzvvOAtWoESvEp//oRexUbZy Q==;
-X-CSE-ConnectionGUID: ooKs2XijSp2so1ENv3NM/w==
-X-CSE-MsgGUID: qVxoBzR8Q22kao2PtUq/kw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14605258"
-X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; d="scan'208";a="14605258"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2024 10:15:57 -0700
-X-CSE-ConnectionGUID: jVy+AxxpQ5ao8454p4sDQw==
-X-CSE-MsgGUID: 0ucrpR7YQpGH5boD93S5GA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; d="scan'208";a="38485309"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
- by orviesa006.jf.intel.com with ESMTP; 06 Jun 2024 10:15:54 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sFGiN-0003TP-1l;
- Thu, 06 Jun 2024 17:15:51 +0000
-Date: Fri, 07 Jun 2024 01:15:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Linux Memory Management List <linux-mm@kvack.org>,
- amd-gfx@lists.freedesktop.org, bpf@vger.kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-pm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: [linux-next:master] BUILD REGRESSION
- ee78a17615ad0cfdbbc27182b1047cd36c9d4d5f
-Message-ID: <202406070106.im4Z1j0V-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2BCB10EA3A
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 17:20:20 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id C581561E43;
+ Thu,  6 Jun 2024 17:20:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F23DBC2BD10;
+ Thu,  6 Jun 2024 17:20:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1717694419;
+ bh=HaZcjrOCRN6LrZvCxFlM99g5xcxdurTMUCw4ejQkan8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HUujiJkOokWTBojCTlf13HHjvAGkt3Er6Es3cEb8zMwUl1N4e9BRBmRHtu9ft2LP6
+ 3OTYRzWPdXGXZLHoCDV7xGrTBJBYA+uht4usZxSKsSyl2xObkQNkyy62oEbb/NQj3e
+ a7pvCEXPU7E0bqg/d46H8WRetGGy2GLWffY3PhUcTecfI+Wa/G0QseOcKJwxoGksZP
+ ZijwJ4N4robpWcOAQ9Q/hIQm2MZnpwsnzHyV1z6foLzI+slBvnuMpnJUp7G8plW7w3
+ 2rKCLKP13HytcY8HWjYMIAqREJx0u4BdCiK+hnyBOg7x75W6d2j+dP26EPDdhXesVV
+ jUPxci/rLIkVQ==
+Date: Thu, 6 Jun 2024 19:20:16 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: Javier Martinez Canillas <javierm@redhat.com>, jyri.sarha@iki.fi, 
+ tomi.valkeinen@ideasonboard.com, airlied@gmail.com,
+ maarten.lankhorst@linux.intel.com, 
+ tzimmermann@suse.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+ conor+dt@kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, nm@ti.com,
+ vigneshr@ti.com, 
+ kristo@kernel.org, praneeth@ti.com, a-bhatia1@ti.com, j-luthra@ti.com
+Subject: Re: [RFC PATCH 2/3] drm/tidss: Add support for display sharing
+Message-ID: <20240606-puzzling-brainy-chital-4bf891@houat>
+References: <20240116134142.2092483-3-devarsht@ti.com>
+ <vgfzhamtiwkpdyk5ndagsb63subclinotoe6tsi3wu6z7454ec@igxfzjc5gyqm>
+ <88018f5f-a7db-7278-e5c3-bb1dbf0e3f14@ti.com>
+ <qiqrhpqtnox47wj6az7t3fjp4vc6k32fw42tp5slqggrhe6utb@i7lkpaf3v3od>
+ <2f4cf2a7-ce7a-bb34-f722-7e66ea41def7@ti.com>
+ <20240314-hospitable-attractive-cuttlefish-a2f504@houat>
+ <03e2d653-731c-bb30-321b-b5477d7b82b2@ti.com>
+ <87ikzf16dm.fsf@minerva.mail-host-address-is-not-set>
+ <ZkYBWnQO8AbGAt06@phenom.ffwll.local>
+ <b3b7fe51-ce9e-1dc4-27ee-e380c242d446@ti.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="ukbfkqhfo7stgfft"
+Content-Disposition: inline
+In-Reply-To: <b3b7fe51-ce9e-1dc4-27ee-e380c242d446@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,345 +74,348 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: ee78a17615ad0cfdbbc27182b1047cd36c9d4d5f  Add linux-next specific files for 20240606
 
-Error/Warning reports:
+--ukbfkqhfo7stgfft
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-https://lore.kernel.org/oe-kbuild-all/202406061744.rZDXfRrG-lkp@intel.com
+On Wed, May 29, 2024 at 08:16:46PM GMT, Devarsh Thakkar wrote:
+> Hi Javier, Maxime, Daniel,
+>=20
+> Sorry for the delay. Please find response inline.
+>=20
+> On 16/05/24 18:21, Daniel Vetter wrote:
+> > On Wed, May 15, 2024 at 04:45:09PM +0200, Javier Martinez Canillas wrot=
+e:
+> >> Devarsh Thakkar <devarsht@ti.com> writes:
+>=20
+> [..]
+>=20
+> >>
+> >> If I understand you correctly, for now the only real use case is when =
+the
+> >> the RTOS owns / manages the complete display pipeline and Linux can on=
+ly
+> >> own video planes.
+> >>
+>=20
+> Not exactly, What I mean is that this is the default configuration/exampl=
+e we
+> intend to provide to customer as an out-of-box demo . But flexibility is
+> provided to customer to modify the display sharing configuration per their
+> use-case, for e.g at RTOS side in place of device-tree, we have a sysconf=
+ig
+> menu [1] using which they can select the desired configuration, furthermo=
+re
+> they can go ahead and edit the code too, so Linux driver is expected to be
+> flexible to support different configurations as supported by the HW.
 
-Error/Warning: (recently discovered and may have been fixed)
+Everything you stated above can be achieved with the solutions we've
+been suggesting too.
 
-kernel/trace/trace_selftest.c:761: warning: "BYTE_NUMBER" redefined
+> I have a limited view of all possible use-cases which customer may try out
+> with different configurations
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
+I think that's a problem in itself. In order to properly reflect and
+discuss a solution, we first need to have a problem. "Flexible
+solutions" in practice never really work because you always end up not
+flexible enough and still have to rework the whole thing. Except it's
+now harder to do since you created something complicated first.
 
-arch/microblaze/boot/dts/system.dts:20.9-23.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-arch/microblaze/boot/dts/system.dts:272.4-19: Warning (clocks_property): /amba_pl/dma@41e00000:clocks: cell 0 is not a phandle reference
-arch/microblaze/boot/dts/system.dts:284.4-19: Warning (clocks_property): /amba_pl/timer@41c00000:clocks: cell 0 is not a phandle reference
-arch/microblaze/boot/dts/system.dts:339.4-19: Warning (clocks_property): /amba_pl/i2c@40800000:clocks: cell 0 is not a phandle reference
-arch/microblaze/boot/dts/system.dts:483.25-486.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x00000000: unit name should not have leading "0x"
-arch/microblaze/boot/dts/system.dts:483.25-486.6: Warning (unit_address_format): /amba_pl/flash@60000000/partition@0x00000000: unit name should not have leading 0s
-arch/microblaze/boot/dts/system.dts:50.4-19: Warning (clocks_property): /cpus/cpu@0:clocks: cell 0 is not a phandle reference
-arch/microblaze/boot/dts/system.dts:560.4-19: Warning (clocks_property): /amba_pl/serial@44a00000:clocks: cell 0 is not a phandle reference
-arch/microblaze/boot/dts/system.dts:579.15-588.4: Warning (simple_bus_reg): /amba_pl/gpio-restart: missing or empty reg/ranges property
+> few examples are shared below part from the one discussed earlier :
+>=20
+> [Examples]:
+> 1) Customer is running Linux as main OS but using RTOS to control some
+> external peripherals like temperature sensor, motion sensor e.t.c. In that
+> case if they want to display the sensor data too on the same monitor, then
+> they can use the configuration where RTOS use single plane and Linux as t=
+he
+> DSS master.
 
-Error/Warning ids grouped by kconfigs:
+How would that work in real-world? If Linux is in charge of the display,
+it can shut down the output whenever it wants too, including shutting
+down the clocks or power domains, which then would probably make the
+firmware crash?
 
-gcc_recent_errors
-|-- alpha-randconfig-r123-20240606
-|   `-- drivers-hwmon-cros_ec_hwmon.c:sparse:sparse:cast-to-restricted-__le16
-|-- loongarch-defconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-hubbub-dcn401-dcn401_hubbub.o:warning:objtool:unexpected-relocation-symbol-type-in-.rela.discard.reachable
-|   `-- drivers-thermal-thermal_trip.o:warning:objtool:unexpected-relocation-symbol-type-in-.rela.discard.reachable
-|-- microblaze-buildonly-randconfig-r001-20230308
-|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(simple_bus_reg):amba_pl-gpio-restart:missing-or-empty-reg-ranges-property
-|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(unit_address_format):amba_pl-flash-partition:unit-name-should-not-have-leading
-|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(unit_address_format):amba_pl-flash-partition:unit-name-should-not-have-leading-0s
-|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(unit_address_vs_reg):memory:node-has-a-reg-or-ranges-property-but-no-unit-name
-|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-dma-41e00000:clocks:cell-is-not-a-phandle-reference
-|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-i2c:clocks:cell-is-not-a-phandle-reference
-|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-serial-44a00000:clocks:cell-is-not-a-phandle-reference
-|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-timer-41c00000:clocks:cell-is-not-a-phandle-reference
-|   `-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):cpus-cpu:clocks:cell-is-not-a-phandle-reference
-|-- openrisc-randconfig-r121-20240606
-|   `-- drivers-clk-qcom-camcc-sm7150.c:sparse:sparse:symbol-camcc_sm7150_hws-was-not-declared.-Should-it-be-static
-|-- sh-randconfig-c004-20211223
-|   `-- kernel-trace-trace_selftest.c:warning:BYTE_NUMBER-redefined
-|-- sh-randconfig-r111-20240606
-|   |-- include-linux-container_of.h:error:struct-ftrace_ops-has-no-member-named-list
-|   |-- include-linux-list.h:error:struct-ftrace_ops-has-no-member-named-list
-|   |-- include-linux-stddef.h:error:struct-ftrace_ops-has-no-member-named-list
-|   |-- kernel-trace-fgraph.c:error:implicit-declaration-of-function-ftrace_shutdown_subops
-|   |-- kernel-trace-fgraph.c:error:implicit-declaration-of-function-ftrace_startup_subops
-|   `-- kernel-trace-fgraph.c:error:struct-ftrace_ops-has-no-member-named-subop_list
-|-- um-allyesconfig
-|   `-- kernel-bpf-verifier.c:error:pcpu_hot-undeclared-(first-use-in-this-function)
-`-- x86_64-randconfig-161-20240606
-    |-- drivers-gpu-drm-amd-amdgpu-amdgpu_vm.c-amdgpu_vm_bo_update()-error:we-previously-assumed-bo-could-be-null-(see-line-)
-    |-- drivers-gpu-drm-i915-display-intel_dpt.c-intel_dpt_pin_to_ggtt()-error:uninitialized-symbol-vma-.
-    |-- drivers-gpu-drm-i915-display-intel_fb_pin.c-intel_fb_pin_to_dpt()-error:uninitialized-symbol-vma-.
-    `-- drivers-gpu-drm-i915-display-intel_fb_pin.c-intel_fb_pin_to_dpt()-error:vma-dereferencing-possible-ERR_PTR()
-clang_recent_errors
-|-- arm-randconfig-r133-20240606
-|   |-- drivers-mtd-nand-raw-mxc_nand.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-buf-got-void-noderef-__iomem
-|   `-- drivers-mtd-nand-raw-mxc_nand.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-unsigned-short-noderef-usertype-__iomem-t-got-void-buf
-|-- arm64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:error:arithmetic-between-different-enumeration-types-(-enum-dc_irq_source-and-enum-irq_type-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dce110-irq_service_dce110.c:error:arithmetic-between-different-enumeration-types-(-enum-dc_irq_source-and-enum-irq_type-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_cursor.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_ddi.c:error:arithmetic-between-different-enumeration-types-(-enum-hpd_pin-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_ddi.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-phy-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-tc_port-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_dpll_mgr.c:error:arithmetic-between-different-enumeration-types-(-enum-tc_port-and-enum-intel_dpll_id-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_hotplug.c:error:arithmetic-between-different-enumeration-types-(-enum-hpd_pin-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_pipe_crc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_tc.c:error:arithmetic-between-different-enumeration-types-(-enum-intel_display_power_domain-and-enum-tc_port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_vdsc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_universal_plane.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_watermark.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   `-- drivers-gpu-drm-renesas-rcar-du-rcar_cmm.c:error:unused-function-rcar_cmm_read-Werror-Wunused-function
-|-- arm64-randconfig-r113-20240606
-|   |-- kernel-trace-fgraph.c:sparse:sparse:symbol-fgraph_do_direct-was-not-declared.-Should-it-be-static
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-B-got-struct-ftrace_hash-noderef-__rcu-filter_hash
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-B-got-struct-ftrace_hash-noderef-__rcu-notrace_hash
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-new_hash-got-struct-ftrace_hash-noderef-__rcu-filter_hash
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-new_hash1-got-struct-ftrace_hash-noderef-__rcu-filter_hash
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-new_hash2-got-struct-ftrace_hash-noderef-__rcu-filter_hash
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-new_hash2-got-struct-ftrace_hash-noderef-__rcu-notrace_hash
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-orig_hash-got-struct-ftrace_hash-noderef-__rcu
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-src-got-struct-ftrace_hash-noderef-__rcu-filter_hash
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-src-got-struct-ftrace_hash-noderef-__rcu-notrace_hash
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-noderef-__rcu-filter_hash-got-struct-ftrace_hash
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-noderef-__rcu-filter_hash-got-struct-ftrace_hash-assigned-filter_hash
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-noderef-__rcu-filter_hash-got-struct-ftrace_hash-save_filter_hash
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-noderef-__rcu-notrace_hash-got-struct-ftrace_hash
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-noderef-__rcu-notrace_hash-got-struct-ftrace_hash-assigned-notrace_hash
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-noderef-__rcu-notrace_hash-got-struct-ftrace_hash-save_notrace_hash
-|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-save_filter_hash-got-struct-ftrace_hash-noderef-__rcu-filter_hash
-|   `-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-save_notrace_hash-got-struct-ftrace_hash-noderef-__rcu-notrace_hash
-|-- i386-buildonly-randconfig-001-20240606
-|   `-- drivers-gpu-drm-drm_mm.c:error:function-drm_mm_node_scanned_block-is-not-needed-and-will-not-be-emitted-Werror-Wunneeded-internal-declaration
-|-- i386-buildonly-randconfig-005-20240606
-|   `-- drivers-gpu-drm-drm_mm.c:error:function-drm_mm_node_scanned_block-is-not-needed-and-will-not-be-emitted-Werror-Wunneeded-internal-declaration
-|-- i386-randconfig-006-20240606
-|   `-- drivers-gpu-drm-drm_mm.c:error:function-drm_mm_node_scanned_block-is-not-needed-and-will-not-be-emitted-Werror-Wunneeded-internal-declaration
-|-- i386-randconfig-062-20240606
-|   `-- drivers-hwmon-cros_ec_hwmon.c:sparse:sparse:cast-to-restricted-__le16
-|-- riscv-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:error:arithmetic-between-different-enumeration-types-(-enum-dc_irq_source-and-enum-irq_type-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dce110-irq_service_dce110.c:error:arithmetic-between-different-enumeration-types-(-enum-dc_irq_source-and-enum-irq_type-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_cursor.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_ddi.c:error:arithmetic-between-different-enumeration-types-(-enum-hpd_pin-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_ddi.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-phy-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-tc_port-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_dpll_mgr.c:error:arithmetic-between-different-enumeration-types-(-enum-tc_port-and-enum-intel_dpll_id-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_hotplug.c:error:arithmetic-between-different-enumeration-types-(-enum-hpd_pin-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_pipe_crc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_tc.c:error:arithmetic-between-different-enumeration-types-(-enum-intel_display_power_domain-and-enum-tc_port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_vdsc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_universal_plane.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   `-- drivers-gpu-drm-i915-display-skl_watermark.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|-- riscv-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:error:arithmetic-between-different-enumeration-types-(-enum-dc_irq_source-and-enum-irq_type-)-Werror-Wenum-enum-conversion
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dce110-irq_service_dce110.c:error:arithmetic-between-different-enumeration-types-(-enum-dc_irq_source-and-enum-irq_type-)-Werror-Wenum-enum-conversion
-|-- s390-allmodconfig
-|   |-- drivers-gpu-drm-i915-display-intel_cursor.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_ddi.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-phy-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_dpll_mgr.c:error:arithmetic-between-different-enumeration-types-(-enum-tc_port-and-enum-intel_dpll_id-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_hotplug.c:error:arithmetic-between-different-enumeration-types-(-enum-hpd_pin-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_pipe_crc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_tc.c:error:arithmetic-between-different-enumeration-types-(-enum-intel_display_power_domain-and-enum-tc_port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_vdsc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_universal_plane.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   `-- drivers-gpu-drm-i915-display-skl_watermark.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|-- x86_64-randconfig-014-20240606
-|   `-- drivers-gpu-drm-drm_mm.c:error:function-drm_mm_node_scanned_block-is-not-needed-and-will-not-be-emitted-Werror-Wunneeded-internal-declaration
-|-- x86_64-randconfig-076-20240606
-|   `-- drivers-gpu-drm-drm_mm.c:error:function-drm_mm_node_scanned_block-is-not-needed-and-will-not-be-emitted-Werror-Wunneeded-internal-declaration
-`-- x86_64-randconfig-r112-20240606
-    `-- drivers-hwmon-cros_ec_hwmon.c:sparse:sparse:cast-to-restricted-__le16
+A much more robust solution here would be to have either the firmware in
+charge of the display and delegate a few planes, or provide some way for
+Linux to access those sensors while being fully in charge of the
+display.
 
-elapsed time: 742m
+> 2) Another configuration could be where RTOS want to control one full
+> end-to-end pipeline going to one connector and Linux want to control full
+> end-to-end pipeline going to another connector, that can be supported too
+> using this scheme (as shared in this series).
 
-configs tested: 179
-configs skipped: 3
+That one is easy: you make the firmware adjust the DT when it boots
+Linux and thus restrict the part of the display controller it can use.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240606   gcc  
-arc                   randconfig-002-20240606   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                     davinci_all_defconfig   clang
-arm                                 defconfig   clang
-arm                           omap1_defconfig   gcc  
-arm                   randconfig-001-20240606   clang
-arm                   randconfig-002-20240606   clang
-arm                   randconfig-003-20240606   clang
-arm                   randconfig-004-20240606   clang
-arm                           tegra_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240606   clang
-arm64                 randconfig-002-20240606   gcc  
-arm64                 randconfig-003-20240606   clang
-arm64                 randconfig-004-20240606   clang
-csky                             alldefconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240606   gcc  
-csky                  randconfig-002-20240606   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240606   clang
-hexagon               randconfig-002-20240606   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240606   clang
-i386         buildonly-randconfig-002-20240606   clang
-i386         buildonly-randconfig-003-20240606   clang
-i386         buildonly-randconfig-004-20240606   gcc  
-i386         buildonly-randconfig-005-20240606   clang
-i386         buildonly-randconfig-006-20240606   gcc  
-i386                                defconfig   clang
-i386                  randconfig-001-20240606   clang
-i386                  randconfig-002-20240606   clang
-i386                  randconfig-003-20240606   clang
-i386                  randconfig-004-20240606   clang
-i386                  randconfig-005-20240606   clang
-i386                  randconfig-006-20240606   clang
-i386                  randconfig-011-20240606   clang
-i386                  randconfig-012-20240606   gcc  
-i386                  randconfig-013-20240606   gcc  
-i386                  randconfig-014-20240606   gcc  
-i386                  randconfig-015-20240606   gcc  
-i386                  randconfig-016-20240606   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240606   gcc  
-loongarch             randconfig-002-20240606   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                          hp300_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                      maltasmvp_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240606   gcc  
-nios2                 randconfig-002-20240606   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240606   gcc  
-parisc                randconfig-002-20240606   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                    gamecube_defconfig   clang
-powerpc                       holly_defconfig   clang
-powerpc                        icon_defconfig   gcc  
-powerpc                 linkstation_defconfig   clang
-powerpc                      obs600_defconfig   clang
-powerpc                      ppc44x_defconfig   clang
-powerpc               randconfig-001-20240606   gcc  
-powerpc               randconfig-002-20240606   gcc  
-powerpc               randconfig-003-20240606   gcc  
-powerpc64             randconfig-001-20240606   clang
-powerpc64             randconfig-002-20240606   clang
-powerpc64             randconfig-003-20240606   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240606   gcc  
-riscv                 randconfig-002-20240606   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240606   gcc  
-s390                  randconfig-002-20240606   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                          r7785rp_defconfig   gcc  
-sh                    randconfig-001-20240606   gcc  
-sh                    randconfig-002-20240606   gcc  
-sh                      rts7751r2d1_defconfig   gcc  
-sh                  sh7785lcr_32bit_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240606   gcc  
-sparc64               randconfig-002-20240606   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240606   clang
-um                    randconfig-002-20240606   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240606   gcc  
-x86_64       buildonly-randconfig-002-20240606   clang
-x86_64       buildonly-randconfig-003-20240606   gcc  
-x86_64       buildonly-randconfig-004-20240606   gcc  
-x86_64       buildonly-randconfig-005-20240606   gcc  
-x86_64       buildonly-randconfig-006-20240606   clang
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240606   gcc  
-x86_64                randconfig-002-20240606   gcc  
-x86_64                randconfig-003-20240606   gcc  
-x86_64                randconfig-004-20240606   clang
-x86_64                randconfig-005-20240606   gcc  
-x86_64                randconfig-006-20240606   gcc  
-x86_64                randconfig-011-20240606   clang
-x86_64                randconfig-012-20240606   gcc  
-x86_64                randconfig-013-20240606   clang
-x86_64                randconfig-014-20240606   clang
-x86_64                randconfig-015-20240606   clang
-x86_64                randconfig-016-20240606   clang
-x86_64                randconfig-071-20240606   clang
-x86_64                randconfig-072-20240606   gcc  
-x86_64                randconfig-073-20240606   clang
-x86_64                randconfig-074-20240606   clang
-x86_64                randconfig-075-20240606   gcc  
-x86_64                randconfig-076-20240606   clang
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                  nommu_kc705_defconfig   gcc  
-xtensa                randconfig-001-20240606   gcc  
-xtensa                randconfig-002-20240606   gcc  
+It's mostly a DT binding issue.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 3) Also I think, this device-tree based scheme could be leveraged in
+> virtualization too with static partitioning based scheme using Xen for e.=
+g. we
+> split the DSS resources between host (DOM0) and the guest (DOMU).
+
+I'm not sure you can leverage virtio at the firmware level, but
+otherwise, it's pretty much what we've been suggesting the whole time:
+make a generic interface between the firmware and Linux, and then write
+a KMS driver for that interface.
+
+Then the firmware can delegate planes to Linux, just like the hypervisor
+would to a guest VM.
+
+> >> The opposite is supported by the DSS hardware (thanks to its feature t=
+hat
+> >> allows partitioning the register space and having multiple per-host IR=
+Qs)=20
+> >> but it's not a real use case yet. The reason why this case is added to=
+ the
+> >> DT binding is as you said for flexiblity and make the design future-pr=
+oof.
+>
+> Not really, as explained above we are documenting all possible configurat=
+ions
+> which hardware supports as supported in software in the SDK and that's wh=
+at we
+> are aiming for upstream too.
+
+Generally speaking, not all hardware configurations make sense to run
+with in Linux, and there's tons of drivers were we support only a
+limited set of capabilities precisely because some simply don't work
+well with Linux. I'm glad you're (and your organization) is that
+committed to Linux, but I don't think having that as an absolute goal is
+reasonable.
+
+Let's work on usecases, and make the most of it instead. In your
+examples, 2 and 3 make total sense to be supported in Linux. I'm not
+sure 1) does.
+
+> [..]>>>> I'm probably missing something then here, but if the Linux side =
+of
+> >>>> things is expected to keep the current configuration and keep it act=
+ive
+> >>>> for it to work, what use-case would it be useful for?
+> >>>>
+> >>>
+> >>> It's just one of the partitioning possibilities that I mentioned here=
+, that
+> >>> Linux is in control of DSS as a whole and the user want the other hos=
+t (be it
+> >>> RTOS or any other core) to control a single plane. For e.g it could b=
+e Linux
+> >>> (with GPU rendering) displaying the graphics and RTOS overlaying a re=
+al time
+> >>> clock or any other signs which need to be displayed in real-time.
+> >>> But more than the use-case this is inspired by the fact that we want =
+to be
+> >>> flexible and support in the linux driver whatever partitioning scheme
+> >>> possibilities are there which are supported in hardware and we let us=
+er decide
+> >>> on the partitioning scheme.
+> >>>
+> >>
+> >> A possible use case here could be if Linux is safer than the other host
+> >> owning a single plane, right? Then in that case the RTOS could fail but
+> >> the display pipeline won't be teared down.
+> >>
+> >> That is, if your safety tell-tales would be driven by Linux and having
+> >> other OS dislay the GPU-rendered QT based application on another plane.
+> >>
+> >> But as said, for now that's a theorethical use case since the one you
+> >> mentioned is the opposite.
+> >>
+> >> [....]
+> >>
+>=20
+> Yes that could be a possible use-case too, we want to provide customer
+> the flexibility in their app design to select different configuration,
+> as we say all these configurations as supported in the driver.
+>=20
+> [..]
+> >>>>> If there is a more complex use-case which requires dynamic
+> >>>>> assignment/arbitration of resources then I agree those require some=
+ sort of
+> >>>>> IPC scheme but this is not what we target with these series. This s=
+eries is
+> >>>>> simply to support static partitioning feature (separate register sp=
+ace,
+> >>>>> separate irq, firewalling support etc) of TI DSS hardware across th=
+e multiple
+> >>>>> hosts and there are use-cases too for which this scheme suffices.
+> >>>>
+> >>>> I think you're right and we have a misunderstanding. My initial
+> >>>> assumption was that it was to prevent the Linux side of sides from
+> >>>> screwing up the output if it was to crash.
+> >>>>
+> >>>> But it looks like it's not the main point of this series, so could y=
+ou
+> >>>> share some use-cases you're trying to address?
+> >>>>
+> >>>
+> >>> The end use-case we have demonstrated right now with this series is a
+> >>> proof-of-concept display cluster use-case where RTOS boots early on M=
+CU core
+> >>> (launched at bootloader stage) and initializes the display (using the=
+ global
+> >>> common0 register space and irq) and starts displaying safety tell-tal=
+es on one
+> >>> plane, and once Linux boots up on application processor,
+> >>> Linux (using common1 register space and irq) controls the other plane=
+ with GPU
+> >>> rendering using a QT based application. And yes, we also support the =
+scenario
+> >>> where Linux crashes but RTOS being the DSS master and in control of D=
+SS power,
+> >>> clock domain and global register space is not impacted by the crash.
+> >>
+> >> You mention 2 scenarios but are actually the same? Or did I misunderst=
+and?
+> >>
+>=20
+> I have explained the other examples (where Linux is the master) above wit=
+h tag
+> [Examples].
+>=20
+> >> In both cases the RTOS own the display pipeline and Linux can just dis=
+play
+> >> using a single plane.
+> >>
+> >> That's why I think that agree with Maxime, that a fwkms could be a sim=
+pler
+> >> solution to your use case instead of adding all this complexity to the=
+ DSS
+> >> driver. Yes, I understand the HW supports all this flexibility but the=
+re's
+> >> no real use case yet (you mentioned that don't even have firmware for =
+this
+> >> single plane owned by the RTOS in the R5F case).
+> >>
+>=20
+> I analyzed the fwkms driver [2] from the RPi repo (as seems like it is not
+> upstream), here the firmware is the entity owning the display register sp=
+ace
+> completely and the fwkms driver simply acts as a translating layer which
+> translates the incoming DRM/KMS ioctls into IPC messages (having unique
+> message tags) sent over mailbox which the firmware receives and programs
+> corresponding registers accordingly, so there is no display sharing achie=
+ved
+> here as there is only single display context as coming from Linux and no
+> separate display context running at firmware side.
+
+That's somewhat correct, but also a simplification: while the driver and
+firmware indeed never do any kind of segmentation (iirc), the protocol
+between the firmware and the kernel leaves that door opened so you could
+very well do that with some work on the firmware.
+
+And now that I think about it, I think the RPi firmware can in some
+situations (like overheating) add an overlay on top of the current
+output.
+
+Also, we're not advocating for you to use the RPi driver as is: we
+suggested to use a similar solution, but we can totally use a different
+transport mechanism or protocol (and we probably should if we want to
+make it somewhat generic).
+
+> But yes, in general for simple display controllers having single register
+> space and single IRQ, I think that a standard IPC based scheme would be
+> required for sharing the display between Linux and RTOS where for e.g. RT=
+OS
+> would be in full control of display register space and the interrupt line.
+> Linux would send messages to RTOS via IPC scheme (similar to RPi fwkms) to
+> commit the framebuffer and RTOS would send a frame done message to LInux =
+on
+> receiving vblank irq which would eventually call drm_crtc_handle_vblank.
+> Although the IPC layer would need to be standardized (virtio_kms?)
+
+rpmsg is another candidate, but yeah, that's what in mind too (I think?).
+
+> >> The DT binding for a fwkms driver would be trivial, in fact maybe we m=
+ight
+> >> even leverage simpledrm for this case and not require a new driver at =
+all.
+> >=20
+> > I guess you can still do things like pageflipping and maybe use some of
+> > the color/blending hardware? Maybe even have more than one plane
+> > available? fwkms/simpledrm conceptually cannot really support pageflipp=
+ing
+> > even, so that's a much, much reduced feature set.
+> >
+>=20
+> Yes exactly, fwkms, simpledrm are not related to display sharing.
+>=20
+> > That all aside I do think we should limit the support to just the first
+> > case, where linux gets a few pieces assigned to it and is not the DSS
+> > master. From what I'm understanding you could assign entire crtc with
+> > planes and everything to linux, so this shouldn't really constraint
+> > real-world usage?
+> >=20
+> > At least until there's support in firmware for this it's all way too
+> > theoretical, and I agree with Maxime and Javier that there's some serio=
+us
+> > design questions about how this kind of static leasing should work with
+> > drm sitting on top.
+>=20
+> To summarize, as per my understanding there are two schemes for display
+> sharing possible
+>=20
+> 1) IPC based scheme  -> This would be useful for simple display controlle=
+rs
+> having single register space and single irq line to one host)
+> 2) Static partitioning scheme -> This would require some support in displ=
+ay
+> controller (per host irq e.t.c) as explained below :
+>=20
+> And I think each one has it's own uniqueness and holds on it's own and bo=
+th
+> solutions can be pursued independently and development for one scheme sho=
+uld
+> not block development for another.
+
+Agreed.
+
+> As TI display controller supports robust partitioning of DSS processing b=
+locks
+> (Pipelines, overlays, interrupts etc) among multiple processors allowing
+> parallel and independent control of the DSS resources in an interference =
+free
+> environment, the static partitioning scheme was possible to implement and=
+ it
+> sufficed the requirements of display sharing use-case without incurring a=
+ny
+> extra overhead and complexity of IPC.
+>=20
+> And If there is another display controller having similar feature-set as =
+above
+> then the bindings for the static partitioning scheme (or at-least some of
+> them) could be generalized.
+>=20
+> 	drm,shared-mode;
+> 	drm,shared-mode-crtc =3D "..";
+> 	drm,shared-mode-crtc-owned =3D "..";
+> 	drm,shared-mode-planes =3D "..";
+>=20
+> But I could not find any other display controller support above static
+> partitioning feature and hence I put the bindings as specific to TI.
+
+I think the binding would make more sense to me using child nodes to
+describe the available planes, CRTCs, etc.
+
+But that's something to discuss with the DT maintainers.
+
+Maxime
+
+--ukbfkqhfo7stgfft
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZmHvxwAKCRAnX84Zoj2+
+dkQvAX4u2DBBUnbt8iCa9UyqmKVMSEE04hUCcRZ8uCUti9c6zW+8cWz6Yf1hiqdS
+E+MIpAkBf1GnvxZ1c5HlrcKyT5mcaloNsYDAEtUEnby2UJeCLEEOSAMM5hy0yhMN
+ccGS2fAAtg==
+=WAIs
+-----END PGP SIGNATURE-----
+
+--ukbfkqhfo7stgfft--
