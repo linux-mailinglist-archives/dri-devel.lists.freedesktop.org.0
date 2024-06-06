@@ -2,58 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E1CA8FDB4F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 02:17:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B62E8FDBAE
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 02:54:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B48A10E37C;
-	Thu,  6 Jun 2024 00:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1678E10E0A6;
+	Thu,  6 Jun 2024 00:54:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PnNJVOxX";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Q+QJYzRN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5112110E37C;
- Thu,  6 Jun 2024 00:17:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717633052; x=1749169052;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Xjtfn4sZ7WNbokQyGS4/ipg3CJbH0IuDDvhdnQIPnnU=;
- b=PnNJVOxXVy+N3+3tBl/uOS6pa2m/AuX3haM1z+UGEfi4SVgiUOUawvww
- zdHbDdVFT1+4B6rMXU64B/j59okOky+Z5hdxeOP84emaB2OhA+AFwSx4+
- kV0bNQJehYyZYk0Eulh/Gw0L9eOuVPZngL/ue9e3FUHjxa4T9YyE97NI+
- hHOKuOC1eRFdWq8go7IX03dy+PmEEDTeGCXb/O9TJENi4diwvujFwFrvg
- bmIfAUjV2Gsu1S9FpuQ1M9+TgMWhm6oQ95RCNA8EsXaCpvG+ADrFlBazO
- MBh+FDzyUHAz1Tu0Joln0Y0JydyxSNWE9oDgmeful41hs9PkG0EWVjcsE Q==;
-X-CSE-ConnectionGUID: B8C6viv7RNefD1KK07OP+g==
-X-CSE-MsgGUID: D4oP1/LhTUaW+7+Vwwcs8g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="18123143"
-X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; d="scan'208";a="18123143"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2024 17:17:31 -0700
-X-CSE-ConnectionGUID: JtXPUDZ5QTmqeHNDPPRxsw==
-X-CSE-MsgGUID: jVBrJdgaRKmE3baR04REgQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; d="scan'208";a="42730147"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.215])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2024 17:17:29 -0700
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: John Harrison <John.C.Harrison@Intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Andi Shyti <andi.shyti@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, stable@vger.kernel.org
-Subject: [PATCH] drm/i915/gt/uc: Evaluate GuC priority within locks
-Date: Thu,  6 Jun 2024 02:17:02 +0200
-Message-ID: <20240606001702.59005-1-andi.shyti@linux.intel.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60F8F10E0A6
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 00:54:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1717635274;
+ bh=lzJtHlgCun8Ywse+qQtajmZ7QYd4hIobqe/lcYmoP90=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Q+QJYzRNDdNIbSd2bjvzdE1wxoxmzu2NfmaEuMUR7YIrQpCoVRQsbCcScQfQ1g/Y+
+ 7qhPdZ9VQYPuj60zfPY+kiLAsqDJrUwqBgEejeVLj9ilC2gMH3kar4Uxq9pxHhS/gW
+ 5OVo9fJxTjXJsiLhN+Mbbk09E0SXFhvUWf95gk5f9h7fYCy9QC+tk+OGhRPavzKA5c
+ BkRUJNgz3TZ8lGGqgjmtOW6kRN9tnwVnfnNKvYiylfdELKdIa+i10RXS/bZxISQjM0
+ syvPwYUfB6QLDV1J2dmMjLgboADFpKUtU9tLt8lg1VhWr7Yc09aZy85QvnsJnX/TKs
+ mVqccGx5/ceBQ==
+Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: alarumbe)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id AC85D37821C1;
+ Thu,  6 Jun 2024 00:54:33 +0000 (UTC)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: kernel@collabora.com,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/7] Support fdinfo runtime and memory stats on Panthor
+Date: Thu,  6 Jun 2024 01:49:52 +0100
+Message-ID: <20240606005416.1172431-1-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,59 +64,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ce->guc_state.lock was made to protect guc_prio, which
-indicates the GuC priority level.
+This patch series enables userspace utilities like gputop and nvtop to
+query a render context's fdinfo file and figure out rates of engine
+and memory utilisation.
 
-But at the begnning of the function we perform some sanity check
-of guc_prio outside its protected section. Move them within the
-locked region.
+Previous discussion can be found at
+https://lore.kernel.org/dri-devel/20240423213240.91412-1-adrian.larumbe@collabora.com/
 
-Use this occasion to expand the if statement to make it clearer.
+Changelog:
+v3:
+ - Fixed some nits and removed useless bounds check in panthor_sched.c
+ - Added support for sysfs profiling knob and optional job accounting
+ - Added new patches for calculating size of internal BO's
+v2:
+ - Split original first patch in two, one for FW CS cycle and timestamp
+ calculations and job accounting memory management, and a second one
+ that enables fdinfo.
+ - Moved NUM_INSTRS_PER_SLOT to the file prelude
+ - Removed nelem variable from the group's struct definition.
+ - Precompute size of group's syncobj BO to avoid code duplication.
+ - Some minor nits.
 
-Fixes: ee242ca704d3 ("drm/i915/guc: Implement GuC priority management")
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: <stable@vger.kernel.org> # v5.15+
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 0eaa1064242c..1181043bc5e9 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -4267,13 +4267,18 @@ static void guc_bump_inflight_request_prio(struct i915_request *rq,
- 	u8 new_guc_prio = map_i915_prio_to_guc_prio(prio);
- 
- 	/* Short circuit function */
--	if (prio < I915_PRIORITY_NORMAL ||
--	    rq->guc_prio == GUC_PRIO_FINI ||
--	    (rq->guc_prio != GUC_PRIO_INIT &&
--	     !new_guc_prio_higher(rq->guc_prio, new_guc_prio)))
-+	if (prio < I915_PRIORITY_NORMAL)
- 		return;
- 
- 	spin_lock(&ce->guc_state.lock);
-+
-+	if (rq->guc_prio == GUC_PRIO_FINI)
-+		goto exit;
-+
-+	if (rq->guc_prio != GUC_PRIO_INIT &&
-+	    !new_guc_prio_higher(rq->guc_prio, new_guc_prio))
-+		goto exit;
-+
- 	if (rq->guc_prio != GUC_PRIO_FINI) {
- 		if (rq->guc_prio != GUC_PRIO_INIT)
- 			sub_context_inflight_prio(ce, rq->guc_prio);
-@@ -4281,6 +4286,8 @@ static void guc_bump_inflight_request_prio(struct i915_request *rq,
- 		add_context_inflight_prio(ce, rq->guc_prio);
- 		update_context_prio(ce);
- 	}
-+
-+exit:
- 	spin_unlock(&ce->guc_state.lock);
- }
- 
+Adrián Larumbe (7):
+  drm/panthor: introduce job cycle and timestamp accounting
+  drm/panthor: add DRM fdinfo support
+  drm/panthor: enable fdinfo for memory stats
+  drm/panthor: add sysfs knob for enabling job profiling
+  drm/panthor: support job accounting
+  drm/drm_file: add display of driver's internal memory size
+  drm/panthor: register size of internal objects through fdinfo
+
+ Documentation/gpu/drm-usage-stats.rst     |   4 +
+ drivers/gpu/drm/drm_file.c                |   9 +-
+ drivers/gpu/drm/msm/msm_drv.c             |   2 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c   |   2 +-
+ drivers/gpu/drm/panthor/panthor_devfreq.c |  10 +
+ drivers/gpu/drm/panthor/panthor_device.c  |   2 +
+ drivers/gpu/drm/panthor/panthor_device.h  |  21 ++
+ drivers/gpu/drm/panthor/panthor_drv.c     |  83 +++++-
+ drivers/gpu/drm/panthor/panthor_fw.c      |  16 +-
+ drivers/gpu/drm/panthor/panthor_fw.h      |   5 +-
+ drivers/gpu/drm/panthor/panthor_gem.c     |  67 ++++-
+ drivers/gpu/drm/panthor/panthor_gem.h     |  16 +-
+ drivers/gpu/drm/panthor/panthor_heap.c    |  23 +-
+ drivers/gpu/drm/panthor/panthor_heap.h    |   6 +-
+ drivers/gpu/drm/panthor/panthor_mmu.c     |   8 +-
+ drivers/gpu/drm/panthor/panthor_mmu.h     |   3 +-
+ drivers/gpu/drm/panthor/panthor_sched.c   | 304 +++++++++++++++++++---
+ include/drm/drm_file.h                    |   7 +-
+ 18 files changed, 522 insertions(+), 66 deletions(-)
+
+
+base-commit: 310ec03841a36e3f45fb528f0dfdfe5b9e84b037
 -- 
 2.45.1
 
