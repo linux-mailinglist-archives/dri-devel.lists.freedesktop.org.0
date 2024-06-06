@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0E68FDBB4
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 02:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088778FDBB5
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 02:54:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41F5110E6D2;
-	Thu,  6 Jun 2024 00:54:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C844610E81F;
+	Thu,  6 Jun 2024 00:54:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EkW4n5+k";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="zG3Lvo/o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D3C610E502
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF06110E502
  for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 00:54:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1717635278;
- bh=9gSQQvmnIwG7AFptIo8tpe0xAEizV1lvr2ol4vi8sHA=;
+ bh=sBSV/JiXYuHvZ9jdJPjERqcjEBQobqd650oZQxRDozE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EkW4n5+kpXP1RPTwYmMwBBwdQqu5wPeh71S/JqEfhZJ4eKpu7ASTXjsIIel3zBWGv
- ZbIGlDdYi7BS4d3L2o6uWEmqQ63VYXtD7bQ2vVeRzyUtl8QXktil0FwaQ2AFE+k/ET
- 7heWQm5VkpAzQGN7ZOlB/nyuu2sljgw0WWk714/B7f7bU6i4F7UGgbREi/88wWItxm
- HV3eU6xN90rq8eJ2cy0eFAXl9pGV+9+vVIDCPtODAE3WxcbW8yo3Mrf1zl2qtxt2pT
- mbJFGMMheu3W8eOc8GKulgHxwhCJUNHCoZQ3sGGnFuItc8fzcXBat10pyJ8Z18ZK3x
- 2iSW2LyybbAEA==
+ b=zG3Lvo/orj9g86rcbf3DlQbYzIZu1EpWA9uAqifcjgGBgMTCMeA6RhnpG124mMiyM
+ JDZDFmROn0kPrNB86oOfX6riMyN3rTA2n2pADRZCNahnomBzu63zBYpDAtjT7+w3JZ
+ SekqQqaGyV4vzr+a6qUjCpV8CG5wZDAXNvn3JBRhyxK9/OjE6+Cuym++XThlJujT+a
+ exC+zUT34cO1TuLNieI7eSOM7PGZR08bB5ebkFE1hVU4/0g7G0RAdVVXhHukibe3Ri
+ AFY1X0vhhBvfxtnYKagrNdB56DMkgtf4OI+vZo8DiDMCuoPrGVRcNvxWHlb+3Li0BF
+ +oBkUlLhOXhxw==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: alarumbe)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5FF1637821CD;
- Thu,  6 Jun 2024 00:54:37 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2122437821D1;
+ Thu,  6 Jun 2024 00:54:38 +0000 (UTC)
 From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
@@ -42,9 +42,10 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
 Cc: kernel@collabora.com,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 5/7] drm/panthor: support job accounting
-Date: Thu,  6 Jun 2024 01:49:57 +0100
-Message-ID: <20240606005416.1172431-6-adrian.larumbe@collabora.com>
+Subject: [PATCH v3 6/7] drm/drm_file: add display of driver's internal memory
+ size
+Date: Thu,  6 Jun 2024 01:49:58 +0100
+Message-ID: <20240606005416.1172431-7-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240606005416.1172431-1-adrian.larumbe@collabora.com>
 References: <20240606005416.1172431-1-adrian.larumbe@collabora.com>
@@ -66,202 +67,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A previous commit brought in a sysfs knob to control the driver's profiling
-status. This changeset flags jobs as being profiled according to the
-driver's global profiling status, and picks one of two call instruction
-arrays to insert into the ring buffer. One of them includes FW logic to
-sample the timestamp and cycle counter registers and write them into the
-job's syncobj, and the other does not.
+Some drivers must allocate a considerable amount of memory for bookkeeping
+structures and GPU's MCU-kernel shared communication regions. These are
+often created as a result of the invocation of the driver's ioctl()
+interface functions, so it is sensible to consider them as being owned by
+the render context associated with an open drm file.
 
-A profiled job's call sequence takes up two ring buffer slots, and this is
-reflected when initialising the DRM scheduler for each queue, with a
-profiled job contributing twice as many credits.
+However, at the moment drm_show_memory_stats only traverses the UM-exposed
+drm objects for which a handle exists. Private driver objects and memory
+regions, though connected to a render context, are unaccounted for in their
+fdinfo numbers.
+
+Add a new drm_memory_stats 'internal' memory category.
+
+Because deciding what constitutes an 'internal' object and where to find
+these are driver-dependent, calculation of this size must be done through a
+driver-provided function pointer, which becomes the third argument of
+drm_show_memory_stats. Drivers which have no interest in exposing the size
+of internal memory objects can keep passing NULL for unaltered behaviour.
 
 Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 ---
- drivers/gpu/drm/panthor/panthor_sched.c | 95 ++++++++++++++++++++++---
- 1 file changed, 86 insertions(+), 9 deletions(-)
+ Documentation/gpu/drm-usage-stats.rst   | 4 ++++
+ drivers/gpu/drm/drm_file.c              | 9 +++++++--
+ drivers/gpu/drm/msm/msm_drv.c           | 2 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 2 +-
+ include/drm/drm_file.h                  | 7 ++++++-
+ 5 files changed, 19 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index bbd20db40e7b..4fb6fc5c2314 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -93,7 +93,7 @@
- #define MIN_CSGS				3
- #define MAX_CSG_PRIO				0xf
+diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+index 6dc299343b48..0da5ebecd232 100644
+--- a/Documentation/gpu/drm-usage-stats.rst
++++ b/Documentation/gpu/drm-usage-stats.rst
+@@ -157,6 +157,10 @@ The total size of buffers that are purgeable.
  
--#define NUM_INSTRS_PER_SLOT			32
-+#define NUM_INSTRS_PER_SLOT			16
- #define SLOTSIZE				(NUM_INSTRS_PER_SLOT * sizeof(u64))
+ The total size of buffers that are active on one or more engines.
  
- struct panthor_group;
-@@ -807,6 +807,9 @@ struct panthor_job {
- 
- 	/** @done_fence: Fence signaled when the job is finished or cancelled. */
- 	struct dma_fence *done_fence;
++- drm-internal-<region>: <uint> [KiB|MiB]
 +
-+	/** @is_profiled: Whether timestamp and cycle numbers were gathered for this job */
-+	bool is_profiled;
++The total size of GEM objects that aren't exposed to user space.
++
+ Implementation Details
+ ======================
+ 
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index 638ffa4444f5..d1c13eed8d34 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -874,9 +874,10 @@ void drm_print_memory_stats(struct drm_printer *p,
+ 			    enum drm_gem_object_status supported_status,
+ 			    const char *region)
+ {
+-	print_size(p, "total", region, stats->private + stats->shared);
++	print_size(p, "total", region, stats->private + stats->shared + stats->internal);
+ 	print_size(p, "shared", region, stats->shared);
+ 	print_size(p, "active", region, stats->active);
++	print_size(p, "internal", region, stats->internal);
+ 
+ 	if (supported_status & DRM_GEM_OBJECT_RESIDENT)
+ 		print_size(p, "resident", region, stats->resident);
+@@ -890,11 +891,12 @@ EXPORT_SYMBOL(drm_print_memory_stats);
+  * drm_show_memory_stats - Helper to collect and show standard fdinfo memory stats
+  * @p: the printer to print output to
+  * @file: the DRM file
++ * @func: driver-specific function pointer to count the size of internal objects
+  *
+  * Helper to iterate over GEM objects with a handle allocated in the specified
+  * file.
+  */
+-void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
++void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file, internal_bos func)
+ {
+ 	struct drm_gem_object *obj;
+ 	struct drm_memory_stats status = {};
+@@ -940,6 +942,9 @@ void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
+ 	}
+ 	spin_unlock(&file->table_lock);
+ 
++	if (func)
++		func(&status, file);
++
+ 	drm_print_memory_stats(p, &status, supported_status, "memory");
+ }
+ EXPORT_SYMBOL(drm_show_memory_stats);
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 9c33f4e3f822..f97d3cdc4f50 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -880,7 +880,7 @@ static void msm_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+ 
+ 	msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, p);
+ 
+-	drm_show_memory_stats(p, file);
++	drm_show_memory_stats(p, file, NULL);
+ }
+ 
+ static const struct file_operations fops = {
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index ef9f6c0716d5..53640ac44e42 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -570,7 +570,7 @@ static void panfrost_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+ 
+ 	panfrost_gpu_show_fdinfo(pfdev, file->driver_priv, p);
+ 
+-	drm_show_memory_stats(p, file);
++	drm_show_memory_stats(p, file, NULL);
+ }
+ 
+ static const struct file_operations panfrost_drm_driver_fops = {
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index ab230d3af138..d71a5ac50ea9 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -464,6 +464,7 @@ void drm_send_event_timestamp_locked(struct drm_device *dev,
+  * @resident: Total size of GEM objects backing pages
+  * @purgeable: Total size of GEM objects that can be purged (resident and not active)
+  * @active: Total size of GEM objects active on one or more engines
++ * @internal: Total size of GEM objects that aren't exposed to user space
+  *
+  * Used by drm_print_memory_stats()
+  */
+@@ -473,16 +474,20 @@ struct drm_memory_stats {
+ 	u64 resident;
+ 	u64 purgeable;
+ 	u64 active;
++	u64 internal;
  };
  
- static void
-@@ -2865,7 +2868,8 @@ static void group_sync_upd_work(struct work_struct *work)
- 	dma_fence_end_signalling(cookie);
+ enum drm_gem_object_status;
  
- 	list_for_each_entry_safe(job, job_tmp, &done_jobs, node) {
--		update_fdinfo_stats(job);
-+		if (job->is_profiled)
-+			update_fdinfo_stats(job);
- 		list_del_init(&job->node);
- 		panthor_job_put(&job->base);
- 	}
-@@ -2884,6 +2888,8 @@ queue_run_job(struct drm_sched_job *sched_job)
- 	u32 ringbuf_size = panthor_kernel_bo_size(queue->ringbuf);
- 	u32 ringbuf_insert = queue->iface.input->insert & (ringbuf_size - 1);
- 	u32 ringbuf_index = ringbuf_insert / (SLOTSIZE);
-+	bool ringbuf_wraparound =
-+		job->is_profiled && ((ringbuf_size/SLOTSIZE) == ringbuf_index + 1);
- 	u64 addr_reg = ptdev->csif_info.cs_reg_count -
- 		       ptdev->csif_info.unpreserved_cs_reg_count;
- 	u64 val_reg = addr_reg + 2;
-@@ -2893,12 +2899,51 @@ queue_run_job(struct drm_sched_job *sched_job)
- 		job->queue_idx * sizeof(struct panthor_syncobj_64b);
- 	u64 times_addr = panthor_kernel_bo_gpuva(group->syncobjs.bo) + queue->time_offset +
- 		(ringbuf_index * sizeof(struct panthor_job_times));
-+	size_t call_insrt_size;
-+	u64 *call_instrs;
++typedef void (*internal_bos)(struct drm_memory_stats *status,
++			     struct drm_file *file);
++
+ void drm_print_memory_stats(struct drm_printer *p,
+ 			    const struct drm_memory_stats *stats,
+ 			    enum drm_gem_object_status supported_status,
+ 			    const char *region);
  
- 	u32 waitall_mask = GENMASK(sched->sb_slot_count - 1, 0);
- 	struct dma_fence *done_fence;
- 	int ret;
+-void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file);
++void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file, internal_bos func);
+ void drm_show_fdinfo(struct seq_file *m, struct file *f);
  
--	u64 call_instrs[NUM_INSTRS_PER_SLOT] = {
-+	u64 call_instrs_simple[NUM_INSTRS_PER_SLOT] = {
-+		/* MOV32 rX+2, cs.latest_flush */
-+		(2ull << 56) | (val_reg << 48) | job->call_info.latest_flush,
-+
-+		/* FLUSH_CACHE2.clean_inv_all.no_wait.signal(0) rX+2 */
-+		(36ull << 56) | (0ull << 48) | (val_reg << 40) | (0 << 16) | 0x233,
-+
-+		/* MOV48 rX:rX+1, cs.start */
-+		(1ull << 56) | (addr_reg << 48) | job->call_info.start,
-+
-+		/* MOV32 rX+2, cs.size */
-+		(2ull << 56) | (val_reg << 48) | job->call_info.size,
-+
-+		/* WAIT(0) => waits for FLUSH_CACHE2 instruction */
-+		(3ull << 56) | (1 << 16),
-+
-+		/* CALL rX:rX+1, rX+2 */
-+		(32ull << 56) | (addr_reg << 40) | (val_reg << 32),
-+
-+		/* MOV48 rX:rX+1, sync_addr */
-+		(1ull << 56) | (addr_reg << 48) | sync_addr,
-+
-+		/* MOV48 rX+2, #1 */
-+		(1ull << 56) | (val_reg << 48) | 1,
-+
-+		/* WAIT(all) */
-+		(3ull << 56) | (waitall_mask << 16),
-+
-+		/* SYNC_ADD64.system_scope.propage_err.nowait rX:rX+1, rX+2*/
-+		(51ull << 56) | (0ull << 48) | (addr_reg << 40) | (val_reg << 32) | (0 << 16) | 1,
-+
-+		/* ERROR_BARRIER, so we can recover from faults at job
-+		 * boundaries.
-+		 */
-+		(47ull << 56),
-+	};
-+
-+	u64 call_instrs_profile[NUM_INSTRS_PER_SLOT*2] = {
- 		/* MOV32 rX+2, cs.latest_flush */
- 		(2ull << 56) | (val_reg << 48) | job->call_info.latest_flush,
- 
-@@ -2960,9 +3005,18 @@ queue_run_job(struct drm_sched_job *sched_job)
- 	};
- 
- 	/* Need to be cacheline aligned to please the prefetcher. */
--	static_assert(sizeof(call_instrs) % 64 == 0,
-+	static_assert(sizeof(call_instrs_simple) % 64 == 0 && sizeof(call_instrs_profile) % 64 == 0,
- 		      "call_instrs is not aligned on a cacheline");
- 
-+	if (job->is_profiled) {
-+		call_instrs = call_instrs_profile;
-+		call_insrt_size = sizeof(call_instrs_profile);
-+
-+	} else {
-+		call_instrs = call_instrs_simple;
-+		call_insrt_size = sizeof(call_instrs_simple);
-+	}
-+
- 	/* Stream size is zero, nothing to do => return a NULL fence and let
- 	 * drm_sched signal the parent.
- 	 */
-@@ -2985,8 +3039,23 @@ queue_run_job(struct drm_sched_job *sched_job)
- 		       queue->fence_ctx.id,
- 		       atomic64_inc_return(&queue->fence_ctx.seqno));
- 
--	memcpy(queue->ringbuf->kmap + ringbuf_insert,
--	       call_instrs, sizeof(call_instrs));
-+	/*
-+	 * Need to handle the wrap-around case when copying profiled instructions
-+	 * from an odd-indexed slot. The reason this can happen is user space is
-+	 * able to control the profiling status of the driver through a sysfs
-+	 * knob, so this might lead to a timestamp and cycles-profiling call
-+	 * instruction stream beginning at an odd-number slot. The GPU should
-+	 * be able to gracefully handle this.
-+	 */
-+	if (!ringbuf_wraparound) {
-+		memcpy(queue->ringbuf->kmap + ringbuf_insert,
-+		       call_instrs, call_insrt_size);
-+	} else {
-+		memcpy(queue->ringbuf->kmap + ringbuf_insert,
-+		       call_instrs, call_insrt_size/2);
-+		memcpy(queue->ringbuf->kmap, call_instrs +
-+		       NUM_INSTRS_PER_SLOT, call_insrt_size/2);
-+	}
- 
- 	panthor_job_get(&job->base);
- 	spin_lock(&queue->fence_ctx.lock);
-@@ -2994,7 +3063,7 @@ queue_run_job(struct drm_sched_job *sched_job)
- 	spin_unlock(&queue->fence_ctx.lock);
- 
- 	job->ringbuf.start = queue->iface.input->insert;
--	job->ringbuf.end = job->ringbuf.start + sizeof(call_instrs);
-+	job->ringbuf.end = job->ringbuf.start + call_insrt_size;
- 	job->ringbuf_idx = ringbuf_index;
- 
- 	/* Make sure the ring buffer is updated before the INSERT
-@@ -3141,9 +3210,14 @@ group_create_queue(struct panthor_group *group,
- 	queue->time_offset = group->syncobjs.job_times_offset +
- 		(slots_so_far * sizeof(struct panthor_job_times));
- 
-+	/*
-+	 * Credit limit argument tells us the total number of instructions
-+	 * across all CS slots in the ringbuffer, with some jobs requiring
-+	 * twice as many as others, depending on their profiling status.
-+	 */
- 	ret = drm_sched_init(&queue->scheduler, &panthor_queue_sched_ops,
- 			     group->ptdev->scheduler->wq, 1,
--			     args->ringbuf_size / SLOTSIZE,
-+			     args->ringbuf_size / sizeof(u64),
- 			     0, msecs_to_jiffies(JOB_TIMEOUT_MS),
- 			     group->ptdev->reset.wq,
- 			     NULL, "panthor-queue", group->ptdev->base.dev);
-@@ -3538,9 +3612,12 @@ panthor_job_create(struct panthor_file *pfile,
- 		goto err_put_job;
- 	}
- 
-+	job->is_profiled = pfile->ptdev->profile_mode;
-+
- 	ret = drm_sched_job_init(&job->base,
- 				 &job->group->queues[job->queue_idx]->entity,
--				 1, job->group);
-+				 job->is_profiled ? NUM_INSTRS_PER_SLOT * 2 :
-+				 NUM_INSTRS_PER_SLOT, job->group);
- 	if (ret)
- 		goto err_put_job;
- 
+ struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
 -- 
 2.45.1
 
