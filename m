@@ -2,65 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B398FF4C0
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 20:33:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF908FF53C
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 21:24:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4A7010EA5E;
-	Thu,  6 Jun 2024 18:33:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1F9A10EA79;
+	Thu,  6 Jun 2024 19:24:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dAhBegN2";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ldhNpYYt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EECCB10E0CD;
- Thu,  6 Jun 2024 18:33:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717698808; x=1749234808;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=+2ucsMGGe0SbtCqQj5FtFPB05uivPcWSxkgvJuswIJc=;
- b=dAhBegN2AvrP8bHu6jDzKSR/q77DAGN++1X6Mem443ViYrjTxIgV2hw5
- MoiXWqSrgAjK+qXvSZByQttCzsYGq5NxlgVOg2mZwQu6WB9qCjHCF04uM
- rYPfEtnczW35Ssfkd+ndNbqNJN4PbyQFCrMqmBC+70Gj7powAS1vyVL8f
- 55PNJKr3i6L9iCAxiZIH0FIkD+IPN5X7g023bmtgrNwo4h0cTqAaG/TEn
- N26IeGX9V1eiE4ixU8ZFZOM27y7wMEp10HdBwiZ5d+5c3DbFYAZUJtXQz
- FOJXz8TIRpupys4GRLpwA8/UymeM6d3pEQyLq+QMt8Qp2qZC2PG2WH/5C g==;
-X-CSE-ConnectionGUID: bQ73DcZNQWiDJS1jf3t79Q==
-X-CSE-MsgGUID: tzNio7KfQZSy2fvxD7Zv0Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14347412"
-X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; d="scan'208";a="14347412"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2024 11:33:27 -0700
-X-CSE-ConnectionGUID: WwaENxExTBKvRMtnESH7sw==
-X-CSE-MsgGUID: Ycln1fTPSTuCZjzID8e67w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; d="scan'208";a="42639634"
-Received: from irvmail002.ir.intel.com ([10.43.11.120])
- by fmviesa004.fm.intel.com with ESMTP; 06 Jun 2024 11:33:25 -0700
-Received: from [10.245.96.165] (mwajdecz-MOBL.ger.corp.intel.com
- [10.245.96.165])
- by irvmail002.ir.intel.com (Postfix) with ESMTP id E00D233BFA;
- Thu,  6 Jun 2024 19:33:23 +0100 (IST)
-Message-ID: <476b5068-16de-4cf8-8f2d-47ee0e9986db@intel.com>
-Date: Thu, 6 Jun 2024 20:33:22 +0200
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2044.outbound.protection.outlook.com [40.107.223.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73EC110EA77;
+ Thu,  6 Jun 2024 19:24:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AHUKssrAH5EOx7iYu5xlgORLO3O74w6O/P6gTSR0WVmhsIMtAMezZwrB+9X9KH/knfI0AIfJ7SYYnQNT4pb2fwG6i23vt7OLg4OwEEqbUKtuxqSqmsL7kDD1461a1c/PPl8xXs4DCAvUOJITRY3QW04iY78gXCXHsXkDZnYyOPbOEhX2oIJP1T5MgK1TS8eAQ8M9GQXHxAEmIuTKbqoW1f7RD2I0cnbecfwH0OTLB5vANLeff1NM0z2qvsYCnIx3KUCrGQXYIaOnv/pojicJIEuPmZ48eiXzfSpUBna7yztlp6AvO8wRp43juod0RrHjPJC2YV+JzYq808QfR2rbkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PFEgHMQ822O0XEwICakiV/5gNjSxIE8wUZrow5U0fd8=;
+ b=dW5JnfKzDNbJOSxfnDFgKmh4rNM47fxWS9R0Ok2oK/NUUOdsaPbJ9sYzI2WAECjo/cqONeRv7vXpzv38OTQhbQ5hh97iK3FqRs4zM/n60WD3XageD/k/eK+qfdMXg929rX5rdumVCcR4cukWXl+qnov94DGhwyjkhJmTQG/2benH2FHp+GK9F0zH8jB/IW6LOEW98U3D3i3zPnAsOy4zrVUa8DLBVzxd2hrGzVqHfUcss2LvInyazCkmJScjASyOBN1WvwPu2fKHLBex1Wdi53c2bR8PXThluQQKlb+SSSZlfmHEDwX2R6BesbRd1+Dkawdz2R1ufpwGmc7mxE58UQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PFEgHMQ822O0XEwICakiV/5gNjSxIE8wUZrow5U0fd8=;
+ b=ldhNpYYtsFferQL0TzSyUGgTklpsiMdgM9Cilmq+Z7rY+qrG1l2Ao7zmUnigZ5eQckB8DLjI0fS866dxwUEaOdDpLYQLF4m59jJT2Xs8g0W5egjyrQOowMvWDR+dqAReJacq8hnvlS09BYO4AslGlLFnT+Ew1amv5YXvyW5Bdb8=
+Received: from BL0PR01CA0008.prod.exchangelabs.com (2603:10b6:208:71::21) by
+ PH7PR12MB7308.namprd12.prod.outlook.com (2603:10b6:510:20c::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7633.27; Thu, 6 Jun 2024 19:24:09 +0000
+Received: from BL6PEPF0002256F.namprd02.prod.outlook.com
+ (2603:10b6:208:71:cafe::98) by BL0PR01CA0008.outlook.office365.com
+ (2603:10b6:208:71::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7656.18 via Frontend
+ Transport; Thu, 6 Jun 2024 19:24:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL6PEPF0002256F.mail.protection.outlook.com (10.167.249.37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7633.15 via Frontend Transport; Thu, 6 Jun 2024 19:24:08 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 6 Jun
+ 2024 14:24:07 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu drm-fixes-6.10
+Date: Thu, 6 Jun 2024 15:23:48 -0400
+Message-ID: <20240606192348.3620805-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/xe: Use drm_device managed mutex/mm init helpers
- in GGTT
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-References: <20240524133518.976-1-michal.wajdeczko@intel.com>
- <20240524133518.976-3-michal.wajdeczko@intel.com>
- <ZmHxBSZBi2vwQr1L@intel.com>
-Content-Language: en-US
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <ZmHxBSZBi2vwQr1L@intel.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0002256F:EE_|PH7PR12MB7308:EE_
+X-MS-Office365-Filtering-Correlation-Id: 830743c3-59ad-41ca-d147-08dc865e3d06
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230031|36860700004|376005|1800799015|82310400017; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?hc/s8LMDJD8IEL6LjhZByuW6raJhYQS7+fnc7bk+3p+QJzRTmlkktXPSnl77?=
+ =?us-ascii?Q?XP3IvZpbanseRL9wyjmumV0oMcwrEiuFV+bMovJaEChz2H5PyHuNIKaRpaXj?=
+ =?us-ascii?Q?OYP4fEia9ciKF6eT1rssQ+zWXMLUyQuPf3pnUbEohKpudNpk99sQLBrDNEyj?=
+ =?us-ascii?Q?/ZCH6LaZOTa+iRDZanzHHSdyHxb8NZzhACl90ay9i41ZgW0KIoXncrC6jWKR?=
+ =?us-ascii?Q?pilPaVu/G01zk0qVOyD/A5LywIsKIxRKlEqWFeBHKLQYdn7Sqb+yXoYzZYrg?=
+ =?us-ascii?Q?h1kCwtbuxjkMsxh/anQQm1B9MGEt9l5vM/PwBiQbw4CL1Bjur+/h2e2qxh8s?=
+ =?us-ascii?Q?oEJa81/BavaQhfhGYkV+ujB90jEci1Ls0mLadEaqPrSH1/5EFh1W2+l9+hMa?=
+ =?us-ascii?Q?IXUB+yvQ8xYql3Q0nF4kQ1UoDvwrHOmBZnIC0gh4S9gzxDPBLBnhhUy3r7aI?=
+ =?us-ascii?Q?wQwiLzh53p1T3evgO2s7iDMnQBuMNf7EGVEDhsm3q7dbR/HbDR9PbUDIe2We?=
+ =?us-ascii?Q?YAh2C8VsxA9XPIxurQBAH84lwFYC0nEvXgIxWuxxE7d3cd/OVoB8IGHoFIXa?=
+ =?us-ascii?Q?7BVEP7Lbz6jzxr8k/3gsjN3+6x6oCn7bWojSx/+h2AHO4rvhL23sIOY+rVrz?=
+ =?us-ascii?Q?WdCZFxLswO90pW/6K+zqod9AxrySEVnUMO2V3W8Gxumst7iIeh9zUXmhs8An?=
+ =?us-ascii?Q?37m0G0jrRsP2BhmUwwAErFa+2vcTDbFhufq3fb+uOmVEZxX03GJSLPJk5gXI?=
+ =?us-ascii?Q?QJDEsqxAyc2xbOjAW4LhpDuMETrz7TFnFjUNH06mnauOYmUjOp2FUuoRznG2?=
+ =?us-ascii?Q?ThKG9zPgcF4GkIEN+FGp0CMNtkUZQW6ke/uitmsy6Ne+1m+VDi7+b0dVTE3P?=
+ =?us-ascii?Q?itF0bWRVaqpzDnZsW92MojD1cOCqSofJOin79GF1xJmcIK5Y0PH32MNWZJea?=
+ =?us-ascii?Q?zOfE8mLbzAOdxel3zjjNKrVTCSm2RhzBXfgy7hC9CGJVVBgVyvyPkrcKNCD5?=
+ =?us-ascii?Q?YZ/DtNxpCB5LCWoAkM23xeH6rc2hvAMXBh0Em0CpPD3KuWzJFrMU61CbSqQn?=
+ =?us-ascii?Q?4Qw1F4RKehbXIVgdQ5A24Xb1TgohQIc8PkVF3fNTwFStAprmFFLK6IoCDufs?=
+ =?us-ascii?Q?+CBs6i4MiVKv0N53wLBcRcJYdZhEiN7y8N4ZqQOuqj/DgUybIcxjYvMHCNYy?=
+ =?us-ascii?Q?nHmd0Wjbv22Zr8nekKbUnOEU/x2Na1ZTwdGXycUl7X3uMUyWvAgoDVHCIZA5?=
+ =?us-ascii?Q?cKnFAWYihzIB02UBm14UsLmxu7H/6NEH3c4+9EAOvlTv+yyDVAL7KliGoheP?=
+ =?us-ascii?Q?wecKC104dODex4kd3biIBmbjFkyKciu/JoQJcrrqMARKcDTbPI/zf58gtGiW?=
+ =?us-ascii?Q?3iVQW+8=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(36860700004)(376005)(1800799015)(82310400017); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2024 19:24:08.8047 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 830743c3-59ad-41ca-d147-08dc865e3d06
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0002256F.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7308
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,94 +129,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave, Sima,
 
+A couple of fixes for 6.10.
 
-On 06.06.2024 19:25, Rodrigo Vivi wrote:
-> On Fri, May 24, 2024 at 03:35:18PM +0200, Michal Wajdeczko wrote:
->> There is not need for private release action as there are existing
->> drmm_mm_init() and drmm_mutex_init() helpers that can be used.
->>
->> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
->> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->> ---
->>  drivers/gpu/drm/xe/xe_ggtt.c | 23 +++++++++++------------
->>  1 file changed, 11 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
->> index 17e5066763db..7c91fe212dcb 100644
->> --- a/drivers/gpu/drm/xe/xe_ggtt.c
->> +++ b/drivers/gpu/drm/xe/xe_ggtt.c
->> @@ -96,14 +96,6 @@ static void xe_ggtt_clear(struct xe_ggtt *ggtt, u64 start, u64 size)
->>  	}
->>  }
->>  
->> -static void ggtt_fini_early(struct drm_device *drm, void *arg)
->> -{
->> -	struct xe_ggtt *ggtt = arg;
->> -
->> -	mutex_destroy(&ggtt->lock);
->> -	drm_mm_takedown(&ggtt->mm);
->> -}
->> -
->>  static void ggtt_fini(struct drm_device *drm, void *arg)
->>  {
->>  	struct xe_ggtt *ggtt = arg;
->> @@ -141,6 +133,7 @@ int xe_ggtt_init_early(struct xe_ggtt *ggtt)
->>  	struct xe_device *xe = tile_to_xe(ggtt->tile);
->>  	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
->>  	unsigned int gsm_size;
->> +	int err;
->>  
->>  	if (IS_SRIOV_VF(xe))
->>  		gsm_size = SZ_8M; /* GGTT is expected to be 4GiB */
->> @@ -189,12 +182,18 @@ int xe_ggtt_init_early(struct xe_ggtt *ggtt)
->>  	else
->>  		ggtt->pt_ops = &xelp_pt_ops;
->>  
->> -	drm_mm_init(&ggtt->mm, xe_wopcm_size(xe),
->> -		    ggtt->size - xe_wopcm_size(xe));
->> -	mutex_init(&ggtt->lock);
->> +	err = drmm_mm_init(&xe->drm, &ggtt->mm, xe_wopcm_size(xe),
->> +			   ggtt->size - xe_wopcm_size(xe));
->> +	if (err)
->> +		return err;
->> +
->> +	err = drmm_mutex_init(&xe->drm, &ggtt->lock);
->> +	if (err)
->> +		return err;
-> 
-> My first impression here is that we would have a bug here if drmm_mm_init
-> works, but drmm_mutex_init fails, but we are likely safe because the
-> probe will also entirely fail if this mutex init fails.
-> 
->> +
->>  	primelockdep(ggtt);
->>  
->> -	return drmm_add_action_or_reset(&xe->drm, ggtt_fini_early, ggtt);
-> 
-> But my question here is, why drmm and not devm for this ggtt case that
-> only makes sense if the hardware/device is up and not about the module
-> or no reason to keep it alive after the probe failure or device removal.
-> 
-> I know that the question is orthogonal to your patch. But if we decide to
-> change the course later and move this towards devm, then we need to
-> get back to the exit function and perhaps regular mutex.
+The following changes since commit c3f38fa61af77b49866b006939479069cd451173:
 
-but note that drm_mm alone does not interact with the hw, it's what we
-eventually build on top of it (like here ggtt manager) may touch the hw
+  Linux 6.10-rc2 (2024-06-02 15:44:56 -0700)
 
-> 
-> I mean, really nothing against this patch itself, specially if we are
-> confident that drmm is the way to go with this ggtt. So, I'm not blocking
-> here:
-> 
-> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> 
->> +	return 0;
->>  }
->>  
->>  static void xe_ggtt_invalidate(struct xe_ggtt *ggtt);
->> -- 
->> 2.43.0
->>
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.10-2024-06-06
+
+for you to fetch changes up to c6c4dd54012551cce5cde408b35468f2c62b0cce:
+
+  drm/amdgpu/pptable: Fix UBSAN array-index-out-of-bounds (2024-06-05 13:43:34 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.10-2024-06-06:
+
+amdgpu:
+- Fix shutdown issues on some SMU 13.x platforms
+- Silence some UBSAN flexible array warnings
+
+----------------------------------------------------------------
+Mario Limonciello (1):
+      drm/amd: Fix shutdown (again) on some SMU v13.0.4/11 platforms
+
+Tasos Sahanidis (1):
+      drm/amdgpu/pptable: Fix UBSAN array-index-out-of-bounds
+
+ drivers/gpu/drm/amd/include/pptable.h              | 91 ++++++++++++----------
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_4_ppt.c   | 20 ++---
+ 2 files changed, 60 insertions(+), 51 deletions(-)
