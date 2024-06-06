@@ -2,118 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF908FF53C
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 21:24:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C96E8FF545
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 21:28:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1F9A10EA79;
-	Thu,  6 Jun 2024 19:24:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC54210EA73;
+	Thu,  6 Jun 2024 19:28:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ldhNpYYt";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BnG1Dpbe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2044.outbound.protection.outlook.com [40.107.223.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73EC110EA77;
- Thu,  6 Jun 2024 19:24:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AHUKssrAH5EOx7iYu5xlgORLO3O74w6O/P6gTSR0WVmhsIMtAMezZwrB+9X9KH/knfI0AIfJ7SYYnQNT4pb2fwG6i23vt7OLg4OwEEqbUKtuxqSqmsL7kDD1461a1c/PPl8xXs4DCAvUOJITRY3QW04iY78gXCXHsXkDZnYyOPbOEhX2oIJP1T5MgK1TS8eAQ8M9GQXHxAEmIuTKbqoW1f7RD2I0cnbecfwH0OTLB5vANLeff1NM0z2qvsYCnIx3KUCrGQXYIaOnv/pojicJIEuPmZ48eiXzfSpUBna7yztlp6AvO8wRp43juod0RrHjPJC2YV+JzYq808QfR2rbkg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PFEgHMQ822O0XEwICakiV/5gNjSxIE8wUZrow5U0fd8=;
- b=dW5JnfKzDNbJOSxfnDFgKmh4rNM47fxWS9R0Ok2oK/NUUOdsaPbJ9sYzI2WAECjo/cqONeRv7vXpzv38OTQhbQ5hh97iK3FqRs4zM/n60WD3XageD/k/eK+qfdMXg929rX5rdumVCcR4cukWXl+qnov94DGhwyjkhJmTQG/2benH2FHp+GK9F0zH8jB/IW6LOEW98U3D3i3zPnAsOy4zrVUa8DLBVzxd2hrGzVqHfUcss2LvInyazCkmJScjASyOBN1WvwPu2fKHLBex1Wdi53c2bR8PXThluQQKlb+SSSZlfmHEDwX2R6BesbRd1+Dkawdz2R1ufpwGmc7mxE58UQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PFEgHMQ822O0XEwICakiV/5gNjSxIE8wUZrow5U0fd8=;
- b=ldhNpYYtsFferQL0TzSyUGgTklpsiMdgM9Cilmq+Z7rY+qrG1l2Ao7zmUnigZ5eQckB8DLjI0fS866dxwUEaOdDpLYQLF4m59jJT2Xs8g0W5egjyrQOowMvWDR+dqAReJacq8hnvlS09BYO4AslGlLFnT+Ew1amv5YXvyW5Bdb8=
-Received: from BL0PR01CA0008.prod.exchangelabs.com (2603:10b6:208:71::21) by
- PH7PR12MB7308.namprd12.prod.outlook.com (2603:10b6:510:20c::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7633.27; Thu, 6 Jun 2024 19:24:09 +0000
-Received: from BL6PEPF0002256F.namprd02.prod.outlook.com
- (2603:10b6:208:71:cafe::98) by BL0PR01CA0008.outlook.office365.com
- (2603:10b6:208:71::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7656.18 via Frontend
- Transport; Thu, 6 Jun 2024 19:24:09 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL6PEPF0002256F.mail.protection.outlook.com (10.167.249.37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7633.15 via Frontend Transport; Thu, 6 Jun 2024 19:24:08 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 6 Jun
- 2024 14:24:07 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu drm-fixes-6.10
-Date: Thu, 6 Jun 2024 15:23:48 -0400
-Message-ID: <20240606192348.3620805-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.45.1
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A67DA10EA73
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 19:28:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1717702110;
+ bh=Tats7cQ9n79rYoymjeJPyxZK77L8sPmlxk6JKFywVCQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=BnG1Dpbe9oHohbw1N5t4nVvVzvxLSTbolvKwKT0EUopk0UvimpQlxIYlFHj077fA7
+ 38ZPi40lmNlvCh439SO88y0HMEDVCnIWYInLVR6bGvWKeQyG6MhVrMWIuWCA6F8WX/
+ cjCE7LIbFT+qQwShUKeBPntFlA8bBi1wGtJWfgkp2ocqomgENsnWtAGOHltyXwmJYm
+ K7jxYCgxm6vuU0mqaeJ5QN9Up/G/akzvxbrKH9gr7RDvYaHcFL+aXZ5OFRPjmJXgS5
+ 1QEa2aMWo14llG++xXgIkVQMVy9FaXYQoLl+gu1LVsV2x5r9ovA+ElZX37SO50/ClT
+ ewMLUzhzZjUhA==
+Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id D15983781022;
+ Thu,  6 Jun 2024 19:28:28 +0000 (UTC)
+Message-ID: <7e59f58b-6305-44bd-ad2f-f0ee8ea28387@collabora.com>
+Date: Thu, 6 Jun 2024 22:28:28 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/14] dt-bindings: display: rockchip,dw-hdmi: Add
+ compatible for RK3588
+To: Rob Herring <robh@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, kernel@collabora.com,
+ Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>
+References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
+ <20240601-b4-rk3588-bridge-upstream-v1-12-f6203753232b@collabora.com>
+ <20240605232206.GA3345910-robh@kernel.org>
+ <260aa607-099a-4f65-ae59-c4b6ea2256f1@collabora.com>
+ <CAL_JsqKsVE1VgoYGe7qPaAV82dbs5UMGPG843mz26Opv0Y7Hxg@mail.gmail.com>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Content-Language: en-US
+In-Reply-To: <CAL_JsqKsVE1VgoYGe7qPaAV82dbs5UMGPG843mz26Opv0Y7Hxg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0002256F:EE_|PH7PR12MB7308:EE_
-X-MS-Office365-Filtering-Correlation-Id: 830743c3-59ad-41ca-d147-08dc865e3d06
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230031|36860700004|376005|1800799015|82310400017; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?hc/s8LMDJD8IEL6LjhZByuW6raJhYQS7+fnc7bk+3p+QJzRTmlkktXPSnl77?=
- =?us-ascii?Q?XP3IvZpbanseRL9wyjmumV0oMcwrEiuFV+bMovJaEChz2H5PyHuNIKaRpaXj?=
- =?us-ascii?Q?OYP4fEia9ciKF6eT1rssQ+zWXMLUyQuPf3pnUbEohKpudNpk99sQLBrDNEyj?=
- =?us-ascii?Q?/ZCH6LaZOTa+iRDZanzHHSdyHxb8NZzhACl90ay9i41ZgW0KIoXncrC6jWKR?=
- =?us-ascii?Q?pilPaVu/G01zk0qVOyD/A5LywIsKIxRKlEqWFeBHKLQYdn7Sqb+yXoYzZYrg?=
- =?us-ascii?Q?h1kCwtbuxjkMsxh/anQQm1B9MGEt9l5vM/PwBiQbw4CL1Bjur+/h2e2qxh8s?=
- =?us-ascii?Q?oEJa81/BavaQhfhGYkV+ujB90jEci1Ls0mLadEaqPrSH1/5EFh1W2+l9+hMa?=
- =?us-ascii?Q?IXUB+yvQ8xYql3Q0nF4kQ1UoDvwrHOmBZnIC0gh4S9gzxDPBLBnhhUy3r7aI?=
- =?us-ascii?Q?wQwiLzh53p1T3evgO2s7iDMnQBuMNf7EGVEDhsm3q7dbR/HbDR9PbUDIe2We?=
- =?us-ascii?Q?YAh2C8VsxA9XPIxurQBAH84lwFYC0nEvXgIxWuxxE7d3cd/OVoB8IGHoFIXa?=
- =?us-ascii?Q?7BVEP7Lbz6jzxr8k/3gsjN3+6x6oCn7bWojSx/+h2AHO4rvhL23sIOY+rVrz?=
- =?us-ascii?Q?WdCZFxLswO90pW/6K+zqod9AxrySEVnUMO2V3W8Gxumst7iIeh9zUXmhs8An?=
- =?us-ascii?Q?37m0G0jrRsP2BhmUwwAErFa+2vcTDbFhufq3fb+uOmVEZxX03GJSLPJk5gXI?=
- =?us-ascii?Q?QJDEsqxAyc2xbOjAW4LhpDuMETrz7TFnFjUNH06mnauOYmUjOp2FUuoRznG2?=
- =?us-ascii?Q?ThKG9zPgcF4GkIEN+FGp0CMNtkUZQW6ke/uitmsy6Ne+1m+VDi7+b0dVTE3P?=
- =?us-ascii?Q?itF0bWRVaqpzDnZsW92MojD1cOCqSofJOin79GF1xJmcIK5Y0PH32MNWZJea?=
- =?us-ascii?Q?zOfE8mLbzAOdxel3zjjNKrVTCSm2RhzBXfgy7hC9CGJVVBgVyvyPkrcKNCD5?=
- =?us-ascii?Q?YZ/DtNxpCB5LCWoAkM23xeH6rc2hvAMXBh0Em0CpPD3KuWzJFrMU61CbSqQn?=
- =?us-ascii?Q?4Qw1F4RKehbXIVgdQ5A24Xb1TgohQIc8PkVF3fNTwFStAprmFFLK6IoCDufs?=
- =?us-ascii?Q?+CBs6i4MiVKv0N53wLBcRcJYdZhEiN7y8N4ZqQOuqj/DgUybIcxjYvMHCNYy?=
- =?us-ascii?Q?nHmd0Wjbv22Zr8nekKbUnOEU/x2Na1ZTwdGXycUl7X3uMUyWvAgoDVHCIZA5?=
- =?us-ascii?Q?cKnFAWYihzIB02UBm14UsLmxu7H/6NEH3c4+9EAOvlTv+yyDVAL7KliGoheP?=
- =?us-ascii?Q?wecKC104dODex4kd3biIBmbjFkyKciu/JoQJcrrqMARKcDTbPI/zf58gtGiW?=
- =?us-ascii?Q?3iVQW+8=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(36860700004)(376005)(1800799015)(82310400017); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2024 19:24:08.8047 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 830743c3-59ad-41ca-d147-08dc865e3d06
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0002256F.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7308
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,36 +79,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+On 6/6/24 5:58 PM, Rob Herring wrote:
+> On Thu, Jun 6, 2024 at 5:51 AM Cristian Ciocaltea
+> <cristian.ciocaltea@collabora.com> wrote:
+>>
+>> On 6/6/24 2:22 AM, Rob Herring wrote:
+>>> On Sat, Jun 01, 2024 at 04:12:34PM +0300, Cristian Ciocaltea wrote:
+>>>> Document the Synopsys DesignWare HDMI 2.1 Quad-Pixel (QP) TX controller
+>>>> found on Rockchip RK3588 SoC family.
+>>>>
+>>>> Since RK3588 uses different clocks than previous Rockchip SoCs and also
+>>>> requires a couple of reset lines and some additional properties, provide
+>>>> the required changes in the binding to accommodate all variants.
+>>>>
+>>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>>>> ---
+>>>>  .../display/rockchip/rockchip,dw-hdmi.yaml         | 127 +++++++++++++++------
+>>>>  1 file changed, 90 insertions(+), 37 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+>>>> index 2aac62219ff6..60d6b815227f 100644
+>>>> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+>>>> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+>>>> @@ -10,12 +10,10 @@ maintainers:
+>>>>    - Mark Yao <markyao0591@gmail.com>
+>>>>
+>>>>  description: |
+>>>> -  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+>>>> -  with a companion PHY IP.
+>>>> -
+>>>> -allOf:
+>>>> -  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+>>>> -  - $ref: /schemas/sound/dai-common.yaml#
+>>>> +  For SoCs up to RK3568, the HDMI transmitter is a Synopsys DesignWare
+>>>> +  HDMI 1.4 TX controller IP with a companion PHY IP.
+>>>> +  The RK3588 SoC integrates the Synopsys DesignWare HDMI 2.1 Quad-Pixel (QP)
+>>>> +  TX controller IP and a HDMI/eDP TX Combo PHY based on a Samsung IP block.
+>>>>
+>>>>  properties:
+>>>>    compatible:
+>>>> @@ -25,6 +23,7 @@ properties:
+>>>>        - rockchip,rk3328-dw-hdmi
+>>>>        - rockchip,rk3399-dw-hdmi
+>>>>        - rockchip,rk3568-dw-hdmi
+>>>> +      - rockchip,rk3588-dw-hdmi
+>>>>
+>>>>    reg-io-width:
+>>>>      const: 4
+>>>> @@ -40,36 +39,6 @@ properties:
+>>>>        A 1.8V supply that powers up the SoC internal circuitry. The pin name on the
+>>>>        SoC usually is HDMI_TX_AVDD_1V8.
+>>>>
+>>>> -  clocks:
+>>>> -    minItems: 2
+>>>> -    items:
+>>>> -      - {}
+>>>> -      - {}
+>>>> -      # The next three clocks are all optional, but shall be specified in this
+>>>> -      # order when present.
+>>>> -      - description: The HDMI CEC controller main clock
+>>>> -      - description: Power for GRF IO
+>>>> -      - description: External clock for some HDMI PHY (old clock name, deprecated)
+>>>> -      - description: External clock for some HDMI PHY (new name)
+>>>> -
+>>>> -  clock-names:
+>>>> -    minItems: 2
+>>>> -    items:
+>>>> -      - {}
+>>>> -      - {}
+>>>> -      - enum:
+>>>> -          - cec
+>>>> -          - grf
+>>>> -          - vpll
+>>>> -          - ref
+>>>> -      - enum:
+>>>> -          - grf
+>>>> -          - vpll
+>>>> -          - ref
+>>>> -      - enum:
+>>>> -          - vpll
+>>>> -          - ref
+>>>> -
+>>>>    ddc-i2c-bus:
+>>>>      $ref: /schemas/types.yaml#/definitions/phandle
+>>>>      description:
+>>>> @@ -131,13 +100,97 @@ properties:
+>>>>  required:
+>>>>    - compatible
+>>>>    - reg
+>>>> -  - reg-io-width
+>>>>    - clocks
+>>>>    - clock-names
+>>>>    - interrupts
+>>>>    - ports
+>>>>    - rockchip,grf
+>>>>
+>>>> +allOf:
+>>>> +  - $ref: /schemas/sound/dai-common.yaml#
+>>>> +  - if:
+>>>> +      properties:
+>>>> +        compatible:
+>>>> +          contains:
+>>>> +            enum:
+>>>> +              - rockchip,rk3588-dw-hdmi
+>>>> +    then:
+>>>> +      properties:
+>>>> +        reg:
+>>>> +          maxItems: 1
+>>>> +
+>>>> +        clocks:
+>>>> +          minItems: 1
+>>>> +          items:
+>>>> +            - description: APB system interface clock
+>>>> +            # The next clocks are optional, but shall be specified in this
+>>>> +            # order when present.
+>>>> +            - description: TMDS/FRL link clock
+>>>> +            - description: EARC RX biphase clock
+>>>> +            - description: Reference clock
+>>>> +            - description: Audio interface clock
+>>>> +            - description: Video datapath clock
+>>>> +
+>>>> +        clock-names:
+>>>> +          minItems: 1
+>>>> +          items:
+>>>> +            - const: pclk
+>>>> +            - enum: [hdp, earc, ref, aud, hclk_vo1]
+>>>> +            - enum: [earc, ref, aud, hclk_vo1]
+>>>> +            - enum: [ref, aud, hclk_vo1]
+>>>> +            - enum: [aud, hclk_vo1]
+>>>> +            - const: hclk_vo1
+>>>> +
+>>>> +        resets:
+>>>> +          minItems: 2
+>>>> +          maxItems: 2
+>>>> +
+>>>> +        reset-names:
+>>>> +          items:
+>>>> +            - const: ref
+>>>> +            - const: hdp
+>>>> +
+>>>> +        interrupts:
+>>>> +          minItems: 1
+>>>> +          maxItems: 5
+>>>> +
+>>>> +        rockchip,vo1_grf:
+>>>> +          $ref: /schemas/types.yaml#/definitions/phandle
+>>>> +          description: Some QP related data is accessed through VO1 GRF regs
+>>>> +
+>>>> +      required:
+>>>> +        - resets
+>>>> +        - reset-names
+>>>> +        - rockchip,vo1_grf
+>>>> +
+>>>> +    else:
+>>>> +      $ref: ../bridge/synopsys,dw-hdmi.yaml#
+>>>
+>>> This is odd... With this plus the amount of conditional schema, I think
+>>> this should be a new schema doc. Doesn't have to have a common
+>>> schema. You can let the 2nd user of this IP block do that.
+>>
+>> Yes, v2 is going to be a completely separated driver implementation.
+> 
+> That actually has nothing to do with the decision here. Bindings are
+> separate from drivers.
 
-A couple of fixes for 6.10.
+Right, I should have properly explained that initially this QP
+controller has been handled more like another variant of those found in
+the older SoCs, rather than a totally new one. It doesn't really have
+anything in common, except that the IP comes from Synopsys, hence it
+makes sense to also have a dedicated schema.
 
-The following changes since commit c3f38fa61af77b49866b006939479069cd451173:
-
-  Linux 6.10-rc2 (2024-06-02 15:44:56 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.10-2024-06-06
-
-for you to fetch changes up to c6c4dd54012551cce5cde408b35468f2c62b0cce:
-
-  drm/amdgpu/pptable: Fix UBSAN array-index-out-of-bounds (2024-06-05 13:43:34 -0400)
-
-----------------------------------------------------------------
-amd-drm-fixes-6.10-2024-06-06:
-
-amdgpu:
-- Fix shutdown issues on some SMU 13.x platforms
-- Silence some UBSAN flexible array warnings
-
-----------------------------------------------------------------
-Mario Limonciello (1):
-      drm/amd: Fix shutdown (again) on some SMU v13.0.4/11 platforms
-
-Tasos Sahanidis (1):
-      drm/amdgpu/pptable: Fix UBSAN array-index-out-of-bounds
-
- drivers/gpu/drm/amd/include/pptable.h              | 91 ++++++++++++----------
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_4_ppt.c   | 20 ++---
- 2 files changed, 60 insertions(+), 51 deletions(-)
+Thanks,
+Cristian
