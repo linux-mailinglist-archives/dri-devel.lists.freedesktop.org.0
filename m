@@ -2,62 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 183FE8FE5CD
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 13:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0488FE5C6
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 13:51:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E60510E902;
-	Thu,  6 Jun 2024 11:52:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4189710E917;
+	Thu,  6 Jun 2024 11:51:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TpZZH2IS";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PZ/YEOyR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E01DF10E902
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 11:52:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3650161A94;
- Thu,  6 Jun 2024 11:52:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29505C2BD10;
- Thu,  6 Jun 2024 11:51:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717674699;
- bh=WrKr6/yeqX5AZnZi1jeXYMb45lWnUi2IZopET+TwnyM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TpZZH2ISKKX6C39LCuP/Om+lTpYEocG3uKY4HSIKxFN9yrFI/dCMp9kRtWfYVNGhY
- ejE0XcAaIy87jX5MFp5taWR3ecK9olNy3Ns2Q1hKwSBjSKd6P8GSx8N88P/1hPECeJ
- NiJnSDekn0MA6ZVgXrP7USfOmHiOawbFzrC+l7zM2SKPvbJ3be99b+WXJijyOTTP7S
- JiA6H2tw6J+rzhM8CgcTqbLAEt2ACffnCUEJGobcH7BJc57Tcovnmh0M9x4uJejbCr
- qWpnUmmmCM4g1c/MUCjs1TJBKY3QaHiGopFWy31gNfZ+K/KHHiK5BSGNCNb8rR4x7F
- 99duAtCI6GnNg==
-Date: Thu, 6 Jun 2024 12:51:33 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Ryan Walklin <ryan@testtoast.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Hironori KIKUCHI <kikuchan98@gmail.com>,
- Chris Morgan <macroalpha82@gmail.com>,
- Andre Przywara <andre.przywara@arm.com>, John Watts <contact@jookia.org>,
- Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: panel: Add WL-355608-A8 panel
-Message-ID: <20240606-authentic-mongoose-9485904a91a1@spud>
-References: <20240530211415.44201-1-ryan@testtoast.com>
- <20240530211415.44201-3-ryan@testtoast.com>
- <20240606-intelligent-aromatic-magpie-80a7a4@houat>
- <2dc1fdec-7673-4462-abe1-fecf8e3e826b@linaro.org>
- <20240606-refreshing-cinnamon-ibex-a0fe73@houat>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0374F10E917
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 11:51:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1717674700;
+ bh=SFUVvxNAzAySqmVBXZpEMqURPC5o1K2Msw7qVhlZD7w=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=PZ/YEOyRAoxBUkfN+li+iJ1/+ZkdV/w7JLlLacBCUDLDV9OANKU6QDSE6wokKnPtD
+ qwp2ftm8oXkHucZwZHZ+WGygAmw9YaS+Qf5LD7/sFrWXJYJ6BSIXgsIp3D1RaVhlpK
+ Yv1I5RaN6tA/eJH9RoC3YrJqb0kzFdxNt0NwJLFhsPUZ90kCxRLGU7Zr/YOgjYGLAg
+ nLO01RDhp37BawcBVwqjb0/9zx6W66O2aiwnAq6sJ2CqftiiKydfG4mRZm652iKz5c
+ sDW6OJ7E2LTpFDMoyNAqQGcPve/jTspha6AxhF8PReN8chRmLIiUcTiSAn8JZCff37
+ GHKLT36npbhSA==
+Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7AECB37821D4;
+ Thu,  6 Jun 2024 11:51:38 +0000 (UTC)
+Message-ID: <260aa607-099a-4f65-ae59-c4b6ea2256f1@collabora.com>
+Date: Thu, 6 Jun 2024 14:51:37 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="7T14RzoLsQlYusAZ"
-Content-Disposition: inline
-In-Reply-To: <20240606-refreshing-cinnamon-ibex-a0fe73@houat>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/14] dt-bindings: display: rockchip,dw-hdmi: Add
+ compatible for RK3588
+To: Rob Herring <robh@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, kernel@collabora.com,
+ Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>
+References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
+ <20240601-b4-rk3588-bridge-upstream-v1-12-f6203753232b@collabora.com>
+ <20240605232206.GA3345910-robh@kernel.org>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240605232206.GA3345910-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,77 +77,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 6/6/24 2:22 AM, Rob Herring wrote:
+> On Sat, Jun 01, 2024 at 04:12:34PM +0300, Cristian Ciocaltea wrote:
+>> Document the Synopsys DesignWare HDMI 2.1 Quad-Pixel (QP) TX controller
+>> found on Rockchip RK3588 SoC family.
+>>
+>> Since RK3588 uses different clocks than previous Rockchip SoCs and also
+>> requires a couple of reset lines and some additional properties, provide
+>> the required changes in the binding to accommodate all variants.
+>>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>  .../display/rockchip/rockchip,dw-hdmi.yaml         | 127 +++++++++++++++------
+>>  1 file changed, 90 insertions(+), 37 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+>> index 2aac62219ff6..60d6b815227f 100644
+>> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+>> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+>> @@ -10,12 +10,10 @@ maintainers:
+>>    - Mark Yao <markyao0591@gmail.com>
+>>  
+>>  description: |
+>> -  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+>> -  with a companion PHY IP.
+>> -
+>> -allOf:
+>> -  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+>> -  - $ref: /schemas/sound/dai-common.yaml#
+>> +  For SoCs up to RK3568, the HDMI transmitter is a Synopsys DesignWare
+>> +  HDMI 1.4 TX controller IP with a companion PHY IP.
+>> +  The RK3588 SoC integrates the Synopsys DesignWare HDMI 2.1 Quad-Pixel (QP)
+>> +  TX controller IP and a HDMI/eDP TX Combo PHY based on a Samsung IP block.
+>>  
+>>  properties:
+>>    compatible:
+>> @@ -25,6 +23,7 @@ properties:
+>>        - rockchip,rk3328-dw-hdmi
+>>        - rockchip,rk3399-dw-hdmi
+>>        - rockchip,rk3568-dw-hdmi
+>> +      - rockchip,rk3588-dw-hdmi
+>>  
+>>    reg-io-width:
+>>      const: 4
+>> @@ -40,36 +39,6 @@ properties:
+>>        A 1.8V supply that powers up the SoC internal circuitry. The pin name on the
+>>        SoC usually is HDMI_TX_AVDD_1V8.
+>>  
+>> -  clocks:
+>> -    minItems: 2
+>> -    items:
+>> -      - {}
+>> -      - {}
+>> -      # The next three clocks are all optional, but shall be specified in this
+>> -      # order when present.
+>> -      - description: The HDMI CEC controller main clock
+>> -      - description: Power for GRF IO
+>> -      - description: External clock for some HDMI PHY (old clock name, deprecated)
+>> -      - description: External clock for some HDMI PHY (new name)
+>> -
+>> -  clock-names:
+>> -    minItems: 2
+>> -    items:
+>> -      - {}
+>> -      - {}
+>> -      - enum:
+>> -          - cec
+>> -          - grf
+>> -          - vpll
+>> -          - ref
+>> -      - enum:
+>> -          - grf
+>> -          - vpll
+>> -          - ref
+>> -      - enum:
+>> -          - vpll
+>> -          - ref
+>> -
+>>    ddc-i2c-bus:
+>>      $ref: /schemas/types.yaml#/definitions/phandle
+>>      description:
+>> @@ -131,13 +100,97 @@ properties:
+>>  required:
+>>    - compatible
+>>    - reg
+>> -  - reg-io-width
+>>    - clocks
+>>    - clock-names
+>>    - interrupts
+>>    - ports
+>>    - rockchip,grf
+>>  
+>> +allOf:
+>> +  - $ref: /schemas/sound/dai-common.yaml#
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - rockchip,rk3588-dw-hdmi
+>> +    then:
+>> +      properties:
+>> +        reg:
+>> +          maxItems: 1
+>> +
+>> +        clocks:
+>> +          minItems: 1
+>> +          items:
+>> +            - description: APB system interface clock
+>> +            # The next clocks are optional, but shall be specified in this
+>> +            # order when present.
+>> +            - description: TMDS/FRL link clock
+>> +            - description: EARC RX biphase clock
+>> +            - description: Reference clock
+>> +            - description: Audio interface clock
+>> +            - description: Video datapath clock
+>> +
+>> +        clock-names:
+>> +          minItems: 1
+>> +          items:
+>> +            - const: pclk
+>> +            - enum: [hdp, earc, ref, aud, hclk_vo1]
+>> +            - enum: [earc, ref, aud, hclk_vo1]
+>> +            - enum: [ref, aud, hclk_vo1]
+>> +            - enum: [aud, hclk_vo1]
+>> +            - const: hclk_vo1
+>> +
+>> +        resets:
+>> +          minItems: 2
+>> +          maxItems: 2
+>> +
+>> +        reset-names:
+>> +          items:
+>> +            - const: ref
+>> +            - const: hdp
+>> +
+>> +        interrupts:
+>> +          minItems: 1
+>> +          maxItems: 5
+>> +
+>> +        rockchip,vo1_grf:
+>> +          $ref: /schemas/types.yaml#/definitions/phandle
+>> +          description: Some QP related data is accessed through VO1 GRF regs
+>> +
+>> +      required:
+>> +        - resets
+>> +        - reset-names
+>> +        - rockchip,vo1_grf
+>> +
+>> +    else:
+>> +      $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> 
+> This is odd... With this plus the amount of conditional schema, I think 
+> this should be a new schema doc. Doesn't have to have a common 
+> schema. You can let the 2nd user of this IP block do that. 
 
---7T14RzoLsQlYusAZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, v2 is going to be a completely separated driver implementation.
 
-On Thu, Jun 06, 2024 at 01:23:03PM +0200, Maxime Ripard wrote:
-> On Thu, Jun 06, 2024 at 11:37:31AM GMT, Neil Armstrong wrote:
-> > On 06/06/2024 11:32, Maxime Ripard wrote:
-> > > On Fri, May 31, 2024 at 09:12:14AM GMT, Ryan Walklin wrote:
-> > > > The WL-355608-A8 is a 3.5" 640x480@60Hz RGB LCD display used in a
-> > > > number of handheld gaming devices made by Anbernic. By consensus a
-> > > > vendor prefix is not provided as the panel OEM is unknown.
-> > >=20
-> > > Where has this consensus been found?
-> > >=20
-> > > I had a look at the previous discussions, and I can't find any consen=
-sus
-> > > being reached there. And for that kind of thing, having the ack or
-> > > review of any of the DT maintainers would have been great.
-> >=20
-> > There was a consensus with Conor, this is why he acked v2, see
-> > https://lore.kernel.org/all/20240525-velvet-citable-a45dd06847a7@spud/
->=20
-> It's probably a matter of semantics here, but if it's with only one
-> person, it's not a consensus but an agreement.
->=20
-> > ```
-> > I think if we genuinely do not know what the vendor is then we just
-> > don't have a prefix.
-> > ```
->=20
-> And even then, I don't interpret Conor's statement as a formal agreement
-> but rather an acknowledgment of the issue.
+> Though if you 
+> have the Synopsys spec, then it would be good to use it and be sure the 
+> binding corresponds to it.
 
-I mean, I specifically left an r-b below that line in v2:
-https://lore.kernel.org/all/20240530-satchel-playgroup-e8aa6937b8b9@spud/
+Unfortunately I don't have it.
 
-I'm not a displays guy, so my sources were limited to what I could find
-=66rom search engines, but I spent some time looking for an actual vendor
-of the panel and could not. All I found was various listings on places
-like AliExpress that did not mention an manufacturer. I'd rather not
-invent a vendor because we could not find the actual vendor of the
-panel & it seemed rather unreasonable to block support for the device
-on the basis of not being able to figure out the vendor. If you, as
-someone knowledgeable on displays, can figure the vendor out, then
-yeah we should definitely add it.
+@Andy: Could you please help identifying the properties which should
+belong to a common synopsys,dw-hdmi-qp schema?
 
-> > I agree with Conor so I applied the patchset after Connor reviewed it a=
-nd the comment was fixed in v3:
-> > https://lore.kernel.org/all/20240530-satchel-playgroup-e8aa6937b8b9@spu=
-d/
->=20
-> Yeah, I know. Still, it's a major deviation to what we've always been
-> doing, getting the DT maintainers voice on that would have been a good
-> idea.
-
-Is it a consensus of DT maintainers you're looking for?
-
-Cheers,
-Conor.
-
---7T14RzoLsQlYusAZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZmGixQAKCRB4tDGHoIJi
-0kGRAQDTdQpSL5yVbv/CO+lPJV28uEnE9+goRFPlQIK42X8q9wD9GZgwwlfeQL/r
-DixUbXYNKdvuE3COu38UncJ25jF/aQ0=
-=biq6
------END PGP SIGNATURE-----
-
---7T14RzoLsQlYusAZ--
+Thanks,
+Cristian
