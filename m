@@ -2,75 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1DB8FE1A7
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 10:54:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DFE48FE270
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 11:21:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C636610E02B;
-	Thu,  6 Jun 2024 08:54:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F11D510E886;
+	Thu,  6 Jun 2024 09:21:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SOa7lG/4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EFerXMHJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BE9510E02B
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 08:54:20 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-dfa72c9d426so848277276.3
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jun 2024 01:54:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717664059; x=1718268859; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+iELr/WPzJm0A7EM6v/U4tRKEa6mtrRIhxMOyb3jnnc=;
- b=SOa7lG/4ShXyUH0/ln0HdXsw231cwla1DM+i+iL1tg1Pg2SJzjg5LAWJM4dhfhLs1A
- M1NABJS27oJdE5zYLDA9HTSQlA3T41nawEESKab92di53shiq+WFmLbS0/oeWlHfroe5
- Go0cu2SXHhdhrYEwNvTDEuI1DftXYhh7n7j/acHdFT6BfzIbYLYnNtXdZjZsY7Q4gG34
- xJxDl4k8rgLmrvVNVwU/MA/wb/+tVHaLtn55FFgNqVkJ3NlW2yiuLA36xOYCNmHnxlVx
- Ko9CMDAlXavC2BAiP7RZPQY50840/96PBvoXMw+qIBLEHS0kifGnXtikIwHwCZVrQr9X
- sBug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717664059; x=1718268859;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+iELr/WPzJm0A7EM6v/U4tRKEa6mtrRIhxMOyb3jnnc=;
- b=aBIw9sPGJxqucUWYnV/yFsSXU0rfut39UqKQGeLUFh9ersDIQznaG939R0x8gxjJ/Z
- qKalnB39YlwOfSo/aK9wg+w5IL84bzdJ1mcQUiY1sdXk3vwJeJUNbSqLMj236UcC1f9e
- X7yn4RlwH2cPFoUpgGdPVMWr7K3LzdquccJXdoQ9dZjkMgXcpedEBW86S5l3kyYapnDp
- SMeIRE8QKfMl433gcnbPiX7O8RpccbWFslWeCDwXrk+q89uSsCIOPLmFxlXrCPCpXDIC
- 6DXI2F1J3FldqQrt5kUqY8sXaCQlcbSmsqM9IRScv/NFcc4lzu8NoktaD2xHlXV+1FuD
- 0sUQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU9yAaLq+KgHTuN4bj9qFmKZMhgYFZL6lCAC2zUMDkmxdNXK8oVvpMwocySPPizjIy/ZqYilCgrd6xhYUJ/CQ39GaSgPUv976DJ64bJnZHA
-X-Gm-Message-State: AOJu0YxT/iXbYxBpX8lJ7y79+25OBZduuGFshIKHhDc6tx4wINBMbGO4
- vG+I1SKX5tcKHbXapVA+r0srQM6HehezD88gaQy81O2ivydxWaEtmcSj8Ezi2i0n0/ADZSs99vd
- X8G/Kcx1jlkwBSTWjhuC+AoIcRT/8yU/bI+g5Rg==
-X-Google-Smtp-Source: AGHT+IFVHYy2qIeOQs9q5V92xKkDYTynf4PQxhlNASe/iGH0WwNFzITXGL0WNI9PXXLo8Ls225McpXU6BeaKzqXO3hE=
-X-Received: by 2002:a25:2d19:0:b0:de5:5084:715d with SMTP id
- 3f1490d57ef6-dfacad2443fmr5080848276.53.1717664059531; Thu, 06 Jun 2024
- 01:54:19 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C4AE10E886
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 09:21:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id C51C461CE2;
+ Thu,  6 Jun 2024 09:21:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67703C2BD10;
+ Thu,  6 Jun 2024 09:21:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1717665693;
+ bh=C8sulEDJMrxWYwdcSw3tGuQJg30NjDlZJQNANrn1vsA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=EFerXMHJ/BuFTp3gArt56JMANEARiwmx+3u3439NienSDrWW2U1at+iMb7h06wKYo
+ FdA4GUWvOobJietEPmp/1VRYQv+nRH7GV5Li0/7m6VrX3cu/gTxU59KNTe24avtB5a
+ 3joAkd0XcXmYTl2SeMjjx5iWexZR+CqzwNBEl+s/cm/yMPz1bSeIOOJxuqA5Bkzs0M
+ q4U37ml6qELvOwjX69MMw1O/kESa4cRAs/8MeTv74E+0N6wqyN6zY85wOUR7t7tWeV
+ PVClUNTc5f7kyB9mhUNcOxnS3mjOfwowjgYjbtg6qsd4LpMaZODCzDCV0Dt66HImGa
+ r6XZ0RyABTz4g==
+From: Michael Walle <mwalle@kernel.org>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Jitao Shi <jitao.shi@mediatek.com>, Stu Hsieh <stu.hsieh@mediatek.com>,
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ dri-devel@lists.freedesktop.org,
+ Frank Wunderlich <frank-w@public-files.de>,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Michael Walle <mwalle@kernel.org>,
+ =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
+ <nfraprado@collabora.com>
+Subject: [PATCH RESEND v5] drm/mediatek: dpi/dsi: fix possible_crtcs
+ calculation
+Date: Thu,  6 Jun 2024 11:21:22 +0200
+Message-Id: <20240606092122.2026313-1-mwalle@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20240314000216.392549-1-dmitry.baryshkov@linaro.org>
- <20240314000216.392549-7-dmitry.baryshkov@linaro.org>
- <627dd526-2b56-2ecb-9011-4ec08bab454f@quicinc.com>
- <CAA8EJpp+NvoTMZdVNivqe0_nQd3PChSND7ojqa+Ee3nMdWcQGQ@mail.gmail.com>
- <1c107933-2180-fcd2-06f2-61eb7108b6b0@quicinc.com>
- <CAA8EJpp7DL+hpTUgmzsKciXg8ZEZ5BFy8ALiH0CbFmWb058HCw@mail.gmail.com>
-In-Reply-To: <CAA8EJpp7DL+hpTUgmzsKciXg8ZEZ5BFy8ALiH0CbFmWb058HCw@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 6 Jun 2024 11:54:08 +0300
-Message-ID: <CAA8EJpqBSiCadAKXSXSB58cPV7Fb31_92vJJDMDsnxHz1TnuOA@mail.gmail.com>
-Subject: Re: [PATCH v4 06/13] drm/msm/dpu: split dpu_plane_atomic_check()
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Stephen Boyd <swboyd@chromium.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,57 +66,216 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 6 Jun 2024 at 11:53, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Thu, 6 Jun 2024 at 02:47, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >
-> >
-> >
-> > On 6/5/2024 4:32 PM, Dmitry Baryshkov wrote:
-> > > On Thu, 6 Jun 2024 at 02:19, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> > >>
-> > >>
-> > >>
-> > >> On 3/13/2024 5:02 PM, Dmitry Baryshkov wrote:
-> > >>> Split dpu_plane_atomic_check() function into two pieces:
-> > >>>
-> > >>> dpu_plane_atomic_check_nopipe() performing generic checks on the pstate,
-> > >>> without touching the associated pipe,
-> > >>>
-> > >>> and
-> > >>>
-> > >>> dpu_plane_atomic_check_pipes(), which takes into account used pipes.
-> > >>>
-> > >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > >>> ---
-> > >>>    drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 184 ++++++++++++++--------
-> > >>>    1 file changed, 117 insertions(+), 67 deletions(-)
-> > >>>
+mtk_find_possible_crtcs() assumes that the main path will always have
+the CRTC with id 0, the ext id 1 and the third id 2. This is only true
+if the paths are all available. But paths are optional (see also
+comment in mtk_drm_kms_init()), e.g. the main path might not be enabled
+or available at all. Then the CRTC IDs will shift one up, e.g. ext will
+be 0 and the third path will be 1.
 
-> > >>> +     if (new_plane_state->crtc)
-> > >>> +             crtc_state = drm_atomic_get_new_crtc_state(state,
-> > >>> +                                                        new_plane_state->crtc);
-> > >>> +
-> > >>> +     if (pdpu->pipe != SSPP_NONE) {
-> > >>
-> > >> This check was not present iirc, why did you have to add this?
-> > >> RM will return the same SSPP unless freed. So why this additional check?
-> > >
-> > > If pdpu->pipe is not SSPP_NONE, then virtual planes are disabled and
-> > > there is a fixed 1:1 relationship between planes and SSPP blocks.
-> > >
-> >
-> > True, pdpu->pipe is currently assigned in dpu_plane_init(), so we will
-> > always be hitting this condition.
-> >
-> > Perhaps the patches later on are changing that, so shouldnt this part
-> > come along with those?
->
-> Ack, I'll move it to patch 5.
+To fix that, dynamically calculate the IDs by the presence of the paths.
 
-Patch 8, of course.
+While at it, make the return code a signed one and return -ENODEV if no
+path is found and handle the error in the callers.
 
+Fixes: 5aa8e7647676 ("drm/mediatek: dpi/dsi: Change the getting possible_crtc way")
+Suggested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+Signed-off-by: Michael Walle <mwalle@kernel.org>
+---
+You can find v4 at [1]. Unfortunately, it was never applied and in the
+meantime there was a change in mtk_find_possible_crtcs(). So I've
+dropped Nícolas Reviewed and Tested-by tags and Angelos Reviewed-by
+tag.
+
+[1] https://lore.kernel.org/r/20230905084922.3908121-2-mwalle@kernel.org/
+---
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c | 105 ++++++++++++++++--------
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.h |   2 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c      |   5 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c      |   5 +-
+ 4 files changed, 78 insertions(+), 39 deletions(-)
+
+diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
+index 17b036411292..9a8c1cace8a0 100644
+--- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
+@@ -514,29 +514,42 @@ static bool mtk_ddp_comp_find(struct device *dev,
+ 	return false;
+ }
+ 
+-static unsigned int mtk_ddp_comp_find_in_route(struct device *dev,
+-					       const struct mtk_drm_route *routes,
+-					       unsigned int num_routes,
+-					       struct mtk_ddp_comp *ddp_comp)
++static int mtk_ddp_comp_find_in_route(struct device *dev,
++				      const struct mtk_drm_route *routes,
++				      unsigned int num_routes,
++				      struct mtk_ddp_comp *ddp_comp)
+ {
+-	int ret;
+ 	unsigned int i;
+ 
+-	if (!routes) {
+-		ret = -EINVAL;
+-		goto err;
+-	}
++	if (!routes)
++		return -EINVAL;
+ 
+ 	for (i = 0; i < num_routes; i++)
+ 		if (dev == ddp_comp[routes[i].route_ddp].dev)
+ 			return BIT(routes[i].crtc_id);
+ 
+-	ret = -ENODEV;
+-err:
++	return -ENODEV;
++}
+ 
+-	DRM_INFO("Failed to find comp in ddp table, ret = %d\n", ret);
++static bool mtk_ddp_path_available(const unsigned int *path,
++				   unsigned int path_len,
++				   struct device_node **comp_node)
++{
++	unsigned int i;
+ 
+-	return 0;
++	if (!path || !path_len)
++		return false;
++
++	for (i = 0U; i < path_len; i++) {
++		/* OVL_ADAPTOR doesn't have a device node */
++		if (path[i] == DDP_COMPONENT_DRM_OVL_ADAPTOR)
++			continue;
++
++		if (!comp_node[path[i]])
++			return false;
++	}
++
++	return true;
+ }
+ 
+ int mtk_ddp_comp_get_id(struct device_node *node,
+@@ -554,32 +567,52 @@ int mtk_ddp_comp_get_id(struct device_node *node,
+ 	return -EINVAL;
+ }
+ 
+-unsigned int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev)
++int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev)
+ {
+ 	struct mtk_drm_private *private = drm->dev_private;
+-	unsigned int ret = 0;
+-
+-	if (mtk_ddp_comp_find(dev,
+-			      private->data->main_path,
+-			      private->data->main_len,
+-			      private->ddp_comp))
+-		ret = BIT(0);
+-	else if (mtk_ddp_comp_find(dev,
+-				   private->data->ext_path,
+-				   private->data->ext_len,
+-				   private->ddp_comp))
+-		ret = BIT(1);
+-	else if (mtk_ddp_comp_find(dev,
+-				   private->data->third_path,
+-				   private->data->third_len,
+-				   private->ddp_comp))
+-		ret = BIT(2);
+-	else
+-		ret = mtk_ddp_comp_find_in_route(dev,
+-						 private->data->conn_routes,
+-						 private->data->num_conn_routes,
+-						 private->ddp_comp);
++	const struct mtk_mmsys_driver_data *data;
++	struct mtk_drm_private *priv_n;
++	int i = 0, j;
++	int ret;
+ 
++	for (j = 0; j < private->data->mmsys_dev_num; j++) {
++		priv_n = private->all_drm_private[j];
++		data = priv_n->data;
++
++		if (mtk_ddp_path_available(data->main_path, data->main_len,
++					   priv_n->comp_node)) {
++			if (mtk_ddp_comp_find(dev, data->main_path,
++					      data->main_len,
++					      priv_n->ddp_comp))
++				return BIT(i);
++			i++;
++		}
++
++		if (mtk_ddp_path_available(data->ext_path, data->ext_len,
++					   priv_n->comp_node)) {
++			if (mtk_ddp_comp_find(dev, data->ext_path,
++					      data->ext_len,
++					      priv_n->ddp_comp))
++				return BIT(i);
++			i++;
++		}
++
++		if (mtk_ddp_path_available(data->third_path, data->third_len,
++					   priv_n->comp_node)) {
++			if (mtk_ddp_comp_find(dev, data->third_path,
++					      data->third_len,
++					      priv_n->ddp_comp))
++				return BIT(i);
++			i++;
++		}
++	}
++
++	ret = mtk_ddp_comp_find_in_route(dev,
++					 private->data->conn_routes,
++					 private->data->num_conn_routes,
++					 private->ddp_comp);
++
++	DRM_INFO("Failed to find comp in ddp table, ret = %d\n", ret);
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
+index 26236691ce4c..e2ea19d5ddcb 100644
+--- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
++++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
+@@ -326,7 +326,7 @@ static inline void mtk_ddp_comp_encoder_index_set(struct mtk_ddp_comp *comp)
+ 
+ int mtk_ddp_comp_get_id(struct device_node *node,
+ 			enum mtk_ddp_comp_type comp_type);
+-unsigned int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev);
++int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev);
+ int mtk_ddp_comp_init(struct device_node *comp_node, struct mtk_ddp_comp *comp,
+ 		      unsigned int comp_id);
+ enum mtk_ddp_comp_type mtk_ddp_comp_get_type(unsigned int comp_id);
+diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+index 5c86aa0b75b2..b894be9f1f53 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dpi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+@@ -814,7 +814,10 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
+ 		return ret;
+ 	}
+ 
+-	dpi->encoder.possible_crtcs = mtk_find_possible_crtcs(drm_dev, dpi->dev);
++	ret = mtk_find_possible_crtcs(drm_dev, dpi->dev);
++	if (ret < 0)
++		goto err_cleanup;
++	dpi->encoder.possible_crtcs = ret;
+ 
+ 	ret = drm_bridge_attach(&dpi->encoder, &dpi->bridge, NULL,
+ 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index 2b0ac859a653..b450b7223aa2 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -861,7 +861,10 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
+ 		return ret;
+ 	}
+ 
+-	dsi->encoder.possible_crtcs = mtk_find_possible_crtcs(drm, dsi->host.dev);
++	ret = mtk_find_possible_crtcs(drm, dsi->host.dev);
++	if (ret < 0)
++		goto err_cleanup_encoder;
++	dsi->encoder.possible_crtcs = ret;
+ 
+ 	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
+ 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
 -- 
-With best wishes
-Dmitry
+2.39.2
+
