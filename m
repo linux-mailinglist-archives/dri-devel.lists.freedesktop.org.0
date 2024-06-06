@@ -2,43 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8032A8FE51B
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 13:18:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3C58FE547
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 13:24:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7EE410E8E0;
-	Thu,  6 Jun 2024 11:18:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F55410E8EA;
+	Thu,  6 Jun 2024 11:24:16 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ahZuNJhu";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9C83210E8E0
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 11:18:52 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 11103DA7
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 04:19:16 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 602113F905
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 04:18:51 -0700 (PDT)
-Date: Thu, 6 Jun 2024 12:18:43 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: pengfuyuan <pengfuyuan@kylinos.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- k2ci <kernel-bot@kylinos.cn>
-Subject: Re: [PATCH] arm/komeda: Compile DEFINE_SHOW_ATTRIBUTE() only when
- CONFIG_DEBUG_FS is enabled
-Message-ID: <ZmGbE3g_OFuowEgF@e110455-lin.cambridge.arm.com>
-References: <20240606075846.1307007-1-pengfuyuan@kylinos.cn>
- <87ed9abhxx.fsf@intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B539310E8EA
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 11:24:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 510E2CE1B1B;
+ Thu,  6 Jun 2024 11:23:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97A31C4AF0E;
+ Thu,  6 Jun 2024 11:23:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1717672986;
+ bh=EDhiJivZreO9d0/qonxCfwRWsq4IzCERJAQDg+Bsxgo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ahZuNJhuFcU80SKjffOkSB+akHM3EIbytnw7Y7Y9ZV0KdpAYd0p7vO513lWGp3nXv
+ 2DfE1zeCu4TRhctzMc55xSz9GHhPKVPDRIfdIeORU91a+VRFAgCRTAGKOqOVgjuyJ8
+ n0wYnk0FUZ+QsVKMhRCgv0uhNEEKUkrbM5A6dw5qBsppDNnkXZWcnUmAOZvlAtNBb/
+ PakHncmBM5mPsZ4VpRoZMlY9cGDCubO14h5NIpKu5qMOAH6jHRQVeWv4NS6JF5nwpO
+ wY/S8I/7qTI/zaIn4Dt/EfPssVptOVGOeudNtGQ40KBdXlYn8lCZfRaCSKOYWYTzqA
+ /MXrQZa9BRUHg==
+Date: Thu, 6 Jun 2024 13:23:03 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Ryan Walklin <ryan@testtoast.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Hironori KIKUCHI <kikuchan98@gmail.com>, Chris Morgan <macroalpha82@gmail.com>,
+ Andre Przywara <andre.przywara@arm.com>, John Watts <contact@jookia.org>, 
+ Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: display: panel: Add WL-355608-A8 panel
+Message-ID: <20240606-refreshing-cinnamon-ibex-a0fe73@houat>
+References: <20240530211415.44201-1-ryan@testtoast.com>
+ <20240530211415.44201-3-ryan@testtoast.com>
+ <20240606-intelligent-aromatic-magpie-80a7a4@houat>
+ <2dc1fdec-7673-4462-abe1-fecf8e3e826b@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="q3hiu4dcyk7yygm2"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87ed9abhxx.fsf@intel.com>
+In-Reply-To: <2dc1fdec-7673-4462-abe1-fecf8e3e826b@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,82 +69,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 06, 2024 at 11:20:58AM +0300, Jani Nikula wrote:
-> On Thu, 06 Jun 2024, pengfuyuan <pengfuyuan@kylinos.cn> wrote:
-> > We do not call komeda_debugfs_init() and the debugfs core function
-> > declaration if CONFIG_DEBUG_FS is not defined, but we should not
-> > compile it either because the debugfs core function declaration is
-> > not included.
-> >
-> > Reported-by: k2ci <kernel-bot@kylinos.cn>
 
-Can we see what the bot reported?
+--q3hiu4dcyk7yygm2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
-> 
-> An interesting alternative might actually be to remove *all* the
-> CONFIG_DEBUG_FS conditional compilation from the file. Since the debugfs
-> functions have no-op stubs for CONFIG_DEBUG_FS=n, the compiler will
-> optimize the rest away, because they're no longer referenced. (For the
-> same reason, I don't think this patch has an impact for code size.)
-> 
-> The upside for removing conditional compilation is that you'll actually
-> do build testing for both CONFIG_DEBUG_FS config values. Assuming most
-> developers have it enabled, there's not a lot of testing going on for
-> CONFIG_DEBUG_FS=n, and you might introduce build failures with the
-> conditional compilation.
-> 
-> Of course, up to Liviu to decide.
+On Thu, Jun 06, 2024 at 11:37:31AM GMT, Neil Armstrong wrote:
+> On 06/06/2024 11:32, Maxime Ripard wrote:
+> > On Fri, May 31, 2024 at 09:12:14AM GMT, Ryan Walklin wrote:
+> > > The WL-355608-A8 is a 3.5" 640x480@60Hz RGB LCD display used in a
+> > > number of handheld gaming devices made by Anbernic. By consensus a
+> > > vendor prefix is not provided as the panel OEM is unknown.
+> >=20
+> > Where has this consensus been found?
+> >=20
+> > I had a look at the previous discussions, and I can't find any consensus
+> > being reached there. And for that kind of thing, having the ack or
+> > review of any of the DT maintainers would have been great.
+>=20
+> There was a consensus with Conor, this is why he acked v2, see
+> https://lore.kernel.org/all/20240525-velvet-citable-a45dd06847a7@spud/
 
-Yeah, I quite like the idea of removing the conditional compilation from
-the file entirely.
+It's probably a matter of semantics here, but if it's with only one
+person, it's not a consensus but an agreement.
 
-Pengfuyuan, do you mind sending a new patch removing all the CONFIG_DEBUG_FS
-from the file, rather than moving things around?
+> ```
+> I think if we genuinely do not know what the vendor is then we just
+> don't have a prefix.
+> ```
 
-Best regards,
-Liviu
+And even then, I don't interpret Conor's statement as a formal agreement
+but rather an acknowledgment of the issue.
 
-> 
-> 
-> BR,
-> Jani.
-> 
-> 
-> > ---
-> >  drivers/gpu/drm/arm/display/komeda/komeda_dev.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
-> > index 14ee79becacb..7ada8e6f407c 100644
-> > --- a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
-> > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
-> > @@ -21,6 +21,7 @@
-> >  
-> >  #include "komeda_dev.h"
-> >  
-> > +#ifdef CONFIG_DEBUG_FS
-> >  static int komeda_register_show(struct seq_file *sf, void *x)
-> >  {
-> >  	struct komeda_dev *mdev = sf->private;
-> > @@ -43,7 +44,6 @@ static int komeda_register_show(struct seq_file *sf, void *x)
-> >  
-> >  DEFINE_SHOW_ATTRIBUTE(komeda_register);
-> >  
-> > -#ifdef CONFIG_DEBUG_FS
-> >  static void komeda_debugfs_init(struct komeda_dev *mdev)
-> >  {
-> >  	if (!debugfs_initialized())
-> 
-> -- 
-> Jani Nikula, Intel
+> I agree with Conor so I applied the patchset after Connor reviewed it and=
+ the comment was fixed in v3:
+> https://lore.kernel.org/all/20240530-satchel-playgroup-e8aa6937b8b9@spud/
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Yeah, I know. Still, it's a major deviation to what we've always been
+doing, getting the DT maintainers voice on that would have been a good
+idea.
+
+Maxime
+
+--q3hiu4dcyk7yygm2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZmGcFgAKCRAnX84Zoj2+
+dkUYAYCXwrDgo1KATTDcFdJY/lwZcLjYhGqWZbadZKZqSt1Nq6v60CtI5x6SUjKm
+kAWhuLYBgOMMP9FddW2uvd89ISvKRiJGtQ6AKVTmRa3PvGN4tElI4Htdmm+A+u7A
+BdBvxbKM2w==
+=lcBK
+-----END PGP SIGNATURE-----
+
+--q3hiu4dcyk7yygm2--
