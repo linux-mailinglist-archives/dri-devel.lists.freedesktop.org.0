@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE0B8FEDC3
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 16:39:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FF08FEF02
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 16:48:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BE8610E97A;
-	Thu,  6 Jun 2024 14:39:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 540D110E983;
+	Thu,  6 Jun 2024 14:48:10 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YtRrkQHK";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f77.google.com (mail-io1-f77.google.com
- [209.85.166.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B601410E97C
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 14:39:31 +0000 (UTC)
-Received: by mail-io1-f77.google.com with SMTP id
- ca18e2360f4ac-7e6e4a83282so110792839f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jun 2024 07:39:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717684770; x=1718289570;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zNjFQrtwTKaWBte4tJrnqffbmDU+f1M7PL3F7OYz3Hg=;
- b=JF67ydWMIvLo75AbEyCCR3K83S+A0PpRcrqv2uVU07bmt0xxMyf1bATY4yuNw0M/vG
- pjbb8iwL53aBU1fk76wgSZj9Ot3YDoNERRiwobUFjk3z3OZFGW6YVIGNc8Q0WFe/WhbJ
- AZJua/Euw+xinTIKeH5lAJmnEml4mjvWc9IO5r1tzEU2HRSVGqGPcIaJqavIYsYMD3eW
- fUXSIrboH3YPaaySUL9DBJxd6rWPgfk2N2H2rjmRxEuKqYw37MZmqJWQAd+gglNbJtcD
- H6ZAY5UURRlGqlLeuRfJ3AzkspDEJyKu8SKBso1xab9huQ0dr7hABHjrAXWDrQP/TkgM
- eYnQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVCCnQrDZVhzCE6SCSOKEBBz2ecRBBFI7QYWiC8frQYx9itzxfLDhhxYgxAZEa0S8nIsbWK+Z65tfbKcJ1x8lFzhgxkC3WdFIBhTDpXYUG3
-X-Gm-Message-State: AOJu0YyfHMdadhDLDvqVE6BRG/msiRECRj+tk0s1jUR8Iyvm+SaxYRWb
- aKC0GBbRNDLvWKpi7Wqiq9REh1u3IvWmhSM9TGJe9sX0MfwjY6iiTnWxfsHYr2PVe5SDjclTckF
- wk+Xjel8I74M6QFM5e8/yJ0paE/78fm79sa9ap6Er9kTzm/yrBng6Hzs=
-X-Google-Smtp-Source: AGHT+IFIPjUi6WEYAJixMlNNBzpSNLHiIstWGXkkrLSgheRHg7OUK5Sf5r0nZt1aVPWD8p7VlDX4yyWaVmpw6Y6EPCRNmi0SKY5c
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A44A10E730;
+ Thu,  6 Jun 2024 14:48:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1717685287;
+ bh=dQuMVnPcFvL2rm7IsOiVG0+PEE/oKkyHvTcPJNmZa+0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=YtRrkQHKb+X7xskObtg8FVCsFdwW8ShtHfCWtk4KRWoyx36T/q0AyGDwcPLitgXD0
+ juSSzZ3cVZnQbEDdzMDSSm8xGeGxl3vLT/L53APO2Uo9mJm74o3YO7FrEl2BM+EyDS
+ RHflhbHlPHGWQ7EThEjdeN/fGUeVCYOlIKGO8DrwcAr/iYf/5sLnc4QHnStmIq0v0h
+ xLL7JMpSpaAnGsWurIR2SiEcuC0uSUEfaXkzCyK0B0+QnKCJRPycr/Fv0n4gXpkoOX
+ CpotkDssPI/ghb/8UWFmzZvE0qBspVDQY2C+F0VYLb5GEI9kUvXljorsWjykBsbJu8
+ LAPtwkBjkdYrA==
+Received: from [100.95.196.25] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 233DF37821F4;
+ Thu,  6 Jun 2024 14:48:01 +0000 (UTC)
+Message-ID: <da1366fa-4d48-4227-ae4b-4b39a6607973@collabora.com>
+Date: Thu, 6 Jun 2024 11:47:59 -0300
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:156d:b0:36c:5c1b:2051 with SMTP id
- e9e14a558f8ab-374b1f84326mr3805595ab.6.1717684770736; Thu, 06 Jun 2024
- 07:39:30 -0700 (PDT)
-Date: Thu, 06 Jun 2024 07:39:30 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000989d2a061a39a667@google.com>
-Subject: [syzbot] [mm?] general protection fault in
- dequeue_hugetlb_folio_nodemask
-From: syzbot <syzbot+c019f68a83ef9b456444@syzkaller.appspotmail.com>
-To: Tim.Huang@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com, 
- akpm@linux-foundation.org, alexander.deucher@amd.com, 
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com, daniel@ffwll.ch, 
- dri-devel@lists.freedesktop.org, evan.quan@amd.com, lijo.lazar@amd.com, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, mario.limonciello@amd.com, 
- muchun.song@linux.dev, syzkaller-bugs@googlegroups.com, yifan1.zhang@amd.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/6] drm/ci: uprev mesa/IGT and generate testlist
+To: Vignesh Raman <vignesh.raman@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
+ robdclark@gmail.com, david.heidelberg@collabora.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ dmitry.baryshkov@linaro.org, mcanal@igalia.com,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+References: <20240529024049.356327-1-vignesh.raman@collabora.com>
+Content-Language: en-US
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <20240529024049.356327-1-vignesh.raman@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,144 +68,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    0e1980c40b6e Add linux-next specific files for 20240531
-git tree:       linux-next
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=166086f2980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d9c3ca4e54577b88
-dashboard link: https://syzkaller.appspot.com/bug?extid=c019f68a83ef9b456444
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12f4094a980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15e1e432980000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/44fb1d8b5978/disk-0e1980c4.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/a66ce5caf0b2/vmlinux-0e1980c4.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/8992fc8fe046/bzImage-0e1980c4.xz
-
-The issue was bisected to:
-
-commit cd94d1b182d2986378550c9087571991bfee01d4
-Author: Mario Limonciello <mario.limonciello@amd.com>
-Date:   Thu May 2 18:32:17 2024 +0000
-
-    dm/amd/pm: Fix problems with reboot/shutdown for some SMU 13.0.4/13.0.11 users
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=176121c2980000
-console output: https://syzkaller.appspot.com/x/log.txt?x=10e121c2980000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c019f68a83ef9b456444@syzkaller.appspotmail.com
-Fixes: cd94d1b182d2 ("dm/amd/pm: Fix problems with reboot/shutdown for some SMU 13.0.4/13.0.11 users")
-
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000489: 0000 [#1] PREEMPT SMP KASAN PTI
-KASAN: probably user-memory-access in range [0x0000000000002448-0x000000000000244f]
-CPU: 1 PID: 5089 Comm: syz-executor257 Not tainted 6.10.0-rc1-next-20240531-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/02/2024
-RIP: 0010:zonelist_zone_idx include/linux/mmzone.h:1613 [inline]
-RIP: 0010:next_zones_zonelist include/linux/mmzone.h:1644 [inline]
-RIP: 0010:first_zones_zonelist include/linux/mmzone.h:1670 [inline]
-RIP: 0010:dequeue_hugetlb_folio_nodemask+0x193/0xe40 mm/hugetlb.c:1362
-Code: 13 9b a0 ff c7 44 24 14 00 00 00 00 83 7c 24 40 00 0f 85 97 0c 00 00 48 83 7c 24 20 00 0f 85 45 09 00 00 48 89 d8 48 c1 e8 03 <42> 0f b6 04 28 84 c0 0f 85 58 09 00 00 44 8b 33 44 89 f7 8b 5c 24
-RSP: 0018:ffffc900035ef720 EFLAGS: 00010002
-RAX: 0000000000000489 RBX: 0000000000002448 RCX: ffff888026ef0000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: ffffc900035ef858 R08: ffffffff81f5e070 R09: fffff520006bdee8
-R10: dffffc0000000000 R11: fffff520006bdee8 R12: 00000000ffffffff
-R13: dffffc0000000000 R14: 0000000000000000 R15: 0000000000000000
-FS:  0000555564010380(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000005fdeb8 CR3: 000000007bd96000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- alloc_hugetlb_folio_nodemask+0xae/0x3f0 mm/hugetlb.c:2603
- memfd_alloc_folio+0x15e/0x390 mm/memfd.c:75
- memfd_pin_folios+0x1066/0x1720 mm/gup.c:3864
- udmabuf_create+0x658/0x11c0 drivers/dma-buf/udmabuf.c:353
- udmabuf_ioctl_create drivers/dma-buf/udmabuf.c:420 [inline]
- udmabuf_ioctl+0x304/0x4f0 drivers/dma-buf/udmabuf.c:451
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:907 [inline]
- __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:893
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f5151a7a369
-Code: 48 83 c4 28 c3 e8 37 17 00 00 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffd962ee9e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007ffd962eebb8 RCX: 00007f5151a7a369
-RDX: 00000000200002c0 RSI: 0000000040187542 RDI: 0000000000000003
-RBP: 00007f5151aed610 R08: 00007ffd962eebb8 R09: 00007ffd962eebb8
-R10: 00007ffd962eebb8 R11: 0000000000000246 R12: 0000000000000001
-R13: 00007ffd962eeba8 R14: 0000000000000001 R15: 0000000000000001
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:zonelist_zone_idx include/linux/mmzone.h:1613 [inline]
-RIP: 0010:next_zones_zonelist include/linux/mmzone.h:1644 [inline]
-RIP: 0010:first_zones_zonelist include/linux/mmzone.h:1670 [inline]
-RIP: 0010:dequeue_hugetlb_folio_nodemask+0x193/0xe40 mm/hugetlb.c:1362
-Code: 13 9b a0 ff c7 44 24 14 00 00 00 00 83 7c 24 40 00 0f 85 97 0c 00 00 48 83 7c 24 20 00 0f 85 45 09 00 00 48 89 d8 48 c1 e8 03 <42> 0f b6 04 28 84 c0 0f 85 58 09 00 00 44 8b 33 44 89 f7 8b 5c 24
-RSP: 0018:ffffc900035ef720 EFLAGS: 00010002
-RAX: 0000000000000489 RBX: 0000000000002448 RCX: ffff888026ef0000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: ffffc900035ef858 R08: ffffffff81f5e070 R09: fffff520006bdee8
-R10: dffffc0000000000 R11: fffff520006bdee8 R12: 00000000ffffffff
-R13: dffffc0000000000 R14: 0000000000000000 R15: 0000000000000000
-FS:  0000555564010380(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000005fdeb8 CR3: 000000007bd96000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess):
-   0:	13 9b a0 ff c7 44    	adc    0x44c7ffa0(%rbx),%ebx
-   6:	24 14                	and    $0x14,%al
-   8:	00 00                	add    %al,(%rax)
-   a:	00 00                	add    %al,(%rax)
-   c:	83 7c 24 40 00       	cmpl   $0x0,0x40(%rsp)
-  11:	0f 85 97 0c 00 00    	jne    0xcae
-  17:	48 83 7c 24 20 00    	cmpq   $0x0,0x20(%rsp)
-  1d:	0f 85 45 09 00 00    	jne    0x968
-  23:	48 89 d8             	mov    %rbx,%rax
-  26:	48 c1 e8 03          	shr    $0x3,%rax
-* 2a:	42 0f b6 04 28       	movzbl (%rax,%r13,1),%eax <-- trapping instruction
-  2f:	84 c0                	test   %al,%al
-  31:	0f 85 58 09 00 00    	jne    0x98f
-  37:	44 8b 33             	mov    (%rbx),%r14d
-  3a:	44 89 f7             	mov    %r14d,%edi
-  3d:	8b                   	.byte 0x8b
-  3e:	5c                   	pop    %rsp
-  3f:	24                   	.byte 0x24
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+On 28/05/2024 23:40, Vignesh Raman wrote:
+> Uprev mesa and IGT to the latest version and stop vendoring the
+> testlist into the kernel. Instead, use the testlist from the
+> IGT build to ensure we do not miss renamed or newly added tests.
+> Update the xfails with the latest testlist run.
+> 
+> Add farm variable and update device type variable.
+> 
+> https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1187556
+> 
+> Vignesh Raman (6):
+>    drm/ci: uprev mesa version
+>    drm/ci: add farm variable
+>    drm/ci: generate testlist from build
+>    drm/ci: uprev IGT
+>    drm/ci: skip driver specific tests
+>    drm/ci: update xfails for the new testlist
+> 
+>   drivers/gpu/drm/ci/build-igt.sh               |   41 +-
+>   drivers/gpu/drm/ci/build.sh                   |    6 +-
+>   drivers/gpu/drm/ci/container.yml              |   12 +-
+>   drivers/gpu/drm/ci/gitlab-ci.yml              |   46 +-
+>   drivers/gpu/drm/ci/igt_runner.sh              |    9 +-
+>   drivers/gpu/drm/ci/image-tags.yml             |    2 +-
+>   drivers/gpu/drm/ci/lava-submit.sh             |    4 +-
+>   drivers/gpu/drm/ci/test.yml                   |   17 +-
+>   drivers/gpu/drm/ci/testlist.txt               | 2761 -----------------
+>   .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |   41 +-
+>   .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |    7 +
+>   .../gpu/drm/ci/xfails/amdgpu-stoney-skips.txt |   33 +-
+>   drivers/gpu/drm/ci/xfails/i915-amly-fails.txt |   31 +
+>   .../gpu/drm/ci/xfails/i915-amly-flakes.txt    |    9 +
+>   drivers/gpu/drm/ci/xfails/i915-amly-skips.txt |   22 +-
+>   drivers/gpu/drm/ci/xfails/i915-apl-fails.txt  |   46 +-
+>   drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt |    6 +
+>   drivers/gpu/drm/ci/xfails/i915-apl-skips.txt  |   26 +-
+>   drivers/gpu/drm/ci/xfails/i915-cml-fails.txt  |   38 +
+>   drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt |    6 +
+>   drivers/gpu/drm/ci/xfails/i915-cml-skips.txt  |   23 +
+>   drivers/gpu/drm/ci/xfails/i915-glk-fails.txt  |   41 +-
+>   drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt |    7 +
+>   drivers/gpu/drm/ci/xfails/i915-glk-skips.txt  |   26 +-
+>   drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt  |   42 +-
+>   drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt |    7 +-
+>   drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt  |   36 +-
+>   drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt  |   77 +-
+>   drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt  |   28 +-
+>   drivers/gpu/drm/ci/xfails/i915-whl-fails.txt  |   63 +-
+>   drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt |    6 +
+>   drivers/gpu/drm/ci/xfails/i915-whl-skips.txt  |   22 +-
+>   .../drm/ci/xfails/mediatek-mt8173-fails.txt   |   30 +-
+>   .../drm/ci/xfails/mediatek-mt8173-flakes.txt  |   11 +
+>   .../drm/ci/xfails/mediatek-mt8173-skips.txt   |   16 +
+>   .../drm/ci/xfails/mediatek-mt8183-fails.txt   |   21 +-
+>   .../drm/ci/xfails/mediatek-mt8183-skips.txt   |   18 +
+>   .../gpu/drm/ci/xfails/meson-g12b-fails.txt    |   24 +-
+>   .../gpu/drm/ci/xfails/meson-g12b-skips.txt    |   18 +
+>   .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |   12 +-
+>   .../gpu/drm/ci/xfails/msm-apq8016-skips.txt   |   15 +
+>   .../gpu/drm/ci/xfails/msm-apq8096-fails.txt   |    7 +
+>   .../gpu/drm/ci/xfails/msm-apq8096-flakes.txt  |    6 +
+>   .../gpu/drm/ci/xfails/msm-apq8096-skips.txt   |   26 +-
+>   .../msm-sc7180-trogdor-kingoftown-fails.txt   |  175 +-
+>   .../msm-sc7180-trogdor-kingoftown-flakes.txt  |    8 +
+>   .../msm-sc7180-trogdor-kingoftown-skips.txt   |   19 +
+>   ...sm-sc7180-trogdor-lazor-limozeen-fails.txt |  175 +-
+>   ...m-sc7180-trogdor-lazor-limozeen-flakes.txt |    6 +
+>   ...sm-sc7180-trogdor-lazor-limozeen-skips.txt |   16 +
+>   .../gpu/drm/ci/xfails/msm-sdm845-fails.txt    |   38 +-
+>   .../gpu/drm/ci/xfails/msm-sdm845-flakes.txt   |   25 +-
+>   .../gpu/drm/ci/xfails/msm-sdm845-skips.txt    |   19 +
+>   .../drm/ci/xfails/rockchip-rk3288-fails.txt   |   62 +-
+>   .../drm/ci/xfails/rockchip-rk3288-skips.txt   |   21 +-
+>   .../drm/ci/xfails/rockchip-rk3399-fails.txt   |   83 +-
+>   .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |   13 +-
+>   .../drm/ci/xfails/rockchip-rk3399-skips.txt   |   19 +
+>   drivers/gpu/drm/ci/xfails/update-xfails.py    |    4 +-
+>   .../drm/ci/xfails/virtio_gpu-none-fails.txt   |   94 +-
+>   .../drm/ci/xfails/virtio_gpu-none-skips.txt   |   20 +-
+>   61 files changed, 1348 insertions(+), 3194 deletions(-)
+>   delete mode 100644 drivers/gpu/drm/ci/testlist.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-skips.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-skips.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-skips.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-skips.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-flakes.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-flakes.txt
+> 
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+Applied to drm-misc-next
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Thanks
+Helen
