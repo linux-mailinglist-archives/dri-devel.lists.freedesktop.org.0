@@ -2,66 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8748FDCD1
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 04:35:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0968FDCD7
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2024 04:37:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9371510E840;
-	Thu,  6 Jun 2024 02:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2153C10E841;
+	Thu,  6 Jun 2024 02:37:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="eSfMdGaN";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="OQ4VIBiZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
- [209.85.128.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 047C810E840
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 02:35:25 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-627ecda47d0so4274597b3.2
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2024 19:35:25 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B35F810E842
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2024 02:37:25 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-4214a7c14c1so26675e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2024 19:37:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1717641325; x=1718246125;
+ d=google.com; s=20230601; t=1717641444; x=1718246244;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jWbZE4IHnSQNJX1Cr059FeAfCDjIY7ZcvY1qnkeTunU=;
- b=eSfMdGaNGe/OmsF0/xO7/Qqbh5u0jR+ORBx7g7Iw/myh4Cr2+gyE+DZMuwLktPxikH
- QnEe2rE75KrWJ0zMtxtJ0m9wS/pE69Am6LQrvC7nKP3u2wrXM/Fi9LJJ5wdPk0/4Nh94
- khzGAtWeaoUoMh1uRVKNX/nYZluhPstdIhp54=
+ bh=xDq/ZYiqvUMpGmnfFROlIKqAnO6GO+2iuQr9cMLLamE=;
+ b=OQ4VIBiZt2ehPJY82pcpEgLvGafARePLeIAOgcHLcyKfMm1mGpsq6lCnnlLm6Olvb+
+ pPW3u8s/noxoH5d6t7x3KspnGPKThhm/KRCUMv3Au34OIZwSE0GwvzYbmWg67JOKKOMJ
+ u+jBMTqPUPz4rWQxr95FOOwx/NYH/JBwfZp4PwCzIUmhEelLg+deR4ofVE/Wrdbr5Oi5
+ ZW5Usy5fdBKEHPe4kdrRnYtdK1ldYlabFS3piNyJk6pYbafe43dYhgyfmHeENdhGFTnD
+ WS73iR238qRZPh5UrQcNfO9oPUjCPbnIEMdeQpl0zL0zwNh2tekGhTlo5SZ80cHZ5zUB
+ yUAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717641325; x=1718246125;
+ d=1e100.net; s=20230601; t=1717641444; x=1718246244;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jWbZE4IHnSQNJX1Cr059FeAfCDjIY7ZcvY1qnkeTunU=;
- b=ezPmzQc9t15MbOJ/hlThZsx7Oo6UXJEIuvF4bHXqRDoDlm5Ombzj6Bk/6KoYwi9/G1
- M3x7TSPYS04u9c7x3folQAQSE725vr9/2llB0DJvupHSFg6CaARMZ09iZyOQJmOgdmPI
- 25+zqa1+GXP+vR7OyrjsPUGlPDxVtTjadn1xtlRT6hXzlBKuN/eG4KBG9rSLx93LcHog
- Bcdxf5iKCc+rrgXhEG0JZ2GjH9RIDI87eCXcIGgYhsG5z1m+j7HdIzLgf/EVJjtxAfWM
- PAlFtFO9mBHT6ah+FYgvGVRG8JN2cKW+5dPfULNoiJ/5TEWLwp6LBYyjrrCJfFSSK2pV
- NeDg==
+ bh=xDq/ZYiqvUMpGmnfFROlIKqAnO6GO+2iuQr9cMLLamE=;
+ b=TxBf795TVS/8ikNAnYcquDz6KgHwuAEnizhZCjNLSgWQHiuY6xgBcEduDAfHNxO02I
+ W2+0Gj4zbm4kVVceW0DlEGBypY9KEXHMeGHmnn2A4+aE/CwNhhLvODoOZcywHIkYavSU
+ bK8KaxRohvR1uzjIaeSvS0ZNnxnDYCi2nRoZI57i1xfg8N7Ew2jVrLJQr4A7x4Rw323D
+ O27D37Q3zQQcIKGdHsOvsElEBcYkI48vlnon8qdz7B83F1uhoOHotGYOSoMGT9ks4B5s
+ AG3b/UKUsbQq5OM2pFLkC91BhdpI1FyXF0ip7KrmJwtKif/AARhZTgbf3hR82bKPNEwq
+ zj8Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWlR4hKOgVrn03YL3XqytzGK7+ZnYg8YnrrUEk6jSosxihJHLPqSpTLv9ThqwDzIDM9IaC+GnP3zUsa0Aq1ICJCk1hlBVkqf+ikjAFBFUVJ
-X-Gm-Message-State: AOJu0Yw4rw8xOh5q5DXscQBqh7esAjXI7AcNy2bXeIJ/fZC3KoX3inQB
- VE/nfzsgA/DbV52TzLAyZIVL5yIahQ77pOUwgL/TMx381IBwQQHEQfykThP6kd3RvvhOWgVUFth
- 9NL/5uqrz2e6cKNJUPsSyRdo+gpMRYjblZWkO
-X-Google-Smtp-Source: AGHT+IEetZtg3sd1WRfUjCaJp694k1J+jq1d22kipTdG54+7IYVn7+AwLxlfHKh9spCBKCQDFhYxQNkIgI+5c7y8imY=
-X-Received: by 2002:a81:4c8b:0:b0:61d:fcf7:b79a with SMTP id
- 00721157ae682-62cbb4ab5ecmr40559257b3.11.1717641318577; Wed, 05 Jun 2024
- 19:35:18 -0700 (PDT)
+ AJvYcCVs781baK4MSDy+oswsVnSh2ylBGotESIFJ3TD0MCMH2OENaiGvT/SHsr118yEt2r8mKv1p0e/y078TMGKrtgSe5P6bwRIP8w6MoXBDYN0N
+X-Gm-Message-State: AOJu0YwzBBZMfdvndDMjajETHnmE8Hhum4EUJ1HjeCL/i3MiGV7dYAgb
+ SWO9YU04mhpV9DtE2vNtHMs73uRGAl3NsSKpiGsThmnYcx5wac6Ycf+0quXY7xYJXoPFfdI/mtq
+ WIRzQOIo5257W6270EWclyGQrRHFhAvOvC24=
+X-Google-Smtp-Source: AGHT+IHaMob5QkMPplPJnTDM+qZg7pZsoKZ3tUHMJRiC4H1J40L0Caw6VHQuvDnoIsS+ROt+MN9cjAZbJk4mBEgVeG0=
+X-Received: by 2002:a05:600c:3b1c:b0:41b:e55c:8dca with SMTP id
+ 5b1f17b1804b1-4215c34b2f8mr642165e9.7.1717641443632; Wed, 05 Jun 2024
+ 19:37:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240517232858.230860-1-linux@treblig.org>
- <Zl38XRm7TAfb3azW@gallifrey>
-In-Reply-To: <Zl38XRm7TAfb3azW@gallifrey>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Wed, 5 Jun 2024 22:35:07 -0400
-Message-ID: <CABQX2QNG67dehASGQS-0C+9ikqk0Bb6Sfb3FtxrcXGhW+aXBaQ@mail.gmail.com>
-Subject: Re: [PATCH 3/6] drm/vmwgfx: remove unused struct 'vmw_stdu_dma'
-To: "Dr. David Alan Gilbert" <linux@treblig.org>
-Cc: bcm-kernel-feedback-list@broadcom.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, daniel@ffwll.ch, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240606020213.49854-1-21cnbao@gmail.com>
+In-Reply-To: <20240606020213.49854-1-21cnbao@gmail.com>
+From: John Stultz <jstultz@google.com>
+Date: Wed, 5 Jun 2024 19:37:11 -0700
+Message-ID: <CANDhNCpFXKs-z5Ymy=61fTqU3aXj4sM9RTD5_sEB0937CrVJBw@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf/heaps: Correct the types of fd_flags and
+ heap_flags
+To: Barry Song <21cnbao@gmail.com>
+Cc: linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org, 
+ sumit.semwal@linaro.org, Brian.Starkey@arm.com, 
+ benjamin.gaignard@collabora.com, christian.koenig@amd.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ tjmercier@google.com, v-songbaohua@oppo.com, hailong.liu@oppo.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,18 +84,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 3, 2024 at 1:24=E2=80=AFPM Dr. David Alan Gilbert <linux@trebli=
-g.org> wrote:
+On Wed, Jun 5, 2024 at 7:02=E2=80=AFPM Barry Song <21cnbao@gmail.com> wrote=
+:
 >
-> * linux@treblig.org (linux@treblig.org) wrote:
-> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> >
-> > 'vmw_stdu_dma' is unused since
-> > commit 39985eea5a6d ("drm/vmwgfx: Abstract placement selection")
-> > Remove it.
+> From: Barry Song <v-songbaohua@oppo.com>
 >
-> Ping.
+> dma_heap_allocation_data defines the UAPI as follows:
+>
+>  struct dma_heap_allocation_data {
+>         __u64 len;
+>         __u32 fd;
+>         __u32 fd_flags;
+>         __u64 heap_flags;
+>  };
+>
+> But dma heaps are casting both fd_flags and heap_flags into
+> unsigned long. This patch makes dma heaps - cma heap and
+> system heap have consistent types with UAPI.
+>
+> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
 
-Thanks. I pushed it to drm-misc-fixes.
+Thanks for submitting this additional cleanup!
 
-z
+Acked-by: John Stultz <jstultz@google.com>
