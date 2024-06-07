@@ -2,58 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59579900360
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 14:24:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B0C290038E
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 14:29:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A3C110E00A;
-	Fri,  7 Jun 2024 12:24:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC2CD10E052;
+	Fri,  7 Jun 2024 12:29:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NFc77jNe";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.b="LTb6NBAD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C780A10E00A
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 12:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717763047; x=1749299047;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=T8125ejlFGHXH+zMyxlBEkin5nrHb/FzXg7E29LfCHY=;
- b=NFc77jNedfTJ7zjGBpyUO3MR+YhbFRl2jdHmAnbOBPyO7uFZocz6KmGk
- Osqn7Bq27LNtPlvHxDsYsiXVNzl/oqnUfqmWgHDIrQBtSgzGg50OGhM4X
- /7OZgO5Fb1LVOJqXBlJFMd7/88E7kh+zhimmzCigSjNzKmHcU1M4KLPqm
- f36JelCvwJC2z2gLD2GDwcJm0uzK5agpdz2G5M61MJp1LAX8+gP5lc+11
- /poDbuHt1oaSnVMb9lB4dYU6SZBL+baG/B8AGF+diLD00zSQkmHm9F64p
- 6LTCRtw5ZVTgPBejVC0at6zNtlppFdo25+Ls1UiefvTNzlD3Gfe4T4cB5 Q==;
-X-CSE-ConnectionGUID: HkVQTJ/eSna7TkZwrK61CA==
-X-CSE-MsgGUID: HpU06Z2bTtOenAnC6MMuMQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="39880626"
-X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; d="scan'208";a="39880626"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2024 05:24:06 -0700
-X-CSE-ConnectionGUID: kaNUbnJxRJaCm3Pc1ocK3Q==
-X-CSE-MsgGUID: EKEwEkJISJ6eU4mp2Febkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; d="scan'208";a="38430882"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.72])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2024 05:24:04 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, airlied@gmail.com, Linus Torvalds
- <torvalds@linux-foundation.org>
-Subject: Re: [PATCH] drm: have config DRM_WERROR depend on !WERROR
-In-Reply-To: <20240516083343.1375687-1-jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240516083343.1375687-1-jani.nikula@intel.com>
-Date: Fri, 07 Jun 2024 15:24:01 +0300
-Message-ID: <87o78dkkke.fsf@intel.com>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1DA410E052;
+ Fri,  7 Jun 2024 12:29:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:Reply-To:Cc:From:References:To:Subject:MIME-Version:Date:
+ Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+ Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+ In-Reply-To:References; bh=0b/H9LXWLQSWch5rZCiHKuXD5l8MSK7jrgpIZrym1aA=;
+ t=1717763390; x=1718195390; b=LTb6NBADlTohdtKKIvfbsOqSpyg3XM5eeIIZk6iHRHjN3DC
+ xD7Iw2VlB5l+J1NTVXOHxMsjsQPlsY/LFDG8yT6yERnYUxgWHFykyhUoGgDMnSMXodgkcEbHkQiUm
+ 3YB6CLejhyWU9Ln71Ni0SsC3wgygF3dP968PgmRLUWf6MnVI315AAu6/3dC5CxlV98uXLD4CqouL4
+ csfxqSOyIR7Vq8uVtnmiIwFzL2y7mXOzKh6lmzBdG9u6vJy4PHV2aBZzOK3pHc0einNTWhgASSfZv
+ y3WsPVyPxjLEXWXUysqftddjNxNoyim02QQMogK67pngVNhAK+knnje1hj7ztXSw==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1sFYj6-00021T-4E; Fri, 07 Jun 2024 14:29:48 +0200
+Message-ID: <907df295-61b2-4cb4-9bcc-608d1ff2cf18@leemhuis.info>
+Date: Fri, 7 Jun 2024 14:29:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: 6.10/bisected/regression - commits bc87d666c05 and 6d4279cb99ac
+ cause appearing green flashing bar on top of screen on Radeon 6900XT and
+ 120Hz
+To: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>
+References: <CABXGCsNptxsQO=5=qi-JYiFX=rX8Ok5inK80Gn0qrUFWbtBGng@mail.gmail.com>
+ <CABXGCsN=9UFvGgKztzkkAM1c8cVN-h=TKLLxWhKgTm11h+H-eg@mail.gmail.com>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Content-Language: en-US, de-DE
+Cc: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, Rodrigo.Siqueira@amd.com,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+In-Reply-To: <CABXGCsN=9UFvGgKztzkkAM1c8cVN-h=TKLLxWhKgTm11h+H-eg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1717763391;
+ e682ed03; 
+X-HE-SMSGID: 1sFYj6-00021T-4E
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,40 +70,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 May 2024, Jani Nikula <jani.nikula@intel.com> wrote:
-> If WERROR is already enabled, there's no point in enabling DRM_WERROR or
-> asking users about it.
+[CCing the other amd drm maintainers]
 
-Ping. Any comments? (Besides the one snark.)
+On 05.06.24 14:04, Mikhail Gavrilov wrote:
+> On Sun, May 26, 2024 at 7:06 PM Mikhail Gavrilov
+> <mikhail.v.gavrilov@gmail.com> wrote:
+>>
+>> Day before yesterday I replaced 7900XTX to 6900XT for got clear in
+>> which kernel first time appeared warning message "DMA-API: amdgpu
+>> 0000:0f:00.0: cacheline tracking EEXIST, overlapping mappings aren't
+>> supported".
+>> The kernel 6.3 and older won't boot on a computer with Radeon 7900XTX.
 
+Mikhail: are those details in any way relevant? Then in the future best
+leave them out (or make things easier to follow), they make the bug
+report confusing and sounds like this is just a bug, when it fact from
+your bisection is sounds like this is a regression.
 
-BR,
-Jani.
+Anyway, @amd maintainers: is there a reason why this report did not get
+at least a single reply? Or was there some progress somewhere and I just
+missed it? Or would it be better if Mikhail would report this to
+https://gitlab.freedesktop.org/drm/amd/-/issues/ ?
 
->
-> Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Closes: https://lore.kernel.org/r/CAHk-=whxT8D_0j=bjtrvj-O=VEOjn6GW8GK4j2V+BiDUntZKAQ@mail.gmail.com
-> Fixes: f89632a9e5fa ("drm: Add CONFIG_DRM_WERROR")
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 026444eeb5c6..d0aa277fc3bf 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -450,6 +450,7 @@ config DRM_PRIVACY_SCREEN
->  config DRM_WERROR
->  	bool "Compile the drm subsystem with warnings as errors"
->  	depends on DRM && EXPERT
-> +	depends on !WERROR
->  	default n
->  	help
->  	  A kernel build should not cause any compiler warnings, and this
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
 
--- 
-Jani Nikula, Intel
+#regzbot poke
+
+>> When I booted the system with 6900XT I saw a green flashing bar on top
+>> of the screen when I typed commands in the gnome terminal which was
+>> maximized on full screen.
+>>
+>> Demonstration: https://youtu.be/tTvwQ_5pRkk
+>> For reproduction you need Radeon 6900XT GPU connected to 120Hz OLED TV by HDMI.
+>>
+>> I bisected the issue and the first commit which I found was 6d4279cb99ac.
+>> commit 6d4279cb99ac4f51d10409501d29969f687ac8dc (HEAD)
+>> Author: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+>> Date:   Tue Mar 26 10:42:05 2024 -0600
+>>
+>>     drm/amd/display: Drop legacy code
+>>
+>>     This commit removes code that are not used by display anymore.
+>>
+>>     Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+>>     Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+>>     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+>>
+>>  drivers/gpu/drm/amd/display/dc/inc/hw/stream_encoder.h         |  4 ----
+>>  drivers/gpu/drm/amd/display/dc/inc/resource.h                  |  7 -------
+>>  drivers/gpu/drm/amd/display/dc/optc/dcn20/dcn20_optc.c         | 10 ----------
+>>  drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c | 33
+>> +--------------------------------
+>>  4 files changed, 1 insertion(+), 53 deletions(-)
+>>
+>> Every time after bisecting I usually make sure that I found the right
+>> commit and build the kernel with revert of the bad commit.
+>> But this time I again observed an issue after running a kernel builded
+>> without commit 6d4279cb99ac.
+>> And I decided to find a second bad commit.
+>> The second bad commit has been bc87d666c05.
+>> commit bc87d666c05a13e6d4ae1ddce41fc43d2567b9a2 (HEAD)
+>> Author: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+>> Date:   Tue Mar 26 11:55:19 2024 -0600
+>>
+>>     drm/amd/display: Add fallback configuration for set DRR in DCN10
+>>
+>>     Set OTG/OPTC parameters to 0 if something goes wrong on DCN10.
+>>
+>>     Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+>>     Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+>>     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+>>
+>>  drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c | 15 ++++++++++++---
+>>  1 file changed, 12 insertions(+), 3 deletions(-)
+>>
+>> After reverting both these commits on top of 54f71b0369c9 the issue is gone.
+>>
+>> I also attach the build config.
+>>
+>> My hardware specs: https://linux-hardware.org/?probe=f25a873c5e
+>>
+>> Rodrigo or anyone else from the AMD team can you look please.
+>>
+> 
+> Did anyone watch?
+> 
