@@ -2,42 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C0A9002F8
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 14:04:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B73DD9002FC
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 14:04:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E329F10EC12;
-	Fri,  7 Jun 2024 12:04:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0217410EC18;
+	Fri,  7 Jun 2024 12:04:44 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nJ/tGFTl";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF5AC10EC12
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 12:04:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 211ABCE1D3F;
- Fri,  7 Jun 2024 12:04:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 633F8C2BBFC;
- Fri,  7 Jun 2024 12:04:25 +0000 (UTC)
-Message-ID: <d76a40de-7e42-4870-86c7-f168666b3e59@xs4all.nl>
-Date: Fri, 7 Jun 2024 14:04:23 +0200
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
+ [209.85.210.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03E2410EC18
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 12:04:41 +0000 (UTC)
+Received: by mail-ot1-f50.google.com with SMTP id
+ 46e09a7af769-6f94669cf19so961845a34.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jun 2024 05:04:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1717761881; x=1718366681; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DsnAIOZzuHsMblCK5Wyo2qtzh+qW0N73ZweI2cUEP1k=;
+ b=nJ/tGFTl2j51qOv1kHCu0t9ShuBgCL6XvOsKMBI3Q5vsl6spt49V8Vu/1P/AsqJ/Zj
+ 04I4MnD5mFgJlYBJMquZE6+GHZx4Og+w4ZM7aWVgOKVH6+fr1JJJ3eflxiNzd6NW4PBE
+ LJgpXLeb5d4eJEbMUQlG2AroR4iK2ULCddVYGDDyfL3NZRncNSRsUwfIH7NEmRiujAhx
+ Uu+ePtihtFQR+5vcgHgTq48yTtxb/Fm1W45Ma5oBtBOAZJkLpaXA5+aRsgzs+uSy6mKD
+ pQOWZQxPtzKT8ApogYGXu5ZQD5184faqaIKnbYlIhRoZfdSyV+p13tjsZ6HNtsZG1Swq
+ H+YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717761881; x=1718366681;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DsnAIOZzuHsMblCK5Wyo2qtzh+qW0N73ZweI2cUEP1k=;
+ b=BNhR7OogtHbClrryL3DsGmqpEwKd032VcNseP5Km//NDSzTUco3elxCSmSRZ9GlJgA
+ q5dzTXavu3Z9vSW4DEPZfB447rWxOHVYKU5AiOaYdHp51+MY6ZFpjbH2tqDpBTHgkM9q
+ TYhTEJHhzOneHwJdIA07ILA8rQ6bn5KeBo9GrzIAzoYFn2/mafLxD8ShEvFh7jVnqPPk
+ 3yZlQe52giCHO5WG1ThWtI3MhdbhAFCDvPK/DEo/uSrCXQs95II7CTotCmxgmzxp96M0
+ k+iORsf2vCGy6d1+KQBZYmv293mSuhJ3lYMauiiXWYyzvRPbhYZ3m8JWpXEUsQj7ym0r
+ oc0A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUjXDfAlrxmygf+gL+Xt90lzPt9+3vssyKcJM+1s/P6U3zlqJcI2g8kuIsOY86wkPseUboh941ed/ZplFQyZ1CV9z7ms7TYzevO2bIc+gur
+X-Gm-Message-State: AOJu0Yww+0SF+cdW0TxGqyeaCRuZ8yWCtsDxbCUa11tMy9OFSFaScBsD
+ kmg/pUxce+YubOjnu9JsZhOxFuxGHTN0aM/d0mLGduV+caxwx7IBLtMTnRgCr/6MCkqoOcWEGXB
+ oomin0Jg8JwYT0BSJ/1TJE+oFV3cgA7FbGaxEMw==
+X-Google-Smtp-Source: AGHT+IETi62DUKnC9LFoGDVSrwVYfAj5bLtwDr84JTqNN4MYb1edwtz3sgiNUcALGr6HLEisP7i3zCXtYPAx8jBX/jE=
+X-Received: by 2002:a9d:7d8b:0:b0:6f9:631c:c45c with SMTP id
+ 46e09a7af769-6f9631cc6f1mr222367a34.3.1717761880907; Fri, 07 Jun 2024
+ 05:04:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/10] media: intel: Add Displayport RX IP driver
-To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
-Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org,
- daniel@ffwll.ch, dinguyen@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- maarten.lankhorst@linux.intel.com, mchehab@kernel.org, mripard@kernel.org,
- robh+dt@kernel.org, tzimmermann@suse.de, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com
-References: <20240507155413.266057-1-panikiel@google.com>
- <20240507155413.266057-8-panikiel@google.com>
- <6c9ffe4d-d00f-488f-87be-0370ce23eed2@xs4all.nl>
- <CAM5zL5qNJfQCYAm9iUh5UgKouO_R9NxJpV-04EJz9wsV0n9deQ@mail.gmail.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CAM5zL5qNJfQCYAm9iUh5UgKouO_R9NxJpV-04EJz9wsV0n9deQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240601084528.22502-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240601084528.22502-5-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <5yz4uct3dnxqflij34zasu6fhr42gyl6kjfjobftrwpsl6j4y6@3kzp4s3dxktw>
+ <CA+6=WdSpHp6WRwZ3ta6ZR585ON9XSjWB5s1EjbhpBnWGWmhRAw@mail.gmail.com>
+In-Reply-To: <CA+6=WdSpHp6WRwZ3ta6ZR585ON9XSjWB5s1EjbhpBnWGWmhRAw@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 7 Jun 2024 15:04:30 +0300
+Message-ID: <CAA8EJppknn-doN=1jNBiZFUqF5ZOPxb4jbNe5Cf8uHatS4cbfA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] drm/panel: starry: add new panel driver
+To: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org, 
+ benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,114 +85,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/06/2024 14:32, Paweł Anikiel wrote:
-> On Mon, Jun 3, 2024 at 10:37 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>
->> On 07/05/2024 17:54, Paweł Anikiel wrote:
->>> Add v4l2 subdev driver for the Intel Displayport receiver FPGA IP.
->>> It is a part of the DisplayPort Intel FPGA IP Core, and supports
->>> DisplayPort 1.4, HBR3 video capture and Multi-Stream Transport.
->>>
->>> Signed-off-by: Paweł Anikiel <panikiel@google.com>
->>> ---
->>>  drivers/media/platform/intel/Kconfig      |   12 +
->>>  drivers/media/platform/intel/Makefile     |    1 +
->>>  drivers/media/platform/intel/intel-dprx.c | 2283 +++++++++++++++++++++
->>>  3 files changed, 2296 insertions(+)
->>>  create mode 100644 drivers/media/platform/intel/intel-dprx.c
->>>
+On Fri, 7 Jun 2024 at 14:51, zhaoxiong lv
+<lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
+>
+> hi Dmitry
+>
+> These two panels are not the same IC but their timing is the same,
+> only the init cmd and panel parameters are different, so I made it
+> compatible on the kingdisplay driver.
 
-<snip>
+We usually merge drivers by the driver IC, not by the timings.
 
->>> +static int dprx_probe(struct platform_device *pdev)
->>> +{
->>> +     struct dprx *dprx;
->>> +     int irq;
->>> +     int res;
->>> +     int i;
->>> +
->>> +     dprx = devm_kzalloc(&pdev->dev, sizeof(*dprx), GFP_KERNEL);
->>> +     if (!dprx)
->>> +             return -ENOMEM;
->>> +     dprx->dev = &pdev->dev;
->>> +     platform_set_drvdata(pdev, dprx);
->>> +
->>> +     dprx->iobase = devm_platform_ioremap_resource(pdev, 0);
->>> +     if (IS_ERR(dprx->iobase))
->>> +             return PTR_ERR(dprx->iobase);
->>> +
->>> +     irq = platform_get_irq(pdev, 0);
->>> +     if (irq < 0)
->>> +             return irq;
->>> +
->>> +     res = devm_request_irq(dprx->dev, irq, dprx_isr, 0, "intel-dprx", dprx);
->>> +     if (res)
->>> +             return res;
->>> +
->>> +     res = dprx_parse_fwnode(dprx);
->>> +     if (res)
->>> +             return res;
->>> +
->>> +     dprx_init_caps(dprx);
->>> +
->>> +     dprx->subdev.owner = THIS_MODULE;
->>> +     dprx->subdev.dev = &pdev->dev;
->>> +     v4l2_subdev_init(&dprx->subdev, &dprx_subdev_ops);
->>> +     v4l2_set_subdevdata(&dprx->subdev, &pdev->dev);
->>> +     snprintf(dprx->subdev.name, sizeof(dprx->subdev.name), "%s %s",
->>> +              KBUILD_MODNAME, dev_name(&pdev->dev));
->>> +     dprx->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
->>> +
->>> +     dprx->subdev.entity.function = MEDIA_ENT_F_DV_DECODER;
->>> +     dprx->subdev.entity.ops = &dprx_entity_ops;
->>> +
->>> +     v4l2_ctrl_handler_init(&dprx->ctrl_handler, 1);
->>> +     v4l2_ctrl_new_std(&dprx->ctrl_handler, NULL,
->>> +                       V4L2_CID_DV_RX_POWER_PRESENT, 0, 1, 0, 0);
->>
->> You are creating this control, but it is never set to 1 when the driver detects
->> that a source is connected. I am wondering if POWER_PRESENT makes sense for a
->> DisplayPort connector. Is there a clean way for a sink driver to detect if a
->> source is connected? For HDMI it detects the 5V pin, but it is not clear if
->> there is an equivalent to that in the DP spec.
-> 
-> The DP spec says the source can be detected using the AUX lines:
-> 
-> "The Downstream devices must very weakly pull up AUX+ line and very
-> weakly pull down AUX- line with 1MΩ (+/-5%) resistors between the
-> Downstream device Connector and the AC-coupling capacitors. When AUX+
-> line DC voltage is L level, it means a DisplayPort Upstream device is
-> connected. When AUX- line DC voltage is H level, it means that a
-> powered DisplayPort Upstream device is connected."
-> 
-> This exact IP has two input signals: rx_cable_detect, and
-> rx_pwr_detect, which are meant to be connected to the AUX+/AUX- lines
-> via 10k resistors (or rather that's what the reference design does).
-> They're exposed to software via status registers, but there's no way
-> to get interrupts from them, so it wouldn't be possible to set the
-> control exactly when a source gets plugged in.
-> 
->>
->> If there is no good way to detect if a source is connected, then it might be
->> better to drop POWER_PRESENT support.
->>
->> This control is supposed to signal that a source is connected as early as possible,
->> ideally before link training etc. starts.
->>
->> It helps the software detect that there is a source, and report an error if a source
->> is detected, but you never get a stable signal (e.g. link training fails).
-> 
-> This poses another problem, because the chameleon board doesn't have
-> this detection circuitry, and instead sets the rx_cable_detect and
-> rx_pwr_detect signals to always logical high. That would make the
-> control read "always plugged in", which IIUC is not desired.
+Please stop top-posting.
 
-OK, so it is best to drop support for this control.
+>
+> Similar to this driver:  panel-boe-tv101wum-nl6.c
+>
+> thanks
+>
+> On Sun, Jun 2, 2024 at 12:26=E2=80=AFAM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> >
+> > On Sat, Jun 01, 2024 at 04:45:28PM +0800, Zhaoxiong Lv wrote:
+> > > This Starry panel has the same timing as the Kingdisplay panel,
+> > > so add starry configuration in the Kingdisplay driver.
+> >
+> > Do these two panels share the same driver IC? Programming sequences do
+> > not seem common, so it might be better to have a separate driver for
+> > this panel.
 
-I recommend adding a comment in the source code explaining why it is not supported.
-And in the cover letter you can mention this as well as an explanation of why
-there is a v4l2-compliance warning.
 
-Regards,
-
-	Hans
+--=20
+With best wishes
+Dmitry
