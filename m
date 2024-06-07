@@ -2,188 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 714348FFD9D
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 09:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FCBA8FFECE
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 11:08:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCC6510EB80;
-	Fri,  7 Jun 2024 07:56:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08F6C10E261;
+	Fri,  7 Jun 2024 09:08:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="KMmZfsSG";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="OUbcuCFf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FEBA10EB80
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 07:56:33 +0000 (UTC)
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 4577ofwx010041; Fri, 7 Jun 2024 07:55:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc :
- content-transfer-encoding : content-type : date : from : in-reply-to :
- message-id : mime-version : references : subject : to; s=pp1;
- bh=j/rl63wxZ5qthNZl4RgAiQQ7QUt4/Mkl8JbpHOlg6qU=;
- b=KMmZfsSGU6Aj198BOJT/FDC3pENCPVEK3hMGQTiqvFDF+irvWWJ4iR6lvUoSLHTcqcH4
- +LBWjMlTI2oBWsMXKezQ4UTBj+bMGbQUuaW+qU4Oi1UBpMvRsFNsNdxzBNw4o9BiS0JF
- yzIVBlOLVilRIx7u6qJNM9jIIaHcqqHuVnJzWvSno5aZOQXQJGcGDL02GkGLmA5MHA2s
- fNa6wuKVNyQhd2nvElcPTOdntgkhTY5u4BhTWuG0hE/t/5r3zhaOfi53YHzu1e/mtXMp
- FWxE2JP14L2jgnkIkEP9M5P0Qo/y2jQibpExSXmPFs78WDQiRTNnhDCSQBmJdr7SWVg4 ow== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ykwd7g4jp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 07 Jun 2024 07:55:58 +0000
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 4577tvP8019559;
- Fri, 7 Jun 2024 07:55:57 GMT
-Received: from ppma22.wdc07v.mail.ibm.com
- (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ykwd7g4jh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 07 Jun 2024 07:55:57 +0000
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
- by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id
- 4574hKE5008463; Fri, 7 Jun 2024 07:55:56 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
- by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3ygec17nwg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 07 Jun 2024 07:55:56 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com
- [10.39.53.228])
- by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 4577tr0b9175782
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 7 Jun 2024 07:55:56 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A142A58059;
- Fri,  7 Jun 2024 07:55:53 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 58B1D58066;
- Fri,  7 Jun 2024 07:55:42 +0000 (GMT)
-Received: from [9.179.22.112] (unknown [9.179.22.112])
- by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Fri,  7 Jun 2024 07:55:42 +0000 (GMT)
-Message-ID: <ca1037935d570f70fd8900e18f1c7149298c5bf3.camel@linux.ibm.com>
-Subject: Re: [PATCH net-next v10 05/14] netdev: netdevice devmem allocator
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Steven Rostedt <rostedt@goodmis.org>, Andrew Lunn <andrew@lunn.ch>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Paolo Abeni <pabeni@redhat.com>, Mina
- Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Richard Henderson
- <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Alexei
- Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Pavel
- Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>, Praveen
- Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn
- <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Date: Fri, 07 Jun 2024 09:55:41 +0200
-In-Reply-To: <20240604202738.3aab6308@gandalf.local.home>
-References: <20240530201616.1316526-1-almasrymina@google.com>
- <20240530201616.1316526-6-almasrymina@google.com>
- <bea8b8bf1630309bb004f614e4a3c7f684a6acb6.camel@redhat.com>
- <20240604121551.07192993@gandalf.local.home>
- <20240604163158.GB21513@ziepe.ca>
- <20240604124243.66203a46@gandalf.local.home>
- <3be107ce-3d9f-4528-b9f7-1c9e38da0688@lunn.ch>
- <20240604202738.3aab6308@gandalf.local.home>
-Autocrypt: addr=schnelle@linux.ibm.com; prefer-encrypt=mutual;
- keydata=mQINBGHm3M8BEAC+MIQkfoPIAKdjjk84OSQ8erd2OICj98+GdhMQpIjHXn/RJdCZLa58k
- /ay5x0xIHkWzx1JJOm4Lki7WEzRbYDexQEJP0xUia0U+4Yg7PJL4Dg/W4Ho28dRBROoJjgJSLSHwc
- 3/1pjpNlSaX/qg3ZM8+/EiSGc7uEPklLYu3gRGxcWV/944HdUyLcnjrZwCn2+gg9ncVJjsimS0ro/
- 2wU2RPE4ju6NMBn5Go26sAj1owdYQQv9t0d71CmZS9Bh+2+cLjC7HvyTHKFxVGOznUL+j1a45VrVS
- XQ+nhTVjvgvXR84z10bOvLiwxJZ/00pwNi7uCdSYnZFLQ4S/JGMs4lhOiCGJhJ/9FR7JVw/1t1G9a
- UlqVp23AXwzbcoV2fxyE/CsVpHcyOWGDahGLcH7QeitN6cjltf9ymw2spBzpRnfFn80nVxgSYVG1d
- w75ksBAuQ/3e+oTQk4GAa2ShoNVsvR9GYn7rnsDN5pVILDhdPO3J2PGIXa5ipQnvwb3EHvPXyzakY
- tK50fBUPKk3XnkRwRYEbbPEB7YT+ccF/HioCryqDPWUivXF8qf6Jw5T1mhwukUV1i+QyJzJxGPh19
- /N2/GK7/yS5wrt0Lwxzevc5g+jX8RyjzywOZGHTVu9KIQiG8Pqx33UxZvykjaqTMjo7kaAdGEkrHZ
- dVHqoPZwhCsgQARAQABtChOaWtsYXMgU2NobmVsbGUgPHNjaG5lbGxlQGxpbnV4LmlibS5jb20+iQ
- JXBBMBCABBAhsBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAhkBFiEEnbAAstJ1IDCl9y3cr+Q/Fej
- CYJAFAmWVooIFCQWP+TMACgkQr+Q/FejCYJCmLg/+OgZD6wTjooE77/ZHmW6Egb5nUH6DU+2nMHMH
- UupkE3dKuLcuzI4aEf/6wGG2xF/LigMRrbb1iKRVk/VG/swyLh/OBOTh8cJnhdmURnj3jhaefzslA
- 1wTHcxeH4wMGJWVRAhOfDUpMMYV2J5XoroiA1+acSuppelmKAK5voVn9/fNtrVr6mgBXT5RUnmW60
- UUq5z6a1zTMOe8lofwHLVvyG9zMgv6Z9IQJc/oVnjR9PWYDUX4jqFL3yO6DDt5iIQCN8WKaodlNP6
- 1lFKAYujV8JY4Ln+IbMIV2h34cGpIJ7f76OYt2XR4RANbOd41+qvlYgpYSvIBDml/fT2vWEjmncm7
- zzpVyPtCZlijV3npsTVerGbh0Ts/xC6ERQrB+rkUqN/fx+dGnTT9I7FLUQFBhK2pIuD+U1K+A+Egw
- UiTyiGtyRMqz12RdWzerRmWFo5Mmi8N1jhZRTs0yAUn3MSCdRHP1Nu3SMk/0oE+pVeni3ysdJ69Sl
- kCAZoaf1TMRdSlF71oT/fNgSnd90wkCHUK9pUJGRTUxgV9NjafZy7sx1Gz11s4QzJE6JBelClBUiF
- 6QD4a+MzFh9TkUcpG0cPNsFfEGyxtGzuoeE86sL1tk3yO6ThJSLZyqFFLrZBIJvYK2UiD+6E7VWRW
- 9y1OmPyyFBPBosOvmrkLlDtAtyfYInO0KU5pa2xhcyBTY2huZWxsZSA8bmlrbGFzLnNjaG5lbGxlQ
- GlibS5jb20+iQJUBBMBCAA+AhsBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEEnbAAstJ1IDCl9y
- 3cr+Q/FejCYJAFAmWVoosFCQWP+TMACgkQr+Q/FejCYJB7oxAAksHYU+myhSZD0YSuYZl3oLDUEFP
- 3fm9m6N9zgtiOg/GGI0jHc+Tt8qiQaLEtVeP/waWKgQnje/emHJOEDZTb0AdeXZk+T5/ydrKRLmYC
- 6rPge3ue1yQUCiA+T72O3WfjZILI2yOstNwd1f0epQ32YaAvM+QbKDloJSmKhGWZlvdVUDXWkS6/m
- aUtUwZpddFY8InXBxsYCbJsqiKF3kPVD515/6keIZmZh1cTIFQ+Kc+UZaz0MxkhiCyWC4cH6HZGKR
- fiXLhPlmmAyW9FiZK9pwDocTLemfgMR6QXOiB0uisdoFnjhXNfp6OHSy7w7LTIHzCsJoHk+vsyvSp
- +fxkjCXgFzGRQaJkoX33QZwQj1mxeWl594QUfR4DIZ2KERRNI0OMYjJVEtB5jQjnD/04qcTrSCpJ5
- ZPtiQ6Umsb1c9tBRIJnL7gIslo/OXBe/4q5yBCtCZOoD6d683XaMPGhi/F6+fnGvzsi6a9qDBgVvt
- arI8ybayhXDuS6/StR8qZKCyzZ/1CUofxGVIdgkseDhts0dZ4AYwRVCUFQULeRtyoT4dKfEot7hPE
- /4wjm9qZf2mDPRvJOqss6jObTNuw1YzGlpe9OvDYtGeEfHgcZqEmHbiMirwfGLaTG2xKDx4g2jd2z
- Ocf83TCERFKJEhvZxB3tRiUQTd3dZ1TIaisv/o+y0K05pa2xhcyBTY2huZWxsZSA8bmlrbGFzLnNj
- aG5lbGxlQGdtYWlsLmNvbT6JAlQEEwEIAD4CGwEFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQSds
- ACy0nUgMKX3Ldyv5D8V6MJgkAUCZZWiiwUJBY/5MwAKCRCv5D8V6MJgkNVuEACo12niyoKhnXLQFt
- NaqxNZ+8p/MGA7g2XcVJ1bYMPoZ2Wh8zwX0sKX/dLlXVHIAeqelL5hIv6GoTykNqQGUN2Kqf0h/z7
- b85o3tHiqMAQV0dAB0y6qdIwdiB69SjpPNK5KKS1+AodLzosdIVKb+LiOyqUFKhLnablni1hiKlqY
- yDeD4k5hePeQdpFixf1YZclGZLFbKlF/A/0Q13USOHuAMYoA/iSgJQDMSUWkuC0mNxdhfVt/gVJnu
- Kq+uKUghcHflhK+yodqezlxmmRxg6HrPVqRG4pZ6YNYO7YXuEWy9JiEH7MmFYcjNdgjn+kxx4IoYU
- O0MJ+DjLpVCV1QP1ZvMy8qQxScyEn7pMpQ0aW6zfJBsvoV3EHCR1emwKYO6rJOfvtu1rElGCTe3sn
- sScV9Z1oXlvo8pVNH5a2SlnsuEBQe0RXNXNJ4RAls8VraGdNSHi4MxcsYEgAVHVaAdTLfJcXZNCIU
- cZejkOE+U2talW2n5sMvx+yURAEVsT/50whYcvomt0y81ImvCgUz4xN1axZ3PCjkgyhNiqLe+vzge
- xq7B2Kx2++hxIBDCKLUTn8JUAtQ1iGBZL9RuDrBy2rR7xbHcU2424iSbP0zmnpav5KUg4F1JVYG12
- vDCi5tq5lORCL28rjOQqE0aLHU1M1D2v51kjkmNuc2pgLDFzpvgLQhTmlrbGFzIFNjaG5lbGxlIDx
- uaWtzQGtlcm5lbC5vcmc+iQJUBBMBCAA+AhsBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEEnbAA
- stJ1IDCl9y3cr+Q/FejCYJAFAmWVoosFCQWP+TMACgkQr+Q/FejCYJAglRAAihbDxiGLOWhJed5cF
- kOwdTZz6MyYgazbr+2sFrfAhX3hxPFoG4ogY/BzsjkN0cevWpSigb2I8Y1sQD7BFWJ2OjpEpVQd0D
- sk5VbJBXEWIVDBQ4VMoACLUKgfrb0xiwMRg9C2h6KlwrPBlfgctfvrWWLBq7+oqx73CgxqTcGpfFy
- tD87R4ovR9W1doZbh7pjsH5Ae9xX5PnQFHruib3y35zC8+tvSgvYWv3Eg/8H4QWlrjLHHy2AfZDVl
- 9F5t5RfGL8NRsiTdVg9VFYg/GDdck9WPEgdO3L/qoq3Iuk0SZccGl+Nj8vtWYPKNlu2UvgYEbB8cl
- UoWhg+SjjYQka7/p6tc+CCPZ8JUpkgkAdt7yXt6370wP1gct2VztS6SEGcmAE1qxtGhi5Kuln4ZJ/
- UO2yxhPHgoW99OuZw3IRHe0+mNR67JbIpSuFWDFNjZ0nckQcU1taSEUi0euWs7i4MEkm0NsOsVhbs
- 4D2vMiC6kO/FqWOPmWZeAjyJw/KRUG4PaJAr5zJUx57nhKWgeTniW712n4DwCUh77D/PHY0nqBTG/
- B+QQCR/FYGpTFkO4DRVfapT8njDrsWyVpP9o64VNZP42S+DuRGWfUKCMAXsM/wPzRiDEVfnZMcUR9
- vwLSHeoV7MiIFC0xIrp5ES9R00t4UFgqtGc36DV71qjR+66Im0=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8CE610E261
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 09:08:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1717751289;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/xDuNuMEH+lWTdBbvokBrU8yMnUvbRuM1+T1ertuu5U=;
+ b=OUbcuCFfHqQiZrnZnvDNav07ADU/bSmL27tdququLF0iNGuL6XQGzMM4TDuYCbEKOhzow+
+ AFSBYsMIj9zQcWSHAUjpRi1Io51i0ET8JXJfByRjnxvdtAa8wsaUYy+4bpYovOpd0CNVcf
+ sfqPJBnv5bcltXvav0qz0ee6t2mG8wU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-231-NLO9afaDO3CJkDSpsMAN4A-1; Fri, 07 Jun 2024 05:08:07 -0400
+X-MC-Unique: NLO9afaDO3CJkDSpsMAN4A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-4215ecc3a29so10008765e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jun 2024 02:08:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717751286; x=1718356086;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/xDuNuMEH+lWTdBbvokBrU8yMnUvbRuM1+T1ertuu5U=;
+ b=nsb5D4MFmObxS74r/9CUNjSmZ8gJ4omqR9OfWFycrwPGurRlamulsjqhfK+JZo++mY
+ kkoG6pM2t92F5bFpnQBZ8lrEZAmR/QPAOUUeppvrNBtiLtGxLLc1+FNE/cvdVRkGm/ep
+ VDUgdYZmrFDJEvutVfKkj/CgTMnue5b3DFViLLMpfzPNVUVBVvJaaBFSh7De4ymGnuXX
+ A96u72LMHwa5OJRy5H8E26T/T8YfqSDMospt0bSq107v4+c1GzU4Qdmut7Vky5r+RDCL
+ RQuzXV7ivMkd2iYkpISU630rsGZhjaRS3R23UuUrknSRMy2Zg7Tku9jtTj2ms0TsVUST
+ Uvqw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW3E8zyBBVYyb2v51u3REsmIY/xrrYUSsp7dQS3T27axOoafB1mjS2V5gwVfX2CT/xG/5BpxNGwfKSrVDN2ryZIXvpPGhjchSM3OWI4YoGn
+X-Gm-Message-State: AOJu0Yx26GJs+EfBZ9QNL19wKrIsHp0+BXRUvndwazd+Yel+uHhZMGjE
+ cGq27cV8i+mm+FDDiEAb2ilYfPeHlfLy2EpiCBBHu4qPG3lOU59Ztp6exCxmCGnw6RxJuLe0zDH
+ gQOBE3L+iveHJb1m60ZCm9jyJbDKdiQJJ4aBwldnURwYrS+ww1omdgiO/SN41D6nBJw==
+X-Received: by 2002:a05:600c:444b:b0:420:29a8:ff5e with SMTP id
+ 5b1f17b1804b1-42164a0c1c9mr17768305e9.19.1717751286505; 
+ Fri, 07 Jun 2024 02:08:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGDzedec2BFHBSMbm9/SW+exjr8g5bw0rRbja9c6OHOl+s47XY44ysURo8AhvrHdlSlTHwwfw==
+X-Received: by 2002:a05:600c:444b:b0:420:29a8:ff5e with SMTP id
+ 5b1f17b1804b1-42164a0c1c9mr17768165e9.19.1717751286116; 
+ Fri, 07 Jun 2024 02:08:06 -0700 (PDT)
+Received: from localhost ([91.126.32.244]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42158149008sm80183085e9.29.2024.06.07.02.08.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Jun 2024 02:08:05 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v2 1/3] drm/panic: only draw the foreground color in
+ drm_panic_blit()
+In-Reply-To: <20240603095343.39588-2-jfalempe@redhat.com>
+References: <20240603095343.39588-1-jfalempe@redhat.com>
+ <20240603095343.39588-2-jfalempe@redhat.com>
+Date: Fri, 07 Jun 2024 11:08:04 +0200
+Message-ID: <8734ppktmz.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: DLLwzBlI9yMqnkc--SBFCOLrnAHHLBl5
-X-Proofpoint-ORIG-GUID: BJdtqwSte07HUVK0jglwFnXMa3Grzdbc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-07_02,2024-06-06_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0
- clxscore=1011 suspectscore=0 priorityscore=1501 mlxscore=0 bulkscore=0
- mlxlogscore=999 spamscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2405010000
- definitions=main-2406070055
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -199,52 +92,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2024-06-04 at 20:27 -0400, Steven Rostedt wrote:
-> On Wed, 5 Jun 2024 01:44:37 +0200
-> Andrew Lunn <andrew@lunn.ch> wrote:
->=20
-> > > Interesting, as I sped up the ftrace ring buffer by a substantial amo=
-unt by
-> > > adding strategic __always_inline, noinline, likely() and unlikely()
-> > > throughout the code. It had to do with what was considered the fast p=
-ath
-> > > and slow path, and not actually the size of the function. gcc got it
-> > > horribly wrong. =20
-> >=20
-> > And what did the compiler people say when you reported gcc was getting
-> > it wrong?
-> >=20
-> > Our assumption is, the compiler is better than a human at deciding
-> > this. Or at least, a human who does not spend a long time profiling
-> > and tuning. If this assumption is not true, we probably should be
-> > trying to figure out why, and improving the compiler when
-> > possible. That will benefit everybody.
-> >=20
->=20
-> How is the compiler going to know which path is going to be taken the mos=
-t?
-> There's two main paths in the ring buffer logic. One when an event stays =
-on
-> the sub-buffer, the other when the event crosses over to a new sub buffer=
-.
-> As there's 100s of events that happen on the same sub-buffer for every on=
-e
-> time there's a cross over, I optimized the paths that stayed on the
-> sub-buffer, which caused the time for those events to go from 250ns down =
-to
-> 150 ns!. That's a 40% speed up.
->=20
-> I added the unlikely/likely and 'always_inline' and 'noinline' paths to
-> make sure the "staying on the buffer" path was always the hot path, and
-> keeping it tight in cache.
->=20
-> How is a compiler going to know that?
->=20
-> -- Steve
->=20
+Jocelyn Falempe <jfalempe@redhat.com> writes:
 
-Isn't this basically a perfect example of something where profile
-guided optimization should work?
+Hello Jocelyn,
 
-Thanks,
-Niklas
+> The whole framebuffer is cleared, so it's useless to rewrite the
+> background colored pixels. It allows to simplify the drawing
+> functions, and prepare the work for the set_pixel() callback.
+>
+> v2:
+>  * keep fg16/fg24/fg32 as variable name for the blit function.
+>  * add drm_panic_is_pixel_fg() to avoid code duplication.
+>  both suggested by Javier Martinez Canillas
+>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_panic.c | 67 +++++++++++++++++--------------------
+>  1 file changed, 31 insertions(+), 36 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+> index 7ece67086cec..056494ae1ede 100644
+> --- a/drivers/gpu/drm/drm_panic.c
+> +++ b/drivers/gpu/drm/drm_panic.c
+> @@ -194,40 +194,42 @@ static u32 convert_from_xrgb8888(u32 color, u32 format)
+>  /*
+>   * Blit & Fill
+>   */
+> +/* check if the pixel at coord x,y is 1 (foreground) or 0 (background) */
+> +static bool drm_panic_is_pixel_fg(const u8 *sbuf8, unsigned int spitch, int x, int y)
+> +{
+> +	return (sbuf8[(y * spitch) + x / 8] & (0x80 >> (x % 8))) != 0;
+> +}
+
+Thanks for doing this! The code is much easier to follow now IMO.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
