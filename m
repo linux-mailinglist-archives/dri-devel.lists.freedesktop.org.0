@@ -2,55 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48D890095B
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 17:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3F0900963
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 17:42:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19A0B10ECBF;
-	Fri,  7 Jun 2024 15:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 172FE10ECB7;
+	Fri,  7 Jun 2024 15:42:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YhS3AEpZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SmkxiBh6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBDEF10ECB7;
- Fri,  7 Jun 2024 15:41:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 5C00DCE1D8C;
- Fri,  7 Jun 2024 15:41:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A0EAC2BBFC;
- Fri,  7 Jun 2024 15:41:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1717774871;
- bh=lSNsjez0w/wb93cv+wK7nT1BdHR+WTVkmUkwEyzKfaE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YhS3AEpZKmcu3LvZLyghdcTPel8ph7bgdT4+bxZzju17gn5m30zNgh9myK2fo9ynk
- zhzMgkOSKFYlbjE18+VJOs3Ik8jB+in2WgrvelGGAXeOYCW0/3jYORj8jkK0Gu+9HK
- D+eYOvaIar+r2TBCvJYA1ECKsiLJnFLhpuL9UBE8=
-Date: Fri, 7 Jun 2024 17:41:11 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Danilo Krummrich <dakr@redhat.com>
-Cc: FUJITA Tomonori <fujita.tomonori@gmail.com>, wedsonaf@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
- a.hindborg@samsung.com, aliceryhl@google.com, lina@asahilina.net,
- pstanner@redhat.com, ajanulgu@redhat.com, lyude@redhat.com,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, mcgrof@kernel.org, russ.weight@linux.dev
-Subject: Re: [RFC PATCH 7/8] rust: add firmware abstractions
-Message-ID: <2024060745-palatable-dragging-32d1@gregkh>
-References: <Zlgg_Q5y3Q99Ts1s@pollux>
- <20240531.165032.1895479176481879387.fujita.tomonori@gmail.com>
- <Zlmfkws-QjNmFxfr@pollux>
- <20240607.211132.1411950625632247437.fujita.tomonori@gmail.com>
- <2024060708-residue-hardy-af36@gregkh>
- <ZmMMMyi3uXTFtIae@cassiopeiae>
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AFF010ECB7
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 15:42:43 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-52bc29c79fdso605335e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jun 2024 08:42:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1717774962; x=1718379762; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6ztEfaA9QN5DY5F1t7l1AL7LIdxxv5aD3SKdILYYcZ0=;
+ b=SmkxiBh67UbsMqn/kJ5g3TvJW1qEqaCbWUMyuccZlL9ghrE660H+1cqvZNej188EJV
+ AI6kGJAqe5iyN21z3/T5N942pXopPkeGTQgcl3ki2DXHzOQpRMx9CKRjyp9aQ6mhVHQY
+ hMTWTCmKEZ2raUhptLl0fevPWOELus90yyHSEQ0eiHgIVsormgiOUc0ehifdqjwKSJOY
+ inM2PEY5hgVUQ8V4DrwWYfxN2nba0F8S0QqhAH3kBfGnWRHPQiy5CKXM4Imku04k61wa
+ 82CM9UBH9mNJNqvcOGLrJCr6CLcvf5vXcCnZ2RlC54q2+WU+IuTP7t9XKbBSgxhN/eRL
+ pdmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717774962; x=1718379762;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6ztEfaA9QN5DY5F1t7l1AL7LIdxxv5aD3SKdILYYcZ0=;
+ b=Wg8fxYVSmDokZp7hhq/hpZi3R1UiWMNe5ePc0HpSlHld5qLHs7dZOPDj6UCSuDZxha
+ KcGUwQi63K1cholvdRjJ+6DSiLIx+3fOSZxFX7KjwojNmuUdU97YXjIL+S80YU1bae3+
+ k6FincGc7SQmvZNRwJRSzZwb6SB553BS81AboQ1KW8ksrSAqMGEL3ywueMCzzqlmIrdz
+ mGC6Ra58egpf1BuutuOUH9r0+/9uJbayICBbxLoL8AL0z/DtjTPmLL549IAsnnMwGTQd
+ g74Kil+3hWFYZ6xiruDtn7iUZ6VqnLONxfWgcJ1AJ6GrAy92bUufu6FGYyLF1FxHtNwz
+ f47Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWONZBKrkGVcLB1Q6gopdNpzn9oMEevcpF+aQ85NR6PsXlOM/J5iQ8vKwJkuB4fJ0jj54RKgtUdrcAy189nsoXwr++9A565qtQVQvxTG4z/
+X-Gm-Message-State: AOJu0YxkXf2PyNCxDgrQzyunf57jbWqku7vFvB5yCsBqxqqSN4g+8/Md
+ XdCoDznYH+/hgxRHHmn/z+pC20Akht/7jHXbJoVSWITJyBhUeznx
+X-Google-Smtp-Source: AGHT+IEFn+6+A9/ic4XpRfGuUMADB8GJccpGu+nMUZFNqtplHU80DwYmmylA2YOXqYyEGugmrIA8hA==
+X-Received: by 2002:a19:430f:0:b0:52b:7b8a:2d2f with SMTP id
+ 2adb3069b0e04-52bb9f62745mr2133552e87.2.1717774961414; 
+ Fri, 07 Jun 2024 08:42:41 -0700 (PDT)
+Received: from [192.168.42.206] ([163.114.131.193])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a6c80582335sm264164166b.39.2024.06.07.08.42.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Jun 2024 08:42:40 -0700 (PDT)
+Message-ID: <8f44ca2a-8910-418f-b4a6-ca1e051484ba@gmail.com>
+Date: Fri, 7 Jun 2024 16:42:43 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZmMMMyi3uXTFtIae@cassiopeiae>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+To: David Ahern <dsahern@kernel.org>, Mina Almasry <almasrymina@google.com>
+Cc: Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240530201616.1316526-1-almasrymina@google.com>
+ <20240530201616.1316526-3-almasrymina@google.com>
+ <ZlqzER_ufrhlB28v@infradead.org>
+ <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
+ <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
+ <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
+ <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
+ <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,49 +127,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 07, 2024 at 03:33:39PM +0200, Danilo Krummrich wrote:
-> On Fri, Jun 07, 2024 at 02:36:50PM +0200, Greg KH wrote:
-> > Anyway, that's all hand-wavy right now, sorry, to get back to the point
-> > here, again, let's take this, which will allow the firmware bindings to
-> > be resubmitted and hopefully accepted, and we can move forward from
-> > there to "real" things like a USB or PCI or even platform device and
-> > driver binding stuff.
+On 6/7/24 15:27, David Ahern wrote:
+> On 6/7/24 7:42 AM, Pavel Begunkov wrote:
+>> I haven't seen any arguments against from the (net) maintainers so
+>> far. Nor I see any objection against callbacks from them (considering
+>> that either option adds an if).
 > 
-> In order to continue I propose to send out the following series:
-> 
-> 1) minimal device and firmware abstractions only
+> I have said before I do not understand why the dmabuf paradigm is not
+> sufficient for both device memory and host memory. A less than ideal
+> control path to put hostmem in a dmabuf wrapper vs extra checks and
+> changes in the datapath. The former should always be preferred.
 
-Sounds good.
+If we're talking about types of memory specifically, I'm not strictly
+against wrapping into dmabuf in kernel, but that just doesn't give
+anything.
+But the main reason for allocations there is the difference in
+approaches to the api. With io_uring the allocation callback is
+responsible for getting buffers back from the user (via a shared
+ring). No locking for the ring, and buffers are already in the
+context (napi) where they would be consumed from. Removes some
+headaches for the user (like batching before returning buffers),
+and should go better with smaller buffers and such.
 
-But after this, I don't want to take ANY driver core rust code that is
-not able to live in the "normal" part of the Linux kernel tree.  It's
-just unsustainable to have it all in one directory sorry.  If this
-deadline makes that kbuild work actually happen faster, all the more
-reason to have it.  If that kbuild work is somehow stalled due to other
-issues, please let me know what that is.
+> I also do not understand why the ifq cache 
 
-> 2) v2 of all other device / driver, devres and PCI driver abstractions
+I'm not sure what you mean by ifq cache. Can you elaborate?
 
-I will be glad to review this.
+> and overloading xdp functions
 
-> 3) v2 of basic DRM driver abstractions and Nova
+Assuming it's about setup via xdp, it was marked for remaking in
+RFCs for longer than desired but it's gone now in our tree (but
+maybe not in the latest series).
 
-I love it how one of the most complex driver subsystems we have (drm) is
-attempting to be the "first real" driver use for the rust apis.  Bold
-move :)
+> have stuck around; I always thought both were added by Jonathan to
+> simplify kernel ports during early POC days.
 
-> The v2 series would contain static driver allocation (in case of DRM even const)
-> and quite a few more simplifications around `driver::Registration` and
-> `device::Data`.
-> 
-> Does that make sense?
-
-Yes, but note, I'm going to probably push back on the "driver::" stuff.
-But will do so with more constructive criticism as I want this to work
-very much and I agree that I think we are both talking past each other
-in different ways.  Mostly probably due to my total lack of Rust
-experience, my apologies, thanks for your patience with me for this.
-
-thanks,
-
-greg k-h
+-- 
+Pavel Begunkov
