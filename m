@@ -2,52 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A85900507
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 15:34:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C12900530
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 15:39:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9A2710EC39;
-	Fri,  7 Jun 2024 13:34:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52B8410EC4A;
+	Fri,  7 Jun 2024 13:39:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="DVOooJ1i";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kmnzl1l2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B966A10EC39
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 13:34:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=T+EWaHPYVEFWgu3k3v6jY5PkV1W0nCenUcIlEovuAP0=; b=DVOooJ1i9mtA0BQ7yp3In03D/z
- E84O5BkhqLpy9RAZr2QwTGUWiN9RnK58w6bX/jNpmKIZFkSKPHWcdZOCJq1CrMw2pHeo5tEAp2J3L
- 9goLnLXNjCe0Kr9oDYQcm5lhtykp+cnzUSFC3EvevSMXHeJK7d2a8tkbT50uhTM8/d76CaZXAp7yc
- xxV9smY7ji8CmvKvkPT2eatAG7QAAq9eHWrxcr7aPUEi5E1AICPt1G/RNLxtJM35+6avXb0iCyWBB
- Pliv+43XCOrCX34kVT2ajLsHaUXgSTqtAu9DL7+nGwOdIIjEeY1LdnbOeQdM01G7rmIgIiVHww7R4
- DKGokUPw==;
-Received: from 97.red-81-39-191.dynamicip.rima-tde.net ([81.39.191.97]
- helo=[10.0.21.32]) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sFZjU-000Y71-Kj; Fri, 07 Jun 2024 15:34:17 +0200
-Message-ID: <b77b436d-511f-406a-bbde-67c023eecc18@igalia.com>
-Date: Fri, 7 Jun 2024 15:33:58 +0200
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0577310EC4A;
+ Fri,  7 Jun 2024 13:39:47 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-1f6c7cded01so11168985ad.0; 
+ Fri, 07 Jun 2024 06:39:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1717767587; x=1718372387; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lGjvaDk+KW6xnTzTcwYndsM82Fj+VUn371ofht0gpOk=;
+ b=kmnzl1l2TsoADLDKGsS58AuUIwO+rgrkarCgsiyK8rLAmvBIsNGZVGq7+jtRqd1KPm
+ +WlpvZccZ+iuX1OTNn8Zb4CSwhyX/yzA8tRL4VGOb6OV95K2ZsOgXdv1IJsrx0K0r7HJ
+ lL2PNyEO79PNHm+IBSXtWb8JMGBrr0FHLErgCwLpYIdeYXj6B1b6Lp5jWixRIIn0TZ/1
+ KlkMWqI+z+waSx28CeQtG85nPmsr4pjoq+0zvqrZUKIt+ZejSXscIL5D/XOcai3L/VEX
+ zDnHTgY2uz+DCzygsMyIlEV0sORtoLyhjvp3eK4wXI84aKWLJ4vEyerHNldbLzl5mSqQ
+ q3wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717767587; x=1718372387;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lGjvaDk+KW6xnTzTcwYndsM82Fj+VUn371ofht0gpOk=;
+ b=WEJallcdGiB+eSVYbQwz+4JAGW0sYsPtfx43eNDPH1mkfIrna82q+/l3oAyXrqCs6C
+ +d7ZIYzBkpCKOkJ9r/XO42Lwu9MXk1RCFKd6Qyta6V0xUJ51GMHH3J813JVUjvYl2GBp
+ 2A4K6kqCL+/DWpRY7nYSi9hO3Q8rBOQOWQ5VkYBFps/cdy5gn/UNWWFTJQ9AbAVI+Jjk
+ XSe/ZpHCDkuzbMVSUQEsmPTMydhb8FKS9hF49MmjsNs6m7803r1g1Btjn3LRHsgA0bwJ
+ mrLwWlY+mrp5lUF90TIfWMjWIC9QULTyEeeq09r+IdcHzsNyMqT36RSM5linEFzcqZsV
+ 1TeQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWKBIIt8lCxmurvgNfRzUZsmqzUjTii8+hey/LFUejm3ej6EQr4De0JDjrlvw+e3NVGG6N1hHFjQxSFZoiH8mvsY9rDrv0lRGkw+T+SRnBU3wfcrKH9q/84kEKAwU9adCcjLiQ2bk2VUDfuIEyySg==
+X-Gm-Message-State: AOJu0YxrRBSjH8T1SgIigVq2FCESTrNdrDKe3nezfExDN6YAuUucWSQ0
+ xE+4/vVJO5um4KM6fZ4n1/whsVuAWze+FcMbsXFDLhCwo+8v+gC1k2f8rtI+7JZUTW/fKH+Q6AM
+ kIOqVOV+zEZxrcNi4qP/5qrOdYAc=
+X-Google-Smtp-Source: AGHT+IHFeYv7N9rqcrTihxXkCB6iPbA0K4xnxCMnAQk6mBUZGTI1GpzTXBWWItwFP1ZhHdtfaoxyrtoLT7oPMuSTUgc=
+X-Received: by 2002:a17:902:d4c1:b0:1f6:7212:760a with SMTP id
+ d9443c01a7336-1f6d021805amr29662965ad.0.1717767587019; Fri, 07 Jun 2024
+ 06:39:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/v3d: Fix perfmon build error/warning
-To: Iago Toral <itoral@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- kernel test robot <lkp@intel.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Ashutosh Dixit <ashutosh.dixit@intel.com>
-References: <20240604160210.24073-1-tursulin@igalia.com>
- <c8068a859b5c126cf7300143abe243361a0bae67.camel@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@igalia.com>
-In-Reply-To: <c8068a859b5c126cf7300143abe243361a0bae67.camel@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <CABXGCsNptxsQO=5=qi-JYiFX=rX8Ok5inK80Gn0qrUFWbtBGng@mail.gmail.com>
+In-Reply-To: <CABXGCsNptxsQO=5=qi-JYiFX=rX8Ok5inK80Gn0qrUFWbtBGng@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 7 Jun 2024 09:39:35 -0400
+Message-ID: <CADnq5_PDxJ8O1JUQ9RBYRFB9G1WZJos05ZAM4jUKuPBwPxjNkA@mail.gmail.com>
+Subject: Re: 6.10/bisected/regression - commits bc87d666c05 and 6d4279cb99ac
+ cause appearing green flashing bar on top of screen on Radeon 6900XT and 120Hz
+To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>, Rodrigo.Siqueira@amd.com, 
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>, 
+ Linux regressions mailing list <regressions@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,832 +84,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 05/06/2024 08:19, Iago Toral wrote:
-> Thanks for looking at ixing this Tvrtko.
+On Sun, May 26, 2024 at 10:12=E2=80=AFAM Mikhail Gavrilov
+<mikhail.v.gavrilov@gmail.com> wrote:
 >
-> El mar, 04-06-2024 a las 17:02 +0100, Tvrtko Ursulin escribió:
->> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>
->> Move static const array into the source file to fix the "defined but
->> not
->> used" errors.
->>
->> The fix is perhaps not the prettiest due hand crafting the array
->> sizes
->> in v3d_performance_counters.h, but I did add some build time asserts
->> to
->> validate the counts look sensible, so hopefully it is good enough for
->> a
->> quick fix.
->>
-> If we need this to go in ASAP I am fine with this patch as-is, so:
+> Hi,
+> Day before yesterday I replaced 7900XTX to 6900XT for got clear in
+> which kernel first time appeared warning message "DMA-API: amdgpu
+> 0000:0f:00.0: cacheline tracking EEXIST, overlapping mappings aren't
+> supported".
+> The kernel 6.3 and older won't boot on a computer with Radeon 7900XTX.
+> When I booted the system with 6900XT I saw a green flashing bar on top
+> of the screen when I typed commands in the gnome terminal which was
+> maximized on full screen.
+> Demonstration: https://youtu.be/tTvwQ_5pRkk
+> For reproduction you need Radeon 6900XT GPU connected to 120Hz OLED TV by=
+ HDMI.
 >
-> Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
+> I bisected the issue and the first commit which I found was 6d4279cb99ac.
+> commit 6d4279cb99ac4f51d10409501d29969f687ac8dc (HEAD)
+> Author: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> Date:   Tue Mar 26 10:42:05 2024 -0600
 >
-> With that said, if we are still in time for a bit of iteration may I
-> suggest that instead of hard-coding the counters we instead add helper
-> functions in drivers/gpu/drm/v3d/v3d_perfmon.c that call ARRAY_SIZE on
-> the corresponding array based on v3d->ver? It is fine if we prefer to
-> merge this as-is and do this change later as a follow-up patch.
+>     drm/amd/display: Drop legacy code
+>
+>     This commit removes code that are not used by display anymore.
+>
+>     Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+>     Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+>     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+>
+>  drivers/gpu/drm/amd/display/dc/inc/hw/stream_encoder.h         |  4 ----
+>  drivers/gpu/drm/amd/display/dc/inc/resource.h                  |  7 ----=
+---
+>  drivers/gpu/drm/amd/display/dc/optc/dcn20/dcn20_optc.c         | 10 ----=
+------
+>  drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c | 33
+> +--------------------------------
+>  4 files changed, 1 insertion(+), 53 deletions(-)
+>
+> Every time after bisecting I usually make sure that I found the right
+> commit and build the kernel with revert of the bad commit.
+> But this time I again observed an issue after running a kernel builded
+> without commit 6d4279cb99ac.
+> And I decided to find a second bad commit.
+> The second bad commit has been bc87d666c05.
+> commit bc87d666c05a13e6d4ae1ddce41fc43d2567b9a2 (HEAD)
+> Author: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> Date:   Tue Mar 26 11:55:19 2024 -0600
+>
+>     drm/amd/display: Add fallback configuration for set DRR in DCN10
+>
+>     Set OTG/OPTC parameters to 0 if something goes wrong on DCN10.
+>
+>     Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+>     Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+>     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+>
+>  drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c | 15 ++++++++++++=
+---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
+>
+> After reverting both these commits on top of 54f71b0369c9 the issue is go=
+ne.
+>
+> I also attach the build config.
+>
+> My hardware specs: https://linux-hardware.org/?probe=3Df25a873c5e
+>
+> Rodrigo or anyone else from the AMD team can you look please.
 
-I agree it isn't pretty and I was (and am) planning to see if things can 
-be improved. The reason I gave up on a prettier solution in the original 
-attempt is the the fact one array is statically sized (at build time) 
-based on the max number of counters:
+@Siqueira, Rodrigo can you take a look?  The two patches change the
+programming of OTG_V_TOTAL_CONTROL.  The first patch removes this
+code:
 
-/* Number of perfmons required to handle all supported performance 
-counters */
-#define V3D_MAX_PERFMONS DIV_ROUND_UP(V3D_MAX_COUNTERS, \
-                       DRM_V3D_MAX_PERF_COUNTERS)
+diff --git a/drivers/gpu/drm/amd/display/dc/optc/dcn20/dcn20_optc.c
+b/drivers/gpu/drm/amd/display/dc/optc/dcn20/dcn20_optc.c
+index 58bdbd859bf9..d6f095b4555d 100644
+--- a/drivers/gpu/drm/amd/display/dc/optc/dcn20/dcn20_optc.c
++++ b/drivers/gpu/drm/amd/display/dc/optc/dcn20/dcn20_optc.c
+@@ -462,16 +462,6 @@ void optc2_setup_manual_trigger(struct
+timing_generator *optc)
+ {
+        struct optc *optc1 =3D DCN10TG_FROM_TG(optc);
 
-struct v3d_performance_query {
-     /* Performance monitor IDs for this query */
-     u32 kperfmon_ids[V3D_MAX_PERFMONS];
+-       /* Set the min/max selectors unconditionally so that
+-        * DMCUB fw may change OTG timings when necessary
+-        * TODO: Remove the w/a after fixing the issue in DMCUB firmware
+-        */
+-       REG_UPDATE_4(OTG_V_TOTAL_CONTROL,
+-                                OTG_V_TOTAL_MIN_SEL, 1,
+-                                OTG_V_TOTAL_MAX_SEL, 1,
+-                                OTG_FORCE_LOCK_ON_EVENT, 0,
+-                                OTG_SET_V_TOTAL_MIN_MASK, (1 << 1));
+/* TRIGA */
+-
+        REG_SET_8(OTG_TRIGA_CNTL, 0,
+                        OTG_TRIGA_SOURCE_SELECT, 21,
+                        OTG_TRIGA_SOURCE_PIPE_SELECT, optc->inst,
 
-So need to see how to untangle that and then perhaps even go a step 
-further than the getters but move the whole perfmon init into v3d_perfmon.c.
+and the second patch adds this hunk:
 
-Regards,
+diff --git a/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
+b/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
+index f109a101d84f..5574bc628053 100644
+--- a/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
++++ b/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
+@@ -945,10 +945,19 @@ void optc1_set_drr(
+                                OTG_FORCE_LOCK_ON_EVENT, 0,
+                                OTG_SET_V_TOTAL_MIN_MASK_EN, 0,
+                                OTG_SET_V_TOTAL_MIN_MASK, 0);
+-       }
 
-Tvrtko
+-       // Setup manual flow control for EOF via TRIG_A
+-       optc->funcs->setup_manual_trigger(optc);
++               // Setup manual flow control for EOF via TRIG_A
++               optc->funcs->setup_manual_trigger(optc);
++
++       } else {
++               REG_UPDATE_4(OTG_V_TOTAL_CONTROL,
++                               OTG_SET_V_TOTAL_MIN_MASK, 0,
++                               OTG_V_TOTAL_MIN_SEL, 0,
++                               OTG_V_TOTAL_MAX_SEL, 0,
++                               OTG_FORCE_LOCK_ON_EVENT, 0);
++
++               optc->funcs->set_vtotal_min_max(optc, 0, 0);
++       }
+ }
+
+
+Looks like both the if and the else side paths end up programming
+OTG_V_TOTAL_CONTROL differently after the change.  Perhaps
+OTG_SET_V_TOTAL_MIN_MASK needs to be set differently depending on the
+DMCUB firmware version? @Mikhail Gavrilov does this patch fix it?
+
+diff --git a/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
+b/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
+index 336488c0574e..933c7a342936 100644
+--- a/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
++++ b/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
+@@ -944,7 +944,7 @@ void optc1_set_drr(
+                                OTG_V_TOTAL_MAX_SEL, 1,
+                                OTG_FORCE_LOCK_ON_EVENT, 0,
+                                OTG_SET_V_TOTAL_MIN_MASK_EN, 0,
+-                               OTG_SET_V_TOTAL_MIN_MASK, 0);
++                               OTG_SET_V_TOTAL_MIN_MASK, (1 << 1)); /* TRI=
+GA */
+
+                // Setup manual flow control for EOF via TRIG_A
+                optc->funcs->setup_manual_trigger(optc);
+
+
+Thanks,
+
+Alex
 
 >
-> Iago
->
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Fixes: 3cbcbe016c31 ("drm/v3d: Add Performance Counters descriptions
->> for V3D 4.2 and 7.1")
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes:
->> https://lore.kernel.org/oe-kbuild-all/202405211137.hueFkLKG-lkp@intel.com/Cc
->> : Maíra Canal <mcanal@igalia.com>
->> Cc: Iago Toral Quiroga <itoral@igalia.com>
->> Cc: Jani Nikula <jani.nikula@linux.intel.com>
->> Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
->> ---
->>   drivers/gpu/drm/v3d/v3d_drv.c                 |   4 +-
->>   drivers/gpu/drm/v3d/v3d_drv.h                 |   3 -
->>   drivers/gpu/drm/v3d/v3d_perfmon.c             | 204
->> +++++++++++++++++-
->>   .../gpu/drm/v3d/v3d_performance_counters.h    | 189 +---------------
->>   4 files changed, 205 insertions(+), 195 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c
->> b/drivers/gpu/drm/v3d/v3d_drv.c
->> index f7477488b1cc..a47f00b443d3 100644
->> --- a/drivers/gpu/drm/v3d/v3d_drv.c
->> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
->> @@ -299,9 +299,9 @@ static int v3d_platform_drm_probe(struct
->> platform_device *pdev)
->>   	WARN_ON(v3d->cores > 1); /* multicore not yet implemented */
->>   
->>   	if (v3d->ver >= 71)
->> -		v3d->max_counters =
->> ARRAY_SIZE(v3d_v71_performance_counters);
->> +		v3d->max_counters = V3D_V71_NUM_PERFCOUNTERS;
->>   	else if (v3d->ver >= 42)
->> -		v3d->max_counters =
->> ARRAY_SIZE(v3d_v42_performance_counters);
->> +		v3d->max_counters = V3D_V42_NUM_PERFCOUNTERS;
->>   	else
->>   		v3d->max_counters = 0;
->>   
->> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h
->> b/drivers/gpu/drm/v3d/v3d_drv.h
->> index 556cbb400ba0..099b962bdfde 100644
->> --- a/drivers/gpu/drm/v3d/v3d_drv.h
->> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
->> @@ -351,9 +351,6 @@ struct v3d_timestamp_query {
->>   	struct drm_syncobj *syncobj;
->>   };
->>   
->> -/* Maximum number of performance counters supported by any version
->> of V3D */
->> -#define V3D_MAX_COUNTERS ARRAY_SIZE(v3d_v71_performance_counters)
->> -
->>   /* Number of perfmons required to handle all supported performance
->> counters */
->>   #define V3D_MAX_PERFMONS DIV_ROUND_UP(V3D_MAX_COUNTERS, \
->>   				      DRM_V3D_MAX_PERF_COUNTERS)
->> diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c
->> b/drivers/gpu/drm/v3d/v3d_perfmon.c
->> index 73e2bb8bdb7f..b7d0b02e1a95 100644
->> --- a/drivers/gpu/drm/v3d/v3d_perfmon.c
->> +++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
->> @@ -9,6 +9,192 @@
->>   #define V3D_PERFMONID_MIN	1
->>   #define V3D_PERFMONID_MAX	U32_MAX
->>   
->> +static const struct v3d_perf_counter_desc
->> v3d_v42_performance_counters[] = {
->> +	{"FEP", "FEP-valid-primitives-no-rendered-pixels", "[FEP]
->> Valid primitives that result in no rendered pixels, for all rendered
->> tiles"},
->> +	{"FEP", "FEP-valid-primitives-rendered-pixels", "[FEP] Valid
->> primitives for all rendered tiles (primitives may be counted in more
->> than one tile)"},
->> +	{"FEP", "FEP-clipped-quads", "[FEP] Early-Z/Near/Far clipped
->> quads"},
->> +	{"FEP", "FEP-valid-quads", "[FEP] Valid quads"},
->> +	{"TLB", "TLB-quads-not-passing-stencil-test", "[TLB] Quads
->> with no pixels passing the stencil test"},
->> +	{"TLB", "TLB-quads-not-passing-z-and-stencil-test", "[TLB]
->> Quads with no pixels passing the Z and stencil tests"},
->> +	{"TLB", "TLB-quads-passing-z-and-stencil-test", "[TLB] Quads
->> with any pixels passing the Z and stencil tests"},
->> +	{"TLB", "TLB-quads-with-zero-coverage", "[TLB] Quads with
->> all pixels having zero coverage"},
->> +	{"TLB", "TLB-quads-with-non-zero-coverage", "[TLB] Quads
->> with any pixels having non-zero coverage"},
->> +	{"TLB", "TLB-quads-written-to-color-buffer", "[TLB] Quads
->> with valid pixels written to colour buffer"},
->> +	{"PTB", "PTB-primitives-discarded-outside-viewport", "[PTB]
->> Primitives discarded by being outside the viewport"},
->> +	{"PTB", "PTB-primitives-need-clipping", "[PTB] Primitives
->> that need clipping"},
->> +	{"PTB", "PTB-primitives-discarded-reversed", "[PTB]
->> Primitives that are discarded because they are reversed"},
->> +	{"QPU", "QPU-total-idle-clk-cycles", "[QPU] Total idle clock
->> cycles for all QPUs"},
->> +	{"QPU", "QPU-total-active-clk-cycles-vertex-coord-shading",
->> "[QPU] Total active clock cycles for all QPUs doing
->> vertex/coordinate/user shading (counts only when QPU is not
->> stalled)"},
->> +	{"QPU", "QPU-total-active-clk-cycles-fragment-shading",
->> "[QPU] Total active clock cycles for all QPUs doing fragment shading
->> (counts only when QPU is not stalled)"},
->> +	{"QPU", "QPU-total-clk-cycles-executing-valid-instr", "[QPU]
->> Total clock cycles for all QPUs executing valid instructions"},
->> +	{"QPU", "QPU-total-clk-cycles-waiting-TMU", "[QPU] Total
->> clock cycles for all QPUs stalled waiting for TMUs only (counter
->> won't increment if QPU also stalling for another reason)"},
->> +	{"QPU", "QPU-total-clk-cycles-waiting-scoreboard", "[QPU]
->> Total clock cycles for all QPUs stalled waiting for Scoreboard only
->> (counter won't increment if QPU also stalling for another reason)"},
->> +	{"QPU", "QPU-total-clk-cycles-waiting-varyings", "[QPU]
->> Total clock cycles for all QPUs stalled waiting for Varyings only
->> (counter won't increment if QPU also stalling for another reason)"},
->> +	{"QPU", "QPU-total-instr-cache-hit", "[QPU] Total
->> instruction cache hits for all slices"},
->> +	{"QPU", "QPU-total-instr-cache-miss", "[QPU] Total
->> instruction cache misses for all slices"},
->> +	{"QPU", "QPU-total-uniform-cache-hit", "[QPU] Total uniforms
->> cache hits for all slices"},
->> +	{"QPU", "QPU-total-uniform-cache-miss", "[QPU] Total
->> uniforms cache misses for all slices"},
->> +	{"TMU", "TMU-total-text-quads-access", "[TMU] Total texture
->> cache accesses"},
->> +	{"TMU", "TMU-total-text-cache-miss", "[TMU] Total texture
->> cache misses (number of fetches from memory/L2cache)"},
->> +	{"VPM", "VPM-total-clk-cycles-VDW-stalled", "[VPM] Total
->> clock cycles VDW is stalled waiting for VPM access"},
->> +	{"VPM", "VPM-total-clk-cycles-VCD-stalled", "[VPM] Total
->> clock cycles VCD is stalled waiting for VPM access"},
->> +	{"CLE", "CLE-bin-thread-active-cycles", "[CLE] Bin thread
->> active cycles"},
->> +	{"CLE", "CLE-render-thread-active-cycles", "[CLE] Render
->> thread active cycles"},
->> +	{"L2T", "L2T-total-cache-hit", "[L2T] Total Level 2 cache
->> hits"},
->> +	{"L2T", "L2T-total-cache-miss", "[L2T] Total Level 2 cache
->> misses"},
->> +	{"CORE", "cycle-count", "[CORE] Cycle counter"},
->> +	{"QPU", "QPU-total-clk-cycles-waiting-vertex-coord-shading",
->> "[QPU] Total stalled clock cycles for all QPUs doing
->> vertex/coordinate/user shading"},
->> +	{"QPU", "QPU-total-clk-cycles-waiting-fragment-shading",
->> "[QPU] Total stalled clock cycles for all QPUs doing fragment
->> shading"},
->> +	{"PTB", "PTB-primitives-binned", "[PTB] Total primitives
->> binned"},
->> +	{"AXI", "AXI-writes-seen-watch-0", "[AXI] Writes seen by
->> watch 0"},
->> +	{"AXI", "AXI-reads-seen-watch-0", "[AXI] Reads seen by watch
->> 0"},
->> +	{"AXI", "AXI-writes-stalled-seen-watch-0", "[AXI] Write
->> stalls seen by watch 0"},
->> +	{"AXI", "AXI-reads-stalled-seen-watch-0", "[AXI] Read stalls
->> seen by watch 0"},
->> +	{"AXI", "AXI-write-bytes-seen-watch-0", "[AXI] Total bytes
->> written seen by watch 0"},
->> +	{"AXI", "AXI-read-bytes-seen-watch-0", "[AXI] Total bytes
->> read seen by watch 0"},
->> +	{"AXI", "AXI-writes-seen-watch-1", "[AXI] Writes seen by
->> watch 1"},
->> +	{"AXI", "AXI-reads-seen-watch-1", "[AXI] Reads seen by watch
->> 1"},
->> +	{"AXI", "AXI-writes-stalled-seen-watch-1", "[AXI] Write
->> stalls seen by watch 1"},
->> +	{"AXI", "AXI-reads-stalled-seen-watch-1", "[AXI] Read stalls
->> seen by watch 1"},
->> +	{"AXI", "AXI-write-bytes-seen-watch-1", "[AXI] Total bytes
->> written seen by watch 1"},
->> +	{"AXI", "AXI-read-bytes-seen-watch-1", "[AXI] Total bytes
->> read seen by watch 1"},
->> +	{"TLB", "TLB-partial-quads-written-to-color-buffer", "[TLB]
->> Partial quads written to the colour buffer"},
->> +	{"TMU", "TMU-total-config-access", "[TMU] Total config
->> accesses"},
->> +	{"L2T", "L2T-no-id-stalled", "[L2T] No ID stall"},
->> +	{"L2T", "L2T-command-queue-stalled", "[L2T] Command queue
->> full stall"},
->> +	{"L2T", "L2T-TMU-writes", "[L2T] TMU write accesses"},
->> +	{"TMU", "TMU-active-cycles", "[TMU] Active cycles"},
->> +	{"TMU", "TMU-stalled-cycles", "[TMU] Stalled cycles"},
->> +	{"CLE", "CLE-thread-active-cycles", "[CLE] Bin or render
->> thread active cycles"},
->> +	{"L2T", "L2T-TMU-reads", "[L2T] TMU read accesses"},
->> +	{"L2T", "L2T-CLE-reads", "[L2T] CLE read accesses"},
->> +	{"L2T", "L2T-VCD-reads", "[L2T] VCD read accesses"},
->> +	{"L2T", "L2T-TMU-config-reads", "[L2T] TMU CFG read
->> accesses"},
->> +	{"L2T", "L2T-SLC0-reads", "[L2T] SLC0 read accesses"},
->> +	{"L2T", "L2T-SLC1-reads", "[L2T] SLC1 read accesses"},
->> +	{"L2T", "L2T-SLC2-reads", "[L2T] SLC2 read accesses"},
->> +	{"L2T", "L2T-TMU-write-miss", "[L2T] TMU write misses"},
->> +	{"L2T", "L2T-TMU-read-miss", "[L2T] TMU read misses"},
->> +	{"L2T", "L2T-CLE-read-miss", "[L2T] CLE read misses"},
->> +	{"L2T", "L2T-VCD-read-miss", "[L2T] VCD read misses"},
->> +	{"L2T", "L2T-TMU-config-read-miss", "[L2T] TMU CFG read
->> misses"},
->> +	{"L2T", "L2T-SLC0-read-miss", "[L2T] SLC0 read misses"},
->> +	{"L2T", "L2T-SLC1-read-miss", "[L2T] SLC1 read misses"},
->> +	{"L2T", "L2T-SLC2-read-miss", "[L2T] SLC2 read misses"},
->> +	{"CORE", "core-memory-writes", "[CORE] Total memory
->> writes"},
->> +	{"L2T", "L2T-memory-writes", "[L2T] Total memory writes"},
->> +	{"PTB", "PTB-memory-writes", "[PTB] Total memory writes"},
->> +	{"TLB", "TLB-memory-writes", "[TLB] Total memory writes"},
->> +	{"CORE", "core-memory-reads", "[CORE] Total memory reads"},
->> +	{"L2T", "L2T-memory-reads", "[L2T] Total memory reads"},
->> +	{"PTB", "PTB-memory-reads", "[PTB] Total memory reads"},
->> +	{"PSE", "PSE-memory-reads", "[PSE] Total memory reads"},
->> +	{"TLB", "TLB-memory-reads", "[TLB] Total memory reads"},
->> +	{"GMP", "GMP-memory-reads", "[GMP] Total memory reads"},
->> +	{"PTB", "PTB-memory-words-writes", "[PTB] Total memory words
->> written"},
->> +	{"TLB", "TLB-memory-words-writes", "[TLB] Total memory words
->> written"},
->> +	{"PSE", "PSE-memory-words-reads", "[PSE] Total memory words
->> read"},
->> +	{"TLB", "TLB-memory-words-reads", "[TLB] Total memory words
->> read"},
->> +	{"TMU", "TMU-MRU-hits", "[TMU] Total MRU hits"},
->> +	{"CORE", "compute-active-cycles", "[CORE] Compute active
->> cycles"},
->> +};
->> +
->> +static const struct v3d_perf_counter_desc
->> v3d_v71_performance_counters[] = {
->> +	{"CORE", "cycle-count", "[CORE] Cycle counter"},
->> +	{"CORE", "core-active", "[CORE] Bin/Render/Compute active
->> cycles"},
->> +	{"CLE", "CLE-bin-thread-active-cycles", "[CLE] Bin thread
->> active cycles"},
->> +	{"CLE", "CLE-render-thread-active-cycles", "[CLE] Render
->> thread active cycles"},
->> +	{"CORE", "compute-active-cycles", "[CORE] Compute active
->> cycles"},
->> +	{"FEP", "FEP-valid-primitives-no-rendered-pixels", "[FEP]
->> Valid primitives that result in no rendered pixels, for all rendered
->> tiles"},
->> +	{"FEP", "FEP-valid-primitives-rendered-pixels", "[FEP] Valid
->> primitives for all rendered tiles (primitives may be counted in more
->> than one tile)"},
->> +	{"FEP", "FEP-clipped-quads", "[FEP] Early-Z/Near/Far clipped
->> quads"},
->> +	{"FEP", "FEP-valid-quads", "[FEP] Valid quads"},
->> +	{"TLB", "TLB-quads-not-passing-stencil-test", "[TLB] Quads
->> with no pixels passing the stencil test"},
->> +	{"TLB", "TLB-quads-not-passing-z-and-stencil-test", "[TLB]
->> Quads with no pixels passing the Z and stencil tests"},
->> +	{"TLB", "TLB-quads-passing-z-and-stencil-test", "[TLB] Quads
->> with any pixels passing the Z and stencil tests"},
->> +	{"TLB", "TLB-quads-written-to-color-buffer", "[TLB] Quads
->> with valid pixels written to colour buffer"},
->> +	{"TLB", "TLB-partial-quads-written-to-color-buffer", "[TLB]
->> Partial quads written to the colour buffer"},
->> +	{"PTB", "PTB-primitives-need-clipping", "[PTB] Primitives
->> that need clipping"},
->> +	{"PTB", "PTB-primitives-discarded-outside-viewport", "[PTB]
->> Primitives discarded by being outside the viewport"},
->> +	{"PTB", "PTB-primitives-binned", "[PTB] Total primitives
->> binned"},
->> +	{"PTB", "PTB-primitives-discarded-reversed", "[PTB]
->> Primitives that are discarded because they are reversed"},
->> +	{"QPU", "QPU-total-instr-cache-hit", "[QPU] Total
->> instruction cache hits for all slices"},
->> +	{"QPU", "QPU-total-instr-cache-miss", "[QPU] Total
->> instruction cache misses for all slices"},
->> +	{"QPU", "QPU-total-uniform-cache-hit", "[QPU] Total uniforms
->> cache hits for all slices"},
->> +	{"QPU", "QPU-total-uniform-cache-miss", "[QPU] Total
->> uniforms cache misses for all slices"},
->> +	{"TMU", "TMU-active-cycles", "[TMU] Active cycles"},
->> +	{"TMU", "TMU-stalled-cycles", "[TMU] Stalled cycles"},
->> +	{"TMU", "TMU-total-text-quads-access", "[TMU] Total texture
->> cache accesses"},
->> +	{"TMU", "TMU-cache-x4-active-cycles", "[TMU] Cache active
->> cycles for x4 access"},
->> +	{"TMU", "TMU-cache-x4-stalled-cycles", "[TMU] Cache stalled
->> cycles for x4 access"},
->> +	{"TMU", "TMU-total-text-quads-x4-access", "[TMU] Total
->> texture cache x4 access"},
->> +	{"L2T", "L2T-total-cache-hit", "[L2T] Total Level 2 cache
->> hits"},
->> +	{"L2T", "L2T-total-cache-miss", "[L2T] Total Level 2 cache
->> misses"},
->> +	{"L2T", "L2T-local", "[L2T] Local mode access"},
->> +	{"L2T", "L2T-writeback", "[L2T] Writeback"},
->> +	{"L2T", "L2T-zero", "[L2T] Zero"},
->> +	{"L2T", "L2T-merge", "[L2T] Merge"},
->> +	{"L2T", "L2T-fill", "[L2T] Fill"},
->> +	{"L2T", "L2T-stalls-no-wid", "[L2T] Stalls because no WID
->> available"},
->> +	{"L2T", "L2T-stalls-no-rid", "[L2T] Stalls because no RID
->> available"},
->> +	{"L2T", "L2T-stalls-queue-full", "[L2T] Stalls because
->> internal queue full"},
->> +	{"L2T", "L2T-stalls-wrightback", "[L2T] Stalls because
->> writeback in flight"},
->> +	{"L2T", "L2T-stalls-mem", "[L2T] Stalls because AXI blocks
->> read"},
->> +	{"L2T", "L2T-stalls-fill", "[L2T] Stalls because fill
->> pending for victim cache-line"},
->> +	{"L2T", "L2T-hitq", "[L2T] Sent request via hit queue"},
->> +	{"L2T", "L2T-hitq-full", "[L2T] Sent request via main queue
->> because hit queue is full"},
->> +	{"L2T", "L2T-stalls-read-data", "[L2T] Stalls because
->> waiting for data from SDRAM"},
->> +	{"L2T", "L2T-TMU-read-hits", "[L2T] TMU read hits"},
->> +	{"L2T", "L2T-TMU-read-miss", "[L2T] TMU read misses"},
->> +	{"L2T", "L2T-VCD-read-hits", "[L2T] VCD read hits"},
->> +	{"L2T", "L2T-VCD-read-miss", "[L2T] VCD read misses"},
->> +	{"L2T", "L2T-SLC-read-hits", "[L2T] SLC read hits (all
->> slices)"},
->> +	{"L2T", "L2T-SLC-read-miss", "[L2T] SLC read misses (all
->> slices)"},
->> +	{"AXI", "AXI-writes-seen-watch-0", "[AXI] Writes seen by
->> watch 0"},
->> +	{"AXI", "AXI-reads-seen-watch-0", "[AXI] Reads seen by watch
->> 0"},
->> +	{"AXI", "AXI-writes-stalled-seen-watch-0", "[AXI] Write
->> stalls seen by watch 0"},
->> +	{"AXI", "AXI-reads-stalled-seen-watch-0", "[AXI] Read stalls
->> seen by watch 0"},
->> +	{"AXI", "AXI-write-bytes-seen-watch-0", "[AXI] Total bytes
->> written seen by watch 0"},
->> +	{"AXI", "AXI-read-bytes-seen-watch-0", "[AXI] Total bytes
->> read seen by watch 0"},
->> +	{"AXI", "AXI-writes-seen-watch-1", "[AXI] Writes seen by
->> watch 1"},
->> +	{"AXI", "AXI-reads-seen-watch-1", "[AXI] Reads seen by watch
->> 1"},
->> +	{"AXI", "AXI-writes-stalled-seen-watch-1", "[AXI] Write
->> stalls seen by watch 1"},
->> +	{"AXI", "AXI-reads-stalled-seen-watch-1", "[AXI] Read stalls
->> seen by watch 1"},
->> +	{"AXI", "AXI-write-bytes-seen-watch-1", "[AXI] Total bytes
->> written seen by watch 1"},
->> +	{"AXI", "AXI-read-bytes-seen-watch-1", "[AXI] Total bytes
->> read seen by watch 1"},
->> +	{"CORE", "core-memory-writes", "[CORE] Total memory
->> writes"},
->> +	{"L2T", "L2T-memory-writes", "[L2T] Total memory writes"},
->> +	{"PTB", "PTB-memory-writes", "[PTB] Total memory writes"},
->> +	{"TLB", "TLB-memory-writes", "[TLB] Total memory writes"},
->> +	{"CORE", "core-memory-reads", "[CORE] Total memory reads"},
->> +	{"L2T", "L2T-memory-reads", "[L2T] Total memory reads"},
->> +	{"PTB", "PTB-memory-reads", "[PTB] Total memory reads"},
->> +	{"PSE", "PSE-memory-reads", "[PSE] Total memory reads"},
->> +	{"TLB", "TLB-memory-reads", "[TLB] Total memory reads"},
->> +	{"PTB", "PTB-memory-words-writes", "[PTB] Total memory words
->> written"},
->> +	{"TLB", "TLB-memory-words-writes", "[TLB] Total memory words
->> written"},
->> +	{"PSE", "PSE-memory-words-reads", "[PSE] Total memory words
->> read"},
->> +	{"TLB", "TLB-memory-words-reads", "[TLB] Total memory words
->> read"},
->> +	{"AXI", "AXI-read-trans", "[AXI] Read transaction count"},
->> +	{"AXI", "AXI-write-trans", "[AXI] Write transaction count"},
->> +	{"AXI", "AXI-read-wait-cycles", "[AXI] Read total wait
->> cycles"},
->> +	{"AXI", "AXI-write-wait-cycles", "[AXI] Write total wait
->> cycles"},
->> +	{"AXI", "AXI-max-outstanding-reads", "[AXI] Maximum
->> outstanding read transactions"},
->> +	{"AXI", "AXI-max-outstanding-writes", "[AXI] Maximum
->> outstanding write transactions"},
->> +	{"QPU", "QPU-wait-bubble", "[QPU] Pipeline bubble in qcycles
->> due all threads waiting"},
->> +	{"QPU", "QPU-ic-miss-bubble", "[QPU] Pipeline bubble in
->> qcycles due instruction-cache miss"},
->> +	{"QPU", "QPU-active", "[QPU] Executed shader instruction"},
->> +	{"QPU", "QPU-total-active-clk-cycles-fragment-shading",
->> "[QPU] Total active clock cycles for all QPUs doing fragment shading
->> (counts only when QPU is not stalled)"},
->> +	{"QPU", "QPU-stalls", "[QPU] Stalled qcycles executing
->> shader instruction"},
->> +	{"QPU", "QPU-total-clk-cycles-waiting-fragment-shading",
->> "[QPU] Total stalled clock cycles for all QPUs doing fragment
->> shading"},
->> +	{"QPU", "QPU-stalls-TMU", "[QPU] Stalled qcycles waiting for
->> TMU"},
->> +	{"QPU", "QPU-stalls-TLB", "[QPU] Stalled qcycles waiting for
->> TLB"},
->> +	{"QPU", "QPU-stalls-VPM", "[QPU] Stalled qcycles waiting for
->> VPM"},
->> +	{"QPU", "QPU-stalls-uniforms", "[QPU] Stalled qcycles
->> waiting for uniforms"},
->> +	{"QPU", "QPU-stalls-SFU", "[QPU] Stalled qcycles waiting for
->> SFU"},
->> +	{"QPU", "QPU-stalls-other", "[QPU] Stalled qcycles waiting
->> for any other reason (vary/W/Z)"},
->> +};
->> +
->>   void v3d_perfmon_get(struct v3d_perfmon *perfmon)
->>   {
->>   	if (perfmon)
->> @@ -234,15 +420,21 @@ int v3d_perfmon_get_counter_ioctl(struct
->> drm_device *dev, void *data,
->>   	if (req->counter >= v3d->max_counters)
->>   		return -EINVAL;
->>   
->> -	if (v3d->ver >= 71) {
->> -		WARN_ON(v3d->max_counters !=
->> ARRAY_SIZE(v3d_v71_performance_counters));
->> +	BUILD_BUG_ON(ARRAY_SIZE(v3d_v42_performance_counters) !=
->> +		     V3D_V42_NUM_PERFCOUNTERS);
->> +	BUILD_BUG_ON(ARRAY_SIZE(v3d_v71_performance_counters) !=
->> +		     V3D_V71_NUM_PERFCOUNTERS);
->> +	BUILD_BUG_ON(V3D_MAX_COUNTERS < V3D_V42_NUM_PERFCOUNTERS);
->> +	BUILD_BUG_ON(V3D_MAX_COUNTERS < V3D_V71_NUM_PERFCOUNTERS);
->> +	BUILD_BUG_ON((V3D_MAX_COUNTERS != V3D_V42_NUM_PERFCOUNTERS)
->> &&
->> +		     (V3D_MAX_COUNTERS !=
->> V3D_V71_NUM_PERFCOUNTERS));
->> +
->> +	if (v3d->ver >= 71)
->>   		counter = &v3d_v71_performance_counters[req-
->>> counter];
->> -	} else if (v3d->ver >= 42) {
->> -		WARN_ON(v3d->max_counters !=
->> ARRAY_SIZE(v3d_v42_performance_counters));
->> +	else if (v3d->ver >= 42)
->>   		counter = &v3d_v42_performance_counters[req-
->>> counter];
->> -	} else {
->> +	else
->>   		return -EOPNOTSUPP;
->> -	}
->>   
->>   	strscpy(req->name, counter->name, sizeof(req->name));
->>   	strscpy(req->category, counter->category, sizeof(req-
->>> category));
->> diff --git a/drivers/gpu/drm/v3d/v3d_performance_counters.h
->> b/drivers/gpu/drm/v3d/v3d_performance_counters.h
->> index 72822205ebdc..131b2909522a 100644
->> --- a/drivers/gpu/drm/v3d/v3d_performance_counters.h
->> +++ b/drivers/gpu/drm/v3d/v3d_performance_counters.h
->> @@ -19,190 +19,11 @@ struct v3d_perf_counter_desc {
->>   	char description[256];
->>   };
->>   
->> -static const struct v3d_perf_counter_desc
->> v3d_v71_performance_counters[] = {
->> -	{"CORE", "cycle-count", "[CORE] Cycle counter"},
->> -	{"CORE", "core-active", "[CORE] Bin/Render/Compute active
->> cycles"},
->> -	{"CLE", "CLE-bin-thread-active-cycles", "[CLE] Bin thread
->> active cycles"},
->> -	{"CLE", "CLE-render-thread-active-cycles", "[CLE] Render
->> thread active cycles"},
->> -	{"CORE", "compute-active-cycles", "[CORE] Compute active
->> cycles"},
->> -	{"FEP", "FEP-valid-primitives-no-rendered-pixels", "[FEP]
->> Valid primitives that result in no rendered pixels, for all rendered
->> tiles"},
->> -	{"FEP", "FEP-valid-primitives-rendered-pixels", "[FEP] Valid
->> primitives for all rendered tiles (primitives may be counted in more
->> than one tile)"},
->> -	{"FEP", "FEP-clipped-quads", "[FEP] Early-Z/Near/Far clipped
->> quads"},
->> -	{"FEP", "FEP-valid-quads", "[FEP] Valid quads"},
->> -	{"TLB", "TLB-quads-not-passing-stencil-test", "[TLB] Quads
->> with no pixels passing the stencil test"},
->> -	{"TLB", "TLB-quads-not-passing-z-and-stencil-test", "[TLB]
->> Quads with no pixels passing the Z and stencil tests"},
->> -	{"TLB", "TLB-quads-passing-z-and-stencil-test", "[TLB] Quads
->> with any pixels passing the Z and stencil tests"},
->> -	{"TLB", "TLB-quads-written-to-color-buffer", "[TLB] Quads
->> with valid pixels written to colour buffer"},
->> -	{"TLB", "TLB-partial-quads-written-to-color-buffer", "[TLB]
->> Partial quads written to the colour buffer"},
->> -	{"PTB", "PTB-primitives-need-clipping", "[PTB] Primitives
->> that need clipping"},
->> -	{"PTB", "PTB-primitives-discarded-outside-viewport", "[PTB]
->> Primitives discarded by being outside the viewport"},
->> -	{"PTB", "PTB-primitives-binned", "[PTB] Total primitives
->> binned"},
->> -	{"PTB", "PTB-primitives-discarded-reversed", "[PTB]
->> Primitives that are discarded because they are reversed"},
->> -	{"QPU", "QPU-total-instr-cache-hit", "[QPU] Total
->> instruction cache hits for all slices"},
->> -	{"QPU", "QPU-total-instr-cache-miss", "[QPU] Total
->> instruction cache misses for all slices"},
->> -	{"QPU", "QPU-total-uniform-cache-hit", "[QPU] Total uniforms
->> cache hits for all slices"},
->> -	{"QPU", "QPU-total-uniform-cache-miss", "[QPU] Total
->> uniforms cache misses for all slices"},
->> -	{"TMU", "TMU-active-cycles", "[TMU] Active cycles"},
->> -	{"TMU", "TMU-stalled-cycles", "[TMU] Stalled cycles"},
->> -	{"TMU", "TMU-total-text-quads-access", "[TMU] Total texture
->> cache accesses"},
->> -	{"TMU", "TMU-cache-x4-active-cycles", "[TMU] Cache active
->> cycles for x4 access"},
->> -	{"TMU", "TMU-cache-x4-stalled-cycles", "[TMU] Cache stalled
->> cycles for x4 access"},
->> -	{"TMU", "TMU-total-text-quads-x4-access", "[TMU] Total
->> texture cache x4 access"},
->> -	{"L2T", "L2T-total-cache-hit", "[L2T] Total Level 2 cache
->> hits"},
->> -	{"L2T", "L2T-total-cache-miss", "[L2T] Total Level 2 cache
->> misses"},
->> -	{"L2T", "L2T-local", "[L2T] Local mode access"},
->> -	{"L2T", "L2T-writeback", "[L2T] Writeback"},
->> -	{"L2T", "L2T-zero", "[L2T] Zero"},
->> -	{"L2T", "L2T-merge", "[L2T] Merge"},
->> -	{"L2T", "L2T-fill", "[L2T] Fill"},
->> -	{"L2T", "L2T-stalls-no-wid", "[L2T] Stalls because no WID
->> available"},
->> -	{"L2T", "L2T-stalls-no-rid", "[L2T] Stalls because no RID
->> available"},
->> -	{"L2T", "L2T-stalls-queue-full", "[L2T] Stalls because
->> internal queue full"},
->> -	{"L2T", "L2T-stalls-wrightback", "[L2T] Stalls because
->> writeback in flight"},
->> -	{"L2T", "L2T-stalls-mem", "[L2T] Stalls because AXI blocks
->> read"},
->> -	{"L2T", "L2T-stalls-fill", "[L2T] Stalls because fill
->> pending for victim cache-line"},
->> -	{"L2T", "L2T-hitq", "[L2T] Sent request via hit queue"},
->> -	{"L2T", "L2T-hitq-full", "[L2T] Sent request via main queue
->> because hit queue is full"},
->> -	{"L2T", "L2T-stalls-read-data", "[L2T] Stalls because
->> waiting for data from SDRAM"},
->> -	{"L2T", "L2T-TMU-read-hits", "[L2T] TMU read hits"},
->> -	{"L2T", "L2T-TMU-read-miss", "[L2T] TMU read misses"},
->> -	{"L2T", "L2T-VCD-read-hits", "[L2T] VCD read hits"},
->> -	{"L2T", "L2T-VCD-read-miss", "[L2T] VCD read misses"},
->> -	{"L2T", "L2T-SLC-read-hits", "[L2T] SLC read hits (all
->> slices)"},
->> -	{"L2T", "L2T-SLC-read-miss", "[L2T] SLC read misses (all
->> slices)"},
->> -	{"AXI", "AXI-writes-seen-watch-0", "[AXI] Writes seen by
->> watch 0"},
->> -	{"AXI", "AXI-reads-seen-watch-0", "[AXI] Reads seen by watch
->> 0"},
->> -	{"AXI", "AXI-writes-stalled-seen-watch-0", "[AXI] Write
->> stalls seen by watch 0"},
->> -	{"AXI", "AXI-reads-stalled-seen-watch-0", "[AXI] Read stalls
->> seen by watch 0"},
->> -	{"AXI", "AXI-write-bytes-seen-watch-0", "[AXI] Total bytes
->> written seen by watch 0"},
->> -	{"AXI", "AXI-read-bytes-seen-watch-0", "[AXI] Total bytes
->> read seen by watch 0"},
->> -	{"AXI", "AXI-writes-seen-watch-1", "[AXI] Writes seen by
->> watch 1"},
->> -	{"AXI", "AXI-reads-seen-watch-1", "[AXI] Reads seen by watch
->> 1"},
->> -	{"AXI", "AXI-writes-stalled-seen-watch-1", "[AXI] Write
->> stalls seen by watch 1"},
->> -	{"AXI", "AXI-reads-stalled-seen-watch-1", "[AXI] Read stalls
->> seen by watch 1"},
->> -	{"AXI", "AXI-write-bytes-seen-watch-1", "[AXI] Total bytes
->> written seen by watch 1"},
->> -	{"AXI", "AXI-read-bytes-seen-watch-1", "[AXI] Total bytes
->> read seen by watch 1"},
->> -	{"CORE", "core-memory-writes", "[CORE] Total memory
->> writes"},
->> -	{"L2T", "L2T-memory-writes", "[L2T] Total memory writes"},
->> -	{"PTB", "PTB-memory-writes", "[PTB] Total memory writes"},
->> -	{"TLB", "TLB-memory-writes", "[TLB] Total memory writes"},
->> -	{"CORE", "core-memory-reads", "[CORE] Total memory reads"},
->> -	{"L2T", "L2T-memory-reads", "[L2T] Total memory reads"},
->> -	{"PTB", "PTB-memory-reads", "[PTB] Total memory reads"},
->> -	{"PSE", "PSE-memory-reads", "[PSE] Total memory reads"},
->> -	{"TLB", "TLB-memory-reads", "[TLB] Total memory reads"},
->> -	{"PTB", "PTB-memory-words-writes", "[PTB] Total memory words
->> written"},
->> -	{"TLB", "TLB-memory-words-writes", "[TLB] Total memory words
->> written"},
->> -	{"PSE", "PSE-memory-words-reads", "[PSE] Total memory words
->> read"},
->> -	{"TLB", "TLB-memory-words-reads", "[TLB] Total memory words
->> read"},
->> -	{"AXI", "AXI-read-trans", "[AXI] Read transaction count"},
->> -	{"AXI", "AXI-write-trans", "[AXI] Write transaction count"},
->> -	{"AXI", "AXI-read-wait-cycles", "[AXI] Read total wait
->> cycles"},
->> -	{"AXI", "AXI-write-wait-cycles", "[AXI] Write total wait
->> cycles"},
->> -	{"AXI", "AXI-max-outstanding-reads", "[AXI] Maximum
->> outstanding read transactions"},
->> -	{"AXI", "AXI-max-outstanding-writes", "[AXI] Maximum
->> outstanding write transactions"},
->> -	{"QPU", "QPU-wait-bubble", "[QPU] Pipeline bubble in qcycles
->> due all threads waiting"},
->> -	{"QPU", "QPU-ic-miss-bubble", "[QPU] Pipeline bubble in
->> qcycles due instruction-cache miss"},
->> -	{"QPU", "QPU-active", "[QPU] Executed shader instruction"},
->> -	{"QPU", "QPU-total-active-clk-cycles-fragment-shading",
->> "[QPU] Total active clock cycles for all QPUs doing fragment shading
->> (counts only when QPU is not stalled)"},
->> -	{"QPU", "QPU-stalls", "[QPU] Stalled qcycles executing
->> shader instruction"},
->> -	{"QPU", "QPU-total-clk-cycles-waiting-fragment-shading",
->> "[QPU] Total stalled clock cycles for all QPUs doing fragment
->> shading"},
->> -	{"QPU", "QPU-stalls-TMU", "[QPU] Stalled qcycles waiting for
->> TMU"},
->> -	{"QPU", "QPU-stalls-TLB", "[QPU] Stalled qcycles waiting for
->> TLB"},
->> -	{"QPU", "QPU-stalls-VPM", "[QPU] Stalled qcycles waiting for
->> VPM"},
->> -	{"QPU", "QPU-stalls-uniforms", "[QPU] Stalled qcycles
->> waiting for uniforms"},
->> -	{"QPU", "QPU-stalls-SFU", "[QPU] Stalled qcycles waiting for
->> SFU"},
->> -	{"QPU", "QPU-stalls-other", "[QPU] Stalled qcycles waiting
->> for any other reason (vary/W/Z)"},
->> -};
->>   
->> -static const struct v3d_perf_counter_desc
->> v3d_v42_performance_counters[] = {
->> -	{"FEP", "FEP-valid-primitives-no-rendered-pixels", "[FEP]
->> Valid primitives that result in no rendered pixels, for all rendered
->> tiles"},
->> -	{"FEP", "FEP-valid-primitives-rendered-pixels", "[FEP] Valid
->> primitives for all rendered tiles (primitives may be counted in more
->> than one tile)"},
->> -	{"FEP", "FEP-clipped-quads", "[FEP] Early-Z/Near/Far clipped
->> quads"},
->> -	{"FEP", "FEP-valid-quads", "[FEP] Valid quads"},
->> -	{"TLB", "TLB-quads-not-passing-stencil-test", "[TLB] Quads
->> with no pixels passing the stencil test"},
->> -	{"TLB", "TLB-quads-not-passing-z-and-stencil-test", "[TLB]
->> Quads with no pixels passing the Z and stencil tests"},
->> -	{"TLB", "TLB-quads-passing-z-and-stencil-test", "[TLB] Quads
->> with any pixels passing the Z and stencil tests"},
->> -	{"TLB", "TLB-quads-with-zero-coverage", "[TLB] Quads with
->> all pixels having zero coverage"},
->> -	{"TLB", "TLB-quads-with-non-zero-coverage", "[TLB] Quads
->> with any pixels having non-zero coverage"},
->> -	{"TLB", "TLB-quads-written-to-color-buffer", "[TLB] Quads
->> with valid pixels written to colour buffer"},
->> -	{"PTB", "PTB-primitives-discarded-outside-viewport", "[PTB]
->> Primitives discarded by being outside the viewport"},
->> -	{"PTB", "PTB-primitives-need-clipping", "[PTB] Primitives
->> that need clipping"},
->> -	{"PTB", "PTB-primitives-discarded-reversed", "[PTB]
->> Primitives that are discarded because they are reversed"},
->> -	{"QPU", "QPU-total-idle-clk-cycles", "[QPU] Total idle clock
->> cycles for all QPUs"},
->> -	{"QPU", "QPU-total-active-clk-cycles-vertex-coord-shading",
->> "[QPU] Total active clock cycles for all QPUs doing
->> vertex/coordinate/user shading (counts only when QPU is not
->> stalled)"},
->> -	{"QPU", "QPU-total-active-clk-cycles-fragment-shading",
->> "[QPU] Total active clock cycles for all QPUs doing fragment shading
->> (counts only when QPU is not stalled)"},
->> -	{"QPU", "QPU-total-clk-cycles-executing-valid-instr", "[QPU]
->> Total clock cycles for all QPUs executing valid instructions"},
->> -	{"QPU", "QPU-total-clk-cycles-waiting-TMU", "[QPU] Total
->> clock cycles for all QPUs stalled waiting for TMUs only (counter
->> won't increment if QPU also stalling for another reason)"},
->> -	{"QPU", "QPU-total-clk-cycles-waiting-scoreboard", "[QPU]
->> Total clock cycles for all QPUs stalled waiting for Scoreboard only
->> (counter won't increment if QPU also stalling for another reason)"},
->> -	{"QPU", "QPU-total-clk-cycles-waiting-varyings", "[QPU]
->> Total clock cycles for all QPUs stalled waiting for Varyings only
->> (counter won't increment if QPU also stalling for another reason)"},
->> -	{"QPU", "QPU-total-instr-cache-hit", "[QPU] Total
->> instruction cache hits for all slices"},
->> -	{"QPU", "QPU-total-instr-cache-miss", "[QPU] Total
->> instruction cache misses for all slices"},
->> -	{"QPU", "QPU-total-uniform-cache-hit", "[QPU] Total uniforms
->> cache hits for all slices"},
->> -	{"QPU", "QPU-total-uniform-cache-miss", "[QPU] Total
->> uniforms cache misses for all slices"},
->> -	{"TMU", "TMU-total-text-quads-access", "[TMU] Total texture
->> cache accesses"},
->> -	{"TMU", "TMU-total-text-cache-miss", "[TMU] Total texture
->> cache misses (number of fetches from memory/L2cache)"},
->> -	{"VPM", "VPM-total-clk-cycles-VDW-stalled", "[VPM] Total
->> clock cycles VDW is stalled waiting for VPM access"},
->> -	{"VPM", "VPM-total-clk-cycles-VCD-stalled", "[VPM] Total
->> clock cycles VCD is stalled waiting for VPM access"},
->> -	{"CLE", "CLE-bin-thread-active-cycles", "[CLE] Bin thread
->> active cycles"},
->> -	{"CLE", "CLE-render-thread-active-cycles", "[CLE] Render
->> thread active cycles"},
->> -	{"L2T", "L2T-total-cache-hit", "[L2T] Total Level 2 cache
->> hits"},
->> -	{"L2T", "L2T-total-cache-miss", "[L2T] Total Level 2 cache
->> misses"},
->> -	{"CORE", "cycle-count", "[CORE] Cycle counter"},
->> -	{"QPU", "QPU-total-clk-cycles-waiting-vertex-coord-shading",
->> "[QPU] Total stalled clock cycles for all QPUs doing
->> vertex/coordinate/user shading"},
->> -	{"QPU", "QPU-total-clk-cycles-waiting-fragment-shading",
->> "[QPU] Total stalled clock cycles for all QPUs doing fragment
->> shading"},
->> -	{"PTB", "PTB-primitives-binned", "[PTB] Total primitives
->> binned"},
->> -	{"AXI", "AXI-writes-seen-watch-0", "[AXI] Writes seen by
->> watch 0"},
->> -	{"AXI", "AXI-reads-seen-watch-0", "[AXI] Reads seen by watch
->> 0"},
->> -	{"AXI", "AXI-writes-stalled-seen-watch-0", "[AXI] Write
->> stalls seen by watch 0"},
->> -	{"AXI", "AXI-reads-stalled-seen-watch-0", "[AXI] Read stalls
->> seen by watch 0"},
->> -	{"AXI", "AXI-write-bytes-seen-watch-0", "[AXI] Total bytes
->> written seen by watch 0"},
->> -	{"AXI", "AXI-read-bytes-seen-watch-0", "[AXI] Total bytes
->> read seen by watch 0"},
->> -	{"AXI", "AXI-writes-seen-watch-1", "[AXI] Writes seen by
->> watch 1"},
->> -	{"AXI", "AXI-reads-seen-watch-1", "[AXI] Reads seen by watch
->> 1"},
->> -	{"AXI", "AXI-writes-stalled-seen-watch-1", "[AXI] Write
->> stalls seen by watch 1"},
->> -	{"AXI", "AXI-reads-stalled-seen-watch-1", "[AXI] Read stalls
->> seen by watch 1"},
->> -	{"AXI", "AXI-write-bytes-seen-watch-1", "[AXI] Total bytes
->> written seen by watch 1"},
->> -	{"AXI", "AXI-read-bytes-seen-watch-1", "[AXI] Total bytes
->> read seen by watch 1"},
->> -	{"TLB", "TLB-partial-quads-written-to-color-buffer", "[TLB]
->> Partial quads written to the colour buffer"},
->> -	{"TMU", "TMU-total-config-access", "[TMU] Total config
->> accesses"},
->> -	{"L2T", "L2T-no-id-stalled", "[L2T] No ID stall"},
->> -	{"L2T", "L2T-command-queue-stalled", "[L2T] Command queue
->> full stall"},
->> -	{"L2T", "L2T-TMU-writes", "[L2T] TMU write accesses"},
->> -	{"TMU", "TMU-active-cycles", "[TMU] Active cycles"},
->> -	{"TMU", "TMU-stalled-cycles", "[TMU] Stalled cycles"},
->> -	{"CLE", "CLE-thread-active-cycles", "[CLE] Bin or render
->> thread active cycles"},
->> -	{"L2T", "L2T-TMU-reads", "[L2T] TMU read accesses"},
->> -	{"L2T", "L2T-CLE-reads", "[L2T] CLE read accesses"},
->> -	{"L2T", "L2T-VCD-reads", "[L2T] VCD read accesses"},
->> -	{"L2T", "L2T-TMU-config-reads", "[L2T] TMU CFG read
->> accesses"},
->> -	{"L2T", "L2T-SLC0-reads", "[L2T] SLC0 read accesses"},
->> -	{"L2T", "L2T-SLC1-reads", "[L2T] SLC1 read accesses"},
->> -	{"L2T", "L2T-SLC2-reads", "[L2T] SLC2 read accesses"},
->> -	{"L2T", "L2T-TMU-write-miss", "[L2T] TMU write misses"},
->> -	{"L2T", "L2T-TMU-read-miss", "[L2T] TMU read misses"},
->> -	{"L2T", "L2T-CLE-read-miss", "[L2T] CLE read misses"},
->> -	{"L2T", "L2T-VCD-read-miss", "[L2T] VCD read misses"},
->> -	{"L2T", "L2T-TMU-config-read-miss", "[L2T] TMU CFG read
->> misses"},
->> -	{"L2T", "L2T-SLC0-read-miss", "[L2T] SLC0 read misses"},
->> -	{"L2T", "L2T-SLC1-read-miss", "[L2T] SLC1 read misses"},
->> -	{"L2T", "L2T-SLC2-read-miss", "[L2T] SLC2 read misses"},
->> -	{"CORE", "core-memory-writes", "[CORE] Total memory
->> writes"},
->> -	{"L2T", "L2T-memory-writes", "[L2T] Total memory writes"},
->> -	{"PTB", "PTB-memory-writes", "[PTB] Total memory writes"},
->> -	{"TLB", "TLB-memory-writes", "[TLB] Total memory writes"},
->> -	{"CORE", "core-memory-reads", "[CORE] Total memory reads"},
->> -	{"L2T", "L2T-memory-reads", "[L2T] Total memory reads"},
->> -	{"PTB", "PTB-memory-reads", "[PTB] Total memory reads"},
->> -	{"PSE", "PSE-memory-reads", "[PSE] Total memory reads"},
->> -	{"TLB", "TLB-memory-reads", "[TLB] Total memory reads"},
->> -	{"GMP", "GMP-memory-reads", "[GMP] Total memory reads"},
->> -	{"PTB", "PTB-memory-words-writes", "[PTB] Total memory words
->> written"},
->> -	{"TLB", "TLB-memory-words-writes", "[TLB] Total memory words
->> written"},
->> -	{"PSE", "PSE-memory-words-reads", "[PSE] Total memory words
->> read"},
->> -	{"TLB", "TLB-memory-words-reads", "[TLB] Total memory words
->> read"},
->> -	{"TMU", "TMU-MRU-hits", "[TMU] Total MRU hits"},
->> -	{"CORE", "compute-active-cycles", "[CORE] Compute active
->> cycles"},
->> -};
->> +#define V3D_V42_NUM_PERFCOUNTERS (87)
->> +#define V3D_V71_NUM_PERFCOUNTERS (93)
->> +
->> +/* Maximum number of performance counters supported by any version
->> of V3D */
->> +#define V3D_MAX_COUNTERS (93)
->>   
->>   #endif
-
+> --
+> Best Regards,
+> Mike Gavrilov.
