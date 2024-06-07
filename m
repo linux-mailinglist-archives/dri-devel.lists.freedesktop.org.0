@@ -2,68 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BEE900298
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 13:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0A590029F
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 13:51:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 698B210EBFE;
-	Fri,  7 Jun 2024 11:49:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCF6410EC01;
+	Fri,  7 Jun 2024 11:51:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GOFKOQPG";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="lZJ6VZDu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
- [209.85.219.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5850110EBFE
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 11:49:02 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-df771b6cf71so2256322276.2
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jun 2024 04:49:02 -0700 (PDT)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C47F10EC09
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 11:51:22 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-2eabd22d404so21261171fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jun 2024 04:51:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717760941; x=1718365741; darn=lists.freedesktop.org;
+ d=google.com; s=20230601; t=1717761081; x=1718365881;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aaxauWMNivX2Xh96RfVBzt0WPh7okmPnKiLgSACVt0o=;
- b=GOFKOQPGx8b1ZFuIzXdFAX2kN5Bgpzdlu9E2JeS7OPyRcAfb1pBhUTbT0hcFrtqvx4
- Oxc7ntB2v44F9+/Z6naxjUWeVZDMlfgSgKOD39RI5Zc8wHhpq2trb27Wnj1ZFO9iCtnQ
- s+OJvP/SrPDQOmyUVRlJW8aaH0JEpRarulbAfZWcsxhnn1YwnivLNWdWqo4mTpqpjT3h
- wwBHNb64d+r/rA8qJ0DArMIRk6gspN40iuUBk1bw9Idq6vPvO4cb1fjC1eO2LxI5HW1b
- zuPuBrSiYOsCXe5L3jS4OE7LNgq3cdQyFTCb5nHVstzBHjeGDW7SapK4SMR2LA/XYhOY
- 8Z7g==
+ bh=EhDrz62n+ztyqmEd4RfJ3EmQklHy8GEz9uvsxkZobnQ=;
+ b=lZJ6VZDuAtI4wCxbLFFoY1d91pWsdoqTKiUYgYu4lkLEQhxFc39WiiaAFN5hPgTT3s
+ 8BOVaBGkcpZFJ/dlP/gS4/96oKk8DCwsyk7BtO2L6M98niMzpNMonmaPuowHHLCzGuPb
+ kqC/sJ1E6j6BD8dKMJY9M3VhhQnsL95lEyp6cwSQ8H2Kj2HhVpt+viZ1Lz1+5w3NWyB/
+ WNeuMCpgYgfgXeBjZI1QpGLoYp44SV14AF1jrRP8QfC/g3HLt4cMou3QwyX0NXMIgwGJ
+ B/GVNG8PuHEiWIgQ0J5ro8qxBfNNe9Mi8g2NEKHIG3y6NKSHcJLn48GXbmjKdwgevpLw
+ whlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717760941; x=1718365741;
+ d=1e100.net; s=20230601; t=1717761081; x=1718365881;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=aaxauWMNivX2Xh96RfVBzt0WPh7okmPnKiLgSACVt0o=;
- b=V4255J2t/it+tMdjtSLMGr4yEuohnKLoogvPisdx0dN9vu95djnt2cn/bgIkyJpwCf
- 49jEjpLDwGh4Ae1ynYly6FBMJ2kbfWRiQwdo2XwvcoQeCZG3JvJV1kpL9+uOiN96cjvp
- z6apX63qL+IyqOAb0ARa2xEZyXHuYZs/fSWgftnCIenIgDutMF1NFaLfKFDySq5aKRLW
- zEDbSKNpJcyYrfKhgHD5yigjVtZGcBeE6TAsdczKGP2Mu7xwlvYnHUpgvS6sKMUhceNB
- VzvAsYABpqWUVFliARgZx0EL0kf4KPEF0G+UWLu7aYA+PLSvujN7vt6eZphF5Jz1d2R/
- ZB4w==
+ bh=EhDrz62n+ztyqmEd4RfJ3EmQklHy8GEz9uvsxkZobnQ=;
+ b=a0XeuLcysFoeey5o4XXdu18MosWWUuDi5qZytthp9ayOPtZFGIIWWgTJ+xJ3u2fhP/
+ IoMatb3xotkxd7J6P9ZWMgekY9La2d87t3+/86Mc56NgahG14unzFDbWRsUGXxNOtssS
+ olnfpu/XGxsRiEVSwJh460zacQfGqQkay+V6Z6QIJZrUxXmCxY/+ZGCXV3/Lxfi0Ol+I
+ A2B6s69/PtMDkO2sUyxEBQI4wlrEdSWGdMr+M/271ugUpRv6AsXKoPEQX+diezAW1Vo/
+ 0JuCWkTCiF0hucgylxb8qtSBnuaMVKf6GkcwX82Zc9DT7kiZPDWiSHPDhnpU3+VF7YZ5
+ k4Yg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXMqUBK2N/iibdhSwMYIgI+CqLQWGcTO4sz6hTqLbAwutNSKB4nkOduBNsuK8SkByjhq3NteFIPeLq3O/kSiS+N7gZVaW4ndoFmih4UVaUs
-X-Gm-Message-State: AOJu0Ywg5TanlaTSdaIqw7VRRo0jzmsavvopB1UU6SC1f4DtZxHmb3nO
- niOzz5kX9OoW66rLnGaDvptn6oVXUaJKOneDgN6jgCSNm4gtYNcI3OaJuggoEwwIAbCUlytETOF
- R+869PSniNLwg1UtHOSQweW4Nj8tS2nVOm0aThA==
-X-Google-Smtp-Source: AGHT+IEvLOEOxMW8QOmpMJOUqm62o8XRyN7BdmXOZVOMDNpN7DmrTQqwPsmrngbZSGqsWg4DDlh5AFn7ma7MoM98/qc=
-X-Received: by 2002:a25:d648:0:b0:dfa:7ac9:fad1 with SMTP id
- 3f1490d57ef6-dfaf663d8a9mr2327430276.24.1717760941376; Fri, 07 Jun 2024
- 04:49:01 -0700 (PDT)
+ AJvYcCVnnsNPg+pVPP+7ILjEn7EvY86Cdm//KeYyC2SpHYXdtJKysaiMGmGu98J++Fa64a+ht1CRycrJpD37kryEnRDoBofmyTY/tUy6Ap68y65Z
+X-Gm-Message-State: AOJu0Yy6Z0e4dUBeijeEiDmmlz/ZYUWWYWD7imkRKj7zDVzavq+PsW38
+ Fb4Fv/KF/y4L6N6ps9Fdd+ffD7xXf7taazshtismly50jsoBaH3PIeSgpTvXPRmL027DsZLCjVI
+ rot9hgSnaZXPUsB4rvBYKD/5eugjijWpJ8z/+KPiu+IVwnF16Z0Y=
+X-Google-Smtp-Source: AGHT+IFBK0heFzeF0N2SPKbri8wRDMU9LXSUwP3Gak+5PRtaL+LlYKTsBI/+mzGL7GE1f/AoyiE9LJqIAQwz/pvIXuU=
+X-Received: by 2002:a2e:bea4:0:b0:2de:7cc5:7a27 with SMTP id
+ 38308e7fff4ca-2eadce1f0dfmr17452241fa.5.1717761080827; Fri, 07 Jun 2024
+ 04:51:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240601084528.22502-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240601084528.22502-2-lvzhaoxiong@huaqin.corp-partner.google.com>
- <oo6gggt2kpufvbwg6emoblg4opj2izdfjad4hzojbe7ddp57rp@a5vf23zrk22o>
- <CA+6=WdTPJxtGUt6pSanmwdYKz2wqCFv73K=BPb+9oDHrQcW=Sw@mail.gmail.com>
-In-Reply-To: <CA+6=WdTPJxtGUt6pSanmwdYKz2wqCFv73K=BPb+9oDHrQcW=Sw@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 7 Jun 2024 14:48:50 +0300
-Message-ID: <CAA8EJpqOZ2zXQo5F01Q208Bk-KM-awfhNtuq4iM8=FEkLqfkpA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: display: panel: Add KD101NE3-40TI
- support
-To: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240601084528.22502-5-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <5yz4uct3dnxqflij34zasu6fhr42gyl6kjfjobftrwpsl6j4y6@3kzp4s3dxktw>
+In-Reply-To: <5yz4uct3dnxqflij34zasu6fhr42gyl6kjfjobftrwpsl6j4y6@3kzp4s3dxktw>
+From: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Date: Fri, 7 Jun 2024 19:51:09 +0800
+Message-ID: <CA+6=WdSpHp6WRwZ3ta6ZR585ON9XSjWB5s1EjbhpBnWGWmhRAw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] drm/panel: starry: add new panel driver
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org, 
  benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com, 
@@ -86,134 +85,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 7 Jun 2024 at 14:38, zhaoxiong lv
-<lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
->
-> hi Dmitry Baryshkov
->
-> Because this is a separate mipi dsi driver, I did not put it in
-> panel-sample-dsi.yaml.
+hi Dmitry
 
-Driver and bindings are two separate things. Bindings describe the
-hardware. If there is no other reason to have a separate bindings
-document, please use panel-simple-dsi.yaml.
+These two panels are not the same IC but their timing is the same,
+only the init cmd and panel parameters are different, so I made it
+compatible on the kingdisplay driver.
 
-Also please don't top-post in public mailing lists.
+Similar to this driver:  panel-boe-tv101wum-nl6.c
 
+thanks
+
+On Sun, Jun 2, 2024 at 12:26=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
 >
+> On Sat, Jun 01, 2024 at 04:45:28PM +0800, Zhaoxiong Lv wrote:
+> > This Starry panel has the same timing as the Kingdisplay panel,
+> > so add starry configuration in the Kingdisplay driver.
 >
-> On Sun, Jun 2, 2024 at 12:28=E2=80=AFAM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
+> Do these two panels share the same driver IC? Programming sequences do
+> not seem common, so it might be better to have a separate driver for
+> this panel.
+>
 > >
-> > On Sat, Jun 01, 2024 at 04:45:25PM +0800, Zhaoxiong Lv wrote:
-> > > Create a new dt-scheam for the kd101ne3-40ti.
-> > > The bias IC of this kindisplay-kd101ne3 panel is placed
-> > > on the panel side, so when the panel is powered on,
-> > > there is no need to control AVDD and AVEE in the driver.
-> > >
-> > > Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.c=
-om>
-> > > ---
-> > >
-> > > Chage since V2:
-> > >
-> > > -  Drop some properties that have already been defined in panel-commo=
-n.
-> > > -  The header file 'dt-bindings/gpio/gpio.h' is not used, delete it
-> > >
-> > > V1: https://lore.kernel.org/all/20240418081548.12160-2-lvzhaoxiong@hu=
-aqin.corp-partner.google.com/
-> > >
-> > > ---
-> > >  .../panel/kingdisplay,kd101ne3-40ti.yaml      | 59 +++++++++++++++++=
-++
-> > >  1 file changed, 59 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/display/panel/k=
-ingdisplay,kd101ne3-40ti.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/panel/kingdisp=
-lay,kd101ne3-40ti.yaml b/Documentation/devicetree/bindings/display/panel/ki=
-ngdisplay,kd101ne3-40ti.yaml
-> > > new file mode 100644
-> > > index 000000000000..b0cf12bb727d
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd1=
-01ne3-40ti.yaml
-> > > @@ -0,0 +1,59 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/display/panel/kingdisplay,kd101ne=
-3-40ti.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Kingdisplay KD101NE3-40TI based MIPI-DSI panels
-> > > +
-> > > +maintainers:
-> > > +  - Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+> > Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com=
+>
+> > ---
 > >
-> > Any reason for using a separate bindings instead of extending
-> > panel-simple-dsi.yaml ?
+> > Chage since V2:
 > >
-> > > +
-> > > +allOf:
-> > > +  - $ref: panel-common.yaml#
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    items:
-> > > +      - enum:
-> > > +          - kingdisplay,kd101ne3-40ti
-> > > +
-> > > +  reg:
-> > > +    description: the virtual channel number of a DSI peripheral
-> > > +
-> > > +  pp3300-supply:
-> > > +    description: core voltage supply
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - pp3300-supply
-> > > +  - enable-gpios
-> > > +  - backlight
-> > > +  - port
-> > > +
-> > > +unevaluatedProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    dsi {
-> > > +        #address-cells =3D <1>;
-> > > +        #size-cells =3D <0>;
-> > > +        panel: panel@0 {
-> > > +            compatible =3D "kingdisplay,kd101ne3-40ti";
-> > > +            reg =3D <0>;
-> > > +            enable-gpios =3D <&pio 98 0>;
-> > > +            pinctrl-names =3D "default";
-> > > +            pinctrl-0 =3D <&panel_pins_default>;
-> > > +            pp3300-supply =3D <&en_pp6000_mipi_disp>;
-> > > +            backlight =3D <&backlight_lcd0>;
-> > > +            rotation =3D <90>;
-> > > +            port {
-> > > +                panel_in: endpoint {
-> > > +                    remote-endpoint =3D <&dsi_out>;
-> > > +                };
-> > > +            };
-> > > +        };
-> > > +    };
-> > > +
-> > > +...
-> > > --
-> > > 2.17.1
-> > >
+> > -  Add compatible for Starry er88577 in panel-kingdisplay-kd101ne3 driv=
+ers.
 > >
+> > ---
+> >  .../drm/panel/panel-kingdisplay-kd101ne3.c    | 92 +++++++++++++++++++
+> >  1 file changed, 92 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c b/drive=
+rs/gpu/drm/panel/panel-kingdisplay-kd101ne3.c
+> > index 8994a1c9afb5..b614d28475a6 100644
+> > --- a/drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c
+> > +++ b/drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c
+> > @@ -267,6 +267,67 @@ static int kingdisplay_kd101ne3_init(struct kingdi=
+splay_panel *kingdisplay)
+> >       return 0;
+> >  };
+> >
+> > +static int starry_er88577_init(struct kingdisplay_panel *kingdisplay)
+> > +{
+> > +     struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D kingdisplay-=
+>dsi };
+> > +
+> > +     /* T5:HWreset to init_code >=3D 120ms */
+> > +     msleep(120);
+> > +
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0xab, 0xba);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe1, 0xba, 0xab);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb1, 0x10, 0x01, 0x47, 0x=
+ff);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2, 0x0c, 0x14, 0x04, 0x=
+50, 0x50, 0x14);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb3, 0x56, 0x53, 0x00);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb4, 0x33, 0x30, 0x04);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0xb0, 0x00, 0x00, 0x=
+10, 0x00, 0x10, 0x00);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb8, 0x05, 0x12, 0x29, 0x=
+49, 0x40);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb9, 0x7c, 0x61, 0x4f, 0x=
+42, 0x3e, 0x2d, 0x31,
+> > +                                  0x1a, 0x33, 0x33, 0x33, 0x52, 0x40, =
+0x47, 0x38, 0x34, 0x26,
+> > +                                  0x0e, 0x06, 0x7c, 0x61, 0x4f, 0x42, =
+0x3e, 0x2d, 0x31, 0x1a,
+> > +                                  0x33, 0x33, 0x33, 0x52, 0x40, 0x47, =
+0x38, 0x34, 0x26, 0x0e,
+> > +                                  0x06);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc0, 0xcc, 0x76, 0x12, 0x=
+34, 0x44, 0x44, 0x44,
+> > +                                  0x44, 0x98, 0x04, 0x98, 0x04, 0x0f, =
+0x00, 0x00, 0xc1);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc1, 0x54, 0x94, 0x02, 0x=
+85, 0x9f, 0x00, 0x6f,
+> > +                                  0x00, 0x54, 0x00);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc2, 0x17, 0x09, 0x08, 0x=
+89, 0x08, 0x11, 0x22,
+> > +                                  0x20, 0x44, 0xff, 0x18, 0x00);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc3, 0x87, 0x47, 0x05, 0x=
+05, 0x1c, 0x1c, 0x1d,
+> > +                                  0x1d, 0x02, 0x1e, 0x1e, 0x1f, 0x1f, =
+0x0f, 0x0f, 0x0d, 0x0d,
+> > +                                  0x13, 0x13, 0x11, 0x11, 0x24);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc4, 0x06, 0x06, 0x04, 0x=
+04, 0x1c, 0x1c, 0x1d,
+> > +                                  0x1d, 0x02, 0x1e, 0x1e, 0x1f, 0x1f, =
+0x0e, 0x0e, 0x0c, 0x0c,
+> > +                                  0x12, 0x12, 0x10, 0x10, 0x24);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc8, 0x21, 0x00, 0x31, 0x=
+42, 0x34, 0x16);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xca, 0xcb, 0x43);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcd, 0x0e, 0x4b, 0x4b, 0x=
+20, 0x19, 0x6b, 0x06,
+> > +                                  0xb3);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd2, 0xe3, 0x2b, 0x38, 0x=
+08);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd4, 0x00, 0x01, 0x00, 0x=
+0e, 0x04, 0x44, 0x08,
+> > +                                  0x10, 0x00, 0x00, 0x00);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe6, 0x80, 0x09, 0xff, 0x=
+ff, 0xff, 0xff, 0xff,
+> > +                                  0xff);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x12, 0x03, 0x20, 0x=
+00, 0xff);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf3, 0x00);
+> > +     if (dsi_ctx.accum_err)
+> > +             return dsi_ctx.accum_err;
+> > +
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_EXIT_SLEEP_MODE);
+> > +     if (dsi_ctx.accum_err)
+> > +             return dsi_ctx.accum_err;
+> > +
+> > +     msleep(120);
+> > +
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_DISPLAY_ON);
+> > +     if (dsi_ctx.accum_err)
+> > +             return dsi_ctx.accum_err;
+> > +
+> > +     msleep(20);
+>
+> Most of the comments from the patch 2 apply:
+> - drop conditions
+> - use mipi_dsi_dcs_set_display_on_multi(),
+>   mipi_dsi_dcs_exit_sleep_mode_multi() and mipi_dsi_msleep().
+>
+> > +
+> > +     return 0;
+> > +};
+> > +
+> >  static inline struct kingdisplay_panel *to_kingdisplay_panel(struct dr=
+m_panel *panel)
+> >  {
+> >       return container_of(panel, struct kingdisplay_panel, base);
+> > @@ -391,6 +452,34 @@ static const struct panel_desc kingdisplay_kd101ne=
+3_40ti_desc =3D {
+> >       .lp11_before_reset =3D true,
+> >  };
+> >
+> > +static const struct drm_display_mode starry_er88577_default_mode =3D {
+> > +     .clock =3D 77380,
+> > +     .hdisplay =3D 800,
+> > +     .hsync_start =3D 800 + 80,
+> > +     .hsync_end =3D 800 + 80 + 20,
+> > +     .htotal =3D 800 + 80 + 20 + 80,
+> > +     .vdisplay =3D 1280,
+> > +     .vsync_start =3D 1280 + 20,
+> > +     .vsync_end =3D 1280 + 20 + 4,
+> > +     .vtotal =3D 1280 + 20 + 4 + 12,
+> > +     .type =3D DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+> > +};
+> > +
+> > +static const struct panel_desc starry_er88577_desc =3D {
+> > +     .modes =3D &starry_er88577_default_mode,
+> > +     .bpc =3D 8,
+> > +     .size =3D {
+> > +             .width_mm =3D 135,
+> > +             .height_mm =3D 216,
+> > +     },
+> > +     .lanes =3D 4,
+> > +     .format =3D MIPI_DSI_FMT_RGB888,
+> > +     .mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PU=
+LSE |
+> > +                   MIPI_DSI_MODE_LPM,
+> > +     .init =3D starry_er88577_init,
+> > +     .lp11_before_reset =3D true,
+> > +};
+> > +
+> >  static int kingdisplay_panel_get_modes(struct drm_panel *panel,
+> >                              struct drm_connector *connector)
+> >  {
+> > @@ -514,6 +603,9 @@ static const struct of_device_id kingdisplay_of_mat=
+ch[] =3D {
+> >       { .compatible =3D "kingdisplay,kd101ne3-40ti",
+> >         .data =3D &kingdisplay_kd101ne3_40ti_desc
+> >       },
+> > +     { .compatible =3D "starry,er88577",
+> > +       .data =3D &starry_er88577_desc
+> > +     },
+> >       { /* sentinel */ }
+> >  };
+> >  MODULE_DEVICE_TABLE(of, kingdisplay_of_match);
 > > --
-> > With best wishes
-> > Dmitry
-
-
-
---=20
-With best wishes
-Dmitry
+> > 2.17.1
+> >
+>
+> --
+> With best wishes
+> Dmitry
