@@ -2,60 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D294290071E
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 16:44:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E7A9007E2
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 16:59:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80F4D10E0E7;
-	Fri,  7 Jun 2024 14:44:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 207CA10EC85;
+	Fri,  7 Jun 2024 14:59:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LvHzy/nM";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=tronnes.org header.i=@tronnes.org header.b="EVyk/tlt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92B0010E0E7
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 14:44:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1717771472; x=1749307472;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=trC8zjKdFoxKnt0LPm3AF+tVZcf0sdu9cvB6t+sMDf0=;
- b=LvHzy/nMwgZdYxKArfZkeh9cNebLMvegaKUTGvodKckb6S+lC6+LEanX
- d94/7aF85POeqld1sqENZhDWANq/27TsA03VnXEuAzUvaJyHX5zqVm3Gx
- 0MTeviXz4gPgxooYGIa1cFlyLh0bDiH6LyByU808uswfQUN87ZEYkWrRa
- wRDwBHs2BrR7PkrEO7gVpBLQyU5FNmk6pFo2vohV358jarUWNGurzQYOt
- PbWlOzMINQud5IFtGvURfkxqMq0ePlfHEYureVm1D8fHmNKT69OlT1SQr
- cRz63pJDMG87TkmnKKxPHKaK6QR9zYS1vGgd4Ije5rmvTxu1+GRE9Haov A==;
-X-CSE-ConnectionGUID: K7oJBwXLSTi2FYEbUgD36A==
-X-CSE-MsgGUID: y/FgMXJXQ5uN6L3Jnr/dzg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="18285785"
-X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; d="scan'208";a="18285785"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2024 07:44:31 -0700
-X-CSE-ConnectionGUID: McnHDPOqQXu8ZXa06yJZCA==
-X-CSE-MsgGUID: Xi0V/LR6S9y0ihvmx1VdTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; d="scan'208";a="38277942"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.72])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2024 07:44:29 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, airlied@gmail.com, Linus Torvalds
- <torvalds@linux-foundation.org>
-Subject: Re: [PATCH] drm: have config DRM_WERROR depend on !WERROR
-In-Reply-To: <87tti5j5d2.fsf@minerva.mail-host-address-is-not-set>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240516083343.1375687-1-jani.nikula@intel.com>
- <87tti5j5d2.fsf@minerva.mail-host-address-is-not-set>
-Date: Fri, 07 Jun 2024 17:44:26 +0300
-Message-ID: <87le3glsmt.fsf@intel.com>
+X-Greylist: delayed 681 seconds by postgrey-1.36 at gabe;
+ Fri, 07 Jun 2024 14:59:16 UTC
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FC4A10EC85
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 14:59:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202312;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Sender:Reply-To:
+ Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+ References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
+ List-Owner:List-Archive; bh=0pBBebWaKItSZZvGMg+oo04bl3J9t4F+/w8mYuUg+g8=; b=E
+ Vyk/tlt0i/iV9mQcEq11i6SevJJysuk7swmpFjcu8RhPQkRNmczBLfrk8FrjPzuQUzM0dFIphbid4
+ HTUyIn0ivC+RYyvkR/DUMzLyYE8tJATa2TN2YPPrzHYPji3zO33H3YMBVE6wboJh3RF310ZpKZf3b
+ ZQy2iPGBVe8fwhT5BninUVixCYGJxU9WkxdVsAZDiC+vPkoSvfCH265bKar765G63F0sYSGfXWWHj
+ MOg7AR010IIYjXIZNikYdjpko6auijngGej5WjtJ51qttMsYCMCRjuxnLcMs7Pfj8AvCWMkoU1dVY
+ oCl7gR84/C0WZWvIvhW+/lQVKGBgpSoHw==;
+Received: from [2a01:799:962:4900:815f:3dd0:60d8:6458] (port=56414)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <noralf@tronnes.org>) id 1sFaqc-009Va2-0S;
+ Fri, 07 Jun 2024 16:45:42 +0200
+Message-ID: <6537508e-8a67-42d0-911a-45e14852f818@tronnes.org>
+Date: Fri, 7 Jun 2024 16:45:36 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/5] drm/tiny: panel-mipi-dbi: Support 18 bits per
+ color RGB666
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, David Lechner <david@lechnology.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+References: <20240604-panel-mipi-dbi-rgb666-v4-0-d7c2bcb9b78d@tronnes.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20240604-panel-mipi-dbi-rgb666-v4-0-d7c2bcb9b78d@tronnes.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,28 +76,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 07 Jun 2024, Javier Martinez Canillas <javierm@redhat.com> wrote:
-> Jani Nikula <jani.nikula@intel.com> writes:
->
-> Hello Jani,
->
->> If WERROR is already enabled, there's no point in enabling DRM_WERROR or
->> asking users about it.
->>
->> Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
->> Closes: https://lore.kernel.org/r/CAHk-=whxT8D_0j=bjtrvj-O=VEOjn6GW8GK4j2V+BiDUntZKAQ@mail.gmail.com
->> Fixes: f89632a9e5fa ("drm: Add CONFIG_DRM_WERROR")
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->
-> The change makes sense to me.
->
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Thanks, pushed to drm-misc-fixes.
 
-BR,
-Jani.
+On 6/4/24 15:20, Noralf Trønnes via B4 Relay wrote:
+> Hi,
+> 
+> In this version I've fixed up a commit message that I had forgotten to 
+> write before sending and improved a struct member name.
+> 
+> See version 1 of the patchset for the full cover letter.
+> 
+> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+> ---
 
--- 
-Jani Nikula, Intel
+Thanks a lot for reviewing the patches, applied to drm-misc-next.
+
+Noralf.
+
+> Changes in v4:
+> - Expand the commit message (Dmitry)
+> - s/emulation_format/pixel_format/ (Dmitry)
+> - Link to v3: https://lore.kernel.org/r/20240603-panel-mipi-dbi-rgb666-v3-0-59ed53ca73da@tronnes.org
+> 
+> Changes in v3:
+> - Added r-b's to patch 1 and 5
+> - Link to v2: https://lore.kernel.org/r/20240512-panel-mipi-dbi-rgb666-v2-0-49dd266328a0@tronnes.org
+> 
+> Changes in v2:
+> - binding: Use 'default: r5g6b5' (Rob)
+> - Link to v1: https://lore.kernel.org/r/20240507-panel-mipi-dbi-rgb666-v1-0-6799234afa3e@tronnes.org
+> 
+> ---
+> Noralf Trønnes (5):
+>       dt-bindings: display: panel: mipi-dbi-spi: Add a pixel format property
+>       drm/mipi-dbi: Remove mipi_dbi_machine_little_endian()
+>       drm/mipi-dbi: Make bits per word configurable for pixel transfers
+>       drm/mipi-dbi: Add support for DRM_FORMAT_RGB888
+>       drm/tiny: panel-mipi-dbi: Support the pixel format property
+> 
+>  .../bindings/display/panel/panel-mipi-dbi-spi.yaml | 30 +++++++++
+>  drivers/gpu/drm/drm_mipi_dbi.c                     | 76 +++++++++++++++-------
+>  drivers/gpu/drm/tiny/panel-mipi-dbi.c              | 55 +++++++++++++++-
+>  include/drm/drm_mipi_dbi.h                         | 10 +++
+>  4 files changed, 147 insertions(+), 24 deletions(-)
+> ---
+> base-commit: 0209df3b4731516fe77638bfc52ba2e9629c67cd
+> change-id: 20240405-panel-mipi-dbi-rgb666-4e033787d6c9
+> 
+> Best regards,
