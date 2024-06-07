@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399F5900184
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 13:03:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D4B900188
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 13:04:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F86A10EBDC;
-	Fri,  7 Jun 2024 11:03:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5701810EBDE;
+	Fri,  7 Jun 2024 11:04:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="EjL5HNBK";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="UWQShfvZ";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="eV0VTOWO";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="ApSWeHOJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wfhigh3-smtp.messagingengine.com
  (wfhigh3-smtp.messagingengine.com [64.147.123.154])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C708210EBDC
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 11:03:50 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailfhigh.west.internal (Postfix) with ESMTP id E77D4180014B;
- Fri,  7 Jun 2024 07:03:48 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7724110EBDE
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 11:03:59 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailfhigh.west.internal (Postfix) with ESMTP id 859D118000E8;
+ Fri,  7 Jun 2024 07:03:57 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 07 Jun 2024 07:03:50 -0400
+ by compute1.internal (MEProxy); Fri, 07 Jun 2024 07:03:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
  h=cc:cc:content-transfer-encoding:content-type:date:date:from
  :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm1; t=1717758228; x=
- 1717844628; bh=T6w3santYjQtmqpXHrFQ9df4u6xN2IhGzEJMMb5K/dY=; b=E
- jL5HNBKPTMdnrrKnU2zuX5bqWWg5o4esbZhad3GVkjpEUhf9n7RCHGQu0CvqmFOQ
- 0rCp6FXh/5pnDVoF/KcrSkdcSx4J7Gx01NNTBg1DeXh7cX9uN+Seid/Eg/1o0SgV
- 35tG5WO7NYVZnGmc7sg2xFFZT1U6TwZMOi3WlyWkgBaZoyIVKY5aFVH/YWeYPLiz
- alWz73aIlN6jZO2+yHKSxJfrPpwHj3cD9Tw9W+niVwTPJFVByeCFtgcEmaoNV6N7
- zkNmobC0ZlFcGPyooru4vBvkVgja9NEJ2EIAPSZy+6xZAEQK1jFAjqbXZOfwggAj
- TmuzK3OsyADUakyhntp1Q==
+ :reply-to:subject:subject:to:to; s=fm1; t=1717758237; x=
+ 1717844637; bh=qaDvV8/06/8ZVQ7R8AFDWWFJiwBPHK46CFq39AZ6C0w=; b=e
+ V0VTOWOem6Uaic0Nb+T7N+DtkWGKsHqjtX5zDovddqjTnIMrmrYrHBqHVMp00plQ
+ Y+yTdYImovAwlW5g/S3K0bWQoKlsAhPTiJQaKViI2Rm8KuKIKAmUg/envV3QaA5T
+ JRjIlz+0psdh6qSkaV2qUv6DwNJ7K7gEtCBvl07gW6Mm7LnZDRU2Doqt9wfMQCzn
+ 0Qpzouq67DQ337241CpqcUt3yVy9sTg8hpetfoAq60XBrispBVg3vqZ7ykPAAzyE
+ zdQMyVhPWugEjsBxrWbTTdn2BJoiGO6r4TmXBvCg0zutuTiCFkQlMtiMXwFXgBgQ
+ zBQLGOcewCA653PfoeIIA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1717758228; x=
- 1717844628; bh=T6w3santYjQtmqpXHrFQ9df4u6xN2IhGzEJMMb5K/dY=; b=U
- WQShfvZZPnCFFak21OzmnaNZ9+KVS7GynG1i9/9lw9zCRya3gI0Ya/NeKu0fn+7k
- rr/63YwRhTqnGY8NeHRVa9i71mc60ZYnJOkjUfMivWqmd4XHUKlPepvAzlKGl6e8
- N18jw2Z0bAnazv9tCDN2JQzBy+j9zuaRKuUF/5JBfaJx6b5wv+uv1uqyhKPkl/uN
- 2Ae62mW+Att0sXPcYusmepsORW7BJKwcg+oljGafIvZD+VgxUSxC7KPzKsUp8oMA
- 3M+ENcYGbQaHUH+HTfplZzEpImxMYk308aoAAyFBwf6t3Fy05kqgviQEguvOJkwh
- nYJf4ipMsFlF/gpS7HUsQ==
-X-ME-Sender: <xms:FOliZse614_BFz2qvj5LbCcIlpVrMHFxSYT2ifY-GkmWDtLpUugkJA>
- <xme:FOliZuNsExouyXIljodF5d_XdmEuMDqweCBq23PSsklIbsRndUU6TfHj8N9KmZ9HC
- ec1p-xyRIiyE2QQfg>
-X-ME-Received: <xmr:FOliZtimvcAD_GlK8abAxoj9VB4jKsr_yCX1ONthYzLvD4V0gQL28__sJU4NTscNX6lcCyE12BqrpRt5GiHAOG6qQULJKZiICFSD3SZY_PM27aOO>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1717758237; x=
+ 1717844637; bh=qaDvV8/06/8ZVQ7R8AFDWWFJiwBPHK46CFq39AZ6C0w=; b=A
+ pSWeHOJdTkmZkIuphFtMHdplBJozxSOrAPM3Zwuc9p/BtutTugJ8XeFuF6OdFr3I
+ 1B9cLENduVVxYwCP9cf/CEh2K6xvJjUulIdebYnPewZKzl6Eli/TvjXBZ+Wkyd70
+ H8yxO7NdlnAkP5AvR+FDGvoBKgC3ygAzK0idnvECcsbo4Vt3arnn0ZF8sHgd6mFb
+ +aqswxVJX3YSs1Ie/nIELYXvisFKoj73B5NxCoUsEeXxICw/Ok+PHlKtyHSQ4Vav
+ Vf7dUIkqYtrBOc3aqSD7912R3Df/OrDuGTiFHgTwLVCL3mvj4EBrDvptIxFFUjl3
+ uZLl3+sAVQdLE8MJzDFMA==
+X-ME-Sender: <xms:HOliZqovsrgE_BTDyAiDbBifOU8j4ZgjFthfItervF3LyCn3sgK_WQ>
+ <xme:HOliZoojX1_l_yrwiXjevccOaeRK6UnMyj862DF4k5GqfpwEGLeFLtDCNfT2EsuKO
+ 9EYerVKzPXcU8jXqA>
+X-ME-Received: <xmr:HOliZvN1CHxOx2vwQz0esTdA57YjbDfKGt7RnvHaYf9HSTecQr9d40LAQRxzuts-7pMKYXewPuoeS_D047s1D1IWjtOONUXF3W5UmobgDD6qU1bx>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedtuddgudduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -58,14 +58,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedtuddgudduucetufdoteggod
  htthgvrhhnpeffheeiffegtdfgffejteevgeefkeelieelkeevueetffetteduffevgeei
  ieehteenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hrhigrnhesthgvshhtthhorghsthdrtghomh
-X-ME-Proxy: <xmx:FOliZh-GqdjA2blPY94tSOw7SPMtdQX2LwFZhbCFytgxr7AuU5Bhgw>
- <xmx:FOliZou5hVGrkS43To1M0UZ0Nx3A57I9AA_VLrX3dwsi-rp0hwhWbg>
- <xmx:FOliZoF-rfGe70-m43Qa5HkDIEzTl_A6KhE1vgFAm-qM8mR48lTHeg>
- <xmx:FOliZnNUELZQ23x3RsUEe2TDzNwMkQA_oB0SjKP2wlkPKS_n62ybWw>
- <xmx:FOliZofEfNI7X--LGZFrT24Lhk56X9r2TXgV7OnuAs5uluuGoFjKvVBp>
+X-ME-Proxy: <xmx:HOliZp72eSSbljcGTwqFo0RfWcpX9LJTJxVAioe1EiCBugBtUov_hA>
+ <xmx:HOliZp65a7X6iajZ98aFLbsezOUjKlwmF2EmAiUq7pH0o657TL_BmA>
+ <xmx:HOliZpiYMKo0U7HrzxkFpkwTAr4wF1_ZqCWZx1QojY5Js0gZ3JiREA>
+ <xmx:HOliZj4ahw6E_cRWEmrwiofASVCKC5izUm_W6zHC9wLfCU2rhipUOA>
+ <xmx:HeliZupm2s022aN-ZZ0xirPgyDIs1hgcKE8MYdLC-6Gs0NLoEgFhrPOp>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 7 Jun 2024 07:03:42 -0400 (EDT)
+ 7 Jun 2024 07:03:50 -0400 (EDT)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -81,9 +81,9 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
  linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH RFC 6/8] drm/sun4i: de3: Add support for YUV420 output
-Date: Fri,  7 Jun 2024 23:00:02 +1200
-Message-ID: <20240607110227.49848-7-ryan@testtoast.com>
+Subject: [PATCH RFC 7/8] drm/sun4i: de3: Implement AFBC support
+Date: Fri,  7 Jun 2024 23:00:03 +1200
+Message-ID: <20240607110227.49848-8-ryan@testtoast.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240607110227.49848-1-ryan@testtoast.com>
 References: <20240607110227.49848-1-ryan@testtoast.com>
@@ -104,637 +104,574 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Buffers, compressed with AFBC, are generally more efficient for memory
+transfers. Add support for them.
+
+Currently it's implemented only for VI layers, but vendor code and
+documentation suggest UI layers can have them too. However, I haven't
+observed any SoC with such feature.
+
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Co-developed-by: Ryan Walklin <ryan@testtoast.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 ---
- drivers/gpu/drm/drm_atomic_state_helper.c |   7 +
- drivers/gpu/drm/sun4i/Makefile            |   3 +-
- drivers/gpu/drm/sun4i/sun4i_tcon.c        |  26 +++-
- drivers/gpu/drm/sun4i/sun50i_fmt.c        |  74 ++++++++++
- drivers/gpu/drm/sun4i/sun50i_fmt.h        |  30 ++++
- drivers/gpu/drm/sun4i/sun8i_csc.c         | 172 +++++++++++++++++++++-
- drivers/gpu/drm/sun4i/sun8i_mixer.c       |  52 ++++++-
- drivers/gpu/drm/sun4i/sun8i_mixer.h       |   2 +
- drivers/gpu/drm/sun4i/sunxi_engine.h      |  34 +++++
- 9 files changed, 384 insertions(+), 16 deletions(-)
- create mode 100644 drivers/gpu/drm/sun4i/sun50i_fmt.c
- create mode 100644 drivers/gpu/drm/sun4i/sun50i_fmt.h
+ drivers/gpu/drm/sun4i/Makefile         |   2 +-
+ drivers/gpu/drm/sun4i/sun50i_afbc.c    | 240 +++++++++++++++++++++++++
+ drivers/gpu/drm/sun4i/sun50i_afbc.h    |  87 +++++++++
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c |  84 +++++++--
+ 4 files changed, 400 insertions(+), 13 deletions(-)
+ create mode 100644 drivers/gpu/drm/sun4i/sun50i_afbc.c
+ create mode 100644 drivers/gpu/drm/sun4i/sun50i_afbc.h
 
-diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index 519228eb10953..57e2c4e788303 100644
---- a/drivers/gpu/drm/drm_atomic_state_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -430,7 +430,14 @@ void
- __drm_atomic_helper_connector_state_reset(struct drm_connector_state *conn_state,
- 					  struct drm_connector *connector)
- {
-+	struct drm_property *prop;
-+
- 	conn_state->connector = connector;
-+	prop = connector->max_bpc_property;
-+	if (prop) {
-+		conn_state->max_bpc = prop->values[1];
-+		conn_state->max_requested_bpc = prop->values[1];
-+	}
- }
- EXPORT_SYMBOL(__drm_atomic_helper_connector_state_reset);
- 
 diff --git a/drivers/gpu/drm/sun4i/Makefile b/drivers/gpu/drm/sun4i/Makefile
-index bad7497a0d11e..3f516329f51ee 100644
+index 3f516329f51ee..78290f1660fbd 100644
 --- a/drivers/gpu/drm/sun4i/Makefile
 +++ b/drivers/gpu/drm/sun4i/Makefile
-@@ -16,7 +16,8 @@ sun8i-drm-hdmi-y		+= sun8i_hdmi_phy_clk.o
- 
+@@ -17,7 +17,7 @@ sun8i-drm-hdmi-y		+= sun8i_hdmi_phy_clk.o
  sun8i-mixer-y			+= sun8i_mixer.o sun8i_ui_layer.o \
  				   sun8i_vi_layer.o sun8i_ui_scaler.o \
--				   sun8i_vi_scaler.o sun8i_csc.o
-+				   sun8i_vi_scaler.o sun8i_csc.o \
-+				   sun50i_fmt.o
+ 				   sun8i_vi_scaler.o sun8i_csc.o \
+-				   sun50i_fmt.o
++				   sun50i_fmt.o sun50i_afbc.o
  
  sun4i-tcon-y			+= sun4i_crtc.o
  sun4i-tcon-y			+= sun4i_tcon_dclk.o
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index a1a2c845ade0c..e39926e9f0b5d 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -598,14 +598,26 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
- static void sun4i_tcon1_mode_set(struct sun4i_tcon *tcon,
- 				 const struct drm_display_mode *mode)
- {
--	unsigned int bp, hsync, vsync, vtotal;
-+	unsigned int bp, hsync, vsync, vtotal, div;
-+	struct sun4i_crtc *scrtc = tcon->crtc;
-+	struct sunxi_engine *engine = scrtc->engine;
- 	u8 clk_delay;
- 	u32 val;
- 
- 	WARN_ON(!tcon->quirks->has_channel_1);
- 
-+	switch (engine->format) {
-+	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
-+	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
-+		div = 2;
-+		break;
-+	default:
-+		div = 1;
-+		break;
-+	}
-+
- 	/* Configure the dot clock */
--	clk_set_rate(tcon->sclk1, mode->crtc_clock * 1000);
-+	clk_set_rate(tcon->sclk1, mode->crtc_clock * 1000 / div);
- 
- 	/* Adjust clock delay */
- 	clk_delay = sun4i_tcon_get_clk_delay(mode, 1);
-@@ -624,17 +636,17 @@ static void sun4i_tcon1_mode_set(struct sun4i_tcon *tcon,
- 
- 	/* Set the input resolution */
- 	regmap_write(tcon->regs, SUN4I_TCON1_BASIC0_REG,
--		     SUN4I_TCON1_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON1_BASIC0_X(mode->crtc_hdisplay / div) |
- 		     SUN4I_TCON1_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set the upscaling resolution */
- 	regmap_write(tcon->regs, SUN4I_TCON1_BASIC1_REG,
--		     SUN4I_TCON1_BASIC1_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON1_BASIC1_X(mode->crtc_hdisplay / div) |
- 		     SUN4I_TCON1_BASIC1_Y(mode->crtc_vdisplay));
- 
- 	/* Set the output resolution */
- 	regmap_write(tcon->regs, SUN4I_TCON1_BASIC2_REG,
--		     SUN4I_TCON1_BASIC2_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON1_BASIC2_X(mode->crtc_hdisplay / div) |
- 		     SUN4I_TCON1_BASIC2_Y(mode->crtc_vdisplay));
- 
- 	/* Set horizontal display timings */
-@@ -642,8 +654,8 @@ static void sun4i_tcon1_mode_set(struct sun4i_tcon *tcon,
- 	DRM_DEBUG_DRIVER("Setting horizontal total %d, backporch %d\n",
- 			 mode->htotal, bp);
- 	regmap_write(tcon->regs, SUN4I_TCON1_BASIC3_REG,
--		     SUN4I_TCON1_BASIC3_H_TOTAL(mode->crtc_htotal) |
--		     SUN4I_TCON1_BASIC3_H_BACKPORCH(bp));
-+		     SUN4I_TCON1_BASIC3_H_TOTAL(mode->crtc_htotal / div) |
-+		     SUN4I_TCON1_BASIC3_H_BACKPORCH(bp / div));
- 
- 	bp = mode->crtc_vtotal - mode->crtc_vsync_start;
- 	DRM_DEBUG_DRIVER("Setting vertical total %d, backporch %d\n",
-diff --git a/drivers/gpu/drm/sun4i/sun50i_fmt.c b/drivers/gpu/drm/sun4i/sun50i_fmt.c
+diff --git a/drivers/gpu/drm/sun4i/sun50i_afbc.c b/drivers/gpu/drm/sun4i/sun50i_afbc.c
 new file mode 100644
-index 0000000000000..18a8d5032ddce
+index 0000000000000..27a771608eef8
 --- /dev/null
-+++ b/drivers/gpu/drm/sun4i/sun50i_fmt.c
-@@ -0,0 +1,74 @@
++++ b/drivers/gpu/drm/sun4i/sun50i_afbc.c
+@@ -0,0 +1,240 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +/*
 + * Copyright (C) Jernej Skrabec <jernej.skrabec@gmail.com>
 + */
 +
-+#include <uapi/linux/media-bus-format.h>
++#include <drm/drm_blend.h>
++#include <drm/drm_fb_dma_helper.h>
++#include <drm/drm_framebuffer.h>
++#include <drm/drm_gem_dma_helper.h>
++#include <drm/drm_plane.h>
++#include <uapi/drm/drm_fourcc.h>
 +
-+#include "sun50i_fmt.h"
++#include "sun50i_afbc.h"
++#include "sun8i_mixer.h"
 +
-+static bool sun50i_fmt_is_10bit(u32 format)
++bool sun50i_afbc_format_mod_supported(struct sun8i_mixer *mixer,
++				      u32 format, u64 modifier)
 +{
-+	switch (format) {
-+	case MEDIA_BUS_FMT_RGB101010_1X30:
-+	case MEDIA_BUS_FMT_YUV10_1X30:
-+	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
-+	case MEDIA_BUS_FMT_UYVY10_1X20:
++	u64 mode;
++
++	if (modifier == DRM_FORMAT_MOD_INVALID)
++		return false;
++
++	if (modifier == DRM_FORMAT_MOD_LINEAR) {
++		if (format == DRM_FORMAT_YUV420_8BIT ||
++		    format == DRM_FORMAT_YUV420_10BIT ||
++		    format == DRM_FORMAT_Y210)
++			return false;
 +		return true;
++	}
++
++	if (!mixer->cfg->is_de3)
++		return false;
++
++	mode = AFBC_FORMAT_MOD_BLOCK_SIZE_16x16 |
++	       AFBC_FORMAT_MOD_SPARSE |
++	       AFBC_FORMAT_MOD_SPLIT;
++
++	switch (format) {
++	case DRM_FORMAT_RGBA8888:
++	case DRM_FORMAT_RGB888:
++	case DRM_FORMAT_RGB565:
++	case DRM_FORMAT_RGBA4444:
++	case DRM_FORMAT_RGBA5551:
++	case DRM_FORMAT_RGBA1010102:
++		mode |= AFBC_FORMAT_MOD_YTR;
++		break;
++	case DRM_FORMAT_YUYV:
++	case DRM_FORMAT_Y210:
++	case DRM_FORMAT_YUV420_8BIT:
++	case DRM_FORMAT_YUV420_10BIT:
++		break;
 +	default:
 +		return false;
 +	}
++
++	return modifier == DRM_FORMAT_MOD_ARM_AFBC(mode);
 +}
 +
-+static u32 sun50i_fmt_get_colorspace(u32 format)
++void sun50i_afbc_atomic_update(struct sun8i_mixer *mixer, unsigned int channel,
++			       struct drm_plane *plane)
 +{
-+	switch (format) {
-+	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
-+	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
-+		return SUN50I_FMT_CS_YUV420;
-+	case MEDIA_BUS_FMT_UYVY8_1X16:
-+	case MEDIA_BUS_FMT_UYVY10_1X20:
-+		return SUN50I_FMT_CS_YUV422;
++	struct drm_plane_state *state = plane->state;
++	struct drm_framebuffer *fb = state->fb;
++	const struct drm_format_info *format = fb->format;
++	struct drm_gem_dma_object *gem;
++	u32 base, val, src_w, src_h;
++	u32 def_color0, def_color1;
++	struct regmap *regs;
++	dma_addr_t dma_addr;
++
++	base = sun8i_channel_base(mixer, channel) + SUN50I_AFBC_CH_OFFSET;
++	regs = mixer->engine.regs;
++
++	src_w = drm_rect_width(&state->src) >> 16;
++	src_h = drm_rect_height(&state->src) >> 16;
++
++	val = SUN50I_FBD_SIZE_HEIGHT(src_h);
++	val |= SUN50I_FBD_SIZE_WIDTH(src_w);
++	regmap_write(regs, SUN50I_FBD_SIZE(base), val);
++
++	val = SUN50I_FBD_BLK_SIZE_HEIGHT(DIV_ROUND_UP(src_h, 16));
++	val = SUN50I_FBD_BLK_SIZE_WIDTH(DIV_ROUND_UP(src_w, 16));
++	regmap_write(regs, SUN50I_FBD_BLK_SIZE(base), val);
++
++	val = SUN50I_FBD_SRC_CROP_TOP(0);
++	val |= SUN50I_FBD_SRC_CROP_LEFT(0);
++	regmap_write(regs, SUN50I_FBD_SRC_CROP(base), val);
++
++	val = SUN50I_FBD_LAY_CROP_TOP(state->src.y1 >> 16);
++	val |= SUN50I_FBD_LAY_CROP_LEFT(state->src.x1 >> 16);
++	regmap_write(regs, SUN50I_FBD_LAY_CROP(base), val);
++
++	/*
++	 * Default color is always set to white, in colorspace and bitness
++	 * that coresponds to used format. If it is actually used or not
++	 * depends on AFBC buffer. At least in Cedrus it can be turned on
++	 * or off.
++	 * NOTE: G and B channels are off by 1 (up). It's unclear if this
++	 * is because HW need such value or it is due to good enough code
++	 * in vendor driver and HW clips the value anyway.
++	 */
++	def_color0 = 0;
++	def_color1 = 0;
++
++	val = 0;
++	switch (format->format) {
++	case DRM_FORMAT_YUYV:
++	case DRM_FORMAT_YUV420_10BIT:
++		val |= SUN50I_FBD_FMT_SBS1(2);
++		val |= SUN50I_FBD_FMT_SBS0(1);
++		break;
++	case DRM_FORMAT_Y210:
++		val |= SUN50I_FBD_FMT_SBS1(3);
++		val |= SUN50I_FBD_FMT_SBS0(2);
++		break;
 +	default:
-+		return SUN50I_FMT_CS_YUV444RGB;
++		val |= SUN50I_FBD_FMT_SBS1(1);
++		val |= SUN50I_FBD_FMT_SBS0(1);
++		break;
 +	}
++	switch (format->format) {
++	case DRM_FORMAT_RGBA8888:
++		val |= SUN50I_FBD_FMT_YUV_TRAN;
++		val |= SUN50I_FBD_FMT_IN_FMT(SUN50I_AFBC_RGBA_8888);
++		def_color0 = SUN50I_FBD_DEFAULT_COLOR0_ALPHA(255) |
++			     SUN50I_FBD_DEFAULT_COLOR0_YR(255);
++		def_color1 = SUN50I_FBD_DEFAULT_COLOR1_UG(256) |
++			     SUN50I_FBD_DEFAULT_COLOR1_VB(256);
++		break;
++	case DRM_FORMAT_RGB888:
++		val |= SUN50I_FBD_FMT_YUV_TRAN;
++		val |= SUN50I_FBD_FMT_IN_FMT(SUN50I_AFBC_RGB_888);
++		def_color0 = SUN50I_FBD_DEFAULT_COLOR0_ALPHA(0) |
++			     SUN50I_FBD_DEFAULT_COLOR0_YR(255);
++		def_color1 = SUN50I_FBD_DEFAULT_COLOR1_UG(256) |
++			     SUN50I_FBD_DEFAULT_COLOR1_VB(256);
++		break;
++	case DRM_FORMAT_RGB565:
++		val |= SUN50I_FBD_FMT_YUV_TRAN;
++		val |= SUN50I_FBD_FMT_IN_FMT(SUN50I_AFBC_RGB_565);
++		def_color0 = SUN50I_FBD_DEFAULT_COLOR0_ALPHA(0) |
++			     SUN50I_FBD_DEFAULT_COLOR0_YR(31);
++		def_color1 = SUN50I_FBD_DEFAULT_COLOR1_UG(64) |
++			     SUN50I_FBD_DEFAULT_COLOR1_VB(32);
++		break;
++	case DRM_FORMAT_RGBA4444:
++		val |= SUN50I_FBD_FMT_YUV_TRAN;
++		val |= SUN50I_FBD_FMT_IN_FMT(SUN50I_AFBC_RGBA_4444);
++		def_color0 = SUN50I_FBD_DEFAULT_COLOR0_ALPHA(15) |
++			     SUN50I_FBD_DEFAULT_COLOR0_YR(15);
++		def_color1 = SUN50I_FBD_DEFAULT_COLOR1_UG(16) |
++			     SUN50I_FBD_DEFAULT_COLOR1_VB(16);
++		break;
++	case DRM_FORMAT_RGBA5551:
++		val |= SUN50I_FBD_FMT_YUV_TRAN;
++		val |= SUN50I_FBD_FMT_IN_FMT(SUN50I_AFBC_RGBA_5551);
++		def_color0 = SUN50I_FBD_DEFAULT_COLOR0_ALPHA(1) |
++			     SUN50I_FBD_DEFAULT_COLOR0_YR(31);
++		def_color1 = SUN50I_FBD_DEFAULT_COLOR1_UG(32) |
++			     SUN50I_FBD_DEFAULT_COLOR1_VB(32);
++		break;
++	case DRM_FORMAT_RGBA1010102:
++		val |= SUN50I_FBD_FMT_YUV_TRAN;
++		val |= SUN50I_FBD_FMT_IN_FMT(SUN50I_AFBC_RGBA1010102);
++		def_color0 = SUN50I_FBD_DEFAULT_COLOR0_ALPHA(3) |
++			     SUN50I_FBD_DEFAULT_COLOR0_YR(1023);
++		def_color1 = SUN50I_FBD_DEFAULT_COLOR1_UG(1024) |
++			     SUN50I_FBD_DEFAULT_COLOR1_VB(1024);
++		break;
++	case DRM_FORMAT_YUV420_8BIT:
++		val |= SUN50I_FBD_FMT_IN_FMT(SUN50I_AFBC_YUV420);
++		def_color0 = SUN50I_FBD_DEFAULT_COLOR0_ALPHA(0) |
++			     SUN50I_FBD_DEFAULT_COLOR0_YR(255);
++		def_color1 = SUN50I_FBD_DEFAULT_COLOR1_UG(128) |
++			     SUN50I_FBD_DEFAULT_COLOR1_VB(128);
++		break;
++	case DRM_FORMAT_YUYV:
++		val |= SUN50I_FBD_FMT_IN_FMT(SUN50I_AFBC_YUV422);
++		def_color0 = SUN50I_FBD_DEFAULT_COLOR0_ALPHA(0) |
++			     SUN50I_FBD_DEFAULT_COLOR0_YR(255);
++		def_color1 = SUN50I_FBD_DEFAULT_COLOR1_UG(128) |
++			     SUN50I_FBD_DEFAULT_COLOR1_VB(128);
++		break;
++	case DRM_FORMAT_YUV420_10BIT:
++		val |= SUN50I_FBD_FMT_IN_FMT(SUN50I_AFBC_P010);
++		def_color0 = SUN50I_FBD_DEFAULT_COLOR0_ALPHA(0) |
++			     SUN50I_FBD_DEFAULT_COLOR0_YR(1023);
++		def_color1 = SUN50I_FBD_DEFAULT_COLOR1_UG(512) |
++			     SUN50I_FBD_DEFAULT_COLOR1_VB(512);
++		break;
++	case DRM_FORMAT_Y210:
++		val |= SUN50I_FBD_FMT_IN_FMT(SUN50I_AFBC_P210);
++		def_color0 = SUN50I_FBD_DEFAULT_COLOR0_ALPHA(0) |
++			     SUN50I_FBD_DEFAULT_COLOR0_YR(1023);
++		def_color1 = SUN50I_FBD_DEFAULT_COLOR1_UG(512) |
++			     SUN50I_FBD_DEFAULT_COLOR1_VB(512);
++		break;
++	}
++	regmap_write(regs, SUN50I_FBD_FMT(base), val);
++
++	/* Get the physical address of the buffer in memory */
++	gem = drm_fb_dma_get_gem_obj(fb, 0);
++
++	DRM_DEBUG_DRIVER("Using GEM @ %pad\n", &gem->dma_addr);
++
++	/* Compute the start of the displayed memory */
++	dma_addr = gem->dma_addr + fb->offsets[0];
++
++	regmap_write(regs, SUN50I_FBD_LADDR(base), lower_32_bits(dma_addr));
++	regmap_write(regs, SUN50I_FBD_HADDR(base), upper_32_bits(dma_addr));
++
++	val = SUN50I_FBD_OVL_SIZE_HEIGHT(src_h);
++	val |= SUN50I_FBD_OVL_SIZE_WIDTH(src_w);
++	regmap_write(regs, SUN50I_FBD_OVL_SIZE(base), val);
++
++	val = SUN50I_FBD_OVL_COOR_Y(0);
++	val |= SUN50I_FBD_OVL_COOR_X(0);
++	regmap_write(regs, SUN50I_FBD_OVL_COOR(base), val);
++
++	regmap_write(regs, SUN50I_FBD_OVL_BG_COLOR(base),
++		     SUN8I_MIXER_BLEND_COLOR_BLACK);
++	regmap_write(regs, SUN50I_FBD_DEFAULT_COLOR0(base), def_color0);
++	regmap_write(regs, SUN50I_FBD_DEFAULT_COLOR1(base), def_color1);
++
++	val = SUN50I_FBD_CTL_GLB_ALPHA(state->alpha >> 16);
++	val |= SUN50I_FBD_CTL_CLK_GATE;
++	val |= (state->alpha == DRM_BLEND_ALPHA_OPAQUE) ?
++		SUN50I_FBD_CTL_ALPHA_MODE_PIXEL :
++		SUN50I_FBD_CTL_ALPHA_MODE_COMBINED;
++	val |= SUN50I_FBD_CTL_FBD_EN;
++	regmap_write(regs, SUN50I_FBD_CTL(base), val);
 +}
 +
-+void sun50i_fmt_setup(struct sun8i_mixer *mixer, u16 width,
-+		      u16 height, u32 format)
++void sun50i_afbc_disable(struct sun8i_mixer *mixer, unsigned int channel)
 +{
-+	u32 colorspace, limit[3];
-+	bool bit10;
++	u32 base = sun8i_channel_base(mixer, channel) + SUN50I_AFBC_CH_OFFSET;
 +
-+	colorspace = sun50i_fmt_get_colorspace(format);
-+	bit10 = sun50i_fmt_is_10bit(format);
-+
-+	regmap_write(mixer->engine.regs, SUN50I_FMT_CTRL, 0);
-+
-+	regmap_write(mixer->engine.regs, SUN50I_FMT_SIZE,
-+		     SUN8I_MIXER_SIZE(width, height));
-+	regmap_write(mixer->engine.regs, SUN50I_FMT_SWAP, 0);
-+	regmap_write(mixer->engine.regs, SUN50I_FMT_DEPTH, bit10);
-+	regmap_write(mixer->engine.regs, SUN50I_FMT_FORMAT, colorspace);
-+	regmap_write(mixer->engine.regs, SUN50I_FMT_COEF, 0);
-+
-+	if (colorspace != SUN50I_FMT_CS_YUV444RGB) {
-+		limit[0] = SUN50I_FMT_LIMIT(64, 940);
-+		limit[1] = SUN50I_FMT_LIMIT(64, 960);
-+		limit[2] = SUN50I_FMT_LIMIT(64, 960);
-+	} else if (bit10) {
-+		limit[0] = SUN50I_FMT_LIMIT(0, 1023);
-+		limit[1] = SUN50I_FMT_LIMIT(0, 1023);
-+		limit[2] = SUN50I_FMT_LIMIT(0, 1023);
-+	} else {
-+		limit[0] = SUN50I_FMT_LIMIT(0, 1021);
-+		limit[1] = SUN50I_FMT_LIMIT(0, 1021);
-+		limit[2] = SUN50I_FMT_LIMIT(0, 1021);
-+	}
-+
-+	regmap_write(mixer->engine.regs, SUN50I_FMT_LMT_Y, limit[0]);
-+	regmap_write(mixer->engine.regs, SUN50I_FMT_LMT_C0, limit[1]);
-+	regmap_write(mixer->engine.regs, SUN50I_FMT_LMT_C1, limit[2]);
-+
-+	regmap_write(mixer->engine.regs, SUN50I_FMT_CTRL, 1);
++	regmap_write(mixer->engine.regs, SUN50I_FBD_CTL(base), 0);
 +}
-diff --git a/drivers/gpu/drm/sun4i/sun50i_fmt.h b/drivers/gpu/drm/sun4i/sun50i_fmt.h
+diff --git a/drivers/gpu/drm/sun4i/sun50i_afbc.h b/drivers/gpu/drm/sun4i/sun50i_afbc.h
 new file mode 100644
-index 0000000000000..0fa1d2d22e592
+index 0000000000000..cea685c868550
 --- /dev/null
-+++ b/drivers/gpu/drm/sun4i/sun50i_fmt.h
-@@ -0,0 +1,30 @@
++++ b/drivers/gpu/drm/sun4i/sun50i_afbc.h
+@@ -0,0 +1,87 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
 + * Copyright (C) Jernej Skrabec <jernej.skrabec@gmail.com>
 + */
 +
-+#ifndef _SUN50I_FMT_H_
-+#define _SUN50I_FMT_H_
++#ifndef _SUN50I_AFBC_H_
++#define _SUN50I_AFBC_H_
 +
-+#include "sun8i_mixer.h"
++#include <linux/types.h>
 +
-+#define SUN50I_FMT_CTRL   0xa8000
-+#define SUN50I_FMT_SIZE   0xa8004
-+#define SUN50I_FMT_SWAP   0xa8008
-+#define SUN50I_FMT_DEPTH  0xa800c
-+#define SUN50I_FMT_FORMAT 0xa8010
-+#define SUN50I_FMT_COEF   0xa8014
-+#define SUN50I_FMT_LMT_Y  0xa8020
-+#define SUN50I_FMT_LMT_C0 0xa8024
-+#define SUN50I_FMT_LMT_C1 0xa8028
++#define SUN50I_AFBC_CH_OFFSET 0x300
 +
-+#define SUN50I_FMT_LIMIT(low, high) (((high) << 16) | (low))
++#define SUN50I_AFBC_RGBA_8888	0x02
++#define SUN50I_AFBC_RGB_888	0x08
++#define SUN50I_AFBC_RGB_565	0x0a
++#define SUN50I_AFBC_RGBA_4444	0x0e
++#define SUN50I_AFBC_RGBA_5551	0x12
++#define SUN50I_AFBC_RGBA1010102	0x16
++#define SUN50I_AFBC_YUV422	0x26
++#define SUN50I_AFBC_YUV420	0x2a
++#define SUN50I_AFBC_P010	0x30
++#define SUN50I_AFBC_P210	0x32
 +
-+#define SUN50I_FMT_CS_YUV444RGB 0
-+#define SUN50I_FMT_CS_YUV422    1
-+#define SUN50I_FMT_CS_YUV420    2
++#define SUN50I_FBD_CTL(base)			((base) + 0x00)
++#define SUN50I_FBD_CTL_GLB_ALPHA(v)		((v) << 24)
++#define SUN50I_FBD_CTL_CLK_GATE			BIT(4)
++#define SUN50I_FBD_CTL_ALPHA_MODE_PIXEL		((0) << 2)
++#define SUN50I_FBD_CTL_ALPHA_MODE_LAYER		((1) << 2)
++#define SUN50I_FBD_CTL_ALPHA_MODE_COMBINED	((2) << 2)
++#define SUN50I_FBD_CTL_FBD_FCEN			BIT(1)
++#define SUN50I_FBD_CTL_FBD_EN			BIT(0)
 +
-+void sun50i_fmt_setup(struct sun8i_mixer *mixer, u16 width,
-+		      u16 height, u32 format);
++#define SUN50I_FBD_SIZE(base)			((base) + 0x08)
++#define SUN50I_FBD_SIZE_HEIGHT(v)		(((v) - 1) << 16)
++#define SUN50I_FBD_SIZE_WIDTH(v)		(((v) - 1) << 0)
++
++#define SUN50I_FBD_BLK_SIZE(base)		((base) + 0x0c)
++#define SUN50I_FBD_BLK_SIZE_HEIGHT(v)		((v) << 16)
++#define SUN50I_FBD_BLK_SIZE_WIDTH(v)		((v) << 0)
++
++#define SUN50I_FBD_SRC_CROP(base)		((base) + 0x10)
++#define SUN50I_FBD_SRC_CROP_TOP(v)		((v) << 16)
++#define SUN50I_FBD_SRC_CROP_LEFT(v)		((v) << 0)
++
++#define SUN50I_FBD_LAY_CROP(base)		((base) + 0x14)
++#define SUN50I_FBD_LAY_CROP_TOP(v)		((v) << 16)
++#define SUN50I_FBD_LAY_CROP_LEFT(v)		((v) << 0)
++
++#define SUN50I_FBD_FMT(base)			((base) + 0x18)
++#define SUN50I_FBD_FMT_SBS1(v)			((v) << 18)
++#define SUN50I_FBD_FMT_SBS0(v)			((v) << 16)
++#define SUN50I_FBD_FMT_YUV_TRAN			BIT(7)
++#define SUN50I_FBD_FMT_IN_FMT(v)		((v) << 0)
++
++#define SUN50I_FBD_LADDR(base)			((base) + 0x20)
++#define SUN50I_FBD_HADDR(base)			((base) + 0x24)
++
++#define SUN50I_FBD_OVL_SIZE(base)		((base) + 0x30)
++#define SUN50I_FBD_OVL_SIZE_HEIGHT(v)		(((v) - 1) << 16)
++#define SUN50I_FBD_OVL_SIZE_WIDTH(v)		(((v) - 1) << 0)
++
++#define SUN50I_FBD_OVL_COOR(base)		((base) + 0x34)
++#define SUN50I_FBD_OVL_COOR_Y(v)		((v) << 16)
++#define SUN50I_FBD_OVL_COOR_X(v)		((v) << 0)
++
++#define SUN50I_FBD_OVL_BG_COLOR(base)		((base) + 0x38)
++#define SUN50I_FBD_OVL_FILL_COLOR(base)		((base) + 0x3c)
++
++#define SUN50I_FBD_DEFAULT_COLOR0(base)		((base) + 0x50)
++#define SUN50I_FBD_DEFAULT_COLOR0_ALPHA(v)	((v) << 16)
++#define SUN50I_FBD_DEFAULT_COLOR0_YR(v)		((v) << 0)
++
++#define SUN50I_FBD_DEFAULT_COLOR1(base)		((base) + 0x54)
++#define SUN50I_FBD_DEFAULT_COLOR1_VB(v)		((v) << 16)
++#define SUN50I_FBD_DEFAULT_COLOR1_UG(v)		((v) << 0)
++
++struct sun8i_mixer;
++struct drm_plane;
++
++bool sun50i_afbc_format_mod_supported(struct sun8i_mixer *mixer,
++				      u32 format, u64 modifier);
++
++void sun50i_afbc_atomic_update(struct sun8i_mixer *mixer, unsigned int channel,
++			       struct drm_plane *plane);
++void sun50i_afbc_disable(struct sun8i_mixer *mixer, unsigned int channel);
 +
 +#endif
-diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.c b/drivers/gpu/drm/sun4i/sun8i_csc.c
-index 68d955c63b05b..3b022bfb85adc 100644
---- a/drivers/gpu/drm/sun4i/sun8i_csc.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_csc.c
-@@ -5,6 +5,8 @@
- 
- #include <drm/drm_print.h>
- 
-+#include <uapi/linux/media-bus-format.h>
-+
- #include "sun8i_csc.h"
- #include "sun8i_mixer.h"
- 
-@@ -107,12 +109,141 @@ static const u32 yuv2rgb_de3[2][3][12] = {
- 	},
- };
- 
-+/* always convert to limited mode */
-+static const u32 rgb2yuv_de3[3][12] = {
-+	[DRM_COLOR_YCBCR_BT601] = {
-+		0x0000837A, 0x0001021D, 0x00003221, 0x00000040,
-+		0xFFFFB41C, 0xFFFF6B03, 0x0000E0E1, 0x00000200,
-+		0x0000E0E1, 0xFFFF43B1, 0xFFFFDB6E, 0x00000200,
-+	},
-+	[DRM_COLOR_YCBCR_BT709] = {
-+		0x00005D7C, 0x00013A7C, 0x00001FBF, 0x00000040,
-+		0xFFFFCC78, 0xFFFF52A7, 0x0000E0E1, 0x00000200,
-+		0x0000E0E1, 0xFFFF33BE, 0xFFFFEB61, 0x00000200,
-+	},
-+	[DRM_COLOR_YCBCR_BT2020] = {
-+		0x00007384, 0x00012A21, 0x00001A13, 0x00000040,
-+		0xFFFFC133, 0xFFFF5DEC, 0x0000E0E1, 0x00000200,
-+		0x0000E0E1, 0xFFFF3135, 0xFFFFEDEA, 0x00000200,
-+	},
-+};
-+
-+/* always convert to limited mode */
-+static const u32 yuv2yuv_de3[2][3][3][12] = {
-+	[DRM_COLOR_YCBCR_LIMITED_RANGE] = {
-+		[DRM_COLOR_YCBCR_BT601] = {
-+			[DRM_COLOR_YCBCR_BT601] = {
-+				0x00020000, 0x00000000, 0x00000000, 0x00000000,
-+				0x00000000, 0x00020000, 0x00000000, 0x00000000,
-+				0x00000000, 0x00000000, 0x00020000, 0x00000000,
-+			},
-+			[DRM_COLOR_YCBCR_BT709] = {
-+				0x00020000, 0xFFFFC4D7, 0xFFFF9589, 0xFFC00040,
-+				0x00000000, 0x0002098B, 0x00003AAF, 0xFE000200,
-+				0x00000000, 0x0000266D, 0x00020CF8, 0xFE000200,
-+			},
-+			[DRM_COLOR_YCBCR_BT2020] = {
-+				0x00020000, 0xFFFFBFCE, 0xFFFFC5FF, 0xFFC00040,
-+				0x00000000, 0x00020521, 0x00001F89, 0xFE000200,
-+				0x00000000, 0x00002C87, 0x00020F07, 0xFE000200,
-+			},
-+		},
-+		[DRM_COLOR_YCBCR_BT709] = {
-+			[DRM_COLOR_YCBCR_BT601] = {
-+				0x00020000, 0x000032D9, 0x00006226, 0xFFC00040,
-+				0x00000000, 0x0001FACE, 0xFFFFC759, 0xFE000200,
-+				0x00000000, 0xFFFFDAE7, 0x0001F780, 0xFE000200,
-+			},
-+			[DRM_COLOR_YCBCR_BT709] = {
-+				0x00020000, 0x00000000, 0x00000000, 0x00000000,
-+				0x00000000, 0x00020000, 0x00000000, 0x00000000,
-+				0x00000000, 0x00000000, 0x00020000, 0x00000000,
-+			},
-+			[DRM_COLOR_YCBCR_BT2020] = {
-+				0x00020000, 0xFFFFF782, 0x00003036, 0xFFC00040,
-+				0x00000000, 0x0001FD99, 0xFFFFE5CA, 0xFE000200,
-+				0x00000000, 0x000005E4, 0x0002015A, 0xFE000200,
-+			},
-+		},
-+		[DRM_COLOR_YCBCR_BT2020] = {
-+			[DRM_COLOR_YCBCR_BT601] = {
-+				0x00020000, 0x00003B03, 0x000034D2, 0xFFC00040,
-+				0x00000000, 0x0001FD8C, 0xFFFFE183, 0xFE000200,
-+				0x00000000, 0xFFFFD4F3, 0x0001F3FA, 0xFE000200,
-+			},
-+			[DRM_COLOR_YCBCR_BT709] = {
-+				0x00020000, 0x00000916, 0xFFFFD061, 0xFFC00040,
-+				0x00000000, 0x0002021C, 0x00001A40, 0xFE000200,
-+				0x00000000, 0xFFFFFA19, 0x0001FE5A, 0xFE000200,
-+			},
-+			[DRM_COLOR_YCBCR_BT2020] = {
-+				0x00020000, 0x00000000, 0x00000000, 0x00000000,
-+				0x00000000, 0x00020000, 0x00000000, 0x00000000,
-+				0x00000000, 0x00000000, 0x00020000, 0x00000000,
-+			},
-+		},
-+	},
-+	[DRM_COLOR_YCBCR_FULL_RANGE] = {
-+		[DRM_COLOR_YCBCR_BT601] = {
-+			[DRM_COLOR_YCBCR_BT601] = {
-+				0x0001B7B8, 0x00000000, 0x00000000, 0x00000040,
-+				0x00000000, 0x0001C1C2, 0x00000000, 0xFE000200,
-+				0x00000000, 0x00000000, 0x0001C1C2, 0xFE000200,
-+			},
-+			[DRM_COLOR_YCBCR_BT709] = {
-+				0x0001B7B8, 0xFFFFCC08, 0xFFFFA27B, 0x00000040,
-+				0x00000000, 0x0001CA24, 0x0000338D, 0xFE000200,
-+				0x00000000, 0x000021C1, 0x0001CD26, 0xFE000200,
-+			},
-+			[DRM_COLOR_YCBCR_BT2020] = {
-+				0x0001B7B8, 0xFFFFC79C, 0xFFFFCD0C, 0x00000040,
-+				0x00000000, 0x0001C643, 0x00001BB4, 0xFE000200,
-+				0x00000000, 0x0000271D, 0x0001CEF5, 0xFE000200,
-+			},
-+		},
-+		[DRM_COLOR_YCBCR_BT709] = {
-+			[DRM_COLOR_YCBCR_BT601] = {
-+				0x0001B7B8, 0x00002CAB, 0x00005638, 0x00000040,
-+				0x00000000, 0x0001BD32, 0xFFFFCE3C, 0xFE000200,
-+				0x00000000, 0xFFFFDF6A, 0x0001BA4A, 0xFE000200,
-+			},
-+			[DRM_COLOR_YCBCR_BT709] = {
-+				0x0001B7B8, 0x00000000, 0x00000000, 0x00000040,
-+				0x00000000, 0x0001C1C2, 0x00000000, 0xFE000200,
-+				0x00000000, 0x00000000, 0x0001C1C2, 0xFE000200,
-+			},
-+			[DRM_COLOR_YCBCR_BT2020] = {
-+				0x0001B7B8, 0xFFFFF88A, 0x00002A5A, 0x00000040,
-+				0x00000000, 0x0001BFA5, 0xFFFFE8FA, 0xFE000200,
-+				0x00000000, 0x0000052D, 0x0001C2F1, 0xFE000200,
-+			},
-+		},
-+		[DRM_COLOR_YCBCR_BT2020] = {
-+			[DRM_COLOR_YCBCR_BT601] = {
-+				0x0001B7B8, 0x000033D6, 0x00002E66, 0x00000040,
-+				0x00000000, 0x0001BF9A, 0xFFFFE538, 0xFE000200,
-+				0x00000000, 0xFFFFDA2F, 0x0001B732, 0xFE000200,
-+			},
-+			[DRM_COLOR_YCBCR_BT709] = {
-+				0x0001B7B8, 0x000007FB, 0xFFFFD62B, 0x00000040,
-+				0x00000000, 0x0001C39D, 0x0000170F, 0xFE000200,
-+				0x00000000, 0xFFFFFAD1, 0x0001C04F, 0xFE000200,
-+			},
-+			[DRM_COLOR_YCBCR_BT2020] = {
-+				0x0001B7B8, 0x00000000, 0x00000000, 0x00000040,
-+				0x00000000, 0x0001C1C2, 0x00000000, 0xFE000200,
-+				0x00000000, 0x00000000, 0x0001C1C2, 0xFE000200,
-+			},
-+		},
-+	},
-+};
-+
- static void sun8i_csc_setup(struct regmap *map, u32 base,
- 			    enum format_type fmt_type,
- 			    enum drm_color_encoding encoding,
- 			    enum drm_color_range range)
- {
--	u32 base_reg, val;
-+	u32 base_reg, val = 0;
- 	const u32 *table;
- 	int i;
- 
-@@ -148,28 +279,59 @@ static void sun8i_csc_setup(struct regmap *map, u32 base,
- 	regmap_write(map, SUN8I_CSC_CTRL(base), val);
- }
- 
--static void sun8i_de3_ccsc_setup(struct regmap *map, int layer,
-+static const u32 *sun8i_csc_get_de3_yuv_table(enum drm_color_encoding in_enc,
-+					      enum drm_color_range in_range,
-+					      u32 out_format,
-+					      enum drm_color_encoding out_enc)
-+{
-+	if (out_format == MEDIA_BUS_FMT_RGB888_1X24)
-+		return yuv2rgb_de3[in_range][in_enc];
-+
-+	/* check for identity transformation */
-+	if (in_range == DRM_COLOR_YCBCR_LIMITED_RANGE && out_enc == in_enc)
-+		return NULL;
-+
-+	return yuv2yuv_de3[in_range][in_enc][out_enc];
-+}
-+
-+static void sun8i_de3_ccsc_setup(struct sunxi_engine *engine, int layer,
- 				 enum format_type fmt_type,
- 				 enum drm_color_encoding encoding,
- 				 enum drm_color_range range)
- {
--	u32 addr, val, mask;
-+	u32 addr, val = 0, mask;
-+	struct regmap *map;
- 	const u32 *table;
- 	int i;
- 
- 	mask = SUN50I_MIXER_BLEND_CSC_CTL_EN(layer);
- 	table = yuv2rgb_de3[range][encoding];
-+	map = engine->regs;
- 
- 	switch (fmt_type) {
- 	case FORMAT_TYPE_RGB:
--		val = 0;
-+		if (engine->format == MEDIA_BUS_FMT_RGB888_1X24)
-+			break;
-+		val = mask;
-+		addr = SUN50I_MIXER_BLEND_CSC_COEFF(DE3_BLD_BASE, layer, 0);
-+		regmap_bulk_write(map, addr, rgb2yuv_de3[engine->encoding], 12);
- 		break;
- 	case FORMAT_TYPE_YUV:
-+		table = sun8i_csc_get_de3_yuv_table(encoding, range,
-+						    engine->format,
-+						    engine->encoding);
-+		if (!table)
-+			break;
- 		val = mask;
- 		addr = SUN50I_MIXER_BLEND_CSC_COEFF(DE3_BLD_BASE, layer, 0);
- 		regmap_bulk_write(map, addr, table, 12);
- 		break;
- 	case FORMAT_TYPE_YVU:
-+		table = sun8i_csc_get_de3_yuv_table(encoding, range,
-+						    engine->format,
-+						    engine->encoding);
-+		if (!table)
-+			table = yuv2yuv_de3[range][encoding][encoding];
- 		val = mask;
- 		for (i = 0; i < 12; i++) {
- 			if ((i & 3) == 1)
-@@ -204,7 +366,7 @@ void sun8i_csc_set_ccsc(struct sun8i_mixer *mixer, int layer,
- 	u32 base;
- 
- 	if (mixer->cfg->is_de3) {
--		sun8i_de3_ccsc_setup(mixer->engine.regs, layer,
-+		sun8i_de3_ccsc_setup(&mixer->engine, layer,
- 				     fmt_type, encoding, range);
- 		return;
- 	}
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 01382860aaeea..b1525906a25d8 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -22,7 +22,10 @@
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+index 329e8bf8cd20d..bda91c3e2bb75 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+@@ -11,8 +11,10 @@
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_atomic_helper.h>
  #include <drm/drm_gem_dma_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
  #include <drm/drm_probe_helper.h>
  
-+#include <uapi/linux/media-bus-format.h>
-+
- #include "sun4i_drv.h"
-+#include "sun50i_fmt.h"
++#include "sun50i_afbc.h"
+ #include "sun8i_csc.h"
  #include "sun8i_mixer.h"
- #include "sun8i_ui_layer.h"
  #include "sun8i_vi_layer.h"
-@@ -326,12 +329,52 @@ static void sun8i_mixer_mode_set(struct sunxi_engine *engine,
+@@ -99,7 +101,7 @@ static void sun8i_vi_layer_update_alpha(struct sun8i_mixer *mixer, int channel,
  
- 	DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
- 			 interlaced ? "on" : "off");
-+
-+	if (engine->format == MEDIA_BUS_FMT_RGB888_1X24)
-+		val = SUN8I_MIXER_BLEND_COLOR_BLACK;
-+	else
-+		val = 0xff108080;
+ static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+ 				       int overlay, struct drm_plane *plane,
+-				       unsigned int zpos)
++				       unsigned int zpos, bool afbc)
+ {
+ 	struct drm_plane_state *state = plane->state;
+ 	const struct drm_format_info *format = state->fb->format;
+@@ -182,7 +184,7 @@ static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+ 
+ 		required = src_h * 100 / dst_h;
+ 
+-		if (ability < required) {
++		if (!afbc && ability < required) {
+ 			DRM_DEBUG_DRIVER("Using vertical coarse scaling\n");
+ 			vm = src_h;
+ 			vn = (u32)ability * dst_h / 100;
+@@ -192,7 +194,7 @@ static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+ 		/* it seems that every RGB scaler has buffer for 2048 pixels */
+ 		scanline = subsampled ? mixer->cfg->scanline_yuv : 2048;
+ 
+-		if (src_w > scanline) {
++		if (!afbc && src_w > scanline) {
+ 			DRM_DEBUG_DRIVER("Using horizontal coarse scaling\n");
+ 			hm = src_w;
+ 			hn = scanline;
+@@ -356,6 +358,15 @@ static int sun8i_vi_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
+ 	return 0;
+ }
+ 
++static void sun8i_vi_layer_prepare_non_linear(struct sun8i_mixer *mixer,
++					      int channel, int overlay)
++{
++	u32 base = sun8i_channel_base(mixer, channel);
 +
 +	regmap_write(mixer->engine.regs,
-+		     SUN8I_MIXER_BLEND_BKCOLOR(bld_base), val);
-+	regmap_write(mixer->engine.regs,
-+		     SUN8I_MIXER_BLEND_ATTR_FCOLOR(bld_base, 0), val);
-+
-+	if (mixer->cfg->has_formatter)
-+		sun50i_fmt_setup(mixer, mode->hdisplay,
-+				 mode->vdisplay, mixer->engine.format);
++		     SUN8I_MIXER_CHAN_VI_LAYER_ATTR(base, overlay), 0);
 +}
 +
-+static u32 *sun8i_mixer_get_supported_fmts(struct sunxi_engine *engine, u32 *num)
-+{
-+	struct sun8i_mixer *mixer = engine_to_sun8i_mixer(engine);
-+	u32 *formats, count;
+ static int sun8i_vi_layer_atomic_check(struct drm_plane *plane,
+ 				       struct drm_atomic_state *state)
+ {
+@@ -399,6 +410,8 @@ static void sun8i_vi_layer_atomic_disable(struct drm_plane *plane,
+ 
+ 	sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay, false, 0,
+ 			      old_zpos);
++	if (mixer->cfg->is_de3)
++		sun50i_afbc_disable(mixer, layer->channel);
+ }
+ 
+ static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
+@@ -411,26 +424,53 @@ static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
+ 	struct sun8i_vi_layer *layer = plane_to_sun8i_vi_layer(plane);
+ 	unsigned int zpos = new_state->normalized_zpos;
+ 	unsigned int old_zpos = old_state->normalized_zpos;
++	struct drm_framebuffer *fb = plane->state->fb;
+ 	struct sun8i_mixer *mixer = layer->mixer;
++	bool afbc = drm_is_afbc(fb->modifier);
+ 
+ 	if (!new_state->visible) {
+ 		sun8i_vi_layer_enable(mixer, layer->channel,
+ 				      layer->overlay, false, 0, old_zpos);
++		if (mixer->cfg->is_de3)
++			sun50i_afbc_disable(mixer, layer->channel);
+ 		return;
+ 	}
+ 
++	if (afbc) {
++		u32 fmt_type;
 +
-+	count = 0;
++		sun8i_vi_layer_prepare_non_linear(mixer, layer->channel,
++						  layer->overlay);
++		sun50i_afbc_atomic_update(mixer, layer->channel, plane);
 +
-+	formats = kcalloc(5, sizeof(*formats), GFP_KERNEL);
-+	if (!formats)
-+		return NULL;
-+
-+	if (mixer->cfg->has_formatter) {
-+		formats[count++] = MEDIA_BUS_FMT_UYYVYY10_0_5X30;
-+		formats[count++] = MEDIA_BUS_FMT_YUV8_1X24;
-+		formats[count++] = MEDIA_BUS_FMT_UYVY8_1X16;
-+		formats[count++] = MEDIA_BUS_FMT_UYYVYY8_0_5X24;
++		fmt_type = sun8i_vi_layer_get_format_type(fb->format);
++		sun8i_csc_set_ccsc(mixer, layer->channel, fmt_type,
++				   plane->state->color_encoding,
++				   plane->state->color_range);
++	} else {
++		if (mixer->cfg->is_de3)
++			sun50i_afbc_disable(mixer, layer->channel);
++		sun8i_vi_layer_update_alpha(mixer, layer->channel,
++					    layer->overlay, plane);
++		sun8i_vi_layer_update_formats(mixer, layer->channel,
++					      layer->overlay, plane);
++		sun8i_vi_layer_update_buffer(mixer, layer->channel,
++					     layer->overlay, plane);
 +	}
-+
-+	formats[count++] = MEDIA_BUS_FMT_RGB888_1X24;
-+
-+	*num = count;
-+
-+	return formats;
+ 	sun8i_vi_layer_update_coord(mixer, layer->channel,
+-				    layer->overlay, plane, zpos);
+-	sun8i_vi_layer_update_alpha(mixer, layer->channel,
+-				    layer->overlay, plane);
+-	sun8i_vi_layer_update_formats(mixer, layer->channel,
+-				      layer->overlay, plane);
+-	sun8i_vi_layer_update_buffer(mixer, layer->channel,
+-				     layer->overlay, plane);
++				    layer->overlay, plane, zpos, afbc);
+ 	sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay,
+ 			      true, zpos, old_zpos);
  }
  
- static const struct sunxi_engine_ops sun8i_engine_ops = {
--	.commit		= sun8i_mixer_commit,
--	.layers_init	= sun8i_layers_init,
--	.mode_set	= sun8i_mixer_mode_set,
-+	.commit			= sun8i_mixer_commit,
-+	.layers_init		= sun8i_layers_init,
-+	.mode_set		= sun8i_mixer_mode_set,
-+	.get_supported_fmts	= sun8i_mixer_get_supported_fmts,
- };
- 
- static const struct regmap_config sun8i_mixer_regmap_config = {
-@@ -392,6 +435,8 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 	dev_set_drvdata(dev, mixer);
- 	mixer->engine.ops = &sun8i_engine_ops;
- 	mixer->engine.node = dev->of_node;
-+	/* default output format, supported by all mixers */
-+	mixer->engine.format = MEDIA_BUS_FMT_RGB888_1X24;
- 
- 	if (of_property_present(dev->of_node, "iommus")) {
- 		/*
-@@ -653,6 +698,7 @@ static const struct sun8i_mixer_cfg sun50i_a64_mixer1_cfg = {
- static const struct sun8i_mixer_cfg sun50i_h6_mixer0_cfg = {
- 	.ccsc		= CCSC_MIXER0_LAYOUT,
- 	.is_de3		= true,
-+	.has_formatter	= 1,
- 	.mod_rate	= 600000000,
- 	.scaler_mask	= 0xf,
- 	.scanline_yuv	= 4096,
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-index 85c94884fb9a4..13401643c7bfc 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-@@ -162,6 +162,7 @@ enum {
-  * @mod_rate: module clock rate that needs to be set in order to have
-  *	a functional block.
-  * @is_de3: true, if this is next gen display engine 3.0, false otherwise.
-+ * @has_formatter: true, if mixer has formatter core, for 10-bit and YUV handling
-  * @scaline_yuv: size of a scanline for VI scaler for YUV formats.
-  */
- struct sun8i_mixer_cfg {
-@@ -171,6 +172,7 @@ struct sun8i_mixer_cfg {
- 	int		ccsc;
- 	unsigned long	mod_rate;
- 	unsigned int	is_de3 : 1;
-+	unsigned int    has_formatter : 1;
- 	unsigned int	scanline_yuv;
- };
- 
-diff --git a/drivers/gpu/drm/sun4i/sunxi_engine.h b/drivers/gpu/drm/sun4i/sunxi_engine.h
-index ec8cf9b2bda41..608a26c3f9911 100644
---- a/drivers/gpu/drm/sun4i/sunxi_engine.h
-+++ b/drivers/gpu/drm/sun4i/sunxi_engine.h
-@@ -6,6 +6,8 @@
- #ifndef _SUNXI_ENGINE_H_
- #define _SUNXI_ENGINE_H_
- 
-+#include <drm/drm_color_mgmt.h>
-+
- struct drm_plane;
- struct drm_device;
- struct drm_crtc_state;
-@@ -120,6 +122,17 @@ struct sunxi_engine_ops {
- 	 */
- 	void (*mode_set)(struct sunxi_engine *engine,
- 			 const struct drm_display_mode *mode);
-+
-+	/**
-+	 * @get_supported_fmts
-+	 *
-+	 * This callback is used to enumerate all supported output
-+	 * formats by the engine. They are used for bridge format
-+	 * negotiation.
-+	 *
-+	 * This function is optional.
-+	 */
-+	u32 *(*get_supported_fmts)(struct sunxi_engine *engine, u32 *num);
- };
- 
- /**
-@@ -137,6 +150,9 @@ struct sunxi_engine {
- 
- 	int id;
- 
-+	u32				format;
-+	enum drm_color_encoding		encoding;
-+
- 	/* Engine list management */
- 	struct list_head		list;
- };
-@@ -208,4 +224,22 @@ sunxi_engine_mode_set(struct sunxi_engine *engine,
- 	if (engine->ops && engine->ops->mode_set)
- 		engine->ops->mode_set(engine, mode);
- }
-+
-+/**
-+ * sunxi_engine_get_supported_formats - Provide array of supported formats
-+ * @engine:	pointer to the engine
-+ * @num:	pointer to variable, which will hold number of formats
-+ *
-+ * This list can be used for format negotiation by bridge.
-+ */
-+static inline u32 *
-+sunxi_engine_get_supported_formats(struct sunxi_engine *engine, u32 *num)
++static bool sun8i_vi_layer_format_mod_supported(struct drm_plane *plane,
++						u32 format, u64 modifier)
 +{
-+	if (engine->ops && engine->ops->get_supported_fmts)
-+		return engine->ops->get_supported_fmts(engine, num);
++	struct sun8i_vi_layer *layer = plane_to_sun8i_vi_layer(plane);
 +
-+	*num = 0;
-+
-+	return NULL;
++	return sun50i_afbc_format_mod_supported(layer->mixer, format, modifier);
 +}
- #endif /* _SUNXI_ENGINE_H_ */
++
+ static const struct drm_plane_helper_funcs sun8i_vi_layer_helper_funcs = {
+ 	.atomic_check	= sun8i_vi_layer_atomic_check,
+ 	.atomic_disable	= sun8i_vi_layer_atomic_disable,
+@@ -444,6 +484,7 @@ static const struct drm_plane_funcs sun8i_vi_layer_funcs = {
+ 	.disable_plane		= drm_atomic_helper_disable_plane,
+ 	.reset			= drm_atomic_helper_plane_reset,
+ 	.update_plane		= drm_atomic_helper_update_plane,
++	.format_mod_supported   = sun8i_vi_layer_format_mod_supported,
+ };
+ 
+ /*
+@@ -527,6 +568,11 @@ static const u32 sun8i_vi_layer_de3_formats[] = {
+ 	DRM_FORMAT_YVU411,
+ 	DRM_FORMAT_YVU420,
+ 	DRM_FORMAT_YVU422,
++
++	/* AFBC only formats */
++	DRM_FORMAT_YUV420_8BIT,
++	DRM_FORMAT_YUV420_10BIT,
++	DRM_FORMAT_Y210,
+ };
+ 
+ static const uint64_t sun8i_layer_modifiers[] = {
+@@ -534,6 +580,18 @@ static const uint64_t sun8i_layer_modifiers[] = {
+ 	DRM_FORMAT_MOD_INVALID
+ };
+ 
++static const uint64_t sun50i_layer_de3_modifiers[] = {
++	DRM_FORMAT_MOD_ARM_AFBC(AFBC_FORMAT_MOD_BLOCK_SIZE_16x16 |
++				AFBC_FORMAT_MOD_SPARSE |
++				AFBC_FORMAT_MOD_SPLIT),
++	DRM_FORMAT_MOD_ARM_AFBC(AFBC_FORMAT_MOD_BLOCK_SIZE_16x16 |
++				AFBC_FORMAT_MOD_YTR |
++				AFBC_FORMAT_MOD_SPARSE |
++				AFBC_FORMAT_MOD_SPLIT),
++	DRM_FORMAT_MOD_LINEAR,
++	DRM_FORMAT_MOD_INVALID
++};
++
+ struct sun8i_vi_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
+ 					       struct sun8i_mixer *mixer,
+ 					       int index)
+@@ -542,6 +600,7 @@ struct sun8i_vi_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
+ 	u32 supported_encodings, supported_ranges;
+ 	unsigned int plane_cnt, format_count;
+ 	struct sun8i_vi_layer *layer;
++	const uint64_t *modifiers;
+ 	const u32 *formats;
+ 	int ret;
+ 
+@@ -556,9 +615,11 @@ struct sun8i_vi_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
+ 	if (mixer->cfg->is_de3) {
+ 		formats = sun8i_vi_layer_de3_formats;
+ 		format_count = ARRAY_SIZE(sun8i_vi_layer_de3_formats);
++		modifiers = sun50i_layer_de3_modifiers;
+ 	} else {
+ 		formats = sun8i_vi_layer_formats;
+ 		format_count = ARRAY_SIZE(sun8i_vi_layer_formats);
++		modifiers = sun8i_layer_modifiers;
+ 	}
+ 
+ 	if (!mixer->cfg->ui_num && index == 0)
+@@ -568,8 +629,7 @@ struct sun8i_vi_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
+ 	ret = drm_universal_plane_init(drm, &layer->plane, 0,
+ 				       &sun8i_vi_layer_funcs,
+ 				       formats, format_count,
+-				       sun8i_layer_modifiers,
+-				       type, NULL);
++				       modifiers, type, NULL);
+ 	if (ret) {
+ 		dev_err(drm->dev, "Couldn't initialize layer\n");
+ 		return ERR_PTR(ret);
 -- 
 2.45.2
 
