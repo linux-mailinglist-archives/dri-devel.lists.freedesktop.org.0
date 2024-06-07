@@ -2,111 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056518FF8E2
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 02:52:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB988FF9A1
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 03:37:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 263F910EB45;
-	Fri,  7 Jun 2024 00:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D79E210E1FA;
+	Fri,  7 Jun 2024 01:37:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ZFF5je8A";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="f8fBgdCo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com
- [209.85.219.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1361B10EB45
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 00:51:58 +0000 (UTC)
-Received: by mail-yb1-f202.google.com with SMTP id
- 3f1490d57ef6-dfaf7ead784so589659276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jun 2024 17:51:57 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71EE710E1FA;
+ Fri,  7 Jun 2024 01:37:38 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-35ef1e928c9so1882342f8f.3; 
+ Thu, 06 Jun 2024 18:37:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1717721517; x=1718326317;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=5OTKzE87dE3YUZ2x+QDSrLZoAnDgIs5NGI9Mvcg7hI4=;
- b=ZFF5je8Aez+3/WxgNVG+DMQy7nu1eWeYIm9Vsmbg90yAH0e0cynST1i0ztgoojgHr6
- ftH9/dej504gBcp0La71oDNgrEo56Qri0g5jLKga9ra6IMt9D9uXpt1s+0Xnt8H13Q95
- cCP3BoCpB69DGFfVAoEG7LJT84bAIKKsmTW+JJprgGoijovlgPnxym8zSc/fa2jd/HG9
- mVuQS6t1LaRwk6h6W3JYCMaswM/3zz1g9dC9f2v4cBxnoDR5+b1SbE4Af8PzqWDcIrDd
- F2SWSbvh+qAGba+Cj0/3tRDCGwa+pXlTWWhYQMkGYNxtn+NJmvDj5sCKCGzjvZosDYQT
- PQxA==
+ d=gmail.com; s=20230601; t=1717724257; x=1718329057; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+bktKVr+7XJccCJBBtxqF+Ee7b46k9Prkz6DvcgbEsM=;
+ b=f8fBgdComdRslXRfOTmLtR7PwmUrg106jAeDCEdiillPXXpUSwPPRKzcnfyqdZSnlz
+ AeFXdFtCNmWY8HAeEFjvCHeOKoJbQw7Qvx9rWunvgNwbkf+2hK/TaxbNAKHcGUwzguaS
+ m09mllWa4U4iiU2jecdrhdhG72EkIK8GaQa5QPVm2fAC9ScovEcSW5w64ToLl/ZfL//t
+ oNFuF3UEjUDNV7kVr3l1ddVallPEv9N+w8BnW5s0+2HTAvCMGoXGX2TUU1eLIABXPJBo
+ XNM2MxwtkMey88Yf91sfCHHzjmQEGwb8Ofoqv7KOOIgSrvxfcIxgUHsVyIHiq/t6vBCE
+ King==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717721517; x=1718326317;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5OTKzE87dE3YUZ2x+QDSrLZoAnDgIs5NGI9Mvcg7hI4=;
- b=Vr/XmrSbIVFSpABKvxYNYpTgGaY4w050ezGzu9WY9ocTz766UanU5esTv4bqJ4VtVI
- 3SMyobmtqXpX4luXltKwy6Bh5crkWXS8vBLe3A2hx7bajo7ZXW/k3ViKve8c+WVjRCNT
- Be3m1gC7HjbbPPUsruKAZp9m7ZQ6Md3AbQn3wD//Ec5XhCnRiftiPfpkdEexigG0NaAn
- ADc4y5g6lNYznpfLun6kqD01xBQ0rCNtxYq4JW3SWKgpM3vvh2O7UTNmWS9N+5nhNlMx
- VyheqLxdQPdO2/SdcPfIO/iVBREx+oLpffl/9vN6aIj6jaxjfjABYXxAuF8UOx/+81Us
- r6lA==
+ d=1e100.net; s=20230601; t=1717724257; x=1718329057;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+bktKVr+7XJccCJBBtxqF+Ee7b46k9Prkz6DvcgbEsM=;
+ b=pSUCAJ0Tezx06QK+vPQ+E3LqGEiFcZj87+pEsAyJtIa8TmIlrS6G/YtBf7lx1qc6Ru
+ r4ZaKZ/qzC/JwhU3KA6WfmM6d+S/LnLfdpyWyMsCx6/WR7FOXgl0ClpVBssJVQOhX6XC
+ 6Rjq54vLhh6+EkTkZ+LMW2ISuboBw7Ruk4L49LtHdHvE26vwoYIPHIc4ZaPaQPg6EoWG
+ /SsIqmuIMEs4bPcPkno0bS2tRQ6acka+mw2YG21WTBi/tbrjPZGFsRRJeWCZ1jGPjG4Z
+ D1YpCy7TWTlaI8ijJvykNNaX/zr0rjM6dHmKrOSrrNClqFigGKTjuBCv78L6p5MzPQLZ
+ JNUg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVtK8N6l2z9icHkNcD6449rkyRNvQkejnxrm8QdVFBv9FIWYBCDbPJkIpLm9HQ+YgWYsrhxNybiefYgvvgiijPL8ZIV6kQJdMxwWHv78suO
-X-Gm-Message-State: AOJu0Yws76EtX12p7UBK9tKxqcbIKw4HP1vNkKwO8GRQ98RllHsTmGVl
- gqw4UU906k+BX2wgbTju7vEE5UBYHywZOZOJ5MGYTDkfWAFCvpo7exk/ApBR2aUEdXgffKiLNUT
- OWLDvNOlr4ly7YP9JtD6D4A==
-X-Google-Smtp-Source: AGHT+IGkurDj1hGMUbUGzo/RvEdhZpmgZ2oLuQudkNiV3GsrNkr09TXwWJvQHJazng48KUPCcBKtYgChykr8zPhjUQ==
-X-Received: from almasrymina.c.googlers.com
- ([fda3:e722:ac3:cc00:20:ed76:c0a8:4bc5])
- (user=almasrymina job=sendgmr) by 2002:a25:ade7:0:b0:dfa:cd94:747f with SMTP
- id 3f1490d57ef6-dfaf64d5da5mr212119276.6.1717721516846; Thu, 06 Jun 2024
- 17:51:56 -0700 (PDT)
-Date: Fri,  7 Jun 2024 00:51:23 +0000
-In-Reply-To: <20240607005127.3078656-1-almasrymina@google.com>
-Mime-Version: 1.0
-References: <20240607005127.3078656-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
-Message-ID: <20240607005127.3078656-14-almasrymina@google.com>
-Subject: [PATCH net-next v11 13/13] selftests: add ncdevmem,
- netcat for devmem TCP
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
-Cc: Mina Almasry <almasrymina@google.com>,
- Donald Hunter <donald.hunter@gmail.com>, 
- Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, 
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
- Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
- "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, 
- Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>, 
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, 
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>
+ AJvYcCV04SShUvOrJi2lKMjWTbPDXZg0KBjxcu7e3ocX0I7WR1fugaRnHpYTV4XrvOCa9zhSJaNTG3hno7W8Vc1GiAjHrImc0WRnf1TChLjyeg==
+X-Gm-Message-State: AOJu0Yxgc9lSaLErpMiDjFn47bMCKzi4m0v+rzRN+b9cEvfYM8dtff2B
+ Pn74qw2QfBKArf481tkwQqI620gq7vL9a5cHjtHemPcs+jh5f1q5cRleWYzxBcopHbKj6AmXcIQ
+ mhz46jPWaGHWp3nd7KXgXlUpaMyQ=
+X-Google-Smtp-Source: AGHT+IFJs0bx4HiK7iXnZrVWQbhoUZhYjMnDilfoT4Vpldl2o7Rm8Pb9lbJh5bI2Us9trrHDnplx1412h2GslrJLGLg=
+X-Received: by 2002:a05:6000:1201:b0:354:f489:faf with SMTP id
+ ffacd0b85a97d-35efed15cccmr1043852f8f.1.1717724256433; Thu, 06 Jun 2024
+ 18:37:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240528215344.2442-1-anarsoul@gmail.com>
+ <d388ebb2-fdef-400f-a62e-67352385effd@nvidia.com>
+In-Reply-To: <d388ebb2-fdef-400f-a62e-67352385effd@nvidia.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 7 Jun 2024 11:37:24 +1000
+Message-ID: <CAPM=9txUt=vRyO=ozZNHhreb3Lsn6Pjtm=Na=NfU-D-pmnyxOw@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau: don't attempt to schedule hpd_work on
+ headless cards
+To: Ben Skeggs <bskeggs@nvidia.com>, Vasily Khoruzhick <anarsoul@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -123,625 +78,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ncdevmem is a devmem TCP netcat. It works similarly to netcat, but it
-sends and receives data using the devmem TCP APIs. It uses udmabuf as
-the dmabuf provider. It is compatible with a regular netcat running on
-a peer, or a ncdevmem running on a peer.
+readding original poster
 
-In addition to normal netcat support, ncdevmem has a validation mode,
-where it sends a specific pattern and validates this pattern on the
-receiver side to ensure data integrity.
-
-Suggested-by: Stanislav Fomichev <sdf@google.com>
-Signed-off-by: Mina Almasry <almasrymina@google.com>
-
----
-v9: https://lore.kernel.org/netdev/20240403002053.2376017-15-almasrymina@google.com/
-- Remove unused nic_pci_addr entry (Cong).
-
-v6:
-- Updated to bind 8 queues.
-- Added RSS configuration.
-- Added some more tests for the netlink API.
-
-Changes in v1:
-- Many more general cleanups (Willem).
-- Removed driver reset (Jakub).
-- Removed hardcoded if index (Paolo).
-
-RFC v2:
-- General cleanups (Willem).
-
----
- tools/testing/selftests/net/.gitignore |   1 +
- tools/testing/selftests/net/Makefile   |   5 +
- tools/testing/selftests/net/ncdevmem.c | 542 +++++++++++++++++++++++++
- 3 files changed, 548 insertions(+)
- create mode 100644 tools/testing/selftests/net/ncdevmem.c
-
-diff --git a/tools/testing/selftests/net/.gitignore b/tools/testing/selftests/net/.gitignore
-index 49a56eb5d0368..9cd3c99c6e5d4 100644
---- a/tools/testing/selftests/net/.gitignore
-+++ b/tools/testing/selftests/net/.gitignore
-@@ -17,6 +17,7 @@ ipv6_flowlabel
- ipv6_flowlabel_mgr
- log.txt
- msg_zerocopy
-+ncdevmem
- nettest
- psock_fanout
- psock_snd
-diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
-index 6da63d1831c11..2600cce3ee382 100644
---- a/tools/testing/selftests/net/Makefile
-+++ b/tools/testing/selftests/net/Makefile
-@@ -5,6 +5,10 @@ CFLAGS =  -Wall -Wl,--no-as-needed -O2 -g
- CFLAGS += -I../../../../usr/include/ $(KHDR_INCLUDES)
- # Additional include paths needed by kselftest.h
- CFLAGS += -I../
-+CFLAGS += -I../../../net/ynl/generated/
-+CFLAGS += -I../../../net/ynl/lib/
-+
-+LDLIBS += ../../../net/ynl/lib/ynl.a ../../../net/ynl/generated/protos.a
- 
- TEST_PROGS := run_netsocktests run_afpackettests test_bpf.sh netdevice.sh \
- 	      rtnetlink.sh xfrm_policy.sh test_blackhole_dev.sh
-@@ -92,6 +96,7 @@ TEST_PROGS += fdb_flush.sh
- TEST_PROGS += fq_band_pktlimit.sh
- TEST_PROGS += vlan_hw_filter.sh
- TEST_PROGS += bpf_offload.py
-+TEST_GEN_FILES += ncdevmem
- 
- TEST_FILES := settings
- TEST_FILES += in_netns.sh lib.sh net_helper.sh setup_loopback.sh setup_veth.sh
-diff --git a/tools/testing/selftests/net/ncdevmem.c b/tools/testing/selftests/net/ncdevmem.c
-new file mode 100644
-index 0000000000000..e00255e54f77b
---- /dev/null
-+++ b/tools/testing/selftests/net/ncdevmem.c
-@@ -0,0 +1,542 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+#define __EXPORTED_HEADERS__
-+
-+#include <linux/uio.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+#include <stdbool.h>
-+#include <string.h>
-+#include <errno.h>
-+#define __iovec_defined
-+#include <fcntl.h>
-+#include <malloc.h>
-+#include <error.h>
-+
-+#include <arpa/inet.h>
-+#include <sys/socket.h>
-+#include <sys/mman.h>
-+#include <sys/ioctl.h>
-+#include <sys/syscall.h>
-+
-+#include <linux/memfd.h>
-+#include <linux/if.h>
-+#include <linux/dma-buf.h>
-+#include <linux/udmabuf.h>
-+#include <libmnl/libmnl.h>
-+#include <linux/types.h>
-+#include <linux/netlink.h>
-+#include <linux/genetlink.h>
-+#include <linux/netdev.h>
-+#include <time.h>
-+
-+#include "netdev-user.h"
-+#include <ynl.h>
-+
-+#define PAGE_SHIFT 12
-+#define TEST_PREFIX "ncdevmem"
-+#define NUM_PAGES 16000
-+
-+#ifndef MSG_SOCK_DEVMEM
-+#define MSG_SOCK_DEVMEM 0x2000000
-+#endif
-+
-+/*
-+ * tcpdevmem netcat. Works similarly to netcat but does device memory TCP
-+ * instead of regular TCP. Uses udmabuf to mock a dmabuf provider.
-+ *
-+ * Usage:
-+ *
-+ *	On server:
-+ *	ncdevmem -s <server IP> -c <client IP> -f eth1 -d 3 -n 0000:06:00.0 -l \
-+ *		-p 5201 -v 7
-+ *
-+ *	On client:
-+ *	yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | \
-+ *		tr \\n \\0 | \
-+ *		head -c 5G | \
-+ *		nc <server IP> 5201 -p 5201
-+ *
-+ * Note this is compatible with regular netcat. i.e. the sender or receiver can
-+ * be replaced with regular netcat to test the RX or TX path in isolation.
-+ */
-+
-+static char *server_ip = "192.168.1.4";
-+static char *client_ip = "192.168.1.2";
-+static char *port = "5201";
-+static size_t do_validation;
-+static int start_queue = 8;
-+static int num_queues = 8;
-+static char *ifname = "eth1";
-+static unsigned int ifindex = 3;
-+static unsigned int iterations;
-+static unsigned int dmabuf_id;
-+
-+void print_bytes(void *ptr, size_t size)
-+{
-+	unsigned char *p = ptr;
-+	int i;
-+
-+	for (i = 0; i < size; i++)
-+		printf("%02hhX ", p[i]);
-+	printf("\n");
-+}
-+
-+void print_nonzero_bytes(void *ptr, size_t size)
-+{
-+	unsigned char *p = ptr;
-+	unsigned int i;
-+
-+	for (i = 0; i < size; i++)
-+		putchar(p[i]);
-+	printf("\n");
-+}
-+
-+void validate_buffer(void *line, size_t size)
-+{
-+	static unsigned char seed = 1;
-+	unsigned char *ptr = line;
-+	int errors = 0;
-+	size_t i;
-+
-+	for (i = 0; i < size; i++) {
-+		if (ptr[i] != seed) {
-+			fprintf(stderr,
-+				"Failed validation: expected=%u, actual=%u, index=%lu\n",
-+				seed, ptr[i], i);
-+			errors++;
-+			if (errors > 20)
-+				error(1, 0, "validation failed.");
-+		}
-+		seed++;
-+		if (seed == do_validation)
-+			seed = 0;
-+	}
-+
-+	fprintf(stdout, "Validated buffer\n");
-+}
-+
-+static void reset_flow_steering(void)
-+{
-+	char command[256];
-+
-+	memset(command, 0, sizeof(command));
-+	snprintf(command, sizeof(command), "sudo ethtool -K %s ntuple off",
-+		 "eth1");
-+	system(command);
-+
-+	memset(command, 0, sizeof(command));
-+	snprintf(command, sizeof(command), "sudo ethtool -K %s ntuple on",
-+		 "eth1");
-+	system(command);
-+}
-+
-+static void configure_rss(void)
-+{
-+	char command[256];
-+
-+	memset(command, 0, sizeof(command));
-+	snprintf(command, sizeof(command), "sudo ethtool -X %s equal %d",
-+		 ifname, start_queue);
-+	system(command);
-+}
-+
-+static void configure_flow_steering(void)
-+{
-+	char command[256];
-+
-+	memset(command, 0, sizeof(command));
-+	snprintf(command, sizeof(command),
-+		 "sudo ethtool -N %s flow-type tcp4 src-ip %s dst-ip %s src-port %s dst-port %s queue %d",
-+		 ifname, client_ip, server_ip, port, port, start_queue);
-+	system(command);
-+}
-+
-+static int bind_rx_queue(unsigned int ifindex, unsigned int dmabuf_fd,
-+			 struct netdev_queue_dmabuf *queues,
-+			 unsigned int n_queue_index, struct ynl_sock **ys)
-+{
-+	struct netdev_bind_rx_req *req = NULL;
-+	struct netdev_bind_rx_rsp *rsp = NULL;
-+	struct ynl_error yerr;
-+
-+	*ys = ynl_sock_create(&ynl_netdev_family, &yerr);
-+	if (!*ys) {
-+		fprintf(stderr, "YNL: %s\n", yerr.msg);
-+		return -1;
-+	}
-+
-+	req = netdev_bind_rx_req_alloc();
-+	netdev_bind_rx_req_set_ifindex(req, ifindex);
-+	netdev_bind_rx_req_set_dmabuf_fd(req, dmabuf_fd);
-+	__netdev_bind_rx_req_set_queues(req, queues, n_queue_index);
-+
-+	rsp = netdev_bind_rx(*ys, req);
-+	if (!rsp) {
-+		perror("netdev_bind_rx");
-+		goto err_close;
-+	}
-+
-+	if (!rsp->_present.dmabuf_id) {
-+		perror("dmabuf_id not present");
-+		goto err_close;
-+	}
-+
-+	printf("got dmabuf id=%d\n", rsp->dmabuf_id);
-+	dmabuf_id = rsp->dmabuf_id;
-+
-+	netdev_bind_rx_req_free(req);
-+	netdev_bind_rx_rsp_free(rsp);
-+
-+	return 0;
-+
-+err_close:
-+	fprintf(stderr, "YNL failed: %s\n", (*ys)->err.msg);
-+	netdev_bind_rx_req_free(req);
-+	ynl_sock_destroy(*ys);
-+	return -1;
-+}
-+
-+static void create_udmabuf(int *devfd, int *memfd, int *buf, size_t dmabuf_size)
-+{
-+	struct udmabuf_create create;
-+	int ret;
-+
-+	*devfd = open("/dev/udmabuf", O_RDWR);
-+	if (*devfd < 0) {
-+		error(70, 0,
-+		      "%s: [skip,no-udmabuf: Unable to access DMA buffer device file]\n",
-+		      TEST_PREFIX);
-+	}
-+
-+	*memfd = memfd_create("udmabuf-test", MFD_ALLOW_SEALING);
-+	if (*memfd < 0)
-+		error(70, 0, "%s: [skip,no-memfd]\n", TEST_PREFIX);
-+
-+	/* Required for udmabuf */
-+	ret = fcntl(*memfd, F_ADD_SEALS, F_SEAL_SHRINK);
-+	if (ret < 0)
-+		error(73, 0, "%s: [skip,fcntl-add-seals]\n", TEST_PREFIX);
-+
-+	ret = ftruncate(*memfd, dmabuf_size);
-+	if (ret == -1)
-+		error(74, 0, "%s: [FAIL,memfd-truncate]\n", TEST_PREFIX);
-+
-+	memset(&create, 0, sizeof(create));
-+
-+	create.memfd = *memfd;
-+	create.offset = 0;
-+	create.size = dmabuf_size;
-+	*buf = ioctl(*devfd, UDMABUF_CREATE, &create);
-+	if (*buf < 0)
-+		error(75, 0, "%s: [FAIL, create udmabuf]\n", TEST_PREFIX);
-+}
-+
-+int do_server(void)
-+{
-+	char ctrl_data[sizeof(int) * 20000];
-+	struct netdev_queue_dmabuf *queues;
-+	size_t non_page_aligned_frags = 0;
-+	struct sockaddr_in client_addr;
-+	struct sockaddr_in server_sin;
-+	size_t page_aligned_frags = 0;
-+	int devfd, memfd, buf, ret;
-+	size_t total_received = 0;
-+	socklen_t client_addr_len;
-+	bool is_devmem = false;
-+	char *buf_mem = NULL;
-+	struct ynl_sock *ys;
-+	size_t dmabuf_size;
-+	char iobuf[819200];
-+	char buffer[256];
-+	int socket_fd;
-+	int client_fd;
-+	size_t i = 0;
-+	int opt = 1;
-+
-+	dmabuf_size = getpagesize() * NUM_PAGES;
-+
-+	create_udmabuf(&devfd, &memfd, &buf, dmabuf_size);
-+
-+	reset_flow_steering();
-+
-+	/* Configure RSS to divert all traffic from our devmem queues */
-+	configure_rss();
-+
-+	/* Flow steer our devmem flows to start_queue */
-+	configure_flow_steering();
-+
-+	sleep(1);
-+
-+	queues = malloc(sizeof(*queues) * num_queues);
-+
-+	for (i = 0; i < num_queues; i++) {
-+		queues[i]._present.type = 1;
-+		queues[i]._present.idx = 1;
-+		queues[i].type = NETDEV_QUEUE_TYPE_RX;
-+		queues[i].idx = start_queue + i;
-+	}
-+
-+	if (bind_rx_queue(ifindex, buf, queues, num_queues, &ys))
-+		error(1, 0, "Failed to bind\n");
-+
-+	buf_mem = mmap(NULL, dmabuf_size, PROT_READ | PROT_WRITE, MAP_SHARED,
-+		       buf, 0);
-+	if (buf_mem == MAP_FAILED)
-+		error(1, 0, "mmap()");
-+
-+	server_sin.sin_family = AF_INET;
-+	server_sin.sin_port = htons(atoi(port));
-+
-+	ret = inet_pton(server_sin.sin_family, server_ip, &server_sin.sin_addr);
-+	if (socket < 0)
-+		error(79, 0, "%s: [FAIL, create socket]\n", TEST_PREFIX);
-+
-+	socket_fd = socket(server_sin.sin_family, SOCK_STREAM, 0);
-+	if (socket < 0)
-+		error(errno, errno, "%s: [FAIL, create socket]\n", TEST_PREFIX);
-+
-+	ret = setsockopt(socket_fd, SOL_SOCKET, SO_REUSEPORT, &opt,
-+			 sizeof(opt));
-+	if (ret)
-+		error(errno, errno, "%s: [FAIL, set sock opt]\n", TEST_PREFIX);
-+
-+	ret = setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &opt,
-+			 sizeof(opt));
-+	if (ret)
-+		error(errno, errno, "%s: [FAIL, set sock opt]\n", TEST_PREFIX);
-+
-+	printf("binding to address %s:%d\n", server_ip,
-+	       ntohs(server_sin.sin_port));
-+
-+	ret = bind(socket_fd, &server_sin, sizeof(server_sin));
-+	if (ret)
-+		error(errno, errno, "%s: [FAIL, bind]\n", TEST_PREFIX);
-+
-+	ret = listen(socket_fd, 1);
-+	if (ret)
-+		error(errno, errno, "%s: [FAIL, listen]\n", TEST_PREFIX);
-+
-+	client_addr_len = sizeof(client_addr);
-+
-+	inet_ntop(server_sin.sin_family, &server_sin.sin_addr, buffer,
-+		  sizeof(buffer));
-+	printf("Waiting or connection on %s:%d\n", buffer,
-+	       ntohs(server_sin.sin_port));
-+	client_fd = accept(socket_fd, &client_addr, &client_addr_len);
-+
-+	inet_ntop(client_addr.sin_family, &client_addr.sin_addr, buffer,
-+		  sizeof(buffer));
-+	printf("Got connection from %s:%d\n", buffer,
-+	       ntohs(client_addr.sin_port));
-+
-+	while (1) {
-+		struct iovec iov = { .iov_base = iobuf,
-+				     .iov_len = sizeof(iobuf) };
-+		struct dmabuf_cmsg *dmabuf_cmsg = NULL;
-+		struct dma_buf_sync sync = { 0 };
-+		struct cmsghdr *cm = NULL;
-+		struct msghdr msg = { 0 };
-+		struct dmabuf_token token;
-+		ssize_t ret;
-+
-+		is_devmem = false;
-+		printf("\n\n");
-+
-+		msg.msg_iov = &iov;
-+		msg.msg_iovlen = 1;
-+		msg.msg_control = ctrl_data;
-+		msg.msg_controllen = sizeof(ctrl_data);
-+		ret = recvmsg(client_fd, &msg, MSG_SOCK_DEVMEM);
-+		printf("recvmsg ret=%ld\n", ret);
-+		if (ret < 0 && (errno == EAGAIN || errno == EWOULDBLOCK))
-+			continue;
-+		if (ret < 0) {
-+			perror("recvmsg");
-+			continue;
-+		}
-+		if (ret == 0) {
-+			printf("client exited\n");
-+			goto cleanup;
-+		}
-+
-+		i++;
-+		for (cm = CMSG_FIRSTHDR(&msg); cm; cm = CMSG_NXTHDR(&msg, cm)) {
-+			if (cm->cmsg_level != SOL_SOCKET ||
-+			    (cm->cmsg_type != SCM_DEVMEM_DMABUF &&
-+			     cm->cmsg_type != SCM_DEVMEM_LINEAR)) {
-+				fprintf(stdout, "skipping non-devmem cmsg\n");
-+				continue;
-+			}
-+
-+			dmabuf_cmsg = (struct dmabuf_cmsg *)CMSG_DATA(cm);
-+			is_devmem = true;
-+
-+			if (cm->cmsg_type == SCM_DEVMEM_LINEAR) {
-+				/* TODO: process data copied from skb's linear
-+				 * buffer.
-+				 */
-+				fprintf(stdout,
-+					"SCM_DEVMEM_LINEAR. dmabuf_cmsg->frag_size=%u\n",
-+					dmabuf_cmsg->frag_size);
-+
-+				continue;
-+			}
-+
-+			token.token_start = dmabuf_cmsg->frag_token;
-+			token.token_count = 1;
-+
-+			total_received += dmabuf_cmsg->frag_size;
-+			printf("received frag_page=%llu, in_page_offset=%llu, frag_offset=%llu, frag_size=%u, token=%u, total_received=%lu, dmabuf_id=%u\n",
-+			       dmabuf_cmsg->frag_offset >> PAGE_SHIFT,
-+			       dmabuf_cmsg->frag_offset % getpagesize(),
-+			       dmabuf_cmsg->frag_offset, dmabuf_cmsg->frag_size,
-+			       dmabuf_cmsg->frag_token, total_received,
-+			       dmabuf_cmsg->dmabuf_id);
-+
-+			if (dmabuf_cmsg->dmabuf_id != dmabuf_id)
-+				error(1, 0,
-+				      "received on wrong dmabuf_id: flow steering error\n");
-+
-+			if (dmabuf_cmsg->frag_size % getpagesize())
-+				non_page_aligned_frags++;
-+			else
-+				page_aligned_frags++;
-+
-+			sync.flags = DMA_BUF_SYNC_READ | DMA_BUF_SYNC_START;
-+			ioctl(buf, DMA_BUF_IOCTL_SYNC, &sync);
-+
-+			if (do_validation)
-+				validate_buffer(
-+					((unsigned char *)buf_mem) +
-+						dmabuf_cmsg->frag_offset,
-+					dmabuf_cmsg->frag_size);
-+			else
-+				print_nonzero_bytes(
-+					((unsigned char *)buf_mem) +
-+						dmabuf_cmsg->frag_offset,
-+					dmabuf_cmsg->frag_size);
-+
-+			sync.flags = DMA_BUF_SYNC_READ | DMA_BUF_SYNC_END;
-+			ioctl(buf, DMA_BUF_IOCTL_SYNC, &sync);
-+
-+			ret = setsockopt(client_fd, SOL_SOCKET,
-+					 SO_DEVMEM_DONTNEED, &token,
-+					 sizeof(token));
-+			if (ret != 1)
-+				error(1, 0,
-+				      "SO_DEVMEM_DONTNEED not enough tokens");
-+		}
-+		if (!is_devmem)
-+			error(1, 0, "flow steering error\n");
-+
-+		printf("total_received=%lu\n", total_received);
-+	}
-+
-+	fprintf(stdout, "%s: ok\n", TEST_PREFIX);
-+
-+	fprintf(stdout, "page_aligned_frags=%lu, non_page_aligned_frags=%lu\n",
-+		page_aligned_frags, non_page_aligned_frags);
-+
-+	fprintf(stdout, "page_aligned_frags=%lu, non_page_aligned_frags=%lu\n",
-+		page_aligned_frags, non_page_aligned_frags);
-+
-+cleanup:
-+
-+	munmap(buf_mem, dmabuf_size);
-+	close(client_fd);
-+	close(socket_fd);
-+	close(buf);
-+	close(memfd);
-+	close(devfd);
-+	ynl_sock_destroy(ys);
-+
-+	return 0;
-+}
-+
-+void run_devmem_tests(void)
-+{
-+	struct netdev_queue_dmabuf *queues;
-+	int devfd, memfd, buf;
-+	struct ynl_sock *ys;
-+	size_t dmabuf_size;
-+	size_t i = 0;
-+
-+	dmabuf_size = getpagesize() * NUM_PAGES;
-+
-+	create_udmabuf(&devfd, &memfd, &buf, dmabuf_size);
-+
-+	/* Configure RSS to divert all traffic from our devmem queues */
-+	configure_rss();
-+
-+	sleep(1);
-+
-+	queues = malloc(sizeof(*queues) * num_queues);
-+
-+	for (i = 0; i < num_queues; i++) {
-+		queues[i]._present.type = 1;
-+		queues[i]._present.idx = 1;
-+		queues[i].type = NETDEV_QUEUE_TYPE_RX;
-+		queues[i].idx = start_queue + i;
-+	}
-+
-+	if (bind_rx_queue(ifindex, buf, queues, num_queues, &ys))
-+		error(1, 0, "Failed to bind\n");
-+
-+	/* Closing the netlink socket does an implicit unbind */
-+	ynl_sock_destroy(ys);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	int is_server = 0, opt;
-+
-+	while ((opt = getopt(argc, argv, "ls:c:p:v:q:f:n:i:d:")) != -1) {
-+		switch (opt) {
-+		case 'l':
-+			is_server = 1;
-+			break;
-+		case 's':
-+			server_ip = optarg;
-+			break;
-+		case 'c':
-+			client_ip = optarg;
-+			break;
-+		case 'p':
-+			port = optarg;
-+			break;
-+		case 'v':
-+			do_validation = atoll(optarg);
-+			break;
-+		case 'q':
-+			num_queues = atoi(optarg);
-+			break;
-+		case 't':
-+			start_queue = atoi(optarg);
-+			break;
-+		case 'f':
-+			ifname = optarg;
-+			break;
-+		case 'd':
-+			ifindex = atoi(optarg);
-+			break;
-+		case 'i':
-+			iterations = atoll(optarg);
-+			break;
-+		case '?':
-+			printf("unknown option: %c\n", optopt);
-+			break;
-+		}
-+	}
-+
-+	for (; optind < argc; optind++)
-+		printf("extra arguments: %s\n", argv[optind]);
-+
-+	run_devmem_tests();
-+
-+	if (is_server)
-+		return do_server();
-+
-+	return 0;
-+}
--- 
-2.45.2.505.gda0bf45e8d-goog
-
+On Wed, 29 May 2024 at 09:57, Ben Skeggs <bskeggs@nvidia.com> wrote:
+>
+> On 29/5/24 07:52, Vasily Khoruzhick wrote:
+>
+> > If the card doesn't have display hardware, hpd_work and hpd_lock are
+> > left uninitialized which causes BUG when attempting to schedule hpd_work
+> > on runtime PM resume.
+>
+> Hi,
+>
+> Good catch, thank you for looking at this.  A couple of initial comments
+> below:
+>
+> Ben.
+>
+> >
+> > Fix it by adding headless flag to DRM and skip any hpd if it's set.
+> >
+> > Fixes: ae1aadb1eb8d ("nouveau: don't fail driver load if no display hw present.")
+> > Link: https://gitlab.freedesktop.org/drm/nouveau/-/issues/337
+> > Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+> > ---
+> >   drivers/gpu/drm/nouveau/dispnv04/disp.c     |  2 +-
+> >   drivers/gpu/drm/nouveau/dispnv50/disp.c     |  2 +-
+> >   drivers/gpu/drm/nouveau/nouveau_connector.c |  3 +++
+> >   drivers/gpu/drm/nouveau/nouveau_display.c   | 11 ++++++++++-
+> >   drivers/gpu/drm/nouveau/nouveau_drv.h       |  1 +
+> >   5 files changed, 16 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/nouveau/dispnv04/disp.c b/drivers/gpu/drm/nouveau/dispnv04/disp.c
+> > index 13705c5f1497..4b7497a8755c 100644
+> > --- a/drivers/gpu/drm/nouveau/dispnv04/disp.c
+> > +++ b/drivers/gpu/drm/nouveau/dispnv04/disp.c
+> > @@ -68,7 +68,7 @@ nv04_display_fini(struct drm_device *dev, bool runtime, bool suspend)
+> >       if (nv_two_heads(dev))
+> >               NVWriteCRTC(dev, 1, NV_PCRTC_INTR_EN_0, 0);
+> >
+> > -     if (!runtime)
+> > +     if (!runtime && !drm->headless)
+> >               cancel_work_sync(&drm->hpd_work);
+> >
+> >       if (!suspend)
+> > diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > index 88728a0b2c25..674dc567e179 100644
+> > --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > @@ -2680,7 +2680,7 @@ nv50_display_fini(struct drm_device *dev, bool runtime, bool suspend)
+> >                       nv50_mstm_fini(nouveau_encoder(encoder));
+> >       }
+> >
+> > -     if (!runtime)
+> > +     if (!runtime && !drm->headless)
+> >               cancel_work_sync(&drm->hpd_work);
+> >   }
+> >
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> > index 856b3ef5edb8..b315a2ef5b28 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> > @@ -1190,6 +1190,9 @@ nouveau_connector_hpd(struct nouveau_connector *nv_connector, u64 bits)
+> >       u32 mask = drm_connector_mask(&nv_connector->base);
+> >       unsigned long flags;
+> >
+> > +     if (drm->headless)
+> > +             return;
+> > +
+>
+> You shouldn't need this change, the function can't be called if there's
+> no display.
+>
+>
+> >       spin_lock_irqsave(&drm->hpd_lock, flags);
+> >       if (!(drm->hpd_pending & mask)) {
+> >               nv_connector->hpd_pending |= bits;
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
+> > index aed5d5b51b43..1961ef665e97 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_display.c
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+> > @@ -450,6 +450,9 @@ nouveau_display_hpd_resume(struct drm_device *dev)
+> >   {
+> >       struct nouveau_drm *drm = nouveau_drm(dev);
+> >
+> > +     if (drm->headless)
+> > +             return;
+> > +
+> >       spin_lock_irq(&drm->hpd_lock);
+> >       drm->hpd_pending = ~0;
+> >       spin_unlock_irq(&drm->hpd_lock);
+> > @@ -468,6 +471,11 @@ nouveau_display_hpd_work(struct work_struct *work)
+> >       int changed = 0;
+> >       struct drm_connector *first_changed_connector = NULL;
+> >
+> > +     WARN_ON_ONCE(drm->headless);
+> > +
+> > +     if (drm->headless)
+> > +             return;
+> > +
+>
+> Same here.
+>
+>
+> >       pm_runtime_get_sync(dev->dev);
+> >
+> >       spin_lock_irq(&drm->hpd_lock);
+> > @@ -635,7 +643,7 @@ nouveau_display_fini(struct drm_device *dev, bool suspend, bool runtime)
+> >       }
+> >       drm_connector_list_iter_end(&conn_iter);
+> >
+> > -     if (!runtime)
+> > +     if (!runtime && !drm->headless)
+> >               cancel_work_sync(&drm->hpd_work);
+> >
+> >       drm_kms_helper_poll_disable(dev);
+> > @@ -729,6 +737,7 @@ nouveau_display_create(struct drm_device *dev)
+> >               /* no display hw */
+> >               if (ret == -ENODEV) {
+> >                       ret = 0;
+> > +                     drm->headless = true;
+> >                       goto disp_create_err;
+> >               }
+> >
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
+> > index e239c6bf4afa..25fca98a20bc 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_drv.h
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+> > @@ -276,6 +276,7 @@ struct nouveau_drm {
+> >       /* modesetting */
+> >       struct nvbios vbios;
+> >       struct nouveau_display *display;
+> > +     bool headless;
+> >       struct work_struct hpd_work;
+> >       spinlock_t hpd_lock;
+> >       u32 hpd_pending;
