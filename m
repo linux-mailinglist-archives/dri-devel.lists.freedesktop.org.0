@@ -2,69 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45674900AC8
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 18:52:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9F21900AD8
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 18:59:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B37BD10E06D;
-	Fri,  7 Jun 2024 16:52:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0750510E6AD;
+	Fri,  7 Jun 2024 16:59:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ICmDu/YN";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="TAqAdyed";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
- [209.85.210.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5F4210E06D;
- Fri,  7 Jun 2024 16:52:33 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id
- 46e09a7af769-6f96064f38cso27394a34.0; 
- Fri, 07 Jun 2024 09:52:33 -0700 (PDT)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADFFF10E6AD
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 16:59:31 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id
+ 4fb4d7f45d1cf-57a1fe63947so3011990a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jun 2024 09:59:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1717779152; x=1718383952; darn=lists.freedesktop.org;
+ d=google.com; s=20230601; t=1717779569; x=1718384369;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=d9oBCOvPN+myCQtEdlIKkY65EngGca25XZLlE9lZXnA=;
- b=ICmDu/YNjk+zWX0UUX8T5cP+oc4GuBhEU4hVUxcqL3fth2yMeJHn7bRiqe3NmKd0Gm
- DPa6Xz3T5WGdBF44Yxzdb+hG/uNrsM8rFt49AlqSCdmO8R84xVKKvcDMwAjB7kbJmYE2
- Bz8aJDfJo+Pnb9S87veoHGBVZAf7KKtPta9+EWlC6Y8JC6asEQHHd6gxwiYQwdm7hsKS
- I2d3EceOWOHTtL8/L6uMmDsSwtG/6X7ySmq+tRAWE+/2ZlZIUFu9/HZ2uZi7VUApuGVg
- A9sMpfpx4W5+uxwyKXgWlKgW+1EgEzTNthDoeQzCZEczIJA307CzwmvNVZZvpnnjZ7+F
- /EGg==
+ bh=b716fHLqA+q2jVEnF0wQCq5rwwcoiNDI2tYRdVxGBJ8=;
+ b=TAqAdyed/XddNl09/NvBijVgGVfefYbQytvVKJ2JJlUUwrc1lC06rLCNCTtat/8Zzv
+ 3+Qgpgd3f++Vlo763T5TEg6yKut6hiCIhU1NClwn/7mAXHSF7iAdHi6JYWARLkX/n5kR
+ 5WwJ2wqzb0uFG4hBEUkJbfKeoarDTO7jC4BvZOYEAqEpd25p5OCXIhDiXoSdbnZHLkAw
+ nJCC1UrGtAsLw8ShIdtiaMpzGpWo+eK/uDnleJlM5RDN4lko7+C6VuUa8nvQqlQ5S1XJ
+ 8DhEy3v2sR+ZNViASTBZ7XPoY/n0mMbd17g1I3+cR+4KhqDEh3ERUftVKeDbynI8ohGO
+ pHEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717779152; x=1718383952;
+ d=1e100.net; s=20230601; t=1717779569; x=1718384369;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=d9oBCOvPN+myCQtEdlIKkY65EngGca25XZLlE9lZXnA=;
- b=O5w/3jdui4L9TnH8x02NG9/mibvrMGqVj7SbijPMYJhPQFHvMEaNu38/owauuBy5wZ
- /3rsCV9oEEb8olyjc/EWHAaV9WO8tw/IVyJwUvPtQgFojeSNQ1pset7jZyEhuTqRTsy1
- 4VoWDgwkNYne2DjauiY+0mLmBrpvHTdJ85VIHCZgLidyZB77FSzsXf+pAG6eH6+7IFYN
- h0Rl9ZeldIV9Ja5iYTtXrM8T5ZAMrFo6Tjc0xQwL2eLHjnVbxIQQeCDnN+EntWVgcE0a
- KwnzhLps9Ugbb7pdDMPnq96/D/imOlTHG6Vvq0QMXercHeWZU7e+MHB6JZB3chT3b7BV
- W9sw==
+ bh=b716fHLqA+q2jVEnF0wQCq5rwwcoiNDI2tYRdVxGBJ8=;
+ b=pUh61EWBxNoJEMMma0cPr4JnkjLwqbe7q1QzzV6JspLiumC7rvaCDfnuApl/WsRHsX
+ 8j1ycXkz54CxkaUugkQ0a9xpBHnim5WXFmrkia1zJ13iffQLk7ndawYTApch26pBJHQz
+ jTVO+zbiyqLmgqlqjZ6ygtkm4fjH04WfitDqdeRU+OpQfEqCterwGeANKUExZDq8I7rn
+ ha5IUp58zWjsXYPuZTQeScWbuanRTTIA4IOvHaTl+fMx/bQVg4cKOHe56r6fXf7i2hGz
+ us3P5II58H+3qxLc6JQgTpiMBr9EZi3bjLHE7sXA32h5/hwLK3G7bKGocoMyyHSFZU8i
+ KtcQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXdj3gmsOavpDIIuRwS4q8qsvCStvv/HBZSeQwR0Pz08DrIcoa0dWO+8S+gdOPZJ6MRR5WtKRusBOcuK7CuChL1uUh1tl6kCtC4XTqfPQV1grHVcQa52cLlht0WYNsaNDXCIuXf//AfT9yExlQWbA==
-X-Gm-Message-State: AOJu0Yzw0626fypF+2AbFwlzV9jjRIYxCnsQefgg1yEzryWdLdhcYkAL
- WK+ASvrY4iWxA09irj2RgFpitY0/MWrWcH5M8Sb2cG5bo8trNczJkIO34srrrpGys9QMos0lQl8
- riQsPlniaa4WoTPQZQY1yvgXnsR4=
-X-Google-Smtp-Source: AGHT+IEDD2D/77JuggPksgMH8B6CmEL8dBhYEJyZEJL7LHJun60lv2Kkvnb8DAxx4zJzT5b+XQbIZfxuZXVX9RlQt3g=
-X-Received: by 2002:a05:6871:20b:b0:250:702f:8bab with SMTP id
- 586e51a60fabf-254649487e9mr3022741fac.3.1717779152521; Fri, 07 Jun 2024
- 09:52:32 -0700 (PDT)
+ AJvYcCWxxfXSlsKNIJ4qPkk4fX+1ny+gIlun+wHrAjiCzvHQypebUw9N84M7M6FD64PT0woosAj+v30Out/EnABZ0vAOTqpnFErBepY6qEKF69Vp
+X-Gm-Message-State: AOJu0YyhRw61d5ChoLGgeEBuLBX+QcGXmzLqqAZWfHTQVq2Y2VKcG7tr
+ eZ54LI0ucKLjhROMI/7OEBjQM+HPYI9C9+cBr6UEJpFayb4FdwipGJpg4wSd2ka4zhwIP8q8jzz
+ cjNkAQMn9Z1r8xIDVxl+aQI9IggeRrtCpHFAJ
+X-Google-Smtp-Source: AGHT+IFO8pnZEEr0e5+OyIy57985L/vijoXMBq19GG2GOaDteqsHQMVykhBCrf2eEzDSRbH9iO1UMt7DJvGo0PZ4Mj4=
+X-Received: by 2002:a17:906:12c1:b0:a63:3cd4:97d2 with SMTP id
+ a640c23a62f3a-a6cdbd0d2e5mr206803066b.63.1717779569136; Fri, 07 Jun 2024
+ 09:59:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240528215344.2442-1-anarsoul@gmail.com>
- <d388ebb2-fdef-400f-a62e-67352385effd@nvidia.com>
- <CAPM=9txUt=vRyO=ozZNHhreb3Lsn6Pjtm=Na=NfU-D-pmnyxOw@mail.gmail.com>
-In-Reply-To: <CAPM=9txUt=vRyO=ozZNHhreb3Lsn6Pjtm=Na=NfU-D-pmnyxOw@mail.gmail.com>
-From: Vasily Khoruzhick <anarsoul@gmail.com>
-Date: Fri, 7 Jun 2024 09:52:06 -0700
-Message-ID: <CA+E=qVe+H93bqJ=o-zVKj8UaRsnj8jbi1E2t+Mbmq9aLecKtnQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau: don't attempt to schedule hpd_work on
- headless cards
-To: Dave Airlie <airlied@gmail.com>
-Cc: Ben Skeggs <bskeggs@nvidia.com>, dri-devel@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org
+References: <20240530201616.1316526-1-almasrymina@google.com>
+ <20240530201616.1316526-3-almasrymina@google.com>
+ <ZlqzER_ufrhlB28v@infradead.org>
+ <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
+ <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
+ <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
+ <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
+ <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+ <8f44ca2a-8910-418f-b4a6-ca1e051484ba@gmail.com>
+ <a8df4459-30bf-4414-aeca-2f67c461adc4@gmail.com>
+In-Reply-To: <a8df4459-30bf-4414-aeca-2f67c461adc4@gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Fri, 7 Jun 2024 09:59:16 -0700
+Message-ID: <CAHS8izNcYMsSpTNVSGRJHK6u+kDxnFab5Km1rYy8b++0FeUNgA@mail.gmail.com>
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: David Ahern <dsahern@kernel.org>, Christoph Hellwig <hch@infradead.org>,
+ netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, 
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yunsheng Lin <linyunsheng@huawei.com>, 
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+ Praveen Kaligineedi <pkaligineedi@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,73 +129,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 6, 2024 at 6:37=E2=80=AFPM Dave Airlie <airlied@gmail.com> wrot=
-e:
+On Fri, Jun 7, 2024 at 8:47=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.c=
+om> wrote:
 >
-> readding original poster
-
-Thanks, Dave!
-
-Ben, please keep me on CC, since I'm not subscribed to either nouveau
-or dri-devel mailing lists.
-
-> On Wed, 29 May 2024 at 09:57, Ben Skeggs <bskeggs@nvidia.com> wrote:
-
-> > > diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gp=
-u/drm/nouveau/nouveau_connector.c
-> > > index 856b3ef5edb8..b315a2ef5b28 100644
-> > > --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-> > > +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> > > @@ -1190,6 +1190,9 @@ nouveau_connector_hpd(struct nouveau_connector =
-*nv_connector, u64 bits)
-> > >       u32 mask =3D drm_connector_mask(&nv_connector->base);
-> > >       unsigned long flags;
-> > >
-> > > +     if (drm->headless)
-> > > +             return;
-> > > +
+> On 6/7/24 16:42, Pavel Begunkov wrote:
+> > On 6/7/24 15:27, David Ahern wrote:
+> >> On 6/7/24 7:42 AM, Pavel Begunkov wrote:
+> >>> I haven't seen any arguments against from the (net) maintainers so
+> >>> far. Nor I see any objection against callbacks from them (considering
+> >>> that either option adds an if).
+> >>
+> >> I have said before I do not understand why the dmabuf paradigm is not
+> >> sufficient for both device memory and host memory. A less than ideal
+> >> control path to put hostmem in a dmabuf wrapper vs extra checks and
+> >> changes in the datapath. The former should always be preferred.
 > >
-> > You shouldn't need this change, the function can't be called if there's
-> > no display.
+> > If we're talking about types of memory specifically, I'm not strictly
+> > against wrapping into dmabuf in kernel, but that just doesn't give
+> > anything.
+>
+> And the reason I don't have too strong of an opinion on that is
+> mainly because it's just setup/cleanup path.
+>
 
-You are right. I added it for extra safety in case if the code changes
-in future and it somehow gets called, but I don't have a strong
-preference, so I can drop it in v2.
+I agree wrapping io uring in dmabuf seems to be an unnecessary detour.
+I never understood the need or upside to do that, but it could be a
+lack of understanding on my part.
 
-> >
-> > >       spin_lock_irqsave(&drm->hpd_lock, flags);
-> > >       if (!(drm->hpd_pending & mask)) {
-> > >               nv_connector->hpd_pending |=3D bits;
-> > > diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/=
-drm/nouveau/nouveau_display.c
-> > > index aed5d5b51b43..1961ef665e97 100644
-> > > --- a/drivers/gpu/drm/nouveau/nouveau_display.c
-> > > +++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-> > > @@ -450,6 +450,9 @@ nouveau_display_hpd_resume(struct drm_device *dev=
-)
-> > >   {
-> > >       struct nouveau_drm *drm =3D nouveau_drm(dev);
-> > >
-> > > +     if (drm->headless)
-> > > +             return;
-> > > +
-> > >       spin_lock_irq(&drm->hpd_lock);
-> > >       drm->hpd_pending =3D ~0;
-> > >       spin_unlock_irq(&drm->hpd_lock);
-> > > @@ -468,6 +471,11 @@ nouveau_display_hpd_work(struct work_struct *wor=
-k)
-> > >       int changed =3D 0;
-> > >       struct drm_connector *first_changed_connector =3D NULL;
-> > >
-> > > +     WARN_ON_ONCE(drm->headless);
-> > > +
-> > > +     if (drm->headless)
-> > > +             return;
-> > > +
-> >
-> > Same here.
+However, the concern that David brings up may materialize. I've had to
+spend a lot of time minimizing or justifying checks to the code with
+page pool benchmarks that detect even 1 cycle regressions. You may be
+asked to run the same benchmarks and minimize similar overhead.
 
-Same comment, I'll drop it for v2.
+The benchmark in question is Jesper's bench_page_pool_simple. I've
+forked it and applied it on top of net-next here:
+https://github.com/mina/linux/commit/927596f87ab5791a8a6ba8597ba2189747396e=
+54
 
-Regards,
-Vasily
+As io_uring ZC comes close to merging, I suspect it would be good to
+run this to understand the regression in the fast path, if any. If
+there are no to little regressions, I have no concerns over io uring
+memory not being wrapped in dmabufs, and David may agree as well.
+
+--
+Thanks,
+Mina
