@@ -2,75 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F8A2900C8E
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 21:42:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10BFD900CAF
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 21:59:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25FAC89C86;
-	Fri,  7 Jun 2024 19:42:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4587210ECEA;
+	Fri,  7 Jun 2024 19:59:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ev459w5P";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="5Pbezwps";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C33E810E100;
- Fri,  7 Jun 2024 19:42:20 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-52b9d062526so2826490e87.3; 
- Fri, 07 Jun 2024 12:42:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1717789338; x=1718394138; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gnHfDpmokOV1g8MbAAakyCSEFJ7y3SyCsQed/Rzwa28=;
- b=ev459w5PSUEKWxrUiNRndlNDcG4SjT3nn+sy67Q9iE9pDD/AJT21W1NXpj4/OIwv3D
- 6rr9/nNj5txHAZuhTMiuhx3iA4CD/AgLrfLgFVpFXYlKbc363yeyE0b+F4yUP8GY7rGO
- +iIeuGKdVmPLGUage/wsGvycCcngNyD2U4AvlDyNNtIu1t/A7XpRBVokmhvXthFn5cSJ
- gkaLF4pmlPpr8L0xHygsQmdfKW7e0evSL9QT8LmsnThqSUMC9urZqAQZTU+3m18FhLSU
- a+441fw5y45N3Y4eq/kKfQCuAorQ3D4sdjloWzwrC97NHiEvLUNx1wfstgopzZ30CEkP
- qzXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717789338; x=1718394138;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gnHfDpmokOV1g8MbAAakyCSEFJ7y3SyCsQed/Rzwa28=;
- b=Z+NOtDwzVUbGv2VzSICoYYEs8hAj5e8OhnWZqSRSE67xq4+u2mdnn1xL8NRX7feK1j
- N+CPz59JyA2jdPIe/58mZnT0P2KwJN6F3Fcaa6ZvhoVfBWLN7XrszV3VNGnwcNuYzje7
- mZJh6q8YsyxiJpn8LlYpoI5vnR2zZDu4K8oVpD6ZM/u9RYzxZxnTSHPt4n0kIwplaMTq
- FW3kKpgbuua3rCwA+hxeNK02WaraKclCT27ZDAfTgXHORKtOlaz8zUOgLGIP/JeW0PX7
- 2T8Bz9FK+h+Cdq33cETTsvVmeLs2OcxgwFIhmG3ljzyqxK2kqSrjpPCuVOyw61biT96j
- 7PHg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXpmtjx5Vo6W4/+Xi28RmyHxYKz6CKZ0jPXMSN6veBnHrxJBfh7Ajn5fQMBbOHDUPce+RKaPCC4YoYjCD+97TX2/wyKAYnsnO9wG+rquIYFkiTwVMGw79UjMf9nnrzl0HlbIhgLeChX6ChDIiUBxg==
-X-Gm-Message-State: AOJu0YyZNXORo6+/raoTjSs9vsbRdBvw862DWzVARNmdemEN6N+OOnzc
- fR2m7heJ5WBesxSvzK3vz9YZVvfXIBt1vtWlne5MDlpr3jwG1t80q993KK8gRTa7pB5LeE3qdFT
- nVVrq0zYhbVZGcDEIbzCwca3Dosk=
-X-Google-Smtp-Source: AGHT+IHjO1JOFlWYQz1NMb7r7WKf2U/H6bv+LLoj8CwM9sjiFNs+LlOPabhLHUHUQDdnlGYMQg1o1h7MEDrIItHW9s0=
-X-Received: by 2002:a05:6512:1cd:b0:51e:f68b:d266 with SMTP id
- 2adb3069b0e04-52bb9fcc3e7mr1938206e87.50.1717789337445; Fri, 07 Jun 2024
- 12:42:17 -0700 (PDT)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2055.outbound.protection.outlook.com [40.107.94.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A27510E100;
+ Fri,  7 Jun 2024 19:59:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YVnJSUNDODDFXNWqi2QY/KPR3tQpRCmYoftoDgTrqBp2232RA3/z/XkrjHceuZQ1SGBjxmceW2LEQDCXsiVajGfNMfo3zHqKgltgDYqh5aVESzi6T0RosW4jELoY+rXkuHWXIPFatF9hUYnJ7q2gcIXovUruZgPwAZqTA1s4yXYPTfkrKZa6PtU3EjH1Q36RPrUywYcYT1HncxbEBdn6mEwNGA5O9evBiEQUcly8X8a8Pj9eSNzn+u0dLCYtaIhmGJBX6D0+RDxO37FlQBogCu+I88DsrNzkIyGE7iiDRuNytQVtT6A+4ioGIygUFsBNJ1gMhTJuEazdP+t0AUrkeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Z82iThTNv9KhUUGwRAoO3PFwU27Vk4RU/UGm7PSqbBY=;
+ b=G2CKC26pmmp5By7di1fH8FjiGxmowgR02THcCfhNS45yAgbwuuPuUUToYQ4u+v5N73B49c97a0sSFBF6HjPbh0tSCodF6V3cEMzrWXXiONwj3vqCoAAuLodAx8hd3V7QCyjgzcj4gH/bpbyu2qZNdYGLmGSP3oi4+ZugjIJneYVzXJvDMpMwyCUEj7SzuwXd1iVZhZ3GceNn5M0f4h2O1Zv/MKfHBXQ5Ts4aXEsY/PfEX69ekSoOoDWzRM/UTtEDQ3NyVsxzE42zJlxwoDg85Q4Xuq5ByOa+9M0A7fKb8BNJ0WS/geb6TyqE3pPDOnv9fN9TWdcMgRbbSz8sSC8l6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z82iThTNv9KhUUGwRAoO3PFwU27Vk4RU/UGm7PSqbBY=;
+ b=5Pbezwpsex3AIHOEfLx3fs/H7Ma9s8Qjy3bibW8WpVZQ/45GnxGDKtnLP0LKBZXPWj49CV90ZuYC9wSfOMRZXQU9RTINUiQaCdSTDhY4vhNjH6aPnU1vMfQo5auiYIjBbUohaGZ5v1Q9oAHeBH9WmSIHhumYEr3umuHBv2fXMHE=
+Received: from MN2PR15CA0051.namprd15.prod.outlook.com (2603:10b6:208:237::20)
+ by DM6PR12MB4121.namprd12.prod.outlook.com (2603:10b6:5:220::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.34; Fri, 7 Jun
+ 2024 19:59:28 +0000
+Received: from BL6PEPF00020E66.namprd04.prod.outlook.com
+ (2603:10b6:208:237:cafe::d3) by MN2PR15CA0051.outlook.office365.com
+ (2603:10b6:208:237::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7656.21 via Frontend
+ Transport; Fri, 7 Jun 2024 19:59:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL6PEPF00020E66.mail.protection.outlook.com (10.167.249.27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7633.15 via Frontend Transport; Fri, 7 Jun 2024 19:59:27 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 7 Jun
+ 2024 14:59:25 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu, amdkfd, radeon drm-next-6.11
+Date: Fri, 7 Jun 2024 15:58:59 -0400
+Message-ID: <20240607195900.902537-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-References: <20240607011413.8839-1-wuhoipok@gmail.com>
- <dd92e946-144a-4624-aac9-c516b2417208@amd.com>
- <CANyH0kCyZsZaEaGb3cweD_KD8JB1v+1Xekz78p4my1FSdZDAxA@mail.gmail.com>
- <771fdb3f-79ed-4c1d-b979-d1e8d046832d@amd.com>
-In-Reply-To: <771fdb3f-79ed-4c1d-b979-d1e8d046832d@amd.com>
-From: Hoi Pok Wu <wuhoipok@gmail.com>
-Date: Fri, 7 Jun 2024 15:42:05 -0400
-Message-ID: <CANyH0kDUtU50O1rYeO+2NFVXh7zaGcgchEyV7KdGY9KEGRSpQg@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: remove load callback
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF00020E66:EE_|DM6PR12MB4121:EE_
+X-MS-Office365-Filtering-Correlation-Id: 82fc8662-2725-41c6-32a4-08dc872c565d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230031|1800799015|376005|82310400017|36860700004; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?YkdTMGxTcWJzdGdkNTdoRUJOZUJaNEU2bmRPMGFWS2tTVHRWSXduRXlabEUx?=
+ =?utf-8?B?Wm9sNHFyb080OEJuWmMzVUxLTlg2YXBVeXNvQXMwdFBoZE5JU0FTTU1Jdjlk?=
+ =?utf-8?B?cDBzZ3R1VzNrMnlpcyt6RkxWZjhDWVZPMjk1TCtiRkxteE5GaDlFaXdJZXc0?=
+ =?utf-8?B?SFN3c0VUT25lazhJMXNBTmhxaFlJZzl5ZlExZWNzUUZNQW4vSi9hWTNhaTJk?=
+ =?utf-8?B?QzZRcFovYUt0aUZBUWpQTE5wc2RiNndFZWpPYzBKTFFSVTVkRXNRWkJTa0xE?=
+ =?utf-8?B?Q0tNMGRtWGxnN3VvUUkxQmFlWkI0aTY4ak8xSyswUVdRdlJab2xybzhEN0lr?=
+ =?utf-8?B?TzZuRFlaR21KM3NEV2ZZMHB1T2MzUTZGSXJTUzFVSFo1VlVPaUh1VmpLdlVX?=
+ =?utf-8?B?SmVHNVFNTXhnbk8rV0d6b2NRN1dub1Y5WENLVjdEc3FvSEYyRXE5ZEJ6QitG?=
+ =?utf-8?B?UmNSV1FzVHZ2Zklib1lIRHQwMU5XK1BaVVlNVHIwdDNDNm5iT2pSUTBXQUg0?=
+ =?utf-8?B?eVlDOWhNNHc3VHRoZEZTbTZjK2xDeEY0VmhUUGlBcEdiZ1V1ZFlKK1ZnS3Ay?=
+ =?utf-8?B?V0FyeVNsOFZJNDhVd01tVjFoU3Qzc1BFUkJZa00zQ240K05qb0g3WHgvSTJY?=
+ =?utf-8?B?ekRkMHZiTmpIR3NtKzRqdHBiTk90WmVseG0vaHV6aE5kMjZJUFgyV1dIOHRU?=
+ =?utf-8?B?ZUc3UTlQekYwdC8xaVRZYXp3ZVV6dUJzWjNZM0lwTmtFTXptR1BsNEZNaFZL?=
+ =?utf-8?B?S0dxaVdWMytPdUpuaC85UnhXYUVkNEV1NlJ4NTZNT0FReStXWGxGNDgwWWtk?=
+ =?utf-8?B?VCtvSEVOVmx5NmtCNWs0T2txaXBvU2hwN1FRbEkyTFpGT3VEZkF1SEpzZDFX?=
+ =?utf-8?B?aThscnZTVFhpd3N3V21acXBBakhmNnBiTVkwa3E4Y2llN3VkK1djSERpZU8w?=
+ =?utf-8?B?THpWZjFqdUNQWW9RS1NNOW0rRlF5RVFNUHQ1bGRtUXRPSk54ZUpkV0NQSEVI?=
+ =?utf-8?B?dkNqS2NVcDZlZVVnelVrM25ha0d6TkJlYjhDa0RwRGxwNkpjVW1ncm5rcUtU?=
+ =?utf-8?B?S2wvVTVwbXl2QXBoTlJ3R1JvL1RML1lFdlRzMHdBcndLSG92V09vTVJUY0ZN?=
+ =?utf-8?B?NTJIOHlOelRJcE1iL3dPaExlTkhFRTZtQWVHLy81WEVUVGF3V2FkV3lHd1Rr?=
+ =?utf-8?B?U1dudzRDU2ttL3lUZTZPc2RqODNZQWpXbk5ITE4ycmFnbSsraFp0cytFNzZo?=
+ =?utf-8?B?ZlIwQ29HT2tXdDlqZkNJUHlNTDVWSExiNWQ2TzRaVytYMmpLdnpLb2VhVWdu?=
+ =?utf-8?B?cjdDeG1IL1FybjdqSVlHOFhLdTQ1OVdRS2E3aUF1VlI1R3BBOEFveW5jdlVX?=
+ =?utf-8?B?Ylh6MFhUbjlvTlRaRUhtZkRRakljbVFXQWxJSzY4QnVpZExGQWlMNVBwM2hY?=
+ =?utf-8?B?QjBST1I2eXhnc1RRQ3RjVDJCU1lYZXg4TUJoQmpwZGh1bEc0VDFqT3FBeGtZ?=
+ =?utf-8?B?V1VBSVhHNG8rT3RQNDdhcitwL1d0Z0VIU0VIY3h4S0lzb3BCT3pwNTIxUW1U?=
+ =?utf-8?B?UnB2dldkNEZud1VzVUR1NmlLbFkrOVUvcXdESkNSRXJhVDFSenRqMnh3K3Qy?=
+ =?utf-8?B?TUFtZmNHWWYwQ3hSSEgyakt2RysxSCtJOVpmVHVxQkJ5UG0wQ2xIc0J0d2Fy?=
+ =?utf-8?B?eEdzRldGV2ZCcm5nWkRyb09SeHlsTnplMlpOWjRNVUdqbG14emowUzA1YlJa?=
+ =?utf-8?B?ZjNBSGVSY2tERzl4VHZiSzdya1FTNmxSRHpVOWxDWFpZaWtNd05tYTdnRUV6?=
+ =?utf-8?Q?K03ubMpX1+fOE16ODxzkiUjbFF8nZx+2I8KMc=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(1800799015)(376005)(82310400017)(36860700004); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2024 19:59:27.5933 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82fc8662-2725-41c6-32a4-08dc872c565d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF00020E66.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4121
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,1946 +137,1747 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-no problem, thanks for your time.
+Hi Dave, Sima,
 
-wu
+New stuff for 6.11.
 
-On Fri, Jun 7, 2024 at 1:35=E2=80=AFPM Christian K=C3=B6nig <christian.koen=
-ig@amd.com> wrote:
->
-> In general thanks for looking into this, but when you don't have
-> hardware to at least briefly validate your work we probably can't accept
-> that.
->
-> I can see if I can get anybody looking into this, but the odds that
-> somebody has time and hardware are pretty low.
->
-> Christian.
->
-> Am 07.06.24 um 16:15 schrieb Hoi Pok Wu:
-> > i do it because it is part of the todo list
-> > where the task is to remove load/unload callback
-> > there are only 2 drm_driver that still uses thats why
-> > i thought my amdgpu could test radeonsi but no, i still send it anyway
-> >
-> > regards,
-> > wu
-> >
-> >
-> > On Fri, Jun 7, 2024 at 3:51=E2=80=AFAM Christian K=C3=B6nig <christian.=
-koenig@amd.com> wrote:
-> >> Am 07.06.24 um 03:14 schrieb wu hoi pok:
-> >>> this patch is to remove the load callback from the kms_driver,
-> >>> following closly to amdgpu, radeon_driver_load_kms and devm_drm_dev_a=
-lloc
-> >>> are used, most of the changes here are rdev->ddev to rdev_to_drm,
-> >>> which maps to adev_to_drm in amdgpu. however this patch is not tested=
- on
-> >>> hardware, so if you are free and have a gcn1 gcn2 card please do so.
-> >> What is the motivation to do that?
-> >>
-> >> When the old interface is going to be removed the patch is probably
-> >> justified, but in general we don't really accept any larger changes li=
-ke
-> >> this for radeon any more.
-> >>
-> >> Especially without some testing of it.
-> >>
-> >> Regards,
-> >> Christian.
-> >>
-> >>> Signed-off-by: wu hoi pok <wuhoipok@gmail.com>
-> >>> ---
-> >>>    drivers/gpu/drm/radeon/atombios_encoders.c |  2 +-
-> >>>    drivers/gpu/drm/radeon/cik.c               | 14 ++--
-> >>>    drivers/gpu/drm/radeon/dce6_afmt.c         |  2 +-
-> >>>    drivers/gpu/drm/radeon/evergreen.c         | 12 ++--
-> >>>    drivers/gpu/drm/radeon/ni.c                |  2 +-
-> >>>    drivers/gpu/drm/radeon/r100.c              | 24 +++----
-> >>>    drivers/gpu/drm/radeon/r300.c              |  6 +-
-> >>>    drivers/gpu/drm/radeon/r420.c              |  6 +-
-> >>>    drivers/gpu/drm/radeon/r520.c              |  2 +-
-> >>>    drivers/gpu/drm/radeon/r600.c              | 12 ++--
-> >>>    drivers/gpu/drm/radeon/r600_cs.c           |  2 +-
-> >>>    drivers/gpu/drm/radeon/r600_dpm.c          |  4 +-
-> >>>    drivers/gpu/drm/radeon/r600_hdmi.c         |  2 +-
-> >>>    drivers/gpu/drm/radeon/radeon.h            | 11 +++-
-> >>>    drivers/gpu/drm/radeon/radeon_acpi.c       | 10 +--
-> >>>    drivers/gpu/drm/radeon/radeon_agp.c        |  2 +-
-> >>>    drivers/gpu/drm/radeon/radeon_atombios.c   |  2 +-
-> >>>    drivers/gpu/drm/radeon/radeon_audio.c      |  4 +-
-> >>>    drivers/gpu/drm/radeon/radeon_combios.c    | 12 ++--
-> >>>    drivers/gpu/drm/radeon/radeon_device.c     | 17 ++---
-> >>>    drivers/gpu/drm/radeon/radeon_display.c    | 74 +++++++++++-------=
-----
-> >>>    drivers/gpu/drm/radeon/radeon_drv.c        | 27 +++++---
-> >>>    drivers/gpu/drm/radeon/radeon_drv.h        |  1 -
-> >>>    drivers/gpu/drm/radeon/radeon_fbdev.c      | 26 ++++----
-> >>>    drivers/gpu/drm/radeon/radeon_fence.c      |  8 +--
-> >>>    drivers/gpu/drm/radeon/radeon_gem.c        |  2 +-
-> >>>    drivers/gpu/drm/radeon/radeon_i2c.c        |  2 +-
-> >>>    drivers/gpu/drm/radeon/radeon_ib.c         |  2 +-
-> >>>    drivers/gpu/drm/radeon/radeon_irq_kms.c    | 12 ++--
-> >>>    drivers/gpu/drm/radeon/radeon_kms.c        | 16 ++---
-> >>>    drivers/gpu/drm/radeon/radeon_object.c     |  2 +-
-> >>>    drivers/gpu/drm/radeon/radeon_pm.c         | 20 +++---
-> >>>    drivers/gpu/drm/radeon/radeon_ring.c       |  2 +-
-> >>>    drivers/gpu/drm/radeon/radeon_ttm.c        |  6 +-
-> >>>    drivers/gpu/drm/radeon/rs400.c             |  6 +-
-> >>>    drivers/gpu/drm/radeon/rs600.c             | 14 ++--
-> >>>    drivers/gpu/drm/radeon/rs690.c             |  2 +-
-> >>>    drivers/gpu/drm/radeon/rv515.c             |  4 +-
-> >>>    drivers/gpu/drm/radeon/rv770.c             |  2 +-
-> >>>    drivers/gpu/drm/radeon/si.c                |  4 +-
-> >>>    40 files changed, 192 insertions(+), 188 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/radeon/atombios_encoders.c b/drivers/gpu=
-/drm/radeon/atombios_encoders.c
-> >>> index 7b11674f5d45..05f34efd7fd0 100644
-> >>> --- a/drivers/gpu/drm/radeon/atombios_encoders.c
-> >>> +++ b/drivers/gpu/drm/radeon/atombios_encoders.c
-> >>> @@ -2179,7 +2179,7 @@ int radeon_atom_pick_dig_encoder(struct drm_enc=
-oder *encoder, int fe_idx)
-> >>>    void
-> >>>    radeon_atom_encoder_init(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct drm_encoder *encoder;
-> >>>
-> >>>        list_for_each_entry(encoder, &dev->mode_config.encoder_list, h=
-ead) {
-> >>> diff --git a/drivers/gpu/drm/radeon/cik.c b/drivers/gpu/drm/radeon/ci=
-k.c
-> >>> index b5e96a8fc2c1..11a492f21157 100644
-> >>> --- a/drivers/gpu/drm/radeon/cik.c
-> >>> +++ b/drivers/gpu/drm/radeon/cik.c
-> >>> @@ -7585,7 +7585,7 @@ int cik_irq_process(struct radeon_device *rdev)
-> >>>                                        DRM_DEBUG("IH: IH event w/o as=
-serted irq bit?\n");
-> >>>
-> >>>                                if (rdev->irq.crtc_vblank_int[0]) {
-> >>> -                                     drm_handle_vblank(rdev->ddev, 0=
-);
-> >>> +                                     drm_handle_vblank(rdev_to_drm(r=
-dev), 0);
-> >>>                                        rdev->pm.vblank_sync =3D true;
-> >>>                                        wake_up(&rdev->irq.vblank_queu=
-e);
-> >>>                                }
-> >>> @@ -7615,7 +7615,7 @@ int cik_irq_process(struct radeon_device *rdev)
-> >>>                                        DRM_DEBUG("IH: IH event w/o as=
-serted irq bit?\n");
-> >>>
-> >>>                                if (rdev->irq.crtc_vblank_int[1]) {
-> >>> -                                     drm_handle_vblank(rdev->ddev, 1=
-);
-> >>> +                                     drm_handle_vblank(rdev_to_drm(r=
-dev), 1);
-> >>>                                        rdev->pm.vblank_sync =3D true;
-> >>>                                        wake_up(&rdev->irq.vblank_queu=
-e);
-> >>>                                }
-> >>> @@ -7645,7 +7645,7 @@ int cik_irq_process(struct radeon_device *rdev)
-> >>>                                        DRM_DEBUG("IH: IH event w/o as=
-serted irq bit?\n");
-> >>>
-> >>>                                if (rdev->irq.crtc_vblank_int[2]) {
-> >>> -                                     drm_handle_vblank(rdev->ddev, 2=
-);
-> >>> +                                     drm_handle_vblank(rdev_to_drm(r=
-dev), 2);
-> >>>                                        rdev->pm.vblank_sync =3D true;
-> >>>                                        wake_up(&rdev->irq.vblank_queu=
-e);
-> >>>                                }
-> >>> @@ -7675,7 +7675,7 @@ int cik_irq_process(struct radeon_device *rdev)
-> >>>                                        DRM_DEBUG("IH: IH event w/o as=
-serted irq bit?\n");
-> >>>
-> >>>                                if (rdev->irq.crtc_vblank_int[3]) {
-> >>> -                                     drm_handle_vblank(rdev->ddev, 3=
-);
-> >>> +                                     drm_handle_vblank(rdev_to_drm(r=
-dev), 3);
-> >>>                                        rdev->pm.vblank_sync =3D true;
-> >>>                                        wake_up(&rdev->irq.vblank_queu=
-e);
-> >>>                                }
-> >>> @@ -7705,7 +7705,7 @@ int cik_irq_process(struct radeon_device *rdev)
-> >>>                                        DRM_DEBUG("IH: IH event w/o as=
-serted irq bit?\n");
-> >>>
-> >>>                                if (rdev->irq.crtc_vblank_int[4]) {
-> >>> -                                     drm_handle_vblank(rdev->ddev, 4=
-);
-> >>> +                                     drm_handle_vblank(rdev_to_drm(r=
-dev), 4);
-> >>>                                        rdev->pm.vblank_sync =3D true;
-> >>>                                        wake_up(&rdev->irq.vblank_queu=
-e);
-> >>>                                }
-> >>> @@ -7735,7 +7735,7 @@ int cik_irq_process(struct radeon_device *rdev)
-> >>>                                        DRM_DEBUG("IH: IH event w/o as=
-serted irq bit?\n");
-> >>>
-> >>>                                if (rdev->irq.crtc_vblank_int[5]) {
-> >>> -                                     drm_handle_vblank(rdev->ddev, 5=
-);
-> >>> +                                     drm_handle_vblank(rdev_to_drm(r=
-dev), 5);
-> >>>                                        rdev->pm.vblank_sync =3D true;
-> >>>                                        wake_up(&rdev->irq.vblank_queu=
-e);
-> >>>                                }
-> >>> @@ -8581,7 +8581,7 @@ int cik_init(struct radeon_device *rdev)
-> >>>        /* Initialize surface registers */
-> >>>        radeon_surface_init(rdev);
-> >>>        /* Initialize clocks */
-> >>> -     radeon_get_clock_info(rdev->ddev);
-> >>> +     radeon_get_clock_info(rdev_to_drm(rdev));
-> >>>
-> >>>        /* Fence driver */
-> >>>        radeon_fence_driver_init(rdev);
-> >>> diff --git a/drivers/gpu/drm/radeon/dce6_afmt.c b/drivers/gpu/drm/rad=
-eon/dce6_afmt.c
-> >>> index 4c06f47453fd..d6ab93ed9ec4 100644
-> >>> --- a/drivers/gpu/drm/radeon/dce6_afmt.c
-> >>> +++ b/drivers/gpu/drm/radeon/dce6_afmt.c
-> >>> @@ -91,7 +91,7 @@ struct r600_audio_pin *dce6_audio_get_pin(struct ra=
-deon_device *rdev)
-> >>>                        pin =3D &rdev->audio.pin[i];
-> >>>                        pin_count =3D 0;
-> >>>
-> >>> -                     list_for_each_entry(encoder, &rdev->ddev->mode_=
-config.encoder_list, head) {
-> >>> +                     list_for_each_entry(encoder, &rdev_to_drm(rdev)=
-->mode_config.encoder_list, head) {
-> >>>                                if (radeon_encoder_is_digital(encoder)=
-) {
-> >>>                                        radeon_encoder =3D to_radeon_e=
-ncoder(encoder);
-> >>>                                        dig =3D radeon_encoder->enc_pr=
-iv;
-> >>> diff --git a/drivers/gpu/drm/radeon/evergreen.c b/drivers/gpu/drm/rad=
-eon/evergreen.c
-> >>> index c634dc28e6c3..bc4ab71613a5 100644
-> >>> --- a/drivers/gpu/drm/radeon/evergreen.c
-> >>> +++ b/drivers/gpu/drm/radeon/evergreen.c
-> >>> @@ -1673,7 +1673,7 @@ void evergreen_pm_misc(struct radeon_device *rd=
-ev)
-> >>>     */
-> >>>    void evergreen_pm_prepare(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *ddev =3D rdev->ddev;
-> >>> +     struct drm_device *ddev =3D rdev_to_drm(rdev);
-> >>>        struct drm_crtc *crtc;
-> >>>        struct radeon_crtc *radeon_crtc;
-> >>>        u32 tmp;
-> >>> @@ -1698,7 +1698,7 @@ void evergreen_pm_prepare(struct radeon_device =
-*rdev)
-> >>>     */
-> >>>    void evergreen_pm_finish(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *ddev =3D rdev->ddev;
-> >>> +     struct drm_device *ddev =3D rdev_to_drm(rdev);
-> >>>        struct drm_crtc *crtc;
-> >>>        struct radeon_crtc *radeon_crtc;
-> >>>        u32 tmp;
-> >>> @@ -1763,7 +1763,7 @@ void evergreen_hpd_set_polarity(struct radeon_d=
-evice *rdev,
-> >>>     */
-> >>>    void evergreen_hpd_init(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct drm_connector *connector;
-> >>>        unsigned enabled =3D 0;
-> >>>        u32 tmp =3D DC_HPDx_CONNECTION_TIMER(0x9c4) |
-> >>> @@ -1804,7 +1804,7 @@ void evergreen_hpd_init(struct radeon_device *r=
-dev)
-> >>>     */
-> >>>    void evergreen_hpd_fini(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct drm_connector *connector;
-> >>>        unsigned disabled =3D 0;
-> >>>
-> >>> @@ -4753,7 +4753,7 @@ int evergreen_irq_process(struct radeon_device =
-*rdev)
-> >>>                                event_name =3D "vblank";
-> >>>
-> >>>                                if (rdev->irq.crtc_vblank_int[crtc_idx=
-]) {
-> >>> -                                     drm_handle_vblank(rdev->ddev, c=
-rtc_idx);
-> >>> +                                     drm_handle_vblank(rdev_to_drm(r=
-dev), crtc_idx);
-> >>>                                        rdev->pm.vblank_sync =3D true;
-> >>>                                        wake_up(&rdev->irq.vblank_queu=
-e);
-> >>>                                }
-> >>> @@ -5211,7 +5211,7 @@ int evergreen_init(struct radeon_device *rdev)
-> >>>        /* Initialize surface registers */
-> >>>        radeon_surface_init(rdev);
-> >>>        /* Initialize clocks */
-> >>> -     radeon_get_clock_info(rdev->ddev);
-> >>> +     radeon_get_clock_info(rdev_to_drm(rdev));
-> >>>        /* Fence driver */
-> >>>        radeon_fence_driver_init(rdev);
-> >>>        /* initialize AGP */
-> >>> diff --git a/drivers/gpu/drm/radeon/ni.c b/drivers/gpu/drm/radeon/ni.=
-c
-> >>> index 77aee99e473a..3890911fe693 100644
-> >>> --- a/drivers/gpu/drm/radeon/ni.c
-> >>> +++ b/drivers/gpu/drm/radeon/ni.c
-> >>> @@ -2360,7 +2360,7 @@ int cayman_init(struct radeon_device *rdev)
-> >>>        /* Initialize surface registers */
-> >>>        radeon_surface_init(rdev);
-> >>>        /* Initialize clocks */
-> >>> -     radeon_get_clock_info(rdev->ddev);
-> >>> +     radeon_get_clock_info(rdev_to_drm(rdev));
-> >>>        /* Fence driver */
-> >>>        radeon_fence_driver_init(rdev);
-> >>>        /* initialize memory controller */
-> >>> diff --git a/drivers/gpu/drm/radeon/r100.c b/drivers/gpu/drm/radeon/r=
-100.c
-> >>> index 0b1e19345f43..d7d7d23bf9a1 100644
-> >>> --- a/drivers/gpu/drm/radeon/r100.c
-> >>> +++ b/drivers/gpu/drm/radeon/r100.c
-> >>> @@ -459,7 +459,7 @@ void r100_pm_misc(struct radeon_device *rdev)
-> >>>     */
-> >>>    void r100_pm_prepare(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *ddev =3D rdev->ddev;
-> >>> +     struct drm_device *ddev =3D rdev_to_drm(rdev);
-> >>>        struct drm_crtc *crtc;
-> >>>        struct radeon_crtc *radeon_crtc;
-> >>>        u32 tmp;
-> >>> @@ -490,7 +490,7 @@ void r100_pm_prepare(struct radeon_device *rdev)
-> >>>     */
-> >>>    void r100_pm_finish(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *ddev =3D rdev->ddev;
-> >>> +     struct drm_device *ddev =3D rdev_to_drm(rdev);
-> >>>        struct drm_crtc *crtc;
-> >>>        struct radeon_crtc *radeon_crtc;
-> >>>        u32 tmp;
-> >>> @@ -603,7 +603,7 @@ void r100_hpd_set_polarity(struct radeon_device *=
-rdev,
-> >>>     */
-> >>>    void r100_hpd_init(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct drm_connector *connector;
-> >>>        unsigned enable =3D 0;
-> >>>
-> >>> @@ -626,7 +626,7 @@ void r100_hpd_init(struct radeon_device *rdev)
-> >>>     */
-> >>>    void r100_hpd_fini(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct drm_connector *connector;
-> >>>        unsigned disable =3D 0;
-> >>>
-> >>> @@ -798,7 +798,7 @@ int r100_irq_process(struct radeon_device *rdev)
-> >>>                /* Vertical blank interrupts */
-> >>>                if (status & RADEON_CRTC_VBLANK_STAT) {
-> >>>                        if (rdev->irq.crtc_vblank_int[0]) {
-> >>> -                             drm_handle_vblank(rdev->ddev, 0);
-> >>> +                             drm_handle_vblank(rdev_to_drm(rdev), 0)=
-;
-> >>>                                rdev->pm.vblank_sync =3D true;
-> >>>                                wake_up(&rdev->irq.vblank_queue);
-> >>>                        }
-> >>> @@ -807,7 +807,7 @@ int r100_irq_process(struct radeon_device *rdev)
-> >>>                }
-> >>>                if (status & RADEON_CRTC2_VBLANK_STAT) {
-> >>>                        if (rdev->irq.crtc_vblank_int[1]) {
-> >>> -                             drm_handle_vblank(rdev->ddev, 1);
-> >>> +                             drm_handle_vblank(rdev_to_drm(rdev), 1)=
-;
-> >>>                                rdev->pm.vblank_sync =3D true;
-> >>>                                wake_up(&rdev->irq.vblank_queue);
-> >>>                        }
-> >>> @@ -1471,7 +1471,7 @@ int r100_cs_packet_parse_vline(struct radeon_cs=
-_parser *p)
-> >>>        header =3D radeon_get_ib_value(p, h_idx);
-> >>>        crtc_id =3D radeon_get_ib_value(p, h_idx + 5);
-> >>>        reg =3D R100_CP_PACKET0_GET_REG(header);
-> >>> -     crtc =3D drm_crtc_find(p->rdev->ddev, p->filp, crtc_id);
-> >>> +     crtc =3D drm_crtc_find(rdev_to_drm(p->rdev), p->filp, crtc_id);
-> >>>        if (!crtc) {
-> >>>                DRM_ERROR("cannot find crtc %d\n", crtc_id);
-> >>>                return -ENOENT;
-> >>> @@ -3059,7 +3059,7 @@ DEFINE_SHOW_ATTRIBUTE(r100_debugfs_mc_info);
-> >>>    void  r100_debugfs_rbbm_init(struct radeon_device *rdev)
-> >>>    {
-> >>>    #if defined(CONFIG_DEBUG_FS)
-> >>> -     struct dentry *root =3D rdev->ddev->primary->debugfs_root;
-> >>> +     struct dentry *root =3D rdev_to_drm(rdev)->primary->debugfs_roo=
-t;
-> >>>
-> >>>        debugfs_create_file("r100_rbbm_info", 0444, root, rdev,
-> >>>                            &r100_debugfs_rbbm_info_fops);
-> >>> @@ -3069,7 +3069,7 @@ void  r100_debugfs_rbbm_init(struct radeon_devi=
-ce *rdev)
-> >>>    void r100_debugfs_cp_init(struct radeon_device *rdev)
-> >>>    {
-> >>>    #if defined(CONFIG_DEBUG_FS)
-> >>> -     struct dentry *root =3D rdev->ddev->primary->debugfs_root;
-> >>> +     struct dentry *root =3D rdev_to_drm(rdev)->primary->debugfs_roo=
-t;
-> >>>
-> >>>        debugfs_create_file("r100_cp_ring_info", 0444, root, rdev,
-> >>>                            &r100_debugfs_cp_ring_info_fops);
-> >>> @@ -3081,7 +3081,7 @@ void r100_debugfs_cp_init(struct radeon_device =
-*rdev)
-> >>>    void  r100_debugfs_mc_info_init(struct radeon_device *rdev)
-> >>>    {
-> >>>    #if defined(CONFIG_DEBUG_FS)
-> >>> -     struct dentry *root =3D rdev->ddev->primary->debugfs_root;
-> >>> +     struct dentry *root =3D rdev_to_drm(rdev)->primary->debugfs_roo=
-t;
-> >>>
-> >>>        debugfs_create_file("r100_mc_info", 0444, root, rdev,
-> >>>                            &r100_debugfs_mc_info_fops);
-> >>> @@ -3947,7 +3947,7 @@ int r100_resume(struct radeon_device *rdev)
-> >>>                        RREG32(R_0007C0_CP_STAT));
-> >>>        }
-> >>>        /* post */
-> >>> -     radeon_combios_asic_init(rdev->ddev);
-> >>> +     radeon_combios_asic_init(rdev_to_drm(rdev));
-> >>>        /* Resume clock after posting */
-> >>>        r100_clock_startup(rdev);
-> >>>        /* Initialize surface registers */
-> >>> @@ -4056,7 +4056,7 @@ int r100_init(struct radeon_device *rdev)
-> >>>        /* Set asic errata */
-> >>>        r100_errata(rdev);
-> >>>        /* Initialize clocks */
-> >>> -     radeon_get_clock_info(rdev->ddev);
-> >>> +     radeon_get_clock_info(rdev_to_drm(rdev));
-> >>>        /* initialize AGP */
-> >>>        if (rdev->flags & RADEON_IS_AGP) {
-> >>>                r =3D radeon_agp_init(rdev);
-> >>> diff --git a/drivers/gpu/drm/radeon/r300.c b/drivers/gpu/drm/radeon/r=
-300.c
-> >>> index 1620f534f55f..05c13102a8cb 100644
-> >>> --- a/drivers/gpu/drm/radeon/r300.c
-> >>> +++ b/drivers/gpu/drm/radeon/r300.c
-> >>> @@ -616,7 +616,7 @@ DEFINE_SHOW_ATTRIBUTE(rv370_debugfs_pcie_gart_inf=
-o);
-> >>>    static void rv370_debugfs_pcie_gart_info_init(struct radeon_device=
- *rdev)
-> >>>    {
-> >>>    #if defined(CONFIG_DEBUG_FS)
-> >>> -     struct dentry *root =3D rdev->ddev->primary->debugfs_root;
-> >>> +     struct dentry *root =3D rdev_to_drm(rdev)->primary->debugfs_roo=
-t;
-> >>>
-> >>>        debugfs_create_file("rv370_pcie_gart_info", 0444, root, rdev,
-> >>>                            &rv370_debugfs_pcie_gart_info_fops);
-> >>> @@ -1452,7 +1452,7 @@ int r300_resume(struct radeon_device *rdev)
-> >>>                        RREG32(R_0007C0_CP_STAT));
-> >>>        }
-> >>>        /* post */
-> >>> -     radeon_combios_asic_init(rdev->ddev);
-> >>> +     radeon_combios_asic_init(rdev_to_drm(rdev));
-> >>>        /* Resume clock after posting */
-> >>>        r300_clock_startup(rdev);
-> >>>        /* Initialize surface registers */
-> >>> @@ -1538,7 +1538,7 @@ int r300_init(struct radeon_device *rdev)
-> >>>        /* Set asic errata */
-> >>>        r300_errata(rdev);
-> >>>        /* Initialize clocks */
-> >>> -     radeon_get_clock_info(rdev->ddev);
-> >>> +     radeon_get_clock_info(rdev_to_drm(rdev));
-> >>>        /* initialize AGP */
-> >>>        if (rdev->flags & RADEON_IS_AGP) {
-> >>>                r =3D radeon_agp_init(rdev);
-> >>> diff --git a/drivers/gpu/drm/radeon/r420.c b/drivers/gpu/drm/radeon/r=
-420.c
-> >>> index a979662eaa73..9a31cdec6415 100644
-> >>> --- a/drivers/gpu/drm/radeon/r420.c
-> >>> +++ b/drivers/gpu/drm/radeon/r420.c
-> >>> @@ -322,7 +322,7 @@ int r420_resume(struct radeon_device *rdev)
-> >>>        if (rdev->is_atom_bios) {
-> >>>                atom_asic_init(rdev->mode_info.atom_context);
-> >>>        } else {
-> >>> -             radeon_combios_asic_init(rdev->ddev);
-> >>> +             radeon_combios_asic_init(rdev_to_drm(rdev));
-> >>>        }
-> >>>        /* Resume clock after posting */
-> >>>        r420_clock_resume(rdev);
-> >>> @@ -414,7 +414,7 @@ int r420_init(struct radeon_device *rdev)
-> >>>                return -EINVAL;
-> >>>
-> >>>        /* Initialize clocks */
-> >>> -     radeon_get_clock_info(rdev->ddev);
-> >>> +     radeon_get_clock_info(rdev_to_drm(rdev));
-> >>>        /* initialize AGP */
-> >>>        if (rdev->flags & RADEON_IS_AGP) {
-> >>>                r =3D radeon_agp_init(rdev);
-> >>> @@ -493,7 +493,7 @@ DEFINE_SHOW_ATTRIBUTE(r420_debugfs_pipes_info);
-> >>>    void r420_debugfs_pipes_info_init(struct radeon_device *rdev)
-> >>>    {
-> >>>    #if defined(CONFIG_DEBUG_FS)
-> >>> -     struct dentry *root =3D rdev->ddev->primary->debugfs_root;
-> >>> +     struct dentry *root =3D rdev_to_drm(rdev)->primary->debugfs_roo=
-t;
-> >>>
-> >>>        debugfs_create_file("r420_pipes_info", 0444, root, rdev,
-> >>>                            &r420_debugfs_pipes_info_fops);
-> >>> diff --git a/drivers/gpu/drm/radeon/r520.c b/drivers/gpu/drm/radeon/r=
-520.c
-> >>> index 6cbcaa845192..08e127b3249a 100644
-> >>> --- a/drivers/gpu/drm/radeon/r520.c
-> >>> +++ b/drivers/gpu/drm/radeon/r520.c
-> >>> @@ -287,7 +287,7 @@ int r520_init(struct radeon_device *rdev)
-> >>>                atom_asic_init(rdev->mode_info.atom_context);
-> >>>        }
-> >>>        /* Initialize clocks */
-> >>> -     radeon_get_clock_info(rdev->ddev);
-> >>> +     radeon_get_clock_info(rdev_to_drm(rdev));
-> >>>        /* initialize AGP */
-> >>>        if (rdev->flags & RADEON_IS_AGP) {
-> >>>                r =3D radeon_agp_init(rdev);
-> >>> diff --git a/drivers/gpu/drm/radeon/r600.c b/drivers/gpu/drm/radeon/r=
-600.c
-> >>> index 087d41e370fd..8b62f7faa5b9 100644
-> >>> --- a/drivers/gpu/drm/radeon/r600.c
-> >>> +++ b/drivers/gpu/drm/radeon/r600.c
-> >>> @@ -950,7 +950,7 @@ void r600_hpd_set_polarity(struct radeon_device *=
-rdev,
-> >>>
-> >>>    void r600_hpd_init(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct drm_connector *connector;
-> >>>        unsigned enable =3D 0;
-> >>>
-> >>> @@ -1017,7 +1017,7 @@ void r600_hpd_init(struct radeon_device *rdev)
-> >>>
-> >>>    void r600_hpd_fini(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct drm_connector *connector;
-> >>>        unsigned disable =3D 0;
-> >>>
-> >>> @@ -3280,7 +3280,7 @@ int r600_init(struct radeon_device *rdev)
-> >>>        /* Initialize surface registers */
-> >>>        radeon_surface_init(rdev);
-> >>>        /* Initialize clocks */
-> >>> -     radeon_get_clock_info(rdev->ddev);
-> >>> +     radeon_get_clock_info(rdev_to_drm(rdev));
-> >>>        /* Fence driver */
-> >>>        radeon_fence_driver_init(rdev);
-> >>>        if (rdev->flags & RADEON_IS_AGP) {
-> >>> @@ -4136,7 +4136,7 @@ int r600_irq_process(struct radeon_device *rdev=
-)
-> >>>                                        DRM_DEBUG("IH: D1 vblank - IH =
-event w/o asserted irq bit?\n");
-> >>>
-> >>>                                if (rdev->irq.crtc_vblank_int[0]) {
-> >>> -                                     drm_handle_vblank(rdev->ddev, 0=
-);
-> >>> +                                     drm_handle_vblank(rdev_to_drm(r=
-dev), 0);
-> >>>                                        rdev->pm.vblank_sync =3D true;
-> >>>                                        wake_up(&rdev->irq.vblank_queu=
-e);
-> >>>                                }
-> >>> @@ -4166,7 +4166,7 @@ int r600_irq_process(struct radeon_device *rdev=
-)
-> >>>                                        DRM_DEBUG("IH: D2 vblank - IH =
-event w/o asserted irq bit?\n");
-> >>>
-> >>>                                if (rdev->irq.crtc_vblank_int[1]) {
-> >>> -                                     drm_handle_vblank(rdev->ddev, 1=
-);
-> >>> +                                     drm_handle_vblank(rdev_to_drm(r=
-dev), 1);
-> >>>                                        rdev->pm.vblank_sync =3D true;
-> >>>                                        wake_up(&rdev->irq.vblank_queu=
-e);
-> >>>                                }
-> >>> @@ -4358,7 +4358,7 @@ DEFINE_SHOW_ATTRIBUTE(r600_debugfs_mc_info);
-> >>>    static void r600_debugfs_mc_info_init(struct radeon_device *rdev)
-> >>>    {
-> >>>    #if defined(CONFIG_DEBUG_FS)
-> >>> -     struct dentry *root =3D rdev->ddev->primary->debugfs_root;
-> >>> +     struct dentry *root =3D rdev_to_drm(rdev)->primary->debugfs_roo=
-t;
-> >>>
-> >>>        debugfs_create_file("r600_mc_info", 0444, root, rdev,
-> >>>                            &r600_debugfs_mc_info_fops);
-> >>> diff --git a/drivers/gpu/drm/radeon/r600_cs.c b/drivers/gpu/drm/radeo=
-n/r600_cs.c
-> >>> index 6cf54a747749..1b2d31c4d77c 100644
-> >>> --- a/drivers/gpu/drm/radeon/r600_cs.c
-> >>> +++ b/drivers/gpu/drm/radeon/r600_cs.c
-> >>> @@ -884,7 +884,7 @@ int r600_cs_common_vline_parse(struct radeon_cs_p=
-arser *p,
-> >>>        crtc_id =3D radeon_get_ib_value(p, h_idx + 2 + 7 + 1);
-> >>>        reg =3D R600_CP_PACKET0_GET_REG(header);
-> >>>
-> >>> -     crtc =3D drm_crtc_find(p->rdev->ddev, p->filp, crtc_id);
-> >>> +     crtc =3D drm_crtc_find(rdev_to_drm(p->rdev), p->filp, crtc_id);
-> >>>        if (!crtc) {
-> >>>                DRM_ERROR("cannot find crtc %d\n", crtc_id);
-> >>>                return -ENOENT;
-> >>> diff --git a/drivers/gpu/drm/radeon/r600_dpm.c b/drivers/gpu/drm/rade=
-on/r600_dpm.c
-> >>> index 64980a61d38a..81d58ef667dd 100644
-> >>> --- a/drivers/gpu/drm/radeon/r600_dpm.c
-> >>> +++ b/drivers/gpu/drm/radeon/r600_dpm.c
-> >>> @@ -153,7 +153,7 @@ void r600_dpm_print_ps_status(struct radeon_devic=
-e *rdev,
-> >>>
-> >>>    u32 r600_dpm_get_vblank_time(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct drm_crtc *crtc;
-> >>>        struct radeon_crtc *radeon_crtc;
-> >>>        u32 vblank_in_pixels;
-> >>> @@ -180,7 +180,7 @@ u32 r600_dpm_get_vblank_time(struct radeon_device=
- *rdev)
-> >>>
-> >>>    u32 r600_dpm_get_vrefresh(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct drm_crtc *crtc;
-> >>>        struct radeon_crtc *radeon_crtc;
-> >>>        u32 vrefresh =3D 0;
-> >>> diff --git a/drivers/gpu/drm/radeon/r600_hdmi.c b/drivers/gpu/drm/rad=
-eon/r600_hdmi.c
-> >>> index f3551ebaa2f0..661f374f5f27 100644
-> >>> --- a/drivers/gpu/drm/radeon/r600_hdmi.c
-> >>> +++ b/drivers/gpu/drm/radeon/r600_hdmi.c
-> >>> @@ -116,7 +116,7 @@ void r600_audio_update_hdmi(struct work_struct *w=
-ork)
-> >>>    {
-> >>>        struct radeon_device *rdev =3D container_of(work, struct radeo=
-n_device,
-> >>>                                                  audio_work);
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct r600_audio_pin audio_status =3D r600_audio_status(rdev)=
-;
-> >>>        struct drm_encoder *encoder;
-> >>>        bool changed =3D false;
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon=
-/radeon.h
-> >>> index 0999c8eaae94..69bb30ced189 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon.h
-> >>> +++ b/drivers/gpu/drm/radeon/radeon.h
-> >>> @@ -2297,7 +2297,7 @@ typedef void (*radeon_wreg_t)(struct radeon_dev=
-ice*, uint32_t, uint32_t);
-> >>>
-> >>>    struct radeon_device {
-> >>>        struct device                   *dev;
-> >>> -     struct drm_device               *ddev;
-> >>> +     struct drm_device               ddev;
-> >>>        struct pci_dev                  *pdev;
-> >>>    #ifdef __alpha__
-> >>>        struct pci_controller           *hose;
-> >>> @@ -2440,10 +2440,13 @@ struct radeon_device {
-> >>>        u64 gart_pin_size;
-> >>>    };
-> >>>
-> >>> +static inline struct drm_device *rdev_to_drm(struct radeon_device *r=
-dev)
-> >>> +{
-> >>> +     return &rdev->ddev;
-> >>> +}
-> >>> +
-> >>>    bool radeon_is_px(struct drm_device *dev);
-> >>>    int radeon_device_init(struct radeon_device *rdev,
-> >>> -                    struct drm_device *ddev,
-> >>> -                    struct pci_dev *pdev,
-> >>>                       uint32_t flags);
-> >>>    void radeon_device_fini(struct radeon_device *rdev);
-> >>>    int radeon_gpu_wait_for_idle(struct radeon_device *rdev);
-> >>> @@ -2818,6 +2821,8 @@ struct radeon_device *radeon_get_rdev(struct tt=
-m_device *bdev);
-> >>>
-> >>>    /* KMS */
-> >>>
-> >>> +int radeon_driver_load_kms(struct radeon_device *dev, unsigned long =
-flags);
-> >>> +
-> >>>    u32 radeon_get_vblank_counter_kms(struct drm_crtc *crtc);
-> >>>    int radeon_enable_vblank_kms(struct drm_crtc *crtc);
-> >>>    void radeon_disable_vblank_kms(struct drm_crtc *crtc);
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_acpi.c b/drivers/gpu/drm/r=
-adeon/radeon_acpi.c
-> >>> index 603a78e41ba5..22ce61bdfc06 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_acpi.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_acpi.c
-> >>> @@ -405,11 +405,11 @@ static int radeon_atif_handler(struct radeon_de=
-vice *rdev,
-> >>>        if (req.pending & ATIF_DGPU_DISPLAY_EVENT) {
-> >>>                if ((rdev->flags & RADEON_IS_PX) &&
-> >>>                    radeon_atpx_dgpu_req_power_for_displays()) {
-> >>> -                     pm_runtime_get_sync(rdev->ddev->dev);
-> >>> +                     pm_runtime_get_sync(rdev_to_drm(rdev)->dev);
-> >>>                        /* Just fire off a uevent and let userspace te=
-ll us what to do */
-> >>> -                     drm_helper_hpd_irq_event(rdev->ddev);
-> >>> -                     pm_runtime_mark_last_busy(rdev->ddev->dev);
-> >>> -                     pm_runtime_put_autosuspend(rdev->ddev->dev);
-> >>> +                     drm_helper_hpd_irq_event(rdev_to_drm(rdev));
-> >>> +                     pm_runtime_mark_last_busy(rdev_to_drm(rdev)->de=
-v);
-> >>> +                     pm_runtime_put_autosuspend(rdev_to_drm(rdev)->d=
-ev);
-> >>>                }
-> >>>        }
-> >>>        /* TODO: check other events */
-> >>> @@ -736,7 +736,7 @@ int radeon_acpi_init(struct radeon_device *rdev)
-> >>>                struct radeon_encoder *target =3D NULL;
-> >>>
-> >>>                /* Find the encoder controlling the brightness */
-> >>> -             list_for_each_entry(tmp, &rdev->ddev->mode_config.encod=
-er_list,
-> >>> +             list_for_each_entry(tmp, &rdev_to_drm(rdev)->mode_confi=
-g.encoder_list,
-> >>>                                head) {
-> >>>                        struct radeon_encoder *enc =3D to_radeon_encod=
-er(tmp);
-> >>>
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_agp.c b/drivers/gpu/drm/ra=
-deon/radeon_agp.c
-> >>> index a3d749e350f9..89d7b0e9e79f 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_agp.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_agp.c
-> >>> @@ -161,7 +161,7 @@ struct radeon_agp_head *radeon_agp_head_init(stru=
-ct drm_device *dev)
-> >>>
-> >>>    static int radeon_agp_head_acquire(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-> >>>
-> >>>        if (!rdev->agp)
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_atombios.c b/drivers/gpu/d=
-rm/radeon/radeon_atombios.c
-> >>> index 10793a433bf5..97c4e10d0550 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_atombios.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_atombios.c
-> >>> @@ -187,7 +187,7 @@ void radeon_atombios_i2c_init(struct radeon_devic=
-e *rdev)
-> >>>
-> >>>                        if (i2c.valid) {
-> >>>                                sprintf(stmp, "0x%x", i2c.i2c_id);
-> >>> -                             rdev->i2c_bus[i] =3D radeon_i2c_create(=
-rdev->ddev, &i2c, stmp);
-> >>> +                             rdev->i2c_bus[i] =3D radeon_i2c_create(=
-rdev_to_drm(rdev), &i2c, stmp);
-> >>>                        }
-> >>>                        gpio =3D (ATOM_GPIO_I2C_ASSIGMENT *)
-> >>>                                ((u8 *)gpio + sizeof(ATOM_GPIO_I2C_ASS=
-IGMENT));
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/=
-radeon/radeon_audio.c
-> >>> index 74753bb26d33..31f032295497 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_audio.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_audio.c
-> >>> @@ -196,7 +196,7 @@ static void radeon_audio_enable(struct radeon_dev=
-ice *rdev,
-> >>>                return;
-> >>>
-> >>>        if (rdev->mode_info.mode_config_initialized) {
-> >>> -             list_for_each_entry(encoder, &rdev->ddev->mode_config.e=
-ncoder_list, head) {
-> >>> +             list_for_each_entry(encoder, &rdev_to_drm(rdev)->mode_c=
-onfig.encoder_list, head) {
-> >>>                        if (radeon_encoder_is_digital(encoder)) {
-> >>>                                radeon_encoder =3D to_radeon_encoder(e=
-ncoder);
-> >>>                                dig =3D radeon_encoder->enc_priv;
-> >>> @@ -759,7 +759,7 @@ static int radeon_audio_component_get_eld(struct =
-device *kdev, int port,
-> >>>        if (!rdev->audio.enabled || !rdev->mode_info.mode_config_initi=
-alized)
-> >>>                return 0;
-> >>>
-> >>> -     list_for_each_entry(encoder, &rdev->ddev->mode_config.encoder_l=
-ist, head) {
-> >>> +     list_for_each_entry(encoder, &rdev_to_drm(rdev)->mode_config.en=
-coder_list, head) {
-> >>>                if (!radeon_encoder_is_digital(encoder))
-> >>>                        continue;
-> >>>                radeon_encoder =3D to_radeon_encoder(encoder);
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_combios.c b/drivers/gpu/dr=
-m/radeon/radeon_combios.c
-> >>> index 6952b1273b0f..41ddc576f8f8 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_combios.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_combios.c
-> >>> @@ -372,7 +372,7 @@ bool radeon_combios_check_hardcoded_edid(struct r=
-adeon_device *rdev)
-> >>>        int edid_info, size;
-> >>>        struct edid *edid;
-> >>>        unsigned char *raw;
-> >>> -     edid_info =3D combios_get_table_offset(rdev->ddev, COMBIOS_HARD=
-CODED_EDID_TABLE);
-> >>> +     edid_info =3D combios_get_table_offset(rdev_to_drm(rdev), COMBI=
-OS_HARDCODED_EDID_TABLE);
-> >>>        if (!edid_info)
-> >>>                return false;
-> >>>
-> >>> @@ -642,7 +642,7 @@ static struct radeon_i2c_bus_rec combios_setup_i2=
-c_bus(struct radeon_device *rde
-> >>>
-> >>>    static struct radeon_i2c_bus_rec radeon_combios_get_i2c_info_from_=
-table(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct radeon_i2c_bus_rec i2c;
-> >>>        u16 offset;
-> >>>        u8 id, blocks, clk, data;
-> >>> @@ -670,7 +670,7 @@ static struct radeon_i2c_bus_rec radeon_combios_g=
-et_i2c_info_from_table(struct r
-> >>>
-> >>>    void radeon_combios_i2c_init(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct radeon_i2c_bus_rec i2c;
-> >>>
-> >>>        /* actual hw pads
-> >>> @@ -812,7 +812,7 @@ bool radeon_combios_get_clock_info(struct drm_dev=
-ice *dev)
-> >>>
-> >>>    bool radeon_combios_sideport_present(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        u16 igp_info;
-> >>>
-> >>>        /* sideport is AMD only */
-> >>> @@ -915,7 +915,7 @@ struct radeon_encoder_primary_dac *radeon_combios=
-_get_primary_dac_info(struct
-> >>>    enum radeon_tv_std
-> >>>    radeon_combios_get_tv_info(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        uint16_t tv_info;
-> >>>        enum radeon_tv_std tv_std =3D TV_STD_NTSC;
-> >>>
-> >>> @@ -2637,7 +2637,7 @@ static const char *thermal_controller_names[] =
-=3D {
-> >>>
-> >>>    void radeon_combios_get_power_modes(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        u16 offset, misc, misc2 =3D 0;
-> >>>        u8 rev, tmp;
-> >>>        int state_index =3D 0;
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm=
-/radeon/radeon_device.c
-> >>> index afbb3a80c0c6..36444d739b41 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_device.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_device.c
-> >>> @@ -760,7 +760,7 @@ bool radeon_boot_test_post_card(struct radeon_dev=
-ice *rdev)
-> >>>                if (rdev->is_atom_bios)
-> >>>                        atom_asic_init(rdev->mode_info.atom_context);
-> >>>                else
-> >>> -                     radeon_combios_asic_init(rdev->ddev);
-> >>> +                     radeon_combios_asic_init(rdev_to_drm(rdev));
-> >>>                return true;
-> >>>        } else {
-> >>>                dev_err(rdev->dev, "Card not posted and no BIOS - igno=
-ring\n");
-> >>> @@ -980,7 +980,7 @@ int radeon_atombios_init(struct radeon_device *rd=
-ev)
-> >>>                return -ENOMEM;
-> >>>
-> >>>        rdev->mode_info.atom_card_info =3D atom_card_info;
-> >>> -     atom_card_info->dev =3D rdev->ddev;
-> >>> +     atom_card_info->dev =3D rdev_to_drm(rdev);
-> >>>        atom_card_info->reg_read =3D cail_reg_read;
-> >>>        atom_card_info->reg_write =3D cail_reg_write;
-> >>>        /* needed for iio ops */
-> >>> @@ -1005,7 +1005,7 @@ int radeon_atombios_init(struct radeon_device *=
-rdev)
-> >>>
-> >>>        mutex_init(&rdev->mode_info.atom_context->mutex);
-> >>>        mutex_init(&rdev->mode_info.atom_context->scratch_mutex);
-> >>> -     radeon_atom_initialize_bios_scratch_regs(rdev->ddev);
-> >>> +     radeon_atom_initialize_bios_scratch_regs(rdev_to_drm(rdev));
-> >>>        atom_allocate_fb_scratch(rdev->mode_info.atom_context);
-> >>>        return 0;
-> >>>    }
-> >>> @@ -1049,7 +1049,7 @@ void radeon_atombios_fini(struct radeon_device =
-*rdev)
-> >>>     */
-> >>>    int radeon_combios_init(struct radeon_device *rdev)
-> >>>    {
-> >>> -     radeon_combios_initialize_bios_scratch_regs(rdev->ddev);
-> >>> +     radeon_combios_initialize_bios_scratch_regs(rdev_to_drm(rdev));
-> >>>        return 0;
-> >>>    }
-> >>>
-> >>> @@ -1276,18 +1276,15 @@ static const struct vga_switcheroo_client_ops=
- radeon_switcheroo_ops =3D {
-> >>>     * Called at driver startup.
-> >>>     */
-> >>>    int radeon_device_init(struct radeon_device *rdev,
-> >>> -                    struct drm_device *ddev,
-> >>> -                    struct pci_dev *pdev,
-> >>>                       uint32_t flags)
-> >>>    {
-> >>> +     struct pci_dev *pdev =3D rdev->pdev;
-> >>> +     struct drm_device *ddev =3D rdev_to_drm(rdev);
-> >>>        int r, i;
-> >>>        int dma_bits;
-> >>>        bool runtime =3D false;
-> >>>
-> >>>        rdev->shutdown =3D false;
-> >>> -     rdev->dev =3D &pdev->dev;
-> >>> -     rdev->ddev =3D ddev;
-> >>> -     rdev->pdev =3D pdev;
-> >>>        rdev->flags =3D flags;
-> >>>        rdev->family =3D flags & RADEON_FAMILY_MASK;
-> >>>        rdev->is_atom_bios =3D false;
-> >>> @@ -1847,7 +1844,7 @@ int radeon_gpu_reset(struct radeon_device *rdev=
-)
-> >>>
-> >>>        downgrade_write(&rdev->exclusive_lock);
-> >>>
-> >>> -     drm_helper_resume_force_mode(rdev->ddev);
-> >>> +     drm_helper_resume_force_mode(rdev_to_drm(rdev));
-> >>>
-> >>>        /* set the power state here in case we are a PX system or head=
-less */
-> >>>        if ((rdev->pm.pm_method =3D=3D PM_METHOD_DPM) && rdev->pm.dpm_=
-enabled)
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/dr=
-m/radeon/radeon_display.c
-> >>> index 5f1d24d3120c..4b9473852c1f 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_display.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_display.c
-> >>> @@ -302,13 +302,13 @@ void radeon_crtc_handle_vblank(struct radeon_de=
-vice *rdev, int crtc_id)
-> >>>        if ((radeon_use_pflipirq =3D=3D 2) && ASIC_IS_DCE4(rdev))
-> >>>                return;
-> >>>
-> >>> -     spin_lock_irqsave(&rdev->ddev->event_lock, flags);
-> >>> +     spin_lock_irqsave(&rdev_to_drm(rdev)->event_lock, flags);
-> >>>        if (radeon_crtc->flip_status !=3D RADEON_FLIP_SUBMITTED) {
-> >>>                DRM_DEBUG_DRIVER("radeon_crtc->flip_status =3D %d !=3D=
- "
-> >>>                                 "RADEON_FLIP_SUBMITTED(%d)\n",
-> >>>                                 radeon_crtc->flip_status,
-> >>>                                 RADEON_FLIP_SUBMITTED);
-> >>> -             spin_unlock_irqrestore(&rdev->ddev->event_lock, flags);
-> >>> +             spin_unlock_irqrestore(&rdev_to_drm(rdev)->event_lock, =
-flags);
-> >>>                return;
-> >>>        }
-> >>>
-> >>> @@ -334,7 +334,7 @@ void radeon_crtc_handle_vblank(struct radeon_devi=
-ce *rdev, int crtc_id)
-> >>>         */
-> >>>        if (update_pending &&
-> >>>            (DRM_SCANOUTPOS_VALID &
-> >>> -          radeon_get_crtc_scanoutpos(rdev->ddev, crtc_id,
-> >>> +          radeon_get_crtc_scanoutpos(rdev_to_drm(rdev), crtc_id,
-> >>>                                        GET_DISTANCE_TO_VBLANKSTART,
-> >>>                                        &vpos, &hpos, NULL, NULL,
-> >>>                                        &rdev->mode_info.crtcs[crtc_id=
-]->base.hwmode)) &&
-> >>> @@ -347,7 +347,7 @@ void radeon_crtc_handle_vblank(struct radeon_devi=
-ce *rdev, int crtc_id)
-> >>>                 */
-> >>>                update_pending =3D 0;
-> >>>        }
-> >>> -     spin_unlock_irqrestore(&rdev->ddev->event_lock, flags);
-> >>> +     spin_unlock_irqrestore(&rdev_to_drm(rdev)->event_lock, flags);
-> >>>        if (!update_pending)
-> >>>                radeon_crtc_handle_flip(rdev, crtc_id);
-> >>>    }
-> >>> @@ -370,14 +370,14 @@ void radeon_crtc_handle_flip(struct radeon_devi=
-ce *rdev, int crtc_id)
-> >>>        if (radeon_crtc =3D=3D NULL)
-> >>>                return;
-> >>>
-> >>> -     spin_lock_irqsave(&rdev->ddev->event_lock, flags);
-> >>> +     spin_lock_irqsave(&rdev_to_drm(rdev)->event_lock, flags);
-> >>>        work =3D radeon_crtc->flip_work;
-> >>>        if (radeon_crtc->flip_status !=3D RADEON_FLIP_SUBMITTED) {
-> >>>                DRM_DEBUG_DRIVER("radeon_crtc->flip_status =3D %d !=3D=
- "
-> >>>                                 "RADEON_FLIP_SUBMITTED(%d)\n",
-> >>>                                 radeon_crtc->flip_status,
-> >>>                                 RADEON_FLIP_SUBMITTED);
-> >>> -             spin_unlock_irqrestore(&rdev->ddev->event_lock, flags);
-> >>> +             spin_unlock_irqrestore(&rdev_to_drm(rdev)->event_lock, =
-flags);
-> >>>                return;
-> >>>        }
-> >>>
-> >>> @@ -389,7 +389,7 @@ void radeon_crtc_handle_flip(struct radeon_device=
- *rdev, int crtc_id)
-> >>>        if (work->event)
-> >>>                drm_crtc_send_vblank_event(&radeon_crtc->base, work->e=
-vent);
-> >>>
-> >>> -     spin_unlock_irqrestore(&rdev->ddev->event_lock, flags);
-> >>> +     spin_unlock_irqrestore(&rdev_to_drm(rdev)->event_lock, flags);
-> >>>
-> >>>        drm_crtc_vblank_put(&radeon_crtc->base);
-> >>>        radeon_irq_kms_pflip_irq_put(rdev, work->crtc_id);
-> >>> @@ -408,7 +408,7 @@ static void radeon_flip_work_func(struct work_str=
-uct *__work)
-> >>>        struct radeon_flip_work *work =3D
-> >>>                container_of(__work, struct radeon_flip_work, flip_wor=
-k);
-> >>>        struct radeon_device *rdev =3D work->rdev;
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct radeon_crtc *radeon_crtc =3D rdev->mode_info.crtcs[work=
-->crtc_id];
-> >>>
-> >>>        struct drm_crtc *crtc =3D &radeon_crtc->base;
-> >>> @@ -1401,7 +1401,7 @@ static int radeon_modeset_create_props(struct r=
-adeon_device *rdev)
-> >>>
-> >>>        if (rdev->is_atom_bios) {
-> >>>                rdev->mode_info.coherent_mode_property =3D
-> >>> -                     drm_property_create_range(rdev->ddev, 0 , "cohe=
-rent", 0, 1);
-> >>> +                     drm_property_create_range(rdev_to_drm(rdev), 0,=
- "coherent", 0, 1);
-> >>>                if (!rdev->mode_info.coherent_mode_property)
-> >>>                        return -ENOMEM;
-> >>>        }
-> >>> @@ -1409,57 +1409,57 @@ static int radeon_modeset_create_props(struct=
- radeon_device *rdev)
-> >>>        if (!ASIC_IS_AVIVO(rdev)) {
-> >>>                sz =3D ARRAY_SIZE(radeon_tmds_pll_enum_list);
-> >>>                rdev->mode_info.tmds_pll_property =3D
-> >>> -                     drm_property_create_enum(rdev->ddev, 0,
-> >>> +                     drm_property_create_enum(rdev_to_drm(rdev), 0,
-> >>>                                            "tmds_pll",
-> >>>                                            radeon_tmds_pll_enum_list,=
- sz);
-> >>>        }
-> >>>
-> >>>        rdev->mode_info.load_detect_property =3D
-> >>> -             drm_property_create_range(rdev->ddev, 0, "load detectio=
-n", 0, 1);
-> >>> +             drm_property_create_range(rdev_to_drm(rdev), 0, "load d=
-etection", 0, 1);
-> >>>        if (!rdev->mode_info.load_detect_property)
-> >>>                return -ENOMEM;
-> >>>
-> >>> -     drm_mode_create_scaling_mode_property(rdev->ddev);
-> >>> +     drm_mode_create_scaling_mode_property(rdev_to_drm(rdev));
-> >>>
-> >>>        sz =3D ARRAY_SIZE(radeon_tv_std_enum_list);
-> >>>        rdev->mode_info.tv_std_property =3D
-> >>> -             drm_property_create_enum(rdev->ddev, 0,
-> >>> +             drm_property_create_enum(rdev_to_drm(rdev), 0,
-> >>>                                    "tv standard",
-> >>>                                    radeon_tv_std_enum_list, sz);
-> >>>
-> >>>        sz =3D ARRAY_SIZE(radeon_underscan_enum_list);
-> >>>        rdev->mode_info.underscan_property =3D
-> >>> -             drm_property_create_enum(rdev->ddev, 0,
-> >>> +             drm_property_create_enum(rdev_to_drm(rdev), 0,
-> >>>                                    "underscan",
-> >>>                                    radeon_underscan_enum_list, sz);
-> >>>
-> >>>        rdev->mode_info.underscan_hborder_property =3D
-> >>> -             drm_property_create_range(rdev->ddev, 0,
-> >>> +             drm_property_create_range(rdev_to_drm(rdev), 0,
-> >>>                                        "underscan hborder", 0, 128);
-> >>>        if (!rdev->mode_info.underscan_hborder_property)
-> >>>                return -ENOMEM;
-> >>>
-> >>>        rdev->mode_info.underscan_vborder_property =3D
-> >>> -             drm_property_create_range(rdev->ddev, 0,
-> >>> +             drm_property_create_range(rdev_to_drm(rdev), 0,
-> >>>                                        "underscan vborder", 0, 128);
-> >>>        if (!rdev->mode_info.underscan_vborder_property)
-> >>>                return -ENOMEM;
-> >>>
-> >>>        sz =3D ARRAY_SIZE(radeon_audio_enum_list);
-> >>>        rdev->mode_info.audio_property =3D
-> >>> -             drm_property_create_enum(rdev->ddev, 0,
-> >>> +             drm_property_create_enum(rdev_to_drm(rdev), 0,
-> >>>                                         "audio",
-> >>>                                         radeon_audio_enum_list, sz);
-> >>>
-> >>>        sz =3D ARRAY_SIZE(radeon_dither_enum_list);
-> >>>        rdev->mode_info.dither_property =3D
-> >>> -             drm_property_create_enum(rdev->ddev, 0,
-> >>> +             drm_property_create_enum(rdev_to_drm(rdev), 0,
-> >>>                                         "dither",
-> >>>                                         radeon_dither_enum_list, sz);
-> >>>
-> >>>        sz =3D ARRAY_SIZE(radeon_output_csc_enum_list);
-> >>>        rdev->mode_info.output_csc_property =3D
-> >>> -             drm_property_create_enum(rdev->ddev, 0,
-> >>> +             drm_property_create_enum(rdev_to_drm(rdev), 0,
-> >>>                                         "output_csc",
-> >>>                                         radeon_output_csc_enum_list, =
-sz);
-> >>>
-> >>> @@ -1578,29 +1578,29 @@ int radeon_modeset_init(struct radeon_device =
-*rdev)
-> >>>        int i;
-> >>>        int ret;
-> >>>
-> >>> -     drm_mode_config_init(rdev->ddev);
-> >>> +     drm_mode_config_init(rdev_to_drm(rdev));
-> >>>        rdev->mode_info.mode_config_initialized =3D true;
-> >>>
-> >>> -     rdev->ddev->mode_config.funcs =3D &radeon_mode_funcs;
-> >>> +     rdev_to_drm(rdev)->mode_config.funcs =3D &radeon_mode_funcs;
-> >>>
-> >>>        if (radeon_use_pflipirq =3D=3D 2 && rdev->family >=3D CHIP_R60=
-0)
-> >>> -             rdev->ddev->mode_config.async_page_flip =3D true;
-> >>> +             rdev_to_drm(rdev)->mode_config.async_page_flip =3D true=
-;
-> >>>
-> >>>        if (ASIC_IS_DCE5(rdev)) {
-> >>> -             rdev->ddev->mode_config.max_width =3D 16384;
-> >>> -             rdev->ddev->mode_config.max_height =3D 16384;
-> >>> +             rdev_to_drm(rdev)->mode_config.max_width =3D 16384;
-> >>> +             rdev_to_drm(rdev)->mode_config.max_height =3D 16384;
-> >>>        } else if (ASIC_IS_AVIVO(rdev)) {
-> >>> -             rdev->ddev->mode_config.max_width =3D 8192;
-> >>> -             rdev->ddev->mode_config.max_height =3D 8192;
-> >>> +             rdev_to_drm(rdev)->mode_config.max_width =3D 8192;
-> >>> +             rdev_to_drm(rdev)->mode_config.max_height =3D 8192;
-> >>>        } else {
-> >>> -             rdev->ddev->mode_config.max_width =3D 4096;
-> >>> -             rdev->ddev->mode_config.max_height =3D 4096;
-> >>> +             rdev_to_drm(rdev)->mode_config.max_width =3D 4096;
-> >>> +             rdev_to_drm(rdev)->mode_config.max_height =3D 4096;
-> >>>        }
-> >>>
-> >>> -     rdev->ddev->mode_config.preferred_depth =3D 24;
-> >>> -     rdev->ddev->mode_config.prefer_shadow =3D 1;
-> >>> +     rdev_to_drm(rdev)->mode_config.preferred_depth =3D 24;
-> >>> +     rdev_to_drm(rdev)->mode_config.prefer_shadow =3D 1;
-> >>>
-> >>> -     rdev->ddev->mode_config.fb_modifiers_not_supported =3D true;
-> >>> +     rdev_to_drm(rdev)->mode_config.fb_modifiers_not_supported =3D t=
-rue;
-> >>>
-> >>>        ret =3D radeon_modeset_create_props(rdev);
-> >>>        if (ret) {
-> >>> @@ -1618,11 +1618,11 @@ int radeon_modeset_init(struct radeon_device =
-*rdev)
-> >>>
-> >>>        /* allocate crtcs */
-> >>>        for (i =3D 0; i < rdev->num_crtc; i++) {
-> >>> -             radeon_crtc_init(rdev->ddev, i);
-> >>> +             radeon_crtc_init(rdev_to_drm(rdev), i);
-> >>>        }
-> >>>
-> >>>        /* okay we should have all the bios connectors */
-> >>> -     ret =3D radeon_setup_enc_conn(rdev->ddev);
-> >>> +     ret =3D radeon_setup_enc_conn(rdev_to_drm(rdev));
-> >>>        if (!ret) {
-> >>>                return ret;
-> >>>        }
-> >>> @@ -1639,7 +1639,7 @@ int radeon_modeset_init(struct radeon_device *r=
-dev)
-> >>>        /* setup afmt */
-> >>>        radeon_afmt_init(rdev);
-> >>>
-> >>> -     drm_kms_helper_poll_init(rdev->ddev);
-> >>> +     drm_kms_helper_poll_init(rdev_to_drm(rdev));
-> >>>
-> >>>        /* do pm late init */
-> >>>        ret =3D radeon_pm_late_init(rdev);
-> >>> @@ -1650,11 +1650,11 @@ int radeon_modeset_init(struct radeon_device =
-*rdev)
-> >>>    void radeon_modeset_fini(struct radeon_device *rdev)
-> >>>    {
-> >>>        if (rdev->mode_info.mode_config_initialized) {
-> >>> -             drm_kms_helper_poll_fini(rdev->ddev);
-> >>> +             drm_kms_helper_poll_fini(rdev_to_drm(rdev));
-> >>>                radeon_hpd_fini(rdev);
-> >>> -             drm_helper_force_disable_all(rdev->ddev);
-> >>> +             drm_helper_force_disable_all(rdev_to_drm(rdev));
-> >>>                radeon_afmt_fini(rdev);
-> >>> -             drm_mode_config_cleanup(rdev->ddev);
-> >>> +             drm_mode_config_cleanup(rdev_to_drm(rdev));
-> >>>                rdev->mode_info.mode_config_initialized =3D false;
-> >>>        }
-> >>>
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/ra=
-deon/radeon_drv.c
-> >>> index 7bf08164140e..89941a90e17f 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_drv.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
-> >>> @@ -259,7 +259,8 @@ static int radeon_pci_probe(struct pci_dev *pdev,
-> >>>                            const struct pci_device_id *ent)
-> >>>    {
-> >>>        unsigned long flags =3D 0;
-> >>> -     struct drm_device *dev;
-> >>> +     struct drm_device *ddev;
-> >>> +     struct radeon_device *rdev;
-> >>>        int ret;
-> >>>
-> >>>        if (!ent)
-> >>> @@ -300,28 +301,36 @@ static int radeon_pci_probe(struct pci_dev *pde=
-v,
-> >>>        if (ret)
-> >>>                return ret;
-> >>>
-> >>> -     dev =3D drm_dev_alloc(&kms_driver, &pdev->dev);
-> >>> -     if (IS_ERR(dev))
-> >>> -             return PTR_ERR(dev);
-> >>> +     rdev =3D devm_drm_dev_alloc(&pdev->dev, &kms_driver, typeof(*rd=
-ev), ddev);
-> >>> +     if (IS_ERR(rdev))
-> >>> +             return PTR_ERR(rdev);
-> >>> +
-> >>> +     rdev->dev  =3D &pdev->dev;
-> >>> +     rdev->pdev =3D pdev;
-> >>> +     ddev =3D rdev_to_drm(rdev);
-> >>>
-> >>>        ret =3D pci_enable_device(pdev);
-> >>>        if (ret)
-> >>>                goto err_free;
-> >>>
-> >>> -     pci_set_drvdata(pdev, dev);
-> >>> +     pci_set_drvdata(pdev, ddev);
-> >>> +
-> >>> +     ret =3D radeon_driver_load_kms(rdev, flags);
-> >>> +     if (ret)
-> >>> +             goto err_agp;
-> >>>
-> >>> -     ret =3D drm_dev_register(dev, ent->driver_data);
-> >>> +     ret =3D drm_dev_register(ddev, flags);
-> >>>        if (ret)
-> >>>                goto err_agp;
-> >>>
-> >>> -     radeon_fbdev_setup(dev->dev_private);
-> >>> +     radeon_fbdev_setup(ddev->dev_private);
-> >>>
-> >>>        return 0;
-> >>>
-> >>>    err_agp:
-> >>>        pci_disable_device(pdev);
-> >>>    err_free:
-> >>> -     drm_dev_put(dev);
-> >>> +     drm_dev_put(ddev);
-> >>>        return ret;
-> >>>    }
-> >>>
-> >>> @@ -569,7 +578,7 @@ static const struct drm_ioctl_desc radeon_ioctls_=
-kms[] =3D {
-> >>>    static const struct drm_driver kms_driver =3D {
-> >>>        .driver_features =3D
-> >>>            DRIVER_GEM | DRIVER_RENDER | DRIVER_MODESET,
-> >>> -     .load =3D radeon_driver_load_kms,
-> >>> +     // .load =3D radeon_driver_load_kms,
-> >>>        .open =3D radeon_driver_open_kms,
-> >>>        .postclose =3D radeon_driver_postclose_kms,
-> >>>        .unload =3D radeon_driver_unload_kms,
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_drv.h b/drivers/gpu/drm/ra=
-deon/radeon_drv.h
-> >>> index 02a65971d140..6c1eb75a951b 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_drv.h
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_drv.h
-> >>> @@ -117,7 +117,6 @@
-> >>>    long radeon_drm_ioctl(struct file *filp,
-> >>>                      unsigned int cmd, unsigned long arg);
-> >>>
-> >>> -int radeon_driver_load_kms(struct drm_device *dev, unsigned long fla=
-gs);
-> >>>    void radeon_driver_unload_kms(struct drm_device *dev);
-> >>>    int radeon_driver_open_kms(struct drm_device *dev, struct drm_file=
- *file_priv);
-> >>>    void radeon_driver_postclose_kms(struct drm_device *dev,
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/=
-radeon/radeon_fbdev.c
-> >>> index 02bf25759059..fb70de29545c 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_fbdev.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
-> >>> @@ -67,7 +67,7 @@ static int radeon_fbdev_create_pinned_object(struct=
- drm_fb_helper *fb_helper,
-> >>>        int height =3D mode_cmd->height;
-> >>>        u32 cpp;
-> >>>
-> >>> -     info =3D drm_get_format_info(rdev->ddev, mode_cmd);
-> >>> +     info =3D drm_get_format_info(rdev_to_drm(rdev), mode_cmd);
-> >>>        cpp =3D info->cpp[0];
-> >>>
-> >>>        /* need to align pitch with crtc limits */
-> >>> @@ -148,15 +148,15 @@ static int radeon_fbdev_fb_open(struct fb_info =
-*info, int user)
-> >>>        struct radeon_device *rdev =3D fb_helper->dev->dev_private;
-> >>>        int ret;
-> >>>
-> >>> -     ret =3D pm_runtime_get_sync(rdev->ddev->dev);
-> >>> +     ret =3D pm_runtime_get_sync(rdev_to_drm(rdev)->dev);
-> >>>        if (ret < 0 && ret !=3D -EACCES)
-> >>>                goto err_pm_runtime_mark_last_busy;
-> >>>
-> >>>        return 0;
-> >>>
-> >>>    err_pm_runtime_mark_last_busy:
-> >>> -     pm_runtime_mark_last_busy(rdev->ddev->dev);
-> >>> -     pm_runtime_put_autosuspend(rdev->ddev->dev);
-> >>> +     pm_runtime_mark_last_busy(rdev_to_drm(rdev)->dev);
-> >>> +     pm_runtime_put_autosuspend(rdev_to_drm(rdev)->dev);
-> >>>        return ret;
-> >>>    }
-> >>>
-> >>> @@ -165,8 +165,8 @@ static int radeon_fbdev_fb_release(struct fb_info=
- *info, int user)
-> >>>        struct drm_fb_helper *fb_helper =3D info->par;
-> >>>        struct radeon_device *rdev =3D fb_helper->dev->dev_private;
-> >>>
-> >>> -     pm_runtime_mark_last_busy(rdev->ddev->dev);
-> >>> -     pm_runtime_put_autosuspend(rdev->ddev->dev);
-> >>> +     pm_runtime_mark_last_busy(rdev_to_drm(rdev)->dev);
-> >>> +     pm_runtime_put_autosuspend(rdev_to_drm(rdev)->dev);
-> >>>
-> >>>        return 0;
-> >>>    }
-> >>> @@ -236,7 +236,7 @@ static int radeon_fbdev_fb_helper_fb_probe(struct=
- drm_fb_helper *fb_helper,
-> >>>                ret =3D -ENOMEM;
-> >>>                goto err_radeon_fbdev_destroy_pinned_object;
-> >>>        }
-> >>> -     ret =3D radeon_framebuffer_init(rdev->ddev, fb, &mode_cmd, gobj=
-);
-> >>> +     ret =3D radeon_framebuffer_init(rdev_to_drm(rdev), fb, &mode_cm=
-d, gobj);
-> >>>        if (ret) {
-> >>>                DRM_ERROR("failed to initialize framebuffer %d\n", ret=
-);
-> >>>                goto err_kfree;
-> >>> @@ -374,12 +374,12 @@ void radeon_fbdev_setup(struct radeon_device *r=
-dev)
-> >>>        fb_helper =3D kzalloc(sizeof(*fb_helper), GFP_KERNEL);
-> >>>        if (!fb_helper)
-> >>>                return;
-> >>> -     drm_fb_helper_prepare(rdev->ddev, fb_helper, bpp_sel, &radeon_f=
-bdev_fb_helper_funcs);
-> >>> +     drm_fb_helper_prepare(rdev_to_drm(rdev), fb_helper, bpp_sel, &r=
-adeon_fbdev_fb_helper_funcs);
-> >>>
-> >>> -     ret =3D drm_client_init(rdev->ddev, &fb_helper->client, "radeon=
--fbdev",
-> >>> +     ret =3D drm_client_init(rdev_to_drm(rdev), &fb_helper->client, =
-"radeon-fbdev",
-> >>>                              &radeon_fbdev_client_funcs);
-> >>>        if (ret) {
-> >>> -             drm_err(rdev->ddev, "Failed to register client: %d\n", =
-ret);
-> >>> +             drm_err(rdev_to_drm(rdev), "Failed to register client: =
-%d\n", ret);
-> >>>                goto err_drm_client_init;
-> >>>        }
-> >>>
-> >>> @@ -394,13 +394,13 @@ void radeon_fbdev_setup(struct radeon_device *r=
-dev)
-> >>>
-> >>>    void radeon_fbdev_set_suspend(struct radeon_device *rdev, int stat=
-e)
-> >>>    {
-> >>> -     if (rdev->ddev->fb_helper)
-> >>> -             drm_fb_helper_set_suspend(rdev->ddev->fb_helper, state)=
-;
-> >>> +     if (rdev_to_drm(rdev)->fb_helper)
-> >>> +             drm_fb_helper_set_suspend(rdev_to_drm(rdev)->fb_helper,=
- state);
-> >>>    }
-> >>>
-> >>>    bool radeon_fbdev_robj_is_fb(struct radeon_device *rdev, struct ra=
-deon_bo *robj)
-> >>>    {
-> >>> -     struct drm_fb_helper *fb_helper =3D rdev->ddev->fb_helper;
-> >>> +     struct drm_fb_helper *fb_helper =3D rdev_to_drm(rdev)->fb_helpe=
-r;
-> >>>        struct drm_gem_object *gobj;
-> >>>
-> >>>        if (!fb_helper)
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/=
-radeon/radeon_fence.c
-> >>> index 4fb780d96f32..daff61586be5 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_fence.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
-> >>> @@ -150,7 +150,7 @@ int radeon_fence_emit(struct radeon_device *rdev,
-> >>>                       rdev->fence_context + ring,
-> >>>                       seq);
-> >>>        radeon_fence_ring_emit(rdev, ring, *fence);
-> >>> -     trace_radeon_fence_emit(rdev->ddev, ring, (*fence)->seq);
-> >>> +     trace_radeon_fence_emit(rdev_to_drm(rdev), ring, (*fence)->seq)=
-;
-> >>>        radeon_fence_schedule_check(rdev, ring);
-> >>>        return 0;
-> >>>    }
-> >>> @@ -489,7 +489,7 @@ static long radeon_fence_wait_seq_timeout(struct =
-radeon_device *rdev,
-> >>>                if (!target_seq[i])
-> >>>                        continue;
-> >>>
-> >>> -             trace_radeon_fence_wait_begin(rdev->ddev, i, target_seq=
-[i]);
-> >>> +             trace_radeon_fence_wait_begin(rdev_to_drm(rdev), i, tar=
-get_seq[i]);
-> >>>                radeon_irq_kms_sw_irq_get(rdev, i);
-> >>>        }
-> >>>
-> >>> @@ -511,7 +511,7 @@ static long radeon_fence_wait_seq_timeout(struct =
-radeon_device *rdev,
-> >>>                        continue;
-> >>>
-> >>>                radeon_irq_kms_sw_irq_put(rdev, i);
-> >>> -             trace_radeon_fence_wait_end(rdev->ddev, i, target_seq[i=
-]);
-> >>> +             trace_radeon_fence_wait_end(rdev_to_drm(rdev), i, targe=
-t_seq[i]);
-> >>>        }
-> >>>
-> >>>        return r;
-> >>> @@ -995,7 +995,7 @@ DEFINE_DEBUGFS_ATTRIBUTE(radeon_debugfs_gpu_reset=
-_fops,
-> >>>    void radeon_debugfs_fence_init(struct radeon_device *rdev)
-> >>>    {
-> >>>    #if defined(CONFIG_DEBUG_FS)
-> >>> -     struct dentry *root =3D rdev->ddev->primary->debugfs_root;
-> >>> +     struct dentry *root =3D rdev_to_drm(rdev)->primary->debugfs_roo=
-t;
-> >>>
-> >>>        debugfs_create_file("radeon_gpu_reset", 0444, root, rdev,
-> >>>                            &radeon_debugfs_gpu_reset_fops);
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/ra=
-deon/radeon_gem.c
-> >>> index 2ef201a072f1..9dd4ff09d562 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_gem.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
-> >>> @@ -899,7 +899,7 @@ DEFINE_SHOW_ATTRIBUTE(radeon_debugfs_gem_info);
-> >>>    void radeon_gem_debugfs_init(struct radeon_device *rdev)
-> >>>    {
-> >>>    #if defined(CONFIG_DEBUG_FS)
-> >>> -     struct dentry *root =3D rdev->ddev->primary->debugfs_root;
-> >>> +     struct dentry *root =3D rdev_to_drm(rdev)->primary->debugfs_roo=
-t;
-> >>>
-> >>>        debugfs_create_file("radeon_gem_info", 0444, root, rdev,
-> >>>                            &radeon_debugfs_gem_info_fops);
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_i2c.c b/drivers/gpu/drm/ra=
-deon/radeon_i2c.c
-> >>> index 3d174390a8af..1f16619ed06e 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_i2c.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_i2c.c
-> >>> @@ -1011,7 +1011,7 @@ void radeon_i2c_add(struct radeon_device *rdev,
-> >>>                    struct radeon_i2c_bus_rec *rec,
-> >>>                    const char *name)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        int i;
-> >>>
-> >>>        for (i =3D 0; i < RADEON_MAX_I2C_BUS; i++) {
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_ib.c b/drivers/gpu/drm/rad=
-eon/radeon_ib.c
-> >>> index 63d914f3414d..1aa41cc3f991 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_ib.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_ib.c
-> >>> @@ -309,7 +309,7 @@ DEFINE_SHOW_ATTRIBUTE(radeon_debugfs_sa_info);
-> >>>    static void radeon_debugfs_sa_init(struct radeon_device *rdev)
-> >>>    {
-> >>>    #if defined(CONFIG_DEBUG_FS)
-> >>> -     struct dentry *root =3D rdev->ddev->primary->debugfs_root;
-> >>> +     struct dentry *root =3D rdev_to_drm(rdev)->primary->debugfs_roo=
-t;
-> >>>
-> >>>        debugfs_create_file("radeon_sa_info", 0444, root, rdev,
-> >>>                            &radeon_debugfs_sa_info_fops);
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_irq_kms.c b/drivers/gpu/dr=
-m/radeon/radeon_irq_kms.c
-> >>> index c4dda908666c..9961251b44ba 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_irq_kms.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_irq_kms.c
-> >>> @@ -80,7 +80,7 @@ static void radeon_hotplug_work_func(struct work_st=
-ruct *work)
-> >>>    {
-> >>>        struct radeon_device *rdev =3D container_of(work, struct radeo=
-n_device,
-> >>>                                                  hotplug_work.work);
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct drm_mode_config *mode_config =3D &dev->mode_config;
-> >>>        struct drm_connector *connector;
-> >>>
-> >>> @@ -101,7 +101,7 @@ static void radeon_dp_work_func(struct work_struc=
-t *work)
-> >>>    {
-> >>>        struct radeon_device *rdev =3D container_of(work, struct radeo=
-n_device,
-> >>>                                                  dp_work);
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct drm_mode_config *mode_config =3D &dev->mode_config;
-> >>>        struct drm_connector *connector;
-> >>>
-> >>> @@ -197,7 +197,7 @@ static void radeon_driver_irq_uninstall_kms(struc=
-t drm_device *dev)
-> >>>
-> >>>    static int radeon_irq_install(struct radeon_device *rdev, int irq)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        int ret;
-> >>>
-> >>>        if (irq =3D=3D IRQ_NOTCONNECTED)
-> >>> @@ -218,7 +218,7 @@ static int radeon_irq_install(struct radeon_devic=
-e *rdev, int irq)
-> >>>
-> >>>    static void radeon_irq_uninstall(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-> >>>
-> >>>        radeon_driver_irq_uninstall_kms(dev);
-> >>> @@ -322,9 +322,9 @@ int radeon_irq_kms_init(struct radeon_device *rde=
-v)
-> >>>        spin_lock_init(&rdev->irq.lock);
-> >>>
-> >>>        /* Disable vblank irqs aggressively for power-saving */
-> >>> -     rdev->ddev->vblank_disable_immediate =3D true;
-> >>> +     rdev_to_drm(rdev)->vblank_disable_immediate =3D true;
-> >>>
-> >>> -     r =3D drm_vblank_init(rdev->ddev, rdev->num_crtc);
-> >>> +     r =3D drm_vblank_init(rdev_to_drm(rdev), rdev->num_crtc);
-> >>>        if (r) {
-> >>>                return r;
-> >>>        }
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/ra=
-deon/radeon_kms.c
-> >>> index a16590c6247f..171f8e9fce88 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_kms.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_kms.c
-> >>> @@ -101,24 +101,18 @@ void radeon_driver_unload_kms(struct drm_device=
- *dev)
-> >>>     * (crtcs, encoders, hotplug detect, etc.).
-> >>>     * Returns 0 on success, error on failure.
-> >>>     */
-> >>> -int radeon_driver_load_kms(struct drm_device *dev, unsigned long fla=
-gs)
-> >>> +int radeon_driver_load_kms(struct radeon_device *rdev, unsigned long=
- flags)
-> >>>    {
-> >>> -     struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-> >>> -     struct radeon_device *rdev;
-> >>> +     struct pci_dev *pdev =3D rdev->pdev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        int r, acpi_status;
-> >>>
-> >>> -     rdev =3D kzalloc(sizeof(struct radeon_device), GFP_KERNEL);
-> >>> -     if (rdev =3D=3D NULL) {
-> >>> -             return -ENOMEM;
-> >>> -     }
-> >>> -     dev->dev_private =3D (void *)rdev;
-> >>> -
-> >>>    #ifdef __alpha__
-> >>>        rdev->hose =3D pdev->sysdata;
-> >>>    #endif
-> >>>
-> >>>        if (pci_find_capability(pdev, PCI_CAP_ID_AGP))
-> >>> -             rdev->agp =3D radeon_agp_head_init(dev);
-> >>> +             rdev->agp =3D radeon_agp_head_init(rdev_to_drm(rdev));
-> >>>        if (rdev->agp) {
-> >>>                rdev->agp->agp_mtrr =3D arch_phys_wc_add(
-> >>>                        rdev->agp->agp_info.aper_base,
-> >>> @@ -147,7 +141,7 @@ int radeon_driver_load_kms(struct drm_device *dev=
-, unsigned long flags)
-> >>>         * properly initialize the GPU MC controller and permit
-> >>>         * VRAM allocation
-> >>>         */
-> >>> -     r =3D radeon_device_init(rdev, dev, pdev, flags);
-> >>> +     r =3D radeon_device_init(rdev, flags);
-> >>>        if (r) {
-> >>>                dev_err(dev->dev, "Fatal error during GPU init\n");
-> >>>                goto out;
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm=
-/radeon/radeon_object.c
-> >>> index a955f8a2f7fe..450ff7daa46c 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_object.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_object.c
-> >>> @@ -150,7 +150,7 @@ int radeon_bo_create(struct radeon_device *rdev,
-> >>>        bo =3D kzalloc(sizeof(struct radeon_bo), GFP_KERNEL);
-> >>>        if (bo =3D=3D NULL)
-> >>>                return -ENOMEM;
-> >>> -     drm_gem_private_object_init(rdev->ddev, &bo->tbo.base, size);
-> >>> +     drm_gem_private_object_init(rdev_to_drm(rdev), &bo->tbo.base, s=
-ize);
-> >>>        bo->rdev =3D rdev;
-> >>>        bo->surface_reg =3D -1;
-> >>>        INIT_LIST_HEAD(&bo->list);
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_pm.c b/drivers/gpu/drm/rad=
-eon/radeon_pm.c
-> >>> index 2d9d9f46f243..b4fb7e70320b 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_pm.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_pm.c
-> >>> @@ -282,7 +282,7 @@ static void radeon_pm_set_clocks(struct radeon_de=
-vice *rdev)
-> >>>
-> >>>        if (rdev->irq.installed) {
-> >>>                i =3D 0;
-> >>> -             drm_for_each_crtc(crtc, rdev->ddev) {
-> >>> +             drm_for_each_crtc(crtc, rdev_to_drm(rdev)) {
-> >>>                        if (rdev->pm.active_crtcs & (1 << i)) {
-> >>>                                /* This can fail if a modeset is in pr=
-ogress */
-> >>>                                if (drm_crtc_vblank_get(crtc) =3D=3D 0=
-)
-> >>> @@ -299,7 +299,7 @@ static void radeon_pm_set_clocks(struct radeon_de=
-vice *rdev)
-> >>>
-> >>>        if (rdev->irq.installed) {
-> >>>                i =3D 0;
-> >>> -             drm_for_each_crtc(crtc, rdev->ddev) {
-> >>> +             drm_for_each_crtc(crtc, rdev_to_drm(rdev)) {
-> >>>                        if (rdev->pm.req_vblank & (1 << i)) {
-> >>>                                rdev->pm.req_vblank &=3D ~(1 << i);
-> >>>                                drm_crtc_vblank_put(crtc);
-> >>> @@ -671,7 +671,7 @@ static ssize_t radeon_hwmon_show_temp(struct devi=
-ce *dev,
-> >>>                                      char *buf)
-> >>>    {
-> >>>        struct radeon_device *rdev =3D dev_get_drvdata(dev);
-> >>> -     struct drm_device *ddev =3D rdev->ddev;
-> >>> +     struct drm_device *ddev =3D rdev_to_drm(rdev);
-> >>>        int temp;
-> >>>
-> >>>        /* Can't get temperature when the card is off */
-> >>> @@ -715,7 +715,7 @@ static ssize_t radeon_hwmon_show_sclk(struct devi=
-ce *dev,
-> >>>                                      struct device_attribute *attr, c=
-har *buf)
-> >>>    {
-> >>>        struct radeon_device *rdev =3D dev_get_drvdata(dev);
-> >>> -     struct drm_device *ddev =3D rdev->ddev;
-> >>> +     struct drm_device *ddev =3D rdev_to_drm(rdev);
-> >>>        u32 sclk =3D 0;
-> >>>
-> >>>        /* Can't get clock frequency when the card is off */
-> >>> @@ -740,7 +740,7 @@ static ssize_t radeon_hwmon_show_vddc(struct devi=
-ce *dev,
-> >>>                                      struct device_attribute *attr, c=
-har *buf)
-> >>>    {
-> >>>        struct radeon_device *rdev =3D dev_get_drvdata(dev);
-> >>> -     struct drm_device *ddev =3D rdev->ddev;
-> >>> +     struct drm_device *ddev =3D rdev_to_drm(rdev);
-> >>>        u16 vddc =3D 0;
-> >>>
-> >>>        /* Can't get vddc when the card is off */
-> >>> @@ -1692,7 +1692,7 @@ void radeon_pm_fini(struct radeon_device *rdev)
-> >>>
-> >>>    static void radeon_pm_compute_clocks_old(struct radeon_device *rde=
-v)
-> >>>    {
-> >>> -     struct drm_device *ddev =3D rdev->ddev;
-> >>> +     struct drm_device *ddev =3D rdev_to_drm(rdev);
-> >>>        struct drm_crtc *crtc;
-> >>>        struct radeon_crtc *radeon_crtc;
-> >>>
-> >>> @@ -1765,7 +1765,7 @@ static void radeon_pm_compute_clocks_old(struct=
- radeon_device *rdev)
-> >>>
-> >>>    static void radeon_pm_compute_clocks_dpm(struct radeon_device *rde=
-v)
-> >>>    {
-> >>> -     struct drm_device *ddev =3D rdev->ddev;
-> >>> +     struct drm_device *ddev =3D rdev_to_drm(rdev);
-> >>>        struct drm_crtc *crtc;
-> >>>        struct radeon_crtc *radeon_crtc;
-> >>>        struct radeon_connector *radeon_connector;
-> >>> @@ -1826,7 +1826,7 @@ static bool radeon_pm_in_vbl(struct radeon_devi=
-ce *rdev)
-> >>>         */
-> >>>        for (crtc =3D 0; (crtc < rdev->num_crtc) && in_vbl; crtc++) {
-> >>>                if (rdev->pm.active_crtcs & (1 << crtc)) {
-> >>> -                     vbl_status =3D radeon_get_crtc_scanoutpos(rdev-=
->ddev,
-> >>> +                     vbl_status =3D radeon_get_crtc_scanoutpos(rdev_=
-to_drm(rdev),
-> >>>                                                                crtc,
-> >>>                                                                USE_RE=
-AL_VBLANKSTART,
-> >>>                                                                &vpos,=
- &hpos, NULL, NULL,
-> >>> @@ -1918,7 +1918,7 @@ static void radeon_dynpm_idle_work_handler(stru=
-ct work_struct *work)
-> >>>    static int radeon_debugfs_pm_info_show(struct seq_file *m, void *u=
-nused)
-> >>>    {
-> >>>        struct radeon_device *rdev =3D m->private;
-> >>> -     struct drm_device *ddev =3D rdev->ddev;
-> >>> +     struct drm_device *ddev =3D rdev_to_drm(rdev);
-> >>>
-> >>>        if  ((rdev->flags & RADEON_IS_PX) &&
-> >>>             (ddev->switch_power_state !=3D DRM_SWITCH_POWER_ON)) {
-> >>> @@ -1955,7 +1955,7 @@ DEFINE_SHOW_ATTRIBUTE(radeon_debugfs_pm_info);
-> >>>    static void radeon_debugfs_pm_init(struct radeon_device *rdev)
-> >>>    {
-> >>>    #if defined(CONFIG_DEBUG_FS)
-> >>> -     struct dentry *root =3D rdev->ddev->primary->debugfs_root;
-> >>> +     struct dentry *root =3D rdev_to_drm(rdev)->primary->debugfs_roo=
-t;
-> >>>
-> >>>        debugfs_create_file("radeon_pm_info", 0444, root, rdev,
-> >>>                            &radeon_debugfs_pm_info_fops);
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_ring.c b/drivers/gpu/drm/r=
-adeon/radeon_ring.c
-> >>> index 8d1d458286a8..581ae20c46e4 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_ring.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_ring.c
-> >>> @@ -550,7 +550,7 @@ static void radeon_debugfs_ring_init(struct radeo=
-n_device *rdev, struct radeon_r
-> >>>    {
-> >>>    #if defined(CONFIG_DEBUG_FS)
-> >>>        const char *ring_name =3D radeon_debugfs_ring_idx_to_name(ring=
-->idx);
-> >>> -     struct dentry *root =3D rdev->ddev->primary->debugfs_root;
-> >>> +     struct dentry *root =3D rdev_to_drm(rdev)->primary->debugfs_roo=
-t;
-> >>>
-> >>>        if (ring_name)
-> >>>                debugfs_create_file(ring_name, 0444, root, ring,
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/ra=
-deon/radeon_ttm.c
-> >>> index 5c65b6dfb99a..69d0c12fa419 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> >>> @@ -682,8 +682,8 @@ int radeon_ttm_init(struct radeon_device *rdev)
-> >>>
-> >>>        /* No others user of address space so set it to 0 */
-> >>>        r =3D ttm_device_init(&rdev->mman.bdev, &radeon_bo_driver, rde=
-v->dev,
-> >>> -                            rdev->ddev->anon_inode->i_mapping,
-> >>> -                            rdev->ddev->vma_offset_manager,
-> >>> +                            rdev_to_drm(rdev)->anon_inode->i_mapping=
-,
-> >>> +                            rdev_to_drm(rdev)->vma_offset_manager,
-> >>>                               rdev->need_swiotlb,
-> >>>                               dma_addressing_limited(&rdev->pdev->dev=
-));
-> >>>        if (r) {
-> >>> @@ -890,7 +890,7 @@ static const struct file_operations radeon_ttm_gt=
-t_fops =3D {
-> >>>    static void radeon_ttm_debugfs_init(struct radeon_device *rdev)
-> >>>    {
-> >>>    #if defined(CONFIG_DEBUG_FS)
-> >>> -     struct drm_minor *minor =3D rdev->ddev->primary;
-> >>> +     struct drm_minor *minor =3D rdev_to_drm(rdev)->primary;
-> >>>        struct dentry *root =3D minor->debugfs_root;
-> >>>
-> >>>        debugfs_create_file("radeon_vram", 0444, root, rdev,
-> >>> diff --git a/drivers/gpu/drm/radeon/rs400.c b/drivers/gpu/drm/radeon/=
-rs400.c
-> >>> index d4d1501e6576..d6c18fd740ec 100644
-> >>> --- a/drivers/gpu/drm/radeon/rs400.c
-> >>> +++ b/drivers/gpu/drm/radeon/rs400.c
-> >>> @@ -379,7 +379,7 @@ DEFINE_SHOW_ATTRIBUTE(rs400_debugfs_gart_info);
-> >>>    static void rs400_debugfs_pcie_gart_info_init(struct radeon_device=
- *rdev)
-> >>>    {
-> >>>    #if defined(CONFIG_DEBUG_FS)
-> >>> -     struct dentry *root =3D rdev->ddev->primary->debugfs_root;
-> >>> +     struct dentry *root =3D rdev_to_drm(rdev)->primary->debugfs_roo=
-t;
-> >>>
-> >>>        debugfs_create_file("rs400_gart_info", 0444, root, rdev,
-> >>>                            &rs400_debugfs_gart_info_fops);
-> >>> @@ -474,7 +474,7 @@ int rs400_resume(struct radeon_device *rdev)
-> >>>                        RREG32(R_0007C0_CP_STAT));
-> >>>        }
-> >>>        /* post */
-> >>> -     radeon_combios_asic_init(rdev->ddev);
-> >>> +     radeon_combios_asic_init(rdev_to_drm(rdev));
-> >>>        /* Resume clock after posting */
-> >>>        r300_clock_startup(rdev);
-> >>>        /* Initialize surface registers */
-> >>> @@ -552,7 +552,7 @@ int rs400_init(struct radeon_device *rdev)
-> >>>                return -EINVAL;
-> >>>
-> >>>        /* Initialize clocks */
-> >>> -     radeon_get_clock_info(rdev->ddev);
-> >>> +     radeon_get_clock_info(rdev_to_drm(rdev));
-> >>>        /* initialize memory controller */
-> >>>        rs400_mc_init(rdev);
-> >>>        /* Fence driver */
-> >>> diff --git a/drivers/gpu/drm/radeon/rs600.c b/drivers/gpu/drm/radeon/=
-rs600.c
-> >>> index 5c162778899b..88c8e91ea651 100644
-> >>> --- a/drivers/gpu/drm/radeon/rs600.c
-> >>> +++ b/drivers/gpu/drm/radeon/rs600.c
-> >>> @@ -321,7 +321,7 @@ void rs600_pm_misc(struct radeon_device *rdev)
-> >>>
-> >>>    void rs600_pm_prepare(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *ddev =3D rdev->ddev;
-> >>> +     struct drm_device *ddev =3D rdev_to_drm(rdev);
-> >>>        struct drm_crtc *crtc;
-> >>>        struct radeon_crtc *radeon_crtc;
-> >>>        u32 tmp;
-> >>> @@ -339,7 +339,7 @@ void rs600_pm_prepare(struct radeon_device *rdev)
-> >>>
-> >>>    void rs600_pm_finish(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *ddev =3D rdev->ddev;
-> >>> +     struct drm_device *ddev =3D rdev_to_drm(rdev);
-> >>>        struct drm_crtc *crtc;
-> >>>        struct radeon_crtc *radeon_crtc;
-> >>>        u32 tmp;
-> >>> @@ -408,7 +408,7 @@ void rs600_hpd_set_polarity(struct radeon_device =
-*rdev,
-> >>>
-> >>>    void rs600_hpd_init(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct drm_connector *connector;
-> >>>        unsigned enable =3D 0;
-> >>>
-> >>> @@ -435,7 +435,7 @@ void rs600_hpd_init(struct radeon_device *rdev)
-> >>>
-> >>>    void rs600_hpd_fini(struct radeon_device *rdev)
-> >>>    {
-> >>> -     struct drm_device *dev =3D rdev->ddev;
-> >>> +     struct drm_device *dev =3D rdev_to_drm(rdev);
-> >>>        struct drm_connector *connector;
-> >>>        unsigned disable =3D 0;
-> >>>
-> >>> @@ -797,7 +797,7 @@ int rs600_irq_process(struct radeon_device *rdev)
-> >>>                /* Vertical blank interrupts */
-> >>>                if (G_007EDC_LB_D1_VBLANK_INTERRUPT(rdev->irq.stat_reg=
-s.r500.disp_int)) {
-> >>>                        if (rdev->irq.crtc_vblank_int[0]) {
-> >>> -                             drm_handle_vblank(rdev->ddev, 0);
-> >>> +                             drm_handle_vblank(rdev_to_drm(rdev), 0)=
-;
-> >>>                                rdev->pm.vblank_sync =3D true;
-> >>>                                wake_up(&rdev->irq.vblank_queue);
-> >>>                        }
-> >>> @@ -806,7 +806,7 @@ int rs600_irq_process(struct radeon_device *rdev)
-> >>>                }
-> >>>                if (G_007EDC_LB_D2_VBLANK_INTERRUPT(rdev->irq.stat_reg=
-s.r500.disp_int)) {
-> >>>                        if (rdev->irq.crtc_vblank_int[1]) {
-> >>> -                             drm_handle_vblank(rdev->ddev, 1);
-> >>> +                             drm_handle_vblank(rdev_to_drm(rdev), 1)=
-;
-> >>>                                rdev->pm.vblank_sync =3D true;
-> >>>                                wake_up(&rdev->irq.vblank_queue);
-> >>>                        }
-> >>> @@ -1133,7 +1133,7 @@ int rs600_init(struct radeon_device *rdev)
-> >>>                return -EINVAL;
-> >>>
-> >>>        /* Initialize clocks */
-> >>> -     radeon_get_clock_info(rdev->ddev);
-> >>> +     radeon_get_clock_info(rdev_to_drm(rdev));
-> >>>        /* initialize memory controller */
-> >>>        rs600_mc_init(rdev);
-> >>>        r100_debugfs_rbbm_init(rdev);
-> >>> diff --git a/drivers/gpu/drm/radeon/rs690.c b/drivers/gpu/drm/radeon/=
-rs690.c
-> >>> index 14fb0819b8c1..016eb4992803 100644
-> >>> --- a/drivers/gpu/drm/radeon/rs690.c
-> >>> +++ b/drivers/gpu/drm/radeon/rs690.c
-> >>> @@ -845,7 +845,7 @@ int rs690_init(struct radeon_device *rdev)
-> >>>                return -EINVAL;
-> >>>
-> >>>        /* Initialize clocks */
-> >>> -     radeon_get_clock_info(rdev->ddev);
-> >>> +     radeon_get_clock_info(rdev_to_drm(rdev));
-> >>>        /* initialize memory controller */
-> >>>        rs690_mc_init(rdev);
-> >>>        rv515_debugfs(rdev);
-> >>> diff --git a/drivers/gpu/drm/radeon/rv515.c b/drivers/gpu/drm/radeon/=
-rv515.c
-> >>> index bbc6ccabf788..1b4dfb645585 100644
-> >>> --- a/drivers/gpu/drm/radeon/rv515.c
-> >>> +++ b/drivers/gpu/drm/radeon/rv515.c
-> >>> @@ -255,7 +255,7 @@ DEFINE_SHOW_ATTRIBUTE(rv515_debugfs_ga_info);
-> >>>    void rv515_debugfs(struct radeon_device *rdev)
-> >>>    {
-> >>>    #if defined(CONFIG_DEBUG_FS)
-> >>> -     struct dentry *root =3D rdev->ddev->primary->debugfs_root;
-> >>> +     struct dentry *root =3D rdev_to_drm(rdev)->primary->debugfs_roo=
-t;
-> >>>
-> >>>        debugfs_create_file("rv515_pipes_info", 0444, root, rdev,
-> >>>                            &rv515_debugfs_pipes_info_fops);
-> >>> @@ -636,7 +636,7 @@ int rv515_init(struct radeon_device *rdev)
-> >>>        if (radeon_boot_test_post_card(rdev) =3D=3D false)
-> >>>                return -EINVAL;
-> >>>        /* Initialize clocks */
-> >>> -     radeon_get_clock_info(rdev->ddev);
-> >>> +     radeon_get_clock_info(rdev_to_drm(rdev));
-> >>>        /* initialize AGP */
-> >>>        if (rdev->flags & RADEON_IS_AGP) {
-> >>>                r =3D radeon_agp_init(rdev);
-> >>> diff --git a/drivers/gpu/drm/radeon/rv770.c b/drivers/gpu/drm/radeon/=
-rv770.c
-> >>> index 9ce12fa3c356..7d4b0bf59109 100644
-> >>> --- a/drivers/gpu/drm/radeon/rv770.c
-> >>> +++ b/drivers/gpu/drm/radeon/rv770.c
-> >>> @@ -1935,7 +1935,7 @@ int rv770_init(struct radeon_device *rdev)
-> >>>        /* Initialize surface registers */
-> >>>        radeon_surface_init(rdev);
-> >>>        /* Initialize clocks */
-> >>> -     radeon_get_clock_info(rdev->ddev);
-> >>> +     radeon_get_clock_info(rdev_to_drm(rdev));
-> >>>        /* Fence driver */
-> >>>        radeon_fence_driver_init(rdev);
-> >>>        /* initialize AGP */
-> >>> diff --git a/drivers/gpu/drm/radeon/si.c b/drivers/gpu/drm/radeon/si.=
-c
-> >>> index 15759c8ca5b7..6c95575ce109 100644
-> >>> --- a/drivers/gpu/drm/radeon/si.c
-> >>> +++ b/drivers/gpu/drm/radeon/si.c
-> >>> @@ -6277,7 +6277,7 @@ int si_irq_process(struct radeon_device *rdev)
-> >>>                                event_name =3D "vblank";
-> >>>
-> >>>                                if (rdev->irq.crtc_vblank_int[crtc_idx=
-]) {
-> >>> -                                     drm_handle_vblank(rdev->ddev, c=
-rtc_idx);
-> >>> +                                     drm_handle_vblank(rdev_to_drm(r=
-dev), crtc_idx);
-> >>>                                        rdev->pm.vblank_sync =3D true;
-> >>>                                        wake_up(&rdev->irq.vblank_queu=
-e);
-> >>>                                }
-> >>> @@ -6839,7 +6839,7 @@ int si_init(struct radeon_device *rdev)
-> >>>        /* Initialize surface registers */
-> >>>        radeon_surface_init(rdev);
-> >>>        /* Initialize clocks */
-> >>> -     radeon_get_clock_info(rdev->ddev);
-> >>> +     radeon_get_clock_info(rdev_to_drm(rdev));
-> >>>
-> >>>        /* Fence driver */
-> >>>        radeon_fence_driver_init(rdev);
->
+The following changes since commit b77bef36015c501f1e0f51db72c55e6dcd8bdd48:
+
+  drm/amd/display: Add some HDCP registers DCN35 list (2024-04-26 17:22:45 -0400)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-6.11-2024-06-07
+
+for you to fetch changes up to b95fa494d6b74c30eeb4a50481aa1041c631754e:
+
+  drm/amdgpu: add RAS is_rma flag (2024-06-05 11:25:14 -0400)
+
+----------------------------------------------------------------
+amd-drm-next-6.11-2024-06-07:
+
+amdgpu:
+- DCN 4.0.x support
+- DCN 3.5 updates
+- GC 12.0 support
+- DP MST fixes
+- Cursor fixes
+- MES11 updates
+- MMHUB 4.1 support
+- DML2 Updates
+- DCN 3.1.5 fixes
+- IPS fixes
+- Various code cleanups
+- GMC 12.0 support
+- SDMA 7.0 support
+- SMU 13 updates
+- SR-IOV fixes
+- VCN 5.x fixes
+- MES12 support
+- SMU 14.x updates
+- Devcoredump improvements
+- Fixes for HDP flush on platforms with >4k pages
+- GC 9.4.3 fixes
+- RAS ACA updates
+- Silence UBSAN flex array warnings
+- MMHUB 3.3 updates
+
+amdkfd:
+- Contiguous VRAM allocations
+- GC 12.0 support
+- SDMA 7.0 support
+- SR-IOV fixes
+
+radeon:
+- Backlight workaround for iMac
+- Silence UBSAN flex array warnings
+
+UAPI:
+- GFX12 modifier and DCC support
+  Proposed Mesa changes:
+  https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29510
+- KFD GFX ALU exceptions
+  Proposed ROCdebugger changes:
+  https://github.com/ROCm/ROCdbgapi/commit/08c760622b6601abf906f75abbc5e21d9fd425df
+  https://github.com/ROCm/ROCgdb/commit/944fe1c1414a68700414e86e32273b6bfa62ba6f
+- KFD Contiguous VRAM allocation flag
+  Proposed ROCr/HIP changes:
+  https://github.com/ROCm/ROCT-Thunk-Interface/commit/f7b4a269914a3ab4f1e2453c2879adb97b5cc9e5
+  https://github.com/ROCm/ROCR-Runtime/pull/214/commits/26e8530d05a775872cb06dde6693db72be0c454a
+  https://github.com/ROCm/clr/commit/1d48f2a1ab38b632919c4b7274899b3faf4279ff
+
+----------------------------------------------------------------
+Adam Nelson (1):
+      drm/amd/display: Fix 3dlut size for Fastloading on DCN401
+
+Agustin Gutierrez (2):
+      drm/amd/display: Fix DSC-re-computing
+      drm/amd/display: MST DSC check for older devices
+
+Alex Deucher (31):
+      drm/amdgpu/mes12: print MES opcodes rather than numbers
+      drm/amdgpu/mes12: increase mes submission timeout
+      drm/amdgpu/mes12: Use a separate fence per transaction
+      drm/amdkfd: don't allow mapping the MMIO HDP page with large pages
+      drm/amdgpu: add nbio set_reg_remap helper
+      drm/amdgpu: add set_reg_remap callback for NBIO 6.1
+      drm/amdgpu: add set_reg_remap callback for NBIO 7.0
+      drm/amdgpu: add set_reg_remap callback for NBIO 7.4
+      drm/amdgpu: add set_reg_remap callback for NBIO 7.9
+      drm/amdgpu: add set_reg_remap callback for NBIO 7.11
+      drm/amdgpu: add set_reg_remap callback for NBIO 7.2
+      drm/amdgpu: add set_reg_remap callback for NBIO 2.3
+      drm/amdgpu: add set_reg_remap callback for NBIO 4.3
+      drm/amdgpu: add set_reg_remap callback for NBIO 7.7
+      drm/amdgpu: add set_reg_remap callback for NBIF 6.3.1
+      drm/amdgpu/soc15: use common nbio callback to set remap offset
+      drm/amdgpu/nv: use common nbio callback to set remap offset
+      drm/amdgpu/soc21: use common nbio callback to set remap offset
+      drm/amdgpu: fix documentation errors in sdma v7.0
+      drm/amdgpu: fix documentation errors in gmc v12.0
+      drm/amdgpu: Adjust logic in amdgpu_device_partner_bandwidth()
+      drm/amdgpu: silence UBSAN warning
+      drm/amdgpu: drop MES 10.1 support v3
+      Revert "drm/amdkfd: fix gfx_target_version for certain 11.0.3 devices"
+      drm/amdkfd: simplify APU VRAM handling
+      drm/amdgpu/gfx11: select HDP ref/mask according to gfx ring pipe
+      drm/amdgpu/gfx11: handle priority setup for gfx pipe1
+      drm/amdgpu/gfx11: enable gfx pipe1 hardware support
+      drm/amdgpu/soc24: use common nbio callback to set remap offset
+      drm/amdgpu: update gc_12_0_0 headers
+      Revert "drm/amdgpu/gfx11: enable gfx pipe1 hardware support"
+
+Alex Hung (20):
+      drm/amd/display: Skip accessing array for unknown eng_id
+      drm/amd/display: Ensure array index tg_inst won't be -1
+      drm/amd/display: Check gpio_id before used as array index
+      drm/amd/display: Fix incorrect size calculation for loop
+      drm/amd/display: Check index for aux_rd_interval before using
+      drm/amd/display: Check num_valid_sets before accessing reader_wm_sets[]
+      drm/amd/display: Skip updating link encoder for unknown eng_id
+      drm/amd/display: Check msg_id before processing transcation
+      drm/amd/display: Check link_index before accessing dc->links[]
+      drm/amd/display: Limit clock assignments by size of clk tables
+      drm/amd/display: Spinlock before reading event
+      drm/amd/display: Limit array index according to architecture
+      drm/amd/display: Avoid overflow dc_clk_table->entries by limit to MAX_NUM_DPM_LVL
+      drm/amd/display: Skip plane when not found by stream id
+      drm/amd/display: Ensure index calculation will not overflow
+      drm/amd/display: Assign disp_cfg_index_max when dml21
+      drm/amd/display: Fix uninitialized variables in dcn401 and dml21
+      Revert "drm/amd/display: Enable SYMCLK gating in DCCG"
+      drm/amd/display: Fix incorrect DCN401 comparison
+      drm/amd/display: Adjust incorrect indentations and spaces
+
+Alvin Lee (9):
+      drm/amd/display: Only program P-State force if pipe config changed
+      drm/amd/display: Assign linear_pitch_alignment even for VM
+      drm/amd/display: For FPO + Vactive check that all pipes support VA
+      Revert "drm/amd/display: Only program P-State force if pipe config changed"
+      drm/amd/display: Don't offload flip if not only address update
+      drm/amd/display: Fix ODM + underscan case with cursor
+      drm/amd/display: Only program P-State force if pipe config changed
+      drm/amd/display: Move fpo_in_use to stream_status
+      drm/amd/display: Use current_state when checking old_pipe subvp type
+
+Anthony Koo (2):
+      drm/amd/display: [FW Promotion] Release 0.0.214.0
+      drm/amd/display: [FW Promotion] Release 0.0.216.0
+
+Aric Cyr (5):
+      drm/amd/display: 3.2.282
+      drm/amd/display: 3.2.283
+      drm/amd/display: 3.2.284
+      drm/amd/display: 3.2.285
+      drm/amd/display: 3.2.286
+
+Arnd Bergmann (4):
+      drm/amd/display: dynamically allocate dml2_configuration_options structures
+      drm/amd/display: fix graphics_object_id size
+      drm/amd/display: avoid large on-stack structures
+      drm/amd/display: Move 'struct scaler_data' off stack
+
+Asad Kamal (5):
+      drm/amd/amdgpu: Check tbo resource pointer
+      drm/amd/pm: Add gpu_metrics_v1_6
+      drm/amd/pm: Use gpu_metrics_v1_6 for SMUv13.0.6
+      Revert "drm/amd/pm: Use gpu_metrics_v1_6 for SMUv13.0.6"
+      Revert "drm/amd/pm: Add gpu_metrics_v1_6"
+
+Aurabindo Pillai (19):
+      drm/amd: Add gfx12 swizzle mode defs
+      drm/amd: define new gfx12 uapi flags
+      drm/amd: GFX12 changes for converting tiling flags to modifiers
+      drm/amd: Add DCN401 related register definitions
+      drm/amd/display: Add new DCN401 sources
+      drm/amd/display: Fix SPL related enum definition used in DCN401
+      drm/amd/display: Add gfx12 modifiers
+      drm/amd/display: Add DCN401 dependant changes for DMCUB
+      drm/amd/display: Add some DCN401 reg name to macro definitions
+      drm/amd/display: Add misc DC changes for DCN401
+      drm/amd: Enable DCN410 init
+      drm/amd:  Override DCN410 IP version
+      drm/amd/display: Remove unnecessary HPD entry for DCN401
+      drm/amd/display: Use DCN 410 includes for DCN401
+      drm/amd/display: Remove incorrect FP context start
+      drm/amd/display: Fix null pointer dereference for dcn401
+      drm/amd/display: Move some init routines to dm_sw_init()
+      drm/amd/display: Add new GPINT command definitions
+      drm/amd/display: Enable copying of bounding box data from VBIOS DMUB
+
+Bhuvana Chandra Pinninti (1):
+      drm/amd/display: Refactor HUBP into component folder.
+
+Bill Wendling (1):
+      drm/radeon: Remove __counted_by from StateArray.states[]
+
+Bob Zhou (2):
+      drm/amd/pm: Fix the null pointer dereference for vega10_hwmgr
+      drm/amd/pm: add missing error handling in function smu_v13_0_6_allocate_dpm_context
+
+Bruno Rocha Levi (1):
+      drivers/gpu: Fix misalignment in comment block
+
+Chris Park (4):
+      drm/amd/display: Reduce I2C speed to 95kHz in DCN401
+      drm/amd/display: Use the correct TMDS function to avoid DVI issues
+      drm/amd/display: Deallocate DML 2.1 Memory Allocation
+      drm/amd/display: Support new VA page table block size
+
+Christian König (1):
+      drm/amdgpu: once more fix the call oder in amdgpu_ttm_move() v2
+
+Chun-LiangChang (1):
+      drm/amd/display: Add params of set_abm_event for VB Scaling
+
+Colin Ian King (2):
+      drm/amd/display: Fix spelling various spelling mistakes
+      drm/amd/display: Fix a handful of spelling mistakes
+
+Cruise (2):
+      drm/amd/display: Disable error correction if it's not supported
+      drm/amd/display: Not fallback if link BW is smaller than req BW
+
+Dan Carpenter (3):
+      drm/amd/display: re-indent dpp401_dscl_program_isharp()
+      drm/amdgpu: Fix signedness bug in sdma_v4_0_process_trap_irq()
+      drm/amd/display: re-indent dc_power_down_on_boot()
+
+Daniel Miess (2):
+      drm/amd/display: Enable RCO for PHYSYMCLK in DCN35
+      drm/amd/display: Enable SYMCLK gating in DCCG
+
+Daniel Sa (1):
+      drm/amd/display: Fetch Mall caps from DC
+
+David (Ming Qiang) Wu (7):
+      amdgpu/vcn: enable AMD_PG_SUPPORT_VCN
+      drm/amdgpu/vcn5: Add VCN5 capabilities
+      drm/amdgpu/vcn: remove irq disabling in vcn 5 suspend
+      drm/amdgpu/vcn: set VCN5 power gating state to GATE on suspend
+      drm/amd/amdgpu: update jpeg 5 capability
+      drm/amd/amdgpu: add AMD_PG_SUPPORT_VCN_DPG flag
+      drm/amdgpu: drop some kernel messages in VCN code
+
+David Belanger (8):
+      drm/amdkfd: Basic SDMA and cache info changes for GFX12.
+      drm/amdkfd: Added temporary changes for GFX12.
+      drm/amdkfd: Added MQD manager files for GFX12.
+      drm/amdkfd: Added device queue manager files for GFX12.
+      drm/amdkfd: Added gfx_v12_kfd2kgd interface for GFX12.
+      drm/amdkfd: Enable GFX12 trap handler
+      drm/amdkfd: Enable atomic support for GFX12
+      drm/amdgpu: Fix physical address mask
+
+Dennis Chan (2):
+      drm/amd/display: Fix Replay Desync Error Test
+      drm/amd/display: Refactor for Replay Link off frame count
+
+Dillon Varone (9):
+      drm/amd/display: Refactor input mode programming for DIG FIFO
+      drm/amd/display: Reset input mode for DIG on encoder reset
+      drm/amd/display: Create dcn401_clk_mgr struct
+      drm/amd/display: Refactor dcn401_update_clocks
+      drm/amd/display: Modify HPO pixel clock programming to support DPM
+      drm/amd/display: Disable DCN401 idle optimizations
+      drm/amd/display: Correct display clocks update block sequence
+      drm/amd/display: Wait for hardmins to complete on dcn401
+      drm/amd/display: Add UCLK p-state support message to dcn401
+
+Dr. David Alan Gilbert (3):
+      drm/amdgpu: remove unused struct 'hqd_registers'
+      drm/amd/display: remove unused struct 'aux_payloads'
+      drm/amd/display: remove unused struct 'dc_reg_sequence'
+
+Duncan Ma (1):
+      drm/amd/display: Read default boot options
+
+Eric Huang (3):
+      drm/amdkfd: fix NULL ptr for debugfs mqds on GFX v12
+      drm/amdgpu: add reset sources in gpu reset context
+      drm/amdkfd: add reset cause in gpu pre-reset smi event
+
+Ethan Bitnun (2):
+      drm/amd/display: Block FPO According to Luminance Delta
+      drm/amd/display: Find max flickerless instant vtotal delta
+
+Fangzhi Zuo (1):
+      drm/amd/display: Prevent IPX From Link Detect and Set Mode
+
+Frank Min (7):
+      drm/amdgpu: add initial value for gfx12 AGP aperture
+      drm/amdgpu: fix mqd corruption for gfx12
+      drm/amdgpu/mes: use mc address for wptr in add queue packet
+      drm/amdgpu: fix getting vram info for gfx12
+      drm/amdgpu: program device_cntl2 through pci cfg space
+      drm/amdgpu: Set PTE_IS_PTE bit for gfx12
+      drm/amdgpu: Update soc24_enum.h and soc21_enum.h
+
+Friedrich Vock (1):
+      drm/amdgpu: Check if NBIO funcs are NULL in amdgpu_device_baco_exit
+
+Gabe Teeger (1):
+      drm/amd/display: Atom Integrated System Info v2_2 for DCN35
+
+George Shen (2):
+      drm/amd/display: Skip SST ACT polling when sink_count is 0
+      drm/amd/display: Check UHBR13.5 cap when determining max link cap
+
+Gui Chengming (1):
+      drm/amd/pm: add pstate support for SMU_14_0_2
+
+Harikrishna Revalla (1):
+      drm/amd/display: Refactor HUBBUB into component folder for DCN401
+
+Harish Kasiviswanathan (3):
+      drm/amdgpu: Add mes_v12_api_def.h for gfx12
+      drm/amdkfd: Use dev_error intead of pr_error
+      drm/amdkfd: Ensure gpu_id is unique
+
+Harry Wentland (4):
+      drm/amd/display: Separate setting and programming of cursor
+      drm/amd/display: Set cursor attributes before position
+      drm/amd/display: Do cursor programming with rest of pipe
+      drm/amd/display: Always use legacy way of setting cursor on DCE
+
+Hawking Zhang (17):
+      drm/amdgpu: Add gc v12_0_0 ip headers (v4)
+      drm/amdgpu: Add soc24 chip enum definitions (v4)
+      drm/amdgpu: Add soc24 common ip block (v2)
+      drm/amdgpu: Add mmhub v4_1_0 ip headers (v4)
+      drm/amdgpu: Add mmhub v4_1_0 ip block support (v4)
+      drm/amdgpu: Add gfx v12 pte/pde format change
+      drm/amdgpu: Add gmc v12_0 ip block support (v7)
+      drm/amdgpu: Set pte_is_pte flag in gmc v12 gart
+      drm/amdgpu: support gfx v12 specific pte/pde fields
+      drm/amdgpu: Add sdma v4_4_5 ip block
+      drm/amdgpu: Add psp v13_0_14 ip block
+      drm/amdgpu: Add smu v13_0_14 ip block
+      drm/amdgpu: Add gfx v9_4_4 ip block
+      drm/amdgpu: Switch to smuio func to get gpu clk counter
+      drm/amdgpu: correct hbm field in boot status
+      drm/amdgpu: Estimate RAS reservation when report capacity v2
+      drm/amdgpu: Update programming for boot error reporting
+
+Heiner Kallweit (1):
+      drm/amd/pm: remove deprecated I2C_CLASS_SPD support from newly added SMU_14_0_2
+
+Hersen Wu (18):
+      drm/amd/display: Fix incorrect DSC instance for MST
+      drm/amd/display: Add NULL pointer and OVERRUN check within amdgpu_dm irq register
+      drm/amd/display: Stop amdgpu_dm initialize when stream nums greater than 6
+      drm/amd/display: Stop amdgpu_dm initialize when link nums greater than max_links
+      drm/amd/display: Add missing NULL pointer check within dpcd_extend_address_range
+      drm/amd/display: Add array index check for hdcp ddc access
+      drm/amd/display: Release state memory if amdgpu_dm_create_color_properties fail
+      drm/amd/display: Add otg_master NULL check within resource_log_pipe_topology_update
+      drm/amd/display: Fix Coverity INTERGER_OVERFLOW within construct_integrated_info
+      drm/amd/display: Fix Coverity INTEGER_OVERFLOW within dal_gpio_service_create
+      drm/amd/display: Add NULL pointer check for kzalloc
+      drm/amd/display: Fix wrong array size dummy_boolean of dml2_core_calcs_mode_support_locals
+      drm/amd/display: Release clck_src memory if clk_src_construct fails
+      drm/amd/display: Fix Coverity INTEGER_OVERFLOW within decide_fallback_link_setting_max_bw_policy
+      drm/amd/display: Skip inactive planes within ModeSupportAndSystemConfiguration
+      drm/amd/display: Fix writeback job lock evasion within dm_crtc_high_irq
+      drm/amd/display: Fix index may exceed array range within fpu_update_bw_bounding_box
+      drm/amd/display: Add NULL check within get_target_mpc_factor
+
+Ilya Bakoulin (4):
+      drm/amd/display: Add condition for dp_set_dsc_config call
+      drm/amd/display: Fix FEC_READY write on DP LT
+      drm/amd/display: Fix write to non-existent reg on DCN401
+      drm/amd/display: Add 3DLUT DMA load trigger
+
+Iswara Nagulendran (1):
+      drm/amd/display: Restrict multi-disp support for in-game FAMS
+
+Jack Xiao (20):
+      drm/amdgpu/mes11: add mes mapping legacy queue support
+      drm/amdgpu/mes11: adjust mes initialization sequence
+      drm/amdgpu/gfx: enable mes to map legacy queue support
+      drm/amdgpu/mes11: increase waiting time for engine ready
+      drm/amdgpu/sdma7: set sdma hang watchdog
+      drm/amdgpu: Add mes v12_0 ip block support (v4)
+      drm/amdgpu: enable mes v12 self test
+      drm/amdgpu/mes12: update data cache boundary
+      drm/amdgpu/gfx12: recalculate available compute rings to use
+      drm/amdgpu/mes: add uni_mes fw loading support
+      drm/amdgpu/mes12: add uni_mes fw loading support
+      drm/amdgpu/mes12: enable uni_mes fw on mes pipe0
+      drm/amdgpu/mes12: add mes mapping legacy queue support
+      drm/amdgpu/gfx: enable mes to map legacy queue support
+      drm/amdgpu/mes12: add legacy setting hw resource interface
+      drm/amdgpu: add module parameter 'amdgpu_uni_mes'
+      drm/amdgpu/mes12: disable logging output
+      drm/amdgpu/mes11: fix kiq ring ready flag
+      drm/amdgpu/mes: fix mes12 to map legacy queue
+      drm/amdgpu/mes12: mes hw_fini fix for mode1 reset
+
+Jane Jian (1):
+      drm/amdgpu - optimize rlc spm cntl
+
+Jay Cornwall (6):
+      drm/amdkfd: Move trap handler coherence flags to preprocessor
+      drm/amdkfd: Add gfx12 trap handler support
+      drm/amdkfd: Sync trap handler binary with source
+      drm/amdkfd: Replace deprecated gfx12 trap handler instructions
+      drm/amdkfd: gfx12 context save/restore trap handler fixes
+      drm/amdkfd: Handle deallocated VPGRs in gfx11+ trap handler
+
+Jesse Zhang (40):
+      drm/amd/pm: fix uninitialized variable warning
+      drm/amd/pm: fix uninitialized variable warning
+      drm/amd/pm: fix warning using uninitialized value of max_vid_step
+      drm/amd/pm: Fix negative array index read
+      drm/amd/pm: fix the Out-of-bounds read warning
+      drm/amd/pm: enable UMD Pstate profile level for renoir
+      drm/amdgpu: Fix the warning division or modulo by zero
+      drm/amd/pm: fix get dpm level count for smu13
+      drm/amd/pm: fix get dpm level count for yello carp
+      drm/amdgpu: fix dereference after null check
+      drm/amdgpu: fix the waring dereferencing hive
+      drm/amdgpu: clear the warning unsigned compared against 0 for xcp_id
+      drm/amd: fix the warning unchecking return vaule for sdma_v7
+      drm/amd/pm: check specific index for aldebaran
+      drm/amd/pm: check the return of send smc msg for sienna_cichild
+      drm/amd/pm: check the return of send smc msg for navi10
+      drm/amd/pm: check specific index for smu13
+      drm/amd/pm: check the return of send smc msg for smu_v13
+      drm/amdgpu: remove structurally dead code for amd_gmc
+      drm/amd/pm: remove logically dead code for renoir
+      drm/amdgu: remove unused code
+      drm/amd/pm: fix enum type compared against 0
+      drm/amd/pm: fix enum feature compared against 0
+      drm/amdgpu: remove structurally dead code
+      drm/amd/pm: remove logically dead code
+      drm/amdgpu: the warning dereferencing obj for nbio_v7_4
+      drm/amdgpu: fix the warning bad bit shift operation for aca_error_type type
+      drm/amd/pm: check negtive return for table entries
+      drm/amd/pm: fix unsigned value asic_type compared against
+      drm/admgpu: fix dereferencing null pointer context
+      drm/amdgpu: fix invadate operation for umsch
+      drm/amdgpu: fix invadate operation for pg_flags
+      drm/amdgpu: fix dereference null return value for the function amdgpu_vm_pt_parent
+      drm/amdgu: fix Unintentional integer overflow for mall size
+      drm/amdkfd: remove dead code in the function svm_range_get_pte_flags
+      drm/amdkfd: Comment out the unused variable use_static in pm_map_queues_v9
+      drm/amdkfd: fix the kdf debugger issue
+      drm/amdkfd: remove dead code in kfd_create_vcrat_image_gpu
+      drm/amdkfd: remove logically dead code
+      drm/amd/pm: remove dead code in si_convert_power_level_to_smc
+
+Jiapeng Chong (4):
+      drm/amd/display: Remove duplicate spl/dc_spl_types.h header
+      drm/amd/display: Remove duplicate dcn401/dcn401_clk_mgr.h header
+      drm/amdgpu: Remove duplicate amdgpu_umsch_mm.h header
+      drm/amd/display: clean up some inconsistent indenting
+
+Joan Lee (2):
+      drm/amd/display: Enable Replay for DCN315
+      drm/amd/display: Add retires when read DPCD
+
+Jonathan Kim (4):
+      drm/amdgpu: fix trap enablement for gfx12
+      drm/amdkfd: always enable ttmp setup for gfx12
+      drm/amdkfd: fix support for trap on wave start and end for gfx12
+      drm/amdkfd: enable single alu ops for gfx12
+
+Joshua Aberback (4):
+      Revert "drm/amd/display: Fix incorrect pointer assignment"
+      drm/amd/display: Disable AC/DC codepath when unnecessary
+      drm/amd/display: Fix swapped dimension calculations
+      drm/amd/display: workaround for oled eDP not lighting up on DCN401
+
+Kendall Smith (1):
+      drm/radeon: initialize backlight for iMac12,2 with Radeon 6750M
+
+Kenneth Feng (22):
+      drm/amd/amdgpu: imu fw loading support
+      drm/amd/amdgpu: workaround for the imu fw loading
+      drm/amd/amdgpu: add cgcg&cgls interface for gfx 12.0
+      drm/amd/amdgpu: enable cgcg and cgls
+      drm/amd/amdgpu: enable mgcg on gfx 12.0.1
+      drm/amd/amdgpu: enable 3D cgcg and 3D cgls
+      drm/amd/amdgpu: enable perfcounter mgcg and repeater fgcg
+      drm/amd/amdgpu: enable sram fgcg on gc 12.0.1
+      drm/amd/amdgpu: enable gfxoff on gc 12.0.1
+      drm/amd/amdgpu: enable mmhub and athub cg on gc 12.0.1
+      drm/amd/pm: support mode1 reset on smu_v14_0_3
+      drm/amd/pm: enable mode1 reset on smu v14.0.2/v14.0.3
+      drm/amd/pm: add tool log support on smu v14.0.2/3
+      drm/amd/pm: add pp_dpm_dcefclk for smu 14.0.2/3
+      drm/amd/pm: disable gpo temporarily
+      drm/amd/amdgpu: add module parameter for jpeg
+      drm/amd/pm: support pp_dpm_pcie on smu v14.0.2/3
+      drm/amd/pm: support mode1 reset on smu v14.0.3
+      drm/amd/pm: update driver-if interface
+      drm/amd/amdgpu: add thm 14.0.2 header file
+      drm/amd/pm: enable thermal alert on smu 14.0.2/3
+      drm/amd/pm: workaround to pass jpeg unit test
+
+Lancelot SIX (2):
+      drm/amdkfd: Flush the process wq before creating a kfd_process
+      drm/amdkfd: save and restore barrier state for gfx12
+
+Lang Yu (2):
+      drm/amdkfd: handle duplicate BOs in reserve_bo_and_cond_vms
+      drm/amdkfd: Let VRAM allocations go to GTT domain on small APUs
+
+Laurent Morichetti (1):
+      drm/amdkfd: enable missed single-step workaround for gfx12
+
+Leo Ma (2):
+      drm/amd/display: Fix DC mode screen flickering on DCN321
+      drm/amd/display: Fix invalid Copyright notice
+
+Li Ma (2):
+      drm/amd/swsmu: update Dpmclocks_t for smu v14.0.1
+      drm/amdgpu/atomfirmware: add intergrated info v2.3 table
+
+Lijo Lazar (18):
+      drm/amd/amdxcp: Use unique name for partition dev
+      Revert "drm/amdkfd: Add partition id field to location_id"
+      drm/amd/amdxcp: Fix warnings
+      drm/amd/pm: Fix aldebaran pcie speed reporting
+      drm/amdgpu: Fix memory range calculation
+      drm/amdgpu: Add nps info table to IP discovery
+      drm/amdgpu: Use NPS ranges from discovery table
+      drm/amd/pm: Add support for DPM policies
+      drm/amd/pm: Update PMFW messages for SMUv13.0.6
+      drm/amd/pm: Add support to select pstate policy
+      drm/amd/pm: Add xgmi plpd policy to pm_policy
+      drm/amd/pm: Add xgmi plpd to SMU v13.0.6 pm_policy
+      drm/amd/pm: Add xgmi plpd to aldebaran pm_policy
+      drm/amd/pm: Add xgmi plpd to arcturus pm_policy
+      drm/amd/pm: Remove legacy interface for xgmi plpd
+      drm/amd/pm: Remove unused interface to set plpd
+      Documentation/amdgpu: Add PM policy documentation
+      drm/amdgpu: Add CRC16 selection in config
+
+Likun Gao (37):
+      drm/amdgpu/discovery: Add common soc24 ip block
+      drm/amdgpu: Add gfxhub v12_0 ip block support (v3)
+      drm/amdgpu/discovery: Add gmc v12_0 ip block
+      drm/amdgpu: add gfx12 mqd structures
+      drm/amdgpu: Add new members for sdma v7_0 fw
+      drm/amdgpu: Add sdma fw v3 structure
+      drm/amdgpu: Add sdma v7_0 ip block support (v7)
+      drm/amdgpu: support SDMA v3 struct fw front door load
+      drm/amdgpu: provide more ucode name shown via id
+      drm/amdgpu/discovery: add sdma v7_0 ip block
+      drm/amdgpu: Add gfx v12_0_0 family id
+      drm/amdgpu/discovery: Set GC family for GC 12.0 IP
+      drm/amdgpu: add gfx12 clearstate header
+      drm/amdgpu: add new TOC structure
+      drm/amdgpu: add rlc TOC header file for soc24
+      drm/amdgpu: init mes ucode name for gfx v12
+      drm/amdgpu: set mes fw address for mes v12
+      drm/amdgpu: Add gfx v12_0 ip block support (v6)
+      drm/amdgpu: set cp fw address set for gfx v12
+      drm/amdgpu: skip imu related function if dpm=0
+      drm/amdgpu: support S&R fw load for gfx v12
+      drm/amd: Move fw init from sw_init to early_init for imu v12
+      drm/amdgpu: set different fw data addr for mec pipe
+      drm/amdgpu: use new method to program rlc ram
+      drm/amdgpu: fix active rb and cu number for gfx12
+      drm/amdgpu: skip dpm check to init imu fw
+      drm/amdgpu: init gfxhub setting to align with mmhub
+      drm/amdgpu/discovery: add gfx v12_0 ip block
+      drm/amdgpu/discovery: add mes v12_0 ip block
+      drm/amdgpu: support cg state get for gfx v12
+      drm/amdgpu: fix spl component for psp v14
+      drm/amdgpu: support imu for gc 12_0_0
+      drm/amdgpu: enable gfx cgcg&cgls for gfx v12_0_0
+      drm/amdgpu: enable some cg feature for gc 12.0.0
+      drm/amdgpu: switch default mes to uni mes
+      drm/amd/amdgpu: enable mmhub and athub cg on gc 12.0.0
+      drm/amdgpu: enable gfxoff for gc v12.0.0
+
+Lin.Cao (2):
+      drm/amdkfd: Check debug trap enable before write dbg_ev_file
+      drm/amdgpu: fix failure mapping legacy queue when FLR
+
+Ma Jun (19):
+      drm/amdgpu: Fix uninitialized variable warning in amdgpu_afmt_acr
+      drm/amdgpu/pm: Check the return value of smum_send_msg_to_smc
+      drm/amdgpu/pm: Fix uninitialized variable warning for smu10
+      drm/amdgpu/pm: Fix uninitialized variable agc_btc_response
+      drm/amdgpu: Fix the uninitialized variable warning
+      drm/amdgpu: Fix out-of-bounds write warning
+      drm/amdgpu: Fix out-of-bounds read of df_v1_7_channel_number
+      drm/amdgpu: Fix uninitialized variable warning in amdgpu_info_ioctl
+      drm/amdgpu/pm: Fix the param type of set_power_profile_mode
+      drm/amdgpu/pm: Check input value for CUSTOM profile mode setting on legacy SOCs
+      drm/amdgpu/pm: Check input value for power profile setting on smu11, smu13 and smu14
+      drm/amdgpu/pm: Fix code alignment issue
+      drm/amdgpu/pm: Drop redundant setting code for pcie lanes
+      drm/amdgpu: Fix null pointer dereference to bo
+      drm/amdgpu: Remove dead code in amdgpu_ras_add_mca_err_addr
+      drm/amdgpu/pm: Fix the null pointer dereference for smu7
+      drm/amdgpu/pm: Drop hard-code value of usTMax
+      drm/amdgpu: Fix the null pointer dereference to ras_manager
+      drm/amdgpu/pm: Fix the null pointer dereference in apply_state_adjust_rules
+
+Marcelo Mendes Spessoto Junior (1):
+      drm/amd/display: fix documentation warnings for mpc.h
+
+Marek Olšák (1):
+      drm/amdgpu: define new gfx12 uapi flags
+
+Mario Limonciello (7):
+      drm/amd/display: Disable panel replay by default for now
+      dm/amd/pm: Fix problems with reboot/shutdown for some SMU 13.0.4/13.0.11 users
+      drm/amd/display: Don't register panel_power_savings on OLED panels
+      drm/amd/display: Drop pixel_clock_mhz
+      drm/amd/display: Pass errors from amdgpu_dm_init() up
+      drm/amd/display: Enable colorspace property for MST connectors
+      drm/amd: Fix shutdown (again) on some SMU v13.0.4/11 platforms
+
+Meenakshikumar Somasundaram (1):
+      drm/amd/display: Allocate zero bw after bw alloc enable
+
+Michael Chen (1):
+      drm/amdkfd: Reconcile the definition and use of oem_id in struct kfd_topology_device
+
+Michael Strauss (1):
+      drm/amd/display: Add delay to improve LTTPR UHBR interop
+
+Michel Dänzer (1):
+      drm/amdgpu: Fix comparison in amdgpu_res_cpu_visible
+
+Mukul Joshi (1):
+      drm/amdkfd: Fix CU Masking for GFX 9.4.3
+
+Natanel Roizenman (1):
+      drm/amd/display: Add null check in resource_log_pipe_topology_update
+
+Nathan Chancellor (3):
+      drm/amd/display: Add frame_warn_flag to dml2_core_shared.o
+      drm/amd/display: Fix CFLAGS for dml2_core_dcn4_calcs.o
+      drm/amd/display: Avoid -Wenum-float-conversion in add_margin_and_round_to_dfs_grainularity()
+
+Nevenko Stupar (1):
+      drm/amd/display: gpuvm handling in DML21
+
+Nicholas Kazlauskas (4):
+      drm/amd/display: Force flush after write to IPS driver signals
+      drm/amd/display: Add trigger FIFO resync path for DCN35
+      drm/amd/display: Notify idle link detection through shared state
+      drm/amd/display: Fix idle optimization checks for multi-display and dual eDP
+
+Nicholas Susanto (3):
+      drm/amd/display: Enable urgent latency adjustments for DCN35
+      drm/amd/display: Fix pipe addition logic in calc_blocks_to_ungate DCN35
+      drm/amd/display: Fix DML2 logic to set clk state to min
+
+Peyton Lee (1):
+      drm/amdgpu/vpe: fix vpe dpm clk ratio setup failed
+
+Philip Yang (6):
+      drm/amdgpu: Support contiguous VRAM allocation
+      drm/amdgpu: Handle sg size limit for contiguous allocation
+      drm/amdgpu: Evict BOs from same process for contiguous allocation
+      drm/amdkfd: Evict BO itself for contiguous allocation
+      drm/amdkfd: Bump kfd version for contiguous VRAM allocation
+      drm/amdkfd: Remove arbitrary timeout for hmm_range_fault
+
+Pinninti (1):
+      drm/amd/display: Refactor HUBP into component folder.
+
+Rajneesh Bhardwaj (1):
+      drm/amdgpu: Make CPX mode auto default in NPS4
+
+Ramesh Errabolu (1):
+      drm/amd/amdkfd: Fix a resource leak in svm_range_validate_and_map()
+
+Relja Vojvodic (1):
+      drm/amd/display: Updated optc401_set_drr to use dcn401 functions
+
+Revalla Hari Krishna (3):
+      drm/amd/display: Refactor HUBBUB into component folder
+      drm/amd/display: Refactor DCCG into component folder
+      drm/amd/display: Refactor DCN401 DCCG into component directory
+
+Rodrigo Siqueira (22):
+      drm/amd/display: Update comments in DC
+      drm/amd/display: Ensure that dmcub support flag is set for DCN20
+      drm/amd/display: Add missing IRQ types
+      drm/amd/display: Drop unnecessary semicolon
+      drm/amd/display: Replace uint8_t with u8 for dp_hdmi_dongle_signature_str
+      drm/amd/display: Improve registers write
+      drm/amd/display: Add missing SMU version
+      drm/amd/display: Adjust codestyle for dcn31 and hdcp_msg
+      drm/amd/display: Add VCO speed parameter for DCN31 FPU
+      drm/amd/display: Adjust functions prefix for some of the dcn301 fpu functions
+      drm/amd/display: Enable legacy fast update for dcn301
+      drm/amd/display: Update some of the dcn303 parameters
+      drm/amd/display: Remove legacy code in DC
+      drm/amd/display: Add log_color_state callback to multiple DCNs
+      drm/amd/display: Handle the case which quad_part is equal 0
+      drm/amd/display: Remove unused code for some dc files
+      drm/amd/display: Remove USBC check for DCN32
+      drm/amd/display: Remove duplicate configuration
+      drm/amd/display: Add missing DML2 var helpers
+      drm/amd/display: Remove unused code
+      drm/amd/display: Update DML2.1 generated code
+      drm/amd/display: Add missing registers for DCN401
+
+Roman Li (6):
+      drm/amd/display: Re-enable IPS2 for static screen
+      drm/amd/display: Add periodic detection for IPS
+      drm/amd/display: Clear shared dmub firmware state on init
+      drm/amd/display: Add ips status info to debugfs
+      drm/amd/display: Remove redundant idle optimization check
+      drm/amd/display: Fix POWERPC_64 compilation
+
+Ruijing Dong (1):
+      drm/amdgpu/vcn: update vcn5 enc/dec capabilities
+
+Saleemkhan Jamadar (1):
+      drm/amdgpu/umsch: add support to capture fw debug log
+
+Samson Tam (5):
+      drm/amd/display: Clean-up recout calculation for visual confirm
+      drm/amd/display: Add COEF filter types for DCN401
+      drm/amd/display: enable EASF support for DCN40
+      drm/amd/display: Enable ISHARP support for DCN401
+      drm/amd/display: fix YUV video color corruption in DCN401
+
+Shane Xiao (3):
+      drm/amdgpu: Update the impelmentation of AMDGPU_PTE_MTYPE_GFX12
+      drm/amdgpu: Update the impelmentation of AMDGPU_PTE_MTYPE_NV10
+      drm/amdgpu: Update the impelmentation of AMDGPU_PTE_MTYPE_VG10
+
+Shashank Sharma (1):
+      drm/amdgpu: fix doorbell regression
+
+Shixiong Ou (1):
+      drm/radeon: Delay Connector detecting when HPD singals is unstable
+
+Sonny Jiang (4):
+      drm/amdgpu: IB test encode test package change for VCN5
+      drm/amdgpu/jpeg5: enable power gating
+      drm/amdgpu/vcn5: enable DPG mode support
+      drm/amdgpu/jpeg5: enable power gating
+
+Sreeja Golui (1):
+      drm/amd/display: Providing a mechanism to have a custom pwm frequency
+
+Sreekant Somasekharan (4):
+      drm/amd/amdkfd: Add GFX12 PTE flag to SVM get PTE function
+      drm/amdkfd: mark GFX12 system and peer GPU memory mappings as MTYPE_NC
+      drm/amdkfd: Check correct memory types for is_system variable
+      drm/amdkfd: Add GFX1201 to svm_range_get_pte_flags function
+
+Sridevi (1):
+      drm/amd/display: Fix incorrect cursor position for dcn401
+
+Srinivasan Shanmugam (12):
+      drm/amd/display: Address kdoc for 'Enable CRTC' in optc401_enable_crtc
+      drm/amd/display: Remove redundant NULL check in dce110_set_input_transfer_func
+      drm/amd/display: Remove redundant NULL check in dcn10_set_input_transfer_func
+      drm/amdgpu: Fix truncation by resizing ucode_prefix in imu_v12_0_init_microcode
+      drm/amdgpu: Fix buffer size to prevent truncation in gfx_v12_0_init_microcode
+      drm/amdgpu/display: Update kdoc for 'optc35_set_odm_combine'
+      drm/amdgpu: Remove duplicate check for *is_queue_unmap in sdma_v7_0_ring_set_wptr
+      drm/amdgpu: Fix snprintf usage in amdgpu_gfx_kiq_init_ring
+      drm/amd/display: Refactor construct_phy function in dc/link/link_factory.c
+      drm/amdgpu/display: Fix null pointer dereference in dc_stream_program_cursor_position
+      drm/amdgpu: Fix type mismatch in amdgpu_gfx_kiq_init_ring
+      drm/amd/display: Add null checks for 'stream' and 'plane' before dereferencing
+
+Sung Joon Kim (5):
+      drm/amd/display: Reuse the modified power sequence
+      drm/amd/display: Fix recout calculation for stereo side-by-side
+      drm/amd/display: Update dcn351 debug flags and function pointers
+      drm/amd/display: Disable seamless boot on 128b/132b encoding
+      drm/amd/display: Expand to higher link rates
+
+Sung-huai Wang (1):
+      drm/amd/display: Handle HPD_IRQ for internal link
+
+Sunil Khatri (19):
+      drm/amdgpu: add function descripion of new functions
+      drm/amdgpu: remove ip dump reg_count variable
+      drm/amdgpu: add CP headers registers to gfx10 dump
+      drm/amdgpu: add se registers to ip dump for gfx10
+      drm/amdgpu: rename the ip_dump to ip_dump_core
+      drm/amdgpu: Add cp queues support fro gfx10 in ipdump
+      drm/amdgpu: add gfx queue support of gfx10 in ipdump
+      drm/amdgpu: add prints in IP State dump
+      drm/amdgpu: add more device info to the devcoredump
+      drm/amdgpu: Add missing offsets in gc_11_0_0_offset.h
+      drm/amdgpu: add gfx11 registers support in ipdump
+      drm/amdgpu: add print support for gfx11 ipdump
+      drm/amdgpu: add cp queue registers for gfx11 ipdump
+      drm/amdgpu: add gfx queue support for gfx11 ipdump
+      drm/amdgpu: add gfx9 register support in ipdump
+      drm/amdgpu: add print support for gfx9 ipdump
+      drm/amdgpu: add cp queue registers for gfx9 ipdump
+      drm/amdgpu: rename ip_dump_cp_queues to compute queues
+      drm/amdgpu: fix comments and error message for ipdump
+
+Swapnil Patel (2):
+      drm/amd/display: Add dtbclk access to dcn315
+      drm/amd/display: Change ASSR disable sequence
+
+Tao Zhou (3):
+      drm/amdgpu: update type of buf size to u32 for eeprom functions
+      drm/amdgpu: use u32 for buf size in __amdgpu_eeprom_xfer
+      drm/amdgpu: add RAS is_rma flag
+
+Tasos Sahanidis (1):
+      drm/amdgpu/pptable: Fix UBSAN array-index-out-of-bounds
+
+Tim Huang (12):
+      drm/amdgpu: fix potential resource leak warning
+      drm/amdgpu: fix overflowed array index read warning
+      drm/amd/pm: fix uninitialized variable warning for smu8_hwmgr
+      drm/amd/pm: fix uninitialized variable warning for smu_v13
+      drm/amdgpu: fix uninitialized scalar variable warning
+      drm/amd/pm: fix uninitialized variable warnings for vega10_hwmgr
+      drm/amd/pm: fix uninitialized variable warnings for vangogh_ppt
+      drm/amdgpu: fix uninitialized variable warning for sdma_v7
+      drm/amdgpu: fix uninitialized variable warning for amdgpu_xgmi
+      drm/amdgpu: fix uninitialized variable warning for jpeg_v4
+      drm/amdgpu: fix ucode out-of-bounds read warning
+      drm/amdgpu: fix mc_data out-of-bounds read warning
+
+Tim Van Patten (1):
+      drm/amdgpu: Remove GC HW IP 9.3.0 from noretry=1
+
+Tobias Jakobi (1):
+      drm/amd/display: Add MSF panel to DPCD 0x317 patch list
+
+Tom Chung (1):
+      drm/amd/display: Add Replay capability and state in debugfs
+
+Tom St Denis (1):
+      drm/amd/amdgpu: update GFX12 wave data registers
+
+Tvrtko Ursulin (5):
+      drm/amdgpu: Add amdgpu_bo_is_vm_bo helper
+      drm/amdgpu: Reduce mem_type to domain double indirection
+      drm/amdgpu: Describe all object placements in debugfs
+      drm/amdgpu: Fix amdgpu_vm_is_bo_always_valid kerneldoc
+      drm/amd/display: Convert some legacy DRM debug macros into appropriate categories
+
+Victor Skvortsov (3):
+      drm/amdgpu: Extend KIQ reg polling wait for VF
+      drm/amdgpu: Queue KFD reset workitem in VF FED
+      drm/amdgpu: Add lock around VF RLCG interface
+
+Victor Zhao (1):
+      drm/amd/amdgpu: fix the inst passed to amdgpu_virt_rlcg_reg_rw
+
+Wayne Lin (2):
+      drm/amd/display: Remove unnecessary files
+      drm/amd/display: Defer handling mst up request in resume
+
+Webb Chen (2):
+      drm/amd/display: Keep VBios pixel rate div setting util next mode set
+      drm/amd/display: Revert "dc: Keep VBios pixel rate div setting util next mode set"
+
+Wenjing Liu (10):
+      drm/amd/display: take ODM slice count into account when deciding DSC slice
+      drm/amd/display: use even ODM slice width for two pixels per container
+      drm/amd/display: reset DSC clock in post unlock update
+      drm/amd/display: Add resource interfaces for get ODM slice rect
+      drm/amd/display: Add left edge pixel for YCbCr422/420 + ODM pipe split
+      drm/amd/display: Allow higher DSC slice support for small timings on dcn401
+      drm/amd/display: Move DSC functions from dc.c to dc_dsc.c
+      drm/amd/display: Add missing enable and disable symclk_se functions for dcn401
+      drm/amd/display: fix a typo which causes an incorrect ODM combine setup
+      drm/amd/display: turn on symclk for dio virtual stream in dpms sequence
+
+Xi Liu (1):
+      drm/amd/display: add support for force ODM override
+
+Xiaogang Chen (1):
+      drm/kfd: Correct pinned buffer handling at kfd restore and validate process
+
+Yang Wang (13):
+      drm/amdgpu: remove unused MCA driver codes
+      drm/amdgpu: add amdgpu MCA bank dispatch function support
+      drm/amdgpu: add MCA smu cache support
+      drm/amdgpu: avoid dump mca bank log muti times during ras ISR
+      drm/amdgpu: ignoring unsupported ras blocks when MCA bank dispatches
+      drm/amdgpu: fix RAS unload driver issue in SRIOV
+      drm/amdgpu: add debug flag to enable RAS ACA
+      drm/amdgpu: fix compiler 'side-effect' check issue for RAS_EVENT_LOG()
+      drm/amdgpu: change aca bank error lock type to spinlock
+      drm/amdgpu: change bank cache lock type to spinlock
+      drm/amdgpu: fix ACA no query result after gpu reset
+      drm/amdgpu: skip to create ras xxx_err_count node when ACA is enabled
+      drm/amdgpu: fix typo in amdgpu_ras_aca_sysfs_read() function
+
+YiPeng Chai (3):
+      rm/amdgpu: Remove unused code
+      drm/amdgpu: Remove redundant function call
+      drm/amdgpu: change log level
+
+Yifan Zhang (2):
+      drm/amdgpu: init SAW registers for mmhub v3.3
+      drm/amdgpu: disable lane0 L1TLB and enable lane1 L1TLB
+
+Yunxiang Li (4):
+      drm/amdgpu: Fix two reset triggered in a row
+      drm/amdgpu: Add reset_context flag for host FLR
+      drm/amdgpu: Fix amdgpu_device_reset_sriov retry logic
+      drm/amdgpu: Move ras resume into SRIOV function
+
+Zhigang Luo (2):
+      drm/amdgpu: avoid reading vf2pf info size from FB
+      drm/amdgpu: update vf to pf message retry from 2 to 5
+
+shaoyunl (5):
+      drm/amdgpu: Enable MES to handle doorbell ring on unmapped queue
+      drm/amdgpu: Enable unmapped doorbell handling basic mode on mes 12
+      drm/amdgpu: Enable event log on MES 12
+      drm/amdgpu: Disable unmapped doorbell handling  basic mode on mes 12
+      drm/amdgpu: enable unmapped doorbell handling  basic mode on mes 12
+
+yi-lchen (1):
+      drm/amd/display: Keep VBios pixel rate div setting until next mode set
+
+ Documentation/gpu/amdgpu/thermal.rst               |      6 +
+ drivers/gpu/drm/amd/acp/include/acp_gfx_if.h       |      2 +-
+ drivers/gpu/drm/amd/amdgpu/Kconfig                 |      1 +
+ drivers/gpu/drm/amd/amdgpu/Makefile                |     18 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |     13 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c            |     35 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_aca.h            |      4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_afmt.c           |      1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |     13 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h         |     10 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v12.c |    377 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |     69 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c       |      2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c   |    278 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c            |      3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |      7 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c   |     21 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |    131 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |    172 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.h      |      5 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |     37 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |      3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |     28 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c         |     16 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.h         |      4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c     |      1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |      4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |     71 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h            |      7 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |     84 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.h            |     11 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c            |     12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |     13 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c            |    375 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mca.h            |     36 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c            |      8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_nbio.h           |      1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |     58 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h         |      4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |     17 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c         |      2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |    230 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h            |     24 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c     |     12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.h     |      3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c          |     36 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h          |     14 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c           |      5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_rlc.h            |     74 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c           |     25 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.h           |      4 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c  |      4 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |     61 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c          |     37 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.h          |     10 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c       |    119 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.h       |     18 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |      5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c           |     16 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h           |      2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |     53 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             |     38 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c          |     12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c        |      5 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c            |     13 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |     12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c           |      7 +-
+ drivers/gpu/drm/amd/amdgpu/aqua_vanjaram.c         |      8 +-
+ drivers/gpu/drm/amd/amdgpu/clearstate_gfx12.h      |    121 +
+ drivers/gpu/drm/amd/amdgpu/df_v1_7.c               |      2 +
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |    536 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |    382 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c             |   5005 +
+ .../drm/amd/amdgpu/{mes_v10_1.h => gfx_v12_0.h}    |      8 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c              |     40 -
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |    248 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c            |     26 +-
+ drivers/gpu/drm/amd/amdgpu/gfxhub_v12_0.c          |    501 +
+ drivers/gpu/drm/amd/amdgpu/gfxhub_v12_0.h          |     29 +
+ drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c           |      4 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c             |     17 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c             |     17 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c             |   1023 +
+ drivers/gpu/drm/amd/amdgpu/gmc_v12_0.h             |     30 +
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |    126 +-
+ drivers/gpu/drm/amd/amdgpu/hdp_v4_0.c              |      6 +-
+ drivers/gpu/drm/amd/amdgpu/imu_v12_0.c             |    401 +
+ drivers/gpu/drm/amd/amdgpu/imu_v12_0.h             |     30 +
+ drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_5.c           |      2 +-
+ drivers/gpu/drm/amd/amdgpu/jpeg_v5_0_0.c           |      3 -
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |     38 +-
+ .../drm/amd/amdgpu/{mes_v10_1.c => mes_v12_0.c}    |    966 +-
+ drivers/gpu/drm/amd/amdgpu/mes_v12_0.h             |     29 +
+ drivers/gpu/drm/amd/amdgpu/mmhub_v3_3.c            |     53 +
+ drivers/gpu/drm/amd/amdgpu/mmhub_v4_1_0.c          |    654 +
+ drivers/gpu/drm/amd/amdgpu/mmhub_v4_1_0.h          |     28 +
+ drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c              |      3 +-
+ drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c              |      5 +-
+ drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c              |      3 +-
+ drivers/gpu/drm/amd/amdgpu/nbif_v6_3_1.c           |     29 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c             |     19 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v4_3.c             |     19 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v6_1.c             |     22 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_0.c             |     14 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c            |     15 +
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_2.c             |     18 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c             |     22 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_7.c             |     16 +
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_9.c             |     24 +-
+ drivers/gpu/drm/amd/amdgpu/nv.c                    |      7 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v13_0.c             |     12 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v14_0.c             |      2 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c             |      2 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c           |      9 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c             |   1643 +
+ drivers/gpu/drm/amd/amdgpu/sdma_v7_0.h             |     30 +
+ drivers/gpu/drm/amd/amdgpu/soc15.c                 |     20 +-
+ drivers/gpu/drm/amd/amdgpu/soc21.c                 |      4 +-
+ drivers/gpu/drm/amd/amdgpu/soc24.c                 |    599 +
+ drivers/gpu/drm/amd/amdgpu/soc24.h                 |     30 +
+ drivers/gpu/drm/amd/amdgpu/umc_v12_0.c             |     75 +-
+ drivers/gpu/drm/amd/amdgpu/umsch_mm_v4_0.c         |     11 +-
+ drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c            |     36 +-
+ drivers/gpu/drm/amd/amdgpu/vega20_ih.c             |      9 +-
+ drivers/gpu/drm/amd/amdkfd/Makefile                |      2 +
+ drivers/gpu/drm/amd/amdkfd/cwsr_trap_handler.h     |   1589 +-
+ .../gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx10.asm |    478 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           |     12 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_crat.c              |      9 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_crat.h              |      2 -
+ drivers/gpu/drm/amd/amdkfd/kfd_debug.c             |     19 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_debug.h             |      4 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c            |     67 +-
+ .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |      6 +-
+ .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.h  |      2 +
+ .../drm/amd/amdkfd/kfd_device_queue_manager_v12.c  |     81 +
+ .../drm/amd/amdkfd/kfd_device_queue_manager_v9.c   |      3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c           |      2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c       |      2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v12.c   |    453 +
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c    |     14 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_packet_manager.c    |      3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c |      4 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |      8 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c           |     11 +-
+ .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c |      8 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c        |     16 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_smi_events.h        |      5 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |     36 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.h               |      2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.c          |     77 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.h          |      5 +-
+ drivers/gpu/drm/amd/amdxcp/amdgpu_xcp_drv.c        |      6 +-
+ drivers/gpu/drm/amd/display/Kconfig                |      2 +
+ drivers/gpu/drm/amd/display/Makefile               |      3 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |    639 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |     20 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c |     59 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  |    169 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |     30 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |     31 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    |     25 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h    |      3 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c  |     28 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.h  |      1 +
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c   |     12 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_replay.h   |      2 +-
+ drivers/gpu/drm/amd/display/dc/Makefile            |     11 +-
+ drivers/gpu/drm/amd/display/dc/bios/bios_parser.c  |      4 +-
+ drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c |    117 +-
+ .../amd/display/dc/bios/command_table_helper2.c    |      1 +
+ drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile    |     10 +-
+ drivers/gpu/drm/amd/display/dc/clk_mgr/clk_mgr.c   |     15 +
+ .../drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c  |      3 +-
+ .../dc/clk_mgr/dcn30/dcn30_smu11_driver_if.h       |      2 +-
+ .../amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c |      8 +
+ .../amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c   |     15 +-
+ .../dc/clk_mgr/dcn32/dcn32_smu13_driver_if.h       |      2 +-
+ .../gpu/drm/amd/display/dc/clk_mgr/dcn401/dalsmc.h |     53 +
+ .../amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.c |   1556 +
+ .../amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.h |    113 +
+ .../dc/clk_mgr/dcn401/dcn401_clk_mgr_smu_msg.c     |    313 +
+ .../dc/clk_mgr/dcn401/dcn401_clk_mgr_smu_msg.h     |     29 +
+ .../dc/clk_mgr/dcn401/dcn401_smu14_driver_if.h     |     66 +
+ drivers/gpu/drm/amd/display/dc/core/dc.c           |    218 +-
+ .../gpu/drm/amd/display/dc/core/dc_hw_sequencer.c  |     43 +
+ .../gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c  |      9 +-
+ .../gpu/drm/amd/display/dc/core/dc_link_exports.c  |      3 +
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |    238 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_state.c     |     24 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_stream.c    |    380 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_vm_helper.c |      1 +
+ drivers/gpu/drm/amd/display/dc/dc.h                |     71 +-
+ drivers/gpu/drm/amd/display/dc/dc_bios_types.h     |      1 +
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c       |    220 +-
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.h       |     29 +-
+ drivers/gpu/drm/amd/display/dc/dc_helper.c         |      8 +-
+ drivers/gpu/drm/amd/display/dc/dc_hw_types.h       |     47 +-
+ drivers/gpu/drm/amd/display/dc/dc_spl_translate.c  |    190 +
+ drivers/gpu/drm/amd/display/dc/dc_spl_translate.h  |     22 +
+ drivers/gpu/drm/amd/display/dc/dc_state_priv.h     |      4 +
+ drivers/gpu/drm/amd/display/dc/dc_stream.h         |     36 +-
+ drivers/gpu/drm/amd/display/dc/dc_stream_priv.h    |     38 +
+ drivers/gpu/drm/amd/display/dc/dc_types.h          |     80 +-
+ drivers/gpu/drm/amd/display/dc/dccg/Makefile       |    103 +
+ .../amd/display/dc/{ => dccg}/dcn20/dcn20_dccg.c   |      0
+ .../amd/display/dc/{ => dccg}/dcn20/dcn20_dccg.h   |     27 +
+ .../amd/display/dc/{ => dccg}/dcn201/dcn201_dccg.c |      0
+ .../amd/display/dc/{ => dccg}/dcn201/dcn201_dccg.h |      0
+ .../amd/display/dc/{ => dccg}/dcn21/dcn21_dccg.c   |      0
+ .../amd/display/dc/{ => dccg}/dcn21/dcn21_dccg.h   |      0
+ .../amd/display/dc/{ => dccg}/dcn30/dcn30_dccg.c   |      0
+ .../amd/display/dc/{ => dccg}/dcn30/dcn30_dccg.h   |      0
+ .../amd/display/dc/{ => dccg}/dcn301/dcn301_dccg.c |      0
+ .../amd/display/dc/{ => dccg}/dcn301/dcn301_dccg.h |      0
+ .../amd/display/dc/{ => dccg}/dcn302/dcn302_dccg.h |      0
+ .../amd/display/dc/{ => dccg}/dcn303/dcn303_dccg.h |      0
+ .../amd/display/dc/{ => dccg}/dcn31/dcn31_dccg.c   |      0
+ .../amd/display/dc/{ => dccg}/dcn31/dcn31_dccg.h   |      2 +-
+ .../amd/display/dc/{ => dccg}/dcn314/dcn314_dccg.c |     12 +-
+ .../amd/display/dc/{ => dccg}/dcn314/dcn314_dccg.h |      0
+ .../amd/display/dc/{ => dccg}/dcn32/dcn32_dccg.c   |     13 +-
+ .../amd/display/dc/{ => dccg}/dcn32/dcn32_dccg.h   |      0
+ .../amd/display/dc/{ => dccg}/dcn35/dcn35_dccg.c   |     70 +-
+ .../amd/display/dc/{ => dccg}/dcn35/dcn35_dccg.h   |      0
+ .../drm/amd/display/dc/dccg/dcn401/dcn401_dccg.c   |    995 +
+ .../drm/amd/display/dc/dccg/dcn401/dcn401_dccg.h   |    217 +
+ drivers/gpu/drm/amd/display/dc/dce/dce_abm.h       |     64 +
+ drivers/gpu/drm/amd/display/dc/dce/dce_aux.c       |      3 +-
+ .../gpu/drm/amd/display/dc/dce/dce_clock_source.c  |    117 +
+ .../gpu/drm/amd/display/dc/dce/dce_clock_source.h  |      8 +
+ drivers/gpu/drm/amd/display/dc/dce/dce_i2c_hw.c    |     12 +-
+ drivers/gpu/drm/amd/display/dc/dce/dce_i2c_hw.h    |      4 +
+ drivers/gpu/drm/amd/display/dc/dce/dce_opp.c       |      1 -
+ .../drm/amd/display/dc/dce/dce_stream_encoder.c    |      1 +
+ drivers/gpu/drm/amd/display/dc/dce/dmub_abm_lcd.c  |     18 +
+ drivers/gpu/drm/amd/display/dc/dce/dmub_abm_lcd.h  |      2 +
+ drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c   |      1 -
+ .../display/dc/dce110/dce110_timing_generator.c    |     18 +
+ .../display/dc/dce110/dce110_timing_generator.h    |      2 +
+ .../display/dc/dce110/dce110_timing_generator_v.c  |      3 +-
+ .../display/dc/dce120/dce120_timing_generator.c    |      1 +
+ .../amd/display/dc/dce80/dce80_timing_generator.c  |      1 +
+ drivers/gpu/drm/amd/display/dc/dcn10/Makefile      |      4 +-
+ .../display/dc/dcn10/dcn10_hw_sequencer_debug.c    |      4 +-
+ .../amd/display/dc/dcn10/dcn10_stream_encoder.h    |      7 +
+ drivers/gpu/drm/amd/display/dc/dcn20/Makefile      |      8 +-
+ .../drm/amd/display/dc/dcn20/dcn20_link_encoder.h  |      1 -
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_opp.c   |     25 +-
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_opp.h   |      4 +-
+ drivers/gpu/drm/amd/display/dc/dcn201/Makefile     |      9 +-
+ drivers/gpu/drm/amd/display/dc/dcn201/dcn201_opp.c |      1 +
+ drivers/gpu/drm/amd/display/dc/dcn201/dcn201_opp.h |      3 +-
+ drivers/gpu/drm/amd/display/dc/dcn21/Makefile      |      6 +-
+ drivers/gpu/drm/amd/display/dc/dcn30/Makefile      |      5 +-
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c   |      2 +-
+ drivers/gpu/drm/amd/display/dc/dcn301/Makefile     |      3 +-
+ drivers/gpu/drm/amd/display/dc/dcn31/Makefile      |      3 +-
+ .../drm/amd/display/dc/dcn31/dcn31_panel_cntl.c    |     14 +
+ .../drm/amd/display/dc/dcn31/dcn31_panel_cntl.h    |      3 +
+ drivers/gpu/drm/amd/display/dc/dcn314/Makefile     |      2 +-
+ drivers/gpu/drm/amd/display/dc/dcn32/Makefile      |      3 +-
+ .../amd/display/dc/dcn32/dcn32_dio_link_encoder.c  |      3 -
+ .../display/dc/dcn32/dcn32_dio_stream_encoder.c    |     40 +-
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c   |      3 +
+ .../amd/display/dc/dcn32/dcn32_resource_helpers.c  |     15 +-
+ drivers/gpu/drm/amd/display/dc/dcn35/Makefile      |      3 +-
+ .../display/dc/dcn35/dcn35_dio_stream_encoder.c    |     39 +-
+ drivers/gpu/drm/amd/display/dc/dcn401/Makefile     |     11 +
+ .../display/dc/dcn401/dcn401_dio_link_encoder.c    |    322 +
+ .../display/dc/dcn401/dcn401_dio_link_encoder.h    |    134 +
+ .../display/dc/dcn401/dcn401_dio_stream_encoder.c  |    855 +
+ .../display/dc/dcn401/dcn401_dio_stream_encoder.h  |    217 +
+ drivers/gpu/drm/amd/display/dc/dcn401/dcn401_mpc.c |    653 +
+ drivers/gpu/drm/amd/display/dc/dcn401/dcn401_mpc.h |    239 +
+ drivers/gpu/drm/amd/display/dc/dm_pp_smu.h         |      3 +-
+ drivers/gpu/drm/amd/display/dc/dml/Makefile        |      4 +
+ .../gpu/drm/amd/display/dc/dml/calcs/dcn_calcs.c   |      7 +-
+ .../gpu/drm/amd/display/dc/dml/dcn10/dcn10_fpu.h   |      2 +-
+ .../gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.c   |      8 +-
+ .../gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c |      4 +-
+ .../gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.h |      7 +-
+ .../gpu/drm/amd/display/dc/dml/dcn302/dcn302_fpu.c |     10 +
+ .../gpu/drm/amd/display/dc/dml/dcn303/dcn303_fpu.c |     10 +
+ .../gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c   |     22 +-
+ .../display/dc/dml/dcn314/display_mode_vba_314.c   |      3 -
+ .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   |     45 +-
+ .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.h   |      2 +-
+ .../gpu/drm/amd/display/dc/dml/dcn321/dcn321_fpu.c |     10 +
+ .../gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c   |      4 +-
+ .../gpu/drm/amd/display/dc/dml/dcn401/dcn401_fpu.c |    239 +
+ .../gpu/drm/amd/display/dc/dml/dcn401/dcn401_fpu.h |     14 +
+ .../drm/amd/display/dc/dml/display_mode_structs.h  |      1 +
+ .../gpu/drm/amd/display/dc/dml/display_mode_vba.c  |      7 +-
+ drivers/gpu/drm/amd/display/dc/dml2/Makefile       |     80 +
+ .../drm/amd/display/dc/dml2/display_mode_core.c    |      4 +-
+ .../drm/amd/display/dc/dml2/display_mode_core.h    |      2 +
+ .../display/dc/dml2/display_mode_core_structs.h    |      1 +
+ .../dc/dml2/dml21/dml21_translation_helper.c       |   1168 +
+ .../dc/dml2/dml21/dml21_translation_helper.h       |     29 +
+ .../drm/amd/display/dc/dml2/dml21/dml21_utils.c    |    534 +
+ .../drm/amd/display/dc/dml2/dml21/dml21_utils.h    |     50 +
+ .../drm/amd/display/dc/dml2/dml21/dml21_wrapper.c  |    431 +
+ .../drm/amd/display/dc/dml2/dml21/dml21_wrapper.h  |     68 +
+ .../dc/dml2/dml21/inc/bounding_boxes/dcn3_soc_bb.h |    401 +
+ .../dc/dml2/dml21/inc/bounding_boxes/dcn4_soc_bb.h |    365 +
+ .../dc/dml2/dml21/inc/dml2_external_lib_deps.h     |     10 +
+ .../drm/amd/display/dc/dml2/dml21/inc/dml_top.h    |     47 +
+ .../dc/dml2/dml21/inc/dml_top_dchub_registers.h    |    185 +
+ .../dc/dml2/dml21/inc/dml_top_display_cfg_types.h  |    507 +
+ .../dc/dml2/dml21/inc/dml_top_policy_types.h       |     14 +
+ .../dml2/dml21/inc/dml_top_soc_parameter_types.h   |    196 +
+ .../amd/display/dc/dml2/dml21/inc/dml_top_types.h  |    720 +
+ .../dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c   |    720 +
+ .../dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.h   |     16 +
+ .../dml21/src/dml2_core/dml2_core_dcn4_calcs.c     |  12768 ++
+ .../dml21/src/dml2_core/dml2_core_dcn4_calcs.h     |     39 +
+ .../dml2/dml21/src/dml2_core/dml2_core_factory.c   |     38 +
+ .../dml2/dml21/src/dml2_core/dml2_core_factory.h   |     14 +
+ .../dc/dml2/dml21/src/dml2_core/dml2_core_shared.c |  12391 ++
+ .../dc/dml2/dml21/src/dml2_core/dml2_core_shared.h |     38 +
+ .../dml21/src/dml2_core/dml2_core_shared_types.h   |   2049 +
+ .../dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.c   |    714 +
+ .../dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.h   |     17 +
+ .../dml2/dml21/src/dml2_dpmm/dml2_dpmm_factory.c   |     51 +
+ .../dml2/dml21/src/dml2_dpmm/dml2_dpmm_factory.h   |     14 +
+ .../dc/dml2/dml21/src/dml2_mcg/dml2_mcg_dcn4.c     |    195 +
+ .../dc/dml2/dml21/src/dml2_mcg/dml2_mcg_dcn4.h     |     14 +
+ .../dc/dml2/dml21/src/dml2_mcg/dml2_mcg_factory.c  |     40 +
+ .../dc/dml2/dml21/src/dml2_mcg/dml2_mcg_factory.h  |     14 +
+ .../dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c     |    707 +
+ .../dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.h     |     23 +
+ .../dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4.c     |   1250 +
+ .../dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4.h     |     25 +
+ .../dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4_fams2.c  |   2095 +
+ .../dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4_fams2.h  |     27 +
+ .../dc/dml2/dml21/src/dml2_pmo/dml2_pmo_factory.c  |     86 +
+ .../dc/dml2/dml21/src/dml2_pmo/dml2_pmo_factory.h  |     14 +
+ .../src/dml2_standalone_libraries/lib_float_math.c |    150 +
+ .../src/dml2_standalone_libraries/lib_float_math.h |     26 +
+ .../dml21/src/dml2_top/dml2_top_optimization.c     |    309 +
+ .../dml21/src/dml2_top/dml2_top_optimization.h     |     34 +
+ .../display/dc/dml2/dml21/src/dml2_top/dml_top.c   |    330 +
+ .../dc/dml2/dml21/src/dml2_top/dml_top_mcache.c    |    550 +
+ .../dc/dml2/dml21/src/dml2_top/dml_top_mcache.h    |     24 +
+ .../amd/display/dc/dml2/dml21/src/inc/dml2_debug.c |     32 +
+ .../amd/display/dc/dml2/dml21/src/inc/dml2_debug.h |     18 +
+ .../dml21/src/inc/dml2_internal_shared_types.h     |    986 +
+ .../amd/display/dc/dml2/dml2_dc_resource_mgmt.c    |     90 +-
+ .../drm/amd/display/dc/dml2/dml2_internal_types.h  |     20 +
+ .../amd/display/dc/dml2/dml2_translation_helper.c  |    184 +-
+ drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.c |     48 +-
+ drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.h |     19 +
+ drivers/gpu/drm/amd/display/dc/dpp/Makefile        |      8 +-
+ .../drm/amd/display/dc/dpp/dcn10/CMakeLists.txt    |      6 -
+ .../drm/amd/display/dc/dpp/dcn10/dcn10_dpp_cm.c    |      3 +-
+ .../drm/amd/display/dc/dpp/dcn20/CMakeLists.txt    |      5 -
+ .../gpu/drm/amd/display/dc/dpp/dcn20/dcn20_dpp.c   |     56 +
+ .../gpu/drm/amd/display/dc/dpp/dcn20/dcn20_dpp.h   |      9 +-
+ .../drm/amd/display/dc/dpp/dcn201/CMakeLists.txt   |      4 -
+ .../gpu/drm/amd/display/dc/dpp/dcn201/dcn201_dpp.c |     13 +-
+ .../drm/amd/display/dc/dpp/dcn30/CMakeLists.txt    |      5 -
+ .../gpu/drm/amd/display/dc/dpp/dcn30/dcn30_dpp.h   |      4 +-
+ .../drm/amd/display/dc/dpp/dcn32/CMakeLists.txt    |      4 -
+ .../gpu/drm/amd/display/dc/dpp/dcn32/dcn32_dpp.c   |     73 +
+ .../gpu/drm/amd/display/dc/dpp/dcn32/dcn32_dpp.h   |      8 +
+ .../drm/amd/display/dc/dpp/dcn35/CMakeLists.txt    |      4 -
+ .../gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp.c |    432 +
+ .../gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp.h |    729 +
+ .../drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c  |    311 +
+ .../amd/display/dc/dpp/dcn401/dcn401_dpp_dscl.c    |   1219 +
+ drivers/gpu/drm/amd/display/dc/dsc/Makefile        |      9 +-
+ drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c        |     31 +-
+ .../gpu/drm/amd/display/dc/dsc/dcn20/dcn20_dsc.c   |     18 +-
+ .../gpu/drm/amd/display/dc/dsc/dcn20/dcn20_dsc.h   |     14 +-
+ .../gpu/drm/amd/display/dc/dsc/dcn401/dcn401_dsc.c |    418 +
+ .../gpu/drm/amd/display/dc/dsc/dcn401/dcn401_dsc.h |    337 +
+ drivers/gpu/drm/amd/display/dc/dsc/dsc.h           |      1 +
+ drivers/gpu/drm/amd/display/dc/gpio/Makefile       |     10 +
+ .../amd/display/dc/gpio/dcn21/hw_translate_dcn21.c |      2 +-
+ .../amd/display/dc/gpio/dcn401/hw_factory_dcn401.c |    252 +
+ .../amd/display/dc/gpio/dcn401/hw_factory_dcn401.h |     11 +
+ .../display/dc/gpio/dcn401/hw_translate_dcn401.c   |    335 +
+ .../display/dc/gpio/dcn401/hw_translate_dcn401.h   |     13 +
+ drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c |     17 +-
+ drivers/gpu/drm/amd/display/dc/gpio/hw_factory.c   |      4 +
+ drivers/gpu/drm/amd/display/dc/gpio/hw_translate.c |      4 +
+ drivers/gpu/drm/amd/display/dc/hdcp/hdcp_msg.c     |     19 +-
+ drivers/gpu/drm/amd/display/dc/hubbub/Makefile     |    104 +
+ .../display/dc/{ => hubbub}/dcn10/dcn10_hubbub.c   |      2 +-
+ .../display/dc/{ => hubbub}/dcn10/dcn10_hubbub.h   |     47 +-
+ .../display/dc/{ => hubbub}/dcn20/dcn20_hubbub.c   |     27 +-
+ .../display/dc/{ => hubbub}/dcn20/dcn20_hubbub.h   |      2 +-
+ .../display/dc/{ => hubbub}/dcn201/dcn201_hubbub.c |      0
+ .../display/dc/{ => hubbub}/dcn201/dcn201_hubbub.h |      0
+ .../display/dc/{ => hubbub}/dcn21/dcn21_hubbub.c   |      0
+ .../display/dc/{ => hubbub}/dcn21/dcn21_hubbub.h   |      0
+ .../display/dc/{ => hubbub}/dcn30/dcn30_hubbub.c   |      0
+ .../display/dc/{ => hubbub}/dcn30/dcn30_hubbub.h   |      0
+ .../display/dc/{ => hubbub}/dcn301/dcn301_hubbub.c |      0
+ .../display/dc/{ => hubbub}/dcn301/dcn301_hubbub.h |      0
+ .../display/dc/{ => hubbub}/dcn31/dcn31_hubbub.c   |      0
+ .../display/dc/{ => hubbub}/dcn31/dcn31_hubbub.h   |      0
+ .../display/dc/{ => hubbub}/dcn32/dcn32_hubbub.c   |      2 +-
+ .../display/dc/{ => hubbub}/dcn32/dcn32_hubbub.h   |      2 +
+ .../display/dc/{ => hubbub}/dcn35/dcn35_hubbub.c   |      0
+ .../display/dc/{ => hubbub}/dcn35/dcn35_hubbub.h   |      0
+ .../amd/display/dc/hubbub/dcn401/dcn401_hubbub.c   |    929 +
+ .../amd/display/dc/hubbub/dcn401/dcn401_hubbub.h   |    192 +
+ drivers/gpu/drm/amd/display/dc/hubp/Makefile       |     97 +
+ .../amd/display/dc/{ => hubp}/dcn10/dcn10_hubp.c   |      0
+ .../amd/display/dc/{ => hubp}/dcn10/dcn10_hubp.h   |      0
+ .../amd/display/dc/{ => hubp}/dcn20/dcn20_hubp.c   |      0
+ .../amd/display/dc/{ => hubp}/dcn20/dcn20_hubp.h   |     35 +-
+ .../amd/display/dc/{ => hubp}/dcn201/dcn201_hubp.c |      0
+ .../amd/display/dc/{ => hubp}/dcn201/dcn201_hubp.h |      0
+ .../amd/display/dc/{ => hubp}/dcn21/dcn21_hubp.c   |      0
+ .../amd/display/dc/{ => hubp}/dcn21/dcn21_hubp.h   |      0
+ .../amd/display/dc/{ => hubp}/dcn30/dcn30_hubp.c   |      0
+ .../amd/display/dc/{ => hubp}/dcn30/dcn30_hubp.h   |      0
+ .../amd/display/dc/{ => hubp}/dcn31/dcn31_hubp.c   |      0
+ .../amd/display/dc/{ => hubp}/dcn31/dcn31_hubp.h   |      0
+ .../amd/display/dc/{ => hubp}/dcn32/dcn32_hubp.c   |      0
+ .../amd/display/dc/{ => hubp}/dcn32/dcn32_hubp.h   |      0
+ .../amd/display/dc/{ => hubp}/dcn35/dcn35_hubp.c   |      0
+ .../amd/display/dc/{ => hubp}/dcn35/dcn35_hubp.h   |      0
+ .../drm/amd/display/dc/hubp/dcn401/dcn401_hubp.c   |   1027 +
+ .../drm/amd/display/dc/hubp/dcn401/dcn401_hubp.h   |    331 +
+ drivers/gpu/drm/amd/display/dc/hwss/Makefile       |      9 +-
+ .../gpu/drm/amd/display/dc/hwss/dce/dce_hwseq.h    |     24 +
+ .../drm/amd/display/dc/hwss/dce110/dce110_hwseq.c  |     29 +-
+ .../drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c    |     13 +-
+ .../drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c    |    169 +-
+ .../drm/amd/display/dc/hwss/dcn201/dcn201_hwseq.c  |      5 +-
+ .../gpu/drm/amd/display/dc/hwss/dcn21/dcn21_init.c |      1 +
+ .../drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c    |      5 +-
+ .../drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.h    |      2 +-
+ .../gpu/drm/amd/display/dc/hwss/dcn30/dcn30_init.c |      1 +
+ .../drm/amd/display/dc/hwss/dcn301/dcn301_init.c   |      4 +-
+ .../gpu/drm/amd/display/dc/hwss/dcn31/dcn31_init.c |      1 +
+ .../drm/amd/display/dc/hwss/dcn314/dcn314_hwseq.c  |     32 +-
+ .../drm/amd/display/dc/hwss/dcn314/dcn314_hwseq.h  |      2 +-
+ .../drm/amd/display/dc/hwss/dcn314/dcn314_init.c   |      3 +-
+ .../drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c    |    112 +-
+ .../drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.h    |      6 +-
+ .../gpu/drm/amd/display/dc/hwss/dcn32/dcn32_init.c |      4 +-
+ .../drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c    |     72 +-
+ .../drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.h    |      2 +
+ .../gpu/drm/amd/display/dc/hwss/dcn35/dcn35_init.c |      5 +-
+ .../drm/amd/display/dc/hwss/dcn351/dcn351_init.c   |     12 +-
+ .../drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c  |   1703 +
+ .../drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.h  |     81 +
+ .../drm/amd/display/dc/hwss/dcn401/dcn401_init.c   |    150 +
+ .../drm/amd/display/dc/hwss/dcn401/dcn401_init.h   |     12 +
+ drivers/gpu/drm/amd/display/dc/hwss/hw_sequencer.h |     26 +
+ .../drm/amd/display/dc/hwss/hw_sequencer_private.h |      9 +-
+ drivers/gpu/drm/amd/display/dc/inc/clock_source.h  |      1 +
+ drivers/gpu/drm/amd/display/dc/inc/core_types.h    |     27 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw/clk_mgr.h    |      6 +-
+ .../drm/amd/display/dc/inc/hw/clk_mgr_internal.h   |     55 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw/dccg.h       |      8 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw/dchubbub.h   |     24 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h        |      4 +
+ drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h       |     56 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw/mem_input.h  |      9 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h        |    726 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw/opp.h        |      7 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw/optc.h       |      4 +-
+ .../gpu/drm/amd/display/dc/inc/hw/stream_encoder.h |      3 +-
+ .../drm/amd/display/dc/inc/hw/timing_generator.h   |      3 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw/transform.h  |     28 +-
+ drivers/gpu/drm/amd/display/dc/inc/resource.h      |     18 +-
+ drivers/gpu/drm/amd/display/dc/irq/Makefile        |      9 +
+ .../amd/display/dc/irq/dcn401/irq_service_dcn401.c |    409 +
+ .../amd/display/dc/irq/dcn401/irq_service_dcn401.h |     13 +
+ drivers/gpu/drm/amd/display/dc/irq_types.h         |      8 +
+ .../drm/amd/display/dc/link/hwss/link_hwss_dio.c   |     12 +-
+ .../hwss/link_hwss_hpo_fixed_vs_pe_retimer_dp.c    |      5 +
+ .../gpu/drm/amd/display/dc/link/link_detection.c   |      2 +-
+ drivers/gpu/drm/amd/display/dc/link/link_dpms.c    |     66 +-
+ drivers/gpu/drm/amd/display/dc/link/link_factory.c |     69 +-
+ .../drm/amd/display/dc/link/protocols/link_ddc.c   |      4 -
+ .../display/dc/link/protocols/link_dp_capability.c |     30 +-
+ .../display/dc/link/protocols/link_dp_dpia_bw.c    |     10 +-
+ .../dc/link/protocols/link_dp_irq_handler.c        |     51 +-
+ .../amd/display/dc/link/protocols/link_dp_phy.c    |     55 +-
+ .../display/dc/link/protocols/link_dp_training.c   |      9 +-
+ .../dc/link/protocols/link_dp_training_dpia.c      |     16 -
+ .../drm/amd/display/dc/link/protocols/link_dpcd.c  |      1 +
+ .../dc/link/protocols/link_edp_panel_control.c     |      3 +
+ drivers/gpu/drm/amd/display/dc/optc/Makefile       |      6 +
+ .../gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c |     50 +-
+ .../gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.h |     10 +-
+ .../gpu/drm/amd/display/dc/optc/dcn20/dcn20_optc.c |     16 +-
+ .../gpu/drm/amd/display/dc/optc/dcn20/dcn20_optc.h |      3 +-
+ .../drm/amd/display/dc/optc/dcn201/dcn201_optc.c   |      7 +-
+ .../drm/amd/display/dc/optc/dcn201/dcn201_optc.h   |      3 -
+ .../gpu/drm/amd/display/dc/optc/dcn30/dcn30_optc.c |      9 +-
+ .../gpu/drm/amd/display/dc/optc/dcn30/dcn30_optc.h |      2 +-
+ .../drm/amd/display/dc/optc/dcn301/dcn301_optc.c   |      1 +
+ .../gpu/drm/amd/display/dc/optc/dcn31/dcn31_optc.c |      9 +-
+ .../drm/amd/display/dc/optc/dcn314/dcn314_optc.c   |     10 +-
+ .../gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.c |     10 +-
+ .../gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c |     11 +-
+ .../drm/amd/display/dc/optc/dcn401/dcn401_optc.c   |    477 +
+ .../drm/amd/display/dc/optc/dcn401/dcn401_optc.h   |    167 +
+ drivers/gpu/drm/amd/display/dc/os_types.h          |      2 -
+ drivers/gpu/drm/amd/display/dc/resource/Makefile   |      8 +
+ .../amd/display/dc/resource/dce80/CMakeLists.txt   |      4 -
+ .../amd/display/dc/resource/dce80/dce80_resource.c |      1 +
+ .../amd/display/dc/resource/dcn20/dcn20_resource.c |     13 +-
+ .../amd/display/dc/resource/dcn30/dcn30_resource.c |     12 +-
+ .../display/dc/resource/dcn301/dcn301_resource.c   |     20 +-
+ .../display/dc/resource/dcn303/dcn303_resource.c   |     11 +-
+ .../amd/display/dc/resource/dcn31/dcn31_resource.c |      1 +
+ .../display/dc/resource/dcn314/dcn314_resource.c   |      4 +-
+ .../display/dc/resource/dcn315/dcn315_resource.c   |     12 +
+ .../amd/display/dc/resource/dcn32/dcn32_resource.c |     21 +-
+ .../display/dc/resource/dcn321/dcn321_resource.c   |     16 +-
+ .../amd/display/dc/resource/dcn35/dcn35_resource.c |      1 +
+ .../display/dc/resource/dcn351/dcn351_resource.c   |      5 +-
+ .../display/dc/resource/dcn401/dcn401_resource.c   |   2145 +
+ .../display/dc/resource/dcn401/dcn401_resource.h   |    644 +
+ drivers/gpu/drm/amd/display/dc/spl/Makefile        |     33 +
+ drivers/gpu/drm/amd/display/dc/spl/dc_spl.c        |   1458 +
+ drivers/gpu/drm/amd/display/dc/spl/dc_spl.h        |     24 +
+ .../drm/amd/display/dc/spl/dc_spl_isharp_filters.c |    350 +
+ .../drm/amd/display/dc/spl/dc_spl_isharp_filters.h |     17 +
+ .../drm/amd/display/dc/spl/dc_spl_scl_filters.c    |   1425 +
+ .../drm/amd/display/dc/spl/dc_spl_scl_filters.h    |     59 +
+ drivers/gpu/drm/amd/display/dc/spl/dc_spl_types.h  |    489 +
+ drivers/gpu/drm/amd/display/dmub/dmub_srv.h        |     45 +-
+ drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    |    483 +-
+ drivers/gpu/drm/amd/display/dmub/src/Makefile      |      1 +
+ drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c  |      5 +-
+ drivers/gpu/drm/amd/display/dmub/src/dmub_dcn401.c |    603 +
+ drivers/gpu/drm/amd/display/dmub/src/dmub_dcn401.h |    287 +
+ drivers/gpu/drm/amd/display/dmub/src/dmub_reg.h    |      1 -
+ drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c    |     89 +
+ drivers/gpu/drm/amd/display/include/dal_asic_id.h  |     14 +
+ drivers/gpu/drm/amd/display/include/dal_types.h    |      1 +
+ .../gpu/drm/amd/display/include/grph_object_id.h   |      4 +-
+ .../gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c    |     28 +-
+ .../drm/amd/display/modules/power/power_helpers.c  |      8 +-
+ drivers/gpu/drm/amd/include/amd_shared.h           |      2 +
+ .../amd/include/asic_reg/dcn/dcn_3_0_0_offset.h    |    108 +
+ .../amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h   |     56 +
+ .../amd/include/asic_reg/dcn/dcn_3_0_2_offset.h    |     90 +
+ .../amd/include/asic_reg/dcn/dcn_3_0_2_sh_mask.h   |     44 +
+ .../amd/include/asic_reg/dcn/dcn_3_0_3_offset.h    |     16 +
+ .../amd/include/asic_reg/dcn/dcn_3_0_3_sh_mask.h   |     16 +
+ .../amd/include/asic_reg/dcn/dcn_3_2_0_sh_mask.h   |     28 +
+ .../amd/include/asic_reg/dcn/dcn_4_1_0_offset.h    |  16618 ++
+ .../amd/include/asic_reg/dcn/dcn_4_1_0_sh_mask.h   | 145742 ++++++++++++++++++
+ .../drm/amd/include/asic_reg/gc/gc_11_0_0_offset.h |     10 +
+ .../drm/amd/include/asic_reg/gc/gc_12_0_0_offset.h |  11061 ++
+ .../amd/include/asic_reg/gc/gc_12_0_0_sh_mask.h    |  40550 +++++
+ .../include/asic_reg/mmhub/mmhub_4_1_0_offset.h    |   1341 +
+ .../include/asic_reg/mmhub/mmhub_4_1_0_sh_mask.h   |   6943 +
+ .../amd/include/asic_reg/thm/thm_14_0_2_offset.h   |    228 +
+ .../amd/include/asic_reg/thm/thm_14_0_2_sh_mask.h  |    940 +
+ drivers/gpu/drm/amd/include/atomfirmware.h         |     45 +-
+ drivers/gpu/drm/amd/include/discovery.h            |     28 +-
+ drivers/gpu/drm/amd/include/kgd_pp_interface.h     |     17 +
+ drivers/gpu/drm/amd/include/mes_api_def.h          |    570 -
+ drivers/gpu/drm/amd/include/mes_v12_api_def.h      |    798 +
+ drivers/gpu/drm/amd/include/pptable.h              |     91 +-
+ drivers/gpu/drm/amd/include/soc21_enum.h           |      2 +-
+ drivers/gpu/drm/amd/include/soc24_enum.h           |  21073 +++
+ drivers/gpu/drm/amd/include/v12_structs.h          |   1189 +
+ drivers/gpu/drm/amd/pm/amdgpu_dpm.c                |     33 +-
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c                 |    211 +-
+ drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h            |     10 +-
+ drivers/gpu/drm/amd/pm/inc/amdgpu_pm.h             |      1 -
+ drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c     |      9 -
+ drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c         |     12 +-
+ drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c   |     10 +-
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/pp_psm.c    |     21 +-
+ .../gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c    |      5 +-
+ .../amd/pm/powerplay/hwmgr/process_pptables_v1_0.c |      2 -
+ .../drm/amd/pm/powerplay/hwmgr/processpptables.c   |      2 -
+ .../gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c   |     37 +-
+ .../gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c    |     80 +-
+ .../gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c    |     29 +-
+ .../gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c  |    115 +-
+ .../gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c  |     20 +-
+ .../gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c  |     31 +-
+ .../gpu/drm/amd/pm/powerplay/smumgr/smu10_smumgr.c |      5 +-
+ .../drm/amd/pm/powerplay/smumgr/vega10_smumgr.c    |      6 +-
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |    137 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h      |     41 +-
+ .../pm/swsmu/inc/pmfw_if/smu14_driver_if_v14_0.h   |     21 +-
+ .../pm/swsmu/inc/pmfw_if/smu14_driver_if_v14_0_0.h |      1 -
+ .../amd/pm/swsmu/inc/pmfw_if/smu_v13_0_6_ppsmc.h   |      3 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h       |      3 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |      4 +
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v14_0.h       |     18 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c  |     69 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    |     35 +-
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |      8 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |     14 +
+ drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c    |     61 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c |     63 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |     64 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |      9 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_4_ppt.c   |     46 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_5_ppt.c   |     30 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   |    217 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   |      8 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c   |     30 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0.c     |     71 +-
+ .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   |    198 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |     61 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.h             |      2 +
+ drivers/gpu/drm/radeon/atombios_encoders.c         |      2 +-
+ drivers/gpu/drm/radeon/pptable.h                   |      2 +-
+ drivers/gpu/drm/radeon/radeon_connectors.c         |     10 +
+ include/uapi/drm/amdgpu_drm.h                      |     16 +-
+ include/uapi/drm/drm_fourcc.h                      |     19 +
+ include/uapi/linux/kfd_ioctl.h                     |      5 +-
+ include/uapi/linux/kfd_sysfs.h                     |     19 +-
+ 621 files changed, 334778 insertions(+), 4808 deletions(-)
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v12.c
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/clearstate_gfx12.h
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c
+ rename drivers/gpu/drm/amd/amdgpu/{mes_v10_1.h => gfx_v12_0.h} (87%)
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/gfxhub_v12_0.c
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/gfxhub_v12_0.h
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/gmc_v12_0.h
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/imu_v12_0.c
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/imu_v12_0.h
+ rename drivers/gpu/drm/amd/amdgpu/{mes_v10_1.c => mes_v12_0.c} (50%)
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/mes_v12_0.h
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/mmhub_v4_1_0.c
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/mmhub_v4_1_0.h
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/sdma_v7_0.h
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/soc24.c
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/soc24.h
+ create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v12.c
+ create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v12.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dalsmc.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr_smu_msg.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr_smu_msg.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_smu14_driver_if.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dc_spl_translate.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dc_spl_translate.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dccg/Makefile
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn20/dcn20_dccg.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn20/dcn20_dccg.h (94%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn201/dcn201_dccg.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn201/dcn201_dccg.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn21/dcn21_dccg.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn21/dcn21_dccg.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn30/dcn30_dccg.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn30/dcn30_dccg.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn301/dcn301_dccg.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn301/dcn301_dccg.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn302/dcn302_dccg.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn303/dcn303_dccg.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn31/dcn31_dccg.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn31/dcn31_dccg.h (99%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn314/dcn314_dccg.c (98%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn314/dcn314_dccg.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn32/dcn32_dccg.c (97%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn32/dcn32_dccg.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn35/dcn35_dccg.c (92%)
+ rename drivers/gpu/drm/amd/display/dc/{ => dccg}/dcn35/dcn35_dccg.h (100%)
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dccg/dcn401/dcn401_dccg.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dccg/dcn401/dcn401_dccg.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dcn401/Makefile
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dcn401/dcn401_dio_link_encoder.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dcn401/dcn401_dio_link_encoder.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dcn401/dcn401_dio_stream_encoder.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dcn401/dcn401_dio_stream_encoder.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dcn401/dcn401_mpc.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dcn401/dcn401_mpc.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml/dcn401/dcn401_fpu.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml/dcn401/dcn401_fpu.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_utils.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_utils.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/inc/bounding_boxes/dcn3_soc_bb.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/inc/bounding_boxes/dcn4_soc_bb.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/inc/dml2_external_lib_deps.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/inc/dml_top.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/inc/dml_top_dchub_registers.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/inc/dml_top_display_cfg_types.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/inc/dml_top_policy_types.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/inc/dml_top_soc_parameter_types.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/inc/dml_top_types.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_factory.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_factory.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared_types.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_factory.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_factory.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_mcg/dml2_mcg_dcn4.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_mcg/dml2_mcg_dcn4.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_mcg/dml2_mcg_factory.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_mcg/dml2_mcg_factory.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4_fams2.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4_fams2.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_factory.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_factory.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_standalone_libraries/lib_float_math.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_standalone_libraries/lib_float_math.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_top/dml2_top_optimization.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_top/dml2_top_optimization.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_top/dml_top.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_top/dml_top_mcache.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_top/dml_top_mcache.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/inc/dml2_debug.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/inc/dml2_debug.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dml2/dml21/src/inc/dml2_internal_shared_types.h
+ delete mode 100644 drivers/gpu/drm/amd/display/dc/dpp/dcn10/CMakeLists.txt
+ delete mode 100644 drivers/gpu/drm/amd/display/dc/dpp/dcn20/CMakeLists.txt
+ delete mode 100644 drivers/gpu/drm/amd/display/dc/dpp/dcn201/CMakeLists.txt
+ delete mode 100644 drivers/gpu/drm/amd/display/dc/dpp/dcn30/CMakeLists.txt
+ delete mode 100644 drivers/gpu/drm/amd/display/dc/dpp/dcn32/CMakeLists.txt
+ delete mode 100644 drivers/gpu/drm/amd/display/dc/dpp/dcn35/CMakeLists.txt
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_dscl.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dsc/dcn401/dcn401_dsc.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dsc/dcn401/dcn401_dsc.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/gpio/dcn401/hw_factory_dcn401.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/gpio/dcn401/hw_factory_dcn401.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/gpio/dcn401/hw_translate_dcn401.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/gpio/dcn401/hw_translate_dcn401.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/hubbub/Makefile
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn10/dcn10_hubbub.c (99%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn10/dcn10_hubbub.h (89%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn20/dcn20_hubbub.c (97%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn20/dcn20_hubbub.h (99%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn201/dcn201_hubbub.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn201/dcn201_hubbub.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn21/dcn21_hubbub.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn21/dcn21_hubbub.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn30/dcn30_hubbub.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn30/dcn30_hubbub.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn301/dcn301_hubbub.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn301/dcn301_hubbub.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn31/dcn31_hubbub.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn31/dcn31_hubbub.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn32/dcn32_hubbub.c (99%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn32/dcn32_hubbub.h (98%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn35/dcn35_hubbub.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubbub}/dcn35/dcn35_hubbub.h (100%)
+ create mode 100644 drivers/gpu/drm/amd/display/dc/hubbub/dcn401/dcn401_hubbub.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/hubbub/dcn401/dcn401_hubbub.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/hubp/Makefile
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn10/dcn10_hubp.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn10/dcn10_hubp.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn20/dcn20_hubp.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn20/dcn20_hubp.h (92%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn201/dcn201_hubp.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn201/dcn201_hubp.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn21/dcn21_hubp.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn21/dcn21_hubp.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn30/dcn30_hubp.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn30/dcn30_hubp.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn31/dcn31_hubp.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn31/dcn31_hubp.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn32/dcn32_hubp.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn32/dcn32_hubp.h (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn35/dcn35_hubp.c (100%)
+ rename drivers/gpu/drm/amd/display/dc/{ => hubp}/dcn35/dcn35_hubp.h (100%)
+ create mode 100644 drivers/gpu/drm/amd/display/dc/hubp/dcn401/dcn401_hubp.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/hubp/dcn401/dcn401_hubp.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_init.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_init.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/irq/dcn401/irq_service_dcn401.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/irq/dcn401/irq_service_dcn401.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/optc/dcn401/dcn401_optc.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/optc/dcn401/dcn401_optc.h
+ delete mode 100644 drivers/gpu/drm/amd/display/dc/resource/dce80/CMakeLists.txt
+ create mode 100644 drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/spl/Makefile
+ create mode 100644 drivers/gpu/drm/amd/display/dc/spl/dc_spl.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/spl/dc_spl.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/spl/dc_spl_isharp_filters.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/spl/dc_spl_isharp_filters.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_filters.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_filters.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/spl/dc_spl_types.h
+ create mode 100644 drivers/gpu/drm/amd/display/dmub/src/dmub_dcn401.c
+ create mode 100644 drivers/gpu/drm/amd/display/dmub/src/dmub_dcn401.h
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_4_1_0_offset.h
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_4_1_0_sh_mask.h
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/gc/gc_12_0_0_offset.h
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/gc/gc_12_0_0_sh_mask.h
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/mmhub/mmhub_4_1_0_offset.h
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/mmhub/mmhub_4_1_0_sh_mask.h
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/thm/thm_14_0_2_offset.h
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/thm/thm_14_0_2_sh_mask.h
+ delete mode 100644 drivers/gpu/drm/amd/include/mes_api_def.h
+ create mode 100644 drivers/gpu/drm/amd/include/mes_v12_api_def.h
+ create mode 100644 drivers/gpu/drm/amd/include/soc24_enum.h
+ create mode 100644 drivers/gpu/drm/amd/include/v12_structs.h
