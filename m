@@ -2,64 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E7A9007E2
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 16:59:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D27FE90077F
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 16:52:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 207CA10EC85;
-	Fri,  7 Jun 2024 14:59:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BA5E10EC86;
+	Fri,  7 Jun 2024 14:51:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=tronnes.org header.i=@tronnes.org header.b="EVyk/tlt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZsdO5mLV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 681 seconds by postgrey-1.36 at gabe;
- Fri, 07 Jun 2024 14:59:16 UTC
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FC4A10EC85
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 14:59:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202312;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Sender:Reply-To:
- Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
- References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
- List-Owner:List-Archive; bh=0pBBebWaKItSZZvGMg+oo04bl3J9t4F+/w8mYuUg+g8=; b=E
- Vyk/tlt0i/iV9mQcEq11i6SevJJysuk7swmpFjcu8RhPQkRNmczBLfrk8FrjPzuQUzM0dFIphbid4
- HTUyIn0ivC+RYyvkR/DUMzLyYE8tJATa2TN2YPPrzHYPji3zO33H3YMBVE6wboJh3RF310ZpKZf3b
- ZQy2iPGBVe8fwhT5BninUVixCYGJxU9WkxdVsAZDiC+vPkoSvfCH265bKar765G63F0sYSGfXWWHj
- MOg7AR010IIYjXIZNikYdjpko6auijngGej5WjtJ51qttMsYCMCRjuxnLcMs7Pfj8AvCWMkoU1dVY
- oCl7gR84/C0WZWvIvhW+/lQVKGBgpSoHw==;
-Received: from [2a01:799:962:4900:815f:3dd0:60d8:6458] (port=56414)
- by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
- (envelope-from <noralf@tronnes.org>) id 1sFaqc-009Va2-0S;
- Fri, 07 Jun 2024 16:45:42 +0200
-Message-ID: <6537508e-8a67-42d0-911a-45e14852f818@tronnes.org>
-Date: Fri, 7 Jun 2024 16:45:36 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8212D10EC83;
+ Fri,  7 Jun 2024 14:51:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717771917; x=1749307917;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=LnqmAnBREyT56tOJi/0jUwOXdjmVFBqVT92a2XsfTdY=;
+ b=ZsdO5mLVyKB8uacpEQt/AmRqDK7rWd9QleLWatgAHtC4He2/f8jKzCT6
+ oEi7C7W3UIYI/aA7Uga20lOZxWqUkBjyp6iUykP+aXslqeK2Y73wIl9Ws
+ DiHrLlaGx4zYlYtixZHwya0jrPDBtG8vVO3CxO14oC99qpakQhDCE8VOD
+ hF/qvmf6bkwyrqUzMFn671dEQ9oY+S9sVpEsH2O/jQhfbo7jOI9gvtD4g
+ 0tvTGnWW24bQNGp1daEMi20QR0iBae4l8Db8+oBKemyPC0ouGJ6Qr3LIS
+ 8Djh3esOU3mMwuWWrhtlKqjkEMTycPApIKrHDq3OhIh9IzZQ9mb0UoUXI Q==;
+X-CSE-ConnectionGUID: RfAQRi64TIKonGC5vGErgQ==
+X-CSE-MsgGUID: 6jIlQGLhQXW9hUus+QpyOg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="32041754"
+X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; d="scan'208";a="32041754"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2024 07:51:57 -0700
+X-CSE-ConnectionGUID: Rcbhd4NYTZaxQEEYh9IDhg==
+X-CSE-MsgGUID: aVqdfA2zSBydt1esNX5eRw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; d="scan'208";a="39019798"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.85])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2024 07:51:55 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Nirmoy Das <nirmoy.das@intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>
+Subject: [PATCH] drm/i915/gt: debugfs: Evaluate forcewake usage within locks
+Date: Fri,  7 Jun 2024 16:51:31 +0200
+Message-ID: <20240607145131.217251-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] drm/tiny: panel-mipi-dbi: Support 18 bits per
- color RGB666
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, David Lechner <david@lechnology.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-References: <20240604-panel-mipi-dbi-rgb666-v4-0-d7c2bcb9b78d@tronnes.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20240604-panel-mipi-dbi-rgb666-v4-0-d7c2bcb9b78d@tronnes.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,51 +70,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The forcewake count and domains listing is multi process critical
+and the uncore provides a spinlock for such cases.
 
+Lock the forcewake evaluation section in the fw_domains_show()
+debugfs interface.
 
-On 6/4/24 15:20, Noralf Trønnes via B4 Relay wrote:
-> Hi,
-> 
-> In this version I've fixed up a commit message that I had forgotten to 
-> write before sending and improved a struct member name.
-> 
-> See version 1 of the patchset for the full cover letter.
-> 
-> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
-> ---
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Thanks a lot for reviewing the patches, applied to drm-misc-next.
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+index 4fcba42cfe34..0437fd8217e0 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+@@ -71,6 +71,8 @@ static int fw_domains_show(struct seq_file *m, void *data)
+ 	struct intel_uncore_forcewake_domain *fw_domain;
+ 	unsigned int tmp;
+ 
++	spin_lock_irq(&uncore->lock);
++
+ 	seq_printf(m, "user.bypass_count = %u\n",
+ 		   uncore->user_forcewake_count);
+ 
+@@ -79,6 +81,8 @@ static int fw_domains_show(struct seq_file *m, void *data)
+ 			   intel_uncore_forcewake_domain_to_str(fw_domain->id),
+ 			   READ_ONCE(fw_domain->wake_count));
+ 
++	spin_unlock_irq(&uncore->lock);
++
+ 	return 0;
+ }
+ DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(fw_domains);
+-- 
+2.45.1
 
-Noralf.
-
-> Changes in v4:
-> - Expand the commit message (Dmitry)
-> - s/emulation_format/pixel_format/ (Dmitry)
-> - Link to v3: https://lore.kernel.org/r/20240603-panel-mipi-dbi-rgb666-v3-0-59ed53ca73da@tronnes.org
-> 
-> Changes in v3:
-> - Added r-b's to patch 1 and 5
-> - Link to v2: https://lore.kernel.org/r/20240512-panel-mipi-dbi-rgb666-v2-0-49dd266328a0@tronnes.org
-> 
-> Changes in v2:
-> - binding: Use 'default: r5g6b5' (Rob)
-> - Link to v1: https://lore.kernel.org/r/20240507-panel-mipi-dbi-rgb666-v1-0-6799234afa3e@tronnes.org
-> 
-> ---
-> Noralf Trønnes (5):
->       dt-bindings: display: panel: mipi-dbi-spi: Add a pixel format property
->       drm/mipi-dbi: Remove mipi_dbi_machine_little_endian()
->       drm/mipi-dbi: Make bits per word configurable for pixel transfers
->       drm/mipi-dbi: Add support for DRM_FORMAT_RGB888
->       drm/tiny: panel-mipi-dbi: Support the pixel format property
-> 
->  .../bindings/display/panel/panel-mipi-dbi-spi.yaml | 30 +++++++++
->  drivers/gpu/drm/drm_mipi_dbi.c                     | 76 +++++++++++++++-------
->  drivers/gpu/drm/tiny/panel-mipi-dbi.c              | 55 +++++++++++++++-
->  include/drm/drm_mipi_dbi.h                         | 10 +++
->  4 files changed, 147 insertions(+), 24 deletions(-)
-> ---
-> base-commit: 0209df3b4731516fe77638bfc52ba2e9629c67cd
-> change-id: 20240405-panel-mipi-dbi-rgb666-4e033787d6c9
-> 
-> Best regards,
