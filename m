@@ -2,68 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA3B900488
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 15:23:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF54900490
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 15:23:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BADDF10EC29;
-	Fri,  7 Jun 2024 13:23:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2D3410EC33;
+	Fri,  7 Jun 2024 13:23:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xFqFELzl";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="P7wD747x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EF8E10EC29
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 13:23:06 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-52b7ffd9f6eso2387601e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jun 2024 06:23:06 -0700 (PDT)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FE0810EC29
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 13:23:07 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-52b950aa47bso3226006e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jun 2024 06:23:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1717766584; x=1718371384; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=L546UJDJwDhNtD4MhBT8mwI/8o9qvecKvmvta6wWkb0=;
- b=xFqFELzlWqSiz6rmaor2lKdQYj8eyusDiNBXR66A7jHT0jsU5yzSv1qQ9IK51AbPXC
- 4ohksW7huszT6NPsnSngO7FS4az+04Y1jRXxFB3NwsEQjKCZomtUy1lN5sYSJQU12/BR
- 9OgBCdfBCvhgqSXuA9r+aUfN3vSse/hKyX4FSLo5CzniXPMFEYW37pDP+3M2U43Kqk2Y
- /JdxM20BAveWEUdLjuwLX/0hx/7GJAR3L4OR34HKex75FioMaqI3vjfG/TptNcU2bmBQ
- +3AcegMDmPir3vjOz/10S8L/TPR/PZkgwZdZEjeXZySlWO/zs98X55P9+iEEPNqpska2
- Sqlw==
+ d=linaro.org; s=google; t=1717766585; x=1718371385; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=NGmpKRkgIHjKMtoAdUdGd2aPwvq/Jsn37fNkdYwGNhI=;
+ b=P7wD747xsOC9znthgDZnCRECaiGs1tXAMGGMmR7V0FX2szaDsNLIlteFlpeoa29uqs
+ YK2zzi94KL6V+F94flABNT4yaWQcDYlkHdj0KozXo/nvNxQFMmBuSkZdchuiWnetvrhY
+ GXA2TLfsoP45fJWoGrbXmp1i1ExIkrQQ4zqalw4/UzFTNSs6woIIz+Qp+B2NOYsmyrL/
+ 6gIGWyl04qMKC7sotGscE/uCpnAh489KN2o3FZxkltVivypv5hKxD9gqXlgSUfDaVZhJ
+ TatLGB3imoLcEDHSAqzjv8zpocLeYFWT1UwMP5ugPdMxWltkomXMlpwAntxLQjwFfy3C
+ 6Scw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717766584; x=1718371384;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=L546UJDJwDhNtD4MhBT8mwI/8o9qvecKvmvta6wWkb0=;
- b=IBJRvvTXnxAUwasHGPIY6cwORMUqeegwEI1oiRKFH+FkiI5dHjjW8+9OmBWAgMXnta
- ZGXtWYZJLs988oHr1GuzCZj3QE5S0x3/PObWpWTJiDWAqIUPIN9sHWPbR/u6CxvN6XnL
- iTl3Ka8W4Pdada7dnmV8/v/0gT87z6b3uZ+H/20VffKQaC4d69ROuVEaDdeHtDGGbAFS
- +gQ1FIoJTZCCNYKC8cjcJSPbXs2IfgFJrNz9TxtB/rIsH+g3xeULzI1LJgzAXC0XXr/M
- RepzcBKLK5+FmQTLJ0HayvhB33qVqd2Kug3xPbS+A825Jm0Yh3y7rfZBA/qJnr7rpyeu
- QHVw==
-X-Gm-Message-State: AOJu0YwLSULLqD39XnMuSFSm4pmNQTuANRKtCiHRAdNxnP/AbxsOhnyn
- PkpaPFUEVOOfHWFugmU/LxWh94RpWnHzZAfZLcO4/OW/Wimxo3oYX/ktfb5gLmg=
-X-Google-Smtp-Source: AGHT+IETFIbMY0Y2oLYRx8o9U2fmxMfpNQDewBvZPnUdqZCTzhxVb1bTC1GHZmV1wsrekpTCCZU94A==
-X-Received: by 2002:a05:6512:3d0b:b0:528:ce56:96d with SMTP id
- 2adb3069b0e04-52bb9fc57bdmr2387528e87.50.1717766583904; 
- Fri, 07 Jun 2024 06:23:03 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1717766585; x=1718371385;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NGmpKRkgIHjKMtoAdUdGd2aPwvq/Jsn37fNkdYwGNhI=;
+ b=UzLZw3MTKLEaaKcrtUNeCS7oNWFr5l9aQQfdeX4a4YN/O6gM2fupIj179hsgZWHaJz
+ 6ZcgN0DTfZI1w0TzzTuH6o0wVxByUuw/RJeDMKLNRiwGh6M4sBgkLoN53mMpdNusXxx7
+ 9Ye1t4rtsaDpI4SYPpo7olxz9DA7f/wk3oiPUBxSicjRP+GCaO0grIqs1lNm5/C82PNK
+ +bxWR9Yx4hX0bGseDpdeIeGUmI1t5Me3haBYF2tEmFm1cmCm7rsYwHfppRJs286UcypW
+ g0PPPEOUD8YZ9srbE/2ou3XXbQHtitnmRQRfnAa2sJ7CxZxbT7Z/2iYbmjuE1zb9vuoM
+ SSqg==
+X-Gm-Message-State: AOJu0YzgJU0xnX/Ywb/Ws0bY+55L5NMJ5/dfNvPV58vPVlrVxnBCzhSZ
+ 95sLbeIqlCFI7YYjHoNIujY5q/3cILwDc5V053fQPIoWHGb7JLKFeFZqQwSslbw=
+X-Google-Smtp-Source: AGHT+IGkFA9sCK5b9UnRQRQ7bRK91vz2yp59ks7G/LIcbZgp/giIrE4JTn7qvXmfHw4wED6xGKgR/g==
+X-Received: by 2002:ac2:5dee:0:b0:51a:cafd:3872 with SMTP id
+ 2adb3069b0e04-52bb9f5d36emr1401032e87.3.1717766585105; 
+ Fri, 07 Jun 2024 06:23:05 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52bc27640easm80944e87.104.2024.06.07.06.23.03
+ 2adb3069b0e04-52bc27640easm80944e87.104.2024.06.07.06.23.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jun 2024 06:23:03 -0700 (PDT)
+ Fri, 07 Jun 2024 06:23:04 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v5 0/9] drm/msm: make use of the HDMI connector infrastructure
-Date: Fri, 07 Jun 2024 16:22:57 +0300
-Message-Id: <20240607-bridge-hdmi-connector-v5-0-ab384e6021af@linaro.org>
+Date: Fri, 07 Jun 2024 16:22:58 +0300
+Subject: [PATCH v5 1/9] drm/connector: hdmi: allow disabling Audio
+ Infoframe
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIALEJY2YC/3XNTWrDMBAF4KsErasw0ujH7ir3CF3Y1jgeaKUiB
- 5MSfPdOAiUpwcv3mPfNVc1UmWb1vruqSgvPXLIE/7ZTw9TlE2lOkpUF6wAh6r5yknZKX6yHkjM
- N51J1JIzeUQgmgZLtd6WRL3f3+CF54lnOfu5vFnNr/8RmQ1yMBt1CH1r0HmyAwyfnrpZ9qSd1I
- xf7zLRbjBXGYAM9dUgUXxl8MB5hi0FhOpNM41JoRsIXxj0zZotxwnhjYIytw2DtP2Zd11/RWnJ
- +kAEAAA==
+Message-Id: <20240607-bridge-hdmi-connector-v5-1-ab384e6021af@linaro.org>
+References: <20240607-bridge-hdmi-connector-v5-0-ab384e6021af@linaro.org>
+In-Reply-To: <20240607-bridge-hdmi-connector-v5-0-ab384e6021af@linaro.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -77,16 +75,16 @@ Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4310;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2850;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=UrMGMcNriQlSOJwP/1Zz6CgLy9Xu2g7DPohrk5dATq0=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmYwm18SLgn8aWyu2mlHE6QjZVyAXZw8OOMk4Dk
- pUidJfNbuKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZmMJtQAKCRCLPIo+Aiko
- 1RIEB/0dVe7IKSj692e/FGCihXn4ugrt/2cRxNJO9bwpQXeaPV2gqXe82A2MwkmIDPoenwnQ5Zx
- g0J+xJgGxRspZ+Zq7mJL21Mb/n/hcp9nIRIbkGUYH7XqcoxC14M1BlGbI45hjq8SxvGDGbCUvwO
- O/sho5s09CLF37PeF82MifVaMcrRgZtcbCpxXdf+UKQMn+iP2Myvh8Vbdg9XT2bVQLRJDM6LYku
- QGTnRn40+CeepvN9TSryAF6jNfOJLHUn3moXEVcfjgUu2kkj9dNeecC+FSH+QDvUtLoGMBrNC8S
- 2LFQ8ZsTkhrVuz6UK+MNK9ULelUyhdFt2ily3UmYDE91dC07
+ bh=ZpBWCc8zTiSyZgAlt8eDA4MQfiQXS330IXqEN1kPi0M=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmYwm1CHGwjYZAJiNnZZJ8HIs/c/AaFq8Y/mIyf
+ HH+Gf0hfTGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZmMJtQAKCRCLPIo+Aiko
+ 1WsXB/9H/P6S1HmWYKfRrVugdTWONtzVxDuCGBYt45omPJNztrXP8WTw6A3d+v9gLRv6UFgPy4g
+ OpFHr1h2R6AoPyq7nOeZEW0vJgUmK7xwkehgJAkt/mG3ts4D6tXYBI7Ywov72UgVutx6HJd4CXi
+ D3jgL0CDFfLxDoW0CWtiLNZCCJMYOMaLadsD/p25MumWEfohFIyoyYzLxn3W5AhNX8Xzt6DX1ZU
+ o1Grx3hkc12HEXSMqI5v8Sw5aOTNcBkIw11JFfrz9ab2i95LMWARG2mnLxOLwIUg2VH/qhu7Fva
+ BAynQcu68XHcFKp23k1Wx2A/JAVb4XlttCGdgAPX3gMG7/4A
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,90 +102,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset sits on top Maxime's HDMI connector patchset ([1]).
-
-Currently this is an RFC exploring the interface between HDMI bridges
-and HDMI connector code. This has been lightly verified on the Qualcomm
-DB820c, which has native HDMI output. If this approach is considered to
-be acceptable, I'll finish MSM HDMI bridge conversion (reworking the
-Audio Infoframe code). Other bridges can follow the same approach (we
-have lt9611 / lt9611uxc / adv7511 on Qualcomm hardware).
-
-[1] https://patchwork.freedesktop.org/series/122421/
+Add drm_atomic_helper_connector_hdmi_disable_audio_infoframe(), an API
+to allow the driver disable sending the Audio Infoframe. This is to be
+used by the drivers if setup of the infoframes is not tightly coupled
+with the audio functionality and just disabling the audio playback
+doesn't stop the HDMI hardware from sending the Infoframe.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Changes in v5:
-- Made drm_bridge_funcs::hdmi_clear_infoframe() callback mandatory for
-  DRM_BRIDGE_OP_HDMI bridges (Maxime)
-- Added drm_atomic_helper_connector_hdmi_disable_audio_infoframe()
-  instead of passing NULL frame to
-  drm_atomic_helper_connector_hdmi_update_audio_infoframe() (Maxime)
-- Disable Audio Infoframe in MSM HDMI driver on audio shutdown.
-- Link to v4: https://lore.kernel.org/r/20240531-bridge-hdmi-connector-v4-0-5110f7943622@linaro.org
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c | 36 +++++++++++++++++++++++++
+ include/drm/display/drm_hdmi_state_helper.h     |  1 +
+ 2 files changed, 37 insertions(+)
 
-Changes in v4:
-- Reworked drm_bridge_connector functions to remove ternary operators
-  and to reduce indentation level (Maxime)
-- Added hdmi_ prefix to all HDMI-related drm_bridge_funcs calls (Maxime)
-- Made vendor and product mandatory to the HDMI bridges (Maxime)
-- Documented that max_bpc can be 8, 10 or 12 (Maxime)
-- Changed hdmi->pixclock to be set using tmds_char_rate instead of
-  calculating that manually (Maxime)
-- Changed mode_valid to use helper function instead of manually
-  doing mode->clock * 1000
-- Removed hdmi_mode in favour of connector->display_info.is_hdmi
-- Link to v3: https://lore.kernel.org/r/20240530-bridge-hdmi-connector-v3-0-a1d184d68fe3@linaro.org
+diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+index ce96837eea65..731873b3bdf2 100644
+--- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
++++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+@@ -714,3 +714,39 @@ drm_atomic_helper_connector_hdmi_update_audio_infoframe(struct drm_connector *co
+ 	return ret;
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_update_audio_infoframe);
++
++/**
++ * drm_atomic_helper_connector_hdmi_disable_audio_infoframe - Stop sending the Audio Infoframe
++ * @connector: A pointer to the HDMI connector
++ *
++ * This function is meant for HDMI connector drivers to stop sending their
++ * audio infoframe. It will typically be used in one of the ALSA hooks
++ * (most likely shutdown).
++ *
++ * Returns:
++ * Zero on success, error code on failure.
++ */
++int
++drm_atomic_helper_connector_hdmi_disable_audio_infoframe(struct drm_connector *connector)
++{
++	struct drm_connector_hdmi_infoframe *infoframe =
++		&connector->hdmi.infoframes.audio;
++	struct drm_display_info *info = &connector->display_info;
++	int ret;
++
++	if (!info->is_hdmi)
++		return 0;
++
++	mutex_lock(&connector->hdmi.infoframes.lock);
++
++	infoframe->set = false;
++
++	ret = clear_infoframe(connector, infoframe);
++
++	memset(&infoframe->data, 0, sizeof(infoframe->data));
++
++	mutex_unlock(&connector->hdmi.infoframes.lock);
++
++	return ret;
++}
++EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_disable_audio_infoframe);
+diff --git a/include/drm/display/drm_hdmi_state_helper.h b/include/drm/display/drm_hdmi_state_helper.h
+index fbf86ff9cdfb..c3d23725f0b8 100644
+--- a/include/drm/display/drm_hdmi_state_helper.h
++++ b/include/drm/display/drm_hdmi_state_helper.h
+@@ -16,6 +16,7 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
+ 
+ int drm_atomic_helper_connector_hdmi_update_audio_infoframe(struct drm_connector *connector,
+ 							    struct hdmi_audio_infoframe *frame);
++int drm_atomic_helper_connector_hdmi_disable_audio_infoframe(struct drm_connector *connector);
+ int drm_atomic_helper_connector_hdmi_update_infoframes(struct drm_connector *connector,
+ 						       struct drm_atomic_state *state);
+ 
 
-Changes in v3:
-- Rebased on top of the merged HDMI connector patchset.
-- Changed drm_bridge_connector to use drmm_connector_init() (Maxime)
-- Added a check that write_infoframe callback is present if
-  BRIDGE_OP_HDMI is set.
-- Moved drm_atomic_helper_connector_hdmi_check() call from
-  drm_bridge_connector to the HDMI bridge driver to remove dependency
-  from drm_kms_helpers on the optional HDMI state helpers.
-- Converted Audio InfoFrame handling code.
-- Added support for HDMI Vendor Specific and SPD InfoFrames.
-- Link to v2: https://lore.kernel.org/r/20240309-bridge-hdmi-connector-v2-0-1380bea3ee70@linaro.org
-
-Changes in v2:
-- Dropped drm_connector_hdmi_setup(). Instead added
-  drm_connector_hdmi_init() to be used by drm_bridge_connector.
-- Changed the drm_bridge_connector to act as a proxy for the HDMI
-  connector  infrastructure. This removes most of the logic from
-  the bridge drivers.
-- Link to v1: https://lore.kernel.org/r/20240308-bridge-hdmi-connector-v1-0-90b693550260@linaro.org
-
----
-Dmitry Baryshkov (9):
-      drm/connector: hdmi: allow disabling Audio Infoframe
-      drm/bridge-connector: switch to using drmm allocations
-      drm/bridge-connector: implement glue code for HDMI connector
-      drm/msm/hdmi: switch to atomic bridge callbacks
-      drm/msm/hdmi: turn mode_set into atomic_enable
-      drm/msm/hdmi: make use of the drm_connector_hdmi framework
-      drm/msm/hdmi: get rid of hdmi_mode
-      drm/msm/hdmi: update HDMI_GEN_PKT_CTRL_GENERIC0_UPDATE definition
-      drm/msm/hdmi: also send the SPD and HDMI Vendor Specific InfoFrames
-
- drivers/gpu/drm/display/drm_hdmi_state_helper.c |  36 +++
- drivers/gpu/drm/drm_bridge_connector.c          | 107 ++++++--
- drivers/gpu/drm/drm_debugfs.c                   |   2 +
- drivers/gpu/drm/msm/Kconfig                     |   2 +
- drivers/gpu/drm/msm/hdmi/hdmi.c                 |  47 +---
- drivers/gpu/drm/msm/hdmi/hdmi.h                 |  18 +-
- drivers/gpu/drm/msm/hdmi/hdmi_audio.c           |  74 ++----
- drivers/gpu/drm/msm/hdmi/hdmi_bridge.c          | 310 +++++++++++++++++++-----
- drivers/gpu/drm/msm/registers/display/hdmi.xml  |   2 +-
- include/drm/display/drm_hdmi_state_helper.h     |   1 +
- include/drm/drm_bridge.h                        |  81 +++++++
- 11 files changed, 496 insertions(+), 184 deletions(-)
----
-base-commit: 222d50ef3700aefb694e55a7a1f03d3fe2cb67f9
-change-id: 20240307-bridge-hdmi-connector-7e3754e661d0
-
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.2
 
