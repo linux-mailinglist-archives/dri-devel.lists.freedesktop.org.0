@@ -2,118 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9F21900AD8
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 18:59:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43590900B04
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2024 19:11:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0750510E6AD;
-	Fri,  7 Jun 2024 16:59:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58AB310E737;
+	Fri,  7 Jun 2024 17:11:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="TAqAdyed";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Pif+r2aH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADFFF10E6AD
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2024 16:59:31 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-57a1fe63947so3011990a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jun 2024 09:59:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1717779569; x=1718384369;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=b716fHLqA+q2jVEnF0wQCq5rwwcoiNDI2tYRdVxGBJ8=;
- b=TAqAdyed/XddNl09/NvBijVgGVfefYbQytvVKJ2JJlUUwrc1lC06rLCNCTtat/8Zzv
- 3+Qgpgd3f++Vlo763T5TEg6yKut6hiCIhU1NClwn/7mAXHSF7iAdHi6JYWARLkX/n5kR
- 5WwJ2wqzb0uFG4hBEUkJbfKeoarDTO7jC4BvZOYEAqEpd25p5OCXIhDiXoSdbnZHLkAw
- nJCC1UrGtAsLw8ShIdtiaMpzGpWo+eK/uDnleJlM5RDN4lko7+C6VuUa8nvQqlQ5S1XJ
- 8DhEy3v2sR+ZNViASTBZ7XPoY/n0mMbd17g1I3+cR+4KhqDEh3ERUftVKeDbynI8ohGO
- pHEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717779569; x=1718384369;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=b716fHLqA+q2jVEnF0wQCq5rwwcoiNDI2tYRdVxGBJ8=;
- b=pUh61EWBxNoJEMMma0cPr4JnkjLwqbe7q1QzzV6JspLiumC7rvaCDfnuApl/WsRHsX
- 8j1ycXkz54CxkaUugkQ0a9xpBHnim5WXFmrkia1zJ13iffQLk7ndawYTApch26pBJHQz
- jTVO+zbiyqLmgqlqjZ6ygtkm4fjH04WfitDqdeRU+OpQfEqCterwGeANKUExZDq8I7rn
- ha5IUp58zWjsXYPuZTQeScWbuanRTTIA4IOvHaTl+fMx/bQVg4cKOHe56r6fXf7i2hGz
- us3P5II58H+3qxLc6JQgTpiMBr9EZi3bjLHE7sXA32h5/hwLK3G7bKGocoMyyHSFZU8i
- KtcQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWxxfXSlsKNIJ4qPkk4fX+1ny+gIlun+wHrAjiCzvHQypebUw9N84M7M6FD64PT0woosAj+v30Out/EnABZ0vAOTqpnFErBepY6qEKF69Vp
-X-Gm-Message-State: AOJu0YyhRw61d5ChoLGgeEBuLBX+QcGXmzLqqAZWfHTQVq2Y2VKcG7tr
- eZ54LI0ucKLjhROMI/7OEBjQM+HPYI9C9+cBr6UEJpFayb4FdwipGJpg4wSd2ka4zhwIP8q8jzz
- cjNkAQMn9Z1r8xIDVxl+aQI9IggeRrtCpHFAJ
-X-Google-Smtp-Source: AGHT+IFO8pnZEEr0e5+OyIy57985L/vijoXMBq19GG2GOaDteqsHQMVykhBCrf2eEzDSRbH9iO1UMt7DJvGo0PZ4Mj4=
-X-Received: by 2002:a17:906:12c1:b0:a63:3cd4:97d2 with SMTP id
- a640c23a62f3a-a6cdbd0d2e5mr206803066b.63.1717779569136; Fri, 07 Jun 2024
- 09:59:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240530201616.1316526-1-almasrymina@google.com>
- <20240530201616.1316526-3-almasrymina@google.com>
- <ZlqzER_ufrhlB28v@infradead.org>
- <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
- <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
- <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
- <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
- <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
- <8f44ca2a-8910-418f-b4a6-ca1e051484ba@gmail.com>
- <a8df4459-30bf-4414-aeca-2f67c461adc4@gmail.com>
-In-Reply-To: <a8df4459-30bf-4414-aeca-2f67c461adc4@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 7 Jun 2024 09:59:16 -0700
-Message-ID: <CAHS8izNcYMsSpTNVSGRJHK6u+kDxnFab5Km1rYy8b++0FeUNgA@mail.gmail.com>
-Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
- custom page providers
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: David Ahern <dsahern@kernel.org>, Christoph Hellwig <hch@infradead.org>,
- netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, 
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
- Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, 
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>, 
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
- Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 935EA10E737;
+ Fri,  7 Jun 2024 17:11:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717780287; x=1749316287;
+ h=date:from:to:cc:subject:message-id;
+ bh=0atbEib8jggjVoNOJeZLkHRB29d07ESMfM1kYkJSA2E=;
+ b=Pif+r2aHDUSZ8Nuf5nDd9U2Of1rC1L/MOvWaI5Co93OHZK7rxRGH0N0I
+ zW8BMOQenxb/i4UBvuUzdq7/jWv7mey5L+9ywIQ01iT1SotG/ntt4eQmJ
+ AuawJ9EkJ2UhQJ64OiKAN7P+7os2D1KbSnMbfWcxcLEIsiuRnTLuqYXlO
+ 3x7zcp3/1K15tDbwfOdQ03UEUYuVwAMhn/E7XFtVqFg3cRc+0p0rzOeBX
+ JDpniCDooGFCVxFvFMZI1gWtQJKd14a2kdP54INccV6JbRF0snis/jLmL
+ 85gksI/orRJ7i4WLXba0gVYN9S0x83kwEBWUTEcHl/XhwW4XPh+U851aa g==;
+X-CSE-ConnectionGUID: 7TC+xdF0QGySG6stqT40UQ==
+X-CSE-MsgGUID: roqB4NlUTiqnna//NHaw/A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="25085261"
+X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; d="scan'208";a="25085261"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2024 10:11:26 -0700
+X-CSE-ConnectionGUID: DdJMks8UTbeojCtA2cQ2kQ==
+X-CSE-MsgGUID: I4mpLO82Tt+W36pAVdWw9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; d="scan'208";a="43308590"
+Received: from lkp-server01.sh.intel.com (HELO 472b94a103a1) ([10.239.97.150])
+ by orviesa005.jf.intel.com with ESMTP; 07 Jun 2024 10:11:23 -0700
+Received: from kbuild by 472b94a103a1 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sFd7Y-0000B1-1r;
+ Fri, 07 Jun 2024 17:11:20 +0000
+Date: Sat, 08 Jun 2024 01:10:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Linux Memory Management List <linux-mm@kvack.org>,
+ amd-gfx@lists.freedesktop.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-pm@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: [linux-next:master] BUILD REGRESSION
+ d35b2284e966c0bef3e2182a5c5ea02177dd32e4
+Message-ID: <202406080138.Fk0ftkDF-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,48 +69,328 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 7, 2024 at 8:47=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.c=
-om> wrote:
->
-> On 6/7/24 16:42, Pavel Begunkov wrote:
-> > On 6/7/24 15:27, David Ahern wrote:
-> >> On 6/7/24 7:42 AM, Pavel Begunkov wrote:
-> >>> I haven't seen any arguments against from the (net) maintainers so
-> >>> far. Nor I see any objection against callbacks from them (considering
-> >>> that either option adds an if).
-> >>
-> >> I have said before I do not understand why the dmabuf paradigm is not
-> >> sufficient for both device memory and host memory. A less than ideal
-> >> control path to put hostmem in a dmabuf wrapper vs extra checks and
-> >> changes in the datapath. The former should always be preferred.
-> >
-> > If we're talking about types of memory specifically, I'm not strictly
-> > against wrapping into dmabuf in kernel, but that just doesn't give
-> > anything.
->
-> And the reason I don't have too strong of an opinion on that is
-> mainly because it's just setup/cleanup path.
->
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: d35b2284e966c0bef3e2182a5c5ea02177dd32e4  Add linux-next specific files for 20240607
 
-I agree wrapping io uring in dmabuf seems to be an unnecessary detour.
-I never understood the need or upside to do that, but it could be a
-lack of understanding on my part.
+Error/Warning reports:
 
-However, the concern that David brings up may materialize. I've had to
-spend a lot of time minimizing or justifying checks to the code with
-page pool benchmarks that detect even 1 cycle regressions. You may be
-asked to run the same benchmarks and minimize similar overhead.
+https://lore.kernel.org/oe-kbuild-all/202406071624.o81nLJmG-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202406071658.Sq9UXHmz-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202406071806.BRjaC5FF-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202406072132.gK2rPSm1-lkp@intel.com
 
-The benchmark in question is Jesper's bench_page_pool_simple. I've
-forked it and applied it on top of net-next here:
-https://github.com/mina/linux/commit/927596f87ab5791a8a6ba8597ba2189747396e=
-54
+Error/Warning: (recently discovered and may have been fixed)
 
-As io_uring ZC comes close to merging, I suspect it would be good to
-run this to understand the regression in the fast path, if any. If
-there are no to little regressions, I have no concerns over io uring
-memory not being wrapped in dmabufs, and David may agree as well.
+drivers/hwmon/pmbus/mp2975.c:1069:34: warning: 'mp2975_of_match' defined but not used [-Wunused-const-variable=]
+drivers/hwmon/pmbus/mp2975.c:1069:34: warning: unused variable 'mp2975_of_match' [-Wunused-const-variable]
+kernel/trace/fgraph.c:1154:12: warning: 'fgraph_pid_func' defined but not used [-Wunused-function]
+kernel/trace/fgraph.c:1174:28: warning: unused variable 'gops' [-Wunused-variable]
+kernel/trace/fgraph.c:1175:28: warning: unused variable 'op' [-Wunused-variable]
 
---
-Thanks,
-Mina
+Unverified Error/Warning (likely false positive, please contact us if interested):
+
+{standard input}:1233: Warning: overflow in branch to .L144; converted into longer instruction sequence
+{standard input}:1244: Warning: overflow in branch to .L146; converted into longer instruction sequence
+{standard input}:1247: Warning: overflow in branch to .L147; converted into longer instruction sequence
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- csky-randconfig-001-20240607
+|   |-- kernel-trace-fgraph.c:warning:fgraph_pid_func-defined-but-not-used
+|   |-- kernel-trace-fgraph.c:warning:unused-variable-gops
+|   `-- kernel-trace-fgraph.c:warning:unused-variable-op
+|-- i386-randconfig-062-20240607
+|   `-- drivers-hwmon-pmbus-mp2975.c:warning:mp2975_of_match-defined-but-not-used
+|-- loongarch-defconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-hubbub-dcn401-dcn401_hubbub.o:warning:objtool:unexpected-relocation-symbol-type-in-.rela.discard.reachable
+|   `-- drivers-thermal-thermal_trip.o:warning:objtool:unexpected-relocation-symbol-type-in-.rela.discard.reachable
+|-- loongarch-randconfig-002-20240607
+|   |-- kernel-trace-fgraph.c:warning:fgraph_pid_func-defined-but-not-used
+|   |-- kernel-trace-fgraph.c:warning:unused-variable-gops
+|   `-- kernel-trace-fgraph.c:warning:unused-variable-op
+|-- microblaze-allmodconfig
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(simple_bus_reg):amba_pl-gpio-restart:missing-or-empty-reg-ranges-property
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(unit_address_format):amba_pl-flash-partition:unit-name-should-not-have-leading
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(unit_address_format):amba_pl-flash-partition:unit-name-should-not-have-leading-0s
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(unit_address_vs_reg):memory:node-has-a-reg-or-ranges-property-but-no-unit-name
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-dma-41e00000:clocks:cell-is-not-a-phandle-reference
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-i2c:clocks:cell-is-not-a-phandle-reference
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-serial-44a00000:clocks:cell-is-not-a-phandle-reference
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-timer-41c00000:clocks:cell-is-not-a-phandle-reference
+|   `-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):cpus-cpu:clocks:cell-is-not-a-phandle-reference
+|-- microblaze-allnoconfig
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(simple_bus_reg):amba_pl-gpio-restart:missing-or-empty-reg-ranges-property
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(unit_address_format):amba_pl-flash-partition:unit-name-should-not-have-leading
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(unit_address_format):amba_pl-flash-partition:unit-name-should-not-have-leading-0s
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(unit_address_vs_reg):memory:node-has-a-reg-or-ranges-property-but-no-unit-name
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-dma-41e00000:clocks:cell-is-not-a-phandle-reference
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-i2c:clocks:cell-is-not-a-phandle-reference
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-serial-44a00000:clocks:cell-is-not-a-phandle-reference
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-timer-41c00000:clocks:cell-is-not-a-phandle-reference
+|   `-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):cpus-cpu:clocks:cell-is-not-a-phandle-reference
+|-- microblaze-allyesconfig
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(simple_bus_reg):amba_pl-gpio-restart:missing-or-empty-reg-ranges-property
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(unit_address_format):amba_pl-flash-partition:unit-name-should-not-have-leading
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(unit_address_format):amba_pl-flash-partition:unit-name-should-not-have-leading-0s
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(unit_address_vs_reg):memory:node-has-a-reg-or-ranges-property-but-no-unit-name
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-dma-41e00000:clocks:cell-is-not-a-phandle-reference
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-i2c:clocks:cell-is-not-a-phandle-reference
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-serial-44a00000:clocks:cell-is-not-a-phandle-reference
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-timer-41c00000:clocks:cell-is-not-a-phandle-reference
+|   `-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):cpus-cpu:clocks:cell-is-not-a-phandle-reference
+|-- microblaze-defconfig
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(simple_bus_reg):amba_pl-gpio-restart:missing-or-empty-reg-ranges-property
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(unit_address_format):amba_pl-flash-partition:unit-name-should-not-have-leading
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(unit_address_format):amba_pl-flash-partition:unit-name-should-not-have-leading-0s
+|   |-- arch-microblaze-boot-dts-system.dts.-.:Warning-(unit_address_vs_reg):memory:node-has-a-reg-or-ranges-property-but-no-unit-name
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-dma-41e00000:clocks:cell-is-not-a-phandle-reference
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-i2c:clocks:cell-is-not-a-phandle-reference
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-serial-44a00000:clocks:cell-is-not-a-phandle-reference
+|   |-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):amba_pl-timer-41c00000:clocks:cell-is-not-a-phandle-reference
+|   `-- arch-microblaze-boot-dts-system.dts.:Warning-(clocks_property):cpus-cpu:clocks:cell-is-not-a-phandle-reference
+|-- mips-randconfig-r121-20240607
+|   |-- drivers-mtd-nand-raw-mxc_nand.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-buf-got-void-noderef-__iomem
+|   `-- drivers-mtd-nand-raw-mxc_nand.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-unsigned-short-noderef-usertype-__iomem-t-got-void-buf
+|-- nios2-randconfig-r111-20240607
+|   |-- drivers-hwmon-cros_ec_hwmon.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-mtd-nand-raw-mxc_nand.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-buf-got-void-noderef-__iomem
+|   `-- drivers-mtd-nand-raw-mxc_nand.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-unsigned-short-noderef-usertype-__iomem-t-got-void-buf
+|-- nios2-randconfig-r133-20240607
+|   `-- drivers-clk-qcom-camcc-sm7150.c:sparse:sparse:symbol-camcc_sm7150_hws-was-not-declared.-Should-it-be-static
+|-- parisc-randconfig-002-20240607
+|   `-- drivers-hwmon-pmbus-mp2975.c:warning:mp2975_of_match-defined-but-not-used
+|-- s390-randconfig-r113-20240607
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-B-got-struct-ftrace_hash-noderef-__rcu-filter_hash
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-B-got-struct-ftrace_hash-noderef-__rcu-notrace_hash
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-new_hash-got-struct-ftrace_hash-noderef-__rcu-filter_hash
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-new_hash1-got-struct-ftrace_hash-noderef-__rcu-filter_hash
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-new_hash2-got-struct-ftrace_hash-noderef-__rcu-filter_hash
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-new_hash2-got-struct-ftrace_hash-noderef-__rcu-notrace_hash
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-orig_hash-got-struct-ftrace_hash-noderef-__rcu
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-src-got-struct-ftrace_hash-noderef-__rcu-filter_hash
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-ftrace_hash-src-got-struct-ftrace_hash-noderef-__rcu-notrace_hash
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-noderef-__rcu-filter_hash-got-struct-ftrace_hash
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-noderef-__rcu-filter_hash-got-struct-ftrace_hash-assigned-filter_hash
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-noderef-__rcu-filter_hash-got-struct-ftrace_hash-save_filter_hash
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-noderef-__rcu-notrace_hash-got-struct-ftrace_hash
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-noderef-__rcu-notrace_hash-got-struct-ftrace_hash-assigned-notrace_hash
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-noderef-__rcu-notrace_hash-got-struct-ftrace_hash-save_notrace_hash
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-notrace_hash-got-struct-ftrace_hash-noderef-__rcu-notrace_hash
+|   |-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-save_filter_hash-got-struct-ftrace_hash-noderef-__rcu-filter_hash
+|   `-- kernel-trace-ftrace.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-ftrace_hash-save_notrace_hash-got-struct-ftrace_hash-noderef-__rcu-notrace_hash
+|-- sh-randconfig-r011-20220321
+|   |-- standard-input:Warning:overflow-in-branch-to-.L144-converted-into-longer-instruction-sequence
+|   |-- standard-input:Warning:overflow-in-branch-to-.L146-converted-into-longer-instruction-sequence
+|   `-- standard-input:Warning:overflow-in-branch-to-.L147-converted-into-longer-instruction-sequence
+|-- x86_64-buildonly-randconfig-002-20240607
+|   `-- drivers-hwmon-pmbus-mp2975.c:warning:mp2975_of_match-defined-but-not-used
+`-- x86_64-randconfig-161-20240607
+    `-- drivers-hwmon-pmbus-mp2975.c:warning:mp2975_of_match-defined-but-not-used
+clang_recent_errors
+|-- x86_64-buildonly-randconfig-003-20240607
+|   |-- drivers-gpu-drm-drm_mm.c:error:function-drm_mm_node_scanned_block-is-not-needed-and-will-not-be-emitted-Werror-Wunneeded-internal-declaration
+|   `-- drivers-hwmon-pmbus-mp2975.c:warning:unused-variable-mp2975_of_match
+|-- x86_64-randconfig-012-20240607
+|   `-- drivers-hwmon-pmbus-mp2975.c:warning:unused-variable-mp2975_of_match
+`-- x86_64-randconfig-r051-20240607
+    `-- drivers-gpu-drm-drm_mm.c:error:function-drm_mm_node_scanned_block-is-not-needed-and-will-not-be-emitted-Werror-Wunneeded-internal-declaration
+
+elapsed time: 739m
+
+configs tested: 188
+configs skipped: 3
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                         haps_hs_defconfig   gcc  
+arc                     nsimosci_hs_defconfig   gcc  
+arc                   randconfig-001-20240607   gcc  
+arc                   randconfig-002-20240607   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                       aspeed_g5_defconfig   gcc  
+arm                                 defconfig   clang
+arm                          moxart_defconfig   gcc  
+arm                        multi_v7_defconfig   gcc  
+arm                           omap1_defconfig   gcc  
+arm                          pxa168_defconfig   clang
+arm                   randconfig-001-20240607   gcc  
+arm                   randconfig-002-20240607   clang
+arm                   randconfig-003-20240607   clang
+arm                   randconfig-004-20240607   gcc  
+arm                       spear13xx_defconfig   gcc  
+arm                           stm32_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240607   gcc  
+arm64                 randconfig-002-20240607   clang
+arm64                 randconfig-003-20240607   clang
+arm64                 randconfig-004-20240607   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240607   gcc  
+csky                  randconfig-002-20240607   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240607   clang
+hexagon               randconfig-002-20240607   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240607   clang
+i386         buildonly-randconfig-002-20240607   clang
+i386         buildonly-randconfig-003-20240607   clang
+i386         buildonly-randconfig-004-20240607   clang
+i386         buildonly-randconfig-005-20240607   clang
+i386         buildonly-randconfig-006-20240607   clang
+i386                                defconfig   clang
+i386                  randconfig-001-20240607   gcc  
+i386                  randconfig-002-20240607   gcc  
+i386                  randconfig-003-20240607   gcc  
+i386                  randconfig-004-20240607   gcc  
+i386                  randconfig-005-20240607   gcc  
+i386                  randconfig-006-20240607   gcc  
+i386                  randconfig-011-20240607   clang
+i386                  randconfig-012-20240607   gcc  
+i386                  randconfig-013-20240607   clang
+i386                  randconfig-014-20240607   clang
+i386                  randconfig-015-20240607   clang
+i386                  randconfig-016-20240607   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240607   gcc  
+loongarch             randconfig-002-20240607   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                          amiga_defconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        mvme16x_defconfig   gcc  
+m68k                           sun3_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                         db1xxx_defconfig   clang
+mips                           gcw0_defconfig   clang
+mips                           ip28_defconfig   gcc  
+mips                       lemote2f_defconfig   gcc  
+mips                     loongson1c_defconfig   gcc  
+mips                        qi_lb60_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240607   gcc  
+nios2                 randconfig-002-20240607   gcc  
+openrisc                         alldefconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240607   gcc  
+parisc                randconfig-002-20240607   gcc  
+parisc64                         alldefconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                        icon_defconfig   gcc  
+powerpc               randconfig-001-20240607   gcc  
+powerpc               randconfig-002-20240607   gcc  
+powerpc               randconfig-003-20240607   gcc  
+powerpc                      walnut_defconfig   gcc  
+powerpc64             randconfig-001-20240607   gcc  
+powerpc64             randconfig-002-20240607   clang
+powerpc64             randconfig-003-20240607   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                    nommu_virt_defconfig   clang
+riscv                 randconfig-001-20240607   gcc  
+riscv                 randconfig-002-20240607   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240607   clang
+s390                  randconfig-002-20240607   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                          r7780mp_defconfig   gcc  
+sh                    randconfig-001-20240607   gcc  
+sh                    randconfig-002-20240607   gcc  
+sh                           se7780_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240607   gcc  
+sparc64               randconfig-002-20240607   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240607   clang
+um                    randconfig-002-20240607   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240607   gcc  
+x86_64       buildonly-randconfig-002-20240607   gcc  
+x86_64       buildonly-randconfig-003-20240607   clang
+x86_64       buildonly-randconfig-004-20240607   gcc  
+x86_64       buildonly-randconfig-005-20240607   gcc  
+x86_64       buildonly-randconfig-006-20240607   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240607   gcc  
+x86_64                randconfig-002-20240607   gcc  
+x86_64                randconfig-003-20240607   clang
+x86_64                randconfig-004-20240607   clang
+x86_64                randconfig-005-20240607   clang
+x86_64                randconfig-006-20240607   gcc  
+x86_64                randconfig-011-20240607   gcc  
+x86_64                randconfig-012-20240607   clang
+x86_64                randconfig-013-20240607   gcc  
+x86_64                randconfig-014-20240607   gcc  
+x86_64                randconfig-015-20240607   clang
+x86_64                randconfig-016-20240607   clang
+x86_64                randconfig-071-20240607   gcc  
+x86_64                randconfig-072-20240607   clang
+x86_64                randconfig-073-20240607   gcc  
+x86_64                randconfig-074-20240607   clang
+x86_64                randconfig-075-20240607   gcc  
+x86_64                randconfig-076-20240607   clang
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240607   gcc  
+xtensa                randconfig-002-20240607   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
