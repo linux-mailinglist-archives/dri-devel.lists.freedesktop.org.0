@@ -2,51 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744A090156A
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jun 2024 11:59:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62CA8901626
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jun 2024 15:00:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ECCF10E099;
-	Sun,  9 Jun 2024 09:59:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2EB310E04E;
+	Sun,  9 Jun 2024 13:00:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SUsxWfKD";
+	dkim=pass (2048-bit key; secure) header.d=tuxon.dev header.i=@tuxon.dev header.b="ZU4OPnOs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B643C10E099
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Jun 2024 09:59:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 87C3761E2D;
- Sun,  9 Jun 2024 09:59:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8389C2BD10;
- Sun,  9 Jun 2024 09:59:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1717927176;
- bh=ZTNgbFcLomcG6cpe2haGjWOTw7BlkgzB0g3ZWexUBPg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=SUsxWfKDwq9uaDBZLEK9BO1+qDdiuCsJlTzwxXZUZzuY1WK9NlYBeiOT7909A+4bQ
- 0QzRcgCBUPMCOGlp26CgYVY5HcN1KUJTpY6oRcoqr2Ti9I8GXv1fvbSEtYDmvIStvA
- u9QV3W4AGxsPvXV8LqptOQEFbzp79cNu/ZaR/3GjPKvoO0cK+0rnU8WyJJCFT02eS+
- rSKMLjfSd2BKtI1VE221Kg0oaFofgCQNznOvbHzgJjoRr3a5PLrG9uqGYy/zC9Rf4R
- X6Ch6wAd8uOaXMOt4YgPs9Xz3snZhuu0undsBf8oDtnyz7llZGasXvqnFZjPvbZJri
- xtcFMxxSpbOSg==
-Date: Sun, 9 Jun 2024 10:58:53 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>, Nuno Sa
- <nuno.sa@analog.com>, linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v10 0/6] iio: new DMABUF based API v10
-Message-ID: <20240609105853.54d01475@jic23-huawei>
-In-Reply-To: <20240605110845.86740-1-paul@crapouillou.net>
-References: <20240605110845.86740-1-paul@crapouillou.net>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 518BB10E04E
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Jun 2024 13:00:40 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-35f20e798e3so139067f8f.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 09 Jun 2024 06:00:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tuxon.dev; s=google; t=1717938039; x=1718542839; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=Ky3F7lrTtIDOfgJFvUgAjHSa1goIJaZDc94U4MqRHYw=;
+ b=ZU4OPnOshgYL+XpduNbTEJg/L901ijiUFR3+lI7bioaGvEBSe6F+39Te4XJwDJm3Bt
+ JTkb8V0TyspCWCFPZGbbXI4ffJOI8uu5nrlywOrHuRJ+dQSmYZ58vum7ZkqkYYvsuoOW
+ M/Zxc4LX57R2NoxSRPS2oTlCcfDlfoDHSonv2lKG3oKSxVjOif3+SwIA52X9v2lXY+yc
+ NTFeqqHCTZvNzGmLVLl9oSBv6kd8zLPXaVNV7osxTzeI0uAgGAJ9p1keVZ7dCf1axaqa
+ a8wQXD+4pjm4+V/omvMjP0WEgy5xzt/GluPVi5gqTxjmpaVGII0rY4601UoQ08WszPHI
+ umOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717938039; x=1718542839;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ky3F7lrTtIDOfgJFvUgAjHSa1goIJaZDc94U4MqRHYw=;
+ b=pQBBLk7WMdYz3InJZngN0HmtjdbaOzbrHaoKwlXyKVsVEsgzfZwPO30kH5KgdgMAVZ
+ w1/A/uUlpTT3gB0jehqK9EwEzEEgmokmHxW/NBadX7aV1ULECFWmbEDJwffG/lbTLQWy
+ Rch6AoqjylhRUTvhun1thLuzvzW4ErpVFWLdkHCLhvWgFFzhzRw5LF9PvcR7IVeD2r0h
+ NoEMZsFsB/0zASJbdOc/yVrO+0M8CjkaN/tRzAx1ZkLBWwHtGPqNUv369sg1Mk2/h9jh
+ 4o3WHCQQZe/DI/sL/7i9eXV+xonAjJNywAAIaPk9rCSiz4rwybrTTpN4ngVVYOfOF47t
+ gtTQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVOAWZTYANrMyQOu59JdcCbZFUqdwh2Gtr1cWItxKEQpaAwIJGjGAm9RnfynsoE/KYUUzd2IE3iSyft8lUIzde6oh5JkmYsjzhWeO9TuO8i
+X-Gm-Message-State: AOJu0YwOzBzJ2x7aig5zrN5JYV4Z1jpfpQC4QqbfNWWSjoqdGEBtmJh2
+ 0IaLKAjsPAyudyDhRuiGobmqdy2ONFy6W/DPYuKcJooOOtxSJVlHyTGdHoF0W28=
+X-Google-Smtp-Source: AGHT+IGRsbqTVIFgZ6p18PEJuNiLJHAflv0f2yiem7/+NmsB7nGwV1Zbdr6NLv9+xKSWGMAW3A3S6A==
+X-Received: by 2002:a05:6000:184d:b0:35f:209b:c10f with SMTP id
+ ffacd0b85a97d-35f209bc1bdmr870170f8f.68.1717938038958; 
+ Sun, 09 Jun 2024 06:00:38 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.189])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-35ef5d66cf6sm8521473f8f.49.2024.06.09.06.00.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 09 Jun 2024 06:00:38 -0700 (PDT)
+Message-ID: <8412fc44-d3c1-4283-aceb-7aa4b95606be@tuxon.dev>
+Date: Sun, 9 Jun 2024 16:00:35 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 4/4] ARM: configs: at91: Enable LVDS serializer support
+To: Dharma Balasubiramani <dharma.b@microchip.com>,
+ "dmitry . baryshkov @ linaro . org" <dmitry.baryshkov@linaro.org>,
+ "andrzej . hajda @ intel . com" <andrzej.hajda@intel.com>,
+ "neil . armstrong @ linaro . org" <neil.armstrong@linaro.org>,
+ "rfoss @ kernel . org" <rfoss@kernel.org>,
+ "Laurent . pinchart @ ideasonboard . com"
+ <Laurent.pinchart@ideasonboard.com>, "jonas @ kwiboo . se"
+ <jonas@kwiboo.se>, "jernej . skrabec @ gmail . com"
+ <jernej.skrabec@gmail.com>, "maarten . lankhorst @ linux . intel . com"
+ <maarten.lankhorst@linux.intel.com>,
+ "mripard @ kernel . org" <mripard@kernel.org>,
+ "tzimmermann @ suse . de" <tzimmermann@suse.de>,
+ "airlied @ gmail . com" <airlied@gmail.com>,
+ "daniel @ ffwll . ch" <daniel@ffwll.ch>,
+ "robh+dt @ kernel . org" <robh+dt@kernel.org>,
+ "krzysztof . kozlowski+dt @ linaro . org"
+ <krzysztof.kozlowski+dt@linaro.org>,
+ "conor+dt @ kernel . org" <conor+dt@kernel.org>,
+ "linux @ armlinux . org . uk" <linux@armlinux.org.uk>,
+ "Nicolas . Ferre @ microchip . com" <Nicolas.Ferre@microchip.com>,
+ "alexandre . belloni @ bootlin . com" <alexandre.belloni@bootlin.com>,
+ "Manikandan . M @ microchip . com" <Manikandan.M@microchip.com>,
+ "arnd @ arndb . de" <arnd@arndb.de>,
+ "geert+renesas @ glider . be" <geert+renesas@glider.be>,
+ "Jason @ zx2c4 . com" <Jason@zx2c4.com>,
+ "mpe @ ellerman . id . au" <mpe@ellerman.id.au>,
+ "gerg @ linux-m68k . org" <gerg@linux-m68k.org>,
+ "rdunlap @ infradead . org" <rdunlap@infradead.org>,
+ "vbabka @ suse . cz" <vbabka@suse.cz>,
+ "dri-devel @ lists . freedesktop . org" <dri-devel@lists.freedesktop.org>,
+ "devicetree @ vger . kernel . org" <devicetree@vger.kernel.org>,
+ "linux-kernel @ vger . kernel . org" <linux-kernel@vger.kernel.org>,
+ "oe-kbuild-all @ lists . linux . dev" <oe-kbuild-all@lists.linux.dev>,
+ "Hari . PrasathGE @ microchip . com" <Hari.PrasathGE@microchip.com>
+References: <20240421011050.43265-1-dharma.b@microchip.com>
+ <20240421011050.43265-5-dharma.b@microchip.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <20240421011050.43265-5-dharma.b@microchip.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,73 +117,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed,  5 Jun 2024 13:08:39 +0200
-Paul Cercueil <paul@crapouillou.net> wrote:
 
-> Hi Jonathan,
-> 
-> Here is a revised (and hopefully final?) version of my DMABUF patchset.
 
-Fingers crossed it's just docs changes for v11.
+On 21.04.2024 04:10, Dharma Balasubiramani wrote:
+> Enable LVDS serializer support for display pipeline.
+> 
+> Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+> Acked-by: Hari Prasath Gujulan Elango <hari.prasathge@microchip.com>
+> Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
 
-So on to the details of how to merge this...
-For the DMAEngine maintainers:
-Given IIO changes dominate this series it makes sense for me to pick it up
-through IIO.
-
-Do you want an immutable branch with the first patch on it, or is this
-unlikely to cause merge conflicts with any other ongoing work in dmabuffer
-land?
-
-I'm fine either way and if I don't hear back on this will do an immutable
-branch and announce it when I apply v11 (I hope!)
-
-Jonathan
-
-> 
-> This v10 removes the extra "flags" parameter of
-> dmaengine_prep_peripheral_dma_vec(), and adds kernel doc to the function
-> as Vinod requested.
-> 
-> As Nuno upstreamed support for output buffers, I (slightly) modified
-> patch 5/6 and now output buffers are supported with the DMABUF API.
-> All I did was remove a "fail if output" check really.
-> 
-> This was based on next-20240605.
-> 
-> Changelog:
-> - [1/6]:
->   - Add kernel doc to dmaengine_prep_peripheral_dma_vec()
->   - Remove extra flags parameter
-> - [2/6]:
->   - Use the new function prototype (without the extra prep_flags).
-> - [5/6]:
->   - Remove extra flags parameter to dmaengine_prep_peripheral_dma_vec()
->   - Add support for TX transfers
-> 
-> Cheers,
-> -Paul
-> 
-> Paul Cercueil (6):
->   dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
->   dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
->   iio: core: Add new DMABUF interface infrastructure
->   iio: buffer-dma: Enable support for DMABUFs
->   iio: buffer-dmaengine: Support new DMABUF based userspace API
->   Documentation: iio: Document high-speed DMABUF based API
-> 
->  Documentation/iio/iio_dmabuf_api.rst          |  54 ++
->  Documentation/iio/index.rst                   |   1 +
->  drivers/dma/dma-axi-dmac.c                    |  40 ++
->  drivers/iio/Kconfig                           |   1 +
->  drivers/iio/buffer/industrialio-buffer-dma.c  | 180 ++++++-
->  .../buffer/industrialio-buffer-dmaengine.c    |  62 ++-
->  drivers/iio/industrialio-buffer.c             | 462 ++++++++++++++++++
->  include/linux/dmaengine.h                     |  33 ++
->  include/linux/iio/buffer-dma.h                |  31 ++
->  include/linux/iio/buffer_impl.h               |  30 ++
->  include/uapi/linux/iio/buffer.h               |  22 +
->  11 files changed, 896 insertions(+), 20 deletions(-)
->  create mode 100644 Documentation/iio/iio_dmabuf_api.rst
-> 
-
+Applied to at91-defconfig, thanks!
