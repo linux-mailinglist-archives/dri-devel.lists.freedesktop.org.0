@@ -2,51 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 242B59017FF
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jun 2024 21:35:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83555901807
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jun 2024 21:38:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13A0210E239;
-	Sun,  9 Jun 2024 19:35:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2AAB10E27B;
+	Sun,  9 Jun 2024 19:38:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mIcXL9T5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yZqWC1+9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53D3110E22D
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Jun 2024 19:35:11 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D33E4D1;
- Sun,  9 Jun 2024 21:34:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1717961698;
- bh=AWtqR2VbAumqdvm+ZWXQiQTgemgZ0fRFk3THB2JrSkE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mIcXL9T585XWm53gTG9AoHJ0urQc4bmSQIifwZNbsZmXdti/B5o5815lH+hdPL35K
- A3boVx+4A9tHf9JHwdn0yclFQ4uohH+XD4lKmmNE+ajxWPj1FKWwBYUnNjGGoADe+v
- MWnCuOeuD8k3ZgGdbstCixb4VJ30OqtEFqFiGW6w=
-Date: Sun, 9 Jun 2024 22:34:50 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07A5F10E27B
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Jun 2024 19:38:43 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-52c8c0d73d3so111429e87.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 09 Jun 2024 12:38:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1717961922; x=1718566722; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=uFG9zs+TOxLu+QRcet0jDU4W7tv1prViIcV9q7WG5hg=;
+ b=yZqWC1+90fd7t+feVo+f42+1JGtLVoFaDFNjJtW/VuCmJYFkVTGfFkmKUz4z71/BDp
+ gt71FVgZ73covkZv+5Uxe0WfdNB1G2pc58yBbG1bw79snMgRylUNI8nRXfj9PzdkLIHi
+ ydhRsjD5whx+9aAqY3+uoBT10MRKSNqjfa9YzbCvRdyE+V7oJrHXrjQg046MnfKHNhZz
+ CI0mxn6d2UcPNZeQMbUz3gY5IDE7idogV0Suk47fY+p0rc2bhvutylD2xq0qLAt3QDcu
+ EiQ23zJAQsPkQTgaZVPcQlyUCANQ3rnboVJbXFBFongFFh+ZocDpNDBKtNk+tWSSu/Lw
+ UBKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1717961922; x=1718566722;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uFG9zs+TOxLu+QRcet0jDU4W7tv1prViIcV9q7WG5hg=;
+ b=Zebc6Ok6JN00GlakCqZKJEJ2vo2VTTZsCP7t5kT4fyzKsOJmGX43v7VClKth5JX1UV
+ UK2cW7h1h/UIz/S+cX8YnHZRoVYTzLO223AQu30zKHWVsOrrg0wVSbtxpkFS75xTRdC0
+ FbeNphTSfcaEIuztPlzf2WL/4IPQnqPBsxoqnJc8DdmHgUJTftuqAeJn1G9gzB7m5bCt
+ qlur1DoB5YZBZ97MJn75yzX8m/UfbCs8t/m10vXPkXRlB+BO8/1jm6Q3DDCls4O1GD3g
+ Qt+r4UIuFDhlNUWphmalm9fpEq16FShzJIdMkHMxXiNfQMUXJeWTkveyHcce+U0UJt/X
+ zUyA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUyMAJEtWJtsN8em6D8Sfen2CpOaR+6DHBrL+zSnJukM/UVOWaNY/WXvHmXqeJNzl4tlajXZgJwd8tWJSSQP88XeRUP1vDlMZWBQPQFW6cG
+X-Gm-Message-State: AOJu0YzErs4I8L+jlc7SSgco7WgLZVjXXc9ion14pUXiWb1ly1hSd+FV
+ /4IgQS41hYjIURaj/aaruB2hs0ro2kF+4Kow4KCcjKrgi3RE09YQAXPBFH5/rPY=
+X-Google-Smtp-Source: AGHT+IHSueJBRFGzWu+izXA3ywWeAfW1MkJMtWq2Trm5auscntgaCkFjmL0QP5uI/dfmwuEq2P352g==
+X-Received: by 2002:a05:6512:2211:b0:52b:bf8e:ffea with SMTP id
+ 2adb3069b0e04-52bbf8f01c6mr5065732e87.40.1717961921651; 
+ Sun, 09 Jun 2024 12:38:41 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzbgq2gvv5-kpclzt-3.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a04:adb1:631c:fd0c:1269])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52bb41fa022sm1286759e87.118.2024.06.09.12.38.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 09 Jun 2024 12:38:41 -0700 (PDT)
+Date: Sun, 9 Jun 2024 22:38:39 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Allen Chen <allen.chen@ite.com.tw>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Hermes Wu <hermes.wu@ite.com.tw>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: add missing MODULE_DESCRIPTION() macros
-Message-ID: <20240609193450.GI18479@pendragon.ideasonboard.com>
-References: <20240609-md-drivers-gpu-drm-bridge-v1-1-b582c5c815d7@quicinc.com>
+Subject: Re: [PATCH] drm/bridge: it6505: Fix potential NULL dereference
+Message-ID: <vk76z5x3al6rrzb3n2misu6br4fbmc4kj3agyo4ry5fz7ajsm6@dfpq5yzuolvm>
+References: <5e6e8882-478a-46c0-9119-b643d524cc0c@moroto.mountain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240609-md-drivers-gpu-drm-bridge-v1-1-b582c5c815d7@quicinc.com>
+In-Reply-To: <5e6e8882-478a-46c0-9119-b643d524cc0c@moroto.mountain>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,79 +95,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jeff,
-
-Thank you for the patch.
-
-On Sun, Jun 09, 2024 at 10:06:17AM -0700, Jeff Johnson wrote:
-> make allmodconfig && make W=1 C=1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611uxc.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
+On Sat, Jun 08, 2024 at 05:21:08PM +0300, Dan Carpenter wrote:
+> Smatch complains correctly that the NULL checking isn't consistent:
 > 
-> Add the missing invocations of the MODULE_DESCRIPTION() macro.
+>     drivers/gpu/drm/bridge/ite-it6505.c:2583 it6505_poweron()
+>     error: we previously assumed 'pdata->pwr18' could be null
+>     (see line 2569)
 > 
-> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
+> Add a NULL check to prevent a NULL dereference on the error path.
+> 
+> Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 > ---
->  drivers/gpu/drm/bridge/lontium-lt9611.c    | 1 +
->  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 1 +
->  drivers/gpu/drm/bridge/sii9234.c           | 1 +
->  drivers/gpu/drm/bridge/sil-sii8620.c       | 1 +
->  4 files changed, 4 insertions(+)
+>  drivers/gpu/drm/bridge/ite-it6505.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> index b99fe87ec738..73983f9b50cb 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> @@ -1195,4 +1195,5 @@ static struct i2c_driver lt9611_driver = {
->  };
->  module_i2c_driver(lt9611_driver);
->  
-> +MODULE_DESCRIPTION("Lontium LT9611 DSI/HDMI bridge driver");
->  MODULE_LICENSE("GPL v2");
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> index ab702471f3ab..724a08f526db 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> @@ -1021,6 +1021,7 @@ static struct i2c_driver lt9611uxc_driver = {
->  module_i2c_driver(lt9611uxc_driver);
->  
->  MODULE_AUTHOR("Dmitry Baryshkov <dmitry.baryshkov@linaro.org>");
-> +MODULE_DESCRIPTION("Lontium LT9611UXC DSI/HDMI bridge driver");
->  MODULE_LICENSE("GPL v2");
->  
->  MODULE_FIRMWARE(FW_FILE);
-> diff --git a/drivers/gpu/drm/bridge/sii9234.c b/drivers/gpu/drm/bridge/sii9234.c
-> index d8373d918324..0c74cdc07032 100644
-> --- a/drivers/gpu/drm/bridge/sii9234.c
-> +++ b/drivers/gpu/drm/bridge/sii9234.c
-> @@ -961,4 +961,5 @@ static struct i2c_driver sii9234_driver = {
->  };
->  
->  module_i2c_driver(sii9234_driver);
-> +MODULE_DESCRIPTION("Silicon Image SII9234 HDMI/MHL bridge driver");
->  MODULE_LICENSE("GPL");
-> diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
-> index 599164e3877d..6bb755e9f0a5 100644
-> --- a/drivers/gpu/drm/bridge/sil-sii8620.c
-> +++ b/drivers/gpu/drm/bridge/sil-sii8620.c
-> @@ -2384,4 +2384,5 @@ static struct i2c_driver sii8620_driver = {
->  };
->  
->  module_i2c_driver(sii8620_driver);
-> +MODULE_DESCRIPTION("Silicon Image SiI8620 HDMI/MHL bridge driver");
->  MODULE_LICENSE("GPL v2");
-> 
-> ---
-> base-commit: 19ca0d8a433ff37018f9429f7e7739e9f3d3d2b4
-> change-id: 20240609-md-drivers-gpu-drm-bridge-6ab32656df86
+> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+> index 3f68c82888c2..4f01fadaec0f 100644
+> --- a/drivers/gpu/drm/bridge/ite-it6505.c
+> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
+> @@ -2580,7 +2580,8 @@ static int it6505_poweron(struct it6505 *it6505)
+>  		usleep_range(1000, 2000);
+>  		err = regulator_enable(pdata->ovdd);
+>  		if (err) {
+> -			regulator_disable(pdata->pwr18);
+> +			if (pdata->pwr18)
+> +				regulator_disable(pdata->pwr18);
+
+Wait... I wat too quick to R-B it. The driver uses devm_regulator_get(),
+which always returns non-NULL result. So all `if (pdata->pwr18)` and
+`if (pdata->ovdd)` checks in the driver are useless. Could you please
+send a patch, removing them?
+
+>  			return err;
+>  		}
+>  	}
+> -- 
+> 2.43.0
 > 
 
 -- 
-Regards,
-
-Laurent Pinchart
+With best wishes
+Dmitry
