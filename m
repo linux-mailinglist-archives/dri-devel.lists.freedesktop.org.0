@@ -2,89 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E057901656
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jun 2024 16:18:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A94C9016F8
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jun 2024 18:12:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72A6F10E078;
-	Sun,  9 Jun 2024 14:18:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 673E710E088;
+	Sun,  9 Jun 2024 16:12:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="aH7eJ7TG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Z2ivZgEb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9816C10E04A
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Jun 2024 14:18:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1717942699;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cMyIMuZIV0J4WT/bbuPywT6mF+m6iBHlzM2Be2NV7Fg=;
- b=aH7eJ7TGMwjekjAUhFK9xuioVVMb/dEmxlUkPtncPl1BbnzTJHiLneyUl5lY8eVtROL8iA
- i+of4eCxV0wDPMPNJIW3I8GipoJTDTkSI5/1Ky86pYNJaZ7DjRbMAgokI1sBbxgxlDFrvs
- TA11uKDLG4GyHq4G/tH+GLUMHFdv+q4=
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-393-UVIIFVT5M8evjC9o_QJUSQ-1; Sun, 09 Jun 2024 10:18:16 -0400
-X-MC-Unique: UVIIFVT5M8evjC9o_QJUSQ-1
-Received: by mail-ot1-f69.google.com with SMTP id
- 46e09a7af769-6f9615f7affso2566448a34.3
- for <dri-devel@lists.freedesktop.org>; Sun, 09 Jun 2024 07:18:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1717942696; x=1718547496;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cMyIMuZIV0J4WT/bbuPywT6mF+m6iBHlzM2Be2NV7Fg=;
- b=r996Qe/HEoM+x2dBb0n91W7+hGOEXhLMNhCaW2+7yoMOT1Rmgy9PGz31dsqa+tiajQ
- oO4SZjLkkXWHCb+VlOhxCb00IEdIkJD+nT/soGD8Blb2Cx6UUGPBzAPDYcsPTY3dhYJR
- zNLW/KzGwkQKzkpTJuZ1BRspt8gN7FFYk/66srtCOfJdbzFet6a72/iPebQvaAeo9DnJ
- q4zSnq3lCYjN/4qsOAKA3wbbihLVZh1zRCP/ZfQ3wepka0HDKLjrTH1Ln3g1CNxjptM6
- aBePtoTgehGs6JU/Myg21FMhetKFk8vco+vlECO9vmG+K1L7pZHYKCuunbf6G48aoYiN
- gQpQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXA9q4AiPVU29YzNDZYQbyVwMo/AlOu6uIrp9iv0iEVaPuG3XwLQ2hkXrZgSiNKS8aSz+w/LHnPrhrgXlLbj6+Eptf0CBnoHbCMeRJysxww
-X-Gm-Message-State: AOJu0Yy3g8p0XZHkNgTGKoiD1cUyS/2e00RHKKbFMKnVOoCHp23e4hnE
- LJvQfkx0gq+ykPBAJSUQLsYwWvRgPHOoCdEP2e7LgzdCYaf/XiUT4rTuWrWZxOp6ONEwSV27d/b
- 7MmfrN8UQrhY6rsO05Z8k51ZSb3qmYkWYNdTNnfsNar/6ta9sOybtLCkdCSiqDq896w==
-X-Received: by 2002:a05:6830:1306:b0:6f9:b071:28c6 with SMTP id
- 46e09a7af769-6f9b07129eamr776371a34.18.1717942696149; 
- Sun, 09 Jun 2024 07:18:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFEgFJzPhPL9AfxoVR1rmqk6GbXBxcYfuvjBNWJrBUiacSd3hziDK5FPsK0p/sHN42elFxnZg==
-X-Received: by 2002:a05:6830:1306:b0:6f9:b071:28c6 with SMTP id
- 46e09a7af769-6f9b07129eamr776339a34.18.1717942695725; 
- Sun, 09 Jun 2024 07:18:15 -0700 (PDT)
-Received: from pollux.localdomain ([2a02:810d:4b3f:ee94:34d8:5ea8:12d:c9ae])
- by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-6f97eb7c200sm513850a34.20.2024.06.09.07.18.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Jun 2024 07:18:15 -0700 (PDT)
-Date: Sun, 9 Jun 2024 16:18:09 +0200
-From: Danilo Krummrich <dakr@redhat.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: Rob Herring <robh@kernel.org>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, ojeda@kernel.org, alex.gaynor@gmail.com,
- wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
- bjorn3_gh@protonmail.com, benno.lossin@proton.me,
- a.hindborg@samsung.com, aliceryhl@google.com,
- fujita.tomonori@gmail.com, pstanner@redhat.com, ajanulgu@redhat.com,
- lyude@redhat.com, gregkh@linuxfoundation.org,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Subject: Re: [RFC PATCH 3/8] rust: drm: Add Device and Driver abstractions
-Message-ID: <ZmW5oT7knQh9nKeD@pollux.localdomain>
-References: <20240520172059.181256-1-dakr@redhat.com>
- <20240520172059.181256-4-dakr@redhat.com>
- <20240521212333.GA731457-robh@kernel.org>
- <641bda93-35f3-429e-b627-a9485505b6bf@asahilina.net>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFA2310E088
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Jun 2024 16:12:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1717949538; x=1749485538;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=Gw+qndGHPl4x+vHVL/0pw3/FQpdoCXyiuR2EuwIYGE0=;
+ b=Z2ivZgEbh2DqvzMHykQ0GedK+nly9NwWdfs9Z7XURNc71fhRvUh74XVD
+ CkjJO/8LMXdiBkJ8KXvdXRucH5MXrn6Xd9unzbDUM4L1fzhDL2powz04B
+ Gx9pQaMBz8JaCpAMQrjtiIIbBQWEFPHdrHiXmz8qknciUq5ptm5lLeUZw
+ /YRUZXK155RksHr6DOgTBGXTzID02N9nqRS/Ut0Kt6X3J7oZN5DTNn5fv
+ IPd+kQGQqv3VBFPSSX8cTwPKbNMUvDfc3uWuvOb8hFA3UvH6d4aeyy0FG
+ KxQALJXyb9TB/pzuEe0DrIvMwxvFkUBJmAnXdO4RLD3iKEtChgKQmaFBf A==;
+X-CSE-ConnectionGUID: e8C8YAlZQDubyv2SL6zxKw==
+X-CSE-MsgGUID: 1AN5NBXzQtC0/nMWIKamTw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="14350810"
+X-IronPort-AV: E=Sophos;i="6.08,225,1712646000"; d="scan'208";a="14350810"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2024 09:12:17 -0700
+X-CSE-ConnectionGUID: GgnyuSvqT0mhOwPjfUJjFA==
+X-CSE-MsgGUID: UV2Tw9h4R56Qn0NDQQUbnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,225,1712646000"; d="scan'208";a="43957576"
+Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
+ by orviesa004.jf.intel.com with ESMTP; 09 Jun 2024 09:12:17 -0700
+Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sGL9S-0001PE-1M;
+ Sun, 09 Jun 2024 16:12:14 +0000
+Date: Mon, 10 Jun 2024 00:12:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Philipp Stanner <pstanner@redhat.com>
+Subject: [drm-misc:topic/rust-drm 11/20] error: expected one of `:`, `@`, or
+ `|`, found `paddr`
+Message-ID: <202406100042.hx2LJmfc-lkp@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <641bda93-35f3-429e-b627-a9485505b6bf@asahilina.net>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,87 +68,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lina,
+tree:   git://anongit.freedesktop.org/drm/drm-misc topic/rust-drm
+head:   508348922df19178b613531fb6cc7beb624642ae
+commit: e98a3de09cfc9fae923c259a48e3622cc2a6bb2e [11/20] rust: add devres abstraction
+config: riscv-randconfig-r121-20240609 (https://download.01.org/0day-ci/archive/20240610/202406100042.hx2LJmfc-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce: (https://download.01.org/0day-ci/archive/20240610/202406100042.hx2LJmfc-lkp@intel.com/reproduce)
 
-Welcome back!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406100042.hx2LJmfc-lkp@intel.com/
 
-On Sun, Jun 09, 2024 at 02:15:57PM +0900, Asahi Lina wrote:
-> 
-> 
-> On 5/22/24 6:23 AM, Rob Herring wrote:
-> > On Mon, May 20, 2024 at 07:20:50PM +0200, Danilo Krummrich wrote:
-> >> From: Asahi Lina <lina@asahilina.net>
-> > This is missing an entry for DRIVER_GEM_GPUVA. And some others perhaps. 
-> > I suppose some are legacy which won't be needed any time soon if ever. 
-> > Not sure if you intend for this to be complete, or you are just adding 
-> > what you are using? Only FEAT_GEM is used by nova ATM.
-> > 
-> 
-> This was developed before DRIVER_GEM_GPUVA existed ^^
-> 
-> I have this in my branch since I'm using the GPUVA manager now. Danilo,
-> what tree are you using for this submission? It would be good to
-> coordinate this and try to keep the WIP branches from diverging too much...
+All errors (new ones prefixed by >>):
 
-Trying to prevent things from diverging was one of my main objectives when I
-started those efforts a couple of month ago (I also sent you a mail for that
-purpose back then).
+>> error: expected one of `:`, `@`, or `|`, found `paddr`
+   --> rust/doctests_kernel_generated.rs:793:18
+   |
+   793 |     fn new(usize paddr, usize len) -> Result<Self>{
+   |            ------^^^^^
+   |            |     |
+   |            |     expected one of `:`, `@`, or `|`
+   |            help: declare the type after the parameter binding: `<identifier>: <type>`
+--
+>> error: expected one of `:`, `@`, or `|`, found `len`
+   --> rust/doctests_kernel_generated.rs:793:31
+   |
+   793 |     fn new(usize paddr, usize len) -> Result<Self>{
+   |                         ------^^^
+   |                         |     |
+   |                         |     expected one of `:`, `@`, or `|`
+   |                         help: declare the type after the parameter binding: `<identifier>: <type>`
+--
+>> error[E0412]: cannot find type `IoMem` in this scope
+   --> rust/doctests_kernel_generated.rs:790:16
+   |
+   790 | struct IoRemap(IoMem);
+   |                ^^^^^ not found in this scope
+--
+>> error[E0405]: cannot find trait `Deref` in this scope
+   --> rust/doctests_kernel_generated.rs:808:6
+   |
+   808 | impl Deref for IoRemap {
+   |      ^^^^^ not found in this scope
+   |
+   help: consider importing this trait
+   |
+   3   + use core::ops::Deref;
+   |
+--
+>> error[E0412]: cannot find type `IoMem` in this scope
+   --> rust/doctests_kernel_generated.rs:809:18
+   |
+   809 |    type Target = IoMem;
+   |                  ^^^^^ not found in this scope
+--
+>> error[E0425]: cannot find value `dev` in this scope
+   --> rust/doctests_kernel_generated.rs:816:26
+   |
+   816 | let devres = Devres::new(dev, IoRemap::new(0xBAAAAAAD, 0x4)?, GFP_KERNEL)?;
+   |                          ^^^ not found in this scope
+--
+>> error[E0433]: failed to resolve: use of undeclared type `IoMem`
+   --> rust/doctests_kernel_generated.rs:796:21
+   |
+   796 |         let iomem = IoMem::new(addr, len)?;
+   |                     ^^^^^ use of undeclared type `IoMem`
 
-I am maintaining a couple of branches:
-
-In the RfL repository [1]:
-
-  - staging/rust-device [2] (Device / driver, devres infrastructure)
-  - staging/dev [3] (common branch containing all the Rust infrastructure I'm
-    currently upstreaming, including PCI and firmware abstractions)
-
-In the drm-misc repository [4]:
-  - topic/rust-drm [5] (all the DRM abstractions)
-
-In the Nova repository [6]
-  - nova-next [7] (the Nova stub driver making use of everything)
-
-I regularly rebase those branches and keep them up to date with improvements and
-feedback from the mailing list.
-
-The device / driver and PCI abstractions are getting most of my attention
-currently, but there are some recent changes (besides some minor ones) on the
-DRM abstractions I plan to send in a v2 as well:
-
-- static const allocation of driver and fops structures
-- rework of the `Registration` type to use `Devres` and combine the new() and
-  register() methods to register in new() already
-
-There is also some more information regarding those branches in the cover
-letters of the series and the links included there.
-
-[1] https://github.com/Rust-for-Linux/linux
-[2] https://github.com/Rust-for-Linux/linux/tree/staging/rust-device
-[3] https://github.com/Rust-for-Linux/linux/tree/staging/dev
-[4] https://gitlab.freedesktop.org/drm/misc/kernel
-[5] https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/topic/rust-drm
-[6] https://gitlab.freedesktop.org/drm/nova
-[7] https://gitlab.freedesktop.org/drm/nova/-/tree/nova-next
-
-> 
-> That said, I don't think there's reason to support all features unless
-> we expect new drivers to actually use them. The goal of the abstractions
-> is to serve the drivers that will use them, and to evolve together with
-> them and any newer drivers, not to attempt to be feature-complete from
-> the get go (it's very difficult to evaluate an abstraction if it has no
-> users!). In general my approach when writing them was to abstract what I
-> need and add "obvious" extra trivial features that didn't require much
-> thought even if I wasn't using them, but otherwise not attempt to
-> comprehensively cover everything.
-
-Fully agree, I think the point here only was whether we want to list all the
-feature flags in the abstraction already. Which I think is something we can do.
-However, I'm also find with only listing the ones we actually use and keep
-adding further ones subsequently. It just shouldn't be random.
-
-- Danilo
-
-> 
-> ~~ Lina
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
