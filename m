@@ -2,79 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09ED2901458
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jun 2024 05:21:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4056E90145C
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jun 2024 05:24:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BA7310E07F;
-	Sun,  9 Jun 2024 03:21:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA26B10E0CE;
+	Sun,  9 Jun 2024 03:24:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="jjShpw3V";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="BKk+ta52";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="MSJPQ9QI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1617410E07F
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Jun 2024 03:21:54 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4592tca9017723;
- Sun, 9 Jun 2024 03:21:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=ttBDnNrJ1VtoKayVqkZENq
- mRz4BVnQPpqHRLUfpOiz4=; b=jjShpw3VEbwasdlm4drFhBVRszGlVEShbFd+bR
- UaD1Tqw/0Avp1Mp3iAB7Avmi320EG39jUsjON7FTy2zCeYQNZUKc4Z4ZswK1BE3Q
- kW+vHBJz9z4uwlWVsaLqMc8XuZeiwwLU5b2z6OgbUxIy9IdN27lNvxjOUw7i+M/w
- OGFazQhzy1FaxxC7MNO34XXEGYEMGz5RRd1EECB2AQ2FHMHdpU97L3sFZw02RM/V
- oLJT0CcpFAjW8rMz23cy5JXzmgpfoM8rbVfBI1eNs1DF3xz4QFeSxvU5tLw6Y375
- CENAWc9CSFogMLkdAUKRCUsCjVouzDBH43fjv2twxqtkDQhw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ymcnmscxg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 09 Jun 2024 03:21:52 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 4593LpTi017650
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 9 Jun 2024 03:21:51 GMT
-Received: from [169.254.0.1] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sat, 8 Jun 2024
- 20:21:50 -0700
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Date: Sat, 8 Jun 2024 20:21:47 -0700
-Subject: [PATCH] staging: fbtft: add missing MODULE_DESCRIPTION() macro
+Received: from fhigh4-smtp.messagingengine.com
+ (fhigh4-smtp.messagingengine.com [103.168.172.155])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D308D10E0CE
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Jun 2024 03:24:25 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailfhigh.nyi.internal (Postfix) with ESMTP id 0988C11400D1;
+ Sat,  8 Jun 2024 23:24:25 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+ by compute5.internal (MEProxy); Sat, 08 Jun 2024 23:24:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+ h=cc:cc:content-type:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:subject:subject:to:to; s=fm1; t=1717903465; x=
+ 1717989865; bh=nnBF7siKGaRQDQ6aerGHINxyaNRt/yxBE7c3TRJUhFM=; b=B
+ Kk+ta5222eQf5DPK6prPs526sbG4F9QQTCVQBti/nP9PviQFHjz0INVPa0xfYyxT
+ TmEOXDj5cHbBEm2L+vF9nOmJKmmrAgnTE4NV+I4Xbms5JkY8AQA9ilpdNBJ5ZEMd
+ F7y/b2e+FkqP5wA1cYgbETAlVtM5rZTsSBoR8XGVaYKRD2twTSLJeH0ilDHFM+qF
+ LivXdyG4G6SB5kpU6EPPj8k2OmE7ln8pxG9mPngc/TFeMuD6Pm/4x75jpIHxC2Jl
+ zlrP1z1gHnJzEfz3c4mk0E9o7v6SrfO6IUaseWy/VC3Xwc1JuJea56IeQtWRA8oM
+ 2kBobGhIxLeyuglX9bhgw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1717903465; x=1717989865; bh=nnBF7siKGaRQDQ6aerGHINxyaNRt
+ /yxBE7c3TRJUhFM=; b=MSJPQ9QIlr4ygV7QNPN/Si+UtkH4CfcjUk6xsLe1iWPM
+ 24+i3srzRiBYYATw0pStvQQEILTBd++Fdr4AbTO9HwG8R9/Imx/KwjL/Bq1DHnp1
+ CKBht0eNMs3U/55FO06Ne8mAchgaJ/Cs1+rF6jS/OycoAiS37FyzixCqR+JjI2V1
+ xhlXwWJrTteNT5kDVB4eB342Bxjvt3UBlJWPD+3PsNLDm815PhDbZc7q6wpiciVm
+ X8nhibMHKRpzPWGbSX0qaDE1NDXlxXGVWu/lECR+CXRJMjV3jy/A4Knt9j3ZBADl
+ EtscSd9EbDjnf9dlwF4eKaTXeljae5DVSAgW2MGpog==
+X-ME-Sender: <xms:aCBlZtzq4Iej0v4z0pQjzmzACck0ZpOueps8_w-52nD-H8dlWsztjw>
+ <xme:aCBlZtTDi4Cx9A8tvsGOaBgxc0DRC1IZj2fewqtW_0LLx7tBBbC0WEMcR17mAoNAE
+ HxI-yRcp3Uw84TSew>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedthedgieejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftfih
+ rghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecugg
+ ftrfgrthhtvghrnhephedvveeigedujeeufeegffehhfffveduhfeijefgtdffteelgfet
+ ueevieduieejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+ homheprhihrghnsehtvghsthhtohgrshhtrdgtohhm
+X-ME-Proxy: <xmx:aCBlZnUxQ6Q07T376-AdZt-Uig0J_aza8YikRTZJvMoc1VdcJgtdDg>
+ <xmx:aCBlZviYyqHmD7U2d-9mB8KUiHza5XZPWhqhxuSUb-SG25-EnwE4qA>
+ <xmx:aCBlZvC1lTmxvNjqAm9661U-860GiTz7yShZUw-kxMNHRQvhPvkbNw>
+ <xmx:aCBlZoKzWmCsCEHPSYV5pu-pZ4cOlqGoP2Df6ms-iKUtIg7ZAG-ODg>
+ <xmx:aCBlZuAgU3Vzt00mK_NWRLSxA907WXH6k4uFtXtTpebV7EOg6K5EatSb>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id A6403A60078; Sat,  8 Jun 2024 23:24:24 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-497-g97f96844c-fm-20240526.001-g97f96844
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240608-md-drivers-staging-fbtft-v1-1-e2ab70ec0614@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAMofZWYC/x3MTQrCQAxA4auUrA3Esah4FXExP5lpwI6SjKVQe
- ndHl9/ivQ2MVdjgNmygvIjJq3YcDwPEydfCKKkbHLmRznTFOWFSWVgNrfkitWAOLTcMFzdm8hT
- 5RNDzt3KW9b++P7qDN8agvsbpN3xK/aw4e2ussO9f47ZdeYkAAAA=
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: <dri-devel@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>,
- <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <kernel-janitors@vger.kernel.org>, Jeff Johnson <quic_jjohnson@quicinc.com>
-X-Mailer: b4 0.13.0
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Xriwx20r_k3tyIc2PdBzYDtUn9HkFHRL
-X-Proofpoint-ORIG-GUID: Xriwx20r_k3tyIc2PdBzYDtUn9HkFHRL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-08_16,2024-06-06_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- impostorscore=0 clxscore=1011 adultscore=0 phishscore=0 spamscore=0
- priorityscore=1501 malwarescore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406090025
+Message-Id: <11376802-7c04-4779-9dac-f41301a64b60@app.fastmail.com>
+In-Reply-To: <20240607153250.51906e89@donnerap.manchester.arm.com>
+References: <20240607110227.49848-1-ryan@testtoast.com>
+ <20240607110227.49848-8-ryan@testtoast.com>
+ <20240607153250.51906e89@donnerap.manchester.arm.com>
+Date: Sun, 09 Jun 2024 15:24:03 +1200
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Andre Przywara" <andre.przywara@arm.com>
+Cc: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Michael Turquette" <mturquette@baylibre.com>,
+ "Stephen Boyd" <sboyd@kernel.org>, "Chris Morgan" <macroalpha82@gmail.com>,
+ "John Watts" <contact@jookia.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH RFC 7/8] drm/sun4i: de3: Implement AFBC support
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,28 +105,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-make allmodconfig && make W=1 C=1 reports:
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/fbtft/fbtft.o
+On Sat, 8 Jun 2024, at 2:32 AM, Andre Przywara wrote:
 
-Add the missing invocation of the MODULE_DESCRIPTION() macro.
+>> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
----
- drivers/staging/fbtft/fbtft-core.c | 1 +
- 1 file changed, 1 insertion(+)
+> This signature suggests that it's indeed Jernej's patch, so it should
+> have his authorship, as in the other patches, indicated by a line starting
+> with "From:" before the commit message.
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index c8d52c63d79f..8e2fd0c0fee2 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -1276,4 +1276,5 @@ void fbtft_remove_common(struct device *dev, struct fb_info *info)
- }
- EXPORT_SYMBOL(fbtft_remove_common);
- 
-+MODULE_DESCRIPTION("Core FB support for small TFT LCD display modules");
- MODULE_LICENSE("GPL");
+Thanks Andre, no this is Jernej's work, I have simply minimally refactored to as cleanly as possible just support the DE33 with this set, and added the device-tree binding docs. My mistake in my git client pulling in his patches, will correct authorship for v2.
 
----
-base-commit: 19ca0d8a433ff37018f9429f7e7739e9f3d3d2b4
-change-id: 20240608-md-drivers-staging-fbtft-b724f0a0ce30
+> "Co-developed-by:" is only used if the patch really has two authors, both
+> having contributed significantly to the patch.
+> If you merely post a patch from someone else, then it just needs your
+> Signed-off-by, as you correctly do below.
+>
+> That applies to the other patches as well.
 
+Thanks, noted. Will correct in v2.
+
+> Cheers,
+> Andre
+
+Regards,
+
+Ryan
