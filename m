@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1B3902044
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 13:23:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4535D902072
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 13:37:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4E5B10E3D8;
-	Mon, 10 Jun 2024 11:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A13E310E450;
+	Mon, 10 Jun 2024 11:37:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dfcb4ZPx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UAihqqsn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CA7F10E3D8
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 11:23:07 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D363A10E42D
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 11:37:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 8B533CE1250;
- Mon, 10 Jun 2024 11:23:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80378C2BBFC;
- Mon, 10 Jun 2024 11:23:04 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2ABB260A1C;
+ Mon, 10 Jun 2024 11:37:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DA96C4AF1C;
+ Mon, 10 Jun 2024 11:37:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718018584;
- bh=xowKy7ttHfMUaUM+uHdbEw6XGE6pguNqiKHZGtqPbXQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dfcb4ZPx8lK0+yp2nxm1VEMH6eyt0gArCyyHnUbzNGjuRrzqbsdAmQsMjiAZJE6ge
- UuagH0heWS4ky5pn9iyhGhy0nKJEZSK3GWXOVvPjW+k4EUeZeYHU3ckiUkjN5GwyJO
- SQPVrxLOq9Sea2uwSeHBbF3SOQI57J6wKx/nnrodhkUddRp829osEuX+GV1WDUExHi
- HoAetAhuiNOaj/2A/bZ+aSRfGjEvIjYN/jZLHP7G+BmQPZAuofNaRdvvMP9d55d02o
- S9Xjot9PhoTDl5XTR47sacTcAG0qKEYsaCzqbTMNIHm/AVlzAGGYIZf4+TrXAKNKmY
- 8VH7UukUcdffA==
-Date: Mon, 10 Jun 2024 13:23:02 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Adam Miotk <adam.miotk@arm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
+ s=k20201202; t=1718019452;
+ bh=W5QzFncy0sUTy2B+uXEQTMtsMrR22hJS0osVxJ7jZF8=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=UAihqqsn0XnGRCucJWFCNxmRvk8TZlo++RhoqeW6SiLXJW3f/EIFyyKSJUNWNC9ak
+ /Iq6ALFJZhvYeOIa9kh24gOnK3/HCqMMyFldZQSrSjjhYpYCB7XOYzr/wUC8PuQ/8w
+ c99nxitWMQCtKSJj2K/FXdI+hbKiNYCWIs76EfqAzhFX/DA+mFBzbF687jJARrHRD5
+ +fsOLl43LeJCWZPGEy95l7d5s6xLw0/ibmN2a2lOEiMRD36izWJo1qx7ic5KQg6dMz
+ EbCW8a0Wmke49XVE3Iots7qdCl71BlQ+QPqg+pC5YD8Ary1mROmWlBgjHJhvU2k0FK
+ MyGxsWuojx2wg==
+From: Robert Foss <rfoss@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Smitha T Murthy <smitha.tmurthy@arm.com>, Deepak Pandey <deepak.pandey@arm.com>
-Subject: Re: [PATCH] drm/bridge/panel: Fix runtime warning on panel bridge
- release
-Message-ID: <20240610-gigantic-devious-tuna-e8a4e8@houat>
-References: <20240610102739.139852-1-adam.miotk@arm.com>
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, 
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel-janitors@vger.kernel.org
+In-Reply-To: <6c8c6746-34e2-4a97-9dff-622ed29071e9@kili.mountain>
+References: <6c8c6746-34e2-4a97-9dff-622ed29071e9@kili.mountain>
+Subject: Re: [PATCH v2] drm/bridge: it6505: remove unnecessary NULL checks
+Message-Id: <171801944880.382402.4293639602145071155.b4-ty@kernel.org>
+Date: Mon, 10 Jun 2024 13:37:28 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="cz6p5zxgrj6zwsge"
-Content-Disposition: inline
-In-Reply-To: <20240610102739.139852-1-adam.miotk@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,38 +66,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 10 Jun 2024 13:50:26 +0300, Dan Carpenter wrote:
+> Smatch complains correctly that the NULL checking isn't consistent:
+> 
+>     drivers/gpu/drm/bridge/ite-it6505.c:2583 it6505_poweron()
+>     error: we previously assumed 'pdata->pwr18' could be null
+>     (see line 2569)
+> 
+> These the ->pwr18 pointer is allocated during probe using the
+> devm_regulator_get() function.  If CONFIG_REGULATOR is disabled then,
+> yes, it can return NULL but in that case regulator_enable() and
+> disable() functions are no-ops so passing a NULL pointer is okay.
+> 
+> [...]
 
---cz6p5zxgrj6zwsge
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied, thanks!
 
-On Mon, Jun 10, 2024 at 11:27:39AM GMT, Adam Miotk wrote:
-> Device managed panel bridge wrappers are created by calling to
-> drm_panel_bridge_add_typed() and registering a release handler for
-> clean-up when the device gets unbound.
->=20
-> Since the memory for this bridge is also managed and linked to the panel
-> device, the release function should not try to free that memory.
-> Moreover, the call to devm_kfree() inside drm_panel_bridge_remove() will
-> fail in this case and emit a warning because the panel bridge resource
-> is no longer on the device resources list (it has been removed from
-> there before the call to release handlers).
->=20
-> Signed-off-by: Adam Miotk <adam.miotk@arm.com>
+[1/1] drm/bridge: it6505: remove unnecessary NULL checks
+      (no commit info)
 
-I've added a Fixes tag and applied to drm-misc-fixes, thanks!
-Maxime
 
---cz6p5zxgrj6zwsge
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+Rob
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZmbiFQAKCRDj7w1vZxhR
-xXDaAQCXTckO6Gt0AQM1LwNgDv8fB3Wis8cB4feQmE+ZtENTUQEAzZxNfc0dd2KH
-uUb331tpnU9u+D8haTTvx1aghreDcwo=
-=LhxN
------END PGP SIGNATURE-----
-
---cz6p5zxgrj6zwsge--
