@@ -2,73 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F9C9026C0
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 18:31:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7FEC9026C9
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 18:32:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 305E110E4E4;
-	Mon, 10 Jun 2024 16:31:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F2CA10E458;
+	Mon, 10 Jun 2024 16:32:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="DdW58JSG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Iwa32bmP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71C4110E4BB
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 16:31:51 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-4217f072531so2117255e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 09:31:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1718037109; x=1718641909; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=umjRP2/zEj1A5mFWXkSTHOPLPxcqaH01cnfd4oJRQps=;
- b=DdW58JSGTD0J75de3QfTdKaFbqP36qjqmcibOz8UPocJmH2VdTfMhc1ltGF2ENf/M7
- 5vr0ksCdKxZaBlvFxKMfT6IXSn2wefnVqwBYowKZLX6gpz5vYyqpN6o2fg8mVT0riFDw
- 80737MzBVjT7bv1dQmBqzDglJtzQOemDJk0vM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718037109; x=1718641909;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=umjRP2/zEj1A5mFWXkSTHOPLPxcqaH01cnfd4oJRQps=;
- b=N2DeYI9lUyffcvAw7bEPW/w+w1OjH2HcavQQZED+Ny5uTnC+Q7KWjh9TiUs3Cwkn8t
- lmuOI03nqGIIxrSsNeVnnzg+yFcyWMklJLqfUF00oEBvYYY+lce3OrmmnOCKVqjWegV5
- GVEXCTTi4sSDN4xW8NxAmtQJ3kyBPI6apCoEBf/HPeZwAhobR+5B3129kObnsWSlARSg
- YSZ/Y3ZNgkw/z/58ukeNxoD7X+TqQAg8eEWwxNPrmEN7q+i8zu2ZY0lHbJJnVYkfvAAA
- FCjYNMCIJIR9CxsguGUxTdwpKgOWMbH/g9YSugi9KYB6qdq2D6kn6HAP33Oa+63jToaE
- dzJA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUqsiKR8Q7OS/oCl1ztG4bTnxJWpKYkIPnLTle//XvFWFUoJZkcAJJMSJS7PD3eoVmukiIDNCCorzN6EJkRDwW9AIEsoz3OOAPU8QyBMli2
-X-Gm-Message-State: AOJu0YxElyvL7BqkF6vrof9HFncWDJgl2NhFpuomG/aWEeCXCK5d9tUW
- /RVKgTLnHF60ZE4utdQrueSuYYxPob9mH64D5dOjZOh7OXhRTBUfalWv0wJ5RvQ=
-X-Google-Smtp-Source: AGHT+IHrfMDOID53yYkgC9EYW1+HGcIufOzSyvlgT4qeSasoA0OoL0gvr+z1sWUIIDO/t0oSl7C07Q==
-X-Received: by 2002:a05:6000:1ac7:b0:35f:229e:9c6d with SMTP id
- ffacd0b85a97d-35f229e9eafmr3256027f8f.6.1718037109389; 
- Mon, 10 Jun 2024 09:31:49 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-35f2774bb64sm1925642f8f.103.2024.06.10.09.31.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jun 2024 09:31:49 -0700 (PDT)
-Date: Mon, 10 Jun 2024 18:31:46 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com,
- ltuikov89@gmail.com, matthew.brost@intel.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
- rostedt@goodmis.org
-Subject: Re: [PATCH v4 0/3] Improve gpu_scheduler trace events
-Message-ID: <Zmcqci2xjmfp9UCo@phenom.ffwll.local>
-References: <20240610132707.61404-1-pierre-eric.pelloux-prayer@amd.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3FE310E458
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 16:32:38 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 37D8CCE16B8;
+ Mon, 10 Jun 2024 16:32:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E2D9C2BBFC;
+ Mon, 10 Jun 2024 16:32:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718037153;
+ bh=t3huLbYF+iqIvyjBa2Lrl3w5SrJDDUFNPpkhxQFR8lE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Iwa32bmP1FleUw+0UYiDwS1tt+D4BxK7bOYhNs/ktjU28WW/ryG8MQ3gjjilliHDC
+ rrcwcHYjJwE5SqfJMbNveCT4SwsMBYEFhHsZtM+sweE290C2KlhwKByytFl9aqiwxx
+ 9NCgVlT+0vhqFFJhNYg6B4wVvrhGMPVBExNKmST18i82qUIQas7Ozc+QE6+U4Gd5FU
+ RJK9RLAbVz/E4S/ks6fIi8fHABIUDKpUJDoAGVV0scmUSFKLIoVHw6rI9j/AlwRri0
+ 4+GR87IyfXBEN38PzAjtPUXvpsEqaPXI831o0177KxHP52BX/9V2pD2yu5KXXeoMUl
+ fZ43wlAmvr7yw==
+Date: Mon, 10 Jun 2024 17:32:27 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Andre Przywara <andre.przywara@arm.com>,
+ Chris Morgan <macroalpha82@gmail.com>,
+ John Watts <contact@jookia.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH RFC 1/8] dt-bindings: bus: allwinner: add H616 DE33
+ bindings
+Message-ID: <20240610-morbidity-slum-d733494f1939@spud>
+References: <20240607110227.49848-1-ryan@testtoast.com>
+ <20240607110227.49848-2-ryan@testtoast.com>
+ <20240607-gag-radiantly-37bc3ac76907@spud>
+ <e9e7a362-c41e-41f8-b6cd-02fbbd16ce8c@app.fastmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="p5IxoNo8buJ/UBHS"
 Content-Disposition: inline
-In-Reply-To: <20240610132707.61404-1-pierre-eric.pelloux-prayer@amd.com>
-X-Operating-System: Linux phenom 6.8.9-amd64 
+In-Reply-To: <e9e7a362-c41e-41f8-b6cd-02fbbd16ce8c@app.fastmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,53 +74,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 10, 2024 at 03:26:53PM +0200, Pierre-Eric Pelloux-Prayer wrote:
-> v3: https://lists.freedesktop.org/archives/dri-devel/2024-June/456792.html
-> 
-> Changes since v3:
-> * trace device name instead of drm_device primary index
-> * no pointer deref in the TP_printk anymore. Instead the fence context/seqno
-> are saved in TP_fast_assign
 
-Some high-level comments:
+--p5IxoNo8buJ/UBHS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-- Quick summary of the what, why and how in the cover letter would be
-  great.
+On Sun, Jun 09, 2024 at 03:19:55PM +1200, Ryan Walklin wrote:
+> On Sat, 8 Jun 2024, at 2:23 AM, Conor Dooley wrote:
 
-- Link to the userspace, once you have that. At least last time we chatted
-  that was still wip.
+> >> +      - const: allwinner,sun50i-h616-de33-clk
+> >
+> > I think this is not right, as a corresponding driver change is missing.
+> > Either you're missing a clock driver patch or you didn't test your dts.
+>=20
+> The clock driver patch with this compatible string is in patch 8/8.
 
-- Maybe most important to make this actually work, work well, and work
-  long-term: I think we should clearly commit to these tracepoints being
-  stable uapi, and document that by adding a stable tracepoint section in
-  the drm uapi book.
+Ahh, I didn't notice that " drm: sun4i: add Display Engine 3.3 (DE33)
+support" had a clk driver. That needs to go into a patch of its own.
 
-  And then get acks from a pile of driver maintainers that they really
-  think this is a good idea and has a future. Should also help with
-  getting good review on the tracepoints themselves.
+--p5IxoNo8buJ/UBHS
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  Otherwise I fear we'll miss the mark again and still force userspace to
-  hand-roll tracing for every driver, or maybe worse, even specific kernel
-  versions.
+-----BEGIN PGP SIGNATURE-----
 
-Cheers, Sima
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZmcqmwAKCRB4tDGHoIJi
+0tu7AQCo8gZn4juYCM25OwzfJQq7/23ZcuOT80PyC9J9xBK+qQEA/EVLDLvMiLow
+eaJLi+JsbSGZdPTSG/nuSu8+I+D9eQc=
+=1+Ai
+-----END PGP SIGNATURE-----
 
-> 
-> Pierre-Eric Pelloux-Prayer (3):
->   drm/sched: add device name to the drm_sched_process_job event
->   drm/sched: cleanup gpu_scheduler trace events
->   drm/sched: trace dependencies for gpu jobs
-> 
->  .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 97 +++++++++++++++----
->  drivers/gpu/drm/scheduler/sched_entity.c      |  8 +-
->  drivers/gpu/drm/scheduler/sched_main.c        |  2 +-
->  3 files changed, 84 insertions(+), 23 deletions(-)
-> 
-> -- 
-> 2.40.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--p5IxoNo8buJ/UBHS--
