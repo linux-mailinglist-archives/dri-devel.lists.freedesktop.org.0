@@ -2,77 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24243901B44
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 08:31:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2768E901B4A
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 08:33:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1667610E09C;
-	Mon, 10 Jun 2024 06:31:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7D5210E2DD;
+	Mon, 10 Jun 2024 06:33:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nn2zxkYh";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YvMmvK0K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
- [209.85.208.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D10C510E2D1
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 06:31:32 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-2ebe0a81dc8so10129531fa.2
- for <dri-devel@lists.freedesktop.org>; Sun, 09 Jun 2024 23:31:32 -0700 (PDT)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com
+ [209.85.222.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8087F10E2DD
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 06:33:23 +0000 (UTC)
+Received: by mail-ua1-f43.google.com with SMTP id
+ a1e0cc1a2514c-80b8a6ef2fbso366180241.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 09 Jun 2024 23:33:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718001091; x=1718605891; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=0foBbzkj/yZAJLvDMQGWe5daB0oiOZ9HEzG6T9Jt6MY=;
- b=nn2zxkYh46Lpp1qqSlPzUaynW6NSr3R+HVUkLe7fwjhDbi5KwBxhwRsLrBUqd3QIXV
- cGaxcIRuInVYIrXBBmxBiqc6iDgYqxgSy0Pi/vw4K/m1wjsgCpMUWktqCRhFSBygPewJ
- ChrrMpfXtPuPMYX/Yg6vsoDA4OshaMxt6WTilsgHNDAzW9+bTN3ke6WTCewAnV3uq1aV
- 4QpgYg0ODcPmn3jCol9vv3zs5OoRpjYqhk/RSCb28HhCd3BOV9HGMxx8PoLWqJbnlhWb
- 2nf4v/iUlmxe+d3YVT0yg2Jsv435qH5mAtOAhp36CSvmfgCZBA5rac8Yzp/vxOvM2rCl
- au6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718001091; x=1718605891;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1718001202; x=1718606002; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0foBbzkj/yZAJLvDMQGWe5daB0oiOZ9HEzG6T9Jt6MY=;
- b=axILcC3CWLwDX8WAS7/E+ZwT7DG8jkHsaYpD3HZJg235SdMxtrubXPepdJuaHQRERm
- Nlm1is+rutSg0ktcLgVxUJi5xCI/gToiJStZ5qnSoA5c1FfYv4K++pKqQMulq9SAjjt1
- EwYxgFClkELsJFDch5F+K1StkNj6JQkogKDm6jAGS+gF0fpQsIeg9K0jLp1f/OoMNjfa
- mca4Iw/TSZ7cl8z9ezcNnMYhdndxS9FVS9L7bJqerJ2/TLxlohhifwtzusHoG56jrlcA
- 0b6PRiLXrwDLJekkaEdIo+bDUC6fGqDoHASzddqeykJ+pNzFmf0fjx+NvY5kkkVS7Kk+
- N6hA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVHdPieQV9jB+Q1DfA1BLpxc7vXJP5sBDCNjvATH0/ztZCb1tc/fa60iQdvjgdvSQMAwz5ssRBrGRWzMJJFGtBm1Xw+YrYcDrSXNoP8Zht8
-X-Gm-Message-State: AOJu0YzGuK4fI4e9oDEScdewZCaxB+MITzNtKkG3jxIv2lNM3rQQ+2Eg
- v3zqSIvUbtmBfQECMZ11Pv1NdjG/yRvRXZSaciZ+/dR6FpyqTY9KLnc3rQsSkCg=
-X-Google-Smtp-Source: AGHT+IEbjxnLFduuLjONOUTvHtbpIgLNsmw/X8E0xtaG1CKGLDAlODB+2oaqYGwqaaw0WtMBz4VOhA==
-X-Received: by 2002:a05:651c:1042:b0:2eb:d5a9:40fd with SMTP id
- 38308e7fff4ca-2ebd5a942d2mr39653051fa.53.1718001090636; 
- Sun, 09 Jun 2024 23:31:30 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ebe673fe28sm4103891fa.53.2024.06.09.23.31.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Jun 2024 23:31:30 -0700 (PDT)
-Date: Mon, 10 Jun 2024 09:31:28 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Kiarash Hajian <kiarash8112hajian@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/a6xx: request memory region
-Message-ID: <oa62wijdvxhcoamynii2szxaxfmutkzup5djstgqzrfe4sjizu@vnz73mhhlgss>
-References: <20240608-adreno-v1-1-2e470480eee7@gmail.com>
+ bh=WoxL7sxR5fVE2wpf25zkRX1keP/l47DLSwfYmo+1E88=;
+ b=YvMmvK0K9xScucXYbfzt1JdCC27S5Oe2lfcREUQ9ueTk9MZsXoTpGnRJk9vR8EjidX
+ VFb1rht+jVzUB7qT32pp0gwILA2L612dkeCiV8VtzwdmwfRjQjOTLWXwTt8HtGJ/hQ8+
+ GJF67ZczjDoJ2+37ayriZao/jYrsderHtzV2Z/whEmdRiEONOJtmkLlI8mX0ms7XvrYN
+ szQWDFeUOVS75K4xO6LZVYu7Pi1MtOvLeTI1A9377j/9dR+G11xwViaJefwb0rDH13WC
+ lp7Sf887qMSVZCRS1OvY73fRJz5El4SHZeD2dxi3DNNJR8N+vYeM8CInecYJrDUKeir4
+ Qfqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718001202; x=1718606002;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=WoxL7sxR5fVE2wpf25zkRX1keP/l47DLSwfYmo+1E88=;
+ b=exHZnSsiyUvL62WCaIHWvPXAbAku6JBO5UiMC+f3YT87UOEzFf9CSq/RuzN4OPTMqm
+ lIWhSMn8+qptuM+aFhlZKPi5fxE8jcPxXHXFT3vLdSinyixqBQn+SATob/PltbUdzjob
+ e6rf/vVftegZ3viBYONrjAgs0bo1v2yi4QBRwsMDnoQUrdT5mW6gMR3HEdfgqSzikt0P
+ fIM3B61AYveG+ZXr3KeA5oIRCxRv3w/nS2ip75ry8ZD6vYOvvo58LTwmCq3uB5SmzyOx
+ h4jLSOTXAzXVJi1TPU5JSORQL7YgluXeWDFiiQ4zNwfBmKeBKP13W+p6j1Q+OEDaO9xe
+ fyPQ==
+X-Gm-Message-State: AOJu0Yyb3zv41LAB8Zc/cloXjkVoOBjk/PuXUImdj0/VYgevhEeBf9lm
+ /W2vPEy0TPango1m39pmFSGWuNbES+59z3zta1/TluLJZO+UAWSNvyOKgGAGnvczM9upzln9LHQ
+ A2l+gctZOyc+ihqeopAKgn2g3oIk=
+X-Google-Smtp-Source: AGHT+IE6WwuGJf/J6Plpzhz9jA+n7W7A3UHb9PzPwtd8XmJu4EiIUfbwUKnVPUxp+1oRqDCPDYvJIUTzr/73LsCncVM=
+X-Received: by 2002:a05:6122:c9:b0:4e4:ea87:ec72 with SMTP id
+ 71dfb90a1353d-4eb562bbb38mr6632138e0c.11.1718001202243; Sun, 09 Jun 2024
+ 23:33:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240608-adreno-v1-1-2e470480eee7@gmail.com>
+References: <20240530100154.317683-1-jani.nikula@intel.com>
+In-Reply-To: <20240530100154.317683-1-jani.nikula@intel.com>
+From: Inki Dae <daeinki@gmail.com>
+Date: Mon, 10 Jun 2024 15:32:45 +0900
+Message-ID: <CAAQKjZPWT7=JircaiksP3Wg_1oKRr1xDkznQ1RSoe4jmn12fUw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] drm/exynos/vidi: fix memory leak in .get_modes()
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, sw0312.kim@samsung.com, 
+ kyungmin.park@samsung.com, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,41 +78,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jun 08, 2024 at 11:43:47AM -0400, Kiarash Hajian wrote:
-> The driver's memory regions are currently just ioremap()ed, but not
-> reserved through a request. That's not a bug, but having the request is
-> a little more robust.
-> 
-> Implement the region-request through the corresponding managed
-> devres-function.
-> 
-> Signed-off-by: Kiarash Hajian <kiarash8112hajian@gmail.com>
+Hi Jani Nikula,
+
+The patch(1/4) has been applied to the -fixes branch, and the other
+three patches(2/4 ~ 4/4) have been applied to the -next branch.
+
+Thanks,
+Inki Dae
+
+2024=EB=85=84 5=EC=9B=94 30=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 7:02, J=
+ani Nikula <jani.nikula@intel.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> The duplicated EDID is never freed. Fix it.
+>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > ---
-> Changes in v6:
->     -Fix compile error
->     -Link to v5: https://lore.kernel.org/all/20240607-memory-v1-1-8664f52fc2a1@gmail.com
-> 
-> Changes in v5:
->     - Fix error hanlding problems.
->     - Link to v4: https://lore.kernel.org/r/20240512-msm-adreno-memory-region-v4-1-3881a64088e6@gmail.com
->     
-> Changes in v4:
->     - Combine v3 commits into a singel commit
->     - Link to v3: https://lore.kernel.org/r/20240512-msm-adreno-memory-region-v3-0-0a728ad45010@gmail.com
->     
-> Changes in v3:
->     - Remove redundant devm_iounmap calls, relying on devres for automatic resource cleanup.
->     
-> Changes in v2:
->     - update the subject prefix to "drm/msm/a6xx:", to match the majority of other changes to this file.
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 33 +++++++++++----------------------
->  1 file changed, 11 insertions(+), 22 deletions(-)
-> 
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-
--- 
-With best wishes
-Dmitry
+>  drivers/gpu/drm/exynos/exynos_drm_vidi.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/e=
+xynos/exynos_drm_vidi.c
+> index fab135308b70..11a720fef32b 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+> @@ -309,6 +309,7 @@ static int vidi_get_modes(struct drm_connector *conne=
+ctor)
+>         struct vidi_context *ctx =3D ctx_from_connector(connector);
+>         struct edid *edid;
+>         int edid_len;
+> +       int count;
+>
+>         /*
+>          * the edid data comes from user side and it would be set
+> @@ -328,7 +329,11 @@ static int vidi_get_modes(struct drm_connector *conn=
+ector)
+>
+>         drm_connector_update_edid_property(connector, edid);
+>
+> -       return drm_add_edid_modes(connector, edid);
+> +       count =3D drm_add_edid_modes(connector, edid);
+> +
+> +       kfree(edid);
+> +
+> +       return count;
+>  }
+>
+>  static const struct drm_connector_helper_funcs vidi_connector_helper_fun=
+cs =3D {
+> --
+> 2.39.2
+>
+>
