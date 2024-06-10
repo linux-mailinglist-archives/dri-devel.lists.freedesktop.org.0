@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54420902439
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 16:40:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 516DC9024DD
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 17:02:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5822310E275;
-	Mon, 10 Jun 2024 14:40:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE5C910E21E;
+	Mon, 10 Jun 2024 15:02:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Pf9Q43yE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oVV15ZcK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7508710E275
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 14:40:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0DA889221
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 15:02:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9F63660918;
- Mon, 10 Jun 2024 14:40:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45CACC2BBFC;
- Mon, 10 Jun 2024 14:40:44 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 09A8260AFB
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 15:02:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B3961C4AF49
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 15:02:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718030447;
- bh=yc/dwowaEYBTvrkdMBgKRZV7SmYF1J4czz7n87U4ih8=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=Pf9Q43yENLzdGJDmzw/qCpmJPBmOO5LmQbIHwiY1YxeHCQb7XMkTnDGJjAh7dxjSb
- lCc3htCCUi9cr0cltuQ7sW0zr39CBtI/rmS6YnQQLbR+CZkooiqfehK/barUsAvAkq
- UCQDqT0T51fYru9lP3qKWAH9j6AZGlAh06z4/xjqzDukXXNs2w7yYsHWj0VEC1ahz7
- CDCIVz4hbhIOnjQSH6viozgyWG0E2S6Jx6zmFQfNGIKKUz9a4hmqQMtLw9YX4fa5hD
- Nx7Y/uMwMeBZB6DXCjFc1DPIuzyYLEnQ1BuojNTD5qF8+pz7E6AfnVO3GYwJSZYrZP
- Q1yvgngXUE4nQ==
-From: Robert Foss <rfoss@kernel.org>
-To: linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
- dri-devel@lists.freedesktop.org, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- kuro <kuro.chung@ite.com.tw>, 
- Pin-yen Lin <treapking@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- David Airlie <airlied@gmail.com>, Kenneth Haung <kenneth.hung@ite.com.tw>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Hermes Wu <hermes.wu@ite.com.tw>
-In-Reply-To: <20240604024405.1122488-1-kuro.chung@ite.com.tw>
-References: <20240604024405.1122488-1-kuro.chung@ite.com.tw>
-Subject: Re: [PATCH v1] drm/bridge: it6505: update usleep_range for RC circuit
- charge time
-Message-Id: <171803044399.471764.13517934474897792377.b4-ty@kernel.org>
-Date: Mon, 10 Jun 2024 16:40:43 +0200
+ s=k20201202; t=1718031744;
+ bh=+ZcrhGnz8/qkN9ov5rPqe46YX9loOv5YA0qjdTFBGpo=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=oVV15ZcKzerUI2JqXkKQlrA3uO3IuLHE6qeUFmZQmMYy//Vjj3i6YLxCCJbfhe06a
+ ASRxyOsBuoPOPX4LQfoRXaJOKYMBc1vvXSAapdawXqQDLp+Y0jY7z6fKVSrCi82b86
+ LG4gj5H39FJqTNRHDUT3o2HchvtnYp8C4mtiptjX4geAevEMvT4cTBY5wi8GqJm80K
+ fjrB6ausIqGjuJnrs6PBrA1cwPeANYB0yPMpkzhlWkXTqIBiZ3x2kertJd/pC9YpV1
+ ctpkIItP2KJiohluTnK/l2bpc3j6mk++/HDqqTFMmby8FzqTcu3ETZgrWzbcDuvFlg
+ Chk/a/bjdRa7Q==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id ACB97C53BB7; Mon, 10 Jun 2024 15:02:24 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 218900] amdgpu: Fatal error during GPU init
+Date: Mon, 10 Jun 2024 15:02:24 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: vasant.hegde@amd.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-218900-2300-OAQMDopuW5@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218900-2300@https.bugzilla.kernel.org/>
+References: <bug-218900-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,20 +74,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 4 Jun 2024 10:44:05 +0800, kuro wrote:
-> From: Kuro Chung <kuro.chung@ite.com.tw>
-> 
-> The spec of timing between IVDD/OVDD and SYSRTEN is 10ms, but SYSRSTN RC
-> circuit need at least 25ms for rising time, update for match spec
-> 
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218900
 
-Applied, thanks!
+--- Comment #16 from Vasant Hegde (vasant.hegde@amd.com) ---
+(In reply to Hanabishi from comment #15)
+> (In reply to Vasant Hegde from comment #5)
+> > Created attachment 306364 [details]
+> > Check Enhanced PPR support before enabling PPR
+>=20
+> I applied your patch on top of rc2 and also confirm that it works.
+> Thank you.
 
-[1/1] drm/bridge: it6505: update usleep_range for RC circuit charge time
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=8814444e62b8
+Thanks Hanabishi for testing.
 
+FYI. Patches merged into -rc3.
 
+-Vasant
 
-Rob
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
