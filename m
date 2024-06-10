@@ -2,77 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C0C39026EF
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 18:44:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 824499027D8
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 19:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F88C10E221;
-	Mon, 10 Jun 2024 16:44:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4BE810E0E4;
+	Mon, 10 Jun 2024 17:37:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="JgSgBbdd";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YiC8eGMW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA11110E486
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 16:44:04 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id
- 98e67ed59e1d1-2c2c74d9be0so126096a91.1
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 09:44:04 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3EF910E0F9
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 17:37:15 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-52c6f381434so310568e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 10:37:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1718037844; x=1718642644;
- darn=lists.freedesktop.org; 
+ d=linaro.org; s=google; t=1718041034; x=1718645834; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ZWJrFt56Ba2XKaEKUnUCqUmu/jVW4Te91KO0JGqkT1U=;
- b=JgSgBbddLg6O3d5m0H24dBWHhA0aROhh0SaeMvj3xM6258lEFxgNwDP8PuSdHhItYq
- m7MWuMt2hct7gzm4ePyWeNEbEnMlnrnaWfr7IU8LF4jtdSLHSJsWdTpNs1fs+NoXMr52
- 7SODa8tMYYYgWdBbO9G/YrFenxqnPZ31vwZA5Fjs29NbZ4ICpLQx/RCclpXe5nws5GRz
- Gvzy0DHbtN6oZcrRHW1xmVTlG5ZZ07HBfzwpeYrGOVpgdiV0ZXOPx78BkP4rmXMM5v2o
- tKrj94gXzB2RYgJQDjj+SR4DbLbtRmB9lhztENMhcmToscWOguU3OaZsEMQRBgBmqi/4
- mQ6g==
+ bh=TEEh5KUewfmYnZ3Q1Chus2HvKgHcn8j4nfiNpTmt2M4=;
+ b=YiC8eGMWS64+MBUX2Mm85tqIzRlmOD6IA8U/IPds7dJ8OwN7dUA+/E11h7tutO3NSR
+ bzWTwCvgrKXx5luPcRTi1xIAB26hjHiIvh3XeD9RrmRrOd5OCh+qtxZWZ8jRu74HZyJ5
+ y7BTSDFHOphMNXlXZpSHRaKM4qzM2/C3DWCxvu4h8F1kPzsUXishplMYuJiZDPZFsbGB
+ qI8u/ZSgYDliR7vSOnYhXnmG5dJNk8+ObEBZFxUDOfBpu8FIjrOTCeU20Y34RZC00oL6
+ hCt2y5ymzW5LQxRabMzen3Ckq4wz3TvhhxdTHlC1KEEgnDS5MfWduoAnCNtwYveZDX86
+ GqzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718037844; x=1718642644;
+ d=1e100.net; s=20230601; t=1718041034; x=1718645834;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZWJrFt56Ba2XKaEKUnUCqUmu/jVW4Te91KO0JGqkT1U=;
- b=hxWIXEj5EUWgEVcVqfSN3wvuDOU86RkEbcsxtVVtiTnKagdLb4Ea00Vtz9NJkogh11
- TOks5aiz34nw8d+5faHzzpM3q6ENdrUuRumMIFQd4jMh8Pft/AE2B4N1+kGrkxiTEIiY
- Ei7aVn27j9cewZISM+9eYiHDzEJgy6o2qLlMjMJsxyG1ci0MJF4xHm+hRomyrfxDTZR0
- ylIUuihMLloxWuxswszmqnjUeVRHQnUBYR9QyHKX9ilURXuT8EgqjQlzMt6Phbrmi5jJ
- uNaAXRqm9w4Y1FIaRaES7Hy/dHGznuQt2g3HJLLRNInbcXFwWkKXdBQsZsO4hj/c8Ej7
- pamw==
+ bh=TEEh5KUewfmYnZ3Q1Chus2HvKgHcn8j4nfiNpTmt2M4=;
+ b=lGmc0G69FewlPICpY3tBlo3lfipLJLFUOUzTkFLAeSOLQjsc9wlaopoKzlMyG77sJP
+ ik/4XCLhrYXyzGaio7Ypa+Zz2mLRn2tsmog+cXWOT4/XGI9u+TfsoP18tlux4om8WHKE
+ x1MHcsJYshNOkOUQSoIJ0gBPNJyIjTgb3AqEJp6cuHZ0fB8I/XhrYslx2ZWBeHYKwNTo
+ 2pw4MLwgb/VxTvneglnzkTUMEOGQitGYEVFoIPsQIVxNqO/nx0W6ZwfHX5I4KcfkOffT
+ fu6Kl2hbcHJSwkT45GpNP12NwNN5lBtlQVlYdbiNhIvm141Jc1qdd235e/LE4yLgTQD6
+ p41Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXWj7qwpuSlyOvzDHPEpRrmXpyV3vbwXlKjPLHU/1vad0a8PER+gvFEiLbeWqZ7Dnxcxzfu89yGYK/7VygDaXdXrKXNx5fRGceZWP2RblPi
-X-Gm-Message-State: AOJu0YzfKK9vDOk5w6U/uLbtsWvPHNc+/uqR5iNXyl7PpIH8jJNeqP6L
- iALQ2bdgsllNWggiX5m/ccjTDJ5VhoCMXTdvd5Bq/B9VyU6dqb9GpqRKh000Aw==
-X-Google-Smtp-Source: AGHT+IFO/T7QbJyG6RfIGM4sbC0wUi2kSF81e1T/t2MsMvtblCbstqePphSLuWts4/pUFHivpG5mhw==
-X-Received: by 2002:a17:90b:1c8c:b0:2c2:3de7:20c0 with SMTP id
- 98e67ed59e1d1-2c2bcc4cd43mr8521758a91.37.1718037843726; 
- Mon, 10 Jun 2024 09:44:03 -0700 (PDT)
-Received: from google.com (226.75.127.34.bc.googleusercontent.com.
- [34.127.75.226]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2c28066d57esm11358284a91.19.2024.06.10.09.44.02
+ AJvYcCVusB9aBXxUfgmoe64h8PsMH7F0jY/ss2bhhPG+ZApcvFL1m71T1E0jO4iqm6TdFSkGLurYQSB4fRAPGsVDZ8zoUv3G5Ep9wpGgt5CP/1Gz
+X-Gm-Message-State: AOJu0YxzX3BhgSvLqU687zldxl2/5i34RgdRrZkBlx9/nL/+9T30u2Fe
+ olP5abgQ0ZSllTgqBceK7MsNpWXkL3wytypSVg249OTS8dGbaDq902zWeqWY4PY=
+X-Google-Smtp-Source: AGHT+IEwN5GXDdCSSPBpIsgaZw66Nb9x4NckjGz5YCW6eYhsHn+R7JHRmJZAvzVcvknfacTENnz8sg==
+X-Received: by 2002:a05:6512:61b:b0:52c:73be:f14a with SMTP id
+ 2adb3069b0e04-52c73bef481mr5193626e87.33.1718041033710; 
+ Mon, 10 Jun 2024 10:37:13 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52c8970d282sm776839e87.221.2024.06.10.10.37.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jun 2024 09:44:03 -0700 (PDT)
-Date: Mon, 10 Jun 2024 16:43:59 +0000
-From: Carlos Llamas <cmllamas@google.com>
-To: Barry Song <21cnbao@gmail.com>
-Cc: linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
- sumit.semwal@linaro.org, Brian.Starkey@arm.com,
- benjamin.gaignard@collabora.com, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, jstultz@google.com,
- linux-kernel@vger.kernel.org, tjmercier@google.com,
- v-songbaohua@oppo.com, hailong.liu@oppo.com
-Subject: Re: [PATCH] dma-buf/heaps: Correct the types of fd_flags and
- heap_flags
-Message-ID: <ZmctTwAuzkObaXLi@google.com>
-References: <20240606020213.49854-1-21cnbao@gmail.com>
+ Mon, 10 Jun 2024 10:37:13 -0700 (PDT)
+Date: Mon, 10 Jun 2024 20:37:10 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Aradhya Bhatia <a-bhatia1@ti.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Jyri Sarha <jyri.sarha@iki.fi>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <treding@nvidia.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Nishanth Menon <nm@ti.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
+ Udit Kumar <u-kumar1@ti.com>, 
+ Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>, 
+ Jai Luthra <j-luthra@ti.com>
+Subject: Re: [PATCH v2 7/9] drm/bridge: cdns-dsi: Support atomic bridge APIs
+Message-ID: <hofs67cb2oylwdkuazdzukswbi5t7v7e6frhv52zaz4p2lgwro@vr3muasxj4mw>
+References: <20240530093621.1925863-1-a-bhatia1@ti.com>
+ <20240530093621.1925863-8-a-bhatia1@ti.com>
+ <4fsu5fa5zbrqgc5bepxscoenrax5c6p5b4eyomavioy3bhwuq3@rjjbur3v52e3>
+ <a78d5ddf-38d8-4b54-a9b3-7a8745d3b537@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240606020213.49854-1-21cnbao@gmail.com>
+In-Reply-To: <a78d5ddf-38d8-4b54-a9b3-7a8745d3b537@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,25 +103,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 06, 2024 at 02:02:13PM +1200, Barry Song wrote:
-> From: Barry Song <v-songbaohua@oppo.com>
+On Mon, Jun 10, 2024 at 06:02:41PM +0530, Aradhya Bhatia wrote:
+> Hi Dmitry,
 > 
-> dma_heap_allocation_data defines the UAPI as follows:
+> Thank you for reviewing the patches.
 > 
->  struct dma_heap_allocation_data {
->         __u64 len;
->         __u32 fd;
->         __u32 fd_flags;
->         __u64 heap_flags;
->  };
+> On 31/05/24 04:51, Dmitry Baryshkov wrote:
+> > On Thu, May 30, 2024 at 03:06:19PM +0530, Aradhya Bhatia wrote:
+> >> Change the existing (and deprecated) bridge hooks, to the bridge
+> >> atomic APIs.
+> >>
+> >> Add drm helpers for duplicate_state, destroy_state, and bridge_reset
+> >> bridge hooks.
+> >>
+> >> Further add support for the input format negotiation hook.
+> >>
+> >> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> >> ---
+> >>  .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 70 ++++++++++++++++---
+> >>  1 file changed, 62 insertions(+), 8 deletions(-)
+> > 
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > 
+> > Minor nit below.
+> > 
+> >>
+> >> @@ -915,13 +920,62 @@ static void cdns_dsi_bridge_pre_enable(struct drm_bridge *bridge)
+> >>  	cdns_dsi_hs_init(dsi);
+> >>  }
+> >>  
+> >> +static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
+> >> +					       struct drm_bridge_state *bridge_state,
+> >> +					       struct drm_crtc_state *crtc_state,
+> >> +					       struct drm_connector_state *conn_state,
+> >> +					       u32 output_fmt,
+> >> +					       unsigned int *num_input_fmts)
+> >> +{
+> > 
+> > This code below looks pretty generic. Would be logical to extract it to
+> > a helper and allow it to be used by other DSI host bridges?
 > 
-> But dma heaps are casting both fd_flags and heap_flags into
-> unsigned long. This patch makes dma heaps - cma heap and
-> system heap have consistent types with UAPI.
+> I agree, it would indeed make sense.
 > 
-> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
-> ---
+> I just tried to make a helper function that could directly be passed to
+> the drm_bridge_funcs list - like we do with
+> "drm_atomic_helper_bridge_propagate_bus_fmt". This would have been ideal
+> in my opinion.
+> 
+> But, that doesn't seem possible today. The parameter "output_fmt"
+> doesn't describe any of the DSI pixel formats from "enum
+> mipi_dsi_pixel_format", which is what's required to ascertain the input
+> bus format for dsi hosts. Neither do the drm_bridge{_state} help with
+> that.
+> 
+> For now, I am thinking to just add a common function that accepts the
+> dsi bus output format and returns the corresponding input bus format.
+> With this, every dsi host will still need to implement their own
+> get_input_fmt hook and call that function.
+> 
+> If you had something else in mind, do let me know! =)
 
-Looks good to me, thanks!
+No, the code that you have described looks pretty good. Please proceed
+with the implementation!
 
-Reviewed-by: Carlos Llamas <cmllamas@google.com>
+> 
+> Regards
+> Aradhya
+> 
+> > 
+> >> +	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+> >> +	struct cdns_dsi *dsi = input_to_dsi(input);
+> >> +	struct cdns_dsi_output *output = &dsi->output;
+> >> +	u32 *input_fmts;
+> >> +
+> >> +	*num_input_fmts = 0;
+> >> +
+> >> +	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
+> >> +	if (!input_fmts)
+> >> +		return NULL;
+> >> +
+> >> +	switch (output->dev->format) {
+> >> +	case MIPI_DSI_FMT_RGB888:
+> >> +		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
+> >> +		break;
+> >> +
+> >> +	case MIPI_DSI_FMT_RGB666:
+> >> +		input_fmts[0] = MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
+> >> +		break;
+> >> +
+> >> +	case MIPI_DSI_FMT_RGB666_PACKED:
+> >> +		input_fmts[0] = MEDIA_BUS_FMT_RGB666_1X18;
+> >> +		break;
+> >> +
+> >> +	case MIPI_DSI_FMT_RGB565:
+> >> +		input_fmts[0] = MEDIA_BUS_FMT_RGB565_1X16;
+> >> +		break;
+> >> +
+> >> +	default:
+> >> +		/* Unsupported DSI Format */
+> >> +		return NULL;
+> >> +	}
+> >> +
+> >> +	*num_input_fmts = 1;
+> >> +
+> >> +	return input_fmts;
+> >> +}
+> >> +
+> > 
+
+-- 
+With best wishes
+Dmitry
