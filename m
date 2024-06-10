@@ -2,86 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87001901E44
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 11:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A0B901F04
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 12:12:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC3A910E3FA;
-	Mon, 10 Jun 2024 09:32:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BAA210E042;
+	Mon, 10 Jun 2024 10:12:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="H1kmtXUP";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Pk0DguIi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E190110E3F3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 09:32:18 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB77F10E474
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 10:11:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1718011938;
+ s=mimecast20190719; t=1718014317;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9WQJKGGQ63IpYpwAqks0j3zwgngy8EFW/hBQkkDLpOw=;
- b=H1kmtXUPcNhIQHaBoIoR9nZn4eKJBNgU4KRqMhYqx6q/2Eyl0yhOeoIQQf33QGj/vfNY3G
- P99cgK2nPcwdqpkoiWRfYTpe6EPowVjDO88JtW2ezlEXfed/Z7xz4J3q0sHSp4vxC1ycFE
- btxwU8JEBHUwvJ/xxowP2OQanXC83D8=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HAGfg58Q9+5VbZsXPAiErocuXPUKP6IBatfDvKZopjM=;
+ b=Pk0DguIisfzPahpbOfIuplX3nB+GhOJgzgBNJvol9VE34SUzLRfGAThnrZ2cyDdyUjaPoR
+ bxJJR0bjosBaHoSo6J6d2ajkXSncAbIwxaXWKikfk7U4B09edQ/AgNh1xQVEPryk8UQmdq
+ iRSaOB/GWn2LB2vfkbVA9vW6fLJtbUg=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-648-XeQTFt90Mq6q_61AHQqT0w-1; Mon, 10 Jun 2024 05:32:14 -0400
-X-MC-Unique: XeQTFt90Mq6q_61AHQqT0w-1
-Received: by mail-lj1-f199.google.com with SMTP id
- 38308e7fff4ca-2eaebc5da8aso3006621fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 02:32:14 -0700 (PDT)
+ us-mta-423-Rtgno_PsO7mGz8i5SHXHtA-1; Mon, 10 Jun 2024 06:11:56 -0400
+X-MC-Unique: Rtgno_PsO7mGz8i5SHXHtA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ a640c23a62f3a-a6f2662d050so16079066b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 03:11:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718011933; x=1718616733;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9WQJKGGQ63IpYpwAqks0j3zwgngy8EFW/hBQkkDLpOw=;
- b=XyQBXsYO34tGJduIlsODf7LpGLujdjCu+jrpgedJ8LUTYeI6rWzqUBOYVZ9/lbk4lB
- HiADaKQEkCkhdPXs9zRcWgM58sDTghLU9HG5q1CrhWzWwX8CpxFB9ZMANs7nFh7Loqlj
- hqLeIXq7Eiv6/MFC2BIf9OM+McuYrqzr92nBHQ+OlDDUnt6pnPVEikQgfxdksmp7sTxV
- wWCEUSK+A+vPK7vgEJU5/QXYR7UyOAWQdXey9wnHxjdJnsIZFeE4138XGLZWC9SKpOiX
- 921wDgHp+k/I4uGgJ1HmGaGYYdAoPAwZKk8AdlRHVcVVLPyL7Nt3QjMRzb0ya/87lJEx
- Ny/Q==
-X-Gm-Message-State: AOJu0YwotAx3l9uutgi3NrYo96otQwsirGrxiHBXxm4q8trHLbG2mLwv
- yeiuxn6+5VyP/XxCJmc5UzgXPCKSRz6vIqX5C8SA94iF9D09pueDsfVKV2dPFejzWeQG5pNIN5M
- 3qzRdn3l6BW0n87WfmQ9DpAcl+NS+I8xTFX0goPyHCJPNVqI8r5gxH5snn66VS7gzSg==
-X-Received: by 2002:a19:2d0d:0:b0:52c:8857:7631 with SMTP id
- 2adb3069b0e04-52c88577793mr2123926e87.1.1718011933081; 
- Mon, 10 Jun 2024 02:32:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFfUeStS0N5eJVU1XtsiGlp2iqafq61SQZHkJWQKYKYv8JTZLy1IaAESVE2BsaioUjz+IfNVg==
-X-Received: by 2002:a19:2d0d:0:b0:52c:8857:7631 with SMTP id
- 2adb3069b0e04-52c88577793mr2123916e87.1.1718011932865; 
- Mon, 10 Jun 2024 02:32:12 -0700 (PDT)
-Received: from pstanner-thinkpadt14sgen1.muc.redhat.com
- (nat-pool-muc-t.redhat.com. [149.14.88.26])
+ d=1e100.net; s=20230601; t=1718014315; x=1718619115;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HAGfg58Q9+5VbZsXPAiErocuXPUKP6IBatfDvKZopjM=;
+ b=AdnilY9o2BU4F9jQsglaPyqncmnkV7tlxlxMkggoy4wpbE/x+RC1efKaOLikUUxLjV
+ LquBc1Q5+2PoKiuSq6MxFnzvENfXQ5bQJ3GXNaP4DJNlvA2NOueGHUGVWoLIoehcxiVY
+ SeRXaupSlPhZAH5YuJpO0cIYeg4FpghNqQ5YkFE5US4uiv8GL+5O8UWuUMIkucQJEQlm
+ uvwr70x6o4j/vO3x74bkcFoi5aSLWjoAuSNIk4CMOYd8W5+2+efufUxDYWYcsQrBI4xs
+ ivJMKidGvH+20N8r1Ev1W2TyB8OnjrKlRJFLgiNEUh+r2/hFuYIeePETdFBpKJKle2Va
+ bqpA==
+X-Gm-Message-State: AOJu0Yy1Eonlb8VcdCXTxkYA/QJvqaZUKC1hEl4MixHKicqEWr/W5htJ
+ GozR4y1G5Mdw3AcE3ED587sDVdU2yLzvOOqq0DcBpCy2Ff4lnJi9tJUi/WEM2aOvBRdy/bW+RUA
+ gaxR/hVldQu5kRWy7tEYkgJN/XYHiU5FRmKadriWRkNo7tYi+OQl0LsrW1HpD0yQkZg==
+X-Received: by 2002:a50:cd8a:0:b0:57c:5996:cfc7 with SMTP id
+ 4fb4d7f45d1cf-57c5996d14fmr5167534a12.30.1718014315093; 
+ Mon, 10 Jun 2024 03:11:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHqF9FyN44n+ZfeTQ80xQpEd5VG379Y/6+PGq7u5HQg3UFxxA2nbTtUQGPuhUsZ6CmsJ5PNNg==
+X-Received: by 2002:a50:cd8a:0:b0:57c:5996:cfc7 with SMTP id
+ 4fb4d7f45d1cf-57c5996d14fmr5167524a12.30.1718014314700; 
+ Mon, 10 Jun 2024 03:11:54 -0700 (PDT)
+Received: from [10.40.98.157] ([78.108.130.194])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-35f0ce4b62fsm7257545f8f.80.2024.06.10.02.32.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jun 2024 02:32:12 -0700 (PDT)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Hans de Goede <hdegoede@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>,
- Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org, Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH v8 13/13] drm/vboxvideo: fix mapping leaks
-Date: Mon, 10 Jun 2024 11:31:35 +0200
-Message-ID: <20240610093149.20640-14-pstanner@redhat.com>
-X-Mailer: git-send-email 2.45.0
-In-Reply-To: <20240610093149.20640-1-pstanner@redhat.com>
-References: <20240610093149.20640-1-pstanner@redhat.com>
+ 4fb4d7f45d1cf-57aae0cc1a2sm7155270a12.23.2024.06.10.03.11.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Jun 2024 03:11:54 -0700 (PDT)
+Message-ID: <0b21129a-3cde-4b0f-a588-9069da4c14c6@redhat.com>
+Date: Mon, 10 Jun 2024 12:11:52 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] drm: panel-orientation-quirks: Add quirk for Aya
+ Neo KUN
+To: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240310220401.895591-1-tjakobi@math.uni-bielefeld.de>
+ <a4069a85-b990-42b4-8cde-8906a740ec27@math.uni-bielefeld.de>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <a4069a85-b990-42b4-8cde-8906a740ec27@math.uni-bielefeld.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,63 +96,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the PCI devres API was introduced to this driver, it was wrongly
-assumed that initializing the device with pcim_enable_device() instead
-of pci_enable_device() will make all PCI functions managed.
+Hi Tobias,
 
-This is wrong and was caused by the quite confusing PCI devres API in
-which some, but not all, functions become managed that way.
+On 5/31/24 9:04 PM, Tobias Jakobi wrote:
+> On 3/10/24 23:04, tjakobi@math.uni-bielefeld.de wrote:
+> 
+>> From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+>>
+>> Similar to the other Aya Neo devices this one features
+>> again a portrait screen, here with a native resolution
+>> of 1600x2560.
+>>
+>> Signed-off-by: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+>> ---
+>>   drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+>> index 3d92f66e550c..5d3fb11fd45f 100644
+>> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+>> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+>> @@ -196,6 +196,12 @@ static const struct dmi_system_id orientation_data[] = {
+>>             DMI_MATCH(DMI_BOARD_NAME, "NEXT"),
+>>           },
+>>           .driver_data = (void *)&lcd800x1280_rightside_up,
+>> +    }, {    /* AYA NEO KUN */
+>> +        .matches = {
+>> +          DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
+>> +          DMI_MATCH(DMI_BOARD_NAME, "KUN"),
+>> +        },
+>> +        .driver_data = (void *)&lcd1600x2560_rightside_up,
+>>       }, {    /* Chuwi HiBook (CWI514) */
+>>           .matches = {
+>>               DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
+> 
+> Trying yet another ping! Also adding Hans to the list of recipients, as he committed the last quirk for an Ayaneo device. Someone pick this up, pretty please! :-)
 
-The function pci_iomap_range() is never managed.
+Thank you for Cc-ing me and thank you for your patch.
 
-Replace pci_iomap_range() with the actually managed function
-pcim_iomap_range().
+This looks good to me:
 
-Fixes: 8558de401b5f ("drm/vboxvideo: use managed pci functions")
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 Reviewed-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/vboxvideo/vbox_main.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/vboxvideo/vbox_main.c b/drivers/gpu/drm/vboxvideo/vbox_main.c
-index 42c2d8a99509..d4ade9325401 100644
---- a/drivers/gpu/drm/vboxvideo/vbox_main.c
-+++ b/drivers/gpu/drm/vboxvideo/vbox_main.c
-@@ -42,12 +42,11 @@ static int vbox_accel_init(struct vbox_private *vbox)
- 	/* Take a command buffer for each screen from the end of usable VRAM. */
- 	vbox->available_vram_size -= vbox->num_crtcs * VBVA_MIN_BUFFER_SIZE;
- 
--	vbox->vbva_buffers = pci_iomap_range(pdev, 0,
--					     vbox->available_vram_size,
--					     vbox->num_crtcs *
--					     VBVA_MIN_BUFFER_SIZE);
--	if (!vbox->vbva_buffers)
--		return -ENOMEM;
-+	vbox->vbva_buffers = pcim_iomap_range(
-+			pdev, 0, vbox->available_vram_size,
-+			vbox->num_crtcs * VBVA_MIN_BUFFER_SIZE);
-+	if (IS_ERR(vbox->vbva_buffers))
-+		return PTR_ERR(vbox->vbva_buffers);
- 
- 	for (i = 0; i < vbox->num_crtcs; ++i) {
- 		vbva_setup_buffer_context(&vbox->vbva_info[i],
-@@ -116,11 +115,10 @@ int vbox_hw_init(struct vbox_private *vbox)
- 	DRM_INFO("VRAM %08x\n", vbox->full_vram_size);
- 
- 	/* Map guest-heap at end of vram */
--	vbox->guest_heap =
--	    pci_iomap_range(pdev, 0, GUEST_HEAP_OFFSET(vbox),
--			    GUEST_HEAP_SIZE);
--	if (!vbox->guest_heap)
--		return -ENOMEM;
-+	vbox->guest_heap = pcim_iomap_range(pdev, 0,
-+			GUEST_HEAP_OFFSET(vbox), GUEST_HEAP_SIZE);
-+	if (IS_ERR(vbox->guest_heap))
-+		return PTR_ERR(vbox->guest_heap);
- 
- 	/* Create guest-heap mem-pool use 2^4 = 16 byte chunks */
- 	vbox->guest_pool = devm_gen_pool_create(vbox->ddev.dev, 4, -1,
--- 
-2.45.0
+I'll go and merge this into drm-misc-fixes now. Note I've not done a build
+for drm-misc-fixes in a while and I'm on a laptop atm, so it will be a while
+before this shows up as I'll do a (slow) test-build before pusing out the changes.
+
+Regards,
+
+Hans
 
