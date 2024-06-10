@@ -2,171 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E875F902692
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 18:22:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F9C9026C0
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 18:31:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8227610E280;
-	Mon, 10 Jun 2024 16:22:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 305E110E4E4;
+	Mon, 10 Jun 2024 16:31:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Nc5fPMfH";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="DdW58JSG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFC0410E280
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 16:22:14 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-52be2abf5dbso272321e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 09:22:14 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71C4110E4BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 16:31:51 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-4217f072531so2117255e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 09:31:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1718036533; x=1718641333; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=4FQOUy6eQVbn2rNLxqez3pRfyzUAVY5hKRfgcqQacv4=;
- b=Nc5fPMfHldf2uLyLCPM7aUEjBpuIuNZOQGCxHL8AZQYAvRlhewc1T4nKCPVmjcbms5
- qL4SpxPKhPaqJdb06EzqfW522B3/0Dz8NIvgCK1wOZ2/xbR+omIm9Vfik+2D6sC1VFIv
- Hr3dEWjyOSKqD0F8c6gaSakvj7uYfIK9iWE2o=
+ d=ffwll.ch; s=google; t=1718037109; x=1718641909; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=umjRP2/zEj1A5mFWXkSTHOPLPxcqaH01cnfd4oJRQps=;
+ b=DdW58JSGTD0J75de3QfTdKaFbqP36qjqmcibOz8UPocJmH2VdTfMhc1ltGF2ENf/M7
+ 5vr0ksCdKxZaBlvFxKMfT6IXSn2wefnVqwBYowKZLX6gpz5vYyqpN6o2fg8mVT0riFDw
+ 80737MzBVjT7bv1dQmBqzDglJtzQOemDJk0vM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718036533; x=1718641333;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4FQOUy6eQVbn2rNLxqez3pRfyzUAVY5hKRfgcqQacv4=;
- b=i2smYrMIdDNPlA6wg7Oe6y59dlfMJXwNcQ7VmhUdoTuk2AtAaT8utoTsiX9pdkq0YX
- E9ZNBhKdF/nSV1z7QaDOGd1UOmAI73gH5YIfcgSm1Yir0/F6hfokdlMthwrOrkafgvcC
- 4rHvwluorAHXs9YM+hTq+I/a6BLslNokzrjP7DWqJrlyyKRRUKGT7Pk7zXwAIkTPRXYs
- G5Ur1Z9rGB8gEwsAZwmzMCcmTNjRDHNXnSkgI/H+IgOjvLJq1SkvJoiMv1yn4tntp5Ws
- lrr3984UBzLlWbcoU3M+wijZGNXdE9BM85q5bRUzvgwcRLR3QFl3C3hPCdj26cZJFZg0
- PVQQ==
+ d=1e100.net; s=20230601; t=1718037109; x=1718641909;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=umjRP2/zEj1A5mFWXkSTHOPLPxcqaH01cnfd4oJRQps=;
+ b=N2DeYI9lUyffcvAw7bEPW/w+w1OjH2HcavQQZED+Ny5uTnC+Q7KWjh9TiUs3Cwkn8t
+ lmuOI03nqGIIxrSsNeVnnzg+yFcyWMklJLqfUF00oEBvYYY+lce3OrmmnOCKVqjWegV5
+ GVEXCTTi4sSDN4xW8NxAmtQJ3kyBPI6apCoEBf/HPeZwAhobR+5B3129kObnsWSlARSg
+ YSZ/Y3ZNgkw/z/58ukeNxoD7X+TqQAg8eEWwxNPrmEN7q+i8zu2ZY0lHbJJnVYkfvAAA
+ FCjYNMCIJIR9CxsguGUxTdwpKgOWMbH/g9YSugi9KYB6qdq2D6kn6HAP33Oa+63jToaE
+ dzJA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV8TqLwcC31q35EFHHntli+vOycvZTJlYJENhvM3RBnIHpjHy1AWQuYGPgPUZGZw9TMc5FCu7FdRefIza82oRAugjmxvKiQQkXbY6mcIPdM
-X-Gm-Message-State: AOJu0YzWH66CamRpOPUScZOvd4gTZEJX2909+I6sUVkGN4N23XYNI5gz
- Swy0kBZqqpzuj37fIz8PyT7VKbQ5pmjMPMwSyLPDbxdsmau0Fos7zE8QfZp0Zcg=
-X-Google-Smtp-Source: AGHT+IGSIZFW5ug9A4F5elNqmArwptwwiWCm04nlIpH7pIYvmM7NziR+tlCEqa6BBIkNpwvoHu1pmQ==
-X-Received: by 2002:a05:6512:310c:b0:52c:8e13:a830 with SMTP id
- 2adb3069b0e04-52c8e13a898mr1364204e87.0.1718036532505; 
- Mon, 10 Jun 2024 09:22:12 -0700 (PDT)
+ AJvYcCUqsiKR8Q7OS/oCl1ztG4bTnxJWpKYkIPnLTle//XvFWFUoJZkcAJJMSJS7PD3eoVmukiIDNCCorzN6EJkRDwW9AIEsoz3OOAPU8QyBMli2
+X-Gm-Message-State: AOJu0YxElyvL7BqkF6vrof9HFncWDJgl2NhFpuomG/aWEeCXCK5d9tUW
+ /RVKgTLnHF60ZE4utdQrueSuYYxPob9mH64D5dOjZOh7OXhRTBUfalWv0wJ5RvQ=
+X-Google-Smtp-Source: AGHT+IHrfMDOID53yYkgC9EYW1+HGcIufOzSyvlgT4qeSasoA0OoL0gvr+z1sWUIIDO/t0oSl7C07Q==
+X-Received: by 2002:a05:6000:1ac7:b0:35f:229e:9c6d with SMTP id
+ ffacd0b85a97d-35f229e9eafmr3256027f8f.6.1718037109389; 
+ Mon, 10 Jun 2024 09:31:49 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4220ce52c32sm21707585e9.48.2024.06.10.09.22.10
+ ffacd0b85a97d-35f2774bb64sm1925642f8f.103.2024.06.10.09.31.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jun 2024 09:22:11 -0700 (PDT)
-Date: Mon, 10 Jun 2024 18:22:08 +0200
+ Mon, 10 Jun 2024 09:31:49 -0700 (PDT)
+Date: Mon, 10 Jun 2024 18:31:46 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Pavel Begunkov <asml.silence@gmail.com>,
- David Wei <dw@davidwei.uk>, David Ahern <dsahern@kernel.org>,
- Mina Almasry <almasrymina@google.com>,
- Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>,
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>
-Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
- custom page providers
-Message-ID: <ZmcoMADenEFtuL6c@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- David Ahern <dsahern@kernel.org>,
- Mina Almasry <almasrymina@google.com>,
- Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>,
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>
-References: <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
- <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
- <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
- <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
- <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
- <20240607145247.GG791043@ziepe.ca>
- <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
- <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com>
- <20240610121625.GI791043@ziepe.ca>
- <cdbc0d5f-bfbc-4f58-a6dd-c13b0bb5ff1c@amd.com>
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com,
+ ltuikov89@gmail.com, matthew.brost@intel.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
+ rostedt@goodmis.org
+Subject: Re: [PATCH v4 0/3] Improve gpu_scheduler trace events
+Message-ID: <Zmcqci2xjmfp9UCo@phenom.ffwll.local>
+References: <20240610132707.61404-1-pierre-eric.pelloux-prayer@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cdbc0d5f-bfbc-4f58-a6dd-c13b0bb5ff1c@amd.com>
+In-Reply-To: <20240610132707.61404-1-pierre-eric.pelloux-prayer@amd.com>
 X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -183,72 +84,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 10, 2024 at 02:38:18PM +0200, Christian König wrote:
-> Am 10.06.24 um 14:16 schrieb Jason Gunthorpe:
-> > On Mon, Jun 10, 2024 at 02:07:01AM +0100, Pavel Begunkov wrote:
-> > > On 6/10/24 01:37, David Wei wrote:
-> > > > On 2024-06-07 17:52, Jason Gunthorpe wrote:
-> > > > > IMHO it seems to compose poorly if you can only use the io_uring
-> > > > > lifecycle model with io_uring registered memory, and not with DMABUF
-> > > > > memory registered through Mina's mechanism.
-> > > > By this, do you mean io_uring must be exclusively used to use this
-> > > > feature?
-> > > > 
-> > > > And you'd rather see the two decoupled, so userspace can register w/ say
-> > > > dmabuf then pass it to io_uring?
-> > > Personally, I have no clue what Jason means. You can just as
-> > > well say that it's poorly composable that write(2) to a disk
-> > > cannot post a completion into a XDP ring, or a netlink socket,
-> > > or io_uring's main completion queue, or name any other API.
-> > There is no reason you shouldn't be able to use your fast io_uring
-> > completion and lifecycle flow with DMABUF backed memory. Those are not
-> > widly different things and there is good reason they should work
-> > together.
+On Mon, Jun 10, 2024 at 03:26:53PM +0200, Pierre-Eric Pelloux-Prayer wrote:
+> v3: https://lists.freedesktop.org/archives/dri-devel/2024-June/456792.html
 > 
-> Well there is the fundamental problem that you can't use io_uring to
-> implement the semantics necessary for a dma_fence.
-> 
-> That's why we had to reject the io_uring work on DMA-buf sharing from Google
-> a few years ago.
-> 
-> But this only affects the dma_fence synchronization part of DMA-buf, but
-> *not* the general buffer sharing.
+> Changes since v3:
+> * trace device name instead of drm_device primary index
+> * no pointer deref in the TP_printk anymore. Instead the fence context/seqno
+> are saved in TP_fast_assign
 
-More precisely, it only impacts the userspace/data access implicit
-synchronization part of dma-buf. For tracking buffer movements like on
-invalidations/refault with a dynamic dma-buf importer/exporter I think the
-dma-fence rules are acceptable. At least they've been for rdma drivers.
+Some high-level comments:
 
-But the escape hatch is to (temporarily) pin the dma-buf, which is exactly
-what direct I/O also does when accessing pages. So aside from the still
-unsolved question on how we should account/track pinned dma-buf, there
-shouldn't be an issue. Or at least I'm failing to see one.
+- Quick summary of the what, why and how in the cover letter would be
+  great.
 
-And for synchronization to data access the dma-fence stuff on dma-buf is
-anyway rather deprecated on the gpu side too, exactly because of all these
-limitations. On the gpu side we've been moving to free-standing
-drm_syncobj instead, but those are fairly gpu specific and any other
-subsystem should be able to just reuse what they have already to signal
-transaction completions.
+- Link to the userspace, once you have that. At least last time we chatted
+  that was still wip.
+
+- Maybe most important to make this actually work, work well, and work
+  long-term: I think we should clearly commit to these tracepoints being
+  stable uapi, and document that by adding a stable tracepoint section in
+  the drm uapi book.
+
+  And then get acks from a pile of driver maintainers that they really
+  think this is a good idea and has a future. Should also help with
+  getting good review on the tracepoints themselves.
+
+  Otherwise I fear we'll miss the mark again and still force userspace to
+  hand-roll tracing for every driver, or maybe worse, even specific kernel
+  versions.
 
 Cheers, Sima
 
 > 
-> Regards,
-> Christian.
+> Pierre-Eric Pelloux-Prayer (3):
+>   drm/sched: add device name to the drm_sched_process_job event
+>   drm/sched: cleanup gpu_scheduler trace events
+>   drm/sched: trace dependencies for gpu jobs
 > 
-> > 
-> > Pretending they are totally different just because two different
-> > people wrote them is a very siloed view.
-> > 
-> > > The devmem TCP callback can implement it in a way feasible to
-> > > the project, but it cannot directly post events to an unrelated
-> > > API like io_uring. And devmem attaches buffers to a socket,
-> > > for which a ring for returning buffers might even be a nuisance.
-> > If you can't compose your io_uring completion mechanism with a DMABUF
-> > provided backing store then I think it needs more work.
-> > 
-> > Jason
+>  .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 97 +++++++++++++++----
+>  drivers/gpu/drm/scheduler/sched_entity.c      |  8 +-
+>  drivers/gpu/drm/scheduler/sched_main.c        |  2 +-
+>  3 files changed, 84 insertions(+), 23 deletions(-)
+> 
+> -- 
+> 2.40.1
 > 
 
 -- 
