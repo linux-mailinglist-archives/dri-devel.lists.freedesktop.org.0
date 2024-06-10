@@ -2,73 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DFBC902093
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 13:46:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20BDB902096
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 13:46:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5F7589B78;
-	Mon, 10 Jun 2024 11:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B36E410E42D;
+	Mon, 10 Jun 2024 11:46:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YcdNmjL/";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZtQhK1uG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BA3589B78
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 11:46:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8492F60AF4
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 11:45:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 741E9C4AF55
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 11:45:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718019958;
- bh=LkJbrehovjI8boe5mKT25LVBJmIDKTobkxAiPn5ANrs=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=YcdNmjL/Kg19JlWdyGtIGam2DhFIoyzaA+RZ/TSZaBRZBL55Ly52V70toHdLAQK2b
- k4oRPtSFOd8BC3xTzLxGVb43zwow/i9ZCxS+eLTOxZC4SWjzuhyo+wVLVdYvybjoR2
- 1WGYSOJpPQR5GVIAQZzNXup1O3mXsEp5ZczJPDNxGhDL0u3QZ9YlYNjyDFOtNmBdZK
- 8RPgUP2nj5owfPP8y1zhZl/f0ivnEdS25/nztvMzv8op0xW/6pvuxv/sa3NM05xUMQ
- L8kPv09i1Vh65awZ5i33977VdFBD2yLXYl2JgwTZMVCzjoW/FPc8gujk3jJZojqMCA
- fXOtA1fXoTjUg==
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-dfa4876a5bbso3981205276.2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 04:45:58 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
+ [209.85.128.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E496410E441
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 11:46:15 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-62a145e0bb2so46850147b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 04:46:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1718019975; x=1718624775; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=2iK4IsuByPlunVBIPa84PXOTmIsAWUdTQwWl9Bv3pV0=;
+ b=ZtQhK1uG2FZBApZR2QawpK65JATLaYza37on8BMXeE/OZ/wOrLz+UMoeSZ92YcgZYw
+ Txu0Ypbj7wWeYceinobMtL9Nj6qIa2Tt6bREHDlXEcZ7TghA1hHMRjcsHCYohwtzBuZ6
+ lTsIjQ01FsTneZCIQfqy/1S34XdYpAuNXkXRgoMJMtRq1/AXEQnsAd5ybEgt3PH7guve
+ j4KFmTZsJ0NoZygZFK3hswewWjhAdVR25FGtEYhXeIlpyQjM1/xZ8+wMyZYT5vwQF3Cl
+ eU1E/PcglrnIpr5MTfarX/L9s/ReSK1xjMq7H7f12kKGzmU0kq41mEb+P7G2zsN7rUfS
+ 9SXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718019975; x=1718624775;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2iK4IsuByPlunVBIPa84PXOTmIsAWUdTQwWl9Bv3pV0=;
+ b=nQn8Jw8pTxlYHkXQYbJgpXbhUxp+RZ68WHzZ5htx80qJ0jcYpV7LDxTV5dYHyNEQgI
+ 5DaZybDRvOc9wPKewjKSlvESAFf8cGfmWMy/x3WfU55wfJU+6RJv+TuhoQCrEREx/ZgR
+ ft4/ejzNEfaK9idixiOpoG/oeNKaXjiXyhyL+SKkfpjAwbY9OgxzzYTQexubTtXuGW3v
+ /qLWq7f9YOxCRFcy2i85yq2zvLpjeRtwLPooB7uUabeFpxuYBV2FX2f7n3SPLTZk49ds
+ tWD1tugHK+0e8G8b6M9AXJDWDAeCUtKhFUYm3Rg6nSK6VYCUl0yELJiZxaZh6x6mQyR2
+ 5SgA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWWi02zPK0mm6yArkK+rw/y/tm4LprITnEKP948kXF2sI1UT5pDBJqc/cT6fDqSZYeBfUj9BUw6gMb0ScpQP8XuoDaaTRM4RNsy6FKR2i28
-X-Gm-Message-State: AOJu0Yx2dz/XDESYvhdFQIQ/pNguTU79WDcbn83WCPWkps1j2X7xnT9M
- AUi9gWI97llFvPtg5pSf33a5YVL29dtlvDvM9nAs8FerUkQQHgGmrcyquGpI1icgELqjsbigr5R
- 6X3iMf60xWoR8Gp5e1fC6BgSn6lIosMMvZbjg7w==
-X-Google-Smtp-Source: AGHT+IE9MeVBsZF94aj/YHt5dCD74gzjhxYbl6SkNcdi+ZXk0stj9lwbNuDA0bYmmw/1OtQpee+r5SKCScZprWB34uw=
-X-Received: by 2002:a25:901:0:b0:dee:998b:1459 with SMTP id
- 3f1490d57ef6-dfaf653d004mr8969753276.39.1718019957648; Mon, 10 Jun 2024
- 04:45:57 -0700 (PDT)
+ AJvYcCWTW+qakWjY9qg94sj0Z5XV7HkQDr4hc/sw23kJKQd2yv2YXmsbzD5v0vIb6pk0Pqt2V5/mLWoMDZE5K40lcwg2TqfGT0KsSGVhhJQ6ulCV
+X-Gm-Message-State: AOJu0Yyl68pHvWprP0pV+/88tYYaiwr7SSSHbCrkwiDsgVKJzxVAQ074
+ 4TTfTgIyLKi/wDe5mjHGVTelRE5TRM+IYDMwPqbxMVf5sM9s3dAaKVTdz71QqqHE9FgOnyb1+JQ
+ u/IWsUlkenvNn67VvUN0YIDjdWXcFkodOWp0Pog==
+X-Google-Smtp-Source: AGHT+IFZa6J3mLfqVUkpGGClIfKkW9vivB5JAUacLCndpp+3DPNDSo8Ic0JsWYFR5j3gWxpjXglCS4Uiwbvy9b7NS3Q=
+X-Received: by 2002:a0d:d403:0:b0:617:d49f:d5b9 with SMTP id
+ 00721157ae682-62cd55cc44emr86886597b3.14.1718019974751; Mon, 10 Jun 2024
+ 04:46:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240503151129.3901815-1-l.stach@pengutronix.de>
- <20240503151129.3901815-11-l.stach@pengutronix.de>
- <CAN6tsi4js9jb3Q2tTKLo=3ueCPsQaezZ-FDyzHjJ14D0-Z7ttg@mail.gmail.com>
-In-Reply-To: <CAN6tsi4js9jb3Q2tTKLo=3ueCPsQaezZ-FDyzHjJ14D0-Z7ttg@mail.gmail.com>
-From: Robert Foss <rfoss@kernel.org>
-Date: Mon, 10 Jun 2024 13:45:46 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi5R1TiLnwAz0tDbc=jYODwwpTx=3Am-Jqh1wAqYb_8xgA@mail.gmail.com>
-Message-ID: <CAN6tsi5R1TiLnwAz0tDbc=jYODwwpTx=3Am-Jqh1wAqYb_8xgA@mail.gmail.com>
-Subject: Re: [PATCH 10/14] drm/bridge: analogix_dp: move macro reset after
- link bandwidth setting
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>, 
- Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
+References: <20240607-bridge-hdmi-connector-v5-0-ab384e6021af@linaro.org>
+ <20240607-bridge-hdmi-connector-v5-2-ab384e6021af@linaro.org>
+ <20240610-secret-rottweiler-from-asgard-132f75@houat>
+In-Reply-To: <20240610-secret-rottweiler-from-asgard-132f75@houat>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 10 Jun 2024 14:46:03 +0300
+Message-ID: <CAA8EJpogi2qm0bhCwumY4zj-xMUkF4zbK-NAPqCeDbLcybFciw@mail.gmail.com>
+Subject: Re: [PATCH v5 2/9] drm/bridge-connector: switch to using drmm
+ allocations
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de, 
- patchwork-lst@pengutronix.de
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,77 +91,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 7, 2024 at 3:07=E2=80=AFPM Robert Foss <rfoss@kernel.org> wrote=
-:
+On Mon, 10 Jun 2024 at 11:04, Maxime Ripard <mripard@kernel.org> wrote:
 >
-> On Fri, May 3, 2024 at 5:13=E2=80=AFPM Lucas Stach <l.stach@pengutronix.d=
-e> wrote:
+> Hi,
+>
+> On Fri, Jun 07, 2024 at 04:22:59PM GMT, Dmitry Baryshkov wrote:
+> > Turn drm_bridge_connector to using drmm_kzalloc() and
+> > drmm_connector_init() and drop the custom destroy function. The
+> > drm_connector_unregister() and fwnode_handle_put() are already handled
+> > by the drm_connector_cleanup() and so are safe to be dropped.
 > >
-> > Setting the link bandwidth may change the PLL parameters, which will ca=
-use
-> > the PLL to go out of lock, so make sure to apply the MACRO_RST, which
-> > according to the comment is required to be pulsed after the PLL is lock=
-ed.
-> >
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> > Acked-by: Maxime Ripard <mripard@kernel.org>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > > ---
-> >  .../gpu/drm/bridge/analogix/analogix_dp_core.c | 18 ++++++++++--------
-> >  1 file changed, 10 insertions(+), 8 deletions(-)
+> >  drivers/gpu/drm/drm_bridge_connector.c | 23 +++++------------------
+> >  1 file changed, 5 insertions(+), 18 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drive=
-rs/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > index b4a47311cfe8..736b2ed745e1 100644
-> > --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > @@ -243,6 +243,11 @@ static int analogix_dp_link_start(struct analogix_=
-dp_device *dp)
+> > diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+> > index 982552c9f92c..e093fc8928dc 100644
+> > --- a/drivers/gpu/drm/drm_bridge_connector.c
+> > +++ b/drivers/gpu/drm/drm_bridge_connector.c
+> > @@ -15,6 +15,7 @@
+> >  #include <drm/drm_connector.h>
+> >  #include <drm/drm_device.h>
+> >  #include <drm/drm_edid.h>
+> > +#include <drm/drm_managed.h>
+> >  #include <drm/drm_modeset_helper_vtables.h>
+> >  #include <drm/drm_probe_helper.h>
 > >
-> >         /* Set link rate and count as you want to establish*/
-> >         analogix_dp_set_link_bandwidth(dp, dp->link_train.link_rate);
-> > +       /*
-> > +        * MACRO_RST must be applied after the PLL_LOCK to avoid
-> > +        * the DP inter pair skew issue for at least 10 us
-> > +        */
-> > +       analogix_dp_reset_macro(dp);
-> >         analogix_dp_set_lane_count(dp, dp->link_train.lane_count);
+> > @@ -193,19 +194,6 @@ drm_bridge_connector_detect(struct drm_connector *connector, bool force)
+> >       return status;
+> >  }
 > >
-> >         /* Setup RX configuration */
-> > @@ -565,12 +570,6 @@ static int analogix_dp_full_link_train(struct anal=
-ogix_dp_device *dp,
-> >         int retval =3D 0;
-> >         bool training_finished =3D false;
-> >
-> > -       /*
-> > -        * MACRO_RST must be applied after the PLL_LOCK to avoid
-> > -        * the DP inter pair skew issue for at least 10 us
-> > -        */
-> > -       analogix_dp_reset_macro(dp);
+> > -static void drm_bridge_connector_destroy(struct drm_connector *connector)
+> > -{
+> > -     struct drm_bridge_connector *bridge_connector =
+> > -             to_drm_bridge_connector(connector);
 > > -
-> >         /* Initialize by reading RX's DPCD */
-> >         analogix_dp_get_max_rx_bandwidth(dp, &dp->link_train.link_rate)=
-;
-> >         analogix_dp_get_max_rx_lane_count(dp, &dp->link_train.lane_coun=
-t);
-> > @@ -637,9 +636,12 @@ static int analogix_dp_fast_link_train(struct anal=
-ogix_dp_device *dp)
-> >         u8 link_align, link_status[2];
-> >         enum pll_status status;
-> >
-> > -       analogix_dp_reset_macro(dp);
+> > -     drm_connector_unregister(connector);
+> > -     drm_connector_cleanup(connector);
 > > -
-> >         analogix_dp_set_link_bandwidth(dp, dp->link_train.link_rate);
-> > +       /*
-> > +        * MACRO_RST must be applied after the PLL_LOCK to avoid
-> > +        * the DP inter pair skew issue for at least 10 us
-> > +        */
-> > +       analogix_dp_reset_macro(dp);
-> >         analogix_dp_set_lane_count(dp, dp->link_train.lane_count);
-> >         analogix_dp_set_lane_link_training(dp);
+> > -     fwnode_handle_put(connector->fwnode);
+> > -
+> > -     kfree(bridge_connector);
+> > -}
+> > -
+> >  static void drm_bridge_connector_debugfs_init(struct drm_connector *connector,
+> >                                             struct dentry *root)
+> >  {
+> > @@ -224,7 +212,6 @@ static const struct drm_connector_funcs drm_bridge_connector_funcs = {
+> >       .reset = drm_atomic_helper_connector_reset,
+> >       .detect = drm_bridge_connector_detect,
+> >       .fill_modes = drm_helper_probe_single_connector_modes,
+> > -     .destroy = drm_bridge_connector_destroy,
+> >       .atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> >       .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> >       .debugfs_init = drm_bridge_connector_debugfs_init,
+> > @@ -328,7 +315,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+> >       int connector_type;
+> >       int ret;
 > >
-> > --
-> > 2.39.2
-> >
+> > -     bridge_connector = kzalloc(sizeof(*bridge_connector), GFP_KERNEL);
+> > +     bridge_connector = drmm_kzalloc(drm, sizeof(*bridge_connector), GFP_KERNEL);
 >
-> This patch does not apply on drm-misc/drm-misc-next as far as I can tell.
+> So you make destroy's kfree call unnecessary here ...
+>
+> >       if (!bridge_connector)
+> >               return ERR_PTR(-ENOMEM);
+> >
+> > @@ -383,9 +370,9 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+> >               return ERR_PTR(-EINVAL);
+> >       }
+> >
+> > -     ret = drm_connector_init_with_ddc(drm, connector,
+> > -                                       &drm_bridge_connector_funcs,
+> > -                                       connector_type, ddc);
+> > +     ret = drmm_connector_init(drm, connector,
+> > +                               &drm_bridge_connector_funcs,
+> > +                               connector_type, ddc);
+>
+> ... and here of drm_connector_cleanup.
+>
+> drm_connector_unregister wasn't needed, so can ignore it, but you leak a reference to
+> connector->fwnode since you don't call fwnode_handle_put anymore.
+>
+> We should register a drmm action right below the call to fwnode_handle_get too.
 
-Reviewed-by: Robert Foss <rfoss@kernel.org>
+But drm_connector_cleanup() already contains
+fwnode_handle_put(connector->fwnode). Isn't that enough?
+
+
+-- 
+With best wishes
+Dmitry
