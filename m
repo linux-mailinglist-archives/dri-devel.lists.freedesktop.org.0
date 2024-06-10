@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12369901F9E
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 12:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6C0901FA3
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 12:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05B4A10E2A5;
-	Mon, 10 Jun 2024 10:46:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A821710E384;
+	Mon, 10 Jun 2024 10:46:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jnq1xdTi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J3OHPHQG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59B5110E2A5
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 10:46:10 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85C0A10E2A5;
+ Mon, 10 Jun 2024 10:46:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id A0AA8CE0EE3;
- Mon, 10 Jun 2024 10:46:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 891FCC2BBFC;
- Mon, 10 Jun 2024 10:46:07 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 07FBD60A72;
+ Mon, 10 Jun 2024 10:46:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67CBEC4AF55;
+ Mon, 10 Jun 2024 10:46:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718016367;
- bh=jHmfCgTv50mAeFlsqnzidtEUHiaK9qP6a3u139Rj6Ac=;
+ s=k20201202; t=1718016370;
+ bh=RohZKedQ8hCwuKle3kQFh2lbTizbfj4MBLXRuGSRmRM=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=jnq1xdTiz+n9gsuwRh329YAT3+L/0vd3W/QXu3ICCr81VlNaty07ajSF0iicpBbpE
- VdGxZY9UkMqX62xVy4XY4xocQcM3ZxPOt5zuXm9Fp5ojg1lSdl6NYhHVEphLYsDa/V
- MiJwM3Tc+qkNK+LZY0fH9owEphg6oPdN1DPIvY+tp7LZ7pbAvgCxoXxdsqYrV31bZw
- NX043rLwLXzuiVmbXvZcGbjL4FS+Fq1tEsuiRpiCV4OinvPwkumodU7MVntwatlolu
- nNCuq8hi4VN0hqv1dKFWz5ePPsiihXWF4e5N52x5HcpNJIQPflKXPF40wYDZM8J9l6
- 6QNzIohSuxr/w==
+ b=J3OHPHQGBrYfPeQOOtj4IP5MiWBphZe+qsdqv3lleSov7MH2WxgFpTkL9PVN7sPoT
+ fTuN8K0eTQATNSv/okqHfaDloiryZtOPhpuZBjfBAaUpc/x9Dh8r/CAkeMysNrk1ez
+ /ochIONg5jGcJj11/yTnf48DuSKPaCN9Hmsu49gITXlIjnd2Udydk6wxvg63wkcJ4V
+ b/lWVQo+5aPaJ9f9g/6LHlilKqsf25g7P0PJoYSn72a9n7BB0/7PDgoWD0+WsNZrNN
+ 7gyrce364V7+DaYpbkT7LYYiP4GJmkOxfhznfUu5TgvJ0KUp1BN99pJ2KyRCtxK984
+ c62U6qSjheVkw==
 From: Maxime Ripard <mripard@kernel.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jeff Johnson <quic_jjohnson@quicinc.com>
+ Daniel Vetter <daniel@ffwll.ch>, 
+ =?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+ Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dave Airlie <airlied@redhat.com>, 
+ Sean Paul <sean@poorly.run>, Jeff Johnson <quic_jjohnson@quicinc.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
  kernel-janitors@vger.kernel.org
-In-Reply-To: <20240609-md-drivers-gpu-drm-bridge-v1-1-b582c5c815d7@quicinc.com>
-References: <20240609-md-drivers-gpu-drm-bridge-v1-1-b582c5c815d7@quicinc.com>
-Subject: Re: (subset) [PATCH] drm/bridge: add missing MODULE_DESCRIPTION()
- macros
-Message-Id: <171801636547.423417.6877237960333833102.b4-ty@kernel.org>
-Date: Mon, 10 Jun 2024 12:46:05 +0200
+In-Reply-To: <20240609-md-drivers-gpu-drm-v1-1-89e9a316d513@quicinc.com>
+References: <20240609-md-drivers-gpu-drm-v1-1-89e9a316d513@quicinc.com>
+Subject: Re: (subset) [PATCH] drm: add missing MODULE_DESCRIPTION() macros
+Message-Id: <171801636830.423417.18054042484903735990.b4-ty@kernel.org>
+Date: Mon, 10 Jun 2024 12:46:08 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -65,14 +68,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 09 Jun 2024 10:06:17 -0700, Jeff Johnson wrote:
-> make allmodconfig && make W=1 C=1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611uxc.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
-> 
-> Add the missing invocations of the MODULE_DESCRIPTION() macro.
+On Sun, 09 Jun 2024 11:42:53 -0700, Jeff Johnson wrote:
+> On x86, make allmodconfig && make W=1 C=1 reports:
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/gud/gud.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_mipi_dbi.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/i915/kvmgt.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/udl/udl.o
 > 
 > [...]
 
