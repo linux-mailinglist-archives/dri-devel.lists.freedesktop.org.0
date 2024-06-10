@@ -2,63 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7FEC9026C9
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 18:32:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0C39026EF
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 18:44:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F2CA10E458;
-	Mon, 10 Jun 2024 16:32:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F88C10E221;
+	Mon, 10 Jun 2024 16:44:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Iwa32bmP";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="JgSgBbdd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3FE310E458
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 16:32:38 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 37D8CCE16B8;
- Mon, 10 Jun 2024 16:32:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E2D9C2BBFC;
- Mon, 10 Jun 2024 16:32:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718037153;
- bh=t3huLbYF+iqIvyjBa2Lrl3w5SrJDDUFNPpkhxQFR8lE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Iwa32bmP1FleUw+0UYiDwS1tt+D4BxK7bOYhNs/ktjU28WW/ryG8MQ3gjjilliHDC
- rrcwcHYjJwE5SqfJMbNveCT4SwsMBYEFhHsZtM+sweE290C2KlhwKByytFl9aqiwxx
- 9NCgVlT+0vhqFFJhNYg6B4wVvrhGMPVBExNKmST18i82qUIQas7Ozc+QE6+U4Gd5FU
- RJK9RLAbVz/E4S/ks6fIi8fHABIUDKpUJDoAGVV0scmUSFKLIoVHw6rI9j/AlwRri0
- 4+GR87IyfXBEN38PzAjtPUXvpsEqaPXI831o0177KxHP52BX/9V2pD2yu5KXXeoMUl
- fZ43wlAmvr7yw==
-Date: Mon, 10 Jun 2024 17:32:27 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Andre Przywara <andre.przywara@arm.com>,
- Chris Morgan <macroalpha82@gmail.com>,
- John Watts <contact@jookia.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH RFC 1/8] dt-bindings: bus: allwinner: add H616 DE33
- bindings
-Message-ID: <20240610-morbidity-slum-d733494f1939@spud>
-References: <20240607110227.49848-1-ryan@testtoast.com>
- <20240607110227.49848-2-ryan@testtoast.com>
- <20240607-gag-radiantly-37bc3ac76907@spud>
- <e9e7a362-c41e-41f8-b6cd-02fbbd16ce8c@app.fastmail.com>
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA11110E486
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 16:44:04 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id
+ 98e67ed59e1d1-2c2c74d9be0so126096a91.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 09:44:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1718037844; x=1718642644;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZWJrFt56Ba2XKaEKUnUCqUmu/jVW4Te91KO0JGqkT1U=;
+ b=JgSgBbddLg6O3d5m0H24dBWHhA0aROhh0SaeMvj3xM6258lEFxgNwDP8PuSdHhItYq
+ m7MWuMt2hct7gzm4ePyWeNEbEnMlnrnaWfr7IU8LF4jtdSLHSJsWdTpNs1fs+NoXMr52
+ 7SODa8tMYYYgWdBbO9G/YrFenxqnPZ31vwZA5Fjs29NbZ4ICpLQx/RCclpXe5nws5GRz
+ Gvzy0DHbtN6oZcrRHW1xmVTlG5ZZ07HBfzwpeYrGOVpgdiV0ZXOPx78BkP4rmXMM5v2o
+ tKrj94gXzB2RYgJQDjj+SR4DbLbtRmB9lhztENMhcmToscWOguU3OaZsEMQRBgBmqi/4
+ mQ6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718037844; x=1718642644;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZWJrFt56Ba2XKaEKUnUCqUmu/jVW4Te91KO0JGqkT1U=;
+ b=hxWIXEj5EUWgEVcVqfSN3wvuDOU86RkEbcsxtVVtiTnKagdLb4Ea00Vtz9NJkogh11
+ TOks5aiz34nw8d+5faHzzpM3q6ENdrUuRumMIFQd4jMh8Pft/AE2B4N1+kGrkxiTEIiY
+ Ei7aVn27j9cewZISM+9eYiHDzEJgy6o2qLlMjMJsxyG1ci0MJF4xHm+hRomyrfxDTZR0
+ ylIUuihMLloxWuxswszmqnjUeVRHQnUBYR9QyHKX9ilURXuT8EgqjQlzMt6Phbrmi5jJ
+ uNaAXRqm9w4Y1FIaRaES7Hy/dHGznuQt2g3HJLLRNInbcXFwWkKXdBQsZsO4hj/c8Ej7
+ pamw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXWj7qwpuSlyOvzDHPEpRrmXpyV3vbwXlKjPLHU/1vad0a8PER+gvFEiLbeWqZ7Dnxcxzfu89yGYK/7VygDaXdXrKXNx5fRGceZWP2RblPi
+X-Gm-Message-State: AOJu0YzfKK9vDOk5w6U/uLbtsWvPHNc+/uqR5iNXyl7PpIH8jJNeqP6L
+ iALQ2bdgsllNWggiX5m/ccjTDJ5VhoCMXTdvd5Bq/B9VyU6dqb9GpqRKh000Aw==
+X-Google-Smtp-Source: AGHT+IFO/T7QbJyG6RfIGM4sbC0wUi2kSF81e1T/t2MsMvtblCbstqePphSLuWts4/pUFHivpG5mhw==
+X-Received: by 2002:a17:90b:1c8c:b0:2c2:3de7:20c0 with SMTP id
+ 98e67ed59e1d1-2c2bcc4cd43mr8521758a91.37.1718037843726; 
+ Mon, 10 Jun 2024 09:44:03 -0700 (PDT)
+Received: from google.com (226.75.127.34.bc.googleusercontent.com.
+ [34.127.75.226]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2c28066d57esm11358284a91.19.2024.06.10.09.44.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Jun 2024 09:44:03 -0700 (PDT)
+Date: Mon, 10 Jun 2024 16:43:59 +0000
+From: Carlos Llamas <cmllamas@google.com>
+To: Barry Song <21cnbao@gmail.com>
+Cc: linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+ sumit.semwal@linaro.org, Brian.Starkey@arm.com,
+ benjamin.gaignard@collabora.com, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org, jstultz@google.com,
+ linux-kernel@vger.kernel.org, tjmercier@google.com,
+ v-songbaohua@oppo.com, hailong.liu@oppo.com
+Subject: Re: [PATCH] dma-buf/heaps: Correct the types of fd_flags and
+ heap_flags
+Message-ID: <ZmctTwAuzkObaXLi@google.com>
+References: <20240606020213.49854-1-21cnbao@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="p5IxoNo8buJ/UBHS"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e9e7a362-c41e-41f8-b6cd-02fbbd16ce8c@app.fastmail.com>
+In-Reply-To: <20240606020213.49854-1-21cnbao@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,34 +88,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jun 06, 2024 at 02:02:13PM +1200, Barry Song wrote:
+> From: Barry Song <v-songbaohua@oppo.com>
+> 
+> dma_heap_allocation_data defines the UAPI as follows:
+> 
+>  struct dma_heap_allocation_data {
+>         __u64 len;
+>         __u32 fd;
+>         __u32 fd_flags;
+>         __u64 heap_flags;
+>  };
+> 
+> But dma heaps are casting both fd_flags and heap_flags into
+> unsigned long. This patch makes dma heaps - cma heap and
+> system heap have consistent types with UAPI.
+> 
+> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+> ---
 
---p5IxoNo8buJ/UBHS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Looks good to me, thanks!
 
-On Sun, Jun 09, 2024 at 03:19:55PM +1200, Ryan Walklin wrote:
-> On Sat, 8 Jun 2024, at 2:23 AM, Conor Dooley wrote:
-
-> >> +      - const: allwinner,sun50i-h616-de33-clk
-> >
-> > I think this is not right, as a corresponding driver change is missing.
-> > Either you're missing a clock driver patch or you didn't test your dts.
->=20
-> The clock driver patch with this compatible string is in patch 8/8.
-
-Ahh, I didn't notice that " drm: sun4i: add Display Engine 3.3 (DE33)
-support" had a clk driver. That needs to go into a patch of its own.
-
---p5IxoNo8buJ/UBHS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZmcqmwAKCRB4tDGHoIJi
-0tu7AQCo8gZn4juYCM25OwzfJQq7/23ZcuOT80PyC9J9xBK+qQEA/EVLDLvMiLow
-eaJLi+JsbSGZdPTSG/nuSu8+I+D9eQc=
-=1+Ai
------END PGP SIGNATURE-----
-
---p5IxoNo8buJ/UBHS--
+Reviewed-by: Carlos Llamas <cmllamas@google.com>
