@@ -2,90 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651F590227C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 15:13:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56AE99022AA
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 15:28:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B47410E0BC;
-	Mon, 10 Jun 2024 13:13:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10FFD10E156;
+	Mon, 10 Jun 2024 13:27:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LHWwsdGE";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="L1LrkjUd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDC5E10E0BC
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 13:13:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1718025216;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IrUlnMBlplzCA703kxl5+n8EFJwNGZ15Zmnn7aVwqoE=;
- b=LHWwsdGEBMWfvXO8s/dvF5COy34Vd6r91GulkaBXFx402Z6yrLTbIag3Vtr4JHBiLeoP0n
- KkYRrM1oqCqknWSt+dNDPGrt/1muxxLM9MfGW+P8PlG5IO+urH4LxBUEIfGDY759rryczC
- pAbMyzpIGduG40Sjx6uCPnvPfsUm+jU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-433-uCC-LbHpMBOV_ds_skcAFw-1; Mon, 10 Jun 2024 09:13:34 -0400
-X-MC-Unique: uCC-LbHpMBOV_ds_skcAFw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-35f1797e575so1160183f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 06:13:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718025213; x=1718630013;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IrUlnMBlplzCA703kxl5+n8EFJwNGZ15Zmnn7aVwqoE=;
- b=T8ko1pQBk90/vMeFce0/M9DGILhZAGN5zQLxquQ31FSZ7zyxqj4mL0EMcm7PsIlb6e
- wpHC0Jn3SBUmOoc65tmQiHL0m12tTav6s74apmLW+IkKSL+TrZA01L6QL9JNQJM9SGr1
- e1LrQifiki3H9dHTKMtUVYMRnadgjR3MX5U+NizBgSoCeFOXBVB4P/Pb/r7CImMWC39G
- gp9a02UO/upLjMmO5AxH0zpkjAHlrTiNlsHQ5//huspopK0II1/04b0RdvbKTKCbkgEo
- /aY75iRmL/d5ea2xpRJ/ggOI4rE2CA3vgZVNWicXUIrjeiUkMuFf7O9pYtOpfK8FvggV
- e7iA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV3sKaPvE/qO3nrKjrz2+HNKXvlbhS17hRNuI10YDrXjg33ofMXqbVK+OyrC6lZ6d9wntqn4zyRd2seP+SmWrSpzgfWvLA0inP2Kdg9cxVF
-X-Gm-Message-State: AOJu0YyXxK2dkXhn/NlZrpORYKuAC4wNu8GEeuwZKF2HsFLV41prjn6e
- ygYG7L5jLNWdi7YN5SEvE0tZFZzZIRsKODxkRLztWIyuSirBFxB9Evhyv2TBIj5k5a2xVYwCVnE
- vedQixNkZrZKRdle9RKbUOWjtEUVe4je6KMyxpdtKO6PfiDj6nTdfZ7nFLmEJXDkH5w==
-X-Received: by 2002:a5d:4583:0:b0:35f:296e:4130 with SMTP id
- ffacd0b85a97d-35f296e47a4mr616312f8f.51.1718025213796; 
- Mon, 10 Jun 2024 06:13:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEAhD4ZJw9Bi6tM7YL8PTv0XBgcF2TZ2fQnBusYpunX8Pj9IYg7YkjOK/PnV1JA0O8Mqvp52w==
-X-Received: by 2002:a5d:4583:0:b0:35f:296e:4130 with SMTP id
- ffacd0b85a97d-35f296e47a4mr616279f8f.51.1718025213460; 
- Mon, 10 Jun 2024 06:13:33 -0700 (PDT)
-Received: from pollux ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-35f23c67e70sm2905168f8f.33.2024.06.10.06.13.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jun 2024 06:13:32 -0700 (PDT)
-Date: Mon, 10 Jun 2024 15:13:30 +0200
-From: Danilo Krummrich <dakr@redhat.com>
-To: FUJITA Tomonori <fujita.tomonori@gmail.com>
-Cc: gregkh@linuxfoundation.org, wedsonaf@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
- a.hindborg@samsung.com, aliceryhl@google.com, lina@asahilina.net,
- pstanner@redhat.com, ajanulgu@redhat.com, lyude@redhat.com,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, mcgrof@kernel.org, russ.weight@linux.dev
-Subject: Re: [RFC PATCH 7/8] rust: add firmware abstractions
-Message-ID: <Zmb7-jUfxkNd0tJ9@pollux>
-References: <ZmMMMyi3uXTFtIae@cassiopeiae>
- <2024060745-palatable-dragging-32d1@gregkh>
- <ZmNJpQbTtFUPOkAJ@cassiopeiae>
- <20240608.082806.872238171846642664.fujita.tomonori@gmail.com>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2082.outbound.protection.outlook.com [40.107.93.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A42C610E156
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 13:27:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e3R3Mt3VKY4x/uGFVbGbdFBZHBWM5OueW5BwvR29GzVS+LoeUVCv7OyYyg6clhCMC5ljjWKno80yGm/N0euCNo08tT+P7g5UOMFL8PRC9o5KsQXo9udM7zWHVjCU9wTgRTWI5stxNHL9nysthzRIC9lVAUA02Sp4n1bNswx06ZWziwRoqmBGrIFLGamsnAIIdKSfsPRAZceKBrzjMJzZo23S0vn7ButEW/1qbmjfAZk8L8vqxr3dOi74xAiMjGRP/N0ZNDBMb/rZuXN/W1BfAZWsbGaq/vQzW8q1OwQ7j8qyJMF2flXhlYbFUA66UlyXMJuHyxzoCLuLtr/eKhvWew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=krb7fLberEgiAFeKkZFOfSJDuQ8AyilOTKwn/YxQER8=;
+ b=mR8CxxN5kNm9CaJ3s9oqI9qt/Ktj91fzozhmDhIb8MLNNi81yY9V4ZsaR8cjyweqHI+mqivoOmvwLroiHIAgD9PtupSb2qGe247Uzgebfdt5b70Kxrq+QGEhoJzjVQhM86Fkwdy0+3p/6eteB4UfpmHofPBTDLpVExeQm6F1YQJtPnCncPNuDnl1GdKIocnrlWH6ZKBg4RE5PIqxKBOY2OuTsDQsv9/wiS5do5fDq6U+c2I6qpN232u5vCtmNXAeVR3rzWEhssb3n6Ms0lqtRn+FuAFWXcoNoQBYvh3Cc1EMvPlD33m5AhxcINHRFxD7PZZ1Vxx+yjMTIbUAjhGOgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=krb7fLberEgiAFeKkZFOfSJDuQ8AyilOTKwn/YxQER8=;
+ b=L1LrkjUdv41XlLZZQOgIuX1f7R0szitegCO2Cu2SVC+0m/Z34ZhG2fe50tLpDmNL6C1VLeBQ8XUvjBpQ1DrHQC9bH+kVzyV3L7//BH0/lJgMpTerdkbrwgyk6b45cuOjI4l4HPIJNWsw+Y8lq0D6BDbv7g4y7HJNFb8Oc+APoqQ=
+Received: from BN9PR03CA0684.namprd03.prod.outlook.com (2603:10b6:408:10e::29)
+ by LV3PR12MB9402.namprd12.prod.outlook.com (2603:10b6:408:213::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Mon, 10 Jun
+ 2024 13:27:45 +0000
+Received: from BN1PEPF0000468C.namprd05.prod.outlook.com
+ (2603:10b6:408:10e:cafe::77) by BN9PR03CA0684.outlook.office365.com
+ (2603:10b6:408:10e::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7656.25 via Frontend
+ Transport; Mon, 10 Jun 2024 13:27:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN1PEPF0000468C.mail.protection.outlook.com (10.167.243.137) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7677.15 via Frontend Transport; Mon, 10 Jun 2024 13:27:43 +0000
+Received: from patedamande.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 10 Jun
+ 2024 08:27:39 -0500
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <ltuikov89@gmail.com>, <matthew.brost@intel.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <ville.syrjala@linux.intel.com>,
+ <rostedt@goodmis.org>
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Subject: [PATCH v4 0/3] Improve gpu_scheduler trace events
+Date: Mon, 10 Jun 2024 15:26:53 +0200
+Message-ID: <20240610132707.61404-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-In-Reply-To: <20240608.082806.872238171846642664.fujita.tomonori@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN1PEPF0000468C:EE_|LV3PR12MB9402:EE_
+X-MS-Office365-Filtering-Correlation-Id: 524cbd48-a68f-4cbf-b680-08dc89511bee
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230031|7416005|82310400017|1800799015|376005|36860700004|921011; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?e3KAiziPm0qIeTRHIyPKDGOzgeS7WXCLvB1h0EbbBnCcg6fdT8+PPR1G79h+?=
+ =?us-ascii?Q?dWvwBjueEb5m1o2cZBna1IO7A4de8ckzcIN1LqM+hdLF1DkWrZ119VYw0PwE?=
+ =?us-ascii?Q?sKIJ+AjPnuafZLe3mSMagK7C2T+a/5ZV8zgcgPaxMlhCBy6xSB85k8ookChx?=
+ =?us-ascii?Q?1zv/jkxvMMYlYwuPnss4d/z09oFbqHHXuzxJ7R1uVs/lAWvx5+onefeGCf9T?=
+ =?us-ascii?Q?LXWoTejut0C0fSq2wXDg+LHuUrQ1ZCBHUg8suMMgSSVrRhSBp/exiEzde5Js?=
+ =?us-ascii?Q?KkgDgi7Qt7CE4eUZlfI4YtYvajozGsW9VqLQRzCC4r0rfGf59tx06KihzBAT?=
+ =?us-ascii?Q?+v28OJPmylCb+CgR0pptlQ1Csc6JwAwktq0C7taVe8mFuqY302lPP5/bovqF?=
+ =?us-ascii?Q?AiTNDrhcA9wf0qOZQm2T7wQZnvJaI1A39VIUwemg0T8OtNUHPEcKFVnLaBjL?=
+ =?us-ascii?Q?+/4WM6BhSuFzy30HaJFu3rdC0L4y7RahLvyWA9rvLLa2jbTOp6Yu6oh9FZUH?=
+ =?us-ascii?Q?djM5JxXlHsR9r0XgtGsQa9fUciT+CQoTUFFC755PSx1JNr6cDNDSD5lNzkbF?=
+ =?us-ascii?Q?AE+MEkb0+nXR02QA36dxlO4GvrY59vUBUMMdJjbgrbiYbUnByCPnfntcGldz?=
+ =?us-ascii?Q?vw/PvsQ5rNqjN/ob3mZVT+2lHSXacXY05n6Qu1gc3k75Rz8oTQtnpGDSvokj?=
+ =?us-ascii?Q?QRTwgm+4x59jGtaoJVXfLwNiCGm+VwAuJ9dAA8YUs+7ARvAmyd8AVQHA8Nmn?=
+ =?us-ascii?Q?jcCj66tenKEgbrkbLrQmMFockXOMhQ+Il8NBBAT699YqEyub3THflg/L3yDc?=
+ =?us-ascii?Q?p1HRH38/UjCRXkh1gN9qmnvyN33H/NSdyOVcz8Phpb2LXowiNAnxof6RIlJ/?=
+ =?us-ascii?Q?xR/CUyFR2wXIxkKnuJxu4NfIsQR4R5veQILnGkE9jAnnCoNqkSieoBmeEEMU?=
+ =?us-ascii?Q?vaOWyrjAOT7f8zpVOBSzUwvrZ/Q/POPc1azi2BufJKHuJsHM35Jgsa2TYh4n?=
+ =?us-ascii?Q?1KNzWv97IoA82gDWI6FaRF1Y166yCsW7LUv7daVZi/255+rErwH27IXxnY+o?=
+ =?us-ascii?Q?6ZYvyc1bTSkcRfijX+zwQ4tVXBbWiDiKaoI93wmWhjTbZAPkCYyR1IAYtjTl?=
+ =?us-ascii?Q?c0eYiM2OJAtbpzzMQ+LN60A8Xr/BZuaWydK1I9LW9kO3YcGuYLwxd2GUgnMc?=
+ =?us-ascii?Q?N1LCYHNt8xF/8gH88FOgG4OOC8UqHcivKB/Ldk8MVFALiScjefwezVq/n6yH?=
+ =?us-ascii?Q?DII0s4vViiEX6nv0ofgigSJ/L2JSI4WKiICPRzvDM16Z5cPbsZ0i4mixE3HA?=
+ =?us-ascii?Q?70NrfmLpVRcLD50QXErTQW31rA/iQq4zpisllURullbMQ5dJuNycA0bALemX?=
+ =?us-ascii?Q?GkhRoRk=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(7416005)(82310400017)(1800799015)(376005)(36860700004)(921011);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2024 13:27:43.3128 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 524cbd48-a68f-4cbf-b680-08dc89511bee
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN1PEPF0000468C.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9402
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,64 +134,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jun 08, 2024 at 08:28:06AM +0900, FUJITA Tomonori wrote:
-> On Fri, 7 Jun 2024 19:55:49 +0200
-> Danilo Krummrich <dakr@redhat.com> wrote:
-> 
-> > On Fri, Jun 07, 2024 at 05:41:11PM +0200, Greg KH wrote:
-> >> On Fri, Jun 07, 2024 at 03:33:39PM +0200, Danilo Krummrich wrote:
-> >> > On Fri, Jun 07, 2024 at 02:36:50PM +0200, Greg KH wrote:
-> >> > > Anyway, that's all hand-wavy right now, sorry, to get back to the point
-> >> > > here, again, let's take this, which will allow the firmware bindings to
-> >> > > be resubmitted and hopefully accepted, and we can move forward from
-> >> > > there to "real" things like a USB or PCI or even platform device and
-> >> > > driver binding stuff.
-> >> > 
-> >> > In order to continue I propose to send out the following series:
-> >> > 
-> >> > 1) minimal device and firmware abstractions only
-> >> 
-> >> Sounds good.
-> > 
-> > Just a heads-up, I'll probably send this one quite a bit earlier than the other
-> > two to make sure to unblock Fujita on their PHY driver.
-> 
-> Please. The sooner, the better. I need to send the PHY driver with
-> these patchse to netdev.
+v3: https://lists.freedesktop.org/archives/dri-devel/2024-June/456792.html
 
-Why do you want to send those patches to netdev?
+Changes since v3:
+* trace device name instead of drm_device primary index
+* no pointer deref in the TP_printk anymore. Instead the fence context/seqno
+are saved in TP_fast_assign
 
-I think nothing prevents you from sending your PHY driver to netdev. Just add a
-note to your series that it depends on those two patches.
+Pierre-Eric Pelloux-Prayer (3):
+  drm/sched: add device name to the drm_sched_process_job event
+  drm/sched: cleanup gpu_scheduler trace events
+  drm/sched: trace dependencies for gpu jobs
 
-How and through which trees things are merged in the end can be figured out by
-the corresponding maintainers in the end.
+ .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 97 +++++++++++++++----
+ drivers/gpu/drm/scheduler/sched_entity.c      |  8 +-
+ drivers/gpu/drm/scheduler/sched_main.c        |  2 +-
+ 3 files changed, 84 insertions(+), 23 deletions(-)
 
-> 
-> I'm not sure what the above "minimal device" means. If you send the
-> original patch again instead of the patch that Greg already approved
-> and the discussion continues, then I proceed with the approved patch.
-> 
-
-I'm honestly getting a bit tired of this...
-
-1) I fundamentally disagree that it's a good thing to fork off patches that are
-   actively discussed and reviewed on the mailing list with the objective to
-   bypass the discussion and the review process. Especially without agreement of
-   all involved parties.
-
-2) It's at least questionable to claim that your forked-off patch can be
-   considered to be "approved".
-
-3) I really try to help and already confirmed to send out a separate series with
-   only the patches you need as well to accelerate things for you.
-
-If you really want to help with that, you are very welcome to get involved in
-the discussion and review process. If you don't want to, that is fine too. But
-please stop adding confusion to those series by forking off patches.
-
-Besides that, I also don't appreciate your attitude, trying to put some kind of
-"ultimatum" on me.
-
-- Danilo
+-- 
+2.40.1
 
