@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 278DE901E3C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 11:32:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABA5901E36
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 11:32:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07C0510E3F4;
-	Mon, 10 Jun 2024 09:32:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6393F10E3ED;
+	Mon, 10 Jun 2024 09:32:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fYqe+Viu";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bM4h8Ohe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCE0110E3EA
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 09:32:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F057710E3EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 09:32:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1718011926;
+ s=mimecast20190719; t=1718011925;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Oyizp71aDVZTVSj1hEgGPWD4Zgvxaje3MhAhMHAAQDo=;
- b=fYqe+ViuyYhL3f4b6QMbWQnTi4OavFCt9bPKo2Migx6lzaw7VIcnKO5RFJQeAxUnLXso0Z
- LB/ziyBoW3nV3Ujg2x6z8yzHjyZpOxkPDcMkGpoNbq8Hcc8EI+mu6PehWwxn3JqRJtgO92
- M8z2Xc7wXcJY+V66/lAt4eDqOHcyPuQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qTRnfk+xncNuJMn54sP5qzAQh4gcZ4Sy3yYao6iQeYc=;
+ b=bM4h8OheRejkUtpWt4Z6jiLZ7MYTEl8V/THMuRIHhhUfIZkPIdTo2eG0juDE542qeVtVnz
+ FrYsR1I03n8YaYLPXyy6k+TBwtbKIeAY3qfO0Mbp3AgH27dKDzeYL1RcJC2R8ahHlOvWUf
+ uL1wOkItcyvcqoZx7Ajb4zyx1cVjizA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-653-iKbHv1TgOxyChAWXaCV4GA-1; Mon, 10 Jun 2024 05:32:01 -0400
-X-MC-Unique: iKbHv1TgOxyChAWXaCV4GA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-42180ddc0b9so1691695e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 02:32:01 -0700 (PDT)
+ us-mta-397-iRiAkXlHOyqQ_JLOt4i0fw-1; Mon, 10 Jun 2024 05:32:03 -0400
+X-MC-Unique: iRiAkXlHOyqQ_JLOt4i0fw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-4211239ed3dso5276665e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 02:32:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718011921; x=1718616721;
+ d=1e100.net; s=20230601; t=1718011922; x=1718616722;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Oyizp71aDVZTVSj1hEgGPWD4Zgvxaje3MhAhMHAAQDo=;
- b=moWER7HAXgLQzR/klsyVLebUTLi6YVS3Z5zCXF9acy9JG0uMVOb7uw4M4+0MLeoqIP
- xSbDVXJg+mfwxEQPJLnHpHAPxHvv78agd57gL3Wzseyc2KGEPbm/msvVeVlB78qeMUn0
- UKTWyL9nQrbzWY3L8+yXBJHAsjP+4KMUyN6OpVoTTVpx2wJTsWm97VOIMHTBJHCFJWv0
- gwqUwE0pFwD5PUPVFnWDthpeKVYm9l+Vf58ASGFPZZ7+/vlKj9pAzNO49XEloFdwTQIJ
- rDiQBp9vtxAmc/sNZaIeP0HPPfoqERdjDAOriyBHe4j7NpWjUbgeMTpqQyj2XBj78W1+
- 43ug==
-X-Gm-Message-State: AOJu0YxI1jerWyoaD5/nqxPcwczBlC5Tp9BvHapDw69C68om2bDu3RPy
- 2/os+EbFADdMYdMEZccDj4Z3wZV+gKc+jq51XXaAFarT6Aadtn2A/P/OIlJq9Iy3x4/quVwQ0cr
- /u/EMnvno8wHTgJo3QOIA8uJx8dnSr3hh79OzNb3NOD0NSeHKk/gGlIFbf6ZJSJUHvA==
-X-Received: by 2002:a5d:64cb:0:b0:354:e778:3665 with SMTP id
- ffacd0b85a97d-35efee307bamr7423580f8f.5.1718011920882; 
- Mon, 10 Jun 2024 02:32:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHBB6YZLiS2HIy0dE82G5S8NImrCKfK+wiAnir8JXLqf86PoMnWoXCllIT/8+SHiawccCY93w==
-X-Received: by 2002:a5d:64cb:0:b0:354:e778:3665 with SMTP id
- ffacd0b85a97d-35efee307bamr7423555f8f.5.1718011920534; 
- Mon, 10 Jun 2024 02:32:00 -0700 (PDT)
+ bh=qTRnfk+xncNuJMn54sP5qzAQh4gcZ4Sy3yYao6iQeYc=;
+ b=mnbA+9obN2cN52ZVshP2cNPrFXuKQ6DGGwEXIqMRYgcNJYaWkf5ot90z+j7eAwyL8r
+ sxsilTn0iiTtoV9Rm0iErmY4DwkImwSuhAM07JdxBQPoTeaaFv5JOUWRCjnHwF0N+5bz
+ RTyinZJbPrChFhcs++WugtilJGaaZjCKH23frUiR5ofg5Tcciw6AcOd1/TPzU0vCZWum
+ eT+4H7VJgaZG8dV7KxXaJYFF1vEhXYvPSS2Epc9YdjR5pjTm0disnXYt3GAzsIJvDffu
+ UbaeUTq1EtxtykNjGwzwu5U7PMG1r3IEmPq4+wUVgbs2mE00JHj6MELI/WmZEhzV2xy8
+ ySBA==
+X-Gm-Message-State: AOJu0YxrRBw558OwR6A2i51WAP45BOa231BcdiZFjfBnhzSdhan1KozY
+ xLDoelyWCKvixgk8MgZAD+oxiaPclamcmHb03u2Dol1FsAAJI0tvrOqCJuKLw3tgIxPToCDzSEC
+ npxUMr9tbwG3v4N5jKqzTuGZfV+W3m1cqQZaVkwPKRS192eMsZ18v8PkxgtVY6GxU4A==
+X-Received: by 2002:a5d:588e:0:b0:34d:b5d6:fe4b with SMTP id
+ ffacd0b85a97d-35efedd2e3emr6479218f8f.4.1718011921894; 
+ Mon, 10 Jun 2024 02:32:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHZ34RIrsm60vplmSUHSp8HATp7AS7kEdOir9ms2KbhbicgUfnK/HnyWUyl28CP1kKuZ42sMA==
+X-Received: by 2002:a5d:588e:0:b0:34d:b5d6:fe4b with SMTP id
+ ffacd0b85a97d-35efedd2e3emr6479204f8f.4.1718011921628; 
+ Mon, 10 Jun 2024 02:32:01 -0700 (PDT)
 Received: from pstanner-thinkpadt14sgen1.muc.redhat.com
  (nat-pool-muc-t.redhat.com. [149.14.88.26])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-35f0ce4b62fsm7257545f8f.80.2024.06.10.02.31.59
+ ffacd0b85a97d-35f0ce4b62fsm7257545f8f.80.2024.06.10.02.32.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jun 2024 02:32:00 -0700 (PDT)
+ Mon, 10 Jun 2024 02:32:01 -0700 (PDT)
 From: Philipp Stanner <pstanner@redhat.com>
 To: Hans de Goede <hdegoede@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -71,9 +71,9 @@ To: Hans de Goede <hdegoede@redhat.com>,
  Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-pci@vger.kernel.org, Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH v8 01/13] PCI: Add and use devres helper for bit masks
-Date: Mon, 10 Jun 2024 11:31:23 +0200
-Message-ID: <20240610093149.20640-2-pstanner@redhat.com>
+Subject: [PATCH v8 02/13] PCI: Add devres helpers for iomap table
+Date: Mon, 10 Jun 2024 11:31:24 +0200
+Message-ID: <20240610093149.20640-3-pstanner@redhat.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <20240610093149.20640-1-pstanner@redhat.com>
 References: <20240610093149.20640-1-pstanner@redhat.com>
@@ -97,70 +97,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current derves implementation uses manual shift operations to check
-whether a bit in a mask is set. The code can be made more readable by
-writing a small helper function for that.
+The pcim_iomap_devres.table administrated by pcim_iomap_table() has its
+entries set and unset at several places throughout devres.c using manual
+iterations which are effectively code duplications.
 
-Implement mask_contains_bar() and use it where applicable.
+Add pcim_add_mapping_to_legacy_table() and
+pcim_remove_mapping_from_legacy_table() helper functions and use them where
+possible.
 
-Link: https://lore.kernel.org/r/20240605081605.18769-3-pstanner@redhat.com
+Link: https://lore.kernel.org/r/20240605081605.18769-4-pstanner@redhat.com
 Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+[bhelgaas: s/short bar/int bar/ for consistency]
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/pci/devres.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/pci/devres.c | 77 +++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 58 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
-index 2c562b9eaf80..f13edd4a3873 100644
+index f13edd4a3873..845d6fab0ce7 100644
 --- a/drivers/pci/devres.c
 +++ b/drivers/pci/devres.c
-@@ -161,6 +161,10 @@ int pcim_set_mwi(struct pci_dev *dev)
+@@ -297,6 +297,52 @@ void __iomem * const *pcim_iomap_table(struct pci_dev *pdev)
  }
- EXPORT_SYMBOL(pcim_set_mwi);
+ EXPORT_SYMBOL(pcim_iomap_table);
  
-+static inline bool mask_contains_bar(int mask, int bar)
++/*
++ * Fill the legacy mapping-table, so that drivers using the old API can
++ * still get a BAR's mapping address through pcim_iomap_table().
++ */
++static int pcim_add_mapping_to_legacy_table(struct pci_dev *pdev,
++					    void __iomem *mapping, int bar)
 +{
-+	return mask & BIT(bar);
++	void __iomem **legacy_iomap_table;
++
++	if (bar >= PCI_STD_NUM_BARS)
++		return -EINVAL;
++
++	legacy_iomap_table = (void __iomem **)pcim_iomap_table(pdev);
++	if (!legacy_iomap_table)
++		return -ENOMEM;
++
++	/* The legacy mechanism doesn't allow for duplicate mappings. */
++	WARN_ON(legacy_iomap_table[bar]);
++
++	legacy_iomap_table[bar] = mapping;
++
++	return 0;
 +}
- 
- static void pcim_release(struct device *gendev, void *res)
++
++/*
++ * Remove a mapping. The table only contains whole-BAR mappings, so this will
++ * never interfere with ranged mappings.
++ */
++static void pcim_remove_mapping_from_legacy_table(struct pci_dev *pdev,
++						  void __iomem *addr)
++{
++	int bar;
++	void __iomem **legacy_iomap_table;
++
++	legacy_iomap_table = (void __iomem **)pcim_iomap_table(pdev);
++	if (!legacy_iomap_table)
++		return;
++
++	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
++		if (legacy_iomap_table[bar] == addr) {
++			legacy_iomap_table[bar] = NULL;
++			return;
++		}
++	}
++}
++
+ /**
+  * pcim_iomap - Managed pcim_iomap()
+  * @pdev: PCI device to iomap for
+@@ -308,16 +354,20 @@ EXPORT_SYMBOL(pcim_iomap_table);
+  */
+ void __iomem *pcim_iomap(struct pci_dev *pdev, int bar, unsigned long maxlen)
  {
-@@ -169,7 +173,7 @@ static void pcim_release(struct device *gendev, void *res)
- 	int i;
+-	void __iomem **tbl;
++	void __iomem *mapping;
  
- 	for (i = 0; i < DEVICE_COUNT_RESOURCE; i++)
--		if (this->region_mask & (1 << i))
-+		if (mask_contains_bar(this->region_mask, i))
- 			pci_release_region(dev, i);
+-	BUG_ON(bar >= PCIM_IOMAP_MAX);
+-
+-	tbl = (void __iomem **)pcim_iomap_table(pdev);
+-	if (!tbl || tbl[bar])	/* duplicate mappings not allowed */
++	mapping = pci_iomap(pdev, bar, maxlen);
++	if (!mapping)
+ 		return NULL;
  
- 	if (this->mwi)
-@@ -363,7 +367,7 @@ int pcim_iomap_regions(struct pci_dev *pdev, int mask, const char *name)
- 	for (i = 0; i < DEVICE_COUNT_RESOURCE; i++) {
- 		unsigned long len;
+-	tbl[bar] = pci_iomap(pdev, bar, maxlen);
+-	return tbl[bar];
++	if (pcim_add_mapping_to_legacy_table(pdev, mapping, bar) != 0)
++		goto err_table;
++
++	return mapping;
++
++err_table:
++	pci_iounmap(pdev, mapping);
++	return NULL;
+ }
+ EXPORT_SYMBOL(pcim_iomap);
  
--		if (!(mask & (1 << i)))
-+		if (!mask_contains_bar(mask, i))
- 			continue;
+@@ -330,20 +380,9 @@ EXPORT_SYMBOL(pcim_iomap);
+  */
+ void pcim_iounmap(struct pci_dev *pdev, void __iomem *addr)
+ {
+-	void __iomem **tbl;
+-	int i;
+-
+ 	pci_iounmap(pdev, addr);
  
- 		rc = -EINVAL;
-@@ -386,7 +390,7 @@ int pcim_iomap_regions(struct pci_dev *pdev, int mask, const char *name)
- 	pci_release_region(pdev, i);
-  err_inval:
- 	while (--i >= 0) {
--		if (!(mask & (1 << i)))
-+		if (!mask_contains_bar(mask, i))
- 			continue;
- 		pcim_iounmap(pdev, iomap[i]);
- 		pci_release_region(pdev, i);
-@@ -438,7 +442,7 @@ void pcim_iounmap_regions(struct pci_dev *pdev, int mask)
- 		return;
+-	tbl = (void __iomem **)pcim_iomap_table(pdev);
+-	BUG_ON(!tbl);
+-
+-	for (i = 0; i < PCIM_IOMAP_MAX; i++)
+-		if (tbl[i] == addr) {
+-			tbl[i] = NULL;
+-			return;
+-		}
+-	WARN_ON(1);
++	pcim_remove_mapping_from_legacy_table(pdev, addr);
+ }
+ EXPORT_SYMBOL(pcim_iounmap);
  
- 	for (i = 0; i < PCIM_IOMAP_MAX; i++) {
--		if (!(mask & (1 << i)))
-+		if (!mask_contains_bar(mask, i))
- 			continue;
- 
- 		pcim_iounmap(pdev, iomap[i]);
 -- 
 2.45.0
 
