@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF4BF901D7F
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 10:58:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C027A901D80
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 10:58:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCCB810E395;
-	Mon, 10 Jun 2024 08:58:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B23DC10E396;
+	Mon, 10 Jun 2024 08:58:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Z3VsvgX2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GrvelJR8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E715D10E38D
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 08:58:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02A5710E396
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 08:58:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718009928; x=1749545928;
+ t=1718009933; x=1749545933;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=GbpYXxZBS+r4Y0EiK3BFmXVZKaFfLeJ2IAlI0t0Upno=;
- b=Z3VsvgX2vVlLgjm1BsrPRPQJpDPhKtvMcNfQA/5PX7bE2VOa2mBCi06A
- zZl2RiRitOfEw+89RTsGZmmfBlc51vDd5F8kFZiEIWKq3MB8K/UUSarvs
- v0q16NOutn6IrzS641kmPdqif32vItkT1X8DZkOMmjDwNuoenZC7gQ90m
- +Hme+MigYqwSLCsz1CBoIcueCEHTGuf+HdD6KmQGRKouMN/Ma0dbByzr2
- 88TGXY+zBt275/ZaTYK3mPpGlij479nqFm1ZIiS+6WtGX+ELjy3lN0HYM
- l+saF0Srs+tuZE5Ox4EgHJDGqFAh4pLY4RMQ0yIvLG77t15lFR2hTxZid g==;
-X-CSE-ConnectionGUID: gPr/PstPQG+Du4oMqCemzw==
-X-CSE-MsgGUID: stwghJcJR7ythYXAFwNyzA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="17581621"
-X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; d="scan'208";a="17581621"
+ bh=3intrfdlq62sPZGdllNzLo1Ahf/WR8/6yPI2eqBXYY8=;
+ b=GrvelJR8lc4v8Nby6CPs0NUw/nHUGoklKtcPbh4bQaS89AUi+nUodsfU
+ 7d7xiW1IQux0rqGb9K/kyFuo3azx3weZFz4TZxAX28vBstTDtbBEmGbLf
+ QZHr7nt28h+T7y+hp26VqvEl5xYWzQkab+ctu16ighOS4koaNfp604siz
+ SpN6gWZr7oCfIWcrZvql8JSpb+LNM6JMps0xEyxGeUJq1A6nv+Ryl864+
+ j1e0YaTXcPL7vkzZq0Z3HorxvsR29WFUgjZpWcZuepAsX5gkFV/cv4dLB
+ Xo5maXEGGU+Wo/Hs3nOna1PcxAcuDEoacoEbi5p4rtgpjeJqMvWYEqZ8L g==;
+X-CSE-ConnectionGUID: opHF0Y2uQGO3zsZnxVIGnw==
+X-CSE-MsgGUID: Y+d4GYWoSWS5axUPwFO4+w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="17581631"
+X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; d="scan'208";a="17581631"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2024 01:58:47 -0700
-X-CSE-ConnectionGUID: VamhjrgFQlaSd3fZomawuA==
-X-CSE-MsgGUID: APBKRNmnS5KOzuWJvg3h1Q==
+ 10 Jun 2024 01:58:52 -0700
+X-CSE-ConnectionGUID: Ilzg052XTkGNg5Xl4jMrRA==
+X-CSE-MsgGUID: 2uqmD9gJTn61hulUVOHf8A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; d="scan'208";a="43432531"
+X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; d="scan'208";a="43432549"
 Received: from unknown (HELO allen-box.sh.intel.com) ([10.239.159.127])
- by fmviesa003.fm.intel.com with ESMTP; 10 Jun 2024 01:58:43 -0700
+ by fmviesa003.fm.intel.com with ESMTP; 10 Jun 2024 01:58:48 -0700
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
@@ -57,9 +57,9 @@ Cc: Yi Liu <yi.l.liu@intel.com>, David Airlie <airlied@gmail.com>,
  ath11k@lists.infradead.org, iommu@lists.linux.dev,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Lu Baolu <baolu.lu@linux.intel.com>
-Subject: [PATCH v3 06/21] drm/nouveau/tegra: Use iommu_paging_domain_alloc()
-Date: Mon, 10 Jun 2024 16:55:40 +0800
-Message-Id: <20240610085555.88197-7-baolu.lu@linux.intel.com>
+Subject: [PATCH v3 07/21] gpu: host1x: Use iommu_paging_domain_alloc()
+Date: Mon, 10 Jun 2024 16:55:41 +0800
+Message-Id: <20240610085555.88197-8-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240610085555.88197-1-baolu.lu@linux.intel.com>
 References: <20240610085555.88197-1-baolu.lu@linux.intel.com>
@@ -80,30 +80,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In nvkm_device_tegra_probe_iommu(), a paging domain is allocated for @dev
-and attached to it on success. Use iommu_paging_domain_alloc() to make it
-explicit.
+An iommu domain is allocated in host1x_iommu_attach() and is attached to
+host->dev. Use iommu_paging_domain_alloc() to make it explicit.
 
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 ---
- drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/host1x/dev.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
-index 87caa4a72921..763c4c2925f9 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
-@@ -120,8 +120,8 @@ nvkm_device_tegra_probe_iommu(struct nvkm_device_tegra *tdev)
- 	mutex_init(&tdev->iommu.mutex);
+diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+index 3a0aaa68ac8d..f86a6b12f24a 100644
+--- a/drivers/gpu/host1x/dev.c
++++ b/drivers/gpu/host1x/dev.c
+@@ -404,9 +404,10 @@ static struct iommu_domain *host1x_iommu_attach(struct host1x *host)
+ 		if (err < 0)
+ 			goto put_group;
  
- 	if (device_iommu_mapped(dev)) {
--		tdev->iommu.domain = iommu_domain_alloc(&platform_bus_type);
--		if (!tdev->iommu.domain)
-+		tdev->iommu.domain = iommu_paging_domain_alloc(dev);
-+		if (IS_ERR(tdev->iommu.domain))
- 			goto error;
+-		host->domain = iommu_domain_alloc(&platform_bus_type);
+-		if (!host->domain) {
+-			err = -ENOMEM;
++		host->domain = iommu_paging_domain_alloc(host->dev);
++		if (IS_ERR(host->domain)) {
++			err = PTR_ERR(host->domain);
++			host->domain = NULL;
+ 			goto put_cache;
+ 		}
  
- 		/*
 -- 
 2.34.1
 
