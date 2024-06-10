@@ -2,89 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541C490214E
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 14:11:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B372902165
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 14:16:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 671A110E44C;
-	Mon, 10 Jun 2024 12:11:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83CC210E33F;
+	Mon, 10 Jun 2024 12:16:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YRI0u7U3";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="n8lSgNbZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C932510E44C
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 12:10:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1718021458;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rmh45+QL9lYUvQfWOQKRFK+1UH5QO9q1DcPwZDy9DLI=;
- b=YRI0u7U361dF7Vby9Y5fBDYwTlTIPjSnWWVwJ3MNFOMikuVxj6W7M5YMxAoxenffbij1jd
- JNjgW0MqW32pM0JgCs7lA5kEVFQaxFECMe2cARiPk98H8sgC95/txwzEXoKM+/eXrHMOVO
- Q3FJpKOrL6+RI+y6ws3xDlCP3mUKuww=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-37-zk9qeVjlPQ6T2o4KaSnz2Q-1; Mon, 10 Jun 2024 08:10:57 -0400
-X-MC-Unique: zk9qeVjlPQ6T2o4KaSnz2Q-1
-Received: by mail-lf1-f70.google.com with SMTP id
- 2adb3069b0e04-52bce33a0c1so2400982e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 05:10:56 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
+ [209.85.128.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B437910E33F
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 12:16:29 +0000 (UTC)
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-627ea4e0becso45985687b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 05:16:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1718021788; x=1718626588; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=sLBhiGTWQPkGSzXF44ZdseZQqm/Ay7CrbOb4xYeFmxw=;
+ b=n8lSgNbZTtSL7Uv/u/vSOTmOis+D3S6Zv0d/Ajg5aMarEu8BE85ywLgMVQe+cMmMVL
+ E1O4aEsXBQAxFbBOSdlhYppxtEWsUsfKJb06vibCcBrTLr9tbeocs9Bf5Sk2rhO/K5Tu
+ jl9MgGZC6LtnfOvF79+/KN3CG7EgzxPlDpBBSUV06Fdbqq4OCWsrlHGi827m8v+aGBJL
+ RCNoMDv2WsrE5HG33++psO4CCNBF0WFyRil7+bch1R529PNLKbMk0fJCJQTU0UVQMMGL
+ hTd3eqcanK4PIUvAe+6ugSQ1ui1Jo/jaQ4X1c5mBEHfB1mPG0CRDqDWfP8xp4rTNlFuT
+ Hr4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718021455; x=1718626255;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rmh45+QL9lYUvQfWOQKRFK+1UH5QO9q1DcPwZDy9DLI=;
- b=rEHr+aCgdXU7R3P7DaweC/D582w6iBa3TKlIbBSDJDJiFamSgtExRqyz0J26oaxBnk
- enIbspdInDN/lG7nvhrhUpkwSiFN+n2EuYNZBdpZS1HCA5vzo5cn/23NB9Deb5+YWgYd
- qe+6u5oaL7l8ev3BJIQPx9TZDcog8flRin2bazIgEelNRJ/8RbC3trF3JTca+rT2+yj5
- qMjSo3cIFdGAW1FZHAkXdo1JYbUHGbgmTKw7Mw6YYk2JMN3KWPMl+UpDmybD84M9bSg4
- nNMVOJpeEEk2XG9VTou3d6Tx3iKocUDBlkUSCkZySKc+s0Yc+m6kjGUVpq4zg+r9xBeS
- 37Sg==
+ d=1e100.net; s=20230601; t=1718021788; x=1718626588;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sLBhiGTWQPkGSzXF44ZdseZQqm/Ay7CrbOb4xYeFmxw=;
+ b=RuncQfDae2W4ljrDRLmvICV1EIDElXJLLTlpvFX4iluZ2l0rTEsWvc3XtITuyXkvwQ
+ 1ByLQzXufFXpP8H2mn72S0Bdtns+rrQEJgS8jWISD6f5N+u0cIrOUCfOFsXL+rtgQeIa
+ rFletE84DwCn3AEjcXKXpUUaGSHUXE64+H052VB2iQNjYH8Y1Bqijbzvl8qUGu3Er5ed
+ iX5jf934rqu4EGHFCsfyJ+o7zfzEEdSNmNUQUtK90a7sPOZTxpb8H2M1FCfWW/HqV8O8
+ VXVGsIc+DcRkpTS1M3tmb7JtIeov6l/oPXwmMdO/6Vp8GI9MBUhRP6dwxuNI6DVK2Kmm
+ Nniw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU4lep2m+QNalecjupBsmoXwOndbSBmGFBqcJL6yDgQExPRFczN6z7dYA4zapfxluIhBSmausqBSaUudPaQ7zt1O1EcDRyd9Yh6gsow2mdJ
-X-Gm-Message-State: AOJu0Yzj3n8HuyUYux4wzl+E+4xJ5HFDPCBdK5JpcoY1tDZxTtwpOkHk
- 9zQfCTJF1/G1wq6Ww7DW7tBS6ZU5bUKPhO4ZWMMFAQ/G2A7HJvyJH7WY19hZSdI4tgUySQBo1wl
- +e/O+QT8OfcBPh4uwJZ/RfRiU8I0KR8F44vV99jwXwkWTS4EDVrpkTD/xaaM8RAoLrQ7i5nAH1Q
- ==
-X-Received: by 2002:a05:6512:3ca8:b0:52c:81db:2659 with SMTP id
- 2adb3069b0e04-52c81db273dmr4772196e87.28.1718021455364; 
- Mon, 10 Jun 2024 05:10:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFH5I+bI1Zscw3ljgBA/No/54Ob6r2F8C5rp2cn5cy3NBf5dBTS0Sw7qtA18W5MpUaLS/tktA==
-X-Received: by 2002:a05:6512:3ca8:b0:52c:81db:2659 with SMTP id
- 2adb3069b0e04-52c81db273dmr4772174e87.28.1718021454959; 
- Mon, 10 Jun 2024 05:10:54 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
- ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-35f11eb2621sm6427961f8f.37.2024.06.10.05.10.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jun 2024 05:10:54 -0700 (PDT)
-Message-ID: <3649ff15-df2b-49ba-920f-c418355d79b5@redhat.com>
-Date: Mon, 10 Jun 2024 14:10:53 +0200
+ AJvYcCW4vYNj21HJ8lklSW5cBiV04YU079/ZZK2+HPNPulWxnDRSuFg+e8zTN05VvyniB2zUEV27Jie0GGhH1LIcqiMZglV+GVqFP8hOslfl2sWo
+X-Gm-Message-State: AOJu0YySpmQUuJWPyvrwVuc+FrfQM/OMRz6Z6ZIwDOiwR2nOx9z37Lmw
+ tCFb9ctrw7I3sXMClVsu6VNnFXRXXxkoasOIo3rS/GHSnIuMV8lzpT1hqyMemA0=
+X-Google-Smtp-Source: AGHT+IHKUHpBEHdEL4hUatHn2U1DbF50V0YQ7tp+HSd+jRZUj7MSdsNfIMBQ/mHVI5dhq2ZCcmRiZw==
+X-Received: by 2002:a81:6fd5:0:b0:627:dca5:407b with SMTP id
+ 00721157ae682-62cd55c0a56mr87073917b3.13.1718021786857; 
+ Mon, 10 Jun 2024 05:16:26 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.80.239]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6b04f6213dfsm45360126d6.23.2024.06.10.05.16.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Jun 2024 05:16:26 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+ (envelope-from <jgg@ziepe.ca>) id 1sGdwn-00Di9E-NN;
+ Mon, 10 Jun 2024 09:16:25 -0300
+Date: Mon, 10 Jun 2024 09:16:25 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: David Wei <dw@davidwei.uk>, David Ahern <dsahern@kernel.org>,
+ Mina Almasry <almasrymina@google.com>,
+ Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>,
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>,
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <20240610121625.GI791043@ziepe.ca>
+References: <20240530201616.1316526-3-almasrymina@google.com>
+ <ZlqzER_ufrhlB28v@infradead.org>
+ <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
+ <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
+ <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
+ <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
+ <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+ <20240607145247.GG791043@ziepe.ca>
+ <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
+ <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] drm/panic: Add a kmsg panic screen
-To: Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20240603095343.39588-1-jfalempe@redhat.com>
- <20240603095343.39588-4-jfalempe@redhat.com>
- <87wmn1jeou.fsf@minerva.mail-host-address-is-not-set>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <87wmn1jeou.fsf@minerva.mail-host-address-is-not-set>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,99 +138,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 07/06/2024 11:16, Javier Martinez Canillas wrote:
-> Jocelyn Falempe <jfalempe@redhat.com> writes:
+On Mon, Jun 10, 2024 at 02:07:01AM +0100, Pavel Begunkov wrote:
+> On 6/10/24 01:37, David Wei wrote:
+> > On 2024-06-07 17:52, Jason Gunthorpe wrote:
+> > > IMHO it seems to compose poorly if you can only use the io_uring
+> > > lifecycle model with io_uring registered memory, and not with DMABUF
+> > > memory registered through Mina's mechanism.
+> > 
+> > By this, do you mean io_uring must be exclusively used to use this
+> > feature?
+> > 
+> > And you'd rather see the two decoupled, so userspace can register w/ say
+> > dmabuf then pass it to io_uring?
 > 
->> Add a kmsg option, which will display the last lines of kmsg,
->> and should be similar to fbcon.
->> Add a drm.panic_screen module parameter, so you can choose between
->> the different panic screens available.
->> two options currently, but more will be added later:
->>   * "user": a short message telling the user to reboot the machine.
->>   * "kmsg": fill the screen with the last lines of kmsg.
->>
->> You can even change it at runtime by writing to
->> /sys/module/drm/parameters/panic_screen
->>
-> 
-> Great!
-> 
->> v2:
->>   * use module parameter instead of Kconfig choice
->>     (Javier Martinez Canillas)
->>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> ---
->>   drivers/gpu/drm/Kconfig     |  11 ++++
->>   drivers/gpu/drm/drm_panic.c | 108 ++++++++++++++++++++++++++++++++----
->>   2 files changed, 109 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->> index 9703429de6b9..944815cee080 100644
->> --- a/drivers/gpu/drm/Kconfig
->> +++ b/drivers/gpu/drm/Kconfig
->> @@ -137,6 +137,17 @@ config DRM_PANIC_DEBUG
->>   	  This is unsafe and should not be enabled on a production build.
->>   	  If in doubt, say "N".
->>   
->> +config DRM_PANIC_SCREEN
->> +	string "Panic screen formater"
->> +	default "user"
->> +	depends on DRM_PANIC
->> +	help
->> +	  This option enable to choose what will be displayed when a kernel
->> +	  panic occurs. You can choose between "user", a short message telling
->> +	  the user to reboot the system, or "kmsg" which will display the last
->> +	  lines of kmsg.
-> 
-> Maybe I would mention here that this is only about the default, but that
-> can be changed using the "drm.panic_screen=" kernel cmdline parameter or
-> writting to the /sys/module/drm/parameters/panic_screen sysfs entry.
-> 
-> [...]
+> Personally, I have no clue what Jason means. You can just as
+> well say that it's poorly composable that write(2) to a disk
+> cannot post a completion into a XDP ring, or a netlink socket,
+> or io_uring's main completion queue, or name any other API.
 
-Done
-> 
->> +static void draw_panic_static_kmsg(struct drm_scanout_buffer *sb)
->> +{
->> +	u32 fg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR, sb->format->format);
->> +	u32 bg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_BACKGROUND_COLOR, sb->format->format);
->> +	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
-> 
-> Dan reported that get_default_font() can return NULL....
+There is no reason you shouldn't be able to use your fast io_uring
+completion and lifecycle flow with DMABUF backed memory. Those are not
+widly different things and there is good reason they should work
+together.
 
-> 
->> +	struct drm_rect r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
->> +	struct kmsg_dump_iter iter;
->> +	char kmsg_buf[512];
->> +	size_t kmsg_len;
->> +	struct drm_panic_line line;
->> +	int yoffset = sb->height - font->height - (sb->height % font->height) / 2;
->> +
->> +	if (!font)
->> +		return;
->> +
-> 
-> ... so you have to calculate yoffset after checking if the font is not NULL.
+Pretending they are totally different just because two different
+people wrote them is a very siloed view.
 
-Yes I fixed that too.
+> The devmem TCP callback can implement it in a way feasible to
+> the project, but it cannot directly post events to an unrelated
+> API like io_uring. And devmem attaches buffers to a socket,
+> for which a ring for returning buffers might even be a nuisance.
 
-> 
-> with that fixed:
-> 
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> 
+If you can't compose your io_uring completion mechanism with a DMABUF
+provided backing store then I think it needs more work.
 
-Thanks a lot.
-
-I just pushed this series to drm-misc-next.
-
-Best regards,
-
--- 
-
-Jocelyn
-
-
+Jason
