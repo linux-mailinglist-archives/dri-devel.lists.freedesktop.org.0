@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C76AB90202F
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 13:16:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF81902041
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 13:22:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 039BA10E1BD;
-	Mon, 10 Jun 2024 11:16:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFDC010E207;
+	Mon, 10 Jun 2024 11:22:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iASAedck";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OvzWOaXu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D72B010E19D
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 11:16:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 227C310E207
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 11:22:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 164C7608C3;
- Mon, 10 Jun 2024 11:16:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 695E9C2BBFC;
- Mon, 10 Jun 2024 11:16:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 77F52608C3;
+ Mon, 10 Jun 2024 11:22:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD434C4AF1D;
+ Mon, 10 Jun 2024 11:22:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718018163;
- bh=fKofkVqicJXO8g4gRRHdfGJS/c3KvZCVbqux20NP1Yo=;
+ s=k20201202; t=1718018561;
+ bh=EkV8eFeIlMbRYuFLi5bacADDZkcGFLP/Ep/Wj8zW2yA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iASAedckElu+/1+qSXxRlNmnxI5AhwNyZl3IfonQUz4kB5eXXIQZTWqI3yjPcFLIa
- OYGVIC/swCS3PJmRCxiyzNikYx5QceXQLgQZcWKg6oSHTXWJGyzQ7EAEylT0PqkYBd
- AMVoX+qmErl3K1WDYHIVtAyxPztkx/Kj30nJgi0IEzUxHnLlnf4i7kTBrd9VgLCfbq
- 3QwBAQ3JKedoM8PTQgJx39piJqK40eNJLdVnYtrr/dQb3tS96dWdMxnRldVVDSypPE
- 8bD/oKDv2y/Sb2OP4D/685oJTKH7NDrTwL+FTAa6zmIQUOhKR/wj7IpBmNhiJ1Hc/O
- Vq/CoYtiM8pHA==
-Date: Mon, 10 Jun 2024 13:16:01 +0200
+ b=OvzWOaXuhoEJJ3cuyXabQhTXJTGE73mdTgRnf6/ya0baKS8JHV9er7EVFjZhs9BBA
+ 0zOkWdVNlStK2qmSVnHwP4oJcARw+KlYjGgE+Yv/uVRbQJ/EoZNzIJtI9qgoCTBX8o
+ cyO0kiw6uQJG0mKKPNbEcuv+Z7PyGHdrnVDI3Qk6xrNsRjJ8U56SnCMzAxrFDobO32
+ 5bwlnHM0qZWRm28kseB6Nw3x91246R+KwGOMYujqPUdhk1fsqeBjDHC8Vh7iShgXFE
+ uI+AdXZ7G//AXJYvs5aiDNCFkKwzUch7oj9IG3JQ9buAjKvDGo1lFBgkvOR3arNllm
+ xc0DZ3L+IcyBw==
+Date: Mon, 10 Jun 2024 13:22:37 +0200
 From: Maxime Ripard <mripard@kernel.org>
-To: dri-devel@lists.freedesktop.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH] drm/connector: hdmi: Fix kerneldoc warnings
-Message-ID: <20240610-qualified-mahogany-swift-0e83dc@houat>
-References: <20240610111200.428224-1-mripard@kernel.org>
+To: Amjad Ouled-Ameur <amjad.ouled-ameur@arm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Smitha T Murthy <smitha.tmurthy@arm.com>, 
+ Deepak Pandey <deepak.pandey@arm.com>
+Subject: Re: [PATCH] drm/komeda: check for error-valued pointer
+Message-ID: <20240610-classy-walrus-of-abundance-e8acff@houat>
+References: <20240610102056.40406-1-amjad.ouled-ameur@arm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="5enaukeudt3suf5p"
+ protocol="application/pgp-signature"; boundary="v2hia7wsvzddoorn"
 Content-Disposition: inline
-In-Reply-To: <20240610111200.428224-1-mripard@kernel.org>
+In-Reply-To: <20240610102056.40406-1-amjad.ouled-ameur@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,149 +63,29 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---5enaukeudt3suf5p
+--v2hia7wsvzddoorn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Mon, Jun 10, 2024 at 11:20:56AM GMT, Amjad Ouled-Ameur wrote:
+> komeda_pipeline_get_state() may return an error-valued pointer, thus
+> check the pointer for negative or null value before dereferencing.
+>=20
+> Signed-off-by: Amjad Ouled-Ameur <amjad.ouled-ameur@arm.com>
 
-On Mon, Jun 10, 2024 at 01:12:00PM GMT, Maxime Ripard wrote:
-> It looks like the documentation for the HDMI-related fields recently
-> added to both the drm_connector and drm_connector_state structures
-> trigger some warnings because of their use of anonymous structures:
->=20
->   $ scripts/kernel-doc -none include/drm/drm_connector.h
->   include/drm/drm_connector.h:1138: warning: Excess struct member 'broadc=
-ast_rgb' description in 'drm_connector_state'
->   include/drm/drm_connector.h:1138: warning: Excess struct member 'infofr=
-ames' description in 'drm_connector_state'
->   include/drm/drm_connector.h:1138: warning: Excess struct member 'avi' d=
-escription in 'drm_connector_state'
->   include/drm/drm_connector.h:1138: warning: Excess struct member 'hdr_dr=
-m' description in 'drm_connector_state'
->   include/drm/drm_connector.h:1138: warning: Excess struct member 'spd' d=
-escription in 'drm_connector_state'
->   include/drm/drm_connector.h:1138: warning: Excess struct member 'vendor=
-' description in 'drm_connector_state'
->   include/drm/drm_connector.h:1138: warning: Excess struct member 'is_lim=
-ited_range' description in 'drm_connector_state'
->   include/drm/drm_connector.h:1138: warning: Excess struct member 'output=
-_bpc' description in 'drm_connector_state'
->   include/drm/drm_connector.h:1138: warning: Excess struct member 'output=
-_format' description in 'drm_connector_state'
->   include/drm/drm_connector.h:1138: warning: Excess struct member 'tmds_c=
-har_rate' description in 'drm_connector_state'
->   include/drm/drm_connector.h:2112: warning: Excess struct member 'vendor=
-' description in 'drm_connector'
->   include/drm/drm_connector.h:2112: warning: Excess struct member 'produc=
-t' description in 'drm_connector'
->   include/drm/drm_connector.h:2112: warning: Excess struct member 'suppor=
-ted_formats' description in 'drm_connector'
->   include/drm/drm_connector.h:2112: warning: Excess struct member 'infofr=
-ames' description in 'drm_connector'
->   include/drm/drm_connector.h:2112: warning: Excess struct member 'lock' =
-description in 'drm_connector'
->   include/drm/drm_connector.h:2112: warning: Excess struct member 'audio'=
- description in 'drm_connector'
->=20
-> Create some intermediate structures instead of anonymous ones to silence
-> the warnings.
->=20
-> Reported-by: Jani Nikula <jani.nikula@linux.intel.com>
-> Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
-> Fixes: 54cb39e2293b ("drm/connector: hdmi: Create an HDMI sub-state")
-> Fixes: 948f01d5e559 ("drm/connector: hdmi: Add support for output format")
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  include/drm/drm_connector.h | 207 +++++++++++++++++++-----------------
->  1 file changed, 109 insertions(+), 98 deletions(-)
->=20
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index e04a8a0d1bbd..1afee2939b71 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -927,10 +927,72 @@ struct drm_connector_hdmi_infoframe {
->  	 * @set: Is the content of @data valid?
->  	 */
->  	bool set;
->  };
-> =20
-> +/*
-> + * struct drm_connector_hdmi_state - HDMI state container
-> + */
-> +struct drm_connector_hdmi_state {
-> +	/**
-> +	 * @broadcast_rgb: Connector property to pass the
-> +	 * Broadcast RGB selection value.
-> +	 */
-> +	enum drm_hdmi_broadcast_rgb broadcast_rgb;
-> +
-> +	/**
-> +	 * @infoframes: HDMI Infoframes matching that state
-> +	 */
-> +	struct {
-> +		/**
-> +		 * @avi: AVI Infoframes structure matching our
-> +		 * state.
-> +		 */
-> +		struct drm_connector_hdmi_infoframe avi;
-> +
-> +		/**
-> +		 * @hdr_drm: DRM (Dynamic Range and Mastering)
-> +		 * Infoframes structure matching our state.
-> +		 */
-> +		struct drm_connector_hdmi_infoframe hdr_drm;
-> +
-> +		/**
-> +		 * @spd: SPD Infoframes structure matching our
-> +		 * state.
-> +		 */
-> +		struct drm_connector_hdmi_infoframe spd;
-> +
-> +		/**
-> +		 * @vendor: HDMI Vendor Infoframes structure
-> +		 * matching our state.
-> +		 */
-> +		struct drm_connector_hdmi_infoframe hdmi;
-> +	} infoframes;
-> +
-> +	/**
-> +	 * @is_limited_range: Is the output supposed to use a limited
-> +	 * RGB Quantization Range or not?
-> +	 */
-> +	bool is_limited_range;
-> +
-> +	/**
-> +	 * @output_bpc: Bits per color channel to output.
-> +	 */
-> +	unsigned int output_bpc;
-> +
-> +	/**
-> +	 * @output_format: Pixel format to output in.
-> +	 */
-> +	enum hdmi_colorspace output_format;
-> +
-> +	/**
-> +	 * @tmds_char_rate: TMDS Character Rate, in Hz.
-> +	 */
-> +	unsigned long long tmds_char_rate;
-> +
-> +}
-
-FTR, there's a missing ; here
-
+I've added a Fixes tag and applied to drm-misc-fixes, thanks!
 Maxime
 
---5enaukeudt3suf5p
+--v2hia7wsvzddoorn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZmbgcAAKCRDj7w1vZxhR
-xXEMAQCPu0KuKj0sOZcYEewSsV0sUFcyV/EGbeYnQSKcTS8WyQEA+35Uo4ZoNA/4
-7QVfh5JyycF52v/2RFEUvtOQ+YXLJQQ=
-=y34D
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZmbh/AAKCRDj7w1vZxhR
+xahgAQD23Qma6aL0sKtPduWTr7Di9Ar8cyqpLFFSYhO3huhalQEAuesXQa/px8G7
+8pThjlEwd6jsLC0kUTk2AnhtJPcQiws=
+=c3Zi
 -----END PGP SIGNATURE-----
 
---5enaukeudt3suf5p--
+--v2hia7wsvzddoorn--
