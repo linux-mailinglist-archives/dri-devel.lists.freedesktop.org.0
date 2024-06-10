@@ -2,67 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2768E901B4A
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 08:33:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624C6901BFB
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 09:38:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7D5210E2DD;
-	Mon, 10 Jun 2024 06:33:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F7B310E2D1;
+	Mon, 10 Jun 2024 07:38:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YvMmvK0K";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C5nwolJL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com
- [209.85.222.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8087F10E2DD
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 06:33:23 +0000 (UTC)
-Received: by mail-ua1-f43.google.com with SMTP id
- a1e0cc1a2514c-80b8a6ef2fbso366180241.3
- for <dri-devel@lists.freedesktop.org>; Sun, 09 Jun 2024 23:33:23 -0700 (PDT)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4586210E1B5
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 07:38:45 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-1f61f775738so34411985ad.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 00:38:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718001202; x=1718606002; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1718005124; x=1718609924; darn=lists.freedesktop.org;
+ h=message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WoxL7sxR5fVE2wpf25zkRX1keP/l47DLSwfYmo+1E88=;
- b=YvMmvK0K9xScucXYbfzt1JdCC27S5Oe2lfcREUQ9ueTk9MZsXoTpGnRJk9vR8EjidX
- VFb1rht+jVzUB7qT32pp0gwILA2L612dkeCiV8VtzwdmwfRjQjOTLWXwTt8HtGJ/hQ8+
- GJF67ZczjDoJ2+37ayriZao/jYrsderHtzV2Z/whEmdRiEONOJtmkLlI8mX0ms7XvrYN
- szQWDFeUOVS75K4xO6LZVYu7Pi1MtOvLeTI1A9377j/9dR+G11xwViaJefwb0rDH13WC
- lp7Sf887qMSVZCRS1OvY73fRJz5El4SHZeD2dxi3DNNJR8N+vYeM8CInecYJrDUKeir4
- Qfqw==
+ bh=fEeYczgmKxylMukshxG6mWi27nmS4L72/ofau0FaVSI=;
+ b=C5nwolJLFloPZWbCyXv1MTD6Il4D290c/D3Aaxf0cG6yfk+nghr2n4z8gaaCkxpRvd
+ R1A1MO8jDF8Xu4/Y+cL3KeVSqppe+cDtwMY/gjWR2qrHda0jk9Z9iisSaQypZlHyxll7
+ 5OCnV93bqSxkNW+oh5gw+8GHQ41r1Fvn5eyxK/wU47rEzV5tp4Q7cxFQyX0Pu4Y12IJX
+ efnmIpGPXNLAth8SGaqjG2XAKNwn448Ugu9Oa0VoH4qnI0g628vkFgQaCyty6Hl0Igv6
+ EZQsx7MQwk620MMvHZWv6NUpjXCOh+WpwRNp9lMZalP/+Z3sxBrDCSqTlLsGc8jcQBfq
+ gsVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718001202; x=1718606002;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WoxL7sxR5fVE2wpf25zkRX1keP/l47DLSwfYmo+1E88=;
- b=exHZnSsiyUvL62WCaIHWvPXAbAku6JBO5UiMC+f3YT87UOEzFf9CSq/RuzN4OPTMqm
- lIWhSMn8+qptuM+aFhlZKPi5fxE8jcPxXHXFT3vLdSinyixqBQn+SATob/PltbUdzjob
- e6rf/vVftegZ3viBYONrjAgs0bo1v2yi4QBRwsMDnoQUrdT5mW6gMR3HEdfgqSzikt0P
- fIM3B61AYveG+ZXr3KeA5oIRCxRv3w/nS2ip75ry8ZD6vYOvvo58LTwmCq3uB5SmzyOx
- h4jLSOTXAzXVJi1TPU5JSORQL7YgluXeWDFiiQ4zNwfBmKeBKP13W+p6j1Q+OEDaO9xe
- fyPQ==
-X-Gm-Message-State: AOJu0Yyb3zv41LAB8Zc/cloXjkVoOBjk/PuXUImdj0/VYgevhEeBf9lm
- /W2vPEy0TPango1m39pmFSGWuNbES+59z3zta1/TluLJZO+UAWSNvyOKgGAGnvczM9upzln9LHQ
- A2l+gctZOyc+ihqeopAKgn2g3oIk=
-X-Google-Smtp-Source: AGHT+IE6WwuGJf/J6Plpzhz9jA+n7W7A3UHb9PzPwtd8XmJu4EiIUfbwUKnVPUxp+1oRqDCPDYvJIUTzr/73LsCncVM=
-X-Received: by 2002:a05:6122:c9:b0:4e4:ea87:ec72 with SMTP id
- 71dfb90a1353d-4eb562bbb38mr6632138e0c.11.1718001202243; Sun, 09 Jun 2024
- 23:33:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240530100154.317683-1-jani.nikula@intel.com>
-In-Reply-To: <20240530100154.317683-1-jani.nikula@intel.com>
-From: Inki Dae <daeinki@gmail.com>
-Date: Mon, 10 Jun 2024 15:32:45 +0900
-Message-ID: <CAAQKjZPWT7=JircaiksP3Wg_1oKRr1xDkznQ1RSoe4jmn12fUw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] drm/exynos/vidi: fix memory leak in .get_modes()
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, sw0312.kim@samsung.com, 
- kyungmin.park@samsung.com, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ d=1e100.net; s=20230601; t=1718005124; x=1718609924;
+ h=message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=fEeYczgmKxylMukshxG6mWi27nmS4L72/ofau0FaVSI=;
+ b=H6CkfCTzcs5PDfUFxJj53zaXB995adGW4u1fVDjPP45YtUpbRzTS1TYe/CwmLBT1sU
+ sOw+Zkz8jU6goq1nnUvP8au41p0nNw6+1LUXJu63cysKSw+t6gi7KMqEcZs8uR7ePUNl
+ nWeCFMNvD2CgPuTiv2H8o5NXXTNiKR4Xn0l1ZyyfSG1FPghjwg0JlcytVYD7TmNKIA02
+ kcmJrthmCJM3jg6fNzkD3ct31oykQ6PJa2DVB+Y1o/Wd6VYTtoM2q+jvqL6WoPC6iX6/
+ RoE6kfOnGRE30b9ACLZrUWBB2Xw7nfNslKvnWGKeDBnuAXa/DodC6b8iqcwgusQIEQ3f
+ trlg==
+X-Gm-Message-State: AOJu0Yyo6FGarfwQBtIz2TBB2wMylCspYLLf12jys5R3TzlfnpIB3V6c
+ DSxY08O7jr+XGOjunPgJcXRhM7ed8MaSAjkKLZbY0avwKm1F0Ey3
+X-Google-Smtp-Source: AGHT+IHzTtNYHQERotEFnvwdsciHAGRVrrOcRqC4zBx7IkWX/kCXL7BDT1ZwLHdaBUAHJknASlMROw==
+X-Received: by 2002:a17:902:d4d2:b0:1f4:b702:f143 with SMTP id
+ d9443c01a7336-1f6d02dda45mr89178495ad.15.1718005123325; 
+ Mon, 10 Jun 2024 00:38:43 -0700 (PDT)
+Received: from daeinki-virtual-machine.localdomain ([58.124.60.88])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f6bd7e5cc4sm78276175ad.235.2024.06.10.00.38.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Jun 2024 00:38:42 -0700 (PDT)
+From: Inki Dae <inki.dae@samsung.com>
+To: airlied@linux.ie,
+	daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org,
+	linux-samsung-soc@vger.kernel.org
+Subject: [GIT PULL] exynos-drm-fixes
+Date: Mon, 10 Jun 2024 16:38:39 +0900
+Message-Id: <20240610073839.37430-1-inki.dae@samsung.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,55 +76,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani Nikula,
+Hi Dave and Daniel,
 
-The patch(1/4) has been applied to the -fixes branch, and the other
-three patches(2/4 ~ 4/4) have been applied to the -next branch.
+   Two fixups - one for an regeression issue and other for memory leak - and one cleanup.
+
+Please kindly let me know if there is any problem.
 
 Thanks,
 Inki Dae
 
-2024=EB=85=84 5=EC=9B=94 30=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 7:02, J=
-ani Nikula <jani.nikula@intel.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> The duplicated EDID is never freed. Fix it.
->
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/exynos/exynos_drm_vidi.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/e=
-xynos/exynos_drm_vidi.c
-> index fab135308b70..11a720fef32b 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-> @@ -309,6 +309,7 @@ static int vidi_get_modes(struct drm_connector *conne=
-ctor)
->         struct vidi_context *ctx =3D ctx_from_connector(connector);
->         struct edid *edid;
->         int edid_len;
-> +       int count;
->
->         /*
->          * the edid data comes from user side and it would be set
-> @@ -328,7 +329,11 @@ static int vidi_get_modes(struct drm_connector *conn=
-ector)
->
->         drm_connector_update_edid_property(connector, edid);
->
-> -       return drm_add_edid_modes(connector, edid);
-> +       count =3D drm_add_edid_modes(connector, edid);
-> +
-> +       kfree(edid);
-> +
-> +       return count;
->  }
->
->  static const struct drm_connector_helper_funcs vidi_connector_helper_fun=
-cs =3D {
-> --
-> 2.39.2
->
->
+
+The following changes since commit eb55943aab89be99a26e34fc2175ebb3583a2778:
+
+  Merge tag 'drm-misc-next-fixes-2024-06-07' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes (2024-06-07 08:40:58 +1000)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-fixes-for-v6.10-rc4
+
+for you to fetch changes up to 38e3825631b1f314b21e3ade00b5a4d737eb054e:
+
+  drm/exynos/vidi: fix memory leak in .get_modes() (2024-06-10 15:05:43 +0900)
+
+----------------------------------------------------------------
+Regression fix
+- Fix an regression issue by adding 640x480 fallback mode
+  for Exynos HDMI driver.
+
+Bug fix
+- Fix a memory leak by ensuring the duplicated EDID is properly freed in the get_modes function.
+
+Code cleanup
+- Remove redundant driver owner initialization since platform_driver_register() sets it automatically.
+
+----------------------------------------------------------------
+Jani Nikula (1):
+      drm/exynos/vidi: fix memory leak in .get_modes()
+
+Krzysztof Kozlowski (1):
+      drm/exynos: dp: drop driver owner initialization
+
+Marek Szyprowski (1):
+      drm/exynos: hdmi: report safe 640x480 mode as a fallback when no EDID found
+
+ drivers/gpu/drm/exynos/exynos_dp.c       | 1 -
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c | 7 ++++++-
+ drivers/gpu/drm/exynos/exynos_hdmi.c     | 7 +++++--
+ 3 files changed, 11 insertions(+), 4 deletions(-)
