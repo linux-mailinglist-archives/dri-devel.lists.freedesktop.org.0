@@ -2,122 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1EBA902956
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 21:32:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F4490298D
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 21:58:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB11C10E36C;
-	Mon, 10 Jun 2024 19:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AC6D10E272;
+	Mon, 10 Jun 2024 19:58:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K3AFcWOI";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="c+FV2S6a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA29F10E37B
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 19:32:20 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-35f27eed98aso349193f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 12:32:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718047939; x=1718652739; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cH6LVxT06plsrA1ReD8cM9W1acWe7q6EhO7RV1s6Td4=;
- b=K3AFcWOIswxm0kyi+t31Xocv3ROQN2ymKT/3ye/k6hCS/1tkF67BnZtn2/CrUBPyB6
- GuMp5xAjhVTY0ZWRvho6Bv+eryVTB2nitiD8vPvAGe051MbHq2kK3gh0lWVZ6K831bMF
- Y81pJeyzPpjn1J2MN/WA70rjULaHerw4bdJiPN0XGyVRpbKPgKbC52/C/qI7tVrPiFHN
- oHCeF5GxylXl6qSfp4If5Qah0WPG6y8H93dwL0uTeSoEdDZzrGyVJ7+Xn41ClGA1JJ4H
- tVrDJXgBd3SaYohF8ZRU1BJFfpgk2nn7KfRVALzKNFbJO9SIQzxnoUYf4pSHduZUOQHI
- Di6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718047939; x=1718652739;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cH6LVxT06plsrA1ReD8cM9W1acWe7q6EhO7RV1s6Td4=;
- b=c7/6R14iokEK+2ghGAay6g8xQ+H2XRfy0FurG62sZPt0ZYBOTLzUonRX9UDoxqPldK
- 8G84BCe0g0zkq1yUBfSNz2v46hEEQxW039NGCEc7S84mfUufGQXgvqLzcpaH0NvGwsCy
- 5lX8zEeztkP7AUgbcciDX+B+hwZHQGkUxAlWEYHCo/tY+xmRUoYMpW/S9S8xdRM2UOK1
- bqusoGBmnW1SH/MZeEZFeSugeEdl9KCiPTCpGIXLWmIQtqphsRwS6yIUyWC4u7rtdhtj
- S7hELHprnRVLQvZtkSLTEFslvMQm2aGPWx0Dj4LrKIaw8HEeS6nE6VB3a8ItRVI7KTZg
- 1J5w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUeh99S9BZ4dyNbPNqWLahO/spl/aUjW2c9wrOeBCLcQ1+Gn/RqyCkffO3IOMNQdhXgf+DBKNt2ZeiXvCq2Skaa/ji+8P8vNuv86qodVUet
-X-Gm-Message-State: AOJu0YwiZ6yP9+JkaYvLVdzDaYG8bGzX1HrQ7fw/WLmI+CWCRi3HyDRR
- yTMgoLZkamkrDJFAc14EE3y12OIXQkMQrIDV0WMLMBvtwb1dnyGG
-X-Google-Smtp-Source: AGHT+IHyebdJqoC8N9cFVipCugkjo2s6jygXE3iaN8ED6lgnlN+5ynOFecePOgT3p/WcNF0ptUpPjg==
-X-Received: by 2002:a05:600c:1551:b0:421:4786:eb0c with SMTP id
- 5b1f17b1804b1-42164a44b35mr87551775e9.33.1718047938725; 
- Mon, 10 Jun 2024 12:32:18 -0700 (PDT)
-Received: from [192.168.42.64] ([148.252.129.53])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-421cd1fdec7sm47319585e9.25.2024.06.10.12.32.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jun 2024 12:32:18 -0700 (PDT)
-Message-ID: <4c4739df-c2fc-4e9a-a27e-aec00a5667da@gmail.com>
-Date: Mon, 10 Jun 2024 20:32:16 +0100
-MIME-Version: 1.0
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2055.outbound.protection.outlook.com [40.107.220.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9256F10E134;
+ Mon, 10 Jun 2024 19:58:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BNUI3596TVihJeyrkPvoaWz5p62LOrQgFbmjnN3aI6cXo9up8gRXXrpnuz99yUXk4v2S+eQxrSWRJkWe+El5dHCZ/bqzC0qMwYzO2m3Mt2fGGITRIsI/PNEYXPwMyn76IcoeHJEk+9CcLK1UstZPSifdAwN+cJArPrq1EwytgZq208CKg0wySUKpebTfmbKCQzhRTML/NW6r6+U5n8qAO3DShKjxgJALUAndq2VVOrxtroS3rJRLQ9Mrgle6zEKHvbkLd8jlfn6ts9YjtAlYUWMCw+jRem1isNl9snD2WsJbQSiIfXf/dws8cJEAWJjKVXABrkKDaU0jTCx5lDJs/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8oeLM/pQxx2ZFAAGgjwhneblncVK8a+S9uzTm5ZzbXs=;
+ b=FYbVCfz6Z7UEt/yU/WqX5os9suar0z9ICqygI3gHDdb9/1E/1Jhbsd4gHI2RP9D621PzYypvn58nbI2+6/96nwPar4zqtqQnUniO3X2uveW1Nn7h49/F7qOyjwyV43Od/PtHXaOqq+WI01q6kPtYJjU9qCCzkrR5Xmd9x3nSWluTSF6X+FYhrjNTs6jk48dcgFbIZKeqXHF7Gmn+fR/YbHfRNSi4RssTLXGBLWt75gPIQBtWfVJuJ2RoetamKBcOfXHKNttGI42tU2a7a5RTFYqjC32h9IYwAiMLz2sG2FMoNgxX6r7kt3a6Cj1Tg42T0opNCxGzZYjMzODPC8vukA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8oeLM/pQxx2ZFAAGgjwhneblncVK8a+S9uzTm5ZzbXs=;
+ b=c+FV2S6a9ZZuqgVM2HQf3E0kao3jjxyWbIky3ZBlrigyKY5SR4y1UHOKVsNoGhqI8X1/1gswRLSFO9GRCK3BdALQEqfVXgGCYX516Qjxxy/GGLcdMv0zfBq6BfCsSx2zJyjTfM5QGdIjPsHRh97LYKrnzq/gg9x1/w1eNxfNttw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by DS0PR12MB6560.namprd12.prod.outlook.com (2603:10b6:8:d0::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Mon, 10 Jun
+ 2024 19:58:05 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%4]) with mapi id 15.20.7633.036; Mon, 10 Jun 2024
+ 19:58:05 +0000
+Message-ID: <74f3c189-f3d3-4dca-9357-d4bc8f98da08@amd.com>
+Date: Mon, 10 Jun 2024 14:58:02 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
- custom page providers
-To: Mina Almasry <almasrymina@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, David Wei <dw@davidwei.uk>,
- David Ahern <dsahern@kernel.org>, Christoph Hellwig <hch@infradead.org>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240530201616.1316526-3-almasrymina@google.com>
- <ZlqzER_ufrhlB28v@infradead.org>
- <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
- <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
- <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
- <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
- <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
- <20240607145247.GG791043@ziepe.ca>
- <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
- <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com>
- <20240610121625.GI791043@ziepe.ca>
- <cdbc0d5f-bfbc-4f58-a6dd-c13b0bb5ff1c@amd.com>
- <CAHS8izNwmXQTLc9VADpushYKyeJ4ZY4G9aV47W2-1St65-tKUg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd: force min_input_signal to 0 on Framework AMD
+ 13/16
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Kieran Levin <ktl@framework.net>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>,
+ Matt Hartley <matt.hartley@gmail.com>
+References: <20240610-amdgpu-min-backlight-quirk-v1-1-8459895a5b2a@weissschuh.net>
 Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <CAHS8izNwmXQTLc9VADpushYKyeJ4ZY4G9aV47W2-1St65-tKUg@mail.gmail.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20240610-amdgpu-min-backlight-quirk-v1-1-8459895a5b2a@weissschuh.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA0PR12CA0007.namprd12.prod.outlook.com
+ (2603:10b6:806:6f::12) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS0PR12MB6560:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4e5263e-b5d5-4129-7831-08dc8987a474
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|1800799015;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SjhTeFd4aGpua25vc3JyejFKVFpaZ0w3ZFB6a05kM01TVEhDTWFtUmJRQk1i?=
+ =?utf-8?B?Z1Q2cUlZa1ZSb0hmeUdGNVR6dWZUeG5DMmZiMGxlbXdSendwUitubk9tT2V4?=
+ =?utf-8?B?NHhGL1pCVmxKb2w1d3Zzc0hyNVdrMHBUTXkralQxQjYrQ0NVQ3Bmcm5iRmJj?=
+ =?utf-8?B?NXlGOFZOMDZIYTZmNEJ4T1o2TVZiZkdjSDVXekU4WTNsK0tCVVd0K0I1czJw?=
+ =?utf-8?B?OE1pRSt6bzBhY0R3aG84TzlSV2pXdzEyQklGZjdxdHF6YXVKaUR6cVpxN2oy?=
+ =?utf-8?B?dk0yeU5Ta1FTMWg0MTRQQWZmYnBRZFdPRzdtL0tvV1dRdlo4UkU4MjBhT2Jv?=
+ =?utf-8?B?UHVaVzN5bmQ0Tko5TnRhSEFXcFF3QzV4ZzVRejFEOE1XOEdnS3dFeWZGbHFx?=
+ =?utf-8?B?d1F5Q2xYK3NnVktURUN3OSt4ODVmRVJGdER3bzdTckVsNGpMRjB1b3ZRdUda?=
+ =?utf-8?B?VVY2MnlvNmJlQ00ydnFnWGp6MnBxZ3plRTNhZGdwbC9EWGFvRVcxdEdqOTFO?=
+ =?utf-8?B?MkRGTWJLaDZIK1hXSHFsOHM5NE5sRzIrNHpvWENlVmpienNDQXVtYnFMV1FQ?=
+ =?utf-8?B?bDEvRkt6S1FBb1pvUDFLSEFIV1FJMWNWWXZtMUtPK0YyeTJEZHJpNnFPWWxp?=
+ =?utf-8?B?SnR0dUhwYUJIdnN3SlZsT0c4QWVFTmRFVHU1aUF4c2RZeFF5RnBud1BUa05x?=
+ =?utf-8?B?bU1UcG16ZngybGFPeWdCOE5LNFFqakF3UGlyRExYSkFGWHVxMnJMM3Q0Q2FF?=
+ =?utf-8?B?ZVE3enk3WStNMHRObWJlRzE0OVZkVEFOZ2FSNmtOakFvaTNRL082TEc2OG5S?=
+ =?utf-8?B?SDRnK3hLNGUzUWE5bURDQnZMMXYxNHpISlNsVmZLakZVYkFSdG5VVEt6RVMx?=
+ =?utf-8?B?ZitaS08zbkNZTFB0SGFnRklrckFTa2lPR0ZJSjBDcXhNbTM5T1NKeHk4Tjk5?=
+ =?utf-8?B?TmpTQktRSU1LS1BTUEQrc0FERW1pZU5UeTR4YW41RGkvTW15cXhvOTJHemx3?=
+ =?utf-8?B?T29YdjNkWWszRCtUNDlsZnh2Nk5BTHJRQ3NhaTBmZlNzL2RWMTd3aXVtRmN5?=
+ =?utf-8?B?cm92QlBBOFdFa1REb0pQZnhIdHVJMGFGaXNnbE5ReVlmelM4SnRBVU9pN3pW?=
+ =?utf-8?B?V1pHN05GeHZvMUlUR1lPNWhSdXZ1U2ViM1dEQU1xRWZxdzZvTU5HcjUybW5i?=
+ =?utf-8?B?Q0FoUTJ4ck5TZk13djRsakV4aEtqa0RHSnhNZDNUTXRMSGNOQnB2cjVQWDhV?=
+ =?utf-8?B?QnFIMWJVdlovSlVReFJEVllYdWZSTDlrNXJrMjVnOCtWdHpaRjJiYmROTUdx?=
+ =?utf-8?B?SmVmZmxKTm9UeE16bHJidCtFS2JGVFZVNmFPYmt1WFVySDN1RWU5TVo3WmVt?=
+ =?utf-8?B?K0F6VDJUN3VpVW1TdmpQVmlxTURaaHJ0SjdJejF2c1ZmUFpidFNSbVBzc3Zn?=
+ =?utf-8?B?eU1lZWhYaEpMbUt2aEdid0J1Qmo2SElxY1VZS2xjenRwRGtWY2cvT2lsUlhn?=
+ =?utf-8?B?c1dvdFZ2UHU2YmxCUm04RFZUaHBRbDhUTk9pTUJGcXdkWWJFN1JTTFIrOHJI?=
+ =?utf-8?B?cjBjdTRoMDVPdk0yOXZlV0xqaGltRGYwd1BBZU55V09TdndDdWJXd2dESHVr?=
+ =?utf-8?B?OTFKSVJXNlM3Sm9VcjRGRFZONXpvZmpETHprRk9DTTdvMGVPNHN4TEdGcDFU?=
+ =?utf-8?Q?VPGSEKz6tl160qOZXDJB?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366007)(376005)(1800799015); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aFFRTjZlUWVwQmd5dFBQczU4bTVZRU9aa2Rwc1ZWRlE1dG4wbWhLWVZlQm9X?=
+ =?utf-8?B?d094c2VBZk5GVVVncEw1eFJlQWI1ZnJSb1hocmxmZWx0L1ZxWjBhVkpSdmtv?=
+ =?utf-8?B?UHhCaitodVc5TzBqSUlRUC95WlliNEY1SS9IRjNpd1U3TjRwV3NmOUNpUXFu?=
+ =?utf-8?B?ZHBnR08vVm9tL0x6bzhjM2xsWW9TR0ZSaHVKYXRqditnR0M1eGErWjdPcUNp?=
+ =?utf-8?B?SCtrejFGcFF4b2JrcXRtaWJRR3NKTS9uczJNdjU2UXRoMUw3UDZqSjJ6SVg3?=
+ =?utf-8?B?ajY3bVdWZlM2N0JKWHBJSTN1N3k0WWVEU2Z6aTZhL3piUGFYWkF2dGRWbytu?=
+ =?utf-8?B?NHFvb1BEUmJ0SWplYlNGT2I2OVNIOHNVR1dCZll3OVFnM0F5a1pyUk1KcnY1?=
+ =?utf-8?B?Rlh5ZlE0aGU1aURtNERCZVM4S056ZlBwRzB3WnRHY01GTldvQ2tsdlZ3MjdD?=
+ =?utf-8?B?MnBtaTVaQnJXcytpRDFPeC9lQ01pd0tpbGVEM3d1Vi9WUDJkbFNpUld1TXps?=
+ =?utf-8?B?M01IMmFJQnIxem1vRit1T25ZRTZTclZjenhRdURyVmhFOU50ZkNEcldPdGVN?=
+ =?utf-8?B?c1FmYlZiSHd5RjFQTWpnMjVNbzVQbURhZVVEN29lTSt6VXJ0YXFWUGV6YnRt?=
+ =?utf-8?B?U2EzVjJPZXhxUmkxVHprM0dWc2NXYThpaFMwOXlrRFJMZEIxL09OcXVQKzhv?=
+ =?utf-8?B?MjgzTjYxR29BMEVkZEUyKzQzQWl5UDRYU2V2Q0JSU05KM09nenUySVdTU1RW?=
+ =?utf-8?B?eHVJRXJYemtmcnF6UlZxdEpvT1VidGxNS2ZQNElHTjlXejJrck5WU0hIMlpw?=
+ =?utf-8?B?TjFSVnhCTWR5YnRHaUVHbzVzQWFYc2ZpSCs0UU5wK1VReWJPTi9uNGJJcGhr?=
+ =?utf-8?B?SUtpQVgyNnpUOUtaRWR6VDU3MzV5bWRHZDFIT3UwaVgrdDJOdS9kMG4zQVp3?=
+ =?utf-8?B?cEtOaXYzMEJZMXpNYUUwQjhOZXZpR3E5WWM5OXFYSHplREk0V1p6WFdnWDRI?=
+ =?utf-8?B?YnUwbWJtVjl6dGkvd3d0bjBKRDlMNDUxYkFBVW91dlM1RlgyeEtOSXVCNlo4?=
+ =?utf-8?B?Rlgrc05hbGtBMFRaSGZSQzVaM0d0VTBuVFlTcDh3dDZjbmZsZzJoNWJ3cVBZ?=
+ =?utf-8?B?VjFHd3Y0dmE4RURyUWMyaVF2cjhuNTUxcGRCOThSUWc2Rk9RS25Db3VSUHly?=
+ =?utf-8?B?Z01UM0VpM1pOcnVuWTdkSUhaRHRmUm5hL3VXU3FtUFBOOG5HRVZialMvTEZQ?=
+ =?utf-8?B?YkxRZ2xhRCtFMkhHOHRuTDZWcEVKZWdaK3VHbXNRbFVYZ3RVS2hoWldobFNm?=
+ =?utf-8?B?WHBFL0xyMkdXK0xTSFgyaXBEcmhWdGMyOXYrei82YTVhcGFvRjRsd2E0Y3dq?=
+ =?utf-8?B?aVJyT0dvbmRIbkN0S3c2ZkVYeUNnYksvU0VKWmp4b3RlY1hPOGNQcVRJeVdH?=
+ =?utf-8?B?R2paaGtkRVlFQnhyNElOYUg4VmFHcXJIWXZOOTR3SDBSd1hVa0FFWmlPbEpH?=
+ =?utf-8?B?ZHQvTUQ5aW0xbnc1M1ZmcjN3RW1uc1g0UXRVT0xrK2ErV09HdkdZMkY0bUVX?=
+ =?utf-8?B?OWt4S3h1bmcrV2lidWVOZDQ4L0JDbUE5VTZmY1RibW5aQjJ1WU5Wb1FiS0Ro?=
+ =?utf-8?B?RGtWMUhiZytxZzJ4Q05kODhieWl2QWNaV09JNXNRbjR2cG5lZVFFaytrZStU?=
+ =?utf-8?B?Yllyd1k0MnNvVUVDclNkKzN1QjltYkowK3RzcVVpdGJGSitVWGZxOWh1TUxR?=
+ =?utf-8?B?M3cwQjJvM2dUbjlaaWVWeTBSVUYxbjlKcDY4NlorUW1CajJzby9vMkV6TWUy?=
+ =?utf-8?B?VGc4UVNJL3g2OXlpYUpnc0NGZWZjQUw5c05iQnBCZHVsNncyQ0t2N2JtN0tR?=
+ =?utf-8?B?TWx5dmREUlFZSU1QNjNPcW8wcWNBK2NNMjBEOXkvb0Q4ZXFlbGtpSUQvMmp4?=
+ =?utf-8?B?TlhHTHhwaEtLbFJYK0hTaXZrblowUU9EdHlUMHZtU0JtQ0dOVkhsMUpRMHVo?=
+ =?utf-8?B?b25HL3BLTUxielhOOEFjSWl3YXJ4MDRaWk8ydUI0NXI1R3l0WVp5OFViKzBs?=
+ =?utf-8?B?cFBrSUtLQnFpNjY3Q0ZGVGNzYndmN3ZTT1hwUkdVR1Fac1VBZUdTN2VWck55?=
+ =?utf-8?Q?u7mTo6jw4m3vbur2ilpFvxCo5?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4e5263e-b5d5-4129-7831-08dc8987a474
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2024 19:58:05.4221 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QaPd+PqsEnMmAzAGKd/ig13kO/NZJFN6KUgU/bLYXULXClLFt5zFEt4l42ryYQODJHZoUKgqTMTGedM/3BMlmQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6560
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,45 +164,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/10/24 16:41, Mina Almasry wrote:
-> On Mon, Jun 10, 2024 at 5:38 AM Christian König
-> <christian.koenig@amd.com> wrote:
->>
->> Am 10.06.24 um 14:16 schrieb Jason Gunthorpe:
->>> On Mon, Jun 10, 2024 at 02:07:01AM +0100, Pavel Begunkov wrote:
->>>> On 6/10/24 01:37, David Wei wrote:
->>>>> On 2024-06-07 17:52, Jason Gunthorpe wrote:
->>>>>> IMHO it seems to compose poorly if you can only use the io_uring
->>>>>> lifecycle model with io_uring registered memory, and not with DMABUF
->>>>>> memory registered through Mina's mechanism.
->>>>> By this, do you mean io_uring must be exclusively used to use this
->>>>> feature?
->>>>>
->>>>> And you'd rather see the two decoupled, so userspace can register w/ say
->>>>> dmabuf then pass it to io_uring?
->>>> Personally, I have no clue what Jason means. You can just as
->>>> well say that it's poorly composable that write(2) to a disk
->>>> cannot post a completion into a XDP ring, or a netlink socket,
->>>> or io_uring's main completion queue, or name any other API.
->>> There is no reason you shouldn't be able to use your fast io_uring
->>> completion and lifecycle flow with DMABUF backed memory. Those are not
->>> widly different things and there is good reason they should work
->>> together.
->>
->> Well there is the fundamental problem that you can't use io_uring to
->> implement the semantics necessary for a dma_fence.
->>
->> That's why we had to reject the io_uring work on DMA-buf sharing from
->> Google a few years ago.
->>
-> 
-> Any chance someone can link me to this? io_uring, as far as my
-> primitive understanding goes, is not yet very adopted at Google, and
-> I'm curious what this effort is.
-I'm curious as well, I don't remember it floating anywhere in mailing
-lists. The only discussion I recall was about
-DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT, but it didn't get through only because
-someone pushed for evenfds.
++Kieran
 
--- 
-Pavel Begunkov
+On 6/10/2024 14:26, Thomas Weißschuh wrote:
+> The value of "min_input_signal" returned from ATIF on a Framework AMD 13
+> is "12". This leads to a fairly bright minimum display backlight.
+> 
+> Introduce a quirk to override "min_input_signal" to "0" which leads to a
+> much lower minimum brightness, which is still readable even in daylight.
+> 
+> Tested on a Framework AMD 13 BIOS 3.05 and Framework AMD 16.
+> 
+> Link: https://community.frame.work/t/25711/9
+> Link: https://community.frame.work/t/47036
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 35 ++++++++++++++++++++++++++++++++
+>   1 file changed, 35 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> index 7099ff9cf8c5..b481889f7491 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> @@ -25,6 +25,7 @@
+>   #include <linux/pci.h>
+>   #include <linux/acpi.h>
+>   #include <linux/backlight.h>
+> +#include <linux/dmi.h>
+>   #include <linux/slab.h>
+>   #include <linux/xarray.h>
+>   #include <linux/power_supply.h>
+> @@ -130,6 +131,35 @@ static struct amdgpu_acpi_priv {
+>   	struct amdgpu_atcs atcs;
+>   } amdgpu_acpi_priv;
+>   
+> +struct amdgpu_acpi_quirks {
+> +	bool ignore_min_input_signal;
+> +};
+> +
+> +static const struct dmi_system_id amdgpu_acpi_quirk_table[] = {
+> +	{
+> +		/* the Framework Laptop 13 (AMD Ryzen) and 16 (AMD Ryzen) */
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "Framework"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "AMD Ryzen"),
+> +			DMI_MATCH(DMI_PRODUCT_FAMILY, "Laptop"),
+> +		},
+
+Two problems I see:
+
+1) This really "should" be fixed in the BIOS. I added Kieran to the 
+thread for comments if that's viable.
+
+2) IMO this is going to match too liberally across all potential 
+Framework models.  If they introduce a refreshed motherboard for either 
+product then the quirk would apply to both products when we don't know 
+that such a deficiency would exist.
+
+You can reference drivers/platform/x86/amd/pmc/pmc-quirks.c for what we 
+used for a quirk that was matching against a single product and single 
+BIOS.
+
+But FWIW if that issue isn't fixed in the next BIOS I think we'll end up 
+needing to tear out the BIOS string match and match just the platform.
+
+
+> +		.driver_data = &(struct amdgpu_acpi_quirks) {
+> +			.ignore_min_input_signal = true,
+> +		},
+> +	},
+> +	{}
+> +};
+> +
+> +static const struct amdgpu_acpi_quirks *amdgpu_acpi_get_quirks(void)
+> +{
+> +	const struct dmi_system_id *dmi_id;
+> +
+> +	dmi_id = dmi_first_match(amdgpu_acpi_quirk_table);
+> +	if (!dmi_id)
+> +		return NULL;
+> +	return dmi_id->driver_data;
+> +}
+> +
+>   /* Call the ATIF method
+>    */
+>   /**
+> @@ -1388,6 +1418,7 @@ bool amdgpu_acpi_should_gpu_reset(struct amdgpu_device *adev)
+>    */
+>   void amdgpu_acpi_detect(void)
+>   {
+> +	const struct amdgpu_acpi_quirks *quirks = amdgpu_acpi_get_quirks();
+>   	struct amdgpu_atif *atif = &amdgpu_acpi_priv.atif;
+>   	struct amdgpu_atcs *atcs = &amdgpu_acpi_priv.atcs;
+>   	struct pci_dev *pdev = NULL;
+> @@ -1429,6 +1460,10 @@ void amdgpu_acpi_detect(void)
+>   					ret);
+>   			atif->backlight_caps.caps_valid = false;
+>   		}
+> +		if (quirks && quirks->ignore_min_input_signal) {
+> +			DRM_INFO("amdgpu_acpi quirk: min_input_signal=0\n");
+> +			atif->backlight_caps.min_input_signal = 0;
+> +		}
+>   	} else {
+>   		atif->backlight_caps.caps_valid = false;
+>   	}
+> 
+> ---
+> base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+> change-id: 20240610-amdgpu-min-backlight-quirk-8402fd8e736a
+> 
+> Best regards,
+
