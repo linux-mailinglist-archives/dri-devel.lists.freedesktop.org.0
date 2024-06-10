@@ -2,86 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684259029E1
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 22:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DCB29029E7
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 22:20:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8F7C10E4FB;
-	Mon, 10 Jun 2024 20:20:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4984310E5E0;
+	Mon, 10 Jun 2024 20:20:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Mi4usKBI";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="YizGa4yy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70EE510E4FB;
- Mon, 10 Jun 2024 20:20:04 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45AEKxrG001296;
- Mon, 10 Jun 2024 20:19:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- u9Nj6YH64EdfLNAULralaBJwSjACSwIdbfB9+j72f78=; b=Mi4usKBIDbHPUkqO
- sdB2tvJXYslpO9784gKuW3A9SXt04Povko/rhgQouA+7/bUj+GhmKzgvhZBlIqkX
- z7jcElptoRpN/z+0p0+UZgd9lFspJX1+3j2QICLVwMqhO85QzMmZQBfW/iciKUb6
- Ae9/iY69LFdOBlh51GG/Jv8D8Thbj47MmZxo3piaw3FbQrB89qNteLZ28ll0L9bV
- /YvO5lyA1Xa71c2jLE6LwERimV4hEmfuPibbIBfgdHkX5sVYCueMSG8SGd5XU8xC
- wza+e9cLAM9hsJz2XZ+AkLtbpBWGJEmIL+zpiCQrhsctEbNXH3XSsOBPwufIdqzU
- PU/T+g==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ymemgmkxs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Jun 2024 20:19:56 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45AKJObU013456
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Jun 2024 20:19:24 GMT
-Received: from [10.71.110.249] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 10 Jun
- 2024 13:19:19 -0700
-Message-ID: <1dff0318-921e-ea43-4eba-8c4e2b283afb@quicinc.com>
-Date: Mon, 10 Jun 2024 13:19:16 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v4 09/13] drm/msm/dpu: allow using two SSPP blocks for a
- single plane
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2075.outbound.protection.outlook.com [40.107.243.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C547D10E5DF;
+ Mon, 10 Jun 2024 20:20:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=THlILN0oYiVhzJZBv9Q75arbxLfwULOflIODhglwScqpA/m+nihZ9Q5U7Kj3p1dDGaxHDcewFQWQbCGuJBl5xSrcq7xrOGDsG/CteVcwPAtZrHz9Xgmupb0kKcuFSUvbJXwMV5aqUHg1HwoAtUZj03NMV8QEVShJx/ZPwf9GCMvvoUWov/o1F/1jUkZ1dLZOicakFPKluNRLMxdGNWW7Ey9FXJmyyXiYhLYZRZBA3knBOmDeFoNoep63GBurCPGJjk0HXXrKzIqCgkCK8VDcKj50Zqo2miE8mUkbvkYYUgHFfGgy73AjJu92Lz6mS4LveJcrAWTUta2vaAc1k1sdhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G60IRxdhNH9gk2WHRuXUJv9ACEWQAqRao1BHVrTRHZ8=;
+ b=lUaxb7HzxHJc7PwctTzCI7Z3Hp8ov3WcDVdXlQp6yISoo21NUH+QBYfiFgvgRzU3Zi0+vsyGRlZBmgb2G6njprhnJMdZmNdwAgc4HB2NeG8hDnln/vCWqKWovDhFxwJ99prtR+n8ttqBLd82ry/82vz21br6998WaaWS/VNJbQiBh0csgUg1BIq2sxj2YjFJVNO0jUFuh49QHSJI4lg67anYs9bqCOFCO6Adbr5Chpn+ZxIoM8sOMP1xH+lOMZfNM4nENe+WsJsrxDnhc0x7hJtZl/YtGM+el7E9vRB9QRt8W/VZbIH7xHhAs3wQfS7FCyvf50VSp9Dig1VAFBsMSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G60IRxdhNH9gk2WHRuXUJv9ACEWQAqRao1BHVrTRHZ8=;
+ b=YizGa4yynZWEXIhfhFMvtS5NZCoaXFZzi2/zTXe57V+Oxe5v3sqwkYBFKwLOOTsrB2O2ScWxXtjDkMWGZWCYQmSSt+8dw9RMGuYm74hPYIiakZB560swdULuOK2auGNfCmyfDcQgnCsPkusAsJSQpph++iwoCGAuGDXr2/vhlgg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by CH3PR12MB9100.namprd12.prod.outlook.com (2603:10b6:610:1a8::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Mon, 10 Jun
+ 2024 20:20:23 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%4]) with mapi id 15.20.7633.036; Mon, 10 Jun 2024
+ 20:20:23 +0000
+Message-ID: <556979e9-c3d1-45d9-aaa5-b5a17422db5f@amd.com>
+Date: Mon, 10 Jun 2024 15:20:20 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd: force min_input_signal to 0 on Framework AMD
+ 13/16
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Kieran Levin <ktl@framework.net>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dustin Howett <dustin@howett.net>, Matt Hartley <matt.hartley@gmail.com>
+References: <20240610-amdgpu-min-backlight-quirk-v1-1-8459895a5b2a@weissschuh.net>
+ <74f3c189-f3d3-4dca-9357-d4bc8f98da08@amd.com>
+ <0759ed40-efef-4230-86fc-cdf6702843e6@t-8ch.de>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-CC: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20240314000216.392549-1-dmitry.baryshkov@linaro.org>
- <20240314000216.392549-10-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240314000216.392549-10-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: yStIEB6Nh6eVPgqwA7uEyCJwY5crWBkQ
-X-Proofpoint-ORIG-GUID: yStIEB6Nh6eVPgqwA7uEyCJwY5crWBkQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-10_06,2024-06-10_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxlogscore=999
- suspectscore=0 adultscore=0 impostorscore=0 spamscore=0 priorityscore=1501
- lowpriorityscore=0 phishscore=0 malwarescore=0 mlxscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
- definitions=main-2406100152
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <0759ed40-efef-4230-86fc-cdf6702843e6@t-8ch.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA9PR13CA0101.namprd13.prod.outlook.com
+ (2603:10b6:806:24::16) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|CH3PR12MB9100:EE_
+X-MS-Office365-Filtering-Correlation-Id: ab10e2ca-45a6-4b9e-2ee3-08dc898ac1bf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|366007|1800799015;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q2ZQekwxREZXcGtnaGhWemY1TnpLd1dhalB2NDBueUpLTGlicm9sVlJSRXVy?=
+ =?utf-8?B?MFdDcGtlakl6RTZydWNYSmpJNjBIN2xWZStNOStkT1BSQVdJMjh2R2VZYUJR?=
+ =?utf-8?B?QVRlZjNCNXA1SXA5eUdXMTFQZDZNOVcwaTZBb2NKaktOYytIaUtvNlZyNjZ3?=
+ =?utf-8?B?NGhibnFpVWsyUGZ4YjdvRFZBSkFROFdTMGpEdDVzY1NBWHQxZitoUDZjZFBM?=
+ =?utf-8?B?NTVxaEpDTmtMc2VTWUJHdVhxM0dkVGI2ODBqYWlNQjc1VW1IWEdvZFQra2dj?=
+ =?utf-8?B?d1dseWJFZ09jN0dvalZNb2lLa1B4K1VjbCtRaTRSZHV3UTk1c3cra0l2T0Fp?=
+ =?utf-8?B?SDBFaWNINmRtUEhjSUNNWFJqU0FOOXhZeDY3bzhxd1dmTXNjeFBCNzVXTHFW?=
+ =?utf-8?B?bGkyR0RnK2x6ZzFJRTVUbkNBVzJ0UjB1b1BtSk83U2pMdXFEMDdVVGd3WlNi?=
+ =?utf-8?B?L3BZalFPci9TREdDR1FsVnpTY3RFWXdXM1FkOXo4ZmM4eUdxV0laS0d6cTBu?=
+ =?utf-8?B?Z0h5N1VZWlNOSjR1aDJxeEI0VnltT1BKTnh2T0RweW5RQmw2OWI1bGkwSmIx?=
+ =?utf-8?B?U0J0NmdNM25kd3h3anpKVndhT0Q0TzJCcUUyZ3VqS2NvSW5DUzVnSFF5dFpU?=
+ =?utf-8?B?cUwvNG1WS1BvbWRBQkRyZFBRcTNQeldFR3Y5MGIrMisyTnpJUC9Nc09GUUt2?=
+ =?utf-8?B?SjMxakJobm85NXpIR25SUEFQSnBQcXFjMmhkVGRSd3dydS9MVEhNOUVuc2RD?=
+ =?utf-8?B?T1FPZ0YzbDZVVTY5NlhRV3U2cWpucWpLekJMWS81TXNiZEtVcCtCVi84MFRH?=
+ =?utf-8?B?OWxnby81ODR0enlSbkN6U0liYUdMdUNGNkcxTUloYzlxa2puZ1J0R3U1WGI5?=
+ =?utf-8?B?UWJZaDhLQXpidEpydDN1MlFWdjBkWXpReER0cmNmWjk3cEh4KytzOHhmR1dW?=
+ =?utf-8?B?eUl6ZVdxaFkxWnVNUVZ1UUplRm9PL20wNGdqOG51QXJDMFNLVXdndURscVYz?=
+ =?utf-8?B?ZHllSEZCRkp0UlNpdHM4dEU2aFRnZFViZzBXTTgzYjVBckMvMXhYQXlDWTF5?=
+ =?utf-8?B?Si9hMk16bURoMGNDUlBpLzNCRHl6bFpLaHFadW5vclpTTlpNT2NpNGhxYkVv?=
+ =?utf-8?B?NlZZVm15WkZCY0hFcXova3BBNTl1ZGJCOVBabmpBT2ZBdm14VThMYk1nR2VL?=
+ =?utf-8?B?WnpkUWpKeW1CbjRwUEhyYTRkSURpVnZNanNIZ1A5YTJCTHhpQ0N3ZXYrRm9Z?=
+ =?utf-8?B?U1NESjkyZFJEVEd2K3F2NTNWQWFpVkU5eHpWSjB3eE1aUkNXVVlLVmlUNTFV?=
+ =?utf-8?B?UnVuL3ZsYXA1aXplZWV6M3FrS1VmZGZ0N01IYUp0VTRVS2NIOEEvRzBXWUZC?=
+ =?utf-8?B?NmZ3aldBWHQ3NTBQQ2R6WE1YU1F6VUpja1F6WlBveTdFQTh6bXB6NG9NdDAw?=
+ =?utf-8?B?czNRZDJkeldnem1FUHBFRkZ5d2RnN3QwRTdycVlZQlVCTVZZRjlibHFOWXpR?=
+ =?utf-8?B?VDFBSTI5MFV4cDkrWm0wMmFRM2NJMHh3bW9sWHkvOUJzUlBmcGw3d0xKZnN5?=
+ =?utf-8?B?bTVuVnE3UkZSblJSdloyblZheStqc2NaZDh0SU9Sb0JjblZpZE5qVk5TYXht?=
+ =?utf-8?B?dytIL3hnZjV6OUQ1Q1g5cXNaZ2RwRGd5QjAvMGZaalU2ZnN6MGNFQUFpVXJr?=
+ =?utf-8?Q?VZcqjsUozg9PVfa4fSK1?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005)(366007)(1800799015); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZENTb2pVY2xlNzRHTlV5WU42dlRONng1c05NM0pXbnBuc3BGeGNsNGVkNGxE?=
+ =?utf-8?B?ZjNVUXEyNkNjalBjbGg4a096NU9nVlRUUVV4enNkUTdMYWVFRmRVMmowRmtv?=
+ =?utf-8?B?MVp6Rm84NmpzS1RhNEZmZHFWdmRxQjNQSzN5WnNIdGgvN0tnRG5VN2tVSE1U?=
+ =?utf-8?B?OHhDOWZHUnM4cDZ4QlZWc0NMTnovWjlkbEtCc0VsY0h5YWpUekVIaFN6a09o?=
+ =?utf-8?B?NWUvOVlsQ1lCbVFIL3ZWcUwrWmQ2RHpmaStCMlEvNnVnS2ZRL3VRVHVsd0x4?=
+ =?utf-8?B?ejhxclpkVlkyN0wwSmJjOEw0TDZ5NWZ0bXlVVG5SRFR5ZmcyRlVVcWtNUElU?=
+ =?utf-8?B?RTZ6RFdYd3p2MUVDUi9zNGlaR014RExvWjNQR0dDUzRWUTZqK2hRYUZaRHRn?=
+ =?utf-8?B?SGxReFE4SUVkbzRpVW5LWC9BbWlwUUVEQmwzVGdMNEVzV0d0cGFYZk1YejdC?=
+ =?utf-8?B?eVFSWDNoYmtDQ0NYektVK2JFdEJsWkR6OEdUa2dZSEFHYmFqM05oVmZqZzlC?=
+ =?utf-8?B?TEZzTVU5QnNSTDNXMUtBT3JHL0ZXcFpXb3FzTmhEejBHSk9Md0poTGhWNjFY?=
+ =?utf-8?B?MFdFOEZTYnNQQzNjZVlsbkZ5VVlTVjhLc0lKZU5Xc3JPYStrRVFpUzFVQkZD?=
+ =?utf-8?B?VTdZUllxdkZvQ0NpZC9uV3VRS2VIclhLa0ZSL243b0h3a2s5b01xRUFWOEVP?=
+ =?utf-8?B?aXFNUW5LdDV1ZU9UdVhBbzlHL2I3RG9lUGJNMFM5VkxHRVF3c1BNVXFnVE44?=
+ =?utf-8?B?a1V3K3RpQnBDRkNtUktEYmpnYk1VenYxTDRJRTdvUlEvTXVRNEZZVno0N2Rx?=
+ =?utf-8?B?ekJtZkU2c1pTdnBEREVTQ05HcmZhOVhyZmlSS3JRVkhEOU5oUEZ4WXpvcUpG?=
+ =?utf-8?B?UWNDRThtczk1YWw1dm1od3JXV2tsN1lIQnlkWDlWa0E5REM4Rm5zMVNNOS9z?=
+ =?utf-8?B?ejlqU21wZ0NFV2dlM0pNTjZ3VFY5K1VNK2lOL1JGWXozMXFIQ2NJYnVPcXla?=
+ =?utf-8?B?RlJwTWVNdC90TElLaHNERTljOEF5TzcydEFpTUxqd0gzKzl0YmVrS1VUVG9M?=
+ =?utf-8?B?N2RtVUFpN0ExeW5qMmhCQmhEeDQ1Wmd2dDA5b09mQk8rUkhiQUFUeExCQ3p5?=
+ =?utf-8?B?bDhpdVBubkMvaTBTbkVtNk5BOHBtMXlSc2pqMlhPcGk1NHU3Q3dnZklXSWIz?=
+ =?utf-8?B?K3daV0VLMytxN3I4N1M3dE1Yd3NPYThhWWYwWTVzQ09QOG13aVhjekJhUTdX?=
+ =?utf-8?B?alJZMG5FdDhlNnRSYzhBdkJNeDdMTU5zSlg2RlZMNGwyTGlDWjZkR0pxT3lQ?=
+ =?utf-8?B?d0NGcEhpRSs1TDd6NXpqVWxRNEo3ZlVDWGlDVzMzWk1DUHVWUXoxdSsvRk1x?=
+ =?utf-8?B?elArNUh6bTh4UDhCOEtDcXAvYmQ2cUp3L1dqQUw3SGpmOVE0Z3k0UGNEWlI5?=
+ =?utf-8?B?cllqaUszQ2ZySGxyODR2d2FNMWh3Q3VFdkRadldOK0hhekdRRE5TUUh0dkI3?=
+ =?utf-8?B?RG5BdTVnTk9JREU1aG90M0x1VWl3ZG9LblZwZytHRiszOU9POVpGdmVwTUJD?=
+ =?utf-8?B?cEJrYXpGcG1yb0I2b0ovK08zUFBTTStXTTd4dDIyTENKYXB1V29neUZOWVJR?=
+ =?utf-8?B?RjNEeDk2TENDa3gzR2psTFZUUis3eldwOGNGNFJ2MUxUVmxGSC9rK1ZtTUkw?=
+ =?utf-8?B?TE16amdwMFJQcWVSMENjNFNQNkg1cjEzNm83WjN2eWFpL08yNzRROFA3V3cx?=
+ =?utf-8?B?ck9TdVdYNk5xTFYyL1VYaW42dDVSYWFoRkI2TWNjNk55Y3pFbDNGSVlhcVo3?=
+ =?utf-8?B?bWlzWVRyUkpYcVRZN1Z4b3pRbkxNaDk5ekgxQ0g4dE9UVnFMdThYb0h1bU5U?=
+ =?utf-8?B?K2xPWVdQcTRiVEFMTTVSTGh4bjZ3WDJsdU9WbStmdGFqTk1RU3d1YU52anRH?=
+ =?utf-8?B?aUhiM2RzdkJocXJ4cmdvcmZvaWFhN0JhcHk4RmJVaHdPL1F5VDFPSVNQekdi?=
+ =?utf-8?B?bExRNE40NWdkSGpuZk02SGxDdG5rZVlHOUJPcTFNMHhRV09ub2ErNmRZeWQ5?=
+ =?utf-8?B?S2dSMXRwS0hjQVZqaWZMSzIxRXYrYVR3MXZYVWU3R3VEQ2lmdklMZnhhak81?=
+ =?utf-8?Q?79ugpPGgYSi/qoNEur2CMEL+F?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab10e2ca-45a6-4b9e-2ee3-08dc898ac1bf
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2024 20:20:23.0221 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PcGTI+3+i/3YmztJg+D3YSexGQKLbusfovW1wzKNqpw4U0+akBJuKNPlCr9eWPqHZFNGMH+2AHTIHr6fFXLLiw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,339 +165,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 3/13/2024 5:02 PM, Dmitry Baryshkov wrote:
-> Virtual wide planes give high amount of flexibility, but it is not
-> always enough:
+On 6/10/2024 15:12, Thomas Weißschuh wrote:
+> On 2024-06-10 14:58:02+0000, Mario Limonciello wrote:
+>> +Kieran
+>>
+>> On 6/10/2024 14:26, Thomas Weißschuh wrote:
+>>> The value of "min_input_signal" returned from ATIF on a Framework AMD 13
+>>> is "12". This leads to a fairly bright minimum display backlight.
+>>>
+>>> Introduce a quirk to override "min_input_signal" to "0" which leads to a
+>>> much lower minimum brightness, which is still readable even in daylight.
+>>>
+>>> Tested on a Framework AMD 13 BIOS 3.05 and Framework AMD 16.
+>>>
+>>> Link: https://community.frame.work/t/25711/9
+>>> Link: https://community.frame.work/t/47036
+>>> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+>>> ---
+>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 35 ++++++++++++++++++++++++++++++++
+>>>    1 file changed, 35 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+>>> index 7099ff9cf8c5..b481889f7491 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+>>> @@ -25,6 +25,7 @@
+>>>    #include <linux/pci.h>
+>>>    #include <linux/acpi.h>
+>>>    #include <linux/backlight.h>
+>>> +#include <linux/dmi.h>
+>>>    #include <linux/slab.h>
+>>>    #include <linux/xarray.h>
+>>>    #include <linux/power_supply.h>
+>>> @@ -130,6 +131,35 @@ static struct amdgpu_acpi_priv {
+>>>    	struct amdgpu_atcs atcs;
+>>>    } amdgpu_acpi_priv;
+>>> +struct amdgpu_acpi_quirks {
+>>> +	bool ignore_min_input_signal;
+>>> +};
+>>> +
+>>> +static const struct dmi_system_id amdgpu_acpi_quirk_table[] = {
+>>> +	{
+>>> +		/* the Framework Laptop 13 (AMD Ryzen) and 16 (AMD Ryzen) */
+>>> +		.matches = {
+>>> +			DMI_MATCH(DMI_SYS_VENDOR, "Framework"),
+>>> +			DMI_MATCH(DMI_PRODUCT_NAME, "AMD Ryzen"),
+>>> +			DMI_MATCH(DMI_PRODUCT_FAMILY, "Laptop"),
+>>> +		},
+>>
+>> Two problems I see:
+>>
+>> 1) This really "should" be fixed in the BIOS. I added Kieran to the thread
+>> for comments if that's viable.
 > 
-> In parallel multirect case only the half of the usual width is supported
-> for tiled formats. Thus the whole width of two tiled multirect
-> rectangles can not be greater than max_linewidth, which is not enough
-> for some platforms/compositors.
+> Agreed!
 > 
-> Another example is as simple as wide YUV plane. YUV planes can not use
-> multirect, so currently they are limited to max_linewidth too.
+>> 2) IMO this is going to match too liberally across all potential Framework
+>> models.  If they introduce a refreshed motherboard for either product then
+>> the quirk would apply to both products when we don't know that such a
+>> deficiency would exist.
 > 
-> Now that the planes are fully virtualized, add support for allocating
-> two SSPP blocks to drive a single DRM plane. This fixes both mentioned
-> cases and allows all planes to go up to 2*max_linewidth (at the cost of
-> making some of the planes unavailable to the user).
+> Also agreed.
+> In addition to be really specific this should also match by display type
+> (via EDID?).
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 172 ++++++++++++++++------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |   8 +
->   2 files changed, 131 insertions(+), 49 deletions(-)
+> So far this was only tested with the matte panel.
+> (I forgot to mention that, sorry)
+
+Yeah; I would expect this also matters for the new high res panel that 
+they announced whether this value can work.
+
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 2961b809ccf3..cde20c1fa90d 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -886,6 +886,28 @@ static int dpu_plane_atomic_check_nopipe(struct drm_plane *plane,
->   	return 0;
->   }
->   
-> +static int dpu_plane_is_multirect_parallel_capable(struct dpu_sw_pipe *pipe,
-> +						   struct dpu_sw_pipe_cfg *pipe_cfg,
-> +						   const struct dpu_format *fmt,
-> +						   uint32_t max_linewidth)
-> +{
-> +	if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
-> +	    drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect))
-> +		return false;
-> +
-> +	if (pipe_cfg->rotation & DRM_MODE_ROTATE_90)
-> +		return false;
-> +
-> +	if (DPU_FORMAT_IS_YUV(fmt))
-> +		return false;
-> +
-> +	if (DPU_FORMAT_IS_UBWC(fmt) &&
-> +	    drm_rect_width(&pipe_cfg->src_rect) > max_linewidth / 2)
-> +		return false;
-> +
-> +	return true;
-> +}
-> +
+>> You can reference drivers/platform/x86/amd/pmc/pmc-quirks.c for what we used
+>> for a quirk that was matching against a single product and single BIOS.
+> 
+> Will do for the next revision, but let's gather some feedback first.
 
-This is a good idea to separate out multirect checks to a separate API. 
-I think can push this part of the change even today.
+👍
 
->   static int dpu_plane_atomic_check_pipes(struct drm_plane *plane,
->   					struct drm_atomic_state *state,
->   					const struct drm_crtc_state *crtc_state)
-> @@ -899,7 +921,6 @@ static int dpu_plane_atomic_check_pipes(struct drm_plane *plane,
->   	const struct dpu_format *fmt;
->   	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
->   	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
-> -	uint32_t max_linewidth;
->   	uint32_t supported_rotations;
->   	const struct dpu_sspp_cfg *pipe_hw_caps;
->   	const struct dpu_sspp_sub_blks *sblk;
-> @@ -919,15 +940,8 @@ static int dpu_plane_atomic_check_pipes(struct drm_plane *plane,
->   	      drm_rect_height(&new_plane_state->dst))))
->   		return -ERANGE;
->   
-> -	pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> -	pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> -	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> -	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> -
->   	fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
->   
-> -	max_linewidth = pdpu->catalog->caps->max_linewidth;
-> -
->   	supported_rotations = DRM_MODE_REFLECT_MASK | DRM_MODE_ROTATE_0;
->   
->   	if (pipe_hw_caps->features & BIT(DPU_SSPP_INLINE_ROTATION))
-> @@ -943,41 +957,6 @@ static int dpu_plane_atomic_check_pipes(struct drm_plane *plane,
->   		return ret;
->   
->   	if (drm_rect_width(&r_pipe_cfg->src_rect) != 0) {
-> -		/*
-> -		 * In parallel multirect case only the half of the usual width
-> -		 * is supported for tiled formats. If we are here, we know that
-> -		 * full width is more than max_linewidth, thus each rect is
-> -		 * wider than allowed.
-> -		 */
-> -		if (DPU_FORMAT_IS_UBWC(fmt) &&
-> -		    drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
-> -			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u, tiled format\n",
-> -					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-> -			return -E2BIG;
-> -		}
-> -
-> -		if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
-> -		    drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect) ||
-> -		    (!test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) &&
-> -		     !test_bit(DPU_SSPP_SMART_DMA_V2, &pipe->sspp->cap->features)) ||
-> -		    pipe_cfg->rotation & DRM_MODE_ROTATE_90 ||
-> -		    DPU_FORMAT_IS_YUV(fmt)) {
-> -			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u, can't use split source\n",
-> -					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-> -			return -E2BIG;
-> -		}
-> -
-> -		/*
-> -		 * Use multirect for wide plane. We do not support dynamic
-> -		 * assignment of SSPPs, so we know the configuration.
-> -		 */
-> -		pipe->multirect_index = DPU_SSPP_RECT_0;
-> -		pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-> -
-> -		r_pipe->sspp = pipe->sspp;
-> -		r_pipe->multirect_index = DPU_SSPP_RECT_1;
-> -		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-> -
->   		ret = dpu_plane_atomic_check_pipe(pdpu, r_pipe, r_pipe_cfg, fmt,
->   						  &crtc_state->adjusted_mode);
->   		if (ret)
-> @@ -998,16 +977,16 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
->   	struct dpu_sw_pipe *pipe = &pstate->pipe;
->   	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
-> +	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
-> +	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
->   	const struct drm_crtc_state *crtc_state = NULL;
->   
->   	if (new_plane_state->crtc)
->   		crtc_state = drm_atomic_get_new_crtc_state(state,
->   							   new_plane_state->crtc);
->   
-> -	if (pdpu->pipe != SSPP_NONE) {
-> -		pipe->sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
-> -		r_pipe->sspp = NULL;
-> -	}
-> +	pipe->sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
-> +	r_pipe->sspp = NULL;
->   
->   	if (!pipe->sspp)
->   		return -EINVAL;
-> @@ -1019,6 +998,52 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   	if (!new_plane_state->visible)
->   		return 0;
->   
-> +	pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> +	pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> +	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +
-> +	if (drm_rect_width(&r_pipe_cfg->src_rect) != 0) {
-> +		uint32_t max_linewidth = dpu_kms->catalog->caps->max_linewidth;
-> +		const struct dpu_format *fmt;
-> +
-> +		fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
-> +
-> +		/*
-> +		 * In parallel multirect case only the half of the usual width
-> +		 * is supported for tiled formats. If we are here, we know that
-> +		 * full width is more than max_linewidth, thus each rect is
-> +		 * wider than allowed.
-> +		 */
-> +		if (DPU_FORMAT_IS_UBWC(fmt) &&
-> +		    drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
-> +			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u, tiled format\n",
-> +					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-> +			return -E2BIG;
-> +		}
-> +
-> +		r_pipe->sspp = pipe->sspp;
-> +
-> +		if (!dpu_plane_is_multirect_parallel_capable(pipe, pipe_cfg, fmt, max_linewidth) ||
-> +		    !dpu_plane_is_multirect_parallel_capable(r_pipe, r_pipe_cfg, fmt, max_linewidth) ||
-> +		    !(test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) ||
-> +		      test_bit(DPU_SSPP_SMART_DMA_V2, &pipe->sspp->cap->features))) {
-> +			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u, can't use split source\n",
-> +					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-> +			return -E2BIG;
-> +		}
-> +
-> +		/*
-> +		 * Use multirect for wide plane. We do not support dynamic
-> +		 * assignment of SSPPs, so we know the configuration.
-> +		 */
-> +		pipe->multirect_index = DPU_SSPP_RECT_0;
-> +		pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-> +
-> +		r_pipe->multirect_index = DPU_SSPP_RECT_1;
-> +		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-> +	}
-> +
+> 
+>> But FWIW if that issue isn't fixed in the next BIOS I think we'll end up
+>> needing to tear out the BIOS string match and match just the platform.
+> 
+> I'm wondering what the longterm strategy will have to be.
+> Given that there are different kinds of displays, and new ones will be
+> released, each new display type will require an update to the firmware.
+> 
+> When there are no firmware updates for a device anymore, but new,
+> compatible displays are released, then the kernel will need the quirks
+> again.
 
-I might be wrong here, but it seems like this part was moved to 
-dpu_plane_atomic_check_nopipe() in patch 6 and now being brought back 
-(atleast most of it) to dpu_plane_atomic_check().
+Yeah I think all this points to the 'best' home for this is BIOS.
 
-If this is correct, then the migration in patch 6 was not necessary.
+Framework can test whether the 0 value works on all the displays they 
+want to support and look for negative impacts for all OSes they support.
 
->   	return dpu_plane_atomic_check_pipes(plane, state, crtc_state);
->   }
->   
-> @@ -1053,10 +1078,18 @@ static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
->   
->   	format = to_dpu_format(msm_framebuffer_format(plane_state->fb));
->   
-> -	/* force resource reallocation if the format of FB has changed */
-> -	if (pstate->saved_fmt != format) {
-> +	/* force resource reallocation if the format of FB or src/dst have changed */
-> +	if (pstate->saved_fmt != format ||
-> +	    pstate->saved_src_w != plane_state->src_w ||
-> +	    pstate->saved_src_h != plane_state->src_h ||
-> +	    pstate->saved_src_w != plane_state->src_w ||
-> +	    pstate->saved_crtc_h != plane_state->crtc_h) {
->   		crtc_state->planes_changed = true;
->   		pstate->saved_fmt = format;
-> +		pstate->saved_src_w = plane_state->src_w;
-> +		pstate->saved_src_h = plane_state->src_h;
-> +		pstate->saved_crtc_w = plane_state->crtc_w;
-> +		pstate->saved_crtc_h = plane_state->crtc_h;
->   	}
+> 
+>>> +		.driver_data = &(struct amdgpu_acpi_quirks) {
+>>> +			.ignore_min_input_signal = true,
+>>> +		},
+>>> +	},
+>>> +	{}
+>>> +};
+>>> +
+>>> +static const struct amdgpu_acpi_quirks *amdgpu_acpi_get_quirks(void)
+>>> +{
+>>> +	const struct dmi_system_id *dmi_id;
+>>> +
+>>> +	dmi_id = dmi_first_match(amdgpu_acpi_quirk_table);
+>>> +	if (!dmi_id)
+>>> +		return NULL;
+>>> +	return dmi_id->driver_data;
+>>> +}
+>>> +
+>>>    /* Call the ATIF method
+>>>     */
+>>>    /**
+>>> @@ -1388,6 +1418,7 @@ bool amdgpu_acpi_should_gpu_reset(struct amdgpu_device *adev)
+>>>     */
+>>>    void amdgpu_acpi_detect(void)
+>>>    {
+>>> +	const struct amdgpu_acpi_quirks *quirks = amdgpu_acpi_get_quirks();
+>>>    	struct amdgpu_atif *atif = &amdgpu_acpi_priv.atif;
+>>>    	struct amdgpu_atcs *atcs = &amdgpu_acpi_priv.atcs;
+>>>    	struct pci_dev *pdev = NULL;
+>>> @@ -1429,6 +1460,10 @@ void amdgpu_acpi_detect(void)
+>>>    					ret);
+>>>    			atif->backlight_caps.caps_valid = false;
+>>>    		}
+>>> +		if (quirks && quirks->ignore_min_input_signal) {
+>>> +			DRM_INFO("amdgpu_acpi quirk: min_input_signal=0\n");
+>>> +			atif->backlight_caps.min_input_signal = 0;
+>>> +		}
+>>>    	} else {
+>>>    		atif->backlight_caps.caps_valid = false;
+>>>    	}
+>>>
+>>> ---
+>>> base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+>>> change-id: 20240610-amdgpu-min-backlight-quirk-8402fd8e736a
+>>>
+>>> Best regards,
+>>
 
-Is thic chunk checking that if the src/dst have changed, this plane 
-might span more than one LM?
-
-Will be better to add more comment on why we are also checking src/dest 
-changes.
-
-Overall, can we just use for_each_oldnew_plane_in_state to compare the 
-prev and current dimensions and drop saved_****?
-
->   
->   	return 0;
-> @@ -1074,7 +1107,10 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->   	struct dpu_plane_state *pstate;
->   	struct dpu_sw_pipe *pipe;
->   	struct dpu_sw_pipe *r_pipe;
-> +	struct dpu_sw_pipe_cfg *pipe_cfg;
-> +	struct dpu_sw_pipe_cfg *r_pipe_cfg;
->   	const struct dpu_format *fmt;
-> +	uint32_t max_linewidth;
->   
->   	if (plane_state->crtc)
->   		crtc_state = drm_atomic_get_new_crtc_state(state,
-> @@ -1083,6 +1119,8 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->   	pstate = to_dpu_plane_state(plane_state);
->   	pipe = &pstate->pipe;
->   	r_pipe = &pstate->r_pipe;
-> +	pipe_cfg = &pstate->pipe_cfg;
-> +	r_pipe_cfg = &pstate->r_pipe_cfg;
->   
->   	pipe->sspp = NULL;
->   	r_pipe->sspp = NULL;
-> @@ -1097,10 +1135,46 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->   
->   	reqs.rot90 = drm_rotation_90_or_270(plane_state->rotation);
->   
-> +	max_linewidth = dpu_kms->catalog->caps->max_linewidth;
-> +
->   	pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
->   	if (!pipe->sspp)
->   		return -ENODEV;
->   
-> +	if (drm_rect_width(&r_pipe_cfg->src_rect) == 0) {
-> +		pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> +		pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +
-> +		r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> +		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +
-> +		r_pipe->sspp = NULL;
-> +	} else {
-> +		if (dpu_plane_is_multirect_parallel_capable(pipe, pipe_cfg, fmt, max_linewidth) &&
-> +		    dpu_plane_is_multirect_parallel_capable(r_pipe, r_pipe_cfg, fmt, max_linewidth) &&
-> +		    (test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) ||
-> +		     test_bit(DPU_SSPP_SMART_DMA_V2, &pipe->sspp->cap->features))) {
-> +			r_pipe->sspp = pipe->sspp;
-> +
-> +			pipe->multirect_index = DPU_SSPP_RECT_0;
-> +			pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-> +
-> +			r_pipe->multirect_index = DPU_SSPP_RECT_1;
-> +			r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-> +		} else {
-> +			/* multirect is not possible, use two SSPP blocks */
-> +			r_pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
-> +			if (!r_pipe->sspp)
-> +				return -ENODEV;
-> +
-> +			pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> +			pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +
-> +			r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> +			r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +		}
-> +	}
-> +
-
-This chunk LGTM.
-
->   	return dpu_plane_atomic_check_pipes(plane, state, crtc_state);
->   }
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-> index 15f7d60d8b85..5522f9035d68 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-> @@ -31,6 +31,10 @@
->    * @plane_clk: calculated clk per plane
->    * @needs_dirtyfb: whether attached CRTC needs pixel data explicitly flushed
->    * @saved_fmt: format used by the plane's FB, saved for for virtual plane support
-> + * @saved_src_w: cached value of plane's src_w, saved for for virtual plane support
-> + * @saved_src_h: cached value of plane's src_h, saved for for virtual plane support
-> + * @saved_crtc_w: cached value of plane's crtc_w, saved for for virtual plane support
-> + * @saved_crtc_h: cached value of plane's crtc_h, saved for for virtual plane support
->    */
->   struct dpu_plane_state {
->   	struct drm_plane_state base;
-> @@ -49,6 +53,10 @@ struct dpu_plane_state {
->   	bool needs_dirtyfb;
->   
->   	const struct dpu_format *saved_fmt;
-> +	uint32_t saved_src_w;
-> +	uint32_t saved_src_h;
-> +	uint32_t saved_crtc_w;
-> +	uint32_t saved_crtc_h;
->   };
->   
->   #define to_dpu_plane_state(x) \
