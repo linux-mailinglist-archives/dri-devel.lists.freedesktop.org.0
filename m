@@ -2,84 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8639690252D
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 17:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05CB690253A
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 17:16:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F30110E3D5;
-	Mon, 10 Jun 2024 15:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E743310E36E;
+	Mon, 10 Jun 2024 15:16:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="HZGFNhEr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ETS5HpY/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
- [209.85.222.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D445010E4A1
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 15:15:01 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id
- af79cd13be357-796df041d73so64363785a.3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 08:15:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1718032498; x=1718637298;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=V8k131QfovC2BNlbUq5Ew31XLDovv9vVvADmI61e7PE=;
- b=HZGFNhErJwfWFnL8pg99ZZfxJJFqEDNGzyM7Oe4CoMd/PxD6CvB8VOCKjvMQYLyQJQ
- eJ4/Y724oNbVNlAW+a6L4d9gpFnlL5BwL/bUAUUtcyJJjM7N6YPeg7YdPt+olaf032P4
- tDKG1xToAdBR0fIA0BewYpqQGccPaYVv2lZr0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718032498; x=1718637298;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=V8k131QfovC2BNlbUq5Ew31XLDovv9vVvADmI61e7PE=;
- b=Hmksmv0NgB3aBTJXhQTKSe804U1/nF725EVW6jVHKy+eaikNaCN6j2HpQjYlvJg0AJ
- dw3uLkqJJMPaRJR5ullw5n09H8eW07et2SndcZulGacofDae/GjUw2Rks8etkgBTqq8M
- mHNlOwj07/T154ZrG7Mz11a0jIr2NLY2ny1NI+lG8R8jcDze9ngnrJzlnjNgsMTcIBPL
- FW1ZOzwvjomULu51rDZZNpluYl7gw5MEO38hb4k9/BwAsIPNpqYyewOzsbZn3yNx4FHz
- r/RgQfiuLv3//63woLIpmG8DKjjatsT6RkoF9EtL0rqAhoS+2BU9if4c4ulXAeIG3ibp
- lJSQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWHLb4PZAXd2itMWMuziesGO7iRJBGMEKVsY7mQEp5m/nCP6+becImgQVt6pyR7TAce1fk1pClYhsf5rbOBneRKrmYtPNikBY+StLfmUS+z
-X-Gm-Message-State: AOJu0Yyg7NkR95A9N+Cp7c6rDjJnYO9URnXBlai7NcKa6grYi9sFOGEj
- rG3NOvKJhG+QfsG4d75Z82D8IcuVrP79IP5oZo5h8NN91FwYi4azZQj2dlemOL+layB8tSXq02g
- =
-X-Google-Smtp-Source: AGHT+IG2MdOFe3E1r/2bO01U7CIe0F2TJwGxCBZNd8dpsIrxD5zoLM6Nbv3TJ5gWN0VGX4HVbm8gbQ==
-X-Received: by 2002:a05:6214:318a:b0:6af:4c7:2c04 with SMTP id
- 6a1803df08f44-6b059f840c4mr102462186d6.55.1718032497702; 
- Mon, 10 Jun 2024 08:14:57 -0700 (PDT)
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com.
- [209.85.160.170]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b0789aa042sm15380956d6.81.2024.06.10.08.14.56
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jun 2024 08:14:57 -0700 (PDT)
-Received: by mail-qt1-f170.google.com with SMTP id
- d75a77b69052e-44056f72257so574561cf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 08:14:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXJgUOHC3d+z8RoMQrBKkK7PRTpzNBbHKYnKIS+QzGskhMMNJNOPeuhSDG/V/YcFBF2Q+3NbmZJfN5tmcQ6AIicHk4xg5RCKZFQtQCpga2n
-X-Received: by 2002:a05:622a:5986:b0:43f:f54d:8a6d with SMTP id
- d75a77b69052e-440562b2805mr6885921cf.4.1718032495826; Mon, 10 Jun 2024
- 08:14:55 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32DC110E36E
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 15:16:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id BAC23CE169C;
+ Mon, 10 Jun 2024 15:16:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17272C32786;
+ Mon, 10 Jun 2024 15:16:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718032607;
+ bh=O4K2WVyffh0yFu7MqI9zVOz6iOMDjKw5eu0ZI4dIaVk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ETS5HpY/0Kf6xf4RQ1EeQ5ezwwa3Hu3a2SFdCj67odD7KI2UYD7Fs2d1r5g7y6wIf
+ vTIqROSJQNRXs1n9kJDCdzxcS7+nLskAscR53y6Tg+D3s6zi6S/mSwJ7junGgMfPGz
+ cFVN88hW7TnVgKXnCw7asGpLrZreR7IS4oFRMy+H9qtpSq3cfrL6cdUOlH8XQCjevL
+ VdpqhB/9QWwIUedEYRuh4MevTomxzXE6ulQ6FOvNli9X5RdARoFkmIdzyPoMwtaZ2o
+ jqiLoW+RrYZ9fTS86/FAROafJwR54RozEVCGgmVDPux00UDvaj3N87ZaAfFbOkWXsm
+ 4oYGUGuuH8ZZQ==
+Message-ID: <59443d14-1f1d-42bb-8be3-73e6e4a0b683@kernel.org>
+Date: Mon, 10 Jun 2024 09:16:43 -0600
 MIME-Version: 1.0
-References: <485eef24-ddad-466a-a89f-f9f226801bb7@gmail.com>
-In-Reply-To: <485eef24-ddad-466a-a89f-f9f226801bb7@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 10 Jun 2024 08:14:40 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UZNQ8Beg7mZMNLh8FrenchGVt9SJAPdwHMZ8bPvo57mQ@mail.gmail.com>
-Message-ID: <CAD=FV=UZNQ8Beg7mZMNLh8FrenchGVt9SJAPdwHMZ8bPvo57mQ@mail.gmail.com>
-Subject: Re: Subject: [PATCH] drm/panel : truly-nt35521: transition to
- mipi_dsi wrapped functions
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+Content-Language: en-US
+To: Jason Gunthorpe <jgg@ziepe.ca>, Pavel Begunkov <asml.silence@gmail.com>
+Cc: David Wei <dw@davidwei.uk>, Mina Almasry <almasrymina@google.com>,
+ Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240530201616.1316526-3-almasrymina@google.com>
+ <ZlqzER_ufrhlB28v@infradead.org>
+ <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
+ <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
+ <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
+ <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
+ <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+ <20240607145247.GG791043@ziepe.ca>
+ <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
+ <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com>
+ <20240610121625.GI791043@ziepe.ca>
+From: David Ahern <dsahern@kernel.org>
+In-Reply-To: <20240610121625.GI791043@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,148 +104,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 6/10/24 6:16 AM, Jason Gunthorpe wrote:
+> On Mon, Jun 10, 2024 at 02:07:01AM +0100, Pavel Begunkov wrote:
+>> On 6/10/24 01:37, David Wei wrote:
+>>> On 2024-06-07 17:52, Jason Gunthorpe wrote:
+>>>> IMHO it seems to compose poorly if you can only use the io_uring
+>>>> lifecycle model with io_uring registered memory, and not with DMABUF
+>>>> memory registered through Mina's mechanism.
+>>>
+>>> By this, do you mean io_uring must be exclusively used to use this
+>>> feature?
+>>>
+>>> And you'd rather see the two decoupled, so userspace can register w/ say
+>>> dmabuf then pass it to io_uring?
+>>
+>> Personally, I have no clue what Jason means. You can just as
+>> well say that it's poorly composable that write(2) to a disk
+>> cannot post a completion into a XDP ring, or a netlink socket,
+>> or io_uring's main completion queue, or name any other API.
+> 
+> There is no reason you shouldn't be able to use your fast io_uring
+> completion and lifecycle flow with DMABUF backed memory. Those are not
+> widly different things and there is good reason they should work
+> together.
+> 
+> Pretending they are totally different just because two different
+> people wrote them is a very siloed view.
+> 
+>> The devmem TCP callback can implement it in a way feasible to
+>> the project, but it cannot directly post events to an unrelated
+>> API like io_uring. And devmem attaches buffers to a socket,
+>> for which a ring for returning buffers might even be a nuisance.
+> 
+> If you can't compose your io_uring completion mechanism with a DMABUF
+> provided backing store then I think it needs more work.
+> 
 
-On Sat, Jun 8, 2024 at 3:57=E2=80=AFAM Tejas Vipin <tejasvipin76@gmail.com>=
- wrote:
->
-> Use functions introduced in 966e397e4f603 ("drm/mipi-dsi: Introduce
-> mipi_dsi_*_write_seq_multi()") and f79d6d28d8fe
-> ("drm/mipi-dsi: wrap more functions for streamline handling") for the
-> sony tulip truly nt35521 panel.
+exactly. io_uring, page_pool, dmabuf - all kernel building blocks for
+solutions. This why I was pushing for Mina's set not to be using the
+name `devmem` - it is but one type of memory and with dmabuf it should
+not matter if it is gpu or host (or something else later on - cxl?).
 
-Running "scripts/checkpatch.pl" will yell about the above. You're
-supposed to write the word "commit" before the git hash. AKA:
-
-Use functions introduced in commit 966e397e4f603  ("drm/mipi-dsi:
-Introduce mipi_dsi_*_write_seq_multi()") and commit f79d6d28d8fe
-("drm/mipi-dsi: wrap more functions for streamline handling") for
-the...
-
-
-> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
-> ---
->  .../panel/panel-sony-tulip-truly-nt35521.c    | 383 +++++++++---------
->  1 file changed, 183 insertions(+), 200 deletions(-)
-
-The subject of your patch has an extra "Subject:" prefix. See:
-
-https://lore.kernel.org/r/485eef24-ddad-466a-a89f-f9f226801bb7@gmail.com
-
-...where you can see "Subject: Subject:". Maybe use "b4" or "patman"
-to help you send your patch?
-
-
-> diff --git a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c b/dri=
-vers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
-> index 6d44970dccd9..13472c7c37f5 100644
-> --- a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
-> +++ b/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
-> @@ -44,248 +44,231 @@ static void truly_nt35521_reset(struct truly_nt3552=
-1 *ctx)
->  static int truly_nt35521_on(struct truly_nt35521 *ctx)
->  {
->         struct mipi_dsi_device *dsi =3D ctx->dsi;
-> -       struct device *dev =3D &dsi->dev;
-> -       int ret;
->
->         dsi->mode_flags |=3D MIPI_DSI_MODE_LPM;
->
-> -       mipi_dsi_generic_write_seq(dsi, 0xf0, 0x55, 0xaa, 0x52, 0x08, 0x0=
-0);
-> -       mipi_dsi_generic_write_seq(dsi, 0xff, 0xaa, 0x55, 0xa5, 0x80);
-> -       mipi_dsi_generic_write_seq(dsi, 0x6f, 0x11, 0x00);
-> -       mipi_dsi_generic_write_seq(dsi, 0xf7, 0x20, 0x00);
-> -       mipi_dsi_generic_write_seq(dsi, 0x6f, 0x01);
-> -       mipi_dsi_generic_write_seq(dsi, 0xb1, 0x21);
-> -       mipi_dsi_generic_write_seq(dsi, 0xbd, 0x01, 0xa0, 0x10, 0x08, 0x0=
-1);
-> -       mipi_dsi_generic_write_seq(dsi, 0xb8, 0x01, 0x02, 0x0c, 0x02);
-> -       mipi_dsi_generic_write_seq(dsi, 0xbb, 0x11, 0x11);
-> -       mipi_dsi_generic_write_seq(dsi, 0xbc, 0x00, 0x00);
-> -       mipi_dsi_generic_write_seq(dsi, 0xb6, 0x02);
-> -       mipi_dsi_generic_write_seq(dsi, 0xf0, 0x55, 0xaa, 0x52, 0x08, 0x0=
-1);
-> -       mipi_dsi_generic_write_seq(dsi, 0xb0, 0x09, 0x09);
-> -       mipi_dsi_generic_write_seq(dsi, 0xb1, 0x09, 0x09);
-> -       mipi_dsi_generic_write_seq(dsi, 0xbc, 0x8c, 0x00);
-> -       mipi_dsi_generic_write_seq(dsi, 0xbd, 0x8c, 0x00);
-> -       mipi_dsi_generic_write_seq(dsi, 0xca, 0x00);
-> -       mipi_dsi_generic_write_seq(dsi, 0xc0, 0x04);
-> -       mipi_dsi_generic_write_seq(dsi, 0xbe, 0xb5);
-> -       mipi_dsi_generic_write_seq(dsi, 0xb3, 0x35, 0x35);
-> -       mipi_dsi_generic_write_seq(dsi, 0xb4, 0x25, 0x25);
-> -       mipi_dsi_generic_write_seq(dsi, 0xb9, 0x43, 0x43);
-> -       mipi_dsi_generic_write_seq(dsi, 0xba, 0x24, 0x24);
-> -       mipi_dsi_generic_write_seq(dsi, 0xf0, 0x55, 0xaa, 0x52, 0x08, 0x0=
-2);
-> -       mipi_dsi_generic_write_seq(dsi, 0xee, 0x03);
-> -       mipi_dsi_generic_write_seq(dsi, 0xb0,
-> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
-
-Please move the variable declaration above the line "dsi->mode_flags
-|=3D MIPI_DSI_MODE_LPM;"
-
-
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf0, 0x55, 0xaa, 0x52=
-, 0x08, 0x00);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xff, 0xaa, 0x55, 0xa5=
-, 0x80);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0x6f, 0x11, 0x00);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf7, 0x20, 0x00);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0x6f, 0x01);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb1, 0x21);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xbd, 0x01, 0xa0, 0x10=
-, 0x08, 0x01);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb8, 0x01, 0x02, 0x0c=
-, 0x02);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xbb, 0x11, 0x11);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xbc, 0x00, 0x00);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb6, 0x02);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf0, 0x55, 0xaa, 0x52=
-, 0x08, 0x01);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x09, 0x09);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb1, 0x09, 0x09);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xbc, 0x8c, 0x00);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xbd, 0x8c, 0x00);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xca, 0x00);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xc0, 0x04);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xbe, 0xb5);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb3, 0x35, 0x35);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb4, 0x25, 0x25);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb9, 0x43, 0x43);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xba, 0x24, 0x24);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xf0, 0x55, 0xaa, 0x52=
-, 0x08, 0x02);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xee, 0x03);
-> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0,
->                                    0x00, 0xb2, 0x00, 0xb3, 0x00, 0xb6, 0x=
-00, 0xc3,
->                                    0x00, 0xce, 0x00, 0xe1, 0x00, 0xf3, 0x=
-01, 0x11);
-
-Please adjust the indentation for the followup lines to match. Right
-now they line up properly with the old function name, but not the new
-one.
-
-
->  static int truly_nt35521_off(struct truly_nt35521 *ctx)
->  {
->         struct mipi_dsi_device *dsi =3D ctx->dsi;
-> -       struct device *dev =3D &dsi->dev;
-> -       int ret;
->
->         dsi->mode_flags &=3D ~MIPI_DSI_MODE_LPM;
->
-> -       ret =3D mipi_dsi_dcs_set_display_off(dsi);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to set display off: %d\n", ret);
-> -               return ret;
-> -       }
-> -       msleep(50);
-> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
-
-Please move the variable declaration above the line "dsi->mode_flags
-&=3D ~MIPI_DSI_MODE_LPM;"
-
--Doug
