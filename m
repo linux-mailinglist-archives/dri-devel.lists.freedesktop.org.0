@@ -2,78 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C20390223F
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 15:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 651F590227C
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2024 15:13:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97A7910E3E0;
-	Mon, 10 Jun 2024 13:00:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B47410E0BC;
+	Mon, 10 Jun 2024 13:13:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="L+jUegAT";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LHWwsdGE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B518910E46B
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 13:00:42 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-2e78fe9fc2bso63040461fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 06:00:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1718024440; x=1718629240;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PiGNdAdKUJAJRkcEp4N3pF6HEQpxy6kGOhN3PURXgGU=;
- b=L+jUegATSc9RWXVSWGO+tandZRa5CcfZn6dDYYqlnfWLHT0D0hw38VUxU6TAN2vVsV
- G4uUssOOFxwUv3Cm8uO240Xjip2Wc+nObELMTg3At0wzAeU5yF5cnifLosjobYY7VKH/
- djG6y53OAc2FVNq42UMofnbmNz/0zpyVvyqiP7i/rCkUZ/qdBdibHZpDUXN9h4iIbEjJ
- PxjJSathX0j06VJuKnBR9aOawnorPA+brMYm3/Cu94TfMZNeDR8oDil0puXMuqo/3ny6
- Qf0H7Y+5XogqvHoJ+N8BqeQlsJUi4o2Wv/OxgrDqlu8L4uZ21HYsG8zbEzEB3Kz5me3c
- Bahg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDC5E10E0BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 13:13:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1718025216;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IrUlnMBlplzCA703kxl5+n8EFJwNGZ15Zmnn7aVwqoE=;
+ b=LHWwsdGEBMWfvXO8s/dvF5COy34Vd6r91GulkaBXFx402Z6yrLTbIag3Vtr4JHBiLeoP0n
+ KkYRrM1oqCqknWSt+dNDPGrt/1muxxLM9MfGW+P8PlG5IO+urH4LxBUEIfGDY759rryczC
+ pAbMyzpIGduG40Sjx6uCPnvPfsUm+jU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-433-uCC-LbHpMBOV_ds_skcAFw-1; Mon, 10 Jun 2024 09:13:34 -0400
+X-MC-Unique: uCC-LbHpMBOV_ds_skcAFw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-35f1797e575so1160183f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 06:13:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718024440; x=1718629240;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PiGNdAdKUJAJRkcEp4N3pF6HEQpxy6kGOhN3PURXgGU=;
- b=o/hJSd1jqYeaBh0nwVkurvKijbuFQ8R9P8BN2iOADlfzpLWiS2VobzP3RG6uakIbol
- K9uVB8B+Elhd8KBRqZ3APZiy364LI7GBIUHGdlg0gF0D2Zpjsw9xrrJiL9kXwnNsimT7
- UmILJji/fRenIzuD+qbm4mAsER7ISckN1hyqOKkZJke461fNBjzcUnSM071myEWFftME
- Ex7uRBkLIgo6wRLeKak+yDR2oKiYFoZDNmtsu3wr+0uK2/KF0+gnvNrNxtq3NIJlPPaC
- 8xxAKpdMW9r00zac9RJ6fDa5MhC2qlqpIcYq+Q+iVM2UJAZKnFZIaZegvWu/Os3kE1kh
- oQ4w==
+ d=1e100.net; s=20230601; t=1718025213; x=1718630013;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IrUlnMBlplzCA703kxl5+n8EFJwNGZ15Zmnn7aVwqoE=;
+ b=T8ko1pQBk90/vMeFce0/M9DGILhZAGN5zQLxquQ31FSZ7zyxqj4mL0EMcm7PsIlb6e
+ wpHC0Jn3SBUmOoc65tmQiHL0m12tTav6s74apmLW+IkKSL+TrZA01L6QL9JNQJM9SGr1
+ e1LrQifiki3H9dHTKMtUVYMRnadgjR3MX5U+NizBgSoCeFOXBVB4P/Pb/r7CImMWC39G
+ gp9a02UO/upLjMmO5AxH0zpkjAHlrTiNlsHQ5//huspopK0II1/04b0RdvbKTKCbkgEo
+ /aY75iRmL/d5ea2xpRJ/ggOI4rE2CA3vgZVNWicXUIrjeiUkMuFf7O9pYtOpfK8FvggV
+ e7iA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWNfgETXIXYPI1zmwZmi/Oc83eHWofJxaxcsVsdWhj1nJfurPXjfjPAHTlJ9yyZ87mfsXswSO8gVzdG+FKQe2iOz2bgCcKl6Ql1HF9Q+L4h
-X-Gm-Message-State: AOJu0YyNos9GuuovAdq0S12zKu4VxdEZvQhGFJ85RlR/GW62orUke0cR
- GaCYzbyYjvtp87OXXulFtwXkk414dE/17MxUQ0zlz8F7I1aJKUQ2HksQaoLzKc0=
-X-Google-Smtp-Source: AGHT+IHWJEFvZMLwBy65ONbWoxBY8/B9uHxeyZDRKaDqDjyLB9KZ9VRsbh5n1um47b1/h8nuZNPo3Q==
-X-Received: by 2002:a2e:8ec2:0:b0:2ea:e773:c5a with SMTP id
- 38308e7fff4ca-2eae7730d0cmr47952821fa.9.1718024440309; 
- Mon, 10 Jun 2024 06:00:40 -0700 (PDT)
-Received: from [192.168.0.101] ([84.69.19.168])
+ AJvYcCV3sKaPvE/qO3nrKjrz2+HNKXvlbhS17hRNuI10YDrXjg33ofMXqbVK+OyrC6lZ6d9wntqn4zyRd2seP+SmWrSpzgfWvLA0inP2Kdg9cxVF
+X-Gm-Message-State: AOJu0YyXxK2dkXhn/NlZrpORYKuAC4wNu8GEeuwZKF2HsFLV41prjn6e
+ ygYG7L5jLNWdi7YN5SEvE0tZFZzZIRsKODxkRLztWIyuSirBFxB9Evhyv2TBIj5k5a2xVYwCVnE
+ vedQixNkZrZKRdle9RKbUOWjtEUVe4je6KMyxpdtKO6PfiDj6nTdfZ7nFLmEJXDkH5w==
+X-Received: by 2002:a5d:4583:0:b0:35f:296e:4130 with SMTP id
+ ffacd0b85a97d-35f296e47a4mr616312f8f.51.1718025213796; 
+ Mon, 10 Jun 2024 06:13:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEAhD4ZJw9Bi6tM7YL8PTv0XBgcF2TZ2fQnBusYpunX8Pj9IYg7YkjOK/PnV1JA0O8Mqvp52w==
+X-Received: by 2002:a5d:4583:0:b0:35f:296e:4130 with SMTP id
+ ffacd0b85a97d-35f296e47a4mr616279f8f.51.1718025213460; 
+ Mon, 10 Jun 2024 06:13:33 -0700 (PDT)
+Received: from pollux ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42211c7b680sm14808165e9.45.2024.06.10.06.00.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jun 2024 06:00:39 -0700 (PDT)
-Message-ID: <4a669959-12c6-43f9-962c-005d22076ff3@ursulin.net>
-Date: Mon, 10 Jun 2024 14:00:39 +0100
+ ffacd0b85a97d-35f23c67e70sm2905168f8f.33.2024.06.10.06.13.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Jun 2024 06:13:32 -0700 (PDT)
+Date: Mon, 10 Jun 2024 15:13:30 +0200
+From: Danilo Krummrich <dakr@redhat.com>
+To: FUJITA Tomonori <fujita.tomonori@gmail.com>
+Cc: gregkh@linuxfoundation.org, wedsonaf@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+ a.hindborg@samsung.com, aliceryhl@google.com, lina@asahilina.net,
+ pstanner@redhat.com, ajanulgu@redhat.com, lyude@redhat.com,
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, mcgrof@kernel.org, russ.weight@linux.dev
+Subject: Re: [RFC PATCH 7/8] rust: add firmware abstractions
+Message-ID: <Zmb7-jUfxkNd0tJ9@pollux>
+References: <ZmMMMyi3uXTFtIae@cassiopeiae>
+ <2024060745-palatable-dragging-32d1@gregkh>
+ <ZmNJpQbTtFUPOkAJ@cassiopeiae>
+ <20240608.082806.872238171846642664.fujita.tomonori@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/i915/gt: Delete the live_hearbeat_fast selftest
-Content-Language: en-GB
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: "Niemiec, Krzysztof" <krzysztof.niemiec@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- nirmoy.das@intel.com, janusz.krzysztofik@intel.com, chris.p.wilson@intel.com
-References: <fe2vu5h7v7ooxbhwpbfsypxg5mjrnt56gc3cgrqpnhgrgce334@qfrv2skxrp47>
- <ac40fa93-cffc-4fa8-9ee7-2414faac95bf@ursulin.net>
- <ZmbtHOm0oNNFOgrJ@ashyti-mobl2.lan>
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <ZmbtHOm0oNNFOgrJ@ashyti-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20240608.082806.872238171846642664.fujita.tomonori@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,46 +101,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-Hi Andi,
-
-On 10/06/2024 13:10, Andi Shyti wrote:
-> Hi Tvrtko,
+On Sat, Jun 08, 2024 at 08:28:06AM +0900, FUJITA Tomonori wrote:
+> On Fri, 7 Jun 2024 19:55:49 +0200
+> Danilo Krummrich <dakr@redhat.com> wrote:
 > 
-> On Mon, Jun 10, 2024 at 12:42:31PM +0100, Tvrtko Ursulin wrote:
->> On 03/06/2024 17:20, Niemiec, Krzysztof wrote:
->>> The test is trying to push the heartbeat frequency to the limit, which
->>> might sometimes fail. Such a failure does not provide valuable
->>> information, because it does not indicate that there is something
->>> necessarily wrong with either the driver or the hardware.
->>>
->>> Remove the test to prevent random, unnecessary failures from appearing
->>> in CI.
->>>
->>> Suggested-by: Chris Wilson <chris.p.wilson@intel.com>
->>> Signed-off-by: Niemiec, Krzysztof <krzysztof.niemiec@intel.com>
->>
->> Just a note in passing that comma in the email display name is I believe not
->> RFC 5322 compliant and there might be tools which barf on it(*). If you can
->> put it in double quotes, it would be advisable.
+> > On Fri, Jun 07, 2024 at 05:41:11PM +0200, Greg KH wrote:
+> >> On Fri, Jun 07, 2024 at 03:33:39PM +0200, Danilo Krummrich wrote:
+> >> > On Fri, Jun 07, 2024 at 02:36:50PM +0200, Greg KH wrote:
+> >> > > Anyway, that's all hand-wavy right now, sorry, to get back to the point
+> >> > > here, again, let's take this, which will allow the firmware bindings to
+> >> > > be resubmitted and hopefully accepted, and we can move forward from
+> >> > > there to "real" things like a USB or PCI or even platform device and
+> >> > > driver binding stuff.
+> >> > 
+> >> > In order to continue I propose to send out the following series:
+> >> > 
+> >> > 1) minimal device and firmware abstractions only
+> >> 
+> >> Sounds good.
+> > 
+> > Just a heads-up, I'll probably send this one quite a bit earlier than the other
+> > two to make sure to unblock Fujita on their PHY driver.
 > 
-> yes, we discussed it with Krzysztof, I noticed it right after I
-> submitted the code.
-> 
->> Regards,
->>
->> Tvrtko
->>
->> *) Such as my internal pull request generator which uses CPAN's
->> Email::Address::XS. :)
-> 
-> If we are in time, we can fix it as Krzysztof Niemiec <krzysztof.niemiec@intel.com>
-> 
-> Sorry about this oversight,
+> Please. The sooner, the better. I need to send the PHY driver with
+> these patchse to netdev.
 
-It's not a big deal (it isn't the first and only occurence) and no need 
-to do anything more than correct the display name going forward.
+Why do you want to send those patches to netdev?
 
-Regards,
+I think nothing prevents you from sending your PHY driver to netdev. Just add a
+note to your series that it depends on those two patches.
 
-Tvrtko
+How and through which trees things are merged in the end can be figured out by
+the corresponding maintainers in the end.
+
+> 
+> I'm not sure what the above "minimal device" means. If you send the
+> original patch again instead of the patch that Greg already approved
+> and the discussion continues, then I proceed with the approved patch.
+> 
+
+I'm honestly getting a bit tired of this...
+
+1) I fundamentally disagree that it's a good thing to fork off patches that are
+   actively discussed and reviewed on the mailing list with the objective to
+   bypass the discussion and the review process. Especially without agreement of
+   all involved parties.
+
+2) It's at least questionable to claim that your forked-off patch can be
+   considered to be "approved".
+
+3) I really try to help and already confirmed to send out a separate series with
+   only the patches you need as well to accelerate things for you.
+
+If you really want to help with that, you are very welcome to get involved in
+the discussion and review process. If you don't want to, that is fine too. But
+please stop adding confusion to those series by forking off patches.
+
+Besides that, I also don't appreciate your attitude, trying to put some kind of
+"ultimatum" on me.
+
+- Danilo
+
