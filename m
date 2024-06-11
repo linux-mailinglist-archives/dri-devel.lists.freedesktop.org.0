@@ -2,62 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D500904534
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 21:51:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C152D904325
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 20:09:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDFB510E1B4;
-	Tue, 11 Jun 2024 19:51:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7105110E159;
+	Tue, 11 Jun 2024 18:09:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="mqlkaji9";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="F/3IZsr1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69C8510E1B4
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 19:50:57 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 2D44888617;
- Tue, 11 Jun 2024 21:50:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1718135455;
- bh=hVRf4zQDwBJtRrwMXZgSItTBlMoD98UQe391JDBeWGY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=mqlkaji999unL0u1NFpizOwKYOB1PXhuYczMNg0kBfVyaJYrt0KSvspSMHla92kQV
- iUnUdTp5WrFDhlFqd2IPvn9Nu6kclWmAsDc3IzCnZcosxWXZPsrHebzjFPNiE4p0Hi
- 1oG8jQyqU0AGCHvZ2cPni3IrbVaPmrxIpuxxpUo3pqVujwl8PhuVMSuigRnpn6PoHZ
- UTYN7eIcdGS219Wdf7aV/L2kaiZIujPPHNl0/ZLV02JRY5IKk5Rm41XPHnHtaIAa/m
- 9rVjHwWz3DCtuNcupnIeTo/FMFUH6FPoypfJiSnVVGYgB7VzydmOylnNUzXB3bbmqK
- Nt5Sg4a5UieHQ==
-Message-ID: <47ec3645-1584-467f-a2c9-d2a8debb0243@denx.de>
-Date: Tue, 11 Jun 2024 18:45:55 +0200
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A127810E722
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 18:09:32 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-a68b41ef3f6so677469266b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 11:09:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1718129370; x=1718734170;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+lxPetrPpHvENSTokBRC6xognbIAj4RmicEAyuXDxTU=;
+ b=F/3IZsr1vSxdKmY/vRNrthNp8X/YRDkdZKAPbSKPyf28b7deOAB8JdLugwWooQvEIR
+ kCjsMk+cwGVnM9hBdOiK7lynCMQqIoAZdWF83t8SXfHlUI8w/wIcFkf/RE8lBD/7e4Kp
+ 2INThTcm/s6Gb4VEIfRZ9lXFoL9veLH3J+n3H6HrkiGCYMDQxLYPY0jvn9T22KF/MaJM
+ 1UqcoUvWWj/bJY+8lPjJcLXfrJWgncEMBBXMcd9c/HntU0patiiDZ2gf5OwLT9e0KhDW
+ aXcukAlpYbAK/RcXbxa5DxMP7WrKoce87QYrdf/yPnYBWKvm+zxjK63bmg91zAEnW10n
+ 5OEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718129370; x=1718734170;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+lxPetrPpHvENSTokBRC6xognbIAj4RmicEAyuXDxTU=;
+ b=ke+XufA6yQYoxfOwR6cYGvOgYWYLH6IGUKuDddGLcFRpFoP1V3udpBvI/k+pPYceqG
+ MXZnxqexqhZw6Ss4jUZUxrjNomk6AA4JYrepytlYh5eOK4sNc7tED2+Eh3BAVblJ29DK
+ XrlCE5m8GaXeAVdrJEFDZZegYzEKjH3dGQeZVGSf64ye9vGZp5pZPQK3pSGGRuocVyy3
+ YG/ZmZPi2vHcuKpWioLjj/q8RAOZ9YEZ9TMj6ho7xon8JXoUhIQW2jh/a8pa7W48AXOx
+ /nFyU9ux2pFVE4G5jDisEu725vFeG0sr0b3/N0VJGrQyBwXwEM1R8M3mP18UkG6eQBsu
+ 3WUQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWVGZ7Gkjln4ZIHNwXWhcNgcrVY/9dIOW+9ExsIOy2TPZTE5QrgXWCAKr57StGM5XPFV9rLrfx/U1IycIYLnMue4ep7UYou/SEox8eXRM8r
+X-Gm-Message-State: AOJu0YyFdvbcufehmXHEQr1SqxB7I5dnHpW9MxrdH0sb3k8hFclkQiME
+ uhMQPsjDW+/oSi3v2QAgsbb8KkEol2b357TAxr+vMtf6k4txNMJB5ZckUEsFi1M23TSBWhDkRl1
+ 6/qXZPbQ0MZfAdT9Sd826nSK/GjzRktEHM0+z
+X-Google-Smtp-Source: AGHT+IHSnbMlQQE9x/zPWpkI90JIlOTBHgyEzLn5RoXQZyiGaSSB2YwhfXwjdqq72pgI+LQF0hGDSafJjuWqavJQlB4=
+X-Received: by 2002:a17:906:4742:b0:a6f:393a:9dea with SMTP id
+ a640c23a62f3a-a6f393aa161mr132795366b.77.1718129370030; Tue, 11 Jun 2024
+ 11:09:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] drm/bridge: tc358767: Use tc_pxl_pll_calc() to
- correct adjusted_mode clock
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
-References: <20240531204130.277800-1-marex@denx.de>
- <1938447.taCxCBeP46@steina-w> <d899b518-404e-4cff-98a9-2c6d8c0d068a@denx.de>
- <4599102.cEBGB3zze1@steina-w>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <4599102.cEBGB3zze1@steina-w>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+References: <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
+ <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
+ <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
+ <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+ <20240607145247.GG791043@ziepe.ca>
+ <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
+ <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com>
+ <20240610121625.GI791043@ziepe.ca>
+ <59443d14-1f1d-42bb-8be3-73e6e4a0b683@kernel.org>
+ <00c67cf0-2bf3-4eaf-b200-ffe00d91593b@gmail.com>
+ <20240610221500.GN791043@ziepe.ca>
+In-Reply-To: <20240610221500.GN791043@ziepe.ca>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 11 Jun 2024 11:09:15 -0700
+Message-ID: <CAHS8izNRd=f=jHgrYKKfzgcU3JzkZA1NkZnbQM+hfYd8-0NyBQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Pavel Begunkov <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>, 
+ David Wei <dw@davidwei.uk>, Christoph Hellwig <hch@infradead.org>,
+ netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, 
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,246 +130,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/6/24 12:10 PM, Alexander Stein wrote:
-> Hi Marek,
+On Mon, Jun 10, 2024 at 3:15=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wrot=
+e:
+>
+> On Mon, Jun 10, 2024 at 08:20:08PM +0100, Pavel Begunkov wrote:
+> > On 6/10/24 16:16, David Ahern wrote:
+>
+> > > > There is no reason you shouldn't be able to use your fast io_uring
+> > > > completion and lifecycle flow with DMABUF backed memory. Those are =
+not
+> > > > widly different things and there is good reason they should work
+> > > > together.
+> >
+> > Let's not mix up devmem TCP and dmabuf specifically, as I see it
+> > your question was concerning the latter: "... DMABUF memory registered
+> > through Mina's mechanism". io_uring's zcrx can trivially get dmabuf
+> > support in future, as mentioned it's mostly the setup side. ABI,
+> > buffer workflow and some details is a separate issue, and I don't
+> > see how further integration aside from what we're already sharing
+> > is beneficial, on opposite it'll complicate things.
+>
+> Again, I am talking about composability here, duplicating the DMABUF
+> stuff into io_uring is not composable, it is just duplicating things.
+>
+> It does not match the view that there should be two distinct layers
+> here, one that provides the pages and one that manages the
+> lifecycle. As HCH pushes for pages either come from the allocator and
+> get to use the struct folio or the come from a dmabuf and they
+> don't. That is it, the only two choices.
+>
+> The iouring stuff is trying to confuse the source of the pages with
+> the lifecycle - which is surely convenient, but is why Christoph is
+> opposing it.
+>
 
-Hello Alexander,
+Just curious: in Pavel's effort, io_uring - which is not a device - is
+trying to share memory with the page_pool, which is also not a device.
+And Pavel is being asked to wrap the memory in a dmabuf. Is dmabuf
+going to be the kernel's standard for any memory sharing between any 2
+components in the future, even when they're not devices? As in you
+expect dmabuf exporters which are not devices to be added to the
+kernel? Currently the only dmabuf exporter which is not a device
+(AFAIK) is udmabuf, which is used for testing and emulation, not
+really a production thing, I think.
 
-sorry for the delay.
-
->>>>> At least for 148.5MHz (1080p) apparently it is not possible to that
->>>>> exact clock anyway.
->>>>
->>>> Right, which sucks, but the TC9595 datasheet explicitly states that the
->>>> FRMSYNC mode should always be enabled (and is apparently force-enabled
->>>> on newer bridge chips with no option to disable it) unless the Pixel
->>>> clock are sourced from DSI clock (which is never the case with this
->>>> driver). That's what the [1] patch does.
->>>>
->>>> But messing with the HFP isn't really working for all resolutions, so
->>>> this patch instead adjusts the input pixel clock to fit the Pixel PLL
->>>> limits, which avoids the VFIFO issues altogether. And that makes the
->>>> FRMSYNC mode work for all kinds of resolutions.
->>>
->>> I can't tell if VFIFO issue arise here, because I'm currently trying to
->>> get a reliable and stable output for DP.
->>
->> What kind of problem do you observe on your side exactly ? (I think the
->> answer to this is at the end). I've spent quite a while on this, so
->> maybe I ran into that before.
-> 
-> DP output either works as expected or not at all. The monitor stays in
-> sleep mode then. I only notice that VFUEN is not cleared in this case.
-
-Let's continue this one at the end of this thread.
-
->>> The documentation is somewhat
->>> limited, but FRAMSYNC seems almost necessary in any case, unless you
->>> utilize DSI bus 100% for this device to get the correct display timings
->>> using DSI packets.
->>
->> That's not quite what it says.
->>
->> I don't know what kind of datasheet you have and for which exact bridge,
->> but look at Section 4, block diagram.
-> 
-> I have the datasheet 0.1 and 1.1 for TC9595 available. Also the
-> TC358767A_867XBG v37 spreadsheet.
-
-I have rev. 0.1 and rev. 1.3 datasheets for TC9595 .
-I also have TC9595 DSI-to-DPI timing spreadsheet.
-
->> The FRMSYNC operates on the LS_Clk domain side, right of V_FiFo . It
->> reads lines from the VFIFO and sends them out of the DP as DP packets.
->> As long as the input into the VFIFO delivers the lines such that the
->> VFIFO does not overflow or underflow, everything is fine.
->>
->> The DSI side starts to write line into the VFIFO on HSS (Hsync start),
->> see "DSI Packets for Video Transmission". HSE (Hsync end) packet is
->> ignored, see "Video Transmission" . Two consecutive HSS must be sent
->> with the same time between the two as time between two lines configured
->> into FRMSYNC timing generator.
->>
->> However, I _think_ (*) if the time between two HSS is slightly longer
->> than what the FRMSYNC expects, the FRMSYNC stretches the HFP slightly
->> for each frame and we won't run into any problems (see 4.12 Clocks and
->> search for keyword "approximated", they talk about close approximation
->> there).
-> 
-> Which datasheet do you have available? It might just be a typo, but the
-> Clocks section is 4.13 in my case.
-
-Here I used the rev. 1.3 from 20230727 . Definitely section 4.12 in this 
-datasheet, maybe they removed a chapter since ? Here is section 4 list:
-
-- MIPI DSI Rx
-- MIPI DPI Rx
-- I2S Audio Rx
-- DisplayPortTM Tx
-- Parallel Output Mode
-- GPIO Interface
-- I2C Slave Interface
-- Interrupt Interface
-- Internal Test Pattern (Color Bar) Generator
-- Reset
-- Boot-Strap & State of TC9595XBG chip after Reset
-- Clocks
-
->>>> You might be wondering why not source pixel clock from DSI HS clock and
->>>> disable FRMSYNC. For one thing, this would limit the ability to pick
->>>> faster DSI HS clock and make good use of the DSI burst mode (the DSI
->>>> link can go into LP state after transmitting entire line of pixel data
->>>> for longer with faster DSI HS clock). The other thing is, to drive the
->>>> Pixel PLL (not to be confused with pixel clock) from DSI HS clock, the
->>>> DSI HS clock have to be set to specific clock rates (13*4*7=364 MHz and
->>>> 13*4*9=468 MHz), which is really limiting.
->>
->> btw. those 13 MHz match one of RefClk input options, the *4 is from
->> HSBY4 divider and 7 and 9 come from MODE[1] strap option dividers.
->>
->>> This is not mentioned in the datasheet at all, but just in a small note
->>> in the calculation sheet, without any description. On a different platform
->>> DSI HS clock running at 445.5MHz seems also possible, even if unsupported.
->>
->> You can use arbitrary DSI HS clock as long as you don't derive RefClk
->> from DSI HS clock (and RefClk feeds Pixel PLL).
-> 
-> Yes, that's what I would expect as well, but that other platform was
-> configured to derive RefClk from DSI/4.
-
-I think that's the HSCKBY4 thing, the DSI HS clock are divided by 4 and 
-then by either 7 or 9 to achieve 13 MHz RefClk input.
-
-This may be achievable with some effort for DSI-to-DPI mode, but for the 
-DSI-to-(e)DP mode with aux channel this is currently far away. And with 
-the limitations this imposes on the DSI clock, I am not particularly 
-interested in this mode of operation, sourcing the RefClk from Xtal as 
-the driver assumes right now does provide much more flexibility.
-
->>>>>>> BTW: Which platform are you testing on?
->>>>>>
->>>>>> MX8MP with LCDIFv3 -> DSIM -> TC9595 -> DP output.
->>>>>>
->>>>>> The TC9595 is 2nd generation (automotive?) replacement for TC358767 (1st
->>>>>> generation replacement is TC358867) .
->>>>>
->>>>> Same here. But fail to get output on a DP monitor if I'm running from
->>>>> external refclk. Using DSICLK/4 seems necessary for some reason, but it
->>>>> is very unreliable to get a proper image.
->>>>
->>>> Do you have all the patches in place ? This is what you should have:
->>>>
->>>> drm/bridge: tc358767: Enable FRMSYNC timing generator
->>>> drm: bridge: samsung-dsim: Initialize bridge on attach
->>>> drm/bridge: tc358767: Reset chip again on attach
->>>> clk: imx: clk-imx8mp: Allow media_disp pixel clock reconfigure parent rate
->>>> drm: lcdif: Use adjusted_mode .clock instead of .crtc_clock
->>>> drm/bridge: tc358767: Fix comment in tc_edp_mode_valid
->>>> drm/bridge: tc358767: Check if fully initialized before signalling HPD
->>>> event via IRQ
->>>> drm/bridge: tc358767: Split tc_pxl_pll_en() into parameter calculation
->>>> and enablement
->>>> drm/bridge: tc358767: Use tc_pxl_pll_calc() to correct adjusted_mode clock
->>>> drm/bridge: tc358767: Drop line_pixel_subtract
->>>> drm/bridge: tc358767: Disable MIPI_DSI_CLOCK_NON_CONTINUOUS
->>>> drm/bridge: tc358767: Set LSCLK divider for SYSCLK to 1
->>>> Revert "drm/bridge: tc358767: Set default CLRSIPO count"
->>>> drm/bridge: tc358767: Add configurable default preemphasis
->>>
->>> Thanks, I was missing the lcdif and clk-imx8mp patches. I saw them separately
->>> on the mailing list, but didn't realize would need them.
->>>
->>>> I only use external refclk, at 26 MHz.
->>>
->>> Same for me, difference is I'm using a crystal oscillator instead of
->>> CCM_CLKOUT. And yes, this is the TQ platform TQMa8MPxL/MBa8MPxL.
->>
->> I also have a SoM modified to use Xtal, but it seems unnecessary, the
->> CCM output saves on BoM too.
-> 
-> That's right, but Xtal is what I have right now. A modification for
-> CCM_CLKOUT wouldbe possible if clock drift is an issue here.
-
-I think the TC9595 does have rather stringent requirements on the Xtal 
-indeed, although it also seems the bridge is very tolerant about those 
-input clock :)
-
->> [...]
->>
->>> Thanks for sharing, despite the fixed-clock and IMX8MP_CLK_CLKOUT2 this
->>> looks very much the same. Unfortunately I get an output on DP just sometimes.
->>> As Bit 0 in register 0x464 is not cleared, I suspect the bridge is not
->>> recognizing DSI (VSYNC) packets properly :(
->>> At some point this bridge is lenient, but picky otherwise.
->>
->> You did strap the bridge such that it sources RefClk from the Xtal,
->> right (MODE[0] = 0 -> RefClk)? I haven't seen VFUEN[0] lock up like that
->> before.
-> 
-> Yes, MODE[0] is pulled down. Otherwise I2C is not even possible.
-> I've tried using MODE[0]=1 with a fixed DSI HS clock, but without luck.
-
-You would have to have DSI clock running before releasing the bridge 
-from reset. I did manage to get this working at some point with 
-STM32MP15xx DSI host using crude hackage, but I don't have any interest 
-in supporting this mode. All the hardware I have available has external 
-RefClk.
-
->> You could try and force the bridge to generate test pattern instead of
->> DSI_RX, edit the tc358767.c -> locate tc_dsi_rx_enable() -> locate
->> tc_test_pattern -> make sure the branch option value |=
->> DP0_VIDSRC_COLOR_BAR is activated . Rebuild and retest .
->>
->> This will allow you to validate the TC358767<->DP connection separately
->> from the DSI<->TC358767 connection . This is what I did when I was
->> debugging DSI issues on another board with TC9595 . Once you are sure
->> one side of the connection is stable, you can focus on the other side.
->>
->> Also, with the COLOR_BAR mode in place, try experimenting with the DP
->> preemphasis tuning and possibly the initial differential voltage tuning
->> (it is in the same registers as the preemphasis). Maybe you have link
->> quality issues and the link is borderline, it does train and link up,
->> but fails right after. Increasing the preemphasis and differential
->> voltage might help stabilize it.
-> 
-> Thanks, but as far I can tell I don't have any issues on the DP side.
-> With command line parameter 'tc358767.test=1' in place I get that test
-> pattern with 100% success rate. So I consider my problem on the DSI side only.
-
-Try tuning the CLRSIPO values up and down (probably between 3..25), does 
-that help ?
-
-> As FVUEN is cleared at the next VSYNC event I suspect the DSI timings
-> are (slightly) off, but unfortunately I don't have equipment to check
-> DSI signal quality/timings.
-
-As long as the LCDIFv3 pixel clock are equal or slightly slower than 
-what the TC9595 PixelPLL generates, AND, DSIM serializer has enough 
-bandwidth on the DSI bus (i.e. set the bus to 1 GHz, the TC9595 DSI RX 
-cannot go any faster), you should have no issues on that end.
-
-When in doubt, try and use i2ctransfer to read out register 0x300 
-repeatedly, that's DSI RX error counter register. See if the DSI error 
-count increments.
-
-> Are you running the DSIM host from 24MHz refclock?
-
-Yes, I did not modify imx8mp.dtsi mipi_dsi node 
-samsung,pll-clock-frequency = <24000000>; in any way , so that's 24 MHz 
-base.
-
->> Also, I use these to fiddle with the TC9595 (in my case) DP timing
->> registers, the first one reads them all out, the second one writes them.
->> Aadjust values as needed, the values below are from whatever experiment
->> so they are likely invalid. Make specific note of the last 0x01 on the
->> second line, that's the VFUEN update:
->> $ i2ctransfer -f -y 2 w2@0xf 0x4 0x50 r24
->> $ i2ctransfer -f -y 2 w26@0xf 0x4 0x50   0x10 0x01 0x50 0x01   0x20 0x00
->> 0x50 0x00   0x80 0x07 0x20 0x00   0x06 0x00 0x1a 0x00   0xb0 0x04 0x03
->> 0x00   0x01 0x00 0x00 0x00
->>
->> [...]
-> 
-> Thanks I'll keep that at hand, if they might come handy.
-
-Glad I could help.
+--=20
+Thanks,
+Mina
