@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF3F903B68
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 14:04:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3B0903B6B
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 14:05:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3E9310E5F8;
-	Tue, 11 Jun 2024 12:04:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC3C510E5DF;
+	Tue, 11 Jun 2024 12:05:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="n+D/Jlzb";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dcSf7YhR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 237F010E5F2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 12:04:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72A8A10E5F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 12:04:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718107494; x=1749643494;
+ t=1718107496; x=1749643496;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JdlHJ+3/jP3s3R4kPpjJAkYZf5EFnfZ0lUQK1EXTuCY=;
- b=n+D/JlzbiA+anLoYbbZJCNSmHH904hVkEjAqmGzHCN6jaHiI4ZDl1EPr
- jcS9wTNUjwYn5XH8GhYeciQbXrYvYOCiqgRvFkFTCgOeGIAF+/VxrgJy5
- bfNzvVc9AO6xWN1s59x4fuF17qWi6Q2O/80OqUTpJ6BqY91TdAcobSXTT
- YlBZkT/+W8aciFKXHoFbqlsxWvY4juS6QwCSJ2BeO5uMyVNsGhveSTkdF
- j89w4RaN05Xanp31vu19kBcG6n2085pMhXeOQPH5O73Xs1uz6Kwf6SMAa
- szJWgasz/Bz7cM+0joBzHGC1aswbtiEZoixSaExs5rf38JaeH8vo5zFOZ g==;
-X-CSE-ConnectionGUID: zOONYQwEQlWq77FGgmBu0A==
-X-CSE-MsgGUID: wVCZZRSGRNeitbkg+djLwg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="32296081"
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="32296081"
+ bh=pBt+W9RpQgrp8VeqIazvGMVnJkTx40lW35+ZF1U/8Rg=;
+ b=dcSf7YhRMjVBBystOzMvoe8vESRMXUCWK2ZJclXxo+7joW2kfwe0Cb/U
+ JlYBhHg6/LIp3rNgmJFAfXMJqvk8k6HfyYCGs8ROU6bF3Zehuc771OhCl
+ QL+Mcom1lcl+oAa9s5FsSvp1MIM1Kl7gorxdXwv6lMyH1sThbUDNlZ44i
+ 1Vnn7IHjO2+3M41tB73tM+MpExXXiYL7RRPp+N4IGanMzu7GDN0vbChxR
+ dyGDZwy0Tvs7lEedCndWvm3zCEZe1tLddDGwXKNnHgF+W0rROHO3rSEUl
+ 2S0qT7/4yeM7E2U293G4XMkn2y0/eqJT/WG6m7s0D/L99vKQBWR1WCxog A==;
+X-CSE-ConnectionGUID: HEgumzKrSoawQoIVAqJmGQ==
+X-CSE-MsgGUID: XvEi3ngfTjiSGs3S5Zy/rg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="32296087"
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="32296087"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2024 05:04:54 -0700
-X-CSE-ConnectionGUID: tz1OZr5OTpKR0h0MhhgDJA==
-X-CSE-MsgGUID: qNSTAmHYT+2wcLz/fmEEmA==
+ 11 Jun 2024 05:04:55 -0700
+X-CSE-ConnectionGUID: uG2seLGtRGGwcS55f0rZLQ==
+X-CSE-MsgGUID: uQE0TIZGTlKR6V74Aqac/Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="39877124"
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="39877149"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2024 05:04:52 -0700
+ 11 Jun 2024 05:04:54 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH 10/15] accel/ivpu: Add test mode flag for disabling timeouts
-Date: Tue, 11 Jun 2024 14:04:27 +0200
-Message-ID: <20240611120433.1012423-11-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 11/15] accel/ivpu: Disable MMU before checking for idle
+Date: Tue, 11 Jun 2024 14:04:28 +0200
+Message-ID: <20240611120433.1012423-12-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240611120433.1012423-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240611120433.1012423-1-jacek.lawrynowicz@linux.intel.com>
@@ -69,76 +68,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+Disable MMU communication before checking if NPU is idle.
+NPU may otherwise be woken up when adding/removing contexts.
 
-Add new test mode flag that will disable all timeouts
-defined in timeout fields of struct ivpu_device.
-Remove also reschedule_suspend field as it is unused.
-
-Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_drv.h |  2 +-
- drivers/accel/ivpu/ivpu_hw.c  | 11 +++++++----
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ drivers/accel/ivpu/ivpu_pm.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-index d340bd8d66eb..63f13b697eed 100644
---- a/drivers/accel/ivpu/ivpu_drv.h
-+++ b/drivers/accel/ivpu/ivpu_drv.h
-@@ -150,7 +150,6 @@ struct ivpu_device {
- 		int boot;
- 		int jsm;
- 		int tdr;
--		int reschedule_suspend;
- 		int autosuspend;
- 		int d0i3_entry_msg;
- 	} timeout;
-@@ -188,6 +187,7 @@ extern bool ivpu_force_snoop;
- #define IVPU_TEST_MODE_D0I3_MSG_ENABLE    BIT(5)
- #define IVPU_TEST_MODE_PREEMPTION_DISABLE BIT(6)
- #define IVPU_TEST_MODE_HWS_EXTRA_EVENTS	  BIT(7)
-+#define IVPU_TEST_MODE_DISABLE_TIMEOUTS   BIT(8)
- extern int ivpu_test_mode;
+diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+index 602fa4e65c22..e7aed16b1a36 100644
+--- a/drivers/accel/ivpu/ivpu_pm.c
++++ b/drivers/accel/ivpu/ivpu_pm.c
+@@ -245,6 +245,8 @@ int ivpu_pm_runtime_suspend_cb(struct device *dev)
  
- struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv);
-diff --git a/drivers/accel/ivpu/ivpu_hw.c b/drivers/accel/ivpu/ivpu_hw.c
-index 09398a17c710..a4a13ac67047 100644
---- a/drivers/accel/ivpu/ivpu_hw.c
-+++ b/drivers/accel/ivpu/ivpu_hw.c
-@@ -77,25 +77,28 @@ static void wa_init(struct ivpu_device *vdev)
+ 	ivpu_dbg(vdev, PM, "Runtime suspend..\n");
  
- static void timeouts_init(struct ivpu_device *vdev)
- {
--	if (ivpu_is_fpga(vdev)) {
-+	if (ivpu_test_mode & IVPU_TEST_MODE_DISABLE_TIMEOUTS) {
-+		vdev->timeout.boot = -1;
-+		vdev->timeout.jsm = -1;
-+		vdev->timeout.tdr = -1;
-+		vdev->timeout.autosuspend = -1;
-+		vdev->timeout.d0i3_entry_msg = -1;
-+	} else if (ivpu_is_fpga(vdev)) {
- 		vdev->timeout.boot = 100000;
- 		vdev->timeout.jsm = 50000;
- 		vdev->timeout.tdr = 2000000;
--		vdev->timeout.reschedule_suspend = 1000;
- 		vdev->timeout.autosuspend = -1;
- 		vdev->timeout.d0i3_entry_msg = 500;
- 	} else if (ivpu_is_simics(vdev)) {
- 		vdev->timeout.boot = 50;
- 		vdev->timeout.jsm = 500;
- 		vdev->timeout.tdr = 10000;
--		vdev->timeout.reschedule_suspend = 10;
- 		vdev->timeout.autosuspend = -1;
- 		vdev->timeout.d0i3_entry_msg = 100;
- 	} else {
- 		vdev->timeout.boot = 1000;
- 		vdev->timeout.jsm = 500;
- 		vdev->timeout.tdr = 2000;
--		vdev->timeout.reschedule_suspend = 10;
- 		vdev->timeout.autosuspend = 10;
- 		vdev->timeout.d0i3_entry_msg = 5;
- 	}
++	ivpu_mmu_disable(vdev);
++
+ 	is_idle = ivpu_hw_is_idle(vdev) || vdev->pm->dct_active_percent;
+ 	if (!is_idle)
+ 		ivpu_err(vdev, "NPU is not idle before autosuspend\n");
 -- 
 2.45.1
 
