@@ -2,75 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2BAE904129
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 18:24:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3AED90414C
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 18:29:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7351C10E1A6;
-	Tue, 11 Jun 2024 16:24:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2937410E364;
+	Tue, 11 Jun 2024 16:29:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="LrkN03a1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FIIKn4CC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1994910E6BB
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 16:24:03 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-35f06861ae6so3551387f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 09:24:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1718123041; x=1718727841;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=z6CHZGE+wy4ZoQyKUm2qp2H54h9bUZZQYZ+SkV0No/c=;
- b=LrkN03a1YEbQYtwWqT5FrLxfecbTdz6bQgh+rY2M/zmbbWoId5TO8jBfo/zLJH0VfS
- 8h2BKqPf3+uSmr0uZOgAUg47gVtYwkc+litfUaWfB4pT++/B9rjQrrUk47cHeNl1ofy+
- aWaIoA0FkDccjOft5CnGzh3zVoVs7dxMB5Z00gc2TBJYlUvyK2hlztkHlIGNf9D7+M3N
- jfdsDb17MH+AYDkML1Nd4f+rNfvE4Xk3Iq4EeYMJemLZipAHeS5yfEMQbP4aRGd67kEW
- VfGu7AIwbrklHTMbhsIjWVbTBH34NlQpFR6j7QxeiHjAHIiHcXjkOAhiaxIr1yjUYcHS
- u80g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718123041; x=1718727841;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=z6CHZGE+wy4ZoQyKUm2qp2H54h9bUZZQYZ+SkV0No/c=;
- b=hmWedlT0q6ayB5qMD/KgFOKOzNToZ1rHvJU+LuN0WkrStM8IuSH9A/qVeQaGUJytnw
- FIJCe73kYLWlvnmBK7JOAichkrZjircVtJfKALvlB2chTuYSe/kwfmwML87X+czvwgZ/
- XUFcG24PW930kDYytwGY7yuyf4c80daJzXZ9v5DkCAsdn58TUgLy7j8AbPn7BHRD5n3L
- LBEgJJ9PeGRAIzNQLlWCIz2Ajg7py7C2EXE7ocC3vuOlnglze+lPQM4XGCh9qE0JdURA
- 5QF4gYvf/BKkXFig+0g7eiXz9YI0JJlWqdYQoRBvFJ+ymvPD5fWrb4c/1fZ/cOqWmoCt
- LgGQ==
-X-Gm-Message-State: AOJu0YyFQ56xvzoQwma1Sx1vKLd4qAndc05qo4NN5rF8sc7w0EGMhqw9
- guloPVIKYSlQ9c49rCIJcnl7szxuFlFIWs1tOyN1k6iHNKuO1syGeTS56tcDYlPoIC0EYDSVe+i
- OppbvMA==
-X-Google-Smtp-Source: AGHT+IEI4RaNArbghhgLb91r20ZDGNgGv6sm2aDR+Th+mwxcpKZA1yCRzyt1cfB+PQkBnSzjCgM0KQ==
-X-Received: by 2002:a05:6000:1f83:b0:35f:283e:9504 with SMTP id
- ffacd0b85a97d-35f283e9617mr4380890f8f.42.1718123041441; 
- Tue, 11 Jun 2024 09:24:01 -0700 (PDT)
-Received: from [192.168.0.101] ([84.69.19.168])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-35f301dfc52sm1295150f8f.82.2024.06.11.09.24.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Jun 2024 09:24:01 -0700 (PDT)
-Message-ID: <b2c68930-b165-4d78-84d5-52415923e648@ursulin.net>
-Date: Tue, 11 Jun 2024 17:24:00 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EBCF10E6B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 16:29:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3B77160F3C;
+ Tue, 11 Jun 2024 16:29:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B1FAC2BD10;
+ Tue, 11 Jun 2024 16:29:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718123379;
+ bh=hmGhqBlLYFKjIhkdShLu8DnQifC7QyeNbKPHY5y8jUc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FIIKn4CCQGaVdHYyf4j/HaIkw2TwSecW2j/wp+EkhDZIy6PiDP3rvrF3fgKh8VwWu
+ +hTHZNGc3TA+9G8fu+PS13SMciC+8ZBDklx/GJhc0srsrK/9ubw49cd9i9easUiDih
+ 9xKu+NkyyS9mq6YDF28OccQ32JdYD9702GmbX5JNAEzCLjn2QefsxANcToHDT/fTJa
+ YdYYeukCn5x3gON6FoSGjqt5PJ3RFRwnWP0PrOynCuXgcoGBmnvd+5VLeEI1HRcMX9
+ o21m1mBO3t9RDtfiooHphGJFN0d4eDmNbP5wOCsv3LS/ZuRigAB4E9CV63roVM6ZvR
+ kpTXgLXRlaraQ==
+Date: Tue, 11 Jun 2024 21:59:36 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
+ linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v10 1/6] dmaengine: Add API function
+ dmaengine_prep_peripheral_dma_vec()
+Message-ID: <Zmh7cFgKSamZmT4c@matsya>
+References: <20240605110845.86740-1-paul@crapouillou.net>
+ <20240605110845.86740-2-paul@crapouillou.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] drm/amdgpu: always enable move threshold for BOs
-Content-Language: en-GB
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- friedrich.vock@gmx.de
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20240604160503.43359-1-christian.koenig@amd.com>
- <20240604160503.43359-6-christian.koenig@amd.com>
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20240604160503.43359-6-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240605110845.86740-2-paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,142 +65,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-Hi Christian,
-
-On 04/06/2024 17:05, Christian König wrote:
-> This should prevent buffer moves when the threshold is reached during
-> CS.
+On 05-06-24, 13:08, Paul Cercueil wrote:
+> This function can be used to initiate a scatter-gather DMA transfer,
+> where the address and size of each segment is located in one entry of
+> the dma_vec array.
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+> The major difference with dmaengine_prep_slave_sg() is that it supports
+> specifying the lengths of each DMA transfer; as trying to override the
+> length of the transfer with dmaengine_prep_slave_sg() is a very tedious
+> process. The introduction of a new API function is also justified by the
+> fact that scatterlists are on their way out.
+> 
+> Note that dmaengine_prep_interleaved_dma() is not helpful either in that
+> case, as it assumes that the address of each segment will be higher than
+> the one of the previous segment, which we just cannot guarantee in case
+> of a scatter-gather transfer.
+
+This looks good to me, but is missing Documentation changes for this
+API, pls add that
+
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+> 
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c     | 36 ++++++++--------------
->   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 22 +++++++++----
->   2 files changed, 29 insertions(+), 29 deletions(-)
+> v3: New patch
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> index ec888fc6ead8..9a217932a4fc 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> @@ -784,7 +784,6 @@ static int amdgpu_cs_bo_validate(void *param, struct amdgpu_bo *bo)
->   		.no_wait_gpu = false,
->   		.resv = bo->tbo.base.resv
->   	};
-> -	uint32_t domain;
->   	int r;
->   
->   	if (bo->tbo.pin_count)
-> @@ -796,37 +795,28 @@ static int amdgpu_cs_bo_validate(void *param, struct amdgpu_bo *bo)
->   	if (p->bytes_moved < p->bytes_moved_threshold &&
->   	    (!bo->tbo.base.dma_buf ||
->   	    list_empty(&bo->tbo.base.dma_buf->attachments))) {
+> v5: Replace with function dmaengine_prep_slave_dma_vec(), and struct
+>     'dma_vec'.
+>     Note that at some point we will need to support cyclic transfers
+>     using dmaengine_prep_slave_dma_vec(). Maybe with a new "flags"
+>     parameter to the function?
+> 
+> v7:
+>   - Renamed *device_prep_slave_dma_vec() -> device_prep_peripheral_dma_vec();
+>   - Added a new flag parameter to the function as agreed between Paul
+>     and Vinod. I renamed the first parameter to prep_flags as it's supposed to
+>     be used (I think) with enum dma_ctrl_flags. I'm not really sure how that API
+>     can grow but I was thinking in just having a bool cyclic parameter (as the
+>     first intention of the flags is to support cyclic transfers) but ended up
+>     "respecting" the previously agreed approach.
+> 
+> v10:
+>   - Add kernel doc to dmaengine_prep_peripheral_dma_vec()
+>   - Remove extra flags parameter
+> ---
+>  include/linux/dmaengine.h | 33 +++++++++++++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
+> 
+> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+> index 752dbde4cec1..9fc03068cabc 100644
+> --- a/include/linux/dmaengine.h
+> +++ b/include/linux/dmaengine.h
+> @@ -160,6 +160,16 @@ struct dma_interleaved_template {
+>  	struct data_chunk sgl[];
+>  };
+>  
+> +/**
+> + * struct dma_vec - DMA vector
+> + * @addr: Bus address of the start of the vector
+> + * @len: Length in bytes of the DMA vector
+> + */
+> +struct dma_vec {
+> +	dma_addr_t addr;
+> +	size_t len;
+> +};
 > +
-> +		/* And don't move a CPU_ACCESS_REQUIRED BO to limited
-> +		 * visible VRAM if we've depleted our allowance to do
-> +		 * that.
-> +		 */
->   		if (!amdgpu_gmc_vram_full_visible(&adev->gmc) &&
-> -		    (bo->flags & AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED)) {
-> -			/* And don't move a CPU_ACCESS_REQUIRED BO to limited
-> -			 * visible VRAM if we've depleted our allowance to do
-> -			 * that.
-> -			 */
-> -			if (p->bytes_moved_vis < p->bytes_moved_vis_threshold)
-> -				domain = bo->preferred_domains;
-> -			else
-> -				domain = bo->allowed_domains;
-> -		} else {
-> -			domain = bo->preferred_domains;
-> -		}
-> -	} else {
-> -		domain = bo->allowed_domains;
-> +		    (bo->flags & AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED) &&
-> +		    p->bytes_moved_vis < p->bytes_moved_vis_threshold)
-> +			ctx.move_threshold = p->bytes_moved_vis_threshold -
-> +				p->bytes_moved_vis;
-> +		else
-> +			ctx.move_threshold = p->bytes_moved_vis_threshold -
-> +				p->bytes_moved;
->   	}
->   
-> -retry:
-> -	amdgpu_bo_placement_from_domain(bo, domain);
-> +	amdgpu_bo_placement_from_domain(bo, bo->allowed_domains);
->   	r = ttm_bo_validate(&bo->tbo, &bo->placement, &ctx);
->   
->   	p->bytes_moved += ctx.bytes_moved;
->   	if (!amdgpu_gmc_vram_full_visible(&adev->gmc) &&
->   	    amdgpu_res_cpu_visible(adev, bo->tbo.resource))
->   		p->bytes_moved_vis += ctx.bytes_moved;
-> -
-> -	if (unlikely(r == -ENOMEM) && domain != bo->allowed_domains) {
-> -		domain = bo->allowed_domains;
-> -		goto retry;
-> -	}
-> -
->   	return r;
->   }
->   
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> index 8c92065c2d52..cae1a5420c58 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> @@ -168,13 +168,23 @@ void amdgpu_bo_placement_from_domain(struct amdgpu_bo *abo, u32 domain)
->   			abo->flags & AMDGPU_GEM_CREATE_PREEMPTIBLE ?
->   			AMDGPU_PL_PREEMPT : TTM_PL_TT;
->   		places[c].flags = 0;
-> -		/*
-> -		 * When GTT is just an alternative to VRAM make sure that we
-> -		 * only use it as fallback and still try to fill up VRAM first.
-> -		 */
+>  /**
+>   * enum dma_ctrl_flags - DMA flags to augment operation preparation,
+>   *  control completion, and communicate status.
+> @@ -910,6 +920,10 @@ struct dma_device {
+>  	struct dma_async_tx_descriptor *(*device_prep_dma_interrupt)(
+>  		struct dma_chan *chan, unsigned long flags);
+>  
+> +	struct dma_async_tx_descriptor *(*device_prep_peripheral_dma_vec)(
+> +		struct dma_chan *chan, const struct dma_vec *vecs,
+> +		size_t nents, enum dma_transfer_direction direction,
+> +		unsigned long flags);
+>  	struct dma_async_tx_descriptor *(*device_prep_slave_sg)(
+>  		struct dma_chan *chan, struct scatterlist *sgl,
+>  		unsigned int sg_len, enum dma_transfer_direction direction,
+> @@ -973,6 +987,25 @@ static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_single(
+>  						  dir, flags, NULL);
+>  }
+>  
+> +/**
+> + * dmaengine_prep_peripheral_dma_vec() - Prepare a DMA scatter-gather descriptor
+> + * @chan: The channel to be used for this descriptor
+> + * @vecs: The array of DMA vectors that should be transferred
+> + * @nents: The number of DMA vectors in the array
+> + * @dir: Specifies the direction of the data transfer
+> + * @flags: DMA engine flags
+> + */
+> +static inline struct dma_async_tx_descriptor *dmaengine_prep_peripheral_dma_vec(
+> +	struct dma_chan *chan, const struct dma_vec *vecs, size_t nents,
+> +	enum dma_transfer_direction dir, unsigned long flags)
+> +{
+> +	if (!chan || !chan->device || !chan->device->device_prep_peripheral_dma_vec)
+> +		return NULL;
 > +
->   		if (domain & abo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM &&
-> -		    !(adev->flags & AMD_IS_APU))
-> -			places[c].flags |= TTM_PL_FLAG_FALLBACK;
-> +		    !(adev->flags & AMD_IS_APU)) {
-> +			/*
-> +			 * When GTT is just an alternative to VRAM make sure that we
-> +			 * only use it as fallback and still try to fill up VRAM first.
-> +			*/
-> +			if (abo->preferred_domains & AMDGPU_GEM_DOMAIN_GTT)
-> +				places[c].flags |= TTM_PL_FLAG_FALLBACK;
+> +	return chan->device->device_prep_peripheral_dma_vec(chan, vecs, nents,
+> +							    dir, flags);
+> +}
 > +
-> +			/*
-> +			 * Enable GTT when the threshold of moved bytes is
-> +			 * reached. This prevents any non essential buffer move
-> +			 * when the links are already saturated.
-> +			 */
-> +			places[c].flags |= TTM_PL_FLAG_MOVE_THRESHOLD;
-> +		}
+>  static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_sg(
+>  	struct dma_chan *chan, struct scatterlist *sgl,	unsigned int sg_len,
+>  	enum dma_transfer_direction dir, unsigned long flags)
+> -- 
+> 2.43.0
 
-For the APU case I *think* this works, but for discrete I am not sure yet.
-
-As a side note and disclaimer, the TTM "resource compatible" logic has a 
-half-life of about one week in my brain until I need to almost re-figure 
-it all out. I don't know if it just me, but I find it really 
-non-intuitive and almost like double, triple, or even quadruple negation 
-way of thinking about things.
-
-It is not helping that with this proposal you set threshold on just one 
-of the possible object placements which further increases the asymmetry. 
-For me intuitive thing would be that thresholds apply to the act of 
-changing the current placement directly. Not indirectly via playing with 
-one of the placement flags dynamically.
-
-Anyway, lets see.. So you set TTM_PL_FLAG_MOVE_THRESHOLD and 
-TTM_PL_FLAG_FALLBACK on the GTT placement, with the logic that it will 
-be considered compatible while under the migration budget?
-
-(Side note, the fact both flags are set I also find very difficult to 
-mentally model.)
-
-Say a buffer was evicted to GTT already. What then brings it back to VRAM?
-
-The first subsequent ttm_bo_validate pass (!evicting) says GTT is fine 
-(applicable) while ctx->bytes_moved < ctx->move_threshold, no? Isn't 
-that the opposite of what would be required and causes nothing to be 
-migrated back in? What am I missing?
-
-Regards,
-
-Tvrtko
+-- 
+~Vinod
