@@ -2,76 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 662F7903F2A
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 16:50:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9356B903FC4
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 17:10:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C624910E1A0;
-	Tue, 11 Jun 2024 14:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8C3710E0E5;
+	Tue, 11 Jun 2024 15:10:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="cUkJdFUP";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Bo++Y1m6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SFxOYZr0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Bo++Y1m6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SFxOYZr0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A092910E1A0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 14:49:52 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-1f7274a453bso10578875ad.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 07:49:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1718117391; x=1718722191;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=j5YCF6B9jcBatj7ItxDmcM7idEWLAzJfNnqPPDuiJIA=;
- b=cUkJdFUPtWJVp2d/f8qKl4XbrFxx9hTA+J1KAqiUNUvWDguj/ffZQOX8kaiomJhI2T
- aBszxj+nXVloDAxKNnbnR9Id2XUy4A3/lGMNzBs7pw3aM7Kt/sZ2yb3fZIyRECzel9Bo
- 6XpUubkEUH6JiOHqEPNLceWm0f8llO9sHvx5g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718117391; x=1718722191;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=j5YCF6B9jcBatj7ItxDmcM7idEWLAzJfNnqPPDuiJIA=;
- b=sLBeOwdhsA5xVUPFIwbm8EVqPlJubnx6YVUSoDNONdkWARzUX+S1hiFfxRg09/GYZe
- B669LYXcZ5JUTvCi29J7EmA/vSR+KuhCGK2oNqMsVsdJTCl89xheTxkUYr1ZNhWda2jt
- IHVGr520F52vmjIY4AHE+1cU/gW1swPKqZyTP+L44NGCbEW77GOpAMEER+vBiQiGRIZA
- 2jUWMFCdn/e7hPMxA/8e1d7HvQXNI8E7uY9ikEQs32RrTaGlWBB4DqpxmKG4/qRz/sKD
- ZxaULHGdpm+j5I7U0F/T5XPuE34V3CjuGOdHyHnPEuF1oXKoZL+sVYsf2VH7Ygk71g8c
- xwuA==
-X-Gm-Message-State: AOJu0YwvPmcQOkvmrP3Yi+VSPnnZjKaS9394Ck8Pb5LMPvAB+G0OnaBy
- 2aWTKlI8s/mv/wlvyc9by+H+dDoD0gBSAzuSRjMWSX6oJWZutUujPHa7g0uhzvzlxDKXhIleYbQ
- =
-X-Google-Smtp-Source: AGHT+IGgmtV75jlWWUP/itqgZ1iq0kBKoA0+VdNfN1pUkCG/3+hoGRiPWm3pyGDcsphKke3eyZnASA==
-X-Received: by 2002:a17:903:32c3:b0:1f7:e32f:f057 with SMTP id
- d9443c01a7336-1f7e32ff2d1mr559695ad.34.1718117391339; 
- Tue, 11 Jun 2024 07:49:51 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com
- ([2620:15c:9d:2:f410:2f13:37e2:37d])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f7209970f3sm28733955ad.90.2024.06.11.07.49.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jun 2024 07:49:50 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Yuran Pereira <yuran.pereira@hotmail.com>,
- Chris Morgan <macromorgan@hotmail.com>,
- Douglas Anderson <dianders@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panel: Avoid warnings w/ panel-simple/panel-edp at
- shutdown
-Date: Tue, 11 Jun 2024 07:48:51 -0700
-Message-ID: <20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
-X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94BC410E680
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 15:10:49 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8873C20813;
+ Tue, 11 Jun 2024 15:10:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718118647; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=gtrSnCt5VrITf5xKT+PsiOkLOUkHhw0bKnl8iMJJjAk=;
+ b=Bo++Y1m6cXxJkTmxV2RlUI55BdAzth/iPnRsiN7omJ8IvxHm7C8Efg0pjJm9AF39mKxEfk
+ UyeaM7CXOxmoidwdv2HoeRct4Uz42WIRUEZ9ZLb4D1fUQSXYNNPAHdxrBwKn8FSKl2UXeA
+ H0N5gHnlFay0TV0uf9CfzGupfT8oxfE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718118647;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=gtrSnCt5VrITf5xKT+PsiOkLOUkHhw0bKnl8iMJJjAk=;
+ b=SFxOYZr0vsIKvx+QAKmrdcYfO/llQBolbqS/qwrGmTjNn3kDZoS70GeJYCKXwx4fmN+7xb
+ UOYU1YPShCBQC+Cg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718118647; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=gtrSnCt5VrITf5xKT+PsiOkLOUkHhw0bKnl8iMJJjAk=;
+ b=Bo++Y1m6cXxJkTmxV2RlUI55BdAzth/iPnRsiN7omJ8IvxHm7C8Efg0pjJm9AF39mKxEfk
+ UyeaM7CXOxmoidwdv2HoeRct4Uz42WIRUEZ9ZLb4D1fUQSXYNNPAHdxrBwKn8FSKl2UXeA
+ H0N5gHnlFay0TV0uf9CfzGupfT8oxfE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718118647;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=gtrSnCt5VrITf5xKT+PsiOkLOUkHhw0bKnl8iMJJjAk=;
+ b=SFxOYZr0vsIKvx+QAKmrdcYfO/llQBolbqS/qwrGmTjNn3kDZoS70GeJYCKXwx4fmN+7xb
+ UOYU1YPShCBQC+Cg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5759E137DF;
+ Tue, 11 Jun 2024 15:10:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 8YIBFPdoaGZLXQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 11 Jun 2024 15:10:47 +0000
+Message-ID: <701a8ee3-5959-4d2c-a313-6f021039afdc@suse.de>
+Date: Tue, 11 Jun 2024 17:10:47 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] drm/mgag200: Set .detect_ctx() and enable
+ connector polling
+To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+References: <20240610141141.29527-1-tzimmermann@suse.de>
+ <20240610141141.29527-4-tzimmermann@suse.de>
+ <7b92e719-3187-4470-92b9-d017c729ddac@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <7b92e719-3187-4470-92b9-d017c729ddac@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[7]; MIME_TRACE(0.00)[0:+];
+ MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -4.29
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,334 +145,174 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-At shutdown if you've got a _properly_ coded DRM modeset driver then
-you'll get these two warnings at shutdown time:
+Hi Jocelyn
 
-  Skipping disable of already disabled panel
-  Skipping unprepare of already unprepared panel
+Am 11.06.24 um 16:41 schrieb Jocelyn Falempe:
+>
+>
+> On 10/06/2024 16:06, Thomas Zimmermann wrote:
+>> Set .detect_ctx() in struct drm_connector_helper_funcs to the
+>> common helper drm_connector_helper_detect_from_ddc() and enable
+>> polling for the connector. Mgag200 will now test for the monitor's
+>> presence by probing the DDC in regular intervals.
+>>
+> I've tested this series on two servers, one with physical VGA plugged, 
+> and one remote system, and it works as intended.
+>
+> Thanks a lot for this work.
+>
+> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-These warnings are ugly and sound concerning, but they're actually a
-sign of a properly working system. That's not great.
+Great, thanks a lot for reviewing and testing quickly.
 
-It's not easy to get rid of these warnings. Until we know that all DRM
-modeset drivers used with panel-simple and panel-edp are properly
-calling drm_atomic_helper_shutdown() or drm_helper_force_disable_all()
-then the panel drivers _need_ to disable/unprepare themselves in order
-to power off the panel cleanly. However, there are lots of DRM modeset
-drivers used with panel-edp and panel-simple and it's hard to know
-when we've got them all. Since the warning happens only on the drivers
-that _are_ updated there's nothing to encourage broken DRM modeset
-drivers to get fixed.
+Best regards
+Thomas
 
-In order to flip the warning to the proper place, we need to know
-which modeset drivers are going to shutdown properly. Though ugly, do
-this by creating a list of everyone that shuts down properly. This
-allows us to generate a warning for the correct case and also lets us
-get rid of the warning for drivers that are shutting down properly.
+>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   drivers/gpu/drm/mgag200/mgag200_g200.c    | 1 +
+>>   drivers/gpu/drm/mgag200/mgag200_g200eh.c  | 1 +
+>>   drivers/gpu/drm/mgag200/mgag200_g200eh3.c | 1 +
+>>   drivers/gpu/drm/mgag200/mgag200_g200er.c  | 1 +
+>>   drivers/gpu/drm/mgag200/mgag200_g200ev.c  | 1 +
+>>   drivers/gpu/drm/mgag200/mgag200_g200ew3.c | 1 +
+>>   drivers/gpu/drm/mgag200/mgag200_g200se.c  | 1 +
+>>   drivers/gpu/drm/mgag200/mgag200_g200wb.c  | 1 +
+>>   drivers/gpu/drm/mgag200/mgag200_vga.c     | 6 +++++-
+>>   9 files changed, 13 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200.c 
+>> b/drivers/gpu/drm/mgag200/mgag200_g200.c
+>> index ff467b0f9cbf3..f874e29498409 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_g200.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_g200.c
+>> @@ -401,6 +401,7 @@ struct mga_device 
+>> *mgag200_g200_device_create(struct pci_dev *pdev, const struct
+>>           return ERR_PTR(ret);
+>>         drm_mode_config_reset(dev);
+>> +    drm_kms_helper_poll_init(dev);
+>>         return mdev;
+>>   }
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh.c 
+>> b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
+>> index 6f31c5249f0b1..52bf49ead5c50 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_g200eh.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
+>> @@ -277,6 +277,7 @@ struct mga_device 
+>> *mgag200_g200eh_device_create(struct pci_dev *pdev, const stru
+>>           return ERR_PTR(ret);
+>>         drm_mode_config_reset(dev);
+>> +    drm_kms_helper_poll_init(dev);
+>>         return mdev;
+>>   }
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh3.c 
+>> b/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
+>> index 5befe8da4beb2..e7f89b2a59fd0 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
+>> @@ -182,6 +182,7 @@ struct mga_device 
+>> *mgag200_g200eh3_device_create(struct pci_dev *pdev,
+>>           return ERR_PTR(ret);
+>>         drm_mode_config_reset(dev);
+>> +    drm_kms_helper_poll_init(dev);
+>>         return mdev;
+>>   }
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c 
+>> b/drivers/gpu/drm/mgag200/mgag200_g200er.c
+>> index 55c275180cde2..4e8a1756138d7 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
+>> @@ -316,6 +316,7 @@ struct mga_device 
+>> *mgag200_g200er_device_create(struct pci_dev *pdev, const stru
+>>           return ERR_PTR(ret);
+>>         drm_mode_config_reset(dev);
+>> +    drm_kms_helper_poll_init(dev);
+>>         return mdev;
+>>   }
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c 
+>> b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
+>> index 2466126140db6..d884f3cb0ec79 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
+>> @@ -321,6 +321,7 @@ struct mga_device 
+>> *mgag200_g200ev_device_create(struct pci_dev *pdev, const stru
+>>           return ERR_PTR(ret);
+>>         drm_mode_config_reset(dev);
+>> +    drm_kms_helper_poll_init(dev);
+>>         return mdev;
+>>   }
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c 
+>> b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
+>> index a52e60609c3de..839401e8b4654 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
+>> @@ -202,6 +202,7 @@ struct mga_device 
+>> *mgag200_g200ew3_device_create(struct pci_dev *pdev,
+>>           return ERR_PTR(ret);
+>>         drm_mode_config_reset(dev);
+>> +    drm_kms_helper_poll_init(dev);
+>>         return mdev;
+>>   }
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c 
+>> b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+>> index 212770acdd477..a824bb8ad5791 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+>> @@ -521,6 +521,7 @@ struct mga_device 
+>> *mgag200_g200se_device_create(struct pci_dev *pdev, const stru
+>>           return ERR_PTR(ret);
+>>         drm_mode_config_reset(dev);
+>> +    drm_kms_helper_poll_init(dev);
+>>         return mdev;
+>>   }
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200wb.c 
+>> b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
+>> index cb6daa0426fbc..835df0f4fc13d 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_g200wb.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
+>> @@ -326,6 +326,7 @@ struct mga_device 
+>> *mgag200_g200wb_device_create(struct pci_dev *pdev, const stru
+>>           return ERR_PTR(ret);
+>>         drm_mode_config_reset(dev);
+>> +    drm_kms_helper_poll_init(dev);
+>>         return mdev;
+>>   }
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_vga.c 
+>> b/drivers/gpu/drm/mgag200/mgag200_vga.c
+>> index 6d8982990c2c3..60568f32736dd 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_vga.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_vga.c
+>> @@ -12,7 +12,8 @@ static const struct drm_encoder_funcs 
+>> mgag200_dac_encoder_funcs = {
+>>   };
+>>     static const struct drm_connector_helper_funcs 
+>> mgag200_vga_connector_helper_funcs = {
+>> -    .get_modes = drm_connector_helper_get_modes
+>> +    .get_modes = drm_connector_helper_get_modes,
+>> +    .detect_ctx = drm_connector_helper_detect_from_ddc
+>>   };
+>>     static const struct drm_connector_funcs 
+>> mgag200_vga_connector_funcs = {
+>> @@ -58,6 +59,9 @@ int mgag200_vga_output_init(struct mga_device *mdev)
+>>       }
+>>       drm_connector_helper_add(connector, 
+>> &mgag200_vga_connector_helper_funcs);
+>>   +    connector->polled = DRM_CONNECTOR_POLL_CONNECT |
+>> +                DRM_CONNECTOR_POLL_DISCONNECT;
+>> +
+>>       ret = drm_connector_attach_encoder(connector, encoder);
+>>       if (ret) {
+>>           drm_err(dev, "drm_connector_attach_encoder() failed: %d\n", 
+>> ret);
+>
 
-Maintaining this list is ugly, but the idea is that it's only short
-term. Once everyone is converted we can delete the list and call it
-done. The list is ugly enough and adding to it is annoying enough that
-people should push to make this happen.
-
-Implement this all in a shared "header" file included by the two panel
-drivers that need it. This avoids us adding an new exports while still
-allowing the panel drivers to be modules. The code waste should be
-small and, as per above, the whole solution is temporary.
-
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-I came up with this idea to help us move forward since otherwise I
-couldn't see how we were ever going to fix panel-simple and panel-edp
-since they're used by so many DRM Modeset drivers. It's a bit ugly but
-I don't hate it. What do others think?
-
-This is at the end of the series so even if folks hate it we could
-still land the rest of the series.
-This was a "bonus" extra patch I added at the end of v3 of the series
-("drm/panel: Remove most store/double-check of prepared/enabled
-state") [1]. There, I had the note: "I came up with this idea to help
-us move forward since otherwise I couldn't see how we were ever going
-to fix panel-simple and panel-edp since they're used by so many DRM
-Modeset drivers. It's a bit ugly but I don't hate it. What do others
-think?"
-
-As requested by Neil, now that the rest of the series has landed I'm
-sending this as a standalone patch so it can get more attention. I'm
-starting it back at "v1". There is no change between v1 and the one
-sent previously except for a typo fix in an error message: Can't't =>
-Can't
-
-[1] https://lore.kernel.org/r/20240605002401.2848541-1-dianders@chromium.org
-
- drivers/gpu/drm/drm_panel.c                   |  12 ++
- .../gpu/drm/panel/panel-drm-shutdown-check.h  | 151 ++++++++++++++++++
- drivers/gpu/drm/panel/panel-edp.c             |  19 +--
- drivers/gpu/drm/panel/panel-simple.c          |  19 +--
- 4 files changed, 169 insertions(+), 32 deletions(-)
- create mode 100644 drivers/gpu/drm/panel/panel-drm-shutdown-check.h
-
-diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-index cfbe020de54e..df3f15f4625e 100644
---- a/drivers/gpu/drm/drm_panel.c
-+++ b/drivers/gpu/drm/drm_panel.c
-@@ -161,6 +161,12 @@ int drm_panel_unprepare(struct drm_panel *panel)
- 	if (!panel)
- 		return -EINVAL;
- 
-+	/*
-+	 * If you're seeing this warning, you either need to add your driver
-+	 * to "drm_drivers_that_shutdown" (if you're seeing it with panel-edp
-+	 * or panel-simple) or you need to remove the manual call to
-+	 * drm_panel_unprepare() in your panel driver.
-+	 */
- 	if (!panel->prepared) {
- 		dev_warn(panel->dev, "Skipping unprepare of already unprepared panel\n");
- 		return 0;
-@@ -245,6 +251,12 @@ int drm_panel_disable(struct drm_panel *panel)
- 	if (!panel)
- 		return -EINVAL;
- 
-+	/*
-+	 * If you're seeing this warning, you either need to add your driver
-+	 * to "drm_drivers_that_shutdown" (if you're seeing it with panel-edp
-+	 * or panel-simple) or you need to remove the manual call to
-+	 * drm_panel_disable() in your panel driver.
-+	 */
- 	if (!panel->enabled) {
- 		dev_warn(panel->dev, "Skipping disable of already disabled panel\n");
- 		return 0;
-diff --git a/drivers/gpu/drm/panel/panel-drm-shutdown-check.h b/drivers/gpu/drm/panel/panel-drm-shutdown-check.h
-new file mode 100644
-index 000000000000..dfa8197e09fb
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-drm-shutdown-check.h
-@@ -0,0 +1,151 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright 2024 Google Inc.
-+ *
-+ * This header is a temporary solution and is intended to be included
-+ * directly by panel-edp.c and panel-simple.c.
-+ *
-+ * This header is needed because panel-edp and panel-simple are used by a
-+ * wide variety of DRM drivers and it's hard to know for sure if all of the
-+ * DRM drivers used by those panel drivers are properly calling
-+ * drm_atomic_helper_shutdown() or drm_helper_force_disable_all() at
-+ * shutdown/remove time.
-+ *
-+ * The plan for this header file:
-+ * - Land it and hope that the warning print will encourage DRM drivers to
-+ *   get fixed.
-+ * - Eventually move to a WARN() splat for extra encouragement.
-+ * - Assume that everyone has been fixed and remove this header file.
-+ */
-+
-+#ifndef __PANEL_DRM_SHUTDOWN_CHECK_H__
-+#define __PANEL_DRM_SHUTDOWN_CHECK_H__
-+
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_drv.h>
-+
-+/*
-+ * This is a list of all DRM drivers that appear to properly call
-+ * drm_atomic_helper_shutdown() or drm_helper_force_disable_all() at
-+ * shutdown and remove time.
-+ *
-+ * We can't detect this dynamically and are stuck with a list because the panel
-+ * driver's shutdown() call might be called _before_ the DRM driver's
-+ * shutdown() call.
-+ *
-+ * NOTE: no verification has been done to confirm that the below drivers
-+ * are actually _used_ with panel-simple or panel-edp, only that these drivers
-+ * appear to be shutting down properly. It doesn't hurt to have extra drivers
-+ * listed here as long as the list doesn't contain any drivers that are
-+ * missing the shutdown calls.
-+ */
-+static const char * const drm_drivers_that_shutdown[] = {
-+	"armada-drm",
-+	"aspeed-gfx-drm",
-+	"ast",
-+	"atmel-hlcdc",
-+	"bochs-drm",
-+	"cirrus",
-+	"exynos",
-+	"fsl-dcu-drm",
-+	"gm12u320",
-+	"gud",
-+	"hdlcd",
-+	"hibmc",
-+	"hx8357d",
-+	"hyperv_drm",
-+	"ili9163",
-+	"ili9225",
-+	"ili9341",
-+	"ili9486",
-+	"imx-dcss",
-+	"imx-drm",
-+	"imx-lcdc",
-+	"imx-lcdif",
-+	"ingenic-drm",
-+	"kirin",
-+	"komeda",
-+	"logicvc-drm",
-+	"loongson",
-+	"mali-dp",
-+	"mcde",
-+	"meson",
-+	"mgag200",
-+	"mi0283qt",
-+	"msm",
-+	"mxsfb-drm",
-+	"omapdrm",
-+	"panel-mipi-dbi",
-+	"pl111",
-+	"qxl",
-+	"rcar-du",
-+	"repaper",
-+	"rockchip",
-+	"rzg2l-du",
-+	"ssd130x",
-+	"st7586",
-+	"st7735r",
-+	"sti",
-+	"stm",
-+	"sun4i-drm",
-+	"tidss",
-+	"tilcdc",
-+	"tve200",
-+	"vboxvideo",
-+	"zynqmp-dpsub",
-+	""
-+};
-+
-+static void panel_shutdown_if_drm_driver_needs_fixing(struct drm_panel *panel)
-+{
-+	struct drm_bridge *bridge;
-+	const struct drm_driver *driver;
-+	const char * const *driver_name;
-+
-+	/*
-+	 * Look for a bridge that shares the DT node of this panel. That only
-+	 * works if we've been linked up with a panel_bridge.
-+	 */
-+	bridge = of_drm_find_bridge(panel->dev->of_node);
-+	if (bridge && bridge->dev && bridge->dev->driver) {
-+		/*
-+		 * If the DRM driver for the bridge is known to be fine then
-+		 * we're done.
-+		 */
-+		driver = bridge->dev->driver;
-+		for (driver_name = drm_drivers_that_shutdown; *driver_name; driver_name++) {
-+			if (strcmp(*driver_name, driver->name) == 0)
-+				return;
-+		}
-+
-+		/*
-+		 * If you see the message below then:
-+		 * 1. Make sure your DRM driver is properly calling
-+		 *    drm_atomic_helper_shutdown() or drm_helper_force_disable_all()
-+		 *    at shutdown time.
-+		 * 2. Add your driver to the list.
-+		 */
-+		dev_warn(panel->dev,
-+			 "DRM driver appears buggy; manually disable/unprepare\n");
-+	} else {
-+		/*
-+		 * If you see the message below then your setup needs to
-+		 * be moved to using a panel_bridge. This often happens
-+		 * by calling devm_drm_of_get_bridge(). Having a panel without
-+		 * an associated panel_bridge is deprecated.
-+		 */
-+		dev_warn(panel->dev,
-+			 "Can't find DRM driver; manually disable/unprepare\n");
-+	}
-+
-+	/*
-+	 * If we don't know if a DRM driver is properly shutting things down
-+	 * then we'll manually call the disable/unprepare. This is always a
-+	 * safe thing to do (in that it won't cause you to crash), but it
-+	 * does generate a warning.
-+	 */
-+	drm_panel_disable(panel);
-+	drm_panel_unprepare(panel);
-+}
-+
-+#endif
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 67ab6915d6e4..26f89858df9d 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -42,6 +42,8 @@
- #include <drm/drm_edid.h>
- #include <drm/drm_panel.h>
- 
-+#include "panel-drm-shutdown-check.h"
-+
- /**
-  * struct panel_delay - Describes delays for a simple panel.
-  */
-@@ -948,22 +950,7 @@ static void panel_edp_shutdown(struct device *dev)
- {
- 	struct panel_edp *panel = dev_get_drvdata(dev);
- 
--	/*
--	 * NOTE: the following two calls don't really belong here. It is the
--	 * responsibility of a correctly written DRM modeset driver to call
--	 * drm_atomic_helper_shutdown() at shutdown time and that should
--	 * cause the panel to be disabled / unprepared if needed. For now,
--	 * however, we'll keep these calls due to the sheer number of
--	 * different DRM modeset drivers used with panel-edp. The fact that
--	 * we're calling these and _also_ the drm_atomic_helper_shutdown()
--	 * will try to disable/unprepare means that we can get a warning about
--	 * trying to disable/unprepare an already disabled/unprepared panel,
--	 * but that's something we'll have to live with until we've confirmed
--	 * that all DRM modeset drivers are properly calling
--	 * drm_atomic_helper_shutdown().
--	 */
--	drm_panel_disable(&panel->base);
--	drm_panel_unprepare(&panel->base);
-+	panel_shutdown_if_drm_driver_needs_fixing(&panel->base);
- }
- 
- static void panel_edp_remove(struct device *dev)
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 8345ed891f5a..f505bc27e5ae 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -42,6 +42,8 @@
- #include <drm/drm_panel.h>
- #include <drm/drm_of.h>
- 
-+#include "panel-drm-shutdown-check.h"
-+
- /**
-  * struct panel_desc - Describes a simple panel.
-  */
-@@ -720,22 +722,7 @@ static void panel_simple_shutdown(struct device *dev)
- {
- 	struct panel_simple *panel = dev_get_drvdata(dev);
- 
--	/*
--	 * NOTE: the following two calls don't really belong here. It is the
--	 * responsibility of a correctly written DRM modeset driver to call
--	 * drm_atomic_helper_shutdown() at shutdown time and that should
--	 * cause the panel to be disabled / unprepared if needed. For now,
--	 * however, we'll keep these calls due to the sheer number of
--	 * different DRM modeset drivers used with panel-simple. The fact that
--	 * we're calling these and _also_ the drm_atomic_helper_shutdown()
--	 * will try to disable/unprepare means that we can get a warning about
--	 * trying to disable/unprepare an already disabled/unprepared panel,
--	 * but that's something we'll have to live with until we've confirmed
--	 * that all DRM modeset drivers are properly calling
--	 * drm_atomic_helper_shutdown().
--	 */
--	drm_panel_disable(&panel->base);
--	drm_panel_unprepare(&panel->base);
-+	panel_shutdown_if_drm_driver_needs_fixing(&panel->base);
- }
- 
- static void panel_simple_remove(struct device *dev)
 -- 
-2.45.2.505.gda0bf45e8d-goog
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
