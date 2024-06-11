@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC3A903B5B
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 14:04:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4970F903B5D
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 14:04:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56C8D10E5D1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 005D710E5E6;
 	Tue, 11 Jun 2024 12:04:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gnDpN+3N";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HhFyEXQg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D500210E5D1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 12:04:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B652B10E5DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 12:04:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718107478; x=1749643478;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=CHdu7/456IEmbdbBmdE6oG/zfWxoeVwrZK6odzAmpls=;
- b=gnDpN+3Nv6Zmc/RYoSAE4Ivs2YnsxDSYalBwKmN/qPLZdEJ6/ixqn/mT
- nXgTd78biD33SXklNHRDL1282ztG7oykqE/gk+py2uNkkRVOvS7LOV1/7
- FXZxwNlP9TYh6RQHrYLiUfaEtj8H5WsRUgg36HbuipZ8dekESlkijeG+4
- DF87NnT5a+GAjzX9DNjhRj380IxeuUfUSfD09zkRcK0CygnL/WJl42T+V
- 7bhGH8ZOaLou7V7JglyPn+fcaJDY30U4BbY8CIfMI4AcTtS19ZTn5x8E2
- orEJf0houDIT0LKrQIRRZR2SGJq6FHYny+T0ANRLogZ221V0Yc27jk4e1 w==;
-X-CSE-ConnectionGUID: xJ/JdblDR4aoh8hph7vO0Q==
-X-CSE-MsgGUID: fejv4HNtTi6RpmLyMp8jYw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="32296013"
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="32296013"
+ t=1718107479; x=1749643479;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=OVRLpMVnPBsWbGBMb+ik2SLewKNmLK4wGkpAW0t4/rc=;
+ b=HhFyEXQgH+bkIqKNviOMNtbWS9tg1DURQqZfOPEe6uE2zoajU4rV+ZpB
+ 6j/6OT8YRBdEo/n9u35ZZaV42OA0eYjaXEt14o2xvHbWWrg09Gs1v59iU
+ z2aVUyz2HVe22fnXAHz6pYqrbryUH+swuvmzQzN5MuXQDFbOGI6y5D9Cu
+ hIG8Sh6hjAI07kc3LHcWPHjzQKBO9Z3CA/JR1N7CXr6tTKGjFoLAuDJhc
+ buZZ0khvrkjylNIOp3KgPe03Ej1itUiH+T1gj8aZxEzoBWysmA2rg7co4
+ 84te96lIZH4luKHzjsrR8jTqBHxjnzXCxnsAzooykJcypXBJEJTeMzqWd w==;
+X-CSE-ConnectionGUID: e5uLGCBPRH2EFs062j4FDw==
+X-CSE-MsgGUID: whYa2uI0RhaYvZ+ws4K5IA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="32296024"
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="32296024"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2024 05:04:37 -0700
-X-CSE-ConnectionGUID: IBXOgEpmQ5WeYW7jShFlNg==
-X-CSE-MsgGUID: 1nHogmBkT6GEeOraUYMoIA==
+ 11 Jun 2024 05:04:39 -0700
+X-CSE-ConnectionGUID: f6gYcF5YQ0KeQby93w2How==
+X-CSE-MsgGUID: NWqivOghQ5ancge+EPYgJg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="39876925"
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="39876939"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2024 05:04:35 -0700
+ 11 Jun 2024 05:04:37 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
+ "Wachowski, Karol" <karol.wachowski@intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH 00/15] accel/ivpu: Changes for 6.11
-Date: Tue, 11 Jun 2024 14:04:17 +0200
-Message-ID: <20240611120433.1012423-1-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 01/15] accel/ivpu: Add wp0_during_power_up WA
+Date: Tue, 11 Jun 2024 14:04:18 +0200
+Message-ID: <20240611120433.1012423-2-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
+In-Reply-To: <20240611120433.1012423-1-jacek.lawrynowicz@linux.intel.com>
+References: <20240611120433.1012423-1-jacek.lawrynowicz@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,54 +69,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Power usage and security fixes along with some cleanup.
+From: "Wachowski, Karol" <karol.wachowski@intel.com>
 
-Andrzej Kacprowski (1):
-  accel/ivpu: Increase autosuspend delay to 100ms on 40xx
+Send workpoint 0 request during power up on 37xx.
+This is needed in rare case where WP0 was not sent
+during power down due to device hang.
 
-Jacek Lawrynowicz (6):
-  accel/ivpu: Remove suspend_reschedule_counter
-  accel/ivpu: Implement DCT handling
-  accel/ivpu: Make selected params read-only
-  accel/ivpu: Disable MMU before checking for idle
-  accel/ivpu: Remove duplicated debug messages
-  accel/ivpu: Remove unused ivpu_rpm_get_if_active()
+Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+---
+ drivers/accel/ivpu/ivpu_drv.h |  1 +
+ drivers/accel/ivpu/ivpu_hw.c  | 11 +++++++++++
+ 2 files changed, 12 insertions(+)
 
-Maciej Falkowski (2):
-  accel/ivpu: Abort jobs of faulty context
-  accel/ivpu: Add test mode flag for disabling timeouts
-
-Wachowski, Karol (6):
-  accel/ivpu: Add wp0_during_power_up WA
-  accel/ivpu: Disable disable_clock_relinquish WA for LNL B0+
-  accel/ivpu: Disable clock relinquish for MMIO reset
-  accel/ivpu: Update FW BOOT API headers
-  accel/ivpu: Make parts of FW image read-only
-  accel/ivpu: Synchronize device unbind with recovery work
-
- drivers/accel/ivpu/ivpu_debugfs.c         |  39 +++++++-
- drivers/accel/ivpu/ivpu_drv.c             |  41 ++++++++-
- drivers/accel/ivpu/ivpu_drv.h             |   6 +-
- drivers/accel/ivpu/ivpu_fw.c              |  31 ++++++-
- drivers/accel/ivpu/ivpu_fw.h              |   2 +
- drivers/accel/ivpu/ivpu_hw.c              |  30 ++++--
- drivers/accel/ivpu/ivpu_hw.h              |   4 +-
- drivers/accel/ivpu/ivpu_hw_btrs.c         |  44 +++++++--
- drivers/accel/ivpu/ivpu_hw_btrs.h         |   6 +-
- drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h |  10 +-
- drivers/accel/ivpu/ivpu_ipc.c             |   3 +-
- drivers/accel/ivpu/ivpu_ipc.h             |   4 +-
- drivers/accel/ivpu/ivpu_job.c             |  29 +++++-
- drivers/accel/ivpu/ivpu_job.h             |   4 +-
- drivers/accel/ivpu/ivpu_jsm_msg.c         |  52 +++++++----
- drivers/accel/ivpu/ivpu_jsm_msg.h         |   2 +
- drivers/accel/ivpu/ivpu_mmu.c             |  10 +-
- drivers/accel/ivpu/ivpu_mmu_context.c     |  86 ++++++++++++++++++
- drivers/accel/ivpu/ivpu_mmu_context.h     |   2 +
- drivers/accel/ivpu/ivpu_pm.c              | 106 ++++++++++++++++------
- drivers/accel/ivpu/ivpu_pm.h              |  10 +-
- drivers/accel/ivpu/vpu_boot_api.h         |  16 +++-
- 22 files changed, 447 insertions(+), 90 deletions(-)
-
---
+diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+index 39df96a7623b..823e10c41816 100644
+--- a/drivers/accel/ivpu/ivpu_drv.h
++++ b/drivers/accel/ivpu/ivpu_drv.h
+@@ -102,6 +102,7 @@ struct ivpu_wa_table {
+ 	bool interrupt_clear_with_0;
+ 	bool disable_clock_relinquish;
+ 	bool disable_d0i3_msg;
++	bool wp0_during_power_up;
+ };
+ 
+ struct ivpu_hw_info;
+diff --git a/drivers/accel/ivpu/ivpu_hw.c b/drivers/accel/ivpu/ivpu_hw.c
+index 9f5e3875baf1..daf1e4afb479 100644
+--- a/drivers/accel/ivpu/ivpu_hw.c
++++ b/drivers/accel/ivpu/ivpu_hw.c
+@@ -64,10 +64,14 @@ static void wa_init(struct ivpu_device *vdev)
+ 	if (ivpu_device_id(vdev) == PCI_DEVICE_ID_LNL)
+ 		vdev->wa.disable_clock_relinquish = true;
+ 
++	if (ivpu_hw_ip_gen(vdev) == IVPU_HW_IP_37XX)
++		vdev->wa.wp0_during_power_up = true;
++
+ 	IVPU_PRINT_WA(punit_disabled);
+ 	IVPU_PRINT_WA(clear_runtime_mem);
+ 	IVPU_PRINT_WA(interrupt_clear_with_0);
+ 	IVPU_PRINT_WA(disable_clock_relinquish);
++	IVPU_PRINT_WA(wp0_during_power_up);
+ }
+ 
+ static void timeouts_init(struct ivpu_device *vdev)
+@@ -125,6 +129,13 @@ int ivpu_hw_power_up(struct ivpu_device *vdev)
+ {
+ 	int ret;
+ 
++	if (IVPU_WA(wp0_during_power_up)) {
++		/* WP requests may fail when powering down, so issue WP 0 here */
++		ret = wp_disable(vdev);
++		if (ret)
++			ivpu_warn(vdev, "Failed to disable workpoint: %d\n", ret);
++	}
++
+ 	ret = ivpu_hw_btrs_d0i3_disable(vdev);
+ 	if (ret)
+ 		ivpu_warn(vdev, "Failed to disable D0I3: %d\n", ret);
+-- 
 2.45.1
+
