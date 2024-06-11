@@ -2,84 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E25904362
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 20:17:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4CAA9044D8
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 21:35:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0159C10E702;
-	Tue, 11 Jun 2024 18:17:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68E6810E0CD;
+	Tue, 11 Jun 2024 19:35:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="C+svuxMk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nz9S/0gk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD5B10E702;
- Tue, 11 Jun 2024 18:17:44 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45BHHro0001180;
- Tue, 11 Jun 2024 18:17:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 4YJ8Lhmst0xeBjIowrNmTmfZV+TnLyVmo1as+S8SgFY=; b=C+svuxMkIqhB8zZ3
- 183Rlp9fuUZ6I7kdtURu6bfJS4WEfNOw/Hu1Rl//5uzHFBH5bUpvfgdCMUZFTzOm
- yMSLO+X0r12z4mTnk3zk9y9Yul7uqlyVMIGWLr0QCr2SJFoS0HBLDIyn/YNQhRpr
- czS23QHR/5ykEiA4iVCq6F9ET7bHMJwbJAg9B2jip6pK26pu6zdXmOdVB/XtoddF
- hRl8v0WCAOu+lL2ImHHj+fnDMfBTYBER4gcEK/7BMGmwC8rthNUmEoIb7EEBjmx5
- BTJMNTMvzgMwv/IO9QY/kKGdddNiM3vlhy2G3e4/BH30Yyz1mQ7CCjjfgtXRbDQQ
- zJdVKQ==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yptuy04dn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Jun 2024 18:17:41 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45BIHe84007704
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Jun 2024 18:17:40 GMT
-Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 11 Jun
- 2024 11:17:39 -0700
-Message-ID: <c47cbab1-a971-4562-a603-d612ec533730@quicinc.com>
-Date: Tue, 11 Jun 2024 11:17:39 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 645E010E0CD
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 19:35:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718134511; x=1749670511;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=susaUDi/yz7Enip+SPo9XpTzH+CVEJDN9NuS79DVHfM=;
+ b=nz9S/0gkaB5Co8W9nW68lae4xwaSvfvysJEugiDLWqn0So07GWfp0RRF
+ XJUgmDXN772sudKszBSxOVP/1+nr4z1lorNx38PXGGMQSgEQbh3yGa8iK
+ MiQf8NK0LLvR4segJ77qN8NRzA5Z2VSzl2KA5pC6X59QGzAVLbGqqSJxq
+ DPp60kl+LDlpjDupr85i6a09/fboAHzFyjqMqY26Z2X6I9qGqeY6xR8um
+ HxaKrR5uafZzjK/anxyMGUKDYs/KAxG4o4XVnHsF2evU62Xq89F6SHf29
+ xozvtwBHwcgq0KcS1QP8eAREL0ISyo32ltbnlqQDTbWSqcBub0gn44udv A==;
+X-CSE-ConnectionGUID: lGIdqBxyRQ+xP4UkGKOLgg==
+X-CSE-MsgGUID: UeGR/jsQTBmMxygZQzxhIg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="14997324"
+X-IronPort-AV: E=Sophos;i="6.08,231,1712646000"; d="scan'208";a="14997324"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jun 2024 12:35:09 -0700
+X-CSE-ConnectionGUID: XSryMGTlSDq3RqP+GGoarw==
+X-CSE-MsgGUID: hKbXWze/Q4GB6LbrnaPW3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,231,1712646000"; d="scan'208";a="40007035"
+Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
+ by orviesa006.jf.intel.com with ESMTP; 11 Jun 2024 12:35:03 -0700
+Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sH7Gm-0000qE-1S;
+ Tue, 11 Jun 2024 19:35:00 +0000
+Date: Wed, 12 Jun 2024 03:34:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ chunkuang.hu@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, shawn.sung@mediatek.com,
+ yu-chang.lee@mediatek.com, ck.hu@mediatek.com,
+ jitao.shi@mediatek.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, wenst@chromium.org,
+ kernel@collabora.com, sui.jinfeng@linux.dev, michael@walle.cc,
+ Alexandre Mergnat <amergnat@baylibre.com>
+Subject: Re: [PATCH v6 3/3] drm/mediatek: Implement OF graphs support for
+ display paths
+Message-ID: <202406120316.VAGmVBWN-lkp@intel.com>
+References: <20240611082831.477566-4-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/14] drm/msm/hdmi: switch to
- atomic_pre_enable/post_disable
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
- Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240522-fd-hdmi-hpd-v2-0-c30bdb7c5c7e@linaro.org>
- <20240522-fd-hdmi-hpd-v2-3-c30bdb7c5c7e@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20240522-fd-hdmi-hpd-v2-3-c30bdb7c5c7e@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: VPH_2qNgrISS_e7enANlTEWbXDd9PAbD
-X-Proofpoint-ORIG-GUID: VPH_2qNgrISS_e7enANlTEWbXDd9PAbD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-11_09,2024-06-11_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0
- impostorscore=0 mlxscore=0 priorityscore=1501 lowpriorityscore=0
- suspectscore=0 clxscore=1015 mlxlogscore=999 phishscore=0 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406110125
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240611082831.477566-4-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,61 +83,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi AngeloGioacchino,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.10-rc3 next-20240611]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-display-mediatek-Add-OF-graph-support-for-board-path/20240611-163327
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240611082831.477566-4-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v6 3/3] drm/mediatek: Implement OF graphs support for display paths
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240612/202406120316.VAGmVBWN-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406120316.VAGmVBWN-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406120316.VAGmVBWN-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/mediatek/mtk_dpi.c: In function 'mtk_dpi_bridge_attach':
+>> drivers/gpu/drm/mediatek/mtk_dpi.c:711:31: error: 'dsi' undeclared (first use in this function); did you mean 'dpi'?
+     711 |                 ret = PTR_ERR(dsi->next_bridge);
+         |                               ^~~
+         |                               dpi
+   drivers/gpu/drm/mediatek/mtk_dpi.c:711:31: note: each undeclared identifier is reported only once for each function it appears in
 
 
-On 5/22/2024 3:50 AM, Dmitry Baryshkov wrote:
-> In preparation of reworking the HDMI mode setting, switch pre_enable and
-> post_disable callbacks to their atomic variants.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+vim +711 drivers/gpu/drm/mediatek/mtk_dpi.c
 
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+   702	
+   703	static int mtk_dpi_bridge_attach(struct drm_bridge *bridge,
+   704					 enum drm_bridge_attach_flags flags)
+   705	{
+   706		struct mtk_dpi *dpi = bridge_to_dpi(bridge);
+   707		int ret;
+   708	
+   709		dpi->next_bridge = devm_drm_of_get_bridge(dpi->dev, dpi->dev->of_node, 1, -1);
+   710		if (IS_ERR(dpi->next_bridge)) {
+ > 711			ret = PTR_ERR(dsi->next_bridge);
+   712			if (ret == -EPROBE_DEFER)
+   713				return ret;
+   714	
+   715			/* Old devicetree has only one endpoint */
+   716			dpi->next_bridge = devm_drm_of_get_bridge(dpi->dev, dpi->dev->of_node, 0, 0);
+   717			if (IS_ERR(dpi->next_bridge))
+   718				return dev_err_probe(dpi->dev, PTR_ERR(dpi->next_bridge),
+   719						     "Failed to get bridge\n");
+   720		}
+   721	
+   722		return drm_bridge_attach(bridge->encoder, dpi->next_bridge,
+   723					 &dpi->bridge, flags);
+   724	}
+   725	
 
-> ---
->   drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 15 +++++++++++----
->   1 file changed, 11 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> index 9eb4d06bdc0e..3c6121c57b01 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> @@ -120,7 +120,8 @@ static void msm_hdmi_config_avi_infoframe(struct hdmi *hdmi)
->   	hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL1, val);
->   }
->   
-> -static void msm_hdmi_bridge_pre_enable(struct drm_bridge *bridge)
-> +static void msm_hdmi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-> +					      struct drm_bridge_state *old_bridge_state)
->   {
->   	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
->   	struct hdmi *hdmi = hdmi_bridge->hdmi;
-> @@ -146,7 +147,8 @@ static void msm_hdmi_bridge_pre_enable(struct drm_bridge *bridge)
->   		msm_hdmi_hdcp_on(hdmi->hdcp_ctrl);
->   }
->   
-> -static void msm_hdmi_bridge_post_disable(struct drm_bridge *bridge)
-> +static void msm_hdmi_bridge_atomic_post_disable(struct drm_bridge *bridge,
-> +						struct drm_bridge_state *old_bridge_state)
->   {
->   	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
->   	struct hdmi *hdmi = hdmi_bridge->hdmi;
-> @@ -292,8 +294,13 @@ static enum drm_mode_status msm_hdmi_bridge_mode_valid(struct drm_bridge *bridge
->   }
->   
->   static const struct drm_bridge_funcs msm_hdmi_bridge_funcs = {
-> -	.pre_enable = msm_hdmi_bridge_pre_enable,
-> -	.post_disable = msm_hdmi_bridge_post_disable,
-> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_reset = drm_atomic_helper_bridge_reset,
-> +
-> +	.atomic_pre_enable = msm_hdmi_bridge_atomic_pre_enable,
-> +	.atomic_post_disable = msm_hdmi_bridge_atomic_post_disable,
-> +
->   	.mode_set = msm_hdmi_bridge_mode_set,
->   	.mode_valid = msm_hdmi_bridge_mode_valid,
->   	.edid_read = msm_hdmi_bridge_edid_read,
-> 
-> -- 
-> 2.39.2
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
