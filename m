@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3661903B61
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 14:04:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC65903B62
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 14:04:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A7E510E5E9;
-	Tue, 11 Jun 2024 12:04:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 679FB10E5EC;
+	Tue, 11 Jun 2024 12:04:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MPzmuuZA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fNRZRmOX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DF4410E5E9
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 12:04:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3460710E5DC
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 12:04:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718107482; x=1749643482;
+ t=1718107484; x=1749643484;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=LAQUFj1EQs2snSPSAodymzctzrPwSnX9rp9SnzexAuU=;
- b=MPzmuuZA4u3cQveofB5arnxUAh+ri43trZvT+ufg9Lj0ClLLEe1KKE5x
- Sk/E4ZUKw+K6x7NMZgAjj1rdyjcewFjSN4QuKvt3D08/wMAobkLU7BTgF
- Z5Jd5FWvhJC2vmoZoAKuMNEGLQ4/G/NkMREPlxB+OfMiiYhJdd5x1X26e
- eWSV4UW1taZIPxz7Q3HupqwhGrRsgpNfqSe94CKO+vbFkJscq8AfcOuu4
- Ac3pEt/p0tSPI4bJisAtVK0C37QU1vQOHqvvFyJqvz/z5uzsAdzFdGsxg
- UTOP1NI+2Dryk1kGTrVbhErnsfg/1w4LP0f/XUexVriyPqW7UNoIxOcSw g==;
-X-CSE-ConnectionGUID: zNBacGJiSLu3O5HF+iLt3Q==
-X-CSE-MsgGUID: A6hhvWSbRY+A+XFjh/mieQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="32296034"
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="32296034"
+ bh=j3PV+RNIDsIYji166H54PimSmfyryfQqgrzJT9MpCiw=;
+ b=fNRZRmOXvdGPPwNO/mkmX2XifUs0M6ma/6yvdQfjErJFjrQuJlz3B88b
+ rqwzv0aNvPv2PLR+n1ffYNiZ0cC6aEekaMgCyeRJW6YJYIDC0b1KVK60b
+ PQdFJn5mzXqiDoRfF6B/+Kj6YuVw5+xV8UIgOYM2S+PHm0DlEPH0axBue
+ QU6tv6WGZopyfvdM2VdtThvAcgx6XDBhvwRSGVu/3ujcnO2+YlL1R0YBJ
+ 05NqMv7qENNMoFBWfqURYclL5G2tOd4HFdh5RaUrELFOWli1d602iC5l1
+ GV9n7pqHt/CzFkPlLDg50z0xB3PnZOp24BNdHgGv3Ove+ldrMoFIjq9Cn Q==;
+X-CSE-ConnectionGUID: wFllmzFSRiqc+ZS3uJzrfA==
+X-CSE-MsgGUID: A2KteS4vTR+sBc2dSeUs/A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="32296037"
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="32296037"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2024 05:04:42 -0700
-X-CSE-ConnectionGUID: muTbC5w6QSaFS256KeTiKA==
-X-CSE-MsgGUID: Z4ACEOJKSyKuM2fblcvC+g==
+ 11 Jun 2024 05:04:44 -0700
+X-CSE-ConnectionGUID: j5MI0omZQce4F9Gv/g1aWA==
+X-CSE-MsgGUID: FWKskpxNQMGWT/14W5yZaA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="39876953"
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="39876976"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2024 05:04:40 -0700
+ 11 Jun 2024 05:04:42 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
+ "Wachowski, Karol" <karol.wachowski@intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH 03/15] accel/ivpu: Remove suspend_reschedule_counter
-Date: Tue, 11 Jun 2024 14:04:20 +0200
-Message-ID: <20240611120433.1012423-4-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 04/15] accel/ivpu: Disable disable_clock_relinquish WA for LNL
+ B0+
+Date: Tue, 11 Jun 2024 14:04:21 +0200
+Message-ID: <20240611120433.1012423-5-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240611120433.1012423-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240611120433.1012423-1-jacek.lawrynowicz@linux.intel.com>
@@ -68,111 +70,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Don't retry runtime suspend. It is now expected to succeed on the first
-try. After autosuspend_delay passed, FW should already be idle and
-ready for warm suspend.
+From: "Wachowski, Karol" <karol.wachowski@intel.com>
 
+This WA is only needed for LNL revision A.
+
+Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_pm.c | 31 +++++++++++--------------------
- drivers/accel/ivpu/ivpu_pm.h |  3 +--
- 2 files changed, 12 insertions(+), 22 deletions(-)
+ drivers/accel/ivpu/ivpu_drv.h | 2 ++
+ drivers/accel/ivpu/ivpu_hw.c  | 3 ++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index 02b4eac13f8b..9d5f500afd20 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -237,33 +237,28 @@ int ivpu_pm_runtime_suspend_cb(struct device *dev)
- {
- 	struct drm_device *drm = dev_get_drvdata(dev);
- 	struct ivpu_device *vdev = to_ivpu_device(drm);
--	bool hw_is_idle = true;
--	int ret;
-+	int ret, ret_d0i3;
-+	bool is_idle;
+diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+index dc6ad1978a3b..d340bd8d66eb 100644
+--- a/drivers/accel/ivpu/ivpu_drv.h
++++ b/drivers/accel/ivpu/ivpu_drv.h
+@@ -32,6 +32,8 @@
+ #define IVPU_HW_IP_50XX 50
+ #define IVPU_HW_IP_60XX 60
  
- 	drm_WARN_ON(&vdev->drm, !xa_empty(&vdev->submitted_jobs_xa));
- 	drm_WARN_ON(&vdev->drm, work_pending(&vdev->pm->recovery_work));
++#define IVPU_HW_IP_REV_LNL_B0 4
++
+ #define IVPU_HW_BTRS_MTL 1
+ #define IVPU_HW_BTRS_LNL 2
  
- 	ivpu_dbg(vdev, PM, "Runtime suspend..\n");
+diff --git a/drivers/accel/ivpu/ivpu_hw.c b/drivers/accel/ivpu/ivpu_hw.c
+index daf1e4afb479..09398a17c710 100644
+--- a/drivers/accel/ivpu/ivpu_hw.c
++++ b/drivers/accel/ivpu/ivpu_hw.c
+@@ -61,7 +61,8 @@ static void wa_init(struct ivpu_device *vdev)
+ 	if (ivpu_hw_btrs_gen(vdev) == IVPU_HW_BTRS_MTL)
+ 		vdev->wa.interrupt_clear_with_0 = ivpu_hw_btrs_irqs_clear_with_0_mtl(vdev);
  
--	if (!ivpu_hw_is_idle(vdev) && vdev->pm->suspend_reschedule_counter) {
--		ivpu_dbg(vdev, PM, "Failed to enter idle, rescheduling suspend, retries left %d\n",
--			 vdev->pm->suspend_reschedule_counter);
--		pm_schedule_suspend(dev, vdev->timeout.reschedule_suspend);
--		vdev->pm->suspend_reschedule_counter--;
--		return -EAGAIN;
--	}
-+	is_idle = ivpu_hw_is_idle(vdev);
-+	if (!is_idle)
-+		ivpu_err(vdev, "NPU is not idle before autosuspend\n");
+-	if (ivpu_device_id(vdev) == PCI_DEVICE_ID_LNL)
++	if (ivpu_device_id(vdev) == PCI_DEVICE_ID_LNL &&
++	    ivpu_revision(vdev) < IVPU_HW_IP_REV_LNL_B0)
+ 		vdev->wa.disable_clock_relinquish = true;
  
--	if (!vdev->pm->suspend_reschedule_counter)
--		hw_is_idle = false;
--	else if (ivpu_jsm_pwr_d0i3_enter(vdev))
--		hw_is_idle = false;
-+	ret_d0i3 = ivpu_jsm_pwr_d0i3_enter(vdev);
-+	if (ret_d0i3)
-+		ivpu_err(vdev, "Failed to prepare for d0i3: %d\n", ret_d0i3);
- 
- 	ret = ivpu_suspend(vdev);
- 	if (ret)
- 		ivpu_err(vdev, "Failed to suspend NPU: %d\n", ret);
- 
--	if (!hw_is_idle) {
--		ivpu_err(vdev, "NPU failed to enter idle, force suspended.\n");
-+	if (!is_idle || ret_d0i3) {
-+		ivpu_err(vdev, "Forcing cold boot due to previous errors\n");
- 		atomic_inc(&vdev->pm->reset_counter);
- 		ivpu_fw_log_dump(vdev);
- 		ivpu_pm_prepare_cold_boot(vdev);
-@@ -271,8 +266,6 @@ int ivpu_pm_runtime_suspend_cb(struct device *dev)
- 		ivpu_pm_prepare_warm_boot(vdev);
- 	}
- 
--	vdev->pm->suspend_reschedule_counter = PM_RESCHEDULE_LIMIT;
--
- 	ivpu_dbg(vdev, PM, "Runtime suspend done.\n");
- 
- 	return 0;
-@@ -300,8 +293,7 @@ int ivpu_rpm_get(struct ivpu_device *vdev)
- 	int ret;
- 
- 	ret = pm_runtime_resume_and_get(vdev->drm.dev);
--	if (!drm_WARN_ON(&vdev->drm, ret < 0))
--		vdev->pm->suspend_reschedule_counter = PM_RESCHEDULE_LIMIT;
-+	drm_WARN_ON(&vdev->drm, ret < 0);
- 
- 	return ret;
- }
-@@ -365,7 +357,6 @@ void ivpu_pm_init(struct ivpu_device *vdev)
- 	int delay;
- 
- 	pm->vdev = vdev;
--	pm->suspend_reschedule_counter = PM_RESCHEDULE_LIMIT;
- 
- 	init_rwsem(&pm->reset_lock);
- 	atomic_set(&pm->reset_pending, 0);
-diff --git a/drivers/accel/ivpu/ivpu_pm.h b/drivers/accel/ivpu/ivpu_pm.h
-index ec60fbeefefc..e524412765be 100644
---- a/drivers/accel/ivpu/ivpu_pm.h
-+++ b/drivers/accel/ivpu/ivpu_pm.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- * Copyright (C) 2020-2023 Intel Corporation
-+ * Copyright (C) 2020-2024 Intel Corporation
-  */
- 
- #ifndef __IVPU_PM_H__
-@@ -19,7 +19,6 @@ struct ivpu_pm_info {
- 	atomic_t reset_counter;
- 	atomic_t reset_pending;
- 	bool is_warmboot;
--	u32 suspend_reschedule_counter;
- };
- 
- void ivpu_pm_init(struct ivpu_device *vdev);
+ 	if (ivpu_hw_ip_gen(vdev) == IVPU_HW_IP_37XX)
 -- 
 2.45.1
 
