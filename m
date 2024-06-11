@@ -2,89 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4935190386E
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 12:09:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A41903909
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 12:37:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55AD610E585;
-	Tue, 11 Jun 2024 10:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 448F910E58E;
+	Tue, 11 Jun 2024 10:37:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="e1NRlnBM";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="Xae1nHkV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F212510E4A6
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 10:09:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1718100586;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v9ktNk7k/0aYvyjCtpqZ6+hDDn8yBM6jUxeDl6eCn5c=;
- b=e1NRlnBMH3sVkry0ab9ogNLmEFQQnW5R+Kh2NrwYnAlzLt2YkNjliO1H41E6seN3CSCHW/
- fZqrr+enz0/8CjBrNtfjsITp2ANulaXEq6b4AN5hIG+xie8wfN0SAqvwlqsoDZqLkFHA3+
- NQS0U3JNufFRWJcXZFlc5gsdxY3lUGs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-231-XbFTwiRjNG-DUSjKqyrvHQ-1; Tue, 11 Jun 2024 06:09:44 -0400
-X-MC-Unique: XbFTwiRjNG-DUSjKqyrvHQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-35dc0949675so3850780f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 03:09:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718100583; x=1718705383;
- h=content-transfer-encoding:in-reply-to:organization:from:cc
- :content-language:references:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=v9ktNk7k/0aYvyjCtpqZ6+hDDn8yBM6jUxeDl6eCn5c=;
- b=vXtHKboT8Wc7mQJWaWMnJtiOzhf4jej5QltE5wNK6mo0y019w4d3L3PYbyq+YcqAUb
- HVKC/lILX6TlpbfJ94JMt8m+Tdgz8JVpzgIzrb9XB/JhBa1lTgMe9L0FnTeEGX87nKTV
- e7qwWZdDRZpfBk2J9Ptqq5nf7AcCeIoQKno56v2IvFpGoBG4e0sEqO2TSfj5l9p+hD+T
- AdxSTlBeEBH2ImFNsNAzaMa0hXloxX82BxdEjWfuZZzqmd6I2NWx+CIP2sdyEpqIbmym
- P+K27ClH7mZSSXrw0ktBNWCsD4ZyK0qcu/KIUD1DJ8r68XVgmj/9L5dQw2mDKahkGF8U
- KEzA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVchkPMt+6wSYaYMSCG8nBb1+50g3dtdMoofq6bKL561/1UNKwnNbl/SBTpHBAfojjyS7yEgJk1XZZuuI4BzUf/nu/eQsz/7EVcFc3zYdmX
-X-Gm-Message-State: AOJu0YyHW2RYIQQJRhuSvMCtMZUFDWg/lxa9+0ZkKYGRzfdrhZwfE0cK
- z/la+vp2gGL+h8ekRvvSef4zxvpPuNVVamgFsgJBFLb0akHwBzXLfT1mTWYVO2YC65Kw60Ag56Z
- 9UQat8vT7FZcliMnDEHziGi4XBPmL0+RmLMqGppfMuwwIgTN5GHYV7G6VXAXxd8i6Xw==
-X-Received: by 2002:a5d:688d:0:b0:35f:247e:fbc3 with SMTP id
- ffacd0b85a97d-35f247efe8fmr4059096f8f.3.1718100583506; 
- Tue, 11 Jun 2024 03:09:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHwdqlVHaTXmPpsCH9dotUi8Rrqghxxaa3Jv+kO9Q6WH/zO2gBDxubgEw4/R1c1/SBZJ5eJUA==
-X-Received: by 2002:a5d:688d:0:b0:35f:247e:fbc3 with SMTP id
- ffacd0b85a97d-35f247efe8fmr4059077f8f.3.1718100583155; 
- Tue, 11 Jun 2024 03:09:43 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-35f228cbfb8sm5659345f8f.57.2024.06.11.03.09.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Jun 2024 03:09:42 -0700 (PDT)
-Message-ID: <48e7872e-64df-49b8-ac2e-0a45db556069@redhat.com>
-Date: Tue, 11 Jun 2024 12:09:41 +0200
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FD7D10E58E;
+ Tue, 11 Jun 2024 10:37:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+ :Subject; bh=RJEjwUTNqxARRNi+A8Omlry3cWQer/5aK7szXPhq1oE=; b=Xae1nHkVIBr4AJjv
+ Tg/tcKEZ3do6YJRnY/vmjK6quHsH4TrVpocgmXHoOnW3d5KRWVRGisngBN7bX3Yb4c5x/QrzqpFW8
+ XIIBYG49XKCAoDk7Z2SSu70R+ENQ2DsJohrS6abpCdnZqMhdNRvLwMuXS1kqdyMo3CyyEXz8GTURO
+ yLBD8Ye+7BMxjEFcEQpgNdXXGNvO+mcmf5NE+/HgzJR+nBlfMqTPfNNDv96VnkQSyvM7kJEP3F669
+ tjqAZ1eRsttZvlBt4jY/2rF+inQMJTBzRIbxswrwsAxAJOYTdYMOHabK3JrJwxlNV6JI6hZUiKL/o
+ BS0er4lRBbAZCqGL1A==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+ (envelope-from <dg@treblig.org>) id 1sGysk-005X9R-13;
+ Tue, 11 Jun 2024 10:37:38 +0000
+Date: Tue, 11 Jun 2024 10:37:38 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Danilo Krummrich <dakr@redhat.com>
+Cc: daniel@ffwll.ch, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kherbst@redhat.com, lyude@redhat.com
+Subject: Re: [PATCH 2/6] drm/nouveau: remove unused struct 'init_exec'
+Message-ID: <Zmgo8leSWpsjVVBS@gallifrey>
+References: <20240517232617.230767-1-linux@treblig.org>
+ <de79f41d-3a9b-4f15-b270-246af8b4c5b0@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/nouveau: don't attempt to schedule hpd_work on
- headless cards
-To: Vasily Khoruzhick <anarsoul@gmail.com>
-References: <20240607221032.25918-1-anarsoul@gmail.com>
-Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Ben Skeggs <bskeggs@nvidia.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20240607221032.25918-1-anarsoul@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <de79f41d-3a9b-4f15-b270-246af8b4c5b0@redhat.com>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 10:36:34 up 33 days, 21:50, 1 user, load average: 0.07, 0.02, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,96 +60,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/8/24 00:09, Vasily Khoruzhick wrote:
-> If the card doesn't have display hardware, hpd_work and hpd_lock are
-> left uninitialized which causes BUG when attempting to schedule hpd_work
-> on runtime PM resume.
+* Danilo Krummrich (dakr@redhat.com) wrote:
+> On 5/18/24 01:26, linux@treblig.org wrote:
+> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> > 
+> > 'init_exec' is unused since
+> > commit cb75d97e9c77 ("drm/nouveau: implement devinit subdev, and new
+> > init table parser")
+> > Remove it.
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 > 
-> Fix it by adding headless flag to DRM and skip any hpd if it's set.
+> Acked-by: Danilo Krummrich <dakr@redhat.com>
 > 
-> Fixes: ae1aadb1eb8d ("nouveau: don't fail driver load if no display hw present.")
-> Link: https://gitlab.freedesktop.org/drm/nouveau/-/issues/337
-> Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+> To which series does this patch belong?
 
-Applied to drm-misc-fixes, thanks!
+Actually all of them were independent patches on drm
+some of which are all in, so it can be taken by itself.
 
-> ---
-> v2: drop extra checks in nouveau_display_hpd_work() and
-> nouveau_connector_hpd()
-> 
->   drivers/gpu/drm/nouveau/dispnv04/disp.c   | 2 +-
->   drivers/gpu/drm/nouveau/dispnv50/disp.c   | 2 +-
->   drivers/gpu/drm/nouveau/nouveau_display.c | 6 +++++-
->   drivers/gpu/drm/nouveau/nouveau_drv.h     | 1 +
->   4 files changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/disp.c b/drivers/gpu/drm/nouveau/dispnv04/disp.c
-> index 13705c5f1497..4b7497a8755c 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/disp.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/disp.c
-> @@ -68,7 +68,7 @@ nv04_display_fini(struct drm_device *dev, bool runtime, bool suspend)
->   	if (nv_two_heads(dev))
->   		NVWriteCRTC(dev, 1, NV_PCRTC_INTR_EN_0, 0);
->   
-> -	if (!runtime)
-> +	if (!runtime && !drm->headless)
->   		cancel_work_sync(&drm->hpd_work);
->   
->   	if (!suspend)
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> index 88728a0b2c25..674dc567e179 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> @@ -2680,7 +2680,7 @@ nv50_display_fini(struct drm_device *dev, bool runtime, bool suspend)
->   			nv50_mstm_fini(nouveau_encoder(encoder));
->   	}
->   
-> -	if (!runtime)
-> +	if (!runtime && !drm->headless)
->   		cancel_work_sync(&drm->hpd_work);
->   }
->   
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
-> index aed5d5b51b43..d4725a968827 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_display.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-> @@ -450,6 +450,9 @@ nouveau_display_hpd_resume(struct drm_device *dev)
->   {
->   	struct nouveau_drm *drm = nouveau_drm(dev);
->   
-> +	if (drm->headless)
-> +		return;
-> +
->   	spin_lock_irq(&drm->hpd_lock);
->   	drm->hpd_pending = ~0;
->   	spin_unlock_irq(&drm->hpd_lock);
-> @@ -635,7 +638,7 @@ nouveau_display_fini(struct drm_device *dev, bool suspend, bool runtime)
->   	}
->   	drm_connector_list_iter_end(&conn_iter);
->   
-> -	if (!runtime)
-> +	if (!runtime && !drm->headless)
->   		cancel_work_sync(&drm->hpd_work);
->   
->   	drm_kms_helper_poll_disable(dev);
-> @@ -729,6 +732,7 @@ nouveau_display_create(struct drm_device *dev)
->   		/* no display hw */
->   		if (ret == -ENODEV) {
->   			ret = 0;
-> +			drm->headless = true;
->   			goto disp_create_err;
->   		}
->   
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
-> index e239c6bf4afa..25fca98a20bc 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_drv.h
-> +++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
-> @@ -276,6 +276,7 @@ struct nouveau_drm {
->   	/* modesetting */
->   	struct nvbios vbios;
->   	struct nouveau_display *display;
-> +	bool headless;
->   	struct work_struct hpd_work;
->   	spinlock_t hpd_lock;
->   	u32 hpd_pending;
+> Need me to apply it?
 
+Yes please!
+
+Thanks,
+
+Dave
+
+> - Danilo
+> 
+> > ---
+> >   drivers/gpu/drm/nouveau/nouveau_bios.c | 5 -----
+> >   1 file changed, 5 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_bios.c b/drivers/gpu/drm/nouveau/nouveau_bios.c
+> > index 79cfab53f80e..8c3c1f1e01c5 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_bios.c
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_bios.c
+> > @@ -43,11 +43,6 @@
+> >   #define BIOSLOG(sip, fmt, arg...) NV_DEBUG(sip->dev, fmt, ##arg)
+> >   #define LOG_OLD_VALUE(x)
+> > -struct init_exec {
+> > -	bool execute;
+> > -	bool repeat;
+> > -};
+> > -
+> >   static bool nv_cksum(const uint8_t *data, unsigned int length)
+> >   {
+> >   	/*
+> 
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
