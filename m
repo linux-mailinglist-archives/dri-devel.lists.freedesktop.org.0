@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6296903C74
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 14:53:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF869903C6F
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 14:53:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD1210E632;
-	Tue, 11 Jun 2024 12:53:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D450D10E622;
+	Tue, 11 Jun 2024 12:53:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ce+JtL15";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1BArwPwp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ce+JtL15";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1BArwPwp";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Thi1PAzl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ol5yWXRp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PMXu61oh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="37yBh2+e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12C9010E52A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3781010E601
  for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 12:53:30 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AB86A219AB;
- Tue, 11 Jun 2024 12:53:28 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 030A2219B1;
+ Tue, 11 Jun 2024 12:53:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1718110408; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HM8L2if4MTBGwGCVJnOE6t8p537Zs6Zd3ep977Q7VSM=;
- b=ce+JtL15PBnpeotl/c0F+lyleAVznpIamAfoqUH9FsRLsM/pG6yy/oJUzpZkew/YvExay2
- tm+d0N9+2rbonae0vqVIsA+QZflO9kTEDhXN9UiZqiS84Xka6dOAI367C2Ug7LACu4iSiY
- is5dg+whOSNR6lHiTfghpLlH4N+y/Ek=
+ bh=LwpM7WQiWCVd5LwnaxwSFD2RRkoVuyMxr2MCQD78qH8=;
+ b=Thi1PAzlHNiZd2qvSSexbpwom0OVzbvp/a1xIyebx59yunHdwlntToYxlkOCD1CYelUjCf
+ zqvKrl38u8ZUOzDexcrQioVZADZLD9kBsOScJqGOMH+aQ68nuzim9GBZUo0griRW4ze1xE
+ qGA5xs3Ahv8r2rKH2gHClvay6VzVwBk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1718110408;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HM8L2if4MTBGwGCVJnOE6t8p537Zs6Zd3ep977Q7VSM=;
- b=1BArwPwpHjEW+1saBckh1hezUsMdlix2tATIeYzLNeMYIfmiVmKjoVLxDhE8Z/ayjwJVqe
- 4fJkwM/O2+nDkoAA==
+ bh=LwpM7WQiWCVd5LwnaxwSFD2RRkoVuyMxr2MCQD78qH8=;
+ b=Ol5yWXRpDkxCETToPkPvNQEn2KVgY228TGDDiWpioZq6K/m7vdJ62naB8jj5+9Qydln1XC
+ r77Jt2ClkP5xzOBA==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1718110408; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1718110409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HM8L2if4MTBGwGCVJnOE6t8p537Zs6Zd3ep977Q7VSM=;
- b=ce+JtL15PBnpeotl/c0F+lyleAVznpIamAfoqUH9FsRLsM/pG6yy/oJUzpZkew/YvExay2
- tm+d0N9+2rbonae0vqVIsA+QZflO9kTEDhXN9UiZqiS84Xka6dOAI367C2Ug7LACu4iSiY
- is5dg+whOSNR6lHiTfghpLlH4N+y/Ek=
+ bh=LwpM7WQiWCVd5LwnaxwSFD2RRkoVuyMxr2MCQD78qH8=;
+ b=PMXu61ohKETb10gjoMfo8dZNh9v+k4WSgzRnDDM2nsIbbTneYmAkAEYB41ueAbyPom3Zfh
+ XZavBh3wWJChiMuPvVgw96mcrr9vZgwZRqsw6yoqL7ti3BbX3sIkzcj/WaJuSMoyO2POU1
+ jC1sszKAtfAqXtTu1ffBvfP67DDFGTg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1718110408;
+ s=susede2_ed25519; t=1718110409;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HM8L2if4MTBGwGCVJnOE6t8p537Zs6Zd3ep977Q7VSM=;
- b=1BArwPwpHjEW+1saBckh1hezUsMdlix2tATIeYzLNeMYIfmiVmKjoVLxDhE8Z/ayjwJVqe
- 4fJkwM/O2+nDkoAA==
+ bh=LwpM7WQiWCVd5LwnaxwSFD2RRkoVuyMxr2MCQD78qH8=;
+ b=37yBh2+eSJlN9JuzyqOabX66Z6M2KNb5qQS/rd5fxTe2G0KjKy8o+DUtMswqQcVgF9hlKn
+ YoMWBPS3k+ax44Aw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 65C9A13AAB;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B1584137DF;
  Tue, 11 Jun 2024 12:53:28 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id MO+vF8hIaGbxMgAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id COH7KchIaGbxMgAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Tue, 11 Jun 2024 12:53:28 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
@@ -77,19 +77,23 @@ To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  ukleinek@kernel.org
 Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-pwm@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 15/17] backlight: pwm-backlight: Use backlight power constants
-Date: Tue, 11 Jun 2024 14:42:10 +0200
-Message-ID: <20240611125321.6927-16-tzimmermann@suse.de>
+Subject: [PATCH 16/17] backlight: rave-sp-backlight: Use backlight power
+ constants
+Date: Tue, 11 Jun 2024 14:42:11 +0200
+Message-ID: <20240611125321.6927-17-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240611125321.6927-1-tzimmermann@suse.de>
 References: <20240611125321.6927-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -6.80
+X-Spam-Level: 
 X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
  BAYES_HAM(-3.00)[100.00%]; MID_CONTAINS_FROM(1.00)[];
  NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
  RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
  ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
  FROM_EQ_ENVFROM(0.00)[];
@@ -100,9 +104,6 @@ X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
  R_RATELIMIT(0.00)[to_ip_from(RLbaz54pzrc9psah3tsaj8ddaq)];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
-X-Spam-Flag: NO
-X-Spam-Score: -6.80
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,31 +125,22 @@ change in functionality.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/backlight/pwm_bl.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/backlight/rave-sp-backlight.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
-index 61d30bc98eea5..c9b5224464311 100644
---- a/drivers/video/backlight/pwm_bl.c
-+++ b/drivers/video/backlight/pwm_bl.c
-@@ -426,7 +426,7 @@ static int pwm_backlight_initial_power_state(const struct pwm_bl_data *pb)
- 
- 	/* Not booted with device tree or no phandle link to the node */
- 	if (!node || !node->phandle)
--		return FB_BLANK_UNBLANK;
-+		return BL_CORE_UNBLANK;
- 
- 	/*
- 	 * If the driver is probed from the device tree and there is a
-@@ -434,7 +434,7 @@ static int pwm_backlight_initial_power_state(const struct pwm_bl_data *pb)
- 	 * assume that another driver will enable the backlight at the
- 	 * appropriate time. Therefore, if it is disabled, keep it so.
- 	 */
--	return active ? FB_BLANK_UNBLANK: FB_BLANK_POWERDOWN;
-+	return active ? BL_CORE_UNBLANK : BL_CORE_POWERDOWN;
- }
- 
- static int pwm_backlight_probe(struct platform_device *pdev)
+diff --git a/drivers/video/backlight/rave-sp-backlight.c b/drivers/video/backlight/rave-sp-backlight.c
+index 05b5f003a3d1a..7a564a4e46e07 100644
+--- a/drivers/video/backlight/rave-sp-backlight.c
++++ b/drivers/video/backlight/rave-sp-backlight.c
+@@ -19,7 +19,7 @@ static int rave_sp_backlight_update_status(struct backlight_device *bd)
+ {
+ 	const struct backlight_properties *p = &bd->props;
+ 	const u8 intensity =
+-		(p->power == FB_BLANK_UNBLANK) ? p->brightness : 0;
++		(p->power == BL_CORE_UNBLANK) ? p->brightness : 0;
+ 	struct rave_sp *sp = dev_get_drvdata(&bd->dev);
+ 	u8 cmd[] = {
+ 		[0] = RAVE_SP_CMD_SET_BACKLIGHT,
 -- 
 2.45.2
 
