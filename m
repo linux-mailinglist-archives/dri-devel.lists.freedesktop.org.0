@@ -2,119 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C152D904325
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 20:09:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E5B904351
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 20:16:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7105110E159;
-	Tue, 11 Jun 2024 18:09:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA35610E6E6;
+	Tue, 11 Jun 2024 18:16:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="F/3IZsr1";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="H7sTyp+y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A127810E722
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 18:09:32 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-a68b41ef3f6so677469266b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 11:09:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1718129370; x=1718734170;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+lxPetrPpHvENSTokBRC6xognbIAj4RmicEAyuXDxTU=;
- b=F/3IZsr1vSxdKmY/vRNrthNp8X/YRDkdZKAPbSKPyf28b7deOAB8JdLugwWooQvEIR
- kCjsMk+cwGVnM9hBdOiK7lynCMQqIoAZdWF83t8SXfHlUI8w/wIcFkf/RE8lBD/7e4Kp
- 2INThTcm/s6Gb4VEIfRZ9lXFoL9veLH3J+n3H6HrkiGCYMDQxLYPY0jvn9T22KF/MaJM
- 1UqcoUvWWj/bJY+8lPjJcLXfrJWgncEMBBXMcd9c/HntU0patiiDZ2gf5OwLT9e0KhDW
- aXcukAlpYbAK/RcXbxa5DxMP7WrKoce87QYrdf/yPnYBWKvm+zxjK63bmg91zAEnW10n
- 5OEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718129370; x=1718734170;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+lxPetrPpHvENSTokBRC6xognbIAj4RmicEAyuXDxTU=;
- b=ke+XufA6yQYoxfOwR6cYGvOgYWYLH6IGUKuDddGLcFRpFoP1V3udpBvI/k+pPYceqG
- MXZnxqexqhZw6Ss4jUZUxrjNomk6AA4JYrepytlYh5eOK4sNc7tED2+Eh3BAVblJ29DK
- XrlCE5m8GaXeAVdrJEFDZZegYzEKjH3dGQeZVGSf64ye9vGZp5pZPQK3pSGGRuocVyy3
- YG/ZmZPi2vHcuKpWioLjj/q8RAOZ9YEZ9TMj6ho7xon8JXoUhIQW2jh/a8pa7W48AXOx
- /nFyU9ux2pFVE4G5jDisEu725vFeG0sr0b3/N0VJGrQyBwXwEM1R8M3mP18UkG6eQBsu
- 3WUQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWVGZ7Gkjln4ZIHNwXWhcNgcrVY/9dIOW+9ExsIOy2TPZTE5QrgXWCAKr57StGM5XPFV9rLrfx/U1IycIYLnMue4ep7UYou/SEox8eXRM8r
-X-Gm-Message-State: AOJu0YyFdvbcufehmXHEQr1SqxB7I5dnHpW9MxrdH0sb3k8hFclkQiME
- uhMQPsjDW+/oSi3v2QAgsbb8KkEol2b357TAxr+vMtf6k4txNMJB5ZckUEsFi1M23TSBWhDkRl1
- 6/qXZPbQ0MZfAdT9Sd826nSK/GjzRktEHM0+z
-X-Google-Smtp-Source: AGHT+IHSnbMlQQE9x/zPWpkI90JIlOTBHgyEzLn5RoXQZyiGaSSB2YwhfXwjdqq72pgI+LQF0hGDSafJjuWqavJQlB4=
-X-Received: by 2002:a17:906:4742:b0:a6f:393a:9dea with SMTP id
- a640c23a62f3a-a6f393aa161mr132795366b.77.1718129370030; Tue, 11 Jun 2024
- 11:09:30 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E248810E6E6;
+ Tue, 11 Jun 2024 18:16:03 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45BClV2A008099;
+ Tue, 11 Jun 2024 18:15:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 9lAOe/MTNKXIcRfw4OLEZdwYeoSOv3urLU5CVFUEk9s=; b=H7sTyp+yyN+IIgxe
+ NZDKD4RwPb2UFKAe5uE+b1gfRl12Jg/giVYuzGG/wxQvgT0j+mV2rMiXn6EESnA7
+ aKMwNFhKP4yGYP1AsZgJ8NwexyTOFBBq3tKzeoMl/5u2QxTo3JghhCkNRovNAxuW
+ XU1Y2+VTSBbo6u8/Q2QcPYGDvNFKAldN+hyvasIX5pg6fmOLZneXoQjQWrmrsIUD
+ ro0G6S+2q7oft4jbHrnl5K54w5OFJ40QWd/Q/rrWFjkVlsKncbgZuP3E8qFNZ++q
+ SRI6+gxMO5z+CN1kpix2VGXrVcUs9hl2UT5PftpgJZ/Ydoscc4xN2pebz/63IGsi
+ ekr45A==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ymcnmy3m1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Jun 2024 18:15:59 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45BIFvwW005391
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Jun 2024 18:15:57 GMT
+Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 11 Jun
+ 2024 11:15:57 -0700
+Message-ID: <66e7c762-8bbc-447a-8e06-c2616c305a5d@quicinc.com>
+Date: Tue, 11 Jun 2024 11:15:57 -0700
 MIME-Version: 1.0
-References: <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
- <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
- <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
- <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
- <20240607145247.GG791043@ziepe.ca>
- <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
- <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com>
- <20240610121625.GI791043@ziepe.ca>
- <59443d14-1f1d-42bb-8be3-73e6e4a0b683@kernel.org>
- <00c67cf0-2bf3-4eaf-b200-ffe00d91593b@gmail.com>
- <20240610221500.GN791043@ziepe.ca>
-In-Reply-To: <20240610221500.GN791043@ziepe.ca>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 11 Jun 2024 11:09:15 -0700
-Message-ID: <CAHS8izNRd=f=jHgrYKKfzgcU3JzkZA1NkZnbQM+hfYd8-0NyBQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
- custom page providers
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Pavel Begunkov <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>, 
- David Wei <dw@davidwei.uk>, Christoph Hellwig <hch@infradead.org>,
- netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, 
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
- Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/14] drm/msm/hdmi: move the alt_iface clock to the
+ hpd list
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul
+ <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
+ Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20240522-fd-hdmi-hpd-v2-0-c30bdb7c5c7e@linaro.org>
+ <20240522-fd-hdmi-hpd-v2-1-c30bdb7c5c7e@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20240522-fd-hdmi-hpd-v2-1-c30bdb7c5c7e@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: Qi4IxX2dDs28nvQ2jtxuUAn4IueEIEKx
+X-Proofpoint-ORIG-GUID: Qi4IxX2dDs28nvQ2jtxuUAn4IueEIEKx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-11_09,2024-06-11_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ impostorscore=0 clxscore=1015 adultscore=0 phishscore=0 spamscore=0
+ priorityscore=1501 malwarescore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406110125
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,50 +95,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 10, 2024 at 3:15=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wrot=
-e:
->
-> On Mon, Jun 10, 2024 at 08:20:08PM +0100, Pavel Begunkov wrote:
-> > On 6/10/24 16:16, David Ahern wrote:
->
-> > > > There is no reason you shouldn't be able to use your fast io_uring
-> > > > completion and lifecycle flow with DMABUF backed memory. Those are =
-not
-> > > > widly different things and there is good reason they should work
-> > > > together.
-> >
-> > Let's not mix up devmem TCP and dmabuf specifically, as I see it
-> > your question was concerning the latter: "... DMABUF memory registered
-> > through Mina's mechanism". io_uring's zcrx can trivially get dmabuf
-> > support in future, as mentioned it's mostly the setup side. ABI,
-> > buffer workflow and some details is a separate issue, and I don't
-> > see how further integration aside from what we're already sharing
-> > is beneficial, on opposite it'll complicate things.
->
-> Again, I am talking about composability here, duplicating the DMABUF
-> stuff into io_uring is not composable, it is just duplicating things.
->
-> It does not match the view that there should be two distinct layers
-> here, one that provides the pages and one that manages the
-> lifecycle. As HCH pushes for pages either come from the allocator and
-> get to use the struct folio or the come from a dmabuf and they
-> don't. That is it, the only two choices.
->
-> The iouring stuff is trying to confuse the source of the pages with
-> the lifecycle - which is surely convenient, but is why Christoph is
-> opposing it.
->
 
-Just curious: in Pavel's effort, io_uring - which is not a device - is
-trying to share memory with the page_pool, which is also not a device.
-And Pavel is being asked to wrap the memory in a dmabuf. Is dmabuf
-going to be the kernel's standard for any memory sharing between any 2
-components in the future, even when they're not devices? As in you
-expect dmabuf exporters which are not devices to be added to the
-kernel? Currently the only dmabuf exporter which is not a device
-(AFAIK) is udmabuf, which is used for testing and emulation, not
-really a production thing, I think.
 
---=20
+On 5/22/2024 3:50 AM, Dmitry Baryshkov wrote:
+> According to the vendor kernel [1] , the alt_iface clock should be
+> enabled together with the rest of HPD clocks, to make HPD to work
+> properly.
+> 
+> [1] https://git.codelinaro.org/clo/la/kernel/msm-3.18/-/commit/e07a5487e521e57f76083c0a6e2f995414ac6d03
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Hi Dmitry,
+
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
 Thanks,
-Mina
+
+Jessica Zhang
+
+> ---
+>   drivers/gpu/drm/msm/hdmi/hdmi.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> index 24abcb7254cc..108c86925780 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> @@ -235,9 +235,9 @@ static const struct hdmi_platform_config hdmi_tx_8960_config = {
+>   };
+>   
+>   static const char *pwr_reg_names_8x74[] = {"core-vdda", "core-vcc"};
+> -static const char *pwr_clk_names_8x74[] = {"extp", "alt_iface"};
+> -static const char *hpd_clk_names_8x74[] = {"iface", "core", "mdp_core"};
+> -static unsigned long hpd_clk_freq_8x74[] = {0, 19200000, 0};
+> +static const char *pwr_clk_names_8x74[] = {"extp"};
+> +static const char *hpd_clk_names_8x74[] = {"iface", "core", "mdp_core", "alt_iface"};
+> +static unsigned long hpd_clk_freq_8x74[] = {0, 19200000, 0, 0};
+>   
+>   static const struct hdmi_platform_config hdmi_tx_8974_config = {
+>   		HDMI_CFG(pwr_reg, 8x74),
+> 
+> -- 
+> 2.39.2
+> 
