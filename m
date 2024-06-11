@@ -2,82 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC5A903E28
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 15:58:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0960E903E3A
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 15:59:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A621310E66C;
-	Tue, 11 Jun 2024 13:58:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9861710E666;
+	Tue, 11 Jun 2024 13:59:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="Vb1ptMjH";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="nLbjP9f3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD91E10E166
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 13:58:06 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-42138eadf64so9612115e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 06:58:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1718114285; x=1718719085;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=OCbu1H3n5MHTe61K5ap400pux/SApVi5XtmKitLKrUs=;
- b=Vb1ptMjHljacp3jnH7tQAr/7gcWdzhJoQfYx7Xc5nuLwDLdPoM25ahPTnCN3ViecOb
- S2OIb+436PlnBcIF8bkmVibFn1bT5B0rnsDVfG6xHD4QnF1zPGcXFTOeZbRMmfeQk1TJ
- 7yE36p2MjuKT/Y4csL2e8pZze9H6PzwOGAIiBsS/qdGnHyoHHPWe2b64LrW3uKQDm+uM
- EpWLrKlB+cnfMCHsy54eh0TSDX5fxyhDoxz/aQcHF4dk1EmHQ1Sc9kKBCXCmMDtSz7UT
- /Pejeah8DD7JHacCAIcBQTcynZC5v1LUdsIXLb9jean3SUBf0AdFgkc58HWG0mf0HwQv
- fVEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718114285; x=1718719085;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OCbu1H3n5MHTe61K5ap400pux/SApVi5XtmKitLKrUs=;
- b=GzpyTldGJHDOxMlluKS4PUqW6KMKdbYRopvadIySZ62gpDt4naAIDpwV31fFg0UyX1
- PyvuqFrbmlJH4decmFvMilvVgxy9AvaQq6ZdCYFEf4mnH1FANc8c1ux5EDhZWExfBJOW
- JZ660gaCHaEzgQ0Le5+N3vKXPHolu/Q/0qGXupufunmL3IvTIy81036/MHZsyNYyTq4H
- SqpxOIiHxqinlvcgUDzguJLjyHzdf9cFzNRPHqKkdMn9qcrYkyQk+4ccNz8gKhpMuXax
- bcbJ0ugREA3nxpnrkAMyfSKYU8x5YMrBIUUo2r2f0A1iVk1YCz5P7W1uh/SkX7fm4fVZ
- iGMQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVd+5q3ElFxm88G9jyOQdBXAoJkTU+9v6dwLsoQLOhkIo6cuOWrPNG3DExAXpMPFQXngC1QL97qToTpUC0SSj4R68qhUksOp0wond3Jh+eA
-X-Gm-Message-State: AOJu0YwSl3uUQhtdgPwGWV89levLdc99hA1N2VOIagfXZhBOH7AnSopI
- qwkdx76Lb5VlCn3twBcm2Z7uIZ5sFucuJpoKs7XXZVtjZOSulMDKJlqiMCPzyOc=
-X-Google-Smtp-Source: AGHT+IHTtJWpZeLrGy8DozD2HLw4472tTTmF71Bd6yVynmD2Fn5rz88FpkURGcO/pAy1AqMSJGDkCg==
-X-Received: by 2002:a05:600c:1c29:b0:421:7da5:c1e7 with SMTP id
- 5b1f17b1804b1-4217da5c7eamr70816615e9.2.1718114284815; 
- Tue, 11 Jun 2024 06:58:04 -0700 (PDT)
-Received: from [192.168.0.101] ([84.69.19.168])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-421580fe3cfsm210776225e9.9.2024.06.11.06.58.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Jun 2024 06:58:04 -0700 (PDT)
-Message-ID: <22fc70cd-b836-4694-b69a-c273e5000b2e@ursulin.net>
-Date: Tue, 11 Jun 2024 14:58:03 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32E2310E166;
+ Tue, 11 Jun 2024 13:59:33 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45BA7qdB016879;
+ Tue, 11 Jun 2024 13:59:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ dxaROFs1iF2+cQLuAxUw+KpjAAlVxc/tDaPar/eQXwk=; b=nLbjP9f3CWn3vI5m
+ 0wuRdFX98e2vjfXxaCRBeGfQNalun3BH49257azkIRLfjKKe1ug/p7m5bgtGmriL
+ +7YizvDHhPAyDwfTW6PZ0dts4GAxQCB5Usl/pGvsOEB8kDegWLEtbzDWu/RiXfY7
+ rTt8yrm4WY70yhMGjkcXwb2maMoYtkw7UdjgQRJgtR5lZwPyn12lbL0qI7IczIAj
+ C89MJHSwWMFVKiZHEmzKUbw3zDUPJL4k1hmMUFGYc2UEmEX/YQn953BzNSuth5X2
+ lO76t54vSY6yaOyLvnx5uY9Ul/GR8so2/ALKo7cukRTefr5NO8QO4YBuVD7rwQTB
+ GQE7Lg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ypmjarm8x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Jun 2024 13:59:26 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45BDxP9i010242
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Jun 2024 13:59:25 GMT
+Received: from [10.48.243.20] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 11 Jun
+ 2024 06:59:24 -0700
+Message-ID: <3f796712-4ab8-47d6-bb68-1a3f2d3d0ffd@quicinc.com>
+Date: Tue, 11 Jun 2024 06:59:16 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/i915/gt: debugfs: Evaluate forcewake usage within
- locks
-Content-Language: en-GB
-To: Nirmoy Das <nirmoy.das@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Nirmoy Das <nirmoy.das@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Andi Shyti <andi.shyti@kernel.org>
-References: <20240607145131.217251-1-andi.shyti@linux.intel.com>
- <4cc62e14-2775-44f3-9857-eaf9598074a5@linux.intel.com>
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <4cc62e14-2775-44f3-9857-eaf9598074a5@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] drm: add missing MODULE_DESCRIPTION() macros
+Content-Language: en-US
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, Zhenyu Wang
+ <zhenyuw@linux.intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <intel-gvt-dev@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <kernel-janitors@vger.kernel.org>
+References: <20240611-md-drivers-gpu-drm-v2-1-0b7d9347b159@quicinc.com>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+In-Reply-To: <20240611-md-drivers-gpu-drm-v2-1-0b7d9347b159@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: kyISZegIPP9aK6hGzjx20Sn3FHfPn_k4
+X-Proofpoint-ORIG-GUID: kyISZegIPP9aK6hGzjx20Sn3FHfPn_k4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-11_07,2024-06-11_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0
+ clxscore=1015 mlxscore=0 impostorscore=0 mlxlogscore=999
+ lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406110101
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,67 +99,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 6/11/2024 6:56 AM, Jeff Johnson wrote:
+> On x86, make allmodconfig && make W=1 C=1 reports:
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/gud/gud.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/i915/kvmgt.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/udl/udl.o
+> 
+> Add the missing invocation of the MODULE_DESCRIPTION() macro to all
+> files which have a MODULE_LICENSE().
+> 
+> For consistency this includes drivers/gpu/drm/drm_simple_kms_helper.c
+> since it contains a MODULE_LICENSE() even though it isn't built as a
+> separate module -- it is always built as part of drm_kms_helper and
+> drm_kms_helper_common.c already provides a MODULE_DESCRIPTION for that
+> module.
+> 
+> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+> ---
+> This is the last in a set of patches to drivers/gpu/drm. The
+> preceeding patches cleaned up subdirectiries that had more than one
+> issue. This patch cleans up the stragglers. Let me know if any of
+> these modifications need to segregated into separate patches.
+> ---
+> Changes in v2:
+> - Removed all references to drivers/gpu/drm/drm_mipi_dbi.c since it is already
+>   being handled by:
+>   https://lore.kernel.org/all/20240425125627.2275559-1-andriy.shevchenko@linux.intel.com/
+> - Link to v1: https://lore.kernel.org/r/20240609-md-drivers-gpu-drm-v1-1-89e9a316d513@quicinc.com
 
-On 10/06/2024 10:24, Nirmoy Das wrote:
-> Hi Andi,
-> 
-> On 6/7/2024 4:51 PM, Andi Shyti wrote:
->> The forcewake count and domains listing is multi process critical
->> and the uncore provides a spinlock for such cases.
->>
->> Lock the forcewake evaluation section in the fw_domains_show()
->> debugfs interface.
->>
->> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> 
-> Needs a Fixes tag, below seems to be correct one.
-> 
-> 
-> Fixes: 9dd4b065446a ("drm/i915/gt: Move pm debug files into a gt aware 
-> debugfs")
-> 
-> Cc: <stable@vger.kernel.org> # v5.6+
-> 
-> Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
-
-What is the back story here and why would it need backporting? IGT cares 
-about the atomic view of user_forcewake_count and individual domains or 
-what?
-
-Regards,
-
-Tvrtko
+Nevermind, as Andy pointed out my v1 has already been applied.
 
 
-> 
-> Regards,
-> 
-> Nirmoy
-> 
-> 
->> ---
->>   drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c 
->> b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
->> index 4fcba42cfe34..0437fd8217e0 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
->> @@ -71,6 +71,8 @@ static int fw_domains_show(struct seq_file *m, void 
->> *data)
->>       struct intel_uncore_forcewake_domain *fw_domain;
->>       unsigned int tmp;
->> +    spin_lock_irq(&uncore->lock);
->> +
->>       seq_printf(m, "user.bypass_count = %u\n",
->>              uncore->user_forcewake_count);
->> @@ -79,6 +81,8 @@ static int fw_domains_show(struct seq_file *m, void 
->> *data)
->>                  intel_uncore_forcewake_domain_to_str(fw_domain->id),
->>                  READ_ONCE(fw_domain->wake_count));
->> +    spin_unlock_irq(&uncore->lock);
->> +
->>       return 0;
->>   }
->>   DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(fw_domains);
