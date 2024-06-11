@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2ABD9040B8
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 18:03:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0CF99040B5
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 18:02:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EAB610E6AA;
-	Tue, 11 Jun 2024 16:02:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 274B710E6A5;
+	Tue, 11 Jun 2024 16:02:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="iCfzCUmx";
+	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="QuwtYk2d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEC5C10E69A
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 16:02:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2ACA510E6AC
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 16:02:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
  Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1718121749; bh=OS3NU+RvpotAQqpVjqqkbRKiRgEhuSmytUWvvgOanmg=;
- b=iCfzCUmxrsPGotKBIFgV0EpR8jdGv89tUywg8QZL1zqw6kySq2ehJfYr2FkinigaCDl3CtKDi
- Qkj1gTivIBxFlOkttduUc892WYoYOzPXA4RA8ceepnrq1Lsatj81g1NKmKlEWXitBKT3UTas4sa
- +sidJ4oTcXoG1tvTRv27X+Osr4nsLm4ZHhTyCJvcjUmdcnGowGdxICujnBj7YyIbDChsaP8DvvM
- kMw3HbktInPUrpTDzHOef/zDtKUqOxb4ycjF8mariq3jlNQ6AQ3e8nc3c44akMifQtFF8okLTAe
- N9btj7FIFPGlY9a/skQea+bnFRxwvT61wZhjNXw8+3fQ==
+ t=1718121749; bh=nlK/Kivspo5uHUE2bxjdk8Lq1XFHOztjsLHLbVDbKeE=;
+ b=QuwtYk2dz/yFy+JRnap5RX/dK4JPLzySux+bl16f8o50T2EteWNVdlZ8AH7MbCcWxWHUe+PgS
+ GTMexP95ZkB7mkTBxqWDr2QOe0700nms79Tj5mFdELs0kCtr+kgp+IFQjOfZpnzwEn4xO4lRbhW
+ YGupfo6Iq0E5yi7Wr8+uatbu0lHy3ZEfTdkbdQkyzyrlHSCeUS4OiULi0a4aQp/V5YR7RvZuyaG
+ NRNDHU8ProU4KHS6NBywhXhJtStLvOiukVuoHfWNX4SNp9NKM1vORTnUVhJ5q3uCLG13LJJ7H5X
+ vYM6mVymPbQUilLY84Oc3M07fB1AcPx3wpGBVMn/nIRA==
 From: Jonas Karlman <jonas@kwiboo.se>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
  <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Maarten
@@ -33,9 +33,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
  Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
  <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 6/8] drm: bridge: dw_hdmi: Remove cec_notifier_mutex
-Date: Tue, 11 Jun 2024 15:50:58 +0000
-Message-ID: <20240611155108.1436502-7-jonas@kwiboo.se>
+Subject: [PATCH 7/8] drm: bridge: dw_hdmi: Update EDID during hotplug
+ processing
+Date: Tue, 11 Jun 2024 15:50:59 +0000
+Message-ID: <20240611155108.1436502-8-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240611155108.1436502-1-jonas@kwiboo.se>
 References: <20240611155108.1436502-1-jonas@kwiboo.se>
@@ -47,7 +48,7 @@ X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
  149.28.215.223
-X-ForwardEmail-ID: 6668728fb913b04293b6dc8a
+X-ForwardEmail-ID: 66687294b913b04293b6dca0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,68 +64,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With CEC phys addr invalidation moved away from the irq handler there is
-no longer a need for cec_notifier_mutex, remove it.
+Update successfully read EDID during hotplug processing to ensure the
+connector diplay_info is always up-to-date.
 
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 0814ca181f04..256e00a97a9a 100644
+index 256e00a97a9a..a9c39584d31b 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -189,7 +189,6 @@ struct dw_hdmi {
- 	void (*enable_audio)(struct dw_hdmi *hdmi);
- 	void (*disable_audio)(struct dw_hdmi *hdmi);
- 
--	struct mutex cec_notifier_mutex;
- 	struct cec_notifier *cec_notifier;
- 
- 	hdmi_codec_plugged_cb plugged_cb;
-@@ -2459,11 +2458,8 @@ dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
+@@ -2458,6 +2458,18 @@ dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
  
  	status = dw_hdmi_detect(hdmi);
  
--	if (status == connector_status_disconnected) {
--		mutex_lock(&hdmi->cec_notifier_mutex);
-+	if (status == connector_status_disconnected)
++	/* Update EDID during hotplug processing (force=false) */
++	if (status == connector_status_connected && !force) {
++		const struct drm_edid *drm_edid;
++
++		drm_edid = dw_hdmi_edid_read(hdmi, connector);
++		if (drm_edid)
++			drm_edid_connector_update(connector, drm_edid);
++		cec_notifier_set_phys_addr(hdmi->cec_notifier,
++			connector->display_info.source_physical_address);
++		drm_edid_free(drm_edid);
++	}
++
+ 	if (status == connector_status_disconnected)
  		cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
--		mutex_unlock(&hdmi->cec_notifier_mutex);
--	}
  
- 	return status;
- }
-@@ -2577,9 +2573,7 @@ static int dw_hdmi_connector_create(struct dw_hdmi *hdmi)
- 	if (!notifier)
- 		return -ENOMEM;
- 
--	mutex_lock(&hdmi->cec_notifier_mutex);
- 	hdmi->cec_notifier = notifier;
--	mutex_unlock(&hdmi->cec_notifier_mutex);
- 
- 	return 0;
- }
-@@ -2877,10 +2871,8 @@ static void dw_hdmi_bridge_detach(struct drm_bridge *bridge)
- {
- 	struct dw_hdmi *hdmi = bridge->driver_private;
- 
--	mutex_lock(&hdmi->cec_notifier_mutex);
- 	cec_notifier_conn_unregister(hdmi->cec_notifier);
- 	hdmi->cec_notifier = NULL;
--	mutex_unlock(&hdmi->cec_notifier_mutex);
- }
- 
- static enum drm_mode_status
-@@ -3303,7 +3295,6 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
- 
- 	mutex_init(&hdmi->mutex);
- 	mutex_init(&hdmi->audio_mutex);
--	mutex_init(&hdmi->cec_notifier_mutex);
- 	spin_lock_init(&hdmi->audio_lock);
- 
- 	ret = dw_hdmi_parse_dt(hdmi);
 -- 
 2.45.2
 
