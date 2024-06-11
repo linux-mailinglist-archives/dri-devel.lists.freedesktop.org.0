@@ -2,82 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B076190409F
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 17:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42210904102
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 18:18:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 911C510E200;
-	Tue, 11 Jun 2024 15:58:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01DEE10E039;
+	Tue, 11 Jun 2024 16:18:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="BMVaOGsY";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="VHwIApY5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28F8A10E200
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 15:58:09 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id
- d75a77b69052e-43fbbd1eb0cso29507321cf.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 08:58:09 -0700 (PDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CABBF10E039
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 16:18:13 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-5751bcb3139so1646878a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 09:18:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1718121486; x=1718726286;
+ d=google.com; s=20230601; t=1718122692; x=1718727492;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ve/uaqN0JHEkOvnOM0N3RhTwkgm+3t8w6LalScKCEEE=;
- b=BMVaOGsYC1QXGFJNwoCTt5Hvwy3YSaPWXC68+yc9mbpaJid7XexDkvpekWz6U+fR60
- TDvKSOm89YKhZcMsgJqB/Lk1L2ft3OjGatSfI8xaHPZp+vyninGQp6io1PHTzI7VAHiT
- scsdDi5gxodaGNgnXTL/VrmXsuGawgpvo0P2M=
+ bh=na2N2aBps+zArVIvZGGC671qT/pe5H2J6aVTa83RG9Y=;
+ b=VHwIApY5Ir3crKRV0kkATBu/RE/b8z8ZlEbMRKL3MVRaqnNj4PNffNQBpouOiYK2JW
+ RnmYoDJAMDRDPolhAoHg4JvXqUPpqPeKhcH5g9bFbSXRDtaErbkVkUZpaG09bdU6ldu/
+ /wLVI6p071XJLPxpmwWdZLbHAydiZsm6u6refSRv2lRIjA4iDo4VJirJnaSlT66GziOI
+ QxH8VGnP2msTdvKp4+g78KHXbujhI9+2VaJptkHpcWHfQ/+39dafSXSMDldQ2qi6jo/0
+ ct8RMZq1RnYLVEZVPp58KD/YVZ7itVd8YCVC9xvKFeU8uZqIvf25rpSNVB6h2oVsURpu
+ aKog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718121486; x=1718726286;
+ d=1e100.net; s=20230601; t=1718122692; x=1718727492;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ve/uaqN0JHEkOvnOM0N3RhTwkgm+3t8w6LalScKCEEE=;
- b=HN/rKDz+uTZZeH68lJ3Vu5NexPezA7H+WOVaiR+xYTAEY+bjUMM3YBZ+teVBDkDN3s
- gVLBx5kL1eqAczNhsH215DdJ0xCOBiArN9ibQrpQwywSxyryOSNJZXhB//Sc5X8gzjAu
- 49NKtZHeujYB//gXWVCWcvAHhv6EfzkYIojagrjmNzWyl5I5dWxqafcM7ntHHiAN/+3o
- G3J/OFgUE/hbKoVJw7lHU6PjHCXQnO5w/DIsSr2D4rp+1AE07RXMnsKbx8VWI2gm96ew
- Fg9/Bh9rRbdNZ1k+QyrRppYSS1GTKBQxQC4Ha7zZWV1mCEH0ARPQ+RJWAJ3ndCphnHuV
- fu/Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW/Tpm/ZBMJ+kA2GBA9VYXvgKxX4WbXUn0+utgz9LvExVs+R8fO75cGb+I978bCdn6Y1nJ0pEdBL/G8dcrpCq/8mL+3PE8mIVpOkx9xAZV6
-X-Gm-Message-State: AOJu0YwR4tsTGbfFghk0lN00ebNT8MeZe9F1t/SFv4d35wVShHefRtda
- nF6anEjhEhozefOVR6H+Bv5nXWwQzg3vqS5EKprSoGCmHTGz+QnDKHLkr6ZCBDthWNuH0nZYFCE
- =
-X-Google-Smtp-Source: AGHT+IGlW87mJVByRVWC/wPBlQYq9gI/XfQfAAY1GS4bJGhAwruzKqCgs3FJCGMTW92nMmOuTnwaLg==
-X-Received: by 2002:ac8:7955:0:b0:440:6263:6f9f with SMTP id
- d75a77b69052e-44062637052mr77335651cf.58.1718121485912; 
- Tue, 11 Jun 2024 08:58:05 -0700 (PDT)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com.
- [209.85.160.175]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-440517524aesm36671331cf.76.2024.06.11.08.58.04
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Jun 2024 08:58:04 -0700 (PDT)
-Received: by mail-qt1-f175.google.com with SMTP id
- d75a77b69052e-4400cc0dad1so540131cf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 08:58:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUooFmRG/x5515w+Evou6TYAPXqhGK6DCg208dtapwmBCc/vTKfKxDBzV8NuVYYLaKa82YWGU2zUOEx1PE4AGBYjTa69yNHr6EaKJCOHZfN
-X-Received: by 2002:a05:622a:550d:b0:440:3996:84aa with SMTP id
- d75a77b69052e-44147988903mr3173161cf.15.1718121484095; Tue, 11 Jun 2024
- 08:58:04 -0700 (PDT)
+ bh=na2N2aBps+zArVIvZGGC671qT/pe5H2J6aVTa83RG9Y=;
+ b=kCRHahOrF/WSNcyzsYXLbwz92XH+GD6iRabXBkD9WETc63fFHy5KjaD5zUi1pW6k0N
+ E9UZj+Wf0k8focp2EcxAzl3m4w84ek4hIZH63LCTFYQYR1FW+dXvjssHrkWLRcuo0tmx
+ /GgsAHXaqwRzPzr1zOnsHBd6JJKl/dMG8CmWhPr2Lfg5RGU7FLjTK9d0VmsyjFvGkS4m
+ c/2kdfUVa7n17xHsYr3yew7OtNcO5oSQjSTMrvYsc34T0hYLaN7f6bajzdXidqzy06QM
+ 3csfvkWn0TKwe6ZLNWeQuHqV3UujX7XxdA14QmUtgxL4jv+tXvLNfbVLHLSJJ2bgh3bP
+ u6Kg==
+X-Gm-Message-State: AOJu0Yw1im/ZVaPqBalltY139tjkK09DrWIsVy1MuFgkKba0Jt4K5EVi
+ uIPUD9VxG6HAMIJmOEL7U4e+joiFQ+VgLEfF48IN0/ib2l2IQVBqiGMSSpNUJh4e5NjNXqo3k2o
+ Kfbnhu300VbpmmQ57nIKaxrv+CWacFmii848u
+X-Google-Smtp-Source: AGHT+IHMr/1xk34wAAvEn0V0+CVzuZqwqewTcIoAVyIAALUM5ZoRoDXCpavBszQCRPcPvyVxo2YymYooG7xymIv57qA=
+X-Received: by 2002:a50:9fad:0:b0:57c:6b68:3ba8 with SMTP id
+ 4fb4d7f45d1cf-57c6b6840acmr6101346a12.12.1718122691662; Tue, 11 Jun 2024
+ 09:18:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <3288287d-8344-4b37-a333-722cf12fef13@gmail.com>
-In-Reply-To: <3288287d-8344-4b37-a333-722cf12fef13@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 11 Jun 2024 08:57:48 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XRuU=eh0HzbDCwFrr5h9s-rOdB5dbANAd-BmMhiHR6Ww@mail.gmail.com>
-Message-ID: <CAD=FV=XRuU=eh0HzbDCwFrr5h9s-rOdB5dbANAd-BmMhiHR6Ww@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/panel : truly-nt35521: transition to mipi_dsi
- wrapped functions
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
+References: <20240611093441.200910-1-carsten.haitzler@foss.arm.com>
+In-Reply-To: <20240611093441.200910-1-carsten.haitzler@foss.arm.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 11 Jun 2024 09:17:58 -0700
+Message-ID: <CABdmKX3jw9QJJEhVTzj-vQbnzoAu3WAzK0OaruO2nbym8A_FNA@mail.gmail.com>
+Subject: Re: [PATCH] drm: Fix alignment of temporary stack ioctl buffers
+To: carsten.haitzler@foss.arm.com
+Cc: dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org, 
+ benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, jstultz@google.com, 
+ christian.koenig@amd.com, Felix.Kuehling@amd.com, alexander.deucher@amd.com, 
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,60 +81,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, Jun 11, 2024 at 2:35=E2=80=AFAM <carsten.haitzler@foss.arm.com> wro=
+te:
+>
+> From: Carsten Haitzler <carsten.haitzler@foss.arm.com>
+>
+> In a few places (core drm + AMD kfd driver), the ioctl handling uses a
+> temporary 128 byte buffer on the stack to copy to/from user. ioctl data
+> can have structs with types of much larger sizes than a byte and a
+> system may require alignment of types in these. At the same time the
+> compiler may align a char buf to something else as it has no idea that
+> this buffer is used for storing structs with such alignment
+> requirements. At a minimum putting in alignment information as an
+> attribute should be a warning in future if an architecture that needs
+> more alignment appears.
+>
+> This was discovered while implementing capability ABI support in Linux
+> on ARM's Morello CPU (128 bit capability "pointers" in userspace, with
+> a 64bit non-capability kernel (hybrid) setup). In this, userspace
+> ioctl structs now had to transport capabilities that needed 16 byte
+> alignment, but the kernel was not putting these data buffers on that
+> alignment boundary.
+>
+> Currently the largest type that is needed is a u64 so the alignment
+> only asks for that.
 
-On Tue, Jun 11, 2024 at 7:44=E2=80=AFAM Tejas Vipin <tejasvipin76@gmail.com=
-> wrote:
+Makes sense to me.
+
+Now that the kernel depends on C11, I think:
+__attribute__((aligned(__alignof__(u64))))
+
+can be simply reduced to:
+_Alignas(u64)
+
+and put first instead of last in the declaration:
+_Alignas(u64) char stack_kdata[128];
+
 >
-> Use functions introduced in commit 966e397e4f60 ("drm/mipi-dsi: Introduce
-> mipi_dsi_*_write_seq_multi()") and commit f79d6d28d8fe
-> ("drm/mipi-dsi: wrap more functions for streamline handling") for the
-> sony tulip truly nt35521 panel.
->
-> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+> Signed-off-by: Carsten Haitzler <carsten.haitzler@foss.arm.com>
 > ---
+>  drivers/dma-buf/dma-heap.c               | 2 +-
+>  drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 2 +-
+>  drivers/gpu/drm/drm_ioctl.c              | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 >
-> Changes in v2:
->     - Fix patch format
->     - Fix code style
->
-> v1: https://lore.kernel.org/all/485eef24-ddad-466a-a89f-f9f226801bb7@gmai=
-l.com/
->
-> ---
->  .../panel/panel-sony-tulip-truly-nt35521.c    | 435 +++++++++---------
->  1 file changed, 209 insertions(+), 226 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c b/dri=
-vers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
-> index 6d44970dccd9..5a050352c207 100644
-> --- a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
-> +++ b/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
-> @@ -44,248 +44,231 @@ static void truly_nt35521_reset(struct truly_nt3552=
-1 *ctx)
->  static int truly_nt35521_on(struct truly_nt35521 *ctx)
+> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> index 84ae708fafe7..a49e20440edf 100644
+> --- a/drivers/dma-buf/dma-heap.c
+> +++ b/drivers/dma-buf/dma-heap.c
+> @@ -126,7 +126,7 @@ static unsigned int dma_heap_ioctl_cmds[] =3D {
+>  static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
+>                            unsigned long arg)
 >  {
->         struct mipi_dsi_device *dsi =3D ctx->dsi;
-> -       struct device *dev =3D &dsi->dev;
-> -       int ret;
-> +
-> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
-
-It's not a huge deal, but normally in the kernel all the variable
-declarations are cuddled together. AKA no blank line between the
-declaration of "dsi" and the declaration of "dsi_ctx". It would be
-awesome if you could send a v3 fixing that. When you send v3, feel
-free to add this above your own Signed-off-by:
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-...with that, the patch will probably sit on the mailing lists for a
-week or two and then get applied. Neil may want to apply it, but if
-he's busy I can do it too.
-
-I believe you were planning on tackling some more of the panels. Since
-you're still getting started sending patches, maybe keep it to a
-smaller batch for now and send another 10 or so? Probably best to keep
-it as one panel driver per patch.
-
--Doug
+> -       char stack_kdata[128];
+> +       char stack_kdata[128] __attribute__((aligned(__alignof__(u64))));
+>         char *kdata =3D stack_kdata;
+>         unsigned int kcmd;
+>         unsigned int in_size, out_size, drv_size, ksize;
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/a=
+md/amdkfd/kfd_chardev.c
+> index fdf171ad4a3c..69a0aae0f016 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> @@ -3236,7 +3236,7 @@ static long kfd_ioctl(struct file *filep, unsigned =
+int cmd, unsigned long arg)
+>         amdkfd_ioctl_t *func;
+>         const struct amdkfd_ioctl_desc *ioctl =3D NULL;
+>         unsigned int nr =3D _IOC_NR(cmd);
+> -       char stack_kdata[128];
+> +       char stack_kdata[128] __attribute__((aligned(__alignof__(u64))));
+>         char *kdata =3D NULL;
+>         unsigned int usize, asize;
+>         int retcode =3D -EINVAL;
+> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> index e368fc084c77..aac3d5a539a6 100644
+> --- a/drivers/gpu/drm/drm_ioctl.c
+> +++ b/drivers/gpu/drm/drm_ioctl.c
+> @@ -767,7 +767,7 @@ long drm_ioctl(struct file *filp,
+>         drm_ioctl_t *func;
+>         unsigned int nr =3D DRM_IOCTL_NR(cmd);
+>         int retcode =3D -EINVAL;
+> -       char stack_kdata[128];
+> +       char stack_kdata[128] __attribute__((aligned(__alignof__(u64))));
+>         char *kdata =3D NULL;
+>         unsigned int in_size, out_size, drv_size, ksize;
+>         bool is_driver_ioctl;
+> --
+> 2.25.1
+>
