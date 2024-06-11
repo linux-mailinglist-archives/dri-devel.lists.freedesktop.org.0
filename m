@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF62E903B66
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 14:04:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E02B2903B6F
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 14:05:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8838410E5F0;
-	Tue, 11 Jun 2024 12:04:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48D3710E607;
+	Tue, 11 Jun 2024 12:05:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XdckqVx6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mjy3ddGB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F68210E5DF
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 12:04:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE84910E5F0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 12:04:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718107487; x=1749643487;
+ t=1718107489; x=1749643489;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=xaHjY3k8tRVj+itbYGCBWtgm/+FMmxHKtiP4ndB7Wx8=;
- b=XdckqVx6ktfX8xCPHFrxQHyB0hK+ux+238IX/Lc3H5wjFEPqtQKPjdTh
- 2gY+9d467n74HKTUWNHNDB5qvE5tLQ/Wzlv4wNca617lOVC24Xot37OdZ
- Nq2aoUWoF9hhSkOIAoZl/yC5JlQhPXU9qoG+P/yWLM3y+uCqU9+U3LBJU
- eaorR6ktOZEZLhyuND1J07QPa7ormWSlZ0YOVjhXhRb3FQ6NLEqLjXzNX
- v6KAiXzZP+eQ6veDOlm+9yvPOMw8GGyPOJiyMjwX4TlQDtWFfKI4I7GjU
- xJgmphcAoXz0Ulf0641DPnAJfx6O6Skbio2A5yZIkSKKTGMduvEnioeVA w==;
-X-CSE-ConnectionGUID: pV38lGj1TtSJUy+rnbIgyg==
-X-CSE-MsgGUID: q6rtbtxsRNG5EGH4ny04yg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="32296053"
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="32296053"
+ bh=39UH27N6P/p+cROuV2xQd+FvOHjjvlsREzCYAcRwDlE=;
+ b=mjy3ddGBfGeHQFT1XwHG4YAeNNQZJsZiOnbPJzMV41cnnkdP+1fnFZwo
+ AM/xO3tKLKtNnuBUlTTV2GXlVJAv7irK9mh1gqB1+W3G2nWdKGag59+tI
+ DCFZ/0tyWuLDSFxAeXgVNx+NV6arOWUYWTjul/RQUXxUhm5z1fFIBZFqE
+ SN6CYA8le/YhGSyh1+Bh3pKpyRViSElmsgxpRLg7JkTlKX788kwn86GkW
+ BPWaBoQ/vuWOrQu+PEDG+6l5clZkV6JHQGnwgFs7R75tsBorAhEoRJtUA
+ B4xOhv7PSjZN5oUR1CONWjTnwHqd3doPz/jZwQkrYQeeP4oJd9ANWQYgM Q==;
+X-CSE-ConnectionGUID: rqSl5YV1Rn6JDL7BWk2Zmw==
+X-CSE-MsgGUID: NkTUU6RRQi6qhzrlgqWr/g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="32296060"
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="32296060"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2024 05:04:47 -0700
-X-CSE-ConnectionGUID: OBzESaDwTK+BVeoUgnAGGw==
-X-CSE-MsgGUID: ahTbr5SYT7m9byAusyj2cQ==
+ 11 Jun 2024 05:04:49 -0700
+X-CSE-ConnectionGUID: 8uzqmnFBQXq5gy2O/dHIHQ==
+X-CSE-MsgGUID: eXL53BVwTpWADmpHE49TAA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="39877021"
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; d="scan'208";a="39877061"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2024 05:04:45 -0700
+ 11 Jun 2024 05:04:47 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH 06/15] accel/ivpu: Implement DCT handling
-Date: Tue, 11 Jun 2024 14:04:23 +0200
-Message-ID: <20240611120433.1012423-7-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 07/15] accel/ivpu: Make selected params read-only
+Date: Tue, 11 Jun 2024 14:04:24 +0200
+Message-ID: <20240611120433.1012423-8-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240611120433.1012423-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240611120433.1012423-1-jacek.lawrynowicz@linux.intel.com>
@@ -68,394 +68,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When host system is under heavy load and the NPU is already running
-on the lowest frequency, PUNIT may request Duty Cycle Throttling (DCT).
-This will further reduce NPU power usage.
-
-PUNIT requests DCT mode using Survabilty IRQ and mailbox register.
-The driver then issues a JSM message to the FW that enables
-the DCT mode. If the NPU resets while in DCT mode, the driver request
-DCT mode during FW boot.
-
-Also add debugfs "dct" file that allows to set arbitrary DCT percentage,
-which is used by driver tests.
+Make disable_mmu_cont_pages and force_snoop params read-only.
+It is unsafe to change these params after driver is loaded.
 
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_debugfs.c         | 39 ++++++++++++-
- drivers/accel/ivpu/ivpu_drv.c             | 10 +++-
- drivers/accel/ivpu/ivpu_hw.h              |  1 +
- drivers/accel/ivpu/ivpu_hw_btrs.c         | 42 ++++++++++----
- drivers/accel/ivpu/ivpu_hw_btrs.h         |  6 +-
- drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h | 10 ++--
- drivers/accel/ivpu/ivpu_jsm_msg.c         | 23 ++++++++
- drivers/accel/ivpu/ivpu_jsm_msg.h         |  2 +
- drivers/accel/ivpu/ivpu_pm.c              | 67 ++++++++++++++++++++++-
- drivers/accel/ivpu/ivpu_pm.h              |  6 ++
- 10 files changed, 186 insertions(+), 20 deletions(-)
+ drivers/accel/ivpu/ivpu_drv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
-index 10d6408c9831..6f86f8df30db 100644
---- a/drivers/accel/ivpu/ivpu_debugfs.c
-+++ b/drivers/accel/ivpu/ivpu_debugfs.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * Copyright (C) 2020-2023 Intel Corporation
-+ * Copyright (C) 2020-2024 Intel Corporation
-  */
- 
- #include <linux/debugfs.h>
-@@ -381,6 +381,39 @@ static const struct file_operations ivpu_resume_engine_fops = {
- 	.write = ivpu_resume_engine_fn,
- };
- 
-+static int dct_active_get(void *data, u64 *active_percent)
-+{
-+	struct ivpu_device *vdev = data;
-+
-+	*active_percent = vdev->pm->dct_active_percent;
-+
-+	return 0;
-+}
-+
-+static int dct_active_set(void *data, u64 active_percent)
-+{
-+	struct ivpu_device *vdev = data;
-+	int ret;
-+
-+	if (active_percent > 100)
-+		return -EINVAL;
-+
-+	ret = ivpu_rpm_get(vdev);
-+	if (ret)
-+		return ret;
-+
-+	if (active_percent)
-+		ret = ivpu_pm_dct_enable(vdev, active_percent);
-+	else
-+		ret = ivpu_pm_dct_disable(vdev);
-+
-+	ivpu_rpm_put(vdev);
-+
-+	return ret;
-+}
-+
-+DEFINE_DEBUGFS_ATTRIBUTE(ivpu_dct_fops, dct_active_get, dct_active_set, "%llu\n");
-+
- void ivpu_debugfs_init(struct ivpu_device *vdev)
- {
- 	struct dentry *debugfs_root = vdev->drm.debugfs_root;
-@@ -409,7 +442,9 @@ void ivpu_debugfs_init(struct ivpu_device *vdev)
- 	debugfs_create_file("resume_engine", 0200, debugfs_root, vdev,
- 			    &ivpu_resume_engine_fops);
- 
--	if (ivpu_hw_ip_gen(vdev) >= IVPU_HW_IP_40XX)
-+	if (ivpu_hw_ip_gen(vdev) >= IVPU_HW_IP_40XX) {
- 		debugfs_create_file("fw_profiling_freq_drive", 0200,
- 				    debugfs_root, vdev, &fw_profiling_freq_fops);
-+		debugfs_create_file("dct", 0644, debugfs_root, vdev, &ivpu_dct_fops);
-+	}
- }
 diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index 3ce12b66f699..ce91eafe5746 100644
+index ce91eafe5746..c59c6f113098 100644
 --- a/drivers/accel/ivpu/ivpu_drv.c
 +++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -391,8 +391,13 @@ int ivpu_boot(struct ivpu_device *vdev)
- 	ivpu_hw_irq_enable(vdev);
- 	ivpu_ipc_enable(vdev);
+@@ -58,11 +58,11 @@ module_param_named(sched_mode, ivpu_sched_mode, int, 0444);
+ MODULE_PARM_DESC(sched_mode, "Scheduler mode: 0 - Default scheduler, 1 - Force HW scheduler");
  
--	if (ivpu_fw_is_cold_boot(vdev))
-+	if (ivpu_fw_is_cold_boot(vdev)) {
-+		ret = ivpu_pm_dct_init(vdev);
-+		if (ret)
-+			return ret;
-+
- 		return ivpu_hw_sched_init(vdev);
-+	}
+ bool ivpu_disable_mmu_cont_pages;
+-module_param_named(disable_mmu_cont_pages, ivpu_disable_mmu_cont_pages, bool, 0644);
++module_param_named(disable_mmu_cont_pages, ivpu_disable_mmu_cont_pages, bool, 0444);
+ MODULE_PARM_DESC(disable_mmu_cont_pages, "Disable MMU contiguous pages optimization");
  
- 	return 0;
- }
-@@ -482,6 +487,9 @@ static irqreturn_t ivpu_irq_thread_handler(int irq, void *arg)
- 		case IVPU_HW_IRQ_SRC_MMU_EVTQ:
- 			ivpu_context_abort_invalid(vdev);
- 			break;
-+		case IVPU_HW_IRQ_SRC_DCT:
-+			ivpu_pm_dct_irq_thread_handler(vdev);
-+			break;
- 		default:
- 			ivpu_err_ratelimited(vdev, "Unknown IRQ source: %u\n", irq_src);
- 			break;
-diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
-index 1a55538aafdc..1c0c98e3afb8 100644
---- a/drivers/accel/ivpu/ivpu_hw.h
-+++ b/drivers/accel/ivpu/ivpu_hw.h
-@@ -16,6 +16,7 @@
+ bool ivpu_force_snoop;
+-module_param_named(force_snoop, ivpu_force_snoop, bool, 0644);
++module_param_named(force_snoop, ivpu_force_snoop, bool, 0444);
+ MODULE_PARM_DESC(force_snoop, "Force snooping for NPU host memory access");
  
- #define IVPU_HW_IRQ_SRC_IPC 1
- #define IVPU_HW_IRQ_SRC_MMU_EVTQ 2
-+#define IVPU_HW_IRQ_SRC_DCT 3
- 
- struct ivpu_addr_range {
- 	resource_size_t start;
-diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.c b/drivers/accel/ivpu/ivpu_hw_btrs.c
-index 123c1f2fd554..745e5248803d 100644
---- a/drivers/accel/ivpu/ivpu_hw_btrs.c
-+++ b/drivers/accel/ivpu/ivpu_hw_btrs.c
-@@ -643,8 +643,11 @@ bool ivpu_hw_btrs_irq_handler_lnl(struct ivpu_device *vdev, int irq)
- 	if (!status)
- 		return false;
- 
--	if (REG_TEST_FLD(VPU_HW_BTRS_LNL_INTERRUPT_STAT, SURV_ERR, status))
-+	if (REG_TEST_FLD(VPU_HW_BTRS_LNL_INTERRUPT_STAT, SURV_ERR, status)) {
- 		ivpu_dbg(vdev, IRQ, "Survivability IRQ\n");
-+		if (!kfifo_put(&vdev->hw->irq.fifo, IVPU_HW_IRQ_SRC_DCT))
-+			ivpu_err_ratelimited(vdev, "IRQ FIFO full\n");
-+	}
- 
- 	if (REG_TEST_FLD(VPU_HW_BTRS_LNL_INTERRUPT_STAT, FREQ_CHANGE, status))
- 		ivpu_dbg(vdev, IRQ, "FREQ_CHANGE irq: %08x", REGB_RD32(VPU_HW_BTRS_LNL_PLL_FREQ));
-@@ -694,21 +697,40 @@ bool ivpu_hw_btrs_irq_handler_lnl(struct ivpu_device *vdev, int irq)
- 	return true;
- }
- 
--static void dct_drive_40xx(struct ivpu_device *vdev, u32 dct_val)
-+int ivpu_hw_btrs_dct_get_request(struct ivpu_device *vdev, bool *enable)
- {
--	u32 val = REGB_RD32(VPU_HW_BTRS_LNL_PCODE_MAILBOX);
-+	u32 val = REGB_RD32(VPU_HW_BTRS_LNL_PCODE_MAILBOX_SHADOW);
-+	u32 cmd = REG_GET_FLD(VPU_HW_BTRS_LNL_PCODE_MAILBOX_SHADOW, CMD, val);
-+	u32 param1 = REG_GET_FLD(VPU_HW_BTRS_LNL_PCODE_MAILBOX_SHADOW, PARAM1, val);
- 
--	val = REG_SET_FLD_NUM(VPU_HW_BTRS_LNL_PCODE_MAILBOX, CMD, DCT_REQ, val);
--	val = REG_SET_FLD_NUM(VPU_HW_BTRS_LNL_PCODE_MAILBOX, PARAM1,
--			      dct_val ? DCT_ENABLE : DCT_DISABLE, val);
--	val = REG_SET_FLD_NUM(VPU_HW_BTRS_LNL_PCODE_MAILBOX, PARAM2, dct_val, val);
-+	if (cmd != DCT_REQ) {
-+		ivpu_err_ratelimited(vdev, "Unsupported PCODE command: 0x%x\n", cmd);
-+		return -EBADR;
-+	}
- 
--	REGB_WR32(VPU_HW_BTRS_LNL_PCODE_MAILBOX, val);
-+	switch (param1) {
-+	case DCT_ENABLE:
-+		*enable = true;
-+		return 0;
-+	case DCT_DISABLE:
-+		*enable = false;
-+		return 0;
-+	default:
-+		ivpu_err_ratelimited(vdev, "Invalid PARAM1 value: %u\n", param1);
-+		return -EINVAL;
-+	}
- }
- 
--void ivpu_hw_btrs_dct_drive(struct ivpu_device *vdev, u32 dct_val)
-+void ivpu_hw_btrs_dct_set_status(struct ivpu_device *vdev, bool enable, u32 active_percent)
- {
--	return dct_drive_40xx(vdev, dct_val);
-+	u32 val = 0;
-+	u32 cmd = enable ? DCT_ENABLE : DCT_DISABLE;
-+
-+	val = REG_SET_FLD_NUM(VPU_HW_BTRS_LNL_PCODE_MAILBOX_STATUS, CMD, DCT_REQ, val);
-+	val = REG_SET_FLD_NUM(VPU_HW_BTRS_LNL_PCODE_MAILBOX_STATUS, PARAM1, cmd, val);
-+	val = REG_SET_FLD_NUM(VPU_HW_BTRS_LNL_PCODE_MAILBOX_STATUS, PARAM2, active_percent, val);
-+
-+	REGB_WR32(VPU_HW_BTRS_LNL_PCODE_MAILBOX_STATUS, val);
- }
- 
- static u32 pll_ratio_to_freq_mtl(u32 ratio, u32 config)
-diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.h b/drivers/accel/ivpu/ivpu_hw_btrs.h
-index b3e3ae2aa578..04f14f50fed6 100644
---- a/drivers/accel/ivpu/ivpu_hw_btrs.h
-+++ b/drivers/accel/ivpu/ivpu_hw_btrs.h
-@@ -15,6 +15,9 @@
- #define PLL_PROFILING_FREQ_HIGH      400000000
- #define PLL_RATIO_TO_FREQ(x)         ((x) * PLL_REF_CLK_FREQ)
- 
-+#define DCT_DEFAULT_ACTIVE_PERCENT 15u
-+#define DCT_PERIOD_US		   35300u
-+
- int ivpu_hw_btrs_info_init(struct ivpu_device *vdev);
- void ivpu_hw_btrs_freq_ratios_init(struct ivpu_device *vdev);
- int ivpu_hw_btrs_irqs_clear_with_0_mtl(struct ivpu_device *vdev);
-@@ -31,7 +34,8 @@ void ivpu_hw_btrs_ats_print_lnl(struct ivpu_device *vdev);
- void ivpu_hw_btrs_clock_relinquish_disable_lnl(struct ivpu_device *vdev);
- bool ivpu_hw_btrs_irq_handler_mtl(struct ivpu_device *vdev, int irq);
- bool ivpu_hw_btrs_irq_handler_lnl(struct ivpu_device *vdev, int irq);
--void ivpu_hw_btrs_dct_drive(struct ivpu_device *vdev, u32 dct_val);
-+int ivpu_hw_btrs_dct_get_request(struct ivpu_device *vdev, bool *enable);
-+void ivpu_hw_btrs_dct_set_status(struct ivpu_device *vdev, bool enable, u32 dct_percent);
- u32 ivpu_hw_btrs_pll_freq_get(struct ivpu_device *vdev);
- u32 ivpu_hw_btrs_ratio_to_freq(struct ivpu_device *vdev, u32 ratio);
- u32 ivpu_hw_btrs_telemetry_offset_get(struct ivpu_device *vdev);
-diff --git a/drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h b/drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h
-index 93733bde02b0..fc51f3098f97 100644
---- a/drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h
-+++ b/drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h
-@@ -44,11 +44,11 @@
- #define VPU_HW_BTRS_LNL_IMR_ERR_CFI1_HIGH			0x0000005cu
- #define VPU_HW_BTRS_LNL_IMR_ERR_CFI1_CLEAR			0x00000060u
- 
--#define VPU_HW_BTRS_LNL_PCODE_MAILBOX				0x00000070u
--#define VPU_HW_BTRS_LNL_PCODE_MAILBOX_CMD_MASK			GENMASK(7, 0)
--#define VPU_HW_BTRS_LNL_PCODE_MAILBOX_PARAM1_MASK		GENMASK(15, 8)
--#define VPU_HW_BTRS_LNL_PCODE_MAILBOX_PARAM2_MASK		GENMASK(23, 16)
--#define VPU_HW_BTRS_LNL_PCODE_MAILBOX_PARAM3_MASK		GENMASK(31, 24)
-+#define VPU_HW_BTRS_LNL_PCODE_MAILBOX_STATUS			0x00000070u
-+#define VPU_HW_BTRS_LNL_PCODE_MAILBOX_STATUS_CMD_MASK		GENMASK(7, 0)
-+#define VPU_HW_BTRS_LNL_PCODE_MAILBOX_STATUS_PARAM1_MASK	GENMASK(15, 8)
-+#define VPU_HW_BTRS_LNL_PCODE_MAILBOX_STATUS_PARAM2_MASK	GENMASK(23, 16)
-+#define VPU_HW_BTRS_LNL_PCODE_MAILBOX_STATUS_PARAM3_MASK	GENMASK(31, 24)
- 
- #define VPU_HW_BTRS_LNL_PCODE_MAILBOX_SHADOW			0x00000074u
- #define VPU_HW_BTRS_LNL_PCODE_MAILBOX_SHADOW_CMD_MASK		GENMASK(7, 0)
-diff --git a/drivers/accel/ivpu/ivpu_jsm_msg.c b/drivers/accel/ivpu/ivpu_jsm_msg.c
-index 3179e80de1ec..216aa61ba209 100644
---- a/drivers/accel/ivpu/ivpu_jsm_msg.c
-+++ b/drivers/accel/ivpu/ivpu_jsm_msg.c
-@@ -543,3 +543,26 @@ int ivpu_jsm_metric_streamer_info(struct ivpu_device *vdev, u64 metric_group_mas
- 
- 	return ret;
- }
-+
-+int ivpu_jsm_dct_enable(struct ivpu_device *vdev, u32 active_us, u32 inactive_us)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_DCT_ENABLE };
-+	struct vpu_jsm_msg resp;
-+
-+	req.payload.pwr_dct_control.dct_active_us = active_us;
-+	req.payload.pwr_dct_control.dct_inactive_us = inactive_us;
-+
-+	return ivpu_ipc_send_receive_active(vdev, &req, VPU_JSM_MSG_DCT_ENABLE_DONE,
-+					    &resp, VPU_IPC_CHAN_ASYNC_CMD,
-+					    vdev->timeout.jsm);
-+}
-+
-+int ivpu_jsm_dct_disable(struct ivpu_device *vdev)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_DCT_DISABLE };
-+	struct vpu_jsm_msg resp;
-+
-+	return ivpu_ipc_send_receive_active(vdev, &req, VPU_JSM_MSG_DCT_DISABLE_DONE,
-+					    &resp, VPU_IPC_CHAN_ASYNC_CMD,
-+					    vdev->timeout.jsm);
-+}
-diff --git a/drivers/accel/ivpu/ivpu_jsm_msg.h b/drivers/accel/ivpu/ivpu_jsm_msg.h
-index 060363409fb3..e4e42c0ff6e6 100644
---- a/drivers/accel/ivpu/ivpu_jsm_msg.h
-+++ b/drivers/accel/ivpu/ivpu_jsm_msg.h
-@@ -41,4 +41,6 @@ int ivpu_jsm_metric_streamer_update(struct ivpu_device *vdev, u64 metric_group_m
- 				    u64 buffer_addr, u64 buffer_size, u64 *bytes_written);
- int ivpu_jsm_metric_streamer_info(struct ivpu_device *vdev, u64 metric_group_mask, u64 buffer_addr,
- 				  u64 buffer_size, u32 *sample_size, u64 *info_size);
-+int ivpu_jsm_dct_enable(struct ivpu_device *vdev, u32 active_us, u32 inactive_us);
-+int ivpu_jsm_dct_disable(struct ivpu_device *vdev);
- #endif
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index 9d5f500afd20..602fa4e65c22 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -245,7 +245,7 @@ int ivpu_pm_runtime_suspend_cb(struct device *dev)
- 
- 	ivpu_dbg(vdev, PM, "Runtime suspend..\n");
- 
--	is_idle = ivpu_hw_is_idle(vdev);
-+	is_idle = ivpu_hw_is_idle(vdev) || vdev->pm->dct_active_percent;
- 	if (!is_idle)
- 		ivpu_err(vdev, "NPU is not idle before autosuspend\n");
- 
-@@ -397,3 +397,68 @@ void ivpu_pm_disable(struct ivpu_device *vdev)
- 	pm_runtime_get_noresume(vdev->drm.dev);
- 	pm_runtime_forbid(vdev->drm.dev);
- }
-+
-+int ivpu_pm_dct_init(struct ivpu_device *vdev)
-+{
-+	if (vdev->pm->dct_active_percent)
-+		return ivpu_pm_dct_enable(vdev, vdev->pm->dct_active_percent);
-+
-+	return 0;
-+}
-+
-+int ivpu_pm_dct_enable(struct ivpu_device *vdev, u8 active_percent)
-+{
-+	u32 active_us, inactive_us;
-+	int ret;
-+
-+	if (active_percent == 0 || active_percent > 100)
-+		return -EINVAL;
-+
-+	active_us = (DCT_PERIOD_US * active_percent) / 100;
-+	inactive_us = DCT_PERIOD_US - active_us;
-+
-+	ret = ivpu_jsm_dct_enable(vdev, active_us, inactive_us);
-+	if (ret) {
-+		ivpu_err_ratelimited(vdev, "Filed to enable DCT: %d\n", ret);
-+		return ret;
-+	}
-+
-+	vdev->pm->dct_active_percent = active_percent;
-+
-+	ivpu_dbg(vdev, PM, "DCT set to %u%% (D0: %uus, D0i2: %uus)\n",
-+		 active_percent, active_us, inactive_us);
-+	return 0;
-+}
-+
-+int ivpu_pm_dct_disable(struct ivpu_device *vdev)
-+{
-+	int ret;
-+
-+	ret = ivpu_jsm_dct_disable(vdev);
-+	if (ret) {
-+		ivpu_err_ratelimited(vdev, "Filed to disable DCT: %d\n", ret);
-+		return ret;
-+	}
-+
-+	vdev->pm->dct_active_percent = 0;
-+
-+	ivpu_dbg(vdev, PM, "DCT disabled\n");
-+	return 0;
-+}
-+
-+void ivpu_pm_dct_irq_thread_handler(struct ivpu_device *vdev)
-+{
-+	bool enable;
-+	int ret;
-+
-+	if (ivpu_hw_btrs_dct_get_request(vdev, &enable))
-+		return;
-+
-+	if (vdev->pm->dct_active_percent)
-+		ret = ivpu_pm_dct_enable(vdev, DCT_DEFAULT_ACTIVE_PERCENT);
-+	else
-+		ret = ivpu_pm_dct_disable(vdev);
-+
-+	if (!ret)
-+		ivpu_hw_btrs_dct_set_status(vdev, enable, vdev->pm->dct_active_percent);
-+}
-diff --git a/drivers/accel/ivpu/ivpu_pm.h b/drivers/accel/ivpu/ivpu_pm.h
-index e524412765be..c08a3ddf09c1 100644
---- a/drivers/accel/ivpu/ivpu_pm.h
-+++ b/drivers/accel/ivpu/ivpu_pm.h
-@@ -19,6 +19,7 @@ struct ivpu_pm_info {
- 	atomic_t reset_counter;
- 	atomic_t reset_pending;
- 	bool is_warmboot;
-+	u8 dct_active_percent;
- };
- 
- void ivpu_pm_init(struct ivpu_device *vdev);
-@@ -42,4 +43,9 @@ void ivpu_pm_trigger_recovery(struct ivpu_device *vdev, const char *reason);
- void ivpu_start_job_timeout_detection(struct ivpu_device *vdev);
- void ivpu_stop_job_timeout_detection(struct ivpu_device *vdev);
- 
-+int ivpu_pm_dct_init(struct ivpu_device *vdev);
-+int ivpu_pm_dct_enable(struct ivpu_device *vdev, u8 active_percent);
-+int ivpu_pm_dct_disable(struct ivpu_device *vdev);
-+void ivpu_pm_dct_irq_thread_handler(struct ivpu_device *vdev);
-+
- #endif /* __IVPU_PM_H__ */
+ struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv)
 -- 
 2.45.1
 
