@@ -2,77 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA01904263
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 19:28:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E23AE904273
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 19:33:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90EAA10E0F3;
-	Tue, 11 Jun 2024 17:28:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4107D10E233;
+	Tue, 11 Jun 2024 17:33:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="N9vgHkYx";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="BzKXJGvI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D00210E0F3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 17:28:25 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-1f692d6e990so55634105ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 10:28:25 -0700 (PDT)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
+ [209.85.219.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8440510E233
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 17:33:53 +0000 (UTC)
+Received: by mail-qv1-f51.google.com with SMTP id
+ 6a1803df08f44-6b0745efaeeso13352706d6.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 10:33:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1718126905; x=1718731705;
+ d=chromium.org; s=google; t=1718127231; x=1718732031;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Ek9nYHCEplYURM/7b1b2h5qMkLqR/eL+WowxP0vSWY4=;
- b=N9vgHkYxNrfp2Ifj7tT3CaOug88DHigsXd/CrJyJgOP0FY+13R2ihm/2hPfuwdQfcb
- bl1eQka/EmoLHpkBNcORVMfqCbKAPnqhPsLivA0KxK2MarzMOIO+Ft4sY+gFsnBO3L/n
- YbO6GX3TXpWglnrtsKxkW4bs46dc+FYdfV7n4=
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FbtkdbgCU8Tr9b8WsS7VgfWbCUiNhQDh9AT/ShV3toc=;
+ b=BzKXJGvINWDPsB9RN1szBelC9aaSRuSmgpCrhVmn1bU79hPHX2UFc2VjSICwvdH4oc
+ obJg/IM4srwkCs9fRUhqPWlDgNkMERaZcej2uTiqcEIUiUFPOG6J9qDjaYDpM7h5AofT
+ VmtZrXdCLyiAfWcUkrC2jg97Q54YVtcdY+plE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718126905; x=1718731705;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Ek9nYHCEplYURM/7b1b2h5qMkLqR/eL+WowxP0vSWY4=;
- b=Jvp68DQ2/lb49zcG4DTqEpuBl62Ir8OmYRvYJfMwFBjkhvtccQ9cwTcQ9bJISWEu5v
- Il5jsMqdFqHAPfd6WAYYKXDQb3fIY62sri+wh66KN2MY3Dd7jCYmWuy5Wym48whuQjjj
- IW8D61TusJiFcE//N5gvYKn1CEmptgttVDdnYGt0SeKpla3hr4doOgDKbbuOCyGeAPAQ
- ogEfHym1fy7eXaLcLCzKqhWSerU3qJ5Mkq6+leJbMwOwvF9c5qfNF/7081KWfV4WqOnG
- mbt17sF3w7XBedB5EDNo8aFzdn5UZ43vB3TGhewy3bNQ6gqycMFTE3nAHIc/gGMwl5HK
- +Pnw==
+ d=1e100.net; s=20230601; t=1718127231; x=1718732031;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FbtkdbgCU8Tr9b8WsS7VgfWbCUiNhQDh9AT/ShV3toc=;
+ b=ttjOVpk/3X6SAfmNybpRNZbmCAA2itMroPVS4TNSDiWKAJ+lPtJyXqYCFYPJakqSDy
+ dHn7nZ5LI4QZa/Py1xnygs6YVuj27wzOpv68WEMQ1FDC/Pbf+fUkIyV1UQQCxucYN3TQ
+ j76kgpiXKJlRbaIK4XnAEyTJhPY5QTxCj1lKISVcqgkWcG576aYhqBzbja6v+5+qhph+
+ 0AT6EgdCrY6Kbnqf+SFr305gmBHt8vzqxO7wqPflVumipQ4M+rAytXVPXqn9ABiRhpdU
+ E7Jjw2NQTT8eJX8mhMRYlF9dStpnfU1KCv8m9YXalF8qRYCSREW8sFonfgzomtEXqd4u
+ 9lXg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXHFCoBbEirlf6elzLwEoVLGVmFLk6i+QFiylh+xOPXddgkaPKazeynGMz5v1UuMB84shZ7/i1G6VgN4gTSAnUZJZFNCZkkrXHCgRBVaBeh
-X-Gm-Message-State: AOJu0YwbVuLB6jJn2zenZz8cCf2O19tVav0sadHtGMMqY5/FK8IORtAi
- nZi5Yp+1famhThpPcbc1NNxgJ1/JX7kLLsUp3iyLs78B+kMB50NFXfd6tfoZKQ==
-X-Google-Smtp-Source: AGHT+IFJ4n9j/I8+bwf5nby7cNuNSwpvL75gc72i3EraZAd14f2XpX1hujkn20i8r/RxoP3yzvg2rg==
-X-Received: by 2002:a17:903:244d:b0:1f7:eb9:947e with SMTP id
- d9443c01a7336-1f70eb99809mr68387405ad.63.1718126904826; 
- Tue, 11 Jun 2024 10:28:24 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com
- ([2620:15c:9d:2:f410:2f13:37e2:37d])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f6e7858544sm75714375ad.75.2024.06.11.10.28.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jun 2024 10:28:24 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Fei Shao <fshao@chromium.org>,
- Maxime Ripard <mripard@kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org
-Subject: [PATCH v2] drm/mediatek: Call drm_atomic_helper_shutdown() at
- shutdown time
-Date: Tue, 11 Jun 2024 10:27:44 -0700
-Message-ID: <20240611102744.v2.1.I2b014f90afc4729b6ecc7b5ddd1f6dedcea4625b@changeid>
-X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
+ AJvYcCXTarR4N26h8ORqQJVIOqnmPMdvlz/S+CHoVnq26lKJgkAdyO7mbv+o95wZFSXfkLPOZxAUsITZ5ChOHj2WkjfnhRvH80kx/n2Z6+LYUIIY
+X-Gm-Message-State: AOJu0YzjLVp+l5pyHqpKp87BlDp3P5J/5lQ77ExxPO+WpCHyU/s2F+oF
+ kwuEPcGXDwFCwJgG1GMu3aC1+UVxm+OdHXofTGL0UbBFwNng2RAHqpa+ahN/rw0jR7dqnSCAQtU
+ =
+X-Google-Smtp-Source: AGHT+IGCaWpRYmNJCsjeYeyL7Z7uFwCRUKwJx8Bn/z1yGXXX+8PA0U0RGHFuyDcCq+oFTFaGGD2j5g==
+X-Received: by 2002:a05:6214:3bc3:b0:6b0:803b:7fe with SMTP id
+ 6a1803df08f44-6b0803b08eamr68533896d6.25.1718127231659; 
+ Tue, 11 Jun 2024 10:33:51 -0700 (PDT)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com.
+ [209.85.160.182]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6b08d7f6bf5sm8112676d6.66.2024.06.11.10.33.50
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Jun 2024 10:33:50 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id
+ d75a77b69052e-4405cf01a7fso12051cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 10:33:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXDT1X8cKEkhpATb4wbx4P9GLUzJdlezPDonnHk6CU8AugFHgNO4BTh6QxuCvZMeif881i+borvvzyYi0sBk6zi2yEqPAL2sg/DRfBve8md
+X-Received: by 2002:a05:622a:191c:b0:441:5400:9ec5 with SMTP id
+ d75a77b69052e-44154009ffbmr2778961cf.1.1718127230079; Tue, 11 Jun 2024
+ 10:33:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <6ae804c7163b4d933dbcf940b8dbd5f4c961f037.1716984934.git.geert+renesas@glider.be>
+In-Reply-To: <6ae804c7163b4d933dbcf940b8dbd5f4c961f037.1716984934.git.geert+renesas@glider.be>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 11 Jun 2024 10:33:33 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VCwKaN8gmJ=CTx561t_OpAZUEgDQV-95RmKPL-M8+4=Q@mail.gmail.com>
+Message-ID: <CAD=FV=VCwKaN8gmJ=CTx561t_OpAZUEgDQV-95RmKPL-M8+4=Q@mail.gmail.com>
+Subject: Re: [PATCH resend v2] drm: renesas: shmobile: Call
+ drm_helper_force_disable_all() at shutdown time
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,73 +97,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Based on grepping through the source code this driver appears to be
-missing a call to drm_atomic_helper_shutdown() at system shutdown
-time. Among other things, this means that if a panel is in use that it
-won't be cleanly powered off at system shutdown time.
+Hi,
 
-The fact that we should call drm_atomic_helper_shutdown() in the case
-of OS shutdown/restart comes straight out of the kernel doc "driver
-instance overview" in drm_drv.c.
+On Wed, May 29, 2024 at 5:16=E2=80=AFAM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> From: Douglas Anderson <dianders@chromium.org>
+>
+> Based on grepping through the source code, this driver appears to be
+> missing a call to drm_atomic_helper_shutdown() at system shutdown time.
+> This is important because drm_helper_force_disable_all() will cause
+> panels to get disabled cleanly which may be important for their power
+> sequencing.  Future changes will remove any custom powering off in
+> individual panel drivers so the DRM drivers need to start getting this
+> right.
+>
+> The fact that we should call drm_atomic_helper_shutdown() in the case of
+> OS shutdown comes straight out of the kernel doc "driver instance
+> overview" in drm_drv.c.
+>
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> Link: https://lore.kernel.org/r/20230901164111.RFT.15.Iaf638a1d4c8b3c307a=
+6192efabb4cbb06b195f15@changeid
+> [geert: s/drm_helper_force_disable_all/drm_atomic_helper_shutdown/]
+> [geert: shmob_drm_remove() already calls drm_atomic_helper_shutdown]
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> v2:
+>   - Add Reviewed-by.
+>
+> Tested on Atmark Techno Armadillo-800-EVA.
+> ---
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-This driver users the component model and shutdown happens in the base
-driver. The "drvdata" for this driver will always be valid if
-shutdown() is called and as of commit 2a073968289d
-("drm/atomic-helper: drm_atomic_helper_shutdown(NULL) should be a
-noop") we don't need to confirm that "drm" is non-NULL.
+FWIW: I've created a patch to list DRM modeset drivers that handle
+shutdown properly [1]. For now "shmob-drm" is not part of that
+patchset. Assuming my patch lands we'll have to later add it to the
+list.
 
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Reviewed-by: Fei Shao <fshao@chromium.org>
-Tested-by: Fei Shao <fshao@chromium.org>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-v1 of this patch was part of a series [1]. It got tested and reviewed
-but never landed. Reposting separately in the hopes that Mediatek DRM
-folks will land it. If, instead, Mediatek DRM folks want to Ack it I'm
-happy to land through drm-misc.
+[1] https://lore.kernel.org/r/20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f=
+746b93621749c@changeid
 
-I noticed that this was missing when I failed to add "mediatek" to my
-patch series IDing which DRM modeset drivers did this properly [2].
-Assuming my patch lands, that means that Mediatek devices will start
-getting more warnings printed.
+I will also note that the subject/description of this patch could be
+adjusted. They still reference "drm_helper_force_disable_all" which
+should have been changed to "drm_atomic_helper_shutdown".
 
-[1] https://lore.kernel.org/r/20230901164111.RFT.5.I2b014f90afc4729b6ecc7b5ddd1f6dedcea4625b@changeid
-[2] https://lore.kernel.org/r/20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid
-
-Changes in v2:
-- Removed NULL check since it's not needed since 6.7
-- Rebased on ToT.
-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index b5f605751b0a..de811e2265da 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -952,6 +952,13 @@ static void mtk_drm_remove(struct platform_device *pdev)
- 		of_node_put(private->comp_node[i]);
- }
- 
-+static void mtk_drm_shutdown(struct platform_device *pdev)
-+{
-+	struct mtk_drm_private *private = platform_get_drvdata(pdev);
-+
-+	drm_atomic_helper_shutdown(private->drm);
-+}
-+
- static int mtk_drm_sys_prepare(struct device *dev)
- {
- 	struct mtk_drm_private *private = dev_get_drvdata(dev);
-@@ -983,6 +990,7 @@ static const struct dev_pm_ops mtk_drm_pm_ops = {
- static struct platform_driver mtk_drm_platform_driver = {
- 	.probe	= mtk_drm_probe,
- 	.remove_new = mtk_drm_remove,
-+	.shutdown = mtk_drm_shutdown,
- 	.driver	= {
- 		.name	= "mediatek-drm",
- 		.pm     = &mtk_drm_pm_ops,
--- 
-2.45.2.505.gda0bf45e8d-goog
-
+-Doug
