@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA97903C70
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 14:53:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA17903C76
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 14:53:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE7510E623;
-	Tue, 11 Jun 2024 12:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ACA810E625;
+	Tue, 11 Jun 2024 12:53:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50B9D10E601
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EBDE10E52A
  for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 12:53:27 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 94C5B21AA0;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id DFBFC21C5B;
  Tue, 11 Jun 2024 12:53:25 +0000 (UTC)
 Authentication-Results: smtp-out1.suse.de;
 	none
@@ -25,10 +25,10 @@ Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4EA9813AAB;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9A835137DF;
  Tue, 11 Jun 2024 12:53:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id EJTqEcVIaGbxMgAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id kMB7JMVIaGbxMgAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Tue, 11 Jun 2024 12:53:25 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
@@ -36,9 +36,10 @@ To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  ukleinek@kernel.org
 Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-pwm@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 05/17] backlight: gpio-backlight: Use backlight power constants
-Date: Tue, 11 Jun 2024 14:42:00 +0200
-Message-ID: <20240611125321.6927-6-tzimmermann@suse.de>
+Subject: [PATCH 06/17] backlight: ipaq-micro-backlight: Use backlight power
+ constants
+Date: Tue, 11 Jun 2024 14:42:01 +0200
+Message-ID: <20240611125321.6927-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240611125321.6927-1-tzimmermann@suse.de>
 References: <20240611125321.6927-1-tzimmermann@suse.de>
@@ -51,7 +52,7 @@ X-Spam-Level:
 X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 94C5B21AA0
+X-Rspamd-Queue-Id: DFBFC21C5B
 X-Spam-Flag: NO
 X-Rspamd-Pre-Result: action=no action; module=replies;
  Message is reply to one we originated
@@ -77,37 +78,29 @@ change in functionality.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/backlight/gpio_backlight.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/video/backlight/ipaq_micro_bl.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
-index 4476c317ce293..8e41f8ebdc51c 100644
---- a/drivers/video/backlight/gpio_backlight.c
-+++ b/drivers/video/backlight/gpio_backlight.c
-@@ -5,7 +5,6 @@
+diff --git a/drivers/video/backlight/ipaq_micro_bl.c b/drivers/video/backlight/ipaq_micro_bl.c
+index f595b8c8cbb24..d3be6d2d7493a 100644
+--- a/drivers/video/backlight/ipaq_micro_bl.c
++++ b/drivers/video/backlight/ipaq_micro_bl.c
+@@ -7,7 +7,6 @@
  
  #include <linux/backlight.h>
  #include <linux/err.h>
 -#include <linux/fb.h>
- #include <linux/gpio/consumer.h>
  #include <linux/init.h>
- #include <linux/kernel.h>
-@@ -81,12 +80,12 @@ static int gpio_backlight_probe(struct platform_device *pdev)
- 	/* Set the initial power state */
- 	if (!of_node || !of_node->phandle)
- 		/* Not booted with device tree or no phandle link to the node */
--		bl->props.power = def_value ? FB_BLANK_UNBLANK
--					    : FB_BLANK_POWERDOWN;
-+		bl->props.power = def_value ? BL_CORE_UNBLANK
-+					    : BL_CORE_POWERDOWN;
- 	else if (gpiod_get_value_cansleep(gbl->gpiod) == 0)
--		bl->props.power = FB_BLANK_POWERDOWN;
-+		bl->props.power = BL_CORE_POWERDOWN;
- 	else
--		bl->props.power = FB_BLANK_UNBLANK;
-+		bl->props.power = BL_CORE_UNBLANK;
- 
- 	bl->props.brightness = 1;
+ #include <linux/mfd/ipaq-micro.h>
+ #include <linux/module.h>
+@@ -42,7 +41,7 @@ static const struct backlight_ops micro_bl_ops = {
+ static const struct backlight_properties micro_bl_props = {
+ 	.type = BACKLIGHT_RAW,
+ 	.max_brightness = 255,
+-	.power = FB_BLANK_UNBLANK,
++	.power = BL_CORE_UNBLANK,
+ 	.brightness = 64,
+ };
  
 -- 
 2.45.2
