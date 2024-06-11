@@ -2,125 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23BC902B69
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 00:15:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B97902DCD
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 03:00:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C53D10E072;
-	Mon, 10 Jun 2024 22:15:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBABD10E0D3;
+	Tue, 11 Jun 2024 01:00:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="iDkaYaYC";
+	dkim=pass (1024-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="UMQOJgmC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
- [209.85.219.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EAC710E072
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 22:15:06 +0000 (UTC)
-Received: by mail-qv1-f45.google.com with SMTP id
- 6a1803df08f44-6b0745efaeeso8862586d6.1
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2024 15:15:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1718057705; x=1718662505; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=fYxIeKtLL3lQwNiFRr25O1e9GIX4G5slG5d4Uc4G46M=;
- b=iDkaYaYComd1vgnb0htfM7rCeWkk8xuRRBvz4ayZ1wz81ZVUIJhbydM4R2w7+G5LzS
- bXyQIB84AdPIjErpMLQFpgk18bCaC8fCqgn1gROxJWal2Oixiif6nDcliO1q0B4xYUq9
- +aaqKCYnHOUjEYvNAy5CgVa6J1dWGa0v36MPtL4ZOOHqcc7DHpPudDX46b7imFOMHEeW
- kEscLAh2oWKchqHxrwci1MxHGxD9BkGNGqejZ0FddPc4I0sSWmXF0g6y0PQ2Hzd8sj/4
- i3dEYn9DsOHein+Ww+6urYS98G0AiJ4oh6sCFeiOz7mFXzI+FxyuTFdH2KoJeTdcS7WV
- uJaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718057705; x=1718662505;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fYxIeKtLL3lQwNiFRr25O1e9GIX4G5slG5d4Uc4G46M=;
- b=pscApLXt8qEVfzDjf4EMY7ZRPeiAAmxxs0Ed219lbT7MWzUQjDDbT+V0kJU9ZRWvsK
- gIO4onhlClf7rxvBdC9xVylVa6HHCJQr2zlWPwkSHgJs1WM2zyc2YKQuZY3n25YDRm7w
- rn8CGzH0u6qxxFY6/nBH/mf1pN45Z2iazbk0VGk5VmOcip3oYqhUtmNcOARRTms6Cq+l
- 6rE4+XjPuYc06LWRvkLVz/2K7WI1Y6mSYBLTd7PjqEX2wm8UmFsPHVaSDqYAHpCdKQ0M
- dQNulf5mAp3/xcVCN7zOKHaWM66/29iO6KJVPEW8167JCWAN5s89xmoDW6XQeO3Ff+qx
- W3dQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX5RYMgq3mGzbF3SeTXDf+vhPJL/q70l8VZAyvlPa9qbvkAWcBUXzje+aWFq34iFt0w3jSDtjVYML5JDs3Oe6AypkONkuf/XMUfU72Os9u3
-X-Gm-Message-State: AOJu0Yynu6Lr4llKXhskrbX7cKJZHq9v8TgIqgx48SDaaZLrZWiF0pd5
- JVesmt9lJZhDhhpNrJly0MDVui6aRyDyszEjYP/lqmIr5wCF57epYK9yHQkmau8=
-X-Google-Smtp-Source: AGHT+IGNwK7dorh82QSLW5MV/WzZAixZNPt6ZilaFo6ceP30TQ1KYPRJL2ImTAjvrOrdYOBtAU+f5Q==
-X-Received: by 2002:a05:6214:4a06:b0:6b0:72ef:2877 with SMTP id
- 6a1803df08f44-6b072ef2a2bmr79573716d6.40.1718057705068; 
- Mon, 10 Jun 2024 15:15:05 -0700 (PDT)
-Received: from ziepe.ca ([128.77.69.89]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b076a42242sm20947266d6.59.2024.06.10.15.15.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jun 2024 15:15:03 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
- (envelope-from <jgg@ziepe.ca>) id 1sGnI4-00FsKs-9Z;
- Mon, 10 Jun 2024 19:15:00 -0300
-Date: Mon, 10 Jun 2024 19:15:00 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: David Ahern <dsahern@kernel.org>, David Wei <dw@davidwei.uk>,
- Mina Almasry <almasrymina@google.com>,
- Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>,
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>
-Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
- custom page providers
-Message-ID: <20240610221500.GN791043@ziepe.ca>
-References: <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
- <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
- <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
- <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
- <20240607145247.GG791043@ziepe.ca>
- <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
- <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com>
- <20240610121625.GI791043@ziepe.ca>
- <59443d14-1f1d-42bb-8be3-73e6e4a0b683@kernel.org>
- <00c67cf0-2bf3-4eaf-b200-ffe00d91593b@gmail.com>
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2041.outbound.protection.outlook.com [40.107.20.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B61E010E0D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 01:00:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=igUv++4ebtGQzwdBLJx7t3mZ/GsXJ5Qbt3RRwEFj3Qw6Ovh8A8BoGtwP60Wm0eih1hjhjowZJ1suOcmJjF+n3dM20vxirK4rxwdePd5zpUKenEqC2GOO7GEhi9ED1Xca+ga6LAmKabY4WW/6ffgRsDUE2TTS/WGZGiJovrLFtK/hGrdmCFG3sQBgU1o5eZkDvsotwdrUb4l4d/o1VNX49EsfkGNGT91og+3s222V2Kixjw2avxh6e3Ks3NIX4dGLESU/ThpnUjnr+7+J/t6laj3fbBmiI8sTJHeU9nRjxkENXya+gy3/FZgYaIm35EFuoFmTcTnsrXUgC4+Ej3rwjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gQ41AQpXKUtXWliN9eAJ/J4JG/ogD/gDh6Q1WBGk0tE=;
+ b=Nl6sxspFbfRfebxnlwSFi71ySlO3EtzXxZ97SzVLUcuFkSfQuYf1un31Hn1poi/uoNkCs1nHSLszw7V2lgm4nYTh8nUsAyqXvQCUpB6YnlJO/oyd+fn8EJ9wp1a7QTB6C6b9eScjf92e7rQ6v9MWlnOkqPiF3VTnc37tLPKnfo2pcwxT4MfF6wexnYh4akPJEQT3FoL1ZVuQqUEcg70iP7EdNKcvxlo+qX/4HcAUIGrKmqvH2OrWxkt3fofXy7iJFc1TF/tyZh9iK4CgrCUEL9+2f91J3R7dREjT6n52hx9WbsUkFjEjMX+IJyqlmaE0cB7ssPfbnaFzPyM3Omz1pQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gQ41AQpXKUtXWliN9eAJ/J4JG/ogD/gDh6Q1WBGk0tE=;
+ b=UMQOJgmCuhrFkkL7IRlHS5LhALyuP+lmYQTv4C48cx/7I14zezTr1oQVOWFmI1nEeK1RPKA3IiytTvbeFL4sQCZgKTOtaCjXUzduXkpZBFjV5ouJVr/9VE8ycYYYv6puRK+zv3rPiEOyVWXMSTRvnYnDurf1wPPxSbU3SwUWTL0=
+Received: from AM6PR04MB5941.eurprd04.prod.outlook.com (2603:10a6:20b:9e::16)
+ by VI1PR04MB6816.eurprd04.prod.outlook.com (2603:10a6:803:12d::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.33; Tue, 11 Jun
+ 2024 01:00:28 +0000
+Received: from AM6PR04MB5941.eurprd04.prod.outlook.com
+ ([fe80::9f4e:b695:f5f0:5256]) by AM6PR04MB5941.eurprd04.prod.outlook.com
+ ([fe80::9f4e:b695:f5f0:5256%5]) with mapi id 15.20.7633.036; Tue, 11 Jun 2024
+ 01:00:27 +0000
+From: Peng Fan <peng.fan@nxp.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, "Peng Fan (OSS)"
+ <peng.fan@oss.nxp.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Javier
+ Martinez Canillas <javierm@redhat.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] drm/fbdev-dma: fix getting smem_start
+Thread-Topic: [PATCH] drm/fbdev-dma: fix getting smem_start
+Thread-Index: AQHatlRsnflkb+VoOkyefveVeXhwwbHAuO+AgAEPeGA=
+Date: Tue, 11 Jun 2024 01:00:27 +0000
+Message-ID: <AM6PR04MB59415B3F01D02024A255BFB988C72@AM6PR04MB5941.eurprd04.prod.outlook.com>
+References: <20240604080328.4024838-1-peng.fan@oss.nxp.com>
+ <8f4a6d80-dd3e-422f-88af-d26f50c973ff@suse.de>
+In-Reply-To: <8f4a6d80-dd3e-422f-88af-d26f50c973ff@suse.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM6PR04MB5941:EE_|VI1PR04MB6816:EE_
+x-ms-office365-filtering-correlation-id: 48bc13d1-c491-4680-eddc-08dc89b1e257
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230031|376005|1800799015|366007|38070700009;
+x-microsoft-antispam-message-info: =?utf-8?B?R05YUlEvNDIvM2VZS1Q1RDg5UFIySHc3cURmYjl5aDBPL0dTS2JLQmxMWEps?=
+ =?utf-8?B?R0xhZ2tuWXoyNXJuQzVOZ1puWDlXejdIOU5oRy9jK3F4dG0rZGp6R3ErVmNi?=
+ =?utf-8?B?eXNJK3FZMHZmbmJQVGxiMlJ4cDBLb2hYeEhCZkN2Q1JMdHVWSEVjVHlJVTht?=
+ =?utf-8?B?L0tqZWM5cDI2bUF5dy95WlB0d3cvelZ5NDY0bEplbSs4WVJ5bTRuYldtdElK?=
+ =?utf-8?B?NFQ4d3FnMGhzbFl4aGFZelNjME1UVEJNenhIdDhDb0hPMGFYa1dMTnZkdDNj?=
+ =?utf-8?B?MmJWQnowSWJRRFdLREhmYXpQSCswcldGNlBVZ2J0b0hDMXgxTG1sS0M3Rmlw?=
+ =?utf-8?B?STN1d0NKbkd1NGdTaHJpcWdlVHZBamx6b0dnY0krZFdRRE54OUVjOHdsV1Zy?=
+ =?utf-8?B?RmpnV05XVCtwbEh6cjhwZzdlcHVZWWpsV01pdlFIUmUxYkdSbkRyaGtMWlFk?=
+ =?utf-8?B?MlpLVTVsOHM1TTdFd2tGMlRDb0J1aExxWTdZU1cram0zVGdPcG5YUkkwamV3?=
+ =?utf-8?B?OWZSMVlGYzZ5WnMyV0hsQkEwRHg3Qlh0cUNpc2xMYmhFNHJSeTErQmUxdUlx?=
+ =?utf-8?B?V1k3R2k4S1NUTDM4MitEenRkR1FHYTVIbTZDd1drZFlqajdxS3VPZ1N0aWgy?=
+ =?utf-8?B?UFVwZEpJNjlJeklqZURTV2NPY2NtOTFnclJLMGt4eWZPVUJBYm9KMjFmT0ZI?=
+ =?utf-8?B?bkRLQ2krODN4NXcvK2w5cW9ncmY0cGhjazAwSVkzTUtjZ0NOWVBUMUFwMHhn?=
+ =?utf-8?B?SFlHMVJldEFqa3VGNXZrSFEwdDM5c21Vd2k5N0xqK0pIdEtyYS8yZ0IyWTBO?=
+ =?utf-8?B?YkxLdVRhV0VQMjdlSkR4RnhPOSsyM1JHdGdxQVFXMFFralhaRklzL2dHMjVI?=
+ =?utf-8?B?RVNuYUpRLzJTNURtYkhVcWE0cVZwb2RjOHc3MUJneUI4b1U2a2tlRGhQUjQ0?=
+ =?utf-8?B?d3hrbmdndExqcFZRanl2ZHg0a0RxUC9IN1lOVmZIWEJRRGFzaFJNdE5pU2RH?=
+ =?utf-8?B?YjNiWEFVaW9DdmEvTkFyeDczaDJiUGx1OW1jb25EY1F0RHo4bjdXcEJCT0gy?=
+ =?utf-8?B?bFZWT2VtMWd0TzJKMkQ5aC9aQ2pPczlCNyttbDhFcWUyNGs2OFhqSXg3K0Jr?=
+ =?utf-8?B?SVpYQzZvbXJrK09wSFlRT0crR1RLVlMzQkRHeklCdlNOVElsYTRHY0R2ODA3?=
+ =?utf-8?B?cCtUQWVwcW00WDdvRWljTlZPM3hEWm5EUFJLZHNmUCtJNnVRY1pYdzUya1Fj?=
+ =?utf-8?B?bitiaWRBTCt5czlybWQ0U1ZSOXIvdlo2aFJqSjRkY2xmeFlyWEo0Y09FTXRU?=
+ =?utf-8?B?U25CMS9CRFBvTTBxVE9CMnVuY28rOGVReGROeXROSVZRNTdmRlJVMnEraW5Z?=
+ =?utf-8?B?N25taGJhK0R2aUNLN2g1OEhkVzlvME8vdWJXRWRHTE50VnRtUEExWXcwRktF?=
+ =?utf-8?B?LzlCcUhlanFIWFJpaXdJUGt3cUFBWithdU0razNGZmNZcTFQS3JkWlpCMVlL?=
+ =?utf-8?B?WXFWVEQ0M2lJN0pma3RjZFdKZ1BCQk0wVE5lVVkvelo3WnBJKzNmaWZtZzd1?=
+ =?utf-8?B?ZUhleGh2QkhRSUVHT0x6RWJiYzFGcE9hcXpSK05KcDZhUVBrN29NSTlVdkM0?=
+ =?utf-8?B?NStyamcyWTRYdlF4d0tnV1FZRHlndU5qU0IxNk00L3lzSU42SlFRVTFiZS9H?=
+ =?utf-8?B?WGl6aThGNUd0ZGI3aC9NLzkwc2N2OTJlODlhN29EeWFHaW04MGk0RzZ4b21V?=
+ =?utf-8?B?R2dBRWIyczdjWXVYS2tzVGJEd3lqWHJ6MnZsSkQvc1ZaWFpsYzJQRWFzK08y?=
+ =?utf-8?Q?s4BYcE0Wm4azULTvszsjm5NfQDB5MLSxjMWok=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR04MB5941.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005)(1800799015)(366007)(38070700009); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TGRXbk5pMXFuSTY5UVFsdm9IajEydlhnOERqZnhsdWM4SksxVThjRDd6ZTRT?=
+ =?utf-8?B?NldWRHN3M040eTlyZXN4aWlYRWdKRW9uSjVtdGN4WHhvRjNrNHNmWUZRNlhs?=
+ =?utf-8?B?cEdGUWN4RjhPbE9nVmN5UXpmanFYWnhONGs1WFFieWVUSklYdUh3dm5DUjlq?=
+ =?utf-8?B?cm41eEl5L3JnSTJlYWFUSzk3V08wVFpWclhSS1RVWXdmRWxMQjlqMXh5ZkJs?=
+ =?utf-8?B?eS9lMk0yREgxZkJrRWRzSkZtV3VLRHI0QWg1SUpBUUJtSHZib041Nk45cC9E?=
+ =?utf-8?B?clV4Y2xwbkp4TDdHSklNQVlneDIvbjM1QWgvNmFmdHVTNExONkhLekxVSTFp?=
+ =?utf-8?B?eVhyYXM4UXJlOGwvazhranY5enRTWmFPK2NFUU9IRitQREx5MEZ1RnRqRS9J?=
+ =?utf-8?B?Rjh0VVhuN05rZGp4cEVvUzU2K3gzWElvbU1mckpBUXgwZEJIVmJXeU0zenBI?=
+ =?utf-8?B?TWNOUjJQdXVFa3oxUFJqYkQ0WEt3SXY5N2NMbHBzS3BMS2QreXQzZE5wN2NE?=
+ =?utf-8?B?QUd4dTNNRm5JeDE1VjliUzVQRkZYVHg3QkNVcmt0YzBpaVlWN3JrY3pyZU1x?=
+ =?utf-8?B?WXUvbk5Ib1ZXNTczYnpteVdTcmw3T3FNKzI3elRHZ05UNWVIeS81VExwNkZu?=
+ =?utf-8?B?UmwxUFYvYnJUd2RxSmRMZ0NNU1N2V3BGc2UrZlkrZ09jekVSVzhVVGtYcVVh?=
+ =?utf-8?B?ZCtSd1g3bEdYaGdhZkJsbC9aYU5ZcjFDK2lRVUVDNGRMZlgvMG1JNyt3V2xO?=
+ =?utf-8?B?TWYxemFnbitTT0RmcytJL2lLM3BQUVArdDR4eWVTYjJMUmNXdlZpT0MvYW1l?=
+ =?utf-8?B?TXBVdEtBVERTSVRhKzB3bWhsLzRQTTlSMFpkTWJCZktRREVKZUZGL0YzU0pY?=
+ =?utf-8?B?VEVOTk5za3VybTF3WGtKWXJxRm1iV2tmVWduNFhKNUwxNkVMYVhVZ0Z2MFF6?=
+ =?utf-8?B?OVFaNmhtN2o0Znk0blZQUSt0dkRaaUlKTXNYWnBLc2FvbXZzcXl3c3YxSWJS?=
+ =?utf-8?B?elJLb2hYcVltZnpQKzF6V1lGalpsQ2FYQnB0dTVEQnRsdmRFNjFycCtGcXdQ?=
+ =?utf-8?B?aUVxcmUvOGlVTGE3SkkyNGRJejFYZ1V5NUVseU5KSFF3TTgySGtUSkZTVHNT?=
+ =?utf-8?B?YUlEcW8vQk9QVU4zQkZLQUVacVRJVlpweFNRQTRXMHA4REVicHhVVWRVKy9F?=
+ =?utf-8?B?N2MyN0hwMmwrbTJCOFk2Z200TmJGQ3ZCYWllejkrNDBjY3k3VGN2U05VNjZx?=
+ =?utf-8?B?RUdqMmNhQkw1WVFEanpxNWhPTExUVGRzVSs3cjFsUU1SY1hNenRUVDlxa3ZC?=
+ =?utf-8?B?QW5JdEp3ZUJKbldDeEwrMEdNUGNqc3dsc0xTUjFsem5kR1RPNzNSSmxGNFEw?=
+ =?utf-8?B?dTh6aXFtZFRMNzVRZUZtTjlFeDYzSkpoaTFEWjBRRG1DZkFmK0p2ZkxYUlZY?=
+ =?utf-8?B?UGdJMTZVRlJIV3lMR2NaWWMvWW5BeEtXYWt1Q0JCNmZHY1krR3RhRXF1UWVR?=
+ =?utf-8?B?Y0t0SGE4VEVhZ1B3aU9EVngzUi9SOEc3dlAvZCtpeVhLZzdCdjJNLzh3cTZp?=
+ =?utf-8?B?RW45UThVZFlmRkh1S3RpeVNaUjcwZFZrOXJNUHB3RkJuaWVDd2dHMVpLc1ly?=
+ =?utf-8?B?VDVWZ0JiSURYMHhyenMwNzVkWDd4VmhRTG45Yk9yblVwM254alZqZllBVlVh?=
+ =?utf-8?B?ZnZ5ZmZ4ekZwWXNuTVdhZTEyb21mVnp5VzdOeEVjZWx6bW9MUHl3T0Q0bzgv?=
+ =?utf-8?B?Nkx1b3I2TmJCSzhTNHNrQjdKODRvMHozRXpsei9yeUV4WUF3bE5oSTd1dVVF?=
+ =?utf-8?B?T2c1STJ1dzZGbDNaMEtzUEVRQkRHWUpOZithZnAzbnYvK1hoWGMrS3lwWkhN?=
+ =?utf-8?B?NzJTWm9HRzlVZmVheldJT08vckhuRHRRQ2hsQkk2TzB5Qk5TbGExMDRNbUpq?=
+ =?utf-8?B?TGdwYXI0TktNUHJEUW1SS2VOYmtYRmZoQUVLK25YdENkSWxDSmQxWXQ4ekZ1?=
+ =?utf-8?B?ZHVmOG5HelVmMEdzUlZuSmJiZ2JjV0RhM2VwbGxDZjRFd291bUdRSy85VzhT?=
+ =?utf-8?B?TUIxTElLaWY1RGVCZWplUXhNdXpjR0cxUW51eUkrZDMxTWdDdW1PWXIyYWxr?=
+ =?utf-8?Q?BJEw=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <00c67cf0-2bf3-4eaf-b200-ffe00d91593b@gmail.com>
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB5941.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 48bc13d1-c491-4680-eddc-08dc89b1e257
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jun 2024 01:00:27.9248 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HU++gMQu1vSO65jdQwN+NLmBkD336bEjJyQTp2vRdzt2q+XpU0Qd8MA3jACBFMh9Dw3ge7OQFByZjVcExk2P3w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6816
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,33 +166,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 10, 2024 at 08:20:08PM +0100, Pavel Begunkov wrote:
-> On 6/10/24 16:16, David Ahern wrote:
-
-> > > There is no reason you shouldn't be able to use your fast io_uring
-> > > completion and lifecycle flow with DMABUF backed memory. Those are not
-> > > widly different things and there is good reason they should work
-> > > together.
-> 
-> Let's not mix up devmem TCP and dmabuf specifically, as I see it
-> your question was concerning the latter: "... DMABUF memory registered
-> through Mina's mechanism". io_uring's zcrx can trivially get dmabuf
-> support in future, as mentioned it's mostly the setup side. ABI,
-> buffer workflow and some details is a separate issue, and I don't
-> see how further integration aside from what we're already sharing
-> is beneficial, on opposite it'll complicate things.
-
-Again, I am talking about composability here, duplicating the DMABUF
-stuff into io_uring is not composable, it is just duplicating things.
-
-It does not match the view that there should be two distinct layers
-here, one that provides the pages and one that manages the
-lifecycle. As HCH pushes for pages either come from the allocator and
-get to use the struct folio or the come from a dmabuf and they
-don't. That is it, the only two choices.
-
-The iouring stuff is trying to confuse the source of the pages with
-the lifecycle - which is surely convenient, but is why Christoph is
-opposing it.
-
-Jason
+PiBTdWJqZWN0OiBSZTogW1BBVENIXSBkcm0vZmJkZXYtZG1hOiBmaXggZ2V0dGluZyBzbWVtX3N0
+YXJ0DQo+IA0KPiBIaQ0KPiANCj4gQW0gMDQuMDYuMjQgdW0gMTA6MDMgc2NocmllYiBQZW5nIEZh
+biAoT1NTKToNCj4gPiBGcm9tOiBQZW5nIEZhbiA8cGVuZy5mYW5AbnhwLmNvbT4NCj4gPg0KPiA+
+IElmICdpbmZvLT5zY3JlZW5fYnVmZmVyJyBsb2NhdGVzIGluIHZtYWxsb2MgYWRkcmVzcyBzcGFj
+ZSwNCj4gPiB2aXJ0X3RvX3BhZ2Ugd2lsbCBub3QgYmUgYWJsZSB0byBnZXQgY29ycmVjdCByZXN1
+bHRzLiBXaXRoDQo+ID4gQ09ORklHX0RFQlVHX1ZNIGFuZCBDT05GSUdfREVCVUdfVklSVFVBTCBl
+bmFibGVkIG9uIEFSTTY0LA0KPiB0aGVyZSBpcyBkdW1wIGJlbG93Og0KPiANCj4gV2hpY2ggZ3Jh
+cGhpY3MgZHJpdmVyIHRyaWdnZXJzIHRoaXMgYnVnPw0KDQpJdCBpcyBOWFAgaS5NWDk1IERQVSBk
+cml2ZXIgd2hpY2ggaXMgc3RpbGwgaW4gTlhQIGRvd25zdHJlYW0gcmVwby4NCg0KVGhhbmtzLA0K
+UGVuZy4NCg==
