@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF81C903739
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 10:56:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDE9D903737
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2024 10:56:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBF2410E573;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E4C410E576;
 	Tue, 11 Jun 2024 08:56:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EXoraPiE";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="1T+zp0TU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1456C10E576
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 08:56:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E31A10E579
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 08:56:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1718096166;
- bh=jyXZ6Jmf602HyTlI6R8H2s9bUCikY0FkUQKhwDBS4eE=;
- h=From:To:Cc:Subject:Date:From;
- b=EXoraPiEN270DmvqR7ysOyaTy9JXeBNGVwFlanfv/WHqUC2RULZGc6Mgz77ahE6Vj
- p2E4Eml5aApaJ+fFwaBuBIAlySQc8Iuj0y8c9wDWps/O0hlse2GlUQ+rn4OLDhb3iM
- mRshvN0fNDbVom4oWFIod6+u1peB+B2asyb3hGmu4g1CgYHQc3KjIMZ7EHpeqKFHCD
- ncnU9QRe20Oj1Gbvm/Mhz7schrzmNyDo3F+pJL2207yfnqf/hiuuSO/6IvmOJLPES9
- h4B8Lw3R9VLuTJO15Xw85/qupnYsBaJv2BrFL3ME/AeBtSqH/F5+NN1BKWtncPhORe
- nK7yE+iJhevoQ==
+ s=mail; t=1718096168;
+ bh=twG15UdjWXRB0IFFj6bI1+cRICgjEaOW//2cOBbp4BU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=1T+zp0TU9AD5jSP+4g31G7oBmmeksfl1anVMrptEDBrSnE6WjYhcPR608yehrm0am
+ eIDp5pk3KEFIpMdA+EU0TutknCpJoZMcVfSOC7B3Z2gFetgBWfwrdJN6T4w25Vy2F/
+ rHoa02qyVICck3L8FNZ3uOA63S/kphyNMTIUtbgJ/XAvDXQhxIEk/k5X1T7cx1s1Pi
+ pqHc09m9QVx5InSgrKWzseJDUTkeh62MCpxdfg1p6O7i4jGCLonTA42Jnaf4HOOkfH
+ UWptsFqKmMH0sNRQa0NHYlnb4rwUo/15f2hNeW0YEl/gjPZLxO9CfJ/t0ssmbTkTSK
+ A4Pdxe/TxYEFA==
 Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
  [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 832AD378020A;
- Tue, 11 Jun 2024 08:56:05 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id C7DF237811D1;
+ Tue, 11 Jun 2024 08:56:06 +0000 (UTC)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: boris.brezillon@collabora.com
 Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
@@ -40,11 +40,16 @@ Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  conor+dt@kernel.org, steven.price@arm.com, matthias.bgg@gmail.com,
  angelogioacchino.delregno@collabora.com, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Subject: [PATCH v3 0/2] drm/panfrost: Add MT8188 support
-Date: Tue, 11 Jun 2024 10:56:00 +0200
-Message-ID: <20240611085602.491324-1-angelogioacchino.delregno@collabora.com>
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Chen-Yu Tsai <wenst@chromium.org>
+Subject: [PATCH v3 1/2] dt-bindings: gpu: mali-bifrost: Add compatible for
+ MT8188 SoC
+Date: Tue, 11 Jun 2024 10:56:01 +0200
+Message-ID: <20240611085602.491324-2-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240611085602.491324-1-angelogioacchino.delregno@collabora.com>
+References: <20240611085602.491324-1-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,24 +67,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes in v3:
- - Added comment stating that MT8188 uses same supplies as MT8183
-   as requested by Steven
+Add a compatible for the MediaTek MT8188 SoC, with an integrated
+ARM Mali G57 MC3 (Valhall-JM) GPU.
 
-Changes in v2:
- - Fixed bindings to restrict number of power domains for MT8188's
-   GPU to three like MT8183(b).
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-This series adds support for MT8188's Mali-G57 MC3.
-
-AngeloGioacchino Del Regno (2):
-  dt-bindings: gpu: mali-bifrost: Add compatible for MT8188 SoC
-  drm/panfrost: Add support for Mali on the MT8188 SoC
-
- .../devicetree/bindings/gpu/arm,mali-bifrost.yaml      |  5 ++++-
- drivers/gpu/drm/panfrost/panfrost_drv.c                | 10 ++++++++++
- 2 files changed, 14 insertions(+), 1 deletion(-)
-
+diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+index e796a1ff8c82..278399adc550 100644
+--- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
++++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+@@ -34,6 +34,7 @@ properties:
+           - const: arm,mali-valhall-jm # Mali Valhall GPU model/revision is fully discoverable
+       - items:
+           - enum:
++              - mediatek,mt8188-mali
+               - mediatek,mt8192-mali
+           - const: arm,mali-valhall-jm # Mali Valhall GPU model/revision is fully discoverable
+ 
+@@ -195,7 +196,9 @@ allOf:
+       properties:
+         compatible:
+           contains:
+-            const: mediatek,mt8183b-mali
++            enum:
++              - mediatek,mt8183b-mali
++              - mediatek,mt8188-mali
+     then:
+       properties:
+         power-domains:
 -- 
 2.45.2
 
