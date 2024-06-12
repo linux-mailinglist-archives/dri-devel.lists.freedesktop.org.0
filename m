@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80E19053FA
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 15:41:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B4A9905402
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 15:42:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF73110E12E;
-	Wed, 12 Jun 2024 13:41:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 107AE10E194;
+	Wed, 12 Jun 2024 13:42:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CC5610E12E
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 13:41:22 +0000 (UTC)
-Received: from andre.telenet-ops.be (andre.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:15])
- by gauss.telenet-ops.be (Postfix) with ESMTPS id 4VzmsY0G4xz4wxL9
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:41:21 +0200 (CEST)
+Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be
+ [195.130.137.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D4D910E127
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 13:42:34 +0000 (UTC)
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:14])
+ by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4Vzmtv62xwz4x0KD
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:42:31 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:170b:1b4a:247:a009])
- by andre.telenet-ops.be with bizsmtp
- id adhK2C0073axqkY01dhKtR; Wed, 12 Jun 2024 15:41:20 +0200
+ by xavier.telenet-ops.be with bizsmtp
+ id adiX2C00J3axqkY01diXux; Wed, 12 Jun 2024 15:42:31 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1sHOD0-008cdj-7Y;
- Wed, 12 Jun 2024 15:41:19 +0200
+ (envelope-from <geert@linux-m68k.org>) id 1sHOEA-008cnA-2T;
+ Wed, 12 Jun 2024 15:42:31 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1sHOE3-00EaMZ-A5;
- Wed, 12 Jun 2024 15:41:19 +0200
+ (envelope-from <geert@linux-m68k.org>) id 1sHOFD-00EaNg-5F;
+ Wed, 12 Jun 2024 15:42:31 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Helge Deller <deller@gmx.de>
 Cc: Stephen Rothwell <sfr@canb.auug.org.au>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org,
  Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] video/logo: Make logo data const again
-Date: Wed, 12 Jun 2024 15:41:17 +0200
-Message-Id: <1ea18c51dd1c029e3c50bfb082f5942b58b7360c.1718199543.git.geert+renesas@glider.be>
+Subject: [PATCH] video/logo: Remove linux_serial_image comments
+Date: Wed, 12 Jun 2024 15:42:29 +0200
+Message-Id: <427f78490365b38195f142d0aad7c9594a5bdd76.1718199686.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -52,37 +53,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As gcc-4.1 is no longer supported, the logo data can be made const
-again.  Hence revert commit 15e3252464432a29 ("fbdev: work around old
-compiler bug").
+The last user of the serial_console ASCII image was removed in v2.1.115.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/video/logo/pnmtologo.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/linux/linux_logo.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/video/logo/pnmtologo.c b/drivers/video/logo/pnmtologo.c
-index 8080c4d9c4a23fbb..28d9f0b907a99a05 100644
---- a/drivers/video/logo/pnmtologo.c
-+++ b/drivers/video/logo/pnmtologo.c
-@@ -238,7 +238,7 @@ static void write_header(void)
- 	fprintf(out, " *  Linux logo %s\n", logoname);
- 	fputs(" */\n\n", out);
- 	fputs("#include <linux/linux_logo.h>\n\n", out);
--	fprintf(out, "static unsigned char %s_data[] __initdata = {\n",
-+	fprintf(out, "static const unsigned char %s_data[] __initconst = {\n",
- 		logoname);
- }
+diff --git a/include/linux/linux_logo.h b/include/linux/linux_logo.h
+index d4d5b93efe8435bd..e37699b7e8393df0 100644
+--- a/include/linux/linux_logo.h
++++ b/include/linux/linux_logo.h
+@@ -10,9 +10,6 @@
+  *  Copyright (C) 2001 Greg Banks <gnb@alphalink.com.au>
+  *  Copyright (C) 2001 Jan-Benedict Glaw <jbglaw@lug-owl.de>
+  *  Copyright (C) 2003 Geert Uytterhoeven <geert@linux-m68k.org>
+- *
+- *  Serial_console ascii image can be any size,
+- *  but should contain %s to display the version
+  */
  
-@@ -375,7 +375,7 @@ static void write_logo_clut224(void)
- 	fputs("\n};\n\n", out);
- 
- 	/* write logo clut */
--	fprintf(out, "static unsigned char %s_clut[] __initdata = {\n",
-+	fprintf(out, "static const unsigned char %s_clut[] __initconst = {\n",
- 		logoname);
- 	write_hex_cnt = 0;
- 	for (i = 0; i < logo_clutsize; i++) {
+ #include <linux/init.h>
 -- 
 2.34.1
 
