@@ -2,76 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19F2905676
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 17:11:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C25905689
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 17:13:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82D2E10E895;
-	Wed, 12 Jun 2024 15:11:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A74BB10E0E7;
+	Wed, 12 Jun 2024 15:13:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="i5u9tlQr";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="TVri2K6k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F08F10E895
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:11:11 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-4210f0bb857so7243775e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 08:11:11 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 054E910E0E7
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:13:07 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-35f0b9a1dd7so24f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 08:13:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1718205069; x=1718809869; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1718205186; x=1718809986; darn=lists.freedesktop.org; 
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:mail-followup-to:message-id:subject:cc:to
  :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=j3rEd/N79zsTx5bN2Ceul3LBY+GMeO3ZQ5xYcqq+Lx8=;
- b=i5u9tlQrxZxVA1qSM54vVmXocB7IMcT26MDGn0UxABdz63s12dAM6r66cltiilKDQQ
- N1YiNsXU7J8Tkd929lK4TNlO7i+DQRRtaKY3Y/eBolbK63My9L14gAe8NuBNsEJSmatR
- CMy2UOKA6zUEpsTnW+/RhqN7KyPJZyW9Zt2KQ=
+ bh=aB2lXUipFe+ilhQGDKfy5yRSSxNAEcN/w1KJXQoXXRo=;
+ b=TVri2K6kQOwGZdM1zTZZaMYKdoJ5JQeebbkYaiSu9HtrPXVIcxY72zzduFcHCGIa2o
+ tFc78jjN0j4RCYCb4nlXVnReFmRKp9U8QNA/qDAlUxqYG73aigfcS8zR9UHPrz8bNKw2
+ dS9982ttf9qIk72VoWeGHKcHfZ4biAHs2ABJ8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718205069; x=1718809869;
+ d=1e100.net; s=20230601; t=1718205186; x=1718809986;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:mail-followup-to:message-id:subject:cc:to
  :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=j3rEd/N79zsTx5bN2Ceul3LBY+GMeO3ZQ5xYcqq+Lx8=;
- b=o6OjNuKhoEQwHGIkd+eb+pb4++FlT2oEZvvajEQPaaacarwwHwWrfT9MnZsD35uN6g
- 1AFSuDhZM1v+mgymIQ5gBlrMPM4Djmtj36dOQAVV/FpEtLbvCKuJE0tBN7pcXQ+qce7G
- hUEQYW93A6OmmBhIkvbAvL949LrUPcaixblTc3wLQY1uQIPY9x1y1GuDRvoiD0WWZ73w
- YZa1hLFeZCN1atxzDCgLXbBwz6TORZy18wEDM/QeH7FDK8ymD57KIF1hGgISCjkTci5i
- RHezFpA4aumVKr2ygVq+dd7om7Ts+YpwvWnO6x4m7riE2hlKfKfS5n79PFMmbIgUcO2G
- yMEA==
-X-Gm-Message-State: AOJu0YwjjwXheoe2dZizO2E+DcK4N2z8PnmA8PKgKYS55bJ2kVb5mU1G
- wCDMRegPfgBc+0jG3X7SRoMQ5BBXoh9m7bR3Mg04ZdKsuKB9BNfvyWwZ5ZeSyoI=
-X-Google-Smtp-Source: AGHT+IGOokcQBaF0gtzavB63Lm/hzcbJyOl+IEUlftNYtxr6X9d0tMA3jKNn1cu9xWD4Kz5+Y3xExQ==
-X-Received: by 2002:a05:600c:1c85:b0:421:de31:76 with SMTP id
- 5b1f17b1804b1-422866bcc38mr14735365e9.3.1718205069428; 
- Wed, 12 Jun 2024 08:11:09 -0700 (PDT)
+ bh=aB2lXUipFe+ilhQGDKfy5yRSSxNAEcN/w1KJXQoXXRo=;
+ b=BpCc7JjGeu+rQaCWgu+7ekO4Hd0z1xLVD2lxCj/GI7eAN6oLIGHcJuLWu2lmPWlcZv
+ VqOd7jqcgA4xS7V30D0ViOP8v0QunWXqCg6UBd5WHxt2vPii4QJ0pGX5/P+BKzSor1YF
+ 187sJcQj42ItwhcUlARzjfJLUjTsAyD21L82mLEdcAG+4NSxwMz1BsHcUjLS78tyu2KO
+ 9PhhhDhyqSqtuA6AvQmfWS4Sbll2rzMclMVWeKnl9MhxOhl3legnWEidlMB79yp9zpJ3
+ +sisqvEEPy1LhAhUOwSd0yuAUQIKiHOCYJQXYB3M7Z7CBeb2NY5bSX8V3jlBW4J3ZKgH
+ 5zYQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV2GLn6DbWEZlWAQiCJNFX/gM9Tdev8P5TZuDAkVNgK40Bob0qoFlEnhQTSzXUNwwF4Z+ZPbov0NDl2ClGXz5Z9kGwpe4km9w7ygdAHnPe9
+X-Gm-Message-State: AOJu0YwXrIkBhXdhuuPpzmHTDbQhbht9SLbo5RwDnm5FGDcYavauyARX
+ DklNSbBbsmFVgcFufxiTU3gB7CtMdAJ9szBpIjS45OZuzgD0Ot9yNgcJ68QjSdM=
+X-Google-Smtp-Source: AGHT+IG6G6UfkgYLOZrbaC3u6RFF77X5XQGCNP3Hq482PX0DbBDxDJ6zJg1aOTxpQe4xxXI8x1blEA==
+X-Received: by 2002:a05:6000:1445:b0:354:e03c:b39a with SMTP id
+ ffacd0b85a97d-35fe88fe708mr1617633f8f.6.1718205186150; 
+ Wed, 12 Jun 2024 08:13:06 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42286fe919bsm28783255e9.19.2024.06.12.08.11.08
+ ffacd0b85a97d-35f30c04d63sm3301375f8f.110.2024.06.12.08.13.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jun 2024 08:11:09 -0700 (PDT)
-Date: Wed, 12 Jun 2024 17:11:07 +0200
+ Wed, 12 Jun 2024 08:13:05 -0700 (PDT)
+Date: Wed, 12 Jun 2024 17:13:03 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Doug Anderson <dianders@chromium.org>
-Cc: dri-devel@lists.freedesktop.org,
+Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
  Neil Armstrong <neil.armstrong@linaro.org>,
- Maxime Ripard <mripard@kernel.org>,
  Linus Walleij <linus.walleij@linaro.org>,
  Yuran Pereira <yuran.pereira@hotmail.com>,
- Chris Morgan <macromorgan@hotmail.com>, David Airlie <airlied@gmail.com>,
+ Chris Morgan <macromorgan@hotmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] drm/panel: Avoid warnings w/ panel-simple/panel-edp at
  shutdown
-Message-ID: <Zmm6i6iQOdP613w3@phenom.ffwll.local>
+Message-ID: <Zmm6_27GikpmT3HQ@phenom.ffwll.local>
 Mail-Followup-To: Doug Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
  Neil Armstrong <neil.armstrong@linaro.org>,
- Maxime Ripard <mripard@kernel.org>,
  Linus Walleij <linus.walleij@linaro.org>,
  Yuran Pereira <yuran.pereira@hotmail.com>,
  Chris Morgan <macromorgan@hotmail.com>,
@@ -81,13 +81,13 @@ Mail-Followup-To: Doug Anderson <dianders@chromium.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  linux-kernel@vger.kernel.org
 References: <20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
- <ZmljNHteJ9L5EdE9@phenom.ffwll.local>
- <CAD=FV=V4C1AYVqG4gig+SiQr4n_mAPVASxneDDZT1a=7AY3Hzw@mail.gmail.com>
+ <20240612-garnet-condor-from-saturn-1c51bb@houat>
+ <CAD=FV=Xpu0-_kEvRWy9w8ypjo7pF7tsFWxHfhMZ=YjHugTqG1w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=V4C1AYVqG4gig+SiQr4n_mAPVASxneDDZT1a=7AY3Hzw@mail.gmail.com>
+In-Reply-To: <CAD=FV=Xpu0-_kEvRWy9w8ypjo7pF7tsFWxHfhMZ=YjHugTqG1w@mail.gmail.com>
 X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -104,12 +104,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 12, 2024 at 07:49:31AM -0700, Doug Anderson wrote:
+On Wed, Jun 12, 2024 at 07:39:01AM -0700, Doug Anderson wrote:
 > Hi,
 > 
-> On Wed, Jun 12, 2024 at 1:58 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Wed, Jun 12, 2024 at 1:09 AM Maxime Ripard <mripard@kernel.org> wrote:
 > >
-> > On Tue, Jun 11, 2024 at 07:48:51AM -0700, Douglas Anderson wrote:
+> > Hi,
+> >
+> > On Tue, Jun 11, 2024 at 07:48:51AM GMT, Douglas Anderson wrote:
 > > > At shutdown if you've got a _properly_ coded DRM modeset driver then
 > > > you'll get these two warnings at shutdown time:
 > > >
@@ -152,80 +154,55 @@ On Wed, Jun 12, 2024 at 07:49:31AM -0700, Doug Anderson wrote:
 > > > since they're used by so many DRM Modeset drivers. It's a bit ugly but
 > > > I don't hate it. What do others think?
 > >
-> > I think it's terrible :-)
-> 
-> Well, we're in agreement. It is terrible. However, in my opinion it's
-> still a reasonable way to move forward.
-> 
-> 
-> > Why does something like this now work?
+> > I don't think it's the right approach, even more so since we're so close
+> > now to having it in every driver.
 > >
-> > drm_panel_shutdown_fixup(panel)
-> > {
-> >         /* if you get warnings here, fix your main drm driver to call
-> >          * drm_atomic_helper_shutdown()
-> >          */
-> >         if (WARN_ON(panel->enabled))
-> >                 drm_panel_disable(panel);
+> > I ran the coccinelle script we started with, and here are the results:
 > >
-> >         if (WARN_ON(panel->prepared))
-> >                 drm_panel_unprepare(panel);
-> > }
-> >
-> > And then call that little helper in the relevant panel drivers? Also feel
-> > free to bikeshed the name and maybe put a more lengthly explainer into the
-> > kerneldoc for that ...
-> >
-> > Or am I completely missing the point here?
+> > ./drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1640:25-39: ERROR: KMS driver vmw_pci_driver is missing shutdown implementation
+> > ./drivers/gpu/drm/kmb/kmb_drv.c:621:30-49: ERROR: KMS driver kmb_platform_driver is missing shutdown implementation
+> > ./drivers/gpu/drm/tiny/arcpgu.c:422:30-52: ERROR: KMS driver arcpgu_platform_driver is missing shutdown implementation
 > 
-> The problem is that the ordering is wrong, I think. Even if the OS was
-> calling driver shutdown functions in the perfect order (which I'm not
-> convinced about since panels aren't always child "struct device"s of
-> the DRM device), the OS should be calling panel shutdown _before_
-> shutting down the DRM device. That means that with your suggestion:
+> Sure, although I think we agreed even back when we talked about this
+> last that your coccinelle script wasn't guaranteed to catch every
+> driver. ...so I guess the question is: are we willing to accept that
+> we'll stop disabling panels at shutdown for any drivers that might
+> were missed. For instance, looking at it by hand (which also could
+> miss things), I previously thought that we also might need:
 > 
-> 1. Shutdown starts and panel is on.
+> * nouveau
+> * tegra
+> * amdgpu
+> * sprd
+> * gma500
+> * radeon
 > 
-> 2. OS calls panel shutdown call, which prints warnings because panel
-> is still on.
-> 
-> 3. OS calls DRM driver shutdown call, which prints warnings because
-> someone else turned the panel off.
+> I sent patches for those drivers but they don't go through drm-misc
+> and some of the drivers had a lot of abstraction layers and were hard
+> to reason about. I'm also not 100% confident that all of those drivers
+> really are affected--they'd have to be used with panel-simple or
+> panel-edp...
 
-Uh, that's a _much_ more fundamental issue.
+Aside from amdgpu and radeon they're all in -misc now, and Alex is
+generally fairly responsive.
 
-The fix for that is telling the driver core about this dependency with
-device_link_add. Unfortuantely, despite years of me trying to push for
-this, drm_bridge and drm_panel still don't automatically add these,
-because the situation is a really complex mess.
+> In any case, having some sort of warning that would give us a
+> definitive answer would be nice. My proposed patch would give us that
+> warning. I could even jump to a WARN_ON right from the start.
 
-Probably need to read dri-devel archives for all the past attempts around
-device_link_add.
+Yeah we defo want some warning to at least check this at runtime.
 
-But the solution is definitely not to have a manually tracked list, what's
-very architectural unsound way to tackle this problem.
+> My proposed patch is self-admittedly super ugly and is also designed
+> to be temporary, so I don't think of this as giving up right before
+> crossing the finish line but instead accepting a tiny bit of temporary
+> ugliness to make sure that we don't accidentally regress anyone. I
+> would really hope it would be obvious to anyone writing / reviewing
+> drivers that the function I introduced isn't intended for anyone but
+> panel-simple and panel-edp.
 
-> Certainly if I goofed and the above is wrong then let me know--I did
-> my experiments on this many months ago and didn't try repeating them
-> again now.
-
-Oh the issue is very real and known since years. It also wreaks module
-unload and driver unbinding, since currently nothing makes sure your
-drm_panel lives longer than your drm_device.
-
-> In any case, the only way I could figure out around this was some sort
-> of list. As mentioned in the commit message, it's super ugly and
-> intended to be temporary. Once we solve all the current in-tree
-> drivers, I'd imagine that long term for new DRM drivers this kind of
-> thing would be discovered during bringup of new boards. Usually during
-> bringup of new boards EEs measure timing signals and complain if
-> they're not right. If some EE cared and said we weren't disabling the
-> panel correctly at shutdown time then we'd know there was a problem.
-
-You've stepped into an entire hornets nest with this device dependency
-issue unfortunately, I'm afraid :-/
-
-Cheers, Sima
+See my other reply for the proper design fix, and my apologies for what
+you stepped into here :-/
+-Sima
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
