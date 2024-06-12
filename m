@@ -2,60 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1AA29054FA
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 16:19:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D486905504
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 16:22:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1F1C10E86D;
-	Wed, 12 Jun 2024 14:19:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C143C10E866;
+	Wed, 12 Jun 2024 14:22:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Bp0DfYeA";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Uc7BHtJ5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D28A910E86D;
- Wed, 12 Jun 2024 14:19:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718201951; x=1749737951;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=CouY0ZgYDtH5IAa9rKLNW22UZQjmUVigX30l9hMVayo=;
- b=Bp0DfYeAD91ZpDMf9ekmRs/qu3K6ByJodhGaqlmMkrmz/YEGjhzF37uq
- YZasFM2b+bpGhFONT3I+EWYbAg2dnaXYpdq6z8zNbNqo5KFIgv6JbFfwt
- rLtSmIpp44tWJ+6rpTlqUrvdvj7iRgwxzpmsrhje+tjv7uVn1wTfDrjYk
- oU4BJzFd3mBzq/cbyD+VsSNRI8e3ui4o8wKXiLXci9zbGw3AuCzVD/3Bz
- Nh3S4FwgFG4ERBbShoO+Kjwq3xhKrJbS4wjAthoBQPGJ0KoOMqYMQnTam
- y7sP8ONiFhUERQkHz3kc4V5VflWh6MmpZ8tPE3P/s/uRMly2ulcA5jxGb g==;
-X-CSE-ConnectionGUID: By4JeN5ySJalwpLhfnQ1qA==
-X-CSE-MsgGUID: Q0sSpWceSCOmHWrtrinelw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="25600427"
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; d="scan'208";a="25600427"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2024 07:19:11 -0700
-X-CSE-ConnectionGUID: dr162fluRuSUlt7cEByU8Q==
-X-CSE-MsgGUID: IvZ+lUnzSMOYM0T5XDjIFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; d="scan'208";a="39760191"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 12 Jun 2024 07:19:08 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 12 Jun 2024 17:19:07 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, Simon Ser <contact@emersion.fr>,
- Daniel Stone <daniels@collabora.com>
-Subject: [PATCH 2/2] drm/doc: Document that userspace should utilize CRTCs
- bottom up
-Date: Wed, 12 Jun 2024 17:19:03 +0300
-Message-ID: <20240612141903.17219-2-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.44.2
-In-Reply-To: <20240612141903.17219-1-ville.syrjala@linux.intel.com>
-References: <20240612141903.17219-1-ville.syrjala@linux.intel.com>
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9551210E86E
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 14:21:59 +0000 (UTC)
+Received: by mail-qt1-f169.google.com with SMTP id
+ d75a77b69052e-4405cf0cb1eso12279571cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 07:21:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1718202117; x=1718806917;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=h7Z/F2lTFqxBQr8f3YutkrSgp/gPqby12XW1md45flk=;
+ b=Uc7BHtJ5RmLGzlEYQ6xcRN/YDhI1+LRbXYd5VYFR5F2c3IQYcCGfDXXnAv23S0wAZh
+ 6BjinkJJyFxi37MPbzCyMlc4pAX6Vw4XmkpylR9riir2rAYHH4wzY/DHMdl3xnTvtaLQ
+ GrgwBYm6xjC4tDSVE6VeWyNdqwH5GcFxNa4ag=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718202117; x=1718806917;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=h7Z/F2lTFqxBQr8f3YutkrSgp/gPqby12XW1md45flk=;
+ b=CYDO6E8zk744gvK3gyAF42kLi1OHd5nnDsRg443E3oQgoagiI0nyMoDpyQXZSBF6Qx
+ iALW2oAYv0yLN783rkpvntQUIbryNBwQBCbCbi3vgZkLccgWKzuMVlnOIrve5MBRde5x
+ uRTAvufAlAtGbtvwWT7NcPQ0lJcNgwKwVDRakpgd1OKOFhcfxM7Ya4pgb/ELhjQCtQNt
+ lXgXjElAAXo4cCKfUSpdwhWYROS/hYYw7UUsED09X0vL4CCJ6hKkSBdL9t53skSySmJ/
+ bTKX9uuVbLy3PrSVNcz5otn3osHrGnJZu9XG/cMHAmrQy+Dl7h7X2dNzJwl0i8o4bjCe
+ dtiw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVjgBLuGUnO352wz0mWtBX6IqIiUhnTpa5EWOrfV1L420oZ+vyPlDEVO9OOnjdqZfgQjPEyAjlll7M9ZQTMuCdRKTa77IFTphpkmF32ZiL/
+X-Gm-Message-State: AOJu0YxxwwwNUAXtBHmcKIF/lc3od+hklrOrJeAqpJ3GFYqrj5qBi94p
+ c4W0t8Ad2CK19An+b4QMdnkaXJJ67G9iUEN/eednA5pey1mzKOBoPL9wOC7nYz1fsBQwvUKxmto
+ =
+X-Google-Smtp-Source: AGHT+IH2bzu655p9ymC7nVC0DFyCsZISBgGETbw3Lo3OkoZ8x+0zlyMPeLLd5aotubbMf60RZxBCXg==
+X-Received: by 2002:ac8:5a8a:0:b0:441:c86:459c with SMTP id
+ d75a77b69052e-4415abd855fmr23882671cf.16.1718202117476; 
+ Wed, 12 Jun 2024 07:21:57 -0700 (PDT)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com.
+ [209.85.160.169]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-4405cfb81fcsm37767481cf.69.2024.06.12.07.21.56
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Jun 2024 07:21:56 -0700 (PDT)
+Received: by mail-qt1-f169.google.com with SMTP id
+ d75a77b69052e-4400cc0dad1so461361cf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 07:21:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWSfiwaofjIXpYVs94x6LbZur4GPYIPKCr2ihdFQ4F25K8aLjmfd03CcQhshBuNHQBfW2pjiO9YZ89aVdSNn+skjgSizmykWaOQJgeEBXOK
+X-Received: by 2002:a05:622a:5a9a:b0:43e:295:f160 with SMTP id
+ d75a77b69052e-4415a39f97bmr3125261cf.24.1718202116182; Wed, 12 Jun 2024
+ 07:21:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240612133550.473279-1-tejasvipin76@gmail.com>
+ <20240612133550.473279-3-tejasvipin76@gmail.com>
+In-Reply-To: <20240612133550.473279-3-tejasvipin76@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 12 Jun 2024 07:21:40 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VTEzSyTHm-YBwneBgpohK8uu460DER-GcsQWu-z9hJsg@mail.gmail.com>
+Message-ID: <CAD=FV=VTEzSyTHm-YBwneBgpohK8uu460DER-GcsQWu-z9hJsg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/mipi-dsi: fix handling of ctx in mipi_dsi_msleep
+To: Tejas Vipin <tejasvipin76@gmail.com>, neil.armstrong@linaro.org
+Cc: quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
+ linus.walleij@linaro.org, dmitry.baryshkov@linaro.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,56 +95,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Hi,
 
-At leat on Intel GPUs it is best to allocate CRTCs bottom up
-as it will generally lead to lower power consumption. Recommend
-userspace does so.
+On Wed, Jun 12, 2024 at 6:37=E2=80=AFAM Tejas Vipin <tejasvipin76@gmail.com=
+> wrote:
+>
+> ctx would be better off treated as a pointer to account for most of its
+> usage so far, and brackets should be added to account for operator
+> precedence for correct evaluation.
+>
+> Fixes: f79d6d28d8fe7 ("drm/mipi-dsi: wrap more functions for streamline h=
+andling")
+> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+> ---
+>  include/drm/drm_mipi_dsi.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Not sure if this is strictly the best order for other hardware,
-but drivers could always rearrange the CRTC list into some kind
-of priority order to make it work. Should that turn out to be
-insufficient we might need some kind of more complex priority
-scheme.
+Yeah. Looking closer at the history, it looks like it was always
+intended to be a pointer since the first users all used it as a
+pointer.
 
-Probably the ideal solution would be to have the driver be
-responsible for resource allocation entirely. Ie. the CRTCs
-visible via uapi would be virtual and the driver could make
-the final choice on which hardware CRTC to use for each.
-Unfortunately the kms uapi is geared towards exposing hardware
-directly. Eg. when CRTCs are non-uniform in hardware there is
-no good way to expose their capabilities. The virtual CRTCs
-would more or less either have to expose a superset or a subset
-of the capabilities across all hardware CRTCs. Also the
-crtc->encoder->connector routing information exposed in the
-uapi is all about the actual hardware signal routing. I think
-robust virtualized CRTCs would require some new form of uapi
-where userspace could declare ahead of time which features
-wants on the CRTC (even if not enabling all of them from
-the start), and the driver would then have enough information
-to make the optimal choice.
+Suggested-by: Douglas Anderson <dianders@chromium.org>
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-Cc: Simon Ser <contact@emersion.fr>
-Cc: Daniel Stone <daniels@collabora.com>
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- include/uapi/drm/drm_mode.h | 3 +++
- 1 file changed, 3 insertions(+)
+I've also compile-tested all the panels currently using mipi_dsi_msleep().
 
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index fe5e210396b2..aa90f11950d6 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -386,6 +386,9 @@ struct drm_mode_get_encoder {
- 
- 	/**
- 	 * @possible_crtcs: Bitmask of CRTCs compatible with the encoder.
-+	 * If multiple CRTCs are possible userspace should generally try
-+	 * to utilize CRTCs bottom up as that may result in lower power
-+	 * consumption on some systems.
- 	 * CRTCs are created and they receive an index, which corresponds
- 	 * to their position in the bitmask. Bit N corresponds to
- 	 * :ref:`CRTC index<crtc_index>` N.
--- 
-2.44.2
+Neil: Given that this is a correctness thing, I'd rather see this land
+sooner rather than later. If you agree, maybe you can land these two
+patches whenever you're comfortable with them?
 
+
+-Doug
