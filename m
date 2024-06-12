@@ -2,53 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE06905CFB
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 22:42:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD7F1905D07
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 22:45:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C20D10E10E;
-	Wed, 12 Jun 2024 20:42:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1249910E187;
+	Wed, 12 Jun 2024 20:45:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Yhg4Jx7m";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PvNkLHP0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7938310E10E
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 20:42:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C44ABCE22DD;
- Wed, 12 Jun 2024 20:42:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3D54C116B1;
- Wed, 12 Jun 2024 20:42:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718224957;
- bh=ROAG1n+s9+Sfvh8VDDnGQMJgUbbS6fHotKmxBlMQ33Y=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=Yhg4Jx7mXQtKoJwbeqymT+AC/jzOi5DPUWQvL+ZBMforcPV0Wld2wZfY7NMcSVP72
- 0u91JxxSnSU1u2V1l5c17bzxUy/X6hSDV8ozaaKVj6soNVAxv1Nn6wdwfZYNKQRY/+
- kOZIXUjRnTDdBGuQOi1gsg2UpnjYl3G8BzUWhst/0JV04Qv2Dp52Z2Gx/hQ/29Iq2i
- KA40SffByyHxxDWrmoXw6XqB8gIlV3KYO6xmt5lkF//tnyI7Ca0X9+jDZ//5DCyIJs
- wVsQZ34h0IL8SQGbQlLbZ9vCynj6ECEUUioFyKCUTd9eKq61e8mN/KN6nU6sNCD9DA
- oJFDFPeoJf1bw==
-Date: Wed, 12 Jun 2024 15:42:35 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org
-Subject: Re: [PATCH v8 03/13] PCI: Reimplement plural devres functions
-Message-ID: <20240612204235.GA1037175@bhelgaas>
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C58810E8FC
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 20:45:04 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2e78fe9fc2bso2920801fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 13:45:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1718225102; x=1718829902; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=SEA70tBJ4PwBkoOMmWe3ULbP4tpxOmjC5IUbkfsrBUs=;
+ b=PvNkLHP0fFkU15p6qNkki/dKXRDhCrJgtpsUc14fMYYKn2astgSmiP4ETTSt9yRUrR
+ GdFNlKph4Xk4jvXHzxLOI3nEYmB8MgoPYQf2auGaXWadWA5LiXt/WMGtJHpEhl2Pg8J/
+ FU09ARf05/NX39+1aM91DmByGRTw1g9PYf4F+SNVTLrGwgOU/3pv3vmSAe0mCT4hKC7c
+ nfo3dTAl7InGkHq1EAuckCuEId/uVdvW0b1bGUtnZqKVpKDvY0Vfoj/D5Bs8U7fUdpFe
+ veXEv4P+cbdZOFOtuzxw2Ks+WdAWTB3q0xct4YIJRRCEeVaZS6CLDYm5FV0upshYIZJE
+ 1WPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718225102; x=1718829902;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SEA70tBJ4PwBkoOMmWe3ULbP4tpxOmjC5IUbkfsrBUs=;
+ b=a+y3r9uQ8tg2N5yrvxeoE+2dW/LWN7F/TDyBT3dfyWML14djKMCdsAnfGlpT6qWjJB
+ JPlYXGUQDhH1svR4I1OlVNQ4rS2cCtmeCduj/3lDEgBhS1r4HpdoOl75WywYRfznz0rN
+ hpSi8J6tAk7EklhtI8kupu6eWNkzx3oed4RNSEriXnEVU+geaB6kf8Baf4idAsDww6AX
+ Ht1UAPgWmLOfpG6SvTLLOF8Gf9DfbBDYDTDHHNiNCzRFxgAJza1Y4IcdKggyWQuM4Ab9
+ bV5FZWQmV5iljsNn0e8XVdAqHscsimqHpcyLVTRZ7A/v3wxp2TIWIgFu5ohi98LptbRW
+ qGyA==
+X-Gm-Message-State: AOJu0YyHOXn6xRRbuJxFuCMs4z5d2+x7/onA0+sRElXtX63fVh5R3SDi
+ /LEr1/kRWoVC43b45h7qE+d1kfjDSO2K4aJ+m/XilDmK0lOKM9Ydbt4G+jCWa5E=
+X-Google-Smtp-Source: AGHT+IGVRVhHEiIlwITe9DlEo5WfJ4Eof41I9EM1LQ/eq9af4QfavH0OfsPqZ0JOdpEI84p8RNKzSw==
+X-Received: by 2002:a2e:9ed1:0:b0:2eb:e840:4a1b with SMTP id
+ 38308e7fff4ca-2ebfc8feb43mr16792821fa.7.1718225102385; 
+ Wed, 12 Jun 2024 13:45:02 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2ebe4169b35sm16912301fa.135.2024.06.12.13.45.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Jun 2024 13:45:01 -0700 (PDT)
+Date: Wed, 12 Jun 2024 23:45:00 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Simon Ser <contact@emersion.fr>, 
+ Pekka Paalanen <ppaalanen@gmail.com>, daniel@ffwll.ch,
+ Daniel Stone <daniel@fooishbar.org>, 
+ 'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
+ Dave Airlie <airlied@gmail.com>, ville.syrjala@linux.intel.com, 
+ Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>, 
+ Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Subject: Re: [PATCH v5 2/3] drm: Allow drivers to choose plane types to async
+ flip
+Message-ID: <pu4nawhvy52imqgpib4lx3s5lsbatmfrq3e7aa4zxfmewt6xrn@ki7woraegakt>
+References: <20240612193713.167448-1-andrealmeid@igalia.com>
+ <20240612193713.167448-3-andrealmeid@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ec1be501811dc2ac082ec71349bde45145749d3c.camel@redhat.com>
+In-Reply-To: <20240612193713.167448-3-andrealmeid@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,89 +92,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 12, 2024 at 10:51:40AM +0200, Philipp Stanner wrote:
-> On Tue, 2024-06-11 at 16:44 -0500, Bjorn Helgaas wrote:
-> > I'm trying to merge these into pci/next, but I'm having a hard time
-> > writing the merge commit log.  I want a one-sentence description of
-> > each patch that tells me what the benefit of the patch is.  Usually
-> > the subject line is a good start.
-> > 
-> > "Reimplement plural devres functions" is kind of vague and doesn't
-> > quite motivate this patch, and I'm having a hard time extracting the
-> > relevant details from the commit log below.
+On Wed, Jun 12, 2024 at 04:37:12PM -0300, Andr� Almeida wrote:
+> Different planes may have different capabilities of doing async flips,
+> so create a field to let drivers allow async flip per plane type.
 > 
-> I would say that the summary would be something along the lines:
-> "Set ground layer for devres simplification and extension"
+> Signed-off-by: Andr� Almeida <andrealmeid@igalia.com>
+> ---
+>  drivers/gpu/drm/drm_atomic_uapi.c | 4 ++--
+>  drivers/gpu/drm/drm_plane.c       | 3 +++
+>  include/drm/drm_plane.h           | 5 +++++
+>  3 files changed, 10 insertions(+), 2 deletions(-)
 > 
-> because this patch simplifies the existing functions and adds
-> infrastructure that can later be used to deprecate the bloated existing
-> functions, remove the hybrid mechanism and add pcim_iomap_range().
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index 57662a1fd345..bbcec3940636 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -385,6 +385,9 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+>  
+>  	drm_modeset_lock_init(&plane->mutex);
+>  
+> +	if (type == DRM_PLANE_TYPE_PRIMARY)
+> +		plane->async_flip = true;
+> +
 
-I think something concrete like "Add partial-BAR devres support" would
-give people a hint about what to look for.
+Why? Also note that the commit message writes about adding the field,
+not about enabling it for the primary planes.
 
-This patch contains quite a bit more than that, and if it were
-possible, it might be nice to split the rest to a different patch, but
-I'm not sure it's even possible and I just want to get this series out
-the door.
+>  	plane->base.properties = &plane->properties;
+>  	plane->dev = dev;
+>  	plane->funcs = funcs;
 
-If the commit log includes the partial-BAR idea and the specific
-functions added, I think that will hold together.  And then it makes
-sense for why the "plural" functions would be implemented on top of
-the "singular" ones.
 
-> > > Implement a set of singular functions 
-> > 
-> > What is this set of functions?  My guess is below.
-> > 
-> > > that use devres as it's intended and
-> > > use those singular functions to reimplement the plural functions.
-> > 
-> > What does "as it's intended" mean?  Too nebulous to fit here.
-> 
-> Well, the idea behind devres is that you allocate a device resource
-> _for each_ object you want to be freed / deinitialized automatically.
-> One devres object per driver / subsystem object, one devres callback
-> per cleanup job for the driver / subsystem.
-> 
-> What PCI devres did instead was to use just ONE devres object _for
-> everything_ and then it had to implement all sorts of checks to check
-> which sub-resource this master resource is actually about:
-> 
-> (from devres.c)
-> static void pcim_release(struct device *gendev, void *res)
-> {
-> 	struct pci_dev *dev = to_pci_dev(gendev);
-> 	struct pci_devres *this = res;
-> 	int i;
-> 
-> 	for (i = 0; i < DEVICE_COUNT_RESOURCE; i++)
-> 		if (this->region_mask & (1 << i))
-> 			pci_release_region(dev, i);
-> 
-> 	if (this->mwi)
-> 		pci_clear_mwi(dev);
-> 
-> 	if (this->restore_intx)
-> 		pci_intx(dev, this->orig_intx);
-> 
-> 	if (this->enabled && !this->pinned)
-> 		pci_disable_device(dev);
-> }
-> 
-> 
-> So one could dare to say that devres was partially re-implemented on
-> top of devres.
-> 
-> The for-loop and the if-conditions constitute that "re-implementation".
-> No one has any clue why it has been done that way, because it provides
-> 0 upsides and would have been far easier to implement by just letting
-> devres do its job.
-> 
-> Would you like to see the above details in the commit message?
-
-No.  Just remove the "use devres as it's intended" since that's not
-needed to motivate this patch.  I think we need fewer and
-more-specific words.
-
-Bjorn
+-- 
+With best wishes
+Dmitry
