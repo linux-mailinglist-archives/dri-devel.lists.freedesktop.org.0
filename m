@@ -2,81 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD7F1905D07
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 22:45:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 923E0905D0C
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 22:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1249910E187;
-	Wed, 12 Jun 2024 20:45:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1383310E8FC;
+	Wed, 12 Jun 2024 20:47:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PvNkLHP0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="N+kQr+vu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
- [209.85.208.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C58810E8FC
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 20:45:04 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-2e78fe9fc2bso2920801fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 13:45:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718225102; x=1718829902; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=SEA70tBJ4PwBkoOMmWe3ULbP4tpxOmjC5IUbkfsrBUs=;
- b=PvNkLHP0fFkU15p6qNkki/dKXRDhCrJgtpsUc14fMYYKn2astgSmiP4ETTSt9yRUrR
- GdFNlKph4Xk4jvXHzxLOI3nEYmB8MgoPYQf2auGaXWadWA5LiXt/WMGtJHpEhl2Pg8J/
- FU09ARf05/NX39+1aM91DmByGRTw1g9PYf4F+SNVTLrGwgOU/3pv3vmSAe0mCT4hKC7c
- nfo3dTAl7InGkHq1EAuckCuEId/uVdvW0b1bGUtnZqKVpKDvY0Vfoj/D5Bs8U7fUdpFe
- veXEv4P+cbdZOFOtuzxw2Ks+WdAWTB3q0xct4YIJRRCEeVaZS6CLDYm5FV0upshYIZJE
- 1WPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718225102; x=1718829902;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SEA70tBJ4PwBkoOMmWe3ULbP4tpxOmjC5IUbkfsrBUs=;
- b=a+y3r9uQ8tg2N5yrvxeoE+2dW/LWN7F/TDyBT3dfyWML14djKMCdsAnfGlpT6qWjJB
- JPlYXGUQDhH1svR4I1OlVNQ4rS2cCtmeCduj/3lDEgBhS1r4HpdoOl75WywYRfznz0rN
- hpSi8J6tAk7EklhtI8kupu6eWNkzx3oed4RNSEriXnEVU+geaB6kf8Baf4idAsDww6AX
- Ht1UAPgWmLOfpG6SvTLLOF8Gf9DfbBDYDTDHHNiNCzRFxgAJza1Y4IcdKggyWQuM4Ab9
- bV5FZWQmV5iljsNn0e8XVdAqHscsimqHpcyLVTRZ7A/v3wxp2TIWIgFu5ohi98LptbRW
- qGyA==
-X-Gm-Message-State: AOJu0YyHOXn6xRRbuJxFuCMs4z5d2+x7/onA0+sRElXtX63fVh5R3SDi
- /LEr1/kRWoVC43b45h7qE+d1kfjDSO2K4aJ+m/XilDmK0lOKM9Ydbt4G+jCWa5E=
-X-Google-Smtp-Source: AGHT+IGVRVhHEiIlwITe9DlEo5WfJ4Eof41I9EM1LQ/eq9af4QfavH0OfsPqZ0JOdpEI84p8RNKzSw==
-X-Received: by 2002:a2e:9ed1:0:b0:2eb:e840:4a1b with SMTP id
- 38308e7fff4ca-2ebfc8feb43mr16792821fa.7.1718225102385; 
- Wed, 12 Jun 2024 13:45:02 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ebe4169b35sm16912301fa.135.2024.06.12.13.45.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jun 2024 13:45:01 -0700 (PDT)
-Date: Wed, 12 Jun 2024 23:45:00 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Simon Ser <contact@emersion.fr>, 
- Pekka Paalanen <ppaalanen@gmail.com>, daniel@ffwll.ch,
- Daniel Stone <daniel@fooishbar.org>, 
- 'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
- Dave Airlie <airlied@gmail.com>, ville.syrjala@linux.intel.com, 
- Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>, 
- Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Subject: Re: [PATCH v5 2/3] drm: Allow drivers to choose plane types to async
- flip
-Message-ID: <pu4nawhvy52imqgpib4lx3s5lsbatmfrq3e7aa4zxfmewt6xrn@ki7woraegakt>
-References: <20240612193713.167448-1-andrealmeid@igalia.com>
- <20240612193713.167448-3-andrealmeid@igalia.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBAB910E121;
+ Wed, 12 Jun 2024 20:47:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718225237; x=1749761237;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=AX8/vmrvVy5iiGq37QTBW4BhaAQsHZDEZtO502dghZo=;
+ b=N+kQr+vu9zHZ+Ow4RkeqAS6nX8S2cQNvgzBeod1KWRu4manzVaTwANO1
+ EPDJKaMbUZP+zEKMHpuRfpjNdroXLCXncLJOJ7NIGBk7mDnbg6XkmF0y1
+ gQ56hJhvBnBoKiyP0LUqy0N7Bvv6HHPx6zfrSAQAl4H8ZN0NADVmx7v33
+ yV8vXCQkGWgHA2noZSkOrDpnjwn0S7EFnQDNpeRskpvIcgk9jF4fTz79C
+ SawjeChVebj/e9XZXPujP87oZN8IbljwWLRIAhvUMl2eo344puO5OF9HW
+ tje9Vx7rIMFvpmsRhLOO6vg0glj/fKTU5Tdq3yYzDY9aO8bvz/a9iN19i w==;
+X-CSE-ConnectionGUID: 3fUkJkC6RRiRs0xUq4aC0g==
+X-CSE-MsgGUID: Yj8kG5zCTK6FTC9CoOcOfA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="14976499"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="14976499"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jun 2024 13:47:16 -0700
+X-CSE-ConnectionGUID: zDZt2Q7ARPay2Si7tWz9Pw==
+X-CSE-MsgGUID: 9ATVZrkvQrWjKRnZ4g5z+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="39863941"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 12 Jun 2024 13:47:13 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 12 Jun 2024 23:47:12 +0300
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/9] drm/i915: Polish plane surface alignment handling
+Date: Wed, 12 Jun 2024 23:47:03 +0300
+Message-ID: <20240612204712.31404-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.44.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240612193713.167448-3-andrealmeid@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,37 +67,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 12, 2024 at 04:37:12PM -0300, Andr� Almeida wrote:
-> Different planes may have different capabilities of doing async flips,
-> so create a field to let drivers allow async flip per plane type.
-> 
-> Signed-off-by: Andr� Almeida <andrealmeid@igalia.com>
-> ---
->  drivers/gpu/drm/drm_atomic_uapi.c | 4 ++--
->  drivers/gpu/drm/drm_plane.c       | 3 +++
->  include/drm/drm_plane.h           | 5 +++++
->  3 files changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index 57662a1fd345..bbcec3940636 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -385,6 +385,9 @@ static int __drm_universal_plane_init(struct drm_device *dev,
->  
->  	drm_modeset_lock_init(&plane->mutex);
->  
-> +	if (type == DRM_PLANE_TYPE_PRIMARY)
-> +		plane->async_flip = true;
-> +
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Why? Also note that the commit message writes about adding the field,
-not about enabling it for the primary planes.
+intel_surf_alignment() in particular has devolved into
+a complete mess. Redesign the code so that we can handle
+alignment restrictions in a nicer. Also adjust alignment
+for TGL+ to actually match the hardware requirements.
 
->  	plane->base.properties = &plane->properties;
->  	plane->dev = dev;
->  	plane->funcs = funcs;
+v2: Drop the per-plane vma stuff as it was borked
+    Don't temporarily remove the 2MiB DPT alignment for UV on TGL
 
+Ville Syrjälä (9):
+  drm: Rename drm_plane_check_pixel_format() to drm_plane_has_format()
+  drm: Export drm_plane_has_format()
+  drm/i915: Introduce the plane->min_alignment() vfunc
+  drm/i915: Introduce fb->min_alignment
+  drm/i915: Split cursor alignment to per-platform vfuncs
+  drm/i915: Split pre-skl platforms out from intel_surf_alignment()
+  drm/i915: Move intel_surf_alignment() into skl_univerals_plane.c
+  drm/i915: Update plane alignment requirements for TGL+
+  drm/i915: Nuke the TGL+ chroma plane tile row alignment stuff
+
+ drivers/gpu/drm/drm_atomic.c                  |   7 +-
+ drivers/gpu/drm/drm_crtc.c                    |   6 +-
+ drivers/gpu/drm/drm_crtc_internal.h           |   2 -
+ drivers/gpu/drm/drm_plane.c                   |  23 ++-
+ drivers/gpu/drm/i915/display/i9xx_plane.c     |  75 ++++++++-
+ drivers/gpu/drm/i915/display/intel_cursor.c   |  38 +++++
+ .../drm/i915/display/intel_display_types.h    |   5 +
+ drivers/gpu/drm/i915/display/intel_fb.c       | 151 ++++--------------
+ drivers/gpu/drm/i915/display/intel_fb.h       |   3 -
+ drivers/gpu/drm/i915/display/intel_fb_pin.c   |  39 +++--
+ drivers/gpu/drm/i915/display/intel_fb_pin.h   |   3 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |   5 +-
+ drivers/gpu/drm/i915/display/intel_sprite.c   |  26 +++
+ .../drm/i915/display/skl_universal_plane.c    |  85 +++++++++-
+ drivers/gpu/drm/xe/display/xe_fb_pin.c        |   3 +-
+ drivers/gpu/drm/xe/display/xe_plane_initial.c |   4 +-
+ include/drm/drm_plane.h                       |   2 +
+ 17 files changed, 309 insertions(+), 168 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.44.2
+
