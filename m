@@ -2,86 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 637AF905475
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 15:57:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2063905739
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 17:43:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF93610E860;
-	Wed, 12 Jun 2024 13:57:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB88010E8A3;
+	Wed, 12 Jun 2024 15:43:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="cfZNzLBA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hX6j1Y89";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
- [209.85.160.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18A5B10E858
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 13:57:29 +0000 (UTC)
-Received: by mail-qt1-f171.google.com with SMTP id
- d75a77b69052e-4405c2263eeso20574551cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 06:57:28 -0700 (PDT)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A989510E7B9
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 13:36:50 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-1f68834bfdfso50923745ad.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 06:36:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1718200645; x=1718805445;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IRNaWp2aBUToWnoyQCXSeqRZnOtorjt+zh3ziOtXXN0=;
- b=cfZNzLBAqF6y14uQZGkW+h+ZSWIUAoBYf3oAzfs6S95zQIFi7ec7IVJJOxtDBm7yrQ
- OPQlu4yWfjpeJPjzoz0UT5/dpCi48f+Mvv1URMlNOvQA7vlScoZzHd47E64awyOmh3I+
- VhfOc+0N1k753RAmC8aFneccPutGJvoGWhJKo=
+ d=gmail.com; s=20230601; t=1718199410; x=1718804210; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=jalggb5KAXiKiH+TC/KM4w8VMC75sAk2yBUzqDTF5+g=;
+ b=hX6j1Y89ZTudD8hhAzhvERn64bhwkGjDBOetsFRqHAkNTuIxcf7P6w+wnfODJ8HTzx
+ +SIjmBXumbRCL9imh3mq/zx/5hc3rL+hfQs64PSmQNdyhVe2i4oGYzfkVjUHNQHp/iVf
+ 4oRWHqRN7jvJ4I+oe3N4bY4G8l876zyevPPNu26yVrAuYZ5g6Wc61/pknQIboijhf+05
+ q7DLIEZZrbIfOmMjXK1Vpho4syZNDlfQ27mDUOh4JBvqOr1PORop9XnJEHraCawIfW6A
+ xdiwcLf1bA1dOHbs4ty2pjDThKCYL0OP+cMXIM/ajeyHEzT9e1kvU5IVaNS45rPoBa4l
+ hrMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718200645; x=1718805445;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IRNaWp2aBUToWnoyQCXSeqRZnOtorjt+zh3ziOtXXN0=;
- b=S36Pns5dk/qeR0KqIp88Mn4U4nCKz3uq/C4h0Y4oXLqxTnHO3C4TfRhAhxdY3+S4W+
- qYmi24XaQWjTy2zBO3xsHzOsEzdPp/tYEF+/CIADA4/bMvO8QmndtP3oCUYW4nHGhGIg
- NMmXj4SV7yB7m4Ut5/IyflWDzkhbDeBIzp+6YZXI+3WToeScYC4T+zdEoiqACWA7UUkU
- M/fAiDXNWEGNToJb7cjrEDGfx1Ks0wQ5c60xgJ01JcpfdaR8YD43QZ6R5b85gIfa5xvk
- LcXCta9JIxDvAyRrD8HwCCrtm2PVYyOiBUOx9B06zosStwL9LR7/NEBtRUhCaMtlpRDB
- V9WQ==
+ d=1e100.net; s=20230601; t=1718199410; x=1718804210;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jalggb5KAXiKiH+TC/KM4w8VMC75sAk2yBUzqDTF5+g=;
+ b=SS+xgFZFHZ8rItpVh4ON4rknrj1PSAkzrOdyA2BkBCaYv3HeszFOYIyepaorNiKh0M
+ moIs2MpgQZDEE+jFNO6pcUa2EXRu7YfdOXIkqdZjHLIFxZbODT+89GY4CJCBieKpRVXA
+ yPqbutcR5Q73Fskz4j2ND/bLfr/3DnYGcHE9DprRRyY7XyW9RIWWYXNh0KcW0/FCOEBh
+ kBIrx/6X05FmNzJ77iZ1KrWsBDGUGloaruXkGx+KJRW7L1NA2u/8d30n0TKuV1km8F0N
+ 8IsSmPnJsJiWu0k8c4QQPhbQs+7MFXEv60h6y31RI07TvLPz8WloJEORCChZoBSHIC1Q
+ cGPw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU4IB+7zCMg5bQeco52g3hfLDSOnleMqgidNGB/7bQZAtsxbJOAFqTtvS7opg25ULNGwzAD0pMio28PzxlvjxMJBVG1tEW6GqZkq80prlR+
-X-Gm-Message-State: AOJu0Yxq7p5Y3xgbOwqpKicXDex86y0nR70uy8/5FhPbN4KNp/DctDkv
- gnwinX5x8fr4IiUEBRXwEXG2XWAFdSE5z5Ny5oATQ/vk0U+6e9Jb8o+MJhjEpYid/pZuFuLhKJM
- =
-X-Google-Smtp-Source: AGHT+IEKo2k/4FdPkW8scwXSTlm4YPqSKdPRUzc7zmoe9EI/0VBf5tIbWP+7rRkn6iPMddxw7j02nQ==
-X-Received: by 2002:a05:622a:d0:b0:440:5476:55b7 with SMTP id
- d75a77b69052e-4415abae722mr22753081cf.13.1718200645513; 
- Wed, 12 Jun 2024 06:57:25 -0700 (PDT)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com.
- [209.85.160.173]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-44162841562sm1025471cf.43.2024.06.12.06.57.24
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jun 2024 06:57:24 -0700 (PDT)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-4400cc0dad1so446951cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 06:57:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCX5XNcy5x/nlrkP5omF+OHGPMtnp1ulEJFqW+edKy9MHFxskTpTe9Z8qgPjAC5/z1XaHlug7OiHj3PJx8CIie6xMDs4uRXfMTr9vS7cRij6
-X-Received: by 2002:a05:622a:6208:b0:441:53bc:4f8f with SMTP id
- d75a77b69052e-4415a2320c8mr1678241cf.27.1718200643619; Wed, 12 Jun 2024
- 06:57:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240612133550.473279-1-tejasvipin76@gmail.com>
- <20240612133550.473279-2-tejasvipin76@gmail.com>
-In-Reply-To: <20240612133550.473279-2-tejasvipin76@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 12 Jun 2024 06:57:07 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WtRfejhDEv675AEj6=SfLh_b=X2TLTt2hatTOLrikSRA@mail.gmail.com>
-Message-ID: <CAD=FV=WtRfejhDEv675AEj6=SfLh_b=X2TLTt2hatTOLrikSRA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/panel : himax-hx83102: fix incorrect argument to
- mipi_dsi_msleep
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, linus.walleij@linaro.org, 
- dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org, 
+ AJvYcCWc4fqsD0L4p3N630fAm6QtSLDKcHduSIZ2NJXFVT1KV7YaoKWvGJjTebJhiVsw5LM3BgOmhcsGGxVsJe3cU6A33sK4m5s4Wd04Asvgh5dd
+X-Gm-Message-State: AOJu0YzO0ZDcyCZuZ1nAyKOGjJ2H56MmR66QasyVjVBn04CjUBr+AQMl
+ CpCq2kodE2/cIs1sG4uNBcQsWxBFbJTs/nJBeeONdROwCT+8+Vz7
+X-Google-Smtp-Source: AGHT+IGJXOsSf9sVXW5Q5P3oht0VLzqOpHaHDBQ6BtEZVDQwNdrvibraCh4yXrfl2vD1iK5zCr/CIg==
+X-Received: by 2002:a17:902:ce92:b0:1f6:612b:96eb with SMTP id
+ d9443c01a7336-1f83b7ae9d7mr23032955ad.50.1718199409822; 
+ Wed, 12 Jun 2024 06:36:49 -0700 (PDT)
+Received: from distilledx.localdomain ([103.246.195.195])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f845e0ca86sm7291815ad.0.2024.06.12.06.36.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Jun 2024 06:36:49 -0700 (PDT)
+From: Tejas Vipin <tejasvipin76@gmail.com>
+To: neil.armstrong@linaro.org,
+	quic_jesszhan@quicinc.com
+Cc: Tejas Vipin <tejasvipin76@gmail.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, linus.walleij@linaro.org, dmitry.baryshkov@linaro.org,
+ dianders@chromium.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: [PATCH 0/2] fix handling of incorrect arguments by mipi_dsi_msleep
+Date: Wed, 12 Jun 2024 19:05:41 +0530
+Message-ID: <20240612133550.473279-1-tejasvipin76@gmail.com>
+X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 12 Jun 2024 15:43:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,21 +85,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+mipi_dsi_msleep is currently defined such that it treats ctx as an
+argument passed by value. In the case of ctx being passed by
+reference, it doesn't raise an error, but instead evaluates the
+resulting expression in an undesired manner. Since the majority of the
+usage of this function passes ctx by reference (similar to
+other functions), mipi_dsi_msleep can be modified to treat ctx as a
+pointer and do it correctly, and the other calls to this macro can be
+adjusted accordingly.
 
-On Wed, Jun 12, 2024 at 6:37=E2=80=AFAM Tejas Vipin <tejasvipin76@gmail.com=
-> wrote:
->
-> mipi_dsi_msleep should be modified to accept ctx as a pointer and the
-> function call should be adjusted accordingly.
->
-> Fixes: a2ab7cb169da3 ("drm/panel: himax-hx83102: use wrapped MIPI DCS fun=
-ctions")
-> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
-> ---
->  drivers/gpu/drm/panel/panel-himax-hx83102.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+Tejas Vipin (2):
+  drm/panel : himax-hx83102: fix incorrect argument to mipi_dsi_msleep
+  drm/mipi-dsi: fix handling of ctx in mipi_dsi_msleep
 
-Thanks!
+ drivers/gpu/drm/panel/panel-himax-hx83102.c | 6 +++---
+ include/drm/drm_mipi_dsi.h                  | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+-- 
+2.45.2
+
