@@ -2,53 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 923E0905D0C
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 22:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48218905D0E
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 22:47:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1383310E8FC;
-	Wed, 12 Jun 2024 20:47:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB72310E8FE;
+	Wed, 12 Jun 2024 20:47:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="N+kQr+vu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K79d5KB+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBAB910E121;
- Wed, 12 Jun 2024 20:47:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 939AD10E8FE;
+ Wed, 12 Jun 2024 20:47:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718225237; x=1749761237;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=AX8/vmrvVy5iiGq37QTBW4BhaAQsHZDEZtO502dghZo=;
- b=N+kQr+vu9zHZ+Ow4RkeqAS6nX8S2cQNvgzBeod1KWRu4manzVaTwANO1
- EPDJKaMbUZP+zEKMHpuRfpjNdroXLCXncLJOJ7NIGBk7mDnbg6XkmF0y1
- gQ56hJhvBnBoKiyP0LUqy0N7Bvv6HHPx6zfrSAQAl4H8ZN0NADVmx7v33
- yV8vXCQkGWgHA2noZSkOrDpnjwn0S7EFnQDNpeRskpvIcgk9jF4fTz79C
- SawjeChVebj/e9XZXPujP87oZN8IbljwWLRIAhvUMl2eo344puO5OF9HW
- tje9Vx7rIMFvpmsRhLOO6vg0glj/fKTU5Tdq3yYzDY9aO8bvz/a9iN19i w==;
-X-CSE-ConnectionGUID: 3fUkJkC6RRiRs0xUq4aC0g==
-X-CSE-MsgGUID: Yj8kG5zCTK6FTC9CoOcOfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="14976499"
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="14976499"
+ t=1718225240; x=1749761240;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=UZUx4h1r6+vfK/fPYm8VAxGEhUEdEwNVT7c2kSLzjO4=;
+ b=K79d5KB+OroG8MIoGXXeq0ZzA/oNYERsO4qMZcnk0mEn2ArXCD8PslHz
+ N3u9BfDj0tOiwVhFo2/HruOB2lMhrLsiqDtQiJYys8GrB3NpHkaRz5/I7
+ KnUiO8D6ChpvBT6yBZIpq6OocxGxTFYw7tRnixwWXsToW9qLhL/aJOYX/
+ fQbrauznJFUjzi6jsAXB2TwocHxNzalq7HzveZNkdq4mc31GA4bQeMHjE
+ Si7uGKWt8ir/dE9v7RHPHongAtYas1i5Wctm1Y76xZLeq0Hg854wgxaUi
+ LBoK8JIqF6ST6NDfs6WvrYmIwhlWojWf3zyM2ArhRewpM3i2IxaXrzEHA g==;
+X-CSE-ConnectionGUID: VU7ImM0DTX2x7++vZwTLoA==
+X-CSE-MsgGUID: 21RJA3oOSC6HD0Lf/NyGRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="14976517"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="14976517"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2024 13:47:16 -0700
-X-CSE-ConnectionGUID: zDZt2Q7ARPay2Si7tWz9Pw==
-X-CSE-MsgGUID: 9ATVZrkvQrWjKRnZ4g5z+A==
+ 12 Jun 2024 13:47:19 -0700
+X-CSE-ConnectionGUID: DkV7Km2zS8qoS9toM9uiGw==
+X-CSE-MsgGUID: BzbWwi9WTYiUX04+HIWvGA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="39863941"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="39863945"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 12 Jun 2024 13:47:13 -0700
+ by fmviesa008.fm.intel.com with SMTP; 12 Jun 2024 13:47:16 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 12 Jun 2024 23:47:12 +0300
+ Wed, 12 Jun 2024 23:47:15 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/9] drm/i915: Polish plane surface alignment handling
-Date: Wed, 12 Jun 2024 23:47:03 +0300
-Message-ID: <20240612204712.31404-1-ville.syrjala@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org,
+	Jani Nikula <jani.nikula@intel.com>
+Subject: [PATCH v2 1/9] drm: Rename drm_plane_check_pixel_format() to
+ drm_plane_has_format()
+Date: Wed, 12 Jun 2024 23:47:04 +0300
+Message-ID: <20240612204712.31404-2-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.44.2
+In-Reply-To: <20240612204712.31404-1-ville.syrjala@linux.intel.com>
+References: <20240612204712.31404-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -69,44 +73,153 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-intel_surf_alignment() in particular has devolved into
-a complete mess. Redesign the code so that we can handle
-alignment restrictions in a nicer. Also adjust alignment
-for TGL+ to actually match the hardware requirements.
+Rename drm_plane_check_pixel_format() to drm_plane_has_format()
+and change the return type accordingly. Allows one to write
+more natural code.
 
-v2: Drop the per-plane vma stuff as it was borked
-    Don't temporarily remove the 2MiB DPT alignment for UV on TGL
+Also matches drm_any_plane_has_format() better.
 
-Ville Syrjälä (9):
-  drm: Rename drm_plane_check_pixel_format() to drm_plane_has_format()
-  drm: Export drm_plane_has_format()
-  drm/i915: Introduce the plane->min_alignment() vfunc
-  drm/i915: Introduce fb->min_alignment
-  drm/i915: Split cursor alignment to per-platform vfuncs
-  drm/i915: Split pre-skl platforms out from intel_surf_alignment()
-  drm/i915: Move intel_surf_alignment() into skl_univerals_plane.c
-  drm/i915: Update plane alignment requirements for TGL+
-  drm/i915: Nuke the TGL+ chroma plane tile row alignment stuff
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ drivers/gpu/drm/drm_atomic.c        |  7 ++-----
+ drivers/gpu/drm/drm_crtc.c          |  6 ++----
+ drivers/gpu/drm/drm_crtc_internal.h |  4 ++--
+ drivers/gpu/drm/drm_plane.c         | 22 ++++++++++------------
+ 4 files changed, 16 insertions(+), 23 deletions(-)
 
- drivers/gpu/drm/drm_atomic.c                  |   7 +-
- drivers/gpu/drm/drm_crtc.c                    |   6 +-
- drivers/gpu/drm/drm_crtc_internal.h           |   2 -
- drivers/gpu/drm/drm_plane.c                   |  23 ++-
- drivers/gpu/drm/i915/display/i9xx_plane.c     |  75 ++++++++-
- drivers/gpu/drm/i915/display/intel_cursor.c   |  38 +++++
- .../drm/i915/display/intel_display_types.h    |   5 +
- drivers/gpu/drm/i915/display/intel_fb.c       | 151 ++++--------------
- drivers/gpu/drm/i915/display/intel_fb.h       |   3 -
- drivers/gpu/drm/i915/display/intel_fb_pin.c   |  39 +++--
- drivers/gpu/drm/i915/display/intel_fb_pin.h   |   3 +-
- drivers/gpu/drm/i915/display/intel_fbdev.c    |   5 +-
- drivers/gpu/drm/i915/display/intel_sprite.c   |  26 +++
- .../drm/i915/display/skl_universal_plane.c    |  85 +++++++++-
- drivers/gpu/drm/xe/display/xe_fb_pin.c        |   3 +-
- drivers/gpu/drm/xe/display/xe_plane_initial.c |   4 +-
- include/drm/drm_plane.h                       |   2 +
- 17 files changed, 309 insertions(+), 168 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index 07b4b394e3bf..6e516c39a372 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -608,7 +608,6 @@ static int drm_atomic_plane_check(const struct drm_plane_state *old_plane_state,
+ 	unsigned int fb_width, fb_height;
+ 	struct drm_mode_rect *clips;
+ 	uint32_t num_clips;
+-	int ret;
+ 
+ 	/* either *both* CRTC and FB must be set, or neither */
+ 	if (crtc && !fb) {
+@@ -635,14 +634,12 @@ static int drm_atomic_plane_check(const struct drm_plane_state *old_plane_state,
+ 	}
+ 
+ 	/* Check whether this plane supports the fb pixel format. */
+-	ret = drm_plane_check_pixel_format(plane, fb->format->format,
+-					   fb->modifier);
+-	if (ret) {
++	if (!drm_plane_has_format(plane, fb->format->format, fb->modifier)) {
+ 		drm_dbg_atomic(plane->dev,
+ 			       "[PLANE:%d:%s] invalid pixel format %p4cc, modifier 0x%llx\n",
+ 			       plane->base.id, plane->name,
+ 			       &fb->format->format, fb->modifier);
+-		return ret;
++		return -EINVAL;
+ 	}
+ 
+ 	/* Give drivers some help against integer overflows */
+diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+index 483969b84a30..3488ff067c69 100644
+--- a/drivers/gpu/drm/drm_crtc.c
++++ b/drivers/gpu/drm/drm_crtc.c
+@@ -789,12 +789,10 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+ 		 * case.
+ 		 */
+ 		if (!plane->format_default) {
+-			ret = drm_plane_check_pixel_format(plane,
+-							   fb->format->format,
+-							   fb->modifier);
+-			if (ret) {
++			if (!drm_plane_has_format(plane, fb->format->format, fb->modifier)) {
+ 				drm_dbg_kms(dev, "Invalid pixel format %p4cc, modifier 0x%llx\n",
+ 					    &fb->format->format, fb->modifier);
++				ret = -EINVAL;
+ 				goto out;
+ 			}
+ 		}
+diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
+index 20e9d7b206a2..cdd60f2a4052 100644
+--- a/drivers/gpu/drm/drm_crtc_internal.h
++++ b/drivers/gpu/drm/drm_crtc_internal.h
+@@ -272,8 +272,8 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+ /* drm_plane.c */
+ int drm_plane_register_all(struct drm_device *dev);
+ void drm_plane_unregister_all(struct drm_device *dev);
+-int drm_plane_check_pixel_format(struct drm_plane *plane,
+-				 u32 format, u64 modifier);
++bool drm_plane_has_format(struct drm_plane *plane,
++			  u32 format, u64 modifier);
+ struct drm_mode_rect *
+ __drm_plane_get_damage_clips(const struct drm_plane_state *state);
+ 
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 57662a1fd345..268aa2299df5 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -877,8 +877,8 @@ int drm_mode_getplane(struct drm_device *dev, void *data,
+ 	return 0;
+ }
+ 
+-int drm_plane_check_pixel_format(struct drm_plane *plane,
+-				 u32 format, u64 modifier)
++bool drm_plane_has_format(struct drm_plane *plane,
++			  u32 format, u64 modifier)
+ {
+ 	unsigned int i;
+ 
+@@ -887,24 +887,24 @@ int drm_plane_check_pixel_format(struct drm_plane *plane,
+ 			break;
+ 	}
+ 	if (i == plane->format_count)
+-		return -EINVAL;
++		return false;
+ 
+ 	if (plane->funcs->format_mod_supported) {
+ 		if (!plane->funcs->format_mod_supported(plane, format, modifier))
+-			return -EINVAL;
++			return false;
+ 	} else {
+ 		if (!plane->modifier_count)
+-			return 0;
++			return true;
+ 
+ 		for (i = 0; i < plane->modifier_count; i++) {
+ 			if (modifier == plane->modifiers[i])
+ 				break;
+ 		}
+ 		if (i == plane->modifier_count)
+-			return -EINVAL;
++			return false;
+ 	}
+ 
+-	return 0;
++	return true;
+ }
+ 
+ static int __setplane_check(struct drm_plane *plane,
+@@ -924,12 +924,10 @@ static int __setplane_check(struct drm_plane *plane,
+ 	}
+ 
+ 	/* Check whether this plane supports the fb pixel format. */
+-	ret = drm_plane_check_pixel_format(plane, fb->format->format,
+-					   fb->modifier);
+-	if (ret) {
++	if (!drm_plane_has_format(plane, fb->format->format, fb->modifier)) {
+ 		DRM_DEBUG_KMS("Invalid pixel format %p4cc, modifier 0x%llx\n",
+ 			      &fb->format->format, fb->modifier);
+-		return ret;
++		return -EINVAL;
+ 	}
+ 
+ 	/* Give drivers some help against integer overflows */
+@@ -964,7 +962,7 @@ bool drm_any_plane_has_format(struct drm_device *dev,
+ 	struct drm_plane *plane;
+ 
+ 	drm_for_each_plane(plane, dev) {
+-		if (drm_plane_check_pixel_format(plane, format, modifier) == 0)
++		if (drm_plane_has_format(plane, format, modifier))
+ 			return true;
+ 	}
+ 
 -- 
 2.44.2
 
