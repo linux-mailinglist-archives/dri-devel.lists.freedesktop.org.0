@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF764904A03
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 06:31:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C0A904A17
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 06:37:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2F2310E777;
-	Wed, 12 Jun 2024 04:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45C4E10E77D;
+	Wed, 12 Jun 2024 04:37:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="gQ01xmf6";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ZqExVpDk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
- [209.85.215.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B10110E777
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 04:31:29 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id
- 41be03b00d2f7-656d8b346d2so4625351a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 21:31:29 -0700 (PDT)
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com
+ [209.85.160.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4239110E77D
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 04:37:53 +0000 (UTC)
+Received: by mail-oa1-f48.google.com with SMTP id
+ 586e51a60fabf-254c22faf4cso1299321fac.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 21:37:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1718166689; x=1718771489;
+ d=chromium.org; s=google; t=1718167072; x=1718771872;
  darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=26yCayUAzc76t5ERK7B6b8gwpGmJll8Ij+c08Bg2GMU=;
- b=gQ01xmf65KPdSX1SlacqRrgbF4g14iIl12GYseztlpEqRAJHGa3IWJ7rEoQGxzqgnZ
- HohFbgWEqmTLpYHzLaVXbWG6JkTc2h2A2ckHlCTICAiX7d+kT3p56CH40CzbBrx2EPPD
- Ds00nKrRTc+llpR7ovX6DeWRQZemu6ZCNpa64=
+ bh=DkRmaXYdVwSedvVUVG2r+hTZqVuOSK1T8k/kpQ+eeNI=;
+ b=ZqExVpDkmGT1NoOPcmXdu7s5/yktKU8GaHXgv9s+idUijbiUjPfexT3C0Z2QLirLn9
+ mHkNe+0ozvm1xNHOMiHSz/K02+0r8d456Wu0Irv5+QGyLCc17o3A5M7Tn9lRl1Slw521
+ bZCaTM4MlEpVKSC/xPlv2aV9ovHrGOq+ne8/g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718166689; x=1718771489;
+ d=1e100.net; s=20230601; t=1718167072; x=1718771872;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=26yCayUAzc76t5ERK7B6b8gwpGmJll8Ij+c08Bg2GMU=;
- b=WRsWnpFd7Zj1QeDaQuJkb2C8S/xRM8sqnCB9KoPig2715rWbXuSYJ0ftJV+cgjGfpg
- 8CkEH5Awr8Ffyo+Oukr4irbLe1+6gsFkaGUjpxjFNUzwgiHtr4A3Z8dBp5ItTQxcuVPZ
- tgOQ4kTg6+uiuGX0gFQkLO1aSKqguTDwuafaC0UfZ/ttY1pFtdh63X/pkAzo7MX11cUN
- M/dNtjrSIzuKr/9Fr4Ar7jyP5q7aOydoIM3Ta6lqVFqv5oTK8F1IxZYH13IL4YNVKU9y
- wn1v+dwzaEk1LM4tAWOX6vLIyS0HeCJrMEEfuV/DSMqaiFBu7667UR/quCkSeJLdLgGW
- 6lxA==
+ bh=DkRmaXYdVwSedvVUVG2r+hTZqVuOSK1T8k/kpQ+eeNI=;
+ b=unituDeroVRDJW7NyQDZh520yITHtlMr0dr0eMBmdymflvwlp0sUWxaGq/4swzzSpJ
+ mB4blQMAgvHvVQ+JgZwZGs9bJ473EksNMPPZriOeC8d25dZK1qJ/NJ5R8fBY76M6fSRd
+ UTlQNd9iocLMQKPaQy0lM/fN8XhDpfmFbgCbL85yAeQsKvlYaIUUc6CKXmQ+H/ixOjpl
+ Nk9qtQ0IWsOl2OnGPPMvnR7TcA7O6RTVAK7MkCTumRqv2fpB6BeO1+tweTZr57KxDQ1/
+ 4FPHtT+X/LmLKS5YGtHReTPtWaUHHfdlBb8kOwJWzRL5pwPlXOLV3OZDulJ1pA+Y3C8L
+ aHhA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXFD5xtZiij0fOS1/TQZ/Vj1PXRyJTyv/oIWtc6uxUX7mbpjHy27Nvcnkh1Q8SWCiQeKxoCfanibV55QQ7+mJIZgHURyRoNzheRbT2elF/Z
-X-Gm-Message-State: AOJu0YxJWgvupboCvSvr4+/H7O/kvmxfPu+37hiF5f1gKGNNyQfJKwU1
- n/Q6209rvHtxbBx/JF9psn3lNKOMpSaraSJ69wfHimd+MTZJAW2xinLl1/UebA==
-X-Google-Smtp-Source: AGHT+IEDNIroERFQYahAEyUp89r/l251ag7KXTZkZl5/HBfB+fwRsfZPqR83QoYb4oKa3SSk62X7hQ==
-X-Received: by 2002:a05:6a21:81a2:b0:1b2:2e3e:42dd with SMTP id
- adf61e73a8af0-1b8a9be9bb0mr745623637.34.1718166688682; 
- Tue, 11 Jun 2024 21:31:28 -0700 (PDT)
+ AJvYcCVhVEkyhvY0Pik7zIjTlmWa5klu+NW1mEkIIj+AKI9VrMBRKb9zpcUFdf2QUWeC0N+yPmgxJiVN+U2CO1O3kRAPEKvmt3X6bn49JqE6qJ0V
+X-Gm-Message-State: AOJu0YyTEAt8BDXfJTbLgyimvz85IoqpTit/omixu/gn2U7fpisQhq74
+ Qg3HwJwKLmsGV2F80EeyjTHVFFSJafkXC7/9DAEHdRCUx3bdGigN68monu4DFA==
+X-Google-Smtp-Source: AGHT+IG7f6MklQ9uaEK4A66ROk94t0wNZGlsKVegXA6Omzsq6FR8KOS6Vlm+0Pwr/7yo2CTKXViBuw==
+X-Received: by 2002:a05:6870:f112:b0:250:7a43:aefd with SMTP id
+ 586e51a60fabf-25514b4e1a3mr793220fac.2.1718167072112; 
+ Tue, 11 Jun 2024 21:37:52 -0700 (PDT)
 Received: from chromium.org (174.71.80.34.bc.googleusercontent.com.
  [34.80.71.174]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f74179d0basm11631455ad.122.2024.06.11.21.31.24
+ d2e1a72fcca58-7042a10c359sm6519597b3a.183.2024.06.11.21.37.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jun 2024 21:31:28 -0700 (PDT)
-Date: Wed, 12 Jun 2024 13:31:22 +0900
+ Tue, 11 Jun 2024 21:37:51 -0700 (PDT)
+Date: Wed, 12 Jun 2024 13:37:46 +0900
 From: Tomasz Figa <tfiga@chromium.org>
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Cc: Jeffrey Kardatzke <jkardatzke@google.com>, 
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Yunfei Dong <yunfei.dong@mediatek.com>, 
+ Jeffrey Kardatzke <jkardatzke@google.com>, 
  =?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
  Nathan Hebert <nhebert@chromium.org>, 
  Nicolas Dufresne <nicolas.dufresne@collabora.com>,
@@ -77,15 +78,15 @@ Cc: Jeffrey Kardatzke <jkardatzke@google.com>,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-mediatek@lists.infradead.org,
  Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v6,03/24] v4l2: verify restricted dmabufs are used in
- restricted queue
-Message-ID: <rw6dkzasaz4lnvtmxkxlkxte5nvphpjixigjouvjkpctscpdla@bheblt7kmj4y>
+Subject: Re: [PATCH v6,04/24] v4l: add documentation for restricted memory flag
+Message-ID: <bhgv5djcjc4yt75pyug2yirrymeucjyslthnvq6k2kpp7axfph@jzo5wpcbgwun>
 References: <20240516122102.16379-1-yunfei.dong@mediatek.com>
- <20240516122102.16379-4-yunfei.dong@mediatek.com>
+ <20240516122102.16379-5-yunfei.dong@mediatek.com>
+ <20240522111622.GA31185@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240516122102.16379-4-yunfei.dong@mediatek.com>
+In-Reply-To: <20240522111622.GA31185@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,76 +102,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 16, 2024 at 08:20:41PM +0800, Yunfei Dong wrote:
-> From: Jeffrey Kardatzke <jkardatzke@google.com>
+On Wed, May 22, 2024 at 02:16:22PM +0300, Laurent Pinchart wrote:
+> Hi Jefrey,
 > 
-> Verfies in the dmabuf implementations that if the restricted memory
-> flag is set for a queue that the dmabuf submitted to the queue is
-> unmappable.
+> Thank you for the patch.
 > 
-> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->  drivers/media/common/videobuf2/videobuf2-dma-contig.c | 8 ++++++++
->  drivers/media/common/videobuf2/videobuf2-dma-sg.c     | 8 ++++++++
->  2 files changed, 16 insertions(+)
+> On Thu, May 16, 2024 at 08:20:42PM +0800, Yunfei Dong wrote:
+> > From: Jeffrey Kardatzke <jkardatzke@google.com>
+> > 
+> > Adds documentation for V4L2_MEMORY_FLAG_RESTRICTED.
+> > 
+> > Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
+> > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> > ---
+> >  Documentation/userspace-api/media/v4l/buffer.rst | 10 +++++++++-
+> >  1 file changed, 9 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
+> > index 52bbee81c080..807e43bfed2b 100644
+> > --- a/Documentation/userspace-api/media/v4l/buffer.rst
+> > +++ b/Documentation/userspace-api/media/v4l/buffer.rst
+> > @@ -696,7 +696,7 @@ enum v4l2_memory
+> >  
+> >  .. _memory-flags:
+> >  
+> > -Memory Consistency Flags
+> > +Memory Flags
+> >  ------------------------
+> >  
+> >  .. raw:: latex
+> > @@ -728,6 +728,14 @@ Memory Consistency Flags
+> >  	only if the buffer is used for :ref:`memory mapping <mmap>` I/O and the
+> >  	queue reports the :ref:`V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS
+> >  	<V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS>` capability.
+> > +    * .. _`V4L2-MEMORY-FLAG-RESTRICTED`:
+> > +
+> > +      - ``V4L2_MEMORY_FLAG_RESTRICTED``
+> > +      - 0x00000002
+> > +      - The queued buffers are expected to be in restricted memory. If not, an
+> > +	error will be returned. This flag can only be used with ``V4L2_MEMORY_DMABUF``.
+> > +	Typically restricted buffers are allocated using a restricted dma-heap. This flag
+> > +	can only be specified if the ``V4L2_BUF_CAP_SUPPORTS_RESTRICTED_MEM`` is set.
 > 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> index 3d4fd4ef5310..35a3c1c01eae 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> @@ -710,6 +710,14 @@ static int vb2_dc_map_dmabuf(void *mem_priv)
->  		return -EINVAL;
->  	}
->  
-> +	/* Verify the dmabuf is restricted if we are in restricted mode, this is done
-> +	 * by validating there is no page entry for the dmabuf.
-> +	 */
+> Why is this flag needed ? Given that the usage model requires the V4L2
+> device to be a dma buf importer, why would userspace set the
+> V4L2_BUF_CAP_SUPPORTS_RESTRICTED_MEM flag and pass a non-restricted
+> buffer to the device ?
 
-Kernel coding style [1] defines multi-line comments to start with an empty
-line.
+Given that the flag is specified at REQBUF / CREATE_BUFS time, it's
+actually useful to tell the driver the queue is operating in restricted
+(aka secure) mode.
 
-[1] https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting
+I suppose we could handle that at the time of a first QBUF, but that
+would make the driver initialization and validation quite a bit of pain.
+So I'd say that the design being proposed here makes things simpler and
+more clear, even if it doesn't add any extra functionality.
 
-> +	if (buf->vb->vb2_queue->restricted_mem && !sg_dma_is_restricted(sgt->sgl)) {
-> +		pr_err("restricted queue requires restricted dma_buf");
-> +		return -EINVAL;
+> 
+> The V4L2_BUF_CAP_SUPPORTS_RESTRICTED_MEM flag also needs to be
+> documented in the relevant section, I don't think that's done in this
+> series.
+> 
 
-This would leak the mapping. We need to unmap the attachment here.
-
-> +	}
-> +
->  	/* checking if dmabuf is big enough to store contiguous chunk */
->  	contig_size = vb2_dc_get_contiguous_size(sgt);
->  	if (contig_size < buf->size) {
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> index 6975a71d740f..2399a9c074ba 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -570,6 +570,14 @@ static int vb2_dma_sg_map_dmabuf(void *mem_priv)
->  		return -EINVAL;
->  	}
->  
-> +	/* Verify the dmabuf is restricted if we are in restricted mode, this is done
-> +	 * by validating there is no page entry for the dmabuf.
-> +	 */
-
-Ditto.
-
-> +	if (buf->vb->vb2_queue->restricted_mem && !sg_dma_is_restricted(sgt->sgl)) {
-> +		pr_err("restricted queue requires restricted dma_buf");
-> +		return -EINVAL;
-
-Ditto.
++1
 
 Best regards,
 Tomasz
 
-> +	}
-> +
->  	buf->dma_sgt = sgt;
->  	buf->vaddr = NULL;
->  
-> -- 
-> 2.25.1
+> >  
+> >  .. raw:: latex
+> >  
 > 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
