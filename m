@@ -2,87 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96A2905E84
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 00:28:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14118905F4C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 01:37:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B419110E938;
-	Wed, 12 Jun 2024 22:28:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91E4F10E012;
+	Wed, 12 Jun 2024 23:37:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="EQx5pIkx";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="NnrvBYH4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DD5310E939
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 22:28:48 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id
- 98e67ed59e1d1-2c2e31d319eso248256a91.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:28:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1718231327; x=1718836127;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GlLfBbnX9FblBpW76gVStblANR7z9T1g0t5a6w4/nbU=;
- b=EQx5pIkxaXnqtqd014VLlG8nY4grJ4Spq51gJ5tWUY+pSXDgHHZi2V395ArAC07g0J
- f4+qQhfSeY/dR0PjGoKatta5IGTQyoegPeYEboOEjaWSGQs6Kg85Oxe8vM8A8UJV5XxM
- WEFw3zTEuRu115iqA9u4hHu+GBMWko6jKgntk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718231327; x=1718836127;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GlLfBbnX9FblBpW76gVStblANR7z9T1g0t5a6w4/nbU=;
- b=TOuKxBlC7Ui0vQh4OzNUDDMlU93pOzkS5xWpsnGUNVC1NbrZMS1rEwR6S6wvDGehon
- lksouMWvI7xr0JnHAtYL4oDIwq8/eTrif8H2a5EWYap780JN9gsFh6FmWWAZhRUL58CI
- D9yPKFfc8LKAWf0QWr5SA0gQgTrc2R0iFHrUisYtGr5UAa3txJ/42Z/nOoZkMLhbUIqk
- a1g5waqzlnlT1xf1kf9i8TeeM9Leli1fyMZh3LmK1g0QMsp2npw/j1zttFs63DblbBmw
- XrAnCeobmqQOEhVIqHXTrJmMp3S1o+/P+xND6uqLQsGtRyOH1XL5F8t514NwadMtqGTy
- g+Yw==
-X-Gm-Message-State: AOJu0YycNyVjv6mSR0uHkNhUEJBF77XNEtTFirlpuUXinZ4jhnGAFKc7
- EzBdfKp9bKMkrXL8CJxjS1+HHZiEYceKythRF2yENsryVOuuloebW2hYq6vEtBQv7sEm+xF5sj8
- =
-X-Google-Smtp-Source: AGHT+IHPZkmR/uiNsfI6yDfoiz6DjupPzvyE09FKeunOtYBdIdMpSm5jxkYUgJB/lptf93zhOTJSfQ==
-X-Received: by 2002:a17:90b:4ad2:b0:2c4:ab32:b723 with SMTP id
- 98e67ed59e1d1-2c4ab32b8c3mr2926957a91.29.1718231327185; 
- Wed, 12 Jun 2024 15:28:47 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com
- ([2620:15c:9d:2:2816:6a42:9074:18cc])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f6f336d172sm87788575ad.247.2024.06.12.15.28.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jun 2024 15:28:46 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org,
-	Maxime Ripard <mripard@kernel.org>
-Cc: Douglas Anderson <dianders@chromium.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Candice Li <candice.li@amd.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>, Le Ma <le.ma@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Victor Lu <victorchengchi.lu@amd.com>, amd-gfx@lists.freedesktop.org,
- chenxuebing <chenxb_99091@126.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 8/8] drm/amdgpu: Call drm_atomic_helper_shutdown() at
- shutdown time
-Date: Wed, 12 Jun 2024 15:28:04 -0700
-Message-ID: <20240612152752.v2.8.I27914059cc822b52db9bf72b4013b525b60e06fd@changeid>
-X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
-In-Reply-To: <20240612222435.3188234-1-dianders@chromium.org>
-References: <20240612222435.3188234-1-dianders@chromium.org>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04B1710E942
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 23:37:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1718235440;
+ bh=p0StulPiskZvXiAXXy2XqSB+UCYvZvpYVdWBgttD7Nk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NnrvBYH4gcX8jVX7MkBBhnFfP9qpqrsQxMTSYlOMraNkSxwFH0Li6QJtGdX/78m2a
+ RBMRctyynP+nNr+yZoE+4fC+VvoXN8Nbv4dLqsD6fZK5ThvBv6j2Hpu4muLIDOaJz+
+ 4wxHZvfTbFt7oIcP50Jnd0epTTJgfM5nCKa1co+Z0PiHSF/DE04YPabQ4nm7r5F8v+
+ gp994IEVMcFT4C/J6yPzIUzYcprN/wOTjjXl/T9UaIikSo3qmQJaAuiX+aKhBFPmly
+ h0QusGDacO2lBOzdUVzeiiEkPpL+Uy41i4MOiL7W5nQaIB1Kghz0k60NTs/O6YILD1
+ UWY1DJk6t4wWg==
+Received: from mercury (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: sre)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id D9AFF3781022;
+ Wed, 12 Jun 2024 23:37:20 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+ id 56CFD10608F7; Thu, 13 Jun 2024 01:37:20 +0200 (CEST)
+Date: Thu, 13 Jun 2024 01:37:20 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Heiko Stuebner <heiko@sntech.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Oded Gabbay <ogabbay@kernel.org>, Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 1/9] iommu/rockchip: Add compatible for
+ rockchip,rk3588-iommu
+Message-ID: <75xclodzhu2slf6jntwxzx5gvthgl62g2jcmgeukbafkzkisbf@okedx7ic6aij>
+References: <20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net>
+ <20240612-6-10-rocket-v1-1-060e48eea250@tomeuvizoso.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="lszhpdxqfwkdo2zm"
+Content-Disposition: inline
+In-Reply-To: <20240612-6-10-rocket-v1-1-060e48eea250@tomeuvizoso.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,83 +78,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Based on grepping through the source code this driver appears to be
-missing a call to drm_atomic_helper_shutdown() at system shutdown
-time. Among other things, this means that if a panel is in use that it
-won't be cleanly powered off at system shutdown time.
 
-The fact that we should call drm_atomic_helper_shutdown() in the case
-of OS shutdown/restart comes straight out of the kernel doc "driver
-instance overview" in drm_drv.c.
+--lszhpdxqfwkdo2zm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Xinhui Pan <Xinhui.Pan@amd.com>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-This commit is only compile-time tested.
+Hello Tomeu,
 
-...and further, I'd say that this patch is more of a plea for help
-than a patch I think is actually right. I'm _fairly_ certain that
-drm/amdgpu needs this call at shutdown time but the logic is a bit
-hard for me to follow. I'd appreciate if anyone who actually knows
-what this should look like could illuminate me, or perhaps even just
-post a patch themselves!
+On Wed, Jun 12, 2024 at 03:52:54PM GMT, Tomeu Vizoso wrote:
+> So far, seems to be fully compatible with the one in the RK3568.
+>=20
+> The bindings already had this compatible, but the driver didn't
+> advertise it.
+>=20
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
 
-(no changes since v1)
+The driver does not need to advise it, since it already handles
+"rockchip,rk3568-iommu" and the correct compatible for the RK3588
+IOMMU is:
 
- drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 10 ++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  2 ++
- 3 files changed, 13 insertions(+)
+compatible =3D "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index f87d53e183c3..c202a1d5ff5f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -1197,6 +1197,7 @@ static inline struct amdgpu_device *amdgpu_ttm_adev(struct ttm_device *bdev)
- int amdgpu_device_init(struct amdgpu_device *adev,
- 		       uint32_t flags);
- void amdgpu_device_fini_hw(struct amdgpu_device *adev);
-+void amdgpu_device_shutdown_hw(struct amdgpu_device *adev);
- void amdgpu_device_fini_sw(struct amdgpu_device *adev);
- 
- int amdgpu_gpu_wait_for_idle(struct amdgpu_device *adev);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 861ccff78af9..a8c4b8412e04 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -4531,6 +4531,16 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
- 
- }
- 
-+void amdgpu_device_shutdown_hw(struct amdgpu_device *adev)
-+{
-+	if (adev->mode_info.mode_config_initialized) {
-+		if (!drm_drv_uses_atomic_modeset(adev_to_drm(adev)))
-+			drm_helper_force_disable_all(adev_to_drm(adev));
-+		else
-+			drm_atomic_helper_shutdown(adev_to_drm(adev));
-+	}
-+}
-+
- void amdgpu_device_fini_sw(struct amdgpu_device *adev)
- {
- 	int idx;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index ea14f1c8f430..b34bf9259d5c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -2409,6 +2409,8 @@ amdgpu_pci_shutdown(struct pci_dev *pdev)
- 	struct drm_device *dev = pci_get_drvdata(pdev);
- 	struct amdgpu_device *adev = drm_to_adev(dev);
- 
-+	amdgpu_device_shutdown_hw(adev);
-+
- 	if (amdgpu_ras_intr_triggered())
- 		return;
- 
--- 
-2.45.2.505.gda0bf45e8d-goog
+i.e. with the RK3568 compatible as fallback. So the kernel will
+just bind to the fallback compatible. Iff differences are found
+in the future, the kernel can start to make use of the more
+specific compatible.
 
+-- Sebastian
+
+>  drivers/iommu/rockchip-iommu.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/drivers/iommu/rockchip-iommu.c b/drivers/iommu/rockchip-iomm=
+u.c
+> index 4b369419b32c..f5629515bd78 100644
+> --- a/drivers/iommu/rockchip-iommu.c
+> +++ b/drivers/iommu/rockchip-iommu.c
+> @@ -1363,6 +1363,9 @@ static const struct of_device_id rk_iommu_dt_ids[] =
+=3D {
+>  	{	.compatible =3D "rockchip,rk3568-iommu",
+>  		.data =3D &iommu_data_ops_v2,
+>  	},
+> +	{	.compatible =3D "rockchip,rk3588-iommu",
+> +		.data =3D &iommu_data_ops_v2,
+> +	},
+>  	{ /* sentinel */ }
+>  };
+> =20
+>=20
+> --=20
+> 2.45.2
+>=20
+>=20
+
+--lszhpdxqfwkdo2zm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmZqMSwACgkQ2O7X88g7
++poM9w//Quf+iUHT1ho9F5H0znbElz82rmJuzS/FCgjZREXsvOOlDdO9WHuR42rU
+l7MZhQDNTSYuQ5ok+BbED5k26VuJf3KXdAU2k0guFceqY5kZiwJwq4HVEtUFeUqV
+ShNoJYdOKvLtlpQKgVPj9SBTNz63dazB0XigVFEwP6U4fSM5n8OoE/JtBWcGZBsp
+I22H5BHefpX7xVoG5d04lMM9EyOxeQToJ2Vveu7D7xMye8rEljBN+RHAnpUZ00dK
+svok25DuJKwkWEiIEmPHqJah6avsRr7/vzUz0494Ybz5MkFOFrPVwPfPp9Ge3DK6
+LIJ4YZtarT99Jz1kUWzzMS8Tls61CAp3CTxq8TrlFsUvRzqmdKMwy9r+TFaXaRHb
+klyFZh+s+qZmMyGnYyWlnKY4RWKbP8EvyPAdGh73rvgjvAaciy8ozDfp8wdEPp0W
+WgQ9hIFHPgqpvV+C3dYQv+QBe/ozOzZASrJtIec8PMozNXQcj8+xMfDhzM/k0sXi
+azp/EFcbg8AEuoNiXhJmfQBX3lr5Mgf+z3vLvTyST+MTPD9ebqp1CkaBdrHT66jI
+Agcf6OBhf8/BYIHTv5e7uFho09S/frrYXqskHJnazd/tckysU+jf//EryBDLOF77
+DCJbslCIkJ/jIfrX9BAKU+U+At3JN68xbB+Z1WOu5OoExUtLhO8=
+=mDX6
+-----END PGP SIGNATURE-----
+
+--lszhpdxqfwkdo2zm--
