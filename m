@@ -2,93 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C25905689
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 17:13:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4AF9056EA
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 17:32:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A74BB10E0E7;
-	Wed, 12 Jun 2024 15:13:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94F8488D18;
+	Wed, 12 Jun 2024 15:32:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="TVri2K6k";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Hm+p7i99";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 054E910E0E7
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:13:07 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-35f0b9a1dd7so24f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 08:13:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1718205186; x=1718809986; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=aB2lXUipFe+ilhQGDKfy5yRSSxNAEcN/w1KJXQoXXRo=;
- b=TVri2K6kQOwGZdM1zTZZaMYKdoJ5JQeebbkYaiSu9HtrPXVIcxY72zzduFcHCGIa2o
- tFc78jjN0j4RCYCb4nlXVnReFmRKp9U8QNA/qDAlUxqYG73aigfcS8zR9UHPrz8bNKw2
- dS9982ttf9qIk72VoWeGHKcHfZ4biAHs2ABJ8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718205186; x=1718809986;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aB2lXUipFe+ilhQGDKfy5yRSSxNAEcN/w1KJXQoXXRo=;
- b=BpCc7JjGeu+rQaCWgu+7ekO4Hd0z1xLVD2lxCj/GI7eAN6oLIGHcJuLWu2lmPWlcZv
- VqOd7jqcgA4xS7V30D0ViOP8v0QunWXqCg6UBd5WHxt2vPii4QJ0pGX5/P+BKzSor1YF
- 187sJcQj42ItwhcUlARzjfJLUjTsAyD21L82mLEdcAG+4NSxwMz1BsHcUjLS78tyu2KO
- 9PhhhDhyqSqtuA6AvQmfWS4Sbll2rzMclMVWeKnl9MhxOhl3legnWEidlMB79yp9zpJ3
- +sisqvEEPy1LhAhUOwSd0yuAUQIKiHOCYJQXYB3M7Z7CBeb2NY5bSX8V3jlBW4J3ZKgH
- 5zYQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV2GLn6DbWEZlWAQiCJNFX/gM9Tdev8P5TZuDAkVNgK40Bob0qoFlEnhQTSzXUNwwF4Z+ZPbov0NDl2ClGXz5Z9kGwpe4km9w7ygdAHnPe9
-X-Gm-Message-State: AOJu0YwXrIkBhXdhuuPpzmHTDbQhbht9SLbo5RwDnm5FGDcYavauyARX
- DklNSbBbsmFVgcFufxiTU3gB7CtMdAJ9szBpIjS45OZuzgD0Ot9yNgcJ68QjSdM=
-X-Google-Smtp-Source: AGHT+IG6G6UfkgYLOZrbaC3u6RFF77X5XQGCNP3Hq482PX0DbBDxDJ6zJg1aOTxpQe4xxXI8x1blEA==
-X-Received: by 2002:a05:6000:1445:b0:354:e03c:b39a with SMTP id
- ffacd0b85a97d-35fe88fe708mr1617633f8f.6.1718205186150; 
- Wed, 12 Jun 2024 08:13:06 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-35f30c04d63sm3301375f8f.110.2024.06.12.08.13.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jun 2024 08:13:05 -0700 (PDT)
-Date: Wed, 12 Jun 2024 17:13:03 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Yuran Pereira <yuran.pereira@hotmail.com>,
- Chris Morgan <macromorgan@hotmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panel: Avoid warnings w/ panel-simple/panel-edp at
- shutdown
-Message-ID: <Zmm6_27GikpmT3HQ@phenom.ffwll.local>
-Mail-Followup-To: Doug Anderson <dianders@chromium.org>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Yuran Pereira <yuran.pereira@hotmail.com>,
- Chris Morgan <macromorgan@hotmail.com>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
-References: <20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
- <20240612-garnet-condor-from-saturn-1c51bb@houat>
- <CAD=FV=Xpu0-_kEvRWy9w8ypjo7pF7tsFWxHfhMZ=YjHugTqG1w@mail.gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4EFB10E11A
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:32:27 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45CAbPEr002327;
+ Wed, 12 Jun 2024 15:32:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=FCegkFHVBMrsBjwQBG8Wpk
+ ylVo51bMD1m3qO3Axj88k=; b=Hm+p7i99wxO7c6b0+BZglF0iBwgQVzbvgrz0R7
+ 6E9+Ti1N9Qku9A1q970Kk1Y5NMd35U//Ruc826G3LIVAIkiqySxVhaA0Tgn1veW6
+ Mb6L+uOod5YWbuKsXP3oytifrYFSQyYIU2e9fuZ8LBE7RalUmaR88x3P0Uzm7SbM
+ eA3Qgwk3Ywmrfq5srWCPRHMQhUhvsuLP4g2Z5PAfEtuxV5hQdHbCo71YFQbfyYPL
+ m2RRLYXEuElqPRxkS/bZnVlRdClsnlbccakXjULmLcWka0i6HKnW5Re/NZfxc9pU
+ Df2dCGassUfW2k6y9FYM+sSL+N5kmDisr2v3L/uTwgRHlWog==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yq4s8hrgf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jun 2024 15:32:24 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45CFWNwx018537
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jun 2024 15:32:23 GMT
+Received: from [169.254.0.1] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Jun
+ 2024 08:32:23 -0700
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Date: Wed, 12 Jun 2024 08:32:22 -0700
+Subject: [PATCH] fbdev: matroxfb: add missing MODULE_DESCRIPTION() macros
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=Xpu0-_kEvRWy9w8ypjo7pF7tsFWxHfhMZ=YjHugTqG1w@mail.gmail.com>
-X-Operating-System: Linux phenom 6.8.9-amd64 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240612-md-drivers-video-fbdev-matrox-v1-1-999fb28b9793@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAIW/aWYC/x3MSwrDMAwA0asErStIjOnvKqUL2VYaQeMUKTGGk
+ LvX7fItZnYwVmGDe7eDchGTJTcMpw7iRPnFKKkZXO98fx4czgmTSmE1LJJ4wTEkLjjTqktF7zl
+ 6dyW6XQja46M8Sv3/H8/mQMYYlHKcfte35K221lZWOI4vkPv81Y4AAAA=
+To: Helge Deller <deller@gmx.de>
+CC: <linux-fbdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>, "Jeff
+ Johnson" <quic_jjohnson@quicinc.com>
+X-Mailer: b4 0.13.0
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 06GydcilGYjpQx-TVQJgngG2Wmsx9Ngx
+X-Proofpoint-ORIG-GUID: 06GydcilGYjpQx-TVQJgngG2Wmsx9Ngx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-12_08,2024-06-12_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0
+ spamscore=0 mlxscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0
+ priorityscore=1501 clxscore=1015 mlxlogscore=969 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406120111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,106 +90,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 12, 2024 at 07:39:01AM -0700, Doug Anderson wrote:
-> Hi,
-> 
-> On Wed, Jun 12, 2024 at 1:09 AM Maxime Ripard <mripard@kernel.org> wrote:
-> >
-> > Hi,
-> >
-> > On Tue, Jun 11, 2024 at 07:48:51AM GMT, Douglas Anderson wrote:
-> > > At shutdown if you've got a _properly_ coded DRM modeset driver then
-> > > you'll get these two warnings at shutdown time:
-> > >
-> > >   Skipping disable of already disabled panel
-> > >   Skipping unprepare of already unprepared panel
-> > >
-> > > These warnings are ugly and sound concerning, but they're actually a
-> > > sign of a properly working system. That's not great.
-> > >
-> > > It's not easy to get rid of these warnings. Until we know that all DRM
-> > > modeset drivers used with panel-simple and panel-edp are properly
-> > > calling drm_atomic_helper_shutdown() or drm_helper_force_disable_all()
-> > > then the panel drivers _need_ to disable/unprepare themselves in order
-> > > to power off the panel cleanly. However, there are lots of DRM modeset
-> > > drivers used with panel-edp and panel-simple and it's hard to know
-> > > when we've got them all. Since the warning happens only on the drivers
-> > > that _are_ updated there's nothing to encourage broken DRM modeset
-> > > drivers to get fixed.
-> > >
-> > > In order to flip the warning to the proper place, we need to know
-> > > which modeset drivers are going to shutdown properly. Though ugly, do
-> > > this by creating a list of everyone that shuts down properly. This
-> > > allows us to generate a warning for the correct case and also lets us
-> > > get rid of the warning for drivers that are shutting down properly.
-> > >
-> > > Maintaining this list is ugly, but the idea is that it's only short
-> > > term. Once everyone is converted we can delete the list and call it
-> > > done. The list is ugly enough and adding to it is annoying enough that
-> > > people should push to make this happen.
-> > >
-> > > Implement this all in a shared "header" file included by the two panel
-> > > drivers that need it. This avoids us adding an new exports while still
-> > > allowing the panel drivers to be modules. The code waste should be
-> > > small and, as per above, the whole solution is temporary.
-> > >
-> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > > ---
-> > > I came up with this idea to help us move forward since otherwise I
-> > > couldn't see how we were ever going to fix panel-simple and panel-edp
-> > > since they're used by so many DRM Modeset drivers. It's a bit ugly but
-> > > I don't hate it. What do others think?
-> >
-> > I don't think it's the right approach, even more so since we're so close
-> > now to having it in every driver.
-> >
-> > I ran the coccinelle script we started with, and here are the results:
-> >
-> > ./drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1640:25-39: ERROR: KMS driver vmw_pci_driver is missing shutdown implementation
-> > ./drivers/gpu/drm/kmb/kmb_drv.c:621:30-49: ERROR: KMS driver kmb_platform_driver is missing shutdown implementation
-> > ./drivers/gpu/drm/tiny/arcpgu.c:422:30-52: ERROR: KMS driver arcpgu_platform_driver is missing shutdown implementation
-> 
-> Sure, although I think we agreed even back when we talked about this
-> last that your coccinelle script wasn't guaranteed to catch every
-> driver. ...so I guess the question is: are we willing to accept that
-> we'll stop disabling panels at shutdown for any drivers that might
-> were missed. For instance, looking at it by hand (which also could
-> miss things), I previously thought that we also might need:
-> 
-> * nouveau
-> * tegra
-> * amdgpu
-> * sprd
-> * gma500
-> * radeon
-> 
-> I sent patches for those drivers but they don't go through drm-misc
-> and some of the drivers had a lot of abstraction layers and were hard
-> to reason about. I'm also not 100% confident that all of those drivers
-> really are affected--they'd have to be used with panel-simple or
-> panel-edp...
+With ARCH=x86, make allmodconfig && make W=1 C=1 reports:
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_accel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_DAC1064.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_Ti3026.o
 
-Aside from amdgpu and radeon they're all in -misc now, and Alex is
-generally fairly responsive.
+Add the missing invocations of the MODULE_DESCRIPTION() macro.
 
-> In any case, having some sort of warning that would give us a
-> definitive answer would be nice. My proposed patch would give us that
-> warning. I could even jump to a WARN_ON right from the start.
+Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+---
+Corrections to these descriptions are welcomed. While doing these
+cleanups treewide, in most cases I've taken these descriptions
+directly from code comments, Kconfig descriptions, or git logs.
+However in this directory many of the files have duplicate
+descriptions and the Kconfigs have none, so I winged it based upon
+eyeballing the code and looking at the existing MODULE_DESCRIPTION()s
+---
+ drivers/video/fbdev/matrox/matroxfb_DAC1064.c | 1 +
+ drivers/video/fbdev/matrox/matroxfb_Ti3026.c  | 1 +
+ drivers/video/fbdev/matrox/matroxfb_accel.c   | 1 +
+ 3 files changed, 3 insertions(+)
 
-Yeah we defo want some warning to at least check this at runtime.
+diff --git a/drivers/video/fbdev/matrox/matroxfb_DAC1064.c b/drivers/video/fbdev/matrox/matroxfb_DAC1064.c
+index 765e805d14e3..398b7035f5a9 100644
+--- a/drivers/video/fbdev/matrox/matroxfb_DAC1064.c
++++ b/drivers/video/fbdev/matrox/matroxfb_DAC1064.c
+@@ -1111,4 +1111,5 @@ EXPORT_SYMBOL(matrox_G100);
+ EXPORT_SYMBOL(DAC1064_global_init);
+ EXPORT_SYMBOL(DAC1064_global_restore);
+ #endif
++MODULE_DESCRIPTION("Matrox Mystique/G100 output driver");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/video/fbdev/matrox/matroxfb_Ti3026.c b/drivers/video/fbdev/matrox/matroxfb_Ti3026.c
+index 5617c014da87..f53b8066e8a5 100644
+--- a/drivers/video/fbdev/matrox/matroxfb_Ti3026.c
++++ b/drivers/video/fbdev/matrox/matroxfb_Ti3026.c
+@@ -746,4 +746,5 @@ struct matrox_switch matrox_millennium = {
+ };
+ EXPORT_SYMBOL(matrox_millennium);
+ #endif
++MODULE_DESCRIPTION("Matrox Millennium output driver");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/video/fbdev/matrox/matroxfb_accel.c b/drivers/video/fbdev/matrox/matroxfb_accel.c
+index ce51227798a1..52e15dc6f45b 100644
+--- a/drivers/video/fbdev/matrox/matroxfb_accel.c
++++ b/drivers/video/fbdev/matrox/matroxfb_accel.c
+@@ -517,4 +517,5 @@ static void matroxfb_imageblit(struct fb_info* info, const struct fb_image* imag
+ 	}
+ }
+ 
++MODULE_DESCRIPTION("Accelerated fbops for Matrox Millennium/Mystique/G100/G200/G400/G450/G550");
+ MODULE_LICENSE("GPL");
 
-> My proposed patch is self-admittedly super ugly and is also designed
-> to be temporary, so I don't think of this as giving up right before
-> crossing the finish line but instead accepting a tiny bit of temporary
-> ugliness to make sure that we don't accidentally regress anyone. I
-> would really hope it would be obvious to anyone writing / reviewing
-> drivers that the function I introduced isn't intended for anyone but
-> panel-simple and panel-edp.
+---
+base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+change-id: 20240612-md-drivers-video-fbdev-matrox-44ec428aa97a
 
-See my other reply for the proper design fix, and my apologies for what
-you stepped into here :-/
--Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
