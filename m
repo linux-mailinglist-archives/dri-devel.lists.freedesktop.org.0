@@ -2,108 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBFA6904EE7
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 11:14:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925ED904F37
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 11:26:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E321D10E7E5;
-	Wed, 12 Jun 2024 09:14:22 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dUHrEf2H";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D61D810E7F7;
+	Wed, 12 Jun 2024 09:26:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6373E10E7E5
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 09:14:18 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-4217990f8baso38344225e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 02:14:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718183656; x=1718788456; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=C7+3ehk3k80azJprWFHz12j2AqrrZqNt2dQt3W1z4is=;
- b=dUHrEf2H4+sERrZIv9kk3siCnhqlOrzGVNmCK4qacZKe5mWyebSZondhmPQQtwMvNU
- p7oMR66wf+k6pveY+RKbX5TpMBlqwMq5xWDyCxmJthe7Jd9Z5rgdk/Hi0GdX3cEGDbkp
- HrMhojxZVudWnGadG1QNHk6Vgfk6bA+fLBB+6qpNAU6WXWnjIT5SB772bs15+bsFHbAa
- 4Pd63ZNJTcnYEjl15ia1l79PoWIcakan7PR3E8W79TSeQNz1qd/VNo7CatnCMUjaogrL
- 5yEpwppb+iYVAH5GY3FTJw82tVLmoIFl1v/eeTJb9DoQ8BCYDyd3CZk15S+EgLV2fODs
- uxBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718183656; x=1718788456;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=C7+3ehk3k80azJprWFHz12j2AqrrZqNt2dQt3W1z4is=;
- b=WkByZ8GrNoCg+I/TBUVvjahfrdhFwvtyDgqIoF+/M35rBGs1vAdC+doRBYeRJqYIYq
- mGeniQ+HXB72om/Exwu0lIQVUU8Rq9wfpEpPd6K/8r+FRBKjXU72PwJvFO4PVsOo+Rzv
- iRJsZW3ffJ4mk/wyul0C2C7bOzeBnNWJEXD0aLknM7q4zihWrnIioQ+QQ24szgsZf8oJ
- H7t7A3hLCJmROPk6JpzsAY+iND6dNTUS8yE48lVgGY8LumLWtioM8rGRZaiz+TCD7XEh
- sBj3iWsu4ev4rCTx05ghnnGC8Oi/YJoXo0ybmJozmd3mNk1gXS/m7NAQW4AfHD5zBF7A
- DlAQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWDH31QfWAIUSAzQwoVx4OeM/NmQxTYU6okUildHT+dnYK69ij4XMxMCXEnZr/jXH1EXqmAhXJNjNDzs6yV9nBL+ktw7N4IVVmG/uMRFADn
-X-Gm-Message-State: AOJu0YxT2ZcrxxQiZyC7NqC8uq9wBSf82z9/pjFkHPcrGluS2SQAdPOj
- qN7AQWcken8WpKiZomLD4/78Ei+IuYWkevpg34npbjXNWHIR2ntKrlnCEUJj608=
-X-Google-Smtp-Source: AGHT+IHSnPZLMh8nLBPj0z3mqsdUoaX11cJEjdktl0PSUl58lMC/iGQGJrtDX+Zk653q+mlvzvaJZQ==
-X-Received: by 2002:a05:600c:1d01:b0:421:2df2:2850 with SMTP id
- 5b1f17b1804b1-422865ad643mr9257465e9.31.1718183656306; 
- Wed, 12 Jun 2024 02:14:16 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:30bd:bf21:eed1:8aeb?
- ([2a01:e0a:982:cbb0:30bd:bf21:eed1:8aeb])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4229c60f758sm4633975e9.20.2024.06.12.02.14.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jun 2024 02:14:15 -0700 (PDT)
-Message-ID: <6c78b68b-cdce-493e-bd26-0329a61607c0@linaro.org>
-Date: Wed, 12 Jun 2024 11:14:14 +0200
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C67A10E7F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 09:26:27 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sHKFM-0004Jw-Mn; Wed, 12 Jun 2024 11:26:24 +0200
+Message-ID: <81e1972e636a2d81f34de059a24ac27133da4bb0.camel@pengutronix.de>
+Subject: Re: [PATCH v3] devres: Refactor using guards
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Andrea Calabrese <andrea.calabrese@amarulasolutions.com>, 
+ gregkh@linuxfoundation.org, rafael@kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: trivial@kernel.org, linux-amarula@amarulasolutions.com
+Date: Wed, 12 Jun 2024 11:26:24 +0200
+In-Reply-To: <20240611093710.1066510-1-andrea.calabrese@amarulasolutions.com>
+References: <20240611093710.1066510-1-andrea.calabrese@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2] drm/panel : truly-nt35521: transition to mipi_dsi
- wrapped functions
-To: Doug Anderson <dianders@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Tejas Vipin <tejasvipin76@gmail.com>, quic_jesszhan@quicinc.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <3288287d-8344-4b37-a333-722cf12fef13@gmail.com>
- <CAD=FV=XRuU=eh0HzbDCwFrr5h9s-rOdB5dbANAd-BmMhiHR6Ww@mail.gmail.com>
- <uhnjrzii3ydzdsnhc54sbglpy46drzwg2m6if5ymid7gjabcvd@ppzdg6xz4xx7>
- <CAD=FV=WJdp0btifYjGLN5_bfGSEwcEM5nPv8M7872190T3uMRA@mail.gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <CAD=FV=WJdp0btifYjGLN5_bfGSEwcEM5nPv8M7872190T3uMRA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,80 +49,294 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/06/2024 23:12, Doug Anderson wrote:
-> Hi,
-> 
-> On Tue, Jun 11, 2024 at 2:10 PM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
->>
->> On Tue, Jun 11, 2024 at 08:57:48AM -0700, Doug Anderson wrote:
->>> Hi,
->>>
->>> On Tue, Jun 11, 2024 at 7:44 AM Tejas Vipin <tejasvipin76@gmail.com> wrote:
->>>>
->>>> Use functions introduced in commit 966e397e4f60 ("drm/mipi-dsi: Introduce
->>>> mipi_dsi_*_write_seq_multi()") and commit f79d6d28d8fe
->>>> ("drm/mipi-dsi: wrap more functions for streamline handling") for the
->>>> sony tulip truly nt35521 panel.
->>>>
->>>> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
->>>> ---
->>>>
->>>> Changes in v2:
->>>>      - Fix patch format
->>>>      - Fix code style
->>>>
->>>> v1: https://lore.kernel.org/all/485eef24-ddad-466a-a89f-f9f226801bb7@gmail.com/
->>>>
->>>> ---
->>>>   .../panel/panel-sony-tulip-truly-nt35521.c    | 435 +++++++++---------
->>>>   1 file changed, 209 insertions(+), 226 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c b/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
->>>> index 6d44970dccd9..5a050352c207 100644
->>>> --- a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
->>>> +++ b/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
->>>> @@ -44,248 +44,231 @@ static void truly_nt35521_reset(struct truly_nt35521 *ctx)
->>>>   static int truly_nt35521_on(struct truly_nt35521 *ctx)
->>>>   {
->>>>          struct mipi_dsi_device *dsi = ctx->dsi;
->>>> -       struct device *dev = &dsi->dev;
->>>> -       int ret;
->>>> +
->>>> +       struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
->>>
->>> It's not a huge deal, but normally in the kernel all the variable
->>> declarations are cuddled together. AKA no blank line between the
->>> declaration of "dsi" and the declaration of "dsi_ctx". It would be
->>> awesome if you could send a v3 fixing that. When you send v3, feel
->>> free to add this above your own Signed-off-by:
->>>
->>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->>>
->>> ...with that, the patch will probably sit on the mailing lists for a
->>> week or two and then get applied. Neil may want to apply it, but if
->>> he's busy I can do it too.
->>>
->>> I believe you were planning on tackling some more of the panels. Since
->>> you're still getting started sending patches, maybe keep it to a
->>> smaller batch for now and send another 10 or so? Probably best to keep
->>> it as one panel driver per patch.
->>>
->>> -Doug
->>
->> Do we want to delay this until the mipi_dsi_msleep() is fixed?
-> 
-> Yeah, that's a good point. I saw the mipi_dsi_msleep() problem after I
-> reviewed this patch, but you're right that it should be fixed first.
+Am Dienstag, dem 11.06.2024 um 11:37 +0200 schrieb Andrea Calabrese:
+> Code refactoring using the recent guard and scoped_guard macros
+> for automatic cleanup of the spinlocks. This does not change the
+> effective behaviour of the kernel, but guarantees a cleaned-up exit from
+> each lock, automatically avoiding potential deadlocks.
+>=20
+> Signed-off-by: Andrea Calabrese <andrea.calabrese@amarulasolutions.com>
+>=20
+> ---
+> Changed commit message from V2. Also changed title, shortened the file
+> name.
+>=20
+> diff --git a/drivers/base/devres.c b/drivers/base/devres.c
+> index 3df0025d12aa..a98720e0cb2b 100644
+> --- a/drivers/base/devres.c
+> +++ b/drivers/base/devres.c
+> @@ -194,14 +194,12 @@ void devres_for_each_res(struct device *dev, dr_rel=
+ease_t release,
+>  {
+>  	struct devres_node *node;
+>  	struct devres_node *tmp;
+> -	unsigned long flags;
+> =20
+>  	if (!fn)
+>  		return;
+> =20
+> -	spin_lock_irqsave(&dev->devres_lock, flags);
+> -	list_for_each_entry_safe_reverse(node, tmp,
+> -			&dev->devres_head, entry) {
+> +	guard(spinlock)(&dev->devres_lock);
 
-Yeah it should wait after mipi_dsi_msleep is fixed.
+This is not equivalent to the current code. You are dropping the
+_irqsave part of the locking scheme, totally changing the semantics
+here. This issue is present in multiple places in this patch.
 
-Neil
+Regards,
+Lucas
 
-> 
-> -Doug
+> +	list_for_each_entry_safe_reverse(node, tmp, &dev->devres_head, entry) {
+>  		struct devres *dr =3D container_of(node, struct devres, node);
+> =20
+>  		if (node->release !=3D release)
+> @@ -210,7 +208,6 @@ void devres_for_each_res(struct device *dev, dr_relea=
+se_t release,
+>  			continue;
+>  		fn(dev, dr->data, data);
+>  	}
+> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
+>  }
+>  EXPORT_SYMBOL_GPL(devres_for_each_res);
+> =20
+> @@ -243,11 +240,9 @@ EXPORT_SYMBOL_GPL(devres_free);
+>  void devres_add(struct device *dev, void *res)
+>  {
+>  	struct devres *dr =3D container_of(res, struct devres, data);
+> -	unsigned long flags;
+> =20
+> -	spin_lock_irqsave(&dev->devres_lock, flags);
+> +	guard(spinlock)(&dev->devres_lock);
+>  	add_dr(dev, &dr->node);
+> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
+>  }
+>  EXPORT_SYMBOL_GPL(devres_add);
+> =20
+> @@ -287,11 +282,8 @@ void * devres_find(struct device *dev, dr_release_t =
+release,
+>  		   dr_match_t match, void *match_data)
+>  {
+>  	struct devres *dr;
+> -	unsigned long flags;
+> -
+> -	spin_lock_irqsave(&dev->devres_lock, flags);
+> +	guard(spinlock)(&dev->devres_lock);
+>  	dr =3D find_dr(dev, release, match, match_data);
+> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
+> =20
+>  	if (dr)
+>  		return dr->data;
+> @@ -318,16 +310,14 @@ void * devres_get(struct device *dev, void *new_res=
+,
+>  {
+>  	struct devres *new_dr =3D container_of(new_res, struct devres, data);
+>  	struct devres *dr;
+> -	unsigned long flags;
+> -
+> -	spin_lock_irqsave(&dev->devres_lock, flags);
+> -	dr =3D find_dr(dev, new_dr->node.release, match, match_data);
+> -	if (!dr) {
+> -		add_dr(dev, &new_dr->node);
+> -		dr =3D new_dr;
+> -		new_res =3D NULL;
+> +	scoped_guard(spinlock, &dev->devres_lock) {
+> +		dr =3D find_dr(dev, new_dr->node.release, match, match_data);
+> +		if (!dr) {
+> +			add_dr(dev, &new_dr->node);
+> +			dr =3D new_dr;
+> +			new_res =3D NULL;
+> +		}
+>  	}
+> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
+>  	devres_free(new_res);
+> =20
+>  	return dr->data;
+> @@ -353,15 +343,13 @@ void * devres_remove(struct device *dev, dr_release=
+_t release,
+>  		     dr_match_t match, void *match_data)
+>  {
+>  	struct devres *dr;
+> -	unsigned long flags;
+> -
+> -	spin_lock_irqsave(&dev->devres_lock, flags);
+> -	dr =3D find_dr(dev, release, match, match_data);
+> -	if (dr) {
+> -		list_del_init(&dr->node.entry);
+> -		devres_log(dev, &dr->node, "REM");
+> +	scoped_guard(spinlock, &dev->devres_lock) {
+> +		dr =3D find_dr(dev, release, match, match_data);
+> +		if (dr) {
+> +			list_del_init(&dr->node.entry);
+> +			devres_log(dev, &dr->node, "REM");
+> +		}
+>  	}
+> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
+> =20
+>  	if (dr)
+>  		return dr->data;
+> @@ -516,7 +504,6 @@ static void release_nodes(struct device *dev, struct =
+list_head *todo)
+>   */
+>  int devres_release_all(struct device *dev)
+>  {
+> -	unsigned long flags;
+>  	LIST_HEAD(todo);
+>  	int cnt;
+> =20
+> @@ -528,9 +515,9 @@ int devres_release_all(struct device *dev)
+>  	if (list_empty(&dev->devres_head))
+>  		return 0;
+> =20
+> -	spin_lock_irqsave(&dev->devres_lock, flags);
+> -	cnt =3D remove_nodes(dev, dev->devres_head.next, &dev->devres_head, &to=
+do);
+> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
+> +	scoped_guard(spinlock, &dev->devres_lock) {
+> +		cnt =3D remove_nodes(dev, dev->devres_head.next, &dev->devres_head, &t=
+odo);
+> +	}
+> =20
+>  	release_nodes(dev, &todo);
+>  	return cnt;
+> @@ -552,7 +539,6 @@ int devres_release_all(struct device *dev)
+>  void * devres_open_group(struct device *dev, void *id, gfp_t gfp)
+>  {
+>  	struct devres_group *grp;
+> -	unsigned long flags;
+> =20
+>  	grp =3D kmalloc(sizeof(*grp), gfp);
+>  	if (unlikely(!grp))
+> @@ -568,9 +554,8 @@ void * devres_open_group(struct device *dev, void *id=
+, gfp_t gfp)
+>  	if (id)
+>  		grp->id =3D id;
+> =20
+> -	spin_lock_irqsave(&dev->devres_lock, flags);
+> +	guard(spinlock)(&dev->devres_lock);
+>  	add_dr(dev, &grp->node[0]);
+> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
+>  	return grp->id;
+>  }
+>  EXPORT_SYMBOL_GPL(devres_open_group);
+> @@ -609,17 +594,14 @@ static struct devres_group * find_group(struct devi=
+ce *dev, void *id)
+>  void devres_close_group(struct device *dev, void *id)
+>  {
+>  	struct devres_group *grp;
+> -	unsigned long flags;
+> =20
+> -	spin_lock_irqsave(&dev->devres_lock, flags);
+> +	guard(spinlock)(&dev->devres_lock);
+> =20
+>  	grp =3D find_group(dev, id);
+>  	if (grp)
+>  		add_dr(dev, &grp->node[1]);
+>  	else
+>  		WARN_ON(1);
+> -
+> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
+>  }
+>  EXPORT_SYMBOL_GPL(devres_close_group);
+> =20
+> @@ -635,19 +617,16 @@ EXPORT_SYMBOL_GPL(devres_close_group);
+>  void devres_remove_group(struct device *dev, void *id)
+>  {
+>  	struct devres_group *grp;
+> -	unsigned long flags;
+> -
+> -	spin_lock_irqsave(&dev->devres_lock, flags);
+> -
+> -	grp =3D find_group(dev, id);
+> -	if (grp) {
+> -		list_del_init(&grp->node[0].entry);
+> -		list_del_init(&grp->node[1].entry);
+> -		devres_log(dev, &grp->node[0], "REM");
+> -	} else
+> -		WARN_ON(1);
+> =20
+> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
+> +	scoped_guard(spinlock, &dev->devres_lock) {
+> +		grp =3D find_group(dev, id);
+> +		if (grp) {
+> +			list_del_init(&grp->node[0].entry);
+> +			list_del_init(&grp->node[1].entry);
+> +			devres_log(dev, &grp->node[0], "REM");
+> +		} else
+> +			WARN_ON(1);
+> +	}
+> =20
+>  	kfree(grp);
+>  }
+> @@ -668,11 +647,10 @@ EXPORT_SYMBOL_GPL(devres_remove_group);
+>  int devres_release_group(struct device *dev, void *id)
+>  {
+>  	struct devres_group *grp;
+> -	unsigned long flags;
+>  	LIST_HEAD(todo);
+>  	int cnt =3D 0;
+> =20
+> -	spin_lock_irqsave(&dev->devres_lock, flags);
+> +	guard(spinlock)(&dev->devres_lock);
+> =20
+>  	grp =3D find_group(dev, id);
+>  	if (grp) {
+> @@ -683,12 +661,9 @@ int devres_release_group(struct device *dev, void *i=
+d)
+>  			end =3D grp->node[1].entry.next;
+> =20
+>  		cnt =3D remove_nodes(dev, first, end, &todo);
+> -		spin_unlock_irqrestore(&dev->devres_lock, flags);
+> -
+>  		release_nodes(dev, &todo);
+>  	} else {
+>  		WARN_ON(1);
+> -		spin_unlock_irqrestore(&dev->devres_lock, flags);
+>  	}
+> =20
+>  	return cnt;
+> @@ -860,7 +835,6 @@ void *devm_krealloc(struct device *dev, void *ptr, si=
+ze_t new_size, gfp_t gfp)
+>  {
+>  	size_t total_new_size, total_old_size;
+>  	struct devres *old_dr, *new_dr;
+> -	unsigned long flags;
+> =20
+>  	if (unlikely(!new_size)) {
+>  		devm_kfree(dev, ptr);
+> @@ -906,20 +880,17 @@ void *devm_krealloc(struct device *dev, void *ptr, =
+size_t new_size, gfp_t gfp)
+>  	 * The spinlock protects the linked list against concurrent
+>  	 * modifications but not the resource itself.
+>  	 */
+> -	spin_lock_irqsave(&dev->devres_lock, flags);
+> +	scoped_guard(spinlock, &dev->devres_lock) {
+> +		old_dr =3D find_dr(dev, devm_kmalloc_release, devm_kmalloc_match, ptr)=
+;
+> +		if (!old_dr) {
+> +			kfree(new_dr);
+> +			WARN(1, "Memory chunk not managed or managed by a different device.")=
+;
+> +			return NULL;
+> +		}
+> =20
+> -	old_dr =3D find_dr(dev, devm_kmalloc_release, devm_kmalloc_match, ptr);
+> -	if (!old_dr) {
+> -		spin_unlock_irqrestore(&dev->devres_lock, flags);
+> -		kfree(new_dr);
+> -		WARN(1, "Memory chunk not managed or managed by a different device.");
+> -		return NULL;
+> +		replace_dr(dev, &old_dr->node, &new_dr->node);
+>  	}
+> =20
+> -	replace_dr(dev, &old_dr->node, &new_dr->node);
+> -
+> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
+> -
+>  	/*
+>  	 * We can copy the memory contents after releasing the lock as we're
+>  	 * no longer modifying the list links.
 
