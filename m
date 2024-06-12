@@ -2,72 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F32904B79
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 08:19:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C332C904BE2
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 08:48:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35CF910E78F;
-	Wed, 12 Jun 2024 06:19:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BED610E285;
+	Wed, 12 Jun 2024 06:48:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="dKDfXyDq";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="kJrQvmK3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6UeJJvMd";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HXI73a8C";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d32RWz4i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 27707 seconds by postgrey-1.36 at gabe;
- Wed, 12 Jun 2024 06:19:43 UTC
-Received: from smtp58.i.mail.ru (smtp58.i.mail.ru [95.163.41.96])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14F6410E787;
- Wed, 12 Jun 2024 06:19:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
- ; s=mailru;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Sender:Reply-To:To
- :Cc:Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
- List-Archive:X-Cloud-Ids:Disposition-Notification-To;
- bh=D3dOaQVwqk4GkOQb1RNDUR9U5BZ6DrIfmfdHyETWOyE=; t=1718173182; x=1718263182; 
- b=dKDfXyDq+KzVzbspaMLE6VcUfPxGWSahu704rTwBeJ1DPB3F520f/Ei+Rmpek5ZrYOBOclOspNJ
- cqMRemJ6N3NwaWTI+Ndhgx9FVcRULLQwTZKxbQmM/MLf1qk4MbZemMMh204pz7N4aADmvDGDZU2fC
- rNQ2W3uc3ce+clFKnNo=;
-Received: by smtp58.i.mail.ru with esmtpa (envelope-from <danila@jiaxyga.com>)
- id 1sHHKc-00000007HWt-08LX; Wed, 12 Jun 2024 09:19:39 +0300
-Message-ID: <727417e8-781c-435c-8abd-f3dfe6b0e5bb@jiaxyga.com>
-Date: Wed, 12 Jun 2024 09:19:35 +0300
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD4F610E285
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 06:48:34 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D90771FB84;
+ Wed, 12 Jun 2024 06:48:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718174913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=4dH3tWnemnpJL1nmAKzSLPS3Y7fqI8X4rppw+UmvOJY=;
+ b=kJrQvmK3eEH7x0kTkW3m4UzgDSEPG1Uybe+XQFZN1Crx6zAz4ucYeeDN+OAmvXxdB/P7+E
+ t1tacvyt7YVvE2VMIayMYFek5SA+w+jOV1oP5dYJBLMCXpatdDBIW6VsbuJmhEMaq929TO
+ 63brwu8+eisAaVeFIcJeWtUsKMe/nBQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718174913;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=4dH3tWnemnpJL1nmAKzSLPS3Y7fqI8X4rppw+UmvOJY=;
+ b=6UeJJvMdvGta6L6gZmYpM+/6UY21c7sz9TJ6kx43ZfleDSvflWOh/BvYsSIu8996s5aZSn
+ t2/vaTibEQxoKGDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718174912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=4dH3tWnemnpJL1nmAKzSLPS3Y7fqI8X4rppw+UmvOJY=;
+ b=HXI73a8C8APm68RuamvtxBuBiUxrkCW+p8mMUGPt/zA/adHqbcZkeeVtUKoMCjtgQWKQvL
+ wpvY8Tc6yhyEw96Xbp+ATBtXlwfu2tgbGxpE5+EaZ85KeDxknbfLcdirqt6jPDHSrthTE9
+ NfpyJCGmIEZdQ9moQGvRXTMKl6Z5pAY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718174912;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=4dH3tWnemnpJL1nmAKzSLPS3Y7fqI8X4rppw+UmvOJY=;
+ b=d32RWz4i5rpi3eKei/YJW0f951H58XvS+eWcyFqBv0vtzJJv25Td1TQi45Q12l762+GZ1o
+ aCG+/6odj4bCMtDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C36B137DF;
+ Wed, 12 Jun 2024 06:48:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 2GPmJMBEaWZWPwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 12 Jun 2024 06:48:32 +0000
+Message-ID: <e307fdc0-553d-4946-9017-ed3a28e9cae2@suse.de>
+Date: Wed, 12 Jun 2024 08:48:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: display/msm: Add SM7150 MDSS
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: jonathan@marek.ca, krzk+dt@kernel.org, quic_khsieh@quicinc.com,
- linux-arm-msm@vger.kernel.org, quic_rmccann@quicinc.com, sean@poorly.run,
- dmitry.baryshkov@linaro.org, tzimmermann@suse.de, mripard@kernel.org,
- linux-kernel@vger.kernel.org, konrad.dybcio@linaro.org,
- dri-devel@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
- daniel@ffwll.ch, freedreno@lists.freedesktop.org,
- marijn.suijten@somainline.org, robdclark@gmail.com, conor+dt@kernel.org,
- swboyd@chromium.org, quic_abhinavk@quicinc.com, devicetree@vger.kernel.org,
- airlied@gmail.com, quic_jesszhan@quicinc.com, neil.armstrong@linaro.org,
- danila@jiaxyga.com
-References: <20240611223743.113223-1-danila@jiaxyga.com>
- <20240611223743.113223-2-danila@jiaxyga.com>
- <171815244421.3448243.12009673117592867975.robh@kernel.org>
+Subject: Re: [PATCH] drm/fbdev-dma: fix getting smem_start
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Cc: Peng Fan <peng.fan@nxp.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240604080328.4024838-1-peng.fan@oss.nxp.com>
+ <8f4a6d80-dd3e-422f-88af-d26f50c973ff@suse.de>
 Content-Language: en-US
-From: Danila Tikhonov <danila@jiaxyga.com>
-In-Reply-To: <171815244421.3448243.12009673117592867975.robh@kernel.org>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <8f4a6d80-dd3e-422f-88af-d26f50c973ff@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp58.i.mail.ru;
- auth=pass smtp.auth=danila@jiaxyga.com
- smtp.mailfrom=danila@jiaxyga.com
-X-Mailru-Src: smtp
-X-4EC0790: 10
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD9AC8CA0B4439200FA2E41D1825D8172A0E0E393E23BEE614B00894C459B0CD1B93701F1BE02D458FA0884110FD7E9D573E0C26D275431DD20C21EB64246B0F9A252B81C99D67B1670
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7646B74825E00C605EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006378D70459436292EC88638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D89EE4BF3B69F6BE66ADED0A25A7AF3B77439617833B69C6AECC7F00164DA146DAFE8445B8C89999728AA50765F7900637CAEE156C82D3D7D9389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC8B861051D4BA689FCF6B57BC7E6449061A352F6E88A58FB86F5D81C698A659EA73AA81AA40904B5D9A18204E546F3947C4E7D9683544204AFC0837EA9F3D197644AD6D5ED66289B523666184CF4C3C14F6136E347CC761E07725E5C173C3A84C3F6D1C8D476B9D508BA3038C0950A5D36B5C8C57E37DE458B330BD67F2E7D9AF16D1867E19FE14079C09775C1D3CA48CFED8438A78DFE0A9E1DD303D21008E298D5E8D9A59859A8B64854413538E1713F75ECD9A6C639B01B78DA827A17800CE73D56AD9F5B48EAD3731C566533BA786AA5CC5B56E945C8DA
-X-C1DE0DAB: 0D63561A33F958A5DC52C108294D8BC45002B1117B3ED696C2EE067D40BD6233886DC9BC01168B20823CB91A9FED034534781492E4B8EEADBEC81E4AEBD6D2BFBDAD6C7F3747799A
-X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF3FED46C3ACD6F73ED3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CFB89CEDACDE7794F3187A3F96CD4411BD88AF9E799152713C812A02B75F5FAA397DB53F182780859704A26A3878DC1330792B0840721B6E26F714D4249A18921BAADE3C488B45354054A6BD6C3A9AE7E002C26D483E81D6BE72B480F99247062FEE42F474E8A1C6FD34D382445848F2F3
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2bioj7p5wIdCuWKPDhetPjfSXkA==
-X-Mailru-Sender: 9EB879F2C80682A09F26F806C7394981056BA5190A4959367FC47A557B39A39B5B2B8F84C2F39F76C9F642B473F2A1192C62728BC403A049225EC17F3711B6CF1A6F2E8989E84EC137BFB0221605B344978139F6FA5A77F05FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[];
+ FREEMAIL_TO(0.00)[oss.nxp.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,redhat.com];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[9];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Score: -4.29
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,55 +146,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/12/24 03:34, Rob Herring (Arm) wrote:
-> On Wed, 12 Jun 2024 01:37:40 +0300, Danila Tikhonov wrote:
->> Document the MDSS hardware found on the Qualcomm SM7150 platform.
+Hi
+
+Am 10.06.24 um 10:47 schrieb Thomas Zimmermann:
+> Hi
+>
+> Am 04.06.24 um 10:03 schrieb Peng Fan (OSS):
+>> From: Peng Fan <peng.fan@nxp.com>
 >>
->> Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
+>> If 'info->screen_buffer' locates in vmalloc address space, virt_to_page
+>> will not be able to get correct results. With CONFIG_DEBUG_VM and
+>> CONFIG_DEBUG_VIRTUAL enabled on ARM64, there is dump below:
+>
+> Which graphics driver triggers this bug?
+>
+>> [    3.536043] ------------[ cut here ]------------
+>> [    3.540716] virt_to_phys used for non-linear address: 
+>> 000000007fc4f540 (0xffff800086001000)
+>> [    3.552628] WARNING: CPU: 4 PID: 61 at arch/arm64/mm/physaddr.c:12 
+>> __virt_to_phys+0x68/0x98
+>> [    3.565455] Modules linked in:
+>> [    3.568525] CPU: 4 PID: 61 Comm: kworker/u12:5 Not tainted 
+>> 6.6.23-06226-g4986cc3e1b75-dirty #250
+>> [    3.577310] Hardware name: NXP i.MX95 19X19 board (DT)
+>> [    3.582452] Workqueue: events_unbound deferred_probe_work_func
+>> [    3.588291] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS 
+>> BTYPE=--)
+>> [    3.595233] pc : __virt_to_phys+0x68/0x98
+>> [    3.599246] lr : __virt_to_phys+0x68/0x98
+>> [    3.603276] sp : ffff800083603990
+>> [    3.677939] Call trace:
+>> [    3.680393]  __virt_to_phys+0x68/0x98
+>> [    3.684067]  drm_fbdev_dma_helper_fb_probe+0x138/0x238
+>> [    3.689214] __drm_fb_helper_initial_config_and_unlock+0x2b0/0x4c0
+>> [    3.695385]  drm_fb_helper_initial_config+0x4c/0x68
+>> [    3.700264]  drm_fbdev_dma_client_hotplug+0x8c/0xe0
+>> [    3.705161]  drm_client_register+0x60/0xb0
+>> [    3.709269]  drm_fbdev_dma_setup+0x94/0x148
+>>
+>> So add a check 'is_vmalloc_addr'.
+>>
+>> Fixes: b79fe9abd58b ("drm/fbdev-dma: Implement fbdev emulation for 
+>> GEM DMA helpers")
+>> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+I'm taking back my r-b. The memory is expected to by be physically 
+contiguous and vmalloc() won't guarantee that.
+
+Best regards
+Thomas
+
+>
+> Best regards
+> Thomas
+>
 >> ---
->>   .../display/msm/qcom,sm7150-mdss.yaml         | 460 ++++++++++++++++++
->>   1 file changed, 460 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm7150-mdss.yaml
+>>   drivers/gpu/drm/drm_fbdev_dma.c | 7 ++++++-
+>>   1 file changed, 6 insertions(+), 1 deletion(-)
 >>
-> My bot found errors running 'make dt_binding_check' on your patch:
->
-> yamllint warnings/errors:
->
-> dtschema/dtc warnings/errors:
-> Documentation/devicetree/bindings/display/msm/qcom,sm7150-mdss.example.dts:25:18: fatal error: dt-bindings/clock/qcom,sm7150-dispcc.h: No such file or directory
->     25 |         #include <dt-bindings/clock/qcom,sm7150-dispcc.h>
->        |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> compilation terminated.
-> make[2]: *** [scripts/Makefile.lib:427: Documentation/devicetree/bindings/display/msm/qcom,sm7150-mdss.example.dtb] Error 1
-> make[2]: *** Waiting for unfinished jobs....
-> make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1430: dt_binding_check] Error 2
-> make: *** [Makefile:240: __sub-make] Error 2
->
-> doc reference errors (make refcheckdocs):
->
-> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240611223743.113223-2-danila@jiaxyga.com
->
-> The base for the series is generally the latest rc1. A different dependency
-> should be noted in *this* patch.
->
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
->
-> pip3 install dtschema --upgrade
->
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your schema.
+>> diff --git a/drivers/gpu/drm/drm_fbdev_dma.c 
+>> b/drivers/gpu/drm/drm_fbdev_dma.c
+>> index 6c9427bb4053..9e2eddb6eb5c 100644
+>> --- a/drivers/gpu/drm/drm_fbdev_dma.c
+>> +++ b/drivers/gpu/drm/drm_fbdev_dma.c
+>> @@ -130,7 +130,12 @@ static int drm_fbdev_dma_helper_fb_probe(struct 
+>> drm_fb_helper *fb_helper,
+>>           info->flags |= FBINFO_READS_FAST; /* signal caching */
+>>       info->screen_size = sizes->surface_height * fb->pitches[0];
+>>       info->screen_buffer = map.vaddr;
+>> -    info->fix.smem_start = 
+>> page_to_phys(virt_to_page(info->screen_buffer));
+>> +
+>> +    if (is_vmalloc_addr(info->screen_buffer))
+>> +        info->fix.smem_start = 
+>> page_to_phys(vmalloc_to_page(info->screen_buffer));
+>> +    else
+>> +        info->fix.smem_start = 
+>> page_to_phys(virt_to_page(info->screen_buffer));
+>> +
+>>       info->fix.smem_len = info->screen_size;
+>>         return 0;
 >
 
-Yes, this happened because I forgot to add note (same for both dtbindings):
-Depends on commit ca3a91063acc (dt-bindings: clock: qcom: Add SM7150 
-DISPCC clocks)
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-I don't think I need to resend series right now. But if it's necessary, 
-I will.
-
----
-Best wishes
-Danila
