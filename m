@@ -2,62 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08E4D9051FB
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 14:04:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 330B2905200
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 14:06:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE65A10E837;
-	Wed, 12 Jun 2024 12:04:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACD2610E834;
+	Wed, 12 Jun 2024 12:06:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eVuT3ouz";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="No3XGKhM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A56810E276
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 12:03:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718193838; x=1749729838;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=X7J2WbmH64MY2CGap81M2MCPcCPaa0Mr6DMKmQW4mJU=;
- b=eVuT3ouz+epcPTbEY5TfTAwj1yQE2A8921kbHhjAnfOFSdYsBiz5BDcW
- DvNlv5RF76uth/ZZDitS07+rjztjiG2aogRvAUvirEoEBhxa4HPMNPefH
- 72S4pqCoVSFfcekOXNiTA8+ngoNDSqdbbRnqWP1IAPTgLLwoRMxrTBtUb
- uI9FMkb/AOzxCDRzls/X0jyJsDYdij5NYpRDXx5uhGjkg/BLuH8vlVWnX
- n9fu/CpfWldl4Nh3yNRCJVAmO+Xjs6yBtUsmPY1nRehj2S/sD1sWNvnRy
- gnqyzgrbv7vbrRoCxM3yfw9pH73VwZbR1p0iOkKS+/0HnP3Lc6Okmlwas A==;
-X-CSE-ConnectionGUID: VcugJq+CQiiV4pP6Zh74TQ==
-X-CSE-MsgGUID: y/JdykOrTtK8ONMgECb9Pw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11100"; a="15077639"
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; d="scan'208";a="15077639"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2024 05:03:57 -0700
-X-CSE-ConnectionGUID: 643hQ32UQbKKDebnvMT2iw==
-X-CSE-MsgGUID: Vv3xMJW9TuKnyWe7pJHRPQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; d="scan'208";a="70574153"
-Received: from fpallare-mobl3.ger.corp.intel.com (HELO
- kdrobnik-desk.toya.net.pl) ([10.245.245.214])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2024 05:03:55 -0700
-From: Karolina Stolarek <karolina.stolarek@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Amaranath Somalapuram <asomalap@amd.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Karolina Stolarek <karolina.stolarek@intel.com>
-Subject: [PATCH v14 12/12] drm/ttm/tests: Use u32 and u64 over uint*_t types
-Date: Wed, 12 Jun 2024 14:03:06 +0200
-Message-Id: <b36d71de78990ac5be1538cc3f735f7e40618cfe.1718192625.git.karolina.stolarek@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1718192625.git.karolina.stolarek@intel.com>
-References: <cover.1718192625.git.karolina.stolarek@intel.com>
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BF5310E834
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 12:06:08 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id
+ d75a77b69052e-4405304d062so28208061cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 05:06:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1718193967; x=1718798767; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=654VBwTTZj6O5cwvd+Nmv/nVSh8Rktw+YZv2YfH5NqU=;
+ b=No3XGKhMjp5lzd/Cls0LRQzm77pP8Ci2lZ54sN5YjEaf3fwVblK/rYsOyWPG8OQv5o
+ HQFyeILM/e0aIGsAS922Zjyx9kD6rA7wzr8E/yMmeJ8gCg7rFZnxrTYs/L9zLNb2OZ5+
+ w/sUx6bI2vEdNtB6XZMy5FqLAFEAS92uzH9puItQslPvdDUQdDebnuPKOzdQoRz8JMm1
+ AP3n/BZo12W2P1ZMorjzlYV7eReiMl5i0Ru8j6xrSWQaw/N2bzrva8gtkoahygrO1XdN
+ d2M9VHeOyNiKB8QgDysRUnQcW/GR4BW2EKxRXEto5kbksnTKgc9fHLFzJQ+3RfEiWUbC
+ cCkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718193967; x=1718798767;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=654VBwTTZj6O5cwvd+Nmv/nVSh8Rktw+YZv2YfH5NqU=;
+ b=eJ2spCmfSpIz0pT6n4M9QcrOpZfezQ1JoKBYcfD7Kul+yhmSNCv3ouyQ7nuqXdPl7k
+ CojMo80wB/QIUiJ0utM18dhJuiLIOlyUnRmlMlTRUDeHs8BuTi9KMNUOsfvkeLC1/Ufa
+ fC0S9KGkkxpcQkH5QRtyps5lZzKXAS7Y4CMgZn/CSKTKHliYFuXDIv8f+cWcozIdorQk
+ 6FFO4jcQcLFrBYD4XykHDzxYlCqAdKl5yoQCmKx2FE1uysrXgp04naS/N53uc778V0z6
+ T5zNgNseMAvpuYJHoDXKdfEX6+vy1eGcXdiWnyCEnCiMJo0tbVHRca5W7uvUpIJcQ3fl
+ qrRQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUfzP4e6C291TI8gG419nI1qBz7kbs9L25U/LbLebgZF09YaBEsFCFOFC2L5uE479FDcswiz/+QgHqeH77AUEwfiipJ3nfaMlOk+jAXXVZR
+X-Gm-Message-State: AOJu0YwUNS73r5w/sxD+Ah1o/paLTbP8ezrgQhxKYVbSGYMYaAgLXGpc
+ FLDjFtEOwa4RXGCpi+dZRyrok63pZo079Gm9me1iGaV+pROpr3BNjUZIW6SGzZQ=
+X-Google-Smtp-Source: AGHT+IElu+dk9DZ7aij8c0y6F8TXy6i5LV0OSLpqQpTgGbv9PZ9NHP5JfFSWjv6MHZMgeDua9fHUGQ==
+X-Received: by 2002:a05:622a:30f:b0:440:5de2:2a03 with SMTP id
+ d75a77b69052e-4415abae5a3mr13859041cf.1.1718193967008; 
+ Wed, 12 Jun 2024 05:06:07 -0700 (PDT)
+Received: from ziepe.ca ([128.77.69.89]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-44152b1585bsm12849751cf.27.2024.06.12.05.06.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Jun 2024 05:06:06 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+ (envelope-from <jgg@ziepe.ca>) id 1sHMjq-008UjB-Tl;
+ Wed, 12 Jun 2024 09:06:02 -0300
+Date: Wed, 12 Jun 2024 09:06:02 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Mina Almasry <almasrymina@google.com>
+Cc: Pavel Begunkov <asml.silence@gmail.com>,
+ David Ahern <dsahern@kernel.org>, David Wei <dw@davidwei.uk>,
+ Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>,
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>,
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <20240612120602.GQ791043@ziepe.ca>
+References: <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
+ <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+ <20240607145247.GG791043@ziepe.ca>
+ <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
+ <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com>
+ <20240610121625.GI791043@ziepe.ca>
+ <59443d14-1f1d-42bb-8be3-73e6e4a0b683@kernel.org>
+ <00c67cf0-2bf3-4eaf-b200-ffe00d91593b@gmail.com>
+ <20240610221500.GN791043@ziepe.ca>
+ <CAHS8izNRd=f=jHgrYKKfzgcU3JzkZA1NkZnbQM+hfYd8-0NyBQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHS8izNRd=f=jHgrYKKfzgcU3JzkZA1NkZnbQM+hfYd8-0NyBQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,244 +136,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the tests and helpers to use unsigned kernel types.
+On Tue, Jun 11, 2024 at 11:09:15AM -0700, Mina Almasry wrote:
 
-Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
-Suggested-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/ttm/tests/ttm_bo_test.c       | 12 ++++++------
- drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c |  6 ++----
- drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |  4 ++--
- drivers/gpu/drm/ttm/tests/ttm_pool_test.c     |  2 +-
- drivers/gpu/drm/ttm/tests/ttm_resource_test.c | 16 ++++++++--------
- drivers/gpu/drm/ttm/tests/ttm_tt_test.c       | 12 ++++++------
- 6 files changed, 25 insertions(+), 27 deletions(-)
+> Just curious: in Pavel's effort, io_uring - which is not a device - is
+> trying to share memory with the page_pool, which is also not a device.
+> And Pavel is being asked to wrap the memory in a dmabuf. Is dmabuf
+> going to be the kernel's standard for any memory sharing between any 2
+> components in the future, even when they're not devices?
 
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
-index b53483ce3570..aafc22664c5e 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
-@@ -237,7 +237,7 @@ static void ttm_bo_unreserve_basic(struct kunit *test)
- 	struct ttm_place *place;
- 	struct ttm_resource_manager *man;
- 	unsigned int bo_prio = TTM_MAX_BO_PRIORITY - 1;
--	uint32_t mem_type = TTM_PL_SYSTEM;
-+	u32 mem_type = TTM_PL_SYSTEM;
- 	int err;
- 
- 	place = ttm_place_kunit_init(test, mem_type, 0);
-@@ -278,7 +278,7 @@ static void ttm_bo_unreserve_pinned(struct kunit *test)
- 	struct ttm_device *ttm_dev;
- 	struct ttm_resource *res1, *res2;
- 	struct ttm_place *place;
--	uint32_t mem_type = TTM_PL_SYSTEM;
-+	u32 mem_type = TTM_PL_SYSTEM;
- 	int err;
- 
- 	ttm_dev = kunit_kzalloc(test, sizeof(*ttm_dev), GFP_KERNEL);
-@@ -322,7 +322,7 @@ static void ttm_bo_unreserve_bulk(struct kunit *test)
- 	struct ttm_device *ttm_dev;
- 	struct ttm_place *place;
- 	struct dma_resv *resv;
--	uint32_t mem_type = TTM_PL_SYSTEM;
-+	u32 mem_type = TTM_PL_SYSTEM;
- 	unsigned int bo_priority = 0;
- 	int err;
- 
-@@ -380,7 +380,7 @@ static void ttm_bo_put_basic(struct kunit *test)
- 	struct ttm_resource *res;
- 	struct ttm_device *ttm_dev;
- 	struct ttm_place *place;
--	uint32_t mem_type = TTM_PL_SYSTEM;
-+	u32 mem_type = TTM_PL_SYSTEM;
- 	int err;
- 
- 	place = ttm_place_kunit_init(test, mem_type, 0);
-@@ -495,7 +495,7 @@ static void ttm_bo_pin_unpin_resource(struct kunit *test)
- 	struct ttm_resource *res;
- 	struct ttm_device *ttm_dev;
- 	struct ttm_place *place;
--	uint32_t mem_type = TTM_PL_SYSTEM;
-+	u32 mem_type = TTM_PL_SYSTEM;
- 	unsigned int bo_priority = 0;
- 	int err;
- 
-@@ -546,7 +546,7 @@ static void ttm_bo_multiple_pin_one_unpin(struct kunit *test)
- 	struct ttm_resource *res;
- 	struct ttm_device *ttm_dev;
- 	struct ttm_place *place;
--	uint32_t mem_type = TTM_PL_SYSTEM;
-+	u32 mem_type = TTM_PL_SYSTEM;
- 	unsigned int bo_priority = 0;
- 	int err;
- 
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-index 9eec7e4441c3..70f40814b26a 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-@@ -42,8 +42,7 @@ static struct ttm_placement mock_placement = {
- 	.placement = &mock2_place,
- };
- 
--static struct ttm_tt *ttm_tt_simple_create(struct ttm_buffer_object *bo,
--					   uint32_t page_flags)
-+static struct ttm_tt *ttm_tt_simple_create(struct ttm_buffer_object *bo, u32 page_flags)
- {
- 	struct ttm_tt *tt;
- 
-@@ -197,8 +196,7 @@ struct ttm_buffer_object *ttm_bo_kunit_init(struct kunit *test,
- }
- EXPORT_SYMBOL_GPL(ttm_bo_kunit_init);
- 
--struct ttm_place *ttm_place_kunit_init(struct kunit *test,
--				       uint32_t mem_type, uint32_t flags)
-+struct ttm_place *ttm_place_kunit_init(struct kunit *test, u32 mem_type, u32 flags)
- {
- 	struct ttm_place *place;
- 
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-index aa70b50e7640..c7da23232ffa 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-+++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-@@ -38,8 +38,8 @@ struct ttm_buffer_object *ttm_bo_kunit_init(struct kunit *test,
- 					    struct ttm_test_devices *devs,
- 					    size_t size,
- 					    struct dma_resv *obj);
--struct ttm_place *ttm_place_kunit_init(struct kunit *test,
--				       uint32_t mem_type, uint32_t flags);
-+struct ttm_place *ttm_place_kunit_init(struct kunit *test, u32 mem_type,
-+				       u32 flags);
- void dummy_ttm_bo_destroy(struct ttm_buffer_object *bo);
- 
- struct ttm_test_devices *ttm_test_devices_basic(struct kunit *test);
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_pool_test.c b/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-index 9070ca43df53..5d4dc5b1c6d7 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-@@ -48,7 +48,7 @@ static void ttm_pool_test_fini(struct kunit *test)
- }
- 
- static struct ttm_tt *ttm_tt_kunit_init(struct kunit *test,
--					uint32_t page_flags,
-+					u32 page_flags,
- 					enum ttm_caching caching,
- 					size_t size)
- {
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
-index b90523422d24..77be0942ab62 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
-@@ -11,8 +11,8 @@
- 
- struct ttm_resource_test_case {
- 	const char *description;
--	uint32_t mem_type;
--	uint32_t flags;
-+	u32 mem_type;
-+	u32 flags;
- };
- 
- struct ttm_resource_test_priv {
-@@ -47,7 +47,7 @@ static void ttm_resource_test_fini(struct kunit *test)
- 
- static void ttm_init_test_mocks(struct kunit *test,
- 				struct ttm_resource_test_priv *priv,
--				uint32_t mem_type, uint32_t flags)
-+				u32 mem_type, u32 flags)
- {
- 	size_t size = RES_SIZE;
- 
-@@ -60,7 +60,7 @@ static void ttm_init_test_mocks(struct kunit *test,
- 
- static void ttm_init_test_manager(struct kunit *test,
- 				  struct ttm_resource_test_priv *priv,
--				  uint32_t mem_type)
-+				  u32 mem_type)
- {
- 	struct ttm_device *ttm_dev = priv->devs->ttm_dev;
- 	struct ttm_resource_manager *man;
-@@ -112,7 +112,7 @@ static void ttm_resource_init_basic(struct kunit *test)
- 	struct ttm_buffer_object *bo;
- 	struct ttm_place *place;
- 	struct ttm_resource_manager *man;
--	uint64_t expected_usage;
-+	u64 expected_usage;
- 
- 	ttm_init_test_mocks(test, priv, params->mem_type, params->flags);
- 	bo = priv->bo;
-@@ -230,7 +230,7 @@ static void ttm_resource_manager_usage_basic(struct kunit *test)
- 	struct ttm_buffer_object *bo;
- 	struct ttm_place *place;
- 	struct ttm_resource_manager *man;
--	uint64_t actual_usage;
-+	u64 actual_usage;
- 
- 	ttm_init_test_mocks(test, priv, TTM_PL_SYSTEM, TTM_PL_FLAG_TOPDOWN);
- 	bo = priv->bo;
-@@ -268,7 +268,7 @@ static void ttm_sys_man_alloc_basic(struct kunit *test)
- 	struct ttm_buffer_object *bo;
- 	struct ttm_place *place;
- 	struct ttm_resource *res;
--	uint32_t mem_type = TTM_PL_SYSTEM;
-+	u32 mem_type = TTM_PL_SYSTEM;
- 	int ret;
- 
- 	ttm_init_test_mocks(test, priv, mem_type, 0);
-@@ -293,7 +293,7 @@ static void ttm_sys_man_free_basic(struct kunit *test)
- 	struct ttm_buffer_object *bo;
- 	struct ttm_place *place;
- 	struct ttm_resource *res;
--	uint32_t mem_type = TTM_PL_SYSTEM;
-+	u32 mem_type = TTM_PL_SYSTEM;
- 
- 	ttm_init_test_mocks(test, priv, mem_type, 0);
- 	bo = priv->bo;
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_tt_test.c b/drivers/gpu/drm/ttm/tests/ttm_tt_test.c
-index dd9bac7cb7b0..a8c76dbd6913 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_tt_test.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_tt_test.c
-@@ -11,8 +11,8 @@
- 
- struct ttm_tt_test_case {
- 	const char *description;
--	uint32_t size;
--	uint32_t extra_pages_num;
-+	u32 size;
-+	u32 extra_pages_num;
- };
- 
- static const struct ttm_tt_test_case ttm_tt_init_basic_cases[] = {
-@@ -41,9 +41,9 @@ static void ttm_tt_init_basic(struct kunit *test)
- 	const struct ttm_tt_test_case *params = test->param_value;
- 	struct ttm_buffer_object *bo;
- 	struct ttm_tt *tt;
--	uint32_t page_flags = TTM_TT_FLAG_ZERO_ALLOC;
-+	u32 page_flags = TTM_TT_FLAG_ZERO_ALLOC;
- 	enum ttm_caching caching = ttm_cached;
--	uint32_t extra_pages = params->extra_pages_num;
-+	u32 extra_pages = params->extra_pages_num;
- 	int num_pages = params->size >> PAGE_SHIFT;
- 	int err;
- 
-@@ -69,7 +69,7 @@ static void ttm_tt_init_misaligned(struct kunit *test)
- 	struct ttm_buffer_object *bo;
- 	struct ttm_tt *tt;
- 	enum ttm_caching caching = ttm_cached;
--	uint32_t size = SZ_8K;
-+	u32 size = SZ_8K;
- 	int num_pages = (size + SZ_4K) >> PAGE_SHIFT;
- 	int err;
- 
-@@ -211,7 +211,7 @@ static void ttm_tt_create_ttm_exists(struct kunit *test)
- }
- 
- static struct ttm_tt *ttm_tt_null_create(struct ttm_buffer_object *bo,
--					 uint32_t page_flags)
-+					 u32 page_flags)
- {
- 	return NULL;
- }
--- 
-2.34.1
+dmabuf is how we are refcounting non-struct page memory, there is
+nothing about it that says it has to be MMIO memory, or even that the
+memory doesn't have struct pages.
 
+All it says is that the memory is alive according to dmabuf
+refcounting rules. And the importer obviously don't get to touch the
+underlying folios, if any.
+
+Jason
