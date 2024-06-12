@@ -2,108 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC14B905610
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 17:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFFAD905614
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 17:00:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14CD610E8B0;
-	Wed, 12 Jun 2024 15:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B12DD10E88D;
+	Wed, 12 Jun 2024 15:00:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rKuaDqau";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="eAtqm6aI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5B3710E88D
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:00:12 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-4217990f997so38162135e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 08:00:12 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 982B610E88D
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:00:49 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-422948b9140so297455e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 08:00:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718204411; x=1718809211; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=Jhh2/EbO+KzKdZ2Ceo1EYx6oUtTDKk/jJAIaFVIVoMI=;
- b=rKuaDqausEeWitJgUkBrNo4/ZqUi726UssObYCfWtt6VclRMJYyNVKLjyGL2zSo8/A
- F1A6TnXKwtCCR1zbblVRoiGXSm79SkWziXQR9Vbex8k9Hvuzf9lUNx2+CArJEEVk5soI
- Wti/Nd3gPhhwxpGMCrhGO7g54y1HrJ1G94skVv8RV/4+nFyriAcWThIKzfmFKKphaJwo
- 42Txa6v0PteDfZcH+cY818XPgL1kwuDUQssrYgfPsZ37frrKeZtO08HVoxoyKUmfrj6b
- Bfiwifbfn7a57uE494dwGTdCiE+MgqUq9x6Vg63inoLndcmlMt3JFj7O80qvoPs7gOV5
- WBBQ==
+ d=ffwll.ch; s=google; t=1718204448; x=1718809248; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Vga4bYp9jxqSv9eCBMzwANuaNkrPnKBob/TvPmGImHU=;
+ b=eAtqm6aIbiTVVgps2hWLEfS8K/0lRpIZZn1koItpQwHACB/du3s1I0YeboWxqhsfgc
+ rQdvhuYIWHfupYjYiW6E5AVDXHro4g88lQ90/rx6ulgSNrCaKUWLFZBbRBMz7N3VvkxT
+ y13rcAEEuA11v25ZUEOe56+q0iFhqVKy2ROk8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718204411; x=1718809211;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Jhh2/EbO+KzKdZ2Ceo1EYx6oUtTDKk/jJAIaFVIVoMI=;
- b=gDByrfWAj/msKsaYbfMOw+gwVM9zzrziTrX4H6TERQDFwL5m5m9W9fBr9p3wZ62+WU
- ZRSGwefwLmv7w/XESEZjT1J5Cgz7o8781RxknM1Tmi8NSaqQ9kOAdwvasIHpk7vwybFA
- F0ZfiExosxlfmZvJQCi3Xw9IZ2FxUUwYXQnPzuLn+qtcWTlOnprn/VGimT20tNIVd/iX
- 5DdP+lbTw0vWOGF4ZkAvk1cJVGAY2Ftypiiq5gGp3SozvyY3SNY6gywFjWpzBXUSVtA9
- L70TrCPxGYNwka0nmNqAOTyMcyN8oNWwafkKYLGlZtB1ms1vzoNPupb87Amv+d2fdEhJ
- yJ0A==
+ d=1e100.net; s=20230601; t=1718204448; x=1718809248;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Vga4bYp9jxqSv9eCBMzwANuaNkrPnKBob/TvPmGImHU=;
+ b=G5w6d0P5yMjM6Yym95RbsmABsg6upog7/EwMGch4UHsVfXi1Z3RSQvYnNRVt6+JQes
+ o4E7gNB3OsD8CQAPLWbg2QQWwOo5dOZ++RnLTSHQxTHiiOhYhXnnEh68zywoomKEzveh
+ ugkyhJkuhiKq2Imfcz27YDxAtiC5SKncAYE7MppJtDTnA++r9Bu3vXKII57B1gc4C5p4
+ bnVFhX1UaHO14JURHmVHvv5+4LA+9hfqaLN2LmiQHVIILGRve4d4GlvJeksTFJt5KSDz
+ 8PgfHFukfFzTfHI0p3GiHP6V3fEwDYQ7bwR928lVjPqPkc+N6dUgLy9NdviBvlCypSMD
+ bIXg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW0oYslqK7s5lJi5VqYrXLiQ0WxMxYhGHbqUcOP1N+sU6W3QASwCUjskAnGqpjxc0nspVC6A8kQWyZXGpO53zhx5NjPGj37WR9LkMUaWEun
-X-Gm-Message-State: AOJu0YxjXpQsxRHECDzv2lwC4CaUsDdVMlKI92cJP2vhcjZ3Rx+XECII
- 8slPLzNTApicfV+L0sTOu5kXXyAnWkTnkXSXQUrS4mNcUHCyP1ZGcrQQBZShuDI=
-X-Google-Smtp-Source: AGHT+IHYnEIUuKhHAo+YHne7cw1OEPvSnqErGK9eKY2wBCW7WO7/RuHH1cbOVIMAIN9kpXDkMQlCSQ==
-X-Received: by 2002:a7b:cbc5:0:b0:421:2711:cde9 with SMTP id
- 5b1f17b1804b1-422864af234mr18269665e9.22.1718204410921; 
- Wed, 12 Jun 2024 08:00:10 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:30bd:bf21:eed1:8aeb?
- ([2a01:e0a:982:cbb0:30bd:bf21:eed1:8aeb])
+ AJvYcCXAj9vZsCdh9V/z73tONEyMsUU/G+RAFIl2LnLgz53EtgbnedNLJxURke9oGs9+xNmJ8rWnhpr9k6A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxRv+JNPYtj56bL6Y0sLROogvyp5nlHTKnU9JFqxNBFGD/6G1Mn
+ 6Egl4hXUEo+as5R3jai/MF9CpepI7CFE5CdSYEdwH8k40twWb34HqNT0+X0xAVQ=
+X-Google-Smtp-Source: AGHT+IFSC1i2V0ypqWkq76qJSJvokwb8rd6Yp8fMrGyYSDy7uditWcjWH2yTATEfSucgGwiy+8PrEw==
+X-Received: by 2002:a5d:59a1:0:b0:35f:2f97:e890 with SMTP id
+ ffacd0b85a97d-35fd4b30419mr1419392f8f.0.1718204447552; 
+ Wed, 12 Jun 2024 08:00:47 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-422870ebadbsm29401255e9.23.2024.06.12.08.00.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jun 2024 08:00:09 -0700 (PDT)
-Message-ID: <a29db79c-53ab-45a6-bdc3-b165475da0fb@linaro.org>
-Date: Wed, 12 Jun 2024 17:00:08 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH 2/2] drm/mipi-dsi: fix handling of ctx in mipi_dsi_msleep
-To: Doug Anderson <dianders@chromium.org>
-Cc: Tejas Vipin <tejasvipin76@gmail.com>, quic_jesszhan@quicinc.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, linus.walleij@linaro.org,
- dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org,
+ ffacd0b85a97d-35f25aa8fb6sm7982282f8f.92.2024.06.12.08.00.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Jun 2024 08:00:47 -0700 (PDT)
+Date: Wed, 12 Jun 2024 17:00:45 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Peng Fan <peng.fan@nxp.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-References: <20240612133550.473279-1-tejasvipin76@gmail.com>
- <20240612133550.473279-3-tejasvipin76@gmail.com>
- <CAD=FV=VTEzSyTHm-YBwneBgpohK8uu460DER-GcsQWu-z9hJsg@mail.gmail.com>
- <9beb8011-cb0f-4694-87e7-d4c02de80cd8@linaro.org>
- <CAD=FV=Udsw=XCR204A8QGwVSAxyprLCrrOgmZf+pU+8m-7sQ0Q@mail.gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <CAD=FV=Udsw=XCR204A8QGwVSAxyprLCrrOgmZf+pU+8m-7sQ0Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH] drm/fbdev-dma: fix getting smem_start
+Message-ID: <Zmm4HSkia-x_oRWR@phenom.ffwll.local>
+Mail-Followup-To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240604080328.4024838-1-peng.fan@oss.nxp.com>
+ <8f4a6d80-dd3e-422f-88af-d26f50c973ff@suse.de>
+ <e307fdc0-553d-4946-9017-ed3a28e9cae2@suse.de>
+ <87cyomsiqt.fsf@minerva.mail-host-address-is-not-set>
+ <14a7c534-af3f-43b8-a24c-501a9af97936@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <14a7c534-af3f-43b8-a24c-501a9af97936@suse.de>
+X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,53 +96,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/06/2024 16:52, Doug Anderson wrote:
-> Hi,
+On Wed, Jun 12, 2024 at 10:37:14AM +0200, Thomas Zimmermann wrote:
+> Hi Javier
 > 
-> On Wed, Jun 12, 2024 at 7:34â€¯AM <neil.armstrong@linaro.org> wrote:
->>
->> On 12/06/2024 16:21, Doug Anderson wrote:
->>> Hi,
->>>
->>> On Wed, Jun 12, 2024 at 6:37â€¯AM Tejas Vipin <tejasvipin76@gmail.com> wrote:
->>>>
->>>> ctx would be better off treated as a pointer to account for most of its
->>>> usage so far, and brackets should be added to account for operator
->>>> precedence for correct evaluation.
->>>>
->>>> Fixes: f79d6d28d8fe7 ("drm/mipi-dsi: wrap more functions for streamline handling")
->>>> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
->>>> ---
->>>>    include/drm/drm_mipi_dsi.h | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> Yeah. Looking closer at the history, it looks like it was always
->>> intended to be a pointer since the first users all used it as a
->>> pointer.
->>>
->>> Suggested-by: Douglas Anderson <dianders@chromium.org>
->>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->>>
->>> I've also compile-tested all the panels currently using mipi_dsi_msleep().
->>>
->>> Neil: Given that this is a correctness thing, I'd rather see this land
->>> sooner rather than later. If you agree, maybe you can land these two
->>> patches whenever you're comfortable with them?
->>
->> Applying them, but inverting them, fix should go first.
+> Am 12.06.24 um 09:49 schrieb Javier Martinez Canillas:
+> > Thomas Zimmermann <tzimmermann@suse.de> writes:
+> > 
+> > Hello Thomas,
+> > 
+> > > Hi
+> > > 
+> > > Am 10.06.24 um 10:47 schrieb Thomas Zimmermann:
+> > > > Hi
+> > > > 
+> > > > Am 04.06.24 um 10:03 schrieb Peng Fan (OSS):
+> > > > > From: Peng Fan <peng.fan@nxp.com>
+> > > > > 
+> > > > > If 'info->screen_buffer' locates in vmalloc address space, virt_to_page
+> > > > > will not be able to get correct results. With CONFIG_DEBUG_VM and
+> > > > > CONFIG_DEBUG_VIRTUAL enabled on ARM64, there is dump below:
+> > > > Which graphics driver triggers this bug?
+> > > > 
+> > > > > [    3.536043] ------------[ cut here ]------------
+> > > > > [    3.540716] virt_to_phys used for non-linear address:
+> > > > > 000000007fc4f540 (0xffff800086001000)
+> > > > > [    3.552628] WARNING: CPU: 4 PID: 61 at arch/arm64/mm/physaddr.c:12
+> > > > > __virt_to_phys+0x68/0x98
+> > > > > [    3.565455] Modules linked in:
+> > > > > [    3.568525] CPU: 4 PID: 61 Comm: kworker/u12:5 Not tainted
+> > > > > 6.6.23-06226-g4986cc3e1b75-dirty #250
+> > > > > [    3.577310] Hardware name: NXP i.MX95 19X19 board (DT)
+> > > > > [    3.582452] Workqueue: events_unbound deferred_probe_work_func
+> > > > > [    3.588291] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS
+> > > > > BTYPE=--)
+> > > > > [    3.595233] pc : __virt_to_phys+0x68/0x98
+> > > > > [    3.599246] lr : __virt_to_phys+0x68/0x98
+> > > > > [    3.603276] sp : ffff800083603990
+> > > > > [    3.677939] Call trace:
+> > > > > [    3.680393]  __virt_to_phys+0x68/0x98
+> > > > > [    3.684067]  drm_fbdev_dma_helper_fb_probe+0x138/0x238
+> > > > > [    3.689214] __drm_fb_helper_initial_config_and_unlock+0x2b0/0x4c0
+> > > > > [    3.695385]  drm_fb_helper_initial_config+0x4c/0x68
+> > > > > [    3.700264]  drm_fbdev_dma_client_hotplug+0x8c/0xe0
+> > > > > [    3.705161]  drm_client_register+0x60/0xb0
+> > > > > [    3.709269]  drm_fbdev_dma_setup+0x94/0x148
+> > > > > 
+> > > > > So add a check 'is_vmalloc_addr'.
+> > > > > 
+> > > > > Fixes: b79fe9abd58b ("drm/fbdev-dma: Implement fbdev emulation for
+> > > > > GEM DMA helpers")
+> > > > > Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> > > > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > I'm taking back my r-b. The memory is expected to by be physically
+> > > contiguous and vmalloc() won't guarantee that.
+> > > 
+> > Agreed.
 > 
-> Well, they're both fixes, and inverting them means that you get a
-> compile failure across several panels if you happen to be bisecting
-> and land on the first commit, but it doesn't really matter. I guess
-> the compile failure is maybe a benefit given that they were not doing
-> their delays properly... ;-)
+> These smem_ fields are clearly designed for PCI BARs of traditional graphics
+> cards. So can we even assume contiguous memory for DMA? That was my
+> assumption, but with IOMMUs it might not be the case. Fbdev-dma only sets
+> smem_start to support a single old userspace driver. Maybe we should further
+> restrict usage of this field by making it opt-in for each driver. Best
+> regards Thomas
 
-Yes, and thanksfully there's a fix for the build failure!
+We could make it all conditional on CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM, and
+remove the FBINFO_HIDE_SMEM_START flag. The reason I've done the flag is
+that with the old fb_mmap code we had to always fill out smem_start to
+make mmap work. But now that the various drm fbdev helpers have all their
+own mmap implementation, we could make this a lot cleaner.
 
-> 
-> -Doug
-
+If I haven't missed anything, that is.
+-Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
