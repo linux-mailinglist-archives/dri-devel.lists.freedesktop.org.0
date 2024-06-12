@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4690B904FA7
+	by mail.lfdr.de (Postfix) with ESMTPS id EC185904FA9
 	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 11:54:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D93A210E274;
-	Wed, 12 Jun 2024 09:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4C7010E806;
+	Wed, 12 Jun 2024 09:54:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Cg3X7ue2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dv4Ker3I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7DF110E274;
- Wed, 12 Jun 2024 09:54:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D60010E806;
+ Wed, 12 Jun 2024 09:54:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718186065; x=1749722065;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=B0sh6F0rJkgkvXHmW62e/kcvPnr2keTFxecQUWzUWy0=;
- b=Cg3X7ue2oCYBj76f3ejZE1BcHy9FU4Wdpd6MWIX1x6ByHHaCJdTEybaV
- ZDc5xcRH13SeOu0rmHgX/8FdN0cA8ZHajJZdI5Uxggu+Ri6nAjLcBaRN2
- o20Livk9TF+SOqINwAflSkCEN/hJIuFC/DLGYOK+9hDqyHUPpnN0WIQY4
- 1o3QZsQFzY+zpg01dDjF98qWwxuidWdvYrMbErUK25O0ctO42MxtxGdWl
- fY1fWFXC7QtaTzdsPDWH0/Jji2x0CT5Oav9DK76/bQqhLMR+DUXiF6KV3
- lOFw9DaDTr+trKTpQMrneM5fhbj+vYiWKNbsNSal5qjkQlPz+qjexyfm+ w==;
-X-CSE-ConnectionGUID: A92p9hCZQt6fLElx/5oQ3Q==
-X-CSE-MsgGUID: hVs9Bq58SqeR2B06ua6yQQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="15068909"
-X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; d="scan'208";a="15068909"
+ t=1718186068; x=1749722068;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=gl4jzPmPSJyy0AEG0RNugaL3+9KDXrafHuHGjKc4JQU=;
+ b=dv4Ker3IbDqV+9WsjAO8XiRozL8MMiiuil+0uQS97+EuLIzbZXYOGTEu
+ ZfnZIQb9LJpNKmgqLDaRdK6oorrKOiIbZvwUMM7Od5L4q3ZnQjrQMWpCA
+ 7xUZYj+l4JKy3B8UC/+JRbciLWn9IH/pWy305MekBMu5scwsnvRAG5BoN
+ C0XmoZbZb+mgeCFjghZKF79cnZ06yaVX4FwF+Pv8dkYdR/lcaeUqSLYes
+ 6NQEtC8eSw70pXPQUtfLc2CYqgtzZ8FW45D0NzqTrG26CXz5Dpv7rOREK
+ T4NOaPBTM8/DWSUGNh1RzZ2IjQZOBzMxAWjiYrgen8bRqnPLXjbezC8VJ g==;
+X-CSE-ConnectionGUID: HtB0ifhdTXmQoUN84A7o9A==
+X-CSE-MsgGUID: /VzfgCG7TYKCeYF/Z+Rw8Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="15068913"
+X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; d="scan'208";a="15068913"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2024 02:54:25 -0700
-X-CSE-ConnectionGUID: XRssPe5ZSXmSdGHbgRchXw==
-X-CSE-MsgGUID: 8eYInQFVSDOVScEVm4nbkA==
+ 12 Jun 2024 02:54:28 -0700
+X-CSE-ConnectionGUID: nzg2vxkAROiYtC91SyiMTw==
+X-CSE-MsgGUID: MwLYwwX5Sy+urYj10J9c8g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; d="scan'208";a="40441617"
+X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; d="scan'208";a="40441623"
 Received: from mgolanimitul-x299-ud4-pro.iind.intel.com ([10.190.239.114])
- by orviesa007.jf.intel.com with ESMTP; 12 Jun 2024 02:54:23 -0700
+ by orviesa007.jf.intel.com with ESMTP; 12 Jun 2024 02:54:26 -0700
 From: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
 To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: mitulkumar.ajitkumar.golani@intel.com, ankit.k.nautiyal@intel.com,
  suraj.kandpal@intel.com, jani.nikula@linux.intel.com,
  rodrigo.vivi@intel.com, sfr@canb.auug.org.au
-Subject: [PATCH 0/3] CMRR patch fixes
-Date: Wed, 12 Jun 2024 15:24:30 +0530
-Message-ID: <20240612095433.323342-1-mitulkumar.ajitkumar.golani@intel.com>
+Subject: [PATCH 1/3] drm/dp: Describe target_rr_divider in struct drm_dp_as_sdp
+Date: Wed, 12 Jun 2024 15:24:31 +0530
+Message-ID: <20240612095433.323342-2-mitulkumar.ajitkumar.golani@intel.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240612095433.323342-1-mitulkumar.ajitkumar.golani@intel.com>
+References: <20240612095433.323342-1-mitulkumar.ajitkumar.golani@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,21 +69,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Address following issues regarding CMRR
+Describe newly added parameter target_rr_divider in struct
+drm_dp_as_sdp.
 
-1. Describe target_rr_divider in struct drm_dp_as_sdp.
-2. Compute vrr_vsync params when vrr.enable is set.
-3. Use required macro to avoid overflow.
+Fixes: a20c6d954d75 ("drm/dp: Add refresh rate divider to struct representing AS SDP")
+Cc: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+Cc: Arun R Murthy <arun.r.murthy@intel.com>
+Cc: Suraj Kandpal <suraj.kandpal@intel.com>
+Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>
 
-Mitul Golani (3):
-  drm/dp: Describe target_rr_divider in struct drm_dp_as_sdp
-  drm/i915/display: Send vrr vsync params whne vrr is enabled
-  drm/i915/display: Update calculation to avoid any overflow
+Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+---
+ include/drm/display/drm_dp_helper.h | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/gpu/drm/i915/display/intel_vrr.c | 12 +++++++-----
- include/drm/display/drm_dp_helper.h      |  1 +
- 2 files changed, 8 insertions(+), 5 deletions(-)
-
+diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+index ea03e1dd26ba..7f2567fa230d 100644
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -112,6 +112,7 @@ struct drm_dp_vsc_sdp {
+  * @target_rr: Target Refresh
+  * @duration_incr_ms: Successive frame duration increase
+  * @duration_decr_ms: Successive frame duration decrease
++ * @target_rr_divider: Target refresh rate divider
+  * @mode: Adaptive Sync Operation Mode
+  */
+ struct drm_dp_as_sdp {
 -- 
 2.45.2
 
