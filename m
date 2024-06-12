@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD0E905738
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 17:43:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09FA1905735
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 17:43:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAF5310E8BC;
-	Wed, 12 Jun 2024 15:43:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98E9510E11A;
+	Wed, 12 Jun 2024 15:43:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="W23xrzJm";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dRs29bse";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D565D10E7B9
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 13:37:06 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-1f6f031549bso20930405ad.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 06:37:06 -0700 (PDT)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+ [209.85.215.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25EA210E7B9
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 13:37:11 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id
+ 41be03b00d2f7-6570bd6c3d7so4144130a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 06:37:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718199426; x=1718804226; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1718199430; x=1718804230; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oWKGCz3EWFmYzxcw2AH10wBEqhDAZAXMwRxOW8+/rNE=;
- b=W23xrzJmT1gQh92DsOjk7mRcwgR0UQAC4bBnX7j6gIkCO3Rs+xVGMDQKBwHagrklQl
- HKgzX74mp7lxwIn+iqq7+yu7KRUKHBR6I2xxn3hFrBvxtQNzaNDwsBVwQm5c/HfMlnuD
- q+1h8442y8Ka6wgJ+dyY9LMu4EZbOUiw03OkNW6tV/D+fDdZTE7tTa1uY+TARjl0TmE/
- gc7+TEVlHZQWPsztMor+LQYLX+8AYm+Oa1XIyj/NnxNYQr+s3tf53QUuUjqhpFYCRk/U
- wxT5mbDzJpMZ3jQUPIrXhknkpOj9MeF+4+ZTcTKDTfjxnUEtbmzUV6dfu5OKPpPIjA6y
- Ukyg==
+ bh=v/n0skyDCqk0A4g17wGPYh0p/6wetdSwsLx+Vq4wTy8=;
+ b=dRs29bsePlgHf3yBgiDGVcGFHMH6f6Dy+iJFtidlKTsZoHEj2Q4N4NjPnePTo/rSVm
+ lbFlT6nOEAKwyLr6un5IsGNn/bVuLtdhKXop8rjko2T4KwLqr+TZaUwKZQ87CRvMjABM
+ 3IiBuouyNyx9Ikt0HuD+VT04XAcxnrVVEePI3yYnSS4l8GHd+MlJN7tLD3Kw7st9L/Ho
+ XH6yfbqeO/yLxtHHOLn0Zvn/6uNZONSkrDyJPdTjuDOHdnm8PNehzNV3ijUla44VP6bA
+ Oc/bf0pkZClygzMAqLHK4a8VPX+anRHf+fxJF5/67foGLTuRr7RyCiuXMzE4QI2TmQEo
+ JAFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718199426; x=1718804226;
+ d=1e100.net; s=20230601; t=1718199430; x=1718804230;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oWKGCz3EWFmYzxcw2AH10wBEqhDAZAXMwRxOW8+/rNE=;
- b=BL3znAOfzlklz5NXr5RoRP453fqqzEZxodbfDJBfV1cYrgez9DSFa3a/jYFYvbrCVU
- k3ZjLM53irBJArKklGmOkENqvGExsF9n1WXhQZPo0DXlBuagFsqHtTN4R3txBOLR3pR2
- mNqd7c9pZXAQk3N3yO2y/RglnS/IGoHZ8TvXONWa9xR5WEvwbwCvHRARifJyVQPQ+dK2
- z/Vx73m60oNLzEf+eN2r0Y7979srVTYcYd2v25kllAaMeutS07ecAZBp2mHfHirSCaDJ
- fqJHYPlwmvW4TEqozTC71MImCsy9z6KO99PGrYDjPxeTT7SVs6bkL18LVid8aQexRQZ7
- 3qHg==
+ bh=v/n0skyDCqk0A4g17wGPYh0p/6wetdSwsLx+Vq4wTy8=;
+ b=kbJ+fBpUMPqoE1+Au6aNcRO6ESh5WuUtC6sYYb9N5d7A/7qqZhjMqZC2bBFkj5Vcln
+ VqOrcyV1qxFXU46S6dOYrTKdnzaRPRv/sDRS+IoI1UUMiJxZfdHyrRBm5Eqkr16kdj8J
+ D8LqH79fYHVo1Zg2G4d4hQziqazVab8IhD3btdUacSjpnB0NmjlXc6i4ZFqIjHxDoIrM
+ X7VVhjFyrCL61ZiR2u/NXBWsJLLrzQYH8Bd4jgWbVje1tCuny16WlgWf/WS4fvU4+na6
+ aztNHV7tJlCZkDSupGOdN1HpmCFEaISYJiO1HF5ieb72oNniwhk07zOrjczmPfvrRbKG
+ oBZQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW0CN+Au8jhQj8OztqqlgsL8v/uJriRMVWL+GWj7XnCkbl+epf3b1Rtk07tyLuNV5AXyJrKKcep720KH3WZbisBAakT23vb5di2nHzuhA8x
-X-Gm-Message-State: AOJu0YweeV+rMs3fZiWKiHKyKOceF9G01tDA5juW1sLQeb0os0gILhhy
- k3Yxsn7vqnHdYaXvoje+1o1cMdhMioBt77A3VnB2mqRrMAadDfe4
-X-Google-Smtp-Source: AGHT+IGk2WNb7MVw3PvR+Dd5n5F6ztFXUCd2N90utcqQ6HM1yzqO4d0rKoJRZPGLEL6Elpt27tujyQ==
-X-Received: by 2002:a17:902:d4d0:b0:1f7:e32f:f057 with SMTP id
- d9443c01a7336-1f83b5f7b15mr20751715ad.34.1718199426278; 
- Wed, 12 Jun 2024 06:37:06 -0700 (PDT)
+ AJvYcCV8GjUfL2slGC9kl/5K9vypthVda8KAZ0HWG8Psl23mLbslZOoSKootFlN1MhSJfaEmoTBBJd9qRQbTT28v0OZX0ygcmx6u5fe9NXh4ZxH2
+X-Gm-Message-State: AOJu0YwA1TGnQ2sbK/Yup7gJ6ZqQjQV7zyZYYM/PMauFsR+eACuvKBRM
+ HRC8rsDax2h19oftcouDHRQBPzevLFoyBk6GmnBn+Yo4KlJ5M2pE
+X-Google-Smtp-Source: AGHT+IGcY5lrA68E4+hHXL1ibBHgiWf7Aag49KQay59rhRT3xV22h/I+PhvUY5tYGnv77TorH4ctkA==
+X-Received: by 2002:a17:902:dacb:b0:1f8:4932:2f05 with SMTP id
+ d9443c01a7336-1f849323126mr6170465ad.64.1718199430429; 
+ Wed, 12 Jun 2024 06:37:10 -0700 (PDT)
 Received: from distilledx.localdomain ([103.246.195.195])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f845e0ca86sm7291815ad.0.2024.06.12.06.37.02
+ d9443c01a7336-1f845e0ca86sm7291815ad.0.2024.06.12.06.37.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jun 2024 06:37:06 -0700 (PDT)
+ Wed, 12 Jun 2024 06:37:10 -0700 (PDT)
 From: Tejas Vipin <tejasvipin76@gmail.com>
 To: neil.armstrong@linaro.org,
 	quic_jesszhan@quicinc.com
@@ -64,10 +64,9 @@ Cc: Tejas Vipin <tejasvipin76@gmail.com>, maarten.lankhorst@linux.intel.com,
  daniel@ffwll.ch, linus.walleij@linaro.org, dmitry.baryshkov@linaro.org,
  dianders@chromium.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] drm/panel : himax-hx83102: fix incorrect argument to
- mipi_dsi_msleep
-Date: Wed, 12 Jun 2024 19:05:42 +0530
-Message-ID: <20240612133550.473279-2-tejasvipin76@gmail.com>
+Subject: [PATCH 2/2] drm/mipi-dsi: fix handling of ctx in mipi_dsi_msleep
+Date: Wed, 12 Jun 2024 19:05:43 +0530
+Message-ID: <20240612133550.473279-3-tejasvipin76@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240612133550.473279-1-tejasvipin76@gmail.com>
 References: <20240612133550.473279-1-tejasvipin76@gmail.com>
@@ -89,46 +88,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-mipi_dsi_msleep should be modified to accept ctx as a pointer and the
-function call should be adjusted accordingly.
+ctx would be better off treated as a pointer to account for most of its
+usage so far, and brackets should be added to account for operator 
+precedence for correct evaluation.
 
-Fixes: a2ab7cb169da3 ("drm/panel: himax-hx83102: use wrapped MIPI DCS functions") 
+Fixes: f79d6d28d8fe7 ("drm/mipi-dsi: wrap more functions for streamline handling") 
 Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
 ---
- drivers/gpu/drm/panel/panel-himax-hx83102.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/drm/drm_mipi_dsi.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-himax-hx83102.c b/drivers/gpu/drm/panel/panel-himax-hx83102.c
-index 6009a3fe1b8f..6e4b7e4644ce 100644
---- a/drivers/gpu/drm/panel/panel-himax-hx83102.c
-+++ b/drivers/gpu/drm/panel/panel-himax-hx83102.c
-@@ -286,7 +286,7 @@ static int boe_nv110wum_init(struct hx83102 *ctx)
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
- 	hx83102_enable_extended_cmds(&dsi_ctx, false);
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index bd5a0b6d0711..71d121aeef24 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -293,7 +293,7 @@ ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
  
--	mipi_dsi_msleep(dsi_ctx, 50);
-+	mipi_dsi_msleep(&dsi_ctx, 50);
+ #define mipi_dsi_msleep(ctx, delay)	\
+ 	do {				\
+-		if (!ctx.accum_err)	\
++		if (!(ctx)->accum_err)	\
+ 			msleep(delay);	\
+ 	} while (0)
  
- 	return dsi_ctx.accum_err;
- };
-@@ -391,7 +391,7 @@ static int ivo_t109nw41_init(struct hx83102 *ctx)
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
- 	hx83102_enable_extended_cmds(&dsi_ctx, false);
- 
--	mipi_dsi_msleep(dsi_ctx, 60);
-+	mipi_dsi_msleep(&dsi_ctx, 60);
- 
- 	return dsi_ctx.accum_err;
- };
-@@ -538,7 +538,7 @@ static int hx83102_prepare(struct drm_panel *panel)
- 	dsi_ctx.accum_err = ctx->desc->init(ctx);
- 
- 	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
--	mipi_dsi_msleep(dsi_ctx, 120);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
- 	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
- 	if (dsi_ctx.accum_err)
- 		goto poweroff;
 -- 
 2.45.2
 
