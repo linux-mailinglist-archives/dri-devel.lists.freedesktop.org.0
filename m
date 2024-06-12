@@ -2,41 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925ED904F37
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 11:26:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F33904F45
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 11:29:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D61D810E7F7;
-	Wed, 12 Jun 2024 09:26:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B89610E0C1;
+	Wed, 12 Jun 2024 09:29:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C67A10E7F7
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 09:26:27 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1sHKFM-0004Jw-Mn; Wed, 12 Jun 2024 11:26:24 +0200
-Message-ID: <81e1972e636a2d81f34de059a24ac27133da4bb0.camel@pengutronix.de>
-Subject: Re: [PATCH v3] devres: Refactor using guards
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Andrea Calabrese <andrea.calabrese@amarulasolutions.com>, 
- gregkh@linuxfoundation.org, rafael@kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: trivial@kernel.org, linux-amarula@amarulasolutions.com
-Date: Wed, 12 Jun 2024 11:26:24 +0200
-In-Reply-To: <20240611093710.1066510-1-andrea.calabrese@amarulasolutions.com>
-References: <20240611093710.1066510-1-andrea.calabrese@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A512710E0C1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 09:29:03 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 49AAE1595;
+ Wed, 12 Jun 2024 02:29:27 -0700 (PDT)
+Received: from [10.57.42.88] (unknown [10.57.42.88])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E497B3F64C;
+ Wed, 12 Jun 2024 02:28:58 -0700 (PDT)
+Message-ID: <6304a5a2-1ca0-4e6c-8c0a-e7b320f64c7d@arm.com>
+Date: Wed, 12 Jun 2024 10:28:58 +0100
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] drm/panfrost: Add support for Mali on the MT8188
+ SoC
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ boris.brezillon@collabora.com
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, matthias.bgg@gmail.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, Chen-Yu Tsai <wenst@chromium.org>
+References: <20240611085602.491324-1-angelogioacchino.delregno@collabora.com>
+ <20240611085602.491324-3-angelogioacchino.delregno@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20240611085602.491324-3-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,291 +54,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Dienstag, dem 11.06.2024 um 11:37 +0200 schrieb Andrea Calabrese:
-> Code refactoring using the recent guard and scoped_guard macros
-> for automatic cleanup of the spinlocks. This does not change the
-> effective behaviour of the kernel, but guarantees a cleaned-up exit from
-> each lock, automatically avoiding potential deadlocks.
->=20
-> Signed-off-by: Andrea Calabrese <andrea.calabrese@amarulasolutions.com>
->=20
+On 11/06/2024 09:56, AngeloGioacchino Del Regno wrote:
+> MediaTek MT8188 has a Mali-G57 MC3 (Valhall-JM): add a new
+> compatible and platform data using the same supplies and the
+> same power domain lists as MT8183 (one regulator, three power
+> domains).
+> 
+> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
 > ---
-> Changed commit message from V2. Also changed title, shortened the file
-> name.
->=20
-> diff --git a/drivers/base/devres.c b/drivers/base/devres.c
-> index 3df0025d12aa..a98720e0cb2b 100644
-> --- a/drivers/base/devres.c
-> +++ b/drivers/base/devres.c
-> @@ -194,14 +194,12 @@ void devres_for_each_res(struct device *dev, dr_rel=
-ease_t release,
->  {
->  	struct devres_node *node;
->  	struct devres_node *tmp;
-> -	unsigned long flags;
-> =20
->  	if (!fn)
->  		return;
-> =20
-> -	spin_lock_irqsave(&dev->devres_lock, flags);
-> -	list_for_each_entry_safe_reverse(node, tmp,
-> -			&dev->devres_head, entry) {
-> +	guard(spinlock)(&dev->devres_lock);
-
-This is not equivalent to the current code. You are dropping the
-_irqsave part of the locking scheme, totally changing the semantics
-here. This issue is present in multiple places in this patch.
-
-Regards,
-Lucas
-
-> +	list_for_each_entry_safe_reverse(node, tmp, &dev->devres_head, entry) {
->  		struct devres *dr =3D container_of(node, struct devres, node);
-> =20
->  		if (node->release !=3D release)
-> @@ -210,7 +208,6 @@ void devres_for_each_res(struct device *dev, dr_relea=
-se_t release,
->  			continue;
->  		fn(dev, dr->data, data);
->  	}
-> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
->  }
->  EXPORT_SYMBOL_GPL(devres_for_each_res);
-> =20
-> @@ -243,11 +240,9 @@ EXPORT_SYMBOL_GPL(devres_free);
->  void devres_add(struct device *dev, void *res)
->  {
->  	struct devres *dr =3D container_of(res, struct devres, data);
-> -	unsigned long flags;
-> =20
-> -	spin_lock_irqsave(&dev->devres_lock, flags);
-> +	guard(spinlock)(&dev->devres_lock);
->  	add_dr(dev, &dr->node);
-> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
->  }
->  EXPORT_SYMBOL_GPL(devres_add);
-> =20
-> @@ -287,11 +282,8 @@ void * devres_find(struct device *dev, dr_release_t =
-release,
->  		   dr_match_t match, void *match_data)
->  {
->  	struct devres *dr;
-> -	unsigned long flags;
-> -
-> -	spin_lock_irqsave(&dev->devres_lock, flags);
-> +	guard(spinlock)(&dev->devres_lock);
->  	dr =3D find_dr(dev, release, match, match_data);
-> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
-> =20
->  	if (dr)
->  		return dr->data;
-> @@ -318,16 +310,14 @@ void * devres_get(struct device *dev, void *new_res=
-,
->  {
->  	struct devres *new_dr =3D container_of(new_res, struct devres, data);
->  	struct devres *dr;
-> -	unsigned long flags;
-> -
-> -	spin_lock_irqsave(&dev->devres_lock, flags);
-> -	dr =3D find_dr(dev, new_dr->node.release, match, match_data);
-> -	if (!dr) {
-> -		add_dr(dev, &new_dr->node);
-> -		dr =3D new_dr;
-> -		new_res =3D NULL;
-> +	scoped_guard(spinlock, &dev->devres_lock) {
-> +		dr =3D find_dr(dev, new_dr->node.release, match, match_data);
-> +		if (!dr) {
-> +			add_dr(dev, &new_dr->node);
-> +			dr =3D new_dr;
-> +			new_res =3D NULL;
-> +		}
->  	}
-> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
->  	devres_free(new_res);
-> =20
->  	return dr->data;
-> @@ -353,15 +343,13 @@ void * devres_remove(struct device *dev, dr_release=
-_t release,
->  		     dr_match_t match, void *match_data)
->  {
->  	struct devres *dr;
-> -	unsigned long flags;
-> -
-> -	spin_lock_irqsave(&dev->devres_lock, flags);
-> -	dr =3D find_dr(dev, release, match, match_data);
-> -	if (dr) {
-> -		list_del_init(&dr->node.entry);
-> -		devres_log(dev, &dr->node, "REM");
-> +	scoped_guard(spinlock, &dev->devres_lock) {
-> +		dr =3D find_dr(dev, release, match, match_data);
-> +		if (dr) {
-> +			list_del_init(&dr->node.entry);
-> +			devres_log(dev, &dr->node, "REM");
-> +		}
->  	}
-> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
-> =20
->  	if (dr)
->  		return dr->data;
-> @@ -516,7 +504,6 @@ static void release_nodes(struct device *dev, struct =
-list_head *todo)
->   */
->  int devres_release_all(struct device *dev)
->  {
-> -	unsigned long flags;
->  	LIST_HEAD(todo);
->  	int cnt;
-> =20
-> @@ -528,9 +515,9 @@ int devres_release_all(struct device *dev)
->  	if (list_empty(&dev->devres_head))
->  		return 0;
-> =20
-> -	spin_lock_irqsave(&dev->devres_lock, flags);
-> -	cnt =3D remove_nodes(dev, dev->devres_head.next, &dev->devres_head, &to=
-do);
-> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
-> +	scoped_guard(spinlock, &dev->devres_lock) {
-> +		cnt =3D remove_nodes(dev, dev->devres_head.next, &dev->devres_head, &t=
-odo);
-> +	}
-> =20
->  	release_nodes(dev, &todo);
->  	return cnt;
-> @@ -552,7 +539,6 @@ int devres_release_all(struct device *dev)
->  void * devres_open_group(struct device *dev, void *id, gfp_t gfp)
->  {
->  	struct devres_group *grp;
-> -	unsigned long flags;
-> =20
->  	grp =3D kmalloc(sizeof(*grp), gfp);
->  	if (unlikely(!grp))
-> @@ -568,9 +554,8 @@ void * devres_open_group(struct device *dev, void *id=
-, gfp_t gfp)
->  	if (id)
->  		grp->id =3D id;
-> =20
-> -	spin_lock_irqsave(&dev->devres_lock, flags);
-> +	guard(spinlock)(&dev->devres_lock);
->  	add_dr(dev, &grp->node[0]);
-> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
->  	return grp->id;
->  }
->  EXPORT_SYMBOL_GPL(devres_open_group);
-> @@ -609,17 +594,14 @@ static struct devres_group * find_group(struct devi=
-ce *dev, void *id)
->  void devres_close_group(struct device *dev, void *id)
->  {
->  	struct devres_group *grp;
-> -	unsigned long flags;
-> =20
-> -	spin_lock_irqsave(&dev->devres_lock, flags);
-> +	guard(spinlock)(&dev->devres_lock);
-> =20
->  	grp =3D find_group(dev, id);
->  	if (grp)
->  		add_dr(dev, &grp->node[1]);
->  	else
->  		WARN_ON(1);
-> -
-> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
->  }
->  EXPORT_SYMBOL_GPL(devres_close_group);
-> =20
-> @@ -635,19 +617,16 @@ EXPORT_SYMBOL_GPL(devres_close_group);
->  void devres_remove_group(struct device *dev, void *id)
->  {
->  	struct devres_group *grp;
-> -	unsigned long flags;
-> -
-> -	spin_lock_irqsave(&dev->devres_lock, flags);
-> -
-> -	grp =3D find_group(dev, id);
-> -	if (grp) {
-> -		list_del_init(&grp->node[0].entry);
-> -		list_del_init(&grp->node[1].entry);
-> -		devres_log(dev, &grp->node[0], "REM");
-> -	} else
-> -		WARN_ON(1);
-> =20
-> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
-> +	scoped_guard(spinlock, &dev->devres_lock) {
-> +		grp =3D find_group(dev, id);
-> +		if (grp) {
-> +			list_del_init(&grp->node[0].entry);
-> +			list_del_init(&grp->node[1].entry);
-> +			devres_log(dev, &grp->node[0], "REM");
-> +		} else
-> +			WARN_ON(1);
-> +	}
-> =20
->  	kfree(grp);
->  }
-> @@ -668,11 +647,10 @@ EXPORT_SYMBOL_GPL(devres_remove_group);
->  int devres_release_group(struct device *dev, void *id)
->  {
->  	struct devres_group *grp;
-> -	unsigned long flags;
->  	LIST_HEAD(todo);
->  	int cnt =3D 0;
-> =20
-> -	spin_lock_irqsave(&dev->devres_lock, flags);
-> +	guard(spinlock)(&dev->devres_lock);
-> =20
->  	grp =3D find_group(dev, id);
->  	if (grp) {
-> @@ -683,12 +661,9 @@ int devres_release_group(struct device *dev, void *i=
-d)
->  			end =3D grp->node[1].entry.next;
-> =20
->  		cnt =3D remove_nodes(dev, first, end, &todo);
-> -		spin_unlock_irqrestore(&dev->devres_lock, flags);
-> -
->  		release_nodes(dev, &todo);
->  	} else {
->  		WARN_ON(1);
-> -		spin_unlock_irqrestore(&dev->devres_lock, flags);
->  	}
-> =20
->  	return cnt;
-> @@ -860,7 +835,6 @@ void *devm_krealloc(struct device *dev, void *ptr, si=
-ze_t new_size, gfp_t gfp)
->  {
->  	size_t total_new_size, total_old_size;
->  	struct devres *old_dr, *new_dr;
-> -	unsigned long flags;
-> =20
->  	if (unlikely(!new_size)) {
->  		devm_kfree(dev, ptr);
-> @@ -906,20 +880,17 @@ void *devm_krealloc(struct device *dev, void *ptr, =
-size_t new_size, gfp_t gfp)
->  	 * The spinlock protects the linked list against concurrent
->  	 * modifications but not the resource itself.
->  	 */
-> -	spin_lock_irqsave(&dev->devres_lock, flags);
-> +	scoped_guard(spinlock, &dev->devres_lock) {
-> +		old_dr =3D find_dr(dev, devm_kmalloc_release, devm_kmalloc_match, ptr)=
-;
-> +		if (!old_dr) {
-> +			kfree(new_dr);
-> +			WARN(1, "Memory chunk not managed or managed by a different device.")=
-;
-> +			return NULL;
-> +		}
-> =20
-> -	old_dr =3D find_dr(dev, devm_kmalloc_release, devm_kmalloc_match, ptr);
-> -	if (!old_dr) {
-> -		spin_unlock_irqrestore(&dev->devres_lock, flags);
-> -		kfree(new_dr);
-> -		WARN(1, "Memory chunk not managed or managed by a different device.");
-> -		return NULL;
-> +		replace_dr(dev, &old_dr->node, &new_dr->node);
->  	}
-> =20
-> -	replace_dr(dev, &old_dr->node, &new_dr->node);
-> -
-> -	spin_unlock_irqrestore(&dev->devres_lock, flags);
-> -
->  	/*
->  	 * We can copy the memory contents after releasing the lock as we're
->  	 * no longer modifying the list links.
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index ef9f6c0716d5..b43557b10ae3 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -777,6 +777,15 @@ static const struct panfrost_compatible mediatek_mt8186_data = {
+>  	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
+>  };
+>  
+> +/* MT8188 uses the same power domains and power supplies as MT8183 */
+> +static const struct panfrost_compatible mediatek_mt8188_data = {
+> +	.num_supplies = ARRAY_SIZE(mediatek_mt8183_b_supplies) - 1,
+> +	.supply_names = mediatek_mt8183_b_supplies,
+> +	.num_pm_domains = ARRAY_SIZE(mediatek_mt8183_pm_domains),
+> +	.pm_domain_names = mediatek_mt8183_pm_domains,
+> +	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
+> +};
+> +
+>  static const char * const mediatek_mt8192_supplies[] = { "mali", NULL };
+>  static const char * const mediatek_mt8192_pm_domains[] = { "core0", "core1", "core2",
+>  							   "core3", "core4" };
+> @@ -808,6 +817,7 @@ static const struct of_device_id dt_match[] = {
+>  	{ .compatible = "mediatek,mt8183-mali", .data = &mediatek_mt8183_data },
+>  	{ .compatible = "mediatek,mt8183b-mali", .data = &mediatek_mt8183_b_data },
+>  	{ .compatible = "mediatek,mt8186-mali", .data = &mediatek_mt8186_data },
+> +	{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
+>  	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
+>  	{}
+>  };
 
