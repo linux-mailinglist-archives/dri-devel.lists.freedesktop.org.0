@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB60905540
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 16:36:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE9A905541
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 16:36:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E842710E87E;
-	Wed, 12 Jun 2024 14:36:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C42C10E87F;
+	Wed, 12 Jun 2024 14:36:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EzM0HDiD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="unZ9u/A2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9126C10E87E
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 14:36:00 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1AC10E87F
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 14:36:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C14D1CE1805;
- Wed, 12 Jun 2024 14:35:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69AFFC116B1;
- Wed, 12 Jun 2024 14:35:56 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 41FDB6149A;
+ Wed, 12 Jun 2024 14:36:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92AABC116B1;
+ Wed, 12 Jun 2024 14:36:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718202956;
- bh=YkTkobD98YgdF9Ps4HcWB86UJKfgpoXQvm65qO4nc2o=;
- h=From:To:Cc:Subject:Date:From;
- b=EzM0HDiDd1wDKTb4k5ZVmkrls8wJA1E+TUWioaMeZUEVf0tRNv9oOdVXLfzpDhZ20
- ycCorzwERYhJGbJwBkizNBcgjh/UuDTnvmdKVl1hW32rS56nJTjMniMcbJPNgQ1m0q
- EgAFymm/zqJLFaIVh6PDxPMX9+h9pmVWLW+AtO+EFThoM6J5XLdjT8j6IqwTqW/li1
- s85GXa2DddMWNK3J1YEDtEdBEYjHWceSPm1esBBWW3wdyKio7A8M2S7j64J0kMBKWF
- o8MYpGXeWh8x8Z8PZQWjMnIqmYDmPwdnZHCn0dxJuXD6wDCdGA8VEno3lPDp9E2YVG
- CsWlmg3wUbnUA==
+ s=k20201202; t=1718202961;
+ bh=E+6iiKAAyXlMtZ6T33s52aNTX7qMp5w1njSRTRjCFRY=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=unZ9u/A2gAPxyG2gYGd5SCKrwH5hRc+cB66rkoGdLp+mScStcXUGd8PDCjtD+ef9P
+ 3314N1SX9tEKZU5rfIp03z2ZYUiIB20r2Dk+IAZ1aqFhEAoQirdk4uJX6ob0QQVTfO
+ qiK6ehXaZ3LMVjxqGq9T+COzX5HSyg0/6FW1daPG+nrhLUYpXYPcOLjABwJDylj7YP
+ M/t1xOdqiTSwsIwDfdXBxMbO48HYGJykWCob6b0+Aoc0JUvgluGBlTKO9P3ma1t2mp
+ ntbcBRYqIbvUGcQGK7Q3kG+2A4iTt464YO+NUbzM0yeO+OTNi/7oMBn1ToUglM5yL+
+ V7u5A/ObjgK6w==
 From: Maxime Ripard <mripard@kernel.org>
 To: dri-devel@lists.freedesktop.org
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -37,10 +37,12 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Javier Martinez Canillas <javierm@redhat.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 1/3] drm/todo: Create a TODO item for additional HDMI work
-Date: Wed, 12 Jun 2024 16:35:51 +0200
-Message-ID: <20240612143553.915966-1-mripard@kernel.org>
+Subject: [PATCH 2/3] drm/todo: Create a TODO item for MIPI-DSI rework
+Date: Wed, 12 Jun 2024 16:35:52 +0200
+Message-ID: <20240612143553.915966-2-mripard@kernel.org>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240612143553.915966-1-mripard@kernel.org>
+References: <20240612143553.915966-1-mripard@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,59 +60,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We recently added some infrastructure to deal with HDMI but we're still
-lacking a couple of things. Add a TODO entry with the remaining items.
+The MIPI-DSI infrastructure and setup we have so far is limited and
+doesn't provide a good way to address some corner-cases.
+
+Add a TODO entry to document what is needed.
 
 Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- Documentation/gpu/todo.rst | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ Documentation/gpu/todo.rst | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 2ea6ffc9b22b..52fd8672fb6d 100644
+index 52fd8672fb6d..94139c652663 100644
 --- a/Documentation/gpu/todo.rst
 +++ b/Documentation/gpu/todo.rst
-@@ -633,10 +633,39 @@ long as that supports DMA. Otherwise importing can still needlessly fail.
+@@ -633,10 +633,30 @@ long as that supports DMA. Otherwise importing can still needlessly fail.
  
  Contact: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter
  
  Level: Advanced
  
-+Improve HDMI Infrastructure
-+---------------------------
++Improve MIPI-DSI infrastructure
++-------------------------------
 +
-+We have a bunch of helpers to handle HDMI and reduce the boilerplate in
-+drivers. Support so far includes HDMI 1.4 support, but we need to extend
-+it with:
++The MIPI-DSI infrastructure in KMS supports MIPI-DSI devices in part
++through a dedicated bus (`drm_mipi_dsi.c`) and in part through ad-hoc
++calls in drivers, especially to handle the power state of the bus.
 +
-+  - CEC handling support. CEC requires a bit of integration into every
-+    HDMI driver to set the device physical address according to the EDID
-+    in `.get_modes`, and to clear/reset it in the hotplug detection
-+    path. We should create the ``drm_atomic_helper_connector_hdmi_get_modes()``
-+    and ``drm_atomic_helper_connector_hdmi_handle_hotplug()`` helpers to handle
-+    this properly, and convert drivers to use them.
++This is an oddity as far as the device model is concerned, but is also
++an issue when multiple devices are chained (like bridges) and have
++different requirements.
 +
-+  - In order to support HDMI 2.0 properly, the scrambler parameters need
-+    to be moved into the state. This includes figuring out in
-+    drm_atomic_helper_connector_hdmi_check() if the scrambler and TMDS ratio
-+    need to be changed, and make the
-+    ``drm_atomic_helper_connector_hdmi_handle_hotplug()`` helper reset the
-+    scrambler status when the device is plugged and unplugged.
++It would be a good idea to move all the power state handling out of KMS
++and into the bus support itself.
 +
-+  - We need to support YUV420 too.
++See `[RFC PATCH 03/10] drm/mipi-dsi: add API for manual control over the DSI link power state <https://lore.kernel.org/dri-devel/20231016165355.1327217-4-dmitry.baryshkov@linaro.org/>`_
 +
-+The `vc4` driver is a good example for all this.
++Contact: Maxime Ripard <mripard@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 +
-+Contact: Maxime Ripard <mripard@kernel.org>
++Level: Advanced
 +
-+Level: Intermediate
-+
+ Improve HDMI Infrastructure
+ ---------------------------
  
- Better Testing
- ==============
- 
- Add unit tests using the Kernel Unit Testing (KUnit) framework
+ We have a bunch of helpers to handle HDMI and reduce the boilerplate in
+ drivers. Support so far includes HDMI 1.4 support, but we need to extend
 -- 
 2.45.2
 
