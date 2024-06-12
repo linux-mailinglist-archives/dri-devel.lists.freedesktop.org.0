@@ -2,70 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463B8905E6C
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 00:25:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F6A0905E6B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 00:25:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF1E10E932;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBDAE10E933;
 	Wed, 12 Jun 2024 22:25:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ByBo8gxy";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ZBVFP8xZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
- [209.85.215.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9968710E932
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 22:24:54 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id
- 41be03b00d2f7-6e9f52e99c2so269642a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:24:54 -0700 (PDT)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34C4D10E931
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 22:24:57 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id
+ d9443c01a7336-1f717b3f2d8so10880495ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:24:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1718231093; x=1718835893;
+ d=chromium.org; s=google; t=1718231095; x=1718835895;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cG9YsnvV0dqFs63XW3w7FcDwXhGHgBYJnS7/vNMDsUI=;
- b=ByBo8gxyw7cbIrmx/A4eVeXJe3Se74vbY7a0Pr2YGvblMSTr/wyrQNsfRK06vzSFZ8
- rQ/gmlO8iFE3GNVDoMxga87f0dEMAkHceFPrm9f73e9WeauispjlRqRvQ1jJBHvWuO44
- kLljK/Smp61Uwc4bNw8vCYfA3VRLLXbqxY4Vc=
+ bh=moW+vuchPBzwhuLa9D90CyqT2Qzy5nveIbqumh1IepQ=;
+ b=ZBVFP8xZZ8bHnyRl4zP5ISh8MHTyv6qmVG16b/1dsqLLS6Sd4n8gx311h945zMYt+z
+ y7DPTgTVAAjfOGo9LzsoW8U0NYp0a3agzq9s3vKUjt5mIA9QrWr8POzFcQnPzBHQM84V
+ U6j+joS4dOSSSOzI3bIf88pWYfo+E/t9vMNBc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718231093; x=1718835893;
+ d=1e100.net; s=20230601; t=1718231095; x=1718835895;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cG9YsnvV0dqFs63XW3w7FcDwXhGHgBYJnS7/vNMDsUI=;
- b=e9MUur7tf8o/MDWJljJqudoXmGTb9KHUdwhdTvisnCjHc+h0E4iOMfRfFscW68DNi8
- l+8eQeNKT0Eb8ELVaEBWSVctwyyNjDtDjWDm2hmIJJoMd7MvRo5x/SoK86xyWTrFIMVm
- p2NiX7XIv4zBdLv8+RRYZVuMhgXZd3G4BeP6BwNajamxhd7jlGhNWvc3uqRaWGCTARt+
- 4SuXndsn9wRQ9YnMF+pu3NIKZLcbYqaBhF7YrE/EovV+mteW0WNTlVmj7FSMOP/u8Gfg
- jbijf3r7UPJV8zbimtchaE441xKe3kCYow9EUAC0hAaRPNLffoqGlG63Uvp07mznZBUG
- c7bA==
-X-Gm-Message-State: AOJu0Yzm7o/iQccG8fo2n939EIbKTfh5WuFSJHekA9ua0vAxeGgJgnHX
- ggEEa2kVLszfDm2+EmIU9bJ7tUhVSWweLXdBjZkGJDNeQ1fTH2hqCsHm5mnNy4z/uIWqOFt7TH8
+ bh=moW+vuchPBzwhuLa9D90CyqT2Qzy5nveIbqumh1IepQ=;
+ b=BXyWL/1Ay8tXKP/kv5ayCaecClDidKWSq59EU2fg1k8jzE4M7ZujUOChgfX6s8LxzP
+ 12Fp9L4JgDmi35GRtKt1j5OLqEPBOc3isnInmHkf4MwhHWz3jK+aNs1SgcwFcTmW+fB1
+ waIPhTLcpk0I2dU4tyL06XmG1/yKzqT8p9hINOmijIUNZN31TYW7eJ4xv+L3P8Qm9f58
+ XIffMvaEwKFx+YKAHMya/Kdme3didevianJHcC346AIloe+uMWI7cRucIsBOZ6JwJiER
+ nWbTa0vU5HPYlBNSsxKCT+wGVuDgQ/mBmO0Xv6TPaQt21YpuwGpmni+v0AJWVZo1yxPL
+ PG2w==
+X-Gm-Message-State: AOJu0YwgSZZN+gS49XyJ6m6xbf4Sd3XnCcbCVpPCagIVAtFxUA/ghzw/
+ jBMsqdcugyrGcBLHmOVtbUvrTg6OFRQ+562PTaSRuLfVOmvJ2Ohfmj9pHpZOX3JZN4k0jQvMYBM
  =
-X-Google-Smtp-Source: AGHT+IGI/wCAa9iSAbUyULm8uaZzcZmzyBGn6eSxHSxLyKPWYAONixriz1scQsX3eltdmrQaRYhqHw==
-X-Received: by 2002:a17:903:1cd:b0:1f7:234b:4f28 with SMTP id
- d9443c01a7336-1f83b60954cmr37501915ad.25.1718231093331; 
- Wed, 12 Jun 2024 15:24:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHBAtSsNRsCiipiSSmdPtxdIvkO4DzXuXDcDLjyV0KBNSghL6hedDrLySr08oXr7dCUGUp9XA==
+X-Received: by 2002:a17:902:fc46:b0:1f2:fee2:82ed with SMTP id
+ d9443c01a7336-1f84e425a39mr11905935ad.30.1718231095482; 
+ Wed, 12 Jun 2024 15:24:55 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:2816:6a42:9074:18cc])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f6f30acda9sm87914105ad.198.2024.06.12.15.24.52
+ d9443c01a7336-1f6f30acda9sm87914105ad.198.2024.06.12.15.24.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jun 2024 15:24:52 -0700 (PDT)
+ Wed, 12 Jun 2024 15:24:54 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
 Cc: Douglas Anderson <dianders@chromium.org>,
- Alexey Brodkin <abrodkin@synopsys.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@gmail.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Orson Zhai <orsonzhai@gmail.com>, Rob Herring <robh@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Steven Price <steven.price@arm.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/8] drm/arcpgu: Call drm_atomic_helper_shutdown() at
- shutdown time
-Date: Wed, 12 Jun 2024 15:23:44 -0700
-Message-ID: <20240612152336.v2.4.I8a0a246fea222059881d01a8fff2adcf7ef3d7a4@changeid>
+Subject: [PATCH v2 5/8] drm/sprd: Call drm_atomic_helper_shutdown() at remove
+ time
+Date: Wed, 12 Jun 2024 15:23:45 -0700
+Message-ID: <20240612152336.v2.5.I7a2dd349cb52bae53280d0a49e22cc27b923274b@changeid>
 X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
 In-Reply-To: <20240612222435.3188234-1-dianders@chromium.org>
 References: <20240612222435.3188234-1-dianders@chromium.org>
@@ -86,14 +90,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Based on grepping through the source code this driver appears to be
-missing a call to drm_atomic_helper_shutdown() at system shutdown
-time. Among other things, this means that if a panel is in use that it
-won't be cleanly powered off at system shutdown time.
+Based on grepping through the source code, this driver appears to be
+missing a call to drm_atomic_helper_shutdown() at remove time. Let's
+add it.
 
 The fact that we should call drm_atomic_helper_shutdown() in the case
-of OS shutdown/restart comes straight out of the kernel doc "driver
+of OS driver remove comes straight out of the kernel doc "driver
 instance overview" in drm_drv.c.
+
+While at it, let's also fix it so that if the driver's bind fails or
+if a driver gets unbound that the drvdata gets set to NULL. This will
+make sure we can't get confused during a later shutdown().
 
 Suggested-by: Maxime Ripard <mripard@kernel.org>
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
@@ -101,35 +108,46 @@ Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 This commit is only compile-time tested.
 
+While making this patch, I noticed that the bind() function of this
+driver is using "devm". That's probably a bug. As per kernel docs [1]
+"the lifetime of the aggregate driver does not align with any of the
+underlying struct device instances. Therefore devm cannot be used and
+all resources acquired or allocated in this callback must be
+explicitly released in the unbind callback". Fixing that is outside
+the scope of this commit.
+
+[1] https://docs.kernel.org/driver-api/component.html
+
 (no changes since v1)
 
- drivers/gpu/drm/tiny/arcpgu.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/sprd/sprd_drm.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
-index 4f8f3172379e..85b21f5aac55 100644
---- a/drivers/gpu/drm/tiny/arcpgu.c
-+++ b/drivers/gpu/drm/tiny/arcpgu.c
-@@ -412,6 +412,11 @@ static void arcpgu_remove(struct platform_device *pdev)
- 	arcpgu_unload(drm);
+diff --git a/drivers/gpu/drm/sprd/sprd_drm.c b/drivers/gpu/drm/sprd/sprd_drm.c
+index a74cd0caf645..d4453430dd1f 100644
+--- a/drivers/gpu/drm/sprd/sprd_drm.c
++++ b/drivers/gpu/drm/sprd/sprd_drm.c
+@@ -114,6 +114,7 @@ static int sprd_drm_bind(struct device *dev)
+ 	drm_kms_helper_poll_fini(drm);
+ err_unbind_all:
+ 	component_unbind_all(drm->dev, drm);
++	platform_set_drvdata(pdev, NULL);
+ 	return ret;
  }
  
-+static void arcpgu_shutdown(struct platform_device *pdev)
-+{
-+	drm_atomic_helper_shutdown(platform_get_drvdata(pdev));
-+}
-+
- static const struct of_device_id arcpgu_of_table[] = {
- 	{.compatible = "snps,arcpgu"},
- 	{}
-@@ -422,6 +427,7 @@ MODULE_DEVICE_TABLE(of, arcpgu_of_table);
- static struct platform_driver arcpgu_platform_driver = {
- 	.probe = arcpgu_probe,
- 	.remove_new = arcpgu_remove,
-+	.shutdown = arcpgu_shutdown,
- 	.driver = {
- 		   .name = "arcpgu",
- 		   .of_match_table = arcpgu_of_table,
+@@ -122,10 +123,11 @@ static void sprd_drm_unbind(struct device *dev)
+ 	struct drm_device *drm = dev_get_drvdata(dev);
+ 
+ 	drm_dev_unregister(drm);
+-
+ 	drm_kms_helper_poll_fini(drm);
++	drm_atomic_helper_shutdown(drm);
+ 
+ 	component_unbind_all(drm->dev, drm);
++	dev_set_drvdata(dev, NULL);
+ }
+ 
+ static const struct component_master_ops drm_component_ops = {
 -- 
 2.45.2.505.gda0bf45e8d-goog
 
