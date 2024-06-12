@@ -2,50 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B27E9049E1
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 06:12:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF764904A03
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 06:31:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BE9110E776;
-	Wed, 12 Jun 2024 04:12:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2F2310E777;
+	Wed, 12 Jun 2024 04:31:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="MFKiELrB";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="gQ01xmf6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3826E10E772;
- Wed, 12 Jun 2024 04:12:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1718165560;
- bh=9ZFs9kPnbsyJlJHuZTpWlbYutjebMjdcPR6NsGP867s=;
- h=Date:From:To:Cc:Subject:From;
- b=MFKiELrBw+18mcbwASGU9x+vIxbhtb6tfULSNb7dFbLbaaom+nGdGJWwmZcT9E12O
- GwemrVq47ex4domIUIZLCWI7XLmoPPjAtWZ8LYWQudSSWppWo5zKXzx9i1muvODIeK
- 25RoB9cP5K+3iw95KwxrPo9b2bO//+YGW8zqzBOWGuHPNbAWYkHkal8Kd4vP1+LkIM
- /TNj21aQNvTQoT5/HHRyI4sxAZGB8RiAj7Qzek+sRrOA3IAXWNrjGAi5XoS9WOUEBB
- +YcW9/voUUxjSZdxDCWcJIghtwVTb5Qn6WgUkcT2M4p4jzlLKZg8CgpKsQc/2a0q4Z
- 1gV9BUa3MAwNQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4VzXFN2mVmz4w2P;
- Wed, 12 Jun 2024 14:12:40 +1000 (AEST)
-Date: Wed, 12 Jun 2024 14:12:39 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>, Suraj Kandpal
- <suraj.kandpal@intel.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: linux-next: build failure after merge of the drm-intel tree
-Message-ID: <20240612141239.141ce8cc@canb.auug.org.au>
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B10110E777
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 04:31:29 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id
+ 41be03b00d2f7-656d8b346d2so4625351a12.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 21:31:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1718166689; x=1718771489;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=26yCayUAzc76t5ERK7B6b8gwpGmJll8Ij+c08Bg2GMU=;
+ b=gQ01xmf65KPdSX1SlacqRrgbF4g14iIl12GYseztlpEqRAJHGa3IWJ7rEoQGxzqgnZ
+ HohFbgWEqmTLpYHzLaVXbWG6JkTc2h2A2ckHlCTICAiX7d+kT3p56CH40CzbBrx2EPPD
+ Ds00nKrRTc+llpR7ovX6DeWRQZemu6ZCNpa64=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718166689; x=1718771489;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=26yCayUAzc76t5ERK7B6b8gwpGmJll8Ij+c08Bg2GMU=;
+ b=WRsWnpFd7Zj1QeDaQuJkb2C8S/xRM8sqnCB9KoPig2715rWbXuSYJ0ftJV+cgjGfpg
+ 8CkEH5Awr8Ffyo+Oukr4irbLe1+6gsFkaGUjpxjFNUzwgiHtr4A3Z8dBp5ItTQxcuVPZ
+ tgOQ4kTg6+uiuGX0gFQkLO1aSKqguTDwuafaC0UfZ/ttY1pFtdh63X/pkAzo7MX11cUN
+ M/dNtjrSIzuKr/9Fr4Ar7jyP5q7aOydoIM3Ta6lqVFqv5oTK8F1IxZYH13IL4YNVKU9y
+ wn1v+dwzaEk1LM4tAWOX6vLIyS0HeCJrMEEfuV/DSMqaiFBu7667UR/quCkSeJLdLgGW
+ 6lxA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXFD5xtZiij0fOS1/TQZ/Vj1PXRyJTyv/oIWtc6uxUX7mbpjHy27Nvcnkh1Q8SWCiQeKxoCfanibV55QQ7+mJIZgHURyRoNzheRbT2elF/Z
+X-Gm-Message-State: AOJu0YxJWgvupboCvSvr4+/H7O/kvmxfPu+37hiF5f1gKGNNyQfJKwU1
+ n/Q6209rvHtxbBx/JF9psn3lNKOMpSaraSJ69wfHimd+MTZJAW2xinLl1/UebA==
+X-Google-Smtp-Source: AGHT+IEDNIroERFQYahAEyUp89r/l251ag7KXTZkZl5/HBfB+fwRsfZPqR83QoYb4oKa3SSk62X7hQ==
+X-Received: by 2002:a05:6a21:81a2:b0:1b2:2e3e:42dd with SMTP id
+ adf61e73a8af0-1b8a9be9bb0mr745623637.34.1718166688682; 
+ Tue, 11 Jun 2024 21:31:28 -0700 (PDT)
+Received: from chromium.org (174.71.80.34.bc.googleusercontent.com.
+ [34.80.71.174]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f74179d0basm11631455ad.122.2024.06.11.21.31.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Jun 2024 21:31:28 -0700 (PDT)
+Date: Wed, 12 Jun 2024 13:31:22 +0900
+From: Tomasz Figa <tfiga@chromium.org>
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: Jeffrey Kardatzke <jkardatzke@google.com>, 
+ =?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
+ Nathan Hebert <nhebert@chromium.org>, 
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, Chen-Yu Tsai <wenst@chromium.org>,
+ Yong Wu <yong.wu@mediatek.com>, Hsin-Yi Wang <hsinyi@chromium.org>, 
+ Fritz Koenig <frkoenig@chromium.org>, Daniel Vetter <daniel@ffwll.ch>, 
+ Steve Cho <stevecho@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v6,03/24] v4l2: verify restricted dmabufs are used in
+ restricted queue
+Message-ID: <rw6dkzasaz4lnvtmxkxlkxte5nvphpjixigjouvjkpctscpdla@bheblt7kmj4y>
+References: <20240516122102.16379-1-yunfei.dong@mediatek.com>
+ <20240516122102.16379-4-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/.vbPo1=wII9KCPpenjrUXFl";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240516122102.16379-4-yunfei.dong@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,43 +101,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/.vbPo1=wII9KCPpenjrUXFl
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Thu, May 16, 2024 at 08:20:41PM +0800, Yunfei Dong wrote:
+> From: Jeffrey Kardatzke <jkardatzke@google.com>
+> 
+> Verfies in the dmabuf implementations that if the restricted memory
+> flag is set for a queue that the dmabuf submitted to the queue is
+> unmappable.
+> 
+> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  drivers/media/common/videobuf2/videobuf2-dma-contig.c | 8 ++++++++
+>  drivers/media/common/videobuf2/videobuf2-dma-sg.c     | 8 ++++++++
+>  2 files changed, 16 insertions(+)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index 3d4fd4ef5310..35a3c1c01eae 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -710,6 +710,14 @@ static int vb2_dc_map_dmabuf(void *mem_priv)
+>  		return -EINVAL;
+>  	}
+>  
+> +	/* Verify the dmabuf is restricted if we are in restricted mode, this is done
+> +	 * by validating there is no page entry for the dmabuf.
+> +	 */
 
-Hi all,
+Kernel coding style [1] defines multi-line comments to start with an empty
+line.
 
-After merging the drm-intel tree, today's linux-next build (i386
-defconfig) failed like this:
+[1] https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting
 
-x86_64-linux-gnu-ld: drivers/gpu/drm/i915/display/intel_vrr.o: in function =
-`intel_vrr_compute_config':
-intel_vrr.c:(.text+0x4e4): undefined reference to `__udivdi3'
+> +	if (buf->vb->vb2_queue->restricted_mem && !sg_dma_is_restricted(sgt->sgl)) {
+> +		pr_err("restricted queue requires restricted dma_buf");
+> +		return -EINVAL;
 
-Caused by commit
+This would leak the mapping. We need to unmap the attachment here.
 
-  1676ecd303ac ("drm/i915: Compute CMRR and calculate vtotal")
+> +	}
+> +
+>  	/* checking if dmabuf is big enough to store contiguous chunk */
+>  	contig_size = vb2_dc_get_contiguous_size(sgt);
+>  	if (contig_size < buf->size) {
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> index 6975a71d740f..2399a9c074ba 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> @@ -570,6 +570,14 @@ static int vb2_dma_sg_map_dmabuf(void *mem_priv)
+>  		return -EINVAL;
+>  	}
+>  
+> +	/* Verify the dmabuf is restricted if we are in restricted mode, this is done
+> +	 * by validating there is no page entry for the dmabuf.
+> +	 */
 
-I have reverted that commit for today.
+Ditto.
 
---=20
-Cheers,
-Stephen Rothwell
+> +	if (buf->vb->vb2_queue->restricted_mem && !sg_dma_is_restricted(sgt->sgl)) {
+> +		pr_err("restricted queue requires restricted dma_buf");
+> +		return -EINVAL;
 
---Sig_/.vbPo1=wII9KCPpenjrUXFl
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Ditto.
 
------BEGIN PGP SIGNATURE-----
+Best regards,
+Tomasz
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmZpIDcACgkQAVBC80lX
-0GzmZgf/WRH/KEgcppZo+Klh5uGzWYf340VlANrW37r9HaPEdpoT2+2sYkAGcqQY
-R883y5nxFokZkRee3mRVZ4Lksdz9s8WRowvQdoOmBj7WHcljxCbhjscPQ0XVbMPy
-XCUQuxoA8n/CEG62clXPTA0ssin1J6dtP5CrFbMhgT68F8to7zHue8Wr0c7i4Pfx
-3sf7RVkia03hYTsNaIUSD/XZNZaUoDKfkKOMDW0+F3O0D8S4zk1qLn0WzqWx/0k5
-vbjp9yu/gEA2Lt+JLfZfK5N9LmxCgQ6vNZCb4HtXPhOILP/OcWe1XwcKcgiWJfv9
-iLbjMAWSjq/mKXIq6HTyzzcfk9Yolw==
-=kVkc
------END PGP SIGNATURE-----
-
---Sig_/.vbPo1=wII9KCPpenjrUXFl--
+> +	}
+> +
+>  	buf->dma_sgt = sgt;
+>  	buf->vaddr = NULL;
+>  
+> -- 
+> 2.25.1
+> 
