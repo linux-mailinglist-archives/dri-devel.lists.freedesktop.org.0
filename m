@@ -2,51 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8105904D39
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 09:56:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E12904D3D
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 09:57:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BCD410E1D0;
-	Wed, 12 Jun 2024 07:56:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59CC110E216;
+	Wed, 12 Jun 2024 07:57:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VirQKIzA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QCw/Q+Ks";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22EDF10E216
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 07:55:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6800410E216
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 07:57:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C39FDCE1F59;
- Wed, 12 Jun 2024 07:55:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9807C3277B;
- Wed, 12 Jun 2024 07:55:56 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id A9A97CE2065;
+ Wed, 12 Jun 2024 07:57:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 955CAC3277B;
+ Wed, 12 Jun 2024 07:57:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718178957;
- bh=DPxfwqw32UzG01diDS0TG9qPWmDaaLhYilwUhVS25/U=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=VirQKIzA8Si2u5Y+WDCr4RAezIVKUHMUpfvmAWO+355t3/gJFJhOx/aYn76B1YhxI
- 10g7HZOZPDB0tM0TluMfK2+dfkSk2QS8VX4E4n8giVfOL1e+t/80A4MecLKSUN1zlf
- gZ0EJf8ejdnv/CRDfzF77455pTOKcOJ1/ko4Q5Oag9Ei0+iJipkVJ6RvySp6cOckI3
- 1Yx6SOzQUuy1gnfWcsX477iXngeuvysJMwCttLw379fx8TVrpiCLcqqWceZSmp1DHR
- 1Yg3bSQzDAeubyP8sGzhUJrQUWMHasll26/gleJ3YAXyjtq6D3U4enIJ4UFRoG5kxE
- J+7fc5+qkCJyQ==
+ s=k20201202; t=1718179025;
+ bh=hESmEHrQk7WtxKynr/6hcy4GMsBs6FznD7ZDEnXzOqo=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=QCw/Q+KsYXtgn/fPiS76aWlM7QL+2rbkPu2yKxx35dexv6Lv+6l2LUysiI38vX3BB
+ Xg3MqkGpvtDom18PuFoW68C8QU2J0EYMFOliXNfuXTPzWycZmErA9cCKg2Cqcfck3c
+ WfdZqZN0RtNAEfvbsUcNkQ38oOUtFucjri3wZFoZxKPhK0gQAv/v25YlHkI2nMbIPk
+ Q341ZJdXEmFJwKGFC4t3YNEUOInpFeJNKMrhx0C/WWMGMq3p1fpY8EXO3V0SQ0tSn7
+ vtqqOElOkUObCTrFTzyjU/5hGBWffuaN9iLQknLnH8KIVp0MhpwIfwWoHi7yYCy/f3
+ QU7C2lCnYZBQw==
 From: Maxime Ripard <mripard@kernel.org>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Amjad Ouled-Ameur <amjad.ouled-ameur@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Smitha T Murthy <smitha.tmurthy@arm.com>, 
- Deepak Pandey <deepak.pandey@arm.com>
-In-Reply-To: <20240610102056.40406-1-amjad.ouled-ameur@arm.com>
-References: <20240610102056.40406-1-amjad.ouled-ameur@arm.com>
-Subject: Re: (subset) [PATCH] drm/komeda: check for error-valued pointer
-Message-Id: <171817895441.766399.8225643832267707150.b4-ty@kernel.org>
-Date: Wed, 12 Jun 2024 09:55:54 +0200
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Douglas Anderson <dianders@chromium.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Fei Shao <fshao@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org
+Subject: Re: (subset) [PATCH v2] drm/mediatek: Call
+ drm_atomic_helper_shutdown() at shutdown time
+Date: Wed, 12 Jun 2024 09:56:59 +0200
+Message-ID: <171817900323.766520.11311110578010469430.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240611102744.v2.1.I2b014f90afc4729b6ecc7b5ddd1f6dedcea4625b@changeid>
+References: <20240611102744.v2.1.I2b014f90afc4729b6ecc7b5ddd1f6dedcea4625b@changeid>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,14 +67,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 Jun 2024 11:20:56 +0100, Amjad Ouled-Ameur wrote:
-> komeda_pipeline_get_state() may return an error-valued pointer, thus
-> check the pointer for negative or null value before dereferencing.
+On Tue, 11 Jun 2024 10:27:44 -0700, Douglas Anderson wrote:
+> Based on grepping through the source code this driver appears to be
+> missing a call to drm_atomic_helper_shutdown() at system shutdown
+> time. Among other things, this means that if a panel is in use that it
+> won't be cleanly powered off at system shutdown time.
 > 
+> The fact that we should call drm_atomic_helper_shutdown() in the case
+> of OS shutdown/restart comes straight out of the kernel doc "driver
+> instance overview" in drm_drv.c.
 > 
+> [...]
 
 Applied to misc/kernel.git (drm-misc-fixes).
 
 Thanks!
 Maxime
-
