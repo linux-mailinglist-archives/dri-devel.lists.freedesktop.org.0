@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55500905E6D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 00:25:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 463B8905E6C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 00:25:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 129F210E935;
-	Wed, 12 Jun 2024 22:25:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF1E10E932;
+	Wed, 12 Jun 2024 22:25:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ocwlUoYB";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ByBo8gxy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1916910E92D
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 22:24:53 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-1f44b594deeso3822095ad.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:24:53 -0700 (PDT)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9968710E932
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 22:24:54 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id
+ 41be03b00d2f7-6e9f52e99c2so269642a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:24:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1718231092; x=1718835892;
+ d=chromium.org; s=google; t=1718231093; x=1718835893;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zpmQn9g7cRN67S7SSaIwDQvRoODph3OOMStNp4IKliA=;
- b=ocwlUoYB6WdUqlX7qyvq1Im0h8Z3wYQ07vg5CuHn/NQ0AfHE6/1rcwcIJbtahWjJzH
- mHmKJYz71slINXbJU8XDvVjBZ5989PR4IzIBi3NmziqCxb2xzlJ04fw2r0PHkvzdlvdo
- kpanVBXA3A3lIzX7A3w4lEbsO98iSWNO3EZIw=
+ bh=cG9YsnvV0dqFs63XW3w7FcDwXhGHgBYJnS7/vNMDsUI=;
+ b=ByBo8gxyw7cbIrmx/A4eVeXJe3Se74vbY7a0Pr2YGvblMSTr/wyrQNsfRK06vzSFZ8
+ rQ/gmlO8iFE3GNVDoMxga87f0dEMAkHceFPrm9f73e9WeauispjlRqRvQ1jJBHvWuO44
+ kLljK/Smp61Uwc4bNw8vCYfA3VRLLXbqxY4Vc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718231092; x=1718835892;
+ d=1e100.net; s=20230601; t=1718231093; x=1718835893;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zpmQn9g7cRN67S7SSaIwDQvRoODph3OOMStNp4IKliA=;
- b=lqc32YCAPZK5udWk32dd9+9148sgeF1i163DWlSv+lHL8HXMP9/0axmPEgBedlsIdd
- /qkF1+z7zuo6tJVXJU52eSXvTTCYBKc87O7DpLAFEhOpf4jiJDaMwE5NTBLqTZ4uylFY
- MLni17fPfSeFQmV5YhIvxUM64Kgz+zk9+iqvb4fOolt2yfteglxGCy+MQvaXql/Sbj9Y
- 7RSIowctUMMwOwZURXx2Zn6SXxDlJdy98jzWJw0S9emu1iN+M1jfUH6EncKJglz4IDJo
- Jhg5l2O6f++Lu2Ca6cHbq24qR8nD77x6+mWoutB2HQayuKblm4dS/GDtES524Cwi2sbj
- iZEw==
-X-Gm-Message-State: AOJu0YxmuFzIaKq+3HwR6nTKx+eMc9M94PfNOnuKVS38JaZ7e5Xh8ejM
- F1UdzpOwBXUpbZ40jt6xpLcHUIuO5fj4RXmolaa6fwl3cVTlvgc4jvEoOuqn9Omnj/5NDkgSwAU
+ bh=cG9YsnvV0dqFs63XW3w7FcDwXhGHgBYJnS7/vNMDsUI=;
+ b=e9MUur7tf8o/MDWJljJqudoXmGTb9KHUdwhdTvisnCjHc+h0E4iOMfRfFscW68DNi8
+ l+8eQeNKT0Eb8ELVaEBWSVctwyyNjDtDjWDm2hmIJJoMd7MvRo5x/SoK86xyWTrFIMVm
+ p2NiX7XIv4zBdLv8+RRYZVuMhgXZd3G4BeP6BwNajamxhd7jlGhNWvc3uqRaWGCTARt+
+ 4SuXndsn9wRQ9YnMF+pu3NIKZLcbYqaBhF7YrE/EovV+mteW0WNTlVmj7FSMOP/u8Gfg
+ jbijf3r7UPJV8zbimtchaE441xKe3kCYow9EUAC0hAaRPNLffoqGlG63Uvp07mznZBUG
+ c7bA==
+X-Gm-Message-State: AOJu0Yzm7o/iQccG8fo2n939EIbKTfh5WuFSJHekA9ua0vAxeGgJgnHX
+ ggEEa2kVLszfDm2+EmIU9bJ7tUhVSWweLXdBjZkGJDNeQ1fTH2hqCsHm5mnNy4z/uIWqOFt7TH8
  =
-X-Google-Smtp-Source: AGHT+IEw5ujOqNAyOIoLP8KuspnMOnAtd7Hh5dDQKTX8TBm9/CzqJoj2TsY6aejmqFawCaR9pN4o7w==
-X-Received: by 2002:a17:902:e750:b0:1f7:2a95:f2f8 with SMTP id
- d9443c01a7336-1f83b55e32cmr41999395ad.14.1718231091823; 
- Wed, 12 Jun 2024 15:24:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGI/wCAa9iSAbUyULm8uaZzcZmzyBGn6eSxHSxLyKPWYAONixriz1scQsX3eltdmrQaRYhqHw==
+X-Received: by 2002:a17:903:1cd:b0:1f7:234b:4f28 with SMTP id
+ d9443c01a7336-1f83b60954cmr37501915ad.25.1718231093331; 
+ Wed, 12 Jun 2024 15:24:53 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:2816:6a42:9074:18cc])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f6f30acda9sm87914105ad.198.2024.06.12.15.24.49
+ d9443c01a7336-1f6f30acda9sm87914105ad.198.2024.06.12.15.24.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jun 2024 15:24:51 -0700 (PDT)
+ Wed, 12 Jun 2024 15:24:52 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
-Cc: Douglas Anderson <dianders@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-kernel@vger.kernel.org,
- linux-tegra@vger.kernel.org
-Subject: [PATCH v2 3/8] drm/tegra: Call drm_atomic_helper_shutdown() at
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Alexey Brodkin <abrodkin@synopsys.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 4/8] drm/arcpgu: Call drm_atomic_helper_shutdown() at
  shutdown time
-Date: Wed, 12 Jun 2024 15:23:43 -0700
-Message-ID: <20240612152336.v2.3.Ifb4450979b62976fd5a98847dade2e5b377d47c8@changeid>
+Date: Wed, 12 Jun 2024 15:23:44 -0700
+Message-ID: <20240612152336.v2.4.I8a0a246fea222059881d01a8fff2adcf7ef3d7a4@changeid>
 X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
 In-Reply-To: <20240612222435.3188234-1-dianders@chromium.org>
 References: <20240612222435.3188234-1-dianders@chromium.org>
@@ -103,33 +103,33 @@ This commit is only compile-time tested.
 
 (no changes since v1)
 
- drivers/gpu/drm/tegra/drm.c | 6 ++++++
+ drivers/gpu/drm/tiny/arcpgu.c | 6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 03d1c76aec2d..d9f0728c3afd 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -1330,6 +1330,11 @@ static int host1x_drm_remove(struct host1x_device *dev)
- 	return 0;
+diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
+index 4f8f3172379e..85b21f5aac55 100644
+--- a/drivers/gpu/drm/tiny/arcpgu.c
++++ b/drivers/gpu/drm/tiny/arcpgu.c
+@@ -412,6 +412,11 @@ static void arcpgu_remove(struct platform_device *pdev)
+ 	arcpgu_unload(drm);
  }
  
-+static void host1x_drm_shutdown(struct host1x_device *dev)
++static void arcpgu_shutdown(struct platform_device *pdev)
 +{
-+	drm_atomic_helper_shutdown(dev_get_drvdata(&dev->dev));
++	drm_atomic_helper_shutdown(platform_get_drvdata(pdev));
 +}
 +
- #ifdef CONFIG_PM_SLEEP
- static int host1x_drm_suspend(struct device *dev)
- {
-@@ -1398,6 +1403,7 @@ static struct host1x_driver host1x_drm_driver = {
- 	},
- 	.probe = host1x_drm_probe,
- 	.remove = host1x_drm_remove,
-+	.shutdown = host1x_drm_shutdown,
- 	.subdevs = host1x_drm_subdevs,
- };
- 
+ static const struct of_device_id arcpgu_of_table[] = {
+ 	{.compatible = "snps,arcpgu"},
+ 	{}
+@@ -422,6 +427,7 @@ MODULE_DEVICE_TABLE(of, arcpgu_of_table);
+ static struct platform_driver arcpgu_platform_driver = {
+ 	.probe = arcpgu_probe,
+ 	.remove_new = arcpgu_remove,
++	.shutdown = arcpgu_shutdown,
+ 	.driver = {
+ 		   .name = "arcpgu",
+ 		   .of_match_table = arcpgu_of_table,
 -- 
 2.45.2.505.gda0bf45e8d-goog
 
