@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B6CF904FAE
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 11:54:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4B1904FB1
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 11:54:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C2C110E812;
-	Wed, 12 Jun 2024 09:54:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B98410E818;
+	Wed, 12 Jun 2024 09:54:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H4UbmurC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CQqivRdG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBCDC10E813;
- Wed, 12 Jun 2024 09:54:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D216410E809;
+ Wed, 12 Jun 2024 09:54:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718186072; x=1749722072;
+ t=1718186075; x=1749722075;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=did2WuwK3Oifkj9Eg4E4zFLiIRquPsUlKco9JnLFOi8=;
- b=H4UbmurCfKSOKg1WwvOAzNJ5C83oo1Z9ZC2naPlzHIYWi0mO6n1VbAfj
- cfvoYDb1CRNInLjYK4Sm0MMvPvbxkyQWCUimyH6hqDdFRUNUbbJ2GmkZr
- YfNIAiuLyn1rQ46T2F6HRzLV5AvUM7agzAFrjONnX/WhvzQ0vxLjGHRlT
- XU9zEBumo5HBM0UjrTWE8rJoEhmL+jXERx1BcsvzcP3+H6Zq98nclM8oj
- f5qUSrnHqq0s+Fwpxo9j37ZCdCm6SAbmt+J0NY21o3pD3vrrpQZcb4Y6d
- JjzAgDM+pf/aLhfelJP4Daog9PPuV5LqgQRWl+HVwvs7wJOJQPuAJE5jV g==;
-X-CSE-ConnectionGUID: Ti3btqTcSxyxHcm3lmM6jg==
-X-CSE-MsgGUID: qUIhMsLHQ3iOOZDlWog15Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="15068935"
-X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; d="scan'208";a="15068935"
+ bh=To9DU10Zhe8E/I7Qn0M/0vjZR5mT3ISO+qho+zaXReQ=;
+ b=CQqivRdG4z4AL/n+UqnXP8UZH2dfVtDO/cnuFrwzDUHGlsqnD3zkDD1g
+ WKzQbhfGuwSR6+GaKURE07j3oaoaMUoHM7PsbXCcdhyWzWFbVdhlV8Kms
+ Upidd7Y2PLKl1MeTKpZH59dNFYgUd8Ge0sWgswNP7BHWApSwo+GmLtxh1
+ H1X9P1KaE+lIAWmCzZM8wQ1UeARkjgmQDke50cvDR1FXdYjI8F7Of51lR
+ NjEGZLXF+qWA2Zz8CxCb/wzuE8NGyx9Trzho+O+zchmqzOVYfaAHYEHMr
+ BnMWKisXxYOUJ1PVYnaLi4I4+bOwICJ1sZxTpWnC4Ph8tIkoyUyabmd8q g==;
+X-CSE-ConnectionGUID: j3tTnqTJQ3GkoGQibZ+wLA==
+X-CSE-MsgGUID: sUzkI1tAQTugkpOG5jj8eQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="15068941"
+X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; d="scan'208";a="15068941"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2024 02:54:31 -0700
-X-CSE-ConnectionGUID: 77PbWAhaSZCNwl5O5QfBdQ==
-X-CSE-MsgGUID: jbLPL7gxRomv8Su0NYoFcw==
+ 12 Jun 2024 02:54:34 -0700
+X-CSE-ConnectionGUID: qQ7ze+SwRuaM3SfJ8iReew==
+X-CSE-MsgGUID: fNWL6necQ5uUdNH1llGPxg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; d="scan'208";a="40441630"
+X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; d="scan'208";a="40441635"
 Received: from mgolanimitul-x299-ud4-pro.iind.intel.com ([10.190.239.114])
- by orviesa007.jf.intel.com with ESMTP; 12 Jun 2024 02:54:29 -0700
+ by orviesa007.jf.intel.com with ESMTP; 12 Jun 2024 02:54:32 -0700
 From: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
 To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: mitulkumar.ajitkumar.golani@intel.com, ankit.k.nautiyal@intel.com,
  suraj.kandpal@intel.com, jani.nikula@linux.intel.com,
  rodrigo.vivi@intel.com, sfr@canb.auug.org.au
-Subject: [PATCH 2/3] drm/i915/display: Send vrr vsync params whne vrr is
- enabled
-Date: Wed, 12 Jun 2024 15:24:32 +0530
-Message-ID: <20240612095433.323342-3-mitulkumar.ajitkumar.golani@intel.com>
+Subject: [PATCH 3/3] drm/i915/display: Update calculation to avoid overflow
+Date: Wed, 12 Jun 2024 15:24:33 +0530
+Message-ID: <20240612095433.323342-4-mitulkumar.ajitkumar.golani@intel.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240612095433.323342-1-mitulkumar.ajitkumar.golani@intel.com>
 References: <20240612095433.323342-1-mitulkumar.ajitkumar.golani@intel.com>
@@ -70,34 +69,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Compute trans vrr vsync params only when either VRR or CMRR
-is enabled.
+Update calculation to avoid overflow.
 
-Fixes: 5922f45329cd ("drm/i915/display: Compute vrr vsync params")
+Fixes: 1676ecd303ac ("drm/i915: Compute CMRR and calculate vtotal")
 Cc: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
 Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 Cc: Suraj Kandpal <suraj.kandpal@intel.com>
 Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+
 Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
-Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_vrr.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/display/intel_vrr.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_vrr.c b/drivers/gpu/drm/i915/display/intel_vrr.c
-index 05f67dc9d98d..dc9cf7ddafe9 100644
+index dc9cf7ddafe9..5da9d5b9936e 100644
 --- a/drivers/gpu/drm/i915/display/intel_vrr.c
 +++ b/drivers/gpu/drm/i915/display/intel_vrr.c
-@@ -232,7 +232,8 @@ intel_vrr_compute_config(struct intel_crtc_state *crtc_state,
- 		crtc_state->mode_flags |= I915_MODE_FLAG_VRR;
+@@ -147,10 +147,11 @@ cmrr_get_vtotal(struct intel_crtc_state *crtc_state, bool video_mode_required)
+ 		multiplier_n = 1000;
  	}
  
--	if (intel_dp_as_sdp_supported(intel_dp)) {
-+	if (intel_dp_as_sdp_supported(intel_dp) &&
-+	    crtc_state->vrr.enable) {
- 		crtc_state->vrr.vsync_start =
- 			(crtc_state->hw.adjusted_mode.crtc_vtotal -
- 			 crtc_state->hw.adjusted_mode.vsync_start);
+-	crtc_state->cmrr.cmrr_n =
+-		desired_refresh_rate * adjusted_mode->crtc_htotal * multiplier_n;
+-	vtotal = (adjusted_mode->crtc_clock * 1000 * multiplier_n) / crtc_state->cmrr.cmrr_n;
+-	adjusted_pixel_rate = adjusted_mode->crtc_clock * 1000 * multiplier_m;
++	crtc_state->cmrr.cmrr_n = mul_u32_u32(desired_refresh_rate * adjusted_mode->crtc_htotal,
++					      multiplier_n);
++	vtotal = DIV_ROUND_UP_ULL(mul_u32_u32(adjusted_mode->crtc_clock * 1000, multiplier_n),
++				  crtc_state->cmrr.cmrr_n);
++	adjusted_pixel_rate = mul_u32_u32(adjusted_mode->crtc_clock * 1000, multiplier_m);
+ 	crtc_state->cmrr.cmrr_m = do_div(adjusted_pixel_rate, crtc_state->cmrr.cmrr_n);
+ 
+ 	return vtotal;
 -- 
 2.45.2
 
