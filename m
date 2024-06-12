@@ -2,90 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6331A904EA8
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 10:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C89904ECA
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 11:09:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BBE610E0CB;
-	Wed, 12 Jun 2024 08:58:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 616A810E7E1;
+	Wed, 12 Jun 2024 09:09:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="SVS1KVO7";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XA6jkEWw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99D8210E0CB
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 08:58:53 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-52b96eafeeaso534547e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 01:58:53 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
+ [209.85.128.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C030810E7E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 09:08:59 +0000 (UTC)
+Received: by mail-yw1-f174.google.com with SMTP id
+ 00721157ae682-627e3368394so72955047b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 02:08:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1718182732; x=1718787532; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ud4xmDmRV183zyld9JfrTjCSef6nKd1cubXXIHFriQg=;
- b=SVS1KVO7hkq8xoW563GEuI65Ycruqefmu37bVyhULkRHLCLgutkRhYunpqiyzRYKC9
- +QU8gWuydFwJd34NvWtL5j74Jzj9x+ljZBD1hjOcJyBXLRgJOt8mbMfMyfCUOyKCS70u
- 8B8PG+RrVw8xxz9AYJ028IfE6ZVk0K0DIjTbs=
+ d=linaro.org; s=google; t=1718183338; x=1718788138; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=XI078nOkCuDbWjZgJ67kNrzuEHbAr9c/mYic+hmE7QA=;
+ b=XA6jkEWwDFzs3keG0rXURYV1no06HWA4uGsbn7mdZM9pBp+mHTDVn0i4FD+YS7uN69
+ CW1FGjWhEaqVqRbiFgjjv32duDcIoeYpo0d2RkX0i2MCdAuMAuzfP4bivkApRU4s0nM0
+ zFvBfhm84RzpReqASuTi6tkCoq8ifXLQ7JlvIFHRHdsLjTYBDDfDbRCyxpl5H9N40swJ
+ /Yx7YItQ2oFRJQOlZuM4ewXUTwN6tiDa1BmbaaZgJdPPhCkigySzAmi2G/YivuKHPCpH
+ J6IqjMS1jeYyNRUsJsR0trt01wqhQMgyR5Fc0WHLoWRs3rUKBYt68npjohF5w7s+Yvt1
+ AG9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718182732; x=1718787532;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ud4xmDmRV183zyld9JfrTjCSef6nKd1cubXXIHFriQg=;
- b=nATfZ4S8PrCBUE6fhJa2AvoE8RnQvGbm6ZoeOQQBpiLzoUp5miEXUErh/2uPCDkoS/
- sCWgWhUXttQJyjutFpFM7UOamyuFI9KCZHDsJCkoZ3o5xSmvcpVjY3d4qScBswdqbXs2
- cHy3iJ3rpfR/qVEP2l1hDph6YZMjcOC5E932tkI5eWqw3fL6xEIMrl8WfsCtlZmNPVbw
- qTCQ43OnJVzCBVkWMOcoerVNMrakDI2Ygt43sSRGyx2F3pCm/xnUmg2pzN/aFB2JGwiJ
- Rd7vLePQmjd98x7yAanHPL7NE6RJInWK4d8MOHUpwypFow7Fm5bkEZPIUKBkFGc3eVlb
- PVdw==
-X-Gm-Message-State: AOJu0YwDrOsNGKunpZjnb4aXMmCkVgsKXrCcpAfFnDlL8TnVlv/OifyU
- 6PvZxc5HTjYNYPrCre3Lf7j5e/0zeq/G5CJfV8bEqtPe1jFlxjJ1me3KFoSQSFzxe9mOsi2V2Hn
- I
-X-Google-Smtp-Source: AGHT+IESe7iSv2iXtKFNjsvBjGHCB1B7laaPK1zNVgIlNTvf4a5ijCQSxaJoTker/g2b0roe8eQdXg==
-X-Received: by 2002:a05:600c:358b:b0:422:ce5:2a3f with SMTP id
- 5b1f17b1804b1-422867cdc32mr8541475e9.4.1718182710704; 
- Wed, 12 Jun 2024 01:58:30 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-422871fac87sm17119455e9.48.2024.06.12.01.58.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jun 2024 01:58:30 -0700 (PDT)
-Date: Wed, 12 Jun 2024 10:58:28 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: dri-devel@lists.freedesktop.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Maxime Ripard <mripard@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Yuran Pereira <yuran.pereira@hotmail.com>,
- Chris Morgan <macromorgan@hotmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panel: Avoid warnings w/ panel-simple/panel-edp at
- shutdown
-Message-ID: <ZmljNHteJ9L5EdE9@phenom.ffwll.local>
-Mail-Followup-To: Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Maxime Ripard <mripard@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Yuran Pereira <yuran.pereira@hotmail.com>,
- Chris Morgan <macromorgan@hotmail.com>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
-References: <20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
+ d=1e100.net; s=20230601; t=1718183338; x=1718788138;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XI078nOkCuDbWjZgJ67kNrzuEHbAr9c/mYic+hmE7QA=;
+ b=qS3VDWgpaglxP7Nx808saJkGZtkeTc0agKxcUFTQtcMUG0kOO5V9f2spVBtU50QT33
+ /GIJru0qyHK9TmLiKoswvqg3SNyiH5R8E772R+sOyZWxwUPNC+JGtyBAJ1niBkiVZMG3
+ Mgmafo7oAIs2flO9pGcAriIa33Qcqooplo4Qsqjv+fM1a+dkfW28DS7Ogj932AOxPhAn
+ ROoI7ugk12bdcbz45PwAgysWUUZXgKo3NRuem/PgJUsuT1ENSCuNQl6Q/cGT1G4WlI6w
+ C+mhbSmXEGY6IgyG2wiRWILk9248OY68j2vTFjGooaAkdy0iTNT9YdJ9jV9fGag56n0F
+ dxvA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVzrp17D07N2aK2Sj1v0/nSBEGoRhrs14wBU2YhCiyEoD+GkILueXM6MsS6+aMBOdYh8sfvvYQKBcVy1bHbvhZ0Y6tSk9ISgUZLppANNtYH
+X-Gm-Message-State: AOJu0YyLywQnrX694IV5JiIL04QAnxFKpixw8tICgA1zg5UJB/K2j9GZ
+ dvJ7U/5nKgTZvTAqtuY4HBUz5xh+UxYyzyCi5JWYA3KTEN1yKSlaZyf/IbfdtH65L0Ko9gTVk2N
+ r5UHw05YX0X3vUMCBnchtQW8XnKS0OZwuYcLkxw==
+X-Google-Smtp-Source: AGHT+IGnZ761wTEHFozATVwFW9kyTg+myXMsmp3BrF+/X6OgkKpM6SV4oepQOo6dmgKVE1knPGf506hu7cJByEHDkZM=
+X-Received: by 2002:a05:690c:7247:b0:627:8616:4de with SMTP id
+ 00721157ae682-62fb7f9ab9bmr14005707b3.5.1718183338526; Wed, 12 Jun 2024
+ 02:08:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
-X-Operating-System: Linux phenom 6.8.9-amd64 
+References: <20240314000216.392549-1-dmitry.baryshkov@linaro.org>
+ <20240314000216.392549-11-dmitry.baryshkov@linaro.org>
+ <68dc0d98-9830-d71d-ec65-71890fb2986e@quicinc.com>
+In-Reply-To: <68dc0d98-9830-d71d-ec65-71890fb2986e@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 12 Jun 2024 12:08:47 +0300
+Message-ID: <CAA8EJpop48--yTyyWs+3b=sgHgjV6-7akp7mJX007aMaaKteJA@mail.gmail.com>
+Subject: Re: [PATCH v4 10/13] drm/msm/dpu: allow sharing SSPP between planes
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,364 +83,325 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 11, 2024 at 07:48:51AM -0700, Douglas Anderson wrote:
-> At shutdown if you've got a _properly_ coded DRM modeset driver then
-> you'll get these two warnings at shutdown time:
-> 
->   Skipping disable of already disabled panel
->   Skipping unprepare of already unprepared panel
-> 
-> These warnings are ugly and sound concerning, but they're actually a
-> sign of a properly working system. That's not great.
-> 
-> It's not easy to get rid of these warnings. Until we know that all DRM
-> modeset drivers used with panel-simple and panel-edp are properly
-> calling drm_atomic_helper_shutdown() or drm_helper_force_disable_all()
-> then the panel drivers _need_ to disable/unprepare themselves in order
-> to power off the panel cleanly. However, there are lots of DRM modeset
-> drivers used with panel-edp and panel-simple and it's hard to know
-> when we've got them all. Since the warning happens only on the drivers
-> that _are_ updated there's nothing to encourage broken DRM modeset
-> drivers to get fixed.
-> 
-> In order to flip the warning to the proper place, we need to know
-> which modeset drivers are going to shutdown properly. Though ugly, do
-> this by creating a list of everyone that shuts down properly. This
-> allows us to generate a warning for the correct case and also lets us
-> get rid of the warning for drivers that are shutting down properly.
-> 
-> Maintaining this list is ugly, but the idea is that it's only short
-> term. Once everyone is converted we can delete the list and call it
-> done. The list is ugly enough and adding to it is annoying enough that
-> people should push to make this happen.
-> 
-> Implement this all in a shared "header" file included by the two panel
-> drivers that need it. This avoids us adding an new exports while still
-> allowing the panel drivers to be modules. The code waste should be
-> small and, as per above, the whole solution is temporary.
-> 
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> I came up with this idea to help us move forward since otherwise I
-> couldn't see how we were ever going to fix panel-simple and panel-edp
-> since they're used by so many DRM Modeset drivers. It's a bit ugly but
-> I don't hate it. What do others think?
+On Wed, 12 Jun 2024 at 02:12, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 3/13/2024 5:02 PM, Dmitry Baryshkov wrote:
+> > Since SmartDMA planes provide two rectangles, it is possible to use them
+> > to drive two different DRM planes, first plane getting the rect_0,
+> > another one using rect_1 of the same SSPP. The sharing algorithm is
+> > pretty simple, it requires that each of the planes can be driven by the
+> > single rectangle and only consequetive planes are considered.
+> >
+>
+> consequetive - > consecutive
+>
+> Can you please explain why only consecutive planes are considered for this?
+>
+> So lets say we have 4 virtual planes : 0, 1, 2, 3
+>
+> It will try 0-1, 1-2, 2-3
+>
+> Because all planes are virtual, there are only 3 unique pairs to be
+> considered? Otherwise technically 6 pairs are possible.
 
-I think it's terrible :-)
+An implementation that tries all 6 pairs taking the zpos and the
+overlapping into account is appreciated. I cared for the simplest case
+here. Yes, further optimizations can be implemented.
 
-Why does something like this now work?
+>
+>
+> General request:
+>
+> Patches 1-9 : Add support for using 2 SSPPs in one plane
+> Patches 10-12 : Add support for using two rectangles of the same SSPP as
+> two virtual planes
+> Patch 13 : Can be pushed along with the first set.
+>
+> Can we break up this series in this way to make it easier to test and
+> land the bulk of it in this cycle?
 
-drm_panel_shutdown_fixup(panel)
-{
-	/* if you get warnings here, fix your main drm driver to call
-	 * drm_atomic_helper_shutdown()
-	 */
-	if (WARN_ON(panel->enabled))
-		drm_panel_disable(panel);
+Sure.
 
-	if (WARN_ON(panel->prepared))
-		drm_panel_unprepare(panel);
-}
+>
+> I have some doubts on patches 10-12 and would like to spend more time
+> reviewing and testing this. So I am trying to reduce the debt of patches
+> we have been carrying as this is a tricky feature to simulate and test
+> the cases.
+>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 128 +++++++++++++++++++---
+> >   1 file changed, 112 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > index cde20c1fa90d..2e1c544efc4a 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > @@ -886,10 +886,9 @@ static int dpu_plane_atomic_check_nopipe(struct drm_plane *plane,
+> >       return 0;
+> >   }
+> >
+> > -static int dpu_plane_is_multirect_parallel_capable(struct dpu_sw_pipe *pipe,
+> > -                                                struct dpu_sw_pipe_cfg *pipe_cfg,
+> > -                                                const struct dpu_format *fmt,
+> > -                                                uint32_t max_linewidth)
+> > +static int dpu_plane_is_multirect_capable(struct dpu_sw_pipe *pipe,
+> > +                                       struct dpu_sw_pipe_cfg *pipe_cfg,
+> > +                                       const struct dpu_format *fmt)
+> >   {
+> >       if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
+> >           drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect))
+> > @@ -901,6 +900,13 @@ static int dpu_plane_is_multirect_parallel_capable(struct dpu_sw_pipe *pipe,
+> >       if (DPU_FORMAT_IS_YUV(fmt))
+> >               return false;
+> >
+> > +     return true;
+> > +}
+> > +
+> > +static int dpu_plane_is_parallel_capable(struct dpu_sw_pipe_cfg *pipe_cfg,
+> > +                                      const struct dpu_format *fmt,
+> > +                                      uint32_t max_linewidth)
+> > +{
+> >       if (DPU_FORMAT_IS_UBWC(fmt) &&
+> >           drm_rect_width(&pipe_cfg->src_rect) > max_linewidth / 2)
+> >               return false;
+> > @@ -908,6 +914,82 @@ static int dpu_plane_is_multirect_parallel_capable(struct dpu_sw_pipe *pipe,
+> >       return true;
+> >   }
+> >
+> > +static int dpu_plane_is_multirect_parallel_capable(struct dpu_sw_pipe *pipe,
+> > +                                                struct dpu_sw_pipe_cfg *pipe_cfg,
+> > +                                                const struct dpu_format *fmt,
+> > +                                                uint32_t max_linewidth)
+> > +{
+> > +     return dpu_plane_is_multirect_capable(pipe, pipe_cfg, fmt) &&
+> > +             dpu_plane_is_parallel_capable(pipe_cfg, fmt, max_linewidth);
+> > +}
+> > +
+> > +
+> > +static int dpu_plane_try_multirect(struct dpu_plane_state *pstate,
+> > +                                struct dpu_plane_state *prev_pstate,
+> > +                                const struct dpu_format *fmt,
+> > +                                uint32_t max_linewidth)
+> > +{
+> > +     struct dpu_sw_pipe *pipe = &pstate->pipe;
+> > +     struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
+> > +     struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
+> > +     struct dpu_sw_pipe *prev_pipe = &prev_pstate->pipe;
+> > +     struct dpu_sw_pipe_cfg *prev_pipe_cfg = &prev_pstate->pipe_cfg;
+> > +     const struct dpu_format *prev_fmt =
+> > +             to_dpu_format(msm_framebuffer_format(prev_pstate->base.fb));
+> > +     u16 max_tile_height = 1;
+> > +
+> > +     if (prev_pstate->r_pipe.sspp != NULL ||
+> > +         prev_pipe->multirect_mode != DPU_SSPP_MULTIRECT_NONE)
+> > +             return false;
+> > +
+> > +     if (!dpu_plane_is_multirect_capable(pipe, pipe_cfg, fmt) ||
+> > +         !dpu_plane_is_multirect_capable(prev_pipe, prev_pipe_cfg, prev_fmt) ||
+> > +         !(test_bit(DPU_SSPP_SMART_DMA_V1, &prev_pipe->sspp->cap->features) ||
+> > +           test_bit(DPU_SSPP_SMART_DMA_V2, &prev_pipe->sspp->cap->features)))
+>
+> This test_bit check should be absorbed into
+> dpu_plane_is_multirect_capable()?
 
-And then call that little helper in the relevant panel drivers? Also feel
-free to bikeshed the name and maybe put a more lengthly explainer into the
-kerneldoc for that ...
+Yep.
 
-Or am I completely missing the point here?
--Sima
+>
+> > +             return false;
+> > +
+> > +     if (DPU_FORMAT_IS_UBWC(fmt))
+> > +             max_tile_height = max(max_tile_height, fmt->tile_height);
+> > +
+> > +     if (DPU_FORMAT_IS_UBWC(prev_fmt))
+> > +             max_tile_height = max(max_tile_height, prev_fmt->tile_height);
+> > +
+> > +     r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> > +     r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> > +
+> > +     r_pipe->sspp = NULL;
+> > +
+> > +     if (dpu_plane_is_parallel_capable(pipe_cfg, fmt, max_linewidth) &&
+> > +         dpu_plane_is_parallel_capable(prev_pipe_cfg, prev_fmt, max_linewidth) &&
+> > +         (pipe_cfg->dst_rect.x1 >= prev_pipe_cfg->dst_rect.x2 ||
+> > +          prev_pipe_cfg->dst_rect.x1 >= pipe_cfg->dst_rect.x2)) {
+>
+> Even if y1 > y2 or y2 > y1 but the separation is less than the  2 *
+> max_tile_height, it can qualify for parallel fetch.
+>
+> So parallel fetch is possible not only in x direction but y direction as
+> well as it will be fetched by different SSPPs.
 
-> 
-> This is at the end of the series so even if folks hate it we could
-> still land the rest of the series.
-> This was a "bonus" extra patch I added at the end of v3 of the series
-> ("drm/panel: Remove most store/double-check of prepared/enabled
-> state") [1]. There, I had the note: "I came up with this idea to help
-> us move forward since otherwise I couldn't see how we were ever going
-> to fix panel-simple and panel-edp since they're used by so many DRM
-> Modeset drivers. It's a bit ugly but I don't hate it. What do others
-> think?"
-> 
-> As requested by Neil, now that the rest of the series has landed I'm
-> sending this as a standalone patch so it can get more attention. I'm
-> starting it back at "v1". There is no change between v1 and the one
-> sent previously except for a typo fix in an error message: Can't't =>
-> Can't
-> 
-> [1] https://lore.kernel.org/r/20240605002401.2848541-1-dianders@chromium.org
-> 
->  drivers/gpu/drm/drm_panel.c                   |  12 ++
->  .../gpu/drm/panel/panel-drm-shutdown-check.h  | 151 ++++++++++++++++++
->  drivers/gpu/drm/panel/panel-edp.c             |  19 +--
->  drivers/gpu/drm/panel/panel-simple.c          |  19 +--
->  4 files changed, 169 insertions(+), 32 deletions(-)
->  create mode 100644 drivers/gpu/drm/panel/panel-drm-shutdown-check.h
-> 
-> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> index cfbe020de54e..df3f15f4625e 100644
-> --- a/drivers/gpu/drm/drm_panel.c
-> +++ b/drivers/gpu/drm/drm_panel.c
-> @@ -161,6 +161,12 @@ int drm_panel_unprepare(struct drm_panel *panel)
->  	if (!panel)
->  		return -EINVAL;
->  
-> +	/*
-> +	 * If you're seeing this warning, you either need to add your driver
-> +	 * to "drm_drivers_that_shutdown" (if you're seeing it with panel-edp
-> +	 * or panel-simple) or you need to remove the manual call to
-> +	 * drm_panel_unprepare() in your panel driver.
-> +	 */
->  	if (!panel->prepared) {
->  		dev_warn(panel->dev, "Skipping unprepare of already unprepared panel\n");
->  		return 0;
-> @@ -245,6 +251,12 @@ int drm_panel_disable(struct drm_panel *panel)
->  	if (!panel)
->  		return -EINVAL;
->  
-> +	/*
-> +	 * If you're seeing this warning, you either need to add your driver
-> +	 * to "drm_drivers_that_shutdown" (if you're seeing it with panel-edp
-> +	 * or panel-simple) or you need to remove the manual call to
-> +	 * drm_panel_disable() in your panel driver.
-> +	 */
->  	if (!panel->enabled) {
->  		dev_warn(panel->dev, "Skipping disable of already disabled panel\n");
->  		return 0;
-> diff --git a/drivers/gpu/drm/panel/panel-drm-shutdown-check.h b/drivers/gpu/drm/panel/panel-drm-shutdown-check.h
-> new file mode 100644
-> index 000000000000..dfa8197e09fb
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panel/panel-drm-shutdown-check.h
-> @@ -0,0 +1,151 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright 2024 Google Inc.
-> + *
-> + * This header is a temporary solution and is intended to be included
-> + * directly by panel-edp.c and panel-simple.c.
-> + *
-> + * This header is needed because panel-edp and panel-simple are used by a
-> + * wide variety of DRM drivers and it's hard to know for sure if all of the
-> + * DRM drivers used by those panel drivers are properly calling
-> + * drm_atomic_helper_shutdown() or drm_helper_force_disable_all() at
-> + * shutdown/remove time.
-> + *
-> + * The plan for this header file:
-> + * - Land it and hope that the warning print will encourage DRM drivers to
-> + *   get fixed.
-> + * - Eventually move to a WARN() splat for extra encouragement.
-> + * - Assume that everyone has been fixed and remove this header file.
-> + */
-> +
-> +#ifndef __PANEL_DRM_SHUTDOWN_CHECK_H__
-> +#define __PANEL_DRM_SHUTDOWN_CHECK_H__
-> +
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_drv.h>
-> +
-> +/*
-> + * This is a list of all DRM drivers that appear to properly call
-> + * drm_atomic_helper_shutdown() or drm_helper_force_disable_all() at
-> + * shutdown and remove time.
-> + *
-> + * We can't detect this dynamically and are stuck with a list because the panel
-> + * driver's shutdown() call might be called _before_ the DRM driver's
-> + * shutdown() call.
-> + *
-> + * NOTE: no verification has been done to confirm that the below drivers
-> + * are actually _used_ with panel-simple or panel-edp, only that these drivers
-> + * appear to be shutting down properly. It doesn't hurt to have extra drivers
-> + * listed here as long as the list doesn't contain any drivers that are
-> + * missing the shutdown calls.
-> + */
-> +static const char * const drm_drivers_that_shutdown[] = {
-> +	"armada-drm",
-> +	"aspeed-gfx-drm",
-> +	"ast",
-> +	"atmel-hlcdc",
-> +	"bochs-drm",
-> +	"cirrus",
-> +	"exynos",
-> +	"fsl-dcu-drm",
-> +	"gm12u320",
-> +	"gud",
-> +	"hdlcd",
-> +	"hibmc",
-> +	"hx8357d",
-> +	"hyperv_drm",
-> +	"ili9163",
-> +	"ili9225",
-> +	"ili9341",
-> +	"ili9486",
-> +	"imx-dcss",
-> +	"imx-drm",
-> +	"imx-lcdc",
-> +	"imx-lcdif",
-> +	"ingenic-drm",
-> +	"kirin",
-> +	"komeda",
-> +	"logicvc-drm",
-> +	"loongson",
-> +	"mali-dp",
-> +	"mcde",
-> +	"meson",
-> +	"mgag200",
-> +	"mi0283qt",
-> +	"msm",
-> +	"mxsfb-drm",
-> +	"omapdrm",
-> +	"panel-mipi-dbi",
-> +	"pl111",
-> +	"qxl",
-> +	"rcar-du",
-> +	"repaper",
-> +	"rockchip",
-> +	"rzg2l-du",
-> +	"ssd130x",
-> +	"st7586",
-> +	"st7735r",
-> +	"sti",
-> +	"stm",
-> +	"sun4i-drm",
-> +	"tidss",
-> +	"tilcdc",
-> +	"tve200",
-> +	"vboxvideo",
-> +	"zynqmp-dpsub",
-> +	""
-> +};
-> +
-> +static void panel_shutdown_if_drm_driver_needs_fixing(struct drm_panel *panel)
-> +{
-> +	struct drm_bridge *bridge;
-> +	const struct drm_driver *driver;
-> +	const char * const *driver_name;
-> +
-> +	/*
-> +	 * Look for a bridge that shares the DT node of this panel. That only
-> +	 * works if we've been linked up with a panel_bridge.
-> +	 */
-> +	bridge = of_drm_find_bridge(panel->dev->of_node);
-> +	if (bridge && bridge->dev && bridge->dev->driver) {
-> +		/*
-> +		 * If the DRM driver for the bridge is known to be fine then
-> +		 * we're done.
-> +		 */
-> +		driver = bridge->dev->driver;
-> +		for (driver_name = drm_drivers_that_shutdown; *driver_name; driver_name++) {
-> +			if (strcmp(*driver_name, driver->name) == 0)
-> +				return;
-> +		}
-> +
-> +		/*
-> +		 * If you see the message below then:
-> +		 * 1. Make sure your DRM driver is properly calling
-> +		 *    drm_atomic_helper_shutdown() or drm_helper_force_disable_all()
-> +		 *    at shutdown time.
-> +		 * 2. Add your driver to the list.
-> +		 */
-> +		dev_warn(panel->dev,
-> +			 "DRM driver appears buggy; manually disable/unprepare\n");
-> +	} else {
-> +		/*
-> +		 * If you see the message below then your setup needs to
-> +		 * be moved to using a panel_bridge. This often happens
-> +		 * by calling devm_drm_of_get_bridge(). Having a panel without
-> +		 * an associated panel_bridge is deprecated.
-> +		 */
-> +		dev_warn(panel->dev,
-> +			 "Can't find DRM driver; manually disable/unprepare\n");
-> +	}
-> +
-> +	/*
-> +	 * If we don't know if a DRM driver is properly shutting things down
-> +	 * then we'll manually call the disable/unprepare. This is always a
-> +	 * safe thing to do (in that it won't cause you to crash), but it
-> +	 * does generate a warning.
-> +	 */
-> +	drm_panel_disable(panel);
-> +	drm_panel_unprepare(panel);
-> +}
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-> index 67ab6915d6e4..26f89858df9d 100644
-> --- a/drivers/gpu/drm/panel/panel-edp.c
-> +++ b/drivers/gpu/drm/panel/panel-edp.c
-> @@ -42,6 +42,8 @@
->  #include <drm/drm_edid.h>
->  #include <drm/drm_panel.h>
->  
-> +#include "panel-drm-shutdown-check.h"
-> +
->  /**
->   * struct panel_delay - Describes delays for a simple panel.
->   */
-> @@ -948,22 +950,7 @@ static void panel_edp_shutdown(struct device *dev)
->  {
->  	struct panel_edp *panel = dev_get_drvdata(dev);
->  
-> -	/*
-> -	 * NOTE: the following two calls don't really belong here. It is the
-> -	 * responsibility of a correctly written DRM modeset driver to call
-> -	 * drm_atomic_helper_shutdown() at shutdown time and that should
-> -	 * cause the panel to be disabled / unprepared if needed. For now,
-> -	 * however, we'll keep these calls due to the sheer number of
-> -	 * different DRM modeset drivers used with panel-edp. The fact that
-> -	 * we're calling these and _also_ the drm_atomic_helper_shutdown()
-> -	 * will try to disable/unprepare means that we can get a warning about
-> -	 * trying to disable/unprepare an already disabled/unprepared panel,
-> -	 * but that's something we'll have to live with until we've confirmed
-> -	 * that all DRM modeset drivers are properly calling
-> -	 * drm_atomic_helper_shutdown().
-> -	 */
-> -	drm_panel_disable(&panel->base);
-> -	drm_panel_unprepare(&panel->base);
-> +	panel_shutdown_if_drm_driver_needs_fixing(&panel->base);
->  }
->  
->  static void panel_edp_remove(struct device *dev)
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 8345ed891f5a..f505bc27e5ae 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -42,6 +42,8 @@
->  #include <drm/drm_panel.h>
->  #include <drm/drm_of.h>
->  
-> +#include "panel-drm-shutdown-check.h"
-> +
->  /**
->   * struct panel_desc - Describes a simple panel.
->   */
-> @@ -720,22 +722,7 @@ static void panel_simple_shutdown(struct device *dev)
->  {
->  	struct panel_simple *panel = dev_get_drvdata(dev);
->  
-> -	/*
-> -	 * NOTE: the following two calls don't really belong here. It is the
-> -	 * responsibility of a correctly written DRM modeset driver to call
-> -	 * drm_atomic_helper_shutdown() at shutdown time and that should
-> -	 * cause the panel to be disabled / unprepared if needed. For now,
-> -	 * however, we'll keep these calls due to the sheer number of
-> -	 * different DRM modeset drivers used with panel-simple. The fact that
-> -	 * we're calling these and _also_ the drm_atomic_helper_shutdown()
-> -	 * will try to disable/unprepare means that we can get a warning about
-> -	 * trying to disable/unprepare an already disabled/unprepared panel,
-> -	 * but that's something we'll have to live with until we've confirmed
-> -	 * that all DRM modeset drivers are properly calling
-> -	 * drm_atomic_helper_shutdown().
-> -	 */
-> -	drm_panel_disable(&panel->base);
-> -	drm_panel_unprepare(&panel->base);
-> +	panel_shutdown_if_drm_driver_needs_fixing(&panel->base);
->  }
->  
->  static void panel_simple_remove(struct device *dev)
-> -- 
-> 2.45.2.505.gda0bf45e8d-goog
-> 
+I think that's now what I see in the SDE driver.
+
+>
+> > +             pipe->sspp = prev_pipe->sspp;
+> > +
+> > +             pipe->multirect_index = DPU_SSPP_RECT_1;
+> > +             pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
+> > +
+> > +             prev_pipe->multirect_index = DPU_SSPP_RECT_0;
+> > +             prev_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
+> > +
+> > +             return true;
+> > +     }
+> > +
+> > +     if (pipe_cfg->dst_rect.y1 >= prev_pipe_cfg->dst_rect.y2 + 2 * max_tile_height ||
+> > +         prev_pipe_cfg->dst_rect.y1 >= pipe_cfg->dst_rect.y2 + 2 * max_tile_height) {
+> > +             pipe->sspp = prev_pipe->sspp;
+> > +
+> > +             pipe->multirect_index = DPU_SSPP_RECT_1;
+> > +             pipe->multirect_mode = DPU_SSPP_MULTIRECT_TIME_MX;
+> > +
+> > +             prev_pipe->multirect_index = DPU_SSPP_RECT_0;
+> > +             prev_pipe->multirect_mode = DPU_SSPP_MULTIRECT_TIME_MX;
+> > +
+> > +             return true;
+> > +     }
+> > +
+> > +     return false;
+> > +}
+> > +
+> >   static int dpu_plane_atomic_check_pipes(struct drm_plane *plane,
+> >                                       struct drm_atomic_state *state,
+> >                                       const struct drm_crtc_state *crtc_state)
+> > @@ -1098,13 +1180,14 @@ static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
+> >   static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+> >                                             struct dpu_global_state *global_state,
+> >                                             struct drm_atomic_state *state,
+> > -                                           struct drm_plane_state *plane_state)
+> > +                                           struct drm_plane_state *plane_state,
+> > +                                           struct drm_plane_state *prev_plane_state)
+> >   {
+> >       const struct drm_crtc_state *crtc_state = NULL;
+> >       struct drm_plane *plane = plane_state->plane;
+> >       struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
+> >       struct dpu_rm_sspp_requirements reqs;
+> > -     struct dpu_plane_state *pstate;
+> > +     struct dpu_plane_state *pstate, *prev_pstate;
+> >       struct dpu_sw_pipe *pipe;
+> >       struct dpu_sw_pipe *r_pipe;
+> >       struct dpu_sw_pipe_cfg *pipe_cfg;
+> > @@ -1117,6 +1200,7 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+> >                                                          plane_state->crtc);
+> >
+> >       pstate = to_dpu_plane_state(plane_state);
+> > +     prev_pstate = prev_plane_state ? to_dpu_plane_state(prev_plane_state) : NULL;
+> >       pipe = &pstate->pipe;
+> >       r_pipe = &pstate->r_pipe;
+> >       pipe_cfg = &pstate->pipe_cfg;
+> > @@ -1137,19 +1221,27 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+> >
+> >       max_linewidth = dpu_kms->catalog->caps->max_linewidth;
+> >
+> > -     pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
+> > -     if (!pipe->sspp)
+> > -             return -ENODEV;
+> > -
+> >       if (drm_rect_width(&r_pipe_cfg->src_rect) == 0) {
+> > -             pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> > -             pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> > +             if (!prev_pstate ||
+> > +                 !dpu_plane_try_multirect(pstate, prev_pstate, fmt, max_linewidth)) {
+>
+> This is a bit confusing to check esp since i am unable to apply this
+> patch and check .... but...
+
+It was posted several months ago. No surprise that the source code has
+evolved. Getting the patches reviewed in time would have helped them
+to be applicable.
+
+> dpu_plane_atomic_check_nopipe() will set r_pipe_cfg if we are going to
+> do multirect with two rectangles of the same sspp. Right?
+
+No. It sets r_pipe_cfg in all the cases.
+
+> Which means r_pipe_cfg will be 0 if multirect is not possible with same
+> SSPP. Thats why the else case of this either uses two SSPPs.
+
+No. It means that the plane can use a single rectangle of the SSPP.
+
+>
+> So why are we trying multirect with again with the two rectangles of the
+> same SSPP as different planes? The result will be same right?
+
+No, if the width of r_pipe_cfg is 0, it means that this plane doesn't
+need a second rectangle to be displayed. So we can try reusing the
+SSPP from the previous plane.
+
+>
+>
+> > +                     pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
+> > +                     if (!pipe->sspp)
+> > +                             return -ENODEV;
+> >
+> > -             r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> > -             r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> > +                     r_pipe->sspp = NULL;
+> > +
+> > +                     pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> > +                     pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> > +
+> > +                     r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> > +                     r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> > +             }
+> >
+> > -             r_pipe->sspp = NULL;
+> >       } else {
+> > +             pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
+> > +             if (!pipe->sspp)
+> > +                     return -ENODEV;
+> > +
+>
+> Unless I am missing something, you are assigning pipe->sspp in both if
+> and else cases, so why dont you keep the allocation if pipe->sspp
+> outside the conditionals.
+
+You missed the conditional in the previous chunk. We need to reserve
+SSPP if the plane uses two rectangles. We don't need to reserve an
+SSPP if the old SSPP is going to be used.
+
+>
+> >               if (dpu_plane_is_multirect_parallel_capable(pipe, pipe_cfg, fmt, max_linewidth) &&
+> >                   dpu_plane_is_multirect_parallel_capable(r_pipe, r_pipe_cfg, fmt, max_linewidth) &&
+> >                   (test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) ||
+> > @@ -1186,6 +1278,7 @@ int dpu_assign_plane_resources(struct dpu_global_state *global_state,
+> >   {
+> >       unsigned int i;
+> >       int ret;
+> > +     struct drm_plane_state *prev_plane_state = NULL;
+> >
+>
+> This naming is a bit confusing. prev_plane_state could mean the plane's
+> previous state but here you are implying the state of the previous plane
+> in the list of planes.
+>
+> Maybe prev_adjacent_plane_state?
+
+Ack.
+
+>
+> >       for (i = 0; i < num_planes; i++) {
+> >               struct drm_plane_state *plane_state = states[i];
+> > @@ -1195,9 +1288,12 @@ int dpu_assign_plane_resources(struct dpu_global_state *global_state,
+> >                       continue;
+> >
+> >               ret = dpu_plane_virtual_assign_resources(crtc, global_state,
+> > -                                                      state, plane_state);
+> > +                                                      state, plane_state,
+> > +                                                      prev_plane_state);
+> >               if (ret)
+> >                       break;
+> > +
+> > +             prev_plane_state = plane_state;
+> >       }
+> >
+> >       return ret;
+
+
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+With best wishes
+Dmitry
