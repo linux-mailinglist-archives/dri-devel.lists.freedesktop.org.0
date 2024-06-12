@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC449051F7
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 14:03:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 372079051F9
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 14:04:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E74310E066;
-	Wed, 12 Jun 2024 12:03:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6F4A10E82E;
+	Wed, 12 Jun 2024 12:03:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mxmfKBLz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ENQQLC8j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0A4810E82C
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 12:03:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B91510E82C
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 12:03:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718193826; x=1749729826;
+ t=1718193829; x=1749729829;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uYDYXmxbNOyCF+DxYnoSfQ8WR7N6xJ8bwgcuzntyUQg=;
- b=mxmfKBLzm9q6RE8IrCfW1lnhMZA6nU7QhgwXY4tGJpVev8HrzaH7aWBC
- U90ZV3NhMfoMw8otJeVZe2MDCsJQnO1HxhiyBjGU037OMoYJZ4VXhXayb
- TFlM9P5HWI8G2/4VjFYrGTvlBI7KpwZRs3WFIT23vYXTT2pG0WDQTjzBE
- /FhBgnZKFmExX/1u1m3gUlhWk2ZHlX7y/r1vUbG11k18xAKNb1O1Br+C/
- rHaEvArhJGsXu9WWECWdppxE2HRPIpQyxzz6C0hAPk0o+pCO1H3EpakJZ
- 2RPpQ6dQtGV6kVcsPPuEX/0BTeCWl3J22x72v1L8cXPV0WZLeTuSXjuvO Q==;
-X-CSE-ConnectionGUID: N5AYixwJQze1DY1eImi7ag==
-X-CSE-MsgGUID: CYkT6FrsQkCVlAOogTRYIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11100"; a="15077621"
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; d="scan'208";a="15077621"
+ bh=kTONkUXLzLYaNHg9XVSu5FCoSgKEyasJudSTrTZAMXg=;
+ b=ENQQLC8jAYL3sOL/GTOS/EXrOUa6fE6g/si78pq12XvPBYPB08mRdMNy
+ FVsP8LK/7uUzB8dH6Xpz791RMyOroq15wRFKt93KegizJJPTmvvYtB/Zi
+ yupsfxRBVkt0COF7EH5I0U3RXwwJPwLfd8KjhqzfINeElhNVH6+FJGpWO
+ EJFvNOc4yW/26jLMwwWUytauW0UwMkbehiouQ0o9Mx8B6hRAmUIHZNbN5
+ 430oZowp0U+N3OcifSwo49bVyzajNFKiSGa04AU2kyjIFgAmr/+hXp0tr
+ RnyN1kjdoSN9EQutNqE/ETGxGkVJrHVFpVS2LeRWANw/TQUCW8w4jIUXa g==;
+X-CSE-ConnectionGUID: nE4F5QJgTVmjyYC521E8Gw==
+X-CSE-MsgGUID: uutePt3LTSOBGLgUc+5Huw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11100"; a="15077623"
+X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; d="scan'208";a="15077623"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2024 05:03:46 -0700
-X-CSE-ConnectionGUID: cJJfkKGST9KWUP4MkLs9xA==
-X-CSE-MsgGUID: 6CMWTprBTzSCbYOE5mzB7w==
+ 12 Jun 2024 05:03:49 -0700
+X-CSE-ConnectionGUID: Kvq5TbMhTguK4ddJKqnnYQ==
+X-CSE-MsgGUID: 9gooiqt/SAiVp7mLNT9jCg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; d="scan'208";a="70574110"
+X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; d="scan'208";a="70574115"
 Received: from fpallare-mobl3.ger.corp.intel.com (HELO
  kdrobnik-desk.toya.net.pl) ([10.245.245.214])
  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2024 05:03:44 -0700
+ 12 Jun 2024 05:03:46 -0700
 From: Karolina Stolarek <karolina.stolarek@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -49,9 +49,9 @@ Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Amaranath Somalapuram <asomalap@amd.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Karolina Stolarek <karolina.stolarek@intel.com>
-Subject: [PATCH v14 08/12] drm/ttm/tests: Add eviction testing
-Date: Wed, 12 Jun 2024 14:03:02 +0200
-Message-Id: <ae8e284d6c7e6bd0be259052bd4f42e07ce24641.1718192625.git.karolina.stolarek@intel.com>
+Subject: [PATCH v14 09/12] drm/ttm/tests: Add tests for ttm_tt_populate
+Date: Wed, 12 Jun 2024 14:03:03 +0200
+Message-Id: <ee42d83a472ba6bca22b4bce58f332f800891186.1718192625.git.karolina.stolarek@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1718192625.git.karolina.stolarek@intel.com>
 References: <cover.1718192625.git.karolina.stolarek@intel.com>
@@ -72,704 +72,182 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add tests for ttm_bo_validate that focus on BO eviction and swapout.
-Update device funcs definition with eviction-related callbacks. Add
-alternative funcs where evict_flags() routes eviction to a domain
-that can't allocate resources (dubbed "busy manager" in the tests).
-Extract the common path of ttm_device init into a function.
+Add tests for functions that add and release pages to TTs. Test the
+swapin operation. Export ttm_tt_unpopulate, ttm_tt_swapin and
+ttm_tt_swapout symbols for testing purposes.
 
 Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
 Reviewed-by: Somalapuram, Amaranath <asomalap@amd.com>
 Tested-by: Somalapuram, Amaranath <asomalap@amd.com>
 ---
- .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  | 433 ++++++++++++++++++
- drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c | 106 ++++-
- drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |   8 +
- drivers/gpu/drm/ttm/tests/ttm_mock_manager.c  |  29 +-
- drivers/gpu/drm/ttm/tests/ttm_mock_manager.h  |   1 +
- 5 files changed, 568 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/ttm/tests/ttm_tt_test.c | 119 ++++++++++++++++++++++++
+ drivers/gpu/drm/ttm/ttm_tt.c            |   3 +
+ 2 files changed, 122 insertions(+)
 
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-index 48af6fb8f57e..bc8281c03420 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-@@ -757,6 +757,431 @@ static void ttm_bo_validate_move_fence_not_signaled(struct kunit *test)
- 	ttm_mock_manager_fini(priv->ttm_dev, snd_mem);
+diff --git a/drivers/gpu/drm/ttm/tests/ttm_tt_test.c b/drivers/gpu/drm/ttm/tests/ttm_tt_test.c
+index 17988fa99fa6..a9d75a33acaf 100644
+--- a/drivers/gpu/drm/ttm/tests/ttm_tt_test.c
++++ b/drivers/gpu/drm/ttm/tests/ttm_tt_test.c
+@@ -256,6 +256,120 @@ static void ttm_tt_destroy_basic(struct kunit *test)
+ 	ttm_tt_destroy(devs->ttm_dev, bo->ttm);
  }
  
-+static void ttm_bo_validate_swapout(struct kunit *test)
++static void ttm_tt_populate_null_ttm(struct kunit *test)
 +{
-+	unsigned long size_big, size = ALIGN(BO_SIZE, PAGE_SIZE);
-+	enum ttm_bo_type bo_type = ttm_bo_type_device;
-+	struct ttm_buffer_object *bo_small, *bo_big;
-+	struct ttm_test_devices *priv = test->priv;
++	const struct ttm_test_devices *devs = test->priv;
 +	struct ttm_operation_ctx ctx = { };
-+	struct ttm_placement *placement;
-+	u32 mem_type = TTM_PL_TT;
-+	struct ttm_place *place;
-+	struct sysinfo si;
 +	int err;
 +
-+	si_meminfo(&si);
-+	size_big = ALIGN(((u64)si.totalram * si.mem_unit / 2), PAGE_SIZE);
-+
-+	ttm_mock_manager_init(priv->ttm_dev, mem_type, size_big + size);
-+
-+	place = ttm_place_kunit_init(test, mem_type, 0);
-+	placement = ttm_placement_kunit_init(test, place, 1);
-+
-+	bo_small = kunit_kzalloc(test, sizeof(*bo_small), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, bo_small);
-+
-+	drm_gem_private_object_init(priv->drm, &bo_small->base, size);
-+
-+	err = ttm_bo_init_reserved(priv->ttm_dev, bo_small, bo_type, placement,
-+				   PAGE_SIZE, &ctx, NULL, NULL,
-+				   &dummy_ttm_bo_destroy);
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	dma_resv_unlock(bo_small->base.resv);
-+
-+	bo_big = ttm_bo_kunit_init(test, priv, size_big, NULL);
-+
-+	dma_resv_lock(bo_big->base.resv, NULL);
-+	err = ttm_bo_validate(bo_big, placement, &ctx);
-+	dma_resv_unlock(bo_big->base.resv);
-+
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	KUNIT_EXPECT_NOT_NULL(test, bo_big->resource);
-+	KUNIT_EXPECT_EQ(test, bo_big->resource->mem_type, mem_type);
-+	KUNIT_EXPECT_EQ(test, bo_small->resource->mem_type, TTM_PL_SYSTEM);
-+	KUNIT_EXPECT_TRUE(test, bo_small->ttm->page_flags & TTM_TT_FLAG_SWAPPED);
-+
-+	ttm_bo_put(bo_big);
-+	ttm_bo_put(bo_small);
-+
-+	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
++	err = ttm_tt_populate(devs->ttm_dev, NULL, &ctx);
++	KUNIT_ASSERT_EQ(test, err, -EINVAL);
 +}
 +
-+static void ttm_bo_validate_happy_evict(struct kunit *test)
++static void ttm_tt_populate_populated_ttm(struct kunit *test)
 +{
-+	u32 mem_type = TTM_PL_VRAM, mem_multihop = TTM_PL_TT,
-+	    mem_type_evict = TTM_PL_SYSTEM;
-+	struct ttm_operation_ctx ctx_init = { }, ctx_val  = { };
-+	enum ttm_bo_type bo_type = ttm_bo_type_device;
-+	u32 small = SZ_8K, medium = SZ_512K,
-+	    big = MANAGER_SIZE - (small + medium);
-+	u32 bo_sizes[] = { small, medium, big };
-+	struct ttm_test_devices *priv = test->priv;
-+	struct ttm_buffer_object *bos, *bo_val;
-+	struct ttm_placement *placement;
-+	struct ttm_place *place;
-+	u32 bo_no = 3;
-+	int i, err;
-+
-+	ttm_mock_manager_init(priv->ttm_dev, mem_type, MANAGER_SIZE);
-+	ttm_mock_manager_init(priv->ttm_dev, mem_multihop, MANAGER_SIZE);
-+
-+	place = ttm_place_kunit_init(test, mem_type, 0);
-+	placement = ttm_placement_kunit_init(test, place, 1);
-+
-+	bos = kunit_kmalloc_array(test, bo_no, sizeof(*bos), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, bos);
-+
-+	memset(bos, 0, sizeof(*bos) * bo_no);
-+	for (i = 0; i < bo_no; i++) {
-+		drm_gem_private_object_init(priv->drm, &bos[i].base, bo_sizes[i]);
-+		err = ttm_bo_init_reserved(priv->ttm_dev, &bos[i], bo_type, placement,
-+					   PAGE_SIZE, &ctx_init, NULL, NULL,
-+					   &dummy_ttm_bo_destroy);
-+		dma_resv_unlock(bos[i].base.resv);
-+	}
-+
-+	bo_val = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
-+	bo_val->type = bo_type;
-+
-+	ttm_bo_reserve(bo_val, false, false, NULL);
-+	err = ttm_bo_validate(bo_val, placement, &ctx_val);
-+	ttm_bo_unreserve(bo_val);
-+
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, bos[0].resource->mem_type, mem_type_evict);
-+	KUNIT_EXPECT_TRUE(test, bos[0].ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC);
-+	KUNIT_EXPECT_TRUE(test, bos[0].ttm->page_flags & TTM_TT_FLAG_PRIV_POPULATED);
-+	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, small * 2 + BO_SIZE);
-+	KUNIT_EXPECT_EQ(test, bos[1].resource->mem_type, mem_type);
-+
-+	for (i = 0; i < bo_no; i++)
-+		ttm_bo_put(&bos[i]);
-+	ttm_bo_put(bo_val);
-+
-+	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
-+	ttm_mock_manager_fini(priv->ttm_dev, mem_multihop);
-+}
-+
-+static void ttm_bo_validate_all_pinned_evict(struct kunit *test)
-+{
-+	struct ttm_operation_ctx ctx_init = { }, ctx_val  = { };
-+	enum ttm_bo_type bo_type = ttm_bo_type_device;
-+	struct ttm_buffer_object *bo_big, *bo_small;
-+	struct ttm_test_devices *priv = test->priv;
-+	struct ttm_placement *placement;
-+	u32 mem_type = TTM_PL_VRAM, mem_multihop = TTM_PL_TT;
-+	struct ttm_place *place;
++	const struct ttm_test_devices *devs = test->priv;
++	struct ttm_operation_ctx ctx = { };
++	struct ttm_buffer_object *bo;
++	struct ttm_tt *tt;
++	struct page *populated_page;
 +	int err;
-+
-+	ttm_mock_manager_init(priv->ttm_dev, mem_type, MANAGER_SIZE);
-+	ttm_mock_manager_init(priv->ttm_dev, mem_multihop, MANAGER_SIZE);
-+
-+	place = ttm_place_kunit_init(test, mem_type, 0);
-+	placement = ttm_placement_kunit_init(test, place, 1);
-+
-+	bo_big = kunit_kzalloc(test, sizeof(*bo_big), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, bo_big);
-+
-+	drm_gem_private_object_init(priv->drm, &bo_big->base, MANAGER_SIZE);
-+	err = ttm_bo_init_reserved(priv->ttm_dev, bo_big, bo_type, placement,
-+				   PAGE_SIZE, &ctx_init, NULL, NULL,
-+				   &dummy_ttm_bo_destroy);
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+
-+	ttm_bo_pin(bo_big);
-+	dma_resv_unlock(bo_big->base.resv);
-+
-+	bo_small = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
-+	bo_small->type = bo_type;
-+
-+	ttm_bo_reserve(bo_small, false, false, NULL);
-+	err = ttm_bo_validate(bo_small, placement, &ctx_val);
-+	ttm_bo_unreserve(bo_small);
-+
-+	KUNIT_EXPECT_EQ(test, err, -ENOMEM);
-+
-+	ttm_bo_put(bo_small);
-+
-+	ttm_bo_reserve(bo_big, false, false, NULL);
-+	ttm_bo_unpin(bo_big);
-+	dma_resv_unlock(bo_big->base.resv);
-+	ttm_bo_put(bo_big);
-+
-+	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
-+	ttm_mock_manager_fini(priv->ttm_dev, mem_multihop);
-+}
-+
-+static void ttm_bo_validate_allowed_only_evict(struct kunit *test)
-+{
-+	u32 mem_type = TTM_PL_VRAM, mem_multihop = TTM_PL_TT,
-+	    mem_type_evict = TTM_PL_SYSTEM;
-+	struct ttm_buffer_object *bo, *bo_evictable, *bo_pinned;
-+	struct ttm_operation_ctx ctx_init = { }, ctx_val  = { };
-+	enum ttm_bo_type bo_type = ttm_bo_type_device;
-+	struct ttm_test_devices *priv = test->priv;
-+	struct ttm_placement *placement;
-+	struct ttm_place *place;
-+	u32 size = SZ_512K;
-+	int err;
-+
-+	ttm_mock_manager_init(priv->ttm_dev, mem_type, MANAGER_SIZE);
-+	ttm_mock_manager_init(priv->ttm_dev, mem_multihop, MANAGER_SIZE);
-+
-+	place = ttm_place_kunit_init(test, mem_type, 0);
-+	placement = ttm_placement_kunit_init(test, place, 1);
-+
-+	bo_pinned = kunit_kzalloc(test, sizeof(*bo_pinned), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, bo_pinned);
-+
-+	drm_gem_private_object_init(priv->drm, &bo_pinned->base, size);
-+	err = ttm_bo_init_reserved(priv->ttm_dev, bo_pinned, bo_type, placement,
-+				   PAGE_SIZE, &ctx_init, NULL, NULL,
-+				   &dummy_ttm_bo_destroy);
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	ttm_bo_pin(bo_pinned);
-+	dma_resv_unlock(bo_pinned->base.resv);
-+
-+	bo_evictable = kunit_kzalloc(test, sizeof(*bo_evictable), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, bo_evictable);
-+
-+	drm_gem_private_object_init(priv->drm, &bo_evictable->base, size);
-+	err = ttm_bo_init_reserved(priv->ttm_dev, bo_evictable, bo_type, placement,
-+				   PAGE_SIZE, &ctx_init, NULL, NULL,
-+				   &dummy_ttm_bo_destroy);
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	dma_resv_unlock(bo_evictable->base.resv);
 +
 +	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
-+	bo->type = bo_type;
 +
-+	ttm_bo_reserve(bo, false, false, NULL);
-+	err = ttm_bo_validate(bo, placement, &ctx_val);
-+	ttm_bo_unreserve(bo);
++	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, tt);
 +
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, mem_type);
-+	KUNIT_EXPECT_EQ(test, bo_pinned->resource->mem_type, mem_type);
-+	KUNIT_EXPECT_EQ(test, bo_evictable->resource->mem_type, mem_type_evict);
-+	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, size * 2 + BO_SIZE);
-+
-+	ttm_bo_put(bo);
-+	ttm_bo_put(bo_evictable);
-+
-+	ttm_bo_reserve(bo_pinned, false, false, NULL);
-+	ttm_bo_unpin(bo_pinned);
-+	dma_resv_unlock(bo_pinned->base.resv);
-+	ttm_bo_put(bo_pinned);
-+
-+	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
-+	ttm_mock_manager_fini(priv->ttm_dev, mem_multihop);
-+}
-+
-+static void ttm_bo_validate_deleted_evict(struct kunit *test)
-+{
-+	struct ttm_operation_ctx ctx_init = { }, ctx_val  = { };
-+	u32 small = SZ_8K, big = MANAGER_SIZE - BO_SIZE;
-+	enum ttm_bo_type bo_type = ttm_bo_type_device;
-+	struct ttm_buffer_object *bo_big, *bo_small;
-+	struct ttm_test_devices *priv = test->priv;
-+	struct ttm_resource_manager *man;
-+	u32 mem_type = TTM_PL_VRAM;
-+	struct ttm_placement *placement;
-+	struct ttm_place *place;
-+	int err;
-+
-+	ttm_mock_manager_init(priv->ttm_dev, mem_type, MANAGER_SIZE);
-+	man = ttm_manager_type(priv->ttm_dev, mem_type);
-+
-+	place = ttm_place_kunit_init(test, mem_type, 0);
-+	placement = ttm_placement_kunit_init(test, place, 1);
-+
-+	bo_big = kunit_kzalloc(test, sizeof(*bo_big), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, bo_big);
-+
-+	drm_gem_private_object_init(priv->drm, &bo_big->base, big);
-+	err = ttm_bo_init_reserved(priv->ttm_dev, bo_big, bo_type, placement,
-+				   PAGE_SIZE, &ctx_init, NULL, NULL,
-+				   &dummy_ttm_bo_destroy);
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, ttm_resource_manager_usage(man), big);
-+
-+	dma_resv_unlock(bo_big->base.resv);
-+	bo_big->deleted = true;
-+
-+	bo_small = ttm_bo_kunit_init(test, test->priv, small, NULL);
-+	bo_small->type = bo_type;
-+
-+	ttm_bo_reserve(bo_small, false, false, NULL);
-+	err = ttm_bo_validate(bo_small, placement, &ctx_val);
-+	ttm_bo_unreserve(bo_small);
-+
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, bo_small->resource->mem_type, mem_type);
-+	KUNIT_EXPECT_EQ(test, ttm_resource_manager_usage(man), small);
-+	KUNIT_EXPECT_NULL(test, bo_big->ttm);
-+	KUNIT_EXPECT_NULL(test, bo_big->resource);
-+
-+	ttm_bo_put(bo_small);
-+	ttm_bo_put(bo_big);
-+	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
-+}
-+
-+static void ttm_bo_validate_busy_domain_evict(struct kunit *test)
-+{
-+	u32 mem_type = TTM_PL_VRAM, mem_type_evict = TTM_PL_MOCK1;
-+	struct ttm_operation_ctx ctx_init = { }, ctx_val  = { };
-+	enum ttm_bo_type bo_type = ttm_bo_type_device;
-+	struct ttm_test_devices *priv = test->priv;
-+	struct ttm_buffer_object *bo_init, *bo_val;
-+	struct ttm_placement *placement;
-+	struct ttm_place *place;
-+	int err;
-+
-+	/*
-+	 * Drop the default device and setup a new one that points to busy
-+	 * thus unsuitable eviction domain
-+	 */
-+	ttm_device_fini(priv->ttm_dev);
-+
-+	err = ttm_device_kunit_init_bad_evict(test->priv, priv->ttm_dev, false, false);
++	err = ttm_tt_init(tt, bo, 0, ttm_cached, 0);
 +	KUNIT_ASSERT_EQ(test, err, 0);
 +
-+	ttm_mock_manager_init(priv->ttm_dev, mem_type, MANAGER_SIZE);
-+	ttm_busy_manager_init(priv->ttm_dev, mem_type_evict, MANAGER_SIZE);
++	err = ttm_tt_populate(devs->ttm_dev, tt, &ctx);
++	KUNIT_ASSERT_EQ(test, err, 0);
++	populated_page = *tt->pages;
 +
-+	place = ttm_place_kunit_init(test, mem_type, 0);
-+	placement = ttm_placement_kunit_init(test, place, 1);
-+
-+	bo_init = kunit_kzalloc(test, sizeof(*bo_init), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, bo_init);
-+
-+	drm_gem_private_object_init(priv->drm, &bo_init->base, MANAGER_SIZE);
-+	err = ttm_bo_init_reserved(priv->ttm_dev, bo_init, bo_type, placement,
-+				   PAGE_SIZE, &ctx_init, NULL, NULL,
-+				   &dummy_ttm_bo_destroy);
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	dma_resv_unlock(bo_init->base.resv);
-+
-+	bo_val = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
-+	bo_val->type = bo_type;
-+
-+	ttm_bo_reserve(bo_val, false, false, NULL);
-+	err = ttm_bo_validate(bo_val, placement, &ctx_val);
-+	ttm_bo_unreserve(bo_val);
-+
-+	KUNIT_EXPECT_EQ(test, err, -ENOMEM);
-+	KUNIT_EXPECT_EQ(test, bo_init->resource->mem_type, mem_type);
-+	KUNIT_EXPECT_NULL(test, bo_val->resource);
-+
-+	ttm_bo_put(bo_init);
-+	ttm_bo_put(bo_val);
-+
-+	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
-+	ttm_bad_manager_fini(priv->ttm_dev, mem_type_evict);
++	err = ttm_tt_populate(devs->ttm_dev, tt, &ctx);
++	KUNIT_ASSERT_PTR_EQ(test, populated_page, *tt->pages);
 +}
 +
-+static void ttm_bo_validate_evict_gutting(struct kunit *test)
++static void ttm_tt_unpopulate_basic(struct kunit *test)
 +{
-+	struct ttm_operation_ctx ctx_init = { }, ctx_val  = { };
-+	enum ttm_bo_type bo_type = ttm_bo_type_device;
-+	struct ttm_test_devices *priv = test->priv;
-+	struct ttm_buffer_object *bo, *bo_evict;
-+	u32 mem_type = TTM_PL_MOCK1;
-+	struct ttm_placement *placement;
-+	struct ttm_place *place;
++	const struct ttm_test_devices *devs = test->priv;
++	struct ttm_operation_ctx ctx = { };
++	struct ttm_buffer_object *bo;
++	struct ttm_tt *tt;
 +	int err;
-+
-+	ttm_mock_manager_init(priv->ttm_dev, mem_type, MANAGER_SIZE);
-+
-+	place = ttm_place_kunit_init(test, mem_type, 0);
-+	placement = ttm_placement_kunit_init(test, place, 1);
-+
-+	bo_evict = kunit_kzalloc(test, sizeof(*bo_evict), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, bo_evict);
-+
-+	drm_gem_private_object_init(priv->drm, &bo_evict->base, MANAGER_SIZE);
-+	err = ttm_bo_init_reserved(priv->ttm_dev, bo_evict, bo_type, placement,
-+				   PAGE_SIZE, &ctx_init, NULL, NULL,
-+				   &dummy_ttm_bo_destroy);
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	dma_resv_unlock(bo_evict->base.resv);
 +
 +	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
-+	bo->type = bo_type;
 +
-+	ttm_bo_reserve(bo, false, false, NULL);
-+	err = ttm_bo_validate(bo, placement, &ctx_val);
-+	ttm_bo_unreserve(bo);
++	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, tt);
 +
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, mem_type);
-+	KUNIT_ASSERT_NULL(test, bo_evict->resource);
-+	KUNIT_ASSERT_TRUE(test, bo_evict->ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC);
++	err = ttm_tt_init(tt, bo, 0, ttm_cached, 0);
++	KUNIT_ASSERT_EQ(test, err, 0);
 +
-+	ttm_bo_put(bo_evict);
-+	ttm_bo_put(bo);
++	err = ttm_tt_populate(devs->ttm_dev, tt, &ctx);
++	KUNIT_ASSERT_EQ(test, err, 0);
++	KUNIT_ASSERT_TRUE(test, ttm_tt_is_populated(tt));
 +
-+	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
++	ttm_tt_unpopulate(devs->ttm_dev, tt);
++	KUNIT_ASSERT_FALSE(test, ttm_tt_is_populated(tt));
 +}
 +
-+static void ttm_bo_validate_recrusive_evict(struct kunit *test)
++static void ttm_tt_unpopulate_empty_ttm(struct kunit *test)
 +{
-+	u32 mem_type = TTM_PL_TT, mem_type_evict = TTM_PL_MOCK2;
-+	struct ttm_operation_ctx ctx_init = { }, ctx_val  = { };
-+	struct ttm_placement *placement_tt, *placement_mock;
-+	struct ttm_buffer_object *bo_tt, *bo_mock, *bo_val;
-+	enum ttm_bo_type bo_type = ttm_bo_type_device;
-+	struct ttm_test_devices *priv = test->priv;
-+	struct ttm_place *place_tt, *place_mock;
++	const struct ttm_test_devices *devs = test->priv;
++	struct ttm_buffer_object *bo;
++	struct ttm_tt *tt;
 +	int err;
 +
-+	ttm_mock_manager_init(priv->ttm_dev, mem_type, MANAGER_SIZE);
-+	ttm_mock_manager_init(priv->ttm_dev, mem_type_evict, MANAGER_SIZE);
++	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
 +
-+	place_tt = ttm_place_kunit_init(test, mem_type, 0);
-+	place_mock = ttm_place_kunit_init(test, mem_type_evict, 0);
++	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, tt);
 +
-+	placement_tt = ttm_placement_kunit_init(test, place_tt, 1);
-+	placement_mock = ttm_placement_kunit_init(test, place_mock, 1);
++	err = ttm_tt_init(tt, bo, 0, ttm_cached, 0);
++	KUNIT_ASSERT_EQ(test, err, 0);
 +
-+	bo_tt = kunit_kzalloc(test, sizeof(*bo_tt), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, bo_tt);
-+
-+	bo_mock = kunit_kzalloc(test, sizeof(*bo_mock), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, bo_mock);
-+
-+	drm_gem_private_object_init(priv->drm, &bo_tt->base, MANAGER_SIZE);
-+	err = ttm_bo_init_reserved(priv->ttm_dev, bo_tt, bo_type, placement_tt,
-+				   PAGE_SIZE, &ctx_init, NULL, NULL,
-+				   &dummy_ttm_bo_destroy);
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	dma_resv_unlock(bo_tt->base.resv);
-+
-+	drm_gem_private_object_init(priv->drm, &bo_mock->base, MANAGER_SIZE);
-+	err = ttm_bo_init_reserved(priv->ttm_dev, bo_mock, bo_type, placement_mock,
-+				   PAGE_SIZE, &ctx_init, NULL, NULL,
-+				   &dummy_ttm_bo_destroy);
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	dma_resv_unlock(bo_mock->base.resv);
-+
-+	bo_val = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
-+	bo_val->type = bo_type;
-+
-+	ttm_bo_reserve(bo_val, false, false, NULL);
-+	err = ttm_bo_validate(bo_val, placement_tt, &ctx_val);
-+	ttm_bo_unreserve(bo_val);
-+
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+
-+	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
-+	ttm_mock_manager_fini(priv->ttm_dev, mem_type_evict);
-+
-+	ttm_bo_put(bo_val);
-+	ttm_bo_put(bo_tt);
-+	ttm_bo_put(bo_mock);
++	ttm_tt_unpopulate(devs->ttm_dev, tt);
++	/* Expect graceful handling of unpopulated TTs */
 +}
 +
- static struct kunit_case ttm_bo_validate_test_cases[] = {
- 	KUNIT_CASE_PARAM(ttm_bo_init_reserved_sys_man, ttm_bo_types_gen_params),
- 	KUNIT_CASE_PARAM(ttm_bo_init_reserved_mock_man, ttm_bo_types_gen_params),
-@@ -776,6 +1201,14 @@ static struct kunit_case ttm_bo_validate_test_cases[] = {
- 	KUNIT_CASE(ttm_bo_validate_move_fence_signaled),
- 	KUNIT_CASE_PARAM(ttm_bo_validate_move_fence_not_signaled,
- 			 ttm_bo_validate_wait_gen_params),
-+	KUNIT_CASE(ttm_bo_validate_swapout),
-+	KUNIT_CASE(ttm_bo_validate_happy_evict),
-+	KUNIT_CASE(ttm_bo_validate_all_pinned_evict),
-+	KUNIT_CASE(ttm_bo_validate_allowed_only_evict),
-+	KUNIT_CASE(ttm_bo_validate_deleted_evict),
-+	KUNIT_CASE(ttm_bo_validate_busy_domain_evict),
-+	KUNIT_CASE(ttm_bo_validate_evict_gutting),
-+	KUNIT_CASE(ttm_bo_validate_recrusive_evict),
++static void ttm_tt_swapin_basic(struct kunit *test)
++{
++	const struct ttm_test_devices *devs = test->priv;
++	int expected_num_pages = BO_SIZE >> PAGE_SHIFT;
++	struct ttm_operation_ctx ctx = { };
++	struct ttm_buffer_object *bo;
++	struct ttm_tt *tt;
++	int err, num_pages;
++
++	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
++
++	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, tt);
++
++	err = ttm_tt_init(tt, bo, 0, ttm_cached, 0);
++	KUNIT_ASSERT_EQ(test, err, 0);
++
++	err = ttm_tt_populate(devs->ttm_dev, tt, &ctx);
++	KUNIT_ASSERT_EQ(test, err, 0);
++	KUNIT_ASSERT_TRUE(test, ttm_tt_is_populated(tt));
++
++	num_pages = ttm_tt_swapout(devs->ttm_dev, tt, GFP_KERNEL);
++	KUNIT_ASSERT_EQ(test, num_pages, expected_num_pages);
++	KUNIT_ASSERT_NOT_NULL(test, tt->swap_storage);
++	KUNIT_ASSERT_TRUE(test, tt->page_flags & TTM_TT_FLAG_SWAPPED);
++
++	/* Swapout depopulates TT, allocate pages and then swap them in */
++	err = ttm_pool_alloc(&devs->ttm_dev->pool, tt, &ctx);
++	KUNIT_ASSERT_EQ(test, err, 0);
++
++	err = ttm_tt_swapin(tt);
++	KUNIT_ASSERT_EQ(test, err, 0);
++	KUNIT_ASSERT_NULL(test, tt->swap_storage);
++	KUNIT_ASSERT_FALSE(test, tt->page_flags & TTM_TT_FLAG_SWAPPED);
++}
++
+ static struct kunit_case ttm_tt_test_cases[] = {
+ 	KUNIT_CASE_PARAM(ttm_tt_init_basic, ttm_tt_init_basic_gen_params),
+ 	KUNIT_CASE(ttm_tt_init_misaligned),
+@@ -267,6 +381,11 @@ static struct kunit_case ttm_tt_test_cases[] = {
+ 	KUNIT_CASE(ttm_tt_create_ttm_exists),
+ 	KUNIT_CASE(ttm_tt_create_failed),
+ 	KUNIT_CASE(ttm_tt_destroy_basic),
++	KUNIT_CASE(ttm_tt_populate_null_ttm),
++	KUNIT_CASE(ttm_tt_populate_populated_ttm),
++	KUNIT_CASE(ttm_tt_unpopulate_basic),
++	KUNIT_CASE(ttm_tt_unpopulate_empty_ttm),
++	KUNIT_CASE(ttm_tt_swapin_basic),
  	{}
  };
  
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-index beb1d0086c24..3163ba1e2ad5 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-@@ -6,6 +6,42 @@
- 
- #include "ttm_kunit_helpers.h"
- 
-+static const struct ttm_place sys_place = {
-+	.fpfn = 0,
-+	.lpfn = 0,
-+	.mem_type = TTM_PL_SYSTEM,
-+	.flags = TTM_PL_FLAG_FALLBACK,
-+};
-+
-+static const struct ttm_place mock1_place = {
-+	.fpfn = 0,
-+	.lpfn = 0,
-+	.mem_type = TTM_PL_MOCK1,
-+	.flags = TTM_PL_FLAG_FALLBACK,
-+};
-+
-+static const struct ttm_place mock2_place = {
-+	.fpfn = 0,
-+	.lpfn = 0,
-+	.mem_type = TTM_PL_MOCK2,
-+	.flags = TTM_PL_FLAG_FALLBACK,
-+};
-+
-+static struct ttm_placement sys_placement = {
-+	.num_placement = 1,
-+	.placement = &sys_place,
-+};
-+
-+static struct ttm_placement bad_placement = {
-+	.num_placement = 1,
-+	.placement = &mock1_place,
-+};
-+
-+static struct ttm_placement mock_placement = {
-+	.num_placement = 1,
-+	.placement = &mock2_place,
-+};
-+
- static struct ttm_tt *ttm_tt_simple_create(struct ttm_buffer_object *bo,
- 					   uint32_t page_flags)
- {
-@@ -54,10 +90,52 @@ static int mock_move(struct ttm_buffer_object *bo, bool evict,
- 	return ttm_bo_move_memcpy(bo, ctx, new_mem);
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index 7b00ddf0ce49..4b51b9023126 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -251,6 +251,7 @@ int ttm_tt_swapin(struct ttm_tt *ttm)
+ out_err:
+ 	return ret;
  }
++EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_tt_swapin);
  
-+static void mock_evict_flags(struct ttm_buffer_object *bo,
-+			     struct ttm_placement *placement)
-+{
-+	switch (bo->resource->mem_type) {
-+	case TTM_PL_VRAM:
-+	case TTM_PL_SYSTEM:
-+		*placement = sys_placement;
-+		break;
-+	case TTM_PL_TT:
-+		*placement = mock_placement;
-+		break;
-+	case TTM_PL_MOCK1:
-+		/* Purge objects coming from this domain */
-+		break;
-+	}
-+}
-+
-+static void bad_evict_flags(struct ttm_buffer_object *bo,
-+			    struct ttm_placement *placement)
-+{
-+	*placement = bad_placement;
-+}
-+
-+static int ttm_device_kunit_init_with_funcs(struct ttm_test_devices *priv,
-+					    struct ttm_device *ttm,
-+					    bool use_dma_alloc,
-+					    bool use_dma32,
-+					    struct ttm_device_funcs *funcs)
-+{
-+	struct drm_device *drm = priv->drm;
-+	int err;
-+
-+	err = ttm_device_init(ttm, funcs, drm->dev,
-+			      drm->anon_inode->i_mapping,
-+			      drm->vma_offset_manager,
-+			      use_dma_alloc, use_dma32);
-+
-+	return err;
-+}
-+
- struct ttm_device_funcs ttm_dev_funcs = {
- 	.ttm_tt_create = ttm_tt_simple_create,
- 	.ttm_tt_destroy = ttm_tt_simple_destroy,
- 	.move = mock_move,
-+	.eviction_valuable = ttm_bo_eviction_valuable,
-+	.evict_flags = mock_evict_flags,
- };
- EXPORT_SYMBOL_GPL(ttm_dev_funcs);
+ /**
+  * ttm_tt_swapout - swap out tt object
+@@ -308,6 +309,7 @@ int ttm_tt_swapout(struct ttm_device *bdev, struct ttm_tt *ttm,
  
-@@ -66,17 +144,29 @@ int ttm_device_kunit_init(struct ttm_test_devices *priv,
- 			  bool use_dma_alloc,
- 			  bool use_dma32)
- {
--	struct drm_device *drm = priv->drm;
--	int err;
-+	return ttm_device_kunit_init_with_funcs(priv, ttm, use_dma_alloc,
-+						use_dma32, &ttm_dev_funcs);
-+}
-+EXPORT_SYMBOL_GPL(ttm_device_kunit_init);
- 
--	err = ttm_device_init(ttm, &ttm_dev_funcs, drm->dev,
--			      drm->anon_inode->i_mapping,
--			      drm->vma_offset_manager,
--			      use_dma_alloc, use_dma32);
-+struct ttm_device_funcs ttm_dev_funcs_bad_evict = {
-+	.ttm_tt_create = ttm_tt_simple_create,
-+	.ttm_tt_destroy = ttm_tt_simple_destroy,
-+	.move = mock_move,
-+	.eviction_valuable = ttm_bo_eviction_valuable,
-+	.evict_flags = bad_evict_flags,
-+};
-+EXPORT_SYMBOL_GPL(ttm_dev_funcs_bad_evict);
- 
--	return err;
-+int ttm_device_kunit_init_bad_evict(struct ttm_test_devices *priv,
-+				    struct ttm_device *ttm,
-+				    bool use_dma_alloc,
-+				    bool use_dma32)
-+{
-+	return ttm_device_kunit_init_with_funcs(priv, ttm, use_dma_alloc,
-+						use_dma32, &ttm_dev_funcs_bad_evict);
+ 	return ret;
  }
--EXPORT_SYMBOL_GPL(ttm_device_kunit_init);
-+EXPORT_SYMBOL_GPL(ttm_device_kunit_init_bad_evict);
++EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_tt_swapout);
  
- struct ttm_buffer_object *ttm_bo_kunit_init(struct kunit *test,
- 					    struct ttm_test_devices *devs,
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-index 5ce1727b36fc..aa70b50e7640 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-+++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-@@ -13,7 +13,11 @@
- #include <drm/drm_kunit_helpers.h>
- #include <kunit/test.h>
+ int ttm_tt_populate(struct ttm_device *bdev,
+ 		    struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
+@@ -386,6 +388,7 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
  
-+#define TTM_PL_MOCK1 (TTM_PL_PRIV + 1)
-+#define TTM_PL_MOCK2 (TTM_PL_PRIV + 2)
-+
- extern struct ttm_device_funcs ttm_dev_funcs;
-+extern struct ttm_device_funcs ttm_dev_funcs_bad_evict;
- 
- struct ttm_test_devices {
- 	struct drm_device *drm;
-@@ -26,6 +30,10 @@ int ttm_device_kunit_init(struct ttm_test_devices *priv,
- 			  struct ttm_device *ttm,
- 			  bool use_dma_alloc,
- 			  bool use_dma32);
-+int ttm_device_kunit_init_bad_evict(struct ttm_test_devices *priv,
-+				    struct ttm_device *ttm,
-+				    bool use_dma_alloc,
-+				    bool use_dma32);
- struct ttm_buffer_object *ttm_bo_kunit_init(struct kunit *test,
- 					    struct ttm_test_devices *devs,
- 					    size_t size,
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_mock_manager.c b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.c
-index ad77816c13ca..7f34fecd3fef 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_mock_manager.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.c
-@@ -153,6 +153,14 @@ static int ttm_bad_manager_alloc(struct ttm_resource_manager *man,
- 	return -ENOSPC;
+ 	ttm->page_flags &= ~TTM_TT_FLAG_PRIV_POPULATED;
  }
++EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_tt_unpopulate);
  
-+static int ttm_busy_manager_alloc(struct ttm_resource_manager *man,
-+				  struct ttm_buffer_object *bo,
-+				  const struct ttm_place *place,
-+				  struct ttm_resource **res)
-+{
-+	return -EBUSY;
-+}
-+
- static void ttm_bad_manager_free(struct ttm_resource_manager *man,
- 				 struct ttm_resource *res)
- {
-@@ -172,6 +180,12 @@ static const struct ttm_resource_manager_func ttm_bad_manager_funcs = {
- 	.compatible = ttm_bad_manager_compatible
- };
- 
-+static const struct ttm_resource_manager_func ttm_bad_busy_manager_funcs = {
-+	.alloc = ttm_busy_manager_alloc,
-+	.free = ttm_bad_manager_free,
-+	.compatible = ttm_bad_manager_compatible
-+};
-+
- int ttm_bad_manager_init(struct ttm_device *bdev, u32 mem_type, u32 size)
- {
- 	struct ttm_resource_manager *man;
-@@ -190,7 +204,20 @@ int ttm_bad_manager_init(struct ttm_device *bdev, u32 mem_type, u32 size)
- }
- EXPORT_SYMBOL_GPL(ttm_bad_manager_init);
- 
--void ttm_bad_manager_fini(struct ttm_device *bdev, u32 mem_type)
-+int ttm_busy_manager_init(struct ttm_device *bdev, u32 mem_type, u32 size)
-+{
-+	struct ttm_resource_manager *man;
-+
-+	ttm_bad_manager_init(bdev, mem_type, size);
-+	man = ttm_manager_type(bdev, mem_type);
-+
-+	man->func = &ttm_bad_busy_manager_funcs;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(ttm_busy_manager_init);
-+
-+void ttm_bad_manager_fini(struct ttm_device *bdev, uint32_t mem_type)
- {
- 	struct ttm_resource_manager *man;
- 
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_mock_manager.h b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.h
-index 5456aaec118b..e4c95f86a467 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_mock_manager.h
-+++ b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.h
-@@ -23,6 +23,7 @@ struct ttm_mock_resource {
- 
- int ttm_mock_manager_init(struct ttm_device *bdev, u32 mem_type, u32 size);
- int ttm_bad_manager_init(struct ttm_device *bdev, u32 mem_type, u32 size);
-+int ttm_busy_manager_init(struct ttm_device *bdev, u32 mem_type, u32 size);
- void ttm_mock_manager_fini(struct ttm_device *bdev, u32 mem_type);
- void ttm_bad_manager_fini(struct ttm_device *bdev, u32 mem_type);
+ #ifdef CONFIG_DEBUG_FS
  
 -- 
 2.34.1
