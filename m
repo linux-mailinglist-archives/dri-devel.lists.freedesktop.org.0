@@ -2,82 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70360904D68
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 10:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2308B904DA6
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 10:09:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8E6210E7C7;
-	Wed, 12 Jun 2024 08:02:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF43A10E199;
+	Wed, 12 Jun 2024 08:09:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="O2vDEt0n";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GyB3uyaw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A6CB10E7C7
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 08:02:10 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-52c94cf4c9bso1902865e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 01:02:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718179328; x=1718784128; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iy6VaAIWsc/uFJxkxC11R2z+NrPGPrzZFexuniHGbrY=;
- b=O2vDEt0nE/1rmPo1Gh4ybO1Hpt995RdVnow+AMCTGqRjqq6Xi1syS1IeRDu28PSe5D
- aE5WG6v+wBKg7p2EirhSAi2Sjlvu+botY03uYGWyNTsKaOijAcpdsGAmhD7uR63Fmwen
- yj52ZgStRD0Yq47VwygR8Wexjt+0pVn8vaD1zOsc0zCrYnsoeaBUxJ6oMkT13thEwQjP
- D/xkOlUB7qn9D6Ql4AfzAkwywraEni1zFYxzaXeuzmLPspv3X/WQc8wQAtMMEgRSE5x/
- mMDQZcTd+3Qt8aj58bXZpqR2fKaz8zHZc5aI9VSJ7BEzi506GRkPcHCBrK1SzdlJ3NyT
- WE7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718179328; x=1718784128;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iy6VaAIWsc/uFJxkxC11R2z+NrPGPrzZFexuniHGbrY=;
- b=wvac2PopC71Jphdey0+6zHvvIjxQx/1mGnjBlJBx6o1fGhhO9p0ZNf7hxW4vsePaNx
- 0x9Eie7/vmHLDuhayN/wkU5Sogu019T4IEnR09ItyJt+KX1edsY2CBdYMYqlwmrNfoay
- WEejONi1xvqXb2zCojllmD2BVekiMshfi6f1PzQG83/vRmPZVyfIQckT4nPlvqRQ8kQg
- LBND99D8c+V/LZa45k/BV9NDlxQoxDvGbgN7q39I7AzMLx1TKcgAHgaWNMDyz3nZ1NNz
- GDguuvYNIhsWn6CUBngLXHtmihxVIY2EUZ9y2akIhUL720hQlx/j7dVota0Lx/Ik5HE3
- kWtg==
-X-Gm-Message-State: AOJu0YweRrkj4lVsbei1G41hSIjZvuLt/LXLFaiupGJPKpoROZ52P9jk
- aSJD9d3SBE80wrHEK6ANtXe/qYQFvBdJSKujgRfUHjNkPMOIaO5YN4+1mEAjNtg=
-X-Google-Smtp-Source: AGHT+IFDKHNqbb5jXRRVasJXbOoXoBcVXVT3XdueDls6+ffc1QNC2kyj8whnyTo7bp9zFvAdHXeXCQ==
-X-Received: by 2002:ac2:58e8:0:b0:52c:7fe5:f89 with SMTP id
- 2adb3069b0e04-52c9a3c6b34mr739943e87.15.1718179327968; 
- Wed, 12 Jun 2024 01:02:07 -0700 (PDT)
-Received: from eriador.lan (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00::b8c]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52c879187f0sm1435885e87.272.2024.06.12.01.02.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jun 2024 01:02:07 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH v5 0/9] drm/msm: make use of the HDMI connector
- infrastructure
-Date: Wed, 12 Jun 2024 11:02:06 +0300
-Message-ID: <171817931352.2727087.11541630600563210677.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240607-bridge-hdmi-connector-v5-0-ab384e6021af@linaro.org>
-References: <20240607-bridge-hdmi-connector-v5-0-ab384e6021af@linaro.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 979E010E199
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 08:09:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5F2E761203;
+ Wed, 12 Jun 2024 08:09:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3688C3277B;
+ Wed, 12 Jun 2024 08:09:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718179753;
+ bh=qIdC5+lu1SEknjJJ51GXyfiihZ8p/z6UgJF+gLxllbo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GyB3uyawlYEjuE7xWe8gQxWLQJQZujpIg4lDjU1YaRJHiCJPrLWNWVWRMpVGtfr0S
+ 9UnBlSpAA4iuHCbJkGh9wXfZuWMb9DH6hbjSuAxDURlNmtx3IwE/qqjpJ7/9KhHVlv
+ L5i/87ODm7q10P7s+kC6MTi5RH7Zhso85iAfodl22jM9A+yUqIm+UAVOGr26Kae2DU
+ 1qQ8A7QsQZTDWhQMhuQt2gyZnjQOAymuDqH+9Fi1JzU97Z8Z3sVsFV3EGM93J+4dND
+ N8epbjclFpWzONEmcKbjZY5B3jnb/zBFcVnFfGyAow9HpoqIpe9FmwQKwiHhwGUO1/
+ 00HuDV+f3SD8g==
+Date: Wed, 12 Jun 2024 10:09:10 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Douglas Anderson <dianders@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Yuran Pereira <yuran.pereira@hotmail.com>,
+ Chris Morgan <macromorgan@hotmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panel: Avoid warnings w/ panel-simple/panel-edp at
+ shutdown
+Message-ID: <20240612-garnet-condor-from-saturn-1c51bb@houat>
+References: <20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="avglh3oymnxtl4ps"
+Content-Disposition: inline
+In-Reply-To: <20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,29 +66,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 07 Jun 2024 16:22:57 +0300, Dmitry Baryshkov wrote:
-> This patchset sits on top Maxime's HDMI connector patchset ([1]).
-> 
-> Currently this is an RFC exploring the interface between HDMI bridges
-> and HDMI connector code. This has been lightly verified on the Qualcomm
-> DB820c, which has native HDMI output. If this approach is considered to
-> be acceptable, I'll finish MSM HDMI bridge conversion (reworking the
-> Audio Infoframe code). Other bridges can follow the same approach (we
-> have lt9611 / lt9611uxc / adv7511 on Qualcomm hardware).
-> 
-> [...]
 
-Applied to drm-misc-next, thanks!
+--avglh3oymnxtl4ps
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[1/9] drm/connector: hdmi: allow disabling Audio Infoframe
-      commit: 000d1940c90984a9a2af9c02bc17e3ca0d87f71d
-[2/9] drm/bridge-connector: switch to using drmm allocations
-      commit: c12907be57b16eed5a73f75a44ebea8f30629c85
-[3/9] drm/bridge-connector: implement glue code for HDMI connector
-      commit: 6b4468b0c6ba37a16795da567b58dc80bc7fb439
+Hi,
 
-Best regards,
--- 
-With best wishes
-Dmitry
+On Tue, Jun 11, 2024 at 07:48:51AM GMT, Douglas Anderson wrote:
+> At shutdown if you've got a _properly_ coded DRM modeset driver then
+> you'll get these two warnings at shutdown time:
+>=20
+>   Skipping disable of already disabled panel
+>   Skipping unprepare of already unprepared panel
+>=20
+> These warnings are ugly and sound concerning, but they're actually a
+> sign of a properly working system. That's not great.
+>=20
+> It's not easy to get rid of these warnings. Until we know that all DRM
+> modeset drivers used with panel-simple and panel-edp are properly
+> calling drm_atomic_helper_shutdown() or drm_helper_force_disable_all()
+> then the panel drivers _need_ to disable/unprepare themselves in order
+> to power off the panel cleanly. However, there are lots of DRM modeset
+> drivers used with panel-edp and panel-simple and it's hard to know
+> when we've got them all. Since the warning happens only on the drivers
+> that _are_ updated there's nothing to encourage broken DRM modeset
+> drivers to get fixed.
+>=20
+> In order to flip the warning to the proper place, we need to know
+> which modeset drivers are going to shutdown properly. Though ugly, do
+> this by creating a list of everyone that shuts down properly. This
+> allows us to generate a warning for the correct case and also lets us
+> get rid of the warning for drivers that are shutting down properly.
+>=20
+> Maintaining this list is ugly, but the idea is that it's only short
+> term. Once everyone is converted we can delete the list and call it
+> done. The list is ugly enough and adding to it is annoying enough that
+> people should push to make this happen.
+>=20
+> Implement this all in a shared "header" file included by the two panel
+> drivers that need it. This avoids us adding an new exports while still
+> allowing the panel drivers to be modules. The code waste should be
+> small and, as per above, the whole solution is temporary.
+>=20
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> I came up with this idea to help us move forward since otherwise I
+> couldn't see how we were ever going to fix panel-simple and panel-edp
+> since they're used by so many DRM Modeset drivers. It's a bit ugly but
+> I don't hate it. What do others think?
 
+I don't think it's the right approach, even more so since we're so close
+now to having it in every driver.
+
+I ran the coccinelle script we started with, and here are the results:
+
+=2E/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1640:25-39: ERROR: KMS driver vmw_p=
+ci_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/kmb/kmb_drv.c:621:30-49: ERROR: KMS driver kmb_platform=
+_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/tiny/arcpgu.c:422:30-52: ERROR: KMS driver arcpgu_platf=
+orm_driver is missing shutdown implementation
+
+Looking at the drivers by hand, it seems consistent.
+
+Moving forward, I think having a collection of coccinelle scripts that
+we ask new driver authors to run or put them in CI somehow would be a
+better path. We have other similar candidates that can't really be dealt
+with any other way, like not using drmm_ memory allocations, or not
+using drm_dev_enter / drm_dev_exit.
+
+Maxime
+
+--avglh3oymnxtl4ps
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZmlXpQAKCRDj7w1vZxhR
+xfYZAQCNE0EYHn2MLwCjQYIeOxpucznvCNyoclGbKw4F8J5smAD+NH27g4lOaipv
+my3B4MclOH8NfBxWWBvKnT/LhTn1PAI=
+=T2jV
+-----END PGP SIGNATURE-----
+
+--avglh3oymnxtl4ps--
