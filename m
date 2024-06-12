@@ -2,89 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1D7904C54
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 09:08:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD15D904B59
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 08:08:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA0AC10E29A;
-	Wed, 12 Jun 2024 07:08:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7374610E786;
+	Wed, 12 Jun 2024 06:08:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=canonical.com header.i=@canonical.com header.b="jv00Z7rX";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="VwrUKP3B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 494 seconds by postgrey-1.36 at gabe;
- Wed, 12 Jun 2024 00:19:07 UTC
-Received: from smtp-relay-internal-0.canonical.com
- (smtp-relay-internal-0.canonical.com [185.125.188.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA80F10E186
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 00:19:07 +0000 (UTC)
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 83D8F3F274
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 00:10:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1718151050;
- bh=yA3GemOLta7ptddMW/7rnk7IdpnukaO6SkrLIQz3nbM=;
- h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
- MIME-Version;
- b=jv00Z7rXmMaB0IN49bfULAKzmdiXfaoKIcZwFbY2xWZDGy7PEaunOsHeXr4ZsNb9F
- uHBHXbvYAuBLvuNbVPIgoTqpNNjDbI0VRS1YF86XHyCr5xaQoF1/kw64tfXDmZrW+J
- Sf0x54oQb/hdKoGyHc98GAQgPWaFDgaF7Qy3Mdjv62+9Z2GHeAfInS+mCWqzKbpJoz
- lPGgqFajaggWlmFQcBy//hpuPdWs94iTTES7nIQ6WoQC/PfTKhzSeutxqemj8smgag
- HK37T1j3i+RdIskEwy5tMMaAAqu+uHRF0i8Cx76v0kG4RPzWzBajxKx0a7U6l3D9+1
- wliTdKOFN1nRA==
-Received: by mail-pl1-f199.google.com with SMTP id
- d9443c01a7336-1f837db4e1aso3253585ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 17:10:50 -0700 (PDT)
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
+ [209.85.222.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 852C610E786
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 06:08:46 +0000 (UTC)
+Received: by mail-qk1-f171.google.com with SMTP id
+ af79cd13be357-797a7f9b552so134481585a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2024 23:08:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1718172525; x=1718777325;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gyE0yRf++M8xpQPQaXpdKeQW4X1m/NGIHRme4AlmbpE=;
+ b=VwrUKP3BEc142tMxSrf5Kh95re6P0ONpMtjUrJAhTDiCjzxrGwwIqyAfSmGpOTZX0D
+ 60U07sOkcT0CYw0jryi6Oe8N1XG4bj24Pyaezy7Y/EE3ny7ch9sZLHrSvYungIUqAlQ0
+ iippPO1xkHZjz5CU1p3ZwDzqJg6VLf3L8+5JfPymPC/ualmmRrYB7tPAH7W3KEVpl5KW
+ zRxhruA/QAEvbx7cKmL/5Dtb1tbI7kjx6Y3dnlNih2MEtUNkQajL11CSIvO6l+DUpynv
+ 7x7zfpDxHLhU72D5iwGb+KkChGzU/yjA5a5RgwA90V3XqO4rgim9avkl5Qp88kmQgtAp
+ OFOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718151049; x=1718755849;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1718172525; x=1718777325;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yA3GemOLta7ptddMW/7rnk7IdpnukaO6SkrLIQz3nbM=;
- b=p7cnlND4676b35jS/mQE170TS4bMVJQRu66BHnq1WN5j8vfGBrgbLGEI0HkQzq0r2m
- 8uVWGwxzOYyBachSxndN69YXRMcDf4NOQ4BEYPFfcKHc6c8EyMMrIoSEBRtSxT6GHH1m
- ST3hJrGBf93hEcgOhOIeAmfjP+7NchKXnMgRCPZ59NJESO2sW3FBumnVMRtYKCufAz9l
- bBUiHFez6h4k9DDMb3sobShn6xKMdShP7pt0Y5U+pHI4LmwLjm8rz2USkhHNKylM5a9v
- Ir0ILZLOwp+IkOQ+Fl4oiwy3i5MR09Vg+u/nd/QbXGORkJCFnl14YiGw7GcOHHQTOs5t
- TSVA==
+ bh=gyE0yRf++M8xpQPQaXpdKeQW4X1m/NGIHRme4AlmbpE=;
+ b=b0JskKf4I1HB+E9O9bLYmiJpb+koWmYiGqetb4E99vzFq1b+bLtEy25db9Mbq/t9tq
+ cpaMekViksE90Y+PnL/InvT7HR5CmlLDVVEK3HkPp4aZMLxcx5DJGh/1SMH8zkJ99Qzx
+ uQPSYPqvaZxLf1bGnllomhomlVc9qMfQtpA9d3uLGeCUJgEnWdra1eIEI8x5Isd4t1t0
+ 6QwbfgKcNc1U/9av6qutLtKeLaOVXAkkLlot11u6vJdNWRJzajU8B74EZ4hepe9BcNfb
+ IWVOOcGRSB6eUxBTjCIKd+jfAJ/IXq2zskIF2sYTY1v9/BDzB8hpmjUR2PExpSZqkSzv
+ CHRg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV73SDdLiuPVMDSEpMvD+MiYYNdEtsyuTT6GbYKm5ZKVwEz0Nf/8mI5piBiXffOYSV7sfrd9C/cTKqveADdUgSKTCDOf2wEjshxnMlgYLhh
-X-Gm-Message-State: AOJu0Yy5FfOXTY/zmljYf7JiljVtRckzzjqaOU0HBDHjOPmKYDsGz9Ui
- uI1+R6NrM2StMAw4ZXE/BE290900d6ahawm43S9bBJJlWLO3UDW6+MYg/XlMutToGMDIWyP2uus
- NUL6l9ULmLYH26mApMsq51bzkU8OxHBVv/4mppj4u5YMPB0iMBTAXugCBmUg7jz828w05X8OCV8
- V5AaksIQ==
-X-Received: by 2002:a17:902:db11:b0:1f7:e32f:f067 with SMTP id
- d9443c01a7336-1f83b6eacfemr5651225ad.50.1718151049195; 
- Tue, 11 Jun 2024 17:10:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEtrQz+Z+est4OL6JMDV7Qe9u9duB8be/MwTdrnQYsCLYsrV7LoeCf5ZBBuNVwo06AB7Snq9g==
-X-Received: by 2002:a17:902:db11:b0:1f7:e32f:f067 with SMTP id
- d9443c01a7336-1f83b6eacfemr5650975ad.50.1718151048830; 
- Tue, 11 Jun 2024 17:10:48 -0700 (PDT)
-Received: from ThinkPad-X1.. (222-154-76-179-fibre.sparkbb.co.nz.
- [222.154.76.179]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f71ad56202sm38921265ad.276.2024.06.11.17.10.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jun 2024 17:10:48 -0700 (PDT)
-From: Matthew Ruffell <matthew.ruffell@canonical.com>
-To: w_armin@gmx.de
-Cc: Alexander.Deucher@amd.com, Christian.Koenig@amd.com,
- Felix.Kuehling@amd.com, Prike.Liang@amd.com, Xinhui.Pan@amd.com,
- Yifan1.Zhang@amd.com, amd-gfx@lists.freedesktop.org, bkauler@gmail.com,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- sashal@kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] Revert "drm/amdgpu: init iommu after amdkfd device init"
-Date: Wed, 12 Jun 2024 12:10:37 +1200
-Message-Id: <20240612001037.10409-1-matthew.ruffell@canonical.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <fe03d95a-a8dd-4f4c-8588-02a544e638e7@gmx.de>
-References: <fe03d95a-a8dd-4f4c-8588-02a544e638e7@gmx.de>
+ AJvYcCUETHQtguukg/24gW/0wGVLmdOgIioBfXzD7T8KrRDnvj1TPJ2xXMWs1hg6drIwF1TblFDa9B/B8U6lufqOZ1ZFW/VvoH5H0pr85Kl457Iq
+X-Gm-Message-State: AOJu0YzFjZ4hQTG0Y7KXvyyfH4faiP5Yazp+NiRIzlWVvlcUAhu0rgzu
+ 1FFGF2r8JuSEelIcRwg7+X/wQ9Ioa2Ne5+ej4GTs8xQQ0gTpePwNzYl4NQQe0BvtYplRMwpubth
+ v54K0gyTPb4oHYAeGnW+xjx6wDEYsiKoqfrkwzg==
+X-Google-Smtp-Source: AGHT+IGgNv214CmoVwCSUjRaOqQbUErdoxgXeV4BV/W0aoOAYNd4EZbmAwgtVrL+4MkZyrldxa3mrPpXHofORifQF5I=
+X-Received: by 2002:a05:6214:44a1:b0:6b0:62bb:ab9a with SMTP id
+ 6a1803df08f44-6b1920277a9mr9426226d6.19.1718172524993; Tue, 11 Jun 2024
+ 23:08:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 12 Jun 2024 07:07:57 +0000
+References: <20240422060811.670693-1-xuxinxiong@huaqin.corp-partner.google.com>
+ <CAD=FV=WRLLuOkCJeM6RdAb6xLN-cPH+hfWbOv9-LujB-WMGEFw@mail.gmail.com>
+ <CAGoogDB-mj8_xu04w3V2ZxOBTWoXcPKrVR1NRt6BFcpjHX3-7Q@mail.gmail.com>
+ <CAD=FV=WwsR9e-ZXJRY11FvdUZ66YPy9vqmY_=sGDw5Wqk1eV3w@mail.gmail.com>
+ <CAGoogDBCzfKwkAA-VAs3_Cdw_4oFO94mt7yjy47Sp2RAtqtPxA@mail.gmail.com>
+ <CAD=FV=WYiD-BUpksBnZrkWvORepZqtaAvm5645X-_oJPea0s0w@mail.gmail.com>
+ <CAD=FV=WMC0XZBc3UKP+Qzb5aeiWBnXrYDf31PNP5cGeAT-8XcA@mail.gmail.com>
+ <CAD=FV=Ua_CuWsPRMsZZhXF2kFjf6-o=s9zKYq=FC4XHQNL8UqQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=Ua_CuWsPRMsZZhXF2kFjf6-o=s9zKYq=FC4XHQNL8UqQ@mail.gmail.com>
+From: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
+Date: Wed, 12 Jun 2024 14:08:34 +0800
+Message-ID: <CAGoogDCjpanCwHHuYEu0kU9grv8qy002Utnm1JgRAw-o6TY8=Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add panel CSOT MNB601LS1-1
+To: Doug Anderson <dianders@chromium.org>
+Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
+ hsinyi@google.com, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,13 +88,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Greg KH, Sasha,
+I'm so sorry for the late reply.
+The information we got from the CSOT is that when the project was
+first started, CSO was used. Later, they realized this problem and
+changed the VID of other panel models to CSW. Since the panel has
+already been shipped, they will keep it as CSO and only the VID for
+that panel will be CSO.
+Thanks a lot!
 
-Please pick up this patch for 5.15 stable tree. I have built a test kernel and
-can confirm that it fixes affected users.
-
-Downstream bug:
-https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2068738
-
-Thanks,
-Matthew
+Doug Anderson <dianders@chromium.org> =E4=BA=8E2024=E5=B9=B46=E6=9C=8812=E6=
+=97=A5=E5=91=A8=E4=B8=89 00:50=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hi,
+>
+> On Tue, May 28, 2024 at 9:27=E2=80=AFAM Doug Anderson <dianders@chromium.=
+org> wrote:
+> >
+> > Hi,
+> >
+> > On Mon, May 6, 2024 at 8:54=E2=80=AFAM Doug Anderson <dianders@chromium=
+.org> wrote:
+> > >
+> > > Hi,
+> > >
+> > > On Tue, Apr 23, 2024 at 6:55=E2=80=AFPM Xuxin Xiong
+> > > <xuxinxiong@huaqin.corp-partner.google.com> wrote:
+> > > >
+> > > > Hi Doug, thank you!
+> > > > We had reported this info to the CSOT to correct the vendor id.
+> > > > If they confirm to fix this with the same product ID, we will submi=
+t a
+> > > > patch to fix this.
+> > >
+> > > FYI, "top posting" like this is generally frowned upon on kernel
+> > > mailing lists. One such reference about this is [1]. Some folks are
+> > > very passionate about this topic, so please keep it in mind to avoid
+> > > upsetting people in the community.
+> > >
+> > > In any case: did you get any response from CSOT about the improper ED=
+ID?
+> >
+> > Just following up here. Was there any response from CSOT?
+>
+> Continuing to follow up here. Did CSOT say anything about this?
+>
+> -Doug
