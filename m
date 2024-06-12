@@ -2,74 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6A0905E6B
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 00:25:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22227905E72
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 00:25:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBDAE10E933;
-	Wed, 12 Jun 2024 22:25:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3B3E10E934;
+	Wed, 12 Jun 2024 22:25:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ZBVFP8xZ";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="LBOxyrOC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34C4D10E931
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 22:24:57 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-1f717b3f2d8so10880495ad.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:24:57 -0700 (PDT)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D443810E933
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 22:24:58 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id
+ 41be03b00d2f7-6eab07ae82bso270609a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:24:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1718231095; x=1718835895;
+ d=chromium.org; s=google; t=1718231098; x=1718835898;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=moW+vuchPBzwhuLa9D90CyqT2Qzy5nveIbqumh1IepQ=;
- b=ZBVFP8xZZ8bHnyRl4zP5ISh8MHTyv6qmVG16b/1dsqLLS6Sd4n8gx311h945zMYt+z
- y7DPTgTVAAjfOGo9LzsoW8U0NYp0a3agzq9s3vKUjt5mIA9QrWr8POzFcQnPzBHQM84V
- U6j+joS4dOSSSOzI3bIf88pWYfo+E/t9vMNBc=
+ bh=eCLxsF8rhWGGZr+97E/MrTNjYe+fnMrZ7mNGuOaWySo=;
+ b=LBOxyrOChXWKWl2WidOI0fx+sXFaXiL1ZYn108zAObifZMZmejAMLVixqxM1l8rJAA
+ UL6gf/uomRAoVJnkbR58DJHlFnl23t3Ouk2oIF7K1gybcOGJPAq/RlD4YOznRCYBTgJ3
+ iyUwiKhMHSSvRBqRAn1tl1V4bWRy0/m49rfSA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718231095; x=1718835895;
+ d=1e100.net; s=20230601; t=1718231098; x=1718835898;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=moW+vuchPBzwhuLa9D90CyqT2Qzy5nveIbqumh1IepQ=;
- b=BXyWL/1Ay8tXKP/kv5ayCaecClDidKWSq59EU2fg1k8jzE4M7ZujUOChgfX6s8LxzP
- 12Fp9L4JgDmi35GRtKt1j5OLqEPBOc3isnInmHkf4MwhHWz3jK+aNs1SgcwFcTmW+fB1
- waIPhTLcpk0I2dU4tyL06XmG1/yKzqT8p9hINOmijIUNZN31TYW7eJ4xv+L3P8Qm9f58
- XIffMvaEwKFx+YKAHMya/Kdme3didevianJHcC346AIloe+uMWI7cRucIsBOZ6JwJiER
- nWbTa0vU5HPYlBNSsxKCT+wGVuDgQ/mBmO0Xv6TPaQt21YpuwGpmni+v0AJWVZo1yxPL
- PG2w==
-X-Gm-Message-State: AOJu0YwgSZZN+gS49XyJ6m6xbf4Sd3XnCcbCVpPCagIVAtFxUA/ghzw/
- jBMsqdcugyrGcBLHmOVtbUvrTg6OFRQ+562PTaSRuLfVOmvJ2Ohfmj9pHpZOX3JZN4k0jQvMYBM
+ bh=eCLxsF8rhWGGZr+97E/MrTNjYe+fnMrZ7mNGuOaWySo=;
+ b=AFCOP0Wwq91+aYvKrCuTXpPuh329GFpR6zI5tvdRnO4M6K4Cr+cSbNovCuZRiAXEHY
+ EVfmh9hT53mM93Urygw0z6kCelEwbEsv8lq7Wy/lMdGZDMNYe64eTyRHRrMrcCB3JuvG
+ fAX890aBK4yR7PKLYOTSxNO4C/Ks1HOKMaxVga4dwpfSBx+8tYIjYVX32AYUGENAd/QN
+ t7r69DbvA/VujKr0zL9XW/pRGDqQWXoGWB0mGzKCPu7+884wBJnfg3Vd12ii2VaG+OUf
+ A7Nils0V6VlIt3CvRmNPDeF6ROFoDYF/LPiMkTlV3oiYBESacAiDQY5up5QVhxIUiIIz
+ JHlA==
+X-Gm-Message-State: AOJu0Yxv4ZWOloH1yfOHoDckqBkJtS3yp8aGxAMFUI0WNNEZqZPVWLL9
+ FpIMXhcYopONw2Qx2ruN8iLrwCSaZafFVaICdHXIza9RNREyI+RNCuObK0nJ8Mm42MRESyjg1IE
  =
-X-Google-Smtp-Source: AGHT+IHBAtSsNRsCiipiSSmdPtxdIvkO4DzXuXDcDLjyV0KBNSghL6hedDrLySr08oXr7dCUGUp9XA==
-X-Received: by 2002:a17:902:fc46:b0:1f2:fee2:82ed with SMTP id
- d9443c01a7336-1f84e425a39mr11905935ad.30.1718231095482; 
- Wed, 12 Jun 2024 15:24:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFXmBDxj4j5xao5roMZtZUT3z8AsYTNgifgJ+RUUK1gO4l9UAxZFVxYo9uWh5aBe2pfsNj1Pg==
+X-Received: by 2002:a17:903:2307:b0:1f7:1ca3:d0d3 with SMTP id
+ d9443c01a7336-1f83b565d56mr34307215ad.4.1718231097634; 
+ Wed, 12 Jun 2024 15:24:57 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:2816:6a42:9074:18cc])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f6f30acda9sm87914105ad.198.2024.06.12.15.24.53
+ d9443c01a7336-1f6f30acda9sm87914105ad.198.2024.06.12.15.24.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jun 2024 15:24:54 -0700 (PDT)
+ Wed, 12 Jun 2024 15:24:56 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
-Cc: Douglas Anderson <dianders@chromium.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+Cc: Douglas Anderson <dianders@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@gmail.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Orson Zhai <orsonzhai@gmail.com>, Rob Herring <robh@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Steven Price <steven.price@arm.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/8] drm/sprd: Call drm_atomic_helper_shutdown() at remove
- time
-Date: Wed, 12 Jun 2024 15:23:45 -0700
-Message-ID: <20240612152336.v2.5.I7a2dd349cb52bae53280d0a49e22cc27b923274b@changeid>
+Subject: [PATCH v2 6/8] drm/gma500: Call drm_helper_force_disable_all() at
+ shutdown/remove time
+Date: Wed, 12 Jun 2024 15:23:46 -0700
+Message-ID: <20240612152336.v2.6.I1be622999c3b23f28f077fc75bb0319396a216e9@changeid>
 X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
 In-Reply-To: <20240612222435.3188234-1-dianders@chromium.org>
 References: <20240612222435.3188234-1-dianders@chromium.org>
@@ -91,16 +87,18 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Based on grepping through the source code, this driver appears to be
-missing a call to drm_atomic_helper_shutdown() at remove time. Let's
-add it.
+missing a call to drm_atomic_helper_shutdown(), or in this case the
+non-atomic equivalent drm_helper_force_disable_all(), at system
+shutdown time and at driver remove time. This is important because
+drm_helper_force_disable_all() will cause panels to get disabled
+cleanly which may be important for their power sequencing. Future
+changes will remove any custom powering off in individual panel
+drivers so the DRM drivers need to start getting this right.
 
-The fact that we should call drm_atomic_helper_shutdown() in the case
-of OS driver remove comes straight out of the kernel doc "driver
-instance overview" in drm_drv.c.
-
-While at it, let's also fix it so that if the driver's bind fails or
-if a driver gets unbound that the drvdata gets set to NULL. This will
-make sure we can't get confused during a later shutdown().
+The fact that we should call drm_atomic_helper_shutdown(), or in this
+case the non-atomic equivalent drm_helper_force_disable_all(), in the
+case of OS shutdown/restart comes straight out of the kernel doc
+"driver instance overview" in drm_drv.c.
 
 Suggested-by: Maxime Ripard <mripard@kernel.org>
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
@@ -108,46 +106,44 @@ Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 This commit is only compile-time tested.
 
-While making this patch, I noticed that the bind() function of this
-driver is using "devm". That's probably a bug. As per kernel docs [1]
-"the lifetime of the aggregate driver does not align with any of the
-underlying struct device instances. Therefore devm cannot be used and
-all resources acquired or allocated in this callback must be
-explicitly released in the unbind callback". Fixing that is outside
-the scope of this commit.
-
-[1] https://docs.kernel.org/driver-api/component.html
-
 (no changes since v1)
 
- drivers/gpu/drm/sprd/sprd_drm.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/gma500/psb_drv.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/sprd/sprd_drm.c b/drivers/gpu/drm/sprd/sprd_drm.c
-index a74cd0caf645..d4453430dd1f 100644
---- a/drivers/gpu/drm/sprd/sprd_drm.c
-+++ b/drivers/gpu/drm/sprd/sprd_drm.c
-@@ -114,6 +114,7 @@ static int sprd_drm_bind(struct device *dev)
- 	drm_kms_helper_poll_fini(drm);
- err_unbind_all:
- 	component_unbind_all(drm->dev, drm);
-+	platform_set_drvdata(pdev, NULL);
- 	return ret;
+diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
+index 8b64f61ffaf9..a5a399bbe8f5 100644
+--- a/drivers/gpu/drm/gma500/psb_drv.c
++++ b/drivers/gpu/drm/gma500/psb_drv.c
+@@ -20,6 +20,7 @@
+ #include <acpi/video.h>
+ 
+ #include <drm/drm.h>
++#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_ioctl.h>
+@@ -485,6 +486,12 @@ static void psb_pci_remove(struct pci_dev *pdev)
+ 	struct drm_device *dev = pci_get_drvdata(pdev);
+ 
+ 	drm_dev_unregister(dev);
++	drm_helper_force_disable_all(dev);
++}
++
++static void psb_pci_shutdown(struct pci_dev *pdev)
++{
++	drm_helper_force_disable_all(pci_get_drvdata(pdev));
  }
  
-@@ -122,10 +123,11 @@ static void sprd_drm_unbind(struct device *dev)
- 	struct drm_device *drm = dev_get_drvdata(dev);
+ static DEFINE_RUNTIME_DEV_PM_OPS(psb_pm_ops, gma_power_suspend, gma_power_resume, NULL);
+@@ -521,6 +528,7 @@ static struct pci_driver psb_pci_driver = {
+ 	.id_table = pciidlist,
+ 	.probe = psb_pci_probe,
+ 	.remove = psb_pci_remove,
++	.shutdown = psb_pci_shutdown,
+ 	.driver.pm = &psb_pm_ops,
+ };
  
- 	drm_dev_unregister(drm);
--
- 	drm_kms_helper_poll_fini(drm);
-+	drm_atomic_helper_shutdown(drm);
- 
- 	component_unbind_all(drm->dev, drm);
-+	dev_set_drvdata(dev, NULL);
- }
- 
- static const struct component_master_ops drm_component_ops = {
 -- 
 2.45.2.505.gda0bf45e8d-goog
 
