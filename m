@@ -2,77 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B6890531C
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 15:02:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 306C390532C
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 15:03:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0786B10E28A;
-	Wed, 12 Jun 2024 13:02:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DF8110E851;
+	Wed, 12 Jun 2024 13:03:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lOxRZRmL";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="SROAlC1T";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cRVAmEl1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GGh8lvue";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cz+b4DGr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E431710E853
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 13:02:09 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id
- 3f1490d57ef6-dfb12fe6f96so3986468276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 06:02:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718197329; x=1718802129; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=h/wHKkItlCiQ7o1IyI0XViLJrWo4JfbCzDlcSSlS1QY=;
- b=lOxRZRmLea5yVmNfQNLv1AWhQBSksSHd+Wrxh+4tk25r781s9fxB4CgD49RY4W1HWI
- kU+xmBJTpOdpj/b8LTwzlPe8m1w/KZX6ozAMOaAVfJOzchTyf7UC8wJyyB5th2cJAnCw
- zUDqmlSG2PYVr7eyz8misUmxEGgyjEYBmnpVu9wripn5RnSbkDEB4Py0EUfPB/qGuOd8
- zmrYwWg1ZsfUAM6neqS1GWh9/6SxHlbbk/MfRLIBK64YeL9XhfpbBFMVOKIGaJqOfnxB
- JhVaQJ5+aeJmJLzvmFWcYT7QRUPnfq3XBfx911XrpOzGMHNqjxH/JIzB9rx5r1xOpOuB
- /pMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718197329; x=1718802129;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=h/wHKkItlCiQ7o1IyI0XViLJrWo4JfbCzDlcSSlS1QY=;
- b=uGftkSSq855HSeqikEb4KWpBRqwZHAxJOfHDz1lf4cywFWDUJ6YC/DGKSU8ldbdfKL
- pXUeqHO/acVtC96Yf+HS9aHmWanfdBZ3cLrvo4wFPtt4zdLwO8n+9P8nl3HsJwHAafhE
- gZJ8TUXrLUlqG/m5QTh2UMFIiijwdYZ2a0IeOieV9sgV1PCNZqZgJ9LLUSx1NOhw5feZ
- +CJrvfcm9gaTiDcDT0Qhv4pIeIbbjRZPK/izPaD+yAYsUEsk0mlg1BWf3/oQuEdfHQYj
- dnvsdQHHFuSqfF/4fmxm1Xfz6n7LdsnHwE45PissWdRHOyLWmcLP/JWtiV6gJdc0BB7R
- e2TQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW3j7yPOQMjUIEmPQaxxZF02f3+T6iTXyPAFOGu7uwC3RPpULabM2sPRhs80rZbRwkf6FMHKBWPyyQzYsuMlj1GdmXAvjWB0Mdt+y0GE1xa
-X-Gm-Message-State: AOJu0YyE1XD2TJf83R0fCqq4/VgZv3/TB93sqoyEHK5WtytupLdXEWjw
- Pk3xF9Ym0/XvVdS8xCk/AxRSfRQcQzdMG+dzLZLN+fLhY44eeVoirCnLS1g2zUlXqw2cVCpVKGD
- P2iO3L2eDOIiK2pvng7e6KAnbCiUMerS9eKlrnA==
-X-Google-Smtp-Source: AGHT+IHohsirSAN3iTAKXU4CYJwkfBec8l9bdTkziQjl49lwBadB3+2JvxLN8FfUiDNXajI9GkGbGp7NnKpISd0MX74=
-X-Received: by 2002:a25:918a:0:b0:de8:9a4b:47e4 with SMTP id
- 3f1490d57ef6-dfe6715a902mr1467832276.35.1718197327850; Wed, 12 Jun 2024
- 06:02:07 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5E2810E851
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 13:03:43 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id EE2B91FB99;
+ Wed, 12 Jun 2024 13:03:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718197422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5uhrNVuEo/BCXhkbW9P9vkmF4+5JRKqB+xMwcvdddys=;
+ b=SROAlC1T/ong55DgQM+s5kjU2TM81bJTOWBURxKknfhIDKS/Ymf+O/25/mUNHQkr9dA9eU
+ hhLT4qernNVwGXtWxyxzUZ/RvjQC/GI1rfr3BCJdI4RS+KGVAaM/CARPw0LUV3/jshceMn
+ J/yGvnV7Acp1sgUHKlcFgR0CeMdF30g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718197422;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5uhrNVuEo/BCXhkbW9P9vkmF4+5JRKqB+xMwcvdddys=;
+ b=cRVAmEl1gd8gT4zLq6Iyg9aR82oAa9SOvjjD3nEQCegtf5ZeO9Tzl7yjuPED069VL4zhEr
+ S4Ert79VjRYJvtDQ==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GGh8lvue;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=cz+b4DGr
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718197421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5uhrNVuEo/BCXhkbW9P9vkmF4+5JRKqB+xMwcvdddys=;
+ b=GGh8lvueWVJUShFG9rZbtnpjdGse7ot6PS/lm9bXRm2wZKIuC6nRXtFntQQDbgsO7ybT1J
+ HFQOhdONa0HQLM8pJppjSaMg5Pysgf4ROrY8GkJKhLdMIAluqvvdkbn7SLATuJ621VCi4E
+ yli5S0MzQ5zzN5q3WMiZkUnBpQ6miOU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718197421;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5uhrNVuEo/BCXhkbW9P9vkmF4+5JRKqB+xMwcvdddys=;
+ b=cz+b4DGr3v3NrcPWs70L/65cgwjo10rMRoxW/kg+n9SVRomKGXZy8ImxwKqOwWb++BwMV/
+ T5DGF1hEArjPisAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B407E132FF;
+ Wed, 12 Jun 2024 13:03:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id hLSkKq2caWaQMQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 12 Jun 2024 13:03:41 +0000
+Message-ID: <605bf442-41f9-49d9-a4b7-e889ff800734@suse.de>
+Date: Wed, 12 Jun 2024 15:03:41 +0200
 MIME-Version: 1.0
-References: <20240601084528.22502-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240601084528.22502-3-lvzhaoxiong@huaqin.corp-partner.google.com>
- <94c80cae-4992-4cd2-9b06-93505a5ca799@gmail.com>
- <CA+6=WdTz0MJX7j-hwbT1u4XG=F8fvHDRy42USfcarMHR9+ye4Q@mail.gmail.com>
- <iqeloy365b4rrip4axgmgj5ogho4ueoxidsteqdyompkchzcyi@avzq3v3iunat>
- <c1229ff8-dfaa-4100-bc79-a2ac1415c606@gmail.com>
- <CA+6=WdSbQVWyLW7oLqZ1D-o=qYOK0pUN5w_7s2H8yYygtYtmxg@mail.gmail.com>
-In-Reply-To: <CA+6=WdSbQVWyLW7oLqZ1D-o=qYOK0pUN5w_7s2H8yYygtYtmxg@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 12 Jun 2024 16:01:55 +0300
-Message-ID: <CAA8EJppQB+tGptEC0g46A4YZg9_K1td4-HRCtR6cvfettm5-+g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] drm/panel: kd101ne3: add new panel driver
-To: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Cc: Alex Bee <knaerzche@gmail.com>, dmitry.torokhov@gmail.com, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org, 
- benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/fbdev-dma: fix getting smem_start
+To: Peng Fan <peng.fan@nxp.com>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20240604080328.4024838-1-peng.fan@oss.nxp.com>
+ <8f4a6d80-dd3e-422f-88af-d26f50c973ff@suse.de>
+ <AM6PR04MB59415B3F01D02024A255BFB988C72@AM6PR04MB5941.eurprd04.prod.outlook.com>
+ <766908de-922c-4d71-bb04-29dbe4d1d64d@suse.de>
+ <AM6PR04MB5941216A69AE325A79689C5888C72@AM6PR04MB5941.eurprd04.prod.outlook.com>
+ <6c01bee4-c3f5-496e-8b4f-a29c97954808@suse.de>
+ <ZmlgQV4Eov0xv5bc@phenom.ffwll.local>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <ZmlgQV4Eov0xv5bc@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: EE2B91FB99
+X-Spam-Score: -6.50
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-6.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-0.998]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ TO_DN_EQ_ADDR_SOME(0.00)[];
+ FREEMAIL_TO(0.00)[nxp.com,oss.nxp.com,linux.intel.com,kernel.org,gmail.com,redhat.com,lists.freedesktop.org,vger.kernel.org];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
+ RCPT_COUNT_SEVEN(0.00)[8]; MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,714 +159,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 12 Jun 2024 at 14:35, zhaoxiong lv
-<lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
->
-> On Fri, Jun 7, 2024 at 8:41=E2=80=AFPM Alex Bee <knaerzche@gmail.com> wro=
-te:
-> >
-> >
-> > Am 07.06.24 um 14:01 schrieb Dmitry Baryshkov:
-> > > On Fri, Jun 07, 2024 at 07:44:33PM +0800, zhaoxiong lv wrote:
-> > >> hi Alex Bee
-> > >>
-> > >> I compared these two drivers. Although the control IC is the same, t=
-he
-> > >> panel is different, and the init_cmd and timing are also slightly
-> > >> different, so I added a separate driver.
-> > > But it obviously uses the same structure as the panel-jadard. Please
-> > > use existing driver instead of creating a completely new one (which y=
-ou
-> > > happily overload with an unrelated panel).
-> > >
-> > +1
-> >
-> > panel-jadard already supports different panels with different
-> > init-sequences and they can be set per panel-type (compatible). If you =
-need
-> > different reset-/enable timings (what I doubt) you'll have to extend st=
-ruct
-> > jadard_panel_desc. In any case you'll have to put dsi->mode_flags in th=
-ere
-> > as your panel uses MIPI_DSI_MODE_LPM what the currently supported don't
-> > need.
->
->  hi Alex Bee/Dmitry Baryshkov
->
-> We found that when using the panel-kingdisplay-kd101ne3 driver to send
-> init code, it takes about 3.5s to complete the sending, but using the
-> new API (mipi_dsi_dcs_write_seq_multi) will not have this phenomenon,
-> which seems to affect the user experience.
-> I would like to ask how I can deal with this?
+Hi
 
-As usual, update panel-jadard to use _multi.
+Am 12.06.24 um 10:45 schrieb Daniel Vetter:
+> On Tue, Jun 11, 2024 at 11:29:58AM +0200, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 11.06.24 um 10:23 schrieb Peng Fan:
+>>>> Subject: Re: [PATCH] drm/fbdev-dma: fix getting smem_start
+>>>>
+>>>> Hi
+>>>>
+>>>> Am 11.06.24 um 03:00 schrieb Peng Fan:
+>>>>>> Subject: Re: [PATCH] drm/fbdev-dma: fix getting smem_start
+>>>>>>
+>>>>>> Hi
+>>>>>>
+>>>>>> Am 04.06.24 um 10:03 schrieb Peng Fan (OSS):
+>>>>>>> From: Peng Fan <peng.fan@nxp.com>
+>>>>>>>
+>>>>>>> If 'info->screen_buffer' locates in vmalloc address space,
+>>>>>>> virt_to_page will not be able to get correct results. With
+>>>>>>> CONFIG_DEBUG_VM and CONFIG_DEBUG_VIRTUAL enabled on ARM64,
+>>>>>> there is dump below:
+>>>>>>
+>>>>>> Which graphics driver triggers this bug?
+>>>>> It is NXP i.MX95 DPU driver which is still in NXP downstream repo.
+>>>> Which DRM memory manager does that driver use?
+>>> DRM_GEM_DMA_DRIVER_OPS
+>> So fbdev-dma would be correct. But with the gem-dma allocator, wouldn't you
+>> allocate from one of these dma_alloc_() calls at [1] ? How does the drivers
+>> end up with vmalloc'd fbdev memory? Specifically in the light of the docs at
+>> [2].
+> I think when you have an iommu dma_alloc just allocates pages, and uses
+> the iommu to make it all contiguous for the device, and vmalloc for the
+> kernel. So it's not allocated with vmalloc(), just ends up getting mapped
+> into the vmalloc range.
 
+Thanks, that makes sense. As I mentioned in another reply, it might make 
+sense to protect smem_start with an opt-in flag for only that single 
+driver that needs it.
+
+Best regards
+Thomas
+
+> -Sima
 >
-> thanks
 >
-> >
-> > Alex.
-> >
-> > >> thanks
-> > >>
-> > >> On Sun, Jun 2, 2024 at 1:07=E2=80=AFPM Alex Bee <knaerzche@gmail.com=
-> wrote:
-> > >>> Am 01.06.24 um 10:45 schrieb Zhaoxiong Lv:
-> > >>>
-> > >>> Hi Zhaoxiong,
-> > >>>
-> > >>>> The bias IC of this kindisplay-kd101ne3 panel is placed
-> > >>>> on the panel side, so when the panel is powered on,
-> > >>>> there is no need to control AVDD and AVEE in the driver,
-> > >>>> only 3.3v and reset are needed.
-> > >>>>
-> > >>>> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.googl=
-e.com>
-> > >>>> ---
-> > >>>>
-> > >>>> Chage since V2:
-> > >>>>
-> > >>>> -  1. Use the new mipi_dsi_dcs_write_seq_multi() function.
-> > >>>> -  2. Modify Move mipi_dsi_dcs_set_display_off() and mipi_dsi_dcs_=
-enter_sleep_mode() to disable(),
-> > >>>> -  and drop kingdisplay_panel_enter_sleep_mode().
-> > >>>> -  3. If prepare fails, disable GPIO before regulators.
-> > >>>> -  4. This function drm_connector_set_panel_orientation() is no lo=
-nger used. Delete it.
-> > >>>> -  5. Drop ".shutdown =3D kingdisplay_panel_shutdown".
-> > >>>>
-> > >>>> ---
-> > >>>>    drivers/gpu/drm/panel/Kconfig                 |   9 +
-> > >>>>    drivers/gpu/drm/panel/Makefile                |   1 +
-> > >>>>    .../drm/panel/panel-kingdisplay-kd101ne3.c    | 533 +++++++++++=
-+++++++
-> > >>>>    3 files changed, 543 insertions(+)
-> > >>>>    create mode 100644 drivers/gpu/drm/panel/panel-kingdisplay-kd10=
-1ne3.c
-> > >>>>
-> > >>>> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel=
-/Kconfig
-> > >>>> index e54f6f5604ed..71669e990e8e 100644
-> > >>>> --- a/drivers/gpu/drm/panel/Kconfig
-> > >>>> +++ b/drivers/gpu/drm/panel/Kconfig
-> > >>>> @@ -297,6 +297,15 @@ config DRM_PANEL_KINGDISPLAY_KD097D04
-> > >>>>          24 bit RGB per pixel. It provides a MIPI DSI interface to
-> > >>>>          the host and has a built-in LED backlight.
-> > >>>>
-> > >>>> +config DRM_PANEL_KINGDISPLAY_KD101NE3
-> > >>>> +     tristate "Kingdisplay kd101ne3 panel"
-> > >>>> +     depends on OF
-> > >>>> +     depends on DRM_MIPI_DSI
-> > >>>> +     depends on BACKLIGHT_CLASS_DEVICE
-> > >>>> +     help
-> > >>>> +       Say Y here if you want to enable support for the kingdispl=
-ay kd101ne3
-> > >>>> +       4-lane 800x1280 MIPI DSI panel.
-> > >>>> +
-> > >>>>    config DRM_PANEL_LEADTEK_LTK050H3146W
-> > >>>>        tristate "Leadtek LTK050H3146W panel"
-> > >>>>        depends on OF
-> > >>>> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/pane=
-l/Makefile
-> > >>>> index f0203f6e02f4..4576c9fe33d9 100644
-> > >>>> --- a/drivers/gpu/drm/panel/Makefile
-> > >>>> +++ b/drivers/gpu/drm/panel/Makefile
-> > >>>> @@ -30,6 +30,7 @@ obj-$(CONFIG_DRM_PANEL_JDI_LPM102A188A) +=3D pan=
-el-jdi-lpm102a188a.o
-> > >>>>    obj-$(CONFIG_DRM_PANEL_JDI_R63452) +=3D panel-jdi-fhd-r63452.o
-> > >>>>    obj-$(CONFIG_DRM_PANEL_KHADAS_TS050) +=3D panel-khadas-ts050.o
-> > >>>>    obj-$(CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04) +=3D panel-kingdis=
-play-kd097d04.o
-> > >>>> +obj-$(CONFIG_DRM_PANEL_KINGDISPLAY_KD101NE3) +=3D panel-kingdispl=
-ay-kd101ne3.o
-> > >>>>    obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W) +=3D panel-leadtek=
--ltk050h3146w.o
-> > >>>>    obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829) +=3D panel-leadtek=
--ltk500hd1829.o
-> > >>>>    obj-$(CONFIG_DRM_PANEL_LG_LB035Q02) +=3D panel-lg-lb035q02.o
-> > >>>> diff --git a/drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c b/=
-drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c
-> > >>>> new file mode 100644
-> > >>>> index 000000000000..8994a1c9afb5
-> > >>>> --- /dev/null
-> > >>>> +++ b/drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c
-> > >>>> @@ -0,0 +1,533 @@
-> > >>>> +// SPDX-License-Identifier: GPL-2.0
-> > >>>> +/* Panels based on the JD9365DA display controller.
-> > >>>> + * Author: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.c=
-om>
-> > >>>> + */
-> > >>>> +
-> > >>>> +#include <linux/delay.h>
-> > >>>> +#include <linux/gpio/consumer.h>
-> > >>>> +#include <linux/module.h>
-> > >>>> +#include <linux/of.h>
-> > >>>> +#include <linux/regulator/consumer.h>
-> > >>>> +
-> > >>>> +#include <drm/drm_connector.h>
-> > >>>> +#include <drm/drm_crtc.h>
-> > >>>> +#include <drm/drm_mipi_dsi.h>
-> > >>>> +#include <drm/drm_panel.h>
-> > >>>> +
-> > >>>> +#include <video/mipi_display.h>
-> > >>>> +
-> > >>>> +struct kingdisplay_panel;
-> > >>>> +
-> > >>>> +struct panel_desc {
-> > >>>> +     const struct drm_display_mode *modes;
-> > >>>> +     unsigned int bpc;
-> > >>>> +
-> > >>>> +     /**
-> > >>>> +      * @width_mm: width of the panel's active display area
-> > >>>> +      * @height_mm: height of the panel's active display area
-> > >>>> +      */
-> > >>>> +     struct {
-> > >>>> +             unsigned int width_mm;
-> > >>>> +             unsigned int height_mm;
-> > >>>> +     } size;
-> > >>>> +
-> > >>>> +     unsigned long mode_flags;
-> > >>>> +     enum mipi_dsi_pixel_format format;
-> > >>>> +     const struct panel_init_cmd *init_cmds;
-> > >>>> +     int (*init)(struct kingdisplay_panel *kingdisplay);
-> > >>>> +     unsigned int lanes;
-> > >>>> +     bool discharge_on_disable;
-> > >>>> +     bool lp11_before_reset;
-> > >>>> +};
-> > >>>> +
-> > >>>> +struct kingdisplay_panel {
-> > >>>> +     struct drm_panel base;
-> > >>>> +     struct mipi_dsi_device *dsi;
-> > >>>> +
-> > >>>> +     const struct panel_desc *desc;
-> > >>>> +
-> > >>>> +     enum drm_panel_orientation orientation;
-> > >>>> +     struct regulator *pp3300;
-> > >>>> +     struct gpio_desc *enable_gpio;
-> > >>>> +};
-> > >>>> +
-> > >>>> +static int kingdisplay_kd101ne3_init(struct kingdisplay_panel *ki=
-ngdisplay)
-> > >>>> +{
-> > >>>> +     struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D kingdis=
-play->dsi };
-> > >>>> +
-> > >>>> +     /* T5:HWreset to init_code >=3D 50ms */
-> > >>>> +     msleep(50);
-> > >>>> +
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x00);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe1, 0x93);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe2, 0x65);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe3, 0xf8);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x80, 0x03);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x01);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0c, 0x74);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x17, 0x00);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x18, 0xc7);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x19, 0x01);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1a, 0x00);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1b, 0xc7);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1c, 0x01);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x24, 0xfe);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x37, 0x19);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x35, 0x28);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x38, 0x05);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x39, 0x08);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3a, 0x12);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3c, 0x7e);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3d, 0xff);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3e, 0xff);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3f, 0x7f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x40, 0x06);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x41, 0xa0);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x43, 0x1e);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x44, 0x0b);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x55, 0x02);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x57, 0x6a);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x59, 0x0a);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5a, 0x2e);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5b, 0x1a);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5c, 0x15);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5d, 0x7f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5e, 0x61);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5f, 0x50);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x60, 0x43);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x61, 0x3f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x62, 0x32);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x63, 0x35);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x64, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x65, 0x38);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x66, 0x36);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x67, 0x36);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x68, 0x54);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x69, 0x42);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6a, 0x48);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6b, 0x39);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6c, 0x34);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6d, 0x26);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6e, 0x14);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6f, 0x02);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x70, 0x7f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x71, 0x61);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x72, 0x50);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x73, 0x43);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x74, 0x3f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x75, 0x32);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x76, 0x35);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x77, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x78, 0x38);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x79, 0x36);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7a, 0x36);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7b, 0x54);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7c, 0x42);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7d, 0x48);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7e, 0x39);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7f, 0x34);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x80, 0x26);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x81, 0x14);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x82, 0x02);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x02);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x52);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x01, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x03, 0x50);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x04, 0x77);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x05, 0x57);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x06, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x07, 0x4e);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x08, 0x4c);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x09, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0a, 0x4a);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0b, 0x48);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0c, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0d, 0x46);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0e, 0x44);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0f, 0x40);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x10, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x11, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x12, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x13, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x14, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x15, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x16, 0x53);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x17, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x18, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x19, 0x51);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1a, 0x77);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1b, 0x57);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1c, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1d, 0x4f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1e, 0x4d);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1f, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x20, 0x4b);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x21, 0x49);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x22, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x23, 0x47);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x24, 0x45);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x25, 0x41);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x26, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x27, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x28, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x29, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2a, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2b, 0x5f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2c, 0x13);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2d, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2e, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2f, 0x01);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x30, 0x17);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x31, 0x17);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x32, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x33, 0x0d);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x34, 0x0f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x35, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x36, 0x05);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x37, 0x07);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x38, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x39, 0x09);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3a, 0x0b);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3b, 0x11);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3c, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3d, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3e, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3f, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x40, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x41, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x42, 0x12);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x43, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x44, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x45, 0x00);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x46, 0x17);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x47, 0x17);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x48, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x49, 0x0c);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4a, 0x0e);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4b, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4c, 0x04);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4d, 0x06);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4e, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4f, 0x08);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x50, 0x0a);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x51, 0x10);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x52, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x53, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x54, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x55, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x56, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x57, 0x1f);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x58, 0x40);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5b, 0x10);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5c, 0x06);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5d, 0x40);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5e, 0x00);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5f, 0x00);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x60, 0x40);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x61, 0x03);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x62, 0x04);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x63, 0x6c);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x64, 0x6c);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x65, 0x75);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x66, 0x08);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x67, 0xb4);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x68, 0x08);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x69, 0x6c);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6a, 0x6c);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6b, 0x0c);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6d, 0x00);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6e, 0x00);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6f, 0x88);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x75, 0xbb);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x76, 0x00);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x77, 0x05);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x78, 0x2a);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x04);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x0e);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0xb3);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x09, 0x61);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0e, 0x48);
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0x00);
-> > >>> Looking at the init sequence, I'm pretty confident this panel uses =
-a
-> > >>> Jadard JD 9365 driver IC. It's probably worth adding it to
-> > >>> panel-jadard-jd9365da instead of adding a completly new driver.
-> > >>>
-> > >>> Alex
-> > >>>> +     if (dsi_ctx.accum_err)
-> > >>>> +             return dsi_ctx.accum_err;
-> > >>>> +
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_EXIT_SLEEP_M=
-ODE);
-> > >>>> +     if (dsi_ctx.accum_err)
-> > >>>> +             return dsi_ctx.accum_err;
-> > >>>> +
-> > >>>> +     msleep(120);
-> > >>>> +
-> > >>>> +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_DISPLAY_=
-ON);
-> > >>>> +     if (dsi_ctx.accum_err)
-> > >>>> +             return dsi_ctx.accum_err;
-> > >>>> +
-> > >>>> +     msleep(20);
-> > >>>> +
-> > >>>> +     return 0;
-> > >>>> +};
-> > >>>> +
-> > >>>> +static inline struct kingdisplay_panel *to_kingdisplay_panel(stru=
-ct drm_panel *panel)
-> > >>>> +{
-> > >>>> +     return container_of(panel, struct kingdisplay_panel, base);
-> > >>>> +}
-> > >>>> +
-> > >>>> +static int kingdisplay_panel_disable(struct drm_panel *panel)
-> > >>>> +{
-> > >>>> +     struct kingdisplay_panel *kingdisplay =3D to_kingdisplay_pan=
-el(panel);
-> > >>>> +     int err;
-> > >>>> +
-> > >>>> +     kingdisplay->dsi->mode_flags &=3D ~MIPI_DSI_MODE_LPM;
-> > >>>> +
-> > >>>> +     msleep(100);
-> > >>>> +
-> > >>>> +     err =3D mipi_dsi_dcs_set_display_off(kingdisplay->dsi);
-> > >>>> +     if (err < 0)
-> > >>>> +             dev_err(panel->dev, "failed to set display off: %d\n=
-", err);
-> > >>>> +
-> > >>>> +     msleep(50);
-> > >>>> +
-> > >>>> +     err =3D mipi_dsi_dcs_enter_sleep_mode(kingdisplay->dsi);
-> > >>>> +     if (err < 0) {
-> > >>>> +             dev_err(panel->dev, "failed to enter sleep mode: %d\=
-n", err);
-> > >>>> +             return err;
-> > >>>> +     }
-> > >>>> +
-> > >>>> +     msleep(120);
-> > >>>> +
-> > >>>> +     return 0;
-> > >>>> +}
-> > >>>> +
-> > >>>> +static int kingdisplay_panel_unprepare(struct drm_panel *panel)
-> > >>>> +{
-> > >>>> +     struct kingdisplay_panel *kingdisplay =3D to_kingdisplay_pan=
-el(panel);
-> > >>>> +     int err;
-> > >>>> +
-> > >>>> +     gpiod_set_value_cansleep(kingdisplay->enable_gpio, 0);
-> > >>>> +
-> > >>>> +     /* T15: 2ms */
-> > >>>> +     usleep_range(1000, 2000);
-> > >>>> +
-> > >>>> +     err =3D regulator_disable(kingdisplay->pp3300);
-> > >>>> +     if (err < 0)
-> > >>>> +             return err;
-> > >>>> +
-> > >>>> +     return 0;
-> > >>>> +}
-> > >>>> +
-> > >>>> +static int kingdisplay_panel_prepare(struct drm_panel *panel)
-> > >>>> +{
-> > >>>> +     struct kingdisplay_panel *kingdisplay =3D to_kingdisplay_pan=
-el(panel);
-> > >>>> +     int err;
-> > >>>> +
-> > >>>> +     gpiod_set_value(kingdisplay->enable_gpio, 0);
-> > >>>> +
-> > >>>> +     err =3D regulator_enable(kingdisplay->pp3300);
-> > >>>> +     if (err < 0)
-> > >>>> +             return err;
-> > >>>> +
-> > >>>> +     /* T1:Vdd to mipi_lp >=3D 0ms */
-> > >>>> +     usleep_range(5000, 6000);
-> > >>>> +
-> > >>>> +     if (kingdisplay->desc->lp11_before_reset) {
-> > >>>> +             err =3D mipi_dsi_dcs_nop(kingdisplay->dsi);
-> > >>>> +             if (err < 0)
-> > >>>> +                     goto poweroff;
-> > >>>> +
-> > >>>> +             usleep_range(1000, 2000);
-> > >>>> +     }
-> > >>>> +
-> > >>>> +     /* T2: 10ms, T1 + T2 > 60ms */
-> > >>>> +     msleep(60);
-> > >>>> +
-> > >>>> +     gpiod_set_value_cansleep(kingdisplay->enable_gpio, 1);
-> > >>>> +
-> > >>>> +     err =3D kingdisplay->desc->init(kingdisplay);
-> > >>>> +     if (err < 0)
-> > >>>> +             goto poweroff;
-> > >>>> +
-> > >>>> +     return 0;
-> > >>>> +
-> > >>>> +poweroff:
-> > >>>> +     gpiod_set_value(kingdisplay->enable_gpio, 0);
-> > >>>> +             /* T6: 2ms */
-> > >>>> +     usleep_range(1000, 2000);
-> > >>>> +     regulator_disable(kingdisplay->pp3300);
-> > >>>> +
-> > >>>> +     return err;
-> > >>>> +}
-> > >>>> +
-> > >>>> +static int kingdisplay_panel_enable(struct drm_panel *panel)
-> > >>>> +{
-> > >>>> +     msleep(130);
-> > >>>> +     return 0;
-> > >>>> +}
-> > >>>> +
-> > >>>> +static const struct drm_display_mode kingdisplay_kd101ne3_40ti_de=
-fault_mode =3D {
-> > >>>> +     .clock =3D 70595,
-> > >>>> +     .hdisplay =3D 800,
-> > >>>> +     .hsync_start =3D 800 + 30,
-> > >>>> +     .hsync_end =3D 800 + 30 + 30,
-> > >>>> +     .htotal =3D 800 + 30 + 30 + 30,
-> > >>>> +     .vdisplay =3D 1280,
-> > >>>> +     .vsync_start =3D 1280 + 30,
-> > >>>> +     .vsync_end =3D 1280 + 30 + 4,
-> > >>>> +     .vtotal =3D 1280 + 30 + 4 + 8,
-> > >>>> +     .type =3D DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-> > >>>> +};
-> > >>>> +
-> > >>>> +static const struct panel_desc kingdisplay_kd101ne3_40ti_desc =3D=
- {
-> > >>>> +     .modes =3D &kingdisplay_kd101ne3_40ti_default_mode,
-> > >>>> +     .bpc =3D 8,
-> > >>>> +     .size =3D {
-> > >>>> +             .width_mm =3D 135,
-> > >>>> +             .height_mm =3D 216,
-> > >>>> +     },
-> > >>>> +     .lanes =3D 4,
-> > >>>> +     .format =3D MIPI_DSI_FMT_RGB888,
-> > >>>> +     .mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SY=
-NC_PULSE |
-> > >>>> +                   MIPI_DSI_MODE_LPM,
-> > >>>> +     .init =3D kingdisplay_kd101ne3_init,
-> > >>>> +     .lp11_before_reset =3D true,
-> > >>>> +};
-> > >>>> +
-> > >>>> +static int kingdisplay_panel_get_modes(struct drm_panel *panel,
-> > >>>> +                            struct drm_connector *connector)
-> > >>>> +{
-> > >>>> +     struct kingdisplay_panel *kingdisplay =3D to_kingdisplay_pan=
-el(panel);
-> > >>>> +     const struct drm_display_mode *m =3D kingdisplay->desc->mode=
-s;
-> > >>>> +     struct drm_display_mode *mode;
-> > >>>> +
-> > >>>> +     mode =3D drm_mode_duplicate(connector->dev, m);
-> > >>>> +     if (!mode) {
-> > >>>> +             dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
-> > >>>> +                     m->hdisplay, m->vdisplay, drm_mode_vrefresh(=
-m));
-> > >>>> +             return -ENOMEM;
-> > >>>> +     }
-> > >>>> +
-> > >>>> +     mode->type =3D DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRE=
-D;
-> > >>>> +     drm_mode_set_name(mode);
-> > >>>> +     drm_mode_probed_add(connector, mode);
-> > >>>> +
-> > >>>> +     connector->display_info.width_mm =3D kingdisplay->desc->size=
-.width_mm;
-> > >>>> +     connector->display_info.height_mm =3D kingdisplay->desc->siz=
-e.height_mm;
-> > >>>> +     connector->display_info.bpc =3D kingdisplay->desc->bpc;
-> > >>>> +
-> > >>>> +     return 1;
-> > >>>> +}
-> > >>>> +
-> > >>>> +static enum drm_panel_orientation kingdisplay_panel_get_orientati=
-on(struct drm_panel *panel)
-> > >>>> +{
-> > >>>> +     struct kingdisplay_panel *kingdisplay =3D to_kingdisplay_pan=
-el(panel);
-> > >>>> +
-> > >>>> +     return kingdisplay->orientation;
-> > >>>> +}
-> > >>>> +
-> > >>>> +static const struct drm_panel_funcs kingdisplay_panel_funcs =3D {
-> > >>>> +     .disable =3D kingdisplay_panel_disable,
-> > >>>> +     .unprepare =3D kingdisplay_panel_unprepare,
-> > >>>> +     .prepare =3D kingdisplay_panel_prepare,
-> > >>>> +     .enable =3D kingdisplay_panel_enable,
-> > >>>> +     .get_modes =3D kingdisplay_panel_get_modes,
-> > >>>> +     .get_orientation =3D kingdisplay_panel_get_orientation,
-> > >>>> +};
-> > >>>> +
-> > >>>> +static int kingdisplay_panel_add(struct kingdisplay_panel *kingdi=
-splay)
-> > >>>> +{
-> > >>>> +     struct device *dev =3D &kingdisplay->dsi->dev;
-> > >>>> +     int err;
-> > >>>> +
-> > >>>> +     kingdisplay->pp3300 =3D devm_regulator_get(dev, "pp3300");
-> > >>>> +     if (IS_ERR(kingdisplay->pp3300))
-> > >>>> +             return dev_err_probe(dev, PTR_ERR(kingdisplay->pp330=
-0),
-> > >>>> +                                  "Cannot get pp3300\n");
-> > >>>> +
-> > >>>> +     kingdisplay->enable_gpio =3D devm_gpiod_get(dev, "enable", G=
-PIOD_OUT_LOW);
-> > >>>> +     if (IS_ERR(kingdisplay->enable_gpio))
-> > >>>> +             return dev_err_probe(dev, PTR_ERR(kingdisplay->enabl=
-e_gpio),
-> > >>>> +                                  "Cannot get enable GPIO\n");
-> > >>>> +
-> > >>>> +     drm_panel_init(&kingdisplay->base, dev, &kingdisplay_panel_f=
-uncs,
-> > >>>> +                    DRM_MODE_CONNECTOR_DSI);
-> > >>>> +
-> > >>>> +     err =3D of_drm_get_panel_orientation(dev->of_node, &kingdisp=
-lay->orientation);
-> > >>>> +     if (err < 0) {
-> > >>>> +             dev_err(dev, "%pOF: failed to get orientation %d\n",=
- dev->of_node, err);
-> > >>>> +             return err;
-> > >>>> +     }
-> > >>>> +
-> > >>>> +     err =3D drm_panel_of_backlight(&kingdisplay->base);
-> > >>>> +     if (err)
-> > >>>> +             return err;
-> > >>>> +
-> > >>>> +     kingdisplay->base.funcs =3D &kingdisplay_panel_funcs;
-> > >>>> +     kingdisplay->base.dev =3D &kingdisplay->dsi->dev;
-> > >>>> +
-> > >>>> +     drm_panel_add(&kingdisplay->base);
-> > >>>> +
-> > >>>> +     return 0;
-> > >>>> +}
-> > >>>> +
-> > >>>> +static int kingdisplay_panel_probe(struct mipi_dsi_device *dsi)
-> > >>>> +{
-> > >>>> +     struct kingdisplay_panel *kingdisplay;
-> > >>>> +     int ret;
-> > >>>> +     const struct panel_desc *desc;
-> > >>>> +
-> > >>>> +     kingdisplay =3D devm_kzalloc(&dsi->dev, sizeof(*kingdisplay)=
-, GFP_KERNEL);
-> > >>>> +     if (!kingdisplay)
-> > >>>> +             return -ENOMEM;
-> > >>>> +
-> > >>>> +     desc =3D of_device_get_match_data(&dsi->dev);
-> > >>>> +     dsi->lanes =3D desc->lanes;
-> > >>>> +     dsi->format =3D desc->format;
-> > >>>> +     dsi->mode_flags =3D desc->mode_flags;
-> > >>>> +     kingdisplay->desc =3D desc;
-> > >>>> +     kingdisplay->dsi =3D dsi;
-> > >>>> +     ret =3D kingdisplay_panel_add(kingdisplay);
-> > >>>> +     if (ret < 0)
-> > >>>> +             return ret;
-> > >>>> +
-> > >>>> +     mipi_dsi_set_drvdata(dsi, kingdisplay);
-> > >>>> +
-> > >>>> +     ret =3D mipi_dsi_attach(dsi);
-> > >>>> +     if (ret)
-> > >>>> +             drm_panel_remove(&kingdisplay->base);
-> > >>>> +
-> > >>>> +     return ret;
-> > >>>> +}
-> > >>>> +
-> > >>>> +static void kingdisplay_panel_remove(struct mipi_dsi_device *dsi)
-> > >>>> +{
-> > >>>> +     struct kingdisplay_panel *kingdisplay =3D mipi_dsi_get_drvda=
-ta(dsi);
-> > >>>> +     int ret;
-> > >>>> +
-> > >>>> +     ret =3D mipi_dsi_detach(dsi);
-> > >>>> +     if (ret < 0)
-> > >>>> +             dev_err(&dsi->dev, "failed to detach from DSI host: =
-%d\n", ret);
-> > >>>> +
-> > >>>> +     if (kingdisplay->base.dev)
-> > >>>> +             drm_panel_remove(&kingdisplay->base);
-> > >>>> +}
-> > >>>> +
-> > >>>> +static const struct of_device_id kingdisplay_of_match[] =3D {
-> > >>>> +     { .compatible =3D "kingdisplay,kd101ne3-40ti",
-> > >>>> +       .data =3D &kingdisplay_kd101ne3_40ti_desc
-> > >>>> +     },
-> > >>>> +     { /* sentinel */ }
-> > >>>> +};
-> > >>>> +MODULE_DEVICE_TABLE(of, kingdisplay_of_match);
-> > >>>> +
-> > >>>> +static struct mipi_dsi_driver kingdisplay_panel_driver =3D {
-> > >>>> +     .driver =3D {
-> > >>>> +             .name =3D "panel-kingdisplay-kd101ne3",
-> > >>>> +             .of_match_table =3D kingdisplay_of_match,
-> > >>>> +     },
-> > >>>> +     .probe =3D kingdisplay_panel_probe,
-> > >>>> +     .remove =3D kingdisplay_panel_remove,
-> > >>>> +};
-> > >>>> +module_mipi_dsi_driver(kingdisplay_panel_driver);
-> > >>>> +
-> > >>>> +MODULE_AUTHOR("Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.goog=
-le.com>");
-> > >>>> +MODULE_DESCRIPTION("kingdisplay kd101ne3-40ti 800x1280 video mode=
- panel driver");
-> > >>>> +MODULE_LICENSE("GPL v2");
+>> [1] https://elixir.bootlin.com/linux/v6.9/source/drivers/gpu/drm/drm_gem_dma_helper.c#L146
+>> [2] https://elixir.bootlin.com/linux/v6.9/source/Documentation/core-api/dma-api-howto.rst#L124
+>>
+>> Best regards
+>> Thomas
+>>
+>>>> I'm asking because if the driver allocates BOs via vmalloc(), should it really
+>>>> use fbdev-dma?
+>>> We use it for fbdev emulation. If drm_kms_helper.fbdev_emulation is 0,
+>>> fbdev emulation could be disabled.
+>>>
+>>> Thanks
+>>> Peng
+>>>> Best regards
+>>>> Thomas
+>>>>
+>>>>> Thanks,
+>>>>> Peng.
+>>>> --
+>>>> --
+>>>> Thomas Zimmermann
+>>>> Graphics Driver Developer
+>>>> SUSE Software Solutions Germany GmbH
+>>>> Frankenstrasse 146, 90461 Nuernberg, Germany
+>>>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman HRB
+>>>> 36809 (AG Nuernberg)
+>> -- 
+>> --
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Frankenstrasse 146, 90461 Nuernberg, Germany
+>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+>> HRB 36809 (AG Nuernberg)
+>>
 
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-
---=20
-With best wishes
-Dmitry
