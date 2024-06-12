@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6511890544A
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 15:54:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E470D90544B
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2024 15:54:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 866ED10E7C3;
-	Wed, 12 Jun 2024 13:54:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C2F110E854;
+	Wed, 12 Jun 2024 13:54:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33E4110E7C3
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3483D10E857
  for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 13:54:20 +0000 (UTC)
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:14])
- by gauss.telenet-ops.be (Postfix) with ESMTPS id 4Vzn8V6TZ9z4wyqw
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:13])
+ by gauss.telenet-ops.be (Postfix) with ESMTPS id 4Vzn8V6sf9z4wyrZ
  for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 15:54:18 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:170b:1b4a:247:a009])
- by xavier.telenet-ops.be with bizsmtp
- id aduH2C0053axqkY01duH19; Wed, 12 Jun 2024 15:54:18 +0200
+ by baptiste.telenet-ops.be with bizsmtp
+ id aduH2C0083axqkY01duHp4; Wed, 12 Jun 2024 15:54:18 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1sHOPX-008eJi-SD;
+ (envelope-from <geert@linux-m68k.org>) id 1sHOPX-008eJj-SD;
  Wed, 12 Jun 2024 15:54:17 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1sHOQa-00EdFe-V0;
+ (envelope-from <geert@linux-m68k.org>) id 1sHOQa-00EdFh-W8;
  Wed, 12 Jun 2024 15:54:16 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Jocelyn Falempe <jfalempe@redhat.com>,
@@ -35,10 +35,12 @@ To: Jocelyn Falempe <jfalempe@redhat.com>,
 Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
  linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 0/3] drm/panic: Fixes and graphical logo
-Date: Wed, 12 Jun 2024 15:54:07 +0200
-Message-Id: <cover.1718199918.git.geert+renesas@glider.be>
+Subject: [PATCH 1/3] drm/panic: Fix off-by-one logo size checks
+Date: Wed, 12 Jun 2024 15:54:08 +0200
+Message-Id: <653cc7f0ab18c1eadd8128debedefa5174591c90.1718199918.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1718199918.git.geert+renesas@glider.be>
+References: <cover.1718199918.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,37 +58,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-	Hi all,
+Logos that are either just as wide or just as high as the display work
+fine.
 
-If drm/panic is enabled, a user-friendly message is shown on screen when
-a kernel panic occurs, together with an ASCII art penguin logo.
-Of course we can do better ;-)
-Hence this patch series extends drm/panic to draw the monochrome
-graphical boot logo, when available, preceded by the customary fix.
+Fixes: bf9fb17c6672868d ("drm/panic: Add a drm panic handler")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/gpu/drm/drm_panic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This has been tested with rcar-du.
-
-Thanks for your comments!
-
-Geert Uytterhoeven (3):
-  drm/panic: Fix off-by-one logo size checks
-  drm/panic: Rename logo to logo_ascii
-  drm/panic: Add support for drawing a monochrome graphical logo
-
- drivers/gpu/drm/drm_panic.c | 81 +++++++++++++++++++++++++++++++++----
- drivers/video/logo/Kconfig  |  2 +
- 2 files changed, 75 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+index 7ece67086cecb79f..52d8a96b7dedff2c 100644
+--- a/drivers/gpu/drm/drm_panic.c
++++ b/drivers/gpu/drm/drm_panic.c
+@@ -444,7 +444,7 @@ static void draw_panic_static(struct drm_scanout_buffer *sb)
+ 		       bg_color, sb->format->cpp[0]);
+ 
+ 	if ((r_msg.x1 >= drm_rect_width(&r_logo) || r_msg.y1 >= drm_rect_height(&r_logo)) &&
+-	    drm_rect_width(&r_logo) < sb->width && drm_rect_height(&r_logo) < sb->height) {
++	    drm_rect_width(&r_logo) <= sb->width && drm_rect_height(&r_logo) <= sb->height) {
+ 		draw_txt_rectangle(sb, font, logo, logo_lines, false, &r_logo, fg_color, bg_color);
+ 	}
+ 	draw_txt_rectangle(sb, font, panic_msg, msg_lines, true, &r_msg, fg_color, bg_color);
 -- 
 2.34.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
