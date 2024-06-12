@@ -2,67 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E3CC9065DA
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 09:57:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4DA5906890
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 11:26:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E8C810E22F;
-	Thu, 13 Jun 2024 07:57:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32F3910E9BD;
+	Thu, 13 Jun 2024 09:26:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PLwyDk9J";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jpbKZnDb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8986110E22F;
- Thu, 13 Jun 2024 07:57:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 167B6618BC;
- Thu, 13 Jun 2024 07:57:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84C97C4AF5F;
- Thu, 13 Jun 2024 07:57:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718265438;
- bh=RmD8W+qERbJFVXWFv0k1jn2sHsDduLfg3wqCJILnzAg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PLwyDk9JvJ8UnzYIqw7zpM7zoe5LKeSGSq6cOz4IIKlaA2rW+C6EeeNNO5UHis+kL
- 8WGiNXPlGsdau9tTDTRAvEtfs8r/6jo5Sq/Uk2JIqbcQx6Fh4Ztsp7tEb1t3MnUsTy
- RaRpbPjIN1vq9JfOl3hBUegoHrjIRW886WtbNfp95ZcsBDhLmQ+DL3lMgZP4JHT42h
- tBjiDwWIF3Bb7txy302O9p4hj6J8GtAtd4xmWuY/S6pL23kiNaamDWYVD/54K81LYt
- JfaGnJM17s2CEBxopZBGFCAeUA3kC2hHEFBEGE3DlsEaKfKAna2GGpf2qQUMZoyDrf
- EshQ7w97yPB3A==
-Date: Thu, 13 Jun 2024 09:57:16 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/9] drm/bridge-connector: switch to using drmm
- allocations
-Message-ID: <20240613-hospitable-logical-jaguar-fc5b7d@houat>
-References: <20240607-bridge-hdmi-connector-v5-0-ab384e6021af@linaro.org>
- <20240607-bridge-hdmi-connector-v5-2-ab384e6021af@linaro.org>
- <20240610-secret-rottweiler-from-asgard-132f75@houat>
- <CAA8EJpogi2qm0bhCwumY4zj-xMUkF4zbK-NAPqCeDbLcybFciw@mail.gmail.com>
- <20240610-smooth-liberal-guan-59853e@houat>
- <t5pav3up5r6ezs4q37lc7jqlv55ftta7fnntp75b4pjboycwsm@uvs7q6frrzf5>
- <20240611-zippy-pragmatic-catfish-cceee5@houat>
- <CAA8EJppcqLm7UbW9n2Y_4mfJv4JFWDkPXJ8=TBL53LiFPADzpQ@mail.gmail.com>
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 497AB10E076;
+ Wed, 12 Jun 2024 19:15:47 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-4210aa00c94so2440435e9.1; 
+ Wed, 12 Jun 2024 12:15:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1718219745; x=1718824545; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:from:content-language
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vo8m4KlOGhS25C6+lszMv9SlJsyAa32d/Xx151ykrH0=;
+ b=jpbKZnDbVwKwBMHVAfJPawb8GxPXMl9L3zttoEOKxpfCHv4kPYHm5YhSRdmjKLN1FO
+ jdctt4fWF1R/D/3LV/k65ejs5jqOKil1KHfCOYB9xu7fDtdr+WtAQnT9KdgYF0KSr6cw
+ 6Hpa5G0v+O4jDeUDx/aRBx4fTVH21o5VgiDW8Jk5ll3MkTS7vsSN4ycGhOUTOy8HWm9I
+ na3Z8IyFtOlWLBNLYECis1cDlZ5Z4luql7vA5YgC7607uHX/eurVRcAPfwu5ca+t7cty
+ 2KlfT1qO7a6VqybQ0lIEu4ZdE6BrBAGazuW9MR16yYrUPCAPrJJofxBfUXXAawxwLtnf
+ q72A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718219745; x=1718824545;
+ h=content-transfer-encoding:cc:to:subject:from:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=vo8m4KlOGhS25C6+lszMv9SlJsyAa32d/Xx151ykrH0=;
+ b=QWCunyLRZmDIL2bkw1uanjB9KpW2GsK7G7d8eo/VOVM56oYItpQqWxlaiiGZO4DwWC
+ 046LW1JkRCWVxS9A9irpmzgsw7I/HyWOspHDM24+sroHD7+OkC7w9q9Fu1gc+tqaL4/6
+ +jiloHxBujzgC8W2dwXy6VzD2MiDX14vZxNQqDQOqDRRk6elKrBO6htTWZXDCQEgT293
+ uXpYiecZExSYGen0/yAe8//0OIg91SQDSlvp8lO4nxAIjTh+EQ5IYM3MayIsNedVHsPQ
+ mNYHalCSCtvXFlBp2YlWDyAiIeGoFcZNolYyJIVlF25SMHSNlwpSiJHbYVBGoQ7pHNC1
+ oeyg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUwhaSlZjyPNRFibnHaAMyyfy/4aGIQdcp+F/fnPqMfiE/EUrGcfVE2YbmCkBr2z602198IXDomiUYVaOCdA9Rk6Q91UuoU0gMXFxPGyZiyOJC42TLy1xzFyAXyWlNhdBnp4JYnHS5DJtjXnb0m0A==
+X-Gm-Message-State: AOJu0YzY8qIBlgp8JsbzBCqgC1g9Au5yAfHf2b4L4yqZiZbjhFeDXaLs
+ j6DtGgS8dhAYZj44dsytnQD1iHK5b9cl9SpgULC6R2UAdKVF3WnS
+X-Google-Smtp-Source: AGHT+IEcUPuXZBspVjeiHXcjE1nYMSGi/Q8yEKJDCmUlsN6YIMPJ+S3B8i/XNlX/NEP7O68VcrAKNw==
+X-Received: by 2002:a05:600c:45cd:b0:422:7c50:18ff with SMTP id
+ 5b1f17b1804b1-422866c55f9mr22454565e9.39.1718219745090; 
+ Wed, 12 Jun 2024 12:15:45 -0700 (PDT)
+Received: from [192.168.178.20] (dh207-42-203.xnet.hr. [88.207.42.203])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-422870f760fsm36773575e9.33.2024.06.12.12.15.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Jun 2024 12:15:44 -0700 (PDT)
+Message-ID: <4b7fd2f2-7ab2-412c-a65c-db172c819200@gmail.com>
+Date: Wed, 12 Jun 2024 21:15:42 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="odli6rndmcobp3e7"
-Content-Disposition: inline
-In-Reply-To: <CAA8EJppcqLm7UbW9n2Y_4mfJv4JFWDkPXJ8=TBL53LiFPADzpQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Mirsad Todorovac <mtodorovac69@gmail.com>
+Subject: [BUG] 6.10-rc3 [drm:amdgpu_fill_buffer [amdgpu]] *ERROR* Trying to
+ clear memory with ring turned off
+To: linux-kernel@vger.kernel.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, Le Ma <le.ma@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, Ma Jun
+ <Jun.Ma2@amd.com>, =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Thu, 13 Jun 2024 09:26:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,194 +94,174 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, all!
 
---odli6rndmcobp3e7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Running the vanilla torvalds tree kernel 6.10-rc3, there occurred an error in boot with
+amdgpu.
 
-On Tue, Jun 11, 2024 at 02:26:12PM GMT, Dmitry Baryshkov wrote:
-> On Tue, 11 Jun 2024 at 11:54, Maxime Ripard <mripard@kernel.org> wrote:
-> >
-> > On Mon, Jun 10, 2024 at 08:54:09PM GMT, Dmitry Baryshkov wrote:
-> > > On Mon, Jun 10, 2024 at 02:07:06PM +0200, Maxime Ripard wrote:
-> > > > Hi,
-> > > >
-> > > > +Hans
-> > > >
-> > > > On Mon, Jun 10, 2024 at 02:46:03PM GMT, Dmitry Baryshkov wrote:
-> > > > > On Mon, 10 Jun 2024 at 11:04, Maxime Ripard <mripard@kernel.org> =
-wrote:
-> > > > > >
-> > > > > > Hi,
-> > > > > >
-> > > > > > On Fri, Jun 07, 2024 at 04:22:59PM GMT, Dmitry Baryshkov wrote:
-> > > > > > > Turn drm_bridge_connector to using drmm_kzalloc() and
-> > > > > > > drmm_connector_init() and drop the custom destroy function. T=
-he
-> > > > > > > drm_connector_unregister() and fwnode_handle_put() are alread=
-y handled
-> > > > > > > by the drm_connector_cleanup() and so are safe to be dropped.
-> > > > > > >
-> > > > > > > Acked-by: Maxime Ripard <mripard@kernel.org>
-> > > > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > > > > ---
-> > > > > > >  drivers/gpu/drm/drm_bridge_connector.c | 23 +++++-----------=
--------
-> > > > > > >  1 file changed, 5 insertions(+), 18 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers=
-/gpu/drm/drm_bridge_connector.c
-> > > > > > > index 982552c9f92c..e093fc8928dc 100644
-> > > > > > > --- a/drivers/gpu/drm/drm_bridge_connector.c
-> > > > > > > +++ b/drivers/gpu/drm/drm_bridge_connector.c
-> > > > > > > @@ -15,6 +15,7 @@
-> > > > > > >  #include <drm/drm_connector.h>
-> > > > > > >  #include <drm/drm_device.h>
-> > > > > > >  #include <drm/drm_edid.h>
-> > > > > > > +#include <drm/drm_managed.h>
-> > > > > > >  #include <drm/drm_modeset_helper_vtables.h>
-> > > > > > >  #include <drm/drm_probe_helper.h>
-> > > > > > >
-> > > > > > > @@ -193,19 +194,6 @@ drm_bridge_connector_detect(struct drm_c=
-onnector *connector, bool force)
-> > > > > > >       return status;
-> > > > > > >  }
-> > > > > > >
-> > > > > > > -static void drm_bridge_connector_destroy(struct drm_connecto=
-r *connector)
-> > > > > > > -{
-> > > > > > > -     struct drm_bridge_connector *bridge_connector =3D
-> > > > > > > -             to_drm_bridge_connector(connector);
-> > > > > > > -
-> > > > > > > -     drm_connector_unregister(connector);
-> > > > > > > -     drm_connector_cleanup(connector);
-> > > > > > > -
-> > > > > > > -     fwnode_handle_put(connector->fwnode);
-> > > > > > > -
-> > > > > > > -     kfree(bridge_connector);
-> > > > > > > -}
-> > > > > > > -
-> > > > > > >  static void drm_bridge_connector_debugfs_init(struct drm_con=
-nector *connector,
-> > > > > > >                                             struct dentry *ro=
-ot)
-> > > > > > >  {
-> > > > > > > @@ -224,7 +212,6 @@ static const struct drm_connector_funcs d=
-rm_bridge_connector_funcs =3D {
-> > > > > > >       .reset =3D drm_atomic_helper_connector_reset,
-> > > > > > >       .detect =3D drm_bridge_connector_detect,
-> > > > > > >       .fill_modes =3D drm_helper_probe_single_connector_modes,
-> > > > > > > -     .destroy =3D drm_bridge_connector_destroy,
-> > > > > > >       .atomic_duplicate_state =3D drm_atomic_helper_connector=
-_duplicate_state,
-> > > > > > >       .atomic_destroy_state =3D drm_atomic_helper_connector_d=
-estroy_state,
-> > > > > > >       .debugfs_init =3D drm_bridge_connector_debugfs_init,
-> > > > > > > @@ -328,7 +315,7 @@ struct drm_connector *drm_bridge_connecto=
-r_init(struct drm_device *drm,
-> > > > > > >       int connector_type;
-> > > > > > >       int ret;
-> > > > > > >
-> > > > > > > -     bridge_connector =3D kzalloc(sizeof(*bridge_connector),=
- GFP_KERNEL);
-> > > > > > > +     bridge_connector =3D drmm_kzalloc(drm, sizeof(*bridge_c=
-onnector), GFP_KERNEL);
-> > > > > >
-> > > > > > So you make destroy's kfree call unnecessary here ...
-> > > > > >
-> > > > > > >       if (!bridge_connector)
-> > > > > > >               return ERR_PTR(-ENOMEM);
-> > > > > > >
-> > > > > > > @@ -383,9 +370,9 @@ struct drm_connector *drm_bridge_connecto=
-r_init(struct drm_device *drm,
-> > > > > > >               return ERR_PTR(-EINVAL);
-> > > > > > >       }
-> > > > > > >
-> > > > > > > -     ret =3D drm_connector_init_with_ddc(drm, connector,
-> > > > > > > -                                       &drm_bridge_connector=
-_funcs,
-> > > > > > > -                                       connector_type, ddc);
-> > > > > > > +     ret =3D drmm_connector_init(drm, connector,
-> > > > > > > +                               &drm_bridge_connector_funcs,
-> > > > > > > +                               connector_type, ddc);
-> > > > > >
-> > > > > > ... and here of drm_connector_cleanup.
-> > > > > >
-> > > > > > drm_connector_unregister wasn't needed, so can ignore it, but y=
-ou leak a reference to
-> > > > > > connector->fwnode since you don't call fwnode_handle_put anymor=
-e.
-> > > > > >
-> > > > > > We should register a drmm action right below the call to fwnode=
-_handle_get too.
-> > > > >
-> > > > > But drm_connector_cleanup() already contains
-> > > > > fwnode_handle_put(connector->fwnode). Isn't that enough?
-> > > >
-> > > > It does, but now I'm confused.
-> > > >
-> > > > drm_bridge_connector_init takes a reference, drm_connector_init doe=
-sn't.
-> > > > It will call drm_bridge_connector_destroy() that gives back its
-> > > > reference (which makes sense to me), but then why do
-> > > > drm_connector_cleanup() does? None of the drm_connector code even t=
-ook
-> > > > that reference, and we end up with a double-put.
-> > > >
-> > > > It looks like it was introduced by commit 48c429c6d18d ("drm/connec=
-tor:
-> > > > Add a fwnode pointer to drm_connector and register with ACPI (v2)")=
- from
-> > > > Hans, which does call put, but never gets that reference.
-> > >
-> > > The mentioned patch documents that pretty clearly:
-> > >
-> > > * Drivers can set this to associate a fwnode with a connector, drivers
-> > > * are expected to get a reference on the fwnode when setting this.
-> > > * drm_connector_cleanup() will call fwnode_handle_put() on this.
-> > >
-> > > This is logical. Whoever sets the drm_connector::fwnode pointer, shou=
-ld
-> > > get reference. This way drm_connector_init() doesn't need to play with
-> > > the reference counting. The cleanup code drops the reference (so the
-> > > driver doesn't need to), because cleanup might be assynchronous..
-> >
-> > Right, but it's the cleanup part that isn't logical. It makes total
-> > sense to have the connector that sets connector->fwnode get the
-> > reference itself. It doesn't make sense to have the core give that
-> > reference instead of the driver.
-> >
-> > It's confusing, because if the driver is supposed to handle its
-> > reference itself, then it should handle all of it itself. This bug is
-> > the testament for that: the natural approach is buggy.
->=20
-> I'd say this is the 'transfer of the ownership'. The base driver gets
-> the reference, and then gives it away to the drm_connecter. But indeed
-> this is not very intuitive.
->=20
-> I have looked at the original series by Hans/Heikky, but I don't seem
-> to be able to find a good way to solve that. The fwnode can be set
-> after initialising the drm_connector. And at the same time it doesn't
-> make so much sense to put that burden onto the driver. One option
-> might be to add drm_connector_set_fwnode() that will get the reference
-> internally, but that looks a bit like an overkill.
+Here is the complete output:
 
-It looks like there's only one driver that actually requires that kind
-of hack: i915. So, imo, the hacks should be in i915 and not cripple the
-core API.
+kernel: [    8.704024] WARNING: CPU: 24 PID: 689 at drivers/gpu/drm/amd/amdgpu/amdgpu_object.c:1379 amdgpu_bo_release_notify (drivers/gpu/drm/amd/amdgpu/amdgpu_object.c:1382 (discriminator 1)) amdgpu
+kernel: [    8.704146] Modules linked in: binfmt_misc amd_atl intel_rapl_msr intel_rapl_common edac_mce_amd kvm_amd kvm snd_hda_codec_realtek snd_hda_codec_generic amdgpu(+) crct10dif_pclmul nls_iso8859_1 snd_hda_scodec_component polyval_clmulni snd_hda_codec_hdmi polyval_generic ghash_clmulni_intel snd_hda_intel sha256_ssse3 sha1_ssse3 snd_intel_dspcfg snd_intel_sdw_acpi aesni_intel snd_hda_codec crypto_simd cryptd snd_seq_midi amdxcp snd_seq_midi_event snd_hda_core drm_exec gpu_sched joydev snd_rawmidi snd_hwdep rapl drm_buddy input_leds drm_suballoc_helper snd_seq drm_ttm_helper wmi_bmof snd_pcm snd_seq_device ttm k10temp ccp snd_timer drm_display_helper snd drm_kms_helper i2c_algo_bit soundcore mac_hid tcp_bbr sch_fq msr parport_pc ppdev lp parport efi_pstore drm ip_tables x_tables autofs4 btrfs blake2b_generic xor raid6_pq libcrc32c hid_generic usbhid hid nvme crc32_pclmul ahci i2c_piix4 nvme_core r8169 xhci_pci libahci xhci_pci_renesas realtek video wmi gpio_amdpt
+kernel: [    8.704200] CPU: 24 PID: 689 Comm: systemd-udevd Not tainted 6.10.0-rc1-next-20240528 #1
+kernel: [    8.704202] Hardware name: ASRock X670E PG Lightning/X670E PG Lightning, BIOS 1.21 04/26/2023
+kernel: [    8.704203] RIP: 0010:amdgpu_bo_release_notify (drivers/gpu/drm/amd/amdgpu/amdgpu_object.c:1382 (discriminator 1)) amdgpu
+kernel: [ 8.704324] Code: 0b e9 a3 fe ff ff 48 ba ff ff ff ff ff ff ff 7f 31 f6 4c 89 ef e8 c2 c4 dc ee eb 99 e8 eb bc dc ee eb b2 0f 0b e9 3c fe ff ff <0f> 0b eb a7 be 03 00 00 00 e8 b4 4b a1 ee eb 9b e8 4d 5c 36 ef 66
+All code
+========
+   0:	0b e9                	or     %ecx,%ebp
+   2:	a3 fe ff ff 48 ba ff 	movabs %eax,0xffffffba48fffffe
+   9:	ff ff 
+   b:	ff                   	(bad)  
+   c:	ff                   	(bad)  
+   d:	ff                   	(bad)  
+   e:	ff                   	(bad)  
+   f:	7f 31                	jg     0x42
+  11:	f6 4c 89 ef e8       	testb  $0xe8,-0x11(%rcx,%rcx,4)
+  16:	c2 c4 dc             	ret    $0xdcc4
+  19:	ee                   	out    %al,(%dx)
+  1a:	eb 99                	jmp    0xffffffffffffffb5
+  1c:	e8 eb bc dc ee       	call   0xffffffffeedcbd0c
+  21:	eb b2                	jmp    0xffffffffffffffd5
+  23:	0f 0b                	ud2    
+  25:	e9 3c fe ff ff       	jmp    0xfffffffffffffe66
+  2a:*	0f 0b                	ud2    		<-- trapping instruction
+  2c:	eb a7                	jmp    0xffffffffffffffd5
+  2e:	be 03 00 00 00       	mov    $0x3,%esi
+  33:	e8 b4 4b a1 ee       	call   0xffffffffeea14bec
+  38:	eb 9b                	jmp    0xffffffffffffffd5
+  3a:	e8 4d 5c 36 ef       	call   0xffffffffef365c8c
+  3f:	66                   	data16
 
-Maxime
+Code starting with the faulting instruction
+===========================================
+   0:	0f 0b                	ud2    
+   2:	eb a7                	jmp    0xffffffffffffffab
+   4:	be 03 00 00 00       	mov    $0x3,%esi
+   9:	e8 b4 4b a1 ee       	call   0xffffffffeea14bc2
+   e:	eb 9b                	jmp    0xffffffffffffffab
+  10:	e8 4d 5c 36 ef       	call   0xffffffffef365c62
+  15:	66                   	data16
+kernel: [    8.704325] RSP: 0018:ffffb74b014d3380 EFLAGS: 00010282
+kernel: [    8.704327] RAX: 00000000ffffffea RBX: ffff940781ec5c48 RCX: 0000000000000000
+kernel: [    8.704328] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+kernel: [    8.704329] RBP: ffffb74b014d33b8 R08: 0000000000000000 R09: 0000000000000000
+kernel: [    8.704330] R10: 0000000000000000 R11: 0000000000000000 R12: ffff9407dc80ef58
+kernel: [    8.704330] R13: ffff940781ec5c00 R14: 0000000000000000 R15: 0000000000000000
+kernel: [    8.704331] FS:  0000783805ca28c0(0000) GS:ffff941698600000(0000) knlGS:0000000000000000
+kernel: [    8.704333] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+kernel: [    8.704334] CR2: 00007ec7be572000 CR3: 000000010f7e4000 CR4: 0000000000750ef0
+kernel: [    8.704335] PKRU: 55555554
+kernel: [    8.704335] Call Trace:
+kernel: [    8.704337]  <TASK>
+kernel: [    8.704339] ? show_regs+0x71/0x90 
+kernel: [    8.704344] ? __warn+0x88/0x140 
+kernel: [    8.704347] ? amdgpu_bo_release_notify (drivers/gpu/drm/amd/amdgpu/amdgpu_object.c:1382 (discriminator 1)) amdgpu
+kernel: [    8.704464] ? report_bug+0x1ab/0x1c0 
+kernel: [    8.704468] ? handle_bug+0x46/0x90 
+kernel: [    8.704471] ? exc_invalid_op+0x19/0x80 
+kernel: [    8.704473] ? asm_exc_invalid_op+0x1b/0x20 
+kernel: [    8.704478] ? amdgpu_bo_release_notify (drivers/gpu/drm/amd/amdgpu/amdgpu_object.c:1382 (discriminator 1)) amdgpu
+kernel: [    8.704595] ttm_bo_release (drivers/gpu/drm/ttm/ttm_bo.c:341) ttm
+kernel: [    8.704601] ttm_bo_put (drivers/gpu/drm/ttm/ttm_bo.c:401) ttm
+kernel: [    8.704604] amdgpu_bo_free_kernel (drivers/gpu/drm/amd/amdgpu/amdgpu_object.c:875 drivers/gpu/drm/amd/amdgpu/amdgpu_object.c:459) amdgpu
+kernel: [    8.704721] dm_helpers_free_gpu_mem (./include/linux/list.h:218 ./include/linux/list.h:229 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c:1085) amdgpu
+kernel: [    8.704915] dcn315_clk_mgr_construct (drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c:655) amdgpu
+kernel: [    8.705113] dc_clk_mgr_create (drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/clk_mgr.c:267) amdgpu
+kernel: [    8.705302] dc_create (drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:1068 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:1427) amdgpu
+kernel: [    8.705468] ? srso_alias_return_thunk+0x5/0xfbef5 
+kernel: [    8.705470] ? dmi_matches+0xa0/0x230 
+kernel: [    8.705474] amdgpu_dm_init+0x2b3/0x2c30 amdgpu
+kernel: [    8.705643] ? prb_read_valid+0x1c/0x30 
+kernel: [    8.705646] ? srso_alias_return_thunk+0x5/0xfbef5 
+kernel: [    8.705647] ? console_unlock+0x77/0x120 
+kernel: [    8.705649] ? srso_alias_return_thunk+0x5/0xfbef5 
+kernel: [    8.705650] ? __wake_up_klogd.part.0+0x40/0x70 
+kernel: [    8.705652] ? srso_alias_return_thunk+0x5/0xfbef5 
+kernel: [    8.705653] ? dev_printk_emit+0x86/0xc0 
+kernel: [    8.705656] ? srso_alias_return_thunk+0x5/0xfbef5 
+kernel: [    8.705661] dm_hw_init (drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2572) amdgpu
+kernel: [    8.705806] amdgpu_device_init (drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:2653 drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:2870 drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:4303) amdgpu
+kernel: [    8.705925] ? srso_alias_return_thunk+0x5/0xfbef5 
+kernel: [    8.705927] ? pci_read_config_word+0x29/0x60 
+kernel: [    8.705929] ? srso_alias_return_thunk+0x5/0xfbef5 
+kernel: [    8.705930] ? do_pci_enable_device+0xe3/0x110 
+kernel: [    8.705934] amdgpu_driver_load_kms (drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:146) amdgpu
+kernel: [    8.706050] amdgpu_pci_probe (drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2291) amdgpu
+kernel: [    8.706165] local_pci_probe+0x48/0xb0 
+kernel: [    8.706167] pci_device_probe+0xc8/0x290 
+kernel: [    8.706170] really_probe+0xf4/0x3b0 
+kernel: [    8.706173] __driver_probe_device+0x8a/0x180 
+kernel: [    8.706175] driver_probe_device+0x23/0xd0 
+kernel: [    8.706177] __driver_attach+0x10f/0x220 
+kernel: [    8.706178] ? __pfx___driver_attach+0x10/0x10 
+kernel: [    8.706180] bus_for_each_dev+0x7a/0xe0 
+kernel: [    8.706182] driver_attach+0x1e/0x30 
+kernel: [    8.706184] bus_add_driver+0x11f/0x260 
+kernel: [    8.706185] driver_register+0x64/0x140 
+kernel: [    8.706188] ? __pfx_amdgpu_init (drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2525) amdgpu
+kernel: [    8.706301] __pci_register_driver+0x61/0x70 
+kernel: [    8.706303] amdgpu_init (drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2836) amdgpu
+kernel: [    8.706416] do_one_initcall+0x46/0x330 
+kernel: [    8.706419] ? kmalloc_trace_noprof+0x115/0x340 
+kernel: [    8.706423] do_init_module+0x6a/0x270 
+kernel: [    8.706426] load_module+0x21e9/0x22b0 
+kernel: [    8.706431] init_module_from_file+0x9c/0xf0 
+kernel: [    8.706433] ? srso_alias_return_thunk+0x5/0xfbef5 
+kernel: [    8.706434] ? init_module_from_file+0x9c/0xf0 
+kernel: [    8.706437] idempotent_init_module+0x184/0x240 
+kernel: [    8.706440] __x64_sys_finit_module+0x64/0xd0 
+kernel: [    8.706442] x64_sys_call+0x1903/0x26f0 
+kernel: [    8.706444] do_syscall_64+0x70/0x130 
+kernel: [    8.706446] ? srso_alias_return_thunk+0x5/0xfbef5 
+kernel: [    8.706447] ? do_syscall_64+0x7c/0x130 
+kernel: [    8.706449] entry_SYSCALL_64_after_hwframe+0x76/0x7e 
+kernel: [    8.706451] RIP: 0033:0x783805b1e88d
+kernel: [ 8.706452] Code: 5b 41 5c c3 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 73 b5 0f 00 f7 d8 64 89 01 48
+All code
+========
+   0:	5b                   	pop    %rbx
+   1:	41 5c                	pop    %r12
+   3:	c3                   	ret    
+   4:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+   b:	00 00 
+   d:	f3 0f 1e fa          	endbr64 
+  11:	48 89 f8             	mov    %rdi,%rax
+  14:	48 89 f7             	mov    %rsi,%rdi
+  17:	48 89 d6             	mov    %rdx,%rsi
+  1a:	48 89 ca             	mov    %rcx,%rdx
+  1d:	4d 89 c2             	mov    %r8,%r10
+  20:	4d 89 c8             	mov    %r9,%r8
+  23:	4c 8b 4c 24 08       	mov    0x8(%rsp),%r9
+  28:	0f 05                	syscall 
+  2a:*	48 3d 01 f0 ff ff    	cmp    $0xfffffffffffff001,%rax		<-- trapping instruction
+  30:	73 01                	jae    0x33
+  32:	c3                   	ret    
+  33:	48 8b 0d 73 b5 0f 00 	mov    0xfb573(%rip),%rcx        # 0xfb5ad
+  3a:	f7 d8                	neg    %eax
+  3c:	64 89 01             	mov    %eax,%fs:(%rcx)
+  3f:	48                   	rex.W
 
---odli6rndmcobp3e7
-Content-Type: application/pgp-signature; name="signature.asc"
+Code starting with the faulting instruction
+===========================================
+   0:	48 3d 01 f0 ff ff    	cmp    $0xfffffffffffff001,%rax
+   6:	73 01                	jae    0x9
+   8:	c3                   	ret    
+   9:	48 8b 0d 73 b5 0f 00 	mov    0xfb573(%rip),%rcx        # 0xfb583
+  10:	f7 d8                	neg    %eax
+  12:	64 89 01             	mov    %eax,%fs:(%rcx)
+  15:	48                   	rex.W
+kernel: [    8.706453] RSP: 002b:00007ffc702d1148 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+kernel: [    8.706455] RAX: ffffffffffffffda RBX: 0000594fe0ca0410 RCX: 0000783805b1e88d
+kernel: [    8.706456] RDX: 0000000000000000 RSI: 0000594fe0e08280 RDI: 0000000000000018
+kernel: [    8.706456] RBP: 0000000000020000 R08: 0000000000000000 R09: 0000000000000002
+kernel: [    8.706457] R10: 0000000000000018 R11: 0000000000000246 R12: 0000594fe0e08280
+kernel: [    8.706458] R13: 0000594fe0df04e0 R14: 0000000000000000 R15: 0000594fe0e005f0
+kernel: [    8.706461]  </TASK>
+kernel: [    8.706462] ---[ end trace 0000000000000000 ]---
 
------BEGIN PGP SIGNATURE-----
+Hope this helps.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZmqmWwAKCRDj7w1vZxhR
-xcjzAQDuOeXpsgePlCrhU3r5smgfj3E03ZHXYfWHP71uY61ASgEAodwkgwKkhBri
-T8x1uNmi+gNToVAgRiaOGjTKj5XRNA4=
-=rzeG
------END PGP SIGNATURE-----
+Best regards,
+Mirsad Todorovac
 
---odli6rndmcobp3e7--
