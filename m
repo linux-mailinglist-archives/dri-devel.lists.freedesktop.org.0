@@ -2,53 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE0F907BB9
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 20:47:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF7F3907C19
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 21:15:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E034A10EB5D;
-	Thu, 13 Jun 2024 18:47:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B193E10E011;
+	Thu, 13 Jun 2024 19:15:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G9eSwAzF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gzUl1M7v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52E8C10EB5D
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 18:47:14 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC6E110E011
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 19:15:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6C53461A8D;
- Thu, 13 Jun 2024 18:47:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E392C2BBFC;
- Thu, 13 Jun 2024 18:47:12 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 0CAF8CE1D2A;
+ Thu, 13 Jun 2024 19:15:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08D34C2BBFC;
+ Thu, 13 Jun 2024 19:15:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718304433;
- bh=6CfjmERPAvC/8/2dtK9KLsIJQPfSvo/2DU6MYJDWabE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=G9eSwAzFL/TAvwfSbOZgnbg9fyai0gIxBIozJGDKSH4J0uUHoUz+UyiEW4rjAloW4
- EgfpsYNd9t0SzTjfplKpzl61omwfIibj/5GpeST/gqH2zNlSWJ6ThukiNfnCSvtJao
- GjllABGwoV8f/CLolKnTfTg6HGHGRwB3huU7pC/PDhDoPpNydkxuD15MQA2WupbUvK
- cFUTkSquJsJRAXhrhLqiMQZTFXZyB870KLkO1EF793QHNghAQPcBA9eotv8ZX3reEH
- 0hfrFsTSNUEkQqEK83VjFoNyuaAdgEeObMNV6g3kqV1NAuFYWaM9Mpkclhj561maRp
- jLakN3XEU9nhw==
-Date: Thu, 13 Jun 2024 13:47:10 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
-Cc: Philipp Stanner <pstanner@redhat.com>, Hans de Goede <hdegoede@redhat.com>,
+ s=k20201202; t=1718306137;
+ bh=PxaAEnheuEVKucWpehjXgII5Lh2MtTO4KEUYjKFPDkw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gzUl1M7vQrd2T8fS4MvHteaVlR1Jg0QGhIBkzYQ8VNBg0lTX2rpjj0pAC/eLgQY/e
+ 6AQ8nRPOww0PlBfjVxVpfPv9MUz/a0mQzYdvhCAdVq8F4IuRuq8llzgQ03mjrSFBMp
+ +5mY9eOtmwMrpRXlt0ZSoID0xDfxfeHSYywgaxLNGv6CeG735rEWHy6IGMeMIJIypf
+ oxzJxsAAuj5LA/6v4XLmFfCiKZWRQQi9QIOcrOCZGCcOykdQ8kub+XLk8yPJGzfQuE
+ hSFCbKTpsZMyLng1o5+VvInMLoNLXzvLGq8w3AV1ghg3gNmXN1ETemlf7jYNXWkpH6
+ xNhP+d2XQzwLg==
+Date: Thu, 13 Jun 2024 13:15:35 -0600
+From: Rob Herring <robh@kernel.org>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Heiko Stuebner <heiko@sntech.de>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org
-Subject: Re: [PATCH v7 10/13] PCI: Give pci(m)_intx its own devres callback
-Message-ID: <20240613184710.GA1072582@bhelgaas>
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 3/9] dt-bindings: mailbox: rockchip,rknn: Add bindings
+Message-ID: <20240613191535.GA2319626-robh@kernel.org>
+References: <20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net>
+ <20240612-6-10-rocket-v1-3-060e48eea250@tomeuvizoso.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6cd568a9-1332-5a47-bdb2-ea079a8462af@linux.intel.com>
+In-Reply-To: <20240612-6-10-rocket-v1-3-060e48eea250@tomeuvizoso.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,27 +72,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 13, 2024 at 08:23:26PM +0300, Ilpo Järvinen wrote:
-> On Wed, 5 Jun 2024, Philipp Stanner wrote:
+On Wed, Jun 12, 2024 at 03:52:56PM +0200, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
+
+Subject is wrong. Not a mailbox...
+
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
+>  .../devicetree/bindings/npu/rockchip,rknn.yaml     | 123 +++++++++++++++++++++
+>  1 file changed, 123 insertions(+)
 > 
-> > pci_intx() is one of the functions that have "hybrid mode" (i.e.,
-> > sometimes managed, sometimes not). Providing a separate pcim_intx()
-> > function with its own device resource and cleanup callback allows for
-> > removing further large parts of the legacy PCI devres implementation.
+> diff --git a/Documentation/devicetree/bindings/npu/rockchip,rknn.yaml b/Documentation/devicetree/bindings/npu/rockchip,rknn.yaml
+> new file mode 100644
+> index 000000000000..570a4889c11c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/npu/rockchip,rknn.yaml
+> @@ -0,0 +1,123 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/npu/rockchip,rknn.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Neural Processing Unit IP from Rockchip, based on NVIDIA's NVDLA
+> +
+> +maintainers:
+> +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> +
+> +description: |+
+> +  Rockchip IP for accelerating inference of neural networks, based on NVIDIA's open source NVDLA IP.
 
-> > +/* Used to restore the old intx state on driver detach. */
+Wrap at 80.
+
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - rockchip,rk3588-rknn
+> +      - const: rockchip,rknn
+
+Is there any evidence this block is 'the same' on multiple chips?
+
+> +
+> +  reg:
+> +    description: Base registers for NPU cores
+> +    minItems: 1
+> +    maxItems: 20
+> +
+> +  interrupts:
+> +    minItems: 1
+> +    maxItems: 20
+> +
+> +  interrupt-names:
+> +    minItems: 1
+> +    maxItems: 20
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 20
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 20
+> +
+> +  assigned-clocks:
+> +    maxItems: 1
+> +
+> +  assigned-clock-rates:
+> +    maxItems: 1
+
+You don't need assigned-clocks in schemas.
+
+> +
+> +  resets:
+> +    minItems: 1
+> +    maxItems: 20
+> +
+> +  reset-names:
+> +    minItems: 1
+> +    maxItems: 20
+> +
+> +  power-domains:
+> +    minItems: 1
+> +    maxItems: 20
+> +
+> +  power-domain-names:
+> +    minItems: 1
+> +    maxItems: 20
+> +
+> +  iommus:
+> +    items:
+> +      - description: IOMMU for all cores
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - interrupt-names
+> +  - clocks
+> +  - clock-names
+> +  - assigned-clocks
+> +  - assigned-clock-rates
+
+And never should be required.
+
+> +  - resets
+> +  - reset-names
+> +  - power-domains
+> +  - power-domain-names
+> +  - iommus
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    bus {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        rknn: npu@fdab0000 {
+> +          compatible = "rockchip,rk3588-rknn", "rockchip,rknn";
+> +          reg = <0x0 0xfdab0000 0x0 0x9000>,
+> +                <0x0 0xfdac0000 0x0 0x9000>,
+> +                <0x0 0xfdad0000 0x0 0x9000>;
+> +          interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>,
+> +                       <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH 0>,
+> +                       <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH 0>;
+> +          interrupt-names = "npu0_irq", "npu1_irq", "npu2_irq";
+
+'irq' is redundant. Names with the index are also kind of pointless
+unless they can be not contiguous.
+
+> +          clocks = <&scmi_clk 0>, <&cru 1>,
+> +                   <&cru 2>, <&cru 3>,
+> +                   <&cru 4>, <&cru 5>,
+> +                   <&cru 6>, <&cru 7>;
+> +          clock-names = "clk_npu",
+
+'clk_' is redundant.
+
+> +                  "aclk0", "aclk1", "aclk2",
+> +                  "hclk0", "hclk1", "hclk2",
+> +                  "pclk";
+
+Assuming 0, 1, 2 are cores and may vary, put all the fixed clocks first 
+and then better to do "aclk0", "hclk0", "aclk1", "hclk1",...
+
+> +          assigned-clocks = <&scmi_clk 0>;
+> +          assigned-clock-rates = <200000000>;
+> +          resets = <&cru 0>, <&cru 1>, <&cru 2>,
+> +                   <&cru 3>, <&cru 4>, <&cru 5>;
+> +          reset-names = "srst_a0", "srst_a1", "srst_a2",
+> +                        "srst_h0", "srst_h1", "srst_h2";
+
+And similar order here.
+
+> +          power-domains = <&power 0>, <&power 1>, <&power 2>;
+> +          power-domain-names = "npu0", "npu1", "npu2";
+> +          iommus = <&rknpu_mmu>;
+> +          status = "disabled";
+> +        };
+> +    };
+> +...
 > 
-> INTx
-
-Updated locally in v9 series.
-
-> > @@ -392,32 +397,75 @@ int pcim_set_mwi(struct pci_dev *pdev)
-> >  }
-> >  EXPORT_SYMBOL(pcim_set_mwi);
-> >  
-> > +
-> >  static inline bool mask_contains_bar(int mask, int bar)
+> -- 
+> 2.45.2
 > 
-> Stray change.
-
-Updated locally in v9 series.
