@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3504907685
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 17:24:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1901907683
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 17:24:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2035E10EAB4;
-	Thu, 13 Jun 2024 15:24:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D89A710EAC2;
+	Thu, 13 Jun 2024 15:24:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ns.iliad.fr (ns.iliad.fr [212.27.33.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0AC610EAC4;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD8CF10EABA;
  Thu, 13 Jun 2024 15:23:56 +0000 (UTC)
 Received: from ns.iliad.fr (localhost [127.0.0.1])
- by ns.iliad.fr (Postfix) with ESMTP id 17E8220E64;
+ by ns.iliad.fr (Postfix) with ESMTP id 1D9F520FC7;
  Thu, 13 Jun 2024 17:16:37 +0200 (CEST)
 Received: from [127.0.1.1] (freebox.vlq16.iliad.fr [213.36.7.13])
- by ns.iliad.fr (Postfix) with ESMTP id F265D20AE4;
- Thu, 13 Jun 2024 17:16:36 +0200 (CEST)
+ by ns.iliad.fr (Postfix) with ESMTP id 0502920CF1;
+ Thu, 13 Jun 2024 17:16:37 +0200 (CEST)
 From: Marc Gonzalez <mgonzalez@freebox.fr>
-Date: Thu, 13 Jun 2024 17:15:52 +0200
-Subject: [PATCH v4 3/4] arm64: dts: qcom: msm8998: add HDMI GPIOs
+Date: Thu, 13 Jun 2024 17:15:53 +0200
+Subject: [PATCH v4 4/4] arm64: dts: qcom: add HDMI nodes for msm8998
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240613-hdmi-tx-v4-3-4af17e468699@freebox.fr>
+Message-Id: <20240613-hdmi-tx-v4-4-4af17e468699@freebox.fr>
 References: <20240613-hdmi-tx-v4-0-4af17e468699@freebox.fr>
 In-Reply-To: <20240613-hdmi-tx-v4-0-4af17e468699@freebox.fr>
 To: Vinod Koul <vkoul@kernel.org>, 
@@ -60,63 +60,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MSM8998 GPIO pin controller reference design defines:
+From: Arnaud Vrac <avrac@freebox.fr>
 
-- CEC: pin 31
-- DDC: pin 32,33
-- HPD: pin 34
+Port device nodes from vendor code.
 
-Downstream vendor code for reference:
-
-https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998-pinctrl.dtsi#L2324-2400
-
-mdss_hdmi_{cec,ddc,hpd}_{active,suspend}
-
+Signed-off-by: Arnaud Vrac <avrac@freebox.fr>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
 ---
- arch/arm64/boot/dts/qcom/msm8998.dtsi | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ arch/arm64/boot/dts/qcom/msm8998.dtsi | 100 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 99 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
-index e5f051f5a92de..ba5e873f0f35f 100644
+index ba5e873f0f35f..5c53957da61c5 100644
 --- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
 +++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
-@@ -1434,6 +1434,34 @@ blsp2_spi6_default: blsp2-spi6-default-state {
- 				drive-strength = <6>;
- 				bias-disable;
+@@ -2785,7 +2785,7 @@ mmcc: clock-controller@c8c0000 {
+ 				 <&mdss_dsi0_phy 0>,
+ 				 <&mdss_dsi1_phy 1>,
+ 				 <&mdss_dsi1_phy 0>,
+-				 <0>,
++				 <&hdmi_phy 0>,
+ 				 <0>,
+ 				 <0>,
+ 				 <&gcc GCC_MMSS_GPLL0_DIV_CLK>;
+@@ -2890,6 +2890,14 @@ dpu_intf2_out: endpoint {
+ 							remote-endpoint = <&mdss_dsi1_in>;
+ 						};
+ 					};
++
++					port@2 {
++						reg = <2>;
++
++						dpu_intf3_out: endpoint {
++							remote-endpoint = <&hdmi_in>;
++						};
++					};
+ 				};
+ 			};
+ 
+@@ -3045,6 +3053,96 @@ mdss_dsi1_phy: phy@c996400 {
+ 
+ 				status = "disabled";
  			};
 +
-+			hdmi_cec_default: hdmi-cec-default-state {
-+				pins = "gpio31";
-+				function = "hdmi_cec";
-+				drive-strength = <2>;
-+				bias-pull-up;
++			hdmi: hdmi-tx@c9a0000 {
++				compatible = "qcom,hdmi-tx-8998";
++				reg =	<0x0c9a0000 0x50c>,
++					<0x00780000 0x6220>,
++					<0x0c9e0000 0x2c>;
++				reg-names = "core_physical",
++					    "qfprom_physical",
++					    "hdcp_physical";
++
++				interrupt-parent = <&mdss>;
++				interrupts = <8>;
++
++				clocks = <&mmcc MDSS_MDP_CLK>,
++					 <&mmcc MDSS_AHB_CLK>,
++					 <&mmcc MDSS_HDMI_CLK>,
++					 <&mmcc MDSS_HDMI_DP_AHB_CLK>,
++					 <&mmcc MDSS_EXTPCLK_CLK>,
++					 <&mmcc MDSS_AXI_CLK>,
++					 <&mmcc MNOC_AHB_CLK>,
++					 <&mmcc MISC_AHB_CLK>;
++				clock-names =
++					"mdp_core",
++					"iface",
++					"core",
++					"alt_iface",
++					"extp",
++					"bus",
++					"mnoc",
++					"iface_mmss";
++
++				phys = <&hdmi_phy>;
++				#sound-dai-cells = <1>;
++
++				pinctrl-names = "default", "sleep";
++				pinctrl-0 = <&hdmi_hpd_default
++					     &hdmi_ddc_default
++					     &hdmi_cec_default>;
++				pinctrl-1 = <&hdmi_hpd_sleep
++					     &hdmi_ddc_default
++					     &hdmi_cec_default>;
++
++				status = "disabled";
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@0 {
++						reg = <0>;
++						hdmi_in: endpoint {
++							remote-endpoint = <&dpu_intf3_out>;
++						};
++					};
++
++					port@1 {
++						reg = <1>;
++						hdmi_out: endpoint {
++						};
++					};
++				};
 +			};
 +
-+			hdmi_ddc_default: hdmi-ddc-default-state {
-+				pins = "gpio32", "gpio33";
-+				function = "hdmi_ddc";
-+				drive-strength = <2>;
-+				bias-pull-up;
-+			};
++			hdmi_phy: hdmi-phy@c9a0600 {
++				compatible = "qcom,hdmi-phy-8998";
++				reg = <0x0c9a0600 0x18b>,
++				      <0x0c9a0a00 0x38>,
++				      <0x0c9a0c00 0x38>,
++				      <0x0c9a0e00 0x38>,
++				      <0x0c9a1000 0x38>,
++				      <0x0c9a1200 0x0e8>;
++				reg-names = "hdmi_pll",
++					    "hdmi_tx_l0",
++					    "hdmi_tx_l1",
++					    "hdmi_tx_l2",
++					    "hdmi_tx_l3",
++					    "hdmi_phy";
 +
-+			hdmi_hpd_default: hdmi-hpd-default-state {
-+				pins = "gpio34";
-+				function = "hdmi_hot";
-+				drive-strength = <16>;
-+				bias-pull-down;
-+			};
++				#clock-cells = <0>;
++				#phy-cells = <0>;
 +
-+			hdmi_hpd_sleep: hdmi-hpd-sleep-state {
-+				pins = "gpio34";
-+				function = "hdmi_hot";
-+				drive-strength = <2>;
-+				bias-pull-down;
++				clocks = <&mmcc MDSS_AHB_CLK>,
++					 <&gcc GCC_HDMI_CLKREF_CLK>,
++					 <&rpmcc RPM_SMD_XO_CLK_SRC>;
++				clock-names = "iface",
++					      "ref",
++					      "xo";
++
++				status = "disabled";
 +			};
  		};
  
- 		remoteproc_mss: remoteproc@4080000 {
+ 		venus: video-codec@cc00000 {
 
 -- 
 2.34.1
