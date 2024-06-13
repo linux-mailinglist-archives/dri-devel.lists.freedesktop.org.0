@@ -2,58 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE7FE90684E
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 11:17:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CBEE906831
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 11:11:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A748C10E18E;
-	Thu, 13 Jun 2024 09:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1220F10E9B4;
+	Thu, 13 Jun 2024 09:10:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=8bytes.org header.i=@8bytes.org header.b="TuJjJkej";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="GPRuXLY3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 414 seconds by postgrey-1.36 at gabe;
- Thu, 13 Jun 2024 09:17:31 UTC
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
- by gabe.freedesktop.org (Postfix) with ESMTP id 463BE10E04C;
- Thu, 13 Jun 2024 09:17:30 +0000 (UTC)
-Received: from 8bytes.org (pd9fe9dd8.dip0.t-ipconnect.de [217.254.157.216])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPSA id 0CA191C8182;
- Thu, 13 Jun 2024 11:10:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1718269836;
- bh=uwgNIsvKzltZ++YyP8KzyRNwS3DxApijGasjMKyMWAU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TuJjJkejGm0MfLgodYlEkxSB3Ynzcf7M+hp6VHakuN4+1vOgGlqd5oczCJuxEsOGu
- WqIkjKEwvX2haQyyUhbamusFUYwCEwIIRCIF6VlNfmtASHzYFmsyKRIG6pNAZcLWAd
- pnJcgXXchWIJBOdBNrJSEPf3B6PIWZ9BgiKB50q/eLtIjLHienBaLr1+0JriUp2iwW
- xk/7D9LdolUZZ5HhoJPZbmDBRZ1sPVJFbIQcrIIU/1NbVcFDt1gPY6qIkLDBDo8Uvq
- 6Qd10LFqV3aJzVyIm3o1i+I+IOwZREW/LL6A2t0dHY5MOTvWP1zx9xBezWuv8oVM9D
- PNrYHh/Swi8LQ==
-Date: Thu, 13 Jun 2024 11:10:34 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Rob Clark <robdclark@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Will Deacon <will@kernel.org>,
- Rob Clark <robdclark@chromium.org>,
- Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Kevin Tian <kevin.tian@intel.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
- "open list:IOMMU SUBSYSTEM" <iommu@lists.linux.dev>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 1/2] iommu/io-pgtable-arm: Add way to debug pgtable walk
-Message-ID: <Zmq3iqSc8fFV0N-q@8bytes.org>
-References: <20240523175227.117984-1-robdclark@gmail.com>
- <20240523175227.117984-2-robdclark@gmail.com>
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+ [209.85.208.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A514210E9B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 09:10:54 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id
+ 38308e7fff4ca-2e724bc466fso8212121fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 02:10:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1718269852; x=1718874652;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0qMad1s8HI1EFGHqapCwasRBkvGmdeiF4NnLv9ZSDU4=;
+ b=GPRuXLY3cK2/47Go41BelrnbY8gBbkmWTd3tUBEG3/lFalRx/GsMNPAdB6g0UDWvlG
+ e/GMd/e0CfUUjZ70WBFAMUKBN143/DvEwZyoDmL9oHw3B03WPpULxmLUwiCvYeaWK650
+ gibIjHfmpxiIj3D8ROe1XBELSRHL/8dguu/Is=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718269852; x=1718874652;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0qMad1s8HI1EFGHqapCwasRBkvGmdeiF4NnLv9ZSDU4=;
+ b=Y3J3hKz85q6VAkZToN3h/auvm964nsGKOc+dfG8HoRK5rRXfN2ozzPvvFrRfrG4Eep
+ PaSwXJwWouvVfGMrbUg52ub1ifkGA9gzDs6MlWhN9jZtPzwfetRUllzGHFKprcR8KHRd
+ CdyYyyxWE7qyDIWHrDwsajS7O1bay4r7Vt/5TY0ztLURtvkSiEc9m6kjgZWgr05zQRwf
+ QRI1ck+a2hiC2snZXWBKz9ryn8O6XDcjo223pBy2WLh/lUh2j4LZBiJaANGeCLR79mXL
+ 4DMKg1fSXpr2lv+/tLrxrw2xhMWCtbflr2QM3vcwnkFaKWCSVJqVy1/+lWLlB36CDE62
+ yxnQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVMGIkKLpAmMURpuu15j5hrh0Cs+yosAxmX1FyL3zOOMvMRxl/YiZstBC/jCPNI/mvUdZRH1BGc9Wc9ldF+vavO1863tNuhyks9JqyTB1t/
+X-Gm-Message-State: AOJu0Yz4EJR1/PcS7tWJ9iCfrri/42P3OhJPqYTzvWFZe25GWdYlgkCR
+ yaH/1DLDNSkk6n3kqtC8YWH5JRG/ihWQjF32pxJl1T5X9amDwmgeBZiY7KjHxh40cyxKbSlHFxn
+ 40OWRWXqf0yLTJaJmW4I8PZe0ggTI19PxFdq4
+X-Google-Smtp-Source: AGHT+IFE16q+3aJZ+pDB8j2rm8rHPIGnaWtqcWZM+SpiuLNffT3VD8BSWouvI+m971OdxrGKrmk+TlmqOWpCQUtBEeQ=
+X-Received: by 2002:a05:651c:19a6:b0:2eb:d77a:850c with SMTP id
+ 38308e7fff4ca-2ebfc8f0545mr43873481fa.4.1718269852401; Thu, 13 Jun 2024
+ 02:10:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240523175227.117984-2-robdclark@gmail.com>
+References: <20240530083513.4135052-1-wenst@chromium.org>
+ <20240530083513.4135052-4-wenst@chromium.org>
+ <cc5847a486a760921375f069a4f65cd29453a624.camel@imgtec.com>
+ <CAGXv+5FBqcXjTc+DO8VQierzcxTYhyNxpw+AuuB4U1H_Xo6wPg@mail.gmail.com>
+In-Reply-To: <CAGXv+5FBqcXjTc+DO8VQierzcxTYhyNxpw+AuuB4U1H_Xo6wPg@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 13 Jun 2024 17:10:41 +0800
+Message-ID: <CAGXv+5HC_spBAc-t4cS+aCOQKdfWRzMkXK94HmD1Qg02ML4Uug@mail.gmail.com>
+Subject: Re: [PATCH 3/6] dt-bindings: gpu: powervr-rogue: Add MediaTek MT8173
+ GPU
+To: Frank Binns <Frank.Binns@imgtec.com>, Adam Ford <aford173@gmail.com>
+Cc: "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>, 
+ Matt Coster <Matt.Coster@imgtec.com>, "sboyd@kernel.org" <sboyd@kernel.org>, 
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>, 
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "airlied@gmail.com" <airlied@gmail.com>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, 
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,17 +96,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 23, 2024 at 10:52:21AM -0700, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Add an io-pgtable method to walk the pgtable returning the raw PTEs that
-> would be traversed for a given iova access.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/iommu/io-pgtable-arm.c | 51 ++++++++++++++++++++++++++++------
->  include/linux/io-pgtable.h     |  4 +++
->  2 files changed, 46 insertions(+), 9 deletions(-)
+On Tue, Jun 4, 2024 at 12:18=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> w=
+rote:
+>
+> On Fri, May 31, 2024 at 9:37=E2=80=AFPM Frank Binns <Frank.Binns@imgtec.c=
+om> wrote:
+> >
+> > Hi ChenYu,
+> >
+> > On Thu, 2024-05-30 at 16:35 +0800, Chen-Yu Tsai wrote:
+> > > The MediaTek MT8173 comes with a PowerVR Rogue GX6250, which is one
+> > > of the Series6XT GPUs, another sub-family of the Rogue family.
+> >
+> > I've added Adam Ford who sent out some DT related patches [1] for the R=
+enesas
+> > variant of GX6250 and the GX6650 (another Series6XT GPU).
+> >
+> > >
+> > > This was part of the very first few versions of the PowerVR submissio=
+n,
+> > > but was later dropped. The compatible string has been updated to foll=
+ow
+> > > the new naming scheme adopted for the AXE series.
+> > >
+> > > In a previous iteration of the PowerVR binding submission [1], the
+> > > number of clocks required for the 6XT family was mentioned to be
+> > > always 3. This is also reflected here.
+> > >
+> > > [1] https://lore.kernel.org/dri-devel/6eeccb26e09aad67fb30ffcd523c793=
+a43c79c2a.camel@imgtec.com/
+> > >
+> > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > > ---
+> > >  .../bindings/gpu/img,powervr-rogue.yaml       | 24 +++++++++++++++--=
+--
+> > >  1 file changed, 20 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.=
+yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> > > index 256e252f8087..48aa205b66b4 100644
+> > > --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> > > +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> > > @@ -12,10 +12,17 @@ maintainers:
+> > >
+> > >  properties:
+> > >    compatible:
+> > > -    items:
+> > > -      - enum:
+> > > -          - ti,am62-gpu
+> > > -      - const: img,img-axe # IMG AXE GPU model/revision is fully dis=
+coverable
+> > > +    oneOf:
+> > > +      - items:
+> > > +          - enum:
+> > > +              - mediatek,mt8173-gpu
+> > > +          # PowerVR 6XT GPU model/revision is fully discoverable
+> > > +          - const: img,powervr-6xt
+> > > +      - items:
+> > > +          - enum:
+> > > +              - ti,am62-gpu
+> > > +          # IMG AXE GPU model/revision is fully discoverable
+> > > +          - const: img,img-axe
+> >
+> > The Series6XT GPU models have differing numbers of power domains (eithe=
+r 2, 4 or
+> > 5). Whereas, the AXE GPUs have a single power domain, so I assume there=
+ should
+> > be a related change here.
+> >
+> > The GX6250 has two power domains (lets call them A and B). There's a co=
+nstraint
+> > that if domain B is powered then domain A must also be powered.
+> >
+> > In patch 6 [2] it's setting the power domain to MT8173_POWER_DOMAIN_MFG=
+, which I
+> > believe corresponds to power domain B. I assume this works because the =
+MTK power
+> > controller driver is encoding the constraint above, meaning that when w=
+e disable
+> > or enable MT8173_POWER_DOMAIN_MFG it's also disabling/enabling MT8173_P=
+OWER_DOMA
+> > IN_MFG_2D (domain A).
+>
+> It could also be that the power domains are split in the glue layer and t=
+here
+> is some sequencing handled there. I'll reach out to MediaTek to see if th=
+ey
+> can dig up some design specifics.
 
-Acked-by: Joerg Roedel <jroedel@suse.de>
+Unfortunately they said they no longer have that information.
 
+> I assume you would like to see the separate power domains properly modele=
+d
+> in the device tree?
+
+So how should we go about this? Adam, do you have this information for
+your platform?
+
+Thanks
+ChenYu
+
+>
+> Thanks
+> ChenYu
+>
+> > Thanks
+> > Frank
+> >
+> > [1] https://lists.freedesktop.org/archives/dri-devel/2024-February/4435=
+48.html
+> > [2] https://lists.freedesktop.org/archives/dri-devel/2024-May/455833.ht=
+ml
+> >
+> > >
+> > >    reg:
+> > >      maxItems: 1
+> > > @@ -56,6 +63,15 @@ allOf:
+> > >        properties:
+> > >          clocks:
+> > >            maxItems: 1
+> > > +  - if:
+> > > +      properties:
+> > > +        compatible:
+> > > +          contains:
+> > > +            const: img,powervr-6xt
+> > > +    then:
+> > > +      properties:
+> > > +        clocks:
+> > > +          minItems: 3
+> > >
+> > >  examples:
+> > >    - |
