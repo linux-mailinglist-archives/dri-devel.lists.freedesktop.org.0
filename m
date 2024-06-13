@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0AE49069E8
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 12:25:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C9B9069EC
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 12:26:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43C7E10EA1B;
-	Thu, 13 Jun 2024 10:25:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A65E110EA06;
+	Thu, 13 Jun 2024 10:26:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TgWUmaTs";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IYCn6llg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 830CB10EA06
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 10:25:42 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-52c8c0d73d3so1067134e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 03:25:42 -0700 (PDT)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 470A210EA08
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 10:26:32 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-5295eb47b48so1090603e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 03:26:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718274340; x=1718879140; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1718274390; x=1718879190; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=sHGMgPc9G/z+2lw7yf2nSXgC88t1z5lABEQL0E9GiO0=;
- b=TgWUmaTsihxFFlpzqPhFGqRatQIY85iQAFlZVi0xPBYFCkelcPhtueMFF3iLGj7MSU
- 8SDrcvFLEuldx+5KBL/HQJIe9kyeszVE4xyJhpCxcnBDtnTscIXoH3hup8VDEaAY97lR
- up9GrtDpY+nb1OXSnA30Fl7VAMB2UK8DvvXsP1B5BZKuIaipbkwBDBKgYK5oJOvCYvT6
- TVskISPUSCPgh182BEdNRQUtaCyhGVhA99nVom2anH8Zh7mM/KvfDPDscetriFz9BLiV
- vjC1iez4mbRST6NJrU5ZtsqO74QPPLjllhLFALLHcIvPvho9nK1vtJhGuvKF5Wc3YxKX
- buOA==
+ bh=O8IPAtm7hl3+DMebd/JJeDAA0E3v2QqYpsHCeHSD4go=;
+ b=IYCn6llg4NhPVk9a/ADUkTD0rcZ5OkHsYZsbTSluTwdfDdgPaAxU5QtI2SQh8f/7tX
+ t8R/GdCl1ZQ2xyzLlIyExqUUyU6eugIj/DGsuCIo6WT6lmZNOPqAUEs2JupKG/pBy+9W
+ N532SOBgTTxwRibXKZJGkTlNZzWhN8GlG4iyzvq1kSMiV7+KsiEAMDKk9Xe9HK6leLlo
+ MNg9Rd5/mv9f3LuVtWg6BPjUADobxNmA1jRvax3xdG/LHLS6uJtuOLBDVIVmqjsVbtNj
+ M7DpUWPPqwPSCCjPAwvZgdt/Qf7F2UN4wZ0fU4uB9TWmAXC/7OiRqHTjRgFbNH8uKqgc
+ xF4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718274340; x=1718879140;
+ d=1e100.net; s=20230601; t=1718274390; x=1718879190;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sHGMgPc9G/z+2lw7yf2nSXgC88t1z5lABEQL0E9GiO0=;
- b=LfFl5eCIzc6yKOKrNrs6cAkIszBdTpHcwO0ylecYSzD6DCu2fE2F+UMcXpqArXms5Y
- NcAK92pPEsJnkYsIgjX9hONIoCGbgUcTKAg+URR1fu7O9lbSp2WCiwQLyBGdQlr04b1u
- VnlzCtBan0Gl3nJVmdQjO/vUotyqB9yptz73Dn6lSX6/M0i6o2QhZXq4AE+3h6d9o/Zz
- OKtxBDa+M1ZSKmyAxE9XF1khVuPuJ+g6jGdHcVb13HuGT5sVik794MBRcv53zVPEEOyR
- p3B9u3ldDI0BZS48bhHRNqY76a3Y+KioqiV1NiRuYDffPRP8/l+TEauL1mUFKJfEzxfp
- tLOw==
+ bh=O8IPAtm7hl3+DMebd/JJeDAA0E3v2QqYpsHCeHSD4go=;
+ b=c+4XY4w+kqKlAc5okeYTClPOVYTgngr0nfyO23cUOgCnM5ut4Z4TP2Xyv67/n0zXes
+ e31NuLZfF2xSC5w+3u6vaj45Rf4Mbr2hTKSfHcohvIqBQ7zx/BViarh9rNE/CqNUFL4v
+ VxCNV1iu4XnzQ2zK/jxKOJOxzbxhAbsnbcS9kizVxIOmaocfS/ft+4hrrmVdblzMmZOF
+ hqtkk9VwUZDaMYAE82yo3VzLYlqN8Fh+5BHO+XB/7h1+rU82DTVexinOruAK3+wiZHDz
+ P29iyxFMKWvHyKCjpfz5sG4YcG5oLmrjklsjmI3sJW8W9F3xnUzvJj/he9AEAe+EMUEq
+ UXiA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXz16Ch+ubK8Lt2gHVAWEh5f5Ks7jItUh22+k86aUyeN5vkkGruQb3BPeDZoM+hEi9/on44atkjcqp9eNcbX7iyCr+SDV/WFI5/mxLJtr6W
-X-Gm-Message-State: AOJu0YwgcAHF+r+EBx5XfIm4h6jfQ2KG2jDn6EqBsfnjqN6MW+e4oPL5
- WPV4PTlUiseSffPn7Dyk4yFwCNe0Kqgzcq/SdFM7GYyx1BItTWda5sHYqrg+eCo=
-X-Google-Smtp-Source: AGHT+IHTJQ7V8f1jGqJMe5oLIQTgVRHUYzAMHjKvf6kh93g1Iz79Scj+iB82cWFELEn+MzjKEkpoSA==
-X-Received: by 2002:a05:6512:398f:b0:529:b6b4:7e3c with SMTP id
- 2adb3069b0e04-52c9a8f1b49mr1452171e87.45.1718274340429; 
- Thu, 13 Jun 2024 03:25:40 -0700 (PDT)
+ AJvYcCVcvdluKg4g7XVyV4wYGNr0dbblIFKlooc5ZFkAKx+X8gmDNzVUzNywG6qq9K8BjDMl0PYKVMRTprx/jNhmesc/Li+U7+amjjJAKJxp3dHH
+X-Gm-Message-State: AOJu0YwpKROu4Ux6MfYvC5EK6T+NbKNolXtCVkXyH9IpkS9dNbU9Mp4D
+ 4+ATH97rJmTWv2UHsWvCmZeC37M8Bno1vU5oIucaN7a3mKzatFqlzZQ1E85MYCY=
+X-Google-Smtp-Source: AGHT+IGt4VhwL+5yWSqyKfLczUeVBdxDF1mrYotvvGw068d7nYHxPZnASRkoINFHxJR3kvUUUlTy3A==
+X-Received: by 2002:a19:5518:0:b0:52c:8591:1f7b with SMTP id
+ 2adb3069b0e04-52c9a3c7718mr2525584e87.24.1718274390316; 
+ Thu, 13 Jun 2024 03:26:30 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52ca2872332sm152631e87.171.2024.06.13.03.25.39
+ 2adb3069b0e04-52ca282de0fsm156021e87.67.2024.06.13.03.26.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jun 2024 03:25:40 -0700 (PDT)
-Date: Thu, 13 Jun 2024 13:25:38 +0300
+ Thu, 13 Jun 2024 03:26:29 -0700 (PDT)
+Date: Thu, 13 Jun 2024 13:26:28 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Marc Gonzalez <mgonzalez@freebox.fr>
 Cc: Maxime Ripard <mripard@kernel.org>, 
@@ -72,7 +72,7 @@ Cc: Maxime Ripard <mripard@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>,
  Pierre-Hugues Husson <phhusson@freebox.fr>, Arnaud Vrac <avrac@freebox.fr>
 Subject: Re: [PATCH v2] drm/bridge: simple-bridge: Add support for TI TDP158
-Message-ID: <i7lyy2gd74up76ubuw2xygwtayezvqxnt5gog5qn3h2youi6op@3ng4muunvpvv>
+Message-ID: <rdptet6pxdr3cmulrux24tevnlejgblnl5byjb2ypo7fm6tjn3@e4l6qdbr74ss>
 References: <b41f2f86-0d99-4199-92a9-42cbb9d6a6d5@freebox.fr>
  <ddd5joylbkovcdogfwhvzaepd3d6wxsnccgvpq2x3h6fmpo2hk@2sitzl6bjt7d>
  <57959aeb-20c2-4283-b316-c4ae5397177c@freebox.fr>
@@ -106,63 +106,8 @@ On Thu, Jun 13, 2024 at 04:12:22AM +0200, Marc Gonzalez wrote:
 > 
 > Is something simple like below acceptable?
 
-Well, the question was about bindings, not for the driver snippet.
-Anyway:
-
-> 	err = devm_regulator_get_enable(dev, "Vcc"); // 3.3V
-
-Usually all regulators are lowercase. so "vcc"
-
-Nit: I think enabling regulators should be deferred to the enable (or
-pre_enable) time.
-
-> 	msleep(100);
-> 	if (err)
-> 		return dev_err_probe(dev, err, "Vcc");
-> 
-> 	err = devm_regulator_get_enable(dev, "Vdd"); // 1.1V
-
-And here.
-
-> 	msleep(100);
-> 	if (err)
-> 		return dev_err_probe(dev, err, "Vdd");
-> 
-> 	tdp158->OE = devm_gpiod_get(dev, "OE", GPIOD_OUT_LOW);
-> 	if (IS_ERR(tdp158->OE))
-> 		return dev_err_probe(dev, PTR_ERR(tdp158->OE), "OE pin");
-
-"enable"
-
-> 	gpiod_set_value_cansleep(tdp158->OE, 1);
-
-Again, set it at runtime, please.
-
-> 
-> 	tdp158->bridge.of_node = dev->of_node;
-> 
-> 	return devm_drm_bridge_add(dev, &tdp158->bridge);
-> }
-> 
-> static const struct of_device_id tdp158_match_table[] = {
-> 	{ .compatible = "ti,tdp158" },
-> 	{ }
-> };
-> MODULE_DEVICE_TABLE(of, tdp158_match_table);
-> 
-> static struct i2c_driver tdp158_driver = {
-> 	.probe = tdp158_probe,
-> 	.driver = {
-> 		.name = "tdp158",
-> 		.of_match_table = tdp158_match_table,
-> 	},
-> };
-> 
-> module_i2c_driver(tdp158_driver);
-> 
-> MODULE_DESCRIPTION("TI TDP158 driver");
-> MODULE_LICENSE("GPL");
-> 
+Note, I'd really suggest extending simple-bridge.c instead to handle the
+second regulator.
 
 -- 
 With best wishes
