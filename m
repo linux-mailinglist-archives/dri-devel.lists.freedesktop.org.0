@@ -2,79 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A678906214
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 04:44:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4437B90635B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 07:14:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3974D10E17F;
-	Thu, 13 Jun 2024 02:44:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E497C10E921;
+	Thu, 13 Jun 2024 05:14:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="AHQG0OdT";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YVIj0wuD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9F7F10E17F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 02:44:44 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45CKn7d8023706;
- Thu, 13 Jun 2024 02:44:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=MLUQVv5YitGo0zW8uQZYib
- B8MNXu4CEZdiNI/YNSwEM=; b=AHQG0OdT3N+niUMgUlKRgxNlOgb6pCnAmkPhTy
- vsc4mN9jw+TEYN14NIEntgXS4pdFZID5OzIEqOkERHCfg6JMT6hvpYfbg0rwmF+s
- m6k26my46JJQT2liANl36aZHNbpTAwVi7yNnK/0pcONnvTnmEbjRcN4Mb/wF2x11
- vfI6nJ6u+oDE39CPpjxeuqQKEchiiTjJCRezyHJs/hT/q7u00qmXMPNG/tvp3Lww
- IaVe6/eW17Ua+gw47JoefTySfiS6EKXZ1GIMBYCQSeKmfimRLero6m0Au7gGadYD
- weshPVf8C848qT5hSb76tikINiNZ2dahL4MsqCQwT0l+Omeg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yqcxthq1g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jun 2024 02:44:41 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45D2ieY2010652
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jun 2024 02:44:40 GMT
-Received: from [169.254.0.1] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Jun
- 2024 19:44:39 -0700
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Date: Wed, 12 Jun 2024 19:44:37 -0700
-Subject: [PATCH] fbdev: vfb: add missing MODULE_DESCRIPTION() macro
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAEB210E102;
+ Thu, 13 Jun 2024 05:14:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718255674; x=1749791674;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=jKBLNDc0JaQ33vAfq9m5Y6cGHYOAJi1Q+J7Z5veYdqo=;
+ b=YVIj0wuDg4G4BENLTM8KUHuS3/97jBA4GKuKKUgXDnCyUZyUZKbELyhq
+ 6A4pXAZpq6XgjwBEEdPFPT4ruDPKjA8m34RcadtrEbf1XFefSKFaOdQHG
+ sLKom8CSXzqI1LdEaByDdR3YuRwMx+bJHwbQVZo55kyMAvTqPh69O7l4P
+ 4R6IHWTRdn8TWsx4kLgx7EM9V39i+QDJJWF6Df5nggLup3nPTvmhzpTXk
+ 8AJHlMQbAiWxQ3cuTaQPCtRl0PwtlY/yxul7HJxeKxQDmsy6XomasSpu9
+ EeG2n/i5Qa+Q3BcA4bESqMBfNXJCXpLcE/oREfzScYNb7IuavYv4jSG2r g==;
+X-CSE-ConnectionGUID: Dl9ljVOkReCwb530AbMlzg==
+X-CSE-MsgGUID: fFpKq0xaS/mIXYobcsPJ0A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="14774870"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="14774870"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jun 2024 22:13:08 -0700
+X-CSE-ConnectionGUID: PaV6sNLpSPy9ILNaV1z/9g==
+X-CSE-MsgGUID: YSNFnUKlTIu3ySQBIWbn8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="40126093"
+Received: from mgolanimitul-x299-ud4-pro.iind.intel.com ([10.190.239.114])
+ by orviesa009.jf.intel.com with ESMTP; 12 Jun 2024 22:13:06 -0700
+From: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Cc: mitulkumar.ajitkumar.golani@intel.com, ankit.k.nautiyal@intel.com,
+ suraj.kandpal@intel.com, jani.nikula@linux.intel.com, sfr@canb.auug.org.au
+Subject: [PATCH 0/2] CMRR patch fixes
+Date: Thu, 13 Jun 2024 10:43:15 +0530
+Message-ID: <20240613051317.345753-1-mitulkumar.ajitkumar.golani@intel.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240612-md-drivers-video-fbdev-vfb-v1-1-9bcbc286aac4@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIABRdamYC/x3MwQrCMAwA0F8ZORto5xjFXxEP7ZK6gOskcWUw9
- u9Wj+/yDjBWYYNbd4ByFZO1NPhLB9Mcy5NRqBl61w9u9D0uhKRSWQ2rEK+YE3HFmhPGgekaXOA
- wemjBWznL/s/vj+YUjTFpLNP8K19Sth2XaB9WOM8vQjqn94sAAAA=
-To: Helge Deller <deller@gmx.de>
-CC: <linux-fbdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>, "Jeff
- Johnson" <quic_jjohnson@quicinc.com>
-X-Mailer: b4 0.13.0
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: L1LlZP-qatQCw90_FrksOqPXGtbPMOHz
-X-Proofpoint-GUID: L1LlZP-qatQCw90_FrksOqPXGtbPMOHz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-12_12,2024-06-12_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0
- lowpriorityscore=0 mlxlogscore=923 spamscore=0 mlxscore=0
- priorityscore=1501 bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406130016
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,29 +66,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With ARCH=x86, make allmodconfig && make W=1 C=1 reports:
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/vfb.o
+Address following issues regarding CMRR
 
-Add the missing invocation of the MODULE_DESCRIPTION() macro.
+1. Describe target_rr_divider in struct drm_dp_as_sdp.
+3. Use required macro to avoid overflow.
 
-Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
----
- drivers/video/fbdev/vfb.c | 1 +
- 1 file changed, 1 insertion(+)
+Mitul Golani (2):
+  drm/dp: Describe target_rr_divider in struct drm_dp_as_sdp
+  drm/i915/display: Update calculation to avoid overflow
 
-diff --git a/drivers/video/fbdev/vfb.c b/drivers/video/fbdev/vfb.c
-index f86149ba3835..158e48385c24 100644
---- a/drivers/video/fbdev/vfb.c
-+++ b/drivers/video/fbdev/vfb.c
-@@ -546,5 +546,6 @@ static void __exit vfb_exit(void)
- 
- module_exit(vfb_exit);
- 
-+MODULE_DESCRIPTION("Virtual Frame Buffer driver");
- MODULE_LICENSE("GPL");
- #endif				/* MODULE */
+ drivers/gpu/drm/i915/display/intel_vrr.c | 9 +++++----
+ include/drm/display/drm_dp_helper.h      | 1 +
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
----
-base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-change-id: 20240612-md-drivers-video-fbdev-vfb-a4ed3808e861
+-- 
+2.45.2
 
