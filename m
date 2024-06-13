@@ -2,67 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347E5907EB1
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 00:16:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F4F1907EB6
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 00:18:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D4AC10EBCD;
-	Thu, 13 Jun 2024 22:16:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73B2610E149;
+	Thu, 13 Jun 2024 22:18:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BosEc/lA";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="NkioJ7SI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27A7B10EBCD
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 22:16:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1718317003;
- bh=H6GHq9+Uf+rJk6Vo53ar+G44bfZAHGauc8k+5SO/pc0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BosEc/lA4iOVOZeUH8LC9DYkCcCkQNqnMw22HxRF4RUTLJQ2/W8SHsV1Yc2ZjJcXR
- sJLzizZghM2BMJtCs9RwbfbTNU46OzUfxDeUFbbCf4tVGalKPC9zEatLs2S7u6bUR6
- xlVS2zemYr7sRArDKxIIIch6K80PCQa8AYck3wiKwAzMKG9H60SM99GhAPVbRjHtm0
- sZedgkDlwObcy9bYI9kJCal+xvYBPgmSi2R49nlDqRZKAsRIN5ZMTLW2LTroqyjjck
- GEMZD+4pVLKsjD/UDViYb1YHSU24df/ijWRkTrqeEiuriUyXTY0gv2InhK/SV04MEY
- hMAILiQXMpCmg==
-Received: from mercury (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: sre)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6FCB73780C6C;
- Thu, 13 Jun 2024 22:16:43 +0000 (UTC)
-Received: by mercury (Postfix, from userid 1000)
- id DDF9910608F7; Fri, 14 Jun 2024 00:16:42 +0200 (CEST)
-Date: Fri, 14 Jun 2024 00:16:42 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Heiko Stuebner <heiko@sntech.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Oded Gabbay <ogabbay@kernel.org>, Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Philipp Zabel <p.zabel@pengutronix.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
- iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 4/9] arm64: dts: rockchip: Add nodes for NPU and its MMU
- to rk3588s
-Message-ID: <rrmiv7lwj2refsmmdijwpccniw5chnyoma2gxcueeemxypbodx@mjpdrbqs37ce>
-References: <20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net>
- <20240612-6-10-rocket-v1-4-060e48eea250@tomeuvizoso.net>
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1CC810E149
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 22:18:13 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-2e72224c395so14045231fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 15:18:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1718317091; x=1718921891;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ivv8xxFePEFaIPZc0G+v3++kMFBsUSKEIP1k/xbjdQI=;
+ b=NkioJ7SI/YuuRjzF3BV9uqm0e8Mptyx+KkA0gzonaKkHUQbPNPEGCrXQ8T+02684Ej
+ 2tdtS82tWm5GvqAa5tXHuTI2Banfbr6YINWr3qpRPXwWG48dDW2BG7UIatz3pyKCOYaA
+ UGXWX/YIlxxOmvy9tWaH8scj/+spOy9aKN+B0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718317091; x=1718921891;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Ivv8xxFePEFaIPZc0G+v3++kMFBsUSKEIP1k/xbjdQI=;
+ b=oAxwXy+6VWKyEIg0UUearxOHiOAvkCaSTZBkG/N9IEGcoIhpoMWdIR0PJKLqOpUQio
+ 4yEt0NGnfLjVtH2fxSFpiYWAk/kpvpnRPwwyd6Pu3V7/vznkKf9TEpgFZiryI9TR0RRS
+ BqPrxQXsLp0iVDPCsNpfiMm30V1rQkpQk/wHmPUpo+mpSg0BpHnexlQpSy6tr0SZXjlS
+ 10jBx7OB/nvwe4lNZAkSeGM8fGPY0rnSfYPqTwrXvkIiAfP6PjLfKWrc70JLpN0U8Pxw
+ V7MhKLA7m856Y3zSVbCQgs3xBY8+/gbMr+g8bOrpfa7c66sLCaUn76m/+xEx6JD9MnI/
+ RqZw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXh7pf0bFQ7ZiE7K2W8pzQzO44NhgxZPhY3UhQqcBqskZk9ATR/M1yiFvWtpjnZWjxNx4l7H1XHhr1Sn9ZTCYEdj7+qUYdyUDlp3h3251Fj
+X-Gm-Message-State: AOJu0YyCGGj2KAt91Cp9y0DyJLZzgVgkpjD3OQNtZ9fOIQqXBVuVuV/3
+ 2UH1EfTb4GEc7QWORpXVdQhX+jF3++1ZzGfhTo1uD6NaEnztG6waylkMzY1X6na61j/W8+DRbCC
+ ZSYoShw==
+X-Google-Smtp-Source: AGHT+IE0fffjujPzZBOzvsS/vlokNacqw5ERD6nq+MN6MT0PEIUEjQeiQS9o2pCDpoVxdEvxS6MC4w==
+X-Received: by 2002:a2e:8199:0:b0:2ec:16a6:edc4 with SMTP id
+ 38308e7fff4ca-2ec16a6f070mr599261fa.42.1718317091342; 
+ Thu, 13 Jun 2024 15:18:11 -0700 (PDT)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com.
+ [209.85.208.176]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2ec05bf4378sm3817821fa.5.2024.06.13.15.18.11
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Jun 2024 15:18:11 -0700 (PDT)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-2ebf961e504so16075291fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 15:18:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXcj5auqriEqWz+wkufGkcRO2x9yfamr1RIeD/CVitPLgl2QrDzcET5CMkJRknPAdI7jQGgrQMY3TvKSGTPZwAur6DHOhlKWdSTV1zXrxbr
+X-Received: by 2002:a2e:92d6:0:b0:2eb:242b:652a with SMTP id
+ 38308e7fff4ca-2ec0e5c6ce9mr6646061fa.15.1718317090589; Thu, 13 Jun 2024
+ 15:18:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="zspmvcykvofgqjiu"
-Content-Disposition: inline
-In-Reply-To: <20240612-6-10-rocket-v1-4-060e48eea250@tomeuvizoso.net>
+References: <20240613023044.45873-1-laoar.shao@gmail.com>
+ <20240613023044.45873-6-laoar.shao@gmail.com>
+ <20240613141435.fad09579c934dbb79a3086cc@linux-foundation.org>
+In-Reply-To: <20240613141435.fad09579c934dbb79a3086cc@linux-foundation.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 13 Jun 2024 15:17:53 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgqrwFXK-CO8-V4fwUh5ymnUZ=wJnFyufV1dM9rC1t3Lg@mail.gmail.com>
+Message-ID: <CAHk-=wgqrwFXK-CO8-V4fwUh5ymnUZ=wJnFyufV1dM9rC1t3Lg@mail.gmail.com>
+Subject: Re: [PATCH v2 05/10] mm/util: Fix possible race condition in kstrdup()
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Yafang Shao <laoar.shao@gmail.com>, ebiederm@xmission.com, 
+ alexei.starovoitov@gmail.com, rostedt@goodmis.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ audit@vger.kernel.org, linux-security-module@vger.kernel.org, 
+ selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,126 +96,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 13 Jun 2024 at 14:14, Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> The concept sounds a little strange.  If some code takes a copy of a
+> string while some other code is altering it, yes, the result will be a
+> mess.  This is why get_task_comm() exists, and why it uses locking.
 
---zspmvcykvofgqjiu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The thing is, get_task_comm() is terminally broken.
 
-Hi,
+Nobody sane uses it, and sometimes it's literally _because_ it uses locking.
 
-On Wed, Jun 12, 2024 at 03:52:57PM GMT, Tomeu Vizoso wrote:
-> See Chapter 36 "RKNN" from the RK3588 TRM (Part 1).
->=20
-> This is a derivative of NVIDIA's NVDLA, but with its own front-end
-> processor.
->=20
-> Mostly taken from downstream.
->=20
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> ---
+Let's look at the numbers:
 
-Looking at the TRM I noticed, that this register is not mapped:
+ - 39 uses of get_task_comm()
 
-RKNN_global_operation_enable
-Address: Operational Base + offset (0xF008)
+ - 2 uses of __get_task_comm() because the locking doesn't work
 
--- Sebastian
+ - 447 uses of raw "current->comm"
 
->  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 53 +++++++++++++++++++++++++=
-++++++
->  1 file changed, 53 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/=
-dts/rockchip/rk3588s.dtsi
-> index 6ac5ac8b48ab..a5d53578c8f6 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> @@ -2665,6 +2665,59 @@ gpio4: gpio@fec50000 {
->  			#interrupt-cells =3D <2>;
->  		};
->  	};
-> +
-> +	rknn: npu@fdab0000 {
-> +		compatible =3D "rockchip,rk3588-rknn", "rockchip,rknn";
-> +		reg =3D <0x0 0xfdab0000 0x0 0x9000>,
-> +		      <0x0 0xfdac0000 0x0 0x9000>,
-> +		      <0x0 0xfdad0000 0x0 0x9000>;
-> +		interrupts =3D <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>,
-> +			     <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH 0>,
-> +			     <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		interrupt-names =3D "npu0_irq", "npu1_irq", "npu2_irq";
-> +		clocks =3D <&scmi_clk SCMI_CLK_NPU>, <&cru ACLK_NPU0>,
-> +			 <&cru ACLK_NPU1>, <&cru ACLK_NPU2>,
-> +			 <&cru HCLK_NPU0>, <&cru HCLK_NPU1>,
-> +			 <&cru HCLK_NPU2>, <&cru PCLK_NPU_ROOT>;
-> +		clock-names =3D "clk_npu",
-> +			      "aclk0", "aclk1", "aclk2",
-> +			      "hclk0", "hclk1", "hclk2",
-> +			      "pclk";
-> +		assigned-clocks =3D <&scmi_clk SCMI_CLK_NPU>;
-> +		assigned-clock-rates =3D <200000000>;
-> +		resets =3D <&cru SRST_A_RKNN0>, <&cru SRST_A_RKNN1>, <&cru SRST_A_RKNN=
-2>,
-> +			 <&cru SRST_H_RKNN0>, <&cru SRST_H_RKNN1>, <&cru SRST_H_RKNN2>;
-> +		reset-names =3D "srst_a0", "srst_a1", "srst_a2",
-> +			      "srst_h0", "srst_h1", "srst_h2";
-> +		power-domains =3D <&power RK3588_PD_NPUTOP>,
-> +				<&power RK3588_PD_NPU1>,
-> +				<&power RK3588_PD_NPU2>;
-> +		power-domain-names =3D "npu0", "npu1", "npu2";
-> +		iommus =3D <&rknn_mmu>;
-> +		status =3D "disabled";
-> +	};
-> +
-> +	rknn_mmu: iommu@fdab9000 {
-> +		compatible =3D "rockchip,rk3588-iommu";
-> +		reg =3D <0x0 0xfdab9000 0x0 0x100>,
-> +		      <0x0 0xfdaba000 0x0 0x100>,
-> +		      <0x0 0xfdaca000 0x0 0x100>,
-> +		      <0x0 0xfdada000 0x0 0x100>;
-> +		interrupts =3D <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>,
-> +			     <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH 0>,
-> +			     <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		interrupt-names =3D "npu0_mmu", "npu1_mmu", "npu2_mmu";
-> +		clocks =3D <&cru ACLK_NPU0>, <&cru ACLK_NPU1>, <&cru ACLK_NPU2>,
-> +			 <&cru HCLK_NPU0>, <&cru HCLK_NPU1>, <&cru HCLK_NPU2>;
-> +		clock-names =3D "aclk0", "aclk1", "aclk2",
-> +			      "iface0", "iface1", "iface2";
-> +		#iommu-cells =3D <0>;
-> +		power-domains =3D <&power RK3588_PD_NPUTOP>,
-> +				<&power RK3588_PD_NPU1>,
-> +				<&power RK3588_PD_NPU2>;
-> +		power-domain-names =3D "npu0", "npu1", "npu2";
-> +		status =3D "disabled";
-> +	};
->  };
-> =20
->  #include "rk3588s-pinctrl.dtsi"
->=20
-> --=20
-> 2.45.2
->=20
->=20
+ - 112 uses of raw 'ta*sk->comm' (and possibly
 
---zspmvcykvofgqjiu
-Content-Type: application/pgp-signature; name="signature.asc"
+IOW, we need to just accept the fact that nobody actually wants to use
+"get_task_comm()". It's a broken interface. It's inconvenient, and the
+locking makes it worse.
 
------BEGIN PGP SIGNATURE-----
+Now, I'm not convinced that kstrdup() is what anybody should use
+should, but of the 600 "raw" uses of ->comm, four of them do seem to
+be kstrdup.
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmZrb8cACgkQ2O7X88g7
-+pp7Cg/+NCeY7EqR6sVyOOVSi/PrBFnVjcHw6BjQgMwiP8UMdW034jc+YCDpUOtM
-GLyYAe491EldwputLm6HNquT4/ad0/28h0HVzXHKeu6ulTga/j5rNV79GYyDhwTJ
-h+ror+9q3BquIkAjiKc9wPEQyL32hr0eBom8Q1yzPwEcF140VO/StE/YRC+aeZca
-UZ8f4lfJnR8M8TIb7uV4KWIkPDSbJtqxoYWseX5+Z0xDdnkIScgP0MgleLcsJIr5
-m+3OC/Ln+jjRZq5uEaN19gHWeMZS2YJX4q79TYCc/qbztzXQWpahLoMnx7ZahUDN
-Nwb/wQF12rOO4Pxiveex6Z9rkf1PQz/Vy6G1AQM7XQSpZcTt7Qi+bqcuSzKDiBXB
-KDFKOyvbRbRshWrTUTep6IkrL4Y+RIezL9k06JTA6iRX8jcininTf4ZZ8EDpKgJl
-+houmNpaxasXiknJfcFltFDKYT09WTLUNaTi7MszTCSt0Spk/dXhHXmcczOWK/Q1
-3aVL56LpdzKZIby//ncK2VZxTZv1eLhEMdTeU5FlvzfyFBU7HwqTfAzyrKOUvu1j
-q0UmDYg7x0w9y/eeBY8BSGF81h223yUb2hg2BDIXJw8fLZQQrnjSnemyBgjtJ0Cn
-Smr9JW2zV38Lq64iR5WiETtr/hrVZe0PiVhyqWGsxS1PRPIGpZ4=
-=qyNK
------END PGP SIGNATURE-----
+Not great, I think they could be removed, but they are examples of
+people doing this. And I think it *would* be good to have the
+guarantee that yes, the kstrdup() result is always a proper string,
+even if it's used for unstable sources. Who knows what other unstable
+sources exist?
 
---zspmvcykvofgqjiu--
+I do suspect that most of the raw uses of 'xyz->comm' is for
+printouts. And I think we would be better with a '%pTSK' vsnprintf()
+format thing for that.
+
+Sadly, I don't think coccinelle can do the kinds of transforms that
+involve printf format strings.
+
+And no, a printk() string still couldn't use the locking version.
+
+               Linus
