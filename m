@@ -2,89 +2,190 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D22B907383
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 15:23:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2BC39074EA
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 16:17:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A04810EA8D;
-	Thu, 13 Jun 2024 13:23:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7845D10EA9A;
+	Thu, 13 Jun 2024 14:16:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Lc35jH/D";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bL2P2cfM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
- [209.85.215.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33FE110EA90
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 13:23:26 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id
- 41be03b00d2f7-6ce533b643dso752770a12.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 06:23:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718285005; x=1718889805; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UY7+qVTCBnkic8L6HrX2KqWBFLJlyWpgMqTcC8mYb1g=;
- b=Lc35jH/Dyko7dPSsC6s/GAXZCazyoGdLNIr8k3DxqhQDz+AUIv0SAdHusKQCCf5u9Q
- wjQnDZbB1JvNXsqFSiUAeBbd+Ju2skWjVv2FfKFeT+App1C2B7UGj9611/h+KxkDTcVX
- iT3QEScCY/QIPPCrG7dos4odWTTOOwlBmiY3lwM8CCMboY3lLhUJGf0LPaHYxA81mwsk
- +wGKX+8EptqW0LqkabarM/R0rIfb189TkWsRXSYQaEe9apBveZvrKnmIMp+BYVL+3eYR
- NAIG9xhHNkFU7ErFbnaK/vxAcijJvQJeVKhDWcZnaCE2WywU+yu9U0Lo3WsprmRU+R+I
- SbvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718285005; x=1718889805;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UY7+qVTCBnkic8L6HrX2KqWBFLJlyWpgMqTcC8mYb1g=;
- b=sgQL2uatA/el9obO9olVS6KciIYwsPcIIZ1zVtLnD/T2t6p0MgRasJ2U77BploBTuq
- lS9HFW/x/JOBkw7nH33wB0bm+R35REgrSeEjBPaAY4PesrVF5sCGrwO/ynxiaWf5zJ+6
- A78bNSb69RwcM17UjzbRqGGeMWN/Z1+2sNJwW5kBmTCq4j5k1v5KTsYd7wDClI2NFT2r
- 7Ddr/+dgXz/i6EzH3cUnLUL0i6Qp0x9HtIupv2fENzpaQ108/pBqXaMPv0CZSIr6SM/U
- h297pj5gMpt5mrN/YZcsQagADem4j+Mpxljxn9+nvWAwL67PRwJYFRfjlNc+Oymflo3r
- 6oWg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWA4haUxdAOQ+t/e1IQdrMH78tKFd81WViksc7Hi2pk25q5fhW0N75syOXYAuNU1AJxsA2NcmS0TI1CDFrsWBlU+Svv37/yAVALMAWsjceD
-X-Gm-Message-State: AOJu0Yz01EK1AFDsDYnLOjii65XWVQlngF6EKoBhp4627DZD2sCkqY8S
- RqQNP0x7/MjHS5t0LvmFHqmLNJA9SXhZGFdmrsze45LXUu99Vv9KQ2PY1czfw3fr37D4rpJrEa+
- cTZ+vUGc+I1ZQYiG9UaGZVMxccyM=
-X-Google-Smtp-Source: AGHT+IFjS6qqHBjZXHKWN1u+dasS0C5YOlgGO92F1+LaOmoGNT/BOCRy3ovZaMBx8lFhb6yb/cyp8I+kce1iGOhlNQM=
-X-Received: by 2002:a17:90b:1909:b0:2bf:de54:f5b with SMTP id
- 98e67ed59e1d1-2c4a762fdebmr4954256a91.18.1718285005354; Thu, 13 Jun 2024
- 06:23:25 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B12F10EA9A
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 14:16:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718288215; x=1749824215;
+ h=message-id:date:subject:from:to:cc:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=WAgIKctPXo618HX4GNh/QQLPeDPEo2vqY+Ess8QvtDc=;
+ b=bL2P2cfMEL0V1qBOB0Mxw2q0M+J/Dy5zpfEqaH6dDNkTyoivzitfyTL3
+ NzkUAN8CNS0XeFUyKPTk+aaoB3DRoyoW/aRztFiyN2ekkiFzUwwrJi/zU
+ 20qE7T71ppK61NdMIKjP6uLEAEzbji7DLMKXVDom39SRErcJxhG0t3lSX
+ qTezawN66mPIOBM1s5YljCuCqZC7Py/QBh3ltKDqZvw7zfsGq1MnnWdc7
+ EeFHmHZKkQIF/g+51BKCSrCeR1RfaiWJuPSUmhOBVlkwe3LtkPpuMUd/C
+ resBLP6P4LSAAc8sA6jFH31TFKYL9KojJFnzNVDerDkEHrAj+lko89qSc w==;
+X-CSE-ConnectionGUID: vGCNYamJRuKpKpD4zGK6OQ==
+X-CSE-MsgGUID: m29zETTRQeKJQ+irzsYH/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="18940495"
+X-IronPort-AV: E=Sophos;i="6.08,235,1712646000"; d="scan'208";a="18940495"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2024 07:16:44 -0700
+X-CSE-ConnectionGUID: 1iBJ2JfJTzeBFghhHRNdeg==
+X-CSE-MsgGUID: ruPiU75oTBKCnWpVCABumA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,235,1712646000"; d="scan'208";a="71377484"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 13 Jun 2024 07:16:41 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 13 Jun 2024 07:16:40 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 13 Jun 2024 07:16:40 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 13 Jun 2024 07:16:40 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.45) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 13 Jun 2024 07:16:40 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xg3Uvt9iVAsiJbdL/Y3btLVvtBNawZlTY3WAYAnjKiiHa5rpAw7NtZoBB6OVg7oQWCxcP3ZfbNqKp3f3phPYOkNPyk8/nRe3qVDdvYc9tjj8IfnV65nSP+oGGqt/zPIeRlLplFU1TfkgtqQX7VD+ktk8nNMutSUeeWG0EpfdPfX/9CIeNMMMDYEg65A3/BgEiivzHm0mBCOAmEqM5+EuRHN5r9iAGWfbFdXKx9ZtX46VH3zLAXhQdTC8WyaCoLCMSW3IwbMyGVRCEAtT5Iv8Mj4xrxn/7WGdRcb78uN6ERHOJ7poK4qIWbVwHBxi+B/GcA9bO/HkGTTAo+A8HAgheA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kiyNPNDaAjLbysq3UeXt41dqBsABhp2Bmj8JlgKKkZI=;
+ b=WHVRfIpOF0qiSozsuk0VFbY4OG9pQjUwHtjpDEWS2epCn1MeYAhz+HsO6ZzgDyUz+VLu5v4sN5ShxXjcORwte3CzxeWzxgPaBJup7hUX8/PgcaDAmeuMv0z3dgg6crmgjD5oCdLs7lohbX85DjA0zfp85dQmauGJsei3w4B10ATn+7y/rd/g7GrlSBzkkKb49oFdVA2pg92Hxn/B3Ms/z90DlqqaNVT3U5vlMje4VuclfcOLsXzUvfkpgcqch0ZuL6+zhrsawUrpf+9OLzrwXNznMZU0ohW+S2j0QjGHa+pSjumFrexZtmLPGe4vG+HVMabXz9Nw6afmZ74gor/Udg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN6PR11MB8102.namprd11.prod.outlook.com (2603:10b6:208:46d::9)
+ by SA0PR11MB4687.namprd11.prod.outlook.com (2603:10b6:806:96::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.25; Thu, 13 Jun
+ 2024 14:16:38 +0000
+Received: from MN6PR11MB8102.namprd11.prod.outlook.com
+ ([fe80::15b2:ee05:2ae7:cfd6]) by MN6PR11MB8102.namprd11.prod.outlook.com
+ ([fe80::15b2:ee05:2ae7:cfd6%6]) with mapi id 15.20.7677.019; Thu, 13 Jun 2024
+ 14:16:38 +0000
+Message-ID: <153c853c-9fbe-45ca-8a39-d382eeeb1871@intel.com>
+Date: Thu, 13 Jun 2024 16:16:33 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/15] net: hbl_cn: add habanalabs Core Network driver
+From: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+To: Omer Shpigelman <oshpigelman@habana.ai>, <linux-kernel@vger.kernel.org>,
+ <linux-rdma@vger.kernel.org>, <netdev@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+CC: <ogabbay@kernel.org>, <zyehudai@habana.ai>
+References: <20240613082208.1439968-1-oshpigelman@habana.ai>
+ <20240613082208.1439968-2-oshpigelman@habana.ai>
+ <a0e8f31e-fa12-4f48-853d-16c78bce1d76@intel.com>
+Content-Language: en-US
+In-Reply-To: <a0e8f31e-fa12-4f48-853d-16c78bce1d76@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VE1PR03CA0011.eurprd03.prod.outlook.com
+ (2603:10a6:802:a0::23) To MN6PR11MB8102.namprd11.prod.outlook.com
+ (2603:10b6:208:46d::9)
 MIME-Version: 1.0
-References: <20240530083513.4135052-1-wenst@chromium.org>
- <20240530083513.4135052-4-wenst@chromium.org>
- <cc5847a486a760921375f069a4f65cd29453a624.camel@imgtec.com>
- <CAGXv+5FBqcXjTc+DO8VQierzcxTYhyNxpw+AuuB4U1H_Xo6wPg@mail.gmail.com>
- <CAGXv+5HC_spBAc-t4cS+aCOQKdfWRzMkXK94HmD1Qg02ML4Uug@mail.gmail.com>
-In-Reply-To: <CAGXv+5HC_spBAc-t4cS+aCOQKdfWRzMkXK94HmD1Qg02ML4Uug@mail.gmail.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Thu, 13 Jun 2024 08:23:13 -0500
-Message-ID: <CAHCN7xLHWCmeHJJY9tHFOng4EeJOqXCm9H-EA7cbABd-jogmfQ@mail.gmail.com>
-Subject: Re: [PATCH 3/6] dt-bindings: gpu: powervr-rogue: Add MediaTek MT8173
- GPU
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Frank Binns <Frank.Binns@imgtec.com>, 
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, 
- Matt Coster <Matt.Coster@imgtec.com>, "sboyd@kernel.org" <sboyd@kernel.org>, 
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
- "mripard@kernel.org" <mripard@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>, 
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, 
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN6PR11MB8102:EE_|SA0PR11MB4687:EE_
+X-MS-Office365-Filtering-Correlation-Id: fc5c26db-8323-4f20-d97a-08dc8bb37036
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230035|1800799019|366011|376009;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OUQ0WDM0WWNPZ2UrT1Vyb1VENk1iNzc3UVRxMHBubTN6UzBtVzUwYVQ1Z0Js?=
+ =?utf-8?B?cGlBclRBeCtBbDFGZjl3NlEvdGlvZEF6M25IaE02KzVNL0tBeFc5eGhrU3ds?=
+ =?utf-8?B?SGpNcjJtcXJsOGQ5TE52S3ZWVklrWmdkT2FqUktYNmhTeHFNaS9VUDRRK0Q0?=
+ =?utf-8?B?a3FYbFZkaERRWkY3MEFQSWF5ZnpyTHJZZjZFYml4VkJ4NGNMemlBWjZIcG0y?=
+ =?utf-8?B?aFFERDNKaDBjODAvUTIvOU1Eb2NtWVB6cjZWR3pPQStzOGpvcE5aTXNMWGh5?=
+ =?utf-8?B?OEpXbm9yaHY4WFVmTDRPQ01sam43bE9qamVxdEZUYlJIaXpSc01EMHo3akNE?=
+ =?utf-8?B?L1lzQnRVNmdZMjJ4dkdvNkR1bERLcEcwZEpjUWxiYytncjdJL2dKNENiWXlV?=
+ =?utf-8?B?R0tkWmRkbnhyYTQ3Vll1WHpHVFdicXBIekRsV2hWTi9hSnpPa2JCRzNIVnZl?=
+ =?utf-8?B?KzZjZ1l6QWVLL09pcHk3N2Z2T2dyYkJwOEp5dnVIenRmWWhjR0pDdFZYd1hh?=
+ =?utf-8?B?U3Q2ZUJ3bUJWVjNoRGRBMUJYTjZEakxaMVFFakV3OHp0OWs2SUV6cWtNTzd2?=
+ =?utf-8?B?ZS80bDAwRStuNnZJY0ZzSUpoMUVvbXpZNjZJTTJ1TjVsMmNNQXE0eWJMMlBE?=
+ =?utf-8?B?Q2lFcHUxRCtUeWxBWXAwSFZ4cjVlMkR3RktWZFZYNGh6d3RwUjczRGdlSUVQ?=
+ =?utf-8?B?TkZNVktqcmRqZjdOUWFKcUgyczAyVjNmTEhLaUFUcUdPMHozTmFEWC9qcnhR?=
+ =?utf-8?B?N1hwdHM0YUpJQ2IxRm0xRXA0SHcyMU50RWhnVGJrSHd3Ym8rVEhHaG1RNWt6?=
+ =?utf-8?B?RGkxL3ZzN3V6NVdYVEErVXJWWjBGWlJkQ1hac3kxcEtMTWJzUzVpWnlvMEpo?=
+ =?utf-8?B?aGNFMWl5RXBjOGJSQTBGT3Y1dUhpS0ZBb3FtOU04SVdjTUhmSk5kVzN6dXY2?=
+ =?utf-8?B?aE9tQ1VPclNIYXFGbnlEeDd0OVM1bHVRazZOcm50cDFybEpJTVJsQjg0czQ2?=
+ =?utf-8?B?eFZYRTFjTURhMU9rSlFiK096eklxS3NuY0FlUVROaldVbkpIa2ZpVWJ4RVk1?=
+ =?utf-8?B?dXprWVBXeUpMQjBaZGplZmhRUlRvQkZMODVEZTdVcUNzWVMxM25mS2hMSzZN?=
+ =?utf-8?B?NFlLY2FWYWsrbjNuREZ5U1VaRkZtYVFMNWhVV2tGQmRtcG5kZEhLMGhmOXlz?=
+ =?utf-8?B?Sm9MZjVvZW5IbHpDWU1FVG5OZTBSckdpR0I3alpBSDdIYUVxM1k3am03RTUy?=
+ =?utf-8?B?Q1F6NVdBdzVJUUF1SmdBa0pCd1o2Ull3cm11YmNlM2RIYkN1dDVQYTF2YVdm?=
+ =?utf-8?B?NGc4TXpKZkhnaEVhRzNLOVhobVkzSGFOTkpHQjdkWXdpV0djSjF5QTZXbzZt?=
+ =?utf-8?B?WTR4RmRpQzQ4YUdiaC9zclhnaW1RQnREUzdpd1dxTHMxS293bGVWbGxBUng2?=
+ =?utf-8?B?U3cweWI0a2I1RXBPelNOTDY1WktmbVA2Q1NDQ2J3UHN6VUF2TS9idzVTeStG?=
+ =?utf-8?B?SGYvTXMwRnBzNlBUMUdoL1pPU1ZhTDlRVjRZOWtKYWJGeTlvb0pUZkljWmR1?=
+ =?utf-8?B?QkgvNGZDVEcwNUZla21rZ21GU3A5aGZJRUF2M2k4aXZJK2dDbVdReTQzWXBE?=
+ =?utf-8?B?RVhraXR1eXIyN2RmQ1JZeFAyVEtnZnNzOFJWRDF3VFhDb0hrNVlaNUg1YU5L?=
+ =?utf-8?B?YXFXT2ZBamRCVnp6ZThiTVhKcWZnRTJ3RHBqOHorUkxXcnd1cG95ZTFGeVpE?=
+ =?utf-8?Q?eCWIURqQuaRmSButuo=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN6PR11MB8102.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230035)(1800799019)(366011)(376009); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZWhsaklmR2VsUVpjRUxzL3VkWUdEVGVWSzBNQ0FVZ3l1SkdNdkkyMUxNcU1X?=
+ =?utf-8?B?dmZXTVJXaVRnRFIzLzg5UTJFOXV1TWhsZW1hVHFmSFlvdGpYc3U0V0E1eEdN?=
+ =?utf-8?B?cUQ5MFNLNHBXbS93dkRta3FjNHoyNzk4Rm9XZ3hEbUtkNldFVXBrYzFPU0lk?=
+ =?utf-8?B?NzU4aS9tMEJSZWFkQ1NVc1V2WnN5ZmJSb2o5c0FjYk0vc1p2SnZsTFJPWjNH?=
+ =?utf-8?B?NFlqdEVJNURadHJXMHBkY3lreUlXYUhScEhsdjVmMzZQYXZqZjg1SkZXLzln?=
+ =?utf-8?B?SGkxemQzSysrTFlFSkJlN1UyL3JsNEQwSUl6aXdEZThDNnhkVTNZamdHSzN5?=
+ =?utf-8?B?cU82aTBySU43NU51djhaaGdMZ3gySWcrWUZRTDNad0tIWnhiQWN2TXU3UTRi?=
+ =?utf-8?B?amQxQU5MRG1XKysra2ZWeFNtUlJQYmpEVmxOYkp6TDhXR2tPc01STS9OZk5W?=
+ =?utf-8?B?TFI5ZHdPMjF6NUZ6ZEpOYlRlZG12WlJjM3RIUWdLamFFUGVaNmJNY3haNkJq?=
+ =?utf-8?B?M0IyYXhOWnMrMHAwQ1JkcnNZUW9sNFpYamRSOGlZamZmSzQ2b0hOSlprUk9x?=
+ =?utf-8?B?ek84LzRWUUszVmVIcklYd3hLUExNenlKaGJtUlduQ1FFWFBnOU94RmRjMkJQ?=
+ =?utf-8?B?cTFSZ0M3UjliQ1Q2aVZodlEzUGdzaGFIUXQ4c3VXOGF5a3ZkTFhrUmFua0F1?=
+ =?utf-8?B?cnJXOHdUOVc2MDA3MUdja0xFTExWN1g2aGVCNlgyaEdlM3NrSDdsdC9qTzJY?=
+ =?utf-8?B?dHdTVHVoRFZIVitNREJmaXdwbGFOZ1A2V09CZFF1NWlacXB0aHoyOVJFVE03?=
+ =?utf-8?B?OW5vN0xmeUgxek00cDQwZzc5Y1E4L282YnIySlgyeGNoUFh2S0JXR0E5TTdY?=
+ =?utf-8?B?OUxabWNnbFFieDhlRnZoemcrclZUOXQySlVMTHFRbnpVbFBzREZHbW4zTnNX?=
+ =?utf-8?B?UExOejRzN3U1MnArQm5YNmU2YW1UajhPdXNIcklFWmxQNW5pdzA4b2E1dWo2?=
+ =?utf-8?B?TEdBeWVjQlpqaStoMXh4RjU2WGVnS1phWG9iUUIyK1F6czBzNExiNTVwZFYx?=
+ =?utf-8?B?elJBTlpMaWQ2enJVM1R3NGQ1UFVtMSsrcFgzUTB1Sm9sRXdCd1dUODNnc2FN?=
+ =?utf-8?B?d1pzNlFtUG5tQWZab2RxT0lHZGQ0SXBJOEJJaTZJUDE1OHJIcHFyTUpQTEFY?=
+ =?utf-8?B?S2xOdnlZNkJueDBPczVHdVpyOE5ucVZDMTBtY2lOUW5KOFNaSWxvQ1V4WnJh?=
+ =?utf-8?B?bjhrZzZHci9mbGxHdlREcXZQdFVKWmxaT0t4WFpNUXlCQWNmQ3NhbmRYRkY5?=
+ =?utf-8?B?c1ZvWlp2TlFEYVJscGVqMmRPMDdWVFAzcmNxRHhNbG9lQnB1WmFROW44My9X?=
+ =?utf-8?B?TnV4ZEpSeE1UdFdDdG9tRG5WVjhGYUhqNEFLT0RySk1xM2NBQ09uNktzdTlq?=
+ =?utf-8?B?NWROSXdCTnE5TFhwRCtubCsxV1QxS2t1OWFFcXd4TlRMTDFsTUUwVGVLQWYy?=
+ =?utf-8?B?K3luTS93WFFsWktUQngrOXlTQ3FpYkV2TmhVZWhycXdwRmlvckQzTnE4a2U5?=
+ =?utf-8?B?Z1hnRnRBWjNxN2l5dmcwQlNjZEF1NWRrb2Y1YWtqbDNPWDJITEcxQmN3Qk41?=
+ =?utf-8?B?Vy93OVZJRnArTjdvczJtQkJHWEFjT0JKbUs5Tld1Y3NnY1FxZi90MlNRSlp5?=
+ =?utf-8?B?RmZuaHUzTDBRZ090Y3FvWFpDdFB3ZWQ2SzB6T2krdmNmNFZkdk5BN1NkQ2o1?=
+ =?utf-8?B?NWo0NHl3eHk5RHRFck9JVThQT0EwRS9sMS9oVGtBa0x4VDVKSHp5ZVI2SzRt?=
+ =?utf-8?B?TWR5QStKckg0dWR1d2Q1RTBSV0N3ajg0V00rTllqTGM2UTRTTUtoeGJYRTlX?=
+ =?utf-8?B?QTZGNFY1bVYxazNtVjYrNXdMLzhZSkFYclB2N3BmS2NvR2VDVGRteDJDSVB6?=
+ =?utf-8?B?WnJHVTJ6SnBBR3V5b2RRckRvaHRlbVZ1aDE5MGV3eWFOVHg0U2YxMGxIMVo1?=
+ =?utf-8?B?QzhlcDNNWHRZL3BsWG5WY0tISnp4aXBwdDJhMzdxcjVvWG9qbjVRRTdUQnp2?=
+ =?utf-8?B?dzJEdmxjTzgrb1Y4SzNBWU5YZXA3K1UyeVJmNmhYV3dPNHk2aW0zNkN5YVlD?=
+ =?utf-8?B?RS9LelliYS9pS1hFK0pybjdqdElabW1Mck82MkJUTGgwMWcyaWRNV0MrRUJs?=
+ =?utf-8?Q?RhQGum5aXCr0yOxqFzkNfbk=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc5c26db-8323-4f20-d97a-08dc8bb37036
+X-MS-Exchange-CrossTenant-AuthSource: MN6PR11MB8102.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2024 14:16:37.9826 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: adjyWooys1iX+xwUoOdoGKRvx05n8OYdsI00qXdFRE4RGbDyvvcpci7dFBMXNPApT4TwwIUJh1HAjDYNh9ryZQEUiwBVh53EsduONt7PgUA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4687
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,159 +201,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 13, 2024 at 4:10=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> w=
-rote:
->
-> On Tue, Jun 4, 2024 at 12:18=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org>=
- wrote:
-> >
-> > On Fri, May 31, 2024 at 9:37=E2=80=AFPM Frank Binns <Frank.Binns@imgtec=
-.com> wrote:
-> > >
-> > > Hi ChenYu,
-> > >
-> > > On Thu, 2024-05-30 at 16:35 +0800, Chen-Yu Tsai wrote:
-> > > > The MediaTek MT8173 comes with a PowerVR Rogue GX6250, which is one
-> > > > of the Series6XT GPUs, another sub-family of the Rogue family.
-> > >
-> > > I've added Adam Ford who sent out some DT related patches [1] for the=
- Renesas
-> > > variant of GX6250 and the GX6650 (another Series6XT GPU).
-> > >
-> > > >
-> > > > This was part of the very first few versions of the PowerVR submiss=
-ion,
-> > > > but was later dropped. The compatible string has been updated to fo=
-llow
-> > > > the new naming scheme adopted for the AXE series.
-> > > >
-> > > > In a previous iteration of the PowerVR binding submission [1], the
-> > > > number of clocks required for the 6XT family was mentioned to be
-> > > > always 3. This is also reflected here.
-> > > >
-> > > > [1] https://lore.kernel.org/dri-devel/6eeccb26e09aad67fb30ffcd523c7=
-93a43c79c2a.camel@imgtec.com/
-> > > >
-> > > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > > > ---
-> > > >  .../bindings/gpu/img,powervr-rogue.yaml       | 24 +++++++++++++++=
-----
-> > > >  1 file changed, 20 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogu=
-e.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> > > > index 256e252f8087..48aa205b66b4 100644
-> > > > --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> > > > +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> > > > @@ -12,10 +12,17 @@ maintainers:
-> > > >
-> > > >  properties:
-> > > >    compatible:
-> > > > -    items:
-> > > > -      - enum:
-> > > > -          - ti,am62-gpu
-> > > > -      - const: img,img-axe # IMG AXE GPU model/revision is fully d=
-iscoverable
-> > > > +    oneOf:
-> > > > +      - items:
-> > > > +          - enum:
-> > > > +              - mediatek,mt8173-gpu
-> > > > +          # PowerVR 6XT GPU model/revision is fully discoverable
-> > > > +          - const: img,powervr-6xt
-> > > > +      - items:
-> > > > +          - enum:
-> > > > +              - ti,am62-gpu
-> > > > +          # IMG AXE GPU model/revision is fully discoverable
-> > > > +          - const: img,img-axe
-> > >
-> > > The Series6XT GPU models have differing numbers of power domains (eit=
-her 2, 4 or
-> > > 5). Whereas, the AXE GPUs have a single power domain, so I assume the=
-re should
-> > > be a related change here.
-> > >
-> > > The GX6250 has two power domains (lets call them A and B). There's a =
-constraint
-> > > that if domain B is powered then domain A must also be powered.
-> > >
-> > > In patch 6 [2] it's setting the power domain to MT8173_POWER_DOMAIN_M=
-FG, which I
-> > > believe corresponds to power domain B. I assume this works because th=
-e MTK power
-> > > controller driver is encoding the constraint above, meaning that when=
- we disable
-> > > or enable MT8173_POWER_DOMAIN_MFG it's also disabling/enabling MT8173=
-_POWER_DOMA
-> > > IN_MFG_2D (domain A).
-> >
-> > It could also be that the power domains are split in the glue layer and=
- there
-> > is some sequencing handled there. I'll reach out to MediaTek to see if =
-they
-> > can dig up some design specifics.
->
-> Unfortunately they said they no longer have that information.
->
-> > I assume you would like to see the separate power domains properly mode=
-led
-> > in the device tree?
->
-> So how should we go about this? Adam, do you have this information for
-> your platform?
+On 6/13/24 15:01, Przemek Kitszel wrote:
+> On 6/13/24 10:21, Omer Shpigelman wrote:
 
-In the Renesas platform, I only had to add one clock [1] and one
-power-domain [2] to get the GPU to come up.  In Renesas' downstream
-driver, they only use one clock, but Geert, the Renesas tree
-maintainer, sent me the three clocks to assign to the 6xt graphics if
-it's determined that 3 clocks are required.  In terms of the power
-domain, there appear to be 2, but one is dependent on another, so
-turning on the 'B' power domain turns on the 'A' power domain
-automatically.  I should note that I can't get the graphics to
-function, since the 6xt isn't supported yet, so there could be some
-elements missing that I am unaware of.
+[...]
 
-adam
+>> +
+>> +int hbl_cn_read_spmu_counters(struct hbl_cn_port *cn_port, u64 
+>> out_data[], u32 *num_out_data)
+>> +{
+>> +    struct hbl_cn_device *hdev = cn_port->hdev;
+>> +    struct hbl_cn_asic_port_funcs *port_funcs;
+>> +    struct hbl_cn_stat *ignore;
+>> +    int rc;
+>> +
+>> +    port_funcs = hdev->asic_funcs->port_funcs;
+>> +
+>> +    port_funcs->spmu_get_stats_info(cn_port, &ignore, num_out_data);
+> 
+> hard to ignore that you deref uninitialized pointer...
 
-[1] - https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/c=
-ommit/drivers/clk/renesas?h=3Dnext-20240613&id=3Df7b0dfffd3e0897ca73916a0c3=
-d3fb61c61df51e
-[2] - https://patchwork.kernel.org/project/linux-renesas-soc/patch/20240227=
-034539.193573-3-aford173@gmail.com/
+oh, sorry, I was in hurry, please disregard this particular comment
 
+> 
+> please consider going one step back and start with our internal mailing
+> lists, thank you
+> Przemek
 
+but this option very much still holds
 
->
-> Thanks
-> ChenYu
->
-> >
-> > Thanks
-> > ChenYu
-> >
-> > > Thanks
-> > > Frank
-> > >
-> > > [1] https://lists.freedesktop.org/archives/dri-devel/2024-February/44=
-3548.html
-> > > [2] https://lists.freedesktop.org/archives/dri-devel/2024-May/455833.=
-html
-> > >
-> > > >
-> > > >    reg:
-> > > >      maxItems: 1
-> > > > @@ -56,6 +63,15 @@ allOf:
-> > > >        properties:
-> > > >          clocks:
-> > > >            maxItems: 1
-> > > > +  - if:
-> > > > +      properties:
-> > > > +        compatible:
-> > > > +          contains:
-> > > > +            const: img,powervr-6xt
-> > > > +    then:
-> > > > +      properties:
-> > > > +        clocks:
-> > > > +          minItems: 3
-> > > >
-> > > >  examples:
-> > > >    - |
+> 
+> [...]
+> 
+
