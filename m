@@ -2,72 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF9F90791F
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 19:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC37907918
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 19:00:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA44910EB2A;
-	Thu, 13 Jun 2024 17:01:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B0F210EB22;
+	Thu, 13 Jun 2024 17:00:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="tclbTbiu";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="amdXAAgV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2085.outbound.protection.outlook.com [40.107.94.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CE7910EB18;
- Thu, 13 Jun 2024 17:00:11 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2065.outbound.protection.outlook.com [40.107.243.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B23A510EB06;
+ Thu, 13 Jun 2024 17:00:13 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XMsUChnvelVUbJUwFgM7Nf948a8bl84NAEfFMnJlOiurH0gLJugyWm+qhwkfXImRDyZgiC9uOXSHJdWW9veFor+886/ne2DHhrYT6hGyGpv9YipIaHDb/WDveMAHCUPC/9/sPbkHN/7dE6tMTc7BhgLhNzi3dNkpA22He8m/bOLsFuY+fqegjhPIeqFfHQk3IB5A+dMEDJlen9ncUIozg6bxUawEaWvjtZqiQIgSDhAFTToADB8zGbMw+Al3wdohJGGdsGZ9oeEXcTR67Am9Q0qyFs4Qr2b5t/6U5HOsaU45eBQp+qBcOBDGFc1jKgdSAb0+x3jxEcvtior/v8zJRQ==
+ b=foPjeOhiPvTcic8Jw1IX8FJk1Bca2S0VJg/xdZAUMGXb81aBhOEEgV0sjXlF6kmieI3WymUo9dSnbwpx6bFkxHariSUq5alX9k0ir35InrEXaCoIFgyWcYYEMSdH6NGX9Y61AG/k1jBuFBnEKx7l0YqU38GgHODYKqXZ0+8Q0by99B39gB9TlbA944JqHSk8dSsly0ok1U723uKXCoQj6V4pxBwrKSMIbEG2NsHzJNNISAsAM3tWaHWCbCStvDlEfCGLdHop8ACuwOgJL1oC1BrQnQe1nuZfZLiPZ/Kng3XDrgZRmuZnFr/lhC5gK52whkGNRJNiTsT6LMW7gEsBfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yeamXsoNP8XsMfiai1c6C4O+TYg5s/XKFdmaZDyqF98=;
- b=eghy+svMDjBa+6wLiPLSLmoCwQhCpprVgESLjzX23lyih5CXniO+pPecKyljDujTBMEIArkl2YftkjnNxZ5CEG9BSEBgGKceTBQsBN66HZ1dYG82y2jg+EBrYIXEEM/qTiybofmDYshxQoI/cHlrO7LpFRQ/HwNR0dHN5EdGsK4yYxvn3CE0tdvr4C+jE3TrrSYBHoRLTSKbrPaWxdYkTefwSt1MT7BjIO7LRp1brNoKwYqvT8bFyY1FmbgsIO9rf1CwaabeNDnWzd4foTo048/JbpnfI0p75aZyu3xLFMf6YJsLrEHCy3HjZYTlSwwlFS9zIrttRV2613JVkcow9A==
+ bh=aZR4dcqhN9w5AabxzoD29gQeV+VNaORpylxFAAmPQno=;
+ b=k4B+LbM2L19pUyklrcSvWozV8/+0L9rEExWCts7VhBzpIvdweBYbaHjogvsgOLOEcGil8IfDLhbZLoISXsjMnNBzdhpV9gaSGMxDKCCeaBl1Cy5NGS54IjtiUG5SYygPFR/QvU8GTmCn3Z78nc6vEEsDC2FLBLasMVGTUDb4Ab7QnyJD0rl3R/cnGPiUf6gxiaWb1TbaiIxYo3MpGyKXwS3f1iurMg41oQ/H9MIMr9jNoqaH2MeHzyGGqHWvDDebpWLKr/MOOp/zKYA8TC2MMqgSeu60pi8m3j2EJJjGI+TwcYNcyXnX3ukB5PSqrT1Dn6VbD8ngN8KAVtgPMdTvEA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=lists.freedesktop.org
+ 216.228.117.161) smtp.rcpttodomain=lists.freedesktop.org
  smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
  header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yeamXsoNP8XsMfiai1c6C4O+TYg5s/XKFdmaZDyqF98=;
- b=tclbTbiuIZVD+vwCoKR4j0IWYtlbEph3wyhiidEyDE5b4vH3NxUX0LvhXwA/ptUuchZ6XfmWsCHw8ILyDv5E+6sX6uOr9OZP+xWcZxcwgVlZsfSkzy/hSSyOavmGOiNFxyXfkF7jltCcF9IaTLq4AHY7A9gKauVpdTKC3yy8xV02e1gVgD3EI/1erf56w7GiMox3d0USoufRXQDZj5mUSE0UYfVIn4YRzalupbvACq8vP6LKPoqEuLUXxOHw8dxaUCFVROcdsaLZP7ZONnBGpwIyjbB6d/iTatAB3bTDNPoLm/UTRT7zrn8fpDAOulQzPd4gO73dvwM+FS7C6wlUxA==
-Received: from SJ0PR03CA0349.namprd03.prod.outlook.com (2603:10b6:a03:39c::24)
- by CY8PR12MB8194.namprd12.prod.outlook.com (2603:10b6:930:76::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.23; Thu, 13 Jun
- 2024 17:00:08 +0000
-Received: from SJ1PEPF00002323.namprd03.prod.outlook.com
- (2603:10b6:a03:39c:cafe::b5) by SJ0PR03CA0349.outlook.office365.com
- (2603:10b6:a03:39c::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.24 via Frontend
- Transport; Thu, 13 Jun 2024 17:00:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ bh=aZR4dcqhN9w5AabxzoD29gQeV+VNaORpylxFAAmPQno=;
+ b=amdXAAgVcEYgrQnkk0yL/TU5mZNKTn/68A8h7qwZa6qaNPJgEhMzRL1cA2PI03CLQvltBVEOQyvn8IpoJw8FmJV0vLPG7BlmyOTdAI6f/oxRk5ro7cOEstf0bsqrfdjck+ZCUV42vmBTJvnMPCXpryDjaIvA1IhkI3lDNeUULTk4qxktAzFwKSEpZmkGIfsdDPR2dmmgsgWgr+MhdsydveaMAQm6AKzIabh4L5ISfPSjb/bdoBfZoVWlj+J3JUawK97LaxAdWPNUgODQIqxNc7Oy4iAePai1XzAKn5Bc6wthRMGBBvCDsie+7ngRBtX7iq7RMX5/Y6VTv9qsYVcC+w==
+Received: from SN4PR0501CA0059.namprd05.prod.outlook.com
+ (2603:10b6:803:41::36) by LV8PR12MB9333.namprd12.prod.outlook.com
+ (2603:10b6:408:1fa::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Thu, 13 Jun
+ 2024 17:00:10 +0000
+Received: from SA2PEPF00003F61.namprd04.prod.outlook.com
+ (2603:10b6:803:41:cafe::6f) by SN4PR0501CA0059.outlook.office365.com
+ (2603:10b6:803:41::36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.21 via Frontend
+ Transport; Thu, 13 Jun 2024 17:00:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
  smtp.mailfrom=nvidia.com;
  dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- SJ1PEPF00002323.mail.protection.outlook.com (10.167.242.85) with Microsoft
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SA2PEPF00003F61.mail.protection.outlook.com (10.167.248.36) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7677.15 via Frontend Transport; Thu, 13 Jun 2024 17:00:07 +0000
+ 15.20.7677.15 via Frontend Transport; Thu, 13 Jun 2024 17:00:09 +0000
 Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 13 Jun
- 2024 09:59:54 -0700
+ 2024 09:59:56 -0700
 Received: from fedora.mshome.net (10.126.230.35) by rnnvmail201.nvidia.com
  (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 13 Jun
- 2024 09:59:53 -0700
+ 2024 09:59:54 -0700
 From: Ben Skeggs <bskeggs@nvidia.com>
 To: <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
 CC: Ben Skeggs <bskeggs@nvidia.com>
-Subject: [PATCH 12/21] drm/nouveau/nvkm: prepare pci/tegra probe()/remove()
- functions
-Date: Fri, 14 Jun 2024 03:00:04 +1000
-Message-ID: <20240613170046.88687-13-bskeggs@nvidia.com>
+Subject: [PATCH 13/21] drm/nouveau/nvkm: move pci probe() defer from drm
+Date: Fri, 14 Jun 2024 03:00:05 +1000
+Message-ID: <20240613170046.88687-14-bskeggs@nvidia.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240613170046.88687-1-bskeggs@nvidia.com>
 References: <20240613170046.88687-1-bskeggs@nvidia.com>
@@ -79,50 +78,50 @@ X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
  rnnvmail201.nvidia.com (10.129.68.8)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002323:EE_|CY8PR12MB8194:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0b668ce6-62d6-42ef-7f42-08dc8bca4756
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F61:EE_|LV8PR12MB9333:EE_
+X-MS-Office365-Filtering-Correlation-Id: df40ad2f-4da9-47e8-65b8-08dc8bca48a9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230035|376009|1800799019|82310400021|36860700008; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Q50Rw4Ct91hTaowyESL/N87NdV9Ov05YOsk0EHbxagxwv+/dGtSvCHkMgLcT?=
- =?us-ascii?Q?QrXrnSS0FcXsy6DK9nIBOrdPq9CYqUYkpcILLtv1yTEj0FSplkytpv8ByDDF?=
- =?us-ascii?Q?HgEMZ3fn2V1vSNfUk78wLGs3rSi69e46KVK6MwYAYTXcW5deMit1SPeQpV8j?=
- =?us-ascii?Q?EgOjr0knFXUQyer0HT/JgpquPSji+V6aoTMFJXirE/ykcu6AUU6HM+7FsBxm?=
- =?us-ascii?Q?z9aSGUntU0A2f8+yHA5uEJUFq/vLlyqzwsF2WduZZTC1qGNbiHSU0d+Q5i0B?=
- =?us-ascii?Q?wDv40BiV7KzYx51xly4Mjkz5mfwmxcqkoWPcilCua6PtXKYCi0lMtBIK9l/F?=
- =?us-ascii?Q?JQuL3yAoqfMQs8XY73TQnx93w0Hh/EoARGv6bd4+XckIPuWshCcE+tytYitN?=
- =?us-ascii?Q?zjs5zlLpH3Ymf2taAFIKoQN2s6kxSFMt2l546oFIgRKIEzydwbcRJUIcxWmI?=
- =?us-ascii?Q?NUW3SsuEyGiQYti99eAEshWWgSoSf39s06N5zV9Evd9Zr19JnttKANvOFMIc?=
- =?us-ascii?Q?Ep0iiFTYs9qg6uVshhceMd9N2Qo0y62/4AFxNJZ0GW61f+d0BwIXjxHgI8D5?=
- =?us-ascii?Q?8zOgbIq2YJHwVvjatDOwLbqGEKAr9rfXktSE1m1BSqx8MB9QagDywW8AUJEe?=
- =?us-ascii?Q?5wBTLIprYogE1U2/ID6W7qFl0BmPu6BWoqqlYLx1Br0KHoPnReXGLZYLQ/uJ?=
- =?us-ascii?Q?21wMZuyRdxIAeKGVgGOfF4T/6UXEiUzoMnV6HQYsnJZRPCVI5IkQetYIikWo?=
- =?us-ascii?Q?wWBayoS/tmv6O1csYjtdsrFRoLXu4BQ6VF6yo7KOLWVJ3qinH45cuPc0SMmp?=
- =?us-ascii?Q?NaKVAt/WeZUSUAeiLmP+hF8RsYObLqX+rQY1NS1RtB02QrRo5OLg5pTUFtnT?=
- =?us-ascii?Q?ZDRCvnuDJ4p/Y57p5iaCH0qdnWNdCNRWjqjyC1V8rPDMirEe7q1nS28xB/g3?=
- =?us-ascii?Q?IvEt4UjovMoQdPrSqOceN8rLxjknAQ60MZn+zUJjwKkR2b59l/BlzURx7rlR?=
- =?us-ascii?Q?+KFwFQrzTdLjIvJuxp2cMAtlV3pJ6rPS+032eogd1Gion+2/9CHzOxmWCfsF?=
- =?us-ascii?Q?5Y+l0NmdTQa6pRJn2ri3GSdKgAcH2MRn5NFJoJtgdm/5iuVqr9I2lX3w4dud?=
- =?us-ascii?Q?M8rPjPf2X7DAK0z5eHOZJ1O+VznVX5n9nrHYrIvmULcLWBx098SVVBKy/9Ra?=
- =?us-ascii?Q?h5kQW0oJay9po9ZqjFb10k8RCNPGIi4Y9Btuhd1Cm+P7umjVWzQo5Du5rwDy?=
- =?us-ascii?Q?dUNO1T0q2ycq2PIgxV3mtUHxODja65P0LHZoI4EQbfsBB0moQ+L2X35Oxqio?=
- =?us-ascii?Q?i8r7f9LmD1nl7yJ5slgSKwJZ7pZoXGJYQXyxTkU+8LL9KBq3Z2CxHmOMJyPT?=
- =?us-ascii?Q?ajY9r4GZV29PDXxzzsY720FER7Ddt3LI/i8T9CIajWmQdTJl4A=3D=3D?=
-X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?hfeWz2oquwkdPXApF5tbrDkmj5U+UuzMWRkz2bpmhBfiAyxQu/T0N1DRLeL7?=
+ =?us-ascii?Q?yhPXiUxrxhW+7LkpD9HgcHfbje9V+7GXnlwMP1+4rT7/8LkFlxOpeZprRvGj?=
+ =?us-ascii?Q?grcFAzPjcUprxZsXXOFc25atxR6OWnpapmtAEnz3UqmK5PPgM083cvC9t8vL?=
+ =?us-ascii?Q?ovj9e48DAKGFLgMb+orDM9fXbJuoe+6NBYtLXlVWA+2R8o/p7KnUV45HgxLR?=
+ =?us-ascii?Q?U3qYBARDD4NnED8pGe2cNvY9gU0IMNejg5ea92kD6hkDGsiDpfh5PrI39s7a?=
+ =?us-ascii?Q?0aD1/512yH5ty2nF+z+VQQPjL8iyI5cmOnItOQRM3tPPaMRKQJd9k3ekmWx1?=
+ =?us-ascii?Q?ZtDtgC+pTaIfP8c6FD3l9JoFrF0hXxj35k0VRzYDglrqpQWJOnTyX0jaPb7J?=
+ =?us-ascii?Q?S67xKyUvbiVfe/eE7TjYLTM0MJBEpk5+nUsqpTWtp1vnWt43NSTCegTqJFQH?=
+ =?us-ascii?Q?1KFLPNK8xotwqtAKqODaaKLKnRcEyivxXmQhym0z4lzO/7qOgfqPkTd5cIXR?=
+ =?us-ascii?Q?bT4sBbE9cA1Ue4XX1Q6L6T5fmIWwjClww7LLVSpyCLIXrF/d9Zbx0Nrtshgl?=
+ =?us-ascii?Q?78JtchsFOpfV8sx6ujLvwAUj6jN/t7OtVihZhnktmiNYGq9Eq+gE9aNJEeim?=
+ =?us-ascii?Q?vlgY094que/dq9UXQD+ceqJQTSwER3W0CJKIs1OJMgXeUmpdZPQwAAJWoSxQ?=
+ =?us-ascii?Q?b5RaBbffs2c8M65297RB148ZRp5q6Zpo0OssyL3D8e9bS4HkP+hZ8A3nHKnV?=
+ =?us-ascii?Q?LefnyZy+Gc8a1efH9gnCR+kfBe+7db+Yjn3S2FSUVmyWGTPvK7KJ2Gwh6p48?=
+ =?us-ascii?Q?B4/WxFoo7OZz+ktUY6PbTxxfKaqKcZPzuf9bHo1wxNHAR3wulUWgGNueyHfz?=
+ =?us-ascii?Q?Hz6T4vjXTr2nNIMuSHY4G62nv1bRxLAYfzJsp4eE5fdD98n4ZKqOqzH6wJAC?=
+ =?us-ascii?Q?Vfy7B/oONzoBFlJi5rhyvPuMAi7+2zE3JsQOfm8XurQ5izxIEe+YJz8LtHMW?=
+ =?us-ascii?Q?UQxjOvI30hgGMVIMtNul/l5SyZtomHt8blRChtfP6Ph1u1dcrje09JkveNZZ?=
+ =?us-ascii?Q?ymXwdmSIAQpkSJUF1WQ5U6Sa0wV7dXC7M8EZDt+B6ff0+d6bqgUmedk1mUzr?=
+ =?us-ascii?Q?4eIwKyaNi2nqCl+vRHPsqaAkl49AvntyI4z1hpSwr0YRUI0orvkPTkTMxJlm?=
+ =?us-ascii?Q?PSrbyuHJ7coRBAY736t+N/F7rwXAN4hyV6X8SE7eq5+5B6R1kmj92d/K3Dny?=
+ =?us-ascii?Q?byHYiM8D9+rI71ANg8ADsKvSADAZgp1+cXgDCWCCYBRh9FuSfduQtrt6GS6F?=
+ =?us-ascii?Q?Tomq9d+T6TYu12fUCUJ6pmPJlDZoxNJB+XVpCOCei0TAglFRCsfRGVNwmRA+?=
+ =?us-ascii?Q?cK4gA1nx98y/js/D8fSLkzSMQGTrg7F6+1CJn3Fv2HbyVZRLxA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
  SFS:(13230035)(376009)(1800799019)(82310400021)(36860700008); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2024 17:00:07.5961 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b668ce6-62d6-42ef-7f42-08dc8bca4756
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2024 17:00:09.7077 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: df40ad2f-4da9-47e8-65b8-08dc8bca48a9
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00002323.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00003F61.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8194
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9333
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,225 +137,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename, and modify the signatures of nvkm_device_{pci,tegra}_new() to be
-consistent with pci/platform driver probe() functions.
-
-The DRM driver is still calling the functions as it did before, just via
-the new pci/platform driver structs in NVKM that will eventually be used
-for driver registration.
-
 Signed-off-by: Ben Skeggs <bskeggs@nvidia.com>
 ---
- .../gpu/drm/nouveau/include/nvkm/core/pci.h   |  3 +-
- .../gpu/drm/nouveau/include/nvkm/core/tegra.h |  5 +--
- drivers/gpu/drm/nouveau/nouveau_drm.c         | 13 ++++---
- drivers/gpu/drm/nouveau/nouveau_platform.c    |  2 +
- drivers/gpu/drm/nouveau/nvkm/device/pci.c     | 24 ++++++++++--
- drivers/gpu/drm/nouveau/nvkm/device/tegra.c   | 37 ++++++++++++-------
- 6 files changed, 55 insertions(+), 29 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_drm.c     | 3 ---
+ drivers/gpu/drm/nouveau/nvkm/device/pci.c | 5 +++++
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/include/nvkm/core/pci.h b/drivers/gpu/drm/nouveau/include/nvkm/core/pci.h
-index a1e9ee6da44e..b9e10dad6ee9 100644
---- a/drivers/gpu/drm/nouveau/include/nvkm/core/pci.h
-+++ b/drivers/gpu/drm/nouveau/include/nvkm/core/pci.h
-@@ -11,6 +11,5 @@ struct nvkm_device_pci {
- 	struct dev_pm_domain vga_pm_domain;
- };
- 
--int nvkm_device_pci_new(struct pci_dev *, const char *cfg, const char *dbg,
--			struct nvkm_device **);
-+extern struct pci_driver nvkm_device_pci_driver;
- #endif
-diff --git a/drivers/gpu/drm/nouveau/include/nvkm/core/tegra.h b/drivers/gpu/drm/nouveau/include/nvkm/core/tegra.h
-index 22f74fc88cd7..e641f387fa3e 100644
---- a/drivers/gpu/drm/nouveau/include/nvkm/core/tegra.h
-+++ b/drivers/gpu/drm/nouveau/include/nvkm/core/tegra.h
-@@ -48,8 +48,5 @@ struct nvkm_device_tegra_func {
- 	bool require_vdd;
- };
- 
--int nvkm_device_tegra_new(const struct nvkm_device_tegra_func *,
--			  struct platform_device *,
--			  const char *cfg, const char *dbg,
--			  struct nvkm_device **);
-+extern struct platform_driver nvkm_device_tegra;
- #endif
 diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 580849b78231..632635c16b88 100644
+index 632635c16b88..3f1f93fa7029 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -801,10 +801,12 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
+@@ -795,9 +795,6 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
+ 	struct nouveau_drm *drm;
+ 	int ret;
+ 
+-	if (vga_switcheroo_client_probe_defer(pdev))
+-		return -EPROBE_DEFER;
+-
  	/* We need to check that the chipset is supported before booting
  	 * fbdev off the hardware, as there's no way to put it back.
  	 */
--	ret = nvkm_device_pci_new(pdev, nouveau_config, nouveau_debug, &device);
-+	ret = nvkm_device_pci_driver.probe(pdev, NULL);
- 	if (ret)
- 		return ret;
- 
-+	device = pci_get_drvdata(pdev);
-+
- 	/* Remove conflicting drivers (vesafb, efifb etc). */
- 	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &driver_pci);
- 	if (ret)
-@@ -849,13 +851,10 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
- void
- nouveau_drm_device_remove(struct nouveau_drm *drm)
- {
--	struct nvkm_device *device = drm->nvkm;
--
- 	drm_dev_unplug(drm->dev);
- 
- 	nouveau_drm_device_fini(drm);
- 	nouveau_drm_device_del(drm);
--	nvkm_device_del(&device);
- }
- 
- static void
-@@ -868,6 +867,8 @@ nouveau_drm_remove(struct pci_dev *pdev)
- 		pdev->pm_cap = drm->old_pm_cap;
- 	nouveau_drm_device_remove(drm);
- 	pci_disable_device(pdev);
-+
-+	nvkm_device_pci_driver.remove(pdev);
- }
- 
- static int
-@@ -1349,10 +1350,12 @@ nouveau_platform_device_create(const struct nvkm_device_tegra_func *func,
- 	struct nouveau_drm *drm;
- 	int err;
- 
--	err = nvkm_device_tegra_new(func, pdev, nouveau_config, nouveau_debug, pdevice);
-+	err = nvkm_device_tegra.probe(pdev);
- 	if (err)
- 		return ERR_PTR(err);
- 
-+	*pdevice = platform_get_drvdata(pdev);
-+
- 	drm = nouveau_drm_device_new(&driver_platform, &pdev->dev, *pdevice);
- 	if (IS_ERR(drm)) {
- 		err = PTR_ERR(drm);
-diff --git a/drivers/gpu/drm/nouveau/nouveau_platform.c b/drivers/gpu/drm/nouveau/nouveau_platform.c
-index 3194b110eff8..23beac1f96f1 100644
---- a/drivers/gpu/drm/nouveau/nouveau_platform.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_platform.c
-@@ -42,6 +42,8 @@ static void nouveau_platform_remove(struct platform_device *pdev)
- 	struct nouveau_drm *drm = platform_get_drvdata(pdev);
- 
- 	nouveau_drm_device_remove(drm);
-+
-+	nvkm_device_tegra.remove_new(pdev);
- }
- 
- #if IS_ENABLED(CONFIG_OF)
 diff --git a/drivers/gpu/drm/nouveau/nvkm/device/pci.c b/drivers/gpu/drm/nouveau/nvkm/device/pci.c
-index 16e059866168..be6433eab814 100644
+index be6433eab814..21ca094df54f 100644
 --- a/drivers/gpu/drm/nouveau/nvkm/device/pci.c
 +++ b/drivers/gpu/drm/nouveau/nvkm/device/pci.c
-@@ -1626,9 +1626,19 @@ nvkm_device_pci_func = {
- 	.cpu_coherent = !IS_ENABLED(CONFIG_ARM),
- };
+@@ -26,6 +26,8 @@
+ #include "acpi.h"
+ #include "priv.h"
  
--int
--nvkm_device_pci_new(struct pci_dev *pci_dev, const char *cfg, const char *dbg,
--		    struct nvkm_device **pdevice)
-+#include "nouveau_drv.h"
++#include <linux/vga_switcheroo.h>
 +
-+static void
-+nvkm_device_pci_remove(struct pci_dev *dev)
-+{
-+	struct drm_device *drm_dev = pci_get_drvdata(dev);
-+	struct nvkm_device *device = nouveau_drm(drm_dev)->nvkm;
-+
-+	nvkm_device_del(&device);
-+}
-+
-+static int
-+nvkm_device_pci_probe(struct pci_dev *pci_dev, const struct pci_device_id *id)
- {
- 	const struct nvkm_device_quirk *quirk = NULL;
- 	const struct nvkm_device_pci_device *pcid;
-@@ -1705,7 +1715,7 @@ nvkm_device_pci_new(struct pci_dev *pci_dev, const char *cfg, const char *dbg,
- 		return ret;
- 	}
- 
--	*pdevice = &pdev->device;
-+	pci_set_drvdata(pci_dev, &pdev->device);
- 
- 	if (nvkm_runpm) {
- 		if (!nouveau_dsm_priv.optimus_detected) {
-@@ -1718,3 +1728,9 @@ nvkm_device_pci_new(struct pci_dev *pci_dev, const char *cfg, const char *dbg,
- 
- 	return 0;
- }
-+
-+struct pci_driver
-+nvkm_device_pci_driver = {
-+	.probe = nvkm_device_pci_probe,
-+	.remove = nvkm_device_pci_remove,
-+};
-diff --git a/drivers/gpu/drm/nouveau/nvkm/device/tegra.c b/drivers/gpu/drm/nouveau/nvkm/device/tegra.c
-index 9c3673c74b19..f0c1258170f4 100644
---- a/drivers/gpu/drm/nouveau/nvkm/device/tegra.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/device/tegra.c
-@@ -233,12 +233,20 @@ nvkm_device_tegra_func = {
- 	.cpu_coherent = false,
- };
- 
--int
--nvkm_device_tegra_new(const struct nvkm_device_tegra_func *func,
--		      struct platform_device *pdev,
--		      const char *cfg, const char *dbg,
--		      struct nvkm_device **pdevice)
-+#include "nouveau_drv.h"
-+
-+static void
-+nvkm_device_tegra_remove(struct platform_device *pdev)
-+{
-+	struct nvkm_device *device = ((struct nouveau_drm *)platform_get_drvdata(pdev))->nvkm;
-+
-+	nvkm_device_del(&device);
-+}
-+
-+static int
-+nvkm_device_tegra_probe(struct platform_device *pdev)
- {
-+	const struct nvkm_device_tegra_func *func = of_device_get_match_data(&pdev->dev);
- 	struct nvkm_device_tegra *tdev;
+ struct nvkm_device_pci_device {
+ 	u16 device;
+ 	const char *name;
+@@ -1648,6 +1650,9 @@ nvkm_device_pci_probe(struct pci_dev *pci_dev, const struct pci_device_id *id)
  	struct nvkm_device *device;
- 	unsigned long rate;
-@@ -318,7 +326,7 @@ nvkm_device_tegra_new(const struct nvkm_device_tegra_func *func,
- 		return ret;
- 	}
+ 	int ret, bits;
  
--	*pdevice = &tdev->device;
-+	platform_set_drvdata(pdev, &tdev->device);
- 	return 0;
- 
- remove:
-@@ -327,13 +335,14 @@ nvkm_device_tegra_new(const struct nvkm_device_tegra_func *func,
- 	kfree(tdev);
- 	return ret;
- }
++	if (vga_switcheroo_client_probe_defer(pci_dev))
++		return -EPROBE_DEFER;
 +
-+struct platform_driver
-+nvkm_device_tegra = {
-+	.probe = nvkm_device_tegra_probe,
-+	.remove_new = nvkm_device_tegra_remove,
-+};
- #else
--int
--nvkm_device_tegra_new(const struct nvkm_device_tegra_func *func,
--		      struct platform_device *pdev,
--		      const char *cfg, const char *dbg,
--		      struct nvkm_device **pdevice)
--{
--	return -ENOSYS;
--}
-+struct platform_driver
-+nvkm_device_tegra = {
-+};
- #endif
+ 	switch (pci_dev->vendor) {
+ 	case 0x10de: pcid = nvkm_device_pci_10de; break;
+ 	default:
 -- 
 2.44.0
 
