@@ -2,55 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CB9C907E73
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 00:00:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C2F907EA3
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 00:13:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29BBC10EBC0;
-	Thu, 13 Jun 2024 22:00:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4EA010EBC5;
+	Thu, 13 Jun 2024 22:13:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="LMX958yk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="acln2FQr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E954E10EBC0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 21:59:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1718315993;
- bh=Hd/9wMpw8pzEUMYSc1ulvSblxTiLluyG6ie+LF/7UNY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=LMX958ykXJ7Od31qbDtsybegrEu+jkMZRISMpaaR2Ib+yrSb7k16rbf0DHWRkFACu
- m7mfUJwEHRuXbtvLhT6lOu9gShzu0Dx3TFonF45G6TBSvGw0D8+kbZ6vAL2abaFuvp
- 7M/zLNpTT3uj4/ISRXkiuzIFxq7W4WUQ/XswwgZ2rNdjMf4THnJvVUkYoR/pYy6wq5
- 0PLsMr9/FKrtfdfW9CZ79Lnee53h8C7s+05Mz7GuJp0gbr1Yfp7YR+USJldw0xGd68
- 5jjBI2yXvfIcSQMfeyXrQM7WmYEZDoY416u2GiXxstpLStbPgO0jRNMUuqSk9Ap4fA
- pNaYhpMOmlOrw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4W0btH1kLVz4wbp;
- Fri, 14 Jun 2024 07:59:51 +1000 (AEST)
-Date: Fri, 14 Jun 2024 07:59:49 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 0/3] drm/panic: Fixes and graphical logo
-Message-ID: <20240614075949.3a3c667f@canb.auug.org.au>
-In-Reply-To: <CAMuHMdUGEuX+8EP3gbCB-Kgri=h34q0ryjOd5-KE-4+fWWwsGQ@mail.gmail.com>
-References: <cover.1718199918.git.geert+renesas@glider.be>
- <386a229b-6904-465d-b772-921f99815e8c@redhat.com>
- <CAMuHMdWy15T1JPH6w=xLyx_-zpHJA_VUe_Mu+h5zNPXEZw8+RQ@mail.gmail.com>
- <cff14393-d702-4fcd-8a13-034692dc931e@redhat.com>
- <CAMuHMdUGEuX+8EP3gbCB-Kgri=h34q0ryjOd5-KE-4+fWWwsGQ@mail.gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E0FC10EBC1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 22:13:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718316817; x=1749852817;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=yuUIuebr9y7FqrecXTQRweoo9mv++jkQ761EA3G8Lv4=;
+ b=acln2FQrp/+XBQLj09jGW8uerp9hvhY2Pu/41G3U1xVsZGVZuopTNe29
+ rnWXIiiaYxqoLsNpMdHY7YRh4cVKLkNL6AtYDhs6Zo9wJTMsQiXTNki8S
+ Jiqj6oKBN6G3r5NqGkYZ4WXEA7pLv3gjSzlhK6YEtkkmsXfkJ6mGC5AXS
+ zXKIw7WAOMXDeb4SV2ny47+CHCVlKY1y60GrSmZFHc9rgaF5maUes3cV0
+ qA73IxGM3/2EPEXkpXMGEYpxxEKD/3os8C2pvzakycUeC6V5VB4ZUooA+
+ mVazNMxM8VLvwcz57AHeWgwNo0WmWejpE9H6rMmPHnuauDYgtXE/eJnon A==;
+X-CSE-ConnectionGUID: GSdCYk0nQ9Kz0LrzDMUEuQ==
+X-CSE-MsgGUID: +vhkGIqcRUK/YP6xugQbHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="32720524"
+X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; d="scan'208";a="32720524"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2024 15:13:35 -0700
+X-CSE-ConnectionGUID: OKRhEZ8YQw2JKdggKpIabQ==
+X-CSE-MsgGUID: bdPVqlA0STSBFwkSzUkJ3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; d="scan'208";a="45214087"
+Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2024 15:13:35 -0700
+From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	linux-mm@kvack.org
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Christoph Hellwig <hch@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>,
+ Peter Xu <peterx@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>,
+ Junxiao Chang <junxiao.chang@intel.com>
+Subject: [PATCH v15 0/9] mm/gup: Introduce memfd_pin_folios() for pinning
+ memfd folios
+Date: Thu, 13 Jun 2024 14:42:02 -0700
+Message-ID: <20240613214741.1029446-1-vivek.kasireddy@intel.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/TYz4mwKz+tY5O7NzfgBXWFo";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,42 +74,174 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/TYz4mwKz+tY5O7NzfgBXWFo
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Currently, some drivers (e.g, Udmabuf) that want to longterm-pin
+the pages/folios associated with a memfd, do so by simply taking a
+reference on them. This is not desirable because the pages/folios
+may reside in Movable zone or CMA block.
 
-Hi Geert,
+Therefore, having drivers use memfd_pin_folios() API ensures that
+the folios are appropriately pinned via FOLL_PIN for longterm DMA.
 
-On Thu, 13 Jun 2024 11:48:15 +0200 Geert Uytterhoeven <geert@linux-m68k.org=
-> wrote:
->
-> > > Has the drm-misc git repo moved? =20
-> >
-> > It moved to gitlab recently, the new url is
-> > git@gitlab.freedesktop.org:drm/misc/kernel.git =20
->=20
-> Time to tell Stephen...
+This patchset also introduces a few helpers and converts the Udmabuf
+driver to use folios and memfd_pin_folios() API to longterm-pin
+the folios for DMA. Two new Udmabuf selftests are also included to
+test the driver and the new API.
 
-linux-next has been using that URL for some time.
+---
 
---=20
-Cheers,
-Stephen Rothwell
+Patchset overview:
 
---Sig_/TYz4mwKz+tY5O7NzfgBXWFo
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Patch 1-2:    GUP helpers to migrate and unpin one or more folios
+Patch 3:      Introduce memfd_pin_folios() API
+Patch 4-5:    Udmabuf driver bug fixes for Qemu + hugetlb=on, blob=true case
+Patch 6-8:    Convert Udmabuf to use memfd_pin_folios() and add selftests
 
------BEGIN PGP SIGNATURE-----
+This series is tested using the following methods:
+- Run the subtests added in Patch 8
+- Run Qemu (master) with the following options and a few additional
+  patches to Spice:
+  qemu-system-x86_64 -m 4096m....
+  -device virtio-gpu-pci,max_outputs=1,blob=true,xres=1920,yres=1080
+  -spice port=3001,gl=on,disable-ticketing=on,preferred-codec=gstreamer:h264
+  -object memory-backend-memfd,hugetlb=on,id=mem1,size=4096M
+  -machine memory-backend=mem1
+- Run source ./run_vmtests.sh -t gup_test -a to check GUP regressions
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmZra9UACgkQAVBC80lX
-0GyyvwgAonqH5POJPfFcpY00KeYI0W+oRAz3XhU+G43kiim27cnfbH/4LTUy7xDN
-zVClA/NdLFu41bCo12IFL9S0tQqwgovyf6WnC8ukZgzkP3IfwQM1QflN/eT5CTmw
-fB5Gs28QBS69WjWiIRBnmctNJvd2Hrsx90wt+uks8jiMel2CcluxBb3v1IeVUzsW
-z8XajIBH22llHGhAArbL0yFBa9Bxqn/UVhbqxvSo1dy1ZvQnRHj+wRNtIu+ktpbB
-dtYOMRfEcA0x8ReH6l4p6sI8F2dH3fuckfQPMnejelmBOFjVssGtbRIfhR/UrQAD
-XUpdSFUETO9IkDj9Z0z9VFbmH9olVw==
-=485Q
------END PGP SIGNATURE-----
+Changelog:
 
---Sig_/TYz4mwKz+tY5O7NzfgBXWFo--
+v14 -> v15:
+- Add an error check start < 0 in memfd_pin_folios()
+- Return an error in udmabuf driver if memfd_pin_folios() returns 0
+  These two checks fix the following issue identified by syzbot:
+  https://syzkaller.appspot.com/bug?extid=40c7dad27267f61839d4
+- Set memfd = NULL before dmabuf export to ensure that memfd is
+  not closed twice on error. This fixes the following syzbot issue:
+  https://syzkaller.appspot.com/bug?extid=b2cfdac9ae5278d4b621
+
+v13 -> v14:
+- Drop the redundant comments before check_and_migrate_movable_pages()
+  and refer to check_and_migrate_movable_folios() comments (David)
+- Use appropriate ksft_* functions for printing and KSFT_* codes for
+  exit() in udmabuf selftest (Shuah)
+- Add Mike Kravetz's suggested-by tag in udmabuf selftest patch (Shuah)
+- Collect Ack and Rb tags from David
+
+v12 -> v13: (suggestions from David)
+- Drop the sanity checks in unpin_folio()/unpin_folios() due to
+  unavailability of per folio anon-exclusive flag
+- Export unpin_folio()/unpin_folios() using EXPORT_SYMBOL_GPL
+  instead of EXPORT_SYMBOL
+- Have check_and_migrate_movable_pages() just call
+  check_and_migrate_movable_folios() instead of calling other helpers
+- Slightly improve the comments and commit messages
+
+v11 -> v12:
+- Rebased and tested on mm-unstable
+
+v10 -> v11:
+- Remove the version string from the patch subject (Andrew)
+- Move the changelog from the patches into the cover letter
+- Rearrange the patchset to have GUP patches at the beginning
+
+v9 -> v10:
+- Introduce and use unpin_folio(), unpin_folios() and
+  check_and_migrate_movable_folios() helpers
+- Use a list to track the folios that need to be unpinned in udmabuf
+
+v8 -> v9: (suggestions from Matthew)
+- Drop the extern while declaring memfd_alloc_folio()
+- Fix memfd_alloc_folio() declaration to have it return struct folio *
+  instead of struct page * when CONFIG_MEMFD_CREATE is not defined
+- Use folio_pfn() on the folio instead of page_to_pfn() on head page
+  in udmabuf
+- Don't split the arguments to shmem_read_folio() on multiple lines
+  in udmabuf
+
+v7 -> v8: (suggestions from David)
+- Have caller pass [start, end], max_folios instead of start, nr_pages
+- Replace offsets array with just offset into the first page
+- Add comments explaning the need for next_idx
+- Pin (and return) the folio (via FOLL_PIN) only once
+
+v6 -> v7:
+- Rename this API to memfd_pin_folios() and make it return folios
+  and offsets instead of pages (David)
+- Don't continue processing the folios in the batch returned by
+  filemap_get_folios_contig() if they do not have correct next_idx
+- Add the R-b tag from Christoph
+
+v5 -> v6: (suggestions from Christoph)
+- Rename this API to memfd_pin_user_pages() to make it clear that it
+  is intended for memfds
+- Move the memfd page allocation helper from gup.c to memfd.c
+- Fix indentation errors in memfd_pin_user_pages()
+- For contiguous ranges of folios, use a helper such as
+  filemap_get_folios_contig() to lookup the page cache in batches
+- Split the processing of hugetlb or shmem pages into helpers to
+  simplify the code in udmabuf_create()
+
+v4 -> v5: (suggestions from David)
+- For hugetlb case, ensure that we only obtain head pages from the
+  mapping by using __filemap_get_folio() instead of find_get_page_flags()
+- Handle -EEXIST when two or more potential users try to simultaneously
+  add a huge page to the mapping by forcing them to retry on failure
+
+v3 -> v4:
+- Remove the local variable "page" and instead use 3 return statements
+  in alloc_file_page() (David)
+- Add the R-b tag from David
+
+v2 -> v3: (suggestions from David)
+- Enclose the huge page allocation code with #ifdef CONFIG_HUGETLB_PAGE
+  (Build error reported by kernel test robot <lkp@intel.com>)
+- Don't forget memalloc_pin_restore() on non-migration related errors
+- Improve the readability of the cleanup code associated with
+  non-migration related errors
+- Augment the comments by describing FOLL_LONGTERM like behavior
+- Include the R-b tag from Jason
+
+v1 -> v2:
+- Drop gup_flags and improve comments and commit message (David)
+- Allocate a page if we cannot find in page cache for the hugetlbfs
+  case as well (David)
+- Don't unpin pages if there is a migration related failure (David)
+- Drop the unnecessary nr_pages <= 0 check (Jason)
+- Have the caller of the API pass in file * instead of fd (Jason)
+
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
+Cc: Christoph Hellwig <hch@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Hugh Dickins <hughd@google.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>
+Cc: Junxiao Chang <junxiao.chang@intel.com>
+
+Arnd Bergmann (1):
+  udmabuf: add CONFIG_MMU dependency
+
+Vivek Kasireddy (8):
+  mm/gup: Introduce unpin_folio/unpin_folios helpers
+  mm/gup: Introduce check_and_migrate_movable_folios()
+  mm/gup: Introduce memfd_pin_folios() for pinning memfd folios
+  udmabuf: Use vmf_insert_pfn and VM_PFNMAP for handling mmap
+  udmabuf: Add back support for mapping hugetlb pages
+  udmabuf: Convert udmabuf driver to use folios
+  udmabuf: Pin the pages using memfd_pin_folios() API
+  selftests/udmabuf: Add tests to verify data after page migration
+
+ drivers/dma-buf/Kconfig                       |   1 +
+ drivers/dma-buf/udmabuf.c                     | 232 +++++++++----
+ include/linux/memfd.h                         |   5 +
+ include/linux/mm.h                            |   5 +
+ mm/gup.c                                      | 307 +++++++++++++++---
+ mm/memfd.c                                    |  35 ++
+ .../selftests/drivers/dma-buf/udmabuf.c       | 214 ++++++++++--
+ 7 files changed, 662 insertions(+), 137 deletions(-)
+
+-- 
+2.45.1
+
