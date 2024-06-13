@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B40A90792C
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 19:01:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD387907916
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 19:00:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A83910EB2F;
-	Thu, 13 Jun 2024 17:01:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 274F310EB1D;
+	Thu, 13 Jun 2024 17:00:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="KR4lkfVW";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="sKpdFkhq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2053.outbound.protection.outlook.com [40.107.220.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62DB310EB22;
- Thu, 13 Jun 2024 17:00:24 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2045.outbound.protection.outlook.com [40.107.100.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF7B110EB08;
+ Thu, 13 Jun 2024 17:00:26 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WFEneJCtYdW+O6LEUC2s7ijWawimK815ulZ0XcfxJoPEcRoecmqXhaQxOOIezAcPZLqIBqI96pVw+4NOwWROjtqhisZv+Hl+2MbFytpMU2MVTmuisdl+hh6L3ncVDpLqQJ84UJM9RUwgdy/42CHn/wG/fJZC4rR/q9FdZzo5SJl5TRh8UwAO1NhMrXQuIfMUwyeOz4I4ohw2Muf7i5Psz9KmMGg5MV5qizwLf8Eh41rkbjbQbmhtTkaNctM43l1SP9PrdA9udj1I7O7LTaZ9vU6WedfGsBVkQw/1bHv3SQq0tR8Ty72N7rvMtoZYNAWLe+Qn1UdE6jVu9GmZ8cD5pw==
+ b=h210SqNY2buKk1JSjzCjEK2+KX/NztfZNcXAmao2K6tp5n+7GXcBjlrEX23DxgDT/lg92fx/zYEJUGvpwBiQBNZhP8ZqUjp7j2D39Pohy9HDyxR2UWC7k+Wh6YAFVOND9k2QJ3E7LSi01YZDmjdXJCmvx1meF0g8qaPQSTjppI/8BD/LozL+1H0YwPPMX4HvHyrHFmN9xxp902zLQIoqrQmGsrs/IoPja/NdqhWN6mxUi8YAQEldBffLu2q/DnvMiqftekS9vajG0kcMQLvC/ZMrbVkPaMRPeoEnCHb1gB7iV5I8Iak0Dm7ynjc9APQgnq5U/SsD6QkKnbZYq5WHUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=75YrCojF5xB7KCzVHie7EonGAF5wXXnqVg0JOQb07rE=;
- b=UvldcpgUvjQ/cgkxgtbzsMMFZTLy5rkiwmOZhnG6pl284K+FSd+KWRHBBgw10HpaXynTnl+AlJZgmQ3ENtzpGZvGnZYXtHrPY/OCVurce4mFkbNpvtwFAz12bhrKx1bhNK9l00geAky51LvXyupcp5VEaGvsmO5kL4DKM7WDyOb7T5ZPdxX8oxD2d+XTUnIZ9LSyeSJ7/rFriwp11v83RKrL/1ebhxjTU3n7JDYFK2lSo+IUiYhRO4/YYR7LT7/Dv4ZNz/GiGduVqFd2OLxgxos7Z0Q1rDdAu2CcmGqtDgX0m1e4THe0MmwscaWPON6NFkHRJOzkPGzHAFfHh3j4HQ==
+ bh=s/zq3+bRdr5nagyyEDBAPewdx0AOfBPTk6Jeu0NlYCc=;
+ b=FihGp6+DneFGPiJmsObtoYxrhKOzHwHKv/7U0fCils9TsqX8KexhM6vLzLHFpW17t5raig4jlXcDi2OWRkvMmgkveC/SSnVLP+ln3jFrA8+YhuPW8cLUdeOFv23ASAEcCZUMSRDJON8dKrQWQfEmQtsnaJf+MbXJMx5NYF+pajuQXQ7qiS+UPMtKsypTvZM5u+4JB0WPuvFDgU2TvEP8gZiQJVbI9/Y0beVIo5W86iQf/HIbpC8ko2ZkMDzPE6+JPev+4NJe5MJeYGFx/NrLqSQFfvdlwAWPeG5Suzri0hnvR5diZFOaagJdabTQJpf8J/iv0s3+l0Qoma9kqQZ64A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.117.161) smtp.rcpttodomain=lists.freedesktop.org
  smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
@@ -30,18 +30,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=75YrCojF5xB7KCzVHie7EonGAF5wXXnqVg0JOQb07rE=;
- b=KR4lkfVWS3DnjBuFWvryo2H7tCFIU/r7XVxeiqOYr6G5EZAy1ZzY+GPhZLH/9d5KPndXXv1sjejSOjlL8aUJNQs80KNpyMVe69n44mVNQ2pCQk7g44s0p16lfKRpYRSSim8MWsfNd/ISGG3VWrVNZ+Fj6kcyDA+LC9pf04r8usShXC7SnEXUmzfFOlkpj8YCkIkUayUhnKWxmGJ8Jz1d8iNx3mhlR32KuTJHzYuFbOeNwSy6nkALoKXKUyFMcn7bd7S5TeJh3P64MEKiS96moXvHVkLKCZ4RrjZhgn+ij+oyLoJ+my5K7+wmIX8geZCUMMWZEArNpH0WgJG6xPSvOg==
-Received: from SN7PR04CA0066.namprd04.prod.outlook.com (2603:10b6:806:121::11)
- by MW4PR12MB7238.namprd12.prod.outlook.com (2603:10b6:303:229::16)
+ bh=s/zq3+bRdr5nagyyEDBAPewdx0AOfBPTk6Jeu0NlYCc=;
+ b=sKpdFkhqUC2FKOhAPRSZNZfbhi6DKANcUiy6JDj9eHl0HNApY/Xf2oZ6fTyHJrHqBt7J0HU7xx745xvAtJUjDjab8sbj5x1uQKNKs7A+n1QG3XnYTOxh/yPU5Id0RmVN8+uWf1sEzXcH1QUHcuWrPruFCys71Si1FaQlk4TS122BFd3uhi5yQXtCFqzdPcuFML/ZJ59k0GCAXUt4ZMM4syfhg/fwhj4K5GMK4N1JAmynVJN6lwF0KLqliLmYh+uFhV3xJC05l/Qyoi03BkM8xvcdioi7XXcqGniyz1hWCJq3HpRcfP5gOnM5E84yiNwzCIYaRnEVZF/X2sjphKj0qA==
+Received: from SA9PR10CA0024.namprd10.prod.outlook.com (2603:10b6:806:a7::29)
+ by SN7PR12MB7347.namprd12.prod.outlook.com (2603:10b6:806:29a::15)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.37; Thu, 13 Jun
- 2024 17:00:17 +0000
-Received: from SA2PEPF00003F66.namprd04.prod.outlook.com
- (2603:10b6:806:121:cafe::1c) by SN7PR04CA0066.outlook.office365.com
- (2603:10b6:806:121::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Thu, 13 Jun
+ 2024 17:00:21 +0000
+Received: from SA2PEPF00003F67.namprd04.prod.outlook.com
+ (2603:10b6:806:a7:cafe::ad) by SA9PR10CA0024.outlook.office365.com
+ (2603:10b6:806:a7::29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.25 via Frontend
- Transport; Thu, 13 Jun 2024 17:00:16 +0000
+ Transport; Thu, 13 Jun 2024 17:00:21 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
  smtp.mailfrom=nvidia.com;
  dkim=none (message not signed)
@@ -50,23 +50,24 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.117.161 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
 Received: from mail.nvidia.com (216.228.117.161) by
- SA2PEPF00003F66.mail.protection.outlook.com (10.167.248.41) with Microsoft
+ SA2PEPF00003F67.mail.protection.outlook.com (10.167.248.42) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7677.15 via Frontend Transport; Thu, 13 Jun 2024 17:00:16 +0000
+ 15.20.7677.15 via Frontend Transport; Thu, 13 Jun 2024 17:00:21 +0000
 Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
  (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 13 Jun
- 2024 10:00:02 -0700
+ 2024 10:00:03 -0700
 Received: from fedora.mshome.net (10.126.230.35) by rnnvmail201.nvidia.com
  (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 13 Jun
- 2024 10:00:00 -0700
+ 2024 10:00:02 -0700
 From: Ben Skeggs <bskeggs@nvidia.com>
 To: <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
 CC: Ben Skeggs <bskeggs@nvidia.com>
-Subject: [PATCH 17/21] drm/nouveau/nvkm: move pci pm ops from drm
-Date: Fri, 14 Jun 2024 03:00:09 +1000
-Message-ID: <20240613170046.88687-18-bskeggs@nvidia.com>
+Subject: [PATCH 18/21] drm/nouveau/nvkm: add device to auxiliary bus for each
+ nvkm_device
+Date: Fri, 14 Jun 2024 03:00:10 +1000
+Message-ID: <20240613170046.88687-19-bskeggs@nvidia.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240613170046.88687-1-bskeggs@nvidia.com>
 References: <20240613170046.88687-1-bskeggs@nvidia.com>
@@ -78,50 +79,50 @@ X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
  rnnvmail201.nvidia.com (10.129.68.8)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003F66:EE_|MW4PR12MB7238:EE_
-X-MS-Office365-Filtering-Correlation-Id: a02f8748-0598-4377-fbf9-08dc8bca4cc2
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F67:EE_|SN7PR12MB7347:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8464981-be2a-4b11-142e-08dc8bca4fd9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230035|376009|1800799019|82310400021|36860700008; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?EqJpod7TgksTIOG/ccLtEgEhLUVySVkv6E5ovwMIrm5ZVw3pc4e+IPAH4oT4?=
- =?us-ascii?Q?RO7+vsK6RI1T3RmFJl8hD1ilBkrMvoEttbA1loFKkhT2LlU96Hcyv5hWBKE3?=
- =?us-ascii?Q?jS7bVUaUcH9WGmvTBPQkLibTPf9YtKnRaf1U98TqNG71etJLuU9uYM48rnA1?=
- =?us-ascii?Q?C48ps94Kmi91i3BZ7NDvVEiK2AXbhV374T2fP/dDLiQesEQ6hQgItCb6njAK?=
- =?us-ascii?Q?KRhit2F0tK+NyG+XJPBbmgjgJK92kcfzho5O6sAQxd82uuuOYfYeastS4N53?=
- =?us-ascii?Q?yDJeZCyilvHwr2ZCpBrIgny3faA8P5JdRBSCDvqec+D/FtbK5pHn96VCHnUp?=
- =?us-ascii?Q?+vpIQE2yus7yS1L9xY4Ko/ztjgBVNH6WO6CYOpFtqgW8boJtbd42ZlqtYaBx?=
- =?us-ascii?Q?fLdhbulRSs7Gg8O5c8Hdf+SyJEwU0I76XizHs9IjUJIvzMnyLIVoiZYi9nSM?=
- =?us-ascii?Q?QiNtbZvir3nG2HZbUlBidCOdn0ppPUqrFKYHPkAxVjv5UgpodTd0LpFPeDSv?=
- =?us-ascii?Q?yzvbXOlWwXSQMRbjgWzvYuhzkvy4kcz2BhgZ5roeoISxJu2NcF41j/1COVB5?=
- =?us-ascii?Q?ArlJr3Tch2en9i8gL6xFEDBUzjgFf736sOHwNHA12bUtfhxUrXVg96ClPywY?=
- =?us-ascii?Q?JRqtlf2mnV+hbolB+5M03DKgZ5T30FuZpYre3khZI3THja8V8c8LT/jWKaPY?=
- =?us-ascii?Q?cb+iKjK9XFMPQ78pXD9p4TZmuVLwL62eC3fs0jJqYRHMpuQS0bhVW3BJn7Ch?=
- =?us-ascii?Q?FZErIIhgdHLC77qeonW6Qu/w3XFq8tEa+UbbqNo7UyUnQF8cAE0XpsJwvAvy?=
- =?us-ascii?Q?bXdU63mKhH/S+GPrfsWSpSouptCqF7j8ZJfy8nAiYG2gOpjOjtmojXa2DQw0?=
- =?us-ascii?Q?qBxKHdHFWTEZ3mPantpSdiAKEPCcR0jIL6pJkaHPeqIhv3zzcCH8QQzv+eQi?=
- =?us-ascii?Q?Oq7LEGa0CTHEyERvDFtXxFuQt1WIDAgdAn93DFRktKw3wzM4xhC5OPIGZxkM?=
- =?us-ascii?Q?bS1etY/Rhj162/0Ex5gD2aEIqarqTRZsgyibi4R0d1NW1+kY/a3lEVgprPbU?=
- =?us-ascii?Q?xo28Q0yh8VmjSefQx65a/BhpwqUGncCIUWTnxfYGbEIYUbR3NrYXuHhDSPKK?=
- =?us-ascii?Q?aR0aXRwxMZHnQ/a5kFg31EcY4GwxcT1FSC52GzbCZ2wM6d/xo+OGVy6W+dm+?=
- =?us-ascii?Q?WsA5mSx1vE643uOFu90Afi+6yTR00bYOBpQo+RC7xBbyVXG1kCnnBPDxhF5M?=
- =?us-ascii?Q?ctpqzD/dmWKIWcrMxoX4hN3K0sft5MEro9UbmROFn3cB1FHz7lSMlOyKmw+i?=
- =?us-ascii?Q?jzkbsHxCtL59nMYf2LIFat+eHGG3plxQH37koe5fcErIwqi/3oodEgHHR99E?=
- =?us-ascii?Q?dKQn/N8C3TrbuVGYEl2z+u1icv5H6H3Zs1HP0boIyw+83F1azg=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?HEQL4e1zOL8EKUt9q2qS9Th0UTveDpj0DGujXUrQ/Q8zj/2BiJRjKsoJbDwY?=
+ =?us-ascii?Q?QX+PtxKmix7ThBc6H0TC67Ny+0WKjzHg5ujzbdjbmKv+EajIAaQbQuYVsfKE?=
+ =?us-ascii?Q?w6c4MnEbny0o9I46or8qnmr1Qxs64SHTQXq8al1//v5REDeaYFC9VjYNN1YP?=
+ =?us-ascii?Q?NiscNPQOCPVi5FaUIbYFHjX8l9Kt3i21H7EVRf9tGlyBntUXu40nBt+N5MO1?=
+ =?us-ascii?Q?GAnMauS4GtZxoOdPkC7BalkUpRi7caRbzzOzGRY20XWCAvmUQrjbfXGBpB0z?=
+ =?us-ascii?Q?0UGur8wZFD4cIU0g5uyEInoJL5ppkLecFkaO/uybAihCM+j0zrALHuKSCzl7?=
+ =?us-ascii?Q?WVm4j+BqbmYT52r1AKMB8aqhiJfgU7Ffe8knmmvZHhJm5iQgQESCdyJkBu11?=
+ =?us-ascii?Q?nV3zYcUldifPZyqa9kKiy3LaTSgxyBPf1N9X77offy+KrSIlN/E2qRMrnv3/?=
+ =?us-ascii?Q?42cq/YP3Ji6jdw1G2iLiirH3Ujemp17tM6la3ByWd4FkZUVuq+XyBtQJ233+?=
+ =?us-ascii?Q?CkSGNdddjfvZFHX07E8b28jouxjyVi3uMrbtrHckqBvEAdWxnVW0OzXY/jeP?=
+ =?us-ascii?Q?WOBa17/R5cRxy8pI/u/Vyp6hch/6Fj+K3CDL4aTuRT0s/h6rBo+ij6SfdGU2?=
+ =?us-ascii?Q?UZ92Wa3ERISxv1FnF8i6uM6HfzuSnWDrkO2QufYGWOkuh5IyaA3SMe5xTNVR?=
+ =?us-ascii?Q?un7vktiJ/v3oXy/nbUXZJUa40alhTHcfSsyBoXHVZ4CV0/3x1QXMcg7S7Mz8?=
+ =?us-ascii?Q?xsu4FRvi4q1c4/SrfOS2a/c10AxsG0XaWTp2bahz5gKDHbgJhbaQZWLuAzFe?=
+ =?us-ascii?Q?4PmRcv8F7nQuNN/wrz4bIE9K4L56TC6BCR1k+oVE0M/mK4jioBxNXL1HWQsi?=
+ =?us-ascii?Q?9/ztpzGIGPpDf1YkDawuwXkZdTcyyu4OtfYts0rgLu30pRmuGSB4ICV46aTq?=
+ =?us-ascii?Q?47X2zP+VqYLIRCh35HZtesw9rGpMC8vd3taYiq2rrR6gOlCvzzQc/wUgjfa+?=
+ =?us-ascii?Q?8u3vVZaCqufB5FslOBHRUSbuu6MhC7/jAkiL84LWh1GsODz/4e/HXXyZ2M22?=
+ =?us-ascii?Q?CmIWjSkF/52nWQHmrAwArsNk/1Ak5hLgoxD/caFZx9mJI5pvDZg6nPHSkcFK?=
+ =?us-ascii?Q?TA7yV3kBh68RUaJj+DSnDtXMJtPhSOra0Hwk6vWlwnwbhBO7fq9q8S1Akocy?=
+ =?us-ascii?Q?RZ7SvSYPbn/JzDxDvKRv5pLyL0Gu4uczZnHAOFg+peW+QWdVL/LJ3LB1SQnA?=
+ =?us-ascii?Q?S1tU9BjOL+EjJjZzDZHQ00geFGlsgbgx7tOzHTA2mNQuOp3H0LqTirzMM3+b?=
+ =?us-ascii?Q?PF9tH43WBO1XZ/M40ESedCwBr8HU8xwhyI4C+tDt+X6MRhY23TRuuYrBrQSX?=
+ =?us-ascii?Q?lhMqP6vK4zGfZlQtvMlkN4gbH80StefWLZgfG+2B/tAwxVM0cA=3D=3D?=
 X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
  SFS:(13230035)(376009)(1800799019)(82310400021)(36860700008); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2024 17:00:16.5394 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a02f8748-0598-4377-fbf9-08dc8bca4cc2
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2024 17:00:21.7642 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8464981-be2a-4b11-142e-08dc8bca4fd9
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00003F66.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00003F67.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7238
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7347
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,196 +138,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Moves the PCI-specific portions of nouveau_pmops to NVKM, leaving the
-DRM pieces where they are.  The NVKM functions are called through the
-the nvkm_device_pci_driver struct from DRM for now, but will be fully
-separated once the DRM driver is implemented on an auxiliary device.
+This commit registers a device on the aux bus after core NVKM init
+has finished, which will be used by a later commit to have the DRM
+driver probe() against an aux device instead of a PCI or platform
+device (in the case of Tegra).
 
 Signed-off-by: Ben Skeggs <bskeggs@nvidia.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_acpi.h    |  3 -
- drivers/gpu/drm/nouveau/nouveau_drm.c     | 24 ++-----
- drivers/gpu/drm/nouveau/nvkm/device/pci.c | 76 +++++++++++++++++++++++
- 3 files changed, 80 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/nouveau/Kconfig               |  1 +
+ .../drm/nouveau/include/nvkm/core/device.h    |  3 ++
+ drivers/gpu/drm/nouveau/nvkm/device/base.c    | 33 +++++++++++++++++++
+ 3 files changed, 37 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_acpi.h b/drivers/gpu/drm/nouveau/nouveau_acpi.h
-index be1b218cb921..b4c7ae78cedc 100644
---- a/drivers/gpu/drm/nouveau/nouveau_acpi.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_acpi.h
-@@ -5,13 +5,10 @@
- #define ROM_BIOS_PAGE 4096
+diff --git a/drivers/gpu/drm/nouveau/Kconfig b/drivers/gpu/drm/nouveau/Kconfig
+index 4c10b400658c..6d0d46a0e66f 100644
+--- a/drivers/gpu/drm/nouveau/Kconfig
++++ b/drivers/gpu/drm/nouveau/Kconfig
+@@ -7,6 +7,7 @@ config DRM_NOUVEAU
+ 	depends on DRM_DISPLAY_HELPER
+ 	depends on PCI
+ 	depends on MMU
++	select AUXILIARY_BUS
+ 	select IOMMU_API
+ 	select FW_LOADER
+ 	select DRM_KMS_HELPER
+diff --git a/drivers/gpu/drm/nouveau/include/nvkm/core/device.h b/drivers/gpu/drm/nouveau/include/nvkm/core/device.h
+index d8596fe0adea..855d1b20820d 100644
+--- a/drivers/gpu/drm/nouveau/include/nvkm/core/device.h
++++ b/drivers/gpu/drm/nouveau/include/nvkm/core/device.h
+@@ -5,6 +5,8 @@
+ #include <core/intr.h>
+ enum nvkm_subdev_type;
  
- #if defined(CONFIG_ACPI) && defined(CONFIG_X86)
--#include <device/acpi.h>
--static inline void nouveau_switcheroo_optimus_dsm(void) { nvkm_acpi_switcheroo_set_powerdown(); }
- void *nouveau_acpi_edid(struct drm_device *, struct drm_connector *);
- bool nouveau_acpi_video_backlight_use_native(void);
- void nouveau_acpi_video_register_backlight(void);
- #else
--static inline void nouveau_switcheroo_optimus_dsm(void) {}
- static inline void *nouveau_acpi_edid(struct drm_device *dev, struct drm_connector *connector) { return NULL; }
- static inline bool nouveau_acpi_video_backlight_use_native(void) { return true; }
- static inline void nouveau_acpi_video_register_backlight(void) {}
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 76eddf172bb5..aa54aee23814 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -901,11 +901,7 @@ nouveau_pmops_suspend(struct device *dev)
- 	if (ret)
- 		return ret;
++#include <linux/auxiliary_bus.h>
++
+ enum nvkm_device_type {
+ 	NVKM_DEVICE_PCI,
+ 	NVKM_DEVICE_AGP,
+@@ -78,6 +80,7 @@ struct nvkm_device {
+ 		bool legacy_done;
+ 	} intr;
  
--	pci_save_state(pdev);
--	pci_disable_device(pdev);
--	pci_set_power_state(pdev, PCI_D3hot);
--	udelay(200);
--	return 0;
-+	return nvkm_device_pci_driver.driver.pm->suspend(dev);
++	struct auxiliary_device auxdev;
+ 	const struct nvif_driver_func *driver;
+ };
+ 
+diff --git a/drivers/gpu/drm/nouveau/nvkm/device/base.c b/drivers/gpu/drm/nouveau/nvkm/device/base.c
+index 4f8298bf71ee..fbb6e20bc1f2 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/device/base.c
++++ b/drivers/gpu/drm/nouveau/nvkm/device/base.c
+@@ -3029,6 +3029,9 @@ nvkm_device_del(struct nvkm_device **pdevice)
+ 	struct nvkm_device *device = *pdevice;
+ 	struct nvkm_subdev *subdev, *subtmp;
+ 	if (device) {
++		auxiliary_device_delete(&device->auxdev);
++		auxiliary_device_uninit(&device->auxdev);
++
+ 		nvkm_intr_dtor(device);
+ 
+ 		list_for_each_entry_safe_reverse(subdev, subtmp, &device->subdev, head)
+@@ -3076,6 +3079,16 @@ nvkm_device_endianness(struct nvkm_device *device)
+ 	return true;
  }
  
++static DEFINE_IDA(nvkm_device_id);
++
++static void
++nvkm_device_release(struct device *dev)
++{
++	struct nvkm_device *device = container_of(dev, typeof(*device), auxdev.dev);
++
++	ida_free(&nvkm_device_id, device->auxdev.id);
++}
++
  int
-@@ -919,12 +915,9 @@ nouveau_pmops_resume(struct device *dev)
- 	    drm->dev->switch_power_state == DRM_SWITCH_POWER_DYNAMIC_OFF)
- 		return 0;
- 
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
--	ret = pci_enable_device(pdev);
-+	ret = nvkm_device_pci_driver.driver.pm->resume(dev);
- 	if (ret)
- 		return ret;
--	pci_set_master(pdev);
- 
- 	ret = nouveau_do_resume(drm, false);
- 
-@@ -973,12 +966,8 @@ nouveau_pmops_runtime_suspend(struct device *dev)
- 		return -EBUSY;
+ nvkm_device_ctor(const struct nvkm_device_func *func,
+ 		 const struct nvkm_device_quirk *quirk,
+@@ -3335,5 +3348,25 @@ nvkm_device_ctor(const struct nvkm_device_func *func,
+ 		iounmap(device->pri);
+ 		device->pri = NULL;
  	}
- 
--	nouveau_switcheroo_optimus_dsm();
- 	ret = nouveau_do_suspend(drm, true);
--	pci_save_state(pdev);
--	pci_disable_device(pdev);
--	pci_ignore_hotplug(pdev);
--	pci_set_power_state(pdev, PCI_D3cold);
-+	ret = nvkm_device_pci_driver.driver.pm->runtime_suspend(dev);
- 	drm->dev->switch_power_state = DRM_SWITCH_POWER_DYNAMIC_OFF;
++
++	if (ret == 0) {
++		ret = ida_alloc(&nvkm_device_id, GFP_KERNEL);
++		if (ret < 0)
++			return ret;
++
++		device->auxdev.dev.parent = device->dev;
++		device->auxdev.dev.release = nvkm_device_release;
++		device->auxdev.name = "device";
++		device->auxdev.id = ret;
++
++		ret = auxiliary_device_init(&device->auxdev);
++		if (ret)
++			return ret;
++
++		ret = auxiliary_device_add(&device->auxdev);
++		if (ret)
++			auxiliary_device_uninit(&device->auxdev);
++	}
++
  	return ret;
  }
-@@ -995,12 +984,9 @@ nouveau_pmops_runtime_resume(struct device *dev)
- 		return -EBUSY;
- 	}
- 
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
--	ret = pci_enable_device(pdev);
-+	ret = nvkm_device_pci_driver.driver.pm->runtime_resume(dev);
- 	if (ret)
- 		return ret;
--	pci_set_master(pdev);
- 
- 	ret = nouveau_do_resume(drm, true);
- 	if (ret) {
-@@ -1008,8 +994,6 @@ nouveau_pmops_runtime_resume(struct device *dev)
- 		return ret;
- 	}
- 
--	/* do magic */
--	nvif_mask(&drm->device, 0x088488, (1 << 25), (1 << 25));
- 	drm->dev->switch_power_state = DRM_SWITCH_POWER_ON;
- 
- 	/* Monitors may have been connected / disconnected during suspend */
-diff --git a/drivers/gpu/drm/nouveau/nvkm/device/pci.c b/drivers/gpu/drm/nouveau/nvkm/device/pci.c
-index d454d56a7909..a66cb9d474d5 100644
---- a/drivers/gpu/drm/nouveau/nvkm/device/pci.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/device/pci.c
-@@ -1620,6 +1620,81 @@ nvkm_device_pci_func = {
- 
- #include "nouveau_drv.h"
- 
-+static int
-+nvkm_device_pci_pm_runtime_resume(struct device *dev)
-+{
-+	struct nvkm_device *device = ((struct nouveau_drm *)dev_get_drvdata(dev))->nvkm;
-+	struct pci_dev *pdev = nvkm_device_pci(device)->pdev;
-+	int ret;
-+
-+	pci_set_power_state(pdev, PCI_D0);
-+	pci_restore_state(pdev);
-+
-+	ret = pci_enable_device(pdev);
-+	if (ret)
-+		return ret;
-+
-+	pci_set_master(pdev);
-+
-+	/* do magic */
-+	nvkm_mask(device, 0x088488, (1 << 25), (1 << 25));
-+	return 0;
-+}
-+
-+static int
-+nvkm_device_pci_pm_runtime_suspend(struct device *dev)
-+{
-+	struct nvkm_device *device = ((struct nouveau_drm *)dev_get_drvdata(dev))->nvkm;
-+	struct pci_dev *pdev = nvkm_device_pci(device)->pdev;
-+
-+	nvkm_acpi_switcheroo_set_powerdown();
-+
-+	pci_save_state(pdev);
-+	pci_disable_device(pdev);
-+	pci_ignore_hotplug(pdev);
-+	pci_set_power_state(pdev, PCI_D3cold);
-+	return 0;
-+}
-+
-+static int
-+nvkm_device_pci_pm_resume(struct device *dev)
-+{
-+	struct nvkm_device *device = ((struct nouveau_drm *)dev_get_drvdata(dev))->nvkm;
-+	struct pci_dev *pdev = nvkm_device_pci(device)->pdev;
-+	int ret;
-+
-+	pci_set_power_state(pdev, PCI_D0);
-+	pci_restore_state(pdev);
-+
-+	ret = pci_enable_device(pdev);
-+	if (ret)
-+		return ret;
-+
-+	pci_set_master(pdev);
-+	return 0;
-+}
-+
-+static int
-+nvkm_device_pci_pm_suspend(struct device *dev)
-+{
-+	struct nvkm_device *device = ((struct nouveau_drm *)dev_get_drvdata(dev))->nvkm;
-+	struct pci_dev *pdev = nvkm_device_pci(device)->pdev;
-+
-+	pci_save_state(pdev);
-+	pci_disable_device(pdev);
-+	pci_set_power_state(pdev, PCI_D3hot);
-+	udelay(200);
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops
-+nvkm_device_pci_pm = {
-+	.suspend = nvkm_device_pci_pm_suspend,
-+	.resume = nvkm_device_pci_pm_resume,
-+	.runtime_suspend = nvkm_device_pci_pm_runtime_suspend,
-+	.runtime_resume = nvkm_device_pci_pm_runtime_resume,
-+};
-+
- static void
- nvkm_device_pci_remove(struct pci_dev *dev)
- {
-@@ -1787,4 +1862,5 @@ struct pci_driver
- nvkm_device_pci_driver = {
- 	.probe = nvkm_device_pci_probe,
- 	.remove = nvkm_device_pci_remove,
-+	.driver.pm = &nvkm_device_pci_pm,
- };
 -- 
 2.44.0
 
