@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD838907ED8
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 00:27:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E55E1907ED6
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 00:27:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85A6210EBDC;
-	Thu, 13 Jun 2024 22:27:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80F1A10EBDA;
+	Thu, 13 Jun 2024 22:26:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gvr/FziJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ewn5UC2/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6E1010EBDC;
- Thu, 13 Jun 2024 22:27:11 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0E5E10EBD6;
+ Thu, 13 Jun 2024 22:26:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718317633; x=1749853633;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
+ t=1718317616; x=1749853616;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
  bh=7QDd6cePhK8QHB5XjMVL3VXLSQFYxqKwR/SMxkipkhk=;
- b=gvr/FziJGsMppHXvZ7EIAZuIxxjr/Q/C0jw2PJZM0iNUn3E+8k3ihURL
- Q2LTS4ZmDS3+KsZ1zwKfqT84KbFfTzXPkOMmf/nkPdaYGKqutfE3XFZvn
- 5sGRQGppt62BDc+8Yih3ps0+LYMl4dSEoxfQ/n6NZ8nKxj4N0mSD6cZlt
- LJmJ+c5mXDrRw/jQ/xdIxmjej3n5YeFpaZ+d2eIWhcJkDMoIT4HHz0mh1
- 6ShINXsYtktkiLkfyXgExxWdG+oJt/Smxm0DDyzASTs0vzAViuGCwmF3f
- 3+UU2h5rP0MRxGN6mi91latcbgNRBhyPxe3bhDn/fNUdRXURqr7XqTxpB A==;
-X-CSE-ConnectionGUID: T1VIy+3iTpKdgsfgsW1DGw==
-X-CSE-MsgGUID: WW9HO6I0Ssy3O6Dsova5Wg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="25855172"
-X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; d="scan'208";a="25855172"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2024 15:24:19 -0700
-X-CSE-ConnectionGUID: Bd3wn/CvSNqWtRRM4iePqg==
-X-CSE-MsgGUID: B+dQYD1XR0+4DFWauxRZWw==
+ b=Ewn5UC2/ufs7Pep/yO/UuhuVUMpuF9PwUccluHj8sWq0s2uOxeYUyJl4
+ OIHaN92fIoiJFn0vnimxQGGfHVoK3IGX2RYzp0yaHtWgYVel+VyzYiQMt
+ 0a3HtCxZ1Bk8TO4vCcQOHyh/Zi2zWBpbiyFGKXgcw+vTI/5kcKeMrvyGZ
+ 9DsnJOoZMVWhS6nVD3ld/h0lYxTatu5iATwdaQ8ZJsyTWVuAoM5Zn0CDO
+ ZvPf+6YMiZvYJ777pHZHCvojyx4GTGQNFFAZcBW/cbsfqvgbZhE5IxJ7P
+ AUHs/jO/fCB+I1NWnk0r49zv5iyRhg/i7E9wmzumBFdUIKcp9uvDPaBTm Q==;
+X-CSE-ConnectionGUID: vXo4PB37QCu9PPQfOnCcig==
+X-CSE-MsgGUID: GMyMFC+rSuii61TNin4Fqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="12063762"
+X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; d="scan'208";a="12063762"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2024 15:26:55 -0700
+X-CSE-ConnectionGUID: wRc9S9MkS4is4enV3oRvew==
+X-CSE-MsgGUID: bYsZnWz/ShmsQp+WMrQZHA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; d="scan'208";a="40963074"
+X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; d="scan'208";a="71502691"
 Received: from bergbenj-mobl1.ger.corp.intel.com (HELO intel.com)
  ([10.245.246.176])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2024 15:24:16 -0700
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2024 15:26:53 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
@@ -49,9 +49,11 @@ Cc: Andi Shyti <andi.shyti@linux.intel.com>,
  Matthew Brost <matthew.brost@intel.com>,
  Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Subject: [PATCH] drm/i915/gt/uc: Evaluate GuC priority within locks
-Date: Fri, 14 Jun 2024 00:24:01 +0200
-Message-ID: <20240613222402.551625-1-andi.shyti@linux.intel.com>
+Date: Fri, 14 Jun 2024 00:24:02 +0200
+Message-ID: <20240613222402.551625-2-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
+In-Reply-To: <20240613222402.551625-1-andi.shyti@linux.intel.com>
+References: <20240613222402.551625-1-andi.shyti@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
