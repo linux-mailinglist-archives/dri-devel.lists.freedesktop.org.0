@@ -2,65 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27CB906AF4
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 13:26:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36505906B62
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 13:40:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EB7D10EA41;
-	Thu, 13 Jun 2024 11:26:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79CFE10E063;
+	Thu, 13 Jun 2024 11:40:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XasnU4Xg";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RWZtVPh+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1022010EA3F;
- Thu, 13 Jun 2024 11:26:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718277992; x=1749813992;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=DI4xzYNkB0VECoqPzxVIwPHU0XAMRO514hn2ZEc+w/Q=;
- b=XasnU4Xg1gwDGjeIr68ALTICOSJc9sIiZGZ94EA3KqrBhj8+9TDDbotF
- Kp0dExvcw2Fd/X/w1axuJGsM+mBKJyig+3UasuDmLgHXR9F4cxvQc3D3i
- mBJ4rGzPF0yDEbXIvxB18e/K0RxRtI+KBcso05EWJ+TRQJif6oEi42Ial
- JzgpuXpVTyXsI6QbxcltIIrNnPxio3ByAKjmHDyDFet69+793V1DR/cSU
- fEfdIeFi5wbXKvWQ8nwqx+a17V176OKxakbPeaT5XZX5un4mn/RJ02nZN
- ugyH02t23sFsjdIpEx8S1hSVDC/0OtvcmCs6T1NRhnK0RnPagMiFug0MX A==;
-X-CSE-ConnectionGUID: gcAc2RmvT3GPuxET+4YRsA==
-X-CSE-MsgGUID: KZy/Ur9oSAKadM62BACOVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="25668319"
-X-IronPort-AV: E=Sophos;i="6.08,235,1712646000"; d="scan'208";a="25668319"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2024 04:26:31 -0700
-X-CSE-ConnectionGUID: XFcQDc5cQKO/mY4BJwdKPw==
-X-CSE-MsgGUID: 9v8b7O+kQSmyL6eQjEUjxg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,235,1712646000"; d="scan'208";a="40178313"
-Received: from opintica-mobl1 (HELO fedora) ([10.245.244.70])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2024 04:26:28 -0700
-Date: Thu, 13 Jun 2024 13:26:15 +0200
-From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4078710E063
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 11:40:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 8DFB5CE25F3;
+ Thu, 13 Jun 2024 11:39:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41B43C2BBFC;
+ Thu, 13 Jun 2024 11:39:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1718278798;
+ bh=yBhofhADsMvnMWPHz8AjOvmPTGaBt+PagTG+hbEV/NE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=RWZtVPh+4zwnVj7C5co6QVCTAqhD/lDg1UuxtowEb8m1K3UxoHpSlaTD5Zh6k+AE7
+ 3lGY4CnsjPoXiRA4zlSbiL3nNRQ/ZK6/9X28AeLAzKRQVjc+O2cvLEl1Hg4J3MbiFC
+ +tf3QLCb9ku8YHSMIxY3f9UcjPf8HKU50un0i4CI=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-xe-fixes
-Message-ID: <ZmrXV0FoBb8M0c6J@fedora>
+ Javier Martinez Canillas <javierm@redhat.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Helge Deller <deller@gmx.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 4.19 073/213] fbdev: sh7760fb: allow modular build
+Date: Thu, 13 Jun 2024 13:32:01 +0200
+Message-ID: <20240613113230.824017541@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240613113227.969123070@linuxfoundation.org>
+References: <20240613113227.969123070@linuxfoundation.org>
+User-Agent: quilt/0.67
+X-stable: review
+X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,71 +64,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Sima,
+4.19-stable review patch.  If anyone has any objections, please let me know.
 
-This week's drm-xe-fixes PR.
+------------------
 
-Except from the maintainer update, nothing major, really.
-The "drm/xe: move disable_c6 call" required some conflict
-resolution (both visible and silent) which was also
-reflected in a conflict with drm-next when building
-drm-tip.
+From: Randy Dunlap <rdunlap@infradead.org>
 
-drm-xe-fixes-2024-06-13:
-Core Changes:
-- Xe Maintainers update to MAINTAINERS file.
+[ Upstream commit 51084f89d687e14d96278241e5200cde4b0985c7 ]
 
-Driver Changes:
-- Use correct forcewake assertions.
-- Assert that VRAM provisioning is only done on DGFX.
-- Flush render caches before user-fence signalling on all engines.
-- Move the disable_c6 call since it was sometimes never called.
+There is no reason to prohibit sh7760fb from being built as a
+loadable module as suggested by Geert, so change the config symbol
+from bool to tristate to allow that and change the FB dependency as
+needed.
 
-Thanks,
-Thomas
+Fixes: f75f71b2c418 ("fbdev/sh7760fb: Depend on FB=y")
+Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Acked-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+Signed-off-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/video/fbdev/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The following changes since commit 0698ff57bf327d9a5735a898f78161b8dada160b:
+diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+index 8e224ee27ade9..12846837f5de0 100644
+--- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -2084,8 +2084,8 @@ config FB_COBALT
+ 	depends on FB && MIPS_COBALT
+ 
+ config FB_SH7760
+-	bool "SH7760/SH7763/SH7720/SH7721 LCDC support"
+-	depends on FB=y && (CPU_SUBTYPE_SH7760 || CPU_SUBTYPE_SH7763 \
++	tristate "SH7760/SH7763/SH7720/SH7721 LCDC support"
++	depends on FB && (CPU_SUBTYPE_SH7760 || CPU_SUBTYPE_SH7763 \
+ 		|| CPU_SUBTYPE_SH7720 || CPU_SUBTYPE_SH7721)
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+-- 
+2.43.0
 
-  drm/xe/pf: Update the LMTT when freeing VF GT config (2024-06-04 16:31:24 +0200)
 
-are available in the Git repository at:
 
-  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2024-06-13
-
-for you to fetch changes up to 2470b141bfae2b9695b5b6823e3b978b22d33dde:
-
-  drm/xe: move disable_c6 call (2024-06-13 12:35:13 +0200)
-
-----------------------------------------------------------------
-Core Changes:
-- Xe Maintainers update to MAINTAINERS file.
-
-Driver Changes:
-- Use correct forcewake assertions.
-- Assert that VRAM provisioning is only done on DGFX.
-- Flush render caches before user-fence signalling on all engines.
-- Move the disable_c6 call since it was sometimes never called.
-
-----------------------------------------------------------------
-Andrzej Hajda (1):
-      drm/xe: flush engine buffers before signalling user fence on all engines
-
-Michal Wajdeczko (1):
-      drm/xe/pf: Assert LMEM provisioning is done only on DGFX
-
-Oded Gabbay (1):
-      MAINTAINERS: update Xe driver maintainers
-
-Riana Tauro (2):
-      drm/xe/xe_gt_idle: use GT forcewake domain assertion
-      drm/xe: move disable_c6 call
-
-Thomas Hellström (1):
-      MAINTAINERS: Update Xe driver maintainers
-
- MAINTAINERS                                |  2 +-
- drivers/gpu/drm/xe/xe_gt_idle.c            |  9 ++++++++-
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c | 15 +++++++++++++--
- drivers/gpu/drm/xe/xe_guc_pc.c             |  6 ------
- drivers/gpu/drm/xe/xe_ring_ops.c           | 18 ++++++++++++++++--
- 5 files changed, 38 insertions(+), 12 deletions(-)
