@@ -2,89 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFB44907D15
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 22:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F3C907D87
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 22:39:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB2F810E1FB;
-	Thu, 13 Jun 2024 20:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C05A510EB99;
+	Thu, 13 Jun 2024 20:39:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="WvYvSF5P";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VU6g3PDK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B9A010E1C9;
- Thu, 13 Jun 2024 20:03:06 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45DJGL6r030228;
- Thu, 13 Jun 2024 20:02:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- ++/0rbwSkqHw84MvR+hU+/vr8pLS4HWr/ld0QgWtZNw=; b=WvYvSF5PEZ3CDWF2
- Bb3TWXsTmVcI7Wc0gfYvJ0Ahq9n84fXRvHjFI+QaT9pjr8accF0x8K+jmKsy474Y
- wCZawg+88z/Au5hzHKmrKxQnrgZ4HV+GooPSKMr2v1EEwwedsFtqSMF2I9tzr6io
- QxWJZxXQDFOkLGviNDjZjz8PmrmegTwSPfYGPliPyTffVaXNP5JyIfEooXDEAHGy
- jLuY+PfwPAzMUG/KH8ETdMqaXhvbAeNG3kxJILzl9HrSCrg6bQXLXfkxanWCd8ay
- 6eLiro2aZjUPde6OwMNg+ZT6TTsGWMiuDj+XyYERq2CbLT42UMO6OYnzzd6tf3uK
- frXLMg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yr6q405ge-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jun 2024 20:02:59 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45DK2woe017051
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jun 2024 20:02:58 GMT
-Received: from [10.71.110.249] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 13 Jun
- 2024 13:02:57 -0700
-Message-ID: <a7ca8784-9dde-159f-e304-db38d3dddfb4@quicinc.com>
-Date: Thu, 13 Jun 2024 13:02:57 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A53510E15A;
+ Thu, 13 Jun 2024 20:39:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718311151; x=1749847151;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=d8jYBAmw8HmwFCfPouxPO6nnruKHlVcXg2zW7MM8OWk=;
+ b=VU6g3PDKwx18PHg1YXBqxgzH0kEHXosq+3r4qyWtLH5UPxaC2kB948hB
+ rvsSH/RpnvYByRh3Yr/8E1JSd4NBdxl1XEGkaEM3WsLxBBV2OuY6+fTkY
+ YBnaKfGqWRDFoeZnc2Hzfn9y11LsUGgU7bf23h4T6Fr/sEgBElkJoKeEQ
+ z/yHwk02IHNo5Dx6MlEQUW3N+3GAEuazvJYIx34ZlIAJM9IyoV/BvGFBG
+ Vlwv/L3EelSBt+8SsHXuUzE2ZKYbbuJTdaudTG2llgAg6piOK2Ltq7kpA
+ 9nFnhi66haQmsY6/hvCDo1BcwJgM7YXMAE75TEru/2OjA8OROfrANtWNX A==;
+X-CSE-ConnectionGUID: vkyAFFLBQJ6AOtU3N0EJSg==
+X-CSE-MsgGUID: uN3UEB6+RnGif0KmKtzzZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="12061593"
+X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; d="scan'208";a="12061593"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2024 13:39:10 -0700
+X-CSE-ConnectionGUID: 2aY8sTuBQ7Sf2iU5Ne44qQ==
+X-CSE-MsgGUID: QwTatAEDSbWuuvqG73FpcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; d="scan'208";a="71063150"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 13 Jun 2024 13:39:10 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 13 Jun 2024 13:39:09 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 13 Jun 2024 13:39:09 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 13 Jun 2024 13:39:09 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 13 Jun 2024 13:39:08 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KLd4Oem8hkMLTFN5O3WxEoT1/dmLA2bSdik9jtkmCriNbXi+FANxgeXpR5O4Kj9CkveSl3jy0GJ1VzliMXTn6T1mJDjNttxlRAe4cf0+lpwtM1atF/ngd7/3ndsdhRpmImQ44FLoc7o3+ggCDhvhN2FA+oMSmUilfL0ioYUalIXxrk1HwTq6FW0AQu40i+uPUxEB8e872p9TPlzrjFlJNSOh0kvCaT0emuKpcbqMzsavGkFKaH/843xf9y8QI0Z80v8mxU8uAh0TSST1iKnwc48VTOBVHT6b8292Nr/2E205p5gk2u71a9FU8b/ON2p0ZgmjzRT25BndzUzkhfR+mg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vFpq7QhKAzA1A/WHuoHNNQdzSDotpHFTv0tLM0LsJwg=;
+ b=mMx7bY2cuIpN1LpQvNU62AwWVKsS50yIXlJbtbuD0VwObSG123C99SHMg+HShblM151t+h9m7H/XMSO9QmdnPpWDk7dvxPosMcw/nA9utasUAmnqfMK4EyLHq67IsPkKSB9tx/ekRVfRIaupCExxgJuyKf7S61fSzQ5ZthOpctv2SYklqjDOrjFI8e7EMFm0DAz520PuXcIVfVwGp8AIglmwuNaFZCi5wG/5ZKmarvmgUetfQ38Si1uhN7C0fAwneLR9FJf9efRO629a6nIupueTTfPpLPX5UVnTvXMhW95LSWCiVq4Eh06HxrwSX+TKTvd8iNHV+Ma6bRFRWigMkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by SJ0PR11MB5771.namprd11.prod.outlook.com (2603:10b6:a03:424::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Thu, 13 Jun
+ 2024 20:39:06 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%7]) with mapi id 15.20.7633.037; Thu, 13 Jun 2024
+ 20:39:06 +0000
+Date: Thu, 13 Jun 2024 15:38:59 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+CC: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <ankit.k.nautiyal@intel.com>,
+ <suraj.kandpal@intel.com>, <jani.nikula@linux.intel.com>,
+ <sfr@canb.auug.org.au>
+Subject: Re: [PATCH 1/2] drm/dp: Describe target_rr_divider in struct
+ drm_dp_as_sdp
+Message-ID: <tkizxstuhnmi5clgay2a7ejh762jcdouaf7s2j6vrzsbzn673g@wbnnf23xmbhm>
+References: <20240613051317.345753-1-mitulkumar.ajitkumar.golani@intel.com>
+ <20240613051317.345753-2-mitulkumar.ajitkumar.golani@intel.com>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20240613051317.345753-2-mitulkumar.ajitkumar.golani@intel.com>
+X-ClientProxiedBy: MW4P221CA0022.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:303:8b::27) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v4 10/13] drm/msm/dpu: allow sharing SSPP between planes
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20240314000216.392549-1-dmitry.baryshkov@linaro.org>
- <20240314000216.392549-11-dmitry.baryshkov@linaro.org>
- <68dc0d98-9830-d71d-ec65-71890fb2986e@quicinc.com>
- <CAA8EJpop48--yTyyWs+3b=sgHgjV6-7akp7mJX007aMaaKteJA@mail.gmail.com>
- <7e1c4f24-f663-71ea-3a03-e21951ee543b@quicinc.com>
- <emkkg5jqeyxvqifm4pubrtrizoui7cj3nnzwli7n2h6ly53xcf@dpa7245xozpp>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <emkkg5jqeyxvqifm4pubrtrizoui7cj3nnzwli7n2h6ly53xcf@dpa7245xozpp>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: _XKqESzQqL1OvkII6HUC2Ww8H7kL_9MW
-X-Proofpoint-ORIG-GUID: _XKqESzQqL1OvkII6HUC2Ww8H7kL_9MW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-13_12,2024-06-13_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- lowpriorityscore=0 mlxlogscore=999 suspectscore=0 impostorscore=0
- phishscore=0 spamscore=0 bulkscore=0 priorityscore=1501 clxscore=1015
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406130143
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SJ0PR11MB5771:EE_
+X-MS-Office365-Filtering-Correlation-Id: a655d13e-55fb-4c68-30f6-08dc8be8dec7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230035|376009|1800799019|366011;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fOea5OIYl/P/SVY0YJBW0Hjligt9s6oaj1g3BtZfsEn+JOCR8XPzRLq/uWX7?=
+ =?us-ascii?Q?grJpFV/lMUjeigmu1dxZXsTjLku8o+AK1/gKPB5GEw8AsdVqJg2xUmt4/sws?=
+ =?us-ascii?Q?hWb4AgI4gBCqLC6yMwVNOLEWzVCj4RBU7lk0SOM4jEtNXAddoRx35IRVwNw7?=
+ =?us-ascii?Q?Dm9gdhQBh3H8QCoBSJjsR3gyFX00oZfE5QY12Wzqno20LeJ2b7ldASpkVz5L?=
+ =?us-ascii?Q?veZaMHOxiZzEC7fHmA+bSodAoSMUFSzWEmk6hPYDbxb7MYEF6bn1+qbb3xXE?=
+ =?us-ascii?Q?1mN0hLeouYHiMFwQVOR3JJf2Jvuw0jOFaubXRqdYC6v39QUMuCaDNJei0idB?=
+ =?us-ascii?Q?6L4P5VczwLNvU+0BV/aOEYUf070+AqEG0Hor/mwILnLOBXDSOtYwg6D8B11T?=
+ =?us-ascii?Q?7kJp2LBdvGjCuj68e1k6iN6RY4AVx6yemoKZ0OfVEynM0+6wsjZE6CRpFYIo?=
+ =?us-ascii?Q?H98DHnrOtzQQQuCh7sZlL5YJlJ+GYucd5PLfXvCvqzDECmseCe3Yl6YksSkq?=
+ =?us-ascii?Q?S0hRcb7S+2MkvyWITgeDIP7v7envI8wjfgQAZUDWhdq/twoSjCRxqTBClMVG?=
+ =?us-ascii?Q?dnT/hF1kfuZU3D3iAHq6+b5odWpx+bTWPPpQ4CYJifXkzZpQVVDwSE27dDw4?=
+ =?us-ascii?Q?gksyrGkMu8iMcNhzZg+3h4xMwPFlbnHW7/mzXqV40I155dhrAHxrr45Lp6SP?=
+ =?us-ascii?Q?nvxvNiOlGz0JmKIrsVoY3j8H18ffDYC5ptMAv8r1lAjC4GKsN5nsf23we8g8?=
+ =?us-ascii?Q?ahg5txt10vZ/PW4kyWCtG6ExB5z4mV0tkFG//CO1NHMAJyF1H4xpzbmhrECM?=
+ =?us-ascii?Q?gCQLfb3MbJNHXvQPlaTm+zc5+h/P0+XH+Xpcg5ptrQ/oz0gPZCWWx4KmUfpL?=
+ =?us-ascii?Q?4AHqRyT2J4CObSStrXPj9WUogN6ftXKdsFhBs1W3gYbsN7TZJWu+zy+o0zev?=
+ =?us-ascii?Q?NZJcdbnbvRQwU4iB3rTLsexn7xIEUL8HFGcFnIh44HmhFGQEaLEcxp17+BeE?=
+ =?us-ascii?Q?q73SgQYhqoZZXh4nMVd35Vqv9v9GwVLj0+Pb2CS4FlT5JD2yYvUlywI9tw6Q?=
+ =?us-ascii?Q?Ayds8C0usbw/VbWrIcExm1yqyQHukmEcUCoojLNQ6KQndGwKNF6HXz9VV99c?=
+ =?us-ascii?Q?AVIKrvCEhjKH6OWynAAEl5vidymVWKOoHG1mJrRlCHVquqcDsLvkswsC8dmd?=
+ =?us-ascii?Q?FcvFB6sOJ1/fP3vdO81uVAiD7yO/mGXI6C/dBgxH2SnEgKb0KodH18olTJo1?=
+ =?us-ascii?Q?58sPfINa05Z62pCXiAzaJqJqNLH4r61+rXJVcxw93w4r1ND2R3CN9gE478I3?=
+ =?us-ascii?Q?4y6c6sZxaYyxK6HtmPUrMRQY?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230035)(376009)(1800799019)(366011); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cdcmAma6g2Njfx17AOaPo/BIf8esqwojAVxFBa0TwgJ4gJBUsIfHidjURQvq?=
+ =?us-ascii?Q?xRCNwx6CXuXifOoX0ZXbe8NhGrXbDFAgnZn9CinYTIozE80CytjSZRRZdARo?=
+ =?us-ascii?Q?L1zQGJsDZ88ztp6WR7sZr42+EZ3uhciaMwvb7TYCUuHF+1DoYmY2lVicvV0r?=
+ =?us-ascii?Q?aLhslt57n1mo8i/nNMt0v49QIPKPG636wGnvDMkBoeJUecATkiqs79qGU8FH?=
+ =?us-ascii?Q?D0CqTHZmnRZzCiea/+W4EuXdfwvpCiCjzxD2ZvsuP88fAjWbMvPAEa6XAy/5?=
+ =?us-ascii?Q?lMa2d6udQOIwmsz3rZVz4Hxzl8VRSwpX+s/GiJ+Erf/VAfC9b+wrM/bxUzUu?=
+ =?us-ascii?Q?CUPx3vxCZUSPa+OaFzQIDVgNPdqQXcTORWdD2XJVomLKRGvKRywERRS8Cl9+?=
+ =?us-ascii?Q?pJ2ZjSz9GP9+L/0u0SbanoKeXufIY45pWK2br1JkSNEcRmBz6/gTq9orGSO/?=
+ =?us-ascii?Q?YCA7wGCjy3ZUZDEmShDPwqLVhNDOIGFOps5krsx+6xNXnLO5lsUyROS3WlRf?=
+ =?us-ascii?Q?2RZFN5YV6JkYXYgF/lmsrc+HxMgBBBSO1zVvpJJajucMgZZ+Kyp0bGW4ePBb?=
+ =?us-ascii?Q?5JSjwQ7Ah/56AhdpNFCEryODgoBiJWPxa9QxesLTH0k0oAVHw5HoITHFqF0r?=
+ =?us-ascii?Q?fer8/5dx6JK8fmZ26GvHnBpyuXmbqrbna6Kaeg8RI6f9jKzrzFscJ707rHAC?=
+ =?us-ascii?Q?rhbQitHMpRDeoPtk06mWRvHb8bIGwyiZlBDsYa//t2G/fMe+4RlRFeKveVKr?=
+ =?us-ascii?Q?3XBNvJMUnr1TMu24OtNbz5ZQN+xzfQLSHQ9mp0+M+YPSMHvLJypQAYGfHQvH?=
+ =?us-ascii?Q?Tj5oJs2a4go3LjyLckRoJlC7jHYgNhAmU7Yt91Gd/lZalqrFtwR8GPYw4hbX?=
+ =?us-ascii?Q?nSUs/KUC+rw01zu8RTg5K8QD/pvf3qxJ7JfMz/wCGWPBj1DpCe2pBbdh+Pzj?=
+ =?us-ascii?Q?jFgDd676VOd24X5t/3kOI2Bz2gVlXPalZ5gzRe0BbsWbHGGqMiB9e8v8mS85?=
+ =?us-ascii?Q?FzdKS8EY4eAQLVcAisyYsvbYIk7m5EjyuievYSp0MdPhWtyn5VOLkWprOizb?=
+ =?us-ascii?Q?QbP8T0rB3SG5oUcODABiQVFojllE7zcA1NgBjPS0iOpjTrJ6ozg5YJQcWyiE?=
+ =?us-ascii?Q?VvtfHHPMpMhhaD3QQtk43crm6e49QhuQSaxKp2q2CPmV/pZ10JOl0cagtXPO?=
+ =?us-ascii?Q?SRg3PG58Msr/Jw7BLH2NtiO1leEonH0sSy+UkGEehghhfxzDGCsLweOxup+V?=
+ =?us-ascii?Q?vwicIe2yIpEHzZdHIHlC3IScZMjZfig19lbvj5HRc7eCRBefppw+67LJSnhu?=
+ =?us-ascii?Q?M+/cDqXIxmdYATCEhXTWtNJFRbO0vhWxA0UlNPewKL3uX9F3CRyd2/Tv8xHB?=
+ =?us-ascii?Q?CIceHI+NSHJJagRt5oWXvUaglUeVOMujrw8I0voGUwHoWpN3K7DC6T4UgPOR?=
+ =?us-ascii?Q?GuI8oL33noJxlTUF5EkoOQV+M0xuvt0PSRO4d6Ctll/7T1D+hNvEH7+02kwz?=
+ =?us-ascii?Q?R36+sx6MnPeE4VCMxcgwkL0aRJcK1A3gIjogn5Eg8igQJM2I30DYn/syKJ1D?=
+ =?us-ascii?Q?L1xNEMiseK/wjrevrP0hjfFUewW8+QVjFmnqaoOaAIMMY83201rpcFvqi1r6?=
+ =?us-ascii?Q?Wg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a655d13e-55fb-4c68-30f6-08dc8be8dec7
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2024 20:39:06.7865 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: u1+4+78STn3eZ6FJZKhC4ZwZcQP1rJf9cI2GT5soeaiwBxyhuHZ29DzLLYG9+TrsJJfASgU3kX2SYQfxGkKV8qeLqkhJ1ODIzZ5+IA+Bnik=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5771
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,424 +183,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jun 13, 2024 at 10:43:16AM GMT, Mitul Golani wrote:
+>Describe newly added parameter target_rr_divider in struct
+>drm_dp_as_sdp.
+>
+>Fixes: a20c6d954d75 ("drm/dp: Add refresh rate divider to struct representing AS SDP")
+>Cc: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+>Cc: Arun R Murthy <arun.r.murthy@intel.com>
+>Cc: Suraj Kandpal <suraj.kandpal@intel.com>
+>Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+>Cc: Jani Nikula <jani.nikula@intel.com>
+>Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+>
 
+^ wrong newline. If you do that, git doesn't recognize them as part of
+the trailer.
 
-On 6/13/2024 3:05 AM, Dmitry Baryshkov wrote:
-> On Wed, Jun 12, 2024 at 06:17:37PM -0700, Abhinav Kumar wrote:
->>
->>
->> On 6/12/2024 2:08 AM, Dmitry Baryshkov wrote:
->>> On Wed, 12 Jun 2024 at 02:12, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>>
->>>>
->>>>
->>>> On 3/13/2024 5:02 PM, Dmitry Baryshkov wrote:
->>>>> Since SmartDMA planes provide two rectangles, it is possible to use them
->>>>> to drive two different DRM planes, first plane getting the rect_0,
->>>>> another one using rect_1 of the same SSPP. The sharing algorithm is
->>>>> pretty simple, it requires that each of the planes can be driven by the
->>>>> single rectangle and only consequetive planes are considered.
->>>>>
->>>>
->>>> consequetive - > consecutive
->>>>
->>>> Can you please explain why only consecutive planes are considered for this?
->>>>
->>>> So lets say we have 4 virtual planes : 0, 1, 2, 3
->>>>
->>>> It will try 0-1, 1-2, 2-3
->>>>
->>>> Because all planes are virtual, there are only 3 unique pairs to be
->>>> considered? Otherwise technically 6 pairs are possible.
->>>
->>> An implementation that tries all 6 pairs taking the zpos and the
->>> overlapping into account is appreciated. I cared for the simplest case
->>> here. Yes, further optimizations can be implemented.
->>>
->>
->> Ok got it. So you would like to build a better one on top of this.
->> But I see one case where this has an issue or is not optimal. Pls see below.
-> 
-> Yes, it is not optimal. This is the 'best possible effort' or 'best
-> simple effort' from my POV.
-> 
->>
->>>>
->>>>
->>>> General request:
->>>>
->>>> Patches 1-9 : Add support for using 2 SSPPs in one plane
->>>> Patches 10-12 : Add support for using two rectangles of the same SSPP as
->>>> two virtual planes
->>>> Patch 13 : Can be pushed along with the first set.
->>>>
->>>> Can we break up this series in this way to make it easier to test and
->>>> land the bulk of it in this cycle?
->>>
->>> Sure.
->>>
->>
->> Thanks.
->>
->>>>
->>>> I have some doubts on patches 10-12 and would like to spend more time
->>>> reviewing and testing this. So I am trying to reduce the debt of patches
->>>> we have been carrying as this is a tricky feature to simulate and test
->>>> the cases.
->>>>
->>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>> ---
->>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 128 +++++++++++++++++++---
->>>>>     1 file changed, 112 insertions(+), 16 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>>>> index cde20c1fa90d..2e1c544efc4a 100644
->>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>>>> @@ -886,10 +886,9 @@ static int dpu_plane_atomic_check_nopipe(struct drm_plane *plane,
->>>>>         return 0;
->>>>>     }
->>>>>
->>>>> -static int dpu_plane_is_multirect_parallel_capable(struct dpu_sw_pipe *pipe,
->>>>> -                                                struct dpu_sw_pipe_cfg *pipe_cfg,
->>>>> -                                                const struct dpu_format *fmt,
->>>>> -                                                uint32_t max_linewidth)
->>>>> +static int dpu_plane_is_multirect_capable(struct dpu_sw_pipe *pipe,
->>>>> +                                       struct dpu_sw_pipe_cfg *pipe_cfg,
->>>>> +                                       const struct dpu_format *fmt)
->>>>>     {
->>>>>         if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
->>>>>             drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect))
->>>>> @@ -901,6 +900,13 @@ static int dpu_plane_is_multirect_parallel_capable(struct dpu_sw_pipe *pipe,
->>>>>         if (DPU_FORMAT_IS_YUV(fmt))
->>>>>                 return false;
->>>>>
->>>>> +     return true;
->>>>> +}
->>>>> +
->>>>> +static int dpu_plane_is_parallel_capable(struct dpu_sw_pipe_cfg *pipe_cfg,
->>>>> +                                      const struct dpu_format *fmt,
->>>>> +                                      uint32_t max_linewidth)
->>>>> +{
->>>>>         if (DPU_FORMAT_IS_UBWC(fmt) &&
->>>>>             drm_rect_width(&pipe_cfg->src_rect) > max_linewidth / 2)
->>>>>                 return false;
->>>>> @@ -908,6 +914,82 @@ static int dpu_plane_is_multirect_parallel_capable(struct dpu_sw_pipe *pipe,
->>>>>         return true;
->>>>>     }
->>>>>
->>>>> +static int dpu_plane_is_multirect_parallel_capable(struct dpu_sw_pipe *pipe,
->>>>> +                                                struct dpu_sw_pipe_cfg *pipe_cfg,
->>>>> +                                                const struct dpu_format *fmt,
->>>>> +                                                uint32_t max_linewidth)
->>>>> +{
->>>>> +     return dpu_plane_is_multirect_capable(pipe, pipe_cfg, fmt) &&
->>>>> +             dpu_plane_is_parallel_capable(pipe_cfg, fmt, max_linewidth);
->>>>> +}
->>>>> +
->>>>> +
->>>>> +static int dpu_plane_try_multirect(struct dpu_plane_state *pstate,
->>>>> +                                struct dpu_plane_state *prev_pstate,
->>>>> +                                const struct dpu_format *fmt,
->>>>> +                                uint32_t max_linewidth)
->>>>> +{
->>>>> +     struct dpu_sw_pipe *pipe = &pstate->pipe;
->>>>> +     struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
->>>>> +     struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
->>>>> +     struct dpu_sw_pipe *prev_pipe = &prev_pstate->pipe;
->>>>> +     struct dpu_sw_pipe_cfg *prev_pipe_cfg = &prev_pstate->pipe_cfg;
->>>>> +     const struct dpu_format *prev_fmt =
->>>>> +             to_dpu_format(msm_framebuffer_format(prev_pstate->base.fb));
->>>>> +     u16 max_tile_height = 1;
->>>>> +
->>>>> +     if (prev_pstate->r_pipe.sspp != NULL ||
->>>>> +         prev_pipe->multirect_mode != DPU_SSPP_MULTIRECT_NONE)
->>>>> +             return false;
->>>>> +
->>>>> +     if (!dpu_plane_is_multirect_capable(pipe, pipe_cfg, fmt) ||
->>>>> +         !dpu_plane_is_multirect_capable(prev_pipe, prev_pipe_cfg, prev_fmt) ||
->>>>> +         !(test_bit(DPU_SSPP_SMART_DMA_V1, &prev_pipe->sspp->cap->features) ||
->>>>> +           test_bit(DPU_SSPP_SMART_DMA_V2, &prev_pipe->sspp->cap->features)))
->>>>
->>>> This test_bit check should be absorbed into
->>>> dpu_plane_is_multirect_capable()?
->>>
->>> Yep.
->>>
->>>>
->>>>> +             return false;
->>>>> +
->>>>> +     if (DPU_FORMAT_IS_UBWC(fmt))
->>>>> +             max_tile_height = max(max_tile_height, fmt->tile_height);
->>>>> +
->>>>> +     if (DPU_FORMAT_IS_UBWC(prev_fmt))
->>>>> +             max_tile_height = max(max_tile_height, prev_fmt->tile_height);
->>>>> +
->>>>> +     r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
->>>>> +     r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
->>>>> +
->>>>> +     r_pipe->sspp = NULL;
->>>>> +
->>>>> +     if (dpu_plane_is_parallel_capable(pipe_cfg, fmt, max_linewidth) &&
->>>>> +         dpu_plane_is_parallel_capable(prev_pipe_cfg, prev_fmt, max_linewidth) &&
->>>>> +         (pipe_cfg->dst_rect.x1 >= prev_pipe_cfg->dst_rect.x2 ||
->>>>> +          prev_pipe_cfg->dst_rect.x1 >= pipe_cfg->dst_rect.x2)) {
->>>>
->>>> Even if y1 > y2 or y2 > y1 but the separation is less than the  2 *
->>>> max_tile_height, it can qualify for parallel fetch.
->>>>
->>>> So parallel fetch is possible not only in x direction but y direction as
->>>> well as it will be fetched by different SSPPs.
->>>
->>> I think that's now what I see in the SDE driver.
->>>
->>
->> hmm , okay, we can support that case once this one works without issues.
->>
->>>>
->>>>> +             pipe->sspp = prev_pipe->sspp;
->>>>> +
->>>>> +             pipe->multirect_index = DPU_SSPP_RECT_1;
->>>>> +             pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
->>>>> +
->>>>> +             prev_pipe->multirect_index = DPU_SSPP_RECT_0;
->>>>> +             prev_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
->>>>> +
->>>>> +             return true;
->>>>> +     }
->>>>> +
->>>>> +     if (pipe_cfg->dst_rect.y1 >= prev_pipe_cfg->dst_rect.y2 + 2 * max_tile_height ||
->>>>> +         prev_pipe_cfg->dst_rect.y1 >= pipe_cfg->dst_rect.y2 + 2 * max_tile_height) {
->>>>> +             pipe->sspp = prev_pipe->sspp;
->>>>> +
->>>>> +             pipe->multirect_index = DPU_SSPP_RECT_1;
->>>>> +             pipe->multirect_mode = DPU_SSPP_MULTIRECT_TIME_MX;
->>>>> +
->>>>> +             prev_pipe->multirect_index = DPU_SSPP_RECT_0;
->>>>> +             prev_pipe->multirect_mode = DPU_SSPP_MULTIRECT_TIME_MX;
->>>>> +
->>>>> +             return true;
->>>>> +     }
->>>>> +
->>>>> +     return false;
->>>>> +}
->>>>> +
->>>>>     static int dpu_plane_atomic_check_pipes(struct drm_plane *plane,
->>>>>                                         struct drm_atomic_state *state,
->>>>>                                         const struct drm_crtc_state *crtc_state)
->>>>> @@ -1098,13 +1180,14 @@ static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
->>>>>     static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->>>>>                                               struct dpu_global_state *global_state,
->>>>>                                               struct drm_atomic_state *state,
->>>>> -                                           struct drm_plane_state *plane_state)
->>>>> +                                           struct drm_plane_state *plane_state,
->>>>> +                                           struct drm_plane_state *prev_plane_state)
->>>>>     {
->>>>>         const struct drm_crtc_state *crtc_state = NULL;
->>>>>         struct drm_plane *plane = plane_state->plane;
->>>>>         struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
->>>>>         struct dpu_rm_sspp_requirements reqs;
->>>>> -     struct dpu_plane_state *pstate;
->>>>> +     struct dpu_plane_state *pstate, *prev_pstate;
->>>>>         struct dpu_sw_pipe *pipe;
->>>>>         struct dpu_sw_pipe *r_pipe;
->>>>>         struct dpu_sw_pipe_cfg *pipe_cfg;
->>>>> @@ -1117,6 +1200,7 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->>>>>                                                            plane_state->crtc);
->>>>>
->>>>>         pstate = to_dpu_plane_state(plane_state);
->>>>> +     prev_pstate = prev_plane_state ? to_dpu_plane_state(prev_plane_state) : NULL;
->>>>>         pipe = &pstate->pipe;
->>>>>         r_pipe = &pstate->r_pipe;
->>>>>         pipe_cfg = &pstate->pipe_cfg;
->>>>> @@ -1137,19 +1221,27 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->>>>>
->>>>>         max_linewidth = dpu_kms->catalog->caps->max_linewidth;
->>>>>
->>>>> -     pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
->>>>> -     if (!pipe->sspp)
->>>>> -             return -ENODEV;
->>>>> -
->>>>>         if (drm_rect_width(&r_pipe_cfg->src_rect) == 0) {
->>>>> -             pipe->multirect_index = DPU_SSPP_RECT_SOLO;
->>>>> -             pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
->>>>> +             if (!prev_pstate ||
->>>>> +                 !dpu_plane_try_multirect(pstate, prev_pstate, fmt, max_linewidth)) {
->>>>
->>>> This is a bit confusing to check esp since i am unable to apply this
->>>> patch and check .... but...
->>>
->>> It was posted several months ago. No surprise that the source code has
->>> evolved. Getting the patches reviewed in time would have helped them
->>> to be applicable.
->>>
->>
->> Yes, part of the delays for virtual plane was purely because the CB setup
->> was down (both due to internal IT issues and general sc7280 being down) and
->> I want to make sure this series is compositor-tested and not just modetest
->> tested.
->>
->> But anyway, thats why I didnt request a rebase this time even though it was
->> very hard to review the patch emails for this series.
-> 
-> Review is review, testing is testing. Those are two different items.
-> It's perfectly fine to review a patchset and at the same time to add a
-> notice 'don't merge until fully validated on a hardware'.
-> 
+Lucas De Marchi
 
-Ack, I will use this notice from now on.
-
->>
->>>> dpu_plane_atomic_check_nopipe() will set r_pipe_cfg if we are going to
->>>> do multirect with two rectangles of the same sspp. Right?
->>>
->>> No. It sets r_pipe_cfg in all the cases.
->>>
->>
->>  From what I see, we still have this check before a valid rectangle is set
->> for the r_pipe_cfg
->>
->>   	if ((drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) ||
->>   	     _dpu_plane_calc_clk(&crtc_state->adjusted_mode, pipe_cfg) >
->> max_mdp_clk_rate) {
-> 
-> I really don't see a contradiction here. Maybe I'm missing something.
-> 
->>>> Which means r_pipe_cfg will be 0 if multirect is not possible with same
->>>> SSPP. Thats why the else case of this either uses two SSPPs.
->>>
->>> No. It means that the plane can use a single rectangle of the SSPP.
->>>
->>
->> OR that the plane does not need to use multirect because its rectangle width
->> is < max_linewidth.
-> 
-> Isn't it the same fact, just expressed in different words?
-> 
->>
->>>>
->>>> So why are we trying multirect with again with the two rectangles of the
->>>> same SSPP as different planes? The result will be same right?
->>>
->>> No, if the width of r_pipe_cfg is 0, it means that this plane doesn't
->>> need a second rectangle to be displayed. So we can try reusing the
->>> SSPP from the previous plane.
->>>
->>
->> Yes, agreed to this point that this plane doesnt need a second rectangle to
->> be displayed as it will fit in one rectangle.
->>
->> And I see what you mean now, if the current plane needs only one rectangle
->> to be used, you are trying to use the prev plane's SSPP's other rect?
->>
->> So lets say we have plane 1 and plane 2 in the list.
->>
->> Plane 1 has only one rect used and plane 2 also needs only one rect.
->>
->> Then you use plane 1's SSPP even for plane 2.
-> 
-> Yes!
-> 
->> Cant you use an alternative check like !dpu_plane_is_wideplane_multirect()
->> to make this condition clear?
-> 
-> No. There might be other conditions in play. So we really need to check
-> both pipe configurations together in order to determine.
-> 
-
-What I meant was instead of doing !r_pip_cfg->rect maybe put that in a 
-helper API like dpu_plane_is_wideplane_multirect().
-
-It seems like to me the ideal way would have been that you have both the 
-checks in the same place rather than breaking it up into a different API 
-(check_no_pipe)
-
-That way we could have done:
-
-1) Try wide plane multirect
-2) if that does not qualify, try SSPP sharing multirect
-3) if both do not work, try dual SSPP
-
-Now, it seems like to me that perhaps the migration of setting the 
-r_pipe_cfg rect inside check_no_pipe() could have been avoided and 
-rather just kept that outside?
-
->> Also dpu_plane_try_multirect() name is confusing then because you are trying
->> multi-rect again to see if the SSPP can be shared and wide-plane multirect
->> was not possible. So technically both are multirect, just dfferent
->> applications.
-> 
-> dpu_plane_try_sharing_sspp() ?
-> 
-
-Yes, this one is better.
-
->> That will make it clear that you are trying to use multi-rect for sharing
->> SSPP.
->>
->> So there are essentially two use-cases of multi-rect:
->>
->> 1) Wide plane multi-rect
->> 2) SSPP sharing multi-rect
->>
->> So this will make it clear.
-> 
-> Ideally we should be able to get rid of this distinction. Maybe in the
-> end we should just list all pipe configurations in some natural order
-> and then assign SSPP rectangles.
-> 
->>
->> Coming to the algorithm, I see one issue with this now.
->>
->> Lets say we have this list of SSPPs.
->>
->> DMA0 Vig0 Vig1
-> 
-> Fine.
-> 
->>
->> DMA0 has only rec0 used and rec1 is free.
->>
->> Vig0 needs both recs used.
->>
->> Vig1 needs only one rec.
-> 
-> And this is not fine. There are no fixed planes like DMA0, etc.
-> 
-> Let me rephrase that for you, if I got your example correctly. We have
-> three planes, first one is small RGB plane, so it requires only a single
-> rectangle, second plane requires both rectangles of VIG0.
-> Third plane could have fit into DMA1 / REC1, but using this algorithm we
-> end up allocating VIG1 for the third plane.
-> 
-
-Correct, this is the scenario I was trying to explain.
-
-> 
->> Here it will notice that its previous plane has both rects used and will not
->> try the DMA0 even though it has one rect free and will end up using a new
->> SSPP.
->>
->> Thats why considering only immediate pairs is not enough. All possible pairs
->> will address this.
-> 
-> Yes, I know the algorithm is not optimal from the resource management
-> point of view. However:
-> 
-> - I was not sure how allocating two rectangles of the same SSPP for
->    different stages will work across different hardware generations, etc.
->    This algorithm doesn't have such an issue, because both rectangles are
->    always using the same blending stage.
-> 
-
-hmm, I am not aware of any restrictions with this regard.
-
-> - Trying all possible combinations requires exponential time for the
->    number of planes in use. The simple algorithm works in a linear time,
->    while being good enough for the simplest cases.
-> 
-
-Okay, lets go ahead with this algorithm but I will try to improve this.
-
-
-> 
+>Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+>Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+>---
+> include/drm/display/drm_dp_helper.h | 1 +
+> 1 file changed, 1 insertion(+)
+>
+>diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+>index ea03e1dd26ba..7f2567fa230d 100644
+>--- a/include/drm/display/drm_dp_helper.h
+>+++ b/include/drm/display/drm_dp_helper.h
+>@@ -112,6 +112,7 @@ struct drm_dp_vsc_sdp {
+>  * @target_rr: Target Refresh
+>  * @duration_incr_ms: Successive frame duration increase
+>  * @duration_decr_ms: Successive frame duration decrease
+>+ * @target_rr_divider: Target refresh rate divider
+>  * @mode: Adaptive Sync Operation Mode
+>  */
+> struct drm_dp_as_sdp {
+>-- 
+>2.45.2
+>
