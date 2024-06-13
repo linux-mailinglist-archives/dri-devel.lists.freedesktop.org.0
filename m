@@ -2,74 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD820907F41
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 01:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D36907F43
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 01:13:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87DD610E02A;
-	Thu, 13 Jun 2024 23:12:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D48110E0F8;
+	Thu, 13 Jun 2024 23:13:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=w_armin@gmx.de header.b="AwnqxlJJ";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="NVmdRWcI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 320 seconds by postgrey-1.36 at gabe;
- Thu, 13 Jun 2024 23:12:30 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 471D910E02A;
- Thu, 13 Jun 2024 23:12:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1718320348; x=1718925148; i=w_armin@gmx.de;
- bh=juoPd/6jKYp/yJ2p2QijR/8Aum3Igi5t+8Igz/AZfmI=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=AwnqxlJJ89soTkFgO8VzYK9Wt5yW0ssA79PDbKZjhL+b6iZE1T38bpgvFugnj7li
- 8ObUkHr9XQxjSiaXTwxNJqoH3nnIhxDqaIoufVa0Z+BTnM1HktL/TjvdGr/nuR3ws
- sjJdszvREDuLbCQ612cux0WeNHikzlOx3AuCIcluF/hIm9Cc29tFGuWVQRPsozVtP
- n0xjhyW+NcTjG1Mcd49r/pPWRodDh6gKJ0vgmagnDrdBFu/xRB3+jErf9umisN19z
- TjBqmvvUDcSOtE4W/mISlely8Lu17qFGRnac/64zqxZjGUMhzPRkCpclNtzf1xYL3
- 6b4s5Oakr0ELuqty5A==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N6sn1-1sTB7n0VlX-015A7F; Fri, 14
- Jun 2024 01:07:04 +0200
-Message-ID: <6f08d226-da23-4633-a562-3d5ab53f7e42@gmx.de>
-Date: Fri, 14 Jun 2024 01:07:03 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03F3110E0F8;
+ Thu, 13 Jun 2024 23:13:26 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45DJGMm6024227;
+ Thu, 13 Jun 2024 23:13:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ N5zeY6v+l92d5kTwjsKH7gVmTuBY4OLuy/EY97FpXTI=; b=NVmdRWcIpMYFhYKA
+ nTZp2/Z4d4G0LS94tdtO26uaDk0Ms5dLIgoSa/1Xczxo/DDB0GoJU3C2Ec2QUvso
+ FR1SpwlO7FjUgj5sqT3XOVhU9iYl3VGQvWMxfRwu27rfKqw+0J93N0B53i1+n7rT
+ CsAMMfopVuq+fujySFbFgerClgYry9JbfuHkdRUFADzXy3evWGtMlwoKP8wluBsc
+ i8nENZ1HVLDB5XQW85kGbCufat40Y63iySvGK3M0Wn+gaRwrHCPU26IK0Nzf7FJp
+ 133prW4nm0T2PKceKmcU+6p6+I0I1ZpoNkb1QJa0jL/sXUceJfc05uC4577pqQrr
+ DYRoZg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yr6q4rggw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jun 2024 23:13:21 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45DNDJgU031183
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jun 2024 23:13:19 GMT
+Received: from [10.71.110.249] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 13 Jun
+ 2024 16:13:18 -0700
+Message-ID: <52fef0ed-d9c6-682c-2d30-18cdd78f7a40@quicinc.com>
+Date: Thu, 13 Jun 2024 16:13:18 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Patch "Revert "drm/amdgpu: init iommu after amdkfd device init""
- has been added to the 5.15-stable tree
-To: gregkh@linuxfoundation.org, Prike.Liang@amd.com, Xinhui.Pan@amd.com,
- alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org, bkauler@gmail.com,
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- sashal@kernel.org, yifan1.zhang@amd.com
-Cc: stable-commits@vger.kernel.org
-References: <2024061239-rehydrate-flyable-343e@gregkh>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3 1/9] drm/msm/dpu: check for overflow in
+ _dpu_crtc_setup_lm_bounds()
 Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <2024061239-rehydrate-flyable-343e@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:zMaco9iewpE4zM+dt6BwutPJJkrVJs55lZY3om1O/bvuDckdDBl
- KmmpQ2i54giYMPjvH4y6XVHod812HHrP77wWyjk/Q/rluORgPbAlZooig+BXd4PnY66Ug/q
- hcElXlYJ9JP2mVsgC4aighU4p/rg3shWNsiGWspc5sbD2QTgK9dfQ0UMvY4t+hfQPvkBXba
- 3dCdSAXafyDvKPi/pnZQA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:5YTQ3bE2RBk=;BoRcY+gypO+tpju/SmjId8uEeuL
- JIWEmcPdtuUOFyds84if9n3b4Juf5/dU4ZC5fRXJGVu1afPbQqf4wPMHFuET1NWSEssnEMpr9
- lZTS7oQV4YwRgLqKyxFRoWVWqooSi+M1+3H3Nr/TO5p6rihH9SUpBNa24KLeqwYImGYbeBTco
- mDzWk7phoYoqGIBM+06ozMKdglW/Z6ZOLdUM7ZdB1yO085rtgGkBVHAu2W754OvhtW1wyNdeU
- BqLztRl0zBGEm8qYVS4lD0lp7TPpWIe0fAi2IdUgleZMC127bGSQB6s9sif9uzoY/8GXIT9Ab
- WUkoVfsP1clW46Z3UdwIdLoch0SRMZRrhRTTgC0a6FpBqe03LqXzS26RyjEsEdxRHBZEfRTq1
- lM0XS9Ao0B4IKPw67Z+UuggpzM7Kae/GCjqhobXhAd9Juw02DTjhV1jYCCsjnnPmG/yBQ4flN
- AHiVVItJmBHPROcIMtjFkulqJlYTyr1jbAOQLg7ck0mqOGP6P6OYcHuAVuLPy/NbODG/GeHFF
- /dY60hv6K8VEJwDohbW4X2LCLzP+FzqN9G9vJYQLJGW2RNd4E0JGy666eLp8UTsu+QGZL4ubG
- jDLQA+Rb8ZDbT0Zbr3qdO3SbCCQWRaWVDRt22spj/kzWGcYY+w2svvkL+rTkKrysInlXVWF6q
- NC3Gs3ZEkUabZJQeRhFn3cJK1moriS7wPRf05yD5785eKQL6dzPodmsoXe4nxNDx0IhCEb7ff
- iO2oqHIUbJJX/ndfS+MfGow6MxuOrlyKuQxm2q6gkCb9c2SZUlyTqPJElMeQgzQ4l0vTbYGsY
- Xz01AfNN/IJavQMvtDh6N+7mekr7laOsksR+v1GSyd3vI=
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+CC: Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan+linaro@kernel.org>, 
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20240614-dpu-mode-config-width-v3-0-29ec4069c99b@linaro.org>
+ <20240614-dpu-mode-config-width-v3-1-29ec4069c99b@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240614-dpu-mode-config-width-v3-1-29ec4069c99b@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: EcluWeOU1Imb928PQ-7qbu6V6xPeYKGa
+X-Proofpoint-GUID: EcluWeOU1Imb928PQ-7qbu6V6xPeYKGa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-13_13,2024-06-13_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0
+ impostorscore=0 adultscore=0 malwarescore=0 priorityscore=1501
+ mlxlogscore=975 lowpriorityscore=0 phishscore=0 spamscore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406130165
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,86 +97,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 12.06.24 um 14:45 schrieb gregkh@linuxfoundation.org:
 
-> This is a note to let you know that I've just added the patch titled
->
->      Revert "drm/amdgpu: init iommu after amdkfd device init"
->
-> to the 5.15-stable tree which can be found at:
->      http://www.kernel.org/git/?p=3Dlinux/kernel/git/stable/stable-queue=
-.git;a=3Dsummary
->
-> The filename of the patch is:
->       revert-drm-amdgpu-init-iommu-after-amdkfd-device-init.patch
-> and it can be found in the queue-5.15 subdirectory.
 
-Thank you :)
-
->
-> If you, or anyone else, feels it should not be added to the stable tree,
-> please let <stable@vger.kernel.org> know about it.
->
->
->  From W_Armin@gmx.de  Wed Jun 12 14:43:21 2024
-> From: Armin Wolf <W_Armin@gmx.de>
-> Date: Thu, 23 May 2024 19:30:31 +0200
-> Subject: Revert "drm/amdgpu: init iommu after amdkfd device init"
-> To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.=
-com, gregkh@linuxfoundation.org, sashal@kernel.org
-> Cc: stable@vger.kernel.org, bkauler@gmail.com, yifan1.zhang@amd.com, Pri=
-ke.Liang@amd.com, dri-devel@lists.freedesktop.org, amd-gfx@lists.freedeskt=
-op.org
-> Message-ID: <20240523173031.4212-1-W_Armin@gmx.de>
->
-> From: Armin Wolf <W_Armin@gmx.de>
->
-> This reverts commit 56b522f4668167096a50c39446d6263c96219f5f.
->
-> A user reported that this commit breaks the integrated gpu of his
-> notebook, causing a black screen. He was able to bisect the problematic
-> commit and verified that by reverting it the notebook works again.
-> He also confirmed that kernel 6.8.1 also works on his device, so the
-> upstream commit itself seems to be ok.
->
-> An amdgpu developer (Alex Deucher) confirmed that this patch should
-> have never been ported to 5.15 in the first place, so revert this
-> commit from the 5.15 stable series.
->
-> Reported-by: Barry Kauler <bkauler@gmail.com>
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-> Link: https://lore.kernel.org/r/20240523173031.4212-1-W_Armin@gmx.de
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On 6/13/2024 3:36 PM, Dmitry Baryshkov wrote:
+> Make _dpu_crtc_setup_lm_bounds() check that CRTC width is not
+> overflowing LM requirements. Rename the function accordingly.
+> 
+> Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |    8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
->
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -2487,6 +2487,10 @@ static int amdgpu_device_ip_init(struct
->   	if (r)
->   		goto init_failed;
->
-> +	r =3D amdgpu_amdkfd_resume_iommu(adev);
-> +	if (r)
-> +		goto init_failed;
-> +
->   	r =3D amdgpu_device_ip_hw_init_phase1(adev);
->   	if (r)
->   		goto init_failed;
-> @@ -2525,10 +2529,6 @@ static int amdgpu_device_ip_init(struct
->   	if (!adev->gmc.xgmi.pending_reset)
->   		amdgpu_amdkfd_device_init(adev);
->
-> -	r =3D amdgpu_amdkfd_resume_iommu(adev);
-> -	if (r)
-> -		goto init_failed;
-> -
->   	amdgpu_fru_get_product_info(adev);
->
->   init_failed:
->
->
-> Patches currently in stable-queue which might be from W_Armin@gmx.de are
->
-> queue-5.15/revert-drm-amdgpu-init-iommu-after-amdkfd-device-init.patch
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 17 +++++++++++++----
+>   1 file changed, 13 insertions(+), 4 deletions(-)
+> 
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
