@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08E2907DD1
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 23:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9D7907DD3
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 23:06:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D20010EB9E;
-	Thu, 13 Jun 2024 21:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB9D10EB9C;
+	Thu, 13 Jun 2024 21:06:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="VAbdZP3x";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="WnXGfIV2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E81610EBAB
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 21:06:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6F4110EB9C
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 21:06:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1718312778; x=1718917578; i=deller@gmx.de;
- bh=mKeKaB45Mvm9ojxZe34BD21OCSnrwP8XDXXlHo8Ra70=;
+ s=s31663417; t=1718312795; x=1718917595; i=deller@gmx.de;
+ bh=ITwk7WySaOrd5yfjYem/YIWT3S6C4qRWHKcP7yybcEU=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=VAbdZP3xmLDBYP1Jt9Pz/sVGT72mCF46KqfInkxli1AV8xMfsCI7Z2BB+1js9wyv
- mx3KedGDDNJSVo9DKhoClCRP8v19f3SF/TeCTZZKZdEPAGKUIll7g0dgE8gJdx7J4
- tz3TyQBM9SzhSU30bfS57EKa/3PDQjFdvjae5RSDXcGoNUc9FYTNXS+ah/47q59/c
- 3/SlsflW4ftIRFg+g8+a2du661CR27oS2CJEz0c2F62HVaJg1/GplgFMW+MGFlxNw
- tHrZvr4NgOo59iuxSNhfVS43nbApUtRyV+CO5TeBV1MvBqdVdauLyQyB3pnTQ2tEy
- PRay2wSZ4z3usOPRdA==
+ b=WnXGfIV24axP2JRSDbisdOsNjNxf2jjmp98/wHRy1q/2DKltzV+/u1aoh9vRM0rO
+ lLv5X02aWMixsa4HaSj12CnbeorqrXToi6baBXjdIe8EsmeViMsC1k/25na4ng7WE
+ qfDK00LFx5LVSHST+zjFz/i1cc+cClmjUqqUbg+yqsfJGU7bRQMkLF39GdUcaFZUN
+ QqAFi1SXJgGebhOgV4RqG72cbtScDDtojiJJwgsMDSYAty05ULyZ+L/Ghvkulq6iD
+ MBhnr4HjkERQtv5yQlK0WYUTZvjWoP+YJbzNKm0LNgOX8Ko6yvpynzgzdeW2HiEZL
+ W6RVcMY39sZTuvbqzw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([83.135.217.92]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N4z6q-1sRrYs35OO-013ovC; Thu, 13
- Jun 2024 23:06:18 +0200
-Message-ID: <77c4c6a9-b3ea-4b59-a76e-4df20528f754@gmx.de>
-Date: Thu, 13 Jun 2024 23:06:17 +0200
+Received: from [192.168.20.55] ([83.135.217.92]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MHGCu-1sDTwI3rA8-0042sy; Thu, 13
+ Jun 2024 23:06:34 +0200
+Message-ID: <384f31e3-1d88-4374-b27c-4e7d8f0cd136@gmx.de>
+Date: Thu, 13 Jun 2024 23:06:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] video/logo: Make logo data const again
+Subject: Re: [PATCH] video/logo: Remove linux_serial_image comments
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Stephen Rothwell <sfr@canb.auug.org.au>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-References: <1ea18c51dd1c029e3c50bfb082f5942b58b7360c.1718199543.git.geert+renesas@glider.be>
+References: <427f78490365b38195f142d0aad7c9594a5bdd76.1718199686.git.geert+renesas@glider.be>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -87,27 +87,27 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <1ea18c51dd1c029e3c50bfb082f5942b58b7360c.1718199543.git.geert+renesas@glider.be>
+In-Reply-To: <427f78490365b38195f142d0aad7c9594a5bdd76.1718199686.git.geert+renesas@glider.be>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:zOjXs4vDBJRmXROdZGlRMloueU8T6TyCmMFsO+NW6OMDSA9vC5m
- ZQM6BBv0IDhp2HuKQeQ8loDiY0/BIVmFWVKDvG5KwOlI2jsFRWXcopovEnBnpyRBvfUhpZo
- OFd8pM6SuFpgiqQwO+FpDGisXTCTJKUMQ8ug9OJA9TUn/tETrYmelTp1jo5GEaXbNJJBhNz
- 7VkD+tvZ+SRKvWLcKp/MQ==
+X-Provags-ID: V03:K1:da6QO1h1RyC6rasuZKzWFsx7J+xzBykhfS7rD4BXLF3kkz74zHK
+ eVCfp5s6QQTFCfsHZitgRM8B/ljt0Wh42sTTB+vZfJNy0HHtRD7Ll6UdRJ1ceZuaostI0i8
+ qvcaDBzvsUSb5zkgXwzxnn2BT1fBuNOOVGa0r6JLiMILJUs7vVpTlXsCimGMknwv1gJ0Gtj
+ L0EWdi8srbFOKi011ixXw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:dy8DHBxtiyM=;egjRitOsveNPXvbk93J7mGAy/6W
- lO1tB998AsbYE3YITkFZC3HJs7DiE9sOSopaO4/ZSq9E50d/PET7/ei+J3c7TH5ND70mLxxsW
- ns7emn0NxTZdUfXM/VvwndwaINq4fHK55jMdnJZkrumCBGHf0UL5oVSRSMa5+MRDipqEWylxk
- kyOn0Nxo9Z0tTH9TvwF1N0VuRJpS6aQjifcakrRNFj7TANF+c9rYCa4of3nTqQ87V0F03Itis
- 9ZaSkOgrnjtCKVQGuw438EW0Gy2Qgiq8z4XGT3LSKS6on1NqmyJycUC0vOgpRSdwiyI2wq7fa
- P7zXgXDn9n1QZcKO1MsYnMqjX/FHCn6JrDo7PkkUqkgSl0GQxF7uX/gnixU8JTY183sh2LnDP
- RwMCXqF/pObX6oPIM14RI5/WYlhcSo+hYn8UQ1VGBplBXid904OEtnfGEnUcv4YRLkmH2ed50
- yjiKbRoCFpythhXcWX6AKr5EXyLnyBDgLkSrC/uriXJXvR4JJ3nU1QaWSgzdB/DtwkZgEVnla
- DNBE6PfbUTzlEcnwWFPoDHJ4RF/PEaY0WXBQlsJNUF3y5ZYuHRULb/Eer40e3QaB0iA5fMrcM
- al4YHZowWk3XkkqC6L9dxw1y0J+/CB/YQfMFoDwbakxIgGna27tIT1aZqyOlZ8IGUy5+pvmzV
- 2Be2YJAz0ATu9qdb83f1lNz68nPutW97dKEcO6XU3e1x5lNjbiW4r32bi54DK1XnnU2tVWRZV
- keULqIbIA6ljdY+N0ZY1I75MXX/I1DO7ZQoHVuEF2itDAj23zEAQzXkAFsnD9MW2rln4gE2ra
- 60duWOjnShX+/ZJ5iQOKUqOPfy1TEbYcBRjgKkYNNLG0Y=
+UI-OutboundReport: notjunk:1;M01:P0:7X9Q4VtFepk=;YJ1y+IOKpEfFJSsf3etIY15SKIp
+ dVpikQLVCbjQBrCWdoftjg6w7rd+hHjprqEG+JHw32UGftbTslBaX2/vCdUnGxwhdtPlYk/rK
+ 5rcwtW0lLOY2phqpE0DIp/7IdA2OsslQTaaQ7m+SrzkySlxkPK/eSJEgZRUDfxTULDF5k7q3g
+ Tx8QWc9USD/lrr8SNGXxa49+D+PCEsCN6si0Ip7qQIoTr4bmomN3i4bQQ2LiKMFEBHND0rDPI
+ LK6566LxqkQYJWWJYqiHTkdtWcvl2asmcedh7nmQwzUDz+Ut59ZjMQiWhNHtqQdJ3G7J35zdP
+ Ni5tmdGcP3RqWoT0+lMUnNwyl0V+ft3J156s3KNCq9NpGqRm8+xF3qdVY383kXCmGcOprak6y
+ 9fknxgh0aTnpDY9ogSeOY0MFbC+ISyrmD2n18yj4Uu64Ndq2wT9XfwnpE9ZinSCSyoXnRQVL6
+ puhf6mXFu+DVmNemqPhHBxnLvKvAYPWLgMGfAd99hm2G+36M4jsyWAnHjtq6t0YRybvfffjQ+
+ CFxIG83X27tbp7ba0zLzkqoC35CMCovK3a/dI4lEBx9DA5RyStts1vIWIr6G90K4AbZe0vNd9
+ hge2+ByV3IiCvwKNLhvP+uvTi/nUmXSSd8ytjrvLjgkBqi7pOFzxdABhiNLwiKEIVbE4ErNo7
+ 8YlNSvNfL/FVyXmnhQI6GOxB033D7uYxJ/lXv2cC9TyL2FHEZvBGT3LulhrmdEnuYUYSfrD6T
+ ZTSOV656GMcgmsR80NyG9KP4mjk9V6lpLpEBBakdBrv9qJ659FAaf9rEaI5Iu1pc8jZ1awE7y
+ wpMAIERWvHIsXABJYqzgNkK9PLF3CV8XNyF+Pl4GUgu1E=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,12 +123,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/12/24 15:41, Geert Uytterhoeven wrote:
-> As gcc-4.1 is no longer supported, the logo data can be made const
-> again.  Hence revert commit 15e3252464432a29 ("fbdev: work around old
-> compiler bug").
+On 6/12/24 15:42, Geert Uytterhoeven wrote:
+> The last user of the serial_console ASCII image was removed in v2.1.115.
 >
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
 
 applied.
 Thanks!
@@ -136,32 +135,21 @@ Thanks!
 Helge
 
 > ---
->   drivers/video/logo/pnmtologo.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   include/linux/linux_logo.h | 3 ---
+>   1 file changed, 3 deletions(-)
 >
-> diff --git a/drivers/video/logo/pnmtologo.c b/drivers/video/logo/pnmtolo=
-go.c
-> index 8080c4d9c4a23fbb..28d9f0b907a99a05 100644
-> --- a/drivers/video/logo/pnmtologo.c
-> +++ b/drivers/video/logo/pnmtologo.c
-> @@ -238,7 +238,7 @@ static void write_header(void)
->   	fprintf(out, " *  Linux logo %s\n", logoname);
->   	fputs(" */\n\n", out);
->   	fputs("#include <linux/linux_logo.h>\n\n", out);
-> -	fprintf(out, "static unsigned char %s_data[] __initdata =3D {\n",
-> +	fprintf(out, "static const unsigned char %s_data[] __initconst =3D {\n=
-",
->   		logoname);
->   }
+> diff --git a/include/linux/linux_logo.h b/include/linux/linux_logo.h
+> index d4d5b93efe8435bd..e37699b7e8393df0 100644
+> --- a/include/linux/linux_logo.h
+> +++ b/include/linux/linux_logo.h
+> @@ -10,9 +10,6 @@
+>    *  Copyright (C) 2001 Greg Banks <gnb@alphalink.com.au>
+>    *  Copyright (C) 2001 Jan-Benedict Glaw <jbglaw@lug-owl.de>
+>    *  Copyright (C) 2003 Geert Uytterhoeven <geert@linux-m68k.org>
+> - *
+> - *  Serial_console ascii image can be any size,
+> - *  but should contain %s to display the version
+>    */
 >
-> @@ -375,7 +375,7 @@ static void write_logo_clut224(void)
->   	fputs("\n};\n\n", out);
->
->   	/* write logo clut */
-> -	fprintf(out, "static unsigned char %s_clut[] __initdata =3D {\n",
-> +	fprintf(out, "static const unsigned char %s_clut[] __initconst =3D {\n=
-",
->   		logoname);
->   	write_hex_cnt =3D 0;
->   	for (i =3D 0; i < logo_clutsize; i++) {
+>   #include <linux/init.h>
 
