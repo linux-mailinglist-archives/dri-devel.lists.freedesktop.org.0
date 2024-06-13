@@ -2,87 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176A9906050
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 03:17:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63BAF906079
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 03:36:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B984910E013;
-	Thu, 13 Jun 2024 01:17:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 411A310E117;
+	Thu, 13 Jun 2024 01:36:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Lokm6jdn";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="u3KPE8IK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBF8710E013;
- Thu, 13 Jun 2024 01:17:47 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45CKn9Cn017126;
- Thu, 13 Jun 2024 01:17:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- qVd5TmOu+PNmZwhA1q38OHJjlTzNuapkcQkp3rDZY5k=; b=Lokm6jdnfVh3kPMG
- K3Q60z/5A4y5GbDWJH+bkOyO4x/7q5F3njY0k36hzf1/z8JWQunDbPFpnwjKYkh6
- pwoH6pTmEYL1viKyhxkcVPM12n4V0TtYPWbjX3ybDjiLR3rHenNd8MmW929gijoc
- 30oxp/hE2jf26v4zRZm2DrOR+9YsHuUwBvdcW17N/efxqO28TZVZ7QwcW6roDRkk
- e4/ASWdvUqlzR9UlHzBwIVygZiHd7l4upvWchFoQwwzyrbkMSSQBqNRWjVYcigvi
- e31bs34Damu3oK8NABVPZqhGgK9LsrnrD4YhcqBflP9bm8rjeyg5MIbi5RnWB63O
- ntW4ig==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yptuy41vw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jun 2024 01:17:39 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45D1Hc63000427
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jun 2024 01:17:38 GMT
-Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Jun
- 2024 18:17:38 -0700
-Message-ID: <7e1c4f24-f663-71ea-3a03-e21951ee543b@quicinc.com>
-Date: Wed, 12 Jun 2024 18:17:37 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v4 10/13] drm/msm/dpu: allow sharing SSPP between planes
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20240314000216.392549-1-dmitry.baryshkov@linaro.org>
- <20240314000216.392549-11-dmitry.baryshkov@linaro.org>
- <68dc0d98-9830-d71d-ec65-71890fb2986e@quicinc.com>
- <CAA8EJpop48--yTyyWs+3b=sgHgjV6-7akp7mJX007aMaaKteJA@mail.gmail.com>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpop48--yTyyWs+3b=sgHgjV6-7akp7mJX007aMaaKteJA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Wkye7EQdixaJl5vZxcuvqEQrQfjS_qMP
-X-Proofpoint-ORIG-GUID: Wkye7EQdixaJl5vZxcuvqEQrQfjS_qMP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-12_12,2024-06-12_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0
- impostorscore=0 mlxscore=0 priorityscore=1501 lowpriorityscore=0
- suspectscore=0 clxscore=1015 mlxlogscore=999 phishscore=0 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406130005
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com
+ [209.85.219.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32BBE10E043
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 01:36:02 +0000 (UTC)
+Received: by mail-yb1-f202.google.com with SMTP id
+ 3f1490d57ef6-dfab38b7f6bso748921276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 18:36:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1718242561; x=1718847361;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Fj0i6QouKR1uyy7UuUjOMapZZ3prdDAhQb6pAXCLMlY=;
+ b=u3KPE8IKv8E5FhDXu16Gk6p3r2JWFOmdS/bD6KFzywg/jlbO8HLVqkoap13Ix6BwBR
+ loYsw89yKgmMmait/DNMZxLe4HFdNY5buAQXD5UkdlwMrQAe4WfP0FSBMGOpX6Q3cVvU
+ rTGCPUpFZ4XXoI7330+xvotdBeZ2WMpCj3BGjqNNjKZcuFaUzO/fOXadumgXUfnGoovX
+ nTsn9xs/Vrgc5FZoHd5Fi5XQH/q25yo1d/EyBn15DWSdbIr/VNwohSIvnIfMGrSlvYqP
+ pYaHUSOtglueZWqCf5FO55i1JtTbNsiZ/yBnphlN03PLytryhSRi1pwBsR3uKpyUhbks
+ 2TWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718242561; x=1718847361;
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Fj0i6QouKR1uyy7UuUjOMapZZ3prdDAhQb6pAXCLMlY=;
+ b=TNgklyrGqIN2NwpwJSusLOFhYqz4X289/mFfn9Wu7d1mAwBPBPep56OokUrFou4xCG
+ Y+1jpNBwQrbLFnLol7Bn7CWwtr0uQwQbrhUhwDVleYVAPTn1GZHiUPU6tSvktX5Ha+Fl
+ B1BAeTnyhaEegRzM8DIikbDGkRKwnwA/x0OcaplEyavgGtqc3XsAa/Ozo/OlICiNHeqX
+ mFO9jvs4EFHVZ5haOMBpS4qgWENaQPR3eXZrKSXwaNPLSdcO43cxQEQM2yHJ8+MRS+/T
+ HZH7zAKPkMAYzgIxgTnKtNxXCrj/ET02g9v3gNG+t11hnHXH/U6eWEIqm8hX/zZbDv1M
+ UIFw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVj25WlnQih43VuExomwWFvA1+sQBIjVnVG4iD6/Sm3orNBUHC9tn+GTW8O47/SRRrSeoNmlbR29UYXK642fFiC5OVSwKXUtQUfr0bqiNtz
+X-Gm-Message-State: AOJu0Yz0ReSI8JZ1/iAKkgO2sTDSKzpHhSHn4xaEvZXQMfzp4MqLeo7+
+ Y3V33FNmxeW1Lg2AY3hmSsFFIaTmDY10R37fCGQ7brCHqBIQDRchQWJl6vz3ZU4gv4N2bv9XCPF
+ Sb0juBYfJTK5q2cVN7f19iQ==
+X-Google-Smtp-Source: AGHT+IHZuep0q8flMja9CV1qAeRg00lYbAIW2h2uRhW+GPQSJjBoP4u6CGKxVG1JKn7/mMh9Rm0+fp+qG3i1PYmJ0g==
+X-Received: from almasrymina.c.googlers.com
+ ([fda3:e722:ac3:cc00:20:ed76:c0a8:4bc5])
+ (user=almasrymina job=sendgmr) by 2002:a25:b80e:0:b0:dfb:bf0:59cd with SMTP
+ id 3f1490d57ef6-dfe66a636e1mr653441276.7.1718242560379; Wed, 12 Jun 2024
+ 18:36:00 -0700 (PDT)
+Date: Thu, 13 Jun 2024 01:35:37 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
+Message-ID: <20240613013557.1169171-1-almasrymina@google.com>
+Subject: [PATCH net-next v12 00/13] Device Memory TCP
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Mina Almasry <almasrymina@google.com>,
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, 
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, 
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, 
+ Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, 
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, 
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,412 +123,597 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+v12: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D859747&s=
+tate=3D*
+=3D=3D=3D=3D
+
+Major changes:
+--------------
+
+This iteration only addresses one minor comment from Pavel with regards
+to the trace printing of netmem, and the patchwork build error
+introduced in v11 because I missed doing an allmodconfig build, sorry.
+
+Other than that v11, AFAICT, received no feedback. There is one
+discussion about how the specifics of  plugging io uring memory through
+the page pool, but not relevant to content in this particular patchset,
+AFAICT.
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v12/
+
+v11: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D857457&s=
+tate=3D*
+=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+v11 addresses feedback received in v10. The major change is the removal
+of the memory provider ops as requested by Christoph. We still
+accomplish the same thing, but utilizing direct function calls with if
+statements rather than generic ops.
+
+Additionally address sparse warnings, bugs and review comments from
+folks that reviewed.
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v11/
+
+Detailed changelog:
+-------------------
+
+- Fixes in netdev_rx_queue_restart() from Pavel & David.
+- Remove commit e650e8c3a36f5 ("net: page_pool: create hooks for
+custom page providers") from the series to address Christoph's
+feedback and rebased other patches on the series on this change.
+- Fixed build errors with CONFIG_DMA_SHARED_BUFFER &&
+  !CONFIG_GENERIC_ALLOCATOR build.
+- Fixed sparse warnings pointed out by Paolo.
+- Drop unnecessary gro_pull_from_frag0 checks.
+- Added Bagas reviewed-by to docs.
+
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Christoph Hellwig <hch@infradead.org>
+Cc: Nikolay Aleksandrov <razor@blackwall.org>
+
+v10: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D852422&s=
+tate=3D*
+=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+v9 was sent right before the merge window closed (sorry!). v10 is almost
+a re-send of the series now that the merge window re-opened. Only
+rebased to latest net-next and addressed some minor iterative comments
+received on v9.
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v10/
+
+Detailed changelog:
+-------------------
+
+- Fixed tokens leaking in DONTNEED setsockopt (Nikolay).
+- Moved net_iov_dma_addr() to devmem.c and made it a devmem specific
+  helpers (David).
+- Rename hook alloc_pages to alloc_netmems as alloc_pages is now
+  preprocessor macro defined and causes a build error.
+
+v9:
+=3D=3D=3D
+
+Major Changes:
+--------------
+
+GVE queue API has been merged. Submitting this version as non-RFC after
+rebasing on top of the merged API, and dropped the out of tree queue API
+I was carrying on github. Addressed the little feedback v8 has received.
+
+Detailed changelog:
+------------------
+- Added new patch from David Wei to this series for
+  netdev_rx_queue_restart()
+  - Fixed sparse error.
+  - Removed CONFIG_ checks in netmem_is_net_iov()
+  - Flipped skb->readable to skb->unreadable
+  - Minor fixes to selftests & docs.
+
+RFC v8:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+- Fixed build error generated by patch-by-patch build.
+- Applied docs suggestions from Randy.
+
+RFC v7:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+This revision largely rebases on top of net-next and addresses the feedback
+RFCv6 received from folks, namely Jakub, Yunsheng, Arnd, David, & Pavel.
+
+The series remains in RFC because the queue-API ndos defined in this
+series are not yet implemented. I have a GVE implementation I carry out
+of tree for my testing. A upstreamable GVE implementation is in the
+works. Aside from that, in my estimation all the patches are ready for
+review/merge. Please do take a look.
+
+As usual the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v7/
+
+Detailed changelog:
+
+- Use admin-perm in netlink API.
+- Addressed feedback from Jakub with regards to netlink API
+  implementation.
+- Renamed devmem.c functions to something more appropriate for that
+  file.
+- Improve the performance seen through the page_pool benchmark.
+- Fix the value definition of all the SO_DEVMEM_* uapi.
+- Various fixes to documentation.
+
+Perf - page-pool benchmark:
+---------------------------
+
+Improved performance of bench_page_pool_simple.ko tests compared to v6:
+
+https://pastebin.com/raw/v5dYRg8L
+
+      net-next base: 8 cycle fast path.
+      RFC v6: 10 cycle fast path.
+      RFC v7: 9 cycle fast path.
+      RFC v7 with CONFIG_DMA_SHARED_BUFFER disabled: 8 cycle fast path,
+                                                     same as baseline.
+
+Perf - Devmem TCP benchmark:
+---------------------
+
+Perf is about the same regardless of the changes in v7, namely the
+removal of the static_branch_unlikely to improve the page_pool benchmark
+performance:
+
+189/200gbps bi-directional throughput with RX devmem TCP and regular TCP
+TX i.e. ~95% line rate.
+
+RFC v6:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+This revision largely rebases on top of net-next and addresses the little
+feedback RFCv5 received.
+
+The series remains in RFC because the queue-API ndos defined in this
+series are not yet implemented. I have a GVE implementation I carry out
+of tree for my testing. A upstreamable GVE implementation is in the
+works. Aside from that, in my estimation all the patches are ready for
+review/merge. Please do take a look.
+
+As usual the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v6/
+
+This version also comes with some performance data recorded in the cover
+letter (see below changelog).
+
+Detailed changelog:
+
+- Rebased on top of the merged netmem_ref changes.
+
+- Converted skb->dmabuf to skb->readable (Pavel). Pavel's original
+  suggestion was to remove the skb->dmabuf flag entirely, but when I
+  looked into it closely, I found the issue that if we remove the flag
+  we have to dereference the shinfo(skb) pointer to obtain the first
+  frag to tell whether an skb is readable or not. This can cause a
+  performance regression if it dirties the cache line when the
+  shinfo(skb) was not really needed. Instead, I converted the skb->dmabuf
+  flag into a generic skb->readable flag which can be re-used by io_uring
+  0-copy RX.
+
+- Squashed a few locking optimizations from Eric Dumazet in the RX path
+  and the DEVMEM_DONTNEED setsockopt.
+
+- Expanded the tests a bit. Added validation for invalid scenarios and
+  added some more coverage.
+
+Perf - page-pool benchmark:
+---------------------------
+
+bench_page_pool_simple.ko tests with and without these changes:
+https://pastebin.com/raw/ncHDwAbn
+
+AFAIK the number that really matters in the perf tests is the
+'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+cycles without the changes but there is some 1 cycle noise in some
+results.
+
+With the patches this regresses to 9 cycles with the changes but there
+is 1 cycle noise occasionally running this test repeatedly.
+
+Lastly I tried disable the static_branch_unlikely() in
+netmem_is_net_iov() check. To my surprise disabling the
+static_branch_unlikely() check reduces the fast path back to 8 cycles,
+but the 1 cycle noise remains.
+
+Perf - Devmem TCP benchmark:
+---------------------
+
+189/200gbps bi-directional throughput with RX devmem TCP and regular TCP
+TX i.e. ~95% line rate.
+
+Major changes in RFC v5:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Rebased on top of 'Abstract page from net stack' series and used the
+   new netmem type to refer to LSB set pointers instead of re-using
+   struct page.
+
+2. Downgraded this series back to RFC and called it RFC v5. This is
+   because this series is now dependent on 'Abstract page from net
+   stack'[1] and the queue API. Both are removed from the series to
+   reduce the patch # and those bits are fairly independent or
+   pre-requisite work.
+
+3. Reworked the page_pool devmem support to use netmem and for some
+   more unified handling.
+
+4. Reworked the reference counting of net_iov (renamed from
+   page_pool_iov) to use pp_ref_count for refcounting.
+
+The full changes including the dependent series and GVE page pool
+support is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-rfcv5/
+
+[1] https://patchwork.kernel.org/project/netdevbpf/list/?series=3D810774
+
+Major changes in v1:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Implemented MVP queue API ndos to remove the userspace-visible
+   driver reset.
+
+2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
+
+3. Removed RFC tag.
+
+Many smaller addressed comments across all the patches (patches have
+individual change log).
+
+Full tree including the rest of the GVE driver changes:
+https://github.com/mina/linux/commits/tcpdevmem-v1
+
+Changes in RFC v3:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Pulled in the memory-provider dependency from Jakub's RFC[1] to make the
+   series reviewable and mergeable.
+
+2. Implemented multi-rx-queue binding which was a todo in v2.
+
+3. Fix to cmsg handling.
+
+The sticking point in RFC v2[2] was the device reset required to refill
+the device rx-queues after the dmabuf bind/unbind. The solution
+suggested as I understand is a subset of the per-queue management ops
+Jakub suggested or similar:
+
+https://lore.kernel.org/netdev/20230815171638.4c057dcd@kernel.org/
+
+This is not addressed in this revision, because:
+
+1. This point was discussed at netconf & netdev and there is openness to
+   using the current approach of requiring a device reset.
+
+2. Implementing individual queue resetting seems to be difficult for my
+   test bed with GVE. My prototype to test this ran into issues with the
+   rx-queues not coming back up properly if reset individually. At the
+   moment I'm unsure if it's a mistake in the POC or a genuine issue in
+   the virtualization stack behind GVE, which currently doesn't test
+   individual rx-queue restart.
+
+3. Our usecases are not bothered by requiring a device reset to refill
+   the buffer queues, and we'd like to support NICs that run into this
+   limitation with resetting individual queues.
+
+My thought is that drivers that have trouble with per-queue configs can
+use the support in this series, while drivers that support new netdev
+ops to reset individual queues can automatically reset the queue as
+part of the dma-buf bind/unbind.
+
+The same approach with device resets is presented again for consideration
+with other sticking points addressed.
+
+This proposal includes the rx devmem path only proposed for merge. For a
+snapshot of my entire tree which includes the GVE POC page pool support &
+device memory support:
+
+https://github.com/torvalds/linux/compare/master...mina:linux:tcpdevmem-v3
+
+[1] https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@red=
+hat.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izOVJGJH5WF68OsRWFKJid1_huzzUK+hpKb=
+LcL4pSOD1Jw@mail.gmail.com/T/
+
+Changes in RFC v2:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+The sticking point in RFC v1[1] was the dma-buf pages approach we used to
+deliver the device memory to the TCP stack. RFC v2 is a proof-of-concept
+that attempts to resolve this by implementing scatterlist support in the
+networking stack, such that we can import the dma-buf scatterlist
+directly. This is the approach proposed at a high level here[2].
+
+Detailed changes:
+1. Replaced dma-buf pages approach with importing scatterlist into the
+   page pool.
+2. Replace the dma-buf pages centric API with a netlink API.
+3. Removed the TX path implementation - there is no issue with
+   implementing the TX path with scatterlist approach, but leaving
+   out the TX path makes it easier to review.
+4. Functionality is tested with this proposal, but I have not conducted
+   perf testing yet. I'm not sure there are regressions, but I removed
+   perf claims from the cover letter until they can be re-confirmed.
+5. Added Signed-off-by: contributors to the implementation.
+6. Fixed some bugs with the RX path since RFC v1.
+
+Any feedback welcome, but specifically the biggest pending questions
+needing feedback IMO are:
+
+1. Feedback on the scatterlist-based approach in general.
+2. Netlink API (Patch 1 & 2).
+3. Approach to handle all the drivers that expect to receive pages from
+   the page pool (Patch 6).
+
+[1] https://lore.kernel.org/netdev/dfe4bae7-13a0-3c5d-d671-f61b375cb0b4@gma=
+il.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izPm6XRS54LdCDZVd0C75tA1zHSu6jLVO8n=
+zTLXCc=3DH7Nw@mail.gmail.com/
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* TL;DR:
+
+Device memory TCP (devmem TCP) is a proposal for transferring data to and/o=
+r
+from device memory efficiently, without bouncing the data to a host memory
+buffer.
+
+* Problem:
+
+A large amount of data transfers have device memory as the source and/or
+destination. Accelerators drastically increased the volume of such transfer=
+s.
+Some examples include:
+- ML accelerators transferring large amounts of training data from storage =
+into
+  GPU/TPU memory. In some cases ML training setup time can be as long as 50=
+% of
+  TPU compute time, improving data transfer throughput & efficiency can hel=
+p
+  improving GPU/TPU utilization.
+
+- Distributed training, where ML accelerators, such as GPUs on different ho=
+sts,
+  exchange data among them.
+
+- Distributed raw block storage applications transfer large amounts of data=
+ with
+  remote SSDs, much of this data does not require host processing.
+
+Today, the majority of the Device-to-Device data transfers the network are
+implemented as the following low level operations: Device-to-Host copy,
+Host-to-Host network transfer, and Host-to-Device copy.
+
+The implementation is suboptimal, especially for bulk data transfers, and c=
+an
+put significant strains on system resources, such as host memory bandwidth,
+PCIe bandwidth, etc. One important reason behind the current state is the
+kernel=E2=80=99s lack of semantics to express device to network transfers.
+
+* Proposal:
+
+In this patch series we attempt to optimize this use case by implementing
+socket APIs that enable the user to:
+
+1. send device memory across the network directly, and
+2. receive incoming network packets directly into device memory.
+
+Packet _payloads_ go directly from the NIC to device memory for receive and=
+ from
+device memory to NIC for transmit.
+Packet _headers_ go to/from host memory and are processed by the TCP/IP sta=
+ck
+normally. The NIC _must_ support header split to achieve this.
+
+Advantages:
+
+- Alleviate host memory bandwidth pressure, compared to existing
+ network-transfer + device-copy semantics.
+
+- Alleviate PCIe BW pressure, by limiting data transfer to the lowest level
+  of the PCIe tree, compared to traditional path which sends data through t=
+he
+  root complex.
+
+* Patch overview:
+
+** Part 1: netlink API
+
+Gives user ability to bind dma-buf to an RX queue.
+
+** Part 2: scatterlist support
+
+Currently the standard for device memory sharing is DMABUF, which doesn't
+generate struct pages. On the other hand, networking stack (skbs, drivers, =
+and
+page pool) operate on pages. We have 2 options:
+
+1. Generate struct pages for dmabuf device memory, or,
+2. Modify the networking stack to process scatterlist.
+
+Approach #1 was attempted in RFC v1. RFC v2 implements approach #2.
+
+** part 3: page pool support
+
+We piggy back on page pool memory providers proposal:
+https://github.com/kuba-moo/linux/tree/pp-providers
+
+It allows the page pool to define a memory provider that provides the
+page allocation and freeing. It helps abstract most of the device memory
+TCP changes from the driver.
+
+** part 4: support for unreadable skb frags
+
+Page pool iovs are not accessible by the host; we implement changes
+throughput the networking stack to correctly handle skbs with unreadable
+frags.
+
+** Part 5: recvmsg() APIs
+
+We define user APIs for the user to send and receive device memory.
+
+Not included with this series is the GVE devmem TCP support, just to
+simplify the review. Code available here if desired:
+https://github.com/mina/linux/tree/tcpdevmem
+
+This series is built on top of net-next with Jakub's pp-providers changes
+cherry-picked.
+
+* NIC dependencies:
+
+1. (strict) Devmem TCP require the NIC to support header split, i.e. the
+   capability to split incoming packets into a header + payload and to put
+   each into a separate buffer. Devmem TCP works by using device memory
+   for the packet payload, and host memory for the packet headers.
+
+2. (optional) Devmem TCP works better with flow steering support & RSS supp=
+ort,
+   i.e. the NIC's ability to steer flows into certain rx queues. This allow=
+s the
+   sysadmin to enable devmem TCP on a subset of the rx queues, and steer
+   devmem TCP traffic onto these queues and non devmem TCP elsewhere.
+
+The NIC I have access to with these properties is the GVE with DQO support
+running in Google Cloud, but any NIC that supports these features would suf=
+fice.
+I may be able to help reviewers bring up devmem TCP on their NICs.
+
+* Testing:
+
+The series includes a udmabuf kselftest that show a simple use case of
+devmem TCP and validates the entire data path end to end without
+a dependency on a specific dmabuf provider.
+
+** Test Setup
+
+Kernel: net-next with this series and memory provider API cherry-picked
+locally.
+
+Hardware: Google Cloud A3 VMs.
+
+NIC: GVE with header split & RSS & flow steering support.
+
+Cc: Pavel Begunkov <asml.silence@gmail.com>
+Cc: David Wei <dw@davidwei.uk>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: Shailend Chand <shailend@google.com>
+Cc: Harshitha Ramamurthy <hramamurthy@google.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Jeroen de Borst <jeroendb@google.com>
+Cc: Praveen Kaligineedi <pkaligineedi@google.com>
 
 
-On 6/12/2024 2:08 AM, Dmitry Baryshkov wrote:
-> On Wed, 12 Jun 2024 at 02:12, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 3/13/2024 5:02 PM, Dmitry Baryshkov wrote:
->>> Since SmartDMA planes provide two rectangles, it is possible to use them
->>> to drive two different DRM planes, first plane getting the rect_0,
->>> another one using rect_1 of the same SSPP. The sharing algorithm is
->>> pretty simple, it requires that each of the planes can be driven by the
->>> single rectangle and only consequetive planes are considered.
->>>
->>
->> consequetive - > consecutive
->>
->> Can you please explain why only consecutive planes are considered for this?
->>
->> So lets say we have 4 virtual planes : 0, 1, 2, 3
->>
->> It will try 0-1, 1-2, 2-3
->>
->> Because all planes are virtual, there are only 3 unique pairs to be
->> considered? Otherwise technically 6 pairs are possible.
-> 
-> An implementation that tries all 6 pairs taking the zpos and the
-> overlapping into account is appreciated. I cared for the simplest case
-> here. Yes, further optimizations can be implemented.
-> 
 
-Ok got it. So you would like to build a better one on top of this.
-But I see one case where this has an issue or is not optimal. Pls see below.
+Mina Almasry (13):
+  netdev: add netdev_rx_queue_restart()
+  net: netdev netlink api to bind dma-buf to a net device
+  netdev: support binding dma-buf to netdevice
+  netdev: netdevice devmem allocator
+  page_pool: convert to use netmem
+  page_pool: devmem support
+  memory-provider: dmabuf devmem memory provider
+  net: support non paged skb frags
+  net: add support for skbs with unreadable frags
+  tcp: RX path for devmem TCP
+  net: add SO_DEVMEM_DONTNEED setsockopt to release RX frags
+  net: add devmem TCP documentation
+  selftests: add ncdevmem, netcat for devmem TCP
 
->>
->>
->> General request:
->>
->> Patches 1-9 : Add support for using 2 SSPPs in one plane
->> Patches 10-12 : Add support for using two rectangles of the same SSPP as
->> two virtual planes
->> Patch 13 : Can be pushed along with the first set.
->>
->> Can we break up this series in this way to make it easier to test and
->> land the bulk of it in this cycle?
-> 
-> Sure.
-> 
+ Documentation/netlink/specs/netdev.yaml  |  57 +++
+ Documentation/networking/devmem.rst      | 258 +++++++++++
+ Documentation/networking/index.rst       |   1 +
+ arch/alpha/include/uapi/asm/socket.h     |   6 +
+ arch/mips/include/uapi/asm/socket.h      |   6 +
+ arch/parisc/include/uapi/asm/socket.h    |   6 +
+ arch/sparc/include/uapi/asm/socket.h     |   6 +
+ drivers/net/ethernet/renesas/ravb_main.c |   5 +-
+ include/linux/skbuff.h                   |  61 ++-
+ include/linux/skbuff_ref.h               |  11 +-
+ include/linux/socket.h                   |   1 +
+ include/net/devmem.h                     | 124 ++++++
+ include/net/mp_dmabuf_devmem.h           |  44 ++
+ include/net/netdev_rx_queue.h            |   5 +
+ include/net/netmem.h                     | 208 ++++++++-
+ include/net/page_pool/helpers.h          | 153 +++++--
+ include/net/page_pool/types.h            |  22 +-
+ include/net/sock.h                       |   2 +
+ include/net/tcp.h                        |   5 +-
+ include/trace/events/page_pool.h         |  30 +-
+ include/uapi/asm-generic/socket.h        |   6 +
+ include/uapi/linux/netdev.h              |  19 +
+ include/uapi/linux/uio.h                 |  17 +
+ net/bpf/test_run.c                       |   5 +-
+ net/core/Makefile                        |   3 +-
+ net/core/datagram.c                      |   6 +
+ net/core/dev.c                           |   6 +-
+ net/core/devmem.c                        | 373 ++++++++++++++++
+ net/core/gro.c                           |   3 +-
+ net/core/netdev-genl-gen.c               |  23 +
+ net/core/netdev-genl-gen.h               |   6 +
+ net/core/netdev-genl.c                   | 103 +++++
+ net/core/netdev_rx_queue.c               |  74 ++++
+ net/core/page_pool.c                     | 360 ++++++++-------
+ net/core/skbuff.c                        |  83 +++-
+ net/core/sock.c                          |  61 +++
+ net/ipv4/esp4.c                          |   3 +-
+ net/ipv4/tcp.c                           | 261 ++++++++++-
+ net/ipv4/tcp_input.c                     |  13 +-
+ net/ipv4/tcp_ipv4.c                      |  10 +
+ net/ipv4/tcp_minisocks.c                 |   2 +
+ net/ipv4/tcp_output.c                    |   5 +-
+ net/ipv6/esp6.c                          |   3 +-
+ net/packet/af_packet.c                   |   4 +-
+ tools/include/uapi/linux/netdev.h        |  19 +
+ tools/testing/selftests/net/.gitignore   |   1 +
+ tools/testing/selftests/net/Makefile     |   5 +
+ tools/testing/selftests/net/ncdevmem.c   | 542 +++++++++++++++++++++++
+ 48 files changed, 2759 insertions(+), 268 deletions(-)
+ create mode 100644 Documentation/networking/devmem.rst
+ create mode 100644 include/net/devmem.h
+ create mode 100644 include/net/mp_dmabuf_devmem.h
+ create mode 100644 net/core/devmem.c
+ create mode 100644 net/core/netdev_rx_queue.c
+ create mode 100644 tools/testing/selftests/net/ncdevmem.c
 
-Thanks.
+--=20
+2.45.2.505.gda0bf45e8d-goog
 
->>
->> I have some doubts on patches 10-12 and would like to spend more time
->> reviewing and testing this. So I am trying to reduce the debt of patches
->> we have been carrying as this is a tricky feature to simulate and test
->> the cases.
->>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 128 +++++++++++++++++++---
->>>    1 file changed, 112 insertions(+), 16 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> index cde20c1fa90d..2e1c544efc4a 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> @@ -886,10 +886,9 @@ static int dpu_plane_atomic_check_nopipe(struct drm_plane *plane,
->>>        return 0;
->>>    }
->>>
->>> -static int dpu_plane_is_multirect_parallel_capable(struct dpu_sw_pipe *pipe,
->>> -                                                struct dpu_sw_pipe_cfg *pipe_cfg,
->>> -                                                const struct dpu_format *fmt,
->>> -                                                uint32_t max_linewidth)
->>> +static int dpu_plane_is_multirect_capable(struct dpu_sw_pipe *pipe,
->>> +                                       struct dpu_sw_pipe_cfg *pipe_cfg,
->>> +                                       const struct dpu_format *fmt)
->>>    {
->>>        if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
->>>            drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect))
->>> @@ -901,6 +900,13 @@ static int dpu_plane_is_multirect_parallel_capable(struct dpu_sw_pipe *pipe,
->>>        if (DPU_FORMAT_IS_YUV(fmt))
->>>                return false;
->>>
->>> +     return true;
->>> +}
->>> +
->>> +static int dpu_plane_is_parallel_capable(struct dpu_sw_pipe_cfg *pipe_cfg,
->>> +                                      const struct dpu_format *fmt,
->>> +                                      uint32_t max_linewidth)
->>> +{
->>>        if (DPU_FORMAT_IS_UBWC(fmt) &&
->>>            drm_rect_width(&pipe_cfg->src_rect) > max_linewidth / 2)
->>>                return false;
->>> @@ -908,6 +914,82 @@ static int dpu_plane_is_multirect_parallel_capable(struct dpu_sw_pipe *pipe,
->>>        return true;
->>>    }
->>>
->>> +static int dpu_plane_is_multirect_parallel_capable(struct dpu_sw_pipe *pipe,
->>> +                                                struct dpu_sw_pipe_cfg *pipe_cfg,
->>> +                                                const struct dpu_format *fmt,
->>> +                                                uint32_t max_linewidth)
->>> +{
->>> +     return dpu_plane_is_multirect_capable(pipe, pipe_cfg, fmt) &&
->>> +             dpu_plane_is_parallel_capable(pipe_cfg, fmt, max_linewidth);
->>> +}
->>> +
->>> +
->>> +static int dpu_plane_try_multirect(struct dpu_plane_state *pstate,
->>> +                                struct dpu_plane_state *prev_pstate,
->>> +                                const struct dpu_format *fmt,
->>> +                                uint32_t max_linewidth)
->>> +{
->>> +     struct dpu_sw_pipe *pipe = &pstate->pipe;
->>> +     struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
->>> +     struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
->>> +     struct dpu_sw_pipe *prev_pipe = &prev_pstate->pipe;
->>> +     struct dpu_sw_pipe_cfg *prev_pipe_cfg = &prev_pstate->pipe_cfg;
->>> +     const struct dpu_format *prev_fmt =
->>> +             to_dpu_format(msm_framebuffer_format(prev_pstate->base.fb));
->>> +     u16 max_tile_height = 1;
->>> +
->>> +     if (prev_pstate->r_pipe.sspp != NULL ||
->>> +         prev_pipe->multirect_mode != DPU_SSPP_MULTIRECT_NONE)
->>> +             return false;
->>> +
->>> +     if (!dpu_plane_is_multirect_capable(pipe, pipe_cfg, fmt) ||
->>> +         !dpu_plane_is_multirect_capable(prev_pipe, prev_pipe_cfg, prev_fmt) ||
->>> +         !(test_bit(DPU_SSPP_SMART_DMA_V1, &prev_pipe->sspp->cap->features) ||
->>> +           test_bit(DPU_SSPP_SMART_DMA_V2, &prev_pipe->sspp->cap->features)))
->>
->> This test_bit check should be absorbed into
->> dpu_plane_is_multirect_capable()?
-> 
-> Yep.
-> 
->>
->>> +             return false;
->>> +
->>> +     if (DPU_FORMAT_IS_UBWC(fmt))
->>> +             max_tile_height = max(max_tile_height, fmt->tile_height);
->>> +
->>> +     if (DPU_FORMAT_IS_UBWC(prev_fmt))
->>> +             max_tile_height = max(max_tile_height, prev_fmt->tile_height);
->>> +
->>> +     r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
->>> +     r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
->>> +
->>> +     r_pipe->sspp = NULL;
->>> +
->>> +     if (dpu_plane_is_parallel_capable(pipe_cfg, fmt, max_linewidth) &&
->>> +         dpu_plane_is_parallel_capable(prev_pipe_cfg, prev_fmt, max_linewidth) &&
->>> +         (pipe_cfg->dst_rect.x1 >= prev_pipe_cfg->dst_rect.x2 ||
->>> +          prev_pipe_cfg->dst_rect.x1 >= pipe_cfg->dst_rect.x2)) {
->>
->> Even if y1 > y2 or y2 > y1 but the separation is less than the  2 *
->> max_tile_height, it can qualify for parallel fetch.
->>
->> So parallel fetch is possible not only in x direction but y direction as
->> well as it will be fetched by different SSPPs.
-> 
-> I think that's now what I see in the SDE driver.
-> 
-
-hmm , okay, we can support that case once this one works without issues.
-
->>
->>> +             pipe->sspp = prev_pipe->sspp;
->>> +
->>> +             pipe->multirect_index = DPU_SSPP_RECT_1;
->>> +             pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
->>> +
->>> +             prev_pipe->multirect_index = DPU_SSPP_RECT_0;
->>> +             prev_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
->>> +
->>> +             return true;
->>> +     }
->>> +
->>> +     if (pipe_cfg->dst_rect.y1 >= prev_pipe_cfg->dst_rect.y2 + 2 * max_tile_height ||
->>> +         prev_pipe_cfg->dst_rect.y1 >= pipe_cfg->dst_rect.y2 + 2 * max_tile_height) {
->>> +             pipe->sspp = prev_pipe->sspp;
->>> +
->>> +             pipe->multirect_index = DPU_SSPP_RECT_1;
->>> +             pipe->multirect_mode = DPU_SSPP_MULTIRECT_TIME_MX;
->>> +
->>> +             prev_pipe->multirect_index = DPU_SSPP_RECT_0;
->>> +             prev_pipe->multirect_mode = DPU_SSPP_MULTIRECT_TIME_MX;
->>> +
->>> +             return true;
->>> +     }
->>> +
->>> +     return false;
->>> +}
->>> +
->>>    static int dpu_plane_atomic_check_pipes(struct drm_plane *plane,
->>>                                        struct drm_atomic_state *state,
->>>                                        const struct drm_crtc_state *crtc_state)
->>> @@ -1098,13 +1180,14 @@ static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
->>>    static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->>>                                              struct dpu_global_state *global_state,
->>>                                              struct drm_atomic_state *state,
->>> -                                           struct drm_plane_state *plane_state)
->>> +                                           struct drm_plane_state *plane_state,
->>> +                                           struct drm_plane_state *prev_plane_state)
->>>    {
->>>        const struct drm_crtc_state *crtc_state = NULL;
->>>        struct drm_plane *plane = plane_state->plane;
->>>        struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
->>>        struct dpu_rm_sspp_requirements reqs;
->>> -     struct dpu_plane_state *pstate;
->>> +     struct dpu_plane_state *pstate, *prev_pstate;
->>>        struct dpu_sw_pipe *pipe;
->>>        struct dpu_sw_pipe *r_pipe;
->>>        struct dpu_sw_pipe_cfg *pipe_cfg;
->>> @@ -1117,6 +1200,7 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->>>                                                           plane_state->crtc);
->>>
->>>        pstate = to_dpu_plane_state(plane_state);
->>> +     prev_pstate = prev_plane_state ? to_dpu_plane_state(prev_plane_state) : NULL;
->>>        pipe = &pstate->pipe;
->>>        r_pipe = &pstate->r_pipe;
->>>        pipe_cfg = &pstate->pipe_cfg;
->>> @@ -1137,19 +1221,27 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->>>
->>>        max_linewidth = dpu_kms->catalog->caps->max_linewidth;
->>>
->>> -     pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
->>> -     if (!pipe->sspp)
->>> -             return -ENODEV;
->>> -
->>>        if (drm_rect_width(&r_pipe_cfg->src_rect) == 0) {
->>> -             pipe->multirect_index = DPU_SSPP_RECT_SOLO;
->>> -             pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
->>> +             if (!prev_pstate ||
->>> +                 !dpu_plane_try_multirect(pstate, prev_pstate, fmt, max_linewidth)) {
->>
->> This is a bit confusing to check esp since i am unable to apply this
->> patch and check .... but...
-> 
-> It was posted several months ago. No surprise that the source code has
-> evolved. Getting the patches reviewed in time would have helped them
-> to be applicable.
-> 
-
-Yes, part of the delays for virtual plane was purely because the CB 
-setup was down (both due to internal IT issues and general sc7280 being 
-down) and I want to make sure this series is compositor-tested and not 
-just modetest tested.
-
-But anyway, thats why I didnt request a rebase this time even though it 
-was very hard to review the patch emails for this series.
-
->> dpu_plane_atomic_check_nopipe() will set r_pipe_cfg if we are going to
->> do multirect with two rectangles of the same sspp. Right?
-> 
-> No. It sets r_pipe_cfg in all the cases.
-> 
-
- From what I see, we still have this check before a valid rectangle is 
-set for the r_pipe_cfg
-
-  	if ((drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) ||
-  	     _dpu_plane_calc_clk(&crtc_state->adjusted_mode, pipe_cfg) > 
-max_mdp_clk_rate) {
-
-
-
->> Which means r_pipe_cfg will be 0 if multirect is not possible with same
->> SSPP. Thats why the else case of this either uses two SSPPs.
-> 
-> No. It means that the plane can use a single rectangle of the SSPP.
-> 
-
-OR that the plane does not need to use multirect because its rectangle 
-width is < max_linewidth.
-
->>
->> So why are we trying multirect with again with the two rectangles of the
->> same SSPP as different planes? The result will be same right?
-> 
-> No, if the width of r_pipe_cfg is 0, it means that this plane doesn't
-> need a second rectangle to be displayed. So we can try reusing the
-> SSPP from the previous plane.
-> 
-
-Yes, agreed to this point that this plane doesnt need a second rectangle 
-to be displayed as it will fit in one rectangle.
-
-And I see what you mean now, if the current plane needs only one 
-rectangle to be used, you are trying to use the prev plane's SSPP's 
-other rect?
-
-So lets say we have plane 1 and plane 2 in the list.
-
-Plane 1 has only one rect used and plane 2 also needs only one rect.
-
-Then you use plane 1's SSPP even for plane 2.
-
-Cant you use an alternative check like 
-!dpu_plane_is_wideplane_multirect() to make this condition clear?
-
-Also dpu_plane_try_multirect() name is confusing then because you are 
-trying multi-rect again to see if the SSPP can be shared and wide-plane 
-multirect was not possible. So technically both are multirect, just 
-dfferent applications.
-
-That will make it clear that you are trying to use multi-rect for 
-sharing SSPP.
-
-So there are essentially two use-cases of multi-rect:
-
-1) Wide plane multi-rect
-2) SSPP sharing multi-rect
-
-So this will make it clear.
-
-Coming to the algorithm, I see one issue with this now.
-
-Lets say we have this list of SSPPs.
-
-DMA0 Vig0 Vig1
-
-DMA0 has only rec0 used and rec1 is free.
-
-Vig0 needs both recs used.
-
-Vig1 needs only one rec.
-
-Here it will notice that its previous plane has both rects used and will 
-not try the DMA0 even though it has one rect free and will end up using 
-a new SSPP.
-
-Thats why considering only immediate pairs is not enough. All possible 
-pairs will address this.
-
->>
->>
->>> +                     pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
->>> +                     if (!pipe->sspp)
->>> +                             return -ENODEV;
->>>
->>> -             r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
->>> -             r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
->>> +                     r_pipe->sspp = NULL;
->>> +
->>> +                     pipe->multirect_index = DPU_SSPP_RECT_SOLO;
->>> +                     pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
->>> +
->>> +                     r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
->>> +                     r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
->>> +             }
->>>
->>> -             r_pipe->sspp = NULL;
->>>        } else {
->>> +             pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
->>> +             if (!pipe->sspp)
->>> +                     return -ENODEV;
->>> +
->>
->> Unless I am missing something, you are assigning pipe->sspp in both if
->> and else cases, so why dont you keep the allocation if pipe->sspp
->> outside the conditionals.
-> 
-> You missed the conditional in the previous chunk. We need to reserve
-> SSPP if the plane uses two rectangles. We don't need to reserve an
-> SSPP if the old SSPP is going to be used.
-> 
-
-Ack.
-
->>
->>>                if (dpu_plane_is_multirect_parallel_capable(pipe, pipe_cfg, fmt, max_linewidth) &&
->>>                    dpu_plane_is_multirect_parallel_capable(r_pipe, r_pipe_cfg, fmt, max_linewidth) &&
->>>                    (test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) ||
->>> @@ -1186,6 +1278,7 @@ int dpu_assign_plane_resources(struct dpu_global_state *global_state,
->>>    {
->>>        unsigned int i;
->>>        int ret;
->>> +     struct drm_plane_state *prev_plane_state = NULL;
->>>
->>
->> This naming is a bit confusing. prev_plane_state could mean the plane's
->> previous state but here you are implying the state of the previous plane
->> in the list of planes.
->>
->> Maybe prev_adjacent_plane_state?
-> 
-> Ack.
-> 
->>
->>>        for (i = 0; i < num_planes; i++) {
->>>                struct drm_plane_state *plane_state = states[i];
->>> @@ -1195,9 +1288,12 @@ int dpu_assign_plane_resources(struct dpu_global_state *global_state,
->>>                        continue;
->>>
->>>                ret = dpu_plane_virtual_assign_resources(crtc, global_state,
->>> -                                                      state, plane_state);
->>> +                                                      state, plane_state,
->>> +                                                      prev_plane_state);
->>>                if (ret)
->>>                        break;
->>> +
->>> +             prev_plane_state = plane_state;
->>>        }
->>>
->>>        return ret;
-> 
-> 
-> 
