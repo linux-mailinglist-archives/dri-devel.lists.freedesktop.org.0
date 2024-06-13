@@ -2,55 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C241390644F
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 08:46:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F227B906457
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 08:47:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E262110E20F;
-	Thu, 13 Jun 2024 06:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC3E110E21A;
+	Thu, 13 Jun 2024 06:47:26 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="cYgAJnpS";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="EYCQIcpn";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00B7710E20F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 06:46:03 +0000 (UTC)
-Received: by mail-io1-f71.google.com with SMTP id
- ca18e2360f4ac-7ebd2481a89so54160139f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 23:46:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718261163; x=1718865963;
- h=to:from:subject:message-id:in-reply-to:date:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2xgF8ibcEaldCk43yXegeJSCV4DTuCuF5ATotbVCUuQ=;
- b=UPKow7SPwgT01qDm1jSTaAlx9RsaSAsPa8758kbu/bI7pQbbOGOONb9ESC50xzUdHe
- NTFNI1CrRfpvF0OaVDTNZtP5dyj/ctx0Nkc7LigWNb/14clxPsNY3GUCEVMCgfPafQNL
- 0hZUwruGalMC7dI2pZ3Ncb/FgRJlXmhR0+GI7UKLDyf+2V226thW1KQ2jI8tJxMfCbL7
- KY39OmzaIwHcF6p8M6oMMQC0XamplPQNbqt3L8KuhvhtfT6x5wv7sgEWkO7RXYXmk6VS
- JxQih1aPmn36qUCTU8ghXk4ZmLSZ5+oxGNaYkOPzQ4kH62wJaEifadlNU3yHs/ufBlda
- rQYg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVIEc4pX65E267IsPkD6KdiDniF/7cTI1uqAIvySgyKtY+FcUSJL/nmuFDDCilwQeawnheR8qzIn9tMMRfmTXGQsI3WtxI669Jmb4VpeObo
-X-Gm-Message-State: AOJu0Yx9VIpgXzwp0G4wSGbRhaaSmCW0cVg3s4VEpAC4C935c7eeF+54
- +zkj8JfrKnQqDujQLH6r6s36uVpGHpp7fLSF6dXBCoM2l/3tdL/TZBdLBhZIRMxrY12velXY9b0
- mV7H7Qi2x4PDThwjZJbd9OMaN1matkLH1X01aAgD3U74jz/7nA0XH4j4=
-X-Google-Smtp-Source: AGHT+IHVV4ammGC2f4+AGyBTE1+VDmo87HUmoApb8C4WDpycZnv406L1ZJ6bIafm6AgJf15GrH+StIi7CY1fsJAsDhp7cO8L/eZo
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 089B110E21A
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 06:47:20 +0000 (UTC)
+Date: Thu, 13 Jun 2024 08:47:16 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1718261237;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=/CXw70mCHvpUr8NeCp2YOgRcPe5bung9/II6E+Snxc8=;
+ b=cYgAJnpSmdlaRQq3IC9RDvOUM4M9cjGZeMRgL3rPJnnPzo6efWcTWC0ALjkVX8/lW3NJr2
+ nBwEQomnwz4nt7BpJDsDyn44WvekX3VUVOjYnOomc6h771yLgWmI2NcFHqXGo357fY8i43
+ vQfrnrs0pCmb1bJeNuI0FbBgpigCYxTsPnVETBjmEWnxeUtGbSRnx/lIzaZEbMt3EUhhGB
+ Gyr6H4TRCiS1tov0x8Bpm87MWVnlprsVBdPhUJ/kecKwSikvjXnY4SkxMnlYq/vsZyf8/3
+ j7YelowHKey+RAWAS0noA0zeAZ/utGWXogCiCB8+JL9/y/IaYJsNT2R4poDXDg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1718261237;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=/CXw70mCHvpUr8NeCp2YOgRcPe5bung9/II6E+Snxc8=;
+ b=EYCQIcpnujem9GuUZ6+9adYOY+5AmiEk9PejjKlAUtdjWmVo6zMuKZ/2OwFQUSqguiXV6g
+ URsNwpMwHkBOg/Cg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: dri-devel@lists.freedesktop.org
+Cc: Christian Koenig <christian.koenig@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Huang Rui <ray.huang@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH REPOST] drm/ttm/tests: Let ttm_bo_test consider different
+ ww_mutex implementation.
+Message-ID: <20240613064716.WxAIvb9K@linutronix.de>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:641f:b0:7eb:9f62:3370 with SMTP id
- ca18e2360f4ac-7ebcd19eff6mr21065439f.4.1718261162696; Wed, 12 Jun 2024
- 23:46:02 -0700 (PDT)
-Date: Wed, 12 Jun 2024 23:46:02 -0700
-In-Reply-To: <IA0PR11MB718550C7137E8341C7D54A71F8C12@IA0PR11MB7185.namprd11.prod.outlook.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000003bfa48061abfda41@google.com>
-Subject: Re: [syzbot] [dri?] [media?] general protection fault in
- udmabuf_create (2)
-From: syzbot <syzbot+40c7dad27267f61839d4@syzkaller.appspotmail.com>
-To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
- kraxel@redhat.com, linaro-mm-sig-bounces@lists.linaro.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
- syzkaller-bugs@googlegroups.com, vivek.kasireddy@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,20 +62,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+PREEMPT_RT has a different locking implementation for ww_mutex. The
+base mutex of struct ww_mutex is declared as struct WW_MUTEX_BASE. The
+latter is defined as `mutex' for non-PREEMPT_RT builds and `rt_mutex'
+for PREEMPT_RT builds.
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+Using mutex_lock() directly on the base mutex in
+ttm_bo_reserve_deadlock() leads to compile error on PREEMPT_RT.
 
-Reported-and-tested-by: syzbot+40c7dad27267f61839d4@syzkaller.appspotmail.com
+The locking-selftest has its own defines to deal with this and it is
+probably best to defines the needed one within the test program since
+their usefulness is limited outside of well known selftests.
 
-Tested on:
+Provide ww_mutex_base_lock() which points to the correct function for
+PREEMPT_RT and non-PREEMPT_RT builds.
 
-commit:         c7db1220 fixup! udmabuf: pin the pages using memfd_pin..
-git tree:       https://gitlab.freedesktop.org/Vivek/drm-tip.git syzbot_fixes
-console output: https://syzkaller.appspot.com/x/log.txt?x=133a93e2980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=58a2adb83f90b327
-dashboard link: https://syzkaller.appspot.com/bug?extid=40c7dad27267f61839d4
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+Fixes: 995279d280d1e ("drm/ttm/tests: Add tests for ttm_bo functions")
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+Repost of https://lore.kernel.org/r/20240404102534.QTa80QPY@linutronix.de
 
-Note: no patches were applied.
-Note: testing is done by a robot and is best-effort only.
+ drivers/gpu/drm/ttm/tests/ttm_bo_test.c |    8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+--- a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
++++ b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+@@ -18,6 +18,12 @@
+ 
+ #define BO_SIZE		SZ_8K
+ 
++#ifdef CONFIG_PREEMPT_RT
++#define ww_mutex_base_lock(b)			rt_mutex_lock(b)
++#else
++#define ww_mutex_base_lock(b)			mutex_lock(b)
++#endif
++
+ struct ttm_bo_test_case {
+ 	const char *description;
+ 	bool interruptible;
+@@ -142,7 +148,7 @@ static void ttm_bo_reserve_deadlock(stru
+ 	bo2 = ttm_bo_kunit_init(test, test->priv, BO_SIZE);
+ 
+ 	ww_acquire_init(&ctx1, &reservation_ww_class);
+-	mutex_lock(&bo2->base.resv->lock.base);
++	ww_mutex_base_lock(&bo2->base.resv->lock.base);
+ 
+ 	/* The deadlock will be caught by WW mutex, don't warn about it */
+ 	lock_release(&bo2->base.resv->lock.base.dep_map, 1);
