@@ -2,74 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84CBA906183
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 04:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D4C99061A1
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 04:12:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF11710E94B;
-	Thu, 13 Jun 2024 02:06:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9284210E1F9;
+	Thu, 13 Jun 2024 02:12:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FeSl3aPj";
+	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="R/5W0fr5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91FA410E94B
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 02:06:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718244391; x=1749780391;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=8sFmvQ7Z83X7NLUoXzzUfw6X3sNAVrct6codoq1wV7Q=;
- b=FeSl3aPjOjZFmnCKj9Sfa4taT7g0EXtP7ZvmJ3dBSfVbZjhjpisYgt/i
- H1QwLVH4WAf6wWP0DA4vrMmpI/ceWvokH6AeVCEyA9on2Okz8XMQ4CvWd
- MPkjG7qBcP23BD+/g8HmhLOl6+sAiZu8x+Xk9L4MmM3pvi5ssCk/C5Nsp
- iRohLlX3Iees3RD6pp2fKjbP7dId1DZpqquKNUa3QeM9bb7pWRLsqn/93
- um7uRHeiDEwCncXhYnzyYPA6QLHtGQY9de+GHuzPvM2vWH1XPf3BGJ9as
- NQUuNfzeUdSUPt1u+j44ctJxJ8BkoIVWWe3p99redMnftwDCemYJ1fHF4 g==;
-X-CSE-ConnectionGUID: 66lUo2uDTWG0B+mrhEQPaA==
-X-CSE-MsgGUID: B926MVUCTduRdRE6pc0PnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="15194295"
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="15194295"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2024 19:06:30 -0700
-X-CSE-ConnectionGUID: S0kNdoNXTeaDmFV2fIXYpQ==
-X-CSE-MsgGUID: 6aVpmYIvR1+lJTRSNmEW5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="44427853"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
- by fmviesa005.fm.intel.com with ESMTP; 12 Jun 2024 19:06:24 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sHZr4-000270-15;
- Thu, 13 Jun 2024 02:06:22 +0000
-Date: Thu, 13 Jun 2024 10:05:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Oded Gabbay <ogabbay@kernel.org>,
- Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 6/9] accel/rocket: Add a new driver for Rockchip's NPU
-Message-ID: <202406130901.oiofrkFe-lkp@intel.com>
-References: <20240612-6-10-rocket-v1-6-060e48eea250@tomeuvizoso.net>
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+ [209.85.208.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE09A10E1F9
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 02:12:25 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id
+ 38308e7fff4ca-2ebed33cb67so4510831fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 19:12:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1718244743; x=1718849543;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WeEnxDJr0RmVkW9Hz4xW1YRBVjqtjlaYDHSsAnCAAa8=;
+ b=R/5W0fr5X/zT0T6VBXMJUcLE/CtmIIe6ewFSzDtphlR9WVlZrJYQ3xxDlJQyNhMEnK
+ dUVjJm8bSqZafnYzHFHuId9NLWuaNK1+K5j7ddN5IR8mBDx/UF3PVo2QexAoAepCnsHw
+ OH6py81hKgi62bw/KPXUlPWPGmWtLry69SI676mT/t1fiyAef5uOQMAhnz4tiGaUFJQ+
+ /vH/p2glgWSrJIcM2qTAfBdmuxLarhMTQGMw/vYAbZs1brlXuM/evAeoR1km0AUwsJoT
+ CklI/WEuRhYAZHHtM6BpXNPGcPpSNf46qToyvoEel8tmpBtHtmR7fRObPVruxkY3KdKt
+ c8xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718244743; x=1718849543;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WeEnxDJr0RmVkW9Hz4xW1YRBVjqtjlaYDHSsAnCAAa8=;
+ b=kmbsOa8Z35rYxgqmzZtAVK5u4GlRrTcdF+/8orWvCSQUemsLlmM8JvG8X3059rxLQV
+ BJu2XauXI9VeJoW/REaaUeC9UTC9Vg/XetfBM23qWw/ugiPBmzhiQXqxf/r9pBrrx4Qe
+ +3J/ICzcgTWVu4D29rd1y1tXFNlDWlyCooxjNdGj+5yh0lsK9JdNlXAwtuDUJhfiylJT
+ 8PpbQ2QqRcP8pQrHfPe3xVGYyXfuEBgkml0W9cqiNfU8KZOQjNbydGlllqvOH0RRJOup
+ ylogw9VFow3wFlibZ5av6tzFhhH9s8yWbi10MjWFhLtTFOXKZZ9eoFJiu7CTibTYCAFo
+ i92g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWxNyRbYMBuyAbNxHMlRvHgrdWvjl//gnF5/hCWN/Q4rLjqxJyPEVS+GrdNIT9XRFGkUF77lC8pzQuMYfyW4Mf+XEa35NCXfj5cvgvD/9F3
+X-Gm-Message-State: AOJu0YxMmLPh5YWaclKIvkO+wcEiQq+gI/7077TORinkDs8sLC6OSeeU
+ Ep014WaNTwJymuM3WWwUZFh1EdH/eAAg8P66BqwmOyM9sFn8UOoDXNI7rHOvmF0=
+X-Google-Smtp-Source: AGHT+IGDlMcquXTaNhYSYyyHTOnzPNi2Pwq1nCjKGgVxDkJDLKAmNftxPtcIzkyndO/tiz2Uz+ZBlg==
+X-Received: by 2002:a05:651c:1989:b0:2ea:e3b4:d509 with SMTP id
+ 38308e7fff4ca-2ebfc8ab322mr25069131fa.6.1718244743092; 
+ Wed, 12 Jun 2024 19:12:23 -0700 (PDT)
+Received: from ?IPV6:2a01:e34:ec24:52e0:4005:4e7a:f4d9:7f14?
+ ([2a01:e34:ec24:52e0:4005:4e7a:f4d9:7f14])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-422870e9193sm43075425e9.21.2024.06.12.19.12.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Jun 2024 19:12:22 -0700 (PDT)
+Message-ID: <57959aeb-20c2-4283-b316-c4ae5397177c@freebox.fr>
+Date: Thu, 13 Jun 2024 04:12:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240612-6-10-rocket-v1-6-060e48eea250@tomeuvizoso.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/bridge: simple-bridge: Add support for TI TDP158
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Bryan O Donoghue <bryan.odonoghue@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Pierre-Hugues Husson <phhusson@freebox.fr>, Arnaud Vrac <avrac@freebox.fr>
+References: <b41f2f86-0d99-4199-92a9-42cbb9d6a6d5@freebox.fr>
+ <ddd5joylbkovcdogfwhvzaepd3d6wxsnccgvpq2x3h6fmpo2hk@2sitzl6bjt7d>
+Content-Language: en-US
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+In-Reply-To: <ddd5joylbkovcdogfwhvzaepd3d6wxsnccgvpq2x3h6fmpo2hk@2sitzl6bjt7d>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,59 +97,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomeu,
+On 28/05/2024 03:13, Dmitry Baryshkov wrote:
 
-kernel test robot noticed the following build errors:
+> Bindings please. Also, note that per the datasheet the bridge uses two
+> supplies, Vcc for 3.3V and Vdd for 1.1V, so it doesn't fully fit the
+> simple-bridge.c (which might need to be adjusted for the second supply).
+> Chapter 7.3.2 of the datasheet points out that Vcc should be brought up
+> before Vdd.
 
-[auto build test ERROR on 83a7eefedc9b56fe7bfeff13b6c7356688ffa670]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tomeu-Vizoso/iommu-rockchip-Add-compatible-for-rockchip-rk3588-iommu/20240612-215814
-base:   83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-patch link:    https://lore.kernel.org/r/20240612-6-10-rocket-v1-6-060e48eea250%40tomeuvizoso.net
-patch subject: [PATCH 6/9] accel/rocket: Add a new driver for Rockchip's NPU
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240613/202406130901.oiofrkFe-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406130901.oiofrkFe-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406130901.oiofrkFe-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/loongarch/include/asm/processor.h:17,
-                    from arch/loongarch/include/asm/thread_info.h:15,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/current.h:6,
-                    from ./arch/loongarch/include/generated/asm/current.h:1,
-                    from include/linux/mutex.h:14,
-                    from include/linux/notifier.h:14,
-                    from include/linux/clk.h:14,
-                    from drivers/accel/rocket/rocket_core.c:6:
->> arch/loongarch/include/uapi/asm/ptrace.h:25:25: error: expected identifier before '(' token
-      25 | #define PC              (GPR_END + 2)
-         |                         ^
-   drivers/accel/rocket/rocket_registers.h:53:9: note: in expansion of macro 'PC'
-      53 |         PC = 0x00000100,
-         |         ^~
+Is something simple like below acceptable?
 
 
-vim +25 arch/loongarch/include/uapi/asm/ptrace.h
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Copyright 2024 Freebox SAS
+ */
 
-803b0fc5c3f2ba Huacai Chen 2022-05-31  16  
-803b0fc5c3f2ba Huacai Chen 2022-05-31  17  /*
-803b0fc5c3f2ba Huacai Chen 2022-05-31  18   * For PTRACE_{POKE,PEEK}USR. 0 - 31 are GPRs,
-803b0fc5c3f2ba Huacai Chen 2022-05-31  19   * 32 is syscall's original ARG0, 33 is PC, 34 is BADVADDR.
-803b0fc5c3f2ba Huacai Chen 2022-05-31  20   */
-803b0fc5c3f2ba Huacai Chen 2022-05-31  21  #define GPR_BASE	0
-803b0fc5c3f2ba Huacai Chen 2022-05-31  22  #define GPR_NUM		32
-803b0fc5c3f2ba Huacai Chen 2022-05-31  23  #define GPR_END		(GPR_BASE + GPR_NUM - 1)
-803b0fc5c3f2ba Huacai Chen 2022-05-31  24  #define ARG0		(GPR_END + 1)
-803b0fc5c3f2ba Huacai Chen 2022-05-31 @25  #define PC		(GPR_END + 2)
-803b0fc5c3f2ba Huacai Chen 2022-05-31  26  #define BADVADDR	(GPR_END + 3)
-803b0fc5c3f2ba Huacai Chen 2022-05-31  27  
+#include <drm/drm_bridge.h>
+#include <linux/i2c.h>
+#include <linux/module.h>
+#include <linux/delay.h>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+struct tdp158 {
+	struct i2c_client *client;
+	struct gpio_desc *OE; // Operation Enable
+	struct drm_bridge bridge;
+};
+
+static int tdp158_probe(struct i2c_client *client)
+{
+	struct device *dev = &client->dev;
+	struct tdp158 *tdp158;
+	int err;
+
+	tdp158 = devm_kzalloc(dev, sizeof(*tdp158), GFP_KERNEL);
+	if (!tdp158)
+		return -ENOMEM;
+
+	tdp158->client = client;
+	i2c_set_clientdata(client, tdp158);
+
+	err = devm_regulator_get_enable(dev, "Vcc"); // 3.3V
+	msleep(100);
+	if (err)
+		return dev_err_probe(dev, err, "Vcc");
+
+	err = devm_regulator_get_enable(dev, "Vdd"); // 1.1V
+	msleep(100);
+	if (err)
+		return dev_err_probe(dev, err, "Vdd");
+
+	tdp158->OE = devm_gpiod_get(dev, "OE", GPIOD_OUT_LOW);
+	if (IS_ERR(tdp158->OE))
+		return dev_err_probe(dev, PTR_ERR(tdp158->OE), "OE pin");
+
+	gpiod_set_value_cansleep(tdp158->OE, 1);
+
+	tdp158->bridge.of_node = dev->of_node;
+
+	return devm_drm_bridge_add(dev, &tdp158->bridge);
+}
+
+static const struct of_device_id tdp158_match_table[] = {
+	{ .compatible = "ti,tdp158" },
+	{ }
+};
+MODULE_DEVICE_TABLE(of, tdp158_match_table);
+
+static struct i2c_driver tdp158_driver = {
+	.probe = tdp158_probe,
+	.driver = {
+		.name = "tdp158",
+		.of_match_table = tdp158_match_table,
+	},
+};
+
+module_i2c_driver(tdp158_driver);
+
+MODULE_DESCRIPTION("TI TDP158 driver");
+MODULE_LICENSE("GPL");
+
