@@ -2,88 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8933990670A
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 10:38:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93BA906711
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 10:38:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDB0D10E2D0;
-	Thu, 13 Jun 2024 08:38:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0A510E0EB;
+	Thu, 13 Jun 2024 08:38:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Cy69vvtD";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="XPEd3qwS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 947BF10E0EB
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 08:38:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1718267884;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YdO1WJIrqIg61hN5vELUIZIHcL7hxfeUZFi824LjBqU=;
- b=Cy69vvtD0izzHRHEwqCf+3ehGIxqtqNd8ZB3Rs9uCjfSMxZUKDK0RGYbPmXTvG+rbWKrD0
- Zcl5TxMjDqlSvKNZ3++TJ5et0gwFEAA9q8mySbgOlK8Bmx+g1pt1yM65RNh78lWj0a8wGy
- DNPHFrov7q9p9p7i5CJrPDk1FyAR3LI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-608-LcFGy0VcPKaChQJu4y6DIQ-1; Thu, 13 Jun 2024 04:38:01 -0400
-X-MC-Unique: LcFGy0VcPKaChQJu4y6DIQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-357766bb14fso420309f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 01:38:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718267879; x=1718872679;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YdO1WJIrqIg61hN5vELUIZIHcL7hxfeUZFi824LjBqU=;
- b=ceCq8HL+wxwPuq0mn6AU8YMqo1X/FzBY5zK8UWuYGPyjb3pw7rSa6Nzl4vUw1LqRxW
- cZ0xWDJtNzXtXvlQgUTpk7WHhySQ25mDPPO8NGhEtdsE4NjIlW5zisSoLM4rC23ycrI3
- WtcRaivlOR6GuTr71skZARNHKM6bkICGOtmYgEukCaEcTJf+/PBuduKu34zNDZhWOhhb
- dHQI3k9ahp8qN8IK6d06W/DtEOrbO3l5PrD+GqienG14abTSSXRR6gL0Uf3k3Netko23
- A5DUYVxtSjxd34z4TBc++vgpzphPbbBUyuXpSxyU44DgfHjLEs1YIc56hFZE/iKxYhdO
- 6rRQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVZ9XB6lJ4UTVFFW51hOyePuhlnrFsKk5HHU4Sl5wnH2HtmcY3W9KrXwenYlDndNvQtA+mn66YksPMCTys/LnkIvUvt61aaj5QCpsUTEwkq
-X-Gm-Message-State: AOJu0YwJkP1lShiGf7XGRvZ1LF0+1q4UE/QwBtOFX/66PJtfnWzSA4ZV
- +D9DBkI1Kfty2Cx4sDeh3+grZKAUxYa4dsfdL75iJ+K5DWVX4w1iWS9HoiAd1GxBIPkeSoVsIqi
- b8tJTefpu8TE94oYzmWhUW6QyvwiAl8p8IYINRFfTjUPy3DS37IUq0rH+FoZUkwDLqEPfADNX1Q
- ==
-X-Received: by 2002:a05:6000:1563:b0:360:775d:f917 with SMTP id
- ffacd0b85a97d-360775dfd15mr630602f8f.4.1718267879568; 
- Thu, 13 Jun 2024 01:37:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHqGjyQ/umCl2P9LZ32xVZd+McgCS7SCUcfkDyw5neb2L6t38GU4AsvVfow9TXTVGdrXdS6/Q==
-X-Received: by 2002:a05:6000:1563:b0:360:775d:f917 with SMTP id
- ffacd0b85a97d-360775dfd15mr630592f8f.4.1718267879169; 
- Thu, 13 Jun 2024 01:37:59 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
- ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-360750ad177sm1011707f8f.56.2024.06.13.01.37.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Jun 2024 01:37:58 -0700 (PDT)
-Message-ID: <386a229b-6904-465d-b772-921f99815e8c@redhat.com>
-Date: Thu, 13 Jun 2024 10:37:57 +0200
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4735010E9A6
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 08:38:43 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45D8c6pA100718;
+ Thu, 13 Jun 2024 03:38:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1718267886;
+ bh=TjyMmrW2J2r+RcKqfozTMKJxd3RBvb0XNqHfQ8z62jg=;
+ h=From:To:CC:Subject:Date;
+ b=XPEd3qwSH1MVbmbuJI6Y+54FQjNdEelkS9Bac9iU3apsnY/6VdSnkgeATU4kl4fkb
+ c17jjv1oGnRnFroFTD5G/EL/sBNUFKSIaIgl6pxD1dE40jBD20bXfS8p2K2Jw9Gsp8
+ b+w7Dvb8sKw7pHF8pUGVo6YfJxyTCyvIwR387qd8=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45D8c6La021739
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 13 Jun 2024 03:38:06 -0500
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 13
+ Jun 2024 03:38:06 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 13 Jun 2024 03:38:06 -0500
+Received: from localhost (jayesh-hp-probook-440-g8-notebook-pc.dhcp.ti.com
+ [172.24.227.55])
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45D8c5nn070145;
+ Thu, 13 Jun 2024 03:38:06 -0500
+From: Jayesh Choudhary <j-choudhary@ti.com>
+To: <linux-kernel@vger.kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <sui.jingfeng@linux.dev>, <andrzej.hajda@intel.com>,
+ <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <Laurent.pinchart@ideasonboard.com>, <mripard@kernel.org>,
+ <sam@ravnborg.org>, <j-choudhary@ti.com>
+CC: <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
+ <maarten.lankhorst@linux.intel.com>, <tzimmermann@suse.de>,
+ <airlied@gmail.com>, <daniel@ffwll.ch>, <a-bhatia1@ti.com>,
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v5 0/3] SII902X HDMI Bridge fixups
+Date: Thu, 13 Jun 2024 14:08:02 +0530
+Message-ID: <20240613083805.439337-1-j-choudhary@ti.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] drm/panic: Fixes and graphical logo
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <cover.1718199918.git.geert+renesas@glider.be>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <cover.1718199918.git.geert+renesas@glider.be>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,39 +74,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+- Move the mode_valid hook to drm_bridge_funcs structure to take care
+  of the case when the encoder attaches the bridge chain with the
+  DRM_BRIDGE_ATTACH_NO_CONNECTOR flag in which case, the connector is
+  not initialized in the bridge's attach call and mode_valid is not
+  called.
 
+- Also add this check to the atomic_check call as suggested by Maxime in
+  v1 patch.
 
-On 12/06/2024 15:54, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> If drm/panic is enabled, a user-friendly message is shown on screen when
-> a kernel panic occurs, together with an ASCII art penguin logo.
-> Of course we can do better ;-)
-> Hence this patch series extends drm/panic to draw the monochrome
-> graphical boot logo, when available, preceded by the customary fix.
+- Move from deprecated enable()/disable() hooks to atomic hooks as
+  suggested in v4 by Sam
 
-Thanks for your patch.
+Testing has been done on AM62X platform which have SII902X HDMI bridge.
+From the logs we can see the propagated modes and flip test for 1080p
+resolution.
 
-I've tested it, and it works great.
+Testlog:
+<https://gist.github.com/Jayesh2000/9bea6840672869337039296bc1145df4>
 
-You need to rebase your series on top of drm-misc-next, because it 
-conflicts with a series I pushed last week:
-https://patchwork.freedesktop.org/series/134286/
+Changelog v4->v5:
+- Add followup patch to replace deprecated bridge hooks
+- Fix atomic check to return negative value
+- Made commit message for [1/2] in v4 more clear while keeping the R-by and
+  Acked-by tags.
+- Fix commit header for [2/2] in v4
 
-This rebase should simplify the draw_logo_mono() function.
+v4 patch:
+<https://lore.kernel.org/all/20240530092930.434026-1-j-choudhary@ti.com/>
 
-> 
-> This has been tested with rcar-du.
-> 
-> Thanks for your comments!
-> 
-> Geert Uytterhoeven (3):
->    drm/panic: Fix off-by-one logo size checks
->    drm/panic: Rename logo to logo_ascii
->    drm/panic: Add support for drawing a monochrome graphical logo
-> 
->   drivers/gpu/drm/drm_panic.c | 81 +++++++++++++++++++++++++++++++++----
->   drivers/video/logo/Kconfig  |  2 +
->   2 files changed, 75 insertions(+), 8 deletions(-)
-> 
+Changelog v3->v4:
+- Remove mode_valid hook from connector_helper_funcs as it is not needed.
+
+v3 patch:
+<https://lore.kernel.org/all/20240524093509.127189-1-j-choudhary@ti.com/>
+
+Changelog v2->v3:
+- Remove newline that was introduced in [1/2] and later deleted in [2/2]
+  in v2
+
+v2 patch:
+<https://lore.kernel.org/all/20240524073305.107293-1-j-choudhary@ti.com/>
+
+Changelog v1->v2:
+- Add KHZ suffix in the macros to be more clear
+- Add the hook for drm_bridge_funcs as well
+- Add check in atomic_check dunction call (in a separate patch)
+
+v1 patch:
+<https://lore.kernel.org/all/20240408081435.216927-1-j-choudhary@ti.com/>
+
+Jayesh Choudhary (3):
+  drm/bridge: sii902x: Fix mode_valid hook
+  drm/bridge: sii902x: Support atomic bridge APIs
+  drm/bridge: sii902x: Add pixel clock check in atomic_check
+
+ drivers/gpu/drm/bridge/sii902x.c | 46 +++++++++++++++++++++++---------
+ 1 file changed, 33 insertions(+), 13 deletions(-)
+
+-- 
+2.25.1
 
