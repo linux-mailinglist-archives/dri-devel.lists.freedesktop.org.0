@@ -2,84 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C9B9069EC
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 12:26:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D2D0906A00
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 12:29:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A65E110EA06;
-	Thu, 13 Jun 2024 10:26:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80B1210EA12;
+	Thu, 13 Jun 2024 10:29:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IYCn6llg";
+	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="c3P2t+An";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 470A210EA08
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 10:26:32 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-5295eb47b48so1090603e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 03:26:32 -0700 (PDT)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADCD510EA11
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 10:29:29 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-2ec002caeb3so10004971fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 03:29:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718274390; x=1718879190; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=O8IPAtm7hl3+DMebd/JJeDAA0E3v2QqYpsHCeHSD4go=;
- b=IYCn6llg4NhPVk9a/ADUkTD0rcZ5OkHsYZsbTSluTwdfDdgPaAxU5QtI2SQh8f/7tX
- t8R/GdCl1ZQ2xyzLlIyExqUUyU6eugIj/DGsuCIo6WT6lmZNOPqAUEs2JupKG/pBy+9W
- N532SOBgTTxwRibXKZJGkTlNZzWhN8GlG4iyzvq1kSMiV7+KsiEAMDKk9Xe9HK6leLlo
- MNg9Rd5/mv9f3LuVtWg6BPjUADobxNmA1jRvax3xdG/LHLS6uJtuOLBDVIVmqjsVbtNj
- M7DpUWPPqwPSCCjPAwvZgdt/Qf7F2UN4wZ0fU4uB9TWmAXC/7OiRqHTjRgFbNH8uKqgc
- xF4Q==
+ d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1718274567; x=1718879367;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vZxuLlsV5/HxSCsfyaW+dyt2RGmy5lhX6pvuM1WCCtM=;
+ b=c3P2t+AnCJsxZK4Nh0zKk8jng3gcAbSCYztWvH+HH2C3GbDgMGnvkvT8FHIcfi/lqU
+ HhztcQ1F7RsoqjafYHd9hsYHQv3nXqDPlbt+9k/yO4UibOYjP0KRlOgCG/VLHraUrncV
+ AI4wtGSsjbNHkkXmVdGOenGuTywG+UO++Bf3PNUD+Cs8BvZMiScaNTQhbL0sFEZmKtaS
+ 0EUYiXz77Ce//rwGYctfMhtj5cz4UcbdfuYmFzzySNxpN9TgEL/RM+WphgI9KPvwb6KF
+ laRoyi2/8aFhhXyOhT/zR6lKHEMpA30CY3Apo5ysk2zdtcxPc3NIu7fMW6ypfNfcpLwA
+ u7vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718274390; x=1718879190;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=O8IPAtm7hl3+DMebd/JJeDAA0E3v2QqYpsHCeHSD4go=;
- b=c+4XY4w+kqKlAc5okeYTClPOVYTgngr0nfyO23cUOgCnM5ut4Z4TP2Xyv67/n0zXes
- e31NuLZfF2xSC5w+3u6vaj45Rf4Mbr2hTKSfHcohvIqBQ7zx/BViarh9rNE/CqNUFL4v
- VxCNV1iu4XnzQ2zK/jxKOJOxzbxhAbsnbcS9kizVxIOmaocfS/ft+4hrrmVdblzMmZOF
- hqtkk9VwUZDaMYAE82yo3VzLYlqN8Fh+5BHO+XB/7h1+rU82DTVexinOruAK3+wiZHDz
- P29iyxFMKWvHyKCjpfz5sG4YcG5oLmrjklsjmI3sJW8W9F3xnUzvJj/he9AEAe+EMUEq
- UXiA==
+ d=1e100.net; s=20230601; t=1718274567; x=1718879367;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vZxuLlsV5/HxSCsfyaW+dyt2RGmy5lhX6pvuM1WCCtM=;
+ b=o/psGuX4UC53VL+RzpxkwemudJqcuU7lrDLrr+u8uKxielE1P8vFGDgpnx7v/GK6u1
+ eo1sUrqyyAfzz8xOqnlKO20QUdIFiEnbWLsfDXAgalUfWEo+SeeZOkejmHqemiHBRDn1
+ NFQKmUwQz2vRa49LEhu38+ObNMYqfWg1CDoxbeoETltYHp7aJfEEICOy6q5eFdt1tr0T
+ SvG5jg0Gj6G1mVVA1nRIwcB+nfj1WB2Oxx3G/+3RP3MAaD0hpNxnooQLfxDr0Na4W1LV
+ HnEVjcpUoP1XcBzoeNOENZ+Vgmxb2UxKPvbLO0OeIFhvqW3bXltIvt9JqvGbsKEXf7KL
+ HU+A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVcvdluKg4g7XVyV4wYGNr0dbblIFKlooc5ZFkAKx+X8gmDNzVUzNywG6qq9K8BjDMl0PYKVMRTprx/jNhmesc/Li+U7+amjjJAKJxp3dHH
-X-Gm-Message-State: AOJu0YwpKROu4Ux6MfYvC5EK6T+NbKNolXtCVkXyH9IpkS9dNbU9Mp4D
- 4+ATH97rJmTWv2UHsWvCmZeC37M8Bno1vU5oIucaN7a3mKzatFqlzZQ1E85MYCY=
-X-Google-Smtp-Source: AGHT+IGt4VhwL+5yWSqyKfLczUeVBdxDF1mrYotvvGw068d7nYHxPZnASRkoINFHxJR3kvUUUlTy3A==
-X-Received: by 2002:a19:5518:0:b0:52c:8591:1f7b with SMTP id
- 2adb3069b0e04-52c9a3c7718mr2525584e87.24.1718274390316; 
- Thu, 13 Jun 2024 03:26:30 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ AJvYcCVKqSn7J71I/LpaPHs9WlkYdTqvsxPlRqxxE47qwsxyWLYcTkGn0K5b5cTjtaCwuGeC9ZVPJX6g9kUbM9ysITxtvr6sI1R+1dDq8mCfed+l
+X-Gm-Message-State: AOJu0Yws0kf36fD4KCMc3i6/Oiay6xXTUxBVBuEb6uYUwmTvi67w7gq9
+ 76i36hOMRGNOJXfjKWDE6bDUf8SDGxTw9wH22q9G+cIMVNPMY2/cchwIfmtmW3c=
+X-Google-Smtp-Source: AGHT+IEARCt4rajMh5v8BmZSwp1HSKbKznnkyh/9x16H+Zo0ztDMQxe8NPc6j+36h60AoS0aj5i+9w==
+X-Received: by 2002:a2e:9bc4:0:b0:2ea:eaf1:a18 with SMTP id
+ 38308e7fff4ca-2ebfc9ad9e8mr25851991fa.47.1718274567164; 
+ Thu, 13 Jun 2024 03:29:27 -0700 (PDT)
+Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52ca282de0fsm156021e87.67.2024.06.13.03.26.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jun 2024 03:26:29 -0700 (PDT)
-Date: Thu, 13 Jun 2024 13:26:28 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Marc Gonzalez <mgonzalez@freebox.fr>
-Cc: Maxime Ripard <mripard@kernel.org>, 
+ ffacd0b85a97d-36075093a29sm1287611f8f.12.2024.06.13.03.29.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Jun 2024 03:29:26 -0700 (PDT)
+Message-ID: <a18a165c-0635-49a8-8036-9967304fd019@freebox.fr>
+Date: Thu, 13 Jun 2024 12:29:26 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/bridge: simple-bridge: Add support for TI TDP158
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, DRI <dri-devel@lists.freedesktop.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Bryan O Donoghue <bryan.odonoghue@linaro.org>, 
+ Bryan O Donoghue <bryan.odonoghue@linaro.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>,
  Pierre-Hugues Husson <phhusson@freebox.fr>, Arnaud Vrac <avrac@freebox.fr>
-Subject: Re: [PATCH v2] drm/bridge: simple-bridge: Add support for TI TDP158
-Message-ID: <rdptet6pxdr3cmulrux24tevnlejgblnl5byjb2ypo7fm6tjn3@e4l6qdbr74ss>
 References: <b41f2f86-0d99-4199-92a9-42cbb9d6a6d5@freebox.fr>
  <ddd5joylbkovcdogfwhvzaepd3d6wxsnccgvpq2x3h6fmpo2hk@2sitzl6bjt7d>
  <57959aeb-20c2-4283-b316-c4ae5397177c@freebox.fr>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <57959aeb-20c2-4283-b316-c4ae5397177c@freebox.fr>
+ <rdptet6pxdr3cmulrux24tevnlejgblnl5byjb2ypo7fm6tjn3@e4l6qdbr74ss>
+Content-Language: en-US
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+In-Reply-To: <rdptet6pxdr3cmulrux24tevnlejgblnl5byjb2ypo7fm6tjn3@e4l6qdbr74ss>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,20 +98,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 13, 2024 at 04:12:22AM +0200, Marc Gonzalez wrote:
-> On 28/05/2024 03:13, Dmitry Baryshkov wrote:
-> 
-> > Bindings please. Also, note that per the datasheet the bridge uses two
-> > supplies, Vcc for 3.3V and Vdd for 1.1V, so it doesn't fully fit the
-> > simple-bridge.c (which might need to be adjusted for the second supply).
-> > Chapter 7.3.2 of the datasheet points out that Vcc should be brought up
-> > before Vdd.
-> 
-> Is something simple like below acceptable?
+On 13/06/2024 12:26, Dmitry Baryshkov wrote:
 
-Note, I'd really suggest extending simple-bridge.c instead to handle the
-second regulator.
+> On Thu, Jun 13, 2024 at 04:12:22AM +0200, Marc Gonzalez wrote:
+>
+>> On 28/05/2024 03:13, Dmitry Baryshkov wrote:
+>>
+>>> Bindings please. Also, note that per the datasheet the bridge uses two
+>>> supplies, Vcc for 3.3V and Vdd for 1.1V, so it doesn't fully fit the
+>>> simple-bridge.c (which might need to be adjusted for the second supply).
+>>> Chapter 7.3.2 of the datasheet points out that Vcc should be brought up
+>>> before Vdd.
+>>
+>> Is something simple like below acceptable?
+> 
+> Note, I'd really suggest extending simple-bridge.c instead to handle the
+> second regulator.
 
--- 
-With best wishes
-Dmitry
+I'm confused.
+
+simple-bridge.c is not "I2C-aware" ?
+
+Both you and Maxime mentioned there should be some I2C handling?
+
+Regards
+
