@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 829D3906C8A
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 13:51:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5913906C81
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 13:51:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5BB610EA58;
-	Thu, 13 Jun 2024 11:51:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EDE710EA4D;
+	Thu, 13 Jun 2024 11:51:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PiAFtViR";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BFgdp/GR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA5EB10EA4E
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 11:50:57 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDA9410EA4A
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 11:51:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1718279457;
+ s=mimecast20190719; t=1718279460;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Kh8+O2F7jgAFtGp/MUXcCP7XcWz8NnTH6l7tP4PdYbo=;
- b=PiAFtViRgML1w+g/qyBSKJpdbaRxNI5jIk6GTUp5TQ4W1ui+eEezWCDUC2fVJK7jKej+5l
- 7jA0RS0Vi6ev6LpkqTbBNAIeEk7vSl0qmrCxPDolCsfusi3i0REIR5+bm9cuP9crgj1sXv
- z44lznyyWLrB4rSH9lHmNByJRLMi3I0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UXtJP09mnY/VoBFabkO3D30y5UZGrDuagfM4gYTmfUM=;
+ b=BFgdp/GRKtre//ONUu9AdW7rWB5MprXOeRd8IgHdkWYNfcecFJLwZPOw4IqWFwRQXI/QU5
+ T9QfVE75oqPcmCMhHlMqBV5KBILw6GlixGX/ZVsQn7l5gwV3fe8yyhq0dFEkYZt2XkhDKb
+ PLdD84nReq86lHrI0tKDuqp3U08rfaI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-270-Eu45Gc33N9e88W-B6Fl1EA-1; Thu, 13 Jun 2024 07:50:55 -0400
-X-MC-Unique: Eu45Gc33N9e88W-B6Fl1EA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-354dfd4971dso106187f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 04:50:55 -0700 (PDT)
+ us-mta-539-XMwNvUdjM2SyeG85z8Gqjw-1; Thu, 13 Jun 2024 07:50:56 -0400
+X-MC-Unique: XMwNvUdjM2SyeG85z8Gqjw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4217aad795aso1583295e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 04:50:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718279454; x=1718884254;
+ d=1e100.net; s=20230601; t=1718279456; x=1718884256;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Kh8+O2F7jgAFtGp/MUXcCP7XcWz8NnTH6l7tP4PdYbo=;
- b=kyk3l3YpJpemx5/2pGzCFVC/tkf5CObm+G5Qq/TO8RrING2QYjCgGZv/Bv5hSH2KIO
- z82p0Irsv1Awx48EKsqkzivbBnRb9hl+lqVsdJRrLv4k5MCLRDs0Vy75fe56Z06S7qkt
- SZF68qZHp7ZofSCtk8zB9l0cpaN1f9tfLliG+8HGxVoHfTFdov74xc6CGyuYpghkoHxz
- I580GaHLDgjm8cKFKC9zrhGKhZT44JSzGi4qL4TLzflU8dpTrUWGRJVNa7Yiqr0emx2M
- xV3O3uv4xgYX/UO03WGhFbUSNFeB8YS7w9CzpgSO4rU/MxsHajDeR57cmjTcWXCxtEZs
- e00Q==
-X-Gm-Message-State: AOJu0Yyqz2SGDDeh2R0mtC5PeVAxO2wn7Yh7yuMs3yTCvR5lX5MpTopL
- dyMT3t5cRgzq+bbTLRTTMk3Tj6mYq+fp/b+qj61v7BPhrfHIsi1q8lHNA4DPurabF53gAltnqUA
- vTOg/cjRLMQZYPfzNY4U/26U5OoJSULu951NyPL/2eIkEqpdFnG4xfa3TTDjY8cgj9A==
-X-Received: by 2002:a5d:5f93:0:b0:360:6f5c:f5b3 with SMTP id
- ffacd0b85a97d-36079a6be34mr198407f8f.7.1718279454628; 
- Thu, 13 Jun 2024 04:50:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFWMTtngZAgGMBECTjwydMRwQNlXRtCSyH8PxV40YfOhooXvc8s+2rU6f0CqUMNMS0veU1KZA==
-X-Received: by 2002:a5d:5f93:0:b0:360:6f5c:f5b3 with SMTP id
- ffacd0b85a97d-36079a6be34mr198391f8f.7.1718279454381; 
- Thu, 13 Jun 2024 04:50:54 -0700 (PDT)
+ bh=UXtJP09mnY/VoBFabkO3D30y5UZGrDuagfM4gYTmfUM=;
+ b=rewB07XErow/C+ete/ADptKJ3YOZNgFdYdmJ0RbKvHrNs8pAdPU4Aq2YcPaerf+flT
+ ItLyd8JBvhwKV74VVS8wRP5EFnye+bQnHuwAZpq5gVME3yIqBrWenPuHVh368pC06a+d
+ zsOh6ZEqLzXeToYYUAje9W1OCmhnSF6odHthYqXSyZHfIkTyXawVNW+xwn3qsUu8qT+2
+ g3gAXYieIJtQ360jtdKhXeu30kRBrcKvOlPIQbn+lPulLKaTUDzMrMZDApfw6R1IPCJB
+ cQX23gaU2k+0af72pXI0tCVhF6xg/kIRAD5HqE/RxgXMh0tptrqvvfW0qFjClvyk3a+k
+ U5Bg==
+X-Gm-Message-State: AOJu0YyvPDt8CYahFFkCUWuHR3XIOgfsWHzg6bdT8wOO8mYGLgQMYMsw
+ PHd5alRs7cOVEJY0YR8bdXWZh7LbA+BjUuOWBe+KudYJ/KuGK2R9k5kIzXFKaPjd0uzHcPoZvJK
+ 58Iycwng0UaBLfSMXGvXuTdnMSCKC1eO/XjcyRKhNWhohLgMvsROP7licABtUBga3iA==
+X-Received: by 2002:a05:6000:1aca:b0:35f:305d:d2c8 with SMTP id
+ ffacd0b85a97d-36079a4c065mr196884f8f.3.1718279455703; 
+ Thu, 13 Jun 2024 04:50:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFg6sk3xnm8Dx/Hnr1TCgUs2mRnf7/ulhG/8nI0xWi/V2RpnZJUye6zcNtI5u+FrxW/ybB/fw==
+X-Received: by 2002:a05:6000:1aca:b0:35f:305d:d2c8 with SMTP id
+ ffacd0b85a97d-36079a4c065mr196879f8f.3.1718279455407; 
+ Thu, 13 Jun 2024 04:50:55 -0700 (PDT)
 Received: from pstanner-thinkpadt14sgen1.remote.csb
  (nat-pool-muc-t.redhat.com. [149.14.88.26])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3607509c883sm1510620f8f.29.2024.06.13.04.50.53
+ ffacd0b85a97d-3607509c883sm1510620f8f.29.2024.06.13.04.50.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jun 2024 04:50:54 -0700 (PDT)
+ Thu, 13 Jun 2024 04:50:55 -0700 (PDT)
 From: Philipp Stanner <pstanner@redhat.com>
 To: Hans de Goede <hdegoede@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -71,9 +71,9 @@ To: Hans de Goede <hdegoede@redhat.com>,
  Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-pci@vger.kernel.org, Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH v9 09/13] PCI: Give pcim_set_mwi() its own devres callback
-Date: Thu, 13 Jun 2024 13:50:22 +0200
-Message-ID: <20240613115032.29098-10-pstanner@redhat.com>
+Subject: [PATCH v9 10/13] PCI: Give pci_intx() its own devres callback
+Date: Thu, 13 Jun 2024 13:50:23 +0200
+Message-ID: <20240613115032.29098-11-pstanner@redhat.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <20240613115032.29098-1-pstanner@redhat.com>
 References: <20240613115032.29098-1-pstanner@redhat.com>
@@ -97,88 +97,202 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Managing pci_set_mwi() with devres can easily be done with its own
-callback, without the necessity to store any state about it in a
-device-related struct.
+pci_intx() is one of the functions that have "hybrid mode" (i.e.,
+sometimes managed, sometimes not). Providing a separate pcim_intx()
+function with its own device resource and cleanup callback allows for
+removing further large parts of the legacy PCI devres implementation.
 
-Remove the MWI state from struct pci_devres.
-Give pcim_set_mwi() a separate devres-callback.
+As in the region-request-functions, pci_intx() has to call into its
+managed counterpart for backwards compatibility.
+
+As pci_intx() is an outdated function, pcim_intx() shall not be made
+visible to drivers via a public API.
+
+Implement pcim_intx() with its own device resource.
+Make pci_intx() call pcim_intx() in the managed case.
+Remove the now surplus function find_pci_dr().
 
 Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 ---
- drivers/pci/devres.c | 29 ++++++++++++++++++-----------
- drivers/pci/pci.h    |  1 -
- 2 files changed, 18 insertions(+), 12 deletions(-)
+ drivers/pci/devres.c | 76 ++++++++++++++++++++++++++++++++++++--------
+ drivers/pci/pci.c    | 21 ++++++------
+ drivers/pci/pci.h    | 13 ++++----
+ 3 files changed, 80 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
-index 84caa0034813..e8de93e95eb6 100644
+index e8de93e95eb6..7b72c952a9e5 100644
 --- a/drivers/pci/devres.c
 +++ b/drivers/pci/devres.c
-@@ -366,24 +366,34 @@ void __iomem *devm_pci_remap_cfg_resource(struct device *dev,
- }
- EXPORT_SYMBOL(devm_pci_remap_cfg_resource);
+@@ -42,6 +42,11 @@ struct pcim_iomap_devres {
+ 	void __iomem *table[PCI_STD_NUM_BARS];
+ };
  
-+static void __pcim_clear_mwi(void *pdev_raw)
-+{
-+	struct pci_dev *pdev = pdev_raw;
++/* Used to restore the old intx state on driver detach. */
++struct pcim_intx_devres {
++	int orig_intx;
++};
 +
-+	pci_clear_mwi(pdev);
-+}
-+
- /**
-  * pcim_set_mwi - a device-managed pci_set_mwi()
-- * @dev: the PCI device for which MWI is enabled
-+ * @pdev: the PCI device for which MWI is enabled
-  *
-  * Managed pci_set_mwi().
-  *
-  * RETURNS: An appropriate -ERRNO error value on error, or zero for success.
-  */
--int pcim_set_mwi(struct pci_dev *dev)
-+int pcim_set_mwi(struct pci_dev *pdev)
- {
--	struct pci_devres *dr;
-+	int ret;
- 
--	dr = find_pci_dr(dev);
--	if (!dr)
--		return -ENOMEM;
-+	ret = devm_add_action(&pdev->dev, __pcim_clear_mwi, pdev);
-+	if (ret != 0)
-+		return ret;
-+
-+	ret = pci_set_mwi(pdev);
-+	if (ret != 0)
-+		devm_remove_action(&pdev->dev, __pcim_clear_mwi, pdev);
- 
--	dr->mwi = 1;
--	return pci_set_mwi(dev);
-+	return ret;
+ enum pcim_addr_devres_type {
+ 	/* Default initializer. */
+ 	PCIM_ADDR_DEVRES_TYPE_INVALID,
+@@ -397,32 +402,75 @@ int pcim_set_mwi(struct pci_dev *pdev)
  }
  EXPORT_SYMBOL(pcim_set_mwi);
  
-@@ -397,9 +407,6 @@ static void pcim_release(struct device *gendev, void *res)
- 	struct pci_dev *dev = to_pci_dev(gendev);
- 	struct pci_devres *this = res;
++
+ static inline bool mask_contains_bar(int mask, int bar)
+ {
+ 	return mask & BIT(bar);
+ }
  
--	if (this->mwi)
--		pci_clear_mwi(dev);
+-static void pcim_release(struct device *gendev, void *res)
++static void pcim_intx_restore(struct device *dev, void *data)
+ {
+-	struct pci_dev *dev = to_pci_dev(gendev);
+-	struct pci_devres *this = res;
++	struct pci_dev *pdev = to_pci_dev(dev);
++	struct pcim_intx_devres *res = data;
+ 
+-	if (this->restore_intx)
+-		pci_intx(dev, this->orig_intx);
++	pci_intx(pdev, res->orig_intx);
++}
+ 
+-	if (pci_is_enabled(dev) && !dev->pinned)
+-		pci_disable_device(dev);
++static struct pcim_intx_devres *get_or_create_intx_devres(struct device *dev)
++{
++	struct pcim_intx_devres *res;
++
++	res = devres_find(dev, pcim_intx_restore, NULL, NULL);
++	if (res)
++		return res;
++
++	res = devres_alloc(pcim_intx_restore, sizeof(*res), GFP_KERNEL);
++	if (res)
++		devres_add(dev, res);
++
++	return res;
+ }
+ 
+-/*
+- * TODO: After the last four callers in pci.c are ported, find_pci_dr()
+- * needs to be made static again.
++/**
++ * pcim_intx - managed pci_intx()
++ * @pdev: the PCI device to operate on
++ * @enable: boolean: whether to enable or disable PCI INTx
++ *
++ * Returns: 0 on success, -ENOMEM on error.
++ *
++ * Enables/disables PCI INTx for device @pdev.
++ * Restores the original state on driver detach.
+  */
+-struct pci_devres *find_pci_dr(struct pci_dev *pdev)
++int pcim_intx(struct pci_dev *pdev, int enable)
+ {
+-	if (pci_is_managed(pdev))
+-		return devres_find(&pdev->dev, pcim_release, NULL, NULL);
+-	return NULL;
++	u16 pci_command, new;
++	struct pcim_intx_devres *res;
++
++	res = get_or_create_intx_devres(&pdev->dev);
++	if (!res)
++		return -ENOMEM;
++
++	res->orig_intx = !enable;
++
++	pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
++
++	if (enable)
++		new = pci_command & ~PCI_COMMAND_INTX_DISABLE;
++	else
++		new = pci_command | PCI_COMMAND_INTX_DISABLE;
++
++	if (new != pci_command)
++		pci_write_config_word(pdev, PCI_COMMAND, new);
++
++	return 0;
++}
++
++static void pcim_release(struct device *gendev, void *res)
++{
++	struct pci_dev *dev = to_pci_dev(gendev);
++
++	if (pci_is_enabled(dev) && !dev->pinned)
++		pci_disable_device(dev);
+ }
+ 
+ static struct pci_devres *get_pci_dr(struct pci_dev *pdev)
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index db2cc48f3d63..1b4832a60047 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -4443,6 +4443,16 @@ void pci_intx(struct pci_dev *pdev, int enable)
+ {
+ 	u16 pci_command, new;
+ 
++	/*
++	 * This is done for backwards compatibility, because the old PCI devres
++	 * API had a mode in which this function became managed if the dev had
++	 * been enabled with pcim_enable_device() instead of pci_enable_device().
++	 */
++	if (pci_is_managed(pdev)) {
++		WARN_ON_ONCE(pcim_intx(pdev, enable) != 0);
++		return;
++	}
++
+ 	pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
+ 
+ 	if (enable)
+@@ -4450,17 +4460,8 @@ void pci_intx(struct pci_dev *pdev, int enable)
+ 	else
+ 		new = pci_command | PCI_COMMAND_INTX_DISABLE;
+ 
+-	if (new != pci_command) {
+-		struct pci_devres *dr;
 -
- 	if (this->restore_intx)
- 		pci_intx(dev, this->orig_intx);
++	if (new != pci_command)
+ 		pci_write_config_word(pdev, PCI_COMMAND, new);
+-
+-		dr = find_pci_dr(pdev);
+-		if (dr && !dr->restore_intx) {
+-			dr->restore_intx = 1;
+-			dr->orig_intx = !enable;
+-		}
+-	}
+ }
+ EXPORT_SYMBOL_GPL(pci_intx);
  
 diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 6e02ba1b5947..c355bb6a698d 100644
+index c355bb6a698d..9e87528f1157 100644
 --- a/drivers/pci/pci.h
 +++ b/drivers/pci/pci.h
-@@ -823,7 +823,6 @@ static inline pci_power_t mid_pci_get_power_state(struct pci_dev *pdev)
+@@ -816,16 +816,17 @@ static inline pci_power_t mid_pci_get_power_state(struct pci_dev *pdev)
+  * there's no need to track it separately.  pci_devres is initialized
+  * when a device is enabled using managed PCI device enable interface.
+  *
+- * TODO: Struct pci_devres and find_pci_dr() only need to be here because
+- * they're used in pci.c.  Port or move these functions to devres.c and
+- * then remove them from here.
++ * TODO: Struct pci_devres only needs to be here because they're used in pci.c.
++ * Port or move these functions to devres.c and then remove them from here.
+  */
  struct pci_devres {
- 	unsigned int orig_intx:1;
- 	unsigned int restore_intx:1;
--	unsigned int mwi:1;
+-	unsigned int orig_intx:1;
+-	unsigned int restore_intx:1;
++	/*
++	 * TODO:
++	 * This struct is now surplus. Remove it by refactoring pci/devres.c
++	 */
  };
  
- struct pci_devres *find_pci_dr(struct pci_dev *pdev);
+-struct pci_devres *find_pci_dr(struct pci_dev *pdev);
++int pcim_intx(struct pci_dev *dev, int enable);
+ 
+ int pcim_request_region(struct pci_dev *pdev, int bar, const char *name);
+ int pcim_request_region_exclusive(struct pci_dev *pdev, int bar, const char *name);
 -- 
 2.45.0
 
