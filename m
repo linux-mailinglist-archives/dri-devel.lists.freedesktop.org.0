@@ -2,87 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2871906469
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 08:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86AC69064B7
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 09:15:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A415610E299;
-	Thu, 13 Jun 2024 06:51:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B99FE10E967;
+	Thu, 13 Jun 2024 07:15:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JoAzxBX4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FFd1Td4T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEA3D10E299
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 06:51:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1718261469;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dCYSl6m4zIwH4JbW6vfy7hbe96U8QsTjiiAI04n+hHg=;
- b=JoAzxBX4Odb5UwJnY/3oa9O1NqoGR0Cvz9GfsftU9UyZFUE6KvVXbf9wqAWK1vhGsIKOGW
- /ogb1ONJDGOxIM84H5pkWdUAHkxDVIRdi9CWjEzX1VwpE317DMYhWgPw41/somJZu+/8gH
- 0nwD+rT1p8wbzZS3w8lM8HF+OMdDkJg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-362-e2_zTiYaMvCpcI7d3twq-A-1; Thu, 13 Jun 2024 02:51:05 -0400
-X-MC-Unique: e2_zTiYaMvCpcI7d3twq-A-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-35f2ae13e4eso111098f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2024 23:51:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718261464; x=1718866264;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=dCYSl6m4zIwH4JbW6vfy7hbe96U8QsTjiiAI04n+hHg=;
- b=QGPZoHQT10EjSv9I8grId7m/u2A75M0sRV1I/sCM8RndSYU15avHcnpbry3VGqp18V
- agazvYa78F2PjRho9+3BoXDHNqw74IBVDjhHANR94ZKoEXJcitXNdVFxn5InSApVpwum
- KHHfQwlDr3BtV96n+RISOvK0PaL6p/J303CBWVAqITETgZh9tukEfFvCuitDvIwA00Nd
- wwgg9Ezwdyqz2QNcXG2YlSSO8SL22PSSjj5h++1mlW2LGpXyuHkTvt0bqryQG3Qs/pQH
- 8+lAuTfwaNWEGyA5yx9xKAAEhTzK0nEdAgJS5dewsDszSIOcNx6J6lurO6pJF9ZI1naA
- chfg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUIUdHfsL8ftAd8ZX1jSvggsplvzmI3mLKx9Oz9BRF6eN6qfnA5mjKRSZMc3gY1xmd61TH9Ad1V1gU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyudrnRKdx+3eO1WCKg4BcoywFLAYDqFoPhMAfMVzVDmx1BiIHK
- ozCum8um/en8EKa8VtKDqCvlsSTK9k200PEewS0ussHBetulnbZlUDOTL9NqZt4GRfgzOzDdbJI
- dZiPH6EjYjpqYwPMYOGcW8NZD88P3do/DL0jALPD1bew07kTYyoQ7AcnlnU1njvhJvQ==
-X-Received: by 2002:a05:600c:511c:b0:421:7f30:7ccb with SMTP id
- 5b1f17b1804b1-422863a85d2mr28530845e9.1.1718261464151; 
- Wed, 12 Jun 2024 23:51:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEne33eg3SL5vDGQDj3JXJ9FvT7/47jv8TG8IqrLLqDZjm0NwnmBgsExGCfn22f4gGdxb3/Tg==
-X-Received: by 2002:a05:600c:511c:b0:421:7f30:7ccb with SMTP id
- 5b1f17b1804b1-422863a85d2mr28530655e9.1.1718261463751; 
- Wed, 12 Jun 2024 23:51:03 -0700 (PDT)
-Received: from pstanner-thinkpadt14sgen1.remote.csb
- (nat-pool-muc-t.redhat.com. [149.14.88.26])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-422874de607sm49767315e9.34.2024.06.12.23.51.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jun 2024 23:51:03 -0700 (PDT)
-Message-ID: <ef32b9184700a07048fbb387f7d42410f7db308d.camel@redhat.com>
-Subject: Re: [PATCH v8 03/13] PCI: Reimplement plural devres functions
-From: Philipp Stanner <pstanner@redhat.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>, Sam
- Ravnborg <sam@ravnborg.org>, dakr@redhat.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-pci@vger.kernel.org
-Date: Thu, 13 Jun 2024 08:51:02 +0200
-In-Reply-To: <20240612204235.GA1037175@bhelgaas>
-References: <20240612204235.GA1037175@bhelgaas>
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E18810E967
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 07:15:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718262939; x=1749798939;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=86SiUaK7umXo0q9XlMNvDC0EA+anrmucsKIX31UwYqg=;
+ b=FFd1Td4Tkz0bQj5rCKrzVtTeCjqP40mJV7jhQVcCrpY9by8t/J4mvBMc
+ a3N+5Ebrpo84Ne+qoj0mm2UxPrG1VTW20LYsDFlDtcCpcwQKOrdYjPSTH
+ Z+ua1IPvA7Xt6cRIjZFlOsw84krcd5ph6zKUWCyPPUqEVdmac1PAlfGZ2
+ SylIpIeHf9R0+t7qafbWvU4RUgJ+FUDUUbz//Il3iZGZVh2vC4RhJ1I06
+ cSewEet7f4kicJirVfCMigqunN/eLBMq0muzIU/KmP/4/2K9O3ESJ+5u7
+ jYKJkDesbwD8Wj5ReAeEsCNMRwRPeWP6INco7dhpAG6asGEQIh+AF13Ku g==;
+X-CSE-ConnectionGUID: pjjVvVLpSVq3r6IOvskWOQ==
+X-CSE-MsgGUID: kr5lWhYiT2G+/XpmrMx99w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="26465961"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="26465961"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2024 00:15:28 -0700
+X-CSE-ConnectionGUID: P844oO/hQ6eUOKxjKr+nYg==
+X-CSE-MsgGUID: FY0jzUReTNKGmfdBWQP2PA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="71251354"
+Received: from iklimasz-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.112])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2024 00:15:23 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Inki Dae <daeinki@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski
+ <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH 04/11] drm/exynos: hdmi: convert to struct drm_edid
+In-Reply-To: <CAAQKjZNhUzyUO4rjPZGGrp=0MsTdQvT2ij3bVV91oDcYjk9EDg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1715691257.git.jani.nikula@intel.com>
+ <2fe0b4deb4f2ab255735cd6e1a657a17e0d45784.1715691257.git.jani.nikula@intel.com>
+ <CAAQKjZNhUzyUO4rjPZGGrp=0MsTdQvT2ij3bVV91oDcYjk9EDg@mail.gmail.com>
+Date: Thu, 13 Jun 2024 10:15:20 +0300
+Message-ID: <87wmmtia9j.fsf@intel.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,143 +74,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2024-06-12 at 15:42 -0500, Bjorn Helgaas wrote:
-> On Wed, Jun 12, 2024 at 10:51:40AM +0200, Philipp Stanner wrote:
-> > On Tue, 2024-06-11 at 16:44 -0500, Bjorn Helgaas wrote:
-> > > I'm trying to merge these into pci/next, but I'm having a hard
-> > > time
-> > > writing the merge commit log.=C2=A0 I want a one-sentence description
-> > > of
-> > > each patch that tells me what the benefit of the patch is.=C2=A0
-> > > Usually
-> > > the subject line is a good start.
-> > >=20
-> > > "Reimplement plural devres functions" is kind of vague and
-> > > doesn't
-> > > quite motivate this patch, and I'm having a hard time extracting
-> > > the
-> > > relevant details from the commit log below.
-> >=20
-> > I would say that the summary would be something along the lines:
-> > "Set ground layer for devres simplification and extension"
-> >=20
-> > because this patch simplifies the existing functions and adds
-> > infrastructure that can later be used to deprecate the bloated
-> > existing
-> > functions, remove the hybrid mechanism and add pcim_iomap_range().
->=20
-> I think something concrete like "Add partial-BAR devres support"
-> would
-> give people a hint about what to look for.
+On Mon, 10 Jun 2024, Inki Dae <daeinki@gmail.com> wrote:
+> Hi, Jani Nikula,
+>
+> Thanks for your contribution and sorry for being late. Below are my comme=
+nts.
+>
+> 2024=EB=85=84 5=EC=9B=94 14=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 9:57,=
+ Jani Nikula <jani.nikula@intel.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>>
+>> Prefer the struct drm_edid based functions for reading the EDID and
+>> updating the connector.
+>>
+>> The functional change is that the CEC physical address gets invalidated
+>> when the EDID could not be read.
+>>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>>
+>> ---
+>>
+>> Cc: Inki Dae <inki.dae@samsung.com>
+>> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+>> Cc: Kyungmin Park <kyungmin.park@samsung.com>
+>> Cc: Krzysztof Kozlowski <krzk@kernel.org>
+>> Cc: Alim Akhtar <alim.akhtar@samsung.com>
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> Cc: linux-samsung-soc@vger.kernel.org
+>> ---
+>>  drivers/gpu/drm/exynos/exynos_hdmi.c | 23 +++++++++++++----------
+>>  1 file changed, 13 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exyn=
+os/exynos_hdmi.c
+>> index e968824a4c72..9033e8b66816 100644
+>> --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
+>> +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+>> @@ -883,27 +883,30 @@ static const struct drm_connector_funcs hdmi_conne=
+ctor_funcs =3D {
+>>  static int hdmi_get_modes(struct drm_connector *connector)
+>>  {
+>>         struct hdmi_context *hdata =3D connector_to_hdmi(connector);
+>> -       struct edid *edid;
+>> +       const struct drm_display_info *info =3D &connector->display_info;
+>> +       const struct drm_edid *drm_edid;
+>>         int ret;
+>>
+>>         if (!hdata->ddc_adpt)
+>>                 return 0;
+>>
+>> -       edid =3D drm_get_edid(connector, hdata->ddc_adpt);
+>> -       if (!edid)
+>> +       drm_edid =3D drm_edid_read_ddc(connector, hdata->ddc_adpt);
+>
+> drm_edid_read_ddc function can return NULL for an error. Could you add
+> an exception handling?
 
-Okay, will do.
+If it returns NULL, the below code intentionally passes NULL to
+drm_edid_connector_update() to reset the EDID. After that,
+cec_notifier_set_phys_addr() also resets the source physical
+address. And !drm_edid is handled after that.
 
->=20
-> This patch contains quite a bit more than that, and if it were
-> possible, it might be nice to split the rest to a different patch,
-> but
-> I'm not sure it's even possible=C2=A0
+>
+>> +
+>> +       drm_edid_connector_update(connector, drm_edid);
+>
+> Ditto. drm_edid_connector_update function can return a negative value
+> for an error.
 
-I tried and got screamed at by the build chain because of dead code. So
-I don't really think they can be split more, unfortunately.
+Okay.cg
 
-In possibly following series's to PCI I'll pay attention to design
-things as atomically as possible from the start.
+>
+>> +
+>> +       cec_notifier_set_phys_addr(hdata->notifier, info->source_physica=
+l_address);
+>> +
+>> +       if (!drm_edid)
+>>                 return 0;
+>>
+>> -       hdata->dvi_mode =3D !connector->display_info.is_hdmi;
+>> +       hdata->dvi_mode =3D !info->is_hdmi;
+>
+> Above change wouldn't be related to this patch.
 
+Yeah, reuses info which is for info->source_physical_address which would
+be too long otherwise. Can add another intermediate patch for that.
 
-> and I just want to get this series out
-> the door.
+>
+>>         DRM_DEV_DEBUG_KMS(hdata->dev, "%s : width[%d] x height[%d]\n",
+>>                           (hdata->dvi_mode ? "dvi monitor" : "hdmi monit=
+or"),
+>> -                         edid->width_cm, edid->height_cm);
+>> -
+>> -       drm_connector_update_edid_property(connector, edid);
+>> -       cec_notifier_set_phys_addr_from_edid(hdata->notifier, edid);
+>> +                         info->width_mm / 10, info->height_mm / 10);
+>
+> The purpose of this patch would be to replace edid with drm_edid so
+> how about updating the above change like below?
+>     drm_edid->edid->width_cm, erm_edid->edid->height_cm);
 
-That's actually something you and I have in common. I have been working
-on the preparations for this since November last year ^^'
+struct drm_edid is an opaque type and drm_edid->edid is not available
+for drivers to look at.
 
->=20
-> If the commit log includes the partial-BAR idea and the specific
-> functions added, I think that will hold together.=C2=A0 And then it makes
-> sense for why the "plural" functions would be implemented on top of
-> the "singular" ones.
->=20
-> > > > Implement a set of singular functions=20
-> > >=20
-> > > What is this set of functions?=C2=A0 My guess is below.
-> > >=20
-> > > > that use devres as it's intended and
-> > > > use those singular functions to reimplement the plural
-> > > > functions.
-> > >=20
-> > > What does "as it's intended" mean?=C2=A0 Too nebulous to fit here.
-> >=20
-> > Well, the idea behind devres is that you allocate a device resource
-> > _for each_ object you want to be freed / deinitialized
-> > automatically.
-> > One devres object per driver / subsystem object, one devres
-> > callback
-> > per cleanup job for the driver / subsystem.
-> >=20
-> > What PCI devres did instead was to use just ONE devres object _for
-> > everything_ and then it had to implement all sorts of checks to
-> > check
-> > which sub-resource this master resource is actually about:
-> >=20
-> > (from devres.c)
-> > static void pcim_release(struct device *gendev, void *res)
-> > {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct pci_dev *dev =3D=
- to_pci_dev(gendev);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct pci_devres *this=
- =3D res;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int i;
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0for (i =3D 0; i < DEVIC=
-E_COUNT_RESOURCE; i++)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0if (this->region_mask & (1 << i))
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-pci_release_region(dev, i);
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (this->mwi)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0pci_clear_mwi(dev);
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (this->restore_intx)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0pci_intx(dev, this->orig_intx);
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (this->enabled && !t=
-his->pinned)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0pci_disable_device(dev);
-> > }
-> >=20
-> >=20
-> > So one could dare to say that devres was partially re-implemented
-> > on
-> > top of devres.
-> >=20
-> > The for-loop and the if-conditions constitute that "re-
-> > implementation".
-> > No one has any clue why it has been done that way, because it
-> > provides
-> > 0 upsides and would have been far easier to implement by just
-> > letting
-> > devres do its job.
-> >=20
-> > Would you like to see the above details in the commit message?
->=20
-> No.=C2=A0 Just remove the "use devres as it's intended" since that's not
-> needed to motivate this patch.=C2=A0 I think we need fewer and
-> more-specific words.
+BR,
+Jani.
 
-ACK. I will rework it
+>
+> Thanks,
+> Inki Dae
+>
+>>
+>> -       ret =3D drm_add_edid_modes(connector, edid);
+>> +       ret =3D drm_edid_connector_add_modes(connector);
+>>
+>> -       kfree(edid);
+>> +       drm_edid_free(drm_edid);
+>>
+>>         return ret;
+>>  }
+>> --
+>> 2.39.2
+>>
+>>
 
-
-Thank you Bjorn for your time and effort,
-
-P.
-
-
->=20
-> Bjorn
->=20
-
+--=20
+Jani Nikula, Intel
