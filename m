@@ -2,87 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2D0906A00
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 12:29:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03EBF906A15
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 12:33:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80B1210EA12;
-	Thu, 13 Jun 2024 10:29:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DD3A10EA1A;
+	Thu, 13 Jun 2024 10:33:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="c3P2t+An";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cb2/x+rS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADCD510EA11
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 10:29:29 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2ec002caeb3so10004971fa.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 03:29:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1718274567; x=1718879367;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vZxuLlsV5/HxSCsfyaW+dyt2RGmy5lhX6pvuM1WCCtM=;
- b=c3P2t+AnCJsxZK4Nh0zKk8jng3gcAbSCYztWvH+HH2C3GbDgMGnvkvT8FHIcfi/lqU
- HhztcQ1F7RsoqjafYHd9hsYHQv3nXqDPlbt+9k/yO4UibOYjP0KRlOgCG/VLHraUrncV
- AI4wtGSsjbNHkkXmVdGOenGuTywG+UO++Bf3PNUD+Cs8BvZMiScaNTQhbL0sFEZmKtaS
- 0EUYiXz77Ce//rwGYctfMhtj5cz4UcbdfuYmFzzySNxpN9TgEL/RM+WphgI9KPvwb6KF
- laRoyi2/8aFhhXyOhT/zR6lKHEMpA30CY3Apo5ysk2zdtcxPc3NIu7fMW6ypfNfcpLwA
- u7vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718274567; x=1718879367;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vZxuLlsV5/HxSCsfyaW+dyt2RGmy5lhX6pvuM1WCCtM=;
- b=o/psGuX4UC53VL+RzpxkwemudJqcuU7lrDLrr+u8uKxielE1P8vFGDgpnx7v/GK6u1
- eo1sUrqyyAfzz8xOqnlKO20QUdIFiEnbWLsfDXAgalUfWEo+SeeZOkejmHqemiHBRDn1
- NFQKmUwQz2vRa49LEhu38+ObNMYqfWg1CDoxbeoETltYHp7aJfEEICOy6q5eFdt1tr0T
- SvG5jg0Gj6G1mVVA1nRIwcB+nfj1WB2Oxx3G/+3RP3MAaD0hpNxnooQLfxDr0Na4W1LV
- HnEVjcpUoP1XcBzoeNOENZ+Vgmxb2UxKPvbLO0OeIFhvqW3bXltIvt9JqvGbsKEXf7KL
- HU+A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVKqSn7J71I/LpaPHs9WlkYdTqvsxPlRqxxE47qwsxyWLYcTkGn0K5b5cTjtaCwuGeC9ZVPJX6g9kUbM9ysITxtvr6sI1R+1dDq8mCfed+l
-X-Gm-Message-State: AOJu0Yws0kf36fD4KCMc3i6/Oiay6xXTUxBVBuEb6uYUwmTvi67w7gq9
- 76i36hOMRGNOJXfjKWDE6bDUf8SDGxTw9wH22q9G+cIMVNPMY2/cchwIfmtmW3c=
-X-Google-Smtp-Source: AGHT+IEARCt4rajMh5v8BmZSwp1HSKbKznnkyh/9x16H+Zo0ztDMQxe8NPc6j+36h60AoS0aj5i+9w==
-X-Received: by 2002:a2e:9bc4:0:b0:2ea:eaf1:a18 with SMTP id
- 38308e7fff4ca-2ebfc9ad9e8mr25851991fa.47.1718274567164; 
- Thu, 13 Jun 2024 03:29:27 -0700 (PDT)
-Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-36075093a29sm1287611f8f.12.2024.06.13.03.29.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Jun 2024 03:29:26 -0700 (PDT)
-Message-ID: <a18a165c-0635-49a8-8036-9967304fd019@freebox.fr>
-Date: Thu, 13 Jun 2024 12:29:26 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE0510EA11;
+ Thu, 13 Jun 2024 10:33:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718274826; x=1749810826;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=Rwwr5CvQxX2szfetmqGf7CdkIVf4w72VbyLoeX/LaeI=;
+ b=cb2/x+rSglxAVyeLxgWiGhWi8VixNxRiQ4B3fqiYYvWDsUAsyaF0w5jw
+ XMAdJhBap8h50AmVSzQ4kDgbpx0AtMLKF4js/7uijtdViSCrh2xHezXsc
+ iPs0b6TdAq0VbcyZhND1LoeOJeNx8prZR/Fu9JfuKM9fy2VliJOjYte5Y
+ Iz+DWtOJH7hix+G5b2eymDUPsl6Li46gNpVCKOAsHO6bD+MebIEHFq3qI
+ gBfXP/T8XN+bHKtHpDSr4tYP1o8vQr53w0n/GyJtoDQJgggzXcySGETR/
+ FQ22Ls4n6mWFD8nzNd7CwGaCQCbTIivmoxrWxJNGaD2rH4QaJS/jxXbtY Q==;
+X-CSE-ConnectionGUID: tHXyCscXQOOTvMspqgcMCQ==
+X-CSE-MsgGUID: DAz5MWCISqqt0/kgqLeNOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="18942371"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="18942371"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2024 03:33:46 -0700
+X-CSE-ConnectionGUID: loSg8trgQ4KXBO+tbq+Tag==
+X-CSE-MsgGUID: k5lxsBk2RI2d4qWjq+o1MA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="40205987"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2024 03:33:44 -0700
+Date: Thu, 13 Jun 2024 13:33:52 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 4/9] drm/i915: Introduce fb->min_alignment
+Message-ID: <ZmrLEHg5IZWLx+WJ@ideak-desk.fi.intel.com>
+References: <20240612204712.31404-1-ville.syrjala@linux.intel.com>
+ <20240612204712.31404-5-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/bridge: simple-bridge: Add support for TI TDP158
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Bryan O Donoghue <bryan.odonoghue@linaro.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Pierre-Hugues Husson <phhusson@freebox.fr>, Arnaud Vrac <avrac@freebox.fr>
-References: <b41f2f86-0d99-4199-92a9-42cbb9d6a6d5@freebox.fr>
- <ddd5joylbkovcdogfwhvzaepd3d6wxsnccgvpq2x3h6fmpo2hk@2sitzl6bjt7d>
- <57959aeb-20c2-4283-b316-c4ae5397177c@freebox.fr>
- <rdptet6pxdr3cmulrux24tevnlejgblnl5byjb2ypo7fm6tjn3@e4l6qdbr74ss>
-Content-Language: en-US
-From: Marc Gonzalez <mgonzalez@freebox.fr>
-In-Reply-To: <rdptet6pxdr3cmulrux24tevnlejgblnl5byjb2ypo7fm6tjn3@e4l6qdbr74ss>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240612204712.31404-5-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,31 +66,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/06/2024 12:26, Dmitry Baryshkov wrote:
-
-> On Thu, Jun 13, 2024 at 04:12:22AM +0200, Marc Gonzalez wrote:
->
->> On 28/05/2024 03:13, Dmitry Baryshkov wrote:
->>
->>> Bindings please. Also, note that per the datasheet the bridge uses two
->>> supplies, Vcc for 3.3V and Vdd for 1.1V, so it doesn't fully fit the
->>> simple-bridge.c (which might need to be adjusted for the second supply).
->>> Chapter 7.3.2 of the datasheet points out that Vcc should be brought up
->>> before Vdd.
->>
->> Is something simple like below acceptable?
+On Wed, Jun 12, 2024 at 11:47:07PM +0300, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
-> Note, I'd really suggest extending simple-bridge.c instead to handle the
-> second regulator.
+> Different planes could have different alignment requirements
+> even for the same format/modifier. Collect the alignment
+> requirements across all planes capable of scanning out the
+> fb such that the alignment is satisfactory to all those
+> planes.
+> 
+> So far this was sort of handle by making sure intel_surf_alignment()
+> declares the superset of all planes' alignment requirements,
+> but maintaining that manually is annoying. So we're going to move
+> towards each plane declaring only its own requirements, and thus
+> we need code to generate the superset.
+> 
+> v2: Drop the borked per-plane vma optimization (Imre)
+>     Assert that the plane's declared alignment is POT (Imre)
+> 
+> Cc: Imre Deak <imre.deak@intel.com>
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-I'm confused.
+Reviewed-by: Imre Deak <imre.deak@intel.com>
 
-simple-bridge.c is not "I2C-aware" ?
-
-Both you and Maxime mentioned there should be some I2C handling?
-
-Regards
-
+> ---
+>  .../drm/i915/display/intel_display_types.h    |  2 ++
+>  drivers/gpu/drm/i915/display/intel_fb.c       | 29 +++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_fb_pin.c   |  5 ++--
+>  drivers/gpu/drm/i915/display/intel_fbdev.c    | 18 +-----------
+>  4 files changed, 34 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index 0c165572fbd0..af7cc3d6c82b 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -146,6 +146,8 @@ struct intel_framebuffer {
+>  	};
+>  
+>  	struct i915_address_space *dpt_vm;
+> +
+> +	unsigned int min_alignment;
+>  };
+>  
+>  enum intel_hotplug_state {
+> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
+> index b3a48754a417..0abb80972885 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fb.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
+> @@ -11,6 +11,7 @@
+>  
+>  #include "gem/i915_gem_object.h"
+>  #include "i915_drv.h"
+> +#include "intel_atomic_plane.h"
+>  #include "intel_display.h"
+>  #include "intel_display_types.h"
+>  #include "intel_dpt.h"
+> @@ -1617,6 +1618,32 @@ bool intel_fb_supports_90_270_rotation(const struct intel_framebuffer *fb)
+>  	       fb->base.modifier == I915_FORMAT_MOD_Yf_TILED;
+>  }
+>  
+> +static unsigned int intel_fb_min_alignment(const struct drm_framebuffer *fb)
+> +{
+> +	struct drm_i915_private *i915 = to_i915(fb->dev);
+> +	struct intel_plane *plane;
+> +	unsigned int min_alignment = 0;
+> +
+> +	for_each_intel_plane(&i915->drm, plane) {
+> +		unsigned int plane_min_alignment;
+> +
+> +		if (!drm_plane_has_format(&plane->base, fb->format->format, fb->modifier))
+> +			continue;
+> +
+> +		plane_min_alignment = plane->min_alignment(plane, fb, 0);
+> +
+> +		drm_WARN_ON(&i915->drm, plane_min_alignment &&
+> +			    !is_power_of_2(plane_min_alignment));
+> +
+> +		if (intel_plane_needs_physical(plane))
+> +			continue;
+> +
+> +		min_alignment = max(min_alignment, plane_min_alignment);
+> +	}
+> +
+> +	return min_alignment;
+> +}
+> +
+>  int intel_fill_fb_info(struct drm_i915_private *i915, struct intel_framebuffer *fb)
+>  {
+>  	struct drm_i915_gem_object *obj = intel_fb_obj(&fb->base);
+> @@ -1699,6 +1726,8 @@ int intel_fill_fb_info(struct drm_i915_private *i915, struct intel_framebuffer *
+>  		return -EINVAL;
+>  	}
+>  
+> +	fb->min_alignment = intel_fb_min_alignment(&fb->base);
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_fb_pin.c b/drivers/gpu/drm/i915/display/intel_fb_pin.c
+> index 9b0f1ea41b70..575b271e012b 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fb_pin.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fb_pin.c
+> @@ -233,10 +233,9 @@ void intel_fb_unpin_vma(struct i915_vma *vma, unsigned long flags)
+>  static unsigned int
+>  intel_plane_fb_min_alignment(const struct intel_plane_state *plane_state)
+>  {
+> -	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
+> -	const struct drm_framebuffer *fb = plane_state->hw.fb;
+> +	const struct intel_framebuffer *fb = to_intel_framebuffer(plane_state->hw.fb);
+>  
+> -	return plane->min_alignment(plane, fb, 0);
+> +	return fb->min_alignment;
+>  }
+>  
+>  static unsigned int
+> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> index 6e5f88f20482..49a1ac4f5491 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> @@ -47,7 +47,6 @@
+>  #include "gem/i915_gem_object.h"
+>  
+>  #include "i915_drv.h"
+> -#include "intel_crtc.h"
+>  #include "intel_display_types.h"
+>  #include "intel_fb.h"
+>  #include "intel_fb_pin.h"
+> @@ -173,21 +172,6 @@ static const struct fb_ops intelfb_ops = {
+>  
+>  __diag_pop();
+>  
+> -static unsigned int intel_fbdev_min_alignment(const struct drm_framebuffer *fb)
+> -{
+> -	struct drm_i915_private *i915 = to_i915(fb->dev);
+> -	struct intel_plane *plane;
+> -	struct intel_crtc *crtc;
+> -
+> -	crtc = intel_first_crtc(i915);
+> -	if (!crtc)
+> -		return 0;
+> -
+> -	plane = to_intel_plane(crtc->base.primary);
+> -
+> -	return plane->min_alignment(plane, fb, 0);
+> -}
+> -
+>  static int intelfb_create(struct drm_fb_helper *helper,
+>  			  struct drm_fb_helper_surface_size *sizes)
+>  {
+> @@ -245,7 +229,7 @@ static int intelfb_create(struct drm_fb_helper *helper,
+>  	 * BIOS is suitable for own access.
+>  	 */
+>  	vma = intel_fb_pin_to_ggtt(&fb->base, &view,
+> -				   intel_fbdev_min_alignment(&fb->base), 0,
+> +				   fb->min_alignment, 0,
+>  				   false, &flags);
+>  	if (IS_ERR(vma)) {
+>  		ret = PTR_ERR(vma);
+> -- 
+> 2.44.2
+> 
