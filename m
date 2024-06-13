@@ -2,75 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB1B0907A57
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 19:55:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 573F4907A96
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 20:05:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E72810E110;
-	Thu, 13 Jun 2024 17:55:34 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GW3aZ+Yb";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43F5210E32C;
+	Thu, 13 Jun 2024 18:05:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 911E510E15C
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 17:55:27 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id
- 3f1490d57ef6-dfac121b6a6so1088831276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 10:55:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718301320; x=1718906120; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Egm3XUTXXMactRvvK1SHa1gZTWtD5TN12FoLc8NaGlk=;
- b=GW3aZ+YbWey+cB2qVL0Whywj34sHuXP0uJe6+5V6jCBoHInvP6S4UOVpY6WNwnKEyp
- KjJgXC4Z7S3gRkxSZtknlLUFERZDXZBI+cl1yxZvcWUzXt90TQ0+KNeSKNrgBcA2nrbb
- H5Pkub5ChneF17Tkd/ipusQ09DxW91ppj6Td14f1WTi+yFrdTrGQi6ZL6L/vgF6vRKq8
- TxyPCkWvP7RQw9abWkaHjgFxGxsd0Blb8pzy9yV1udB4tKQSouQ6k64y5NLdLAVU83CK
- mmkPUNWA7B6W2aTiC5aJhnolKt5Nk+XxSZ/fj/PGU1j5b4TuoC3q/RVl8KNIzcaEMgfu
- geZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718301320; x=1718906120;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Egm3XUTXXMactRvvK1SHa1gZTWtD5TN12FoLc8NaGlk=;
- b=l0FbY4a2nbBJvNIc4YiQbF2qp4ogK7DRwdk8f2TtVUkISR7mlZw/Fs1L1SDn6ffC4w
- u1+jhS4vQyW7b3NiBNp8M9sR/Rvv/ubG0u/1lyXzjImD3jvLraEldogNpk410u0jHkfm
- fbzFLAAw91mj2pPSQ3/I+dqPe49rSKhG0RSmprcFBcnpOWEs312X40Kd71Sybp601eqV
- WEZ8vfbI+XIGV3VBv5BcaItC3hPH4dMWd7sfFEhOfg+OPtVoppVQA8i+TNSxvG3qPMHb
- R+NHejDn1e33AcbMdbbB5HphQWGuchHMxu9ztlUHVcpn9LV8F9G3yAyGFzm+QuWMjbre
- 56Sw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVogTVvNHmXXdLv9b1rg8/4OJ1MW2ll7aLNtRETZIh2JFwuSj1lriAcfH+/+YVbFir6ZGJj0OeUeQv92CY4VMoVcn2szVjSVAv0PiuP17J7
-X-Gm-Message-State: AOJu0Yy0XObq3cVaIPEbYzDe6kcjIL+jcT/Sa1WnAOgRvq3vC+ANUAqv
- 43jRsp9iUisbOL0CYNi2DjiE91tIKYzdJXbCpZhf77OijA+rrKAZMR9x9ElGkn/OI2kOOVuTq9T
- AYHlkMhfUYxnx/wRCvDsKP/R3mMAorqjbznNkYA==
-X-Google-Smtp-Source: AGHT+IF76nlQfftP79Eh69ExQvNjCEbwUkZM8145hBHocV2VPUCI+0i3mln+vSFpa/yE2GkSIhSsluLedfBw764rtXM=
-X-Received: by 2002:a25:9384:0:b0:dfe:6bc4:9eda with SMTP id
- 3f1490d57ef6-dfefec06946mr2090425276.13.1718301320427; Thu, 13 Jun 2024
- 10:55:20 -0700 (PDT)
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 514E310E0A8;
+ Thu, 13 Jun 2024 18:05:43 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 206573EFF6;
+ Thu, 13 Jun 2024 20:05:40 +0200 (CEST)
+Date: Thu, 13 Jun 2024 20:05:38 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 3/8] drm/msm/dsi: drop unused GPIOs handling
+Message-ID: <5wu7wdoxudmmbovopsdgdvdyrufddo6juiomvoelcic5eqctn7@zgc2qqtscxnz>
+References: <20240613-dpu-handle-te-signal-v2-0-67a0116b5366@linaro.org>
+ <20240613-dpu-handle-te-signal-v2-3-67a0116b5366@linaro.org>
 MIME-Version: 1.0
-References: <20240613-msm-pass-addfb25-bad-modifier-v1-1-23c556e96c8a@linaro.org>
- <8aa99c1d-ca6a-a26b-96b5-82fc35cea0fa@quicinc.com>
-In-Reply-To: <8aa99c1d-ca6a-a26b-96b5-82fc35cea0fa@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 13 Jun 2024 20:55:08 +0300
-Message-ID: <CAA8EJpr5r=5MP8DqGPV7Ndz0zKy4Ar3u+RiqocLyt6eZWuifnw@mail.gmail.com>
-Subject: Re: [PATCH] drm/ci: mark kms_addfb_basic@addfb25-bad-modifier as
- passing on msm
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Helen Koike <helen.koike@collabora.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240613-dpu-handle-te-signal-v2-3-67a0116b5366@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,64 +55,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 13 Jun 2024 at 20:49, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 6/13/2024 9:33 AM, Dmitry Baryshkov wrote:
-> > The commit b228501ff183 ("drm/msm: merge dpu format database to MDP
-> > formats") made get_format take modifiers into account. This makes
-> > kms_addfb_basic@addfb25-bad-modifier pass on MDP4 and MDP5 platforms.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >   drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt | 1 -
-> >   drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt | 1 -
-> >   2 files changed, 2 deletions(-)
-> >
->
-> Would be good to also give a link to the CI for the CI maintainers.
->
-> But otherwise, LGTM
->
+On 2024-06-13 20:05:06, Dmitry Baryshkov wrote:
+> Neither disp-enable-gpios nor disp-te-gpios are defined in the schema.
+> None of the board DT files use those GPIO pins. Drop them from the
+> driver.
+
+What's worse, when people set disp-te-gpios the
+devm_gpiod_get_optional("disp-te", GPIOD_IN) below resets the typical mdp_vsync
+function via pinctrl to the IN function, causing vsync signals to be lost and
+the MDP hardware to fall back to half the requested refresh rate since commit
+da9e7b7696d8 ("drm/msm/dpu: Correctly configure vsync tearcheck for command
+mode").
+
+> 
 > Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Yes, good idea: https://gitlab.freedesktop.org/drm/msm/-/merge_requests/119
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
->
->
-> > diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
-> > index 3dfbabdf905e..6e7fd1ccd1e3 100644
-> > --- a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
-> > +++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
-> > @@ -4,7 +4,6 @@ device_reset@unbind-cold-reset-rebind,Fail
-> >   device_reset@unbind-reset-rebind,Fail
-> >   dumb_buffer@invalid-bpp,Fail
-> >   kms_3d,Fail
-> > -kms_addfb_basic@addfb25-bad-modifier,Fail
-> >   kms_cursor_legacy@forked-move,Fail
-> >   kms_cursor_legacy@single-bo,Fail
-> >   kms_cursor_legacy@torture-bo,Fail
-> > diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt b/drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
-> > index 23a5f6f9097f..46ca69ce2ffe 100644
-> > --- a/drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
-> > +++ b/drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
-> > @@ -4,6 +4,5 @@ device_reset@unbind-cold-reset-rebind,Fail
-> >   device_reset@unbind-reset-rebind,Fail
-> >   dumb_buffer@invalid-bpp,Fail
-> >   kms_3d,Fail
-> > -kms_addfb_basic@addfb25-bad-modifier,Fail
-> >   kms_lease@lease-uevent,Fail
-> >   tools_test@tools_test,Fail
-> >
-> > ---
-> > base-commit: 6b4468b0c6ba37a16795da567b58dc80bc7fb439
-> > change-id: 20240613-msm-pass-addfb25-bad-modifier-c461fd9c02bb
-> >
-> > Best regards,
-
-
-
--- 
-With best wishes
-Dmitry
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 37 -------------------------------------
+>  1 file changed, 37 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index a50f4dda5941..c4d72562c95a 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -7,7 +7,6 @@
+>  #include <linux/delay.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/err.h>
+> -#include <linux/gpio/consumer.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/mfd/syscon.h>
+>  #include <linux/of.h>
+> @@ -130,9 +129,6 @@ struct msm_dsi_host {
+>  
+>  	unsigned long src_clk_rate;
+>  
+> -	struct gpio_desc *disp_en_gpio;
+> -	struct gpio_desc *te_gpio;
+> -
+>  	const struct msm_dsi_cfg_handler *cfg_hnd;
+>  
+>  	struct completion dma_comp;
+> @@ -1613,28 +1609,6 @@ static irqreturn_t dsi_host_irq(int irq, void *ptr)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> -static int dsi_host_init_panel_gpios(struct msm_dsi_host *msm_host,
+> -			struct device *panel_device)
+> -{
+> -	msm_host->disp_en_gpio = devm_gpiod_get_optional(panel_device,
+> -							 "disp-enable",
+> -							 GPIOD_OUT_LOW);
+> -	if (IS_ERR(msm_host->disp_en_gpio)) {
+> -		DBG("cannot get disp-enable-gpios %ld",
+> -				PTR_ERR(msm_host->disp_en_gpio));
+> -		return PTR_ERR(msm_host->disp_en_gpio);
+> -	}
+> -
+> -	msm_host->te_gpio = devm_gpiod_get_optional(panel_device, "disp-te",
+> -								GPIOD_IN);
+> -	if (IS_ERR(msm_host->te_gpio)) {
+> -		DBG("cannot get disp-te-gpios %ld", PTR_ERR(msm_host->te_gpio));
+> -		return PTR_ERR(msm_host->te_gpio);
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+>  static int dsi_host_attach(struct mipi_dsi_host *host,
+>  					struct mipi_dsi_device *dsi)
+>  {
+> @@ -1651,11 +1625,6 @@ static int dsi_host_attach(struct mipi_dsi_host *host,
+>  	if (dsi->dsc)
+>  		msm_host->dsc = dsi->dsc;
+>  
+> -	/* Some gpios defined in panel DT need to be controlled by host */
+> -	ret = dsi_host_init_panel_gpios(msm_host, &dsi->dev);
+> -	if (ret)
+> -		return ret;
+> -
+>  	ret = dsi_dev_attach(msm_host->pdev);
+>  	if (ret)
+>  		return ret;
+> @@ -2422,9 +2391,6 @@ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+>  	dsi_sw_reset(msm_host);
+>  	dsi_ctrl_enable(msm_host, phy_shared_timings, phy);
+>  
+> -	if (msm_host->disp_en_gpio)
+> -		gpiod_set_value(msm_host->disp_en_gpio, 1);
+> -
+>  	msm_host->power_on = true;
+>  	mutex_unlock(&msm_host->dev_mutex);
+>  
+> @@ -2454,9 +2420,6 @@ int msm_dsi_host_power_off(struct mipi_dsi_host *host)
+>  
+>  	dsi_ctrl_disable(msm_host);
+>  
+> -	if (msm_host->disp_en_gpio)
+> -		gpiod_set_value(msm_host->disp_en_gpio, 0);
+> -
+>  	pinctrl_pm_select_sleep_state(&msm_host->pdev->dev);
+>  
+>  	cfg_hnd->ops->link_clk_disable(msm_host);
+> 
+> -- 
+> 2.39.2
+> 
