@@ -2,80 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9397906A8C
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 12:58:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE0DD906ABB
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 13:08:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7118910E0B9;
-	Thu, 13 Jun 2024 10:57:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54E6C10EA2D;
+	Thu, 13 Jun 2024 11:08:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MChvNHGs";
+	dkim=pass (1024-bit key; unprotected) header.d=ucw.cz header.i=@ucw.cz header.b="UzwupdY/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 608CF10E0B9
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 10:57:55 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-52bc29c79fdso1210282e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 03:57:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718276273; x=1718881073; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=HjOhHNOacsMW4MB4hjQYhSrZ5af1JEJEzNmI8PwgHzg=;
- b=MChvNHGs4DkwflATk8pws/8pMvmZSaQPikUAB4SZmc8e3cXyX6w8nxSxHd8b5LX4Yq
- JVkBUKF1j6hiKc5O5XNtNdzZcLeekwWZLFCGFcq04pSDg2jYwF8ZVM+uY72PpIuWKIfd
- gtokm6kqDtPmXUrA7QA9iYjd/afIMD82DOJhdZ7Ne4hmkIj2I5dVz927+4PW0HhOSS4p
- q1lJdqZTp7A9Zpgb1c3yuYUa3yLKkNVFly0OhwPmOZz09i44tU5IJlym/IAUS8C1nZwa
- +x3b+t3K2jnjuUpIZzpWCoynKYEZPS7BUFySfJIinfG6jyBtkiUP6KzPNkqmHjUhoa9V
- H8iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718276273; x=1718881073;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HjOhHNOacsMW4MB4hjQYhSrZ5af1JEJEzNmI8PwgHzg=;
- b=JqH/Y2lD9pOopcn/rECw4GghppUUqafLtSnsqwzOVETt60VYLnpsfSrJfVBifAqohF
- MAp2eV9/JmVKoqm5jSu/TCTVxyMkfylm4BWUTfzfoBvt71bK4ySTkKY2w78zWhUEuW6L
- 3FK9j7sBC2JcQbBqHKanP7BCz/Qq+VApnfzqKaR00XHMrEitYUed68baqZxUBm4yt34p
- ZwFImQ0lQqjle/+5Tm2bTEfSoQTZI7ofjgAFMcdwJuMg20jxS7TbHGY7mPJfyzpXRGbV
- XssTjRnF0fl5TKL5V34OaJ22r2iKXLeiJG9m7mI+L++eFcMCfvCbFkHR/dqQPY3FVE3r
- wJag==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUP+6zdfQWZoXpKy6bcrTB4U7BQQq+dPbdZr81ZWv40BJkK/ccWBQVutzargDoQv20TpuMVkAmfU7pq8Q12l5VXUz7OKd8bTL8ipppODAZ2
-X-Gm-Message-State: AOJu0YxVtc075lVFG2JuSXB5VGVGtXmBTVxzFAEhHHndQLjx/Gcujurv
- g2o1ibWskmnkRW/kXNrudAY1I6KBlaiRSB3RcrFoNQGcrmz+GUljHL/mNDORLzg=
-X-Google-Smtp-Source: AGHT+IGbicDiaCIJkOAL+0Rjmm4rUZwfFW4J5Zoz2JYkWj7C7cqiiUK3ah9YkVF21mxgc45Hb/drBA==
-X-Received: by 2002:a19:e00a:0:b0:52c:8811:42f7 with SMTP id
- 2adb3069b0e04-52c9a3d2020mr3424759e87.19.1718276273406; 
- Thu, 13 Jun 2024 03:57:53 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52ca2825955sm162210e87.22.2024.06.13.03.57.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jun 2024 03:57:53 -0700 (PDT)
-Date: Thu, 13 Jun 2024 13:57:51 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jayesh Choudhary <j-choudhary@ti.com>
-Cc: linux-kernel@vger.kernel.org, sui.jingfeng@linux.dev, 
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, mripard@kernel.org, sam@ravnborg.org,
- jonas@kwiboo.se, 
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, a-bhatia1@ti.com, 
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v5 3/3] drm/bridge: sii902x: Add pixel clock check in
- atomic_check
-Message-ID: <depev66c3pk2bxf7hrd6mk6jgzpv3uhpy5o5frgsoytsjcre4z@5dbjsia7gtg6>
-References: <20240613083805.439337-1-j-choudhary@ti.com>
- <20240613083805.439337-4-j-choudhary@ti.com>
+X-Greylist: delayed 603 seconds by postgrey-1.36 at gabe;
+ Thu, 13 Jun 2024 11:08:43 UTC
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 709DF10EA2D
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 11:08:43 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id 3E1051C0082; Thu, 13 Jun 2024 12:58:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+ t=1718276317;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6QQ5va+aQlfb/vFalaHPg5H34Qi6y4ixcQX/yxfzk4Y=;
+ b=UzwupdY/Ac2rvSWK4CcDb7IHw17P1YQfhSJeFe5Eiaf5ZQnXaNRH7FLMZMq4nUB4esdAa1
+ MdXvLUELmlq3RYK5tK03k0Oxba9oFa+to0qIHHQ4OMxwsVhOqHkw0+qZBpXenPrb/YRxzd
+ m1khVbAGHM8KN8XWo17biXMw9eDXRiE=
+Date: Thu, 13 Jun 2024 12:58:36 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+Cc: Jassi Brar <jassisinghbrar@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Shawn Sung <shawn.sung@mediatek.com>, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
+Subject: Re: [PATCH RESEND,v6 0/8] Add CMDQ secure driver for SVP
+Message-ID: <ZmrQ3NWxwy8719Vr@duo.ucw.cz>
+References: <20240526144443.14345-1-jason-jh.lin@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="0ugZqD1PtgeGMHeh"
 Content-Disposition: inline
-In-Reply-To: <20240613083805.439337-4-j-choudhary@ti.com>
+In-Reply-To: <20240526144443.14345-1-jason-jh.lin@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,19 +68,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 13, 2024 at 02:08:05PM +0530, Jayesh Choudhary wrote:
-> Check the pixel clock for the mode in atomic_check and ensure that
-> it is within the range supported by the bridge.
-> 
-> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-> ---
->  drivers/gpu/drm/bridge/sii902x.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+--0ugZqD1PtgeGMHeh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Sun 2024-05-26 22:44:35, Jason-JH.Lin wrote:
+> From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
+>=20
+> For the Secure Video Path (SVP) feature, inculding the memory stored
+> secure video content, the registers of display HW pipeline and the
+> HW configure operations are required to execute in the secure world.
 
--- 
-With best wishes
-Dmitry
+This feature goes against interests of hardware users/owners. We
+should not merge this.
+								Pavel
+							=09
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--0ugZqD1PtgeGMHeh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZmrQ3AAKCRAw5/Bqldv6
+8hagAJ91OcdTYdDnoCizlMOqRMmJHUnS9QCcDaoEoZdKMTlzCo9uoGaVA2KHcyI=
+=iTbB
+-----END PGP SIGNATURE-----
+
+--0ugZqD1PtgeGMHeh--
