@@ -2,141 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2600906960
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 11:53:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9952D906975
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 11:57:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1253310E0B4;
-	Thu, 13 Jun 2024 09:53:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13CD710E9EB;
+	Thu, 13 Jun 2024 09:57:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="bBOrEeBg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qXAxiDFu";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bBOrEeBg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qXAxiDFu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dS27HN8s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA43910E9EB
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 09:53:49 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1B9605D122;
- Thu, 13 Jun 2024 09:53:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1718272428; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6jEj8lekXr4HF5UwaMqkAoMrU2pu86s94yaGeLGdBHA=;
- b=bBOrEeBgo8zKpWg9gZz53XZ389BHerx4AqM+uYKeYYH5kR5NBZB2dxVm6kplgoOFy/cOMQ
- 4TtKBZnBufjvJ8QpFgrPOtAtXMxpL0Q+lWCffcFLKmTH2izkVqvh7Zwo+0I3HqobpiwdEw
- qqAFzYN3wKWLWScJrQpsgjFHUfZCCZg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1718272428;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6jEj8lekXr4HF5UwaMqkAoMrU2pu86s94yaGeLGdBHA=;
- b=qXAxiDFuPx0eQZgpBT8LjO3Dcx2zvzRi0D+eBnD8tZsvlBChc3JLrNQPkfQZJ7kkZDLEKS
- LE0xDm1WykQp8CAg==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bBOrEeBg;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qXAxiDFu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1718272428; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6jEj8lekXr4HF5UwaMqkAoMrU2pu86s94yaGeLGdBHA=;
- b=bBOrEeBgo8zKpWg9gZz53XZ389BHerx4AqM+uYKeYYH5kR5NBZB2dxVm6kplgoOFy/cOMQ
- 4TtKBZnBufjvJ8QpFgrPOtAtXMxpL0Q+lWCffcFLKmTH2izkVqvh7Zwo+0I3HqobpiwdEw
- qqAFzYN3wKWLWScJrQpsgjFHUfZCCZg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1718272428;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6jEj8lekXr4HF5UwaMqkAoMrU2pu86s94yaGeLGdBHA=;
- b=qXAxiDFuPx0eQZgpBT8LjO3Dcx2zvzRi0D+eBnD8tZsvlBChc3JLrNQPkfQZJ7kkZDLEKS
- LE0xDm1WykQp8CAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D8B5013A87;
- Thu, 13 Jun 2024 09:53:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 2MjlMqvBamawdgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 13 Jun 2024 09:53:47 +0000
-Message-ID: <eea40059-2692-4b1e-a92e-006908220f34@suse.de>
-Date: Thu, 13 Jun 2024 11:53:47 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7C7810E9EE
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 09:57:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718272642; x=1749808642;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=A8fQucEWgIY3N0m7YjeqXGe9J0vRHAYsEv3IPZ9+Xro=;
+ b=dS27HN8s0dZQH/SkkBFzqegjVD5fr61JWHIr5/w1NjXQr8gDdMGnPDWJ
+ Q+Z9W8c70q3ZcPu2ML8nNaPgXiu5TwJu93YR7WokEEJw/DT/hArSoZF/I
+ 9Eko8w3W8WcUTtYkhR6scCar+zM8d9fegQfYQrKWegRuK4qZhDNEWs+1H
+ 5Qw875Eybw/sacs8m4BL6hm/YA6INeK7FUnYpgL00qbz/82YEk+4SYmj9
+ RyDz0HCNDUJv1jOK7JY8Z0MQSavQ3ojzLoyEo7LKmTG/3D2OJHivbAOZ5
+ 3K09GhXtjrlzMgjo8Q0KYjPh7sBV+47phNyvV44vvRw8daqpuUKtraGUA A==;
+X-CSE-ConnectionGUID: finy/mIUR+2jVOfvPwbViA==
+X-CSE-MsgGUID: DEuH55UeRN+uPmeleDSRBA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="15249607"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="15249607"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2024 02:57:21 -0700
+X-CSE-ConnectionGUID: MlBowOWfT8ygDvkOJfzzjA==
+X-CSE-MsgGUID: kjCRsfTMT62WscGM0Bi4oQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="45033958"
+Received: from iklimasz-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.112])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2024 02:57:19 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: flyingpenghao@gmail.com, airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, Peng Hao <flyingpeng@tencent.com>
+Subject: Re: [PATCH] i915: increase frame warning limit in intel_workaround
+ when using KASAN or KCSAN
+In-Reply-To: <20240613022343.49254-1-flyingpeng@tencent.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240613022343.49254-1-flyingpeng@tencent.com>
+Date: Thu, 13 Jun 2024 12:57:16 +0300
+Message-ID: <87ikydi2rn.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: vesafb: Detect VGA compatibility from screen
- info's VESA attributes
-To: Javier Martinez Canillas <javierm@redhat.com>, deller@gmx.de,
- sam@ravnborg.org, hpa@zytor.com
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org
-References: <20240613090240.7107-1-tzimmermann@suse.de>
- <87zfrpqj5y.fsf@minerva.mail-host-address-is-not-set>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <87zfrpqj5y.fsf@minerva.mail-host-address-is-not-set>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 1B9605D122
-X-Spam-Score: -4.50
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_GOOD(-0.10)[text/plain]; XM_UA_NO_VERSION(0.01)[];
- MX_GOOD(-0.01)[];
- FREEMAIL_TO(0.00)[redhat.com,gmx.de,ravnborg.org,zytor.com];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[7]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmx.de];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,74 +69,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier
-
-Am 13.06.24 um 11:35 schrieb Javier Martinez Canillas:
-> Thomas Zimmermann <tzimmermann@suse.de> writes:
+On Thu, 13 Jun 2024, flyingpenghao@gmail.com wrote:
+> From: Peng Hao <flyingpeng@tencent.com>
 >
-> Hello Thomas,
+> When building kernel with clang, which will typically
+> have sanitizers enabled, there is a warning about a large stack frame.
 >
->> Test the vesa_attributes field in struct screen_info for compatibility
->> with VGA hardware. Vesafb currently tests bit 1 in screen_info's
->> capabilities field, It sets the framebuffer address size and is
->> unrelated to VGA.
->>
->> Section 4.4 of the Vesa VBE 2.0 specifications defines that bit 5 in
->> the mode's attributes field signals VGA compatibility. The mode is
->> compatible with VGA hardware if the bit is clear. In that case, the
->> driver can access VGA state of the VBE's underlying hardware. The
->> vesafb driver uses this feature to program the color LUT in palette
->> modes. Without, colors might be incorrect.
->>
->> The problem got introduced in commit 89ec4c238e7a ("[PATCH] vesafb: Fix
->> incorrect logo colors in x86_64"). It incorrectly stores the mode
->> attributes in the screen_info's capabilities field and updates vesafb
->> accordingly. Later, commit 5e8ddcbe8692 ("Video mode probing support for
->> the new x86 setup code") fixed the screen_info, but did not update vesafb.
->> Color output still tends to work, because bit 1 in capabilities is
->> usually 0.
->>
-> How did you find this ?
+> drivers/gpu/drm/i915/gt/intel_workarounds.c:3044:6: error: stack frame size (5176)
+> exceeds limit (2048) in 'intel_engine_init_workarounds' [-Werror,-Wframe-larger-than]
+> void intel_engine_init_workarounds(struct intel_engine_cs *engine)
+>      ^
+> 128/5176 (2.47%) spills, 5048/5176 (97.53%) variables
+>
+> so increase the limit for configurations that have KASAN or KCSAN enabled for not
+> breaking the majority of builds.
 
-I was reading through vesafb and found that [1] and [2] look 
-surprisingly similar, which makes no sense. So I started looking where 
-bit 1 came from. The flag signals a 64-bit framebuffer address for EFI 
-(see VIDEO_CAPABILITY_64BIT_BASE 
-<https://elixir.bootlin.com/linux/latest/C/ident/VIDEO_CAPABILITY_64BIT_BASE>). 
-But old VESA framebuffers are usually located within the first 32-bit 
-range. So the bit is mostly 0 and vesafb works as expected.
+We need to fix the issue instead of sweeping it under the carpet.
 
-[1] 
-https://elixir.bootlin.com/linux/latest/source/drivers/video/fbdev/vesafb.c#L274
-[2] 
-https://elixir.bootlin.com/linux/latest/source/include/linux/screen_info.h#L26
+Also, please see MAINTAINERS for where to send i915 patches.
+
+
+BR,
+Jani.
+
 
 >
->> Besides fixing the bug in vesafb, this commit introduces a helper that
->> reads the correct bit from screen_info.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Fixes: 5e8ddcbe8692 ("Video mode probing support for the new x86 setup code")
->> Cc: <stable@vger.kernel.org> # v2.6.23+
->> ---
-> The patch looks correct to me after your explanation in the commit message
-> and looking at the mentioned commits.
+> Signed-off-by: Peng Hao <flyingpeng@tencent.com>
+> ---
+>  drivers/gpu/drm/i915/Makefile | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
-Thanks a lot.
-
-Best regards
-Thomas
-
->
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index fba73c38e235..884e2f010bdd 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -36,7 +36,11 @@ subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
+>  CFLAGS_i915_pci.o = -Wno-override-init
+>  CFLAGS_display/intel_display_device.o = -Wno-override-init
+>  CFLAGS_display/intel_fbdev.o = -Wno-override-init
+> -
+> +ifneq ($(CONFIG_FRAME_WARN),0)
+> +ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
+> +CFLAGS_gt/intel_workarounds.o = -Wframe-larger-than=5272
+> +endif
+> +endif
+>  # Support compiling the display code separately for both i915 and xe
+>  # drivers. Define I915 when building i915.
+>  subdir-ccflags-y += -DI915
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Jani Nikula, Intel
