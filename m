@@ -2,79 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA85906A3B
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 12:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E64906A7E
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 12:56:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BCF310EA1C;
-	Thu, 13 Jun 2024 10:42:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DBB310EA23;
+	Thu, 13 Jun 2024 10:56:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bkp3uAYj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SGMXyFPm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1050210E021
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 10:42:34 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-52bc335e49aso1085724e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 03:42:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718275353; x=1718880153; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=PF3NyOpnlOW2rshocUIQBURkaLEe4WA0cmtD1teWgII=;
- b=bkp3uAYjaf6zLZYC3/8XBq+xpLzZes/eTF/9JAmeALyJt8SNOKR+yj2W9OWjw0LLU7
- pLMsFtPTQZCVtLk3G69qwLtnzbCCxQmNGauLE8WYV0LtoWCRLcqAf76mxtZlMw9kFL4U
- ZP+aLZXaTfsHxZel9asZisCezQs+YBZF8axxshlHl9H1whtINlN0umxmhXZXarVmaHR4
- WexLXB9LsG6nwFNVuomVkyNS0qeOiGA3NHGZXkbmTMck3/HW1Vg5eW+rBMIESNDIR3Op
- nMu1zsE/aKAiB0tJmSlqs0llgO2tvxJPCAMnBWY2MvzY3hyk5q/1NrvV949/DivqrPv2
- n03w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718275353; x=1718880153;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PF3NyOpnlOW2rshocUIQBURkaLEe4WA0cmtD1teWgII=;
- b=qGGCZSDHJZf9hSzVk+UVOunx20akHBhq8a8Z5NU2wPmFNTcpv+nqCXzMjQELqYYRzY
- HKZJwEWlTyUZt6iV1tYg8XzCl1ORYHgZN/+iPDrHWnVkO/6N0JCkGBOF178FLh5Q8ZiJ
- ZMe0O/MCHNScz8daYkrDrUBeEswKNKfOi8mOb77w7rEy3ZN1VwtLa07z4/pGgoSEduyY
- rdIpIODRW+fZJFJhrxdJoBIEW6rEvKmGer/wbYuh5Vyh5HY2jG9XdfrbeO9EKdPjSlDm
- F72EMjUgmcKDaG7lvlEkennU6Q43De7yNfanoIs97yUd28V2c7apwfDPolWo9dPMQhl0
- vDaQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUlsmWYxR49wRdoDLSXMKB9NPVyM44r1e3anBphFe3B0h3nFF2kIZYHYMwF/kWlb1HLb1q0xfSZJKxpyYaUKYlZxctr2gjjQfP8Drx58JIi
-X-Gm-Message-State: AOJu0Yzjs7thMiAW3MrLbFFyVXLvnqw8mhbJZX6dfUIN135hUcbSw3EA
- oV7qdFYdYSRc/bBitRVulAt2k0PsUNUIaGAXH8+VlsnYlUWzCB22ZZRIH3EO2xo=
-X-Google-Smtp-Source: AGHT+IEv2lj7+kQqzbSuf/t/o/PixULLMReSLMuWfs+AvyIbe7S58yyPAAOAXLoL5kl0AJEYpC+T2w==
-X-Received: by 2002:a05:6512:1245:b0:52c:95d1:87ae with SMTP id
- 2adb3069b0e04-52c9a3b7bffmr4087081e87.12.1718275353006; 
- Thu, 13 Jun 2024 03:42:33 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52ca2872388sm156786e87.174.2024.06.13.03.42.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jun 2024 03:42:32 -0700 (PDT)
-Date: Thu, 13 Jun 2024 13:42:31 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jayesh Choudhary <j-choudhary@ti.com>
-Cc: linux-kernel@vger.kernel.org, sui.jingfeng@linux.dev, 
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, mripard@kernel.org, sam@ravnborg.org,
- jonas@kwiboo.se, 
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, a-bhatia1@ti.com, 
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v5 2/3] drm/bridge: sii902x: Support atomic bridge APIs
-Message-ID: <klupakbb6zgyctjtrxqbubc7qvj2c4vp4q3o7hqpfzic6dapjt@7kkl3g3sjrsi>
-References: <20240613083805.439337-1-j-choudhary@ti.com>
- <20240613083805.439337-3-j-choudhary@ti.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84C3B10EA23
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 10:55:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718276158; x=1749812158;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=6b8ovoJTtpRLHBC4ajzYK05o5vyr6KBXY3vrPVEqJ8Q=;
+ b=SGMXyFPmJnNpYSkYA1J9tKyEGKemxDrRKFSOyqzro8c2J8M7sqFe/JBq
+ RCStm4CPi5aV2UFR4gOYgBGxk/hZ+QQ0DwAnSUtaQKNLxyAFU8+/xpyFV
+ XEJtMLHK6qfrj2sKGP18wCfuKM2wOhorrn25NDO/C7Thl6tZe+68/ZXtR
+ dXmBHrn7T0spguw6UB6kJI2PTgcPDb/C723COO3LHPuzoPtKcu7SwKKfZ
+ 9tU9fwShOkapw41iJAkj2vXQD6rjyuyUeMX0zFHuS13X94ND64lNRANXF
+ 9hCFWiEA0rybbDLW4AQlwWxpDJLtVscC30WCQhdiqRES3SCNI3uoWExcy A==;
+X-CSE-ConnectionGUID: vYiLsVxdSDCIMoBuRSaToQ==
+X-CSE-MsgGUID: qply2tYxSJSS9bX/EPlvXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="37606709"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="37606709"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2024 03:55:58 -0700
+X-CSE-ConnectionGUID: tnrO+fJUQeGyx0/k0IZjWg==
+X-CSE-MsgGUID: bKS/wAsASY+1gpvGdJC2ng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="45228251"
+Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
+ by orviesa004.jf.intel.com with ESMTP; 13 Jun 2024 03:55:51 -0700
+Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sHi7R-0002WE-0F;
+ Thu, 13 Jun 2024 10:55:49 +0000
+Date: Thu, 13 Jun 2024 18:55:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 6/9] accel/rocket: Add a new driver for Rockchip's NPU
+Message-ID: <202406131802.9chtX0Ci-lkp@intel.com>
+References: <20240612-6-10-rocket-v1-6-060e48eea250@tomeuvizoso.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240613083805.439337-3-j-choudhary@ti.com>
+In-Reply-To: <20240612-6-10-rocket-v1-6-060e48eea250@tomeuvizoso.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,19 +87,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 13, 2024 at 02:08:04PM +0530, Jayesh Choudhary wrote:
-> Change exisitig enable() and disable() bridge hooks to their atomic
-> counterparts as the former hooks are deprecated.
-> 
-> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-> ---
->  drivers/gpu/drm/bridge/sii902x.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
-> 
+Hi Tomeu,
 
-Suggested-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 83a7eefedc9b56fe7bfeff13b6c7356688ffa670]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomeu-Vizoso/iommu-rockchip-Add-compatible-for-rockchip-rk3588-iommu/20240612-215814
+base:   83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+patch link:    https://lore.kernel.org/r/20240612-6-10-rocket-v1-6-060e48eea250%40tomeuvizoso.net
+patch subject: [PATCH 6/9] accel/rocket: Add a new driver for Rockchip's NPU
+config: arc-kismet-CONFIG_IOMMU_IO_PGTABLE_LPAE-CONFIG_DRM_ACCEL_ROCKET-0-0 (https://download.01.org/0day-ci/archive/20240613/202406131802.9chtX0Ci-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240613/202406131802.9chtX0Ci-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406131802.9chtX0Ci-lkp@intel.com/
+
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE when selected by DRM_ACCEL_ROCKET
+   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+     Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=y]
+     Selected by [y]:
+     - DRM_ACCEL_ROCKET [=y] && DRM [=y] && (ARM64 || COMPILE_TEST [=y]) && MMU [=y]
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
