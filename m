@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F5869064EC
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 09:24:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E52C9064EA
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 09:24:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D81D10E973;
-	Thu, 13 Jun 2024 07:24:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B76710E97A;
+	Thu, 13 Jun 2024 07:24:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Qt90bUlx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HpbMdxnz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9703710E97D;
- Thu, 13 Jun 2024 07:24:47 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C494F10E97C;
+ Thu, 13 Jun 2024 07:24:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718263487; x=1749799487;
+ t=1718263484; x=1749799484;
  h=date:from:to:cc:subject:message-id:mime-version;
- bh=WawnQHUI3D/zvqnzK8FLn+OMvN21Q6ANJQWdyuEVhcQ=;
- b=Qt90bUlxK2USqv9MY88T6VJWPeb4fSPI41M6NWfgZaKeTWnNhFqFX8i5
- W1G9kux2r2E/VSXnqVuYcMjBuo2uyxnNELqIYptzwOQMdmdRnQkz+jATT
- WAJvxA+cVUT+vbiPmdf4LfyeRhEWPgUCuUfc/E9V7M7CoDWXbxhNC8ABI
- JIKDILwQydgpSJV3pqp6zpgg1td5pkKXfQaBxLn745MLjV1xoiCJpJgPP
- g1auq0r/3UJgvknUMu2g2WnZVCkPSs7na8KZZ3fXUkx2ibPw7KQgyXdiI
- JDM8PP6DV/18zquqn73i8w0qIJZ7WxGonmrPXN77keAbJZMMIAqfuwnwf A==;
-X-CSE-ConnectionGUID: ZWUa22yWRfWJM6dfwsaiAQ==
-X-CSE-MsgGUID: 8LN6TQeKR2eeVA67+nOb0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="14939731"
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="14939731"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2024 00:24:42 -0700
-X-CSE-ConnectionGUID: ug4XLreuSgq91cHxAqKuHw==
-X-CSE-MsgGUID: kD6K+rTXQfe8nnh/+2Hn7w==
+ bh=ctMk7xY3Q06goiy6VrdCMs7QI2anGBg49CTGhmlyptQ=;
+ b=HpbMdxnzsski3VUWvMLe0KBz6tQuUunoQk7cNOWvwNZUX8sZDOa+UKZS
+ wuov+IkP4f8HPTXwRCbCflJSaS+8Ck+deX0yxuNBn1gzBHp5hxtFQJ9iu
+ QhAbOB1qKelqa5BK54GLKtL+gGOlVZEN8iApqiNXFpNKnWXT9dlBN7lOh
+ XPO90NSZowR21nlMR/mT0OJv5RlwvohPFpqdHPrYNwQOXo6knmURMgbBa
+ iicVl9odXbd9nRDv2HRFntLS6xZDIMAZXPTFpI4RqtcuIxU0HcfuDee+X
+ p/oYELxozMY3FDebq1+Bcqxp/BPTx5FZLGpTjvvupkygr3lCyFXN1FCzZ A==;
+X-CSE-ConnectionGUID: yz3R9wG7SwWp+uJaW8x33Q==
+X-CSE-MsgGUID: PD1F9VROTWWYjrt5k8COkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="26466834"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="26466834"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2024 00:24:43 -0700
+X-CSE-ConnectionGUID: xpvzdJBHTSm4I6ikkszdzA==
+X-CSE-MsgGUID: GqbWbUibTQmZ5KA0wa6ZhA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="44434576"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="71254169"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
- by fmviesa003.fm.intel.com with ESMTP; 13 Jun 2024 00:24:41 -0700
+ by fmviesa001.fm.intel.com with ESMTP; 13 Jun 2024 00:24:41 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sHep4-0002Ja-3B;
+ (envelope-from <lkp@intel.com>) id 1sHep5-0002Jl-0n;
  Thu, 13 Jun 2024 07:24:39 +0000
-Date: Thu, 13 Jun 2024 15:24:04 +0800
+Date: Thu, 13 Jun 2024 15:24:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@linux.intel.com>
 Subject: [drm-intel:for-linux-next-gt 3/3]
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c:941:33: warning: format '%lli'
- expects argument of type 'long long int', but argument 5 has type
- 'resource_size_t' {aka 'unsigned int'}
-Message-ID: <202406131532.NcUQjItx-lkp@intel.com>
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c:942:5: warning: format specifies
+ type 'long long' but the argument has type 'resource_size_t' (aka 'unsigned
+ int')
+Message-ID: <202406131555.RsiaycCN-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -73,69 +74,51 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 tree:   git://anongit.freedesktop.org/drm-intel for-linux-next-gt
 head:   05da7d9f717bcb03c457379fa8a61c1689dab86c
 commit: 05da7d9f717bcb03c457379fa8a61c1689dab86c [3/3] drm/i915/gem: Downgrade stolen lmem setup warning
-config: i386-randconfig-002-20240613 (https://download.01.org/0day-ci/archive/20240613/202406131532.NcUQjItx-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406131532.NcUQjItx-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-002-20240613 (https://download.01.org/0day-ci/archive/20240613/202406131555.RsiaycCN-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406131555.RsiaycCN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406131532.NcUQjItx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406131555.RsiaycCN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/drm/drm_mm.h:51,
-                    from drivers/gpu/drm/i915/gem/i915_gem_stolen.c:10:
-   drivers/gpu/drm/i915/gem/i915_gem_stolen.c: In function 'i915_gem_stolen_lmem_setup':
->> drivers/gpu/drm/i915/gem/i915_gem_stolen.c:941:33: warning: format '%lli' expects argument of type 'long long int', but argument 5 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+>> drivers/gpu/drm/i915/gem/i915_gem_stolen.c:942:5: warning: format specifies type 'long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
      941 |                                 "Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                                                                    ~~~~
+         |                                                                                                    %u
      942 |                                 lmem_size, dsm_base);
-         |                                 ~~~~~~~~~
-         |                                 |
-         |                                 resource_size_t {aka unsigned int}
-   include/drm/drm_print.h:422:39: note: in definition of macro 'drm_dev_dbg'
-     422 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                                       ^~~
-   include/drm/drm_print.h:522:33: note: in expansion of macro 'drm_dbg_driver'
+         |                                 ^~~~~~~~~
+   include/drm/drm_print.h:522:59: note: expanded from macro 'drm_dbg'
      522 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gem/i915_gem_stolen.c:940:25: note: in expansion of macro 'drm_dbg'
-     940 |                         drm_dbg(&i915->drm,
-         |                         ^~~~~~~
-   drivers/gpu/drm/i915/gem/i915_gem_stolen.c:941:103: note: format string is defined here
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/drm/drm_print.h:504:63: note: expanded from macro 'drm_dbg_driver'
+     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |                                                               ~~~    ^~~~~~~~~~~
+   include/drm/drm_print.h:422:39: note: expanded from macro 'drm_dev_dbg'
+     422 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
+         |                                       ~~~    ^~~~~~~~~~~
+   drivers/gpu/drm/i915/gem/i915_gem_stolen.c:942:16: warning: format specifies type 'long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
      941 |                                 "Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
-         |                                                                                                    ~~~^
-         |                                                                                                       |
-         |                                                                                                       long long int
-         |                                                                                                    %i
-   In file included from include/drm/drm_mm.h:51,
-                    from drivers/gpu/drm/i915/gem/i915_gem_stolen.c:10:
-   drivers/gpu/drm/i915/gem/i915_gem_stolen.c:941:33: warning: format '%lli' expects argument of type 'long long int', but argument 6 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-     941 |                                 "Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                                                                                       ~~~~
+         |                                                                                                                       %u
      942 |                                 lmem_size, dsm_base);
-         |                                            ~~~~~~~~
-         |                                            |
-         |                                            resource_size_t {aka unsigned int}
-   include/drm/drm_print.h:422:39: note: in definition of macro 'drm_dev_dbg'
-     422 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                                       ^~~
-   include/drm/drm_print.h:522:33: note: in expansion of macro 'drm_dbg_driver'
+         |                                            ^~~~~~~~
+   include/drm/drm_print.h:522:59: note: expanded from macro 'drm_dbg'
      522 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gem/i915_gem_stolen.c:940:25: note: in expansion of macro 'drm_dbg'
-     940 |                         drm_dbg(&i915->drm,
-         |                         ^~~~~~~
-   drivers/gpu/drm/i915/gem/i915_gem_stolen.c:941:122: note: format string is defined here
-     941 |                                 "Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
-         |                                                                                                                       ~~~^
-         |                                                                                                                          |
-         |                                                                                                                          long long int
-         |                                                                                                                       %i
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/drm/drm_print.h:504:63: note: expanded from macro 'drm_dbg_driver'
+     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |                                                               ~~~    ^~~~~~~~~~~
+   include/drm/drm_print.h:422:39: note: expanded from macro 'drm_dev_dbg'
+     422 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
+         |                                       ~~~    ^~~~~~~~~~~
+   2 warnings generated.
 
 
-vim +941 drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+vim +942 drivers/gpu/drm/i915/gem/i915_gem_stolen.c
 
    889	
    890	struct intel_memory_region *
@@ -189,8 +172,8 @@ vim +941 drivers/gpu/drm/i915/gem/i915_gem_stolen.c
    938			dsm_base = intel_uncore_read64(uncore, GEN6_DSMBASE) & GEN11_BDSM_MASK;
    939			if (lmem_size < dsm_base) {
    940				drm_dbg(&i915->drm,
- > 941					"Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
-   942					lmem_size, dsm_base);
+   941					"Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
+ > 942					lmem_size, dsm_base);
    943				return 0;
    944			}
    945			dsm_size = ALIGN_DOWN(lmem_size - dsm_base, SZ_1M);
