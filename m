@@ -2,114 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C338C907E2D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 23:30:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A63E907E40
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 23:38:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C789F10EBB3;
-	Thu, 13 Jun 2024 21:30:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DABA010EBB5;
+	Thu, 13 Jun 2024 21:38:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="p15MkdbR";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="3U5j0THM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ED9D10EBB3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 21:30:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1718314207; x=1718919007; i=deller@gmx.de;
- bh=M+FLaVcT0LhG7HPlKtaV7DfrhDySDe5fxZhV7l6aw2M=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=p15MkdbRbQCACUzzzu+VWdU1QVwALK3sA+QT2DqzUR6EA4jdoRT0aqFGE1cXXMrS
- unQuZvh5nu9/wfqJka+jzUg9qFtWaoMKoJRxQ+P26SvV+ktQ/siuk8THJfQSEZtKh
- 3uy2aIrEUiE2r80QRon+w1bRyHghKa+6AhtarT8rRo/oENblRNcxtS9lCrymY5W8v
- 9V05Fvj0odlPM6Mvkhof3WJlu+Ta7HqwGyp1Eiq/0Fkhp38Kyl+O2W6vmMhlO1bPg
- lBOSv9k1EXPwwmu7QOuOZa9NhWBuSbFwen4gejxYLajUe4zEl0eJL13Ezz3VDDA6K
- vqXO9p35E0v5TUdmcw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([83.135.217.92]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MryXN-1snbsA217F-00qGBk; Thu, 13
- Jun 2024 23:30:07 +0200
-Message-ID: <5d8d2efe-45dd-4033-aaae-e7f923ef9e76@gmx.de>
-Date: Thu, 13 Jun 2024 23:30:06 +0200
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D91610EBB5
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 21:38:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1718314684;
+ bh=wQRJ+B8dKBMEN9aK4yJ8U5SXpzhbb+OTGleMQUKuqZU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=3U5j0THMUJ8g3TXgXNLOldlc/L+6S0af1DsD+nf4VruKtFSMI9zfD7UEWckCp6Oe8
+ xZdSCfQlC3YXT8JdgSZ5UO18t5lpRAfiYVksp8zxTVVRSL429X3chvDThh6rWSF664
+ O/FDXk+Ieg9s1fDnggez30MDPHvzEN5q6zgAcB0PCbplAgyNUyjqH1gOrfIC4ODqj3
+ Im14L91ZzI2t/oSZ8T1c5L/GGpCrWjyFEqLuH1NKJl+2qdFQwyZN2HSFjCERToNIuJ
+ 5fRECQaz9HWZAIhveINAE+sdcQ9LjAo4W8RDFS3P57rk06CEq1r8xF8g8qkfkuUnnQ
+ vigHnKwXkfKYQ==
+Received: from mercury (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: sre)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 8A2AB37820CD;
+ Thu, 13 Jun 2024 21:38:04 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+ id 046AC10608F7; Thu, 13 Jun 2024 23:38:04 +0200 (CEST)
+Date: Thu, 13 Jun 2024 23:38:03 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Heiko Stuebner <heiko@sntech.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Oded Gabbay <ogabbay@kernel.org>, Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 2/9] iommu/rockchip: Attach multiple power domains
+Message-ID: <vmgk4wmlxbsb7lphq2ep3xnxx3mbv6e6lecihtftxoyp5lidvy@mectcwirrlek>
+References: <20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net>
+ <20240612-6-10-rocket-v1-2-060e48eea250@tomeuvizoso.net>
+ <ffviz6ak6qsn2reg5y35aerzy7wxfx6fzix6xjyminbhfcguus@clszdjakdcjd>
+ <CAAObsKCx+r5UuESnrPem1Rb1-BF4i8FVwu6uozWhABOWoq+M4Q@mail.gmail.com>
+ <CAAObsKChaBZ2C5ezWsiZ_LoN6R2HFhFA9=UNSRYB6cyeo-jreg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: vesafb: Detect VGA compatibility from screen
- info's VESA attributes
-To: Thomas Zimmermann <tzimmermann@suse.de>, sam@ravnborg.org,
- javierm@redhat.com, hpa@zytor.com
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org
-References: <20240613090240.7107-1-tzimmermann@suse.de>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20240613090240.7107-1-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:CIvh9Sq72L3aovFbBuEWTa4wKFZV9W+x9cxqUQ8VJu0dwiyxIaQ
- D0sNDRFtQ2uX2wwcTld99nDRnvqMI4nGSeeRJ6mp/PnR8E2Aui1TeHw4LQ+YAalIYT8Nle+
- F2Olcm6+bAdLwagza6TxZ04EK7t0+cTr+/IkL9kNGU1o3x9zaijtTJ6bz4wwNb4Rf9Dbc/J
- 0iQ0YxVupLdgzzHy0CFBQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:mXuTNfgv1qc=;zGblu22QTNPoMbN62vu9nOvUy40
- Wl2fHNKqexYS2cqveLq3ZE8WMNdPifAkR2xv9uVlaLn6QSuqKDlaXT6X8qOXMGntS/vFqYpLG
- RgyHQlleIAGQiUlIcy71GNRFfWUBVZTs3Y3ZOLEePXg55EJ7CcPIFzWdOSbYLsZDNooKH8Y10
- gpcCxhVAYIU7TJbe5md19NmR6Su4uE+oXc+K/9NX1nWe1kBSiF/vk7PhYfKU1SYm7c11tBm26
- GKhJL3B/Ts2zATfB6DHtoOW9jKhmvwdvgISQGHZHfIDMfUdfYvP6ohVeJGJQNiQAJHXVjYh0V
- Ir7nbGkRnbLDCtTJUyem0pwhRhSEYQE/KwtOpXSRJxuHPcptsh9tibTJa3HC+1mga86C00lY4
- wM9EdSwhpqAbYmZGZ6Uqkc7nBiBdFeKG9CNwkVTNEjMTzmgKe5GsLCNr9P47mcAh6/tgm8FTH
- LHJv/B36VPb1BfmmZo4s6uUxBNPRRPdbmHj8HY+2dSCINCJ2D+n90vh28ZG/btbl5nYUAzRCo
- onu0ogYuSxr3y7seDMhYMkLl+2gu7nwltfpTzICZEg2pUcNfVjKwJAp8wPXM5p1Xe2e+JzV/L
- tr8HBAGHxayzNRmt/2xbJ6IywWZ7Zp39I9t1rB/yGTh6m7lrO1AKu9DZBh9vHZ2DD8hORtZe7
- VzDgpBvwfYKSaaT3Z/5OII7VR9m/T/HgqGXGtSlQR3RVuaruBe9biiyIFQjfsUE3B6sWdiDY1
- 4epVM1UO2YZ7iZFfTrpzZaoj0J6o9NUZs/TjZ8ZBUnpxP7f24PsSlcigF7nlVD+s11cgkO+/x
- OXMwY/QYWqv8g4y/ZfLzdtpmyHmj6WGRsrI5WZICHI7HU=
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="3uic2ihq2a6l3k3w"
+Content-Disposition: inline
+In-Reply-To: <CAAObsKChaBZ2C5ezWsiZ_LoN6R2HFhFA9=UNSRYB6cyeo-jreg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,85 +80,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/13/24 11:02, Thomas Zimmermann wrote:
-> Test the vesa_attributes field in struct screen_info for compatibility
-> with VGA hardware. Vesafb currently tests bit 1 in screen_info's
-> capabilities field, It sets the framebuffer address size and is
-> unrelated to VGA.
->
-> Section 4.4 of the Vesa VBE 2.0 specifications defines that bit 5 in
-> the mode's attributes field signals VGA compatibility. The mode is
-> compatible with VGA hardware if the bit is clear. In that case, the
-> driver can access VGA state of the VBE's underlying hardware. The
-> vesafb driver uses this feature to program the color LUT in palette
-> modes. Without, colors might be incorrect.
->
-> The problem got introduced in commit 89ec4c238e7a ("[PATCH] vesafb: Fix
-> incorrect logo colors in x86_64"). It incorrectly stores the mode
-> attributes in the screen_info's capabilities field and updates vesafb
-> accordingly. Later, commit 5e8ddcbe8692 ("Video mode probing support for
-> the new x86 setup code") fixed the screen_info, but did not update vesaf=
-b.
-> Color output still tends to work, because bit 1 in capabilities is
-> usually 0.
->
-> Besides fixing the bug in vesafb, this commit introduces a helper that
-> reads the correct bit from screen_info.
 
-Nice catch, Thomas!
+--3uic2ihq2a6l3k3w
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-But do we really need this additional helper?
+Hi,
 
+On Thu, Jun 13, 2024 at 11:34:02AM GMT, Tomeu Vizoso wrote:
+> On Thu, Jun 13, 2024 at 11:24=E2=80=AFAM Tomeu Vizoso <tomeu@tomeuvizoso.=
+net> wrote:
+> > On Thu, Jun 13, 2024 at 2:05=E2=80=AFAM Sebastian Reichel
+> > <sebastian.reichel@collabora.com> wrote:
+> > > On Wed, Jun 12, 2024 at 03:52:55PM GMT, Tomeu Vizoso wrote:
+> > > > IOMMUs with multiple base addresses can also have multiple power
+> > > > domains.
+> > > >
+> > > > The base framework only takes care of a single power domain, as some
+> > > > devices will need for these power domains to be powered on in a spe=
+cific
+> > > > order.
+> > > >
+> > > > Use a helper function to stablish links in the order in which they =
+are
+> > > > in the DT.
+> > > >
+> > > > This is needed by the IOMMU used by the NPU in the RK3588.
+> > > >
+> > > > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> > > > ---
+> > >
+> > > To me it looks like this is multiple IOMMUs, which should each get
+> > > their own node. I don't see a good reason for merging these
+> > > together.
+> >
+> > I have made quite a few attempts at splitting the IOMMUs and also the
+> > cores, but I wasn't able to get things working stably. The TRM is
+> > really scant about how the 4 IOMMU instances relate to each other, and
+> > what the fourth one is for.
+> >
+> > Given that the vendor driver treats them as a single IOMMU with four
+> > instances and we don't have any information on them, I resigned myself
+> > to just have them as a single device.
+> >
+> > I would love to be proved wrong though and find a way fo getting
+> > things stably as different devices so they can be powered on and off
+> > as needed. We could save quite some code as well.
+>=20
+> FWIW, here a few ways how I tried to structure the DT nodes, none of
+> these worked reliably:
+>=20
+> https://gitlab.freedesktop.org/tomeu/linux/-/blob/6.10-rocket-multiple-de=
+vices-power/arch/arm64/boot/dts/rockchip/rk3588s.dtsi?ref_type=3Dheads#L1163
+> https://gitlab.freedesktop.org/tomeu/linux/-/blob/6.10-rocket-schema-subn=
+odes//arch/arm64/boot/dts/rockchip/rk3588s.dtsi?ref_type=3Dheads#L1162
+> https://gitlab.freedesktop.org/tomeu/linux/-/blob/6.10-rocket-multiple-de=
+vices//arch/arm64/boot/dts/rockchip/rk3588s.dtsi?ref_type=3Dheads#L1163
+> https://gitlab.freedesktop.org/tomeu/linux/-/blob/6.10-rocket-multiple-io=
+mmus//arch/arm64/boot/dts/rockchip/rk3588s.dtsi?ref_type=3Dheads#L2669
+>=20
+> I can very well imagine I missed some way of getting this to work, but
+> for every attempt, the domains, iommus and cores were resumed in
+> different orders that presumably caused problems during concurrent
+> execution fo workloads.
+>=20
+> So I fell back to what the vendor driver does, which works reliably
+> (but all cores have to be powered on at the same time).
 
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 5e8ddcbe8692 ("Video mode probing support for the new x86 setup c=
-ode")
-> Cc: <stable@vger.kernel.org> # v2.6.23+
+Mh. The "6.10-rocket-multiple-iommus" branch seems wrong. There is
+only one iommu node in that. I would have expected a test with
 
-> ---
->   drivers/video/fbdev/vesafb.c | 2 +-
->   include/linux/screen_info.h  | 5 +++++
->   2 files changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/video/fbdev/vesafb.c b/drivers/video/fbdev/vesafb.c
-> index 8ab64ae4cad3e..5a161750a3aee 100644
-> --- a/drivers/video/fbdev/vesafb.c
-> +++ b/drivers/video/fbdev/vesafb.c
-> @@ -271,7 +271,7 @@ static int vesafb_probe(struct platform_device *dev)
->   	if (si->orig_video_isVGA !=3D VIDEO_TYPE_VLFB)
->   		return -ENODEV;
->
-> -	vga_compat =3D (si->capabilities & 2) ? 0 : 1;
-> +	vga_compat =3D !__screen_info_vbe_mode_nonvga(si);
+rknn {
+    // combined device
 
-Instead maybe just this: ?
-  +	/* mode is VGA-compatible if BIT 5 is _NOT_ set */
-  +	vga_compat =3D (si->vesa_attributes & BIT(5)) =3D=3D 0;
+    iommus =3D <&iommu1>, <&iommu2>, ...;
+};
 
-I suggest to make patch small, esp. if you ask for backport to v2.6.23+.
+Otherwise I think I would go with the schema-subnodes variant. The
+driver can initially walk through the sub-nodes and collect the
+resources into the main device, so on the driver side nothing would
+really change. But that has a couple of advantages:
 
-Helge
+1. DT and DT binding are easier to read
+2. It's similar to e.g. CPU cores each having their own node
+3. Easy to extend to more cores in the future
+4. The kernel can easily switch to proper per-core device model when
+   the problem has been identified
 
->   	vesafb_fix.smem_start =3D si->lfb_base;
->   	vesafb_defined.bits_per_pixel =3D si->lfb_depth;
->   	if (15 =3D=3D vesafb_defined.bits_per_pixel)
-> diff --git a/include/linux/screen_info.h b/include/linux/screen_info.h
-> index 75303c126285a..95f2a339de329 100644
-> --- a/include/linux/screen_info.h
-> +++ b/include/linux/screen_info.h
-> @@ -49,6 +49,11 @@ static inline u64 __screen_info_lfb_size(const struct=
- screen_info *si, unsigned
->   	return lfb_size;
->   }
->
-> +static inline bool __screen_info_vbe_mode_nonvga(const struct screen_in=
-fo *si)
-> +{
-> +	return si->vesa_attributes & BIT(5); // VGA if _not_ set
-> +}
-> +
->   static inline unsigned int __screen_info_video_type(unsigned int type)
->   {
->   	switch (type) {
+-- Sebastian
 
+--3uic2ihq2a6l3k3w
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmZrZrgACgkQ2O7X88g7
++pqvVQ//cIZokM7uuQmsxYEnzeSuLFKCBJ+oWnWgh4a++M1EuS1b/w0P6VZVbhIW
+iEJSHCfTPBss/DPmCD1r7EbFZNZAV4YUo+rk8mwj+BXs2UqekcEFIsyaHoMKvqGo
+i8NJGn2b2vqDx0UJg7vyjE84lETeT1d5MbVF6wPoP8JaUztKLIx4fl80aT88LTdS
+i8gbGH7lSQzRcGm15LRYo63i8jlD5uB+nCoeZ0cVWgCBO0pTFAZd4rcrfl3YubT2
+qozKnZYjsOnsWuoul/3CAqoXSci6wmvnkEQAo3CnIWAjHBW6/ym9qE4WhHM/TTVs
+yeSaIOV6tBrSGM4JOrHRGv3yPNHG+ZitS2Kbu3W8Am0wtKcyzff52LoOvaM8wgVV
+UBxrpXaFg7wuVU9t2wdb8vCwrl6N8zHk/hVUBA2pR+NI64eQ7oCCakzet3ZecegK
+npkoGWt7nX+fihR62gS04M36rL1KPEuvPgp6BpFklhndvXeOxgRlaGI0fDxooHXM
+KIzNF6cHZSDspUenm7oYNGzw5hRfOvy64fuyRXzOTOiNMrNZKS69I76SDqEuC3fw
+k3Y3O9GHR0DwIH7N9OoW0b7YDkUXerqTrghj88+VsEQPU7ObVS/NO+HHWbVAuv40
+weMFQJ5Ceqsm4+9tAMmJKZpoOPubYnRaYD+u8yxwoNVdPb3DEIo=
+=08Xd
+-----END PGP SIGNATURE-----
+
+--3uic2ihq2a6l3k3w--
