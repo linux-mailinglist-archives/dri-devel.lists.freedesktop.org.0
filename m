@@ -2,83 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9833E9084B0
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 09:26:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA5239084B1
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 09:26:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56DE010EC5A;
-	Fri, 14 Jun 2024 07:26:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 192FD10EC56;
+	Fri, 14 Jun 2024 07:26:29 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="B2tBSWJl";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
- Thu, 13 Jun 2024 08:41:30 UTC
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 40E0410E99A
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 08:41:29 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.08,234,1712588400"; 
- d="asc'?scan'208";a="207767858"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie5.idc.renesas.com with ESMTP; 13 Jun 2024 17:36:22 +0900
-Received: from [10.226.93.204] (unknown [10.226.93.204])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 422B94203313;
- Thu, 13 Jun 2024 17:36:00 +0900 (JST)
-Message-ID: <322e7317-61dc-4f1e-8706-7db6f5f7a030@bp.renesas.com>
-Date: Thu, 13 Jun 2024 09:36:00 +0100
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
+ [209.85.128.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3EC310EA5B
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 12:10:54 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-63186c222eeso3659637b3.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 05:10:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1718280653; x=1718885453; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jilhcaruJb2IBiLjemWE46i5/PUFqJsWXVunml9StIM=;
+ b=B2tBSWJl0GzCr6OjOoBhvJV6kRZzYssVuCSgAepLsBagjJBcNZVzoWK1VVA/V5YusK
+ WlJcEdAEpUyFh3S6783EGxL93ztCAmUoy2dxa6Fik/l8gQXEEQD+g32OewuHBTVV4FNS
+ 8cb2SEmqVvbCr2nXvguLfufAN90VVZh6mePy34dfknuqO7+ZhcI7m2IEpxIXL6UMjiTN
+ jDkYWQlA3Q9WZfuVgcyks4kyB5QwJPMiwn7XUNYdTppKPf6Qhs8tRLMALEiZAZyI+7ly
+ 47PEiWA12knTRbi7v4diAQ/FfVYPeTsaF/W1TxS1UMF3vRWcQ/hNproB6VKU3H3fLKrV
+ GSpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718280653; x=1718885453;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jilhcaruJb2IBiLjemWE46i5/PUFqJsWXVunml9StIM=;
+ b=oW6rHbgDuKDPBO4JgnsGGyODQWXATScez3c79ybXlOY2g8x2jrmBvc5n0cKGhvRIhO
+ IaxkimiV2Q5+AZzoZN1iA7CcLN1WnMyaOXROBU4yx9szKnMHij5rR+RgwwYsJeaUdMoY
+ dEmBDLsfSH3QUzVR8/wxN/DTqoFp7tFsp9b4cn2tBFBmNdpz/XPOrp4rgEOCFt62MGeC
+ zUlrIioAQ+Df7FIDwSoaYVZJMftI3138LcEoFxgtMoKwQtILhL/6BA/2K+ktN1WJWOKa
+ W1i2zK6U7dkyTrnGnhvicI9IyLhTtXKwkUyFwxl7mzclvRF6I0r73HdxfJox9/5OU6vl
+ Tb3g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWZAsi1Ja0pVBh/SNSlYOYeDjy9FRod0GyyDG8cCRLlK7sz5NFySjUJetuN5N9sFcw0hzIL0Ud9YYCz0+N542XfX2fa5900Zr6r3WTqnKQr
+X-Gm-Message-State: AOJu0YwbABJ/1vTYk3534IjFbHY3qWlUpPXNQOzhzmyXGiTfufIpnYDC
+ eIg3IkuOkaTukk0UqeHon+hm0k/APyu97gwB5PXEpJgi31ha/5PKVe00QTWrhJ6l3wqJDqlXEhC
+ nvzKeGVhbWajwPUg0q+iV8nQGoUg=
+X-Google-Smtp-Source: AGHT+IECeNpAbuMBJduU/4vfo0TDc0y586W3/bKZ6gp1RqZAixArBbb8xY+5b1a7GzKTFusgDcdldUI00nJxS7Gmy8k=
+X-Received: by 2002:a05:690c:6683:b0:61a:c316:9953 with SMTP id
+ 00721157ae682-62fb857416emr57999367b3.11.1718280653503; Thu, 13 Jun 2024
+ 05:10:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v12 05/13] page_pool: convert to use netmem
-Content-Language: en-GB
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
-References: <20240613013557.1169171-1-almasrymina@google.com>
- <20240613013557.1169171-6-almasrymina@google.com>
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-Organization: Renesas Electronics Corporation
-In-Reply-To: <20240613013557.1169171-6-almasrymina@google.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------2BCbfj48rMDr1Ni41u40ZNJI"
+References: <20240613023044.45873-1-laoar.shao@gmail.com>
+ <20240613023044.45873-7-laoar.shao@gmail.com>
+ <Zmqvu-1eUpdZ39PD@arm.com>
+In-Reply-To: <Zmqvu-1eUpdZ39PD@arm.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Thu, 13 Jun 2024 20:10:17 +0800
+Message-ID: <CALOAHbB3Uiwsp2ieiPZ-_CKyZPgW6_gF_y-HEGHN3KWhGh0LDg@mail.gmail.com>
+Subject: Re: [PATCH v2 06/10] mm/kmemleak: Replace strncpy() with
+ __get_task_comm()
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: torvalds@linux-foundation.org, ebiederm@xmission.com, 
+ alexei.starovoitov@gmail.com, rostedt@goodmis.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ audit@vger.kernel.org, linux-security-module@vger.kernel.org, 
+ selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Fri, 14 Jun 2024 07:24:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,319 +87,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------2BCbfj48rMDr1Ni41u40ZNJI
-Content-Type: multipart/mixed; boundary="------------GGmF9Y2iOanb3ZPuNcD0T337";
- protected-headers="v1"
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
-Message-ID: <322e7317-61dc-4f1e-8706-7db6f5f7a030@bp.renesas.com>
-Subject: Re: [PATCH net-next v12 05/13] page_pool: convert to use netmem
-References: <20240613013557.1169171-1-almasrymina@google.com>
- <20240613013557.1169171-6-almasrymina@google.com>
-In-Reply-To: <20240613013557.1169171-6-almasrymina@google.com>
-
---------------GGmF9Y2iOanb3ZPuNcD0T337
-Content-Type: multipart/mixed; boundary="------------VLyD3IZiBv1Y2W5pY0JQYGkf"
-
---------------VLyD3IZiBv1Y2W5pY0JQYGkf
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On 13/06/2024 02:35, Mina Almasry wrote:
-> Abstrace the memory type from the page_pool so we can later add support=
-
-
-s/Abstrace/Abstract/
-
-> for new memory types. Convert the page_pool to use the new netmem type
-> abstraction, rather than use struct page directly.
->=20
-> As of this patch the netmem type is a no-op abstraction: it's always a
-> struct page underneath. All the page pool internals are converted to
-> use struct netmem instead of struct page, and the page pool now exports=
-
-> 2 APIs:
->=20
-> 1. The existing struct page API.
-> 2. The new struct netmem API.
->=20
-> Keeping the existing API is transitional; we do not want to refactor al=
-l
-> the current drivers using the page pool at once.
->=20
-> The netmem abstraction is currently a no-op. The page_pool uses
-> page_to_netmem() to convert allocated pages to netmem, and uses
-> netmem_to_page() to convert the netmem back to pages to pass to mm APIs=
+On Thu, Jun 13, 2024 at 4:37=E2=80=AFPM Catalin Marinas <catalin.marinas@ar=
+m.com> wrote:
+>
+> On Thu, Jun 13, 2024 at 10:30:40AM +0800, Yafang Shao wrote:
+> > Using __get_task_comm() to read the task comm ensures that the name is
+> > always NUL-terminated, regardless of the source string. This approach a=
+lso
+> > facilitates future extensions to the task comm.
+> >
+> > Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+> > Cc: Catalin Marinas <catalin.marinas@arm.com>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > ---
+> >  mm/kmemleak.c | 8 +-------
+> >  1 file changed, 1 insertion(+), 7 deletions(-)
+> >
+> > diff --git a/mm/kmemleak.c b/mm/kmemleak.c
+> > index d5b6fba44fc9..ef29aaab88a0 100644
+> > --- a/mm/kmemleak.c
+> > +++ b/mm/kmemleak.c
+> > @@ -663,13 +663,7 @@ static struct kmemleak_object *__alloc_object(gfp_=
+t gfp)
+> >               strncpy(object->comm, "softirq", sizeof(object->comm));
+> >       } else {
+> >               object->pid =3D current->pid;
+> > -             /*
+> > -              * There is a small chance of a race with set_task_comm()=
 ,
->=20
-> Follow up patches to this series add non-paged netmem support to the
-> page_pool. This change is factored out on its own to limit the code
-> churn to this 1 patch, for ease of code review.
->=20
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
->=20
-> ---
->=20
-> v12:
-> - Fix allmodconfig build error. Very recently renesas/ravb_main.c added=
+> > -              * however using get_task_comm() here may cause locking
+> > -              * dependency issues with current->alloc_lock. In the wor=
+st
+> > -              * case, the command line is not correct.
+> > -              */
+> > -             strncpy(object->comm, current->comm, sizeof(object->comm)=
+);
+> > +             __get_task_comm(object->comm, sizeof(object->comm), curre=
+nt);
+> >       }
+>
+> You deleted the comment stating why it does not use get_task_comm()
+> without explaining why it would be safe now. I don't recall the details
+> but most likely lockdep warned of some potential deadlocks with this
+> function being called with the task_lock held.
+>
+> So, you either show why this is safe or just use strscpy() directly here
+> (not sure we'd need strscpy_pad(); I think strscpy() would do, we just
+> need the NUL-termination).
 
->   a dependency on page_pool that I missed in my rebase. The dependency
->   calls page_pool_alloc() directly as it wants to set a custom gfp_mask=
-,
->   which is unique as all other drivers call a wrapper to that function.=
+The task_lock was dropped in patch #1 [0]. My apologies for not
+including you in the CC for that change. After this modification, it
+is now safe to use __get_task_comm().
 
->   Fix it by adding netmem_to_page() in the driver.> - Fix printing netm=
-em trace printing (Pavel).
->=20
-> v11:
-> - Fix typing to remove sparse warning. (Paolo/Steven)
->=20
-> v9:
-> - Fix sparse error (Simon).
->=20
-> v8:
-> - Fix napi_pp_put_page() taking netmem instead of page to fix
->   patch-by-patch build error.
-> - Add net/netmem.h include in this patch to fix patch-by-patch build
->   error.
->=20
-> v6:
->=20
-> - Rebased on top of the merged netmem_ref type.
->=20
-> Cc: linux-mm@kvack.org
-> Cc: Matthew Wilcox <willy@infradead.org>
->=20
-> ---
->  drivers/net/ethernet/renesas/ravb_main.c |   5 +-
->  include/linux/skbuff_ref.h               |   4 +-
->  include/net/netmem.h                     |  15 ++
->  include/net/page_pool/helpers.h          | 120 ++++++---
->  include/net/page_pool/types.h            |  14 +-
->  include/trace/events/page_pool.h         |  30 +--
->  net/bpf/test_run.c                       |   5 +-
->  net/core/page_pool.c                     | 304 ++++++++++++-----------=
-
->  net/core/skbuff.c                        |   8 +-
->  9 files changed, 305 insertions(+), 200 deletions(-)
->=20
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/eth=
-ernet/renesas/ravb_main.c
-> index c1546b916e4ef..093236ebfeecb 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -303,8 +303,9 @@ ravb_alloc_rx_buffer(struct net_device *ndev, int q=
-, u32 entry, gfp_t gfp_mask,
-> =20
->  	rx_buff =3D &priv->rx_buffers[q][entry];
->  	size =3D info->rx_buffer_size;
-> -	rx_buff->page =3D page_pool_alloc(priv->rx_pool[q], &rx_buff->offset,=
-
-> -					&size, gfp_mask);
-> +	rx_buff->page =3D netmem_to_page(page_pool_alloc(priv->rx_pool[q],
-> +						       &rx_buff->offset,
-> +						       &size, gfp_mask));
->  	if (unlikely(!rx_buff->page)) {
->  		/* We just set the data size to 0 for a failed mapping which
->  		 * should prevent DMA from happening...
-
-[snip]
-
-> =20
-> -static inline struct page *page_pool_alloc(struct page_pool *pool,
-> -					   unsigned int *offset,
-> -					   unsigned int *size, gfp_t gfp)
-> +static inline netmem_ref page_pool_alloc(struct page_pool *pool,
-> +					 unsigned int *offset,
-> +					 unsigned int *size, gfp_t gfp)
->  {
->  	unsigned int max_size =3D PAGE_SIZE << pool->p.order;
-> -	struct page *page;
-> +	netmem_ref netmem;
-> =20
->  	if ((*size << 1) > max_size) {
->  		*size =3D max_size;
->  		*offset =3D 0;
-> -		return page_pool_alloc_pages(pool, gfp);
-> +		return page_pool_alloc_netmem(pool, gfp);
->  	}
-> =20
-> -	page =3D page_pool_alloc_frag(pool, offset, *size, gfp);
-> -	if (unlikely(!page))
-> -		return NULL;
-> +	netmem =3D page_pool_alloc_frag_netmem(pool, offset, *size, gfp);
-> +	if (unlikely(!netmem))
-> +		return 0;
-> =20
->  	/* There is very likely not enough space for another fragment, so app=
-end
->  	 * the remaining size to the current fragment to avoid truesize
-> @@ -140,7 +142,7 @@ static inline struct page *page_pool_alloc(struct p=
-age_pool *pool,
->  		pool->frag_offset =3D max_size;
->  	}
-> =20
-> -	return page;
-> +	return netmem;
->  }
-> =20
->  /**
-> @@ -154,7 +156,7 @@ static inline struct page *page_pool_alloc(struct p=
-age_pool *pool,
->   * utilization and performance penalty.
->   *
->   * Return:
-> - * Return allocated page or page fragment, otherwise return NULL.
-> + * Return allocated page or page fragment, otherwise return 0.
->   */
->  static inline struct page *page_pool_dev_alloc(struct page_pool *pool,=
-
->  					       unsigned int *offset,
-> @@ -162,7 +164,7 @@ static inline struct page *page_pool_dev_alloc(stru=
-ct page_pool *pool,
->  {
->  	gfp_t gfp =3D (GFP_ATOMIC | __GFP_NOWARN);
-> =20
-> -	return page_pool_alloc(pool, offset, size, gfp);
-> +	return netmem_to_page(page_pool_alloc(pool, offset, size, gfp));
->  }
-
-I find this API change confusing - why should page_pool_alloc() return a
-netmem_ref but page_pool_dev_alloc() return a struct page *?
-
-Is there any reason to change page_pool_alloc() anyway? It calls
-page_pool_alloc_pages() or page_pool_alloc_frag() as appropriate, both
-of which your patch already converts to wrappers around the appropriate
-_netmem() functions. In all instances where page_pool_alloc() is called
-in this patch, you wrap it with netmem_to_page() anyway, there are no
-calls to page_pool_alloc() added which actually want a netmem_ref.
-
-Thanks,
+[0] https://lore.kernel.org/all/20240613023044.45873-2-laoar.shao@gmail.com=
+/
 
 --=20
-Paul Barker
---------------VLyD3IZiBv1Y2W5pY0JQYGkf
-Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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3D
-=3DsIIN
------END PGP PUBLIC KEY BLOCK-----
-
---------------VLyD3IZiBv1Y2W5pY0JQYGkf--
-
---------------GGmF9Y2iOanb3ZPuNcD0T337--
-
---------------2BCbfj48rMDr1Ni41u40ZNJI
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZmqvcAUDAAAAAAAKCRDbaV4Vf/JGvUxW
-AP4uKbMQBWqrwm4N0a12WI8fJo+BUUCc25C9JJxwln5cIQEAkBtvIuJdTLFRhcetWpSP/iJbKgG5
-snTgszJnAOLlDAE=
-=U1fu
------END PGP SIGNATURE-----
-
---------------2BCbfj48rMDr1Ni41u40ZNJI--
+Regards
+Yafang
