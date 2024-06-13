@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36505906B62
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 13:40:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84922906D0E
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 13:58:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79CFE10E063;
-	Thu, 13 Jun 2024 11:40:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E5A610EA5F;
+	Thu, 13 Jun 2024 11:58:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RWZtVPh+";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Pd6fpWCB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4078710E063
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 11:40:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE9DF10EA5F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 11:58:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 8DFB5CE25F3;
- Thu, 13 Jun 2024 11:39:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41B43C2BBFC;
- Thu, 13 Jun 2024 11:39:58 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id E2F81CE0D2B;
+ Thu, 13 Jun 2024 11:58:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BEF0C2BBFC;
+ Thu, 13 Jun 2024 11:58:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1718278798;
- bh=yBhofhADsMvnMWPHz8AjOvmPTGaBt+PagTG+hbEV/NE=;
+ s=korg; t=1718279909;
+ bh=E+MXnAK9OCf8WXKt0ZV2hbsQLnMLxeiUBYieiCS0H2o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RWZtVPh+4zwnVj7C5co6QVCTAqhD/lDg1UuxtowEb8m1K3UxoHpSlaTD5Zh6k+AE7
- 3lGY4CnsjPoXiRA4zlSbiL3nNRQ/ZK6/9X28AeLAzKRQVjc+O2cvLEl1Hg4J3MbiFC
- +tf3QLCb9ku8YHSMIxY3f9UcjPf8HKU50un0i4CI=
+ b=Pd6fpWCBhuMPEAwjEy19/NkwjHB8qnkm8qDw0WgQ4YAsYQchdSBwxxi2gXegK1pVx
+ 6gxmsIpvYI2zVZJrqbnn0EJmjHBW/cVavQvxNr6i6ERcSw2Y5qlV9YRenB38SkGPE5
+ KumAYH4wULKXFuEK2Yn3kNqOb36VCMtkA6widqCY=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -38,12 +38,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Sam Ravnborg <sam@ravnborg.org>, Helge Deller <deller@gmx.de>,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 073/213] fbdev: sh7760fb: allow modular build
-Date: Thu, 13 Jun 2024 13:32:01 +0200
-Message-ID: <20240613113230.824017541@linuxfoundation.org>
+Subject: [PATCH 5.4 077/202] fbdev: sh7760fb: allow modular build
+Date: Thu, 13 Jun 2024 13:32:55 +0200
+Message-ID: <20240613113230.745852233@linuxfoundation.org>
 X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240613113227.969123070@linuxfoundation.org>
-References: <20240613113227.969123070@linuxfoundation.org>
+In-Reply-To: <20240613113227.759341286@linuxfoundation.org>
+References: <20240613113227.759341286@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -64,7 +64,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-4.19-stable review patch.  If anyone has any objections, please let me know.
+5.4-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -96,10 +96,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 8e224ee27ade9..12846837f5de0 100644
+index 0396df868bc79..8a3014455327b 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -2084,8 +2084,8 @@ config FB_COBALT
+@@ -2031,8 +2031,8 @@ config FB_COBALT
  	depends on FB && MIPS_COBALT
  
  config FB_SH7760
