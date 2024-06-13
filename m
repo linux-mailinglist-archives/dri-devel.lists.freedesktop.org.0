@@ -2,60 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E52C9064EA
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 09:24:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 693FA90650E
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 09:29:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B76710E97A;
-	Thu, 13 Jun 2024 07:24:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8724110E97C;
+	Thu, 13 Jun 2024 07:29:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HpbMdxnz";
+	dkim=pass (1024-bit key; unprotected) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="Jds9nWgN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C494F10E97C;
- Thu, 13 Jun 2024 07:24:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718263484; x=1749799484;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=ctMk7xY3Q06goiy6VrdCMs7QI2anGBg49CTGhmlyptQ=;
- b=HpbMdxnzsski3VUWvMLe0KBz6tQuUunoQk7cNOWvwNZUX8sZDOa+UKZS
- wuov+IkP4f8HPTXwRCbCflJSaS+8Ck+deX0yxuNBn1gzBHp5hxtFQJ9iu
- QhAbOB1qKelqa5BK54GLKtL+gGOlVZEN8iApqiNXFpNKnWXT9dlBN7lOh
- XPO90NSZowR21nlMR/mT0OJv5RlwvohPFpqdHPrYNwQOXo6knmURMgbBa
- iicVl9odXbd9nRDv2HRFntLS6xZDIMAZXPTFpI4RqtcuIxU0HcfuDee+X
- p/oYELxozMY3FDebq1+Bcqxp/BPTx5FZLGpTjvvupkygr3lCyFXN1FCzZ A==;
-X-CSE-ConnectionGUID: yz3R9wG7SwWp+uJaW8x33Q==
-X-CSE-MsgGUID: PD1F9VROTWWYjrt5k8COkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="26466834"
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="26466834"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2024 00:24:43 -0700
-X-CSE-ConnectionGUID: xpvzdJBHTSm4I6ikkszdzA==
-X-CSE-MsgGUID: GqbWbUibTQmZ5KA0wa6ZhA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; d="scan'208";a="71254169"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
- by fmviesa001.fm.intel.com with ESMTP; 13 Jun 2024 00:24:41 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sHep5-0002Jl-0n;
- Thu, 13 Jun 2024 07:24:39 +0000
-Date: Thu, 13 Jun 2024 15:24:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>
-Subject: [drm-intel:for-linux-next-gt 3/3]
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c:942:5: warning: format specifies
- type 'long long' but the argument has type 'resource_size_t' (aka 'unsigned
- int')
-Message-ID: <202406131555.RsiaycCN-lkp@intel.com>
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C349910E97C
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 07:29:03 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-a6f0c3d0792so69710366b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 00:29:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1718263742; x=1718868542;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=eGZtZlbcVTuqfHipICSHcU4nVCOOqo16078EY8ojHwg=;
+ b=Jds9nWgNtaLWMttbq2uEmhuNi+f/t/7lwi9uhRoay5CPoYNwpGReRRVjmoJEzJwGRG
+ 9/MaIGzJNG2NmYHWrE+Lkr1U5mbUhtrvp0v50iaL9pR8qQxdc4UUW4nN13qFfBGLm/0O
+ hVQwnjUuzYjjqXhHAdpBxL4r2BGjj0jOIYWzQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718263742; x=1718868542;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eGZtZlbcVTuqfHipICSHcU4nVCOOqo16078EY8ojHwg=;
+ b=fH03xHcMd/4DriQEwZT0pJRUWmfjZkx/T9gE57TNU0HGt0/v1unZQOxUDa+eiSygKs
+ d5pna7GUjwoiCeFC7B3Rat5mLXCqTbBs3cS4jxH+UfuGAsAx9NQ3TGwaT3FtLv/vqlcK
+ TBR2OdXHDTpQxjVsTaxATe0jpjf0F5MoNLnIjx9gJ6yZ3JWkFmp0wYr1pQ6IOM3G/p8A
+ iAOQeTpzEm2L+EiPaQFXOKw1zylfvNKWdXwU1o7UA8nwzPsgAjpyOtOImiMVWG2Ev+U1
+ 1kokzijDguDdkJkZKIPE+YRHbL+QJ8URowiHbSHLTV0kdJRaMZ79VRR6S6Ww9CghkQW7
+ 7hiw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV7y3jYZjb5o4dTiJQSQtnqDxb/lVCTW9b/A2AK+VwOchW01nUwkhK5Djfqmu9geoFiotyMH9A6CAz3p4Y+6Gelvmnm+pPB+kdfTh7FMcvb
+X-Gm-Message-State: AOJu0YxDaRko2xClicD4NEqA0NQyEGbjDgIsjjZEFF42Zzon4u+hSjiA
+ oaycduwg3eRKe0blhc96zbTxQcAhyoSQD2LxkXORsO+kpQovCJ1Y+8+7df5DG0c=
+X-Google-Smtp-Source: AGHT+IEgZRKGyYhtuzDeGOA77gJen0tsapssE62dlC2YyJpg5CF4uXEKJQEdivsNv2mHvW6TSMe2cw==
+X-Received: by 2002:a17:906:34d9:b0:a6f:4b0c:94ba with SMTP id
+ a640c23a62f3a-a6f4b0c94f0mr232151366b.29.1718263741604; 
+ Thu, 13 Jun 2024 00:29:01 -0700 (PDT)
+Received: from andrea-amarula.. ([85.148.28.6])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a6f56db5b2fsm41582466b.47.2024.06.13.00.29.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Jun 2024 00:29:01 -0700 (PDT)
+From: Andrea Calabrese <andrea.calabrese@amarulasolutions.com>
+To: regkh@linuxfoundation.org, rafael@kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: trivial@kernel.org, linux-amarula@amarulasolutions.com,
+ andrea.calabrese@amarulasolutions.com
+Subject: [PATCH v4] devres: Refactor using guards
+Date: Thu, 13 Jun 2024 09:26:31 +0200
+Message-Id: <20240613072630.11690-1-andrea.calabrese@amarulasolutions.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,145 +79,271 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm-intel for-linux-next-gt
-head:   05da7d9f717bcb03c457379fa8a61c1689dab86c
-commit: 05da7d9f717bcb03c457379fa8a61c1689dab86c [3/3] drm/i915/gem: Downgrade stolen lmem setup warning
-config: i386-buildonly-randconfig-002-20240613 (https://download.01.org/0day-ci/archive/20240613/202406131555.RsiaycCN-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406131555.RsiaycCN-lkp@intel.com/reproduce)
+Code refactoring using the recent guard and scoped_guard macros
+for automatic cleanup of the spinlocks. This does not change the
+effective behaviour of the kernel, but guarantees a cleaned-up exit from
+each lock, automatically avoiding potential deadlocks.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406131555.RsiaycCN-lkp@intel.com/
+Signed-off-by: Andrea Calabrese <andrea.calabrese@amarulasolutions.com>
 
-All warnings (new ones prefixed by >>):
+---
+Diff from V3: as Greg KH and Lucas Stach noticed, there was a
+behavioural change between the two versions: I used guard(spinlock),
+while the expected behaviour should have come from a spinlock_irqsave
+guard. This has been fixed.
 
->> drivers/gpu/drm/i915/gem/i915_gem_stolen.c:942:5: warning: format specifies type 'long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-     941 |                                 "Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
-         |                                                                                                    ~~~~
-         |                                                                                                    %u
-     942 |                                 lmem_size, dsm_base);
-         |                                 ^~~~~~~~~
-   include/drm/drm_print.h:522:59: note: expanded from macro 'drm_dbg'
-     522 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:504:63: note: expanded from macro 'drm_dbg_driver'
-     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |                                                               ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:422:39: note: expanded from macro 'drm_dev_dbg'
-     422 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                                       ~~~    ^~~~~~~~~~~
-   drivers/gpu/drm/i915/gem/i915_gem_stolen.c:942:16: warning: format specifies type 'long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-     941 |                                 "Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
-         |                                                                                                                       ~~~~
-         |                                                                                                                       %u
-     942 |                                 lmem_size, dsm_base);
-         |                                            ^~~~~~~~
-   include/drm/drm_print.h:522:59: note: expanded from macro 'drm_dbg'
-     522 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:504:63: note: expanded from macro 'drm_dbg_driver'
-     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |                                                               ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:422:39: note: expanded from macro 'drm_dev_dbg'
-     422 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                                       ~~~    ^~~~~~~~~~~
-   2 warnings generated.
-
-
-vim +942 drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-
-   889	
-   890	struct intel_memory_region *
-   891	i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
-   892				   u16 instance)
-   893	{
-   894		struct intel_uncore *uncore = &i915->uncore;
-   895		struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
-   896		resource_size_t dsm_size, dsm_base, lmem_size;
-   897		struct intel_memory_region *mem;
-   898		resource_size_t io_start, io_size;
-   899		resource_size_t min_page_size;
-   900		int ret;
-   901	
-   902		if (WARN_ON_ONCE(instance))
-   903			return ERR_PTR(-ENODEV);
-   904	
-   905		if (!i915_pci_resource_valid(pdev, GEN12_LMEM_BAR))
-   906			return ERR_PTR(-ENXIO);
-   907	
-   908		if (HAS_LMEMBAR_SMEM_STOLEN(i915) || IS_DG1(i915)) {
-   909			lmem_size = pci_resource_len(pdev, GEN12_LMEM_BAR);
-   910		} else {
-   911			resource_size_t lmem_range;
-   912	
-   913			lmem_range = intel_gt_mcr_read_any(to_gt(i915), XEHP_TILE0_ADDR_RANGE) & 0xFFFF;
-   914			lmem_size = lmem_range >> XEHP_TILE_LMEM_RANGE_SHIFT;
-   915			lmem_size *= SZ_1G;
-   916		}
-   917	
-   918		if (HAS_LMEMBAR_SMEM_STOLEN(i915)) {
-   919			/*
-   920			 * MTL dsm size is in GGC register.
-   921			 * Also MTL uses offset to GSMBASE in ptes, so i915
-   922			 * uses dsm_base = 8MBs to setup stolen region, since
-   923			 * DSMBASE = GSMBASE + 8MB.
-   924			 */
-   925			ret = mtl_get_gms_size(uncore);
-   926			if (ret < 0) {
-   927				drm_err(&i915->drm, "invalid MTL GGC register setting\n");
-   928				return ERR_PTR(ret);
-   929			}
-   930	
-   931			dsm_base = SZ_8M;
-   932			dsm_size = (resource_size_t)(ret * SZ_1M);
-   933	
-   934			GEM_BUG_ON(pci_resource_len(pdev, GEN12_LMEM_BAR) != SZ_256M);
-   935			GEM_BUG_ON((dsm_base + dsm_size) > lmem_size);
-   936		} else {
-   937			/* Use DSM base address instead for stolen memory */
-   938			dsm_base = intel_uncore_read64(uncore, GEN6_DSMBASE) & GEN11_BDSM_MASK;
-   939			if (lmem_size < dsm_base) {
-   940				drm_dbg(&i915->drm,
-   941					"Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
- > 942					lmem_size, dsm_base);
-   943				return 0;
-   944			}
-   945			dsm_size = ALIGN_DOWN(lmem_size - dsm_base, SZ_1M);
-   946		}
-   947	
-   948		if (i915_direct_stolen_access(i915)) {
-   949			drm_dbg(&i915->drm, "Using direct DSM access\n");
-   950			io_start = intel_uncore_read64(uncore, GEN6_DSMBASE) & GEN11_BDSM_MASK;
-   951			io_size = dsm_size;
-   952		} else if (pci_resource_len(pdev, GEN12_LMEM_BAR) < lmem_size) {
-   953			io_start = 0;
-   954			io_size = 0;
-   955		} else {
-   956			io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + dsm_base;
-   957			io_size = dsm_size;
-   958		}
-   959	
-   960		min_page_size = HAS_64K_PAGES(i915) ? I915_GTT_PAGE_SIZE_64K :
-   961							I915_GTT_PAGE_SIZE_4K;
-   962	
-   963		mem = intel_memory_region_create(i915, dsm_base, dsm_size,
-   964						 min_page_size,
-   965						 io_start, io_size,
-   966						 type, instance,
-   967						 &i915_region_stolen_lmem_ops);
-   968		if (IS_ERR(mem))
-   969			return mem;
-   970	
-   971		intel_memory_region_set_name(mem, "stolen-local");
-   972	
-   973		mem->private = true;
-   974	
-   975		return mem;
-   976	}
-   977	
-
+diff --git a/drivers/base/devres.c b/drivers/base/devres.c
+index 3df0025d12aa..4872756426dd 100644
+--- a/drivers/base/devres.c
++++ b/drivers/base/devres.c
+@@ -194,14 +194,12 @@ void devres_for_each_res(struct device *dev, dr_release_t release,
+ {
+ 	struct devres_node *node;
+ 	struct devres_node *tmp;
+-	unsigned long flags;
+ 
+ 	if (!fn)
+ 		return;
+ 
+-	spin_lock_irqsave(&dev->devres_lock, flags);
+-	list_for_each_entry_safe_reverse(node, tmp,
+-			&dev->devres_head, entry) {
++	guard(spinlock_irqsave)(&dev->devres_lock);
++	list_for_each_entry_safe_reverse(node, tmp, &dev->devres_head, entry) {
+ 		struct devres *dr = container_of(node, struct devres, node);
+ 
+ 		if (node->release != release)
+@@ -210,7 +208,6 @@ void devres_for_each_res(struct device *dev, dr_release_t release,
+ 			continue;
+ 		fn(dev, dr->data, data);
+ 	}
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+ }
+ EXPORT_SYMBOL_GPL(devres_for_each_res);
+ 
+@@ -243,11 +240,9 @@ EXPORT_SYMBOL_GPL(devres_free);
+ void devres_add(struct device *dev, void *res)
+ {
+ 	struct devres *dr = container_of(res, struct devres, data);
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&dev->devres_lock, flags);
++	guard(spinlock_irqsave)(&dev->devres_lock);
+ 	add_dr(dev, &dr->node);
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+ }
+ EXPORT_SYMBOL_GPL(devres_add);
+ 
+@@ -287,11 +282,8 @@ void * devres_find(struct device *dev, dr_release_t release,
+ 		   dr_match_t match, void *match_data)
+ {
+ 	struct devres *dr;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&dev->devres_lock, flags);
++	guard(spinlock_irqsave)(&dev->devres_lock);
+ 	dr = find_dr(dev, release, match, match_data);
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+ 
+ 	if (dr)
+ 		return dr->data;
+@@ -318,16 +310,14 @@ void * devres_get(struct device *dev, void *new_res,
+ {
+ 	struct devres *new_dr = container_of(new_res, struct devres, data);
+ 	struct devres *dr;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&dev->devres_lock, flags);
+-	dr = find_dr(dev, new_dr->node.release, match, match_data);
+-	if (!dr) {
+-		add_dr(dev, &new_dr->node);
+-		dr = new_dr;
+-		new_res = NULL;
++	scoped_guard(spinlock_irqsave, &dev->devres_lock) {
++		dr = find_dr(dev, new_dr->node.release, match, match_data);
++		if (!dr) {
++			add_dr(dev, &new_dr->node);
++			dr = new_dr;
++			new_res = NULL;
++		}
+ 	}
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+ 	devres_free(new_res);
+ 
+ 	return dr->data;
+@@ -353,15 +343,13 @@ void * devres_remove(struct device *dev, dr_release_t release,
+ 		     dr_match_t match, void *match_data)
+ {
+ 	struct devres *dr;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&dev->devres_lock, flags);
+-	dr = find_dr(dev, release, match, match_data);
+-	if (dr) {
+-		list_del_init(&dr->node.entry);
+-		devres_log(dev, &dr->node, "REM");
++	scoped_guard(spinlock_irqsave, &dev->devres_lock) {
++		dr = find_dr(dev, release, match, match_data);
++		if (dr) {
++			list_del_init(&dr->node.entry);
++			devres_log(dev, &dr->node, "REM");
++		}
+ 	}
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+ 
+ 	if (dr)
+ 		return dr->data;
+@@ -516,7 +504,6 @@ static void release_nodes(struct device *dev, struct list_head *todo)
+  */
+ int devres_release_all(struct device *dev)
+ {
+-	unsigned long flags;
+ 	LIST_HEAD(todo);
+ 	int cnt;
+ 
+@@ -528,9 +515,9 @@ int devres_release_all(struct device *dev)
+ 	if (list_empty(&dev->devres_head))
+ 		return 0;
+ 
+-	spin_lock_irqsave(&dev->devres_lock, flags);
+-	cnt = remove_nodes(dev, dev->devres_head.next, &dev->devres_head, &todo);
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
++	scoped_guard(spinlock_irqsave, &dev->devres_lock) {
++		cnt = remove_nodes(dev, dev->devres_head.next, &dev->devres_head, &todo);
++	}
+ 
+ 	release_nodes(dev, &todo);
+ 	return cnt;
+@@ -552,7 +539,6 @@ int devres_release_all(struct device *dev)
+ void * devres_open_group(struct device *dev, void *id, gfp_t gfp)
+ {
+ 	struct devres_group *grp;
+-	unsigned long flags;
+ 
+ 	grp = kmalloc(sizeof(*grp), gfp);
+ 	if (unlikely(!grp))
+@@ -568,9 +554,8 @@ void * devres_open_group(struct device *dev, void *id, gfp_t gfp)
+ 	if (id)
+ 		grp->id = id;
+ 
+-	spin_lock_irqsave(&dev->devres_lock, flags);
++	guard(spinlock_irqsave)(&dev->devres_lock);
+ 	add_dr(dev, &grp->node[0]);
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+ 	return grp->id;
+ }
+ EXPORT_SYMBOL_GPL(devres_open_group);
+@@ -609,17 +594,14 @@ static struct devres_group * find_group(struct device *dev, void *id)
+ void devres_close_group(struct device *dev, void *id)
+ {
+ 	struct devres_group *grp;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&dev->devres_lock, flags);
++	guard(spinlock_irqsave)(&dev->devres_lock);
+ 
+ 	grp = find_group(dev, id);
+ 	if (grp)
+ 		add_dr(dev, &grp->node[1]);
+ 	else
+ 		WARN_ON(1);
+-
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+ }
+ EXPORT_SYMBOL_GPL(devres_close_group);
+ 
+@@ -635,19 +617,16 @@ EXPORT_SYMBOL_GPL(devres_close_group);
+ void devres_remove_group(struct device *dev, void *id)
+ {
+ 	struct devres_group *grp;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&dev->devres_lock, flags);
+-
+-	grp = find_group(dev, id);
+-	if (grp) {
+-		list_del_init(&grp->node[0].entry);
+-		list_del_init(&grp->node[1].entry);
+-		devres_log(dev, &grp->node[0], "REM");
+-	} else
+-		WARN_ON(1);
+ 
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
++	scoped_guard(spinlock_irqsave, &dev->devres_lock) {
++		grp = find_group(dev, id);
++		if (grp) {
++			list_del_init(&grp->node[0].entry);
++			list_del_init(&grp->node[1].entry);
++			devres_log(dev, &grp->node[0], "REM");
++		} else
++			WARN_ON(1);
++	}
+ 
+ 	kfree(grp);
+ }
+@@ -668,11 +647,10 @@ EXPORT_SYMBOL_GPL(devres_remove_group);
+ int devres_release_group(struct device *dev, void *id)
+ {
+ 	struct devres_group *grp;
+-	unsigned long flags;
+ 	LIST_HEAD(todo);
+ 	int cnt = 0;
+ 
+-	spin_lock_irqsave(&dev->devres_lock, flags);
++	guard(spinlock_irqsave)(&dev->devres_lock);
+ 
+ 	grp = find_group(dev, id);
+ 	if (grp) {
+@@ -683,12 +661,9 @@ int devres_release_group(struct device *dev, void *id)
+ 			end = grp->node[1].entry.next;
+ 
+ 		cnt = remove_nodes(dev, first, end, &todo);
+-		spin_unlock_irqrestore(&dev->devres_lock, flags);
+-
+ 		release_nodes(dev, &todo);
+ 	} else {
+ 		WARN_ON(1);
+-		spin_unlock_irqrestore(&dev->devres_lock, flags);
+ 	}
+ 
+ 	return cnt;
+@@ -860,7 +835,6 @@ void *devm_krealloc(struct device *dev, void *ptr, size_t new_size, gfp_t gfp)
+ {
+ 	size_t total_new_size, total_old_size;
+ 	struct devres *old_dr, *new_dr;
+-	unsigned long flags;
+ 
+ 	if (unlikely(!new_size)) {
+ 		devm_kfree(dev, ptr);
+@@ -906,20 +880,17 @@ void *devm_krealloc(struct device *dev, void *ptr, size_t new_size, gfp_t gfp)
+ 	 * The spinlock protects the linked list against concurrent
+ 	 * modifications but not the resource itself.
+ 	 */
+-	spin_lock_irqsave(&dev->devres_lock, flags);
++	scoped_guard(spinlock_irqsave, &dev->devres_lock) {
++		old_dr = find_dr(dev, devm_kmalloc_release, devm_kmalloc_match, ptr);
++		if (!old_dr) {
++			kfree(new_dr);
++			WARN(1, "Memory chunk not managed or managed by a different device.");
++			return NULL;
++		}
+ 
+-	old_dr = find_dr(dev, devm_kmalloc_release, devm_kmalloc_match, ptr);
+-	if (!old_dr) {
+-		spin_unlock_irqrestore(&dev->devres_lock, flags);
+-		kfree(new_dr);
+-		WARN(1, "Memory chunk not managed or managed by a different device.");
+-		return NULL;
++		replace_dr(dev, &old_dr->node, &new_dr->node);
+ 	}
+ 
+-	replace_dr(dev, &old_dr->node, &new_dr->node);
+-
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+-
+ 	/*
+ 	 * We can copy the memory contents after releasing the lock as we're
+ 	 * no longer modifying the list links.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
