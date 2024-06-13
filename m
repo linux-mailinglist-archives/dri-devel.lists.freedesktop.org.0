@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05E7907C45
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 21:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B048E907C47
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 21:18:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC9D510EB7F;
-	Thu, 13 Jun 2024 19:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4E1210EB83;
+	Thu, 13 Jun 2024 19:18:37 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BiODEcA+";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E034310EB7D
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 19:18:10 +0000 (UTC)
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:14])
- by cantor.telenet-ops.be (Postfix) with ESMTPS id 4W0XHh4sypz4x1qq
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 21:18:08 +0200 (CEST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:be2a:f066:50f0:dff7])
- by xavier.telenet-ops.be with bizsmtp
- id b7J62C00H3w30qz017J6ml; Thu, 13 Jun 2024 21:18:08 +0200
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1sHpwS-00Ax78-JJ;
- Thu, 13 Jun 2024 21:18:06 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1sHpxW-00FL8v-JP;
- Thu, 13 Jun 2024 21:18:06 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Jocelyn Falempe <jfalempe@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 7/7] drm/panic: Add support for drawing a monochrome
- graphical logo
-Date: Thu, 13 Jun 2024 21:18:05 +0200
-Message-Id: <3f1a5f56213f3e4584773eb2813e212b2dff6d14.1718305355.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1718305355.git.geert+renesas@glider.be>
-References: <cover.1718305355.git.geert+renesas@glider.be>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37A2110EB83
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 19:18:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8475261D28;
+ Thu, 13 Jun 2024 19:18:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90473C2BBFC;
+ Thu, 13 Jun 2024 19:18:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718306313;
+ bh=0dUoIERvha84Ttm88+VYuMJSLvLnVGmZhewF3c9D9Ps=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BiODEcA+596m57waePRbr913TZX70bGwTVw2U5cJow/u7yy3sF6R2rIlvUrh+qb2f
+ TcdMkIQhP4yRqZPODt5+ZhhoESIkGBCi4njvMtRkhzTjrrR1hZuStkxs0VpIkm2uYj
+ 8zRoIcad7KwuZMVgmpERwGErcraSzkmsweD4f5EAJXXFK6lyM0ISNarP9ZOw1aMhrJ
+ V2oNjlo+fhM/YdcYWZ8WZIHYJ+Ko5I6NQfAR6kum2OGlYXDsPqO7QqXgpkUPyAFb4+
+ 8Yeg5tEOuSzNF3D437mE5IOh8SqDhmlzOz8xMFJZSSL0PtlFQylD4tnTAywoGj0faz
+ jx19BE/xTN7mg==
+Date: Thu, 13 Jun 2024 22:18:28 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Omer Shpigelman <oshpigelman@habana.ai>
+Cc: linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ ogabbay@kernel.org, zyehudai@habana.ai
+Subject: Re: [PATCH 11/15] RDMA/hbl: add habanalabs RDMA driver
+Message-ID: <20240613191828.GJ4966@unreal>
+References: <20240613082208.1439968-1-oshpigelman@habana.ai>
+ <20240613082208.1439968-12-oshpigelman@habana.ai>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240613082208.1439968-12-oshpigelman@habana.ai>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,144 +59,200 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Re-use the existing support for boot-up logos to draw a monochrome
-graphical logo in the DRM panic handler.  When no suitable graphical
-logo is available, the code falls back to the ASCII art penguin logo.
+On Thu, Jun 13, 2024 at 11:22:04AM +0300, Omer Shpigelman wrote:
+> Add an RDMA driver of Gaudi ASICs family for AI scaling.
+> The driver itself is agnostic to the ASIC in action, it operates according
+> to the capabilities that were passed on device initialization.
+> The device is initialized by the hbl_cn driver via auxiliary bus.
+> The driver also supports QP resource tracking and port/device HW counters.
+> 
+> Signed-off-by: Omer Shpigelman <oshpigelman@habana.ai>
+> Co-developed-by: Abhilash K V <kvabhilash@habana.ai>
+> Signed-off-by: Abhilash K V <kvabhilash@habana.ai>
+> Co-developed-by: Andrey Agranovich <aagranovich@habana.ai>
+> Signed-off-by: Andrey Agranovich <aagranovich@habana.ai>
+> Co-developed-by: Bharat Jauhari <bjauhari@habana.ai>
+> Signed-off-by: Bharat Jauhari <bjauhari@habana.ai>
+> Co-developed-by: David Meriin <dmeriin@habana.ai>
+> Signed-off-by: David Meriin <dmeriin@habana.ai>
+> Co-developed-by: Sagiv Ozeri <sozeri@habana.ai>
+> Signed-off-by: Sagiv Ozeri <sozeri@habana.ai>
+> Co-developed-by: Zvika Yehudai <zyehudai@habana.ai>
+> Signed-off-by: Zvika Yehudai <zyehudai@habana.ai>
 
-Note that all graphical boot-up logos are freed during late kernel
-initialization, hence a copy must be made for later use.
+I afraid that you misinterpreted the "Co-developed-by" tag. All these
+people are probably touch the code and not actually sit together at
+the same room and write the code together. So, please remove the
+extensive "Co-developed-by" tags.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Rebased,
-  - Inline trivial draw_logo_mono().
----
- drivers/gpu/drm/drm_panic.c | 65 +++++++++++++++++++++++++++++++++----
- drivers/video/logo/Kconfig  |  2 ++
- 2 files changed, 60 insertions(+), 7 deletions(-)
+It is not full review yet, but simple pass-by-comments.
 
-diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index f7e22b69bb25d3be..af30f243b2802ad7 100644
---- a/drivers/gpu/drm/drm_panic.c
-+++ b/drivers/gpu/drm/drm_panic.c
-@@ -7,11 +7,15 @@
-  */
- 
- #include <linux/font.h>
-+#include <linux/init.h>
- #include <linux/iosys-map.h>
- #include <linux/kdebug.h>
- #include <linux/kmsg_dump.h>
-+#include <linux/linux_logo.h>
- #include <linux/list.h>
-+#include <linux/math.h>
- #include <linux/module.h>
-+#include <linux/overflow.h>
- #include <linux/printk.h>
- #include <linux/types.h>
- 
-@@ -88,6 +92,42 @@ static const struct drm_panic_line logo_ascii[] = {
- 	PANIC_LINE(" \\___)=(___/"),
- };
- 
-+#ifdef CONFIG_LOGO
-+static const struct linux_logo *logo_mono;
-+
-+static int drm_panic_setup_logo(void)
-+{
-+	const struct linux_logo *logo = fb_find_logo(1);
-+	const unsigned char *logo_data;
-+	struct linux_logo *logo_dup;
-+
-+	if (!logo || logo->type != LINUX_LOGO_MONO)
-+		return 0;
-+
-+	/* The logo is __init, so we must make a copy for later use */
-+	logo_data = kmemdup(logo->data,
-+			    size_mul(DIV_ROUND_UP(logo->width, BITS_PER_BYTE), logo->height),
-+			    GFP_KERNEL);
-+	if (!logo_data)
-+		return -ENOMEM;
-+
-+	logo_dup = kmemdup(logo, sizeof(*logo), GFP_KERNEL);
-+	if (!logo_dup) {
-+		kfree(logo_data);
-+		return -ENOMEM;
-+	}
-+
-+	logo_dup->data = logo_data;
-+	logo_mono = logo_dup;
-+
-+	return 0;
-+}
-+
-+device_initcall(drm_panic_setup_logo);
-+#else
-+#define logo_mono	((const struct linux_logo *)NULL)
-+#endif
-+
- /*
-  * Color conversion
-  */
-@@ -452,15 +492,22 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
- 	u32 bg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_BACKGROUND_COLOR, sb->format->format);
- 	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
- 	struct drm_rect r_screen, r_logo, r_msg;
-+	unsigned int logo_width, logo_height;
- 
- 	if (!font)
- 		return;
- 
- 	r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
- 
--	r_logo = DRM_RECT_INIT(0, 0,
--			       get_max_line_len(logo_ascii, logo_ascii_lines) * font->width,
--			       logo_ascii_lines * font->height);
-+	if (logo_mono) {
-+		logo_width = logo_mono->width;
-+		logo_height = logo_mono->height;
-+	} else {
-+		logo_width = get_max_line_len(logo_ascii, logo_ascii_lines) * font->width;
-+		logo_height = logo_ascii_lines * font->height;
-+	}
-+
-+	r_logo = DRM_RECT_INIT(0, 0, logo_width, logo_height);
- 	r_msg = DRM_RECT_INIT(0, 0,
- 			      min(get_max_line_len(panic_msg, msg_lines) * font->width, sb->width),
- 			      min(msg_lines * font->height, sb->height));
-@@ -471,10 +518,14 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
- 	/* Fill with the background color, and draw text on top */
- 	drm_panic_fill(sb, &r_screen, bg_color);
- 
--	if ((r_msg.x1 >= drm_rect_width(&r_logo) || r_msg.y1 >= drm_rect_height(&r_logo)) &&
--	    drm_rect_width(&r_logo) <= sb->width && drm_rect_height(&r_logo) <= sb->height) {
--		draw_txt_rectangle(sb, font, logo_ascii, logo_ascii_lines, false, &r_logo,
--				   fg_color);
-+	if ((r_msg.x1 >= logo_width || r_msg.y1 >= logo_height) &&
-+	    logo_width <= sb->width && logo_height <= sb->height) {
-+		if (logo_mono)
-+			drm_panic_blit(sb, &r_logo, logo_mono->data, DIV_ROUND_UP(logo_width, 8),
-+				       fg_color);
-+		else
-+			draw_txt_rectangle(sb, font, logo_ascii, logo_ascii_lines, false, &r_logo,
-+					   fg_color);
- 	}
- 	draw_txt_rectangle(sb, font, panic_msg, msg_lines, true, &r_msg, fg_color);
- }
-diff --git a/drivers/video/logo/Kconfig b/drivers/video/logo/Kconfig
-index b7d94d1dd1585a84..ce6bb753522d215d 100644
---- a/drivers/video/logo/Kconfig
-+++ b/drivers/video/logo/Kconfig
-@@ -8,6 +8,8 @@ menuconfig LOGO
- 	depends on FB_CORE || SGI_NEWPORT_CONSOLE
- 	help
- 	  Enable and select frame buffer bootup logos.
-+	  Monochrome logos will also be used by the DRM panic handler, if
-+	  enabled.
- 
- if LOGO
- 
--- 
-2.34.1
+> ---
+>  MAINTAINERS                              |   10 +
+>  drivers/infiniband/Kconfig               |    1 +
+>  drivers/infiniband/hw/Makefile           |    1 +
+>  drivers/infiniband/hw/hbl/Kconfig        |   17 +
+>  drivers/infiniband/hw/hbl/Makefile       |    8 +
+>  drivers/infiniband/hw/hbl/hbl.h          |  326 +++
+>  drivers/infiniband/hw/hbl/hbl_main.c     |  478 ++++
+>  drivers/infiniband/hw/hbl/hbl_verbs.c    | 2686 ++++++++++++++++++++++
+>  include/uapi/rdma/hbl-abi.h              |  204 ++
+>  include/uapi/rdma/hbl_user_ioctl_cmds.h  |   66 +
+>  include/uapi/rdma/hbl_user_ioctl_verbs.h |  106 +
+>  include/uapi/rdma/ib_user_ioctl_verbs.h  |    1 +
+>  12 files changed, 3904 insertions(+)
+>  create mode 100644 drivers/infiniband/hw/hbl/Kconfig
+>  create mode 100644 drivers/infiniband/hw/hbl/Makefile
+>  create mode 100644 drivers/infiniband/hw/hbl/hbl.h
+>  create mode 100644 drivers/infiniband/hw/hbl/hbl_main.c
+>  create mode 100644 drivers/infiniband/hw/hbl/hbl_verbs.c
+>  create mode 100644 include/uapi/rdma/hbl-abi.h
+>  create mode 100644 include/uapi/rdma/hbl_user_ioctl_cmds.h
+>  create mode 100644 include/uapi/rdma/hbl_user_ioctl_verbs.h
 
+<...>
+
+> +#define hbl_ibdev_emerg(ibdev, format, ...)	ibdev_emerg(ibdev, format, ##__VA_ARGS__)
+> +#define hbl_ibdev_alert(ibdev, format, ...)	ibdev_alert(ibdev, format, ##__VA_ARGS__)
+> +#define hbl_ibdev_crit(ibdev, format, ...)	ibdev_crit(ibdev, format, ##__VA_ARGS__)
+> +#define hbl_ibdev_err(ibdev, format, ...)	ibdev_err(ibdev, format, ##__VA_ARGS__)
+> +#define hbl_ibdev_warn(ibdev, format, ...)	ibdev_warn(ibdev, format, ##__VA_ARGS__)
+> +#define hbl_ibdev_notice(ibdev, format, ...)	ibdev_notice(ibdev, format, ##__VA_ARGS__)
+> +#define hbl_ibdev_info(ibdev, format, ...)	ibdev_info(ibdev, format, ##__VA_ARGS__)
+> +#define hbl_ibdev_dbg(ibdev, format, ...)	ibdev_dbg(ibdev, format, ##__VA_ARGS__)
+> +
+> +#define hbl_ibdev_emerg_ratelimited(ibdev, fmt, ...)		\
+> +	ibdev_emerg_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> +#define hbl_ibdev_alert_ratelimited(ibdev, fmt, ...)		\
+> +	ibdev_alert_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> +#define hbl_ibdev_crit_ratelimited(ibdev, fmt, ...)		\
+> +	ibdev_crit_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> +#define hbl_ibdev_err_ratelimited(ibdev, fmt, ...)		\
+> +	ibdev_err_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> +#define hbl_ibdev_warn_ratelimited(ibdev, fmt, ...)		\
+> +	ibdev_warn_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> +#define hbl_ibdev_notice_ratelimited(ibdev, fmt, ...)		\
+> +	ibdev_notice_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> +#define hbl_ibdev_info_ratelimited(ibdev, fmt, ...)		\
+> +	ibdev_info_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> +#define hbl_ibdev_dbg_ratelimited(ibdev, fmt, ...)		\
+> +	ibdev_dbg_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> +
+
+Please don't redefine the existing macros. Just use the existing ones.
+
+
+<...>
+
+> +	if (hbl_ib_match_netdev(ibdev, netdev))
+> +		ib_port = hbl_to_ib_port_num(hdev, netdev->dev_port);
+> +	else
+> +		return NOTIFY_DONE;
+
+It is not kernel coding style. Please write:
+if (!hbl_ib_match_netdev(ibdev, netdev))
+    return NOTIFY_DONE;
+
+ib_port = hbl_to_ib_port_num(hdev, netdev->dev_port);
+
+> +
+
+<...>
+
+> +static int hbl_ib_probe(struct auxiliary_device *adev, const struct auxiliary_device_id *id)
+> +{
+> +	struct hbl_aux_dev *aux_dev = container_of(adev, struct hbl_aux_dev, adev);
+> +	struct hbl_ib_aux_ops *aux_ops = aux_dev->aux_ops;
+> +	struct hbl_ib_device *hdev;
+> +	ktime_t timeout;
+> +	int rc;
+> +
+> +	rc = hdev_init(aux_dev);
+> +	if (rc) {
+> +		dev_err(&aux_dev->adev.dev, "Failed to init hdev\n");
+> +		return -EIO;
+> +	}
+> +
+> +	hdev = aux_dev->priv;
+> +
+> +	/* don't allow module unloading while it is attached */
+> +	if (!try_module_get(THIS_MODULE)) {
+
+This part makes wonder, what are you trying to do here? What doesn't work for you
+in standard driver core and module load mechanism?
+
+> +		dev_err(hdev->dev, "Failed to increment %s module refcount\n",
+> +			module_name(THIS_MODULE));
+> +		rc = -EIO;
+> +		goto module_get_err;
+> +	}
+> +
+> +	timeout = ktime_add_ms(ktime_get(), hdev->pending_reset_long_timeout * MSEC_PER_SEC);
+> +	while (1) {
+> +		aux_ops->hw_access_lock(aux_dev);
+> +
+> +		/* if the device is operational, proceed to actual init while holding the lock in
+> +		 * order to prevent concurrent hard reset
+> +		 */
+> +		if (aux_ops->device_operational(aux_dev))
+> +			break;
+> +
+> +		aux_ops->hw_access_unlock(aux_dev);
+> +
+> +		if (ktime_compare(ktime_get(), timeout) > 0) {
+> +			dev_err(hdev->dev, "Timeout while waiting for hard reset to finish\n");
+> +			rc = -EBUSY;
+> +			goto timeout_err;
+> +		}
+> +
+> +		dev_notice_once(hdev->dev, "Waiting for hard reset to finish before probing IB\n");
+> +
+> +		msleep_interruptible(MSEC_PER_SEC);
+> +	}
+
+The code above is unexpected.
+
+> +
+> +	rc = hbl_ib_dev_init(hdev);
+> +	if (rc) {
+> +		dev_err(hdev->dev, "Failed to init ib device\n");
+> +		goto dev_init_err;
+> +	}
+> +
+> +	aux_ops->hw_access_unlock(aux_dev);
+> +
+> +	return 0;
+> +
+> +dev_init_err:
+> +	aux_ops->hw_access_unlock(aux_dev);
+> +timeout_err:
+> +	module_put(THIS_MODULE);
+> +module_get_err:
+> +	hdev_fini(aux_dev);
+> +
+> +	return rc;
+> +}
+
+<...>
+
+> +static int __init hbl_ib_init(void)
+> +{
+> +	pr_info("loading driver\n");
+
+Please remove all these debug prints and leave only the necessary ones.
+
+> +
+> +	return auxiliary_driver_register(&hbl_ib_driver);
+> +}
+> +
+> +static void __exit hbl_ib_exit(void)
+> +{
+> +	auxiliary_driver_unregister(&hbl_ib_driver);
+> +
+> +	pr_info("driver removed\n");
+> +}
+> +
+> +module_init(hbl_ib_init);
+> +module_exit(hbl_ib_exit)
+
+Thanks
