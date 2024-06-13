@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB11D907C3B
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 21:18:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7BA9907C3E
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 21:18:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B0AD10EB75;
-	Thu, 13 Jun 2024 19:18:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82D0010EB7A;
+	Thu, 13 Jun 2024 19:18:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0B3810EB7F
+Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [195.130.137.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D485110EB75
  for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 19:18:10 +0000 (UTC)
-Received: from andre.telenet-ops.be (andre.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:15])
- by cantor.telenet-ops.be (Postfix) with ESMTPS id 4W0XHh4LfXz4x1qY
+Received: from albert.telenet-ops.be (albert.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:1a])
+ by riemann.telenet-ops.be (Postfix) with ESMTPS id 4W0XHh3plKz4x2KM
  for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 21:18:08 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:be2a:f066:50f0:dff7])
- by andre.telenet-ops.be with bizsmtp
- id b7J62C00A3w30qz017J6rJ; Thu, 13 Jun 2024 21:18:08 +0200
+ by albert.telenet-ops.be with bizsmtp
+ id b7J62C00K3w30qz067J6PC; Thu, 13 Jun 2024 21:18:08 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1sHpwS-00Ax6l-DD;
+ (envelope-from <geert@linux-m68k.org>) id 1sHpwS-00Ax6q-EI;
  Thu, 13 Jun 2024 21:18:06 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1sHpxW-00FL8W-Dz;
+ (envelope-from <geert@linux-m68k.org>) id 1sHpxW-00FL8b-F6;
  Thu, 13 Jun 2024 21:18:06 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Jocelyn Falempe <jfalempe@redhat.com>,
@@ -35,9 +35,10 @@ To: Jocelyn Falempe <jfalempe@redhat.com>,
 Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
  linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 2/7] drm/panic: Fix off-by-one logo size checks
-Date: Thu, 13 Jun 2024 21:18:00 +0200
-Message-Id: <1c9d02463cef3eac22cfac3ac6d1adad369f367b.1718305355.git.geert+renesas@glider.be>
+Subject: [PATCH v2 3/7] lib/fonts: Fix visiblity of SUN12x22 and TER16x32 if
+ DRM_PANIC
+Date: Thu, 13 Jun 2024 21:18:01 +0200
+Message-Id: <ac474c6755800e61e18bd5af407c6acb449c5149.1718305355.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1718305355.git.geert+renesas@glider.be>
 References: <cover.1718305355.git.geert+renesas@glider.be>
@@ -58,31 +59,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Logos that are either just as wide or just as high as the display work
-fine.
+When CONFIG_FONTS ("Select compiled-in fonts") is not enabled, the user
+should not be asked about any fonts.  However, when CONFIG_DRM_PANIC is
+enabled, the user is still asked about the Sparc console 12x22 and
+Terminus 16x32 fonts.
 
-Fixes: bf9fb17c6672868d ("drm/panic: Add a drm panic handler")
+Fix this by moving the "|| DRM_PANIC" to where it belongs.
+Split the dependency in two rules to improve readability.
+
+Fixes: b94605a3889b9084 ("lib/fonts: Allow to select fonts for drm_panic")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2:
-  - Rebased.
+  - New.
 ---
- drivers/gpu/drm/drm_panic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ lib/fonts/Kconfig | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index fc04ed4e0b399f55..814ef5c20c08ee42 100644
---- a/drivers/gpu/drm/drm_panic.c
-+++ b/drivers/gpu/drm/drm_panic.c
-@@ -472,7 +472,7 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
- 	drm_panic_fill(sb, &r_screen, bg_color);
+diff --git a/lib/fonts/Kconfig b/lib/fonts/Kconfig
+index befcb463f7381d1a..3ac26bdbc3ff01a3 100644
+--- a/lib/fonts/Kconfig
++++ b/lib/fonts/Kconfig
+@@ -105,7 +105,8 @@ config FONT_SUN8x16
  
- 	if ((r_msg.x1 >= drm_rect_width(&r_logo) || r_msg.y1 >= drm_rect_height(&r_logo)) &&
--	    drm_rect_width(&r_logo) < sb->width && drm_rect_height(&r_logo) < sb->height) {
-+	    drm_rect_width(&r_logo) <= sb->width && drm_rect_height(&r_logo) <= sb->height) {
- 		draw_txt_rectangle(sb, font, logo, logo_lines, false, &r_logo, fg_color);
- 	}
- 	draw_txt_rectangle(sb, font, panic_msg, msg_lines, true, &r_msg, fg_color);
+ config FONT_SUN12x22
+ 	bool "Sparc console 12x22 font (not supported by all drivers)"
+-	depends on (FRAMEBUFFER_CONSOLE && (!SPARC && FONTS || SPARC)) || DRM_PANIC
++	depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
++	depends on !SPARC && FONTS
+ 	help
+ 	  This is the high resolution console font for Sun machines with very
+ 	  big letters (like the letters used in the SPARC PROM). If the
+@@ -113,7 +114,8 @@ config FONT_SUN12x22
+ 
+ config FONT_TER16x32
+ 	bool "Terminus 16x32 font (not supported by all drivers)"
+-	depends on (FRAMEBUFFER_CONSOLE && (!SPARC && FONTS || SPARC)) || DRM_PANIC
++	depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
++	depends on !SPARC && FONTS || SPARC
+ 	help
+ 	  Terminus Font is a clean, fixed width bitmap font, designed
+ 	  for long (8 and more hours per day) work with computers.
 -- 
 2.34.1
 
