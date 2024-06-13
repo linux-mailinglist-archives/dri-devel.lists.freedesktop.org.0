@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA74906872
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 11:21:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F94E90687B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 11:24:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E4D910E9B7;
-	Thu, 13 Jun 2024 09:21:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B69F10E9BA;
+	Thu, 13 Jun 2024 09:24:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dbYVSu8h";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="STeTf5Nd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FAF710E9AE;
- Thu, 13 Jun 2024 09:21:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1607810E9BD;
+ Thu, 13 Jun 2024 09:24:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 25009CE2473;
- Thu, 13 Jun 2024 09:21:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FC86C2BBFC;
- Thu, 13 Jun 2024 09:20:55 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 157ED619A6;
+ Thu, 13 Jun 2024 09:24:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C58B5C2BBFC;
+ Thu, 13 Jun 2024 09:23:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718270462;
- bh=kfXPGykpA/Z2AcMvE0hW+MiTEpkeu8ppH/DTgZXRNI4=;
+ s=k20201202; t=1718270640;
+ bh=7fMQpIku4vo8Gr+0QKJESH9aZGoPywmOAdN+PpVROoU=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=dbYVSu8hM2NvdIj2GPOMflHJqrVM+N/jEaJwr7aQ7aYynmy5onEpbmfkg5kXV+8p9
- yEDpfk+Nc+kgraC5A2X9SuZqKw1UK/nZsoT1KTEahXqa2fAidWBEy1MJFntMK+dXyn
- YPP8906DWFupTKWwCTREEt53iNlRCDHwgUGYfkgmMGQimx8JPmP3PyLJXqPR2eVQ1T
- wkZb/jEYjYC/q70EdincWYAPKjBlwmstiWB68Iy2f6W4qcKmErfh3f56EzD64eT6v1
- 5kvnsL18twxw2a1l+EMd6Rj9U0PThyVtjIw+Az6UOa7VBVsjJRGIvLXlVLZoPxfRxo
- Ea0d0cnYS/mQg==
-Message-ID: <7e9819be-f061-43f8-8026-3c2882690ba2@kernel.org>
-Date: Thu, 13 Jun 2024 11:20:53 +0200
+ b=STeTf5NdCO/DfNOrY4rD3T7+5E74WzYqoE8ZBl/L3nTkHxXCyfnU15HCSUOroIAub
+ 80gCn0TUbcl5ohTymor7dXIsV6TVqebY8RQbPzheqKsiZhUvLcdO5FvT3o/oxDB25A
+ IfxCRBmLo0mhNxtVMuwsMte64e/aJKhBY75e2nDbnVlDzTWsHaHJx4woMjxYMshftn
+ YRpVe8lIDWCNM5p5hVNzOzZKpJjgSy7muhFVASOU6RSTY8T8KpQIXH6EyVj5oNMR1d
+ NqLae79Ifx8Sdsz0Xf8ApWYKhdbt7JPVTKTih/1/Em/uNvo+gVjzpgpMXklIFvLeCP
+ cp414GqmUpq6Q==
+Message-ID: <0e7bd7f2-b445-4a59-b456-8d03af121a8e@kernel.org>
+Date: Thu, 13 Jun 2024 11:23:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] dt-bindings: display/msm: Add SM7150 MDSS
+Subject: Re: [PATCH v2 3/4] dt-bindings: display/msm: Add SM7150 DPU
 To: Danila Tikhonov <danila@jiaxyga.com>, robdclark@gmail.com,
  quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
  marijn.suijten@somainline.org, maarten.lankhorst@linux.intel.com,
@@ -47,7 +47,7 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20240612184336.11794-1-danila@jiaxyga.com>
- <20240612184336.11794-2-danila@jiaxyga.com>
+ <20240612184336.11794-4-danila@jiaxyga.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -93,7 +93,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240612184336.11794-2-danila@jiaxyga.com>
+In-Reply-To: <20240612184336.11794-4-danila@jiaxyga.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -112,12 +112,50 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 12/06/2024 20:43, Danila Tikhonov wrote:
-> Document the MDSS hardware found on the Qualcomm SM7150 platform.
+> Document the DPU hardware found on the Qualcomm SM7150 platform.
+
+In general, this should be before MDSS, because it defines fully the
+compatibles already used in the MDSS schema. For multi-binding devices
+it always starts with children and ends with parent/top schema.
+
 > 
 > Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
 > ---
+>  .../bindings/display/msm/qcom,sm7150-dpu.yaml | 143 ++++++++++++++++++
+>  1 file changed, 143 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm7150-dpu.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm7150-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm7150-dpu.yaml
+> new file mode 100644
+> index 0000000000000..1a44cad131a72
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm7150-dpu.yaml
+> @@ -0,0 +1,143 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/msm/qcom,sm7150-dpu.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm SM7150 Display DPU
+
+What is DPU? Such acronyms should be explained in description or
+expanded here, if there is space.
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+> +
+> +maintainers:
+> +  - Danila Tikhonov <danila@jiaxyga.com>
+> +
+> +$ref: /schemas/display/msm/dpu-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,sm7150-dpu
+> +
+
+
 
 Best regards,
 Krzysztof
