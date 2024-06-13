@@ -2,190 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2BC39074EA
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 16:17:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 995569074FC
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 16:18:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7845D10EA9A;
-	Thu, 13 Jun 2024 14:16:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65AE110EAA1;
+	Thu, 13 Jun 2024 14:18:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bL2P2cfM";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="vKq2A2Dc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B12F10EA9A
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 14:16:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718288215; x=1749824215;
- h=message-id:date:subject:from:to:cc:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=WAgIKctPXo618HX4GNh/QQLPeDPEo2vqY+Ess8QvtDc=;
- b=bL2P2cfMEL0V1qBOB0Mxw2q0M+J/Dy5zpfEqaH6dDNkTyoivzitfyTL3
- NzkUAN8CNS0XeFUyKPTk+aaoB3DRoyoW/aRztFiyN2ekkiFzUwwrJi/zU
- 20qE7T71ppK61NdMIKjP6uLEAEzbji7DLMKXVDom39SRErcJxhG0t3lSX
- qTezawN66mPIOBM1s5YljCuCqZC7Py/QBh3ltKDqZvw7zfsGq1MnnWdc7
- EeFHmHZKkQIF/g+51BKCSrCeR1RfaiWJuPSUmhOBVlkwe3LtkPpuMUd/C
- resBLP6P4LSAAc8sA6jFH31TFKYL9KojJFnzNVDerDkEHrAj+lko89qSc w==;
-X-CSE-ConnectionGUID: vGCNYamJRuKpKpD4zGK6OQ==
-X-CSE-MsgGUID: m29zETTRQeKJQ+irzsYH/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="18940495"
-X-IronPort-AV: E=Sophos;i="6.08,235,1712646000"; d="scan'208";a="18940495"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2024 07:16:44 -0700
-X-CSE-ConnectionGUID: 1iBJ2JfJTzeBFghhHRNdeg==
-X-CSE-MsgGUID: ruPiU75oTBKCnWpVCABumA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,235,1712646000"; d="scan'208";a="71377484"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 13 Jun 2024 07:16:41 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 13 Jun 2024 07:16:40 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 13 Jun 2024 07:16:40 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 13 Jun 2024 07:16:40 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.45) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 13 Jun 2024 07:16:40 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xg3Uvt9iVAsiJbdL/Y3btLVvtBNawZlTY3WAYAnjKiiHa5rpAw7NtZoBB6OVg7oQWCxcP3ZfbNqKp3f3phPYOkNPyk8/nRe3qVDdvYc9tjj8IfnV65nSP+oGGqt/zPIeRlLplFU1TfkgtqQX7VD+ktk8nNMutSUeeWG0EpfdPfX/9CIeNMMMDYEg65A3/BgEiivzHm0mBCOAmEqM5+EuRHN5r9iAGWfbFdXKx9ZtX46VH3zLAXhQdTC8WyaCoLCMSW3IwbMyGVRCEAtT5Iv8Mj4xrxn/7WGdRcb78uN6ERHOJ7poK4qIWbVwHBxi+B/GcA9bO/HkGTTAo+A8HAgheA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kiyNPNDaAjLbysq3UeXt41dqBsABhp2Bmj8JlgKKkZI=;
- b=WHVRfIpOF0qiSozsuk0VFbY4OG9pQjUwHtjpDEWS2epCn1MeYAhz+HsO6ZzgDyUz+VLu5v4sN5ShxXjcORwte3CzxeWzxgPaBJup7hUX8/PgcaDAmeuMv0z3dgg6crmgjD5oCdLs7lohbX85DjA0zfp85dQmauGJsei3w4B10ATn+7y/rd/g7GrlSBzkkKb49oFdVA2pg92Hxn/B3Ms/z90DlqqaNVT3U5vlMje4VuclfcOLsXzUvfkpgcqch0ZuL6+zhrsawUrpf+9OLzrwXNznMZU0ohW+S2j0QjGHa+pSjumFrexZtmLPGe4vG+HVMabXz9Nw6afmZ74gor/Udg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN6PR11MB8102.namprd11.prod.outlook.com (2603:10b6:208:46d::9)
- by SA0PR11MB4687.namprd11.prod.outlook.com (2603:10b6:806:96::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.25; Thu, 13 Jun
- 2024 14:16:38 +0000
-Received: from MN6PR11MB8102.namprd11.prod.outlook.com
- ([fe80::15b2:ee05:2ae7:cfd6]) by MN6PR11MB8102.namprd11.prod.outlook.com
- ([fe80::15b2:ee05:2ae7:cfd6%6]) with mapi id 15.20.7677.019; Thu, 13 Jun 2024
- 14:16:38 +0000
-Message-ID: <153c853c-9fbe-45ca-8a39-d382eeeb1871@intel.com>
-Date: Thu, 13 Jun 2024 16:16:33 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/15] net: hbl_cn: add habanalabs Core Network driver
-From: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-To: Omer Shpigelman <oshpigelman@habana.ai>, <linux-kernel@vger.kernel.org>,
- <linux-rdma@vger.kernel.org>, <netdev@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-CC: <ogabbay@kernel.org>, <zyehudai@habana.ai>
-References: <20240613082208.1439968-1-oshpigelman@habana.ai>
- <20240613082208.1439968-2-oshpigelman@habana.ai>
- <a0e8f31e-fa12-4f48-853d-16c78bce1d76@intel.com>
-Content-Language: en-US
-In-Reply-To: <a0e8f31e-fa12-4f48-853d-16c78bce1d76@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VE1PR03CA0011.eurprd03.prod.outlook.com
- (2603:10a6:802:a0::23) To MN6PR11MB8102.namprd11.prod.outlook.com
- (2603:10b6:208:46d::9)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9113510EAA1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 14:18:39 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-57c714a1e24so1106697a12.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 07:18:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1718288318; x=1718893118;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2wBzmun2RrCaRgPyNcy89ODI4aX7kCqGzkCYxhF3xnY=;
+ b=vKq2A2Dc4QWkdf7dF8/UlSiofImwVQbQGf2CcLyzG40My+hxTETdp8Gb60kKZ7Ku9F
+ kbsWoUFOv2htkVLDCVEQxFKI+2Qm1q9bQPG5E2BsHDoORWnEl8RVlYn4ps8cix8zbshd
+ AQk9s5jXGB2QmQXjhxxV8AJwE1UoB9D+QhpaWdANEKjNCAR5zhjzZz3j6dXmyL/utWDO
+ JPHeVDK5moJ8kvKVzj8Ivggib89xIdXjlkrGTNaTcVt05t05cUgoS+WUIh468U+7p6aP
+ czlF76flVi8wEsgOBJWHqLyYOq6obOI1agXLa4oKZ4vUBlrJQi0u11+YF/EnMTavbh8L
+ ybOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718288318; x=1718893118;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2wBzmun2RrCaRgPyNcy89ODI4aX7kCqGzkCYxhF3xnY=;
+ b=EMZYGgrrUpAcqhQ6ER5u7l4Q8YWlQiQeywkwlb5M9IxDl2+UmUVdXkE2CskDSyju/M
+ 3OoMXeSeAwqag1SvSK1eP4Ze5lQZAZuhO3Iw1ZKwShp/mtQ3rVUXHtZJvnOncoCeh3gL
+ 9S8o8K+HUo6fo9KLVAfTJW6wDYuG8kxg2PvEL7CqPPES1EnKdpjtJZfstrOxTTaVRiKa
+ jRh6leULroFKdaVYUuTKUowG8YLFLpYZBZbrVcmYJHhQXdUw/5o2cNki0qZmDNovDlVI
+ mpyhaYGd3xVrCafofZIcFyEEFoIKVISqbweXrGx51386iXbXKSk9tS31kY4z8WbYB++F
+ 6vng==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWIQU37zBcsYaspcPL5GIjagIVOk+UC3EdUL2Fn3TsccDkNBsoaa9OkPIjxggMQs+YZuJOE1FfzOLFq/afvBCal3X8ZhmBsKmOV+ExXIPcM
+X-Gm-Message-State: AOJu0YzEhJhlgWeK3BtyB4b98NvMHdukEOfZm47vu4QWi4DQEMZ3Wpxh
+ HvF2wWhVNkqAtm5pXqWaOCmfBLq1PJPTh9lRKAu+m7hAuF+tgUID8DCTyI+DsN5HOD2HKrexRDg
+ RtP9X0xSLHT3vy+Yy/LBp3XDS9VIAoSC88RYa
+X-Google-Smtp-Source: AGHT+IGGR91TbvvdCO5M/lcoYEexAy68BO6MkHDSEDuQZJK4BYVHQSKOXB6UDTw4lBZYreUPv3qYPyzkPkZtS6UL4po=
+X-Received: by 2002:a17:907:94d1:b0:a6f:4bd5:16bb with SMTP id
+ a640c23a62f3a-a6f4bd51782mr329005366b.56.1718288317233; Thu, 13 Jun 2024
+ 07:18:37 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN6PR11MB8102:EE_|SA0PR11MB4687:EE_
-X-MS-Office365-Filtering-Correlation-Id: fc5c26db-8323-4f20-d97a-08dc8bb37036
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230035|1800799019|366011|376009;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?OUQ0WDM0WWNPZ2UrT1Vyb1VENk1iNzc3UVRxMHBubTN6UzBtVzUwYVQ1Z0Js?=
- =?utf-8?B?cGlBclRBeCtBbDFGZjl3NlEvdGlvZEF6M25IaE02KzVNL0tBeFc5eGhrU3ds?=
- =?utf-8?B?SGpNcjJtcXJsOGQ5TE52S3ZWVklrWmdkT2FqUktYNmhTeHFNaS9VUDRRK0Q0?=
- =?utf-8?B?a3FYbFZkaERRWkY3MEFQSWF5ZnpyTHJZZjZFYml4VkJ4NGNMemlBWjZIcG0y?=
- =?utf-8?B?aFFERDNKaDBjODAvUTIvOU1Eb2NtWVB6cjZWR3pPQStzOGpvcE5aTXNMWGh5?=
- =?utf-8?B?OEpXbm9yaHY4WFVmTDRPQ01sam43bE9qamVxdEZUYlJIaXpSc01EMHo3akNE?=
- =?utf-8?B?L1lzQnRVNmdZMjJ4dkdvNkR1bERLcEcwZEpjUWxiYytncjdJL2dKNENiWXlV?=
- =?utf-8?B?R0tkWmRkbnhyYTQ3Vll1WHpHVFdicXBIekRsV2hWTi9hSnpPa2JCRzNIVnZl?=
- =?utf-8?B?KzZjZ1l6QWVLL09pcHk3N2Z2T2dyYkJwOEp5dnVIenRmWWhjR0pDdFZYd1hh?=
- =?utf-8?B?U3Q2ZUJ3bUJWVjNoRGRBMUJYTjZEakxaMVFFakV3OHp0OWs2SUV6cWtNTzd2?=
- =?utf-8?B?ZS80bDAwRStuNnZJY0ZzSUpoMUVvbXpZNjZJTTJ1TjVsMmNNQXE0eWJMMlBE?=
- =?utf-8?B?Q2lFcHUxRCtUeWxBWXAwSFZ4cjVlMkR3RktWZFZYNGh6d3RwUjczRGdlSUVQ?=
- =?utf-8?B?TkZNVktqcmRqZjdOUWFKcUgyczAyVjNmTEhLaUFUcUdPMHozTmFEWC9qcnhR?=
- =?utf-8?B?N1hwdHM0YUpJQ2IxRm0xRXA0SHcyMU50RWhnVGJrSHd3Ym8rVEhHaG1RNWt6?=
- =?utf-8?B?RGkxL3ZzN3V6NVdYVEErVXJWWjBGWlJkQ1hac3kxcEtMTWJzUzVpWnlvMEpo?=
- =?utf-8?B?aGNFMWl5RXBjOGJSQTBGT3Y1dUhpS0ZBb3FtOU04SVdjTUhmSk5kVzN6dXY2?=
- =?utf-8?B?aE9tQ1VPclNIYXFGbnlEeDd0OVM1bHVRazZOcm50cDFybEpJTVJsQjg0czQ2?=
- =?utf-8?B?eFZYRTFjTURhMU9rSlFiK096eklxS3NuY0FlUVROaldVbkpIa2ZpVWJ4RVk1?=
- =?utf-8?B?dXprWVBXeUpMQjBaZGplZmhRUlRvQkZMODVEZTdVcUNzWVMxM25mS2hMSzZN?=
- =?utf-8?B?NFlLY2FWYWsrbjNuREZ5U1VaRkZtYVFMNWhVV2tGQmRtcG5kZEhLMGhmOXlz?=
- =?utf-8?B?Sm9MZjVvZW5IbHpDWU1FVG5OZTBSckdpR0I3alpBSDdIYUVxM1k3am03RTUy?=
- =?utf-8?B?Q1F6NVdBdzVJUUF1SmdBa0pCd1o2Ull3cm11YmNlM2RIYkN1dDVQYTF2YVdm?=
- =?utf-8?B?NGc4TXpKZkhnaEVhRzNLOVhobVkzSGFOTkpHQjdkWXdpV0djSjF5QTZXbzZt?=
- =?utf-8?B?WTR4RmRpQzQ4YUdiaC9zclhnaW1RQnREUzdpd1dxTHMxS293bGVWbGxBUng2?=
- =?utf-8?B?U3cweWI0a2I1RXBPelNOTDY1WktmbVA2Q1NDQ2J3UHN6VUF2TS9idzVTeStG?=
- =?utf-8?B?SGYvTXMwRnBzNlBUMUdoL1pPU1ZhTDlRVjRZOWtKYWJGeTlvb0pUZkljWmR1?=
- =?utf-8?B?QkgvNGZDVEcwNUZla21rZ21GU3A5aGZJRUF2M2k4aXZJK2dDbVdReTQzWXBE?=
- =?utf-8?B?RVhraXR1eXIyN2RmQ1JZeFAyVEtnZnNzOFJWRDF3VFhDb0hrNVlaNUg1YU5L?=
- =?utf-8?B?YXFXT2ZBamRCVnp6ZThiTVhKcWZnRTJ3RHBqOHorUkxXcnd1cG95ZTFGeVpE?=
- =?utf-8?Q?eCWIURqQuaRmSButuo=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN6PR11MB8102.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230035)(1800799019)(366011)(376009); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZWhsaklmR2VsUVpjRUxzL3VkWUdEVGVWSzBNQ0FVZ3l1SkdNdkkyMUxNcU1X?=
- =?utf-8?B?dmZXTVJXaVRnRFIzLzg5UTJFOXV1TWhsZW1hVHFmSFlvdGpYc3U0V0E1eEdN?=
- =?utf-8?B?cUQ5MFNLNHBXbS93dkRta3FjNHoyNzk4Rm9XZ3hEbUtkNldFVXBrYzFPU0lk?=
- =?utf-8?B?NzU4aS9tMEJSZWFkQ1NVc1V2WnN5ZmJSb2o5c0FjYk0vc1p2SnZsTFJPWjNH?=
- =?utf-8?B?NFlqdEVJNURadHJXMHBkY3lreUlXYUhScEhsdjVmMzZQYXZqZjg1SkZXLzln?=
- =?utf-8?B?SGkxemQzSysrTFlFSkJlN1UyL3JsNEQwSUl6aXdEZThDNnhkVTNZamdHSzN5?=
- =?utf-8?B?cU82aTBySU43NU51djhaaGdMZ3gySWcrWUZRTDNad0tIWnhiQWN2TXU3UTRi?=
- =?utf-8?B?amQxQU5MRG1XKysra2ZWeFNtUlJQYmpEVmxOYkp6TDhXR2tPc01STS9OZk5W?=
- =?utf-8?B?TFI5ZHdPMjF6NUZ6ZEpOYlRlZG12WlJjM3RIUWdLamFFUGVaNmJNY3haNkJq?=
- =?utf-8?B?M0IyYXhOWnMrMHAwQ1JkcnNZUW9sNFpYamRSOGlZamZmSzQ2b0hOSlprUk9x?=
- =?utf-8?B?ek84LzRWUUszVmVIcklYd3hLUExNenlKaGJtUlduQ1FFWFBnOU94RmRjMkJQ?=
- =?utf-8?B?cTFSZ0M3UjliQ1Q2aVZodlEzUGdzaGFIUXQ4c3VXOGF5a3ZkTFhrUmFua0F1?=
- =?utf-8?B?cnJXOHdUOVc2MDA3MUdja0xFTExWN1g2aGVCNlgyaEdlM3NrSDdsdC9qTzJY?=
- =?utf-8?B?dHdTVHVoRFZIVitNREJmaXdwbGFOZ1A2V09CZFF1NWlacXB0aHoyOVJFVE03?=
- =?utf-8?B?OW5vN0xmeUgxek00cDQwZzc5Y1E4L282YnIySlgyeGNoUFh2S0JXR0E5TTdY?=
- =?utf-8?B?OUxabWNnbFFieDhlRnZoemcrclZUOXQySlVMTHFRbnpVbFBzREZHbW4zTnNX?=
- =?utf-8?B?UExOejRzN3U1MnArQm5YNmU2YW1UajhPdXNIcklFWmxQNW5pdzA4b2E1dWo2?=
- =?utf-8?B?TEdBeWVjQlpqaStoMXh4RjU2WGVnS1phWG9iUUIyK1F6czBzNExiNTVwZFYx?=
- =?utf-8?B?elJBTlpMaWQ2enJVM1R3NGQ1UFVtMSsrcFgzUTB1Sm9sRXdCd1dUODNnc2FN?=
- =?utf-8?B?d1pzNlFtUG5tQWZab2RxT0lHZGQ0SXBJOEJJaTZJUDE1OHJIcHFyTUpQTEFY?=
- =?utf-8?B?S2xOdnlZNkJueDBPczVHdVpyOE5ucVZDMTBtY2lOUW5KOFNaSWxvQ1V4WnJh?=
- =?utf-8?B?bjhrZzZHci9mbGxHdlREcXZQdFVKWmxaT0t4WFpNUXlCQWNmQ3NhbmRYRkY5?=
- =?utf-8?B?c1ZvWlp2TlFEYVJscGVqMmRPMDdWVFAzcmNxRHhNbG9lQnB1WmFROW44My9X?=
- =?utf-8?B?TnV4ZEpSeE1UdFdDdG9tRG5WVjhGYUhqNEFLT0RySk1xM2NBQ09uNktzdTlq?=
- =?utf-8?B?NWROSXdCTnE5TFhwRCtubCsxV1QxS2t1OWFFcXd4TlRMTDFsTUUwVGVLQWYy?=
- =?utf-8?B?K3luTS93WFFsWktUQngrOXlTQ3FpYkV2TmhVZWhycXdwRmlvckQzTnE4a2U5?=
- =?utf-8?B?Z1hnRnRBWjNxN2l5dmcwQlNjZEF1NWRrb2Y1YWtqbDNPWDJITEcxQmN3Qk41?=
- =?utf-8?B?Vy93OVZJRnArTjdvczJtQkJHWEFjT0JKbUs5Tld1Y3NnY1FxZi90MlNRSlp5?=
- =?utf-8?B?RmZuaHUzTDBRZ090Y3FvWFpDdFB3ZWQ2SzB6T2krdmNmNFZkdk5BN1NkQ2o1?=
- =?utf-8?B?NWo0NHl3eHk5RHRFck9JVThQT0EwRS9sMS9oVGtBa0x4VDVKSHp5ZVI2SzRt?=
- =?utf-8?B?TWR5QStKckg0dWR1d2Q1RTBSV0N3ajg0V00rTllqTGM2UTRTTUtoeGJYRTlX?=
- =?utf-8?B?QTZGNFY1bVYxazNtVjYrNXdMLzhZSkFYclB2N3BmS2NvR2VDVGRteDJDSVB6?=
- =?utf-8?B?WnJHVTJ6SnBBR3V5b2RRckRvaHRlbVZ1aDE5MGV3eWFOVHg0U2YxMGxIMVo1?=
- =?utf-8?B?QzhlcDNNWHRZL3BsWG5WY0tISnp4aXBwdDJhMzdxcjVvWG9qbjVRRTdUQnp2?=
- =?utf-8?B?dzJEdmxjTzgrb1Y4SzNBWU5YZXA3K1UyeVJmNmhYV3dPNHk2aW0zNkN5YVlD?=
- =?utf-8?B?RS9LelliYS9pS1hFK0pybjdqdElabW1Mck82MkJUTGgwMWcyaWRNV0MrRUJs?=
- =?utf-8?Q?RhQGum5aXCr0yOxqFzkNfbk=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc5c26db-8323-4f20-d97a-08dc8bb37036
-X-MS-Exchange-CrossTenant-AuthSource: MN6PR11MB8102.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2024 14:16:37.9826 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: adjyWooys1iX+xwUoOdoGKRvx05n8OYdsI00qXdFRE4RGbDyvvcpci7dFBMXNPApT4TwwIUJh1HAjDYNh9ryZQEUiwBVh53EsduONt7PgUA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4687
-X-OriginatorOrg: intel.com
+References: <20240613013557.1169171-1-almasrymina@google.com>
+ <20240613013557.1169171-6-almasrymina@google.com>
+ <322e7317-61dc-4f1e-8706-7db6f5f7a030@bp.renesas.com>
+In-Reply-To: <322e7317-61dc-4f1e-8706-7db6f5f7a030@bp.renesas.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 13 Jun 2024 07:18:23 -0700
+Message-ID: <CAHS8izO6T-CSgdfGFw8nMu1EMLz7ZOa_t9v+YCO8jXEM_=iT7A@mail.gmail.com>
+Subject: Re: [PATCH net-next v12 05/13] page_pool: convert to use netmem
+To: Paul Barker <paul.barker.ct@bp.renesas.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, 
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+ Praveen Kaligineedi <pkaligineedi@google.com>, linux-mm@kvack.org, 
+ Matthew Wilcox <willy@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -201,36 +123,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/13/24 15:01, Przemek Kitszel wrote:
-> On 6/13/24 10:21, Omer Shpigelman wrote:
+On Thu, Jun 13, 2024 at 1:36=E2=80=AFAM Paul Barker
+<paul.barker.ct@bp.renesas.com> wrote:
+>
+> On 13/06/2024 02:35, Mina Almasry wrote:
+> > Abstrace the memory type from the page_pool so we can later add support
+>
+> s/Abstrace/Abstract/
+>
 
-[...]
+Thanks, will do.
 
->> +
->> +int hbl_cn_read_spmu_counters(struct hbl_cn_port *cn_port, u64 
->> out_data[], u32 *num_out_data)
->> +{
->> +    struct hbl_cn_device *hdev = cn_port->hdev;
->> +    struct hbl_cn_asic_port_funcs *port_funcs;
->> +    struct hbl_cn_stat *ignore;
->> +    int rc;
->> +
->> +    port_funcs = hdev->asic_funcs->port_funcs;
->> +
->> +    port_funcs->spmu_get_stats_info(cn_port, &ignore, num_out_data);
-> 
-> hard to ignore that you deref uninitialized pointer...
+> > for new memory types. Convert the page_pool to use the new netmem type
+> > abstraction, rather than use struct page directly.
+> >
+> > As of this patch the netmem type is a no-op abstraction: it's always a
+> > struct page underneath. All the page pool internals are converted to
+> > use struct netmem instead of struct page, and the page pool now exports
+> > 2 APIs:
+> >
+> > 1. The existing struct page API.
+> > 2. The new struct netmem API.
+> >
+> > Keeping the existing API is transitional; we do not want to refactor al=
+l
+> > the current drivers using the page pool at once.
+> >
+> > The netmem abstraction is currently a no-op. The page_pool uses
+> > page_to_netmem() to convert allocated pages to netmem, and uses
+> > netmem_to_page() to convert the netmem back to pages to pass to mm APIs=
+,
+> >
+> > Follow up patches to this series add non-paged netmem support to the
+> > page_pool. This change is factored out on its own to limit the code
+> > churn to this 1 patch, for ease of code review.
+> >
+> > Signed-off-by: Mina Almasry <almasrymina@google.com>
+> >
+> > ---
+> >
+> > v12:
+> > - Fix allmodconfig build error. Very recently renesas/ravb_main.c added
+> >   a dependency on page_pool that I missed in my rebase. The dependency
+> >   calls page_pool_alloc() directly as it wants to set a custom gfp_mask=
+,
+> >   which is unique as all other drivers call a wrapper to that function.
+> >   Fix it by adding netmem_to_page() in the driver.> - Fix printing netm=
+em trace printing (Pavel).
+> >
+> > v11:
+> > - Fix typing to remove sparse warning. (Paolo/Steven)
+> >
+> > v9:
+> > - Fix sparse error (Simon).
+> >
+> > v8:
+> > - Fix napi_pp_put_page() taking netmem instead of page to fix
+> >   patch-by-patch build error.
+> > - Add net/netmem.h include in this patch to fix patch-by-patch build
+> >   error.
+> >
+> > v6:
+> >
+> > - Rebased on top of the merged netmem_ref type.
+> >
+> > Cc: linux-mm@kvack.org
+> > Cc: Matthew Wilcox <willy@infradead.org>
+> >
+> > ---
+> >  drivers/net/ethernet/renesas/ravb_main.c |   5 +-
+> >  include/linux/skbuff_ref.h               |   4 +-
+> >  include/net/netmem.h                     |  15 ++
+> >  include/net/page_pool/helpers.h          | 120 ++++++---
+> >  include/net/page_pool/types.h            |  14 +-
+> >  include/trace/events/page_pool.h         |  30 +--
+> >  net/bpf/test_run.c                       |   5 +-
+> >  net/core/page_pool.c                     | 304 ++++++++++++-----------
+> >  net/core/skbuff.c                        |   8 +-
+> >  9 files changed, 305 insertions(+), 200 deletions(-)
+> >
+> > diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/eth=
+ernet/renesas/ravb_main.c
+> > index c1546b916e4ef..093236ebfeecb 100644
+> > --- a/drivers/net/ethernet/renesas/ravb_main.c
+> > +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> > @@ -303,8 +303,9 @@ ravb_alloc_rx_buffer(struct net_device *ndev, int q=
+, u32 entry, gfp_t gfp_mask,
+> >
+> >       rx_buff =3D &priv->rx_buffers[q][entry];
+> >       size =3D info->rx_buffer_size;
+> > -     rx_buff->page =3D page_pool_alloc(priv->rx_pool[q], &rx_buff->off=
+set,
+> > -                                     &size, gfp_mask);
+> > +     rx_buff->page =3D netmem_to_page(page_pool_alloc(priv->rx_pool[q]=
+,
+> > +                                                    &rx_buff->offset,
+> > +                                                    &size, gfp_mask));
+> >       if (unlikely(!rx_buff->page)) {
+> >               /* We just set the data size to 0 for a failed mapping wh=
+ich
+> >                * should prevent DMA from happening...
+>
+> [snip]
+>
+> >
+> > -static inline struct page *page_pool_alloc(struct page_pool *pool,
+> > -                                        unsigned int *offset,
+> > -                                        unsigned int *size, gfp_t gfp)
+> > +static inline netmem_ref page_pool_alloc(struct page_pool *pool,
+> > +                                      unsigned int *offset,
+> > +                                      unsigned int *size, gfp_t gfp)
+> >  {
+> >       unsigned int max_size =3D PAGE_SIZE << pool->p.order;
+> > -     struct page *page;
+> > +     netmem_ref netmem;
+> >
+> >       if ((*size << 1) > max_size) {
+> >               *size =3D max_size;
+> >               *offset =3D 0;
+> > -             return page_pool_alloc_pages(pool, gfp);
+> > +             return page_pool_alloc_netmem(pool, gfp);
+> >       }
+> >
+> > -     page =3D page_pool_alloc_frag(pool, offset, *size, gfp);
+> > -     if (unlikely(!page))
+> > -             return NULL;
+> > +     netmem =3D page_pool_alloc_frag_netmem(pool, offset, *size, gfp);
+> > +     if (unlikely(!netmem))
+> > +             return 0;
+> >
+> >       /* There is very likely not enough space for another fragment, so=
+ append
+> >        * the remaining size to the current fragment to avoid truesize
+> > @@ -140,7 +142,7 @@ static inline struct page *page_pool_alloc(struct p=
+age_pool *pool,
+> >               pool->frag_offset =3D max_size;
+> >       }
+> >
+> > -     return page;
+> > +     return netmem;
+> >  }
+> >
+> >  /**
+> > @@ -154,7 +156,7 @@ static inline struct page *page_pool_alloc(struct p=
+age_pool *pool,
+> >   * utilization and performance penalty.
+> >   *
+> >   * Return:
+> > - * Return allocated page or page fragment, otherwise return NULL.
+> > + * Return allocated page or page fragment, otherwise return 0.
+> >   */
+> >  static inline struct page *page_pool_dev_alloc(struct page_pool *pool,
+> >                                              unsigned int *offset,
+> > @@ -162,7 +164,7 @@ static inline struct page *page_pool_dev_alloc(stru=
+ct page_pool *pool,
+> >  {
+> >       gfp_t gfp =3D (GFP_ATOMIC | __GFP_NOWARN);
+> >
+> > -     return page_pool_alloc(pool, offset, size, gfp);
+> > +     return netmem_to_page(page_pool_alloc(pool, offset, size, gfp));
+> >  }
+>
+> I find this API change confusing - why should page_pool_alloc() return a
+> netmem_ref but page_pool_dev_alloc() return a struct page *?
+>
+> Is there any reason to change page_pool_alloc() anyway? It calls
+> page_pool_alloc_pages() or page_pool_alloc_frag() as appropriate, both
+> of which your patch already converts to wrappers around the appropriate
+> _netmem() functions. In all instances where page_pool_alloc() is called
+> in this patch, you wrap it with netmem_to_page() anyway, there are no
+> calls to page_pool_alloc() added which actually want a netmem_ref.
+>
 
-oh, sorry, I was in hurry, please disregard this particular comment
+The general gist is that the page_pool API is being converted to use
+netmem_ref instead of page. The existing API, which uses struct page,
+is kept around transitionally, but meant to be removed and everything
+moved to netmem.
 
-> 
-> please consider going one step back and start with our internal mailing
-> lists, thank you
-> Przemek
+APIs that current drivers depend on, like page_pool_dev_alloc(), I've
+kept as struct page and added netmem versions when needed. APIs that
+had no external users, like page_pool_alloc(), I took the opportunity
+to move them to netmem immediately. But you recently depended on that.
 
-but this option very much still holds
+I thought page_pool_alloc() was an internal function to the page_pool
+not meant to be called from drivers, but the documentation actually
+mentions it. Seems like I need to keep it as page* function
+transitionally as well. I'll look into making this change you
+suggested, there is
+no needed page_pool_alloc() caller at the moment.
 
-> 
-> [...]
-> 
 
+--
+Thanks,
+Mina
