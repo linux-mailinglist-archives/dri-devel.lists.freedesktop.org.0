@@ -2,64 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD30907EAB
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 00:13:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 347E5907EB1
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 00:16:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64C7210EBD1;
-	Thu, 13 Jun 2024 22:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D4AC10EBCD;
+	Thu, 13 Jun 2024 22:16:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LtzJxzBl";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BosEc/lA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62F8F10EBC7
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 22:13:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718316818; x=1749852818;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=mwX/Ut3liG+2eL4EiqMYYCOWpRlKdeioXbS3wyxFBs0=;
- b=LtzJxzBlb+2m/iMFMwITTqsyr+d++7cLGMnV4qG5z4P7Av/Qy0L1935+
- 1boBcIobgxZSvHQ7qF81ShbYtOdrH9/GE2EGwu+SUZDUNXk88VoCMeQ0R
- FUr3vN20Y/UqfXm9I1DfiFzvygS0iPCAJloLbVqOAh5Yp052kYKnh2w97
- CxPgpOZ19zVPSB8iiESux3EEyvvDmc3X4VpckGrPsTsMTflyX0XYM0iSb
- nU2sm1SfQJ6JYepeiSS74VpdVAPaswd43f1GkaWcx3UcEvLOQQ6K+KVtD
- GI1Ne56+0lERcideQaIdT+yRfPs+UnpCfW4LYz2vC6D+tJbZAk61guxLx g==;
-X-CSE-ConnectionGUID: bMaSCKjbQFK9qxpdpE2kAQ==
-X-CSE-MsgGUID: FxKd1DizTs21t+mnQqysag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="32720582"
-X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; d="scan'208";a="32720582"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2024 15:13:38 -0700
-X-CSE-ConnectionGUID: Tc0wLCpTSm23vyp5b7zatw==
-X-CSE-MsgGUID: rE40TlMOSMimxsMr6bf50g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; d="scan'208";a="45214117"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2024 15:13:38 -0700
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>, Shuah Khan <shuah@kernel.org>,
- David Hildenbrand <david@redhat.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>,
- Peter Xu <peterx@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>,
- Junxiao Chang <junxiao.chang@intel.com>, linux-kselftest@vger.kernel.org,
- Mike Kravetz <mike.kravetz@oracle.com>, Dave Airlie <airlied@redhat.com>
-Subject: [PATCH v15 9/9] selftests/udmabuf: Add tests to verify data after
- page migration
-Date: Thu, 13 Jun 2024 14:42:11 -0700
-Message-ID: <20240613214741.1029446-10-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240613214741.1029446-1-vivek.kasireddy@intel.com>
-References: <20240613214741.1029446-1-vivek.kasireddy@intel.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27A7B10EBCD
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 22:16:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1718317003;
+ bh=H6GHq9+Uf+rJk6Vo53ar+G44bfZAHGauc8k+5SO/pc0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BosEc/lA4iOVOZeUH8LC9DYkCcCkQNqnMw22HxRF4RUTLJQ2/W8SHsV1Yc2ZjJcXR
+ sJLzizZghM2BMJtCs9RwbfbTNU46OzUfxDeUFbbCf4tVGalKPC9zEatLs2S7u6bUR6
+ xlVS2zemYr7sRArDKxIIIch6K80PCQa8AYck3wiKwAzMKG9H60SM99GhAPVbRjHtm0
+ sZedgkDlwObcy9bYI9kJCal+xvYBPgmSi2R49nlDqRZKAsRIN5ZMTLW2LTroqyjjck
+ GEMZD+4pVLKsjD/UDViYb1YHSU24df/ijWRkTrqeEiuriUyXTY0gv2InhK/SV04MEY
+ hMAILiQXMpCmg==
+Received: from mercury (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: sre)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6FCB73780C6C;
+ Thu, 13 Jun 2024 22:16:43 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+ id DDF9910608F7; Fri, 14 Jun 2024 00:16:42 +0200 (CEST)
+Date: Fri, 14 Jun 2024 00:16:42 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Heiko Stuebner <heiko@sntech.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Oded Gabbay <ogabbay@kernel.org>, Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 4/9] arm64: dts: rockchip: Add nodes for NPU and its MMU
+ to rk3588s
+Message-ID: <rrmiv7lwj2refsmmdijwpccniw5chnyoma2gxcueeemxypbodx@mjpdrbqs37ce>
+References: <20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net>
+ <20240612-6-10-rocket-v1-4-060e48eea250@tomeuvizoso.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="zspmvcykvofgqjiu"
+Content-Disposition: inline
+In-Reply-To: <20240612-6-10-rocket-v1-4-060e48eea250@tomeuvizoso.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,328 +78,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the memfd pages associated with a udmabuf may be migrated
-as part of udmabuf create, we need to verify the data coherency
-after successful migration. The new tests added in this patch try
-to do just that using 4k sized pages and also 2 MB sized huge
-pages for the memfd.
 
-Successful completion of the tests would mean that there is no
-disconnect between the memfd pages and the ones associated with
-a udmabuf. And, these tests can also be augmented in the future
-to test newer udmabuf features (such as handling memfd hole punch).
+--zspmvcykvofgqjiu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The idea for these tests comes from a patch by Mike Kravetz here:
-https://lists.freedesktop.org/archives/dri-devel/2023-June/410623.html
+Hi,
 
-v1->v2: (suggestions from Shuah)
-- Use ksft_* functions to print and capture results of tests
-- Use appropriate KSFT_* status codes for exit()
-- Add Mike Kravetz's suggested-by tag
+On Wed, Jun 12, 2024 at 03:52:57PM GMT, Tomeu Vizoso wrote:
+> See Chapter 36 "RKNN" from the RK3588 TRM (Part 1).
+>=20
+> This is a derivative of NVIDIA's NVDLA, but with its own front-end
+> processor.
+>=20
+> Mostly taken from downstream.
+>=20
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
 
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Hugh Dickins <hughd@google.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Dongwon Kim <dongwon.kim@intel.com>
-Cc: Junxiao Chang <junxiao.chang@intel.com>
-Cc: linux-kselftest@vger.kernel.org
-Suggested-by: Mike Kravetz <mike.kravetz@oracle.com>
-Acked-by: Dave Airlie <airlied@redhat.com>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- .../selftests/drivers/dma-buf/udmabuf.c       | 214 +++++++++++++++---
- 1 file changed, 183 insertions(+), 31 deletions(-)
+Looking at the TRM I noticed, that this register is not mapped:
 
-diff --git a/tools/testing/selftests/drivers/dma-buf/udmabuf.c b/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-index c812080e304e..6062723a172e 100644
---- a/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-+++ b/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-@@ -9,52 +9,162 @@
- #include <errno.h>
- #include <fcntl.h>
- #include <malloc.h>
-+#include <stdbool.h>
- 
- #include <sys/ioctl.h>
- #include <sys/syscall.h>
-+#include <sys/mman.h>
- #include <linux/memfd.h>
- #include <linux/udmabuf.h>
-+#include "../../kselftest.h"
- 
- #define TEST_PREFIX	"drivers/dma-buf/udmabuf"
- #define NUM_PAGES       4
-+#define NUM_ENTRIES     4
-+#define MEMFD_SIZE      1024 /* in pages */
- 
--static int memfd_create(const char *name, unsigned int flags)
-+static unsigned int page_size;
-+
-+static int create_memfd_with_seals(off64_t size, bool hpage)
-+{
-+	int memfd, ret;
-+	unsigned int flags = MFD_ALLOW_SEALING;
-+
-+	if (hpage)
-+		flags |= MFD_HUGETLB;
-+
-+	memfd = memfd_create("udmabuf-test", flags);
-+	if (memfd < 0) {
-+		ksft_print_msg("%s: [skip,no-memfd]\n", TEST_PREFIX);
-+		exit(KSFT_SKIP);
-+	}
-+
-+	ret = fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK);
-+	if (ret < 0) {
-+		ksft_print_msg("%s: [skip,fcntl-add-seals]\n", TEST_PREFIX);
-+		exit(KSFT_SKIP);
-+	}
-+
-+	ret = ftruncate(memfd, size);
-+	if (ret == -1) {
-+		ksft_print_msg("%s: [FAIL,memfd-truncate]\n", TEST_PREFIX);
-+		exit(KSFT_FAIL);
-+	}
-+
-+	return memfd;
-+}
-+
-+static int create_udmabuf_list(int devfd, int memfd, off64_t memfd_size)
-+{
-+	struct udmabuf_create_list *list;
-+	int ubuf_fd, i;
-+
-+	list = malloc(sizeof(struct udmabuf_create_list) +
-+		      sizeof(struct udmabuf_create_item) * NUM_ENTRIES);
-+	if (!list) {
-+		ksft_print_msg("%s: [FAIL, udmabuf-malloc]\n", TEST_PREFIX);
-+		exit(KSFT_FAIL);
-+	}
-+
-+	for (i = 0; i < NUM_ENTRIES; i++) {
-+		list->list[i].memfd  = memfd;
-+		list->list[i].offset = i * (memfd_size / NUM_ENTRIES);
-+		list->list[i].size   = getpagesize() * NUM_PAGES;
-+	}
-+
-+	list->count = NUM_ENTRIES;
-+	list->flags = UDMABUF_FLAGS_CLOEXEC;
-+	ubuf_fd = ioctl(devfd, UDMABUF_CREATE_LIST, list);
-+	free(list);
-+	if (ubuf_fd < 0) {
-+		ksft_print_msg("%s: [FAIL, udmabuf-create]\n", TEST_PREFIX);
-+		exit(KSFT_FAIL);
-+	}
-+
-+	return ubuf_fd;
-+}
-+
-+static void write_to_memfd(void *addr, off64_t size, char chr)
-+{
-+	int i;
-+
-+	for (i = 0; i < size / page_size; i++) {
-+		*((char *)addr + (i * page_size)) = chr;
-+	}
-+}
-+
-+static void *mmap_fd(int fd, off64_t size)
- {
--	return syscall(__NR_memfd_create, name, flags);
-+	void *addr;
-+
-+	addr = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
-+	if (addr == MAP_FAILED) {
-+		ksft_print_msg("%s: ubuf_fd mmap fail\n", TEST_PREFIX);
-+		exit(KSFT_FAIL);
-+	}
-+
-+	return addr;
-+}
-+
-+static int compare_chunks(void *addr1, void *addr2, off64_t memfd_size)
-+{
-+	off64_t off;
-+	int i = 0, j, k = 0, ret = 0;
-+	char char1, char2;
-+
-+	while (i < NUM_ENTRIES) {
-+		off = i * (memfd_size / NUM_ENTRIES);
-+		for (j = 0; j < NUM_PAGES; j++, k++) {
-+			char1 = *((char *)addr1 + off + (j * getpagesize()));
-+			char2 = *((char *)addr2 + (k * getpagesize()));
-+			if (char1 != char2) {
-+				ret = -1;
-+				goto err;
-+			}
-+		}
-+		i++;
-+	}
-+err:
-+	munmap(addr1, memfd_size);
-+	munmap(addr2, NUM_ENTRIES * NUM_PAGES * getpagesize());
-+	return ret;
- }
- 
- int main(int argc, char *argv[])
- {
- 	struct udmabuf_create create;
- 	int devfd, memfd, buf, ret;
--	off_t size;
--	void *mem;
-+	off64_t size;
-+	void *addr1, *addr2;
-+
-+	ksft_print_header();
-+	ksft_set_plan(6);
- 
- 	devfd = open("/dev/udmabuf", O_RDWR);
- 	if (devfd < 0) {
--		printf("%s: [skip,no-udmabuf: Unable to access DMA buffer device file]\n",
--		       TEST_PREFIX);
--		exit(77);
-+		ksft_print_msg(
-+			"%s: [skip,no-udmabuf: Unable to access DMA buffer device file]\n",
-+			TEST_PREFIX);
-+		exit(KSFT_SKIP);
- 	}
- 
- 	memfd = memfd_create("udmabuf-test", MFD_ALLOW_SEALING);
- 	if (memfd < 0) {
--		printf("%s: [skip,no-memfd]\n", TEST_PREFIX);
--		exit(77);
-+		ksft_print_msg("%s: [skip,no-memfd]\n", TEST_PREFIX);
-+		exit(KSFT_SKIP);
- 	}
- 
- 	ret = fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK);
- 	if (ret < 0) {
--		printf("%s: [skip,fcntl-add-seals]\n", TEST_PREFIX);
--		exit(77);
-+		ksft_print_msg("%s: [skip,fcntl-add-seals]\n", TEST_PREFIX);
-+		exit(KSFT_SKIP);
- 	}
- 
--
- 	size = getpagesize() * NUM_PAGES;
- 	ret = ftruncate(memfd, size);
- 	if (ret == -1) {
--		printf("%s: [FAIL,memfd-truncate]\n", TEST_PREFIX);
--		exit(1);
-+		ksft_print_msg("%s: [FAIL,memfd-truncate]\n", TEST_PREFIX);
-+		exit(KSFT_FAIL);
- 	}
- 
- 	memset(&create, 0, sizeof(create));
-@@ -64,44 +174,86 @@ int main(int argc, char *argv[])
- 	create.offset = getpagesize()/2;
- 	create.size   = getpagesize();
- 	buf = ioctl(devfd, UDMABUF_CREATE, &create);
--	if (buf >= 0) {
--		printf("%s: [FAIL,test-1]\n", TEST_PREFIX);
--		exit(1);
--	}
-+	if (buf >= 0)
-+		ksft_test_result_fail("%s: [FAIL,test-1]\n", TEST_PREFIX);
-+	else
-+		ksft_test_result_pass("%s: [PASS,test-1]\n", TEST_PREFIX);
- 
- 	/* should fail (size not multiple of page) */
- 	create.memfd  = memfd;
- 	create.offset = 0;
- 	create.size   = getpagesize()/2;
- 	buf = ioctl(devfd, UDMABUF_CREATE, &create);
--	if (buf >= 0) {
--		printf("%s: [FAIL,test-2]\n", TEST_PREFIX);
--		exit(1);
--	}
-+	if (buf >= 0)
-+		ksft_test_result_fail("%s: [FAIL,test-2]\n", TEST_PREFIX);
-+	else
-+		ksft_test_result_pass("%s: [PASS,test-2]\n", TEST_PREFIX);
- 
- 	/* should fail (not memfd) */
- 	create.memfd  = 0; /* stdin */
- 	create.offset = 0;
- 	create.size   = size;
- 	buf = ioctl(devfd, UDMABUF_CREATE, &create);
--	if (buf >= 0) {
--		printf("%s: [FAIL,test-3]\n", TEST_PREFIX);
--		exit(1);
--	}
-+	if (buf >= 0)
-+		ksft_test_result_fail("%s: [FAIL,test-3]\n", TEST_PREFIX);
-+	else
-+		ksft_test_result_pass("%s: [PASS,test-3]\n", TEST_PREFIX);
- 
- 	/* should work */
-+	page_size = getpagesize();
-+	addr1 = mmap_fd(memfd, size);
-+	write_to_memfd(addr1, size, 'a');
- 	create.memfd  = memfd;
- 	create.offset = 0;
- 	create.size   = size;
- 	buf = ioctl(devfd, UDMABUF_CREATE, &create);
--	if (buf < 0) {
--		printf("%s: [FAIL,test-4]\n", TEST_PREFIX);
--		exit(1);
--	}
-+	if (buf < 0)
-+		ksft_test_result_fail("%s: [FAIL,test-4]\n", TEST_PREFIX);
-+	else
-+		ksft_test_result_pass("%s: [PASS,test-4]\n", TEST_PREFIX);
-+
-+	munmap(addr1, size);
-+	close(buf);
-+	close(memfd);
-+
-+	/* should work (migration of 4k size pages)*/
-+	size = MEMFD_SIZE * page_size;
-+	memfd = create_memfd_with_seals(size, false);
-+	addr1 = mmap_fd(memfd, size);
-+	write_to_memfd(addr1, size, 'a');
-+	buf = create_udmabuf_list(devfd, memfd, size);
-+	addr2 = mmap_fd(buf, NUM_PAGES * NUM_ENTRIES * getpagesize());
-+	write_to_memfd(addr1, size, 'b');
-+	ret = compare_chunks(addr1, addr2, size);
-+	if (ret < 0)
-+		ksft_test_result_fail("%s: [FAIL,test-5]\n", TEST_PREFIX);
-+	else
-+		ksft_test_result_pass("%s: [PASS,test-5]\n", TEST_PREFIX);
-+
-+	close(buf);
-+	close(memfd);
-+
-+	/* should work (migration of 2MB size huge pages)*/
-+	page_size = getpagesize() * 512; /* 2 MB */
-+	size = MEMFD_SIZE * page_size;
-+	memfd = create_memfd_with_seals(size, true);
-+	addr1 = mmap_fd(memfd, size);
-+	write_to_memfd(addr1, size, 'a');
-+	buf = create_udmabuf_list(devfd, memfd, size);
-+	addr2 = mmap_fd(buf, NUM_PAGES * NUM_ENTRIES * getpagesize());
-+	write_to_memfd(addr1, size, 'b');
-+	ret = compare_chunks(addr1, addr2, size);
-+	if (ret < 0)
-+		ksft_test_result_fail("%s: [FAIL,test-6]\n", TEST_PREFIX);
-+	else
-+		ksft_test_result_pass("%s: [PASS,test-6]\n", TEST_PREFIX);
- 
--	fprintf(stderr, "%s: ok\n", TEST_PREFIX);
- 	close(buf);
- 	close(memfd);
- 	close(devfd);
-+
-+	ksft_print_msg("%s: ok\n", TEST_PREFIX);
-+	ksft_print_cnts();
-+
- 	return 0;
- }
--- 
-2.45.1
+RKNN_global_operation_enable
+Address: Operational Base + offset (0xF008)
 
+-- Sebastian
+
+>  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 53 +++++++++++++++++++++++++=
+++++++
+>  1 file changed, 53 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/=
+dts/rockchip/rk3588s.dtsi
+> index 6ac5ac8b48ab..a5d53578c8f6 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> @@ -2665,6 +2665,59 @@ gpio4: gpio@fec50000 {
+>  			#interrupt-cells =3D <2>;
+>  		};
+>  	};
+> +
+> +	rknn: npu@fdab0000 {
+> +		compatible =3D "rockchip,rk3588-rknn", "rockchip,rknn";
+> +		reg =3D <0x0 0xfdab0000 0x0 0x9000>,
+> +		      <0x0 0xfdac0000 0x0 0x9000>,
+> +		      <0x0 0xfdad0000 0x0 0x9000>;
+> +		interrupts =3D <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>,
+> +			     <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH 0>,
+> +			     <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		interrupt-names =3D "npu0_irq", "npu1_irq", "npu2_irq";
+> +		clocks =3D <&scmi_clk SCMI_CLK_NPU>, <&cru ACLK_NPU0>,
+> +			 <&cru ACLK_NPU1>, <&cru ACLK_NPU2>,
+> +			 <&cru HCLK_NPU0>, <&cru HCLK_NPU1>,
+> +			 <&cru HCLK_NPU2>, <&cru PCLK_NPU_ROOT>;
+> +		clock-names =3D "clk_npu",
+> +			      "aclk0", "aclk1", "aclk2",
+> +			      "hclk0", "hclk1", "hclk2",
+> +			      "pclk";
+> +		assigned-clocks =3D <&scmi_clk SCMI_CLK_NPU>;
+> +		assigned-clock-rates =3D <200000000>;
+> +		resets =3D <&cru SRST_A_RKNN0>, <&cru SRST_A_RKNN1>, <&cru SRST_A_RKNN=
+2>,
+> +			 <&cru SRST_H_RKNN0>, <&cru SRST_H_RKNN1>, <&cru SRST_H_RKNN2>;
+> +		reset-names =3D "srst_a0", "srst_a1", "srst_a2",
+> +			      "srst_h0", "srst_h1", "srst_h2";
+> +		power-domains =3D <&power RK3588_PD_NPUTOP>,
+> +				<&power RK3588_PD_NPU1>,
+> +				<&power RK3588_PD_NPU2>;
+> +		power-domain-names =3D "npu0", "npu1", "npu2";
+> +		iommus =3D <&rknn_mmu>;
+> +		status =3D "disabled";
+> +	};
+> +
+> +	rknn_mmu: iommu@fdab9000 {
+> +		compatible =3D "rockchip,rk3588-iommu";
+> +		reg =3D <0x0 0xfdab9000 0x0 0x100>,
+> +		      <0x0 0xfdaba000 0x0 0x100>,
+> +		      <0x0 0xfdaca000 0x0 0x100>,
+> +		      <0x0 0xfdada000 0x0 0x100>;
+> +		interrupts =3D <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>,
+> +			     <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH 0>,
+> +			     <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		interrupt-names =3D "npu0_mmu", "npu1_mmu", "npu2_mmu";
+> +		clocks =3D <&cru ACLK_NPU0>, <&cru ACLK_NPU1>, <&cru ACLK_NPU2>,
+> +			 <&cru HCLK_NPU0>, <&cru HCLK_NPU1>, <&cru HCLK_NPU2>;
+> +		clock-names =3D "aclk0", "aclk1", "aclk2",
+> +			      "iface0", "iface1", "iface2";
+> +		#iommu-cells =3D <0>;
+> +		power-domains =3D <&power RK3588_PD_NPUTOP>,
+> +				<&power RK3588_PD_NPU1>,
+> +				<&power RK3588_PD_NPU2>;
+> +		power-domain-names =3D "npu0", "npu1", "npu2";
+> +		status =3D "disabled";
+> +	};
+>  };
+> =20
+>  #include "rk3588s-pinctrl.dtsi"
+>=20
+> --=20
+> 2.45.2
+>=20
+>=20
+
+--zspmvcykvofgqjiu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmZrb8cACgkQ2O7X88g7
++pp7Cg/+NCeY7EqR6sVyOOVSi/PrBFnVjcHw6BjQgMwiP8UMdW034jc+YCDpUOtM
+GLyYAe491EldwputLm6HNquT4/ad0/28h0HVzXHKeu6ulTga/j5rNV79GYyDhwTJ
+h+ror+9q3BquIkAjiKc9wPEQyL32hr0eBom8Q1yzPwEcF140VO/StE/YRC+aeZca
+UZ8f4lfJnR8M8TIb7uV4KWIkPDSbJtqxoYWseX5+Z0xDdnkIScgP0MgleLcsJIr5
+m+3OC/Ln+jjRZq5uEaN19gHWeMZS2YJX4q79TYCc/qbztzXQWpahLoMnx7ZahUDN
+Nwb/wQF12rOO4Pxiveex6Z9rkf1PQz/Vy6G1AQM7XQSpZcTt7Qi+bqcuSzKDiBXB
+KDFKOyvbRbRshWrTUTep6IkrL4Y+RIezL9k06JTA6iRX8jcininTf4ZZ8EDpKgJl
++houmNpaxasXiknJfcFltFDKYT09WTLUNaTi7MszTCSt0Spk/dXhHXmcczOWK/Q1
+3aVL56LpdzKZIby//ncK2VZxTZv1eLhEMdTeU5FlvzfyFBU7HwqTfAzyrKOUvu1j
+q0UmDYg7x0w9y/eeBY8BSGF81h223yUb2hg2BDIXJw8fLZQQrnjSnemyBgjtJ0Cn
+Smr9JW2zV38Lq64iR5WiETtr/hrVZe0PiVhyqWGsxS1PRPIGpZ4=
+=qyNK
+-----END PGP SIGNATURE-----
+
+--zspmvcykvofgqjiu--
