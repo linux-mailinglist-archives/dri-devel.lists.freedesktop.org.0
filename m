@@ -2,68 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693FA90650E
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 09:29:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE55906550
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 09:37:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8724110E97C;
-	Thu, 13 Jun 2024 07:29:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2830610E251;
+	Thu, 13 Jun 2024 07:37:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="Jds9nWgN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="luKu3yvT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C349910E97C
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 07:29:03 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-a6f0c3d0792so69710366b.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 00:29:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1718263742; x=1718868542;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=eGZtZlbcVTuqfHipICSHcU4nVCOOqo16078EY8ojHwg=;
- b=Jds9nWgNtaLWMttbq2uEmhuNi+f/t/7lwi9uhRoay5CPoYNwpGReRRVjmoJEzJwGRG
- 9/MaIGzJNG2NmYHWrE+Lkr1U5mbUhtrvp0v50iaL9pR8qQxdc4UUW4nN13qFfBGLm/0O
- hVQwnjUuzYjjqXhHAdpBxL4r2BGjj0jOIYWzQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718263742; x=1718868542;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=eGZtZlbcVTuqfHipICSHcU4nVCOOqo16078EY8ojHwg=;
- b=fH03xHcMd/4DriQEwZT0pJRUWmfjZkx/T9gE57TNU0HGt0/v1unZQOxUDa+eiSygKs
- d5pna7GUjwoiCeFC7B3Rat5mLXCqTbBs3cS4jxH+UfuGAsAx9NQ3TGwaT3FtLv/vqlcK
- TBR2OdXHDTpQxjVsTaxATe0jpjf0F5MoNLnIjx9gJ6yZ3JWkFmp0wYr1pQ6IOM3G/p8A
- iAOQeTpzEm2L+EiPaQFXOKw1zylfvNKWdXwU1o7UA8nwzPsgAjpyOtOImiMVWG2Ev+U1
- 1kokzijDguDdkJkZKIPE+YRHbL+QJ8URowiHbSHLTV0kdJRaMZ79VRR6S6Ww9CghkQW7
- 7hiw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV7y3jYZjb5o4dTiJQSQtnqDxb/lVCTW9b/A2AK+VwOchW01nUwkhK5Djfqmu9geoFiotyMH9A6CAz3p4Y+6Gelvmnm+pPB+kdfTh7FMcvb
-X-Gm-Message-State: AOJu0YxDaRko2xClicD4NEqA0NQyEGbjDgIsjjZEFF42Zzon4u+hSjiA
- oaycduwg3eRKe0blhc96zbTxQcAhyoSQD2LxkXORsO+kpQovCJ1Y+8+7df5DG0c=
-X-Google-Smtp-Source: AGHT+IEgZRKGyYhtuzDeGOA77gJen0tsapssE62dlC2YyJpg5CF4uXEKJQEdivsNv2mHvW6TSMe2cw==
-X-Received: by 2002:a17:906:34d9:b0:a6f:4b0c:94ba with SMTP id
- a640c23a62f3a-a6f4b0c94f0mr232151366b.29.1718263741604; 
- Thu, 13 Jun 2024 00:29:01 -0700 (PDT)
-Received: from andrea-amarula.. ([85.148.28.6])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a6f56db5b2fsm41582466b.47.2024.06.13.00.29.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jun 2024 00:29:01 -0700 (PDT)
-From: Andrea Calabrese <andrea.calabrese@amarulasolutions.com>
-To: regkh@linuxfoundation.org, rafael@kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: trivial@kernel.org, linux-amarula@amarulasolutions.com,
- andrea.calabrese@amarulasolutions.com
-Subject: [PATCH v4] devres: Refactor using guards
-Date: Thu, 13 Jun 2024 09:26:31 +0200
-Message-Id: <20240613072630.11690-1-andrea.calabrese@amarulasolutions.com>
-X-Mailer: git-send-email 2.34.1
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45A3C10E22F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 07:37:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 5EE5BCE0ED3;
+ Thu, 13 Jun 2024 07:37:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38D66C2BBFC;
+ Thu, 13 Jun 2024 07:37:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718264250;
+ bh=ImQIKeourXR7ChWq71b/VBnDWCOFJA52mX9HCcaGd1w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=luKu3yvTIy2XOk2lmMPaECP1FftDpr6pA6SYtsDbJw8zHbyxpEfpy/WnabEI99USF
+ ACFZiEc5/RRQZw8nHw420Id/bTXr9ADTRXUvl80bcWFamra239SH6rRse0Ypiqj3Hp
+ zFK0Lrsi6K3R9peez2wjtrYXL5hmQM3GqXm7oNsMjc9IGvkfEH7/Ov0cymhzmAuT5f
+ 7ozb3rdWb/aa4XTsmXQJ0CxHefW6Q6uLTkrId7LoHHkPdmSDPTtNZzNrspskk3bjBH
+ o7CtN3yIBtYb6kVipz+3ggwzE2bpZiBFHxHhpjvgliCRTHJPlqVP7N3nX72jTD6Uxl
+ hIjbOioU1VgQw==
+Date: Thu, 13 Jun 2024 09:37:27 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Vignesh Raman <vignesh.raman@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, airlied@gmail.com, daniel@ffwll.ch, 
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, mairacanal@riseup.net, 
+ hamohammed.sa@gmail.com, robdclark@gmail.com, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, daniels@collabora.com, helen.koike@collabora.com, 
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] drm/ci: add tests on vkms
+Message-ID: <20240613-bipedal-eccentric-locust-91632b@houat>
+References: <20240611091037.558969-1-vignesh.raman@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="cpuibrkaoumlir3j"
+Content-Disposition: inline
+In-Reply-To: <20240611091037.558969-1-vignesh.raman@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,271 +62,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Code refactoring using the recent guard and scoped_guard macros
-for automatic cleanup of the spinlocks. This does not change the
-effective behaviour of the kernel, but guarantees a cleaned-up exit from
-each lock, automatically avoiding potential deadlocks.
 
-Signed-off-by: Andrea Calabrese <andrea.calabrese@amarulasolutions.com>
+--cpuibrkaoumlir3j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
----
-Diff from V3: as Greg KH and Lucas Stach noticed, there was a
-behavioural change between the two versions: I used guard(spinlock),
-while the expected behaviour should have come from a spinlock_irqsave
-guard. This has been fixed.
+Hi,
 
-diff --git a/drivers/base/devres.c b/drivers/base/devres.c
-index 3df0025d12aa..4872756426dd 100644
---- a/drivers/base/devres.c
-+++ b/drivers/base/devres.c
-@@ -194,14 +194,12 @@ void devres_for_each_res(struct device *dev, dr_release_t release,
- {
- 	struct devres_node *node;
- 	struct devres_node *tmp;
--	unsigned long flags;
- 
- 	if (!fn)
- 		return;
- 
--	spin_lock_irqsave(&dev->devres_lock, flags);
--	list_for_each_entry_safe_reverse(node, tmp,
--			&dev->devres_head, entry) {
-+	guard(spinlock_irqsave)(&dev->devres_lock);
-+	list_for_each_entry_safe_reverse(node, tmp, &dev->devres_head, entry) {
- 		struct devres *dr = container_of(node, struct devres, node);
- 
- 		if (node->release != release)
-@@ -210,7 +208,6 @@ void devres_for_each_res(struct device *dev, dr_release_t release,
- 			continue;
- 		fn(dev, dr->data, data);
- 	}
--	spin_unlock_irqrestore(&dev->devres_lock, flags);
- }
- EXPORT_SYMBOL_GPL(devres_for_each_res);
- 
-@@ -243,11 +240,9 @@ EXPORT_SYMBOL_GPL(devres_free);
- void devres_add(struct device *dev, void *res)
- {
- 	struct devres *dr = container_of(res, struct devres, data);
--	unsigned long flags;
- 
--	spin_lock_irqsave(&dev->devres_lock, flags);
-+	guard(spinlock_irqsave)(&dev->devres_lock);
- 	add_dr(dev, &dr->node);
--	spin_unlock_irqrestore(&dev->devres_lock, flags);
- }
- EXPORT_SYMBOL_GPL(devres_add);
- 
-@@ -287,11 +282,8 @@ void * devres_find(struct device *dev, dr_release_t release,
- 		   dr_match_t match, void *match_data)
- {
- 	struct devres *dr;
--	unsigned long flags;
--
--	spin_lock_irqsave(&dev->devres_lock, flags);
-+	guard(spinlock_irqsave)(&dev->devres_lock);
- 	dr = find_dr(dev, release, match, match_data);
--	spin_unlock_irqrestore(&dev->devres_lock, flags);
- 
- 	if (dr)
- 		return dr->data;
-@@ -318,16 +310,14 @@ void * devres_get(struct device *dev, void *new_res,
- {
- 	struct devres *new_dr = container_of(new_res, struct devres, data);
- 	struct devres *dr;
--	unsigned long flags;
--
--	spin_lock_irqsave(&dev->devres_lock, flags);
--	dr = find_dr(dev, new_dr->node.release, match, match_data);
--	if (!dr) {
--		add_dr(dev, &new_dr->node);
--		dr = new_dr;
--		new_res = NULL;
-+	scoped_guard(spinlock_irqsave, &dev->devres_lock) {
-+		dr = find_dr(dev, new_dr->node.release, match, match_data);
-+		if (!dr) {
-+			add_dr(dev, &new_dr->node);
-+			dr = new_dr;
-+			new_res = NULL;
-+		}
- 	}
--	spin_unlock_irqrestore(&dev->devres_lock, flags);
- 	devres_free(new_res);
- 
- 	return dr->data;
-@@ -353,15 +343,13 @@ void * devres_remove(struct device *dev, dr_release_t release,
- 		     dr_match_t match, void *match_data)
- {
- 	struct devres *dr;
--	unsigned long flags;
--
--	spin_lock_irqsave(&dev->devres_lock, flags);
--	dr = find_dr(dev, release, match, match_data);
--	if (dr) {
--		list_del_init(&dr->node.entry);
--		devres_log(dev, &dr->node, "REM");
-+	scoped_guard(spinlock_irqsave, &dev->devres_lock) {
-+		dr = find_dr(dev, release, match, match_data);
-+		if (dr) {
-+			list_del_init(&dr->node.entry);
-+			devres_log(dev, &dr->node, "REM");
-+		}
- 	}
--	spin_unlock_irqrestore(&dev->devres_lock, flags);
- 
- 	if (dr)
- 		return dr->data;
-@@ -516,7 +504,6 @@ static void release_nodes(struct device *dev, struct list_head *todo)
-  */
- int devres_release_all(struct device *dev)
- {
--	unsigned long flags;
- 	LIST_HEAD(todo);
- 	int cnt;
- 
-@@ -528,9 +515,9 @@ int devres_release_all(struct device *dev)
- 	if (list_empty(&dev->devres_head))
- 		return 0;
- 
--	spin_lock_irqsave(&dev->devres_lock, flags);
--	cnt = remove_nodes(dev, dev->devres_head.next, &dev->devres_head, &todo);
--	spin_unlock_irqrestore(&dev->devres_lock, flags);
-+	scoped_guard(spinlock_irqsave, &dev->devres_lock) {
-+		cnt = remove_nodes(dev, dev->devres_head.next, &dev->devres_head, &todo);
-+	}
- 
- 	release_nodes(dev, &todo);
- 	return cnt;
-@@ -552,7 +539,6 @@ int devres_release_all(struct device *dev)
- void * devres_open_group(struct device *dev, void *id, gfp_t gfp)
- {
- 	struct devres_group *grp;
--	unsigned long flags;
- 
- 	grp = kmalloc(sizeof(*grp), gfp);
- 	if (unlikely(!grp))
-@@ -568,9 +554,8 @@ void * devres_open_group(struct device *dev, void *id, gfp_t gfp)
- 	if (id)
- 		grp->id = id;
- 
--	spin_lock_irqsave(&dev->devres_lock, flags);
-+	guard(spinlock_irqsave)(&dev->devres_lock);
- 	add_dr(dev, &grp->node[0]);
--	spin_unlock_irqrestore(&dev->devres_lock, flags);
- 	return grp->id;
- }
- EXPORT_SYMBOL_GPL(devres_open_group);
-@@ -609,17 +594,14 @@ static struct devres_group * find_group(struct device *dev, void *id)
- void devres_close_group(struct device *dev, void *id)
- {
- 	struct devres_group *grp;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&dev->devres_lock, flags);
-+	guard(spinlock_irqsave)(&dev->devres_lock);
- 
- 	grp = find_group(dev, id);
- 	if (grp)
- 		add_dr(dev, &grp->node[1]);
- 	else
- 		WARN_ON(1);
--
--	spin_unlock_irqrestore(&dev->devres_lock, flags);
- }
- EXPORT_SYMBOL_GPL(devres_close_group);
- 
-@@ -635,19 +617,16 @@ EXPORT_SYMBOL_GPL(devres_close_group);
- void devres_remove_group(struct device *dev, void *id)
- {
- 	struct devres_group *grp;
--	unsigned long flags;
--
--	spin_lock_irqsave(&dev->devres_lock, flags);
--
--	grp = find_group(dev, id);
--	if (grp) {
--		list_del_init(&grp->node[0].entry);
--		list_del_init(&grp->node[1].entry);
--		devres_log(dev, &grp->node[0], "REM");
--	} else
--		WARN_ON(1);
- 
--	spin_unlock_irqrestore(&dev->devres_lock, flags);
-+	scoped_guard(spinlock_irqsave, &dev->devres_lock) {
-+		grp = find_group(dev, id);
-+		if (grp) {
-+			list_del_init(&grp->node[0].entry);
-+			list_del_init(&grp->node[1].entry);
-+			devres_log(dev, &grp->node[0], "REM");
-+		} else
-+			WARN_ON(1);
-+	}
- 
- 	kfree(grp);
- }
-@@ -668,11 +647,10 @@ EXPORT_SYMBOL_GPL(devres_remove_group);
- int devres_release_group(struct device *dev, void *id)
- {
- 	struct devres_group *grp;
--	unsigned long flags;
- 	LIST_HEAD(todo);
- 	int cnt = 0;
- 
--	spin_lock_irqsave(&dev->devres_lock, flags);
-+	guard(spinlock_irqsave)(&dev->devres_lock);
- 
- 	grp = find_group(dev, id);
- 	if (grp) {
-@@ -683,12 +661,9 @@ int devres_release_group(struct device *dev, void *id)
- 			end = grp->node[1].entry.next;
- 
- 		cnt = remove_nodes(dev, first, end, &todo);
--		spin_unlock_irqrestore(&dev->devres_lock, flags);
--
- 		release_nodes(dev, &todo);
- 	} else {
- 		WARN_ON(1);
--		spin_unlock_irqrestore(&dev->devres_lock, flags);
- 	}
- 
- 	return cnt;
-@@ -860,7 +835,6 @@ void *devm_krealloc(struct device *dev, void *ptr, size_t new_size, gfp_t gfp)
- {
- 	size_t total_new_size, total_old_size;
- 	struct devres *old_dr, *new_dr;
--	unsigned long flags;
- 
- 	if (unlikely(!new_size)) {
- 		devm_kfree(dev, ptr);
-@@ -906,20 +880,17 @@ void *devm_krealloc(struct device *dev, void *ptr, size_t new_size, gfp_t gfp)
- 	 * The spinlock protects the linked list against concurrent
- 	 * modifications but not the resource itself.
- 	 */
--	spin_lock_irqsave(&dev->devres_lock, flags);
-+	scoped_guard(spinlock_irqsave, &dev->devres_lock) {
-+		old_dr = find_dr(dev, devm_kmalloc_release, devm_kmalloc_match, ptr);
-+		if (!old_dr) {
-+			kfree(new_dr);
-+			WARN(1, "Memory chunk not managed or managed by a different device.");
-+			return NULL;
-+		}
- 
--	old_dr = find_dr(dev, devm_kmalloc_release, devm_kmalloc_match, ptr);
--	if (!old_dr) {
--		spin_unlock_irqrestore(&dev->devres_lock, flags);
--		kfree(new_dr);
--		WARN(1, "Memory chunk not managed or managed by a different device.");
--		return NULL;
-+		replace_dr(dev, &old_dr->node, &new_dr->node);
- 	}
- 
--	replace_dr(dev, &old_dr->node, &new_dr->node);
--
--	spin_unlock_irqrestore(&dev->devres_lock, flags);
--
- 	/*
- 	 * We can copy the memory contents after releasing the lock as we're
- 	 * no longer modifying the list links.
--- 
-2.34.1
+On Tue, Jun 11, 2024 at 02:40:37PM GMT, Vignesh Raman wrote:
+> diff --git a/drivers/gpu/drm/ci/xfails/vkms-none-flakes.txt b/drivers/gpu/drm/ci/xfails/vkms-none-flakes.txt
+> new file mode 100644
+> index 000000000000..56484a30aff5
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ci/xfails/vkms-none-flakes.txt
+> @@ -0,0 +1,15 @@
+> +# Board Name: vkms
+> +# Bug Report: https://lore.kernel.org/dri-devel/61ed26af-062c-443c-9df2-d1ee319f3fb0@collabora.com/T/#u
+> +# Failure Rate: 50
+> +# IGT Version: 1.28-g0df7b9b97
+> +# Linux Version: 6.9.0-rc7
+> +kms_cursor_legacy@long-nonblocking-modeset-vs-cursor-atomic
+> +kms_flip@basic-flip-vs-wf_vblank
+> +kms_flip@flip-vs-expired-vblank-interruptible
+> +kms_flip@flip-vs-wf_vblank-interruptible
+> +kms_flip@plain-flip-fb-recreate-interruptible
+> +kms_flip@plain-flip-ts-check
+> +kms_flip@plain-flip-ts-check-interruptible
+> +kms_flip@flip-vs-absolute-wf_vblank
+> +kms_flip@flip-vs-absolute-wf_vblank-interruptible
+> +kms_flip@flip-vs-blocking-wf-vblank
 
+We should have the header for every line here
+
+Maxime
+
+--cpuibrkaoumlir3j
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZmqhtwAKCRDj7w1vZxhR
+xVWRAQCG+ScbgEMo6+BuqdxIkn+RGcHtaRDZ9dEXREDfww2gPAEA8mPYOf4Ta5YU
+fw2ffV8wY75ewIayYsyhkQp4pA14AQs=
+=/cnS
+-----END PGP SIGNATURE-----
+
+--cpuibrkaoumlir3j--
