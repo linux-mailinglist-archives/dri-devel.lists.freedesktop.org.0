@@ -2,126 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EFC3907939
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 19:02:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BDFD907959
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2024 19:05:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59AAA10EB3F;
-	Thu, 13 Jun 2024 17:02:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C377510E217;
+	Thu, 13 Jun 2024 17:05:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="DZc9zivm";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cYrp8fqD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2046.outbound.protection.outlook.com [40.107.244.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21CA010EB44;
- Thu, 13 Jun 2024 17:01:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=czpqpIW6QUPJlQhQAskPV/NWHbGcm6VfL0clxXSu/mQu3JXrA2oGdeDhPeXQVDIKVeJTIR31SBuWbkwVxi3I5lHD/0Pfd1n0R2OZ2DJnjB609IpX1lEmFRmDDUu8g2ld90UNC0X3QXWUElyBsKapwNBWd3dHrYI5jF/QXX/mdSY8WgV+jWtwnFHjh+v9Y6T1rDK+1UXAMXBJ2VyKq/snAnuIj9nNImfWNlWfBCJHVLHXm2j3DKTmPKE/1Ap7WZKZgVZdSMeDwLeke6kN9hAc79vAUlmv2zZrdLvNzaN3XbN0UO8Nkc0gOtSUnZyAd/B3+PBZjxlDTCnjCTQQdoOsCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=17WkeGr7r7HhCghj1PZIUJ0et2wAnD3ZVaHDMHv4z6Q=;
- b=hI+jevuPTU+leMTwWXJVlm1ybGY+761+OW7kimODYRonasncOAYBUvNWBfbm8bwNaFnZyKYOVQVRVs8POjHHExvDGbyf/fxHEihU3+cMTuaV0rrseQC+R07GHUBrkoRIiZKEJblTcywn2dFZ/DRVPA/zcc/YET+d+/yFe1o2L0J2pqqws6FS6ZETk3MZ/bEoY1qmrkWnVQWHCF3kyA2F03iZ385f1NYu5X2tHpEHnREbAMQ47TalUDR1/9CqFny7HD6ABKygQhxuntYY1/WGgxrfyB/luYYkVtjZysntHaK9r1rTJE96LexaFL1JI6ylic2HXIIfxImSa7ebKATFyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=lists.freedesktop.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=17WkeGr7r7HhCghj1PZIUJ0et2wAnD3ZVaHDMHv4z6Q=;
- b=DZc9zivmERZnYCYprjt+jQvmJEHi82dZ3SrbfliCIl6rrQANSQv0fBsfgyfDBBtqtzWAZ6iPwhVQAzRP1Tkzpur36Y8GSK1xkMOMOI1Ur9Ga0pLWBlojbZoFJoZF9riMkpbJqRMZWIAnX0Webp+6KRnYrb/HahsYZqlqJ8qdTKSCtMWYjaHTDUirB8QjBz8LKh7XYeXF6gjnOytV0JyYs7OJUx6ndwkWJbveT9QVREAhXbVoZOUXSg/zNWAkqnQri29O3TmyNrNcZpPER1SRoham2ElPGTDc24qrGXovSN/vJnWx7Ylw0a2zjDIAAbhHwN4wdnN+wW5p80HoOr7msQ==
-Received: from BL1PR13CA0095.namprd13.prod.outlook.com (2603:10b6:208:2b9::10)
- by DS7PR12MB6119.namprd12.prod.outlook.com (2603:10b6:8:99::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7633.37; Thu, 13 Jun 2024 17:01:45 +0000
-Received: from BL6PEPF0002256F.namprd02.prod.outlook.com
- (2603:10b6:208:2b9:cafe::c4) by BL1PR13CA0095.outlook.office365.com
- (2603:10b6:208:2b9::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.20 via Frontend
- Transport; Thu, 13 Jun 2024 17:01:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BL6PEPF0002256F.mail.protection.outlook.com (10.167.249.37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7677.15 via Frontend Transport; Thu, 13 Jun 2024 17:01:37 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 13 Jun
- 2024 10:01:06 -0700
-Received: from fedora.mshome.net (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 13 Jun
- 2024 10:01:05 -0700
-From: Ben Skeggs <bskeggs@nvidia.com>
-To: <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-CC: Ben Skeggs <bskeggs@nvidia.com>
-Subject: [PATCH 2/2] drm/nouveau/nvkm: separate out into nvkm.ko
-Date: Fri, 14 Jun 2024 03:02:11 +1000
-Message-ID: <20240613170211.88779-3-bskeggs@nvidia.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240613170211.88779-1-bskeggs@nvidia.com>
-References: <20240613170211.88779-1-bskeggs@nvidia.com>
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1B5710EB16
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 17:05:08 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-52c819f6146so1880905e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 10:05:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1718298307; x=1718903107; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=5s81hRJV5Zx9U5qH2vAOJUfHtOUwvEenRjG7i+7iL4g=;
+ b=cYrp8fqDw+A6Vro6t4+IYIdplHHMlzse3iKB3tS7/0L8UdnxYOWnAsgemiFf5/X125
+ LRrG8AWq1ie6eK/DMQnWNskKczZIA5gnMrPjrlL9FqhGiHqK2hfuf957fGo+MVmKuF50
+ BnLA+Fu08x+vGhsjs7tnsyK257l2dQcK0zfoGv2Ik9NuhW3/cvHq7faJ7RmfG0ZXvfQk
+ mZ7fRsol9nOCbXVnjfeecK0DojVZ5U1Elai8Qnw1rGlsWMzDsNnfj6twgJ6IB66xEfjB
+ 6c2fOiRJnLufPybtlBHUSqDJNRz7dEOuYYmW6eAMbZcBUdfc26TeFV1oHlMxV31Bm3u7
+ IImw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718298307; x=1718903107;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5s81hRJV5Zx9U5qH2vAOJUfHtOUwvEenRjG7i+7iL4g=;
+ b=PhUKz2GePKXg9WrFMIsseklpI8FKO0TKzVV2jDTjzW3onTnMjdytBNa3fqUguS0ax3
+ A9Rkfh4fKuXNhMMmiMVXjCR9ge9lw3kaqP7yqzB9eajFsCP6DDBrXPBo9TcTwSXBBCQs
+ NakR6LfRnEU+1ND+CHqURYnR+nCtNWD74+GMbyA74lw9TWqlNpds0k1TCzBuN1lRBpbn
+ XueV1sdP/8fsi87QY1CfS09UTnkSfezYfuD6kHGsVKECq2sJ5gIqz4YXmDPq1C4RLh+p
+ izI0C8JHSRyU8IyCByIS5FZveqmk+S2kQG5fgwnu+LLNnhudEUqH3RiPyReo6050l26M
+ 5hWA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/c/5TyOqKWKALpQk1ampybT79uqOj91HpOt1dTZHgqUJTGiYaxZKXlGfmL0hVMpg7/tN1Cf+kQwgl4W6EQg2TgdARytJSvVDwUOKKb+9p
+X-Gm-Message-State: AOJu0YzE9e9IesaPVxnf+iPlZI8LOhx1IsO4xQ24D3ssKM6qslIgi4oj
+ hmihMGaxM8u2C12WfvlwUkX2KC8f6dSlyhHJcepLCpEd0flnySMIXMhXZ891T3g=
+X-Google-Smtp-Source: AGHT+IHKrwhQZ9vxGVegzTyWBoWr/raE8v/Q+V1t2Hug77JcE2x2GspnZP88cLa5rhHl6EyTzJWpaQ==
+X-Received: by 2002:a05:6512:4819:b0:52b:ef61:cb73 with SMTP id
+ 2adb3069b0e04-52ca6e6c91emr240352e87.36.1718298306813; 
+ Thu, 13 Jun 2024 10:05:06 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52ca2825733sm287312e87.60.2024.06.13.10.05.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Jun 2024 10:05:06 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 0/8] drm/msm/dpu: handle non-default TE source pins
+Date: Thu, 13 Jun 2024 20:05:03 +0300
+Message-Id: <20240613-dpu-handle-te-signal-v2-0-67a0116b5366@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0002256F:EE_|DS7PR12MB6119:EE_
-X-MS-Office365-Filtering-Correlation-Id: dd29f3d9-99a6-405f-b783-08dc8bca7ceb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230035|376009|1800799019|82310400021|36860700008; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ZuOaVEZDYjPkvOsruQ9UUcNX8dZEN+ULkFubwYd57kvtdM3h8nrkJA6YgD/u?=
- =?us-ascii?Q?3vCW5CQUcpgWNUtsbe/5eiEGQx+oHIteM+4CKxdk7LcUWZAGWcXf6Rzf75/S?=
- =?us-ascii?Q?LY2K5b9d/hVxL4aBUr9vszSiIviFSybgkNY2a2sHg/IeJV909GWjzvfL2aFM?=
- =?us-ascii?Q?AwKNutrmzldF8bf8L6lDttsw2NQ3av9CzsxK6pVsmz2cw4z30HctdyUrXycB?=
- =?us-ascii?Q?B3HOfArgZoi0gOpP6VJbiHw9eJtpKlvP4nnKmfzWZzEE0/ikZgaR68ULbYkQ?=
- =?us-ascii?Q?qAVpA5uG4P1aOibJSxhfGRuBta8Fo9PWJacWNyVUUmEnAsGDEo1af0U36cGQ?=
- =?us-ascii?Q?24WqvvGYFuj9YhuTtVIsGxYDE/WVCoDsNzzMueYy89arUJpVaLJS0SKnZO86?=
- =?us-ascii?Q?vawPxS2seH7adzAju2ZgioA7ORsBrfeIuv9WUplV4PzHa0FUL+GyEV0EAS3q?=
- =?us-ascii?Q?IiIX05psmeayiEQCMVQTCDB+esmseTx8x5vxFiUmS1kGwk+sDWgOyvwODRwZ?=
- =?us-ascii?Q?hbjidXMs5uzthZ6OaDmGGwDHiSYRCG5Zr0zrssCRsgiqfIAifOOYkyLbJwC6?=
- =?us-ascii?Q?H81cEyAy97hvOMJRkmgzEd/J4QbQjNfqKO+6XxfrYtVgJlnzsLM8gbDEbTTQ?=
- =?us-ascii?Q?OLRTovI/SXxj1yGvTULmkh+rFHOO6fBOvPMrNpFTmA4inwITesbvQsPeSprr?=
- =?us-ascii?Q?voLHalvJHSl5WzK5iaZNTeYaWgfyh1cUq3RabEo3lGHjH99Z07ahP0mz+6QA?=
- =?us-ascii?Q?r00mjVWw06OuF6sgEN1nsJ5B2m/RAw+r1onkd3RXsn4rk46v6NrosqkWMrge?=
- =?us-ascii?Q?oqh8HTw0UODloQd5rPhqjXP4YLkCbVcawfORm8/7q/zrPdLwukn4xRF19Czs?=
- =?us-ascii?Q?9mC7Q9v4dh9HUq1e7KwmjB2fZ3cOt10IaG766Yctmum/CLIj+DzTr7V9sK+e?=
- =?us-ascii?Q?cMM6QzdMlePGySh8XniofG8THoFN0Z7jGHzpfHHgVnBvsLaaIyYhan+nyVwc?=
- =?us-ascii?Q?MEGFqHecC/oUIBNbDVtfLGKPj/qou/75KZnK7HJiY97x3PyZr5tWS+XTAnEV?=
- =?us-ascii?Q?YzFCUALjymOtaDQPQ07SkhVAO+UdnlvwYq4jCMKR97uMTsfI+eNt0A2z7K/A?=
- =?us-ascii?Q?uK2UqPFcpU41hrsPkqM66CxAHn6/avDwSo9X6pnrUgdXOzcqXatPwQzzw5V6?=
- =?us-ascii?Q?r11B2+rE5lF1Nvr7WZevPTemaSop49NDvMbK8z/ugHcCE5HEC/y8tI4Z9WaN?=
- =?us-ascii?Q?o3lbm8zqRrqiwWaM9IxmaBkG/PrGOJjbWv30JX/2XDMlSp5fKy9JnCHnA2zL?=
- =?us-ascii?Q?4DtPNa7f5cRwBA1e1ShFJP6xdQ6qus9XJC0zUH+B3slQ/jWJx3I1/HJXUZ27?=
- =?us-ascii?Q?SpkjbEczM7P/F4Vxf66wuPmucclq1SirIfteV2crQT6NFQPaHg=3D=3D?=
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230035)(376009)(1800799019)(82310400021)(36860700008); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2024 17:01:37.3213 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd29f3d9-99a6-405f-b783-08dc8bca7ceb
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0002256F.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6119
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL8ma2YC/22NwQ6CMBBEf4Xs2TXtgoic/A/DodAFNiEtaZFoC
+ P9uJR49vpnMmw0iB+EIdbZB4FWieJeAThl0o3EDo9jEQIoKddEF2vmJqbAT48IYZXBmworKMu8
+ Uad1aSNM5cC+vQ/toEo8SFx/ex8uqv+lPSOq/cNWosKdr3hZkVHXr7pM4E/zZhwGafd8/m4FX0
+ LkAAAA=
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2378;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=V6OI1zdDevRN8dC7/6y23Sk+GAv4kSLgtWhdz6coRuE=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmaybAGNxJLg/ANFwNRgQ8s2d4ZmCLfW5rXeILz
+ SUGetZ0ls+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZmsmwAAKCRCLPIo+Aiko
+ 1dH7B/43p0LbaZKdVSHQbQqKu67/DTQgos56C68bQHGXcvDavLr8Ks81BXvV7JqhBwDeLNIew8Z
+ ROcjWND6fsJ/kTY5bbqwX7mVpj3bY6w/g5J3Jv/WwnY/+IpWZoRvARy0dLpLRwn+s40wb0LctH/
+ cPZJh/3+LDjgw+6FjoKKPim+btsmJcsNeJc/a7l1FjGIR98x67SpklgZfbpilXtIEMhsDlOTZzi
+ YWVnOAccNBhuQ49f0vCzq9ef3CLyJ5izA/2swjKlKgUfVRwsju/qwscUsYeepx9AjMoWfztDuGN
+ WjzW1PhDp34SXsKgTvZoslAkX7tszVGyeSQElDhXi60EZVBE
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,117 +105,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signed-off-by: Ben Skeggs <bskeggs@nvidia.com>
----
- drivers/gpu/drm/nouveau/Kbuild                     |  4 ++--
- drivers/gpu/drm/nouveau/include/nvkm/core/module.h |  3 ---
- drivers/gpu/drm/nouveau/nouveau_drm.c              | 10 +---------
- drivers/gpu/drm/nouveau/nvkm/module.c              |  8 ++++++--
- 4 files changed, 9 insertions(+), 16 deletions(-)
+Command-mode DSI panels need to signal the display controlller when
+vsync happens, so that the device can start sending the next frame. Some
+devices (Google Pixel 3) use a non-default pin, so additional
+configuration is required. Add a way to specify this information in DT
+and handle it in the DSI and DPU drivers.
 
-diff --git a/drivers/gpu/drm/nouveau/Kbuild b/drivers/gpu/drm/nouveau/Kbuild
-index cc471ab6a7ec..b62c6858fb7b 100644
---- a/drivers/gpu/drm/nouveau/Kbuild
-+++ b/drivers/gpu/drm/nouveau/Kbuild
-@@ -8,11 +8,11 @@ ccflags-y += -I $(NOUVEAU_PATH)/$(src)
- 
- # NVKM - HW resource manager
- include $(src)/nvkm/Kbuild
--nouveau-y := $(nvkm-y)
-+obj-$(CONFIG_DRM_NOUVEAU) += nvkm.o
- 
- # NVIF - NVKM interface library (NVKM user interface also defined here)
- include $(src)/nvif/Kbuild
--nouveau-y += $(nvif-y)
-+nouveau-y := $(nvif-y)
- 
- # DRM - general
- ifdef CONFIG_X86
-diff --git a/drivers/gpu/drm/nouveau/include/nvkm/core/module.h b/drivers/gpu/drm/nouveau/include/nvkm/core/module.h
-index fc42ace93a1c..d1ad6aae9911 100644
---- a/drivers/gpu/drm/nouveau/include/nvkm/core/module.h
-+++ b/drivers/gpu/drm/nouveau/include/nvkm/core/module.h
-@@ -3,8 +3,5 @@
- #define __NVKM_MODULE_H__
- #include <linux/module.h>
- 
--int __init nvkm_init(void);
--void __exit nvkm_exit(void);
--
- extern int nvkm_runpm;
- #endif
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 7e77e950eba2..4f55cd73d1b3 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -1174,7 +1174,7 @@ static const struct dev_pm_ops nouveau_pm_ops = {
- 
- static const struct auxiliary_device_id
- nouveau_drm_id_table[] = {
--	{ .name = "nouveau.device" },
-+	{ .name = "nvkm.device" },
- 	{}
- };
- 
-@@ -1190,8 +1190,6 @@ nouveau_auxdrv = {
- static int __init
- nouveau_drm_init(void)
- {
--	int ret;
--
- 	nouveau_display_options();
- 
- 	if (nouveau_modeset == -1) {
-@@ -1202,10 +1200,6 @@ nouveau_drm_init(void)
- 	if (!nouveau_modeset)
- 		return 0;
- 
--	ret = nvkm_init();
--	if (ret)
--		return ret;
--
- 	nouveau_backlight_ctor();
- 
- 	return auxiliary_driver_register(&nouveau_auxdrv);
-@@ -1223,8 +1217,6 @@ nouveau_drm_exit(void)
- 
- 	if (IS_ENABLED(CONFIG_DRM_NOUVEAU_SVM))
- 		mmu_notifier_synchronize();
--
--	nvkm_exit();
- }
- 
- module_init(nouveau_drm_init);
-diff --git a/drivers/gpu/drm/nouveau/nvkm/module.c b/drivers/gpu/drm/nouveau/nvkm/module.c
-index c14dd7fa15c2..d0ae023cdc74 100644
---- a/drivers/gpu/drm/nouveau/nvkm/module.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/module.c
-@@ -26,7 +26,7 @@
- 
- int nvkm_runpm = -1;
- 
--void __exit
-+static void __exit
- nvkm_exit(void)
- {
- #ifdef CONFIG_PCI
-@@ -39,7 +39,7 @@ nvkm_exit(void)
- #endif
- }
- 
--int __init
-+static int __init
- nvkm_init(void)
- {
- 	int ret;
-@@ -60,3 +60,7 @@ nvkm_init(void)
- 
- 	return 0;
- }
-+
-+MODULE_LICENSE("GPL and additional rights");
-+module_init(nvkm_init);
-+module_exit(nvkm_exit);
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes in v2:
+- In DT bindings renamed mdp_gpioN to mdp_vsync_p/_s/_e per pins name (Abhinav)
+- Extended bindings to include default: mdp_vsync_p (Rob)
+- Renamed dpu_hw_setup_vsync_source() and
+  dpu_hw_setup_vsync_source_and_vsync_sel() to match the implementation
+  (Abhinav)
+- Link to v1: https://lore.kernel.org/r/20240520-dpu-handle-te-signal-v1-0-f273b42a089c@linaro.org
+
+---
+Dmitry Baryshkov (8):
+      dt-bindings: display/msm/dsi: allow specifying TE source
+      drm/msm/dpu: convert vsync source defines to the enum
+      drm/msm/dsi: drop unused GPIOs handling
+      drm/msm/dpu: pull the is_cmd_mode out of _dpu_encoder_update_vsync_source()
+      drm/msm/dpu: rework vsync_source handling
+      drm/msm/dsi: parse vsync source from device tree
+      drm/msm/dpu: support setting the TE source
+      drm/msm/dpu: rename dpu_hw_setup_vsync_source functions
+
+ .../bindings/display/msm/dsi-controller-main.yaml  | 17 ++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 11 ++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |  5 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        | 26 ++++++------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c         | 14 +++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h         |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            | 44 ++++++++++++++++++++
+ drivers/gpu/drm/msm/dsi/dsi.h                      |  1 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 | 48 +++++-----------------
+ drivers/gpu/drm/msm/dsi/dsi_manager.c              |  5 +++
+ drivers/gpu/drm/msm/msm_drv.h                      |  6 +++
+ 13 files changed, 114 insertions(+), 69 deletions(-)
+---
+base-commit: 03d44168cbd7fc57d5de56a3730427db758fc7f6
+change-id: 20240514-dpu-handle-te-signal-82663c0211bd
+
+Best regards,
 -- 
-2.44.0
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
