@@ -2,130 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FC49093FA
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 00:00:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08E2909409
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 00:06:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A2A910E2AD;
-	Fri, 14 Jun 2024 22:00:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57DDC10E2B1;
+	Fri, 14 Jun 2024 22:06:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="HV6S9Zv1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e2JkE15L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
- [209.85.219.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B251510E2B8
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 22:00:21 +0000 (UTC)
-Received: by mail-qv1-f47.google.com with SMTP id
- 6a1803df08f44-6b07937b84fso13664956d6.1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 15:00:21 -0700 (PDT)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8704610E2B1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 22:05:58 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id
+ 4fb4d7f45d1cf-57c923e03caso2968748a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 15:05:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1718402420; x=1719007220;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=YICLqeWZ7CPWIj9cycB+v+Sx/kefZlyQDl7Jt1GJ9mk=;
- b=HV6S9Zv1PTM79QToFU1LtYctDqEGE6vJi259EPPV/2QD9rCVyQn2j1xg02+RtKmuKX
- dQQdzK4Qj8ZktqzC/0/Nnkcgs2CpttV7bQ0t8WPV5R3kEarE9j1NyA+OqAnv3HKcc53G
- PFFyr8Ljc8MDM34I+AmP30DILUqaTXTyel8ws=
+ d=gmail.com; s=20230601; t=1718402756; x=1719007556; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=9NKpnQ84zxi9g2DKsrp6paIKuEaCxz0JVSsufLK/lNo=;
+ b=e2JkE15LOvLbKBZJQE+dhkE+zjlFGbBHTQ8zhEgbLM0u/WtKrSAcUX8jPWmhxHmb2G
+ PB6Kb35CtCnAEzODp99Hk+r6vDjl2TlcbZHL1tX3p0qNM8ZYdVp5Vb6Ssquz6zIE3QKc
+ VkkPTIpEu7PpH5D1C/RDRePHSWSUrOwTXGywJHT/7zMNBMD1zRXCxKLpM7gaDuMN9JeK
+ bcxi7OtDdKuULZS5FySPwmUzD4VW9T1frPm0okgn42pi7/V096nDFoRNmy1UJplyHZgy
+ ylB6p+aTiBJ4ttBCXPaWeRjZ2rsruHsU8ZVoL/gg1YFZEOSLmphxpCz9/4oAyRTljxDa
+ yVtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718402420; x=1719007220;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YICLqeWZ7CPWIj9cycB+v+Sx/kefZlyQDl7Jt1GJ9mk=;
- b=wZ9tSZWxKBK49Fb+DXdFDZGm1teu4N/COYrsdUhhs2z+1C5pRhwF8cJETkRE5SfmOa
- 3ipudbSYTtB0s6eGBZfAl8lxN4x79QOE/ZO2O2xq9hPgsaYGASQ2AwBL+YBx0US+DuJb
- uR1LE16n+oVJt77Oe8XsdbZ2NtFHBSRTvS6piTR8tDEsjj1yyuww995wuOCrbTC5+SRl
- 9PfgRu7AdawwuQYq9OHeCmeIREnXOxwvE8T+M8aCczz1sqDdSTR17271+HoDRzn5lvdW
- JxsyS6miw3PTUZOP/jSWjBewlKspq9xNq4OBMAH+Cs/F+KsaFZU2VQ/f6CZm+6DpNtOT
- DwrQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUiPkef6w6lyGF89GNs+7nHbocl11UkoYyxTJcC+XJ9hp28XaJU91pYWqwq4Z7EkwGQl7CGgZsEjSakhRIWAMEmbJh5vx1sqQ1TZ0x4GLys
-X-Gm-Message-State: AOJu0YzRN+ygXf6Qvv3IVDr4AsXb+Wfeenk6fbBHCQfQ0Dp0eifuZBcx
- ATEvZne3cK/iZha0OCEwWjfh8vUaj2A350od0wNWGmHw02fvcYLTaRo7PztppQ==
-X-Google-Smtp-Source: AGHT+IG/HD2HHZaQReiMiEQIeKbUkIZLrpVW6+XwOsJB6JUy8Iaw3habv8swl8TM2z1Y2OKuwVX6NQ==
-X-Received: by 2002:a0c:d6c7:0:b0:6b2:b251:7d95 with SMTP id
- 6a1803df08f44-6b2b2517db4mr30028326d6.17.1718402419852; 
- Fri, 14 Jun 2024 15:00:19 -0700 (PDT)
-Received: from [10.66.192.68] ([192.19.161.250])
- by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b2a5f05782sm23013906d6.139.2024.06.14.15.00.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jun 2024 15:00:19 -0700 (PDT)
-Message-ID: <a640b47b-c1a3-4f0c-8780-ca08edcf089e@broadcom.com>
-Date: Fri, 14 Jun 2024 15:00:12 -0700
+ d=1e100.net; s=20230601; t=1718402756; x=1719007556;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9NKpnQ84zxi9g2DKsrp6paIKuEaCxz0JVSsufLK/lNo=;
+ b=puEAMdTTWfWIf7/ap31oVO0S0h2N1KNv7Rg7QyG5Qopf2sx1i2HhzxMvXpNV/9wbX8
+ LR8skL3OI8fl+H5bHVnoEU3v8ZLU3601dXOYa91I6v1NBPc2ABtNDg+NjIoPjY7243C9
+ 1WmdXLNt+ndwVyEhcE/83YEcBCpxVLZs4qu+eu6Gvnn4fqR3P3hGjfC0t7oqS97d5rhk
+ ZuM5FKVXa6NEmLy0f8A1190rMA/A9H1rhWAHH1s8Ps756dlcxxmGE8jTBCsihIH9Y/92
+ ViGPmBMauBB3vaZngfxjQaRlGfbFNkX1DIBuF3zNXu1RWx5tx0sYKJqVMFHfwQePQqRo
+ LDYA==
+X-Gm-Message-State: AOJu0YzS+VuwHdEJjJkEwsiFGBKaRRqivJTqpI5lUGc0JtiYARPmxJyC
+ dTECL6NaJitGPjb8hRb0Qr3TGlauZv97XAaLGW4IEWyfu3K9Jmbakk8Mq8hZpRFYOW8VW1tMtnX
+ DhFeELBZN2HHLPr+3ZoRkW+qIXwPnl+5y
+X-Google-Smtp-Source: AGHT+IE+b6gM0omkmI2wHLa+MByqftBT92VyZN7nayii8T/REdVaTUWrLOvSqVsXzjNF0/QTWDMl4C/8m+idjGvgN50=
+X-Received: by 2002:a17:906:c29a:b0:a6f:5698:ab61 with SMTP id
+ a640c23a62f3a-a6f60cef734mr249722066b.11.1718402756064; Fri, 14 Jun 2024
+ 15:05:56 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 8/8] x86/vmware: Add TDX hypercall support
-To: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@intel.com>, linux-kernel@vger.kernel.org,
- virtualization@lists.linux.dev, hpa@zytor.com, dave.hansen@linux.intel.com,
- mingo@redhat.com, tglx@linutronix.de, x86@kernel.org,
- netdev@vger.kernel.org, richardcochran@gmail.com,
- linux-input@vger.kernel.org, dmitry.torokhov@gmail.com, zackr@vmware.com,
- linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
- timothym@vmware.com, akaher@vmware.com, dri-devel@lists.freedesktop.org,
- daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, horms@kernel.org,
- kirill.shutemov@linux.intel.com, Tim Merrifield <tim.merrifield@broadcom.com>
-References: <20240613191650.9913-1-alexey.makhalov@broadcom.com>
- <20240613191650.9913-9-alexey.makhalov@broadcom.com>
- <844ef200-aabe-4497-85c9-44fc46c9133a@intel.com>
- <20240614161404.GCZmxsTNLSoYTqoRoj@fat_crate.local>
- <74f8300b-3520-4824-81e3-71464e3da3b6@intel.com>
- <1750e44f-f9a9-4c2a-afb3-f1ae8237ccb0@broadcom.com>
- <20240614190956.GFZmyVhLGeyLjwvA6X@fat_crate.local>
-Content-Language: en-US
-From: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
- 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 EuY0
-In-Reply-To: <20240614190956.GFZmyVhLGeyLjwvA6X@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 15 Jun 2024 08:05:44 +1000
+Message-ID: <CAPM=9tw_3xzMPo46mPYfkPpnxy8jgeBy1Q5Ep1pH8Ws2BdA87g@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.10-rc4
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,29 +75,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hey Linus,
 
+Weekly fixes pull, seems a little quieter than usual, but still a
+bunch of stuff across the board. Mostly xe, some exynos and nouveau
+fixes. There is the fixup for the WERROR that you pointed out
+previously, hopefully it does what you expect now.
 
-On 6/14/24 12:09 PM, Borislav Petkov wrote:
-> On Fri, Jun 14, 2024 at 11:32:16AM -0700, Alexey Makhalov wrote:
->>
->>
->> On 6/14/24 9:19 AM, Dave Hansen wrote:
->>> On 6/14/24 09:14, Borislav Petkov wrote:
->>>> On Fri, Jun 14, 2024 at 09:03:22AM -0700, Dave Hansen wrote:
->>> ...
->>>>> You need to zero out all of 'args' somehow.
->>>>
->>>> You mean like this:
->>>>
->>>> 	struct tdx_module_args args = {};
->>>>
->>>> ?
->>>
->>> Yes, or do all the assignments with the initializer.  We seem to do it
->>> both ways, so whatever works.
->>
->> Thanks Dave for pointing that out. I missed that at v7.
-> 
-> Ok, I'll fold this struct initialization oneliner into the last patch.
-> 
-Thanks!
+Dave.
+
+drm-fixes-2024-06-15:
+drm fixes for 6.10-rc4
+
+core:
+- Werror Kconfig fix
+
+panel:
+- add orientation quirk for Aya Neo KUN
+- fix runtime warning on panel/bridge release
+
+nouveau:
+- remove unused struct
+- fix wq crash on cards with no display
+
+amdgpu:
+- fix bo release clear page warning
+
+xe:
+- update MAINTAINERS
+- Use correct forcewake assertions.
+- Assert that VRAM provisioning is only done on DGFX.
+- Flush render caches before user-fence signalling on all engines.
+- Move the disable_c6 call since it was sometimes never called.
+
+exynos:
+- fix regression with fallback mode
+- fix EDID related memory leak
+- remove redundant code
+
+komeda:
+- fix debugfs conditional compilations
+- check pointer error value
+
+renesas:
+- atomic shutdown fix
+
+mediatek:
+- atomic shutdown fix
+The following changes since commit 83a7eefedc9b56fe7bfeff13b6c7356688ffa670=
+:
+
+  Linux 6.10-rc3 (2024-06-09 14:19:43 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-06-15
+
+for you to fetch changes up to 9f0a86492ac4de4d1db718986a91833fdc914a54:
+
+  Merge tag 'drm-misc-fixes-2024-06-14' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+(2024-06-15 06:52:56 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.10-rc4
+
+core:
+- Werror Kconfig fix
+
+panel:
+- add orientation quirk for Aya Neo KUN
+- fix runtime warning on panel/bridge release
+
+nouveau:
+- remove unused struct
+- fix wq crash on cards with no display
+
+amdgpu:
+- fix bo release clear page warning
+
+xe:
+- update MAINTAINERS
+- Use correct forcewake assertions.
+- Assert that VRAM provisioning is only done on DGFX.
+- Flush render caches before user-fence signalling on all engines.
+- Move the disable_c6 call since it was sometimes never called.
+
+exynos:
+- fix regression with fallback mode
+- fix EDID related memory leak
+- remove redundant code
+
+komeda:
+- fix debugfs conditional compilations
+- check pointer error value
+
+renesas:
+- atomic shutdown fix
+
+mediatek:
+- atomic shutdown fix
+
+----------------------------------------------------------------
+Adam Miotk (1):
+      drm/bridge/panel: Fix runtime warning on panel bridge release
+
+Amjad Ouled-Ameur (1):
+      drm/komeda: check for error-valued pointer
+
+Andrzej Hajda (1):
+      drm/xe: flush engine buffers before signalling user fence on all engi=
+nes
+
+Arunpravin Paneer Selvam (1):
+      drm/amdgpu: Fix the BO release clear memory warning
+
+Dave Airlie (3):
+      Merge tag 'exynos-drm-fixes-for-v6.10-rc4' of
+git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into
+drm-fixes
+      Merge tag 'drm-xe-fixes-2024-06-13' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+      Merge tag 'drm-misc-fixes-2024-06-14' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+
+Douglas Anderson (2):
+      drm: renesas: shmobile: Call drm_atomic_helper_shutdown() at shutdown=
+ time
+      drm/mediatek: Call drm_atomic_helper_shutdown() at shutdown time
+
+Dr. David Alan Gilbert (1):
+      drm/nouveau: remove unused struct 'init_exec'
+
+Jani Nikula (2):
+      drm: have config DRM_WERROR depend on !WERROR
+      drm/exynos/vidi: fix memory leak in .get_modes()
+
+Krzysztof Kozlowski (1):
+      drm/exynos: dp: drop driver owner initialization
+
+Marek Szyprowski (1):
+      drm/exynos: hdmi: report safe 640x480 mode as a fallback when no
+EDID found
+
+Maxime Ripard (1):
+      Merge drm/drm-fixes into drm-misc-fixes
+
+Michal Wajdeczko (1):
+      drm/xe/pf: Assert LMEM provisioning is done only on DGFX
+
+Oded Gabbay (1):
+      MAINTAINERS: update Xe driver maintainers
+
+Riana Tauro (2):
+      drm/xe/xe_gt_idle: use GT forcewake domain assertion
+      drm/xe: move disable_c6 call
+
+Thomas Hellstr=C3=B6m (1):
+      MAINTAINERS: Update Xe driver maintainers
+
+Tobias Jakobi (1):
+      drm: panel-orientation-quirks: Add quirk for Aya Neo KUN
+
+Vasily Khoruzhick (1):
+      drm/nouveau: don't attempt to schedule hpd_work on headless cards
+
+pengfuyuan (1):
+      arm/komeda: Remove all CONFIG_DEBUG_FS conditional compilations
+
+ MAINTAINERS                                            |  2 +-
+ drivers/gpu/drm/Kconfig                                |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c                |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c             |  2 --
+ drivers/gpu/drm/arm/display/komeda/komeda_dev.c        |  8 --------
+ .../gpu/drm/arm/display/komeda/komeda_pipeline_state.c |  2 +-
+ drivers/gpu/drm/bridge/panel.c                         |  7 +++++--
+ drivers/gpu/drm/drm_panel_orientation_quirks.c         |  6 ++++++
+ drivers/gpu/drm/exynos/exynos_dp.c                     |  1 -
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c               |  7 ++++++-
+ drivers/gpu/drm/exynos/exynos_hdmi.c                   |  7 +++++--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c                 |  8 ++++++++
+ drivers/gpu/drm/nouveau/dispnv04/disp.c                |  2 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c                |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_bios.c                 |  5 -----
+ drivers/gpu/drm/nouveau/nouveau_display.c              |  6 +++++-
+ drivers/gpu/drm/nouveau/nouveau_drv.h                  |  1 +
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c       |  8 ++++++++
+ drivers/gpu/drm/xe/xe_gt_idle.c                        |  9 ++++++++-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c             | 15 +++++++++++++-=
+-
+ drivers/gpu/drm/xe/xe_guc_pc.c                         |  6 ------
+ drivers/gpu/drm/xe/xe_ring_ops.c                       | 18 ++++++++++++++=
+++--
+ 22 files changed, 87 insertions(+), 37 deletions(-)
