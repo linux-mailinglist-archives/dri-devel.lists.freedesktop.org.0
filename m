@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB21908EDF
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 17:36:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 126F8908EE3
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 17:36:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86E6310EDAD;
-	Fri, 14 Jun 2024 15:36:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF02A10EDB4;
+	Fri, 14 Jun 2024 15:36:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="oH1mX/4X";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gtCN9fMK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A764810EDA8;
- Fri, 14 Jun 2024 15:36:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A343210EDB1;
+ Fri, 14 Jun 2024 15:36:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=T4HuY6PmfyfwRldxWRxLwZWSx9bfqjA6Fv0hOEqe/jk=; b=oH1mX/4XDpwjJ2ItX52f7DYksW
- Q3aswJxf/XMM6GhCw1BPfndldAElTgJbLhbj31TkZGZVruKnEc4BaTtP3NAp6+3m4+oGflndrbtec
- pbGJ7lb0UTqAeafSQkrnNebIXsCFclMGFAVQ9CKgATFSqmZRXsbw8fPG8E9JWqqKzjYrXiYlI4kp3
- G0UaeBFba8Z3aObio+Nyqg3Rv/reTR5T+0IuxfBDqQy8kT+8uRWJYFIHah9HQx9RvE3InPauKKE3h
- Gis9yKhCQVuIFmKw1QmRjezm8OPVPBYku/p3THQs8GqU+PKHPSVRVt4xmwRL0lSIu/r30wjz+3wF0
- h3MqClRQ==;
+ bh=BAKaAobYFUntrejEJZZwpK2PmNSiy7/4l9aRDDrVOhI=; b=gtCN9fMKRnOmGRz3sWltUWir12
+ OQWrlw1tdqxYq7cGWZAPF/OyYugN6y9DJ6Be+avuIpiQAx/BME0kxqnXkBrt1Xyc1SlBgATI8BZQx
+ bef/kQ26YVQA/U+D9+/oyeC366w4pLz3Hh03eS6Tl+NMrYYFZwyB6WD/bxfTK7rWilPSLB7WNkFXT
+ Cz2XRf4Eyva+f6JnPsqSJo7DzoHLv5Ti0tVprTXd+F2eYk0/ghIQKfjtKoZUVq66Pj8kjOTaCYyJF
+ a1jCuGz2PM30L7I7KMxG4tEucrWOV8DdqNZTw6QXY0+4zN5Y5uSG1kpIEpqcSZrQoa8BTptX1R32O
+ FuQ4jkyA==;
 Received: from [179.118.191.115] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sI8yI-003B8v-17; Fri, 14 Jun 2024 17:36:10 +0200
+ id 1sI8yP-003B8v-TK; Fri, 14 Jun 2024 17:36:18 +0200
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -55,9 +55,10 @@ Cc: kernel-dev@igalia.com, Melissa Wen <mwen@igalia.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Karol Herbst <kherbst@redhat.com>,
  Lyude Paul <lyude@redhat.com>,
  =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-Subject: [PATCH v6 3/8] drm/amdgpu: Enable async flips on the primary plane
-Date: Fri, 14 Jun 2024 12:35:30 -0300
-Message-ID: <20240614153535.351689-4-andrealmeid@igalia.com>
+Subject: [PATCH v6 4/8] drm: atmel-hlcdc: Enable async flips on the primary
+ plane
+Date: Fri, 14 Jun 2024 12:35:31 -0300
+Message-ID: <20240614153535.351689-5-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240614153535.351689-1-andrealmeid@igalia.com>
 References: <20240614153535.351689-1-andrealmeid@igalia.com>
@@ -83,21 +84,23 @@ This driver can perfom async flips on primary planes, so enable it.
 
 Signed-off-by: André Almeida <andrealmeid@igalia.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-index 8a4c40b4c27e..0c126c5609d3 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-@@ -1705,6 +1705,7 @@ int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+index 4a7ba0918eca..22b8a5c888ef 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+@@ -1227,6 +1227,9 @@ static int atmel_hlcdc_plane_create(struct drm_device *dev,
+ 	if (ret)
+ 		return ret;
  
- 	if (plane->type == DRM_PLANE_TYPE_PRIMARY) {
- 		drm_plane_create_zpos_immutable_property(plane, 0);
-+		plane->async_flip = true;
- 	} else if (plane->type == DRM_PLANE_TYPE_OVERLAY) {
- 		unsigned int zpos = 1 + drm_plane_index(plane);
- 		drm_plane_create_zpos_property(plane, zpos, 1, 254);
++	if (type == DRM_PLANE_TYPE_PRIMARY)
++		plane->base.async_flip = true;
++
+ 	drm_plane_helper_add(&plane->base,
+ 			     &atmel_hlcdc_layer_plane_helper_funcs);
+ 
 -- 
 2.45.2
 
