@@ -2,91 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEC5590938D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 22:56:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 907949093D3
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 23:59:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6392C10E296;
-	Fri, 14 Jun 2024 20:56:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C83010E2B3;
+	Fri, 14 Jun 2024 21:59:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b="Mt5B9ogH";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="EmkugCjs";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="VVXczM6z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com
- [103.168.172.145])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13FA410E296
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 20:56:40 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailfout.nyi.internal (Postfix) with ESMTP id 0738013800FD;
- Fri, 14 Jun 2024 16:56:40 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Fri, 14 Jun 2024 16:56:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- invisiblethingslab.com; h=cc:cc:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm1; t=1718398600;
- x=1718485000; bh=GZPfKZ/Rz0jT5WuRTnq+r2l0cpFH+3QRn9r5BMxT+Ts=; b=
- Mt5B9ogHpW1dhxnaLK59J5ig5ZJWDOk5db/jq4tUMQ2ox52KOTKQy9UaBLS2wbjm
- nkBMZc898CGrcZ8GZH+5xShl5vVXNhfXGgDG+kshuVj8CABS668Y9fAvnozR2D5o
- RQTFzeVdRNN2p7M94tWuF3Z+/MUhUM7kGb7+TA/+xYsbrocOQ65DvmLBp0DJRyPN
- W+b2k5h+qxWSJKdTbl5V6EBg8AJB76OIYKZRSZhcFhgKOpYxleH19qqgjK5oqk1H
- dbbMbljKMvaJgRx+4EdxA/54UVvflhru/lVIh+dj8dStLrKNd96wcXtML5U0Mr04
- NPJkJPfNVAiFVAdK5B6JNw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1718398600; x=1718485000; bh=GZPfKZ/Rz0jT5WuRTnq+r2l0cpFH
- +3QRn9r5BMxT+Ts=; b=EmkugCjsSEP+9Srmhwxh5eneGc8BRY3mw0rwtq+IcWn5
- xGI4qvdP0wYo6NnjH5hv9TblYpHDvz9abkg27jqZTGGacuCKni8v7948B/nxXzRy
- N62Ywnomj/pTCqhDlhodcnPlK/RKh+z+AGcKTuo6itasQ9Tyci2CoU2h8ZTNqTZA
- 3D5W+OklbQbsmykljZ8dODJP0MtEtq5mbe7o5J3aPPe7P8mzU5gXwaBAtxCziV0x
- juNV8OIyF4EY6z+JGR2sCz1AeS4IpUVeYsP7/4/dxnU60tbngOiS7A0G7j3+1Rpa
- jwW3ok4A6ZbAUzewgI7JP8KJDOnZ5yhMH6DGkvKR2g==
-X-ME-Sender: <xms:h65sZk72XJs0HKW8UQatexwDrD9GGPjJBa5iNXdy0DwHvuAuPLqhxA>
- <xme:h65sZl4Pvaefasuz-sShVLrEkuLAnTtnKRDpmgDezzJot1_jqKIZE2_IhJvPvfZZI
- nsT9BI77jItKjA>
-X-ME-Received: <xmr:h65sZjdXVu0QxA9Uh-Lst5YVCtPfLxcrqM01twdBF1iaJzts0B3s-AfVfZ1T4YiDWZvAlovtk9H1FHnpnp-5vNojjDlP7Vl0BNuZLok2E2Qi85vL>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeduledgudehgecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeffvghm
- ihcuofgrrhhivgcuqfgsvghnohhurhcuoeguvghmihesihhnvhhishhisghlvghthhhinh
- hgshhlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpeduieelfeeutedvleehueetffej
- geejgeffkeelveeuleeukeejjeduffetjeekteenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpeguvghmihesihhnvhhishhisghlvghthhhinhhg
- shhlrggsrdgtohhm
-X-ME-Proxy: <xmx:h65sZpL4tf3cQXEmmpwHCVckqTZF-n6MXtAa3ubaKoOua9KbTfpEGA>
- <xmx:h65sZoLGqYKy_CrKTcv4NpEnXKPqUZEUdQgR0FRJjpxMhoGyptwomg>
- <xmx:h65sZqztYGeYvgGkgnwFpw63dIst23dyXgZZEJ7PqR1lAtPitTlDSg>
- <xmx:h65sZsJL-877f7QIWuPZNoy6m3SGo9FQYgV_yeNehhy_7S4cxrxyow>
- <xmx:h65sZlD99sM47HY8pBaFvYzpFUjTkEH3q7vghxPlhdmzjzheYv5WUy0o>
-Feedback-ID: iac594737:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 14 Jun 2024 16:56:38 -0400 (EDT)
-Date: Fri, 14 Jun 2024 16:56:35 -0400
-From: Demi Marie Obenour <demi@invisiblethingslab.com>
-To: Jan Beulich <jbeulich@suse.com>
-Cc: Xenia Ragiadakou <burzalodowa@gmail.com>,
- Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>, 
- Ray Huang <ray.huang@amd.com>,
- Xen developer discussion <xen-devel@lists.xenproject.org>,
- Andrew Cooper <andrew.cooper3@citrix.com>,
- Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>,
- Direct Rendering Infrastructure development <dri-devel@lists.freedesktop.org>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Rob Clark <robdclark@gmail.com>
-Subject: Re: Design session notes: GPU acceleration in Xen
-Message-ID: <ZmyuhRQlHxo2JXPu@itl-email>
-References: <Zms9tjtg06kKtI_8@itl-email>
- <440d6444-3b02-4756-a4fa-02aae3b24b14@suse.com>
+Received: from smtp52.i.mail.ru (smtp52.i.mail.ru [95.163.41.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61BD310E2AC;
+ Fri, 14 Jun 2024 21:59:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
+ ; s=mailru;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:From:Sender:Reply-To:To:Cc:Content-Type:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
+ X-Cloud-Ids:Disposition-Notification-To;
+ bh=qBrlhxoyGYIX/FkKuLeT+dLsA3at60og0PQxkArnBHM=; t=1718402348; x=1718492348; 
+ b=VVXczM6zYuqqjjaj0xEgxKn2019zRA2kVr/15gjkWuweBabXMnqXhc/tCMQ6uVBq5p2K6XtFBFP
+ 2keIqUSvwgqDr8BJOe3piVHQYuoutG/DKDBd8ha/1OClVfZEukEQnJmUYh6nskcroeXfVX/wuY5VD
+ BXSVgwiUuaEPnTWUkIQ=;
+Received: by smtp52.i.mail.ru with esmtpa (envelope-from <danila@jiaxyga.com>)
+ id 1sIEwo-0000000DQt7-0fot; Sat, 15 Jun 2024 00:59:03 +0300
+From: Danila Tikhonov <danila@jiaxyga.com>
+To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ quic_rmccann@quicinc.com, konrad.dybcio@linaro.org,
+ neil.armstrong@linaro.org, jonathan@marek.ca, swboyd@chromium.org,
+ quic_khsieh@quicinc.com, quic_jesszhan@quicinc.com
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Danila Tikhonov <danila@jiaxyga.com>
+Subject: [PATCH v3 0/4] Add MDSS and DPU support for QCOM SM7150 SoC
+Date: Sat, 15 Jun 2024 00:58:51 +0300
+Message-ID: <20240614215855.82093-1-danila@jiaxyga.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="Gd/4I9Ey0Xn0VJx2"
-Content-Disposition: inline
-In-Reply-To: <440d6444-3b02-4756-a4fa-02aae3b24b14@suse.com>
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp52.i.mail.ru;
+ auth=pass smtp.auth=danila@jiaxyga.com
+ smtp.mailfrom=danila@jiaxyga.com
+X-Mailru-Src: smtp
+X-7564579A: 78E4E2B564C1792B
+X-77F55803: 4F1203BC0FB41BD9AC8CA0B4439200FA28F1BD06D4CF66E6FBB893C35490C21C00894C459B0CD1B9024E8280270506ADBC1E996D91BF8BA8AAA09460975C62D331FC8F41566DE7970DE140DF427568CF
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7A3589DC202DD7369EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F790063790B55F3E386DB9B28638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8F6DB21DE365137F61367D1A1BD11C48D4C07A2124609FAABCC7F00164DA146DAFE8445B8C89999728AA50765F79006377C70927E34808485389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC80839144E5BB460BAF6B57BC7E6449061A352F6E88A58FB86F5D81C698A659EA73AA81AA40904B5D9A18204E546F3947C1DAA61796BF5227BAD7EC71F1DB884274AD6D5ED66289B523666184CF4C3C14F6136E347CC761E07725E5C173C3A84C3963AE2AFEF160AEBBA3038C0950A5D36B5C8C57E37DE458B330BD67F2E7D9AF16D1867E19FE14079C09775C1D3CA48CF17B107DEF921CE791DD303D21008E298D5E8D9A59859A8B64854413538E1713F75ECD9A6C639B01B78DA827A17800CE73A6989AD488FD87D731C566533BA786AA5CC5B56E945C8DA
+X-C1DE0DAB: 0D63561A33F958A572D8628D918D88495002B1117B3ED696B42F0537A5B1057819AC5B239BAD4335823CB91A9FED034534781492E4B8EEADA2D5570B22232E1EC79554A2A72441328621D336A7BC284946AD531847A6065A535571D14F44ED41
+X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF77DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CF6E3AC12C8FBE4226D3D85F98EC02C61921434E08D67B9B54F9C1DFCF8833E9C28D4FFD5EE5365399BC11D93875BCBCACFF90F3712A80EF730A7495B692C6454FA784DBFDB1348CF354A6BD6C3A9AE7E002C26D483E81D6BE72B480F99247062FEE42F474E8A1C6FD34D382445848F2F3
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojbL9S8ysBdXim4nADFW8Ww8wzEdE2OTTm
+X-Mailru-Sender: 9EB879F2C80682A09F26F806C7394981941D1884D218BFB88BD48BD36611AD346B43D4AF59BF160B4C1DA9628851132B2C62728BC403A049225EC17F3711B6CF1A6F2E8989E84EC137BFB0221605B344978139F6FA5A77F05FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,128 +74,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series adds MDSS and DPU support for SM7150.
 
---Gd/4I9Ey0Xn0VJx2
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 Jun 2024 16:56:35 -0400
-From: Demi Marie Obenour <demi@invisiblethingslab.com>
-To: Jan Beulich <jbeulich@suse.com>
-Cc: Xenia Ragiadakou <burzalodowa@gmail.com>,
-	Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>,
-	Ray Huang <ray.huang@amd.com>,
-	Xen developer discussion <xen-devel@lists.xenproject.org>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>,
-	Direct Rendering Infrastructure development <dri-devel@lists.freedesktop.org>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Rob Clark <robdclark@gmail.com>
-Subject: Re: Design session notes: GPU acceleration in Xen
+Changes in v3:
+- Swap DPU and MDSS patches (Krzysztof)
+- Add an explanation of the abbreviation DPU in patch 1 (Krzysztof)
+- Switch qseed3_1_4 on qseed3_2_4 in patch 2 (Dmitry)
+- Drop LM_4 and LM_5 in patch 2 (Dmitry)
+- Add Krzysztof's R-b tag to patch 1 and patch 3
+- Add Dmitry's R-b tag to patch 4
+- Link to v2:
+https://lore.kernel.org/all/20240612184336.11794-1-danila@jiaxyga.com/
 
-On Fri, Jun 14, 2024 at 08:38:51AM +0200, Jan Beulich wrote:
-> On 13.06.2024 20:43, Demi Marie Obenour wrote:
-> > GPU acceleration requires that pageable host memory be able to be mapped
-> > into a guest.
->=20
-> I'm sure it was explained in the session, which sadly I couldn't attend.
-> I've been asking Ray and Xenia the same before, but I'm afraid it still
-> hasn't become clear to me why this is a _requirement_. After all that's
-> against what we're doing elsewhere (i.e. so far it has always been
-> guest memory that's mapped in the host). I can appreciate that it might
-> be more difficult to implement, but avoiding to violate this fundamental
-> (kind of) rule might be worth the price (and would avoid other
-> complexities, of which there may be lurking more than what you enumerate
-> below).
+Changes in v2:
+- Drop clock controller headers and use invented clocks instead in
+patches 1 and 2 (Dmitry and Rob)
+- Link to v1:
+https://lore.kernel.org/all/20240611223743.113223-1-danila@jiaxyga.com/
 
-The GPU driver knows how to allocate buffers that are usable by the GPU.
-On a discrete GPU, these buffers will generally be in VRAM, rather than
-in system RAM, because access to system RAM requires going through the
-PCI bus (slow).  However, VRAM is a limited resource, so the driver will
-migrate pages between VRAM and system RAM as needed.  During the
-migration, a guest that tries to access the pages must block until the
-migration is complete.
+To: Rob Clark <robdclark@gmail.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Sean Paul <sean@poorly.run>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Ryan McCann <quic_rmccann@quicinc.com>
+To: Stephen Boyd <swboyd@chromium.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+To: Jonathan Marek <jonathan@marek.ca>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
 
-Some GPU drivers support accessing externally provided memory.  This is
-called "userptr", and is supported by i915 and amdgpu.  However, it
-appears that some other drivers (such as MSM) do not support it, and
-since GPUs with VRAM need to be supported anyway, Xen still needs to
-support GPU driver-allocated memory.
+Danila Tikhonov (4):
+  dt-bindings: display/msm: Add SM7150 DPU
+  drm/msm/dpu: Add SM7150 support
+  dt-bindings: display/msm: Add SM7150 MDSS
+  drm/msm: mdss: Add SM7150 support
 
-I also CCd dri-devel@lists.freedesktop.org and the general GPU driver
-maintainers in Linux in case they can give a better answer, as well as
-Rob Clark who invented native contexts.
+ .../bindings/display/msm/qcom,sm7150-dpu.yaml | 143 ++++++
+ .../display/msm/qcom,sm7150-mdss.yaml         | 458 ++++++++++++++++++
+ .../msm/disp/dpu1/catalog/dpu_5_2_sm7150.h    | 335 +++++++++++++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   1 +
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
+ drivers/gpu/drm/msm/msm_mdss.c                |   8 +
+ 7 files changed, 947 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm7150-dpu.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm7150-mdss.yaml
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
 
-> >  This requires changes to all of the Xen hypervisor, Linux
-> > kernel, and userspace device model.
-> >=20
-> > ### Goals
-> >=20
-> >  - Allow any userspace pages to be mapped into a guest.
-> >  - Support deprivileged operation: this API must not be usable for priv=
-ilege escalation.
-> >  - Use MMU notifiers to ensure safety with respect to use-after-free.
-> >=20
-> > ### Hypervisor changes
-> >=20
-> > There are at least two Xen changes required:
-> >=20
-> > 1. Add a new flag to IOREQ that means "retry this instruction".
-> >=20
-> >    An IOREQ server can set this flag after having successfully handled a
-> >    page fault.  It is expected that the IOREQ server has successfully
-> >    mapped a page into the guest at the location of the fault.
-> >    Otherwise, the same fault will likely happen again.
->=20
-> Were there any thoughts on how to prevent this becoming an infinite loop?
-> I.e. how to (a) guarantee forward progress in the guest and (b) deal with
-> misbehaving IOREQ servers?
+-- 
+2.45.2
 
-Guaranteeing forward progress is up to the IOREQ server.  If the IOREQ
-server misbehaves, an infinite loop is possible, but the CPU time used
-by it should be charged to the IOREQ server, so this isn't a
-vulnerability.
-
-> > 2. Add support for `XEN_DOMCTL_memory_mapping` to use system RAM, not
-> >    just IOMEM.  Mappings made with `XEN_DOMCTL_memory_mapping` are
-> >    guaranteed to be able to be successfully revoked with
-> >    `XEN_DOMCTL_memory_mapping`, so all operations that would create
-> >    extra references to the mapped memory must be forbidden.  These
-> >    include, but may not be limited to:
-> >=20
-> >    1. Granting the pages to the same or other domains.
-> >    2. Mapping into another domain using `XEN_DOMCTL_memory_mapping`.
-> >    3. Another domain accessing the pages using the foreign memory APIs,
-> >       unless it is privileged over the domain that owns the pages.
->=20
-> All of which may call for actually converting the memory to kind-of-MMIO,
-> with a means to later convert it back.
-
-Would this support the case where the mapping domain is not fully
-priviliged, and where it might be a PV guest?
---=20
-Sincerely,
-Demi Marie Obenour (she/her/hers)
-Invisible Things Lab
-
---Gd/4I9Ey0Xn0VJx2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEdodNnxM2uiJZBxxxsoi1X/+cIsEFAmZsroUACgkQsoi1X/+c
-IsEFXQ//QMybLNE90OiAvTVes1tBRcRaHkgZqnorLYTtL0spBy81VQCcOYtw1M8m
-OcWvJrV0xhbCg82ALyiw4IWvPMwqNg17x5S+WAE4pNMhr7zbTzxGYtT/QS2wXeZ3
-/MA7AidErZtH6qHuC5uyXvjI7FIh67M7AiSUnjT14sygwB4s9JTc1qqIwBK8DoH9
-ll5mWBrh4Dez/Tf+Z5oJptCBv86+jP6/kopJymasvVAV3NFjngm7/mbEOrk41sHp
-616ZpooGaNYqUW19ilIsVnW1vgcmL1N9icFIskgSTPrvto2MZynwEzJFhN5NBfBi
-HiVrMk2XZUsQX19r0kx2vOh3iWD3ou4WRKOCYaaR7Y96PTKi+uQO1RPo+iUm/DHo
-0kkd1om1OgI5fV+qLszMpY93GE+fs3GHn1B/qtGc1SRtqxu6V9Rjoj+wMr40sI6L
-k/p9dqQAT+XwbdFupCtTA34pVHUcJKhmckchObddbVrzfsQ+iM+om9jORy5nmose
-hcAzXtSap8gwVMjEU/t8zzMeNgcNXQn9nzP2LmSygfHqOLxDrrbeB6KuSUirVRgy
-t4GE9zBKy+zU0umR7RJ8zIOPj3PApAmzdIGdzNv7m0vtu5IMiDcbl4N/JzZrkl11
-NvufwCaM2kV1/g6JXYNM+46fOgWPUeQFscfiBG3nm8aR8mxpjP4=
-=l9yO
------END PGP SIGNATURE-----
-
---Gd/4I9Ey0Xn0VJx2--
