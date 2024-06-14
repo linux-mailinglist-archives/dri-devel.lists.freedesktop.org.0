@@ -2,55 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED7FC908B3D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 14:07:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A706E908C90
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 15:36:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 464FC10ED0F;
-	Fri, 14 Jun 2024 12:07:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ACC010ED51;
+	Fri, 14 Jun 2024 13:36:19 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="GxAYWM5o";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qufAt1nZ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GxAYWM5o";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qufAt1nZ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id DF31C10ED0F
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 12:07:36 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E093AFEC;
- Fri, 14 Jun 2024 05:08:00 -0700 (PDT)
-Received: from [10.57.71.136] (unknown [10.57.71.136])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3DBB43F64C;
- Fri, 14 Jun 2024 05:07:32 -0700 (PDT)
-Message-ID: <3516994c-7b06-4409-b9a9-975b9f7a60eb@arm.com>
-Date: Fri, 14 Jun 2024 13:07:29 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6467710E27A;
+ Fri, 14 Jun 2024 13:36:01 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0304A3386E;
+ Fri, 14 Jun 2024 13:35:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718372159; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=7YxgKklXCUhZY2FpOS+VKkuA6jZlEhJldardPfYZ3Cg=;
+ b=GxAYWM5oeBKBE0hcgqsumG/6J3TSrXNRoHSJh2gLTnwrG/w7eDDeWAuZYRzhdcJX7RFwDu
+ uYwpSLVQ99386xjwh690zD5LutA3ALB/6jRqeNR4VRz2KcbJJmQOWGlhAprksDHk3QqCNg
+ 5i4pAGa13EeiXXYenROqV2w2YM6DPxA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718372159;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=7YxgKklXCUhZY2FpOS+VKkuA6jZlEhJldardPfYZ3Cg=;
+ b=qufAt1nZ42ignT3HS07EsFxjZDJiW4a3BqLviG7WSC+xezCyqpm39sUJWGYJoQ6FGMld6x
+ T4PtisDcSItWy4CQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GxAYWM5o;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qufAt1nZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718372159; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=7YxgKklXCUhZY2FpOS+VKkuA6jZlEhJldardPfYZ3Cg=;
+ b=GxAYWM5oeBKBE0hcgqsumG/6J3TSrXNRoHSJh2gLTnwrG/w7eDDeWAuZYRzhdcJX7RFwDu
+ uYwpSLVQ99386xjwh690zD5LutA3ALB/6jRqeNR4VRz2KcbJJmQOWGlhAprksDHk3QqCNg
+ 5i4pAGa13EeiXXYenROqV2w2YM6DPxA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718372159;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=7YxgKklXCUhZY2FpOS+VKkuA6jZlEhJldardPfYZ3Cg=;
+ b=qufAt1nZ42ignT3HS07EsFxjZDJiW4a3BqLviG7WSC+xezCyqpm39sUJWGYJoQ6FGMld6x
+ T4PtisDcSItWy4CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 915EF13AB1;
+ Fri, 14 Jun 2024 13:35:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id FvAKIj5HbGavPwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 14 Jun 2024 13:35:58 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, ray.huang@amd.com, christian.koenig@amd.com,
+ kraxel@redhat.com, airlied@redhat.com, suijingfeng@loongson.cn
+Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/6] drm/{ttm,xe}: Improve ttm_bo_vmap() and update xe
+Date: Fri, 14 Jun 2024 15:21:54 +0200
+Message-ID: <20240614133556.11378-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/9] iommu/rockchip: Attach multiple power domains
-To: Sebastian Reichel <sebastian.reichel@collabora.com>,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net>
- <20240612-6-10-rocket-v1-2-060e48eea250@tomeuvizoso.net>
- <ffviz6ak6qsn2reg5y35aerzy7wxfx6fzix6xjyminbhfcguus@clszdjakdcjd>
- <CAAObsKCx+r5UuESnrPem1Rb1-BF4i8FVwu6uozWhABOWoq+M4Q@mail.gmail.com>
- <CAAObsKChaBZ2C5ezWsiZ_LoN6R2HFhFA9=UNSRYB6cyeo-jreg@mail.gmail.com>
- <vmgk4wmlxbsb7lphq2ep3xnxx3mbv6e6lecihtftxoyp5lidvy@mectcwirrlek>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <vmgk4wmlxbsb7lphq2ep3xnxx3mbv6e6lecihtftxoyp5lidvy@mectcwirrlek>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 0304A3386E
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; RCPT_COUNT_TWELVE(0.00)[16];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,intel.com,amd.com,redhat.com,loongson.cn];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+ DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,93 +116,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-06-13 10:38 pm, Sebastian Reichel wrote:
-> Hi,
-> 
-> On Thu, Jun 13, 2024 at 11:34:02AM GMT, Tomeu Vizoso wrote:
->> On Thu, Jun 13, 2024 at 11:24 AM Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
->>> On Thu, Jun 13, 2024 at 2:05 AM Sebastian Reichel
->>> <sebastian.reichel@collabora.com> wrote:
->>>> On Wed, Jun 12, 2024 at 03:52:55PM GMT, Tomeu Vizoso wrote:
->>>>> IOMMUs with multiple base addresses can also have multiple power
->>>>> domains.
->>>>>
->>>>> The base framework only takes care of a single power domain, as some
->>>>> devices will need for these power domains to be powered on in a specific
->>>>> order.
->>>>>
->>>>> Use a helper function to stablish links in the order in which they are
->>>>> in the DT.
->>>>>
->>>>> This is needed by the IOMMU used by the NPU in the RK3588.
->>>>>
->>>>> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
->>>>> ---
->>>>
->>>> To me it looks like this is multiple IOMMUs, which should each get
->>>> their own node. I don't see a good reason for merging these
->>>> together.
->>>
->>> I have made quite a few attempts at splitting the IOMMUs and also the
->>> cores, but I wasn't able to get things working stably. The TRM is
->>> really scant about how the 4 IOMMU instances relate to each other, and
->>> what the fourth one is for.
->>>
->>> Given that the vendor driver treats them as a single IOMMU with four
->>> instances and we don't have any information on them, I resigned myself
->>> to just have them as a single device.
->>>
->>> I would love to be proved wrong though and find a way fo getting
->>> things stably as different devices so they can be powered on and off
->>> as needed. We could save quite some code as well.
->>
->> FWIW, here a few ways how I tried to structure the DT nodes, none of
->> these worked reliably:
->>
->> https://gitlab.freedesktop.org/tomeu/linux/-/blob/6.10-rocket-multiple-devices-power/arch/arm64/boot/dts/rockchip/rk3588s.dtsi?ref_type=heads#L1163
->> https://gitlab.freedesktop.org/tomeu/linux/-/blob/6.10-rocket-schema-subnodes//arch/arm64/boot/dts/rockchip/rk3588s.dtsi?ref_type=heads#L1162
->> https://gitlab.freedesktop.org/tomeu/linux/-/blob/6.10-rocket-multiple-devices//arch/arm64/boot/dts/rockchip/rk3588s.dtsi?ref_type=heads#L1163
->> https://gitlab.freedesktop.org/tomeu/linux/-/blob/6.10-rocket-multiple-iommus//arch/arm64/boot/dts/rockchip/rk3588s.dtsi?ref_type=heads#L2669
->>
->> I can very well imagine I missed some way of getting this to work, but
->> for every attempt, the domains, iommus and cores were resumed in
->> different orders that presumably caused problems during concurrent
->> execution fo workloads.
->>
->> So I fell back to what the vendor driver does, which works reliably
->> (but all cores have to be powered on at the same time).
-> 
-> Mh. The "6.10-rocket-multiple-iommus" branch seems wrong. There is
-> only one iommu node in that. I would have expected a test with
-> 
-> rknn {
->      // combined device
-> 
->      iommus = <&iommu1>, <&iommu2>, ...;
-> };
-> 
-> Otherwise I think I would go with the schema-subnodes variant. The
-> driver can initially walk through the sub-nodes and collect the
-> resources into the main device, so on the driver side nothing would
-> really change. But that has a couple of advantages:
-> 
-> 1. DT and DT binding are easier to read
-> 2. It's similar to e.g. CPU cores each having their own node
-> 3. Easy to extend to more cores in the future
-> 4. The kernel can easily switch to proper per-core device model when
->     the problem has been identified
+Add ttm_bo_kmap()'s features to ttm_bo_vmap() and convert xe to
+use the latter helper. ttm_bo_vmap() returns mappings in an instance
+of struct iosys_map, which simplifies driver code in several places.
 
-It also would seem to permit describing and associating the per-core 
-IOMMUs individually - apart from core 0's apparent coupling to whatever 
-shared "uncore" stuff exists for the whole thing, from the distinct 
-clocks, interrupts, power domains etc. lining up with each core I'd 
-guess those IOMMUs are not interrelated the same way the ISP's 
-read/write IOMMUs are (which was the main justification for adopting the 
-multiple-reg design originally vs. distinct DT nodes like Exynos does). 
-However, practically that would require the driver to at least populate 
-per-core child devices to make DMA API or IOMMU API mappings with, since 
-we couldn't spread the "collect the resources" trick into those 
-subsystems as well.
+Patches 1 and 2 allow ttm_bo_vmap() to store the method of allocation
+in the iosys_map instance. This simplifies the unmap and driver code.
 
-Thanks,
-Robin.
+Patch 3 adds support for partial mappings to ttm_bo_vmap(). That's
+another feature of ttm_bo_kmap(). It is now possible to map only a
+subrange of a buffer object's memory buffer. This requires a trivial
+change to existing callers, so that they still map the full buffer
+range.
+
+Patch 4 adds support for kmap()-based mappings in certain cases to
+ttm_bo_vmap().
+
+Patches 5 and 6 convert xe to ttm_bo_vmap(). ttm_bo_vmap() tests if
+the caller holds the object's reservation lock; and therefore cannot
+be called while relasing the buffer object. Patch 5 resolves this
+problem in xe. Patch 6 then replaces ttm_bo_kmap() with ttm_bo_vmap()
+and also updates the callers to use struct iosys_map everywhere.
+
+Tested on Intel ARC hardware.
+
+Future direction: DRM's TTM-based drivers use a mixture of ttm_bo_kmap()
+and ttm_bo_vmap(). After merging these updates for ttm_bo_vmap(), the
+other drivers can be converted and ttm_bo_kmap() can be removed.
+
+Thomas Zimmermann (6):
+  iosys-map: Add allocator flags
+  drm/ttm: Store the bo_kmap_type in struct iosys_map
+  drm/ttm: Support partial buffer mappings for ttm_bo_vmap()
+  drm/ttm: Support kmap for single-page mappings in ttm_bo_vmap()
+  drm/xe: Remove vunmap calls object-freeing code
+  drm/xe: Replace ttm_bo_kmap() with ttm_bo_vmap()
+
+ drivers/gpu/drm/drm_gem_ttm_helper.c          |  2 +-
+ drivers/gpu/drm/drm_gem_vram_helper.c         |  2 +-
+ drivers/gpu/drm/loongson/lsdc_gem.c           |  2 +-
+ drivers/gpu/drm/qxl/qxl_object.c              |  2 +-
+ drivers/gpu/drm/ttm/ttm_bo_util.c             | 94 +++++++++++++------
+ .../compat-i915-headers/gem/i915_gem_object.h | 17 +---
+ drivers/gpu/drm/xe/display/intel_fb_bo.c      | 12 ++-
+ drivers/gpu/drm/xe/xe_bo.c                    | 46 ++++-----
+ drivers/gpu/drm/xe/xe_bo.h                    | 23 ++---
+ drivers/gpu/drm/xe/xe_bo_types.h              |  2 -
+ drivers/gpu/drm/xe/xe_lrc.c                   |  3 +-
+ drivers/gpu/drm/xe/xe_vm.c                    |  2 +-
+ include/drm/ttm/ttm_bo.h                      |  4 +-
+ include/linux/iosys-map.h                     | 13 ++-
+ 14 files changed, 131 insertions(+), 93 deletions(-)
+
+-- 
+2.45.2
+
