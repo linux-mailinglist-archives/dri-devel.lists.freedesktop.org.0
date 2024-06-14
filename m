@@ -2,156 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8D2908D43
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 16:21:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 847A7908D68
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 16:32:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FBAE10ED66;
-	Fri, 14 Jun 2024 14:21:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B95810ED6C;
+	Fri, 14 Jun 2024 14:32:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="l3Yc1ei8";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="r5Xb1GJv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2077.outbound.protection.outlook.com [40.107.92.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE3210ED63;
- Fri, 14 Jun 2024 14:21:00 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2052.outbound.protection.outlook.com [40.107.237.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74C8B10ED6C;
+ Fri, 14 Jun 2024 14:32:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aJcG4f/4Yv3RKUWdvAI12xp1bmip2VGXIADxXjIHShWtnUO7oYODOXH3oMeFecQJqYkq1R925vSj8vNrKd5Slq8bQfrPH2UiyqebiBjnzf6OKzRFYCW7pwLpQRvAdIFXr9UbJ8C72VYBMCAoW705684wNWDi/1GyomLxUgpaxOcEo+BhoFyP6MyDewST5pa/EKenuOHpLtbuZ3h90Nm3a1YOLYG4N3LGGaWkqCiH9Z8RIwfcs2GU0+OEQ20NUQ8ENVD1TJFVD+sFfpCN9f9ogFRQFjR1qpqypUn/GJukp86QrPlB72//cP27WuKbPUR/kwqiuy+8HjfjJJlWvjqQDQ==
+ b=DRfJqqqBY4jVE9zNyFNzMx2mIQZd875fE93mDpLT9qOOeiqbv+I0xA+Pt9LwMmXxqq1WIj+5iQfyvNmuxBxHu31U/jt5+vH6TrNszV3C1DtaSQZQw0dhP8jmtn7Fm9jZdqs2kqxMCNCdDPYWEhXP+7DPnID0+R9WrcwjwQk0ToZzYF52zBdGACaIrlJWk+nUYjq96UHO1Arr/kvKLgYE+cWQSpaP5tFFADz1yl1CKk15UPY3LOQkbJvCHhhRA1ED/vTBK3L+LPj+BDr5LH1FNMos6PBQcMszlOy5FvfH5oQw7MGK5WLtJl+T+059HH9wiruHdfV1YPd/EP82DaRgnw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yAGlZa74IMgq/x4egsClzwChSG06QzHy5bUIt8zh9uQ=;
- b=FfL7trF7OUKgfYTyRe/BBEKoSGikRCjidpfGaDFdYlJI2xw6VH5kdxE29q7aY/w6sf22SKTMMFz9sx/ubT4djlCjQh4Z9+OGdRfYj+Q8LRF7vmcH336W7+nFd/U9p/WG030Rd6AN0NSOnHUpScBUSRBph1/pDCLZMpfR5QQxkdNNYTecIo2EIDXdHNvZYofpMRQKXIbUwThKkBtG4aJEvFfQMX+N1OvrmBOR5ARtJFGVr39RqiNNVwhcGs+UGB+tGTMU5IQgx6F0Uj7xyMZd8LC3RjFLLExlYndO9IdmftCQ2RNw3wy4T4XvSSJsKqppCvpm3G9H4mP0f1T8jAnfww==
+ bh=BXCafHjxq0QoKQPr7Xvg/QUZYu01QISc18XJWmigOGk=;
+ b=D5JwxuHfeFoHq/tgC+ta7qv1+5pLEUg94Iyiq4M/xu1W0ve8K+UNFDZ8JMspztHsSHzcSwEHSJoOjdi4NOJmWbawGJXYzJ0G9w/Tr+1MGyVcq4O812kiD44PGK1LnUX1rnsj2mJIOIGU/ai8hAclw+NJR5AZWIcWY3/hiSDqdHBd9ZFjD0Q1pdfD4mR4nX0u3mPCuDMAZt4w5+63Vv8TjCErMBbmHJLI153EAPKTeQiXnjUDsPH8HiLwrxi7Q1Me8+DFamRj7pfZ2we2C9VREjErzFFGo/rlxu5efV4e0wyTdHC8BIVihFNcbO0KCErOohNaTL6zRZ+IwmSFTAH8bw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yAGlZa74IMgq/x4egsClzwChSG06QzHy5bUIt8zh9uQ=;
- b=l3Yc1ei89glunmcFMq47uDOtsn803GPtXj4Y6aZMAjs5AsNv7BR7JZy2Owdqg+P9ME8GBxn6K6m9TsDV/JK51UuYEzau2pAv7NaB4gL6qSwYSQNgHWyi3W1xpU5C3B6CPA0IwCu3GEDoNuSR1cPBuz4HLuvqmYq8mPrp2M+UxRw=
+ bh=BXCafHjxq0QoKQPr7Xvg/QUZYu01QISc18XJWmigOGk=;
+ b=r5Xb1GJvGn3R4QFgYBvOyG2aKEBjB9Cgb3e0xx/6sDiOyABHTKU0xjAgfx/SSYZ7gS52SbGt7xNGOCX10Ae45VdCVCuPQM8eE+tw5etp9hpRJUn96bo6IIfZ+0TsWJ9uZ2GEZSCJI5FPuHqhebBJ8TpbQFLMxP5WAwTbDBnhymU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by PH7PR12MB6668.namprd12.prod.outlook.com (2603:10b6:510:1aa::12)
+Received: from SJ0PR12MB5673.namprd12.prod.outlook.com (2603:10b6:a03:42b::13)
+ by MN0PR12MB6002.namprd12.prod.outlook.com (2603:10b6:208:37e::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Fri, 14 Jun
- 2024 14:20:56 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca%4]) with mapi id 15.20.7677.024; Fri, 14 Jun 2024
- 14:20:56 +0000
-Message-ID: <87bd6014-953b-478e-a36e-6d493444dcd0@amd.com>
-Date: Fri, 14 Jun 2024 09:20:53 -0500
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.20; Fri, 14 Jun
+ 2024 14:32:04 +0000
+Received: from SJ0PR12MB5673.namprd12.prod.outlook.com
+ ([fe80::ec7a:dd71:9d6c:3062]) by SJ0PR12MB5673.namprd12.prod.outlook.com
+ ([fe80::ec7a:dd71:9d6c:3062%2]) with mapi id 15.20.7677.024; Fri, 14 Jun 2024
+ 14:32:03 +0000
+Message-ID: <5e770114-2751-414f-af57-de8077f6a6a0@amd.com>
+Date: Fri, 14 Jun 2024 16:31:56 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/fb-helper: Detect when lid is closed during
- initialization
+Subject: Re: [PATCH 2/6] drm/ttm: Store the bo_kmap_type in struct iosys_map
 To: Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, amd-gfx@lists.freedesktop.org,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Chris Bainbridge <chris.bainbridge@gmail.com>
-References: <20240613051700.1112-1-mario.limonciello@amd.com>
- <f5485db8-9e1d-4b95-a0ec-25ee8551795d@suse.de>
- <df7dc942-4e65-4e3a-8b10-6f4f0d1ef602@amd.com>
- <ec2b6450-2176-494c-a061-b21a08d657a2@suse.de>
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, ray.huang@amd.com, kraxel@redhat.com,
+ airlied@redhat.com, suijingfeng@loongson.cn
+Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+References: <20240614133556.11378-1-tzimmermann@suse.de>
+ <20240614133556.11378-3-tzimmermann@suse.de>
 Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <ec2b6450-2176-494c-a061-b21a08d657a2@suse.de>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240614133556.11378-3-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN7P220CA0007.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:806:123::12) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0001.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1d::10) To SJ0PR12MB5673.namprd12.prod.outlook.com
+ (2603:10b6:a03:42b::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|PH7PR12MB6668:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0eed5337-0916-4ec4-ea2e-08dc8c7d34a5
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB5673:EE_|MN0PR12MB6002:EE_
+X-MS-Office365-Filtering-Correlation-Id: a11be9cb-2ac8-46eb-818a-08dc8c7ec28c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230037|366013|376011|7416011|1800799021;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VitLaklSMDMwOVhRbDh3VkowbW41aDhpTzRLS1I2NzRxelk1bkpzSU44cXRh?=
- =?utf-8?B?aFc4czJpZExRTnFXTzBwWHpHcXg3QmNkeG82RXF0aDVPa2RUOGc5YUxTcXVX?=
- =?utf-8?B?MEtEQ3ZYTW9JSVN5eGl3TFZRNnZoM0NEc1pJZkV5NXVqQWgreTJCcktwZHkr?=
- =?utf-8?B?T2Q2NnhLUXU5MzBSZzUrM0E4TGsvNWxRck5DdzByYzIvelcyODNtcmFxVXhF?=
- =?utf-8?B?MEMwbG5uaHdUa3hJbnhDQUx6VThuUDN1RFF4a2dUcUt1ZE56SkZXaE9Ddk1v?=
- =?utf-8?B?QkxybXVKNWJJM1dBSmFQY3RFenRKWEFlNDlRWTZXTllJTWJEM01PSGJzcUpt?=
- =?utf-8?B?UHNnRDd3UmhUblZVYVREU1dsTFY5b3AwczZHVFlwUSsvOFN6MkhDTngyOVFQ?=
- =?utf-8?B?TWZjRUUyZ0EyTjM5TkRwNk83c1JhdHZkSUY4VnNwS0g3QW1LZWNoWjNsOVRV?=
- =?utf-8?B?dXR4dm1nWllGWkVLOUhpRFJIc01rRHpNd3hKMGVOY2psZFFqL1UyQ01VMkhW?=
- =?utf-8?B?eFNJUWJEMC9pOEd6T3FlaWxwVUFaeHRDcUttRFZIaGxXQmRRaDJBSlJqQU1Z?=
- =?utf-8?B?VU5UUFdrTFNUaXczeDdIRVpwRXRDVE93V3dFb2k4eHVVTDFrK3h0dmZaME1W?=
- =?utf-8?B?REtET2FZUXBLdmpWS1ZpZll2aHZSY0lGU2tpVXA1YjN4NlVHTTZEZlFlVHUr?=
- =?utf-8?B?TURVZCtLZ1VtSHE2WE5SbE4zUTY5eThmWDZQaVpVc0w1MXhzSThhM1p4UkNt?=
- =?utf-8?B?K3Z6dlNsRjRKdXl5ZEVsTDZubHd6eEZXUXA4MFVPNkhRY1FpRkp4UTJNRmVM?=
- =?utf-8?B?b0Qyc25KQ0JpamYzaTJCY0N3SjMxMzZOUER5dkNYT1BDaktTd3k5QmZ3T2lm?=
- =?utf-8?B?aEtaZjRHRDhvK0xQcG1UcDdNb0ZDWU5ScytqcEpaemZ3bzEramM5NUh2cEox?=
- =?utf-8?B?bTR3Qi92VXFsUVZKcXVkY0lNNkxEVzR6bXZ5aGZlNTdSOXFNQkpvZTZGbnJt?=
- =?utf-8?B?cmVzUGI5NWpIdjl5eWZjaUpad2c2cGlob3duT21vQzl1UXZhY0ZNcUdkU0hx?=
- =?utf-8?B?RlFXV1JMSE40N0dkaUdBaGU0Mjl3alFidFZoejhqZ3UxRExUQ2p5YWdob3lN?=
- =?utf-8?B?VGJGWlN0bTFzOWpHeWZzd0hBVytiMjIxazNPWjVtdkp2TjZxaXJWQ1BRaXBF?=
- =?utf-8?B?K1UyeUJvQWFyVWFKNDY0bHpReWJzeTFIM09zOTZmakxXTDNXSU5OYXRhUks0?=
- =?utf-8?B?Y1dmdkltRDFTWHBSNytpMkdkbHVjemJKUVhUUm9sTGRCNUVodk5UOXdpSzE1?=
- =?utf-8?B?dDUrTVB6WlNSbFJTZldncTYvcFptdmFDS2ZMbGFTMGx2d3FvVU5vVEtqRFpE?=
- =?utf-8?B?VFhkTDNjWEJ2OHIzQXNaZkFBdE16T2VORXVnQ2hPTm92NE85YzNIWEFZblVh?=
- =?utf-8?B?ZEoxTWQ1QXQ5VnNmR1VqSzE4dTVkUWtjb3MvNktpRGJVcmtHNVBQaWZnc0hG?=
- =?utf-8?B?cnN2UXpUTzg5cm1JYSt5aFdyMzR6cHBCbzFYdDB0ZllOOFRyK014RmtncHNa?=
- =?utf-8?B?SHZrZUpYaWdtaTdxdFdwc1l5V201YU1RT0t0Z21pMTY2V2UrRy8wUCt1R1BU?=
- =?utf-8?B?L2VOcXVaUzZKNFQwRXBXaEhvTE5sL0tReXczM010d0xjSUZ5S0ZUczQ0Tmxs?=
- =?utf-8?Q?L+9OYyBnA7mOwo7CqKRk?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230037|366013|376011|7416011|1800799021|921017; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TkpzVmVUb2JVcUlmV0pjNms4azNxMEZ0L1VRRFgyUit6TTAxMERlc0JLeGIv?=
+ =?utf-8?B?NUFGNCt0N3BjMDhDaUg2K01zYTFBbGRoVlgvM0VZbUNxR2ZaOE9RMDlJQVJi?=
+ =?utf-8?B?aFdxcHN4bUtnMURhVEJWc2ZKVlZCeU44UUtqUVhCWGhmSkEwT1hMV3FsVXpI?=
+ =?utf-8?B?amRNdTA0OEFETGR5NzB4d3ppZUpMaFJ4eC9Td2tVbCtZTERaVGYrYTd2T3lH?=
+ =?utf-8?B?UUs2Z052eEdzM2lDSTM2M1p2cjlEdW9od1pYVENkN0JPZytmRzAyVkR3WUJ2?=
+ =?utf-8?B?VlFwTm93MEgvV0R6NzRJYTMwTEU5YXp5eGtCa1BzZFY5ZDVxQStmN2JOSWdI?=
+ =?utf-8?B?UHY3SlB3MDJXSHNlT1pGVDNtQkV2OUVtTWxlOFFxNDNpQnVkUmlEUVF3QUF3?=
+ =?utf-8?B?MUZoTjBoVXcwSkg1TFFBZ2Z2NG9LbXEvNmpoT05QL0JYaWxQV1dkenZkOGxy?=
+ =?utf-8?B?blhZaWVPMzVKTlRndVRDSUM1SUM3MzkxUnRIRW5Dbll1VUlrM3hlOWx3Q2k4?=
+ =?utf-8?B?Z3UvQ3RTUWk1ek9FY0pqdXdRN2g1VE5LWForYXppVFdlTTJFYVRwZjY5Zjda?=
+ =?utf-8?B?elhrc1oreFIvUG9DNXFCSmhTVkNqOW1YV1pEZy9OcExwMDFCbG01akJ4ZUcv?=
+ =?utf-8?B?VkpIYTh6VHVERzlFcStVcUZ6Y3AxQ2ZjZFdSdUNxUnhqdDBRZ2lIYXZzc0xx?=
+ =?utf-8?B?UFI5SjFxeGNETjNydXU4VDM4cyt0a3ZGRmxVLysrRDB1RXpaM29nL2NiU1cz?=
+ =?utf-8?B?M0hyRWJqeGU0Qjk3ZW9OVVZnMGFTdVBqMkdMYW1HWU5XZEVRdjB5eGlWcWNF?=
+ =?utf-8?B?bHp2dDN1UWhYaDhkRGlDNnF2RnJGYlNMMHJ1REdnbEdDVTlpSC9kcjVETUs5?=
+ =?utf-8?B?bnBMTk5PMWFNbGxyc0NIRGh3aklNZS9uZlppL200aTc5NWl2T1pPZmdPM2lx?=
+ =?utf-8?B?dk15VUVzQ1BTTGF4VGJSYk5yRGIvN25aaCtDVnRIVkdPTHhmSEJxQktqRUVj?=
+ =?utf-8?B?dHo4MnBIUDZvNk42QnM4YVBTYVJsUXBHVndDVkhLOWQ3YnhRQ0hGVFk4QjNR?=
+ =?utf-8?B?RzlVS0dLeTFXN3d1YTZlR2dEd3ZRU2FjQTUwdVVXRTBDTUI5QkkrSFhOSVAw?=
+ =?utf-8?B?d0VmcllWMVdKeFRVL1lrTzF2cWR2Y0JpSDc3M1BYWld1MUFiZTUzdkhpTFRP?=
+ =?utf-8?B?bGYzdnJ5Y0J5QmtKT3JSN0lYNjF0VU5kMWZ6SkFUekM1eWRkZCtmZWt0cWht?=
+ =?utf-8?B?akhpSjI3bGRCUU1FbkZrWXc2OHJrSkNjRGZDOWFaY0NCQlkwbkg2NVo5VGtm?=
+ =?utf-8?B?OWJQTFhEekwrWjNQaHNCRC9BeFYyUTQrcnNXdERVMEpwQ2hKTGpycmdnZG1h?=
+ =?utf-8?B?aXpKQ1ZVWFA2Y1Z5S3hJYVZZbnNJZG1iY2NURlFkT1FlblMyR0xnd2JwSHIr?=
+ =?utf-8?B?N1RXQWcrNjBpdHVWbzdwQTYyREZ1TDQwZnRqUXVwZll6Uk94U0JZNVUxaWdC?=
+ =?utf-8?B?QjNOeU5CUzQ5K1FLbUI3dmtjdW96RVFYVTE5S2VIdGx6ekJJeXR2NXpWbXda?=
+ =?utf-8?B?U24xYXJTNnAzNmQ1aVY2Q0pQVWpDU0MzeGNUVGludHRscmYwMVYrQ0o5bm56?=
+ =?utf-8?B?MHphTXRFRnRnbmlxdVhLbjJnWjlkNmJSWnNjV25sd3pQbExEb3FQYkhSTXNI?=
+ =?utf-8?B?K001T3p0Z0ZPMERmSFNCYXZsaVh0RWVUK1gwUm5FdXQxMXNoQWhocGlPK0Qy?=
+ =?utf-8?B?blZMaHBIajFNSFF6cisyQm9GRGxjOGZrU3Y2VXdVZzhBam9zNGsvcGdYRUVl?=
+ =?utf-8?Q?0aA+y6iPXFi5Ende4MY2B+7Pt0JiWRNWh1fgA=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230037)(366013)(376011)(7416011)(1800799021); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:SJ0PR12MB5673.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230037)(366013)(376011)(7416011)(1800799021)(921017); DIR:OUT; SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SXdYc0dFb2tCTExHMWZMendhMVNXWDIzMUw4U3lnbSszdW1KcGgzL3NvSFVl?=
- =?utf-8?B?OWJrMFM0RmVvZTBmZmlha2Z4TXp5NHc0TWhuRjU5TWxsTGhaT0FyVGZ0SHR2?=
- =?utf-8?B?MC9nT0gwMlZpU3dpdzJ6ZjlTalVSS0NjZXIyM3BPVk0wZFBTSzVST2phenBR?=
- =?utf-8?B?Ym5GV3NXVTNldzYyMkdUc1M0SEkvMVk5UGVlL2dvZUFHRzJyRTZLQ1NJUERL?=
- =?utf-8?B?SEtrUTZhOWpUZllKcGl3Y0ZQbGZqRjRWQlNNdkFRRDlxYnBFOGhIVnpGT3N4?=
- =?utf-8?B?T2tJb25VeURhZmx6V01NWkhvQTdYY2srYXFCWm13ejgvQmQ1R2d1bnpBTng5?=
- =?utf-8?B?ZUIzMW5aeGh2WWhhQXNWWnBOdlltUDdnWmZUdUdwcTMwUVp2S1hxSEM3d3hv?=
- =?utf-8?B?L2IvQnlscEZSeVEraEFrV0lBcGovTXcrVzQ3OVJIOUprMmtYaUZsVDJ2TCtK?=
- =?utf-8?B?VnhuZmtYNlhwK3hkVWdXZXJZSFpVVXBxcEZTMXM1VDVsekViSHEreitXZjN4?=
- =?utf-8?B?SytBTjd6OC9BYTAzd1A0YlV2eFA2anFqcVNTc0pYZVdIU2VNWUd1RUZON0Fw?=
- =?utf-8?B?ZHRsL2tza2Q3djVVSGNpbC8waWtxTUtDb2xKbk5pb09Jbnk2TzBzZHFleUlx?=
- =?utf-8?B?a1NxSEwwb2dBS1VxMXdsR0FGUER3N3VUZ0RHS1lScjQxRXRzeXNHdWZwRjZW?=
- =?utf-8?B?aWJNSFRtMmxzeG9TUGhvZ3VIRkdpM3V1c2x3MmhKZTZXYmRPbEpOaUc5MkdI?=
- =?utf-8?B?VlJlOWRsVDBoZXh5RmpjWDlSdGtuWU5mbDRvTVI1bkhxMU40eFpVZVh2RHVp?=
- =?utf-8?B?SHZleGdGYi9pNXdRSkN2Q0RjcHJvNHlnVzkvYXpJTGxOck1FcDBoWUx2SmNl?=
- =?utf-8?B?SUhzNzV2czNKL3hJbm1vdTNMOGRLUGQ4N251THFLR1BPQktpYU9rVyt0di80?=
- =?utf-8?B?bTdBQmVjc2JNN3ZvZ001Wkk3akNQdU1YOThPeExMbEoxSHEyOGhuZlZEMk1G?=
- =?utf-8?B?OGUwZFJvQ05seXoydEYwajV5a1lhdXlLQlNnUktSZWNHVGk1U0pmQ2hwY0Ex?=
- =?utf-8?B?K1lmWnIxNHRDVjdGRzJOdmIxaTk2SElYVG5GWGd2MHVTMm8yZVBKQnZPNmFY?=
- =?utf-8?B?WWhrZkt3RWtMT1JwcEtJanlhVjRvTzZKOUhXdmVZbFEzUWFXMnppb3NrSFpR?=
- =?utf-8?B?ZzcraXdHUW51cUpJQ1gzcnd1SXM3SHowcnhXT1FNLy9lRVM5ZEhSM1ZVZjA2?=
- =?utf-8?B?YjF1aVkxcHV3THBuWXpSdGVCRTJWaHAxTHc2MDJSa2pNQ3BRaVNsdFdPNm9o?=
- =?utf-8?B?K1BlWElLUGlqLzlIcTdYKzk4d2h0YWgzQlJVQm9nRTh0OENPNW8zb1loVkhG?=
- =?utf-8?B?dzVBSlJrL01KdkEvbmFqc093U0ZqTTVXbnBLUVRyMlZnandUMm5VME91K1VT?=
- =?utf-8?B?K0pGWk5QUmRGZ2NGM2VsYS9oNGE0K3BsTWdVektvMlJCMXgwSG0rQm5CZFV2?=
- =?utf-8?B?QmlDNllZamhDYXBpS1d5QVpEM290TnIrbjFHWWdGTDN0WlVqRnVJd1FmTHBL?=
- =?utf-8?B?ZXBCNERBdlZOMzVMaENOQXJzSHdJdC9QWkNPZCtpSHFDbkdxdngxS1orOGJJ?=
- =?utf-8?B?K3hNN2g0c2htMDNwLy9WWFBkSXRHSHVmenlwMkJIQVJyY29IVDNIa200aVNi?=
- =?utf-8?B?YVVZcEVzZGU0bkdOcjJrWVdrb2VmU0xXbmFDeVFlVEhqNUszVUZrbWFyeDg0?=
- =?utf-8?B?aDVwaTY2RFNFdjNHenBicEhtZ0ZRRDBZUHA5QnRLNGswYTJKMTIwamNTOVBF?=
- =?utf-8?B?dFpIeWhONmRYc0d0YUhVSlZhbVc3R2lkcTRhZzlKZkZ2QlU0MFhyZFhmRXRD?=
- =?utf-8?B?dEpGdHk2WUxCZXJZbWNhbDBleXBzV3R2TjRIbTNCczEzT0tCZG5LY2tsczdX?=
- =?utf-8?B?enM4SWhaTlA5WXg0UEZHZnJMa3hKZ1FobHlHc094N2dYdWs3bGx3dWIrNU9K?=
- =?utf-8?B?TTFDOHhHWG5vUGdSUmE4MXpTcUxqZDdaR3RwTmtyS3FrZk1oYjkyaGkwKzdo?=
- =?utf-8?B?bHZ5NzROd1hOWFNpOE9oRHpWbjVnQTBjTUJvRFFPczlWZ2NQR1ZqYVRCTUtZ?=
- =?utf-8?Q?o/J8ilgoXMGapD1RJhShOgLDQ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M2RUSzgvb2dBTERzU1FoSHBQdXdrMW9XS1dLMXkxMFBXNitMR3hGYW9Ua0dJ?=
+ =?utf-8?B?aFFjMlp2Mk84NlZIY09EYnpmNUF3d3FpLzJoWWN6MFhkM3lETDIwakJZM01G?=
+ =?utf-8?B?NW4wRjdjbE9kZU5oK3o0MXFpclN1UWxwNzhUaWNOcWtFaTlnbGN3L2laeGM2?=
+ =?utf-8?B?WGl4V3NIU1dxSkJZU2w5VVIrMVZNc21ramZIdm5raWNPd3l2Q0JRbWw2T0Nw?=
+ =?utf-8?B?dTJ2aW9hU3U2TDMrWkhvR0tmdzRLZHJlUlJzNVVRSU8vYkJUaVJsWHhTYmhu?=
+ =?utf-8?B?NytJVVNnTEFpMGg3Qlp0cTBaV1JGMTVlZGVrdGNaTTlsTzcwVEMzQzNWWWYy?=
+ =?utf-8?B?S080WWdDc3REZTdWQ1YxOWd4VFdkY1RBaTM5ZGtoRzBiWWdCUktYVjgvdEo2?=
+ =?utf-8?B?UXBQQ2VpVStPd1MyQzNWa1ZFVWVIenBYbFJISGZhWDhtR0NkcXg0TEFwRDFD?=
+ =?utf-8?B?a3QvWVVjVDIxK2J0SW55WXN6VGEydnBKSVlQYlJNYVZxYW9Mc2Z0akZrT2JO?=
+ =?utf-8?B?cmpjeWUzbEFzcmltMm1yMG1HaCttUUhOQWxrYXFUUmdRbEtBTEpPZ2NZR01C?=
+ =?utf-8?B?Wi9yZ1dBdDVFek9mL0VaeEhGdnE3dUpvYzRLL0hzbndTTlg0TFNXb2pnc2h6?=
+ =?utf-8?B?c1J3S3lEc3J6dXozUmJGRnMxbDE3MVRJaTh5QVp3bkk5UlN2T2tuczlhVGVP?=
+ =?utf-8?B?ai9zTnFJdTVRcEdPVElHc0J1UVhRTnJydjhoTGc5UU1CUVpuWStNWmxNRHUw?=
+ =?utf-8?B?bW9iSTM0T1kwQkg1cGd5T08xdjhoRTJPNGlpQ3Zva2dWYzc2YUdsNHNSY0hK?=
+ =?utf-8?B?T2JuY3NOUG5JTWV4YWJFVjR3UmdlV1ZiV3pHdXdiRzRRb09ra0xFWmtvWnIw?=
+ =?utf-8?B?TUoxc2Y0ZUl0cHVhUWtINVYyTkhJYXNGRVQxVWpjcEZUbytHV2J0YXF4SXc1?=
+ =?utf-8?B?OC93OWFMSlRNU3lCbWcyWEJaSlB3bURDMmhVZUhCclBIMitnU2lFdzR2d3R4?=
+ =?utf-8?B?anQ0U3ZVZGtOemR5R0tEOXFNNzcyZ3pQYzVSV2JLUitMODBtUDhKREQySUlH?=
+ =?utf-8?B?cTNLNm9tYThLaXdqOEhFTVdkb3Zydk9VNHdRODN2MFhBeUliWGdGTWN3WHdD?=
+ =?utf-8?B?c3RJTXcvRWF3SjBKdEFxU0huSG5UQ2dpUkN0OEVMVnRZaGhvY3hOTVhnRkQw?=
+ =?utf-8?B?ZE0xcmNMbi9QemVieTZkRUlXejh1bWFtcEZmcUZBZzIySnFCV25VY25sbjlV?=
+ =?utf-8?B?UzlzVThyYUhJZ1pTOHMwazRURHB5RUJsQlo5MDVHWEFJL3JaQXhYd1dxVjFj?=
+ =?utf-8?B?OFZacU12QnhYZG1Va24zeVVMVGxtd1Y0bUtxaEluMG1FSmJKRURiaXBxRzRK?=
+ =?utf-8?B?Y2ZidzcwTTl5NFJaN3ZRY0MwWXg2QlA4TEplMUpCeENXT3YyNjNZQit6MzJy?=
+ =?utf-8?B?blNTMEtnSDJxU1JKQjlHekNSSnh6UENtQmZtQi8rVEpDK1piYUxnWEVlTWlU?=
+ =?utf-8?B?Skl6Ky9xYzV5TFVFTk9ZVS9tRUwraTJZWldhd3NTbDVuTFlIVUVGd3l6Mnp2?=
+ =?utf-8?B?dkJtVHVQNzFuQUFFbytQalJlVGdYMGppQXhtVUFEdFNrUHFkSFcwT1ZjKzVX?=
+ =?utf-8?B?QW5aZnIrZ0pNN3VGVS82UmJmN3Z5T0NWbHVjd3dRQzQ0VTg0eGNjQjJzTlBk?=
+ =?utf-8?B?V3dKNFhtbmd0THJTVXRWUkRLWmEwd0xUVjFJTnNEU0xITEt3N3VXN2FEWnM0?=
+ =?utf-8?B?L1hWOHYzbTRVMDBKZnZvMnhCeUVrc0s0Vjl2NldOb0swUGNYbXVRajcxVGJY?=
+ =?utf-8?B?UGFTZ3JVRVFIOVZtTGU1VThQYWdaUHF2QjdzU2RvSGN2U3VmRWhXQWpTb0ZJ?=
+ =?utf-8?B?bmJTN1UxcndJT1B6WkpSYkNROUdyQ3grZG9jd2hmMm1JRDdXZ0I1djhDMlZZ?=
+ =?utf-8?B?dnRkWi9kVUVXTzVmNDUvTmEvRnRtdnBjT2tuNm5BOGdBZDhDWVlMOVFiamd4?=
+ =?utf-8?B?OFBKd2ZKZ1ozMjhadi94SFRhK0M0TldQRTM3TEMrenErTjQ1M3ZTZmlqWXRS?=
+ =?utf-8?B?VlV6SjFzMG90aDArM3JmY0FWRDUyREhBMU9teGo1bmFNOTFqK2Y4MVd3Q3Ni?=
+ =?utf-8?Q?6reFad53NycTnqNBPX1SaklfU?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0eed5337-0916-4ec4-ea2e-08dc8c7d34a5
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a11be9cb-2ac8-46eb-818a-08dc8c7ec28c
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2024 14:20:56.3867 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2024 14:32:03.8736 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PCU1/6HWyMogmkbDEuwVDG22sq6lvPBdug/W8szuvpxmc26Hk5ZgkLwqprCIWKzHHze4TfTTU2MjJgdHK7sEAA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6668
+X-MS-Exchange-CrossTenant-UserPrincipalName: jw8tsBvMmo6NsbxRsTdR/kpSH5f8uNQI7ng9x6EhADyfJ3dNvBpCeK4OVRQ6ikmx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6002
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,357 +166,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/14/2024 09:17, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 14.06.24 um 15:47 schrieb Mario Limonciello:
->> On 6/14/2024 03:15, Thomas Zimmermann wrote:
->>> Hi Mario
->>>
->>> Am 13.06.24 um 07:17 schrieb Mario Limonciello:
->>>> If the lid on a laptop is closed when eDP connectors are populated
->>>> then it remains enabled when the initial framebuffer configuration
->>>> is built.
->>>>
->>>> When creating the initial framebuffer configuration detect the
->>>> lid status and if it's closed disable any eDP connectors.
->>>>
->>>> Also set up a workqueue to monitor for any future lid events.
->>>
->>> After reading through this patchset, I think fbdev emulation is not 
->>> the right place for this code, as lid state is global.
->>>
->>> You could put this into drm_client_modeset.c and track lid state per 
->>> client. drm_fb_helper_lid_work() would call the client's hotplug 
->>> callback. But preferable, lid state should be tracked per DRM device 
->>> in struct drm_mode_config and call drm_client_dev_hotplug() on each 
->>> lid-state event. Thoughts? Best regards Thomas
->>
->> This is pretty similar to what I first did when moving from ACPI over 
->> to generic input switch.
->>
->> It works for the initial configuration.  But I don't believe it makes 
->> sense for the lid switch events because not all DRM clients will 
->> "want" to respond to the lid switch events.  By leaving it up to the 
->> client for everything except fbdev emulation they can also track the 
->> lid switch and decide the policy.
-> 
-> 
-> All our current clients do fbdev emulation, possibly others would be the 
-> panic screen and a boot-up logo. A panic screen doesn't do actual mode 
-> setting, but any other client would most likely want enable and disable 
-> the display depending on the lid state. Having this code in the DRM 
-> client helpers make perfect sense. But as it's global state, it makes no 
-> sense to set this up per client. Hence the suggestion to manage this in 
-> per DRM device.
-> 
-> It would also make sense to try to integrate this into the probe 
-> helpers. When the lid state changes, the probe helpers would invoke the 
-> driver's regular hotplugging code.
+Am 14.06.24 um 15:21 schrieb Thomas Zimmermann:
+> For each instances of struct iosys_map set up by ttm_bo_vmap(), store
+> the type of allocation in the instance. Use this information to unmap
+> the memory in ttm_bo_vunmap(). This change simplifies the unmap code
+> and puts the complicated logic entirely into the map code.
 
-Got it; I'll do some experimentation with this change, thanks for the 
-feedback.
+I'm not sure that's a good idea.
 
-> 
-> 
->>
->> I also worry about what happens if the kernel does a hotplug callback 
->> on lid events as well at the client choosing to do it. Don't we end up 
->> with two modesets?  So then I would think you need a handshake of some 
->> sort to decide whether to do it for a given client where fbdev 
->> emulation would opt in and then all other clients can choose to opt in 
->> or not.
-> 
-> 
-> What do you mean by the kernel does a hotplug event and the client does 
-> one? There should really only be one place to handle all of this. If we 
-> end up with two modesets, we'd get an additional flicker when the lid 
-> gets opened.
-> 
+The mapping information should already be available in the resource and 
+storing it in the iosys_map structures duplicates that information.
 
-I'll see if my worry is founded after I move it all over.
+So we might run into the issue that the resource has changed and so we 
+need a different approach now, but the iosys_map will say that we should 
+unmap things for example.
 
-> 
-> Best regards
-> Thomas
-> 
->>
->>>>
->>>> Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
->>>> Reported-by: Chris Bainbridge <chris.bainbridge@gmail.com>
->>>> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3349
->>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>>> ---
->>>> v2->v3:
->>>>   * Use input device instead of ACPI device
->>>>   * Detect lid open/close events
->>>> ---
->>>>   drivers/gpu/drm/drm_client_modeset.c |  29 ++++++
->>>>   drivers/gpu/drm/drm_fb_helper.c      | 132 
->>>> +++++++++++++++++++++++++++
->>>>   include/drm/drm_device.h             |   6 ++
->>>>   include/drm/drm_fb_helper.h          |   2 +
->>>>   4 files changed, 169 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_client_modeset.c 
->>>> b/drivers/gpu/drm/drm_client_modeset.c
->>>> index 31af5cf37a09..b8adfe87334b 100644
->>>> --- a/drivers/gpu/drm/drm_client_modeset.c
->>>> +++ b/drivers/gpu/drm/drm_client_modeset.c
->>>> @@ -257,6 +257,34 @@ static void 
->>>> drm_client_connectors_enabled(struct drm_connector **connectors,
->>>>           enabled[i] = drm_connector_enabled(connectors[i], false);
->>>>   }
->>>> +static void drm_client_match_edp_lid(struct drm_device *dev,
->>>> +                     struct drm_connector **connectors,
->>>> +                     unsigned int connector_count,
->>>> +                     bool *enabled)
->>>> +{
->>>> +    int i;
->>>> +
->>>> +    for (i = 0; i < connector_count; i++) {
->>>> +        struct drm_connector *connector = connectors[i];
->>>> +
->>>> +        switch (connector->connector_type) {
->>>> +        case DRM_MODE_CONNECTOR_LVDS:
->>>> +        case DRM_MODE_CONNECTOR_eDP:
->>>> +            if (!enabled[i])
->>>> +                continue;
->>>> +            break;
->>>> +        default:
->>>> +            continue;
->>>> +        }
->>>> +
->>>> +        if (dev->lid_closed) {
->>>> +            drm_dbg_kms(dev, "[CONNECTOR:%d:%s] lid is closed, 
->>>> disabling\n",
->>>> +                    connector->base.id, connector->name);
->>>> +            enabled[i] = false;
->>>> +        }
->>>> +    }
->>>> +}
->>>> +
->>>>   static bool drm_client_target_cloned(struct drm_device *dev,
->>>>                        struct drm_connector **connectors,
->>>>                        unsigned int connector_count,
->>>> @@ -844,6 +872,7 @@ int drm_client_modeset_probe(struct 
->>>> drm_client_dev *client, unsigned int width,
->>>>           memset(crtcs, 0, connector_count * sizeof(*crtcs));
->>>>           memset(offsets, 0, connector_count * sizeof(*offsets));
->>>> +        drm_client_match_edp_lid(dev, connectors, connector_count, 
->>>> enabled);
->>>>           if (!drm_client_target_cloned(dev, connectors, 
->>>> connector_count, modes,
->>>>                             offsets, enabled, width, height) &&
->>>>               !drm_client_target_preferred(dev, connectors, 
->>>> connector_count, modes,
->>>> diff --git a/drivers/gpu/drm/drm_fb_helper.c 
->>>> b/drivers/gpu/drm/drm_fb_helper.c
->>>> index d612133e2cf7..41dd5887599a 100644
->>>> --- a/drivers/gpu/drm/drm_fb_helper.c
->>>> +++ b/drivers/gpu/drm/drm_fb_helper.c
->>>> @@ -30,6 +30,8 @@
->>>>   #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->>>>   #include <linux/console.h>
->>>> +#include <linux/input.h>
->>>> +#include <linux/mod_devicetable.h>
->>>>   #include <linux/pci.h>
->>>>   #include <linux/sysrq.h>
->>>>   #include <linux/vga_switcheroo.h>
->>>> @@ -413,6 +415,128 @@ static void drm_fb_helper_damage_work(struct 
->>>> work_struct *work)
->>>>       drm_fb_helper_fb_dirty(helper);
->>>>   }
->>>> +static void drm_fb_helper_lid_event(struct input_handle *handle, 
->>>> unsigned int type,
->>>> +                    unsigned int code, int value)
->>>> +{
->>>> +    if (type == EV_SW && code == SW_LID) {
->>>> +        struct drm_fb_helper *fb_helper = handle->handler->private;
->>>> +
->>>> +        if (value != fb_helper->dev->lid_closed) {
->>>> +            fb_helper->dev->lid_closed = value;
->>>> +            queue_work(fb_helper->input_wq, &fb_helper->lid_work);
->>>> +        }
->>>> +    }
->>>> +}
->>>> +
->>>> +struct drm_fb_lid {
->>>> +    struct input_handle handle;
->>>> +};
->>>> +
->>>> +static int drm_fb_helper_lid_connect(struct input_handler *handler,
->>>> +                     struct input_dev *dev,
->>>> +                     const struct input_device_id *id)
->>>> +{
->>>> +    struct drm_fb_helper *fb_helper = handler->private;
->>>> +    struct drm_fb_lid *lid;
->>>> +    char *name;
->>>> +    int error;
->>>> +
->>>> +    lid = kzalloc(sizeof(*lid), GFP_KERNEL);
->>>> +    if (!lid)
->>>> +        return -ENOMEM;
->>>> +
->>>> +    name = kasprintf(GFP_KERNEL, "drm-fb-helper-lid-%s", 
->>>> dev_name(&dev->dev));
->>>> +    if (!name) {
->>>> +        error = -ENOMEM;
->>>> +        goto err_free_lid;
->>>> +    }
->>>> +
->>>> +    lid->handle.dev = dev;
->>>> +    lid->handle.handler = handler;
->>>> +    lid->handle.name = name;
->>>> +    lid->handle.private = lid;
->>>> +
->>>> +    error = input_register_handle(&lid->handle);
->>>> +    if (error)
->>>> +        goto err_free_name;
->>>> +
->>>> +    error = input_open_device(&lid->handle);
->>>> +    if (error)
->>>> +        goto err_unregister_handle;
->>>> +
->>>> +    fb_helper->dev->lid_closed = dev->sw[SW_LID];
->>>> +    drm_dbg_kms(fb_helper->dev, "initial lid state is set to %d\n", 
->>>> fb_helper->dev->lid_closed);
->>>> +
->>>> +    return 0;
->>>> +
->>>> +err_unregister_handle:
->>>> +    input_unregister_handle(&lid->handle);
->>>> +err_free_name:
->>>> +    kfree(name);
->>>> +err_free_lid:
->>>> +    kfree(lid);
->>>> +    return error;
->>>> +}
->>>> +
->>>> +static void drm_fb_helper_lid_disconnect(struct input_handle *handle)
->>>> +{
->>>> +    struct drm_fb_lid *lid = handle->private;
->>>> +
->>>> +    input_close_device(handle);
->>>> +    input_unregister_handle(handle);
->>>> +
->>>> +    kfree(handle->name);
->>>> +    kfree(lid);
->>>> +}
->>>> +
->>>> +static const struct input_device_id drm_fb_helper_lid_ids[] = {
->>>> +    {
->>>> +        .flags = INPUT_DEVICE_ID_MATCH_EVBIT | 
->>>> INPUT_DEVICE_ID_MATCH_SWBIT,
->>>> +        .evbit = { BIT_MASK(EV_SW) },
->>>> +        .swbit = { [BIT_WORD(SW_LID)] = BIT_MASK(SW_LID) },
->>>> +    },
->>>> +    { },
->>>> +};
->>>> +
->>>> +static struct input_handler drm_fb_helper_lid_handler = {
->>>> +    .event =    drm_fb_helper_lid_event,
->>>> +    .connect =    drm_fb_helper_lid_connect,
->>>> +    .disconnect =    drm_fb_helper_lid_disconnect,
->>>> +    .name =        "drm-fb-helper-lid",
->>>> +    .id_table =    drm_fb_helper_lid_ids,
->>>> +};
->>>> +
->>>> +static void drm_fb_helper_lid_work(struct work_struct *work)
->>>> +{
->>>> +    struct drm_fb_helper *fb_helper = container_of(work, struct 
->>>> drm_fb_helper,
->>>> +                               lid_work);
->>>> +    drm_fb_helper_hotplug_event(fb_helper);
->>>> +}
->>>> +
->>>> +static int drm_fb_helper_create_lid_handler(struct drm_fb_helper 
->>>> *fb_helper)
->>>> +{
->>>> +    int ret = 0;
->>>> +
->>>> +    if (fb_helper->deferred_setup)
->>>> +        return 0;
->>>> +
->>>> +    fb_helper->input_wq = create_singlethread_workqueue("drm-fb-lid");
->>>> +    if (fb_helper->input_wq == NULL)
->>>> +        return -ENOMEM;
->>>> +
->>>> +    drm_fb_helper_lid_handler.private = fb_helper;
->>>> +    ret = input_register_handler(&drm_fb_helper_lid_handler);
->>>> +    if (ret)
->>>> +        goto remove_wq;
->>>> +
->>>> +    return 0;
->>>> +
->>>> +remove_wq:
->>>> +    destroy_workqueue(fb_helper->input_wq);
->>>> +    fb_helper->input_wq = NULL;
->>>> +    return ret;
->>>> +}
->>>> +
->>>>   /**
->>>>    * drm_fb_helper_prepare - setup a drm_fb_helper structure
->>>>    * @dev: DRM device
->>>> @@ -445,6 +569,7 @@ void drm_fb_helper_prepare(struct drm_device 
->>>> *dev, struct drm_fb_helper *helper,
->>>>       spin_lock_init(&helper->damage_lock);
->>>>       INIT_WORK(&helper->resume_work, drm_fb_helper_resume_worker);
->>>>       INIT_WORK(&helper->damage_work, drm_fb_helper_damage_work);
->>>> +    INIT_WORK(&helper->lid_work, drm_fb_helper_lid_work);
->>>>       helper->damage_clip.x1 = helper->damage_clip.y1 = ~0;
->>>>       mutex_init(&helper->lock);
->>>>       helper->funcs = funcs;
->>>> @@ -593,6 +718,9 @@ void drm_fb_helper_fini(struct drm_fb_helper 
->>>> *fb_helper)
->>>>       if (!drm_fbdev_emulation)
->>>>           return;
->>>> +    input_unregister_handler(&drm_fb_helper_lid_handler);
->>>> +    destroy_workqueue(fb_helper->input_wq);
->>>> +
->>>>       cancel_work_sync(&fb_helper->resume_work);
->>>>       cancel_work_sync(&fb_helper->damage_work);
->>>> @@ -1842,6 +1970,10 @@ 
->>>> __drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper 
->>>> *fb_helper)
->>>>       width = dev->mode_config.max_width;
->>>>       height = dev->mode_config.max_height;
->>>> +    ret = drm_fb_helper_create_lid_handler(fb_helper);
->>>> +    if (ret)
->>>> +        return ret;
->>>> +
->>>>       drm_client_modeset_probe(&fb_helper->client, width, height);
->>>>       ret = drm_fb_helper_single_fb_probe(fb_helper);
->>>>       if (ret < 0) {
->>>> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
->>>> index 63767cf24371..619af597784c 100644
->>>> --- a/include/drm/drm_device.h
->>>> +++ b/include/drm/drm_device.h
->>>> @@ -316,6 +316,12 @@ struct drm_device {
->>>>        * Root directory for debugfs files.
->>>>        */
->>>>       struct dentry *debugfs_root;
->>>> +
->>>> +    /**
->>>> +     * @lid_closed: Flag to tell the lid switch state
->>>> +     */
->>>> +    bool lid_closed;
->>>> +
->>>>   };
->>>>   #endif
->>>> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
->>>> index 375737fd6c36..7fb36c10299d 100644
->>>> --- a/include/drm/drm_fb_helper.h
->>>> +++ b/include/drm/drm_fb_helper.h
->>>> @@ -143,6 +143,8 @@ struct drm_fb_helper {
->>>>       spinlock_t damage_lock;
->>>>       struct work_struct damage_work;
->>>>       struct work_struct resume_work;
->>>> +    struct work_struct lid_work;
->>>> +    struct workqueue_struct *input_wq;
->>>>       /**
->>>>        * @lock:
->>>
->>
-> 
+Regards,
+Christian.
+
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo_util.c | 46 +++++++++++++++++++++----------
+>   1 file changed, 31 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index 0b3f4267130c4..a9df0deff2deb 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -36,6 +36,7 @@
+>   #include <drm/ttm/ttm_tt.h>
+>   
+>   #include <drm/drm_cache.h>
+> +#include <drm/drm_device.h>
+>   
+>   struct ttm_transfer_obj {
+>   	struct ttm_buffer_object base;
+> @@ -479,24 +480,29 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct iosys_map *map)
+>   
+>   	if (mem->bus.is_iomem) {
+>   		void __iomem *vaddr_iomem;
+> +		u16 alloc_flags;
+>   
+> -		if (mem->bus.addr)
+> +		if (mem->bus.addr) {
+>   			vaddr_iomem = (void __iomem *)mem->bus.addr;
+> -		else if (mem->bus.caching == ttm_write_combined)
+> -			vaddr_iomem = ioremap_wc(mem->bus.offset,
+> -						 bo->base.size);
+> +			alloc_flags = ttm_bo_map_premapped;
+> +		} else if (mem->bus.caching == ttm_write_combined) {
+> +			vaddr_iomem = ioremap_wc(mem->bus.offset, bo->base.size);
+> +			alloc_flags = ttm_bo_map_iomap;
+>   #ifdef CONFIG_X86
+> -		else if (mem->bus.caching == ttm_cached)
+> -			vaddr_iomem = ioremap_cache(mem->bus.offset,
+> -						  bo->base.size);
+> +		} else if (mem->bus.caching == ttm_cached) {
+> +			vaddr_iomem = ioremap_cache(mem->bus.offset, bo->base.size);
+> +			alloc_flags = ttm_bo_map_iomap;
+>   #endif
+> -		else
+> +		} else {
+>   			vaddr_iomem = ioremap(mem->bus.offset, bo->base.size);
+> +			alloc_flags = ttm_bo_map_iomap;
+> +		}
+>   
+>   		if (!vaddr_iomem)
+>   			return -ENOMEM;
+>   
+>   		iosys_map_set_vaddr_iomem(map, vaddr_iomem);
+> +		map->alloc_flags = alloc_flags;
+>   
+>   	} else {
+>   		struct ttm_operation_ctx ctx = {
+> @@ -506,6 +512,7 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct iosys_map *map)
+>   		struct ttm_tt *ttm = bo->ttm;
+>   		pgprot_t prot;
+>   		void *vaddr;
+> +		u16 alloc_flags;
+>   
+>   		ret = ttm_tt_populate(bo->bdev, ttm, &ctx);
+>   		if (ret)
+> @@ -519,8 +526,10 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct iosys_map *map)
+>   		vaddr = vmap(ttm->pages, ttm->num_pages, 0, prot);
+>   		if (!vaddr)
+>   			return -ENOMEM;
+> +		alloc_flags = ttm_bo_map_vmap;
+>   
+>   		iosys_map_set_vaddr(map, vaddr);
+> +		map->alloc_flags = alloc_flags;
+>   	}
+>   
+>   	return 0;
+> @@ -537,20 +546,27 @@ EXPORT_SYMBOL(ttm_bo_vmap);
+>    */
+>   void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct iosys_map *map)
+>   {
+> -	struct ttm_resource *mem = bo->resource;
+> -
+>   	dma_resv_assert_held(bo->base.resv);
+>   
+>   	if (iosys_map_is_null(map))
+>   		return;
+>   
+> -	if (!map->is_iomem)
+> -		vunmap(map->vaddr);
+> -	else if (!mem->bus.addr)
+> +	switch (map->alloc_flags) {
+> +	case ttm_bo_map_iomap:
+>   		iounmap(map->vaddr_iomem);
+> -	iosys_map_clear(map);
+> -
+> +		break;
+> +	case ttm_bo_map_vmap:
+> +		vunmap(map->vaddr);
+> +		break;
+> +	case ttm_bo_map_premapped:
+> +		break;
+> +	default:
+> +		drm_err(bo->base.dev, "Unsupported alloc_flags 0x%x\n", map->alloc_flags);
+> +		return;
+> +	}
+>   	ttm_mem_io_free(bo->bdev, bo->resource);
+> +
+> +	iosys_map_clear(map);
+>   }
+>   EXPORT_SYMBOL(ttm_bo_vunmap);
+>   
 
