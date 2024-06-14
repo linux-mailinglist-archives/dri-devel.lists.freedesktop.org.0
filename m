@@ -2,89 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 892FD9088AE
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 11:55:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A33F9089C0
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 12:26:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73E5410ECBE;
-	Fri, 14 Jun 2024 09:55:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7254C10E17D;
+	Fri, 14 Jun 2024 10:26:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LZEtpTGT";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WmQiE9qd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECB9610ECC8
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 09:55:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1718358925;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Vc9vnEGEoOkbYVmoCf71UsJOzFBKHRz5WSa94wukYEo=;
- b=LZEtpTGTcQXQl8s8Qr0cAr9OnKxfwAcvFaw9S2/+iW598ZxrqFhU8RvRHN76fgvJkiU3Rl
- ded72RPSZdr/DNYdE1dPNUS8IZiS9YDja3PHRZGwqRH4fFwG985LtJ7VNxT2EoipF/gySW
- 2NwkPdu1V4KFA4JFp0Pv+n7UcIZtrL8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-474-UwZ_6ZGxOiy1Z6Hai6FQOg-1; Fri, 14 Jun 2024 05:55:24 -0400
-X-MC-Unique: UwZ_6ZGxOiy1Z6Hai6FQOg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-422a0f21366so15391065e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 02:55:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718358923; x=1718963723;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Vc9vnEGEoOkbYVmoCf71UsJOzFBKHRz5WSa94wukYEo=;
- b=xJB+TUX403Jv77Tcl/thodlJ6pfBZoSXRtWnXooezHuhruuYFOJCFjTdVFb+I0O9lC
- Nc9ZNGSxp11X3MzNWq4Ewzdz6vtBSLrbJLyLkfrIwhrKLA30xYuNk4zcGX/BVPuqD/Do
- n6Tw7GqdHAFfx4HyQ/ufsQ4geJri11GUhvj87jmRHyaIVTzLe540VDkYiXOvwYQPm1oI
- MLfzdbXtHbPHX31FKIlnrd5IejBkmjUSXtnvX/V7SE/6uOPxnQKKMe3BoVpB3pkl20gv
- 0YSukfwvzJwXcDaik+YZLSISGsAd3jTpV3b22p1z2O82pGz1C8aPJhZsiRVoeSPhbBbC
- 8r8Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXPjkrPt6EdV9DSrEsyIwwRIOWlyBR6/rAfb6ueDxhkogxgVmsGWoAD0Y2Cx/j5F4OFAddez3FktwOCSE7KoLqQiCwdNlsuvslJHTNr9rMV
-X-Gm-Message-State: AOJu0YyGKbxHU4VdF1Cq60Lpz44gS8zyj6UK9Fw59i8zYkdvouMl65uf
- DUqzK+0izjUiRrDt9o9u/EVfzR72kdQGuTsbLD7dgcV9hkD5e9oVveDTGT9MiHxfySXHERZbl2F
- 3fSkkvps0zjEYCVrzbIDseLY8sXE+qFkgcaKOogllQAa1qzMkC4eR4C6+NC+09DWCjQ==
-X-Received: by 2002:a05:600c:1818:b0:421:4786:eb0c with SMTP id
- 5b1f17b1804b1-4230485a6acmr21184195e9.33.1718358922908; 
- Fri, 14 Jun 2024 02:55:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHP6kV89/gqZPZg3CTIVIOinlEGl8b8uKTyRlBpWHUEfiwgtPulLVmxijVX5LkwDB+k6n+phQ==
-X-Received: by 2002:a05:600c:1818:b0:421:4786:eb0c with SMTP id
- 5b1f17b1804b1-4230485a6acmr21184045e9.33.1718358922546; 
- Fri, 14 Jun 2024 02:55:22 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
- ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-422d0be1424sm59326775e9.12.2024.06.14.02.55.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jun 2024 02:55:22 -0700 (PDT)
-Message-ID: <f2c00c97-4d2d-4cb8-aa9b-e9c458ca9e65@redhat.com>
-Date: Fri, 14 Jun 2024 11:55:21 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 061F210E17D;
+ Fri, 14 Jun 2024 10:26:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718360763; x=1749896763;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Cxb7v58cdyetJNW4E0SiH40ZJwg+UWAUax4EBgb+oTs=;
+ b=WmQiE9qdp2GEhjd2H5LGUbRPn4tqiVivWhzsrV+eluqD19b/KcWkM5Ev
+ AT87prDl9qP8pgX+1JK7nwtFM8H3b1lrj49oLfyxgJnAAOKUZABlfWM/w
+ 9A9ostoAX/Xg+lg0PrOVIAU2oFCbWecBoP5v9uvkBFGSeGibjSkvIimhp
+ CIUSm9zru+jHxeno+rfxr8GfIpvjzTynghZVEXyDn4hTyVTxYqPHtpMjw
+ E7kQIzaEN3r7mkOP/oh6ZC1JRYkoFsZq7LLG6rK13CHNndIOnQd+aH5bV
+ s1TgOeJXB6TdftLKKXxkAuZ1l7m4M76iHQCQJGmJLBudV6V/8BpU8SomH A==;
+X-CSE-ConnectionGUID: QliL1hIMQg2jHMTONQ2H4g==
+X-CSE-MsgGUID: sWy86KDxRXSAir4s0x/4vw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="26659441"
+X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; d="scan'208";a="26659441"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2024 03:26:03 -0700
+X-CSE-ConnectionGUID: /AwlJI8TTlCtYbrxiA/QQw==
+X-CSE-MsgGUID: igILMc5KSPiAs7OkqCHbIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; d="scan'208";a="45415490"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO fedora..)
+ ([10.245.244.153])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2024 03:26:01 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 00/12] TTM shrinker helpers and xe buffer object shrinker
+Date: Fri, 14 Jun 2024 12:25:36 +0200
+Message-ID: <20240614102548.4364-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/7] drm/panic: Add support for drawing a monochrome
- graphical logo
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <cover.1718305355.git.geert+renesas@glider.be>
- <3f1a5f56213f3e4584773eb2813e212b2dff6d14.1718305355.git.geert+renesas@glider.be>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <3f1a5f56213f3e4584773eb2813e212b2dff6d14.1718305355.git.geert+renesas@glider.be>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,153 +70,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series implements TTM shrinker / eviction helpers and an xe bo
+shrinker. It builds on two previous series, *and obsoletes these*. First
 
+https://www.mail-archive.com/dri-devel@lists.freedesktop.org/msg484425.html
 
-On 13/06/2024 21:18, Geert Uytterhoeven wrote:
-> Re-use the existing support for boot-up logos to draw a monochrome
-> graphical logo in the DRM panic handler.  When no suitable graphical
-> logo is available, the code falls back to the ASCII art penguin logo.
-> 
-> Note that all graphical boot-up logos are freed during late kernel
-> initialization, hence a copy must be made for later use.
+Second the previous TTM shrinker series
 
-Would it be possible to have the logo not in the __init section if 
-DRM_PANIC is set ?
+https://lore.kernel.org/linux-mm/b7491378-defd-4f1c-31e2-29e4c77e2d67@amd.com/T/
 
-The patch looks good to me anyway.
+Where the comment about layering
+https://lore.kernel.org/linux-mm/b7491378-defd-4f1c-31e2-29e4c77e2d67@amd.com/T/#ma918844aa8a6efe8768fdcda0c6590d5c93850c9
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+now addressed, and this version also implements shmem objects for backup
+rather than direct swap-cache insertions, which was used in the previuos
+series. It turns out that with per-page backup / shrinking, shmem objects
+appears to work just as well as direct swap-cache insertions with the
+added benefit that was introduced in the previous TTM shrinker series to
+avoid running out of swap entries isn't really needed.
 
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v2:
->    - Rebased,
->    - Inline trivial draw_logo_mono().
-> ---
->   drivers/gpu/drm/drm_panic.c | 65 +++++++++++++++++++++++++++++++++----
->   drivers/video/logo/Kconfig  |  2 ++
->   2 files changed, 60 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> index f7e22b69bb25d3be..af30f243b2802ad7 100644
-> --- a/drivers/gpu/drm/drm_panic.c
-> +++ b/drivers/gpu/drm/drm_panic.c
-> @@ -7,11 +7,15 @@
->    */
->   
->   #include <linux/font.h>
-> +#include <linux/init.h>
->   #include <linux/iosys-map.h>
->   #include <linux/kdebug.h>
->   #include <linux/kmsg_dump.h>
-> +#include <linux/linux_logo.h>
->   #include <linux/list.h>
-> +#include <linux/math.h>
->   #include <linux/module.h>
-> +#include <linux/overflow.h>
->   #include <linux/printk.h>
->   #include <linux/types.h>
->   
-> @@ -88,6 +92,42 @@ static const struct drm_panic_line logo_ascii[] = {
->   	PANIC_LINE(" \\___)=(___/"),
->   };
->   
-> +#ifdef CONFIG_LOGO
-> +static const struct linux_logo *logo_mono;
-> +
-> +static int drm_panic_setup_logo(void)
-> +{
-> +	const struct linux_logo *logo = fb_find_logo(1);
-> +	const unsigned char *logo_data;
-> +	struct linux_logo *logo_dup;
-> +
-> +	if (!logo || logo->type != LINUX_LOGO_MONO)
-> +		return 0;
-> +
-> +	/* The logo is __init, so we must make a copy for later use */
-> +	logo_data = kmemdup(logo->data,
-> +			    size_mul(DIV_ROUND_UP(logo->width, BITS_PER_BYTE), logo->height),
-> +			    GFP_KERNEL);
-> +	if (!logo_data)
-> +		return -ENOMEM;
-> +
-> +	logo_dup = kmemdup(logo, sizeof(*logo), GFP_KERNEL);
-> +	if (!logo_dup) {
-> +		kfree(logo_data);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	logo_dup->data = logo_data;
-> +	logo_mono = logo_dup;
-> +
-> +	return 0;
-> +}
-> +
-> +device_initcall(drm_panic_setup_logo);
-> +#else
-> +#define logo_mono	((const struct linux_logo *)NULL)
-> +#endif
-> +
->   /*
->    * Color conversion
->    */
-> @@ -452,15 +492,22 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
->   	u32 bg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_BACKGROUND_COLOR, sb->format->format);
->   	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
->   	struct drm_rect r_screen, r_logo, r_msg;
-> +	unsigned int logo_width, logo_height;
->   
->   	if (!font)
->   		return;
->   
->   	r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
->   
-> -	r_logo = DRM_RECT_INIT(0, 0,
-> -			       get_max_line_len(logo_ascii, logo_ascii_lines) * font->width,
-> -			       logo_ascii_lines * font->height);
-> +	if (logo_mono) {
-> +		logo_width = logo_mono->width;
-> +		logo_height = logo_mono->height;
-> +	} else {
-> +		logo_width = get_max_line_len(logo_ascii, logo_ascii_lines) * font->width;
-> +		logo_height = logo_ascii_lines * font->height;
-> +	}
-> +
-> +	r_logo = DRM_RECT_INIT(0, 0, logo_width, logo_height);
->   	r_msg = DRM_RECT_INIT(0, 0,
->   			      min(get_max_line_len(panic_msg, msg_lines) * font->width, sb->width),
->   			      min(msg_lines * font->height, sb->height));
-> @@ -471,10 +518,14 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
->   	/* Fill with the background color, and draw text on top */
->   	drm_panic_fill(sb, &r_screen, bg_color);
->   
-> -	if ((r_msg.x1 >= drm_rect_width(&r_logo) || r_msg.y1 >= drm_rect_height(&r_logo)) &&
-> -	    drm_rect_width(&r_logo) <= sb->width && drm_rect_height(&r_logo) <= sb->height) {
-> -		draw_txt_rectangle(sb, font, logo_ascii, logo_ascii_lines, false, &r_logo,
-> -				   fg_color);
-> +	if ((r_msg.x1 >= logo_width || r_msg.y1 >= logo_height) &&
-> +	    logo_width <= sb->width && logo_height <= sb->height) {
-> +		if (logo_mono)
-> +			drm_panic_blit(sb, &r_logo, logo_mono->data, DIV_ROUND_UP(logo_width, 8),
-> +				       fg_color);
-> +		else
-> +			draw_txt_rectangle(sb, font, logo_ascii, logo_ascii_lines, false, &r_logo,
-> +					   fg_color);
->   	}
->   	draw_txt_rectangle(sb, font, panic_msg, msg_lines, true, &r_msg, fg_color);
->   }
-> diff --git a/drivers/video/logo/Kconfig b/drivers/video/logo/Kconfig
-> index b7d94d1dd1585a84..ce6bb753522d215d 100644
-> --- a/drivers/video/logo/Kconfig
-> +++ b/drivers/video/logo/Kconfig
-> @@ -8,6 +8,8 @@ menuconfig LOGO
->   	depends on FB_CORE || SGI_NEWPORT_CONSOLE
->   	help
->   	  Enable and select frame buffer bootup logos.
-> +	  Monochrome logos will also be used by the DRM panic handler, if
-> +	  enabled.
->   
->   if LOGO
->   
+Patch 1-4 implements restartable LRU list iteration.
+
+Patch 5 implements a LRU walker + resv locking helper
+
+Patch 6 moves TTM swapping over to the walker.
+
+Patch 7 moves TTM eviction over to the walker.
+
+Patch 8 could in theory be skipped but introduces a possibility to easily
+add or test multiple backup backends, like the direct swap-cache
+insertion or even files into fast dedicated nvme storage for for example.
+
+Patch 9 introduces helpers in the ttm_pool code for page-by-page shrinking
+and recovery. It avoids having to temporarily allocate a huge amount of
+memory to be able to shrink a buffer object. It also introduces the
+possibility to immediately write-back pages if needed, since that tends
+to be a bit delayed when left to kswapd.
+
+Patch 10 Adds a simple error injection to the above code to help increase
+test coverage.
+
+Patch 11 Implements an xe bo shrinker and a common helper in TTM for
+shrinking.
+
+Patch 12-21 are really a separate POC series, for introducing drm_exec locking
+in TTM. The patch touches both drm_exec and dma-buf and is for now marked as
+an RFC:
+
+Patch 12 Increases (removes) the XE_PL_TT watermark.
+
+v2:
+- Squash obsolete revision history in the patch commit messages.
+- Fix a couple of review comments by Christian
+- Don't store the mem_type in the TTM managers but in the
+  resource cursor.
+- Rename introduced TTM *back_up* function names to *backup*
+- Add ttm pool recovery fault injection.
+- Shrinker xe kunit test
+- Various bugfixes
+
+v3:
+- Address some review comments from Matthew Brost and Christian König.
+- Use the restartable LRU walk for TTM swapping and eviction.
+- Provide a POC drm_exec locking implementation for exhaustive
+  eviction. (Christian König).
+
+v4:
+- Remove the RFC exhaustive eviction part. While the path to exhaustive
+  eviction is pretty clear and demonstrated in v3, there is still some
+  drm_exec work that needs to be agreed and implemented.
+- Add shrinker power management. On some hw we need to wake when shrinking.
+- Fix the lru walker helper for -EALREADY errors.
+- Add drm/xe: Increase the XE_PL_TT watermark.
+
+Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: <dri-devel@lists.freedesktop.org>
+
+Thomas Hellström (12):
+  drm/ttm: Allow TTM LRU list nodes of different types
+  drm/ttm: Slightly clean up LRU list iteration
+  drm/ttm: Use LRU hitches
+  drm/ttm, drm/amdgpu, drm/xe: Consider hitch moves within bulk sublist
+    moves
+  drm/ttm: Provide a generic LRU walker helper
+  drm/ttm: Use the LRU walker helper for swapping
+  drm/ttm: Use the LRU walker for eviction
+  drm/ttm: Add a virtual base class for graphics memory backup
+  drm/ttm/pool: Provide a helper to shrink pages
+  drm/ttm: Use fault-injection to test error paths
+  drm/ttm, drm/xe: Add a shrinker for xe bos
+  drm/xe: Increase the XE_PL_TT watermark
+
+ drivers/gpu/drm/Kconfig                |  10 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c |   4 +
+ drivers/gpu/drm/ttm/Makefile           |   2 +-
+ drivers/gpu/drm/ttm/ttm_backup_shmem.c | 137 ++++++++
+ drivers/gpu/drm/ttm/ttm_bo.c           | 463 ++++++++++++-------------
+ drivers/gpu/drm/ttm/ttm_bo_util.c      | 212 +++++++++++
+ drivers/gpu/drm/ttm/ttm_device.c       |  29 +-
+ drivers/gpu/drm/ttm/ttm_pool.c         | 412 +++++++++++++++++++++-
+ drivers/gpu/drm/ttm/ttm_resource.c     | 264 +++++++++++---
+ drivers/gpu/drm/ttm/ttm_tt.c           |  37 ++
+ drivers/gpu/drm/xe/Makefile            |   1 +
+ drivers/gpu/drm/xe/tests/xe_bo.c       | 118 +++++++
+ drivers/gpu/drm/xe/tests/xe_bo_test.c  |   1 +
+ drivers/gpu/drm/xe/tests/xe_bo_test.h  |   1 +
+ drivers/gpu/drm/xe/xe_bo.c             | 139 +++++++-
+ drivers/gpu/drm/xe/xe_bo.h             |   4 +
+ drivers/gpu/drm/xe/xe_device.c         |   8 +
+ drivers/gpu/drm/xe/xe_device_types.h   |   2 +
+ drivers/gpu/drm/xe/xe_shrinker.c       | 287 +++++++++++++++
+ drivers/gpu/drm/xe/xe_shrinker.h       |  18 +
+ drivers/gpu/drm/xe/xe_ttm_sys_mgr.c    |   3 +-
+ drivers/gpu/drm/xe/xe_vm.c             |   4 +
+ include/drm/ttm/ttm_backup.h           | 136 ++++++++
+ include/drm/ttm/ttm_bo.h               |  48 ++-
+ include/drm/ttm/ttm_pool.h             |   5 +
+ include/drm/ttm/ttm_resource.h         |  99 +++++-
+ include/drm/ttm/ttm_tt.h               |  20 ++
+ 27 files changed, 2089 insertions(+), 375 deletions(-)
+ create mode 100644 drivers/gpu/drm/ttm/ttm_backup_shmem.c
+ create mode 100644 drivers/gpu/drm/xe/xe_shrinker.c
+ create mode 100644 drivers/gpu/drm/xe/xe_shrinker.h
+ create mode 100644 include/drm/ttm/ttm_backup.h
+
+-- 
+2.44.0
 
