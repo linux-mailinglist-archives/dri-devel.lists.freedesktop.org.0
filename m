@@ -2,62 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F149089CC
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 12:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17137908A00
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 12:34:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6550010ECFB;
-	Fri, 14 Jun 2024 10:26:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D071010E262;
+	Fri, 14 Jun 2024 10:34:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nP7KoNwL";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tsiMNtdY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 639D710ECF4;
- Fri, 14 Jun 2024 10:26:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718360785; x=1749896785;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=aZVEsAvJxq8YFPiN/+jcPgTLkaLcMRVVRzSS31qNVTQ=;
- b=nP7KoNwLGLXufVIEWMu7ugso9jlmnCfqbygoeEkl0X8IWZDH0y5Hadf7
- Wd09GQs9NjMyQ1a2qdHUyWmTN1ggQSQqjX1P6/BbGdg6ShI/mIafrOmCd
- lBQ9QotZXH9f+ZncfDrLliP/BQkoaDkvETxiPUjM6CYsTPSk23H7zEEQu
- ANi0q3K9R5PWjhP5IfWdFX/SeWQ1CXbS03tAiSf4xG4oNzJoq8NpW8lMC
- yZ8K18tZ6gcacc6Aeb8w4M+xtYxOZJCYw+QJOY8ewXxF8jV+23ibQ1O0J
- ZneySthNbs0rzJCYdKZeTbAwwipYR1x44X/6qflZDdnw4ryCmPmKLt6AE A==;
-X-CSE-ConnectionGUID: 83H8uPscTBa/ux4IxbK7uA==
-X-CSE-MsgGUID: pLfSnJAmSV2lb8v7T+39cQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="26659505"
-X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; d="scan'208";a="26659505"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2024 03:26:25 -0700
-X-CSE-ConnectionGUID: DG5rBbqNSnGDMqotd4110g==
-X-CSE-MsgGUID: +kjj3rsgSf29lhe0Oy7Vrg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; d="scan'208";a="45415602"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO fedora..)
- ([10.245.244.153])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2024 03:26:23 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 12/12] drm/xe: Increase the XE_PL_TT watermark
-Date: Fri, 14 Jun 2024 12:25:48 +0200
-Message-ID: <20240614102548.4364-13-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240614102548.4364-1-thomas.hellstrom@linux.intel.com>
-References: <20240614102548.4364-1-thomas.hellstrom@linux.intel.com>
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8BE810E099
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 10:33:59 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-2ec1620a956so6807061fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 03:33:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1718361237; x=1718966037; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=nzzrXsvYFvoKMaClE4C1QUvbpC22b7f20EhDi4vOiQc=;
+ b=tsiMNtdYTy40KJJF1RfhM/0alg/YpuB8I2NNArpgluC94Hpq/EvnTPp/4zvvW+YOUo
+ Q/mSszlOl6H1OnHJK67W0PaiTypfNmrgv6HUclE0wAbRc3b/WqweW3HiWF+k9mqcHo99
+ K+A1jKmMEzmVpuaTP9b2VCOMMH5nORQA4UEoJE1VyPPvGYw738Q3J7f+fE2eEu93J9ez
+ GfgonJt8/tgxdHe2UI/n/ycRwQ8hnmXKCeYi55PX5pSxfbGYhWLh2TW0+GkcQCHCMmRI
+ k6SYTIBstmepoY1RkyGZuntGZcr+s4uzvxfothh7Kc08Paqp9AZ5AFXCZYSABd25VnD1
+ 8tMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718361237; x=1718966037;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nzzrXsvYFvoKMaClE4C1QUvbpC22b7f20EhDi4vOiQc=;
+ b=Rpb8ykLZ+MkOzPF6vkY0YOnGn/+sRpUHN6RNHcD8pBo/JVJNm2k6XJ1m90+3XWgPdI
+ Q0jGeSL5rBw3px4j+LAoRyNucrVdPkkRpa6TVc4KEWBKB+MM8kEcNYENA1Xb91vfuOge
+ gEY8rsfOqXZXg9vxrCVwoVX1IR6F+RclUmZDkENTJo+55onhg8FTJTD8lwD6qL7mD69d
+ QZhh0Ii0+wwuHRlUvjsP4eKgM12d+T6icwULOmSG4gtb3mobw/VtcgEyGR6voBnUq4nn
+ 9VFrvkAOAbDTTp3hs7BRmlR8E73romSrYiT2Ad0gFek8P3AkoYCDzb9jtTq4ku+YAR3Q
+ f0pA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX2Rr0E3UjbfwWX53bLMhmL0B/n/VTIDAxtxwV62W5xveP7LHzijzWMkDZ9Y0A21pF5NlWaLpnq4lgtOzwlFPxTbvkIzBIcUPznWhbcrQJM
+X-Gm-Message-State: AOJu0YzTGdTNjiMJ8wQBtwKMxxO9Ze/qrbOk+SSocZWpZ6GqU5rIF7qk
+ dYlm2RrjdXdif3EL3C5+gbvoeJ8oKluad7mGZNRUTleLIfMFdhkEWyNMmfQ6B9A=
+X-Google-Smtp-Source: AGHT+IF6mEEorcmc78Jh2JqE/2g+YCduyT8m9BvWcoXYiiwCnJYwE/grVOArAgCLk+3BywJlJp44Og==
+X-Received: by 2002:a2e:9d05:0:b0:2eb:120c:1a59 with SMTP id
+ 38308e7fff4ca-2ec0e5c6614mr15445521fa.16.1718361237579; 
+ Fri, 14 Jun 2024 03:33:57 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2ec0596521bsm5135361fa.0.2024.06.14.03.33.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Jun 2024 03:33:57 -0700 (PDT)
+Date: Fri, 14 Jun 2024 13:33:55 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Marc Gonzalez <mgonzalez@freebox.fr>, Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Bjorn Andersson <andersson@kernel.org>,
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>
+Subject: Re: [PATCH v4 4/4] arm64: dts: qcom: add HDMI nodes for msm8998
+Message-ID: <pprbxhow6gl6bqlhzoiozz7ymwqk5uwuyuwclviulie4ucyjok@xv34zrzw72oz>
+References: <20240613-hdmi-tx-v4-0-4af17e468699@freebox.fr>
+ <20240613-hdmi-tx-v4-4-4af17e468699@freebox.fr>
+ <348e16f1-0a1b-4cad-a3f0-3f7979a99a02@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <348e16f1-0a1b-4cad-a3f0-3f7979a99a02@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,42 +96,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The XE_PL_TT watermark was set to 50% of system memory.
-The idea behind that was unclear since the net effect is that
-TT memory will be evicted to TTM_PL_SYSTEM memory if that
-watermark is exceeded, requiring PPGTT rebinds and dma
-remapping. But there is no similar watermark for TTM_PL_SYSTEM
-memory.
+On Fri, Jun 14, 2024 at 01:55:46AM GMT, Konrad Dybcio wrote:
+> 
+> 
+> On 6/13/24 17:15, Marc Gonzalez wrote:
+> > From: Arnaud Vrac <avrac@freebox.fr>
+> > 
+> > Port device nodes from vendor code.
+> > 
+> > Signed-off-by: Arnaud Vrac <avrac@freebox.fr>
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+> > ---
+> 
+> [...]
+> 
+> > +
+> > +			hdmi: hdmi-tx@c9a0000 {
+> > +				compatible = "qcom,hdmi-tx-8998";
+> > +				reg =	<0x0c9a0000 0x50c>,
+> > +					<0x00780000 0x6220>,
+> > +					<0x0c9e0000 0x2c>;
+> > +				reg-names = "core_physical",
+> > +					    "qfprom_physical",
+> > +					    "hdcp_physical";
+> 
+> The way qfprom is accessed (bypassing nvmem APIs) will need to be reworked..
+> but since we already have it like that on 8996, I'm fine with batch-reworking
+> these some time in the future..
 
-The TTM functionality that tries to swap out system memory to
-shmem objects if a 50% limit of total system memory is reached
-is orthogonal to this, and with the shrinker added, it's no
-longer in effect.
 
-Replace the 50% TTM_PL_TT limit with a 100% limit, in effect
-allowing all graphics memory to be bound to the device unless it
-has been swapped out by the shrinker.
+Yes. The whole qfprom / hdcp part needs to be reworked, but it should
+not stop the platform from flowing in.
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/xe/xe_ttm_sys_mgr.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> > +
+> > +				interrupt-parent = <&mdss>;
+> > +				interrupts = <8>;
+> > +
+> > +				clocks = <&mmcc MDSS_MDP_CLK>,
+> 
+> Not sure if the MDP core clock is necessary here. Pretty sure it only
+> powers the display-controller@.. peripheral
 
-diff --git a/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c b/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
-index 9844a8edbfe1..d38b91872da3 100644
---- a/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
-+++ b/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
-@@ -108,9 +108,8 @@ int xe_ttm_sys_mgr_init(struct xe_device *xe)
- 	u64 gtt_size;
- 
- 	si_meminfo(&si);
-+	/* Potentially restrict amount of TT memory here. */
- 	gtt_size = (u64)si.totalram * si.mem_unit;
--	/* TTM limits allocation of all TTM devices by 50% of system memory */
--	gtt_size /= 2;
- 
- 	man->use_tt = true;
- 	man->func = &xe_ttm_sys_mgr_func;
+It might be, or it might be not. DSI interfaces also use MDP_CLK on
+those platforms.
+
+> 
+> > +					 <&mmcc MDSS_AHB_CLK>,
+> > +					 <&mmcc MDSS_HDMI_CLK>,
+> > +					 <&mmcc MDSS_HDMI_DP_AHB_CLK>,
+> > +					 <&mmcc MDSS_EXTPCLK_CLK>,
+> > +					 <&mmcc MDSS_AXI_CLK>,
+> > +					 <&mmcc MNOC_AHB_CLK>,
+> 
+> This one is an interconnect clock, drop it
+> 
+> > +					 <&mmcc MISC_AHB_CLK>;
+> 
+> And please confirm whether this one is necessary
+
+Let me quote the discussion on #linux-msm
+
+<lumag> jhugo, do you know anything about MNOC_AHB_CLK / MISC_AHB_CLK? Should they be enabled for HDMI to work?
+<jhugo> lumag: MNOC AHB, yes
+<jhugo> lumag: MISC, probably
+
+> > +				clock-names =
+> > +					"mdp_core",
+> > +					"iface",
+> > +					"core",
+> > +					"alt_iface",
+> > +					"extp",
+> > +					"bus",
+> > +					"mnoc",
+> > +					"iface_mmss";
+> > +
+
+[...]
+
+> > +
+> > +			hdmi_phy: hdmi-phy@c9a0600 {
+> > +				compatible = "qcom,hdmi-phy-8998";
+> > +				reg = <0x0c9a0600 0x18b>,
+> > +				      <0x0c9a0a00 0x38>,
+> > +				      <0x0c9a0c00 0x38>,
+> > +				      <0x0c9a0e00 0x38>,
+> > +				      <0x0c9a1000 0x38>,
+> > +				      <0x0c9a1200 0x0e8>;
+> > +				reg-names = "hdmi_pll",
+> > +					    "hdmi_tx_l0",
+> > +					    "hdmi_tx_l1",
+> > +					    "hdmi_tx_l2",
+> > +					    "hdmi_tx_l3",
+> > +					    "hdmi_phy";
+> > +
+> > +				#clock-cells = <0>;
+> > +				#phy-cells = <0>;
+> > +
+> > +				clocks = <&mmcc MDSS_AHB_CLK>,
+> > +					 <&gcc GCC_HDMI_CLKREF_CLK>,
+> > +					 <&rpmcc RPM_SMD_XO_CLK_SRC>;
+> > +				clock-names = "iface",
+> > +					      "ref",
+> > +					      "xo";
+> 
+> GCC_HDMI_CLKREF_CLK is a child of xo, so you can drop the latter.
+> It would also be worth confirming whether it's really powering the
+> PHY and not the TX.. You can test that by trying to only power on the
+> phy (e.g. call the phy_power_on or whatever APIs) with and without the
+> clock
+
+I'd prefer to keep it. I think the original DT used one of LN_BB clocks
+here, so it might be that the HDMI uses CXO2 / LN_BB instead of the main
+CXO.
+
+If somebody can check, which clock is actually used for the HDMI, it
+would be really great.
+
+> 
+> Konrad
+> 
+> -- 
+> linux-phy mailing list
+> linux-phy@lists.infradead.org
+> https://lists.infradead.org/mailman/listinfo/linux-phy
+
 -- 
-2.44.0
-
+With best wishes
+Dmitry
