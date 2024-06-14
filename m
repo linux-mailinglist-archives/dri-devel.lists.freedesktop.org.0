@@ -2,59 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6779090E5
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 19:04:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5ABB9090F1
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 19:05:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33BF210EDF0;
-	Fri, 14 Jun 2024 17:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABF1E10EDE8;
+	Fri, 14 Jun 2024 17:05:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="pC8EVGFe";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="aEOwAX/6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88B9410E238;
- Fri, 14 Jun 2024 17:03:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1718384635;
- bh=lm2WP2jZQ+yAD9yshOLeLpSgAYROFU4jcWs2mhGJV/g=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=pC8EVGFeJC0EZME094IliR7iYu6S2QKmrleDEslrJLGXCVaeDv32icm3cX3aTqv+i
- JWjLrMyYuwMppE48PfQTbHvI1q2LDE/Or+5l8l4ek2coaoTxjYb4VhjN7ubSuCx0Ks
- snhS9mXrE1ixZFJKVBZi6krUVI8pb1Li6QJZyEYL4rl/fSqTtfz9JO/zvzBiFf+sVO
- ZWyGsdyG6jVa3hRhS1WBFbq9PuFaGBpNLUaQ9+AiXc9vZBLZwQGdM7cSIse1QxA/BF
- hjoZTwhdJ61dk4G1uaywehXzCX8h/tBv3/sVwH2SixJk7EmhLn7GXIAbRstouNhu9R
- YPdjdR/2wrIOg==
-Received: from [100.95.196.25] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: koike)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id CD5BB37821B8;
- Fri, 14 Jun 2024 17:03:50 +0000 (UTC)
-Message-ID: <af6d496e-2f49-4f12-bc12-426e06d24494@collabora.com>
-Date: Fri, 14 Jun 2024 14:03:48 -0300
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D416D10EDF6
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 17:05:01 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-a6e43dad8ecso438271466b.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 10:05:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1718384699; x=1718989499;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=qzYNeCAQeD4+6NsX8RjP39JkkbQ+pGWaSkdyTn1CwzA=;
+ b=aEOwAX/6t9Ihf6lsqRUZ7c4eiylkIkPDG5J285FagvOvfMX34fl8CGjlkHdU81hyhf
+ QoQcsQZGTISwjeKlPPZzWKtYD9MWeZQz0tGzByPgaQGAGdwlCYrnR08+gLSKs7aUjtCn
+ sd/woSo3nXCG4SKslQtN9OLdl4qU7M4Qf/b5c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718384699; x=1718989499;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qzYNeCAQeD4+6NsX8RjP39JkkbQ+pGWaSkdyTn1CwzA=;
+ b=JY4U5sUWbmxOCNcu4E9kdTDCKjG7Iu0J9lLbhewBxVdgM2uxLsCRQO39jgMFAY8M5a
+ I9AXWyZL1ZYhNPCuLXil1Vu7VA2a3qjVoPzuWqo/qZPgu+/ROQcC8mlk0hh0cCXVSeil
+ 75TwZNWWW4gbxdscQpnroKGHs/hX2rpTa94IeTILdLCkA1+7Se3DPo7dSAJLEMo/vQgF
+ BoJ+jDEREzc1ZOClgC8ZcVmpNKEIrpXwU1RNBAtusprCwltjDl19OAg01P5bqTGN1Pxr
+ OtOj8zmzof5U0uKVeU2zKFQw8ECohInz+gL9l3dB+djwrBLNbLqhTZVHgLvKakGyPity
+ sA8A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWFJUWu8JY8id8fy0vXfCIjK2ZByPjJzU+YMOUXlOp0x9rdDa9jU/bu3zdXk6FFr1OLTDpl+I0U5HYZjqfWqTYmGd1yceWfAPL/eNmmlW3K
+X-Gm-Message-State: AOJu0YxAvCYF6BOX3ivrhGvya23ppqRXR2XvHmN8Dlcp4iO0k2iwg0Ac
+ maDEQXZukQecqB29A+7OjkRUq4BR1o4CqyBRMPUfeZAGgQ9aXhcpXasBt1/WGcVXEAD/in7cv6I
+ GaehD7A==
+X-Google-Smtp-Source: AGHT+IFjNftp72zERaDItw7k6pooAPb7w8XA0yYL54wtdjerDBJLDWwZ3F25tzblt+Bnyx0HntOoIA==
+X-Received: by 2002:a17:906:c0c5:b0:a6e:f53c:8da0 with SMTP id
+ a640c23a62f3a-a6f6080c781mr224176366b.8.1718384699419; 
+ Fri, 14 Jun 2024 10:04:59 -0700 (PDT)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com.
+ [209.85.208.42]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a6f56fa674bsm202866266b.210.2024.06.14.10.04.58
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Jun 2024 10:04:58 -0700 (PDT)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-57cbc66a0a6so2293412a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 10:04:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVxtXvAQ0MNwIuN/OO8v0rrG0QsaXuhy04ZrB3s0H7T/PnOnJs5yuGkeFlEhFxFoMIClTBoOP/Xpzi6aJxsyqy6ZDp2T2s40tOuX0QNOrYN
+X-Received: by 2002:a05:6402:174b:b0:57c:bec1:ff4b with SMTP id
+ 4fb4d7f45d1cf-57cbec1ffeamr2002152a12.10.1718384698458; Fri, 14 Jun 2024
+ 10:04:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ci: mark kms_addfb_basic@addfb25-bad-modifier as
- passing on msm
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240613-msm-pass-addfb25-bad-modifier-v1-1-23c556e96c8a@linaro.org>
- <8aa99c1d-ca6a-a26b-96b5-82fc35cea0fa@quicinc.com>
- <CAA8EJpr5r=5MP8DqGPV7Ndz0zKy4Ar3u+RiqocLyt6eZWuifnw@mail.gmail.com>
-Content-Language: en-US
-From: Helen Koike <helen.koike@collabora.com>
-In-Reply-To: <CAA8EJpr5r=5MP8DqGPV7Ndz0zKy4Ar3u+RiqocLyt6eZWuifnw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <CAHk-=wjQv_CSPzhjOMoOjGO3FmuHe5hzm6Ds69zZSFPa4PeuCA@mail.gmail.com>
+ <ZmrTZozoi0t/tuva@duo.ucw.cz>
+ <CAHk-=wjqHL7KjOWYBVKFewcKPWL7CJxddWfJnvL3AfOqfR8vMg@mail.gmail.com>
+ <ZmwHGviv/6J6FQLf@duo.ucw.cz>
+ <CAHk-=wigB-wVK+4=NuYJxoKLnoUXB52J5WU2hpKj2de6vGuY7g@mail.gmail.com>
+In-Reply-To: <CAHk-=wigB-wVK+4=NuYJxoKLnoUXB52J5WU2hpKj2de6vGuY7g@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 14 Jun 2024 10:04:41 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjcdUUip96PnfC+iRjAwPHn3XKsgcohk1ad5VcckCFVKA@mail.gmail.com>
+Message-ID: <CAHk-=wjcdUUip96PnfC+iRjAwPHn3XKsgcohk1ad5VcckCFVKA@mail.gmail.com>
+Subject: Re: Linux 6.10-rc1
+To: Pavel Machek <pavel@ucw.cz>, Dave Airlie <airlied@gmail.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, Rafael Wysocki <rafael@kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ intel-gfx <intel-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,75 +96,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 14 Jun 2024 at 09:21, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> Let's bring in the actual gpu people.. Dave/Jani/others - does any of
+> this sound familiar? Pavel says things have gotten much slower in
+> 6.10: "something was very wrong with the performance, likely to do
+> with graphics"
 
+Actually, maybe it's not graphics at all. Rafael just sent me a pull
+request that fixes a "turbo is disabled at boot, but magically enabled
+at runtime by firmware" issue.
 
-On 13/06/2024 14:55, Dmitry Baryshkov wrote:
-> On Thu, 13 Jun 2024 at 20:49, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 6/13/2024 9:33 AM, Dmitry Baryshkov wrote:
->>> The commit b228501ff183 ("drm/msm: merge dpu format database to MDP
->>> formats") made get_format take modifiers into account. This makes
->>> kms_addfb_basic@addfb25-bad-modifier pass on MDP4 and MDP5 platforms.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>    drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt | 1 -
->>>    drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt | 1 -
->>>    2 files changed, 2 deletions(-)
->>>
->>
->> Would be good to also give a link to the CI for the CI maintainers.
->>
->> But otherwise, LGTM
->>
->> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
-> Yes, good idea: https://gitlab.freedesktop.org/drm/msm/-/merge_requests/119
+The 6.10-rc1 kernel would notice that turbo was disabled, and stopped
+noticing that it magically got re-enabled.
 
+Pavel, that was with a very different laptop, but who knows... That
+would match the "laptop is much slower" thing.
 
-Nice to see new tests passing!
+So current -git might be worth checking.
 
-Acked-by: Helen Koike <helen.koike@collabora.com>
-
-I'm applying it to drm-misc-next
-
-Thanks,
-Helen
-
-> 
->>
->>
->>> diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
->>> index 3dfbabdf905e..6e7fd1ccd1e3 100644
->>> --- a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
->>> +++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
->>> @@ -4,7 +4,6 @@ device_reset@unbind-cold-reset-rebind,Fail
->>>    device_reset@unbind-reset-rebind,Fail
->>>    dumb_buffer@invalid-bpp,Fail
->>>    kms_3d,Fail
->>> -kms_addfb_basic@addfb25-bad-modifier,Fail
->>>    kms_cursor_legacy@forked-move,Fail
->>>    kms_cursor_legacy@single-bo,Fail
->>>    kms_cursor_legacy@torture-bo,Fail
->>> diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt b/drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
->>> index 23a5f6f9097f..46ca69ce2ffe 100644
->>> --- a/drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
->>> +++ b/drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
->>> @@ -4,6 +4,5 @@ device_reset@unbind-cold-reset-rebind,Fail
->>>    device_reset@unbind-reset-rebind,Fail
->>>    dumb_buffer@invalid-bpp,Fail
->>>    kms_3d,Fail
->>> -kms_addfb_basic@addfb25-bad-modifier,Fail
->>>    kms_lease@lease-uevent,Fail
->>>    tools_test@tools_test,Fail
->>>
->>> ---
->>> base-commit: 6b4468b0c6ba37a16795da567b58dc80bc7fb439
->>> change-id: 20240613-msm-pass-addfb25-bad-modifier-c461fd9c02bb
->>>
->>> Best regards,
-> 
-> 
-> 
+                Linus
