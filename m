@@ -2,65 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91019093DA
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 23:59:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51FC49093FA
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 00:00:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28CE910E2B7;
-	Fri, 14 Jun 2024 21:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A2A910E2AD;
+	Fri, 14 Jun 2024 22:00:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="0RcbboLY";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="HV6S9Zv1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp52.i.mail.ru (smtp52.i.mail.ru [95.163.41.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB1B710E2B7;
- Fri, 14 Jun 2024 21:59:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
- ; s=mailru;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:To:Cc:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
- X-Cloud-Ids:Disposition-Notification-To;
- bh=I2zbsAWu1Eu4d9TVubFHniQywRxerjHH7psUQOZnDvo=; t=1718402371; x=1718492371; 
- b=0RcbboLYTp0QzruLrRzWhuR+jlTf2egha8v7OlRonb8SDvwEP4/BMoO+TVDtG45oCLtvRxK/MNn
- 8NQfCB8nPKPxWWHLGaTT8xLdEAuzSWqKh0eGYGg4dgA57K1uUkIg8OnYJFqDNeb0Rk/tCkK5IVNf4
- 39S1LPRWJV7AsNJBpvA=;
-Received: by smtp52.i.mail.ru with esmtpa (envelope-from <danila@jiaxyga.com>)
- id 1sIExE-0000000DQt7-25AF; Sat, 15 Jun 2024 00:59:29 +0300
-From: Danila Tikhonov <danila@jiaxyga.com>
-To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
- dmitry.baryshkov@linaro.org, sean@poorly.run,
- marijn.suijten@somainline.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- quic_rmccann@quicinc.com, konrad.dybcio@linaro.org,
- neil.armstrong@linaro.org, jonathan@marek.ca, swboyd@chromium.org,
- quic_khsieh@quicinc.com, quic_jesszhan@quicinc.com
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Danila Tikhonov <danila@jiaxyga.com>
-Subject: [PATCH v3 4/4] drm/msm: mdss: Add SM7150 support
-Date: Sat, 15 Jun 2024 00:58:55 +0300
-Message-ID: <20240614215855.82093-5-danila@jiaxyga.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240614215855.82093-1-danila@jiaxyga.com>
-References: <20240614215855.82093-1-danila@jiaxyga.com>
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
+ [209.85.219.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B251510E2B8
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 22:00:21 +0000 (UTC)
+Received: by mail-qv1-f47.google.com with SMTP id
+ 6a1803df08f44-6b07937b84fso13664956d6.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 15:00:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1718402420; x=1719007220;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=YICLqeWZ7CPWIj9cycB+v+Sx/kefZlyQDl7Jt1GJ9mk=;
+ b=HV6S9Zv1PTM79QToFU1LtYctDqEGE6vJi259EPPV/2QD9rCVyQn2j1xg02+RtKmuKX
+ dQQdzK4Qj8ZktqzC/0/Nnkcgs2CpttV7bQ0t8WPV5R3kEarE9j1NyA+OqAnv3HKcc53G
+ PFFyr8Ljc8MDM34I+AmP30DILUqaTXTyel8ws=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718402420; x=1719007220;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YICLqeWZ7CPWIj9cycB+v+Sx/kefZlyQDl7Jt1GJ9mk=;
+ b=wZ9tSZWxKBK49Fb+DXdFDZGm1teu4N/COYrsdUhhs2z+1C5pRhwF8cJETkRE5SfmOa
+ 3ipudbSYTtB0s6eGBZfAl8lxN4x79QOE/ZO2O2xq9hPgsaYGASQ2AwBL+YBx0US+DuJb
+ uR1LE16n+oVJt77Oe8XsdbZ2NtFHBSRTvS6piTR8tDEsjj1yyuww995wuOCrbTC5+SRl
+ 9PfgRu7AdawwuQYq9OHeCmeIREnXOxwvE8T+M8aCczz1sqDdSTR17271+HoDRzn5lvdW
+ JxsyS6miw3PTUZOP/jSWjBewlKspq9xNq4OBMAH+Cs/F+KsaFZU2VQ/f6CZm+6DpNtOT
+ DwrQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUiPkef6w6lyGF89GNs+7nHbocl11UkoYyxTJcC+XJ9hp28XaJU91pYWqwq4Z7EkwGQl7CGgZsEjSakhRIWAMEmbJh5vx1sqQ1TZ0x4GLys
+X-Gm-Message-State: AOJu0YzRN+ygXf6Qvv3IVDr4AsXb+Wfeenk6fbBHCQfQ0Dp0eifuZBcx
+ ATEvZne3cK/iZha0OCEwWjfh8vUaj2A350od0wNWGmHw02fvcYLTaRo7PztppQ==
+X-Google-Smtp-Source: AGHT+IG/HD2HHZaQReiMiEQIeKbUkIZLrpVW6+XwOsJB6JUy8Iaw3habv8swl8TM2z1Y2OKuwVX6NQ==
+X-Received: by 2002:a0c:d6c7:0:b0:6b2:b251:7d95 with SMTP id
+ 6a1803df08f44-6b2b2517db4mr30028326d6.17.1718402419852; 
+ Fri, 14 Jun 2024 15:00:19 -0700 (PDT)
+Received: from [10.66.192.68] ([192.19.161.250])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6b2a5f05782sm23013906d6.139.2024.06.14.15.00.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Jun 2024 15:00:19 -0700 (PDT)
+Message-ID: <a640b47b-c1a3-4f0c-8780-ca08edcf089e@broadcom.com>
+Date: Fri, 14 Jun 2024 15:00:12 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp52.i.mail.ru;
- auth=pass smtp.auth=danila@jiaxyga.com
- smtp.mailfrom=danila@jiaxyga.com
-X-Mailru-Src: smtp
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD9AC8CA0B4439200FAAADCB0684E75543E0F6F500DBE411A6A00894C459B0CD1B957E878E1563405FABC1E996D91BF8BA8C68F1F964767349531FC8F41566DE797ED199C4BD4F2E418
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE77E3A0F9856B9FFCDEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637E0FC02D497BF09508638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D87E69E8B52EFAA2BE1367D1A1BD11C48D18B0279F5742E92BCC7F00164DA146DAFE8445B8C89999728AA50765F790063773DCDF0198120BE8389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC87AE820D2C17D0E56F6B57BC7E6449061A352F6E88A58FB86F5D81C698A659EA73AA81AA40904B5D9A18204E546F3947C0085B890FD2717DAC0837EA9F3D197644AD6D5ED66289B523666184CF4C3C14F6136E347CC761E07725E5C173C3A84C3FF9AE5E544BDEAB7BA3038C0950A5D36B5C8C57E37DE458B330BD67F2E7D9AF16D1867E19FE14079C09775C1D3CA48CFED8438A78DFE0A9E1DD303D21008E298D5E8D9A59859A8B64854413538E1713F75ECD9A6C639B01B78DA827A17800CE7F45C1E71A9DFFA2A731C566533BA786AA5CC5B56E945C8DA
-X-C1DE0DAB: 0D63561A33F958A5912CCC39EECD253D5002B1117B3ED69610DFD3996B318639ED71F038FC046993823CB91A9FED034534781492E4B8EEAD5C5DFC4BFF39B799F36E2E0160E5C55395B8A2A0B6518DF68C46860778A80D548E8926FB43031F38
-X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF77DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CFA8EFB69FF7C29CD09E85BF36D4CEF49B484DD084CAA8D5E092318233B267D6ABB0F06D2F9487D0FCBC11D93875BCBCAC82A0A51DF04A9D670A7495B692C6454F62E6511AD6502DA154A6BD6C3A9AE7E002C26D483E81D6BE72B480F99247062FEE42F474E8A1C6FD34D382445848F2F3
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojF87fI4pLnoCDdWDki0eGcw==
-X-Mailru-Sender: 9EB879F2C80682A09F26F806C7394981DFB41304B3586333741D06F8E7BD5C496106ADDF343002E43FFA6A7CB58086992C62728BC403A049225EC17F3711B6CF1A6F2E8989E84EC137BFB0221605B344978139F6FA5A77F05FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 8/8] x86/vmware: Add TDX hypercall support
+To: Borislav Petkov <bp@alien8.de>
+Cc: Dave Hansen <dave.hansen@intel.com>, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux.dev, hpa@zytor.com, dave.hansen@linux.intel.com,
+ mingo@redhat.com, tglx@linutronix.de, x86@kernel.org,
+ netdev@vger.kernel.org, richardcochran@gmail.com,
+ linux-input@vger.kernel.org, dmitry.torokhov@gmail.com, zackr@vmware.com,
+ linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
+ timothym@vmware.com, akaher@vmware.com, dri-devel@lists.freedesktop.org,
+ daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, horms@kernel.org,
+ kirill.shutemov@linux.intel.com, Tim Merrifield <tim.merrifield@broadcom.com>
+References: <20240613191650.9913-1-alexey.makhalov@broadcom.com>
+ <20240613191650.9913-9-alexey.makhalov@broadcom.com>
+ <844ef200-aabe-4497-85c9-44fc46c9133a@intel.com>
+ <20240614161404.GCZmxsTNLSoYTqoRoj@fat_crate.local>
+ <74f8300b-3520-4824-81e3-71464e3da3b6@intel.com>
+ <1750e44f-f9a9-4c2a-afb3-f1ae8237ccb0@broadcom.com>
+ <20240614190956.GFZmyVhLGeyLjwvA6X@fat_crate.local>
+Content-Language: en-US
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
+ 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 EuY0
+In-Reply-To: <20240614190956.GFZmyVhLGeyLjwvA6X@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,40 +141,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for MDSS on SM7150.
 
-Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/msm_mdss.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index fab6ad4e5107c..d90b9471ba6ff 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -632,6 +632,13 @@ static const struct msm_mdss_data sm6350_data = {
- 	.reg_bus_bw = 76800,
- };
- 
-+static const struct msm_mdss_data sm7150_data = {
-+	.ubwc_enc_version = UBWC_2_0,
-+	.ubwc_dec_version = UBWC_2_0,
-+	.highest_bank_bit = 1,
-+	.reg_bus_bw = 76800,
-+};
-+
- static const struct msm_mdss_data sm8150_data = {
- 	.ubwc_enc_version = UBWC_3_0,
- 	.ubwc_dec_version = UBWC_3_0,
-@@ -713,6 +720,7 @@ static const struct of_device_id mdss_dt_match[] = {
- 	{ .compatible = "qcom,sm6125-mdss", .data = &sm6125_data },
- 	{ .compatible = "qcom,sm6350-mdss", .data = &sm6350_data },
- 	{ .compatible = "qcom,sm6375-mdss", .data = &sm6350_data },
-+	{ .compatible = "qcom,sm7150-mdss", .data = &sm7150_data },
- 	{ .compatible = "qcom,sm8150-mdss", .data = &sm8150_data },
- 	{ .compatible = "qcom,sm8250-mdss", .data = &sm8250_data },
- 	{ .compatible = "qcom,sm8350-mdss", .data = &sm8350_data },
--- 
-2.45.2
-
+On 6/14/24 12:09 PM, Borislav Petkov wrote:
+> On Fri, Jun 14, 2024 at 11:32:16AM -0700, Alexey Makhalov wrote:
+>>
+>>
+>> On 6/14/24 9:19 AM, Dave Hansen wrote:
+>>> On 6/14/24 09:14, Borislav Petkov wrote:
+>>>> On Fri, Jun 14, 2024 at 09:03:22AM -0700, Dave Hansen wrote:
+>>> ...
+>>>>> You need to zero out all of 'args' somehow.
+>>>>
+>>>> You mean like this:
+>>>>
+>>>> 	struct tdx_module_args args = {};
+>>>>
+>>>> ?
+>>>
+>>> Yes, or do all the assignments with the initializer.  We seem to do it
+>>> both ways, so whatever works.
+>>
+>> Thanks Dave for pointing that out. I missed that at v7.
+> 
+> Ok, I'll fold this struct initialization oneliner into the last patch.
+> 
+Thanks!
