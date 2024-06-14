@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08E2909409
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 00:06:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 229439094C0
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 01:27:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57DDC10E2B1;
-	Fri, 14 Jun 2024 22:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63C5710E2C2;
+	Fri, 14 Jun 2024 23:27:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e2JkE15L";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bWtcVBY+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8704610E2B1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 22:05:58 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-57c923e03caso2968748a12.3
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 15:05:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718402756; x=1719007556; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=9NKpnQ84zxi9g2DKsrp6paIKuEaCxz0JVSsufLK/lNo=;
- b=e2JkE15LOvLbKBZJQE+dhkE+zjlFGbBHTQ8zhEgbLM0u/WtKrSAcUX8jPWmhxHmb2G
- PB6Kb35CtCnAEzODp99Hk+r6vDjl2TlcbZHL1tX3p0qNM8ZYdVp5Vb6Ssquz6zIE3QKc
- VkkPTIpEu7PpH5D1C/RDRePHSWSUrOwTXGywJHT/7zMNBMD1zRXCxKLpM7gaDuMN9JeK
- bcxi7OtDdKuULZS5FySPwmUzD4VW9T1frPm0okgn42pi7/V096nDFoRNmy1UJplyHZgy
- ylB6p+aTiBJ4ttBCXPaWeRjZ2rsruHsU8ZVoL/gg1YFZEOSLmphxpCz9/4oAyRTljxDa
- yVtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718402756; x=1719007556;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9NKpnQ84zxi9g2DKsrp6paIKuEaCxz0JVSsufLK/lNo=;
- b=puEAMdTTWfWIf7/ap31oVO0S0h2N1KNv7Rg7QyG5Qopf2sx1i2HhzxMvXpNV/9wbX8
- LR8skL3OI8fl+H5bHVnoEU3v8ZLU3601dXOYa91I6v1NBPc2ABtNDg+NjIoPjY7243C9
- 1WmdXLNt+ndwVyEhcE/83YEcBCpxVLZs4qu+eu6Gvnn4fqR3P3hGjfC0t7oqS97d5rhk
- ZuM5FKVXa6NEmLy0f8A1190rMA/A9H1rhWAHH1s8Ps756dlcxxmGE8jTBCsihIH9Y/92
- ViGPmBMauBB3vaZngfxjQaRlGfbFNkX1DIBuF3zNXu1RWx5tx0sYKJqVMFHfwQePQqRo
- LDYA==
-X-Gm-Message-State: AOJu0YzS+VuwHdEJjJkEwsiFGBKaRRqivJTqpI5lUGc0JtiYARPmxJyC
- dTECL6NaJitGPjb8hRb0Qr3TGlauZv97XAaLGW4IEWyfu3K9Jmbakk8Mq8hZpRFYOW8VW1tMtnX
- DhFeELBZN2HHLPr+3ZoRkW+qIXwPnl+5y
-X-Google-Smtp-Source: AGHT+IE+b6gM0omkmI2wHLa+MByqftBT92VyZN7nayii8T/REdVaTUWrLOvSqVsXzjNF0/QTWDMl4C/8m+idjGvgN50=
-X-Received: by 2002:a17:906:c29a:b0:a6f:5698:ab61 with SMTP id
- a640c23a62f3a-a6f60cef734mr249722066b.11.1718402756064; Fri, 14 Jun 2024
- 15:05:56 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E9F110E1C5;
+ Fri, 14 Jun 2024 23:27:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718407650; x=1749943650;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=A6UbBmeWmL/TKprfBWDm4j5qcSzpetmWTtsHhvEMWqI=;
+ b=bWtcVBY+YT1y+AujCuUUvCNCJhXNaKDDl0IFS48MkudaBzel6GGkJVyG
+ e0O6dG4RKSDKsfPrBqMEfpqLAs6DjwVlZJ0vUEWPu/X2EXm1U+SqscBAK
+ IPup31l45KAsrkarA4OPcrhGFjMlI4pUXbteisNQ7jC/5ZPrIeVxGhJ+5
+ Rdb+Rwq3yxVuG5Pphc3hO22Gs+WwckTqHBcztY68VJcYq2SEXuZq0c8TW
+ aSpuAP2qbYctRtvcMsN7zwvV3RnsINQRzVxyStFEHU6GmXYd/AlbFgC3Q
+ hzr5t5BauRNZY9y57xIiRMZH00BV8tR9bmnx0vuDqX5zsXCkDJhjX+jx7 g==;
+X-CSE-ConnectionGUID: rQCb7iI1Tbms2VFbQBJgVg==
+X-CSE-MsgGUID: pFmB798ARna+YovAQSgQlQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="19141766"
+X-IronPort-AV: E=Sophos;i="6.08,239,1712646000"; d="scan'208";a="19141766"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2024 16:27:29 -0700
+X-CSE-ConnectionGUID: d5t1lNw9SPmzM5anvwGfGQ==
+X-CSE-MsgGUID: jKwGEpCXQnCGVyNyTJUWjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,239,1712646000"; d="scan'208";a="40596115"
+Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
+ by fmviesa008.fm.intel.com with ESMTP; 14 Jun 2024 16:27:27 -0700
+Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sIGKK-0001tp-2w;
+ Fri, 14 Jun 2024 23:27:24 +0000
+Date: Sat, 15 Jun 2024 07:27:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 11/12] drm/ttm, drm/xe: Add a shrinker for xe bos
+Message-ID: <202406150714.bpznu6ly-lkp@intel.com>
+References: <20240614102548.4364-12-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 15 Jun 2024 08:05:44 +1000
-Message-ID: <CAPM=9tw_3xzMPo46mPYfkPpnxy8jgeBy1Q5Ep1pH8Ws2BdA87g@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.10-rc4
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240614102548.4364-12-thomas.hellstrom@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,196 +74,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Linus,
+Hi Thomas,
 
-Weekly fixes pull, seems a little quieter than usual, but still a
-bunch of stuff across the board. Mostly xe, some exynos and nouveau
-fixes. There is the fixup for the WERROR that you pointed out
-previously, hopefully it does what you expect now.
+kernel test robot noticed the following build errors:
 
-Dave.
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on next-20240613]
+[cannot apply to linus/master v6.10-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-drm-fixes-2024-06-15:
-drm fixes for 6.10-rc4
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Allow-TTM-LRU-list-nodes-of-different-types/20240614-182911
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20240614102548.4364-12-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH v4 11/12] drm/ttm, drm/xe: Add a shrinker for xe bos
+config: i386-buildonly-randconfig-002-20240615 (https://download.01.org/0day-ci/archive/20240615/202406150714.bpznu6ly-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406150714.bpznu6ly-lkp@intel.com/reproduce)
 
-core:
-- Werror Kconfig fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406150714.bpznu6ly-lkp@intel.com/
 
-panel:
-- add orientation quirk for Aya Neo KUN
-- fix runtime warning on panel/bridge release
+All errors (new ones prefixed by >>):
 
-nouveau:
-- remove unused struct
-- fix wq crash on cards with no display
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:87,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:6,
+                    from include/linux/pagemap.h:8,
+                    from include/drm/ttm/ttm_tt.h:30,
+                    from drivers/gpu/drm/xe/xe_bo.h:9,
+                    from drivers/gpu/drm/xe/xe_bo.c:6:
+   drivers/gpu/drm/xe/tests/xe_bo.c: In function 'shrink_test_run_device':
+>> include/linux/kern_levels.h:5:18: error: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
+       5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
+         |                  ^~~~~~
+   include/linux/printk.h:436:11: note: in definition of macro 'printk_index_wrap'
+     436 |   _p_func(_fmt, ##__VA_ARGS__);    \
+         |           ^~~~
+   include/kunit/test.h:529:3: note: in expansion of macro 'printk'
+     529 |   printk(lvl fmt, ##__VA_ARGS__);    \
+         |   ^~~~~~
+   include/kunit/test.h:535:2: note: in expansion of macro 'kunit_log'
+     535 |  kunit_log(lvl, test, KUNIT_SUBTEST_INDENT "# %s: " fmt,  \
+         |  ^~~~~~~~~
+   include/kunit/test.h:548:2: note: in expansion of macro 'kunit_printk'
+     548 |  kunit_printk(KERN_INFO, test, fmt, ##__VA_ARGS__)
+         |  ^~~~~~~~~~~~
+   include/linux/kern_levels.h:14:19: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO KERN_SOH "6" /* informational */
+         |                   ^~~~~~~~
+   include/kunit/test.h:548:15: note: in expansion of macro 'KERN_INFO'
+     548 |  kunit_printk(KERN_INFO, test, fmt, ##__VA_ARGS__)
+         |               ^~~~~~~~~
+   drivers/gpu/drm/xe/tests/xe_bo.c:381:2: note: in expansion of macro 'kunit_info'
+     381 |  kunit_info(test, "Free ram is %lu bytes. Will allocate twice of that.\n",
+         |  ^~~~~~~~~~
+   In file included from drivers/gpu/drm/xe/xe_bo.c:2442:
+   drivers/gpu/drm/xe/tests/xe_bo.c:381:34: note: format string is defined here
+     381 |  kunit_info(test, "Free ram is %lu bytes. Will allocate twice of that.\n",
+         |                                ~~^
+         |                                  |
+         |                                  long unsigned int
+         |                                %u
+   In file included from drivers/gpu/drm/xe/tests/xe_bo.c:6,
+                    from drivers/gpu/drm/xe/xe_bo.c:2442:
+>> include/kunit/test.h:50:31: error: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
+      50 | #define KUNIT_SUBTEST_INDENT  "    "
+         |                               ^~~~~~
+   include/kunit/test.h:530:42: note: in definition of macro 'kunit_log'
+     530 |   kunit_log_append((test_or_suite)->log, fmt,  \
+         |                                          ^~~
+   include/kunit/test.h:535:23: note: in expansion of macro 'KUNIT_SUBTEST_INDENT'
+     535 |  kunit_log(lvl, test, KUNIT_SUBTEST_INDENT "# %s: " fmt,  \
+         |                       ^~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:548:2: note: in expansion of macro 'kunit_printk'
+     548 |  kunit_printk(KERN_INFO, test, fmt, ##__VA_ARGS__)
+         |  ^~~~~~~~~~~~
+   drivers/gpu/drm/xe/tests/xe_bo.c:381:2: note: in expansion of macro 'kunit_info'
+     381 |  kunit_info(test, "Free ram is %lu bytes. Will allocate twice of that.\n",
+         |  ^~~~~~~~~~
+   In file included from drivers/gpu/drm/xe/xe_bo.c:2442:
+   drivers/gpu/drm/xe/tests/xe_bo.c:381:34: note: format string is defined here
+     381 |  kunit_info(test, "Free ram is %lu bytes. Will allocate twice of that.\n",
+         |                                ~~^
+         |                                  |
+         |                                  long unsigned int
+         |                                %u
+   cc1: all warnings being treated as errors
 
-amdgpu:
-- fix bo release clear page warning
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for REGMAP_SPI
+   Depends on [n]: SPI [=n]
+   Selected by [y]:
+   - AD9739A [=y] && IIO [=y] && (SPI [=n] || COMPILE_TEST [=y])
 
-xe:
-- update MAINTAINERS
-- Use correct forcewake assertions.
-- Assert that VRAM provisioning is only done on DGFX.
-- Flush render caches before user-fence signalling on all engines.
-- Move the disable_c6 call since it was sometimes never called.
 
-exynos:
-- fix regression with fallback mode
-- fix EDID related memory leak
-- remove redundant code
+vim +50 include/kunit/test.h
 
-komeda:
-- fix debugfs conditional compilations
-- check pointer error value
+6d2426b2f258da David Gow        2021-06-24  43  
+c3bba690a26432 Alan Maguire     2020-03-26  44  /*
+c3bba690a26432 Alan Maguire     2020-03-26  45   * TAP specifies subtest stream indentation of 4 spaces, 8 spaces for a
+c3bba690a26432 Alan Maguire     2020-03-26  46   * sub-subtest.  See the "Subtests" section in
+c3bba690a26432 Alan Maguire     2020-03-26  47   * https://node-tap.org/tap-protocol/
+c3bba690a26432 Alan Maguire     2020-03-26  48   */
+b1eaa8b2a55c9d Michal Wajdeczko 2023-05-17  49  #define KUNIT_INDENT_LEN		4
+c3bba690a26432 Alan Maguire     2020-03-26 @50  #define KUNIT_SUBTEST_INDENT		"    "
+c3bba690a26432 Alan Maguire     2020-03-26  51  #define KUNIT_SUBSUBTEST_INDENT		"        "
+c3bba690a26432 Alan Maguire     2020-03-26  52  
 
-renesas:
-- atomic shutdown fix
-
-mediatek:
-- atomic shutdown fix
-The following changes since commit 83a7eefedc9b56fe7bfeff13b6c7356688ffa670=
-:
-
-  Linux 6.10-rc3 (2024-06-09 14:19:43 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-06-15
-
-for you to fetch changes up to 9f0a86492ac4de4d1db718986a91833fdc914a54:
-
-  Merge tag 'drm-misc-fixes-2024-06-14' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-(2024-06-15 06:52:56 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.10-rc4
-
-core:
-- Werror Kconfig fix
-
-panel:
-- add orientation quirk for Aya Neo KUN
-- fix runtime warning on panel/bridge release
-
-nouveau:
-- remove unused struct
-- fix wq crash on cards with no display
-
-amdgpu:
-- fix bo release clear page warning
-
-xe:
-- update MAINTAINERS
-- Use correct forcewake assertions.
-- Assert that VRAM provisioning is only done on DGFX.
-- Flush render caches before user-fence signalling on all engines.
-- Move the disable_c6 call since it was sometimes never called.
-
-exynos:
-- fix regression with fallback mode
-- fix EDID related memory leak
-- remove redundant code
-
-komeda:
-- fix debugfs conditional compilations
-- check pointer error value
-
-renesas:
-- atomic shutdown fix
-
-mediatek:
-- atomic shutdown fix
-
-----------------------------------------------------------------
-Adam Miotk (1):
-      drm/bridge/panel: Fix runtime warning on panel bridge release
-
-Amjad Ouled-Ameur (1):
-      drm/komeda: check for error-valued pointer
-
-Andrzej Hajda (1):
-      drm/xe: flush engine buffers before signalling user fence on all engi=
-nes
-
-Arunpravin Paneer Selvam (1):
-      drm/amdgpu: Fix the BO release clear memory warning
-
-Dave Airlie (3):
-      Merge tag 'exynos-drm-fixes-for-v6.10-rc4' of
-git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into
-drm-fixes
-      Merge tag 'drm-xe-fixes-2024-06-13' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-      Merge tag 'drm-misc-fixes-2024-06-14' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-
-Douglas Anderson (2):
-      drm: renesas: shmobile: Call drm_atomic_helper_shutdown() at shutdown=
- time
-      drm/mediatek: Call drm_atomic_helper_shutdown() at shutdown time
-
-Dr. David Alan Gilbert (1):
-      drm/nouveau: remove unused struct 'init_exec'
-
-Jani Nikula (2):
-      drm: have config DRM_WERROR depend on !WERROR
-      drm/exynos/vidi: fix memory leak in .get_modes()
-
-Krzysztof Kozlowski (1):
-      drm/exynos: dp: drop driver owner initialization
-
-Marek Szyprowski (1):
-      drm/exynos: hdmi: report safe 640x480 mode as a fallback when no
-EDID found
-
-Maxime Ripard (1):
-      Merge drm/drm-fixes into drm-misc-fixes
-
-Michal Wajdeczko (1):
-      drm/xe/pf: Assert LMEM provisioning is done only on DGFX
-
-Oded Gabbay (1):
-      MAINTAINERS: update Xe driver maintainers
-
-Riana Tauro (2):
-      drm/xe/xe_gt_idle: use GT forcewake domain assertion
-      drm/xe: move disable_c6 call
-
-Thomas Hellstr=C3=B6m (1):
-      MAINTAINERS: Update Xe driver maintainers
-
-Tobias Jakobi (1):
-      drm: panel-orientation-quirks: Add quirk for Aya Neo KUN
-
-Vasily Khoruzhick (1):
-      drm/nouveau: don't attempt to schedule hpd_work on headless cards
-
-pengfuyuan (1):
-      arm/komeda: Remove all CONFIG_DEBUG_FS conditional compilations
-
- MAINTAINERS                                            |  2 +-
- drivers/gpu/drm/Kconfig                                |  1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c                |  1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c             |  2 --
- drivers/gpu/drm/arm/display/komeda/komeda_dev.c        |  8 --------
- .../gpu/drm/arm/display/komeda/komeda_pipeline_state.c |  2 +-
- drivers/gpu/drm/bridge/panel.c                         |  7 +++++--
- drivers/gpu/drm/drm_panel_orientation_quirks.c         |  6 ++++++
- drivers/gpu/drm/exynos/exynos_dp.c                     |  1 -
- drivers/gpu/drm/exynos/exynos_drm_vidi.c               |  7 ++++++-
- drivers/gpu/drm/exynos/exynos_hdmi.c                   |  7 +++++--
- drivers/gpu/drm/mediatek/mtk_drm_drv.c                 |  8 ++++++++
- drivers/gpu/drm/nouveau/dispnv04/disp.c                |  2 +-
- drivers/gpu/drm/nouveau/dispnv50/disp.c                |  2 +-
- drivers/gpu/drm/nouveau/nouveau_bios.c                 |  5 -----
- drivers/gpu/drm/nouveau/nouveau_display.c              |  6 +++++-
- drivers/gpu/drm/nouveau/nouveau_drv.h                  |  1 +
- drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c       |  8 ++++++++
- drivers/gpu/drm/xe/xe_gt_idle.c                        |  9 ++++++++-
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c             | 15 +++++++++++++-=
--
- drivers/gpu/drm/xe/xe_guc_pc.c                         |  6 ------
- drivers/gpu/drm/xe/xe_ring_ops.c                       | 18 ++++++++++++++=
-++--
- 22 files changed, 87 insertions(+), 37 deletions(-)
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
