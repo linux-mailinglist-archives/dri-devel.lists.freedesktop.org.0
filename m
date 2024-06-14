@@ -2,80 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6E749080B3
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 03:35:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6123A908159
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 04:05:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA4C910EB36;
-	Fri, 14 Jun 2024 01:35:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B43010E118;
+	Fri, 14 Jun 2024 02:05:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sg9ZtS8y";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dmaNam6w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52F0B10EB36
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 01:35:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C0251CE1BF9;
- Fri, 14 Jun 2024 01:34:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61242C2BBFC;
- Fri, 14 Jun 2024 01:34:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718328897;
- bh=CYOxmE4ntQW4bNMvxq9UIlsEBzTRL4qLB1FV48Xatv4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=sg9ZtS8yEezxbjTVPI568a2KvEHqvKq8ud8+uPe6dGMbTueQSEMPMAgj2PCgXuIB9
- Il047nqeXnP6P/oSYmAKQCAxosjwrgYOaHdSYN8DpizcnGRlWkldLzTTe90OSa9FGv
- MBAW9iL444FGaNr9FcdswWY3pHc51pXPD6UDrHaFRQu/JWFwS+m0CctYfvcTP+Y/us
- 3tPXqBkvjF/1WlqhH8l2wOQHXRcCWEIeW4JHfm3b/MLKWXXuS8tFi+ZMZi3LlOasMl
- Pv1svqR65L1eeiVLZrRKEQMiPGyOnYtk2TTlgDn5OVb4lEV9805bZIfH/6hgbdu1Gs
- S7zj/D1FRPg8w==
-Date: Thu, 13 Jun 2024 18:34:53 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Richard Henderson
- <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Sergey Shtylyov <s.shtylyov@omp.ru>,
- Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Alexei
- Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan
- <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, "Christian
- =?UTF-8?B?S8O2bmln?=" <christian.koenig@amd.com>, Bagas Sanjaya
- <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, Nikolay
- Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>
-Subject: Re: [PATCH net-next v12 00/13] Device Memory TCP
-Message-ID: <20240613183453.2423e23b@kernel.org>
-In-Reply-To: <20240613013557.1169171-1-almasrymina@google.com>
-References: <20240613013557.1169171-1-almasrymina@google.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54C0A10E118
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 02:05:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1718330719;
+ bh=zyP2JyUyCHD3JcbCHcxH4AsmBt5Ls2zejgOYactj+XY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=dmaNam6wTAti81NoqWae+dkVEu7gh14wZcZHO5cVyVyoW5nAEHzBm30h+pFGzYLu2
+ dNuE6TW1mVPxvmeScAV58MSvywsls9FoYnBr52xklkPqjiKPoH+xbHP+O9i5Tv9yzI
+ dCeEBVJNbaTqaFJ+6cpnXQGeXIBDw/EC1Jox0S+UOW5IalbXQ1rUep31J15mPHiYKj
+ bc4UCdYjMHSKMMtlbaIbX7PktDP6iFeSFI9wPfv5iOtU2P98+xZv+5BxLtKCrbciHW
+ a/UcKFknEswphtG7Gg1tQuMTks/zUpvqdNRjyeppl5pVii7yZ0ROypr2rlScXjPujY
+ Ku4AFM6k/Rdaw==
+Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id A5C08378107D;
+ Fri, 14 Jun 2024 02:05:15 +0000 (UTC)
+Message-ID: <87bdeabe-7fe4-47fd-9903-8603a07b6938@collabora.com>
+Date: Fri, 14 Jun 2024 07:35:13 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] drm/ci: add tests on vkms
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, airlied@gmail.com, daniel@ffwll.ch,
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, mairacanal@riseup.net,
+ hamohammed.sa@gmail.com, robdclark@gmail.com,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+ daniels@collabora.com, helen.koike@collabora.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ linux-kernel@vger.kernel.org
+References: <20240611091037.558969-1-vignesh.raman@collabora.com>
+ <20240613-bipedal-eccentric-locust-91632b@houat>
+ <bd430442-6074-44b1-ba62-d3fa9e7bf28e@collabora.com>
+ <20240613-swine-of-abstract-flowers-c8d171@houat>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <20240613-swine-of-abstract-flowers-c8d171@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,23 +69,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 13 Jun 2024 01:35:37 +0000 Mina Almasry wrote:
-> v12: https://patchwork.kernel.org/project/netdevbpf/list/?series=859747&state=*
+Hi Maxime,
 
-patches 5 and 6 transiently break the build
+On 13/06/24 22:58, Maxime Ripard wrote:
+> Hi,
+> 
+> On Thu, Jun 13, 2024 at 01:56:10PM GMT, Vignesh Raman wrote:
+>> On 13/06/24 13:07, Maxime Ripard wrote:
+>>> Hi,
+>>>
+>>> On Tue, Jun 11, 2024 at 02:40:37PM GMT, Vignesh Raman wrote:
+>>>> diff --git a/drivers/gpu/drm/ci/xfails/vkms-none-flakes.txt b/drivers/gpu/drm/ci/xfails/vkms-none-flakes.txt
+>>>> new file mode 100644
+>>>> index 000000000000..56484a30aff5
+>>>> --- /dev/null
+>>>> +++ b/drivers/gpu/drm/ci/xfails/vkms-none-flakes.txt
+>>>> @@ -0,0 +1,15 @@
+>>>> +# Board Name: vkms
+>>>> +# Bug Report: https://lore.kernel.org/dri-devel/61ed26af-062c-443c-9df2-d1ee319f3fb0@collabora.com/T/#u
+>>>> +# Failure Rate: 50
+>>>> +# IGT Version: 1.28-g0df7b9b97
+>>>> +# Linux Version: 6.9.0-rc7
+>>>> +kms_cursor_legacy@long-nonblocking-modeset-vs-cursor-atomic
+>>>> +kms_flip@basic-flip-vs-wf_vblank
+>>>> +kms_flip@flip-vs-expired-vblank-interruptible
+>>>> +kms_flip@flip-vs-wf_vblank-interruptible
+>>>> +kms_flip@plain-flip-fb-recreate-interruptible
+>>>> +kms_flip@plain-flip-ts-check
+>>>> +kms_flip@plain-flip-ts-check-interruptible
+>>>> +kms_flip@flip-vs-absolute-wf_vblank
+>>>> +kms_flip@flip-vs-absolute-wf_vblank-interruptible
+>>>> +kms_flip@flip-vs-blocking-wf-vblank
+>>>
+>>> We should have the header for every line here
+>>
+>> All the flakes in these tests were observed with version
+>> 6.9.0-rc7/1.28-g0df7b9b97. So can we group them together?
+>>
+>> If we update this file for different IGT/kernel version, we can add a
+>> separate header for each test.
+> 
+> If we don't however, we have no way to tell in a couple months whether
+> those flakes were there before we were adding those metadata, or if the
+> metadata applies to everything, or only a subset.
 
-../include/trace/events/page_pool.h:65:23: error: use of undeclared identifier 'NET_IOV'
-   65 |                   __entry->netmem & NET_IOV, __entry->pfn, __entry->release)
-      |                                     ^
-../include/trace/events/page_pool.h:91:23: error: use of undeclared identifier 'NET_IOV'
-   91 |                   __entry->netmem & NET_IOV, __entry->pfn, __entry->hold)
-      |                                     ^
+I will send a v6 with this change. Thanks.
 
-Looking at NIPA status the builders are 12h behind, so please don't
-repost immediately. This series takes a lot of compute cycles to build.
-
-FWIW there is a docker version of NIPA checks in the nipa repo.
-
-https://github.com/linux-netdev/nipa/tree/main/docker
-
-IDK if it still works, but could help avoid mistakes..
+Regards,
+Vignesh
