@@ -2,58 +2,191 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2408D90928D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 20:52:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7827E9092A8
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 21:01:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D56710EE2F;
-	Fri, 14 Jun 2024 18:52:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90DB810EE38;
+	Fri, 14 Jun 2024 19:01:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PVj1O7vx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y1PIMXdb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93FE410EE27;
- Fri, 14 Jun 2024 18:52:18 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93C6710E1DD;
+ Fri, 14 Jun 2024 19:01:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718391138; x=1749927138;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=gTRp0oEK5wXV0bYIo+OM0KA2Yr5a+Ku+qugNuN66d5s=;
- b=PVj1O7vxmGgnDZsHge//l1ULVLIaXxbq20pmsHOX+1RfmHQAERV44hZJ
- 0U6etUSP+L+yFt11I1YAF6nP7HAa9tnRmFE1oHvTYifX0QPWnx2/X1LS6
- 0LW2TIA39uupKCw6L3paEZe360SBN6m/yHzfHejBdjTxguh681ArdxTle
- YhvW+JJP2UbssVU19BlOOMzWgW+RwuYpK8Vlmhy3hc2mlPhf4He2LDMvl
- Iv7sGHXgqogLb5QK3mK1wX+64U+HzKcYBCVD1d0O7d6dmLFH2L7H9b2tj
- VQThQBaKQl2cHtqpCsrIT4JTaV89iSDRignOzedNoUsziv3dT9cULm7BV g==;
-X-CSE-ConnectionGUID: FO/mTjapQca0d1h+tRZZlg==
-X-CSE-MsgGUID: gWe0gq3KS/ijupTmJFszdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="32770688"
-X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; d="scan'208";a="32770688"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2024 11:52:18 -0700
-X-CSE-ConnectionGUID: sJLR7JFuS+eQALuIFkziiw==
-X-CSE-MsgGUID: VX82SCqDTOGqv26nKm/b5g==
+ t=1718391691; x=1749927691;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=MiB0Se7Y7dPePCQA6MrPmqXRG2frfi/YZvDbbns5tB8=;
+ b=Y1PIMXdbFM+nS6SyYqmUqkS1yB7TPBc3G2h9lK5cFOK62Ue50u1vxov/
+ 79ncvo9Bf4bQo42IsT7OpBum62dfc5/36GcQXjw6w6wsBN/QCBtk/eHVN
+ causv1WC2OgJvYZGxuJf06otM/ViO/7/m+orzP+e8P4y54YkwEYrMnVQD
+ f7O47SfvExRoJKbawTiEJgm+I8072KgLhodgbSHmcJrRBk0BOdfCgNih3
+ 5/1bbjcqpyKWC/cEBq4xkwK4zkrTKfoP1pDmBSoSUWn1npuYI0JXu2BtO
+ GyJeyqXvBFzJRVtjOS7E90y5EpQ8rf+vk1OdE7WUpXaY9BQm+OjxebWZ8 g==;
+X-CSE-ConnectionGUID: nILRtfReQhCRlsWvDy0iRQ==
+X-CSE-MsgGUID: f+EZrKQdTpqtcWhVu5OB2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="37818852"
+X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; d="scan'208";a="37818852"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2024 12:00:59 -0700
+X-CSE-ConnectionGUID: N5eQA/sYRVGtjbpTITYN8w==
+X-CSE-MsgGUID: YMYH6ubmRPOWzXGf0/qUmQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; d="scan'208";a="44956975"
-Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
- by fmviesa003.fm.intel.com with ESMTP; 14 Jun 2024 11:52:16 -0700
-Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sIC22-0001fl-0f;
- Fri, 14 Jun 2024 18:52:14 +0000
-Date: Sat, 15 Jun 2024 02:51:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
-Subject: [drm-intel:for-linux-next-gt 3/3]
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c:943:32: sparse: sparse: Using
- plain integer as NULL pointer
-Message-ID: <202406150232.r9Of4ebo-lkp@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; d="scan'208";a="40694139"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 14 Jun 2024 12:00:58 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 14 Jun 2024 12:00:57 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 14 Jun 2024 12:00:57 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Fri, 14 Jun 2024 12:00:57 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Fri, 14 Jun 2024 12:00:57 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=W15JrLhDRy9riOXKHVdoAfesOzroHgGqL5+hWhnInlrYCttBA6CDxTccCxBfzp+sYaMfp2ZldzGC8L49gZqCeIKuBhLIYAI16lOh8NfDYu6cnR8ICOwI47D1ERZ4QcvbgU+QQ226G8OB1VBrHtZAz5tOCHnmIZszCbazk1pbk7n1UBbBk3uftCDkWXIlxUVGF20qTEcxobnmN5Z1A0uEzr83opbxQUOf2QjaPMBmrQMhPMIUNLWFeP9uQiHXxKQhUtDA5SkumJb0MIxZgqr780YpOquwd+UCueonkTUA/gaUVE644GMl3bnr437jMteC/95Om7/bp1iBTy2o24ldYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oy6z+WdgHQ5+5+EGV9x5UP1EKVPAG1fpeQFKy8Xh3yk=;
+ b=ePxdd1JjAzuD0KofSWFC8mQrqFX3V/UMf42w7V1x2QdU7zzvTkkRJfrR4pavrgRbYrbh9BfkvNxrHoXwutNqpKZ8eHK3FZvQC8TMoRA89nn2WXczPx5rDlzn6Yd08FHacKR+tiaVK5mKSuMn+YVAYD4ws+bWtRiSS/dit28dqcMOo6Hajqu//ecSDmGZNv23ycON4nDBVovoVUXUg4Thb5PiOCiWWKSrKG5+iRGxZx5qt7zS+y+ThkHrI2/5tlEKKXPyORgBsA2XoP4b6tfUhT5WdvjcWbRfeixCz/1dvRBk7MVMbt8aAIyQS3EL8nT9oHue1xzTdNjvRI9UIqI9ug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB2854.namprd11.prod.outlook.com (2603:10b6:a02:c9::12)
+ by PH8PR11MB6753.namprd11.prod.outlook.com (2603:10b6:510:1c8::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.26; Fri, 14 Jun
+ 2024 19:00:55 +0000
+Received: from BYAPR11MB2854.namprd11.prod.outlook.com
+ ([fe80::8a98:4745:7147:ed42]) by BYAPR11MB2854.namprd11.prod.outlook.com
+ ([fe80::8a98:4745:7147:ed42%5]) with mapi id 15.20.7677.024; Fri, 14 Jun 2024
+ 19:00:55 +0000
+Date: Fri, 14 Jun 2024 15:00:48 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>, Ville
+ =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@intel.com>,
+ <naveen1.kumar@intel.com>, <vandita.kulkarni@intel.com>
+CC: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <nouveau@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <kernel-dev@igalia.com>, Melissa Wen <mwen@igalia.com>,
+ <alexander.deucher@amd.com>, <christian.koenig@amd.com>, Simon Ser
+ <contact@emersion.fr>, Pekka Paalanen <ppaalanen@gmail.com>,
+ <daniel@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 'Marek
+ =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>, Dave Airlie <airlied@gmail.com>, 
+ <ville.syrjala@linux.intel.com>, Xaver Hugl <xaver.hugl@gmail.com>, "Joshua
+ Ashton" <joshua@froggi.es>, Michel =?iso-8859-1?Q?D=E4nzer?=
+ <michel.daenzer@mailbox.org>, Sam Ravnborg <sam@ravnborg.org>, "Boris
+ Brezillon" <bbrezillon@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Karol Herbst <kherbst@redhat.com>, 
+ Lyude Paul <lyude@redhat.com>
+Subject: Re: [PATCH v6 5/8] drm/i915: Enable async flips on the primary plane
+Message-ID: <ZmyTYPTVKM2-iaaN@intel.com>
+References: <20240614153535.351689-1-andrealmeid@igalia.com>
+ <20240614153535.351689-6-andrealmeid@igalia.com>
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240614153535.351689-6-andrealmeid@igalia.com>
+X-ClientProxiedBy: SJ0PR05CA0191.namprd05.prod.outlook.com
+ (2603:10b6:a03:330::16) To BYAPR11MB2854.namprd11.prod.outlook.com
+ (2603:10b6:a02:c9::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB2854:EE_|PH8PR11MB6753:EE_
+X-MS-Office365-Filtering-Correlation-Id: 66879827-de10-4ecd-cf14-08dc8ca45170
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230037|366013|7416011|376011|1800799021;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?q0RukBeeVCS1I0q1RIGHcSuqouo4brfZnSOhk700Jtn+qr8aeIom0gAqQi?=
+ =?iso-8859-1?Q?PQCLeciUUIlssJejEFa2t25S6TTgeFwzZ8fYdyW31N2kxOFC4TxKdrmG6x?=
+ =?iso-8859-1?Q?6oEMa9bt8KmymXfc+2NcIibbrq5Kz4406ud3PO99iaQt67bynNLO4AXVNI?=
+ =?iso-8859-1?Q?1EHxpALfBmpNUkiHrg7IeK6qyEDqFLB3UtwST8jtXWLdoRhnQh++jI4IKt?=
+ =?iso-8859-1?Q?/Z0SjJTD5ESmV7O7Q1jyJTv0rSbopwIKD49GiKZxLeVI55xgjCSpSO127k?=
+ =?iso-8859-1?Q?d90JPzXSu0o6ueYxAkKqrWbsfMvBOBZevhWEh6PNN4R8XkcpdViI+oXSPH?=
+ =?iso-8859-1?Q?T1yRQKNVsRjiUFs8CS6+Gya73pew+CYEjNTcPEACS72lZUCYcS/qWUA9Zn?=
+ =?iso-8859-1?Q?djukBnRpeFtoOjpg+9Cyclytws6f4mJtBMDvaEWnrF6J+yELRUf51Dpiwf?=
+ =?iso-8859-1?Q?g7xZ9A//tATJOo7SeH64iTFmtWCWgxCV5KRbsOo7NCP7+WlOZkzoM7NrZP?=
+ =?iso-8859-1?Q?oPJpwpoGXI7GXnhyDLxTDTXkmH6IrOc/noxR0X7cJ44pROu5XY6Pw4NNSL?=
+ =?iso-8859-1?Q?Xnf3Rju+hSRgIyKarSjBEybEFunEfSTT8B88Q/04kD7XNkSW/yxB7Kk/Fp?=
+ =?iso-8859-1?Q?4JIz1eDoxymthgwrBMncyGyl4AnDV0etf9rhAu0lf4N7uv9noZl/C4/6SD?=
+ =?iso-8859-1?Q?M1wiHMB99lPdUmicprwVogmD8JZzUJE6HYg/wh+yCiujNXX/CHW3PwvjkM?=
+ =?iso-8859-1?Q?iWO/exFWu7tyQW0uIk3lLff3WKg/PvNSrYF7gAHqNBPTDgFs6bmw9z6XAd?=
+ =?iso-8859-1?Q?GmxOilSQiQtdEFUcuSEEXR5ReNsTCe5dfbddKty/PkL+ezmzU5hiCZ9Sl/?=
+ =?iso-8859-1?Q?awQqXRoFjGeZxguvAXx81Z8xl+qyxdYje4EfJhpk7dMPdggss2qV+s2n5s?=
+ =?iso-8859-1?Q?JBYKuv+8veRYf/hgH3rLuWoDF7DPBrUa8AHjHjzoRb8FaJPnrQ4/fFprI/?=
+ =?iso-8859-1?Q?g5ALMk1rkvmoK/mVyt1FKKFjfKFsRbz7msNp8oRSoaZInR7kel4btvb6nB?=
+ =?iso-8859-1?Q?OxFKhQ1cExulj7WtVKRgGdDMl30h90qrU9wpVdiYt6FVJmNdT0aTSPtkm6?=
+ =?iso-8859-1?Q?nPF624ClexjI081OERldHZ/pSzCjaxEdc1dqF38Nqa/F3wlvVMfIkGFFQk?=
+ =?iso-8859-1?Q?xsKXCU8H/AbhAfDy1x8yPK3oikYw9kUndQ38Fk5230TEtgr1ts7iwwcc2H?=
+ =?iso-8859-1?Q?sFX8lwnEyqHrZB3HEyBk4eUm/Shg8Odg0b7rTWH7y3R0sj5IPBPnkVnqqB?=
+ =?iso-8859-1?Q?bnfsbnnqW8I03rjkrZaECOCi2A4imzRA+ubZw4r6fthGt23iJ5pJmyEZWj?=
+ =?iso-8859-1?Q?gW0C7XPQw4?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR11MB2854.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230037)(366013)(7416011)(376011)(1800799021); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?U2vPvixsM3jUid6CxzOmPz8k3DELRHgmFh0C7wTACjF1auKxKvtQ6SDrWr?=
+ =?iso-8859-1?Q?hv5JuLGU7I81QzCJBwx7ntbOywxBaEBbXbLABvSntAJarPCGT8aJc9RLTo?=
+ =?iso-8859-1?Q?/zauqM2a4XmWkH/WYynAMilYh3tI2udh73f6X8NTuEguojdy+AQeTKMrAl?=
+ =?iso-8859-1?Q?hXjyUxlyZAh6fWlJhJr4gCykfE8WYgo/XJ94+E9s/noVnIzWinadv/E2wI?=
+ =?iso-8859-1?Q?nlVMOerWm/xhyX5Ij+GNjUo37DAGoH3qvUawKTj5pS+muVXiyJDrcpAW03?=
+ =?iso-8859-1?Q?oCb2WelwWWG41Bh5rnbwSbNDKaZ6ogf/gzXuzRRhcochH17d0Wet917IMw?=
+ =?iso-8859-1?Q?Q61WV1ATVpVw8+f3mZdobvq1CDOYPnwX/YXjjLJaQbGrdL/ZrwPgyasKKn?=
+ =?iso-8859-1?Q?fRNnvgbXaMiD8dUXYxhgYup6bk89QzKAOwCrojLuvZolddrbDOjwWn6Nnw?=
+ =?iso-8859-1?Q?IlBFZE6AxhMyThTJwroBfp2B5Gx2iZ/vSeVWDy1ow7O2URaF7EURBAa4wA?=
+ =?iso-8859-1?Q?Ij93KuxJm4SxgxrLJcrDWZIUqSPTBd8p60Xkes0G7I9n854RgyRSZs5+p2?=
+ =?iso-8859-1?Q?C1OfKoxII0K76F6lOKe5me4P+Th/Jv/MvT1tBPjq2tJ6ka+05082BVGDhv?=
+ =?iso-8859-1?Q?bTNlEA/i/Tjpi381C/qQvBaP9llkUqzOjVj21tcvOZg9AFMMqLCL56w8UY?=
+ =?iso-8859-1?Q?OsKXW6s58yfDBgOx3B4Sy8KNuyd18gj6YkyhAxA5tiNCLJFYP3GbSj8g2d?=
+ =?iso-8859-1?Q?f1A0H37YPCOLRCOi4HBST4jzP2GrHaDYZWCrFni+SgjRYtaboivkveN9Nr?=
+ =?iso-8859-1?Q?BIxzQOZXoRZdSfo6ixrCop5WGLE7AxT1estocP5dFccRhOzwOV3kO91jGu?=
+ =?iso-8859-1?Q?8pU2ga8JFIYt6P1wEWokbUdvHuILzJzTyqDIocRB06FUfs3Dd56F8VkPrY?=
+ =?iso-8859-1?Q?AbNXjYBR0Fgq7Fv0lBNNCC4JpeIK/TG/IcCkklulEnbzVpEbceRjegcwOy?=
+ =?iso-8859-1?Q?sBrC7NFv/wO6qLFuT75EVchGtb6j13v8ZYep7UGk1HW8U9Fz/za3Ej1eYk?=
+ =?iso-8859-1?Q?BEq69AINU1zQ0EQW3z6wGmsX5ZNMWZ+lRTQh94QRNf2fret3Dl6olpiLfI?=
+ =?iso-8859-1?Q?LydA14Ucdv9HWwFcf1Eu7FVhXKgYNir0PRK6JiCUrtempVljspW9a1Aa8X?=
+ =?iso-8859-1?Q?lHH7j+0D8QBHBL8JyGUWFpqD/u1+RHjfSxg+B0joOd4lttARXT3gdq8xcw?=
+ =?iso-8859-1?Q?l5C25KUqNVXXXtrQBScW1EKaX41ZFxbFovziqKKeKZ0HKD9tkJHUfKLt+W?=
+ =?iso-8859-1?Q?4x7PAy6itjXvguGfBmyHn/ubNZerOsGjXZE1YvGy5eeiQozpBiL7AfdzO5?=
+ =?iso-8859-1?Q?FXqNOmmbnRsDhPk5hCvJNVQs1FahexCxEoAWT5+KmTX3Jp0qEU1WPenjdc?=
+ =?iso-8859-1?Q?4yn4obGVsc9PBnobR6U5TaRiyCnhKk4hUSNWZ2yt27ss8Lru9ydd8QnHMC?=
+ =?iso-8859-1?Q?FMQ8Ju3wMs2vXC3QPvkb2sygOpn15eSmgkw5VYME+QQ/PtrZvJHKdzZWpg?=
+ =?iso-8859-1?Q?I1GsU/j3hUrapRtjIQcYvmG1S6O8X89wVXva/y7Dy3Zh4ggz6ohbOt6cVV?=
+ =?iso-8859-1?Q?I/wyoi10RFrBVHD7azQP+bajtmklx4Jf5c0S1TUMk5JAsu9D2Cu7s+zw?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66879827-de10-4ecd-cf14-08dc8ca45170
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2854.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2024 19:00:55.1751 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XDeOSjj3qBT7Pz9YOR9rtuEvX9J9Vh/CFhHfdRjn8twBK4p2UqxXYcoN+LTucNSznvpNYTKLWAomZfx2uHwU4A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6753
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,113 +202,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm-intel for-linux-next-gt
-head:   05da7d9f717bcb03c457379fa8a61c1689dab86c
-commit: 05da7d9f717bcb03c457379fa8a61c1689dab86c [3/3] drm/i915/gem: Downgrade stolen lmem setup warning
-config: x86_64-randconfig-122-20240614 (https://download.01.org/0day-ci/archive/20240615/202406150232.r9Of4ebo-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406150232.r9Of4ebo-lkp@intel.com/reproduce)
+On Fri, Jun 14, 2024 at 12:35:32PM -0300, André Almeida wrote:
+> This driver can perfom async flips on primary planes, so enable it.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406150232.r9Of4ebo-lkp@intel.com/
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Naveen Kumar <naveen1.kumar@intel.com>
+c: Vandita Kulkarni <vandita.kulkarni@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/gem/i915_gem_stolen.c:943:32: sparse: sparse: Using plain integer as NULL pointer
+> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> ---
+>  drivers/gpu/drm/i915/display/i9xx_plane.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/i9xx_plane.c b/drivers/gpu/drm/i915/display/i9xx_plane.c
+> index 0279c8aabdd1..0142beef20dc 100644
+> --- a/drivers/gpu/drm/i915/display/i9xx_plane.c
+> +++ b/drivers/gpu/drm/i915/display/i9xx_plane.c
+> @@ -931,6 +931,9 @@ intel_primary_plane_create(struct drm_i915_private *dev_priv, enum pipe pipe)
+>  
+>  	intel_plane_helper_add(plane);
+>  
+> +	if (plane->async_flip)
+> +		plane->base.async_flip = true;
 
-vim +943 drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+I believe this is not enough and besides this we would also need to have
+in the:
+skl_universal_plane_create[2447] plane->async_flip = skl_plane_async_flip;
 
-   889	
-   890	struct intel_memory_region *
-   891	i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
-   892				   u16 instance)
-   893	{
-   894		struct intel_uncore *uncore = &i915->uncore;
-   895		struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
-   896		resource_size_t dsm_size, dsm_base, lmem_size;
-   897		struct intel_memory_region *mem;
-   898		resource_size_t io_start, io_size;
-   899		resource_size_t min_page_size;
-   900		int ret;
-   901	
-   902		if (WARN_ON_ONCE(instance))
-   903			return ERR_PTR(-ENODEV);
-   904	
-   905		if (!i915_pci_resource_valid(pdev, GEN12_LMEM_BAR))
-   906			return ERR_PTR(-ENXIO);
-   907	
-   908		if (HAS_LMEMBAR_SMEM_STOLEN(i915) || IS_DG1(i915)) {
-   909			lmem_size = pci_resource_len(pdev, GEN12_LMEM_BAR);
-   910		} else {
-   911			resource_size_t lmem_range;
-   912	
-   913			lmem_range = intel_gt_mcr_read_any(to_gt(i915), XEHP_TILE0_ADDR_RANGE) & 0xFFFF;
-   914			lmem_size = lmem_range >> XEHP_TILE_LMEM_RANGE_SHIFT;
-   915			lmem_size *= SZ_1G;
-   916		}
-   917	
-   918		if (HAS_LMEMBAR_SMEM_STOLEN(i915)) {
-   919			/*
-   920			 * MTL dsm size is in GGC register.
-   921			 * Also MTL uses offset to GSMBASE in ptes, so i915
-   922			 * uses dsm_base = 8MBs to setup stolen region, since
-   923			 * DSMBASE = GSMBASE + 8MB.
-   924			 */
-   925			ret = mtl_get_gms_size(uncore);
-   926			if (ret < 0) {
-   927				drm_err(&i915->drm, "invalid MTL GGC register setting\n");
-   928				return ERR_PTR(ret);
-   929			}
-   930	
-   931			dsm_base = SZ_8M;
-   932			dsm_size = (resource_size_t)(ret * SZ_1M);
-   933	
-   934			GEM_BUG_ON(pci_resource_len(pdev, GEN12_LMEM_BAR) != SZ_256M);
-   935			GEM_BUG_ON((dsm_base + dsm_size) > lmem_size);
-   936		} else {
-   937			/* Use DSM base address instead for stolen memory */
-   938			dsm_base = intel_uncore_read64(uncore, GEN6_DSMBASE) & GEN11_BDSM_MASK;
-   939			if (lmem_size < dsm_base) {
-   940				drm_dbg(&i915->drm,
-   941					"Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
-   942					lmem_size, dsm_base);
- > 943				return 0;
-   944			}
-   945			dsm_size = ALIGN_DOWN(lmem_size - dsm_base, SZ_1M);
-   946		}
-   947	
-   948		if (i915_direct_stolen_access(i915)) {
-   949			drm_dbg(&i915->drm, "Using direct DSM access\n");
-   950			io_start = intel_uncore_read64(uncore, GEN6_DSMBASE) & GEN11_BDSM_MASK;
-   951			io_size = dsm_size;
-   952		} else if (pci_resource_len(pdev, GEN12_LMEM_BAR) < lmem_size) {
-   953			io_start = 0;
-   954			io_size = 0;
-   955		} else {
-   956			io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + dsm_base;
-   957			io_size = dsm_size;
-   958		}
-   959	
-   960		min_page_size = HAS_64K_PAGES(i915) ? I915_GTT_PAGE_SIZE_64K :
-   961							I915_GTT_PAGE_SIZE_4K;
-   962	
-   963		mem = intel_memory_region_create(i915, dsm_base, dsm_size,
-   964						 min_page_size,
-   965						 io_start, io_size,
-   966						 type, instance,
-   967						 &i915_region_stolen_lmem_ops);
-   968		if (IS_ERR(mem))
-   969			return mem;
-   970	
-   971		intel_memory_region_set_name(mem, "stolen-local");
-   972	
-   973		mem->private = true;
-   974	
-   975		return mem;
-   976	}
-   977	
+at: drivers/gpu/drm/i915/display/skl_universal_plane.c
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +
+>  	return plane;
+>  
+>  fail:
+> -- 
+> 2.45.2
+> 
