@@ -2,75 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B6A9084A4
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 09:25:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 945809084A1
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 09:25:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D6B910EC4B;
-	Fri, 14 Jun 2024 07:24:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE54A10EC48;
+	Fri, 14 Jun 2024 07:24:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CyvyL1iY";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="2F0cFcuJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QszfpGgo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZnuaXjoX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KrX2++MZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
- [209.85.219.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FA4D10EBB0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 02:42:13 +0000 (UTC)
-Received: by mail-qv1-f48.google.com with SMTP id
- 6a1803df08f44-6ad8243dba8so8177016d6.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2024 19:42:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718332932; x=1718937732; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bkn1Dqg/KvSsIEf4PMDdbgaHl7N3wpCE5dnCq2yPOs0=;
- b=CyvyL1iYvLz9UJZNVXscMF/fYdOOuE57GKMgIY1tl1rng7VqUhIYwrAPU0+PWQDSu6
- IfUM15Mu8XHH/c86sJHQbnLzxVw5p/jDlnvrE1F2bRce0ZMAAcCD1j7JG/UJkFfytwTG
- S1zYG7haJbStE3oMaC8S03zDLhn1V0pcMy1LUbQ4QghEGdpJD2FcXwB7lnedMxeYBmyv
- xid5wgmPgJUMQE1zbi3s08KExf2oRj22WhBhC5budycg/b2OnM1AsN0RzDzZF7BeZ0vk
- 2Leu4GenSoM15CuqbfPXmgSJgLecysgEC9AL85yYLzf1c1lhNZkwahdLb+mkvd6UCFDx
- LubA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718332932; x=1718937732;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bkn1Dqg/KvSsIEf4PMDdbgaHl7N3wpCE5dnCq2yPOs0=;
- b=R8QTpKegDQutd8Zgbtpv58zJL0UWN1ci8DiPHL7uPvwIgk5fQVIc3mS/wYXCrIRCmW
- EpLzgKCL5Nu98GiE100S80BkrP1TmUE3v/Pl7fmcUkLdxFsoMEJWvZ4UTE9FUutz6Km0
- Qb5M+TWWudY/yd6Me8SDeasvnI50qH9qTtWys2IxvCMlQYmhW4kaf6yB9cAYW+J+zQdo
- mDD92W7ntrXZCPltfgZlXyNlbZxbr+8BXArx29phZHvzWCE7pkalsXavUkiGYcnlbrxc
- TUij5BG3Wv0HZerXwnmQBURBt9qAxjAHUqZS3SF+5C99xkAt9jPA6DsBaX0dUuEdKy8V
- iT5g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUm2Zw+vh0qrny8qJKiAlC+YVutPf76WSM/X4bjjEbjznRxTWd87RDxkgS0BYakasf2hwajpfS1Bin83qQtTRtKrFmtlCIEKyr6MC15H0mQ
-X-Gm-Message-State: AOJu0YwLYxyOkDuG0e7ujL13LzpJNjlw89JMo000rgk1Wra5Zw9rRIJM
- ykLLyxhjMIZ9FvOQ8uWnoi1uJscGv32VDg4rLla3YBWDD+AfQ3LiBrCqymAWVCfRh66wR0ybeos
- ou4Sh5U/S1hjNnxQS+ivtKyZmnTk=
-X-Google-Smtp-Source: AGHT+IH2yJkDatqeZR2Ou1juwPDu1s/BD6Hx184YCW7utolqXQ5u8htp4butw/HzKwBNPXerjjKUWiJm/DxherGGPpI=
-X-Received: by 2002:a0c:c581:0:b0:6b0:8ff6:7565 with SMTP id
- 6a1803df08f44-6b2afd6e8a0mr14215336d6.49.1718332932181; Thu, 13 Jun 2024
- 19:42:12 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A87D710EC2B
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 04:55:18 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E611722897;
+ Fri, 14 Jun 2024 04:55:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718340916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=O2Fib6epQ+O7wESFoNkMErJuX8tawNTH6TPqfoJ87DA=;
+ b=2F0cFcuJbtmwRRIpL3eDTQGbe3X+3sEnUIoWhM3Mo3X/eqiHJ836tkiF3NNkdn0+0/DFoM
+ Fff//cGwTk3gJ/zSf4BxDdF9DMcF4wyjibf18EYl8bng+3eBpb01CXJKEh3v7zmV230yZD
+ kGaZkwd7OVGOkyo5Kf6I6Hw20RrhBts=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718340916;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=O2Fib6epQ+O7wESFoNkMErJuX8tawNTH6TPqfoJ87DA=;
+ b=QszfpGgo6F7vfEgctwraQJ4jhtdSGsxmVxG1Z6W6qvvy1jzrs2dSa9seyKJZQOsbSqmV+j
+ CD36/MfN1m2rLJAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718340915; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=O2Fib6epQ+O7wESFoNkMErJuX8tawNTH6TPqfoJ87DA=;
+ b=ZnuaXjoXT/vakk0Uf4Kw1B/qV3raFRHGRs90nYCroKbmwq0SzvJN0bZ2MsJOGXUEAcvP22
+ 3NSew2QlQGPs5R1SljRmyxbESUnPYvokWiZ5Adh79zJWQY65UauK1AxjhAJuxdXyBas5f0
+ PZv1R7hYIuzIdGOKbIDV/p7WeeIo37o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718340915;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=O2Fib6epQ+O7wESFoNkMErJuX8tawNTH6TPqfoJ87DA=;
+ b=KrX2++MZzJLZR29tbZDPQIZOkwPGsW3NZCv9nZIxDmBzT8cuGfA2ixbBwEpg7sqNnPUhXa
+ VFDbdMWSJb+Z7iAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2B9EA13AAF;
+ Fri, 14 Jun 2024 04:55:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id kuAHCDPNa2YsLAAAD6G6ig
+ (envelope-from <osalvador@suse.de>); Fri, 14 Jun 2024 04:55:15 +0000
+Date: Fri, 14 Jun 2024 06:55:09 +0200
+From: Oscar Salvador <osalvador@suse.de>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Christoph Hellwig <hch@infradead.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Hugh Dickins <hughd@google.com>, Peter Xu <peterx@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>,
+ Junxiao Chang <junxiao.chang@intel.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH v15 3/9] mm/gup: Introduce memfd_pin_folios() for pinning
+ memfd folios
+Message-ID: <ZmvNLSUgUgFETR0M@localhost.localdomain>
+References: <20240613214741.1029446-1-vivek.kasireddy@intel.com>
+ <20240613214741.1029446-4-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-References: <20240613023044.45873-1-laoar.shao@gmail.com>
- <20240613023044.45873-6-laoar.shao@gmail.com>
- <20240613141435.fad09579c934dbb79a3086cc@linux-foundation.org>
- <CAHk-=wgqrwFXK-CO8-V4fwUh5ymnUZ=wJnFyufV1dM9rC1t3Lg@mail.gmail.com>
-In-Reply-To: <CAHk-=wgqrwFXK-CO8-V4fwUh5ymnUZ=wJnFyufV1dM9rC1t3Lg@mail.gmail.com>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Fri, 14 Jun 2024 10:41:34 +0800
-Message-ID: <CALOAHbCrZp2XV_zp0-mH2frW2Fk15Tz-A9J0K6gcJTbSXvTsPg@mail.gmail.com>
-Subject: Re: [PATCH v2 05/10] mm/util: Fix possible race condition in kstrdup()
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, ebiederm@xmission.com, 
- alexei.starovoitov@gmail.com, rostedt@goodmis.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- audit@vger.kernel.org, linux-security-module@vger.kernel.org, 
- selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240613214741.1029446-4-vivek.kasireddy@intel.com>
+X-Spam-Score: -4.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.996]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; MISSING_XM_UA(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[15]; RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email]
 X-Mailman-Approved-At: Fri, 14 Jun 2024 07:24:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,64 +118,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 14, 2024 at 6:18=E2=80=AFAM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Thu, 13 Jun 2024 at 14:14, Andrew Morton <akpm@linux-foundation.org> w=
-rote:
-> >
-> > The concept sounds a little strange.  If some code takes a copy of a
-> > string while some other code is altering it, yes, the result will be a
-> > mess.  This is why get_task_comm() exists, and why it uses locking.
->
-> The thing is, get_task_comm() is terminally broken.
->
-> Nobody sane uses it, and sometimes it's literally _because_ it uses locki=
-ng.
->
-> Let's look at the numbers:
->
->  - 39 uses of get_task_comm()
->
->  - 2 uses of __get_task_comm() because the locking doesn't work
->
->  - 447 uses of raw "current->comm"
->
->  - 112 uses of raw 'ta*sk->comm' (and possibly
->
-> IOW, we need to just accept the fact that nobody actually wants to use
-> "get_task_comm()". It's a broken interface. It's inconvenient, and the
-> locking makes it worse.
->
-> Now, I'm not convinced that kstrdup() is what anybody should use
-> should, but of the 600 "raw" uses of ->comm, four of them do seem to
-> be kstrdup.
->
-> Not great, I think they could be removed, but they are examples of
-> people doing this. And I think it *would* be good to have the
-> guarantee that yes, the kstrdup() result is always a proper string,
-> even if it's used for unstable sources. Who knows what other unstable
-> sources exist?
->
-> I do suspect that most of the raw uses of 'xyz->comm' is for
-> printouts. And I think we would be better with a '%pTSK' vsnprintf()
-> format thing for that.
+On Thu, Jun 13, 2024 at 02:42:05PM -0700, Vivek Kasireddy wrote:
+> For drivers that would like to longterm-pin the folios associated
+> with a memfd, the memfd_pin_folios() API provides an option to
+> not only pin the folios via FOLL_PIN but also to check and migrate
+> them if they reside in movable zone or CMA block. This API
+> currently works with memfds but it should work with any files
+> that belong to either shmemfs or hugetlbfs. Files belonging to
+> other filesystems are rejected for now.
+> 
+> The folios need to be located first before pinning them via FOLL_PIN.
+> If they are found in the page cache, they can be immediately pinned.
+> Otherwise, they need to be allocated using the filesystem specific
+> APIs and then pinned.
+> 
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Cc: Christoph Hellwig <hch@infradead.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Hugh Dickins <hughd@google.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Dongwon Kim <dongwon.kim@intel.com>
+> Cc: Junxiao Chang <junxiao.chang@intel.com>
+> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com> (v2)
+> Reviewed-by: David Hildenbrand <david@redhat.com> (v3)
+> Reviewed-by: Christoph Hellwig <hch@lst.de> (v6)
+> Acked-by: Dave Airlie <airlied@redhat.com>
+> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> ---
+...
+> +struct folio *memfd_alloc_folio(struct file *memfd, pgoff_t idx)
+> +{
+> +#ifdef CONFIG_HUGETLB_PAGE
+> +	struct folio *folio;
+> +	int err;
+> +
+> +	if (is_file_hugepages(memfd)) {
+> +		folio = alloc_hugetlb_folio_nodemask(hstate_file(memfd),
+> +						     NUMA_NO_NODE,
+> +						     NULL,
+> +						     GFP_USER,
+> +						     false);
 
-I will implement this change in the next step if no one else handles it.
+I dislike the direct use of GFP_USER there, because it opens the door for new
+users to start passing their own GFP_ flags directly into hugetlb code, which
+is not optimal, and something I would really like to prevent.
 
->
-> Sadly, I don't think coccinelle can do the kinds of transforms that
-> involve printf format strings.
+Hugetlb pages, until now, they have been mapped only to userspace and only used
+in there, and they can or cannot be migrated based on its size, and that is why
+we have 'htlb_alloc_mask'.
 
-Yes, we need to carefully check them one by one.
+Now, you need something special because 1) these pages might need to be accessible by
+some DMA driver, so you have HIGHMEM contraints and 2) cannot be migrated away.
+Ok, but I see this as an exception, and it should really be called out
+here.
 
->
-> And no, a printk() string still couldn't use the locking version.
->
->                Linus
+ gfp_t = htlb_alloc_mask;
 
+ /*
+  * These pages will be accessible by a DMA driver, so we have zone memory
+  * constraints where we can alloc from.
+  * Also, these pages will be pinned for an undefinied amount of time, so do
+  * not expect them to be able to be migrated away.
+  */
+ gfp &=  ~(__GFP_HIGHMEM | __GFP_MOVABLE)
 
+So it is clear what is going on here.
 
---=20
-Regards
-Yafang
+-- 
+Oscar Salvador
+SUSE Labs
