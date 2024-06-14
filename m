@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4BC7908ED7
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 17:36:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC169908ED8
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 17:36:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B218210EDA5;
-	Fri, 14 Jun 2024 15:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0D9210EDAA;
+	Fri, 14 Jun 2024 15:36:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="sY3VDxFt";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="aFh82x5B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7306C10ED8C;
- Fri, 14 Jun 2024 15:35:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7941410ED9B;
+ Fri, 14 Jun 2024 15:36:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=Ld6CWp6MvzsfLCexkDmw2gq97DL2MMR6pnNJDMxtfIA=; b=sY3VDxFtjDG94nMWnI8LoODQM/
- CfwK10xGRc3gV3HrREQ/ZDn40krSt42MQYtXj982F0l8ux8pMREE20+LBaR0YewLAeF9nbb9ohIPm
- s2Pm6tuAuwFFykGRP7Ex1ez0TFI2chX2sxZExktfwseTjoCbpnHnxbO7s2w6oDKjCCC4zFbA1LxiJ
- dnlT4+k/NG6nhQyZ9E7zKZVX2w9aj21cdqw0RVTBTw2BYm1ZqYEipwU04VOYHroSIKUa49fTW8dR5
- FebepwDSkhQXvw7AUtXvrS3mYBA/Zz3yYAzPXYW601GyWph0PSbs4pVaax6RKt5oYB2mEkB05MjC5
- kH22fqCA==;
+ bh=kmzOSqTKJaH0dvCeP0l9yACALP9ZDMY12Vpbbl/oZpo=; b=aFh82x5B16HfjMQDExiRAYOAAm
+ f+p+YESYJxmGdkjJJFXxIDhcYx424j/smaqMdz5/3/77aQOwxYLMkU3TAiDIHnWA3uZbeVh+KJ3sG
+ fZLfCLiAazI7zvQfh3PgDOBn3lC7zkMFUX+1P8dETPjZUtjjT5je5ozkwzmWO9uQJAV+1B3FVqHfj
+ fJrMwntYMkrFJS+a0THptww0VlUiKdUlXTqyKCVNZGDmYVMBgCC4mvFPLMDCih6mtCipLYaOqMxhV
+ C/BP6hP0UqoVg8a0V6OfZJyi5xnvMZNwv7vZ6GOHhLn6EpJuxPcmnoF3Hd+lUHHJNBUD5cfKaV8Po
+ phSrk10g==;
 Received: from [179.118.191.115] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sI8y2-003B8v-9T; Fri, 14 Jun 2024 17:35:54 +0200
+ id 1sI8yA-003B8v-5N; Fri, 14 Jun 2024 17:36:02 +0200
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -55,10 +55,9 @@ Cc: kernel-dev@igalia.com, Melissa Wen <mwen@igalia.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Karol Herbst <kherbst@redhat.com>,
  Lyude Paul <lyude@redhat.com>,
  =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-Subject: [PATCH v6 1/8] drm/atomic: Allow userspace to use explicit sync with
- atomic async flips
-Date: Fri, 14 Jun 2024 12:35:28 -0300
-Message-ID: <20240614153535.351689-2-andrealmeid@igalia.com>
+Subject: [PATCH v6 2/8] drm: Support per-plane async flip configuration
+Date: Fri, 14 Jun 2024 12:35:29 -0300
+Message-ID: <20240614153535.351689-3-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240614153535.351689-1-andrealmeid@igalia.com>
 References: <20240614153535.351689-1-andrealmeid@igalia.com>
@@ -80,30 +79,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allow userspace to use explicit synchronization with atomic async flips.
-That means that the flip will wait for some hardware fence, and then
-will flip as soon as possible (async) in regard of the vblank.
+Drivers have different capabilities on what plane types they can or
+cannot perform async flips. Create a plane::async_flip field so each
+driver can choose which planes they allow doing async flips.
 
 Signed-off-by: André Almeida <andrealmeid@igalia.com>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_atomic_uapi.c | 4 ++--
+ include/drm/drm_plane.h           | 5 +++++
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 22bbb2d83e30..2e1d9391febe 100644
+index 2e1d9391febe..ed1af3455477 100644
 --- a/drivers/gpu/drm/drm_atomic_uapi.c
 +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -1070,7 +1070,9 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
+@@ -1079,9 +1079,9 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
  			break;
  		}
  
--		if (async_flip && prop != config->prop_fb_id) {
-+		if (async_flip &&
-+		    prop != config->prop_fb_id &&
-+		    prop != config->prop_in_fence_fd) {
- 			ret = drm_atomic_plane_get_property(plane, plane_state,
- 							    prop, &old_val);
- 			ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
+-		if (async_flip && plane_state->plane->type != DRM_PLANE_TYPE_PRIMARY) {
++		if (async_flip && !plane->async_flip) {
+ 			drm_dbg_atomic(prop->dev,
+-				       "[OBJECT:%d] Only primary planes can be changed during async flip\n",
++				       "[PLANE:%d] does not support async flips\n",
+ 				       obj->id);
+ 			ret = -EINVAL;
+ 			break;
+diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+index 9507542121fa..0bebc72af5c3 100644
+--- a/include/drm/drm_plane.h
++++ b/include/drm/drm_plane.h
+@@ -786,6 +786,11 @@ struct drm_plane {
+ 	 * @kmsg_panic: Used to register a panic notifier for this plane
+ 	 */
+ 	struct kmsg_dumper kmsg_panic;
++
++	/**
++	 * @async_flip: indicates if a plane can do async flips
++	 */
++	bool async_flip;
+ };
+ 
+ #define obj_to_plane(x) container_of(x, struct drm_plane, base)
 -- 
 2.45.2
 
