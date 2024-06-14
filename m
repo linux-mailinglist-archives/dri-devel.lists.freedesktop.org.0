@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D8C9089C1
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 12:26:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 896F69089CE
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 12:26:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA4F410ECD7;
-	Fri, 14 Jun 2024 10:26:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F32C10ECF6;
+	Fri, 14 Jun 2024 10:26:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R9inrhJw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Fs2+ugbi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69A0310E17D;
- Fri, 14 Jun 2024 10:26:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30E2A10ECE0;
+ Fri, 14 Jun 2024 10:26:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718360765; x=1749896765;
+ t=1718360767; x=1749896767;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=sQiqVEq1kt9vPA7gve30zAlQy/947hQcIdHb5E4QwUY=;
- b=R9inrhJwT7+Ov+sjbPKdbJreQ15PczbLLvJue5RgM2AorT7K70q7VDbH
- 6LTWaGTrQ5cySerK5ehzMvr2Ezm8XkGbEW6aDcRPFSocJ2iqrt6XXGD/M
- 1hi+mXqnA7g936NVH8eH31opAmjoalwVqYPMXnI0ZoYlmHXhbJnfrKzRu
- 0ryb4t4teMJhWQQAiyuZeUCrhYHjgw1LB1yTcmcsXhDkLK1hSSiMgiPdY
- l4Aum/h3JUcn0UqAmc8ivxZUD6b+dBh9gdVbB7ZVhwFd3To/4vo01gFFU
- XSZhMdNtrdZQ4vDgOckzyi4Jor4/htotEeZIjhE301a4ndyATLBg88+v/ Q==;
-X-CSE-ConnectionGUID: Q0v9corvT96CJLJo+8YeoA==
-X-CSE-MsgGUID: jSS9Aza5Ss2foyyxGDZKGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="26659446"
-X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; d="scan'208";a="26659446"
+ bh=ackiwV0EiPeLoSLiRrLKoHhXfDnOs8cLhB97eDmf504=;
+ b=Fs2+ugbix6C/HwdEnkXE/oMw7zIqrfYjo11zvtNGFZoISkMd5jfiopc+
+ rt/vlVMa2zx/cQtbT6UEYbtymsoTVxHSmptiDSvAd2KfAcmiJDIpMcs9F
+ xSF0xvUChDkH3EqIjSfiucQ64e0pdhbR5ewlRHicaWBsDhUU3BYXL5gs4
+ gl1BKBNpKPPGPLqxWeog4NiAYHzcTR8BXdlKXbZYA9affoXMDwu7SkdcD
+ SL6AOyfQ98pN2bx2L4UQ4U+b+Np5kPxpaKYim4blopO0RioAwiaP3WsaH
+ mUpFHtY0WRWbiryYefX6DEeJ55E//S9DkEMZzkWMwenRZ1XaUkmoe4WCb w==;
+X-CSE-ConnectionGUID: dQAvoBvGQBqIG1zOkCXpZQ==
+X-CSE-MsgGUID: xptr+8pGRSOsYXmNvoZC4Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="26659454"
+X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; d="scan'208";a="26659454"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2024 03:26:05 -0700
-X-CSE-ConnectionGUID: 1g7ErPV3SHyqQgv+BW7ecA==
-X-CSE-MsgGUID: m9cAZqDXS4Ci8YRBQXw0sw==
+ 14 Jun 2024 03:26:06 -0700
+X-CSE-ConnectionGUID: 8JOJZgXFRxaT2ZGKuV467A==
+X-CSE-MsgGUID: O6YPqBZYQpS/Uie0RtvPaw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; d="scan'208";a="45415500"
+X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; d="scan'208";a="45415510"
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO fedora..)
  ([10.245.244.153])
  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2024 03:26:03 -0700
+ 14 Jun 2024 03:26:05 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
  Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 01/12] drm/ttm: Allow TTM LRU list nodes of different types
-Date: Fri, 14 Jun 2024 12:25:37 +0200
-Message-ID: <20240614102548.4364-2-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v4 02/12] drm/ttm: Slightly clean up LRU list iteration
+Date: Fri, 14 Jun 2024 12:25:38 +0200
+Message-ID: <20240614102548.4364-3-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240614102548.4364-1-thomas.hellstrom@linux.intel.com>
 References: <20240614102548.4364-1-thomas.hellstrom@linux.intel.com>
@@ -72,26 +72,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To be able to handle list unlocking while traversing the LRU
-list, we want the iterators not only to point to the next
-position of the list traversal, but to insert themselves as
-list nodes at that point to work around the fact that the
-next node might otherwise disappear from the list while
-the iterator is pointing to it.
-
-These list nodes need to be easily distinguishable from other
-list nodes so that others traversing the list can skip
-over them.
-
-So declare a struct ttm_lru_item, with a struct list_head member
-and a type enum. This will slightly increase the size of a
-struct ttm_resource.
-
-Changes in previous series:
-- Update enum ttm_lru_item_type documentation.
-v3:
-- Introduce ttm_lru_first_res_or_null()
-  (Christian König, Thomas Hellström)
+To make the transition to using lru hitches easier,
+simplify the ttm_resource_manager_next() interface to only take
+the cursor and reuse ttm_resource_manager_next() functionality
+from ttm_resource_manager_first().
 
 Cc: Christian König <christian.koenig@amd.com>
 Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
@@ -101,288 +85,126 @@ Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 Reviewed-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/ttm/ttm_device.c   |  4 +-
- drivers/gpu/drm/ttm/ttm_resource.c | 89 +++++++++++++++++++++++-------
- include/drm/ttm/ttm_resource.h     | 54 +++++++++++++++++-
- 3 files changed, 125 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/ttm/ttm_resource.c | 48 +++++++++++++-----------------
+ include/drm/ttm/ttm_resource.h     | 10 ++++---
+ 2 files changed, 27 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-index 434cf0258000..09411978a13a 100644
---- a/drivers/gpu/drm/ttm/ttm_device.c
-+++ b/drivers/gpu/drm/ttm/ttm_device.c
-@@ -274,14 +274,14 @@ static void ttm_device_clear_lru_dma_mappings(struct ttm_device *bdev,
- 	struct ttm_resource *res;
- 
- 	spin_lock(&bdev->lru_lock);
--	while ((res = list_first_entry_or_null(list, typeof(*res), lru))) {
-+	while ((res = ttm_lru_first_res_or_null(list))) {
- 		struct ttm_buffer_object *bo = res->bo;
- 
- 		/* Take ref against racing releases once lru_lock is unlocked */
- 		if (!ttm_bo_get_unless_zero(bo))
- 			continue;
- 
--		list_del_init(&res->lru);
-+		list_del_init(&bo->resource->lru.link);
- 		spin_unlock(&bdev->lru_lock);
- 
- 		if (bo->ttm)
 diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-index 4a66b851b67d..db9a7a3717c4 100644
+index db9a7a3717c4..8bfbddddc0e8 100644
 --- a/drivers/gpu/drm/ttm/ttm_resource.c
 +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-@@ -70,8 +70,8 @@ void ttm_lru_bulk_move_tail(struct ttm_lru_bulk_move *bulk)
- 			dma_resv_assert_held(pos->last->bo->base.resv);
- 
- 			man = ttm_manager_type(pos->first->bo->bdev, i);
--			list_bulk_move_tail(&man->lru[j], &pos->first->lru,
--					    &pos->last->lru);
-+			list_bulk_move_tail(&man->lru[j], &pos->first->lru.link,
-+					    &pos->last->lru.link);
- 		}
- 	}
- }
-@@ -84,14 +84,38 @@ ttm_lru_bulk_move_pos(struct ttm_lru_bulk_move *bulk, struct ttm_resource *res)
- 	return &bulk->pos[res->mem_type][res->bo->priority];
- }
- 
-+/* Return the previous resource on the list (skip over non-resource list items) */
-+static struct ttm_resource *ttm_lru_prev_res(struct ttm_resource *cur)
-+{
-+	struct ttm_lru_item *lru = &cur->lru;
-+
-+	do {
-+		lru = list_prev_entry(lru, link);
-+	} while (!ttm_lru_item_is_res(lru));
-+
-+	return ttm_lru_item_to_res(lru);
-+}
-+
-+/* Return the next resource on the list (skip over non-resource list items) */
-+static struct ttm_resource *ttm_lru_next_res(struct ttm_resource *cur)
-+{
-+	struct ttm_lru_item *lru = &cur->lru;
-+
-+	do {
-+		lru = list_next_entry(lru, link);
-+	} while (!ttm_lru_item_is_res(lru));
-+
-+	return ttm_lru_item_to_res(lru);
-+}
-+
- /* Move the resource to the tail of the bulk move range */
- static void ttm_lru_bulk_move_pos_tail(struct ttm_lru_bulk_move_pos *pos,
- 				       struct ttm_resource *res)
- {
- 	if (pos->last != res) {
- 		if (pos->first == res)
--			pos->first = list_next_entry(res, lru);
--		list_move(&res->lru, &pos->last->lru);
-+			pos->first = ttm_lru_next_res(res);
-+		list_move(&res->lru.link, &pos->last->lru.link);
- 		pos->last = res;
- 	}
- }
-@@ -122,11 +146,11 @@ static void ttm_lru_bulk_move_del(struct ttm_lru_bulk_move *bulk,
- 		pos->first = NULL;
- 		pos->last = NULL;
- 	} else if (pos->first == res) {
--		pos->first = list_next_entry(res, lru);
-+		pos->first = ttm_lru_next_res(res);
- 	} else if (pos->last == res) {
--		pos->last = list_prev_entry(res, lru);
-+		pos->last = ttm_lru_prev_res(res);
- 	} else {
--		list_move(&res->lru, &pos->last->lru);
-+		list_move(&res->lru.link, &pos->last->lru.link);
- 	}
- }
- 
-@@ -155,7 +179,7 @@ void ttm_resource_move_to_lru_tail(struct ttm_resource *res)
- 	lockdep_assert_held(&bo->bdev->lru_lock);
- 
- 	if (bo->pin_count) {
--		list_move_tail(&res->lru, &bdev->pinned);
-+		list_move_tail(&res->lru.link, &bdev->pinned);
- 
- 	} else	if (bo->bulk_move) {
- 		struct ttm_lru_bulk_move_pos *pos =
-@@ -166,7 +190,7 @@ void ttm_resource_move_to_lru_tail(struct ttm_resource *res)
- 		struct ttm_resource_manager *man;
- 
- 		man = ttm_manager_type(bdev, res->mem_type);
--		list_move_tail(&res->lru, &man->lru[bo->priority]);
-+		list_move_tail(&res->lru.link, &man->lru[bo->priority]);
- 	}
- }
- 
-@@ -197,9 +221,9 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
- 	man = ttm_manager_type(bo->bdev, place->mem_type);
- 	spin_lock(&bo->bdev->lru_lock);
- 	if (bo->pin_count)
--		list_add_tail(&res->lru, &bo->bdev->pinned);
-+		list_add_tail(&res->lru.link, &bo->bdev->pinned);
- 	else
--		list_add_tail(&res->lru, &man->lru[bo->priority]);
-+		list_add_tail(&res->lru.link, &man->lru[bo->priority]);
- 	man->usage += res->size;
- 	spin_unlock(&bo->bdev->lru_lock);
- }
-@@ -221,7 +245,7 @@ void ttm_resource_fini(struct ttm_resource_manager *man,
- 	struct ttm_device *bdev = man->bdev;
- 
- 	spin_lock(&bdev->lru_lock);
--	list_del_init(&res->lru);
-+	list_del_init(&res->lru.link);
- 	man->usage -= res->size;
- 	spin_unlock(&bdev->lru_lock);
- }
-@@ -472,14 +496,16 @@ struct ttm_resource *
+@@ -496,50 +496,44 @@ struct ttm_resource *
  ttm_resource_manager_first(struct ttm_resource_manager *man,
  			   struct ttm_resource_cursor *cursor)
  {
--	struct ttm_resource *res;
-+	struct ttm_lru_item *lru;
- 
+-	struct ttm_lru_item *lru;
+-
  	lockdep_assert_held(&man->bdev->lru_lock);
  
- 	for (cursor->priority = 0; cursor->priority < TTM_MAX_BO_PRIORITY;
- 	     ++cursor->priority)
--		list_for_each_entry(res, &man->lru[cursor->priority], lru)
--			return res;
-+		list_for_each_entry(lru, &man->lru[cursor->priority], link) {
-+			if (ttm_lru_item_is_res(lru))
-+				return ttm_lru_item_to_res(lru);
-+		}
- 
- 	return NULL;
+-	for (cursor->priority = 0; cursor->priority < TTM_MAX_BO_PRIORITY;
+-	     ++cursor->priority)
+-		list_for_each_entry(lru, &man->lru[cursor->priority], link) {
+-			if (ttm_lru_item_is_res(lru))
+-				return ttm_lru_item_to_res(lru);
+-		}
+-
+-	return NULL;
++	cursor->priority = 0;
++	cursor->man = man;
++	cursor->cur = &man->lru[cursor->priority];
++	return ttm_resource_manager_next(cursor);
  }
-@@ -498,15 +524,40 @@ ttm_resource_manager_next(struct ttm_resource_manager *man,
- 			  struct ttm_resource_cursor *cursor,
- 			  struct ttm_resource *res)
+ 
+ /**
+  * ttm_resource_manager_next
+  *
+- * @man: resource manager to iterate over
+  * @cursor: cursor to record the position
+- * @res: the current resource pointer
+  *
+- * Returns the next resource from the resource manager.
++ * Return: the next resource from the resource manager.
+  */
+ struct ttm_resource *
+-ttm_resource_manager_next(struct ttm_resource_manager *man,
+-			  struct ttm_resource_cursor *cursor,
+-			  struct ttm_resource *res)
++ttm_resource_manager_next(struct ttm_resource_cursor *cursor)
  {
-+	struct ttm_lru_item *lru = &res->lru;
-+
+-	struct ttm_lru_item *lru = &res->lru;
++	struct ttm_resource_manager *man = cursor->man;
++	struct ttm_lru_item *lru;
+ 
  	lockdep_assert_held(&man->bdev->lru_lock);
  
--	list_for_each_entry_continue(res, &man->lru[cursor->priority], lru)
--		return res;
-+	list_for_each_entry_continue(lru, &man->lru[cursor->priority], link) {
-+		if (ttm_lru_item_is_res(lru))
-+			return ttm_lru_item_to_res(lru);
-+	}
+-	list_for_each_entry_continue(lru, &man->lru[cursor->priority], link) {
+-		if (ttm_lru_item_is_res(lru))
+-			return ttm_lru_item_to_res(lru);
+-	}
+-
+-	for (++cursor->priority; cursor->priority < TTM_MAX_BO_PRIORITY;
+-	     ++cursor->priority)
+-		list_for_each_entry(lru, &man->lru[cursor->priority], link) {
+-			if (ttm_lru_item_is_res(lru))
+-				ttm_lru_item_to_res(lru);
++	for (;;) {
++		lru = list_entry(cursor->cur, typeof(*lru), link);
++		list_for_each_entry_continue(lru, &man->lru[cursor->priority], link) {
++			if (ttm_lru_item_is_res(lru)) {
++				cursor->cur = &lru->link;
++				return ttm_lru_item_to_res(lru);
++			}
+ 		}
  
- 	for (++cursor->priority; cursor->priority < TTM_MAX_BO_PRIORITY;
- 	     ++cursor->priority)
--		list_for_each_entry(res, &man->lru[cursor->priority], lru)
--			return res;
-+		list_for_each_entry(lru, &man->lru[cursor->priority], link) {
-+			if (ttm_lru_item_is_res(lru))
-+				ttm_lru_item_to_res(lru);
-+		}
++		if (++cursor->priority >= TTM_MAX_BO_PRIORITY)
++			break;
 +
-+	return NULL;
-+}
-+
-+/**
-+ * ttm_lru_first_res_or_null() - Return the first resource on an lru list
-+ * @head: The list head of the lru list.
-+ *
-+ * Return: Pointer to the first resource on the lru list or NULL if
-+ * there is none.
-+ */
-+struct ttm_resource *ttm_lru_first_res_or_null(struct list_head *head)
-+{
-+	struct ttm_lru_item *lru;
-+
-+	list_for_each_entry(lru, head, link) {
-+		if (ttm_lru_item_is_res(lru))
-+			return ttm_lru_item_to_res(lru);
++		cursor->cur = &man->lru[cursor->priority];
 +	}
- 
++
  	return NULL;
  }
+ 
 diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-index 69769355139f..1511d91e290d 100644
+index 1511d91e290d..7d81fd5b5b83 100644
 --- a/include/drm/ttm/ttm_resource.h
 +++ b/include/drm/ttm/ttm_resource.h
-@@ -49,6 +49,43 @@ struct io_mapping;
- struct sg_table;
- struct scatterlist;
- 
-+/**
-+ * enum ttm_lru_item_type - enumerate ttm_lru_item subclasses
-+ */
-+enum ttm_lru_item_type {
-+	/** @TTM_LRU_RESOURCE: The resource subclass */
-+	TTM_LRU_RESOURCE,
-+	/** @TTM_LRU_HITCH: The iterator hitch subclass */
-+	TTM_LRU_HITCH
-+};
-+
-+/**
-+ * struct ttm_lru_item - The TTM lru list node base class
-+ * @link: The list link
-+ * @type: The subclass type
-+ */
-+struct ttm_lru_item {
-+	struct list_head link;
-+	enum ttm_lru_item_type type;
-+};
-+
-+/**
-+ * ttm_lru_item_init() - initialize a struct ttm_lru_item
-+ * @item: The item to initialize
-+ * @type: The subclass type
-+ */
-+static inline void ttm_lru_item_init(struct ttm_lru_item *item,
-+				     enum ttm_lru_item_type type)
-+{
-+	item->type = type;
-+	INIT_LIST_HEAD(&item->link);
-+}
-+
-+static inline bool ttm_lru_item_is_res(const struct ttm_lru_item *item)
-+{
-+	return item->type == TTM_LRU_RESOURCE;
-+}
-+
- struct ttm_resource_manager_func {
- 	/**
- 	 * struct ttm_resource_manager_func member alloc
-@@ -217,9 +254,21 @@ struct ttm_resource {
- 	/**
- 	 * @lru: Least recently used list, see &ttm_resource_manager.lru
- 	 */
--	struct list_head lru;
-+	struct ttm_lru_item lru;
- };
- 
-+/**
-+ * ttm_lru_item_to_res() - Downcast a struct ttm_lru_item to a struct ttm_resource
-+ * @item: The struct ttm_lru_item to downcast
-+ *
-+ * Return: Pointer to the embedding struct ttm_resource
-+ */
-+static inline struct ttm_resource *
-+ttm_lru_item_to_res(struct ttm_lru_item *item)
-+{
-+	return container_of(item, struct ttm_resource, lru);
-+}
-+
+@@ -272,11 +272,15 @@ ttm_lru_item_to_res(struct ttm_lru_item *item)
  /**
   * struct ttm_resource_cursor
   *
-@@ -393,6 +442,9 @@ ttm_resource_manager_next(struct ttm_resource_manager *man,
- 			  struct ttm_resource_cursor *cursor,
- 			  struct ttm_resource *res);
++ * @man: The resource manager currently being iterated over.
++ * @cur: The list head the cursor currently points to.
+  * @priority: the current priority
+  *
+  * Cursor to iterate over the resources in a manager.
+  */
+ struct ttm_resource_cursor {
++	struct ttm_resource_manager *man;
++	struct list_head *cur;
+ 	unsigned int priority;
+ };
  
-+struct ttm_resource *
-+ttm_lru_first_res_or_null(struct list_head *head);
-+
- /**
-  * ttm_resource_manager_for_each_res - iterate over all resources
-  * @man: the resource manager
+@@ -438,9 +442,7 @@ struct ttm_resource *
+ ttm_resource_manager_first(struct ttm_resource_manager *man,
+ 			   struct ttm_resource_cursor *cursor);
+ struct ttm_resource *
+-ttm_resource_manager_next(struct ttm_resource_manager *man,
+-			  struct ttm_resource_cursor *cursor,
+-			  struct ttm_resource *res);
++ttm_resource_manager_next(struct ttm_resource_cursor *cursor);
+ 
+ struct ttm_resource *
+ ttm_lru_first_res_or_null(struct list_head *head);
+@@ -455,7 +457,7 @@ ttm_lru_first_res_or_null(struct list_head *head);
+  */
+ #define ttm_resource_manager_for_each_res(man, cursor, res)		\
+ 	for (res = ttm_resource_manager_first(man, cursor); res;	\
+-	     res = ttm_resource_manager_next(man, cursor, res))
++	     res = ttm_resource_manager_next(cursor))
+ 
+ struct ttm_kmap_iter *
+ ttm_kmap_iter_iomap_init(struct ttm_kmap_iter_iomap *iter_io,
 -- 
 2.44.0
 
