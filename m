@@ -2,102 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C44490864D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 10:29:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 368CE90865D
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 10:34:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15F7410E058;
-	Fri, 14 Jun 2024 08:29:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0B2010EC9A;
+	Fri, 14 Jun 2024 08:34:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PZvnMrOs";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nCTYyYFS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B279710E058
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 08:29:10 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 663AD10E1F1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 08:34:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A6C6E61EA3;
- Fri, 14 Jun 2024 08:29:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA429C4AF1D;
- Fri, 14 Jun 2024 08:29:04 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 9875ECE2A09;
+ Fri, 14 Jun 2024 08:34:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BB5DC2BD10;
+ Fri, 14 Jun 2024 08:34:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718353749;
- bh=mcI9kKPGFnxq22R6g7J6/c5S82zMnJWz8Yp5EmkcN3I=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=PZvnMrOskC2XUpLyMRs/TbxDjz2znHe/KKzdlH8Ssg/z9Ql1L4DYHjJUF885UFqGi
- qXi/fMzXEGZsmoymInjLF6QTrIyDLWWssNZUE5jsh9BgeYmZ380mb1XnG/2l4IIL9C
- 4zNY4/GfC4+8aC8ekbuDOtFoszbuVX2BdnqfxngJt/HNgMriJZKSm5xPR5AIK5i+R5
- Xfss8x+se5k9jPX7cM65JQAvTVvMsmIsQNfjgUgqRcXMD+4dQZiXhr1CcYiNSSWcA4
- 4QbaaJkLnMTbhPXsj63X5jPohO+FfgWS2ecBC9rSjCE4DI7NRKx1eqfR0VFCceAVTX
- 8Jx2mMAXCXA9g==
-Message-ID: <f488c3a9-eb08-45da-baff-502ee64aa567@kernel.org>
-Date: Fri, 14 Jun 2024 10:29:02 +0200
+ s=k20201202; t=1718354089;
+ bh=5+vsvTPoSsGnlov0diQOja8u3p3y/iXbs53szWp5oUQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nCTYyYFS6yudck+kRFg9JLllXg9Pw1hNipl0nYMA+E1/STCeSBtvsReI+J41omqOG
+ XijQYcagfKs9qlTPL2BTu8PE4JBXgtbtlr5W8/jdr46SXYBxOYsEyx4QXJaSMQdfhq
+ U+ubX+4OeKdWmtA393fu0Lpc7uQLrA6FTUKGquamb6UmDojuzD9n7jt79cqN9rNi02
+ Cqko1X+JAIfDAy1R4BjMnrv0/CviudJWSIn8zisVkplkrRPmNdUWkFyhGhoTfVvWGn
+ n23248IrPf8K1VV7eqoChlhyNfANPWRhg7/5rbLFNjEwYnNTr6dpxrDwk/nIKyygd0
+ zVj0ie09LC5Ug==
+Date: Fri, 14 Jun 2024 10:34:47 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Andy Yan <andyshrk@163.com>
+Cc: neil.armstrong@linaro.org, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Sam Ravnborg <sam@ravnborg.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, 
+ kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>, 
+ Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
+Subject: Re: [PATCH 13/14] drm/bridge: synopsys: Add DW HDMI QP TX controller
+ driver
+Message-ID: <20240614-neat-polecat-of-agreement-68e2df@houat>
+References: <20240601-b4-rk3588-bridge-upstream-v1-0-f6203753232b@collabora.com>
+ <20240601-b4-rk3588-bridge-upstream-v1-13-f6203753232b@collabora.com>
+ <20240601143226.GA2003970@ravnborg.org>
+ <59519381-2729-4839-9882-65a981a0c551@collabora.com>
+ <20240604204110.GA84949@ravnborg.org>
+ <f656c72e-fac8-4345-9b65-1031ebe81c25@collabora.com>
+ <304b4602-8722-4ed0-a555-8dada573ee79@collabora.com>
+ <5dc16b34-d638-4fab-84e1-cb7db08ad80e@linaro.org>
+ <2d8e9235.68f3.19015881d35.Coremail.andyshrk@163.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] dt-bindings: display: panel-edp-legacy: drop
- several eDP panels
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, devicetree@vger.kernel.org
-References: <20240614-edp-panel-drop-v4-0-4e0a112eec46@linaro.org>
- <20240614-edp-panel-drop-v4-2-4e0a112eec46@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240614-edp-panel-drop-v4-2-4e0a112eec46@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="k3c77qnfy4wcw7us"
+Content-Disposition: inline
+In-Reply-To: <2d8e9235.68f3.19015881d35.Coremail.andyshrk@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,21 +84,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/06/2024 02:02, Dmitry Baryshkov wrote:
-> The panel-edp-legacy.yaml includes legacy bindings for several eDP
-> panels which were never used in DT files present in Linux tree and most
-> likely have never been used with the upstream kernel. Drop compatibles
-> for these panels in favour of using a generic "edp-panel" device on the
-> AUX bus.
-> 
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Please reverse the order of patches - you cannot have undocumented
-compatible, so first you remove driver support, then bindings.
+--k3c77qnfy4wcw7us
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Hi,
 
-Best regards,
-Krzysztof
+On Fri, Jun 14, 2024 at 02:56:00PM GMT, Andy Yan wrote:
+> At 2024-06-05 19:48:09, "Neil Armstrong" <neil.armstrong@linaro.org> wrot=
+e:
+> >On 05/06/2024 12:11, Cristian Ciocaltea wrote:
+> >> On 6/5/24 12:34 AM, Cristian Ciocaltea wrote:
+> >>> On 6/4/24 11:41 PM, Sam Ravnborg wrote:
+> >>>> Hi Cristian.
+> >>>>
+> >>>> On Tue, Jun 04, 2024 at 10:32:04PM +0300, Cristian Ciocaltea wrote:
+> >>>>> Hi Sam,
+> >>>>>
+> >>>>> On 6/1/24 5:32 PM, Sam Ravnborg wrote:
+> >>>>>> Hi Cristian,
+> >>>>>>
+> >>>>>> a few drive-by comments below.
+> >>>>>>
+> >>>>>> 	Sam
+> >>>>>>
+> >>>>>>
+> >>>>>>> +
+> >>>>>>> +static const struct drm_connector_funcs dw_hdmi_qp_connector_fun=
+cs =3D {
+> >>>>>>> +	.fill_modes =3D drm_helper_probe_single_connector_modes,
+> >>>>>>> +	.detect =3D dw_hdmi_connector_detect,
+> >>>>>>> +	.destroy =3D drm_connector_cleanup,
+> >>>>>>> +	.force =3D dw_hdmi_qp_connector_force,
+> >>>>>>> +	.reset =3D drm_atomic_helper_connector_reset,
+> >>>>>>> +	.atomic_duplicate_state =3D drm_atomic_helper_connector_duplica=
+te_state,
+> >>>>>>> +	.atomic_destroy_state =3D drm_atomic_helper_connector_destroy_s=
+tate,
+> >>>>>>> +};
+> >>>>>>> +
+> >>>>>>> +static int dw_hdmi_qp_bridge_attach(struct drm_bridge *bridge,
+> >>>>>>> +				    enum drm_bridge_attach_flags flags)
+> >>>>>>> +{
+> >>>>>>> +	struct dw_hdmi *hdmi =3D bridge->driver_private;
+> >>>>>>> +
+> >>>>>>> +	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
+> >>>>>>> +		return drm_bridge_attach(bridge->encoder, hdmi->next_bridge,
+> >>>>>>> +					 bridge, flags);
+> >>>>>>> +
+> >>>>>>> +	return dw_hdmi_connector_create(hdmi, &dw_hdmi_qp_connector_fun=
+cs);
+> >>>>>>> +}
+> >>>>>>
+> >>>>>> Are there any users left that requires the display driver to creat=
+e the
+> >>>>>> connector?
+> >>>>>> In other words - could this driver fail if DRM_BRIDGE_ATTACH_NO_CO=
+NNECTOR
+> >>>>>> is not passed and drop dw_hdmi_connector_create()?
+> >>>>>>
+> >>>>>> I did not try to verify this - just a naive question.
+> >>>>>
+> >>>>> I've just tested this and it doesn't work - dw_hdmi_connector_creat=
+e()
+> >>>>> is still needed.
+> >>>>
+> >>>> Hmm, seems the display driver or some other bridge driver fails to
+> >>>> support "DRM_BRIDGE_ATTACH_NO_CONNECTOR".
+> >>>> what other drivers are involved?
+> >>>
+> >>> Could it be related to the glue driver (updated in the next patch) wh=
+ich
+> >>> is also responsible for setting up the encoder?
+> >>>
+> >>>> Note that my comments here should be seen as potential future
+> >>>> improvements, and do not block the patch from being used.
+> >>>
+> >>> Thanks for the heads up! Will try to get back to this soon and invest=
+igate.
+> >>  =20
+> >> IIUC, modern bridges should not create the connector but rely on displ=
+ay
+> >> drivers to take care of, which in this case is the VOP2 driver. Howeve=
+r,
+> >> it also handles some of the older SoCs relying on the non-QP variant of
+> >> DW HDMI IP. Hence the existing dw-hdmi driver would be also impacted in
+> >> order to come up with a proper solution.
+> >>=20
+> >> A quick check shows there are several users of this IP:
+> >>=20
+> >> $ git grep -E '=3D dw_hdmi_(bind|probe)\('
+> >> drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c:    hdmi->dw_hdmi =3D dw_h=
+dmi_probe(pdev, plat_data);
+> >> drivers/gpu/drm/bridge/synopsys/dw-hdmi.c:      hdmi =3D dw_hdmi_probe=
+(pdev, plat_data);
+> >> drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c:        hdmi->hdmi =3D dw_hdmi=
+_probe(pdev, match->data);
+> >> drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c:      hdmi =3D dw_hdmi_probe=
+(pdev, &ingenic_dw_hdmi_plat_data);
+> >> drivers/gpu/drm/meson/meson_dw_hdmi.c:  meson_dw_hdmi->hdmi =3D dw_hdm=
+i_probe(pdev, &meson_dw_hdmi->dw_plat_data);
+> >> drivers/gpu/drm/renesas/rcar-du/rcar_dw_hdmi.c: hdmi =3D dw_hdmi_probe=
+(pdev, &rcar_dw_hdmi_plat_data);
+> >> drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c:            hdmi->hdmi =3D=
+ dw_hdmi_bind(pdev, encoder, plat_data);
+> >> drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c:  hdmi->hdmi =3D dw_hdmi_bind(pd=
+ev, encoder, plat_data);
+> >>=20
+> >> I didn't check which display drivers would be involved, I'd guess there
+> >> are quite a few of them as well. So it seems this ends up being a pret=
+ty
+> >> complex task.
+> >
+> >If this would be a brand new driver, then it should only support DRM_BRI=
+DGE_ATTACH_NO_CONNECTOR,
+> >so you should not create a connector from the driver.
+> >
+> >The fact dw-hdmi accepts an attach without the flag is for legacy purpose
+> >since some DRM drivers haven't switched to DRM_BRIDGE_ATTACH_NO_CONNECTO=
+R yes,
+> >but it's a requirement for new bridges so at some point you'll need to m=
+ake
+> >sure the rockchip glue and drm driver supports DRM_BRIDGE_ATTACH_NO_CONN=
+ECTOR.
+> >
+> >This will greatly simplify the driver!
+>=20
+> Based on the previous discussion=EF=BC=8C the DW HDMI QP drivers will be =
+implemented like this=EF=BC=9A
+>=20
+> Core bridge library=EF=BC=9A=20
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> Rockchip platform specific glue=EF=BC=9A
+> drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
 
+Note that the bridge HDMI helpers Dmitry was mentioning have now been
+merged, so I'd expect the core bridge library to be fairly minimal. And
+the new driver should obviously use it as much as it can.
+
+Maxime
+
+--k3c77qnfy4wcw7us
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZmwApgAKCRDj7w1vZxhR
+xT0IAP4/kmfWDAzASkD4k7DBXB/yo/pfsaXLvK+zrDWYsFYe6wD+LtPFo+ws3cz9
+4CjYg+ksCPXRokUjsMds5ojnZJpfVwk=
+=JElF
+-----END PGP SIGNATURE-----
+
+--k3c77qnfy4wcw7us--
