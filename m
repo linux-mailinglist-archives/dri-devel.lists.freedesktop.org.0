@@ -2,38 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C61C6908B08
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 13:47:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91814908B39
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 14:04:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA5C10E24C;
-	Fri, 14 Jun 2024 11:47:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7323510E05E;
+	Fri, 14 Jun 2024 12:04:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 953E210E1F5
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 11:47:01 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E7EF3FEC;
- Fri, 14 Jun 2024 04:47:24 -0700 (PDT)
-Received: from e126387.arm.com (unknown [10.57.7.81])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4F03F3F5A1;
- Fri, 14 Jun 2024 04:46:58 -0700 (PDT)
-From: carsten.haitzler@foss.arm.com
-To: dri-devel@lists.freedesktop.org
-Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
- Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
- christian.koenig@amd.com, Felix.Kuehling@amd.com,
- alexander.deucher@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de
-Subject: [PATCH v2] drm: Fix alignment of temporary stack ioctl buffers
-Date: Fri, 14 Jun 2024 12:46:02 +0100
-Message-Id: <20240614114602.3187710-1-carsten.haitzler@foss.arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240611093441.200910-1-carsten.haitzler@foss.arm.com>
-References: <20240611093441.200910-1-carsten.haitzler@foss.arm.com>
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A37FC10E05E
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 12:04:25 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-6325b04c275so4374777b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 05:04:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718366664; x=1718971464;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8ovNrKBz6SE0Xp6qLyWrHKke2Z46ajqO3lSt7jQEreM=;
+ b=e2Gua27kxBeQdPAqmfcJHRLYRxksiSDee4fJAsDeu5J0NCdFmVR7ntTOTdX4F1xuaX
+ LqUEAa1HqQEmiVIr2W+oH4Xc7M6OG8GAVWbCUlRZ5ew1kjY/Kx9NEJrLQXqtRhcqcEXV
+ KAE+JBRYB2EPFmqkeLhySRi+QgllMkQeeCkMrk7NW3uFyyo79+jqfnGXevRGn60Dql24
+ mROwN22TqHkrfZ1XSW8xT/Zb0K/D6LUIR1ZOxsBuuvnuQMWaaEUEKk8ObJmOx0nvoz06
+ LnAaGHf54ocEjEAcYJf68mwtPQYs69KWATOZwDgwL3Fcbav515ShBZD5tr2iRANuje8+
+ /XDA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWfvLjBnrkyiGwCMl23y+1+bPUnlZVLxR3dBshjD2mRZ7yu6thMq2YQnm8D7GXOuufuWoo3kxItKgGLvxo83RLk+Q255jysv6jSh+xTOVSb
+X-Gm-Message-State: AOJu0YyaTIBgBV0iZQSv1DK9H6L0InektHMemEgpxLaJyScazVIbQi+/
+ +oe8FRIw02T4fPtzbyGeTcEadCaL9qFb6B9gzAzVJHaHD4pOzppOy+0nKe/8
+X-Google-Smtp-Source: AGHT+IHcS7qt0k/rOgM+E/0dn0pfJtiIPzhroOI7uTUPkT/K14x5HDGlIgD5S7AaIrm7sVoPNPFblQ==
+X-Received: by 2002:a05:690c:806:b0:627:f592:f1ca with SMTP id
+ 00721157ae682-63224419cf6mr22195247b3.48.1718366663680; 
+ Fri, 14 Jun 2024 05:04:23 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com.
+ [209.85.128.177]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-6311a446a72sm4328837b3.76.2024.06.14.05.04.22
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Jun 2024 05:04:22 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-630640c1e14so26442577b3.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 05:04:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV25cEm77XViBQRiSxgkL/MwsdMDDn60pcMe2gPCgFtIKiyuFTdyuGH9BYL0qMh/Ec5Jh9P9+F+oo8nNO/C2Bj9Yb6LPt3LNwa3alNQA8CU
+X-Received: by 2002:a0d:c304:0:b0:61b:349c:817 with SMTP id
+ 00721157ae682-63222560c71mr22278067b3.12.1718366662348; Fri, 14 Jun 2024
+ 05:04:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1718305355.git.geert+renesas@glider.be>
+ <3f1a5f56213f3e4584773eb2813e212b2dff6d14.1718305355.git.geert+renesas@glider.be>
+ <f2c00c97-4d2d-4cb8-aa9b-e9c458ca9e65@redhat.com>
+In-Reply-To: <f2c00c97-4d2d-4cb8-aa9b-e9c458ca9e65@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 14 Jun 2024 14:04:08 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVWR=XgMi_9-K_FxJ9wUForvrNLG-QH0K7DvCOJsRGD7Q@mail.gmail.com>
+Message-ID: <CAMuHMdVWR=XgMi_9-K_FxJ9wUForvrNLG-QH0K7DvCOJsRGD7Q@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] drm/panic: Add support for drawing a monochrome
+ graphical logo
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,74 +85,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Carsten Haitzler <carsten.haitzler@foss.arm.com>
+Hi Jocelyn,
 
-In a few places (core drm + AMD kfd driver), the ioctl handling uses a
-temporary 128 byte buffer on the stack to copy to/from user. ioctl data
-can have structs with types of much larger sizes than a byte and a
-system may require alignment of types in these. At the same time the
-compiler may align a char buf to something else as it has no idea that
-this buffer is used for storing structs with such alignment
-requirements. At a minimum putting in alignment information as an
-attribute should be a warning in future if an architecture that needs
-more alignment appears.
+On Fri, Jun 14, 2024 at 11:55=E2=80=AFAM Jocelyn Falempe <jfalempe@redhat.c=
+om> wrote:
+> On 13/06/2024 21:18, Geert Uytterhoeven wrote:
+> > Re-use the existing support for boot-up logos to draw a monochrome
+> > graphical logo in the DRM panic handler.  When no suitable graphical
+> > logo is available, the code falls back to the ASCII art penguin logo.
+> >
+> > Note that all graphical boot-up logos are freed during late kernel
+> > initialization, hence a copy must be made for later use.
+>
+> Would it be possible to have the logo not in the __init section if
+> DRM_PANIC is set ?
 
-This was discovered while implementing capability ABI support in Linux
-on ARM's Morello CPU (128 bit capability "pointers" in userspace, with
-a 64bit non-capability kernel (hybrid) setup). In this, userspace
-ioctl structs now had to transport capabilities that needed 16 byte
-alignment, but the kernel was not putting these data buffers on that
-alignment boundary.
+That would be rather complicated.  The C source files for the logos
+(there can be multiple) are generated by drivers/video/logo/pnmtologo.c.
 
-Currently the largest type that is needed is a u64 so the alignment
-only asks for that.
+> The patch looks good to me anyway.
+>
+> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-Signed-off-by: Carsten Haitzler <carsten.haitzler@foss.arm.com>
----
- drivers/dma-buf/dma-heap.c               | 2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 2 +-
- drivers/gpu/drm/drm_ioctl.c              | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+Thanks!
 
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index 84ae708fafe7..8fa68b8a9b60 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -126,7 +126,7 @@ static unsigned int dma_heap_ioctl_cmds[] = {
- static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
- 			   unsigned long arg)
- {
--	char stack_kdata[128];
-+	_Alignas(u64) char stack_kdata[128];
- 	char *kdata = stack_kdata;
- 	unsigned int kcmd;
- 	unsigned int in_size, out_size, drv_size, ksize;
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index fdf171ad4a3c..201a5c0227ec 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-@@ -3236,7 +3236,7 @@ static long kfd_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
- 	amdkfd_ioctl_t *func;
- 	const struct amdkfd_ioctl_desc *ioctl = NULL;
- 	unsigned int nr = _IOC_NR(cmd);
--	char stack_kdata[128];
-+	_Alignas(u64) char stack_kdata[128];
- 	char *kdata = NULL;
- 	unsigned int usize, asize;
- 	int retcode = -EINVAL;
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index e368fc084c77..77a88b597c0b 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -767,7 +767,7 @@ long drm_ioctl(struct file *filp,
- 	drm_ioctl_t *func;
- 	unsigned int nr = DRM_IOCTL_NR(cmd);
- 	int retcode = -EINVAL;
--	char stack_kdata[128];
-+	_Alignas(u64) char stack_kdata[128];
- 	char *kdata = NULL;
- 	unsigned int in_size, out_size, drv_size, ksize;
- 	bool is_driver_ioctl;
--- 
-2.25.1
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
