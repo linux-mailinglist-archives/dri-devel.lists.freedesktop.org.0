@@ -2,153 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC141908F6E
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 17:56:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE9C908F88
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 18:03:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53B2610E107;
-	Fri, 14 Jun 2024 15:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E45710E265;
+	Fri, 14 Jun 2024 16:03:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="LT6u8QFS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M4/77ykA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2067.outbound.protection.outlook.com [40.107.93.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9340310E107;
- Fri, 14 Jun 2024 15:56:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AvesrJbfcEQjagUHHx/wrIBT+ZIo0p23JJxJ5/0FkAmNbfTCgIbeOUSkQi/7DLN9q+E/+l0GcQyrGQFDu1ubyZISINZfkk4Pb/KhpFjUE6mUXkVNxPSNWjXuq8gS4jnRvjDODU+9oBDuWyAev6CXC/00LMgST0FYpe3RS/Kz2RS9Q8KH9xHbQZynHGAnBcYQUDu7aelhzPr6i/dzT7ticCNe9f4lZ6as5mVVkldgUQvKarBy3t/oDbJh//+7p7XZiO5rOLjcvs7TMiuGpy0rJ+5xtM3mILBnR5VSO+wLxFFmJ7yQhFGD1XMRbmQ68oQ72n2WXfuu//ovjCMS890XZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mdQknaGDFOMocVoe4+tnoaeHFsAs1eOZOLLCLTBovBQ=;
- b=ZRHUY8itJQBExmOKiWaRUl+uiS4FaS4xseJJDgESwXAjEM7xLu+mpNZPPYATp6RgVYPnjmweRNA3LnDOak/LAzkRrtGGaXQsDZZOMJDGoYcqyq9PXh3WIZ+PSevbrydlGbVPJpKnOJuMyboGrFa3uVszjie3h2w+lKVpcEYeppina6KgDO5lyJDm+RjjPysmObn7w1Y13D96vInRqCqz1ROMXR5xRdra6bf5u6Vqveez/JgC6h8ElzHyhY7NSQefwDoPWffLIn8EZDbDoWGv1L83LGpBCgYthLS32jLZ/ultLX/r+bh7lveVqzMsUrSIM2ZXMVqBoK/nP1OE5FlIHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mdQknaGDFOMocVoe4+tnoaeHFsAs1eOZOLLCLTBovBQ=;
- b=LT6u8QFSmJqcK2WMvyvMYHe8oOVs7mTu7Td5iTfEO+QaGhZ+J6FCAF6V0RccSPw/hmbbN6FWC4vdGat9tq7FLA9KdtrdYLF1Yk03eli/3fWBv8q7SPJvBbv3IAsUnvb5BJ6fy0XHNL4f2bsJ3+rtokSlUsGO/Y1PxcThJ1RDjyE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by CY8PR12MB7489.namprd12.prod.outlook.com (2603:10b6:930:90::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.26; Fri, 14 Jun
- 2024 15:56:00 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::1c2f:5c82:2d9c:6062]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::1c2f:5c82:2d9c:6062%7]) with mapi id 15.20.7677.024; Fri, 14 Jun 2024
- 15:56:00 +0000
-Message-ID: <c11cc0b7-7504-495b-a5c2-a907666895ea@amd.com>
-Date: Fri, 14 Jun 2024 11:55:56 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69AAD10E265
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 16:03:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718381008; x=1749917008;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=0xbasAoSKFrwL4Z/ck4kO9QxUn9hvty8pOMgKWuOzcw=;
+ b=M4/77ykAXrYrHvQL/WPFP2S7IzBBhf/TnhxPuK8k8kd3Z9nOb9sV+hsa
+ fH5+JMeMPfs80ecjLFiprGAgiGoI6gvmiuWAThbvaRX2GUTMjr9w/rALI
+ 3ea1OCg7+xX9LprDTsZGj6eK2Z4mnIwcK82ACVL2UsFwpS9bIHFu1t+5X
+ p81IZ2uRF+stiIdzBi4Wk+zrzZ1+8sU2NqzSRFVgblsbdLIWHXEyKiofs
+ moRtcsfPO9MvyI0609wT/KZVfrWsBNzyoam83u+8ey3iUN2jLh9McrrgA
+ qryl61yZy7yjXTi2D9E4CknrqgpTiEMo9P7/3gv0zFVw/xGWs6Hhk6S3m w==;
+X-CSE-ConnectionGUID: vxJZj3KxToiABL7SVrHG3A==
+X-CSE-MsgGUID: LAxcvd1iQ92qLCw4yas5XA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="19096398"
+X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; d="scan'208";a="19096398"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2024 09:03:25 -0700
+X-CSE-ConnectionGUID: cYZxAHF9T9m1L/9t4J4j9g==
+X-CSE-MsgGUID: QjICvIXQSgq5PNyqgVtspw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; d="scan'208";a="40385393"
+Received: from unknown (HELO [10.125.111.79]) ([10.125.111.79])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2024 09:03:25 -0700
+Message-ID: <844ef200-aabe-4497-85c9-44fc46c9133a@intel.com>
+Date: Fri, 14 Jun 2024 09:03:22 -0700
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: Increase frame-larger-than warning limit
-To: Nathan Chancellor <nathan@kernel.org>, Palmer Dabbelt <palmer@rivosinc.com>
-Cc: alexander.deucher@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, Qingqing.Zhuo@amd.com, hamza.mahfooz@amd.com,
- chenhuacai@kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev
-References: <20240603222948.GB1802995@thelio-3990X>
- <mhng-f1fc5ef0-9e72-4b12-9a28-145bbc8938d8@palmer-ri-x1c9a>
- <20240613222225.GA1849801@thelio-3990X>
+Subject: Re: [PATCH v11 8/8] x86/vmware: Add TDX hypercall support
+To: Alexey Makhalov <alexey.makhalov@broadcom.com>,
+ linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, bp@alien8.de,
+ hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
+ tglx@linutronix.de
+Cc: x86@kernel.org, netdev@vger.kernel.org, richardcochran@gmail.com,
+ linux-input@vger.kernel.org, dmitry.torokhov@gmail.com, zackr@vmware.com,
+ linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
+ timothym@vmware.com, akaher@vmware.com, dri-devel@lists.freedesktop.org,
+ daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, horms@kernel.org,
+ kirill.shutemov@linux.intel.com, Tim Merrifield <tim.merrifield@broadcom.com>
+References: <20240613191650.9913-1-alexey.makhalov@broadcom.com>
+ <20240613191650.9913-9-alexey.makhalov@broadcom.com>
+From: Dave Hansen <dave.hansen@intel.com>
 Content-Language: en-US
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20240613222225.GA1849801@thelio-3990X>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20240613191650.9913-9-alexey.makhalov@broadcom.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQZPR01CA0017.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:85::13) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|CY8PR12MB7489:EE_
-X-MS-Office365-Filtering-Correlation-Id: f71cdeeb-e9be-4067-53b7-08dc8c8a7caa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230037|366013|1800799021|376011;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?L2x5QndPaGVMVUlRdG4rL3BGNUozY1JFT0VzeVV5RXdveGZpR1gyNUNnVXlP?=
- =?utf-8?B?UXhCSGhGR0kxRjNtZW51WENqd00vdzg2VXR4S2VySnlSZFRyQUJOV0Jpb3A5?=
- =?utf-8?B?V3hsbHRhemtzSGFjZDlrWTNpcFBzeFhWWHg3a3lsYkx0Rm5uYlVvUEk0cVhj?=
- =?utf-8?B?OGpBYS9VeG1BUEQycUJNZ3B6d3JzS0xLd2xnUUEwbTVWRmhaNmx3aCtmaGRs?=
- =?utf-8?B?QTVLOGpqRjBaaWRvVUR1b0gySFJseVQ0WlZTUzl6OG5hdys1VHVlc2RxckF1?=
- =?utf-8?B?MjM0WGVKTHFnTTBjWGR6NExPSTA5WTFEK1RQOTV0Y215MHhDYlh6YkRvaVZW?=
- =?utf-8?B?YjFQZmJ0SmJmbFV6bVpwbnNUNlQxR3dMbUwwTDdUeHBrZnZBN2p2UUdIRzB0?=
- =?utf-8?B?Tk5YV3QxT0NxNExMZjhSYzFnamYva3N1UUwyb0NENnRFSmNDWklDV2hqejdG?=
- =?utf-8?B?dmJza3BPV0tBV0E0R2d2RHZqVGY5VmxEa2dUaDY5RUZxb0ZFV1RhL2dKeWc2?=
- =?utf-8?B?Tng2eTZKZ3pmTGdWMkhsQ05VWUVTVlA0azl4eXdZN2FlY1ZVUlI1OUt3QzZX?=
- =?utf-8?B?Z1FtMnZtajF1M1pVOVF0QlFIMnJoNHdxSk9FMDlkQ3MwUWMyNWltYURYQWRq?=
- =?utf-8?B?aVYwelpFbUN5ME5LYUZoeHVsQkpBMlV1b25HUnNzZXJHd0hwajcrQVo4R0ZC?=
- =?utf-8?B?WkVVOHNRSUQ0WCtzWHFMU3JMcFhDcjVLaWJhZ2FMQVp5cWUvQmdKK25Md09y?=
- =?utf-8?B?RUpiU1djOG5ldlVRT2tzSFQ4dWhkNXZDMVVhT1lZS2NSRTJ0enFmcm54WCtp?=
- =?utf-8?B?c1czRkF6engyMHFNc3ZESnIvcFloOVJHL004N3U4QTA3Vjc1UlhzTWRpc1g4?=
- =?utf-8?B?dTBjR1M3MnlwRitqVmcrSHZGaDRWMGJaM2FCcFZGeU14emh5dlVGQlZ0c0VR?=
- =?utf-8?B?VWJ1RUN1SGxjNVRJN084RnR0SDUzbHNDTlZCbWQreFRreldIaGxDY1NpNmN6?=
- =?utf-8?B?QVBBQTFmd2owY1FwN21rcGtOakdYaDh5TDFJdXBCc09xZmVsbkRmK1lUcjRv?=
- =?utf-8?B?dnpTeVVPZmx1ZkRFZ0hudWlnc0dWcjlzK2p0bWlZTi9KUnY4R3diLzVnVDRm?=
- =?utf-8?B?a2NsaUxwYTFzTFRZOGx1dW5qMlVLU0xNWTB4ODBGQVdOUy85ZHd2Vm1TZzN5?=
- =?utf-8?B?Y3RIR001NnlvMm90N1EyQUxMTmNnbVdLeC9aM1VyZnB1WENnOXkwQk5jOG5y?=
- =?utf-8?B?UEtTeHZqMEhaODhvamFMQUgyNU1NYVYwTHNHeCtGNi9FbUkrMitCTk4vTGpk?=
- =?utf-8?B?eG8xZkVvMG5rcXZyaUpKZ3VITjhROTNEdkNMT1F4N1Zyc253dEo5cVYxK0NO?=
- =?utf-8?B?bWQreFhTUWVkemsyVTNqRE5ZM05PazRvclRUNG9BU1hLUDd3aEJ3M25iVFFE?=
- =?utf-8?B?SUJMV2EvZHNDMndPdkhjSnF4SFBtOS8raHZPQ3VKVWlIaUNxS3EzenE5dHkx?=
- =?utf-8?B?T1lObjB6dGJCMkV3d2YwRGNNaWx4SWZDQlFNUk1lWkVybXkyalhUem1ZZXR3?=
- =?utf-8?B?MHlIREViV0ZkMW1DSEk1aUNOWDJxc3YvbVlwWkNNOUk0NTdNZG9jZXZTZEJy?=
- =?utf-8?B?NWVvUW11aG41TDREbWRFU0g2Z3YvSTBna1dhdDEwTDF4bUFrT2JFNVNUWURD?=
- =?utf-8?B?d29XZXo1dmlmQWVudEZuZzd0ZDVRNTVPR1pkVWNMUWcycEo5amxDV2lnPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230037)(366013)(1800799021)(376011); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M3dRK3p2YUxpVDFVT29sR1BwSHBVUldJWStnMHZSYlZ4cm1vbFpTWk4xaU9W?=
- =?utf-8?B?azBCdUtxQzBwNVJIU3dPL3lCbEpKUVdTR3ZTeXQxVjdha3B4ZWg4U0szVGVx?=
- =?utf-8?B?THNMOGN6b05DdkIyN0IyVUdtamtib1RsMHdvK2lhRWpLenlCeTBzdmFVbk1Z?=
- =?utf-8?B?c01xWmJJSmFoSlJSTEhNZnhRT1dtK2VTK0hKREZuOXJwenEwOC8rQ1RlVko0?=
- =?utf-8?B?NGtSS3ZFcXZLSmIzZXBvRmhiRVNsNDJRbFFWa3lETVFWaU9LMk9nUEcxU2F5?=
- =?utf-8?B?SG4zZUdLK1VBbEVnSjlYcWFBUlVHQmdrd21yR09kM2xNTFBKemYzblZnUDQx?=
- =?utf-8?B?NDNQK0Z1UGllSTFVTE5JdHVqZytjWVJGdE1RU1cyVWhzcytocklXU0ZIbzRR?=
- =?utf-8?B?TVo2aFhpU2dOQjdiVW00NXIyQ04rSHJxek02NkEvaTJuR29tQjZJRVpZc0tN?=
- =?utf-8?B?ajQvT1dJeXlWcDh5a0VvS3hEZFVaY3llVy95OTlmdWxXVHR5R3hGODNEU3Fr?=
- =?utf-8?B?Z3BBV1hXSGNoWjJsaTIyR0xGQ1JPR25RTU1TK3lkYzZsTldKQUErMHhxTHBy?=
- =?utf-8?B?em1FZ2JKYjlyWU82ZUJPaVBiUnFvR1BRQXRLMllHN0RobHl4RFJMaHBzWTVM?=
- =?utf-8?B?ZW54d2RvNVFmSjZtWkZSWGtyczMvN252WlhVWGZIVk5QbGk2NWhoU290bmg2?=
- =?utf-8?B?MTNHRE95cG1ZandaWWZiSHZQR01abFB2dm10bEQrbkFON0lZM01kbXFGM1hJ?=
- =?utf-8?B?bUR5aVhncGpna2Y3UjZybDRmNmwxYTFxVSszdjdGcWpQWWV2RFZZYjMrWXZ0?=
- =?utf-8?B?LzZ6LzhnRVRtVlVTaDE0RUViNThvdjFoYkd0TFFvQWRobG1pbitpWUZKQkVT?=
- =?utf-8?B?SlpTeUpOeGFYYzg4R0hyZ3lJeFI2VDRKbFgzVDJGOHI3K3hUMm1xM1Bqck1y?=
- =?utf-8?B?dU5wT1hNRVRlSUpFNmhGU3VlQ1BXa1pwSW1CUUFWbVo4eDlJVUE1Z3h5ZzFw?=
- =?utf-8?B?RzFhUHMyUkdCMnV1QWdkaUJKbEdCYlM3TGFmTkloMmdIK21zdXNhL3FsZXYr?=
- =?utf-8?B?czNCRldianYzb0NXdCtvSGYwT0xXdkl3b0ZIU1dBSytkaW5nRUhSQmhMMW1Z?=
- =?utf-8?B?RElvSk5sSk45UXJkcDhZY08wZVpZTWIrTHRXSHAwNE1ZbE5XYlJRR3d5Zi9l?=
- =?utf-8?B?eHFmWDJ6TlEycFY5Tnl5WE5IcStvUGlsMHZCalZ5YlhIM1VXZDhFWlVocUlx?=
- =?utf-8?B?VTFqTVkwbDV1TEFSNFVXVVRyWkxvQVJtdDdoTkJvbE1obUpXNSt3cWVZRlhi?=
- =?utf-8?B?UDA4MEpaOFFVZTNSYWZBZFVnUDFZUUNmaXBQVW44VFFvcE9SN0ZjQ2JoUmN2?=
- =?utf-8?B?Ump2TmRwa1c4RUljQWwxSC9iU2hjNklzVE9aNlZpdTY4YUZoWCtraktXSk11?=
- =?utf-8?B?aDQreE42MFJCL0RGK2JHMTl4MkRwcEV6eE5jWjdUdUdRajJYSHBSajNXVGVJ?=
- =?utf-8?B?NDJrd3I3cVo4dnAxcXVDY05HK2wwZmkvdTRwM2RjNHhFeitWVkJ0ZUFSK3Zq?=
- =?utf-8?B?cWpPdlZMWm1SN1REN1BleDVSaEhJL05LNENDVkxrMldWd3dxQW9NaDhzT2Vw?=
- =?utf-8?B?bkNwbVdiVk5UcmxMelhjWm9zZGI1MWNwWDNJYVFZandHS2pmUllHZmJuMFVs?=
- =?utf-8?B?cFJWMU0rZUlzMHlla1pGZVZPOXRMNFlVMGlDS0NyUE04alIzV2dCMFpPaE1i?=
- =?utf-8?B?MGg5S0FWVVBETzdOdlV0VXBMVXEwUmtuYjJVRUhuREtWeUdHL3N2SjltNHBo?=
- =?utf-8?B?Y3FybFpYbFR4QVpQL1VQMXd4M1dtVnkyWFU4MzYxSWQvTkZOYTRxQUpjUkpX?=
- =?utf-8?B?d1RqMXo3emhraFdIc3NTTGZWWGZSZC9BMWtyZTRFUlA4UFcweER4OEw0Qklr?=
- =?utf-8?B?R045ZHJ0UkZ6Y1kxQnd0enVReC85aUlRNzNHbjhlSlNpVlN3ZUlkUGp0MCth?=
- =?utf-8?B?K1Y4RzllTnpTaWxMcW15K2wrZ2pLSVN0LzVWRDhDUExIV1hWZ1hHN1NwMjE5?=
- =?utf-8?B?K0pVM2owazRDUVJlTXIvM2RORlFWRXlKaU4xREo3UFlmR2gzcjl5TndtRExL?=
- =?utf-8?Q?aMQS9syDaMlHtWEhq1XDzUEWL?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f71cdeeb-e9be-4067-53b7-08dc8c8a7caa
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2024 15:56:00.7065 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1WtEYdh4UtakF4v/RXGr1UyYnjvu8eY3aaGiYy1uCVpzoH5IgWLArifI4k4siHu7wdrIvYlAXjoDIo1VehnW2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7489
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,100 +122,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 6/13/24 12:16, Alexey Makhalov wrote:
+> +unsigned long vmware_tdx_hypercall(unsigned long cmd,
+> +				   unsigned long in1, unsigned long in3,
+> +				   unsigned long in4, unsigned long in5,
+> +				   u32 *out1, u32 *out2, u32 *out3,
+> +				   u32 *out4, u32 *out5)
+> +{
+> +	struct tdx_module_args args;
+> +
+> +	if (!hypervisor_is_type(X86_HYPER_VMWARE)) {
+> +		pr_warn_once("Incorrect usage\n");
+> +		return ULONG_MAX;
+> +	}
+> +
+> +	if (cmd & ~VMWARE_CMD_MASK) {
+> +		pr_warn_once("Out of range command %lx\n", cmd);
+> +		return ULONG_MAX;
+> +	}
+> +
+> +	args.rbx = in1;
+> +	args.rdx = in3;
+> +	args.rsi = in4;
+> +	args.rdi = in5;
+> +	args.r10 = VMWARE_TDX_VENDOR_LEAF;
+> +	args.r11 = VMWARE_TDX_HCALL_FUNC;
+> +	args.r12 = VMWARE_HYPERVISOR_MAGIC;
+> +	args.r13 = cmd;
+> +	args.r15 = 0; /* CPL */
 
+I believe this leaks stack data into the hypervisor.  Or did I miss the
+zeroing of rcx/r8/r9/r14?
 
-On 2024-06-13 18:22, Nathan Chancellor wrote:
-> Hi Palmer (and AMD folks),
-> 
-> On Tue, Jun 04, 2024 at 09:04:23AM -0700, Palmer Dabbelt wrote:
->> On Mon, 03 Jun 2024 15:29:48 PDT (-0700), nathan@kernel.org wrote:
->>> On Thu, May 30, 2024 at 07:57:42AM -0700, Palmer Dabbelt wrote:
->>>> From: Palmer Dabbelt <palmer@rivosinc.com>
->>>>
->>>> I get a handful of build errors along the lines of
->>>>
->>>>     linux/drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c:58:13: error: stack frame size (2352) exceeds limit (2048) in 'DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation' [-Werror,-Wframe-larger-than]
->>>>     static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation(
->>>>                 ^
->>>>     linux/drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c:1724:6: error: stack frame size (2096) exceeds limit (2048) in 'dml32_ModeSupportAndSystemConfigurationFull' [-Werror,-Wframe-larger-than]
->>>>     void dml32_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_lib)
->>>>          ^
->>>
->>> Judging from the message, this is clang/LLVM? What version?
->>
->> Yes, LLVM.  Looks like I'm on 16.0.6.  Probably time for an update, so I'll
->> give it a shot.
-> 
-> FWIW, I can reproduce this with tip of tree, I was just curious in case
-> that ended up mattering.
-> 
->>> I assume
->>> this showed up in 6.10-rc1 because of commit 77acc6b55ae4 ("riscv: add
->>> support for kernel-mode FPU"), which allows this driver to be built for
->>> RISC-V.
->>
->> Seems reasonable.  This didn't show up until post-merge, not 100% sure why.
->> I didn't really dig any farther.
-> 
-> Perhaps you fast forwarded your tree to include that commit?
-> 
->>> Is this allmodconfig or some other configuration?
->>
->> IIRC both "allmodconfig" and "allyesconfig" show it, but I don't have a
->> build tree sitting around to be 100% sure.
-> 
-> Yeah, allmodconfig triggers it.
-> 
-> I was able to come up with a "trivial" reproducer using cvise (attached
-> to this mail if you are curious) that has worse stack usage by a rough
-> factor of 2:
-> 
->   $ clang --target=riscv64-linux-gnu -O2 -Wall -Wframe-larger-than=512 -c -o /dev/null display_mode_vba_32.i
->   display_mode_vba_32.i:598:6: warning: stack frame size (1264) exceeds limit (512) in 'DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation' [-Wframe-larger-than]
->     598 | void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation() {
->         |      ^
->   1 warning generated.
-> 
->   $ riscv64-linux-gcc -O2 -Wall -Wframe-larger-than=512 -c -o /dev/null display_mode_vba_32.i
->   display_mode_vba_32.i: In function 'DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation':
->   display_mode_vba_32.i:1729:1: warning: the frame size of 528 bytes is larger than 512 bytes [-Wframe-larger-than=]
->    1729 | }
->         | ^
-> 
-> I have not done too much further investigation but this is almost
-> certainly the same issue that has come up before [1][2] with the AMD
-> display code using functions with a large number of parameters, such
-> that they have to passed on the stack, coupled with inlining (if I
-> remember correctly, LLVM gives more of an inlining discount the less a
-> function is used in a file).
-> 
-> While clang does poorly with that code, I am not interested in
-> continuing to fix this code new hardware revision after new hardware
-> revision. We could just avoid this code like we do for arm64 for a
-> similar reason:
-> 
-> diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
-> index 5fcd4f778dc3..64df713df878 100644
-> --- a/drivers/gpu/drm/amd/display/Kconfig
-> +++ b/drivers/gpu/drm/amd/display/Kconfig
-> @@ -8,7 +8,7 @@ config DRM_AMD_DC
->  	depends on BROKEN || !CC_IS_CLANG || ARM64 || RISCV || SPARC64 || X86_64
->  	select SND_HDA_COMPONENT if SND_HDA_CORE
->  	# !CC_IS_CLANG: https://github.com/ClangBuiltLinux/linux/issues/1752
-> -	select DRM_AMD_DC_FP if ARCH_HAS_KERNEL_FPU_SUPPORT && (!ARM64 || !CC_IS_CLANG)
-> +	select DRM_AMD_DC_FP if ARCH_HAS_KERNEL_FPU_SUPPORT && (!(ARM64 || RISCV) || !CC_IS_CLANG)
->  	help
->  	  Choose this option if you want to use the new display engine
->  	  support for AMDGPU. This adds required support for Vega and
-> 
-
-This makes sense to me. I'll be happy to provide an RB if you send a patch.
-
-Harry
-
-> [1]: https://lore.kernel.org/20231019205117.GA839902@dev-arch.thelio-3990X/
-> [2]: https://lore.kernel.org/20220830203409.3491379-1-nathan@kernel.org/
-> 
-> Cheers,
-> Nathan
-
+You need to zero out all of 'args' somehow.
