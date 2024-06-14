@@ -2,75 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027C69092D5
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 21:10:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35039909305
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 21:38:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED9C210E077;
-	Fri, 14 Jun 2024 19:10:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ECEF10E25D;
+	Fri, 14 Jun 2024 19:38:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="GMMByZxo";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="T/LCp9jL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 752A510EE46
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 19:10:37 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 48A8B40E019F; 
- Fri, 14 Jun 2024 19:10:33 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
- header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
- by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id B5wNnYZxtOcc; Fri, 14 Jun 2024 19:10:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1718392229; bh=YHoeX2aqNxFOwawwQ+u5gyShZuN1d3XKK09wgoJEq6M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GMMByZxogyqO6iERv7yE9B7Z+yBq6IlzYQqdEj+amC/+SOkkItb2DuZlWjCQQ1A6s
- 4j1l3t+xWiBaOYtb1Al3DKaXwLYbfyEbq6vBOtibH3OjF/V7yrzolInVRgYc6AMYy1
- BPfOWGzHMmCGjmKpE0fwq2kvxt7ITrQ/CDLbpRlMGaITjvpc+cooDPh4hjbqbMARrc
- T4DqEw1jIwN+zP3q3iz6jK8lSCUkBVd4JFPnoznFFEx6V6rgfTNHC1Ya6hHOUYGerP
- Q57jaD74y8ePgm4lOTLR9TCHMjDaPmM9uRYgNmLuU2eqAARF8vX616Ujz3wAGfTyLK
- E5TZmCp7aCUmazqXGtQAwE+0xxALHZCoDv6pF+a2uN51Q4JxwqAoDfQkYnKnmIFS9l
- JbITCJLj6U7tSyrhVqRPatVQdvVLoBchGuxljqYuJp/zNW1N/n4Tyl8JZ69yyB8x6X
- y7ExtB5sc/1Hloa/p/JGAzXdGa1U1IPFlhzn+MEU+X3B9NhLEA+LwX3NZkWNOD9Tgx
- 8jPMEICeHzymu5qZSHKHGkpJgHRXvfor9d6MR4pvbBpgpuLFWoDj0Aug+D84BzZaRp
- WveoTopHFukaDU9dgrasYcIpVsvYEHREkHgYfbe7KMFFdmpwiyvBPlihqjieXCpD+g
- kAdmvYhHy+8dVwGMXIAmsTHo=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6B90C40E00C9;
- Fri, 14 Jun 2024 19:10:02 +0000 (UTC)
-Date: Fri, 14 Jun 2024 21:09:56 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: Dave Hansen <dave.hansen@intel.com>, linux-kernel@vger.kernel.org,
- virtualization@lists.linux.dev, hpa@zytor.com,
- dave.hansen@linux.intel.com, mingo@redhat.com, tglx@linutronix.de,
- x86@kernel.org, netdev@vger.kernel.org, richardcochran@gmail.com,
- linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
- zackr@vmware.com, linux-graphics-maintainer@vmware.com,
- pv-drivers@vmware.com, timothym@vmware.com, akaher@vmware.com,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
- tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, horms@kernel.org,
- kirill.shutemov@linux.intel.com,
- Tim Merrifield <tim.merrifield@broadcom.com>
-Subject: Re: [PATCH v11 8/8] x86/vmware: Add TDX hypercall support
-Message-ID: <20240614190956.GFZmyVhLGeyLjwvA6X@fat_crate.local>
-References: <20240613191650.9913-1-alexey.makhalov@broadcom.com>
- <20240613191650.9913-9-alexey.makhalov@broadcom.com>
- <844ef200-aabe-4497-85c9-44fc46c9133a@intel.com>
- <20240614161404.GCZmxsTNLSoYTqoRoj@fat_crate.local>
- <74f8300b-3520-4824-81e3-71464e3da3b6@intel.com>
- <1750e44f-f9a9-4c2a-afb3-f1ae8237ccb0@broadcom.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DE1C10E0EA;
+ Fri, 14 Jun 2024 19:38:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=G3US0s9AhbQW+KZXBzdRBe9+d9S85YJD8W6IE7z1fBA=; b=T/LCp9jLHrYdd3c+tDD2hJZ6vE
+ hfmV5L7VdybRhnWv6XcvT+GC8YYy4q/0+rQWpuQ/z51tGuJSD9DtRNGqjt6mIVvfJwnMuODuJIapp
+ gWrqE13N35HevWJjGE/HVyUsVG9CbCzja2IGECPK97e8ALWcYgUPW2oMA/DfOwmkjV9WJmddgG94f
+ zVLgg1CgBvBxZ7e8ysRRRtsraMkbUH8Q/yciScnbHh0nsMMT6ohFD5+6JiFc86fPlVz4pZ3VpK77F
+ ZPi2CyyzlLCs/J+PgG9oc/WdgbWCPvvlbbXdgfYHomdOJFU+vnSxupySJFyd/x+NbT68J4Vz2OAWY
+ a9k66X+Q==;
+Received: from [179.118.191.115] (helo=[192.168.15.100])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1sICkD-003Fy9-IJ; Fri, 14 Jun 2024 21:37:53 +0200
+Message-ID: <ea501920-7319-46f4-98ca-cea412abf8a9@igalia.com>
+Date: Fri, 14 Jun 2024 16:37:41 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1750e44f-f9a9-4c2a-afb3-f1ae8237ccb0@broadcom.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/8] drm: Support per-plane async flip configuration
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ kernel-dev@igalia.com, Melissa Wen <mwen@igalia.com>,
+ alexander.deucher@amd.com, christian.koenig@amd.com,
+ Simon Ser <contact@emersion.fr>, Pekka Paalanen <ppaalanen@gmail.com>,
+ daniel@ffwll.ch, Daniel Stone <daniel@fooishbar.org>,
+ =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
+ Dave Airlie <airlied@gmail.com>, ville.syrjala@linux.intel.com,
+ Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>
+References: <20240614153535.351689-1-andrealmeid@igalia.com>
+ <lxfxqbax6azdpeamwm2qqv2tulgxrb7y3qzb4ir4myt6x5sqez@imd3yd5mbk7u>
+Content-Language: en-US
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <lxfxqbax6azdpeamwm2qqv2tulgxrb7y3qzb4ir4myt6x5sqez@imd3yd5mbk7u>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,30 +80,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 14, 2024 at 11:32:16AM -0700, Alexey Makhalov wrote:
-> 
-> 
-> On 6/14/24 9:19 AM, Dave Hansen wrote:
-> > On 6/14/24 09:14, Borislav Petkov wrote:
-> > > On Fri, Jun 14, 2024 at 09:03:22AM -0700, Dave Hansen wrote:
-> > ...
-> > > > You need to zero out all of 'args' somehow.
-> > > 
-> > > You mean like this:
-> > > 
-> > > 	struct tdx_module_args args = {};
-> > > 
-> > > ?
-> > 
-> > Yes, or do all the assignments with the initializer.  We seem to do it
-> > both ways, so whatever works.
-> 
-> Thanks Dave for pointing that out. I missed that at v7.
+Hi Dmitry,
 
-Ok, I'll fold this struct initialization oneliner into the last patch.
+Em 14/06/2024 14:32, Dmitry Baryshkov escreveu:
+> On Fri, Jun 14, 2024 at 12:35:27PM GMT, André Almeida wrote:
+>> AMD hardware can do async flips with overlay planes, but currently there's no
+>> easy way to enable that in DRM. To solve that, this patchset creates a new
+>> drm_plane field, bool async_flip, that allows drivers to choose which plane can
+>> or cannot do async flips. This is latter used on drm_atomic_set_property when
+>> users want to do async flips.
+>>
+>> Patch 1 allows async commits with IN_FENCE_ID in any driver.
+>>
+>> Patches 2 to 7 have no function change. As per current code, every driver that
+>> allows async page flips using the atomic API, allows doing it only in the
+>> primary plane. Those patches then enable it for every driver.
+>>
+>> Patch 8 finally enables async flip on overlay planes for amdgpu.
+>>
+>> Changes from v5:
+>> - Instead of enabling plane->async_flip in the common code, move it to driver
+>> code.
+>> - Enable primary plane async flip on every driver
+>> https://lore.kernel.org/dri-devel/20240612193713.167448-1-andrealmeid@igalia.com/
+>>
+>> André Almeida (8):
+>>    drm/atomic: Allow userspace to use explicit sync with atomic async
+>>      flips
+>>    drm: Support per-plane async flip configuration
+>>    drm/amdgpu: Enable async flips on the primary plane
+>>    drm: atmel-hlcdc: Enable async flips on the primary plane
+>>    drm/i915: Enable async flips on the primary plane
+>>    drm/nouveau: Enable async flips on the primary plane
+>>    drm/vc4: Enable async flips on the primary plane
+>>    drm/amdgpu: Make it possible to async flip overlay planes
+>>
+>>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 2 ++
+>>   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c         | 3 +++
+>>   drivers/gpu/drm/drm_atomic_uapi.c                       | 8 +++++---
+>>   drivers/gpu/drm/i915/display/i9xx_plane.c               | 3 +++
+>>   drivers/gpu/drm/nouveau/dispnv04/crtc.c                 | 4 ++++
+>>   drivers/gpu/drm/nouveau/dispnv50/wndw.c                 | 4 ++++
+>>   drivers/gpu/drm/vc4/vc4_plane.c                         | 4 +++-
+> 
+> The main question is why only these drivers were updated.
+> 
 
--- 
-Regards/Gruss,
-    Boris.
+According to `git grep async_page_flip`, only those drivers supports 
+async page flip. The only corner case is radeon, that does supports 
+async but doesn't support planes.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Do you know any other driver that should be updated to?
+
+>>   include/drm/drm_plane.h                                 | 5 +++++
+>>   8 files changed, 29 insertions(+), 4 deletions(-)
+>>
+>> -- 
+>> 2.45.2
+>>
+> 
