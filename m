@@ -2,74 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5C69087B1
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 11:40:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3382E9087C5
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 11:43:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FF5510E1EF;
-	Fri, 14 Jun 2024 09:40:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07B9510ECBF;
+	Fri, 14 Jun 2024 09:43:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VzEudlC7";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gGVvJgJw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3331610E1EF
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 09:40:21 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D25610ECBF
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 09:43:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1718358020;
+ s=mimecast20190719; t=1718358218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WQ6vmkLbNkSPu/I9Dwqivb7WpaSBecMeWv8oRqgyEK0=;
- b=VzEudlC7Sc6ffrMl3Ar+y4UQhx4XC/CiTG4N9B6KvlQLQdIb8o1rw3o+ZCNX0+XiWOZFAn
- dwCgvTqXEJxLy8IodNCpFYXf1jEhetC/S12jHF9EdGJe08bzEJeq5LMTSzD4wkwElPG8va
- lu3E24+7/b0vkwprPA9Bl8loSUQ8JBY=
+ bh=heLqAA0wM0fUQP0fORNtFU8D7JlMKELEoNr8KN8Qrew=;
+ b=gGVvJgJwgwaROQ20GjOhMUOqn4zMJ1GRoDQxUL4poIrGC0FY5Bfm12ccgMz7YFua+aB7Cg
+ AO2kmEByoH9Ck6rfQ1pYT9j7fYhn53YZxF+nAsOc94KNyrC6/xrh2Otbarc6E62U13RiHT
+ Bo4e7BiZ22Pff+9/2xwA+UlgjVbovp0=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-404-hpRX3Y1VORi1McZWyF9USw-1; Fri, 14 Jun 2024 05:40:18 -0400
-X-MC-Unique: hpRX3Y1VORi1McZWyF9USw-1
+ us-mta-141-K4SfhUvmO1SPB0UWRSXMkg-1; Fri, 14 Jun 2024 05:43:37 -0400
+X-MC-Unique: K4SfhUvmO1SPB0UWRSXMkg-1
 Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-4213441aa8cso13518745e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 02:40:18 -0700 (PDT)
+ 5b1f17b1804b1-421179fd82bso13392185e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 02:43:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718358018; x=1718962818;
+ d=1e100.net; s=20230601; t=1718358216; x=1718963016;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WQ6vmkLbNkSPu/I9Dwqivb7WpaSBecMeWv8oRqgyEK0=;
- b=JEcA2R0HqmSvBPSAdsu9dQrl0WNR3MKeOz8QN2L4aSS5oH/V52bEegHI7D4T8xDHiW
- 0fBZPauMMREY+STyZ4Xbx9vswxLrOHxr3HEjsW69LkE96rDXcWQKO649Q56Kn4wTOUVS
- 7BCB9mUjSaZfeuwc+zgGAisMoqGMW7XY1iwVDoEqrNjDDjm2uDZN+jkkRkNRIGEMskg7
- wj4GJfBokR6MCE0Ft/mKQY3oSExfHDTEPPYyDUM7dWFWhFzkrFVknajzrRnsF74cnUf2
- x44ZtX3XyBX8axUwSJ/5xq6Om45a8PrZgG0nZ1oS1klrSJ2h5/KhGALWjr/F9vqD3d+z
- sD9Q==
+ bh=heLqAA0wM0fUQP0fORNtFU8D7JlMKELEoNr8KN8Qrew=;
+ b=UAQCeUNyhbHKwAJWYyV/69wUk/n8kxW/8aOOgMwBGPj1LniDomdpXuhDee7ykXdCyd
+ ZqKJn5kJ+TtJ9tQqbitF28QilC1mPu5k3KeLxEQ/RVRTeIaoZxDXX3Xl/gTlky1ceYBw
+ eB9cRdRTtrxd3pLMlEpH3NoXeUJXhqJ/xf7UckvSUusmgwiSwjGi2AUvbbmtPcCznB33
+ Rq13XCLogbDvWixN9X9E8ttEVeybbPBxT2ipni5CQR19wwAURdsiw1D/Fn0cb87UVDMB
+ KG0IoaazYeh8OxytxmzLyhN9rccuPIypGZ+o4qj5wk5Vr3+yYpDHJaEXBM/0xXi7QS0I
+ d2Sw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWYPx6kmPR7snj8xAvAj6B1vzU6UJpBCiRZ9DFUVl19oWSLc5Z7ABtXpAHB72FrB5+tGc2qQvG/nCu2nT8Bks0R6o+PCI8bEGZ4ZYlirV5r
-X-Gm-Message-State: AOJu0YxMVyDvoRpSBkIpXfdaoB0MeFPfXYNe16igDaigSI+SgOqX2Bt0
- 8hm9dLyaNpWA+uwEkRG5WS+idyGINiGPzmbhuAp7zWLO6Rb4G0YwQXfVkN40kJeZVj5UIhEyn9U
- aXtOIsmemhBHQj70uNVIALVCrWnO/s7qsFMd+z6NF/43mo1kW14DJZGwAXe0iCLSzJg==
-X-Received: by 2002:a05:600c:15ca:b0:421:5605:8c92 with SMTP id
- 5b1f17b1804b1-4230482bd1emr18547795e9.20.1718358017890; 
- Fri, 14 Jun 2024 02:40:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFakVoq3MEUrERr87P+t+k5+jmQRc+ZytUh6W0nxxbHQtB6z8XVXp9wq7vZ5Y5GyQYgFyH93w==
-X-Received: by 2002:a05:600c:15ca:b0:421:5605:8c92 with SMTP id
- 5b1f17b1804b1-4230482bd1emr18547655e9.20.1718358017557; 
- Fri, 14 Jun 2024 02:40:17 -0700 (PDT)
+ AJvYcCVOba/eDHCfvm4OD/ppdfovSTXej8U55P6Spr4/AYX/JnqEApghnCaZKg2sc4FOR9nmB1vT72jTHiBqNrtXfKb5+f0/7wW9Lss0fG2hKUSq
+X-Gm-Message-State: AOJu0YyzxowWnv1d8kXgTXxIG/KpRZXN2bgPs8VdifElyzjZgpb/Bw5E
+ o9kd3XzW+GHSw0cgwFTj6j8RTS6UxA+3UkCAlJ3UgLprPZfFJRvsAtJWr8uS9a2gi3YWCB1TF+l
+ H1n8zc4sEwjB2bSqx+cBkTsU4ih44+OvHHSKS6r6T13X70mgFtA1l6qXeJT8krTUk3w==
+X-Received: by 2002:a05:600c:2d8c:b0:422:140:f440 with SMTP id
+ 5b1f17b1804b1-4230484adc9mr20830925e9.36.1718358216374; 
+ Fri, 14 Jun 2024 02:43:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHwO+zXvhvhQvCW6i8bz09aVGJhUN0WDNG7f/kXUgSm5uCrWT8iKWcNV6XAPWyK1hW7VzDmzA==
+X-Received: by 2002:a05:600c:2d8c:b0:422:140:f440 with SMTP id
+ 5b1f17b1804b1-4230484adc9mr20830745e9.36.1718358216023; 
+ Fri, 14 Jun 2024 02:43:36 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
  ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-36075104a3dsm3876092f8f.112.2024.06.14.02.40.16
+ 5b1f17b1804b1-422870e9145sm90904925e9.22.2024.06.14.02.43.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jun 2024 02:40:17 -0700 (PDT)
-Message-ID: <e705b00d-4a05-44b5-8fb2-d18e7389db7a@redhat.com>
-Date: Fri, 14 Jun 2024 11:40:16 +0200
+ Fri, 14 Jun 2024 02:43:35 -0700 (PDT)
+Message-ID: <a45f0b8d-1220-4dc5-9d23-7ec5a1349087@redhat.com>
+Date: Fri, 14 Jun 2024 11:43:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/7] lib/fonts: Fix visiblity of SUN12x22 and TER16x32
- if DRM_PANIC
+Subject: Re: [PATCH v2 4/7] drm/panic: Spelling s/formater/formatter/
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -77,9 +76,9 @@ To: Geert Uytterhoeven <geert+renesas@glider.be>,
 Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
  linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <cover.1718305355.git.geert+renesas@glider.be>
- <ac474c6755800e61e18bd5af407c6acb449c5149.1718305355.git.geert+renesas@glider.be>
+ <5a11f8caf8759aaa22d421034d3047368e9d5f33.1718305355.git.geert+renesas@glider.be>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <ac474c6755800e61e18bd5af407c6acb449c5149.1718305355.git.geert+renesas@glider.be>
+In-Reply-To: <5a11f8caf8759aaa22d421034d3047368e9d5f33.1718305355.git.geert+renesas@glider.be>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
@@ -100,54 +99,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
 On 13/06/2024 21:18, Geert Uytterhoeven wrote:
-> When CONFIG_FONTS ("Select compiled-in fonts") is not enabled, the user
-> should not be asked about any fonts.  However, when CONFIG_DRM_PANIC is
-> enabled, the user is still asked about the Sparc console 12x22 and
-> Terminus 16x32 fonts.
-> 
-> Fix this by moving the "|| DRM_PANIC" to where it belongs.
-> Split the dependency in two rules to improve readability.
+> Fix a misspelling of "formatter".
 
-Sorry I think I misunderstood the SPARC && FONTS condition.
-Your fix is much clearer, thanks.
+It's probably because the same word has only one t in my native language.
+Thanks for the fix.
 
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-
 > 
-> Fixes: b94605a3889b9084 ("lib/fonts: Allow to select fonts for drm_panic")
+> Fixes: 54034bebb22fd4be ("drm/panic: Add a kmsg panic screen")
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
 > v2:
 >    - New.
 > ---
->   lib/fonts/Kconfig | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/Kconfig | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/lib/fonts/Kconfig b/lib/fonts/Kconfig
-> index befcb463f7381d1a..3ac26bdbc3ff01a3 100644
-> --- a/lib/fonts/Kconfig
-> +++ b/lib/fonts/Kconfig
-> @@ -105,7 +105,8 @@ config FONT_SUN8x16
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index a9972ce05d7e6fe4..e3c51009d9b476b3 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -138,7 +138,7 @@ config DRM_PANIC_DEBUG
+>   	  If in doubt, say "N".
 >   
->   config FONT_SUN12x22
->   	bool "Sparc console 12x22 font (not supported by all drivers)"
-> -	depends on (FRAMEBUFFER_CONSOLE && (!SPARC && FONTS || SPARC)) || DRM_PANIC
-> +	depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
-> +	depends on !SPARC && FONTS
+>   config DRM_PANIC_SCREEN
+> -	string "Panic screen formater"
+> +	string "Panic screen formatter"
+>   	default "user"
+>   	depends on DRM_PANIC
 >   	help
->   	  This is the high resolution console font for Sun machines with very
->   	  big letters (like the letters used in the SPARC PROM). If the
-> @@ -113,7 +114,8 @@ config FONT_SUN12x22
->   
->   config FONT_TER16x32
->   	bool "Terminus 16x32 font (not supported by all drivers)"
-> -	depends on (FRAMEBUFFER_CONSOLE && (!SPARC && FONTS || SPARC)) || DRM_PANIC
-> +	depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
-> +	depends on !SPARC && FONTS || SPARC
->   	help
->   	  Terminus Font is a clean, fixed width bitmap font, designed
->   	  for long (8 and more hours per day) work with computers.
 
