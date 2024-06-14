@@ -2,57 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99157908A83
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 12:52:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B79AB908A91
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2024 12:57:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE53F10E245;
-	Fri, 14 Jun 2024 10:52:11 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Au3NklDu";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 801D210ECEF;
+	Fri, 14 Jun 2024 10:57:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DA4510E245
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 10:52:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Lc7gYvXZD/VXNK9V93ZQLpm3XlCKUvmAda4dS0DeM8U=; b=Au3NklDulz/QlkpkytTJDzLgMj
- DPqrOpHpjEBgJy+ESYYkdodKAcujMQiqf8it+lBy7jSqol1IQxRBd0fK4da5e65rOtast63vvMgGX
- 1zLN7JIoB/g7YwAD8aDutTg6v1goKoH5fiwYBILJZ+NXLRHoTW9tYrQCU7w7/FBqUadNjxaYPTj+o
- FsfkLHa9ivR/dTmOKqxb9Tt11cCicm9AqgmMpe/Xc15fME+ahq9FXLy4k+MccUDijUcngQk+4aouv
- jsntd1/IiLOq7MCqRDh3KFTjdo4KArz/h54PsD7Dah1oFLzt8z3YNLkv8VTNlQ9zVUpVcnYbvCfC5
- 5nTSUA8Q==;
-Received: from [84.69.19.168] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sI4XM-0035ZL-1a; Fri, 14 Jun 2024 12:52:04 +0200
-Message-ID: <fc68dce2-88e0-4055-a074-bd45f7e68912@igalia.com>
-Date: Fri, 14 Jun 2024 11:52:03 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A255C10ECEF
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2024 10:57:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9E3A761D4B;
+ Fri, 14 Jun 2024 10:57:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85C86C2BD10;
+ Fri, 14 Jun 2024 10:57:23 +0000 (UTC)
+Date: Fri, 14 Jun 2024 11:57:21 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: torvalds@linux-foundation.org, ebiederm@xmission.com,
+ alexei.starovoitov@gmail.com, rostedt@goodmis.org,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org,
+ linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+ bpf@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v2 06/10] mm/kmemleak: Replace strncpy() with
+ __get_task_comm()
+Message-ID: <ZmwiEbCcovJ8fdr5@arm.com>
+References: <20240613023044.45873-1-laoar.shao@gmail.com>
+ <20240613023044.45873-7-laoar.shao@gmail.com>
+ <Zmqvu-1eUpdZ39PD@arm.com>
+ <CALOAHbB3Uiwsp2ieiPZ-_CKyZPgW6_gF_y-HEGHN3KWhGh0LDg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf/sw_sync: Add a reference when adding fence to
- timeline list
-Content-Language: en-GB
-To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
- dri-devel@lists.freedesktop.org
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- kernel-dev@igalia.com, Chris Wilson <chris@chris-wilson.co.uk>,
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
- Rob Clark <robdclark@chromium.org>
-References: <20240324101533.3271056-1-cascardo@igalia.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20240324101533.3271056-1-cascardo@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALOAHbB3Uiwsp2ieiPZ-_CKyZPgW6_gF_y-HEGHN3KWhGh0LDg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,212 +54,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jun 13, 2024 at 08:10:17PM +0800, Yafang Shao wrote:
+> On Thu, Jun 13, 2024 at 4:37 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
+> > On Thu, Jun 13, 2024 at 10:30:40AM +0800, Yafang Shao wrote:
+> > > Using __get_task_comm() to read the task comm ensures that the name is
+> > > always NUL-terminated, regardless of the source string. This approach also
+> > > facilitates future extensions to the task comm.
+> > >
+> > > Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+> > > Cc: Catalin Marinas <catalin.marinas@arm.com>
+> > > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > > ---
+> > >  mm/kmemleak.c | 8 +-------
+> > >  1 file changed, 1 insertion(+), 7 deletions(-)
+> > >
+> > > diff --git a/mm/kmemleak.c b/mm/kmemleak.c
+> > > index d5b6fba44fc9..ef29aaab88a0 100644
+> > > --- a/mm/kmemleak.c
+> > > +++ b/mm/kmemleak.c
+> > > @@ -663,13 +663,7 @@ static struct kmemleak_object *__alloc_object(gfp_t gfp)
+> > >               strncpy(object->comm, "softirq", sizeof(object->comm));
+> > >       } else {
+> > >               object->pid = current->pid;
+> > > -             /*
+> > > -              * There is a small chance of a race with set_task_comm(),
+> > > -              * however using get_task_comm() here may cause locking
+> > > -              * dependency issues with current->alloc_lock. In the worst
+> > > -              * case, the command line is not correct.
+> > > -              */
+> > > -             strncpy(object->comm, current->comm, sizeof(object->comm));
+> > > +             __get_task_comm(object->comm, sizeof(object->comm), current);
+> > >       }
+> >
+> > You deleted the comment stating why it does not use get_task_comm()
+> > without explaining why it would be safe now. I don't recall the details
+> > but most likely lockdep warned of some potential deadlocks with this
+> > function being called with the task_lock held.
+> >
+> > So, you either show why this is safe or just use strscpy() directly here
+> > (not sure we'd need strscpy_pad(); I think strscpy() would do, we just
+> > need the NUL-termination).
+> 
+> The task_lock was dropped in patch #1 [0]. My apologies for not
+> including you in the CC for that change. After this modification, it
+> is now safe to use __get_task_comm().
+> 
+> [0] https://lore.kernel.org/all/20240613023044.45873-2-laoar.shao@gmail.com/
 
-On 24/03/2024 10:15, Thadeu Lima de Souza Cascardo wrote:
-> commit e531fdb5cd5e ("dma-buf/sw_sync: Avoid recursive lock during fence
-> signal") fixed a recursive locking when a signal callback released a fence.
-> It did it by taking an extra reference while traversing it on the list and
-> holding the timeline lock.
-> 
-> However, this is racy and may end up adding to a kref that is 0, triggering
-> a well deserved warning, as later that reference would be put again.
-> 
-> CPU 0					CPU 1
-> sync_file_release			sync_timeline_signal
->    dma_fence_put
->      timeline_fence_release
-> 					  spin_lock_irq(&obj->lock)
-> 					  dma_fence_get(&pt->base)
->      spin_lock_irqsave(fence->lock, flags)
-> 
-> As shown above, it is possible for the last reference to be dropped, but
-> sync_timeline_signal take the lock before timeline_fence_release, which
-> will lead to a 0->1 kref transition, which is not allowed.
-> 
-> This is because there is still a pointer to the fence object in the list,
-> which should be accounted as a reference.
-> 
-> In previous discussions about this [3], it was called out that keeping such
-> a reference was not a good idea because the fence also holds a reference to
-> the timeline, hence leading to a loop. However, accounting for that
-> reference doesn't change that the loop already exists. And userspace holds
-> references in the form of file descriptors, so it is still possible to
-> avoid potential memory leaks.
-> 
-> This fix also avoids other issues. The nested locking is still possible to
-> trigger when closing the timeline, as sw_sync_debugfs_release also calls
-> dma_fence_signal_locked while holding the lock. By holding a reference and
-> releasing it only after doing the signal, that nested locking is avoided.
-> 
-> There are a few quirks about the reference counting here, though.
-> 
-> In the simple case when sync_pt_create adds a new fence to the list, it
-> returns with 2 references instead of 1. That is dealt with as
-> sw_sync_ioctl_create_fence always puts a reference after calling
-> sync_file_create. That is necessary for multiple reasons.
-> 
-> One is that it takes care of the error case when sync_file_create fails.
->
-> The extra reference is put, while the fence is still held on the list, so
-> its last reference will be put when it is removed from the list either in
-> sync_timeline_signal or sw_sync_debugfs_release.
+Ah, great. For this patch:
 
-So any fences where sync_file_create failed linger around until 
-sw_sync_debugfs_release? Okay-ish I guess since it is a pathological case.
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
 
-> It also avoids the race when a signal may come in between sync_pt_create
-> and sync_file_create as the lock is dropped. If that happens, the fence
-> will be removed from the list, but a reference will still be kept as
-> sync_file_create takes a reference.
-> 
-> Then, there is the case when a fence with the given seqno already exists.
-> sync_pt_create returns with an extra reference to it, that we later put.
-> Similar reasoning can be applied here. That one extra reference is
-> necessary to avoid a race with signaling (and release), and we later put
-> that extra reference.
-> 
-> Finally, there is the case when the fence is already signaled and not added
-> to the list. In such case, sync_pt_create must return with a single
-> reference as this fence has not been added to the timeline list. It will
-> either be freed in case sync_file_create fails or the file will keep its
-> reference, which is later put when the file is released.
-> 
-> This is based on Chris Wilson attempt [2] to fix recursive locking during
-> timeline signal. Hence, their signoff.
-> 
-> Link: https://lore.kernel.org/all/20200714154102.450826-1-bas@basnieuwenhuizen.nl/ [1]
-> Link: https://lore.kernel.org/all/20200715100432.13928-2-chris@chris-wilson.co.uk/ [2]
-> Link: https://lore.kernel.org/all/20230817213729.110087-1-robdclark@gmail.com/T/ [3]
-> Fixes: e531fdb5cd5e ("dma-buf/sw_sync: Avoid recursive lock during fence signal")
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> Cc: Rob Clark <robdclark@chromium.org>
-> ---
->   drivers/dma-buf/sw_sync.c | 42 ++++++++++++++++-----------------------
->   1 file changed, 17 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-> index c353029789cf..83b624ac4faa 100644
-> --- a/drivers/dma-buf/sw_sync.c
-> +++ b/drivers/dma-buf/sw_sync.c
-> @@ -151,16 +151,7 @@ static const char *timeline_fence_get_timeline_name(struct dma_fence *fence)
->   
->   static void timeline_fence_release(struct dma_fence *fence)
->   {
-> -	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
->   	struct sync_timeline *parent = dma_fence_parent(fence);
-> -	unsigned long flags;
-> -
-> -	spin_lock_irqsave(fence->lock, flags);
-> -	if (!list_empty(&pt->link)) {
-> -		list_del(&pt->link);
-> -		rb_erase(&pt->node, &parent->pt_tree);
-> -	}
-> -	spin_unlock_irqrestore(fence->lock, flags);
->   
->   	sync_timeline_put(parent);
->   	dma_fence_free(fence);
-> @@ -229,7 +220,6 @@ static const struct dma_fence_ops timeline_fence_ops = {
->    */
->   static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
->   {
-> -	LIST_HEAD(signalled);
->   	struct sync_pt *pt, *next;
->   
->   	trace_sync_timeline(obj);
-> @@ -242,20 +232,14 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
->   		if (!timeline_fence_signaled(&pt->base))
->   			break;
->   
-> -		dma_fence_get(&pt->base);
-> -
-> -		list_move_tail(&pt->link, &signalled);
-> +		list_del(&pt->link);
->   		rb_erase(&pt->node, &obj->pt_tree);
->   
->   		dma_fence_signal_locked(&pt->base);
-> +		dma_fence_put(&pt->base);
->   	}
->   
->   	spin_unlock_irq(&obj->lock);
-> -
-> -	list_for_each_entry_safe(pt, next, &signalled, link) {
-> -		list_del_init(&pt->link);
-> -		dma_fence_put(&pt->base);
-> -	}
->   }
->   
->   /**
-> @@ -299,13 +283,11 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
->   			} else if (cmp < 0) {
->   				p = &parent->rb_left;
->   			} else {
-> -				if (dma_fence_get_rcu(&other->base)) {
-> -					sync_timeline_put(obj);
-> -					kfree(pt);
-> -					pt = other;
-> -					goto unlock;
-> -				}
-> -				p = &parent->rb_left;
-> +				/* This is later put in sw_sync_ioctl_create_fence. */
-> +				dma_fence_get(&other->base);
-> +				dma_fence_put(&pt->base);
+You may want to add a comment in the commit log that since
+__get_task_comm() no longer takes a long, it's safe to call it from
+kmemleak.
 
-Couldn't this have stayed a direct kfree given pt is not exposed to 
-anywhere at this point, nor it will be? I know there would need to be an 
-explicit sync_timeline_put(obj) too, as before, but perhaps that would 
-read more obvious.
-
-> +				pt = other;
-> +				goto unlock;
->   			}
->   		}
->   		rb_link_node(&pt->node, parent, p);
-> @@ -314,6 +296,8 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
->   		parent = rb_next(&pt->node);
->   		list_add_tail(&pt->link,
->   			      parent ? &rb_entry(parent, typeof(*pt), node)->link : &obj->pt_list);
-> +		/* Adding to the list requires a reference. */
-> +		dma_fence_get(&pt->base);
->   	}
->   unlock:
->   	spin_unlock_irq(&obj->lock);
-> @@ -354,6 +338,7 @@ static int sw_sync_debugfs_release(struct inode *inode, struct file *file)
->   	list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
->   		dma_fence_set_error(&pt->base, -ENOENT);
->   		dma_fence_signal_locked(&pt->base);
-> +		dma_fence_put(&pt->base);
-
-Can't this be dropping one reference too many?
-
-There is one reference for being on the list, and one for the owning 
-file. Or there is another one?
-
-If there isn't, dma_fence_signal_locked will drop the one for being on 
-the list, and then we drop one more here. Is it the last one? Shouldn't 
-sync_file_release still own one?
-
-Regards,
-
-Tvrtko
-
->   	}
->   
->   	spin_unlock_irq(&obj->lock);
-> @@ -386,7 +371,14 @@ static long sw_sync_ioctl_create_fence(struct sync_timeline *obj,
->   	}
->   
->   	sync_file = sync_file_create(&pt->base);
-> +
-> +	/*
-> +	 * Puts the extra reference returned by sync_pt_create. This is necessary
-> +	 * to avoid a race where the fence is signaled, removed from the list and
-> +	 * released right after sync_pt_create releases the lock and returns.
-> +	 */
->   	dma_fence_put(&pt->base);
-> +
->   	if (!sync_file) {
->   		err = -ENOMEM;
->   		goto err;
+-- 
+Catalin
