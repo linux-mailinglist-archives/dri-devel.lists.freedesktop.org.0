@@ -2,57 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0F529098AC
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 16:37:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7184909933
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 19:14:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96EEC10E04B;
-	Sat, 15 Jun 2024 14:37:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0E8110E1DF;
+	Sat, 15 Jun 2024 17:14:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TEH9tBc0";
+	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="z3ghITGU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FBC110E04B
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 14:37:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718462243; x=1749998243;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=08UJ5SiSS9g5bbdEdTId3IcN/Pnqg2RemH/CHhXvSOY=;
- b=TEH9tBc02aNMApOj7ms5b7iqKek2KimLakOQUGePrQwkzgnxoFZvX6t7
- 1hiheeiEeh/gSe0hmb9A9daRqo5w1zGT5eKlxm0G6zGrXqevYOimlFqXd
- Ki5khOwD9MdVDeToLs9Ki+xrg75usCALcnyqdJzmfb0q+tVhGP3YwxG/4
- UkKUhGcWxfGCdJ/ZAxElNuEAkNeFfFEABo6Dr6SGKiNH8PAr3vuKbHCTI
- NWMxVqKuo34PALq6r0xPvVXl6KU5eSBmOw13CkwgxI7bUIEp7wampb5AM
- furyAyCvKAD2ojyKXIffpsZ3QrmBW47DXwuP0/FR72OHvp33VXl3TOuIm A==;
-X-CSE-ConnectionGUID: 7lb1x/0lQ0WY0rc0EmSivg==
-X-CSE-MsgGUID: F/Fp+XZtTZeAWOuBO4v2Cw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="37869944"
-X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; d="scan'208";a="37869944"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2024 07:37:22 -0700
-X-CSE-ConnectionGUID: mQrfOByJTUGVHS1L/DgZDQ==
-X-CSE-MsgGUID: Gn5POfc0RKKxqdEGk2RbIQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; d="scan'208";a="45709164"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
- by orviesa003.jf.intel.com with ESMTP; 15 Jun 2024 07:37:21 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sIUWt-00007E-0Q;
- Sat, 15 Jun 2024 14:37:19 +0000
-Date: Sat, 15 Jun 2024 22:36:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wedson Almeida Filho <walmeida@microsoft.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>
-Subject: [drm-misc:topic/rust-drm 5/21] error[E0425]: cannot find value
- `THIS_MODULE` in the crate root
-Message-ID: <202406152203.flX7Kviw-lkp@intel.com>
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E458210E1DF
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 17:14:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
+ To: From; q=dns/txt; s=fe-e1b5cab7be; t=1718471683;
+ bh=dLn2LLOIv7jBQg/04IBwQjzhef+lWuqMlW02SALqD2s=;
+ b=z3ghITGUjKvYMox/h/1fTuc8dR8E07q21xq7oObMgp3XN1LJof2l2u1KaPS2LThjh2HA8dpu6
+ sSPDAJTa1wkLpzyqbo2drwuw4I9sIhM9Qi0ICC9lTQawTwMMiMKXt+pL253tJpFEmMM1nPu4eE5
+ arMU6HIrftF6NOygwu+fwgZr5bIaCgpOEdhfc7BnCIio5PFpEZSU11h9LLhwUCAwsavMPdTpw9l
+ 1eAYzCD/hhEdlqLVRRJPB49QcEaxR3oJ7DGUedqzFuHmVJ/MMyUUsvIdIv4WZIFPJr5yn9QL1ir
+ KaPQKk2i878OixYuLUO/obAgPetMLNXTKf5CvQ7j/Cng==
+From: Jonas Karlman <jonas@kwiboo.se>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, Jonas
+ Karlman <jonas@kwiboo.se>
+Subject: [PATCH 00/13] rockchip: Enable 4K@60Hz mode on RK3228, RK3328,
+ RK3399 and RK356x
+Date: Sat, 15 Jun 2024 17:03:51 +0000
+Message-ID: <20240615170417.3134517-1-jonas@kwiboo.se>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 666dc99724e0254b39803fcf
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,34 +58,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc topic/rust-drm
-head:   2e2592fb7d2165e68073020066789bd8860678d0
-commit: b7222062b14f6c9e501a405305052fe88c5ff51e [5/21] rust: introduce `InPlaceModule`
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240615/202406152203.flX7Kviw-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406152203.flX7Kviw-lkp@intel.com/reproduce)
+This prepares and enable use of HDMI2.0 modes, e.g. 4K@60Hz, on RK3228,
+RK3328, RK3399 and RK356x.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406152203.flX7Kviw-lkp@intel.com/
+Patch 1-3 fixes some issues to help support use of high-resolution modes.
 
-All errors (new ones prefixed by >>):
+Patch 4 fixes reading of EDID on RK3328 when using a forced mode.
 
->> error[E0425]: cannot find value `THIS_MODULE` in the crate root
-   --> rust/doctests_kernel_generated.rs:1649:1
-   |
-   1649 | / kernel::module_phy_driver! {
-   1650 | |     drivers: [PhySample],
-   1651 | |     device_table: [
-   1652 | |         DeviceId::new_with_driver::<PhySample>()
-   ...    |
-   1657 | |     license: "GPL",
-   1658 | | }
-   | |_^ not found in the crate root
-   |
-   = note: this error originates in the macro `$crate::prelude::module` which comes from the expansion of the macro `kernel::module_phy_driver` (in Nightly builds, run with -Z macro-backtrace for more info)
+Patch 5-7 adds hdmiphy rate validation in mode_valid so that HDMI2.0
+modes can be enabled on RK3228 and RK3328.
+
+Patch 8-11 modify phy, current and mpll tables to match what ChromeOS
+and vendor kernel use. These patches originate from old ChromeOS and
+vendor kernels and have successfully been used in LibreELEC distro for
+the past few years.
+
+Patch 12 enables use of HDMI2.0 modes on RK3399 and RK356x.
+
+Patch 13 help fix use of console at 4K resolution on RK3399.
+
+This series may not fully depend on but was only tested together with
+the series "drm: bridge: dw_hdmi: Misc enable/disable, CEC and EDID
+cleanup" at [1].
+
+I have tested 4K modes on following devices:
+- Asus TinkerBoard (RK3288)
+- Pine64 Rock64 (RK3328)
+- Radxa ROCK Pi 4 (RK3399)
+- Radxa ROCK 3A (RK3568)
+
+A copy of this series can also be found at [2].
+
+[1] https://patchwork.freedesktop.org/series/134727/
+[2] https://github.com/Kwiboo/linux-rockchip/commits/next-20240531-rk-dw-hdmi-v1/
+
+Alex Bee (1):
+  drm/rockchip: vop: Allow 4096px width scaling
+
+Douglas Anderson (2):
+  drm/rockchip: dw_hdmi: Set cur_ctr to 0 always
+  drm/rockchip: dw_hdmi: Use auto-generated tables
+
+Jonas Karlman (8):
+  arm64: dts: rockchip: Increase VOP clk rate on RK3328
+  clk: rockchip: Set parent rate for DCLK_VOP clock on RK3228
+  drm/rockchip: dw_hdmi: Fix reading EDID when using a forced mode
+  drm/rockchip: dw_hdmi: Allow High TMDS Bit Rates
+  drm/rockchip: dw_hdmi: Add max_tmds_clock validation
+  drm/rockchip: dw_hdmi: Filter modes based on hdmiphy_clk
+  drm/rockchip: dw_hdmi: Enable 4K@60Hz mode on RK3399 and RK356x
+  drm/rockchip: Load crtc devices in preferred order
+
+Nickey Yang (1):
+  drm/rockchip: dw_hdmi: Add phy_config for 594Mhz pixel clock
+
+Yakir Yang (1):
+  drm/rockchip: dw_hdmi: Adjust cklvl & txlvl for RF/EMI
+
+ arch/arm64/boot/dts/rockchip/rk3328.dtsi    |   4 +-
+ drivers/clk/rockchip/clk-rk3228.c           |   2 +-
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 173 ++++++++++----------
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c |  23 +++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c |   4 +-
+ 5 files changed, 116 insertions(+), 90 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.45.2
+
