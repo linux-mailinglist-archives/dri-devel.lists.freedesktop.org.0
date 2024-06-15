@@ -2,30 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA54909934
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 19:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E902D909939
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 19:15:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 976C710E1BE;
-	Sat, 15 Jun 2024 17:14:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F93810E189;
+	Sat, 15 Jun 2024 17:15:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="U8IfRu8H";
+	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="WmR8yjQJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 590 seconds by postgrey-1.36 at gabe;
- Sat, 15 Jun 2024 17:14:47 UTC
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA7B610E1E9
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 17:14:46 +0000 (UTC)
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [167.172.40.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AED910E14C
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 17:14:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
  Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1718471683; bh=Bcu9b3VrUd6qIU98W1LB1PWRhdR9Skrn32v3O+4jLys=;
- b=U8IfRu8H8SjJSpoyEz/hxIphMx1ZQuwPtU1C27CSL8tUVlGZ5OX49jefzNGQCIU9cO+mTA7hK
- 17zad/1O0ahf3/p0HIRrnuZij2A8kUn5a5v7ikowsRft2weYU6BepHX1LVZhy1fR2Bh9PaKKwSN
- 8olIjwyspudH77hTkil/fhmwWNAhUKS+GKRhqblPU2eLHZ+uhhYQTWIqZEUEl2NkaUAWKkTkmxD
- 5SDCWG+d0vf4YPBdnLv4Jis6a33sQlIfD0IMyzsFzueb5altd7Uej8LCL2b/yvsqnmlle78egpX
- 4VqugDRnDrYgCl01oSH90NTaienu0fai6Eo1naBK8DaA==
+ t=1718471684; bh=Bcu9b3VrUd6qIU98W1LB1PWRhdR9Skrn32v3O+4jLys=;
+ b=WmR8yjQJ8G8B/+CqcRQLW/tvsMzggN+xQcunsrBB82JYLoeYr2cKQNfqO0B0EjCngvF+WXbe7
+ 2+S3vqrg/lKB1N5Y6wkig+rVLvLcKFZ1AqnChvpGti9tXm0NOEzAbsHQGxfREQ+buhuFSgyfwvF
+ /GFlhbovTUjy1CVdM1nAjWoaLXTw7+oiqYQoZHWSXgH8mQzFQkTmvf0dvqF76cEyRIvIZr8gfFY
+ qGwBp0lLmAHCSFoxfcJIOGzTlib6I9hQhD9HSBixjG+gBMLzWIJt49tTzXFULeSgdJ/urw4SWcI
+ 4HaLn8DtZYMhL1/qJjFEItQESIjYi6UQV6TX9myKQVSw==
 From: Jonas Karlman <jonas@kwiboo.se>
 To: dri-devel@lists.freedesktop.org, Michael Turquette
  <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Heiko Stuebner
@@ -48,7 +46,7 @@ X-Report-Abuse: abuse@forwardemail.net
 X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
+ 167.172.40.54
 X-ForwardEmail-ID: 666dc9a024e0254b39803ff3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
