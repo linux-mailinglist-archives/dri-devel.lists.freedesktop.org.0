@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525FA909996
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 20:28:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E04C190999E
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 20:45:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F58C10E080;
-	Sat, 15 Jun 2024 18:28:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 417F710E008;
+	Sat, 15 Jun 2024 18:45:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IPhqsjh7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wgh9poVe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A63DC10E22B
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 18:28:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 309C010E0F9
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 18:45:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B9ED1CE03F4
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 18:28:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F0888C4AF48
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 18:28:45 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 3ECECCE03BC
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 18:45:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7690FC116B1
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 18:45:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718476126;
- bh=drGjeLMd9mmBuB50gjw+T4rnscw2fi/iTHyt0qelT24=;
+ s=k20201202; t=1718477115;
+ bh=vNtq5iXIcXZ3HyPcHbRomPKY61kD2kZ3vOieSRoQkBo=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=IPhqsjh72MlMK34/raTBeN7KpA0fTQqK1Q8QoUJDm7U9mKRQI+HzM7xUVwUPVXgII
- kRl0WZNRhKIeKTt9wlw8VMtsvDoVjF10LDJM4M+WPp1rcOefISaamvSpobNAWXC1Fg
- 6pMfaj8KMrvlyuZJZg3sgU/mlTYjPOFmExPdwSNXMpY+hot4EiRLvfAckNK7YWrfWg
- Ly9v8inf3vSjxmFR43EWnxi9O90ueDNMPdVbcqVktEINnbXIFkWmq+MZHH5BHCtlc1
- hxSK+MekN+slFjoYvopKSTg9jcq4EDfz8ZKoJMN4TksEPjBZCHac+03oRluuMiHQzy
- TzWqKFy78yxRg==
+ b=Wgh9poVeEM26UMyrswLrUEW+ZgHp4mFE9KlEhT539qs5FBZoPH0wWdv126RahM0s3
+ TAoYOWiDEm2myiEl155KIijWQcs7zfftD6R+Rfi+LUjU2spi5ZcbdLJ8Ur4YwU27Dc
+ h/dKLVT8vfrb69imJ/RbvJjbNiO7XfOLxm4Ih5v4ooYMIy1YtLKcTN7j2roy982FYF
+ +Z1DIIKvVvrMirEaUPHkwvv5yaMyFwJrIcg1XKTb7ewx76bb0FFUVRTmoJNsFOAPr+
+ kJcXppM0aDTx27a4JM6c4EHvFURJcIYnS/6WfrJSPAMFh4I8kwxir3uQSCBasMkVHD
+ FQCbyRw3Uzm8g==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id DC884C53BB9; Sat, 15 Jun 2024 18:28:45 +0000 (UTC)
+ from userid 48) id 6D6EAC53BB8; Sat, 15 Jun 2024 18:45:15 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206309] Experimental amdgpu w/ Dell E6540 with HD 8790M (MARS
  XTX), massive performance improvement after ACPI suspend
-Date: Sat, 15 Jun 2024 18:28:45 +0000
+Date: Sat, 15 Jun 2024 18:45:15 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,14 +45,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: low
-X-Bugzilla-Who: changhaitravis@gmail.com
+X-Bugzilla-Who: jerbear3.14159@gmail.com
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: WILL_NOT_FIX
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-206309-2300-7iICaQZQUd@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206309-2300-zJbZNFi9hi@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206309-2300@https.bugzilla.kernel.org/>
 References: <bug-206309-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,18 +77,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D206309
 
-Travis Juntara (changhaitravis@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |WILL_NOT_FIX
-
---- Comment #3 from Travis Juntara (changhaitravis@gmail.com) ---
-Pretty sure this is due to chipset or bios. After upgrading to i7 4810MQ, f=
-rom
-i5 4310M standby mode no longer resets the power throttling, but rebooting
-does. Also I believe I've seen similar behavior reported by windows users.
+--- Comment #4 from jerbear3.14159@gmail.com ---
+Thanks for the quick reply. Guess I'll have to dust off ye ol' Windows
+installer and confirm once and for all who's to blame here. I'll post my
+findings here probably in a few weeks when I can. Thanks again.
 
 --=20
 You may reply to this email to add a comment.
