@@ -2,58 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606D79096DF
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 10:17:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7DB2909720
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 10:53:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0F3510E07C;
-	Sat, 15 Jun 2024 08:17:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B058810E1B5;
+	Sat, 15 Jun 2024 08:53:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Vc1fYdfY";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZkdlQsW8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2E1E10E07C
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 08:17:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718439472; x=1749975472;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=ztzIW+nBrv85EAmIVlKgjtahKcpyOcLSEe+KsSq8Cmk=;
- b=Vc1fYdfYvUZKyFVp8xyAar49DDTg5wri2qBnwEGqwhghMVsDEwgUzBKZ
- 6zwciM5qzGpUUi1Y2V+peclpnp4NyQ+GFnbsapWyzrXR1N1ERKAvkYsJW
- WkG0Wx2XQZTI30inbuXqy1fmdEejhbg/6H29pGMR/8QuNK7P6DzF0ky40
- euTBPaEJW1mb9sxJLsvjzGaulCcFxcMzh9qWXt7kLVN6cmHTTYw2cXkYe
- 4wUAW18Ieya3J9NhFZirJUKpxqBq/frrNWWidHa5NPQ5T4Xy7VpKlPPqD
- cHxASIMTMR7iJKunW6hzRPnKJG/wKTUCevyuRIUCWh8nvf29781w5un5y A==;
-X-CSE-ConnectionGUID: nlUQ0n5YRQizudhqTR0x+w==
-X-CSE-MsgGUID: JJGRkf8OQSGR24xsCBp9kg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="15563275"
-X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; d="scan'208";a="15563275"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2024 01:17:51 -0700
-X-CSE-ConnectionGUID: 2cjg/osAQ6G20c6gqt1H5A==
-X-CSE-MsgGUID: jMY2Y9clQNO+6Cd5tF8kRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; d="scan'208";a="78214498"
-Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
- by orviesa001.jf.intel.com with ESMTP; 15 Jun 2024 01:17:50 -0700
-Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sIObb-0002Mz-2f;
- Sat, 15 Jun 2024 08:17:47 +0000
-Date: Sat, 15 Jun 2024 16:17:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A567010E1B5
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 08:53:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1718441617;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4KAnLuJK5ca8N90TBc5SqAtDvhbdQGO+rCBjODh2EaA=;
+ b=ZkdlQsW8aH85l04pjhenyI+NvX7VwvlMN3amId+BrMUC+pC7aE6fOGrbeoJ8P3BZAqqatA
+ lmZDZR+gocjq/2+N85EITwxWB4mXTv7h3NnvdbriebDQwxZe2BYGU1+YviR3hOHvPWXOcM
+ kbgpfF6e/k49kQ4JinSMihKPyDfB9tw=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-354-ARCyEXRtPsiAeWZs44tKhA-1; Sat, 15 Jun 2024 04:53:35 -0400
+X-MC-Unique: ARCyEXRtPsiAeWZs44tKhA-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ 2adb3069b0e04-52c978dbd31so2055847e87.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 01:53:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718441613; x=1719046413;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4KAnLuJK5ca8N90TBc5SqAtDvhbdQGO+rCBjODh2EaA=;
+ b=cRd0fF2jaISM9a+V/CThxRAKh0BfGEMQpwPwYNvMWWrEVseiHsTm3MUyWyTXceBo0k
+ SsLKlraBKF8hTqtuTHAOulopHx7jWxg1JHbfqmBCYu+u5PiiS9o6EhwrydaAF3QYHt7V
+ bqDefMfPUUswSJd6n5lVQRpeHVIU8JPICqlhV+HoIs1hsPuEWr/Ge1OGy5+1MLgm7UQP
+ 46QWmB3y0rEVhu0khoojJbBZx+kJ1It8Z4W+Gx2VC/3FUPi22eKb6lxg8IKG3HKKD9K9
+ +57l6Xsq0ROORbzdqC6zBl8X746TsXFinbymhgihexuQg9669suuJWIa+6+nkAtlposR
+ xJpQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVXkqZFilB7/XRiXWrqdj1xnxGxG4WnH0HQvYbAt0kbAXRLVE2f4TPUp1M7Ksu4w78f1tp5QsW/lzb8qIviNi9ZsowhUCYgfA0rxnne7oxD
+X-Gm-Message-State: AOJu0Yz77fBICU5jKOLKTi4X6r2vuv2rb26+5xuJP4AZ8DZN0WWrfRcx
+ E90ZQ2pKKdrJ63SFamC7OCsMs4FhNQY5QzO8kG2nzyXNCQ6g7d739VFBQIHDGPtocDETgKBIcfh
+ V4aflLAGH6clEjET30rjjDIp2VJ8OaXifOs+FvNkER62wKZqhsfKLOviB0T3/Cbw33g==
+X-Received: by 2002:ac2:5931:0:b0:52c:8a37:6cf4 with SMTP id
+ 2adb3069b0e04-52ca6e56394mr3070350e87.14.1718441613036; 
+ Sat, 15 Jun 2024 01:53:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGgscFiGF51kdQUAooo17serhr9s1595/yp1C5TX0wDDST4aYfIyM2irfok4qUH81+JMvDnQA==
+X-Received: by 2002:ac2:5931:0:b0:52c:8a37:6cf4 with SMTP id
+ 2adb3069b0e04-52ca6e56394mr3070344e87.14.1718441612540; 
+ Sat, 15 Jun 2024 01:53:32 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42285574e33sm55265715e9.1.2024.06.15.01.53.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 15 Jun 2024 01:53:31 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  dri-devel@lists.freedesktop.org
-Subject: [drm-misc:topic/rust-drm 3/21] error[E0050]: method `init` has 1
- parameter but the declaration in trait
- `rust_doctest_kernel_build_assert_rs_0::kernel::Module::init` has 2
-Message-ID: <202406151629.Uqt0YkZz-lkp@intel.com>
+Subject: [PATCH] drm/tidss: Add drm_panic support
+Date: Sat, 15 Jun 2024 10:53:18 +0200
+Message-ID: <20240615085326.1726262-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,35 +98,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc topic/rust-drm
-head:   2e2592fb7d2165e68073020066789bd8860678d0
-commit: f79700d8c6eee68d6d2c0eb92113211d22501860 [3/21] rust: pass module name to `Module::init`
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240615/202406151629.Uqt0YkZz-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406151629.Uqt0YkZz-lkp@intel.com/reproduce)
+Add support for the drm_panic module, which displays a pretty user
+friendly message on the screen when a Linux kernel panic occurs.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406151629.Uqt0YkZz-lkp@intel.com/
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+Tested on an AM625 BeaglePlay board by triggering a panic using the
+`echo c > /proc/sysrq-trigger` command.
 
-All errors (new ones prefixed by >>):
+ drivers/gpu/drm/tidss/tidss_plane.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
->> error[E0050]: method `init` has 1 parameter but the declaration in trait `rust_doctest_kernel_build_assert_rs_0::kernel::Module::init` has 2
-   --> rust/doctests_kernel_generated.rs:1649:1
-   |
-   1649 | / kernel::module_phy_driver! {
-   1650 | |     drivers: [PhySample],
-   1651 | |     device_table: [
-   1652 | |         DeviceId::new_with_driver::<PhySample>()
-   ...    |
-   1657 | |     license: "GPL",
-   1658 | | }
-   | |_^ expected 2 parameters, found 1
-   |
->> = note: `init` from trait: `fn(&'static rust_doctest_kernel_build_assert_rs_0::kernel::prelude::CStr, &'static rust_doctest_kernel_build_assert_rs_0::kernel::ThisModule) -> core::result::Result<Self, rust_doctest_kernel_build_assert_rs_0::kernel::error::Error>`
-   = note: this error originates in the macro `kernel::module_phy_driver` (in Nightly builds, run with -Z macro-backtrace for more info)
-
+diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
+index 68fed531f6a7..a5d86822c9e3 100644
+--- a/drivers/gpu/drm/tidss/tidss_plane.c
++++ b/drivers/gpu/drm/tidss/tidss_plane.c
+@@ -8,6 +8,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_blend.h>
+ #include <drm/drm_crtc.h>
++#include <drm/drm_fb_dma_helper.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_atomic_helper.h>
+@@ -166,6 +167,14 @@ static const struct drm_plane_helper_funcs tidss_plane_helper_funcs = {
+ 	.atomic_disable = tidss_plane_atomic_disable,
+ };
+ 
++static const struct drm_plane_helper_funcs tidss_primary_plane_helper_funcs = {
++	.atomic_check = tidss_plane_atomic_check,
++	.atomic_update = tidss_plane_atomic_update,
++	.atomic_enable = tidss_plane_atomic_enable,
++	.atomic_disable = tidss_plane_atomic_disable,
++	.get_scanout_buffer = drm_fb_dma_get_scanout_buffer,
++};
++
+ static const struct drm_plane_funcs tidss_plane_funcs = {
+ 	.update_plane = drm_atomic_helper_update_plane,
+ 	.disable_plane = drm_atomic_helper_disable_plane,
+@@ -211,7 +220,10 @@ struct tidss_plane *tidss_plane_create(struct tidss_device *tidss,
+ 	if (ret < 0)
+ 		goto err;
+ 
+-	drm_plane_helper_add(&tplane->plane, &tidss_plane_helper_funcs);
++	if (type == DRM_PLANE_TYPE_PRIMARY)
++		drm_plane_helper_add(&tplane->plane, &tidss_primary_plane_helper_funcs);
++	else
++		drm_plane_helper_add(&tplane->plane, &tidss_plane_helper_funcs);
+ 
+ 	drm_plane_create_zpos_property(&tplane->plane, tidss->num_planes, 0,
+ 				       num_planes - 1);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.45.1
+
