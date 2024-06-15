@@ -2,122 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E751909791
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 12:06:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA4A9097C7
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 12:55:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEE7010E181;
-	Sat, 15 Jun 2024 10:06:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B833D10E057;
+	Sat, 15 Jun 2024 10:55:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="I/wVI9Xz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bzwnxC14";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25A5910E181
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 10:06:15 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-57cad4475e0so5552853a12.1
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 03:06:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718445974; x=1719050774; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=Ugzta3rP3oFVUakfzJRDuby3jiVRivBwMnbybv5VjRQ=;
- b=I/wVI9XzYwA42e+YSbdhyJVa8R+tVwGHAbwrdB/4oYNIzNMreF0V6AB3qIiyI4MJ4h
- nsUtpUIy/Jfq5nB4J1mLVnrGTHLnrOr7M5QHgiWWmYwWkPklCM7YwqM7v/I9sfG6l2SU
- K/IchPMIYLgV7529mSpYheiXrY8IGY0gSOmTxzBSEexoMVoq9eRFx0EEl36R/puIYvPG
- yLx9b5KiPdxegrH+RUANSCGkxR4xKuUxBK1mYn5Uo9r3eakVcYe+6lpbtsjPwwmvWjJm
- DhJl588doz+1t2OkT2UF1KgVHJzzDOOHxgYIUTh5QDqHglhspvRjAdM8HDzzIqhy1SbZ
- Z72Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718445974; x=1719050774;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Ugzta3rP3oFVUakfzJRDuby3jiVRivBwMnbybv5VjRQ=;
- b=VqY3BNY0r56FCbQ8ErxCy8SMfRLjHNyX+wN0a7Riy7OGNBpb7UFkoPTEj/Y5NC9+sp
- x9NaQDpb/0kjx3o2LrGhYEFi5pZ/yn/di+nD7FvrBPJFrwv8cf2AD/84KPE8VdNHx105
- v6OmaB4mrG+8KYIUCynnKiS3W9ICi8UbVKflD9HNTVqSSiJWJuqIOiGFlOAsGrnwF7xa
- MG8M5aaXaTGWQ/+EhcISwZziBuEojYCyKg9OU19FJfrIM0gEzYzT+ALycOEni+zVlqu3
- 6/Phxv8HM14OOHYdT1qrFlARSr98vInUosQ96JX+55mgYor2KJYjtdruXpHOcPZrWMNv
- xd1A==
-X-Gm-Message-State: AOJu0YzrrowmqjjDcQq7zN8BtwzORifHqPFk36T85x5AhEHaBJLsy7Tj
- Fi1WCwKFzh2WkKtq7LA+FhTKhz9y3K0ZvY9hRkbDqIe+B9zuOHgEN7n51XWbPSQ=
-X-Google-Smtp-Source: AGHT+IHpZRE7tLtI+hyxdD7uPvYmeuVdDYZy9nBvk4bG45MFzf+YwcnWMLMpLGLygUNr7MHnHr/8ow==
-X-Received: by 2002:a05:6402:1d8d:b0:57c:7cff:6c7e with SMTP id
- 4fb4d7f45d1cf-57cb4bc27f7mr5038354a12.12.1718445974179; 
- Sat, 15 Jun 2024 03:06:14 -0700 (PDT)
-Received: from [192.168.0.18] ([78.10.206.163])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-57cb72e992dsm3446706a12.48.2024.06.15.03.06.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 15 Jun 2024 03:06:13 -0700 (PDT)
-Message-ID: <93ad0a34-0b7a-4b1b-a135-1c31b47b2db8@linaro.org>
-Date: Sat, 15 Jun 2024 12:06:12 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E82F10E08A;
+ Sat, 15 Jun 2024 10:55:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718448931; x=1749984931;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=4pYquGYwdsVfDEQdJhskgow+4xUEyJc4fx7x9R6kzuw=;
+ b=bzwnxC14cLcdw1sFjOgbg+IDWmxuv+vqPPL1FUSIlyCUzV3gDov+XjPc
+ gapKGkjwjr3E3eOIo6/MJHi0FrhemZXxA65MeSmonyz3rq/xUcPgyxpYF
+ EnArFEyZeBuJ8gKerSLsOgyQPrL/Jf/bLEanvG4Fr0tk1UWgDfhcKO/d4
+ +VujSMZIE7JKSYp+nrooiZmGEHTaE8zNunKGoGTx42PdVKeWQO9888UEy
+ WFfgbej3GtdxD7C7bc2mgGh4uJD0prCjIS3nELJr8BUEbgnRvVJ8bAHqa
+ GhAQEvgUD5z8L+o86tmmDg7uh3LAftbtnh57VXMzB4avLW3PmhnbDkTUc A==;
+X-CSE-ConnectionGUID: jwCz26DgQzqF7/Ye0CHmxQ==
+X-CSE-MsgGUID: 9D8QZCpJQ9mWhHDkxTWPJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="19124935"
+X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; d="scan'208";a="19124935"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2024 03:55:26 -0700
+X-CSE-ConnectionGUID: NFhIhx1KSbWYtNhlCI9fow==
+X-CSE-MsgGUID: h4QgHNloRnyHfr6HsfmoPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; d="scan'208";a="78234077"
+Received: from lkp-server01.sh.intel.com (HELO 0bcb674f05cd) ([10.239.97.150])
+ by orviesa001.jf.intel.com with ESMTP; 15 Jun 2024 03:55:24 -0700
+Received: from kbuild by 0bcb674f05cd with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sIR45-00006A-2d;
+ Sat, 15 Jun 2024 10:55:21 +0000
+Date: Sat, 15 Jun 2024 18:55:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 09/12] drm/ttm/pool: Provide a helper to shrink pages
+Message-ID: <202406151828.dncRRcNZ-lkp@intel.com>
+References: <20240614102548.4364-10-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] dt-bindings: display: panel: Add compatible for
- kingdisplay-kd101ne3
-To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>,
- dmitry.torokhov@gmail.com, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org,
- benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240614145510.22965-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240614145510.22965-3-lvzhaoxiong@huaqin.corp-partner.google.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240614145510.22965-3-lvzhaoxiong@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240614102548.4364-10-thomas.hellstrom@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,44 +74,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/06/2024 16:55, Zhaoxiong Lv wrote:
-> The kingdisplay-kd101ne3 is a 10.1" WXGA TFT-LCD panel with
-> jadard-jd9365da controller. Hence, we add a new compatible
-> with panel specific config.
-> 
-> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-> ---
-> Chage since V3:
-> 
-> - 1. Abandon the V2 patch and add kingdisplay kd101ne3-40ti binding to 
-> -    jadard,jd9365da-h3.yaml again.
-> 
-> V2:https://lore.kernel.org/all/20240601084528.22502-2-lvzhaoxiong@huaqin.corp-partner.google.com/
-> 
-> Chage since V2:
-> 
-> -  Drop some properties that have already been defined in panel-common.
-> -  The header file 'dt-bindings/gpio/gpio.h' is not used, delete it
-> 
-> V1: https://lore.kernel.org/all/20240418081548.12160-2-lvzhaoxiong@huaqin.corp-partner.google.com/
-> 
-> ---
->  .../devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml    | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
-> index 41eb7fbf7715..6138d853a15b 100644
-> --- a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
-> @@ -19,6 +19,7 @@ properties:
->            - chongzhou,cz101b4001
->            - radxa,display-10hd-ad001
->            - radxa,display-8hd-ad002
-> +          - kingdisplay,kd101ne3-40ti
+Hi Thomas,
 
-Again, don't add to the end of the lists. Look - list is ordered.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on next-20240613]
+[cannot apply to linus/master v6.10-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Allow-TTM-LRU-list-nodes-of-different-types/20240614-182911
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20240614102548.4364-10-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH v4 09/12] drm/ttm/pool: Provide a helper to shrink pages
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240615/202406151828.dncRRcNZ-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406151828.dncRRcNZ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406151828.dncRRcNZ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/ttm/ttm_pool.o: warning: objtool: __jump_table+0x0: special: can't find orig instruction
 
 
-Best regards,
-Krzysztof
+objdump-func vmlinux.o __jump_table:
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
