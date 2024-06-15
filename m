@@ -2,38 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46CE909937
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 19:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09288909936
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 19:15:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A47EF10E14C;
-	Sat, 15 Jun 2024 17:15:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 801FE10E179;
+	Sat, 15 Jun 2024 17:14:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="c9KWSE3b";
+	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="vulIKHfG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [167.172.40.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B49E10E161
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 17:14:56 +0000 (UTC)
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD2910E0CC
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 17:14:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
- To: From; q=dns/txt; s=fe-e1b5cab7be; t=1718471684;
- bh=dLn2LLOIv7jBQg/04IBwQjzhef+lWuqMlW02SALqD2s=;
- b=c9KWSE3b6zjtg9AMGRqPRIxyriqxrz19PRvgJ4bkRgROyT8tTNA87ZLNgk14AAw1R5HeXP3xA
- q8IjmMJ1POkCRZ9D1uJh9PgwtycjdUwDuRdXY3X0+pmEoSgvQ643vUNMQRq2eGnVgK9ADp40A1E
- j0sG6bP0rpt5jlJ9gBbNeQC3hEdQ8rwXu43F733RJ92jdaFIIPClmVXos+s1ifz4MPRz2zRD22c
- DEpMv8Hpp/pw/q8Rd1AcDbUaV8potgaFyflHHD5RXizSmALVHULPkXJv54vIAAzglQ/CIrCCGwa
- iuwQrTKBjTZG8ATfVfIgB/Nr8/T/HYmP+kJbiRDjHkfA==
+ h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
+ Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
+ t=1718471683; bh=Z+F0UfaoXDdt1StVLr0ioIKGWYkN+1Ezu/cCRH69328=;
+ b=vulIKHfG+Cpc6weciS1VaCdBfZ4yv1sVWZ1JV+KA4MGlN+onATl0zRHGogSYa/pixTDuoP1wF
+ 5pJwV1cpWkq4A1JHEBorOwgCFuWlM/GfViXYrlqkFvRADyDknB+5jh4iuxHddN1O5az/GVJhSfe
+ FzSNCKN74GlbjIj3A8z+NKZioC0H3PNHr6qxYNGn+PoqrFpEZQiJ2RFw8H2JvQlolqKUS/v5Iiq
+ 9u8LOfBG0CXSp+nv4A1BZZ8LUC23bNLTj4JyHo9sljeoTxwcj3etlYkWCgPiqljnJZhTsfOiw98
+ d1vWaR4qZKbosOvlj0reHNmSb1qrbu68LYbwe1b/PbkQ==
 From: Jonas Karlman <jonas@kwiboo.se>
-To: dri-devel@lists.freedesktop.org
+To: dri-devel@lists.freedesktop.org, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Liang Chen
+ <cl@rock-chips.com>
 Cc: linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, Jonas
- Karlman <jonas@kwiboo.se>
-Subject: [PATCH 00/13] rockchip: Enable 4K@60Hz mode on RK3228, RK3328,
- RK3399 and RK356x
-Date: Sat, 15 Jun 2024 17:03:51 +0000
-Message-ID: <20240615170417.3134517-1-jonas@kwiboo.se>
+ Karlman <jonas@kwiboo.se>, devicetree@vger.kernel.org
+Subject: [PATCH 01/13] arm64: dts: rockchip: Increase VOP clk rate on RK3328
+Date: Sat, 15 Jun 2024 17:03:52 +0000
+Message-ID: <20240615170417.3134517-2-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240615170417.3134517-1-jonas@kwiboo.se>
+References: <20240615170417.3134517-1-jonas@kwiboo.se>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Report-Abuse-To: abuse@forwardemail.net
@@ -41,8 +45,8 @@ X-Report-Abuse: abuse@forwardemail.net
 X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 167.172.40.54
-X-ForwardEmail-ID: 666dc99724e0254b39803fcf
+ 149.28.215.223
+X-ForwardEmail-ID: 666dc99c24e0254b39803fe1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,70 +62,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This prepares and enable use of HDMI2.0 modes, e.g. 4K@60Hz, on RK3228,
-RK3328, RK3399 and RK356x.
+The VOP on RK3328 needs to run at a higher rate in order to produce a
+proper 3840x2160 signal.
 
-Patch 1-3 fixes some issues to help support use of high-resolution modes.
+Change to use 300MHz for VIO clk and 400MHz for VOP clk, same rates used
+by vendor 4.4 kernel.
 
-Patch 4 fixes reading of EDID on RK3328 when using a forced mode.
+Fixes: 52e02d377a72 ("arm64: dts: rockchip: add core dtsi file for RK3328 SoCs")
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+---
+ arch/arm64/boot/dts/rockchip/rk3328.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Patch 5-7 adds hdmiphy rate validation in mode_valid so that HDMI2.0
-modes can be enabled on RK3228 and RK3328.
-
-Patch 8-11 modify phy, current and mpll tables to match what ChromeOS
-and vendor kernel use. These patches originate from old ChromeOS and
-vendor kernels and have successfully been used in LibreELEC distro for
-the past few years.
-
-Patch 12 enables use of HDMI2.0 modes on RK3399 and RK356x.
-
-Patch 13 help fix use of console at 4K resolution on RK3399.
-
-This series may not fully depend on but was only tested together with
-the series "drm: bridge: dw_hdmi: Misc enable/disable, CEC and EDID
-cleanup" at [1].
-
-I have tested 4K modes on following devices:
-- Asus TinkerBoard (RK3288)
-- Pine64 Rock64 (RK3328)
-- Radxa ROCK Pi 4 (RK3399)
-- Radxa ROCK 3A (RK3568)
-
-A copy of this series can also be found at [2].
-
-[1] https://patchwork.freedesktop.org/series/134727/
-[2] https://github.com/Kwiboo/linux-rockchip/commits/next-20240531-rk-dw-hdmi-v1/
-
-Alex Bee (1):
-  drm/rockchip: vop: Allow 4096px width scaling
-
-Douglas Anderson (2):
-  drm/rockchip: dw_hdmi: Set cur_ctr to 0 always
-  drm/rockchip: dw_hdmi: Use auto-generated tables
-
-Jonas Karlman (8):
-  arm64: dts: rockchip: Increase VOP clk rate on RK3328
-  clk: rockchip: Set parent rate for DCLK_VOP clock on RK3228
-  drm/rockchip: dw_hdmi: Fix reading EDID when using a forced mode
-  drm/rockchip: dw_hdmi: Allow High TMDS Bit Rates
-  drm/rockchip: dw_hdmi: Add max_tmds_clock validation
-  drm/rockchip: dw_hdmi: Filter modes based on hdmiphy_clk
-  drm/rockchip: dw_hdmi: Enable 4K@60Hz mode on RK3399 and RK356x
-  drm/rockchip: Load crtc devices in preferred order
-
-Nickey Yang (1):
-  drm/rockchip: dw_hdmi: Add phy_config for 594Mhz pixel clock
-
-Yakir Yang (1):
-  drm/rockchip: dw_hdmi: Adjust cklvl & txlvl for RF/EMI
-
- arch/arm64/boot/dts/rockchip/rk3328.dtsi    |   4 +-
- drivers/clk/rockchip/clk-rk3228.c           |   2 +-
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 173 ++++++++++----------
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c |  23 +++
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c |   4 +-
- 5 files changed, 116 insertions(+), 90 deletions(-)
-
+diff --git a/arch/arm64/boot/dts/rockchip/rk3328.dtsi b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
+index 07dcc949b899..b01efd6d042c 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3328.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
+@@ -850,8 +850,8 @@ cru: clock-controller@ff440000 {
+ 			<0>, <24000000>,
+ 			<24000000>, <24000000>,
+ 			<15000000>, <15000000>,
+-			<100000000>, <100000000>,
+-			<100000000>, <100000000>,
++			<300000000>, <100000000>,
++			<400000000>, <100000000>,
+ 			<50000000>, <100000000>,
+ 			<100000000>, <100000000>,
+ 			<50000000>, <50000000>,
 -- 
 2.45.2
 
