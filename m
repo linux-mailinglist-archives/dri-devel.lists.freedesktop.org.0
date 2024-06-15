@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A914909938
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 19:15:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA54909934
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 19:14:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D104F10E161;
-	Sat, 15 Jun 2024 17:15:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 976C710E1BE;
+	Sat, 15 Jun 2024 17:14:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="zMiLmVS1";
+	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="U8IfRu8H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 607 seconds by postgrey-1.36 at gabe;
- Sat, 15 Jun 2024 17:14:56 UTC
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [167.172.40.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A64E10E0D7
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 17:14:56 +0000 (UTC)
+X-Greylist: delayed 590 seconds by postgrey-1.36 at gabe;
+ Sat, 15 Jun 2024 17:14:47 UTC
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA7B610E1E9
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 17:14:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
  Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1718471684; bh=Z+F0UfaoXDdt1StVLr0ioIKGWYkN+1Ezu/cCRH69328=;
- b=zMiLmVS1GutjPV6TgR4KAN25xgcsqsDNPOdN0Xi2ztmJyrZ5oUzmTYioH1dFY9lJw0d9Gfji7
- WDsGGLjWK9mA4a+GQpTd/ZDxa3iZX/9y/g+H5ct0esWJeu6qrZ7S8tZdceLw2FugqeqwSoPUVjw
- YkoeYhzU7dx5jHHkclFvwqIOcixc+Mu4ip+EuNONk08EmnCR0x/X2aW+nsUwLiaeocdi+3xKGis
- vHDBvPtfKfyreNwD2Hr1BA4IUF2qiuNdBoDbuBWODtotE0uosfC7jDugCKL81vRBE0BrFCu5xHZ
- ASzELdmo7pWU/5K6DJmTsEjtpYvGDPyKuqMt7l6EMlHA==
+ t=1718471683; bh=Bcu9b3VrUd6qIU98W1LB1PWRhdR9Skrn32v3O+4jLys=;
+ b=U8IfRu8H8SjJSpoyEz/hxIphMx1ZQuwPtU1C27CSL8tUVlGZ5OX49jefzNGQCIU9cO+mTA7hK
+ 17zad/1O0ahf3/p0HIRrnuZij2A8kUn5a5v7ikowsRft2weYU6BepHX1LVZhy1fR2Bh9PaKKwSN
+ 8olIjwyspudH77hTkil/fhmwWNAhUKS+GKRhqblPU2eLHZ+uhhYQTWIqZEUEl2NkaUAWKkTkmxD
+ 5SDCWG+d0vf4YPBdnLv4Jis6a33sQlIfD0IMyzsFzueb5altd7Uej8LCL2b/yvsqnmlle78egpX
+ 4VqugDRnDrYgCl01oSH90NTaienu0fai6Eo1naBK8DaA==
 From: Jonas Karlman <jonas@kwiboo.se>
-To: dri-devel@lists.freedesktop.org, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Liang Chen
- <cl@rock-chips.com>
+To: dri-devel@lists.freedesktop.org, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Yakir Yang <kuankuan.y@gmail.com>, Jeffy Chen
+ <jeffy.chen@rock-chips.com>
 Cc: linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, Jonas
- Karlman <jonas@kwiboo.se>, devicetree@vger.kernel.org
-Subject: [PATCH 01/13] arm64: dts: rockchip: Increase VOP clk rate on RK3328
-Date: Sat, 15 Jun 2024 17:03:52 +0000
-Message-ID: <20240615170417.3134517-2-jonas@kwiboo.se>
+ Karlman <jonas@kwiboo.se>, linux-clk@vger.kernel.org
+Subject: [PATCH 02/13] clk: rockchip: Set parent rate for DCLK_VOP clock on
+ RK3228
+Date: Sat, 15 Jun 2024 17:03:53 +0000
+Message-ID: <20240615170417.3134517-3-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240615170417.3134517-1-jonas@kwiboo.se>
 References: <20240615170417.3134517-1-jonas@kwiboo.se>
@@ -47,8 +48,8 @@ X-Report-Abuse: abuse@forwardemail.net
 X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 167.172.40.54
-X-ForwardEmail-ID: 666dc99c24e0254b39803fe1
+ 149.28.215.223
+X-ForwardEmail-ID: 666dc9a024e0254b39803ff3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,33 +65,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VOP on RK3328 needs to run at a higher rate in order to produce a
-proper 3840x2160 signal.
+Similar to DCLK_LCDC on RK3328, the DCLK_VOP on RK3228 is typically
+parented by the hdmiphy clk and it is expected that the DCLK_VOP and
+hdmiphy clk rate are kept in sync.
 
-Change to use 300MHz for VIO clk and 400MHz for VOP clk, same rates used
-by vendor 4.4 kernel.
+Use CLK_SET_RATE_PARENT and CLK_SET_RATE_NO_REPARENT flags, same as used
+on RK3328, to make full use of all possible supported display modes.
 
-Fixes: 52e02d377a72 ("arm64: dts: rockchip: add core dtsi file for RK3328 SoCs")
+Fixes: 0a9d4ac08ebc ("clk: rockchip: set the clock ids for RK3228 VOP")
+Fixes: 307a2e9ac524 ("clk: rockchip: add clock controller for rk3228")
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
- arch/arm64/boot/dts/rockchip/rk3328.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/clk/rockchip/clk-rk3228.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3328.dtsi b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
-index 07dcc949b899..b01efd6d042c 100644
---- a/arch/arm64/boot/dts/rockchip/rk3328.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
-@@ -850,8 +850,8 @@ cru: clock-controller@ff440000 {
- 			<0>, <24000000>,
- 			<24000000>, <24000000>,
- 			<15000000>, <15000000>,
--			<100000000>, <100000000>,
--			<100000000>, <100000000>,
-+			<300000000>, <100000000>,
-+			<400000000>, <100000000>,
- 			<50000000>, <100000000>,
- 			<100000000>, <100000000>,
- 			<50000000>, <50000000>,
+diff --git a/drivers/clk/rockchip/clk-rk3228.c b/drivers/clk/rockchip/clk-rk3228.c
+index a24a35553e13..7343d2d7676b 100644
+--- a/drivers/clk/rockchip/clk-rk3228.c
++++ b/drivers/clk/rockchip/clk-rk3228.c
+@@ -409,7 +409,7 @@ static struct rockchip_clk_branch rk3228_clk_branches[] __initdata = {
+ 			RK2928_CLKSEL_CON(29), 0, 3, DFLAGS),
+ 	DIV(0, "sclk_vop_pre", "sclk_vop_src", 0,
+ 			RK2928_CLKSEL_CON(27), 8, 8, DFLAGS),
+-	MUX(DCLK_VOP, "dclk_vop", mux_dclk_vop_p, 0,
++	MUX(DCLK_VOP, "dclk_vop", mux_dclk_vop_p, CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT,
+ 			RK2928_CLKSEL_CON(27), 1, 1, MFLAGS),
+ 
+ 	FACTOR(0, "xin12m", "xin24m", 0, 1, 2),
 -- 
 2.45.2
 
