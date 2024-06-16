@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2796A909C87
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 10:29:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BFEF909C7B
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 10:29:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 579A110E2A7;
-	Sun, 16 Jun 2024 08:29:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A65810E1AA;
+	Sun, 16 Jun 2024 08:29:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LqemOIu2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XTPSV1vh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8370410E1BA
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7EE810E1E5
  for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 08:29:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EFE2A60C68;
+ by dfw.source.kernel.org (Postfix) with ESMTP id EFE4360C69;
  Sun, 16 Jun 2024 08:29:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1A65FC4AF51;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 243E5C4AF54;
  Sun, 16 Jun 2024 08:29:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1718526555;
- bh=WzX7iZz9NtnoD6KfRAFjbOWCri2OoSCND0g7q5cZSKQ=;
+ bh=u1Ec755SGAs2DOyCz8ZDHhB8uInkVMbjC8CrKq6pMlI=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=LqemOIu2T6VCzVOjSw9FMhF/gqBKJabQ9aVGKb/+tLwfqYoRU+A1RhXfr+pnIgnQX
- hXhx2F6HE3ihXMnSUxfhYgh4AmoFLOfFhTLaEw+GyKzfuQQXw3KXRq9T06qsPc/v43
- demb8JdoK/8gfYlShmUkYnebB1Tl4yMELYytxjtb0PmfdObSThJfYlvpWeNS1iXf05
- 8hC+dL+JJx0Fh4VkehHahhyqGGNk0W39pzxyx2ZxLNqf9Yvk+mhGHJPG7b4FLqHRg2
- 3dy301MdAYwDjhfrx/jEClAmnaIJWVRhiUXQ8D3RIctc48PRiU/K5syZhOWlf3y7Nn
- bd0bfFq4zIiRQ==
+ b=XTPSV1vhM1r24dixjMBsDQd+QjRgGkbSI22NSxdwVAoUS6dcjK01pdH17a7RT4fuk
+ CAlFAi2fLJsrHYSeswFZzxFQaVzA296N6wqiwsZozWD9EmYCh04fmMwwp7MUr9BQ4P
+ lFZR8lW8vICibl3caEUErusa59rCkQE/W1zEXRh/TcogplwSI0mnTDRudS6roddF2B
+ WSDt29mizcplT+x86qaW2l9Is+v8sAhj96g7zgx4M94hTx8rSYQMHeeBnk4HomCQ3W
+ Uo4vwSKg7IcefJ1xJIrirJOdEfTpoqumdNswleeq5FShCtFAzVe+InTm+mzwdiodzr
+ DoLCCAAn5+HGA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 0E287C27C6E;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 1A451C2BA16;
  Sun, 16 Jun 2024 08:29:15 +0000 (UTC)
 From: Hsiao Chien Sung via B4 Relay
  <devnull+shawn.sung.mediatek.com@kernel.org>
-Date: Sun, 16 Jun 2024 16:29:15 +0800
-Subject: [PATCH 05/13] drm/mediatek: Set DRM mode configs accordingly
+Date: Sun, 16 Jun 2024 16:29:16 +0800
+Subject: [PATCH 06/13] drm/mediatek: Turn off the layers with zero width or
+ height
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240616-mediatek-drm-next-v1-5-7e8f9cf785d8@mediatek.com>
+Message-Id: <20240616-mediatek-drm-next-v1-6-7e8f9cf785d8@mediatek.com>
 References: <20240616-mediatek-drm-next-v1-0-7e8f9cf785d8@mediatek.com>
 In-Reply-To: <20240616-mediatek-drm-next-v1-0-7e8f9cf785d8@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
@@ -55,11 +56,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  Hsiao Chien Sung <shawn.sung@mediatek.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718526553; l=3538;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718526553; l=2110;
  i=shawn.sung@mediatek.com; s=20240616; h=from:subject:message-id;
- bh=rS4Xgj0LEBxL5IBSK6SfigvQYUwjVgXB9N8a+kyhjQ0=;
- b=qF1dFvFbwtywWNIOyWPa1EYEmFS4lCD0eaUNTl71JJQocJoOWBv/HziWutIRyJqwQ2RpAbrr3
- j85cNWd28hwDLKGs1gcOJe4Pil5ya4lVv6OgOrSH7fFYE9N0T2fq288
+ bh=dqX2wm5YHxb4PcQ3tQ95rP0OPaABSh/HZP+kCxZYb/s=;
+ b=rBv9L1sZHl5v2QITha1QsonEGs+CHt/5LjEOmGGhA4zq4fd/T5Fg2s86fr6o3Z8CqfcowF5og
+ L1lA6ShbPNCAVdkfnsbWbj5wJKWF+2uVdMbzAyhEAeIYjg5FRruVtj7
 X-Developer-Key: i=shawn.sung@mediatek.com; a=ed25519;
  pk=lq1w8BuWDINX+4JHjGHhhbAU5ICP+cL9VCj7wn+cEDA=
 X-Endpoint-Received: by B4 Relay for shawn.sung@mediatek.com/20240616 with
@@ -83,100 +84,51 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Hsiao Chien Sung <shawn.sung@mediatek.com>
 
-Set DRM mode configs limitation according to the hardware capabilities
-and pass the IGT checks as below:
+We found that IGT (Intel GPU Tool) will try to commit layers with
+zero width or height and lead to undefined behaviors in hardware.
+Disable the layers in such a situation.
 
-- The test "graphics.IgtKms.kms_plane" requires a frame buffer with
-  width of 4512 pixels (> 4096).
-- The test "graphics.IgtKms.kms_cursor_crc" checks if the cursor size is
-  defined, and run the test with cursor size from 1x1 to 512x512.
-
-Please notice that the test conditions may change as IGT is updated.
-
+Fixes: 453c3364632a ("drm/mediatek: Add ovl_adaptor support for MT8195")
+Fixes: d886c0009bd0 ("drm/mediatek: Add ETHDR support for MT8195")
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 22 ++++++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_drv.h |  4 ++++
- 2 files changed, 26 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c | 2 +-
+ drivers/gpu/drm/mediatek/mtk_ethdr.c            | 7 ++++++-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 8e047043202b..c9cad3a82737 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -294,6 +294,9 @@ static const struct mtk_mmsys_driver_data mt8188_vdosys0_driver_data = {
- 	.conn_routes = mt8188_mtk_ddp_main_routes,
- 	.num_conn_routes = ARRAY_SIZE(mt8188_mtk_ddp_main_routes),
- 	.mmsys_dev_num = 2,
-+	.max_width = 8191,
-+	.min_width = 1,
-+	.min_height = 1,
- };
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+index 02dd7dcdfedb..2b62d6475918 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+@@ -158,7 +158,7 @@ void mtk_ovl_adaptor_layer_config(struct device *dev, unsigned int idx,
+ 	merge = ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_MERGE0 + idx];
+ 	ethdr = ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0];
  
- static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
-@@ -308,6 +311,9 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data = {
- 	.main_path = mt8195_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt8195_mtk_ddp_main),
- 	.mmsys_dev_num = 2,
-+	.max_width = 8191,
-+	.min_width = 1,
-+	.min_height = 1,
- };
+-	if (!pending->enable) {
++	if (!pending->enable || !pending->width || !pending->height) {
+ 		mtk_merge_stop_cmdq(merge, cmdq_pkt);
+ 		mtk_mdp_rdma_stop(rdma_l, cmdq_pkt);
+ 		mtk_mdp_rdma_stop(rdma_r, cmdq_pkt);
+diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.c b/drivers/gpu/drm/mediatek/mtk_ethdr.c
+index d7d16482c947..b5484a286060 100644
+--- a/drivers/gpu/drm/mediatek/mtk_ethdr.c
++++ b/drivers/gpu/drm/mediatek/mtk_ethdr.c
+@@ -159,7 +159,12 @@ void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
+ 	if (idx >= 4)
+ 		return;
  
- static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
-@@ -315,6 +321,9 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
- 	.ext_len = ARRAY_SIZE(mt8195_mtk_ddp_ext),
- 	.mmsys_id = 1,
- 	.mmsys_dev_num = 2,
-+	.max_width = 8191,
-+	.min_width = 2, /* 2-pixel align when ethdr is bypassed */
-+	.min_height = 1,
- };
- 
- static const struct of_device_id mtk_drm_of_ids[] = {
-@@ -493,6 +502,15 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 		for (j = 0; j < private->data->mmsys_dev_num; j++) {
- 			priv_n = private->all_drm_private[j];
- 
-+			if (priv_n->data->max_width)
-+				drm->mode_config.max_width = priv_n->data->max_width;
-+
-+			if (priv_n->data->min_width)
-+				drm->mode_config.min_width = priv_n->data->min_width;
-+
-+			if (priv_n->data->min_height)
-+				drm->mode_config.min_height = priv_n->data->min_height;
-+
- 			if (i == CRTC_MAIN && priv_n->data->main_len) {
- 				ret = mtk_crtc_create(drm, priv_n->data->main_path,
- 						      priv_n->data->main_len, j,
-@@ -520,6 +538,10 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 		}
+-	if (!pending->enable) {
++	if (!pending->enable || !pending->width || !pending->height) {
++		/*
++		 * instead of disabling layer with MIX_SRC_CON directly
++		 * set the size to 0 to avoid screen shift due to mixer
++		 * mode switch (hardware behavior)
++		 */
+ 		mtk_ddp_write(cmdq_pkt, 0, &mixer->cmdq_base, mixer->regs, MIX_L_SRC_SIZE(idx));
+ 		return;
  	}
- 
-+	/* IGT will check if the cursor size is configured */
-+	drm->mode_config.cursor_width = drm->mode_config.max_width;
-+	drm->mode_config.cursor_height = drm->mode_config.max_height;
-+
- 	/* Use OVL device for all DMA memory allocations */
- 	crtc = drm_crtc_from_index(drm, 0);
- 	if (crtc)
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-index 78d698ede1bf..ce897984de51 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-@@ -46,6 +46,10 @@ struct mtk_mmsys_driver_data {
- 	bool shadow_register;
- 	unsigned int mmsys_id;
- 	unsigned int mmsys_dev_num;
-+
-+	u16 max_width;
-+	u16 min_width;
-+	u16 min_height;
- };
- 
- struct mtk_drm_private {
 
 -- 
 Git-146)
