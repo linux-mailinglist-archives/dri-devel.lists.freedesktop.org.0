@@ -2,60 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F28909C05
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 09:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2DDF909C82
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 10:29:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4F9410E158;
-	Sun, 16 Jun 2024 07:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42D1C10E223;
+	Sun, 16 Jun 2024 08:29:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cfu/5EXM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JHhknxq0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDE7F10E164;
- Sun, 16 Jun 2024 07:04:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718521463; x=1750057463;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=z+Y0gvIoMUjU1pMDYQnweJSrbpXtsBroGjE0fuBTLqM=;
- b=cfu/5EXMvUE6lRo9HSEEMpAMm9anEzqj9Un4qgIq+COMiQitULEu6aVd
- pMxmscwf6kKS1VM/GMiWi84it1O6iyzvmwvYZIzdWeGvRUiwLm7TnO/ih
- RF2n6k50wIuhUQmGQOdEgJCD0CWPrEW0UHPEkjAFKXAu0k2Nkk7lHnKdU
- 5t8ELwzfOwGWKprVqln6nf0SvKY9CHvCLuWrNSWFxZKm1ARJ6WffVKjLl
- MeYqUVIL9j7PPBm76/xfCQbCIKRO+lNdvTNZQjU+PrFpJkxcGQHOYQLmY
- WG8yKORz9e7DydCOV5SUv3Su4Xfltg/mie03yDVSQpXJiIiYjsnFjY56w w==;
-X-CSE-ConnectionGUID: Tb0fiLwuTcGf7BbV43nG/w==
-X-CSE-MsgGUID: fRmrzEBVQj2GJwk09J8z/w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="15504766"
-X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; d="scan'208";a="15504766"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2024 00:04:23 -0700
-X-CSE-ConnectionGUID: uzGyd0WdT0GFJxwsa6sbFQ==
-X-CSE-MsgGUID: 6cPC8UbBQyCtKJ2XY+xucw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; d="scan'208";a="78379930"
-Received: from lfiedoro-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.42])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2024 00:04:22 -0700
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>
-Subject: [PATCH 2/2] drm/i915/gem: Use the correct format specifier for
- resource_size_t
-Date: Sun, 16 Jun 2024 09:03:49 +0200
-Message-ID: <20240616070349.250899-3-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240616070349.250899-1-andi.shyti@linux.intel.com>
-References: <20240616070349.250899-1-andi.shyti@linux.intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1DF10E24D
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 08:29:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id CD6DECE0B4C;
+ Sun, 16 Jun 2024 08:29:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C19DEC2BBFC;
+ Sun, 16 Jun 2024 08:29:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718526554;
+ bh=r10waYEMGAymNOh3QIyIV85JK6+0pN1kGYW3MVMVAVg=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=JHhknxq0z6n0TCJmxlOa3vL7BhNIBTyulXx/ftmfPiZRB2t9ESD1JFIGqeXwFqRus
+ d85HzY1IviXo802XZvDksLD+yLAeo/t9NFF3sHkT5aVXdO43OhUsXgPcexfuxgXmNf
+ 2Gy1r8Xrt8gMJTCy7F6lp7sJ4QPqGZ0Q+HM/RtdPItIx5RYuOZ0sW/C/TVUB290Y9J
+ eibkwV8tx8DVMjDLmXcs3h6VW/yYl+qWVtvq/4Hqcxv/6sy9O1BCFphtsDVqfUo0Uz
+ 9il9Vne3rxX4j396JmfUKg2fy8Kmmpa2WYfKtF4mk1Ifb/ET8ezXaTW7M7A6cBrI5Q
+ aavpwTuyYGFNQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id B3EA9C27C6E;
+ Sun, 16 Jun 2024 08:29:14 +0000 (UTC)
+From: Hsiao Chien Sung via B4 Relay
+ <devnull+shawn.sung.mediatek.com@kernel.org>
+Subject: [PATCH 00/13] Fix the errors of MediaTek display driver found by IGT
+Date: Sun, 16 Jun 2024 16:29:10 +0800
+Message-Id: <20240616-mediatek-drm-next-v1-0-7e8f9cf785d8@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFaibmYC/x3MTQqAIBBA4avIrBtQ+4G6SrSwnGoILTQiEO+et
+ PwW7yWIFJgiDCJBoIcjn75AVQKW3fiNkG0xaKkb2akWHVk2Nx1og0NP743GdlLNddOvuobSXYF
+ Wfv/nOOX8ASDqfQljAAAA
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ CK Hu <ck.hu@mediatek.com>, Bibby Hsieh <bibby.hsieh@mediatek.com>, 
+ Daniel Kurtz <djkurtz@chromium.org>, YT Shen <yt.shen@mediatek.com>, 
+ Mao Huang <littlecvr@chromium.org>, "Nancy.Lin" <nancy.lin@mediatek.com>
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Hsiao Chien Sung <shawn.sung@mediatek.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718526553; l=1639;
+ i=shawn.sung@mediatek.com; s=20240616; h=from:subject:message-id;
+ bh=r10waYEMGAymNOh3QIyIV85JK6+0pN1kGYW3MVMVAVg=;
+ b=tingLMnjsTKtbIyzbXebc3jnQb0ioiL1lqGVFCw4e0VaknTStBGtN+rZoSzvDVFJUrNJ/nvBW
+ txWOmGBNVd5AWc8Num1/KDshCYgGD3L1Kwcf8Ys7mnaoMpLEmfUC+Sz
+X-Developer-Key: i=shawn.sung@mediatek.com; a=ed25519;
+ pk=lq1w8BuWDINX+4JHjGHhhbAU5ICP+cL9VCj7wn+cEDA=
+X-Endpoint-Received: by B4 Relay for shawn.sung@mediatek.com/20240616 with
+ auth_id=172
+X-Original-From: Hsiao Chien Sung <shawn.sung@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,52 +78,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: shawn.sung@mediatek.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 05da7d9f717b ("drm/i915/gem: Downgrade stolen lmem setup
-warning") adds a debug message where the "lmem_size" and
-"dsm_base" variables are printed using the %lli identifier.
+This series fixes the errors of MediaTek display driver found by IGT.
 
-However, these variables are defined as resource_size_t, which
-are unsigned long for 32-bit machines and unsigned long long for
-64-bit machines.
-
-The documentation (core-api/printk-formats.rst) recommends using
-the %pa specifier for printing addresses and sizes of resources.
-
-Replace %lli with %pa.
-
-This patch also mutes the following sparse warning when compiling
-with:
-
-   make W=1 ARCH=i386 drivers/gpu/drm/i915
-
->> drivers/gpu/drm/i915/gem/i915_gem_stolen.c:941:5: error: format '%lli'
-   expects argument of type 'long long int', but argument 5 has type
-   'resource_size_t' {aka 'unsigned int'} [-Werror=format=]
-
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hsiao Chien Sung (13):
+      soc: mediatek: Disable 9-bit alpha in ETHDR
+      drm/mediatek: Add OVL compatible name for MT8195
+      drm/mediatek: Add missing plane settings when async update
+      drm/mediatek: Add DRM_MODE_ROTATE_0 to rotation property
+      drm/mediatek: Set DRM mode configs accordingly
+      drm/mediatek: Turn off the layers with zero width or height
+      drm/mediatek: Support more 10bit formats in OVL
+      drm/mediatek: Support RGBA8888 and RGBX8888 in OVL on MT8195
+      drm/mediatek: Fix XRGB setting error in OVL
+      drm/mediatek: Fix XRGB setting error in Mixer
+      drm/mediatek: Add new color format MACROs in OVL
+      drm/mediatek: Support DRM plane alpha in OVL
+      drm/mediatek: Support DRM plane alpha in Mixer
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-index bd774ce713cf..d78afdcbe0fe 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-@@ -938,8 +938,8 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
- 		dsm_base = intel_uncore_read64(uncore, GEN6_DSMBASE) & GEN11_BDSM_MASK;
- 		if (lmem_size < dsm_base) {
- 			drm_err(&i915->drm,
--				"Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
--				lmem_size, dsm_base);
-+				"Disabling stolen memory support due to OOB placement: lmem_size = %pa vs dsm_base = %pa\n",
-+				&lmem_size, &dsm_base);
- 			return ERR_PTR(-EINVAL);
- 		}
- 		dsm_size = ALIGN_DOWN(lmem_size - dsm_base, SZ_1M);
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.h         |  6 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c         | 85 +++++++++++++++++--------
+ drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c |  2 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c          | 24 +++++++
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h          |  4 ++
+ drivers/gpu/drm/mediatek/mtk_ethdr.c            | 26 ++++++--
+ drivers/gpu/drm/mediatek/mtk_plane.c            |  4 +-
+ drivers/soc/mediatek/mtk-mmsys.c                |  1 +
+ 8 files changed, 118 insertions(+), 34 deletions(-)
+---
+base-commit: 62fe4b067581d480e863191305f108bebffbc0e9
+change-id: 20240615-mediatek-drm-next-ad601b349f23
+
+Best regards,
 -- 
-2.45.1
+Hsiao Chien Sung <shawn.sung@mediatek.com>
+
 
