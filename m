@@ -2,41 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B3B909F07
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 20:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4FC909F4A
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 20:43:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4829F10E0D2;
-	Sun, 16 Jun 2024 18:14:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 158E910E0D6;
+	Sun, 16 Jun 2024 18:43:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="J1NYbAhT";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Kg9coJpW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BBE610E0B1;
- Sun, 16 Jun 2024 18:14:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
- s=mail; t=1718561686;
- bh=E+iloMvlYwvEHQwfB3DXSeJGJGUJvC05nN+d51Pkqcc=;
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D16C10E0D6
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 18:43:49 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBFB1581;
+ Sun, 16 Jun 2024 20:43:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1718563411;
+ bh=TWBxG3KAFkYqCXEnV2s67ZEnGQPNxe89WFXEwY7DKAw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=J1NYbAhTMQfoL5IsH2ikb0aXfry28q/DcfRCNBJ7zve4896a+rzY0PLQcNKpInX/u
- +gKrEsA21eYJmnqrRSz2y5lzg2sinfSowt2/0tE+T5M1zU4jXpZRC0Bd/kC7VzXkvy
- QEvO5kndxuWEjS36Tv5Ub3M9LZQOsouaWm2DQt/8=
-Date: Sun, 16 Jun 2024 20:14:45 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Alex Deucher <alexander.deucher@amd.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/amdgpu: convert bios_hardcoded_edid to drm_edid
-Message-ID: <ad78ada4-4e31-4994-845b-fe756b52a1ae@t-8ch.de>
-References: <20240616-amdgpu-edid-bios-v1-1-2874f212b365@weissschuh.net>
+ b=Kg9coJpWTq8YBlLSPw9hcqo5W4UHRpwF9TauQ88F6VGFJmUgLwYJzhEOy7YcXL4bs
+ tNi0AJV1aSzEdQqNE4eN/XJBO6FO0BsI5Azlxe1mFPZYXwwebf6PeuSNeOUGtUqsbO
+ DRSOHn5PNgLiC7vH3z6zcIq/9z5m15vkAG4ZSGCQ=
+Date: Sun, 16 Jun 2024 21:43:26 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sean Anderson <sean.anderson@linux.dev>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] drm: zynqmp_dpsub: Fix an error handling path in
+ zynqmp_dpsub_probe()
+Message-ID: <20240616184326.GC7378@pendragon.ideasonboard.com>
+References: <974d1b062d7c61ee6db00d16fa7c69aa1218ee02.1716198025.git.christophe.jaillet@wanadoo.fr>
+ <5288867f-ee45-4930-bde0-14b24b878181@linux.dev>
+ <120ffe3c-0240-4f93-a220-e0df565bcdbf@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240616-amdgpu-edid-bios-v1-1-2874f212b365@weissschuh.net>
+In-Reply-To: <120ffe3c-0240-4f93-a220-e0df565bcdbf@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,89 +64,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-06-16 11:12:03+0000, Thomas Weißschuh wrote:
-> Instead of manually passing around 'struct edid *' and its size,
-> use 'struct drm_edid', which encapsulates a validated combination of
-> both.
+On Thu, Jun 13, 2024 at 11:05:01AM -0400, Sean Anderson wrote:
+> On 5/20/24 11:05, Sean Anderson wrote:
+> > On 5/20/24 05:40, Christophe JAILLET wrote:
+> >> If zynqmp_dpsub_drm_init() fails, we must undo the previous
+> >> drm_bridge_add() call.
+> >> 
+> >> Fixes: be3f3042391d ("drm: zynqmp_dpsub: Always register bridge")
+> >> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> >> ---
+> >> Compile tested only
+> >> ---
+> >>  drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 1 +
+> >>  1 file changed, 1 insertion(+)
+> >> 
+> >> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> >> index face8d6b2a6f..f5781939de9c 100644
+> >> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> >> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> >> @@ -269,6 +269,7 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
+> >>  	return 0;
+> >>  
+> >>  err_disp:
+> >> +	drm_bridge_remove(dpsub->bridge);
+> >>  	zynqmp_disp_remove(dpsub);
+> >>  err_dp:
+> >>  	zynqmp_dp_remove(dpsub);
+> > 
+> > Reviewed-by: Sean Anderson <sean.anderso@linux.dev>
 > 
-> As the drm_edid_ can handle NULL gracefully, the explicit checks can be
-> dropped.
-> 
-> Also save a few characters by transforming '&array[0]' to the equivalent
-> 'array' and using 'max_t(int, ...)' instead of manual casts.
-> 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> ---
-> While this patch introduces a new user for drm_edid_raw(),
-> if amdgpu proper gets migrated to 'struct drm_edid', that usage will go
-> away.
-> 
-> This is only compile-tested.
-> 
-> I have some more patches for the rest of amdgpu,
-> to move to 'struct drm_edid'.
-> This patch is a test-balloon for the general idea.
-> 
-> The same can also be done for drm/radeon.
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c |  6 +-----
->  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h       |  4 ++--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c       |  2 +-
->  drivers/gpu/drm/amd/amdgpu/atombios_encoders.c | 21 +++++++--------------
->  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c         |  2 +-
->  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c         |  2 +-
->  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c          |  2 +-
->  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c          |  2 +-
->  8 files changed, 15 insertions(+), 26 deletions(-)
+> Will this be applied soon? The patch it fixes has made its way into
+> the stable tree already.
 
-<snip>
- 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
-> index 25feab188dfe..90383094ed1e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
-> @@ -2064,20 +2064,13 @@ amdgpu_atombios_encoder_get_lcd_info(struct amdgpu_encoder *encoder)
->  				case LCD_FAKE_EDID_PATCH_RECORD_TYPE:
->  					fake_edid_record = (ATOM_FAKE_EDID_PATCH_RECORD *)record;
->  					if (fake_edid_record->ucFakeEDIDLength) {
-> -						struct edid *edid;
-> -						int edid_size =
-> -							max((int)EDID_LENGTH, (int)fake_edid_record->ucFakeEDIDLength);
-> -						edid = kmalloc(edid_size, GFP_KERNEL);
-> -						if (edid) {
-> -							memcpy((u8 *)edid, (u8 *)&fake_edid_record->ucFakeEDIDString[0],
-> -							       fake_edid_record->ucFakeEDIDLength);
-> -
-> -							if (drm_edid_is_valid(edid)) {
-> -								adev->mode_info.bios_hardcoded_edid = edid;
-> -								adev->mode_info.bios_hardcoded_edid_size = edid_size;
-> -							} else
-> -								kfree(edid);
-> -						}
-> +						const struct drm_edid *edid;
-> +						edid = drm_edid_alloc(fake_edid_record->ucFakeEDIDString,
-> +								      max_t(int, EDID_LENGTH, fake_edid_record->ucFakeEDIDLength));
-> +						if (drm_edid_valid(edid))
-> +							adev->mode_info.bios_hardcoded_edid = edid;
-> +						else
-> +							drm_edid_free(edid);
+If someone can merge it in drm-misc that would be the fastest way.
+Otherwise I'll send a pull request at some point, but I'm overworked at
+the moment.
 
-The old code here seems broken in general.
-In drivers/gpu/drm/amd/include/atombios.h the comment for ucFakeEDIDLength says:
-(I expect the same field in the same struct for amdgpu to have the same semantics)
+-- 
+Regards,
 
-    UCHAR ucFakeEDIDLength;       // = 128 means EDID length is 128 bytes, otherwise the EDID length = ucFakeEDIDLength*128
-
-So as soon as the EDID from the BIOS has extensions, only the first few
-bytes will be copied into the allocated memory. drm_edid_is_valid() will
-then read the uninitialized memory and if the "extensions" field ends up
-non-zero it will happily "validate" past the allocated buffer.
-
-The new code won't work either but at least it won't read uninitialized
-memory nor will it read past the buffer bounds.
-
->  					}
->  					record += fake_edid_record->ucFakeEDIDLength ?
->  						  struct_size(fake_edid_record,
-
-<snip>
+Laurent Pinchart
