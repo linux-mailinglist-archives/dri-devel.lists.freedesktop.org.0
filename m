@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35164909C80
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 10:29:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA33909C88
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 10:29:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8CC110E253;
-	Sun, 16 Jun 2024 08:29:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4289910E270;
+	Sun, 16 Jun 2024 08:29:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KpS3YKDP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NjIUKCEx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EA5310E1CA
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 08:29:16 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4636510E1BA
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 08:29:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C2DD760C67;
- Sun, 16 Jun 2024 08:29:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0643DC4AF50;
+ by sin.source.kernel.org (Postfix) with ESMTP id D217DCE0B5A;
+ Sun, 16 Jun 2024 08:29:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0D91CC4AF52;
  Sun, 16 Jun 2024 08:29:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1718526555;
- bh=ooFwSoVJ9N3sXdcV4iug2DcGs+ehRHDEPEzbrAfyAEI=;
+ bh=rAKjaNMehdyg0txw6oCrP0nD11AXCjGACRzpm1pgFmo=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=KpS3YKDP1ahe//Us3V7N1GqiG1otEZ4R6peB5lsLGldYx9UrZ+ykCyGuGoJ9rDU71
- Gg+QXFjoENRLVyc1ckyOdFT52tyvx7YFZjtEQKCyYpj0asi0tSCNk2t4kFJBYbgp+1
- 13aS5FZ9iRdEUrYU6go5iSRMKrGd+DFTy/wyZr00mHeaFuU3c35cRUik/wQI5IlqgC
- 1lzr8hWPVuFWHgNK1vG1vPIrV7Vw2XGpt5LFFvFZfXCg+GrvUwkuw23ocDml8qYEpr
- GuXR+VrrALUmgOZlUZrR6RuRfdaVAvra24/uaoyN4OkYRnHYFs2qDp92Rh0sfx3IVe
- ekDOJCgVlVRFA==
+ b=NjIUKCEx6T5XPVkB1nsdc410RWn57GkeOD5hQNfK9KT3KmWctPw1VqHfVelLkok6Y
+ zheXB0bZzRghiepw1oiK/TA5IYXopiokhmY/qSjjnM24KCGVQ83x77qqkA0OyxTJz2
+ cu6jQ/pWfZecnwkKOBh4lx5PYI81NxBCAe6tMgB9X4feyJoAjvGUCfraJltagGc9bu
+ 7RM+IvXTYuoBw73C38/+/xTSruftWrphaWyQReeUSKSwyIw6qC3ZWOul24X6oyupKu
+ r1PHsAxHr0wB4rFq7+mr1WZiIlEXTJAwqy5/DfbSCn/bd3nVF5aGIi8qEsCojnSJoE
+ ocW0UYaJS9AwA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id E5BFBC27C77;
- Sun, 16 Jun 2024 08:29:14 +0000 (UTC)
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 00D3BC2BA18;
+ Sun, 16 Jun 2024 08:29:15 +0000 (UTC)
 From: Hsiao Chien Sung via B4 Relay
  <devnull+shawn.sung.mediatek.com@kernel.org>
-Date: Sun, 16 Jun 2024 16:29:13 +0800
-Subject: [PATCH 03/13] drm/mediatek: Add missing plane settings when async
- update
+Date: Sun, 16 Jun 2024 16:29:14 +0800
+Subject: [PATCH 04/13] drm/mediatek: Add DRM_MODE_ROTATE_0 to rotation property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240616-mediatek-drm-next-v1-3-7e8f9cf785d8@mediatek.com>
+Message-Id: <20240616-mediatek-drm-next-v1-4-7e8f9cf785d8@mediatek.com>
 References: <20240616-mediatek-drm-next-v1-0-7e8f9cf785d8@mediatek.com>
 In-Reply-To: <20240616-mediatek-drm-next-v1-0-7e8f9cf785d8@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
@@ -56,11 +55,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  Hsiao Chien Sung <shawn.sung@mediatek.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718526553; l=1082;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718526553; l=3032;
  i=shawn.sung@mediatek.com; s=20240616; h=from:subject:message-id;
- bh=ADiZlSVJT5s2sH18XbsNK2Wsb8sGtAwURKhvCjHjtzc=;
- b=FVT/WCynaSSn97vJO73+EtVbiFHnpQke6j5kOKH+9CSpaY+pf3TzcrWiqOmEJYs+/GibTLH26
- PI8uVoDJsH9DfpE3reZyu3mXz7V5UXp64qRrbfhMf+MYlS5Y6DFcOsc
+ bh=aRjZW9oV7zkNAPoyKvtjvlu+gI5cJW/IgIkY1vL8GJU=;
+ b=N4CHHmRZFm2ntcHpjitJWn39vupntoqiBBkKiDpXz8pS+F/c5ngZcLGIFj5DG1vX4G/3GCQ8L
+ ZfAIwQHuT5ECQwwAHpQhoDYY7z4KSOY6Q1gVbxfdoQIHjj81mx23bg1
 X-Developer-Key: i=shawn.sung@mediatek.com; a=ed25519;
  pk=lq1w8BuWDINX+4JHjGHhhbAU5ICP+cL9VCj7wn+cEDA=
 X-Endpoint-Received: by B4 Relay for shawn.sung@mediatek.com/20240616 with
@@ -84,31 +83,85 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Hsiao Chien Sung <shawn.sung@mediatek.com>
 
-Fix an issue that plane coordinate was not saved when
-calling async update.
-
-Fixes: 920fffcc8912 ("drm/mediatek: update cursors by using async atomic update")
+Always add DRM_MODE_ROTATE_0 to rotation property to meet
+IGT's (Intel GPU Tools) requirement.
 
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_plane.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.h |  6 +++++-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 17 +++++------------
+ drivers/gpu/drm/mediatek/mtk_plane.c    |  2 +-
+ 3 files changed, 11 insertions(+), 14 deletions(-)
 
+diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
+index 26236691ce4c..f7fe2e08dc8e 100644
+--- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
++++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
+@@ -192,7 +192,11 @@ unsigned int mtk_ddp_comp_supported_rotations(struct mtk_ddp_comp *comp)
+ 	if (comp->funcs && comp->funcs->supported_rotations)
+ 		return comp->funcs->supported_rotations(comp->dev);
+ 
+-	return 0;
++	/*
++	 * In order to pass IGT tests, DRM_MODE_ROTATE_0 is required when
++	 * rotation is not supported.
++	 */
++	return DRM_MODE_ROTATE_0;
+ }
+ 
+ static inline unsigned int mtk_ddp_comp_layer_nr(struct mtk_ddp_comp *comp)
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+index b552a02d7eae..862ab683ed1b 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+@@ -296,27 +296,20 @@ int mtk_ovl_layer_check(struct device *dev, unsigned int idx,
+ 			struct mtk_plane_state *mtk_state)
+ {
+ 	struct drm_plane_state *state = &mtk_state->base;
+-	unsigned int rotation = 0;
+ 
+-	rotation = drm_rotation_simplify(state->rotation,
+-					 DRM_MODE_ROTATE_0 |
+-					 DRM_MODE_REFLECT_X |
+-					 DRM_MODE_REFLECT_Y);
+-	rotation &= ~DRM_MODE_ROTATE_0;
+-
+-	/* We can only do reflection, not rotation */
+-	if ((rotation & DRM_MODE_ROTATE_MASK) != 0)
++	/* check if any unsupported rotation is set */
++	if (state->rotation & ~mtk_ovl_supported_rotations(dev))
+ 		return -EINVAL;
+ 
+ 	/*
+ 	 * TODO: Rotating/reflecting YUV buffers is not supported at this time.
+ 	 *	 Only RGB[AX] variants are supported.
++	 *	 Since DRM_MODE_ROTATE_0 means "no rotation", we should not
++	 *	 reject layers with this property.
+ 	 */
+-	if (state->fb->format->is_yuv && rotation != 0)
++	if (state->fb->format->is_yuv && (state->rotation & ~DRM_MODE_ROTATE_0))
+ 		return -EINVAL;
+ 
+-	state->rotation = rotation;
+-
+ 	return 0;
+ }
+ 
 diff --git a/drivers/gpu/drm/mediatek/mtk_plane.c b/drivers/gpu/drm/mediatek/mtk_plane.c
-index 4625deb21d40..a74b26d35985 100644
+index a74b26d35985..1723d4333f37 100644
 --- a/drivers/gpu/drm/mediatek/mtk_plane.c
 +++ b/drivers/gpu/drm/mediatek/mtk_plane.c
-@@ -227,6 +227,8 @@ static void mtk_plane_atomic_async_update(struct drm_plane *plane,
- 	plane->state->src_y = new_state->src_y;
- 	plane->state->src_h = new_state->src_h;
- 	plane->state->src_w = new_state->src_w;
-+	plane->state->dst.x1 = new_state->dst.x1;
-+	plane->state->dst.y1 = new_state->dst.y1;
+@@ -338,7 +338,7 @@ int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
+ 		return err;
+ 	}
  
- 	mtk_plane_update_new_state(new_state, new_plane_state);
- 	swap(plane->state->fb, new_state->fb);
+-	if (supported_rotations & ~DRM_MODE_ROTATE_0) {
++	if (supported_rotations) {
+ 		err = drm_plane_create_rotation_property(plane,
+ 							 DRM_MODE_ROTATE_0,
+ 							 supported_rotations);
 
 -- 
 Git-146)
