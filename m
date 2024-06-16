@@ -2,75 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27933909CB8
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 11:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CD43909CCA
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 11:32:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8A1D10E074;
-	Sun, 16 Jun 2024 09:12:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A30610E056;
+	Sun, 16 Jun 2024 09:32:50 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="qipr/Ia8";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9769110E074
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 09:12:34 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-dff302847a8so883422276.0
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 02:12:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718529153; x=1719133953;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=By6v0+YnSgsH+RWah/gSqD/GguB9CLtqyolfWDQlUF8=;
- b=H5NU6DE/YwNDz4b9c7UVAqSVvCatLj4JG4zZ6lLKX5DIuzYpEXI/B/xtoxYzyYSIHF
- 6CrjEU6x5IQHDgfPZqZCzVcVpqIrOkmmL4jZZIIyEWm7UQfT4LYn8TLrgf/yxNjEc/9z
- ogFchwlLKR/eQyOfXJfXR/QZQIqardHCjsymC1mc2EGlky5czqL7ryx/ResrSzrN8FOX
- NeSRFZ1ScDYJqZ6HfYWusl/Ey9rqNX98tpaT9cuthK2s3LMJOA3lS+vQazrCZfw3hQZg
- 6Aa6q67TLYXsrMqnFW9eQSXnlYwVYC4JHJ8CXNMQ8yXp7I21QbyTg3PKrkBIJClrVRug
- Md4w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUkAjy6fG2gZo7cuNCuhZQtH4u8/YvrGodHVp4eSF9HREFMOAB6KsizpJ3Csl6IcbKHV48r7yO6TCwdT3JHfEy5frzONKLdoqDTHn9k+HXQ
-X-Gm-Message-State: AOJu0YyASrf6Zk6DoEriSsA91VsXm1xOzsyJhK9DW77heiBg/E4uis+X
- c84FcO1/cLSt9TDGUQY1i4CIiWA4CYAATw6CJk/a0nKCDxyRH9rIUD99Db2l
-X-Google-Smtp-Source: AGHT+IHFHsSvSR0m5OxugBsJyFhGdOuRWOo4Yd4LNDu3qzFhFANFAhVgOBi/WDxEgMizcgm+asM4Bg==
-X-Received: by 2002:a25:dc4a:0:b0:dfb:cc7:52d5 with SMTP id
- 3f1490d57ef6-dff1538332cmr6926756276.16.1718529152944; 
- Sun, 16 Jun 2024 02:12:32 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
- [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
- 3f1490d57ef6-dff496518desm25505276.12.2024.06.16.02.12.32
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 Jun 2024 02:12:32 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-dff0712ede2so3759226276.2
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 02:12:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXEMwUSG0Ui/UZuaLPCdfvLtrc0szDL7KMcuq4qzEN+36uZ9AxM7UFvitQcG6aNk+vs20Fp3ER2R1BymtIN8HSmzeR31BCYLL9IpXmCSWS9
-X-Received: by 2002:a25:3dc4:0:b0:dfe:32ba:a877 with SMTP id
- 3f1490d57ef6-dff153c36a6mr5976090276.32.1718529152591; Sun, 16 Jun 2024
- 02:12:32 -0700 (PDT)
+X-Greylist: delayed 324 seconds by postgrey-1.36 at gabe;
+ Sun, 16 Jun 2024 09:32:49 UTC
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2181C10E056
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 09:32:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1718530367; x=1719135167; i=wahrenst@gmx.net;
+ bh=jdTT8hu9rQLpWA+eFXlOY28ke9gQzvnm57iQazE/Cng=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+ Subject:Content-Type:Content-Transfer-Encoding:cc:
+ content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=qipr/Ia844KR8yj7Efgeo10FMBDtKq1qpx+Tjgj1WbibdOzYrvXiTuWqTOP/AxXs
+ TwiL+PW8SfHWnj93fUF0Oq0iFWIUO8hf/7dHZWk15kA+JM935hOElQADNB4IvTcLf
+ 8p59tMeqCb7PUv02sWI4Oqo97ZzyRge6wvDNgFIj7j6RDfl1CO2FyhZCdfMGGCDCK
+ tAVGSr1Coh6dTDUMsNyKOjHEqsD2MahD85XqbaisqKRYClRjMcbUHQOoV9uonAkwp
+ zppmI4+Mdtxvs76sX/Ns7OCxpHtpjFt8+BFBWCn+F04FhIUKK7EzGMLoDb4E47vnP
+ eZ6kFLHCNt1DfIn1/w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MEm27-1sBs8a2215-001YRR; Sun, 16
+ Jun 2024 11:27:11 +0200
+Message-ID: <7003512d-7303-4f41-b0d6-a8af5bf8e497@gmx.net>
+Date: Sun, 16 Jun 2024 11:27:08 +0200
 MIME-Version: 1.0
-References: <3121082eb4beb461773ebb6f656ed9b4286967ee.1718305355.git.geert+renesas@glider.be>
- <202406151811.yEIZ6203-lkp@intel.com>
- <CAMuHMdVvJwEbbEG6_4T2g0sHFyKehkQ81Ekc2Bi65Oq3hvNiDg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVvJwEbbEG6_4T2g0sHFyKehkQ81Ekc2Bi65Oq3hvNiDg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Sun, 16 Jun 2024 11:12:20 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX4VCrV9VPFT5412ccaG7AwqGUH_c-Tcy2NXLk3AapNBw@mail.gmail.com>
-Message-ID: <CAMuHMdX4VCrV9VPFT5412ccaG7AwqGUH_c-Tcy2NXLk3AapNBw@mail.gmail.com>
-Subject: Re: [PATCH v2 5/7] drm/panic: Convert to drm_fb_clip_offset()
-To: kernel test robot <lkp@intel.com>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- oe-kbuild-all@lists.linux.dev, Helge Deller <deller@gmx.de>, 
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Melissa Wen <mwen@igalia.com>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>, linux-pm@vger.kernel.org
+From: Stefan Wahren <wahrenst@gmx.net>
+Subject: vc4: WARNING during suspend to idle of Raspberry Pi 3 Plus
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:nX6/9/QGkk+AZe7sdvEhhUpOfHHBgkJQXCnOP7UytZrwLSWmytt
+ ZytdEuu+bt24ktwhk9FxOZrLAU70mHNNOkZ2wl59t3XT7ycb7ude2UVpR9RhPd+mS+dvMvB
+ LkuXcK/sZTipZXBcK+ST6XRT/odpchKL4FwFDLjekS/kvQqcYzEa49zpD/SCiNO7p81mG5w
+ aE0CHnx1F7y+oZ7BJCqdA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Ao5RT1nnzZE=;VOYHcCcQESlfX+Jmjo3y4S6p0eM
+ 76D3s4QJEejS1YVmxyMxNn2DMXZVvLXX2xrVdaKklW8RPmu6K1VsxvkjyE8jzKJjQ2+2XRZgA
+ Rwrx5s607+ZdLHwpGexh7eNQPsGFdH9fhjpUKCDUxH+NVyAwhg+q5/EQmYS3z0lCsbAPSdPhT
+ 1iURUfLHvvmHi8jS+QXhbML1j1qWWBdgcXH/e/TxCMJxSDkzrYBIPhdTiRlP70KdimQfzg8Rh
+ 4ZDuNmTum/2HWevRc0GdJI4yo3Jpvkjz+nKs3m80qBBo6g/Ap6/3zlXBS1vPfwuyWOmz+TbuT
+ Q46Us/Be2dBpMxLrZc2yeJIzCotLLWst5f8MN19LfMuhpVd4jfV7UhpIrc8pKtvisGRDYlBY+
+ nU2rBUXvngpxD/yB2QXgEHIaPH4w5kXCbpH/5eQ2qi9DOxjIwqV7F8BT7T8qVQTuvChDnbcoc
+ dv1JGD/UpsUtCIxSfPHlmJ1C6c78+pH2/Zz8zIFqOJ0j0jy33Tn/Oi936VAYTwxKNMwVc3JzT
+ k/tR4k+O4/dymX8tbY5flMCc5kZ5eOvyFjbuTkuhprseu2s1onyPqXs65i5hq+yGdxN4n5xRw
+ famWogW5KoHaBC9K0U5kAv+oaQQZd2+2ZFM3MHzCh2D4tFZnlK0Gu6O07pDG0VLovjiI9EiDJ
+ sUEdzfSm7e90niVT78oO6qRUspWcyWRPMEFjwERJqLtMoXIHm1KSMP5dHi0Z+5972f7B+u9Oz
+ DuHqIft59eHVTFA8wT4N3ICMk9RIGacSOuyU0I6o0JgugO18+14FsqmRF4bhLahaZtqo8zfAw
+ Z7+bO8ItOs95Qr0mdI4u7v69CV6E7zkWqCGW/A9PZVEd8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,63 +79,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 16, 2024 at 11:08=E2=80=AFAM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Sat, Jun 15, 2024 at 12:55=E2=80=AFPM kernel test robot <lkp@intel.com=
-> wrote:
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on drm-misc/drm-misc-next]
-> > [cannot apply to linus/master v6.10-rc3 next-20240613]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoev=
-en/drm-panic-Fix-uninitialized-drm_scanout_buffer-set_pixel-crash/20240614-=
-032053
-> > base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> > patch link:    https://lore.kernel.org/r/3121082eb4beb461773ebb6f656ed9=
-b4286967ee.1718305355.git.geert%2Brenesas%40glider.be
-> > patch subject: [PATCH v2 5/7] drm/panic: Convert to drm_fb_clip_offset(=
-)
-> > config: x86_64-randconfig-003-20240615 (https://download.01.org/0day-ci=
-/archive/20240615/202406151811.yEIZ6203-lkp@intel.com/config)
-> > compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20240615/202406151811.yEIZ6203-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202406151811.yEIZ6203-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> > >> depmod: ERROR: Cycle detected: drm -> drm_kms_helper -> drm
-> >    depmod: ERROR: Found 2 modules in dependency cycles!
->
-> Oops, so DRM core cannot call any of the helpers, and DRM_PANIC
-> selecting DRM_KMS_HELPER was wrong in the first place?
+Hi,
+i'm currently experiment with suspend to idle on the Raspberry Pi [1].
 
-Q: So how does this work with DRM_PANIC calling
-   drm_fb_helper_emergency_disable()?
-A: drm_fb_helper_emergency_disable() is a dummy if
-   !CONFIG_DRM_FBDEV_EMULATION, so I guess no one tried to build
-   a failing randconfig with CONFIG_DRM_FBDEV_EMULATION=3Dy yet.
+During my tests, i noticed a WARNING of the vc4 during suspend incl.
+Runtime PM usage count underflow. It would be nice if someone can look
+at it. In case you want to reproduce it, i can prepare a branch with
+some improvements/hacks. For example i disabled dwc2/USB because it
+cause a lot of trouble during resume.
 
-Gr{oetje,eeting}s,
+Here are the steps to trigger this issue:
+- make sure necessary kernel options are enabled ( CONFIG_SUSPEND,
+CONFIG_PM_DEBUG, CONFIG_PM_ADVANCED_DEBUG )
+- make sure no HDMI cable is connected to Raspberry Pi 3 Plus
+- Add "no_console_suspend" to cmdline.txt and reboot
+- Connect via Debug UART:
 
-                        Geert
+echo 1 > /sys/power/pm_debug_messages
+echo platform > /sys/power/pm_test
+echo freeze > /sys/power/state
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Here is the output:
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+[=C2=A0=C2=A0 75.538497] PM: suspend entry (s2idle)
+[=C2=A0=C2=A0 76.915786] Filesystems sync: 1.377 seconds
+[=C2=A0=C2=A0 79.678262] rpi_firmware_set_power: Set HDMI to 1
+[=C2=A0=C2=A0 79.678634] rpi_firmware_set_power: Set HDMI to 0
+[=C2=A0=C2=A0 79.850949] Freezing user space processes
+[=C2=A0=C2=A0 79.852460] Freezing user space processes completed (elapsed =
+0.001
+seconds)
+[=C2=A0=C2=A0 79.852484] OOM killer disabled.
+[=C2=A0=C2=A0 79.852493] Freezing remaining freezable tasks
+[=C2=A0=C2=A0 79.853684] Freezing remaining freezable tasks completed (ela=
+psed
+0.001 seconds)
+[=C2=A0=C2=A0 80.892819] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. =
+we have
+nothing to do.
+[=C2=A0=C2=A0 80.892843] ieee80211 phy0: brcmf_cfg80211_get_tx_power: erro=
+r (-5)
+[=C2=A0=C2=A0 81.514053] PM: suspend of devices complete after 1659.336 ms=
+ecs
+[=C2=A0=C2=A0 81.514089] PM: start suspend of devices complete after 1660.=
+386 msecs
+[=C2=A0=C2=A0 81.515616] PM: late suspend of devices complete after 1.509 =
+msecs
+[=C2=A0=C2=A0 81.515938] rpi_firmware_set_power: Set VEC to 0
+[=C2=A0=C2=A0 81.516010] rpi_firmware_set_power: Set V3D to 0
+[=C2=A0=C2=A0 81.516998] PM: noirq suspend of devices complete after 1.239=
+ msecs
+[=C2=A0=C2=A0 81.517016] PM: suspend debug: Waiting for 5 second(s).
+[=C2=A0=C2=A0 89.598310] rpi_firmware_set_power: Set V3D to 1
+[=C2=A0=C2=A0 90.078228] ------------[ cut here ]------------
+[=C2=A0=C2=A0 90.078240] WARNING: CPU: 1 PID: 216 at
+drivers/gpu/drm/vc4/vc4_hdmi.c:477
+vc4_hdmi_connector_detect_ctx+0x2e4/0x34c [vc4]
+[=C2=A0=C2=A0 90.078344] Modules linked in: aes_arm aes_generic cbc crypto=
+_simd
+cryptd algif_skcipher af_alg brcmfmac_wcc brcmfmac vc4 brcmutil
+snd_soc_hdmi_codec snd_soc_core ac97_bus sha256_generic
+snd_pcm_dmaengine libsha256 snd_pcm sha256_arm snd_timer hci_uart
+cfg80211 btbcm snd bluetooth soundcore drm_dma_helper crc32_arm_ce
+ecdh_generic ecc raspberrypi_hwmon libaes bcm2835_thermal
+[=C2=A0=C2=A0 90.078551] CPU: 1 PID: 216 Comm: kworker/1:2 Not tainted 6.9=
+.3-dirty #30
+[=C2=A0=C2=A0 90.078568] Hardware name: BCM2835
+[=C2=A0=C2=A0 90.078580] Workqueue: events output_poll_execute
+[=C2=A0=C2=A0 90.078610] Call trace:
+[=C2=A0=C2=A0 90.078624]=C2=A0 unwind_backtrace from show_stack+0x10/0x14
+[=C2=A0=C2=A0 90.078660]=C2=A0 show_stack from dump_stack_lvl+0x50/0x64
+[=C2=A0=C2=A0 90.078688]=C2=A0 dump_stack_lvl from __warn+0x7c/0x124
+[=C2=A0=C2=A0 90.078723]=C2=A0 __warn from warn_slowpath_fmt+0x170/0x178
+[=C2=A0=C2=A0 90.078760]=C2=A0 warn_slowpath_fmt from
+vc4_hdmi_connector_detect_ctx+0x2e4/0x34c [vc4]
+[=C2=A0=C2=A0 90.078862]=C2=A0 vc4_hdmi_connector_detect_ctx [vc4] from
+drm_helper_probe_detect_ctx+0x40/0x120
+[=C2=A0=C2=A0 90.078951]=C2=A0 drm_helper_probe_detect_ctx from
+output_poll_execute+0x160/0x24c
+[=C2=A0=C2=A0 90.078982]=C2=A0 output_poll_execute from process_one_work+0=
+x16c/0x3b4
+[=C2=A0=C2=A0 90.079012]=C2=A0 process_one_work from worker_thread+0x270/0=
+x488
+[=C2=A0=C2=A0 90.079036]=C2=A0 worker_thread from kthread+0xe0/0xfc
+[=C2=A0=C2=A0 90.079060]=C2=A0 kthread from ret_from_fork+0x14/0x28
+[=C2=A0=C2=A0 90.079080] Exception stack(0xf0af9fb0 to 0xf0af9ff8)
+[=C2=A0=C2=A0 90.079096] 9fa0:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000
+00000000 00000000 00000000
+[=C2=A0=C2=A0 90.079113] 9fc0: 00000000 00000000 00000000 00000000 0000000=
+0
+00000000 00000000 00000000
+[=C2=A0=C2=A0 90.079129] 9fe0: 00000000 00000000 00000000 00000000 0000001=
+3 00000000
+[=C2=A0=C2=A0 90.079141] ---[ end trace 0000000000000000 ]---
+[=C2=A0=C2=A0 90.079155] vc4_hdmi 3f902000.hdmi: vc4_hdmi_connector_detect=
+_ctx:
+pm_runtime_resume_and_get failed: -13
+[=C2=A0=C2=A0 92.638262] rpi_firmware_set_power: Set HDMI to 1
+[=C2=A0=C2=A0 95.678251] rpi_firmware_set_power: Set VEC to 1
+[=C2=A0=C2=A0 95.678380] PM: noirq resume of devices complete after 9160.9=
+30 msecs
+[=C2=A0=C2=A0 95.679604] PM: early resume of devices complete after 1.069 =
+msecs
+[=C2=A0=C2=A0 95.812230] brcmfmac: brcmf_fw_alloc_request: using
+brcm/brcmfmac43455-sdio for chip BCM4345/6
+[=C2=A0=C2=A0 95.812282] PM: resume of devices complete after 132.657 msec=
+s
+[=C2=A0=C2=A0 95.813246] vc4_hdmi 3f902000.hdmi: Runtime PM usage count un=
+derflow!
+[=C2=A0=C2=A0 95.814456] OOM killer enabled.
+[=C2=A0=C2=A0 95.814466] Restarting tasks ... done.
+[=C2=A0=C2=A0 95.817193] random: crng reseeded on system resumption
+[=C2=A0=C2=A0 95.819813] rpi_firmware_set_power: Set HDMI to 0
+[=C2=A0=C2=A0 95.827808] PM: suspend exit
+
+[1] - https://github.com/raspberrypi/firmware/issues/1894
