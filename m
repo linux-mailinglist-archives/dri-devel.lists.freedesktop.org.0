@@ -2,74 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABAA909CB4
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 11:08:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C589F909CBB
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 11:12:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4409C10E0A1;
-	Sun, 16 Jun 2024 09:08:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E261510E0F5;
+	Sun, 16 Jun 2024 09:12:53 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="adVOb+r7";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
- [209.85.128.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 402A810E074
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 09:08:43 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-6333082fb8fso15074617b3.2
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 02:08:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718528921; x=1719133721;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TBtpOZr/trZtltPf6YFqTeIEX30vShCauXV7YYWeLaM=;
- b=XYwPmsreyVjjgReFE5pkTGNW9L34QTwW4/8r2RPZ8bkdaylhh3lLntioyngAxyVk4+
- BAUea4tk4t2dxkHKTzsTh5xon6KFkEgutd/07J8YjOu8z2snsWZADEVIGAx3W0Dn/cDN
- p8rxKgRfbrapvNvEpZ4wouitd2V+iMWBjOcEC0YpFQ1SSCZhFRxyoHgXlmbw4X3Zb8vn
- hg1nX8YtT/fHA70tcKas3/8sU8C5LtohLVFaedZ6tsCOMA1rxkFz8YvQ8EeM13ke+Eeg
- oTWGHd83ffUPH+07KMBG0bSSQrORvIv4WBS2afpv8/ed7xePm/F5scuzNBQ3TM8Cq+79
- iWYg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWdmpHKxos3oMgL4ct39BBPOrKyMpAmgKmEGy4z2+bVoxMb5Ep5YXRJ4oBqhoCs5oVbFoW4/KuTLZNVrqNsOgBFYjUuMW9PxZofRNLNjLkc
-X-Gm-Message-State: AOJu0YzyBis6eV1VoBFMqJznzagTqdCvf60D9FughJrTWqJDHnZWRcS3
- 8EIwOibyAR4K5K2rx0Tavk8KfsLubBDo10sm/GbG09SfdbPOh65dWvsjj/FZ
-X-Google-Smtp-Source: AGHT+IGSU5YyiKext4RoaecozZXPOYQ+kDYl2TVGr4sx7xk5i2n/whziQVMDUNWajGT6YZTogieO7Q==
-X-Received: by 2002:a05:690c:7303:b0:618:9407:db0c with SMTP id
- 00721157ae682-63223d38bfamr85912357b3.32.1718528919627; 
- Sun, 16 Jun 2024 02:08:39 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
- [209.85.219.182]) by smtp.gmail.com with ESMTPSA id
- 00721157ae682-6311a446cc9sm10123297b3.80.2024.06.16.02.08.39
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 Jun 2024 02:08:39 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id
- 3f1490d57ef6-dfb05bcc50dso3435907276.0
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 02:08:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVLCQuhAWCKgRARVoqMFe2PlZ9IezNUhtwgLXoUGkDW2ZxR8SBfPa2otyFSE0wbThQNRsOO9VTWBUY7DAcBnKfEbcLgAqD14mByh4t8FM5Y
-X-Received: by 2002:a25:fe0d:0:b0:dfe:3e88:3649 with SMTP id
- 3f1490d57ef6-dff153abc7fmr6851815276.20.1718528918970; Sun, 16 Jun 2024
- 02:08:38 -0700 (PDT)
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5505410E0F5;
+ Sun, 16 Jun 2024 09:12:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+ s=mail; t=1718529169;
+ bh=soXT6ejv1Jmdiecl/JaLHs9qbKzLrDGNxWPNnQa5keg=;
+ h=From:Date:Subject:To:Cc:From;
+ b=adVOb+r7x6NPCff5svEjqTEheRJqsecwvwA1P+hQcGKHMXwzlK8cs6s+tr+/Zfv+p
+ yDpBX/2InSLlHIdcpKaLp5KWd+JgqjNb8p3VUf/guEGS3UKAxRy2Y9jDsvVXlYlbKA
+ VS3fQz915nGIjDUrRgP9jijeBskv3aHF+uTVkMHc=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sun, 16 Jun 2024 11:12:03 +0200
+Subject: [PATCH] drm/amdgpu: convert bios_hardcoded_edid to drm_edid
 MIME-Version: 1.0
-References: <3121082eb4beb461773ebb6f656ed9b4286967ee.1718305355.git.geert+renesas@glider.be>
- <202406151811.yEIZ6203-lkp@intel.com>
-In-Reply-To: <202406151811.yEIZ6203-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Sun, 16 Jun 2024 11:08:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVvJwEbbEG6_4T2g0sHFyKehkQ81Ekc2Bi65Oq3hvNiDg@mail.gmail.com>
-Message-ID: <CAMuHMdVvJwEbbEG6_4T2g0sHFyKehkQ81Ekc2Bi65Oq3hvNiDg@mail.gmail.com>
-Subject: Re: [PATCH v2 5/7] drm/panic: Convert to drm_fb_clip_offset()
-To: kernel test robot <lkp@intel.com>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- oe-kbuild-all@lists.linux.dev, Helge Deller <deller@gmx.de>, 
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240616-amdgpu-edid-bios-v1-1-2874f212b365@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAGKsbmYC/x3MMQqAMAxA0atIZgNNKx28ijhEGzWDVVoUQXp3i
+ +Mb/n8hS1LJ0DcvJLk16xErqG1g3jiughqqwRrbGU8eeQ/reaEEDTjpkZEdMZOfjLMENTuTLPr
+ 8y2Es5QMoxhPDYgAAAA==
+To: Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718529166; l=7172;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=soXT6ejv1Jmdiecl/JaLHs9qbKzLrDGNxWPNnQa5keg=;
+ b=nVYgkUeKEtbsZrsJiINgk727iI4cpBu7q/mFHtx8PvPoOMQyKR9ogrLzw9sk+E7/kAjYhWFzp
+ 1pY1jyMyVolDBSDTK5zm1ya9AzehJtuyZLwdt0cuFIVdFyGoK+NY1ek
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,54 +61,182 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jun 15, 2024 at 12:55=E2=80=AFPM kernel test robot <lkp@intel.com> =
-wrote:
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on drm-misc/drm-misc-next]
-> [cannot apply to linus/master v6.10-rc3 next-20240613]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven=
-/drm-panic-Fix-uninitialized-drm_scanout_buffer-set_pixel-crash/20240614-03=
-2053
-> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> patch link:    https://lore.kernel.org/r/3121082eb4beb461773ebb6f656ed9b4=
-286967ee.1718305355.git.geert%2Brenesas%40glider.be
-> patch subject: [PATCH v2 5/7] drm/panic: Convert to drm_fb_clip_offset()
-> config: x86_64-randconfig-003-20240615 (https://download.01.org/0day-ci/a=
-rchive/20240615/202406151811.yEIZ6203-lkp@intel.com/config)
-> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240615/202406151811.yEIZ6203-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406151811.yEIZ6203-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> depmod: ERROR: Cycle detected: drm -> drm_kms_helper -> drm
->    depmod: ERROR: Found 2 modules in dependency cycles!
+Instead of manually passing around 'struct edid *' and its size,
+use 'struct drm_edid', which encapsulates a validated combination of
+both.
 
-Oops, so DRM core cannot call any of the helpers, and DRM_PANIC
-selecting DRM_KMS_HELPER was wrong in the first place?
+As the drm_edid_ can handle NULL gracefully, the explicit checks can be
+dropped.
 
-Gr{oetje,eeting}s,
+Also save a few characters by transforming '&array[0]' to the equivalent
+'array' and using 'max_t(int, ...)' instead of manual casts.
 
-                        Geert
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+While this patch introduces a new user for drm_edid_raw(),
+if amdgpu proper gets migrated to 'struct drm_edid', that usage will go
+away.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+This is only compile-tested.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+I have some more patches for the rest of amdgpu,
+to move to 'struct drm_edid'.
+This patch is a test-balloon for the general idea.
+
+The same can also be done for drm/radeon.
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c |  6 +-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h       |  4 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c       |  2 +-
+ drivers/gpu/drm/amd/amdgpu/atombios_encoders.c | 21 +++++++--------------
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c         |  2 +-
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c         |  2 +-
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c          |  2 +-
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c          |  2 +-
+ 8 files changed, 15 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+index 9caba10315a8..f1b11b27cce0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+@@ -265,11 +265,7 @@ struct edid *amdgpu_connector_edid(struct drm_connector *connector)
+ static struct edid *
+ amdgpu_connector_get_hardcoded_edid(struct amdgpu_device *adev)
+ {
+-	if (adev->mode_info.bios_hardcoded_edid) {
+-		return kmemdup((unsigned char *)adev->mode_info.bios_hardcoded_edid,
+-			       adev->mode_info.bios_hardcoded_edid_size, GFP_KERNEL);
+-	}
+-	return NULL;
++	return drm_edid_duplicate(drm_edid_raw(adev->mode_info.bios_hardcoded_edid));
+ }
+ 
+ static void amdgpu_connector_get_edid(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+index 1fe21a70ddd0..928ac3f1e2ba 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+@@ -51,6 +51,7 @@ struct amdgpu_encoder;
+ struct amdgpu_router;
+ struct amdgpu_hpd;
+ struct edid;
++struct drm_edid;
+ 
+ #define to_amdgpu_crtc(x) container_of(x, struct amdgpu_crtc, base)
+ #define to_amdgpu_connector(x) container_of(x, struct amdgpu_connector, base)
+@@ -325,8 +326,7 @@ struct amdgpu_mode_info {
+ 	/* FMT dithering */
+ 	struct drm_property *dither_property;
+ 	/* hardcoded DFP edid from BIOS */
+-	struct edid *bios_hardcoded_edid;
+-	int bios_hardcoded_edid_size;
++	const struct drm_edid *bios_hardcoded_edid;
+ 
+ 	/* firmware flags */
+ 	u32 firmware_flags;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+index e30eecd02ae1..543275db8302 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+@@ -539,7 +539,7 @@ static int amdgpu_vkms_sw_fini(void *handle)
+ 
+ 	adev->mode_info.mode_config_initialized = false;
+ 
+-	kfree(adev->mode_info.bios_hardcoded_edid);
++	drm_edid_free(adev->mode_info.bios_hardcoded_edid);
+ 	kfree(adev->amdgpu_vkms_output);
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+index 25feab188dfe..90383094ed1e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
++++ b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+@@ -2064,20 +2064,13 @@ amdgpu_atombios_encoder_get_lcd_info(struct amdgpu_encoder *encoder)
+ 				case LCD_FAKE_EDID_PATCH_RECORD_TYPE:
+ 					fake_edid_record = (ATOM_FAKE_EDID_PATCH_RECORD *)record;
+ 					if (fake_edid_record->ucFakeEDIDLength) {
+-						struct edid *edid;
+-						int edid_size =
+-							max((int)EDID_LENGTH, (int)fake_edid_record->ucFakeEDIDLength);
+-						edid = kmalloc(edid_size, GFP_KERNEL);
+-						if (edid) {
+-							memcpy((u8 *)edid, (u8 *)&fake_edid_record->ucFakeEDIDString[0],
+-							       fake_edid_record->ucFakeEDIDLength);
+-
+-							if (drm_edid_is_valid(edid)) {
+-								adev->mode_info.bios_hardcoded_edid = edid;
+-								adev->mode_info.bios_hardcoded_edid_size = edid_size;
+-							} else
+-								kfree(edid);
+-						}
++						const struct drm_edid *edid;
++						edid = drm_edid_alloc(fake_edid_record->ucFakeEDIDString,
++								      max_t(int, EDID_LENGTH, fake_edid_record->ucFakeEDIDLength));
++						if (drm_edid_valid(edid))
++							adev->mode_info.bios_hardcoded_edid = edid;
++						else
++							drm_edid_free(edid);
+ 					}
+ 					record += fake_edid_record->ucFakeEDIDLength ?
+ 						  struct_size(fake_edid_record,
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+index b44fce44c066..11d648e688ce 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+@@ -2846,7 +2846,7 @@ static int dce_v10_0_sw_fini(void *handle)
+ {
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+ 
+-	kfree(adev->mode_info.bios_hardcoded_edid);
++	drm_edid_free(adev->mode_info.bios_hardcoded_edid);
+ 
+ 	drm_kms_helper_poll_fini(adev_to_drm(adev));
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+index 80b2e7f79acf..01536f523032 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+@@ -2973,7 +2973,7 @@ static int dce_v11_0_sw_fini(void *handle)
+ {
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+ 
+-	kfree(adev->mode_info.bios_hardcoded_edid);
++	drm_edid_free(adev->mode_info.bios_hardcoded_edid);
+ 
+ 	drm_kms_helper_poll_fini(adev_to_drm(adev));
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+index db20012600f5..0e5b568a96fc 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+@@ -2745,7 +2745,7 @@ static int dce_v6_0_sw_fini(void *handle)
+ {
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+ 
+-	kfree(adev->mode_info.bios_hardcoded_edid);
++	drm_edid_free(adev->mode_info.bios_hardcoded_edid);
+ 
+ 	drm_kms_helper_poll_fini(adev_to_drm(adev));
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+index 5b56100ec902..895f050a3e62 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+@@ -2766,7 +2766,7 @@ static int dce_v8_0_sw_fini(void *handle)
+ {
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+ 
+-	kfree(adev->mode_info.bios_hardcoded_edid);
++	drm_edid_free(adev->mode_info.bios_hardcoded_edid);
+ 
+ 	drm_kms_helper_poll_fini(adev_to_drm(adev));
+ 
+
+---
+base-commit: a3e18a540541325a8c8848171f71e0d45ad30b2c
+change-id: 20240616-amdgpu-edid-bios-a31aa16b0321
+
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
+
