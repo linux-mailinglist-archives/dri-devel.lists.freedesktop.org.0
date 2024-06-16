@@ -2,56 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEAA1909A13
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2024 23:58:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C139909AE6
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 03:04:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD56310E15B;
-	Sat, 15 Jun 2024 21:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6BA310E072;
+	Sun, 16 Jun 2024 01:04:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="UVn4OWKj";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.b="YBijmTXK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [167.172.40.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FAB810E15B
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 21:58:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1718488674;
- bh=CV/mgUWgMh4+uV6CKW6yanETiH58y91gnPr01uQkQ8k=;
- b=UVn4OWKjypaU+NM3VrcShJnaPz42ArY3uHbpDfMAjfG72ySTdUU4EwLn7Nwl6CvqsbpDTOTF9
- 3di3dl/H60nAr7nF3epMiJHFdZnQbLfx0iktuRcvF+4IWiy5zB+ETUEV2sa9co4tPXKKc7qv8d6
- 02vEGhoumsScvcvjHxCh6qwv1p62OpQ62vUAm/lq4fwlZ9j5xVCdBXa5wkezHBI/9IG8seUXm2R
- 3Tci24wzeOJb3huCJhy6DnZVFPXY/A41L/P0BVjHXqZYZowLc6NPq34DVu8v/60siHgCAJze5eP
- 6Zb9TAGw3V4c9YVtqD9Y/VpLGYTV5Qh+wo8eHLJpz8BQ==
-Message-ID: <ff18a3dd-3e39-4dfd-8e0f-6401b3df531c@kwiboo.se>
-Date: Sat, 15 Jun 2024 23:57:45 +0200
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8782810E072
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 01:04:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+ s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+ References:Message-ID:Subject:To:From:Date:From:Sender:Reply-To:Subject:Date:
+ Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+ bh=UgZuhckA4p+XwquMniU0ZCZJXZSNdwe4LEu1KmZDzzs=; b=YBijmTXKln3H3WysHSl6eFQTvD
+ 7NaOk9ZOZy5kH+fiH+AMkgIz6sNg3F33/VkFmT+mWseBh7K9zbJlOrTEKaQJ9iJSZ3M1SYF8lo87l
+ Eh63XcYpyTDKl2704V+B8ZYDurmvMSwsSMSTXvFONCG64FRhoc34ENeld5usSdE5fnQ0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+ (envelope-from <andrew@lunn.ch>)
+ id 1sIeJw-0009pt-MD; Sun, 16 Jun 2024 03:04:36 +0200
+Date: Sun, 16 Jun 2024 03:04:36 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Joe Damato <jdamato@fastly.com>, Omer Shpigelman <oshpigelman@habana.ai>,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ ogabbay@kernel.org, zyehudai@habana.ai
+Subject: Re: [PATCH 09/15] net: hbl_en: add habanalabs Ethernet driver
+Message-ID: <990a55b5-4a98-47bb-bea6-9b85f061a788@lunn.ch>
+References: <20240613082208.1439968-1-oshpigelman@habana.ai>
+ <20240613082208.1439968-10-oshpigelman@habana.ai>
+ <ZmzIy3c0j8ubspIM@LQ3V64L9R2>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/13] drm/rockchip: dw_hdmi: Add max_tmds_clock validation
-To: Diederik de Haas <didi.debian@cknow.org>
-Cc: dri-devel@lists.freedesktop.org, Sandy Huang <hjc@rock-chips.com>,
- "=?UTF-8?Q?Heiko_St=C3=BCbner?=" <heiko@sntech.de>, Andy Yan
- <andy.yan@rock-chips.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20240615170417.3134517-1-jonas@kwiboo.se>
- <20240615170417.3134517-7-jonas@kwiboo.se> <2357044.LC0K3s5jzQ@bagend>
-Content-Language: en-US
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <2357044.LC0K3s5jzQ@bagend>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 167.172.40.54
-X-ForwardEmail-ID: 666e0e5eb23880544d1f8be8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZmzIy3c0j8ubspIM@LQ3V64L9R2>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,17 +56,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Diederik,
+On Fri, Jun 14, 2024 at 03:48:43PM -0700, Joe Damato wrote:
+> On Thu, Jun 13, 2024 at 11:22:02AM +0300, Omer Shpigelman wrote:
+> > This ethernet driver is initialized via auxiliary bus by the hbl_cn
+> > driver.
+> > It serves mainly for control operations that are needed for AI scaling.
+> > 
+> > Signed-off-by: Omer Shpigelman <oshpigelman@habana.ai>
+> > Co-developed-by: Abhilash K V <kvabhilash@habana.ai>
+> > Signed-off-by: Abhilash K V <kvabhilash@habana.ai>
+> > Co-developed-by: Andrey Agranovich <aagranovich@habana.ai>
+> > Signed-off-by: Andrey Agranovich <aagranovich@habana.ai>
+> > Co-developed-by: Bharat Jauhari <bjauhari@habana.ai>
+> > Signed-off-by: Bharat Jauhari <bjauhari@habana.ai>
+> > Co-developed-by: David Meriin <dmeriin@habana.ai>
+> > Signed-off-by: David Meriin <dmeriin@habana.ai>
+> > Co-developed-by: Sagiv Ozeri <sozeri@habana.ai>
+> > Signed-off-by: Sagiv Ozeri <sozeri@habana.ai>
+> > Co-developed-by: Zvika Yehudai <zyehudai@habana.ai>
 
-On 2024-06-15 23:53, Diederik de Haas wrote:
-> On Saturday, 15 June 2024 19:03:57 CEST Jonas Karlman wrote:
->> The rate limit for RK3288, RK3399 and RK3568 is based on current mpll
->> table. The rate limit for RK3228 and RK3228 is based on the
->> inno-hdmi-phy pre-pll table.
-> 
-> I see RK3228 mentioned twice; I guess the second should be RK3328?
+Hi Joe
 
-You are correct, a copy/paste error, thanks and I will fix in v2.
+Please trim emails to include just the relevant context when
+replying. It is hard to see your comments, and so it is likely some
+will be missed, and you will need to make the same comment on v2.
 
-Regards,
-Jonas
+     Andrew
