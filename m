@@ -2,75 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE55909B17
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 03:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ECF2909C02
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 09:04:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EA0010E111;
-	Sun, 16 Jun 2024 01:25:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E0C810E154;
+	Sun, 16 Jun 2024 07:04:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="BYtCf6JS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fKWyU4wc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
- [209.85.160.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AC3F10E120
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 01:25:42 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id
- d75a77b69052e-43fdb114e07so16096351cf.2
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2024 18:25:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1718501141; x=1719105941;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gCrX2aP7omTOt40mjhlbJGCmLHhusecgyid8m4PMNe0=;
- b=BYtCf6JSBtgZCHGGPbMEHoNIVjZYTE4kjpWEt3BoSU9gbKnJbsUcgsDvOC9Ei6VpQE
- 8KymDw5B86/0amr4CQ+W69JK643qRyjcZY+mw984g9aD+wQNIObOIIaJKuHh0RfOjjfS
- d7kovONZiybSyLmua2+bRzj9a/O52248MijeI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718501141; x=1719105941;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gCrX2aP7omTOt40mjhlbJGCmLHhusecgyid8m4PMNe0=;
- b=JTAHWiFvQv2c8FbR6+9cXwyboN4dS4IT9DA8O8xWzb/ySWVi7OP/H4gpkzVbPa6AvB
- 44gg1f+tDgNv6imVr0DXxY7W068b76w/3IhfTzxtocY/leMfEbYFs57G0q5reNyDwj8U
- +AVMBKsFCOW3NWIMxl/kFWG5LXeYgoZ0Ub8UAVkFzZFsagkeF/KbDGIv9WL+K6hWYT+v
- Hacw9sT1wMOXQWeuFjxsGe5WZYLfXhdryTvTaR9QDM0EHzLrkVScw1Sh/9RUZqep/sv/
- 9D469Ii1g+8eyz6/86nHPH+L5QVQCgwXvqGYyEqVLjnUGRlWblfJoSn9sfLtu65GNvl/
- CBgQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUQhk605LPsdZZ03gLB90972qR2S1N5iEsZmJDk/V9D7UDiKtfilmUGJEfmD42YQeK47BA4CYtm7+Idh0hj3xGXtOBDzOUVeqWlTrS564ao
-X-Gm-Message-State: AOJu0YxqdJUCHPX0m6HC/IbcSw3a+2hfHOUOcI9KUDlT44BvLwPFsFgD
- DOdf0v1FzLk6/RzzdvmG2g+ltt0I/HfiMtac9xZ1Tlflgl1akAtRY01M+r6/gA==
-X-Google-Smtp-Source: AGHT+IG29Vm1eX4EMSaDAYflKH0cuDBu7WkYeoXWjmR1hkQVFmvlJrcmLUBw6U+nnvmj44pJx+WVcQ==
-X-Received: by 2002:ac8:5a8c:0:b0:440:60f3:733b with SMTP id
- d75a77b69052e-4421685caa4mr69850701cf.14.1718501140971; 
- Sat, 15 Jun 2024 18:25:40 -0700 (PDT)
-Received: from amakhalov-build-vm.eng.vmware.com ([192.19.161.250])
- by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-441f310dae0sm32256121cf.97.2024.06.15.18.25.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Jun 2024 18:25:40 -0700 (PDT)
-From: Alexey Makhalov <alexey.makhalov@broadcom.com>
-To: linux-kernel@vger.kernel.org, bp@alien8.de,
- bcm-kernel-feedback-list@broadcom.com, lkp@intel.com
-Cc: zack.rusin@broadcom.com, dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
- airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, linux-iio@vger.kernel.org,
- jic23@kernel.org, lars@metafoo.de, nuno.sa@analog.com,
- dragos.bogdan@analog.com, anshulusr@gmail.com, andrea.collamati@gmail.com,
- oe-kbuild-all@lists.linux.dev, x86@kernel.org,
- Alexey Makhalov <alexey.makhalov@broadcom.com>
-Subject: [PATCH 2/2] iio: dac: Fix dependencies of AD9739A
-Date: Sat, 15 Jun 2024 18:25:11 -0700
-Message-Id: <20240616012511.198243-2-alexey.makhalov@broadcom.com>
-X-Mailer: git-send-email 2.39.4
-In-Reply-To: <20240616012511.198243-1-alexey.makhalov@broadcom.com>
-References: <202406152104.FxakP1MB-lkp@intel.com>
- <20240616012511.198243-1-alexey.makhalov@broadcom.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F30710E14D;
+ Sun, 16 Jun 2024 07:04:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718521451; x=1750057451;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=e8WDbDySH21kmQxtmiP+b8nHideIgsiJVQRGqb5HQwY=;
+ b=fKWyU4wc1Jklgp+VJn+LTZy5gQ3EIlQ7XtHDcZrqzzbhHcGB20rt9okq
+ w53EffaTRe7LSn+wZoccoJHZ/2OC0sZLVGhmtgt9d2oBA8g8g2aIHmTzg
+ T0cR9lk7zJ2ouzH1WdKxohR/gwYzlygvmpHqY58bRllPsexffFTQ3ox+L
+ G+cVw/CTWl6/VCZWxkdTw28jkCrE0mkOBudLNG2rdbD0JdsmDWJtGw5ug
+ Xmc5jcWTSwHR2rZCqhzWy9MbpMLoASRDR6nX9S+0i/BZ6Fg6bz5j9psI/
+ fykyxc5+gKrCbtB4PD6rHEVrR2gRykCOApafIbuO7tlpY068Q6pE4iLYl Q==;
+X-CSE-ConnectionGUID: rXD/mvkFSQOQw/u298HKWg==
+X-CSE-MsgGUID: QWqZu0GXTLusA2wk9WbOTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="15504738"
+X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; d="scan'208";a="15504738"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2024 00:04:10 -0700
+X-CSE-ConnectionGUID: jl11ReBoTcGBLwlUo1G/wg==
+X-CSE-MsgGUID: c73mZOHOQ5ik1vhYaFqV9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; d="scan'208";a="78379846"
+Received: from lfiedoro-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.42])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2024 00:04:09 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>
+Subject: [PATCH 0/2] Sparse errors on the i915_gem_stolen
+Date: Sun, 16 Jun 2024 09:03:47 +0200
+Message-ID: <20240616070349.250899-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,52 +68,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-0-DAY CI Kernel Test automation reported an issue:
+Hi Jonathan,
 
-   ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_read':
-   regmap-spi.c:(.text+0xf): undefined reference to `spi_write_then_read'
-   ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_gather_write':
-   regmap-spi.c:(.text+0x2b4): undefined reference to `spi_sync'
-   ld: drivers/base/regmap/regmap-spi.o: in function `spi_sync_transfer.constprop.0':
-   regmap-spi.c:(.text+0x337): undefined reference to `spi_sync'
-   ld: drivers/base/regmap/regmap-spi.o: in function `regmap_spi_async_write':
-   regmap-spi.c:(.text+0x445): undefined reference to `spi_async'
-   ld: drivers/iio/dac/ad9739a.o: in function `ad9739a_driver_init':
-   ad9739a.c:(.init.text+0x10): undefined reference to `__spi_register_driver'
+Commit 05da7d9f717b ("drm/i915/gem: Downgrade stolen lmem setup
+warning") produces two sparse warnings. The first one being a bit
+more sever as it might cause a segmentation fault.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for REGMAP_SPI
-   Depends on [n]: SPI [=n]
-   Selected by [y]:
-   - AD9739A [=y] && IIO [=y] && (SPI [=n] || COMPILE_TEST [=y])
+Andi
 
-The issue is caused by CONFIG_AD9739A=y when CONFIG_SPI is not set.
+Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
 
-Add explicit dependency on SPI and conditional selection of REGMAP_SPI.
+Andi Shyti (2):
+  drm/i915/gem: Return -EINVAL instead of '0'
+  drm/i915/gem: Use the correct format specifier for resource_size_t
 
-Fixes: e77603d5468b ("iio: dac: support the ad9739a RF DAC")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202406152104.FxakP1MB-lkp@intel.com/
-Signed-off-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
----
- drivers/iio/dac/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/iio/dac/Kconfig b/drivers/iio/dac/Kconfig
-index 3c2bf620f00f..d095f4d26e49 100644
---- a/drivers/iio/dac/Kconfig
-+++ b/drivers/iio/dac/Kconfig
-@@ -133,8 +133,8 @@ config AD5624R_SPI
- 
- config AD9739A
- 	tristate "Analog Devices AD9739A RF DAC spi driver"
--	depends on SPI || COMPILE_TEST
--	select REGMAP_SPI
-+	depends on SPI
-+	select REGMAP_SPI if SPI_MASTER
- 	select IIO_BACKEND
- 	help
- 	  Say yes here to build support for Analog Devices AD9739A Digital-to
 -- 
-2.39.4
+2.45.1
 
