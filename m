@@ -2,67 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01570909D70
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 14:25:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44918909D8C
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2024 14:43:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 487FB10E038;
-	Sun, 16 Jun 2024 12:25:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C712B10E05D;
+	Sun, 16 Jun 2024 12:43:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XyLVpqKD";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="USyiJCGz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F7F710E038;
- Sun, 16 Jun 2024 12:25:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718540719; x=1750076719;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=M5AFfRJ2bA1LmBqiKERCcRxvTYpXriTjiy165XQ2Nho=;
- b=XyLVpqKDJi5Gg3J70Q//9qrOYNViYRVTn7CUxwI3aZeH/wC48UEFpqR5
- SkThedNTLX38X8br0yqp7l72hR40x9G/i6OTZWxKKzUji9O+eT5vMHVEK
- e6LvC+g3U3ufB5clrgSz1c3fnhM/t7gJyvBSDT8T/oy9oVopCw2Qdagj5
- +UPU+ZaDfefGyZvj70ETnTYq10QxCDV95uh6mItkpZZIyZVXjhpbrOW/Z
- gFTfqVIAfScqxxsUt7Nc68FHBbus1i5Mccyy8OnstB4TAaSE5zzi7XIy6
- 6GGKrFOeyYy3su+WJQFW1g+YdfZ/PfgvVwg0SwZpbDmR3Dyu4DAiSpa4f w==;
-X-CSE-ConnectionGUID: Ij0+1+N9Qw+zGM5VOMQ/Cw==
-X-CSE-MsgGUID: VzvhlH9NTXCVDhYR5mY12g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="32923766"
-X-IronPort-AV: E=Sophos;i="6.08,242,1712646000"; d="scan'208";a="32923766"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2024 05:25:18 -0700
-X-CSE-ConnectionGUID: A5JLZcmRTP+UEQ/dCV87zA==
-X-CSE-MsgGUID: YRUMEx5LRnmGQdxmc/zyHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,242,1712646000"; d="scan'208";a="64155462"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
- by fmviesa002.fm.intel.com with ESMTP; 16 Jun 2024 05:25:15 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sIowb-0002ln-0I;
- Sun, 16 Jun 2024 12:25:13 +0000
-Date: Sun, 16 Jun 2024 20:24:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, amd-gfx@lists.freedesktop.org,
- Mario Limonciello <mario.limonciello@amd.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Chris Bainbridge <chris.bainbridge@gmail.com>
-Subject: Re: [PATCH v3] drm/fb-helper: Detect when lid is closed during
- initialization
-Message-ID: <202406161923.hGiUV7wr-lkp@intel.com>
-References: <20240613051700.1112-1-mario.limonciello@amd.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C88F410E05D
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 12:43:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1718541804;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xXIz61g4QbO+8zuI4JpTkvPq46OnXJSxRQvivveajgc=;
+ b=USyiJCGzdEB8f7t8zwTTvol2Rx5XRrTgIf7BXpvgESgXZ+JvqjkoNkX48sQiuLm3h7+DST
+ NFpJPyKJYNgkyINafcYnK7uUIXJc53hqQUVpIpj4gwFkdHdv8Us3fACcqT6SIP4kHkkfLX
+ u3UB5v9/0pnvprQNiRjbz9YF2TdW3wE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-163-yDc6HSRIMbSuzJN768u7Hw-1; Sun, 16 Jun 2024 08:43:22 -0400
+X-MC-Unique: yDc6HSRIMbSuzJN768u7Hw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-42183fdb37cso26173765e9.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 05:43:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718541801; x=1719146601;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xXIz61g4QbO+8zuI4JpTkvPq46OnXJSxRQvivveajgc=;
+ b=QzfFsoBkYmi9Zu7Gbd95AIXXMp+X+mqaBNyLVNLtlw0jCpK9bZ1gCOmEi+iJa0MDog
+ VRpKSMSWJjTZEsDKe4sU6g6XAtUQX3/OXIe7+XBriN/UmBu5uYSl3edZ+DpFTNI7GS8J
+ 57CazolJEsZ18nTyrjAJ9xiVFCFLh8hvvZbpE2V/avxtOz2frvzRZX1HrgoG38r6OauD
+ cwlFgbUMzPOl94wWQI3kTmxG+xsZvJu7T/upslSJXxm7WNr/Dep9oMq/LotwSC2a+Y8x
+ zaaXA9iKr0lDNgxGJBtaOW9IKk93tuf7Fn/0LA9HoS4Rv7etcBVH49IWiY+Fj1r8BXPZ
+ kdGQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVvC7i7BtWKgh/2mZKyASethtn+zTI2PIxuAX69dVMfHC/A1rNTgTlJVKZj1jp+hBCkrLl2fL7E3BgpGlzD1w7Zaj5K/r00Q01LNh6PocWS
+X-Gm-Message-State: AOJu0Ywxx8JzbA5UDdFUZVvooczY5uZCdQfeMiKtoeYIjwnNUm4x5U2p
+ kVQozE/KnsMztl1B4/cx15v+ng2IBQhWbHM7T8KOIdlm3LXtnQ7Eg8epCXFzHngqlApT60Khj0x
+ fIXxavhbi9+5WFzbU7XPNaYL+Pll6feAThftlDcFdFXTqm9qBNJGlYUL4WeonuRFM3w==
+X-Received: by 2002:a05:600c:2d51:b0:422:e0a8:439d with SMTP id
+ 5b1f17b1804b1-423048264dcmr65133305e9.13.1718541801181; 
+ Sun, 16 Jun 2024 05:43:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGilInOl3Z2Ms2RJlcxrxHdlb3+Txgo6UGrCfVzBgF5IlpReOKjf3+cAqyMKuyt/h5QFexV6A==
+X-Received: by 2002:a05:600c:2d51:b0:422:e0a8:439d with SMTP id
+ 5b1f17b1804b1-423048264dcmr65133135e9.13.1718541800663; 
+ Sun, 16 Jun 2024 05:43:20 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-423034f4129sm120978495e9.14.2024.06.16.05.43.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 16 Jun 2024 05:43:20 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Geert
+ Uytterhoeven <geert+renesas@glider.be>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] drm/panic: depends on !VT_CONSOLE
+In-Reply-To: <20240613154041.325964-1-jfalempe@redhat.com>
+References: <20240613154041.325964-1-jfalempe@redhat.com>
+Date: Sun, 16 Jun 2024 14:43:19 +0200
+Message-ID: <87r0cxqcrc.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240613051700.1112-1-mario.limonciello@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,103 +93,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mario,
+Jocelyn Falempe <jfalempe@redhat.com> writes:
 
-kernel test robot noticed the following build errors:
+Hello Jocelyn,
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.10-rc3 next-20240613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> The race condition between fbcon and drm_panic can only occurs if
+> VT_CONSOLE is set. So update drm_panic dependency accordingly.
+> This will make it easier for Linux distributions to enable drm_panic
+> by disabling VT_CONSOLE, and keeping fbcon terminal.
+> The only drawback is that fbcon won't display the boot kmsg, so it
+> should rely on userspace to do that.
+> At least plymouth already handle this case with
+> https://gitlab.freedesktop.org/plymouth/plymouth/-/merge_requests/224
+>
+> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>  drivers/gpu/drm/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index a9df94291622..f5c989aed7e9 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -107,7 +107,7 @@ config DRM_KMS_HELPER
+>  
+>  config DRM_PANIC
+>  	bool "Display a user-friendly message when a kernel panic occurs"
+> -	depends on DRM && !FRAMEBUFFER_CONSOLE
+> +	depends on DRM && !(FRAMEBUFFER_CONSOLE && VT_CONSOLE)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-fb-helper-Detect-when-lid-is-closed-during-initialization/20240613-132009
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240613051700.1112-1-mario.limonciello%40amd.com
-patch subject: [PATCH v3] drm/fb-helper: Detect when lid is closed during initialization
-config: x86_64-buildonly-randconfig-003-20240614 (https://download.01.org/0day-ci/archive/20240616/202406161923.hGiUV7wr-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406161923.hGiUV7wr-lkp@intel.com/reproduce)
+I thought the idea was to only make it depend on !VT_CONSOLE, so that
+distros could also enable fbcon / VT but prevent the race condition to
+happen due the VT not being a system console for the kernel to print
+messages ?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406161923.hGiUV7wr-lkp@intel.com/
+In other words, my understanding from the discussion with Sima was that
+this should be instead:
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+ +	depends on DRM && !VT_CONSOLE
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/events/rapl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kfence/kfence_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp737.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp850.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp852.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp861.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1251.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-3.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-7.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-inuit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_script.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/isofs/isofs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ubsan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_encoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/macmodes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_ring.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/amd64-agp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-agp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-gtt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_hdmi_state_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-sccb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/device_dax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/core/cxl_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_port.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/advansys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/atp870u.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firewire/packet-serdes-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/simple/simatic-ipc-leds.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/siemens/simatic-ipc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/siemens/simatic-ipc-batt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
->> ERROR: modpost: "input_unregister_handler" [drivers/gpu/drm/drm_kms_helper.ko] undefined!
->> ERROR: modpost: "input_register_handler" [drivers/gpu/drm/drm_kms_helper.ko] undefined!
->> ERROR: modpost: "input_register_handle" [drivers/gpu/drm/drm_kms_helper.ko] undefined!
->> ERROR: modpost: "input_open_device" [drivers/gpu/drm/drm_kms_helper.ko] undefined!
->> ERROR: modpost: "input_unregister_handle" [drivers/gpu/drm/drm_kms_helper.ko] undefined!
->> ERROR: modpost: "input_close_device" [drivers/gpu/drm/drm_kms_helper.ko] undefined!
+I've tested that and at least I see that a framebuffer console is present
+and `echo c > /proc/sysrq-trigger` triggers the DRM panic handler message
+(but don't know if the race exists and is just that I was not hitting it).
+
+If my understanding is correct and should only be a depends on !VT_CONSOLE
+then feel free to add my:
+
+Tested-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
