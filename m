@@ -2,157 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6074890AE59
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 14:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8739290AE75
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 14:59:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50D1310E0ED;
-	Mon, 17 Jun 2024 12:56:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D05810E081;
+	Mon, 17 Jun 2024 12:59:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="dqj/bBmJ";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Z1BnwQMv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2086.outbound.protection.outlook.com [40.107.93.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F146D10E0ED;
- Mon, 17 Jun 2024 12:56:30 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2066.outbound.protection.outlook.com [40.107.236.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB9F210E3A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 12:59:41 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PWL8rlSBEHJ32cvAjz56ftW6KSzbt3mC1f94W1gg7d1k98K9wasvyKk70fXkOGNiOryL3bqI149xpNzinxNWCpfv6S6IXm1zVVWy16ciwaF9YCtIxuCZc1Gl74/H1DSsky+OQ9friyBC3aV0cu5K6oQ6QemUS/0JqysoRjX09lrffNG2UhfeFa+bs8fneJAPVfFHhwBeWeTNmxmbNV/1HOpPEMV6u9h4PelUk+AwC8RqDw0C/u7moAMhHLoodnWAeqvhNOhCDFAGcJQoTFUy52WYjHJ2riuaYjMFX1TD8KRrqNsZoxCFRJBmPX+tGnOxkHliiDDi9nP9YWPtapKvVw==
+ b=mNW8DKb3r1FozoaoCvX26pk5xVcq2pkuboP0VjNTDJwlebEhLo3l9HWTRzVsuCUg9MeUJ54Go3iH81QWuo8on1W4quk6GeceoCKLt4+SpzPLeWOkzDQ2WVhABr+msJz8Rt91Am/c5Y62tLK2Pn4x402ykRzkjj1ji793/OdQUccYhJwIPzKepoiY3N2moYhhM6kD/RmzatNZ0cJOVxFSZqYP4f6P1e/Rp+eo/i8l9zw1avQVLCDhCzjSgfdn9aVQoNSGPb8iq1sEr3xge9BIRdfnX5XL+Rf+RIhcQMdE6a6wGR5BOuUZRV++3Cn8tSH3zM6og+7hLzX15QQxmoiAXg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t0nqDHyfznvWZPEbxveq3pQfe0tuW/PrDnQqOpj7NRw=;
- b=NYbQS2MeYXtp+CVo++ETv1qK53VeukGcOYN5WQ/1oaJ3o2cBMthC71ZabftbN9oO5+hUaYNxik5P+3bwMR/DNQV7JKsd7YdJa3+gOjZ7/sfvbBYQodSDuragUaAWtOqlyk//t6RUWPr+krmGBRgPL59hYKOEWBLIXhji8y1niFsM3WC4JAVGWHObwFixLtn1P4fOOfOBxfbpWXxrctPh0aEUojvWq7wrSJXIIeBn07tFeZIJsUZil9YJ1RG/N9SRVGBM0xk05Pv/XkDj9hnkoEplt2cv33kAugkJGERTfqsfg+5qJto7oIYaKJUOjblqDcD7G83z2Falhdu8U+AgMA==
+ bh=OmgNb4dK+oE53yPjKeHCwn815f53Q4+GHog29k1NnlY=;
+ b=G9TRigLpby8Xj/9y7ovs/7GlY8sYUhAMm/3oB5FXtOl6QOOCZZtwV6AHR3HlNEqqXd2h5CRKBdpNiFb4jau28yLGjSpNUHDwGuX2McfSCfOPl6/JVoUxxe48+EaKGBHtIYJOKhOVMIm9iQXAuCELuTuPNzxXcT8RbQ3eGUH9YWnauea35DvBlcPr41MDZekDmB01U/N7/z+5EuUe6DN4XmcT5ylO8TSgN7JHNVAvNBa8/wtHdCpazSlEheXqWiPCuOUuO/PQOXceFWP7B+KjRxxj7lBpirx7J5Q0sqcRNCQ++0SkKRdJgph+Fi3DBg5j8+86lBWJNfrn8Uf3OYs0RQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t0nqDHyfznvWZPEbxveq3pQfe0tuW/PrDnQqOpj7NRw=;
- b=dqj/bBmJxvTf1tywaDjE855Lk57xceD+AT1q0WsX+T3lmx3DceLX5763+7N/1MtJ1CqyLVcGAsktop+VEV2N4S/YW5g069MPGZT6LVHOE5Jv69O6RmPrJyxEqD5g6dJ3vBv24l2DTKDqU+9N5SDNKfSRfkrkbykVQgc8hUSIzy0=
+ bh=OmgNb4dK+oE53yPjKeHCwn815f53Q4+GHog29k1NnlY=;
+ b=Z1BnwQMvzNnFhdCt8T0+4VgmJmnD7w85d5IfB+AKat/VB/bGE9wYqlBXAXWvVsy6gG//JDycvYxAMHwL6dBAlVjU62W3CmydZHrKF7UB2Lf/BrSXUPDnRXdOtnsPF5/bwpda4CWm/TSiYuDXeP/7W8RcXNndWZhnvWBaIeJhJ5k=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from MW5PR12MB5684.namprd12.prod.outlook.com (2603:10b6:303:1a1::21)
- by PH8PR12MB6745.namprd12.prod.outlook.com (2603:10b6:510:1c0::10)
+ by SA1PR12MB7342.namprd12.prod.outlook.com (2603:10b6:806:2b3::9)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30; Mon, 17 Jun
- 2024 12:56:25 +0000
+ 2024 12:59:35 +0000
 Received: from MW5PR12MB5684.namprd12.prod.outlook.com
  ([fe80::9eac:1160:c373:f105]) by MW5PR12MB5684.namprd12.prod.outlook.com
  ([fe80::9eac:1160:c373:f105%6]) with mapi id 15.20.7677.030; Mon, 17 Jun 2024
- 12:56:25 +0000
-Message-ID: <67be6450-7ae3-4e71-8899-717a023c22dd@amd.com>
-Date: Mon, 17 Jun 2024 14:56:17 +0200
+ 12:59:35 +0000
+Message-ID: <3c40679d-66f7-483e-b6d6-cb3c2a25b39d@amd.com>
+Date: Mon, 17 Jun 2024 14:59:26 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] drm/ttm: Store the bo_kmap_type in struct iosys_map
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, ray.huang@amd.com, kraxel@redhat.com,
- airlied@redhat.com, suijingfeng@loongson.cn
-Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-References: <20240614133556.11378-1-tzimmermann@suse.de>
- <20240614133556.11378-3-tzimmermann@suse.de>
- <5e770114-2751-414f-af57-de8077f6a6a0@amd.com>
- <820be6c8-ce77-4262-bb45-2c18597a661d@suse.de>
+Subject: Re: [PATCH v5 1/4] drm/sched: add device name to the
+ drm_sched_process_job event
+To: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ alexander.deucher@amd.com, ltuikov89@gmail.com, matthew.brost@intel.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ ville.syrjala@linux.intel.com, rostedt@goodmis.org
+References: <20240614081657.408397-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240614081657.408397-2-pierre-eric.pelloux-prayer@amd.com>
+ <c30b3543-7358-483d-bb4b-d76651943fbc@amd.com>
+ <739805b6-f321-40bb-95d6-29c45f145b24@damsy.net>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <820be6c8-ce77-4262-bb45-2c18597a661d@suse.de>
+In-Reply-To: <739805b6-f321-40bb-95d6-29c45f145b24@damsy.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0059.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4b::21) To MW5PR12MB5684.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR3P281CA0167.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a0::6) To MW5PR12MB5684.namprd12.prod.outlook.com
  (2603:10b6:303:1a1::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW5PR12MB5684:EE_|PH8PR12MB6745:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3d3c6012-75c7-4eb9-25bb-08dc8ecce578
+X-MS-TrafficTypeDiagnostic: MW5PR12MB5684:EE_|SA1PR12MB7342:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2fc637ec-50a5-4d9b-bafb-08dc8ecd5686
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230037|366013|7416011|376011|1800799021|921017; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?OFVvVWcvRStKWDcwOWsxMGZZdlVBbjVleElrMmEzVGNsclFtM09TUGpQTTA4?=
- =?utf-8?B?SHl4dVdnRElwNUhNejVRNE5QUG1jMkgrME9FQ1ZJcTFsNG51VU1vRExvS2hT?=
- =?utf-8?B?V0xuNDNrUm9zYzFjWU55SDRTcU14N1pVRkNtREJ4a2RaNmwvaDhhdmE1alVx?=
- =?utf-8?B?YWVDL1pZcG9IaHFtZjV2b0lyaWxTRzhzSFE3dWczNGJsYmFOWXNtbDFGVlhO?=
- =?utf-8?B?R2NKSEliVFBiMThFRE9MRGpVV29VbVF3SFR5MHdXTk81QXhUWjlYWHZBMXVU?=
- =?utf-8?B?aUtDdjU1eWJzenBqNzFQSEJ4MFhabTYxZm5pZGRTNlVHNUF2S2dJTW5UR1ov?=
- =?utf-8?B?UmdGQmdFdXgzdzZ4cXZ2L1FsekRCVjVzL0hYd0pWbUNVUmRNcXhLUmJxM2lG?=
- =?utf-8?B?UXVnMEpjalNkaUtBUDlGMWg4Qnh2bXk1amM4VVY1MG1KV21QZU91VDhxaG1x?=
- =?utf-8?B?MmJXMVIrU0V2WXFHU3dpejU0SVZuUy83U21ySTQ2WGRHM3phVzhpb01wZTRW?=
- =?utf-8?B?V1d4MWJaMmlqNDhYeFRUNEdsUFF3ZnljVjd2Q0Z3enpiRW8vV0RkaHYweUZQ?=
- =?utf-8?B?V2p4bVcwTHQyYkd3NXIrbnVJNllZWXdieXJIa1NvalQzZDZZamZ1aURJc2tU?=
- =?utf-8?B?RzdjTEVoYVRJeVBnWnNPL2Y1UEsxQlR6TVM5RVFPYW91R25xcjJqbXZqaTNr?=
- =?utf-8?B?S2k5TVFBN0NXNlVaN2ZzYUpZdXowOWttK1lpV0JpTmlva0JIZnhXRWhJRGRi?=
- =?utf-8?B?YUZyUkJEM3ZhK0ZXTDIvRTIxV1pBWjdOYkJvbXl0YnMvVytkMWxoTDc0aGdo?=
- =?utf-8?B?eUNtR1loTk96V2lCaGVGdzYyMFpBUEtrQ3hrUHZBREhJVHFSRVBoN3VKY2Vh?=
- =?utf-8?B?aHd5TVByS2dQVS9SWlpKUVM0UFZNbWhTZFMwL1IvTlZmM2ZERVFLV3A4c1By?=
- =?utf-8?B?clk2cHpKN1RaU0hiSTljQzRTNTd1elN4U0tGWFgwMjJ5M2lwb1FlQ2pveW5O?=
- =?utf-8?B?TzJOaVFLR0lMNkdTQnNmTWxCeDl5K1pGa3REcldYSmZENjhSL3pBWWFia1hZ?=
- =?utf-8?B?aDR0cEpjQ2kvZ21jWjZyb05Va1c3U29zUU5uUSs1VjRNMHVOTllYY1VaazNZ?=
- =?utf-8?B?Vi94eUZGZ1ZEdUpLRjRlVUJXUjIzdElXb0p1YlA3dUFsakVXdVpQR3l0by9v?=
- =?utf-8?B?bktjSHdpSGU3S2lTdTdpWTdmL3RSREZ0WlJaanl1NWhQNllxNG54bEVSR01E?=
- =?utf-8?B?RktjZCsvU2haNTdvU3pBV0V4UVQxNHNTeFYzSEhvYlJIZzhOQ1VJSnFDMkJl?=
- =?utf-8?B?UDJGczk3M2FxdWM2VkNXODFONVM1bFBQZnY5RHYxZUxCM2VETGlqdGV4UTJK?=
- =?utf-8?B?UVAzL2t6aE10WHljQ0VBckh2REQ5SlVGYjM3eitVbnpEUlVjOEY1QnJ6YWpq?=
- =?utf-8?B?TW5SamxtdUhRWFdLY1dzYnNYTWtIVDUrMm53emhPWDFIY3psQjFVV2U5Zkln?=
- =?utf-8?B?Nmk2bWJXN0JKUEE1UVZJOThoSFZ4VnB3RHVFMlpXOStlb1cyM28wSmhSQXVs?=
- =?utf-8?B?TElaU0NLV2I4dGxiM1ZmRHZ4Vi8rWTZTNTBRS2gyeWZ6SHVBREJDZk9DRU5W?=
- =?utf-8?B?cTVGZ0U4RC8vdXg0bE5WVCtoekRoVVRnTVpSS3FXNjh6dm9waTEraUZWdHQ5?=
- =?utf-8?B?OVdOK0RROUl4bXZQeEowTSszL0liQjQxdkNNY1ZBanpydEJqc245U3l2ZUJG?=
- =?utf-8?B?TXAwK1pvUG5vaUJReWNjSkhnOTNvOXdqaFBLQmNjUEVQY28rQ2Z6dnZKRFJH?=
- =?utf-8?Q?lTFe1gSYzxUGGEbfGlS0gJDtjNFuB4B2wsWYY=3D?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?YU1ROEZLR2VCUllaakNaMnFkYURLTXM0UmdmSG9PQWVTWFZIVzVXd2VlcHRK?=
+ =?utf-8?B?YTRsSnlVK2wzSFNsYnlxYVp3OWlYMEgvQ0I4cmtMUlhnQ29Id3UxRkVYZWMz?=
+ =?utf-8?B?UzhOZWN0WDFVTnNVdzJFL0cvQ3gvZ1FFdHBSZy8vWkRnUXV4cTdoa3BXTjFQ?=
+ =?utf-8?B?b2lNbmhRY0FVWHUwQmNVeG1samJKbnMycTJRS3VQb2YrNUdLZWptVVZpeGkx?=
+ =?utf-8?B?bVc2MnpjZ1RxQkkyU2w4WkJLQjFMRjNhMHpJaStoQWtEVFVxb3RLRy9MOURL?=
+ =?utf-8?B?d3hPZmpjM0s5SitPZVhPUEV3T1d0Y25jdG44YjIyU3lraUhMelBOTVVNSXhx?=
+ =?utf-8?B?d01QRlFKMjhybm1vNTYwWVAwc2YvODAvcENPTFhMcTVVb3JFM01RdkhQTVox?=
+ =?utf-8?B?cmJpZW83ckhRZjFHVXhZWm01Y3V6d1RNMjVPdmdEUmxycGtuN0pmek1IeE92?=
+ =?utf-8?B?eXdBVlBTKzgxSmlkdDBuOHUxcWsrRVpsek1CU3IxZTFwTVVYRXVITFdvNzkr?=
+ =?utf-8?B?YlcwajBWNVhTT3RKM0ZTcVA3N0pNR2FwZmh3QWFjclA4RnF5OEZPVkNaWHVm?=
+ =?utf-8?B?bFQrZEtLQWV4S2FLNkJDZWdOdHBIdHl0d1F6YnhMMDJKdC9hWGRwZis0VVpM?=
+ =?utf-8?B?ajFkNnF1R0hMaWxTNkgwUVFYbFVXblR4enkxWFd4dGw0TXZsYVhFU0tHZ0pw?=
+ =?utf-8?B?WEE2SzkzdzJ4WHBLNkdzUlVFVjNwUU5UREVmeEZpMW9OeDZINW53SktOaElH?=
+ =?utf-8?B?ZFlxcDBqeEZSaW9LUEp2dURvOERLQWZ1amRFNkI0a1RSZHFnazFVSFNRQy9B?=
+ =?utf-8?B?MWJNc0tnM24vVWVRaFBnckozZXBuc3pOaUNESnkrRnNHZFJSM01NRk82d2Vw?=
+ =?utf-8?B?Z1FIVndpbHpQNTI5VHREYldlZ2VnS2FyUFF1elFRTCs4OG0wUWk0MkR3OW9z?=
+ =?utf-8?B?VlcycUJoWGVEaVZ6RU9TVENVMkZDU1gvMFJBOTcrNS82L1R1c2JwRG9jYkxn?=
+ =?utf-8?B?TWJFYlg4S3pyS01wVER2VjErY2ZTZk1KUkJtcE9hSEMwOS9sT1Vrazc4Z2NK?=
+ =?utf-8?B?WkZRTW1BVFVjTFNvZ0NrNzAwOGRkTms5OVIveEc5M2VxZFUwV0JmREZJSTRx?=
+ =?utf-8?B?UmFoWFpIejVpaWdoT0x0RWxMdC9raWV6MU1pTTZudXFpYWc2Um5SU1ZDNGVi?=
+ =?utf-8?B?bTVxRURtVjJDZitCdkpFSFB6L0pEZVBuY1Q0ZEFFWE9uWXIxS0IzbkhMeUNa?=
+ =?utf-8?B?dCtRcFBJWGQzRytzWHJCdU1rZERQUXNNZGtVbThxTGxCSXNOY3k3RGtJdG9Y?=
+ =?utf-8?B?M3R5YzVLTzJyQWUrTjYyV1BOZWNickl5MDJsQlo4bWhyeHdLRm5iOWx6VmRX?=
+ =?utf-8?B?ZXEvZkF2YmlTT3ZSTExCMTRUMzFuQ2hNUnRreDV4TFh0enlHMXNHNndkVU1B?=
+ =?utf-8?B?bm1KNTRUNWZjR3p1emlxVXVNUW1TSU5rUGpDN0dobktDT2lkSEZXb0VINDho?=
+ =?utf-8?B?ZVF1MHQwclBhQ0tNWDVYVVRJOVlPR05WY1dEOUVERFJuSU1HdzFtVEU1QXRa?=
+ =?utf-8?B?R1liYkcwWnV4aytnZ3JmaUdQMXllbENibkRlSWJGS3dzdGpaN0xNWGx3MDFu?=
+ =?utf-8?B?UG1Rdmp3WWtqWjgvam5QNy9TYWRvOHBvNW92RmRodThGWXN1TVpxRGV5TDk1?=
+ =?utf-8?B?Rys4Nmplems2a2crMGo3d2V1UmJTRzRiNENhcDdubFFCdGNpOXM1Tk8wb0NX?=
+ =?utf-8?B?dDU0QzdHdjVLaXRzZlk3b1ZKZ1NZQ3Q2cStIcWwycmRGbDQ0NHBYdEhsTTYw?=
+ =?utf-8?Q?EKbqRymy8iI819R0tuQ6vfnwyyMrntr6iQvss=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MW5PR12MB5684.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230037)(366013)(7416011)(376011)(1800799021)(921017); DIR:OUT; SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U3FwWitES1ZFQ0plNnBLa2xHUmZNdmZWRjJwUzMvTGRlY1VvcUNOQVQ2aUdL?=
- =?utf-8?B?RWptcVBxQ1UrcGNocVVzSnRaSVRHZ2xZeXUvSnJvTEhJVlRVOTR6RmhxeEJ1?=
- =?utf-8?B?cnhjQUVHSW9rS0x0RW05aHRMSXhQMmo5WlJWYWtpdm1abDZZQm12VFFRY0ps?=
- =?utf-8?B?MzVRdEZTLzNYeHZGSklyUVB6RkJUa3ZVb2ZxWHdmeG5rUVVWK3NMWlFzN3hW?=
- =?utf-8?B?a2VCMDVVVHZ2KzBWclRhT0V2WWJjcTF2aHh1TU1KcXhXVzBLNEJxNmpzLzBi?=
- =?utf-8?B?UUFtSWJpdStka2FLb01UT2t1b0VMQUJQTmt6T2lGREF2ZzFiTS9LbVU5TmRw?=
- =?utf-8?B?bThyUlgySmxaK3YyTGxWZStyclNlY0psOTQvQ2tENXQ2SHNPKzFCdnhoL25F?=
- =?utf-8?B?TWxjS0NsdkZXaUE3Wk5FdDJMYWF5a2R3T1N6WmZLK0hmdjdkbnZ1M0JPQW9k?=
- =?utf-8?B?YUxhSEhOSGRsUHl6QVBEMjNmL3pVd0Mrck9XUms5ejMzdloxaU4vdkpOQXZv?=
- =?utf-8?B?Smt1WGdjVWo0M2xPZXhGT1orMTBNNi9zZHZ6Si9pMm5VTjRxZkg2N1FUdVRp?=
- =?utf-8?B?bmJVYzQ1cEdxSEFRb1ZLYzV0dFgxYUtBQk1xWU1ZYkQ3NjhiN2NUZ01KSERJ?=
- =?utf-8?B?MEZBd3JzK2JyRkVXa2xmZlJ3dFQ4d0JiaXlBalpJdTZSa1hNLzJHWDAxaldJ?=
- =?utf-8?B?cmRpS0JrelFzRWdrZFhSQ1loM1ZZeTF2TTBydnNLdHptajhwTlBPV293NWJU?=
- =?utf-8?B?a1lMQnRXSE5TZndpWDNwTmkxRlhzeW5LeFBVN3VRYXpJNTVycE14b1NNRDRF?=
- =?utf-8?B?QnNXL1E5WHMzQ0FIU3libFZSZnM2dDd6ekU4UVNRQ0hsWm4wTHF6YjlSSDY5?=
- =?utf-8?B?Rngvck4xYUduV1JXSWI1bXVXbDBLa2EwV3JSckFlSTNqbVJpTWw4WjhMRWZv?=
- =?utf-8?B?RTBSZ0pQMVh6NTVaL0Rxb2kxRG1NSFZmdkxzblVLQVJ1VklQcGZRUExwK0dm?=
- =?utf-8?B?U284SlliWjlVOGp0eHYvaXJQaWMrQ2l4bkNCeVdWWXFGNW04UFcyL283dnVq?=
- =?utf-8?B?YnJteDB2MWdWYXJueVo3WnRSRWFSOXFhdExBbzA5OTZwTmE4TnFLMkRSTUlp?=
- =?utf-8?B?eElVamVIUEs5eU9sWmpxK0FuUDFYRjl2RExIZnMrYU1Kc25KR095VG1SSWdX?=
- =?utf-8?B?ZzhxTkxTWlBmK2RYbUk2OG40U0NrN3JUdTRVWlZPR2UzaThsZWIzNzY3OEgv?=
- =?utf-8?B?c3kxbUlFU2RHVlJoMkhHRzBkMUF3M1lPR3VsZnYybjBIdHlHSEQrVTRHc1k3?=
- =?utf-8?B?RWVjNEtGYktxbG93NGcxSTVyTXo0b0dqN3pCTXNjNDlDT25GQ0RBM1h5Rk9k?=
- =?utf-8?B?ZkduOU1Uc3ZpTWVEbmQxS3h6VHNwa3B4Qy9QRGJhUSs3bi82WENBcVJJY3Az?=
- =?utf-8?B?eko3T2ZzcWN1Z1J5VFM5Zkt6QWZUd1hsZTdZQ3VBTWtLeVVHdFZOS3NrM0Rt?=
- =?utf-8?B?dzFESXIvZWN3akQrcEhWeUxiNmQ1bGxpWFhWWHQ1V1JreVdXQXNaVzRCdSt0?=
- =?utf-8?B?L25MU3JNOWZ0bWMvaXlFN1BUL3lxb091T0drZE13R2Nkb1plWXRSWVNmbVB6?=
- =?utf-8?B?c01YTzVrYU9kelhDTzdHblZoelZpR2xXZGZ6bHI2VXVMZDdnMUo0M0lmNE1a?=
- =?utf-8?B?RG8yb0VSandaOU5LZ0R2Qnp3d0dRTDIvYjJUUmhvM2IzWjRia0ZQbEIxLzd1?=
- =?utf-8?B?NVRqZXdnVEVHYXBxejF1Rlk3RGd5bThnS3JIK1pxTjR6S2k0MFhOc1RVNjRu?=
- =?utf-8?B?M084TUZLS3NSR2pPN2VLbWhtTlBsN3JyWS9ta3JMVWVyRmJiODlOWTVqZFVZ?=
- =?utf-8?B?SlNpSnJKUytzUGxOT2d1OGJmKzNieC9NZWRHNWFyMEdWWEU5aU1zemxKN2FO?=
- =?utf-8?B?cEZUZy9zOStWMzNvaUlrTWdiOFhHMGJ4Z3BibjhzVkNMYlJJUDhSUzZBU2dH?=
- =?utf-8?B?WTBMbmw4dFh0Z1pCdHU4UUUrNTR2ak95bU5NUUxOMnhSTkZVcDNUUmhNRnBI?=
- =?utf-8?B?Vk0vN3lPVndqZjFDaUI4OTZPbDBEQ0VjeEZoV0dqSTBsMnh4ZHN1OHZ1dGM1?=
- =?utf-8?Q?KA4boR6qSquQgZ4zblJ2XQPV5?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QkUyb0JvWTlSRGpxMThwWFRObTF4TnhIWDF5eVdRQ1dNZmZ1T0oxRDc2eUpR?=
+ =?utf-8?B?cXQ5YU1zWExDWTdEZWsrRjRaR0lpaUhlbFVNTVcrSFVMSEhRZUxqZVhLUUlM?=
+ =?utf-8?B?dmJmTGRDN3FURGFVTGRydmxTbVRqeG9KZWtTOU00SVBHa1gveUVtVzN0K2hM?=
+ =?utf-8?B?VFF4dC9ZS2ZTSk82eUJacUFrWlgwTWV0amFSMFp6a2t0dTg5bjlsV0JvaTZ5?=
+ =?utf-8?B?OU5ITUNsWXJJc0RGVDhlVHNub1REWHJneW1BTytOQlV6a1pXYXBaaWNrRFdt?=
+ =?utf-8?B?alAvS0p2SFpObWRtdE1ic0VvWHI1Y1g3ZlFMSkNmMVFJRnhuREI4VkJ2R0d4?=
+ =?utf-8?B?Tll0Ti9ZZGpQakt2NEhzU2JaeFJaQkJlQWU0cENXVVNFcUR0c3RtRUxHYUxt?=
+ =?utf-8?B?aE13Zk13aFJMcXRsNGN6MGh3VW5hdlh2TmxsVVA1VXJHcHRYWWJDZk5aTGtG?=
+ =?utf-8?B?aWR2aGk1M3pESm9IMUIxSHMrdWFYZGIvOVg5dzZDY215N09PMVJ3ejlWdFBF?=
+ =?utf-8?B?TzdQYkJoYVRFaXVWaFp1VFV5ZCtxNm9VNWhHK2hKTitMUmQrTWNHVmk3dEVv?=
+ =?utf-8?B?WHlweGtQaWRKeTZPbG42MFVMcXhyT3pmQng3NUlCSFllbTBNaExrZ2xGQXlT?=
+ =?utf-8?B?R2tIcUx0NHRvbVJZdldaMFdObUU0NHcxMzdGY09pNnEwQWdNL29CTkJta1U5?=
+ =?utf-8?B?SGk4QTNnSHhaSHM4T091OTBXMUxuZVl0cmhWemxPTVlFOGo5NlB5K1JDN3M0?=
+ =?utf-8?B?THBvaGZTMXcydlllTDRNQWM2WTZHV0hSYTV5bU9sSVBzYzhJcEs5ZzVPaGxi?=
+ =?utf-8?B?NGlZSG84d2Q1QnRkTUttV2tmZDBpbERlYk5WNjdsSnRpb1RtY3REQWJFRng0?=
+ =?utf-8?B?TXB1N2JTRXFZb0VxWUJEVXhZc1VLZEhvcGZ3dElMRXRydVQzeUhWQzRiRjhq?=
+ =?utf-8?B?VjB6R0hVYnovOG5PcGtxRFhKclVnbzk1NXpSaVBGWVR1RnI0eWdKamVGME9h?=
+ =?utf-8?B?NWJZT2daYmgxUDRYUnBmVjlOMnFOU0FpbHg0NGo5ZnpEa1hBY3FlVGNEZmRZ?=
+ =?utf-8?B?WkpDNlRqUjNkMmtWUlFsaGNaVkovRTdBRDlkUis5Y3ZWZVZLTDJTL01vSE9Q?=
+ =?utf-8?B?UVMveWMyL2cvSmptcnl4R1N5MEJ2L2YvY0ZoWTdCb3pzb0pJc0cwMHZvOHk4?=
+ =?utf-8?B?VWdXSVVRbUJDSEpGQUk1UVlBdVdUc08zdmxCd1NRWlFYMHVQOXhSOFYxSWlI?=
+ =?utf-8?B?Mi9hNm5mSkdUVUtKa0M0eVlyOXlyd0JwYnlaSlkxZW5nc1hITk9OT3FZYjFG?=
+ =?utf-8?B?R3NhYlpFbkNmUjYvaVo3akxTNFM5OUlnbzF2SGNWN0dDeDBVSHZFdnNoY3J5?=
+ =?utf-8?B?V3YzcFFWbjUxUmJQc0hqaGRZbkVMQS80VllFczU1SlorUEEreTNBU2o4Mjgy?=
+ =?utf-8?B?azE1blFsczFkSFJ3NUxFaDlhNmVxK202N0pjcVZMR1l6SjlBdWhJM0RlQ01a?=
+ =?utf-8?B?TGJONEVFcGpxWUhTVW8rc05XS3A4QkVmNUY4TTFJTysyTVBONWs0Y293bjRw?=
+ =?utf-8?B?dzN0MElJYmFSV216bXpVOFRSQTRBN1c2WWJrSHR5VWZyS09SaElrTGJ3b0Vv?=
+ =?utf-8?B?SUcyRkxQMm5NckVVUmZxSDRZdlA1b1Fta0ExQ2k3c29SN0tDZGE5YzZjYldj?=
+ =?utf-8?B?Rm8xWm5aSTdXQU40VS9pbDc4Y1l4NHIxZCtxanJtV0dxTnlpdXQ1aXRadlpP?=
+ =?utf-8?B?bWRPWFVKcE5IUUVYUmtmQVlMWDFremxlWmN2cHd0Mlc2WnhGSEd3dVBXbWVn?=
+ =?utf-8?B?SDdteUtFRkh0L3NRQ1o0cjZMT0NFdkxSd2J4cURzZFVaTzNPK05LVlhzSUpx?=
+ =?utf-8?B?K3V3c1pQK1FIY1JQdXEydnVLcEpIQlRhQXhvT3hrQVhYMHJCSHR4THpFUWxX?=
+ =?utf-8?B?a3U5Uy9PekxsbFloOTdSelMrR291R0dHUnZ5a1JzeCtYcGR3UUx0cnhGNDBm?=
+ =?utf-8?B?OGRNRHBSZTVtVkdkSWYwM2FYRkhYNnc5MDkvVkVUZFhxLzgvVXpHN09XTUp4?=
+ =?utf-8?B?YzlxOTVXS0V2em9qSDJpZHRaWHpMbE9LZ0p2WXJoTGRKOGlUVzZyYU5EMEk3?=
+ =?utf-8?Q?98wotxT/Gf3TUJLLP/3MMUTJv?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d3c6012-75c7-4eb9-25bb-08dc8ecce578
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2fc637ec-50a5-4d9b-bafb-08dc8ecd5686
 X-MS-Exchange-CrossTenant-AuthSource: MW5PR12MB5684.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2024 12:56:25.5565 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2024 12:59:35.3438 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lufukJmjDxCjTeBGlPTiyigZy4tW0B5ufS8FoOg8q5mrAh/5Lhc3v1CJuCja7K75
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6745
+X-MS-Exchange-CrossTenant-UserPrincipalName: PdXOEZP8zg3acV5G/a94Ce7BV8JQcmpxKmL/GXGC8P7C1I4NdYwhQoZ3UuVZYIfL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7342
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,160 +168,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-Am 17.06.24 um 14:32 schrieb Thomas Zimmermann:
-> Hi
+Am 17.06.24 um 14:54 schrieb Pierre-Eric Pelloux-Prayer:
+> Hi,
 >
-> Am 14.06.24 um 16:31 schrieb Christian König:
->> Am 14.06.24 um 15:21 schrieb Thomas Zimmermann:
->>> For each instances of struct iosys_map set up by ttm_bo_vmap(), store
->>> the type of allocation in the instance. Use this information to unmap
->>> the memory in ttm_bo_vunmap(). This change simplifies the unmap code
->>> and puts the complicated logic entirely into the map code.
+> Le 14/06/2024 à 11:08, Christian König a écrit :
 >>
->> I'm not sure that's a good idea.
 >>
->> The mapping information should already be available in the resource 
->> and storing it in the iosys_map structures duplicates that information.
+>> Am 14.06.24 um 10:16 schrieb Pierre-Eric Pelloux-Prayer:
+>>> Until the switch from kthread to workqueue, a userspace application 
+>>> could
+>>> determine the source device from the pid of the thread sending the 
+>>> event.
+>>>
+>>> With workqueues this is not possible anymore, so the event needs to 
+>>> contain
+>>> the dev_name() to identify the device.
+>>>
+>>> Signed-off-by: Pierre-Eric Pelloux-Prayer 
+>>> <pierre-eric.pelloux-prayer@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/scheduler/gpu_scheduler_trace.h | 10 ++++++++--
+>>>   1 file changed, 8 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h 
+>>> b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>>> index c75302ca3427..1f9c5a884487 100644
+>>> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>>> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>>> @@ -42,6 +42,7 @@ DECLARE_EVENT_CLASS(drm_sched_job,
+>>>                    __field(uint64_t, id)
+>>>                    __field(u32, job_count)
+>>>                    __field(int, hw_job_count)
+>>> +                 __string(dev, dev_name(sched_job->sched->dev))
+>>>                    ),
+>>>           TP_fast_assign(
+>>> @@ -52,6 +53,7 @@ DECLARE_EVENT_CLASS(drm_sched_job,
+>>>                  __entry->job_count = 
+>>> spsc_queue_count(&entity->job_queue);
+>>>                  __entry->hw_job_count = atomic_read(
+>>> &sched_job->sched->credit_count);
+>>> +               __assign_str(dev);
+>>>                  ),
+>>>           TP_printk("entity=%p, id=%llu, fence=%p, ring=%s, job 
+>>> count:%u, hw job count:%d",
+>>>                 __entry->entity, __entry->id,
+>>> @@ -64,9 +66,13 @@ DEFINE_EVENT(drm_sched_job, drm_sched_job,
+>>>           TP_ARGS(sched_job, entity)
+>>>   );
+>>> -DEFINE_EVENT(drm_sched_job, drm_run_job,
+>>> +DEFINE_EVENT_PRINT(drm_sched_job, drm_run_job,
+>>>           TP_PROTO(struct drm_sched_job *sched_job, struct 
+>>> drm_sched_entity *entity),
+>>> -        TP_ARGS(sched_job, entity)
+>>> +        TP_ARGS(sched_job, entity),
+>>> +        TP_printk("dev=%s, entity=%p id=%llu, fence=%p, ring=%s, 
+>>> job count:%u, hw job count:%d",
+>>> +              __get_str(dev), __entry->entity, __entry->id,
+>>> +              __entry->fence, __get_str(name),
+>>> +              __entry->job_count, __entry->hw_job_count)
 >>
->> So we might run into the issue that the resource has changed and so 
->> we need a different approach now, but the iosys_map will say that we 
->> should unmap things for example.
+>> Why not doing that in the TP_printk() of the drm_sched_job event class?
+>>
 >
-> Patches 1 and 2 are only here to make patch 4 (add the kmap special 
-> case) work. How can I distinguish between vmap'ed and kmap'ed memory? 
-> It's not clear to me, whether there is a benefit from patch 4. The xe 
-> driver makes it sound like that, but the rest of the kernel appears to 
-> disagree.
+> I didn't because drm_sched_job + drm_run_job usually work in pair so 
+> the ring+device information will be available anyway.
+>
+> But maybe you're right and it's better to add it in the event the job 
+> never gets scheduled.
+>
+> For the other events it's not necessary IMO: the first event will 
+> always be drm_sched_job, so it's possible to figure out which the 
+> device/ring for a given job.
 
-Yeah, exactly that's the point.
+Yeah, but we have that strace in the trace event even when we don't 
+print it.
 
-The last time we talked about that we came to the conclusion that the 
-kmap approach of mapping only a single page or range of pages isn't that 
-useful in general.
-
-The only use case where you actually need this is the 
-ttm_bo_vm_access_kmap() helper and that is static and internal to TTM.
-
-So what exactly is the use case xe tries to handle here?
+I would just go ahead and always print it even when it is available 
+somehow else.
 
 Regards,
 Christian.
 
 >
-> Best regards
-> Thomas
+> Regards,
+> Pierre-eric
 >
+>> The device should now be available for all trace events of that class.
 >>
 >> Regards,
 >> Christian.
 >>
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> ---
->>>   drivers/gpu/drm/ttm/ttm_bo_util.c | 46 
->>> +++++++++++++++++++++----------
->>>   1 file changed, 31 insertions(+), 15 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c 
->>> b/drivers/gpu/drm/ttm/ttm_bo_util.c
->>> index 0b3f4267130c4..a9df0deff2deb 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
->>> @@ -36,6 +36,7 @@
->>>   #include <drm/ttm/ttm_tt.h>
->>>     #include <drm/drm_cache.h>
->>> +#include <drm/drm_device.h>
->>>     struct ttm_transfer_obj {
->>>       struct ttm_buffer_object base;
->>> @@ -479,24 +480,29 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, 
->>> struct iosys_map *map)
->>>         if (mem->bus.is_iomem) {
->>>           void __iomem *vaddr_iomem;
->>> +        u16 alloc_flags;
->>>   -        if (mem->bus.addr)
->>> +        if (mem->bus.addr) {
->>>               vaddr_iomem = (void __iomem *)mem->bus.addr;
->>> -        else if (mem->bus.caching == ttm_write_combined)
->>> -            vaddr_iomem = ioremap_wc(mem->bus.offset,
->>> -                         bo->base.size);
->>> +            alloc_flags = ttm_bo_map_premapped;
->>> +        } else if (mem->bus.caching == ttm_write_combined) {
->>> +            vaddr_iomem = ioremap_wc(mem->bus.offset, bo->base.size);
->>> +            alloc_flags = ttm_bo_map_iomap;
->>>   #ifdef CONFIG_X86
->>> -        else if (mem->bus.caching == ttm_cached)
->>> -            vaddr_iomem = ioremap_cache(mem->bus.offset,
->>> -                          bo->base.size);
->>> +        } else if (mem->bus.caching == ttm_cached) {
->>> +            vaddr_iomem = ioremap_cache(mem->bus.offset, 
->>> bo->base.size);
->>> +            alloc_flags = ttm_bo_map_iomap;
->>>   #endif
->>> -        else
->>> +        } else {
->>>               vaddr_iomem = ioremap(mem->bus.offset, bo->base.size);
->>> +            alloc_flags = ttm_bo_map_iomap;
->>> +        }
->>>             if (!vaddr_iomem)
->>>               return -ENOMEM;
->>>             iosys_map_set_vaddr_iomem(map, vaddr_iomem);
->>> +        map->alloc_flags = alloc_flags;
->>>         } else {
->>>           struct ttm_operation_ctx ctx = {
->>> @@ -506,6 +512,7 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, 
->>> struct iosys_map *map)
->>>           struct ttm_tt *ttm = bo->ttm;
->>>           pgprot_t prot;
->>>           void *vaddr;
->>> +        u16 alloc_flags;
->>>             ret = ttm_tt_populate(bo->bdev, ttm, &ctx);
->>>           if (ret)
->>> @@ -519,8 +526,10 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, 
->>> struct iosys_map *map)
->>>           vaddr = vmap(ttm->pages, ttm->num_pages, 0, prot);
->>>           if (!vaddr)
->>>               return -ENOMEM;
->>> +        alloc_flags = ttm_bo_map_vmap;
->>>             iosys_map_set_vaddr(map, vaddr);
->>> +        map->alloc_flags = alloc_flags;
->>>       }
->>>         return 0;
->>> @@ -537,20 +546,27 @@ EXPORT_SYMBOL(ttm_bo_vmap);
->>>    */
->>>   void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct iosys_map 
->>> *map)
->>>   {
->>> -    struct ttm_resource *mem = bo->resource;
->>> -
->>>       dma_resv_assert_held(bo->base.resv);
->>>         if (iosys_map_is_null(map))
->>>           return;
->>>   -    if (!map->is_iomem)
->>> -        vunmap(map->vaddr);
->>> -    else if (!mem->bus.addr)
->>> +    switch (map->alloc_flags) {
->>> +    case ttm_bo_map_iomap:
->>>           iounmap(map->vaddr_iomem);
->>> -    iosys_map_clear(map);
->>> -
->>> +        break;
->>> +    case ttm_bo_map_vmap:
->>> +        vunmap(map->vaddr);
->>> +        break;
->>> +    case ttm_bo_map_premapped:
->>> +        break;
->>> +    default:
->>> +        drm_err(bo->base.dev, "Unsupported alloc_flags 0x%x\n", 
->>> map->alloc_flags);
->>> +        return;
->>> +    }
->>>       ttm_mem_io_free(bo->bdev, bo->resource);
->>> +
->>> +    iosys_map_clear(map);
->>>   }
->>>   EXPORT_SYMBOL(ttm_bo_vunmap);
->>
->
+>>>   );
+>>>   TRACE_EVENT(drm_sched_process_job,
 
