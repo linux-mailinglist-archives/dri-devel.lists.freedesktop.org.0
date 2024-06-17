@@ -2,59 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F05490A3A6
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 08:04:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C44790A568
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 08:23:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B47110E1A4;
-	Mon, 17 Jun 2024 06:04:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CC7C10E1A8;
+	Mon, 17 Jun 2024 06:23:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JzCYIs8P";
+	dkim=pass (2048-bit key; unprotected) header.d=atmark-techno.com header.i=@atmark-techno.com header.b="TI3mBKTz";
+	dkim=pass (2048-bit key; unprotected) header.d=atmark-techno.com header.i=@atmark-techno.com header.b="JDFxQakV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5BAE10E112;
- Mon, 17 Jun 2024 06:03:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718604240; x=1750140240;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=hMaBG2+UlcZUZTztnByWCd1Zr2GoTZisJWaj3dzdfNc=;
- b=JzCYIs8PHz8hPGsYrAsB1VMfHqirbUpD//PjNzDopPelt5IEpBCRnP+X
- VLG4MmNRTncr1N28HTC9x07EG5oDFYML1ILzF/Gx5UYgJAaFZA2JnmbCC
- Q915iE/+ZzSW8CWKrgXy5sgqM+fLJnyB1gJCeHVsaNd9RoB220TWjWgOP
- bFD5JnmbA9zcMIHlgz5J5ccHVmnw/GMx7IFn3NWiIrBGFYmBmJoa4sPHl
- rzw05YSCtZ8fFF2oJjfdNE9bsIhliGvWERjkzZBrsaCYHOYk280RZqLwL
- hfeGmiWvine5bdwk3t06HKysZ/HJKs6EnwGZxd9Z7SmxW37mayWr5bGdm Q==;
-X-CSE-ConnectionGUID: 2sSlLHcBSfqWx3/u6MqoLw==
-X-CSE-MsgGUID: EKmpPkRASZC7f2U9iYx+XQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="12103514"
-X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; d="scan'208";a="12103514"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2024 23:03:59 -0700
-X-CSE-ConnectionGUID: lAjZ5ulWThqyj83DlunquQ==
-X-CSE-MsgGUID: ESpXd40KRv+fjX7SGmH3bQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; d="scan'208";a="41805146"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
- by orviesa007.jf.intel.com with ESMTP; 16 Jun 2024 23:03:58 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sJ5T9-0003s9-0b;
- Mon, 17 Jun 2024 06:03:55 +0000
-Date: Mon, 17 Jun 2024 14:03:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
-Subject: [drm-intel:for-linux-next-gt 3/5]
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c:942:5: error: format specifies
- type 'long long' but the argument has type 'resource_size_t' (aka 'unsigned
- int')
-Message-ID: <202406171328.vXSQfddX-lkp@intel.com>
+X-Greylist: delayed 362 seconds by postgrey-1.36 at gabe;
+ Mon, 17 Jun 2024 06:23:23 UTC
+Received: from gw2.atmark-techno.com (gw2.atmark-techno.com [35.74.137.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5B5C10E1A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 06:23:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=atmark-techno.com;
+ s=gw2_bookworm; t=1718605040;
+ bh=VWekmmnDCFhOysdFb3773YHoJmKjjDsvt2a9l5bgUHY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TI3mBKTzz6u0Jx9FjBw7MJ31Tksi/SGBtMurhzr8tlgzy67MVhpkjEoTZwBkMfBK0
+ VEa55Gt88p8kIwBCoUYz6q0vxANPmn867a3hghIZZSNCo1EJ5MxzlbZOKNMNmq2W8/
+ W3YL9ag7eo7eudx/76gPIh67Cp+o3szmMac6OLlKHT5x/zImovL+bXMI/0zLgjoa8D
+ sgwIuwhzHcxr87X/l2KplT3m/+pm/LtgPEbD1r3zq1GA2ob3LT8nYjf2HYGqL+FjZr
+ M1YJZ5LAq378kyrr2oMSMXelOE7upxdaZR1BIF/C4112P6Jox9JhR0Zf82iBjgv+tf
+ mkFe4EzAYsYww==
+Received: from gw2.atmark-techno.com (localhost [127.0.0.1])
+ by gw2.atmark-techno.com (Postfix) with ESMTP id C1FD6A9A
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 15:17:20 +0900 (JST)
+Authentication-Results: gw2.atmark-techno.com; dkim=pass (2048-bit key;
+ unprotected) header.d=atmark-techno.com header.i=@atmark-techno.com
+ header.a=rsa-sha256 header.s=google header.b=JDFxQakV; 
+ dkim-atps=neutral
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70])
+ by gw2.atmark-techno.com (Postfix) with ESMTPS id D487BA85
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 15:17:19 +0900 (JST)
+Received: by mail-ua1-f70.google.com with SMTP id
+ a1e0cc1a2514c-80b84bffb4bso4731046241.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 23:17:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=atmark-techno.com; s=google; t=1718605038; x=1719209838;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=60zeZXWHXHBwDs11QTLBG22SVSiDpOOF7b1DAQhvIYU=;
+ b=JDFxQakV8LabLaTgo3wB2R1zfoIo6rXDd8DLs5TNZblDraDKVNIe5wG3swSoy7if0p
+ N6ydj/cpEuJoeIIO5RqEZpA4O4mf+Uc8745vXhG2jn+0d5KvzbKe/gPeiSK815Df+nIu
+ UFkQV9dfprQnDSBaRrQob8dbDPIXg+ZPjbKPv1NWbAP7v95kuz1gb0rFReK9BI5HV1yp
+ btaxwKTkjgAuXC5IUPvgRJWWTr/tDEkBaubfg3PVd2isRxFhPmc8L65x6sx4ude0FwxH
+ pdpXrhLJFqCreQxLsDYA1sdzueQXd2Cl1WfK+T8/sIu+8nAienMujJzydybTJKtAskbi
+ wpCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718605038; x=1719209838;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=60zeZXWHXHBwDs11QTLBG22SVSiDpOOF7b1DAQhvIYU=;
+ b=Bc9rDXByeFQvUdfXZX9hscIUNhOXqo2Hz465qNKOA1R0eMoVZ08WpGGt3tdNCzKePX
+ m6Ehv6qyYoJKduc5pTu9cqorEzW2V5xWyITSYcqxB3zxawuoeUJ2R0Z2edwAFmlvrY8/
+ vSPKowM6HyupHphHatKIasVLW3A9EuUKZDXofYvrSDVRNQdRCc9ed6lASV01PdTT8KJZ
+ RMLGYoBcDm0W4Yn2/HNpOW1tLFCYKqCqW4FFQiFdes8vNxzDJ1TqNR9GhS6PMefYMpVh
+ Te8vph68jvmrn75saHufzX/t/3I/ANfOHR4oQ62vb1DVzybOyyOjk/Xd806KaRHzNugR
+ VvcQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUlDkma11Dk/fffm9HoCNZhRdf9NpN7R0dWYEyPd8gQ4XxFMtSRe3KVd0Nmt/yi51q5e1wNhyj/lcayjB04VFvPQH26pqeMYnjNkylatLA2
+X-Gm-Message-State: AOJu0YzK5E9qbAovc00Zw+6ZR72uc29R2G+3NbEyDUrIVxdlSl4MNpzD
+ KY0rb/NGfZkX4J6gmtKyIt9v2Iv1KlxKXWwIMv4vcfttlyI96Dp0o/Pqv6ZuSNwF7D3iAVM7oaJ
+ 7NhzYSPc6exNQ1LksJW2FYDDi4FEI06lJ0K03SnL79QvFgOTyhX7HYlQ4rMsQDUZwUAM=
+X-Received: by 2002:a17:903:230c:b0:1f6:f318:71d7 with SMTP id
+ d9443c01a7336-1f84e2ecf4amr202295935ad.19.1718605016987; 
+ Sun, 16 Jun 2024 23:16:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGupfMdS0WD6NixTdYr6ZfcWEtMhu5SpstN18VssrHrcsQGhmU5k6sNEo7ckq0TCT9O5Tg9zA==
+X-Received: by 2002:a17:903:230c:b0:1f6:f318:71d7 with SMTP id
+ d9443c01a7336-1f84e2ecf4amr202295225ad.19.1718605016152; 
+ Sun, 16 Jun 2024 23:16:56 -0700 (PDT)
+Received: from pc-0182.atmarktech (35.112.198.104.bc.googleusercontent.com.
+ [104.198.112.35]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f855f1b146sm73170955ad.244.2024.06.16.23.16.55
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 16 Jun 2024 23:16:55 -0700 (PDT)
+Received: from martinet by pc-0182.atmarktech with local (Exim 4.96)
+ (envelope-from <martinet@pc-zest>) id 1sJ5fi-009Sm5-23;
+ Mon, 17 Jun 2024 15:16:54 +0900
+Date: Mon, 17 Jun 2024 15:16:44 +0900
+From: Dominique MARTINET <dominique.martinet@atmark-techno.com>
+To: Lucas Stach <l.stach@pengutronix.de>, Adam Ford <aford173@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org, marex@denx.de,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ Makoto Sato <makoto.sato@atmark-techno.com>
+Subject: drm/bridge/imx8mp-hdmi-tx: Allow inexact pixel clock frequencies
+ (Was: [PATCH V8 10/12] drm/bridge: imx: add bridge wrapper driver for
+ i.MX8MP DWC HDMI)
+Message-ID: <Zm_UzO4Jmm7Aykcm@atmark-techno.com>
+References: <20240203165307.7806-1-aford173@gmail.com>
+ <20240203165307.7806-11-aford173@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20240203165307.7806-11-aford173@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,145 +132,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm-intel for-linux-next-gt
-head:   ae45f07cade1a5853ff6fd745bbd86a64cc82643
-commit: 05da7d9f717bcb03c457379fa8a61c1689dab86c [3/5] drm/i915/gem: Downgrade stolen lmem setup warning
-config: i386-randconfig-053-20240617 (https://download.01.org/0day-ci/archive/20240617/202406171328.vXSQfddX-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406171328.vXSQfddX-lkp@intel.com/reproduce)
+Adam Ford wrote on Sat, Feb 03, 2024 at 10:52:50AM -0600:
+> From: Lucas Stach <l.stach@pengutronix.de>
+> 
+> Add a simple wrapper driver for the DWC HDMI bridge driver that
+> implements the few bits that are necessary to abstract the i.MX8MP
+> SoC integration.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406171328.vXSQfddX-lkp@intel.com/
+Hi Lucas, Adam,
+(trimmed ccs a bit)
 
-All errors (new ones prefixed by >>):
+First, thank you for the effort of upstreaming all of this!! It's really
+appreciated, and with display working I'll really be wanting to upstream
+our DTS as well as soon as I have time (which is going to be a while,
+but better late than never ?)
 
->> drivers/gpu/drm/i915/gem/i915_gem_stolen.c:942:5: error: format specifies type 'long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Werror,-Wformat]
-     941 |                                 "Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
-         |                                                                                                    ~~~~
-         |                                                                                                    %u
-     942 |                                 lmem_size, dsm_base);
-         |                                 ^~~~~~~~~
-   include/drm/drm_print.h:522:59: note: expanded from macro 'drm_dbg'
-     522 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:504:63: note: expanded from macro 'drm_dbg_driver'
-     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |                                                               ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:422:39: note: expanded from macro 'drm_dev_dbg'
-     422 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                                       ~~~    ^~~~~~~~~~~
-   drivers/gpu/drm/i915/gem/i915_gem_stolen.c:942:16: error: format specifies type 'long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Werror,-Wformat]
-     941 |                                 "Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
-         |                                                                                                                       ~~~~
-         |                                                                                                                       %u
-     942 |                                 lmem_size, dsm_base);
-         |                                            ^~~~~~~~
-   include/drm/drm_print.h:522:59: note: expanded from macro 'drm_dbg'
-     522 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:504:63: note: expanded from macro 'drm_dbg_driver'
-     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |                                                               ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:422:39: note: expanded from macro 'drm_dev_dbg'
-     422 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                                       ~~~    ^~~~~~~~~~~
-   2 errors generated.
+Until then, it's been a few months but I've got a question on this bit:
+
+> diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+> new file mode 100644
+> index 000000000000..89fc432ac611
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+> +static enum drm_mode_status
+> +imx8mp_hdmi_mode_valid(struct dw_hdmi *dw_hdmi, void *data,
+> +		       const struct drm_display_info *info,
+> +		       const struct drm_display_mode *mode)
+> +{
+> +	struct imx8mp_hdmi *hdmi = (struct imx8mp_hdmi *)data;
+> +
+> +	if (mode->clock < 13500)
+> +		return MODE_CLOCK_LOW;
+> +
+> +	if (mode->clock > 297000)
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	if (clk_round_rate(hdmi->pixclk, mode->clock * 1000) !=
+> +	    mode->clock * 1000)
+> +		return MODE_CLOCK_RANGE;
+
+Do you know why such a check is here?
+
+When plugging in a screen with no frequency identically supported in its
+EDID this check causes the screen to stay black, and we've been telling
+customers to override the EDID but it's a huge pain.
+
+Commit 6ad082bee902 ("phy: freescale: add Samsung HDMI PHY") already
+"fixed" the samsung hdmi phy driver to return the next frequency if an
+exact match hasn't been found (NXP tree's match frequencies exactly, but
+this gets the first clock with pixclk <= rate), so if this check is also
+relaxed our displays would work out of the box.
+
+I also don't see any other bridge doing this kind of check.
+drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c has a similar check with a
+0.5% leeway, and all the other drivers don't check anything.
+If you want to add some level of safety, I think we could make this work
+with a 5% margin easily... Printing a warning in dmesg could work if
+you're worried about artifacts, but litteraly anything is better than a
+black screen with no error message in my opinion.
 
 
-vim +942 drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+In practice the screen I'm looking at has an EDID which only supports
+51.2MHz and the closest frequency supported by the Samsung HDMI phy is
+50.4MHz, so that's a ~1.5% difference and it'd be great if it could work
+out of the box.
 
-   889	
-   890	struct intel_memory_region *
-   891	i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
-   892				   u16 instance)
-   893	{
-   894		struct intel_uncore *uncore = &i915->uncore;
-   895		struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
-   896		resource_size_t dsm_size, dsm_base, lmem_size;
-   897		struct intel_memory_region *mem;
-   898		resource_size_t io_start, io_size;
-   899		resource_size_t min_page_size;
-   900		int ret;
-   901	
-   902		if (WARN_ON_ONCE(instance))
-   903			return ERR_PTR(-ENODEV);
-   904	
-   905		if (!i915_pci_resource_valid(pdev, GEN12_LMEM_BAR))
-   906			return ERR_PTR(-ENXIO);
-   907	
-   908		if (HAS_LMEMBAR_SMEM_STOLEN(i915) || IS_DG1(i915)) {
-   909			lmem_size = pci_resource_len(pdev, GEN12_LMEM_BAR);
-   910		} else {
-   911			resource_size_t lmem_range;
-   912	
-   913			lmem_range = intel_gt_mcr_read_any(to_gt(i915), XEHP_TILE0_ADDR_RANGE) & 0xFFFF;
-   914			lmem_size = lmem_range >> XEHP_TILE_LMEM_RANGE_SHIFT;
-   915			lmem_size *= SZ_1G;
-   916		}
-   917	
-   918		if (HAS_LMEMBAR_SMEM_STOLEN(i915)) {
-   919			/*
-   920			 * MTL dsm size is in GGC register.
-   921			 * Also MTL uses offset to GSMBASE in ptes, so i915
-   922			 * uses dsm_base = 8MBs to setup stolen region, since
-   923			 * DSMBASE = GSMBASE + 8MB.
-   924			 */
-   925			ret = mtl_get_gms_size(uncore);
-   926			if (ret < 0) {
-   927				drm_err(&i915->drm, "invalid MTL GGC register setting\n");
-   928				return ERR_PTR(ret);
-   929			}
-   930	
-   931			dsm_base = SZ_8M;
-   932			dsm_size = (resource_size_t)(ret * SZ_1M);
-   933	
-   934			GEM_BUG_ON(pci_resource_len(pdev, GEN12_LMEM_BAR) != SZ_256M);
-   935			GEM_BUG_ON((dsm_base + dsm_size) > lmem_size);
-   936		} else {
-   937			/* Use DSM base address instead for stolen memory */
-   938			dsm_base = intel_uncore_read64(uncore, GEN6_DSMBASE) & GEN11_BDSM_MASK;
-   939			if (lmem_size < dsm_base) {
-   940				drm_dbg(&i915->drm,
-   941					"Disabling stolen memory support due to OOB placement: lmem_size = %lli vs dsm_base = %lli\n",
- > 942					lmem_size, dsm_base);
-   943				return 0;
-   944			}
-   945			dsm_size = ALIGN_DOWN(lmem_size - dsm_base, SZ_1M);
-   946		}
-   947	
-   948		if (i915_direct_stolen_access(i915)) {
-   949			drm_dbg(&i915->drm, "Using direct DSM access\n");
-   950			io_start = intel_uncore_read64(uncore, GEN6_DSMBASE) & GEN11_BDSM_MASK;
-   951			io_size = dsm_size;
-   952		} else if (pci_resource_len(pdev, GEN12_LMEM_BAR) < lmem_size) {
-   953			io_start = 0;
-   954			io_size = 0;
-   955		} else {
-   956			io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + dsm_base;
-   957			io_size = dsm_size;
-   958		}
-   959	
-   960		min_page_size = HAS_64K_PAGES(i915) ? I915_GTT_PAGE_SIZE_64K :
-   961							I915_GTT_PAGE_SIZE_4K;
-   962	
-   963		mem = intel_memory_region_create(i915, dsm_base, dsm_size,
-   964						 min_page_size,
-   965						 io_start, io_size,
-   966						 type, instance,
-   967						 &i915_region_stolen_lmem_ops);
-   968		if (IS_ERR(mem))
-   969			return mem;
-   970	
-   971		intel_memory_region_set_name(mem, "stolen-local");
-   972	
-   973		mem->private = true;
-   974	
-   975		return mem;
-   976	}
-   977	
+For reference, the output of edid-decode is as follow:
+---
+edid-decode /sys/devices/platform/display-subsystem/drm/car
+d1/card1-HDMI-A-1/edid
+edid-decode (hex):
 
+00 ff ff ff ff ff ff 00 3a 49 03 00 01 00 00 00
+20 1e 01 03 80 10 09 00 0a 00 00 00 00 00 00 00
+00 00 00 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 00 14 00 40 41 58 23 20 a0 20
+c8 00 9a 56 00 00 00 18 00 00 00 10 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 10 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 10
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 9a
+
+----------------
+
+Block 0, Base EDID:
+  EDID Structure Version & Revision: 1.3
+  Vendor & Product Identification:
+    Manufacturer: NRI
+    Model: 3
+    Serial Number: 1
+    Made in: week 32 of 2020
+  Basic Display Parameters & Features:
+    Digital display
+    Maximum image size: 16 cm x 9 cm
+    Gamma: 1.00
+    RGB color display
+    First detailed timing is the preferred timing
+  Color Characteristics:
+    Red  : 0.0000, 0.0000
+    Green: 0.0000, 0.0000
+    Blue : 0.0000, 0.0000
+    White: 0.0000, 0.0000
+  Established Timings I & II: none
+  Standard Timings: none
+  Detailed Timing Descriptors:
+    DTD 1:  1024x600    59.993 Hz 128:75   38.095 kHz  51.200 MHz (154 mm x 86 m
+m)
+                 Hfront  160 Hsync  32 Hback 128 Hpol N
+                 Vfront   12 Vsync   8 Vback  15 Vpol N
+    Dummy Descriptor:
+    Dummy Descriptor:
+    Dummy Descriptor:
+Checksum: 0x9a
+---
+
+
+Thanks,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Dominique Martinet
+
+
