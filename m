@@ -2,80 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0650090AFAD
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 15:41:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B578E90B055
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 15:53:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCFD210E3C8;
-	Mon, 17 Jun 2024 13:41:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CE1710E138;
+	Mon, 17 Jun 2024 13:53:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GH5cuBSn";
+	dkim=pass (2048-bit key; unprotected) header.d=garmin.com header.i=@garmin.com header.b="nhkM3s5a";
+	dkim=pass (2048-bit key; unprotected) header.d=garmin.com header.i=@garmin.com header.b="NSm35CRb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0054B10E3C8
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 13:41:14 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id
- d2e1a72fcca58-70435f4c330so3482677b3a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 06:41:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718631674; x=1719236474; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=q0pp4nLuLDtvrTRt1gP/9BmZwggZYJPGQwgqI4bcf7s=;
- b=GH5cuBSnzUiAwODQoRTzxKy/ampJ3jrjlfAw0IoFN9tpCKm7CsQhd+95MBYApcnwNs
- GKo0G/mPvWGjka36SL3udMwSYgw5TzrOLJ6NP/Ix0Bi+1OSfwYgkFyaYXMtwDw3yAUmj
- 4jLIfRCj7vLflSZPdBnIaQGTgdcEOLI3UBQjcuVm11+upobUymRmnwHhnktbutxjPN8I
- rxNz9Bad0qowFRkGyyBRGshBi/sqsiCIgIUz6/mnyxU6PDAJT+V2M8gp9CbnKAy7nDgG
- oIWEUGmo3de+4zcjCRcWm6oU/1jQlYQqzNcgLOIsGQ3drQAZcAEdxgZQQCorjhRxNvr+
- GF6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718631674; x=1719236474;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=q0pp4nLuLDtvrTRt1gP/9BmZwggZYJPGQwgqI4bcf7s=;
- b=Duo4pkcUMoH/gw5LJ1DG9l5ZW5smLyDoMDlVDT30nXU504GqHMsEv4kmHJXX/fgsXS
- M+niWfH1rYVnZ8Bm8d5oFW4+6n8CNP2tO59T+HtF/5LtlcOwOHKLOZ3qXwzKfakxo3ej
- tQTYl900A0ShkXoYvJLruC/PXjwTHUX1Ueh9knVQ9E+pKNlaAAp5jNByb6IGNFdAxa7q
- Xyd0da98t0mTrs9zY9f4i7BF/zRgOc2lxTTc0s9FSXYl/3gyzQ7XtzxaNjIsL3ZF8Gum
- u4TVu2sTEOO4bc83Fc+ChkOL1O2vZefjCK7wluPkRvwylSsfHmuRj7KZrmzgp8v21Z4Z
- sCNg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUQan/PhMp996m94Uy+kT9VajUxcsdFLa56bnhQkX7nGYk3vLsmqe5JdAnvJWG/EkggGWg1ttwzKBSrDgj+7bKBjfDvYZ2grV+GOOZyridz
-X-Gm-Message-State: AOJu0Yw8bQXe88XUrI258N1q5krOCR1Wj0tj5c5XmfEwZv3vEhd3hef3
- IXx43QB3gpXRIi9qPGRQBglvxc0o9uudvwTqNA5C07Z3AudfqcKpRDK/Cf4tyRb/Os9QYOWIIfX
- oli93z+8afVXRoHjXZgc7dUVntLM=
-X-Google-Smtp-Source: AGHT+IGL1B2BYMw+YBoulVZaQLRFpQouRVZZxGbMCWRau4ceu76A7i6GVVB7OO7b8w3Wvy9CS3LAD+elObIiA6nzxos=
-X-Received: by 2002:a05:6a20:2448:b0:1b8:d79:55f3 with SMTP id
- adf61e73a8af0-1bae82a599bmr9569600637.54.1718631674103; Mon, 17 Jun 2024
- 06:41:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240601132459.81123-1-aford173@gmail.com>
- <7015c544-14c3-40af-aa10-e3088eea5633@leemhuis.info>
- <CAHCN7xJfqcN=yqWAURuy-oF8EiwoB5i840Gct65xgqgxNSL_Ug@mail.gmail.com>
- <701edf2c-2c70-4031-9d6f-cd31cd082df7@leemhuis.info>
-In-Reply-To: <701edf2c-2c70-4031-9d6f-cd31cd082df7@leemhuis.info>
-From: Adam Ford <aford173@gmail.com>
-Date: Mon, 17 Jun 2024 08:41:02 -0500
-Message-ID: <CAHCN7x+LasjE8NgkKzXZbxUZXLnhJhnuzfXPgbBKgtWeD0rEXA@mail.gmail.com>
-Subject: Re: [PATCH V2] drm/bridge: adv7511: Fix Intermittent EDID failures
-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: dmitry.baryshkov@linaro.org, victor.liu@nxp.com, sui.jingfeng@linux.dev, 
- aford@beaconembedded.com, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+X-Greylist: delayed 700 seconds by postgrey-1.36 at gabe;
+ Mon, 17 Jun 2024 13:53:47 UTC
+Received: from mx0b-000eb902.pphosted.com (mx0b-000eb902.pphosted.com
+ [205.220.177.212])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA5D110E0F7
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 13:53:47 +0000 (UTC)
+Received: from pps.filterd (m0220297.ppops.net [127.0.0.1])
+ by mx0a-000eb902.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45HA6eB5024145;
+ Mon, 17 Jun 2024 08:42:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com; h=cc
+ :content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=pps1; bh=jpJh0XsmW5+m63pmFIUEwNuILWY
+ OFMze3lk5bRr8jBY=; b=nhkM3s5aqF020MXVizm3BYYCy3v07J4cd6x9vY/5Ltv
+ yHqvP4lfG/wDowE0FUhKY/TW4i2nXnC1r6tweQe2DxD23so33FkA0A2RDM2Smo3R
+ VkQiyOC2HJA1Q6nSxNumEF6gZ8WRHe0obs3T/wD24uqPUcATxu5lGGaFid/jXrJZ
+ LA7i7ywHV/sqRjRhOe7WoouS0WQjyXpoeXLZFbaJ7hgSD0SKUvxdoFZf8mdgHgTT
+ RNdral1OojradqgUoy6ickzB7Ry/1zHsisR7a8ingq6tdAsZKRzLUYGxb4hQlW8h
+ 8CoJSzfgJuvPUi94UnTSeTbdS18w5b2/DbgPFULoo1g==
+Received: from nam11-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11lp2169.outbound.protection.outlook.com [104.47.57.169])
+ by mx0a-000eb902.pphosted.com (PPS) with ESMTPS id 3ytk34gc5y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Jun 2024 08:42:01 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hGHFS3uDln5jHwpu2p4Vo07IbMh4RmK2WLGFGm+hsoTM9jAdRhsTfC+PlEuWgspFOcgxXZatDfn+2EdDJ7GFuThPUvwikuG3JXcKDvjLgYbZgRSBox75NDJlh3Yb7r9gp61QKzYbLC8062117tljbBDBey9DhIilLvEX1rUJSlVfCZjdw3DCZAEBY4O2BApNVTH4lnspCU7bqjO+XUJ3n8tPPLaQq1FI9bTrwZHVBK11yG/sBNjuYP0rC//i4Y1pivOyJBKic8XEb+od+599IFeldCN8IDmbsXgQKve+cMY21f8GdtZbR5ILPHdNBEQAXEJ/ul0kpFzGXDL9/kTtJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jpJh0XsmW5+m63pmFIUEwNuILWYOFMze3lk5bRr8jBY=;
+ b=DYpQIDe64e5a8XWyhAeFmbAXvBvlz6zMrcHRoNBfEVutLnyCIWU9Ab8EE0P0mfQ858bX67+uSaoX8/plzdS5sNlKBZawXtOT25+ZNEpNLlP/xQblNWOIe0lmAzzAJaEuM9TKNXPEh4pxeAnORbNyXvLGg0QBoTTbncCd+ukrKfv4YvOyIV0+MphypfxCsIGBum3zrESJlqT2nLut5Aqold1SPUc8PSVfP7pe61Dwt7T0kwiD92xQ26ADHAQQkTpoq1b372NTycn4H484PflNjpDbdKbjqD2mI/24KPb5qsAy1vP/Ou7tWRy3y+hQM3Sxrxlsl7pFuUrx/yhDzPZ2eQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garmin.com; dmarc=pass action=none header.from=garmin.com;
+ dkim=pass header.d=garmin.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jpJh0XsmW5+m63pmFIUEwNuILWYOFMze3lk5bRr8jBY=;
+ b=NSm35CRbqdTAVou9GjM/qVhX02acZerajxIJbhk2YgexpW97AgvtL0/6+3bZzJW1WiQLdCKYuE8yqFx/4ZQ0ZdPg3mcopeaiT3xdB8KWakzcaVrFGtMvB5EIBgc3B8uN52OEciQ/0gviQRp0ecvPsSSaQIXTL6mIZuoqf1pKlvnyg7E9Uu6oVKEeG211BeVHHWhZWz71Y9BOPNz57FwIoTcsNTYKSi51+G5335PcmDw5lj0sZWkCrF0T5tt5bYMWbtMn+bivMdAJeLJTZuOmNDNRnhG/oCi4PjvuD+2Px9g+GIxHr9T/szw+DkQrxFlqR7/iPZ/C1lAfsMeXhkjcGQ==
+Received: from DM6PR04MB5178.namprd04.prod.outlook.com (2603:10b6:5:10d::23)
+ by DM8PR04MB8072.namprd04.prod.outlook.com (2603:10b6:8::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7677.30; Mon, 17 Jun 2024 13:41:59 +0000
+Received: from DM6PR04MB5178.namprd04.prod.outlook.com
+ ([fe80::c2d5:c293:4896:b5a4]) by DM6PR04MB5178.namprd04.prod.outlook.com
+ ([fe80::c2d5:c293:4896:b5a4%2]) with mapi id 15.20.7677.030; Mon, 17 Jun 2024
+ 13:41:59 +0000
+From: "Hoosier, Matt" <Matt.Hoosier@garmin.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "brian.starkey@arm.com" <brian.starkey@arm.com>
+CC: Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Correct sequencing of usage of DRM writeback connector
+Thread-Topic: Correct sequencing of usage of DRM writeback connector
+Thread-Index: AdrAusI9x3tDcCHnRSWudKoz72ltVA==
+Date: Mon, 17 Jun 2024 13:41:59 +0000
+Message-ID: <DM6PR04MB5178398F885B5AD82430B8ECECCD2@DM6PR04MB5178.namprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_ActionId=224a0733-8089-44b3-8bfb-f36ec9325fbc;
+ MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_ContentBits=0;
+ MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_Enabled=true;
+ MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_Method=Standard;
+ MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_Name=f3ff6d80-3782-4df6-bf6c-659f84558040;
+ MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_SetDate=2024-06-17T13:29:19Z;
+ MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_SiteId=38d0d425-ba52-4c0a-a03e-2a65c8e82e2d;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR04MB5178:EE_|DM8PR04MB8072:EE_
+x-ms-office365-filtering-correlation-id: 6ec09da4-4b0a-4680-fad5-08dc8ed34325
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230037|366013|376011|1800799021|38070700015;
+x-microsoft-antispam-message-info: =?us-ascii?Q?sIYOt/dFTlCK3g00gmF4BtHfo5VSkrDJIgSNVPccqh6Mv0zrq8TeyPd4r0qr?=
+ =?us-ascii?Q?sUzTfRaZuo2oeIY+SJ12oJB26ulJ/nR90rM4zt/80nigTwAAm+YqyXbhAkcR?=
+ =?us-ascii?Q?V/PsN1Yr0qqoNd0fyOnQsE3wum0oI5qp2Urp8jTIUjPTSu3fHndYzSTawUu2?=
+ =?us-ascii?Q?M5c1CmmD+85zvqi6gTuJinFcd60DRuW/KYpc+rSs6qH5P34MbDGpD+/EOO1s?=
+ =?us-ascii?Q?/Vjp13gR6P+IsdaAmbQ6kVizxqIz9ca6rPm01jfHXH2KX8pNe6sw40jwQpWl?=
+ =?us-ascii?Q?8ukIqypOz7GKn/QYSbwsqKKjG52d6O10TGKc4CfKFwSfyxqfqVFn9EcavxWy?=
+ =?us-ascii?Q?NsvTtYwijg2A4sXMM+Ov+kiukj9VYKPlTjbEr2EUT6gBt0Lk5BnyaxHolA5Q?=
+ =?us-ascii?Q?tKI8IGK4cdk8ujrDPf8CoYob+bu214AwyhGicKTDlXAOU1VTo5jWiDNwHzHD?=
+ =?us-ascii?Q?BtuFFgW99DVNhN3qTZPidN8MfULFR1b/SizW/zOfBOx7nx8+pbGeVGy+M3ah?=
+ =?us-ascii?Q?DSfcvk36c6F4YN5QFmYwcB2Q1YJqeMUwISXFYWSBUFHVC5/bq9zy5ibUSins?=
+ =?us-ascii?Q?Yys6/kx3d4PRPaqSJ/M6yCgD+3lDZvB9sKe9uwCnV++jFziOjr1eMKxD07yZ?=
+ =?us-ascii?Q?C7+k8MLIuNz7XyjYNxN8HnHUZtQw/h49kVFHXSNvzzh7VTLL3YwS8dv+YNcc?=
+ =?us-ascii?Q?xK91Ra5X2OEUhu8kzIdxoSA3mV+g41ELhTNqkUSEPg9hBi6ywK+2VvHAIJPG?=
+ =?us-ascii?Q?dr9rVEBsR9BnO5L5vFU4l20cbWL/PRzlevkQNClR8okSYRr4YiwZfLF5McZU?=
+ =?us-ascii?Q?OntqQtcKjgxY55Dv55j9W5kXCKHotP6ANKelGdCiTgMzQfex5jAr5hnJWBDt?=
+ =?us-ascii?Q?0tG4u2ZsRXxLkJ78FOn0++p8rjWqDHlGHHPp7cvtJ2zKX7eMC9KSTW3oE1TL?=
+ =?us-ascii?Q?3QHwdaH5HVEcZ40QOscipkrRPgn73zwvzu1273WZ4u3VZtMFjNKXZepUpZmH?=
+ =?us-ascii?Q?yIa8dRoEwEAWYTmzmxuIYqx/9YywkbrQag+eBzSIRoVSBEW4k5GVC9dvTDga?=
+ =?us-ascii?Q?2vOQ6Zj4Jk2ang4qgbj96TYWZ4PYRlsn3hJh+48i/diIwiBTQay1mV8kF2G6?=
+ =?us-ascii?Q?+/B4ywksMdBJ3HKfmTcd5Ob6H9zRu0GUt+Dc2j14U6U1jsXLCUFSg5flFGMN?=
+ =?us-ascii?Q?ixiqZpHhonCwe16HswRB9/RP02cOy1OoLY4I95pyipAGZn8FJOEyBcaLWjVs?=
+ =?us-ascii?Q?l73PUF3B0P9li6cKvVXShg/IIv/JUlGpS6sNPQ0CW920AAt+6YOjriJY7O4Q?=
+ =?us-ascii?Q?LTJlR2jvGx/1Bp71rsZPEM/14GzG2Vd8g5ArcNYGiksiOPeNC8Ivwh4X2LiJ?=
+ =?us-ascii?Q?NSmt95E=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR04MB5178.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230037)(366013)(376011)(1800799021)(38070700015); DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?G/62N1Fv99rKMzvf0jpPiyRrblldbHsRkc4HYSQkweKbzx3f1tB83CsBcQ/T?=
+ =?us-ascii?Q?VhRwL/W9SHv5AuBJb6tTxMubE9cKnn/Y23WveaKv9ZUNnIEXNIfuVtet7loH?=
+ =?us-ascii?Q?g2WhMDbdMuClHc5v9ac95CUKMZdeTmJMMEPyvVCcdQJVGXWcOildXh4sar0H?=
+ =?us-ascii?Q?H7dIET0T9fvGeXUBcvX1rgIfpvyLsXcYS1hI/wNj07caBc8cCeE/CzxADjHy?=
+ =?us-ascii?Q?yOGdcXWIQBa2ZwdYFGjANBfu3kVX5+qK0eirxnK2DZDMMbvPSSSDVE3X8tkp?=
+ =?us-ascii?Q?5IB9A5dZ+4kudvSDxxMEQ05WhI78ID/+f4S2xlsHY2tHvK8jN1hu97HCRZNe?=
+ =?us-ascii?Q?ta98jcgKZkiJKAphMfNX+nH6fFqprAdzgZMMtr9/EgMZgIx/fnjNc4Df0O9w?=
+ =?us-ascii?Q?Yo1Y0y62uNpl32TO0GUijJE0hynsn4i/0WHDRPI3M4bvmdtckszL/huDjCHU?=
+ =?us-ascii?Q?JA5kbuAg2MrprRzYQu1+WkTe11N+gcOcIBgEz0CtXpAmKrWhRP9RPyQZyySf?=
+ =?us-ascii?Q?xbHKUR4R+SbQZTpl+EiBSTtqFmHkxKH1zcgMeLFFJ/q2I2hK9AjqiTq7CxB4?=
+ =?us-ascii?Q?2hfRWNL08wWj1+Bs49rNbcmFqLZ6C2NdbTM+pqZvqrIjGHz/GPRkas6rZRNL?=
+ =?us-ascii?Q?96fKqQKMvme9b246afWOvBxN8Yf6S5S/8iLLbn/SHDqaBJZtZSaFw9omOapG?=
+ =?us-ascii?Q?vGmwzY0RQO8VD673MzvVBCQ8UCLDI6JxwuRl39NqKurg5einuSvIALX1Sjp0?=
+ =?us-ascii?Q?dZUp+hnP+AzIOz9E1z4Blq/Zw8e1VhPbHC/W9NXIhGhgVUkSviaauAVRhPBI?=
+ =?us-ascii?Q?X77y+G1h4DhiKEXJFpoGV+0/lSG/LqSUGuedUjRQ5/B0EQb7aOv77UHRBej/?=
+ =?us-ascii?Q?1y78b34ktmr+L9a+zvRyRcRXzKabz3cJu1BxK2G1aGGcdLczeGOWzIzOGKe+?=
+ =?us-ascii?Q?KJmof+NYZGBtMdw+WNgwh+olaRuTHcTAbSDVe0WL1Jc/NOQSJjBV0KuUuja7?=
+ =?us-ascii?Q?mvczffBRxkVAMQ+H61I27e9gRFb/3mFVx78GBmliZagG5qJrNxw16vAn4CXF?=
+ =?us-ascii?Q?hKaq0OLSfbtJWn57biaFEPZjXXUL9N8Y4D/e+wTfMxiALa17xoorDMPpjW8o?=
+ =?us-ascii?Q?EqwCqYbxqOOi97PdgFpbDjHCbT8GhczKVtrZNgfve40hfAXQ406rZxjYl7Su?=
+ =?us-ascii?Q?K8uhsuNy5vcLhrl9FBr7RfbtpXm2DKB4p70Ne2uKoSreMUmwGGQbt3K8guGP?=
+ =?us-ascii?Q?6zLhD/bccjoPIPHRIi5sQdkqrn5OUbV6uXF7BSIpaB9MHXss1hTVPnhpewZs?=
+ =?us-ascii?Q?6jrudq5k8K46QJgtQMlssaK4FXvPaup0XRa0+OHao4BI3BIt4vDvYW8Vr3Yy?=
+ =?us-ascii?Q?uGOgJ5Sge/OmT+eCVqFkr6IEFS41uTsBME9FaJmsqL2JHqjvGUxWY7aY/yIR?=
+ =?us-ascii?Q?WeISTTZ7wd/SPnUAzhZLa7sX4Zr20wfMG278x2/SmGesMvPd6Y6+Jpy1WIwN?=
+ =?us-ascii?Q?dH9ekVHSzKXYKGpnjsRBaBDkhT9407jc/WLQSKK7yAPKdOtu0zk4xE//21Ik?=
+ =?us-ascii?Q?rxsqujSFNuTgnAzsfy1mcJebHowdYttXXGxdcODs?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: garmin.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB5178.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ec09da4-4b0a-4680-fad5-08dc8ed34325
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2024 13:41:59.5376 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38d0d425-ba52-4c0a-a03e-2a65c8e82e2d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /VftlLo7HX2QxItmaX5/uAir1ZiFuPqWFDQbjykUfN5qzbXw+BlWQY8OSwDBY48wI994N197eCtQzVAA0kijMQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR04MB8072
+X-Proofpoint-GUID: 21IfV45Vt44GmOSx0hKqDd-b-ZlmDMFD
+X-Proofpoint-ORIG-GUID: 21IfV45Vt44GmOSx0hKqDd-b-ZlmDMFD
+X-Authority-Analysis: v=2.4 cv=NvmDcNdJ c=1 sm=1 tr=0 ts=66703d29 cx=c_pps
+ a=clyc6YhGvfCRRXf4btgSWw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=T1WGqf2p2xoA:10 a=FS7-D2N0u7gA:10 a=Kt9auuaWazqB0a-1qowA:9
+ a=CjuIK1q_8ugA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-17_12,2024-06-17_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ spamscore=0 malwarescore=0 priorityscore=1501 clxscore=1011
+ impostorscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0
+ mlxlogscore=816 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2405170001 definitions=main-2406170104
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,235 +183,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 17, 2024 at 8:29=E2=80=AFAM Linux regression tracking (Thorsten
-Leemhuis) <regressions@leemhuis.info> wrote:
->
-> On 17.06.24 15:14, Adam Ford wrote:
-> > On Mon, Jun 17, 2024 at 8:00=E2=80=AFAM Linux regression tracking (Thor=
-sten
-> > Leemhuis) <regressions@leemhuis.info> wrote:
-> >>
-> >> [CCing the regression list, as it should be in the loop for regression=
-s:
-> >> https://docs.kernel.org/admin-guide/reporting-regressions.html]
-> >>
-> >> Hi! Top-posting for once, to make this easily accessible to everyone.
-> >>
-> >> Hmm, seem nobody took a look at below fix for a regression that seems =
-to
-> >> be caused by f3d9683346d6b1 ("drm/bridge: adv7511: Allow IRQ to share
-> >> GPIO pins") [which went into v6.10-rc1].
-> >>
-> >> Adam and Dimitry, what are your stances on this patch from Adam? I'm
-> >> asking, as you authored respectively committed the culprit?
-> >
-> > I learned of the regression from Liu Ying [...]
->
-> Ohh, I'm very sorry, stupid me somehow missed that the Adam that was
-> posting the fix was the same Adam that authored the culprit. :-( Seems I
-> definitely need more coffee (or green tea in my case) or reduce the
-> number or regressions on the stack. Please accept my apologies.
->
-> Thx for the update anyway.
+Hi,
 
-No problem.  Sent out a few e-mails and/or patches while tired and I
-when I read them again when I was awake, I had to ask myself 'what
-what was I thinking'
+There is a discussion ongoing over in the compositor world about the implic=
+ation of this cautionary wording found in the documentation for the DRM_MOD=
+E_CONNECTOR_WRITEBACK connectors:
 
->
-> > Dimitry had given me some suggestions, and from that,  I posted a V1.
-> > Dmitry had some more followup suggestions [2] which resulted in the
-> > V2.
-> >> As far as I know, Liu was satisfied that this addressed the regression
-> > he reported.
->
-> So in that case the main question afaics is why this fix did not make
-> any progress for more than two weeks now (at least afaics -- or did I
-> miss something in that area, too?).
+>  *  "WRITEBACK_OUT_FENCE_PTR":
+>  *	Userspace can use this property to provide a pointer for the kernel to
+>  *	fill with a sync_file file descriptor, which will signal once the
+>  *	writeback is finished. The value should be the address of a 32-bit
+>  *	signed integer, cast to a u64.
+>  *	Userspace should wait for this fence to signal before making another
+>  *	commit affecting any of the same CRTCs, Planes or Connectors.
+>  *	**Failure to do so will result in undefined behaviour.**
+>  *	For this reason it is strongly recommended that all userspace
+>  *	applications making use of writeback connectors *always* retrieve an
+>  *	out-fence for the commit and use it appropriately.
+>  *	From userspace, this property will always read as zero.
 
-I have not seen anything either which is why I sent out the gentle
-nudge last week.
+The question is whether it's realistic to hope that a DRM writeback connect=
+or can produce results on every frame, and do so without dragging down the =
+frame-rate for the connector.
 
-adam
->
-> Ciao, Thorsten
->
-> >> On 01.06.24 15:24, Adam Ford wrote:
-> >>> In the process of adding support for shared IRQ pins, a scenario
-> >>> was accidentally created where adv7511_irq_process returned
-> >>> prematurely causing the EDID to fail randomly.
-> >>>
-> >>> Since the interrupt handler is broken up into two main helper functio=
-ns,
-> >>> update both of them to treat the helper functions as IRQ handlers. Th=
-ese
-> >>> IRQ routines process their respective tasks as before, but if they
-> >>> determine that actual work was done, mark the respective IRQ status
-> >>> accordingly, and delay the check until everything has been processed.
-> >>>
-> >>> This should guarantee the helper functions don't return prematurely
-> >>> while still returning proper values of either IRQ_HANDLED or IRQ_NONE=
-.
-> >>>
-> >>> Reported-by: Liu Ying <victor.liu@nxp.com>
-> >>> Fixes: f3d9683346d6 ("drm/bridge: adv7511: Allow IRQ to share GPIO pi=
-ns")
-> >>> Signed-off-by: Adam Ford <aford173@gmail.com>
-> >>> Tested-by: Liu Ying <victor.liu@nxp.com> # i.MX8MP EVK ADV7535 EDID r=
-etrieval w/o IRQ
-> >>> ---
-> >>> V2:  Fix uninitialized cec_status
-> >>>      Cut back a little on error handling to return either IRQ_NONE or
-> >>>      IRQ_HANDLED.
-> >>>
-> >>> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/d=
-rm/bridge/adv7511/adv7511.h
-> >>> index ea271f62b214..ec0b7f3d889c 100644
-> >>> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> >>> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> >>> @@ -401,7 +401,7 @@ struct adv7511 {
-> >>>
-> >>>  #ifdef CONFIG_DRM_I2C_ADV7511_CEC
-> >>>  int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511);
-> >>> -void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int i=
-rq1);
-> >>> +int adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int ir=
-q1);
-> >>>  #else
-> >>>  static inline int adv7511_cec_init(struct device *dev, struct adv751=
-1 *adv7511)
-> >>>  {
-> >>> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c b/drivers/g=
-pu/drm/bridge/adv7511/adv7511_cec.c
-> >>> index 44451a9658a3..651fb1dde780 100644
-> >>> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-> >>> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-> >>> @@ -119,7 +119,7 @@ static void adv7511_cec_rx(struct adv7511 *adv751=
-1, int rx_buf)
-> >>>       cec_received_msg(adv7511->cec_adap, &msg);
-> >>>  }
-> >>>
-> >>> -void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int i=
-rq1)
-> >>> +int adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int ir=
-q1)
-> >>>  {
-> >>>       unsigned int offset =3D adv7511->info->reg_cec_offset;
-> >>>       const u32 irq_tx_mask =3D ADV7511_INT1_CEC_TX_READY |
-> >>> @@ -130,17 +130,21 @@ void adv7511_cec_irq_process(struct adv7511 *ad=
-v7511, unsigned int irq1)
-> >>>                               ADV7511_INT1_CEC_RX_READY3;
-> >>>       unsigned int rx_status;
-> >>>       int rx_order[3] =3D { -1, -1, -1 };
-> >>> -     int i;
-> >>> +     int i, ret =3D 0;
-> >>> +     int irq_status =3D IRQ_NONE;
-> >>>
-> >>> -     if (irq1 & irq_tx_mask)
-> >>> +     if (irq1 & irq_tx_mask) {
-> >>>               adv_cec_tx_raw_status(adv7511, irq1);
-> >>> +             irq_status =3D IRQ_HANDLED;
-> >>> +     }
-> >>>
-> >>>       if (!(irq1 & irq_rx_mask))
-> >>> -             return;
-> >>> +             return irq_status;
-> >>>
-> >>> -     if (regmap_read(adv7511->regmap_cec,
-> >>> -                     ADV7511_REG_CEC_RX_STATUS + offset, &rx_status)=
-)
-> >>> -             return;
-> >>> +     ret =3D regmap_read(adv7511->regmap_cec,
-> >>> +                     ADV7511_REG_CEC_RX_STATUS + offset, &rx_status)=
-;
-> >>> +     if (ret < 0)
-> >>> +             return irq_status;
-> >>>
-> >>>       /*
-> >>>        * ADV7511_REG_CEC_RX_STATUS[5:0] contains the reception order =
-of RX
-> >>> @@ -172,6 +176,8 @@ void adv7511_cec_irq_process(struct adv7511 *adv7=
-511, unsigned int irq1)
-> >>>
-> >>>               adv7511_cec_rx(adv7511, rx_buf);
-> >>>       }
-> >>> +
-> >>> +     return IRQ_HANDLED;
-> >>>  }
-> >>>
-> >>>  static int adv7511_cec_adap_enable(struct cec_adapter *adap, bool en=
-able)
-> >>> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/g=
-pu/drm/bridge/adv7511/adv7511_drv.c
-> >>> index 66ccb61e2a66..c8d2c4a157b2 100644
-> >>> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> >>> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> >>> @@ -469,6 +469,8 @@ static int adv7511_irq_process(struct adv7511 *ad=
-v7511, bool process_hpd)
-> >>>  {
-> >>>       unsigned int irq0, irq1;
-> >>>       int ret;
-> >>> +     int cec_status =3D IRQ_NONE;
-> >>> +     int irq_status =3D IRQ_NONE;
-> >>>
-> >>>       ret =3D regmap_read(adv7511->regmap, ADV7511_REG_INT(0), &irq0)=
-;
-> >>>       if (ret < 0)
-> >>> @@ -478,29 +480,31 @@ static int adv7511_irq_process(struct adv7511 *=
-adv7511, bool process_hpd)
-> >>>       if (ret < 0)
-> >>>               return ret;
-> >>>
-> >>> -     /* If there is no IRQ to handle, exit indicating no IRQ data */
-> >>> -     if (!(irq0 & (ADV7511_INT0_HPD | ADV7511_INT0_EDID_READY)) &&
-> >>> -         !(irq1 & ADV7511_INT1_DDC_ERROR))
-> >>> -             return -ENODATA;
-> >>> -
-> >>>       regmap_write(adv7511->regmap, ADV7511_REG_INT(0), irq0);
-> >>>       regmap_write(adv7511->regmap, ADV7511_REG_INT(1), irq1);
-> >>>
-> >>> -     if (process_hpd && irq0 & ADV7511_INT0_HPD && adv7511->bridge.e=
-ncoder)
-> >>> +     if (process_hpd && irq0 & ADV7511_INT0_HPD && adv7511->bridge.e=
-ncoder) {
-> >>>               schedule_work(&adv7511->hpd_work);
-> >>> +             irq_status =3D IRQ_HANDLED;
-> >>> +     }
-> >>>
-> >>>       if (irq0 & ADV7511_INT0_EDID_READY || irq1 & ADV7511_INT1_DDC_E=
-RROR) {
-> >>>               adv7511->edid_read =3D true;
-> >>>
-> >>>               if (adv7511->i2c_main->irq)
-> >>>                       wake_up_all(&adv7511->wq);
-> >>> +             irq_status =3D IRQ_HANDLED;
-> >>>       }
-> >>>
-> >>>  #ifdef CONFIG_DRM_I2C_ADV7511_CEC
-> >>> -     adv7511_cec_irq_process(adv7511, irq1);
-> >>> +     cec_status =3D adv7511_cec_irq_process(adv7511, irq1);
-> >>>  #endif
-> >>>
-> >>> -     return 0;
-> >>> +     /* If there is no IRQ to handle, exit indicating no IRQ data */
-> >>> +     if (irq_status =3D=3D IRQ_HANDLED || cec_status =3D=3D IRQ_HAND=
-LED)
-> >>> +             return IRQ_HANDLED;
-> >>> +
-> >>> +     return IRQ_NONE;
-> >>>  }
-> >>>
-> >>>  static irqreturn_t adv7511_irq_handler(int irq, void *devid)
-> >>> @@ -509,7 +513,7 @@ static irqreturn_t adv7511_irq_handler(int irq, v=
-oid *devid)
-> >>>       int ret;
-> >>>
-> >>>       ret =3D adv7511_irq_process(adv7511, true);
-> >>> -     return ret < 0 ? IRQ_NONE : IRQ_HANDLED;
-> >>> +     return ret < 0 ? IRQ_NONE : ret;
-> >>>  }
-> >>>
-> >>>  /* -----------------------------------------------------------------=
-------------
-> >
-> >
+The wording in the documentation above suggests that it is very likely the =
+fence fd won't signal userspace until after the vblank following the scanou=
+t during which the writeback was applied (call that frame N). This would me=
+an that the compositor driving the connector would typically be unable to l=
+egally queue a page flip for frame N+1.
+
+Is this the right interpretation? Is the writeback hardware typically even =
+designed with a streaming use-case in mind? Maybe it's just intended for oc=
+casional static screenshots.
+
+Matt Hoosier
+
