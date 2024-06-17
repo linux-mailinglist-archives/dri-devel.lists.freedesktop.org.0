@@ -2,78 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729DE90BD9C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 00:29:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71F090BD94
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 00:29:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C931410E520;
-	Mon, 17 Jun 2024 22:29:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1B1010E510;
+	Mon, 17 Jun 2024 22:29:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cK3O40Ov";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MFVo+aBI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E64010E51E;
- Mon, 17 Jun 2024 22:29:44 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-1f70c457823so37903435ad.3; 
- Mon, 17 Jun 2024 15:29:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718663383; x=1719268183; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zu563V/oBM6IlkzbyvA7OvdgJnWa8cdv5ZIPMxeXNbI=;
- b=cK3O40OvNHTAQVKXlxqvk4Ceg0wF0VgipKtT74LG6kCF+kSYQlIV9TCCSrQ+xM/R7R
- kPBhI4zUZTMK8m9fxZQyRvdnoKVS/Xrzqcz652ytQuNR2BwFbCnZhs6eiCTMuK+Cnu7E
- ksN68D7B7BlJN7Nk9vEvs+n3B6np5htzRDwhZtfn5y8fUvdzuIPtjLu1JHY0lWlhuKs7
- zpwCNtuUvGQbv5m7UzaiVqp2VdOkKeh9I7DhhAPjBLRFzdgT2PfBHYsYNXn02ViWJo+r
- vs2CUv4PXcsGj9nT/nTSIlWf7wi/E4pFsTeZSs9sl2jHC4j12bLVZXOOu5zg2dsYHJM4
- J/+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718663383; x=1719268183;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zu563V/oBM6IlkzbyvA7OvdgJnWa8cdv5ZIPMxeXNbI=;
- b=d7Z6JlZV12Tk7dQHD2GzZpsJv/j780gLY5HW/42MWM8leXrMS9+YaB14i9N3azGL4A
- 6lLVkXr/sUYPiXVSuw9VWBHuFC/cWe/tjS5xmHkvuEbBvUVxF4b7Z7XRuGIdxhneFIph
- JLa1NGKgJCNLcuHzPMbT0mYQwdERFZEAXWPQv6UWITmYlki4gOq1yMidQFEGQg5SCxUM
- NSuXYdjWAvnGJTScD1CVhf4aKMk/QeSwSIbhv1fUJPEtISE9yioCzVYQaW8aATKgu/OU
- rxBzCXkx281WkKVoKd5H+oenf56R+//81EueDWzKp+hElQ97rdzO01QU+1UOWbIoY8p8
- f94Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUXiG0WDSk3s8RHs9ZVXInzGGmv+YV6KBFHJBvRveMSGuHr6sn0GDz8kPEg0eWAjMGBsr1oj4h7x5S8lrgo2U0f6vA6UYtZPdUvhOHwMzfs
-X-Gm-Message-State: AOJu0YzAlWIUQwheP06YTLC5ReYt4j/lJk3wQRbWMB4Z5PMJWGxMDEc5
- ZNRELKzDKcZEZMM2qO2W8AEAs7fBJog+CwixIpE2K4TGaJr+JhmOMVTlLw==
-X-Google-Smtp-Source: AGHT+IEBjTYPhGHhaTRmUVhQ6Sauc4pZaKn0mURFE9M6Bj0SDE9lOaNkWii1Gx6g5R5DAo9lfjrTgw==
-X-Received: by 2002:a17:903:32c9:b0:1f4:7713:8f6 with SMTP id
- d9443c01a7336-1f8629fb039mr113433575ad.52.1718663382518; 
- Mon, 17 Jun 2024 15:29:42 -0700 (PDT)
-Received: from localhost (c-73-37-105-206.hsd1.or.comcast.net. [73.37.105.206])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f855e6debasm83995155ad.65.2024.06.17.15.29.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jun 2024 15:29:41 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 5/5] drm/msm/adreno: Move CP_PROTECT settings to hw catalog
-Date: Mon, 17 Jun 2024 15:29:03 -0700
-Message-ID: <20240617222916.5980-6-robdclark@gmail.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240617222916.5980-1-robdclark@gmail.com>
-References: <20240617222916.5980-1-robdclark@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5949F10E515;
+ Mon, 17 Jun 2024 22:29:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718663372; x=1750199372;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=Zl6sAFNkJdajOQu92qKoCFBNTJz/ZNluvQ6v5rcNtqE=;
+ b=MFVo+aBItLv2u8SghW9l4vMMd/wpCSPUXlfVCW49ZBXUPYJBzp+lQIQH
+ gxlDyu+LhUn/pDSCHfQy3O1j2hr3a3EwZ7RcTczeMR+LIQAWX20ZkPg5R
+ q+e2tZ9uRXclJxKDynYBsXAtWl6vogBPKOF8nKD7plgo6fPzV2cktb/3E
+ 4M2Fxu3eAv+3X+cnQ4v46ay18fVI/U7o6z9bwO4fvAQNbdbF8dniCIgbX
+ GuOshsJuRcEGt9f3F9cVvv/vQsOqUbegkzs1sb9lMbqReIYDMfxAwx6W6
+ uhVa6Kx16ioAwU0P5CFXH0dFj2n1jRLlhkfgrGAAOJcEZHyrkY0uAI6Ru A==;
+X-CSE-ConnectionGUID: uM3OQY31SsqpK/e7bWiEKg==
+X-CSE-MsgGUID: cPtUFyzhRY2EP9X6tT6JQQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="15638321"
+X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; d="scan'208";a="15638321"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2024 15:29:32 -0700
+X-CSE-ConnectionGUID: zqBH1Xr5T5aYzov967g6Yw==
+X-CSE-MsgGUID: 4uYlPn6mT9WO7Z/v4/nL5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; d="scan'208";a="78795680"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 17 Jun 2024 15:29:32 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 17 Jun 2024 15:29:31 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 17 Jun 2024 15:29:30 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Mon, 17 Jun 2024 15:29:30 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 17 Jun 2024 15:29:30 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gP/yaY4Sx6W+pCtPM660NnpancZVAGR6d+BJ0VSlzN/4tBmV2xt400K4HxN0afCGI41RNfUTI+POLRpWz8KhCKzGpv3fJCt3P0ZCVaYgrPnlw4sHh5YUN6WncBwFWsI5Ewm2fjle1gwuQ+tCHOIXEry0i6HQRTE5XBIHU362JgD7YABRI2/EIqUUh0ZmnuM8wDeZ9sIh9RRQ8GPeKGoQeHwuapf5JGQazuxU2bt4K8K9qtozWpiEdpVaU3p2R8yaZ0Excq6c6UGFbClpY0CuHQbq8hGGwOCP6QlhFhkf+3fwAj6DIxLtC2TijuXj9uUWAAXuZ2Fdd2obi5pVX36rbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UBEfgzRCTh3DK1ilsNcRUfy2WFTw/RmyDlTnUQyXc8w=;
+ b=mO0CfZRlOf7Vz1KikJ+DYDMFgSXiQgzw5YM+iD1eYcw1qaAeNYgsCzw29H29X8obe6LBWXlw5y05KEumAZOUTxQlgMB5CLzl8cvtbYtTjr6OS7xlsy9qCOypmPKbjGWXQG6tQHX5GARx9txCQxHPGvCUHoQ9BFtIfsy4fRsihZ9PAxk8aGQ0+WgIxUyawoQdDG2wfKyvUtQzsD6UrGYwvCU5QtmfhJlGu2Hbpz1APYkxpacWVFhtkaohm9JUORkJwMMpVZm+U7EsPL9hQLKuAUCLicXwtBSXpgb1znuj+Xr+mMPSZvzf3I3nDveyGmeb/Gyq13pvLwoPWlTYfXEu/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by SJ0PR11MB4877.namprd11.prod.outlook.com (2603:10b6:a03:2d9::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30; Mon, 17 Jun
+ 2024 22:29:28 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%7]) with mapi id 15.20.7677.030; Mon, 17 Jun 2024
+ 22:29:28 +0000
+Date: Mon, 17 Jun 2024 17:29:24 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+CC: intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>, Jonathan Cavitt
+ <jonathan.cavitt@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, "Jani
+ Nikula" <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 1/2] drm/i915/gem: Return -EINVAL instead of '0'
+Message-ID: <en3word63algrcfec7dp5x455v3oofyfflnsnmtnymoiczhrk7@pm3vgs47xmcr>
+References: <20240616070349.250899-1-andi.shyti@linux.intel.com>
+ <20240616070349.250899-2-andi.shyti@linux.intel.com>
+ <3fpme67vq7nf3sswznn7un7m7p53bibfbd5ek3uknnlwkogu6a@34oufw2qwtie>
+ <ZnBGk9mUq5HImyz9@ashyti-mobl2.lan>
+ <hh6i4vsz2ky52hw5g74l5llhjtzuyuebjtnaebqh3dq7svbfnp@zy4cwkqqzszz>
+ <ZnCCnEeNCWfyhhY0@ashyti-mobl2.lan>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <ZnCCnEeNCWfyhhY0@ashyti-mobl2.lan>
+X-ClientProxiedBy: MW4PR04CA0306.namprd04.prod.outlook.com
+ (2603:10b6:303:82::11) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SJ0PR11MB4877:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3967b1b3-c60e-4098-2428-08dc8f1cf36b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230037|366013|376011|1800799021;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?dPR4lxpo2yfVFxJ8yjGqGF7KheP6lhK7sBykcTGVEgXYRYl10CmW+0uE9sS9?=
+ =?us-ascii?Q?/C47mEc1PIa0DsrfOOQDFv1y93yj27I15a6zXzedTERg9KLL8xJMuKxCxubH?=
+ =?us-ascii?Q?LECiS9wmSCRc3zAHjGooAJWhz24b+l/IEL+Qw7pUcrynY4Bwl8mn9dQGswBC?=
+ =?us-ascii?Q?iRpjagmw5qQ4sgZF42sJDtZuVcDRR8ProVemYiYZA3J3btoebrThB/moMWlW?=
+ =?us-ascii?Q?u3SeS8Qh7jCTcdB2+xn7bZ5OQ0p8qXdC5N3UERgA4xRxU/gCo9oBxFT5tnrw?=
+ =?us-ascii?Q?dOlimLxxFJjAOj53tkHGS2sogpr+otk/I8Kr5REj6/WoJ6o0BFYY63sbjFHk?=
+ =?us-ascii?Q?cbVQ/yoJLCCJi/L+XN4w6y9m18GNFaufzJ6mQ0dVS1sjiAaWUWckX8+zcCDh?=
+ =?us-ascii?Q?G+/mrM9PkL98MwFGq6IBQx9VFzlwOXooef39CC/fJyt6Cg5r+91AVJWGpkBJ?=
+ =?us-ascii?Q?/pCQrx1LBTu+n5yb+AYh0W9FgTmcdfI6HQFASsTL5sFMIrVJL81KKAByWJSj?=
+ =?us-ascii?Q?H9UElLolDUbnre+DiFoNiKv0nA1IJStwF/SYb5lC8UcdEtznB/AxnzRzhcn9?=
+ =?us-ascii?Q?xppz5SlidM218ExEZ5kliRHZ16Fi14p93a4MHRnEtKWD2Ut7Draf6QpmvcFK?=
+ =?us-ascii?Q?h59EAUj+K7Hunu6EwZPS7RG1tIU+U/Ild08W3iVmHBMvgTr2SybTfsuIrDzV?=
+ =?us-ascii?Q?m9uwB2KSw5RA1uaxtp0zri8ZOX3Z9AncmbRx+vfSigKeaSxOfLoOBuG6U8zF?=
+ =?us-ascii?Q?yiPSBDCCKowpgTtxvp/ULatG4niD9LizURCaM+Xr5Qa7WqhI7cRWYKp1maDH?=
+ =?us-ascii?Q?AnC4fb7iikXhZoJ8uQ9yi2uxDHOvngbLIgUujfpvq+XZPCKDyBITpcwWWgtw?=
+ =?us-ascii?Q?8Wrcn89PxQFH3bdHGpbDgIdpyy+D7G4U/wihlkAOPZ415zZbMjcJOwfW7Spd?=
+ =?us-ascii?Q?zWylO8Vmex/2+1bLFc/aZk9QnTvbaOsXWJASGF20dqo/u/KbY/U4gXVj3ffZ?=
+ =?us-ascii?Q?DjL3b6/0Er46cjeaEBfhVbFY3ZqcuYMSGhcuAF/9KDlKJtbaixGkhb00XTpO?=
+ =?us-ascii?Q?wqC8zuXIk5e6pCYtDrh4CxFjRlv6d3XckjcSD4r8yStHqG4Yr+/2sh0qlieV?=
+ =?us-ascii?Q?v780nLSQd77l4k2iYTYwqEav/IWdToVvlPP8EiJAC0jShBv3F6iI3ahuBzUo?=
+ =?us-ascii?Q?yiPq6DivnF/8gzMRk6Dfu4oCT8iSsL3GnHSB03imqb9Odi01dw6GTOFED2mA?=
+ =?us-ascii?Q?z5zmx5ZxePjfmB0rC3B62ns0Y5AvbuEirhSNBxh1ucpGXcnK6M2qzS5JYg4l?=
+ =?us-ascii?Q?hks7D+fwisE7Ep8w2bESuxhp?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230037)(366013)(376011)(1800799021); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VJ77XZEt9W2KWUHIQ+2Ycv4q1a1dcNpkvlYqZxhW2CBQW1RYTSKlgISxmuVE?=
+ =?us-ascii?Q?zhLqBaEWfvdnP9LkAmD4Ls7HTQUZpaGgkDUpHsMgc9mj6++Kbst3XIrsum+q?=
+ =?us-ascii?Q?6/3dTEskA7v7n22LVvkXZ2+A8trxrnWcLw/bUNBKSjXwNwBH9kjjiP9PhBaJ?=
+ =?us-ascii?Q?Md4CX73CWMQQXl16OLSlwPTjGWtbs9tC3uvgLNeY9QhUntWhbTw5LHP+LDfi?=
+ =?us-ascii?Q?delaVFOfa9eb1/JjB6qkCKORyd+D5M69tltWWm9I713AlWza1imGs3nKHRQi?=
+ =?us-ascii?Q?0Gezq/R9bxXGukgZlAzgliGFJEUsIcoEvyjqiuCFszyo2u5hR7sGCjMneYUS?=
+ =?us-ascii?Q?wu4RTOqhWGeZ3AOOWAUwulWb0NJ9wmTTOExQEQQjsAD3MF+2PnpUX9tr4Bbw?=
+ =?us-ascii?Q?bgGCKIq9EuqPMoIVntSff2jx9Y9EUsppRjDZPF82TCUGn8ZkP6iAofH+Ycn1?=
+ =?us-ascii?Q?KylNBkBTD5G6+D7IcPrb0tViTJ+AP6AW9+XnoMCC9JsBB6UbAj0kpQ3pT59S?=
+ =?us-ascii?Q?x3Qf1Oy//rfYMcgYm8Oi7PTC0xPJk+MxA4NU8O7KlRrG1IzTB2BGtODgszAv?=
+ =?us-ascii?Q?MhA6EwDem2GWEkIT0nV1vVJ/AxtxyMgjjNqR3IUA3Ff9OVGQfz+kcLaoJYdn?=
+ =?us-ascii?Q?eOtDZuz02nxI//2rtKYMvwNYvDPq2B+Jf2E+oZZ8FKbk15R78N6OXun3rply?=
+ =?us-ascii?Q?pUZvbHplLH19G1Ro/4mDV6dV51u0plEAXTUKtk3zpzJvl5CubrQTIrDHof7c?=
+ =?us-ascii?Q?8fgNvIiDYWeqKIbnT7fZd5d6tsjT9yQS8VSGPujbPvme6Nmi+uzW4mcOU2JH?=
+ =?us-ascii?Q?6x85BSR+HG0TeHHD00E0Q6IO2l2c6q2zXOeWda1MecFdtOMWzp3/sFJWDHc8?=
+ =?us-ascii?Q?Gm8I4T9YKI/GtIQ2lSftuIbdb0GOVKEIpspBU/r/kTehYmbe4WhT1BSb4S/7?=
+ =?us-ascii?Q?sRMBXcjv2Rk2PWzRBrmiZ2oxmQ0GW1PAnO/a0RJS/OLS2AY6BSE+0QF9gjEL?=
+ =?us-ascii?Q?06oYhPuqZaD7N1QZo/c+ROMPRY7IsBm10qlp2aH1JfnO25+eO5/sEYv5fA4x?=
+ =?us-ascii?Q?sSUvuTfhL9fD9L1lBwiD7P2c+hZ5F8ikX/z0ND5kiKFkDwKtL4nrwnzzlVzb?=
+ =?us-ascii?Q?/b+rgSgLzovqFaJZ5Sx8TkE0t848P62OOY4z8vwPm8p6XekJULOgP1tZflc9?=
+ =?us-ascii?Q?AjhEy5O2Wiibj/GJfd9A3dNt9Zh9qUz1Kf+rBggT2QjG8dm0nTHXYjNpNSyU?=
+ =?us-ascii?Q?hO+pDq8hKcp7lbK+sLg89BHDVBLuSE2pSgJQP49VK3ieRrg+a85k4J/lnI3g?=
+ =?us-ascii?Q?d6cU+kJLiwrCNoo+Xp77xaylBQC8itfZ8clfUiKfzGrr/SeJDc9msGZcH0KL?=
+ =?us-ascii?Q?GsBb+hsioGGuaF7o7p6y2MgsiRedjMBZ4eOHTkHVFLFvbBvkJMB3xLu3HUoH?=
+ =?us-ascii?Q?LMdhBpKaKB9ms1+29N+NqRSS20OKwFTWZCJCmeGlA5cHFOy50IzlZNQXn83P?=
+ =?us-ascii?Q?XMct/XnCMI/R5RIs8eI1GaKZgJ0km5abmXkPMa7H55AJtAV4tyLwUkU6oqsp?=
+ =?us-ascii?Q?GgkJ/21p2qsPDUYBC8lPGgDQVdy3uhp6OSRWeABWl5q4462UxsBMwdrlcka4?=
+ =?us-ascii?Q?Rg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3967b1b3-c60e-4098-2428-08dc8f1cf36b
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2024 22:29:28.7050 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Qf6F8am2X1k3LW+N0RMKqzpOdrVNi+d6dbfuUK6GGKIZYTO4WzI4unfK+PDFfmEU2y/0wLgCzYohB0gFlusDwV71gOVqU4vykV6R1kkgsw4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4877
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,718 +186,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Mon, Jun 17, 2024 at 08:38:20PM GMT, Andi Shyti wrote:
+>On Mon, Jun 17, 2024 at 10:46:07AM -0500, Lucas De Marchi wrote:
+>> On Mon, Jun 17, 2024 at 04:22:11PM GMT, Andi Shyti wrote:
+>> > On Mon, Jun 17, 2024 at 07:55:10AM -0500, Lucas De Marchi wrote:
+>> > > On Sun, Jun 16, 2024 at 09:03:48AM GMT, Andi Shyti wrote:
+>> > > > Commit 05da7d9f717b ("drm/i915/gem: Downgrade stolen lmem setup
+>> > > > warning") returns '0' from i915_gem_stolen_lmem_setup(), but it's
+>> > > > supposed to return a pointer to the intel_memory_region
+>> > > > structure.
+>> > > >
+>> > > > Sparse complains with the following message:
+>> > > >
+>> > > > > > drivers/gpu/drm/i915/gem/i915_gem_stolen.c:943:32: sparse: sparse:
+>> > > >   Using plain integer as NULL pointer
+>> > > >
+>> > > > The caller checks for errors, and if no error is returned, it
+>> > > > stores the address of the stolen memory. Therefore, we can't
+>> > > > return NULL. Since we are handling a case of out-of-bounds, it's
+>> > > > appropriate to treat the "lmem_size < dsm_base" case as an error.
+>> > >
+>> > > which completely invalidates the point of the commit that introduced this
+>> > > regression. That was commit was supposed to do "let's continue, just
+>> > > disabling stolen".
+>> >
+>> > Yes, correct, I missed the point while fixing stuff. But patch 2
+>> > is still valid.
+>>
+>> no, it's not. It's introduced by the same commit. I went to look into
+>> this exactly because of the second issue: it broke 32b build in xe and
+>> all the CI.Hooks in xe are failing.
+>
+>yes, it's broken because it's using %lli, right? In 32b it should
+>be %li.
+>
+>Patch 2 is replacing %lli with %pa which should fix the 32b
+>build.
+>
+>I'm sending a new series now.
 
-Move the CP_PROTECT settings into the hw catalog.
+wait... but instead of reverting you are sending a new series changing
+the first patch to return NULL. However in your commit message you said
+for this version:
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 247 +++++++++++++++++++++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 257 +---------------------
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |   2 +
- drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  13 ++
- 4 files changed, 268 insertions(+), 251 deletions(-)
+	The caller checks for errors, and if no error is returned, it
+	stores the address of the stolen memory. Therefore, we can't
+	return NULL. Since we are handling a case of out-of-bounds, it's
+	appropriate to treat the "lmem_size < dsm_base" case as an error.
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-index da49589f82d0..89e7feffcbe3 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-@@ -454,6 +454,173 @@ static const struct adreno_reglist a690_hwcg[] = {
- 	{}
- };
- 
-+/* For a615, a616, a618, a619, a630, a640 and a680 */
-+static const u32 a630_protect_regs[] = {
-+	A6XX_PROTECT_RDONLY(0x00000, 0x04ff),
-+	A6XX_PROTECT_RDONLY(0x00501, 0x0005),
-+	A6XX_PROTECT_RDONLY(0x0050b, 0x02f4),
-+	A6XX_PROTECT_NORDWR(0x0050e, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x00510, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x00534, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x00800, 0x0082),
-+	A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
-+	A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
-+	A6XX_PROTECT_RDONLY(0x008de, 0x00ae),
-+	A6XX_PROTECT_NORDWR(0x00900, 0x004d),
-+	A6XX_PROTECT_NORDWR(0x0098d, 0x0272),
-+	A6XX_PROTECT_NORDWR(0x00e00, 0x0001),
-+	A6XX_PROTECT_NORDWR(0x00e03, 0x000c),
-+	A6XX_PROTECT_NORDWR(0x03c00, 0x00c3),
-+	A6XX_PROTECT_RDONLY(0x03cc4, 0x1fff),
-+	A6XX_PROTECT_NORDWR(0x08630, 0x01cf),
-+	A6XX_PROTECT_NORDWR(0x08e00, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x08e08, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x08e50, 0x001f),
-+	A6XX_PROTECT_NORDWR(0x09624, 0x01db),
-+	A6XX_PROTECT_NORDWR(0x09e70, 0x0001),
-+	A6XX_PROTECT_NORDWR(0x09e78, 0x0187),
-+	A6XX_PROTECT_NORDWR(0x0a630, 0x01cf),
-+	A6XX_PROTECT_NORDWR(0x0ae02, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x0ae50, 0x032f),
-+	A6XX_PROTECT_NORDWR(0x0b604, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x0be02, 0x0001),
-+	A6XX_PROTECT_NORDWR(0x0be20, 0x17df),
-+	A6XX_PROTECT_NORDWR(0x0f000, 0x0bff),
-+	A6XX_PROTECT_RDONLY(0x0fc00, 0x1fff),
-+	A6XX_PROTECT_NORDWR(0x11c00, 0x0000), /* note: infinite range */
-+};
-+DECLARE_ADRENO_PROTECT(a630_protect, 32);
-+
-+/* These are for a620 and a650 */
-+static const u32 a650_protect_regs[] = {
-+	A6XX_PROTECT_RDONLY(0x00000, 0x04ff),
-+	A6XX_PROTECT_RDONLY(0x00501, 0x0005),
-+	A6XX_PROTECT_RDONLY(0x0050b, 0x02f4),
-+	A6XX_PROTECT_NORDWR(0x0050e, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x00510, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x00534, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x00800, 0x0082),
-+	A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
-+	A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
-+	A6XX_PROTECT_RDONLY(0x008de, 0x00ae),
-+	A6XX_PROTECT_NORDWR(0x00900, 0x004d),
-+	A6XX_PROTECT_NORDWR(0x0098d, 0x0272),
-+	A6XX_PROTECT_NORDWR(0x00e00, 0x0001),
-+	A6XX_PROTECT_NORDWR(0x00e03, 0x000c),
-+	A6XX_PROTECT_NORDWR(0x03c00, 0x00c3),
-+	A6XX_PROTECT_RDONLY(0x03cc4, 0x1fff),
-+	A6XX_PROTECT_NORDWR(0x08630, 0x01cf),
-+	A6XX_PROTECT_NORDWR(0x08e00, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x08e08, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x08e50, 0x001f),
-+	A6XX_PROTECT_NORDWR(0x08e80, 0x027f),
-+	A6XX_PROTECT_NORDWR(0x09624, 0x01db),
-+	A6XX_PROTECT_NORDWR(0x09e60, 0x0011),
-+	A6XX_PROTECT_NORDWR(0x09e78, 0x0187),
-+	A6XX_PROTECT_NORDWR(0x0a630, 0x01cf),
-+	A6XX_PROTECT_NORDWR(0x0ae02, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x0ae50, 0x032f),
-+	A6XX_PROTECT_NORDWR(0x0b604, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x0b608, 0x0007),
-+	A6XX_PROTECT_NORDWR(0x0be02, 0x0001),
-+	A6XX_PROTECT_NORDWR(0x0be20, 0x17df),
-+	A6XX_PROTECT_NORDWR(0x0f000, 0x0bff),
-+	A6XX_PROTECT_RDONLY(0x0fc00, 0x1fff),
-+	A6XX_PROTECT_NORDWR(0x18400, 0x1fff),
-+	A6XX_PROTECT_NORDWR(0x1a800, 0x1fff),
-+	A6XX_PROTECT_NORDWR(0x1f400, 0x0443),
-+	A6XX_PROTECT_RDONLY(0x1f844, 0x007b),
-+	A6XX_PROTECT_NORDWR(0x1f887, 0x001b),
-+	A6XX_PROTECT_NORDWR(0x1f8c0, 0x0000), /* note: infinite range */
-+};
-+DECLARE_ADRENO_PROTECT(a650_protect, 48);
-+
-+/* These are for a635 and a660 */
-+static const u32 a660_protect_regs[] = {
-+	A6XX_PROTECT_RDONLY(0x00000, 0x04ff),
-+	A6XX_PROTECT_RDONLY(0x00501, 0x0005),
-+	A6XX_PROTECT_RDONLY(0x0050b, 0x02f4),
-+	A6XX_PROTECT_NORDWR(0x0050e, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x00510, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x00534, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x00800, 0x0082),
-+	A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
-+	A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
-+	A6XX_PROTECT_RDONLY(0x008de, 0x00ae),
-+	A6XX_PROTECT_NORDWR(0x00900, 0x004d),
-+	A6XX_PROTECT_NORDWR(0x0098d, 0x0272),
-+	A6XX_PROTECT_NORDWR(0x00e00, 0x0001),
-+	A6XX_PROTECT_NORDWR(0x00e03, 0x000c),
-+	A6XX_PROTECT_NORDWR(0x03c00, 0x00c3),
-+	A6XX_PROTECT_RDONLY(0x03cc4, 0x1fff),
-+	A6XX_PROTECT_NORDWR(0x08630, 0x01cf),
-+	A6XX_PROTECT_NORDWR(0x08e00, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x08e08, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x08e50, 0x001f),
-+	A6XX_PROTECT_NORDWR(0x08e80, 0x027f),
-+	A6XX_PROTECT_NORDWR(0x09624, 0x01db),
-+	A6XX_PROTECT_NORDWR(0x09e60, 0x0011),
-+	A6XX_PROTECT_NORDWR(0x09e78, 0x0187),
-+	A6XX_PROTECT_NORDWR(0x0a630, 0x01cf),
-+	A6XX_PROTECT_NORDWR(0x0ae02, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x0ae50, 0x012f),
-+	A6XX_PROTECT_NORDWR(0x0b604, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x0b608, 0x0006),
-+	A6XX_PROTECT_NORDWR(0x0be02, 0x0001),
-+	A6XX_PROTECT_NORDWR(0x0be20, 0x015f),
-+	A6XX_PROTECT_NORDWR(0x0d000, 0x05ff),
-+	A6XX_PROTECT_NORDWR(0x0f000, 0x0bff),
-+	A6XX_PROTECT_RDONLY(0x0fc00, 0x1fff),
-+	A6XX_PROTECT_NORDWR(0x18400, 0x1fff),
-+	A6XX_PROTECT_NORDWR(0x1a400, 0x1fff),
-+	A6XX_PROTECT_NORDWR(0x1f400, 0x0443),
-+	A6XX_PROTECT_RDONLY(0x1f844, 0x007b),
-+	A6XX_PROTECT_NORDWR(0x1f860, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x1f887, 0x001b),
-+	A6XX_PROTECT_NORDWR(0x1f8c0, 0x0000), /* note: infinite range */
-+};
-+DECLARE_ADRENO_PROTECT(a660_protect, 48);
-+
-+/* These are for a690 */
-+static const u32 a690_protect_regs[] = {
-+	A6XX_PROTECT_RDONLY(0x00000, 0x004ff),
-+	A6XX_PROTECT_RDONLY(0x00501, 0x00001),
-+	A6XX_PROTECT_RDONLY(0x0050b, 0x002f4),
-+	A6XX_PROTECT_NORDWR(0x0050e, 0x00000),
-+	A6XX_PROTECT_NORDWR(0x00510, 0x00000),
-+	A6XX_PROTECT_NORDWR(0x00534, 0x00000),
-+	A6XX_PROTECT_NORDWR(0x00800, 0x00082),
-+	A6XX_PROTECT_NORDWR(0x008a0, 0x00008),
-+	A6XX_PROTECT_NORDWR(0x008ab, 0x00024),
-+	A6XX_PROTECT_RDONLY(0x008de, 0x000ae),
-+	A6XX_PROTECT_NORDWR(0x00900, 0x0004d),
-+	A6XX_PROTECT_NORDWR(0x0098d, 0x00272),
-+	A6XX_PROTECT_NORDWR(0x00e00, 0x00001),
-+	A6XX_PROTECT_NORDWR(0x00e03, 0x0000c),
-+	A6XX_PROTECT_NORDWR(0x03c00, 0x000c3),
-+	A6XX_PROTECT_RDONLY(0x03cc4, 0x01fff),
-+	A6XX_PROTECT_NORDWR(0x08630, 0x001cf),
-+	A6XX_PROTECT_NORDWR(0x08e00, 0x00000),
-+	A6XX_PROTECT_NORDWR(0x08e08, 0x00007),
-+	A6XX_PROTECT_NORDWR(0x08e50, 0x0001f),
-+	A6XX_PROTECT_NORDWR(0x08e80, 0x0027f),
-+	A6XX_PROTECT_NORDWR(0x09624, 0x001db),
-+	A6XX_PROTECT_NORDWR(0x09e60, 0x00011),
-+	A6XX_PROTECT_NORDWR(0x09e78, 0x00187),
-+	A6XX_PROTECT_NORDWR(0x0a630, 0x001cf),
-+	A6XX_PROTECT_NORDWR(0x0ae02, 0x00000),
-+	A6XX_PROTECT_NORDWR(0x0ae50, 0x0012f),
-+	A6XX_PROTECT_NORDWR(0x0b604, 0x00000),
-+	A6XX_PROTECT_NORDWR(0x0b608, 0x00006),
-+	A6XX_PROTECT_NORDWR(0x0be02, 0x00001),
-+	A6XX_PROTECT_NORDWR(0x0be20, 0x0015f),
-+	A6XX_PROTECT_NORDWR(0x0d000, 0x005ff),
-+	A6XX_PROTECT_NORDWR(0x0f000, 0x00bff),
-+	A6XX_PROTECT_RDONLY(0x0fc00, 0x01fff),
-+	A6XX_PROTECT_NORDWR(0x11c00, 0x00000), /*note: infiite range */
-+};
-+DECLARE_ADRENO_PROTECT(a690_protect, 48);
-+
- static const struct adreno_info a6xx_gpus[] = {
- 	{
- 		.chip_ids = ADRENO_CHIP_IDS(0x06010000),
-@@ -468,6 +635,7 @@ static const struct adreno_info a6xx_gpus[] = {
- 		.zapfw = "a610_zap.mdt",
- 		.a6xx = &(struct a6xx_info) {
- 			.hwcg = a612_hwcg,
-+			.protect = &a630_protect,
- 		},
- 		/*
- 		 * There are (at least) three SoCs implementing A610: SM6125
-@@ -498,6 +666,7 @@ static const struct adreno_info a6xx_gpus[] = {
- 		.zapfw = "a615_zap.mbn",
- 		.a6xx = &(struct a6xx_info) {
- 			.hwcg = a615_hwcg,
-+			.protect = &a630_protect,
- 		},
- 		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
-@@ -519,6 +688,7 @@ static const struct adreno_info a6xx_gpus[] = {
- 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
- 		.init = a6xx_gpu_init,
- 		.a6xx = &(struct a6xx_info) {
-+			.protect = &a630_protect,
- 		},
- 		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
-@@ -540,6 +710,7 @@ static const struct adreno_info a6xx_gpus[] = {
- 		.zapfw = "a615_zap.mdt",
- 		.a6xx = &(struct a6xx_info) {
- 			.hwcg = a615_hwcg,
-+			.protect = &a630_protect,
- 		},
- 		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
-@@ -561,6 +732,7 @@ static const struct adreno_info a6xx_gpus[] = {
- 		.zapfw = "a615_zap.mdt",
- 		.a6xx = &(struct a6xx_info) {
- 			.hwcg = a615_hwcg,
-+			.protect = &a630_protect,
- 		},
- 		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
-@@ -582,6 +754,7 @@ static const struct adreno_info a6xx_gpus[] = {
- 		.zapfw = "a615_zap.mdt",
- 		.a6xx = &(struct a6xx_info) {
- 			.hwcg = a615_hwcg,
-+			.protect = &a630_protect,
- 		},
- 		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
-@@ -608,6 +781,7 @@ static const struct adreno_info a6xx_gpus[] = {
- 		.zapfw = "a630_zap.mdt",
- 		.a6xx = &(struct a6xx_info) {
- 			.hwcg = a630_hwcg,
-+			.protect = &a630_protect,
- 		},
- 	}, {
- 		.chip_ids = ADRENO_CHIP_IDS(0x06040001),
-@@ -624,6 +798,7 @@ static const struct adreno_info a6xx_gpus[] = {
- 		.zapfw = "a640_zap.mdt",
- 		.a6xx = &(struct a6xx_info) {
- 			.hwcg = a640_hwcg,
-+			.protect = &a630_protect,
- 		},
- 		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0, 0 },
-@@ -645,6 +820,7 @@ static const struct adreno_info a6xx_gpus[] = {
- 		.zapfw = "a650_zap.mdt",
- 		.a6xx = &(struct a6xx_info) {
- 			.hwcg = a650_hwcg,
-+			.protect = &a650_protect,
- 		},
- 		.address_space_size = SZ_16G,
- 		.speedbins = ADRENO_SPEEDBINS(
-@@ -669,6 +845,7 @@ static const struct adreno_info a6xx_gpus[] = {
- 		.zapfw = "a660_zap.mdt",
- 		.a6xx = &(struct a6xx_info) {
- 			.hwcg = a660_hwcg,
-+			.protect = &a660_protect,
- 		},
- 		.address_space_size = SZ_16G,
- 	}, {
-@@ -686,6 +863,7 @@ static const struct adreno_info a6xx_gpus[] = {
- 		.zapfw = "a660_zap.mbn",
- 		.a6xx = &(struct a6xx_info) {
- 			.hwcg = a660_hwcg,
-+			.protect = &a660_protect,
- 		},
- 		.address_space_size = SZ_16G,
- 		.speedbins = ADRENO_SPEEDBINS(
-@@ -709,6 +887,7 @@ static const struct adreno_info a6xx_gpus[] = {
- 		.zapfw = "a640_zap.mdt",
- 		.a6xx = &(struct a6xx_info) {
- 			.hwcg = a640_hwcg,
-+			.protect = &a630_protect,
- 		},
- 	}, {
- 		.chip_ids = ADRENO_CHIP_IDS(0x06090000),
-@@ -725,6 +904,7 @@ static const struct adreno_info a6xx_gpus[] = {
- 		.zapfw = "a690_zap.mdt",
- 		.a6xx = &(struct a6xx_info) {
- 			.hwcg = a690_hwcg,
-+			.protect = &a690_protect,
- 		},
- 		.address_space_size = SZ_16G,
- 	}
-@@ -916,6 +1096,60 @@ static const struct adreno_reglist a740_hwcg[] = {
- 	{},
- };
- 
-+static const u32 a730_protect_regs[] = {
-+	A6XX_PROTECT_RDONLY(0x00000, 0x04ff),
-+	A6XX_PROTECT_RDONLY(0x0050b, 0x0058),
-+	A6XX_PROTECT_NORDWR(0x0050e, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x00510, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x00534, 0x0000),
-+	A6XX_PROTECT_RDONLY(0x005fb, 0x009d),
-+	A6XX_PROTECT_NORDWR(0x00699, 0x01e9),
-+	A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
-+	A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
-+	/* 0x008d0-0x008dd and 0x008e0-0x008e6 are unprotected on purpose for tools like perfetto */
-+	A6XX_PROTECT_NORDWR(0x008de, 0x0001),
-+	A6XX_PROTECT_RDONLY(0x008e7, 0x014b),
-+	A6XX_PROTECT_NORDWR(0x00900, 0x004d),
-+	A6XX_PROTECT_NORDWR(0x0098d, 0x00b2),
-+	A6XX_PROTECT_NORDWR(0x00a41, 0x01be),
-+	A6XX_PROTECT_NORDWR(0x00df0, 0x0001),
-+	A6XX_PROTECT_NORDWR(0x00e01, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x00e07, 0x0008),
-+	A6XX_PROTECT_NORDWR(0x03c00, 0x00c3),
-+	A6XX_PROTECT_RDONLY(0x03cc4, 0x1fff),
-+	A6XX_PROTECT_NORDWR(0x08630, 0x01cf),
-+	A6XX_PROTECT_NORDWR(0x08e00, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x08e08, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x08e50, 0x001f),
-+	A6XX_PROTECT_NORDWR(0x08e80, 0x0280),
-+	A6XX_PROTECT_NORDWR(0x09624, 0x01db),
-+	A6XX_PROTECT_NORDWR(0x09e40, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x09e64, 0x000d),
-+	A6XX_PROTECT_NORDWR(0x09e78, 0x0187),
-+	A6XX_PROTECT_NORDWR(0x0a630, 0x01cf),
-+	A6XX_PROTECT_NORDWR(0x0ae02, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x0ae50, 0x000f),
-+	A6XX_PROTECT_NORDWR(0x0ae66, 0x0003),
-+	A6XX_PROTECT_NORDWR(0x0ae6f, 0x0003),
-+	A6XX_PROTECT_NORDWR(0x0b604, 0x0003),
-+	A6XX_PROTECT_NORDWR(0x0ec00, 0x0fff),
-+	A6XX_PROTECT_RDONLY(0x0fc00, 0x1fff),
-+	A6XX_PROTECT_NORDWR(0x18400, 0x0053),
-+	A6XX_PROTECT_RDONLY(0x18454, 0x0004),
-+	A6XX_PROTECT_NORDWR(0x18459, 0x1fff),
-+	A6XX_PROTECT_NORDWR(0x1a459, 0x1fff),
-+	A6XX_PROTECT_NORDWR(0x1c459, 0x1fff),
-+	A6XX_PROTECT_NORDWR(0x1f400, 0x0443),
-+	A6XX_PROTECT_RDONLY(0x1f844, 0x007b),
-+	A6XX_PROTECT_NORDWR(0x1f860, 0x0000),
-+	A6XX_PROTECT_NORDWR(0x1f878, 0x002a),
-+	/* CP_PROTECT_REG[45, 46] are left untouched! */
-+	0,
-+	0,
-+	A6XX_PROTECT_NORDWR(0x1f8c0, 0x00000),
-+};
-+DECLARE_ADRENO_PROTECT(a730_protect, 48);
-+
- static const struct adreno_info a7xx_gpus[] = {
- 	{
- 		.chip_ids = ADRENO_CHIP_IDS(0x07000200),
-@@ -952,6 +1186,7 @@ static const struct adreno_info a7xx_gpus[] = {
- 		.zapfw = "a730_zap.mdt",
- 		.a6xx = &(struct a6xx_info) {
- 			.hwcg = a730_hwcg,
-+			.protect = &a730_protect,
- 		},
- 		.address_space_size = SZ_16G,
- 	}, {
-@@ -969,6 +1204,7 @@ static const struct adreno_info a7xx_gpus[] = {
- 		.zapfw = "a740_zap.mdt",
- 		.a6xx = &(struct a6xx_info) {
- 			.hwcg = a740_hwcg,
-+			.protect = &a730_protect,
- 		},
- 		.address_space_size = SZ_16G,
- 	}, {
-@@ -985,8 +1221,19 @@ static const struct adreno_info a7xx_gpus[] = {
- 		.init = a6xx_gpu_init,
- 		.zapfw = "gen70900_zap.mbn",
- 		.a6xx = &(struct a6xx_info) {
-+			.protect = &a730_protect,
- 		},
- 		.address_space_size = SZ_16G,
- 	}
- };
- DECLARK_ADRENO_GPULIST(a7xx);
-+
-+static inline void __build_asserts(void)
-+{
-+	BUILD_BUG_ON(a630_protect.count > a630_protect.count_max);
-+	BUILD_BUG_ON(a650_protect.count > a650_protect.count_max);
-+	BUILD_BUG_ON(a660_protect.count > a660_protect.count_max);
-+	BUILD_BUG_ON(a690_protect.count > a690_protect.count_max);
-+	BUILD_BUG_ON(a730_protect.count > a730_protect.count_max);
-+}
-+
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 7e01fb551f12..f22a9e8460b3 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -465,256 +465,11 @@ static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
- 	gpu_write(gpu, REG_A6XX_RBBM_CLOCK_CNTL, state ? clock_cntl_on : 0);
- }
- 
--/* For a615, a616, a618, a619, a630, a640 and a680 */
--static const u32 a6xx_protect[] = {
--	A6XX_PROTECT_RDONLY(0x00000, 0x04ff),
--	A6XX_PROTECT_RDONLY(0x00501, 0x0005),
--	A6XX_PROTECT_RDONLY(0x0050b, 0x02f4),
--	A6XX_PROTECT_NORDWR(0x0050e, 0x0000),
--	A6XX_PROTECT_NORDWR(0x00510, 0x0000),
--	A6XX_PROTECT_NORDWR(0x00534, 0x0000),
--	A6XX_PROTECT_NORDWR(0x00800, 0x0082),
--	A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
--	A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
--	A6XX_PROTECT_RDONLY(0x008de, 0x00ae),
--	A6XX_PROTECT_NORDWR(0x00900, 0x004d),
--	A6XX_PROTECT_NORDWR(0x0098d, 0x0272),
--	A6XX_PROTECT_NORDWR(0x00e00, 0x0001),
--	A6XX_PROTECT_NORDWR(0x00e03, 0x000c),
--	A6XX_PROTECT_NORDWR(0x03c00, 0x00c3),
--	A6XX_PROTECT_RDONLY(0x03cc4, 0x1fff),
--	A6XX_PROTECT_NORDWR(0x08630, 0x01cf),
--	A6XX_PROTECT_NORDWR(0x08e00, 0x0000),
--	A6XX_PROTECT_NORDWR(0x08e08, 0x0000),
--	A6XX_PROTECT_NORDWR(0x08e50, 0x001f),
--	A6XX_PROTECT_NORDWR(0x09624, 0x01db),
--	A6XX_PROTECT_NORDWR(0x09e70, 0x0001),
--	A6XX_PROTECT_NORDWR(0x09e78, 0x0187),
--	A6XX_PROTECT_NORDWR(0x0a630, 0x01cf),
--	A6XX_PROTECT_NORDWR(0x0ae02, 0x0000),
--	A6XX_PROTECT_NORDWR(0x0ae50, 0x032f),
--	A6XX_PROTECT_NORDWR(0x0b604, 0x0000),
--	A6XX_PROTECT_NORDWR(0x0be02, 0x0001),
--	A6XX_PROTECT_NORDWR(0x0be20, 0x17df),
--	A6XX_PROTECT_NORDWR(0x0f000, 0x0bff),
--	A6XX_PROTECT_RDONLY(0x0fc00, 0x1fff),
--	A6XX_PROTECT_NORDWR(0x11c00, 0x0000), /* note: infinite range */
--};
--
--/* These are for a620 and a650 */
--static const u32 a650_protect[] = {
--	A6XX_PROTECT_RDONLY(0x00000, 0x04ff),
--	A6XX_PROTECT_RDONLY(0x00501, 0x0005),
--	A6XX_PROTECT_RDONLY(0x0050b, 0x02f4),
--	A6XX_PROTECT_NORDWR(0x0050e, 0x0000),
--	A6XX_PROTECT_NORDWR(0x00510, 0x0000),
--	A6XX_PROTECT_NORDWR(0x00534, 0x0000),
--	A6XX_PROTECT_NORDWR(0x00800, 0x0082),
--	A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
--	A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
--	A6XX_PROTECT_RDONLY(0x008de, 0x00ae),
--	A6XX_PROTECT_NORDWR(0x00900, 0x004d),
--	A6XX_PROTECT_NORDWR(0x0098d, 0x0272),
--	A6XX_PROTECT_NORDWR(0x00e00, 0x0001),
--	A6XX_PROTECT_NORDWR(0x00e03, 0x000c),
--	A6XX_PROTECT_NORDWR(0x03c00, 0x00c3),
--	A6XX_PROTECT_RDONLY(0x03cc4, 0x1fff),
--	A6XX_PROTECT_NORDWR(0x08630, 0x01cf),
--	A6XX_PROTECT_NORDWR(0x08e00, 0x0000),
--	A6XX_PROTECT_NORDWR(0x08e08, 0x0000),
--	A6XX_PROTECT_NORDWR(0x08e50, 0x001f),
--	A6XX_PROTECT_NORDWR(0x08e80, 0x027f),
--	A6XX_PROTECT_NORDWR(0x09624, 0x01db),
--	A6XX_PROTECT_NORDWR(0x09e60, 0x0011),
--	A6XX_PROTECT_NORDWR(0x09e78, 0x0187),
--	A6XX_PROTECT_NORDWR(0x0a630, 0x01cf),
--	A6XX_PROTECT_NORDWR(0x0ae02, 0x0000),
--	A6XX_PROTECT_NORDWR(0x0ae50, 0x032f),
--	A6XX_PROTECT_NORDWR(0x0b604, 0x0000),
--	A6XX_PROTECT_NORDWR(0x0b608, 0x0007),
--	A6XX_PROTECT_NORDWR(0x0be02, 0x0001),
--	A6XX_PROTECT_NORDWR(0x0be20, 0x17df),
--	A6XX_PROTECT_NORDWR(0x0f000, 0x0bff),
--	A6XX_PROTECT_RDONLY(0x0fc00, 0x1fff),
--	A6XX_PROTECT_NORDWR(0x18400, 0x1fff),
--	A6XX_PROTECT_NORDWR(0x1a800, 0x1fff),
--	A6XX_PROTECT_NORDWR(0x1f400, 0x0443),
--	A6XX_PROTECT_RDONLY(0x1f844, 0x007b),
--	A6XX_PROTECT_NORDWR(0x1f887, 0x001b),
--	A6XX_PROTECT_NORDWR(0x1f8c0, 0x0000), /* note: infinite range */
--};
--
--/* These are for a635 and a660 */
--static const u32 a660_protect[] = {
--	A6XX_PROTECT_RDONLY(0x00000, 0x04ff),
--	A6XX_PROTECT_RDONLY(0x00501, 0x0005),
--	A6XX_PROTECT_RDONLY(0x0050b, 0x02f4),
--	A6XX_PROTECT_NORDWR(0x0050e, 0x0000),
--	A6XX_PROTECT_NORDWR(0x00510, 0x0000),
--	A6XX_PROTECT_NORDWR(0x00534, 0x0000),
--	A6XX_PROTECT_NORDWR(0x00800, 0x0082),
--	A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
--	A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
--	A6XX_PROTECT_RDONLY(0x008de, 0x00ae),
--	A6XX_PROTECT_NORDWR(0x00900, 0x004d),
--	A6XX_PROTECT_NORDWR(0x0098d, 0x0272),
--	A6XX_PROTECT_NORDWR(0x00e00, 0x0001),
--	A6XX_PROTECT_NORDWR(0x00e03, 0x000c),
--	A6XX_PROTECT_NORDWR(0x03c00, 0x00c3),
--	A6XX_PROTECT_RDONLY(0x03cc4, 0x1fff),
--	A6XX_PROTECT_NORDWR(0x08630, 0x01cf),
--	A6XX_PROTECT_NORDWR(0x08e00, 0x0000),
--	A6XX_PROTECT_NORDWR(0x08e08, 0x0000),
--	A6XX_PROTECT_NORDWR(0x08e50, 0x001f),
--	A6XX_PROTECT_NORDWR(0x08e80, 0x027f),
--	A6XX_PROTECT_NORDWR(0x09624, 0x01db),
--	A6XX_PROTECT_NORDWR(0x09e60, 0x0011),
--	A6XX_PROTECT_NORDWR(0x09e78, 0x0187),
--	A6XX_PROTECT_NORDWR(0x0a630, 0x01cf),
--	A6XX_PROTECT_NORDWR(0x0ae02, 0x0000),
--	A6XX_PROTECT_NORDWR(0x0ae50, 0x012f),
--	A6XX_PROTECT_NORDWR(0x0b604, 0x0000),
--	A6XX_PROTECT_NORDWR(0x0b608, 0x0006),
--	A6XX_PROTECT_NORDWR(0x0be02, 0x0001),
--	A6XX_PROTECT_NORDWR(0x0be20, 0x015f),
--	A6XX_PROTECT_NORDWR(0x0d000, 0x05ff),
--	A6XX_PROTECT_NORDWR(0x0f000, 0x0bff),
--	A6XX_PROTECT_RDONLY(0x0fc00, 0x1fff),
--	A6XX_PROTECT_NORDWR(0x18400, 0x1fff),
--	A6XX_PROTECT_NORDWR(0x1a400, 0x1fff),
--	A6XX_PROTECT_NORDWR(0x1f400, 0x0443),
--	A6XX_PROTECT_RDONLY(0x1f844, 0x007b),
--	A6XX_PROTECT_NORDWR(0x1f860, 0x0000),
--	A6XX_PROTECT_NORDWR(0x1f887, 0x001b),
--	A6XX_PROTECT_NORDWR(0x1f8c0, 0x0000), /* note: infinite range */
--};
--
--/* These are for a690 */
--static const u32 a690_protect[] = {
--	A6XX_PROTECT_RDONLY(0x00000, 0x004ff),
--	A6XX_PROTECT_RDONLY(0x00501, 0x00001),
--	A6XX_PROTECT_RDONLY(0x0050b, 0x002f4),
--	A6XX_PROTECT_NORDWR(0x0050e, 0x00000),
--	A6XX_PROTECT_NORDWR(0x00510, 0x00000),
--	A6XX_PROTECT_NORDWR(0x00534, 0x00000),
--	A6XX_PROTECT_NORDWR(0x00800, 0x00082),
--	A6XX_PROTECT_NORDWR(0x008a0, 0x00008),
--	A6XX_PROTECT_NORDWR(0x008ab, 0x00024),
--	A6XX_PROTECT_RDONLY(0x008de, 0x000ae),
--	A6XX_PROTECT_NORDWR(0x00900, 0x0004d),
--	A6XX_PROTECT_NORDWR(0x0098d, 0x00272),
--	A6XX_PROTECT_NORDWR(0x00e00, 0x00001),
--	A6XX_PROTECT_NORDWR(0x00e03, 0x0000c),
--	A6XX_PROTECT_NORDWR(0x03c00, 0x000c3),
--	A6XX_PROTECT_RDONLY(0x03cc4, 0x01fff),
--	A6XX_PROTECT_NORDWR(0x08630, 0x001cf),
--	A6XX_PROTECT_NORDWR(0x08e00, 0x00000),
--	A6XX_PROTECT_NORDWR(0x08e08, 0x00007),
--	A6XX_PROTECT_NORDWR(0x08e50, 0x0001f),
--	A6XX_PROTECT_NORDWR(0x08e80, 0x0027f),
--	A6XX_PROTECT_NORDWR(0x09624, 0x001db),
--	A6XX_PROTECT_NORDWR(0x09e60, 0x00011),
--	A6XX_PROTECT_NORDWR(0x09e78, 0x00187),
--	A6XX_PROTECT_NORDWR(0x0a630, 0x001cf),
--	A6XX_PROTECT_NORDWR(0x0ae02, 0x00000),
--	A6XX_PROTECT_NORDWR(0x0ae50, 0x0012f),
--	A6XX_PROTECT_NORDWR(0x0b604, 0x00000),
--	A6XX_PROTECT_NORDWR(0x0b608, 0x00006),
--	A6XX_PROTECT_NORDWR(0x0be02, 0x00001),
--	A6XX_PROTECT_NORDWR(0x0be20, 0x0015f),
--	A6XX_PROTECT_NORDWR(0x0d000, 0x005ff),
--	A6XX_PROTECT_NORDWR(0x0f000, 0x00bff),
--	A6XX_PROTECT_RDONLY(0x0fc00, 0x01fff),
--	A6XX_PROTECT_NORDWR(0x11c00, 0x00000), /*note: infiite range */
--};
--
--static const u32 a730_protect[] = {
--	A6XX_PROTECT_RDONLY(0x00000, 0x04ff),
--	A6XX_PROTECT_RDONLY(0x0050b, 0x0058),
--	A6XX_PROTECT_NORDWR(0x0050e, 0x0000),
--	A6XX_PROTECT_NORDWR(0x00510, 0x0000),
--	A6XX_PROTECT_NORDWR(0x00534, 0x0000),
--	A6XX_PROTECT_RDONLY(0x005fb, 0x009d),
--	A6XX_PROTECT_NORDWR(0x00699, 0x01e9),
--	A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
--	A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
--	/* 0x008d0-0x008dd and 0x008e0-0x008e6 are unprotected on purpose for tools like perfetto */
--	A6XX_PROTECT_NORDWR(0x008de, 0x0001),
--	A6XX_PROTECT_RDONLY(0x008e7, 0x014b),
--	A6XX_PROTECT_NORDWR(0x00900, 0x004d),
--	A6XX_PROTECT_NORDWR(0x0098d, 0x00b2),
--	A6XX_PROTECT_NORDWR(0x00a41, 0x01be),
--	A6XX_PROTECT_NORDWR(0x00df0, 0x0001),
--	A6XX_PROTECT_NORDWR(0x00e01, 0x0000),
--	A6XX_PROTECT_NORDWR(0x00e07, 0x0008),
--	A6XX_PROTECT_NORDWR(0x03c00, 0x00c3),
--	A6XX_PROTECT_RDONLY(0x03cc4, 0x1fff),
--	A6XX_PROTECT_NORDWR(0x08630, 0x01cf),
--	A6XX_PROTECT_NORDWR(0x08e00, 0x0000),
--	A6XX_PROTECT_NORDWR(0x08e08, 0x0000),
--	A6XX_PROTECT_NORDWR(0x08e50, 0x001f),
--	A6XX_PROTECT_NORDWR(0x08e80, 0x0280),
--	A6XX_PROTECT_NORDWR(0x09624, 0x01db),
--	A6XX_PROTECT_NORDWR(0x09e40, 0x0000),
--	A6XX_PROTECT_NORDWR(0x09e64, 0x000d),
--	A6XX_PROTECT_NORDWR(0x09e78, 0x0187),
--	A6XX_PROTECT_NORDWR(0x0a630, 0x01cf),
--	A6XX_PROTECT_NORDWR(0x0ae02, 0x0000),
--	A6XX_PROTECT_NORDWR(0x0ae50, 0x000f),
--	A6XX_PROTECT_NORDWR(0x0ae66, 0x0003),
--	A6XX_PROTECT_NORDWR(0x0ae6f, 0x0003),
--	A6XX_PROTECT_NORDWR(0x0b604, 0x0003),
--	A6XX_PROTECT_NORDWR(0x0ec00, 0x0fff),
--	A6XX_PROTECT_RDONLY(0x0fc00, 0x1fff),
--	A6XX_PROTECT_NORDWR(0x18400, 0x0053),
--	A6XX_PROTECT_RDONLY(0x18454, 0x0004),
--	A6XX_PROTECT_NORDWR(0x18459, 0x1fff),
--	A6XX_PROTECT_NORDWR(0x1a459, 0x1fff),
--	A6XX_PROTECT_NORDWR(0x1c459, 0x1fff),
--	A6XX_PROTECT_NORDWR(0x1f400, 0x0443),
--	A6XX_PROTECT_RDONLY(0x1f844, 0x007b),
--	A6XX_PROTECT_NORDWR(0x1f860, 0x0000),
--	A6XX_PROTECT_NORDWR(0x1f878, 0x002a),
--	/* CP_PROTECT_REG[45, 46] are left untouched! */
--	0,
--	0,
--	A6XX_PROTECT_NORDWR(0x1f8c0, 0x00000),
--};
--
- static void a6xx_set_cp_protect(struct msm_gpu *gpu)
- {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
--	const u32 *regs = a6xx_protect;
--	unsigned i, count, count_max;
--
--	if (adreno_is_a650(adreno_gpu) || adreno_is_a702(adreno_gpu)) {
--		regs = a650_protect;
--		count = ARRAY_SIZE(a650_protect);
--		count_max = 48;
--		BUILD_BUG_ON(ARRAY_SIZE(a650_protect) > 48);
--	} else if (adreno_is_a690(adreno_gpu)) {
--		regs = a690_protect;
--		count = ARRAY_SIZE(a690_protect);
--		count_max = 48;
--		BUILD_BUG_ON(ARRAY_SIZE(a690_protect) > 48);
--	} else if (adreno_is_a660_family(adreno_gpu)) {
--		regs = a660_protect;
--		count = ARRAY_SIZE(a660_protect);
--		count_max = 48;
--		BUILD_BUG_ON(ARRAY_SIZE(a660_protect) > 48);
--	} else if (adreno_is_a730(adreno_gpu) ||
--		   adreno_is_a740(adreno_gpu) ||
--		   adreno_is_a750(adreno_gpu)) {
--		regs = a730_protect;
--		count = ARRAY_SIZE(a730_protect);
--		count_max = 48;
--		BUILD_BUG_ON(ARRAY_SIZE(a730_protect) > 48);
--	} else {
--		regs = a6xx_protect;
--		count = ARRAY_SIZE(a6xx_protect);
--		count_max = 32;
--		BUILD_BUG_ON(ARRAY_SIZE(a6xx_protect) > 32);
--	}
-+	const struct adreno_protect *protect = adreno_gpu->info->a6xx->protect;
-+	unsigned i;
- 
- 	/*
- 	 * Enable access protection to privileged registers, fault on an access
-@@ -726,13 +481,13 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
- 		  A6XX_CP_PROTECT_CNTL_ACCESS_FAULT_ON_VIOL_EN |
- 		  A6XX_CP_PROTECT_CNTL_LAST_SPAN_INF_RANGE);
- 
--	for (i = 0; i < count - 1; i++) {
-+	for (i = 0; i < protect->count - 1; i++) {
- 		/* Intentionally skip writing to some registers */
--		if (regs[i])
--			gpu_write(gpu, REG_A6XX_CP_PROTECT(i), regs[i]);
-+		if (protect->regs[i])
-+			gpu_write(gpu, REG_A6XX_CP_PROTECT(i), protect->regs[i]);
- 	}
- 	/* last CP_PROTECT to have "infinite" length on the last entry */
--	gpu_write(gpu, REG_A6XX_CP_PROTECT(count_max - 1), regs[i]);
-+	gpu_write(gpu, REG_A6XX_CP_PROTECT(protect->count_max - 1), protect->regs[i]);
- }
- 
- static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-index 61c51e9c7f06..c206dab8bc08 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-@@ -16,9 +16,11 @@ extern bool hang_debug;
-  * struct a6xx_info - a6xx specific information from device table
-  *
-  * @hwcg: hw clock gating register sequence
-+ * @protect: CP_PROTECT settings
-  */
- struct a6xx_info {
- 	const struct adreno_reglist *hwcg;
-+	const struct adreno_protect *protect;
- };
- 
- struct a6xx_gpu {
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 849ce0ae9e75..4e5a437ebf8b 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -143,6 +143,19 @@ const struct adreno_gpulist name ## _gpulist = {      \
-  */
- #define ADRENO_SPEEDBINS(tbl...) (struct adreno_speedbin[]) { tbl {SHRT_MAX, 0} }
- 
-+struct adreno_protect {
-+	const uint32_t *regs;
-+	uint32_t count;
-+	uint32_t count_max;
-+};
-+
-+#define DECLARE_ADRENO_PROTECT(name, __count_max)	\
-+static const struct adreno_protect name = {		\
-+	.regs = name ## _regs,				\
-+	.count = ARRAY_SIZE(name ## _regs),		\
-+	.count_max = __count_max,			\
-+};
-+
- struct adreno_gpu {
- 	struct msm_gpu base;
- 	const struct adreno_info *info;
--- 
-2.45.2
+	Return -EINVAL embedded in a pointer instead of '0' (or NULL).
 
+	This way, we avoid a potential NULL pointer dereference.
+
+So... what's it?  Can we return NULL or not? Is this tested on that
+scenario with with small BAR or does the module
+just fail to load later and explode?
+
+Lucas De Marchi
+
+>
+>Andi
+>
+>> Lucas De Marchi
+>>
+>>
+>> >
+>> > Thanks,
+>> > Andi
