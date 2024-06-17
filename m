@@ -2,69 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 793B290BBB8
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 22:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA6390BBBA
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 22:07:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C103410E1D3;
-	Mon, 17 Jun 2024 20:07:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3D4210E477;
+	Mon, 17 Jun 2024 20:07:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="w9fPs9mI";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Oer8NVOn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B6CD10E1D3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 20:07:01 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-dfea5f628e9so5312584276.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 13:07:01 -0700 (PDT)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com
+ [209.85.219.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A50FE10E477
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 20:07:15 +0000 (UTC)
+Received: by mail-qv1-f50.google.com with SMTP id
+ 6a1803df08f44-6b06bedc5d1so27354876d6.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 13:07:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1718654820; x=1719259620;
+ d=chromium.org; s=google; t=1718654833; x=1719259633;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=y+S+WCSVEed6tsfqkigseDtdhLEH2SOhRikD4ajyrrY=;
- b=w9fPs9mIPkOAzYzfpM7aEOgX3GTRblywGFF5ZWz7/wWphCoSKcGK9FNjxrNQqplG1U
- eHQWTQL1vj3wx0EBDofFNqjJedOhVgJPJfCwvh5LkvCk3O8l+t7J6h0PbJMGDRnreuKf
- jkX4MVjESRnxGOEFPWTLNiwfOK/bs5zQli1FWS57b0P1sSWdJBSkOOi8Og8u7ZE4Ugkz
- D3AZedpVx13IJFgdqCeok2uYwjGngHNxS7uQbB4Z3124qFM+SYhRH7MF5iS349+oM/Vh
- 4C1bjSneWSkrJQ7bVV4sTFrm5tkDKz2VbBzEZEEvjN0ntk+6R/59SzrnyUorCKPlw7gk
- U9Og==
+ bh=SpQL0yvq1dDs98zST/M1XEikwLlL17e1VjSWuuysSL4=;
+ b=Oer8NVOnQy/+mHEOSkJVun9yaciUw7DRx9tbb2XX/LIb7p3tInfZzNZnE5PAaoqWNR
+ XtQgGeczy2cAiANqUAA/znGpv3WuEvwkv0tStNdfxi1ZKu9khfyxNH82Xl6VaYyGeJRY
+ cJmSVc+9N/wIN7qgmjsMk4RB5t2Vxkma5ux/g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718654820; x=1719259620;
+ d=1e100.net; s=20230601; t=1718654833; x=1719259633;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=y+S+WCSVEed6tsfqkigseDtdhLEH2SOhRikD4ajyrrY=;
- b=M0rGvRPpE3zyGaDQCuG0AnE+ZRy+sWe7ofQKvJGj9tNQnTXfM1w1uub4YMvNh6kT4t
- HJx4wtwUTMPXp6dQVy3P1jvkJzCXw94SZ4/Kzrt2asZfWmpDRsmqyNP+NKryWfZRz+1O
- e7IalYodNbQl9h1SjHBT1ipq940QffNBhmGsG+0kFYBo+fixEkWftiMyv/X/f4IVGl8t
- sscicX8LuHMXwfaAxYaErH40PTRarm7qWBHccF7vSZDNetjNbIxxCDNX60aT+vVnIOLh
- h/Wo3URqbPNNrpXpak5trwlGzQOzcZSCb/criZgGW4kDAVEomHcp4dCX3+2nC/uD2KzX
- cqbw==
-X-Gm-Message-State: AOJu0YzqhSbTQWih5+5ylnlsDLTQK0hNGmT1B+XEWqSc9gycill6Etmy
- FRhVVkwkWEaLv1Bp6C/eIswyXnMTJqhMNXFH0efaiMaC0FKFdBIlI5YgWluHb9SZCGl2OkE8HPo
- E6ve0KbyiJcUHwRTh+wLzD5TGr+3MTLvi8Km7
-X-Google-Smtp-Source: AGHT+IHbfFzG1PMoKSOu0wsrR2lao+du4GTQOpKNfFw8MAVjkQUuBP2FdqO3MjvpkOV3SdgtXZPmNJEgDGnlnILVeTU=
-X-Received: by 2002:a05:6902:523:b0:dfb:e86:9ded with SMTP id
- 3f1490d57ef6-dff153d79fdmr9205731276.38.1718654819715; Mon, 17 Jun 2024
- 13:06:59 -0700 (PDT)
+ bh=SpQL0yvq1dDs98zST/M1XEikwLlL17e1VjSWuuysSL4=;
+ b=tTKrec1XZ+iL9JIhftCH77PAyEZkTmyy0jnxjBMPbuKFUAx4a/rHa00/SVYYYpwH7/
+ Nd4VowTOdj2OYNQlbKGGxNoW/3aAJ9EYEILKl9MxGTKBh9lW4iCVI/MqmxnyFiHhw8Qt
+ w/H0W6f0j7hJ5jFPks3/CEx3SRmjBkOzNYhm8wvk2d6Kfmpu3TBBghBLix0jf5tb89gA
+ gIJ0AbJm6TBaelujmi6D3K0hIEbn/LJu3j2SEcYWqb23nvMTl3NbOig4RYEVOFJDQNus
+ tBPhqzzN3y3Hie7Msw3piYnz0U7nAUtosc59JL7wTWhc5vbMos405S7s4nlxRiBHQaSK
+ KkVw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU0NyCFGoHLmlC/plIYaHi/G5vKlhpDSXtWymFzJdFZzVyT8ypP854DYwRXQqQZPzWYcwenJd6dy62o5KWCYQdGZLbd+ANvHExiDQWZ42Kt
+X-Gm-Message-State: AOJu0YzBWDR3THE2X6MSFQy7OS6gDWt4ElfayDp2hbQLFlZTw1WuDx2D
+ 3Ow2FcGqu5JU+fs1P9GdPwUtdzo3oYPOQ/VDYhESrBNiD9BQ+0FcXfmxxjuC6h+OApsc41p8C5g
+ =
+X-Google-Smtp-Source: AGHT+IFU195DFDb7gb2KXu0+/UC3VTtZDAhX4f/ZOGf9pu1dF52cSD03f2uveCjm/X0tCUr+VOm5Cw==
+X-Received: by 2002:a0c:e88e:0:b0:6b0:65cd:c09f with SMTP id
+ 6a1803df08f44-6b2afc9b408mr108702186d6.18.1718654833329; 
+ Mon, 17 Jun 2024 13:07:13 -0700 (PDT)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com.
+ [209.85.160.176]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6b2a5efd278sm58986066d6.128.2024.06.17.13.07.12
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Jun 2024 13:07:12 -0700 (PDT)
+Received: by mail-qt1-f176.google.com with SMTP id
+ d75a77b69052e-443586c2091so104971cf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 13:07:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXu/Dl1qtuz2+j4zuDQijZ8wZcqioTiBp/rNG3FvkIPO5pRZM6dSJuwSHDELy0WoO6I/ZblFQcFMkwzzTCDqjRwYbo8voT5QCVVEJkBdJzc
+X-Received: by 2002:a05:622a:1a17:b0:442:1b20:2a9a with SMTP id
+ d75a77b69052e-4449daa1b48mr5921cf.23.1718654832085; Mon, 17 Jun 2024 13:07:12
+ -0700 (PDT)
 MIME-Version: 1.0
-References: <20240611093441.200910-1-carsten.haitzler@foss.arm.com>
- <20240614114602.3187710-1-carsten.haitzler@foss.arm.com>
-In-Reply-To: <20240614114602.3187710-1-carsten.haitzler@foss.arm.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Mon, 17 Jun 2024 13:06:47 -0700
-Message-ID: <CABdmKX3N_Wb7AF=t86SGREH_3Dx1tWO3++vmmr46L-5MNTw7+w@mail.gmail.com>
-Subject: Re: [PATCH v2] drm: Fix alignment of temporary stack ioctl buffers
-To: carsten.haitzler@foss.arm.com
-Cc: dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org, 
- benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, jstultz@google.com, 
- christian.koenig@amd.com, Felix.Kuehling@amd.com, alexander.deucher@amd.com, 
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
+References: <20240615093758.65431-1-tejasvipin76@gmail.com>
+In-Reply-To: <20240615093758.65431-1-tejasvipin76@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 17 Jun 2024 13:06:48 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XRZKL_ppjUKDK61fQkWhHiQCJLfmVBS7wSo4sUux2g8Q@mail.gmail.com>
+Message-ID: <CAD=FV=XRZKL_ppjUKDK61fQkWhHiQCJLfmVBS7wSo4sUux2g8Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: raydium-rm692e5: transition to mipi_dsi
+ wrapped functions
+To: Tejas Vipin <tejasvipin76@gmail.com>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,82 +95,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 14, 2024 at 4:47=E2=80=AFAM <carsten.haitzler@foss.arm.com> wro=
-te:
->
-> From: Carsten Haitzler <carsten.haitzler@foss.arm.com>
->
-> In a few places (core drm + AMD kfd driver), the ioctl handling uses a
-> temporary 128 byte buffer on the stack to copy to/from user. ioctl data
-> can have structs with types of much larger sizes than a byte and a
-> system may require alignment of types in these. At the same time the
-> compiler may align a char buf to something else as it has no idea that
-> this buffer is used for storing structs with such alignment
-> requirements. At a minimum putting in alignment information as an
-> attribute should be a warning in future if an architecture that needs
-> more alignment appears.
->
-> This was discovered while implementing capability ABI support in Linux
-> on ARM's Morello CPU (128 bit capability "pointers" in userspace, with
-> a 64bit non-capability kernel (hybrid) setup). In this, userspace
-> ioctl structs now had to transport capabilities that needed 16 byte
-> alignment, but the kernel was not putting these data buffers on that
-> alignment boundary.
->
-> Currently the largest type that is needed is a u64 so the alignment
-> only asks for that.
->
-> Signed-off-by: Carsten Haitzler <carsten.haitzler@foss.arm.com>
+Hi,
 
-Reviewed-by: T.J. Mercier <tjmercier@google.com>
+On Sat, Jun 15, 2024 at 2:40=E2=80=AFAM Tejas Vipin <tejasvipin76@gmail.com=
+> wrote:
+>
+> @@ -168,48 +147,38 @@ static int rm692e5_prepare(struct drm_panel *panel)
+>         struct rm692e5_panel *ctx =3D to_rm692e5_panel(panel);
+>         struct drm_dsc_picture_parameter_set pps;
+>         struct device *dev =3D &ctx->dsi->dev;
+> -       int ret;
+> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D ctx->dsi };
+>
+> -       ret =3D regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->sup=
+plies);
+> -       if (ret < 0) {
+> -               dev_err(dev, "Failed to enable regulators: %d\n", ret);
+> -               return ret;
+> +       dsi_ctx.accum_err =3D regulator_bulk_enable(ARRAY_SIZE(ctx->suppl=
+ies), ctx->supplies);
+> +       if (dsi_ctx.accum_err) {
+> +               dev_err(dev, "Failed to enable regulators: %d\n", dsi_ctx=
+.accum_err);
+> +               return dsi_ctx.accum_err;
+>         }
 
-> ---
->  drivers/dma-buf/dma-heap.c               | 2 +-
->  drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 2 +-
->  drivers/gpu/drm/drm_ioctl.c              | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+It would be my preference to get rid of the error print here since
+regulator_bulk_enable() already prints an error message.
+
+
+>         rm692e5_reset(ctx);
 >
-> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-> index 84ae708fafe7..8fa68b8a9b60 100644
-> --- a/drivers/dma-buf/dma-heap.c
-> +++ b/drivers/dma-buf/dma-heap.c
-> @@ -126,7 +126,7 @@ static unsigned int dma_heap_ioctl_cmds[] =3D {
->  static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
->                            unsigned long arg)
->  {
-> -       char stack_kdata[128];
-> +       _Alignas(u64) char stack_kdata[128];
->         char *kdata =3D stack_kdata;
->         unsigned int kcmd;
->         unsigned int in_size, out_size, drv_size, ksize;
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/a=
-md/amdkfd/kfd_chardev.c
-> index fdf171ad4a3c..201a5c0227ec 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> @@ -3236,7 +3236,7 @@ static long kfd_ioctl(struct file *filep, unsigned =
-int cmd, unsigned long arg)
->         amdkfd_ioctl_t *func;
->         const struct amdkfd_ioctl_desc *ioctl =3D NULL;
->         unsigned int nr =3D _IOC_NR(cmd);
-> -       char stack_kdata[128];
-> +       _Alignas(u64) char stack_kdata[128];
->         char *kdata =3D NULL;
->         unsigned int usize, asize;
->         int retcode =3D -EINVAL;
-> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> index e368fc084c77..77a88b597c0b 100644
-> --- a/drivers/gpu/drm/drm_ioctl.c
-> +++ b/drivers/gpu/drm/drm_ioctl.c
-> @@ -767,7 +767,7 @@ long drm_ioctl(struct file *filp,
->         drm_ioctl_t *func;
->         unsigned int nr =3D DRM_IOCTL_NR(cmd);
->         int retcode =3D -EINVAL;
-> -       char stack_kdata[128];
-> +       _Alignas(u64) char stack_kdata[128];
->         char *kdata =3D NULL;
->         unsigned int in_size, out_size, drv_size, ksize;
->         bool is_driver_ioctl;
-> --
-> 2.25.1
->
+> -       ret =3D rm692e5_on(ctx);
+> -       if (ret < 0) {
+> -               dev_err(dev, "Failed to initialize panel: %d\n", ret);
+> +       dsi_ctx.accum_err =3D rm692e5_on(ctx);
+> +       if (dsi_ctx.accum_err) {
+> +               dev_err(dev, "Failed to initialize panel: %d\n", dsi_ctx.=
+accum_err);
+
+I'd probably change rm692e5_on() to take the "dsi_ctx" as a parameter
+and then you don't need to declare a new one there.
+
+...also, you don't need to add an error message since rm692e5_on()
+will have already printed one (since the "multi" style functions
+always print error messages for you).
+
+
+
+>                 gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+>                 regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->su=
+pplies);
+> -               return ret;
+> +               return dsi_ctx.accum_err;
+
+Not new for your patch, but it seems odd that we don't do this error
+handling (re-assert reset and disable the regulator) for errors later
+in the function. Shouldn't it do that? It feels like the error
+handling should be in an "err" label and we should end up doing that
+any time we return an error code... What do you think?
+
+
+-Doug
