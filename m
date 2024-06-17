@@ -2,50 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07DAF90A790
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 09:43:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFD8390A795
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 09:44:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECDC410E17C;
-	Mon, 17 Jun 2024 07:43:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35E6D10E282;
+	Mon, 17 Jun 2024 07:44:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="D5ENlHcB";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jA/AZxZI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CD7D10E17C
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 07:43:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0067410E283
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 07:44:16 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi
  [91.158.144.210])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1870539F;
- Mon, 17 Jun 2024 09:43:31 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E11EA39F;
+ Mon, 17 Jun 2024 09:43:58 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1718610211;
- bh=ARDINmLxBaG0p/LEOE00F9rVi6V0jZ7bV46cMz2B2rw=;
+ s=mail; t=1718610239;
+ bh=ajIS4P9nDw/br8mntXkaQx6a5E+puJVOvjEJ+rb7iUA=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=D5ENlHcBAMzQA7nZKn8f2+or1VsQ85Su/fmEk7/Qjhdm9qOP5rHtppeajLmsqeSTp
- +sPViwtol4HzttGkc3VwfXoZu/NWxP0dxKbMg4jVfJo5HIJqTg9sbyNyfWFCcCjRvA
- g0QhnbUjQWl0Iei14CrAqVu11cxCPo5ifJLQxmSA=
-Message-ID: <88cbb88a-34de-4f97-9035-b3ef630580ed@ideasonboard.com>
-Date: Mon, 17 Jun 2024 10:43:44 +0300
+ b=jA/AZxZIA1YAAw0K5k1HJKwiuNg3HPxCc2lpVkIdxgrvjDw0V6Y1bEccLeUld6fCv
+ DCR0h2pHdVHI5iwvMfD2QXinMOeA87exCiQm/o2RZApNtz0DvlNnRjt9zVbCniMHOS
+ D41lHhZC79+J0DxSrNjfIQfY4mxaZ/6a+UtRIVaI=
+Message-ID: <d8880923-6555-4713-bd9e-bea056b08f59@ideasonboard.com>
+Date: Mon, 17 Jun 2024 10:44:12 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: zynqmp_dpsub: Fix an error handling path in
- zynqmp_dpsub_probe()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Anderson <sean.anderson@linux.dev>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Subject: Re: [PATCH v2] drm: xlnx: zynqmp_dpsub: Enable plane in atomic update
+To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-References: <974d1b062d7c61ee6db00d16fa7c69aa1218ee02.1716198025.git.christophe.jaillet@wanadoo.fr>
- <5288867f-ee45-4930-bde0-14b24b878181@linux.dev>
- <120ffe3c-0240-4f93-a220-e0df565bcdbf@linux.dev>
- <20240616184326.GC7378@pendragon.ideasonboard.com>
+ Michal Simek <michal.simek@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20240523-dp-layer-enable-v2-1-d799020098fc@amd.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -91,7 +86,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240616184326.GC7378@pendragon.ideasonboard.com>
+In-Reply-To: <20240523-dp-layer-enable-v2-1-d799020098fc@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,43 +106,52 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 16/06/2024 21:43, Laurent Pinchart wrote:
-> On Thu, Jun 13, 2024 at 11:05:01AM -0400, Sean Anderson wrote:
->> On 5/20/24 11:05, Sean Anderson wrote:
->>> On 5/20/24 05:40, Christophe JAILLET wrote:
->>>> If zynqmp_dpsub_drm_init() fails, we must undo the previous
->>>> drm_bridge_add() call.
->>>>
->>>> Fixes: be3f3042391d ("drm: zynqmp_dpsub: Always register bridge")
->>>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->>>> ---
->>>> Compile tested only
->>>> ---
->>>>   drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 1 +
->>>>   1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
->>>> index face8d6b2a6f..f5781939de9c 100644
->>>> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
->>>> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
->>>> @@ -269,6 +269,7 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
->>>>   	return 0;
->>>>   
->>>>   err_disp:
->>>> +	drm_bridge_remove(dpsub->bridge);
->>>>   	zynqmp_disp_remove(dpsub);
->>>>   err_dp:
->>>>   	zynqmp_dp_remove(dpsub);
->>>
->>> Reviewed-by: Sean Anderson <sean.anderso@linux.dev>
->>
->> Will this be applied soon? The patch it fixes has made its way into
->> the stable tree already.
+On 24/05/2024 02:49, Anatoliy Klymenko wrote:
+> Unconditionally enable the DPSUB layer in the corresponding atomic plane
+> update callback. Setting the new display mode may require disabling and
+> re-enabling the CRTC. This effectively resets DPSUB to the default state
+> with all layers disabled. The original implementation of the plane atomic
+> update enables the corresponding DPSUB layer only if the framebuffer
+> format has changed. This would leave the layer disabled after switching to
+> a different display mode with the same framebuffer format.
 > 
-> If someone can merge it in drm-misc that would be the fastest way.
-> Otherwise I'll send a pull request at some point, but I'm overworked at
-> the moment.
+> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+> ---
+> Changes in v2:
+> - Added comment around DPSUB layer enablement explaining why it should be
+>    done unconditionally.
+> - Link to v1: https://lore.kernel.org/r/20240520-dp-layer-enable-v1-1-c9b481209115@amd.com
+> ---
+>   drivers/gpu/drm/xlnx/zynqmp_kms.c | 10 +++++++---
+>   1 file changed, 7 insertions(+), 3 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> index 43bf416b33d5..0b57ab5451a9 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> @@ -120,9 +120,13 @@ static void zynqmp_dpsub_plane_atomic_update(struct drm_plane *plane,
+>   		zynqmp_disp_blend_set_global_alpha(dpsub->disp, true,
+>   						   plane->state->alpha >> 8);
+>   
+> -	/* Enable or re-enable the plane if the format has changed. */
+> -	if (format_changed)
+> -		zynqmp_disp_layer_enable(layer);
+> +	/*
+> +	 * Unconditionally enable the layer, as it may have been disabled
+> +	 * previously either explicitly to reconfigure layer format, or
+> +	 * implicitly after DPSUB reset during display mode change. DRM
+> +	 * framework calls this callback for enabled planes only.
+> +	 */
+> +	zynqmp_disp_layer_enable(layer);
+>   }
+>   
+>   static const struct drm_plane_helper_funcs zynqmp_dpsub_plane_helper_funcs = {
+> 
+> ---
+> base-commit: 673087d8b023faf34b84e8faf63bbeea3da87bab
+> change-id: 20240520-dp-layer-enable-7b561af29ca8
+> 
+> Best regards,
 
 Thanks, I have pushed this to drm-misc-next.
 
