@@ -2,76 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8046C90A8A9
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 10:40:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF3F90A8DE
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 11:00:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E932510E226;
-	Mon, 17 Jun 2024 08:40:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD0C010E049;
+	Mon, 17 Jun 2024 08:59:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WAON9Pa6";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bubVsi3c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D08F10E226
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 08:40:31 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-52cc14815c3so10676e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 01:40:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718613630; x=1719218430; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=X5VHLKuA91ZpUWQy97LJXKuQHjNSzTP1qecAbqNklDs=;
- b=WAON9Pa66jbIU2DXMW5rwEZKT0np8YyMcNVyaQBCSm94kT/0FjJ2NX54fUMRifiRIT
- 3PDWyH+3vnsVaWUdU254aZOr35vCoM908tI5RDjbUPC1zF+u71TzIHxECUbAQ0xN5VOo
- aFQKmbzEonitlzes/WWq0IZlQCCprj8Ymwv8E5hPYWClBg/EreVrJkmXGs/L5iaBEv7Q
- L/NOw8ijHxbNSJVx+a9eHsxcLfTT/IluHxvq3EigHP30cJPz4J4kv1D5co4lUqUI2uHU
- 3xFJ8MyEHvi2IywcLHsaJFba9bJWdEgCQlpO5DKS/maj145h27EcsMhItgxL1UeKBMc2
- hi6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718613630; x=1719218430;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=X5VHLKuA91ZpUWQy97LJXKuQHjNSzTP1qecAbqNklDs=;
- b=r18owLla1pnBa/qDf47yUziaSNbjEmettk9w8ByJBSyOZ1vCSfXBWvit0cUUqGrldE
- O4u8g+WuYDTMSu6oSfUHiiXBpk1oXsJX6MNxIYBoo90289dpXjtlGfBivuT0Rd/Nsr2u
- TCJtCsz5vBtoNQi+AfThp/TfSmrvDPXrKvmgqpb7vaIqETVdLjQrQHwYrXyvs+8myEs9
- 9fCfmugThKdiNiF0mDRahQVRF8BB9dkyloVuqZIvrv9op2IYoTfRHuFtqOcnsTZmL6eP
- sPMiacqnSihsw9fLSsNTBjuSH3tVeE7/uPUsmpZJhh8SMF3Pwc+GHJPvIuEj6CwIMNsi
- fBhg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXwTwPypEAIVvqlkQiOFIL2qTvYYdwzGUkeE+gggEEUcpsHLxb2BVSqkTu1C1LZ31z3mg+6Qu+jb6b1m/F8Dz0HYMT9Kbd8LfQ6nQlfGRpd
-X-Gm-Message-State: AOJu0YykW/esFRqevv1jZK4AQbn7bNOnIK0P3CwH/jVxcpmIdIoknVag
- SYXsbBwG9fg0D8lGdzYwL92ONaxM2fsLgIG+qnREF2/GRULV0bgYkZf8hP8QKLE8XrlvrP1xy01
- A17e0mrEyoUhuQ+fuRxQQQdERHABLMQCMXsQwAw==
-X-Google-Smtp-Source: AGHT+IHENtu6w62klaIyhfrUf1JcZGXfaS8EPrhivXycsqfsmezoTTmR2Ssl5Ad4Ty6uSMvA0yU1itjnM3xuW+u1I6Y=
-X-Received: by 2002:ac2:4e04:0:b0:52c:ab2c:19d0 with SMTP id
- 2adb3069b0e04-52cab2c243bmr5978403e87.1.1718613629599; Mon, 17 Jun 2024
- 01:40:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240606072814.3572965-1-primoz.fiser@norik.com>
- <20240606072814.3572965-3-primoz.fiser@norik.com>
-In-Reply-To: <20240606072814.3572965-3-primoz.fiser@norik.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 17 Jun 2024 10:40:18 +0200
-Message-ID: <CACRpkdaFiGhsytjLKpvGU3T7F+pshYOsB6T5ez7Mk_NtPnNRkg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/panel: simple: Add PrimeView PM070WL4 support
-To: Primoz Fiser <primoz.fiser@norik.com>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4AD510E049
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 08:59:57 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C65CE2D5;
+ Mon, 17 Jun 2024 10:59:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1718614779;
+ bh=Glz+Xgpaku4DZHOwAqdMTYptGC/CqsWlvIDpZMM2rwA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bubVsi3cVQbGZ9ffNBbQNIK48dnxJxtbHHmPD8+WIWUj2OaZKiT06RL2Re8E7Qyig
+ DwO3N7wEJRRL5m6oC9aEaMOhzrxTPyC2BkSPEkoXpwMpYorFMHMV+u8Is9cUyrZDu0
+ FVW4l8EvXp+j7Xhdr2nf7KtirJZdMd9ed8YddQVM=
+Date: Mon, 17 Jun 2024 11:59:34 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Sean Anderson <sean.anderson@linux.dev>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Heiko Stuebner <heiko.stuebner@cherry.de>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Chris Morgan <macromorgan@hotmail.com>, Sebastian Reichel <sre@kernel.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, upstream@lists.phytec.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] drm: zynqmp_dpsub: Fix an error handling path in
+ zynqmp_dpsub_probe()
+Message-ID: <20240617085934.GF30324@pendragon.ideasonboard.com>
+References: <974d1b062d7c61ee6db00d16fa7c69aa1218ee02.1716198025.git.christophe.jaillet@wanadoo.fr>
+ <5288867f-ee45-4930-bde0-14b24b878181@linux.dev>
+ <120ffe3c-0240-4f93-a220-e0df565bcdbf@linux.dev>
+ <20240616184326.GC7378@pendragon.ideasonboard.com>
+ <88cbb88a-34de-4f97-9035-b3ef630580ed@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <88cbb88a-34de-4f97-9035-b3ef630580ed@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,17 +66,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 6, 2024 at 9:28=E2=80=AFAM Primoz Fiser <primoz.fiser@norik.com=
-> wrote:
+On Mon, Jun 17, 2024 at 10:43:44AM +0300, Tomi Valkeinen wrote:
+> On 16/06/2024 21:43, Laurent Pinchart wrote:
+> > On Thu, Jun 13, 2024 at 11:05:01AM -0400, Sean Anderson wrote:
+> >> On 5/20/24 11:05, Sean Anderson wrote:
+> >>> On 5/20/24 05:40, Christophe JAILLET wrote:
+> >>>> If zynqmp_dpsub_drm_init() fails, we must undo the previous
+> >>>> drm_bridge_add() call.
+> >>>>
+> >>>> Fixes: be3f3042391d ("drm: zynqmp_dpsub: Always register bridge")
+> >>>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> >>>> ---
+> >>>> Compile tested only
+> >>>> ---
+> >>>>   drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 1 +
+> >>>>   1 file changed, 1 insertion(+)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> >>>> index face8d6b2a6f..f5781939de9c 100644
+> >>>> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> >>>> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> >>>> @@ -269,6 +269,7 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
+> >>>>   	return 0;
+> >>>>   
+> >>>>   err_disp:
+> >>>> +	drm_bridge_remove(dpsub->bridge);
+> >>>>   	zynqmp_disp_remove(dpsub);
+> >>>>   err_dp:
+> >>>>   	zynqmp_dp_remove(dpsub);
+> >>>
+> >>> Reviewed-by: Sean Anderson <sean.anderso@linux.dev>
+> >>
+> >> Will this be applied soon? The patch it fixes has made its way into
+> >> the stable tree already.
+> > 
+> > If someone can merge it in drm-misc that would be the fastest way.
+> > Otherwise I'll send a pull request at some point, but I'm overworked at
+> > the moment.
+> 
+> Thanks, I have pushed this to drm-misc-next.
 
-> Add support for PrimeView PM070WL4 7.0" (800x480) TFT-LCD panel.
-> Datasheet can be found at [1].
->
-> [1] https://www.beyondinfinite.com/lcd/Library/Pvi/PM070WL4-V1.0.pdf
->
-> Signed-off-by: Primoz Fiser <primoz.fiser@norik.com>
+Thank you Tomi, much appreciated.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+-- 
+Regards,
 
-Yours,
-Linus Walleij
+Laurent Pinchart
