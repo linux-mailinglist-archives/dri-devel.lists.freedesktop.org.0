@@ -2,54 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D73F90BC7B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 22:57:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47EBB90BC86
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 23:02:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43E6D10E4F1;
-	Mon, 17 Jun 2024 20:57:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80C2E10E10E;
+	Mon, 17 Jun 2024 21:02:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="gDQRIre0";
+	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="ZhM2AqyE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8391C10E4F1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 20:57:00 +0000 (UTC)
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89A0410E10E
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 21:02:42 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 64DE540E021A; 
+ Mon, 17 Jun 2024 21:02:39 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+ header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+ by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id NQ3WlfuETGmc; Mon, 17 Jun 2024 21:02:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+ t=1718658156; bh=9xpQOfZZA/mdg5w3/+ttfZjxJn4+6vAUkviGsraw77c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZhM2AqyErdDkMFRKVkIORNvSKlCtivkYQFjyDB9ZUwCfNMs6C6y+PgwIxLOGm76S7
+ LawNB3jCh6kX2wqa8lDNIx6oM6jdKKC1tLUtmdKdAuyahTeysbO7eI+AaW2PT2dwUS
+ dWpRbaXf3cPZba2QcNTDmREVegJRXw57zeLyLN/KF7dstLeNt4PGMu5vNvPatykl7F
+ DaV1E6wnZx9yrEzOkMnMXBXvyb4M6f4M1YarnYGIvc/UE1Y03V1pwYDlRxc4Fakhv9
+ bIr3bTDkzgxihiWrAxwXnSmv8j9xBnl6iaUZ5AXizwiNBy+Q1+FwbOPJLQXCsX69t1
+ c2cLcpjnnQOBTDKBEdPGrvTWNvekcKKdxcdEUaUiDBgQWAUPeb4qlZFLLTfV5rBuzg
+ RGx+YxRsGUpEqNhZr0Ow+pAFfaaeTGZPNi/shvduRiszO37dmRD5g+qrpLOa7U3/qp
+ iOXX/D+CCfQo/pgRxX7ZLL87FMdePu2RjI8gEkIpOvpFJfaQOL4eiha2m4pvvQOrai
+ X15nYtZHrgsrZrCkxdapoSMxBOFIEufFl96219+0KGXvca6Ry4Jy9fqinHT3/Mmhye
+ 8e+mR8Kiv7S888osVRVbqkR7WoU4IXscZ/TsTAgVgmunMxR0IK/C+HM1NyjMSWfRE1
+ OHgqvol/Ffe9cSe4s6F5IbXk=
+Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
+ SHA256) (No client certificate requested)
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0372F40E0185;
+ Mon, 17 Jun 2024 21:02:15 +0000 (UTC)
+Date: Mon, 17 Jun 2024 23:02:08 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Cc: linux-kernel@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ lkp@intel.com, zack.rusin@broadcom.com,
+ dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
+ tzimmermann@suse.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, linux-iio@vger.kernel.org,
+ jic23@kernel.org, lars@metafoo.de, nuno.sa@analog.com,
+ dragos.bogdan@analog.com, anshulusr@gmail.com,
+ andrea.collamati@gmail.com, oe-kbuild-all@lists.linux.dev, x86@kernel.org
+Subject: Re: [PATCH 2/2] iio: dac: Fix dependencies of AD9739A
+Message-ID: <20240617210208.GJZnCkUIsiXmaQxxPE@fat_crate.local>
+References: <202406152104.FxakP1MB-lkp@intel.com>
+ <20240616012511.198243-1-alexey.makhalov@broadcom.com>
+ <20240616012511.198243-2-alexey.makhalov@broadcom.com>
+ <20240617090428.GBZm_8HMQ9XJe_VQga@fat_crate.local>
+ <19e8a6dd-b0d4-4e88-9ad2-e38787a5aee8@broadcom.com>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1718657818;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=B0b1pWrdGahjc5mnO1xKSRT8jsHp5loCfKfaw5bWIjA=;
- b=gDQRIre07RFJ9Xp9kBuZUFFbeI0LYbWhqlDGqneNFGAMGrNN4LGcvP+moA3SbkdvSl3HUX
- /MRz/oSChHsfy2VaLmaHZznZUN5ferXomuvLZDHJH7oZmisflT++kGT0MC64wGLrvHbKay
- TFOV8EKkjRjFBy0ULt3zQKAZN9IEEfjUaadRyqOaaiBTGOx8e61E5dg+fvc7k5VmLBD+1d
- CeR5cqgdnW69NqJlFoEbdO+ymYc5yUWjcy66G8GNzFU2nygQtWb73o2sbSbyVqKPcz6qzO
- nejY76uk20AGlEpI7pJndPsTpFf4MsMyJjQgeAJ9n+N5f3MlDQphjmIDuIRg0w==
-Date: Mon, 17 Jun 2024 22:56:57 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Jonas Karlman <jonas@kwiboo.se>
-Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- dri-devel@lists.freedesktop.org, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Yakir Yang
- <kuankuan.y@gmail.com>, Jeffy Chen <jeffy.chen@rock-chips.com>,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 02/13] clk: rockchip: Set parent rate for DCLK_VOP clock
- on RK3228
-In-Reply-To: <6a2293ec-1506-4fe7-a3cf-fcfc594c19cc@kwiboo.se>
-References: <20240615170417.3134517-1-jonas@kwiboo.se>
- <20240615170417.3134517-3-jonas@kwiboo.se> <19757196.sIn9rWBj0N@diego>
- <6a2293ec-1506-4fe7-a3cf-fcfc594c19cc@kwiboo.se>
-Message-ID: <32481efc439b66da6d109e1484255aaf@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
- auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <19e8a6dd-b0d4-4e88-9ad2-e38787a5aee8@broadcom.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,35 +81,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-06-17 22:50, Jonas Karlman wrote:
-> On 2024-06-17 22:30, Heiko Stübner wrote:
->> Am Samstag, 15. Juni 2024, 19:03:53 CEST schrieb Jonas Karlman:
->>> Similar to DCLK_LCDC on RK3328, the DCLK_VOP on RK3228 is typically
->>> parented by the hdmiphy clk and it is expected that the DCLK_VOP and
->>> hdmiphy clk rate are kept in sync.
->>> 
->>> Use CLK_SET_RATE_PARENT and CLK_SET_RATE_NO_REPARENT flags, same as 
->>> used
->>> on RK3328, to make full use of all possible supported display modes.
->>> 
->>> Fixes: 0a9d4ac08ebc ("clk: rockchip: set the clock ids for RK3228 
->>> VOP")
->>> Fixes: 307a2e9ac524 ("clk: rockchip: add clock controller for 
->>> rk3228")
->>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
->> 
->> did your mailer have a hickup? Somehow I got patch2 (only this one)
->> 2 times
-> 
-> Strange, not something I know about, each patch 1-13 are listed as 250
-> Accepted (heiko@sntech.de) and patches arrived to the ML and patchwork:
-> 
-> https://lore.kernel.org/all/20240615170417.3134517-1-jonas@kwiboo.se/
-> https://patchwork.freedesktop.org/series/134926/
-> https://patchwork.kernel.org/cover/13699322/
+On Mon, Jun 17, 2024 at 01:48:38PM -0700, Alexey Makhalov wrote:
+> > Don't get discouraged, though, when fixing something that is not in our
+> > immediate area of interest!
+> > 
+> > :-)
+>
+> Lesson learned and noted for next time to address only related/new warnings
+> and errors. Thanks!
 
-It might be that something is wrong with the MX host for sntech.de, I 
-got
-one email rejected today with "invalid certificate" (or something like 
-that)
-as the error message.
+I actually meant the exact opposite. :-)
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
