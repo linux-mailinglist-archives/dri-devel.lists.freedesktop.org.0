@@ -2,88 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EF990BB2E
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 21:34:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF64390BB3B
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 21:37:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B5CD10E4C9;
-	Mon, 17 Jun 2024 19:34:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 855A510E4CC;
+	Mon, 17 Jun 2024 19:37:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TgRGZnTh";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="n8sxCBcb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
- [209.85.219.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9364F10E4C9
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 19:34:51 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-dff02b8a956so4599713276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 12:34:51 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91A7710E4CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 19:37:22 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-52c7fbad011so5553767e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 12:37:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718652890; x=1719257690; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=lTah/B+6o/9BifqLB2EY6X3bjK54colO4RjpfhkqoEY=;
- b=TgRGZnThafN5829vFwdKJetZ+M1wLedxKDqp4NbqIBq4fVSpe/68bUZojRkOqgqx7o
- YaZeN5ahOLJMZh7EhQCPVdWq98xKPp/rJDcClPLTGwWiArdGTzsV6w0bmon/CJvQyxQA
- tcPsafEPesyaio1suwtK1r3iJVJR26CJRJXejqo3paYCPMh87fROPKUigcSYCNCXdvgR
- Nztmr+dUi8Ce8HMDw2sdwXPV8X+7SU2VQGCTLXgTS1zN5I6HpS/mOstSTcw8fuJjqpZe
- U+bNO3L2EjzOPsSTGvANHxjTThmhxuYMBLOOzvwEf06kMw8nhRh+8ydT+pBYxHssZAdA
- uC7w==
+ d=linaro.org; s=google; t=1718653040; x=1719257840; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Q3lWV8I5FVI0dWCO348F+TJ6mgy6m4jexZ2TUnszYTA=;
+ b=n8sxCBcbD03qC/M0iudgUqHomnzEqTHMv4CXatjPcel0dS9MVxeaeoBoB6tvq/lk9/
+ sw5XFTAApYFV6dHWHvhaZJ22ZRWSm4yRYgYUz7TWeV0SSToYezX4RTpO1wCxAFc7ENeD
+ kCrnmBICFVGGGHEj06x23biY13xYlzXW6zzBI4SKbIWrW9I1lXYDkeQ21kHf/h5/ySjD
+ 1eFNWZZVDjaStyB/AWn1PNW9f81Oc/tOik1x6WmGmVYu4hVQKNFqN9o5naPQGfv2VDbh
+ hxH30EFzuWtmgiaWz7mn94ROjXS8SEkiXnWHJoHBKwzNiH/+9EvxKvVl4s7EA0ETU26+
+ 52ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718652890; x=1719257690;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lTah/B+6o/9BifqLB2EY6X3bjK54colO4RjpfhkqoEY=;
- b=pzgUvaRxow4AU9oLg2/V6NSDEeMaqKGooUNZGb6PkXDx5pxVG39mBVCTNlb33u6FQH
- GaI6ay3J+RKgKbEmWOmBakiR1SOry7rJ3T4sIOwJ+/3pI2oKkjo7Bta5nlDTT6O8h9Ro
- GvDtiVGDys9zjDcFy43LrEmFnNirq6TTxymbKTh4x+XWHnGslXL1faKLtKIMLu15+/Pr
- yye9xEf+ZLG2KX1qyesDLWR/5to4+QxySEuN2VRdnEh5bqODTByaFG2JmTBcTIuXaa/m
- zPfY3+UaluIQprNNmBm98mTgvb1lXPzcLUs9G1/bhm4rztK0Ko0cshToyB75Lstdso93
- xvuA==
+ d=1e100.net; s=20230601; t=1718653040; x=1719257840;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Q3lWV8I5FVI0dWCO348F+TJ6mgy6m4jexZ2TUnszYTA=;
+ b=XfQW1ij8A1bdJ3Bv2Dsf4W7bDtpk3AnhgcHat6rJXGNXm2CwPBPvS9/897vQ4hjoZB
+ geUe8KBGXcLO4OXoo+tqQZ9pYmuHqvnpjDPjWWoEMll/dCqHxtAQPHXeIveGSxJCdDDh
+ amU6AJV4dpnhSa9sZxy+1gMIRs8IXb5eJ5IJ2RIJHY+2GEawaj/9s+TgiqjKKs06xx47
+ qjRhDMw09VHOY0hKTy6K3U1mB/EOvscx7n3EzOVY3Kc8n3xU3PqCYH4M8e6fr27lYv1q
+ Km0hg8Pi7Cl6PwTf+F15aZ1UqDRVlGtuGoTBHUQYibQbcgmvJoWzMxANgbmd6q/DS14k
+ ifPw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUHSEpTSdoiQcKIX8+uhpr5ndX0e1ocHV0BGBwbNrHoNRHyU/uvC7ZE+CntdmZWyDCWgk9jUgxsu4UTrmiCpG3zBSR+UZMzdRKPKnlARwom
-X-Gm-Message-State: AOJu0YxDV6VBGDa4YpwfQBnWsW4bZZNOz/kfTAizPanq2iHr/DAhSYHU
- dh1n2z1vQr2YwjnGAAkKJr7u+k25oDD3q//jQi5nIEnlkIiV+twdYs7opWhzChS3rSEEPySha4a
- X9E9pFbpbBhrqCEJ1xdeI3e06A7CoVHeA8ZJvEg==
-X-Google-Smtp-Source: AGHT+IETQc6YgGmsfsXMKMUHNOkYN7aTQy9yPirXNwAulNuwGSkh6KBKg+P+Bnjk61peJb2wqP71cDS5gMSMhNkLmdA=
-X-Received: by 2002:a25:d885:0:b0:dff:3ea5:c4a0 with SMTP id
- 3f1490d57ef6-dff3ea5c6efmr3873797276.59.1718652890295; Mon, 17 Jun 2024
- 12:34:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240617105311.1587489-1-a-bhatia1@ti.com>
- <20240617105311.1587489-3-a-bhatia1@ti.com>
- <fyxer3rl54uq7qemgjx7htykgsnwgg5ywda2d5f4fhzd6ksjfg@blvkbzdy6op5>
- <41fd6509-33fd-4e7f-9889-e7e9acd928d8@ti.com>
-In-Reply-To: <41fd6509-33fd-4e7f-9889-e7e9acd928d8@ti.com>
+ AJvYcCWVRW2BU4PhotIDTUhKvA+nuyz+hsES4UkoUWM2wb/p20Fwlnjf1fm45vQyCGE7iBTb/XpzWa64QNStU4Pjv9clqqAP4hPtG3X1Ts4XS9Nw
+X-Gm-Message-State: AOJu0Yw2Y5vP+s7L6GX4giaF+uqNHYQjSuNskf6NXTdL6TmGoB4AyVpo
+ JsE/PHrRoA/f268qteZlc+lIREEb0Rqo6zaGoqK0klDzB0Y2AsXYXpige7joxv8=
+X-Google-Smtp-Source: AGHT+IGJ9kb9N4Obba0CKE0vXyHy1MEihZUnPT0jtn77r0HCwMnCuvrYTGNHAYH2xsym/gKKTVXT/Q==
+X-Received: by 2002:ac2:518d:0:b0:52b:839c:78dc with SMTP id
+ 2adb3069b0e04-52ca6e6db33mr6078522e87.29.1718653040448; 
+ Mon, 17 Jun 2024 12:37:20 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52ca2871f71sm1321739e87.121.2024.06.17.12.37.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Jun 2024 12:37:20 -0700 (PDT)
+Date: Mon, 17 Jun 2024 22:37:18 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 17 Jun 2024 22:34:37 +0300
-Message-ID: <CAA8EJpqt5FVjP+MP6kf6KaMi_OtEXQ2FgoqVfJCxRuLGfMOkFg@mail.gmail.com>
-Subject: Re: [PATCH v3 02/10] drm/bridge: cdns-dsi: Fix the phy_initialized
- variable
-To: Aradhya Bhatia <a-bhatia1@ti.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Jyri Sarha <jyri.sarha@iki.fi>, Thomas Zimmermann <tzimmermann@suse.de>, 
+To: Marc Gonzalez <mgonzalez@freebox.fr>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- DRI Development List <dri-devel@lists.freedesktop.org>, 
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Dominik Haller <d.haller@phytec.de>, 
- Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <treding@nvidia.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Nishanth Menon <nm@ti.com>, 
- Vignesh Raghavendra <vigneshr@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
- Udit Kumar <u-kumar1@ti.com>, 
- Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Jai Luthra <j-luthra@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>
+Subject: Re: [PATCH 1/4] dt-bindings: display: simple-bridge: add ti,tdp158
+Message-ID: <y37rh2uulewie3mpumlznhmvrk4ileauhk6xkoafv4zt43q5wm@ftnpqit6alth>
+References: <20240617-tdp158-v1-0-df98ef7dec6d@freebox.fr>
+ <20240617-tdp158-v1-1-df98ef7dec6d@freebox.fr>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240617-tdp158-v1-1-df98ef7dec6d@freebox.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,57 +95,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 17 Jun 2024 at 17:16, Aradhya Bhatia <a-bhatia1@ti.com> wrote:
->
-> Hi Dmitry,
->
-> Thanks for reviewing the patches!
->
-> On 17/06/24 17:29, Dmitry Baryshkov wrote:
-> > On Mon, Jun 17, 2024 at 04:23:03PM GMT, Aradhya Bhatia wrote:
-> >> Update the Phy initialized state to "not initialized" when the driver
-> >> (and the hardware by extension) gets suspended. This will allow the Phy
-> >> to get initialized again after resume.
-> >>
-> >> Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
-> >> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> >> ---
-> >>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 1 +
-> >>  1 file changed, 1 insertion(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> >> index b016f2ba06bb..42565e253b2d 100644
-> >> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> >> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> >> @@ -1153,6 +1153,7 @@ static int __maybe_unused cdns_dsi_suspend(struct device *dev)
-> >>      clk_disable_unprepare(dsi->dsi_p_clk);
-> >>      reset_control_assert(dsi->dsi_p_rst);
-> >>      dsi->link_initialized = false;
-> >
-> > Most likely you should also call phy_exit() here. And in _remove() too.
->
-> I agree that phy_exit should be called here. But why in _remove()?
-> Wouldn't having phy_exit in 2 places mess up the internal ref count?
+On Mon, Jun 17, 2024 at 06:02:59PM GMT, Marc Gonzalez wrote:
+> In default mode, this device works transparently.
+> 
+> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+> ---
+>  Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+> index 43cf4df9811a5..5f0c9687538bf 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+> @@ -31,6 +31,7 @@ properties:
+>            - ti,opa362
+>            - ti,ths8134
+>            - ti,ths8135
+> +          - ti,tdp158
+>  
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+> @@ -52,6 +53,9 @@ properties:
+>      maxItems: 1
+>      description: GPIO controlling bridge enable
+>  
+> +  vcc-supply:
+> +    description: Power supply for the bridge
+> +
+>    vdd-supply:
+>      description: Power supply for the bridge
 
-If suspend() is going to be called in the teardown path, then it's
-fine to have just one call here. Otherwise you might add one guarded
-with if (phy_initialized) to _remove() too.
-
->
-> >
-> >> +    dsi->phy_initialized = false;
-> >>      return 0;
-> >>  }
-> >>
-> >> --
-> >> 2.34.1
-> >>
-> >
-> --
-> Regards
-> Aradhya
-
-
+I'd suggest having a separate _bindings_ file. This way you can point
+out that it's an I2C device sitting on the I2C bus. And once somebody
+has to extend the bindings to support 'smarter' programming of this chip
+they can edit just that file. It's still fine to use the simple-bridge
+driver for the device defined in that bindings file.
 
 -- 
 With best wishes
