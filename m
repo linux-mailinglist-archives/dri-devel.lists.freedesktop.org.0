@@ -2,68 +2,209 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DAF790A2FD
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 06:05:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B778890A365
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 07:40:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DBB210E16E;
-	Mon, 17 Jun 2024 04:05:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2597210E11C;
+	Mon, 17 Jun 2024 05:40:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="N3PmzqrS";
+	dkim=pass (2048-bit key; unprotected) header.d=siemens.com header.i=@siemens.com header.b="xem1gX3y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01E7E10E16E
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 04:05:22 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-a6269885572so862766966b.1
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2024 21:05:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718597121; x=1719201921; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wnHs+ttpIhxBtZZDEGrGjnsJJbPUFcnFdNuNGHL5qFw=;
- b=N3PmzqrSr4IrfGVflaEObGRf3A5AMf2Q2AaVB+gSsEkrdrcqaBu6Uw4YkaZWU6wOYN
- JC4aiQAH5qxSqhVwgFzk6cgsujKFqQGsfSYKHBt6ODi47Tya5AXzpzVaJIgSHK8mJkI4
- 2aWYOda6gZWsMw8Lcf6iy/E9aMY0UNTb1TeoUkd/8AjDHI/hO0hF/gz9ZZckHKL33mv6
- DU2rp95XWqVeVXxGp1CX2i3l1aR343ZBIXkNGVd1bKvtcPMK9IdEGvRNbngyCh/WAVHS
- gSuMWjLBHgejUbS+SPaRt3RVBT6dOnDX0lDxrfGTVOTtFRTXIlNOJX+WmGGcO7hBBSFI
- RBSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718597121; x=1719201921;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wnHs+ttpIhxBtZZDEGrGjnsJJbPUFcnFdNuNGHL5qFw=;
- b=iXkeOvxpeqyY06bOJigHCnWUVOK40Ne/Vt6JMfrmcv4V1CE9eNx9VlGY+oAzCw2OT+
- pU8DGbosobfAmN3lFjvKXTbPzRqh5j8cB7UHzhZfeA+H7Z0p/ZM1OV+8QL7Bzq9ysW4O
- GeKBZ/UDBBsY8Ffjp0RoWyr8W+AxUl9Hm0ZFeOilS2pmy3yDAqn702DGVDNa2tac2ZRg
- O8En0dGhxv0X5ZVGim2ejHf9fOBz9ROzryqri83U7emzVA9DtPvH3qtNQRQ29D64Sl7E
- a+qHX1yMS9I8QhrgHpnOKo4i5faml8/XG94/vchYW8ckwssHHdGzm99Skhs6V1Y0npaJ
- LU/A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWCk8pIXQpEqZ0d9KWcgBlaeD2L1u66exMlQWnvnmCL0wDFJChtG7qCtRyEQTYxrRXQABz5UhJDeBHtUhuCGhgTppquNW++S6+U4BEpfQpT
-X-Gm-Message-State: AOJu0YyHOHO5tHXi/n1w7Q9kqlR+WR+Z6eMUh0dohxCOqS7c3zjBLiXx
- DgZhbS2cgWLZ7fRyrTDgalRerQJ2rQmVreI0RGDIFx5ifF/4t6NqIIlvRRj0KnEJRM1z6bvMXh+
- rrw43zXU50RSIVUFovk8DyWTgQo0=
-X-Google-Smtp-Source: AGHT+IEbT+on5FURdXp9jqDXHPmoqNjT/fKeJA2db5/Rid6w7kFKR+PSWZE9DAWlIUEk1wOU9yIsBWQ/EiUsdc6bUlc=
-X-Received: by 2002:a17:907:774e:b0:a6f:7902:7516 with SMTP id
- a640c23a62f3a-a6f790276a5mr300248466b.14.1718597120793; Sun, 16 Jun 2024
- 21:05:20 -0700 (PDT)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2071.outbound.protection.outlook.com [40.107.20.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 249BD10E11C
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 05:40:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=O0Vrz1lz6bX84N7MKGSUxEeqx6VUHPkg0IjvtdI+Bljd2QRZE0DSqdGYc/aLTZRCotpXlTeQ/oBheNWsNV+Howwb4tFAa0gPQM+WpPVjoucXCHlD95Gy1Kxemioa1gXGrTYrtZ2yJNOUXYHHfgAjIp0OEgDgrzU6ZkQuhkDc0bpJDsnesswAIP9LjM41G9HED/ih3KZOt4U4Sj02+DIYz5ogVStI7XZwvZN2nzuulEXPRT9qFSaZxJgTMUJc+oEsT3YqSHbplDZ6NYMKZ5YwzBZPzIu+pQ7fVZt/pUFcOzhbCi3woYmdZZD3wK/+W5lJs00EopLphcA1cPxPS845MA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Is+qv7uCplBT+/WJbhVYy5B3wXrEVfxSBYAHjfBInJY=;
+ b=Kjq5GTDmcFpwzR9pozsFeapUmA6yhP7ngqzDMBlgTxer7juQne7dU46y54Ci1ftVYuCf6qTjEVIr1wu4KQ+mmYhhApYDzTGCYwnmPfgbSP3+2Cat0n4YekUaN4IBAsukZwEhPzH9QTAmegJ9SGApDCtQEdR65OyqXRg0bPHJop9nnmggoerSaqHeUZvrsafJ5M1J0whdJr6x09KRpF+5065V+DJYQsioz7xv7yAwmKCuOH61kULkNv+r1BTdUDQVkROZ8fN3GvD0Rr9ATBFpcR46tGr1Ws9x5RgiACpjPgFxBX7AGIOD4mncNSfSGnYYTpBwf4wttqnZQdrFuCBTuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Is+qv7uCplBT+/WJbhVYy5B3wXrEVfxSBYAHjfBInJY=;
+ b=xem1gX3ymE7I9QKW987kfnIEFbR3d8qrZc35fD48TpESxDZjVI4WHFe3GZyFxnfQnyF+99gGVc9ROQVgnl4VqIFaP+MNWoAxVMFCtPOEzsWIRCHPWp41YwCxsVaao5r9nPkTmQiymm0tm5SdnqlHCxG2Jr5nD7h8clrd7QlNLYIIkR9a9o2J5Ghzj7qasP8yp0LBufc4kI4tYQX088wwQzWpm7Vh+VjWESwKrjMtVWkxOiZQkpItHutWBTIpy5Pp/QCBghXj0UchVufuS9LcZ8LpoIO82MwHQ7Xuzh4ulZRhaRAr65kyFV0kw+wzAG2Yfqb2Qvl4FNXTicLNyusfcg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+Received: from AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:588::19)
+ by DU0PR10MB6702.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:402::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30; Mon, 17 Jun
+ 2024 05:40:44 +0000
+Received: from AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::8fe1:7e71:cf4a:7408]) by AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::8fe1:7e71:cf4a:7408%7]) with mapi id 15.20.7677.030; Mon, 17 Jun 2024
+ 05:40:44 +0000
+Message-ID: <36ef53b6-57a3-42e4-95ef-a10eef4ca1c9@siemens.com>
+Date: Mon, 17 Jun 2024 07:40:32 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] drm/bridge: tc358767: Fix
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR case
+To: Marek Vasut <marex@denx.de>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+References: <20231108-tc358767-v2-0-25c5f70a2159@ideasonboard.com>
+ <f6af46e0-aadb-450a-9349-eec1337ea870@ti.com>
+ <2f3bb86b-6f8c-4807-985e-344a0c47864c@siemens.com>
+ <3277848.aeNJFYEL58@steina-w>
+ <b2052bc9-b2da-489b-9e5b-3c9b4f6c1c99@ideasonboard.com>
+ <bc96c6b5-a7f8-4ef3-a89b-bf577943f11c@denx.de>
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Content-Language: en-US
+Autocrypt: addr=jan.kiszka@siemens.com; keydata=
+ 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
+In-Reply-To: <bc96c6b5-a7f8-4ef3-a89b-bf577943f11c@denx.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0169.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a0::8) To AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:588::19)
 MIME-Version: 1.0
-References: <5534c03a-4b8a-4ebc-aff9-2e66c7ba59d8.bugreport@ubisectech.com>
-In-Reply-To: <5534c03a-4b8a-4ebc-aff9-2e66c7ba59d8.bugreport@ubisectech.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Mon, 17 Jun 2024 14:05:09 +1000
-Message-ID: <CAPM=9twiDQ0Yv8p-oWWWZnnFViMiN79U6VGSC-wisSE-oYOEqg@mail.gmail.com>
-Subject: Re: WARNING in drm_mode_create_lease_ioctl
-To: Ubisectech Sirius <bugreport@ubisectech.com>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>, 
- "maarten.lankhorst" <maarten.lankhorst@linux.intel.com>,
- mripard <mripard@kernel.org>, 
- tzimmermann <tzimmermann@suse.de>, dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR10MB6181:EE_|DU0PR10MB6702:EE_
+X-MS-Office365-Filtering-Correlation-Id: 89e9f3e4-1baf-4d0f-7bd3-08dc8e9007dc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230037|366013|1800799021|7416011|376011|921017; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WGdqQzFLRHJIUXppNFMxd24zaWhaZmo4VEgyU1orS3N6SGFWV2NDck9rd2dR?=
+ =?utf-8?B?K3FKWmdydmJRWVdaK2tuTU1XRXJHYVZvVWtMOVdXd1dGMUY1VzBFcnI4cDRv?=
+ =?utf-8?B?TzFkRFlrZzAyUXVETEh4RnF3bnRVQXd6SklxUXljU05XcDV3Tzgrem96TDVK?=
+ =?utf-8?B?SDk1U2J6QzUzTTNTN3VkY0pwMU9QaWliT1ZzQkw0OE9SV0JtREJVeW5uWnUv?=
+ =?utf-8?B?STBTNDArNlpVTW4rYVQ2aCtvRjhhaVhOSFlzRUZPdnhQY2dxd2hVa2NRZENi?=
+ =?utf-8?B?VXVjMGdNSlVBU1p3bnhmMEdNYmZ3Q3pESlFDK05UMFBBMWZzSHZDVm9SS0E1?=
+ =?utf-8?B?b01RUzExbXRWWmMrMU4wNU5kdEFtQkNaU2JYbXE0OGZoZS9tK0ZDM2o0SGxt?=
+ =?utf-8?B?djZsRVpVNS95SEFjakRVYnU4WEIvR0VTR3Q4aVE2dVBJNmpRNWpoUi93MVdR?=
+ =?utf-8?B?MDF4UlV1eUh6WFJjaFJpTXlRWjRiejFYQUxvcDlTbDVkdlJneVVjM1RVTEJh?=
+ =?utf-8?B?Wktwa0VMM1I3a2V3b3ZnVTJVMmM1Q0FSMW8yckFUR05GellPVXZSNGZERHFi?=
+ =?utf-8?B?THV6aG9MdEhDQ1dxM2p2VG1pWG5CVlNIK3I3ZmxITVlPeXd3eTA1dU9oUlgv?=
+ =?utf-8?B?a2psYTdlNnhMRVJpdjZFRzZDdUtBK1hOZTNmdFp6dlhNUjhBNjJielNhR1h6?=
+ =?utf-8?B?ejV5M3RUWi9JbGdLY3R0M0JYeXovdGkrUkg4eFMrTmtHTHU4NUFGU2hVNGtC?=
+ =?utf-8?B?ZlNZdVZ4dk5sTHNaOXREV0xmUWJYUm13eVQzb0d0bUFlYXpVdXV0Q0lFZmhL?=
+ =?utf-8?B?MVBHeVlFMG5Tdm1wVk9pelh3STN4blN1Y1JzU1ZBei8rK2RhaU9YTHBOclhr?=
+ =?utf-8?B?L0RDUXJKYkV4eDNlY1Y0WDAya2lQZ3hJcTlOUy82ZXdtMFBHVFJreUdtSk40?=
+ =?utf-8?B?bGxUbCtNbzJLajNiY1Q5N3cwRUs1N2RNc3BNdHFJYTNDVlpqNGloWEUyTk5P?=
+ =?utf-8?B?WHpFQXZ0U3JRNlRFZnhYMm5ZOEpDSkIrNjlVYlJsVUh3TXN3WnlOREhVTTJD?=
+ =?utf-8?B?UmFhS1NlYUp6WHQra3BKWDRwY0F2ZVh2VGhOT3lTV3EyMmF2dmRobjJJWU05?=
+ =?utf-8?B?SU9YL0d6VFA3N2FKUkM5UDJPMExJcU5CSzBPL0tZRENEc2U1YmdWQmJUTGlK?=
+ =?utf-8?B?VG9PbU1raXkxZXluUjd1Vk03clBXcm54RHk0NUNJZ3ZUTCtJaUJVQ3NDUzJG?=
+ =?utf-8?B?WXJEM3lqOXhpT04rNW1LNmgyaVc5RVN3NndMQmdtbkJSdDkzU2dubEU4Z1My?=
+ =?utf-8?B?bTNhNWJLYStjV25JcVRwWEFHT0dwU2Ivd2NjZFNoWW00VUtVQlZWcGJIQ2Mw?=
+ =?utf-8?B?d0pxTHdXRkNlbWJDK041bFdDK2dGSzZUeUQxSXhGUXBjdnhnR2VJQWxqcDVl?=
+ =?utf-8?B?VXVnODN3SjlWRThUYVBCZ0pVUUxKdTdRWG1ndzBYMWlHWlRxWno0OHAxTmdD?=
+ =?utf-8?B?cTlESU5ncjdFMTZ6SHJaODVnU2lvMmQzcE41MG9UTHNoYTNMR29lSWhwOWF4?=
+ =?utf-8?B?eFplZFhpTHprNW9kdzFxMElJYjhPWC9LTm0zT0xxOExZMVU5MVp4cTBYWXNV?=
+ =?utf-8?B?VmlDQUd6cXpVV0Y3clMybmpNdG5vU0VIRGdIRElGNVdOQmNsVVNIRVZsUDlJ?=
+ =?utf-8?B?WnRvSitNalQwdk5xOFA2RjlVWXp1cGx5Q2pZUjhkbEtCWU5aSjZtYXpCNU45?=
+ =?utf-8?B?MmVnUm9nWEJFdjErc1JDUm04aGxQbzVadkRxb0liR2c0cUF4RGgzZTN5S2VC?=
+ =?utf-8?Q?py/LbkPYN9wJejvysB5R5yd1gdxVkQU/ANbUg=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230037)(366013)(1800799021)(7416011)(376011)(921017); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?enZzbHUvUGRzNW0zaWpCaEFoZkh3Nnl4cVR3N0wybGZEU28ySXVvOUlhVENT?=
+ =?utf-8?B?MU1YLy91Qzg0R2ZHb2tuMDB6M0diOUhmODQwL0RGODdON2FoU1VYVFZqOFlN?=
+ =?utf-8?B?ZWdtTDZVb3BuWmpyOVRuUmxCUmZWTS9yOXlkMzRGV3lWdVVoa056SXJsaEc1?=
+ =?utf-8?B?MWlpSld5RjVacy92Z21CRDBDOEFURldCSzFzSS84aVhQYytVT1VXSDZOeGlF?=
+ =?utf-8?B?NkZEQ1F5cEkxRTdXcVR4NDMrQWRZQ005cCtydWtyMytqRjRUUkNIaDBpY3ZY?=
+ =?utf-8?B?Y01aYTNLRFc2OGl6UnRJM2h2QnRVQm9lN0NZbEdKbG9BeEJCMC84QkR4TEVm?=
+ =?utf-8?B?NVBzajBUb2s4Uy9IY2xaSk9ZRlQ4aEhqL0hEbUVaY0hoT3NJb2hiWW5LajBX?=
+ =?utf-8?B?dXZUTDBwMDNzV3RVL3dIb09oZEJPcjg3M2VCVzNKYy9ZSEZlUFB3aDhIS016?=
+ =?utf-8?B?K3dKQ0JnQ0tmaDFqWE5iQ1FRSHpmQ2Q4ZlNGWjNCcEdhTVNiVm5oQTJZQkEv?=
+ =?utf-8?B?QnpQTUtVc1V1RlYwblNPRVhhUjJWQWJ4TDVGbmFCZEdLVVF2aVZ2OHBoS1hF?=
+ =?utf-8?B?ZXFadmNWT24xWktvd3JkOXZPQlZMTFdxOUY4TDdJSFIvV0JrL3Z1UGdoZGcz?=
+ =?utf-8?B?b2ZDVldjNWJLQnpidFlGVlg0Mjd1eWQ3SE83WE1DOXJYTWkzeHJJV1pmMHRp?=
+ =?utf-8?B?SVI1RkV6UzNFQ0hsUHI3RlpzVTh5ZVBxdDNGZjY5MllJTGtTU2J3bm9NV3lz?=
+ =?utf-8?B?KzMzZGtYa3pBdmN2NHAvZXhtUHFxdXRqbUo4UXFUTWxMSVlPeU9aM3FlYlJi?=
+ =?utf-8?B?Qy9hQWtjUEFzS3RaK2lMWDZvZWtEcUE5VGFPcGM0SWoyc2lsbUV5RldXSkV4?=
+ =?utf-8?B?bEVLdldHczlMaVhSRTEzZzU3V0wyRzJpUzE4S3JlNUttNlM5NUgwa000Z0hW?=
+ =?utf-8?B?My9FeDZXMFVWZVgwK0d1cXNDZDRxU2QyazdETytGU2I4bWJEZnJtalJCR3V5?=
+ =?utf-8?B?eVI1MFluVCtvYTlWOXVSaElrcS9wREloeGlyeFEvWmJNc2E3ZDNpOXdhdHhh?=
+ =?utf-8?B?UHdENnJWODVsTUtYNEJRVnNOTTh3cVI3eHZnYjhjb252bmVIcklyMXZxSUN1?=
+ =?utf-8?B?azZQbXZNR0p1RFpCZTE5cHNPZVFrWWJPME1JVU51Mk1NZzVpV3dPNzlkYnBp?=
+ =?utf-8?B?bXNUNVZYVzI0eXAxS0tOYnlocjZWYzNwYzloN1NncTh4TUVkeC9FciszaFlZ?=
+ =?utf-8?B?U2xHaCs5Z01CSFliSzdUUm5VcDBLdk4ydTd2ODRZZWJqeHM4ZVk1ZWlwZ0FE?=
+ =?utf-8?B?UWdHVUxyTU90NkxRVWdLNGxuemlYRUtXRnU0Q0MxNFVvcW90UUV5a0hrbTk1?=
+ =?utf-8?B?MVN1cDJGZmRDaHp4c29vRStsZFJ3RHBOVmpIczJSVmtMS3JBSXNseVE0dVhm?=
+ =?utf-8?B?UFZCSVhZSXdiUjBUaWk0K25GbXlLY1NvL2xkYWFueW5oZDlrQjRzZWZqaWhr?=
+ =?utf-8?B?QVlOT0p6YThRNXgveWdWU3p0ajJENG5ZeFAyRElFcXBMbjJIa0tqajVsWmR2?=
+ =?utf-8?B?M0JXVVZWS01VciswV1NPSjRjcFZyclpuVXFYUXJlYS9KcG54eFFEcE5WUm1h?=
+ =?utf-8?B?OWc3Y0hFaldpaU54Nk5ncEFvNnFEa2h6dUFieTNGeGc0b0R6ZmJzdGNBL1Yy?=
+ =?utf-8?B?SG42aTY4bnlVRXdnK04yck0zbmE0TENJNWU3b2Vrd29iY2o1UmxEWm1ZSWtr?=
+ =?utf-8?B?b1EwK1AwbkRkb0lmeUkzeWRSRUc5bm0walFmNjRJNkxYM3RERUhyYko2KzdH?=
+ =?utf-8?B?NlMyNXc3NWMwVWFQSUpBSlVVOEQ5d1JoWUtGOVZ0dzJSOFlwSkxPQWRiYjZL?=
+ =?utf-8?B?cURSN1JtVUdHVHlXRnFWcndqZDZwLzdNTk5WN1p2b1ZKaTdnZTBjWkRIQU9a?=
+ =?utf-8?B?U2VRc1lPMDA1bUR1d1p2bjJQQitxeE9PQ1V6ZGw4R0cyUk5DYnB2eXJsVG83?=
+ =?utf-8?B?MGJLZ0NPNjc3Lyt2RmIxTFJ6K0hGemNNTjNlMFlsU0JibUhoM0hHeFYzb0Z2?=
+ =?utf-8?B?NFJUaWpBejhCY2ZwSDVWbDAySmE2d3ZxZzJJbWdqeEhoTkVQajFiK3hMNDR3?=
+ =?utf-8?Q?c43fQxK/Oh7sAMfs7dLXTcfKK?=
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89e9f3e4-1baf-4d0f-7bd3-08dc8e9007dc
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2024 05:40:43.9563 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wxTk0aovWowN+l5HxX5L7nf6/O8IcJocFjS91OxnFaUmsWZvhg6F3H2fyQ0Mu9NT7TZUvnxDaIhIEVGPCDk3Aw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB6702
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,81 +220,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cc'ing dri-devel
+On 16.02.24 15:57, Marek Vasut wrote:
+> On 2/16/24 10:10, Tomi Valkeinen wrote:
+>> On 15/02/2024 11:03, Alexander Stein wrote:
+>>> Hi everyone,
+>>>
+>>> Am Donnerstag, 15. Februar 2024, 09:53:54 CET schrieb Jan Kiszka:
+>>>> On 11.12.23 09:07, Aradhya Bhatia wrote:
+>>>>> On 06/12/23 17:41, Tomi Valkeinen wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> On 08/11/2023 14:45, Alexander Stein wrote:
+>>>>>>> Hi Tomi,
+>>>>>>>
+>>>>>>> Am Mittwoch, 8. November 2023, 12:27:21 CET schrieb Tomi Valkeinen:
+>>>>>>>> These two patches are needed to make tc358767 work in the
+>>>>>>>> DRM_BRIDGE_ATTACH_NO_CONNECTOR case, at least when using a DP
+>>>>>>>> connector.
+>>>>>>>>
+>>>>>>>> I have tested this with TI AM654 EVM with a tc358767 add-on card
+>>>>>>>> connected to a DP monitor.
+>>>>>>>
+>>>>>>> Just a question regarding the usage of this DSI-DP bridge.
+>>>>>>> What is the state of the DSI lanes after the DSI host has been
+>>>>>>> initialized,
+>>>>>>> but before calling atomic_pre_enable? AFAIK this bridge requires
+>>>>>>> LP-11
+>>>>>>> on DSI
+>>>>>>> at any time for accessing the AUX channel.
+>>>>>
+>>>>> + Marek
+>>>>>
+>>>>> Marek, Alexander,
+>>>>>
+>>>>> A quick grep tells me that you have added devicetree for tc358767
+>>>>> in DSI
+>>>>> to (e)DP mode on other platforms. Could you please test these patches
+>>>>> and report if you find any issue?
+>>>
+>>> Sorry, I can't provide any feedback here. I've yet to setup the DSI-DP
+>>> correctly.
+>>
+>> Ok. Does anyone have a worry that these patches make the situation
+>> worse for the DSI case than it was before? Afaics, if the DSI lanes
+>> are not set up early enough by the DSI host, the driver would break
+>> with and without these patches.
+>>
+>> These do fix the driver for DRM_BRIDGE_ATTACH_NO_CONNECTOR and DPI, so
+>> I'd like to merge these unless these cause a regression with the DSI
+>> case.
+> 
+> 1/2 looks good to me, go ahead and apply .
 
-Does https://lore.kernel.org/dri-devel/20240617035258.2774032-1-airlied@gmail.com/T/#u
-help?
+My local patches still apply on top of 6.10-rc4, so I don't think this
+ever happened. What's still holding up this long-pending fix (at least
+for our devices)?
 
-Thanks,
+Jan
 
-Dave.
+-- 
+Siemens AG, Technology
+Linux Expert Center
 
-On Mon, 17 Jun 2024 at 13:12, Ubisectech Sirius
-<bugreport@ubisectech.com> wrote:
->
-> Hello.
-> We are Ubisectech Sirius Team, the vulnerability lab of China ValiantSec. Recently, our team has discovered a issue in Linux kernel 6.8.  Attached to the email were a PoC file of the issue.
->
-> Stack dump:
->
-> ------------[ cut here ]------------
-> WARNING: CPU: 1 PID: 18929 at mm/page_alloc.c:4545 __alloc_pages+0x402/0x21b0 mm/page_alloc.c:4545
-> Modules linked in:
-> CPU: 1 PID: 18929 Comm: syz-executor.3 Not tainted 6.8.0 #1
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
-> RIP: 0010:__alloc_pages+0x402/0x21b0 mm/page_alloc.c:4545
-> Code: ff 00 0f 84 15 fe ff ff 80 ce 01 e9 0d fe ff ff 83 fe 0a 0f 86 0e fd ff ff 80 3d c7 cf 6a 0d 00 75 0b c6 05 be cf 6a 0d 01 90 <0f> 0b 90 45 31 e4 e9 87 fe ff ff e8 5e 3e 9b ff 84 c0 0f 85 7a fe
-> RSP: 0018:ffffc90001cc7808 EFLAGS: 00010246
-> RAX: 0000000000000000 RBX: 0000000000000000 RCX: 1ffff92000398f14
-> RDX: 0000000000000001 RSI: 000000000000000b RDI: 0000000000040dc0
-> RBP: ffffc90001cc7ab8 R08: 0000000000000007 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000000 R12: 00000000007a1200
-> R13: 000000000000000b R14: 0000000000040dc0 R15: 000000000000000b
-> FS:  00007f1717ba5640(0000) GS:ffff88807ec00000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00000000203d0000 CR3: 000000001f5c0000 CR4: 0000000000750ef0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> PKRU: 55555554
-> Call Trace:
->  <TASK>
->  __alloc_pages_node include/linux/gfp.h:238 [inline]
->  alloc_pages_node include/linux/gfp.h:261 [inline]
->  __kmalloc_large_node+0x88/0x1a0 mm/slub.c:3926
->  __do_kmalloc_node mm/slub.c:3969 [inline]
->  __kmalloc+0x370/0x480 mm/slub.c:3994
->  kmalloc_array include/linux/slab.h:627 [inline]
->  kcalloc include/linux/slab.h:658 [inline]
->  fill_object_idr drivers/gpu/drm/drm_lease.c:389 [inline]
->  drm_mode_create_lease_ioctl+0x4ca/0x1f70 drivers/gpu/drm/drm_lease.c:522
->  drm_ioctl_kernel+0x1eb/0x3f0 drivers/gpu/drm/drm_ioctl.c:744
->  drm_ioctl+0x582/0xb70 drivers/gpu/drm/drm_ioctl.c:841
->  vfs_ioctl fs/ioctl.c:51 [inline]
->  __do_sys_ioctl fs/ioctl.c:871 [inline]
->  __se_sys_ioctl fs/ioctl.c:857 [inline]
->  __x64_sys_ioctl+0x1a1/0x210 fs/ioctl.c:857
->  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
->  do_syscall_64+0xd5/0x270 arch/x86/entry/common.c:83
->  entry_SYSCALL_64_after_hwframe+0x6f/0x77
-> RIP: 0033:0x7f1716e8eeed
-> Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007f1717ba5028 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> RAX: ffffffffffffffda RBX: 00007f1716fe3f80 RCX: 00007f1716e8eeed
-> RDX: 00000000200003c0 RSI: 00000000c01864c6 RDI: 0000000000000003
-> RBP: 00007f1716f13014 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-> R13: 000000000000000b R14: 00007f1716fe3f80 R15: 00007f1717b85000
->  </TASK>
->
->
-> Thank you for taking the time to read this email and we look forward to working with you further.
->
->
->
->
->
->
->
->
->
->
