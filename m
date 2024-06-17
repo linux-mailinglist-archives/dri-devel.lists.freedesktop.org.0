@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F10390AE12
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 14:36:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E09F590AE1D
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 14:41:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC95A10E38E;
-	Mon, 17 Jun 2024 12:36:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C8EC10E398;
+	Mon, 17 Jun 2024 12:41:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="Py2jT7NF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VQlRM+Bf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 265F710E38E
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 12:36:25 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45HCaCg7109263;
- Mon, 17 Jun 2024 07:36:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1718627772;
- bh=4ZLuq+lk5YP2ru6FnXQA6oIOuJ+87d9cZSdpuFMVN08=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=Py2jT7NFjerhXm2rJTpMtJ/vlcPk2cQpTPEFeHwsf4t2W+/8lSzVUkh628vueKGIp
- 4wLBI4/CZMXN0dsysMRWffAL9c8enFiS6cwv4cC9w2P57Z4QL+qcbpomSBlUbI9kr+
- LIdWriqXR+UYv4dsaCG8hWSz2Ur4RN9TcZYj834g=
-Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45HCaCLV095596
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 17 Jun 2024 07:36:12 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 17
- Jun 2024 07:36:11 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 17 Jun 2024 07:36:11 -0500
-Received: from [172.24.227.31] (uda0496377.dhcp.ti.com [172.24.227.31])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45HCa755007174;
- Mon, 17 Jun 2024 07:36:08 -0500
-Message-ID: <1d914332-9300-4dee-8d33-0a806cb22aa4@ti.com>
-Date: Mon, 17 Jun 2024 18:06:07 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E994210E398;
+ Mon, 17 Jun 2024 12:41:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718628090; x=1750164090;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=bc1sUn8jrPqgaACKCCuasIWiYGrSLmqPWWMJYMwe/lg=;
+ b=VQlRM+BfVipGSuGTZbk0KuaraiV37f82EF/XSg7yb+QwTxwf2EdhXTFZ
+ gN7p7s4+Dmrg4t5+626JGKgBdXtHRDRCovb78vD9ACg+Fvej0xiaos9t7
+ d58g1mdLiQnsaGA+a0V72Ha0iqMeXmuu5fwdeaGkv9odEBsBPDvf4U58a
+ 38kh0dl2b1Fru/uEmODKKfJWpfVNuRY/Ru412hsib4XZFyMcf06rQfYnn
+ +119W1O+TOgBS2c3x4bxQnvNvKk1rz9XdBeg1EwZeZ+wB3bWk/XBbQFEe
+ omRju6bsxkcJHonn+GwgC27gc7WWLBU4FB7JrLH9HDHSzXBZCRVikUE6v Q==;
+X-CSE-ConnectionGUID: LH8iJTuPQlOVzbMM3M/lBg==
+X-CSE-MsgGUID: 6ZAWCZwDTpiMmC3FB44VUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="26565329"
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; d="scan'208";a="26565329"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2024 05:41:30 -0700
+X-CSE-ConnectionGUID: cJZAlpTdTieUgHHfSQL7Uw==
+X-CSE-MsgGUID: c8Vl27g1SY6mBnLaHsrH9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; d="scan'208";a="46110485"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.76])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2024 05:41:26 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Nirmoy Das <nirmoy.das@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>
+Subject: [PATCH] drm/i915/gem: Return SIGBUS for wrong mapping parameters
+Date: Mon, 17 Jun 2024 14:41:15 +0200
+Message-ID: <20240617124115.260250-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/tidss: Add drm_panic support
-To: Javier Martinez Canillas <javierm@redhat.com>,
- <linux-kernel@vger.kernel.org>
-CC: Jocelyn Falempe <jfalempe@redhat.com>, Geert Uytterhoeven
- <geert@linux-m68k.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie
- <airlied@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, <dri-devel@lists.freedesktop.org>
-References: <20240615085326.1726262-1-javierm@redhat.com>
-Content-Language: en-US
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <20240615085326.1726262-1-javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,29 +70,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+We normally issue a warning when incorrect memory parameters are
+provided. Typically, providing erroneous addresses to mmap,
+results in a segmentation fault, and the default behavior
+is to return VM_FAULT_SIGBUS.
 
-I tested the patch, and it was good to see the panic screen on SK-AM62.
-Thanks for adding this feature in tidss. =)
+This can happen for example when remap_io_mapping() or
+remap_io_sg() return -EINVAL.
 
-On 15/06/24 14:23, Javier Martinez Canillas wrote:
-> Add support for the drm_panic module, which displays a pretty user
-> friendly message on the screen when a Linux kernel panic occurs.
-> 
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Because VM_FAULT_SIGBUS is already returned when memory
+boundaries are improperly handled and numerous warnings are
+already generated, avoid redundant logging to prevent
+overprinting by translating -EINVAL to VM_FAULT_SIGBUS in the
+i915_error_to_vmf_fault() helper.
 
-Reviewed-by: Aradhya Bhatia <a-bhatia1@ti.com>
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> ---
-> Tested on an AM625 BeaglePlay board by triggering a panic using the
-> `echo c > /proc/sysrq-trigger` command.
-> 
->  drivers/gpu/drm/tidss/tidss_plane.c | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
-> 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+index a2195e28b625..698ff42b004a 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+@@ -223,6 +223,7 @@ static vm_fault_t i915_error_to_vmf_fault(int err)
+ 	default:
+ 		WARN_ONCE(err, "unhandled error in %s: %i\n", __func__, err);
+ 		fallthrough;
++	case -EINVAL: /* the memory parameters provided are wrong */
+ 	case -EIO: /* shmemfs failure from swap device */
+ 	case -EFAULT: /* purged object */
+ 	case -ENODEV: /* bad object, how did you get here! */
+-- 
+2.45.1
 
-[...]
-
---
-Regards
-Aradhya
