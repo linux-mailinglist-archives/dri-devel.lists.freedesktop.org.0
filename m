@@ -2,160 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A87590B290
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 16:42:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A4C90B2B5
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 16:45:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3B4310E3FD;
-	Mon, 17 Jun 2024 14:42:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D84EE10E3FF;
+	Mon, 17 Jun 2024 14:45:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="KE6RNwGy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QRn4ezTq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2086.outbound.protection.outlook.com [40.107.237.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83CC410E3FB;
- Mon, 17 Jun 2024 14:42:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RyUhNF0p3dyALm/R4JmOPaB9J5DLBIyBKcLUMwBQu8v7qbcecRGfoASzqthxVOewVhmBuy7xNRcJbtw+n8NkczVAsiFtejpNx1O9rFbdr3CzaQuZCxIazYEInA+YLUGzi09irnvxIKDzBlp+tk0in0qCO2F5RBtFH8e3HqhDNpolcnFuuolRITyRfwamZQ8C+j1AIL1iq23dpO9F1lYaYh7IpeaCVybN6fCGD6ic2qhO77f2gaPjtxT/AkiZVPIc64MZtj6ijtBVTUW8trPfPkSKmMt55/MG6taXm1oK090J9JdMzalfSKio2iqP35Ofl7xKsH1y3/iJTqmqvFxtJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1c006+ZN0Vr7MME+mIuWuSdSCiDXPJaxuYb5AUp2s1k=;
- b=BsPxMOdQtAFvdGAYEzIxuFPsfGNajxUi/74wpSJFRWzYX71JecKeHvC6yYJAPP+msFlipFPblWHn79xNXu5oUZ/8zls8/FUoMzBN1G5b5CRHIWqrLl/C3mTD3s9L6+3ufFJXT0Pxp2tmlVzwCNmMBTMzAgqE9BZujzbK9zicZgizmdow9sZr4qMLa58mgifGmE5GK0wePWPftq5m4RjSHD3uYLzL7lgYjeQxceq4zu6DdCmHFzZH3NU0dwrhm++NioIvy9voiAZgAIXTNeIisoKDNLEQ0L3ctvGjAg3ZCZxv0dhxfR+oL7R5fsd1G6I40lMaMl79j+XfCi03/WqpiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1c006+ZN0Vr7MME+mIuWuSdSCiDXPJaxuYb5AUp2s1k=;
- b=KE6RNwGyCSEnw/77SPn0eG6fV2GggroeYJM8fFWqx24Eflv33Epg+rD5DeAMPBZ+b7K2tosSc/QQ9jwWKwToZB8noeJPdr8ea9hai15pP/3e5iuDbTigtckO8Svtd9HAetxJhv2tVBDp69PrTJvD7cp9ejHIYnsZcoO8j4C8/og=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW5PR12MB5684.namprd12.prod.outlook.com (2603:10b6:303:1a1::21)
- by CH2PR12MB4167.namprd12.prod.outlook.com (2603:10b6:610:7a::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30; Mon, 17 Jun
- 2024 14:42:33 +0000
-Received: from MW5PR12MB5684.namprd12.prod.outlook.com
- ([fe80::9eac:1160:c373:f105]) by MW5PR12MB5684.namprd12.prod.outlook.com
- ([fe80::9eac:1160:c373:f105%6]) with mapi id 15.20.7677.030; Mon, 17 Jun 2024
- 14:42:33 +0000
-Content-Type: multipart/alternative;
- boundary="------------NNVOUGbb5DaC86WVN8PVC809"
-Message-ID: <e7a814fc-7b1a-4e32-8868-292be004f920@amd.com>
-Date: Mon, 17 Jun 2024 16:42:26 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/amdgpu: make duplicated EOP packet for GFX7/8
- have real content
-To: Icenowy Zheng <uwu@icenowy.me>, Alex Deucher <alexander.deucher@amd.com>, 
- Pan Xinhui <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, loongarch@lists.linux.dev
-References: <20240617105846.1516006-1-uwu@icenowy.me>
- <20240617105846.1516006-2-uwu@icenowy.me>
- <88337509-3ad7-47aa-b70f-5294f7f1e486@amd.com>
- <b4ebdbce2f44c06806a650e72b1b6eb9a16dffe6.camel@icenowy.me>
- <09fbcd1f-c7b1-47e3-9146-17f8189978a8@amd.com>
- <e88d4722fa3bbd7104b140debdd85cb212628944.camel@icenowy.me>
- <d44651a7-0c07-4b84-8828-f1d405359aeb@amd.com>
- <1e5f86991635b9045e91fab6397cda87555f85ff.camel@icenowy.me>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <1e5f86991635b9045e91fab6397cda87555f85ff.camel@icenowy.me>
-X-ClientProxiedBy: FR0P281CA0225.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ac::13) To MW5PR12MB5684.namprd12.prod.outlook.com
- (2603:10b6:303:1a1::21)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D34E310E3FF
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 14:45:43 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-a6f0e153eddso573313966b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 07:45:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1718635542; x=1719240342; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ah3rcgKtsiLLs9s7Ep0iHOREj7mRgLBYmdEE8sYGz64=;
+ b=QRn4ezTqaBm2slFD9sIczN1tJgGDOcVnBrUFeETXg1orAf16RPUvg55ei+WnVDqr8J
+ uz5jSnHl03riy0ngWrZvMMNsTlVKp6F5AbIaNZ7Wf3tgVV9BF3LDmh3YZ0tl1vUf0MQ3
+ dW98yGM6Sa1jszgXC419gI27c3m/io6GJO6Vf3V80zC6p2GYaLxiOQE9fug1TqTVuk/9
+ xUlmxPqwehCHYpbzOAFuRkI2FPc2EVejCq5+GIZlS5LL7FdSoBhUiiu/mErrjuf+mEzW
+ rWpt1alJ/80Rce3IXGPUoU3i3h/QHAtmt2lHTL/F4X/GRGvP/X6xyA+G4kWB8O2r6r/I
+ k69Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718635542; x=1719240342;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ah3rcgKtsiLLs9s7Ep0iHOREj7mRgLBYmdEE8sYGz64=;
+ b=BkaA3dWqGGxcVcHF3Hde/luqv3fHj2feNtKUHqtbbbSwHkthmnNSqCagDXcNoMPMnx
+ 6COiAqnv6IhfnmZiqRjfHKhFOgTMOTW2Im4T8N1NC1iPO3HNHfbSq57hkNcovFdMPUbL
+ B0BCXsqXUDTa+3MLCjmhS1qHA9D4QnJmd4IA4jTAY1FtADIgg/hVuKaBkxn/YRpYmhMr
+ xpPxgBxH/Depgr2MtLhDao5WCxCPTcn7dbvIw+QRnjf1KGhh0yrB8MPPEPC4ZgEjBWWq
+ KDkb8zo0KugXKPs2DWnCu/3shVsWfWrzvVLFP19Av6X378otb4dLwLOQ+KBFV+GcTpJY
+ q1UQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW7CJANs7iNh+8rjHAWb8THseyyYksMMLFVWvxGGhHDCnH8As7edhKl30PPh2FveugvhuUH9GqmC49dsbULV+IU4MqCWLAzx1YfLxOk3nY7
+X-Gm-Message-State: AOJu0Yx2v48AI8867cre6Rin7hkU9E7g1o5NpLlyC29ISzThjzD03V/P
+ fb9l+du5ZvX9TU66b8WOgU6i3F3mWm9mcHKBizfdxK3PZnUKy6K7
+X-Google-Smtp-Source: AGHT+IGy29Bog/6x0frVCqVR0gtIWSVZ7NmfaBwvNVXbu4bGaKBQqObsvBBOakN7w58CXi9kwdrLlg==
+X-Received: by 2002:a17:906:aacb:b0:a5a:6bde:c3fb with SMTP id
+ a640c23a62f3a-a6f60d29568mr573906666b.28.1718635541341; 
+ Mon, 17 Jun 2024 07:45:41 -0700 (PDT)
+Received: from [192.168.42.82] ([163.114.131.193])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a6f56fa41cbsm522762466b.225.2024.06.17.07.45.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Jun 2024 07:45:40 -0700 (PDT)
+Message-ID: <14b7af66-04fe-4b49-94d6-bea5d554252e@gmail.com>
+Date: Mon, 17 Jun 2024 15:45:42 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW5PR12MB5684:EE_|CH2PR12MB4167:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8216be67-09af-4654-8ec9-08dc8edbb8f9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230037|376011|1800799021|366013;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MVpaMlVUNHRyU3BiR0RuNWFkZHFWbFBpdkhuVFIzaEJ6c2kzUzlzSm1mWmZm?=
- =?utf-8?B?cy9Ha1o5NmFhdjBxZFcxRWt6WU9sdjhLa0N6bTFnRUhLOHpoNmtlT0tQUVdZ?=
- =?utf-8?B?cWxIOENqdE13Tk1rOU1GdzB4S2trSk1OSGYrcnlhbStPVnZoZ2hNSlBrUXJP?=
- =?utf-8?B?aHZrQ2pYd2dtMVFuZVdlc2duUTVrMCtsVTUwTm9IOGNBYWZxU2p0M2VzOGFN?=
- =?utf-8?B?SHFMVEhqbGNnZDhEQ3NiUGJndWZhdC9nV2h5c3ZGNktrYTg4NnZkc2VHaUFC?=
- =?utf-8?B?YitKZTk3aktNeStPU1JxQzB2SFRONmZveE8zK0JTV25LSlZNVFZXSmx4MGI0?=
- =?utf-8?B?MGFBajVsaDFtYWRwSXhJdGtOaCsyWTNGUXowN0hhKy9OSW5vZEVRbldISUg2?=
- =?utf-8?B?WVFZNElHa2tNekNEcERkaHZ5ODNQZWoyOVdCZlVSWmIyWDRmK20yakU0SXF2?=
- =?utf-8?B?VGdGS0tORlRxbnJTUFdxQnJiM0w3YitkTm9jbkoxR0lIWWYybFN5RVZVaTda?=
- =?utf-8?B?K01ZU0t6ampEQ25kcVlZaHRqcjI1NXJTVlNTMUpzM2czQ0RtWlJzZHhyTGJ6?=
- =?utf-8?B?cE0wYnV6cG5sYVhvUlNMTnVmM3BINXVkOXN5K3pJUHFXQy9xN1A2Qi9qUGUr?=
- =?utf-8?B?UlZYMjYwV3NULzh6ZDIvNnN3bThHMENwbkYwN2xqeisrdVdiV0RGMlhhQ2J0?=
- =?utf-8?B?Q0dPc1lwMTdlNFRJdWRVakVaWEdKZnBxWVd6bVh6QURFVFgzRU9HSDFUTmJo?=
- =?utf-8?B?VHBpVTR3NVJpa3N3QTJta1lFd045YVRrT1Vrd0N6eTlUMTdTbDlMblI4djFD?=
- =?utf-8?B?UW5hKzhidThRc2RGVU5YaEhaOXQ4NW9GRGhOSU9ROHRzb25HRDNTeHVBa2hP?=
- =?utf-8?B?aVJlOUJOcmwxeExENHpWdTc5aXFncWtDbGVRUWZGZFJKM0tndmMwTk9qNzlt?=
- =?utf-8?B?M1BwcHAyL2RsZTVrRTFhSWxCeWtiaHdyU1JJdUZoNFgyTzQ5aitEbVhYQmQz?=
- =?utf-8?B?TU4wTmRZUVBlc1JhN2dlNUZ3Q2tLRityOWNMVU9kbnlEMXp4S3dGNittOVZm?=
- =?utf-8?B?NXFhVzNiQ21MKzFTYmJtMWtrU2lJWEFjaERYZHI3ZEpwaTUrV1VXRTV6aGVi?=
- =?utf-8?B?OEw1Z0F4ZEhNVTFZN0VEVUFEQWI4alYweC9Ob2JObmF0djlEbjR5clV0K2Na?=
- =?utf-8?B?eXZXS1Vnb25FWDk2a0U5U2FGMXZHZWZCWFdhS3RJUXNWYlliNVdlamlzR01p?=
- =?utf-8?B?REd4RmJmQkx2eXMyV2JWQ0x4K2hrNklTNEpmd3lHMmJ6bzJxdjNWOVpGUFNO?=
- =?utf-8?B?d1BpUVlDMTZXeGljRmlBcVRDbFp3L2p2ODhiNW9qTkI4S2c2OW5mTGl2NVFT?=
- =?utf-8?B?dkpPSVdxalVKeG9yRkpiVmcxclRWTGNXZGJkMDdlVmp6OUlMczNhVzZuZmdk?=
- =?utf-8?B?RDkwUUFJR3MwQjZyajVQK1hwQms0cWI5cEFLM1ZlUDJQaFhyZHI4dmFCazdu?=
- =?utf-8?B?b3pVL1E5ajN5ckdzcUdSZWVML0drTkk5YlV4UVlYOEI1a003TGZ1RStnSW9o?=
- =?utf-8?B?VTAvUWV2OSsrcDd1U0JGTWErOGNnRW96d3o1czZPaWZsd0tXQ3V6YUorOHdG?=
- =?utf-8?B?aHc1K3VxeFYzVmlmZ2dYc01hR0dtQWJlZjRCZmFvZlFVaHBiU0laVlNsTC9C?=
- =?utf-8?B?ZlZRR3JLOThSc3VSWDIxWjZXak5aaGNnZ0tBajN5OUl3Ri9JT1puOUtJNkRx?=
- =?utf-8?Q?4V5ss2tdVQCbE18CTviHrvpjsSHK8IaC9aEj9RC?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW5PR12MB5684.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230037)(376011)(1800799021)(366013); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ejhWQ2VMdjRLMmlLN0ZVZEdteGhyZjF2cU9DSXFaQ3c1eXl4UWxmaFB3eTlt?=
- =?utf-8?B?TUx6d1c3Ri9WRFN5N085MU1EYkVvUWVEWTdBQUdrTk1lR2RTbVdvOFc5MStI?=
- =?utf-8?B?UnN1RmU5b0NoVTRVdUd0RFRueEwzc3RTcjRNS3NPMDUxRzNodDk5aDJmc2I1?=
- =?utf-8?B?WnErTGJ1NXlGT1I0NDBLMEhVZzRYTUhWR2xhRVRlQ3hnMWY0OWdMSkVRZm8x?=
- =?utf-8?B?aVFpUmVhVzF3Q0hpcHlSQ2taLzF2cGhXSE5GSHFnT2VieWF6V0VkSVhEZ0lu?=
- =?utf-8?B?L1BWSDFBMUdrOVNpSTdhSXR2WWYvRlpwWitxR0ZxaDlZYk15ck8vUHAwS05y?=
- =?utf-8?B?NG5wRHRaeVZTOW05a3YvVnBucVU2aVNyWVArdWxSamdnblpVVUFWSFBpdFpW?=
- =?utf-8?B?RVh6dm4xS1B6YWoyNFVSczd2WmV6ZDNzSllKRG91Q3JiT0MvdHBGbWZJOFdG?=
- =?utf-8?B?bS9COWFEcDdXamxZZ3N0QUtMNENrcks3eHc4VHJWT2V4RDhsS0xscjgybXhG?=
- =?utf-8?B?eEI5bFRwb1RibE1XT3BEajNOVzZzTWdYWHBUZTd5OElDcTlDZGNRRzN6UCti?=
- =?utf-8?B?N1BiNXF1aEFJQW9wMFNDdUNyNk51aUZHWkxXd0MySk92SnpNVGlucFJVR2RX?=
- =?utf-8?B?ajF1WEZGUXA3WGZ6QnEya09hSlVvSFR3NkcwNHVLVS9xNVBlMTZ4L0Z0a2V3?=
- =?utf-8?B?YzgzNzhzaENTZEhVeWlNRmFMeGU1NTRjanZEZ2xOdTZ3aG5wUGx6eFZrYXNR?=
- =?utf-8?B?TFVFTVpIdzNjV3o0ekc4ZHJtYnRzeEo0Ly9MZHVVSTN2MlQyTzNuSHZjUnZG?=
- =?utf-8?B?djkzM0J4NUJnM25HTTUvdmxuMHEwWFg4Y0JTNERKekRBNUxESkRNZXpTYWhp?=
- =?utf-8?B?VlVDOTJsMW9Hek4xZWgyblQ2QW53aVpzWGtmeGV0US9hVGtmbyswTTNueXlG?=
- =?utf-8?B?VFBLZFd5MXdZSzYrODRrc3F1c3hjaEhUZ0JrODlsTC9VcDUrVXhkMGNtVEJ4?=
- =?utf-8?B?d1g2ek8zYmpVTXZZOVRmUklvNWdpS2NtbHFGSmUzblVHWDBjRERpd1VDZm1q?=
- =?utf-8?B?UFNoeXhObTJUY1RHMWwvY0U2R2kxLzhoY3p6a1QydWdpcEljaDEyZmJKUlpo?=
- =?utf-8?B?QldIc0U3Ujl4QlNMZXl1dHFlTktMVUJoTGlhalF6aUxGMUU3ZWM2eXFvbmNL?=
- =?utf-8?B?cUVHY1IxU0RpelFxMVR1YzBuc3UvNGxvLzB0Qlo2ckhBREZqdG1weWN4ak9k?=
- =?utf-8?B?VkFjbEhXUytYa0Jia2YvRk03eXRMZGU1NXFZekRpejBvU3I4Q0grbnV5c3Rs?=
- =?utf-8?B?S3FzWkxvNVU2Ym80WkwrdFd1OUFBMXdIYkgrbEhtZDlLRkovODk0N0Q4Ly9r?=
- =?utf-8?B?MVhBNDZocXk1L1FWbVhVc3RVUGJZL3JjdTlDRHpSYUZhTjJpVXFZTGNidi9L?=
- =?utf-8?B?cTR5dExUUk5SY012VHJGN3Nlc0xHNUFNRHNlYkVMZ0k0M3JCSkFXc0Y3SkhM?=
- =?utf-8?B?QmUwKy90T2tDRkluak5rdjh1STVpNCt4Wm9BUDFJc2RVRFNEYmtNalVsQ0h0?=
- =?utf-8?B?VEJTMUVIQkszaWhEODU5R3AvYnRnYjl6VkRBYW9VWVNHNlRKSHZIcm5xNlhx?=
- =?utf-8?B?Z084RG1lenJtYmM1WEdkZGw1L1U5bGR0UmNLK1BxSEdZZVd6eXA3SjY1V2Nu?=
- =?utf-8?B?bDZzNDJoVjBRRno0Zjg3VVBuWk9oaCtvSGFkWlJsRkpVTWpIN2dlMU9heEtO?=
- =?utf-8?B?aWZXeHJ2Q2Q4U04wM09nVXc0TEFHb0RLMFp5bCtXMWJPOERBSzNGNk9CeGNn?=
- =?utf-8?B?NEQvbUZVZnRXWE5hd2NrSmd5RVd5bmVEZ1JaSXR1ekI4WW5sSEVHN0tuSG5w?=
- =?utf-8?B?QjVJSTcrQ0trZ1M1N2sreFlkNHRnTWE5aEE1UEpyNXhvRXRPZHNCUUJJU1BC?=
- =?utf-8?B?S2huODczbGRMbThmY2E3SjEycUJoKzlUeUFoZENTYnpFQ2xFUHNhOXdieUNP?=
- =?utf-8?B?SG5qd2ZYRGdWOXM4emRRNGkvcVZ3Rmp3VXFwMXZwY2l3cXdqdzVGRjFJaHdV?=
- =?utf-8?B?MXlPZVg3ZjJMWi9icDZsWDVDWHJnVm5XbXJGS1ZONjZQUFJFYVJmR09xVU1R?=
- =?utf-8?Q?EQxrR3mEV5SG17YAnRvZ2a3TV?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8216be67-09af-4654-8ec9-08dc8edbb8f9
-X-MS-Exchange-CrossTenant-AuthSource: MW5PR12MB5684.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2024 14:42:33.4457 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uKZuNFu5O04OElowe6FhwgpTKPU2fNO+BqMivRG3TfTR82VSCMEoke01T05IEkow
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4167
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v12 07/13] memory-provider: dmabuf devmem memory
+ provider
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240613013557.1169171-1-almasrymina@google.com>
+ <20240613013557.1169171-8-almasrymina@google.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20240613013557.1169171-8-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,305 +126,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------NNVOUGbb5DaC86WVN8PVC809
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On 6/13/24 02:35, Mina Almasry wrote:
+> Implement a memory provider that allocates dmabuf devmem in the form of
+> net_iov.
+> 
+> The provider receives a reference to the struct netdev_dmabuf_binding
+> via the pool->mp_priv pointer. The driver needs to set this pointer for
+> the provider in the net_iov.
+> 
+> The provider obtains a reference on the netdev_dmabuf_binding which
+> guarantees the binding and the underlying mapping remains alive until
+> the provider is destroyed.
+> 
+> Usage of PP_FLAG_DMA_MAP is required for this memory provide such that
+> the page_pool can provide the driver with the dma-addrs of the devmem.
+> 
+> Support for PP_FLAG_DMA_SYNC_DEV is omitted for simplicity & p.order !=
+> 0.
+> 
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
 
-Am 17.06.24 um 16:30 schrieb Icenowy Zheng:
-> 在 2024-06-17星期一的 15:59 +0200，Christian König写道：
->> Am 17.06.24 um 15:43 schrieb Icenowy Zheng:
->>> 在 2024-06-17星期一的 15:09 +0200，Christian König写道：
->>>> Am 17.06.24 um 15:03 schrieb Icenowy Zheng:
->>>>> 在 2024-06-17星期一的 14:35 +0200，Christian König写道：
->>>>>> Am 17.06.24 um 12:58 schrieb Icenowy Zheng:
->>>>>>> The duplication of EOP packets for GFX7/8, with the former
->>>>>>> one
->>>>>>> have
->>>>>>> seq-1 written and the latter one have seq written, seems to
->>>>>>> confuse
->>>>>>> some
->>>>>>> hardware platform (e.g. Loongson 7A series PCIe
->>>>>>> controllers).
->>>>>>>
->>>>>>> Make the content of the duplicated EOP packet the same with
->>>>>>> the
->>>>>>> real
->>>>>>> one, only masking any possible interrupts.
->>>>>> Well completely NAK to that, exactly that disables the
->>>>>> workaround.
->>>>>>
->>>>>> The CPU needs to see two different values written here.
->>>>> Why do the CPU need to see two different values here? Only the
->>>>> second
->>>>> packet will raise an interrupt before and after applying this
->>>>> patch,
->>>>> and the first packet's result should just be overriden on
->>>>> ordinary
->>>>> platforms. The CPU won't see the first one, until it's polling
->>>>> for
->>>>> the
->>>>> address for a very short interval, so short that the GPU CP
->>>>> couldn't
->>>>> execute 2 commands.
->>>> Yes exactly that. We need to make two writes, one with the old
->>>> value
->>>> (seq - 1) and a second with the real value (seq).
->>>>
->>>> Otherwise it is possible that a polling CPU would see the
->>>> sequence
->>>> before the second EOP is issued with results in incoherent view
->>>> of
->>>> memory.
->>> In this case shouldn't we write seq-1 before any work, and then
->>> write
->>> seq after work, like what is done in Mesa?
->> No. This hw workaround requires that two consecutive write operations
->> happen directly behind each other on the PCIe bus with two different
->> values.
-> Well to be honest the workaround code in Mesa seems to not be working
-> in this way ...
+Comments below, apart from them
 
-Mesa doesn't have any workaround for that hw issue, the code there uses 
-a quite different approach.
+Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
 
->> To make the software logic around that work without any changes we
->> use
->> the values seq - 1 and seq because those are guaranteed to be
->> different
->> and not trigger any unwanted software behavior.
->>
->> Only then we can guarantee that we have a coherent view of system
->> memory.
-> Any more details about it?
 
-No, sorry. All I know is that it's a bug in the cache flush logic which 
-can be worked around by issuing two write behind each other to the same 
-location.
+> diff --git a/net/core/devmem.c b/net/core/devmem.c
+> index f4fd9b9dbb675..d3843eade5fc2 100644
+> --- a/net/core/devmem.c
+> +++ b/net/core/devmem.c
+> @@ -17,6 +17,7 @@
+...
+> +
+> +bool mp_dmabuf_devmem_release_page(struct page_pool *pool, netmem_ref netmem)
+> +{
+> +	WARN_ON_ONCE(!netmem_is_net_iov(netmem));
+> +	WARN_ON_ONCE(atomic_long_read(netmem_get_pp_ref_count_ref(netmem)) !=
+> +		     1);
 
-> BTW in this case, could I try to write it for 3 times instead of 2,
-> with seq-1, seq and seq?
+If you're adding it anyway, maybe
+"if (warn) return" ?
 
-That could potentially work as well, but at some point we would need to 
-increase the EOP ring buffer size or could run into performance issues.
+> +
+> +	page_pool_clear_pp_info(netmem);
+> +
+> +	net_devmem_free_dmabuf(netmem_to_net_iov(netmem));
+> +
+> +	/* We don't want the page pool put_page()ing our net_iovs. */
+> +	return false;
+> +}
+> +
+>   #endif
+> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+> index 1152e3547795a..22e3c58648d42 100644
+> --- a/net/core/page_pool.c
+> +++ b/net/core/page_pool.c
+> @@ -13,6 +13,7 @@
+...
+> @@ -269,7 +275,25 @@ static int page_pool_init(struct page_pool *pool,
+>   	if (pool->dma_map)
+>   		get_device(pool->p.dev);
+>   
+> +	if (pool->p.queue)
+> +		pool->mp_priv = READ_ONCE(pool->p.queue->mp_params.mp_priv);
+> +
+> +	if (pool->mp_priv) {
+> +		err = mp_dmabuf_devmem_init(pool);
+> +		if (err) {
+> +			pr_warn("%s() mem-provider init failed %d\n", __func__,
+> +				err);
+> +			goto free_ptr_ring;
 
->>> As what I see, Mesa uses another command buffer to emit a
->>> EVENT_WRITE_EOP writing 0, and commit this command buffer before
->>> the
->>> real command buffer.
->>>
->>>>> Or do you mean the GPU needs to see two different values being
->>>>> written,
->>>>> or they will be merged into only one write request?
->>>>>
->>>>> Please give out more information about this workaround,
->>>>> otherwise
->>>>> the
->>>>> GPU hang problem on Loongson platforms will persist.
->>>> Well if Loongson can't handle two consecutive write operations to
->>>> the
->>>> same address with different values then you have a massive
->>>> platform
->>>> bug.
->>> I think the issue is triggered when two consecutive write
->>> operations
->>> and one IRQ is present, which is exactly the case of this function.
->> Well then you have a massive platform bug.
->>
->> Two consecutive writes to the same bus address are perfectly legal
->> from
->> the PCIe specification and can happen all the time, even without this
->> specific hw workaround.
-> Yes I know it, and I am not from Loongson, just some user trying to
-> mess around it.
+Should also free stats, look up
 
-Well to be honest on a platform where even two consecutive writes to the 
-same location doesn't work I would have strong doubts that it is stable 
-in general.
+free_percpu(pool->recycle_stats);
 
-Regards,
-Christian.
---------------NNVOUGbb5DaC86WVN8PVC809
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    Am 17.06.24 um 16:30 schrieb Icenowy Zheng:<br>
-    <blockquote type="cite" cite="mid:1e5f86991635b9045e91fab6397cda87555f85ff.camel@icenowy.me">
-      <pre class="moz-quote-pre" wrap="">在 2024-06-17星期一的 15:59 +0200，Christian König写道：
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Am 17.06.24 um 15:43 schrieb Icenowy Zheng:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">在 2024-06-17星期一的 15:09 +0200，Christian König写道：
-</pre>
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">Am 17.06.24 um 15:03 schrieb Icenowy Zheng:
-</pre>
-            <blockquote type="cite">
-              <pre class="moz-quote-pre" wrap="">在 2024-06-17星期一的 14:35 +0200，Christian König写道：
-</pre>
-              <blockquote type="cite">
-                <pre class="moz-quote-pre" wrap="">Am 17.06.24 um 12:58 schrieb Icenowy Zheng:
-</pre>
-                <blockquote type="cite">
-                  <pre class="moz-quote-pre" wrap="">The duplication of EOP packets for GFX7/8, with the former
-one
-have
-seq-1 written and the latter one have seq written, seems to
-confuse
-some
-hardware platform (e.g. Loongson 7A series PCIe
-controllers).
-
-Make the content of the duplicated EOP packet the same with
-the
-real
-one, only masking any possible interrupts.
-</pre>
-                </blockquote>
-                <pre class="moz-quote-pre" wrap="">Well completely NAK to that, exactly that disables the
-workaround.
-
-The CPU needs to see two different values written here.
-</pre>
-              </blockquote>
-              <pre class="moz-quote-pre" wrap="">Why do the CPU need to see two different values here? Only the
-second
-packet will raise an interrupt before and after applying this
-patch,
-and the first packet's result should just be overriden on
-ordinary
-platforms. The CPU won't see the first one, until it's polling
-for
-the
-address for a very short interval, so short that the GPU CP
-couldn't
-execute 2 commands.
-</pre>
-            </blockquote>
-            <pre class="moz-quote-pre" wrap="">Yes exactly that. We need to make two writes, one with the old
-value
-(seq - 1) and a second with the real value (seq).
-
-Otherwise it is possible that a polling CPU would see the
-sequence
-before the second EOP is issued with results in incoherent view
-of
-memory.
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">In this case shouldn't we write seq-1 before any work, and then
-write
-seq after work, like what is done in Mesa?
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-No. This hw workaround requires that two consecutive write operations
-happen directly behind each other on the PCIe bus with two different
-values.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Well to be honest the workaround code in Mesa seems to not be working
-in this way ...</pre>
-    </blockquote>
-    <br>
-    Mesa doesn't have any workaround for that hw issue, the code there
-    uses a quite different approach.<br>
-    <br>
-    <span style="white-space: pre-wrap">
-</span>
-    <blockquote type="cite" cite="mid:1e5f86991635b9045e91fab6397cda87555f85ff.camel@icenowy.me">
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-To make the software logic around that work without any changes we
-use 
-the values seq - 1 and seq because those are guaranteed to be
-different 
-and not trigger any unwanted software behavior.
-
-Only then we can guarantee that we have a coherent view of system
-memory.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Any more details about it?</pre>
-    </blockquote>
-    <br>
-    No, sorry. All I know is that it's a bug in the cache flush logic
-    which can be worked around by issuing two write behind each other to
-    the same location.<br>
-    <br>
-    <blockquote type="cite" cite="mid:1e5f86991635b9045e91fab6397cda87555f85ff.camel@icenowy.me">
-      <pre class="moz-quote-pre" wrap="">BTW in this case, could I try to write it for 3 times instead of 2,
-with seq-1, seq and seq?</pre>
-    </blockquote>
-    <br>
-    That could potentially work as well, but at some point we would need
-    to increase the EOP ring buffer size or could run into performance
-    issues.<br>
-    <br>
-    <span style="white-space: pre-wrap">
-</span>
-    <blockquote type="cite" cite="mid:1e5f86991635b9045e91fab6397cda87555f85ff.camel@icenowy.me">
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">As what I see, Mesa uses another command buffer to emit a
-EVENT_WRITE_EOP writing 0, and commit this command buffer before
-the
-real command buffer.
-
-</pre>
-          <blockquote type="cite">
-            <blockquote type="cite">
-              <pre class="moz-quote-pre" wrap="">Or do you mean the GPU needs to see two different values being
-written,
-or they will be merged into only one write request?
-
-Please give out more information about this workaround,
-otherwise
-the
-GPU hang problem on Loongson platforms will persist.
-</pre>
-            </blockquote>
-            <pre class="moz-quote-pre" wrap="">Well if Loongson can't handle two consecutive write operations to
-the
-same address with different values then you have a massive
-platform
-bug.
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">I think the issue is triggered when two consecutive write
-operations
-and one IRQ is present, which is exactly the case of this function.
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-Well then you have a massive platform bug.
-
-Two consecutive writes to the same bus address are perfectly legal
-from 
-the PCIe specification and can happen all the time, even without this
-specific hw workaround.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Yes I know it, and I am not from Loongson, just some user trying to
-mess around it.
-</pre>
-    </blockquote>
-    <br>
-    Well to be honest on a platform where even two consecutive writes to
-    the same location doesn't work I would have strong doubts that it is
-    stable in general.<br>
-    <br>
-    Regards,<br>
-    Christian.<br>
-  </body>
-</html>
-
---------------NNVOUGbb5DaC86WVN8PVC809--
+-- 
+Pavel Begunkov
