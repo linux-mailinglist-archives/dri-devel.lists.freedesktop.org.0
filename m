@@ -2,102 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCAC990A880
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 10:33:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8046C90A8A9
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 10:40:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08F7210E2BB;
-	Mon, 17 Jun 2024 08:33:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E932510E226;
+	Mon, 17 Jun 2024 08:40:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="aokhwUhP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1XMFY7XP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aokhwUhP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1XMFY7XP";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WAON9Pa6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62C7B10E2BB
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 08:33:41 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B63445FD1C;
- Mon, 17 Jun 2024 08:33:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1718613219; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IfUHy7jvC6C04xNMpt9q7GAc0YI8QU0L6ePoL2dWjTI=;
- b=aokhwUhPRMn/0hex1uFpquaVKQxdv+23yq3Shf2fml80DzSdgmTDYnOmz5ojhj6sKvVODD
- l7KwWrpkC3aL323zbF42adrPb4M6J/KhJg0BdzETMiU2AWY0GKfzcgTlHlDeKvMd8/Nz+5
- 3o1h360my+RizUAsRTjozCJjU8OJnc0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1718613219;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IfUHy7jvC6C04xNMpt9q7GAc0YI8QU0L6ePoL2dWjTI=;
- b=1XMFY7XPvQByI7XhBa0t0Fm7yRelaTQBW9elotikT3qrLkhAV4dqlIJOJ2hck64N3vDgzy
- wG1Ns0vWLs3h9EAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1718613219; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IfUHy7jvC6C04xNMpt9q7GAc0YI8QU0L6ePoL2dWjTI=;
- b=aokhwUhPRMn/0hex1uFpquaVKQxdv+23yq3Shf2fml80DzSdgmTDYnOmz5ojhj6sKvVODD
- l7KwWrpkC3aL323zbF42adrPb4M6J/KhJg0BdzETMiU2AWY0GKfzcgTlHlDeKvMd8/Nz+5
- 3o1h360my+RizUAsRTjozCJjU8OJnc0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1718613219;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IfUHy7jvC6C04xNMpt9q7GAc0YI8QU0L6ePoL2dWjTI=;
- b=1XMFY7XPvQByI7XhBa0t0Fm7yRelaTQBW9elotikT3qrLkhAV4dqlIJOJ2hck64N3vDgzy
- wG1Ns0vWLs3h9EAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8F81B139AB;
- Mon, 17 Jun 2024 08:33:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id gtdCHOL0b2abYwAAD6G6ig
- (envelope-from <jdelvare@suse.de>); Mon, 17 Jun 2024 08:33:38 +0000
-Date: Mon, 17 Jun 2024 10:33:36 +0200
-From: Jean Delvare <jdelvare@suse.de>
-To: dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH RESEND] drm/logicvc: Drop obsolete dependency on COMPILE_TEST
-Message-ID: <20240617103336.7fddb08d@endymion.delvare>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-suse-linux-gnu)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D08F10E226
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 08:40:31 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-52cc14815c3so10676e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 01:40:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1718613630; x=1719218430; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=X5VHLKuA91ZpUWQy97LJXKuQHjNSzTP1qecAbqNklDs=;
+ b=WAON9Pa66jbIU2DXMW5rwEZKT0np8YyMcNVyaQBCSm94kT/0FjJ2NX54fUMRifiRIT
+ 3PDWyH+3vnsVaWUdU254aZOr35vCoM908tI5RDjbUPC1zF+u71TzIHxECUbAQ0xN5VOo
+ aFQKmbzEonitlzes/WWq0IZlQCCprj8Ymwv8E5hPYWClBg/EreVrJkmXGs/L5iaBEv7Q
+ L/NOw8ijHxbNSJVx+a9eHsxcLfTT/IluHxvq3EigHP30cJPz4J4kv1D5co4lUqUI2uHU
+ 3xFJ8MyEHvi2IywcLHsaJFba9bJWdEgCQlpO5DKS/maj145h27EcsMhItgxL1UeKBMc2
+ hi6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718613630; x=1719218430;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=X5VHLKuA91ZpUWQy97LJXKuQHjNSzTP1qecAbqNklDs=;
+ b=r18owLla1pnBa/qDf47yUziaSNbjEmettk9w8ByJBSyOZ1vCSfXBWvit0cUUqGrldE
+ O4u8g+WuYDTMSu6oSfUHiiXBpk1oXsJX6MNxIYBoo90289dpXjtlGfBivuT0Rd/Nsr2u
+ TCJtCsz5vBtoNQi+AfThp/TfSmrvDPXrKvmgqpb7vaIqETVdLjQrQHwYrXyvs+8myEs9
+ 9fCfmugThKdiNiF0mDRahQVRF8BB9dkyloVuqZIvrv9op2IYoTfRHuFtqOcnsTZmL6eP
+ sPMiacqnSihsw9fLSsNTBjuSH3tVeE7/uPUsmpZJhh8SMF3Pwc+GHJPvIuEj6CwIMNsi
+ fBhg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXwTwPypEAIVvqlkQiOFIL2qTvYYdwzGUkeE+gggEEUcpsHLxb2BVSqkTu1C1LZ31z3mg+6Qu+jb6b1m/F8Dz0HYMT9Kbd8LfQ6nQlfGRpd
+X-Gm-Message-State: AOJu0YykW/esFRqevv1jZK4AQbn7bNOnIK0P3CwH/jVxcpmIdIoknVag
+ SYXsbBwG9fg0D8lGdzYwL92ONaxM2fsLgIG+qnREF2/GRULV0bgYkZf8hP8QKLE8XrlvrP1xy01
+ A17e0mrEyoUhuQ+fuRxQQQdERHABLMQCMXsQwAw==
+X-Google-Smtp-Source: AGHT+IHENtu6w62klaIyhfrUf1JcZGXfaS8EPrhivXycsqfsmezoTTmR2Ssl5Ad4Ty6uSMvA0yU1itjnM3xuW+u1I6Y=
+X-Received: by 2002:ac2:4e04:0:b0:52c:ab2c:19d0 with SMTP id
+ 2adb3069b0e04-52cab2c243bmr5978403e87.1.1718613629599; Mon, 17 Jun 2024
+ 01:40:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -2.20
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.20 / 50.00]; NEURAL_HAM_LONG(-1.00)[-1.000];
- BAYES_HAM(-0.90)[86.06%]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_GOOD(-0.10)[text/plain]; RCPT_COUNT_SEVEN(0.00)[8];
- RCVD_TLS_ALL(0.00)[]; HAS_ORG_HEADER(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[bootlin.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, imap1.dmz-prg2.suse.org:helo,
- bootlin.com:email]
+References: <20240606072814.3572965-1-primoz.fiser@norik.com>
+ <20240606072814.3572965-3-primoz.fiser@norik.com>
+In-Reply-To: <20240606072814.3572965-3-primoz.fiser@norik.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 17 Jun 2024 10:40:18 +0200
+Message-ID: <CACRpkdaFiGhsytjLKpvGU3T7F+pshYOsB6T5ez7Mk_NtPnNRkg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/panel: simple: Add PrimeView PM070WL4 support
+To: Primoz Fiser <primoz.fiser@norik.com>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Heiko Stuebner <heiko.stuebner@cherry.de>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Chris Morgan <macromorgan@hotmail.com>, Sebastian Reichel <sre@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, upstream@lists.phytec.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,39 +87,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit 0166dc11be91 ("of: make CONFIG_OF user selectable"), it
-is possible to test-build any driver which depends on OF on any
-architecture by explicitly selecting OF. Therefore depending on
-COMPILE_TEST as an alternative is no longer needed.
+On Thu, Jun 6, 2024 at 9:28=E2=80=AFAM Primoz Fiser <primoz.fiser@norik.com=
+> wrote:
 
-Signed-off-by: Jean Delvare <jdelvare@suse.de>
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
----
-Already sent on: 2022-11-21, 2023-01-27, 2023-12-02
+> Add support for PrimeView PM070WL4 7.0" (800x480) TFT-LCD panel.
+> Datasheet can be found at [1].
+>
+> [1] https://www.beyondinfinite.com/lcd/Library/Pvi/PM070WL4-V1.0.pdf
+>
+> Signed-off-by: Primoz Fiser <primoz.fiser@norik.com>
 
-This is one of the only 3 remaining occurrences of this deprecated
-construct.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Who can pick this patch and get it upstream?
-
- drivers/gpu/drm/logicvc/Kconfig |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- linux-6.6.orig/drivers/gpu/drm/logicvc/Kconfig
-+++ linux-6.6/drivers/gpu/drm/logicvc/Kconfig
-@@ -1,7 +1,7 @@
- config DRM_LOGICVC
- 	tristate "LogiCVC DRM"
- 	depends on DRM
--	depends on OF || COMPILE_TEST
-+	depends on OF
- 	select DRM_KMS_HELPER
- 	select DRM_KMS_DMA_HELPER
- 	select DRM_GEM_DMA_HELPER
-
-
--- 
-Jean Delvare
-SUSE L3 Support
+Yours,
+Linus Walleij
