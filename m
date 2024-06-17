@@ -2,97 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C88EB90B1A4
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 16:22:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 148A290B1C0
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 16:25:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF33010E3EC;
-	Mon, 17 Jun 2024 14:22:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 317A210E3ED;
+	Mon, 17 Jun 2024 14:25:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="TyCdwMrc";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="KA7SJk8m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7A2310E3ED
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 14:22:45 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-4217ee64ac1so3847235e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 07:22:45 -0700 (PDT)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 392FA10E3ED
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 14:25:12 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-4217fd95c78so2613955e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 07:25:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1718634164; x=1719238964; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1718634310; x=1719239110; darn=lists.freedesktop.org; 
  h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=dyNt4ZyhZmmJmgmGPprgC4IMzUnvgTuB5J5I9YRI8rk=;
- b=TyCdwMrcv+Ma8oj3H/uA9nwdKVxjj4mQBtF0CkqQaHH1xy5xfDRoEQED92vpM3Ad4s
- J70gEKR5Xb+D96V43e/06jjNhzPQ2bm1VR9QvoQsye/ZErcySuKp5NI7GaeFVbiBqleY
- 89zpdZrFA4/bdrl8zlYVKkbBc5479sOIw+kqM=
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=37zGSaNNYOVV5h1FxAcCJXKdTZPd/vYhydvfcpv7d3c=;
+ b=KA7SJk8mw0N8XGGzoq2MllcecGTmxPrfP/MPLEp7n7Lxafz2wOKNQRlUgqiuA9Jpax
+ tnPQn1o5ASOVWi4+4dIzw3i3q8gPUBFvBIvBGrlrkEPqXsrMMsloVOYj8g/3qFob4ueS
+ R+c2Q4BP1DPPabQTKCXduXmxeH3W4W4KfPnko=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718634164; x=1719238964;
+ d=1e100.net; s=20230601; t=1718634310; x=1719239110;
  h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dyNt4ZyhZmmJmgmGPprgC4IMzUnvgTuB5J5I9YRI8rk=;
- b=GK5pbvbd9ln4wPpgUYXWC0pimkQ8CUTuike01NAGvP7sspKeukhzBR3A2DcNilhimh
- ZSrin/hRuTPYQRjs1x4rsUAReiZ7zS+I8LVdXcQ/Can2mLEOzRk8jjop6sAWqwNFe4P4
- SxjkIjLG5AgqsDrFmIt8k1JVUG7Cg6aBS946uhr2eQJqk4QGqeP15iahqLxHrqs1Rwoo
- 2g6Cf8GJICyq/gHT1+rusnkFif5brr4HYWZSwXu4OYvyQYrERMBXdtLLZoqyllz5bmhO
- LZzj3sxdOIVHKoH1xz53Mm+7cvmksbzGh6x16nUr3PXhDjCjlH8heElxyTGvFAHeUQEr
- oGyw==
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=37zGSaNNYOVV5h1FxAcCJXKdTZPd/vYhydvfcpv7d3c=;
+ b=gNKVOVO11EOVODmZmMYI4ldgN6EW+PBG+QX7ITbupQcKf9JyjJreW15u/LlPk0ygpD
+ GrAFMcg0A6aY+HdNFikHBmGInd2oQhFF/KSqs7BeWNwPwJFcOXRZ8QUwE/kJtaI6c4RX
+ 4NnUnGWRfrs9z8YCukzPf7IZ/0HwmkEXcc1hyqM+uoYATIRu5As3AZAOHcKzo/AhSHQH
+ w3IkjU6iVsgKUdR3inlF20UpQ8Agr2O3eNSX2H6L0KUHdajl1xMTI1RuXTLLF1D/yIAG
+ /U8J/RIQVhjZlcfaX7zbCoAyq0OgHWcOzo+zNIPlpKV+FJRZs8SClZPx98Mu1ANfA4vJ
+ fp5g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV06BTzoSj7KHgl3qIAAezp5PXY7aZrlId560rG7yRfKSyDMmrs1ApVbmkE8qxqrxYJhvqV4nxVZWee+huleFPPxO4y50czMnP3yi+6ijSV
-X-Gm-Message-State: AOJu0YyFL6cCpTvLHXcI4KCUGo5aVIjTdvwfnFAr9862GmmmTNHMZQH9
- 3diiKP/1owb8srpqxV5Zo8EhuZrFy4ZDRIHzftNaf/LdDQ9Lz7m9JMQHyKnabt8=
-X-Google-Smtp-Source: AGHT+IEGghyzbMHtQycrPx9Dot715eRsnM/fEnwlvPBMUVNpEJWWgqMM/FVX5TMqnsDb0OXky7e3VQ==
-X-Received: by 2002:a05:600c:3b9b:b0:421:bb51:d630 with SMTP id
- 5b1f17b1804b1-42304843ecemr72345915e9.2.1718634164125; 
- Mon, 17 Jun 2024 07:22:44 -0700 (PDT)
+ AJvYcCUuXy3GPGjlabwKH41eLBZpW3YSp7ogGWPBx2KXfnGxrkcoeb29mmMYHAalqM0K4/1gxwZu+XoAlzKS20f2ypkp6CHjAR82L0ppw8LjBo5B
+X-Gm-Message-State: AOJu0YybiDOyDWlhtQ5cvDy9jT1pXMUiD1UTp+pQwoGsOs5jQN5uIWxH
+ lXY1cN454hF9pDraP6h+gyHoejpOx/qWcANdY9gb9o/LqIXhYQWkBmtb0a0rTw8=
+X-Google-Smtp-Source: AGHT+IHYj24IzjJd5xigCzw+aNJVQiGAA0BL4zSL0PWE2WtnIOxUiZ5I1tLdrRyCJeXqVPbttUkyQg==
+X-Received: by 2002:a05:600c:4ba5:b0:423:573:ab52 with SMTP id
+ 5b1f17b1804b1-4230573ae49mr72536085e9.0.1718634310329; 
+ Mon, 17 Jun 2024 07:25:10 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-36075104b8bsm12028454f8f.105.2024.06.17.07.22.43
+ 5b1f17b1804b1-423072c21dbsm118444885e9.4.2024.06.17.07.25.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jun 2024 07:22:43 -0700 (PDT)
-Date: Mon, 17 Jun 2024 16:22:41 +0200
+ Mon, 17 Jun 2024 07:25:09 -0700 (PDT)
+Date: Mon, 17 Jun 2024 16:25:08 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Maxime Ripard <mripard@kernel.org>,
- Yuran Pereira <yuran.pereira@hotmail.com>,
- Chris Morgan <macromorgan@hotmail.com>, David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- Saravana Kannan <saravanak@google.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/panel: Avoid warnings w/ panel-simple/panel-edp at
- shutdown
-Message-ID: <ZnBGsbeJfvqP7wqI@phenom.ffwll.local>
-Mail-Followup-To: Doug Anderson <dianders@chromium.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- dri-devel@lists.freedesktop.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Maxime Ripard <mripard@kernel.org>,
- Yuran Pereira <yuran.pereira@hotmail.com>,
- Chris Morgan <macromorgan@hotmail.com>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org,
- Saravana Kannan <saravanak@google.com>
-References: <20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
- <ZmljNHteJ9L5EdE9@phenom.ffwll.local>
- <CAD=FV=V4C1AYVqG4gig+SiQr4n_mAPVASxneDDZT1a=7AY3Hzw@mail.gmail.com>
- <Zmm6i6iQOdP613w3@phenom.ffwll.local>
- <CACRpkdbb5OdizDLSRW3bFEJJhrQ7Fs8Pb=Q2yxBog62Z1m-bOQ@mail.gmail.com>
- <CAD=FV=Vm==ngDo_bZ+xqV4Ojj0SSOO3ZWaxAbWA906h6-e8FMA@mail.gmail.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v2 2/9] drm: Export drm_plane_has_format()
+Message-ID: <ZnBHRN2RV3kjruxo@phenom.ffwll.local>
+References: <20240612204712.31404-1-ville.syrjala@linux.intel.com>
+ <20240612204712.31404-3-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=Vm==ngDo_bZ+xqV4Ojj0SSOO3ZWaxAbWA906h6-e8FMA@mail.gmail.com>
+In-Reply-To: <20240612204712.31404-3-ville.syrjala@linux.intel.com>
 X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -109,101 +83,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 12, 2024 at 10:22:49AM -0700, Doug Anderson wrote:
-> Hi,
+On Wed, Jun 12, 2024 at 11:47:05PM +0300, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
-> On Wed, Jun 12, 2024 at 9:47â€¯AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> >
-> > On Wed, Jun 12, 2024 at 5:11â€¯PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > On Wed, Jun 12, 2024 at 07:49:31AM -0700, Doug Anderson wrote:
-> > (...)
-> > > > The problem is that the ordering is wrong, I think. Even if the OS was
-> > > > calling driver shutdown functions in the perfect order (which I'm not
-> > > > convinced about since panels aren't always child "struct device"s of
-> > > > the DRM device), the OS should be calling panel shutdown _before_
-> > > > shutting down the DRM device. That means that with your suggestion:
-> > > >
-> > > > 1. Shutdown starts and panel is on.
-> > > >
-> > > > 2. OS calls panel shutdown call, which prints warnings because panel
-> > > > is still on.
-> > > >
-> > > > 3. OS calls DRM driver shutdown call, which prints warnings because
-> > > > someone else turned the panel off.
-> > >
-> > > Uh, that's a _much_ more fundamental issue.
-> > >
-> > > The fix for that is telling the driver core about this dependency with
-> > > device_link_add. Unfortuantely, despite years of me trying to push for
-> > > this, drm_bridge and drm_panel still don't automatically add these,
-> > > because the situation is a really complex mess.
-> > >
-> > > Probably need to read dri-devel archives for all the past attempts around
-> > > device_link_add.
-> >
-> > I think involving Saravana Kannan in the discussions around this
-> > is the right thing to do, because he knows how to get devicelinks
-> > to do the right thing.
-> >
-> > If we can describe what devicelink needs to do to get this ordering
-> > right, I'm pretty sure Saravana can tell us how to do it.
+> Export drm_plane_has_format() so that drivers can use it.
 > 
-> I'm really not convinced that hacking with device links in order to
-> get the shutdown notification in the right order is correct, though.
-> The idea is that after we're confident that all DRM modeset drivers
-> are calling shutdown properly that we should _remove_ any code
-> handling shutdown from panel-edp and panel-simple. They should just
-> get disabled as part of DRM's shutdown. That means that if we messed
-> with devicelinks just to get a different shutdown order that it was
-> just for a short term thing.
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> ---
+>  drivers/gpu/drm/drm_crtc_internal.h | 2 --
+>  drivers/gpu/drm/drm_plane.c         | 1 +
+>  include/drm/drm_plane.h             | 2 ++
+>  3 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
+> index cdd60f2a4052..1f73b8d6d750 100644
+> --- a/drivers/gpu/drm/drm_crtc_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_internal.h
+> @@ -272,8 +272,6 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+>  /* drm_plane.c */
+>  int drm_plane_register_all(struct drm_device *dev);
+>  void drm_plane_unregister_all(struct drm_device *dev);
+> -bool drm_plane_has_format(struct drm_plane *plane,
+> -			  u32 format, u64 modifier);
+>  struct drm_mode_rect *
+>  __drm_plane_get_damage_clips(const struct drm_plane_state *state);
+>  
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index 268aa2299df5..a51d4dd3f7de 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -906,6 +906,7 @@ bool drm_plane_has_format(struct drm_plane *plane,
+>  
+>  	return true;
+>  }
+> +EXPORT_SYMBOL(drm_plane_has_format);
 
-The device links would allow us to add consistency checks to the panel
-code to make sure that the shutdown has already happened.
+Kerneldoc please, since this is now part of the driver api. With that on
+the first two patches:
 
-And we do kinda need the device ordering still, because if they're shut
-down in the wrong order the panel might lose it's power already, before
-the drm driver had a chance to have the last chat with it. Only relevant
-for non-dumb panels like dsi, but there's cases.
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> That being said, one could argue that having device links between the
-> DRM device and the panel is the right thing long term anyway and that
-> may well be. I guess the issue is that it's not necessarily obvious
-> how the "parent/child" or "supplier/consumer" relationship works w/
-> DRM devices, especially panels. My instinct says that the panel
-> logically is a "child" or "consumer" of the DRM device and thus
-> inserting the correct long term device link would mean we'd get
-> shutdown notification in the wrong order. It would be hard to argue
-> that the panel is the "parent" of a DRM device, but I guess you could
-> call it a "supplier"? ...but it's also a "consumer" of some other
-> stuff, like the pixels being output and also (perhaps) the DP AUX bus.
-> All this complexity is why the DRM framework tends to use its own
-> logic for things like prepare/enable instead of using what Linux gives
-> you. I'm sure Saravanah can also tell you about all the crazy device
-> link circular dependencies that DRM has thrown him through...
 
-The panel driver provides the panel, the drm device driver consumes it.
-I'm not really clear why you want to structure this the other way round, I
-can't come up with another way that makes sense from a device driver
-model. And it's device driver model stuff here, not what's really going on
-at the hardware level when everything is set up.
+>  
+>  static int __setplane_check(struct drm_plane *plane,
+>  			    struct drm_crtc *crtc,
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index 9507542121fa..dd718c62ac31 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -972,6 +972,8 @@ static inline struct drm_plane *drm_plane_find(struct drm_device *dev,
+>  #define drm_for_each_plane(plane, dev) \
+>  	list_for_each_entry(plane, &(dev)->mode_config.plane_list, head)
+>  
+> +bool drm_plane_has_format(struct drm_plane *plane,
+> +			  u32 format, u64 modifier);
+>  bool drm_any_plane_has_format(struct drm_device *dev,
+>  			      u32 format, u64 modifier);
+>  
+> -- 
+> 2.44.2
+> 
 
-> In any case, I guess I'll continue asserting that I'm not going to try
-> to solve this problem. If folks don't like my patch and there's no
-> suggestion other than solving years-old problems then I'm happy to
-> live with the way things are and hope that someone eventually comes
-> along and solves it.
-
-See my other reply, I do think there's an intermediate solution, without
-the maintenance headache of a "these drivers work for this extremely
-narrow special case" list. And without having to step into the device_link
-complexity.
-
-But also I think we've piled up years of hacks by now because people don't
-want to solve the fundamental problem here, which device links are meant
-to be the solution for. But I guess we can do another few years of
-papering over the fundamental crack, *shrugs*
-
-Cheers, Sima
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
