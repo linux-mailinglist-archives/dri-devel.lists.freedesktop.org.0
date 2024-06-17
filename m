@@ -2,84 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6546890B334
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 17:01:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F08A690B33A
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 17:02:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BEBB10E414;
-	Mon, 17 Jun 2024 15:01:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0993010E411;
+	Mon, 17 Jun 2024 15:02:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lIcKFix4";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.b="FA7meC4E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A0AC10E412;
- Mon, 17 Jun 2024 15:01:37 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-1f65a3abd01so38464205ad.3; 
- Mon, 17 Jun 2024 08:01:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718636496; x=1719241296; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KkUQ3FK7gYksAvRoh/DqalNd7XUdjUDoinpyvvkETiQ=;
- b=lIcKFix4KxiK8Gf+412PbMHd3RutSo5Y0Py1UkcJCThdp93y6mpDkoF9BO31YXgAwx
- nBl8WIrARJ/TpnWK+yfX9BwNmLeeuXIMTKletZufkVSsDLMttglb1skBj071kj+a9Fum
- c4rCzE4rFy8jAWtJ9hkjIm+38TbTLZVuUbbh9cLkaFB3VIY4j3a/8EYDBJN+FiBMLpEb
- whfhiZV9MWj/+nxYTKe9n/eCyl/Zk7NxHjcCXWl/v2W8k8azEHuxAhiuoMO6IxDczzWI
- fXWgRZsz3F2+ajZzOoewWeh1iYAM1tPRMjUvIoHa0yCEcDrDkJgCPNzSXEvkRiNU/FwH
- fIbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718636496; x=1719241296;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KkUQ3FK7gYksAvRoh/DqalNd7XUdjUDoinpyvvkETiQ=;
- b=Z8uFAkY30yNIyu1ERRn6GmH4feX0jvsj93T9+ctL9CGo9HQqCkd4lqCQL9OaSF+qcS
- t8DBf4z4rFs8UGsIlIy+khoJT8bClwz/ccYiZt9EJ5gvc+kAezxsvH3ujzg+qqITlLsL
- f+P+EfcO1eh0y0sTAsvzT1WeOYFcmyIzwelLMXkGK5rDONVVqY+bOEH2LqvU1JSW9up4
- ipdGSOio2sHaAh/Qj7mahs2GHBLDZuKUq9BNX5mxdTk428e/2IPxakm9F2lqG9CXe/Ud
- CFrs9spG1TwgeyXE1VMTqDy8d77qnIsov8D6wj4BmJwhQprHoEbKlqV9MzPRvR19Yvsp
- yVPA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW+7+cJACANXwOhTyMDKxCStnff7kt/2rTj7s6P8XztSokOs+OKSU3LztxSUm6O2mQf7lm8Ey29NyfljlLj9UoWLGB6z92/+cE0yz3lqg==
-X-Gm-Message-State: AOJu0YzPg3I2hF5HxtmgypXxzBE1MsLZjoQ5/uulmrIgPCjSBFMeWPLO
- yzGmi8M8Yvc2d/QPWOY8mcfmaIss+MuqI6HhJdlFLzD1z1Zd/lzDhUy1ev9rMZSr0rNENCM6yTm
- r57IICxQVgRN6DeALT6M2YR39NU4=
-X-Google-Smtp-Source: AGHT+IEsuB6l5SG4Cvs3xhhF/nAx6UFaYr3Uz3Btfd7tVaTu5y32qyHjK4CqtjZtHEK5N5kZIj3e55sj623ih9eKwIw=
-X-Received: by 2002:a17:902:e847:b0:1f8:49e0:4d19 with SMTP id
- d9443c01a7336-1f8629fed6dmr145642115ad.57.1718636496299; Mon, 17 Jun 2024
- 08:01:36 -0700 (PDT)
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C540E10E416
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 15:02:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+ s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+ Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+ In-Reply-To:References; bh=nIdL7P86hcKvhF+tvLQiYN1713n2GXUoWwoYBL1KXZc=; b=FA
+ 7meC4EcKsGp7Bc73EpvI0iZ/MsHIgAybJgVbVC5Dbqt3O1gcwASYCJO+vqF3E/eh8PgwhsbGLdgK2
+ KlnA+Qs3YMiNXd6JaB1DKBD5gyC7kNy/Prlkmw0HZ9hNhRahFNONHYSP2pruUmCQPrBnyHll/jJfr
+ WIFSCPlQDoP/MdI=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+ (envelope-from <andrew@lunn.ch>)
+ id 1sJDsG-000HYN-Gp; Mon, 17 Jun 2024 17:02:24 +0200
+Date: Mon, 17 Jun 2024 17:02:24 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Abhilash K V <kvabhilash@habana.ai>,
+ Andrey Agranovich <aagranovich@habana.ai>,
+ Bharat Jauhari <bjauhari@habana.ai>, David Meriin <dmeriin@habana.ai>,
+ Omer Shpigelman <oshpigelman@habana.ai>,
+ Sagiv Ozeri <sozeri@habana.ai>, Zvika Yehudai <zyehudai@habana.ai>,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 01/15] net: hbl_cn: add habanalabs Core Network driver
+Message-ID: <f2ddbeaa-e053-467f-96d2-699999d72aba@lunn.ch>
+References: <20240613082208.1439968-2-oshpigelman@habana.ai>
+ <9d13548f-7707-4741-9824-390146462db0@web.de>
 MIME-Version: 1.0
-References: <20240612222435.3188234-1-dianders@chromium.org>
- <20240612152752.v2.8.I27914059cc822b52db9bf72b4013b525b60e06fd@changeid>
-In-Reply-To: <20240612152752.v2.8.I27914059cc822b52db9bf72b4013b525b60e06fd@changeid>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 17 Jun 2024 11:01:24 -0400
-Message-ID: <CADnq5_PbqE0E2pP26mGD94cdc=tLZZsF10e7ZZWeC5AU-LS8vw@mail.gmail.com>
-Subject: Re: [PATCH v2 8/8] drm/amdgpu: Call drm_atomic_helper_shutdown() at
- shutdown time
-To: Douglas Anderson <dianders@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
- Aurabindo Pillai <aurabindo.pillai@amd.com>, Candice Li <candice.li@amd.com>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Hamza Mahfooz <hamza.mahfooz@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Le Ma <le.ma@amd.com>, 
- Lijo Lazar <lijo.lazar@amd.com>, Ma Jun <Jun.Ma2@amd.com>, 
- Mario Limonciello <mario.limonciello@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>, 
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Victor Lu <victorchengchi.lu@amd.com>, amd-gfx@lists.freedesktop.org, 
- chenxuebing <chenxb_99091@126.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9d13548f-7707-4741-9824-390146462db0@web.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,100 +61,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 12, 2024 at 6:37=E2=80=AFPM Douglas Anderson <dianders@chromium=
-.org> wrote:
->
-> Based on grepping through the source code this driver appears to be
-> missing a call to drm_atomic_helper_shutdown() at system shutdown
-> time. Among other things, this means that if a panel is in use that it
-> won't be cleanly powered off at system shutdown time.
->
-> The fact that we should call drm_atomic_helper_shutdown() in the case
-> of OS shutdown/restart comes straight out of the kernel doc "driver
-> instance overview" in drm_drv.c.
->
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Xinhui Pan <Xinhui.Pan@amd.com>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> This commit is only compile-time tested.
->
-> ...and further, I'd say that this patch is more of a plea for help
-> than a patch I think is actually right. I'm _fairly_ certain that
-> drm/amdgpu needs this call at shutdown time but the logic is a bit
-> hard for me to follow. I'd appreciate if anyone who actually knows
-> what this should look like could illuminate me, or perhaps even just
-> post a patch themselves!
+On Mon, Jun 17, 2024 at 04:05:57PM +0200, Markus Elfring wrote:
+> …
+> > +++ b/drivers/net/ethernet/intel/hbl_cn/common/hbl_cn.c
+> > @@ -0,0 +1,5954 @@
+> …
+> > +int hbl_cn_read_spmu_counters(struct hbl_cn_port *cn_port, u64 out_data[], u32 *num_out_data)
+> > +{
+> …
+> > +	mutex_lock(&cn_port->cnt_lock);
+> > +	rc = port_funcs->spmu_sample(cn_port, *num_out_data, out_data);
+> > +	mutex_unlock(&cn_port->cnt_lock);
+> > +
+> > +	return rc;
+> > +}
+> …
+> 
+> Would you become interested to apply a statement like “guard(mutex)(&cn_port->cnt_lock);”?
+> https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/mutex.h#L196
 
-I'm not sure this patch makes sense or not.  The driver doesn't really
-do a formal tear down in its shutdown routine, it just quiesces the
-hardware.  What are the actual requirements of the shutdown function?
-In the past when we did a full driver tear down in shutdown, it
-delayed the shutdown sequence and users complained.
+Hi Markus
 
-Alex
+We decided for netdev that guard() was too magical, at least for the
+moment. Lets wait a few years to see how it pans out. scoped_guard()
+is however O.K.
 
->
-> (no changes since v1)
->
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  1 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 10 ++++++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  2 ++
->  3 files changed, 13 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/am=
-dgpu/amdgpu.h
-> index f87d53e183c3..c202a1d5ff5f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -1197,6 +1197,7 @@ static inline struct amdgpu_device *amdgpu_ttm_adev=
-(struct ttm_device *bdev)
->  int amdgpu_device_init(struct amdgpu_device *adev,
->                        uint32_t flags);
->  void amdgpu_device_fini_hw(struct amdgpu_device *adev);
-> +void amdgpu_device_shutdown_hw(struct amdgpu_device *adev);
->  void amdgpu_device_fini_sw(struct amdgpu_device *adev);
->
->  int amdgpu_gpu_wait_for_idle(struct amdgpu_device *adev);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm=
-/amd/amdgpu/amdgpu_device.c
-> index 861ccff78af9..a8c4b8412e04 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -4531,6 +4531,16 @@ void amdgpu_device_fini_hw(struct amdgpu_device *a=
-dev)
->
->  }
->
-> +void amdgpu_device_shutdown_hw(struct amdgpu_device *adev)
-> +{
-> +       if (adev->mode_info.mode_config_initialized) {
-> +               if (!drm_drv_uses_atomic_modeset(adev_to_drm(adev)))
-> +                       drm_helper_force_disable_all(adev_to_drm(adev));
-> +               else
-> +                       drm_atomic_helper_shutdown(adev_to_drm(adev));
-> +       }
-> +}
-> +
->  void amdgpu_device_fini_sw(struct amdgpu_device *adev)
->  {
->         int idx;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_drv.c
-> index ea14f1c8f430..b34bf9259d5c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -2409,6 +2409,8 @@ amdgpu_pci_shutdown(struct pci_dev *pdev)
->         struct drm_device *dev =3D pci_get_drvdata(pdev);
->         struct amdgpu_device *adev =3D drm_to_adev(dev);
->
-> +       amdgpu_device_shutdown_hw(adev);
-> +
->         if (amdgpu_ras_intr_triggered())
->                 return;
->
-> --
-> 2.45.2.505.gda0bf45e8d-goog
->
+   Andrew
