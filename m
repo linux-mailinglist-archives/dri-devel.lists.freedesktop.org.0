@@ -2,117 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F3590B8ED
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 20:04:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 891AB90B975
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 20:18:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E3B310E104;
-	Mon, 17 Jun 2024 18:04:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 269CF10E490;
+	Mon, 17 Jun 2024 18:18:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FtvT50Y3";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="nBORirBa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="89M5oUoc";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nBORirBa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="89M5oUoc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E65310E104
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 18:04:45 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id
- a640c23a62f3a-a6f1da33826so638128466b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 11:04:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718647484; x=1719252284; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=HQyicpxwAULydNdPul5CanbOSkDhlTf845qwPFgw1wc=;
- b=FtvT50Y3OXOfIRMCYYPjTlscjURZRpMFtDFOCLrXwiDpIElSlIfbiAELDaQDOH3HzR
- cArlQv63UfeB6VYO+0ZLITXBT0q/vL9/F2PLX4D0zVONVf7TuL5aVx0aARFT3/RkrEVV
- nstvjUEVzSOlmi6cU2y0U8pFvoRhdh+w+A7LMv+ypO72rFGrxdT9jGHAb6Mz7pMiz9I1
- d6PPSSDsUdxF8ytLU2WTh1P29jzse1G3QwkOat7UsN7K78irGuDg07+hWcQNIiEA7CSQ
- bXwm2pcn5Acyj4MaOWTlOyRTGOcsHG0AG82DBfoKbA55aQUhF9Pa19lnHK3nLb6KszU+
- E2ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718647484; x=1719252284;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HQyicpxwAULydNdPul5CanbOSkDhlTf845qwPFgw1wc=;
- b=iY/UcipuNmV1Ib9r2lR+/XirKjfgvzA8rDX03X0kCTSU6wDFZ3QcvfwoRC1NhrmL8g
- baF/fEeDu5xde2Wut/18A2OMgtqx2DSIhpHUMdBkJ3AwzBwFUEDpD5t0KyVDUf/JNeG8
- KC0kxasH39woUq6fMEgdACoqcOf/7gNS5rbk0tTuzMGFPiSEaj/QC/s8oa4pbjxL1fOe
- lG2TlQj5xlukrCF7IiMFTUgMAfeV2QSBkZoyBxkEq5ulMPh7ipoW+AQx0aTNvESjRobg
- IjgM+vrOkgdFV3zovjxRAGmRBioOEcANA3wdLCTSxV7B4e7vBAcLKg5TkPZDxawizPZN
- X+DQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUS4jj7/9kxz/j49YB6V+8fB1wyZ2k5WibwNvnU0Bl8r2Uc1x81hClDnxD7AK43ay0aJSPUN4rOYP8b5NsrALr1FgA6y1wavtZ0f7pxp51U
-X-Gm-Message-State: AOJu0Yyg1eGEJ82HxYwPW/tmfRcVP9BYPJOS+5rIN3efS8BUiPar49+n
- gNHtPAwOgMr6LZhDyuNWsq9hyyixT19TnvVlCrTFLY4+QZWJKcwY
-X-Google-Smtp-Source: AGHT+IEQqAbEKNSe2wLoBHNV8O+lFcqmwSNfGoItySBVqd4bPLItaNT2RIOOF/IoJpNrae6EG5ULKQ==
-X-Received: by 2002:a17:907:d30c:b0:a6f:7c2d:475d with SMTP id
- a640c23a62f3a-a6f7c2d49d6mr537069166b.58.1718647483541; 
- Mon, 17 Jun 2024 11:04:43 -0700 (PDT)
-Received: from [192.168.42.223] ([163.114.131.193])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a6f63f7e9d8sm429037566b.182.2024.06.17.11.04.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jun 2024 11:04:43 -0700 (PDT)
-Message-ID: <8ca3e144-75f3-4e57-9ae0-cc88f245094e@gmail.com>
-Date: Mon, 17 Jun 2024 19:04:43 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FFFA10E490
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 18:18:21 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6906C219B8;
+ Mon, 17 Jun 2024 18:18:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718648299; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9y+6syuY0d4lFZbPYpRMim+4VcbHKlTIw3/agQk/TDg=;
+ b=nBORirBa08jmfq2NO/U4y4YUboVTjTcpyYw7U19N5OFxFNgDRA9B19pyBpy9iMPNr2irxh
+ jCQtTehWQXRQoMwiGGhy4dR7TqtlPa2V1R+PDyFXoejny05bGlw0K/OZRfgGBEY+EqNfQl
+ IiCfdY9ntU6UzBUikafjKsEd+v/ji7M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718648299;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9y+6syuY0d4lFZbPYpRMim+4VcbHKlTIw3/agQk/TDg=;
+ b=89M5oUoctl5izBKekMyc9yJIvNlUKeirgB8u3OTsv8up647yqSbjsdu/SvD9yHPXh99Uvj
+ 6rpX0LN28U+Qb+AA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718648299; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9y+6syuY0d4lFZbPYpRMim+4VcbHKlTIw3/agQk/TDg=;
+ b=nBORirBa08jmfq2NO/U4y4YUboVTjTcpyYw7U19N5OFxFNgDRA9B19pyBpy9iMPNr2irxh
+ jCQtTehWQXRQoMwiGGhy4dR7TqtlPa2V1R+PDyFXoejny05bGlw0K/OZRfgGBEY+EqNfQl
+ IiCfdY9ntU6UzBUikafjKsEd+v/ji7M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718648299;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9y+6syuY0d4lFZbPYpRMim+4VcbHKlTIw3/agQk/TDg=;
+ b=89M5oUoctl5izBKekMyc9yJIvNlUKeirgB8u3OTsv8up647yqSbjsdu/SvD9yHPXh99Uvj
+ 6rpX0LN28U+Qb+AA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 03EE0139AB;
+ Mon, 17 Jun 2024 18:18:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id zlhvNel9cGa4HQAAD6G6ig
+ (envelope-from <jdelvare@suse.de>); Mon, 17 Jun 2024 18:18:17 +0000
+Date: Mon, 17 Jun 2024 20:18:14 +0200
+From: Jean Delvare <jdelvare@suse.de>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Andrew Morton
+ <akpm@linux-foundation.org>
+Subject: Re: [PATCH RESEND] drm/display: Drop obsolete dependency on
+ COMPILE_TEST
+Message-ID: <20240617201814.73a07702@endymion.delvare>
+In-Reply-To: <vsrsvmrkqnmxs3ncqv5m2gevzefiq55tr2iolxlmoehsvgcfkn@hyx37vax6r5e>
+References: <20240617103018.515f0bf1@endymion.delvare>
+ <xd2yybtxvzte7gwqwg2vudzvhoekqao2dle6zsuduzjzi3rsay@xhahwof2prph>
+ <20240617132348.5f20bf89@endymion.delvare>
+ <vsrsvmrkqnmxs3ncqv5m2gevzefiq55tr2iolxlmoehsvgcfkn@hyx37vax6r5e>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
- custom page providers
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240530201616.1316526-1-almasrymina@google.com>
- <20240530201616.1316526-3-almasrymina@google.com>
- <ZlqzER_ufrhlB28v@infradead.org>
- <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
- <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
- <ZmAgszZpSrcdHtyl@infradead.org>
- <ee9a55cd-7541-4865-ab2a-9e860b88c9e4@gmail.com>
- <Zmfv6_uWAVavYJNj@infradead.org>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <Zmfv6_uWAVavYJNj@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Spam-Score: -4.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ HAS_ORG_HEADER(0.00)[];
+ FREEMAIL_CC(0.00)[chromium.org,lists.freedesktop.org,vger.kernel.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,linux-foundation.org];
+ RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_HAS_DN(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FROM_EQ_ENVFROM(0.00)[]; RCPT_COUNT_SEVEN(0.00)[10];
+ RCVD_COUNT_TWO(0.00)[2]; TO_DN_SOME(0.00)[]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,27 +123,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/11/24 07:34, Christoph Hellwig wrote:
-> On Fri, Jun 07, 2024 at 02:45:55PM +0100, Pavel Begunkov wrote:
->> On 6/5/24 09:24, Christoph Hellwig wrote:
->>> On Mon, Jun 03, 2024 at 03:52:32PM +0100, Pavel Begunkov wrote:
->>>> The question for Christoph is what exactly is the objection here? Why we
->>>> would not be using well defined ops when we know there will be more
->>>> users?
->>>
->>> The point is that there should be no more users.  If you need another
->>
->> Does that "No more" stops after devmem tcp?
+On Mon, 17 Jun 2024 14:55:22 +0300, Dmitry Baryshkov wrote:
+> On Mon, Jun 17, 2024 at 01:23:48PM GMT, Jean Delvare wrote:
+> > Hi Dmitry,
+> > 
+> > Thanks for your feedback.
+> > 
+> > On Mon, 17 Jun 2024 12:57:19 +0300, Dmitry Baryshkov wrote:  
+> > > On Mon, Jun 17, 2024 at 10:30:30AM GMT, Jean Delvare wrote:  
+> > > > Since commit 0166dc11be91 ("of: make CONFIG_OF user selectable"), it
+> > > > is possible to test-build any driver which depends on OF on any
+> > > > architecture by explicitly selecting OF. Therefore depending on
+> > > > COMPILE_TEST as an alternative is no longer needed.    
+> > > 
+> > > The goal of this clause is to allow build-testing the driver with OF
+> > > being disabled (meaning that some of OF functions are stubbed and some
+> > > might disappear). I don't see how user-selectable OF provides the same
+> > > result.  
+> > 
+> > Historically, the goal of this clause *was* to allow build-testing the
+> > driver on architectures which did not support OF, and that did make
+> > sense back then. As I understand it, building the driver without OF
+> > support was never a goal per se (if it was, then the driver wouldn't be
+> > set to depend on OF in the first place).
+> > 
+> > Some of my other submissions include the following explanation which
+> > you might find useful (I ended up stripping it on resubmission after
+> > being told I was being too verbose, but maybe it was needed after all):
+> > 
+> > It is actually better to always build such drivers with OF enabled,
+> > so that the test builds are closer to how each driver will actually be
+> > built on its intended target. Building them without OF may not test
+> > much as the compiler will optimize out potentially large parts of the
+> > code. In the worst case, this could even pop false positive warnings.
+> > Dropping COMPILE_TEST here improves the quality of our testing and
+> > avoids wasting time on non-existent issues.  
 > 
-> There should be no other memory source other than the page allocator
-> and dmabuf.  If you need different life time control for your
-> zero copy proposal don't mix that up with the contol of the memory
-> source.
+> This doesn't seem to match the COMPILE_TEST usage that I observe in
+> other places. For example, we frequently use 'depends on ARCH_QCOM ||
+> COMPILE_TEST'. Which means that the driver itself doesn't make sense
+> without ARCH_QCOM, but we want for it to be tested on non-ARCH_QCOM
+> cases. I think the same logic applies to 'depends on OF ||
+> COMPILE_TEST' clauses. The driver (DP AUX bus) depends on OF to be fully
+> functional, but it should be compilable even without OF case.
 
-No idea how I'm mixing it up when I was explaining exactly this
-all along as well as that the callback (and presumably the call
-site in general) you was so eager to nack is used exactly to
-implement the life time control.
+The major difference is that one can't possibly enable ARCH_QCOM if
+building on X86 for example. Therefore COMPILE_TEST is the only way to
+let everyone (including randconfig/allmodconfig build farms) test-build
+your code.
+
+On the other hand, if you want to test-build drm_dp_aux_bus, you can
+simply enable OF, because it is available on all architectures and
+doesn't depend on anything. No need for COMPILE_TEST.
+
+For clarity, I'm not advocating against the use of COMPILE_TEST,
+actually if you check the history of my kernel contributions 10 years
+back, you'll find commits from me adding COMPILE_TEST in addition to
+arch-specific dependencies to many drivers. All I'm saying is that it
+should only be used when it is the only way to enable the build.
 
 -- 
-Pavel Begunkov
+Jean Delvare
+SUSE L3 Support
