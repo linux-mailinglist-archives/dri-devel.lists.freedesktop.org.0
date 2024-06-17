@@ -2,73 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9FB690AC3A
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 12:53:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AD6290ACB1
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 13:14:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41D6610E33C;
-	Mon, 17 Jun 2024 10:53:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 575B310E34B;
+	Mon, 17 Jun 2024 11:14:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="SgtpN/FW";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="CpqG31sy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E4A610E219
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 10:53:47 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45HArSBg117216;
- Mon, 17 Jun 2024 05:53:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1718621608;
- bh=FRu3MIrJp12Tscm2aUNYEnItvNMFaJ0I8NvmTz0QMiw=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=SgtpN/FW/ptL0pH+qk2ZEvA6PhrQQtOAnm3tDX83V4XthneXcr3gph+cz9a4joaBN
- 2Tk1srMKgroPZzVe3xKgk/vwHJEOg9NLG19ISENnX9NhzOZ2tOUHN8eyZA66hQ9LCf
- 7xCss6xHFhYf7j8cDejt0IB7c5QZXpWR2XcOfsck=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45HArSe2055933
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 17 Jun 2024 05:53:28 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 17
- Jun 2024 05:53:27 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 17 Jun 2024 05:53:28 -0500
-Received: from localhost (uda0496377.dhcp.ti.com [172.24.227.31])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45HArRiS106218;
- Mon, 17 Jun 2024 05:53:27 -0500
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>
-CC: DRI Development List <dri-devel@lists.freedesktop.org>, Linux Kernel List
- <linux-kernel@vger.kernel.org>, Dominik Haller <d.haller@phytec.de>, Sam
- Ravnborg <sam@ravnborg.org>, Thierry Reding <treding@nvidia.com>, Kieran
- Bingham <kieran.bingham+renesas@ideasonboard.com>, Nishanth Menon
- <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Praneeth Bajjuri
- <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>, Devarsh Thakkar
- <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra
- <j-luthra@ti.com>, Aradhya Bhatia <a-bhatia1@ti.com>
-Subject: [PATCH v3 10/10] drm/bridge: cdns-dsi: Use pre_enable/post_disable to
- enable/disable
-Date: Mon, 17 Jun 2024 16:23:11 +0530
-Message-ID: <20240617105311.1587489-11-a-bhatia1@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240617105311.1587489-1-a-bhatia1@ti.com>
-References: <20240617105311.1587489-1-a-bhatia1@ti.com>
+X-Greylist: delayed 903 seconds by postgrey-1.36 at gabe;
+ Mon, 17 Jun 2024 11:14:10 UTC
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
+ [136.143.188.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC30A10E261;
+ Mon, 17 Jun 2024 11:14:10 +0000 (UTC)
+Delivered-To: uwu@icenowy.me
+ARC-Seal: i=1; a=rsa-sha256; t=1718621943; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=oHaER6uPIKsyeIAcWHi1RHRYgbHQRsphk+c4CK1G6GBPK8kfPHC8QUyeNQXw7DsYV2EmmeGj8vmEsPCei9i1IR3L8vmtWeb+CHC7bvOHspHI/T/lB6ao9LefvAvE5D94QRefC1qSXrp3d5B3WV4z6ItnVJGGWmN9CETSIXcz358=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1718621943;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=u+O1n/OB/Q+PPfTIjJ9hQgiheZf7bi7XElMSkoNsqp8=; 
+ b=HOK9MPLV0sv9c78gp5wUOoZSzelXcFeIxJtko4T7bTdmpUBs4/JWgIPshMMFGO8khOtLC3jiyYvfnOvV92DyA7luRanjfO6FA2mlon2xNaF7A3pO3UZsQOy3MZm16bEl/WkUN+S6YTSzwwwy973Hyc0su6Y8CtX80p7aYYsNLv8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1718621943; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=u+O1n/OB/Q+PPfTIjJ9hQgiheZf7bi7XElMSkoNsqp8=;
+ b=CpqG31sy0BhHhRCSPviAS5RKgs35pjOqDiVH7RXl29eMLj6O9QRcKbjoWm1e/c0w
+ uxyw12IhvFPu0qBetTrtQOuZ1H7MoKQ2Q/k/socq2dI4QgpRwSYVHKBH+jdIjrkqWvq
+ lEpExaHI78AWlJrFMpMLwtnNfu19jdc5F/9zd1+YrpEJV2fKWGPSFZFRCq/Nql87njY
+ Lu4z4oFiq9hRdsIJ6LEwg1Vaue7ryjar21/eOp5vC4l88JGFLqPAhLfNwY0ag3SOonc
+ wuA2nxuLWN9crJsHVD6s19ZSFVgnFhEDea7CUdyBiWKhKqS1thQWHyV7lGt3lxl+svl
+ LrfheKPjNw==
+Received: by mx.zohomail.com with SMTPS id 1718621940916892.2587924932478;
+ Mon, 17 Jun 2024 03:59:00 -0700 (PDT)
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pan Xinhui <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
+ Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH 0/2] Fixes of AMD GFX7/8 hang on Loongson platforms
+Date: Mon, 17 Jun 2024 18:58:44 +0800
+Message-ID: <20240617105846.1516006-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,103 +75,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The cdns-dsi controller requires that it be turned on completely before
-the input DPI's source has begun streaming[0]. Not having that, allows
-for a small window before cdns-dsi enable and after cdns-dsi disable
-where the previous entity (in this case tidss's videoport) to continue
-streaming DPI video signals. This small window where cdns-dsi is
-disabled but is still receiving signals causes the input FIFO of
-cdns-dsi to get corrupted. This causes the colors to shift on the output
-display. The colors can either shift by one color component (R->G, G->B,
-B->R), or by two color components (R->B, G->R, B->G).
+This patchset tries to fix some workaround code in amdgpu/radeon driver,
+that makes Loongson 3A+7A platform suffering from GPU crashes.
 
-Since tidss's videoport starts streaming via crtc enable hooks, we need
-cdns-dsi to be up and running before that. Now that the bridges are
-pre_enabled before crtc is enabled, and post_disabled after crtc is
-disabled, use the pre_enable and post_disable hooks to get cdns-dsi
-ready and running before the tidss videoport to get pass the color shift
-issues.
+Icenowy Zheng (2):
+  drm/amdgpu: make duplicated EOP packet for GFX7/8 have real content
+  drm/radeon: repeat the same EOP packet for EOP workaround on CIK
 
-[0]: See section 12.6.5.7.3 "Start-up Procedure" in J721E SoC TRM
-     TRM Link: http://www.ti.com/lit/pdf/spruil1
+ drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c | 12 +++++-------
+ drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c | 12 ++++--------
+ drivers/gpu/drm/radeon/cik.c          |  7 ++-----
+ 3 files changed, 11 insertions(+), 20 deletions(-)
 
-Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
----
- .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 32 +++----------------
- 1 file changed, 4 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index acbd4007b38c..a92814c3e0d6 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -655,8 +655,8 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge *bridge,
- 	return MODE_OK;
- }
- 
--static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
--					   struct drm_bridge_state *old_bridge_state)
-+static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
-+						struct drm_bridge_state *old_bridge_state)
- {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
-@@ -676,15 +676,6 @@ static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
- 	pm_runtime_put(dsi->base.dev);
- }
- 
--static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
--						struct drm_bridge_state *old_bridge_state)
--{
--	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
--	struct cdns_dsi *dsi = input_to_dsi(input);
--
--	pm_runtime_put(dsi->base.dev);
--}
--
- static void cdns_dsi_hs_init(struct cdns_dsi *dsi)
- {
- 	struct cdns_dsi_output *output = &dsi->output;
-@@ -754,8 +745,8 @@ static void cdns_dsi_init_link(struct cdns_dsi *dsi)
- 	dsi->link_initialized = true;
- }
- 
--static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
--					  struct drm_bridge_state *old_bridge_state)
-+static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-+					      struct drm_bridge_state *old_bridge_state)
- {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
-@@ -906,19 +897,6 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
- 	writel(tmp, dsi->regs + MCTL_MAIN_EN);
- }
- 
--static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
--					      struct drm_bridge_state *old_bridge_state)
--{
--	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
--	struct cdns_dsi *dsi = input_to_dsi(input);
--
--	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
--		return;
--
--	cdns_dsi_init_link(dsi);
--	cdns_dsi_hs_init(dsi);
--}
--
- static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
- 					       struct drm_bridge_state *bridge_state,
- 					       struct drm_crtc_state *crtc_state,
-@@ -949,9 +927,7 @@ static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
- static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
- 	.attach = cdns_dsi_bridge_attach,
- 	.mode_valid = cdns_dsi_bridge_mode_valid,
--	.atomic_disable = cdns_dsi_bridge_atomic_disable,
- 	.atomic_pre_enable = cdns_dsi_bridge_atomic_pre_enable,
--	.atomic_enable = cdns_dsi_bridge_atomic_enable,
- 	.atomic_post_disable = cdns_dsi_bridge_atomic_post_disable,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
 -- 
-2.34.1
+2.45.1
 
