@@ -2,57 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E23790B672
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 18:33:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 296E290B687
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 18:36:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E78310E45F;
-	Mon, 17 Jun 2024 16:33:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9796410E460;
+	Mon, 17 Jun 2024 16:36:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Tyf4Av3U";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C42F710E45F
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 16:33:18 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1sJFHk-00033H-3A; Mon, 17 Jun 2024 18:32:48 +0200
-Message-ID: <22a3f5266260dd3915269ae3eec7724f7537eb55.camel@pengutronix.de>
-Subject: Re: drm/bridge/imx8mp-hdmi-tx: Allow inexact pixel clock
- frequencies (Was: [PATCH V8 10/12] drm/bridge: imx: add bridge wrapper
- driver for i.MX8MP DWC HDMI)
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Dominique MARTINET <dominique.martinet@atmark-techno.com>, Adam Ford
- <aford173@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org, marex@denx.de, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>,  Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,  Jernej
- Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>, Sascha
- Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team
- <linux-imx@nxp.com>,  Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
- <kishon@kernel.org>, Liu Ying <victor.liu@nxp.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-phy@lists.infradead.org, Makoto Sato <makoto.sato@atmark-techno.com>
-Date: Mon, 17 Jun 2024 18:32:45 +0200
-In-Reply-To: <Zm_UzO4Jmm7Aykcm@atmark-techno.com>
-References: <20240203165307.7806-1-aford173@gmail.com>
- <20240203165307.7806-11-aford173@gmail.com>
- <Zm_UzO4Jmm7Aykcm@atmark-techno.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+ [209.85.218.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53A3610E462
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 16:36:26 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id
+ a640c23a62f3a-a6f21ff4e6dso624494466b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 09:36:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1718642184; x=1719246984; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=53J7WI/sxMq7DMs+aYMSjnkpgSP1OKUPbBpcZiQTHx4=;
+ b=Tyf4Av3UP5Cz4omXFG1tX5jo45a/id8tDbrckb4LPH3+zkKJeAAMjxDY28gqltv0k9
+ MFwfVXDcmoIfUWVlYd8d1EfW6Iiz1hO/RnEK7Qhdp+NKIho9dDzalDsdJdX/Fg6V8lSs
+ 4vtSVFAw63gWfHl8yg5qj9TcpVC5ijxLCoPZp9zD8x3sCQ86xVeRAtPp0JEaosjyKVtZ
+ T4DTzFBeU4mLB3M7bksqY43D1IKIjXULOVhXQqlbBF12giKGQOwhb+hVAooDeCqcYnpq
+ GBPgruH9NIRUdrfS7KY90bBYPOwBMuTFnZz7+Ecy6ZcTKu+ePFXkQ9nQFlHdk1ND9F5/
+ 3Pug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718642184; x=1719246984;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=53J7WI/sxMq7DMs+aYMSjnkpgSP1OKUPbBpcZiQTHx4=;
+ b=fgABUKR5XqkcvCAvmzOW1xzBgJY1q0bqQrCiRcXoqugVluYbEXfO7/VK/lvXxMvG2W
+ mB7iEi+QNDJukErkx8IriZmg1qF71DV6z2DatDGCXBN/zrSaJofEynOkbPPSa7dOcvxF
+ o/kylWzIf+LmS2z89xa0UZZMe4+Gw/r5U0a7ungSXl01IKndwkNjU7ge2SuoguE8+/8I
+ gktKZSGTyF4RVC9s+iCjoTdFro9MCGFEKQKOqyhSi8qlPSeRBI0RJ4d+KaNiW0A++rD8
+ SESoTZn7G+4PI5i7ha+atiUsFTtoQiIgq65bYwIWsxqc+QkJ8KXma+1pffwWpVif/PWX
+ 6uyQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX40N+LpVcBkrKTQQ7qo2Wit5poxAiw2Hqw8eTFjpwQiFDAS90meQyd3dscb1hYBt0UbHxXbJFUY5XKswN4J+isSitzPMArOszlIlT5Mi1E
+X-Gm-Message-State: AOJu0YyKyrE0lUFD5ofs0ZhUc3eL7PqPQL7CrJNJIWBzV+Fp3LMfcPWj
+ xNI/dU6BmlZUTL5ahfGj7VMOeEa+MQkTC6/2Fk+H68myKyMKwZUK
+X-Google-Smtp-Source: AGHT+IEgIhSMoPO6IwzcFhQmUpnLu6gYo3keWNhjJiuidTn6zLGnPgWojVWeQQr2lo9qk89rXkkVsg==
+X-Received: by 2002:a17:906:4341:b0:a6f:5c91:7be3 with SMTP id
+ a640c23a62f3a-a6f60dc1fa8mr632023166b.56.1718642184123; 
+ Mon, 17 Jun 2024 09:36:24 -0700 (PDT)
+Received: from [192.168.42.188] ([163.114.131.193])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a6f6a64a3efsm391222566b.173.2024.06.17.09.36.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Jun 2024 09:36:23 -0700 (PDT)
+Message-ID: <20a6a727-d9f2-495c-bf75-72c27740dd82@gmail.com>
+Date: Mon, 17 Jun 2024 17:36:24 +0100
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v12 10/13] tcp: RX path for devmem TCP
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240613013557.1169171-1-almasrymina@google.com>
+ <20240613013557.1169171-11-almasrymina@google.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20240613013557.1169171-11-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,152 +125,295 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dominique,
+On 6/13/24 02:35, Mina Almasry wrote:
+> In tcp_recvmsg_locked(), detect if the skb being received by the user
+> is a devmem skb. In this case - if the user provided the MSG_SOCK_DEVMEM
+> flag - pass it to tcp_recvmsg_devmem() for custom handling.
+> 
+> tcp_recvmsg_devmem() copies any data in the skb header to the linear
+> buffer, and returns a cmsg to the user indicating the number of bytes
+> returned in the linear buffer.
+> 
+> tcp_recvmsg_devmem() then loops over the unaccessible devmem skb frags,
+> and returns to the user a cmsg_devmem indicating the location of the
+> data in the dmabuf device memory. cmsg_devmem contains this information:
+> 
+> 1. the offset into the dmabuf where the payload starts. 'frag_offset'.
+> 2. the size of the frag. 'frag_size'.
+> 3. an opaque token 'frag_token' to return to the kernel when the buffer
+> is to be released.
+> 
+> The pages awaiting freeing are stored in the newly added
+> sk->sk_user_frags, and each page passed to userspace is get_page()'d.
+> This reference is dropped once the userspace indicates that it is
+> done reading this page.  All pages are released when the socket is
+> destroyed.
 
-Am Montag, dem 17.06.2024 um 15:16 +0900 schrieb Dominique MARTINET:
-> Adam Ford wrote on Sat, Feb 03, 2024 at 10:52:50AM -0600:
-> > From: Lucas Stach <l.stach@pengutronix.de>
-> >=20
-> > Add a simple wrapper driver for the DWC HDMI bridge driver that
-> > implements the few bits that are necessary to abstract the i.MX8MP
-> > SoC integration.
->=20
-> Hi Lucas, Adam,
-> (trimmed ccs a bit)
->=20
-> First, thank you for the effort of upstreaming all of this!! It's really
-> appreciated, and with display working I'll really be wanting to upstream
-> our DTS as well as soon as I have time (which is going to be a while,
-> but better late than never ?)
->=20
-> Until then, it's been a few months but I've got a question on this bit:
->=20
-> > diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c b/drivers/gpu/=
-drm/bridge/imx/imx8mp-hdmi-tx.c
-> > new file mode 100644
-> > index 000000000000..89fc432ac611
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
-> > +static enum drm_mode_status
-> > +imx8mp_hdmi_mode_valid(struct dw_hdmi *dw_hdmi, void *data,
-> > +		       const struct drm_display_info *info,
-> > +		       const struct drm_display_mode *mode)
-> > +{
-> > +	struct imx8mp_hdmi *hdmi =3D (struct imx8mp_hdmi *)data;
-> > +
-> > +	if (mode->clock < 13500)
-> > +		return MODE_CLOCK_LOW;
-> > +
-> > +	if (mode->clock > 297000)
-> > +		return MODE_CLOCK_HIGH;
-> > +
-> > +	if (clk_round_rate(hdmi->pixclk, mode->clock * 1000) !=3D
-> > +	    mode->clock * 1000)
-> > +		return MODE_CLOCK_RANGE;
->=20
-> Do you know why such a check is here?
+One small concern is that if the pool gets destroyed (i.e.
+page_pool_destroy) before sockets holding netiov, page pool will
+semi-busily poll until the sockets die or such and will spam with
+pr_warn(). E.g. when a user drops the nl but leaks data sockets
+and continues with its userspace business. You can probably do
+it in a loop and create dozens of such pending
+page_pool_release_retry().
 
-Sending a HDMI signal with a different rate than what the display
-expects rarely ends well, so this check avoids that.
 
-However, this check is a bit overcautious in that it only allows exact
-rate matches. IIRC HDMI allows a rate mismatch of +- 0.5%, so this
-check could be relaxed quite a bit to allow for that.
->=20
-> When plugging in a screen with no frequency identically supported in its
-> EDID this check causes the screen to stay black, and we've been telling
-> customers to override the EDID but it's a huge pain.
->=20
-> Commit 6ad082bee902 ("phy: freescale: add Samsung HDMI PHY") already
-> "fixed" the samsung hdmi phy driver to return the next frequency if an
-> exact match hasn't been found (NXP tree's match frequencies exactly, but
-> this gets the first clock with pixclk <=3D rate), so if this check is als=
-o
-> relaxed our displays would work out of the box.
->=20
-> I also don't see any other bridge doing this kind of check.
-> drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c has a similar check with a
-> 0.5% leeway, and all the other drivers don't check anything.
-> If you want to add some level of safety, I think we could make this work
-> with a 5% margin easily... Printing a warning in dmesg could work if
-> you're worried about artifacts, but litteraly anything is better than a
-> black screen with no error message in my opinion.
->=20
->=20
-> In practice the screen I'm looking at has an EDID which only supports
-> 51.2MHz and the closest frequency supported by the Samsung HDMI phy is
-> 50.4MHz, so that's a ~1.5% difference and it'd be great if it could work
-> out of the box.
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> 
+...
+> +static int tcp_xa_pool_refill(struct sock *sk, struct tcp_xa_pool *p,
+> +			      unsigned int max_frags)
+> +{
+> +	int err, k;
+> +
+> +	if (p->idx < p->max)
+> +		return 0;
+> +
+> +	xa_lock_bh(&sk->sk_user_frags);
+> +
+> +	tcp_xa_pool_commit_locked(sk, p);
+> +
+> +	for (k = 0; k < max_frags; k++) {
+> +		err = __xa_alloc(&sk->sk_user_frags, &p->tokens[k],
+> +				 XA_ZERO_ENTRY, xa_limit_31b, GFP_KERNEL);
+> +		if (err)
+> +			break;
+> +	}
+> +
+> +	xa_unlock_bh(&sk->sk_user_frags);
+> +
+> +	p->max = k;
+> +	p->idx = 0;
+> +	return k ? 0 : err;
+> +}
 
-For rate mismatches larger than the 0.5% allowed by the HDMI spec it
-would be better to actually add PHY PLL parameters matching those
-rates.
+Personally, I'd prefer this optimisation to be in a separate patch,
+especially since there is some degree of hackiness to it.
 
-We could potentially add some more leeway for displays like yours that
-aren't actually HDMI (as it doesn't seem to have a standard HDMI
-resolution). But that's more of a last resort option, as it may
-introduce other problems for displays that aren't as tolerant with
-their input rates. Remember the mode_valid call is used to filter modes
-that aren't compatible with the source, so for a display with multiple
-modes allowing too much leeway may lead to incompatible modes not
-getting tossed, in turn allowing userspace to set a mode that the
-display may not like due to too much rate deviation, instead of only
-presenting a list of valid modes. This again would present the user
-with a black-screen without warning situation.
 
-Regards,
-Lucas
+> +
+> +/* On error, returns the -errno. On success, returns number of bytes sent to the
+> + * user. May not consume all of @remaining_len.
+> + */
+> +static int tcp_recvmsg_dmabuf(struct sock *sk, const struct sk_buff *skb,
+> +			      unsigned int offset, struct msghdr *msg,
+> +			      int remaining_len)
+> +{
+> +	struct dmabuf_cmsg dmabuf_cmsg = { 0 };
+> +	struct tcp_xa_pool tcp_xa_pool;
+> +	unsigned int start;
+> +	int i, copy, n;
+> +	int sent = 0;
+> +	int err = 0;
+> +
+> +	tcp_xa_pool.max = 0;
+> +	tcp_xa_pool.idx = 0;
+> +	do {
+> +		start = skb_headlen(skb);
+> +
+> +		if (skb_frags_readable(skb)) {
+> +			err = -ENODEV;
+> +			goto out;
+> +		}
+> +
+> +		/* Copy header. */
+> +		copy = start - offset;
+> +		if (copy > 0) {
+> +			copy = min(copy, remaining_len);
+> +
+> +			n = copy_to_iter(skb->data + offset, copy,
+> +					 &msg->msg_iter);
+> +			if (n != copy) {
+> +				err = -EFAULT;
+> +				goto out;
+> +			}
+> +
+> +			offset += copy;
+> +			remaining_len -= copy;
+> +
+> +			/* First a dmabuf_cmsg for # bytes copied to user
+> +			 * buffer.
+> +			 */
+> +			memset(&dmabuf_cmsg, 0, sizeof(dmabuf_cmsg));
+> +			dmabuf_cmsg.frag_size = copy;
+> +			err = put_cmsg(msg, SOL_SOCKET, SO_DEVMEM_LINEAR,
+> +				       sizeof(dmabuf_cmsg), &dmabuf_cmsg);
+> +			if (err || msg->msg_flags & MSG_CTRUNC) {
+> +				msg->msg_flags &= ~MSG_CTRUNC;
+> +				if (!err)
+> +					err = -ETOOSMALL;
+> +				goto out;
+> +			}
+> +
+> +			sent += copy;
+> +
+> +			if (remaining_len == 0)
+> +				goto out;
+> +		}
+> +
+> +		/* after that, send information of dmabuf pages through a
+> +		 * sequence of cmsg
+> +		 */
+> +		for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
+> +			skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
+> +			struct net_iov *niov;
+> +			u64 frag_offset;
+> +			int end;
+> +
+> +			/* !skb_frags_readable() should indicate that ALL the
+> +			 * frags in this skb are dmabuf net_iovs. We're checking
+> +			 * for that flag above, but also check individual frags
+> +			 * here. If the tcp stack is not setting
+> +			 * skb_frags_readable() correctly, we still don't want
+> +			 * to crash here.
+> +			 */
+> +			if (!skb_frag_net_iov(frag)) {
+> +				net_err_ratelimited("Found non-dmabuf skb with net_iov");
+> +				err = -ENODEV;
+> +				goto out;
+> +			}
+> +
+> +			niov = skb_frag_net_iov(frag);
+> +			end = start + skb_frag_size(frag);
+> +			copy = end - offset;
+> +
+> +			if (copy > 0) {
+> +				copy = min(copy, remaining_len);
+> +
+> +				frag_offset = net_iov_virtual_addr(niov) +
+> +					      skb_frag_off(frag) + offset -
+> +					      start;
+> +				dmabuf_cmsg.frag_offset = frag_offset;
+> +				dmabuf_cmsg.frag_size = copy;
+> +				err = tcp_xa_pool_refill(sk, &tcp_xa_pool,
+> +							 skb_shinfo(skb)->nr_frags - i);
+> +				if (err)
+> +					goto out;
+> +
+> +				/* Will perform the exchange later */
+> +				dmabuf_cmsg.frag_token = tcp_xa_pool.tokens[tcp_xa_pool.idx];
+> +				dmabuf_cmsg.dmabuf_id = net_iov_binding_id(niov);
+> +
+> +				offset += copy;
+> +				remaining_len -= copy;
+> +
+> +				err = put_cmsg(msg, SOL_SOCKET,
+> +					       SO_DEVMEM_DMABUF,
+> +					       sizeof(dmabuf_cmsg),
+> +					       &dmabuf_cmsg);
+> +				if (err || msg->msg_flags & MSG_CTRUNC) {
+> +					msg->msg_flags &= ~MSG_CTRUNC;
+> +					if (!err)
+> +						err = -ETOOSMALL;
+> +					goto out;
+> +				}
+> +
+> +				atomic_long_inc(&niov->pp_ref_count);
+> +				tcp_xa_pool.netmems[tcp_xa_pool.idx++] = skb_frag_netmem(frag);
+> +
+> +				sent += copy;
+> +
+> +				if (remaining_len == 0)
+> +					goto out;
+> +			}
+> +			start = end;
+> +		}
+> +
+> +		tcp_xa_pool_commit(sk, &tcp_xa_pool);
+> +		if (!remaining_len)
+> +			goto out;
+> +
+> +		/* if remaining_len is not satisfied yet, we need to go to the
+> +		 * next frag in the frag_list to satisfy remaining_len.
+> +		 */
+> +		skb = skb_shinfo(skb)->frag_list ?: skb->next;
+> +
+> +		offset = offset - start;
 
->=20
-> For reference, the output of edid-decode is as follow:
-> ---
-> edid-decode /sys/devices/platform/display-subsystem/drm/car
-> d1/card1-HDMI-A-1/edid
-> edid-decode (hex):
->=20
-> 00 ff ff ff ff ff ff 00 3a 49 03 00 01 00 00 00
-> 20 1e 01 03 80 10 09 00 0a 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 00 14 00 40 41 58 23 20 a0 20
-> c8 00 9a 56 00 00 00 18 00 00 00 10 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 10 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 10
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 9a
->=20
-> ----------------
->=20
-> Block 0, Base EDID:
->   EDID Structure Version & Revision: 1.3
->   Vendor & Product Identification:
->     Manufacturer: NRI
->     Model: 3
->     Serial Number: 1
->     Made in: week 32 of 2020
->   Basic Display Parameters & Features:
->     Digital display
->     Maximum image size: 16 cm x 9 cm
->     Gamma: 1.00
->     RGB color display
->     First detailed timing is the preferred timing
->   Color Characteristics:
->     Red  : 0.0000, 0.0000
->     Green: 0.0000, 0.0000
->     Blue : 0.0000, 0.0000
->     White: 0.0000, 0.0000
->   Established Timings I & II: none
->   Standard Timings: none
->   Detailed Timing Descriptors:
->     DTD 1:  1024x600    59.993 Hz 128:75   38.095 kHz  51.200 MHz (154 mm=
- x 86 m
-> m)
->                  Hfront  160 Hsync  32 Hback 128 Hpol N
->                  Vfront   12 Vsync   8 Vback  15 Vpol N
->     Dummy Descriptor:
->     Dummy Descriptor:
->     Dummy Descriptor:
-> Checksum: 0x9a
-> ---
->=20
->=20
-> Thanks,
+It's an offset into the current skb, isn't it? Wouldn't
+offset = 0; be less confusing?
 
+> +	} while (skb);
+> +
+> +	if (remaining_len) {
+> +		err = -EFAULT;
+> +		goto out;
+> +	}
+
+Having data left is not a fault, and to get here you
+need to get an skb with no data left, which shouldn't
+happen. Seems like everything you need is covered by
+the "!sent" check below.
+
+
+> +
+> +out:
+> +	tcp_xa_pool_commit(sk, &tcp_xa_pool);
+> +	if (!sent)
+> +		sent = err;
+> +
+> +	return sent;
+> +}
+> +
+...
+> diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
+> index de0c8f43448ab..57e48b75ac02a 100644
+> --- a/net/ipv4/tcp_ipv4.c
+> +++ b/net/ipv4/tcp_ipv4.c
+> @@ -79,6 +79,7 @@
+>   #include <linux/seq_file.h>
+>   #include <linux/inetdevice.h>
+>   #include <linux/btf_ids.h>
+> +#include <linux/skbuff_ref.h>
+>   
+>   #include <crypto/hash.h>
+>   #include <linux/scatterlist.h>
+> @@ -2503,6 +2504,15 @@ static void tcp_md5sig_info_free_rcu(struct rcu_head *head)
+>   void tcp_v4_destroy_sock(struct sock *sk)
+>   {
+>   	struct tcp_sock *tp = tcp_sk(sk);
+> +	__maybe_unused unsigned long index;
+> +	__maybe_unused void *netmem;
+
+How about adding a function to get rid of __maybe_unused?.
+
+static void sock_release_devmem_frags() {
+#ifdef PP
+	unsigned index;
+	...
+#endif PP
+}
+
+Also, even though you wire it up for TCP, since ->sk_user_frags
+is in struct sock I'd expect the release to be somewhere in the
+generic sock path like __sk_destruct(), and same for init.
+Perhpas, it's better to leave it for later.
+
+> +
+> +#ifdef CONFIG_PAGE_POOL
+> +	xa_for_each(&sk->sk_user_frags, index, netmem)
+> +		WARN_ON_ONCE(!napi_pp_put_page((__force netmem_ref)netmem));
+> +#endif
+> +
+> +	xa_destroy(&sk->sk_user_frags);
+>   
+>   	trace_tcp_destroy_sock(sk);
+>   
+> diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
+> index bc67f6b9efae4..5d563312efe14 100644
+> --- a/net/ipv4/tcp_minisocks.c
+> +++ b/net/ipv4/tcp_minisocks.c
+> @@ -624,6 +624,8 @@ struct sock *tcp_create_openreq_child(const struct sock *sk,
+>   
+>   	__TCP_INC_STATS(sock_net(sk), TCP_MIB_PASSIVEOPENS);
+>   
+> +	xa_init_flags(&newsk->sk_user_frags, XA_FLAGS_ALLOC1);
+> +
+>   	return newsk;
+>   }
+>   EXPORT_SYMBOL(tcp_create_openreq_child);
+
+-- 
+Pavel Begunkov
