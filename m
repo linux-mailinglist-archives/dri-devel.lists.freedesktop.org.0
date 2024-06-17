@@ -2,136 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9789C90B9E3
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 20:42:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C02AC90B9A3
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 20:28:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DC8510E4B4;
-	Mon, 17 Jun 2024 18:42:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C618310E49B;
+	Mon, 17 Jun 2024 18:28:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ZyJshFnJ";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="c+Sm1+2q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2074.outbound.protection.outlook.com [40.107.102.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73D8110E4A0;
- Mon, 17 Jun 2024 18:41:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fWIrwjIh9V/w7eTKe0StmbIkzLomGVjYmG+cOEq47SUSeohSeSWHoQO2stNb0p3nJtsVICl9X3FnE0HU4vsiG7P+MttIwrpA8PvwyxEvLjCbqCHSo4nwBE4PmG0OwPWKql/W0aJbCsEB+bS99UcS9n/LO0W833e7lvYaYUXbY6xEs9oXlrXmynuKTMakPjxTBqB4mmwnT8k8WEehSTsZTp7dY18brxvqhh4Et8Mvn8/uJIMtLJzwjtC3SPM7K4NxoMSAzzWiLWheK4KAJFoJDCQkF/20ad7X9xbrrlErCK8Yx72Xm/aujZbhr6wZjxUnPgIlLSPr0qsI2XHTUeCacg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0UNAL6FrNB7qG3SGzPhSVsgfz2rCyeNWlbwH0L0obZY=;
- b=lHGP09yAvalGeOdZWxXqtV+qLJf/9KF8NHnW+dFQ3r3cwVF7ADr2kb2G3/fI5Pr7KvW/e8PAPGMADpVU/6MeyE7IxBhzpG6KcBoYDOoy/f/HH0Riw46/fueUTX8+lbGXwqFgIHDbBFbdSou4TYhlkCSChRL5thucB7Jpjni5a3sD4EqIaRvn5aXG5r6mv2LujOiN1kmgJyzGHbXKJwuP442NHIH8KXxuqy+RSAJJgRHidkD2qMhMDI92GL6faRNayRkcxKF0OT8pAh/K2aLyzDBuqYepFvOOpkW/tiPLV5FqHJT6fH20ZT/32bsfC8LnU82+KamK1ZWAsBgQGWxCNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0UNAL6FrNB7qG3SGzPhSVsgfz2rCyeNWlbwH0L0obZY=;
- b=ZyJshFnJT3bLMdmnovtck3+XezYlxn34GySol6nTOPfIdRV62NxvTP+FjWIJwd4zfirB/RzsCvLWtzmmrol4pKaqe74XaxnLMhYAaUr0yT14rsPfqatO/NaV/cuFWzDfPGaIK7vcCrSNhB90K9s/P4mfvnAdozuToh+vlkDIJoymVPsY23MCi5CrYp2lAb7zsVYXnVY/UwlQCKc98Krzdk37sEUnxwYedjt+qRTYu/X3CF8mGELaj/oln8b6a5fYTvJCLqNzOvHrQsVZBug3tYIsUqICctgd1JuwUkHj8aOECmi3WK/EJlPm2WNYqhiNbYRY415+KIoymFnhC2/Qlw==
-Received: from SJ0PR03CA0273.namprd03.prod.outlook.com (2603:10b6:a03:39e::8)
- by BY5PR12MB4035.namprd12.prod.outlook.com (2603:10b6:a03:206::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.31; Mon, 17 Jun
- 2024 18:41:53 +0000
-Received: from SJ5PEPF000001F4.namprd05.prod.outlook.com
- (2603:10b6:a03:39e:cafe::64) by SJ0PR03CA0273.outlook.office365.com
- (2603:10b6:a03:39e::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30 via Frontend
- Transport; Mon, 17 Jun 2024 18:41:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SJ5PEPF000001F4.mail.protection.outlook.com (10.167.242.72) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7677.15 via Frontend Transport; Mon, 17 Jun 2024 18:41:53 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 17 Jun
- 2024 11:41:37 -0700
-Received: from [172.20.75.190] (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 17 Jun
- 2024 11:41:36 -0700
-Message-ID: <f5dc9d9e-23ac-4dec-a76a-c2a44ae158f4@nvidia.com>
-Date: Tue, 18 Jun 2024 04:23:17 +1000
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4885210E4A0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 18:28:47 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45HAd4Ei009912;
+ Mon, 17 Jun 2024 18:28:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ eMr4D/ENvq9MJGmkMcMlpvZPrYVJGO/q4c+W1NmMLqo=; b=c+Sm1+2qDOivRV06
+ n0p/MnuJtQgx/N09yQcNX4fbQbleTHySYosTd3a94olCM/ovvhUadjm+E9qq3JrV
+ WixeGjrNiqC1aYYibZvxtksWDCwJQryyKAM5GPKyiflkr3jFKWemW9lrDwINU2ds
+ O7LRmTu4pWnz7hXZOmcmal+Nl+XEVcwcqNNrjNanFNCiLtQJYUnIqQqtFGTNNWqn
+ voxoPRVXdpg+OBb5vb/EiHb5o+C7fKpLNoxe/ceLdg9XnQITXWYyRPZwfw8MyoU9
+ VmVFrSenGHBV3pj0lKzn8UmbGjnELP0wrFxAkC8szmXZHEX4UUJcoptMSSMsXN7C
+ LXVtyQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ys0nfcsad-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Jun 2024 18:28:38 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45HISbDG009335
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Jun 2024 18:28:37 GMT
+Received: from [10.110.93.145] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 17 Jun
+ 2024 11:28:37 -0700
+Message-ID: <5e17dea9-e430-51f5-83f9-ce02241438f8@quicinc.com>
+Date: Mon, 17 Jun 2024 11:28:35 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] GPU driver with separate "core" and "DRM" modules
-To: Daniel Vetter <daniel@ffwll.ch>
-CC: <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-References: <20240613170211.88779-1-bskeggs@nvidia.com>
- <ZnBARgjk-83NXC5S@phenom.ffwll.local>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: Correct sequencing of usage of DRM writeback connector
+To: Brian Starkey <brian.starkey@arm.com>, Daniel Vetter <daniel@ffwll.ch>
+CC: "Hoosier, Matt" <Matt.Hoosier@garmin.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Pekka
+ Paalanen" <pekka.paalanen@collabora.com>, <nd@arm.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+References: <DM6PR04MB5178398F885B5AD82430B8ECECCD2@DM6PR04MB5178.namprd04.prod.outlook.com>
+ <ZnBTVCHneR6DQPxX@phenom.ffwll.local>
+ <cph4jfd7dy5mxfmnp5iaacxen7zszeiudvpyq4tebgp7fukzzc@xx5m65uwwp6n>
 Content-Language: en-US
-From: Ben Skeggs <bskeggs@nvidia.com>
-In-Reply-To: <ZnBARgjk-83NXC5S@phenom.ffwll.local>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <cph4jfd7dy5mxfmnp5iaacxen7zszeiudvpyq4tebgp7fukzzc@xx5m65uwwp6n>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F4:EE_|BY5PR12MB4035:EE_
-X-MS-Office365-Filtering-Correlation-Id: 11a8384d-6007-42e1-9940-08dc8efd2856
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230037|376011|36860700010|1800799021|82310400023; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SUNlNnZzZnVJZHRPT3ZPeUtRSmlXc0xSOGl4R1pROHlCYnlEbC9OL2xoYy8w?=
- =?utf-8?B?Qi9lVUVKaEJzUkhXbElnREhBd1V0ckZNV0todWJsYWpkN0l4MXkyR00rbWZV?=
- =?utf-8?B?NGRMdmE3TSszY0Q1UkNYeHA3QmNPajlvSE1IbEJscEk5UmtONURkRWxPQkxZ?=
- =?utf-8?B?QkdDazZZSTE1YXBoZEFRay9YLzdLUC9YUzY3RWtrZU1HT3ZKeVl5L1UxMHZ0?=
- =?utf-8?B?OVluN2VJMUdVV3dRb0FXZnQrS0tha1hXSlAybEpXSjNVanNVazRvT3JOUTN3?=
- =?utf-8?B?enBKZ2RZcnU2Z3lpczUzRmhXQlEwbzNGZEZ5d1dCOWl5WGR5U3BGSEdaenNK?=
- =?utf-8?B?S09SZStHNG1OUEdWWnZCaXIxTG5CUWRUL0hITzg1SlV4WE1qOUZIY2NxcWpO?=
- =?utf-8?B?OVNoRnhLQVFrc1pqVEpZeDRjdk1vK0doL3F1VHFmdlFzS0RaanlBMTF4Z0w3?=
- =?utf-8?B?a1pYcmhMMExxNmdOa1NWQVgyb2hlT0lQNUl4TTFpaXlDbkduTTczRVdCYkxl?=
- =?utf-8?B?SmIyaGwxZDZoU3FtZmx2cWtZN1pyZzUra2lPSTg0T2VhY1NtaDRQaEs0SWdM?=
- =?utf-8?B?UVJGU2ljbWxuSXZPNjRaTk51TFh2dWUwNVEvaFdvcXBPV01ISjdIblhYb3FS?=
- =?utf-8?B?RDY0UmxJTWFZajluTTAzaG1iR2FSVmljMmhFZ2FGY3gyRzlHakhJQTRyMmxp?=
- =?utf-8?B?b3ViTGJVRzVrdjBGUkZGaWpsRUJjVHpDenU5aUFBVlZTUEhlYjV0MnlWTlNj?=
- =?utf-8?B?VGcvNW93d2J6RE5HY01WeWxlMENIWnAyZWlqK0FJaHFTcmJQUHRMZ2xyNXF2?=
- =?utf-8?B?eVF6Mnh5MXhSbG4xTUdmTTFwcCtHZHFldFZoa1ppRGZSTFo0dWkyWUtvbG9x?=
- =?utf-8?B?VTR0ajNZcjJ3VEdtdHF0Nm05RldkeU50WWRHWEFYQmRyM2cxOXQxNzJvK3Nl?=
- =?utf-8?B?ZEtEMUVUUHMwNllzYmt4SUY0cy9rbnRoZVJpb3kxVlNzZ1h0enMyYlJSNHp5?=
- =?utf-8?B?WWFWSmI0NnVQVVhxUURkWFZwYUZ3UktQeTQyYUhXeTJxb3hEWG0zeEsxci9T?=
- =?utf-8?B?d3hOcmNhWVBGd3FJRGxJTkFXbGIyTGlnbFhWNmpNc2ROM3Q3QTVsSCszU2ZI?=
- =?utf-8?B?ejJLQU1xdXg2VGY4UHM1Szc2eWFlRGQvSjF6cVdTUXF1bHdWdTBnUTY0L1I2?=
- =?utf-8?B?NmphcHhXdXdxUkUySGovOEpybU9UOFM2dDNBckhEZm5lWUJJVjFPZ1padFJU?=
- =?utf-8?B?YVA3ZjJadlRCRXJVWnBOS2FtSk5WU1J1emFibC9rTnE1dDZwdFRkeGFXNUtm?=
- =?utf-8?B?Z05GWmM4VjlVMTh4cVA1Sm0zVk9xM21sUXFzSVBBZWNtS3NJb2JESEV0VTBV?=
- =?utf-8?B?V2htYThaTXFuUldweU9xajZadmRTQ1M3dE9UTll2UEdnT2Q3MUpDSjRCM2x6?=
- =?utf-8?B?Q0lGMUFGbXlrV1FvbVN0Qmk0VHVlaHNZVHZyOVRlVWMvYWx6RFV3RVdUL2hE?=
- =?utf-8?B?K0hpV1lTdnBDaVlzeWs3c3NDcCtXVmJVY1VhMHFzRC9xNnZMT1Evakh5UFBQ?=
- =?utf-8?B?My9mRk90Rm5MTWFiTm9HUmRpNUV5OU5hTjJCVnl3ak9pNFJWL0ZpczhRWkFu?=
- =?utf-8?B?Zi9iSUZMQjMxbjBQNjEyZFpSbldsb000OXoyZCtHYWc4RDI0TTQrcnA3Q3NI?=
- =?utf-8?B?VzZBVnQ1cDJrYWtsQXhPM1lPZ1JVYjZmU0R0L2NRTmI0U0ZTbDBsenZGOXFz?=
- =?utf-8?B?UG1GOUQ1Z2ZHaVNPVTBVUUN6MHk2VGFXbmFvemNMVFVRbzRaeGl0WUo3WklJ?=
- =?utf-8?B?SzdYNkowaC9XRVdVZ3VSZ0JkM1R3dzBlVVMxUGZUek5XRmpIbXkwOVBjK3o3?=
- =?utf-8?B?UHB3MlZ1akVPM1Y0YjNBWG1vRFhIaldvR0RZOFZ4aER5ZHc9PQ==?=
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230037)(376011)(36860700010)(1800799021)(82310400023); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2024 18:41:53.3151 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11a8384d-6007-42e1-9940-08dc8efd2856
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF000001F4.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4035
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: FL2nfMkIO3OVX4kGEVXFP45hJyDMuGF7
+X-Proofpoint-ORIG-GUID: FL2nfMkIO3OVX4kGEVXFP45hJyDMuGF7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-17_14,2024-06-17_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ adultscore=0 clxscore=1011 suspectscore=0 spamscore=0 priorityscore=1501
+ lowpriorityscore=0 mlxlogscore=999 impostorscore=0 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406170143
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,101 +96,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/6/24 23:55, Daniel Vetter wrote:
+Hi
 
-> On Fri, Jun 14, 2024 at 03:02:09AM +1000, Ben Skeggs wrote:
->> NVIDIA has been exploring ways to better support the effort for an
->> upstream kernel mode driver for GPUs that are capable of running GSP-RM
->> firmware, since the introduction[1] to Nova.
+On 6/17/2024 9:54 AM, Brian Starkey wrote:
+> Hi,
+> 
+> On Mon, Jun 17, 2024 at 05:16:36PM +0200, Daniel Vetter wrote:
+>> On Mon, Jun 17, 2024 at 01:41:59PM +0000, Hoosier, Matt wrote:
+>>> Hi,
+>>>
+>>> There is a discussion ongoing over in the compositor world about the implication of this cautionary wording found in the documentation for the DRM_MODE_CONNECTOR_WRITEBACK connectors:
+>>>
+>>>>   *  "WRITEBACK_OUT_FENCE_PTR":
+>>>>   *	Userspace can use this property to provide a pointer for the kernel to
+>>>>   *	fill with a sync_file file descriptor, which will signal once the
+>>>>   *	writeback is finished. The value should be the address of a 32-bit
+>>>>   *	signed integer, cast to a u64.
+>>>>   *	Userspace should wait for this fence to signal before making another
+>>>>   *	commit affecting any of the same CRTCs, Planes or Connectors.
+>>>>   *	**Failure to do so will result in undefined behaviour.**
+>>>>   *	For this reason it is strongly recommended that all userspace
+>>>>   *	applications making use of writeback connectors *always* retrieve an
+>>>>   *	out-fence for the commit and use it appropriately.
+>>>>   *	From userspace, this property will always read as zero.
+>>>
+>>> The question is whether it's realistic to hope that a DRM writeback
+>>> connector can produce results on every frame, and do so without dragging
+>>> down the frame-rate for the connector.
+>>>
+>>> The wording in the documentation above suggests that it is very likely
+>>> the fence fd won't signal userspace until after the vblank following the
+>>> scanout during which the writeback was applied (call that frame N). This
+>>> would mean that the compositor driving the connector would typically be
+>>> unable to legally queue a page flip for frame N+1.
+>>>
+>>> Is this the right interpretation? Is the writeback hardware typically
+>>> even designed with a streaming use-case in mind? Maybe it's just
+>>> intended for occasional static screenshots.
 >>
->> Use cases have been identified for which separating the core GPU
->> programming out of the full DRM driver stack is a strong requirement
->> from our key customers.
->>
->> An upstreamed NVIDIA GPU driver should be able to support current and
->> emerging customer use cases for vGPU hosts.  NVIDIA's vGPU deployments
->> to date do not support compute or graphics functionality within the
->> hypervisor host, and have no dependency on the Linux graphics subsystem,
->> instead implementing the minimal functionality required to run vGPU
->> guest VMs.
->>
->> For security-sensitive environments such as cloud infrastructure, it's
->> important to continue support for running a minimal footprint vGPU host
->> driver in a stripped-down / barebones kernel environment.
->>
->> This can be achieved by supporting both VFIO and DRM drivers as clients
->> of a core driver, without requiring a full-fledged DRM driver (or the
->> DRM subsystem itself) to be built into the host kernel.
->>
->> A core driver would be responsible for booting and communicating with
->> GSP-RM, enumeration of HW configuration, shared/partitioned resource
->> management, exception handling, and event dispatch.
->>
->> The DRM driver would do all the standard things a DRM driver does, and
->> implement GPU memory management (TTM/HMM), KMS, command submission etc,
->> as well as providing UAPI for userspace clients.  These features would
->> be implemented using HW resources allocated from a core driver, rather
->> than the DRM driver being directly responsible for HW programming.
->>
->> As Nouveau's KMD is already split (in the logical sense) along similar
->> lines, we're using it here for the purposes of this RFC to demonstrate
->> the feasibility of such an architecture, and open it up for discussion.
-> Sounds reasonable.
->
-> Only bikeshed I have to add is that the blessed way (according to the cool
-> kernel maintainers at least or something) to structure this is using
-> auxbus. Definitely when you end up with more than one driver binding to
-> the core (like maybe some system management interface thing, or perhaps a
-> special compute-only kernel driver).
->
-> https://dri.freedesktop.org/docs/drm/driver-api/auxiliary_bus.html
+>> So typically writeback hardware needs its separate crtc (at least the
+>> examples I know of) and doesn't make a lot of guarantees that it's fast
+>> enough for real time use. Since it's a separate crtc it shouldn't hold up
+>> the main composition loop, and so this should be all fine.
+> 
+> On Mali-DP and Komeda at least, you can use writeback on the same CRTC
+> that is driving a "real" display, and it should generally work. If the
+> writeback doesn't keep up then the HW will signal an error, but it was
+> designed to work in-sync with real scanout, on the same pipe.
+> 
 
-Hey!
+Same with MSM hardware. You can use writeback with same CRTC that is 
+driving a "real" display and yes we call it concurrent writeback. So I 
+think it is correct in the documentation to expect to wait till this is 
+signaled if the same CRTC is being used.
 
-Yes indeed.  I sent this[1] series at the same time, which was initially 
-written to so that nouveau.ko would still get auto-loaded alongside nvkm.ko.
-
-Ben.
-
-
-[1] https://lists.freedesktop.org/archives/nouveau/2024-June/044861.html
-
-
->
-> Cheers, Sima
->
->> A link[2] to a tree containing the patches is below.
 >>
->> [1] https://lore.kernel.org/all/3ed356488c9b0ca93845501425d427309f4cf616.camel@redhat.com/
->> [2] https://gitlab.freedesktop.org/bskeggs/nouveau/-/tree/00.03-module
+>> If/when we have hardware and driver support where you can use the
+>> writeback connector as a real-time streamout kind of thing, then we need
+>> to change all this, because with the current implementation, there's
+>> indeed the possibility that funny things can happen if you ignore the
+>> notice (funny as in data corruption, not funny as the kernel crashes of
+>> course).
+> 
+> Indeed, the wording was added (from what I remember from so long
+> ago...) because it sounded like different HW made very different
+> guarantees/non-guarantees about what data would be written when, so
+> perhaps you'd end up with some pixels from the next frame in your
+> buffer or something.
+> 
+> Taking Mali-DP/Komeda again, the writeback configuration is latched
+> along with everything else, and writeback throughput permitting, it
+> should "just work" if you submit a new writeback every frame. It
+> drains out the last of the data during vblank, before starting on the
+> next frame. That doesn't help the "general case" though.
+> 
+
+Would it be fair to summarize it like below:
+
+1) If the same CRTC is shared with the real time display, then the 
+hardware is expected to fire this every frame so userspace should wait 
+till this is signaled.
+
+2) If a different CRTC is used for the writeback, then the composition 
+loop for the real time display should not block on this unless its a 
+mirroring use-case, then we will be throttled by the lowest refresh rate 
+anyway.
+
 >>
->> *** BLURB HERE ***
+>> If we already have devices where you can use writeback together with real
+>> outputs, then I guess that counts as an oopsie :-/
+> 
+> Well "works fine" fits into the "undefined behaviour" bucket, just as
+> well as "corrupts your fb" does :-)
+> 
+> -Brian
+> 
 >>
->> Ben Skeggs (2):
->>    drm/nouveau/nvkm: export symbols needed by the drm driver
->>    drm/nouveau/nvkm: separate out into nvkm.ko
->>
->>   drivers/gpu/drm/nouveau/Kbuild                      |  4 ++--
->>   drivers/gpu/drm/nouveau/include/nvkm/core/module.h  |  3 ---
->>   drivers/gpu/drm/nouveau/nouveau_drm.c               | 10 +---------
->>   drivers/gpu/drm/nouveau/nvkm/core/driver.c          |  1 +
->>   drivers/gpu/drm/nouveau/nvkm/core/gpuobj.c          |  2 ++
->>   drivers/gpu/drm/nouveau/nvkm/core/mm.c              |  4 ++++
->>   drivers/gpu/drm/nouveau/nvkm/device/acpi.c          |  1 +
->>   drivers/gpu/drm/nouveau/nvkm/engine/gr/base.c       |  1 +
->>   drivers/gpu/drm/nouveau/nvkm/module.c               |  8 ++++++--
->>   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c     |  1 +
->>   drivers/gpu/drm/nouveau/nvkm/subdev/bios/pll.c      |  1 +
->>   drivers/gpu/drm/nouveau/nvkm/subdev/fb/base.c       |  3 +++
->>   drivers/gpu/drm/nouveau/nvkm/subdev/gpio/base.c     |  3 +++
->>   drivers/gpu/drm/nouveau/nvkm/subdev/i2c/base.c      |  2 ++
->>   drivers/gpu/drm/nouveau/nvkm/subdev/i2c/bus.c       |  1 +
->>   drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c |  1 +
->>   drivers/gpu/drm/nouveau/nvkm/subdev/therm/base.c    |  1 +
->>   drivers/gpu/drm/nouveau/nvkm/subdev/therm/fan.c     |  1 +
->>   drivers/gpu/drm/nouveau/nvkm/subdev/volt/base.c     |  1 +
->>   19 files changed, 33 insertions(+), 16 deletions(-)
->>
+>> Cheers, Sima
 >> -- 
->> 2.44.0
->>
+>> Daniel Vetter
+>> Software Engineer, Intel Corporation
+>> http://blog.ffwll.ch
