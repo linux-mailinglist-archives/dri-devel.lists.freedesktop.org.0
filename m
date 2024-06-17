@@ -2,72 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148A290B1C0
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 16:25:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5844290B1CC
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 16:26:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 317A210E3ED;
-	Mon, 17 Jun 2024 14:25:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ACF410E3F0;
+	Mon, 17 Jun 2024 14:26:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="KA7SJk8m";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="KfoXNwfZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+BlZhxvX";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KfoXNwfZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+BlZhxvX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 392FA10E3ED
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 14:25:12 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-4217fd95c78so2613955e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 07:25:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1718634310; x=1719239110; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=37zGSaNNYOVV5h1FxAcCJXKdTZPd/vYhydvfcpv7d3c=;
- b=KA7SJk8mw0N8XGGzoq2MllcecGTmxPrfP/MPLEp7n7Lxafz2wOKNQRlUgqiuA9Jpax
- tnPQn1o5ASOVWi4+4dIzw3i3q8gPUBFvBIvBGrlrkEPqXsrMMsloVOYj8g/3qFob4ueS
- R+c2Q4BP1DPPabQTKCXduXmxeH3W4W4KfPnko=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718634310; x=1719239110;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=37zGSaNNYOVV5h1FxAcCJXKdTZPd/vYhydvfcpv7d3c=;
- b=gNKVOVO11EOVODmZmMYI4ldgN6EW+PBG+QX7ITbupQcKf9JyjJreW15u/LlPk0ygpD
- GrAFMcg0A6aY+HdNFikHBmGInd2oQhFF/KSqs7BeWNwPwJFcOXRZ8QUwE/kJtaI6c4RX
- 4NnUnGWRfrs9z8YCukzPf7IZ/0HwmkEXcc1hyqM+uoYATIRu5As3AZAOHcKzo/AhSHQH
- w3IkjU6iVsgKUdR3inlF20UpQ8Agr2O3eNSX2H6L0KUHdajl1xMTI1RuXTLLF1D/yIAG
- /U8J/RIQVhjZlcfaX7zbCoAyq0OgHWcOzo+zNIPlpKV+FJRZs8SClZPx98Mu1ANfA4vJ
- fp5g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUuXy3GPGjlabwKH41eLBZpW3YSp7ogGWPBx2KXfnGxrkcoeb29mmMYHAalqM0K4/1gxwZu+XoAlzKS20f2ypkp6CHjAR82L0ppw8LjBo5B
-X-Gm-Message-State: AOJu0YybiDOyDWlhtQ5cvDy9jT1pXMUiD1UTp+pQwoGsOs5jQN5uIWxH
- lXY1cN454hF9pDraP6h+gyHoejpOx/qWcANdY9gb9o/LqIXhYQWkBmtb0a0rTw8=
-X-Google-Smtp-Source: AGHT+IHYj24IzjJd5xigCzw+aNJVQiGAA0BL4zSL0PWE2WtnIOxUiZ5I1tLdrRyCJeXqVPbttUkyQg==
-X-Received: by 2002:a05:600c:4ba5:b0:423:573:ab52 with SMTP id
- 5b1f17b1804b1-4230573ae49mr72536085e9.0.1718634310329; 
- Mon, 17 Jun 2024 07:25:10 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-423072c21dbsm118444885e9.4.2024.06.17.07.25.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jun 2024 07:25:09 -0700 (PDT)
-Date: Mon, 17 Jun 2024 16:25:08 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v2 2/9] drm: Export drm_plane_has_format()
-Message-ID: <ZnBHRN2RV3kjruxo@phenom.ffwll.local>
-References: <20240612204712.31404-1-ville.syrjala@linux.intel.com>
- <20240612204712.31404-3-ville.syrjala@linux.intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A53A10E3F0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 14:26:04 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6D882382E4;
+ Mon, 17 Jun 2024 14:26:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718634362; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=aXvJ1ME6kf2UaQDkiII1/rcRoZbggmd58Lc3L1liH+0=;
+ b=KfoXNwfZCgUQ84vD8eEBIY3n++UYVunAZ7nuzlGBzLT2txdzoU83HJzrfiZ5w7Au2I47cB
+ U+dYBg7Nd5u/0SoXQ6AeHqGXLn5O0ADfTIT4RZ5JvMgbXTM0P3SCisNaYKu0K1s+YtC7hD
+ v2Zz8UlMorbQo0RHREGDiAiBWuctQnA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718634362;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=aXvJ1ME6kf2UaQDkiII1/rcRoZbggmd58Lc3L1liH+0=;
+ b=+BlZhxvXqOi3VuO/n/R1Q6oTmg9ynk/Z9MzxyCOumBOqzI3puaBYRV1UEWNBYKM1S9vbDI
+ Yo9EjmftVrlXvxBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718634362; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=aXvJ1ME6kf2UaQDkiII1/rcRoZbggmd58Lc3L1liH+0=;
+ b=KfoXNwfZCgUQ84vD8eEBIY3n++UYVunAZ7nuzlGBzLT2txdzoU83HJzrfiZ5w7Au2I47cB
+ U+dYBg7Nd5u/0SoXQ6AeHqGXLn5O0ADfTIT4RZ5JvMgbXTM0P3SCisNaYKu0K1s+YtC7hD
+ v2Zz8UlMorbQo0RHREGDiAiBWuctQnA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718634362;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=aXvJ1ME6kf2UaQDkiII1/rcRoZbggmd58Lc3L1liH+0=;
+ b=+BlZhxvXqOi3VuO/n/R1Q6oTmg9ynk/Z9MzxyCOumBOqzI3puaBYRV1UEWNBYKM1S9vbDI
+ Yo9EjmftVrlXvxBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2E92A139AB;
+ Mon, 17 Jun 2024 14:26:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id C1X3CXpHcGa4VwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 17 Jun 2024 14:26:02 +0000
+Message-ID: <d33863f3-5d3d-4a47-83c3-11e55d3f32de@suse.de>
+Date: Mon, 17 Jun 2024 16:26:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/fbdev-dma: fix getting smem_start
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Peng Fan <peng.fan@nxp.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240604080328.4024838-1-peng.fan@oss.nxp.com>
+ <8f4a6d80-dd3e-422f-88af-d26f50c973ff@suse.de>
+ <e307fdc0-553d-4946-9017-ed3a28e9cae2@suse.de>
+ <87cyomsiqt.fsf@minerva.mail-host-address-is-not-set>
+ <14a7c534-af3f-43b8-a24c-501a9af97936@suse.de>
+ <Zmm4HSkia-x_oRWR@phenom.ffwll.local>
+ <e1aa9785-6833-4bbb-bed7-2e01ee9634c6@suse.de>
+ <209a99c3-6d44-4abc-a486-8e6d0a0c7370@suse.de>
+ <ZnBCVg_tblwJhOIH@phenom.ffwll.local>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <ZnBCVg_tblwJhOIH@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240612204712.31404-3-ville.syrjala@linux.intel.com>
-X-Operating-System: Linux phenom 6.8.9-amd64 
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[];
+ FREEMAIL_TO(0.00)[redhat.com,oss.nxp.com,linux.intel.com,kernel.org,gmail.com,nxp.com,lists.freedesktop.org,vger.kernel.org];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[8]; MIME_TRACE(0.00)[0:+];
+ MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -4.29
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,69 +152,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 12, 2024 at 11:47:05PM +0300, Ville Syrjala wrote:
-> From: Ville Syrj�l� <ville.syrjala@linux.intel.com>
-> 
-> Export drm_plane_has_format() so that drivers can use it.
-> 
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-> Signed-off-by: Ville Syrj�l� <ville.syrjala@linux.intel.com>
-> ---
->  drivers/gpu/drm/drm_crtc_internal.h | 2 --
->  drivers/gpu/drm/drm_plane.c         | 1 +
->  include/drm/drm_plane.h             | 2 ++
->  3 files changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
-> index cdd60f2a4052..1f73b8d6d750 100644
-> --- a/drivers/gpu/drm/drm_crtc_internal.h
-> +++ b/drivers/gpu/drm/drm_crtc_internal.h
-> @@ -272,8 +272,6 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
->  /* drm_plane.c */
->  int drm_plane_register_all(struct drm_device *dev);
->  void drm_plane_unregister_all(struct drm_device *dev);
-> -bool drm_plane_has_format(struct drm_plane *plane,
-> -			  u32 format, u64 modifier);
->  struct drm_mode_rect *
->  __drm_plane_get_damage_clips(const struct drm_plane_state *state);
->  
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index 268aa2299df5..a51d4dd3f7de 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -906,6 +906,7 @@ bool drm_plane_has_format(struct drm_plane *plane,
->  
->  	return true;
->  }
-> +EXPORT_SYMBOL(drm_plane_has_format);
+Hi
 
-Kerneldoc please, since this is now part of the driver api. With that on
-the first two patches:
+Am 17.06.24 um 16:04 schrieb Daniel Vetter:
+> On Thu, Jun 13, 2024 at 12:18:55PM +0200, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 13.06.24 um 12:14 schrieb Thomas Zimmermann:
+>>> Hi
+>>>
+>>> Am 12.06.24 um 17:00 schrieb Daniel Vetter:
+>>>> On Wed, Jun 12, 2024 at 10:37:14AM +0200, Thomas Zimmermann wrote:
+>>>>> Hi Javier
+>>>>>
+>>>>> Am 12.06.24 um 09:49 schrieb Javier Martinez Canillas:
+>>>>>> Thomas Zimmermann <tzimmermann@suse.de> writes:
+>>>>>>
+>>>>>> Hello Thomas,
+>>>>>>
+>>>>>>> Hi
+>>>>>>>
+>>>>>>> Am 10.06.24 um 10:47 schrieb Thomas Zimmermann:
+>>>>>>>> Hi
+>>>>>>>>
+>>>>>>>> Am 04.06.24 um 10:03 schrieb Peng Fan (OSS):
+>>>>>>>>> From: Peng Fan <peng.fan@nxp.com>
+>>>>>>>>>
+>>>>>>>>> If 'info->screen_buffer' locates in vmalloc
+>>>>>>>>> address space, virt_to_page
+>>>>>>>>> will not be able to get correct results. With CONFIG_DEBUG_VM and
+>>>>>>>>> CONFIG_DEBUG_VIRTUAL enabled on ARM64, there is dump below:
+>>>>>>>> Which graphics driver triggers this bug?
+>>>>>>>>
+>>>>>>>>> [    3.536043] ------------[ cut here ]------------
+>>>>>>>>> [    3.540716] virt_to_phys used for non-linear address:
+>>>>>>>>> 000000007fc4f540 (0xffff800086001000)
+>>>>>>>>> [    3.552628] WARNING: CPU: 4 PID: 61 at
+>>>>>>>>> arch/arm64/mm/physaddr.c:12
+>>>>>>>>> __virt_to_phys+0x68/0x98
+>>>>>>>>> [    3.565455] Modules linked in:
+>>>>>>>>> [    3.568525] CPU: 4 PID: 61 Comm: kworker/u12:5 Not tainted
+>>>>>>>>> 6.6.23-06226-g4986cc3e1b75-dirty #250
+>>>>>>>>> [    3.577310] Hardware name: NXP i.MX95 19X19 board (DT)
+>>>>>>>>> [    3.582452] Workqueue: events_unbound deferred_probe_work_func
+>>>>>>>>> [    3.588291] pstate: 60400009 (nZCv daif +PAN
+>>>>>>>>> -UAO -TCO -DIT -SSBS
+>>>>>>>>> BTYPE=--)
+>>>>>>>>> [    3.595233] pc : __virt_to_phys+0x68/0x98
+>>>>>>>>> [    3.599246] lr : __virt_to_phys+0x68/0x98
+>>>>>>>>> [    3.603276] sp : ffff800083603990
+>>>>>>>>> [    3.677939] Call trace:
+>>>>>>>>> [    3.680393]  __virt_to_phys+0x68/0x98
+>>>>>>>>> [    3.684067] drm_fbdev_dma_helper_fb_probe+0x138/0x238
+>>>>>>>>> [    3.689214]
+>>>>>>>>> __drm_fb_helper_initial_config_and_unlock+0x2b0/0x4c0
+>>>>>>>>> [    3.695385]  drm_fb_helper_initial_config+0x4c/0x68
+>>>>>>>>> [    3.700264]  drm_fbdev_dma_client_hotplug+0x8c/0xe0
+>>>>>>>>> [    3.705161]  drm_client_register+0x60/0xb0
+>>>>>>>>> [    3.709269]  drm_fbdev_dma_setup+0x94/0x148
+>>>>>>>>>
+>>>>>>>>> So add a check 'is_vmalloc_addr'.
+>>>>>>>>>
+>>>>>>>>> Fixes: b79fe9abd58b ("drm/fbdev-dma: Implement fbdev emulation for
+>>>>>>>>> GEM DMA helpers")
+>>>>>>>>> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+>>>>>>>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>>>> I'm taking back my r-b. The memory is expected to by be physically
+>>>>>>> contiguous and vmalloc() won't guarantee that.
+>>>>>>>
+>>>>>> Agreed.
+>>>>> These smem_ fields are clearly designed for PCI BARs of
+>>>>> traditional graphics
+>>>>> cards. So can we even assume contiguous memory for DMA? That was my
+>>>>> assumption, but with IOMMUs it might not be the case. Fbdev-dma
+>>>>> only sets
+>>>>> smem_start to support a single old userspace driver. Maybe we
+>>>>> should further
+>>>>> restrict usage of this field by making it opt-in for each driver. Best
+>>>>> regards Thomas
+>>>> We could make it all conditional on CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM, and
+>>>> remove the FBINFO_HIDE_SMEM_START flag. The reason I've done the flag is
+>>>> that with the old fb_mmap code we had to always fill out smem_start to
+>>>> make mmap work. But now that the various drm fbdev helpers have all
+>>>> their
+>>>> own mmap implementation, we could make this a lot cleaner.
+>>> Enabling CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM would still crash the NXP
+>>> driver. I think I'll add a flag to drm_fbdev_dma_setup() to set
+>>> smem_start from within lima, which is the only driver that requires
+>>> it.I'd like to remove CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM and all that, but
+>>> I fear that it would break someone's setup. Best regards Thomas
+> Yeah we'd always need to make this conditional on the memory not being in
+> the vmalloc range, or things will blow up.
+>
+>> I've been looking at
+>>
+>> https://lore.kernel.org/dri-devel/20240318-dark-mongoose-of-camouflage-7ac6ed@houat/
+>>
+>> and I'm now confused to find that lima doesn't even set up fbdev support.
+> The mali driver here was the out-of-tree proprietary mali driver as the
+> consumer of such buffers.
+>
+> The "exporters" was just any random fbdev driver, and with the DRM option
+> to set the smem, also drm drivers could play in this role. It at least
+> seems to have helped a few people to move away from out-of-tree fbdev
+> drivers to upstream drm drivers (but still with the out-of-tree mali gpu
+> driver). Which means we've needed this for any display driver that
+> happens to have shipped together with one of these older mali gpus.
+>
+> It's a bit a mess, and it might indeed have outlived it's usefulness.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Thanks a lot for explaining. Sounds like the kind of workaround that is 
+almost impossible to remove.
+
+Let me send out a patch that connects the setting in fbdev-dma to the 
+drm_leak_fbdev_smem parameter. At least fbdev-dma won't try to set 
+smem_start unnecessarily.
 
 
->  
->  static int __setplane_check(struct drm_plane *plane,
->  			    struct drm_crtc *crtc,
-> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-> index 9507542121fa..dd718c62ac31 100644
-> --- a/include/drm/drm_plane.h
-> +++ b/include/drm/drm_plane.h
-> @@ -972,6 +972,8 @@ static inline struct drm_plane *drm_plane_find(struct drm_device *dev,
->  #define drm_for_each_plane(plane, dev) \
->  	list_for_each_entry(plane, &(dev)->mode_config.plane_list, head)
->  
-> +bool drm_plane_has_format(struct drm_plane *plane,
-> +			  u32 format, u64 modifier);
->  bool drm_any_plane_has_format(struct drm_device *dev,
->  			      u32 format, u64 modifier);
->  
-> -- 
-> 2.44.2
-> 
+Best regards
+Thomas
+
+>
+> Cheers, Sima
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
