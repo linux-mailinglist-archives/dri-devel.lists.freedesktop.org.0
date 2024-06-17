@@ -2,114 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E641690B157
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 16:17:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3949E90B160
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 16:17:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B84B10E3DD;
-	Mon, 17 Jun 2024 14:16:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4FA710E00A;
+	Mon, 17 Jun 2024 14:17:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="S8ZLPaEe";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="lv3mYpud";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DAF910E13F
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 14:16:57 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-a6f7b785a01so188892766b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 07:16:57 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED4610E00A
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 14:17:40 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-42111cf2706so3863055e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 07:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718633816; x=1719238616; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Drz0c1Oa4e/cLUt8BmnU83fUjCzoD8CgDqb9N07B3fI=;
- b=S8ZLPaEeyt7RqAMnmUfXrvazWy6yAwiE3nxc8XGCPmsWtxdGETjuWt82jks6lbGf6F
- b4grq3KONiAYtRpkt0Soc9zh7/AvHqEDnLa8G5KWkFtdk7AmbaapZmL5XAHU7P5F1kXw
- 9z5AcNSXeaIujjl2g/hgRcVfENLq/yUGX/KUr68XEpljnv1vjj7IePiVgKTQTtmrlWL8
- Lz9KJenmuGnxSDM9Kw9L28xPuSln0eLsw3zFYLY+W2wbATn0hnm+H3eVHkAD4HIo8ND8
- dvBEZkb/9pIomtu52P5x5hynS3hThSCdZ9uYQDmlHrMdk2fBSd14Ve6gMnb4ssTY75aq
- ud1Q==
+ d=ffwll.ch; s=google; t=1718633858; x=1719238658; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=EQM95NhZnQZa7dlF/QRLcwl7uH7baUwpwDD/MIgaZ74=;
+ b=lv3mYpudE0Dbyo43i4Ox7sZYR1vegJf/ayhEbcGb+ucA7IzHvCDMeS9krSpRsAmes8
+ aVm2MBbT+uLUdR+uYEu8gH1RkaIZpsXstu9KCcz/i2sFycPtEsfa85OM8saYEf2r8dX0
+ nXuFAzytaQumsew4O2p9q6vJuHOAPwDVIRrtE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718633816; x=1719238616;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Drz0c1Oa4e/cLUt8BmnU83fUjCzoD8CgDqb9N07B3fI=;
- b=pnGzYhh4JlKyNxCuxXJHidSAcdVFF4arzpF7rhptjKTYSPHtuZMEbyeo/p6RXt086f
- N+bhsjclOyAD/qydtSF2UjOZFZ25bGZ4aTXAsjUPvjjFP/L8yZJrTFIcJLXSIRqi1KbL
- 2JSh0uA5UVjOqlSBnXkW+dBPlTALHIK97DpAD/DPcG7EV8CqGnOIB9p0JBbTtq6P/WYJ
- TT0nmqzVt1eKEozxBHwDamvBcjD8q/pea83UWQ5pEJmLpOkm0wNjg8zZo9xcTjX9GDup
- VGcb1oZd/m9IO4QOqlL9NKTnscq7TLCubQxcu4627iJ5hhq+2jFCsB2OnDiUk9U1P3av
- 0t5g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCURAArUO2qZxiWZ3M+6a8cTEQKHxFjigIPJ2ipgGEIe/xxzx0hOyy4ReByMTjitT4HKJ2TZhyAEwUbnBGJ7waIT7TWeaR3nrZGfbr6mNE+C
-X-Gm-Message-State: AOJu0YxDZ7QcWeLjVpvwP6xzMoO84t8mNo6DJRnsD029TMudell9O8c4
- 1bwi/iAue1WAh0EWQgnazATaKsKY4KoBmPBYSR3jNDmQwPZ2GurT
-X-Google-Smtp-Source: AGHT+IFokiO39Qki+IyFQ+TRRzsTCRMTNhTNMlfnFWf73BlGYeWH1z0yP3M3M0hW8ADbaYfa4+g3mQ==
-X-Received: by 2002:a17:906:4555:b0:a6f:523a:8e93 with SMTP id
- a640c23a62f3a-a6f60de2129mr643249766b.71.1718633815552; 
- Mon, 17 Jun 2024 07:16:55 -0700 (PDT)
-Received: from [192.168.42.82] ([163.114.131.193])
+ d=1e100.net; s=20230601; t=1718633858; x=1719238658;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EQM95NhZnQZa7dlF/QRLcwl7uH7baUwpwDD/MIgaZ74=;
+ b=X1+vm5qmAZ/xWPbTT1u5pO92GxwpGQdjyqgRER5aY5m6JEUDD4Und58KPb2DGFObgh
+ iBPpAJ/6r3t1Y+1sJItN1Mnj+Jna2aXvtSE0BWysW7kCISB7XHg7vsouD4bHP2zyxThz
+ yekIxEEL4gZ7ysrQMR85Y1XIT5BykUIzq5UzbiJeb5yJnH3e7s+z5hsiokHNoI0h0oAz
+ J+J41U3d8PdQQvtWOAcE2Vbt7PrkobXUHGKFhmCajPbhcH+KyWE4EQzgIMUr/OTQ8IsU
+ VBhyQdIyh9wa9dFzqJ+LsAv+ppUaSufEXqp6jpTcQ4lzMcYQoI5mQBMLGpEW3qMhn/z6
+ 4pzw==
+X-Gm-Message-State: AOJu0YwC4ockyBWkB0o8wstnZtKwnyIl9W1rlCBuU9wWABVRtUBFil9m
+ /c1BvZwX3Mgbi8iNuKG0jbPAsKalNDkkDd/x61L5zQbyykiqekwA6MLhucpLIeI=
+X-Google-Smtp-Source: AGHT+IFaPmZ5YPaGTAKYQuL1A8FFLHJdpy9zr6av7LaKtOLyHHiP9Q9wE0M/rUpSCmZEz6upnZzs3Q==
+X-Received: by 2002:a05:6000:1849:b0:35f:e38:6758 with SMTP id
+ ffacd0b85a97d-3607a789ad4mr6496360f8f.7.1718633858470; 
+ Mon, 17 Jun 2024 07:17:38 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a6f56db67e5sm518501066b.66.2024.06.17.07.16.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jun 2024 07:16:55 -0700 (PDT)
-Message-ID: <439590d4-0f05-4f5e-80ec-e7fdf214e307@gmail.com>
-Date: Mon, 17 Jun 2024 15:16:56 +0100
+ ffacd0b85a97d-360750ad082sm11835024f8f.59.2024.06.17.07.17.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Jun 2024 07:17:38 -0700 (PDT)
+Date: Mon, 17 Jun 2024 16:17:36 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Doug Anderson <dianders@chromium.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Yuran Pereira <yuran.pereira@hotmail.com>,
+ Chris Morgan <macromorgan@hotmail.com>, David Airlie <airlied@gmail.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/panel: Avoid warnings w/ panel-simple/panel-edp at
+ shutdown
+Message-ID: <ZnBFgDO37xhMfvzV@phenom.ffwll.local>
+Mail-Followup-To: Doug Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Yuran Pereira <yuran.pereira@hotmail.com>,
+ Chris Morgan <macromorgan@hotmail.com>,
+ David Airlie <airlied@gmail.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org
+References: <20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
+ <ZmljNHteJ9L5EdE9@phenom.ffwll.local>
+ <CAD=FV=V4C1AYVqG4gig+SiQr4n_mAPVASxneDDZT1a=7AY3Hzw@mail.gmail.com>
+ <Zmm6i6iQOdP613w3@phenom.ffwll.local>
+ <CAD=FV=WBVfBZrgGay=XY2Usq3FA3m9i6y0cU4=b=w7qO6gRBFQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v12 06/13] page_pool: devmem support
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
-References: <20240613013557.1169171-1-almasrymina@google.com>
- <20240613013557.1169171-7-almasrymina@google.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20240613013557.1169171-7-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD=FV=WBVfBZrgGay=XY2Usq3FA3m9i6y0cU4=b=w7qO6gRBFQ@mail.gmail.com>
+X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,127 +106,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/13/24 02:35, Mina Almasry wrote:
-> Convert netmem to be a union of struct page and struct netmem. Overload
-> the LSB of struct netmem* to indicate that it's a net_iov, otherwise
-> it's a page.
+On Wed, Jun 12, 2024 at 09:00:29AM -0700, Doug Anderson wrote:
+> Hi,
 > 
-> Currently these entries in struct page are rented by the page_pool and
-> used exclusively by the net stack:
+> On Wed, Jun 12, 2024 at 8:11 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > > The problem is that the ordering is wrong, I think. Even if the OS was
+> > > calling driver shutdown functions in the perfect order (which I'm not
+> > > convinced about since panels aren't always child "struct device"s of
+> > > the DRM device), the OS should be calling panel shutdown _before_
+> > > shutting down the DRM device. That means that with your suggestion:
+> > >
+> > > 1. Shutdown starts and panel is on.
+> > >
+> > > 2. OS calls panel shutdown call, which prints warnings because panel
+> > > is still on.
+> > >
+> > > 3. OS calls DRM driver shutdown call, which prints warnings because
+> > > someone else turned the panel off.
+> >
+> > Uh, that's a _much_ more fundamental issue.
+> >
+> > The fix for that is telling the driver core about this dependency with
+> > device_link_add. Unfortuantely, despite years of me trying to push for
+> > this, drm_bridge and drm_panel still don't automatically add these,
+> > because the situation is a really complex mess.
+> >
+> > Probably need to read dri-devel archives for all the past attempts around
+> > device_link_add.
+> >
+> > But the solution is definitely not to have a manually tracked list, what's
+> > very architectural unsound way to tackle this problem.
+> >
+> > > Certainly if I goofed and the above is wrong then let me know--I did
+> > > my experiments on this many months ago and didn't try repeating them
+> > > again now.
+> >
+> > Oh the issue is very real and known since years. It also wreaks module
+> > unload and driver unbinding, since currently nothing makes sure your
+> > drm_panel lives longer than your drm_device.
 > 
-> struct {
-> 	unsigned long pp_magic;
-> 	struct page_pool *pp;
-> 	unsigned long _pp_mapping_pad;
-> 	unsigned long dma_addr;
-> 	atomic_long_t pp_ref_count;
-> };
+> In this case I'm mostly worried about the device "shutdown" call, so
+> it's not quite a lifetime issue but it is definitely related.
+
+There's the "this is for pm" type of device_link, they have a few
+flavours. And if that doesn't yet cover ->shutdown, then I guess that
+needs to be addressed.
+
+> As per my reply to Maxime, though, I'd expect that if all ordering
+> issues were fixed and things were perfect then we'd still have a
+> problem. Specifically it would seem pretty wrong to me to say that the
+> panel is the "parent" of the DRM device, right? So if the panel is the
+> "child" of the DRM device that means it'll get shutdown first and that
+> means that the panel's shutdown call cannot be used to tell whether
+> the DRM device's shutdown call behaved properly.
+
+The device_link (if you add it the correct way round) means a
+provider-consumer relationship. Which means:
+
+- driver core unbinds the consumer before the provider (e.g. on module
+  unload)
+- driver core disables the consumer before the provider for power
+  management stuff
+- driver core enables providers before consumers when enabling power again
+
+So yeah this should work the right way round ...
+
+> > > In any case, the only way I could figure out around this was some sort
+> > > of list. As mentioned in the commit message, it's super ugly and
+> > > intended to be temporary. Once we solve all the current in-tree
+> > > drivers, I'd imagine that long term for new DRM drivers this kind of
+> > > thing would be discovered during bringup of new boards. Usually during
+> > > bringup of new boards EEs measure timing signals and complain if
+> > > they're not right. If some EE cared and said we weren't disabling the
+> > > panel correctly at shutdown time then we'd know there was a problem.
+> >
+> > You've stepped into an entire hornets nest with this device dependency
+> > issue unfortunately, I'm afraid :-/
 > 
-> Mirror these (and only these) entries into struct net_iov and implement
-> netmem helpers that can access these common fields regardless of
-> whether the underlying type is page or net_iov.
+> As you've said, you've been working on this problem for years. Solving
+> the device link problem doesn't help me, but even if it did it's
+> really not fundamental to the problem here. The only need is to get a
+> warning printed out so we know for sure which DRM drivers need to be
+> updated before deleting the old crufty code. Blocking that on a
+> difficult / years-long struggle might not be the best.
+
+The issue is that everyone just gives up, so it's not moving.
+
+> That all being said, I'm also totally OK with any of the following:
 > 
-> Implement checks for net_iov in netmem helpers which delegate to mm
-> APIs, to ensure net_iov are never passed to the mm stack.
+> 1. Dropping my patch and just accepting that we will have warnings
+> printed out for all DRM drivers that do things correctly and have no
+> warnings for broken DRM drivers.
+
+Can't we just flip the warnings around? Like make the hacky cleanup
+conditional on the panel not yet being disabled/cleaned up, and complain
+in that case only. With that:
+- drivers which call shutdown shouldn't get a warning anymore, and also
+  not a surplus call to drm_panel_disable/unprepare
+- drivers which are broken still get the cleanup calls
+- downside: we can't enforce this, because it's not yet enforced through
+  device_link ordering
+
+> 2. Someone else posting / landing a patch to remove the hacky "disable
+> / unprepare" for panel-simple and panel-edp and asserting that they
+> don't care if they break any DRM drivers that are still broken. I
+> don't want to be involved in authoring or landing this patch, but I
+> won't scream loudly if others want to do it.
 > 
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-
-Apart from small comments below
-
-Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
-
-
-> ---
->   include/net/netmem.h            | 137 ++++++++++++++++++++++++++++++--
->   include/net/page_pool/helpers.h |  25 +++---
->   net/core/devmem.c               |   3 +
->   net/core/page_pool.c            |  26 +++---
->   net/core/skbuff.c               |  22 +++--
->   5 files changed, 168 insertions(+), 45 deletions(-)
+> 3. Someone else taking over trying to solve this problem.
 > 
-> diff --git a/include/net/netmem.h b/include/net/netmem.h
-> index 664df8325ece5..35ad237fdf29e 100644
-> --- a/include/net/netmem.h
-> +++ b/include/net/netmem.h
-...
-> -/* Converting from page to netmem is always safe, because a page can always be
-> - * a netmem.
-> - */
->   static inline netmem_ref page_to_netmem(struct page *page)
->   {
->   	return (__force netmem_ref)page;
-> @@ -68,17 +107,103 @@ static inline netmem_ref page_to_netmem(struct page *page)
->   
->   static inline int netmem_ref_count(netmem_ref netmem)
->   {
-> +	/* The non-pp refcount of net_iov is always 1. On net_iov, we only
-> +	 * support pp refcounting which uses the pp_ref_count field.
-> +	 */
-> +	if (netmem_is_net_iov(netmem))
-> +		return 1;
-> +
->   	return page_ref_count(netmem_to_page(netmem));
->   }
->   
->   static inline unsigned long netmem_to_pfn(netmem_ref netmem)
->   {
-> +	if (netmem_is_net_iov(netmem))
-> +		return 0;
+> ...mostly this work is janitorial and I'm trying to help move the DRM
+> framework forward and get rid of cruft, so if it's going to cause too
+> much conflict I'm fine just stepping back.
 
-IIRC 0 is a valid pfn. Not much of a concern since it's
-used only for tracing, but might make sense to pass some
-invalid pfn if there is one
-
-> +
->   	return page_to_pfn(netmem_to_page(netmem));
->   }
->   
-...
->   static inline netmem_ref netmem_compound_head(netmem_ref netmem)
->   {
-> +	/* niov are never compounded */
-> +	if (netmem_is_net_iov(netmem))
-> +		return netmem;
-> +
->   	return page_to_netmem(compound_head(netmem_to_page(netmem)));
->   }
->   
-> +static inline void *netmem_address(netmem_ref netmem)
-
-I don't think it's used anywhere, do I miss it?
-
-> +{
-> +	if (netmem_is_net_iov(netmem))
-> +		return NULL;
-> +
-> +	return page_address(netmem_to_page(netmem));
-> +}
-> +
-...
-> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-> index a5957d3359762..1152e3547795a 100644
-> --- a/net/core/page_pool.c
-> +++ b/net/core/page_pool.c
-> @@ -26,6 +26,8 @@
-...
->   
->   /* If the page refcnt == 1, this will try to recycle the page.
-> @@ -714,7 +713,7 @@ __page_pool_put_page(struct page_pool *pool, netmem_ref netmem,
->   	 * refcnt == 1 means page_pool owns page, and can recycle it.
->   	 *
->   	 * page is NOT reusable when allocated when system is under
-> -	 * some pressure. (page_is_pfmemalloc)
-> +	 * some pressure. (page_pool_page_is_pfmemalloc)
-
-There is no page_pool_page_is_pfmemalloc()
-
->   	 */
->   	if (likely(__page_pool_page_can_be_recycled(netmem))) {
->   		/* Read barrier done in page_ref_count / READ_ONCE */
-> @@ -727,6 +726,7 @@ __page_pool_put_page(struct page_pool *pool, netmem_ref netmem,
->   		/* Page found as candidate for recycling */
->   		return netmem;
->   	}
-
+My issue is that you're trading an ugly warning that hurts maintenance
+with an explicit list of working drivers, which also hurts maintenance.
+Does seem like forward progress to me, just pushing the issue around.
+-Sima
 -- 
-Pavel Begunkov
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
