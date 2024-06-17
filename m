@@ -2,69 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5857290BCC7
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 23:18:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0D190BCED
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 23:29:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B51C910E0FA;
-	Mon, 17 Jun 2024 21:18:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67C3010E4F4;
+	Mon, 17 Jun 2024 21:29:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="UM8T/G+l";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="McsnFeBJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73DC210E0FA
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 21:18:30 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 73A3D40E01F9; 
- Mon, 17 Jun 2024 21:18:28 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
- header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
- by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id tde_eHHVuoG1; Mon, 17 Jun 2024 21:18:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1718659105; bh=yK+oTJoi5DGuEHt6jESCPtqmrBbsMm4vga3QYTDWOxs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UM8T/G+lPTeB4SuRGoE9vf9I0FOvyUQYpL1yVCD9HjVhLj3m6C9Px/9ZAaCG3oD9r
- 7GNAh0JUIAYea7bhql07cHV4dy7cg4qq1KsW+KGO3fkl41zA+tu3W+AyfTL8EkS865
- Geg/Tl0Uoy5Uru/g1xSLXiHlZ7wKhnjK5kXtfeE4Xt8xmDG3qn9uX96v0Zvc0jKdj8
- nQZ0omgR81Zf4qk9Jc/q4x9DOuPCoj+Y+OiLyCk95I8JTQ1g2b7zQ7uE0A7nTRFdAw
- xdHSIhxRABsU5W5jPbFXRk++KLT3cysJwxZj8Npn1S1kPtEnzrqMMsPD7ilEFMF6Pj
- uL212OxyfMOFSX8pnLYfuSWIB3NLrASeQBTTN5/+SUF0fMP/NZUsfWc6f7I3rOZ9hA
- dGwTvdoT4jHyq/hJ5HxV97DYtJI/hxvXvFTv8g3XhDl63gqx3Rbdz52juifyYrycjN
- V3Tr6oX9GkotHVirBjsLg8XZgA6nOWUOWovabnqKFpSWBJI1GOlgEkfeQuIaO0vwK2
- qAQUwBnGHKYEb9CZYXJfTi95JVErV6fUHDHj911kk9KF68/TdALRWEGR5XXGsV5FxI
- gOmnUB/5NcsdYd4qKHxKveeHHSSZNZUG1j8hAymip8/kS+5pXjo2KrJsh9No6ALasN
- 2wfhgOcsSqKNmIrzdJN9Hz0w=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EAB3E40E0185;
- Mon, 17 Jun 2024 21:18:04 +0000 (UTC)
-Date: Mon, 17 Jun 2024 23:17:58 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: linux-kernel@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
- lkp@intel.com, zack.rusin@broadcom.com,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
- tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, linux-iio@vger.kernel.org,
- jic23@kernel.org, lars@metafoo.de, nuno.sa@analog.com,
- dragos.bogdan@analog.com, anshulusr@gmail.com,
- andrea.collamati@gmail.com, oe-kbuild-all@lists.linux.dev, x86@kernel.org
-Subject: Re: [PATCH 1/2] drm/vmwgfx: Fix missing HYPERVISOR_GUEST dependency
-Message-ID: <20240617211758.GKZnCoBvT2enGx5p5r@fat_crate.local>
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4393310E4F4
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 21:29:23 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id
+ 98e67ed59e1d1-2bfff08fc29so3998997a91.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 14:29:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1718659762; x=1719264562;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=AvZIXvMi5FokCR17bpHiTWQ1MBkghfetILWS0Qb82vc=;
+ b=McsnFeBJjk2KCGUoT/JhdU5Y7f3GRvMNBCyxHHFs9pbvcBcIUWms20zEVDPaF158wx
+ 0SZXmlqVUYifatq7lkMiio3pKg0s2e1okmXAOkERiOYb2kx+zvH3UGr01CfYNfSRMNO1
+ GqWzV7RFD0hK7igRiQdqddVYToX6jHDZIdzak=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718659762; x=1719264562;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=AvZIXvMi5FokCR17bpHiTWQ1MBkghfetILWS0Qb82vc=;
+ b=eRpeYKIJe3Nh0B1q6+ekLTfC4FqJGjDNU7WwJYiilDIzI0adXWE9Fuw2VOaVwPGmHQ
+ EmeXCGjNyYp0Ex4zRkubBI0iQIJvnTSVuUmHH316C4enQF/B7qt1r4oTdUakQh49vj1G
+ 50kd9MOPyw7inU451vgxWWhMnoRy5JNlPqP+aRiAEu3oaBG60mzHBn+UwHqVyBpjlb28
+ 5isyefk5OY9EEC4z/GIgLz2keaDqi/JITSGruo+JL5n+Ibk/HBaTaKUPLnDlVqXd6oYL
+ Z+0ZuJQi/yndDaj9DLO0rKxcyTZYV0WYWBBPkdzA0EK2EmpWCAFQukU4sgZJBY96XUQo
+ S75A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUMEPWNmrsCt+4P7hW9cD8eVEt+gW3C099h67JyUjt9VntW8M0puBg9Adcifh93s1niYLW7xE8rOWG7QSogsMCeoCgUMFTGTV86zhE/v5GH
+X-Gm-Message-State: AOJu0Yw6ZxaukhkbSAR76xEJ0GIgjg7sfi5Bbh5YSxvfl1Cfv1X0mURe
+ vOp23LSDs3a4PFR4Y/TzH3UedSeEvry2XcAVsUeV7Hi61BDugEtJT3a0H6MWYzoBv0QH+n1ew8e
+ 2xRtPDqozc2BPagtUt7UscJ1ig9Ix00Tgvk4X
+X-Google-Smtp-Source: AGHT+IFie0wD6hh4OhaRSKH5dtJZrTI8vZCVNU5SSHlj40iMq2ltW3Ct7Lp85KStbXXUGaUQJdn8L0pK7hmVFzzNQY0=
+X-Received: by 2002:a17:90a:af90:b0:2c3:195b:dc36 with SMTP id
+ 98e67ed59e1d1-2c4db12bb3fmr10563676a91.10.1718659762402; Mon, 17 Jun 2024
+ 14:29:22 -0700 (PDT)
+MIME-Version: 1.0
 References: <202406152104.FxakP1MB-lkp@intel.com>
  <20240616012511.198243-1-alexey.makhalov@broadcom.com>
- <20240617090709.GCZm_8vdnLzt048UH_@fat_crate.local>
- <0a29389e-8ba2-48c5-bb26-381de58a62fb@broadcom.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0a29389e-8ba2-48c5-bb26-381de58a62fb@broadcom.com>
+ <20240616012511.198243-2-alexey.makhalov@broadcom.com>
+ <20240617090428.GBZm_8HMQ9XJe_VQga@fat_crate.local>
+ <19e8a6dd-b0d4-4e88-9ad2-e38787a5aee8@broadcom.com>
+ <20240617210208.GJZnCkUIsiXmaQxxPE@fat_crate.local>
+In-Reply-To: <20240617210208.GJZnCkUIsiXmaQxxPE@fat_crate.local>
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Date: Mon, 17 Jun 2024 14:29:11 -0700
+Message-ID: <CAOWL4WR8mY3srFGTyWeXzop0Buqng2zWsmOe4kYJwjKwrkg_vA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] iio: dac: Fix dependencies of AD9739A
+To: Borislav Petkov <bp@alien8.de>
+Cc: linux-kernel@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com, 
+ lkp@intel.com, zack.rusin@broadcom.com, dri-devel@lists.freedesktop.org, 
+ daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org, 
+ maarten.lankhorst@linux.intel.com, linux-iio@vger.kernel.org, 
+ jic23@kernel.org, lars@metafoo.de, nuno.sa@analog.com, 
+ dragos.bogdan@analog.com, anshulusr@gmail.com, andrea.collamati@gmail.com, 
+ oe-kbuild-all@lists.linux.dev, x86@kernel.org
+Content-Type: multipart/alternative; boundary="000000000000a0e14e061b1ca86d"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,31 +85,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 17, 2024 at 01:51:23PM -0700, Alexey Makhalov wrote:
-> Not really a gcc related, but the matter of a config file. It is
-> reproducible if CONFIG_HYPERVISOR_GUEST not set, but CONFIG_DRM_VMWGFX=y.
-> And this combination was allowed before the fix.
+--000000000000a0e14e061b1ca86d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Using their config:
+Haha, got it!
 
-$ grep -E "(CONFIG_DRM_VMWGFX|CONFIG_HYPERVISOR_GUEST)" .config
-# CONFIG_HYPERVISOR_GUEST is not set
-CONFIG_DRM_VMWGFX=y
-CONFIG_DRM_VMWGFX_MKSSTATS=y
+On Mon, Jun 17, 2024 at 2:02=E2=80=AFPM Borislav Petkov <bp@alien8.de> wrot=
+e:
 
-$ make ...
+> On Mon, Jun 17, 2024 at 01:48:38PM -0700, Alexey Makhalov wrote:
+> > > Don't get discouraged, though, when fixing something that is not in o=
+ur
+> > > immediate area of interest!
+> > >
+> > > :-)
+> >
+> > Lesson learned and noted for next time to address only related/new
+> warnings
+> > and errors. Thanks!
+>
+> I actually meant the exact opposite. :-)
+>
+> --
+> Regards/Gruss,
+>     Boris.
+>
+> https://people.kernel.org/tglx/notes-about-netiquette
+>
 
-  OBJCOPY arch/x86/boot/setup.bin
-  BUILD   arch/x86/boot/bzImage
-Kernel: arch/x86/boot/bzImage is ready  (#2)
-$ gcc --version
-gcc (Debian 13.2.0-25) 13.2.0
-$
+--000000000000a0e14e061b1ca86d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-So no, I can't reproduce with my compiler.
+<div dir=3D"ltr">Haha, got it!</div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Mon, Jun 17, 2024 at 2:02=E2=80=AFPM Boris=
+lav Petkov &lt;<a href=3D"mailto:bp@alien8.de">bp@alien8.de</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, Jun 17, =
+2024 at 01:48:38PM -0700, Alexey Makhalov wrote:<br>
+&gt; &gt; Don&#39;t get discouraged, though, when fixing something that is =
+not in our<br>
+&gt; &gt; immediate area of interest!<br>
+&gt; &gt; <br>
+&gt; &gt; :-)<br>
+&gt;<br>
+&gt; Lesson learned and noted for next time to address only related/new war=
+nings<br>
+&gt; and errors. Thanks!<br>
+<br>
+I actually meant the exact opposite. :-)<br>
+<br>
+-- <br>
+Regards/Gruss,<br>
+=C2=A0 =C2=A0 Boris.<br>
+<br>
+<a href=3D"https://people.kernel.org/tglx/notes-about-netiquette" rel=3D"no=
+referrer" target=3D"_blank">https://people.kernel.org/tglx/notes-about-neti=
+quette</a><br>
+</blockquote></div>
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+--000000000000a0e14e061b1ca86d--
