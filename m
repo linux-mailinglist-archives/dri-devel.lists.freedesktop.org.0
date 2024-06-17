@@ -2,83 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D228890A825
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 10:09:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D83790A82C
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 10:11:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F5FD10E126;
-	Mon, 17 Jun 2024 08:09:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C990010E19C;
+	Mon, 17 Jun 2024 08:11:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Yv8/Bq0/";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="q1eJL6Tq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0817410E19C
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 08:09:21 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-52bc335e49aso4670694e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 01:09:21 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 265C410E19C
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 08:11:12 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-2e724bc46c4so46168521fa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 01:11:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718611760; x=1719216560; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1718611870; x=1719216670; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=X2zL/OVwfsmsGKut76UeqNrv4709+NhZVNP+gY0GxxQ=;
- b=Yv8/Bq0/Vc+1s+WLpVrbBvc1RIWZ5RIxLpDKQ49tbZGGJE20dU6A3+XTF14oKY1w1J
- 0Hb5TAvllUsamXTy6gEqqFPUJXDNFqkSWeaxwXWRbWdokdYA3SKopcLwxcCqjvFfqx65
- no4I0zYYRVsdzNNEBr4w7WvcrAnH7eKVlxXynXBkgOFe0dkw8KC7Ni90HSV/XdYbtDkE
- wD9j34YeoKXdTdx2TItEfyXCErV55XLm/dqAnRt4WgMFSHV5Ir54cARg1WJdx8yje/a8
- cJSAZaqdWiFUzw1N4iFsMvWK2VmBKsSF8pxiSEHy2Tu1n0cr6ir1kQPk9MA/n51HHW7s
- 6vVQ==
+ bh=K25N/3U/fOedvyckwiUPgO04fDA/X3bUf5ZT5QtlvDQ=;
+ b=q1eJL6TqWi+sv5E7Jj528lEGSH3qv4USCy+X713CFTKU+s3R1pSBL/90FDTVXdyDPE
+ gRwVghVcN42RrgI34I2BctP1Cq+wPnhSoPCrgpGFBJ7x/bvHn029zq/VifLra8JMTN/8
+ GqRLLsexJ2hAyI4ghlsJa2xIABjy+GLGAeaWQSA5RvDr5pmSwsZBv/1z0L4fbPT6znZG
+ 4q05/CxyvpaHwCF+TFUGpST8RNyLGTQZ34TeXE79458UJQ/N76AGG3Ivs4fHjp9tSKQI
+ Sh5dNaOy4oUiaA7n4DLi4U//zb51dneAzJehF8NdPngGJby3wOJbH6dzCN7wFTqWBvzG
+ Wi0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718611760; x=1719216560;
+ d=1e100.net; s=20230601; t=1718611870; x=1719216670;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=X2zL/OVwfsmsGKut76UeqNrv4709+NhZVNP+gY0GxxQ=;
- b=Ti2t/RKxz7ccKOkBPvYXW4AQHszVWKm3PbjqIZodJeGDYANleI4fJWtcOdZT+X+r+O
- SjC5nrj5FXYvK5WeJg2EbSu3ld0cVCj79KZ4bvmBY6JsGdVVpwZsKf20+ynUQxSnDgoW
- gP3yLfldEociMhoq7/i7gOp+qfh7Px7kXTwexCO4G1TNXRixtQEPHyznzoTckp3SW01i
- UC9ryXGnu54tyQbdMiDwShFQ9G4toVJG2pAtHReOWlMeg3qFzXrnKLP62/UcSyGOBxKM
- kmRDGXWIqpP4YnasnIBhrmNcdKhmxLJBE/ia4z+i42DS+gvq4l1wjH/yNfx4mXcmXIal
- +Trg==
+ bh=K25N/3U/fOedvyckwiUPgO04fDA/X3bUf5ZT5QtlvDQ=;
+ b=aFFolbg2NcJLZcV2aodx2SozExGPYLhGff1OwrQZcsdNIk7HbLb1LGMHtO8m92QtAr
+ 6Wo7JxYLeEF5HIDP3TaaOCL7EoF8zcM3OSpbCJtxsCJQneJzwu1eYf30gLh9y/mrjh4B
+ +3AcIjg2LrDCsdUYytkGrm8F0g46/ywQ6am0zBVDydYBhUKxPjTnEAfNTbeTBR+Uhvgc
+ xqzlB7sdDWNoTxx7jR1tXzdqT9C2Bup3svuG4yjl4VjwGkHj0jD6bZ3QqCAwD6acKkPp
+ 9QR4HnCK2M45UmzB4kPrec9sGGTNhk2YlO9VI0fWT+u8bHLJahohjKVR9B+kWYwKww3Y
+ w2Rg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWrNDzSgkEtKeYcCM2/SG+S2NlGkyOXH/IeqV3g3mk2qm1P5dXRH7q/CuA/kU00yitZhgYk58VoImIds3rSm0+cr6Wjlkw6b3mU9KU+/TEO
-X-Gm-Message-State: AOJu0YyQ9aqj0GKHGONMDRQrQceIMnhlBZYsQFQgLArUi06XUt6Y/hTu
- FfFCo4sRfYrw9a365RgbdvOdukss5VenzI/AkyWNsJIMNHJDcw4r0Ryn31v+tJU=
-X-Google-Smtp-Source: AGHT+IGIN1VZ1dypo5WcnYr1mOVKMSlIuBzxulj3P3h7dJapVZkX5DtowVEXUEm0YvuSq5466IStVA==
-X-Received: by 2002:a05:6512:3481:b0:52c:8ddd:7bde with SMTP id
- 2adb3069b0e04-52ca6e9f522mr5211431e87.69.1718611759946; 
- Mon, 17 Jun 2024 01:09:19 -0700 (PDT)
+ AJvYcCV9YB5g66/YuoyTJvWzFvUICLyWy3oTHi6qoHQ46z1Q3bUSKIt7429z59M2MLJDShfHVJ6/iDYb52L6nv9Yw1Jnh4S0tXSFDTBHJSHU7+Xn
+X-Gm-Message-State: AOJu0YwvKW0Ri7UI1QwCosPesORKUVzWMswlEAQqHGRieZOEdXfQutCB
+ mfUAFi5gdMFZCyk1aLHC8W4jKKbzmdA2DljVZXZdMxx66M+Dbt1+kopm/NStuDc=
+X-Google-Smtp-Source: AGHT+IFCbU4wJgy3KJBNKr1vrp/thHriy4QxTxqnakP6BZLSA1eJsbZCOXQs+4n8+TiuKo2DRzQnXQ==
+X-Received: by 2002:a2e:9a99:0:b0:2eb:279c:f87d with SMTP id
+ 38308e7fff4ca-2ec0e60d841mr56864551fa.48.1718611870063; 
+ Mon, 17 Jun 2024 01:11:10 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52ca287228bsm1165097e87.163.2024.06.17.01.09.19
+ 38308e7fff4ca-2ec05c783cdsm13348901fa.96.2024.06.17.01.11.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jun 2024 01:09:19 -0700 (PDT)
-Date: Mon, 17 Jun 2024 11:09:17 +0300
+ Mon, 17 Jun 2024 01:11:09 -0700 (PDT)
+Date: Mon, 17 Jun 2024 11:11:08 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Aradhya Bhatia <a-bhatia1@ti.com>, Jan Kiszka <jan.kiszka@siemens.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
+To: Jan Kiszka <jan.kiszka@siemens.com>
+Cc: Marek Vasut <marex@denx.de>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>, 
+ Aradhya Bhatia <a-bhatia1@ti.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sam Ravnborg <sam@ravnborg.org>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] drm/bridge: tc358767: Add format negotiation
- hooks for DPI/DSI to (e)DP
-Message-ID: <x3modgardta7sj4hxw6akufgpavhvanxyily4mvejmyvsuvesx@fjmlc6oerspi>
+Subject: Re: [PATCH v2 0/2] drm/bridge: tc358767: Fix
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR case
+Message-ID: <o4bwopeuyxm6344oqqm3e7p3xcx76aw2trsiuhhfyhel2e7po7@sz2jaj6i7kqd>
 References: <20231108-tc358767-v2-0-25c5f70a2159@ideasonboard.com>
- <20231108-tc358767-v2-1-25c5f70a2159@ideasonboard.com>
+ <f6af46e0-aadb-450a-9349-eec1337ea870@ti.com>
+ <2f3bb86b-6f8c-4807-985e-344a0c47864c@siemens.com>
+ <3277848.aeNJFYEL58@steina-w>
+ <b2052bc9-b2da-489b-9e5b-3c9b4f6c1c99@ideasonboard.com>
+ <bc96c6b5-a7f8-4ef3-a89b-bf577943f11c@denx.de>
+ <36ef53b6-57a3-42e4-95ef-a10eef4ca1c9@siemens.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231108-tc358767-v2-1-25c5f70a2159@ideasonboard.com>
+In-Reply-To: <36ef53b6-57a3-42e4-95ef-a10eef4ca1c9@siemens.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,30 +101,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 08, 2023 at 01:27:22PM GMT, Tomi Valkeinen wrote:
-> From: Aradhya Bhatia <a-bhatia1@ti.com>
+On Mon, Jun 17, 2024 at 07:40:32AM GMT, Jan Kiszka wrote:
+> On 16.02.24 15:57, Marek Vasut wrote:
+> > On 2/16/24 10:10, Tomi Valkeinen wrote:
+> >> Ok. Does anyone have a worry that these patches make the situation
+> >> worse for the DSI case than it was before? Afaics, if the DSI lanes
+> >> are not set up early enough by the DSI host, the driver would break
+> >> with and without these patches.
+> >>
+> >> These do fix the driver for DRM_BRIDGE_ATTACH_NO_CONNECTOR and DPI, so
+> >> I'd like to merge these unless these cause a regression with the DSI
+> >> case.
+> > 
+> > 1/2 looks good to me, go ahead and apply .
 > 
-> With new connector model, tc358767 will not create the connector, when
-> DRM_BRIDGE_ATTACH_NO_CONNECTOR is set and display-controller driver will
-> rely on format negotiation to setup the encoder format.
-> 
-> Add the missing bus format negotiation hooks in the
-> drm_bridge_funcs to complete DRM_BRIDGE_ATTACH_NO_CONNECTOR support.
-> 
-> Output format, for DPI/DSI to DP, is selected to
-> MEDIA_BUS_FMT_RGB888_1X24 as default, keeping in mind what the older
-> model used to support.
-> 
-> Reported-by: Jan Kiszka <jan.kiszka@siemens.com>
-> Closes: https://lore.kernel.org/all/24282420-b4dd-45b3-bb1c-fc37fe4a8205@siemens.com/
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/gpu/drm/bridge/tc358767.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
+> My local patches still apply on top of 6.10-rc4, so I don't think this
+> ever happened. What's still holding up this long-pending fix (at least
+> for our devices)?
 
-If this is a fix, where is the Fixes tag?
+Neither of the patches contains Fixes tags. If the first patch fixes an
+issue in previous kernels, please consider following the stable process.
+
+If we are unsure about the second patch, please send the first patch
+separately, adding proper tags.
 
 -- 
 With best wishes
