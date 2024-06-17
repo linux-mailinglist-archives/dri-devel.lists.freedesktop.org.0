@@ -2,92 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC6790A818
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 10:05:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D228890A825
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 10:09:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F18E010E2A6;
-	Mon, 17 Jun 2024 08:05:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F5FD10E126;
+	Mon, 17 Jun 2024 08:09:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="qNEV/OCB";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Yv8/Bq0/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6EDE10E2A6
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 08:05:41 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-421820fc26dso31967615e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 01:05:41 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0817410E19C
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 08:09:21 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-52bc335e49aso4670694e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 01:09:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718611540; x=1719216340;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=RhK0l1wiP2QqjV41iED4AMmcoD6qMZOANZydgxIA9xw=;
- b=qNEV/OCBmxLGl2FscTnL46z4eL2wVuUXqE8HDwsQf85RTfZgrFJkr9MmlsZSj2bpSl
- 2PdlQaMwvLiefCtLTV5LuYhLat2zls4HYWiR1rAtJtnvWeIMw6R9vzSHBKtkuGdZKSY6
- 51erRn4969mfFd2s8bvBp9PpV5qp/LGnn64Z8j3/LMdKTFOXcjQ/XQCGl1UwTkmJTev1
- 8HdsJFRH1qJ7cQT7xEbakWiydy7uNyWL/VG5DbeaE5OblyMA0rRS++SoTfRhSi0rCHUl
- v7mSEhIw3m/cF9tMrJwdxx5JhxUtexxN3M+lx1hjwm2vzoyZQMFEMNhp+7x9NivPvaL/
- CW8Q==
+ d=linaro.org; s=google; t=1718611760; x=1719216560; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=X2zL/OVwfsmsGKut76UeqNrv4709+NhZVNP+gY0GxxQ=;
+ b=Yv8/Bq0/Vc+1s+WLpVrbBvc1RIWZ5RIxLpDKQ49tbZGGJE20dU6A3+XTF14oKY1w1J
+ 0Hb5TAvllUsamXTy6gEqqFPUJXDNFqkSWeaxwXWRbWdokdYA3SKopcLwxcCqjvFfqx65
+ no4I0zYYRVsdzNNEBr4w7WvcrAnH7eKVlxXynXBkgOFe0dkw8KC7Ni90HSV/XdYbtDkE
+ wD9j34YeoKXdTdx2TItEfyXCErV55XLm/dqAnRt4WgMFSHV5Ir54cARg1WJdx8yje/a8
+ cJSAZaqdWiFUzw1N4iFsMvWK2VmBKsSF8pxiSEHy2Tu1n0cr6ir1kQPk9MA/n51HHW7s
+ 6vVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718611540; x=1719216340;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RhK0l1wiP2QqjV41iED4AMmcoD6qMZOANZydgxIA9xw=;
- b=BckNt5zhTA1NvKVDYEz6uX97uqz28K2WDxTpgjNyML1ojwPwVygvzOajlJ0rmAcwAF
- 4YBzGDgmVVRbZZNiRP0ccEhduGyShi5BrbygoWgSdEqZSYzp3jWEDoGnWTNdqVAU6kIH
- GyJEI2STReu5Bh68gVQCwwYx/OKMnNDsrpXJJZikUEAbg56gVxr763sA7G1o+cg0zVfp
- 1uy8pCXvRHCplQuX8TVLITgOwfZi4Dx8IUISoM94By/Ea151rWhDSIizx0RxgXbmscnd
- 9REyftdN8gRVJeXNZGHD3GEeK94sadXG7ZNUp2m73a+FrZyo9jKbcG1ijKQuangafXJw
- 1J6A==
+ d=1e100.net; s=20230601; t=1718611760; x=1719216560;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=X2zL/OVwfsmsGKut76UeqNrv4709+NhZVNP+gY0GxxQ=;
+ b=Ti2t/RKxz7ccKOkBPvYXW4AQHszVWKm3PbjqIZodJeGDYANleI4fJWtcOdZT+X+r+O
+ SjC5nrj5FXYvK5WeJg2EbSu3ld0cVCj79KZ4bvmBY6JsGdVVpwZsKf20+ynUQxSnDgoW
+ gP3yLfldEociMhoq7/i7gOp+qfh7Px7kXTwexCO4G1TNXRixtQEPHyznzoTckp3SW01i
+ UC9ryXGnu54tyQbdMiDwShFQ9G4toVJG2pAtHReOWlMeg3qFzXrnKLP62/UcSyGOBxKM
+ kmRDGXWIqpP4YnasnIBhrmNcdKhmxLJBE/ia4z+i42DS+gvq4l1wjH/yNfx4mXcmXIal
+ +Trg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVbniLNOSRmg+rYrKSCRHuX5Q6iZxGrbUbABxrEwwrb2CEdnFUDE2OljenNneDvBzQepDz2EpYI+fcwQEGW6VcALvv3XnSoSQ4YA5cXzBe+
-X-Gm-Message-State: AOJu0YwEI42+d28sSZl/XE3l6QsRRnPcNExDWi0kAg1/y2RlFSzqXwpz
- /f+eOqEJAfepVKMY8jSSAKExJwpC/GtfRJYsNHpb62VMIIlTrrOB/pGXE62Ohwg=
-X-Google-Smtp-Source: AGHT+IGAPWtrsBoKqiT6NA7h3nhAEtNjGh3ZlArWedHKrxD1LJKsjTkfQ0ARrSXU5FBmgRUnhtV3jg==
-X-Received: by 2002:a05:600c:468d:b0:421:2ddf:aec4 with SMTP id
- 5b1f17b1804b1-42304844f6dmr74278975e9.30.1718611539796; 
- Mon, 17 Jun 2024 01:05:39 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
+ AJvYcCWrNDzSgkEtKeYcCM2/SG+S2NlGkyOXH/IeqV3g3mk2qm1P5dXRH7q/CuA/kU00yitZhgYk58VoImIds3rSm0+cr6Wjlkw6b3mU9KU+/TEO
+X-Gm-Message-State: AOJu0YyQ9aqj0GKHGONMDRQrQceIMnhlBZYsQFQgLArUi06XUt6Y/hTu
+ FfFCo4sRfYrw9a365RgbdvOdukss5VenzI/AkyWNsJIMNHJDcw4r0Ryn31v+tJU=
+X-Google-Smtp-Source: AGHT+IGIN1VZ1dypo5WcnYr1mOVKMSlIuBzxulj3P3h7dJapVZkX5DtowVEXUEm0YvuSq5466IStVA==
+X-Received: by 2002:a05:6512:3481:b0:52c:8ddd:7bde with SMTP id
+ 2adb3069b0e04-52ca6e9f522mr5211431e87.69.1718611759946; 
+ Mon, 17 Jun 2024 01:09:19 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42286fe9263sm187819725e9.15.2024.06.17.01.05.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jun 2024 01:05:39 -0700 (PDT)
-Message-ID: <85e9451d-2cd0-457f-a246-017433757fff@baylibre.com>
-Date: Mon, 17 Jun 2024 10:05:37 +0200
+ 2adb3069b0e04-52ca287228bsm1165097e87.163.2024.06.17.01.09.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Jun 2024 01:09:19 -0700 (PDT)
+Date: Mon, 17 Jun 2024 11:09:17 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Aradhya Bhatia <a-bhatia1@ti.com>, Jan Kiszka <jan.kiszka@siemens.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] drm/bridge: tc358767: Add format negotiation
+ hooks for DPI/DSI to (e)DP
+Message-ID: <x3modgardta7sj4hxw6akufgpavhvanxyily4mvejmyvsuvesx@fjmlc6oerspi>
+References: <20231108-tc358767-v2-0-25c5f70a2159@ideasonboard.com>
+ <20231108-tc358767-v2-1-25c5f70a2159@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v5 00/16] Add audio support for the MediaTek Genio
- 350-evk board
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Nicolas Belin <nbelin@baylibre.com>
-References: <20240226-audio-i350-v5-0-54827318b453@baylibre.com>
- <ZmwODkYov79VHznK@finisterre.sirena.org.uk>
-Content-Language: en-US
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <ZmwODkYov79VHznK@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231108-tc358767-v2-1-25c5f70a2159@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,22 +94,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 14/06/2024 11:31, Mark Brown wrote:
-> On Fri, Jun 14, 2024 at 09:27:43AM +0200, Alexandre Mergnat wrote:
->> This serie aim to add the following audio support for the Genio 350-evk:
->> - Playback
->>    - 2ch Headset Jack (Earphone)
->>    - 1ch Line-out Jack (Speaker)
->>    - 8ch HDMI Tx
+On Wed, Nov 08, 2023 at 01:27:22PM GMT, Tomi Valkeinen wrote:
+> From: Aradhya Bhatia <a-bhatia1@ti.com>
 > 
-> I seem to remember you had review comments that needed addressing from
-> AngeloGioacchino, why resend without addressing those?
+> With new connector model, tc358767 will not create the connector, when
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR is set and display-controller driver will
+> rely on format negotiation to setup the encoder format.
+> 
+> Add the missing bus format negotiation hooks in the
+> drm_bridge_funcs to complete DRM_BRIDGE_ATTACH_NO_CONNECTOR support.
+> 
+> Output format, for DPI/DSI to DP, is selected to
+> MEDIA_BUS_FMT_RGB888_1X24 as default, keeping in mind what the older
+> model used to support.
+> 
+> Reported-by: Jan Kiszka <jan.kiszka@siemens.com>
+> Closes: https://lore.kernel.org/all/24282420-b4dd-45b3-bb1c-fc37fe4a8205@siemens.com/
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/bridge/tc358767.c | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+> 
 
-I don't see any comment:
-https://lore.kernel.org/lkml/20240226-audio-i350-v5-0-e7e2569df481@baylibre.com/
+If this is a fix, where is the Fixes tag?
 
 -- 
-Regards,
-Alexandre
+With best wishes
+Dmitry
