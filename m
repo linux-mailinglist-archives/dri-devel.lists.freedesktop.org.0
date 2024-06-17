@@ -2,161 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C40490B54E
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 17:53:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F8B90B562
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 17:55:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE27710E443;
-	Mon, 17 Jun 2024 15:53:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05CB910E44E;
+	Mon, 17 Jun 2024 15:55:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="AU2zDsLl";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Sl1Sb+GA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2071.outbound.protection.outlook.com [40.107.94.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A52E10E43C;
- Mon, 17 Jun 2024 15:53:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lofwb4RM0D8gepbJHX11EYuMcss8woyp2KPgOcpj5DkWqXScafdVOWDxG83AvZs4/DXcDxD6RzUhy4oUSkJ/S93F0fdJcnJdORZxc/ONPsm59Ni7wOhbRiXksCopO8xIbWEL2HmgouLGUBrns5uLWHvi7Uo3VeKhHzJYarR1FEVfI+v6harZEcwxwuozGMgMajfXoJ5R2txurCuJVQB3l5n3YAwCpoJa14yMcBdB5l+M68r/bpvj+2j+pkSA7yfgpKLnywpzhZJ6JgAfertLfe3kZ4p8OFRXkNOOTXVSGgqAoTMcTuagmAM2Uq5QfHA8aNPkx6xbGHz8rHMoRsRHJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K5HdZlcHo6hngi3X8CFVVNKmQsUrbeoUpmDduDJS/WY=;
- b=f2GUKqq6Dzs/5bZ1ptz+8iA4FHiG9sNmRssIPHJjlpbHM/EybDaEy+YVsOacA2E/eDOGRpcYGrzyRXlqKqKv9lcke0btwQhEHrK3OzI74l+Ebr9IPE+xoDNWUopCaXOeEUAmKbtzDF1+AgTSsAOeJpDv+0E/hUzGiVnw2v9GfVKWqXyOdJx1eaHIm2/FQ7iganJr1MnaOk/h+gS7EUDtkTjpFrs4Bl+mPWgOdaybyip8SHhlpg5omLgslYrYz8n6MJDiidNyNPkyda9NcFSRXJcD0LkP7HMkU9iy28jNR10FhGZk3+4tLWfffqFso8qIB3yIoPKHeSEP7+6i9rRYxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K5HdZlcHo6hngi3X8CFVVNKmQsUrbeoUpmDduDJS/WY=;
- b=AU2zDsLlFq7IL08soiTknyk+R3I88MhdhSTqnpgCy45A7IJbsCY337KM2cwxtPmFBkl/jHFkIxsSIoMrc7K+ZxgxE7lRHF1rKurNy7Y/4JeeT47tZ6/aqjku510qdKyaW1hiq4F6A7G27iFdG3LRIR1rM05wL6CTZidIv56BOgo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW5PR12MB5684.namprd12.prod.outlook.com (2603:10b6:303:1a1::21)
- by IA0PR12MB8982.namprd12.prod.outlook.com (2603:10b6:208:481::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30; Mon, 17 Jun
- 2024 15:53:29 +0000
-Received: from MW5PR12MB5684.namprd12.prod.outlook.com
- ([fe80::9eac:1160:c373:f105]) by MW5PR12MB5684.namprd12.prod.outlook.com
- ([fe80::9eac:1160:c373:f105%6]) with mapi id 15.20.7677.030; Mon, 17 Jun 2024
- 15:53:29 +0000
-Message-ID: <3cc0d360-8f51-4cdd-90fd-1fa0a199c2ba@amd.com>
-Date: Mon, 17 Jun 2024 17:53:21 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 599EF10E450
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 15:55:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1718639738;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qmb8gUny6Zpgr7K8KEYWVXXhXU3OWlH3oKm/5lLTDS8=;
+ b=Sl1Sb+GAj34IwWArz/vhWg+mMfngLdgoVK+rZyI5opZsZz4yPdadFHFpZYECD5TG3iaACN
+ 6sd04nd1WiNlZFhybC35ikr487rHXMVr5AX3jhU/ZXdRIdhHkGM+QV6jhdA8G1Tdp1f8ZR
+ cX/m0w7h8elqwxtLB5ho3YjlQwViaqA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-433-INWEAqhLPl6yDTw1A3HJYg-1; Mon, 17 Jun 2024 11:55:37 -0400
+X-MC-Unique: INWEAqhLPl6yDTw1A3HJYg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-35f123fb9deso2999339f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 08:55:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718639736; x=1719244536;
+ h=content-transfer-encoding:in-reply-to:organization:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Qmb8gUny6Zpgr7K8KEYWVXXhXU3OWlH3oKm/5lLTDS8=;
+ b=xThqVOwAfQWAdtb3rFKFQ11QWLNZRBkgj1thNf6gMOu6+ccyiQU0MsYy8b9JVF+vcs
+ nIbKLxG3B3vZE51yOyUbS4GeXLkSJp+ZhqwlzZTQVBNcZ/wJME4XG+zO1t8hKGReWGV6
+ /SxkqdFQj28X1EdOncLU9ZvhigYxCxRq5EZpADzp23IeIhEx1aXUTyehKRl3PAcKrIwG
+ OW/Hl15B+AwB7cJ0t+1lq0zHOZlQ8vXwwAnWOojlxbzRZmRUkIhNtHdqJbqkQe40kWyF
+ 4Gy9Y8lHvlUE+Mb22Eax0jML3Zfo/jYAA+qnKFG4oN+fSLnZqB3gLx31+VhKwqeEaPVn
+ 0Wxw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXGuo/nf9FCsvmQ1Gf/RrIzrS/8W0soVWeDHV32TVT0WWqn4M0bNKJyfujm0qmHqfdzVr327ve7HIAmffGqDbhDAw03Y/1/4nk2J5YVxQff
+X-Gm-Message-State: AOJu0Yx/s7jiCzobnqOlzWQoVCtQQtfwXUgi1Z1qZ2idp68IqYvfOOHw
+ iG+/pbtvp3yFH9m+ySgw1Rd+GtekONiZvH2WH8dPLMChISkkUGGLaSfg7H1MYHm+GBxKXgCo6XD
+ cMn3GvZ0qaKXgL+qbumMHoUq82j/IffcKLaPZh3oZXnHz/GijOWhSy/HT+vg45T+KcQ==
+X-Received: by 2002:a05:600c:4ed2:b0:421:7983:f1c4 with SMTP id
+ 5b1f17b1804b1-42304822952mr78837525e9.6.1718639735983; 
+ Mon, 17 Jun 2024 08:55:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGG2HBjQR/zaDHDGvKUJDd9tDwyIlWmvB+O3V20u9Yfc0HFIdhjMf6sutXTwVwI4ehzNmpWbg==
+X-Received: by 2002:a05:600c:4ed2:b0:421:7983:f1c4 with SMTP id
+ 5b1f17b1804b1-42304822952mr78837335e9.6.1718639735666; 
+ Mon, 17 Jun 2024 08:55:35 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-422f5f33bdasm164871085e9.8.2024.06.17.08.55.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Jun 2024 08:55:35 -0700 (PDT)
+Message-ID: <a61d9781-7c6e-46b8-ab1b-cf4fc1c76ba3@redhat.com>
+Date: Mon, 17 Jun 2024 17:55:33 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/amdgpu: make duplicated EOP packet for GFX7/8
- have real content
-To: Xi Ruoyao <xry111@xry111.site>, Icenowy Zheng <uwu@icenowy.me>,
- Alex Deucher <alexander.deucher@amd.com>, Pan Xinhui <Xinhui.Pan@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, loongarch@lists.linux.dev
-References: <20240617105846.1516006-1-uwu@icenowy.me>
- <20240617105846.1516006-2-uwu@icenowy.me>
- <88337509-3ad7-47aa-b70f-5294f7f1e486@amd.com>
- <b4ebdbce2f44c06806a650e72b1b6eb9a16dffe6.camel@icenowy.me>
- <09fbcd1f-c7b1-47e3-9146-17f8189978a8@amd.com>
- <e88d4722fa3bbd7104b140debdd85cb212628944.camel@icenowy.me>
- <d44651a7-0c07-4b84-8828-f1d405359aeb@amd.com>
- <1e5f86991635b9045e91fab6397cda87555f85ff.camel@icenowy.me>
- <e27a5acebe5c7d1e09edbc9dc49f52b672d72988.camel@xry111.site>
+Subject: Re: [PATCH] drm/nouveau: Use kmemdup_array() instead of kmemdup()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, Karol Herbst <kherbst@redhat.com>
+References: <a3e8cecc-77dd-4a4a-bb12-c1d6759d3efb@moroto.mountain>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <a3e8cecc-77dd-4a4a-bb12-c1d6759d3efb@moroto.mountain>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <e27a5acebe5c7d1e09edbc9dc49f52b672d72988.camel@xry111.site>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0170.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a0::18) To MW5PR12MB5684.namprd12.prod.outlook.com
- (2603:10b6:303:1a1::21)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW5PR12MB5684:EE_|IA0PR12MB8982:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e85fa5f-ba9e-400f-c756-08dc8ee5a1b2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230037|7416011|376011|1800799021|366013;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WE5MR3c1a04vY1pJT3VIZng5NHB0cDVPVi95dWtaTGdhcnQ4S1Bwb1VsaVVL?=
- =?utf-8?B?cmYzWXFXbFYrVStoNGNUUGViTmZ0d2R6dGVVK1hyVThQL3A2bXQ5TWpXN0VV?=
- =?utf-8?B?cGgrQnVwSCtDQzIveFZVRkZuQTdTNjNGNUhEaUVFN3U3VkJhdnZtVGthc0ha?=
- =?utf-8?B?Nk51eEpOa1RJdUhWQ29vM0FUcnYveVkvM3NWcHhRb0FXWVlVNDFXYk9pQnZ5?=
- =?utf-8?B?QVExamV3di8wNHAwbUpKR2l4cUZTZUFKVTZNTEdKMGMxRFAzOFhSaFUwRHJV?=
- =?utf-8?B?TXlZR2ErVzBFR215UjJLUVJVbmd3RU9pOUtqK0dIYXYxbGVQNEZHcUJPRDlo?=
- =?utf-8?B?UllxbC85UnduUXAvMzVaUWpNUmpjd3k0RldvTDlWdDBmbU1jWlRWUFJxMVAw?=
- =?utf-8?B?VldYb2J4ODhZd3h3WCtvdmxKMGUxMEhmd05hb1RoSGhXVFlqeGFBaGlKU3ZE?=
- =?utf-8?B?VzdiV3hpb0hqOGE2c28zSnhMUVlJSm12Z0Mycm00aWtKSDdEUlZDM0ZjeXZv?=
- =?utf-8?B?a3dGS1ltczdkRFQ0NkJNd1dJcHVrWHZZdXZ5bGh5eVdGYUZnMHZGS3FlZjFo?=
- =?utf-8?B?dDNrcGZXTVR2UXJ0TjBDdkY3WmZRTk5UajErS3hpSUhXOHV0eHpnOTBWVjQ4?=
- =?utf-8?B?cU1RS1VsRitkM2JQcEJEQ09DRkRrdnVVSkJvbU53OUMxYkZFdjFMekFhQzdJ?=
- =?utf-8?B?S2NocWowYUlLdFZoejRJK29BVVVlRnB6Z2g0dDVzYWVQQlJrZDZWVG43YmRL?=
- =?utf-8?B?blF3eDk3RlpycWlha09aN0JzbFU1YnQ1REdLbG52ZThmV2ZKNHpSL1ZyYUxj?=
- =?utf-8?B?RVA5d2kvYURsSWxlaVBmRXQxL0YxMStkLzEwMHRrR212cUlZNXZodHQwbnFu?=
- =?utf-8?B?M1pVTEhNS1NSV0NOMklPSGxRR2Y4c0Rmbzh6N21mUDVoQ2hHQkp4UGFJWTVV?=
- =?utf-8?B?MHNXVEZPWnZ2blJobzc1bHVLWTJhbTc1WjVPYmZKN2U0WnY3bzNOZThHdlc1?=
- =?utf-8?B?QW1oYU9QMkNPeE16K1M3TDdrK0ZiNmJuNGpra0pOWXB2YjBvaXFZK2d4bkhC?=
- =?utf-8?B?R0dXUlVTUkVaaGRCeVNVbmV4b3R0eENqb3RZZGdyVzZJUE92b3F3dERHL0th?=
- =?utf-8?B?aDJTbWMrSG5jVDRZSWNqZnlrN1JWU1FaTE9ydE1vV3JCMkJhMTlCMnhOa2NV?=
- =?utf-8?B?VmtyVjFsejROMHdKeW11MjhuSTZGTTBrOUJKM3J5VVJkUUFQTlpUZmZLem5k?=
- =?utf-8?B?UlV5MmE0ditBMDIxamZTQUNnUDFPK0k0dTNDSVlya0lUQnB6MU94RjhJSWFS?=
- =?utf-8?B?STRaejRtTkZGUll6VjVYN0NDbWRXQzd3REIzaTEvTjM0eUc1ZEN2bUhnM1Jz?=
- =?utf-8?B?TG1EUHN5NWlkRE8yUG4weHA5NmtFQzByWFlTSlQ4amorWVg2T2lBZmd2QWRM?=
- =?utf-8?B?YWR3WmhwVW5oYktUcXVWdCtTdTNIOXl4K1Y4aklHQjVHelJKRC9hZHJhSDN0?=
- =?utf-8?B?Uno3WHJmaHlkenpSYm9FcEx3QWdwTW1TRTdHM3l6UmhMcWorSVRnN0pGYnkx?=
- =?utf-8?B?VmF4UXdMSVhpOEFGd0dMZ2JKRmVXT3lpV0VnemtRQTBmRHJDWHloZmVkZkVq?=
- =?utf-8?B?UmJwWFFzeWRRTm8wMEQ2N2xZZEIrZHpWUTU3ZXp1ZVlqR3VNanlqRko0a0px?=
- =?utf-8?B?cTV4SXAveUtncDRiSys1QnJQQ0tTRXZpMHNBUUZUbFRhWStZVVlnVVYxMWlJ?=
- =?utf-8?Q?3JLB9CsJCuVcV6xUY2y8Kr6q2jtYQTgJeZk35Vd?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW5PR12MB5684.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230037)(7416011)(376011)(1800799021)(366013); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UElBSENrd01aellrRjcxN0ZzeTVZbFBMRGNqdmhrdlBJR1llVnRRREhxWTBr?=
- =?utf-8?B?cTFzQWQvRTFJMEVNbXZRQ28zVU5UM293OTVXNk0zVHAyTDVlOWNnZ3VmZlBK?=
- =?utf-8?B?cGlTK0p0czhDaEU5MTZ1K0diMkErV3pNNXlCZ0xLa1h3TDl2TkFPL1VtNW1D?=
- =?utf-8?B?UGFkRkd4T25TQmNGOTd3aGRCazQ2ZXhsbUNpbjFOTklsWmdmdy9sNm9zeXFZ?=
- =?utf-8?B?UGdpNFdFek4xL1A0c3JOZjhmV3dkUHcwOHZGZDFpM3lBclprS2NYeGhmQ2Yz?=
- =?utf-8?B?TTVvU3BGTkNpaEEydmlvUzE0Mk5GNE5JUUZBNkhVWm93L0xsaGdrVS9PU1g1?=
- =?utf-8?B?T1lwQUlhaFIvR1NYQ3FRYk1VMmZtTTJaUGdrVDJuaCtuVWJ6VXpRYUZQMG91?=
- =?utf-8?B?TGc1UFpDUmc4ckZQRjlBR3dhZ3c5SUprbEFveWFoNUhLZXVkYlFadHB6MDQ5?=
- =?utf-8?B?SGpSdUlvYjh3QkFqVVVQcWl1UWlRN1RLR1NvMGxMRlE4N21iZGdVaWRwbEpl?=
- =?utf-8?B?bU5DeHhzQW1VQzEyemY4WVpRVGxlanRiOS96dFRXSDB3b1NlQzZER2FxWncv?=
- =?utf-8?B?eXFJd29YRUFOdVdDaW8xVkRzNWtNNUxZbkpPaDBVcy9sZ0pnQmtDdVBHcUpU?=
- =?utf-8?B?elk2WDl0T2NlekNFZUV6VUR0aUFhU0RwL1p6UHpNZGI3YzhwU205VW5ZNFZx?=
- =?utf-8?B?VDhjMUc5Wll4bzFkQU9OenZMVUtYazdWL2I2dXhoVHZEVkN1R3hQZld0YXV0?=
- =?utf-8?B?dDNvOHI0Lzc4K0s0dU5JSDRBMmdoVEdBck41alFZc2t6cWtpbHRFNkxSTWU0?=
- =?utf-8?B?NkdUWk1uZWxtSUNKZ1BvM3ZxRDQyczZURGxDUmJMZWt4SnBTcXZpQlRoR0RZ?=
- =?utf-8?B?TTkyNk1QblorVjJxMFNLdTdMcUUzQ0J2dGpGTkJXdXlLV0hWZE1xdkc3U2pC?=
- =?utf-8?B?QnRtMUx4MkJOR0J0MGNsWjlRdlNTUXcyUTQ3RlBRK1htbzZTeE14d0l5a3RQ?=
- =?utf-8?B?MHk1MFJWSUlGbFlmQXVnc1lJYTRua0sydWl0OTk5ZUJtbFZoY3laZnBEbzJj?=
- =?utf-8?B?SzFQQW5lSUdVREwvaFJkM1lpSTdTSTd6OUxtM1lqdkdxaVZVOXZ4SlgyU1k1?=
- =?utf-8?B?S2R4YkhsOE1seXZSbThOMVpCZnlMakE4bEYyMWlHdThEUnZJRG1vbFVZa29V?=
- =?utf-8?B?dnJIUjFvK0NrdndkWldMbGlrb2U4bkQ2OXZldGhuWFoycTkwNEx1b3pScnBa?=
- =?utf-8?B?ZHZQZVRHN05McWx5bi9HMDRXTC9oQXY0MElQK2hvK2VNb2kveVVxQmdYdzdW?=
- =?utf-8?B?enVUeDk3UnhFaXZWY1pBZHZEWDgvV1Jxc0FSWVJwWDdDRHc4Z2x6cGE4Tjgv?=
- =?utf-8?B?MWltRlQwZWowd2J4YWFUZjZsWDRqRzhrcVJadGpYdk9Eb3dZS3BZYVVmbGFR?=
- =?utf-8?B?am9JWitDWDhZNnF6TlJBcEVZMXVHdkZjTFY1Ui9KbmNNWXVrMXpFTTNwaWh5?=
- =?utf-8?B?NVBoM1pjV3lKUmVXVlhIZjc1NndQOU1qTkZmdU9jbVRKUWU3NlRqMzAydGVD?=
- =?utf-8?B?V0RoUXJoSDVZaG1pY2ZyaC94RkE4bmxraGp4ZzdWMi92K3dRTm5KNGNCNzZT?=
- =?utf-8?B?TG5ka0pZMTEwaStyc21iSjBNSHRSOVp3eFlta1hoVUhMRXI3cFhRZ29GdGJM?=
- =?utf-8?B?b2Q2VkExekt5YlV2QnZZNU9JbTZsZTIvc25QWWxuUnlyZS9BcTRwTE9ibHow?=
- =?utf-8?B?TWNBaVpYUVlsbGdTMFIzMGFacXQxS1B4N2RFbzRlbjNBT1NYbjlJcVZOSkhN?=
- =?utf-8?B?dVVBZ3FXL3NtL3BrQXcrZmdYWlJzSHN2YWxqZWg0UFNpdnBYcmtxWWVlejRj?=
- =?utf-8?B?Z2p1OHJGa0lUR2FYVkk4VmRhVWVxZUhhOFFKRmQwakxvWVFlNC80QVA5Q3pp?=
- =?utf-8?B?REJIK2c0RHhlR2ZmR1hBS05CTVBCd2k2U1JEQlBvVzJGNHdnSnlIVmxsNmpY?=
- =?utf-8?B?QmFXdHU0Zjhja0srUFNJV0lxWStiNWxmTE5QWHFCUmhKNFJGY1kvV3lXTkY2?=
- =?utf-8?B?T1lzelNWMlZUKzQ1UzNJOFJhczY3ZE9EZHhsWk5yb3A0SjhOcU9EeWxqSkt5?=
- =?utf-8?Q?MLyx+TEcgGwW9K9PROV/MFZ3X?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e85fa5f-ba9e-400f-c756-08dc8ee5a1b2
-X-MS-Exchange-CrossTenant-AuthSource: MW5PR12MB5684.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2024 15:53:29.2649 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UlH4MTf3RbZGnkVBpOy2v6ScSqEI9ZDevr7dXyZ7GTumDlyBHoD85P17/xKMV2Ol
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8982
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,30 +99,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 17.06.24 um 17:35 schrieb Xi Ruoyao:
-> On Mon, 2024-06-17 at 22:30 +0800, Icenowy Zheng wrote:
->>> Two consecutive writes to the same bus address are perfectly legal
->>> from
->>> the PCIe specification and can happen all the time, even without this
->>> specific hw workaround.
->> Yes I know it, and I am not from Loongson, just some user trying to
->> mess around it.
-> There are some purposed "workarounds" like reducing the link speed (from
-> x16 to x8), tweaking the power management setting, etc.  Someone even
-> claims improving the heat sink of the LS7A chip can help to work around
-> this issue but I'm really skeptical...
+On 6/17/24 11:33, Dan Carpenter wrote:
+> Use kmemdup_array() because we're allocating an array.
+> 
+> The main difference between kmemdup() and kmemdup_array() is that the
+> kmemdup_array() function has integer overflow checking built it.  The
+> "args->in_sync.count" variable is a u32 so integer overflows would only
+> be a concern on 32bit systems.  Fortunately, however, the u_memcpya()
+> function has integer overflow checking which means that it is not an
+> issue.
+> 
+> Still using kmemdup_array() is more appropriate and makes auditing the
+> code easier.
 
-Well when it's an ordering problem between writes and interrupts then 
-nothing else than getting the order right will fix this. Otherwise it 
-can always be that the CPU doesn't see coherent results from PCIe devices.
+Indeed, we shouldn't rely on the previous check here, good catch.
 
-In other words if the CPU gets an interrupt but doesn't sees the fence 
-value written it will assume the work is not done. But since the 
-hardware won't trigger a second interrupt the CPU will then keep waiting 
-for the operation to finish forever.
+> 
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>   drivers/gpu/drm/nouveau/nouveau_sched.c | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
+> index 32fa2e273965..53d8b0584a56 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+> @@ -45,10 +45,10 @@ nouveau_job_init(struct nouveau_job *job,
+>   		if (job->sync)
+>   			return -EINVAL;
+>   
+> -		job->in_sync.data = kmemdup(args->in_sync.s,
+> -					 sizeof(*args->in_sync.s) *
+> -					 args->in_sync.count,
+> -					 GFP_KERNEL);
+> +		job->in_sync.data = kmemdup_array(args->in_sync.s,
+> +					args->in_sync.count,
+> +					sizeof(*args->in_sync.s),
+> +					GFP_KERNEL);
+>   		if (!job->in_sync.data)
+>   			return -ENOMEM;
 
-This is not limited to GPUs, but will potentially happen with network or 
-disk I/O as well.
+Not sure if this is what we want for kmemdup_array(). It just saturates the
+size. This doesn't prevent accessing the array out of bounds later on. I mean,
+it's rather unlikely to get such a huge amount of physically contiguous memory
+anyways, but wouldn't it be cleaner to let kmemdup_array() return
+ERR_PTR(-EOVERFLOW) on overflow, just like memdup_array_user()[1]?
 
-Regards,
-Christian.
+AFAICS, there's just two users of kmemdup_array(), hence it should be an easy
+change. :-)
+
+[1] https://elixir.bootlin.com/linux/latest/source/include/linux/string.h#L30
+
+>   	}
+> @@ -60,10 +60,10 @@ nouveau_job_init(struct nouveau_job *job,
+>   			goto err_free_in_sync;
+>   		}
+>   
+> -		job->out_sync.data = kmemdup(args->out_sync.s,
+> -					  sizeof(*args->out_sync.s) *
+> -					  args->out_sync.count,
+> -					  GFP_KERNEL);
+> +		job->out_sync.data = kmemdup_array(args->out_sync.s,
+> +					args->out_sync.count,
+> +					sizeof(*args->out_sync.s),
+> +					GFP_KERNEL);
+>   		if (!job->out_sync.data) {
+>   			ret = -ENOMEM;
+>   			goto err_free_in_sync;
+
