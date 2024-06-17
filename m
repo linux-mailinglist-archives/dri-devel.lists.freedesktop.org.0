@@ -2,32 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 037CA90B5CB
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 18:09:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE5A90B5CD
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 18:09:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7450510E456;
-	Mon, 17 Jun 2024 16:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D22210E459;
+	Mon, 17 Jun 2024 16:09:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ns.iliad.fr (ns.iliad.fr [212.27.33.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A292B10E455
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD1B310E456
  for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 16:08:56 +0000 (UTC)
 Received: from ns.iliad.fr (localhost [127.0.0.1])
- by ns.iliad.fr (Postfix) with ESMTP id C8338202A4;
+ by ns.iliad.fr (Postfix) with ESMTP id D500920527;
  Mon, 17 Jun 2024 18:03:13 +0200 (CEST)
 Received: from [127.0.1.1] (freebox.vlq16.iliad.fr [213.36.7.13])
- by ns.iliad.fr (Postfix) with ESMTP id A0D912021F;
+ by ns.iliad.fr (Postfix) with ESMTP id BD0692029A;
  Mon, 17 Jun 2024 18:03:13 +0200 (CEST)
 From: Marc Gonzalez <mgonzalez@freebox.fr>
-Subject: [PATCH 0/4] Basic support for TI TDP158
-Date: Mon, 17 Jun 2024 18:02:58 +0200
-Message-Id: <20240617-tdp158-v1-0-df98ef7dec6d@freebox.fr>
+Date: Mon, 17 Jun 2024 18:02:59 +0200
+Subject: [PATCH 1/4] dt-bindings: display: simple-bridge: add ti,tdp158
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADJecGYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDM0Nz3ZKUAkNTC10TQwsjA4MUs+RkgyQloOKCotS0zAqwQdGxtbUAHPw
- ajVgAAAA=
+Message-Id: <20240617-tdp158-v1-1-df98ef7dec6d@freebox.fr>
+References: <20240617-tdp158-v1-0-df98ef7dec6d@freebox.fr>
+In-Reply-To: <20240617-tdp158-v1-0-df98ef7dec6d@freebox.fr>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -58,22 +57,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+In default mode, this device works transparently.
 
+Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
 ---
-Marc Gonzalez (4):
-      dt-bindings: display: simple-bridge: add ti,tdp158
-      drm: bridge: simple-bridge: use dev pointer in probe
-      drm: bridge: simple-bridge: use only devm* in probe
-      drm: bridge: simple-bridge: add tdp158 support
+ Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- .../bindings/display/bridge/simple-bridge.yaml     |  4 +
- drivers/gpu/drm/bridge/simple-bridge.c             | 85 +++++++++++++++++-----
- 2 files changed, 71 insertions(+), 18 deletions(-)
----
-base-commit: 17b591a4a192a8a11faad30520b8f6a9137ac514
-change-id: 20240617-tdp158-418200d6cc0b
+diff --git a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+index 43cf4df9811a5..5f0c9687538bf 100644
+--- a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+@@ -31,6 +31,7 @@ properties:
+           - ti,opa362
+           - ti,ths8134
+           - ti,ths8135
++          - ti,tdp158
+ 
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+@@ -52,6 +53,9 @@ properties:
+     maxItems: 1
+     description: GPIO controlling bridge enable
+ 
++  vcc-supply:
++    description: Power supply for the bridge
++
+   vdd-supply:
+     description: Power supply for the bridge
+ 
 
-Best regards,
 -- 
-Marc Gonzalez <mgonzalez@freebox.fr>
+2.34.1
 
