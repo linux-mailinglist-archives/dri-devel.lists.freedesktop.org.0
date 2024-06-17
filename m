@@ -2,115 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C92F90AF0D
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 15:22:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A7D990AF20
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 15:24:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D45610E3BA;
-	Mon, 17 Jun 2024 13:22:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC2B210E3B4;
+	Mon, 17 Jun 2024 13:24:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jYWyhkR9";
+	dkim=pass (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.b="Q7r8/ReF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B3F810E3B4
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 13:22:46 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-a6e43dad8ecso757531066b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 06:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718630564; x=1719235364; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=pwj3Fw5B61alhB5+Nki7VXPagt0jdp377yGvLMhtmxI=;
- b=jYWyhkR9Kaxb3xuBQF+K5vIhu4qNurZJ9aC7sJy9Aph471FEVa2vRtoD0DYOnxfwF/
- KVDS+nmqWh2cROkJfMATiawhq33StMIoWOkx6IeOs9hE5loATIr1gtZxuw6RNorr+iGM
- 7vKpH2f8qCP/0zyC7m/Yn06ABYy+t4ZZHrWWGj9qVylpsUKR+U+1R1J8gtsMH2hffUB+
- YNfsuvJnKqx/UxKuUpnv3sh0wGcYEh3KyMS1HAikDAmumvdusVImt7sorJR/ZPZJPbZM
- Ansc45VXfpzHXmFUU/JE8jq0R4NyZkaYNEi4QAcYGV53TrXitIBm6j4KJjiWaKag3jRe
- pbeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718630564; x=1719235364;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pwj3Fw5B61alhB5+Nki7VXPagt0jdp377yGvLMhtmxI=;
- b=CFiYqX7DNAM8vQOuOzYXh9JjCQcrmU9QnYIzSkk710ffoGjp3SIdBuo/FlyOkO88Gs
- +yle+W4kKms2ZGGtrlmzo7jRbxdu6xw+OMO9scYyLPNDXVrLW7m+/MaTervulYGT3CQJ
- Hv2brYG3QFPEsBDJ/FfqCuDStr9RKvTj7gBDZvnqZvmnKr48jlqg9eMEpraH6YbLANWw
- iFK0fIhUiV9y4twZtvkiSkgYg1qweRiP9hneua/tPvi0mFYvqDI3nLtqU3UDTq6oHjtz
- paVY5ICsk6G79Wu4Yg+vBKMUg9J9Zsb1BmBTcOaAD+XG2htEOE4oiWDcW8T0cvkzTPA9
- nqxQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVo02a1CcHMJpKo1cKwFGKnTxRq/TZC3EtDoawDJyA1NF/599Pq8FQr6LWfXWh26u78suE3MEBjY9n4eYZ+W0Vohx2TUhBVIQCFNyEgJxI8
-X-Gm-Message-State: AOJu0Yz+WYZTc4t5yqFPJVvkI9un7fFVwYGCs13Bu2DsN2zeVAboyPu0
- Rk3MGuW4vpcMb04JeV23jQvGdUQtW0SXVU4qk/QWjYvyVLOdtGXl
-X-Google-Smtp-Source: AGHT+IEU7bSdU44tFLpRT61VrE4rRir5BezTbPl/p80FyKx5ycfOabVN7gLSnIoqzOZDAYrOc9lyjA==
-X-Received: by 2002:a17:906:f851:b0:a6f:b5a:f5b9 with SMTP id
- a640c23a62f3a-a6f608b9addmr640674266b.32.1718630564415; 
- Mon, 17 Jun 2024 06:22:44 -0700 (PDT)
-Received: from [192.168.42.82] ([163.114.131.193])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a6f6a1f2cb9sm383873066b.17.2024.06.17.06.22.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jun 2024 06:22:44 -0700 (PDT)
-Message-ID: <c45c5888-497b-4e95-a139-43a05279af65@gmail.com>
-Date: Mon, 17 Jun 2024 14:22:45 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v12 03/13] netdev: support binding dma-buf to
- netdevice
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20240613013557.1169171-1-almasrymina@google.com>
- <20240613013557.1169171-4-almasrymina@google.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20240613013557.1169171-4-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9CED10E3BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 13:24:53 +0000 (UTC)
+Received: from localhost (unknown [213.135.10.150])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256) (No client certificate requested)
+ by mail.3ffe.de (Postfix) with ESMTPSA id 96978230;
+ Mon, 17 Jun 2024 15:24:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
+ s=mail2022082101; t=1718630690;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=XGdpwMen/VgLH0fpEvgI0LtL3f1BjG5LVb+4IVUtO6g=;
+ b=Q7r8/ReFl6eYZ20WbkLEG4pnme+d5/YemdIP1r/VSRiuZSaXALnMwSvEQtfBQmGIeuKwli
+ 7IgsDxezpqkFORBSDX/00zj6LMUQdhJ1w10ODWF1zincbDxWWJ3bVWuMJEnm3AfA99e0Ko
+ qk6C6Uz3D4jyGQHsxN4V7+zfscZia/PyhnxM5gAdkvqwrH8iGaG27oNv13rR14i6Dh717S
+ FDS+sXX/et9Mh92whUvH31TlnkcsyDREwLFoRXtKYwBWubvVpUXqlrAh9UUST/HEVkOwyZ
+ 8UD4+YUy77ZcBJFWpYlTWmnXl2ERnMkHGXqoivpF0lvyD8hP+5Aw8VlG5ckeTQ==
+Content-Type: multipart/signed;
+ boundary=cd73275ec8ec08f02789c22d654dfdbdccd7e263beb5db59c37f41efc36e;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Mon, 17 Jun 2024 15:24:39 +0200
+Message-Id: <D22BQAOFJWVJ.2Y9FKAAR57BHK@walle.cc>
+From: "Michael Walle" <michael@walle.cc>
+To: "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+ <chunkuang.hu@kernel.org>
+Subject: Re: [PATCH v7 3/3] drm/mediatek: Implement OF graphs support for
+ display paths
+Cc: <robh@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+ <conor+dt@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <matthias.bgg@gmail.com>,
+ <shawn.sung@mediatek.com>, <yu-chang.lee@mediatek.com>,
+ <ck.hu@mediatek.com>, <jitao.shi@mediatek.com>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <wenst@chromium.org>,
+ <kernel@collabora.com>, <sui.jinfeng@linux.dev>, "Alexandre Mergnat"
+ <amergnat@baylibre.com>
+X-Mailer: aerc 0.16.0
+References: <20240612065634.26569-1-angelogioacchino.delregno@collabora.com>
+ <20240612065634.26569-4-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240612065634.26569-4-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,133 +71,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/13/24 02:35, Mina Almasry wrote:
-> Add a netdev_dmabuf_binding struct which represents the
-> dma-buf-to-netdevice binding. The netlink API will bind the dma-buf to
-> rx queues on the netdevice. On the binding, the dma_buf_attach
-> & dma_buf_map_attachment will occur. The entries in the sg_table from
-> mapping will be inserted into a genpool to make it ready
-> for allocation.
-> 
-> The chunks in the genpool are owned by a dmabuf_chunk_owner struct which
-> holds the dma-buf offset of the base of the chunk and the dma_addr of
-> the chunk. Both are needed to use allocations that come from this chunk.
-> 
-> We create a new type that represents an allocation from the genpool:
-> net_iov. We setup the net_iov allocation size in the
-> genpool to PAGE_SIZE for simplicity: to match the PAGE_SIZE normally
-> allocated by the page pool and given to the drivers.
-> 
-> The user can unbind the dmabuf from the netdevice by closing the netlink
-> socket that established the binding. We do this so that the binding is
-> automatically unbound even if the userspace process crashes.
-> 
-> The binding and unbinding leaves an indicator in struct netdev_rx_queue
-> that the given queue is bound, but the binding doesn't take effect until
-> the driver actually reconfigures its queues, and re-initializes its page
-> pool.
-> 
-> The netdev_dmabuf_binding struct is refcounted, and releases its
-> resources only when all the refs are released.
-> 
-> Signed-off-by: Willem de Bruijn <willemb@google.com>
-> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
+--cd73275ec8ec08f02789c22d654dfdbdccd7e263beb5db59c37f41efc36e
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Apart from the comment below
+Hi Angelo,
 
-Reviewed-by: Pavel Begunkov <asml.silence@gmail.com> # excluding netlink
-
-
-> diff --git a/include/net/devmem.h b/include/net/devmem.h
-> new file mode 100644
-> index 0000000000000..eaf3fd965d7a8
-...
-> diff --git a/net/core/dev.c b/net/core/dev.c
-> index c361a7b69da86..84c9f96a6c9bf 100644
-> --- a/net/core/dev.c
-> +++ b/net/core/dev.c
-> @@ -158,6 +158,9 @@
->   #include <net/page_pool/types.h>
->   #include <net/page_pool/helpers.h>
->   #include <net/rps.h>
-> +#include <linux/genalloc.h>
-> +#include <linux/dma-buf.h>
-> +#include <net/devmem.h>
->   
->   #include "dev.h"
->   #include "net-sysfs.h"
-> diff --git a/net/core/devmem.c b/net/core/devmem.c
-> new file mode 100644
-> index 0000000000000..951a06004c430
-> --- /dev/null
-> +++ b/net/core/devmem.c
-> @@ -0,0 +1,252 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + *      Devmem TCP
+> +/**
+> + * mtk_drm_of_ddp_path_build_one - Build a Display HW Pipeline for a CRT=
+C Path
+> + * @dev:          The mediatek-drm device
+> + * @cpath:        CRTC Path relative to a VDO or MMSYS
+> + * @out_path:     Pointer to an array that will contain the new pipeline
+> + * @out_path_len: Number of entries in the pipeline array
 > + *
-> + *      Authors:	Mina Almasry <almasrymina@google.com>
-> + *			Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-> + *			Kaiyuan Zhang <kaiyuanz@google.com
+> + * MediaTek SoCs can use different DDP hardware pipelines (or paths) dep=
+ending
+> + * on the board-specific desired display configuration; this function wa=
+lks
+> + * through all of the output endpoints starting from a VDO or MMSYS hard=
+ware
+> + * instance and builds the right pipeline as specified in device trees.
+> + *
+> + * Return:
+> + * * %0       - Display HW Pipeline successfully built and validated
+> + * * %-ENOENT - Display pipeline was not specified in device tree
+> + * * %-EINVAL - Display pipeline built but validation failed
+> + * * %-ENOMEM - Failure to allocate pipeline array to pass to the caller
 > + */
-> +
-> +#include <linux/types.h>
-> +#include <linux/mm.h>
-> +#include <linux/netdevice.h>
-> +#include <trace/events/page_pool.h>
-> +#include <net/netdev_rx_queue.h>
-> +#include <net/page_pool/types.h>
-> +#include <net/page_pool/helpers.h>
-> +#include <linux/genalloc.h>
-> +#include <linux/dma-buf.h>
-> +#include <net/devmem.h>
-> +#include <net/netdev_queues.h>
-> +
-> +/* Device memory support */
-> +
-> +#if defined(CONFIG_DMA_SHARED_BUFFER) && defined(CONFIG_GENERIC_ALLOCATOR)
-> +static void net_devmem_dmabuf_free_chunk_owner(struct gen_pool *genpool,
-> +					       struct gen_pool_chunk *chunk,
-> +					       void *not_used)
+> +static int mtk_drm_of_ddp_path_build_one(struct device *dev, enum mtk_cr=
+tc_path cpath,
+> +					 const unsigned int **out_path,
+> +					 unsigned int *out_path_len)
 > +{
-> +	struct dmabuf_genpool_chunk_owner *owner = chunk->owner;
+> +	struct device_node *next, *prev, *vdo =3D dev->parent->of_node;
+> +	unsigned int temp_path[DDP_COMPONENT_DRM_ID_MAX] =3D { 0 };
+> +	unsigned int *final_ddp_path;
+> +	unsigned short int idx =3D 0;
+> +	bool ovl_adaptor_comp_added =3D false;
+> +	int ret;
 > +
-> +	kvfree(owner->niovs);
-> +	kfree(owner);
-> +}
+> +	/* Get the first entry for the temp_path array */
+> +	ret =3D mtk_drm_of_get_ddp_ep_cid(vdo, 0, cpath, &next, &temp_path[idx]=
+);
+> +	if (ret) {
+> +		if (next && temp_path[idx] =3D=3D DDP_COMPONENT_DRM_OVL_ADAPTOR) {
+> +			dev_err(dev, "Adding OVL Adaptor for %pOF\n", next);
+> +			ovl_adaptor_comp_added =3D true;
+> +		} else {
+> +			if (next)
+> +				dev_err(dev, "Invalid component %pOF\n", next);
+> +			else
+> +				dev_err(dev, "Cannot find first endpoint for path %d\n", cpath);
 > +
-> +void __net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding)
+> +			return ret;
+> +		}
+> +	}
+> +	idx++;
+> +
+> +	/*
+> +	 * Walk through port outputs until we reach the last valid mediatek-drm=
+ component.
+> +	 * To be valid, this must end with an "invalid" component that is a dis=
+play node.
+> +	 */
+> +	do {
+> +		prev =3D next;
+> +		ret =3D mtk_drm_of_get_ddp_ep_cid(next, 1, cpath, &next, &temp_path[id=
+x]);
+> +		of_node_put(prev);
+> +		if (ret) {
+> +			of_node_put(next);
+> +			break;
+> +		}
+> +
+> +		/*
+> +		 * If this is an OVL adaptor exclusive component and one of those
+> +		 * was already added, don't add another instance of the generic
+> +		 * DDP_COMPONENT_OVL_ADAPTOR, as this is used only to decide whether
+> +		 * to probe that component master driver of which only one instance
+> +		 * is needed and possible.
+> +		 */
+> +		if (temp_path[idx] =3D=3D DDP_COMPONENT_DRM_OVL_ADAPTOR) {
+> +			if (!ovl_adaptor_comp_added)
+> +				ovl_adaptor_comp_added =3D true;
+> +			else
+> +				idx--;
+> +		}
+> +	} while (++idx < DDP_COMPONENT_DRM_ID_MAX);
+> +
+> +	/*
+> +	 * The device component might not be disabled: in that case, don't
+
+Sorry there was a typo in my proposal, This should either be
+"not be enabled" or "be disabled".
+
+> +	 * check the last entry and just report that the device is missing.
+> +	 */
+> +	if (ret =3D=3D -ENODEV)
+> +		return ret;
+> +
+
+..
+
+> +static int mtk_drm_of_ddp_path_build(struct device *dev, struct device_n=
+ode *node,
+> +				     struct mtk_mmsys_driver_data *data)
 > +{
-> +	size_t size, avail;
+> +	struct device_node *ep_node;
+> +	struct of_endpoint of_ep;
+> +	bool output_present[MAX_CRTC] =3D { false };
+> +	bool valid_output_found =3D false;
+> +	int ret;
 > +
-> +	gen_pool_for_each_chunk(binding->chunk_pool,
-> +				net_devmem_dmabuf_free_chunk_owner, NULL);
+> +	for_each_endpoint_of_node(node, ep_node) {
+> +		ret =3D of_graph_parse_endpoint(ep_node, &of_ep);
+> +		if (ret) {
+> +			dev_err_probe(dev, ret, "Cannot parse endpoint\n");
+> +			break;
+> +		}
 > +
-> +	size = gen_pool_size(binding->chunk_pool);
-> +	avail = gen_pool_avail(binding->chunk_pool);
+> +		if (of_ep.id >=3D MAX_CRTC) {
+> +			ret =3D dev_err_probe(dev, -EINVAL,
+> +					    "Invalid endpoint%u number\n", of_ep.port);
+> +			break;
+> +		}
 > +
-> +	if (!WARN(size != avail, "can't destroy genpool. size=%zu, avail=%zu",
-> +		  size, avail))
-> +		gen_pool_destroy(binding->chunk_pool);
+> +		output_present[of_ep.id] =3D true;
+> +	}
 > +
-> +	dma_buf_unmap_attachment(binding->attachment, binding->sgt,
-> +				 DMA_FROM_DEVICE);
+> +	if (ret) {
+> +		of_node_put(ep_node);
+> +		return ret;
+> +	}
+> +
+> +	if (output_present[CRTC_MAIN]) {
+> +		ret =3D mtk_drm_of_ddp_path_build_one(dev, CRTC_MAIN,
+> +						    &data->main_path, &data->main_len);
+> +		if (ret =3D=3D 0)
+> +			valid_output_found =3D true;
+> +		else if (ret !=3D -ENODEV)
+> +			return ret;
+> +	}
+> +
+> +	if (output_present[CRTC_EXT]) {
+> +		ret =3D mtk_drm_of_ddp_path_build_one(dev, CRTC_EXT,
+> +						    &data->ext_path, &data->ext_len);
+> +		if (ret =3D=3D 0)
+> +			valid_output_found =3D true;
+> +		else if (ret !=3D -ENODEV)
+> +			return ret;
+> +	}
+> +
+> +	if (output_present[CRTC_THIRD]) {
+> +		ret =3D mtk_drm_of_ddp_path_build_one(dev, CRTC_THIRD,
+> +						    &data->third_path, &data->third_len);
+> +		if (ret =3D=3D 0)
+> +			valid_output_found =3D true;
+> +		else if (ret !=3D -ENODEV)
+> +			return ret;
+> +	}
+> +
+> +	if (!valid_output_found)
+> +		return -ENODEV;
 
-It's unmapped here as DMA_FROM_DEVICE, a fail path does DMA_BIDIRECTIONAL,
-dma_buf_map_attachment() passes BIDIRECTIONAL.
+This doesn't work. My proposal just ignored the ENODEV error. Now
+you'll return ENODEV if there is no output for a given mmsys. In my
+case, that is true for the first mmsys. Subsequent mmsys's doesn't
+get probed in that case, it seems.
 
+Anyway, you shouldn't return ENODEV here because disabled just
+means not available, i.e. it should be treated the same as
+"output_present[] =3D=3D false".
 
-> +	dma_buf_detach(binding->dmabuf, binding->attachment);
-> +	dma_buf_put(binding->dmabuf);
-> +	xa_destroy(&binding->bound_rxq_list);
-> +	kfree(binding);
-> +}
-> +
-> +/* Protected by rtnl_lock() */
-> +static DEFINE_XARRAY_FLAGS(net_devmem_dmabuf_bindings, XA_FLAGS_ALLOC1);
-> +
-...
+-michael
 
--- 
-Pavel Begunkov
+--cd73275ec8ec08f02789c22d654dfdbdccd7e263beb5db59c37f41efc36e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iKcEABMJAC8WIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCZnA5GREcbWljaGFlbEB3
+YWxsZS5jYwAKCRASJzzuPgIf+ASJAYC5JN+RTspgt+HYGXjHGvvwdfLZI0lFGsC8
+Wfx4Gsm/0IQYKRPLKUPUGvw/uRVNvC8BgM5HLmpkNhLtPn53MJEf34RxT+WAajRa
+cRfle3/fAZq7yCb+dvJXI3q8ygyun07X5Q==
+=1Wb1
+-----END PGP SIGNATURE-----
+
+--cd73275ec8ec08f02789c22d654dfdbdccd7e263beb5db59c37f41efc36e--
