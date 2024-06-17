@@ -2,58 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 476B8A100A7
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 06:58:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D20C2A101E9
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 09:21:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29A5F10E875;
-	Tue, 14 Jan 2025 05:58:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03F4610E876;
+	Tue, 14 Jan 2025 08:21:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="lavWFqqb";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jE+YwIxA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com
- [91.218.175.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD83E10E873
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 05:58:10 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1736834284;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iGc8nwl/8zBnibgfxQDUDI9Ul2vkfbVY2KHwHwuKwGU=;
- b=lavWFqqbtWNHEMXBDozx8yH8WlXuAPG5xSNknemWNdpWZ1PX+MaIcZ6YNIh+7shJRM/zsp
- 5HM5qU93YrO7cMIXWiFZdKvIiD/waV/OA8MXO2lVQ85uhn/+jx1gQ0dr+N7J1HcOR2ervv
- orzV/bS7hI/HXwsXxhZRzrAgf1qW1hE=
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
- Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: [PATCH v7 12/12] drm/bridge: cdns-dsi: Use pre_enable/post_disable to
- enable/disable
-Date: Tue, 14 Jan 2025 11:26:26 +0530
-Message-Id: <20250114055626.18816-13-aradhya.bhatia@linux.dev>
-In-Reply-To: <20250114055626.18816-1-aradhya.bhatia@linux.dev>
-References: <20250114055626.18816-1-aradhya.bhatia@linux.dev>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFD6910E360
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 08:21:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736842915; x=1768378915;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=YFJKCb0jqMAhlwNKuT95tl8Htv3gL4ALSvmG3zHbfqM=;
+ b=jE+YwIxA2nOhW+W9BCs4jSJhqopYxRk4B67+LzoVqAGAZH8a/J4J1vRu
+ c0mN6CRT8yOcpGfLVty90jA9IW2pbBKaIrkh5ZZY5wKwvu6RnrXvtx0np
+ o3lycRhHKOjg7JktovKkjtydHlHdURcNdpfHgwSQEh0aVp+6VThQiS6eS
+ ITs2kDSfjXQjGKoB1gLJwMqK3bKmEk9YQ6qhfB0LYxZZzAyupuh+zy+gh
+ e/wcO/R1h6tgTVN8Lvtwq2maymOfPuVsAfn8SuSRpN+6vqefDaFOspTp2
+ QcjqEKms8bK6NlnWMUVsGUosNQCssMTczyho9FB6GbR+kqlyD165UYxCF w==;
+X-CSE-ConnectionGUID: VpTm/nIiQV6R3gdiuyuBLA==
+X-CSE-MsgGUID: 1uyvpP/vRmuCwga3RLOR5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="40893904"
+X-IronPort-AV: E=Sophos;i="6.12,313,1728975600"; d="scan'208";a="40893904"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2025 00:21:54 -0800
+X-CSE-ConnectionGUID: 4bgDJI7lSkCxurHBiLu3JA==
+X-CSE-MsgGUID: O/PUG0G3R9COCkCPxJ2Amg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="105610990"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
+ ([10.239.159.165])
+ by orviesa008.jf.intel.com with ESMTP; 14 Jan 2025 00:21:49 -0800
+Date: Tue, 18 Jun 2024 07:28:43 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+ yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
+ zhenzhong.duan@intel.com, tao1.su@intel.com
+Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
+ private device
+Message-ID: <ZnDGqww5SLbVD6ET@yilunxu-OptiPlex-7050>
+References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
+ <20250107142719.179636-9-yilun.xu@linux.intel.com>
+ <20250108133026.GQ5556@nvidia.com>
+ <Z36ulpCoJAllp4fP@yilunxu-OptiPlex-7050>
+ <20250109144051.GX5556@nvidia.com>
+ <Z3/7/PQCLi1GE5Ry@yilunxu-OptiPlex-7050>
+ <20250110133116.GF5556@nvidia.com>
+ <Z4Hp9jvJbhW0cqWY@yilunxu-OptiPlex-7050>
+ <20250113164935.GP5556@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250113164935.GP5556@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,149 +84,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aradhya Bhatia <a-bhatia1@ti.com>
+On Mon, Jan 13, 2025 at 12:49:35PM -0400, Jason Gunthorpe wrote:
+> On Sat, Jan 11, 2025 at 11:48:06AM +0800, Xu Yilun wrote:
+> 
+> > > > > can be sure what is the correct UAPI. In other words, make the
+> > > > > VFIO device into a CC device should also prevent mmaping it and so on.
+> > > > 
+> > > > My idea is prevent mmaping first, then allow VFIO device into CC dev (TDI).
+> > > 
+> > > I think you need to start the TDI process much earlier. Some arches
+> > > are going to need work to prepare the TDI before the VM is started.
+> > 
+> > Could you elaborate more on that? AFAICS Intel & AMD are all good on
+> > "late bind", but not sure for other architectures.
+> 
+> I'm not sure about this, the topic has been confused a bit, and people
+> often seem to  misunderstand what the full scenario actually is. :\
 
-The cdns-dsi controller requires that it be turned on completely before
-the input DPI's source has begun streaming[0]. Not having that, allows
-for a small window before cdns-dsi enable and after cdns-dsi disable
-where the previous entity (in this case tidss's videoport) to continue
-streaming DPI video signals. This small window where cdns-dsi is
-disabled but is still receiving signals causes the input FIFO of
-cdns-dsi to get corrupted. This causes the colors to shift on the output
-display. The colors can either shift by one color component (R->G, G->B,
-B->R), or by two color components (R->B, G->R, B->G).
+Yes, it is in early stage and open to discuss.
 
-Since tidss's videoport starts streaming via crtc enable hooks, we need
-cdns-dsi to be up and running before that. Now that the bridges are
-pre_enabled before crtc is enabled, and post_disabled after crtc is
-disabled, use the pre_enable and post_disable hooks to get cdns-dsi
-ready and running before the tidss videoport to get pass the color shift
-issues.
+> 
+> What I'm talking abou there is that you will tell the secure world to
+> create vPCI function that has the potential to be secure "TDI run"
+> down the road. The VM will decide when it reaches the run state. This
 
-[0]: See section 12.6.5.7.3 "Start-up Procedure" in J721E SoC TRM
-     TRM Link: http://www.ti.com/lit/pdf/spruil1
+Yes.
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
----
- .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 62 ++++++++++---------
- 1 file changed, 34 insertions(+), 28 deletions(-)
+> is needed so the secure world can prepare anything it needs prior to
+> starting the VM.
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index d60254e1270c..cb79abd4c7e8 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -669,13 +669,28 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge *bridge,
- 	return MODE_OK;
- }
- 
--static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
--					   struct drm_bridge_state *old_bridge_state)
-+static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
-+						struct drm_bridge_state *old_bridge_state)
- {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
- 	u32 val;
- 
-+	/*
-+	 * The cdns-dsi controller needs to be disabled after it's DPI source
-+	 * has stopped streaming. If this is not followed, there is a brief
-+	 * window before DPI source is disabled and after cdns-dsi controller
-+	 * has been disabled where the DPI stream is still on, but the cdns-dsi
-+	 * controller is not ready anymore to accept the incoming signals. This
-+	 * is one of the reasons why a shift in pixel colors is observed on
-+	 * displays that have cdns-dsi as one of the bridges.
-+	 *
-+	 * To mitigate this, disable this bridge from the bridge post_disable()
-+	 * hook, instead of the bridge _disable() hook. The bridge post_disable()
-+	 * hook gets called after the CRTC disable, where often many DPI sources
-+	 * disable their streams.
-+	 */
-+
- 	val = readl(dsi->regs + MCTL_MAIN_DATA_CTL);
- 	val &= ~(IF_VID_SELECT_MASK | IF_VID_MODE | VID_EN | HOST_EOT_GEN |
- 		 DISP_EOT_GEN);
-@@ -695,15 +710,6 @@ static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
- 	pm_runtime_put(dsi->base.dev);
- }
- 
--static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
--						struct drm_bridge_state *old_bridge_state)
--{
--	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
--	struct cdns_dsi *dsi = input_to_dsi(input);
--
--	pm_runtime_put(dsi->base.dev);
--}
--
- static void cdns_dsi_hs_init(struct cdns_dsi *dsi)
- {
- 	struct cdns_dsi_output *output = &dsi->output;
-@@ -773,8 +779,8 @@ static void cdns_dsi_init_link(struct cdns_dsi *dsi)
- 	dsi->link_initialized = true;
- }
- 
--static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
--					  struct drm_bridge_state *old_bridge_state)
-+static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-+					      struct drm_bridge_state *old_bridge_state)
- {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
-@@ -789,6 +795,21 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
- 	u32 tmp, reg_wakeup, div, status;
- 	int nlanes;
- 
-+	/*
-+	 * The cdns-dsi controller needs to be enabled before it's DPI source
-+	 * has begun streaming. If this is not followed, there is a brief window
-+	 * after DPI source enable and before cdns-dsi controller enable where
-+	 * the DPI stream is on, but the cdns-dsi controller is not ready to
-+	 * accept the incoming signals. This is one of the reasons why a shift
-+	 * in pixel colors is observed on displays that have cdns-dsi as one of
-+	 * the bridges.
-+	 *
-+	 * To mitigate this, enable this bridge from the bridge pre_enable()
-+	 * hook, instead of the bridge _enable() hook. The bridge pre_enable()
-+	 * hook gets called before the CRTC enable, where often many DPI sources
-+	 * enable their streams.
-+	 */
-+
- 	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
- 		return;
- 
-@@ -935,19 +956,6 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
- 	writel(tmp, dsi->regs + MCTL_MAIN_EN);
- }
- 
--static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
--					      struct drm_bridge_state *old_bridge_state)
--{
--	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
--	struct cdns_dsi *dsi = input_to_dsi(input);
--
--	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
--		return;
--
--	cdns_dsi_init_link(dsi);
--	cdns_dsi_hs_init(dsi);
--}
--
- static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
- 					       struct drm_bridge_state *bridge_state,
- 					       struct drm_crtc_state *crtc_state,
-@@ -1035,9 +1043,7 @@ cdns_dsi_bridge_atomic_reset(struct drm_bridge *bridge)
- static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
- 	.attach = cdns_dsi_bridge_attach,
- 	.mode_valid = cdns_dsi_bridge_mode_valid,
--	.atomic_disable = cdns_dsi_bridge_atomic_disable,
- 	.atomic_pre_enable = cdns_dsi_bridge_atomic_pre_enable,
--	.atomic_enable = cdns_dsi_bridge_atomic_enable,
- 	.atomic_post_disable = cdns_dsi_bridge_atomic_post_disable,
- 	.atomic_check = cdns_dsi_bridge_atomic_check,
- 	.atomic_duplicate_state = cdns_dsi_bridge_atomic_duplicate_state,
--- 
-2.34.1
+OK. From Dan's patchset there are some touch point for vendor tsm
+drivers to do secure world preparation. e.g. pci_tsm_ops::probe().
 
+Maybe we could move to Dan's thread for discussion.
+
+https://lore.kernel.org/linux-coco/173343739517.1074769.13134786548545925484.stgit@dwillia2-xfh.jf.intel.com/
+
+> Setting up secure vIOMMU emulation, for instance. I
+
+I think this could be done at VM late bind time.
+
+> expect ARM will need this, I'd be surprised if AMD actually doesn't in
+> the full scenario with secure viommu.
+
+AFAICS, AMD needs secure viommu.
+
+> 
+> It should not be a surprise to the secure world after the VM has
+> started that suddenly it learns about a vPCI function that wants to be
+
+With some pre-VM stage touch point, it wouldn't be all of a sudden.
+
+> secure. This should all be pre-arranged as possible before starting
+
+But our current implementation is not to prepare as much as possible,
+but only necessary, so most of the secure work for vPCI function is done
+at late bind time.
+
+Thank,
+Yilun
+
+> the VM, even if alot of steps happen after the VM starts running (or
+> maybe don't happen at all).
+> 
+> Jason
