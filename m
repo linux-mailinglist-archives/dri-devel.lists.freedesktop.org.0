@@ -2,114 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 296E290B687
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 18:36:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB2690B6E3
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2024 18:46:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9796410E460;
-	Mon, 17 Jun 2024 16:36:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E2DF10E463;
+	Mon, 17 Jun 2024 16:46:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Tyf4Av3U";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YUYl9lUh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53A3610E462
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 16:36:26 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id
- a640c23a62f3a-a6f21ff4e6dso624494466b.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 09:36:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718642184; x=1719246984; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=53J7WI/sxMq7DMs+aYMSjnkpgSP1OKUPbBpcZiQTHx4=;
- b=Tyf4Av3UP5Cz4omXFG1tX5jo45a/id8tDbrckb4LPH3+zkKJeAAMjxDY28gqltv0k9
- MFwfVXDcmoIfUWVlYd8d1EfW6Iiz1hO/RnEK7Qhdp+NKIho9dDzalDsdJdX/Fg6V8lSs
- 4vtSVFAw63gWfHl8yg5qj9TcpVC5ijxLCoPZp9zD8x3sCQ86xVeRAtPp0JEaosjyKVtZ
- T4DTzFBeU4mLB3M7bksqY43D1IKIjXULOVhXQqlbBF12giKGQOwhb+hVAooDeCqcYnpq
- GBPgruH9NIRUdrfS7KY90bBYPOwBMuTFnZz7+Ecy6ZcTKu+ePFXkQ9nQFlHdk1ND9F5/
- 3Pug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718642184; x=1719246984;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=53J7WI/sxMq7DMs+aYMSjnkpgSP1OKUPbBpcZiQTHx4=;
- b=fgABUKR5XqkcvCAvmzOW1xzBgJY1q0bqQrCiRcXoqugVluYbEXfO7/VK/lvXxMvG2W
- mB7iEi+QNDJukErkx8IriZmg1qF71DV6z2DatDGCXBN/zrSaJofEynOkbPPSa7dOcvxF
- o/kylWzIf+LmS2z89xa0UZZMe4+Gw/r5U0a7ungSXl01IKndwkNjU7ge2SuoguE8+/8I
- gktKZSGTyF4RVC9s+iCjoTdFro9MCGFEKQKOqyhSi8qlPSeRBI0RJ4d+KaNiW0A++rD8
- SESoTZn7G+4PI5i7ha+atiUsFTtoQiIgq65bYwIWsxqc+QkJ8KXma+1pffwWpVif/PWX
- 6uyQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX40N+LpVcBkrKTQQ7qo2Wit5poxAiw2Hqw8eTFjpwQiFDAS90meQyd3dscb1hYBt0UbHxXbJFUY5XKswN4J+isSitzPMArOszlIlT5Mi1E
-X-Gm-Message-State: AOJu0YyKyrE0lUFD5ofs0ZhUc3eL7PqPQL7CrJNJIWBzV+Fp3LMfcPWj
- xNI/dU6BmlZUTL5ahfGj7VMOeEa+MQkTC6/2Fk+H68myKyMKwZUK
-X-Google-Smtp-Source: AGHT+IEgIhSMoPO6IwzcFhQmUpnLu6gYo3keWNhjJiuidTn6zLGnPgWojVWeQQr2lo9qk89rXkkVsg==
-X-Received: by 2002:a17:906:4341:b0:a6f:5c91:7be3 with SMTP id
- a640c23a62f3a-a6f60dc1fa8mr632023166b.56.1718642184123; 
- Mon, 17 Jun 2024 09:36:24 -0700 (PDT)
-Received: from [192.168.42.188] ([163.114.131.193])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a6f6a64a3efsm391222566b.173.2024.06.17.09.36.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jun 2024 09:36:23 -0700 (PDT)
-Message-ID: <20a6a727-d9f2-495c-bf75-72c27740dd82@gmail.com>
-Date: Mon, 17 Jun 2024 17:36:24 +0100
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D91A10E463
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 16:46:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 833E2CE0EDE;
+ Mon, 17 Jun 2024 16:46:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83E4AC3277B;
+ Mon, 17 Jun 2024 16:46:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718642766;
+ bh=xO8XChDFPCNzZpffI0GKMk7UAMqF5tKfD7aEDZU04+0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=YUYl9lUhjz94BZhQz9/gYarQ4pOP/8GbvmV5pbrZTc53wcOzF6VDfcg6f3DVoi1XT
+ x8/z6mIHV4rBgEd8BjjcFZfKc1JEf01iWfbWijJ6YAJOwcodXaA4WVU6CoKAHAGYhr
+ m7NDyCRTKNMrAPVNySrfPeVCYQf7ENQK19yJNOYXsgBfGE+AVK5PXLb7+eZA30szCJ
+ OhIyGseEwn/ZWqEn2QTNpNkBX005hHX5oZkzXqtuPW8eNr33jGRaY05q6SlX2gCR+E
+ zLi65gBwLERJiF0ogsYdBKnRdtTOlvGk00YuX0weMynueY98RQthvNC40kBra3JjiO
+ VldAMGaR8udNw==
+Date: Mon, 17 Jun 2024 11:46:04 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org
+Subject: Re: [PATCH v9 10/13] PCI: Give pci_intx() its own devres callback
+Message-ID: <20240617164604.GA1217529@bhelgaas>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v12 10/13] tcp: RX path for devmem TCP
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20240613013557.1169171-1-almasrymina@google.com>
- <20240613013557.1169171-11-almasrymina@google.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20240613013557.1169171-11-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bdfd5c582e7b858d3f32428000d2268228beef5f.camel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,295 +64,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/13/24 02:35, Mina Almasry wrote:
-> In tcp_recvmsg_locked(), detect if the skb being received by the user
-> is a devmem skb. In this case - if the user provided the MSG_SOCK_DEVMEM
-> flag - pass it to tcp_recvmsg_devmem() for custom handling.
+On Mon, Jun 17, 2024 at 10:21:10AM +0200, Philipp Stanner wrote:
+> On Fri, 2024-06-14 at 11:14 -0500, Bjorn Helgaas wrote:
+> > On Fri, Jun 14, 2024 at 10:09:46AM +0200, Philipp Stanner wrote:
+> ...
+
+> > > Apparently INTx is "old IRQ management" and should be done through
+> > > pci_alloc_irq_vectors() nowadays.
+> > 
+> > Do we have pcim_ support for pci_alloc_irq_vectors()?
 > 
-> tcp_recvmsg_devmem() copies any data in the skb header to the linear
-> buffer, and returns a cmsg to the user indicating the number of bytes
-> returned in the linear buffer.
-> 
-> tcp_recvmsg_devmem() then loops over the unaccessible devmem skb frags,
-> and returns to the user a cmsg_devmem indicating the location of the
-> data in the dmabuf device memory. cmsg_devmem contains this information:
-> 
-> 1. the offset into the dmabuf where the payload starts. 'frag_offset'.
-> 2. the size of the frag. 'frag_size'.
-> 3. an opaque token 'frag_token' to return to the kernel when the buffer
-> is to be released.
-> 
-> The pages awaiting freeing are stored in the newly added
-> sk->sk_user_frags, and each page passed to userspace is get_page()'d.
-> This reference is dropped once the userspace indicates that it is
-> done reading this page.  All pages are released when the socket is
-> destroyed.
+> Nope.
 
-One small concern is that if the pool gets destroyed (i.e.
-page_pool_destroy) before sockets holding netiov, page pool will
-semi-busily poll until the sockets die or such and will spam with
-pr_warn(). E.g. when a user drops the nl but leaks data sockets
-and continues with its userspace business. You can probably do
-it in a loop and create dozens of such pending
-page_pool_release_retry().
+Should we?  Or is IRQ support not amenable to devm?
 
-
-> Signed-off-by: Willem de Bruijn <willemb@google.com>
-> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> 
-...
-> +static int tcp_xa_pool_refill(struct sock *sk, struct tcp_xa_pool *p,
-> +			      unsigned int max_frags)
-> +{
-> +	int err, k;
-> +
-> +	if (p->idx < p->max)
-> +		return 0;
-> +
-> +	xa_lock_bh(&sk->sk_user_frags);
-> +
-> +	tcp_xa_pool_commit_locked(sk, p);
-> +
-> +	for (k = 0; k < max_frags; k++) {
-> +		err = __xa_alloc(&sk->sk_user_frags, &p->tokens[k],
-> +				 XA_ZERO_ENTRY, xa_limit_31b, GFP_KERNEL);
-> +		if (err)
-> +			break;
-> +	}
-> +
-> +	xa_unlock_bh(&sk->sk_user_frags);
-> +
-> +	p->max = k;
-> +	p->idx = 0;
-> +	return k ? 0 : err;
-> +}
-
-Personally, I'd prefer this optimisation to be in a separate patch,
-especially since there is some degree of hackiness to it.
-
-
-> +
-> +/* On error, returns the -errno. On success, returns number of bytes sent to the
-> + * user. May not consume all of @remaining_len.
-> + */
-> +static int tcp_recvmsg_dmabuf(struct sock *sk, const struct sk_buff *skb,
-> +			      unsigned int offset, struct msghdr *msg,
-> +			      int remaining_len)
-> +{
-> +	struct dmabuf_cmsg dmabuf_cmsg = { 0 };
-> +	struct tcp_xa_pool tcp_xa_pool;
-> +	unsigned int start;
-> +	int i, copy, n;
-> +	int sent = 0;
-> +	int err = 0;
-> +
-> +	tcp_xa_pool.max = 0;
-> +	tcp_xa_pool.idx = 0;
-> +	do {
-> +		start = skb_headlen(skb);
-> +
-> +		if (skb_frags_readable(skb)) {
-> +			err = -ENODEV;
-> +			goto out;
-> +		}
-> +
-> +		/* Copy header. */
-> +		copy = start - offset;
-> +		if (copy > 0) {
-> +			copy = min(copy, remaining_len);
-> +
-> +			n = copy_to_iter(skb->data + offset, copy,
-> +					 &msg->msg_iter);
-> +			if (n != copy) {
-> +				err = -EFAULT;
-> +				goto out;
-> +			}
-> +
-> +			offset += copy;
-> +			remaining_len -= copy;
-> +
-> +			/* First a dmabuf_cmsg for # bytes copied to user
-> +			 * buffer.
-> +			 */
-> +			memset(&dmabuf_cmsg, 0, sizeof(dmabuf_cmsg));
-> +			dmabuf_cmsg.frag_size = copy;
-> +			err = put_cmsg(msg, SOL_SOCKET, SO_DEVMEM_LINEAR,
-> +				       sizeof(dmabuf_cmsg), &dmabuf_cmsg);
-> +			if (err || msg->msg_flags & MSG_CTRUNC) {
-> +				msg->msg_flags &= ~MSG_CTRUNC;
-> +				if (!err)
-> +					err = -ETOOSMALL;
-> +				goto out;
-> +			}
-> +
-> +			sent += copy;
-> +
-> +			if (remaining_len == 0)
-> +				goto out;
-> +		}
-> +
-> +		/* after that, send information of dmabuf pages through a
-> +		 * sequence of cmsg
-> +		 */
-> +		for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
-> +			skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
-> +			struct net_iov *niov;
-> +			u64 frag_offset;
-> +			int end;
-> +
-> +			/* !skb_frags_readable() should indicate that ALL the
-> +			 * frags in this skb are dmabuf net_iovs. We're checking
-> +			 * for that flag above, but also check individual frags
-> +			 * here. If the tcp stack is not setting
-> +			 * skb_frags_readable() correctly, we still don't want
-> +			 * to crash here.
-> +			 */
-> +			if (!skb_frag_net_iov(frag)) {
-> +				net_err_ratelimited("Found non-dmabuf skb with net_iov");
-> +				err = -ENODEV;
-> +				goto out;
-> +			}
-> +
-> +			niov = skb_frag_net_iov(frag);
-> +			end = start + skb_frag_size(frag);
-> +			copy = end - offset;
-> +
-> +			if (copy > 0) {
-> +				copy = min(copy, remaining_len);
-> +
-> +				frag_offset = net_iov_virtual_addr(niov) +
-> +					      skb_frag_off(frag) + offset -
-> +					      start;
-> +				dmabuf_cmsg.frag_offset = frag_offset;
-> +				dmabuf_cmsg.frag_size = copy;
-> +				err = tcp_xa_pool_refill(sk, &tcp_xa_pool,
-> +							 skb_shinfo(skb)->nr_frags - i);
-> +				if (err)
-> +					goto out;
-> +
-> +				/* Will perform the exchange later */
-> +				dmabuf_cmsg.frag_token = tcp_xa_pool.tokens[tcp_xa_pool.idx];
-> +				dmabuf_cmsg.dmabuf_id = net_iov_binding_id(niov);
-> +
-> +				offset += copy;
-> +				remaining_len -= copy;
-> +
-> +				err = put_cmsg(msg, SOL_SOCKET,
-> +					       SO_DEVMEM_DMABUF,
-> +					       sizeof(dmabuf_cmsg),
-> +					       &dmabuf_cmsg);
-> +				if (err || msg->msg_flags & MSG_CTRUNC) {
-> +					msg->msg_flags &= ~MSG_CTRUNC;
-> +					if (!err)
-> +						err = -ETOOSMALL;
-> +					goto out;
-> +				}
-> +
-> +				atomic_long_inc(&niov->pp_ref_count);
-> +				tcp_xa_pool.netmems[tcp_xa_pool.idx++] = skb_frag_netmem(frag);
-> +
-> +				sent += copy;
-> +
-> +				if (remaining_len == 0)
-> +					goto out;
-> +			}
-> +			start = end;
-> +		}
-> +
-> +		tcp_xa_pool_commit(sk, &tcp_xa_pool);
-> +		if (!remaining_len)
-> +			goto out;
-> +
-> +		/* if remaining_len is not satisfied yet, we need to go to the
-> +		 * next frag in the frag_list to satisfy remaining_len.
-> +		 */
-> +		skb = skb_shinfo(skb)->frag_list ?: skb->next;
-> +
-> +		offset = offset - start;
-
-It's an offset into the current skb, isn't it? Wouldn't
-offset = 0; be less confusing?
-
-> +	} while (skb);
-> +
-> +	if (remaining_len) {
-> +		err = -EFAULT;
-> +		goto out;
-> +	}
-
-Having data left is not a fault, and to get here you
-need to get an skb with no data left, which shouldn't
-happen. Seems like everything you need is covered by
-the "!sent" check below.
-
-
-> +
-> +out:
-> +	tcp_xa_pool_commit(sk, &tcp_xa_pool);
-> +	if (!sent)
-> +		sent = err;
-> +
-> +	return sent;
-> +}
-> +
-...
-> diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
-> index de0c8f43448ab..57e48b75ac02a 100644
-> --- a/net/ipv4/tcp_ipv4.c
-> +++ b/net/ipv4/tcp_ipv4.c
-> @@ -79,6 +79,7 @@
->   #include <linux/seq_file.h>
->   #include <linux/inetdevice.h>
->   #include <linux/btf_ids.h>
-> +#include <linux/skbuff_ref.h>
->   
->   #include <crypto/hash.h>
->   #include <linux/scatterlist.h>
-> @@ -2503,6 +2504,15 @@ static void tcp_md5sig_info_free_rcu(struct rcu_head *head)
->   void tcp_v4_destroy_sock(struct sock *sk)
->   {
->   	struct tcp_sock *tp = tcp_sk(sk);
-> +	__maybe_unused unsigned long index;
-> +	__maybe_unused void *netmem;
-
-How about adding a function to get rid of __maybe_unused?.
-
-static void sock_release_devmem_frags() {
-#ifdef PP
-	unsigned index;
-	...
-#endif PP
-}
-
-Also, even though you wire it up for TCP, since ->sk_user_frags
-is in struct sock I'd expect the release to be somewhere in the
-generic sock path like __sk_destruct(), and same for init.
-Perhpas, it's better to leave it for later.
-
-> +
-> +#ifdef CONFIG_PAGE_POOL
-> +	xa_for_each(&sk->sk_user_frags, index, netmem)
-> +		WARN_ON_ONCE(!napi_pp_put_page((__force netmem_ref)netmem));
-> +#endif
-> +
-> +	xa_destroy(&sk->sk_user_frags);
->   
->   	trace_tcp_destroy_sock(sk);
->   
-> diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
-> index bc67f6b9efae4..5d563312efe14 100644
-> --- a/net/ipv4/tcp_minisocks.c
-> +++ b/net/ipv4/tcp_minisocks.c
-> @@ -624,6 +624,8 @@ struct sock *tcp_create_openreq_child(const struct sock *sk,
->   
->   	__TCP_INC_STATS(sock_net(sk), TCP_MIB_PASSIVEOPENS);
->   
-> +	xa_init_flags(&newsk->sk_user_frags, XA_FLAGS_ALLOC1);
-> +
->   	return newsk;
->   }
->   EXPORT_SYMBOL(tcp_create_openreq_child);
-
--- 
-Pavel Begunkov
+Happened to see this new driver:
+https://lore.kernel.org/all/20240617100359.2550541-3-Basavaraj.Natikar@amd.com/
+that uses devm and the only PCI-related part of .remove() is cleaning
+up the IRQs.
