@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3468690DA80
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 19:24:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACAF390DA91
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 19:25:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1754A10E21F;
-	Tue, 18 Jun 2024 17:24:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3A8910E72B;
+	Tue, 18 Jun 2024 17:25:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cCMgah5m";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hpRApGlQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 351BC10E21F
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 17:24:34 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2ebf961e504so62496641fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 10:24:34 -0700 (PDT)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F25310E72B
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 17:25:51 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-2e724bc466fso67663271fa.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 10:25:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718731472; x=1719336272; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1718731549; x=1719336349; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=UWc5R2fCgPmQ5dTsZo1oVFpgeegHmUpDv90F0Wr70Ck=;
- b=cCMgah5mggESRy6q+X1oHjuuWSYL2ZgFWMiRuGLBoA+cz7Jh372DamjC4gELHYdE47
- uoH72/+T2n2NvAREgcZ/5VXE2x//RKH577WiqmTMZ9YdVxsm3HrSvMviktQ44TN61/v+
- ORVYypPNGIlJD6XlhypiTuTm/3OqSFj57aw4J39vbegLGCNX7uQtk1+sA4t1jNBvZNt0
- rqvcmrM6MpgGieEXuE+Z1nRSqiq1dxOKFRaeiKLARlxB4ZkjnWwxbIaILSYRpOHcRTXN
- 5bWbjp/HFvWN9TGRnMYNMXrObYFP60lzturKttWuifTjhu1Vovt9oHP4WK3gFoVRBpqe
- jLlQ==
+ bh=0x3UpCnFFeHobgX/UWFVCi5nUUKWM9Aq39qUpJkUIbU=;
+ b=hpRApGlQ0qM15Y0NA+94MysUxuqX6w4NKuC26CiaE+96KH0B4YjWVxtWWzMpfgcXbY
+ GqRNSkd/2/tgnwqZyPQO4L8JdQQ5wr+3UBgBDAyPGDTEG4V5o9yblUX6OVMpsUdErBjl
+ 52c2iCDQtYnyGA9FlKypQdmlzY29TnwegB3oTL1ilVCCmxbkwhhbr7iDP0dsf3SQKrsd
+ 8BgSvBhnMWg4Wm73+D7Wnweusb8wz/WXoHw9ACAspHHIwORU/xda6HVad4OKfpqnHFTS
+ NTYryTMbNC3a4KFN2w7NIskuYmsgMIZ8NpHVbodph/2vLPpCX10OCFCYTuc2YlHp0YCO
+ uMYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718731472; x=1719336272;
+ d=1e100.net; s=20230601; t=1718731549; x=1719336349;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UWc5R2fCgPmQ5dTsZo1oVFpgeegHmUpDv90F0Wr70Ck=;
- b=WVLr4vfTD0NC0uDaXugFAUJVgBSNKaqIfbqz0g88Oh+vBOY2YDmXOdJey0vUhEuBYf
- kQy754IypMTRj1mEVSR58m0eJFXQftQnOdb5NgQUXHClWP0/K7F4S0Zx/T2bfjDAoonu
- 4xRjk1Yg13930uFVkcr0zN0wiuonfWG+XV1g33ew2XR+MmBR0FQES/oBiMlosUktf9+z
- svnPzL/NZeceZ4PJnlOamb5khF4ZQh+NXyaB1DRxg+S9o30CDCGVurEqbmRSgvYEA+sU
- PEOGGGQqVkXtmL5USSA07GO/4w5L75ec0BbquUfqT41TbxEYqqTWL6pONhBNk6NjuT5a
- +s/g==
+ bh=0x3UpCnFFeHobgX/UWFVCi5nUUKWM9Aq39qUpJkUIbU=;
+ b=oW0D9vrX006o7PRxTMViKhcNI5cKp7Mn3aLgucdr38IJo96FLoiIUxcPI4rqxYcG7A
+ 2xx5TPXm9bVwKFE7OCKksyM6nRJq80c0YraAIEaMHVKpxUyOOwsepRwwMg0+bHdeKuCi
+ PVTEnJGBKmqBh2m5NtdBAee4WQQBmj60DaEJIzuFK13l57KjD4E8yKJRWc4M1bp+3GNa
+ 2owguBWrCFfl8TeyrSY+p0k/K684eBK7TXyY/wL2EaNiZGOG4hRwxHg/Yu6cEnrDQvAL
+ xAkwAUMcTwapGpaa5i3b83wxbip8l2dBHqIoOV/6BTTzIDLPcbLjwFIZHVwASP9TVV8C
+ BIQQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVywGywxli7t02IIfVrtNkAgsraCgPEqMnUQGtJosPPgHes/JsGuRgt0oQdVIYOMtIWy980cpfGY8mEYDzmMuUafEvCcdzF54zmkMNgTYyx
-X-Gm-Message-State: AOJu0YykolgFBjK+5CUSPj3gBn9Hyt49/HPnkrD/hBf0/+eIOHYZfiJH
- iJMXBWT+01AXGNWwZfWSY5e+IEBQByV7uylSVj6WsgPTmsORb273TejjIJI8aW8=
-X-Google-Smtp-Source: AGHT+IEWzwDTU5fwaxyyYzF7wNA1htX/B1S82IuB1yuDZxJnrnpE6wymMddDXW6j0o+2+wU0E3upeA==
-X-Received: by 2002:a2e:7c0d:0:b0:2eb:fa26:8ca2 with SMTP id
- 38308e7fff4ca-2ec3ce9ae80mr3786401fa.4.1718731470752; 
- Tue, 18 Jun 2024 10:24:30 -0700 (PDT)
+ AJvYcCWLs3Cgt2JvphhpuhtdyGpKIaxwcn8+/0Ry6JTe5yCGre/ztRPTKaTZ3AqOGzfkV+Mo1xRNwWUrJyLSpOt+Way3izxFOe9Dq638JAKjEqp2
+X-Gm-Message-State: AOJu0YyeJgOTe0cei9XmyUVh9w/wD771v8U9F/B4cnwrRll+BZ9qBh6K
+ orotEyEpI39r36jrPO26rpBOKIhFkJNmr1m3roMTPZYigVCTr2OrnYDbkwlEHXk=
+X-Google-Smtp-Source: AGHT+IFf+j6X5dAvayfXrCIIhVNUgHdKwtrHtNwB1lo7ZJD9ArCnpH9ivkEoQ64N15sSUPSxrp47Ug==
+X-Received: by 2002:a2e:9008:0:b0:2eb:d4a4:42a1 with SMTP id
+ 38308e7fff4ca-2ec3cfdfd78mr3710751fa.43.1718731549419; 
+ Tue, 18 Jun 2024 10:25:49 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec0aa84665sm16512281fa.17.2024.06.18.10.24.29
+ 38308e7fff4ca-2ec05c8a72bsm17349601fa.115.2024.06.18.10.25.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jun 2024 10:24:30 -0700 (PDT)
-Date: Tue, 18 Jun 2024 20:24:28 +0300
+ Tue, 18 Jun 2024 10:25:49 -0700 (PDT)
+Date: Tue, 18 Jun 2024 20:25:47 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Marc Gonzalez <mgonzalez@freebox.fr>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -72,16 +72,16 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>
-Subject: Re: [PATCH 3/4] drm: bridge: simple-bridge: use only devm* in probe
-Message-ID: <cmi4lqopew6afptocuoif6h6up3xcigpxjbbd57soul37ujw7b@z2bcfiw7lfdi>
+Subject: Re: [PATCH 4/4] drm: bridge: simple-bridge: add tdp158 support
+Message-ID: <a4xdofsru4cfyfg762ud2x2kpoonbxgdpmjbhp4jpyew2oryvc@kskcz3zcg2ky>
 References: <20240617-tdp158-v1-0-df98ef7dec6d@freebox.fr>
- <20240617-tdp158-v1-3-df98ef7dec6d@freebox.fr>
- <deirqqoap7ta3iwmmvg6uxzalfe22yirjp6et2a74ffh5ybi64@vekr6l7sl22c>
- <82c982ad-20ae-4f36-8797-440828317d32@freebox.fr>
+ <20240617-tdp158-v1-4-df98ef7dec6d@freebox.fr>
+ <hdhy5pnq4vsdn2axgu3t5vyhwqrqcrvpveeyai2lyvwadr7rbb@te6fucdqclez>
+ <cad870dd-861b-433b-8598-1b8b68b72d6c@freebox.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <82c982ad-20ae-4f36-8797-440828317d32@freebox.fr>
+In-Reply-To: <cad870dd-861b-433b-8598-1b8b68b72d6c@freebox.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,35 +97,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 18, 2024 at 01:37:15PM GMT, Marc Gonzalez wrote:
-> On 18/06/2024 00:28, Dmitry Baryshkov wrote:
+On Tue, Jun 18, 2024 at 01:48:48PM GMT, Marc Gonzalez wrote:
+> On 18/06/2024 00:33, Dmitry Baryshkov wrote:
 > 
-> > On Mon, Jun 17, 2024 at 06:03:01PM GMT, Marc Gonzalez wrote:
-> >
-> >> Once probe uses only devm functions, remove() becomes unnecessary.
+> > On Mon, Jun 17, 2024 at 06:03:02PM GMT, Marc Gonzalez wrote:
 > > 
-> > Breves vibrantesque sententiae
+> >> +	if (sbridge->vcc) {
+> >> +		ret = regulator_enable(sbridge->vcc);
+> >> +		msleep(100);
 > > 
-> > With the hope of getting an expanded commit message:
-> > 
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > At least this should be documented or explained in the commit message.
+> > Is it absolutely necessary? Can you use regulator-enable-ramp-delay or
+> > any other DT property instead?
 > 
-> I'm not quite sure what else to say.
+> The value comes from datasheet "8.3.2 Operation Timing"
+> Table 1. Power Up and Operation Timing Requirements
+> VDD supply ramp up requirements, max = 100 ms
+> VCC supply ramp up requirements, max = 100 ms
 > 
-> Using only devm* functions in probe, the remove() callback is
-> no longer needed, since devm unwind will free all resources.
-> 
-> Is that better?
+> Did I read the spec wrong? (Very possible)
 
-Yes. Or something like:
-
-The only call in remove() is drm_bridge_remove(). Use devm_bridge_add(),
-removing the need to call drm_bridge_remove() manually and drop the
-driver's remove callback completely.
+I didn't check the spec. I was pointing that that you were adding
+msleeps() into a generic path, but the commit message had no explanation
+for that.
 
 > 
-> NB: this patch is not *required* but I thought "might as well
-> change it while I'm in the code".
+> Are you saying this could/should be a property of the regulator?
+> What if the regulator gates several different blocks?
+
+I agree here. Yes, it should be done in the driver.
+
+> 
+> 
+> >>  	sbridge = devm_kzalloc(dev, sizeof(*sbridge), GFP_KERNEL);
+> >>  	if (!sbridge)
+> >>  		return -ENOMEM;
+> >> -	platform_set_drvdata(pdev, sbridge);
+> > 
+> > I think this call can get dropped together with the remove() being
+> > gone...
+> 
+> Oooh, it didn't occur to me that the only reason to store drvdata was
+> to have it available in the remove callback...
+> 
+> 
+> > Does this work if the driver is built as a module?
+> 
+> Not sure there's any point in testing since Maxime NACKed the approach.
+
+Yep :-(
+
 > 
 > Regards
 > 
