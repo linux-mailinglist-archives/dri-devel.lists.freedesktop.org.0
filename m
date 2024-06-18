@@ -2,130 +2,160 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5E290C38D
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 08:30:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9025D90C3A1
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 08:33:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8A3910E58A;
-	Tue, 18 Jun 2024 06:30:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F9CE10E1DE;
+	Tue, 18 Jun 2024 06:33:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ijMMMZsx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jXagmq93";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ijMMMZsx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jXagmq93";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="q1tVTr+0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E61A10E586
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 06:29:59 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 65DE622636;
- Tue, 18 Jun 2024 06:29:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1718692197; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VhxyLzMp0xY80/C6VM7Tfa3q/ANla3OH3yenX41cm14=;
- b=ijMMMZsxN4PRutNPD7sAbxYkh6qb7Q7zenmWRMGfiWYqVtbU7w55aZjSWosIStxxNaopFO
- wM0czZ61fkh2pf2oFJWOzskfdi63BuJfCKbrA+JjmNZ9/v1qBWCqFvT6HIgeWPEe8JMfpk
- m8150tk8Dct7dAOsSrIy86KIQl6x0js=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1718692197;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VhxyLzMp0xY80/C6VM7Tfa3q/ANla3OH3yenX41cm14=;
- b=jXagmq93HfvcixrLyf2+z/GAtf/s7qAGMwbcvFYWmB7tMjRwUdC8N+Xi/4Hmpzb+nDWhra
- gxHZjNuOEAN0X9Cw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1718692197; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VhxyLzMp0xY80/C6VM7Tfa3q/ANla3OH3yenX41cm14=;
- b=ijMMMZsxN4PRutNPD7sAbxYkh6qb7Q7zenmWRMGfiWYqVtbU7w55aZjSWosIStxxNaopFO
- wM0czZ61fkh2pf2oFJWOzskfdi63BuJfCKbrA+JjmNZ9/v1qBWCqFvT6HIgeWPEe8JMfpk
- m8150tk8Dct7dAOsSrIy86KIQl6x0js=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1718692197;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VhxyLzMp0xY80/C6VM7Tfa3q/ANla3OH3yenX41cm14=;
- b=jXagmq93HfvcixrLyf2+z/GAtf/s7qAGMwbcvFYWmB7tMjRwUdC8N+Xi/4Hmpzb+nDWhra
- gxHZjNuOEAN0X9Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 319791369F;
- Tue, 18 Jun 2024 06:29:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id bYJpCmUpcWZuXwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 18 Jun 2024 06:29:57 +0000
-Message-ID: <22f4df70-92c8-4ead-bf56-65ccffe8953f@suse.de>
-Date: Tue, 18 Jun 2024 08:29:56 +0200
-MIME-Version: 1.0
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2043.outbound.protection.outlook.com [40.107.93.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F5DE10E1DE
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 06:33:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XzLmQO2vANzlkqIshnofyBhtA0y5AIiJxWYy9yUM+TxQoZqFpWwgVXUkJN9q3zVUsEcwDQwgbLW8uaSby2jTpxeYamB4Z1Y4Puz75zuacwUVq/HLzexlOAzAYhZwq6Sw1wJyJzRY+znlk15UXzTVocVseX1TcnioPheAVhxEiiYGQzq/v9ghRCYU2MJst1tsW5YRTCcBlf7qdbHMuvcXxwWy7IwPfxCHVZz6C7zrHr5c8gSSpj+/zQlt06Bt6iM3iT1lawMo1xusxj4uCpqiO62FUAjmWTe1aGTsTbsDNmL5qp1Tgd3tKECweWiLiLRqbXhskqqSs8R5OPDKd4vdBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q+/pLV36q1F0ZCqIFBAoYGsfYfHZZGIWtg7sDNv5GgA=;
+ b=NOW5bJrllBryMAodAYSTEMPC+SArfNtZ71psT3bEer3Y0Y12Kq1fmn9WV5BUoZc8WDg7eCYScHzGnk1K4Nh1S/TdDkh00T4MTKPV1DxhNy/wSF1tcguauT/hBp+yNeYpzcAnKK2+heVPN05QxkHYHry/V0bHIrzd1NDm+AgLVOOKK4jHCHNJTl+/bJDxtI/xsDm++mIyk/4twp5qBJxqtGn+I8S8sTXqI+F9VSfBug8hPMCQGnMFUHWU4oGPUt45aOdYvsf/iNwhix6X4OmX9lavpsFda81t/lEc4ph4dUteq2t5NIM+teRHCoesP3hUgTw3Jb48vPCWPMCHkZvIOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q+/pLV36q1F0ZCqIFBAoYGsfYfHZZGIWtg7sDNv5GgA=;
+ b=q1tVTr+0TOKrt0iSPoKHe6HcRh9jPERfehSc0cGiGtIZ4LYSO0tqxg1tun3PHwW4gF4qOZlrort3rg/vrNOtCZB7zzbsIzxueQxhHXBsksGptvlGw5NNu3W1zlp21rtlvHIn/D4uyoXK8s6+nkE9mosZEJWT81nOEPNuuMNedpI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SJ0PR12MB5673.namprd12.prod.outlook.com (2603:10b6:a03:42b::13)
+ by DM4PR12MB6566.namprd12.prod.outlook.com (2603:10b6:8:8d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.31; Tue, 18 Jun
+ 2024 06:33:47 +0000
+Received: from SJ0PR12MB5673.namprd12.prod.outlook.com
+ ([fe80::ec7a:dd71:9d6c:3062]) by SJ0PR12MB5673.namprd12.prod.outlook.com
+ ([fe80::ec7a:dd71:9d6c:3062%2]) with mapi id 15.20.7677.030; Tue, 18 Jun 2024
+ 06:33:47 +0000
+Message-ID: <0b00c8f9-fb79-4b11-ae22-931205653203@amd.com>
+Date: Tue, 18 Jun 2024 08:33:38 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/fbdev-dma: Only set smem_start is enable per module
- option
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: peng.fan@oss.nxp.com, daniel@ffwll.ch, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-References: <20240617152843.11886-1-tzimmermann@suse.de>
- <2643bb67-e3a6-8ca7-37d1-e98080952589@linux-m68k.org>
+Subject: Re: Design session notes: GPU acceleration in Xen
+To: Demi Marie Obenour <demi@invisiblethingslab.com>,
+ =?UTF-8?Q?Marek_Marczykowski-G=C3=B3recki?=
+ <marmarek@invisiblethingslab.com>, =?UTF-8?Q?Roger_Pau_Monn=C3=A9?=
+ <roger.pau@citrix.com>
+Cc: Jan Beulich <jbeulich@suse.com>, Xenia Ragiadakou
+ <burzalodowa@gmail.com>, Ray Huang <ray.huang@amd.com>,
+ Xen developer discussion <xen-devel@lists.xenproject.org>,
+ Andrew Cooper <andrew.cooper3@citrix.com>,
+ Direct Rendering Infrastructure development
+ <dri-devel@lists.freedesktop.org>,
+ Qubes OS Development Mailing List <qubes-devel@googlegroups.com>
+References: <Zms9tjtg06kKtI_8@itl-email>
+ <440d6444-3b02-4756-a4fa-02aae3b24b14@suse.com> <ZmvvlF0gpqFB7UC9@macbook>
+ <af1f966b-b28f-4a14-b932-3f1523adeff0@suse.com> <ZmwByZnn5vKcVLKI@macbook>
+ <Zm-FidjSK3mOieSC@itl-email> <Zm_p1QvoZcjQ4gBa@macbook>
+ <ZnCglhYlXmRPBZXE@mail-itl> <ZnDbaply6KaBUKJb@itl-email>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <2643bb67-e3a6-8ca7-37d1-e98080952589@linux-m68k.org>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <ZnDbaply6KaBUKJb@itl-email>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.29
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.978]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MIME_TRACE(0.00)[0:+]; TO_DN_SOME(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; ARC_NA(0.00)[];
- RCVD_TLS_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_FIVE(0.00)[6]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+X-ClientProxiedBy: FR0P281CA0064.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:49::8) To SJ0PR12MB5673.namprd12.prod.outlook.com
+ (2603:10b6:a03:42b::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB5673:EE_|DM4PR12MB6566:EE_
+X-MS-Office365-Filtering-Correlation-Id: e4355196-0b44-4b39-cce1-08dc8f609bed
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230037|1800799021|376011|366013;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?R0VDUGkraUx5ekEzTExhSkl1U0I5VE9uUUlpZFY2QW9pbzlaZlJITEhWek4r?=
+ =?utf-8?B?QmlGSXJra3lYMW84WFFVN05oLzNCZTN6NUVKYUdKcjZFZEZjaUJtSjg0V1Zl?=
+ =?utf-8?B?aEtoTjV0MmJVMGJSa2RIWk5rSFcycjJkVWJJWVBsNitZWk95TnlCdW1jNU81?=
+ =?utf-8?B?VUM1OVZmcFNVNWZCQzhjV0tPMVpQSFp0ekhRNVVBMWlnakdDMDkwWVB4RXFo?=
+ =?utf-8?B?cmcyRDZ4NmcwZGtWUHJXdFI1bGVJQTlVdEJuT3lrNGpKWkVzb2kvM2wwU2lj?=
+ =?utf-8?B?eVcrV0NKaUNvRlVKOXZON0F0b2cvUG1BNjFLeUh0OEpPa2Frb1p3S0lleE9H?=
+ =?utf-8?B?K2g4ZWRCcWozSm1OLzlBbVkva3gzZ1BDNTcyWDUrUTl3ekNSYTAyQUllSzJJ?=
+ =?utf-8?B?dlRWQkloYWFaNXF5amRDK0pCTUdjVmhERWlUZG9CZEV1QXhIMCtvOFdEWmRW?=
+ =?utf-8?B?cWRoR0JqU1lQclQ2WWNYMDZsSlhKTFBmQlJrNjdEbXNPbWFvN2xhR1pKei9M?=
+ =?utf-8?B?U1FDTm5zcXkzZE5sUVZFZlVFeFpWTnh3blJsaFlFTENFVE4vWDc5UTJwU0dw?=
+ =?utf-8?B?SFlXNEFpM2pPN2ZKT0todnl0cnNZM1FoQ21RTzFZTGZJYi9MaFZsN2pPbVRV?=
+ =?utf-8?B?d0hsZkh1YWVFaGltaFVoQ3hSS1BaQU9IcmlQTzlvcTZFUWtxWWlDQzRqR1NZ?=
+ =?utf-8?B?SkpLQncxQm1qWlJRcmN5OGVMb2pGak9RSThMR0FlcHh1OEJLN3lBVk1GazFW?=
+ =?utf-8?B?cGdVM0djcVJDTW94d1JjcjF4NnJZeEg1MTJhWU9wNjhQaDVicGd4aFpxZTl0?=
+ =?utf-8?B?SXdOcWJTWXZ4S1R0VExrTDVxc1YxWXc1b0xreTA3Sm44b3FhNVpNb0xPK1lv?=
+ =?utf-8?B?UWh5NmVqNUQ4Y1RXck15QWo0cHQxSjRzaE9xU05HQ3NPaDBDNkJWLzl4bDhR?=
+ =?utf-8?B?YVVnOWZTNEVKbUF4cC81WXZGZy9KMG5XR0ZFMTdMa2Q0b0xuRkRkT1p3UlR3?=
+ =?utf-8?B?Q2JyVEx3aWRmci9GR3FyWUpDamhEZ0xNcnhJYkpSZ1VhNndCYWd0eW9odlU5?=
+ =?utf-8?B?cUlKTFU5UUxGdU5wRzVIcGtHZ2xNRG85OXJybDIrTTdJcDMwbGo1RTZoVGd2?=
+ =?utf-8?B?enI4UzBXRE5CVlBwMm9nMEV3RjlGOGt4UG05SnFpSmFzMEZEVGovQTAweVpW?=
+ =?utf-8?B?Y2lndGZ0dVF4V3hVdjB3eUJzaXVlQ0VYbjhvZUhyWHhqTWJLS2xLZ3lzeWJw?=
+ =?utf-8?B?cjlxOHJPcXFiZnpTSXlmZWMzNjNTMkJGT01JV0k2Z2VuMTJEL3J6bG42UmR6?=
+ =?utf-8?B?WEFjVFhmNTF2N1ZPaFFOcFQvRnJsQ3dWR2V5WWxGODVkTzJNWVBtUHdldWp0?=
+ =?utf-8?B?MmU2N2pLRjg1SzdGb3J0c2dDUlRMUG01emNGTklMMXQyZ2lBa3dFRkhOcHFX?=
+ =?utf-8?B?R21YZHM0OEp5QWc5YU5LaTRKb3YvbGFUWnZDZC9iQm9oVUZyYUg1T0NYU09I?=
+ =?utf-8?B?ZnVDeW81V2FYV0tZS1VGY2FFUVNaN1ZFbHZ0UjlHVU5QRzFhYUlmNUZCNHlS?=
+ =?utf-8?B?aFFRRkVYcU4yKzUrWTRFUHdCcUV5VXJyMkJPN3lZYkV0aEVqN3BGcFA1MkE5?=
+ =?utf-8?B?UTJIWGNlZG9wMGFKT2ZSQWhuL01SOXVBWjg2bXJyMElaYjYvYkYvTmE1T21i?=
+ =?utf-8?B?VEZmVjB5T2NzemZld0J4SnFKQis5YVY0RDdEV0hMeEpVbERjQjdYMk1DbDB1?=
+ =?utf-8?Q?tL7pffzRUJFAp8DYoy6xW5ViWbh0UObbKETcKHz?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR12MB5673.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230037)(1800799021)(376011)(366013); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M1VZejg3dDVrZlMzRUpYOFRTQzlXcDBJVDhjNmdtVHhJR2xBbW93ZzNKUWc3?=
+ =?utf-8?B?dHh0Y2xxdHdRVVB3SHhHVGkwZ1JxWjExNkZ2bjF1aE12dURQVlZ3YkdQeHBW?=
+ =?utf-8?B?RnpCbldGdWt4WnNNdHlSbFdGOTExclBRSU9JRTJNWVE5eWlENmNpUjJUOWNa?=
+ =?utf-8?B?ZDJNemJGMEpkMmk2QkpXMkg4dFgxREdZTjQrVXlBWUVDWVFIbWhxWklhVnY3?=
+ =?utf-8?B?Z1dITEZUTCtHcmFIdHFXOTZGV0ZDcTRINUQ0UDhWbWpTWHZJY1l1U3V6UUNR?=
+ =?utf-8?B?OEZWUXRvMmRIU25UZEtDWlhzaThlWlZyUVV3S1pVSW95TnI1S2QrTGNSNmpq?=
+ =?utf-8?B?NzFmczgyVUd3bHd0elhUYjF4YUFFZHBweTRtMUE0Z0xjbTNEZTdkWXdveHBB?=
+ =?utf-8?B?NlpKMHhGSXZYWDBYdkd6OG83Q3l5R0h4NDVsUVNiTGFJa2FVQit3Z2I1OENN?=
+ =?utf-8?B?UVZqdjQwOUFTTlJIZkxjRWdCQkR5RzczWlZBeUZ4dzUrSHRINFdJc0RERmpQ?=
+ =?utf-8?B?TDBJS1czSlJMTUZQMnZ3UnU0dktrYXgxYUNkbVN2SnV4eCtxV1Q0Vm9JRmJa?=
+ =?utf-8?B?bWw0bzFyYk1tL3RiYU1OQjhNVXBOaWtGSnlqY3liMEhiTEtYOFltRmQ4WEpU?=
+ =?utf-8?B?VVhoRWpGblZvdTMxZ2tnWEt3clBFNXIwbk9RK29aTHFuYitSdlFrREc3TWZL?=
+ =?utf-8?B?bm5WUDd5R2dDeTA3NmFja2NybXlLMGZrN3ZvSStwTWNnYll4b2tva3RuVFJP?=
+ =?utf-8?B?ekpiOUxBZ0lCclZzS00rUlZSUm9OZk4xVVFRUmU2MW42Uy9HbzArcjBRRG5l?=
+ =?utf-8?B?ZVVkUGI2RHJVOXloVHdhQVNTakd5UHEvTFUybjlFaGhkSnVWRUIrWmd2QzF2?=
+ =?utf-8?B?S2lLcnFvZFR6NnBDdkVFcm9KcHpQOHVRcUQ5ZHIrbHNsMHlRdmJzdCtlNTFR?=
+ =?utf-8?B?MWJpYkdsQm1aMk9rMThpSG43MzNLdDM3YVFvaG1JSWZhQXo2aE1zVHVaOEVK?=
+ =?utf-8?B?VjY3M1g5OWRVSEErTXAyZmptOTVWa01zVGJLMW9SQlFJOHBoTUVPSlpQZXpj?=
+ =?utf-8?B?WkhnajFGeEtnTDhSMkxnZFVTU2hjMG1UZVZKei9pQXM5Z3BDR3dHMHU4djJl?=
+ =?utf-8?B?TTJzN0NpcUMramF2bko4MnRqemx5YWJZYTNmRjc1NWdHVUt6N2VyLy9IeUpy?=
+ =?utf-8?B?Smp3c1JLa3d6MFI0VXVzS1BzTklNU2YzWXRaQ2pFQStUTDhETFVRaFIwYzZk?=
+ =?utf-8?B?V2Rid3hBVDdhSGhGa0UxQUFzNHQ4WkpmTVhyd1BOYmNFKzcxcGs5YjFYTzZM?=
+ =?utf-8?B?cmlKdDBaR0MwZ2dqbnNtRWVLWjRwRkNuRzdwTXVRQXlLbEJNY0h4b0gySzl5?=
+ =?utf-8?B?WUhuNkxTWkI2TFo4ckI4RGpNQWxDOHQ5dFgrcUdDeVk5ZFFRU29TMGYvZXdo?=
+ =?utf-8?B?Qmd5Y2kzNGJSOUlDMSs2eHJkTEhnTDJsWi9laFp6RDBSS3JlcDZMZEplREJv?=
+ =?utf-8?B?N3FXN0NOTDQvelY4S0s4bnJvMVpSU2Y1cTIyL3JFdnExQnNQVjBDNkoydlFy?=
+ =?utf-8?B?UE0zd0x2aFZMeldWdlowdDU4UTYvRENEVEtYMWl3Yzh4VDBIU1dOYU5COHBM?=
+ =?utf-8?B?VURYbkhVTDZjYjJVQVZRNHgwend5OWNUZ0s3enpBUkh5dVlneGlnQ2c4dkk5?=
+ =?utf-8?B?dEhqaVR3eTdYSmdibHJXU0pvM2tySXoweTNjMzdRYzg1djJ0bmZKQXpiYWhk?=
+ =?utf-8?B?SFpDekVzWWw1R0FlQnN6cXJlc296cWExandZUU56ak50NkFOREdZbHZDOEYz?=
+ =?utf-8?B?WXBGOGtWVXQwamgxRTRSRlNnVEZlb3JvaThiWDB6SnBlTy9jdkF6L2Z4cldu?=
+ =?utf-8?B?UmYzMFpXU3JwbzBFbE5PRUVWTlBqOUpxMTR6a21PTVNkcE5FUHVBaThQQUxm?=
+ =?utf-8?B?eEdvVmVHbG5tbkdGRXhibWJXRHphWFZhNzNseGpSTitpbmFpKy9RbjFnNmZ0?=
+ =?utf-8?B?SEJpN2pwS0U2cDdJVEhkQXFEOUNXUHVUYkRtTEtTRnREKzZKVS92YW1IUFlW?=
+ =?utf-8?B?ZUc2bmdWWEQ2cHBJemN1VzF0cUlzcEZ3NmRGdVRIRVFxaWd0eCtBRG1IaTJu?=
+ =?utf-8?Q?b87UAhV++DSFGiJf2JYtYryy7?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e4355196-0b44-4b39-cce1-08dc8f609bed
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2024 06:33:47.7877 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dbdHAEG6s0S0mMFAqsF3EduaDZ5XlNI/vvYBjteK21lkmJlRJPeGTd4YmXrxhKxi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6566
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,97 +171,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Am 18.06.24 um 02:57 schrieb Demi Marie Obenour:
+> On Mon, Jun 17, 2024 at 10:46:13PM +0200, Marek Marczykowski-Górecki 
+> wrote:
+> > On Mon, Jun 17, 2024 at 09:46:29AM +0200, Roger Pau Monné wrote:
+> >> On Sun, Jun 16, 2024 at 08:38:19PM -0400, Demi Marie Obenour wrote:
+> >>> In both cases, the device physical
+> >>> addresses are identical to dom0’s physical addresses.
+> >>
+> >> Yes, but a PV dom0 physical address space can be very scattered.
+> >>
+> >> IIRC there's an hypercall to request physically contiguous memory for
+> >> PV, but you don't want to be using that every time you allocate a
+> >> buffer (not sure it would support the sizes needed by the GPU
+> >> anyway).
+>
+> > Indeed that isn't going to fly. In older Qubes versions we had PV
+> > sys-net with PCI passthrough for a network card. After some uptime it
+> > was basically impossible to restart and still have enough contagious
+> > memory for a network driver, and there it was about _much_ smaller
+> > buffers, like 2M or 4M. At least not without shutting down a lot more
+> > things to free some more memory.
+>
+> Ouch!  That makes me wonder if all GPU drivers actually need physically
+> contiguous buffers, or if it is (as I suspect) driver-specific. CCing
+> Christian König who has mentioned issues in this area.
 
-Am 17.06.24 um 19:42 schrieb Geert Uytterhoeven:
->     Hi Thomas,
->
-> On Mon, 17 Jun 2024, Thomas Zimmermann wrote:
->> Only export struct fb_info.fix.smem_start if that is required by the
->> user and the memory does not come from vmalloc().
->>
->> Setting struct fb_info.fix.smem_start breaks systems where DMA
->> memory is backed by vmalloc address space. An example error is
->> shown below.
->>
->> [    3.536043] ------------[ cut here ]------------
->> [    3.540716] virt_to_phys used for non-linear address: 
->> 000000007fc4f540 (0xffff800086001000)
->> [    3.552628] WARNING: CPU: 4 PID: 61 at arch/arm64/mm/physaddr.c:12 
->> __virt_to_phys+0x68/0x98
->> [    3.565455] Modules linked in:
->> [    3.568525] CPU: 4 PID: 61 Comm: kworker/u12:5 Not tainted 
->> 6.6.23-06226-g4986cc3e1b75-dirty #250
->> [    3.577310] Hardware name: NXP i.MX95 19X19 board (DT)
->> [    3.582452] Workqueue: events_unbound deferred_probe_work_func
->> [    3.588291] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS 
->> BTYPE=--)
->> [    3.595233] pc : __virt_to_phys+0x68/0x98
->> [    3.599246] lr : __virt_to_phys+0x68/0x98
->> [    3.603276] sp : ffff800083603990
->> [    3.677939] Call trace:
->> [    3.680393]  __virt_to_phys+0x68/0x98
->> [    3.684067]  drm_fbdev_dma_helper_fb_probe+0x138/0x238
->> [    3.689214] __drm_fb_helper_initial_config_and_unlock+0x2b0/0x4c0
->> [    3.695385]  drm_fb_helper_initial_config+0x4c/0x68
->> [    3.700264]  drm_fbdev_dma_client_hotplug+0x8c/0xe0
->> [    3.705161]  drm_client_register+0x60/0xb0
->> [    3.709269]  drm_fbdev_dma_setup+0x94/0x148
->>
->> Additionally, DMA memory is assumed to by contiguous in physical
->> address space, which is not guaranteed by vmalloc().
->>
->> Resolve this by checking the module flag drm_leak_fbdev_smem when
->> DRM allocated the instance of struct fb_info. Fbdev-dma then only
->> sets smem_start only if required (via FBINFO_HIDE_SMEM_START). Also
->> guarantee that the framebuffer is not located in vmalloc address
->> space.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Reported-by: Peng Fan (OSS) <peng.fan@oss.nxp.com>
->> Closes: 
->> https://lore.kernel.org/dri-devel/20240604080328.4024838-1-peng.fan@oss.nxp.com/
->> Fixes: b79fe9abd58b ("drm/fbdev-dma: Implement fbdev emulation for 
->> GEM DMA helpers")
->
-> Thanks, this fixes the issue I was seeing on R-Car Gen3/Gen4 with 
-> rcar-du.
->
-> No regressions on R-Car Gen2 (rcar-du) and R-Mobile A1 (shmobile)
-> which didn't shown the warning in the first place.
+Well GPUs don't need physical contiguous memory to function, but if they 
+only get 4k pages to work with it means a quite large (up to 30%) 
+performance penalty.
 
-Right, your bug report overlapped with the other one. I'll add your 
-report to the patch tags.
+So scattering memory like you described is probably a very bad idea if 
+you want any halve way decent performance.
+
+Regards,
+Christian.
 
 >
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Thanks a lot.
-
-Best regards
-Thomas
-
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- 
-> geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a 
-> hacker. But
-> when I'm talking to journalists I just say "programmer" or something 
-> like that.
->                                 -- Linus Torvalds
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+> Given the recent progress on PVH dom0, is it reasonable to assume that
+> PVH dom0 will be ready in time for R4.3, and that therefore Qubes OS
+> doesn't need to worry about this problem on x86?
 
