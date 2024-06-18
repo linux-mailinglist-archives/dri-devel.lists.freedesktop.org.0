@@ -2,70 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95CB890C561
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 11:35:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19FB590C56B
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 11:38:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B37B710E606;
-	Tue, 18 Jun 2024 09:35:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3CF910E609;
+	Tue, 18 Jun 2024 09:38:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="AQhnF6Nh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jdTAddo5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C9C210E607
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 09:35:21 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-4212b102935so3644915e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 02:35:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1718703319; x=1719308119; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=JvMrPBgCReVozIZGcDRR/kzgpaQCooH9K4jB2LsfIus=;
- b=AQhnF6NhZJ8ms/a4ryhOVf8fFA3F2QS+JFr6NZAMtM9u+pvaD9+YgfE8tkSjO331QB
- s9chB2xCFhMqjDxqmgC2nzzG2pzsKKJAdXq5P8C7Hs9Ti7PflU49MVqNtD9F0kaiRhL+
- xK9zDDSgq5tfECFaS76aCX2zOyeqjNM/eSbtw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718703319; x=1719308119;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JvMrPBgCReVozIZGcDRR/kzgpaQCooH9K4jB2LsfIus=;
- b=XvJ06eiVdG1z/HhI9cQF6x7gXVoS+HANyYeiFC6fhpSf9zVDl02WwpETYErUkfQh8t
- GE4TmBTK1/8YC804+ahYr30vmWSLTchyzvd93OqZjBA6AtQ5Gv1/rlyG3/29qwOkbvVs
- fbYQAzSqtop79RJIb5NL9dXv5q0Sb+NGOsF/GdhlT0sZio4EAbgoNEbTrNvmhe+g8Gf6
- ehrbI+XSJ0prJQgyjJd7WebnEPzPf8bfldFwWAR1o22HQ8kiZxARriFBXyR7M175Ozp2
- 5MLvPnjNGyBsawPlEdcQUx0DpD2URxnvtkPB54qPaNJbQxhhLzgxG9O/AIA63zawvk7s
- b4QQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVVk+5YiIMkzJHLSD1PhjSGTg8Pl3lo2f+5GFDqcrd6/KxiUB73RNm7ZjDeFOzY9J1v9yAzdhmatuN4ApAP/DMAwj5+Mq5I9NDfbW60qzfW
-X-Gm-Message-State: AOJu0Yw7QHnFLlyH98iwS3y+S3ESCoVV6JDS9NvJnhWLnidtSq4CsTDP
- 0RT8irK9OceNOBdxbaRgHc5TyO5aIoIRwq2ZSkF6YWCgNFDAar1sL1mGosLx0RY=
-X-Google-Smtp-Source: AGHT+IF/+uO95LmErOEf8gi75ElYdbTX5OXhXz8aEkEIsKdONPHbOScpFAENvMGunjPGMGG22bFtnQ==
-X-Received: by 2002:a05:600c:3b9e:b0:422:ce5:2a3f with SMTP id
- 5b1f17b1804b1-423056e01e6mr86149125e9.4.1718703319533; 
- Tue, 18 Jun 2024 02:35:19 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42307d5b78fsm135463655e9.6.2024.06.18.02.35.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jun 2024 02:35:19 -0700 (PDT)
-Date: Tue, 18 Jun 2024 11:35:17 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: peng.fan@oss.nxp.com, daniel@ffwll.ch, javierm@redhat.com,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/fbdev-dma: Only set smem_start is enable per module
- option
-Message-ID: <ZnFU1cT8Sa81ynDg@phenom.ffwll.local>
-References: <20240617152843.11886-1-tzimmermann@suse.de>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 093B010E607;
+ Tue, 18 Jun 2024 09:38:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718703520; x=1750239520;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=QenCB3euq69QSB//DNTS+Hjnrm1i70bry2vnqFA0Xns=;
+ b=jdTAddo5r9wk4ihplKkCPVsKLpjzLIF8enlC3fXWtbd78LSWIW/lWruP
+ l940wLds9UHU+8syqnDE6S0GPk85xLexobd68NPVeTgFj71XlbjBZHCTh
+ NitWfzj7AlCNwU/ez/R0FhIlEKgs88k6O7Jqadmt9M5JBi4DGeZBFtZgp
+ U3Rr9zfwmW6uwwYBLHMJHL//Eztdh3epIqE7Yg+Kdj+lKfGRZSXTHeXe2
+ QeNynxLVLy9BpB1nfCLef9psRBjUyB+vq5Yzo9Dtn/gyRTQuqeBVGsza4
+ CSht8xoZfjPaoy97/j0ChmDlid8OBv2WrZekPfk7Zxv+MefFey/5t8RbX Q==;
+X-CSE-ConnectionGUID: JZ6PkSu/Tli1IY3GeHEPXQ==
+X-CSE-MsgGUID: aTHy11FCQXGA3UktqvWX8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="40973750"
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; d="scan'208";a="40973750"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2024 02:38:39 -0700
+X-CSE-ConnectionGUID: 8q3IjEVeRvOFZ8qUIH04zg==
+X-CSE-MsgGUID: w6BdYPq0TguAHoQ8bDknCg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; d="scan'208";a="64724227"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.176])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2024 02:38:29 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+Cc: kernel-dev@igalia.com, Melissa Wen <mwen@igalia.com>,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Simon Ser
+ <contact@emersion.fr>, Pekka Paalanen <ppaalanen@gmail.com>,
+ daniel@ffwll.ch, Daniel Stone <daniel@fooishbar.org>, 'Marek
+ =?utf-8?B?T2zFocOhayc=?=
+ <maraeo@gmail.com>, Dave Airlie <airlied@gmail.com>,
+ ville.syrjala@linux.intel.com, Xaver Hugl <xaver.hugl@gmail.com>, Joshua
+ Ashton <joshua@froggi.es>, Michel =?utf-8?Q?D=C3=A4nzer?=
+ <michel.daenzer@mailbox.org>, Sam
+ Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Nicolas
+ Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Karol
+ Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, =?utf-8?Q?And?=
+ =?utf-8?Q?r=C3=A9?= Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH v7 2/9] drm: Support per-plane async flip configuration
+In-Reply-To: <20240618030024.500532-3-andrealmeid@igalia.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240618030024.500532-1-andrealmeid@igalia.com>
+ <20240618030024.500532-3-andrealmeid@igalia.com>
+Date: Tue, 18 Jun 2024 12:38:26 +0300
+Message-ID: <878qz2h9pp.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240617152843.11886-1-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 6.8.9-amd64 
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,103 +91,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 17, 2024 at 05:26:37PM +0200, Thomas Zimmermann wrote:
-> Only export struct fb_info.fix.smem_start if that is required by the
-> user and the memory does not come from vmalloc().
-> 
-> Setting struct fb_info.fix.smem_start breaks systems where DMA
-> memory is backed by vmalloc address space. An example error is
-> shown below.
-> 
-> [    3.536043] ------------[ cut here ]------------
-> [    3.540716] virt_to_phys used for non-linear address: 000000007fc4f540 (0xffff800086001000)
-> [    3.552628] WARNING: CPU: 4 PID: 61 at arch/arm64/mm/physaddr.c:12 __virt_to_phys+0x68/0x98
-> [    3.565455] Modules linked in:
-> [    3.568525] CPU: 4 PID: 61 Comm: kworker/u12:5 Not tainted 6.6.23-06226-g4986cc3e1b75-dirty #250
-> [    3.577310] Hardware name: NXP i.MX95 19X19 board (DT)
-> [    3.582452] Workqueue: events_unbound deferred_probe_work_func
-> [    3.588291] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [    3.595233] pc : __virt_to_phys+0x68/0x98
-> [    3.599246] lr : __virt_to_phys+0x68/0x98
-> [    3.603276] sp : ffff800083603990
-> [    3.677939] Call trace:
-> [    3.680393]  __virt_to_phys+0x68/0x98
-> [    3.684067]  drm_fbdev_dma_helper_fb_probe+0x138/0x238
-> [    3.689214]  __drm_fb_helper_initial_config_and_unlock+0x2b0/0x4c0
-> [    3.695385]  drm_fb_helper_initial_config+0x4c/0x68
-> [    3.700264]  drm_fbdev_dma_client_hotplug+0x8c/0xe0
-> [    3.705161]  drm_client_register+0x60/0xb0
-> [    3.709269]  drm_fbdev_dma_setup+0x94/0x148
-> 
-> Additionally, DMA memory is assumed to by contiguous in physical
-> address space, which is not guaranteed by vmalloc().
-> 
-> Resolve this by checking the module flag drm_leak_fbdev_smem when
-> DRM allocated the instance of struct fb_info. Fbdev-dma then only
-> sets smem_start only if required (via FBINFO_HIDE_SMEM_START). Also
-> guarantee that the framebuffer is not located in vmalloc address
-> space.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reported-by: Peng Fan (OSS) <peng.fan@oss.nxp.com>
-> Closes: https://lore.kernel.org/dri-devel/20240604080328.4024838-1-peng.fan@oss.nxp.com/
-> Fixes: b79fe9abd58b ("drm/fbdev-dma: Implement fbdev emulation for GEM DMA helpers")
+On Tue, 18 Jun 2024, Andr=C3=A9 Almeida <andrealmeid@igalia.com> wrote:
+> Drivers have different capabilities on what plane types they can or
+> cannot perform async flips. Create a plane::async_flip field so each
+> driver can choose which planes they allow doing async flips.
+>
+> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
 > ---
->  drivers/gpu/drm/drm_fb_helper.c | 6 +++---
->  drivers/gpu/drm/drm_fbdev_dma.c | 5 ++++-
->  2 files changed, 7 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index e2e19f49342e1..18565ec684517 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -517,6 +517,9 @@ struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
->  	if (!info)
->  		return ERR_PTR(-ENOMEM);
->  
-> +	if (!drm_leak_fbdev_smem)
-> +		info->flags |= FBINFO_HIDE_SMEM_START;
+>  include/drm/drm_plane.h | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index 9507542121fa..0bebc72af5c3 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -786,6 +786,11 @@ struct drm_plane {
+>  	 * @kmsg_panic: Used to register a panic notifier for this plane
+>  	 */
+>  	struct kmsg_dumper kmsg_panic;
 > +
->  	ret = fb_alloc_cmap(&info->cmap, 256, 0);
->  	if (ret)
->  		goto err_release;
-> @@ -1853,9 +1856,6 @@ __drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper *fb_helper)
->  	info = fb_helper->info;
->  	info->var.pixclock = 0;
->  
-> -	if (!drm_leak_fbdev_smem)
-> -		info->flags |= FBINFO_HIDE_SMEM_START;
-> -
->  	/* Need to drop locks to avoid recursive deadlock in
->  	 * register_framebuffer. This is ok because the only thing left to do is
->  	 * register the fbdev emulation instance in kernel_fb_helper_list. */
-> diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
-> index 97ef6300d47e0..4b0527ddeb5a7 100644
-> --- a/drivers/gpu/drm/drm_fbdev_dma.c
-> +++ b/drivers/gpu/drm/drm_fbdev_dma.c
-> @@ -137,7 +137,10 @@ static int drm_fbdev_dma_helper_fb_probe(struct drm_fb_helper *fb_helper,
->  		info->flags |= FBINFO_READS_FAST; /* signal caching */
->  	info->screen_size = sizes->surface_height * fb->pitches[0];
->  	info->screen_buffer = map.vaddr;
-> -	info->fix.smem_start = page_to_phys(virt_to_page(info->screen_buffer));
-> +	if (!(info->flags & FBINFO_HIDE_SMEM_START)) {
+> +	/**
+> +	 * @async_flip: indicates if a plane can do async flips
+> +	 */
 
-I guess since the WARN is conditional on the explicit opt-in with
-drm_leak_fbdev_smem it should be fine.
+When is it okay to set or change the value of this member?
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+If you don't document it, people will find creative uses for this.
 
-> +		if (!drm_WARN_ON(dev, is_vmalloc_addr(info->screen_buffer)))
-> +			info->fix.smem_start = page_to_phys(virt_to_page(info->screen_buffer));
-> +	}
->  	info->fix.smem_len = info->screen_size;
->  
->  	/* deferred I/O */
-> -- 
-> 2.45.2
-> 
+BR,
+Jani.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+> +	bool async_flip;
+>  };
+>=20=20
+>  #define obj_to_plane(x) container_of(x, struct drm_plane, base)
+
+--=20
+Jani Nikula, Intel
