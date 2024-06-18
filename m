@@ -2,151 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B129E90DD3D
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 22:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A3F90DD40
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 22:20:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE5110E0F4;
-	Tue, 18 Jun 2024 20:20:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04D9310E78D;
+	Tue, 18 Jun 2024 20:20:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="gTT2pOvc";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="UStrxbTv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2083.outbound.protection.outlook.com [40.107.95.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE13D10E0F4;
- Tue, 18 Jun 2024 20:20:21 +0000 (UTC)
+ (mail-dm3nam02on2057.outbound.protection.outlook.com [40.107.95.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB5310E1E8;
+ Tue, 18 Jun 2024 20:20:34 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a7v196tjKB7ZNw9Wj2icf0HVZdQc4IfUgwM8d8tmkSsGg5Oz+QtzSIFv7sQFOUo7D0ZvSB+EQrSBb0RlzxTLJq/jbroXPYD0FMG3EJo48eUh1wDsPl/G7G2IdstrDDbdp8S4PdwffTCrVQPuz0QYajqrmBAaDDmQ5CwhJB6eVRro/UNqKNoLRYWpo2HBlJaS/7OyGSdiy5zvqI6+2mvgPPgYbhsrLZ+sliZ/Z3+B2fKlPo3l8mutvny7RkrsG57dYChlh/t5amunc2811uuJ02ZjkiE6+0JKMhbZq0z3q6DWZLFwh4ewkH2FJhYZM3DJa4n8syBRJSr4xAUBjlySiw==
+ b=f739pttWq1qWMx+1Xg1LzHtQAbjg+9muU+n0E9DmoMynuFTcUTEqB/y2yHYIMU1R9lTgoFxynVjke7W7VNJkER+ijXNElVs61e7mWJT5cNE7RHfnBZidSIP23xBRC5rTuhTOa2Z77gl2h0gHF0Yc4Ekq4gogyMs+WVNQHSXAMpqkCZJHOoX0vrDzPzNVSlkXPlRqOO44mUrJ33spF03w9SPRiC9ot09cMY6+AF87Zp3n345VITIaSELmc4coZVj1ze/+rsL73YyWuToQrJrb0Lu0vQiWTztJIRi1iuSPtMIPbfz8K3PJKqKQWfAzgj1iVHPIniUgeNRx36acnPFV6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uvgxZsBCZS/Ao8ajA1bRJoNTwHWeWZ5uspfsypZVGpU=;
- b=TbDeLWsnxM9e6WxPqrFcS5+AkQPLaCmqtClnXaM3WTt4ycA7WKikLFiMkC8dmjPvufrOLEDeH0OH4KRnCBPECepFWlHO2hL6VOyYIDGAtKZyYp2Q8bc87Bl+QuOVSgCE8sOD1nFxQ+xWsz0eVCyA8vFUc1pYK5R+hHD5jtjCvNA8OzysGA02D/LY/gAwKVlKfjL6wIT/SHcFNZmTabUo+993/O5Cn73DN/3GRqlvEWTZZEZZJxP09jzChq8io0I1H8Hry5WQJrNePkbYVt1E33ScxPGBlpDOFuGmIXh+xxGJaEcDEnzcto2gjsjwaFG/xrIeyNjc8SYEIF4EdnLsTA==
+ bh=kLQEZ539IrYP9crJmwsHeADGtNZq20Lji9sfpI83REY=;
+ b=RDiO4Phtfly/CaXI7BJXDtwHkxlEH/on3887zniz8gqtErYrBAJ4UEwXLd8YKhLyZ3GLMmSfv2EdWOWkO6ESSr4bMpOoD4yhpmSXYtu2ofPrRcSrmJJqUYfQZsnf6gim99uv61d4Xc3+C7K7WT+8Dy01tNva81TWUxHscHclpejpUu+auMVPTcitqwkT1uECkUyeFjcnycACxDe/2yW1FjYeN9jYy/Bf3bl4uoIlQzsWsmUkJxrcWwU5bvvQ5nXFd6fK2I9M2iL/+pY1Vqf2VtC/rTYikvW8S27W553O4ifMzpa6TUnRd16hHur/DR8p9XBUu64tPMTvhfHCtCD2vw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uvgxZsBCZS/Ao8ajA1bRJoNTwHWeWZ5uspfsypZVGpU=;
- b=gTT2pOvc0SCiSCOll5IkA/E0x34HdIOwPJk4EpmOmEhhOwUr/jFsThyDMWiWx5JFffANU0yiiZj2n892kKcpRLmMm369xErMfbiCDIrzPDzQ/HUReVHVpG4vBf8obZVIkH9CBh6ot3ByLINXUnropCkd64M+8j5Aw+rtpq9cNNw=
+ bh=kLQEZ539IrYP9crJmwsHeADGtNZq20Lji9sfpI83REY=;
+ b=UStrxbTvd0MVc6jPPHAcVafkmsP4jeEQe1aT0za0uyLeN1sEUxqHu85JHDNOr3VbAhjNAszt6lgEUAS8toMjmbm2ws5yjJs48Znp+mx18uhVOsTAmlWKZJWsAW78SIY6r+Lr5X2Tmi/AAiSRrbC9jU/4SxJXcXXwkcBlvZPZxWE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from DM4PR12MB5311.namprd12.prod.outlook.com (2603:10b6:5:39f::7) by
  SJ0PR12MB6760.namprd12.prod.outlook.com (2603:10b6:a03:44c::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.19; Tue, 18 Jun
- 2024 20:20:19 +0000
+ 2024 20:20:28 +0000
 Received: from DM4PR12MB5311.namprd12.prod.outlook.com
  ([fe80::a846:49eb:e660:1b5b]) by DM4PR12MB5311.namprd12.prod.outlook.com
  ([fe80::a846:49eb:e660:1b5b%6]) with mapi id 15.20.7677.030; Tue, 18 Jun 2024
- 20:20:19 +0000
-Message-ID: <84780b0d-aec1-4674-9e54-8d1997a2d4fe@amd.com>
-Date: Tue, 18 Jun 2024 16:20:16 -0400
+ 20:20:28 +0000
+Message-ID: <54e77cf4-4fdd-430d-8c9a-7fe7c2eefb3d@amd.com>
+Date: Tue, 18 Jun 2024 16:20:26 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] tests/amdgpu/amd_abm: Add support for
- panel_power_saving property
+Subject: Re: [PATCH v2 4/4] tests/amdgpu/amd_psr: Add support for `power
+ saving policy` property
 To: Mario Limonciello <mario.limonciello@amd.com>,
  amd-gfx@lists.freedesktop.org, Simon Ser <contact@emersion.fr>
 Cc: Harry Wentland <Harry.Wentland@amd.com>, Xaver Hugl
  <xaver.hugl@gmail.com>, dri-devel@lists.freedesktop.org,
- Sean Paul <seanpaul@google.com>, Mario Limonciello <superm1@ubuntu.com>
+ Sean Paul <seanpaul@google.com>
 References: <20240522220849.33343-1-mario.limonciello@amd.com>
- <20240522220849.33343-4-mario.limonciello@amd.com>
+ <20240522220849.33343-5-mario.limonciello@amd.com>
 Content-Language: en-US
 From: Leo Li <sunpeng.li@amd.com>
-In-Reply-To: <20240522220849.33343-4-mario.limonciello@amd.com>
+In-Reply-To: <20240522220849.33343-5-mario.limonciello@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR01CA0122.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:1::22) To DM4PR12MB5311.namprd12.prod.outlook.com
+X-ClientProxiedBy: YQBPR01CA0117.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:1::17) To DM4PR12MB5311.namprd12.prod.outlook.com
  (2603:10b6:5:39f::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR12MB5311:EE_|SJ0PR12MB6760:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c01884f-99b4-4d4a-6997-08dc8fd41297
+X-MS-Office365-Filtering-Correlation-Id: e3c1b138-df1a-4b0a-54f9-08dc8fd41852
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230037|366013|376011|1800799021;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dlZuUkE3SkQ3YU1IeEtUNWZZVVRGb0tUZWtEc25Bb3BkWmh4aWhzQkFqRmM0?=
- =?utf-8?B?Q044ZFBKVXMwUnZrVkZPZjRUbW8wTjdzNU5hZU1mMnVpNmZWWEt2MHhEOVhw?=
- =?utf-8?B?NE84dXV0VS9WdThIMlE3ZnJsQjRTZDFxQ3F0bWF5cXRFRkJMWStSaU0yZS90?=
- =?utf-8?B?ZEV1T09adndUNzhGcjNJTkdWUzFCeDFQZnB6a21rdTVTaG4zZis0Vm5weTRj?=
- =?utf-8?B?clhReERib1VzZGNUMFhZdDlQS24yNVU4WExhTnFJY0RCYjVFSDFLOUlqSUov?=
- =?utf-8?B?T296cGVjOEEzV3ZZNXE1UzRuYzE4VW8yMnJuSkd3M1M0OTRpbmVsVTRjdUVG?=
- =?utf-8?B?SzZ3ckpvc2M5RmNjTW0weGxvUHdsMXRCZ05QVGg2U1RPRG9LSExRSVJWWkdC?=
- =?utf-8?B?WjJ5bXErWkRscGlHR1RrZGV4OW5xRDhqd1h1SEFPeGFhaGE2TjltWkltVU5p?=
- =?utf-8?B?TWxPUDM2SStUUTJ0S0cxWVpBeDhUVXZJZEUvNVBlZndwZE9EdHEzNXRRSHF0?=
- =?utf-8?B?aVRSdkpuMFN4MTdqRGsxQ3JZZFY5dUlrYzhTcjQxcFlUb3NScHEwTUljT3Qv?=
- =?utf-8?B?dytaWnUvRWtGM29BQ0phRzlzaU5PbGMvRTdkK3dpLzBreVVoNkFIc0xjRXdH?=
- =?utf-8?B?bUg4MDBXUFN2UEhwMDhrTDV0MXRrdnFlR2lPcVk5M1RmMzNBcGVZV2pLakFM?=
- =?utf-8?B?ZmpNeXJHVlAwd1EzZ0lwRmFabUhtSHh4NVN0NytsV01BemxjVGdpYmVIWTNs?=
- =?utf-8?B?TU53Y1lYeWxJUncxZDI5UVBZZGtMemt3ZWZzdXYxMWZTeS8zenQ3WmY5SFZ5?=
- =?utf-8?B?VEV6MHNHc2M4Z1I4Z0lXK0ZGeGdPcDZDR2NZOWM2TFpmb0w5eTNEd2FYMGs3?=
- =?utf-8?B?Y1U2cWVZZGNsRE9wUnh0bUZLVDZpOS9ZRml0UVI3YThKVnRxV0NMa290T1BZ?=
- =?utf-8?B?UGJSWmI2NEhRbjh2K1VIcnlUWDRoc21RSGVCbElkTTVhbGU1Tzg3MzUvQ0xr?=
- =?utf-8?B?S1ppTit0MUFzUUlVS2U1MEJlNC8wUExOMWZxZGxFQkV6V0hLZlEvb1NPb3VI?=
- =?utf-8?B?b0UzTjNCYjczNmRtSTJpNWpSeFplTkx2TTN3eVJvMWt6YmNHY1ZWVkpBSW0z?=
- =?utf-8?B?MVhtWXlqK3A0OHdOZXAzQ25kZk5wK1F4b2gwdXBYMFZvaWQ3L3FML0N2RmhN?=
- =?utf-8?B?d1V4WUdkZU1WVTYrY2JPL3dTbnc2YTdmeUV0Q0J4TGs4WmpsN1hCZXVaY3pK?=
- =?utf-8?B?NnBYTzZZN0Z3WDB3eDIyM05sVnVVN2U3NmUxMFZPYUtjSlZ2VHJNZUpFRVhV?=
- =?utf-8?B?WU1WZjNnSVJsZGJOMlMyNEFEK3A2WmpMN3ZLVlZyZ1FUcitXMnBsUFNCL3VP?=
- =?utf-8?B?QjI2VEpuWHlSQ0dSempoMTBPK2xBd3hJUTRjbHlkdmE5c2s0U09NWDkybmR4?=
- =?utf-8?B?Q3ZmQnpRdk5ZT21QVzVUWk5FSC9VRjcwNjc3TDNvNEhKZTNKMFZxYzlSRC9n?=
- =?utf-8?B?Z284QkxDWTZEWWh4dDdUZ2pReUZjdEQzVmpDVFlOQXFBZXJxUXp0TG1ON1E0?=
- =?utf-8?B?c2RSQkhmdCtRN00rNzBBcHFpVzdQb3NMVHRlWEFEdDFaWm9yQ0FvTVFkQnRj?=
- =?utf-8?B?aXlUR0JtQ21uTUhtdk5vaFg2U0xvUFZBZERORWdZMXMzU2crei9iMlpuV3lD?=
- =?utf-8?B?YmJ5Z21KRW1HWFdGajNMUGZmUVdmdDN3R1Vlc2tHV3VRVXpxQU1mbXhuS1I1?=
- =?utf-8?Q?L1V8IhWBCcyXTNMsIJE2aHW0xIRBj6Uw1Poa0x1?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VUFXTi92dWV6M054RU9TeUJkWXpuYkNMYnluUGJScXdOdTFzMjFGUnN4eUxC?=
+ =?utf-8?B?ODZXTFZEKy9yNTFXcGpTSzRyQTlPb2Q0RlRsMnNORTlGQzA5N1R5MmJGc3or?=
+ =?utf-8?B?SjhNRUdjdUF2ZDU5eTR6Umw5QzlvMjZ3YTRGOCt0K3MxWVBTSzg4U0VKQkhZ?=
+ =?utf-8?B?L1YwRzYxU2c0WTJuOW9uVGJkcHZmb3d3TGFETCtrU1V1VGNlSnZVdndrOUM1?=
+ =?utf-8?B?VUozMEtWUHlHeEpZall5a2ZYZ053Rm42Umw4TGQ1QzFaZUNuSVREUXJsamM1?=
+ =?utf-8?B?OFJYRjY4SUh2dkpIcXNucVU3aWZYajU0V0JETXhQR3psVFNVMHBEbExJYjJL?=
+ =?utf-8?B?VDdoSzFSdzJndEY0and2QWJDSDB5cnVSVmRobTRNeGQ5RUJ2emFKbzgyZlI1?=
+ =?utf-8?B?eGhQeHFxRDRXT0J0VEZYckFRRytzNUV1VnlFdmttanBFSDJUTmk4dTgvMGNm?=
+ =?utf-8?B?NkxVZ0ZLUE1mTldSdTh1WkV1MUJNYUxpKzcrelg3N1JUNGdvYXY2RG5iOGpa?=
+ =?utf-8?B?OXFBbWM5NFFMaERRS1dpUXUrNGZEaHFDbjZoNHpWRXhUUHJQRldGTS8rRzNa?=
+ =?utf-8?B?aWNBYk1NTFM1cEE4OTUyWXZKQTRUaXE3REx2TVR1V3h2TFVQZWkrWHhINS9o?=
+ =?utf-8?B?NUdQb2lNUUtiMXhUOU5CNTRPK0d2cW1tanppdDlUSWhjVTlwN3U4S3JDd1du?=
+ =?utf-8?B?Q3lNZklwWTdXdjZZdG5GbXNhWXBZRW1RR3Q0ZFhwcFFBVmdCQnlUeHVSMFI2?=
+ =?utf-8?B?SEdvUWJ6ZGNYdjlhd2sybTVieUxOWmY3cmFjOHA4NXl5Uy90WTZSZEpRcFBL?=
+ =?utf-8?B?ZXA0dFJjNUg3UmI1dVJxVFgxQmNOVktMVXZoK2VpazF0YTZkd1Rkbnpvemov?=
+ =?utf-8?B?ZFUvSm8wUHJOOEFzcU1DSFJrcmgzbzBMSVo1OC9sd0ZJOCtuWG1YbVdxZTdJ?=
+ =?utf-8?B?cnJsaUFISU9JT29qb29LZmE5ZWFtcEZHWkVYc3lqRDVhanJRWTJlUVVnanVn?=
+ =?utf-8?B?OFVBQXdSRWxwbm83ZmxUcVJxN0xsTFVsdHhxeVBPamFUdFZDeExqejVOUC9u?=
+ =?utf-8?B?OUFsVytyandjT1VyL2JxRmJSUWlTME8vbHpZSTEzL0ZjemlGNUNrZFNWd2Nw?=
+ =?utf-8?B?RFA0Rk53aVU2d1A4L2pPelROSFpycyt0Y1hjVXpTY09vNUdQMjdxemxnUTQ2?=
+ =?utf-8?B?Sk5rWk92NWVkYTBKMUxpMFUvb2pXVVJRdXIxV29GclUyMEkraHRZRjZ0YU5w?=
+ =?utf-8?B?ZUdOTElXb2dnc3JsczYrTjJCMTNJVmlQam5GL0Z4NkZvZk01WE1XS1JXajhv?=
+ =?utf-8?B?TnF5YzF5TFVUTi8yY2dqREpUaC8yYVFoZGlGQ1oyc0JsM0IvNjZ5Smo2R3Jw?=
+ =?utf-8?B?YUsvcFQ0RUpjcjlXd0VDbElXQmRJT3g3aWYvNmRhOXVZUFBFb0x1Nlc0bU1X?=
+ =?utf-8?B?ajYwemV1a3pRbkxFM2JpODNYSjFSM0hCa1dFclZ4QmhDdE9FTFdIRnRlQVh5?=
+ =?utf-8?B?QnpWWFlNcUc3VXJTdWc1MkdQaHc2MkhGbWxiQ0VRYmRWdkF4TWRsU0VKZllq?=
+ =?utf-8?B?SHJaa1k3aldKdzRoTGl5MW5VWHlIdWh5a2NTSnlsTjVpS1liRzc5MzVPcXhP?=
+ =?utf-8?B?Vy9SWEUvWlo3NzZ4V1BLekpHSUZPSU5WWjhVN0lyalgvNU1aNjJJdTBjQjNp?=
+ =?utf-8?B?VGJpR0JGV0VqSjIrRm03MzA0Vzc5K2hrYWlUV0tneWhuU2JvbWU0OTJ5OTVC?=
+ =?utf-8?Q?Z8N3d316/RgRHlUc8d73fhJD+7KSO+ah1cbVaOh?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR12MB5311.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230037)(366013)(376011)(1800799021); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmE1KzBMMlA4clBBekdRbXo0RnRhekJUcmEyVU94cFNTbFpOcWM5RFVBTlpk?=
- =?utf-8?B?RjBOZTFybWxPTkdPeXUrMytzdVdmdGgrakhUejRaVWhMSDdra0krdHR2UitR?=
- =?utf-8?B?TloyUzJqdW1mdXJ6SzNTVWpGbS9rcVc4OTQzU1IrSkErZDd1Y1I4dmc1b3N0?=
- =?utf-8?B?VVU2QUJHYnV3dCtoL1VNZzVVenNOYjdJZTlHeFQ3dFRTY3hmMFloSjJDWThG?=
- =?utf-8?B?UHBubmEwS2NFcno2RW5FbEFYaG11Q09SNkhlQUtGaUt3N2lrRVpBek10QTZL?=
- =?utf-8?B?ZXVYK1p5YTZLbFFoNDhMT1pFRkd0Rmg2TmI2TTZWNUdRUktQRmJkd25GbFRG?=
- =?utf-8?B?dEVvWnlqMzhqNy9DcndWU04xMXJTRGJ0TUw4T2UzNFUvdDNJeXcxaGpXdDNI?=
- =?utf-8?B?Q1BHN3Q4UFdNdit1bDJLSzN0eEdmSWxoK08vR0hGdEVEYTZIbWRqWUc0VzVT?=
- =?utf-8?B?UXpDbjdNR1IzcHZQNG15M29YcXNTSUpkbE1UYzNpT2pwcUZqYVJxTGhLcXpk?=
- =?utf-8?B?c3d6aDdWcDBuVjNtUXF2K1hlSnhtc1FnbnB1OVhuMjd2d0lhMThPNlBmQjRj?=
- =?utf-8?B?dE5OWHh6U0NJWVd4dlNSMDU3Z25wU3BsdE5PMCtkTVRwK0FKWWVwYnY5empE?=
- =?utf-8?B?RjRJR0NSUHNFZjJnMmFaZ3Myam10bUd1WGhQNkVlbWlUMm9CSDFKODZBSEEx?=
- =?utf-8?B?bjJLZHVJd1ZSV0hWTE9tRWxjOFU5bG12TExEWFA2UnRpYlJrSnh0UDI3dnhQ?=
- =?utf-8?B?Qi9FVG9KRjR3WlJLWGxMNHpUYS9RdjJNa0RoWjZVOTNNZ0IvVEdFYXNJbmxv?=
- =?utf-8?B?Q2s2UjBoOGVqOVZ1UFRLOXptTThmQjA4a0RaT1dTNEVEbk5MS1BENGl0Vncr?=
- =?utf-8?B?UkgvZFRYZzd2NkNDS24rN0NsVjdwNGtTTndVdUExTThCMGp3ZFY2bEdvSHps?=
- =?utf-8?B?WHlxRC9ZY0ZTTG9vTndaTU0wOHl4aXd2VlM0UHdIdUlNSDVDQ3NTLzI3UkNl?=
- =?utf-8?B?ZnR5R0kxZkhsNG5PRlV6czUwWHhRRk4vUUJ1WHFwVmNRRzBPam1CZ0hPRS9x?=
- =?utf-8?B?UzVhdU1LM1NMMVl5elVFZTVpUmJJZGlZV2h1VXVjdjgzcExQU3N2cGhwd2M5?=
- =?utf-8?B?VCtrNW1iOGo0WC9Ea0hPcStScEVickhsMzQ4ZVNyV2ptTElEcUlNVkpLeFhh?=
- =?utf-8?B?S0xCdW5WQXoxdE1GVjdHbEt1cWMraXE4WCtLSUhzTjQ1UTNUOUpZeU82UkdK?=
- =?utf-8?B?TVY1TWIwYUpzbEZCOTZlMFZBOG9Kb3kyTTR2Tm5tOVZLNEZTcmJjNE9BNEVy?=
- =?utf-8?B?VEppZUhFbWF0dzZnQkJTbmh1Tld4L2pHcEZHWlgvS2s5T1k3NVZvN0pMUHBt?=
- =?utf-8?B?eU9nSEUxajV6WTc3blljSUtldVpkNkwxUXFqL1lnVVpndG9XQm5Td1k2dXR5?=
- =?utf-8?B?VnJ3ODBoL0hNM1ppUW83a21kRkVNd3ppSGs1dVRWbWJyRU0wV0NRZEhPOU92?=
- =?utf-8?B?bE54QWJpNVh3VjRKUm9RQ25zWGpyeWtBQTE1MVo4Tm5JSVBON2pJNzIzdThX?=
- =?utf-8?B?Q0ZkaExJM3I4dlVZZUVWQTJlcEtJdUhYblRWVG9TOE9meCs4RzhkNnNtczJs?=
- =?utf-8?B?VG1zU3cyOVVkekozUTYwWk1HamxWUmJCcU5zckU2QzE3Nm03VGhXT21KYXFL?=
- =?utf-8?B?cnJjc0pJSjl5dnFGMmw1Z0w5ZXBXWWNUajR2T2U4MzJvTHg0VEplbXJ6ZU56?=
- =?utf-8?B?OVR1SUlPTUI1S29KM09kOVViUHM0M1pIRHpsWVhkcG8rQzBCaVJna3RDYkhr?=
- =?utf-8?B?OVhCWUNzSjVBbkF0Qk45VUZUWStqZ01WWmEyV1FMQnhnU0V4ZzBqMjYzY0hk?=
- =?utf-8?B?ZzBROTJnSHlOSU5zWmxJRG9rUm0rbFk4dTNMYnBtYklxaEJwdnFzVFMzdVlK?=
- =?utf-8?B?b3grd0tUekJjcU5jMEFMcC9RaGhyYWttdDA4alZBbzlQYTYvWkxjUXhmazhG?=
- =?utf-8?B?a0tGMkQwQmxDZzhvUm9MZFhyTWNFRHdXZ2NqRkI2SVFlYjBRT1B0MFZLeE1M?=
- =?utf-8?B?WWRjRGIzenZTdW14Y3Q3NGgvZE82eVpWN2N0RHNzNld0WnJqN0Vad2xuWFUw?=
- =?utf-8?Q?HuYdSau2QoE2K+TjtJYFxlvZZ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a3cxZlBVbXgwR2hUd1ozRXozUWZ4VjU5MXozSUtBMW5YZ3U2QmhNbU03bWxM?=
+ =?utf-8?B?ZS9OMTZQVEpoRVZjcXArNDF0RWpCUlV1QTY1dkEyaVlselkvUjBzNmM3VEhY?=
+ =?utf-8?B?NlhVZ1JzdFRlY3B3cEQrV2gyMW1XQ2F0Zk9xUlVYTmdYbWd0a2tWWVpJZFdl?=
+ =?utf-8?B?T0d4TW1odTlOSndFb0hVcHF0U084ZmZEM1Q2T3Y0eTJhU3ZTeXh5cFpCMjFv?=
+ =?utf-8?B?U0tDaXJDcXJuZ1RWRzBHQm14NFZyRUVlSC8vc0s3YnNnVzZPc0xseGVqK2Zs?=
+ =?utf-8?B?clR5bVIxMS9XMHpweFM2SFdhQnlUTnhrYmlTeHVseHp2emRWNTV6RVJwRjEr?=
+ =?utf-8?B?STNVNnFJRDMrQ2lEUjZVM3JmbWdpdi9wUnNiUnY4ZkpaMmNMZ2RTc25RZWd2?=
+ =?utf-8?B?RlUrT1c5SzRNT3BDN215UVVnNEFMNlhXazNRSGNNUmFnbkRRWWF5ZHVsZlpj?=
+ =?utf-8?B?emhLNGkyaVZVc3J3S3lGRjUzUW9MNFNJMUZmZVEveW9sNHVaNzNMQjdNNUI2?=
+ =?utf-8?B?STFtV1hZc2ZLeGcwTlV6TFVKU3ZEeXg1T3ptQml0ZzAyMWNBLzVzNHFNZDI3?=
+ =?utf-8?B?em9Lc3pNSDB1SVhHbFVSMkdHcVNXQkd1bkJCbmM0cFRiTnlhUTRtb2E3Z0VR?=
+ =?utf-8?B?bkZuRFVieS9aQmtOazVidFc2VHBPTURPeHU3c0pwSy9pSml5TEd6NHowZW85?=
+ =?utf-8?B?aVhIUkZnRjBnalJXQlpOVjBCcEN0TzYySm92OHJhbjNqTWdoMVM2eVkyUWE2?=
+ =?utf-8?B?WURQTG1uYUVDNC9mQjlqSG1RWW56VmJBa2FoMzVITlRlRUx1c25wWjJDMjNs?=
+ =?utf-8?B?dThwTnByeXo3a1dGTzN5SkJYV3dTYU1aWEgrcmNOUnU2RmNta2Yxb0xhL1hK?=
+ =?utf-8?B?RGlrd0RURmJBZldURWR1U1E1M01uS3dMeU5oeFZJK21HRWhzL3JuRGZTbTZW?=
+ =?utf-8?B?c0IyOURNWnNIQ3RuZGd0U1VQWGVCMUMvWVVnajBqbnFMZHdPQWlSTENLRnlu?=
+ =?utf-8?B?SVdzRzR6anJndzBsc09QaUV1d1lUeXh4TEpuSFNKRmxqdldyVi92NXdwclV6?=
+ =?utf-8?B?Y3Qyd080K2lGQ1l0Q2dRM2Z2UWJGbDR6ZHpBQkhHR0cxVUcvY3JJeXUwTTho?=
+ =?utf-8?B?c1ExQy9aSFppZEFMeXRkZFVpY3V6SFRlVTFZeGIxbGEwODlySGZGN2pDdWZt?=
+ =?utf-8?B?U3U4MXp4SUt4STBtTWhuelR0bno0bjZVaU1FSDNZSm5tcUhDZU1QdFlGS05x?=
+ =?utf-8?B?cHBRcUpXNndQdUUyMEZDV3RhemhvU2dLTlppVGVIWm9sbGgzTzZTUGxJU0Ux?=
+ =?utf-8?B?MVBub3JCSGkrM2JZZHhkVk43bkRFSy85eVUxNG1iUXFVdmxoT25vRTRrUzdE?=
+ =?utf-8?B?MTVTS2Q0eHdsRG5VTkpKdnl2NnJXU1lBeGVWODE4eXFYSFdRTVpvR2d1a21I?=
+ =?utf-8?B?eXNHUmxlOElRMzN2WTJtd2hFV2ZoZUlDRG92VzFMTFVZV3J3MTExekRKak1h?=
+ =?utf-8?B?WkhUMURMVWVNRmV3VFhadHNKejFDWlg0ZmxyYnJId3Q5ZHM3QnRzV1ptS2xV?=
+ =?utf-8?B?VjRId2JWaHJaL01iSWYvOVF1UzVHOU9TeExNTGFzbm5JZm9UeFdBa053Z01w?=
+ =?utf-8?B?UjBaaWhYMFRFZDJtUk50UWJqY2I4OHBSM1J6MENmT2todzZCQUU0eUtFcVd0?=
+ =?utf-8?B?eG9IOHdGYklVSE9RWUo0WWt5NDc5S3VRY25pSDI2Z2lwQWhhVVRvQ3VRRXl1?=
+ =?utf-8?B?S0NMdjVsM0hXNktmZmVSUFo1VFpRamltNDZvUFdHNERXM2RYSzFSUXhGN2I5?=
+ =?utf-8?B?VmU5aU5FQ0ErSWd0RnFrVXJmNVAvSFByZjRTeDRQeTBMWHBRQy92cXdZTUQr?=
+ =?utf-8?B?MU9HNTVwd3R4cE0rc3h3TFpQM29VQUJZTGxDdWk1bDcycXNYajF4aHpobklY?=
+ =?utf-8?B?OUIvd3J5WElCVkJDOHVQN0k3MGE2eHVzN09HS0ZXQ0VrWHpaS1JIOHhoS2Ey?=
+ =?utf-8?B?eHYwRmxucE4wbnVyQlNQWU5aSDVoVVlzWDFLQndrd2ZHZFFraysxYU9JYmR2?=
+ =?utf-8?B?Q1hpNzhHb0owdVlQWmJUeXgxeE1Pb1J5UlNYSDg1RGVvYXRVcy9NUFowQWcz?=
+ =?utf-8?Q?thmh2i+Hp1OYhmrYotgVJtChj?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c01884f-99b4-4d4a-6997-08dc8fd41297
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3c1b138-df1a-4b0a-54f9-08dc8fd41852
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5311.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2024 20:20:18.9480 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2024 20:20:28.5025 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jLU6jJd85wwBfi12ja761xJEmOD1QItGM4Nl68jYY5igC04mnVFM3gmNVbjPsVNP
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6sZqTUxPubdK/I2WXXxqpG+RboHrwGSweysm4HvOE7hojvCgXDUuyZJDYpo5Wh0M
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6760
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -164,87 +164,122 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-Thanks for the tests! FYI IGT patches should also cc igt-dev@lists.freedesktop.org
-
-Some comments inline:
 
 On 2024-05-22 18:08, Mario Limonciello wrote:
-> From: Mario Limonciello <superm1@ubuntu.com>
-> 
-> When the "panel power saving" property is set to forbidden the
-> compositor has indicated that userspace prefers to have color
-> accuracy and fidelity instead of power saving.
-> 
-> Verify that the sysfs file behaves as expected in this situation.
-> 
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> Verify that the property has disabled PSR
 > ---
->   tests/amdgpu/amd_abm.c | 39 +++++++++++++++++++++++++++++++++++++++
->   1 file changed, 39 insertions(+)
+>   tests/amdgpu/amd_psr.c | 74 ++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 74 insertions(+)
 > 
-> diff --git a/tests/amdgpu/amd_abm.c b/tests/amdgpu/amd_abm.c
-> index f74c3012c..3fa1366fa 100644
-> --- a/tests/amdgpu/amd_abm.c
-> +++ b/tests/amdgpu/amd_abm.c
-> @@ -365,6 +365,43 @@ static void abm_gradual(data_t *data)
->   	}
+> diff --git a/tests/amdgpu/amd_psr.c b/tests/amdgpu/amd_psr.c
+> index 9da161a09..a9f4a6aa5 100644
+> --- a/tests/amdgpu/amd_psr.c
+> +++ b/tests/amdgpu/amd_psr.c
+> @@ -338,6 +338,78 @@ static void run_check_psr(data_t *data, bool test_null_crtc) {
+>   	test_fini(data);
 >   }
 >   
-> +
-> +static void abm_forbidden(data_t *data)
+> +static void psr_forbidden(data_t *data)
 > +{
+> +	int edp_idx, ret, i, psr_state;
+> +	igt_fb_t ref_fb, ref_fb2;
+> +	igt_fb_t *flip_fb;
 > +	igt_output_t *output;
-> +	enum pipe pipe;
-> +	int target, r;
 > +
-> +	for_each_pipe_with_valid_output(&data->display, pipe, output) {
+> +	test_init(data);
+> +
+> +	edp_idx = check_conn_type(data, DRM_MODE_CONNECTOR_eDP);
+> +	igt_skip_on_f(edp_idx == -1, "no eDP connector found\n");
+> +
+> +	/* check if eDP support PSR1, PSR-SU.
+> +	 */
+> +	igt_skip_on(!psr_mode_supported(data, PSR_MODE_1) && !psr_mode_supported(data, PSR_MODE_2));
+> +	for_each_connected_output(&data->display, output) {
+> +
 > +		if (output->config.connector->connector_type != DRM_MODE_CONNECTOR_eDP)
 > +			continue;
-> +
-> +		r = clear_power_saving_policy(data->drm_fd, output);
-> +		if (r == -ENODEV) {
+> +		ret = clear_power_saving_policy(data->fd, output);
+> +		if (ret == -ENODEV) {
 > +			igt_skip("No power saving policy prop\n");
 > +			return;
 > +		}
-> +		igt_assert_eq(r, 0);
+> +		igt_require(ret == 0);
 > +
-> +		target = 3;
-> +		r = set_abm_level(data, output, target);
-> +		igt_assert_eq(r, 0);
+> +		/* try to engage PSR */
+> +		ret = set_panel_power_saving_policy(data->fd, output, DRM_MODE_REQUIRE_LOW_LATENCY);
+> +		igt_assert_eq(ret, 0);
 > +
-> +		r = set_panel_power_saving_policy(data->drm_fd, output, DRM_MODE_REQUIRE_COLOR_ACCURACY);
-> +		igt_assert_eq(r, 0);
+> +		igt_create_color_fb(data->fd, data->mode->hdisplay,
+> +				    data->mode->vdisplay, DRM_FORMAT_XRGB8888, 0, 1.0,
+> +				    0.0, 0.0, &ref_fb);
+> +		igt_create_color_fb(data->fd, data->mode->hdisplay,
+> +				    data->mode->vdisplay, DRM_FORMAT_XRGB8888, 0, 0.0,
+> +				    1.0, 0.0, &ref_fb2);
 > +
-> +		target = 0;
+> +		igt_plane_set_fb(data->primary, &ref_fb);
+> +
+> +		igt_display_commit_atomic(&data->display, DRM_MODE_ATOMIC_ALLOW_MODESET, 0);
+> +
+> +		for (i = 0; i < N_FLIPS; i++) {
+> +			if (i % 2 == 0)
+> +				flip_fb = &ref_fb2;
+> +			else
+> +				flip_fb = &ref_fb;
+> +
+> +			ret = drmModePageFlip(data->fd, output->config.crtc->crtc_id,
+> +					      flip_fb->fb_id, DRM_MODE_PAGE_FLIP_EVENT, NULL);
+> +			igt_require(ret == 0);
+> +			kmstest_wait_for_pageflip(data->fd);
+> +		}
+> +
+> +		/* PSR state takes some time to settle its value on static screen */
+> +		sleep(PSR_SETTLE_DELAY);
+> +
+> +		psr_state =  igt_amd_read_psr_state(data->fd, output->name);
+> +		igt_require(psr_state == PSR_STATE3);
 
-Is there a purpose of setting target abm to 0 (disabled) here?
+igt_fail_on* or igt_assert* should be used here, igt_require simply 'skips' the
+test if the condition evaluates to false.
 
-I suppose it should fail given that we've set REQUIRE_COLOR_ACCURACY. Though I'm
-not sure why we can't keep target = 3.
+Should we be instead asserting psr_state == PSR_STATE0 here for disabled, since
+we've set REQUIRE_LOW_LATENCY?
+
+I think as part of this test, we can also check that PSR re-enables after
+clearing the power saving policy. Something like
+
+ret = clear_power_saving_policy(data->fd, output);
+... do some flipping ...
+sleep(PSR_SETTLE_DELAY);
+psr_state = igt_amd_read_psr_state(data->fd, output->name);
+igt_assert_f(psr_state == PSR_STATE3,
+              "Panel not in PSR after clearing power saving policy\n");
 
 Thanks,
 Leo
 
-> +		r = set_abm_level(data, output, target);
-> +		igt_assert_eq(r, -1);
 > +
-> +		r = clear_power_saving_policy(data->drm_fd, output);
-> +		igt_assert_eq(r, 0);
+> +		igt_remove_fb(data->fd, &ref_fb);
+> +		igt_remove_fb(data->fd, &ref_fb2);
 > +
-> +		r = set_abm_level(data, output, target);
-> +		igt_assert_eq(r, 0);
+> +		ret = clear_power_saving_policy(data->fd, output);
+> +		if (ret == -ENODEV) {
+> +			igt_skip("No power saving policy prop\n");
+> +			return;
+> +		}
+> +		igt_require(ret == 0);
+> +
 > +	}
 > +}
 > +
->   igt_main
+>   static void run_check_psr_su_mpo(data_t *data, bool scaling, float scaling_ratio)
 >   {
->   	data_t data = {};
-> @@ -393,6 +430,8 @@ igt_main
->   		abm_enabled(&data);
->   	igt_subtest("abm_gradual")
->   		abm_gradual(&data);
-> +	igt_subtest("abm_forbidden")
-> +		abm_forbidden(&data);
+>   	int edp_idx = check_conn_type(data, DRM_MODE_CONNECTOR_eDP);
+> @@ -756,6 +828,8 @@ igt_main_args("", long_options, help_str, opt_handler, NULL)
+>   	igt_describe("Test to validate PSR SU enablement with Visual Confirm "
+>   		     "and to validate PSR SU disable/re-enable w/ primary scaling ratio 0.75");
+>   	igt_subtest("psr_su_mpo_scaling_0_75") run_check_psr_su_mpo(&data, true, .75);
+> +	igt_describe("Test whether PSR can be forbidden");
+> +	igt_subtest("psr_forbidden") psr_forbidden(&data);
 >   
->   	igt_fixture {
->   		igt_display_fini(&data.display);
+>   	igt_fixture
+>   	{
