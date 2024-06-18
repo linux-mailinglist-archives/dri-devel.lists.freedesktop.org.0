@@ -2,87 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D4190C4A6
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 09:56:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 074CA90C4AD
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 10:01:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1EDC10E5C2;
-	Tue, 18 Jun 2024 07:56:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EDD610E5BF;
+	Tue, 18 Jun 2024 08:01:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MrlQNZru";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VTDnU/kn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2565310E5C4
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 07:56:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1718697400;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X7oXfGqsaROPIv0d321bPJMWdfKZBHlFilMIFo4qMew=;
- b=MrlQNZruF7xHb8vmBvrmi8hEoZ+Y4c+olT+NKe7sCRKOXVz78xqlYe12W6Rv6osHEzRG2K
- La7Pq0LZRWw1axqa5n580rB1i7x3PMtOxc99ZdWfCL7hfTvlNbp11a0ZX4zx42D1ws/qgh
- P75AnIpI9JEPOK31uOTiyGtUtcD3MlE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-187-AinCcfW4MVentg5da4_M9A-1; Tue, 18 Jun 2024 03:56:39 -0400
-X-MC-Unique: AinCcfW4MVentg5da4_M9A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-4217f4b7355so5139655e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 00:56:39 -0700 (PDT)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34D0310E5C7;
+ Tue, 18 Jun 2024 08:01:40 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-a6f7b785a01so272285166b.1; 
+ Tue, 18 Jun 2024 01:01:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1718697698; x=1719302498; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zEfgk2fYUwOCyIZltP8v1hQ1jJKysr4pnr2KfmirBu0=;
+ b=VTDnU/knqib8DiBmdRRdrBLv44PyoezLe4Zj/233mQTSKjMLrnd8umf30NRrUH8nkP
+ jiQbU3hrQMZOAREo/ZQxSE1Ecx83EKlH61mEmOuOMr1LssSefHMnixUQ4M6i8lpbaDLB
+ YZNceqbwGPhQkLMrZF59gCkBC4QsiwSZbH3xqyEvZM5VV+tAYQAyyTzKkWbPpIrlUH9/
+ CdTLtV7J7yQCHqqFgR+bonNg+q1dBcrnvmH0O8qNJseRnrBnrDbZvJ+rF5zBZ1TmOOCd
+ izD7TlbeW5aH0m5epGL52OW2moRJeXeQBy3vyXuGCDw4ML6i2OVdT2wlZ+l4oJ038BRX
+ 9Tlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718697398; x=1719302198;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=X7oXfGqsaROPIv0d321bPJMWdfKZBHlFilMIFo4qMew=;
- b=YsZ3nTMEX9J3TYZpaR27uDgIXGyFkbLxbWgW/WXSbyrvJjLgbVPKofJ6eEy1xUeIhA
- xMvSIc/VGzb82A8Lg4LteTjxk2i0ICzKqQPCz10zfa/oba7ArEz3WqQcDynipOdZ03mG
- ZU1a0EdI05d8EskOEzr5912uajEM5yqmA+XL34Ih3mdg0LPxsftPmHqjHo2bx7rmeYbz
- GfjuptuzqrIQcbDdNGNXYL1Ue9apzfgRYsN/JPhe3bmFqIzaS/EPDLZWFvHbB/RSAaAq
- NjBrGXz1ToL/ZZ4mLvC4IhCrRL4H5PFnPksTIsL5bRo9BhWO/M6rLBmnQIpEDn+mq/z8
- XCvA==
+ d=1e100.net; s=20230601; t=1718697698; x=1719302498;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zEfgk2fYUwOCyIZltP8v1hQ1jJKysr4pnr2KfmirBu0=;
+ b=loX4V7cHBZ55dwAgeFCp/c/mnvGuXjX+GGUCZrTLh01MShcdGkF3HjMPjMK0tD5adk
+ gT1duDxtQzzW32xDScEuVbYZlWiyGko0BmbdfZc7/XZq0VySEYilMmrrVl9TkZ+x5BhB
+ BLKDZMKPfLOVAZ7erSlfeutMjqIIWqmHXbwWIyGuVUrKpxiLnURbr7ZTlU5LtANCbfUT
+ MxUWwJrUCBaCl5zZm1TKTqnLQ59BhjvYFufQVlUNKYuEp+9jQF0Su33ej2Ea+h/dcuh4
+ bJKSMbwqBJDhxIaW4s45yo0p06YFY0lJBYxR87wZZMs86Erolj+zgLKB8T1+IpVFm0oX
+ 0q9A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXxl0URY34cqXAOH3UXF9Hcwo+xyCryRQIOd8ngrholtPfoOwXOG5yel6M+/AZdg8tLDBYgxVqTqqEY3zrX8msQDQ50UbD0AasfwDPlyw2S
-X-Gm-Message-State: AOJu0YxT5tUZ91Qj/tX6AXrw52L8QWB4OsAomz01u8B5rH1Nb/ztintp
- yTjnbJ4M2oYeBYVm+WqZzqOJv/I1qeBGz1DgN3umhIBkqB6ak/enH5NeFmXVkQ8cxxa5QlztdPg
- hd69NXu5X1WOjQquS5pa/gublBsvIVt7pYD18LWy7NQ4ofYAZziU3TVQmmuioKRXOiQ==
-X-Received: by 2002:a05:600c:4fc9:b0:422:2f06:92d1 with SMTP id
- 5b1f17b1804b1-4230484ea73mr83190915e9.2.1718697398453; 
- Tue, 18 Jun 2024 00:56:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IElQg2MnML4c3e9aZwFA6IJ+FN0+5pNCUzrjPBudpNMYeXrjO8WNPBPXb35SYsoR8Fe93j85g==
-X-Received: by 2002:a05:600c:4fc9:b0:422:2f06:92d1 with SMTP id
- 5b1f17b1804b1-4230484ea73mr83190795e9.2.1718697398070; 
- Tue, 18 Jun 2024 00:56:38 -0700 (PDT)
-Received: from pstanner-thinkpadt14sgen1.remote.csb
- (nat-pool-muc-t.redhat.com. [149.14.88.26])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-422f602e802sm181674215e9.11.2024.06.18.00.56.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jun 2024 00:56:37 -0700 (PDT)
-Message-ID: <0d9fe3d3c52fa618b6c4e1d3414373b2e5417f32.camel@redhat.com>
-Subject: Re: [PATCH v9 10/13] PCI: Give pci_intx() its own devres callback
-From: Philipp Stanner <pstanner@redhat.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Hans de Goede
- <hdegoede@redhat.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>, Sam
- Ravnborg <sam@ravnborg.org>,  dakr@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-pci@vger.kernel.org
-Date: Tue, 18 Jun 2024 09:56:36 +0200
-In-Reply-To: <20240617164604.GA1217529@bhelgaas>
-References: <20240617164604.GA1217529@bhelgaas>
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
+ AJvYcCVKoqLTIx2cbJEj8p9Ped9Z1osUpapGHyyorg2z+I/1flox6Ch8tL7ZTiYLosmy1Jd2SC3Pcv/15rwwIhtQ/B16VeFGNLl9rP9iLw==
+X-Gm-Message-State: AOJu0YzV7Z7PcWTjreDdITfT/rSO50GzbRYDSNGsiY/ShpNfe51QxNZs
+ hemy9KqohUuuZuZQFoGucEXrVW7g4CY3nAV4ABRE+sI2xNs+UfkDbVTNGwEA2d1fGsce2vd3Xiw
+ cCRpg1+9IbeJIoc4elXryqazcPaQ=
+X-Google-Smtp-Source: AGHT+IHd23BvSCzQlm7Tuey+57rzDaK5qYGqzZqCpTK+jC9NgfLORX/DZ664KaPmEqX41xGojin54yrzfjR9mkTpEyo=
+X-Received: by 2002:a17:907:c24d:b0:a6f:96ac:3436 with SMTP id
+ a640c23a62f3a-a6f96ac349dmr115982066b.11.1718697698117; Tue, 18 Jun 2024
+ 01:01:38 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <fdaf2e41bb6a0c5118ff9cc21f4f62583208d885.1718655070.git.dsimic@manjaro.org>
+ <CAKGbVbs8VmCXVOHbhkCYEHNJiKWwy10p0SV9J09h2h7xjs7hUg@mail.gmail.com>
+In-Reply-To: <CAKGbVbs8VmCXVOHbhkCYEHNJiKWwy10p0SV9J09h2h7xjs7hUg@mail.gmail.com>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Tue, 18 Jun 2024 16:01:26 +0800
+Message-ID: <CAKGbVbsM4rCprWdp+aGXE-pvCkb6N7weUyG2z4nXqFpv+y=LrA@mail.gmail.com>
+Subject: Re: [PATCH] drm/lima: Mark simple_ondemand governor as softdep
+To: Dragan Simic <dsimic@manjaro.org>
+Cc: dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, daniel@ffwll.ch, linux-kernel@vger.kernel.org, 
+ Philip Muller <philm@manjaro.org>,
+ Oliver Smith <ollieparanoid@postmarketos.org>, 
+ Daniel Smith <danct12@disroot.org>, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,48 +84,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2024-06-17 at 11:46 -0500, Bjorn Helgaas wrote:
-> On Mon, Jun 17, 2024 at 10:21:10AM +0200, Philipp Stanner wrote:
-> > On Fri, 2024-06-14 at 11:14 -0500, Bjorn Helgaas wrote:
-> > > On Fri, Jun 14, 2024 at 10:09:46AM +0200, Philipp Stanner wrote:
-> > ...
->=20
-> > > > Apparently INTx is "old IRQ management" and should be done
-> > > > through
-> > > > pci_alloc_irq_vectors() nowadays.
-> > >=20
-> > > Do we have pcim_ support for pci_alloc_irq_vectors()?
-> >=20
-> > Nope.
->=20
-> Should we?=C2=A0 Or is IRQ support not amenable to devm?
+On Tue, Jun 18, 2024 at 12:33=E2=80=AFPM Qiang Yu <yuq825@gmail.com> wrote:
+>
+> I see the problem that initramfs need to build a module dependency chain,
+> but lima does not call any symbol from simpleondemand governor module.
+>
+> softdep module seems to be optional while our dependency is hard one,
+> can we just add MODULE_INFO(depends, _depends), or create a new
+> macro called MODULE_DEPENDS()?
+>
+This doesn't work on my side because depmod generates modules.dep
+by symbol lookup instead of modinfo section. So softdep may be our only
+choice to add module dependency manually. I can accept the softdep
+first, then make PM optional later.
 
-I don't see why it wouldn't work, AFAIU you just register a callback
-that deregisters the interrupts again.
-
-This series here, though, stems from me trying to clean up drivers in
-DRM. That's when I discovered that regions / IO-mappings (which I need)
-are broken.
-
-Adding further stuff to pci/devres.c is no problem at all and
-independent from this series; one just has to add the code and call the
-appropriate devm_ functions.
-
->=20
-> Happened to see this new driver:
-> https://lore.kernel.org/all/20240617100359.2550541-3-Basavaraj.Natikar@am=
-d.com/
-> that uses devm and the only PCI-related part of .remove() is cleaning
-> up the IRQs.
->=20
-
-OK. They also use pcim_iomap_table() and stuff. I think we should
-inform about the deprecation.
-
-I don't have a user for IRQ at hand for my DRM work right now. I'd try
-to upstream new infrastructure we need there as I did for vboxvideo.
-
-
-Gr=C3=BC=C3=9Fe,
-P.
-
+> On Tue, Jun 18, 2024 at 4:22=E2=80=AFAM Dragan Simic <dsimic@manjaro.org>=
+ wrote:
+> >
+> > Lima DRM driver uses devfreq to perform DVFS, while using simple_ondema=
+nd
+> > devfreq governor by default.  This causes driver initialization to fail=
+ on
+> > boot when simple_ondemand governor isn't built into the kernel statical=
+ly,
+> > as a result of the missing module dependency and, consequently, the req=
+uired
+> > governor module not being included in the initial ramdisk.  Thus, let's=
+ mark
+> > simple_ondemand governor as a softdep for Lima, to have its kernel modu=
+le
+> > included in the initial ramdisk.
+> >
+> > This is a rather longstanding issue that has forced distributions to bu=
+ild
+> > devfreq governors statically into their kernels, [1][2] or may have for=
+ced
+> > some users to introduce unnecessary workarounds.
+> >
+> > Having simple_ondemand marked as a softdep for Lima may not resolve thi=
+s
+> > issue for all Linux distributions.  In particular, it will remain unres=
+olved
+> > for the distributions whose utilities for the initial ramdisk generatio=
+n do
+> > not handle the available softdep information [3] properly yet.  However=
+, some
+> > Linux distributions already handle softdeps properly while generating t=
+heir
+> > initial ramdisks, [4] and this is a prerequisite step in the right dire=
+ction
+> > for the distributions that don't handle them properly yet.
+> >
+> > [1] https://gitlab.manjaro.org/manjaro-arm/packages/core/linux-pinephon=
+e/-/blob/6.7-megi/config?ref_type=3Dheads#L5749
+> > [2] https://gitlab.com/postmarketOS/pmaports/-/blob/7f64e287e7732c9eaa0=
+29653e73ca3d4ba1c8598/main/linux-postmarketos-allwinner/config-postmarketos=
+-allwinner.aarch64#L4654
+> > [3] https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git/commit/?i=
+d=3D49d8e0b59052999de577ab732b719cfbeb89504d
+> > [4] https://github.com/archlinux/mkinitcpio/commit/97ac4d37aae084a050be=
+512f6d8f4489054668ad
+> >
+> > Cc: Philip Muller <philm@manjaro.org>
+> > Cc: Oliver Smith <ollieparanoid@postmarketos.org>
+> > Cc: Daniel Smith <danct12@disroot.org>
+> > Cc: stable@vger.kernel.org
+> > Fixes: 1996970773a3 ("drm/lima: Add optional devfreq and cooling device=
+ support")
+> > Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+> > ---
+> >  drivers/gpu/drm/lima/lima_drv.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lim=
+a_drv.c
+> > index 739c865b556f..10bce18b7c31 100644
+> > --- a/drivers/gpu/drm/lima/lima_drv.c
+> > +++ b/drivers/gpu/drm/lima/lima_drv.c
+> > @@ -501,3 +501,4 @@ module_platform_driver(lima_platform_driver);
+> >  MODULE_AUTHOR("Lima Project Developers");
+> >  MODULE_DESCRIPTION("Lima DRM Driver");
+> >  MODULE_LICENSE("GPL v2");
+> > +MODULE_SOFTDEP("pre: governor_simpleondemand");
