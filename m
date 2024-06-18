@@ -2,84 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B89790D96B
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 18:38:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B60C990D990
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 18:43:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C97310E725;
-	Tue, 18 Jun 2024 16:38:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0547F10E727;
+	Tue, 18 Jun 2024 16:43:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ZRgzOFJw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LhIExLFm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF71710E725;
- Tue, 18 Jun 2024 16:38:36 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45IAZgAc015158;
- Tue, 18 Jun 2024 16:38:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=JP8sF7hPuwE3BREjhPtic0E7
- eqbelU1XLTXQvVwD7bo=; b=ZRgzOFJwolDCuXjYX84JkoQX7Ata+vdvpuE4BCmH
- yWZTmnCb0z0+u5mWPZPt82mRdM3cxA+1HDzpRuiCKQlSUyrOLpLQcj4SfOVILm/w
- YLi+D2xE+e8ccNxzVt+6WDaRaeL8V17lL2+EUfp639/LSpwHRQFO7Qcq/DycexGx
- nWfjN3MmH5g/R3ShlAYo9vcyP8jJg1t7jBbr9GrFUSuakkmCJAinaQFmeCY5ncUL
- o9VXzQM5I2d//9c6+6calnJ7yK93uQefxi+4z+TfQB5/crpr62sl6u8LuOCpHnm0
- 2SjwRVzgLNADp7hB/0NqQohbDgxX9u6aJ0IcPyVmP+LDgw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yu8m1gxgp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jun 2024 16:38:32 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45IGcVBP015287
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jun 2024 16:38:31 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 18 Jun 2024 09:38:27 -0700
-Date: Tue, 18 Jun 2024 22:08:23 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Abhinav
- Kumar" <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>,
- Rob Clark <robdclark@chromium.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/msm/adreno: De-spaghettify the use of memory barriers
-Message-ID: <20240618163823.t3hqxyqeopkilxej@hu-akhilpo-hyd.qualcomm.com>
-References: <20240508-topic-adreno-v1-1-1babd05c119d@linaro.org>
- <20240514183849.6lpyplifero5u35r@hu-akhilpo-hyd.qualcomm.com>
- <5ff40fba-e45a-4a5c-b5a7-7ef5a799a008@linaro.org>
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06B9C10E726;
+ Tue, 18 Jun 2024 16:43:07 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-70627716174so339273b3a.3; 
+ Tue, 18 Jun 2024 09:43:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1718728986; x=1719333786; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XvXhSojD9nxkcyZeCeKyHAlvRSq1UhDBytHKg5xTnCM=;
+ b=LhIExLFmnoKHh0W2kqyyEaUP7W3WQpwoYsYMaEYBhePWR4utkNQi3YKfSfxpxmLyQV
+ MBwvjiPPF5VS9LsRO70fM0pInFIDrrKjae7XxR06fgah8N1IGBl0edx1KQKBsXuARXGU
+ L5XpeZL9S3SrXutsaka7fz/IUXdoh7yMuaMcX+Q+WceT/Z9CyCB3AQ88cFsCQWgeQ2MM
+ ykWzoNa1TyBhZdsk36QQm18hLz9gFQ4c9XZjIlzHV45/8OFFg6ETWxIh99RkmFY8al61
+ I/qBXHX9LHXTEn8P8uPtTXbPYE75c6VDAa/merXuv8KMnL7xxt+MSnQcQKylRczfI+Qx
+ AuUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718728986; x=1719333786;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XvXhSojD9nxkcyZeCeKyHAlvRSq1UhDBytHKg5xTnCM=;
+ b=dKD7jOv34MPMXHcazuN1jUTmKsOAbKunqhLb5vW8sg9mqZi/G4Sxf+mf+Vr5tqWrpA
+ 8smBpgnZGXMR1sS4bRdeoWeOYww0RkI4ZDW/6URt5tH5YF2xRPtLCUWpOmS0WZp2LwjP
+ HW49syz+JJEtoEYAl/+9VypIlV29+oHGr70nVZTb5LRKHSueov5WP2pDQQAY6RGltjvB
+ fE+k9xYi3xcy9bo4gIxB/70GV55djpjLVuJze6nCPygmARGNcyd618VfoQmvKU68HplF
+ bOvKNs7Cnv+djYODVE+CnnNF2XAjscAsuyYKUvKpV1v6LagLhiaTE6Sf6zrCWqr41cIS
+ Bc8g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV76dW7kq9RQADNgc7qi/+/eE7NKQlFDREzfABd3c5IzH4VJ0p/kOJfJzcHG5IdZFHzpe275sRtfmNI1exEbb6vJiySxyzBpUjR61TbXpdp
+X-Gm-Message-State: AOJu0YyR7ap39qzG8Q/TSEh29vX0xSfHjpBszsNcFszBycpyUZLFgViR
+ 5AjwK3jSl2EpS/bxIUTTduIUWKKjupoy0RcAJhA8ZD2eEOXwV25G98VUDQ==
+X-Google-Smtp-Source: AGHT+IFbMiwhc/wRKW0CBE3zZpglm8jK3Q2B1o7O/xsHqHyLxf+YslV9ODcnMWNxYAhfhPJtzS+xpg==
+X-Received: by 2002:a05:6a20:3c92:b0:1bc:af91:55a2 with SMTP id
+ adf61e73a8af0-1bcbb5b5e8cmr72098637.36.1718728986112; 
+ Tue, 18 Jun 2024 09:43:06 -0700 (PDT)
+Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f9a0f736a0sm9417625ad.119.2024.06.18.09.43.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Jun 2024 09:43:05 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Rob Clark <robdclark@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ linux-kernel@vger.kernel.org (open list),
+ linux-pm@vger.kernel.org (open list:SUSPEND TO RAM),
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Sean Paul <sean@poorly.run>
+Subject: [PATCH v4 0/5] drm/msm/adreno: Introduce/rework device hw catalog
+Date: Tue, 18 Jun 2024 09:42:46 -0700
+Message-ID: <20240618164303.66615-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <5ff40fba-e45a-4a5c-b5a7-7ef5a799a008@linaro.org>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 2b7EVFOUZDFrAn1aXgvBifrBwWUvnAE3
-X-Proofpoint-GUID: 2b7EVFOUZDFrAn1aXgvBifrBwWUvnAE3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-18_02,2024-06-17_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 suspectscore=0 impostorscore=0 lowpriorityscore=0
- bulkscore=0 mlxlogscore=832 spamscore=0 malwarescore=0 mlxscore=0
- phishscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406180124
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,133 +85,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 04, 2024 at 07:35:04PM +0200, Konrad Dybcio wrote:
-> 
-> 
-> On 5/14/24 20:38, Akhil P Oommen wrote:
-> > On Wed, May 08, 2024 at 07:46:31PM +0200, Konrad Dybcio wrote:
-> > > Memory barriers help ensure instruction ordering, NOT time and order
-> > > of actual write arrival at other observers (e.g. memory-mapped IP).
-> > > On architectures employing weak memory ordering, the latter can be a
-> > > giant pain point, and it has been as part of this driver.
-> > > 
-> > > Moreover, the gpu_/gmu_ accessors already use non-relaxed versions of
-> > > readl/writel, which include r/w (respectively) barriers.
-> > > 
-> > > Replace the barriers with a readback that ensures the previous writes
-> > > have exited the write buffer (as the CPU must flush the write to the
-> > > register it's trying to read back) and subsequently remove the hack
-> > > introduced in commit b77532803d11 ("drm/msm/a6xx: Poll for GBIF unhalt
-> > > status in hw_init").
-> > > 
-> > > Fixes: b77532803d11 ("drm/msm/a6xx: Poll for GBIF unhalt status in hw_init")
-> > > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> > > ---
-> > >   drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  5 ++---
-> > >   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 14 ++++----------
-> > >   2 files changed, 6 insertions(+), 13 deletions(-)
-> > 
-> > I prefer this version compared to the v2. A helper routine is
-> > unnecessary here because:
-> > 1. there are very few scenarios where we have to read back the same
-> > register.
-> > 2. we may accidently readback a write only register.
-> 
-> Which would still trigger an address dependency on the CPU, no?
+From: Rob Clark <robdclark@chromium.org>
 
-Yes, but it is not a good idea to read a write-only register. We can't be
-sure about its effect on the endpoint.
+Split the single flat gpulist table into per-gen tables that exist in
+their own per-gen files, and start moving more info into the device
+table.  This at least gets all the big tables of register settings out
+of the heart of the a6xx_gpu code.  Probably more could be moved, to
+remove at least some of the per-gen if/else ladders, but this seemed
+like a reasonably good start.
 
-> 
-> > 
-> > > 
-> > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > > index 0e3dfd4c2bc8..4135a53b55a7 100644
-> > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > > @@ -466,9 +466,8 @@ static int a6xx_rpmh_start(struct a6xx_gmu *gmu)
-> > >   	int ret;
-> > >   	u32 val;
-> > > -	gmu_write(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ, 1 << 1);
-> > > -	/* Wait for the register to finish posting */
-> > > -	wmb();
-> > > +	gmu_write(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ, BIT(1));
-> > > +	gmu_read(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ);
-> > 
-> > This is unnecessary because we are polling on a register on the same port below. But I think we
-> > can replace "wmb()" above with "mb()" to avoid reordering between read
-> > and write IO instructions.
-> 
-> Ok on the dropping readback part
-> 
-> + AFAIU from Will's response, we can drop the barrier as well
+v2: Drop sentinel table entries
+v3: Fix typo
+v4: More const, fix missing a702 protect regs
 
-Lets wait a bit on Will's response on compiler reordering.
+Rob Clark (5):
+  drm/msm/adreno: Split up giant device table
+  drm/msm/adreno: Split catalog into separate files
+  drm/msm/adreno: Move hwcg regs to a6xx hw catalog
+  drm/msm/adreno: Move hwcg table into a6xx specific info
+  drm/msm/adreno: Move CP_PROTECT settings to hw catalog
 
-> 
-> > 
-> > >   	ret = gmu_poll_timeout(gmu, REG_A6XX_GMU_RSCC_CONTROL_ACK, val,
-> > >   		val & (1 << 1), 100, 10000);
-> > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > > index 973872ad0474..0acbc38b8e70 100644
-> > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > > @@ -1713,22 +1713,16 @@ static int hw_init(struct msm_gpu *gpu)
-> > >   	}
-> > >   	/* Clear GBIF halt in case GX domain was not collapsed */
-> > > +	gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
-> > 
-> > We need a full barrier here to avoid reordering. Also, lets add a
-> > comment about why we are doing this odd looking sequence.
-> > 
-> > > +	gpu_read(gpu, REG_A6XX_GBIF_HALT);
-> > >   	if (adreno_is_a619_holi(adreno_gpu)) {
-> > > -		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
-> > >   		gpu_write(gpu, REG_A6XX_RBBM_GPR0_CNTL, 0);
-> > > -		/* Let's make extra sure that the GPU can access the memory.. */
-> > > -		mb();
-> > 
-> > We need a full barrier here.
-> > 
-> > > +		gpu_read(gpu, REG_A6XX_RBBM_GPR0_CNTL);
-> > >   	} else if (a6xx_has_gbif(adreno_gpu)) {
-> > > -		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
-> > >   		gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, 0);
-> > > -		/* Let's make extra sure that the GPU can access the memory.. */
-> > > -		mb();
-> > 
-> > We need a full barrier here.
-> 
-> Not sure we do between REG_A6XX_GBIF_HALT & REG_A6XX_RBBM_(GBIF_HALT/GPR0_CNTL),
-> but I suppose keeping the one after REG_A6XX_RBBM_(GBIF_HALT/GPR0_CNTL) makes
-> sense to avoid the possibility of configuring the GPU before it can access DRAM..
+ drivers/gpu/drm/msm/Makefile               |    5 +
+ drivers/gpu/drm/msm/adreno/a2xx_catalog.c  |   52 +
+ drivers/gpu/drm/msm/adreno/a3xx_catalog.c  |   81 ++
+ drivers/gpu/drm/msm/adreno/a4xx_catalog.c  |   50 +
+ drivers/gpu/drm/msm/adreno/a5xx_catalog.c  |  148 +++
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c  | 1240 ++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c      |  880 +-------------
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h      |   11 +
+ drivers/gpu/drm/msm/adreno/adreno_device.c |  624 +---------
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h    |   32 +-
+ 10 files changed, 1649 insertions(+), 1474 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/adreno/a2xx_catalog.c
+ create mode 100644 drivers/gpu/drm/msm/adreno/a3xx_catalog.c
+ create mode 100644 drivers/gpu/drm/msm/adreno/a4xx_catalog.c
+ create mode 100644 drivers/gpu/drm/msm/adreno/a5xx_catalog.c
+ create mode 100644 drivers/gpu/drm/msm/adreno/a6xx_catalog.c
 
-Techinically, I think we don't need a barrier or the below read back.
-Because the above write is ordered with the write (on CP_CNTL reg) which
-finally triggers CP INIT later. GPU won't access memory before CP INIT.
+-- 
+2.45.2
 
-> 
-> > 
-> > > +		gpu_read(gpu, REG_A6XX_RBBM_GBIF_HALT);
-> > >   	}
-> > > -	/* Some GPUs are stubborn and take their sweet time to unhalt GBIF! */
-> > > -	if (adreno_is_a7xx(adreno_gpu) && a6xx_has_gbif(adreno_gpu))
-> > > -		spin_until(!gpu_read(gpu, REG_A6XX_GBIF_HALT_ACK));
-> > > -
-> > 
-> > Why is this removed?
-> 
-> Because it was a hack in the first place and the enforcement of GBIF
-> unhalt requests coming through before proceeding further removes the
-> necessity to check this (unless there's some hw-mandated delay we should
-> keep in mind, but kgsl doesn't have that and there doesn't seem to be
-> any from testing on 8[456]50).
-
-Oh! I just saw the history. There is no ack for 'unhalt' in hw.
-Anyway this chunk is an unrelated change. Should be a separate change,
-no?
-
--Akhil.
-
-> 
-> Konrad
