@@ -2,176 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7879390DD4B
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 22:22:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DE290DD55
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 22:22:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB94E10E7A6;
-	Tue, 18 Jun 2024 20:22:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE30610E7B0;
+	Tue, 18 Jun 2024 20:22:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="nrFurUs4";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Tou4doA5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cluster-d.mailcontrol.com (cluster-d.mailcontrol.com
- [85.115.60.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ED3D10E54D
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 11:16:41 +0000 (UTC)
-Received: from rly16d.srv.mailcontrol.com (localhost [127.0.0.1])
- by rly16d.srv.mailcontrol.com (MailControl) with ESMTP id 45IBGUe4005618;
- Tue, 18 Jun 2024 12:16:30 +0100
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
- by rly16d.srv.mailcontrol.com (MailControl) id 45IBG7Bn456721;
- Tue, 18 Jun 2024 12:16:07 +0100
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com
- (mail-am7eur03lp2232.outbound.protection.outlook.com [104.47.51.232])
- by rly16d-eth0.srv.mailcontrol.com (envelope-sender oshpigelman@habana.ai)
- (MIMEDefang) with ESMTP id 45IBG5YD456019
- (TLS bits=256 verify=OK); Tue, 18 Jun 2024 12:16:07 +0100 (BST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S/8dpMqvZQkFHwpNKwxdXmxL9yOnWWcnSxwuKvPF1Wf1Z1aN2JKUmDNReNJmxpcBNqxCzwY8+kvvJIgHeyMmfi1DcKnYoPVvaFG+C215OSiZcXOp6F/WgohBb+rNowTF7eZyvU+MqHPp9joTU19pSt5v+U5UmpkhajkXumEBV0dA2NZBOyPeHFqWBD7mGoKY2mZTUp9xX4aU5MT6vgTwITEP1cogHtKKAeu7sKAsr3kHeobd/OdPi/cfebXuGWo4LhvWmAe3/+iYKWJdztIRfCkacy5vf9j4TqECSmA003TpOUu05zXdUqQfDO4CWjoiQI4CRUZ0RGWJGUwhWEFB8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UCQu2x6/7W+JHkRKsgqYAyq7nUpOduwkDLDMzOwVEnE=;
- b=VS841MrtPdyq0j/QyAGNxrOHdeErA5kQfrmdqjdAzDWOMfDwdS0VF0PXJEJMefCJmOAAHt+J1fQ9RT1yXg3dMNKgVAI7CjgFXcXVTIdswA7CsF+VTMCl3siB69IObwDgRkH90Goup+ieor1BSJRlEHlHwRG/E48C6UkAcdED191nEmpv/jAATIzg3UO38vvt6WkC2OSv+EMTMroSCOlkPzmBVMan6Ozb8CYBXRnvPON74sxIhVWN8dv8BqKbsxdWsGAlrVXGPTmet16bWtlbxLY2sWsT+zycUe1dCk7cJIm3TwUtxn/3sIAgEZtVv1bpEonMxrVGFJO7O0HX3xFNfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=habana.ai; dmarc=pass action=none header.from=habana.ai;
- dkim=pass header.d=habana.ai; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=habana.ai; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UCQu2x6/7W+JHkRKsgqYAyq7nUpOduwkDLDMzOwVEnE=;
- b=nrFurUs4xSWtabPoFtkDbHN0dKm5tJ4zvqa1Qoc22d68hS/1QYJnIpkkvjKoDsEODwKUoNYhCruuMbSSAL69p3fPp5fl8cdzCnR1s5xPrGb3QsjzhhTMly5iZnqOZCb4Hxo2dFUsqyEnsOyeLMvAej7a4XUY9jIxJRk2Oy8Er3zpwCXejJGpDyhdFduGwhmUQgcKz0pdeYfI3Kbaz5ts/rzeecK5v0ucj2M8qSj/SukdXUA354IXinr+NNCh+cuZChp0eDfNmRI/EG6sMFw9zWO+2Fzn+0cvtx5Q/DhlGP90w7hHG/k1/rySjPso9XdjgqTiRAKMzXoS7Ysd377QRQ==
-Received: from PAWPR02MB9149.eurprd02.prod.outlook.com (2603:10a6:102:33d::18)
- by AS2PR02MB9189.eurprd02.prod.outlook.com (2603:10a6:20b:5f9::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.31; Tue, 18 Jun
- 2024 11:16:03 +0000
-Received: from PAWPR02MB9149.eurprd02.prod.outlook.com
- ([fe80::90a0:a4f0:72e9:58b9]) by PAWPR02MB9149.eurprd02.prod.outlook.com
- ([fe80::90a0:a4f0:72e9:58b9%3]) with mapi id 15.20.7677.030; Tue, 18 Jun 2024
- 11:16:03 +0000
-From: Omer Shpigelman <oshpigelman@habana.ai>
-To: Zhu Yanjun <yanjun.zhu@linux.dev>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-rdma@vger.kernel.org"
- <linux-rdma@vger.kernel.org>, "netdev@vger.kernel.org"
- <netdev@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-CC: "ogabbay@kernel.org" <ogabbay@kernel.org>, Zvika Yehudai
- <zyehudai@habana.ai>
-Subject: Re: [PATCH 09/15] net: hbl_en: add habanalabs Ethernet driver
-Thread-Topic: [PATCH 09/15] net: hbl_en: add habanalabs Ethernet driver
-Thread-Index: AQHavWrQgrJbi1vMQEmkq/v8mH9idrHIqj8AgAS8uQA=
-Date: Tue, 18 Jun 2024 11:16:03 +0000
-Message-ID: <df68aa17-c32a-45c5-9198-ea2d9fe2c40b@habana.ai>
-References: <20240613082208.1439968-1-oshpigelman@habana.ai>
- <20240613082208.1439968-10-oshpigelman@habana.ai>
- <c65713c5-3c76-4869-9c52-12962678ed1e@linux.dev>
-In-Reply-To: <c65713c5-3c76-4869-9c52-12962678ed1e@linux.dev>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=habana.ai;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAWPR02MB9149:EE_|AS2PR02MB9189:EE_
-x-ms-office365-filtering-correlation-id: dd263aec-bd6b-4401-0658-08dc8f880a94
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230037|366013|41320700010|1800799021|38070700015; 
-x-microsoft-antispam-message-info: =?utf-8?B?NXpidEtjaWpwNVJJZUpzUXlpcUl1aXdaRGJvS0lzZFhzaFkxc1JteXhaZG4x?=
- =?utf-8?B?ajhoTXJsZXcyQngrM1BpZ1RlbDh6TGgrL0N0RUNENytKTlhIbW1TWEJjcnVY?=
- =?utf-8?B?Zk5NRHFCOVU5TU9sZVNpZWwwMVoyT0ZDOXI5RVFjVDI5UDBsWXpUZkhndHBE?=
- =?utf-8?B?MjVBT2UxRG45cHYyMWUyc2RXYVpvQUg5THBwR2cwRnY5Tks4Z0VuV1ZJcG9q?=
- =?utf-8?B?dm1xY2tSRWd0MTNwVWd5VlJlUU1wZFJGWHdNYXh0SDhLU0ZVWWxxTm5tY3Yy?=
- =?utf-8?B?Rk44TUphU2o2SkxCZlM1MGdNNVR0NVlPMVR4RGNiMEFST2lWVjJ3VEVkd2lp?=
- =?utf-8?B?Y0JCUlVvek1pRWRGVzdoWGk2SGhJNkJ0amF0SHlrRlUvQUJ1N0NSK05iaVBY?=
- =?utf-8?B?bTBGMzIzNUJNMHdvNEtqYTNYeGF2N0RDTno3K1poQk52R3hoSytEUGNZRERt?=
- =?utf-8?B?LytqVjk3TlFWUnEwa2pDNUlLcmxVQ3NrSHEvN0N1WTJIZlFLTms4Yk1SRW5n?=
- =?utf-8?B?WGZ3TlRvUHgwdnVzWjZESW5PQm1vbUhaNnhiL1FXUWIwKzhoMXlVQWtyUkNH?=
- =?utf-8?B?VENCRXBLbStabG1XTEVRSG95ci9VcWZvR3l4alAvTDNBQWMwSGQyUUFXSng4?=
- =?utf-8?B?a1k4TnVRbkRCVjVMTnpKMHdySDZZN2wxdXR3M0FGQW5tZEU5b1daR1BXaW96?=
- =?utf-8?B?cEJnaUtYTkc5TzRTSm56K041UlFPcDV1S3ZmM3Z4cHJPdzI5eklnc3FLNWgz?=
- =?utf-8?B?UWFiRm8xbXJSR3hmdzBScEt0eGhpTHorMFB5d0tVV2xaYmJTbUFlWDRjVUN3?=
- =?utf-8?B?VnFDa1V3UnhiNDdHUEJ0UkFucUlhUXBCR2hmOVRkdkIzbmQ1TjF3SnpRSXZU?=
- =?utf-8?B?eDhpd2dFeHZXeUhJVzRGSG5tTlV4WjNPZE1oYVlDa3lOMDFDQmp5YkhFeElp?=
- =?utf-8?B?ZTFJK1EvamJ6TENobEdEaWYrNWp1UzYzbmJySVZpQU95L3Zyb2VFeUw3aUp4?=
- =?utf-8?B?eThiaFIxVzFLSHVjUE82Kyt1TklZRllBOUJINFN3ZnVJMTREK0U2b2g3bXh4?=
- =?utf-8?B?ODQzb1JNNURMYWl3eUdKaThiNk9EVmJteE5VTHhSbWZSSmNnWUJrM1JJQnVX?=
- =?utf-8?B?T2Q3a1pDb3lLZWJONXNRREhOQXF2cEcvZTRkN2VkODZVcFNpNXNBK2JFMWov?=
- =?utf-8?B?d3FhVVBvazlmNFJuTC94OGgyb3hLQm9HZEVUUUhScytKQjRRdXR0VnowTXJ3?=
- =?utf-8?B?RUpkTWxWQ0hHME1odGptWUJwU2ptVWxkZmJpc29udjVid041bzBqZE5ZNFY2?=
- =?utf-8?B?YndpTXRUY2JML2NjaGxBVkRoVDZDcWYraVpkOXU2WXljejNyQjF3SDYwbldM?=
- =?utf-8?B?MFZ2bEY1L21SY1BtMGJmY3psK2FpZnlCOXlCRDRMQytEZ3V1YUVwelQ1ZExU?=
- =?utf-8?B?a05JakhPcFFlSUdldndDTm9FeGlldTZvZnhFYmhXTTd4WW8wL3dHRUVDbHRj?=
- =?utf-8?B?M2RVZDl6d3kwVVJnaDNHdnRZNjV4T1B4cnZXckxPdGZFWHdNTnpZTnRDTWJX?=
- =?utf-8?B?RE5kQ216QmZSZk1XS3FQQ1RXeklJbFlIL2VsWE1nSXhjRnFVNFcrcjZudHJO?=
- =?utf-8?B?L2U0eFNjdlZvRDl1d0hiNXZBTGlQNXdIQWs2QWI5QUdrZWRYcXNaazd1dEhs?=
- =?utf-8?B?T0FGQ1ZBeGNEWlJLYjMvbEdQZlRaT09GS1p1a0VvVmFjdE5BSEdZaW0wSkhp?=
- =?utf-8?Q?Lx9L7EkB8XXGbypRfRIbFGpa4JVbWLFXO89ZUtZ?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAWPR02MB9149.eurprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230037)(366013)(41320700010)(1800799021)(38070700015); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UlhjZGNhRTVCK0tCZ0pWN0hIdVlXTXVic2VpM3BFeDBOcGZlUGMxZ2dVKzFS?=
- =?utf-8?B?aUlKNEYrSHhWWldrS1RJaGpPZ0NoRXRSR0J4YmU4bHl2NHMzbktoK2R5bEho?=
- =?utf-8?B?ek1tNGNHWU5Icm5QQk11V0FjQ20rd2dXaGNJbnRuYlpYK0dBZkVMcUxBaTI5?=
- =?utf-8?B?NnBqUXJDODhtVHJUQlgrbStoeCtYOUZTZjVqc0c4Q0w1SEJjVW9BWjd3Z1Fr?=
- =?utf-8?B?Zm1XRUxLbFFUNy9YM2tOR0l4ekVHUkw5NWJLeGM0aTliNklBNFF1NWg1RUVO?=
- =?utf-8?B?MVFVUkROUHk1QVdTazJtVFpDNzMySnBpblhnMDl0VkYwSTBvSU1jZktUMzlW?=
- =?utf-8?B?Y3hZVmk0cFdaVE55VmtaSGtYOGFGMXJHT1IrTHpJaHM5T3pRblZKbGY4RUw2?=
- =?utf-8?B?ZkxvdlNmdjBaaGlVQzRGakx6dHZ3TFRtNTNKZ3BQMUxCWVJZbks5T1R4NWE4?=
- =?utf-8?B?N3VnYmtnUmI1NzhEWFBacC80UzBWcEx3RmZJblI4MEY3WGVHUVVvL1F5V1lM?=
- =?utf-8?B?OGtINlI0VldDaEtBaTJyVVVpQ0lrcjZ0Z1Jqam42emZZZU5LQlJ6bW5UdVp1?=
- =?utf-8?B?M0ZHcG84eUNpaFB5blNFeXEvMytsdHVMVno1N3YrdmpRWUtSTnNHMEhTUkV6?=
- =?utf-8?B?a0JzM2g1VFA1SC9aWUZjWWpuSk5uRTdhakZnWGY3Qndjd2k0RFFSUXB5VFVJ?=
- =?utf-8?B?MGIyWHlJYzJTcElxM2praFhYKzNuYXNScXRxaHNzS1NRT2RjVkVkd0VjNFNI?=
- =?utf-8?B?ekJQWjJTL2VpL3NqVUQ5dXRGd1VadnM5Qmw4Vk8yT2lSKzFyVUl6a0FKcndl?=
- =?utf-8?B?UTBxTkRpZ1ozUnplcFF5V29vMWxPTytLM2Jyc2RJU3FyTWR0U0FqZlNVWlp5?=
- =?utf-8?B?K0FnZ3BuL0VJWjJCMzhyQzVoM0ZPTDlxakhjV1JnMVdoaG1NQXNMRmtYQy9i?=
- =?utf-8?B?OW9xSzFYYXRyMTlkbFdhOFJ1emVJREFKRGlKRStrby8xS1FyanY0OGhoZ04v?=
- =?utf-8?B?UWYzY2Y1WWdGaUdHNUIrdUo2MWJzbFhnK3M4NUM1R3JvZU5tSnI3ZlB3dU4v?=
- =?utf-8?B?RGRoeFlUSmJYbCtkc0g3UW1iUTNLYWZ6bkRsK2lWU3R1bWpOUHFhYXhjWXl2?=
- =?utf-8?B?ZHMxQW9MdEdLM1BkejBUeXNydmRVNDBuWTFPSTFRTDhXQ1lJd1FzbGtlbFhs?=
- =?utf-8?B?TGtpYitDZlFxa0lxMWlOdFp6aEZtbUV2b2VnL2RnSjgvTXc0blR0VTNMYWlw?=
- =?utf-8?B?ZWlFaG5NdEpadDhJT1dDNkZvWThCOWpSdGx3MGs2dUdjUkFjbEtMVXRGS2lR?=
- =?utf-8?B?WFowZVFYQnllRkJqQU5MMUl6dTdOVDNyZTBTRyt2TS83TisxNmZ0ZjBCQmJS?=
- =?utf-8?B?VUxwQnF2SEZHQkNpRFZJb0hkVk5pUE56NlNLQlNrbFE0enVUZVVsTHMrVUk4?=
- =?utf-8?B?WGNUNm1lSVBiK2loV0ZMZUJUbWxGY01oQTVTSENyWFpJTUdJVTdpK1JDV2VN?=
- =?utf-8?B?dlVHdHZNSkhHaEhQRU9OQlVxTFMyaVhCd0REUmp0Tm9pR2lhQUhhK2ttRjM2?=
- =?utf-8?B?UmtUN0xlOXdZa0J6OFZsOFM5bjRPc3RaZnRtL0M2K3huNGxoelByVjR5RzVx?=
- =?utf-8?B?aWdMRWJoT05jZnpNdWM5djNkQ2RjMVZrVkhwODVVV2ZGUzZIRDNwTm92bUdu?=
- =?utf-8?B?WmRQdzUrY0pkbWZQeElkVEFTT1B4VWc1SEZISWU4WlpEV29YZjNPVjZ0ZGt3?=
- =?utf-8?B?aXJ4b2U5a29lb2gzaEoydE9Sc3RUc2Vwb2V4bjRTYXlpS3p0eVJoTmxiRUNj?=
- =?utf-8?B?S3BrVzM0VE15R2x6UlFiNURXTlBTemdab2JZSitsWkRSdnNGWFRINnZZckx5?=
- =?utf-8?B?L0x2aXp5YUtBNjJ3dVlmNWdkWUthWFhzbGJmWjN4WGxjcDJqMFdCSEZnZmYv?=
- =?utf-8?B?WHFmWjlPZFdMSDRWZVl3UVpiNm1LTzhzRE1uU3p0bzJiT3FoSVRIRXljWTdj?=
- =?utf-8?B?bEZvUUlDYThvVmZYMFpRS0xKL2FKbmE5a1BOOUFuaUNlbXMvS2tWdHdrSHla?=
- =?utf-8?B?MTZLZGUxU3U1aW1RZERPNjJvN3NVR0RpajlGckl6dHNNQ1UzbEhwMzNCU1Bx?=
- =?utf-8?Q?IASOpc+Dp7qS+NipWLQFVb/11?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F920DC35158ACB42976B06FB52FE1646@eurprd02.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F39F10E0C3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 13:59:49 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-57c778b5742so6371994a12.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 06:59:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1718719188; x=1719323988; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Adi2wWb7CQgdnxLc6JlMBQCMQ7TabQhjqNcj/v5iN0I=;
+ b=Tou4doA5k3YBbSHFNt9yMeaRcHhfSbfpB74Av5O4EhmVD66JugeSJsprv8SUrBOV1O
+ hseRskGKGhqpZ4hvwY8ihBgBD85iqkbBkdZ76JfOCLKJijvS/34dMcp61LcCLppKrwSs
+ enrgoxxgqvJ0guRKbsHUnFNb+NiqllxTxHuK25d4myGf0nTiONPquMP5aPMMXgn6H6pu
+ 7jzsc2Z/9J2cm0IhjQT23b3GPyRA6H0YkSTGuDU398/NYeCQ7ShPsY/WJYS0rg0QhNVt
+ kG7Fvy8P0Xz3jj2v+kkLOhVT+6hYaxMeDeYFGVkBJwv8iLCDRQNAHOgmddeAdMsU288S
+ fHHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718719188; x=1719323988;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Adi2wWb7CQgdnxLc6JlMBQCMQ7TabQhjqNcj/v5iN0I=;
+ b=RhZkQOTHgv6GMlE/7aAGtTzILc23YdW79tTCLocLg5Bv+5ife8zMs/TEUgKl4Fshxr
+ xStCzry3J3LvUSI6ORCi8Ov1iF1OCuKgyPwPR2no+1ptYnS/JKbaJMk83yrmrVNuGHtO
+ 3dhkYOnnn2r0u4/t/b/XjxUwxS44AOQjS2q64TGGNXNhxc7loj+YQ1VWBP7e0azzI7/2
+ AQlREyVKNPj3NVd3mDAV39C68WuWWBPUvDCnanM099BDpl7KQygJ5ofvLLQjKUs1bRCR
+ a145L62gvGtsI2K9cDutd4Feos3obEKSjev6CJvl/jLE2iBXiO08nhKS5UhiEC0OX3zp
+ pAyg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWemKzrz6oRhJlQfWvk3oZaKaHZyN/euytHmvfF/OTTKN7UQknD6A9gIpg8JR5qrhYe8ZXC2VLxX3L0YDTMfUS4doFHnW5htxfaigJ7f+n1
+X-Gm-Message-State: AOJu0YybK+DXj9K6h4SsjUAaTe2hTmKgh0s2yRoLGhP/CUqn+t+AfimH
+ 83gowDpc5JyzkIsjSNCWSNIs/nVQQMGT1GGKWd1Q4r4m4ShDt5ElDe9n3lf1
+X-Google-Smtp-Source: AGHT+IHkXZgoTKxIUb0ylYKUXiHMUMsGLjdaUUwhyfeBvSUWkw++uYmoTYRWLAznXRQEGKmegPpZkA==
+X-Received: by 2002:a05:6402:2c5:b0:57d:5e:83f0 with SMTP id
+ 4fb4d7f45d1cf-57d005e8481mr820906a12.14.1718719187201; 
+ Tue, 18 Jun 2024 06:59:47 -0700 (PDT)
+Received: from [127.0.1.1] (mm-167-232-122-178.mgts.dynamic.pppoe.byfly.by.
+ [178.122.232.167]) by smtp.googlemail.com with ESMTPSA id
+ 4fb4d7f45d1cf-57cb72da156sm7731278a12.22.2024.06.18.06.59.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Jun 2024 06:59:46 -0700 (PDT)
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Subject: [PATCH v3 00/23] This is continued work on Samsung S9(SM-9600)
+ starqltechn
+Date: Tue, 18 Jun 2024 16:59:34 +0300
+Message-Id: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 76sAQlH9PYpQ7BmVlQyWYVHjvY/EihU4gwThZSubMh7zCJfKJLm0Yj6mmgG0KmUmrpcxLbrPqef3INz1EmLXftFaTli8oDojm7j9G0QIu6MvOXk4TTs6Q7I7wBARmBbyUbzeaJz3WbBZNU+bc9GE6OCRMM/sbGYxitGse3uwOkfBH2y7GoRu/impkQHQMuQGzcVqjpO2qURb1BqhggH2D+uxIWAKvskOmRWqg9g/8iHIgz/1/QqdZKYi8Dg11gbFls6aeJc4a/JfzcDL+0579C/FoOAfj5NgZCaUO7GDlVDfSkFKUJApE9durMf4LUbQtJCGZVccn0CieIc8M0J7pr0Iqj+kcKkrShUND0iSB7LiPSmw2cZm8pw/D9z6csmq7aX4TCu/uMxvckTypYqo32fadFRMKLPtYPMJRc/srNr/+JyTdvXPcjt5+CQARj8LLkkg4A1jMBq49YF3rvPEyyg7O3IgeCAZeXE5cneLMBinsREsioDQSfc14cppJnG9JY1aY0x9hW2Ef6mz/mU4SLFMLVuN470ytWeJcHT1M2EjO9/dtxrYxAUVDeu3LFvyGsLUXmYBgbdvhMihH2OP9Nh3A1SxWRtPxRkvdTtY3idDeM75xthJnx1cOrZuXZyT
-X-OriginatorOrg: habana.ai
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAWPR02MB9149.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd263aec-bd6b-4401-0658-08dc8f880a94
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jun 2024 11:16:03.5465 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0d4d4539-213c-4ed8-a251-dc9766ba127a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ScLm34LKhJwV5UMwvcdb+EGFweMLwhucODyNYIvRxTjU0ya70z4Ts6QCRutWnBXxJcZnfiupr0B8RgZH1L7Rwg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR02MB9189
-X-MailControlDKIMCheck: cGFzcyBoYWJhbmEuYWkgW3Bhc3Nd
-X-MailControl-OutInfo: MTcxODcwOTM5MzpGUEtleTEucHJpdjqAngs71bMegzlI48cK9kAvGk0cr0ixh8m+qPCVeD+kJgMrKl92Ud1FlMbhvwYo/pXeFWZ0jjrvss3Q7CXWny5506dZM/AE/VBD36igTryBOPdCs2BYKyiZnj4fyUaS++MWqUZZY8o2f4t6WiBm2PNcstrPpsxyNE7kCB598dldMPofZQe3CELloCtSemoMW+oV5MlQLo0K0RIXZPEDwsR+J1BNibWuvOarnGMR+Z6Ep9Ih4B0XA9XwudGhy5dfMvdEmI7QbxU715B1aLvrlNKAyIkNTEhlWDWgxGqqkDbd8EMUSYM9gDq45TD7YuIR2Yu/6fruyvyB6+UjURExs/5O
-X-Scanned-By: MailControl 44278.2143 (www.mailcontrol.com) on 10.68.1.126
-X-Mailman-Approved-At: Tue, 18 Jun 2024 20:22:03 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMaScWYC/x2N0QrCMAxFf2Xk2ULddA5/RWSkNVsDNc60E2Hs3
+ w0+ngP33A0KKVOBa7OB0ocLv8SgOzQQE8pMjh/G0Pr25PvjxZWK+s6VYpKRpdKsWG0zrkupSvh
+ 0IQ79cPahnagDywQs5IKixGQhWXM2uShN/P3/3u77/gNgLEi3hwAAAA==
+To: Sebastian Reichel <sre@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, phone-devel@vger.kernel.org
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ Dzmitry Sankouski <dsankouski@gmail.com>, Rose Hudson <rose@krx.sh>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718719184; l=5095;
+ i=dsankouski@gmail.com; s=20240618; h=from:subject:message-id;
+ bh=NSipSLp2nG6EjiX/c5tUJTeTkiL6bf1l/S7iaC8WvW0=;
+ b=Sr8pA2ujQFTHIDig3qhFg2f1KEeBbgU4VxItfHedbfa6oxlb7f4Sec7x5JgfHjY52G/css65m
+ KY4otbWl+7dB0CpeN2Z/x/SuDr4cWH2saHT22U9tDUZGj+70EOppvtS
+X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
+ pk=6pMMVVDDReSiRgPCbMOUauN5nS3ty4Sf5b7a2gi4x0M=
+X-Mailman-Approved-At: Tue, 18 Jun 2024 20:22:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -187,15 +112,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gNi8xNS8yNCAxMzo1NSwgWmh1IFlhbmp1biB3cm90ZToNCj4gW1lvdSBkb24ndCBvZnRlbiBn
-ZXQgZW1haWwgZnJvbSB5YW5qdW4uemh1QGxpbnV4LmRldi4gTGVhcm4gd2h5IHRoaXMgaXMgaW1w
-b3J0YW50IGF0IGh0dHBzOi8vYWthLm1zL0xlYXJuQWJvdXRTZW5kZXJJZGVudGlmaWNhdGlvbiBd
-DQo+DQo+IOWcqCAyMDI0LzYvMTMgMTY6MjIsIE9tZXIgU2hwaWdlbG1hbiDlhpnpgZM6DQo+PiAr
-DQo+PiArLyogVGhpcyBmdW5jdGlvbiBzaG91bGQgYmUgY2FsbGVkIGFmdGVyIGN0cmxfbG9jayB3
-YXMgdGFrZW4gKi8NCj4NCj4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tl
-cm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0L3RyZWUvRG9jdW1lbnRhdGlvbi9kZXYtdG9vbHMv
-c3BhcnNlLnJzdD9oPXY2LjEwLXJjMyNuNjQNCj4NCj4gIg0KPiBfX211c3RfaG9sZCAtIFRoZSBz
-cGVjaWZpZWQgbG9jayBpcyBoZWxkIG9uIGZ1bmN0aW9uIGVudHJ5IGFuZCBleGl0Lg0KPiAiDQo+
-IEFkZCAiX19tdXN0X2hvbGQiIHRvIGNvbmZpcm0gIlRoZSBzcGVjaWZpZWQgbG9jayBpcyBoZWxk
-IG9uIGZ1bmN0aW9uDQo+IGVudHJ5IGFuZCBleGl0LiIgPw0KPg0KPiBaaHUgWWFuanVuDQoNClRo
-YW5rcywgSSdsbCBhZGQgaXQuDQoNCg==
+Add support for new features:
+- sound (headphones and mics only)
+- gpu
+- panel
+- buttons
+- MAX77705 MFD:
+  - charger
+  - fuelgauge
+  - haptic
+  - led
+
+Changes in version 2:
+- s2dos05 regulator:
+  - hex to decimal in regulator values
+  - fix compatible value
+  - remove interrupt specific code, because it's
+    empty in vendor kernel, and I cannot test it on
+    available hardware anyway.
+
+Changes in version 3:
+Version 3 has significant changes:
+- more drivers added
+- s2dos05 driver converted to MFD
+- disable crypto patch removed(disabled on distro level)
+- dts framebuffer node along with related patches removed,
+because panel driver added
+- fix 'make O=.output_arm64 CHECK_DTBS=y qcom/sdm845-samsung-starqltechn.dtb'
+errors, but it still complains on 'monitored-battery' and
+'power-supplies' though I have 'power-supply.yaml' link in charger
+and fuel gauge bindings.
+
+Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+---
+Dzmitry Sankouski (23):
+      power: supply: add undervoltage health status property
+      gcc-sdm845: Add rates to the GP clocks
+      dt-bindings: panel: add Samsung s6e3ha8
+      dt-bindings: mfd: add maxim,max77705
+      dt-bindings: input: add maxim,max77705-haptic
+      dt-bindings: power: supply: add maxim,max77705 charger
+      dt-bindings: power: supply: add maxim,max77705
+      dt-bindings: led: add maxim,max77705-leds
+      dt-bindings: mfd: add samsung,s2dos05
+      dt-bindings: regulator: add samsung,s2dos05
+      drm/panel: Add support for S6E3HA8 panel driver
+      mfd: Add new driver for MAX77705 PMIC
+      input: add max77705 haptic driver
+      power: supply: max77705: Add charger driver for Maxim 77705
+      power: supply: max77705: Add fuel gauge driver for Maxim 77705
+      leds: max77705: Add LEDs support
+      mfd: add s2dos series core driver
+      regulator: add s2dos05 regulator support
+      power: supply: s2dos05: Add fuel gauge driver for s2dos05
+      arm64: dts: qcom: starqltechn: remove wifi
+      arm64: dts: qcom: starqltechn: remove framebuffer
+      arm64: dts: qcom: starqltechn: fix usb regulator mistake
+      arm64: dts: qcom: starqltechn: add new features
+
+ .../bindings/display/panel/samsung,s6e3ha8.yaml    |  76 ++
+ .../devicetree/bindings/input/maxim,max77705.yaml  |  31 +
+ .../devicetree/bindings/leds/maxim,max77705.yaml   |  45 ++
+ .../devicetree/bindings/mfd/maxim,max77705.yaml    | 112 +++
+ .../devicetree/bindings/mfd/samsung,s2dos05.yaml   |  89 +++
+ .../power/supply/maxim,max77705-charger.yaml       |  30 +
+ .../bindings/power/supply/maxim,max77705-fg.yaml   |  35 +
+ .../bindings/regulator/samsung,s2dos05.yaml        |  36 +
+ MAINTAINERS                                        |  15 +
+ .../boot/dts/qcom/sdm845-samsung-starqltechn.dts   | 607 +++++++++++++++-
+ drivers/clk/qcom/gcc-sdm845.c                      |  14 +
+ drivers/gpu/drm/panel/Kconfig                      |   7 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c      | 426 ++++++++++++
+ drivers/input/misc/Kconfig                         |  11 +
+ drivers/input/misc/Makefile                        |   1 +
+ drivers/input/misc/max77705-haptic.c               | 378 ++++++++++
+ drivers/leds/Kconfig                               |   6 +
+ drivers/leds/Makefile                              |   1 +
+ drivers/leds/leds-max77705.c                       | 166 +++++
+ drivers/mfd/Kconfig                                |  25 +
+ drivers/mfd/Makefile                               |   3 +
+ drivers/mfd/max77705-core.c                        | 278 ++++++++
+ drivers/mfd/max77705-irq.c                         | 299 ++++++++
+ drivers/mfd/s2dos-core.c                           | 141 ++++
+ drivers/power/supply/Kconfig                       |  21 +
+ drivers/power/supply/Makefile                      |   3 +
+ drivers/power/supply/max77705_charger.c            | 772 +++++++++++++++++++++
+ drivers/power/supply/max77705_fuelgauge.c          | 624 +++++++++++++++++
+ drivers/power/supply/s2dos05-fg.c                  | 427 ++++++++++++
+ drivers/regulator/Kconfig                          |   8 +
+ drivers/regulator/Makefile                         |   1 +
+ drivers/regulator/s2dos05-regulator.c              | 362 ++++++++++
+ include/linux/mfd/max77705-private.h               | 281 ++++++++
+ include/linux/mfd/max77705.h                       |  20 +
+ include/linux/mfd/max77705_charger.h               | 225 ++++++
+ include/linux/mfd/s2dos05.h                        | 123 ++++
+ include/linux/mfd/samsung/s2dos-core.h             |  21 +
+ include/linux/mfd/samsung/s2dos05.h                | 115 +++
+ include/linux/power/max77705_fuelgauge.h           | 107 +++
+ include/linux/power_supply.h                       |   1 +
+ 41 files changed, 5927 insertions(+), 17 deletions(-)
+---
+base-commit: 6906a84c482f098d31486df8dc98cead21cce2d0
+change-id: 20240617-starqltechn_integration_upstream-bc86850b2fe3
+
+Best regards,
+-- 
+Dzmitry Sankouski <dsankouski@gmail.com>
+
