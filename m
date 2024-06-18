@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC9C190DD65
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 22:23:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E558F90DD5B
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 22:23:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5A5210E7C7;
-	Tue, 18 Jun 2024 20:23:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C00F510E7B7;
+	Tue, 18 Jun 2024 20:22:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OH6GOAKF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X9SxgqIo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CD7910E0C3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 14:00:26 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id
- 4fb4d7f45d1cf-57c83100c5fso5997091a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 07:00:26 -0700 (PDT)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81B4E10E0C3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 14:00:28 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-57d046f4afdso268526a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 07:00:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718719224; x=1719324024; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1718719227; x=1719324027; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=OEluC/nRoMdvS4Ro4zahM5vs8cVpDlDDLc77qRFJKWo=;
- b=OH6GOAKFZeF1xg7GayIHyC9MInd8JUrx8WTIdR/QSPhyauTZm9fwGJU6O+hALlcK4i
- 5tcZ82UC5QxNoQGbXBsLJpmBLX+pyzmAVopr9xMqje8USUqdKVMyV2XjsLfCU43XM7HR
- /VEku0/9PSm++iwoqhRPPk1H3eJZ+faBDwXD1DfH1NM6snU2KXwduPkg5Txv06uuvlIq
- 1QF1TCnQtB8/VS0MXnmGGqAvovvDZkxCT0ZgUf42Xq1RmCiAfEI/z89egfemrBMHQAfc
- 32q22y3hEhm0r/WpiRbyKeLtzpZNGXr1m7ys6nGMwU6fWGCpOmSnxDUj/U4uTAo986Zp
- lucw==
+ :reply-to; bh=lVpSUbQ0RxUxTD6Qqs+KFz8X9qCBPybUa3iBtTp8xZM=;
+ b=X9SxgqIozdercT6iUw6kyr6tk6F6O0WgdOReL7lH4hkVDDBU0DJQSk66a4ZBLWvUPE
+ 4qCGlPrTN2L21tetIUX/6ahwQ2IlX1Yt4kaIDAUJAusKyKuON+MU+dtRfr15lQl2m9SA
+ noYI5R19jRew48e79pkFLgsdgYkMUYILZleoTcQLEcjBTObbcJYZ9jrWa0uggDUiilnk
+ sMs4hZMKjqM8WrNi7oWMt+nzCoT83wltfubcdOlObmeLaOgpta2UBun0tF5/xx/ECYbf
+ kLe7jtO2Fvw0sSn6w9megFssWQGuEMG9tKQoz8Zn0eKXJoGGX216GWV492hJkm0SH+JD
+ w23A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718719224; x=1719324024;
+ d=1e100.net; s=20230601; t=1718719227; x=1719324027;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OEluC/nRoMdvS4Ro4zahM5vs8cVpDlDDLc77qRFJKWo=;
- b=WeJsh/5Jmjsz6ehIM87Tvdl2e1qkYQscvFW2t9VG4xq4OBqX5kdWyWBLyAF7vdXIAQ
- Rk3vK5/4dIluFIVsgaAIvwfSnIVNMmPOc4SI/uEvutoxbplMPgC5qC2AoTR4+jEH3pQM
- ALwtxi1wfsWla+CyJSa/e7eAQKc5oZvM11wuxthbjKwFvUl84TAe4qWerkGRzqDROFI+
- 00S9ngzhe4oueRUO9rW7SrIqgMbQhRPBW6ioCCGDqreHw8L/TxZNV3dXlijHB3TXz5T4
- 0/X8yEEvESS3EbgIdH/wse+GaUJyFXcUaE3+NQN3GA2IW4rGnOFSrWFEpT173BJm7u+H
- HU+g==
+ bh=lVpSUbQ0RxUxTD6Qqs+KFz8X9qCBPybUa3iBtTp8xZM=;
+ b=t8YhGLK4hSVm+i2lWXLRDcFvMXozJMRfSh5WbrpESU+lQoKoTIwofhhUGKwCPv9Jbk
+ vihAyCfECbBJ/72ti4YAlkMwFnlNB8JKgeGagsAO3dHkqwJxBtYSDfd8HRMe8+rdhgN4
+ vwHVZ0DE6qnHAFCSxB/3JtsDUUTEWLGulonEVvTQWotLAhh8Fm8eQKD2f6tUFRpcG8b8
+ Dgkty2vabGMowiBNWOqETY7zkWwdWpbYxjyijn/Lnlew4SZWv5cy15FWYJiSGg6KJUbD
+ HmePE7igEA+vFiABZWauBvnV/xpCkEdnLi3GpCo8Mo0e3rrFu4ipIpQF2BJf9b9IS+3n
+ k6Gw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVOqXKyOfoTugfQsha2P112PqEcmDS7bnCo34Ag8lRbeEXU0Sv2UU3pbOqng9EWUomTftHsX0xQKUhSGUsHU1WMa9xyTfCjrgTT7X50rM0M
-X-Gm-Message-State: AOJu0YxwTqA/nLFyXFfDLlsmZBegEAuRIS46d2D2HvLgGhWHqL3ABbia
- b3X8eOSUDAEL3WTcXKezDXbSlmlzfxLXCUlKmZF+jjdAUCcMSI/FiJMz7lgU
-X-Google-Smtp-Source: AGHT+IEXoTD4UVq/0bh14D5fCZNipCHOrom/4r6nnwXy173CyH9/8knLg1HbtmmM6CIGaSTERIqipw==
-X-Received: by 2002:a50:9b48:0:b0:57c:7676:ea4d with SMTP id
- 4fb4d7f45d1cf-57cbd682be9mr7568090a12.13.1718719224127; 
- Tue, 18 Jun 2024 07:00:24 -0700 (PDT)
+ AJvYcCWadNv2zT2DJMV5DWEPUvmJ2q5ueJft94xavvjtzBgUqq8hma1Ub4cIYj3X0/3M1ErFcMSlOUhHH49CYFWC0xnMFxfwu2+Sn1AMMyhzN5Tr
+X-Gm-Message-State: AOJu0YzPf0KsoDVVWnbBZNgz8c+zGG1UdPKimpEcLoMQbcuhWUy9IAq1
+ GT1thLJ9lVZ3w8tD7xFfSZGqXb9IMDynigpbThJP0ROhFNDEgSKALafMag==
+X-Google-Smtp-Source: AGHT+IHe/0ra3yC6deGQmpMua4UTqdcMRRszmsFv8+QoEjoDXgFjZqQesDDjmgynaNQbxBP6akhjMw==
+X-Received: by 2002:aa7:ce04:0:b0:57d:3cf:899d with SMTP id
+ 4fb4d7f45d1cf-57d03cf8aa2mr974692a12.22.1718719226445; 
+ Tue, 18 Jun 2024 07:00:26 -0700 (PDT)
 Received: from [127.0.1.1] (mm-167-232-122-178.mgts.dynamic.pppoe.byfly.by.
  [178.122.232.167]) by smtp.googlemail.com with ESMTPSA id
- 4fb4d7f45d1cf-57cb72da156sm7731278a12.22.2024.06.18.07.00.22
+ 4fb4d7f45d1cf-57cb72da156sm7731278a12.22.2024.06.18.07.00.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jun 2024 07:00:23 -0700 (PDT)
+ Tue, 18 Jun 2024 07:00:26 -0700 (PDT)
 From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Tue, 18 Jun 2024 16:59:50 +0300
-Subject: [PATCH v3 16/23] leds: max77705: Add LEDs support
+Date: Tue, 18 Jun 2024 16:59:51 +0300
+Subject: [PATCH v3 17/23] mfd: add s2dos series core driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240618-starqltechn_integration_upstream-v3-16-e3f6662017ac@gmail.com>
+Message-Id: <20240618-starqltechn_integration_upstream-v3-17-e3f6662017ac@gmail.com>
 References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
 In-Reply-To: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
 To: Sebastian Reichel <sre@kernel.org>, 
@@ -87,11 +87,11 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
  Dzmitry Sankouski <dsankouski@gmail.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718719185; l=6791;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718719185; l=10509;
  i=dsankouski@gmail.com; s=20240618; h=from:subject:message-id;
- bh=pPwrFR5exq+IxTWESOD7VyV5pvbIzgEk0udUDtiXqZg=;
- b=L9i9P5Ho7DBA/hISx6SLpWJuEv3//Q9yHsSr3YHDDzpUOQotvp/jufa3+eEe2F3R7zNpjo4ID
- wvCHTWg9mzSDgKnrLjvEgBpfMTFTttsEnSsmZzX1v9P8ucbLM/kivkc
+ bh=IHZAr5+Cdn0wmqhOZ2PeM9l2Gdz/tWq1OFfADxf5XIQ=;
+ b=l66fMD8sHB8UJYTpLpJ1ay3lJvzfpqGlDq6nPosqrMEDYoFHMPD/dy7mDaSAk2An0pOO6QxUi
+ qEyrqTzd98iCKNsZDfsTPkuE8JTVRSRulb9nsxxFrfA4H6vj652yV10
 X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
  pk=6pMMVVDDReSiRgPCbMOUauN5nS3ty4Sf5b7a2gi4x0M=
 X-Mailman-Approved-At: Tue, 18 Jun 2024 20:22:03 +0000
@@ -110,229 +110,364 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds basic support for LEDs for the max77705 PMIC.
+S2DOS05 is a panel/touchscreen PMIC, often found in
+Samsung phones. We define 2 sub-devices for which drivers will
+be added in subsequent patches.
 
 Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
 ---
- MAINTAINERS                  |   1 +
- drivers/leds/Kconfig         |   6 ++
- drivers/leds/Makefile        |   1 +
- drivers/leds/leds-max77705.c | 166 +++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 174 insertions(+)
+ MAINTAINERS                            |   1 +
+ drivers/mfd/Kconfig                    |  13 +++
+ drivers/mfd/Makefile                   |   2 +-
+ drivers/mfd/s2dos-core.c               | 141 +++++++++++++++++++++++++++++++++
+ include/linux/mfd/samsung/s2dos-core.h |  21 +++++
+ include/linux/mfd/samsung/s2dos05.h    | 115 +++++++++++++++++++++++++++
+ 6 files changed, 292 insertions(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index f66f08825db9..f3c245d432d9 100644
+index f3c245d432d9..b53462684a30 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -13691,6 +13691,7 @@ F:	drivers/*/max14577*.c
- F:	drivers/*/max77686*.c
- F:	drivers/*/max77693*.c
- F:	drivers/*/max77705*.c
-+F:	drivers/leds/leds-max77705.c
- F:	drivers/clk/clk-max77686.c
- F:	drivers/extcon/extcon-max14577.c
- F:	drivers/extcon/extcon-max77693.c
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 05e6af88b88c..14d483011308 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -728,6 +728,12 @@ config LEDS_MAX77650
- 	help
- 	  LEDs driver for MAX77650 family of PMICs from Maxim Integrated.
+@@ -19908,6 +19908,7 @@ F:	Documentation/devicetree/bindings/regulator/samsung,s2dos*.yaml
+ F:	Documentation/devicetree/bindings/regulator/samsung,s2m*.yaml
+ F:	Documentation/devicetree/bindings/regulator/samsung,s5m*.yaml
+ F:	drivers/clk/clk-s2mps11.c
++F:	drivers/mfd/s2dos*.c
+ F:	drivers/mfd/sec*.c
+ F:	drivers/regulator/s2m*.c
+ F:	drivers/regulator/s5m*.c
+diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+index c4eb8ff2dcad..517d8778d7a8 100644
+--- a/drivers/mfd/Kconfig
++++ b/drivers/mfd/Kconfig
+@@ -1278,6 +1278,19 @@ config MFD_RN5T618
+ 	  additional drivers must be enabled in order to use the
+ 	  functionality of the device.
  
-+config LEDS_MAX77705
-+	tristate "LED support for Maxim MAX77705 RGB"
-+	depends on MFD_MAX77705 && LEDS_CLASS && I2C
++config MFD_S2DOS_CORE
++	tristate "Samsung Electronics PMIC Series Support"
++	depends on I2C=y
++	depends on OF
++	select MFD_CORE
++	select REGMAP_I2C
 +	help
-+	  LED driver for MAX77705 MFD chip from Maxim Integrated.
++	  Support for the Samsung Electronics PMIC devices
++	  usually used to power displays.
++	  This driver provides common support for accessing the device,
++	  additional drivers must be enabled in order to use the functionality
++	  of the device.
 +
- config LEDS_MAX8997
- 	tristate "LED support for MAX8997 PMIC"
- 	depends on LEDS_CLASS && MFD_MAX8997
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index effdfc6f1e95..be064e3d678e 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -58,6 +58,7 @@ obj-$(CONFIG_LEDS_LP8860)		+= leds-lp8860.o
- obj-$(CONFIG_LEDS_LT3593)		+= leds-lt3593.o
- obj-$(CONFIG_LEDS_MAX5970)		+= leds-max5970.o
- obj-$(CONFIG_LEDS_MAX77650)		+= leds-max77650.o
-+obj-$(CONFIG_LEDS_MAX77705)		+= leds-max77705.o
- obj-$(CONFIG_LEDS_MAX8997)		+= leds-max8997.o
- obj-$(CONFIG_LEDS_MC13783)		+= leds-mc13783.o
- obj-$(CONFIG_LEDS_MENF21BMC)		+= leds-menf21bmc.o
-diff --git a/drivers/leds/leds-max77705.c b/drivers/leds/leds-max77705.c
+ config MFD_SEC_CORE
+ 	tristate "Samsung Electronics PMIC Series Support"
+ 	depends on I2C=y
+diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+index bf65cc36d59c..37c51aab0205 100644
+--- a/drivers/mfd/Makefile
++++ b/drivers/mfd/Makefile
+@@ -228,7 +228,7 @@ obj-$(CONFIG_MFD_RK8XX_I2C)	+= rk8xx-i2c.o
+ obj-$(CONFIG_MFD_RK8XX_SPI)	+= rk8xx-spi.o
+ obj-$(CONFIG_MFD_RN5T618)	+= rn5t618.o
+ obj-$(CONFIG_MFD_SEC_CORE)	+= sec-core.o sec-irq.o
+-obj-$(CONFIG_MFD_S2DOS05)	+= s2dos05.o
++obj-$(CONFIG_MFD_S2DOS_CORE)	+= s2dos-core.o
+ obj-$(CONFIG_MFD_SYSCON)	+= syscon.o
+ obj-$(CONFIG_MFD_LM3533)	+= lm3533-core.o lm3533-ctrlbank.o
+ obj-$(CONFIG_MFD_VEXPRESS_SYSREG)	+= vexpress-sysreg.o
+diff --git a/drivers/mfd/s2dos-core.c b/drivers/mfd/s2dos-core.c
 new file mode 100644
-index 000000000000..f91c0e41056c
+index 000000000000..a04363b15a2a
 --- /dev/null
-+++ b/drivers/leds/leds-max77705.c
-@@ -0,0 +1,166 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/drivers/mfd/s2dos-core.c
+@@ -0,0 +1,141 @@
++// SPDX-License-Identifier: GPL-2.0+
 +/*
-+ * Based on leds-max77650 driver:
-+ *		Copyright (C) 2018 BayLibre SAS
-+ *		Author: Bartosz Golaszewski <bgolaszewski@baylibre.com>
++ * s2dos05.c - mfd core driver for the s2dos05 chip
 + *
-+ * LED driver for MAXIM 77705 MFD.
-+ * Copyright (C) 2024 Dzmitry Sankouski <dsankouski@gmail.org>
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ *
++ * Copyright (C) 2024 Dzmitry Sankouski <dsankouski@gmail.com>
++ *
 + */
 +
-+#include <linux/i2c.h>
-+#include <linux/leds.h>
-+#include <linux/mfd/max77705.h>
-+#include <linux/mfd/max77705-private.h>
 +#include <linux/module.h>
++#include <linux/slab.h>
++#include <linux/i2c.h>
++#include <linux/irq.h>
++#include <linux/interrupt.h>
++#include <linux/mutex.h>
++#include <linux/mfd/core.h>
++#include <linux/mfd/samsung/s2dos-core.h>
++#include <linux/mfd/samsung/s2dos05.h>
++#include <linux/platform_device.h>
++#include <linux/regmap.h>
++#include <linux/debugfs.h>
++#include <linux/of_device.h>
++#include <linux/of_gpio.h>
++
++static struct dentry *debugfs_file;
++
++static int s2dos05_debugfs_show(struct seq_file *s, void *data)
++{
++	struct s2dos_core *s2dos05 = s->private;
++	struct regmap *regmap = s2dos05->regmap;
++	unsigned int i, reg, reg_data, pmic_id;
++	int regs[] = {
++		S2DOS05_REG_DEV_ID,
++		S2DOS05_REG_TOPSYS_STAT,
++		S2DOS05_REG_STAT,
++		S2DOS05_REG_EN,
++		S2DOS05_REG_LDO1_CFG,
++		S2DOS05_REG_LDO2_CFG,
++		S2DOS05_REG_LDO3_CFG,
++		S2DOS05_REG_LDO4_CFG,
++		S2DOS05_REG_BUCK_CFG,
++		S2DOS05_REG_BUCK_VOUT,
++		S2DOS05_REG_IRQ_MASK,
++		S2DOS05_REG_SSD_TSD,
++		S2DOS05_REG_OCL,
++		S2DOS05_REG_IRQ
++	};
++	regmap_read(regmap, S2DOS05_REG_DEV_ID, &pmic_id);
++	seq_printf(s, "S2DOS05, id: %d\n", pmic_id);
++	seq_puts(s, "===================\n");
++	for (i = 0; i < ARRAY_SIZE(regs); i++) {
++		reg = regs[i];
++		regmap_read(regmap, reg, &reg_data);
++		seq_printf(s, "0x%02x:\t0x%02x\n", reg, reg_data);
++	}
++
++	seq_puts(s, "\n");
++	return 0;
++}
++
++DEFINE_SHOW_ATTRIBUTE(s2dos05_debugfs);
++
++static const struct regmap_config s2dos05_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.max_register = S2DOS05_REG_IRQ,
++};
++
++static struct mfd_cell s2dos05_devs[] = {
++	{ .name = "s2dos05-fg" },
++	{
++		.name = "s2dos05-regulator",
++		.of_compatible = "samsung,s2dos05-regulator",
++	},
++};
++
++
++static int s2dos05_i2c_probe(struct i2c_client *i2c)
++{
++	struct s2dos_core *s2dos05;
++	struct regmap *regmap;
++	struct device *dev = &i2c->dev;
++
++	unsigned int reg_data;
++	int ret = 0;
++
++	s2dos05 = kzalloc(sizeof(struct s2dos_core), GFP_KERNEL);
++	if (!s2dos05)
++		return -ENOMEM;
++
++	regmap = devm_regmap_init_i2c(i2c, &s2dos05_regmap_config);
++	if (IS_ERR(regmap)) {
++		dev_err(dev, "Unable to initialise I2C Regmap\n");
++		return PTR_ERR(regmap);
++	}
++	s2dos05->regmap = regmap;
++
++	if (regmap_read(regmap, S2DOS05_REG_DEV_ID, &reg_data) < 0) {
++		dev_err(dev,
++			"device not found on this channel (this is not an error)\n");
++		ret = -ENODEV;
++	} else {
++		dev_info(dev, "%s device found with id: .0x%x\n",
++				__func__, reg_data);
++	}
++
++	i2c_set_clientdata(i2c, s2dos05);
++
++	debugfs_file = debugfs_create_file("s2dos05-regs",
++				0664, NULL, (void *)s2dos05,
++				  &s2dos05_debugfs_fops);
++	if (!debugfs_file)
++		dev_err(dev, "Failed to create debugfs file\n");
++
++	return mfd_add_devices(dev, -1, s2dos05_devs,
++			ARRAY_SIZE(s2dos05_devs), NULL, 0, NULL);
++}
++
++static const struct of_device_id s2dos05_i2c_dt_ids[] = {
++	{ .compatible = "samsung,s2dos05-pmic" },
++	{ },
++};
++MODULE_DEVICE_TABLE(of, s2dos05_i2c_dt_ids);
++
++static struct i2c_driver s2dos05_i2c_driver = {
++	.driver		= {
++		.name	= "s2dos-core",
++		.owner	= THIS_MODULE,
++		.of_match_table	= s2dos05_i2c_dt_ids,
++	},
++	.probe		= s2dos05_i2c_probe,
++};
++
++module_i2c_driver(s2dos05_i2c_driver);
++
++MODULE_DESCRIPTION("s2dos core driver");
++MODULE_AUTHOR("Dzmitry Sankouski <dsankouski@gmail.com>");
++MODULE_LICENSE("GPL");
+diff --git a/include/linux/mfd/samsung/s2dos-core.h b/include/linux/mfd/samsung/s2dos-core.h
+new file mode 100644
+index 000000000000..7e84b387063c
+--- /dev/null
++++ b/include/linux/mfd/samsung/s2dos-core.h
+@@ -0,0 +1,21 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * s2dos-core.h
++ *
++ * Copyright (c) 2016 Samsung Electronics Co., Ltd
++ *              http://www.samsung.com
++ * Copyright (C) 2024 Dzmitry Sankouski <dsankouski@gmail.com>
++ *
++ */
++
++#ifndef __LINUX_MFD_S2DOS_CORE_H
++#define __LINUX_MFD_S2DOS_CORE_H
 +#include <linux/platform_device.h>
 +#include <linux/regmap.h>
 +
-+#define MAX77705_LED_NUM_LEDS		4
-+#define MAX77705_LED_EN_MASK		GENMASK(1, 0)
-+#define MAX77705_LED_MAX_BRIGHTNESS	0xff
-+
-+#define LEDBLNK_ON(time)	((time < 100) ? 0 :			\
-+				(time < 500) ? time/100-1 :		\
-+				(time < 3250) ? (time-500)/250+4 : 15)
-+
-+#define LEDBLNK_OFF(time)	((time < 1) ? 0x00 :			\
-+				(time < 500) ? 0x01 :			\
-+				(time < 5000) ? time/500 :		\
-+				(time < 8000) ? (time-5000)/1000+10 :	 \
-+				(time < 12000) ? (time-8000)/2000+13 : 15)
-+
-+struct max77705_led {
-+	struct led_classdev cdev;
-+	struct regmap *regmap;
-+	unsigned int en_shift;
-+	unsigned int reg_brightness;
-+	unsigned int regB;
-+};
-+
-+static struct max77705_led *max77705_to_led(struct led_classdev *cdev)
-+{
-+	return container_of(cdev, struct max77705_led, cdev);
-+}
-+
-+static int max77705_rgb_blink(struct led_classdev *cdev,
-+								unsigned long *delay_on,
-+								unsigned long *delay_off)
-+{
-+	struct max77705_led *led = max77705_to_led(cdev);
-+	int value;
-+
-+	value = (LEDBLNK_ON(*delay_on) << 4) | LEDBLNK_OFF(*delay_off);
-+	return regmap_write(led->regmap, MAX77705_RGBLED_REG_LEDBLNK, value);
-+}
-+
-+static int max77705_led_brightness_set(struct led_classdev *cdev,
-+					enum led_brightness brightness)
-+{
-+	struct max77705_led *led = max77705_to_led(cdev);
-+	int ret;
-+	unsigned long blink_default = 0;
-+
-+	if (brightness == LED_OFF) {
-+		/* Flash OFF */
-+		ret = regmap_update_bits(led->regmap,
-+					MAX77705_RGBLED_REG_LEDEN,
-+					MAX77705_LED_EN_MASK << led->en_shift, 0);
-+		max77705_rgb_blink(cdev, &blink_default, &blink_default);
-+	} else {
-+		/* Set current */
-+		ret = regmap_write(led->regmap,
-+				   led->reg_brightness, brightness);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = regmap_update_bits(led->regmap,
-+					MAX77705_RGBLED_REG_LEDEN, LED_ON << led->en_shift,
-+					MAX77705_LED_EN_MASK << led->en_shift);
-+	}
-+
-+	return ret;
-+}
-+
-+static int max77705_led_probe(struct platform_device *pdev)
-+{
-+	struct fwnode_handle *child;
-+	struct max77705_led *leds, *led;
++struct s2dos_core {
 +	struct device *dev;
-+	struct regmap *map;
-+	int rv, num_leds;
-+	u32 reg;
-+
-+	dev = &pdev->dev;
-+
-+	leds = devm_kcalloc(dev, sizeof(*leds),
-+				MAX77705_LED_NUM_LEDS, GFP_KERNEL);
-+	if (!leds)
-+		return -ENOMEM;
-+
-+	map = dev_get_regmap(dev->parent, NULL);
-+	if (!map)
-+		return -ENODEV;
-+
-+	num_leds = device_get_child_node_count(dev);
-+	if (!num_leds || num_leds > MAX77705_LED_NUM_LEDS)
-+		return -ENODEV;
-+
-+	device_for_each_child_node(dev, child) {
-+		struct led_init_data init_data = {};
-+
-+		rv = fwnode_property_read_u32(child, "reg", &reg);
-+		if (rv || reg >= MAX77705_LED_NUM_LEDS) {
-+			rv = -EINVAL;
-+			goto err_node_put;
-+		}
-+
-+		led = &leds[reg];
-+		led->regmap = map;
-+		led->reg_brightness = MAX77705_RGBLED_REG_LED0BRT + reg;
-+		led->en_shift = 2 * reg;
-+		led->cdev.brightness_set_blocking = max77705_led_brightness_set;
-+		led->cdev.blink_set = max77705_rgb_blink;
-+		led->cdev.max_brightness = MAX77705_LED_MAX_BRIGHTNESS;
-+
-+		init_data.fwnode = child;
-+		init_data.devicename = "max77705";
-+		/* for backwards compatibility if `label` is not present */
-+		init_data.default_label = ":";
-+
-+		rv = devm_led_classdev_register_ext(dev, &led->cdev,
-+							&init_data);
-+		if (rv)
-+			goto err_node_put;
-+
-+		rv = max77705_led_brightness_set(&led->cdev, LED_OFF);
-+		if (rv)
-+			goto err_node_put;
-+	}
-+
-+	return 0;
-+err_node_put:
-+	fwnode_handle_put(child);
-+	return rv;
-+}
-+
-+static const struct of_device_id max77705_led_of_match[] = {
-+	{ .compatible = "maxim,max77705-led" },
-+	{ }
++	struct regmap *regmap;
 +};
-+MODULE_DEVICE_TABLE(of, max77705_led_of_match);
 +
-+static struct platform_driver max77705_led_driver = {
-+	.driver = {
-+		.name = "max77705-led",
-+		.of_match_table = max77705_led_of_match,
-+	},
-+	.probe = max77705_led_probe,
++#endif /*  __LINUX_MFD_S2DOS_CORE_H */
+diff --git a/include/linux/mfd/samsung/s2dos05.h b/include/linux/mfd/samsung/s2dos05.h
+new file mode 100644
+index 000000000000..0317dbe56f10
+--- /dev/null
++++ b/include/linux/mfd/samsung/s2dos05.h
+@@ -0,0 +1,115 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * s2dos05.h
++ *
++ * Copyright (c) 2016 Samsung Electronics Co., Ltd
++ *              http://www.samsung.com
++ *
++ */
++
++#ifndef __LINUX_MFD_S2DOS05_H
++#define __LINUX_MFD_S2DOS05_H
++
++/* S2DOS05 registers */
++/* Slave Addr : 0xC0 */
++enum s2dos05_reg {
++	S2DOS05_REG_DEV_ID,
++	S2DOS05_REG_TOPSYS_STAT,
++	S2DOS05_REG_STAT,
++	S2DOS05_REG_EN,
++	S2DOS05_REG_LDO1_CFG,
++	S2DOS05_REG_LDO2_CFG,
++	S2DOS05_REG_LDO3_CFG,
++	S2DOS05_REG_LDO4_CFG,
++	S2DOS05_REG_BUCK_CFG,
++	S2DOS05_REG_BUCK_VOUT,
++	S2DOS05_REG_IRQ_MASK = 0x0D,
++	S2DOS05_REG_SSD_TSD = 0x0E,
++	S2DOS05_REG_OCL = 0x10,
++	S2DOS05_REG_IRQ = 0x11
 +};
-+module_platform_driver(max77705_led_driver);
 +
-+MODULE_DESCRIPTION("MAXIM 77705 LED driver");
-+MODULE_AUTHOR("Bartosz Golaszewski <bgolaszewski@baylibre.com>");
-+MODULE_AUTHOR("Dzmitry Sankouski <dsankouski@gmail.com>");
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:max77705-led");
++/* S2DOS05 regulator ids */
++enum s2dos05_regulators {
++	S2DOS05_LDO1,
++	S2DOS05_LDO2,
++	S2DOS05_LDO3,
++	S2DOS05_LDO4,
++	S2DOS05_BUCK1,
++	S2DOS05_REG_MAX,
++};
++
++#define S2DOS05_IRQ_PWRMT_MASK	BIT(5)
++#define S2DOS05_IRQ_TSD_MASK	BIT(4)
++#define S2DOS05_IRQ_SSD_MASK	BIT(3)
++#define S2DOS05_IRQ_SCP_MASK	BIT(2)
++#define S2DOS05_IRQ_UVLO_MASK	BIT(1)
++#define S2DOS05_IRQ_OCD_MASK	BIT(0)
++
++#define S2DOS05_BUCK_MIN1	506250
++#define S2DOS05_LDO_MIN1	1500000
++#define S2DOS05_LDO_MIN2	2700000
++#define S2DOS05_BUCK_STEP1	6250
++#define S2DOS05_LDO_STEP1	25000
++#define S2DOS05_LDO_VSEL_MASK	0x7F
++#define S2DOS05_LDO_FD_MASK	BIT(7)
++#define S2DOS05_BUCK_VSEL_MASK	0xFF
++#define S2DOS05_BUCK_FD_MASK	BIT(3)
++
++#define S2DOS05_ENABLE_MASK_L1	BIT(0)
++#define S2DOS05_ENABLE_MASK_L2	BIT(1)
++#define S2DOS05_ENABLE_MASK_L3	BIT(2)
++#define S2DOS05_ENABLE_MASK_L4	BIT(3)
++#define S2DOS05_ENABLE_MASK_B1	BIT(4)
++
++#define S2DOS05_RAMP_DELAY	12000
++
++#define S2DOS05_ENABLE_TIME_LDO		50
++#define S2DOS05_ENABLE_TIME_BUCK	350
++
++#define S2DOS05_ENABLE_SHIFT	0x06
++#define S2DOS05_LDO_N_VOLTAGES	(S2DOS05_LDO_VSEL_MASK + 1)
++#define S2DOS05_BUCK_N_VOLTAGES (S2DOS05_BUCK_VSEL_MASK + 1)
++
++#define S2DOS05_PMIC_EN_SHIFT	6
++#define S2DOS05_REGULATOR_MAX (S2DOS05_REG_MAX)
++
++/* ----------power meter ----------*/
++#define S2DOS05_REG_PWRMT_CTRL1		0x0A
++#define S2DOS05_REG_PWRMT_CTRL2		0x0B
++#define S2DOS05_REG_PWRMT_DATA	0x0C
++#define S2DOS05_REG_IRQ_MASK	0x0D
++
++#define CHANNEL_ELVDD	0
++#define CHANNEL_ELVSS	1
++#define CHANNEL_AVDD	2
++#define CHANNEL_BUCK	3
++#define CHANNEL_L1	4
++#define CHANNEL_L2	5
++#define CHANNEL_L3	6
++#define CHANNEL_L4	7
++
++#define POWER_ELVDD			24500
++#define POWER_ELVSS			24500
++#define POWER_AVDD			3060
++#define POWER_BUCK			1525
++#define POWER_L1			5000
++#define POWER_L2			5000
++#define POWER_L3			5000
++#define POWER_L4			5000
++
++/* S2DOS05_REG_OCL */
++#define ADC_VALID_MASK			BIT(7)
++/* S2DOS05_REG_PWRMT_CTRL1 */
++#define ADC_ASYNCRD_MASK		BIT(7)
++#define PWRMT_EN_CHK			BIT(6)
++#define SMPNUM_MASK			0x0F
++/* S2DOS05_REG_PWRMT_CTRL2 */
++#define ADC_EN_MASK			BIT(7)
++#define ADC_PTR_MASK			0x0F
++#define POWER_MODE			BIT(4)
++#define RAWCURRENT_MODE			BIT(5)
++
++#define S2DOS05_MAX_ADC_CHANNEL		8
++
++#endif /*  __LINUX_MFD_S2DOS05_H */
 
 -- 
 2.39.2
