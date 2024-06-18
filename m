@@ -2,65 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA0A90D9F3
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 18:54:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CCEB90D9F7
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 18:54:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7347010E728;
-	Tue, 18 Jun 2024 16:54:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB54F10E737;
+	Tue, 18 Jun 2024 16:54:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rGn76P3i";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Jcf4SG2w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8409C10E726
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 16:53:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 658CD10E726
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 16:54:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3ABA561A02;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9308961A51;
+ Tue, 18 Jun 2024 16:53:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F32A7C4AF64;
  Tue, 18 Jun 2024 16:53:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3C9AC3277B;
- Tue, 18 Jun 2024 16:53:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718729637;
- bh=gVRTf/IytGfnTahbvcX22LWVmgHV0CjJyuZCT03dLm8=;
+ s=k20201202; t=1718729639;
+ bh=H7FPRpyPtpISrnLWRcwsipNmbS7NjzQABnkUys2YiRk=;
  h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=rGn76P3inYALIrqOuHRyp3qYpyXdlDP1LcM8JfnRExzzdlHzNBsO7zK+jimOqoHxj
- l7OqtMzpIALi6Iw+RfB8UrV02NKx6DFHaG7o0E3rr6O1FwkcQTcaww9wUfkrNiBaCf
- Bdp97xroVof7T5P4o4PAzrN00GwtOOBDX9Q3a9rFKw+XhYgvb0OIyPaE9PFKPDkoDS
- rqOsRk4cxHy+pwtQuji0+mTqcOrWexRnDJuM2O9cfGerjwHXBgUMWjsWcLZYGRIeSZ
- pGKo/KKoTCZauyQHlh+5oLDCw/3WTnQ1F2GvNnzdQPykTCLfSvbcj39q2eV749C53d
- vhBPR5mRggmeA==
-Date: Tue, 18 Jun 2024 10:53:56 -0600
+ b=Jcf4SG2wpiXbX7ZM1bKI/pPElEHtipY1v8Cb54B2m3NijSvBdmuunGJwin8OCu2dA
+ bD1brFL2KB6Ghin0KMDFNdh73Dnuxf4Z4q++7oOgJJd1MaooJqeU0oNAY/bKjFfJdv
+ 7+9/aC3KSrwVJZ0FJh+bWki77yjbi1RWEkmuVGMLulLW15fS4s2JT3um70LzR8C+BA
+ I+vHj5MXo4A8PXjMMweS249CK1TuUuHHKqXVtYCYp0u6lNPeLLkdy9I+Q8KXJ/pagx
+ evgrZATFvdIweX08+dr13+9LZpy7RpD2fqljrMzoyXzBb73sBgygFcMf5W7E5/U0DS
+ MtyU9rkE1gkLw==
+Date: Tue, 18 Jun 2024 10:53:58 -0600
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Sebastian Reichel <sre@kernel.org>, linux-pwm@vger.kernel.org, 
- phone-devel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
- Sam Ravnborg <sam@ravnborg.org>, 
+Cc: linux-input@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Daniel Vetter <daniel@ffwll.ch>, linux-pm@vger.kernel.org, 
  =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, 
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org, 
- Bjorn Andersson <andersson@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, Pavel Machek <pavel@ucw.cz>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, David Airlie <airlied@gmail.com>, 
  Michael Turquette <mturquette@baylibre.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Krzysztof Kozlowski <krzk@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-samsung-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Lee Jones <lee@kernel.org>, 
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+ Stephen Boyd <sboyd@kernel.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org, 
- Pavel Machek <pavel@ucw.cz>, David Airlie <airlied@gmail.com>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, linux-leds@vger.kernel.org, 
- linux-input@vger.kernel.org, Chanwoo Choi <cw00.choi@samsung.com>
-In-Reply-To: <20240618-starqltechn_integration_upstream-v3-4-e3f6662017ac@gmail.com>
+ Conor Dooley <conor+dt@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, 
+ phone-devel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, Lee Jones <lee@kernel.org>, 
+ linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Sebastian Reichel <sre@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-samsung-soc@vger.kernel.org, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-leds@vger.kernel.org, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, linux-clk@vger.kernel.org
+In-Reply-To: <20240618-starqltechn_integration_upstream-v3-7-e3f6662017ac@gmail.com>
 References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-4-e3f6662017ac@gmail.com>
-Message-Id: <171872963372.3062561.18354991193259441972.robh@kernel.org>
-Subject: Re: [PATCH v3 04/23] dt-bindings: mfd: add maxim,max77705
+ <20240618-starqltechn_integration_upstream-v3-7-e3f6662017ac@gmail.com>
+Message-Id: <171872963469.3062613.11658948111775206928.robh@kernel.org>
+Subject: Re: [PATCH v3 07/23] dt-bindings: power: supply: add
+ maxim,max77705
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,14 +79,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Tue, 18 Jun 2024 16:59:38 +0300, Dzmitry Sankouski wrote:
-> maxim,max77705 is MAX77705 pmic binding part
+On Tue, 18 Jun 2024 16:59:41 +0300, Dzmitry Sankouski wrote:
+> add maxim,max77705 fuel gauge binding part
 > 
 > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
 > ---
->  .../devicetree/bindings/mfd/maxim,max77705.yaml    | 112 +++++++++++++++++++++
->  MAINTAINERS                                        |   1 +
->  2 files changed, 113 insertions(+)
+>  .../bindings/power/supply/maxim,max77705-fg.yaml   | 35 ++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
 > 
 
 My bot found errors running 'make dt_binding_check' on your patch:
@@ -92,22 +93,14 @@ My bot found errors running 'make dt_binding_check' on your patch:
 yamllint warnings/errors:
 
 dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/maxim,max77705.example.dtb: pmic@66: charger: False schema does not allow {'compatible': ['maxim,max77705-charger'], 'monitored-battery': [[4294967295]], 'phandle': [[2]]}
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/maxim,max77705.example.dtb: pmic@66: fuelgauge: 'monitored-battery', 'power-supplies' do not match any of the regexes: 'pinctrl-[0-9]+'
 	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77705.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/maxim,max77705.example.dtb: pmic@66: fuelgauge: False schema does not allow {'compatible': ['maxim,max77705-fg'], 'monitored-battery': [[4294967295]], 'power-supplies': [[2]], 'rsense': [[5]]}
-	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77705.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/maxim,max77705.example.dtb: pmic@66: haptic: False schema does not allow {'compatible': ['maxim,max77705-haptic'], 'haptic-supply': [[4294967295]], 'pwms': [[4294967295, 0, 50000]]}
-	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77705.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/maxim,max77705.example.dtb: pmic@66: leds: False schema does not allow {'compatible': ['maxim,max77705-led'], '#address-cells': [[1]], '#size-cells': [[0]], 'led@1': {'reg': [[1]], 'label': ['red:usr1']}, 'led@2': {'reg': [[2]], 'label': ['green:usr2']}, 'led@3': {'reg': [[3]], 'label': ['blue:usr3']}}
-	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77705.yaml#
-Documentation/devicetree/bindings/mfd/maxim,max77705.example.dtb: /example-0/i2c14/pmic@66/leds: failed to match any schema with compatible: ['maxim,max77705-led']
-Documentation/devicetree/bindings/mfd/maxim,max77705.example.dtb: /example-0/i2c14/pmic@66/charger: failed to match any schema with compatible: ['maxim,max77705-charger']
-Documentation/devicetree/bindings/mfd/maxim,max77705.example.dtb: /example-0/i2c14/pmic@66/fuelgauge: failed to match any schema with compatible: ['maxim,max77705-fg']
-Documentation/devicetree/bindings/mfd/maxim,max77705.example.dtb: /example-0/i2c14/pmic@66/haptic: failed to match any schema with compatible: ['maxim,max77705-haptic']
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/maxim,max77705.example.dtb: fuelgauge: 'monitored-battery', 'power-supplies' do not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/power/supply/maxim,max77705-fg.yaml#
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240618-starqltechn_integration_upstream-v3-4-e3f6662017ac@gmail.com
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240618-starqltechn_integration_upstream-v3-7-e3f6662017ac@gmail.com
 
 The base for the series is generally the latest rc1. A different dependency
 should be noted in *this* patch.
