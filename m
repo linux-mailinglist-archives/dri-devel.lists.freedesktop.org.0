@@ -2,97 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB5990DADD
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 19:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21EEC90DB07
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 19:51:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A327010E75A;
-	Tue, 18 Jun 2024 17:43:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 079DA10E234;
+	Tue, 18 Jun 2024 17:51:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Oz/XvZ3a";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="erNrd3aA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F365410E755
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 17:43:34 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-52bc29c79fdso7758994e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 10:43:34 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23A9010E234
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 17:51:02 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-2ebec2f11b7so56571621fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 10:51:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718732613; x=1719337413; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=UW3m3IVDCbgoGWkqOyhGrTXzXIbL2Q1j7KVjTgGLhLg=;
- b=Oz/XvZ3aaLhCHtRh2L0NhJI6Fpt/TcNB7jvIaDZWEg/r9T5kSCJapISHcIZ2YYiYXN
- hqt6AB7gyyO5BdGCZgDKlrEdcpMOUosJQXTFefWpXN9a/JnnaCoNmnWvyKVxnDyfbOCN
- cCu8s+JJz4lMx641EnJbQaqnrIFkV0KApsNnFwCStakEVMAxU760Sdr7NNzjhHza0eKZ
- 00CFP/u0c4jf0F90VpzLLLiReOCoBSRsOgapXTJgt9de6tGq6KXvzgmiNvmSqWOUyo/C
- 1xy4Rk4lgqhMXHridyY6FcrzBqXdv4Ll2PPNecLe8hBuSIMwFMSIFtrB2P2ltRc0uo1p
- IBZg==
+ d=linaro.org; s=google; t=1718733060; x=1719337860; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=jdrPsOFRH9tibJcIwTVDIHrvX0et09f9Ar+HQWRvLZQ=;
+ b=erNrd3aA/NKGA2VF4nLoHVC3dVuskYeuSH6syChafrLhgsRbMAC7u+1ytuDkuYK2PW
+ IENrrozu+n36qicUe0ke8qALD6VtSfC4GB9CDkhYCbFtY4FL/2dgTDT5j/HTuQJgNQaL
+ JIXOvOf9pO6U5xk6Q1ua9T4yQP4Fv/GNNrGqMqv+upVf1MBzy/XlmUzFWG35bwsqp3jX
+ 7ktyduYf1mnKz3zSns6/MNx3eLp4FduQS0E3etpCxTuSd3Kj+ucUe/0yhg1xGG5+wMRB
+ 3fPvAa0aLfgp7+d3FbGgj+/XlXDELwUy7Ux/8HeCUb5lzaAkT8TVCwMF+CFsMiI2WcP9
+ sPOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718732613; x=1719337413;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UW3m3IVDCbgoGWkqOyhGrTXzXIbL2Q1j7KVjTgGLhLg=;
- b=lxZmblBNJXhmvfIQYO5FnLsjJGa8aPqfyWR7eD8bHC2epsJZpAnQcoxLV8R0ZUo4Li
- orUZ8gM3brKUR2zRN8fvrOZayXR/XLViHxNyrjZJPvkcHcvdcVKRoU0UmSgF4hpy9XV9
- v47Qvzo89HKY20rjzufd2BkYW2SkI32EF3EF7WTvvyT5mQEQwbRKrcL4uJkWAhdUh9Fa
- QozXMxkfjZAavyTQmrFMfAdD0yuhrlI0X+/Lav5KYJu5Ely9m9Z2sOEGYu0DD4rihm5K
- 9+A5BRB31KmULQ9/yq9J/wwVKt2RNP02Z0zGODMcOzL5BS2s2OCahaHm7pF3xDaTCw1A
- ewuw==
+ d=1e100.net; s=20230601; t=1718733060; x=1719337860;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jdrPsOFRH9tibJcIwTVDIHrvX0et09f9Ar+HQWRvLZQ=;
+ b=Qfd2ACuPZcfu6qaIEpnG1r3jcqVVhAC937oBlFqDnkrs8lPlwaIdxgjS8ijnIE0W7i
+ 8xnmFM3zCL6gt11PKxNSM/EKdUs5bCqBDrUTgaIE6MN7/yf2ydOms9pMcQElT92TdB1j
+ b45x6nKcL4eSgj9/i50VlXpwAd3bTStBN085obrSSWYgR4QgmkHwQ9H8jqxTm9j6VLO0
+ 3SRzA2W7aCTrGOznUMmSpIp8l0qhpt+sMcyFphPEbQ/zzmdkjV9nnH++dzYSHDhH/xTE
+ a9IPc55XDAJLVsu6posSYbeXdi6sTJbFQ0YOe7pVdR6S9g7MasJqAa86kDZp8YBl+YYs
+ tJnA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXtbry77VUMYJDsA3/119QbFM0jrnX7TTVihQnq0uEnJvb55QGU2vWcbMEojKTC578JDAFEYQJx9WcqHXMewO1ZTTdy7tvbLfQwOtksvh5a
-X-Gm-Message-State: AOJu0Yze3goXQoc3slUS9qHIZKwETtrNo8dgwpF+eIPFXpBfV3Rk7U0X
- EknNaj6qaiJ2ihrcTQHcjU2zsRrO1ZDv3CTiOrI38tyUvY8h3HzBZuzvUfHr5mg=
-X-Google-Smtp-Source: AGHT+IHqgDsYBrSMyIeMIZAipBnP2CCm4mOxj6zvMMUSinXZl5+Bwzr+RzB97A5TqXTmpBeosa9Onw==
-X-Received: by 2002:ac2:59db:0:b0:51d:9f10:71b7 with SMTP id
- 2adb3069b0e04-52ccaa33e25mr244374e87.28.1718732611978; 
- Tue, 18 Jun 2024 10:43:31 -0700 (PDT)
+ AJvYcCVQQVsaMgH7a1LhKHL60c1gzAdzOGA6HWWowKNDOlKaYOizoVtOHcX3VH5nbg+MWkNNAsYgHiIyddBmhs9XPoUp+O7RpWRX9rcZxXtHiXmp
+X-Gm-Message-State: AOJu0YyToyjf1Lc4K6XnLpzZJsFZIuYmi+m3By2NjzQAbOGNmINLAW09
+ RN4umUNrRaIBoEolcPAxe2Pg+qEDeLcUeTs0QyRAuaf4G4vENn6kD771dhCxRq0=
+X-Google-Smtp-Source: AGHT+IGM/U45FeUpxxsmNAsTgVBSD3mO9NOKixFEiUXqhhF6IJuZRODRDq1PxwN+t2vV3hmMxogugA==
+X-Received: by 2002:a2e:2416:0:b0:2ec:eee:f19e with SMTP id
+ 38308e7fff4ca-2ec3cfe5a12mr3314651fa.37.1718733059948; 
+ Tue, 18 Jun 2024 10:50:59 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52ca2884064sm1619765e87.242.2024.06.18.10.43.31
+ 38308e7fff4ca-2ec3d00ae2bsm499111fa.51.2024.06.18.10.50.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jun 2024 10:43:31 -0700 (PDT)
-Date: Tue, 18 Jun 2024 20:43:29 +0300
+ Tue, 18 Jun 2024 10:50:59 -0700 (PDT)
+Date: Tue, 18 Jun 2024 20:50:58 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, 
- kernel-dev@igalia.com, Melissa Wen <mwen@igalia.com>, alexander.deucher@amd.com,
- christian.koenig@amd.com, Simon Ser <contact@emersion.fr>, 
- Pekka Paalanen <ppaalanen@gmail.com>, daniel@ffwll.ch,
- Daniel Stone <daniel@fooishbar.org>, 
- Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
- Dave Airlie <airlied@gmail.com>, ville.syrjala@linux.intel.com, 
- Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>, 
- Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH v7 2/9] drm: Support per-plane async flip configuration
-Message-ID: <aflfggx2dc2p3y2a76yecjgmahozmbpnkk2qpekrnkpvviih6i@g2uuxeubozbo>
-References: <20240618030024.500532-1-andrealmeid@igalia.com>
- <20240618030024.500532-3-andrealmeid@igalia.com>
- <878qz2h9pp.fsf@intel.com>
- <CAA8EJpqM4iaG3PKM5c0Op7Y7c1SRDrOCk_oOnwG8YfdCxC8w6g@mail.gmail.com>
- <fc67b552-6f61-4f30-9e34-dd6b2364d155@igalia.com>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Sebastian Reichel <sre@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Lee Jones <lee@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>, phone-devel@vger.kernel.org,
+ linux-pm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-clk@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-input@vger.kernel.org, 
+ linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v3 02/23] gcc-sdm845: Add rates to the GP clocks
+Message-ID: <wnf3mfgdm4p4f5wrxdtlx4wccnizdvohc7iiyu5t22eeb67r57@xun3r73hksrg>
+References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
+ <20240618-starqltechn_integration_upstream-v3-2-e3f6662017ac@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fc67b552-6f61-4f30-9e34-dd6b2364d155@igalia.com>
+In-Reply-To: <20240618-starqltechn_integration_upstream-v3-2-e3f6662017ac@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,69 +105,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 18, 2024 at 01:18:10PM GMT, André Almeida wrote:
-> Em 18/06/2024 07:07, Dmitry Baryshkov escreveu:
-> > On Tue, 18 Jun 2024 at 12:38, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> > > 
-> > > On Tue, 18 Jun 2024, André Almeida <andrealmeid@igalia.com> wrote:
-> > > > Drivers have different capabilities on what plane types they can or
-> > > > cannot perform async flips. Create a plane::async_flip field so each
-> > > > driver can choose which planes they allow doing async flips.
-> > > > 
-> > > > Signed-off-by: André Almeida <andrealmeid@igalia.com>
-> > > > ---
-> > > >   include/drm/drm_plane.h | 5 +++++
-> > > >   1 file changed, 5 insertions(+)
-> > > > 
-> > > > diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-> > > > index 9507542121fa..0bebc72af5c3 100644
-> > > > --- a/include/drm/drm_plane.h
-> > > > +++ b/include/drm/drm_plane.h
-> > > > @@ -786,6 +786,11 @@ struct drm_plane {
-> > > >         * @kmsg_panic: Used to register a panic notifier for this plane
-> > > >         */
-> > > >        struct kmsg_dumper kmsg_panic;
-> > > > +
-> > > > +     /**
-> > > > +      * @async_flip: indicates if a plane can do async flips
-> > > > +      */
-> > > 
-> > > When is it okay to set or change the value of this member?
-> > > 
-> > > If you don't document it, people will find creative uses for this.
-> > 
-> > Maybe it's better to have a callback instead of a static field? This
-> > way it becomes clear that it's only relevant at the time of the
-> > atomic_check().
-> > 
+On Tue, Jun 18, 2024 at 04:59:36PM GMT, Dzmitry Sankouski wrote:
+> sdm845 has "General Purpose" clocks that can be muxed to
+> SoC pins.
 > 
-> So we would have something like bool (*async_flip) for struct
-> drm_plane_funcs I suppose. Then each driver will implement this function and
-> check on runtime if it should flip or not, right?
+> Those clocks may be used as e.g. PWM sources for external peripherals.
+> Add more frequencies to the table for those clocks so it's possible
+> for arbitrary peripherals to make use of them.
 > 
-> I agree that it makes more clear, but as far as I can see this is not
-> something that is subject to being changed at runtime at all, so it seems a
-> bit overkill to me to encapsulate a static information like that. I prefer
-> to improve the documentation on the struct member to see if this solves the
-> problem. What do you think of the following comment:
+> See also: bf8bb8eaccf(clk: qcom: gcc-msm8916: Add rates to the GP clocks)
 
-It looks like I keep on mixing async_flips as handled via the
-DRM_MODE_PAGE_FLIP_ASYNC and the plane flips that are governed by
-.atomic_async_check / .atomic_async_update / drm_atomic_helper_check()
-and which end up being used just for legacy cursor updates.
+Each time I look at the table attached to the GP CLK, I feel that it's
+plain wrong. In the end the GPCLK can in theory have arbitrary value
+depending on the usecase.
 
-So, yes, those are two different code paths, but with your changes I
-think it becomes even easier to get confused between
-atomic_async_check() and .async_flip member.
+Bjorn, Konrad, maybe we should add special clk_ops for GP CLK which
+allow more flexibility than a default clk_rcg2_ops?
 
-
-> /**
->  * @async_flip: indicates if a plane can perform async flips. The
->  * driver should set this true only for planes that the hardware
->  * supports flipping asynchronously. It may not be changed during
->  * runtime. This field is checked inside drm_mode_atomic_ioctl() to
->  * allow only the correct planes to go with DRM_MODE_PAGE_FLIP_ASYNC.
->  */
+> 
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> ---
+>  drivers/clk/qcom/gcc-sdm845.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/drivers/clk/qcom/gcc-sdm845.c b/drivers/clk/qcom/gcc-sdm845.c
+> index ea4c3bf4fb9b..0efd3364e8f5 100644
+> --- a/drivers/clk/qcom/gcc-sdm845.c
+> +++ b/drivers/clk/qcom/gcc-sdm845.c
+> @@ -283,7 +283,21 @@ static struct clk_rcg2 gcc_sdm670_cpuss_rbcpr_clk_src = {
+>  	},
+>  };
+>  
+> +/*
+> + * This is a frequency table for "General Purpose" clocks.
+> + * These clocks can be muxed to the SoC pins and may be used by
+> + * external devices. They're often used as PWM source.
+> + *
+> + * See comment in gcc-mam8916.c at ftbl_gcc_gp1_3_clk.
+> + */
+>  static const struct freq_tbl ftbl_gcc_gp1_clk_src[] = {
+> +	F(10000,   P_BI_TCXO,    16,  1, 120),
+> +	F(20000,   P_BI_TCXO,    16,  1, 60),
+> +	F(100000,  P_BI_TCXO,    16,  1,  12),
+> +	F(500000,  P_GPLL0_OUT_EVEN, 12, 1, 100),
+> +	F(1000000, P_GPLL0_OUT_EVEN, 12, 1, 50),
+> +	F(2500000, P_GPLL0_OUT_EVEN, 12, 1, 10),
+> +	F(5000000, P_GPLL0_OUT_EVEN, 12, 1, 5),
+>  	F(19200000, P_BI_TCXO, 1, 0, 0),
+>  	F(25000000, P_GPLL0_OUT_EVEN, 12, 0, 0),
+>  	F(50000000, P_GPLL0_OUT_EVEN, 6, 0, 0),
+> 
+> -- 
+> 2.39.2
+> 
 
 -- 
 With best wishes
