@@ -2,86 +2,169 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4089890DED1
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 00:00:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0013390DF01
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 00:12:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C6A610E7D7;
-	Tue, 18 Jun 2024 21:59:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E9F710E7DC;
+	Tue, 18 Jun 2024 22:12:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Tx7WrC8p";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DmPsREOz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
- [209.85.215.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAE0410E7D7;
- Tue, 18 Jun 2024 21:59:55 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id
- 41be03b00d2f7-6bfd4b88608so4277389a12.1; 
- Tue, 18 Jun 2024 14:59:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718747995; x=1719352795; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EU04kyl3dHWSxH/GsSb9jqBAdB+bRNmG9gEcHnqB7Kc=;
- b=Tx7WrC8p0lzm1ZqsHX7xis8PHBYBs3RhkuhhTDwWj0mftxvGPgoEFTaxUrHW34XNmc
- 74aJGUnKLVomCJuXA1JS/6skaGwjka7b4/btgzYZJ0KZiBM8jdkkU+Nbsj/ePov6gl9E
- XgeWHJD9xup9HKU3HUewP4Acxfg6DuihZklvnNuZEe8sOVDZi5FwGp4Jwr3Uf2m8uCO1
- MgbFpRLTjtjln39+APiONd6JZbBdLBwW7onfIf/cjxjX9dDTrje/FfDNvvhu85dIoNTR
- wAeStNs5eObs05NJG0hc0xFIzGFHmgAWwU0NEijOYXPl5MPkfp31RUa3Dzp/R02um7dt
- tQqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718747995; x=1719352795;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EU04kyl3dHWSxH/GsSb9jqBAdB+bRNmG9gEcHnqB7Kc=;
- b=pt9Hby+oqBB7CMLKkyvuW1lmR4wkU5Uvw6GgpT/BzYAEBUD8Qp+0zJeCt88iFSkjvU
- niwLIkWqHu8fJqh4dKilo6SIpo942IZNvH7I8SD5nDlvep9Kw6Sdu30osehjd7VbSfb3
- 2IfnmHGi6HSP0sLiTvkG+nosc7sUm8WZOFf2rRNbi2o696iGGoto6kPytijSFAoRHH2k
- 51J67QrVVeq8+XSzhPuN71dGlb1ZxNcPkwEPzqdQQFQ/wNQd2YTAoOGDXqX7qaAw5Q5C
- xBadB3fhbjSp1SdHPU0zvccV0wP0jmeMchK4RgN4oasaCQdpApqbLwt1HVwjZHFn/yJs
- n7OA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU7Xga2DsxE/zgSySBsTG4nFVf+qSS+1rvj+UqE3mg+KPTPtN84UhuT9IkKIBfZ0TofH6qB2aYcEJTGfN/8UsNaXcHlvmfdq2Ksr7JXig==
-X-Gm-Message-State: AOJu0YyZguqI9+HYerblLYffT/JWqeF9egePYX7H0GeQf4vlOhfV2P4l
- U9MJZ30RH4Gm/1UTUzmB/Z+ivlpT/jK78slU1oqw5/wIFy7zVAlljK1H01rnra1mywWbNpKuPqt
- NAhgcqqtbGb/44oJWBKZetvXBZDc=
-X-Google-Smtp-Source: AGHT+IGUaN7fpnj3ApZQ62pMjYcLw04OWKvr2yhL4FC1FgiK4tzz22/Z/RNOhLM8SD08NUIzF7HXcASRVABBvHBJOJA=
-X-Received: by 2002:a17:90a:d484:b0:2c2:c799:eb20 with SMTP id
- 98e67ed59e1d1-2c7b5c982demr1066657a91.23.1718747994883; Tue, 18 Jun 2024
- 14:59:54 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D31E910E7DC;
+ Tue, 18 Jun 2024 22:12:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718748722; x=1750284722;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=BbmvMTafuRlcJmw+n7elmvDBAJu8wFhJGTEzO/bCBmc=;
+ b=DmPsREOzDTLj6KQHiLhK0dYaw6qKfAyavpnUQkcDkWeKZ9CZwIs4VGtA
+ CMGSbvz82WVePILBjViInUdsorgYCyNtlOF22uWcaiq5uI6bC+h8WZpkc
+ u/asjgeFufR/gvCUYB4PPrlAGrmWMkEGUeIueGonUdxQtudG2s5DHxz37
+ QCYW1LB2mtjDiiXquK1Di61nfNmsPpV0d0rMafq0mqCzCFHhlQnLy0Bq9
+ V4OOSPYW8DDXRocRVAOR7cK3L80w5ONDm7L0io45C8xFFZJQthfVGUqWL
+ hYvNTERqRKJ6JTfHDQfwsAxt27SjQtysMA+l+P31BDwHUolY2veogSanT A==;
+X-CSE-ConnectionGUID: aeRMq3EMTuyvYtFfYVghfQ==
+X-CSE-MsgGUID: fJgVmAu7TZq4mDKJw2PO8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="26784185"
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; d="scan'208";a="26784185"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2024 15:11:53 -0700
+X-CSE-ConnectionGUID: L+dKSsV3TB6WaCzd4jt2vA==
+X-CSE-MsgGUID: XykA8MrcSBeKzb2/+QKBTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; d="scan'208";a="64939085"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 18 Jun 2024 15:11:53 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 18 Jun 2024 15:11:52 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 18 Jun 2024 15:11:52 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 18 Jun 2024 15:11:52 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ot4213XmjzyJzCkCrV7/iotTRBqD0UWrce128Mafejy4Qqba/6zrs3a/cMspE18DZCdK5wkOXC0BiEyZ1UQOxaebafcC+K3bPwauzkPgBOpKggT+1iLtfAZLkuKPrNT7+3e70c2hVySRR8n018mje2Iu9VJVBaFgy6JWgDx23cXrupxIJ7i6IaMgwc1vP6l+nNmWr8SOFVYzvXQhf9aKPDNaKX4osCK0ox2my133q6t+4dfihHwqr/REzp/kgW4WW8O1zx8TP2vHzicA72xCgGlgZSgXNOt2+XfHNgCVuh3/YuhOZPaOTo3/YrGA8QRA4Jb3DsKiTdG/1pi00NEmGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MdHGuczSTbLR6V4vf4U/Df82NwzvQbJn/ZOV1/h5hJg=;
+ b=fH/97kARsM00le3HvL7RZj6YIAUXqBshVs8D8b/cejGkGXBPNRvy0u9dydarHwP8cf8gI8DRCuSCfh+xZZs1mPuh8PTBxJtJ7xhXYTkLpDUvPHY/9CuYj+jevFj8XmhSp9fgDg5iIXwrPcIGzZ+L9jBHRHQ4313X+m6bIUjStHwFVdwfURTgMxKGz7YlguCQrfqAN87Xvsdh/7qHGWbrorUYFh8d+m1GnQzK2RpHhEx4bYiI+iw7vHtX452MdNUQT+drBUeFaZdvku131a5I7sPS6zlTvSLZ+Ro+kg70xkf60y7B47B/eFoMsTu/mkvh3u/9MZiG45xv7Tn/R6dkRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by DM4PR11MB7280.namprd11.prod.outlook.com (2603:10b6:8:108::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.37; Tue, 18 Jun
+ 2024 22:11:50 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%4]) with mapi id 15.20.7677.027; Tue, 18 Jun 2024
+ 22:11:50 +0000
+Date: Tue, 18 Jun 2024 22:11:17 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+CC: <intel-xe@lists.freedesktop.org>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Somalapuram Amaranath
+ <Amaranath.Somalapuram@amd.com>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v5 05/12] drm/ttm: Provide a generic LRU walker helper
+Message-ID: <ZnIGBea3S5fquc32@DUT025-TGLU.fm.intel.com>
+References: <20240618071820.130917-1-thomas.hellstrom@linux.intel.com>
+ <20240618071820.130917-6-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240618071820.130917-6-thomas.hellstrom@linux.intel.com>
+X-ClientProxiedBy: SJ0PR03CA0173.namprd03.prod.outlook.com
+ (2603:10b6:a03:338::28) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-References: <20240612222435.3188234-1-dianders@chromium.org>
- <20240612152752.v2.8.I27914059cc822b52db9bf72b4013b525b60e06fd@changeid>
- <CADnq5_PbqE0E2pP26mGD94cdc=tLZZsF10e7ZZWeC5AU-LS8vw@mail.gmail.com>
- <CAD=FV=XJAiVGFn_Tqs_JNo1fQKFys3m=hH9MwmMot93gkdg=Qw@mail.gmail.com>
-In-Reply-To: <CAD=FV=XJAiVGFn_Tqs_JNo1fQKFys3m=hH9MwmMot93gkdg=Qw@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 18 Jun 2024 17:59:42 -0400
-Message-ID: <CADnq5_M+H_h1Me_O3u=R3q52PgYcCwwY9Mr8_R1eX0G7HvBp2w@mail.gmail.com>
-Subject: Re: [PATCH v2 8/8] drm/amdgpu: Call drm_atomic_helper_shutdown() at
- shutdown time
-To: Doug Anderson <dianders@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
- Aurabindo Pillai <aurabindo.pillai@amd.com>, Candice Li <candice.li@amd.com>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Hamza Mahfooz <hamza.mahfooz@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Le Ma <le.ma@amd.com>, 
- Lijo Lazar <lijo.lazar@amd.com>, Ma Jun <Jun.Ma2@amd.com>, 
- Mario Limonciello <mario.limonciello@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>, 
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Victor Lu <victorchengchi.lu@amd.com>, amd-gfx@lists.freedesktop.org, 
- chenxuebing <chenxb_99091@126.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DM4PR11MB7280:EE_
+X-MS-Office365-Filtering-Correlation-Id: d4a905a3-2497-4578-cead-08dc8fe3a6f0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230037|376011|366013|1800799021;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?YD6MxmiDLtqQP4OMRLrfH5r/wXWjPmFJ0VbaEf/9NTeKY6lnMxq5sonEb/?=
+ =?iso-8859-1?Q?y+MFinsRNMqHRmxQNZJuNANJ2WjCoqxaP2RyDOYUgrF/vbtTh91ayvUydb?=
+ =?iso-8859-1?Q?y8jaDMGKXc+klZqGWEZvTORZmvw2BiGul5x8/EH9iT+DiJCd3bQ/Rx2nr4?=
+ =?iso-8859-1?Q?D1v3GLLwi3rnXR5NZ/r/CRn3ubQ9B9s7Q9hWHUuDG5IgkDFuFwcE0A1erH?=
+ =?iso-8859-1?Q?Nb5CllrkurxZr6lixKccG8/wAIUmlsd0I3Z+qskGktDcDRpeIl5pd6vJ8r?=
+ =?iso-8859-1?Q?dVd1nJm2o1NMrKp+Zvd2DnEJie5YDD2GIPkWqDrCm9l247VHSnkfIrw0ik?=
+ =?iso-8859-1?Q?EKMfoYMWPx6+x9LTzA+HSPqEqsI9NrMdfg/pii/zwDY7zasu1zsRdin4bx?=
+ =?iso-8859-1?Q?GwOth/IXa3EiE7o7/BDMjEGdRHU+4bCm9hWivmupfKALYoPY9EOfvzC2MP?=
+ =?iso-8859-1?Q?O9a5CTFyQQdwoqhJOIjDSX3ulBNbW3PCAA1OFGbOnXyMQODSNQAbzP5m16?=
+ =?iso-8859-1?Q?TXCeUuwRm3dV3OrVBRIhJbbo2y/WGNpldHcgWIwlk+9GT7f/eSGFyeIFbt?=
+ =?iso-8859-1?Q?eUs/9lcr3QRH/H0GcvRXf51liDEJz2LbmrOPP3de5411z7db2SA6MrLd+B?=
+ =?iso-8859-1?Q?LBw9A5b7pOVJue/XqgXVzvh6qRkxuVo3ucdflh9Vi6b92fsQEWYImdqDLH?=
+ =?iso-8859-1?Q?BQzJBuT1HTX9aKfRlxhpX1zjYbHCVimmsufAubcDXw5Pk9WPeRl/X57Its?=
+ =?iso-8859-1?Q?46hJxNBA2dkV5/289L0q8qePjj/cWFDk+XwLGvtxlbjELunkoOv+0ob388?=
+ =?iso-8859-1?Q?3yitnkDkaAlm23CapEDxXZHNeS0HAtN7z7JQk5wTxNJFsP/MYIt27+AjGh?=
+ =?iso-8859-1?Q?TkzIHjDgM1rJfDNF+/nF+vxYnCurvODzv946f1PVFTwd5Umdbb1+HgE7yW?=
+ =?iso-8859-1?Q?9m49GHK3eFsl60Pu+QCPii32mpT0adP3MRKlcjOgQEQjcrW/C6hEfQqmUP?=
+ =?iso-8859-1?Q?Kct9Aewh8+RS5ip1Hem3aCYV6EQD+et3t96aS3e8/GqOYDekYIN6Vdx308?=
+ =?iso-8859-1?Q?93MP50kt8rn+xxpzwC2fwjzIlaQFum0QMOr03Jaqa1rFHem2Eg4MWeX5rA?=
+ =?iso-8859-1?Q?O7M84Xgur69VdI5sDegRKwWfr/JsCbUtTFUK8sSnXN6pfs0YeaPbh4XvsY?=
+ =?iso-8859-1?Q?bUQ40k/ZyXFs542DvQPYzqzokbaKxmERhtdZYdZdLjqKa96IYYWKXFr93j?=
+ =?iso-8859-1?Q?kxPJqttjw+1A1dR8IaV6PJbqCXEsM5RqwJxCO/RnUs+2jqA/++z7+x2UhD?=
+ =?iso-8859-1?Q?3PbWix7kyYkUzq2OuWdt2eW1gofo8VpeopXt/AyWTr6KshIbzg/CMQi4g3?=
+ =?iso-8859-1?Q?tGornKqhjM?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230037)(376011)(366013)(1800799021); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?09XHHQqrd3PuSDGhjTOd9awDNIoRaRDwA3H7CXLpBWgxDf11cm3fLcjBiw?=
+ =?iso-8859-1?Q?PVXhyoN4YgRQxvZOaRiCOgfV5gHO4TFRuUOp69Ch6+Vpoe03+8BIwUHruX?=
+ =?iso-8859-1?Q?QCqG9t34LjrPIPobQSMXQpol8ybxHy2qFa4tKytOgXqlLZ8et1yGAbDfI4?=
+ =?iso-8859-1?Q?CY3jkzCGvM1J0gAT5rPLz8x4qyz8CG/Ay273rfZlTsw9nWa2fkYDG+a52q?=
+ =?iso-8859-1?Q?P+2nENyeAgDwdm3r7DtgYUOwU2NsgeFohnNmawdQOqdwdch1nv6JpnJ2cW?=
+ =?iso-8859-1?Q?rO7v+4yo9fW/H1cTwZUpxmK/ha4hnBU1SOyeG4lgapAFK1FfaydnjOhWYa?=
+ =?iso-8859-1?Q?fFr1bbCb0ddUcMb+O7h/HwVM8OPwyPcLEBedHI14Q5P644M4mS4C3qdrgg?=
+ =?iso-8859-1?Q?F9wyYD76C3SI7qUXGgABWIkl4OyJZrzTgolqQqbTufX6y5qjQbhv68Yepb?=
+ =?iso-8859-1?Q?DR1m9hLMmtBi2KC8aC0wncl0lzAmXi1ev/kWUOmOfWmx9JlpApEzpCh11/?=
+ =?iso-8859-1?Q?xkBJevwLW4v/QbFTnWJugEcXpnbXEZdeX1TR6K8St7gFplNyuUO6HcqUOW?=
+ =?iso-8859-1?Q?6L6piKtMLw4yNIQz0SJ8bhaXup/nSYHrBNWfnOdyY4xQB7uDY/NPfmmuN8?=
+ =?iso-8859-1?Q?IXu0Y6hrKHxsqMLAXA4gKbItnleQGg9M+z73rZSUR6R7dF7AJ57WNG2DY+?=
+ =?iso-8859-1?Q?MQNKueO6f5gjJtTMSDFSdBKIjca/mL3a/68DLC1k8fSbnZwcSaov0yV1ej?=
+ =?iso-8859-1?Q?fFppAijMPc6ZQOivtsGcWD2EyqI8YcDXHHTBsRXbpE0O2zYoDTb6BWMQ30?=
+ =?iso-8859-1?Q?j3Xc3hh7DNFBKQ5FIaJqwy5jB/0eBXgkhdUMIZBclpuYJyvYXRwuBvHyKH?=
+ =?iso-8859-1?Q?88OyjsnFhRFSC0tXfCF2sRAwc3m9gz95aINyX0rZCUZiq1akysj/xQjBbp?=
+ =?iso-8859-1?Q?mG+bHIIx/xB5zesDno5WPuMimGcg0btKlYbqu6/FRaGjG8XFaplzQwhf0Y?=
+ =?iso-8859-1?Q?wSxpIkX4ZzK98VPfI2kZr3Vk5suP/VAdoGPg+6TYBSA1Ew0YsqR63nFhWl?=
+ =?iso-8859-1?Q?ctiElRJohNdZLR3LbGUJ8djfA8+jMDqGyoLeLBGHJ0cBnehhKZrAifBdn5?=
+ =?iso-8859-1?Q?Uwx1Ckxc8ojStX3NbySNj98hJ/QQHYr32086PQXaIrU6nhjMiTMxTVAaif?=
+ =?iso-8859-1?Q?KUP6uVioQJ/YiWEKeLZa6CgYtzUTlbH7RZYf+z7zwlZDUX9rMtgNYGq0gR?=
+ =?iso-8859-1?Q?T+LpqQXU1KvNtcqSFXT5/mJUFnmqyY94ccmsXW4DkZsnvU3dbIml3UXPbJ?=
+ =?iso-8859-1?Q?4pH4fdvnBywH29Woa1NAy4tvWyYFCqFf8jreN+gIWlg/nFGEv6zmkm+0K8?=
+ =?iso-8859-1?Q?bcQODKszbDN9NAwdhYn2y4GZuKOsZuXkeakEFjaAYQSdNDRfnA1FxXCBGH?=
+ =?iso-8859-1?Q?u94Fcy1cpZ8M0tRL5FAV2VrtDNwhYoH779kVxZsXnYim6PLGLCDypWejCa?=
+ =?iso-8859-1?Q?1GPIoJTAiS5lw2+Xeap4zKUhxdW29x1IMUlW53IPqONUH0IcdTZgK+WmXu?=
+ =?iso-8859-1?Q?OXlts5eP/Vryt1gZgddzFznSBepHnM8UOhHrgxjAxFxtd5zCmVwZqyS+4Q?=
+ =?iso-8859-1?Q?C6keeHgx1Co/nVH8mnY1vrnLVVL4/SZJrnvf4nlqIj88qI0KKNBEJYhQ?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4a905a3-2497-4578-cead-08dc8fe3a6f0
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2024 22:11:50.2374 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tQVOHU1mj8MzQnVvZWhp4M0mpD8ORTmDR2G4EiXljIW8Vd/nFg5qQFpRVBLVbivEinWgVGoTn1Aw4yWSZjvWpQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7280
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,77 +180,290 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 18, 2024 at 5:40=E2=80=AFPM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
->
-> On Mon, Jun 17, 2024 at 8:01=E2=80=AFAM Alex Deucher <alexdeucher@gmail.c=
-om> wrote:
-> >
-> > On Wed, Jun 12, 2024 at 6:37=E2=80=AFPM Douglas Anderson <dianders@chro=
-mium.org> wrote:
-> > >
-> > > Based on grepping through the source code this driver appears to be
-> > > missing a call to drm_atomic_helper_shutdown() at system shutdown
-> > > time. Among other things, this means that if a panel is in use that i=
-t
-> > > won't be cleanly powered off at system shutdown time.
-> > >
-> > > The fact that we should call drm_atomic_helper_shutdown() in the case
-> > > of OS shutdown/restart comes straight out of the kernel doc "driver
-> > > instance overview" in drm_drv.c.
-> > >
-> > > Suggested-by: Maxime Ripard <mripard@kernel.org>
-> > > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > Cc: Xinhui Pan <Xinhui.Pan@amd.com>
-> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > > ---
-> > > This commit is only compile-time tested.
-> > >
-> > > ...and further, I'd say that this patch is more of a plea for help
-> > > than a patch I think is actually right. I'm _fairly_ certain that
-> > > drm/amdgpu needs this call at shutdown time but the logic is a bit
-> > > hard for me to follow. I'd appreciate if anyone who actually knows
-> > > what this should look like could illuminate me, or perhaps even just
-> > > post a patch themselves!
-> >
-> > I'm not sure this patch makes sense or not.  The driver doesn't really
-> > do a formal tear down in its shutdown routine, it just quiesces the
-> > hardware.  What are the actual requirements of the shutdown function?
-> > In the past when we did a full driver tear down in shutdown, it
-> > delayed the shutdown sequence and users complained.
->
-> The "inspiration" for this patch is to handle panels properly.
-> Specifically, panels often have several power/enable signals going to
-> them and often have requirements that these signals are powered off in
-> the proper order with the proper delays between them. While we can't
-> always do so when the system crashes / reboots in an uncontrolled way,
-> panel manufacturers / HW Engineers get upset if we don't power things
-> off properly during an orderly shutdown/reboot. When panels are
-> powered off badly it can cause garbage on the screen and, so I've been
-> told, can even cause long term damage to the panels over time.
->
-> In Linux, some panel drivers have tried to ensure a proper poweroff of
-> the panel by handling the shutdown() call themselves. However, this is
-> ugly and panel maintainers want panel drivers to stop doing it. We
-> have removed the code doing this from most panels now [1]. Instead the
-> assumption is that the DRM modeset drivers should be calling
-> drm_atomic_helper_shutdown() which will make sure panels get an
-> orderly shutdown.
->
-> For a lot more details, see the cover letter [2] which then contains
-> links to even more discussions about the topic.
->
-> [1] https://lore.kernel.org/r/20240605002401.2848541-1-dianders@chromium.=
-org
-> [2] https://lore.kernel.org/r/20240612222435.3188234-1-dianders@chromium.=
-org
+On Tue, Jun 18, 2024 at 09:18:13AM +0200, Thomas Hellström wrote:
 
-I don't think it's an issue.  We quiesce the hardware as if we were
-about to suspend the system (e.g., S3).  For the display hardware we
-call drm_atomic_helper_suspend() as part of that sequence.
+Replying to correct version...
 
-Alex
+> Provide a generic LRU walker in TTM, in the spirit of drm_gem_lru_scan()
+> but building on the restartable TTM LRU functionality.
+> 
+> The LRU walker optionally supports locking objects as part of
+> a ww mutex locking transaction, to mimic to some extent the
+> current functionality in ttm. However any -EDEADLK return
+> is converted to -ENOMEM, so that the driver will need to back
+> off and possibly retry without being able to keep the
+> ticket.
+>
+
+Wouldn't the backoff be unlock everything but keep the ticket?
+
+> v3:
+> - Move the helper to core ttm.
+> - Remove the drm_exec usage from it for now, it will be
+>   reintroduced later in the series.
+> v4:
+> - Handle the -EALREADY case if ticketlocking.
+> 
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>  drivers/gpu/drm/ttm/ttm_bo_util.c | 145 ++++++++++++++++++++++++++++++
+>  include/drm/ttm/ttm_bo.h          |  32 +++++++
+>  2 files changed, 177 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index 0b3f4267130c..45fcaf6f8644 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -768,3 +768,148 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
+>  	ttm_tt_destroy(bo->bdev, ttm);
+>  	return ret;
+>  }
+> +
+> +static bool ttm_lru_walk_trylock(struct ttm_lru_walk *walk,
+> +				 struct ttm_buffer_object *bo,
+> +				 bool *needs_unlock)
+> +{
+> +	struct ttm_operation_ctx *ctx = walk->ctx;
+> +
+> +	*needs_unlock = false;
+> +
+> +	if (dma_resv_trylock(bo->base.resv)) {
+> +		*needs_unlock = true;
+> +		return true;
+> +	}
+> +
+> +	if (bo->base.resv == ctx->resv && ctx->allow_res_evict) {
+> +		dma_resv_assert_held(bo->base.resv);
+> +		return true;
+> +	}
+> +i
+
+Any reason this is done after the try lock? Just kinda goofy as if this
+statement is true the dma_resv_trylock will always fail.
+
+> +	return false;
+> +}
+> +
+> +static int ttm_lru_walk_ticketlock(struct ttm_lru_walk *walk,
+> +				   struct ttm_buffer_object *bo,
+> +				   bool *needs_unlock)
+> +{
+> +	struct dma_resv *resv = bo->base.resv;
+> +	int ret;
+> +
+
+I suppose we don't have asserts here like in Xe but if we did,
+assert(walk->ticket)?
+
+> +	if (walk->ctx->interruptible)
+> +		ret = dma_resv_lock_interruptible(resv, walk->ticket);
+> +	else
+> +		ret = dma_resv_lock(resv, walk->ticket);
+> +
+> +	if (!ret) {
+> +		*needs_unlock = true;
+> +		/* Only a single ticketlock per loop. */
+> +		walk->ticket = NULL;
+
+Can you explain this a bit more? I see that once the walk->ticket is set
+to NULL this function will not be called again (i.e. only try locking
+will be used). I want to understand the reasoning for this.
+
+It might be helpful for a more lengthly explaination in the comments of
+the code too.
+
+> +	} else if (ret == -EDEADLK) {
+> +		/* Caller needs to exit the ww transaction. */
+> +		ret = -ENOSPC;
+
+The commit message says -ENOMEM.
+
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static void ttm_lru_walk_unlock(struct ttm_buffer_object *bo, bool locked)
+> +{
+> +	if (locked)
+> +		dma_resv_unlock(bo->base.resv);
+> +}
+> +
+> +/**
+> + * ttm_lru_walk_for_evict() - Perform a LRU list walk, with actions taken on
+> + * valid items.
+> + * @walk: describe the walks and actions taken
+> + * @bdev: The TTM device.
+> + * @man: The struct ttm_resource manager whose LRU lists we're walking.
+> + * @target: The end condition for the walk.
+> + *
+> + * The LRU lists of @man are walk, and for each struct ttm_resource encountered,
+> + * the corresponding ttm_buffer_object is locked and taken a reference on, and
+> + * the LRU lock is dropped. the LRU lock may be dropped before locking and, in
+> + * that case, it's verified that the item actually remains on the LRU list after
+> + * the lock, and that the buffer object didn't switch resource in between.
+> + *
+> + * With a locked object, the actions indicated by @walk->process_bo are
+> + * performed, and after that, the bo is unlocked, the refcount dropped and the
+> + * next struct ttm_resource is processed. Here, the walker relies on
+> + * TTM's restartable LRU list implementation.
+> + *
+> + * Typically @walk->process_bo() would return the number of pages evicted,
+> + * swapped or shrunken, so that when the total exceeds @target, or when the
+> + * LRU list has been walked in full, iteration is terminated. It's also terminated
+> + * on error. Note that the definition of @target is done by the caller, it
+> + * could have a different meaning than the number of pages.
+> + *
+> + * Note that the way dma_resv individualization is done, locking needs to be done
+> + * either with the LRU lock held (trylocking only) or with a reference on the
+> + * object.
+> + *
+> + * Return: The progress made towards target or negative error code on error.
+> + */
+> +long ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct ttm_device *bdev,
+> +			    struct ttm_resource_manager *man, long target)
+> +{
+> +	struct ttm_resource_cursor cursor;
+> +	struct ttm_resource *res;
+> +	long sofar = 0;
+
+s/sofar/evicted?
+
+> +	long lret;
+> +
+> +	spin_lock(&bdev->lru_lock);
+> +	ttm_resource_manager_for_each_res(man, &cursor, res) {
+> +		struct ttm_buffer_object *bo = res->bo;
+> +		bool bo_needs_unlock = false;
+> +		bool bo_locked = false;
+> +		int mem_type;
+> +
+> +		if (!bo || bo->resource != res)
+> +			continue;
+> +
+> +		if (ttm_lru_walk_trylock(walk, bo, &bo_needs_unlock))
+> +			bo_locked = true;
+> +		else if ((!walk->ticket) || walk->ctx->no_wait_gpu ||
+
+Nit - (!walk->ticket) could just be !walk->ticket.
+
+> +			 walk->trylock_only)
+> +			continue;
+> +
+> +		if (!ttm_bo_get_unless_zero(bo)) {
+> +			ttm_lru_walk_unlock(bo, bo_needs_unlock);
+> +			continue;
+> +		}
+> +
+
+This kinda goofy pattern too, typically in code a get_unless_zero is
+done before trying to lock the object not after. Even odder here, the
+could or could not be locked depending on the outcome of
+ttm_lru_walk_trylock. This is covering individualization case? Would it
+make more sense to move ttm_bo_get_unless_zero before the try lock or is
+that to avoid a put on try lock failure + continue?
+
+> +		mem_type = res->mem_type;
+> +		spin_unlock(&bdev->lru_lock);
+> +
+> +		lret = 0;
+> +		if (!bo_locked && walk->ticket)
+
+As above could you explain the ticket usage a bit more?
+
+Also you shouldn't need to check the ticket here there is !walk->ticket
+above which triggers a continue.
+
+> +			lret = ttm_lru_walk_ticketlock(walk, bo, &bo_needs_unlock);
+> +
+> +		/*
+> +		 * Note that in between the release of the lru lock and the
+> +		 * ticketlock, the bo may have switched resource,
+> +		 * and also memory type, since the resource may have been
+> +		 * freed and allocated again with a different memory type.
+> +		 * In that case, just skip it.
+> +		 */
+> +		if (!lret && bo->resource == res && res->mem_type == mem_type)
+> +			lret = walk->ops->process_bo(walk, bo);
+> +
+> +		ttm_lru_walk_unlock(bo, bo_needs_unlock);
+> +		ttm_bo_put(bo);
+> +		if (lret == -EBUSY || lret == -EALREADY)
+> +			lret = 0;
+
+What is usage of these error codes?
+
+-EALREADY means the resv is locked with the current ticket, right?
+Wouldn't we want to call process_bo in this case too?
+
+-EBUSY I need some help figuring out.
+
+> +		sofar = (lret < 0) ? lret : sofar + lret;
+> +		if (sofar < 0 || sofar >= target)
+> +			goto out;
+> +
+
+Here we have dropped the BO unlock. What prevents the BO from being
+moved back to the resource we just evicted it from resulting in sofar
+not being accurate?
+
+Matt
+
+> +		cond_resched();
+> +		spin_lock(&bdev->lru_lock);
+> +	}
+> +	spin_unlock(&bdev->lru_lock);
+> +out:
+> +	ttm_resource_cursor_fini(&cursor);
+> +	return sofar;
+> +}
+> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+> index 6ccf96c91f3a..8b032298d66e 100644
+> --- a/include/drm/ttm/ttm_bo.h
+> +++ b/include/drm/ttm/ttm_bo.h
+> @@ -190,6 +190,38 @@ struct ttm_operation_ctx {
+>  	uint64_t bytes_moved;
+>  };
+>  
+> +struct ttm_lru_walk;
+> +
+> +/** struct ttm_lru_walk_ops - Operations for a LRU walk. */
+> +struct ttm_lru_walk_ops {
+> +	/**
+> +	 * process_bo - Process this bo.
+> +	 * @walk: struct ttm_lru_walk describing the walk.
+> +	 * @bo: A locked and referenced buffer object.
+> +	 *
+> +	 * Return: Negative error code on error, Number of processed pages on
+> +	 * success. 0 also indicates success.
+> +	 */
+> +	long (*process_bo)(struct ttm_lru_walk *walk, struct ttm_buffer_object *bo);
+> +};
+> +
+> +/**
+> + * struct ttm_lru_walk - Structure describing a LRU walk.
+> + */
+> +struct ttm_lru_walk {
+> +	/** @ops: Pointer to the ops structure. */
+> +	const struct ttm_lru_walk_ops *ops;
+> +	/** @ctx: Pointer to the struct ttm_operation_ctx. */
+> +	struct ttm_operation_ctx *ctx;
+> +	/** @ticket: The struct ww_acquire_ctx if any. */
+> +	struct ww_acquire_ctx *ticket;
+> +	/** @tryock_only: Only use trylock for locking. */
+> +	bool trylock_only;
+> +};
+> +
+> +long ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct ttm_device *bdev,
+> +			    struct ttm_resource_manager *man, long target);
+> +
+>  /**
+>   * ttm_bo_get - reference a struct ttm_buffer_object
+>   *
+> -- 
+> 2.44.0
+> 
