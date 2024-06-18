@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C170D90C70F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 12:33:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A41690C85D
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 13:06:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2B8410E631;
-	Tue, 18 Jun 2024 10:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81DB510E096;
+	Tue, 18 Jun 2024 11:06:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="Y1IYSpUA";
+	dkim=pass (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.b="EcGylFKE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 279C010E624;
- Tue, 18 Jun 2024 10:33:39 +0000 (UTC)
-MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1718706816;
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2E5910E096
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 11:06:17 +0000 (UTC)
+Received: from localhost (unknown [213.135.10.150])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256) (No client certificate requested)
+ by mail.3ffe.de (Postfix) with ESMTPSA id D30E24EB;
+ Tue, 18 Jun 2024 13:06:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
+ s=mail2022082101; t=1718708775;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ptTO7D1wdxlQ3ntloeWD3U/gouzYuciZ4yKoIe8LFNs=;
- b=Y1IYSpUA/oo+qzTXgqv3/KSgqHPOZL+GwNcCb7yLUHH5hfsfxEPJDgciAGUW9LXmgbJPre
- 1Z3LKCMNZ+5hGSlCEg9UKyVCCpoDXepZnBCyKeBlnZ7UkCJUTgarQEF75ByE4riLLv5PhY
- I1VZBSJ9/pLfKtozncYDU7QXR2TbhEPisrOFzOT6z8Fjx0raEdJee0QCyvm1ni9N2xxrPT
- hFG/Nt6wiL6v8A1nHQumExH5VbOPcV9jkceND+dfV0uXMLSnY3brknya0fJ+PkynfGeb3i
- knsPrde0yz2ZT3BKbQTckMTo9+1mrRu7fqEqVKVm5vc8fHyzxlsFZ8ngLRTlpQ==
-Date: Tue, 18 Jun 2024 12:33:36 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Qiang Yu <yuq825@gmail.com>, dri-devel@lists.freedesktop.org,
- lima@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- linux-kernel@vger.kernel.org, Philip Muller <philm@manjaro.org>, Oliver
- Smith <ollieparanoid@postmarketos.org>, Daniel Smith <danct12@disroot.org>,
- stable@vger.kernel.org
-Subject: Re: [PATCH] drm/lima: Mark simple_ondemand governor as softdep
-In-Reply-To: <20240618-great-hissing-skink-b7950e@houat>
-References: <fdaf2e41bb6a0c5118ff9cc21f4f62583208d885.1718655070.git.dsimic@manjaro.org>
- <CAKGbVbs8VmCXVOHbhkCYEHNJiKWwy10p0SV9J09h2h7xjs7hUg@mail.gmail.com>
- <CAKGbVbsM4rCprWdp+aGXE-pvCkb6N7weUyG2z4nXqFpv+y=LrA@mail.gmail.com>
- <20240618-great-hissing-skink-b7950e@houat>
-Message-ID: <4813a6885648e5368028cd822e8b2381@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
- auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=x3dY7vGUbHuM7HK5sLYaOBv96qBz5iBV4OEjaZApnZQ=;
+ b=EcGylFKEGifOWNxIqMP1JLQXaIeq48Z8EyC1O86WxZyERM3xNT+PS5yg49l4s9Cd/FunH5
+ /cxrLAAZ3dwF5o6bN14jScBzoHqbnz3kNQ7TmXfsmK2lM3BQX0mDAzAB6t7Ulp7W1yCDxU
+ LsqsUfDjDTxWCs1W9fZYk9LpUcoSsrYKDOAJiZXoIEdUc6D2g99gyzvzDLbg5RSy5RPaxa
+ LaIj6pOQJJ/GLPniTuhCd+MP9Rd4kBK9Ahocy4PMai9rnPeo2sYO/Rmdqx9bKkbHU9yiF9
+ XViRWu27tg/IxlKkPwEzQHymirWjwKoerg3TZfgmjv7Jkr3cXSY7TR9RlD/O4w==
+Content-Type: multipart/signed;
+ boundary=35992d9bcb644d4eacfa1e9e85c528ea0bce7a64169a83d15a45c664ea97;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Tue, 18 Jun 2024 13:05:59 +0200
+Message-Id: <D233EO49QOHJ.Z924UBW5OPJU@walle.cc>
+Subject: Re: [PATCH v8 0/3] drm/mediatek: Add support for OF graphs
+Cc: <robh@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+ <conor+dt@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <matthias.bgg@gmail.com>,
+ <shawn.sung@mediatek.com>, <yu-chang.lee@mediatek.com>,
+ <ck.hu@mediatek.com>, <jitao.shi@mediatek.com>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <wenst@chromium.org>,
+ <kernel@collabora.com>, <sui.jingfeng@linux.dev>
+From: "Michael Walle" <michael@walle.cc>
+To: "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+ <chunkuang.hu@kernel.org>
+X-Mailer: aerc 0.16.0
+References: <20240618101726.110416-1-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240618101726.110416-1-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,48 +68,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Qiang and Maxime,
+--35992d9bcb644d4eacfa1e9e85c528ea0bce7a64169a83d15a45c664ea97
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-On 2024-06-18 10:13, Maxime Ripard wrote:
-> On Tue, Jun 18, 2024 at 04:01:26PM GMT, Qiang Yu wrote:
->> On Tue, Jun 18, 2024 at 12:33 PM Qiang Yu <yuq825@gmail.com> wrote:
->> >
->> > I see the problem that initramfs need to build a module dependency chain,
->> > but lima does not call any symbol from simpleondemand governor module.
->> > softdep module seems to be optional while our dependency is hard one,
->> > can we just add MODULE_INFO(depends, _depends), or create a new
->> > macro called MODULE_DEPENDS()?
+On Tue Jun 18, 2024 at 12:17 PM CEST, AngeloGioacchino Del Regno wrote:
+> The display IPs in MediaTek SoCs are *VERY* flexible and those support
+> being interconnected with different instances of DDP IPs (for example,
+> merge0 or merge1) and/or with different DDP IPs (for example, rdma can
+> be connected with either color, dpi, dsi, merge, etc), forming a full
+> Display Data Path that ends with an actual display.
+>
+> This series was born because of an issue that I've found while enabling
+> support for MT8195/MT8395 boards with DSI output as main display: the
+> current mtk_drm_route variations would not work as currently, the driver
+> hardcodes a display path for Chromebooks, which have a DisplayPort panel
+> with DSC support, instead of a DSI panel without DSC support.
+>
+> There are other reasons for which I wrote this series, and I find that
+> hardcoding those paths - when a HW path is clearly board-specific - is
+> highly suboptimal. Also, let's not forget about keeping this driver from
+> becoming a huge list of paths for each combination of SoC->board->disp
+> and... this and that.
+>
+> For more information, please look at the commit description for each of
+> the commits included in this series.
+>
+> This series is essential to enable support for the MT8195/MT8395 EVK,
+> Kontron i1200, Radxa NIO-12L and, mainly, for non-Chromebook boards
+> and Chromebooks to co-exist without conflicts.
+>
+> Besides, this is also a valid option for MT8188 Chromebooks which might
+> have different DSI-or-eDP displays depending on the model (as far as I
+> can see from the mtk_drm_route attempt for this SoC that is already
+> present in this driver).
+>
+> This series was tested on MT8195 Cherry Tomato and on MT8395 Radxa
+> NIO-12L with both hardcoded paths, OF graph support and partially
+> hardcoded paths, and pure OF graph support including pipelines that
+> require OVL_ADAPTOR support.
+>
+> AngeloGioacchino Del Regno (3):
+>   dt-bindings: display: mediatek: Add OF graph support for board path
+>   dt-bindings: arm: mediatek: mmsys: Add OF graph support for board path
+>   drm/mediatek: Implement OF graphs support for display paths
 
-I had the same thoughts, because softdeps are for optional module
-dependencies, while in this case it's a hard dependency.  Though,
-I went with adding a softdep, simply because I saw no better option
-available.
+Thanks!
 
->> This doesn't work on my side because depmod generates modules.dep
->> by symbol lookup instead of modinfo section. So softdep may be our 
->> only
->> choice to add module dependency manually. I can accept the softdep
->> first, then make PM optional later.
+Tested-by: Michael Walle <mwalle@kernel.org> # on kontron-sbc-i1200
 
-I also thought about making devfreq optional in the Lima driver,
-which would make this additional softdep much more appropriate.
-Though, I'm not really sure that's a good approach, because not
-having working devfreq for Lima might actually cause issues on
-some devices, such as increased power consumption.
+-michael
 
-In other words, it might be better to have Lima probing fail if
-devfreq can't be initialized, rather than having probing succeed
-with no working devfreq.  Basically, failed probing is obvious,
-while a warning in the kernel log about no devfreq might easily
-be overlooked, causing regressions on some devices.
+--35992d9bcb644d4eacfa1e9e85c528ea0bce7a64169a83d15a45c664ea97
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> It's still super fragile, and depends on the user not changing the
-> policy. It should be solved in some other, more robust way.
+-----BEGIN PGP SIGNATURE-----
 
-I see, but I'm not really sure how to make it more robust?  In
-the end, some user can blacklist the simple_ondemand governor
-module, and we can't do much about it.
+iKcEABMJAC8WIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCZnFqGBEcbWljaGFlbEB3
+YWxsZS5jYwAKCRASJzzuPgIf+LnxAYDvi8NGKcq7QnyhgH61V4MgBsPbGi/ni6z7
+nn8e3UxZOMcwQRRNDphL39CDLPKkw8kBfjA6cKY5YP8k+k9IXpaQujvbA4vOC7EE
+PW5JBh2io2Yi2GnYe8xwA15I341VvtY/wA==
+=dDOU
+-----END PGP SIGNATURE-----
 
-Introducing harddeps alongside softdeps would make sense from
-the design standpoint, but the amount of required changes wouldn't
-be trivial at all, on various levels.
+--35992d9bcb644d4eacfa1e9e85c528ea0bce7a64169a83d15a45c664ea97--
