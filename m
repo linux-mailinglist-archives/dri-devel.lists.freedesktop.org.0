@@ -2,79 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B129B90C242
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 05:14:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3AC790C2DE
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 06:34:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E8B710E559;
-	Tue, 18 Jun 2024 03:14:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5199110E168;
+	Tue, 18 Jun 2024 04:34:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="KjG1+4nY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="N5Ba35v5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FD8510E559
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 03:14:08 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45I2IP0o001468;
- Tue, 18 Jun 2024 03:14:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=hV4bY1WLsZBbZpKik4z+Bk
- QCIpEuzxZQpIxUKWtFThM=; b=KjG1+4nY1qCTmu84q9rMi9tDmbAkMxzzmUtB8l
- eV4CXPjliiq3PADo948CmcNG1YLxtdDZzeT4twAWaeFUu7eVX72LxhzjR/Bw/8bg
- y9PKdB8mVO5CAnZ2RAY6K3laguK1RusYyD2xXPRSUwdh1i+gQjrODDRCvSDRCK6Y
- SpMT0ZJR49WwhRF9hnHF/6QasOzQB3D6cJeoSRLWuMAlrg5uFwM4lR5fp1Tx0+/m
- 4dKbQco7cMgmGpE91SosxN3YdAKSseAM8SOezmwUcDetjH8NHgGGXnVYG7XxTPt5
- ooYtBSqxJel1s6PPCZkrGOQ3R7ndyaRYxF1SqID+nRnlKyKA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yu1b0r30m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jun 2024 03:14:05 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45I3E4K2016277
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jun 2024 03:14:04 GMT
-Received: from [169.254.0.1] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 17 Jun
- 2024 20:14:04 -0700
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Date: Mon, 17 Jun 2024 20:14:03 -0700
-Subject: [PATCH] fbdev: amifb: add missing MODULE_DESCRIPTION() macro
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6407F10E168;
+ Tue, 18 Jun 2024 04:34:05 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-57a4d7ba501so6210836a12.2; 
+ Mon, 17 Jun 2024 21:34:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1718685243; x=1719290043; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BIwHA+mxDZIARtoB5DwfNg0Gfwpm3V2PRBL0EbC93+0=;
+ b=N5Ba35v5NFnNWVu5OTLLFtOnsBSG0FD/OVH/T1TrRU239VV9Gx/VTR0S82Shoy17Q0
+ av1fT5RGaak/CpKThiTpcOSGDvv5h07/CV9R49mJA3h84A19AQee+yXO0lMpe5dAu0xd
+ AfW2z6f469TUD8/8S1BDBbxMoAF7GfHnjR/KU7/AJoBMNEiDKnZxqaYU4JgEEWff6Ynk
+ 0numpijOIRt8FUPV35DGRq+XE9cRJniScr0S5PeZ1umrx1ll4DqK8evTOVwg1lh5crmH
+ 9k2hql7DdHUlRQY3jYLWpHaebmnOEqVQqTIvKvkekb37uD3idZmIfNhe1HiUHrPwfT3y
+ k45w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718685243; x=1719290043;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BIwHA+mxDZIARtoB5DwfNg0Gfwpm3V2PRBL0EbC93+0=;
+ b=CjXtPFRj0xyK6Y0BP1CoHLKQAUd2XhkLAfx6gFRxns4apIMFJ0Vovf4iiIvzE7kAEN
+ d8sY0tguWOpYgEQgV3FWqfCjHIs02vSZ4AWGcbzJCJRw8fTdr5GKAJ7wqkc31TSo8Rr2
+ +C0mmbMNy9mRgQfxjdYztpZXtw0UDlwFHu9mym/8dKRK5GfVp38abcRCgXYzrXQGsbHt
+ 0qPUGt1Ah4M9PTarNfQpuYSsnAKCIwUeVLPKlyP6JPpBOUxWwaVTwp/7e0GVs9s5xCCd
+ T8Iit93PzWqAaeLW4IwfVaerLUaVWmtVDz6YANaU0VcSt/N5R8WMxfs8LPuH7xKPWME/
+ AY4Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWnHKA9neIm1Vw4/VFggmWFgrpknRjTmzpRHIn2rGCG0qQcacKEHa3Tw2q1dFpsJPbLYuRCxnUnza2slfg5TpmD3egaUSM7ExWlJA==
+X-Gm-Message-State: AOJu0YxqaXZBLjrQkcFIt+MYG2rR5StevRSOFffGUNyHIUJMLbX9MdO+
+ 2lzzVCaq2vx8/1yezsv+ELxBSTM0MWcMlSK1aTjI6dDMWdlj//3iyRUeWyAekGHNABvVi1ixAsP
+ 8OhKhtW10eZGGvlqDNV/2ekiDNik=
+X-Google-Smtp-Source: AGHT+IEvIyNa10vntkg70/P22cvrLRrQaET/PryqCiwiAaxtddZK8JGlqlKFD8nYwOFg282VPsumofyXlGoruVft9M0=
+X-Received: by 2002:a17:906:4ac4:b0:a6f:493d:5b9f with SMTP id
+ a640c23a62f3a-a6f60d3f4aamr803279566b.35.1718685242877; Mon, 17 Jun 2024
+ 21:34:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240617-md-m68k-drivers-video-fbdev-amifb-v1-1-85f74746ecd4@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAHr7cGYC/x3NwQ6CMAyA4VchPdsEFIf6KsbDRjtpdMO0upAQ3
- t3p8bv8/wrGKmxwaVZQLmIy54pu18A4+XxnFKqGfbvvW9cNmAiTOz2QVAqrYRHiGWMgLuiTxIC
- H6I7Ue8c0nKF2XspRlv/jeqsO3hiD+jxOv/JT8mfB5O3NCtv2BT2dsdOSAAAA
-To: Helge Deller <deller@gmx.de>
-CC: <linux-fbdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>, "Jeff
- Johnson" <quic_jjohnson@quicinc.com>
-X-Mailer: b4 0.14.0
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 01GJ4uB8IPy56o-tuKQMdxV49UW0nG3D
-X-Proofpoint-ORIG-GUID: 01GJ4uB8IPy56o-tuKQMdxV49UW0nG3D
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-17_14,2024-06-17_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- suspectscore=0 bulkscore=0 spamscore=0 mlxlogscore=999 impostorscore=0
- adultscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
- definitions=main-2406180023
+References: <fdaf2e41bb6a0c5118ff9cc21f4f62583208d885.1718655070.git.dsimic@manjaro.org>
+In-Reply-To: <fdaf2e41bb6a0c5118ff9cc21f4f62583208d885.1718655070.git.dsimic@manjaro.org>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Tue, 18 Jun 2024 12:33:50 +0800
+Message-ID: <CAKGbVbs8VmCXVOHbhkCYEHNJiKWwy10p0SV9J09h2h7xjs7hUg@mail.gmail.com>
+Subject: Re: [PATCH] drm/lima: Mark simple_ondemand governor as softdep
+To: Dragan Simic <dsimic@manjaro.org>
+Cc: dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, daniel@ffwll.ch, linux-kernel@vger.kernel.org, 
+ Philip Muller <philm@manjaro.org>,
+ Oliver Smith <ollieparanoid@postmarketos.org>, 
+ Daniel Smith <danct12@disroot.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,29 +83,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With ARCH=m68k, make allmodconfig && make W=1 C=1 reports:
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/amifb.o
+I see the problem that initramfs need to build a module dependency chain,
+but lima does not call any symbol from simpleondemand governor module.
 
-Add the missing invocation of the MODULE_DESCRIPTION() macro.
+softdep module seems to be optional while our dependency is hard one,
+can we just add MODULE_INFO(depends, _depends), or create a new
+macro called MODULE_DEPENDS()?
 
-Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
----
- drivers/video/fbdev/amifb.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/video/fbdev/amifb.c b/drivers/video/fbdev/amifb.c
-index 305f396c764c..132638240521 100644
---- a/drivers/video/fbdev/amifb.c
-+++ b/drivers/video/fbdev/amifb.c
-@@ -3782,5 +3782,6 @@ static struct platform_driver amifb_driver __refdata = {
- 
- module_platform_driver_probe(amifb_driver, amifb_probe);
- 
-+MODULE_DESCRIPTION("Amiga builtin chipset frame buffer driver");
- MODULE_LICENSE("GPL");
- MODULE_ALIAS("platform:amiga-video");
-
----
-base-commit: 6ba59ff4227927d3a8530fc2973b80e94b54d58f
-change-id: 20240617-md-m68k-drivers-video-fbdev-amifb-3f65d4a6ed79
-
+On Tue, Jun 18, 2024 at 4:22=E2=80=AFAM Dragan Simic <dsimic@manjaro.org> w=
+rote:
+>
+> Lima DRM driver uses devfreq to perform DVFS, while using simple_ondemand
+> devfreq governor by default.  This causes driver initialization to fail o=
+n
+> boot when simple_ondemand governor isn't built into the kernel statically=
+,
+> as a result of the missing module dependency and, consequently, the requi=
+red
+> governor module not being included in the initial ramdisk.  Thus, let's m=
+ark
+> simple_ondemand governor as a softdep for Lima, to have its kernel module
+> included in the initial ramdisk.
+>
+> This is a rather longstanding issue that has forced distributions to buil=
+d
+> devfreq governors statically into their kernels, [1][2] or may have force=
+d
+> some users to introduce unnecessary workarounds.
+>
+> Having simple_ondemand marked as a softdep for Lima may not resolve this
+> issue for all Linux distributions.  In particular, it will remain unresol=
+ved
+> for the distributions whose utilities for the initial ramdisk generation =
+do
+> not handle the available softdep information [3] properly yet.  However, =
+some
+> Linux distributions already handle softdeps properly while generating the=
+ir
+> initial ramdisks, [4] and this is a prerequisite step in the right direct=
+ion
+> for the distributions that don't handle them properly yet.
+>
+> [1] https://gitlab.manjaro.org/manjaro-arm/packages/core/linux-pinephone/=
+-/blob/6.7-megi/config?ref_type=3Dheads#L5749
+> [2] https://gitlab.com/postmarketOS/pmaports/-/blob/7f64e287e7732c9eaa029=
+653e73ca3d4ba1c8598/main/linux-postmarketos-allwinner/config-postmarketos-a=
+llwinner.aarch64#L4654
+> [3] https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git/commit/?id=
+=3D49d8e0b59052999de577ab732b719cfbeb89504d
+> [4] https://github.com/archlinux/mkinitcpio/commit/97ac4d37aae084a050be51=
+2f6d8f4489054668ad
+>
+> Cc: Philip Muller <philm@manjaro.org>
+> Cc: Oliver Smith <ollieparanoid@postmarketos.org>
+> Cc: Daniel Smith <danct12@disroot.org>
+> Cc: stable@vger.kernel.org
+> Fixes: 1996970773a3 ("drm/lima: Add optional devfreq and cooling device s=
+upport")
+> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+> ---
+>  drivers/gpu/drm/lima/lima_drv.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_=
+drv.c
+> index 739c865b556f..10bce18b7c31 100644
+> --- a/drivers/gpu/drm/lima/lima_drv.c
+> +++ b/drivers/gpu/drm/lima/lima_drv.c
+> @@ -501,3 +501,4 @@ module_platform_driver(lima_platform_driver);
+>  MODULE_AUTHOR("Lima Project Developers");
+>  MODULE_DESCRIPTION("Lima DRM Driver");
+>  MODULE_LICENSE("GPL v2");
+> +MODULE_SOFTDEP("pre: governor_simpleondemand");
