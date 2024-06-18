@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA12D90DFFC
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 01:34:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6452D90DFFE
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 01:34:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A33A210E815;
-	Tue, 18 Jun 2024 23:34:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69A2010E814;
+	Tue, 18 Jun 2024 23:34:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YF7e7z1g";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="EQj92dyI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64A9010E811
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 23:34:07 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CCD110E815
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 23:34:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1718753646;
+ s=mimecast20190719; t=1718753649;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
  bh=x0Bto6qyi282V0FfFQETmOtdKduKSr9xi2/2rtGnlRY=;
- b=YF7e7z1gIjcxv3QwyyMbEQJRAAc5BfvqW4jU2yIgXbsCJ7job/6ruuPi8onGjBhFz8Z9Yg
- l1YQrNZ8zlmq9pRnHM9+Yzs1cgPweg504lyUZ8QNHr/GgK8EaxuPlIqzimKBgQ5iGHvS2g
- ZHu2fNEdHWPUJksr0OwmFr8eN2QnnQo=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ b=EQj92dyIzcnDsV20aF7qbkyL2PaE+zOKwus+WvXtYj/l3n3u27Z0OmQ+FDDU3D7ggsz604
+ aKpxm0fD05HmTvviQg+PiOgPGaOfXC9cCypIyF/8/2Agd2AfA1tH57seUJJceEYu1sZaPN
+ E7I+SwdZaJOngQB3XWIRt1RAC4jR0mg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-463-Ghd-MdHmPa2vf7nQMx_tMg-1; Tue, 18 Jun 2024 19:34:04 -0400
-X-MC-Unique: Ghd-MdHmPa2vf7nQMx_tMg-1
-Received: by mail-lf1-f71.google.com with SMTP id
- 2adb3069b0e04-52cb4cf42f6so2607247e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 16:34:04 -0700 (PDT)
+ us-mta-302-LBk7RfSOMDuzIXyIxT0BKw-1; Tue, 18 Jun 2024 19:34:08 -0400
+X-MC-Unique: LBk7RfSOMDuzIXyIxT0BKw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-4212e2a3a1bso39167825e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 16:34:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718753643; x=1719358443;
+ d=1e100.net; s=20230601; t=1718753647; x=1719358447;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
  bh=x0Bto6qyi282V0FfFQETmOtdKduKSr9xi2/2rtGnlRY=;
- b=l3NW4WH6RSFzK8eipHMoB19ew/8CumIzZv+I9q70tVs4Lrx8yl0/Bz9Re0+IX4kvVC
- nm+morhmYL7+9DlGuFnNR9+6DU6j/xni+UXX2icoirT6xURhtqNyMZ+n4RGoGe0pPgGR
- wJGkZxFFhlM5ODHdxvapbzm7Ig5molZB8mmFWHdV9878RNnIt6GgpSe2n32yHhNTG9l0
- br/J/fUS+HZoonIWOuuOs80/EQQywT/npRoOh60pK0QtPbIiyMvdJcqhdZxPtq2uDFHG
- qf1zpP5v9jsWX6e77TIhDsE+ddOZxPboLpsE8dvlpfZ5QLrDbjbyc8ItXhMth5pqw+mY
- WD3A==
+ b=h8lFCqfp/j+iVvk7MKHmvz0epD2EFbznZKE6hifCKzNhYf0HvpEsvKynyYdMcIT+6S
+ nRr3JvvHQy9P3K8GsUE6XRCyNC4fDJQGdj6/1SCHLBzFaydxOqlshZY0I1tq4byE0JAh
+ BonAMQ9/OxTw9vsuXqG4BLwBGFca0BdY3vluhY1gqIHGsj7f7Ykmp7C5sy6nDawnkd1G
+ HAE37x+vvGwoTKte9/UHnSJtkYHlWA+kZFugVzAnLpV8+lFVrC9IG6YFh3IVKVSeq39L
+ NWOoDU8qw/Qu53ZnzeWFzx3eWB6ICou9VEjvas+r8DXqY0qej6gKhoQmDfpcHlggvHDa
+ EfVg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXy6kAGEllxtEN6JsbN2/32SKDBxaEbd5lUBmc3fQKh4YjBtg32P15jITHZwz4Z9sPDJFrQQGazLuDMcU6QzR+bY5FhTcxhc990jTBm5qsC
-X-Gm-Message-State: AOJu0YzOUsxn4emB846eKAz70OVpuEjsUfqPjVdNkZ81LV34N+Qfw9s3
- 3h0KChAb3MT0fRq1rH22MYf/e3KLtKaBvTHmFrj3DzfMHEWySnyk2S6UVKxLqshkbmIHD43T6fU
- vRO4BYbFubDqpg0x0UXiQDGeof3NppanPJJHPSBIm0UT1agEc9nJqqkXsKuuJidk0SA==
-X-Received: by 2002:a05:6512:3a90:b0:52c:cbb4:7810 with SMTP id
- 2adb3069b0e04-52ccbb478afmr258852e87.8.1718753643077; 
- Tue, 18 Jun 2024 16:34:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE76RwFXNcn06n31+CxDk2+RBLAA6Ow+iK4Kyj7qDOn/TkTQ1xvZUZFDP+7uys3HXRUlJOiUg==
-X-Received: by 2002:a05:6512:3a90:b0:52c:cbb4:7810 with SMTP id
- 2adb3069b0e04-52ccbb478afmr258835e87.8.1718753642627; 
- Tue, 18 Jun 2024 16:34:02 -0700 (PDT)
+ AJvYcCUSr9zG49uW40pnGh47qVX+3UQt08bgm+1X4PGLLjm1mLZf2EeZpvQKxRipIOQAJ7FmEPzhq8s4opsbICeE/l4/dklHxMVdUDd7BEgoq8zu
+X-Gm-Message-State: AOJu0Yy10CeQkkW6/64nZEmZ9qVNyNXaRvOU+N76CsRu6H8im1PW+nlS
+ gQc94kjoLeEBJ0s7oPDSAgdo3t/7Y/o6ZAlwlRUcSukxtI0kLaIIc9L6FlUxZJXotJ6hkJdbFo2
+ jseBy3d2w3ZSoTttC0Ulk9qaI8s/Z2rV3frAm3lwK7jhPde3tBibPEczjkmKFV//5Og==
+X-Received: by 2002:a05:600c:47cf:b0:423:b63e:74d1 with SMTP id
+ 5b1f17b1804b1-42475296a85mr4690345e9.29.1718753647176; 
+ Tue, 18 Jun 2024 16:34:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFDTvesGw+MH8JKeoHbO9/+pZmS2s4IaR0Rx8au+t2uzOsTA1xhO6BS4Uz+ukARoYBv+0g8EQ==
+X-Received: by 2002:a05:600c:47cf:b0:423:b63e:74d1 with SMTP id
+ 5b1f17b1804b1-42475296a85mr4690215e9.29.1718753646737; 
+ Tue, 18 Jun 2024 16:34:06 -0700 (PDT)
 Received: from cassiopeiae.. ([2a02:810d:4b3f:ee94:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-360750f2489sm15331736f8f.69.2024.06.18.16.34.01
+ ffacd0b85a97d-3607509c8fbsm15303024f8f.43.2024.06.18.16.34.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jun 2024 16:34:02 -0700 (PDT)
+ Tue, 18 Jun 2024 16:34:06 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, daniel@ffwll.ch, ojeda@kernel.org,
@@ -73,9 +73,9 @@ To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  gregkh@linuxfoundation.org, robh@kernel.org, daniel.almeida@collabora.com
 Cc: rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>
-Subject: [PATCH v2 8/8] nova: add initial driver stub
-Date: Wed, 19 Jun 2024 01:31:44 +0200
-Message-ID: <20240618233324.14217-9-dakr@redhat.com>
+Subject: [PATCH v2 10/10] nova: add initial driver stub
+Date: Wed, 19 Jun 2024 01:31:45 +0200
+Message-ID: <20240618233324.14217-10-dakr@redhat.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240618233324.14217-1-dakr@redhat.com>
 References: <20240618233324.14217-1-dakr@redhat.com>
