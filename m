@@ -2,87 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99DD790DF82
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 00:58:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5BA590DF8A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 01:02:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E812510E7E6;
-	Tue, 18 Jun 2024 22:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A41DD10E7F4;
+	Tue, 18 Jun 2024 23:02:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="B7HXmB9H";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="h1atyNwS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42A9010E7E0;
- Tue, 18 Jun 2024 22:58:02 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45ILafQg005103;
- Tue, 18 Jun 2024 22:57:56 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCA4A10E243;
+ Tue, 18 Jun 2024 23:02:46 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45ILaOPn010843;
+ Tue, 18 Jun 2024 23:02:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- qSNGU80bRBOgO9Q8lbRL86L4izi5paRJz5NaoZH530g=; b=B7HXmB9HFWK1PNH/
- fg7tm2tHY//ymJP+SDaK5oW36Ax5IltpcNfM1cIypzzPmaQSnL8wwg9nu/Om1wO7
- C8ma7REtujKvHLvGc+m3EkcXu0Ln56fqEgycGOSO6TrONhK2vMPjhlWvT2b5oM00
- 8cE/Bj07w+qm6oOP2lalrfHnBdXRTJLjnhGgCRuaLB1z0ImTrvtuXwsbPgfwVDt+
- u5ZOa7XZeN2NqUetfxjvINHciLB5fhOb2S13XG167KwuZYiHt5GlSOHkh8cI5Hjh
- PfxfChDQO8OdvnZ31mq1k/BnPd8qmuJeqhOq8RcjW5C99ufPTL3QK5aa6nQwNS8N
- vbNiew==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yuja7845p-1
+ OqqHrua9arZuM1QP7wr//VxcSAWtoOVDR656DBaoAaQ=; b=h1atyNwSkHrGlz5f
+ igQ+V1qHfnqwLvfc1dGc3B7AH6Fj124AJapVuYwLBHFenWH/MqzMpuCtKLiIW4GN
+ /OqUX8NK73H26xPLpmryu0FDCMC3n7s8UtTOKUEgP5HjQiKRu3WTbct7MVSV6HUu
+ odX2npgFvM3f8wpEUvNspJ8abf8hQdyKlgtiF267JpPysWbh6KfDUfT1fT5+RThg
+ PWclutsHJjuWlqpBhMBBaqfxfIuQjwx74rRWfxLcizp8TCZGkf/wrMUr9yYY88Qa
+ fgvAi7ZL4aIQPbnYi4r1ZhCBIsdDpAAkUiZAiiGULy8Ug6TxMsIwRvdXhDyDFVlk
+ 5q5OoA==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yuja2g4e7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jun 2024 22:57:56 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45IMvtbR002824
+ Tue, 18 Jun 2024 23:02:44 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45IN2g9j012376
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jun 2024 22:57:55 GMT
-Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 18 Jun 2024 23:02:42 GMT
+Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 18 Jun
- 2024 15:57:54 -0700
-Message-ID: <a565b3e3-ec4b-4381-957d-9789b38a9f62@quicinc.com>
-Date: Tue, 18 Jun 2024 15:57:54 -0700
+ 2024 16:02:42 -0700
+Message-ID: <fb66bdcc-2bc7-4558-9c96-b41619c44021@quicinc.com>
+Date: Tue, 18 Jun 2024 16:02:32 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 9/9] drm/msm/dpu: sync mode_config limits to the FB
- limits in dpu_plane.c
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/14] drm/msm/hdmi: drop clock frequency assignment
 Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>
-CC: Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan+linaro@kernel.org>, 
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20240614-dpu-mode-config-width-v3-0-29ec4069c99b@linaro.org>
- <20240614-dpu-mode-config-width-v3-9-29ec4069c99b@linaro.org>
- <a4ab3435-c69b-e754-0d51-dc1cc54bfde7@quicinc.com>
-In-Reply-To: <a4ab3435-c69b-e754-0d51-dc1cc54bfde7@quicinc.com>
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul
+ <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
+ Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20240522-fd-hdmi-hpd-v2-0-c30bdb7c5c7e@linaro.org>
+ <20240522-fd-hdmi-hpd-v2-5-c30bdb7c5c7e@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20240522-fd-hdmi-hpd-v2-5-c30bdb7c5c7e@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: tFG6qpMb5RWmZHXbYYW2uv8i1K-h1s7z
-X-Proofpoint-GUID: tFG6qpMb5RWmZHXbYYW2uv8i1K-h1s7z
+X-Proofpoint-GUID: ari14C3QHLXDbu57MSHaI0wRRzXCBkan
+X-Proofpoint-ORIG-GUID: ari14C3QHLXDbu57MSHaI0wRRzXCBkan
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-18_05,2024-06-17_01,2024-05-17_01
+ definitions=2024-06-18_06,2024-06-17_01,2024-05-17_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 impostorscore=0
- lowpriorityscore=0 adultscore=0 mlxlogscore=755 malwarescore=0
- phishscore=0 bulkscore=0 suspectscore=0 clxscore=1015 spamscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406180168
+ lowpriorityscore=0 mlxscore=0
+ spamscore=0 adultscore=0 priorityscore=1501 suspectscore=0 mlxlogscore=999
+ malwarescore=0 phishscore=0 impostorscore=0 bulkscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
+ definitions=main-2406180169
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,26 +96,72 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 6/13/2024 4:16 PM, Abhinav Kumar wrote:
+On 5/22/2024 3:50 AM, Dmitry Baryshkov wrote:
+> The only clock which has frequency being set through hpd_freqs is the
+> "core" aka MDSS_HDMI_CLK clock. It always has the specified frequency,
+> so we can drop corresponding clk_set_rate() call together with the
+> hpd_freq infrastructure.
 > 
-> 
-> On 6/13/2024 3:36 PM, Dmitry Baryshkov wrote:
->> Lift mode_config limits set by the DPU driver to the actual FB limits as
->> handled by the dpu_plane.c. Move 2*max_lm_width check where it belongs,
->> to the drm_crtc_helper_funcs::mode_valid() callback.
->>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 15 +++++++++++++++
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  |  9 ++-------
->>   2 files changed, 17 insertions(+), 7 deletions(-)
->>
-> 
-> Did anything change in this patch from v2 that the R-b was dropped?
-> 
-> Here it is again,
-> 
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Tested-by: Abhinav Kumar <quic_abhinavk@quicinc.com> # sc7280
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
+> ---
+>   drivers/gpu/drm/msm/hdmi/hdmi.c     | 2 --
+>   drivers/gpu/drm/msm/hdmi/hdmi.h     | 1 -
+>   drivers/gpu/drm/msm/hdmi/hdmi_hpd.c | 9 ---------
+>   3 files changed, 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> index 681265e29aa0..c14e009f38b1 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> @@ -236,12 +236,10 @@ static const struct hdmi_platform_config hdmi_tx_8960_config = {
+>   
+>   static const char *pwr_reg_names_8x74[] = {"core-vdda", "core-vcc"};
+>   static const char *hpd_clk_names_8x74[] = {"iface", "core", "mdp_core", "alt_iface"};
+> -static unsigned long hpd_clk_freq_8x74[] = {0, 19200000, 0, 0};
+>   
+>   static const struct hdmi_platform_config hdmi_tx_8974_config = {
+>   		HDMI_CFG(pwr_reg, 8x74),
+>   		HDMI_CFG(hpd_clk, 8x74),
+> -		.hpd_freq      = hpd_clk_freq_8x74,
+>   };
+>   
+>   /*
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
+> index abdbe4779cf9..c0d60ed23b75 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi.h
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
+> @@ -96,7 +96,6 @@ struct hdmi_platform_config {
+>   
+>   	/* clks that need to be on for hpd: */
+>   	const char **hpd_clk_names;
+> -	const long unsigned *hpd_freq;
+>   	int hpd_clk_cnt;
+>   };
+>   
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
+> index 9ce0ffa35417..7ae69b14e953 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
+> @@ -68,15 +68,6 @@ static void enable_hpd_clocks(struct hdmi *hdmi, bool enable)
+>   
+>   	if (enable) {
+>   		for (i = 0; i < config->hpd_clk_cnt; i++) {
+> -			if (config->hpd_freq && config->hpd_freq[i]) {
+> -				ret = clk_set_rate(hdmi->hpd_clks[i],
+> -						   config->hpd_freq[i]);
+> -				if (ret)
+> -					dev_warn(dev,
+> -						 "failed to set clk %s (%d)\n",
+> -						 config->hpd_clk_names[i], ret);
+> -			}
+> -
+>   			ret = clk_prepare_enable(hdmi->hpd_clks[i]);
+>   			if (ret) {
+>   				DRM_DEV_ERROR(dev,
+> 
+> -- 
+> 2.39.2
+> 
