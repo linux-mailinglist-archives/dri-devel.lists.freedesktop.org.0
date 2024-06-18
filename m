@@ -2,70 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C111690D8E6
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 18:18:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F9290D930
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 18:26:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFEFF10E710;
-	Tue, 18 Jun 2024 16:18:33 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Kjh5TorH";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8EBD10E6CA;
+	Tue, 18 Jun 2024 16:26:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E29B10E710;
- Tue, 18 Jun 2024 16:18:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=YJvIf2DDEFs4F7cl6mRoHHDrlRyogLF3aAA6llHTpMM=; b=Kjh5TorHWywtTOKU3DR8seE9DT
- J1P6eLTtgK4qTlj1CMVS13+GAY70esJ3ef2HogKsoiqh3fri7T5xblTJ/6SecVCjcr0bF/SjgDtju
- mxpYCRqVNrSUd8SSb6v3+tn/mh1qzT/vKLbemhu3EWRPIz37DRBDDYNopMWKboku066wF+ZC7lBNH
- /AHAcfHPHXVhRQfCBcsGUxBlUTKyi06lubS4wwy70jCElT81E0XG/+099c4XI1INCXVveu/9F0r0K
- iGa6noh+fZQ0JkimLwpUbtwmoYweHKBhmvzpkKar/2LYRsAfAk+5LzuHq/IW5d5vvZew3yNanZZKG
- b4isgE7A==;
-Received: from [177.172.122.99] (helo=[192.168.15.100])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sJbXI-004na1-TW; Tue, 18 Jun 2024 18:18:21 +0200
-Message-ID: <fc67b552-6f61-4f30-9e34-dd6b2364d155@igalia.com>
-Date: Tue, 18 Jun 2024 13:18:10 -0300
+X-Greylist: delayed 357 seconds by postgrey-1.36 at gabe;
+ Tue, 18 Jun 2024 16:26:18 UTC
+Received: from ns.iliad.fr (ns.iliad.fr [212.27.33.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB63A10E6CA
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 16:26:18 +0000 (UTC)
+Received: from ns.iliad.fr (localhost [127.0.0.1])
+ by ns.iliad.fr (Postfix) with ESMTP id A4EC720787;
+ Tue, 18 Jun 2024 18:20:18 +0200 (CEST)
+Received: from [127.0.1.1] (freebox.vlq16.iliad.fr [213.36.7.13])
+ by ns.iliad.fr (Postfix) with ESMTP id 9408D201FD;
+ Tue, 18 Jun 2024 18:20:18 +0200 (CEST)
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+Date: Tue, 18 Jun 2024 18:19:59 +0200
+Subject: [PATCH] drm: bridge: simple-bridge: use devm_drm_bridge_add in probe
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/9] drm: Support per-plane async flip configuration
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- kernel-dev@igalia.com, Melissa Wen <mwen@igalia.com>,
- alexander.deucher@amd.com, christian.koenig@amd.com,
- Simon Ser <contact@emersion.fr>, Pekka Paalanen <ppaalanen@gmail.com>,
- daniel@ffwll.ch, Daniel Stone <daniel@fooishbar.org>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- Dave Airlie <airlied@gmail.com>, ville.syrjala@linux.intel.com,
- Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>
-References: <20240618030024.500532-1-andrealmeid@igalia.com>
- <20240618030024.500532-3-andrealmeid@igalia.com> <878qz2h9pp.fsf@intel.com>
- <CAA8EJpqM4iaG3PKM5c0Op7Y7c1SRDrOCk_oOnwG8YfdCxC8w6g@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <CAA8EJpqM4iaG3PKM5c0Op7Y7c1SRDrOCk_oOnwG8YfdCxC8w6g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240618-devm-simple-bridge-v1-1-c7ed8a09fcc5@freebox.fr>
+X-B4-Tracking: v=1; b=H4sIAK6zcWYC/x2MQQqAIBQFryJ/nZAWUl0lWpQ+60OZKEQQ3T1pO
+ TAzD2UkRqZBPJRwceYzFFCVILvNYYVkV5h0rdvaqE46XIfMfMQdcknsitFDmcbDQvWaShgTPN/
+ /dJze9wNCC2PrZAAAAA==
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, Arnaud Vrac <avrac@freebox.fr>, 
+ Pierre-Hugues Husson <phhusson@freebox.fr>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marc Gonzalez <mgonzalez@freebox.fr>
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,55 +57,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em 18/06/2024 07:07, Dmitry Baryshkov escreveu:
-> On Tue, 18 Jun 2024 at 12:38, Jani Nikula <jani.nikula@linux.intel.com> wrote:
->>
->> On Tue, 18 Jun 2024, André Almeida <andrealmeid@igalia.com> wrote:
->>> Drivers have different capabilities on what plane types they can or
->>> cannot perform async flips. Create a plane::async_flip field so each
->>> driver can choose which planes they allow doing async flips.
->>>
->>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
->>> ---
->>>   include/drm/drm_plane.h | 5 +++++
->>>   1 file changed, 5 insertions(+)
->>>
->>> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
->>> index 9507542121fa..0bebc72af5c3 100644
->>> --- a/include/drm/drm_plane.h
->>> +++ b/include/drm/drm_plane.h
->>> @@ -786,6 +786,11 @@ struct drm_plane {
->>>         * @kmsg_panic: Used to register a panic notifier for this plane
->>>         */
->>>        struct kmsg_dumper kmsg_panic;
->>> +
->>> +     /**
->>> +      * @async_flip: indicates if a plane can do async flips
->>> +      */
->>
->> When is it okay to set or change the value of this member?
->>
->> If you don't document it, people will find creative uses for this.
-> 
-> Maybe it's better to have a callback instead of a static field? This
-> way it becomes clear that it's only relevant at the time of the
-> atomic_check().
-> 
+simple_bridge_probe() calls drm_bridge_add()
+Thus, drm_bridge_remove() must be called in the remove() callback.
 
-So we would have something like bool (*async_flip) for struct 
-drm_plane_funcs I suppose. Then each driver will implement this function 
-and check on runtime if it should flip or not, right?
+If we call devm_drm_bridge_add() instead, then drm_bridge_remove()
+will be called automatically at device release, and the remove()
+callback is no longer required.
 
-I agree that it makes more clear, but as far as I can see this is not 
-something that is subject to being changed at runtime at all, so it 
-seems a bit overkill to me to encapsulate a static information like 
-that. I prefer to improve the documentation on the struct member to see 
-if this solves the problem. What do you think of the following comment:
+Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+---
+This patch was proposed in an abandoned patch series,
+but it makes sense by itself. Submit now.
+https://lore.kernel.org/r/20240617-tdp158-v1-0-df98ef7dec6d@freebox.fr
+---
+ drivers/gpu/drm/bridge/simple-bridge.c | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
 
-/**
-  * @async_flip: indicates if a plane can perform async flips. The
-  * driver should set this true only for planes that the hardware
-  * supports flipping asynchronously. It may not be changed during
-  * runtime. This field is checked inside drm_mode_atomic_ioctl() to
-  * allow only the correct planes to go with DRM_MODE_PAGE_FLIP_ASYNC.
-  */
+diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
+index 5813a2c4fc5ee..dbe58f5707f08 100644
+--- a/drivers/gpu/drm/bridge/simple-bridge.c
++++ b/drivers/gpu/drm/bridge/simple-bridge.c
+@@ -175,7 +175,6 @@ static int simple_bridge_probe(struct platform_device *pdev)
+ 	sbridge = devm_kzalloc(&pdev->dev, sizeof(*sbridge), GFP_KERNEL);
+ 	if (!sbridge)
+ 		return -ENOMEM;
+-	platform_set_drvdata(pdev, sbridge);
+ 
+ 	sbridge->info = of_device_get_match_data(&pdev->dev);
+ 
+@@ -213,16 +212,7 @@ static int simple_bridge_probe(struct platform_device *pdev)
+ 	sbridge->bridge.of_node = pdev->dev.of_node;
+ 	sbridge->bridge.timings = sbridge->info->timings;
+ 
+-	drm_bridge_add(&sbridge->bridge);
+-
+-	return 0;
+-}
+-
+-static void simple_bridge_remove(struct platform_device *pdev)
+-{
+-	struct simple_bridge *sbridge = platform_get_drvdata(pdev);
+-
+-	drm_bridge_remove(&sbridge->bridge);
++	return devm_drm_bridge_add(&pdev->dev, &sbridge->bridge);
+ }
+ 
+ /*
+@@ -299,7 +289,6 @@ MODULE_DEVICE_TABLE(of, simple_bridge_match);
+ 
+ static struct platform_driver simple_bridge_driver = {
+ 	.probe	= simple_bridge_probe,
+-	.remove_new = simple_bridge_remove,
+ 	.driver		= {
+ 		.name		= "simple-bridge",
+ 		.of_match_table	= simple_bridge_match,
+
+---
+base-commit: 17b591a4a192a8a11faad30520b8f6a9137ac514
+change-id: 20240618-devm-simple-bridge-9e163fece192
+
+Best regards,
+-- 
+Marc Gonzalez <mgonzalez@freebox.fr>
+
