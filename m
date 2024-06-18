@@ -2,79 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A20B90C516
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 10:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0D490C51E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 11:00:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F00D10E251;
-	Tue, 18 Jun 2024 08:59:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F421510E2D0;
+	Tue, 18 Jun 2024 09:00:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="j0Vby+Hk";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cLTDJsoj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 893F010E251
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 08:59:46 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2ebd421a931so49151011fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 01:59:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718701185; x=1719305985; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Fv3e4JRhjiyKiq+/BCg7UVEko8aCXARCf3y5M1sULhc=;
- b=j0Vby+Hk+woWczADnIIneUGl/Path/+Ub4XznpP8yhTR09rnwDSDMMRpmFTnX4tujl
- 5cTwDn7ySGj8/f6Ciuj6CdS9Kw0I6kY3wwKzxVF9rlc/kiqV0ouvXrBESoZzBPPXR3tM
- hl8bCI9Srhj5tgFjv5tD2cFI0bsB5cfkGyqdcLM00EX+yTkllIsMq/a7vsPY0FeEa7Bb
- GH8VqfUCycpjK139nD7Ucn2ejzRk/FHiOQvN6/E5AlPgBiUYlcBCXH8N6tUIlZCOADWt
- XVYTlIC2bU01ZG3QfW6LfplfuL9PkI/bInO0wX5TSXlcZbmTpweAUw1UP86fm0jlssrm
- jROQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718701185; x=1719305985;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Fv3e4JRhjiyKiq+/BCg7UVEko8aCXARCf3y5M1sULhc=;
- b=R4oQlqlyB7LsMRniHJbqs6p8vOo3eAlJ4CsEUqn05CFV9EdV0e1CYXv2kTDFNIJKql
- CpeEx4BV/yJpYyNZuOdiDAcPemA1KAwZG8npMc+1MVnVRzHu+CZJo5Gx4j2SR1vpROai
- DKaPZijdBK0Vtqxs03iSXbfQmFNLoQ+fVVnT954JZb/AQLGNIaah/Ofp9k5amteAxMkH
- JHlJHg7WKp31pyVql0p8Lkbc7Hni5XHybAcWprImkPz1wrUnxoGOOkDv0T1xQinbAM4x
- /jCvXaPaIFnszgp8LUHwzza/gbLvtQ8Ot3+PggPaOmPoqDW79p+H5ACxEqY2TP43QFvL
- cZjg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWDTCi3A0FaInYthmNRhofuDHuZUkeA8bs0OlF/tDgJPGAE0uU2w9D/BOk4GucLaoHZPTwoGNHsZJWo6h26YTl7Zclx3oyOha4rwfpTUW+D
-X-Gm-Message-State: AOJu0YxXJAuhEq7+2BqZmqCwd+90g71Ezv1GNQo08OxuMnvwS7yOn90U
- cSHqXk7J1BcBm8AKFU8pBidLtyauYOe7RNjzh/bzlSAj3LT4iwG0TOoQpxx/31w=
-X-Google-Smtp-Source: AGHT+IFBkkdBYmR6cGYeikqpydjZVFKiKCkvsC51A/80Pa0YSrMuQ5aysBlI+NciEeQ7Edaw/2jfaQ==
-X-Received: by 2002:a2e:9b54:0:b0:2eb:dc13:2d6b with SMTP id
- 38308e7fff4ca-2ec0e5c57a5mr73189251fa.13.1718701184574; 
- Tue, 18 Jun 2024 01:59:44 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec05c8a72bsm16142861fa.115.2024.06.18.01.59.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jun 2024 01:59:44 -0700 (PDT)
-Date: Tue, 18 Jun 2024 11:59:42 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jayesh Choudhary <j-choudhary@ti.com>
-Cc: dianders@chromium.org, andrzej.hajda@intel.com, 
- neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
- mripard@kernel.org, linux-kernel@vger.kernel.org, jonas@kwiboo.se, 
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, spanda@codeaurora.org, a-bhatia1@ti.com, 
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 1/2] drm/bridge: ti-sn65dsi86: Add atomic_check hook
- for the bridge
-Message-ID: <r5szraxdqfs4v4hnvqgx6tbmc5e5ew5ljyf5xlaobywm55bohy@6kygxenn2tvd>
-References: <20240618081418.250953-1-j-choudhary@ti.com>
- <20240618081418.250953-2-j-choudhary@ti.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0466710E2D0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 09:00:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id BC55A60F21;
+ Tue, 18 Jun 2024 09:00:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E346CC4AF1A;
+ Tue, 18 Jun 2024 09:00:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718701236;
+ bh=UP+zPKTWJXEf18ikgSz4JVAIi4HunUZiH8TkyYHpONg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cLTDJsojTqCSSiH8Od+6iE8djCJBBECoHUZgwWuXlJ89vPUUxbifJpaOgfDSZa+4E
+ NWD0mKDGywXNwkEVz0yPZNfLGcsGjPBKvAUzdxZVx3BOquQ+CLjtxm2S5pOB0LA3DE
+ qvUN981vysMzmyvGhZ4SvsgK6oZ3sbVazr1qjhaLrU1NK3+ZcbqBZiycgv9f+YwGVI
+ gfBOpEYY1HdWj3QwICJ+S0P46aTlWNEQ/M3SUZ1Wh4wWIGgsywRtCXYApPWbhDA5Ox
+ YKizgNyEbMnxZSq2eNkEpQNx5g8yo0GujwxmZq7qoi/ySjkW5aeQxOxK520Ym3PpU3
+ xoMCSlKdIkhig==
+Date: Tue, 18 Jun 2024 12:00:31 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Omer Shpigelman <oshpigelman@habana.ai>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "ogabbay@kernel.org" <ogabbay@kernel.org>,
+ Zvika Yehudai <zyehudai@habana.ai>
+Subject: Re: [PATCH 04/15] net: hbl_cn: QP state machine
+Message-ID: <20240618090031.GE4025@unreal>
+References: <20240613082208.1439968-1-oshpigelman@habana.ai>
+ <20240613082208.1439968-5-oshpigelman@habana.ai>
+ <20240617131807.GE6805@unreal>
+ <a43d2eaf-e295-4ed4-b66a-3f2e96ea088c@habana.ai>
+ <20240618070843.GD4025@unreal>
+ <5bac8717-55d8-419d-b7cd-7fcb69fd49fb@habana.ai>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240618081418.250953-2-j-choudhary@ti.com>
+In-Reply-To: <5bac8717-55d8-419d-b7cd-7fcb69fd49fb@habana.ai>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,147 +66,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 18, 2024 at 01:44:17PM GMT, Jayesh Choudhary wrote:
-> Add the atomic_check hook to ensure that the parameters are within the
-> valid range.
-> As of now, dsi clock freqency is being calculated in bridge_enable but
-> this needs to be checked in atomic_check which is called before
-> bridge_enable so move this calculation to atomic_check and write the
-> register value in bridge_enable as it is.
+On Tue, Jun 18, 2024 at 07:58:55AM +0000, Omer Shpigelman wrote:
+> On 6/18/24 10:08, Leon Romanovsky wrote:
+> > On Tue, Jun 18, 2024 at 05:50:15AM +0000, Omer Shpigelman wrote:
+> >> On 6/17/24 16:18, Leon Romanovsky wrote:
+> >>> [Some people who received this message don't often get email from leon@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> >>>
+> >>> On Thu, Jun 13, 2024 at 11:21:57AM +0300, Omer Shpigelman wrote:
+> >>>> Add a common QP state machine which handles the moving for a QP from one
+> >>>> state to another including performing necessary checks, draining
+> >>>> in-flight transactions, invalidating caches and error reporting.
+> >>>>
+> >>>> Signed-off-by: Omer Shpigelman <oshpigelman@habana.ai>
+> >>>> Co-developed-by: Abhilash K V <kvabhilash@habana.ai>
+> >>>> Signed-off-by: Abhilash K V <kvabhilash@habana.ai>
+> >>>> Co-developed-by: Andrey Agranovich <aagranovich@habana.ai>
+> >>>> Signed-off-by: Andrey Agranovich <aagranovich@habana.ai>
+> >>>> Co-developed-by: Bharat Jauhari <bjauhari@habana.ai>
+> >>>> Signed-off-by: Bharat Jauhari <bjauhari@habana.ai>
+> >>>> Co-developed-by: David Meriin <dmeriin@habana.ai>
+> >>>> Signed-off-by: David Meriin <dmeriin@habana.ai>
+> >>>> Co-developed-by: Sagiv Ozeri <sozeri@habana.ai>
+> >>>> Signed-off-by: Sagiv Ozeri <sozeri@habana.ai>
+> >>>> Co-developed-by: Zvika Yehudai <zyehudai@habana.ai>
+> >>>> Signed-off-by: Zvika Yehudai <zyehudai@habana.ai>
+> >>>> ---
+> >>>>  .../ethernet/intel/hbl_cn/common/hbl_cn_qp.c  | 480 +++++++++++++++++-
+> >>>>  1 file changed, 479 insertions(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/drivers/net/ethernet/intel/hbl_cn/common/hbl_cn_qp.c b/drivers/net/ethernet/intel/hbl_cn/common/hbl_cn_qp.c
+> >>>> index 9ddc23bf8194..26ebdf448193 100644
+> >>>> --- a/drivers/net/ethernet/intel/hbl_cn/common/hbl_cn_qp.c
+> >>>> +++ b/drivers/net/ethernet/intel/hbl_cn/common/hbl_cn_qp.c
+> >>>> @@ -6,8 +6,486 @@
+> >>>
+> >>> <...>
+> >>>
+> >>>> +/* The following table represents the (valid) operations that can be performed on
+> >>>> + * a QP in order to move it from one state to another
+> >>>> + * For example: a QP in RTR state can be moved to RTS state using the CN_QP_OP_RTR_2RTS
+> >>>> + * operation.
+> >>>> + */
+> >>>> +static const enum hbl_cn_qp_state_op qp_valid_state_op[CN_QP_NUM_STATE][CN_QP_NUM_STATE] = {
+> >>>> +     [CN_QP_STATE_RESET] = {
+> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
+> >>>> +             [CN_QP_STATE_INIT]      = CN_QP_OP_RST_2INIT,
+> >>>> +             [CN_QP_STATE_SQD]       = CN_QP_OP_NOP,
+> >>>> +             [CN_QP_STATE_QPD]       = CN_QP_OP_NOP,
+> >>>> +     },
+> >>>> +     [CN_QP_STATE_INIT] = {
+> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
+> >>>> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
+> >>>> +             [CN_QP_STATE_INIT]      = CN_QP_OP_NOP,
+> >>>> +             [CN_QP_STATE_RTR]       = CN_QP_OP_INIT_2RTR,
+> >>>> +             [CN_QP_STATE_SQD]       = CN_QP_OP_NOP,
+> >>>> +             [CN_QP_STATE_QPD]       = CN_QP_OP_NOP,
+> >>>> +     },
+> >>>> +     [CN_QP_STATE_RTR] = {
+> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
+> >>>> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
+> >>>> +             [CN_QP_STATE_RTR]       = CN_QP_OP_RTR_2RTR,
+> >>>> +             [CN_QP_STATE_RTS]       = CN_QP_OP_RTR_2RTS,
+> >>>> +             [CN_QP_STATE_SQD]       = CN_QP_OP_NOP,
+> >>>> +             [CN_QP_STATE_QPD]       = CN_QP_OP_RTR_2QPD,
+> >>>> +     },
+> >>>> +     [CN_QP_STATE_RTS] = {
+> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
+> >>>> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
+> >>>> +             [CN_QP_STATE_RTS]       = CN_QP_OP_RTS_2RTS,
+> >>>> +             [CN_QP_STATE_SQD]       = CN_QP_OP_RTS_2SQD,
+> >>>> +             [CN_QP_STATE_QPD]       = CN_QP_OP_RTS_2QPD,
+> >>>> +             [CN_QP_STATE_SQERR]     = CN_QP_OP_RTS_2SQERR,
+> >>>> +     },
+> >>>> +     [CN_QP_STATE_SQD] = {
+> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
+> >>>> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
+> >>>> +             [CN_QP_STATE_SQD]       = CN_QP_OP_SQD_2SQD,
+> >>>> +             [CN_QP_STATE_RTS]       = CN_QP_OP_SQD_2RTS,
+> >>>> +             [CN_QP_STATE_QPD]       = CN_QP_OP_SQD_2QPD,
+> >>>> +             [CN_QP_STATE_SQERR]     = CN_QP_OP_SQD_2SQ_ERR,
+> >>>> +     },
+> >>>> +     [CN_QP_STATE_QPD] = {
+> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
+> >>>> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
+> >>>> +             [CN_QP_STATE_SQD]       = CN_QP_OP_NOP,
+> >>>> +             [CN_QP_STATE_QPD]       = CN_QP_OP_NOP,
+> >>>> +             [CN_QP_STATE_RTR]       = CN_QP_OP_QPD_2RTR,
+> >>>> +     },
+> >>>> +     [CN_QP_STATE_SQERR] = {
+> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
+> >>>> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
+> >>>> +             [CN_QP_STATE_SQD]       = CN_QP_OP_SQ_ERR_2SQD,
+> >>>> +             [CN_QP_STATE_SQERR]     = CN_QP_OP_NOP,
+> >>>> +     },
+> >>>> +     [CN_QP_STATE_ERR] = {
+> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
+> >>>> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
+> >>>> +     }
+> >>>> +};
+> >>>
+> >>> I don't understand why IBTA QP state machine is declared in ETH driver
+> >>> and not in IB driver.
+> >>>
+> >>
+> >> Implementing the actual transitions between the states requires full
+> >> knowledge of the HW e.g. when to flush, cache invalidation, timeouts.
+> >> Our IB driver is agnostic to the ASIC type by design. Note that more ASIC
+> >> generations are planned to be added and the IB driver should not be aware
+> >> of these additional HWs.
+> >> Hence we implemeted the QP state machine in the CN driver which is aware
+> >> of the actual HW.
+> > 
+> > Somehow ALL other IB drivers are able to implement this logic in the IB,
+> > while supporting multiple ASICs. I don't see a reason why you can't do
+> > the same.
+> > 
 > 
-> For now, add mode clock check for the max resolution supported by the
-> bridge as mentioned in the SN65DSI86 datasheet[0] and dsi clock range
-> check for SN_DSIA_CLK_FREQ_REG.
-> According to the datasheet[0], the minimum value for that reg is 0x08
-> and the maximum value is 0x96. So add check for that.
-> 
-> [0]: <https://www.ti.com/lit/gpn/sn65dsi86>
-> 
-> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 65 +++++++++++++++++++--------
->  1 file changed, 46 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 84698a0b27a8..d13b42d7c512 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -113,6 +113,20 @@
->  
->  #define MIN_DSI_CLK_FREQ_MHZ	40
->  
-> +/*
-> + * NOTE: DSI clock frequency range: [40MHz,755MHz)
-> + * DSI clock frequency range is in 5-MHz increments
-> + * So [40MHz,45MHz) translates to 0x08 (min value)
-> + * And [750MHz,755MHz) translates to 0x96 (max value)
-> + */
-> +#define MIN_DSI_CLK_RANGE	0x8
-> +#define MAX_DSI_CLK_RANGE	0x96
-> +
-> +/* Pixel clock to support max resolution (4K@60Hz) supported
-> + * by the bridge.
-> + */
-> +#define SN65DSI86_MAX_PIXEL_CLOCK_KHZ 600000
-> +
->  /* fudge factor required to account for 8b/10b encoding */
->  #define DP_CLK_FUDGE_NUM	10
->  #define DP_CLK_FUDGE_DEN	8
-> @@ -191,6 +205,7 @@ struct ti_sn65dsi86 {
->  	u8				ln_polrs;
->  	bool				comms_enabled;
->  	struct mutex			comms_mutex;
-> +	u32				dsi_clk_range;
->  
->  #if defined(CONFIG_OF_GPIO)
->  	struct gpio_chip		gchip;
-> @@ -820,24 +835,6 @@ static void ti_sn_bridge_atomic_disable(struct drm_bridge *bridge,
->  	regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, VSTREAM_ENABLE, 0);
->  }
->  
-> -static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
-> -{
-> -	unsigned int bit_rate_mhz, clk_freq_mhz;
-> -	unsigned int val;
-> -	struct drm_display_mode *mode =
-> -		&pdata->bridge.encoder->crtc->state->adjusted_mode;
-> -
-> -	/* set DSIA clk frequency */
-> -	bit_rate_mhz = (mode->clock / 1000) *
-> -			mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
-> -	clk_freq_mhz = bit_rate_mhz / (pdata->dsi->lanes * 2);
-> -
-> -	/* for each increment in val, frequency increases by 5MHz */
-> -	val = (MIN_DSI_CLK_FREQ_MHZ / 5) +
-> -		(((clk_freq_mhz - MIN_DSI_CLK_FREQ_MHZ) / 5) & 0xFF);
-> -	regmap_write(pdata->regmap, SN_DSIA_CLK_FREQ_REG, val);
-> -}
-> -
->  static unsigned int ti_sn_bridge_get_bpp(struct drm_connector *connector)
->  {
->  	if (connector->display_info.bpc <= 6)
-> @@ -1104,7 +1101,7 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
->  			   pdata->ln_polrs << LN_POLRS_OFFSET);
->  
->  	/* set dsi clk frequency value */
-> -	ti_sn_bridge_set_dsi_rate(pdata);
-> +	regmap_write(pdata->regmap, SN_DSIA_CLK_FREQ_REG, pdata->dsi_clk_range);
->  
->  	/*
->  	 * The SN65DSI86 only supports ASSR Display Authentication method and
-> @@ -1215,6 +1212,35 @@ static const struct drm_edid *ti_sn_bridge_edid_read(struct drm_bridge *bridge,
->  	return drm_edid_read_ddc(connector, &pdata->aux.ddc);
->  }
->  
-> +static int ti_sn_bridge_atomic_check(struct drm_bridge *bridge,
-> +				     struct drm_bridge_state *bridge_state,
-> +				     struct drm_crtc_state *crtc_state,
-> +				     struct drm_connector_state *conn_state)
-> +{
-> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-> +	struct drm_display_mode *mode = &crtc_state->mode;
-> +	unsigned int bit_rate_mhz, clk_freq_mhz;
-> +
-> +	/* Pixel clock check */
-> +	if (mode->clock > SN65DSI86_MAX_PIXEL_CLOCK_KHZ)
-> +		return -EINVAL;
-> +
-> +	bit_rate_mhz = (mode->clock / 1000) *
-> +			mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
-> +	clk_freq_mhz = bit_rate_mhz / (pdata->dsi->lanes * 2);
-> +
-> +	/* for each increment in dsi_clk_range, frequency increases by 5MHz */
-> +	pdata->dsi_clk_range = (MIN_DSI_CLK_FREQ_MHZ / 5) +
-> +		(((clk_freq_mhz - MIN_DSI_CLK_FREQ_MHZ) / 5) & 0xFF);
+> If we are referring to this actual table, then I can move it to the IB
+> driver and the CN driver will fetch the needed opcode via a function
+> pointer.
+> Is that ok?
 
-atomic_check might be called several times, it might be called to test
-the state. As such, it should not modify anything outside of the
-state variables.
+This table spotted my attention, but right separation shouldn't be limited
+to only this table. The outcome of this conversation should be:
+"IB specific logic should be in IB driver, and CN driver should be able to
+handle only low-level operations".
 
-> +
-> +	/* SN_DSIA_CLK_FREQ_REG check */
-> +	if (pdata->dsi_clk_range > MAX_DSI_CLK_RANGE ||
-> +	    pdata->dsi_clk_range < MIN_DSI_CLK_RANGE)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
->  static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
->  	.attach = ti_sn_bridge_attach,
->  	.detach = ti_sn_bridge_detach,
-> @@ -1228,6 +1254,7 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
->  	.atomic_reset = drm_atomic_helper_bridge_reset,
->  	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
->  	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_check = ti_sn_bridge_atomic_check,
->  };
->  
->  static void ti_sn_bridge_parse_lanes(struct ti_sn65dsi86 *pdata,
-> -- 
-> 2.25.1
-> 
-
--- 
-With best wishes
-Dmitry
+Thanks
