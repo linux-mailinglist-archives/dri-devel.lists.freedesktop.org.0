@@ -2,81 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3689390DA9A
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 19:27:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB5990DADD
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 19:43:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A76710E74B;
-	Tue, 18 Jun 2024 17:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A327010E75A;
+	Tue, 18 Jun 2024 17:43:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jegBqyEw";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Oz/XvZ3a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 685C410E73C
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 17:26:59 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-52c525257feso7344104e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 10:26:59 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F365410E755
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 17:43:34 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-52bc29c79fdso7758994e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 10:43:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718731617; x=1719336417; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1718732613; x=1719337413; darn=lists.freedesktop.org;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=W2XgDBRe+uXR1JhTiAW0H+F2QdLuA6dIQSH0HmfL2qI=;
- b=jegBqyEwWhBROpoqiEsg+UZV0V+oajjO1DCLBQz8Fzun4Ar/r9EoCHm+ICI66ilGHR
- ae5LeYCuUVnCR+s9R6mz255GCFqIQLF90TqOCUMJJlR0ulmB6I09FqTkw8oRwYC3ontM
- 5jKdmAcEpAn9fvANVfDPH+mW1kNfyaqvYhl/vMzC0SEqQImA8aL4RSecCQZOOr7iq7RQ
- xBFVzQ/JiuFn6iUqrm63J1H0kdL+8UOFYr4kPvgWCHXMCOdjovBzLvKB0aYRPyw+bkkD
- GBGtt0ENJPhbMleK2KsvTI3dZ6+FvfS8C6hC4vLRLxhTku+YoB/95ngcM0Ot4P3E8H6U
- udtw==
+ bh=UW3m3IVDCbgoGWkqOyhGrTXzXIbL2Q1j7KVjTgGLhLg=;
+ b=Oz/XvZ3aaLhCHtRh2L0NhJI6Fpt/TcNB7jvIaDZWEg/r9T5kSCJapISHcIZ2YYiYXN
+ hqt6AB7gyyO5BdGCZgDKlrEdcpMOUosJQXTFefWpXN9a/JnnaCoNmnWvyKVxnDyfbOCN
+ cCu8s+JJz4lMx641EnJbQaqnrIFkV0KApsNnFwCStakEVMAxU760Sdr7NNzjhHza0eKZ
+ 00CFP/u0c4jf0F90VpzLLLiReOCoBSRsOgapXTJgt9de6tGq6KXvzgmiNvmSqWOUyo/C
+ 1xy4Rk4lgqhMXHridyY6FcrzBqXdv4Ll2PPNecLe8hBuSIMwFMSIFtrB2P2ltRc0uo1p
+ IBZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718731617; x=1719336417;
+ d=1e100.net; s=20230601; t=1718732613; x=1719337413;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=W2XgDBRe+uXR1JhTiAW0H+F2QdLuA6dIQSH0HmfL2qI=;
- b=vATlUW/G1tTblU61LZsY6gTTOfw7KG0Qn5BK8hZ/+olRs5h9cYgBzLyg0znPbEb2H5
- PQm12Ztgld5CpIH/5jBZkvhsNpgqHJUYM2tzfhB95SOMqSXD0WwnYGo+5eBCi0Hv0BAI
- BN/IeAY5cyR6jG1kqwlUwZlSDLNJ3u1cQ4C0snmt8e7P9YPz0buRGGpatYwQ9Uk8NQWU
- 6NjXMObafE2Aj0zXlhSzWU2k5tuqnS1zEqU2U4oXiQQt3sNt36MkYyj3hgHA7hZsEvMU
- DQ4BfT6KPzJLe4pyED3gGJ4we5Vd8ZjDczVGmj6ZfPbMmhcfmcHiDN/QRmC0Gk6IfVmQ
- t4ig==
-X-Gm-Message-State: AOJu0YxUWahMSH2PUPwsNhOx073xdRKMXVK1IEI0mRRwyZnqYbhebA2t
- wAnZF+D2FtzI/VtOQh+txfwu/rG+XpVm//CiBEBYTxDgdy3qqclVOMnZIXChUQk=
-X-Google-Smtp-Source: AGHT+IHnlPq6SIHBVQIVyvhtZzEM4VjHJZd+R56nsfAoWok8bl5Nz8Rpo3Ive6lWbA3CpuueiYxIMA==
-X-Received: by 2002:a05:6512:49a:b0:52b:c1d4:7df3 with SMTP id
- 2adb3069b0e04-52ccaa36980mr190988e87.35.1718731617392; 
- Tue, 18 Jun 2024 10:26:57 -0700 (PDT)
+ bh=UW3m3IVDCbgoGWkqOyhGrTXzXIbL2Q1j7KVjTgGLhLg=;
+ b=lxZmblBNJXhmvfIQYO5FnLsjJGa8aPqfyWR7eD8bHC2epsJZpAnQcoxLV8R0ZUo4Li
+ orUZ8gM3brKUR2zRN8fvrOZayXR/XLViHxNyrjZJPvkcHcvdcVKRoU0UmSgF4hpy9XV9
+ v47Qvzo89HKY20rjzufd2BkYW2SkI32EF3EF7WTvvyT5mQEQwbRKrcL4uJkWAhdUh9Fa
+ QozXMxkfjZAavyTQmrFMfAdD0yuhrlI0X+/Lav5KYJu5Ely9m9Z2sOEGYu0DD4rihm5K
+ 9+A5BRB31KmULQ9/yq9J/wwVKt2RNP02Z0zGODMcOzL5BS2s2OCahaHm7pF3xDaTCw1A
+ ewuw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXtbry77VUMYJDsA3/119QbFM0jrnX7TTVihQnq0uEnJvb55QGU2vWcbMEojKTC578JDAFEYQJx9WcqHXMewO1ZTTdy7tvbLfQwOtksvh5a
+X-Gm-Message-State: AOJu0Yze3goXQoc3slUS9qHIZKwETtrNo8dgwpF+eIPFXpBfV3Rk7U0X
+ EknNaj6qaiJ2ihrcTQHcjU2zsRrO1ZDv3CTiOrI38tyUvY8h3HzBZuzvUfHr5mg=
+X-Google-Smtp-Source: AGHT+IHqgDsYBrSMyIeMIZAipBnP2CCm4mOxj6zvMMUSinXZl5+Bwzr+RzB97A5TqXTmpBeosa9Onw==
+X-Received: by 2002:ac2:59db:0:b0:51d:9f10:71b7 with SMTP id
+ 2adb3069b0e04-52ccaa33e25mr244374e87.28.1718732611978; 
+ Tue, 18 Jun 2024 10:43:31 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52ca2889052sm1555203e87.299.2024.06.18.10.26.56
+ 2adb3069b0e04-52ca2884064sm1619765e87.242.2024.06.18.10.43.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jun 2024 10:26:57 -0700 (PDT)
-Date: Tue, 18 Jun 2024 20:26:55 +0300
+ Tue, 18 Jun 2024 10:43:31 -0700 (PDT)
+Date: Tue, 18 Jun 2024 20:43:29 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 4/5] drm/msm/adreno: Move hwcg table into a6xx
- specific info
-Message-ID: <x64uencmmiqlozqhjnp2jclizjzhhhekkhvxqmm6dlilr7huyd@wmaikimb63jx>
-References: <20240617225127.23476-1-robdclark@gmail.com>
- <20240617225127.23476-5-robdclark@gmail.com>
- <wnnjjljjyl5s3fkwiapux3f76243ngp2ppk2cm7kkhdp5dc4sz@v4wypnga3izv>
- <CAF6AEGvjeGxP+A2umyQHo49G1rAdZkY0bHuemvFP4jgNkspu3Q@mail.gmail.com>
+To: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, 
+ kernel-dev@igalia.com, Melissa Wen <mwen@igalia.com>, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Simon Ser <contact@emersion.fr>, 
+ Pekka Paalanen <ppaalanen@gmail.com>, daniel@ffwll.ch,
+ Daniel Stone <daniel@fooishbar.org>, 
+ Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
+ Dave Airlie <airlied@gmail.com>, ville.syrjala@linux.intel.com, 
+ Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>, 
+ Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>
+Subject: Re: [PATCH v7 2/9] drm: Support per-plane async flip configuration
+Message-ID: <aflfggx2dc2p3y2a76yecjgmahozmbpnkk2qpekrnkpvviih6i@g2uuxeubozbo>
+References: <20240618030024.500532-1-andrealmeid@igalia.com>
+ <20240618030024.500532-3-andrealmeid@igalia.com>
+ <878qz2h9pp.fsf@intel.com>
+ <CAA8EJpqM4iaG3PKM5c0Op7Y7c1SRDrOCk_oOnwG8YfdCxC8w6g@mail.gmail.com>
+ <fc67b552-6f61-4f30-9e34-dd6b2364d155@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGvjeGxP+A2umyQHo49G1rAdZkY0bHuemvFP4jgNkspu3Q@mail.gmail.com>
+In-Reply-To: <fc67b552-6f61-4f30-9e34-dd6b2364d155@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,57 +108,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 18, 2024 at 09:33:48AM GMT, Rob Clark wrote:
-> On Tue, Jun 18, 2024 at 1:30â€¯AM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> >
-> > On Mon, Jun 17, 2024 at 03:51:14PM GMT, Rob Clark wrote:
-> > > From: Rob Clark <robdclark@chromium.org>
-> > >
-> > > Introduce a6xx_info where we can stash gen specific stuff without
-> > > polluting the toplevel adreno_info struct.
-> > >
-> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > ---
-> > >  drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 65 +++++++++++++++++------
-> > >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     |  6 +--
-> > >  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  9 ++++
-> > >  drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  6 ++-
-> > >  4 files changed, 67 insertions(+), 19 deletions(-)
-> > >
-> >
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >
-> >
-> > > @@ -98,7 +100,9 @@ struct adreno_info {
-> > >       struct msm_gpu *(*init)(struct drm_device *dev);
-> > >       const char *zapfw;
-> > >       u32 inactive_period;
-> > > -     const struct adreno_reglist *hwcg;
-> > > +     union {
-> > > +             const struct a6xx_info *a6xx;
-> > > +     };
-> > >       u64 address_space_size;
-> > >       /**
-> > >        * @speedbins: Optional table of fuse to speedbin mappings
-> >
-> > My preference would be towards wrapping the adreno_gpu, but that would
-> > require more significant rework of the driver. Let's see if we can get
-> > to that later.
-> >
+On Tue, Jun 18, 2024 at 01:18:10PM GMT, André Almeida wrote:
+> Em 18/06/2024 07:07, Dmitry Baryshkov escreveu:
+> > On Tue, 18 Jun 2024 at 12:38, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> > > 
+> > > On Tue, 18 Jun 2024, André Almeida <andrealmeid@igalia.com> wrote:
+> > > > Drivers have different capabilities on what plane types they can or
+> > > > cannot perform async flips. Create a plane::async_flip field so each
+> > > > driver can choose which planes they allow doing async flips.
+> > > > 
+> > > > Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> > > > ---
+> > > >   include/drm/drm_plane.h | 5 +++++
+> > > >   1 file changed, 5 insertions(+)
+> > > > 
+> > > > diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> > > > index 9507542121fa..0bebc72af5c3 100644
+> > > > --- a/include/drm/drm_plane.h
+> > > > +++ b/include/drm/drm_plane.h
+> > > > @@ -786,6 +786,11 @@ struct drm_plane {
+> > > >         * @kmsg_panic: Used to register a panic notifier for this plane
+> > > >         */
+> > > >        struct kmsg_dumper kmsg_panic;
+> > > > +
+> > > > +     /**
+> > > > +      * @async_flip: indicates if a plane can do async flips
+> > > > +      */
+> > > 
+> > > When is it okay to set or change the value of this member?
+> > > 
+> > > If you don't document it, people will find creative uses for this.
+> > 
+> > Maybe it's better to have a callback instead of a static field? This
+> > way it becomes clear that it's only relevant at the time of the
+> > atomic_check().
+> > 
 > 
-> yeah, it was going to be more re-work, and I'm neck deep in
-> gpuvm/vm_bind.. I just wanted to land this since it is a pita (and
-> error prone) to rebase as more gpu's get added ;-)
-
-Yes, I'm fine with that. My note was more like a 'later todo' item.
-
+> So we would have something like bool (*async_flip) for struct
+> drm_plane_funcs I suppose. Then each driver will implement this function and
+> check on runtime if it should flip or not, right?
 > 
-> It isn't entirely unlike how we handle gpu gen specific options in
-> mesa, where we have a somewhat bigger set of options, so I wouldn't
-> say that this approach was worse than extending adreno_info.. just
-> different..
+> I agree that it makes more clear, but as far as I can see this is not
+> something that is subject to being changed at runtime at all, so it seems a
+> bit overkill to me to encapsulate a static information like that. I prefer
+> to improve the documentation on the struct member to see if this solves the
+> problem. What do you think of the following comment:
 
+It looks like I keep on mixing async_flips as handled via the
+DRM_MODE_PAGE_FLIP_ASYNC and the plane flips that are governed by
+.atomic_async_check / .atomic_async_update / drm_atomic_helper_check()
+and which end up being used just for legacy cursor updates.
+
+So, yes, those are two different code paths, but with your changes I
+think it becomes even easier to get confused between
+atomic_async_check() and .async_flip member.
+
+
+> /**
+>  * @async_flip: indicates if a plane can perform async flips. The
+>  * driver should set this true only for planes that the hardware
+>  * supports flipping asynchronously. It may not be changed during
+>  * runtime. This field is checked inside drm_mode_atomic_ioctl() to
+>  * allow only the correct planes to go with DRM_MODE_PAGE_FLIP_ASYNC.
+>  */
 
 -- 
 With best wishes
