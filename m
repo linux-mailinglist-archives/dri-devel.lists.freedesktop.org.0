@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6234890C225
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 05:01:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E116F90C229
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 05:01:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48A5610E554;
-	Tue, 18 Jun 2024 03:01:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84D1210E555;
+	Tue, 18 Jun 2024 03:01:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="GFVu13Kt";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mxiC3nGa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8959810E554;
- Tue, 18 Jun 2024 03:01:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58F8610E556;
+ Tue, 18 Jun 2024 03:01:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=BdhCwS4heWTOgEoAfCAMOH7viYR6HmLk2/z9WGziRvY=; b=GFVu13KtKUkFjhgBslo86PglOz
- n/L3kEvhiUtVpiW1+e+WDGAjDfnuh8foVFP/CKf2TEH8tpjN3fYb23ELRj/LGzcRP6a3QOcn00L9O
- cdsqfnXxVDsitk6UnvkC/IICqoaFkJ/a450c96edzo+4B5cdF1s8/AmwNGGeKy2PPnH4z7vyTH0a5
- DkFZy0QyPKe6Klshelkne64A0Yyd83Bqp1R9QLqOZ7BH4C8zur19EKogYVhMI7VqsRUsCwcphyi0K
- 3E0xDHY1+zTQdixFvWnztzgPzl/EswjKvocXThFik6Jsj3TlkrkUzQFbHBP73eaHWWT2XdZaCk71o
- fGLopoEQ==;
+ bh=5+/vSUsusZJjzOquaKR+Lnhfb4Xwzp1gKdxtTXFkte4=; b=mxiC3nGaid5bpz8/d2SJUgWCT7
+ XGcYIScOMgs2Ia16c/9Uop9P5XpyHxINUzhE1PWpRZqbvhDgwwR31+8B7Sad7ho9pQ4srLIaYy6b6
+ QswCPdUJWeVLZ2OL1YyEnsDOoQy2K8Llmv1cLj5P8wU2C4UK6FPy6DfCXiHFLddlMVdgTRqc9qwzr
+ FbMvUfj5RFlb6YuS0KtxrkK4dwhQF8xTAjhQqruq/o6Xict2CYzENJhtsJQj3K1BB9rMiKKRcdNXf
+ xCU7sUR++PEl19NVR2yWoGNvQ8UjsncNj+m8L/KcJN78Is8xIXrEgOpXkkIHniXPqiTHIAazTayyh
+ fcwkkY9A==;
 Received: from [191.8.29.108] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sJP6K-004YXc-Q7; Tue, 18 Jun 2024 05:01:41 +0200
+ id 1sJP6T-004YXc-3W; Tue, 18 Jun 2024 05:01:49 +0200
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -56,9 +56,10 @@ Cc: kernel-dev@igalia.com, Melissa Wen <mwen@igalia.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Karol Herbst <kherbst@redhat.com>,
  Lyude Paul <lyude@redhat.com>,
  =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-Subject: [PATCH v7 8/9] drm: Enable per-plane async flip check
-Date: Tue, 18 Jun 2024 00:00:23 -0300
-Message-ID: <20240618030024.500532-9-andrealmeid@igalia.com>
+Subject: [PATCH v7 9/9] drm/amdgpu: Make it possible to async flip overlay
+ planes
+Date: Tue, 18 Jun 2024 00:00:24 -0300
+Message-ID: <20240618030024.500532-10-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240618030024.500532-1-andrealmeid@igalia.com>
 References: <20240618030024.500532-1-andrealmeid@igalia.com>
@@ -80,30 +81,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the generic "is this plane primary" for a plane::async_flip
-check, so DRM follows the plane restrictions set by the driver.
+amdgpu can handle async flips on overlay planes, so mark it as true
+during the plane initialization.
 
 Signed-off-by: André Almeida <andrealmeid@igalia.com>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 2e1d9391febe..ed1af3455477 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -1079,9 +1079,9 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
- 			break;
- 		}
- 
--		if (async_flip && plane_state->plane->type != DRM_PLANE_TYPE_PRIMARY) {
-+		if (async_flip && !plane->async_flip) {
- 			drm_dbg_atomic(prop->dev,
--				       "[OBJECT:%d] Only primary planes can be changed during async flip\n",
-+				       "[PLANE:%d] does not support async flips\n",
- 				       obj->id);
- 			ret = -EINVAL;
- 			break;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+index 0c126c5609d3..7d508d816f0d 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+@@ -1709,6 +1709,7 @@ int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
+ 	} else if (plane->type == DRM_PLANE_TYPE_OVERLAY) {
+ 		unsigned int zpos = 1 + drm_plane_index(plane);
+ 		drm_plane_create_zpos_property(plane, zpos, 1, 254);
++		plane->async_flip = true;
+ 	} else if (plane->type == DRM_PLANE_TYPE_CURSOR) {
+ 		drm_plane_create_zpos_immutable_property(plane, 255);
+ 	}
 -- 
 2.45.2
 
