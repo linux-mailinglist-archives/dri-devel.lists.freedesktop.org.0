@@ -2,71 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D257290C548
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 11:26:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2EF390C551
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 11:28:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27AEF10E5F5;
-	Tue, 18 Jun 2024 09:26:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3BB510E076;
+	Tue, 18 Jun 2024 09:28:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="1zHS64/b";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J/BxB1HH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE4C110E5F5
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 09:26:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1718702760;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=vXPLlenIHOVNSxchFiFQi3fw6uzbHuydzsC7VVd5GHk=;
- b=1zHS64/bgpAwap7kyt5U4z7WR4EDDIxoqY22qu0YQI2O3XifRrK4zNIuwTYEFuqIWKzqwm
- ifzecavzaf/TxD8N/PWg+YI6BApCdvIJdQi6EAIC+YwCwJYikgL3muFWH05TOODkNzbNrN
- hSdAQ748taP5Coys1FUqn3WmyiG0X5E=
-Message-ID: <31c868f86d47195e0658eeafc4d6a2cbb9c013ce.camel@crapouillou.net>
-Subject: Re: [PATCH v10 3/6] iio: core: Add new DMABUF interface infrastructure
-From: Paul Cercueil <paul@crapouillou.net>
-To: Markus Elfring <Markus.Elfring@web.de>, Nuno =?ISO-8859-1?Q?S=E1?=
- <nuno.sa@analog.com>, linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Jonathan Cameron <jic23@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Sumit Semwal <sumit.semwal@linaro.org>, Vinod
- Koul <vkoul@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, Jonathan
- Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
-Date: Tue, 18 Jun 2024 11:25:52 +0200
-In-Reply-To: <6a41fd88-5496-462a-86d2-446c2990fcf7@web.de>
-References: <20240605110845.86740-4-paul@crapouillou.net>
- <6a41fd88-5496-462a-86d2-446c2990fcf7@web.de>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
- LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
- FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
- z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
- +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
- 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
- 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
- 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
- dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
- 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
- rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
- lBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFC
- qaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IWYXnd
- JO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN70
- 62DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOt
- X0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEA
- AYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/
- Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmc
- Gu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2z
- McLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/
- 7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2c
- LUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA99B10E076
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 09:28:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4859161682;
+ Tue, 18 Jun 2024 09:28:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A363AC3277B;
+ Tue, 18 Jun 2024 09:28:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718702898;
+ bh=lH0Dcqp9U5fD6GzqGhIWBPdf/RypdHix8vSzyUjzJpg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=J/BxB1HHDmMqDXRlIflHWlQ69wc00em95nugblYtwkrV65J9nt9+EW46A8wjWhcHM
+ buuaOsIbSEiqaYbPhnwLBY2HUCBu6p/Bp2uq1JlW7qeoUL+nUeVj/aNDCorwqId9kb
+ cIX5Xu0wPMu+N30RmHDGtXjYzzfcdLEiu0FhkIpDP8S/gtXNxCbRTY51gL9eEo6w80
+ g42kfXsiPIdXq3DStzrO8rM1SaIeUmIJhOJ2WbFRlA/W5Qu3opVWl1IhIspa2JP+Fj
+ 7OoAYgZfOYOiyPq4FMzcFpIiB7QnCEdVFM2PvkC2DrtW6zjNU7zi7PIWevFjd5QEhz
+ N+xpWxi8kKF4A==
+Date: Tue, 18 Jun 2024 11:28:15 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/3] drm/vc4: Add monochrome mode to the VEC.
+Message-ID: <20240618-sly-wealthy-nyala-b9cd1f@houat>
+References: <20240216184857.245372-1-dave.stevenson@raspberrypi.com>
+ <20240216184857.245372-3-dave.stevenson@raspberrypi.com>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="mna36ouuvlcpr2l6"
+Content-Disposition: inline
+In-Reply-To: <20240216184857.245372-3-dave.stevenson@raspberrypi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,34 +60,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Markus,
 
-Le lundi 17 juin 2024 =C3=A0 08:56 +0200, Markus Elfring a =C3=A9crit=C2=A0=
-:
-> =E2=80=A6
-> > +++ b/drivers/iio/industrialio-buffer.c
-> =E2=80=A6
-> > =C2=A0static int iio_buffer_chrdev_release(struct inode *inode, struct
-> > file *filep)
-> > =C2=A0{
-> =E2=80=A6
-> > =C2=A0	wake_up(&buffer->pollq);
-> >=20
-> > +	mutex_lock(&buffer->dmabufs_mutex);
-> > +
-> > +	/* Close all attached DMABUFs */
-> =E2=80=A6
-> > +	mutex_unlock(&buffer->dmabufs_mutex);
-> > +
-> > =C2=A0	kfree(ib);
-> =E2=80=A6
+--mna36ouuvlcpr2l6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Fri, Feb 16, 2024 at 06:48:56PM GMT, Dave Stevenson wrote:
+> The VEC supports not producing colour bursts for monochrome output.
+> It also has an option for disabling the chroma input to remove
+> chroma from the signal.
 >=20
-> Would you become interested to apply a statement like
-> =E2=80=9Cguard(mutex)(&buffer->dmabufs_mutex);=E2=80=9D?
-> https://elixir.bootlin.com/linux/v6.10-rc3/source/include/linux/mutex.h#L=
-196
+> Now that there is a DRM_MODE_TV_MODE_MONOCHROME defined, plumb
+> this in.
+>=20
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> ---
+>  drivers/gpu/drm/vc4/vc4_vec.c | 28 +++++++++++++++++++++++++++-
+>  1 file changed, 27 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
+> index 268f18b10ee0..f9e134dd1e3b 100644
+> --- a/drivers/gpu/drm/vc4/vc4_vec.c
+> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
+> @@ -234,6 +234,7 @@ enum vc4_vec_tv_mode_id {
+>  	VC4_VEC_TV_MODE_PAL_60,
+>  	VC4_VEC_TV_MODE_PAL_N,
+>  	VC4_VEC_TV_MODE_SECAM,
+> +	VC4_VEC_TV_MODE_MONOCHROME,
+>  };
+> =20
+>  struct vc4_vec_tv_mode {
+> @@ -324,6 +325,22 @@ static const struct vc4_vec_tv_mode vc4_vec_tv_modes=
+[] =3D {
+>  		.config1 =3D VEC_CONFIG1_C_CVBS_CVBS,
+>  		.custom_freq =3D 0x29c71c72,
+>  	},
+> +	{
+> +		/* 50Hz mono */
+> +		.mode =3D DRM_MODE_TV_MODE_MONOCHROME,
+> +		.expected_htotal =3D 864,
+> +		.config0 =3D VEC_CONFIG0_PAL_BDGHI_STD | VEC_CONFIG0_BURDIS |
+> +			   VEC_CONFIG0_CHRDIS,
+> +		.config1 =3D VEC_CONFIG1_C_CVBS_CVBS,
+> +	},
+> +	{
+> +		/* 60Hz mono */
+> +		.mode =3D DRM_MODE_TV_MODE_MONOCHROME,
+> +		.expected_htotal =3D 858,
+> +		.config0 =3D VEC_CONFIG0_PAL_M_STD | VEC_CONFIG0_BURDIS |
+> +			   VEC_CONFIG0_CHRDIS,
+> +		.config1 =3D VEC_CONFIG1_C_CVBS_CVBS,
+> +	},
+>  };
+> =20
+>  static inline const struct vc4_vec_tv_mode *
+> @@ -351,6 +368,7 @@ static const struct drm_prop_enum_list legacy_tv_mode=
+_names[] =3D {
+>  	{ VC4_VEC_TV_MODE_PAL_M, "PAL-M", },
+>  	{ VC4_VEC_TV_MODE_PAL_N, "PAL-N", },
+>  	{ VC4_VEC_TV_MODE_SECAM, "SECAM", },
+> +	{ VC4_VEC_TV_MODE_MONOCHROME, "Mono", },
+>  };
+> =20
+>  static enum drm_connector_status
+> @@ -406,6 +424,10 @@ vc4_vec_connector_set_property(struct drm_connector =
+*connector,
+>  		state->tv.mode =3D DRM_MODE_TV_MODE_SECAM;
+>  		break;
+> =20
+> +	case VC4_VEC_TV_MODE_MONOCHROME:
+> +		state->tv.mode =3D DRM_MODE_TV_MODE_MONOCHROME;
+> +		break;
+> +
+>  	default:
+>  		return -EINVAL;
+>  	}
+> @@ -453,6 +475,9 @@ vc4_vec_connector_get_property(struct drm_connector *=
+connector,
+>  		*val =3D VC4_VEC_TV_MODE_SECAM;
+>  		break;
+> =20
+> +	case DRM_MODE_TV_MODE_MONOCHROME:
+> +		return VC4_VEC_TV_MODE_MONOCHROME;
+> +
+>  	default:
+>  		return -EINVAL;
+>  	}
 
-I'll update the patch to use it.
+We don't need to expose the new value here, that property is only for
+the legacy, driver-specific property. So you should only need the
+vc4_vec_tv_modes changes
 
-Cheers,
--Paul
+Maxime
+
+--mna36ouuvlcpr2l6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZnFTLwAKCRDj7w1vZxhR
+xVwNAP407LFeintH3yQqM/zvcvU3iQlVo5LVQsFZ6GVsrqXEvQD+OIAnuZqkF9PS
+VckaIRGPJnE77jLR2MMXJluJY9QuKAM=
+=a4vd
+-----END PGP SIGNATURE-----
+
+--mna36ouuvlcpr2l6--
