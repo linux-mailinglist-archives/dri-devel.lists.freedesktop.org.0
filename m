@@ -2,81 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE89490CB23
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 14:08:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7318390CB7E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 14:20:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0596D10E661;
-	Tue, 18 Jun 2024 12:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78BF710E660;
+	Tue, 18 Jun 2024 12:20:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="j/rTMOoD";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="gqFLIg4g";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+IuhtfVE";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gqFLIg4g";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+IuhtfVE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com
- [91.218.175.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 752E610E661
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 12:08:39 +0000 (UTC)
-X-Envelope-To: angelogioacchino.delregno@collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1718712516;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yaKJZwFY6wd1XllaZI8jJVrOqSqeE2cUrM2G+oq1sR8=;
- b=j/rTMOoDPWYTSlPp2VdJOuT37Q5uAFN8Tsg2EsV4sQIiUaqK5GIq+iAvEYNMRfLEBFuDbP
- LlqVT/U0m+nFky/pdYKC+SbgxAKwWl3f41XmPGY67FTxWMB4Lu+6+7yUqjrK8WTXY4OUj3
- UpgZf3YfifUlrEGqe1S6OLCQ/0McQeM=
-X-Envelope-To: chunkuang.hu@kernel.org
-X-Envelope-To: robh@kernel.org
-X-Envelope-To: krzysztof.kozlowski+dt@linaro.org
-X-Envelope-To: conor+dt@kernel.org
-X-Envelope-To: p.zabel@pengutronix.de
-X-Envelope-To: airlied@gmail.com
-X-Envelope-To: daniel@ffwll.ch
-X-Envelope-To: maarten.lankhorst@linux.intel.com
-X-Envelope-To: mripard@kernel.org
-X-Envelope-To: tzimmermann@suse.de
-X-Envelope-To: matthias.bgg@gmail.com
-X-Envelope-To: shawn.sung@mediatek.com
-X-Envelope-To: yu-chang.lee@mediatek.com
-X-Envelope-To: ck.hu@mediatek.com
-X-Envelope-To: jitao.shi@mediatek.com
-X-Envelope-To: devicetree@vger.kernel.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: dri-devel@lists.freedesktop.org
-X-Envelope-To: linux-mediatek@lists.infradead.org
-X-Envelope-To: linux-arm-kernel@lists.infradead.org
-X-Envelope-To: wenst@chromium.org
-X-Envelope-To: kernel@collabora.com
-X-Envelope-To: michael@walle.cc
-X-Envelope-To: amergnat@baylibre.com
-Message-ID: <dc1b40ed-0f8f-40c9-8c32-e35e296b37da@linux.dev>
-Date: Tue, 18 Jun 2024 20:08:25 +0800
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C22210E660
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 12:20:06 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1F2801F45B;
+ Tue, 18 Jun 2024 12:20:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718713204; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nuNLBQkTsfR+V25TRmViz6z/l9TGgt8MxTKJQZRNjBM=;
+ b=gqFLIg4gld/fG1yn0eyBj7TfaGYGO9OlGnGPjYP8jAP5gYEET+f66S7hEL36PIacEcbdsB
+ 5TvL4QiRnoX/5KZns2Cev4LHzOlm1Vs9xnZAE5Mgn77KGlRp5qBJAx7o0qpaJiiilhHdoR
+ AaGJKB/zpSOYnRL7BBDTeR99wBQ1Ulc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718713204;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nuNLBQkTsfR+V25TRmViz6z/l9TGgt8MxTKJQZRNjBM=;
+ b=+IuhtfVEbPt8vqETwXxupFZAddYd0pZlrgIplACwzdB64L2qcpx3wV9h/Dtia0b7vqddx8
+ /zTEOzM7nlFnxoBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1718713204; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nuNLBQkTsfR+V25TRmViz6z/l9TGgt8MxTKJQZRNjBM=;
+ b=gqFLIg4gld/fG1yn0eyBj7TfaGYGO9OlGnGPjYP8jAP5gYEET+f66S7hEL36PIacEcbdsB
+ 5TvL4QiRnoX/5KZns2Cev4LHzOlm1Vs9xnZAE5Mgn77KGlRp5qBJAx7o0qpaJiiilhHdoR
+ AaGJKB/zpSOYnRL7BBDTeR99wBQ1Ulc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1718713204;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nuNLBQkTsfR+V25TRmViz6z/l9TGgt8MxTKJQZRNjBM=;
+ b=+IuhtfVEbPt8vqETwXxupFZAddYd0pZlrgIplACwzdB64L2qcpx3wV9h/Dtia0b7vqddx8
+ /zTEOzM7nlFnxoBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D1D9F13AA0;
+ Tue, 18 Jun 2024 12:20:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 6QtPLHJ7cWZmTwAAD6G6ig
+ (envelope-from <jdelvare@suse.de>); Tue, 18 Jun 2024 12:20:02 +0000
+Date: Tue, 18 Jun 2024 14:20:00 +0200
+From: Jean Delvare <jdelvare@suse.de>
+To: dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard 
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Doug Anderson
+ <dianders@chromium.org>, YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH v2] drm/display: Drop obsolete dependency on COMPILE_TEST
+Message-ID: <20240618142000.3307858f@endymion.delvare>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Subject: Re: [PATCH v8 3/3] drm/mediatek: Implement OF graphs support for
- display paths
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- chunkuang.hu@kernel.org
-Cc: robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- matthias.bgg@gmail.com, shawn.sung@mediatek.com, yu-chang.lee@mediatek.com,
- ck.hu@mediatek.com, jitao.shi@mediatek.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- wenst@chromium.org, kernel@collabora.com, michael@walle.cc,
- Alexandre Mergnat <amergnat@baylibre.com>
-References: <20240618101726.110416-1-angelogioacchino.delregno@collabora.com>
- <20240618101726.110416-4-angelogioacchino.delregno@collabora.com>
-Content-Language: en-US, en-AU
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240618101726.110416-4-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-Spam-Score: -4.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.997]; MIME_GOOD(-0.10)[text/plain];
+ RCPT_COUNT_SEVEN(0.00)[9]; RCVD_TLS_ALL(0.00)[];
+ HAS_ORG_HEADER(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,chromium.org,huawei.com];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,32 +113,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Since commit 0166dc11be91 ("of: make CONFIG_OF user selectable"), it
+is possible to test-build any driver which depends on OF on any
+architecture by explicitly selecting OF. Therefore depending on
+COMPILE_TEST as an alternative is no longer needed.
+
+To avoid reintroducing the randconfig bug originally fixed by commit
+876271118aa4 ("drm/display: Fix build error without CONFIG_OF"),
+DRM_MSM which selects DRM_DISPLAY_DP_HELPER must explicitly depend
+on OF. This is consistent with what all other DRM drivers are doing.
+
+Signed-off-by: Jean Delvare <jdelvare@suse.de>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+---
+For regular builds, this is a no-op, as OF is always enabled on
+ARCH_QCOM and SOC_IMX5. So this change only affects test builds. As
+explained before, allowing test builds only when OF is enabled
+improves the quality of these test builds, as the result is then
+closer to how the code is built on its intended targets.
+
+Changes since v1:
+* Let DRM_MSM depend on OF so that random test builds won't break.
+
+ drivers/gpu/drm/display/Kconfig |    2 +-
+ drivers/gpu/drm/msm/Kconfig     |    1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+--- linux-6.9.orig/drivers/gpu/drm/display/Kconfig
++++ linux-6.9/drivers/gpu/drm/display/Kconfig
+@@ -3,7 +3,7 @@
+ config DRM_DP_AUX_BUS
+ 	tristate
+ 	depends on DRM
+-	depends on OF || COMPILE_TEST
++	depends on OF
+ 
+ config DRM_DISPLAY_HELPER
+ 	tristate
+--- linux-6.9.orig/drivers/gpu/drm/msm/Kconfig
++++ linux-6.9/drivers/gpu/drm/msm/Kconfig
+@@ -6,6 +6,7 @@ config DRM_MSM
+ 	depends on ARCH_QCOM || SOC_IMX5 || COMPILE_TEST
+ 	depends on COMMON_CLK
+ 	depends on IOMMU_SUPPORT
++	depends on OF
+ 	depends on QCOM_AOSS_QMP || QCOM_AOSS_QMP=n
+ 	depends on QCOM_OCMEM || QCOM_OCMEM=n
+ 	depends on QCOM_LLCC || QCOM_LLCC=n
 
 
-On 6/18/24 18:17, AngeloGioacchino Del Regno wrote:
-> It is impossible to add each and every possible DDP path combination
-> for each and every possible combination of SoC and board: right now,
-> this driver hardcodes configuration for 10 SoCs and this is going to
-> grow larger and larger, and with new hacks like the introduction of
-> mtk_drm_route which is anyway not enough for all final routes as the
-> DSI cannot be connected to MERGE if it's not a dual-DSI, or enabling
-> DSC preventively doesn't work if the display doesn't support it, or
-> others.
-> 
-> Since practically all display IPs in MediaTek SoCs support being
-> interconnected with different instances of other, or the same, IPs
-> or with different IPs and in different combinations, the final DDP
-> pipeline is effectively a board specific configuration.
-> 
-> Implement OF graphs support to the mediatek-drm drivers, allowing to
-> stop hardcoding the paths, and preventing this driver to get a huge
-> amount of arrays for each board and SoC combination, also paving the
-> way to share the same mtk_mmsys_driver_data between multiple SoCs,
-> making it more straightforward to add support for new chips.
-> 
-> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
-> Tested-by: Alexandre Mergnat <amergnat@baylibre.com>
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+-- 
+Jean Delvare
+SUSE L3 Support
