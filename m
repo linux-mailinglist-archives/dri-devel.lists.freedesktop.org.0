@@ -2,98 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8636490D46E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 16:21:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D5A90D44C
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 16:19:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DECB10E6A6;
-	Tue, 18 Jun 2024 14:21:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5986C10E69D;
+	Tue, 18 Jun 2024 14:19:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b="h/Fp34FR";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Py1JfzbV";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.b="f3eCBtfs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 533 seconds by postgrey-1.36 at gabe;
- Tue, 18 Jun 2024 14:21:09 UTC
-Received: from wfhigh8-smtp.messagingengine.com
- (wfhigh8-smtp.messagingengine.com [64.147.123.159])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D6DF10E6A6
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 14:21:09 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailfhigh.west.internal (Postfix) with ESMTP id 7FD29180007B;
- Tue, 18 Jun 2024 10:12:14 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Tue, 18 Jun 2024 10:12:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- invisiblethingslab.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm1; t=1718719934; x=1718806334; bh=PUyO7rEqEy
- UMRxDgGs+JjU2AQ3HsAsI5ZlgH+/pmHr4=; b=h/Fp34FRivK2MGFipBl5dFBabT
- wGT7vNPIn5LkChuZpJMnTaCqrbxDeWXeOWjuti+G//juPpNz0FTfQs7YMQ7SQLX5
- Yg0oGkyQwmnSeLVfTYFMfZjG79dLVHHHswpb3AEz3q5j7ca1sEfHPQQQX8ZFSVaH
- 47pE+bLFrN5hXJy9NizLY/b1Odi4CFJjBeqm6oUlu6T8Q593iMkhiwt9sgnbFoJl
- 4xZck/in6AAG44nhd36FzjBV95Rs/Ghp7hvrYO7dfk4MFukNTpJuaueDTQyoXChe
- txqRzesA9pv1h8TVpp+U2zmprDT/VXROs/AXENwMywYFFW2B9Ku48o4sqgcw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1718719934; x=
- 1718806334; bh=PUyO7rEqEyUMRxDgGs+JjU2AQ3HsAsI5ZlgH+/pmHr4=; b=P
- y1JfzbVT/7Bl/qHNtB95zZ6JPVF0FIOLMHKJZBvn9P0Tdfmv4q4vR1XYx3WxzRxp
- qFmKzvioFVU9bY57DevQuRQU2mPBLNOLMQMCQSIZ60ZaDs1mE40ViA0y0YW5kjBe
- rEZn9E8nv+D6M/9rzXZvfDUhMqRXvrvbneMNJP9Vhv0c7H4Go2qIKSjZQtDztO51
- c381Ir4hbdkxH6wrkWZ2JWYtgs9JPA0mBqVf3Hdm7837e4r700/evzMw8VnxKOTb
- 6uuGMKkdEKGDuIC7ZkRJLbVlllMeQQ7PjUMwmxNH50Y7ffwrBd2auRQZ45GK2yl9
- bu4+CZQQuA114nZavUYYQ==
-X-ME-Sender: <xms:vZVxZhgPqeKTTQIt9vuoV5faWXgMpHSRmnDgKn7Y4XbisKFZDiOM3A>
- <xme:vZVxZmAZoWcnL2ec8lbGk8jKF-ldjb1DJAZTymEE-beuk_DvC6oKNDWSHPycHPHIA
- ybaBmaMh0XrfLQ>
-X-ME-Received: <xmr:vZVxZhFmRHhxafYg5s0QzU2z95sTKltlFTQ_MbYsxBL0FzlFxqDOWl0gGy1VJExF9vh0HR2Ii7bNRYajCrH6NV5UcwEIcw66-8-6YCcqSOtOBaba>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedvkedggeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtgfgjgesthekredttddtjeenucfhrhhomhepffgvmhhi
- ucforghrihgvucfqsggvnhhouhhruceouggvmhhisehinhhvihhsihgslhgvthhhihhngh
- hslhgrsgdrtghomheqnecuggftrfgrthhtvghrnhepudfgieetueeuueeihefhfeetudfh
- iefgteekuedvgfeuhffggeegfedvkeegkeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepuggvmhhisehinhhvihhsihgslhgvthhhihhnghhs
- lhgrsgdrtghomh
-X-ME-Proxy: <xmx:vZVxZmQnYsMF8uzLv4z65V6PgrYt9naVdkzZrC9LC0L_Uz3sV6y3qA>
- <xmx:vZVxZuxhoqSr1HGwzXO9nJ5F1OwQ77Ak9SSEZQtpQh0tsS20HAgLxA>
- <xmx:vZVxZs5VlGsOOnk1imAZxYYZV51vo2OCPOwWeCOacCzAwS9E0dxFMw>
- <xmx:vZVxZjwuxUOn8g82LmiWiCOvpDx4ct9LLoGnZp6QAE7pNaglyRSjRw>
- <xmx:vpVxZifpn9YmOCRm3CdF8lKxLmbq9rqr8gYS8I4BG6YZYUHuO56iS8XI>
-Feedback-ID: iac594737:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 18 Jun 2024 10:12:12 -0400 (EDT)
-Date: Tue, 18 Jun 2024 10:12:11 -0400
-From: Demi Marie Obenour <demi@invisiblethingslab.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>, 
- Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
-Cc: Jan Beulich <jbeulich@suse.com>, Xenia Ragiadakou <burzalodowa@gmail.com>,
- Ray Huang <ray.huang@amd.com>,
- Xen developer discussion <xen-devel@lists.xenproject.org>,
- Andrew Cooper <andrew.cooper3@citrix.com>,
- Direct Rendering Infrastructure development <dri-devel@lists.freedesktop.org>, 
- Qubes OS Development Mailing List <qubes-devel@googlegroups.com>
-Subject: Re: Design session notes: GPU acceleration in Xen
-Message-ID: <ZnGVu9TjHKiEqxsu@itl-email>
-References: <Zms9tjtg06kKtI_8@itl-email>
- <440d6444-3b02-4756-a4fa-02aae3b24b14@suse.com>
- <ZmvvlF0gpqFB7UC9@macbook>
- <af1f966b-b28f-4a14-b932-3f1523adeff0@suse.com>
- <ZmwByZnn5vKcVLKI@macbook> <Zm-FidjSK3mOieSC@itl-email>
- <Zm_p1QvoZcjQ4gBa@macbook> <ZnCglhYlXmRPBZXE@mail-itl>
- <ZnDbaply6KaBUKJb@itl-email>
- <0b00c8f9-fb79-4b11-ae22-931205653203@amd.com>
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7B0210E69D
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 14:19:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+ s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+ Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+ bh=IHXESVOig3NejZU/7dMNNwP07/UkNvAaj6tfPl9/fTE=; b=f3eCBtfs/bOAxsDjHm9VlWP9Sn
+ TpC6H58PuGIr5tLpWhsB8V9KDNXUOJL6bWZfwheAD13A5GsOeiUFOcrA4Rb4vxh8Ah9IqHnB6/y9K
+ jpM72PKyeV2QDcEZEJw7/KAJ79slcHpHfxBJ9ugGMa/vL2g6InR1ZWcHp+mruhgE9Cl0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+ (envelope-from <andrew@lunn.ch>)
+ id 1sJZfq-000Nq5-Cj; Tue, 18 Jun 2024 16:19:02 +0200
+Date: Tue, 18 Jun 2024 16:19:02 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Omer Shpigelman <oshpigelman@habana.ai>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "ogabbay@kernel.org" <ogabbay@kernel.org>,
+ Zvika Yehudai <zyehudai@habana.ai>
+Subject: Re: [PATCH 09/15] net: hbl_en: add habanalabs Ethernet driver
+Message-ID: <621d4891-36d7-48c6-bdd8-2f3ca06a23f6@lunn.ch>
+References: <20240613082208.1439968-1-oshpigelman@habana.ai>
+ <20240613082208.1439968-10-oshpigelman@habana.ai>
+ <10902044-fb02-4328-bf88-0b386ee51c78@lunn.ch>
+ <bddb69c3-511b-4385-a67d-903e910a8b51@habana.ai>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; x-action=pgp-signed
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0b00c8f9-fb79-4b11-ae22-931205653203@amd.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bddb69c3-511b-4385-a67d-903e910a8b51@habana.ai>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,76 +60,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA512
-
-On Tue, Jun 18, 2024 at 08:33:38AM +0200, Christian König wrote:
-> Am 18.06.24 um 02:57 schrieb Demi Marie Obenour:
-> > On Mon, Jun 17, 2024 at 10:46:13PM +0200, Marek Marczykowski-Górecki
-> > wrote:
-> > > On Mon, Jun 17, 2024 at 09:46:29AM +0200, Roger Pau Monné wrote:
-> > >> On Sun, Jun 16, 2024 at 08:38:19PM -0400, Demi Marie Obenour wrote:
-> > >>> In both cases, the device physical
-> > >>> addresses are identical to dom0’s physical addresses.
-> > >>
-> > >> Yes, but a PV dom0 physical address space can be very scattered.
-> > >>
-> > >> IIRC there's an hypercall to request physically contiguous memory for
-> > >> PV, but you don't want to be using that every time you allocate a
-> > >> buffer (not sure it would support the sizes needed by the GPU
-> > >> anyway).
+> >> +static u32 hbl_en_get_mtu(struct hbl_aux_dev *aux_dev, u32 port_idx)
+> >> +{
+> >> +     struct hbl_en_port *port = HBL_EN_PORT(aux_dev, port_idx);
+> >> +     struct net_device *ndev = port->ndev;
+> >> +     u32 mtu;
+> >> +
+> >> +     if (atomic_cmpxchg(&port->in_reset, 0, 1)) {
+> >> +             netdev_err(ndev, "port is in reset, can't get MTU\n");
+> >> +             return 0;
+> >> +     }
+> >> +
+> >> +     mtu = ndev->mtu;
 > > 
-> > > Indeed that isn't going to fly. In older Qubes versions we had PV
-> > > sys-net with PCI passthrough for a network card. After some uptime it
-> > > was basically impossible to restart and still have enough contagious
-> > > memory for a network driver, and there it was about _much_ smaller
-> > > buffers, like 2M or 4M. At least not without shutting down a lot more
-> > > things to free some more memory.
+> > I think you need a better error message. All this does is access
+> > ndev->mtu. What does it matter if the port is in reset? You don't
+> > access it.
 > > 
-> > Ouch!  That makes me wonder if all GPU drivers actually need physically
-> > contiguous buffers, or if it is (as I suspect) driver-specific. CCing
-> > Christian König who has mentioned issues in this area.
 > 
-> Well GPUs don't need physical contiguous memory to function, but if they
-> only get 4k pages to work with it means a quite large (up to 30%)
-> performance penalty.
+> This function is called from the CN driver to get the current MTU in order
+> to configure it to the HW, for exmaple when configuring an IB QP. The MTU
+> value might be changed by user while we execute this function.
 
-The status quo is "no GPU acceleration at all", so 70% of bare metal
-performance would be amazing right now.  However, the implementation
-should not preclude eliminating this performance penalty in the future.
+Change of MTU will happen while holding RTNL. Why not simply hold RTNL
+while programming the hardware? That is the normal pattern for MAC
+drivers.
 
-What size pages do GPUs need for good performance?  Is it the same as
-CPU huge pages?  PV dom0 doesn't get huge pages at all, but PVH and HVM
-guests do, and the goal is to move away from PV guests as they have lots
-of unrelated problems.
+> >> +static int hbl_en_change_mtu(struct net_device *netdev, int new_mtu)
+> >> +{
+> >> +     struct hbl_en_port *port = hbl_netdev_priv(netdev);
+> >> +     int rc = 0;
+> >> +
+> >> +     if (atomic_cmpxchg(&port->in_reset, 0, 1)) {
+> >> +             netdev_err(netdev, "port is in reset, can't change MTU\n");
+> >> +             return -EBUSY;
+> >> +     }
+> >> +
+> >> +     if (netif_running(port->ndev)) {
+> >> +             hbl_en_port_close(port);
+> >> +
+> >> +             /* Sleep in order to let obsolete events to be dropped before re-opening the port */
+> >> +             msleep(20);
+> >> +
+> >> +             netdev->mtu = new_mtu;
+> >> +
+> >> +             rc = hbl_en_port_open(port);
+> >> +             if (rc)
+> >> +                     netdev_err(netdev, "Failed to reinit port for MTU change, rc %d\n", rc);
+> > 
+> > Does that mean the port is FUBAR?
+> > 
+> > Most operations like this are expected to roll back to the previous
+> > working configuration on failure. So if changing the MTU requires new
+> > buffers in your ring, you should first allocate the new buffers, then
+> > free the old buffers, so that if allocation fails, you still have
+> > buffers, and the device can continue operating.
+> > 
+> 
+> A failure in opening a port is a fatal error. It shouldn't happen. This is
+> not something we wish to recover from.
 
-> So scattering memory like you described is probably a very bad idea if you
-> want any halve way decent performance.
+What could cause open to fail? Is memory allocated?
 
-For an initial prototype a 30% performance penalty is acceptable, but
-it's good to know that memory fragmentation needs to be avoided.
+> This kind of an error indicates a severe system error that will usually
+> require a driver removal and reload anyway.
+> 
+> >> +module_param(poll_enable, bool, 0444);
+> >> +MODULE_PARM_DESC(poll_enable,
+> >> +              "Enable Rx polling rather than IRQ + NAPI (0 = no, 1 = yes, default: no)");
+> > 
+> > Module parameters are not liked. This probably needs to go away.
+> > 
+> 
+> I see that various vendors under net/ethernet/* use module parameters.
+> Can't we add another one?
 
-> Regards,
-> Christian
+Look at the history of those module parameters. Do you see many added
+in the last year? 5 years?
 
-Thanks for the prompt response!
-- -- 
-Sincerely,
-Demi Marie Obenour (she/her/hers)
-Invisible Things Lab
------BEGIN PGP SIGNATURE-----
+> >> +static int hbl_en_ethtool_get_module_info(struct net_device *ndev, struct ethtool_modinfo *modinfo)
+> >> +{
+> >> +     modinfo->eeprom_len = ETH_MODULE_SFF_8636_LEN;
+> >> +     modinfo->type = ETH_MODULE_SFF_8636;
+> > 
+> > Is this an SFF, not an SFP? How else can you know what module it is
+> > without doing an I2C transfer to ask the module what it is?
+> > 
+> 
+> The current type is SFF and it is unlikely to be changed.
 
-iQIzBAEBCgAdFiEEdodNnxM2uiJZBxxxsoi1X/+cIsEFAmZxlbsACgkQsoi1X/+c
-IsG+WhAA00y83cU94MMJCuDMqTCSOgJraPchvQHLBuMIB0cJkIbVxhA2T4yuvVZy
-Bzg/oVvWJH8B+p47HHo6uyjoPoeO659q8Hyea6zT8yMrKhiwOF8UxFRyxakdYHRs
-l793sCwUtMFwkJdsfacTSKjL6sMktWhicvOqX4rA/SIVpwzZh1auFjAIrZ2BENb/
-YIRH18Dfl2iEOA2W3TQTNiaqLeT2qtYspDVVLuUeAe7OAFCJVSkeMpAPPR15jCzm
-Ou0HP6JP2jH6h7Shd09ns+3UvQK4xaygpvEsj+BwpXPf2CDNgypKHezqgF1WMzCc
-HGXK1deGXE35XNH4EL5jgRlF7FmLT54CXuMpPIGbfNWbT2fvpoS2tyrdQPHxwgr8
-lqqqfjugZ9qzbqA4v/m+v0cKFclMvSYL8Rzn+tbz8kAFf7VTglypY55RIIStdnSZ
-sLYStA6qv8Mcu4NHYvdGeatTS26XR72X+dB5ApTn4dLLttnzbXMAyqDSTys28XQb
-jeHnh1uTOLChODJHu5prHJ6bN0MxmISwFuot58gW/iI0spyihRhPNjZ/6E/7BpIm
-8AGiT+p96dvaymLB5k6dqj5ruqVPP8HLBibB8zafzJn3JIJpjCZm9HM5YcO7xMQ2
-92ZNZ/XOswah+0s6MyWDCsU8jKnhQ87ESnB4JItI5skKj+001Jg=
-=ddxn
------END PGP SIGNATURE-----
+Well, SFF are soldered to the board, so yes, it is unlikely to
+change...
+
+Please add a comment that this is an SFF, not an SFP, so is soldered
+to the board, and so it is known to be an 8636 compatible device.
+
+> Are you referring to get_module_eeprom_by_page()? if so, then it is not
+> supported by our FW, we read the entire data on device load.
+> However, I can hide that behind the new API and return only the
+> requested page if that's the intention.
+
+Well, if your firmware is so limited, then you might as well stick to
+the old API, and let the core do the conversion to the legacy
+code. But i'm surprised you don't allow access to the temperature
+sensors, received signal strength, voltages etc, which could be
+exported via HWMON.
+
+> >> +                     ethtool_link_ksettings_add_link_mode(cmd, lp_advertising, Autoneg);
+> > 
+> > That looks odd. Care to explain?
+> > 
+> 
+> The HW of all of our ports supports autoneg.
+> But in addition, the ports are divided to two groups:
+> internal: ports which are connected to other Gaudi2 ports in the same server.
+> external: ports which are connected to an external switch.
+> Only internal ports use autoneg.
+> The ports mask which sets each port as internal/external is fetched from
+> the FW on device load.
+
+That is not what i meant. lc_advertising should indicate the link
+modes the peer is advertising. If this was a copper link, it typically
+would contain 10BaseT-Half, 10BaseT-Full, 100BaseT-Half,
+100BaseT-Full, 1000BaseT-Half. Setting the Autoneg bit is pointless,
+since the peer must be advertising in order that lp_advertising has a
+value!
+
+> Our HW supports Pause frames.
+> But, PFC can be disabled via lldptool for exmaple, so we won't advertise
+> it.
+
+Please also implement the standard netdev way of configuring pause.
+When you do that, you should start to understand how pause can be
+negotiated, or forced. That is what most get wrong.
+
+> I'll try to find more info about it, but can you please share what's wrong
+> with the curent code?
+> BTW I will change it to Asym_Pause as we support Tx pause frames as well.
+> 
+> >> +     if (auto_neg && !(hdev->auto_neg_mask & BIT(port_idx))) {
+> >> +             netdev_err(port->ndev, "port autoneg is disabled by BMC\n");
+> >> +             rc = -EFAULT;
+> >> +             goto out;
+> > 
+> > Don't say you support autoneg in supported if that is the case.
+> > 
+> > And EFAULT is about memory problems. EINVAL, maybe EPERM? or
+> > EOPNOTSUPP.
+> > 
+> >         Andrew
+> 
+> Yeah, should be switched to EPERM/EOPNOTSUPP.
+> Regarding the support of autoneg - the HW supports autoneg but it might be
+> disabled by the FW. Hence we might not be able to switch it on.
+
+No problem, ask the firmware what it is doing, and return the reality
+in ksetting. Only say you support autoneg if your firmware allows you
+to perform autoneg.
+
+   Andrew
+
