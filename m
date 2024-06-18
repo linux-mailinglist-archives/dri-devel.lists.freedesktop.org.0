@@ -2,83 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A3D90E031
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 01:52:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A2890E037
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 01:53:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B795410E81A;
-	Tue, 18 Jun 2024 23:51:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EEBE10E02A;
+	Tue, 18 Jun 2024 23:53:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="HvU3coHK";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Ss9hO6ss";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B21D610E80F;
- Tue, 18 Jun 2024 23:51:55 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45ILav2K007306;
- Tue, 18 Jun 2024 23:51:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- J91iosksmeOdMOZzm+kOJZZC2FYeRzmBvrrl1NXM6ME=; b=HvU3coHKk0oI9+r/
- j2NVV3Jnt4b16AQHSZbbq5sw3IMscW6IDZRPtvT+YbZnKbC1xt75K9xc1djG3VW6
- iOVm9OCGiX6S+ENN3gISkGJGP/0J2iA0XcQ5sqLxjicyIZCQQ572ZDSc6Sr4Mm06
- UPJXUy4Y8tWpaQi2P2K72XJ5evEnLi6Q02VN79CPgMrBFnSQ2HDEQGgfPi0G+IwB
- 42uydJtlU7dGLsNKBdMVfozJ5/DVmpLLbkR1AP8zHNCoZvuUaKnWbquaffiXPn1N
- ZPQYChP1RgnlLLxOoi8ax8zw/ttCVvfH0bwgqIhBoaYLLnsqYRR0A9z4kO768RMK
- NkzKPA==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yuj9u06n1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jun 2024 23:51:52 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45INppBr025257
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jun 2024 23:51:51 GMT
-Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 18 Jun
- 2024 16:51:51 -0700
-Message-ID: <badbf856-1b6d-42cd-880d-cdde2f293a86@quicinc.com>
-Date: Tue, 18 Jun 2024 16:51:51 -0700
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
+ [209.85.167.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A9AA10E02A
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 23:53:03 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id
+ 5614622812f47-3d518cdb252so452301b6e.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 16:53:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1718754782; x=1719359582;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cSMpbX3YjY+n1K6XdU7KZ18fAHLxIUowLHHewo9pUPw=;
+ b=Ss9hO6ssmSwCWK2cnrVmBuRsXfEWhQPdM4z0OO9SqUPTgpuEqDtRFNYEmQqtprrnOp
+ iO3urByfbWwb35+6nkyuNx+yLLvoUJc1hxogDyovJTElJfaLe4vyT4kCo+OIK4O6J7VC
+ GduFyhd0TEow25vJvL9JNOKe0P0EviaabHYPg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718754782; x=1719359582;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cSMpbX3YjY+n1K6XdU7KZ18fAHLxIUowLHHewo9pUPw=;
+ b=wgqT1Na2+sCTJi+56ZB0kN0JreSHa8tiziEGK+tsBLGj/pHWbLrPk1b/Pxyb3B5iTE
+ dZPCT7XMc2fwE2L+smAFSAXDz/HbQR6j4ZYwNfab0Y5T00oUiv1cXyvCLInASFTI1qUz
+ NZQH+aulSRKUe01oFpd2Q2p29bfibB7utoW/l+uaEy43a5ZUs6Hkx71xR5vdpy/tLY4/
+ cYRdRucsS3QZnb6HMXgk6Vi4epSKtw/Nj3pOl0yfkWAYxPBxErGn7X5bXDxI4eb5Rrkm
+ diHqdzDQvbDeOV+mc455B23Ep37mZY5pjwjduneSYUkQyQTu2gI9rkwY4NBmScqra7Yq
+ EcZw==
+X-Gm-Message-State: AOJu0YzU6Urfj4NDYncorFFMCljc5zEfk7Ren9rMlyfwEqnoxlxRLKJX
+ 5/1Ee1L60jr4gSfcrxURVNCRIvC3uWwiTA5V1RrQ0n01O3bdR1l3fhhgx1bwyD+h0sRRuuGkedg
+ =
+X-Google-Smtp-Source: AGHT+IFcmO94JeLsvjWFpd7CTWjcBJ38P11F4D2NlCc/Hunsm4xG5dIB8A8P7jdO584fohbWRlnwgA==
+X-Received: by 2002:a05:6808:2225:b0:3d2:cba0:f902 with SMTP id
+ 5614622812f47-3d51b9ba000mr1213139b6e.25.1718754782145; 
+ Tue, 18 Jun 2024 16:53:02 -0700 (PDT)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com.
+ [209.85.160.182]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-798c0342aa0sm547379885a.76.2024.06.18.16.53.01
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Jun 2024 16:53:02 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id
+ d75a77b69052e-44056f72257so149781cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 16:53:01 -0700 (PDT)
+X-Received: by 2002:a05:622a:14cc:b0:444:9ac8:7 with SMTP id
+ d75a77b69052e-444a8e53305mr1522311cf.16.1718754781471; Tue, 18 Jun 2024
+ 16:53:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/14] drm/msm/hdmi: switch to clk_bulk API
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
- Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240522-fd-hdmi-hpd-v2-0-c30bdb7c5c7e@linaro.org>
- <20240522-fd-hdmi-hpd-v2-6-c30bdb7c5c7e@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20240522-fd-hdmi-hpd-v2-6-c30bdb7c5c7e@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: XTn-NELIBobjl-y64lU50Y8cByUxh83c
-X-Proofpoint-ORIG-GUID: XTn-NELIBobjl-y64lU50Y8cByUxh83c
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-18_06,2024-06-17_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 mlxlogscore=999 clxscore=1011 mlxscore=0 phishscore=0
- bulkscore=0 impostorscore=0 spamscore=0 suspectscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406180174
+References: <20240612222435.3188234-1-dianders@chromium.org>
+ <20240612152752.v2.8.I27914059cc822b52db9bf72b4013b525b60e06fd@changeid>
+ <CADnq5_PbqE0E2pP26mGD94cdc=tLZZsF10e7ZZWeC5AU-LS8vw@mail.gmail.com>
+ <CAD=FV=XJAiVGFn_Tqs_JNo1fQKFys3m=hH9MwmMot93gkdg=Qw@mail.gmail.com>
+ <CADnq5_M+H_h1Me_O3u=R3q52PgYcCwwY9Mr8_R1eX0G7HvBp2w@mail.gmail.com>
+In-Reply-To: <CADnq5_M+H_h1Me_O3u=R3q52PgYcCwwY9Mr8_R1eX0G7HvBp2w@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 18 Jun 2024 16:52:46 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=X=9PV+zbmd2S-TBBxq+yQZ2D+-cCHjFX-gm-f+DyXXiQ@mail.gmail.com>
+Message-ID: <CAD=FV=X=9PV+zbmd2S-TBBxq+yQZ2D+-cCHjFX-gm-f+DyXXiQ@mail.gmail.com>
+Subject: Re: [PATCH v2 8/8] drm/amdgpu: Call drm_atomic_helper_shutdown() at
+ shutdown time
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Candice Li <candice.li@amd.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Le Ma <le.ma@amd.com>, 
+ Lijo Lazar <lijo.lazar@amd.com>, Ma Jun <Jun.Ma2@amd.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Shashank Sharma <shashank.sharma@amd.com>, 
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Victor Lu <victorchengchi.lu@amd.com>, amd-gfx@lists.freedesktop.org, 
+ chenxuebing <chenxb_99091@126.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,140 +107,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+On Tue, Jun 18, 2024 at 3:00=E2=80=AFPM Alex Deucher <alexdeucher@gmail.com=
+> wrote:
+>
+> On Tue, Jun 18, 2024 at 5:40=E2=80=AFPM Doug Anderson <dianders@chromium.=
+org> wrote:
+> >
+> > Hi,
+> >
+> >
+> > On Mon, Jun 17, 2024 at 8:01=E2=80=AFAM Alex Deucher <alexdeucher@gmail=
+.com> wrote:
+> > >
+> > > On Wed, Jun 12, 2024 at 6:37=E2=80=AFPM Douglas Anderson <dianders@ch=
+romium.org> wrote:
+> > > >
+> > > > Based on grepping through the source code this driver appears to be
+> > > > missing a call to drm_atomic_helper_shutdown() at system shutdown
+> > > > time. Among other things, this means that if a panel is in use that=
+ it
+> > > > won't be cleanly powered off at system shutdown time.
+> > > >
+> > > > The fact that we should call drm_atomic_helper_shutdown() in the ca=
+se
+> > > > of OS shutdown/restart comes straight out of the kernel doc "driver
+> > > > instance overview" in drm_drv.c.
+> > > >
+> > > > Suggested-by: Maxime Ripard <mripard@kernel.org>
+> > > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > Cc: Xinhui Pan <Xinhui.Pan@amd.com>
+> > > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > > > ---
+> > > > This commit is only compile-time tested.
+> > > >
+> > > > ...and further, I'd say that this patch is more of a plea for help
+> > > > than a patch I think is actually right. I'm _fairly_ certain that
+> > > > drm/amdgpu needs this call at shutdown time but the logic is a bit
+> > > > hard for me to follow. I'd appreciate if anyone who actually knows
+> > > > what this should look like could illuminate me, or perhaps even jus=
+t
+> > > > post a patch themselves!
+> > >
+> > > I'm not sure this patch makes sense or not.  The driver doesn't reall=
+y
+> > > do a formal tear down in its shutdown routine, it just quiesces the
+> > > hardware.  What are the actual requirements of the shutdown function?
+> > > In the past when we did a full driver tear down in shutdown, it
+> > > delayed the shutdown sequence and users complained.
+> >
+> > The "inspiration" for this patch is to handle panels properly.
+> > Specifically, panels often have several power/enable signals going to
+> > them and often have requirements that these signals are powered off in
+> > the proper order with the proper delays between them. While we can't
+> > always do so when the system crashes / reboots in an uncontrolled way,
+> > panel manufacturers / HW Engineers get upset if we don't power things
+> > off properly during an orderly shutdown/reboot. When panels are
+> > powered off badly it can cause garbage on the screen and, so I've been
+> > told, can even cause long term damage to the panels over time.
+> >
+> > In Linux, some panel drivers have tried to ensure a proper poweroff of
+> > the panel by handling the shutdown() call themselves. However, this is
+> > ugly and panel maintainers want panel drivers to stop doing it. We
+> > have removed the code doing this from most panels now [1]. Instead the
+> > assumption is that the DRM modeset drivers should be calling
+> > drm_atomic_helper_shutdown() which will make sure panels get an
+> > orderly shutdown.
+> >
+> > For a lot more details, see the cover letter [2] which then contains
+> > links to even more discussions about the topic.
+> >
+> > [1] https://lore.kernel.org/r/20240605002401.2848541-1-dianders@chromiu=
+m.org
+> > [2] https://lore.kernel.org/r/20240612222435.3188234-1-dianders@chromiu=
+m.org
+>
+> I don't think it's an issue.  We quiesce the hardware as if we were
+> about to suspend the system (e.g., S3).  For the display hardware we
+> call drm_atomic_helper_suspend() as part of that sequence.
 
-On 5/22/2024 3:50 AM, Dmitry Baryshkov wrote:
-> The last platform using legacy clock names for HDMI block (APQ8064)
-> switched to new clock names in 5.16. It's time to stop caring about old
-> DT, drop hand-coded helpers and switch to clk_bulk_* API.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+OK. It's no skin off my teeth and we can drop this patch if you're
+convinced it's not needed. From the point of view of someone who has
+no experience with this driver it seems weird to me that it would use
+drm_atomic_helper_suspend() at shutdown time instead of the documented
+drm_atomic_helper_shutdown(), but if it works for everyone then I'm
+not gonna complain.
 
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-
-> ---
->   drivers/gpu/drm/msm/hdmi/hdmi.c     | 15 +++++---------
->   drivers/gpu/drm/msm/hdmi/hdmi.h     |  2 +-
->   drivers/gpu/drm/msm/hdmi/hdmi_hpd.c | 39 +++++++++++++------------------------
->   3 files changed, 19 insertions(+), 37 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> index c14e009f38b1..7ec4ca3b7597 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> @@ -469,17 +469,12 @@ static int msm_hdmi_dev_probe(struct platform_device *pdev)
->   	if (!hdmi->hpd_clks)
->   		return -ENOMEM;
->   
-> -	for (i = 0; i < config->hpd_clk_cnt; i++) {
-> -		struct clk *clk;
-> +	for (i = 0; i < config->hpd_clk_cnt; i++)
-> +		hdmi->hpd_clks[i].id = config->hpd_clk_names[i];
->   
-> -		clk = msm_clk_get(pdev, config->hpd_clk_names[i]);
-> -		if (IS_ERR(clk))
-> -			return dev_err_probe(dev, PTR_ERR(clk),
-> -					     "failed to get hpd clk: %s\n",
-> -					     config->hpd_clk_names[i]);
-> -
-> -		hdmi->hpd_clks[i] = clk;
-> -	}
-> +	ret = devm_clk_bulk_get(&pdev->dev, config->hpd_clk_cnt, hdmi->hpd_clks);
-> +	if (ret)
-> +		return ret;
->   
->   	hdmi->extp_clk = devm_clk_get_optional(&pdev->dev, "extp");
->   	if (IS_ERR(hdmi->extp_clk))
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
-> index c0d60ed23b75..eeba85ffef09 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.h
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
-> @@ -50,7 +50,7 @@ struct hdmi {
->   
->   	struct regulator_bulk_data *hpd_regs;
->   	struct regulator_bulk_data *pwr_regs;
-> -	struct clk **hpd_clks;
-> +	struct clk_bulk_data *hpd_clks;
->   	struct clk *extp_clk;
->   
->   	struct gpio_desc *hpd_gpiod;
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-> index 7ae69b14e953..36266aa626dc 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-> @@ -60,27 +60,6 @@ static void msm_hdmi_phy_reset(struct hdmi *hdmi)
->   	}
->   }
->   
-> -static void enable_hpd_clocks(struct hdmi *hdmi, bool enable)
-> -{
-> -	const struct hdmi_platform_config *config = hdmi->config;
-> -	struct device *dev = &hdmi->pdev->dev;
-> -	int i, ret;
-> -
-> -	if (enable) {
-> -		for (i = 0; i < config->hpd_clk_cnt; i++) {
-> -			ret = clk_prepare_enable(hdmi->hpd_clks[i]);
-> -			if (ret) {
-> -				DRM_DEV_ERROR(dev,
-> -					"failed to enable hpd clk: %s (%d)\n",
-> -					config->hpd_clk_names[i], ret);
-> -			}
-> -		}
-> -	} else {
-> -		for (i = config->hpd_clk_cnt - 1; i >= 0; i--)
-> -			clk_disable_unprepare(hdmi->hpd_clks[i]);
-> -	}
-> -}
-> -
->   int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
->   {
->   	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
-> @@ -107,7 +86,9 @@ int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
->   		gpiod_set_value_cansleep(hdmi->hpd_gpiod, 1);
->   
->   	pm_runtime_get_sync(dev);
-> -	enable_hpd_clocks(hdmi, true);
-> +	ret = clk_bulk_prepare_enable(config->hpd_clk_cnt, hdmi->hpd_clks);
-> +	if (ret)
-> +		goto fail;
->   
->   	msm_hdmi_set_mode(hdmi, false);
->   	msm_hdmi_phy_reset(hdmi);
-> @@ -149,7 +130,7 @@ void msm_hdmi_hpd_disable(struct hdmi *hdmi)
->   
->   	msm_hdmi_set_mode(hdmi, false);
->   
-> -	enable_hpd_clocks(hdmi, false);
-> +	clk_bulk_disable_unprepare(config->hpd_clk_cnt, hdmi->hpd_clks);
->   	pm_runtime_put(dev);
->   
->   	ret = pinctrl_pm_select_sleep_state(dev);
-> @@ -193,14 +174,20 @@ void msm_hdmi_hpd_irq(struct drm_bridge *bridge)
->   
->   static enum drm_connector_status detect_reg(struct hdmi *hdmi)
->   {
-> -	uint32_t hpd_int_status;
-> +	const struct hdmi_platform_config *config = hdmi->config;
-> +	uint32_t hpd_int_status = 0;
-> +	int ret;
->   
->   	pm_runtime_get_sync(&hdmi->pdev->dev);
-> -	enable_hpd_clocks(hdmi, true);
-> +	ret = clk_bulk_prepare_enable(config->hpd_clk_cnt, hdmi->hpd_clks);
-> +	if (ret)
-> +		goto out;
->   
->   	hpd_int_status = hdmi_read(hdmi, REG_HDMI_HPD_INT_STATUS);
->   
-> -	enable_hpd_clocks(hdmi, false);
-> +	clk_bulk_disable_unprepare(config->hpd_clk_cnt, hdmi->hpd_clks);
-> +
-> +out:
->   	pm_runtime_put(&hdmi->pdev->dev);
->   
->   	return (hpd_int_status & HDMI_HPD_INT_STATUS_CABLE_DETECTED) ?
-> 
-> -- 
-> 2.39.2
-> 
+-Doug
