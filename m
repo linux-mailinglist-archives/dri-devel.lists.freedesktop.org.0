@@ -2,53 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4292890C41F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 09:08:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0741A90C427
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 09:14:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1143510E0F1;
-	Tue, 18 Jun 2024 07:08:51 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z1FxFYrJ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4CC510E214;
+	Tue, 18 Jun 2024 07:14:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1848D10E0F1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 07:08:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0A0C361484;
- Tue, 18 Jun 2024 07:08:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EA54C3277B;
- Tue, 18 Jun 2024 07:08:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718694528;
- bh=OQs0ZHAYq+kY+OsBzADzt52NHiH43maiNAIxI+O162A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Z1FxFYrJzlqCmkIEPx5iIrtt1ZKqeBrwJ147/RDW2mcrvLMMcKZAgVBcf1qSB2AHP
- ED5bZHkJzN140OWBDChSgi9D9vhs8sMAijm6CjK7Zxw2MyIFngQC+ZdxBa5ACZ9y5d
- YORPPk1F8xcaxcMBQIbmhyqUipnQz2CT+91w13PQ467C5hXA1btgaARGyJjQwsAtIY
- u90PpjG71SR6AxQLjZ7c+r1bYwEWrXRrihr2SvS1TSAydFyBQCUO64CoLObPMtnOhR
- rvahs/2U4L6yAZioj/6y+T5kCPt2kudlMtbClsIvOMUZ0Xujde8SQLi4j0UQTP6HoM
- rriRs2qYQVZAg==
-Date: Tue, 18 Jun 2024 10:08:43 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Omer Shpigelman <oshpigelman@habana.ai>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "ogabbay@kernel.org" <ogabbay@kernel.org>,
- Zvika Yehudai <zyehudai@habana.ai>
-Subject: Re: [PATCH 04/15] net: hbl_cn: QP state machine
-Message-ID: <20240618070843.GD4025@unreal>
-References: <20240613082208.1439968-1-oshpigelman@habana.ai>
- <20240613082208.1439968-5-oshpigelman@habana.ai>
- <20240617131807.GE6805@unreal>
- <a43d2eaf-e295-4ed4-b66a-3f2e96ea088c@habana.ai>
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A3C010E214
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 07:14:50 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-62a2424ed00so59180107b3.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 00:14:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718694889; x=1719299689;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Rz6LJGzD4G8AYqhBAzwk0Rq4f7QZMRwIAsp6KRs4lxo=;
+ b=HuTwSI7Zlt48jJ4N87aop6qaLaELQgbvsyEGhMNvN5B+Bw/2/u0pESboUGe4VjygNy
+ ZAmArqGRYj00njarXqcJCWXwjXKXFH8PfDTCSk8CFwrugZjBrwKvrWHaMcmNvB7c2jrl
+ vkNbYlP3rV6IZC02RAlFytZZsECb0GotVYOWo01O6G/cEznzYC++/d0qlyqNwFAxz5NH
+ HuE+bYJ2RQRJGx4xF2Cpw/7lzPs+7J2+IPe9B2T8VH6u6IJVsxvDZbEr8kiuGbZ8qYGn
+ z4ETlID1kH4Flb1fBDtTXsKu4XMAauksF3Uegqznezq7z+59RbVYKk7vrH8ODIAma1Wf
+ F74w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWntRNDiJT5HNDBvvLC2TpIXryu7XH/dxlizb1MJN34Hxe8p2QzPk3B/FyeGzr+sgG9jM7z+h+SX69ZFnMT49Gv9CRKL4YNHt2uHhtMMRpE
+X-Gm-Message-State: AOJu0YzKhjUKt1YY/dnGo7t4LNIr+oQyaWRKcJH+wZvtKv5VcoVKarO6
+ 9Sjg33kFP18nfW6de3yuClYsLo8ZDtwIhHU3imoDAC4xBYcRQjnT4aUW3ewB
+X-Google-Smtp-Source: AGHT+IG627/tBnadmmyh0iHKt8rNaxRzQDisjJAbb9s5zb1lTR9iJv0TaQ7FgVn30+3Kk6n/mwQVLg==
+X-Received: by 2002:a81:4311:0:b0:62d:18f5:6f76 with SMTP id
+ 00721157ae682-63224fe8657mr113207357b3.49.1718694888742; 
+ Tue, 18 Jun 2024 00:14:48 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com.
+ [209.85.128.171]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-631183d79d9sm16921377b3.18.2024.06.18.00.14.48
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Jun 2024 00:14:48 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-62a2424ed00so59179897b3.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 00:14:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXIaTgGxjGf0gGU4/bLFcEWYFEPqm/SZwAypCBZgog4aBLRu/2ph9erTburn2slEFcklP9Dy/cmgu/iWDPRNcNbwqVIkTe2zn5hVn5xI9Us
+X-Received: by 2002:a05:690c:24d:b0:62c:efa2:a091 with SMTP id
+ 00721157ae682-63222a58bc1mr110730687b3.14.1718694888087; Tue, 18 Jun 2024
+ 00:14:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a43d2eaf-e295-4ed4-b66a-3f2e96ea088c@habana.ai>
+References: <20240617-md-m68k-drivers-video-fbdev-amifb-v1-1-85f74746ecd4@quicinc.com>
+In-Reply-To: <20240617-md-m68k-drivers-video-fbdev-amifb-v1-1-85f74746ecd4@quicinc.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 18 Jun 2024 09:14:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX6G6sXpJmtHXCZobuOstvn4Kw-90mpky-ZXPcoe_ezUQ@mail.gmail.com>
+Message-ID: <CAMuHMdX6G6sXpJmtHXCZobuOstvn4Kw-90mpky-ZXPcoe_ezUQ@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: amifb: add missing MODULE_DESCRIPTION() macro
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,145 +79,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 18, 2024 at 05:50:15AM +0000, Omer Shpigelman wrote:
-> On 6/17/24 16:18, Leon Romanovsky wrote:
-> > [Some people who received this message don't often get email from leon@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> > 
-> > On Thu, Jun 13, 2024 at 11:21:57AM +0300, Omer Shpigelman wrote:
-> >> Add a common QP state machine which handles the moving for a QP from one
-> >> state to another including performing necessary checks, draining
-> >> in-flight transactions, invalidating caches and error reporting.
-> >>
-> >> Signed-off-by: Omer Shpigelman <oshpigelman@habana.ai>
-> >> Co-developed-by: Abhilash K V <kvabhilash@habana.ai>
-> >> Signed-off-by: Abhilash K V <kvabhilash@habana.ai>
-> >> Co-developed-by: Andrey Agranovich <aagranovich@habana.ai>
-> >> Signed-off-by: Andrey Agranovich <aagranovich@habana.ai>
-> >> Co-developed-by: Bharat Jauhari <bjauhari@habana.ai>
-> >> Signed-off-by: Bharat Jauhari <bjauhari@habana.ai>
-> >> Co-developed-by: David Meriin <dmeriin@habana.ai>
-> >> Signed-off-by: David Meriin <dmeriin@habana.ai>
-> >> Co-developed-by: Sagiv Ozeri <sozeri@habana.ai>
-> >> Signed-off-by: Sagiv Ozeri <sozeri@habana.ai>
-> >> Co-developed-by: Zvika Yehudai <zyehudai@habana.ai>
-> >> Signed-off-by: Zvika Yehudai <zyehudai@habana.ai>
-> >> ---
-> >>  .../ethernet/intel/hbl_cn/common/hbl_cn_qp.c  | 480 +++++++++++++++++-
-> >>  1 file changed, 479 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/net/ethernet/intel/hbl_cn/common/hbl_cn_qp.c b/drivers/net/ethernet/intel/hbl_cn/common/hbl_cn_qp.c
-> >> index 9ddc23bf8194..26ebdf448193 100644
-> >> --- a/drivers/net/ethernet/intel/hbl_cn/common/hbl_cn_qp.c
-> >> +++ b/drivers/net/ethernet/intel/hbl_cn/common/hbl_cn_qp.c
-> >> @@ -6,8 +6,486 @@
-> > 
-> > <...>
-> > 
-> >> +/* The following table represents the (valid) operations that can be performed on
-> >> + * a QP in order to move it from one state to another
-> >> + * For example: a QP in RTR state can be moved to RTS state using the CN_QP_OP_RTR_2RTS
-> >> + * operation.
-> >> + */
-> >> +static const enum hbl_cn_qp_state_op qp_valid_state_op[CN_QP_NUM_STATE][CN_QP_NUM_STATE] = {
-> >> +     [CN_QP_STATE_RESET] = {
-> >> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >> +             [CN_QP_STATE_INIT]      = CN_QP_OP_RST_2INIT,
-> >> +             [CN_QP_STATE_SQD]       = CN_QP_OP_NOP,
-> >> +             [CN_QP_STATE_QPD]       = CN_QP_OP_NOP,
-> >> +     },
-> >> +     [CN_QP_STATE_INIT] = {
-> >> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
-> >> +             [CN_QP_STATE_INIT]      = CN_QP_OP_NOP,
-> >> +             [CN_QP_STATE_RTR]       = CN_QP_OP_INIT_2RTR,
-> >> +             [CN_QP_STATE_SQD]       = CN_QP_OP_NOP,
-> >> +             [CN_QP_STATE_QPD]       = CN_QP_OP_NOP,
-> >> +     },
-> >> +     [CN_QP_STATE_RTR] = {
-> >> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
-> >> +             [CN_QP_STATE_RTR]       = CN_QP_OP_RTR_2RTR,
-> >> +             [CN_QP_STATE_RTS]       = CN_QP_OP_RTR_2RTS,
-> >> +             [CN_QP_STATE_SQD]       = CN_QP_OP_NOP,
-> >> +             [CN_QP_STATE_QPD]       = CN_QP_OP_RTR_2QPD,
-> >> +     },
-> >> +     [CN_QP_STATE_RTS] = {
-> >> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
-> >> +             [CN_QP_STATE_RTS]       = CN_QP_OP_RTS_2RTS,
-> >> +             [CN_QP_STATE_SQD]       = CN_QP_OP_RTS_2SQD,
-> >> +             [CN_QP_STATE_QPD]       = CN_QP_OP_RTS_2QPD,
-> >> +             [CN_QP_STATE_SQERR]     = CN_QP_OP_RTS_2SQERR,
-> >> +     },
-> >> +     [CN_QP_STATE_SQD] = {
-> >> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
-> >> +             [CN_QP_STATE_SQD]       = CN_QP_OP_SQD_2SQD,
-> >> +             [CN_QP_STATE_RTS]       = CN_QP_OP_SQD_2RTS,
-> >> +             [CN_QP_STATE_QPD]       = CN_QP_OP_SQD_2QPD,
-> >> +             [CN_QP_STATE_SQERR]     = CN_QP_OP_SQD_2SQ_ERR,
-> >> +     },
-> >> +     [CN_QP_STATE_QPD] = {
-> >> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
-> >> +             [CN_QP_STATE_SQD]       = CN_QP_OP_NOP,
-> >> +             [CN_QP_STATE_QPD]       = CN_QP_OP_NOP,
-> >> +             [CN_QP_STATE_RTR]       = CN_QP_OP_QPD_2RTR,
-> >> +     },
-> >> +     [CN_QP_STATE_SQERR] = {
-> >> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
-> >> +             [CN_QP_STATE_SQD]       = CN_QP_OP_SQ_ERR_2SQD,
-> >> +             [CN_QP_STATE_SQERR]     = CN_QP_OP_NOP,
-> >> +     },
-> >> +     [CN_QP_STATE_ERR] = {
-> >> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
-> >> +     }
-> >> +};
-> > 
-> > I don't understand why IBTA QP state machine is declared in ETH driver
-> > and not in IB driver.
-> > 
-> 
-> Implementing the actual transitions between the states requires full
-> knowledge of the HW e.g. when to flush, cache invalidation, timeouts.
-> Our IB driver is agnostic to the ASIC type by design. Note that more ASIC
-> generations are planned to be added and the IB driver should not be aware
-> of these additional HWs.
-> Hence we implemeted the QP state machine in the CN driver which is aware
-> of the actual HW.
+On Tue, Jun 18, 2024 at 5:14=E2=80=AFAM Jeff Johnson <quic_jjohnson@quicinc=
+.com> wrote:
+> With ARCH=3Dm68k, make allmodconfig && make W=3D1 C=3D1 reports:
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/ami=
+fb.o
+>
+> Add the missing invocation of the MODULE_DESCRIPTION() macro.
+>
+> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 
-Somehow ALL other IB drivers are able to implement this logic in the IB,
-while supporting multiple ASICs. I don't see a reason why you can't do
-the same.
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-> 
-> >> +
-> > 
-> > <...>
-> > 
-> >> +             /* Release lock while we wait before retry.
-> >> +              * Note, we can assert that we are already locked.
-> >> +              */
-> >> +             port_funcs->cfg_unlock(cn_port);
-> >> +
-> >> +             msleep(20);
-> >> +
-> >> +             port_funcs->cfg_lock(cn_port);
-> > 
-> > lock/unlock through ops pointer doesn't look like a good idea.
-> > 
-> 
-> More ASIC generations will be added once we merge the current Gaudi2 code.
-> On other ASICs the locking granularity is different because some of the HW
-> resources are shared between different logical ports.
-> Hence it is was logical for us to implement it with a function pointer so
-> each ASIC specific code can implemnet the locking properly.
+Gr{oetje,eeting}s,
 
-We are reviewing this code which is for the current ASIC, not for the
-unknown future ASICs. Please don't over engineer the first submission.
-You will always be able to improve/change the code once you decide to
-upstream your future ASICs.
+                        Geert
 
-Thanks
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
