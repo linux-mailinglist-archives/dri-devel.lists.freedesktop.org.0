@@ -2,66 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E88190D5B9
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 16:43:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DA590D5C0
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 16:43:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBEC510E6AC;
-	Tue, 18 Jun 2024 14:43:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5319D10E6BA;
+	Tue, 18 Jun 2024 14:43:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="jmCoO3SI";
+	dkim=pass (1024-bit key; unprotected) header.d=citrix.com header.i=@citrix.com header.b="K2JszsMQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4FEE10E6B2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 14:43:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1718721816;
- bh=AZX3jLOJVEnToDsGXuWNi9vG2dyKEdoxx4/ojvn22zA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=jmCoO3SIi6oHxg0EKZjZGZyaCG7LiZU6f1I3SGvaglMFAtJQ7Mwcjjve669cWFx/C
- bhMWSEfjyebzfgV7SXQ/bklAWdZneVHuDoJci07mY9ZUdgakx25wPRZ/ofUntv/j9W
- +KatqSgywWZGJwHqZuA5A8Gq/DeDC7JRzIgJvaNwdjHIuohBgyVQYPF2nVRx/yhOLz
- 4x+8CXrg5xhaQkMpoyPOzuMapk2yQJjH24+i93HjAFIexsHpY8ABnw/k7y4njovqdy
- vuHn983rA/cEnzda4SrkmT3P0Hz9812PJdx6RTU3zPSFUTTCHIoF0MroWxwjXOPoPk
- YoD1wvA/DtKTg==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id A25873780629;
- Tue, 18 Jun 2024 14:43:34 +0000 (UTC)
-Message-ID: <03662a3e-6a66-4541-9435-98f809f1c617@collabora.com>
-Date: Tue, 18 Jun 2024 16:43:34 +0200
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
+ [209.85.222.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4910710E6B8
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 14:43:54 +0000 (UTC)
+Received: by mail-qk1-f172.google.com with SMTP id
+ af79cd13be357-797b24b8944so522643485a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 07:43:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=citrix.com; s=google; t=1718721833; x=1719326633; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=H1+SS+CgyscfT+wjW8/qeAG6YffPFvdXGu7/EUf5Kw8=;
+ b=K2JszsMQqlmmQe7oZUoQFjT/cBscxeswWRpMlnZWAc4U1TbeOnF2CVRbA/KQ8/A9RL
+ l3z8uvUPPuOJMvrDOEbNXOYWizayMHABhHsa7W7vXl0qgFfKPAUdO1zrSQ/2REo+lBFQ
+ /15hZHWTCios6lNum2gxR45jhV0YctZSv4W0o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718721833; x=1719326633;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=H1+SS+CgyscfT+wjW8/qeAG6YffPFvdXGu7/EUf5Kw8=;
+ b=tw3Z34YVA2mCLyDWjm0wCd/76+jG5fqnvaDBwVF+Z01N2cKMJZKnIJrhv6WXlA7Yre
+ H+X81vMlFfyKdR/Oj+CSCG1epwRAYf/1IUbJav42ZpTjc433Wg/+98M2ldJOMK0ZTlBZ
+ nQtdHfCjcobS7+7EEKErz9od40CKoozmyNDY7+ADribApKcjF1LJdTiqufzG8bl1R0sh
+ 7znPn1xNwMp1vaWR5tX0chuu5Ps/yS5jLBArWIw3Bak3omi/+h37JrKpQsc16Wv+Nx2t
+ xQsZwewuNfW3xtvjHPVyJ0Z7YqJtC8ha8YAoLdCqEi8a4ObcC6SpEmm2D/MV8zameMa4
+ dsQA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUpIPvTkdhvWgB8NMqxF1PbQoMF+vy4nlcTWq3yGzsyKvklH7onF8ToR2Tyn91fQ20DGBAL6Jglo0CQIP3FRP2/Jy2VxcNcG7w2OTR2b8Ce
+X-Gm-Message-State: AOJu0Yws7THztf7kgE3ELJ9MJJQI4mTpRhpaF/jw1HhE0mFHhG3hqVLV
+ u/XuDWkiLgkAyNsRshgk7tHBeRpz+0ifIWYysdCvmh65LRPwWAeW8nAp7kFHLUI=
+X-Google-Smtp-Source: AGHT+IE1YlRuWEi0vQfDOPjPfHR2PbvrEzE38XoxBE6yNs4Wq+SxKec9MZIMG60RC/XOLzcX9esWng==
+X-Received: by 2002:a05:620a:2a11:b0:797:ee31:c39d with SMTP id
+ af79cd13be357-798d23f0d1dmr1496021585a.11.1718721832764; 
+ Tue, 18 Jun 2024 07:43:52 -0700 (PDT)
+Received: from localhost ([213.195.124.163]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-798abc0cf98sm523962485a.80.2024.06.18.07.43.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Jun 2024 07:43:52 -0700 (PDT)
+Date: Tue, 18 Jun 2024 16:43:50 +0200
+From: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
+To: Demi Marie Obenour <demi@invisiblethingslab.com>
+Cc: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?=
+ <marmarek@invisiblethingslab.com>, Jan Beulich <jbeulich@suse.com>,
+ Xenia Ragiadakou <burzalodowa@gmail.com>, Ray Huang <ray.huang@amd.com>,
+ Xen developer discussion <xen-devel@lists.xenproject.org>,
+ Andrew Cooper <andrew.cooper3@citrix.com>,
+ Direct Rendering Infrastructure development <dri-devel@lists.freedesktop.org>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Qubes OS Development Mailing List <qubes-devel@googlegroups.com>
+Subject: Re: Design session notes: GPU acceleration in Xen
+Message-ID: <ZnGdJoCtbIrf4-dW@macbook>
+References: <Zms9tjtg06kKtI_8@itl-email>
+ <440d6444-3b02-4756-a4fa-02aae3b24b14@suse.com>
+ <ZmvvlF0gpqFB7UC9@macbook>
+ <af1f966b-b28f-4a14-b932-3f1523adeff0@suse.com>
+ <ZmwByZnn5vKcVLKI@macbook> <Zm-FidjSK3mOieSC@itl-email>
+ <Zm_p1QvoZcjQ4gBa@macbook> <ZnCglhYlXmRPBZXE@mail-itl>
+ <ZnDbaply6KaBUKJb@itl-email>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v5 00/16] Add audio support for the MediaTek Genio
- 350-evk board
-To: Alexandre Mergnat <amergnat@baylibre.com>, Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
- Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Nicolas Belin <nbelin@baylibre.com>
-References: <20240226-audio-i350-v5-0-54827318b453@baylibre.com>
- <ZmwODkYov79VHznK@finisterre.sirena.org.uk>
- <85e9451d-2cd0-457f-a246-017433757fff@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <85e9451d-2cd0-457f-a246-017433757fff@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZnDbaply6KaBUKJb@itl-email>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,27 +90,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 17/06/24 10:05, Alexandre Mergnat ha scritto:
-> 
-> 
-> On 14/06/2024 11:31, Mark Brown wrote:
->> On Fri, Jun 14, 2024 at 09:27:43AM +0200, Alexandre Mergnat wrote:
->>> This serie aim to add the following audio support for the Genio 350-evk:
->>> - Playback
->>>    - 2ch Headset Jack (Earphone)
->>>    - 1ch Line-out Jack (Speaker)
->>>    - 8ch HDMI Tx
->>
->> I seem to remember you had review comments that needed addressing from
->> AngeloGioacchino, why resend without addressing those?
-> 
-> I don't see any comment:
-> https://lore.kernel.org/lkml/20240226-audio-i350-v5-0-e7e2569df481@baylibre.com/
-> 
+On Mon, Jun 17, 2024 at 08:57:14PM -0400, Demi Marie Obenour wrote:
+> Given the recent progress on PVH dom0, is it reasonable to assume that
+> PVH dom0 will be ready in time for R4.3, and that therefore Qubes OS
+> doesn't need to worry about this problem on x86?
 
-Mark, the review comments were on the v4 of this series :-)
+PVH dom0 will only be ready (whatever ready means in your use-case)
+when people test and fix the issues, otherwise it would stay in the
+same limbo it's currently in.
 
-I'll review this version probably tomorrow, or anyway this week.
+I guess the main blocker for Qubes is the lack of PCI passthrough
+support in order to test it more aggressively?
 
-Cheers,
-Angelo
+Thanks, Roger.
