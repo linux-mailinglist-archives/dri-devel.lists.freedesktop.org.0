@@ -2,42 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D35C90C53B
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 11:18:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 573FF90C538
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 11:17:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACFD110E5E9;
-	Tue, 18 Jun 2024 09:18:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F086310E0EB;
+	Tue, 18 Jun 2024 09:17:33 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cxJiDhmY";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 451 seconds by postgrey-1.36 at gabe;
- Tue, 18 Jun 2024 09:18:45 UTC
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68D9610E289;
- Tue, 18 Jun 2024 09:18:45 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id 9BFAC1C0082; Tue, 18 Jun 2024 11:13:31 +0200 (CEST)
-Date: Tue, 18 Jun 2024 11:13:30 +0200
-From: Pavel Machek <pavel@denx.de>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Charlene Liu <charlene.liu@amd.com>, Alex Hung <alex.hung@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>, harry.wentland@amd.com,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, martin.leung@amd.com, wayne.lin@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH AUTOSEL 5.10 1/7] drm/amd/display: Exit idle
- optimizations before HDCP execution
-Message-ID: <ZnFPuimUl2QYzdzR@duo.ucw.cz>
-References: <20240527155845.3866271-1-sashal@kernel.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DD1210E0EB
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 09:17:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7BC6A6147D;
+ Tue, 18 Jun 2024 09:17:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11FBAC3277B;
+ Tue, 18 Jun 2024 09:17:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718702251;
+ bh=vS4lYPouitfUQewqLdFkh7k3IO7NnvRNr8JHf9FnNu0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=cxJiDhmY5sAvdDoLKKbxeYrKbRQf5cFzBuHzhhEYDFvK5+0BwX0OVQsh/MVtVn2DU
+ 1WeVedfm2TXARZo9VNuKKmu1Q1xyUaTLdEsidosB9uLI3cfWzkQkDdxhOiAsSdQBJe
+ QHiFgvWl+bx4C8Paog+lhN76YRF9jax1v6UbnYM7I7p937CbCWWnwzQyPPlzG9X3oP
+ 1ow6UW2OcXV7sIRQGokJMguahvTcA+tX7fjiQnwBij4qnQ7bcvJT/Oy1nzs0KyuWqQ
+ CvbG27NMJXaCRC5u+jh5QzxqJSXy5rfzuwFjRTYiPItxf7eCpOiroV2ngZTw/Oeh7Y
+ 0mWNbVm1t32UQ==
+Message-ID: <0455975b-837b-4a1c-8ea3-e9a504db53d0@kernel.org>
+Date: Tue, 18 Jun 2024 11:17:24 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="YGoPnplstVZpGpv1"
-Content-Disposition: inline
-In-Reply-To: <20240527155845.3866271-1-sashal@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/3] dt-bindings: display: st7701: Add Anbernic RG28XX
+ panel
+To: Hironori KIKUCHI <kikuchan98@gmail.com>, linux-kernel@vger.kernel.org
+Cc: Jagan Teki <jagan@amarulasolutions.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+References: <20240618081515.1215552-1-kikuchan98@gmail.com>
+ <20240618081515.1215552-2-kikuchan98@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <20240618081515.1215552-2-kikuchan98@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,66 +111,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 18/06/2024 10:15, Hironori KIKUCHI wrote:
+> The RG28XX panel is a panel specific to the Anbernic RG28XX.
+> It is 2.8 inches in size (diagonally) with a resolution of 480x640.
+> 
+> Signed-off-by: Hironori KIKUCHI <kikuchan98@gmail.com>
+> ---
+>  .../display/panel/sitronix,st7701.yaml        | 36 +++++++++++++++++--
+>  1 file changed, 34 insertions(+), 2 deletions(-)
 
---YGoPnplstVZpGpv1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Nothing explains in the commit msg why rg28xx is actually st7701.
+Changing interface to SPI suggests it is not.
 
-Hi!
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
+> index b348f5bf0a9..04f6751ccca 100644
+> --- a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
+> @@ -22,19 +22,21 @@ description: |
+>  
+>  allOf:
+>    - $ref: panel-common.yaml#
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+>  
+>  properties:
+>    compatible:
+>      items:
+>        - enum:
+>            - anbernic,rg-arc-panel
+> +          - anbernic,rg28xx-panel
 
-> [WHY]
-> PSP can access DCN registers during command submission and we need
-> to ensure that DCN is not in PG before doing so.
->=20
-> [HOW]
-> Add a callback to DM to lock and notify DC for idle optimization exit.
-> It can't be DC directly because of a potential race condition with the
-> link protection thread and the rest of DM operation.
+What is xx? Wildcards are not allowed, in general.
 
-Why is this picked for 5.10-stable?
+Can it be anything else than panel? If not, then drop "-panel".
 
-It adds an callback, but noone is going to use it in 5.10.
+
+>            - densitron,dmt028vghmcmi-1a
+>            - elida,kd50t048a
+>            - techstar,ts8550b
+>        - const: sitronix,st7701
+>  
+>    reg:
+> -    description: DSI virtual channel used by that screen
+> +    description: DSI / SPI channel used by that screen
+>      maxItems: 1
+>  
+>    VCC-supply:
+> @@ -43,6 +45,13 @@ properties:
+>    IOVCC-supply:
+>      description: I/O system regulator
+>  
+> +  dc-gpios:
+> +    maxItems: 1
+> +    description: |
+
+Do not need '|' unless you need to preserve formatting.
+
+> +      Controller data/command selection (D/CX) in 4-line SPI mode.
+> +      If not set, the controller is in 3-line SPI mode.
+> +      No effect for DSI.
+
+Which devices can be connected over SPI? It seems not all, so this
+should be disallowed (": false" in allOf:if:then:; move the allOf to
+bottom like in example-schema) for them.
 
 Best regards,
-								Pavel
+Krzysztof
 
-> +++ b/drivers/gpu/drm/amd/display/modules/inc/mod_hdcp.h
-> @@ -143,6 +143,13 @@ struct mod_hdcp_ddc {
->  	} funcs;
->  };
-> =20
-> +struct mod_hdcp_dm {
-> +	void *handle;
-> +	struct {
-> +		void (*exit_idle_optimizations)(void *handle);
-> +	} funcs;
-> +};
-> +
->  struct mod_hdcp_psp {
->  	void *handle;
->  	void *funcs;
-> @@ -252,6 +259,7 @@ struct mod_hdcp_display_query {
->  struct mod_hdcp_config {
->  	struct mod_hdcp_psp psp;
->  	struct mod_hdcp_ddc ddc;
-> +	struct mod_hdcp_dm dm;
->  	uint8_t index;
->  };
-> =20
-
---=20
-DENX Software Engineering GmbH,        Managing Director: Erika Unter
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-
---YGoPnplstVZpGpv1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZnFPugAKCRAw5/Bqldv6
-8n/jAJ4vdLX0NDgd9EnqTJMgp289HWx28ACdG5FSE6Odu7KzIHv1ij/9v0enmII=
-=5AhM
------END PGP SIGNATURE-----
-
---YGoPnplstVZpGpv1--
