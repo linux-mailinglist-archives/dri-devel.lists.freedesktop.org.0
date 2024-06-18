@@ -2,96 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C22590DBF5
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 20:56:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE8190DC24
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 21:02:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06D7710E76F;
-	Tue, 18 Jun 2024 18:56:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 236C310E775;
+	Tue, 18 Jun 2024 19:02:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="b+DGnEJF";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WeWv7JnN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94BE110E76F
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 18:56:00 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-2ec1e5505abso991001fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 11:56:00 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CC6410E775
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 19:02:33 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-42122ac2f38so808485e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 12:02:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718736958; x=1719341758; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=YzQHQlKHxgZaRZfXLT1ynkXMYrdCKCTUr57+vqG9rY0=;
- b=b+DGnEJFxqXzvRDog4NfdMOW5JewQPPtAiCireR9DAtpIPFgDv9WUDO4xf2DDE81+u
- qBUS49UFNSRaXKPR6Eu6R9bY36NVzWm4XIfWD/2TzsmCivRWgHSWK89rijZH7BqAdvFO
- zHd5lm2mp558E9T01geHOTf3uBon0NSze6p07cz1QPwUGXUZ3dofBjzzWNq1bJDVb999
- am0JZdSSMCM0AmzO885lrC6Ue5Qo9pg5kJ6lr7lTPFhkbZDb8e+EhBqk06wNd0jTDk6e
- uRqXtyXwa9jDpNHagrKi78YkiqhXQzOhNft61pYRIwXeSfOXuIsxAS+XgECH5Ow7+rgg
- 3YUA==
+ d=linaro.org; s=google; t=1718737352; x=1719342152; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=o0nW5Lw5L1U/vXOS5IOb1o4dhA6pmFIZMeuoNJs90Ac=;
+ b=WeWv7JnNwX9KNYin7q4cH64oCnYBy+0RKypF+Qr0uN8mY4P0VOg3ZCsGnpmEAPP5gc
+ Jkc4fYjhbUkpsHS1dtx5RMi2jBAoeJaWpeT8ceIOLHs1Zs7jnXNZIlaK4gj/jSB4Cu6F
+ QjHUyslomF9u8a1NtIbweqvImOgIriycA9VonKh2ldb0z6jm9gv21Q0eewBLsXT7Xiwp
+ F/0X8HfZbwiliyJesvPqNb3zdsKZerhKFUBRjDbTE+4pIb3WXpTf7rre+JYhB7f3kbie
+ DNmjnBccJnBcD89xp7Hgq2OHoUOnlZx4xytmGnegzXX8wO1YGNQGAHdUu0tNvW6ZF8Mx
+ UfaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718736958; x=1719341758;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YzQHQlKHxgZaRZfXLT1ynkXMYrdCKCTUr57+vqG9rY0=;
- b=OfTYVBx1z7ZKnjNdIUbxUQI1Q3Anfw0RlBsMhXyOSKh1ZvQaexMVTB/7UYpA6vtUzi
- wSbLhnkqgTLZG+CNlOr8wr/gbZ+ez/H4TQ+aD/CKkxobKnOLE3oTC2t0Zi6vYnk2BLIA
- X01eZhyuhLWnRliajrysnjTQImWNMEeJMj8CPNgIUMMx87qw0Fz8lpcNf39tuYNe17Df
- 5tJhrlAfZ4hr4Q1cShSamjpYe8A5BG//aycwKrnrTdkP5C+ZcHDLk+uqqq85D7ffTCQP
- sfBwmXQKMQHAVwpotHLwrvS4tTlKufyz/f59MEJmxAn+ZaZoAaziPyeLcsvSiE8sMgUE
- dzvQ==
+ d=1e100.net; s=20230601; t=1718737352; x=1719342152;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=o0nW5Lw5L1U/vXOS5IOb1o4dhA6pmFIZMeuoNJs90Ac=;
+ b=AmwIrnH9jFK3/yZm66huKfaKQNYlOSyjbgx17+0+1pnmAaXDRjCmgGhdXIhVQn0HOP
+ FYUEBkZ/QAs6PGumVAub5eKifvMUKx1OnJuiB0YyWghmIPQfCGkytmkrYZXqRz42nVE/
+ pryoJjEyI62lcEgIAbmY6/q5q6/L2D6GyBVKnYEW2VAsmkETF2ECEQPsVU0dY0C7dH9L
+ pghU0jOd/M2J9UKxEi1rjwoC5zTvx/AS6eyl8P/HggT1Stila6VH8Is1plGH2w/tZc6e
+ SFZvYz6GBMnJkMEImHknN8RA0cD3XxRk/3XW3nYvrEgoJyWXUhAliY153sgBjTmOF8bD
+ JThQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVTxUbJVan4dhUnLYfnvTiH/N866nwobRBXbW6UIRv0aYyuoG7EUFDBQMdagoTcXJi4tAliisuqzwxC9oO7cS6SLKbVUbkWDVyDj5p/58L0
-X-Gm-Message-State: AOJu0YzlOTAyghn8kLNgnQV1nMe3uCa/EnqT7O9hqgPdjpn+ED2NAxCR
- zmLDShYV/oSArcgob2DGNxyMOuaQRmUdnJTFxpyDdL5+gGkKLnJmhXtF44RgqUE=
-X-Google-Smtp-Source: AGHT+IGC5OJR3gZ0AgVkD1dpAKYbvhHSigXJJVNaqgqzU/pJEsxEJFZWPzPeEkSJ7Z7mUZbZszMNQQ==
-X-Received: by 2002:a2e:9257:0:b0:2eb:fcea:2f18 with SMTP id
- 38308e7fff4ca-2ec3ce7dfdbmr2013211fa.2.1718736958673; 
- Tue, 18 Jun 2024 11:55:58 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ AJvYcCXVtEVnEMxyJqqElmztcs4ReXqxowFv3tG172NBpMtdws2obavZ9F4lrEjcg+phIqvo4mTJaue3T17b8riHr8qOGnouTuDo5f/p+/zsVBXi
+X-Gm-Message-State: AOJu0YyGrsu6RQWlAhLqZ2ugaNs5v+IGUXlSgnDGgA+8+yxfZ8HjyqNo
+ f0g8EH9NzBN/V1/nbkMSs9iztrZiHF5ZUgfzLWFwXtkQCcKuiEY8e6Hp51egk5o=
+X-Google-Smtp-Source: AGHT+IG7lBWAP2S0mJtpOdeqTmDaeSfFJwS3uCXt8D79J41M/fUJYZCYbP8ihtzZVXtw5EnRrS5WtQ==
+X-Received: by 2002:a05:600c:787:b0:421:8179:6127 with SMTP id
+ 5b1f17b1804b1-42474d41065mr6543715e9.20.1718737351821; 
+ Tue, 18 Jun 2024 12:02:31 -0700 (PDT)
+Received: from ?IPV6:2a00:f41:9028:9df3:5d11:7fa7:8997:f811?
+ ([2a00:f41:9028:9df3:5d11:7fa7:8997:f811])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec07126057sm17344181fa.59.2024.06.18.11.55.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jun 2024 11:55:58 -0700 (PDT)
-Date: Tue, 18 Jun 2024 21:55:56 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: Dzmitry Sankouski <dsankouski@gmail.com>, 
- Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Lee Jones <lee@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, 
- phone-devel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-input@vger.kernel.org,
- linux-leds@vger.kernel.org, 
- linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v3 02/23] gcc-sdm845: Add rates to the GP clocks
-Message-ID: <lwrz4rvn6ogseea5v6j7plc3yi3xnzo76dvrsl3muat3iswlkb@zmwa3xo3xgw4>
-References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-2-e3f6662017ac@gmail.com>
- <wnf3mfgdm4p4f5wrxdtlx4wccnizdvohc7iiyu5t22eeb67r57@xun3r73hksrg>
- <ad04e203-4244-4cd3-9c9a-fae002962990@linaro.org>
+ ffacd0b85a97d-36075093a3fsm15011713f8f.1.2024.06.18.12.02.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Jun 2024 12:02:31 -0700 (PDT)
+Message-ID: <ecadeb37-fd12-4b63-949b-136356a42362@linaro.org>
+Date: Tue, 18 Jun 2024 21:02:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ad04e203-4244-4cd3-9c9a-fae002962990@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/5] drm/msm/adreno: Move CP_PROTECT settings to hw
+ catalog
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Rob Clark <robdclark@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20240618164303.66615-1-robdclark@gmail.com>
+ <20240618164303.66615-6-robdclark@gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20240618164303.66615-6-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,32 +93,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 18, 2024 at 08:50:52PM GMT, Konrad Dybcio wrote:
-> 
-> 
-> On 6/18/24 19:50, Dmitry Baryshkov wrote:
-> > On Tue, Jun 18, 2024 at 04:59:36PM GMT, Dzmitry Sankouski wrote:
-> > > sdm845 has "General Purpose" clocks that can be muxed to
-> > > SoC pins.
-> > > 
-> > > Those clocks may be used as e.g. PWM sources for external peripherals.
-> > > Add more frequencies to the table for those clocks so it's possible
-> > > for arbitrary peripherals to make use of them.
-> > > 
-> > > See also: bf8bb8eaccf(clk: qcom: gcc-msm8916: Add rates to the GP clocks)
-> > 
-> > Each time I look at the table attached to the GP CLK, I feel that it's
-> > plain wrong. In the end the GPCLK can in theory have arbitrary value
-> > depending on the usecase.
-> > 
-> > Bjorn, Konrad, maybe we should add special clk_ops for GP CLK which
-> > allow more flexibility than a default clk_rcg2_ops?
-> 
-> If we can somehow get max m/n/d values for all possible parents, sure
-
-Calculate them at runtime?
 
 
--- 
-With best wishes
-Dmitry
+On 6/18/24 18:42, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Move the CP_PROTECT settings into the hw catalog.
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+
+[...]
+
+> +static inline void __build_asserts(void)
+> +{
+> +	BUILD_BUG_ON(a630_protect.count > a630_protect.count_max);
+> +	BUILD_BUG_ON(a650_protect.count > a650_protect.count_max);
+> +	BUILD_BUG_ON(a660_protect.count > a660_protect.count_max);
+> +	BUILD_BUG_ON(a690_protect.count > a690_protect.count_max);
+> +	BUILD_BUG_ON(a730_protect.count > a730_protect.count_max);
+> +}
+> +
+
+patch:394: new blank line at EOF
+
+other than that:
+
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+
+Konrad
