@@ -2,81 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633EC90C8E0
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 13:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3FD90C9BB
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 13:37:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1B7D10E629;
-	Tue, 18 Jun 2024 11:17:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D12AA10E196;
+	Tue, 18 Jun 2024 11:37:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="l9O6gl2I";
+	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="Z92I5hYe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0A8510E629
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 11:17:31 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-52cc1528c83so1066688e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 04:17:31 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE15510E196
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 11:37:18 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-4217990f8baso47753295e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 04:37:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718709450; x=1719314250; darn=lists.freedesktop.org;
+ d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1718710636; x=1719315436;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=RQ+i+yUylzc0vNZND2yRwe4IaOpgkA3NphEu3B2GdDM=;
- b=l9O6gl2Ilkg19M9TSDKu5KdpB6hrwzuPCDtx+ilFchoYB0FohF+pVL2i+8fg5P/a65
- bzTarn/Vk35gBX7HMwTichLtG8efHVsqavhj+0ZUJPxW8qFuS7RsMZqH69Vg7urFWPXM
- UQyzBJ/DtoAFjjNUmI6qD44u8tYV659nvgx3hY1xmSmK6TZUseI6Lce7JibVJBEb/vz6
- 4N+FHzkhuXenvGWIBblK53tj09w8yRgUlhWvbqTEW5+nZcoR5ERUVRdQIm9G94EbnN71
- r2MCQeNDvdfyL1532Q2NpXTp9m2BOMqflJRFDwmOvxNrJVFYENksV5tLfRgl/GLCNFql
- QnOw==
+ bh=MNFhFsMuCR3JzVpbfDPPfZyD9hhD06jT8f7Cvk9VHLU=;
+ b=Z92I5hYekHBZjfgidqZspDP7rOUr140Ilx4hmf1IR5mEnr+2T+57uWdSVy1QNbNlb4
+ Z4mUyhvDVXYYtFEl7livAZUM7mOfAtvA49a2d+FNELWnUNoEdZFw7sqREZVmEdNZ8ffg
+ X/odRp1DNPhgWBTLAsc9I4QC7oZ2EOWa7okwuAgN9/dDCLJ0cOBJtGg3dg+2p6pctdSb
+ GuWHpTJ2F2nCnk4JUv+IU5A2mQQyNKVaXsKXV66dvnP93/iCJqapLCzA2rqUeNb7fOjS
+ z4Gv8rvN5EjMOXjT8NDnJBPEY/wIHRC5yAMdZzpiuDZYO/1aYx0fWsmAJsAMEFLkWJab
+ CVbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718709450; x=1719314250;
+ d=1e100.net; s=20230601; t=1718710636; x=1719315436;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RQ+i+yUylzc0vNZND2yRwe4IaOpgkA3NphEu3B2GdDM=;
- b=YF+LHMojvzwhDUaKKWb87o2EZkWjrAr4o+rwwKBRUJn/GPKEIAmrDR6aMauom8f5TE
- WLUYS9+jJTJrTx5i3SgX15g7/BhxxxB/AgpqAYbVIPfW7zMZSuYawikdx+0WqHMS/pSq
- xy8fJ/XuTWHsi4qWSGJ4c8uw/tc5ad77Ost3W1OY//1YzYZO4T+GjpvH0jsBnH/KbQ6s
- P3M+h45+4uDdHCs3t+hAu8LERr5MICygeX6YlZeyQRWeiMtr/2bKmQyQjXhyskCi/URS
- Jy/x2MpNzmvYlA61QHCv0KGKZZ5pKmKAQleR6wnUqkXUCL60cXUFdg9De9KkqI+2WVvz
- kwGw==
+ bh=MNFhFsMuCR3JzVpbfDPPfZyD9hhD06jT8f7Cvk9VHLU=;
+ b=dNKnqzTau0XRJxNmxnZXPpyTMAFd27WqfO4sebpidBouZXTI0AFUA3pRzRod6hlSj0
+ mV2xl+QcQBHDipLVdx/1Z/BaVcdDAvEBmlwRQrfEgJRPBFqtffwt4CAhLKy07LMCS+4Y
+ 48kWri6fzIv2BIivYrKFhWaNsSRXziOIQk04FmoBO/gH1KmaxfNyEIhyM6ey9NoSmZVi
+ 0eD+HAbyVCm/nYCZMRgwlyH3DnVb/1QwsHCnyZu8egt9zzLF5b+AYKgZrfIDqWIH4wrT
+ IHkNCtC9+Sy4SOmfJ84T4J03reZpB3cC5PyQihqDwUO+bQr40c+8sVE05W1y1Ep9vrlw
+ Jezg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVYl9TTUt5SyFiemi7jIJ41xNYlE4JBW/cqRFohRn3qHL4fjEwaTEXfuiqRigTcQWxPAEzKgLNR3xN3UNeZJX/l0BrkDZIv7LOcfNjDTgfy
-X-Gm-Message-State: AOJu0YwLVzGyrImRF3DYmMqHokNk52Ke4eGPwRMx8Xs8dQmpFYQYG+bS
- dohCciePSWKgZ9tc8LGi4hem1eEEQTekWwrOV4E5KkIf/NeH8YWU/S67kuRYWFQ=
-X-Google-Smtp-Source: AGHT+IHHBBxjqquwzsz10R7mhJV/FLoBeBD8boOTDbExy+3KWVhzVyEG734oQ2FbmXMY1nRFQiofEw==
-X-Received: by 2002:ac2:43dc:0:b0:52c:82cf:b80 with SMTP id
- 2adb3069b0e04-52ca6e9a0dfmr6058474e87.63.1718709450007; 
- Tue, 18 Jun 2024 04:17:30 -0700 (PDT)
-Received: from ?IPV6:2a00:f41:9028:9df3:4fb7:492b:2c94:7283?
- ([2a00:f41:9028:9df3:4fb7:492b:2c94:7283])
+ AJvYcCU7M01OUeFu4khovvY985dS6BkfMmT/NUGYoUf1Bagheg8/3Rmswn/yaYkTNovdWtJAxE9eBo4NRJsRsva0TdxWT//fiDuAj5PaAVZHuhL5
+X-Gm-Message-State: AOJu0YxI4BZDHOBz6sEXsDzFgAyzl71qFCO/57uaK0apij8lcNT8yC1G
+ 7vAyTdeDgdSGEKUZ+/381Y/Es9H084G4GPB9rb/53xCT2BdfJG0ieUOQIlamIIs=
+X-Google-Smtp-Source: AGHT+IEkKPX6JB+CVD4NP2W7dGUx1o04BJP6SVB5Vk6qEZ79NuxuyGaMjWKm/C/X6sMP5ctfytwVVw==
+X-Received: by 2002:a05:600c:4706:b0:422:384e:4365 with SMTP id
+ 5b1f17b1804b1-42304821335mr101579035e9.2.1718710636358; 
+ Tue, 18 Jun 2024 04:37:16 -0700 (PDT)
+Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52ca2872480sm1474922e87.157.2024.06.18.04.17.27
+ 5b1f17b1804b1-422f6127c1esm185260555e9.23.2024.06.18.04.37.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Jun 2024 04:17:29 -0700 (PDT)
-Message-ID: <290fb9e0-64ea-45ca-87e6-70c0e6edd6a1@linaro.org>
-Date: Tue, 18 Jun 2024 13:17:25 +0200
+ Tue, 18 Jun 2024 04:37:15 -0700 (PDT)
+Message-ID: <82c982ad-20ae-4f36-8797-440828317d32@freebox.fr>
+Date: Tue, 18 Jun 2024 13:37:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/5] drm/msm/adreno: Move CP_PROTECT settings to hw
- catalog
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Subject: Re: [PATCH 3/4] drm: bridge: simple-bridge: use only devm* in probe
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>
-References: <20240617225127.23476-1-robdclark@gmail.com>
- <20240617225127.23476-6-robdclark@gmail.com>
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, Arnaud Vrac <avrac@freebox.fr>,
+ Pierre-Hugues Husson <phhusson@freebox.fr>
+References: <20240617-tdp158-v1-0-df98ef7dec6d@freebox.fr>
+ <20240617-tdp158-v1-3-df98ef7dec6d@freebox.fr>
+ <deirqqoap7ta3iwmmvg6uxzalfe22yirjp6et2a74ffh5ybi64@vekr6l7sl22c>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20240617225127.23476-6-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+In-Reply-To: <deirqqoap7ta3iwmmvg6uxzalfe22yirjp6et2a74ffh5ybi64@vekr6l7sl22c>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -93,16 +98,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 18/06/2024 00:28, Dmitry Baryshkov wrote:
 
-
-On 6/18/24 00:51, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+> On Mon, Jun 17, 2024 at 06:03:01PM GMT, Marc Gonzalez wrote:
+>
+>> Once probe uses only devm functions, remove() becomes unnecessary.
 > 
-> Move the CP_PROTECT settings into the hw catalog.
+> Breves vibrantesque sententiae
 > 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
+> With the hope of getting an expanded commit message:
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-I think a702 was skipped over
+I'm not quite sure what else to say.
 
-Konrad
+Using only devm* functions in probe, the remove() callback is
+no longer needed, since devm unwind will free all resources.
+
+Is that better?
+
+NB: this patch is not *required* but I thought "might as well
+change it while I'm in the code".
+
+Regards
+
