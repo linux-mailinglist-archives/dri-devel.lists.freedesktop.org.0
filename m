@@ -2,67 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CCEB90D9F7
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 18:54:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF1890D9F5
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 18:54:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB54F10E737;
-	Tue, 18 Jun 2024 16:54:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B457D10E726;
+	Tue, 18 Jun 2024 16:54:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Jcf4SG2w";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GK8Nog0G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 658CD10E726
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 16:54:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56BCE10E726
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 16:54:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9308961A51;
- Tue, 18 Jun 2024 16:53:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F32A7C4AF64;
- Tue, 18 Jun 2024 16:53:58 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C35D661A7B;
+ Tue, 18 Jun 2024 16:54:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CA0FC4AF64;
+ Tue, 18 Jun 2024 16:54:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718729639;
- bh=H7FPRpyPtpISrnLWRcwsipNmbS7NjzQABnkUys2YiRk=;
+ s=k20201202; t=1718729640;
+ bh=pi1s9JzXbV/imk2EIUojuF6yHVD4/lluGwnh58k352E=;
  h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=Jcf4SG2wpiXbX7ZM1bKI/pPElEHtipY1v8Cb54B2m3NijSvBdmuunGJwin8OCu2dA
- bD1brFL2KB6Ghin0KMDFNdh73Dnuxf4Z4q++7oOgJJd1MaooJqeU0oNAY/bKjFfJdv
- 7+9/aC3KSrwVJZ0FJh+bWki77yjbi1RWEkmuVGMLulLW15fS4s2JT3um70LzR8C+BA
- I+vHj5MXo4A8PXjMMweS249CK1TuUuHHKqXVtYCYp0u6lNPeLLkdy9I+Q8KXJ/pagx
- evgrZATFvdIweX08+dr13+9LZpy7RpD2fqljrMzoyXzBb73sBgygFcMf5W7E5/U0DS
- MtyU9rkE1gkLw==
-Date: Tue, 18 Jun 2024 10:53:58 -0600
+ b=GK8Nog0GRPQFKv4Bfioz4q801P9MX5gLhJJ5Kjvcl1VR+0ZUukb2CL1FMiKZ5ye4r
+ tYXSTjDQYOiJOtY944SglSxxtZvRN02hIWk1OEcECVDiur5hjXLkDnsDg6L+/uS0na
+ hd9XmxrIBipeGMozPvpqkTU3RK3i55zNrvwmJdaeR7Q5SI+JGIlLgVLd3KLNDIfqt9
+ LRRmFZujT8xd2Zm1tOXonz63uJY/zky0jeF4IVtlPgnUBRzOnRx6jOc5nKBwh4kz5P
+ pbt6GWIviEmxO2JLnOuX9LGWIuB57pxCgbZnH5riGuw6MU+FSw6J6JcRBEwJFWllb0
+ 4yeYwmEW89tDw==
+Date: Tue, 18 Jun 2024 10:53:59 -0600
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: linux-input@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Daniel Vetter <daniel@ffwll.ch>, linux-pm@vger.kernel.org, 
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Pavel Machek <pavel@ucw.cz>, 
+ linux-input@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Mark Brown <broonie@kernel.org>, 
  =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- linux-arm-msm@vger.kernel.org, Pavel Machek <pavel@ucw.cz>, 
- Krzysztof Kozlowski <krzk@kernel.org>, David Airlie <airlied@gmail.com>, 
  Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org, 
+ Stephen Boyd <sboyd@kernel.org>, Lee Jones <lee@kernel.org>, 
+ linux-samsung-soc@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+ linux-clk@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, 
+ linux-leds@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Conor Dooley <conor+dt@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, 
- phone-devel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
- Sam Ravnborg <sam@ravnborg.org>, Lee Jones <lee@kernel.org>, 
- linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Sebastian Reichel <sre@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, linux-samsung-soc@vger.kernel.org, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-leds@vger.kernel.org, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, linux-clk@vger.kernel.org
-In-Reply-To: <20240618-starqltechn_integration_upstream-v3-7-e3f6662017ac@gmail.com>
+ Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ phone-devel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org, 
+ David Airlie <airlied@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>
+In-Reply-To: <20240618-starqltechn_integration_upstream-v3-9-e3f6662017ac@gmail.com>
 References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-7-e3f6662017ac@gmail.com>
-Message-Id: <171872963469.3062613.11658948111775206928.robh@kernel.org>
-Subject: Re: [PATCH v3 07/23] dt-bindings: power: supply: add
- maxim,max77705
+ <20240618-starqltechn_integration_upstream-v3-9-e3f6662017ac@gmail.com>
+Message-Id: <171872963565.3062659.8558146217368306841.robh@kernel.org>
+Subject: Re: [PATCH v3 09/23] dt-bindings: mfd: add samsung,s2dos05
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,13 +77,14 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Tue, 18 Jun 2024 16:59:41 +0300, Dzmitry Sankouski wrote:
-> add maxim,max77705 fuel gauge binding part
+On Tue, 18 Jun 2024 16:59:43 +0300, Dzmitry Sankouski wrote:
+> add samsung,s2dos05 core MFD module binding
 > 
 > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
 > ---
->  .../bindings/power/supply/maxim,max77705-fg.yaml   | 35 ++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
+>  .../devicetree/bindings/mfd/samsung,s2dos05.yaml   | 89 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  1 +
+>  2 files changed, 90 insertions(+)
 > 
 
 My bot found errors running 'make dt_binding_check' on your patch:
@@ -93,14 +92,11 @@ My bot found errors running 'make dt_binding_check' on your patch:
 yamllint warnings/errors:
 
 dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/maxim,max77705.example.dtb: pmic@66: fuelgauge: 'monitored-battery', 'power-supplies' do not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77705.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/maxim,max77705.example.dtb: fuelgauge: 'monitored-battery', 'power-supplies' do not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/power/supply/maxim,max77705-fg.yaml#
+Documentation/devicetree/bindings/mfd/samsung,s2dos05.example.dtb: /example-0/i2c/pmic@60: failed to match any schema with compatible: ['samsung,s2dos05']
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240618-starqltechn_integration_upstream-v3-7-e3f6662017ac@gmail.com
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240618-starqltechn_integration_upstream-v3-9-e3f6662017ac@gmail.com
 
 The base for the series is generally the latest rc1. A different dependency
 should be noted in *this* patch.
