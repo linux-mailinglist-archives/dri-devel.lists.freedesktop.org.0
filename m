@@ -2,68 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC05490DB64
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 20:15:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA2390DB93
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 20:30:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DA1C10E626;
-	Tue, 18 Jun 2024 18:15:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC53410E22C;
+	Tue, 18 Jun 2024 18:30:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="W8iqvRZe";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="b80T9N4Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
- [209.85.219.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60D0C10E626
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 18:15:47 +0000 (UTC)
-Received: by mail-yb1-f173.google.com with SMTP id
- 3f1490d57ef6-e02a6d4bdbeso872450276.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 11:15:47 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9A7410E22C
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 18:30:49 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-5295e488248so6302291e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 11:30:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1718734546; x=1719339346;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Jtl0YwxpnQSmyQA35BX0oEDMXcpsQEl4MuZCPATz/eI=;
- b=W8iqvRZe5Gm10wVlZpqooEdB78q8Io9DTio5isbw0gzFW77pjHVHRcnLIEGQ5s/XZF
- OZs4N6TxSxVAEi0mbZ5uAPWaFSQawYES4ebqQheyFt5JCHcoTXpyjli2lOAFYJV6/OXz
- wOmPzm1ZrZOymTfh8FHBN1iehl0rphUQqNSd6a120wE1LwPg8r4f9UbyvOSRZ+1tzM0Q
- WeQEysKKDbOYNQLnQnnFCXjFl1SqQYv9VEuSDD4EbPtWJk3K7siLzFkCLoV7V4UcpUra
- 4EHfw9RRnY/mZK8EHlxrPqnzx8vdjt26BZw4mj9GZ3fAfKty2DaUtpfKoptpeBK1rzfq
- Rnsg==
+ d=linaro.org; s=google; t=1718735448; x=1719340248; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=52ILC+iPkxf1W1rnzs2d7+a3LRv8ock0tdBb1YRlo3c=;
+ b=b80T9N4QeKnUltaEDklPnzC1yUvAOkghrY8wCYniywY2ScHtBbaUokE4o1rbvmlwgm
+ wVbeTSSptOxxmqG3a/Z14zjqOmGg8dKeZeqKR6N37cXY4oR4wqPXz6Gjqw7HcZiPRGbB
+ BHksAoqCXSiP4/1wveMU4bsjEkJ4/SK11lqMGu50/h7BAvU3LWRUtAAzrPJ4UkshDsWA
+ FgyaapLZCf+EWlLm39OUvf1egy+jwkT1hnzZM7uEyd4kTGsGDYsYlCUb8IRLZmem7LRF
+ HZk4r4Hqsw/QbMZYkDxrP1pWObB3amB5GPDTbQGJQgtFycbrwS41mANFkcMtKxbWoPzV
+ C6mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718734546; x=1719339346;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Jtl0YwxpnQSmyQA35BX0oEDMXcpsQEl4MuZCPATz/eI=;
- b=hJIqL6tDTdDlEnyXBKxNpT2yPDLzx6AuJZhPmfHw2hmw8F0H51t2Myt/OimVTtTx7I
- vK8BYMPu5fgF10XZV72nC6T8gZ1Bra0nE9fN3bIPNGLV2kP5YfxO9eQ3Byddot0/F/du
- TwoaOYLV2u4ZjS011UpzLgovz2jtAKY3GSjdvF3wgZzW61S+/UEyFeFZdJiwkLYcnhzR
- OlaorO5H65nATGHGvxAluQi699277eaxWMzUu44oWC6xVSirNCsftiogES2fsnEEaSvy
- e6HO4cMtMfQc62LPLAvarCE8Cs2TvCm8Mvgk/gceLsdybfIVwO0jQ+IIj2+1Q/mYybNq
- 2zYQ==
-X-Gm-Message-State: AOJu0YyJYcKYSt4SkRonU9HumjMLhXvrnBnYHHCGsUrIQzZWPvIcVogd
- fcs5D7AKQKnKHsPN5Me3MeK675d0UbAvLdnn91MWqNe8yMOBLxHzNfO/Cz3evPLZIWt6rhAg0T9
- mEsfFV3pHhvoSdRjR8TAP4Qo2tKfkoF4rFhoA0A==
-X-Google-Smtp-Source: AGHT+IHmrWpty+uZNG8l6Y6nntq6TuJuzEHcsxZn8HPlwYpA43Ouh1IkkS5iMQoGIhRntn+kiJ1mHv2MxJEotlet/mQ=
-X-Received: by 2002:a25:ea49:0:b0:dfd:ff0b:15f7 with SMTP id
- 3f1490d57ef6-e02bdf60f3amr704008276.0.1718734546277; Tue, 18 Jun 2024
- 11:15:46 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1718735448; x=1719340248;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=52ILC+iPkxf1W1rnzs2d7+a3LRv8ock0tdBb1YRlo3c=;
+ b=pXBMEFZxupHxz2Gvlj+IUHAHexFCsDwgJF2X5aegT4FMnUOaQq4C1WDTUfyZEDLnZS
+ 29/2g53GQfuhUIVZF4a2paaP/mJzSvb5BVolu06OKalKjVMfOkOSRjIardNGsYmKK9MF
+ 35afrLsFOCWACl7Az860s1V0j9pT/DmeJ2pfX3zlcSkHnOonWkY6BHW5Phj5JbpRVLlm
+ Er99dHrTyeDgM9DTTTd2obI6OQYlQJMymiOFPhbX21MWsAn+9WDN9T+6rMzc5Kb3akV3
+ 1Xyg8zDYW0tKYEFYQCfYiDDZooy3uY/tgVGdLwEEdJD71w9l8amiskhxEUiwNf0cAVw4
+ RYcQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUL24kyMpz1JBfjfshAyn1fkPzgB5X4xZ4N4Xm5j7s39vldP7eVwLGkKEZMfGCG4LUD6JQ6S2CPb6jcSeWBGEyK333SX5ZDBoHqYv46FHRc
+X-Gm-Message-State: AOJu0YxyhUApjy1+UeA9CfD6MQS+SzjLt72xg/GQ8cv3M0Miemq6ULif
+ jQLFJ9zxj7G8nIJFHHmaGnpNF8ZXE5oJOC3UoWB8SGjwrcjFfXIbdijnD/bdpPo=
+X-Google-Smtp-Source: AGHT+IGB58Jps4FYhI46qB+wmqA1pZtOTuPECfwF421A0zG6YiJpgyWrshLU8vQQQhfAiaXnmxxXZQ==
+X-Received: by 2002:ac2:5962:0:b0:52c:86de:cb61 with SMTP id
+ 2adb3069b0e04-52ccaa2a8e3mr248301e87.10.1718735447818; 
+ Tue, 18 Jun 2024 11:30:47 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52ca2888a28sm1577548e87.290.2024.06.18.11.30.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Jun 2024 11:30:47 -0700 (PDT)
+Date: Tue, 18 Jun 2024 21:30:45 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Marc Gonzalez <mgonzalez@freebox.fr>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>
+Subject: Re: [PATCH] drm: bridge: simple-bridge: use devm_drm_bridge_add in
+ probe
+Message-ID: <km6qh5ur2rsyts3gisqxup3blrpggpr5u6mtqddawzjzlh2tyk@moxo5x3yo76z>
+References: <20240618-devm-simple-bridge-v1-1-c7ed8a09fcc5@freebox.fr>
 MIME-Version: 1.0
-References: <20240216184857.245372-1-dave.stevenson@raspberrypi.com>
- <20240216184857.245372-3-dave.stevenson@raspberrypi.com>
- <20240618-sly-wealthy-nyala-b9cd1f@houat>
-In-Reply-To: <20240618-sly-wealthy-nyala-b9cd1f@houat>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 18 Jun 2024 19:15:29 +0100
-Message-ID: <CAPY8ntDoyAz4yAh=D3SF8rnvaMjjmjg=eD3HuDJAzftNQ4fc9A@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/vc4: Add monochrome mode to the VEC.
-To: Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240618-devm-simple-bridge-v1-1-c7ed8a09fcc5@freebox.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,107 +92,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
+On Tue, Jun 18, 2024 at 06:19:59PM GMT, Marc Gonzalez wrote:
+> simple_bridge_probe() calls drm_bridge_add()
+> Thus, drm_bridge_remove() must be called in the remove() callback.
+> 
+> If we call devm_drm_bridge_add() instead, then drm_bridge_remove()
+> will be called automatically at device release, and the remove()
+> callback is no longer required.
+> 
+> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+> ---
+> This patch was proposed in an abandoned patch series,
+> but it makes sense by itself. Submit now.
+> https://lore.kernel.org/r/20240617-tdp158-v1-0-df98ef7dec6d@freebox.fr
+> ---
+>  drivers/gpu/drm/bridge/simple-bridge.c | 13 +------------
+>  1 file changed, 1 insertion(+), 12 deletions(-)
+> 
 
-On Tue, 18 Jun 2024 at 10:28, Maxime Ripard <mripard@kernel.org> wrote:
->
-> Hi,
->
-> On Fri, Feb 16, 2024 at 06:48:56PM GMT, Dave Stevenson wrote:
-> > The VEC supports not producing colour bursts for monochrome output.
-> > It also has an option for disabling the chroma input to remove
-> > chroma from the signal.
-> >
-> > Now that there is a DRM_MODE_TV_MODE_MONOCHROME defined, plumb
-> > this in.
-> >
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > ---
-> >  drivers/gpu/drm/vc4/vc4_vec.c | 28 +++++++++++++++++++++++++++-
-> >  1 file changed, 27 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-> > index 268f18b10ee0..f9e134dd1e3b 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_vec.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_vec.c
-> > @@ -234,6 +234,7 @@ enum vc4_vec_tv_mode_id {
-> >       VC4_VEC_TV_MODE_PAL_60,
-> >       VC4_VEC_TV_MODE_PAL_N,
-> >       VC4_VEC_TV_MODE_SECAM,
-> > +     VC4_VEC_TV_MODE_MONOCHROME,
-> >  };
-> >
-> >  struct vc4_vec_tv_mode {
-> > @@ -324,6 +325,22 @@ static const struct vc4_vec_tv_mode vc4_vec_tv_modes[] = {
-> >               .config1 = VEC_CONFIG1_C_CVBS_CVBS,
-> >               .custom_freq = 0x29c71c72,
-> >       },
-> > +     {
-> > +             /* 50Hz mono */
-> > +             .mode = DRM_MODE_TV_MODE_MONOCHROME,
-> > +             .expected_htotal = 864,
-> > +             .config0 = VEC_CONFIG0_PAL_BDGHI_STD | VEC_CONFIG0_BURDIS |
-> > +                        VEC_CONFIG0_CHRDIS,
-> > +             .config1 = VEC_CONFIG1_C_CVBS_CVBS,
-> > +     },
-> > +     {
-> > +             /* 60Hz mono */
-> > +             .mode = DRM_MODE_TV_MODE_MONOCHROME,
-> > +             .expected_htotal = 858,
-> > +             .config0 = VEC_CONFIG0_PAL_M_STD | VEC_CONFIG0_BURDIS |
-> > +                        VEC_CONFIG0_CHRDIS,
-> > +             .config1 = VEC_CONFIG1_C_CVBS_CVBS,
-> > +     },
-> >  };
-> >
-> >  static inline const struct vc4_vec_tv_mode *
-> > @@ -351,6 +368,7 @@ static const struct drm_prop_enum_list legacy_tv_mode_names[] = {
-> >       { VC4_VEC_TV_MODE_PAL_M, "PAL-M", },
-> >       { VC4_VEC_TV_MODE_PAL_N, "PAL-N", },
-> >       { VC4_VEC_TV_MODE_SECAM, "SECAM", },
-> > +     { VC4_VEC_TV_MODE_MONOCHROME, "Mono", },
-> >  };
-> >
-> >  static enum drm_connector_status
-> > @@ -406,6 +424,10 @@ vc4_vec_connector_set_property(struct drm_connector *connector,
-> >               state->tv.mode = DRM_MODE_TV_MODE_SECAM;
-> >               break;
-> >
-> > +     case VC4_VEC_TV_MODE_MONOCHROME:
-> > +             state->tv.mode = DRM_MODE_TV_MODE_MONOCHROME;
-> > +             break;
-> > +
-> >       default:
-> >               return -EINVAL;
-> >       }
-> > @@ -453,6 +475,9 @@ vc4_vec_connector_get_property(struct drm_connector *connector,
-> >               *val = VC4_VEC_TV_MODE_SECAM;
-> >               break;
-> >
-> > +     case DRM_MODE_TV_MODE_MONOCHROME:
-> > +             return VC4_VEC_TV_MODE_MONOCHROME;
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-I have got an error here - it should be
- *val = VC4_VEC_TV_MODE_MONOCHROME;
-  break;
 
-> > +
-> >       default:
-> >               return -EINVAL;
-> >       }
->
-> We don't need to expose the new value here, that property is only for
-> the legacy, driver-specific property. So you should only need the
-> vc4_vec_tv_modes changes
-
-As both properties share the same underlying value, that means that if
-the new property selects Monochrome, the legacy one will return
--EINVAL as it is an unknown value.
-
-modetest and kmsprint -p both bomb out in this situation as by the
-looks of it we fail to get a pointer to the connector returned. That
-means you can't switch it back again.
-
-Am I missing something?
-
-  Dave
+-- 
+With best wishes
+Dmitry
