@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F1490DD5C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 22:23:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1A690DD53
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 22:22:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEB1D10E7A4;
-	Tue, 18 Jun 2024 20:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE84A10E7AD;
+	Tue, 18 Jun 2024 20:22:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b8hR7zqU";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lShd6aWD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19D3A10E0C3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 14:00:07 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-57a1fe6392eso7346561a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 07:00:07 -0700 (PDT)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52DDE10E66E
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 14:00:09 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-57c75464e77so6758009a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 07:00:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718719205; x=1719324005; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1718719207; x=1719324007; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=amtZh6cok3kVxxh2UoadCf51Ge+lbZ422aIWYrzWULU=;
- b=b8hR7zqUW2zfjyScjNDX0LuCfmHiEVcpQGggBQ3Qx7qPpVJj/L/JOAxpqV9zdua/qf
- ypy7N5Y0FuV4q/vpr4zBmHYICr1XDV72l9BDG5mhtM29JWgFPQqTobQch8+Bi134hL/y
- O9u8NQXq4uyQO9BdgW5g+MUSK+yvvs6hFJvMQC9NgRUiYhU24bUF63rfMFlQ8+dFVex3
- ITGuxlg47j3KI5CnuBHix9lP0B/d/Za6mMfjproqXoo7hlDKmfWCR1EhvqYnrU1/9mL4
- L/mnfoe4EwhBcpQkzW0QAPRYiYuVHW99kozva5aygBoicva6rkM9oEhDENFSFPtpq0Jj
- 3VXg==
+ :reply-to; bh=evq88jlvU8RulgmUy64jbhNijl81dqHkwYkJ8InB99k=;
+ b=lShd6aWDE3Rslyz6Jl1ot1WCM/OeoP07aQYw8d24I1lSPh4yJV2LsAB9LyC8ZTO7Cg
+ 3VgGBmut1jnNKZnas9+4X7awp72eDFnsP6r7L0oO0K61Dv3CjOag9pJcY0Kd18HRjSPt
+ 2hBg0W4N2Geb6+u371nnphG7qZRYmpaL34phomgh6roeCHdHRqDfpZe7EKUDVvz3Haj0
+ RdOZAldiqH151wPeygCG+iOC5KTBfflRUleMPlt3s5lDIR8YB+DaWNe2vMVWiPrKwy/E
+ xHpCfHNZdUG5BqsOo57QCitUnx6n9Y7HfyGplMLSC+hZokFmf+7kZDJ04d3rb/wh1pVO
+ 5HAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718719205; x=1719324005;
+ d=1e100.net; s=20230601; t=1718719207; x=1719324007;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=amtZh6cok3kVxxh2UoadCf51Ge+lbZ422aIWYrzWULU=;
- b=d7MLgogtymkIfweKHULp7Bw93m8uOVuWyEkjuo2hr8Hyu9hAkYYvxNgyyHKLNG7Ras
- as6IfL+A+/fJsFI0FruHjU1cOXd3uMd2cLsfERIpvKn+JIIVsN/dxUnKJnFmr5lnfImm
- ZDrOh7DhHCQxENvHLQkmEXxYHf6gLGN0J+HJHKzZ6pASMB+eylZwNAF28GyqqBNDNjiU
- WnlrsSdK9R11IG0J7dIMvJmNil59OxdofnsGwJ2S12mEz1LPJ1Fxxq8U63OSnAXCeVxP
- 4KJUEEckUn0XVnXQ/xTcblOudX4OjR0qDSqTo1QaMWaOaFruuji/X+oYe9yOCH0QvC1C
- sznA==
+ bh=evq88jlvU8RulgmUy64jbhNijl81dqHkwYkJ8InB99k=;
+ b=b6ZFXVhl1sUPAnroxPN66VJTMvCpE5Pp2Of7zv5pnD03Gq/C6OCQ1sgvL4UGrE7LSZ
+ n/IgmIRYThs8CDQNeCPYX4YmyBzMVRI662lnFtzWQ37aLfRYdI5Yx2dBoYreSIKOE4Ra
+ kIZ/p5i4RcEmCE7oHTlNaSV6yQvS+hP/00GZdnMHzR6oX3sRZhMll+r5FrYOGpx2p/Q4
+ p2SI2k2W2QNn621OwqXd05cgbLhoJvMKLHaYneiUaY4aYmzEE+CvVkFS5Mgo0CH85NeT
+ 2Tm7hSIb3p7t8YPnOSQEVJIi5oO166NP4QCJ9rLV+t49sVFnntgZ808+SJWHPOw73dBR
+ AYVA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUd84nedaDrKw1iNK10b8UGBKSEZwuTUwLkHrE+JOVhYJEFPhL1lyW/WGiEW3rroY8a9cIoxdBPcsQTq5N9tQFZyDqR0AvluaY1nUkjtvOd
-X-Gm-Message-State: AOJu0YyXgeNzJPuBON786HEQlQo4/0GxOYqZbYTuUdnW8oXdmvsMrTZA
- RrmC8x0Iuv0oen+UBqOaPE0fAgWYwbMrvdFg+zsafvWYQpMS5fREznjgvcaO
-X-Google-Smtp-Source: AGHT+IFacU/UFpIwaTa6wZ4f7sRQWphBmkbeBykRZgSzZFVXbMNWcd77zosms23rqaQYfYGh0AnbgA==
-X-Received: by 2002:a50:bb44:0:b0:57d:57c:ce99 with SMTP id
- 4fb4d7f45d1cf-57d057cd44fmr206656a12.2.1718719205082; 
- Tue, 18 Jun 2024 07:00:05 -0700 (PDT)
+ AJvYcCVktC3s/mVVyLaKsJtaz8DWV83pEiJmXVT4Kda7zb5H9HtZdEHBnv9ac3I61WnMo/JoHMFZW7gu6Tok1o97J7rMGUZ4ztQKZe95kO5OnomE
+X-Gm-Message-State: AOJu0Yz6IHIB0brO3ogdpcUM2RTwSWgr1avPgjymaZluXKhWGMyDA/wF
+ CnxPE3qlYAsz7X+aGQ7QH91XiFvbff5vpug7BU96mP+GRCSd6XYpbyQ9m8+y
+X-Google-Smtp-Source: AGHT+IFilio5qKRl+cSnK8IQn5IAVmutaHGtgF17QZrcOlUnZe/40B0j5GGoC7IbWTgHhNsL8k7V6w==
+X-Received: by 2002:a50:c19a:0:b0:57c:5f8a:26f8 with SMTP id
+ 4fb4d7f45d1cf-57cbd6c6de0mr9000377a12.27.1718719207284; 
+ Tue, 18 Jun 2024 07:00:07 -0700 (PDT)
 Received: from [127.0.1.1] (mm-167-232-122-178.mgts.dynamic.pppoe.byfly.by.
  [178.122.232.167]) by smtp.googlemail.com with ESMTPSA id
- 4fb4d7f45d1cf-57cb72da156sm7731278a12.22.2024.06.18.07.00.03
+ 4fb4d7f45d1cf-57cb72da156sm7731278a12.22.2024.06.18.07.00.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jun 2024 07:00:04 -0700 (PDT)
+ Tue, 18 Jun 2024 07:00:07 -0700 (PDT)
 From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Tue, 18 Jun 2024 16:59:42 +0300
-Subject: [PATCH v3 08/23] dt-bindings: led: add maxim,max77705-leds
+Date: Tue, 18 Jun 2024 16:59:43 +0300
+Subject: [PATCH v3 09/23] dt-bindings: mfd: add samsung,s2dos05
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240618-starqltechn_integration_upstream-v3-8-e3f6662017ac@gmail.com>
+Message-Id: <20240618-starqltechn_integration_upstream-v3-9-e3f6662017ac@gmail.com>
 References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
 In-Reply-To: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
 To: Sebastian Reichel <sre@kernel.org>, 
@@ -87,11 +87,11 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
  Dzmitry Sankouski <dsankouski@gmail.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718719184; l=1609;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718719184; l=3596;
  i=dsankouski@gmail.com; s=20240618; h=from:subject:message-id;
- bh=7GuLNZWYidLfySwdnHMlO3cKyzwike5F0Axou4kYDbM=;
- b=wXF+V0LgvlhWhOUO8mOS/t/tdcu8fI/3fxi/NQRj3GlXy4qHn3uq8gHX7IrZD2ooIQihcNAZe
- 045YHR9yMxgCijG6bla4uPQq0zI6T5wO2cJU1U6TcVPhCbOH+3UPBUG
+ bh=GeSjdBMrPx5/NgT7rDPKCihsvNHSXF0w4Z/AktYQJMg=;
+ b=SVRUeOlS2AnrVfvyQsE3+BYBfIEGACx1n7IrRdkctMOEdEgjj8rJD4eKceXUvtg1WRJSqgDNd
+ jDU4o7csfmMCaF/woZolPqcOjzIaWS6mIu9Mc9Zuqq3a6UrHbBnN4LU
 X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
  pk=6pMMVVDDReSiRgPCbMOUauN5nS3ty4Sf5b7a2gi4x0M=
 X-Mailman-Approved-At: Tue, 18 Jun 2024 20:22:03 +0000
@@ -110,64 +110,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add maxim,max77705 leds binding part
+add samsung,s2dos05 core MFD module binding
 
 Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
 ---
- .../devicetree/bindings/leds/maxim,max77705.yaml   | 45 ++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ .../devicetree/bindings/mfd/samsung,s2dos05.yaml   | 89 ++++++++++++++++++++++
+ MAINTAINERS                                        |  1 +
+ 2 files changed, 90 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/leds/maxim,max77705.yaml b/Documentation/devicetree/bindings/leds/maxim,max77705.yaml
+diff --git a/Documentation/devicetree/bindings/mfd/samsung,s2dos05.yaml b/Documentation/devicetree/bindings/mfd/samsung,s2dos05.yaml
 new file mode 100644
-index 000000000000..7c512545788a
+index 000000000000..f2ef5171cc40
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/maxim,max77705.yaml
-@@ -0,0 +1,45 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++++ b/Documentation/devicetree/bindings/mfd/samsung,s2dos05.yaml
+@@ -0,0 +1,89 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/leds/maxim,max77705.yaml#
++$id: http://devicetree.org/schemas/mfd/samsung,s2dos05.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Maxim MAX77705 Companion Power Management IC and USB Type-C interface IC LEDs
++title: Samsung S2DOS05 Power Management IC
 +
 +maintainers:
 +  - Dzmitry Sankouski <dsankouski@gmail.com>
 +
-+description: |
-+  This is a part of device tree bindings for Maxim MAX77705 multi functional device.
++description:
++  This is a part of device tree bindings for S2M and S5M family of Power
++  Management IC (PMIC).
 +
-+  Up to 4 LEDs supported. One LED is represented by one child node.
-+
-+  See also Documentation/devicetree/bindings/mfd/maxim,max77705.yaml for
-+  additional information and example.
++  The S2DOS05 is a companion power management IC for the panel and touchscreen
++  in smart phones. Provides voltage and current regulators and adc for power/current
++  measurements.
 +
 +properties:
 +  compatible:
-+    const: maxim,max77705-led
++    const: samsung,s2dos05-pmic
 +
-+  "#address-cells":
-+    const: 1
++  reg:
++    maxItems: 1
 +
-+  "#size-cells":
-+    const: 0
-+
-+patternProperties:
-+  "^led@[0-3]$":
-+    type: object
-+    $ref: common.yaml#
-+    properties:
-+      reg:
-+        description:
-+          LED index.
-+    unevaluatedProperties: false
-+    required:
-+      - reg
++  regulators:
++    $ref: /schemas/regulator/samsung,s2dos05.yaml
++    description: List of regulators and its properties
 +
 +required:
 +  - compatible
++  - reg
++  - regulators
 +
 +additionalProperties: false
++
++examples:
++  - |
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      pmic@60 {
++      	compatible = "samsung,s2dos05";
++      	reg = <0x60>;
++
++      	regulators {
++      		s2dos05_ldo1: s2dos05-ldo1 {
++      			regulator-name = "s2dos05-ldo1";
++      			regulator-min-microvolt = <1500000>;
++      			regulator-max-microvolt = <2000000>;
++      			regulator-active-discharge = <0x1>;
++      		};
++
++      		s2dos05_ldo2: s2dos05-ldo2 {
++      			regulator-name = "s2dos05-ldo2";
++      			regulator-min-microvolt = <1800000>;
++      			regulator-max-microvolt = <1800000>;
++      			regulator-active-discharge = <0x1>;
++      			regulator-boot-on;
++      		};
++
++      		s2dos05_ldo3: s2dos05-ldo3 {
++      			regulator-name = "s2dos05-ldo3";
++      			regulator-min-microvolt = <3000000>;
++      			regulator-max-microvolt = <3000000>;
++      			regulator-active-discharge = <0x1>;
++      			regulator-boot-on;
++      		};
++
++      		s2dos05_ldo4: s2dos05-ldo4 {
++      			regulator-name = "s2dos05-ldo4";
++      			regulator-min-microvolt = <2700000>;
++      			regulator-max-microvolt = <3775000>;
++      			regulator-active-discharge = <0x1>;
++      		};
++
++      		s2dos05_buck1: s2dos05-buck1 {
++      			regulator-name = "s2dos05-buck1";
++      			regulator-min-microvolt = <850000>;
++      			regulator-max-microvolt = <2100000>;
++      			regulator-active-discharge = <0x1>;
++      		};
++      	};
++      };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f008429033c9..3ab41e53c9fc 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19897,6 +19897,7 @@ L:	linux-samsung-soc@vger.kernel.org
+ S:	Maintained
+ B:	mailto:linux-samsung-soc@vger.kernel.org
+ F:	Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml
++F:	Documentation/devicetree/bindings/mfd/samsung,s2dos*.yaml
+ F:	Documentation/devicetree/bindings/mfd/samsung,s2m*.yaml
+ F:	Documentation/devicetree/bindings/mfd/samsung,s5m*.yaml
+ F:	Documentation/devicetree/bindings/regulator/samsung,s2m*.yaml
 
 -- 
 2.39.2
