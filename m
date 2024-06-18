@@ -2,69 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B6C90C484
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 09:40:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFC0B90C493
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 09:48:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 499EA10E21A;
-	Tue, 18 Jun 2024 07:40:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 246DF10E49A;
+	Tue, 18 Jun 2024 07:48:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="Hus3YdYD";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="d+Z8IsP5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA4E710E21A
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 07:40:42 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45I7eNwQ130284;
- Tue, 18 Jun 2024 02:40:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1718696423;
- bh=mOuw0vOFF+jtYkz65pWfpn2/WyQP4i6TqlpZ7ARxTvs=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=Hus3YdYDSM+RJlE82dC+X20qY97uaGFwOif4BTallVCuXaLcdYYQc7YOCq7ab5te5
- JAn7r1v/4yC7S9yiHqJQKcHdK8ORDSmbF+4UoNjLA59+MtRU6Q3vKBRE/qRo8MOVM5
- w3x9kY+epLm/HYXjtKVRT6YIJsdU7y8zX81op8kk=
-Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45I7eNq5031856
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 18 Jun 2024 02:40:23 -0500
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 18
- Jun 2024 02:40:23 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 18 Jun 2024 02:40:23 -0500
-Received: from [172.24.227.55]
- (jayesh-hp-probook-440-g8-notebook-pc.dhcp.ti.com [172.24.227.55])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45I7eIoY062389;
- Tue, 18 Jun 2024 02:40:19 -0500
-Message-ID: <b1591cd8-47b1-4764-b768-f3a8ef80d495@ti.com>
-Date: Tue, 18 Jun 2024 13:10:17 +0530
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4513E10E271
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 07:48:24 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-a6f1c4800easo622948466b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 00:48:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1718696901; x=1719301701;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sCxa0N6a/etTSTm358fxjAycnT2MNf/L62aewqr2SjQ=;
+ b=d+Z8IsP5rO5wQLD+9vG6SL5d2NnRaBW1lJzYMkVw+Z1qxx+uBa4EgG9+iX8zmXeYYt
+ qRp8i+IGAikc7y5dUAuoXcM4zOz/ewuQjMxXE88gcTJpR6Pt5oNfeJuT99ywLSzw3ZQp
+ Fx5nihh/HYHsPpsnw+c+da9cL4rFPpQa9c2Yc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718696901; x=1719301701;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sCxa0N6a/etTSTm358fxjAycnT2MNf/L62aewqr2SjQ=;
+ b=NjP9fMQpUdVsuMwC0Br62J4YlDH/nZtfRy/JjK3e3pU8L6tcPdNqaciYqAv4SJCAWr
+ vtsiRV+1kCgcPpNiuPrSg+Y1FRIu6b6+A0c/wEe7WfCyxQ4TPHYI9GyYgtBvWQFcjCxc
+ eFRvwWSdxUsGPQXpG7PjbBCLqbIR0jrIroC0ZvD1j4VC17rw8FhW1vcsm06b6E2Foei9
+ H7q02mr8ppiFyDgcqwv7cZziB6PANcKRJ8aDaWUrgdvSyyQCYYvsckRDLEyTzWCgUpn6
+ z0YQEsI95YfAPXzugFpqLDYqBuUtLlh+3Ph7cVKwtSi+tCwPuGTx7o1Go1zRCzSThZKf
+ K69g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW7PTldh/k2+XA7rVtX2/kFqcdIzouEni6bSIZZudiRZW5Wx51GvZOqEWycqDEAC50Yrgbwv0134udfS233t8TWbRGpZzDtnaUYosXkX1oG
+X-Gm-Message-State: AOJu0Yxb9fZV/uGNypumqNg07JnSK+NKt5GO2qO+Ez78fzu/buIJJ+DD
+ wpjFPMeUMjZUsQYc5z3TAPbHtejwGkNbc8kF2F4Q074YiNNURUPnC7HfVeWlWTv+8lz6rzzge7Q
+ 1ZO38
+X-Google-Smtp-Source: AGHT+IGOGllh6MQ4MVJnIIBStIkTUzqMMOBfpZybDzuXHzD33KHRc7bo0G3p2zN62X2zJD+/ZnHX0Q==
+X-Received: by 2002:a17:907:d408:b0:a6f:68b6:4e75 with SMTP id
+ a640c23a62f3a-a6f68b65066mr909740566b.5.1718696901436; 
+ Tue, 18 Jun 2024 00:48:21 -0700 (PDT)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com.
+ [209.85.218.43]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a6f56f41ad3sm586758666b.181.2024.06.18.00.48.20
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Jun 2024 00:48:20 -0700 (PDT)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-a63359aaaa6so764200566b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 00:48:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWwxxcqZZYBM9Lb6a5+IB0X4FElH3i4gQy9zI5Ggj/ErLAoSEp+p4lR7BBoB0Gvoa78LYUzlFRj7kojMMut4D+7DkBT4b1uThGS1K9Ybw6n
+X-Received: by 2002:a17:906:ca0d:b0:a6f:fbc:b3f3 with SMTP id
+ a640c23a62f3a-a6f60dc89cbmr680235166b.47.1718696899670; Tue, 18 Jun 2024
+ 00:48:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Fix ti_sn_bridge_set_dsi_rate
- function
-To: Doug Anderson <dianders@chromium.org>
-CC: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <mripard@kernel.org>,
- <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
- <maarten.lankhorst@linux.intel.com>, <tzimmermann@suse.de>,
- <airlied@gmail.com>, <daniel@ffwll.ch>, <andersson@kernel.org>,
- <robdclark@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <20240408073623.186489-1-j-choudhary@ti.com>
- <CAD=FV=V6vUgcPn0zhA+9k4cHVpqqeSVCSJG23XEE5KMAHUCCoQ@mail.gmail.com>
- <279a1467-9ba4-449c-9076-9b2acef9336c@ti.com>
- <CAD=FV=VVs56wPGMVwuuwvHN8ob2bUeX1U-G=Zt_xGeGMyuchQA@mail.gmail.com>
-Content-Language: en-US
-From: Jayesh Choudhary <j-choudhary@ti.com>
-In-Reply-To: <CAD=FV=VVs56wPGMVwuuwvHN8ob2bUeX1U-G=Zt_xGeGMyuchQA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20240618073004.3420436-1-tao.jiang_2@nxp.com>
+In-Reply-To: <20240618073004.3420436-1-tao.jiang_2@nxp.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Tue, 18 Jun 2024 16:47:45 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5B_RTHsMwMdD59RAAyFne_0Ok_A4ExdkVOgi=G6-UGfRQ@mail.gmail.com>
+Message-ID: <CAAFQd5B_RTHsMwMdD59RAAyFne_0Ok_A4ExdkVOgi=G6-UGfRQ@mail.gmail.com>
+Subject: Re: [PATCH] media: videobuf2: sync caches for dmabuf memory
+To: TaoJiang <tao.jiang_2@nxp.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca, 
+ shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de, 
+ kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com, 
+ xiahong.bao@nxp.com, eagle.zhou@nxp.com, ming.qian@oss.nxp.com, 
+ imx@lists.linux.dev, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, m.szyprowski@samsung.com, 
+ sumit.semwal@linaro.org, christian.koenig@amd.com, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ Ming Qian <ming.qian@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,174 +99,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Doug,
+Hi TaoJiang,
 
-On 11/04/24 10:12, Doug Anderson wrote:
-> Hi,
-> 
-> On Wed, Apr 10, 2024 at 4:42 AM Jayesh Choudhary <j-choudhary@ti.com> wrote:
->>
->> Hello Doug,
->>
->> Thanks for the review.
->>
->> On 08/04/24 14:33, Doug Anderson wrote:
->>> Hi,
->>>
->>> On Mon, Apr 8, 2024 at 12:36 AM Jayesh Choudhary <j-choudhary@ti.com> wrote:
->>>>
->>>> Due to integer calculations, the rounding off can cause errors in the final
->>>> value propagated in the registers.
->>>> Considering the example of 1080p (very common resolution), the mode->clock
->>>> is 148500, dsi->lanes = 4, and bpp = 24, with the previous logic, the DSI
->>>> clock frequency would come as 444 when we are expecting the value 445.5
->>>> which would reflect in SN_DSIA_CLK_FREQ_REG.
->>>> So move the division to be the last operation where rounding off will not
->>>> impact the register value.
->>>
->>> Given that this driver is used on a whole pile of shipping Chromebooks
->>> and those devices have been working just fine (with 1080p resolution)
->>> for years, I'm curious how you noticed this. Was it actually causing
->>> real problems for you, or did you notice it just from code inspection?
->>> You should include this information in the commit message.
->>
->> I am trying to add display support for TI SoC which uses this particular
->> bridge. While debugging, I was trying to get all the register value in
->> sync with the datasheet and it was then that I observed this issue while
->> inspecting the code.
->> Maybe Chromebooks are using different set of parameters which does not
->> expose this issue. Since parameters for my display (mentioned in commit
->> message) yields the frequency at the border, I saw this issue. My debug
->> is still ongoing but since the value is not in sync with the
->> documentation, I sent out this patch.
-> 
-> OK, sounds good. It would be good to include some of this type of into
-> in the patch description for the next version.
-> 
+On Tue, Jun 18, 2024 at 4:30=E2=80=AFPM TaoJiang <tao.jiang_2@nxp.com> wrot=
+e:
+>
+> From: Ming Qian <ming.qian@nxp.com>
+>
+> When the memory type is VB2_MEMORY_DMABUF, the v4l2 device can't know
+> whether the dma buffer is coherent or synchronized.
+>
+> The videobuf2-core will skip cache syncs as it think the DMA exporter
+> should take care of cache syncs
+>
+> But in fact it's likely that the client doesn't
+> synchronize the dma buf before qbuf() or after dqbuf(). and it's
+> difficult to find this type of error directly.
+>
+> I think it's helpful that videobuf2-core can call
+> dma_buf_end_cpu_access() and dma_buf_begin_cpu_access() to handle the
+> cache syncs.
+>
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> Signed-off-by: TaoJiang <tao.jiang_2@nxp.com>
+> ---
+>  .../media/common/videobuf2/videobuf2-core.c   | 22 +++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>
 
-I am re-rolling v2 patch.. So I will mention that this was found during
-code inspection.
+Sorry, that patch is incorrect. I believe you're misunderstanding the
+way DMA-buf buffers should be managed in the userspace. It's the
+userspace responsibility to call the DMA_BUF_IOCTL_SYNC ioctl [1] to
+signal start and end of CPU access to the kernel and imply necessary
+cache synchronization.
 
-> 
->>> I'm travelling for the next two weeks so I can't actually check on a
->>> device to see if your patch makes any difference on hardware I have,
->>> but I'd presume that things were working "well enough" with the old
->>> value and they'll still work with the new value?
->>>
->>>
->>
->> Yes, ideally they should still work well with this change.
-> 
-> OK, I can validate it in a few weeks.
-> 
-> 
->>>> Also according to the SN65DSI86 datasheet[0], the minimum value for that
->>>> reg is 0x08 (inclusive) and the maximum value is 0x97 (exclusive). So add
->>>> check for that.
->>>
->>> Maybe the range checking should be a separate patch?
->>
->> Check should be done before propagating the register value so I added it
->> in the same function and hence in the same patch.
-> 
-> I was thinking you could have patch #1 add the checks. ...then patch
-> #2 could fix the math.
-> 
+[1] https://docs.kernel.org/driver-api/dma-buf.html#dma-buffer-ioctls
 
-Creating 2 patches. 1st for atomic check and another fixing the math.
+So, really sorry, but it's a NAK.
 
-> 
->>>> -#define MIN_DSI_CLK_FREQ_MHZ   40
->>>> +/*
->>>> + * NOTE: DSI clock frequency range: [40MHz,755MHz)
->>>> + * DSI clock frequency range is in 5-MHz increments
->>>> + * So minimum frequency 40MHz translates to 0x08
->>>> + * And maximum frequency 755MHz translates to 0x97
->>>> + */
->>>> +#define MIN_DSI_CLK_RANGE      0x8
->>>> +#define MAX_DSI_CLK_RANGE      0x97
->>>
->>> It's a little weird to call this min/max and have one be inclusive and
->>> one be exclusive. Be consistent and say that this is the minimum legal
->>> value and the maximum legal value. I think that means the MAX should
->>> be 0x96.
->>
->> The comment above does specify the inclusive/exclusive behavior.
->> Since a value corresponds to 5MHz range, associating the value with
->> the range makes more sense if I keep it 0x97 (0x97 * 5 -> 755MHz)
->> 0x96 corresponds to the range of [750Mz,755MHz).
->>
->> If this argument does not make sense, I can change it to 0x96 and handle
->> it with the inequalities in the function call.
-> 
-> Right that the comment is correct so that's good, but I'd still like
-> to see the constants changing. For instance, if I had code like this:
-> 
-> /*
->   * I know 2 * 2 is not really 5, but it makes my math work out
->   * so we'll just define it that way.
->   */
-> #define TWO_TIMES_TWO 5
-> 
-> ...and then later you had code:
-> 
-> if (x * y >= TWO_TIMES_TWO)
-> 
-> When you read the code you probably wouldn't go back and read the
-> comment so you'd be confused. AKA the above would be better as:
-> 
-> #define TWO_TIMES_TWO 4
-> 
-> if (x * y > TWO_TIMES_TWO)
-> 
-> Better to make the name of the #define make sense on its own. In this
-> case "min" and "max" should be the minimum legal value and the maximum
-> legal value, not "one past".
-> 
+Best regards,
+Tomasz
 
-Okay will use correct values.
-
-> 
->>>> +        */
->>>> +       bit_rate_khz = mode->clock *
->>>> +                      mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
->>>> +
->>>> +       /*
->>>> +        * For each increment in val, frequency increases by 5MHz
->>>> +        * and the factor of 1000 comes from kHz to MHz conversion
->>>> +        */
->>>> +       val = (bit_rate_khz / (pdata->dsi->lanes * 2 * 1000 * 5)) & 0xFF;
->>>> +
->>>> +       if (val >= MAX_DSI_CLK_RANGE || val < MIN_DSI_CLK_RANGE) {
->>>> +               drm_err(pdata->bridge.dev,
->>>> +                       "DSI clock frequency not in the supported range\n");
->>>> +               return -EINVAL;
->>>> +       }
->>>
->>> Shouldn't the above be in atomic_check()? There's a reason why
->>> atomic_enable() can't return error codes.
->>
->> Oops.
->> I will handle it how we are handling errors in case of link_training:
->> https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/bridge/ti-sn65dsi86.c#L1152
->>
->> That should be okay I guess?
-> 
-> I'm pretty sure it should be in atomic_check(). The atomic_check() is
-> supposed to confirm that all parameters are within valid ranges and
-> the enable function shouldn't fail because the caller passed bad
-> parameters. Specifically this could allow the caller to try different
-> parameters and see if those would work instead.
-> 
-> In the case of the link training failure it's not something we could
-> have detected until we actually tried to enable, so there's no choice.
-> 
-> -Doug
-
-
-I will have to move the whole calculation to atomic check since
-atomic check will be called first and then in bridge_enable I will
-write to the register.
-
-Thanks
--Jayesh
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/me=
+dia/common/videobuf2/videobuf2-core.c
+> index 358f1fe42975..4734ff9cf3ce 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -340,6 +340,17 @@ static void __vb2_buf_mem_prepare(struct vb2_buffer =
+*vb)
+>         vb->synced =3D 1;
+>         for (plane =3D 0; plane < vb->num_planes; ++plane)
+>                 call_void_memop(vb, prepare, vb->planes[plane].mem_priv);
+> +
+> +       if (vb->memory !=3D VB2_MEMORY_DMABUF)
+> +               return;
+> +       for (plane =3D 0; plane < vb->num_planes; ++plane) {
+> +               struct dma_buf *dbuf =3D vb->planes[plane].dbuf;
+> +
+> +               if (!dbuf)
+> +                       continue;
+> +
+> +               dma_buf_end_cpu_access(dbuf, vb->vb2_queue->dma_dir);
+> +       }
+>  }
+>
+>  /*
+> @@ -356,6 +367,17 @@ static void __vb2_buf_mem_finish(struct vb2_buffer *=
+vb)
+>         vb->synced =3D 0;
+>         for (plane =3D 0; plane < vb->num_planes; ++plane)
+>                 call_void_memop(vb, finish, vb->planes[plane].mem_priv);
+> +
+> +       if (vb->memory !=3D VB2_MEMORY_DMABUF)
+> +               return;
+> +       for (plane =3D 0; plane < vb->num_planes; ++plane) {
+> +               struct dma_buf *dbuf =3D vb->planes[plane].dbuf;
+> +
+> +               if (!dbuf)
+> +                       continue;
+> +
+> +               dma_buf_begin_cpu_access(dbuf, vb->vb2_queue->dma_dir);
+> +       }
+>  }
+>
+>  /*
+> --
+> 2.43.0-rc1
+>
