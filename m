@@ -2,74 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2034F90C5EB
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 12:09:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7EBA90C600
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 12:12:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F47E10E61C;
-	Tue, 18 Jun 2024 10:09:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5907F10E61B;
+	Tue, 18 Jun 2024 10:12:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Y7TQOHUy";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BhaMCSSq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E0BB10E61B
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 10:09:55 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-63127fc434aso43970927b3.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 03:09:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718705394; x=1719310194; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=IqR5wZUp1Tx3xq+bP/edl3bl9htsL0tG2NWiQ3t5YmQ=;
- b=Y7TQOHUy75kKLkbL/29JVQt4neCYavLSRmP6qabUBrQS6eMk7o9MCY1Wuq/lwUX/Nm
- Ikcig+A2ukwdbl/8YQhL6gr8BniBrGUKv/yIUH7Ssw0bt0eGgjW3Xr5d7qf5jih5B1MC
- g+cxQfzGFfthrSLEfcVKkZuYMRTj9J/7AWmLah3SLEcIbyQmF9uy5vJRQ5VyS2lIn4MJ
- 72syqaH+2BBvpC+DaNNpN+vmKUNcVb0Dd9C+C/YYAzmCYkKZ6XsaL4LI+aDGNQLRr0/v
- kETCD8n6zKBhM0xTvKWyvYRKB5/mnRQRhsGAZI7mZ2AFj0mQXYEp6z7VS+EDnhxn0DPv
- Mvyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718705394; x=1719310194;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IqR5wZUp1Tx3xq+bP/edl3bl9htsL0tG2NWiQ3t5YmQ=;
- b=aEf2t+wfY4hZmoUfd1l+b63/6N6hYjWpCAV7lAbF+ux3YZrXdXF78iG/DJJNPsX1yV
- mvJ+sq6qnQxs538YT1KrMF8N8hkB3HhZiYpg5H+pCHr7nTI59uA9AvFAoRomWBtBPGzi
- jioxhKhH8lqBoUdhtNl4HH/YoVeR3h7VFAi+wqv9x6wDYtKsVbrB5NkQmcgPAmp3yAkm
- 6s+Q9TGXnm+vsH0plC41r6NU9/TjzOcy1a0M5X1rGd3fkq9Af9EbjyddLUeIKvYeGXLt
- XQDtOTelZVT0jcrEyKElPo/Pk5uc6kD/CUqVvqBS0/xHfhLyoOGlyHg4tPTph6UERlf4
- L/eA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWZlEZBxPFDexjVq7c31TWc3NPGlRKnO6HfM1ocsB2Z/aXidf9cPG8IfvPdUOiPBVGAwzfjKsqyBh40kWQ11Mc/+w/TzzgWK8nuZoAqNgvz
-X-Gm-Message-State: AOJu0YzkEieRPMigetWuI/ndcKuIQ682DUvhT+48XreCsRdDcJm2VUXd
- gYHiF/jA1s5EMLZ++Hmazpcwkrsb4dOVI42+zho7jGPJa4QaIxjZdSTUADz64qS0VMPOaoBqxR0
- PytMOE4I+1fvmhyM2nzyx/BEfsVUM3bEZ1KK23w==
-X-Google-Smtp-Source: AGHT+IHRwPCQfQa69fMu0wKjL3vPrpLu3LBFBhI//GsCDP56r0T5z4Wbx99DpWuIJj4GMQDFqn1DNosmf91VMnQnZz4=
-X-Received: by 2002:a25:6b07:0:b0:dff:4a3:2de9 with SMTP id
- 3f1490d57ef6-dff15385bddmr11704923276.20.1718705394187; Tue, 18 Jun 2024
- 03:09:54 -0700 (PDT)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12D3910E61B
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 10:12:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1718705522;
+ bh=O/EAoVUt9eXyteTRE0f7erLyiFd8Rhykm2y2gRwb5u8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=BhaMCSSqT8lXNt9j+6vAyZlMWxv07bF70aWz4VUIyxiHK+ylW6jb5in6r1FmCNAKe
+ RW4ywTEjt8Hh1YeKsdAAW42o1x4rtyrC03NzEdRiiKF4//Y+ungSvlS2ftsus+ujV8
+ d3v1z4dgBVBjnE/K/DGwvizQrvimxhqYPVUbG4oOk8lJdLlG2rg6Fo4REI+9COJMBZ
+ y0c3N0i6QFkOUs2Umg6e1mwhXf5Y+U8YzLSwQi/Of+VZmeC88QL78FemYYDlZUVVcA
+ C7ws4NtTG0Zxz1Bng7v4dE1gwMUMZNK7BrxP8XlB2L1dBJCdcH5hQDGINOAbWSlj3q
+ u5u1f248X5q2A==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 56A4E37811D1;
+ Tue, 18 Jun 2024 10:12:01 +0000 (UTC)
+Message-ID: <5f4adbb9-d6ae-4dfd-80e0-4d2680a92f59@collabora.com>
+Date: Tue, 18 Jun 2024 12:12:00 +0200
 MIME-Version: 1.0
-References: <20240618081418.250953-1-j-choudhary@ti.com>
- <20240618081418.250953-3-j-choudhary@ti.com>
- <k4t7zcvweap6e3fqrcixu7szqtvykn3nnqryyd3hdybhhufcgk@snimim34rrwh>
- <a34116ff-989f-411b-8846-2f53b16b3773@ti.com>
-In-Reply-To: <a34116ff-989f-411b-8846-2f53b16b3773@ti.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 18 Jun 2024 13:09:42 +0300
-Message-ID: <CAA8EJpq2UkMn9ArSNaJcOyw28H4uUcRwvUqfUBBqSCALmozBrg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/bridge: ti-sn65dsi86: Fix
- ti_sn_bridge_set_dsi_rate function
-To: Jayesh Choudhary <j-choudhary@ti.com>
-Cc: dianders@chromium.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, mripard@kernel.org, 
- linux-kernel@vger.kernel.org, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com, 
- daniel@ffwll.ch, spanda@codeaurora.org, a-bhatia1@ti.com, 
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 3/3] drm/mediatek: Implement OF graphs support for
+ display paths
+To: Michael Walle <michael@walle.cc>, chunkuang.hu@kernel.org
+Cc: robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ matthias.bgg@gmail.com, shawn.sung@mediatek.com, yu-chang.lee@mediatek.com,
+ ck.hu@mediatek.com, jitao.shi@mediatek.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ wenst@chromium.org, kernel@collabora.com, sui.jinfeng@linux.dev,
+ Alexandre Mergnat <amergnat@baylibre.com>
+References: <20240612065634.26569-1-angelogioacchino.delregno@collabora.com>
+ <20240612065634.26569-4-angelogioacchino.delregno@collabora.com>
+ <D22BQAOFJWVJ.2Y9FKAAR57BHK@walle.cc>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <D22BQAOFJWVJ.2Y9FKAAR57BHK@walle.cc>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,54 +71,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 18 Jun 2024 at 13:05, Jayesh Choudhary <j-choudhary@ti.com> wrote:
->
-> Hello Dmitry,
->
-> On 18/06/24 14:33, Dmitry Baryshkov wrote:
-> > On Tue, Jun 18, 2024 at 01:44:18PM GMT, Jayesh Choudhary wrote:
-> >> During code inspection, it was found that due to integer calculations,
-> >> the rounding off can cause errors in the final value propagated in the
-> >> registers.
-> >> Considering the example of 1080p (very common resolution), the mode->clock
-> >> is 148500, dsi->lanes = 4, and bpp = 24, with the previous logic, the DSI
-> >> clock frequency would come as 444 when we are expecting the value 445.5
-> >> which would reflect in SN_DSIA_CLK_FREQ_REG.
-> >> So move the division to be the last operation where rounding off will not
-> >> impact the register value.
-> >
-> > Should this division use DIV_ROUND_UP instead? DIV_ROUND_CLOSEST?
-> >
->
-> Floor of the final value is expected according to datasheet.
-> The error was due to taking floor earlier and then error propagation
-> due to multiplication later on.
-> I think we can come up with a case when DIV_ROUND_UP can also give this
-> error. So this particular approach seemed okay to me.
+Il 17/06/24 15:24, Michael Walle ha scritto:
+> Hi Angelo,
+> 
+>> +/**
+>> + * mtk_drm_of_ddp_path_build_one - Build a Display HW Pipeline for a CRTC Path
+>> + * @dev:          The mediatek-drm device
+>> + * @cpath:        CRTC Path relative to a VDO or MMSYS
+>> + * @out_path:     Pointer to an array that will contain the new pipeline
+>> + * @out_path_len: Number of entries in the pipeline array
+>> + *
+>> + * MediaTek SoCs can use different DDP hardware pipelines (or paths) depending
+>> + * on the board-specific desired display configuration; this function walks
+>> + * through all of the output endpoints starting from a VDO or MMSYS hardware
+>> + * instance and builds the right pipeline as specified in device trees.
+>> + *
+>> + * Return:
+>> + * * %0       - Display HW Pipeline successfully built and validated
+>> + * * %-ENOENT - Display pipeline was not specified in device tree
+>> + * * %-EINVAL - Display pipeline built but validation failed
+>> + * * %-ENOMEM - Failure to allocate pipeline array to pass to the caller
+>> + */
+>> +static int mtk_drm_of_ddp_path_build_one(struct device *dev, enum mtk_crtc_path cpath,
+>> +					 const unsigned int **out_path,
+>> +					 unsigned int *out_path_len)
+>> +{
+>> +	struct device_node *next, *prev, *vdo = dev->parent->of_node;
+>> +	unsigned int temp_path[DDP_COMPONENT_DRM_ID_MAX] = { 0 };
+>> +	unsigned int *final_ddp_path;
+>> +	unsigned short int idx = 0;
+>> +	bool ovl_adaptor_comp_added = false;
+>> +	int ret;
+>> +
+>> +	/* Get the first entry for the temp_path array */
+>> +	ret = mtk_drm_of_get_ddp_ep_cid(vdo, 0, cpath, &next, &temp_path[idx]);
+>> +	if (ret) {
+>> +		if (next && temp_path[idx] == DDP_COMPONENT_DRM_OVL_ADAPTOR) {
+>> +			dev_err(dev, "Adding OVL Adaptor for %pOF\n", next);
+>> +			ovl_adaptor_comp_added = true;
+>> +		} else {
+>> +			if (next)
+>> +				dev_err(dev, "Invalid component %pOF\n", next);
+>> +			else
+>> +				dev_err(dev, "Cannot find first endpoint for path %d\n", cpath);
+>> +
+>> +			return ret;
+>> +		}
+>> +	}
+>> +	idx++;
+>> +
+>> +	/*
+>> +	 * Walk through port outputs until we reach the last valid mediatek-drm component.
+>> +	 * To be valid, this must end with an "invalid" component that is a display node.
+>> +	 */
+>> +	do {
+>> +		prev = next;
+>> +		ret = mtk_drm_of_get_ddp_ep_cid(next, 1, cpath, &next, &temp_path[idx]);
+>> +		of_node_put(prev);
+>> +		if (ret) {
+>> +			of_node_put(next);
+>> +			break;
+>> +		}
+>> +
+>> +		/*
+>> +		 * If this is an OVL adaptor exclusive component and one of those
+>> +		 * was already added, don't add another instance of the generic
+>> +		 * DDP_COMPONENT_OVL_ADAPTOR, as this is used only to decide whether
+>> +		 * to probe that component master driver of which only one instance
+>> +		 * is needed and possible.
+>> +		 */
+>> +		if (temp_path[idx] == DDP_COMPONENT_DRM_OVL_ADAPTOR) {
+>> +			if (!ovl_adaptor_comp_added)
+>> +				ovl_adaptor_comp_added = true;
+>> +			else
+>> +				idx--;
+>> +		}
+>> +	} while (++idx < DDP_COMPONENT_DRM_ID_MAX);
+>> +
+>> +	/*
+>> +	 * The device component might not be disabled: in that case, don't
+> 
+> Sorry there was a typo in my proposal, This should either be
+> "not be enabled" or "be disabled".
+> 
 
-Ack
+I even noticed the typo and fixed it, then sent the *not* fixed version. Argh.
 
->
-> >>
-> >> Fixes: a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver")
-> >> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-> >
-> > Fixes should go before feature patches. Please change the order of you
-> > patches for the next submission.
->
-> Okay. this was supposed to be code snippet movement in the first patch
-> and fix in the second patch as suggested in v1:
-> https://patchwork.kernel.org/project/dri-devel/patch/20240408073623.186489-1-j-choudhary@ti.com/#25801801
+>> +	 * check the last entry and just report that the device is missing.
+>> +	 */
+>> +	if (ret == -ENODEV)
+>> +		return ret;
+>> +
+> 
+> ..
+> 
+>> +static int mtk_drm_of_ddp_path_build(struct device *dev, struct device_node *node,
+>> +				     struct mtk_mmsys_driver_data *data)
+>> +{
+>> +	struct device_node *ep_node;
+>> +	struct of_endpoint of_ep;
+>> +	bool output_present[MAX_CRTC] = { false };
+>> +	bool valid_output_found = false;
+>> +	int ret;
+>> +
+>> +	for_each_endpoint_of_node(node, ep_node) {
+>> +		ret = of_graph_parse_endpoint(ep_node, &of_ep);
+>> +		if (ret) {
+>> +			dev_err_probe(dev, ret, "Cannot parse endpoint\n");
+>> +			break;
+>> +		}
+>> +
+>> +		if (of_ep.id >= MAX_CRTC) {
+>> +			ret = dev_err_probe(dev, -EINVAL,
+>> +					    "Invalid endpoint%u number\n", of_ep.port);
+>> +			break;
+>> +		}
+>> +
+>> +		output_present[of_ep.id] = true;
+>> +	}
+>> +
+>> +	if (ret) {
+>> +		of_node_put(ep_node);
+>> +		return ret;
+>> +	}
+>> +
+>> +	if (output_present[CRTC_MAIN]) {
+>> +		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_MAIN,
+>> +						    &data->main_path, &data->main_len);
+>> +		if (ret == 0)
+>> +			valid_output_found = true;
+>> +		else if (ret != -ENODEV)
+>> +			return ret;
+>> +	}
+>> +
+>> +	if (output_present[CRTC_EXT]) {
+>> +		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_EXT,
+>> +						    &data->ext_path, &data->ext_len);
+>> +		if (ret == 0)
+>> +			valid_output_found = true;
+>> +		else if (ret != -ENODEV)
+>> +			return ret;
+>> +	}
+>> +
+>> +	if (output_present[CRTC_THIRD]) {
+>> +		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_THIRD,
+>> +						    &data->third_path, &data->third_len);
+>> +		if (ret == 0)
+>> +			valid_output_found = true;
+>> +		else if (ret != -ENODEV)
+>> +			return ret;
+>> +	}
+>> +
+>> +	if (!valid_output_found)
+>> +		return -ENODEV;
+> 
+> This doesn't work. My proposal just ignored the ENODEV error. Now
+> you'll return ENODEV if there is no output for a given mmsys. In my
+> case, that is true for the first mmsys. Subsequent mmsys's doesn't
+> get probed in that case, it seems.
+> 
+> Anyway, you shouldn't return ENODEV here because disabled just
+> means not available, i.e. it should be treated the same as
+> "output_present[] == false".
+> 
 
-My point is pretty simple: fixes are backported to the earlier
-kernels. non-fixing commits are not. In your patchset you have added a
-dependency from the fix onto a non-fix (and
-not-selected-for-backporting) patch, which is not so good.
+Right. Okay, v8 will fix that.
 
->
-> I can fix it in next revision.
-
-
--- 
-With best wishes
-Dmitry
+Thanks,
+Angelo
