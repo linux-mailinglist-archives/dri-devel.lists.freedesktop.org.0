@@ -2,89 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D01290C43F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 09:22:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D106F90C444
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 09:27:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9736810E5A0;
-	Tue, 18 Jun 2024 07:22:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 900BA10E5A3;
+	Tue, 18 Jun 2024 07:27:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="ZAaxwRlr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ec1V/mpb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3171310E5A0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 07:22:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1718695349; x=1719300149; i=markus.elfring@web.de;
- bh=Bg3TIL3KzmjNs9lk8+SASEJZvZeUEBVqupiovsiTnss=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=ZAaxwRlrcDx0PCUvBtnXqrsiSNHNscYtnpXW3gtMAuUSGj7pQhStYq/XKutIVp56
- UaFzrLJLtCiY1/L81xaJ4vLb2HjBan605/HVBJBYM9pg6nSlIj3IxVmPOLj0ewt1r
- a8XLes3LhC9PEuCL+Fo4OKaN0q6+9jIIqhuiJw7XG70oVWcxB/cDGEk74bjQaHLnw
- gN0gS1F71wo6DWYzC9OrL7H5+IewSLK8mc338mARjN91R3JXgQqpkUqHgKjgN/8Fz
- rpGu+drIIOhV2cNX7JjNgi9tLPmUVTleoQmaUFKVJosUhyHWq7/4icxlisnYRJZA3
- 9ccHftpWfRUSzN8f2A==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mtgyp-1ser2g39mZ-010pwq; Tue, 18
- Jun 2024 09:22:29 +0200
-Message-ID: <ad8716ac-cff3-4fe5-86e1-f5f188e8b6b1@web.de>
-Date: Tue, 18 Jun 2024 09:22:03 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C06D110E5AC;
+ Tue, 18 Jun 2024 07:27:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718695627; x=1750231627;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=wLW3c0NdTGBgkd5y16ZE1SNJ1jmPPwr9oxB5go9HzIY=;
+ b=Ec1V/mpbOgVeFPING1m1sSNmNgaqM5+ZbfibQ/Yt46/V6E6+Yo7e5sdq
+ V38Xxc1d/HegE76cBh2igQL1o9A4pxP0zYy+VRhJbKaPXyc4CXW5gM3dS
+ fDwhjQl8T1OLylSRT2uul8EijZ+7nsbxOFINzvR0ksPWLPeOeOxJwCXCZ
+ LiMwxGW+q1Efvozw+Lu9EHPagm+a0Rpd92rBRkJOBWywvajtmuIqH/59h
+ nKXRRerHz+yHWOpkVMAFr3BtbQVPv0rTol116yt8WXAPH7xiiobPwqXMI
+ E3Y/n+1MhdCLKaUwjzNDQcUSARr27s6OxSd89DR+SOCIrmlm+BEMl8tYu A==;
+X-CSE-ConnectionGUID: APuuAezRTteBTXOhtpcFWQ==
+X-CSE-MsgGUID: 3nsOIVkaQoe/ZFGtLHa7cA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="26672942"
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; d="scan'208";a="26672942"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2024 00:27:07 -0700
+X-CSE-ConnectionGUID: KNF3AYvLSoKaGSVrJJz4Vg==
+X-CSE-MsgGUID: +XseIkgtQVSH3P3CQs8q+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; d="scan'208";a="41323557"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.178])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2024 00:27:03 -0700
+Date: Tue, 18 Jun 2024 09:26:59 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 1/2] drm/i915/gem: Return -EINVAL instead of '0'
+Message-ID: <ZnE2w2nlaG61VFqd@ashyti-mobl2.lan>
+References: <20240616070349.250899-1-andi.shyti@linux.intel.com>
+ <20240616070349.250899-2-andi.shyti@linux.intel.com>
+ <3fpme67vq7nf3sswznn7un7m7p53bibfbd5ek3uknnlwkogu6a@34oufw2qwtie>
+ <ZnBGk9mUq5HImyz9@ashyti-mobl2.lan>
+ <hh6i4vsz2ky52hw5g74l5llhjtzuyuebjtnaebqh3dq7svbfnp@zy4cwkqqzszz>
+ <ZnCCnEeNCWfyhhY0@ashyti-mobl2.lan>
+ <en3word63algrcfec7dp5x455v3oofyfflnsnmtnymoiczhrk7@pm3vgs47xmcr>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: John Stultz <jstultz@google.com>, "T. J. Mercier" <tjmercier@google.com>, 
- Yong Wu <yong.wu@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Jeffrey Kardatzke <jkardatzke@google.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Nathan Hebert <nhebert@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Tomasz Figa <tfiga@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Brian Starkey
- <Brian.Starkey@arm.com>, Chen-Yu Tsai <wenst@chromium.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, =?UTF-8?Q?Fritz_K=C3=B6nig?=
- <frkoenig@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Simon Horman <horms@kernel.org>,
- Steve Cho <stevecho@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>
-References: <20240516122102.16379-7-yunfei.dong@mediatek.com>
-Subject: Re: [PATCH v6 06/24] dma-heap: Add proper kref handling on dma-buf
- heaps
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240516122102.16379-7-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:/+1vL2hF7w7/U6j+yJ4izBj1AbDZAVu4X1KpoJgdg2qMKCHU9BN
- Ifzm7y0IJZmLWnGCgmLUXzMukVIIELPS2EhhatKYzu6tegs4kxeySDupbDGTrWDASOQJbOg
- w9mOFs8Z1DfRanYvPSUkCR/gV8N0LYIh/MMX5DaY5G2apsoDTwnw29KpsyxShh4kisbe83Z
- 9Cw/fKtyKjptSRJf//RyA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:U8P0/GzVv8g=;JqrQtoY7YisOf6G5dLTpAxpmI8u
- UFlogheq71vxQwctu+U17hGJGx1e0HgWjuqEj2EXCNpHlvCP8TBGwWMaQoHnE1mMJqYTmm7RO
- Hhc94KlC1DelubZ5B+fXFdo+h/FkZpOUrd69UF8y2tCbPaV+zInRsxLq1UqQ358gU/EAHdehr
- TjsysmHaHnK00+gSR7hSY5BYGSrzuZBrX6viwHhtKSUHGi4+L0l6Aozpec8jLoGYUcbkQeMm9
- uhzGvk1yY8Av24P33qsqMjQwn01CAyTWSxyiuGuzMF4GtF38lOU8xjEug2UvzTDMRZNyVLhUT
- U+I0ydY/tuZRz8NpxgoWlaNzkUw5uJSTFxzO5oxtKD78/hfpLtUBzE0qKH6hhYMYnZquucjI1
- ghhamIqV+LBcwq2feNe1NOyfGfFX7aR8vS1H4jgAX09nYH2XXYg7tYqNsHmvZK2C86GhtVuKS
- w1mocZ4vHdgG1L0fQxKce3KZ4p9Br4Ebys5u5+zT6y/bPJ2dzke/SE8f9vlhyBYJalm0Qhjk4
- DXLfQt7zZFbLrK7DcoFO6CQ4X/ohCwOndeGEORneIy6/n8HBP+elbGyy7Y25+SoHccXmgbcuc
- b3FNLH4GZWv9XmhHn1HiUwWAShJla3r/9Lawn065g0aNjsLCShH8yU3EPUM1aFIwHz4OrDOWa
- I09c9SFF/tEcnNinSpKIT73FSejNr4NxRapyYFCYkYODb6rW62DeXWoR79XEvl9Q2KQpqGpLG
- iMikMNBnwC3zVIuFmmy4OjMH0oyAP5JmcqLOy2OZxqFHk1S9JwKgbzYHNIFOgdGwd3+WDmEJc
- Qxb+EpsaK7s31isNgGSIQIiL2vfV4oPG+DtW8o2JotqH0=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <en3word63algrcfec7dp5x455v3oofyfflnsnmtnymoiczhrk7@pm3vgs47xmcr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,34 +79,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Add proper refcounting on the dma_heap structure.
+Hi Lucas,
 
-             reference counting?
+On Mon, Jun 17, 2024 at 05:29:24PM -0500, Lucas De Marchi wrote:
+> On Mon, Jun 17, 2024 at 08:38:20PM GMT, Andi Shyti wrote:
+> > On Mon, Jun 17, 2024 at 10:46:07AM -0500, Lucas De Marchi wrote:
+> > > On Mon, Jun 17, 2024 at 04:22:11PM GMT, Andi Shyti wrote:
+> > > > On Mon, Jun 17, 2024 at 07:55:10AM -0500, Lucas De Marchi wrote:
+> > > > > On Sun, Jun 16, 2024 at 09:03:48AM GMT, Andi Shyti wrote:
+> > > > > > Commit 05da7d9f717b ("drm/i915/gem: Downgrade stolen lmem setup
+> > > > > > warning") returns '0' from i915_gem_stolen_lmem_setup(), but it's
+> > > > > > supposed to return a pointer to the intel_memory_region
+> > > > > > structure.
+> > > > > >
+> > > > > > Sparse complains with the following message:
+> > > > > >
+> > > > > > > > drivers/gpu/drm/i915/gem/i915_gem_stolen.c:943:32: sparse: sparse:
+> > > > > >   Using plain integer as NULL pointer
+> > > > > >
+> > > > > > The caller checks for errors, and if no error is returned, it
+> > > > > > stores the address of the stolen memory. Therefore, we can't
+> > > > > > return NULL. Since we are handling a case of out-of-bounds, it's
+> > > > > > appropriate to treat the "lmem_size < dsm_base" case as an error.
+> > > > >
+> > > > > which completely invalidates the point of the commit that introduced this
+> > > > > regression. That was commit was supposed to do "let's continue, just
+> > > > > disabling stolen".
+> > > >
+> > > > Yes, correct, I missed the point while fixing stuff. But patch 2
+> > > > is still valid.
+> > > 
+> > > no, it's not. It's introduced by the same commit. I went to look into
+> > > this exactly because of the second issue: it broke 32b build in xe and
+> > > all the CI.Hooks in xe are failing.
+> > 
+> > yes, it's broken because it's using %lli, right? In 32b it should
+> > be %li.
+> > 
+> > Patch 2 is replacing %lli with %pa which should fix the 32b
+> > build.
+> > 
+> > I'm sending a new series now.
+> 
+> wait... but instead of reverting you are sending a new series changing
+> the first patch to return NULL. However in your commit message you said
+> for this version:
 
+this series of two patches is not making any logical change, it's
+just fixing sparse errors (along with an i386 build warning).
 
-> While existing heaps are built-in, we may eventually
-> have heaps loaded from modules, and we'll need to be
-> able to properly handle the references to the heaps
+> 	The caller checks for errors, and if no error is returned, it
+> 	stores the address of the stolen memory. Therefore, we can't
+> 	return NULL. Since we are handling a case of out-of-bounds, it's
+> 	appropriate to treat the "lmem_size < dsm_base" case as an error.
+> 
+> 	Return -EINVAL embedded in a pointer instead of '0' (or NULL).
+> 
+> 	This way, we avoid a potential NULL pointer dereference.
+> 
+> So... what's it?  Can we return NULL or not? Is this tested on that
+> scenario with with small BAR or does the module
+> just fail to load later and explode?
 
-You may occasionally put more than 52 characters into text lines
-of such a change description.
+Originally the patch just replaced '0' with NULL, but then before
+sending I checked again, misread the code and changed the patch.
+It's perfectly safe to return NULL (as I wrote in the cover
+letter of v2), it just disables the stolen memory.
 
+Jonathan's original patch is right. We also discussed it offline
+with last European night.
 
-=E2=80=A6
-> +++ b/drivers/dma-buf/dma-heap.c
-=E2=80=A6
-> +static void dma_heap_release(struct kref *ref)
-> +{
-=E2=80=A6
-> +	mutex_lock(&heap_list_lock);
-> +	list_del(&heap->list);
-> +	mutex_unlock(&heap_list_lock);
-=E2=80=A6
+Please, then, ignore this v1 and consider only v2.
 
-Would you become interested to apply a statement like =E2=80=9Cguard(mutex=
-)(&heap_list_lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/mutex.h#L1=
-96
-
-Regards,
-Markus
+Andi
