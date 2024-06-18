@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0741A90C427
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 09:14:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4623990C428
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 09:15:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4CC510E214;
-	Tue, 18 Jun 2024 07:14:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CED710E290;
+	Tue, 18 Jun 2024 07:15:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
- [209.85.128.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A3C010E214
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 07:14:50 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-62a2424ed00so59180107b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 00:14:50 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
+ [209.85.128.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E3BD10E290
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 07:14:58 +0000 (UTC)
+Received: by mail-yw1-f179.google.com with SMTP id
+ 00721157ae682-6383f01d1deso14933707b3.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 00:14:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718694889; x=1719299689;
+ d=1e100.net; s=20230601; t=1718694896; x=1719299696;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Rz6LJGzD4G8AYqhBAzwk0Rq4f7QZMRwIAsp6KRs4lxo=;
- b=HuTwSI7Zlt48jJ4N87aop6qaLaELQgbvsyEGhMNvN5B+Bw/2/u0pESboUGe4VjygNy
- ZAmArqGRYj00njarXqcJCWXwjXKXFH8PfDTCSk8CFwrugZjBrwKvrWHaMcmNvB7c2jrl
- vkNbYlP3rV6IZC02RAlFytZZsECb0GotVYOWo01O6G/cEznzYC++/d0qlyqNwFAxz5NH
- HuE+bYJ2RQRJGx4xF2Cpw/7lzPs+7J2+IPe9B2T8VH6u6IJVsxvDZbEr8kiuGbZ8qYGn
- z4ETlID1kH4Flb1fBDtTXsKu4XMAauksF3Uegqznezq7z+59RbVYKk7vrH8ODIAma1Wf
- F74w==
+ bh=b/mPXpBtKaq4fENYlENLj25BgA6Zpb9v6MwGbSxQAog=;
+ b=Ye4UDt+UTezz6DI+E4ROmKpSldjsuNFccJ9JJ961VwHGuJMcPDeiBMYiq63xi4ErNN
+ 7Ln7UCnEJgNfsyGyCw5r5wAH/hxG/HiqO3aOMrOxGXFxQGJUGst9adi/iGU+9X3mVoXj
+ OtsIIbDKDUXJds3evnlpZV/CCdqaA4IOcqmiediUtmAfUBGBmJLEU/3pjg8tpmRFGX3b
+ o+e7aBkOi354CBB8Yee9yOvucIBKHNsC8SlXvUpniR3hzuc7XsqGZcQhad5/8ATUetJw
+ u8wF1tJcyC8UtIEW9PYaKCtrCtOwFmOjhFvldIQju+99wobzJ+E4DrRBm+IcKvWkdqrl
+ dFwQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWntRNDiJT5HNDBvvLC2TpIXryu7XH/dxlizb1MJN34Hxe8p2QzPk3B/FyeGzr+sgG9jM7z+h+SX69ZFnMT49Gv9CRKL4YNHt2uHhtMMRpE
-X-Gm-Message-State: AOJu0YzKhjUKt1YY/dnGo7t4LNIr+oQyaWRKcJH+wZvtKv5VcoVKarO6
- 9Sjg33kFP18nfW6de3yuClYsLo8ZDtwIhHU3imoDAC4xBYcRQjnT4aUW3ewB
-X-Google-Smtp-Source: AGHT+IG627/tBnadmmyh0iHKt8rNaxRzQDisjJAbb9s5zb1lTR9iJv0TaQ7FgVn30+3Kk6n/mwQVLg==
-X-Received: by 2002:a81:4311:0:b0:62d:18f5:6f76 with SMTP id
- 00721157ae682-63224fe8657mr113207357b3.49.1718694888742; 
- Tue, 18 Jun 2024 00:14:48 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com.
- [209.85.128.171]) by smtp.gmail.com with ESMTPSA id
- 00721157ae682-631183d79d9sm16921377b3.18.2024.06.18.00.14.48
+ AJvYcCVSj0f0I/KLhqFNXW2kDtn9V4t1h+yiptMmcFaOuuhXYGK0DHr7I/x4936qnAOhXctOjVWeYRksJKHVsmzhDAuXRM7mk3F1k10mepdtnG8w
+X-Gm-Message-State: AOJu0YxjoZwNENiMcN8XGUCyrGQN23KExMUUi40GOoShNaNObrgVlN3U
+ KNubbhub33/1oSmtv3rvLduoW5hWO8/S4uRCd2aiNCN9jWyqbEYzSrL47kRD
+X-Google-Smtp-Source: AGHT+IHrJUvtDAgUfo1NrieWccTLEViSIhXMLYWFAm3E2f4UACDedorOy2w3JYAq4l8LiOTEVzUKXg==
+X-Received: by 2002:a0d:d749:0:b0:62f:6d69:c2d7 with SMTP id
+ 00721157ae682-63222c53f41mr93131527b3.22.1718694896586; 
+ Tue, 18 Jun 2024 00:14:56 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
+ [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-63278eb897bsm14050737b3.73.2024.06.18.00.14.56
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Jun 2024 00:14:48 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-62a2424ed00so59179897b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 00:14:48 -0700 (PDT)
+ Tue, 18 Jun 2024 00:14:56 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-62a087c3a92so49211877b3.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 00:14:56 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXIaTgGxjGf0gGU4/bLFcEWYFEPqm/SZwAypCBZgog4aBLRu/2ph9erTburn2slEFcklP9Dy/cmgu/iWDPRNcNbwqVIkTe2zn5hVn5xI9Us
-X-Received: by 2002:a05:690c:24d:b0:62c:efa2:a091 with SMTP id
- 00721157ae682-63222a58bc1mr110730687b3.14.1718694888087; Tue, 18 Jun 2024
- 00:14:48 -0700 (PDT)
+ AJvYcCWMGFZtBWbBV52cexBB2r7Vzh9UjS3kuknUxCIlnR3yR4fe/8jKNF7ghsT/xqlb4p1tNUis7Cw8JajfLlW9V8l9zr7YjkfntOvfxf/4sdEC
+X-Received: by 2002:a05:690c:f88:b0:615:3262:ffb1 with SMTP id
+ 00721157ae682-63222a56021mr139227977b3.12.1718694895868; Tue, 18 Jun 2024
+ 00:14:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240617-md-m68k-drivers-video-fbdev-amifb-v1-1-85f74746ecd4@quicinc.com>
-In-Reply-To: <20240617-md-m68k-drivers-video-fbdev-amifb-v1-1-85f74746ecd4@quicinc.com>
+References: <20240617-md-m68k-drivers-video-fbdev-c2p_planar-v1-1-8262753bb4e8@quicinc.com>
+In-Reply-To: <20240617-md-m68k-drivers-video-fbdev-c2p_planar-v1-1-8262753bb4e8@quicinc.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 18 Jun 2024 09:14:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX6G6sXpJmtHXCZobuOstvn4Kw-90mpky-ZXPcoe_ezUQ@mail.gmail.com>
-Message-ID: <CAMuHMdX6G6sXpJmtHXCZobuOstvn4Kw-90mpky-ZXPcoe_ezUQ@mail.gmail.com>
-Subject: Re: [PATCH] fbdev: amifb: add missing MODULE_DESCRIPTION() macro
+Date: Tue, 18 Jun 2024 09:14:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVvYxJiwC6rU_tT3rCDnTO-R0KsNT9Sxxd5UGTC5Yab=A@mail.gmail.com>
+Message-ID: <CAMuHMdVvYxJiwC6rU_tT3rCDnTO-R0KsNT9Sxxd5UGTC5Yab=A@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: c2p_planar: add missing MODULE_DESCRIPTION() macro
 To: Jeff Johnson <quic_jjohnson@quicinc.com>
 Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
@@ -79,11 +79,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 18, 2024 at 5:14=E2=80=AFAM Jeff Johnson <quic_jjohnson@quicinc=
+On Tue, Jun 18, 2024 at 5:05=E2=80=AFAM Jeff Johnson <quic_jjohnson@quicinc=
 .com> wrote:
 > With ARCH=3Dm68k, make allmodconfig && make W=3D1 C=3D1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/ami=
-fb.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/c2p=
+_planar.o
 >
 > Add the missing invocation of the MODULE_DESCRIPTION() macro.
 >
@@ -95,7 +95,8 @@ Gr{oetje,eeting}s,
 
                         Geert
 
---=20
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
 .org
 
