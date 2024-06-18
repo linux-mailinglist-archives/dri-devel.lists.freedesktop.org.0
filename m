@@ -2,76 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B761F90CBA6
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 14:25:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5AC90CBD9
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 14:37:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5DDD10E667;
-	Tue, 18 Jun 2024 12:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AF9110E07B;
+	Tue, 18 Jun 2024 12:37:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JUetXo53";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gHDLUeUc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 894AF10E662
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 12:25:46 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-7061365d2f3so1126267b3a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 05:25:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718713546; x=1719318346; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NY6uPHPa68jHM+L5M0kCzNkKbofFg3S/GyAR+NOOK/s=;
- b=JUetXo53Et7Ij1kqrUdCjPsxdwCu0fM+vRJJqYnkev2m7dv6Fofeggm0vPS7jY6v89
- RIAVX2coRtZcviU9eCLebUcayMuTx2cDjCdcP7Jf1TxaQEo6Aut4yDgeHQrRd+f53lM7
- bADJnLQlXNj3Izl5Y9qrRnMC9xesJHEBvP9DQ3OxK3CSUvc/BiSUpXTgotP8Ht9B/vOS
- 8R4AUVncLucMMtdjHKK83n6sRmqrFigD91KUKWNT+1qns5ijMXfPPuo2U3ZyZfkAvWhF
- RRJl+e/CNBODp3hdQ63Gjxj3hcY0hWt4vWu0WARGU00lnqgTjGhe1rtj9uFfQgY9EIAN
- e+/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718713546; x=1719318346;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NY6uPHPa68jHM+L5M0kCzNkKbofFg3S/GyAR+NOOK/s=;
- b=eO/RQ8+3vq24w9NHvbO3jCwl5NWE5ORJYGHtqhT49Fo8bgexAsh/v1g0ETwZuNT2Ig
- LprgIvbHNTHeTKkZD66wxbwYtyaVBLc41+JZVUz/WCtlLwm8R1YtKRjosFT/7HKc5aYv
- IHENUdLHkYo75ABwNRX4UmNeUlToJA6dXr5lBNeuj9yoVU+r09wnqcLy+rMO+lLMjdDb
- DdBNXZt9y8GNCwWfIhP6domLdN5WuzGvd54mHd5V2x3gyPZfsAZ5LL+ZwXU/cjYNzpJ3
- pBPp+IaKcX/REfHFLY4vsBrNyT482L1rM/WzxHNyFQEV15A2zXNWr9kDRIfhAYzA3Mw+
- 64KQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWKu3iPmeeZrtwA3yYaUzzt3V65u5kXruM3Ee3Ft9lxEIKHotKJmoA6rAK30QWPSaOHDiOcRY6s0OhhkQdeTVUVNIm+dMo46mvZ5HVkaQcb
-X-Gm-Message-State: AOJu0YxLfTWNno3Im/uRSCYogr4XwTXw/jhGRZvkTXbWGsSVGYr6RA0e
- bXbfgv1tCF9CaRwQYHSaghhztyQr3lgNf39U5Al/CYrznszLCCIB
-X-Google-Smtp-Source: AGHT+IGa47riVZyP+rwzU4Nu2pdE+m1GXhxXHaH8DjTcYiTCKYVJF4wq9OFjKTm+ZrYfIlXyuon9jw==
-X-Received: by 2002:a05:6a20:3946:b0:1b3:d59f:2d87 with SMTP id
- adf61e73a8af0-1bae82f6f36mr12674618637.55.1718713545588; 
- Tue, 18 Jun 2024 05:25:45 -0700 (PDT)
-Received: from [10.0.0.19] ([122.172.85.149]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f855e56183sm96304755ad.28.2024.06.18.05.25.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Jun 2024 05:25:45 -0700 (PDT)
-Message-ID: <aa757abb-9883-4a46-a5e1-a7d4d5b044eb@gmail.com>
-Date: Tue, 18 Jun 2024 17:55:41 +0530
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E40A410E07B;
+ Tue, 18 Jun 2024 12:37:43 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2793F60EAE;
+ Tue, 18 Jun 2024 12:37:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63A59C3277B;
+ Tue, 18 Jun 2024 12:37:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718714262;
+ bh=X0tAiBJPBMS2Sym2Di+jZS/UBuaLHIAG8Kf/jbT6/5g=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=gHDLUeUcZtWz2MRt3r/FDbEwhSXvTX6b0bjQO1ghJXVHCm2z3zapYs1Z1zwGO8ROl
+ qxSfetY/lsN8zlYkuEgcc9XyJ55W2OXWyksudQebPigvWisPOmyZW/ozHrllpC7va0
+ SwF9m0swpdvHR/gYx7jYiwKYFVPD8TiOZepNE2qm8PAvRS4EuPtpBNiWj2gFKFyoCq
+ cekm0f/4WFPviSPc9nGC9d0er8zeX5RXOQ9zkQvQlywbx1A3W/Rh2+mmxz1p1lYxU+
+ il1uvjGUn5g8xmVngsmIzrBD8ZMBD2DlnusIYiUz5XnCoPc7nhlGZLxNolPNjPoWxZ
+ BiuoE6XcfIRJA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Tasos Sahanidis <tasos@tasossah.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, lijo.lazar@amd.com, mario.limonciello@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-hardening@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.9 38/44] drm/amdgpu/pptable: Fix UBSAN
+ array-index-out-of-bounds
+Date: Tue, 18 Jun 2024 08:35:19 -0400
+Message-ID: <20240618123611.3301370-38-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240618123611.3301370-1-sashal@kernel.org>
+References: <20240618123611.3301370-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panel: raydium-rm692e5: transition to mipi_dsi
- wrapped functions
-To: Doug Anderson <dianders@chromium.org>
-Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240615093758.65431-1-tejasvipin76@gmail.com>
- <CAD=FV=XRZKL_ppjUKDK61fQkWhHiQCJLfmVBS7wSo4sUux2g8Q@mail.gmail.com>
-Content-Language: en-US
-From: Tejas Vipin <tejasvipin76@gmail.com>
-In-Reply-To: <CAD=FV=XRZKL_ppjUKDK61fQkWhHiQCJLfmVBS7wSo4sUux2g8Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.9.5
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,74 +66,217 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Tasos Sahanidis <tasos@tasossah.com>
 
+[ Upstream commit c6c4dd54012551cce5cde408b35468f2c62b0cce ]
 
-On 6/18/24 1:36 AM, Doug Anderson wrote:
-> Hi,
-> 
-> On Sat, Jun 15, 2024 at 2:40 AM Tejas Vipin <tejasvipin76@gmail.com> wrote:
->>
->> @@ -168,48 +147,38 @@ static int rm692e5_prepare(struct drm_panel *panel)
->>         struct rm692e5_panel *ctx = to_rm692e5_panel(panel);
->>         struct drm_dsc_picture_parameter_set pps;
->>         struct device *dev = &ctx->dsi->dev;
->> -       int ret;
->> +       struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
->>
->> -       ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
->> -       if (ret < 0) {
->> -               dev_err(dev, "Failed to enable regulators: %d\n", ret);
->> -               return ret;
->> +       dsi_ctx.accum_err = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
->> +       if (dsi_ctx.accum_err) {
->> +               dev_err(dev, "Failed to enable regulators: %d\n", dsi_ctx.accum_err);
->> +               return dsi_ctx.accum_err;
->>         }
-> 
-> It would be my preference to get rid of the error print here since
-> regulator_bulk_enable() already prints an error message.
-> 
-> 
->>         rm692e5_reset(ctx);
->>
->> -       ret = rm692e5_on(ctx);
->> -       if (ret < 0) {
->> -               dev_err(dev, "Failed to initialize panel: %d\n", ret);
->> +       dsi_ctx.accum_err = rm692e5_on(ctx);
->> +       if (dsi_ctx.accum_err) {
->> +               dev_err(dev, "Failed to initialize panel: %d\n", dsi_ctx.accum_err);
-> 
-> I'd probably change rm692e5_on() to take the "dsi_ctx" as a parameter
-> and then you don't need to declare a new one there.
-> 
-> ...also, you don't need to add an error message since rm692e5_on()
-> will have already printed one (since the "multi" style functions
-> always print error messages for you).
+Flexible arrays used [1] instead of []. Replace the former with the latter
+to resolve multiple UBSAN warnings observed on boot with a BONAIRE card.
 
-I'm guessing that the change about regulator_bulk_enable and 
-rm692e5 should also be applied to all the other panels where
-similar behavior occurs?
+In addition, use the __counted_by attribute where possible to hint the
+length of the arrays to the compiler and any sanitizers.
 
-> 
-> 
-> 
->>                 gpiod_set_value_cansleep(ctx->reset_gpio, 1);
->>                 regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
->> -               return ret;
->> +               return dsi_ctx.accum_err;
-> 
-> Not new for your patch, but it seems odd that we don't do this error
-> handling (re-assert reset and disable the regulator) for errors later
-> in the function. Shouldn't it do that? It feels like the error
-> handling should be in an "err" label and we should end up doing that
-> any time we return an error code... What do you think?
+Signed-off-by: Tasos Sahanidis <tasos@tasossah.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/include/pptable.h | 91 ++++++++++++++-------------
+ 1 file changed, 49 insertions(+), 42 deletions(-)
 
-Personally I don't think this is necessary because imo labels
-only get useful when there's a couple of them and/or they're 
-jumped to multiple times. I don't think either would happen in
-this particular function. But I guess if you have some convention
-in mind, then it could be done?
+diff --git a/drivers/gpu/drm/amd/include/pptable.h b/drivers/gpu/drm/amd/include/pptable.h
+index 2e8e6c9875f6c..f83ace2d7ec30 100644
+--- a/drivers/gpu/drm/amd/include/pptable.h
++++ b/drivers/gpu/drm/amd/include/pptable.h
+@@ -477,31 +477,30 @@ typedef struct _ATOM_PPLIB_STATE_V2
+ } ATOM_PPLIB_STATE_V2;
+ 
+ typedef struct _StateArray{
+-    //how many states we have 
+-    UCHAR ucNumEntries;
+-    
+-    ATOM_PPLIB_STATE_V2 states[1];
++	//how many states we have
++	UCHAR ucNumEntries;
++
++	ATOM_PPLIB_STATE_V2 states[] /* __counted_by(ucNumEntries) */;
+ }StateArray;
+ 
+ 
+ typedef struct _ClockInfoArray{
+-    //how many clock levels we have
+-    UCHAR ucNumEntries;
+-    
+-    //sizeof(ATOM_PPLIB_CLOCK_INFO)
+-    UCHAR ucEntrySize;
+-    
+-    UCHAR clockInfo[];
++	//how many clock levels we have
++	UCHAR ucNumEntries;
++
++	//sizeof(ATOM_PPLIB_CLOCK_INFO)
++	UCHAR ucEntrySize;
++
++	UCHAR clockInfo[];
+ }ClockInfoArray;
+ 
+ typedef struct _NonClockInfoArray{
++	//how many non-clock levels we have. normally should be same as number of states
++	UCHAR ucNumEntries;
++	//sizeof(ATOM_PPLIB_NONCLOCK_INFO)
++	UCHAR ucEntrySize;
+ 
+-    //how many non-clock levels we have. normally should be same as number of states
+-    UCHAR ucNumEntries;
+-    //sizeof(ATOM_PPLIB_NONCLOCK_INFO)
+-    UCHAR ucEntrySize;
+-    
+-    ATOM_PPLIB_NONCLOCK_INFO nonClockInfo[];
++	ATOM_PPLIB_NONCLOCK_INFO nonClockInfo[] __counted_by(ucNumEntries);
+ }NonClockInfoArray;
+ 
+ typedef struct _ATOM_PPLIB_Clock_Voltage_Dependency_Record
+@@ -513,8 +512,10 @@ typedef struct _ATOM_PPLIB_Clock_Voltage_Dependency_Record
+ 
+ typedef struct _ATOM_PPLIB_Clock_Voltage_Dependency_Table
+ {
+-    UCHAR ucNumEntries;                                                // Number of entries.
+-    ATOM_PPLIB_Clock_Voltage_Dependency_Record entries[1];             // Dynamically allocate entries.
++	// Number of entries.
++	UCHAR ucNumEntries;
++	// Dynamically allocate entries.
++	ATOM_PPLIB_Clock_Voltage_Dependency_Record entries[] __counted_by(ucNumEntries);
+ }ATOM_PPLIB_Clock_Voltage_Dependency_Table;
+ 
+ typedef struct _ATOM_PPLIB_Clock_Voltage_Limit_Record
+@@ -529,8 +530,10 @@ typedef struct _ATOM_PPLIB_Clock_Voltage_Limit_Record
+ 
+ typedef struct _ATOM_PPLIB_Clock_Voltage_Limit_Table
+ {
+-    UCHAR ucNumEntries;                                                // Number of entries.
+-    ATOM_PPLIB_Clock_Voltage_Limit_Record entries[1];                  // Dynamically allocate entries.
++	// Number of entries.
++	UCHAR ucNumEntries;
++	// Dynamically allocate entries.
++	ATOM_PPLIB_Clock_Voltage_Limit_Record entries[] __counted_by(ucNumEntries);
+ }ATOM_PPLIB_Clock_Voltage_Limit_Table;
+ 
+ union _ATOM_PPLIB_CAC_Leakage_Record
+@@ -553,8 +556,10 @@ typedef union _ATOM_PPLIB_CAC_Leakage_Record ATOM_PPLIB_CAC_Leakage_Record;
+ 
+ typedef struct _ATOM_PPLIB_CAC_Leakage_Table
+ {
+-    UCHAR ucNumEntries;                                                 // Number of entries.
+-    ATOM_PPLIB_CAC_Leakage_Record entries[1];                           // Dynamically allocate entries.
++	// Number of entries.
++	UCHAR ucNumEntries;
++	// Dynamically allocate entries.
++	ATOM_PPLIB_CAC_Leakage_Record entries[] __counted_by(ucNumEntries);
+ }ATOM_PPLIB_CAC_Leakage_Table;
+ 
+ typedef struct _ATOM_PPLIB_PhaseSheddingLimits_Record
+@@ -568,8 +573,10 @@ typedef struct _ATOM_PPLIB_PhaseSheddingLimits_Record
+ 
+ typedef struct _ATOM_PPLIB_PhaseSheddingLimits_Table
+ {
+-    UCHAR ucNumEntries;                                                 // Number of entries.
+-    ATOM_PPLIB_PhaseSheddingLimits_Record entries[1];                   // Dynamically allocate entries.
++	// Number of entries.
++	UCHAR ucNumEntries;
++	// Dynamically allocate entries.
++	ATOM_PPLIB_PhaseSheddingLimits_Record entries[] __counted_by(ucNumEntries);
+ }ATOM_PPLIB_PhaseSheddingLimits_Table;
+ 
+ typedef struct _VCEClockInfo{
+@@ -580,8 +587,8 @@ typedef struct _VCEClockInfo{
+ }VCEClockInfo;
+ 
+ typedef struct _VCEClockInfoArray{
+-    UCHAR ucNumEntries;
+-    VCEClockInfo entries[1];
++	UCHAR ucNumEntries;
++	VCEClockInfo entries[] __counted_by(ucNumEntries);
+ }VCEClockInfoArray;
+ 
+ typedef struct _ATOM_PPLIB_VCE_Clock_Voltage_Limit_Record
+@@ -592,8 +599,8 @@ typedef struct _ATOM_PPLIB_VCE_Clock_Voltage_Limit_Record
+ 
+ typedef struct _ATOM_PPLIB_VCE_Clock_Voltage_Limit_Table
+ {
+-    UCHAR numEntries;
+-    ATOM_PPLIB_VCE_Clock_Voltage_Limit_Record entries[1];
++	UCHAR numEntries;
++	ATOM_PPLIB_VCE_Clock_Voltage_Limit_Record entries[] __counted_by(numEntries);
+ }ATOM_PPLIB_VCE_Clock_Voltage_Limit_Table;
+ 
+ typedef struct _ATOM_PPLIB_VCE_State_Record
+@@ -604,8 +611,8 @@ typedef struct _ATOM_PPLIB_VCE_State_Record
+ 
+ typedef struct _ATOM_PPLIB_VCE_State_Table
+ {
+-    UCHAR numEntries;
+-    ATOM_PPLIB_VCE_State_Record entries[1];
++	UCHAR numEntries;
++	ATOM_PPLIB_VCE_State_Record entries[] __counted_by(numEntries);
+ }ATOM_PPLIB_VCE_State_Table;
+ 
+ 
+@@ -626,8 +633,8 @@ typedef struct _UVDClockInfo{
+ }UVDClockInfo;
+ 
+ typedef struct _UVDClockInfoArray{
+-    UCHAR ucNumEntries;
+-    UVDClockInfo entries[1];
++	UCHAR ucNumEntries;
++	UVDClockInfo entries[] __counted_by(ucNumEntries);
+ }UVDClockInfoArray;
+ 
+ typedef struct _ATOM_PPLIB_UVD_Clock_Voltage_Limit_Record
+@@ -638,8 +645,8 @@ typedef struct _ATOM_PPLIB_UVD_Clock_Voltage_Limit_Record
+ 
+ typedef struct _ATOM_PPLIB_UVD_Clock_Voltage_Limit_Table
+ {
+-    UCHAR numEntries;
+-    ATOM_PPLIB_UVD_Clock_Voltage_Limit_Record entries[1];
++	UCHAR numEntries;
++	ATOM_PPLIB_UVD_Clock_Voltage_Limit_Record entries[] __counted_by(numEntries);
+ }ATOM_PPLIB_UVD_Clock_Voltage_Limit_Table;
+ 
+ typedef struct _ATOM_PPLIB_UVD_Table
+@@ -657,8 +664,8 @@ typedef struct _ATOM_PPLIB_SAMClk_Voltage_Limit_Record
+ }ATOM_PPLIB_SAMClk_Voltage_Limit_Record;
+ 
+ typedef struct _ATOM_PPLIB_SAMClk_Voltage_Limit_Table{
+-    UCHAR numEntries;
+-    ATOM_PPLIB_SAMClk_Voltage_Limit_Record entries[];
++	UCHAR numEntries;
++	ATOM_PPLIB_SAMClk_Voltage_Limit_Record entries[] __counted_by(numEntries);
+ }ATOM_PPLIB_SAMClk_Voltage_Limit_Table;
+ 
+ typedef struct _ATOM_PPLIB_SAMU_Table
+@@ -675,8 +682,8 @@ typedef struct _ATOM_PPLIB_ACPClk_Voltage_Limit_Record
+ }ATOM_PPLIB_ACPClk_Voltage_Limit_Record;
+ 
+ typedef struct _ATOM_PPLIB_ACPClk_Voltage_Limit_Table{
+-    UCHAR numEntries;
+-    ATOM_PPLIB_ACPClk_Voltage_Limit_Record entries[1];
++	UCHAR numEntries;
++	ATOM_PPLIB_ACPClk_Voltage_Limit_Record entries[] __counted_by(numEntries);
+ }ATOM_PPLIB_ACPClk_Voltage_Limit_Table;
+ 
+ typedef struct _ATOM_PPLIB_ACP_Table
+@@ -743,9 +750,9 @@ typedef struct ATOM_PPLIB_VQ_Budgeting_Record{
+ } ATOM_PPLIB_VQ_Budgeting_Record;
+ 
+ typedef struct ATOM_PPLIB_VQ_Budgeting_Table {
+-    UCHAR revid;
+-    UCHAR numEntries;
+-    ATOM_PPLIB_VQ_Budgeting_Record         entries[1];
++	UCHAR revid;
++	UCHAR numEntries;
++	ATOM_PPLIB_VQ_Budgeting_Record entries[] __counted_by(numEntries);
+ } ATOM_PPLIB_VQ_Budgeting_Table;
+ 
+ #pragma pack()
+-- 
+2.43.0
 
-> 
-> 
-> -Doug
