@@ -2,66 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E989190C4C4
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 10:15:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07DA090C4C7
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 10:15:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 080C010E5C0;
-	Tue, 18 Jun 2024 08:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A50010E5C4;
+	Tue, 18 Jun 2024 08:15:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="Cai9OYMN";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JAGeX5Ob";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA19B10E5C0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 08:15:05 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45I8EM53022994;
- Tue, 18 Jun 2024 03:14:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1718698462;
- bh=InxwNCbAgTFgl5F/JHeHsZPtxbn/61wBZDbAEWeX2GI=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=Cai9OYMNdHsRnrmZb98cjC2ECjSsSF3xayKgpM3vVwdclvfrk/KoPNvUMe8ZmQ69p
- qL7buI3bzFWtv2rDutPB91tgLKphCPhwB6mgVCkqTItJKkg8xHtgik6Ea6Jy+szfeM
- eq+tgDsyjBSs5/QsRHdG2mNUnvFu2bz4DgdWxkws=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45I8EMIc128612
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 18 Jun 2024 03:14:22 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 18
- Jun 2024 03:14:22 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 18 Jun 2024 03:14:22 -0500
-Received: from localhost (jayesh-hp-probook-440-g8-notebook-pc.dhcp.ti.com
- [172.24.227.55])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45I8ELeX116990;
- Tue, 18 Jun 2024 03:14:22 -0500
-From: Jayesh Choudhary <j-choudhary@ti.com>
-To: <dianders@chromium.org>, <andrzej.hajda@intel.com>,
- <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <mripard@kernel.org>,
- <j-choudhary@ti.com>
-CC: <linux-kernel@vger.kernel.org>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <spanda@codeaurora.org>, <a-bhatia1@ti.com>,
- <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 2/2] drm/bridge: ti-sn65dsi86: Fix
- ti_sn_bridge_set_dsi_rate function
-Date: Tue, 18 Jun 2024 13:44:18 +0530
-Message-ID: <20240618081418.250953-3-j-choudhary@ti.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240618081418.250953-1-j-choudhary@ti.com>
-References: <20240618081418.250953-1-j-choudhary@ti.com>
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8E3E10E5C4
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 08:15:46 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-1f862f7c7edso33271645ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 01:15:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1718698546; x=1719303346; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=UUmVLEnpoTJ592gaH7I2FytN3HjeWdDhuLXYQB8jM6w=;
+ b=JAGeX5ObB5alVNZ3D69Dh3lAdfSslHUrunSY6dvVm7I+aS6FRvXhLJEoj6gKvbfCaJ
+ pZqxEQEPMfXgItsCBSlwqjdGI/DBDjkJJkE6GXVn0R5exA+jlY79/m1De1WhAQy8Z9Ok
+ 3/Kj588k+7ozewbtka9hHZqqlbiCiSxrA32RTWj2aqJoPticXVALWIc+UcR35R9HhKZo
+ hsbGONRHtDc3btsObBwTWVb2lTsxj/yDqXpSe+qwVwnDvFnmX8Acq2bmeolxpl8NhbNl
+ m2zHUh+KEjawtnWDKjVAMGcXk2/WVhmZ1AnG0s4AxX0eG9yN70QHbKbH44AoN4BTDXd2
+ hhHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718698546; x=1719303346;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UUmVLEnpoTJ592gaH7I2FytN3HjeWdDhuLXYQB8jM6w=;
+ b=KAFlJiZbeaRYtnyWQrEmobQK9+Mj84IyJJqDvJyEezcjIJVLNybVtuTBfcvbkOtv1S
+ Bic37aTIhjOWj15MCcV5iVfmQNaIFXTjfrRvGYlMJcFNDbulwBRhcuOfMcgd6yrp9TkE
+ HG65fcHE3/vd6VRUDkFsgbtcHfFcK9i11gsR2qo/FdTtJzMro+Of9IcBTpJlkD6Tt7Rf
+ vsx4+h2tR6QdzfpOVtScqCXN2H9W6VS8TgxpbWfOL2F5pZJUSpNPbHsuSsWR1/Yy0SQl
+ 9fWR2SgOLyG/GXIXx4Cz/9rn7/8Yk0mhHexXjgyMFAkbJl4xpgpyY5WTPEV7dV2TvPRa
+ tR1A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWZufDpBylvwDMawqB0qLxRb69+tfUZmrs2U4WXlhkz0xUw5xGPpKUl008E6LhLK5KMWzdIu6ohsj+e16PhDH8lhlBQ5czauFtvn9S1o1fO
+X-Gm-Message-State: AOJu0YyD8kek85SQ+wiQ8UugBQD2CpmOBKwWlu+aQyIrmjpeQ86xoDk4
+ R2R+DpHAT4WNq94fxnvPYludzG8+xtprhgwIGv6afMKQq4kCsg4L
+X-Google-Smtp-Source: AGHT+IHU5BFzsTam1WGUVnBcn0r/eEWH4R0hCk6n1ZhlJxSfFD4FOM/OQyWU7LH2CuWdWgIaHT5xfQ==
+X-Received: by 2002:a17:902:cec1:b0:1f6:8235:dba7 with SMTP id
+ d9443c01a7336-1f862a0cdedmr127524065ad.69.1718698545805; 
+ Tue, 18 Jun 2024 01:15:45 -0700 (PDT)
+Received: from noel.flets-west.jp ([2405:6586:4480:a10:167:9818:d778:5c14])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f855f1a1ebsm91883575ad.238.2024.06.18.01.15.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Jun 2024 01:15:45 -0700 (PDT)
+From: Hironori KIKUCHI <kikuchan98@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: Hironori KIKUCHI <kikuchan98@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: [PATCH v1 0/3] drm/panel: st7701: Add Anbernic RG28XX panel support
+Date: Tue, 18 Jun 2024 17:15:11 +0900
+Message-ID: <20240618081515.1215552-1-kikuchan98@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,63 +89,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During code inspection, it was found that due to integer calculations,
-the rounding off can cause errors in the final value propagated in the
-registers.
-Considering the example of 1080p (very common resolution), the mode->clock
-is 148500, dsi->lanes = 4, and bpp = 24, with the previous logic, the DSI
-clock frequency would come as 444 when we are expecting the value 445.5
-which would reflect in SN_DSIA_CLK_FREQ_REG.
-So move the division to be the last operation where rounding off will not
-impact the register value.
+Add support for the Anbernic RG28XX display panel, as used in the RG28XX
+handheld gaming device from Anbernic.
 
-Fixes: a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver")
-Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
----
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+The panel is connected via an RGB parallel interface for image transmission
+and an SPI interface for configuration.
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index d13b42d7c512..5bf12af6b657 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -111,8 +111,6 @@
- #define  AUX_IRQ_STATUS_AUX_SHORT		BIT(5)
- #define  AUX_IRQ_STATUS_NAT_I2C_FAIL		BIT(6)
- 
--#define MIN_DSI_CLK_FREQ_MHZ	40
--
- /*
-  * NOTE: DSI clock frequency range: [40MHz,755MHz)
-  * DSI clock frequency range is in 5-MHz increments
-@@ -1219,19 +1217,21 @@ static int ti_sn_bridge_atomic_check(struct drm_bridge *bridge,
- {
- 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
- 	struct drm_display_mode *mode = &crtc_state->mode;
--	unsigned int bit_rate_mhz, clk_freq_mhz;
-+	unsigned int bit_rate_khz;
- 
- 	/* Pixel clock check */
- 	if (mode->clock > SN65DSI86_MAX_PIXEL_CLOCK_KHZ)
- 		return -EINVAL;
- 
--	bit_rate_mhz = (mode->clock / 1000) *
-+	bit_rate_khz = mode->clock *
- 			mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
--	clk_freq_mhz = bit_rate_mhz / (pdata->dsi->lanes * 2);
- 
--	/* for each increment in dsi_clk_range, frequency increases by 5MHz */
--	pdata->dsi_clk_range = (MIN_DSI_CLK_FREQ_MHZ / 5) +
--		(((clk_freq_mhz - MIN_DSI_CLK_FREQ_MHZ) / 5) & 0xFF);
-+	/*
-+	 * For each increment in dsi_clk_range, frequency increases by 5MHz
-+	 * and the factor of 1000 comes from kHz to MHz conversion
-+	 */
-+	pdata->dsi_clk_range = (bit_rate_khz /
-+				(pdata->dsi->lanes * 2 * 1000 * 5)) & 0xFF;
- 
- 	/* SN_DSIA_CLK_FREQ_REG check */
- 	if (pdata->dsi_clk_range > MAX_DSI_CLK_RANGE ||
+Since the current panel driver for the ST7701 variants only supports MIPI
+DSI as an interface for configuration, add support for SPI as well.
+
+Hironori KIKUCHI (3):
+  dt-bindings: display: st7701: Add Anbernic RG28XX panel
+  drm/panel: st7701: Add support for SPI for configuration
+  drm/panel: st7701: Add Anbernic RG28XX panel support
+
+ .../display/panel/sitronix,st7701.yaml        |  36 +-
+ drivers/gpu/drm/panel/Kconfig                 |   2 +
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c | 362 ++++++++++++++++--
+ 3 files changed, 357 insertions(+), 43 deletions(-)
+
 -- 
-2.25.1
+2.45.2
 
