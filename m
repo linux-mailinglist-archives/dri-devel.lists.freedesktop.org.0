@@ -2,55 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE0D490C51E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 11:00:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E9590C523
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 11:03:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F421510E2D0;
-	Tue, 18 Jun 2024 09:00:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F61310E5DA;
+	Tue, 18 Jun 2024 09:03:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cLTDJsoj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Sr83rjq7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0466710E2D0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 09:00:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id BC55A60F21;
- Tue, 18 Jun 2024 09:00:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E346CC4AF1A;
- Tue, 18 Jun 2024 09:00:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718701236;
- bh=UP+zPKTWJXEf18ikgSz4JVAIi4HunUZiH8TkyYHpONg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cLTDJsojTqCSSiH8Od+6iE8djCJBBECoHUZgwWuXlJ89vPUUxbifJpaOgfDSZa+4E
- NWD0mKDGywXNwkEVz0yPZNfLGcsGjPBKvAUzdxZVx3BOquQ+CLjtxm2S5pOB0LA3DE
- qvUN981vysMzmyvGhZ4SvsgK6oZ3sbVazr1qjhaLrU1NK3+ZcbqBZiycgv9f+YwGVI
- gfBOpEYY1HdWj3QwICJ+S0P46aTlWNEQ/M3SUZ1Wh4wWIGgsywRtCXYApPWbhDA5Ox
- YKizgNyEbMnxZSq2eNkEpQNx5g8yo0GujwxmZq7qoi/ySjkW5aeQxOxK520Ym3PpU3
- xoMCSlKdIkhig==
-Date: Tue, 18 Jun 2024 12:00:31 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Omer Shpigelman <oshpigelman@habana.ai>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "ogabbay@kernel.org" <ogabbay@kernel.org>,
- Zvika Yehudai <zyehudai@habana.ai>
-Subject: Re: [PATCH 04/15] net: hbl_cn: QP state machine
-Message-ID: <20240618090031.GE4025@unreal>
-References: <20240613082208.1439968-1-oshpigelman@habana.ai>
- <20240613082208.1439968-5-oshpigelman@habana.ai>
- <20240617131807.GE6805@unreal>
- <a43d2eaf-e295-4ed4-b66a-3f2e96ea088c@habana.ai>
- <20240618070843.GD4025@unreal>
- <5bac8717-55d8-419d-b7cd-7fcb69fd49fb@habana.ai>
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BF2A10E5DA
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 09:03:19 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-2ec1620a956so48671861fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 02:03:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1718701397; x=1719306197; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=8Ffhid/tBrPdxJ9K4GUEBHG+XV/ic/YFob6ya2KAGl4=;
+ b=Sr83rjq7fLPNniH5EzFFOhZVJ+Nxa7FaO1Bab1gkuhodgtOgjrL0Z29s+trzZGyO6K
+ DNHBB3ljH/C6jiMNj4RKr2LoBhZUnyFwLN3WIyUG8EJFHt4xwihX6HKb6f7pdyWk1XeC
+ b2+FCiPKGZ7PS4b4x0dXabDftBKKtuhYRJBNJvYtNBjnRlrVD/qqy0L5OGsc9j28NJXD
+ Bxf3MqTul55x/88QVULipI5XpkkOQYwOmH8GQFIPRlSoslt2XL0mWmikqC/KTP4ZcjVS
+ r5cWl+mwF0pTiOO+bM0fpPMIHuhc4OY2Xa/QlrnVyf/4vxHfgAL814xDK/ZlcAZeJbzA
+ eUPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718701397; x=1719306197;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8Ffhid/tBrPdxJ9K4GUEBHG+XV/ic/YFob6ya2KAGl4=;
+ b=CEPt5NOu1JFVxw+RzarGT+elBE+uXMn9tI7pu4Aa6wM8GhAlzeyIQowKhJ6Oq/2Dyl
+ UbbBqnDBVKt2Qo8fFtLw1R77NE3Ma/Qp7DQ3bWAXea8JkbhxmAsqfpUtjsL0y1FxFZsG
+ tbuqjP18TD01uZOKqTY7Mx80uXdpsiGYXHcPxcIxYcn6d5e2WySLrZoOk9Ap9Yo8U1Cj
+ 5PGHHkbpDK2y3n2E1zuCdw+QlSWr5LUZ3mLicFy2VeYGe2numc24bMOhOBJs7SKbna3e
+ buHixFGMDJ4yr7Ur4pN9phK8oy2hXGT/m9ldvE5OezXE5EAPYMeQnfx/YuRRhr1Dm8or
+ 7w8g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU/JdBJNyg/sqUz7CqaJATBkBeo8Flcc/UZl682OepB2J9BUfuMm5wrJZD9KUhEtIPO+VlbgoPgiolZqLqej3mWl/lafZlr9xFNHANd0yTp
+X-Gm-Message-State: AOJu0YwH2GwHsEQ/ocTChWM9NQbFKDaX0/VobaxAfnH1TOKANayAAhas
+ 91/lTm0qOeArW5SntFBhzgtrOaq5r3E8ZQ3mygoEAyKI0xBNym+7RDhQqRQYKkE=
+X-Google-Smtp-Source: AGHT+IEhCUvJr+a6y/HVPFNPVtdpiW5Ti409wW012CK56IkXpp4YYWVu+RHIYQY0ldZdVNtWnsp98g==
+X-Received: by 2002:a2e:b0d4:0:b0:2eb:fdc3:c2ea with SMTP id
+ 38308e7fff4ca-2ec0e5d1421mr70585891fa.30.1718701396947; 
+ Tue, 18 Jun 2024 02:03:16 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2ec079379casm15908771fa.124.2024.06.18.02.03.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Jun 2024 02:03:16 -0700 (PDT)
+Date: Tue, 18 Jun 2024 12:03:15 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jayesh Choudhary <j-choudhary@ti.com>
+Cc: dianders@chromium.org, andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
+ mripard@kernel.org, linux-kernel@vger.kernel.org, jonas@kwiboo.se, 
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, 
+ airlied@gmail.com, daniel@ffwll.ch, spanda@codeaurora.org, a-bhatia1@ti.com, 
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 2/2] drm/bridge: ti-sn65dsi86: Fix
+ ti_sn_bridge_set_dsi_rate function
+Message-ID: <k4t7zcvweap6e3fqrcixu7szqtvykn3nnqryyd3hdybhhufcgk@snimim34rrwh>
+References: <20240618081418.250953-1-j-choudhary@ti.com>
+ <20240618081418.250953-3-j-choudhary@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5bac8717-55d8-419d-b7cd-7fcb69fd49fb@habana.ai>
+In-Reply-To: <20240618081418.250953-3-j-choudhary@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,130 +90,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 18, 2024 at 07:58:55AM +0000, Omer Shpigelman wrote:
-> On 6/18/24 10:08, Leon Romanovsky wrote:
-> > On Tue, Jun 18, 2024 at 05:50:15AM +0000, Omer Shpigelman wrote:
-> >> On 6/17/24 16:18, Leon Romanovsky wrote:
-> >>> [Some people who received this message don't often get email from leon@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> >>>
-> >>> On Thu, Jun 13, 2024 at 11:21:57AM +0300, Omer Shpigelman wrote:
-> >>>> Add a common QP state machine which handles the moving for a QP from one
-> >>>> state to another including performing necessary checks, draining
-> >>>> in-flight transactions, invalidating caches and error reporting.
-> >>>>
-> >>>> Signed-off-by: Omer Shpigelman <oshpigelman@habana.ai>
-> >>>> Co-developed-by: Abhilash K V <kvabhilash@habana.ai>
-> >>>> Signed-off-by: Abhilash K V <kvabhilash@habana.ai>
-> >>>> Co-developed-by: Andrey Agranovich <aagranovich@habana.ai>
-> >>>> Signed-off-by: Andrey Agranovich <aagranovich@habana.ai>
-> >>>> Co-developed-by: Bharat Jauhari <bjauhari@habana.ai>
-> >>>> Signed-off-by: Bharat Jauhari <bjauhari@habana.ai>
-> >>>> Co-developed-by: David Meriin <dmeriin@habana.ai>
-> >>>> Signed-off-by: David Meriin <dmeriin@habana.ai>
-> >>>> Co-developed-by: Sagiv Ozeri <sozeri@habana.ai>
-> >>>> Signed-off-by: Sagiv Ozeri <sozeri@habana.ai>
-> >>>> Co-developed-by: Zvika Yehudai <zyehudai@habana.ai>
-> >>>> Signed-off-by: Zvika Yehudai <zyehudai@habana.ai>
-> >>>> ---
-> >>>>  .../ethernet/intel/hbl_cn/common/hbl_cn_qp.c  | 480 +++++++++++++++++-
-> >>>>  1 file changed, 479 insertions(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/drivers/net/ethernet/intel/hbl_cn/common/hbl_cn_qp.c b/drivers/net/ethernet/intel/hbl_cn/common/hbl_cn_qp.c
-> >>>> index 9ddc23bf8194..26ebdf448193 100644
-> >>>> --- a/drivers/net/ethernet/intel/hbl_cn/common/hbl_cn_qp.c
-> >>>> +++ b/drivers/net/ethernet/intel/hbl_cn/common/hbl_cn_qp.c
-> >>>> @@ -6,8 +6,486 @@
-> >>>
-> >>> <...>
-> >>>
-> >>>> +/* The following table represents the (valid) operations that can be performed on
-> >>>> + * a QP in order to move it from one state to another
-> >>>> + * For example: a QP in RTR state can be moved to RTS state using the CN_QP_OP_RTR_2RTS
-> >>>> + * operation.
-> >>>> + */
-> >>>> +static const enum hbl_cn_qp_state_op qp_valid_state_op[CN_QP_NUM_STATE][CN_QP_NUM_STATE] = {
-> >>>> +     [CN_QP_STATE_RESET] = {
-> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >>>> +             [CN_QP_STATE_INIT]      = CN_QP_OP_RST_2INIT,
-> >>>> +             [CN_QP_STATE_SQD]       = CN_QP_OP_NOP,
-> >>>> +             [CN_QP_STATE_QPD]       = CN_QP_OP_NOP,
-> >>>> +     },
-> >>>> +     [CN_QP_STATE_INIT] = {
-> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >>>> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
-> >>>> +             [CN_QP_STATE_INIT]      = CN_QP_OP_NOP,
-> >>>> +             [CN_QP_STATE_RTR]       = CN_QP_OP_INIT_2RTR,
-> >>>> +             [CN_QP_STATE_SQD]       = CN_QP_OP_NOP,
-> >>>> +             [CN_QP_STATE_QPD]       = CN_QP_OP_NOP,
-> >>>> +     },
-> >>>> +     [CN_QP_STATE_RTR] = {
-> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >>>> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
-> >>>> +             [CN_QP_STATE_RTR]       = CN_QP_OP_RTR_2RTR,
-> >>>> +             [CN_QP_STATE_RTS]       = CN_QP_OP_RTR_2RTS,
-> >>>> +             [CN_QP_STATE_SQD]       = CN_QP_OP_NOP,
-> >>>> +             [CN_QP_STATE_QPD]       = CN_QP_OP_RTR_2QPD,
-> >>>> +     },
-> >>>> +     [CN_QP_STATE_RTS] = {
-> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >>>> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
-> >>>> +             [CN_QP_STATE_RTS]       = CN_QP_OP_RTS_2RTS,
-> >>>> +             [CN_QP_STATE_SQD]       = CN_QP_OP_RTS_2SQD,
-> >>>> +             [CN_QP_STATE_QPD]       = CN_QP_OP_RTS_2QPD,
-> >>>> +             [CN_QP_STATE_SQERR]     = CN_QP_OP_RTS_2SQERR,
-> >>>> +     },
-> >>>> +     [CN_QP_STATE_SQD] = {
-> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >>>> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
-> >>>> +             [CN_QP_STATE_SQD]       = CN_QP_OP_SQD_2SQD,
-> >>>> +             [CN_QP_STATE_RTS]       = CN_QP_OP_SQD_2RTS,
-> >>>> +             [CN_QP_STATE_QPD]       = CN_QP_OP_SQD_2QPD,
-> >>>> +             [CN_QP_STATE_SQERR]     = CN_QP_OP_SQD_2SQ_ERR,
-> >>>> +     },
-> >>>> +     [CN_QP_STATE_QPD] = {
-> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >>>> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
-> >>>> +             [CN_QP_STATE_SQD]       = CN_QP_OP_NOP,
-> >>>> +             [CN_QP_STATE_QPD]       = CN_QP_OP_NOP,
-> >>>> +             [CN_QP_STATE_RTR]       = CN_QP_OP_QPD_2RTR,
-> >>>> +     },
-> >>>> +     [CN_QP_STATE_SQERR] = {
-> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >>>> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
-> >>>> +             [CN_QP_STATE_SQD]       = CN_QP_OP_SQ_ERR_2SQD,
-> >>>> +             [CN_QP_STATE_SQERR]     = CN_QP_OP_NOP,
-> >>>> +     },
-> >>>> +     [CN_QP_STATE_ERR] = {
-> >>>> +             [CN_QP_STATE_RESET]     = CN_QP_OP_2RESET,
-> >>>> +             [CN_QP_STATE_ERR]       = CN_QP_OP_2ERR,
-> >>>> +     }
-> >>>> +};
-> >>>
-> >>> I don't understand why IBTA QP state machine is declared in ETH driver
-> >>> and not in IB driver.
-> >>>
-> >>
-> >> Implementing the actual transitions between the states requires full
-> >> knowledge of the HW e.g. when to flush, cache invalidation, timeouts.
-> >> Our IB driver is agnostic to the ASIC type by design. Note that more ASIC
-> >> generations are planned to be added and the IB driver should not be aware
-> >> of these additional HWs.
-> >> Hence we implemeted the QP state machine in the CN driver which is aware
-> >> of the actual HW.
-> > 
-> > Somehow ALL other IB drivers are able to implement this logic in the IB,
-> > while supporting multiple ASICs. I don't see a reason why you can't do
-> > the same.
-> > 
+On Tue, Jun 18, 2024 at 01:44:18PM GMT, Jayesh Choudhary wrote:
+> During code inspection, it was found that due to integer calculations,
+> the rounding off can cause errors in the final value propagated in the
+> registers.
+> Considering the example of 1080p (very common resolution), the mode->clock
+> is 148500, dsi->lanes = 4, and bpp = 24, with the previous logic, the DSI
+> clock frequency would come as 444 when we are expecting the value 445.5
+> which would reflect in SN_DSIA_CLK_FREQ_REG.
+> So move the division to be the last operation where rounding off will not
+> impact the register value.
+
+Should this division use DIV_ROUND_UP instead? DIV_ROUND_CLOSEST?
+
 > 
-> If we are referring to this actual table, then I can move it to the IB
-> driver and the CN driver will fetch the needed opcode via a function
-> pointer.
-> Is that ok?
+> Fixes: a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver")
+> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
 
-This table spotted my attention, but right separation shouldn't be limited
-to only this table. The outcome of this conversation should be:
-"IB specific logic should be in IB driver, and CN driver should be able to
-handle only low-level operations".
+Fixes should go before feature patches. Please change the order of you
+patches for the next submission.
 
-Thanks
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index d13b42d7c512..5bf12af6b657 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -111,8 +111,6 @@
+>  #define  AUX_IRQ_STATUS_AUX_SHORT		BIT(5)
+>  #define  AUX_IRQ_STATUS_NAT_I2C_FAIL		BIT(6)
+>  
+> -#define MIN_DSI_CLK_FREQ_MHZ	40
+> -
+>  /*
+>   * NOTE: DSI clock frequency range: [40MHz,755MHz)
+>   * DSI clock frequency range is in 5-MHz increments
+> @@ -1219,19 +1217,21 @@ static int ti_sn_bridge_atomic_check(struct drm_bridge *bridge,
+>  {
+>  	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
+>  	struct drm_display_mode *mode = &crtc_state->mode;
+> -	unsigned int bit_rate_mhz, clk_freq_mhz;
+> +	unsigned int bit_rate_khz;
+>  
+>  	/* Pixel clock check */
+>  	if (mode->clock > SN65DSI86_MAX_PIXEL_CLOCK_KHZ)
+>  		return -EINVAL;
+>  
+> -	bit_rate_mhz = (mode->clock / 1000) *
+> +	bit_rate_khz = mode->clock *
+>  			mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
+> -	clk_freq_mhz = bit_rate_mhz / (pdata->dsi->lanes * 2);
+>  
+> -	/* for each increment in dsi_clk_range, frequency increases by 5MHz */
+> -	pdata->dsi_clk_range = (MIN_DSI_CLK_FREQ_MHZ / 5) +
+> -		(((clk_freq_mhz - MIN_DSI_CLK_FREQ_MHZ) / 5) & 0xFF);
+> +	/*
+> +	 * For each increment in dsi_clk_range, frequency increases by 5MHz
+> +	 * and the factor of 1000 comes from kHz to MHz conversion
+> +	 */
+> +	pdata->dsi_clk_range = (bit_rate_khz /
+> +				(pdata->dsi->lanes * 2 * 1000 * 5)) & 0xFF;
+>  
+>  	/* SN_DSIA_CLK_FREQ_REG check */
+>  	if (pdata->dsi_clk_range > MAX_DSI_CLK_RANGE ||
+> -- 
+> 2.25.1
+> 
+
+-- 
+With best wishes
+Dmitry
