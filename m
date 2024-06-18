@@ -2,102 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7318390CB7E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 14:20:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B761F90CBA6
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 14:25:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78BF710E660;
-	Tue, 18 Jun 2024 12:20:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5DDD10E667;
+	Tue, 18 Jun 2024 12:25:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="gqFLIg4g";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+IuhtfVE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gqFLIg4g";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+IuhtfVE";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JUetXo53";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C22210E660
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 12:20:06 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1F2801F45B;
- Tue, 18 Jun 2024 12:20:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1718713204; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=nuNLBQkTsfR+V25TRmViz6z/l9TGgt8MxTKJQZRNjBM=;
- b=gqFLIg4gld/fG1yn0eyBj7TfaGYGO9OlGnGPjYP8jAP5gYEET+f66S7hEL36PIacEcbdsB
- 5TvL4QiRnoX/5KZns2Cev4LHzOlm1Vs9xnZAE5Mgn77KGlRp5qBJAx7o0qpaJiiilhHdoR
- AaGJKB/zpSOYnRL7BBDTeR99wBQ1Ulc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1718713204;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=nuNLBQkTsfR+V25TRmViz6z/l9TGgt8MxTKJQZRNjBM=;
- b=+IuhtfVEbPt8vqETwXxupFZAddYd0pZlrgIplACwzdB64L2qcpx3wV9h/Dtia0b7vqddx8
- /zTEOzM7nlFnxoBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1718713204; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=nuNLBQkTsfR+V25TRmViz6z/l9TGgt8MxTKJQZRNjBM=;
- b=gqFLIg4gld/fG1yn0eyBj7TfaGYGO9OlGnGPjYP8jAP5gYEET+f66S7hEL36PIacEcbdsB
- 5TvL4QiRnoX/5KZns2Cev4LHzOlm1Vs9xnZAE5Mgn77KGlRp5qBJAx7o0qpaJiiilhHdoR
- AaGJKB/zpSOYnRL7BBDTeR99wBQ1Ulc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1718713204;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=nuNLBQkTsfR+V25TRmViz6z/l9TGgt8MxTKJQZRNjBM=;
- b=+IuhtfVEbPt8vqETwXxupFZAddYd0pZlrgIplACwzdB64L2qcpx3wV9h/Dtia0b7vqddx8
- /zTEOzM7nlFnxoBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D1D9F13AA0;
- Tue, 18 Jun 2024 12:20:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 6QtPLHJ7cWZmTwAAD6G6ig
- (envelope-from <jdelvare@suse.de>); Tue, 18 Jun 2024 12:20:02 +0000
-Date: Tue, 18 Jun 2024 14:20:00 +0200
-From: Jean Delvare <jdelvare@suse.de>
-To: dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard 
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Doug Anderson
- <dianders@chromium.org>, YueHaibing <yuehaibing@huawei.com>
-Subject: [PATCH v2] drm/display: Drop obsolete dependency on COMPILE_TEST
-Message-ID: <20240618142000.3307858f@endymion.delvare>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-suse-linux-gnu)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 894AF10E662
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 12:25:46 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-7061365d2f3so1126267b3a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 05:25:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1718713546; x=1719318346; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NY6uPHPa68jHM+L5M0kCzNkKbofFg3S/GyAR+NOOK/s=;
+ b=JUetXo53Et7Ij1kqrUdCjPsxdwCu0fM+vRJJqYnkev2m7dv6Fofeggm0vPS7jY6v89
+ RIAVX2coRtZcviU9eCLebUcayMuTx2cDjCdcP7Jf1TxaQEo6Aut4yDgeHQrRd+f53lM7
+ bADJnLQlXNj3Izl5Y9qrRnMC9xesJHEBvP9DQ3OxK3CSUvc/BiSUpXTgotP8Ht9B/vOS
+ 8R4AUVncLucMMtdjHKK83n6sRmqrFigD91KUKWNT+1qns5ijMXfPPuo2U3ZyZfkAvWhF
+ RRJl+e/CNBODp3hdQ63Gjxj3hcY0hWt4vWu0WARGU00lnqgTjGhe1rtj9uFfQgY9EIAN
+ e+/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718713546; x=1719318346;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NY6uPHPa68jHM+L5M0kCzNkKbofFg3S/GyAR+NOOK/s=;
+ b=eO/RQ8+3vq24w9NHvbO3jCwl5NWE5ORJYGHtqhT49Fo8bgexAsh/v1g0ETwZuNT2Ig
+ LprgIvbHNTHeTKkZD66wxbwYtyaVBLc41+JZVUz/WCtlLwm8R1YtKRjosFT/7HKc5aYv
+ IHENUdLHkYo75ABwNRX4UmNeUlToJA6dXr5lBNeuj9yoVU+r09wnqcLy+rMO+lLMjdDb
+ DdBNXZt9y8GNCwWfIhP6domLdN5WuzGvd54mHd5V2x3gyPZfsAZ5LL+ZwXU/cjYNzpJ3
+ pBPp+IaKcX/REfHFLY4vsBrNyT482L1rM/WzxHNyFQEV15A2zXNWr9kDRIfhAYzA3Mw+
+ 64KQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWKu3iPmeeZrtwA3yYaUzzt3V65u5kXruM3Ee3Ft9lxEIKHotKJmoA6rAK30QWPSaOHDiOcRY6s0OhhkQdeTVUVNIm+dMo46mvZ5HVkaQcb
+X-Gm-Message-State: AOJu0YxLfTWNno3Im/uRSCYogr4XwTXw/jhGRZvkTXbWGsSVGYr6RA0e
+ bXbfgv1tCF9CaRwQYHSaghhztyQr3lgNf39U5Al/CYrznszLCCIB
+X-Google-Smtp-Source: AGHT+IGa47riVZyP+rwzU4Nu2pdE+m1GXhxXHaH8DjTcYiTCKYVJF4wq9OFjKTm+ZrYfIlXyuon9jw==
+X-Received: by 2002:a05:6a20:3946:b0:1b3:d59f:2d87 with SMTP id
+ adf61e73a8af0-1bae82f6f36mr12674618637.55.1718713545588; 
+ Tue, 18 Jun 2024 05:25:45 -0700 (PDT)
+Received: from [10.0.0.19] ([122.172.85.149]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f855e56183sm96304755ad.28.2024.06.18.05.25.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Jun 2024 05:25:45 -0700 (PDT)
+Message-ID: <aa757abb-9883-4a46-a5e1-a7d4d5b044eb@gmail.com>
+Date: Tue, 18 Jun 2024 17:55:41 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -4.30
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.997]; MIME_GOOD(-0.10)[text/plain];
- RCPT_COUNT_SEVEN(0.00)[9]; RCVD_TLS_ALL(0.00)[];
- HAS_ORG_HEADER(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,chromium.org,huawei.com];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panel: raydium-rm692e5: transition to mipi_dsi
+ wrapped functions
+To: Doug Anderson <dianders@chromium.org>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240615093758.65431-1-tejasvipin76@gmail.com>
+ <CAD=FV=XRZKL_ppjUKDK61fQkWhHiQCJLfmVBS7wSo4sUux2g8Q@mail.gmail.com>
+Content-Language: en-US
+From: Tejas Vipin <tejasvipin76@gmail.com>
+In-Reply-To: <CAD=FV=XRZKL_ppjUKDK61fQkWhHiQCJLfmVBS7wSo4sUux2g8Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,57 +88,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit 0166dc11be91 ("of: make CONFIG_OF user selectable"), it
-is possible to test-build any driver which depends on OF on any
-architecture by explicitly selecting OF. Therefore depending on
-COMPILE_TEST as an alternative is no longer needed.
-
-To avoid reintroducing the randconfig bug originally fixed by commit
-876271118aa4 ("drm/display: Fix build error without CONFIG_OF"),
-DRM_MSM which selects DRM_DISPLAY_DP_HELPER must explicitly depend
-on OF. This is consistent with what all other DRM drivers are doing.
-
-Signed-off-by: Jean Delvare <jdelvare@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
----
-For regular builds, this is a no-op, as OF is always enabled on
-ARCH_QCOM and SOC_IMX5. So this change only affects test builds. As
-explained before, allowing test builds only when OF is enabled
-improves the quality of these test builds, as the result is then
-closer to how the code is built on its intended targets.
-
-Changes since v1:
-* Let DRM_MSM depend on OF so that random test builds won't break.
-
- drivers/gpu/drm/display/Kconfig |    2 +-
- drivers/gpu/drm/msm/Kconfig     |    1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
-
---- linux-6.9.orig/drivers/gpu/drm/display/Kconfig
-+++ linux-6.9/drivers/gpu/drm/display/Kconfig
-@@ -3,7 +3,7 @@
- config DRM_DP_AUX_BUS
- 	tristate
- 	depends on DRM
--	depends on OF || COMPILE_TEST
-+	depends on OF
- 
- config DRM_DISPLAY_HELPER
- 	tristate
---- linux-6.9.orig/drivers/gpu/drm/msm/Kconfig
-+++ linux-6.9/drivers/gpu/drm/msm/Kconfig
-@@ -6,6 +6,7 @@ config DRM_MSM
- 	depends on ARCH_QCOM || SOC_IMX5 || COMPILE_TEST
- 	depends on COMMON_CLK
- 	depends on IOMMU_SUPPORT
-+	depends on OF
- 	depends on QCOM_AOSS_QMP || QCOM_AOSS_QMP=n
- 	depends on QCOM_OCMEM || QCOM_OCMEM=n
- 	depends on QCOM_LLCC || QCOM_LLCC=n
 
 
--- 
-Jean Delvare
-SUSE L3 Support
+On 6/18/24 1:36 AM, Doug Anderson wrote:
+> Hi,
+> 
+> On Sat, Jun 15, 2024 at 2:40 AM Tejas Vipin <tejasvipin76@gmail.com> wrote:
+>>
+>> @@ -168,48 +147,38 @@ static int rm692e5_prepare(struct drm_panel *panel)
+>>         struct rm692e5_panel *ctx = to_rm692e5_panel(panel);
+>>         struct drm_dsc_picture_parameter_set pps;
+>>         struct device *dev = &ctx->dsi->dev;
+>> -       int ret;
+>> +       struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
+>>
+>> -       ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+>> -       if (ret < 0) {
+>> -               dev_err(dev, "Failed to enable regulators: %d\n", ret);
+>> -               return ret;
+>> +       dsi_ctx.accum_err = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+>> +       if (dsi_ctx.accum_err) {
+>> +               dev_err(dev, "Failed to enable regulators: %d\n", dsi_ctx.accum_err);
+>> +               return dsi_ctx.accum_err;
+>>         }
+> 
+> It would be my preference to get rid of the error print here since
+> regulator_bulk_enable() already prints an error message.
+> 
+> 
+>>         rm692e5_reset(ctx);
+>>
+>> -       ret = rm692e5_on(ctx);
+>> -       if (ret < 0) {
+>> -               dev_err(dev, "Failed to initialize panel: %d\n", ret);
+>> +       dsi_ctx.accum_err = rm692e5_on(ctx);
+>> +       if (dsi_ctx.accum_err) {
+>> +               dev_err(dev, "Failed to initialize panel: %d\n", dsi_ctx.accum_err);
+> 
+> I'd probably change rm692e5_on() to take the "dsi_ctx" as a parameter
+> and then you don't need to declare a new one there.
+> 
+> ...also, you don't need to add an error message since rm692e5_on()
+> will have already printed one (since the "multi" style functions
+> always print error messages for you).
+
+I'm guessing that the change about regulator_bulk_enable and 
+rm692e5 should also be applied to all the other panels where
+similar behavior occurs?
+
+> 
+> 
+> 
+>>                 gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+>>                 regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+>> -               return ret;
+>> +               return dsi_ctx.accum_err;
+> 
+> Not new for your patch, but it seems odd that we don't do this error
+> handling (re-assert reset and disable the regulator) for errors later
+> in the function. Shouldn't it do that? It feels like the error
+> handling should be in an "err" label and we should end up doing that
+> any time we return an error code... What do you think?
+
+Personally I don't think this is necessary because imo labels
+only get useful when there's a couple of them and/or they're 
+jumped to multiple times. I don't think either would happen in
+this particular function. But I guess if you have some convention
+in mind, then it could be done?
+
+> 
+> 
+> -Doug
