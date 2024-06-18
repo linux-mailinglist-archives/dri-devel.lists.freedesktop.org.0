@@ -2,88 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7F690D89A
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 18:12:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C438E90D8DA
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 18:17:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0FA510E70F;
-	Tue, 18 Jun 2024 16:12:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4F6310E0E0;
+	Tue, 18 Jun 2024 16:17:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="BF8gFfmg";
+	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="bRb9IHrG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7061710E0E0;
- Tue, 18 Jun 2024 16:12:14 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45IBCqcW005312;
- Tue, 18 Jun 2024 16:12:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=DJbPrjRaIj8/B9EpEBGXNYWr
- h0MR43gEeBmb26KI2FE=; b=BF8gFfmgoHCOten5wPNXAOty7uz/468ZeCHERTZz
- jCB6BDygS2mnLkLwySiz7QhXiJE9C3q0pffpRvmGhTwyn6kH1l6eSqIdum8YuKMX
- BJVUYRcuBO71YtHghku7iqePqvdTnhDjtl7RtP0rXpB2ictbpFQ3Y2sVlPrKPu+A
- hcPCxPUAAkfPB3Pa2uV/Bq0Db50ml1qP6L4B2mam2kKJaDe1//aim8qBJLx4xJl7
- pPlh+1V/B0qH1nI+1VRcJeU82ObyoHFcWsHHfTu2HLyYCZ9zCokinrztmq2Gjahd
- xhck7U/EawNceGM3f2zVZgvL/7NZsnzim9XqXyi5Rsm3Fg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yu95rgt3c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jun 2024 16:12:08 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45IGC6Ig009286
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jun 2024 16:12:06 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 18 Jun 2024 09:12:01 -0700
-Date: Tue, 18 Jun 2024 21:41:58 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Will Deacon <will@kernel.org>
-CC: Andrew Halaney <ahalaney@redhat.com>, Konrad Dybcio
- <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>, "Dmitry
- Baryshkov" <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>,
- Rob Clark <robdclark@chromium.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/msm/adreno: De-spaghettify the use of memory barriers
-Message-ID: <20240618161158.qpqbv77tqveo5g6l@hu-akhilpo-hyd.qualcomm.com>
-References: <20240508-topic-adreno-v1-1-1babd05c119d@linaro.org>
- <20240514183849.6lpyplifero5u35r@hu-akhilpo-hyd.qualcomm.com>
- <ae4a77wt3kc73ejshptldqx6ugzrqguyq7etbbu54y4avhbdlt@qyt4r6gma7ev>
- <20240516145005.gdksmvxp35m45ifh@hu-akhilpo-hyd.qualcomm.com>
- <5vyrmxvkurdstqfiatxfqcqljwyiswda2vpkea27ighb2eqbav@n24yzdykbc23>
- <20240604144055.GE20384@willie-the-truck>
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C76B010E0E0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 16:17:12 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-421b9068274so50362385e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 09:17:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1718727430; x=1719332230;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6FzirBsHs0R3JqR4YNWkZT3Jk6K5qZO8hZgNAdkFmfQ=;
+ b=bRb9IHrGisWoJny29CP7yY8d4uP++aQ2X8r8h1Me6jrLBZ5s19H0o1uN/xmQG1A0T/
+ tgt7sQj/1rO12mqiyG++fGjvOC/HIdabC8+QvMvtuNZ8r18OO9Y41cr3YALoJUEZSdUw
+ 40stAqAMZ/TlGzSq3Y283Rk8PWx19jTuCgr0aPHujpz2StpLHwlIOxloXYuoV07UK+X2
+ klEnzZBfgcW64/4Tn2Ci4EwINPeWRY06nqEogdiEr4YmS4Cd7Yx6m2x2l1RY5edmyrlN
+ KaBHjK95ftOGklVDt5Ee/Jqo4VQxujYkcLaapjEF7HFUAb2S10bevGguct3D2diAOAAa
+ cnUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718727430; x=1719332230;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6FzirBsHs0R3JqR4YNWkZT3Jk6K5qZO8hZgNAdkFmfQ=;
+ b=sy9KnLlbDRDREqLbIfF9t/oeE4ZZLYfspqQv0PpYu4O3qBOxXkbUh3SkJeycLN0u5y
+ BFPaOYbQSAEjQY5VNdMPdZjE8KepJziVcPmpJioQXUUsssObM+BWpccSsmIolbdJl6QU
+ m8+VIrISErDYUVLAOBRiHbCe5CyMMhpEvxdLd591NdNTLOFYwGCkFCBreBWyx3HNPW7B
+ TtiOurUAukE25b0DrPCeQMKp88jLbZnPPFuLFXTCjpwQzn+QEi/z9RIQ3/ZVf7Tv46on
+ Jx58tul9268Ofxo4O1IwDKG5151dgJIoyTRbsfxSxRvQU4xoa68xOL6WEkJ7nhGxsPk0
+ YPnA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX6rJ7LdcF35zwpuJx1Hf0bYuQLaps5S9HjNUw7PSy3Q3vsCpf7jocxPZdQdF2YbCiYCChGlY9zUZWnyHP7SdS01q1nWCtVh/vGSnSjoq5p
+X-Gm-Message-State: AOJu0YyG+dyuDvWFj7uKhhdQgNaVKM9/q7iiP9cc2Ba4ZiesbBr8X1Jz
+ EJMKJyTpI1YlWS1Ms4KbYR40ZCGNgNnv8L3lKBq2EASpS5/wOyP1rR4xnfF0a/Q=
+X-Google-Smtp-Source: AGHT+IF+K+0VwyL4Nz2qQsPpxwaMm6n06pjMOi71rdpTsWHLKiONMkYyVEv1qp7d+YAKTtxVv/0VTQ==
+X-Received: by 2002:a05:600c:45cb:b0:421:7983:f1a8 with SMTP id
+ 5b1f17b1804b1-4230484d391mr123768525e9.32.1718727430252; 
+ Tue, 18 Jun 2024 09:17:10 -0700 (PDT)
+Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-422874e7060sm229060085e9.40.2024.06.18.09.17.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Jun 2024 09:17:09 -0700 (PDT)
+Message-ID: <1b34489e-6449-4023-826a-b0e1331319f6@freebox.fr>
+Date: Tue, 18 Jun 2024 18:17:09 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240604144055.GE20384@willie-the-truck>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: BUNumrrajOAzsr7DX2KcvMEECRsfSlrH
-X-Proofpoint-ORIG-GUID: BUNumrrajOAzsr7DX2KcvMEECRsfSlrH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-18_02,2024-06-17_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 mlxscore=0 adultscore=0 clxscore=1011 priorityscore=1501
- spamscore=0 phishscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406180121
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] Basic support for TI TDP158
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, Arnaud Vrac <avrac@freebox.fr>,
+ Pierre-Hugues Husson <phhusson@freebox.fr>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20240617-tdp158-v1-0-df98ef7dec6d@freebox.fr>
+ <fac01fa5-f257-488a-854e-716bd2634d85@freebox.fr>
+ <20240618-impetuous-passionate-jaguarundi-d7bcc1@houat>
+Content-Language: en-US
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+In-Reply-To: <20240618-impetuous-passionate-jaguarundi-d7bcc1@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,73 +99,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 04, 2024 at 03:40:56PM +0100, Will Deacon wrote:
-> On Thu, May 16, 2024 at 01:55:26PM -0500, Andrew Halaney wrote:
-> > On Thu, May 16, 2024 at 08:20:05PM GMT, Akhil P Oommen wrote:
-> > > On Thu, May 16, 2024 at 08:15:34AM -0500, Andrew Halaney wrote:
-> > > > If I understand correctly, you don't need any memory barrier.
-> > > > writel()/readl()'s are ordered to the same endpoint. That goes for all
-> > > > the reordering/barrier comments mentioned below too.
-> > > > 
-> > > > device-io.rst:
-> > > > 
-> > > >     The read and write functions are defined to be ordered. That is the
-> > > >     compiler is not permitted to reorder the I/O sequence. When the ordering
-> > > >     can be compiler optimised, you can use __readb() and friends to
-> > > >     indicate the relaxed ordering. Use this with care.
-> > > > 
-> > > > memory-barriers.txt:
-> > > > 
-> > > >      (*) readX(), writeX():
-> > > > 
-> > > > 	    The readX() and writeX() MMIO accessors take a pointer to the
-> > > > 	    peripheral being accessed as an __iomem * parameter. For pointers
-> > > > 	    mapped with the default I/O attributes (e.g. those returned by
-> > > > 	    ioremap()), the ordering guarantees are as follows:
-> > > > 
-> > > > 	    1. All readX() and writeX() accesses to the same peripheral are ordered
-> > > > 	       with respect to each other. This ensures that MMIO register accesses
-> > > > 	       by the same CPU thread to a particular device will arrive in program
-> > > > 	       order.
-> > > > 
-> > > 
-> > > In arm64, a writel followed by readl translates to roughly the following
-> > > sequence: dmb_wmb(), __raw_writel(), __raw_readl(), dmb_rmb(). I am not
-> > > sure what is stopping compiler from reordering  __raw_writel() and __raw_readl()
-> > > above? I am assuming iomem cookie is ignored during compilation.
-> > 
-> > It seems to me that is due to some usage of volatile there in
-> > __raw_writel() etc, but to be honest after reading about volatile and
-> > some threads from gcc mailing lists, I don't have a confident answer :)
-> > 
-> > > 
-> > > Added Will to this thread if he can throw some light on this.
-> > 
-> > Hopefully Will can school us.
+On 18/06/2024 16:36, Maxime Ripard wrote:
+
+> On Tue, Jun 18, 2024 at 03:07:16PM GMT, Marc Gonzalez wrote:
+>
+>> On 17/06/2024 18:02, Marc Gonzalez wrote:
+>>
+>>> Marc Gonzalez (4):
+>>>       dt-bindings: display: simple-bridge: add ti,tdp158
+>>>       drm: bridge: simple-bridge: use dev pointer in probe
+>>>       drm: bridge: simple-bridge: use only devm* in probe
+>>>       drm: bridge: simple-bridge: add tdp158 support
+>>>
+>>>  .../bindings/display/bridge/simple-bridge.yaml     |  4 +
+>>>  drivers/gpu/drm/bridge/simple-bridge.c             | 85 +++++++++++++++++-----
+>>>  2 files changed, 71 insertions(+), 18 deletions(-)
+>>
+>> Series has been NACKed.
 > 
-> The ordering in this case is ensured by the memory attributes used for
-> ioremap(). When an MMIO region is mapped using Device-nGnRE attributes
-> (as it the case for ioremap()), the "nR" part means "no reordering", so
-> readX() and writeX() to that region are ordered wrt each other.
+> That's a gross misrepresentation. It wasn't NAK'd, changes were requested.
 
-But that avoids only HW reordering, doesn't it? What about *compiler reordering* in the
-case of a writel following by a readl which translates to:
-	1: dmb_wmb()
-	2: __raw_writel() -> roughly "asm volatile('str')
-	3: __raw_readl() -> roughly "asm volatile('ldr')
-	4: dmb_rmb()
+OK, my bad.
 
-Is the 'volatile' keyword sufficient to avoid reordering between (2) and (3)? Or
-do we need a "memory" clobber to inhibit reordering?
+Changes have been requested.
 
-This is still not clear to me even after going through some compiler documentions.
+This series is obsolete.
 
--Akhil.
-
-> 
-> Note that guarantee _doesn't_ apply to other flavours of ioremap(), so
-> e.g. ioremap_wc() won't give you the ordering.
-> 
-> Hope that helps,
-> 
-> Will
