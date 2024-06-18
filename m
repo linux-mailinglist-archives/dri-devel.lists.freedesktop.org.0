@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7597490C435
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 09:18:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2754F90C434
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 09:18:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B45F310E5AD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66ED510E5AB;
 	Tue, 18 Jun 2024 07:18:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZtI9pj6c";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="akDRXwyB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4850A10E5A6;
- Tue, 18 Jun 2024 07:18:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 415C510E5A2;
+ Tue, 18 Jun 2024 07:18:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718695128; x=1750231128;
+ t=1718695130; x=1750231130;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=vGSBfs33EAo6r3NtiWL+vXUkkmhO4gG6wMOVlbZF7YQ=;
- b=ZtI9pj6cbvO6jEm0I816wpiliCvqCI9WPnvH6I8FZJbeyz2dXLKXXgoD
- /kgwOPMG/+fVMtJTtdbUBzZf9S43lN44CAqX1EuEig+s7triF4zlKwhKL
- o+GmDnJN2Hpn3QXq0KShcmHFPXTxJuyuSiHzTV/i2PBsUJT7Hid3kVVlJ
- RyZDcq4dhwYDKOWSP19GmRZ6/z5Gign0ohI3Sg/QXLOjJ+ergYaEB4p4P
- WhQECc8dkCfKk5wVuCGa6vKXmOvjGDhrBZ9EIiF1ayW8x6gQ+8VY+VncX
- XWXqYTlRtsuTqiP0PpPb03Wc0Zn6qO5oAjr5OAgJ3rK/2S21blAHVFBjp g==;
-X-CSE-ConnectionGUID: uQvDBV7DS2+VtpBSwic50g==
-X-CSE-MsgGUID: IePggDBhSj+lRBCOyxAqPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="15389347"
-X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; d="scan'208";a="15389347"
+ bh=EK9YBXB7pY/87D3WZBpHbVHwJAb5d3GZRcpsnUOqz1o=;
+ b=akDRXwyB7W+nAzAGRdgjQ//UEd+wPGdr1l2aBd0qwIbWDwkRMwLf83sw
+ nsPpE8uID3uYgZIR0AYnLJLh/Dx9uCSgAeseilGIb6VR44b64m5GeKOnc
+ XRTntDGHkp3APEC/N1+LCEVYnqPtwEjkcJ45uGIXw2pi2IPhzgBNjuhyF
+ 2dj358Fye3dgushOkXXTYNXm72f52CH5cWg+5c0snMoKJq2xMnKD8mhVz
+ yoneyalsURYgxgVjQeh62Kvr9WaLqxrp3tdMQxUdMrenRtTJP+SH0/bcT
+ ZAwX2LEjGBh+YtKmZosafWfPFsywKnfqdRyhxup0tR+5K14nI2Ei9TJWK g==;
+X-CSE-ConnectionGUID: U8MdHATITbqYovdkJy3gGQ==
+X-CSE-MsgGUID: cp+1RVZ8SbmQ886/CzIZiQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="15389350"
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; d="scan'208";a="15389350"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2024 00:18:48 -0700
-X-CSE-ConnectionGUID: JD9LrtiNSbGwxWbci0+fSQ==
-X-CSE-MsgGUID: ifRkIqIgRQ+KqMfjD7QYxg==
+ 18 Jun 2024 00:18:50 -0700
+X-CSE-ConnectionGUID: 0vCMtO7XTOGlAtO3tZvqow==
+X-CSE-MsgGUID: mj6skE/ZS/qqz+ycfhhz0Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; d="scan'208";a="78910770"
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; d="scan'208";a="78910785"
 Received: from maurocar-mobl2.ger.corp.intel.com (HELO fedora..)
  ([10.245.245.51])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2024 00:18:45 -0700
+ 18 Jun 2024 00:18:47 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
  Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 07/12] drm/ttm: Use the LRU walker for eviction
-Date: Tue, 18 Jun 2024 09:18:15 +0200
-Message-ID: <20240618071820.130917-8-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v5 08/12] drm/ttm: Add a virtual base class for graphics
+ memory backup
+Date: Tue, 18 Jun 2024 09:18:16 +0200
+Message-ID: <20240618071820.130917-9-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240618071820.130917-1-thomas.hellstrom@linux.intel.com>
 References: <20240618071820.130917-1-thomas.hellstrom@linux.intel.com>
@@ -72,19 +73,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the LRU walker for eviction. This helps
-removing a lot of code with weird locking
-semantics.
+Initially intended for experimenting with different backup
+solutions (shmem vs direct swap cache insertion), abstract
+the backup destination using a virtual base class.
 
-The functionality is slightly changed so that
-when trylocked buffer objects are exhausted, we
-continue to interleave walks with ticket-locks while
-there is still progress made. The list walks are
-not restarted in-between evictions.
+Also provide a sample implementation for shmem.
 
-Also provide a separate ttm_bo_evict_first()
-function for its single user. The context of that
-user allows sleeping dma_resv locks.
+While when settling on a preferred backup solution, one could
+perhaps skip the abstraction, this functionality may actually
+come in handy for configurable dedicated graphics memory
+backup to fast nvme files or similar, whithout affecting
+swap-space. Could indeed be useful for VRAM backup on S4 and
+other cases.
+
+v5:
+- Fix a UAF. (kernel test robot, Dan Carptenter)
 
 Cc: Christian König <christian.koenig@amd.com>
 Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
@@ -92,476 +95,313 @@ Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: <dri-devel@lists.freedesktop.org>
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c       | 350 ++++++++++++-----------------
- drivers/gpu/drm/ttm/ttm_resource.c |  20 +-
- include/drm/ttm/ttm_bo.h           |   8 +-
- 3 files changed, 145 insertions(+), 233 deletions(-)
+ drivers/gpu/drm/ttm/Makefile           |   2 +-
+ drivers/gpu/drm/ttm/ttm_backup_shmem.c | 139 +++++++++++++++++++++++++
+ include/drm/ttm/ttm_backup.h           | 136 ++++++++++++++++++++++++
+ 3 files changed, 276 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/ttm/ttm_backup_shmem.c
+ create mode 100644 include/drm/ttm/ttm_backup.h
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 63a91b77f7da..316afe19a325 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -224,80 +224,6 @@ static void ttm_bo_flush_all_fences(struct ttm_buffer_object *bo)
- 	dma_resv_iter_end(&cursor);
- }
+diff --git a/drivers/gpu/drm/ttm/Makefile b/drivers/gpu/drm/ttm/Makefile
+index dad298127226..5e980dd90e41 100644
+--- a/drivers/gpu/drm/ttm/Makefile
++++ b/drivers/gpu/drm/ttm/Makefile
+@@ -4,7 +4,7 @@
  
--/**
-- * ttm_bo_cleanup_refs
-- * If bo idle, remove from lru lists, and unref.
-- * If not idle, block if possible.
-- *
-- * Must be called with lru_lock and reservation held, this function
-- * will drop the lru lock and optionally the reservation lock before returning.
-- *
-- * @bo:                    The buffer object to clean-up
-- * @interruptible:         Any sleeps should occur interruptibly.
-- * @no_wait_gpu:           Never wait for gpu. Return -EBUSY instead.
-- * @unlock_resv:           Unlock the reservation lock as well.
-- */
--
--static int ttm_bo_cleanup_refs(struct ttm_buffer_object *bo,
--			       bool interruptible, bool no_wait_gpu,
--			       bool unlock_resv)
--{
--	struct dma_resv *resv = &bo->base._resv;
--	int ret;
--
--	if (dma_resv_test_signaled(resv, DMA_RESV_USAGE_BOOKKEEP))
--		ret = 0;
--	else
--		ret = -EBUSY;
--
--	if (ret && !no_wait_gpu) {
--		long lret;
--
--		if (unlock_resv)
--			dma_resv_unlock(bo->base.resv);
--		spin_unlock(&bo->bdev->lru_lock);
--
--		lret = dma_resv_wait_timeout(resv, DMA_RESV_USAGE_BOOKKEEP,
--					     interruptible,
--					     30 * HZ);
--
--		if (lret < 0)
--			return lret;
--		else if (lret == 0)
--			return -EBUSY;
--
--		spin_lock(&bo->bdev->lru_lock);
--		if (unlock_resv && !dma_resv_trylock(bo->base.resv)) {
--			/*
--			 * We raced, and lost, someone else holds the reservation now,
--			 * and is probably busy in ttm_bo_cleanup_memtype_use.
--			 *
--			 * Even if it's not the case, because we finished waiting any
--			 * delayed destruction would succeed, so just return success
--			 * here.
--			 */
--			spin_unlock(&bo->bdev->lru_lock);
--			return 0;
--		}
--		ret = 0;
--	}
--
--	if (ret) {
--		if (unlock_resv)
--			dma_resv_unlock(bo->base.resv);
--		spin_unlock(&bo->bdev->lru_lock);
--		return ret;
--	}
--
--	spin_unlock(&bo->bdev->lru_lock);
--	ttm_bo_cleanup_memtype_use(bo);
--
--	if (unlock_resv)
--		dma_resv_unlock(bo->base.resv);
--
--	return 0;
--}
--
- /*
-  * Block for the dma_resv object to become idle, lock the buffer and clean up
-  * the resource and tt object.
-@@ -505,151 +431,154 @@ bool ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
- }
- EXPORT_SYMBOL(ttm_bo_eviction_valuable);
+ ttm-y := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
+ 	ttm_execbuf_util.o ttm_range_manager.o ttm_resource.o ttm_pool.o \
+-	ttm_device.o ttm_sys_manager.o
++	ttm_device.o ttm_sys_manager.o ttm_backup_shmem.o
+ ttm-$(CONFIG_AGP) += ttm_agp_backend.o
  
--/*
-- * Check the target bo is allowable to be evicted or swapout, including cases:
-- *
-- * a. if share same reservation object with ctx->resv, have assumption
-- * reservation objects should already be locked, so not lock again and
-- * return true directly when either the opreation allow_reserved_eviction
-- * or the target bo already is in delayed free list;
-+/**
-+ * ttm_bo_evict_first() - Evict the first bo on the manager's LRU list.
-+ * @bdev: The ttm device.
-+ * @man: The manager whose bo to evict.
-+ * @ctx: The TTM operation ctx governing the eviction.
-  *
-- * b. Otherwise, trylock it.
-+ * Return: 0 if successful or the resource disappeared. Negative error code on error.
-  */
--static bool ttm_bo_evict_swapout_allowable(struct ttm_buffer_object *bo,
--					   struct ttm_operation_ctx *ctx,
--					   const struct ttm_place *place,
--					   bool *locked, bool *busy)
-+int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man,
-+		       struct ttm_operation_ctx *ctx)
- {
--	bool ret = false;
-+	struct ttm_resource_cursor cursor;
-+	struct ttm_buffer_object *bo;
-+	struct ttm_resource *res;
-+	unsigned int mem_type;
-+	int ret = 0;
- 
--	if (bo->pin_count) {
--		*locked = false;
--		if (busy)
--			*busy = false;
--		return false;
-+	spin_lock(&bdev->lru_lock);
-+	res = ttm_resource_manager_first(man, &cursor);
-+	if (!res) {
-+		ret = -ENOENT;
-+		goto out_no_ref;
- 	}
-+	bo = res->bo;
-+	if (!ttm_bo_get_unless_zero(bo))
-+		goto out_no_ref;
-+	mem_type = res->mem_type;
-+	spin_unlock(&bdev->lru_lock);
-+	ret = ttm_bo_reserve(bo, ctx->interruptible, ctx->no_wait_gpu, NULL);
-+	if (ret)
-+		goto out_no_lock;
-+	if (bo->resource != res || res->mem_type != mem_type)
-+		goto out_bad_res;
- 
--	if (bo->base.resv == ctx->resv) {
--		dma_resv_assert_held(bo->base.resv);
--		if (ctx->allow_res_evict)
--			ret = true;
--		*locked = false;
--		if (busy)
--			*busy = false;
-+	if (bo->deleted) {
-+		ret = ttm_bo_wait_ctx(bo, ctx);
-+		if (ret)
-+			ttm_bo_cleanup_memtype_use(bo);
- 	} else {
--		ret = dma_resv_trylock(bo->base.resv);
--		*locked = ret;
--		if (busy)
--			*busy = !ret;
--	}
--
--	if (ret && place && (bo->resource->mem_type != place->mem_type ||
--		!bo->bdev->funcs->eviction_valuable(bo, place))) {
--		ret = false;
--		if (*locked) {
--			dma_resv_unlock(bo->base.resv);
--			*locked = false;
--		}
-+		ret = ttm_bo_evict(bo, ctx);
- 	}
--
-+out_bad_res:
-+	dma_resv_unlock(bo->base.resv);
-+out_no_lock:
-+	ttm_bo_put(bo);
-+	ttm_resource_cursor_fini(&cursor);
- 	return ret;
+ obj-$(CONFIG_DRM_TTM) += ttm.o
+diff --git a/drivers/gpu/drm/ttm/ttm_backup_shmem.c b/drivers/gpu/drm/ttm/ttm_backup_shmem.c
+new file mode 100644
+index 000000000000..f5bc47734d71
+--- /dev/null
++++ b/drivers/gpu/drm/ttm/ttm_backup_shmem.c
+@@ -0,0 +1,139 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2024 Intel Corporation
++ */
 +
-+out_no_ref:
-+	ttm_resource_cursor_fini_locked(&cursor);
-+	spin_unlock(&bdev->lru_lock);
-+	return -ENOENT;
- }
- 
- /**
-- * ttm_mem_evict_wait_busy - wait for a busy BO to become available
-- *
-- * @busy_bo: BO which couldn't be locked with trylock
-- * @ctx: operation context
-- * @ticket: acquire ticket
-- *
-- * Try to lock a busy buffer object to avoid failing eviction.
-+ * struct ttm_bo_evict_walk - Parameters for the evict walk.
-  */
--static int ttm_mem_evict_wait_busy(struct ttm_buffer_object *busy_bo,
--				   struct ttm_operation_ctx *ctx,
--				   struct ww_acquire_ctx *ticket)
--{
--	int r;
--
--	if (!busy_bo || !ticket)
--		return -EBUSY;
--
--	if (ctx->interruptible)
--		r = dma_resv_lock_interruptible(busy_bo->base.resv,
--							  ticket);
--	else
--		r = dma_resv_lock(busy_bo->base.resv, ticket);
--
--	/*
--	 * TODO: It would be better to keep the BO locked until allocation is at
--	 * least tried one more time, but that would mean a much larger rework
--	 * of TTM.
--	 */
--	if (!r)
--		dma_resv_unlock(busy_bo->base.resv);
--
--	return r == -EDEADLK ? -EBUSY : r;
--}
-+struct ttm_bo_evict_walk {
-+	/** @walk: The walk base parameters. */
-+	struct ttm_lru_walk walk;
-+	/** @place: The place passed to the resource allocation. */
-+	const struct ttm_place *place;
-+	/** @evictor: The buffer object we're trying to make room for. */
-+	struct ttm_buffer_object *evictor;
-+	/** @res: The allocated resource if any. */
-+	struct ttm_resource **res;
-+	/** @evicted: The number of evicted pages. */
-+	unsigned long evicted;
++#include <drm/ttm/ttm_backup.h>
++#include <linux/page-flags.h>
++
++/**
++ * struct ttm_backup_shmem - A shmem based ttm_backup subclass.
++ * @backup: The base struct ttm_backup
++ * @filp: The associated shmem object
++ */
++struct ttm_backup_shmem {
++	struct ttm_backup backup;
++	struct file *filp;
 +};
- 
--int ttm_mem_evict_first(struct ttm_device *bdev,
--			struct ttm_resource_manager *man,
--			const struct ttm_place *place,
--			struct ttm_operation_ctx *ctx,
--			struct ww_acquire_ctx *ticket)
-+static long ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *bo)
- {
--	struct ttm_buffer_object *bo = NULL, *busy_bo = NULL;
--	struct ttm_resource_cursor cursor;
--	struct ttm_resource *res;
--	bool locked = false;
--	int ret;
-+	struct ttm_bo_evict_walk *evict_walk =
-+		container_of(walk, typeof(*evict_walk), walk);
-+	long lret;
- 
--	spin_lock(&bdev->lru_lock);
--	ttm_resource_manager_for_each_res(man, &cursor, res) {
--		bool busy;
--
--		if (!ttm_bo_evict_swapout_allowable(res->bo, ctx, place,
--						    &locked, &busy)) {
--			if (busy && !busy_bo && ticket !=
--			    dma_resv_locking_ctx(res->bo->base.resv))
--				busy_bo = res->bo;
--			continue;
--		}
-+	if (!bo->bdev->funcs->eviction_valuable(bo, evict_walk->place))
-+		return 0;
- 
--		if (ttm_bo_get_unless_zero(res->bo)) {
--			bo = res->bo;
--			break;
--		}
--		if (locked)
--			dma_resv_unlock(res->bo->base.resv);
-+	if (bo->deleted) {
-+		lret = ttm_bo_wait_ctx(bo, walk->ctx);
-+		if (!lret)
-+			ttm_bo_cleanup_memtype_use(bo);
-+	} else {
-+		lret = ttm_bo_evict(bo, walk->ctx);
- 	}
--	ttm_resource_cursor_fini_locked(&cursor);
- 
--	if (!bo) {
--		if (busy_bo && !ttm_bo_get_unless_zero(busy_bo))
--			busy_bo = NULL;
--		spin_unlock(&bdev->lru_lock);
--		ret = ttm_mem_evict_wait_busy(busy_bo, ctx, ticket);
--		if (busy_bo)
--			ttm_bo_put(busy_bo);
--		return ret;
--	}
-+	if (lret)
-+		goto out;
- 
--	if (bo->deleted) {
--		ret = ttm_bo_cleanup_refs(bo, ctx->interruptible,
--					  ctx->no_wait_gpu, locked);
--		ttm_bo_put(bo);
--		return ret;
--	}
-+	evict_walk->evicted++;
-+	if (evict_walk->res)
-+		lret = ttm_resource_alloc(evict_walk->evictor, evict_walk->place,
-+					  evict_walk->res);
-+	if (lret == 0)
-+		return 1;
-+out:
-+	/* Errors that should terminate the walk. */
-+	if (lret == -ENOMEM || lret == -EINTR || lret == -ERESTARTSYS ||
-+	    lret == -EAGAIN)
-+		return lret;
- 
--	spin_unlock(&bdev->lru_lock);
++
++static struct ttm_backup_shmem *to_backup_shmem(struct ttm_backup *backup)
++{
++	return container_of(backup, struct ttm_backup_shmem, backup);
++}
++
++static void ttm_backup_shmem_drop(struct ttm_backup *backup, unsigned long handle)
++{
++	handle -= 1;
++	shmem_truncate_range(file_inode(to_backup_shmem(backup)->filp), handle,
++			     handle + 1);
++}
++
++static int ttm_backup_shmem_copy_page(struct ttm_backup *backup, struct page *dst,
++				      unsigned long handle, bool killable)
++{
++	struct file *filp = to_backup_shmem(backup)->filp;
++	struct address_space *mapping = filp->f_mapping;
++	struct folio *from_folio;
++
++	handle -= 1;
++	from_folio = shmem_read_folio(mapping, handle);
++	if (IS_ERR(from_folio))
++		return PTR_ERR(from_folio);
++
++	/* Note: Use drm_memcpy_from_wc? */
++	copy_highpage(dst, folio_file_page(from_folio, handle));
++	folio_put(from_folio);
++
 +	return 0;
 +}
- 
--	ret = ttm_bo_evict(bo, ctx);
--	if (locked)
--		ttm_bo_unreserve(bo);
--	else
--		ttm_bo_move_to_lru_tail_unlocked(bo);
-+static const struct ttm_lru_walk_ops ttm_evict_walk_ops = {
-+	.process_bo = ttm_bo_evict_cb,
-+};
- 
--	ttm_bo_put(bo);
--	return ret;
-+static int ttm_bo_evict_alloc(struct ttm_device *bdev,
-+			      struct ttm_resource_manager *man,
-+			      const struct ttm_place *place,
-+			      struct ttm_buffer_object *evictor,
-+			      struct ttm_operation_ctx *ctx,
-+			      struct ww_acquire_ctx *ticket,
-+			      struct ttm_resource **res)
++
++static unsigned long
++ttm_backup_shmem_backup_page(struct ttm_backup *backup, struct page *page,
++			     bool writeback, pgoff_t i, gfp_t page_gfp,
++			     gfp_t alloc_gfp)
 +{
-+	struct ttm_bo_evict_walk evict_walk = {
-+		.walk = {
-+			.ops = &ttm_evict_walk_ops,
-+			.ctx = ctx,
-+			.ticket = ticket,
-+		},
-+		.place = place,
-+		.evictor = evictor,
-+		.res = res,
-+	};
-+	long lret;
++	struct file *filp = to_backup_shmem(backup)->filp;
++	struct address_space *mapping = filp->f_mapping;
++	unsigned long handle = 0;
++	struct folio *to_folio;
++	int ret;
 +
-+	evict_walk.walk.trylock_only = true;
-+	lret = ttm_lru_walk_for_evict(&evict_walk.walk, bdev, man, 1);
-+	if (lret || !ticket)
-+		goto out;
++	to_folio = shmem_read_folio_gfp(mapping, i, alloc_gfp);
++	if (IS_ERR(to_folio))
++		return handle;
 +
-+	/* If ticket-locking, repeat while making progress. */
-+	evict_walk.walk.trylock_only = false;
-+	do {
-+		/* The walk may clear the evict_walk.walk.ticket field */
-+		evict_walk.walk.ticket = ticket;
-+		evict_walk.evicted = 0;
-+		lret = ttm_lru_walk_for_evict(&evict_walk.walk, bdev, man, 1);
-+	} while (!lret && evict_walk.evicted);
-+out:
-+	if (lret < 0)
-+		return lret;
-+	if (lret == 0)
-+		return -EBUSY;
-+	return 0;
- }
- 
- /**
-@@ -760,6 +689,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
- 	for (i = 0; i < placement->num_placement; ++i) {
- 		const struct ttm_place *place = &placement->placement[i];
- 		struct ttm_resource_manager *man;
-+		bool may_evict;
- 
- 		man = ttm_manager_type(bdev, place->mem_type);
- 		if (!man || !ttm_resource_manager_used(man))
-@@ -769,22 +699,21 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
- 				    TTM_PL_FLAG_FALLBACK))
- 			continue;
- 
--		do {
--			ret = ttm_resource_alloc(bo, place, res);
--			if (unlikely(ret && ret != -ENOSPC))
-+		may_evict = (force_space && place->mem_type != TTM_PL_SYSTEM);
-+		ret = ttm_resource_alloc(bo, place, res);
-+		if (ret) {
-+			if (ret != -ENOSPC)
- 				return ret;
--			if (likely(!ret) || !force_space)
--				break;
--
--			ret = ttm_mem_evict_first(bdev, man, place, ctx,
--						  ticket);
--			if (unlikely(ret == -EBUSY))
--				break;
--			if (unlikely(ret))
-+			if (!may_evict)
-+				continue;
++	folio_mark_accessed(to_folio);
++	folio_lock(to_folio);
++	folio_mark_dirty(to_folio);
++	copy_highpage(folio_file_page(to_folio, i), page);
++	handle = i + 1;
 +
-+			ret = ttm_bo_evict_alloc(bdev, man, place, bo, ctx,
-+						 ticket, res);
-+			if (ret == -EBUSY)
-+				continue;
-+			if (ret)
- 				return ret;
--		} while (1);
--		if (ret)
--			continue;
-+		}
- 
- 		ret = ttm_bo_add_move_fence(bo, man, ctx->no_wait_gpu);
- 		if (unlikely(ret)) {
-@@ -796,7 +725,6 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
- 		}
- 		return 0;
- 	}
--
- 	return -ENOSPC;
- }
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-index a03090683e79..6d0c66fc36e3 100644
---- a/drivers/gpu/drm/ttm/ttm_resource.c
-+++ b/drivers/gpu/drm/ttm/ttm_resource.c
-@@ -508,24 +508,10 @@ int ttm_resource_manager_evict_all(struct ttm_device *bdev,
- 	};
- 	struct dma_fence *fence;
- 	int ret;
--	unsigned i;
--
--	/*
--	 * Can't use standard list traversal since we're unlocking.
--	 */
- 
--	spin_lock(&bdev->lru_lock);
--	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
--		while (!list_empty(&man->lru[i])) {
--			spin_unlock(&bdev->lru_lock);
--			ret = ttm_mem_evict_first(bdev, man, NULL, &ctx,
--						  NULL);
--			if (ret)
--				return ret;
--			spin_lock(&bdev->lru_lock);
--		}
--	}
--	spin_unlock(&bdev->lru_lock);
-+	do {
-+		ret = ttm_bo_evict_first(bdev, man, &ctx);
-+	} while (!ret);
- 
- 	spin_lock(&man->move_lock);
- 	fence = dma_fence_get(man->move);
-diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-index 472a55b69afb..148f49f625e4 100644
---- a/include/drm/ttm/ttm_bo.h
-+++ b/include/drm/ttm/ttm_bo.h
-@@ -415,11 +415,9 @@ long ttm_bo_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
- 		    pgoff_t target);
- void ttm_bo_pin(struct ttm_buffer_object *bo);
- void ttm_bo_unpin(struct ttm_buffer_object *bo);
--int ttm_mem_evict_first(struct ttm_device *bdev,
--			struct ttm_resource_manager *man,
--			const struct ttm_place *place,
--			struct ttm_operation_ctx *ctx,
--			struct ww_acquire_ctx *ticket);
-+int ttm_bo_evict_first(struct ttm_device *bdev,
-+		       struct ttm_resource_manager *man,
-+		       struct ttm_operation_ctx *ctx);
- vm_fault_t ttm_bo_vm_reserve(struct ttm_buffer_object *bo,
- 			     struct vm_fault *vmf);
- vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
++	if (writeback && !folio_mapped(to_folio) && folio_clear_dirty_for_io(to_folio)) {
++		struct writeback_control wbc = {
++			.sync_mode = WB_SYNC_NONE,
++			.nr_to_write = SWAP_CLUSTER_MAX,
++			.range_start = 0,
++			.range_end = LLONG_MAX,
++			.for_reclaim = 1,
++		};
++		folio_set_reclaim(to_folio);
++		ret = mapping->a_ops->writepage(folio_page(to_folio, 0), &wbc);
++		if (!folio_test_writeback(to_folio))
++			folio_clear_reclaim(to_folio);
++		/* If writepage succeeds, it unlocks the folio */
++		if (ret)
++			folio_unlock(to_folio);
++	} else {
++		folio_unlock(to_folio);
++	}
++
++	folio_put(to_folio);
++
++	return handle;
++}
++
++static void ttm_backup_shmem_fini(struct ttm_backup *backup)
++{
++	struct ttm_backup_shmem *sbackup = to_backup_shmem(backup);
++
++	fput(sbackup->filp);
++	kfree(sbackup);
++}
++
++static const struct ttm_backup_ops ttm_backup_shmem_ops = {
++	.drop = ttm_backup_shmem_drop,
++	.copy_backed_up_page = ttm_backup_shmem_copy_page,
++	.backup_page = ttm_backup_shmem_backup_page,
++	.fini = ttm_backup_shmem_fini,
++};
++
++/**
++ * ttm_backup_shmem_create() - Create a shmem-based struct backup.
++ * @size: The maximum size (in bytes) to back up.
++ *
++ * Create a backup utilizing shmem objects.
++ *
++ * Return: A pointer to a struct ttm_backup on success,
++ * an error pointer on error.
++ */
++struct ttm_backup *ttm_backup_shmem_create(loff_t size)
++{
++	struct ttm_backup_shmem *sbackup =
++		kzalloc(sizeof(*sbackup), GFP_KERNEL | __GFP_ACCOUNT);
++	struct file *filp;
++
++	if (!sbackup)
++		return ERR_PTR(-ENOMEM);
++
++	filp = shmem_file_setup("ttm shmem backup", size, 0);
++	if (IS_ERR(filp)) {
++		kfree(sbackup);
++		return ERR_CAST(filp);
++	}
++
++	sbackup->filp = filp;
++	sbackup->backup.ops = &ttm_backup_shmem_ops;
++
++	return &sbackup->backup;
++}
++EXPORT_SYMBOL_GPL(ttm_backup_shmem_create);
+diff --git a/include/drm/ttm/ttm_backup.h b/include/drm/ttm/ttm_backup.h
+new file mode 100644
+index 000000000000..88e8b97a6fdc
+--- /dev/null
++++ b/include/drm/ttm/ttm_backup.h
+@@ -0,0 +1,136 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2024 Intel Corporation
++ */
++
++#ifndef _TTM_BACKUP_H_
++#define _TTM_BACKUP_H_
++
++#include <linux/mm_types.h>
++#include <linux/shmem_fs.h>
++
++struct ttm_backup;
++
++/**
++ * ttm_backup_handle_to_page_ptr() - Convert handle to struct page pointer
++ * @handle: The handle to convert.
++ *
++ * Converts an opaque handle received from the
++ * struct ttm_backoup_ops::backup_page() function to an (invalid)
++ * struct page pointer suitable for a struct page array.
++ *
++ * Return: An (invalid) struct page pointer.
++ */
++static inline struct page *
++ttm_backup_handle_to_page_ptr(unsigned long handle)
++{
++	return (struct page *)(handle << 1 | 1);
++}
++
++/**
++ * ttm_backup_page_ptr_is_handle() - Whether a struct page pointer is a handle
++ * @page: The struct page pointer to check.
++ *
++ * Return: true if the struct page pointer is a handld returned from
++ * ttm_backup_handle_to_page_ptr(). False otherwise.
++ */
++static inline bool ttm_backup_page_ptr_is_handle(const struct page *page)
++{
++	return (unsigned long)page & 1;
++}
++
++/**
++ * ttm_backup_page_ptr_to_handle() - Convert a struct page pointer to a handle
++ * @page: The struct page pointer to convert
++ *
++ * Return: The handle that was previously used in
++ * ttm_backup_handle_to_page_ptr() to obtain a struct page pointer, suitable
++ * for use as argument in the struct ttm_backup_ops drop() or
++ * copy_backed_up_page() functions.
++ */
++static inline unsigned long
++ttm_backup_page_ptr_to_handle(const struct page *page)
++{
++	WARN_ON(!ttm_backup_page_ptr_is_handle(page));
++	return (unsigned long)page >> 1;
++}
++
++/** struct ttm_backup_ops - A struct ttm_backup backend operations */
++struct ttm_backup_ops {
++	/**
++	 * drop - release memory associated with a handle
++	 * @backup: The struct backup pointer used to obtain the handle
++	 * @handle: The handle obtained from the @backup_page function.
++	 */
++	void (*drop)(struct ttm_backup *backup, unsigned long handle);
++
++	/**
++	 * copy_backed_up_page - Copy the contents of a previously backed
++	 * up page
++	 * @backup: The struct backup pointer used to back up the page.
++	 * @dst: The struct page to copy into.
++	 * @handle: The handle returned when the page was backed up.
++	 * @intr: Try to perform waits interruptable or at least killable.
++	 *
++	 * Return: 0 on success, Negative error code on failure, notably
++	 * -EINTR if @intr was set to true and a signal is pending.
++	 */
++	int (*copy_backed_up_page)(struct ttm_backup *backup, struct page *dst,
++				   unsigned long handle, bool intr);
++
++	/**
++	 * backup_page - Backup a page
++	 * @backup: The struct backup pointer to use.
++	 * @page: The page to back up.
++	 * @writeback: Whether to perform immediate writeback of the page.
++	 * This may have performance implications.
++	 * @i: A unique integer for each page and each struct backup.
++	 * This is a hint allowing the backup backend to avoid managing
++	 * its address space separately.
++	 * @page_gfp: The gfp value used when the page was allocated.
++	 * This is used for accounting purposes.
++	 * @alloc_gfp: The gpf to be used when the backend needs to allocaete
++	 * memory.
++	 *
++	 * Return: A handle on success. 0 on failure.
++	 * (This is following the swp_entry_t convention).
++	 *
++	 * Note: This function could be extended to back up a folio and
++	 * backends would then split the folio internally if needed.
++	 * Drawback is that the caller would then have to keep track of
++	 */
++	unsigned long (*backup_page)(struct ttm_backup *backup, struct page *page,
++				     bool writeback, pgoff_t i, gfp_t page_gfp,
++				     gfp_t alloc_gfp);
++	/**
++	 * fini - Free the struct backup resources after last use.
++	 * @backup: Pointer to the struct backup whose resources to free.
++	 *
++	 * After a call to @fini, it's illegal to use the @backup pointer.
++	 */
++	void (*fini)(struct ttm_backup *backup);
++};
++
++/**
++ * struct ttm_backup - Abstract a backup backend.
++ * @ops: The operations as described above.
++ *
++ * The struct ttm_backup is intended to be subclassed by the
++ * backend implementation.
++ */
++struct ttm_backup {
++	const struct ttm_backup_ops *ops;
++};
++
++/**
++ * ttm_backup_shmem_create() - Create a shmem-based struct backup.
++ * @size: The maximum size (in bytes) to back up.
++ *
++ * Create a backup utilizing shmem objects.
++ *
++ * Return: A pointer to a struct ttm_backup on success,
++ * an error pointer on error.
++ */
++struct ttm_backup *ttm_backup_shmem_create(loff_t size);
++
++#endif
 -- 
 2.44.0
 
