@@ -2,92 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F5B990C1BB
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 04:12:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B381E90C20A
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2024 05:01:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69A7810E11B;
-	Tue, 18 Jun 2024 02:12:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC7210E205;
+	Tue, 18 Jun 2024 03:00:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Fg8oYXFl";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="bXJeBIca";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
- [209.85.222.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E70510E1BF
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2024 02:12:25 +0000 (UTC)
-Received: by mail-qk1-f172.google.com with SMTP id
- af79cd13be357-79baa4e8531so9734485a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 19:12:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1718676743; x=1719281543;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XfsgfTxIbf80Vaj2+gGtTRv2D1VtoN9sVBiv1EbMpe0=;
- b=Fg8oYXFlSgh14rpdHhix3zRLce8pLWd1gawl79Yk2HZ20Lb8j0UWxHtmOaREMOeTkI
- hCraWh1K3go/tD8lhXmWpcCefG7v6jlWSYQVdL8/Yl43hRn4E46QRGn1JFX7QFAAGFCJ
- gr4ejm5lWwQdV9Tl9ECBl2OdOQPbOWRl/xouE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718676743; x=1719281543;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XfsgfTxIbf80Vaj2+gGtTRv2D1VtoN9sVBiv1EbMpe0=;
- b=e6E4MFAq5NfDVwpg6Dit7DkWAH33Hcp3tRfmSeD8dWPFXL/saJ4QXKPwTQe4VS90LJ
- csAP+Rh22GIK33swDcamhmwoHbJNjxCTXTLQxaZ9AtMNffBYwkXjfqUGVgfxQks3ENEd
- qcdrF+tvsWqTMHETSP5npABjrzXAt5XYIda1jdQcsb2CFqmzhUMacf0V1YcDztu95CE/
- wcm0/eA6cOhV/XtETUFGLVdNwkkjG5w9qcMf5saw+Z2AKyYE/RO+fOa0DJzrz93X5WR0
- 2komy1Mdn6sVUi0QcXrpZDHqN7BZDEi9XRIcssbAzhMNqWRh0zUqS1F80MXVPoZooTJQ
- vOEA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUmNPwKO6qTTdSLionPJc7xK2sw2N7AaVdrME84euVD7V1KYjN53EmPOalxEKi6UfgBjo0+VkSjX6M8ZColwP9a8tzPifyJ6GhhL2o4+3uu
-X-Gm-Message-State: AOJu0YyyiRGeNRKzjAbVULrMAqSeDVLPr8q2SHGKtNulmyY5n0rhc6jM
- tKHhIOPOdNGTLd5mmQcsUbXsjr4VOVHAOg+xuOIRG/kyx8vVj0svhArHCgfqtMUVkWUu2uU+t+I
- =
-X-Google-Smtp-Source: AGHT+IHdjl1i5C/0vAV5HRH/8A40LtZ9JVOrKhpf0Tgb6i5Tr+KRx0W0W4uLsDOz8pOyIk1Vop3BSw==
-X-Received: by 2002:a05:620a:4513:b0:795:fb14:3f3 with SMTP id
- af79cd13be357-798d26b5304mr1276323185a.73.1718676743059; 
- Mon, 17 Jun 2024 19:12:23 -0700 (PDT)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com.
- [209.85.160.174]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-798d1b1ea83sm420877485a.6.2024.06.17.19.12.22
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jun 2024 19:12:22 -0700 (PDT)
-Received: by mail-qt1-f174.google.com with SMTP id
- d75a77b69052e-4405dffca81so64491cf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2024 19:12:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU4VAGAHIvJQR1Bz3Th99K1oIwyNLioqlGwHyK7rvaiLgf8oKwb9jBFcHy5nKnjAfGVS4paXabVQjcjCOG26YeVBI0idCUtElH/yEluC+wv
-X-Received: by 2002:ac8:598b:0:b0:441:62e9:98b with SMTP id
- d75a77b69052e-4449cc66d3cmr1351231cf.10.1718676741668; Mon, 17 Jun 2024
- 19:12:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240617103018.515f0bf1@endymion.delvare>
- <xd2yybtxvzte7gwqwg2vudzvhoekqao2dle6zsuduzjzi3rsay@xhahwof2prph>
- <20240617132348.5f20bf89@endymion.delvare>
- <vsrsvmrkqnmxs3ncqv5m2gevzefiq55tr2iolxlmoehsvgcfkn@hyx37vax6r5e>
- <20240617201814.73a07702@endymion.delvare>
- <jbqbn6zaqq7j5htxuqxb34tjrf5lnqabkh5ywtnklhd4owyc3h@ztvolr6hjrti>
-In-Reply-To: <jbqbn6zaqq7j5htxuqxb34tjrf5lnqabkh5ywtnklhd4owyc3h@ztvolr6hjrti>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 17 Jun 2024 19:12:05 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X4qVDTOdMFQeEiJi2DD=tuEj66vP35XQKrSj5-r_YADQ@mail.gmail.com>
-Message-ID: <CAD=FV=X4qVDTOdMFQeEiJi2DD=tuEj66vP35XQKrSj5-r_YADQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND] drm/display: Drop obsolete dependency on
- COMPILE_TEST
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Jean Delvare <jdelvare@suse.de>, dri-devel@lists.freedesktop.org, 
- LKML <linux-kernel@vger.kernel.org>, 
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B5CC10E13D;
+ Tue, 18 Jun 2024 03:00:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=ArM+639iudtviX5z1Tlj1/XIkLX2KQBeY8XxqJXMBcQ=; b=bXJeBIcaIhMdj818RLv9AY0d9W
+ nYzL4JUAlUcu4IF8fq8+54iIoD+284k0ffEAsYRMiT/ySb3XsUDm6TVGJfiu0LzekGQEVLoLkW2r+
+ jIxjQQxIONQJkQLbYb99sNkx8YLcIjgZnKPb0Y+ox0C1IqJGUuCniisOrpThhQXBjgf6gNP/+uyzn
+ 3fwQIH/5z0VNWzsuI3BfOPnzkqYHHzfKosChM/fcLUY0iDzcRSewqFDXbNzM9V4n9SOUcBU70CxMA
+ g7ItUzhSvd3inPkGNfFRCIauLdF5UBU69yvGao9qJ95lVUiRq8ZuyBQ9tn+r0+aHChfGe68UCY50t
+ mc3mo2LQ==;
+Received: from [191.8.29.108] (helo=localhost.localdomain)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1sJP5G-004YXc-E1; Tue, 18 Jun 2024 05:00:34 +0200
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: kernel-dev@igalia.com, Melissa Wen <mwen@igalia.com>,
+ alexander.deucher@amd.com, christian.koenig@amd.com,
+ Simon Ser <contact@emersion.fr>, Pekka Paalanen <ppaalanen@gmail.com>,
+ daniel@ffwll.ch, Daniel Stone <daniel@fooishbar.org>,
+ =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
+ Dave Airlie <airlied@gmail.com>, ville.syrjala@linux.intel.com,
+ Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Andrew Morton <akpm@linux-foundation.org>, YueHaibing <yuehaibing@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH v7 0/9] drm: Support per-plane async flip configuration
+Date: Tue, 18 Jun 2024 00:00:15 -0300
+Message-ID: <20240618030024.500532-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,85 +78,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+AMD hardware can do async flips with overlay planes, but currently there's no
+easy way to enable that in DRM. To solve that, this patchset creates a new
+drm_plane field, bool async_flip, that allows drivers to choose which plane can
+or cannot do async flips. This is latter used on drm_atomic_set_property when
+users want to do async flips.
 
-On Mon, Jun 17, 2024 at 3:26=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Mon, Jun 17, 2024 at 08:18:14PM GMT, Jean Delvare wrote:
-> > On Mon, 17 Jun 2024 14:55:22 +0300, Dmitry Baryshkov wrote:
-> > > On Mon, Jun 17, 2024 at 01:23:48PM GMT, Jean Delvare wrote:
-> > > > Hi Dmitry,
-> > > >
-> > > > Thanks for your feedback.
-> > > >
-> > > > On Mon, 17 Jun 2024 12:57:19 +0300, Dmitry Baryshkov wrote:
-> > > > > On Mon, Jun 17, 2024 at 10:30:30AM GMT, Jean Delvare wrote:
-> > > > > > Since commit 0166dc11be91 ("of: make CONFIG_OF user selectable"=
-), it
-> > > > > > is possible to test-build any driver which depends on OF on any
-> > > > > > architecture by explicitly selecting OF. Therefore depending on
-> > > > > > COMPILE_TEST as an alternative is no longer needed.
-> > > > >
-> > > > > The goal of this clause is to allow build-testing the driver with=
- OF
-> > > > > being disabled (meaning that some of OF functions are stubbed and=
- some
-> > > > > might disappear). I don't see how user-selectable OF provides the=
- same
-> > > > > result.
-> > > >
-> > > > Historically, the goal of this clause *was* to allow build-testing =
-the
-> > > > driver on architectures which did not support OF, and that did make
-> > > > sense back then. As I understand it, building the driver without OF
-> > > > support was never a goal per se (if it was, then the driver wouldn'=
-t be
-> > > > set to depend on OF in the first place).
-> > > >
-> > > > Some of my other submissions include the following explanation whic=
-h
-> > > > you might find useful (I ended up stripping it on resubmission afte=
-r
-> > > > being told I was being too verbose, but maybe it was needed after a=
-ll):
-> > > >
-> > > > It is actually better to always build such drivers with OF enabled,
-> > > > so that the test builds are closer to how each driver will actually=
- be
-> > > > built on its intended target. Building them without OF may not test
-> > > > much as the compiler will optimize out potentially large parts of t=
-he
-> > > > code. In the worst case, this could even pop false positive warning=
-s.
-> > > > Dropping COMPILE_TEST here improves the quality of our testing and
-> > > > avoids wasting time on non-existent issues.
-> > >
-> > > This doesn't seem to match the COMPILE_TEST usage that I observe in
-> > > other places. For example, we frequently use 'depends on ARCH_QCOM ||
-> > > COMPILE_TEST'. Which means that the driver itself doesn't make sense
-> > > without ARCH_QCOM, but we want for it to be tested on non-ARCH_QCOM
-> > > cases. I think the same logic applies to 'depends on OF ||
-> > > COMPILE_TEST' clauses. The driver (DP AUX bus) depends on OF to be fu=
-lly
-> > > functional, but it should be compilable even without OF case.
-> >
-> > The major difference is that one can't possibly enable ARCH_QCOM if
-> > building on X86 for example. Therefore COMPILE_TEST is the only way to
-> > let everyone (including randconfig/allmodconfig build farms) test-build
-> > your code.
-> >
-> > On the other hand, if you want to test-build drm_dp_aux_bus, you can
-> > simply enable OF, because it is available on all architectures and
-> > doesn't depend on anything. No need for COMPILE_TEST.
->
-> I'd probably let Doug respond, what was his intention.
+Patch 1 allows async commits with IN_FENCE_ID in any driver.
 
-Is this me? This looks like a straight revert of commit 876271118aa4
-("drm/display: Fix build error without CONFIG_OF")
+Patches 2 to 7 have no functional change. As per current code, every driver that
+allows async page flips using the atomic API, allows doing it only in the
+primary plane. Those patches then enable it for every driver.
 
-I don't personally have anything against removing COMPILE_TEST for
-this given that I wasn't the one who added it, but make sure it's not
-going to cause randconfig issues.
+Every driver that I found out capable of doing async flips were changed here.
+The drivers that weren't touch don't have any mention to
+mode_config::async_page_flip, so they are not currently advertising to userspace
+that they can do async flips.
 
--Doug
+Patch 8 changes the current DRM uAPI check from allowing only primary planes to
+allowing any plane that the driver allows flipping asynchronously.
+
+Patch 9 finally enables async flip on overlay planes for amdgpu.
+
+Changes from v6:
+- Added async_flip check for i915/skl planes (Rodrigo)
+- Commit the plane->async_flip check just after all driver had set their
+async_flip capabilities (Dmitry)
+https://lore.kernel.org/dri-devel/20240614153535.351689-1-andrealmeid@igalia.com/
+
+Changes from v5:
+- Instead of enabling plane->async_flip in the common code, move it to driver
+code.
+- Enable primary plane async flip on every driver
+https://lore.kernel.org/dri-devel/20240612193713.167448-1-andrealmeid@igalia.com/
+
+André Almeida (9):
+  drm/atomic: Allow userspace to use explicit sync with atomic async
+    flips
+  drm: Support per-plane async flip configuration
+  drm/amdgpu: Enable async flips on the primary plane
+  drm: atmel-hlcdc: Enable async flips on the primary plane
+  drm/i915: Enable async flips on the primary plane
+  drm/nouveau: Enable async flips on the primary plane
+  drm/vc4: Enable async flips on the primary plane
+  drm: Enable per-plane async flip check
+  drm/amdgpu: Make it possible to async flip overlay planes
+
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 2 ++
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c         | 3 +++
+ drivers/gpu/drm/drm_atomic_uapi.c                       | 8 +++++---
+ drivers/gpu/drm/i915/display/i9xx_plane.c               | 3 +++
+ drivers/gpu/drm/i915/display/skl_universal_plane.c      | 1 +
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c                 | 4 ++++
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c                 | 4 ++++
+ drivers/gpu/drm/vc4/vc4_plane.c                         | 4 +++-
+ include/drm/drm_plane.h                                 | 5 +++++
+ 9 files changed, 30 insertions(+), 4 deletions(-)
+
+-- 
+2.45.2
+
