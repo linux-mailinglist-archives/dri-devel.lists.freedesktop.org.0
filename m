@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B3E90F0A4
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 16:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A70890F09C
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 16:32:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF6CA10ECD2;
-	Wed, 19 Jun 2024 14:32:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7A4010ECCA;
+	Wed, 19 Jun 2024 14:32:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AwtOrjFp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BP8tPFL3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8286410ECC4
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 14:32:18 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A681F10ECCD
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 14:32:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 4EA5CCE1FC3;
+ by dfw.source.kernel.org (Postfix) with ESMTP id AD03561E45;
  Wed, 19 Jun 2024 14:32:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6B26CC4AF0C;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7F0ECC4AF0D;
  Wed, 19 Jun 2024 14:32:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1718807534;
- bh=GMUTsruzzAYn0n7hmwAGt8zwytpi3KhL2H6cMAMOTwM=;
+ bh=nk/C+wqrXVMA9amh6fPshkrHE4xq3UlYmGyCf1hutnA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=AwtOrjFpZGTO8bfHqaprHnw7Wv1EhZUdblvMILrHdpEYGJsHjWokHIXklVLecdbmV
- u0zSHy/mnth9/Y4D41yk0CKFSYK00IVp79AuoTC9J8LDcC8ziZNbTOfh2p48hRxll3
- MVFhFSqLnDhrdoR13eSxdcY6RBf0wTbM0GQjImMR3MGNrmLXjwzFhnn8w0t8+JcXL4
- LdgQ8/sK6NdVmjsEkvT6r2BjaX0XkekDEGOagNIWsYk80zWFuU+VsPgQ5Q5eZ/g3+l
- abmfBzAn0Qde9eZ4YNfkVr2raVmVh4RUhpi7FBXCcIHVlJIodUQzttzjMxBuhdK3Wi
- LcF/fm49U/e3Q==
+ b=BP8tPFL3sF5bndbwmFOYxqr1xPQjGksocrhH4DbNOGYKzeBJFyw9tN1fcv6IX0GqO
+ E3IkEmVK3nfOMJTHhPSAJOhI4zS5IDH2Wvm0nWxo/kBqkeQW9MvRvTzESG14ukJa14
+ hcwxIzhH2Q9KDVx7MPhc20JfU9DVVR6DiOcjZytYTd24taeb9JvNSFf/kN76L3yPCN
+ 6BbyJ9JMK1hBSGnBiGchuR+9+f1gxplEgKTorZNEZVkWhItEI0K+IYXNDFPtSYnwX/
+ p1sBAZcWEH+FSBlwODN4laQf3nGQvogWl2DL69VuhuA896lLxIQCBpRUR2kxTXlngb
+ 1Q36jiWI2PLkw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 5D999C2BC81;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 6EA1AC27C53;
  Wed, 19 Jun 2024 14:32:14 +0000 (UTC)
 From: Hsiao Chien Sung via B4 Relay
  <devnull+shawn.sung.mediatek.com@kernel.org>
-Date: Wed, 19 Jun 2024 22:30:45 +0800
-Subject: [PATCH v2 04/14] drm/mediatek: Fix XRGB setting error in Mixer
+Date: Wed, 19 Jun 2024 22:30:46 +0800
+Subject: [PATCH v2 05/14] drm/mediatek: Turn off the layers with zero width
+ or height
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240619-mediatek-drm-next-v2-4-abf68f46f8d2@mediatek.com>
+Message-Id: <20240619-mediatek-drm-next-v2-5-abf68f46f8d2@mediatek.com>
 References: <20240619-mediatek-drm-next-v2-0-abf68f46f8d2@mediatek.com>
 In-Reply-To: <20240619-mediatek-drm-next-v2-0-abf68f46f8d2@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
@@ -55,11 +56,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  Hsiao Chien Sung <shawn.sung@mediatek.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718807531; l=1806;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718807531; l=2110;
  i=shawn.sung@mediatek.com; s=20240616; h=from:subject:message-id;
- bh=iVCN8PnNVHs904I6AJ55kOr+V0K7XkkYFUBoVjBPemw=;
- b=zbO/9yDD3WrlwV9aQXD6T+LzL1cDtdTW68MZGIuRnNbMqkjeBif3cfxVoBAvkCBbMTkAfPGVb
- Mu0y7+d2FJ9CemdbDBflMXCNL+97grlHDtu7EiQ0+/4OM90yy+o56jq
+ bh=1wAQfpFBsYHGAPuLXbpDgCF0uuBRyet+FxYXId9fMr0=;
+ b=4/WwoVatxWG2vheNbELUaPi42wc85qaLAOkL3Dn5ulQNtClLAgS8OyN5j11wyNvQpAfMJP6Pw
+ qt4nIxA2BGoA5jIJSpwOF4/OmpSyOnhF9fTx4KtCBlS6yBRnl3XFY9k
 X-Developer-Key: i=shawn.sung@mediatek.com; a=ed25519;
  pk=lq1w8BuWDINX+4JHjGHhhbAU5ICP+cL9VCj7wn+cEDA=
 X-Endpoint-Received: by B4 Relay for shawn.sung@mediatek.com/20240616 with
@@ -83,47 +84,51 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Hsiao Chien Sung <shawn.sung@mediatek.com>
 
-Although the alpha channel in XRGB formats can be ignored, ALPHA_CON
-must be configured accordingly when using XRGB formats or it will still
-affects CRC generation.
+We found that IGT (Intel GPU Tool) will try to commit layers with
+zero width or height and lead to undefined behaviors in hardware.
+Disable the layers in such a situation.
 
+Fixes: 453c3364632a ("drm/mediatek: Add ovl_adaptor support for MT8195")
 Fixes: d886c0009bd0 ("drm/mediatek: Add ETHDR support for MT8195")
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_ethdr.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c | 2 +-
+ drivers/gpu/drm/mediatek/mtk_ethdr.c            | 7 ++++++-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+index 02dd7dcdfedb..2b62d6475918 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+@@ -158,7 +158,7 @@ void mtk_ovl_adaptor_layer_config(struct device *dev, unsigned int idx,
+ 	merge = ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_MERGE0 + idx];
+ 	ethdr = ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0];
+ 
+-	if (!pending->enable) {
++	if (!pending->enable || !pending->width || !pending->height) {
+ 		mtk_merge_stop_cmdq(merge, cmdq_pkt);
+ 		mtk_mdp_rdma_stop(rdma_l, cmdq_pkt);
+ 		mtk_mdp_rdma_stop(rdma_r, cmdq_pkt);
 diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.c b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-index d7d16482c947..5c52e514ae30 100644
+index 5c52e514ae30..bf5826b7e776 100644
 --- a/drivers/gpu/drm/mediatek/mtk_ethdr.c
 +++ b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-@@ -153,6 +153,7 @@ void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
- 	unsigned int offset = (pending->x & 1) << 31 | pending->y << 16 | pending->x;
- 	unsigned int align_width = ALIGN_DOWN(pending->width, 2);
- 	unsigned int alpha_con = 0;
-+	bool replace_src_a = false;
+@@ -160,7 +160,12 @@ void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
+ 	if (idx >= 4)
+ 		return;
  
- 	dev_dbg(dev, "%s+ idx:%d", __func__, idx);
- 
-@@ -167,7 +168,15 @@ void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
- 	if (state->base.fb && state->base.fb->format->has_alpha)
- 		alpha_con = MIXER_ALPHA_AEN | MIXER_ALPHA;
- 
--	mtk_mmsys_mixer_in_config(priv->mmsys_dev, idx + 1, alpha_con ? false : true,
-+	if (state->base.fb && !state->base.fb->format->has_alpha) {
+-	if (!pending->enable) {
++	if (!pending->enable || !pending->width || !pending->height) {
 +		/*
-+		 * Mixer doesn't support CONST_BLD mode,
-+		 * use a trick to make the output equivalent
++		 * instead of disabling layer with MIX_SRC_CON directly
++		 * set the size to 0 to avoid screen shift due to mixer
++		 * mode switch (hardware behavior)
 +		 */
-+		replace_src_a = true;
-+	}
-+
-+	mtk_mmsys_mixer_in_config(priv->mmsys_dev, idx + 1, replace_src_a,
- 				  MIXER_ALPHA,
- 				  pending->x & 1 ? MIXER_INX_MODE_EVEN_EXTEND :
- 				  MIXER_INX_MODE_BYPASS, align_width / 2 - 1, cmdq_pkt);
+ 		mtk_ddp_write(cmdq_pkt, 0, &mixer->cmdq_base, mixer->regs, MIX_L_SRC_SIZE(idx));
+ 		return;
+ 	}
 
 -- 
 Git-146)
