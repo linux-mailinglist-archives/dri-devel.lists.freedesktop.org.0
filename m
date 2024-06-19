@@ -2,83 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEF290F5C6
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 20:11:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6435690F5F7
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 20:22:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C49A10E1D9;
-	Wed, 19 Jun 2024 18:11:09 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="lpke3Ls2";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8808910ED6B;
+	Wed, 19 Jun 2024 18:22:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CE8910E18C;
- Wed, 19 Jun 2024 18:11:07 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45J9Bsmi010717;
- Wed, 19 Jun 2024 18:11:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- CrVbCF7GLKxDvvXz4Jh+wVm6bfs1xvQ++zSF7apYK6Q=; b=lpke3Ls2dBvxbY//
- o19kEGp0j1sKEwMZM1cuwEYk/v3BWGN1HpivolMxN7i3YIgJonkGpDhV9yOxDPrM
- tCUv+TJRGEpgeXxgkZyIkOYgoYsvGq7DiqOh8YTQLcqnu0KlfLF8MRdtuESmtq4U
- cyk+HFxaHWfPBgmeB7HMf2Cukiv8Wo2c5bl7sbscAmKV2B6YQp9va3bplQ2sam2G
- yexf0mrOV2ecy2otBmJB6lYBF3EklvzxYu9vW7bIVUkFnH3+wcaS/Vlxp2TBCW5l
- XtaexCO1stmyLiav/rExp2Qrj3HPpVyUkl9uTJawks7/abXb8zNDCZ/uEbd4BnKe
- idt5/A==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yuj9tjgaf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Jun 2024 18:11:04 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45JIB3K0011391
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Jun 2024 18:11:03 GMT
-Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 19 Jun
- 2024 11:11:02 -0700
-Message-ID: <74679ab7-da92-43bc-96e8-5c6e3a1dee62@quicinc.com>
-Date: Wed, 19 Jun 2024 11:11:02 -0700
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEA7610ED6F
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 18:22:13 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sJzwX-00049Y-K2; Wed, 19 Jun 2024 20:22:01 +0200
+Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sJzwW-003WTo-83; Wed, 19 Jun 2024 20:22:00 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Robert Foss <rfoss@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de
+Subject: [PATCH v2 01/14] drm/bridge: analogix_dp: remove unused platform
+ power_on_end callback
+Date: Wed, 19 Jun 2024 20:21:47 +0200
+Message-Id: <20240619182200.3752465-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/14] drm/msm/hdmi: expand the HDMI_CFG macro
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
- Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240522-fd-hdmi-hpd-v2-0-c30bdb7c5c7e@linaro.org>
- <20240522-fd-hdmi-hpd-v2-11-c30bdb7c5c7e@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20240522-fd-hdmi-hpd-v2-11-c30bdb7c5c7e@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ah9FMWTw14ldEQO3f1xzZYNURm3aTeLD
-X-Proofpoint-ORIG-GUID: ah9FMWTw14ldEQO3f1xzZYNURm3aTeLD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-19_02,2024-06-19_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015
- bulkscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0
- priorityscore=1501 spamscore=0 phishscore=0 suspectscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
- definitions=main-2406190137
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,72 +58,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This isn't used, but gives the impression of the power on and power off
+platform calls being non-symmetrical. Remove the unused callback and
+rename the power_on_start to simply power_on.
 
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Reviewed-by: Robert Foss <rfoss@kernel.org>
+Tested-by: Heiko Stuebner <heiko@sntech.de> (rk3288-veyron and rk3399-gru)
+---
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 7 ++-----
+ drivers/gpu/drm/exynos/exynos_dp.c                 | 2 +-
+ drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    | 4 ++--
+ include/drm/bridge/analogix_dp.h                   | 3 +--
+ 4 files changed, 6 insertions(+), 10 deletions(-)
 
-On 5/22/2024 3:51 AM, Dmitry Baryshkov wrote:
-> Expand the HDMI_CFG() macro in HDMI config description. It has no added
-> value other than hiding some boilerplate declarations.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+index b5dbff21c187..31fa67d966c7 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+@@ -1257,8 +1257,8 @@ static int analogix_dp_set_bridge(struct analogix_dp_device *dp)
+ 		goto out_dp_clk_pre;
+ 	}
+ 
+-	if (dp->plat_data->power_on_start)
+-		dp->plat_data->power_on_start(dp->plat_data);
++	if (dp->plat_data->power_on)
++		dp->plat_data->power_on(dp->plat_data);
+ 
+ 	phy_power_on(dp->phy);
+ 
+@@ -1283,9 +1283,6 @@ static int analogix_dp_set_bridge(struct analogix_dp_device *dp)
+ 		goto out_dp_init;
+ 	}
+ 
+-	if (dp->plat_data->power_on_end)
+-		dp->plat_data->power_on_end(dp->plat_data);
+-
+ 	enable_irq(dp->irq);
+ 	return 0;
+ 
+diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/exynos_dp.c
+index 3e6d4c6aa877..8ad2ec5c6455 100644
+--- a/drivers/gpu/drm/exynos/exynos_dp.c
++++ b/drivers/gpu/drm/exynos/exynos_dp.c
+@@ -233,7 +233,7 @@ static int exynos_dp_probe(struct platform_device *pdev)
+ 	/* The remote port can be either a panel or a bridge */
+ 	dp->plat_data.panel = panel;
+ 	dp->plat_data.dev_type = EXYNOS_DP;
+-	dp->plat_data.power_on_start = exynos_dp_poweron;
++	dp->plat_data.power_on = exynos_dp_poweron;
+ 	dp->plat_data.power_off = exynos_dp_poweroff;
+ 	dp->plat_data.attach = exynos_dp_bridge_attach;
+ 	dp->plat_data.get_modes = exynos_dp_get_modes;
+diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+index 7069a3d4d581..baeb41875a4b 100644
+--- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
++++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+@@ -92,7 +92,7 @@ static int rockchip_dp_pre_init(struct rockchip_dp_device *dp)
+ 	return 0;
+ }
+ 
+-static int rockchip_dp_poweron_start(struct analogix_dp_plat_data *plat_data)
++static int rockchip_dp_poweron(struct analogix_dp_plat_data *plat_data)
+ {
+ 	struct rockchip_dp_device *dp = pdata_encoder_to_dp(plat_data);
+ 	int ret;
+@@ -397,7 +397,7 @@ static int rockchip_dp_probe(struct platform_device *pdev)
+ 	dp->data = dp_data;
+ 	dp->plat_data.panel = panel;
+ 	dp->plat_data.dev_type = dp->data->chip_type;
+-	dp->plat_data.power_on_start = rockchip_dp_poweron_start;
++	dp->plat_data.power_on = rockchip_dp_poweron;
+ 	dp->plat_data.power_off = rockchip_dp_powerdown;
+ 	dp->plat_data.get_modes = rockchip_dp_get_modes;
+ 
+diff --git a/include/drm/bridge/analogix_dp.h b/include/drm/bridge/analogix_dp.h
+index b0dcc07334a1..8709b6a74c0f 100644
+--- a/include/drm/bridge/analogix_dp.h
++++ b/include/drm/bridge/analogix_dp.h
+@@ -29,8 +29,7 @@ struct analogix_dp_plat_data {
+ 	struct drm_connector *connector;
+ 	bool skip_connector;
+ 
+-	int (*power_on_start)(struct analogix_dp_plat_data *);
+-	int (*power_on_end)(struct analogix_dp_plat_data *);
++	int (*power_on)(struct analogix_dp_plat_data *);
+ 	int (*power_off)(struct analogix_dp_plat_data *);
+ 	int (*attach)(struct analogix_dp_plat_data *, struct drm_bridge *,
+ 		      struct drm_connector *);
+-- 
+2.39.2
 
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-
-> ---
->   drivers/gpu/drm/msm/hdmi/hdmi.c | 16 ++++++++--------
->   drivers/gpu/drm/msm/hdmi/hdmi.h |  2 +-
->   2 files changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> index c39a1f3a7505..e160a23e962e 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> @@ -223,24 +223,24 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
->    * The hdmi device:
->    */
->   
-> -#define HDMI_CFG(item, entry) \
-> -	.item ## _names = item ##_names_ ## entry, \
-> -	.item ## _cnt   = ARRAY_SIZE(item ## _names_ ## entry)
-> -
->   static const char *pwr_reg_names_8960[] = {"core-vdda"};
->   static const char *pwr_clk_names_8960[] = {"core", "master_iface", "slave_iface"};
->   
->   static const struct hdmi_platform_config hdmi_tx_8960_config = {
-> -		HDMI_CFG(pwr_reg, 8960),
-> -		HDMI_CFG(pwr_clk, 8960),
-> +	.pwr_reg_names = pwr_reg_names_8960,
-> +	.pwr_reg_cnt = ARRAY_SIZE(pwr_reg_names_8960),
-> +	.pwr_clk_names = pwr_clk_names_8960,
-> +	.pwr_clk_cnt = ARRAY_SIZE(pwr_clk_names_8960),
->   };
->   
->   static const char *pwr_reg_names_8x74[] = {"core-vdda", "core-vcc"};
->   static const char *pwr_clk_names_8x74[] = {"iface", "core", "mdp_core", "alt_iface"};
->   
->   static const struct hdmi_platform_config hdmi_tx_8974_config = {
-> -		HDMI_CFG(pwr_reg, 8x74),
-> -		HDMI_CFG(pwr_clk, 8x74),
-> +	.pwr_reg_names = pwr_reg_names_8x74,
-> +	.pwr_reg_cnt = ARRAY_SIZE(pwr_reg_names_8x74),
-> +	.pwr_clk_names = pwr_clk_names_8x74,
-> +	.pwr_clk_cnt = ARRAY_SIZE(pwr_clk_names_8x74),
->   };
->   
->   /*
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
-> index 1e346e697f8e..2a98efa8b6bd 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.h
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
-> @@ -89,7 +89,7 @@ struct hdmi_platform_config {
->   	const char **pwr_reg_names;
->   	int pwr_reg_cnt;
->   
-> -	/* clks that need to be on for hpd: */
-> +	/* clks that need to be on: */
->   	const char **pwr_clk_names;
->   	int pwr_clk_cnt;
->   };
-> 
-> -- 
-> 2.39.2
-> 
