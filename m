@@ -2,57 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8475290E7E6
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 12:10:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB73B90E83D
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 12:22:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA06B10EB9D;
-	Wed, 19 Jun 2024 10:10:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A1D810EC14;
+	Wed, 19 Jun 2024 10:22:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NyOHsP8Y";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="apuU+xC6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86FF210EB9D;
- Wed, 19 Jun 2024 10:10:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718791814; x=1750327814;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=6HsULT971CnhbER/x6o6Rz2fa4VJ8Fsuq5aHMMj6VAk=;
- b=NyOHsP8YLj0hwTXNU5J5snuqxQ+Cct6zmPP6SKUDeU2K5iwd1OF0jlY+
- i4aD2IOrPd3xKVzgyBb9LIWMtQYixm/BgwjkA+N2AZPzh+LjV3saGz3Xt
- KUi1yhuacAsyHF99fwVfu64vC+PKUsiEu/nlx2MVzjYkCAoc4uQ98lWGa
- jlzqmQd5UdVyoOK00+6MwKuGNpD17xzqXP7JlG3ah4t00re04VX+e55fu
- y+1iu5JkndMKixmcdZG1dIfq0vs7dCvNzTrMQ8w6C5l4a8kpRUXyTe3TP
- yyPwv5CxxJPs+V/JvWm8/0GAURTxPjndViGrfXHq7atpI4vVmyKBRMrTO A==;
-X-CSE-ConnectionGUID: /ekwU32iQlaPibLGgyKBUw==
-X-CSE-MsgGUID: WLeixkYDQhatt4cW0RFPsA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="19593037"
-X-IronPort-AV: E=Sophos;i="6.08,250,1712646000"; d="scan'208";a="19593037"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2024 03:10:14 -0700
-X-CSE-ConnectionGUID: qZ4Lxp6kQMq848F9vemRIg==
-X-CSE-MsgGUID: kry7SYqWSV6AMKJC6IAZpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,250,1712646000"; d="scan'208";a="46415663"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.249])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2024 03:10:12 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/9] drm: Add helpers for x16 fixed point values
-In-Reply-To: <20240614173911.3743172-2-imre.deak@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240614173911.3743172-1-imre.deak@intel.com>
- <20240614173911.3743172-2-imre.deak@intel.com>
-Date: Wed, 19 Jun 2024 13:10:09 +0300
-Message-ID: <87cyodfdku.fsf@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 876CF10EC10
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 10:22:40 +0000 (UTC)
+Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it
+ [93.61.96.190])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 401FF541;
+ Wed, 19 Jun 2024 12:22:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1718792540;
+ bh=kWppy7kzX76ZP+Kpg/QDqihgHRN9nqTNMekCt0x6Qoc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=apuU+xC623Yzch46x/LoqJVld3VZqht11mIPwt5GBZFBH9OK5Yp0/JG1U/71plxZo
+ /zER3ayrwrHGTmjZ5Gig3bcb0RiRTgjlP47noeMhP5M9AFIZQZfUjbYDREnvCiSbDB
+ lJtuX3+Ei5XwrbLfoU9jvTzUuUCXVqiu/9olJq4s=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR RENESAS R-CAR),
+ linux-renesas-soc@vger.kernel.org (open list:DRM DRIVERS FOR RENESAS R-CAR)
+Subject: [PATCH 0/4] drm: rcar-du: Add support for R8A779H0
+Date: Wed, 19 Jun 2024 12:22:14 +0200
+Message-ID: <20240619102219.138927-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,94 +55,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 14 Jun 2024, Imre Deak <imre.deak@intel.com> wrote:
-> Add helpers to convert between x16 fixed point and integer/fraction
-> values. Also add the format/argument macros required to printk x16
-> fixed point variables.
->
-> These are needed by later patches dumping the Display Stream Compression
-> configuration in DRM core and in the i915 driver to replace the
-> corresponding bpp_x16 helpers defined locally in the driver.
->
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
-> ---
->  drivers/gpu/drm/display/drm_dp_helper.c |  5 +++--
->  include/drm/drm_fixed.h                 | 23 +++++++++++++++++++++++
->  2 files changed, 26 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index 79a615667aab1..806f9c9764995 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -35,6 +35,7 @@
->  #include <drm/display/drm_dp_helper.h>
->  #include <drm/display/drm_dp_mst_helper.h>
->  #include <drm/drm_edid.h>
-> +#include <drm/drm_fixed.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_vblank.h>
->  #include <drm/drm_panel.h>
-> @@ -4151,9 +4152,9 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
->  	int symbol_cycles;
->  
->  	if (lane_count == 0 || hactive == 0 || bpp_x16 == 0) {
-> -		DRM_DEBUG_KMS("Invalid BW overhead params: lane_count %d, hactive %d, bpp_x16 %d.%04d\n",
-> +		DRM_DEBUG_KMS("Invalid BW overhead params: lane_count %d, hactive %d, bpp_x16 " DRM_X16_FMT "\n",
->  			      lane_count, hactive,
-> -			      bpp_x16 >> 4, (bpp_x16 & 0xf) * 625);
-> +			      DRM_X16_ARGS(bpp_x16));
->  		return 0;
->  	}
->  
-> diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
-> index 81572d32db0c2..0fe2a7f50d54e 100644
-> --- a/include/drm/drm_fixed.h
-> +++ b/include/drm/drm_fixed.h
-> @@ -214,4 +214,27 @@ static inline s64 drm_fixp_exp(s64 x)
->  	return sum;
->  }
->  
-> +static inline int drm_x16_from_int(int val_int)
-> +{
-> +	return val_int << 4;
-> +}
-> +
-> +static inline int drm_x16_to_int(int val_x16)
-> +{
-> +	return val_x16 >> 4;
-> +}
-> +
-> +static inline int drm_x16_to_int_roundup(int val_x16)
-> +{
-> +	return (val_x16 + 0xf) >> 4;
-> +}
-> +
-> +static inline int drm_x16_to_frac(int val_x16)
-> +{
-> +	return val_x16 & 0xf;
-> +}
+This series upports from Renesas BSP at revision rcar-5.2.0.rc18 the initial
+display support for the V4M SoC (R8A779H0).
 
-Sad trombone about the completely different naming scheme compared to
-the rest of the file.
+The series includes two small bugfixes and then adds support for the
+V4M SoC to the R-Car DU module and R-Car DSI encoder.
 
-Not saying the existing naming is great, but neither is this. And
-there's no way to unify except by renaming *both* afterwards.
+Compile-tested only as I don't have a Gray Hawk board available yet.
+Once the board will be available, DTS integration will follow.
 
-We could devise a scheme now that could be used for the existing stuff
-later, without renaming the new stuff.
+Jacopo Mondi (2):
+  drm: rcar-mipi-dsi: Add support for R8A779H0
+  drm: rcar-du: Add support for R8A779H0
 
-*shrug*
+Phong Hoang (1):
+  drm: ti-sn65dsi86: Check bridge connection failure
 
-BR,
-Jani.
+Takeshi Kihara (1):
+  drm: rcar-mipi-dsi: Fix CLOCKSET1_LOCK definition
 
+ .../display/bridge/renesas,dsi-csi2-tx.yaml    |  1 +
+ .../bindings/display/renesas,du.yaml           |  1 +
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c          |  6 +++++-
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c  | 18 ++++++++++++++++++
+ .../gpu/drm/renesas/rcar-du/rcar_du_group.c    | 17 ++++++++++++-----
+ .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c    |  1 +
+ .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h   |  3 +--
+ 7 files changed, 39 insertions(+), 8 deletions(-)
 
+--
+2.45.2
 
-> +
-> +#define DRM_X16_FMT		"%d.%04d"
-> +#define DRM_X16_ARGS(val_x16)	drm_x16_to_int(val_x16), (drm_x16_to_frac(val_x16) * 625)
-> +
->  #endif
-
--- 
-Jani Nikula, Intel
