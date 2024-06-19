@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DBB890F0DC
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 16:38:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0D7390F0E4
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 16:39:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A863610ECDF;
-	Wed, 19 Jun 2024 14:38:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D569B10ECE0;
+	Wed, 19 Jun 2024 14:39:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="cjveobPO";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="Dqjjt7g2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
- [209.85.222.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3605510ECDF
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 14:38:29 +0000 (UTC)
-Received: by mail-qk1-f173.google.com with SMTP id
- af79cd13be357-795fb13b256so72506885a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 07:38:29 -0700 (PDT)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88B9F10ECE2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 14:39:34 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id
+ d75a77b69052e-44056295c8cso31680081cf.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 07:39:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1718807908; x=1719412708; darn=lists.freedesktop.org; 
+ d=ziepe.ca; s=google; t=1718807973; x=1719412773; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=7eSifi9kzw937hBs9m+vGjWLDbN4rIVu8qbt3p8ubO8=;
- b=cjveobPOfNfqX53qiuCvx2VFqxfz89nealvKIHHoSK4g+ZpAWKso4SfIh1UNuQYvox
- k2zKofSJoPcoOBa0Z5bvwAxVGxZKr1GigUq949cVKMEWLRUM53SPGISv0+4sga9v22St
- Nbt34DW3cQFer18haUVTIbLRyrQqZNC2FN2YcP1RAytykPDME+DjNS+gGEdHCBJjqms2
- eQl4gE0HqOeDLxbCnQD+1HD88CpuVY8gkW3AZKul3Uss9FFvu7v/v6QQoEApOUX8RtBw
- gAPuxZcPXIt4LFBd8LMEW6HlUxqL30XXoR6A8VBoSOd0FkBMGaYqsF5drYWBiVBGwQ9d
- 8mrg==
+ bh=cokph3+KYsFeNsm+0akdDgXIRf+sbN6W33vmdBN3BV8=;
+ b=Dqjjt7g2xbLAC4OBqYKjPs5bfuB2uo4WWptf4zrYrtmpH/fcaecTpqZAZGv7u+M7GF
+ tTS73YCHp8i8PgS+viSnwp9EcfJk/gSEbDNqC9NbONj1HMoS4/xTF+qt5zp9P/5vrr7T
+ fSbCbUp44CBWGdCRGaNL/GrIIQIGU/5PqVapec8gZPP+DuAxB76xwiJvdcAokyZS3WM5
+ Tye7Q5Hzv18koBXwpL8Ar+73JWoPD36uhgRhZQGUFQVl3Ef+64a/VwPaDFZwZmNT3XIK
+ qwAluMmy3GWiMuSBmPIu0JHGO2AP+oz3g/+G5TVnATIvsmyk2fzXWCHqeiK4+n7+uqEA
+ 3ssw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718807908; x=1719412708;
+ d=1e100.net; s=20230601; t=1718807973; x=1719412773;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7eSifi9kzw937hBs9m+vGjWLDbN4rIVu8qbt3p8ubO8=;
- b=En433HmKklGu6HzkjndMjfGvHSgsNq8bEIsBQ3deLJ2wv2dKgqO+mMXjrXG8soTSAH
- tdrgXG91uzB0uyd25j0/qWUHNcWL6oZ5T7afSmSkojKY4WlArHMq7/lBZSIo/CVRfD+V
- p/2pNkcDF2JBR9mv0OLVesNLIh6uXH1G0q8Y8msFk8AapbH72mpnAPaCdyjpkVsceGnk
- Ls2Zt6jeKOii0G8DRZrggGynxMW1FSQVpiHUqMo96WGLaMeoQxsYizCOKmP1nlDOzEvy
- cROWstjhL0Qf4qlB8xgkeRfdj2ji6HFX77hvmOTzEX70N+pq11BbxkTh0L2O4FtPC5kD
- WE+w==
+ bh=cokph3+KYsFeNsm+0akdDgXIRf+sbN6W33vmdBN3BV8=;
+ b=Dgr0mtYYaNDU6Cz8cbtyIOQPOuB6fz4e82JLDEBZWtdQ9dTr6Yd8YPyHUiN50bENF9
+ 5yO/ZpeXch8WLAAYHVasTbDyOnZOwCSBtFALXGZIA3P0Pf3MfdoWimzCL5iqst5uhx5t
+ 9v2FBhV2wGsvLsttT8jnfs5yVHnKh5kyoLFL6UtA/ptpFfCCy9/0pdWMcayKFFtQz4KO
+ 5eCTlK6TI77KreJJsrZkKfnU9QRyTkO09k/X6DC5MAQJ2Yi7k6c1jsr9tUBM+ZDX6XKP
+ 3JuT06W8b/sUM0OWYWPkghcZrbzKTGZb0hfrqtrS8BVXYdY/aa9mq0BATmLAKYW8+UV7
+ 4H9g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU/GRBRnqywA3FOYjnOd3/gmbIy1sXAUQkYphGL8KnzCDnQKzhhJP0mc8oDj4K8RGjPQ4/ePwmI2b3GeykqW014T7O5k/kCbAi0TfNT3G9G
-X-Gm-Message-State: AOJu0YyF658yPQSpVDYEOjtB+odGvn+XG5EzN02UVLlPn4UGg1qLUi58
- yuapHhC2VHv6X1qRtCXC+L7UkPmMNAQUnj4ouN5J7OWd0BqS16vWhwHOSh4JK3U=
-X-Google-Smtp-Source: AGHT+IGZSB/Brli4dklvGSX8RN5hj5Xa3TKJWnONX5AltWqs8DK5Wub0LYx6UoNFdFIIjbi83LBDQw==
-X-Received: by 2002:a05:6214:124c:b0:6b0:8991:a2f7 with SMTP id
- 6a1803df08f44-6b2e230ec57mr96370946d6.12.1718807908248; 
- Wed, 19 Jun 2024 07:38:28 -0700 (PDT)
+ AJvYcCXlqpFYNMcb2JMXKWnjm147ZbS8a8En8LR4I81NH0Dgr6HG6EpRvBC9hvyUaHm951NvkMRRXUrnnDNj3yNa+UO1HxXTqGr4wa2WA3XpyLui
+X-Gm-Message-State: AOJu0YzB/Mwms/zUXcezfDr2pcN8IODdypW0XJpP7CKRBymKXiTkqGD/
+ +N+E9xwhPL6QV1it0YLD9TTOEv5bSmG743OQeqzEOi8lSvoEOGMNC9GFwtfUJ5A=
+X-Google-Smtp-Source: AGHT+IG1XaOP45+fSUMkTGWH4nocXjjMBFeSWjsksr0Y1tefBQYZu2xLsBBhuOT4sOfHsJbLjtz4+A==
+X-Received: by 2002:ac8:5ac4:0:b0:440:5b49:2d63 with SMTP id
+ d75a77b69052e-444a7a76f5amr34714511cf.66.1718807973466; 
+ Wed, 19 Jun 2024 07:39:33 -0700 (PDT)
 Received: from ziepe.ca
  (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.68.80.239]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b2a5eb4f4asm77884476d6.98.2024.06.19.07.38.27
+ d75a77b69052e-441f2ffb37bsm65405151cf.90.2024.06.19.07.39.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jun 2024 07:38:27 -0700 (PDT)
+ Wed, 19 Jun 2024 07:39:32 -0700 (PDT)
 Received: from jgg by wakko with local (Exim 4.95)
- (envelope-from <jgg@ziepe.ca>) id 1sJwSB-004dXU-Dy;
- Wed, 19 Jun 2024 11:38:27 -0300
-Date: Wed, 19 Jun 2024 11:38:27 -0300
+ (envelope-from <jgg@ziepe.ca>) id 1sJwTE-004dqv-Em;
+ Wed, 19 Jun 2024 11:39:32 -0300
+Date: Wed, 19 Jun 2024 11:39:32 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Lu Baolu <baolu.lu@linux.intel.com>
 Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
@@ -77,14 +77,14 @@ Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  ath10k@lists.infradead.org, ath11k@lists.infradead.org,
  iommu@lists.linux.dev, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 12/21] remoteproc: Use iommu_paging_domain_alloc()
-Message-ID: <20240619143827.GG1091770@ziepe.ca>
+Subject: Re: [PATCH v3 13/21] soc/fsl/qbman: Use iommu_paging_domain_alloc()
+Message-ID: <20240619143932.GH1091770@ziepe.ca>
 References: <20240610085555.88197-1-baolu.lu@linux.intel.com>
- <20240610085555.88197-13-baolu.lu@linux.intel.com>
+ <20240610085555.88197-14-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240610085555.88197-13-baolu.lu@linux.intel.com>
+In-Reply-To: <20240610085555.88197-14-baolu.lu@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,16 +100,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 10, 2024 at 04:55:46PM +0800, Lu Baolu wrote:
-> An iommu domain is allocated in rproc_enable_iommu() and is attached to
-> rproc->dev.parent in the same function.
+On Mon, Jun 10, 2024 at 04:55:47PM +0800, Lu Baolu wrote:
+> An iommu domain is allocated in portal_set_cpu() and is attached to
+> pcfg->dev in the same function.
 > 
 > Use iommu_paging_domain_alloc() to make it explicit.
 > 
 > Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 > ---
->  drivers/remoteproc/remoteproc_core.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/soc/fsl/qbman/qman_portal.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 
 Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
