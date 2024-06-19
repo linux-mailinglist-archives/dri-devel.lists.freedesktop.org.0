@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1F090F03A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 16:20:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 004C790F03C
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 16:21:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57F9510E55B;
-	Wed, 19 Jun 2024 14:20:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4563010ECB8;
+	Wed, 19 Jun 2024 14:21:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="S9TrdMhS";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="jQ43UUm1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7888910E55B
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 14:20:53 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id
- 6a1803df08f44-6b4fec3a1a7so6121796d6.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 07:20:53 -0700 (PDT)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
+ [209.85.160.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6BFB10ECB8
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 14:21:10 +0000 (UTC)
+Received: by mail-qt1-f178.google.com with SMTP id
+ d75a77b69052e-4405e343dd8so27376451cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 07:21:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1718806852; x=1719411652; darn=lists.freedesktop.org; 
+ d=ziepe.ca; s=google; t=1718806869; x=1719411669; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=7yoE1PBMeOt8AWWOCfirQIQiAXfywLWQ1wTXnwAB5no=;
- b=S9TrdMhSf/XfKKNW7a9YqP7zUQOawUbqBRO8DWzSmnGyOsSwekRR3QsvHQ5stLo5N+
- yRhdtaH7g9wRJUUjRGdWaZsempDjBeTZial+5Y/s4uoZzRR6JS4vBRuMELz+YEZ5Po2t
- sJIk6Gbkg4DByvohYZh1oeAR0zTFOLwiOKJMdOGRYualG5jCNak7Pyu6/bVT5gPZr12Q
- dGtTPbaFyEiYHUnSpCPzd/TwHJZigGv3PjEyq9XFKVxL4mI39yKXqH5OqmHnxPmg1uT9
- 0UpziefskG/m2C/7RZFXJruG1nOUd5bPGNysAxqcnelCWGzJd467fQbcCy6LuRClba32
- hHgw==
+ bh=dnuarbriLv1gjZdB+/82zOEKoFtQbXR8yQCL4vTr0Qs=;
+ b=jQ43UUm1P7kgGpudSihv1p1qcZqFZgUPSNLzLLzJ+AA5ATJT2IYZ1WQR9XgNJdptAn
+ QVKan8aGPB8T6UF1iy9DoevOuvaSA4u0UuQESberuOjrON9LTSylxLIHRqwfByvClUi+
+ pf4qy6taws3ml2BuXhRMPtXT0pRxFRozIUgpYBTfxngLJbFkuoiyic9uUtCStZYoDz3k
+ SrPEaMKMEF6OwOgwgwgVxS5otXaVl82sxi69FGM0Xy5j7SYysZsauzYgUQzJvxZnYDzD
+ dGOypDbL/RIm5rC+2DYKYLZyNotnWoe/ITag4ArWPk4egvApnqglWdzRwx2HpdV8laPf
+ 4XPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718806852; x=1719411652;
+ d=1e100.net; s=20230601; t=1718806869; x=1719411669;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7yoE1PBMeOt8AWWOCfirQIQiAXfywLWQ1wTXnwAB5no=;
- b=WUkV1VI24er2rWWqhpr+ii1u7yee2NfDlAktGAfjOrDGvIlZ+4tJZTjJxpGgqZU45u
- 9Dfc7J01VzsKk5i7Pr1btocdHUqlWCCejtoJvOvdL3FceM8/0Uh9S2o3Aeg3f/podlgf
- EbcQtQQtHPPLZ9YF7apsVQNRzbsQh5rGpD5+acvfAd1ZH8V732cJ0xcolMh+9f0ywJwZ
- Ctk8Hssv2YOffbK25u9BrQgvrP0HULWqiWiX1NZBPKrxubtcdpWRNIwzIv4zdH3e9jKB
- 2o3/yR/blFghvkn8t0Ry3V/mc2wGTen22YG4twT7u4yTGtvDwpftDiibfD98VZCBUZaa
- 7Uvg==
+ bh=dnuarbriLv1gjZdB+/82zOEKoFtQbXR8yQCL4vTr0Qs=;
+ b=sH4xe382sxRv9NdkF0FZe2u86frIeTJHPcAPR3vuA1GQgBYcXlVA//4v9HAjvRank8
+ jgBiExkHLR4WJLMqM+yO3s24Ub4WJmvV7HaEwU4JJlX0pwRbA+qEeqv/H4/YSrO3sYJ7
+ ny5pJb9iQkvmF0JkB8FIpTxN77MmsllgQE8Nxms/TtG5F3Y2cIcI/F/RPVE8YyBXbTzv
+ vgyUb5Am97drUbTsQ8muzeD+Y78C6IZWEbLjMeatKMAgUgec2wRHNUVUCkr8RYXMGCMX
+ RmSoYUL46qrDhufbOHSrdZ3Vd4ZyHE6oYMsQ5rkDmYSPExbafyagav5AqJyNKSv9h6LB
+ HLLQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWSn2DSoPOgIrtmrA8mIuwMfKdlo5DHCWqpOqOwZhrBLu98am8bLKCKF3Wpvnc0nWfoTcO051rKOPqBliF+EwebnmclnY1hlc+IHANRr+nw
-X-Gm-Message-State: AOJu0YxwawzUAWsJVU75/dwC+9ZBTOLm0FzmDNnDLFGcXVZ0eaWrrZe1
- y+kVZLog2s3rYXaEmt1SoERyK9R3k6YzEMkCl4OkXagY31M20fJJR5NSy/txubk=
-X-Google-Smtp-Source: AGHT+IHRnNfM3kpcWftEa4vzfduj3t2OxKbu1f062TE8ncSp4oMlwh+It4VOxlc2xlXVn+nW/690wQ==
-X-Received: by 2002:a0c:f093:0:b0:6b5:a5:f5f2 with SMTP id
- 6a1803df08f44-6b501eabd0emr29525536d6.55.1718806852061; 
- Wed, 19 Jun 2024 07:20:52 -0700 (PDT)
+ AJvYcCXQPks51XnQJ4e892dxrhIa5uUOkmFTaUq1HozNASN9+AmYe6Xkz38bTy8TyapY0LMIau2fBxACnRjmJrf/FjHpq5Ri3DVGkgIpgsswHbh2
+X-Gm-Message-State: AOJu0YyWCL6jIENO/+GSHvXtUplvE7UX+2IyD3dEF9OQJMuMioO4A+lk
+ B1qZqmO28WIFCtCsvycm6217IRXg9OdRFkEKZt71nZDkdhsVDYHKhK5xEeaio64=
+X-Google-Smtp-Source: AGHT+IFditz4+ndDJELnqBk6Tg5RVcppmA3k0NZASSXMhXG6oxi/4ZiVAiLFkBd54vQUHLyqIQAFrg==
+X-Received: by 2002:a05:622a:11c1:b0:43a:ac99:4bb5 with SMTP id
+ d75a77b69052e-444a7a4a90amr26916401cf.51.1718806869361; 
+ Wed, 19 Jun 2024 07:21:09 -0700 (PDT)
 Received: from ziepe.ca
  (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.68.80.239]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b503445091sm9427136d6.101.2024.06.19.07.20.51
+ d75a77b69052e-444b1e112a7sm2007311cf.97.2024.06.19.07.21.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jun 2024 07:20:51 -0700 (PDT)
+ Wed, 19 Jun 2024 07:21:08 -0700 (PDT)
 Received: from jgg by wakko with local (Exim 4.95)
- (envelope-from <jgg@ziepe.ca>) id 1sJwB8-004YTZ-Pt;
- Wed, 19 Jun 2024 11:20:50 -0300
-Date: Wed, 19 Jun 2024 11:20:50 -0300
+ (envelope-from <jgg@ziepe.ca>) id 1sJwBQ-004YYo-D3;
+ Wed, 19 Jun 2024 11:21:08 -0300
+Date: Wed, 19 Jun 2024 11:21:08 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Lu Baolu <baolu.lu@linux.intel.com>
 Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
@@ -77,14 +77,14 @@ Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  ath10k@lists.infradead.org, ath11k@lists.infradead.org,
  iommu@lists.linux.dev, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 01/21] iommu: Add iommu_paging_domain_alloc() interface
-Message-ID: <20240619142050.GG791043@ziepe.ca>
+Subject: Re: [PATCH v3 02/21] iommufd: Use iommu_paging_domain_alloc()
+Message-ID: <20240619142108.GH791043@ziepe.ca>
 References: <20240610085555.88197-1-baolu.lu@linux.intel.com>
- <20240610085555.88197-2-baolu.lu@linux.intel.com>
+ <20240610085555.88197-3-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240610085555.88197-2-baolu.lu@linux.intel.com>
+In-Reply-To: <20240610085555.88197-3-baolu.lu@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,21 +100,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 10, 2024 at 04:55:35PM +0800, Lu Baolu wrote:
-> Commit <17de3f5fdd35> ("iommu: Retire bus ops") removes iommu ops from
-> bus. The iommu subsystem no longer relies on bus for operations. So the
-> bus parameter in iommu_domain_alloc() is no longer relevant.
-> 
-> Add a new interface named iommu_paging_domain_alloc(), which explicitly
-> indicates the allocation of a paging domain for DMA managed by a kernel
-> driver. The new interface takes a device pointer as its parameter, that
-> better aligns with the current iommu subsystem.
+On Mon, Jun 10, 2024 at 04:55:36PM +0800, Lu Baolu wrote:
+> If the iommu driver doesn't implement its domain_alloc_user callback,
+> iommufd_hwpt_paging_alloc() rolls back to allocate an iommu paging domain.
+> Replace iommu_domain_alloc() with iommu_user_domain_alloc() to pass the
+> device pointer along the path.
 > 
 > Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 > ---
->  include/linux/iommu.h |  6 ++++++
->  drivers/iommu/iommu.c | 20 ++++++++++++++++++++
->  2 files changed, 26 insertions(+)
+>  drivers/iommu/iommufd/hw_pagetable.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 
 Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
