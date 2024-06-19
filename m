@@ -2,74 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C137390E96E
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 13:30:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAAA190E976
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 13:31:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7095010EC4B;
-	Wed, 19 Jun 2024 11:30:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71BE310EC52;
+	Wed, 19 Jun 2024 11:31:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="BAebpz7I";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bfPL2f4o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C8CD10EC4B
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 11:30:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1718796629;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Yyxl889DHkRMW58vYSwPNQbN8gbiIvWycmZudebEJWY=;
- b=BAebpz7IWphQzRh5q88qdbEOCnohwwD99HUuv6uLmCuPIcVCtRh7d7KKEOGYXbOF+yA0zg
- fkvTnyzraP9wFmsCl/N4rlkKn5iX2/kz1KYd29knS3JTELw0E+FEe1HVIYKrcawcZNBBOz
- E/oe8zwf+Hu5i0TxdXG7lnB6il26ZSc=
-Message-ID: <e948cd137da8e4f97bfbf7ef68a5450476aeee0c.camel@crapouillou.net>
-Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
-From: Paul Cercueil <paul@crapouillou.net>
-To: Markus Elfring <Markus.Elfring@web.de>, lkp@intel.com, Nuno
- =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, linux-iio@vger.kernel.org,
- dmaengine@vger.kernel.org,  linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  linaro-mm-sig@lists.linaro.org, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Jonathan Cameron
- <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
- <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>, 
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Randy Dunlap
- <rdunlap@infradead.org>
-Date: Wed, 19 Jun 2024 13:30:27 +0200
-In-Reply-To: <cbcfb64a-e5c2-41a7-8847-227d4f6872de@web.de>
-References: <202406191014.9JAzwRV6-lkp@intel.com>
- <a4dd1d73-5af3-4d3d-8c0f-92dc439fa119@web.de>
- <d452ecc4fc703a1f98aa4f243c6ded7fbfe54b0e.camel@crapouillou.net>
- <cbcfb64a-e5c2-41a7-8847-227d4f6872de@web.de>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
- LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
- FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
- z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
- +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
- 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
- 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
- 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
- dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
- 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
- rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
- lBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFC
- qaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IWYXnd
- JO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN70
- 62DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOt
- X0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEA
- AYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/
- Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmc
- Gu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2z
- McLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/
- 7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2c
- LUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDAA410EC4D;
+ Wed, 19 Jun 2024 11:31:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718796708; x=1750332708;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=2harm/WhWEI3Km3sLA7Ncj3aQJjDRuI3ExGr4blYlwQ=;
+ b=bfPL2f4oEc3MLTusuDwxwuSAI8nkkLwgqW4GFuBen6eRTAyonmoheptG
+ wOglX8xCud4Iy7nbYc80Ki6QvlnQHPELWu4ss8LGUSZaJ+dpAWjBM+sls
+ Cije3zalpVfxGsriRLV7Ivzw3s3F4WHGqy7lcs2b785CMgwArMbqdpeMH
+ ar94pABhobMWyBmZfaKaze08++5WJhtW2hCSmOvyFIDDfomVDGdh0RoAz
+ 8xWWz/FconRU43cy8gitjGHL3hMZ/YuIG1555H84MITKAWWikeCmbA/3F
+ 3a6EORGR5x8wx6qFKfXP2zMCX80j3gEgjsBhsbiFqIOLs9sV4OvJPPYzl g==;
+X-CSE-ConnectionGUID: oz6oEdqqQsGiyN66o2xa+w==
+X-CSE-MsgGUID: pIM0v4xkQd6dfaCalZEubw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15875327"
+X-IronPort-AV: E=Sophos;i="6.08,250,1712646000"; d="scan'208";a="15875327"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2024 04:31:47 -0700
+X-CSE-ConnectionGUID: BHcVpJaXTRKAshTswDI6wQ==
+X-CSE-MsgGUID: uXvt2fGcS++ZMvvXocVw9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,250,1712646000"; d="scan'208";a="41846010"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 19 Jun 2024 04:31:45 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 19 Jun 2024 14:31:44 +0300
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH v3 2/9] drm: Export drm_plane_has_format()
+Date: Wed, 19 Jun 2024 14:31:44 +0300
+Message-ID: <20240619113144.1616-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.44.2
+In-Reply-To: <20240612204712.31404-3-ville.syrjala@linux.intel.com>
+References: <20240612204712.31404-3-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,34 +70,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le mercredi 19 juin 2024 =C3=A0 13:13 +0200, Markus Elfring a =C3=A9crit=C2=
-=A0:
-> > > Would you dare to transform the remaining goto chain into further
-> > > applications
-> > > of scope-based resource management?
-> >=20
-> > We discussed this after v6 or v7, DRM/DMABUF maintainers were not
-> > keen
-> > on doing that *just yet*.
->=20
-> * Would you like to add any links for corresponding development
-> discussions?
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-https://lore.kernel.org/linux-iio/219abc43b4fdd4a13b307ed2efaa0e6869e68e3f.=
-camel@gmail.com/T/#eefd360069c4261aec9621fafde30924706571c94
+Export drm_plane_has_format() so that drivers can use it.
 
-(and responses below)
+v2: add kerneldoc
 
-It's more nuanced than I remembered. Christian was OK to add cleanup.h
-support to the DMABUF code as long as the examples were updated as
-well, but those aren't good candidates as they don't free up the
-resources in all code paths.
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ drivers/gpu/drm/drm_crtc_internal.h |  2 --
+ drivers/gpu/drm/drm_plane.c         | 10 ++++++++++
+ include/drm/drm_plane.h             |  2 ++
+ 3 files changed, 12 insertions(+), 2 deletions(-)
 
->=20
-> * Will the desire grow for further collateral evolution according to
-> =C2=A0 affected software components?
+diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
+index cdd60f2a4052..1f73b8d6d750 100644
+--- a/drivers/gpu/drm/drm_crtc_internal.h
++++ b/drivers/gpu/drm/drm_crtc_internal.h
+@@ -272,8 +272,6 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+ /* drm_plane.c */
+ int drm_plane_register_all(struct drm_device *dev);
+ void drm_plane_unregister_all(struct drm_device *dev);
+-bool drm_plane_has_format(struct drm_plane *plane,
+-			  u32 format, u64 modifier);
+ struct drm_mode_rect *
+ __drm_plane_get_damage_clips(const struct drm_plane_state *state);
+ 
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 268aa2299df5..a28b22fdd7a4 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -877,6 +877,15 @@ int drm_mode_getplane(struct drm_device *dev, void *data,
+ 	return 0;
+ }
+ 
++/**
++ * drm_plane_has_format - Check whether the plane supports this format and modifier combination
++ * @plane: drm plane
++ * @format: pixel format (DRM_FORMAT_*)
++ * @modifier: data layout modifier
++ *
++ * Returns:
++ * Whether the plane supports the specified format and modifier combination.
++ */
+ bool drm_plane_has_format(struct drm_plane *plane,
+ 			  u32 format, u64 modifier)
+ {
+@@ -906,6 +915,7 @@ bool drm_plane_has_format(struct drm_plane *plane,
+ 
+ 	return true;
+ }
++EXPORT_SYMBOL(drm_plane_has_format);
+ 
+ static int __setplane_check(struct drm_plane *plane,
+ 			    struct drm_crtc *crtc,
+diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+index 9507542121fa..dd718c62ac31 100644
+--- a/include/drm/drm_plane.h
++++ b/include/drm/drm_plane.h
+@@ -972,6 +972,8 @@ static inline struct drm_plane *drm_plane_find(struct drm_device *dev,
+ #define drm_for_each_plane(plane, dev) \
+ 	list_for_each_entry(plane, &(dev)->mode_config.plane_list, head)
+ 
++bool drm_plane_has_format(struct drm_plane *plane,
++			  u32 format, u64 modifier);
+ bool drm_any_plane_has_format(struct drm_device *dev,
+ 			      u32 format, u64 modifier);
+ 
+-- 
+2.44.2
 
-Not sure what you mean by that.
-
-Cheers,
--Paul
