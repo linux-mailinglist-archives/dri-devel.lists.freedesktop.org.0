@@ -2,73 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BFA490F102
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 16:46:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5125D90F104
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 16:46:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87C2810ECE5;
-	Wed, 19 Jun 2024 14:46:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D43EC10ECE7;
+	Wed, 19 Jun 2024 14:46:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="fQ4Fb80z";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="txOHZ7wE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA5D10ECE6
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 14:46:46 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-52bc3130ae6so7041301e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 07:46:45 -0700 (PDT)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD81B10ECE6
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 14:46:47 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a6f13dddf7eso826040766b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 07:46:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718808404; x=1719413204;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718808406; x=1719413206;
  darn=lists.freedesktop.org; 
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=8l1poncsZMMe0uC3O/p1SQMVn5qtQ/mJ+sOBHcikenM=;
- b=fQ4Fb80zf2/jRvId5OsHP2USNLU1MIN8hEdwzcRA2RoEJGmkIva5uVk/ZjHvKH4b5L
- K8kxVOIF+wQQFyQlu9RIvscNXUm1lV/F7huVoO91NHFwWgp7pPsIORelDZH5wplbjX5S
- gv3BQRlROj3KSPdFywG5ti7ZazuuRVOvWjJOGOcyX847xXaKihKmD8+uif34CnE90lWV
- T8gJI4bz19QxHXoo2A+HlgooU9gkelKz9GFpw9TB05QLoFFa4L9evIjt7/jodI54cwrX
- ujrxbKg1YFwQXKExvSHvxaBjRb6MRWCKBMYtLcVjcCmdxs92v6l8b6HR3dfXjO+7IoS1
- 7zzg==
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=oFgfVYXqfttnG8T9cixZ5XkV74OKDwZYpy7meDYMP0M=;
+ b=txOHZ7wEE6zIfcnqKiid8RnZhN/7MFMPpZcyDB9R+vb6qs1xohOJsMW72sWZa//khb
+ St6BPjbWKomxdv3ybKQJE/X/Qeau9GHC3yL3u44dffb/OUkrdRGSod4HScRnG8NaW9ga
+ eJ0B3yTz4fNyYmWlajktqs3aSkO+SSq4ddr6hUL9o1w/xq3TuMPl+TumGx7bPY/k/JjM
+ 4RjYuG7JAGH4aZUQ1WKmyklMYcOEXPiIAGuttRQA3LaiMhbEnsqS+HMP4N1tateNeZE1
+ qfsN+IZAlHr9hEKTz4m6UVYUwMh+ByXPUuF/wd7nmBENuoYN30yogDSnNrkKhjZbVMzU
+ 369w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718808404; x=1719413204;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8l1poncsZMMe0uC3O/p1SQMVn5qtQ/mJ+sOBHcikenM=;
- b=i0sYnM55JcT68xuu9UhO1p1GItuzwn7IxBelxFiz5S7bC6ZLMqFaxG42dPgWrgxjVt
- 6DTvtIJwCMCz4sqyctZg03XjCmfmHtRsPNwNIyra9gXItFIxTBmPGGxVeXGbU4/f2c1Z
- kK/FeSwdEAIVELYyb1s5LGbxZ27yevtFuXV2mASuZpjRP44Izbhv3v42k5vOyc8Ay957
- +McoBzTBC3p8E7JzU0kJ4vKdt/pHsoLoRnQvIYM+uHDKl5KMZSPTjP6C7eifruGpIB0L
- he/i9RyOcaccXLo5MqgL82O0z3ewmbtwcnwpk1UtANThwDNdioD0tGn6me5dvBy5RUfL
- Tq9Q==
+ d=1e100.net; s=20230601; t=1718808406; x=1719413206;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oFgfVYXqfttnG8T9cixZ5XkV74OKDwZYpy7meDYMP0M=;
+ b=ma5Y5a/DwE5o2iEvwWLfWPdN78UhPfVBFkqVP1O1icNGDf8dUYroh5CCbIGO/9iIc8
+ P+wKNxst6/JB0FI4rKGMm7eIvpkJCK1KnKEwqnGkgwwgpiu5SbmctIlAvoVvOjmtZqX8
+ qb7g9kCZuCtcLtPUVxZ7fep7flKOzPM6MCJSx5KpV9rxOZDl6PQcjO72LxfHdY/jkF0/
+ ooOLqx5YLEqrTjRCHdX25HmUhMw8vMLOoGmWyb98a47BnyEpa9zEu9wWn3JjP9ynVmUe
+ 3qv2nebZb7hQmYtZV9EA9eA2ElA6oh586i9Htjs+u1EzW4JYJFQc2Nc5D6ExWqRZyZ8x
+ Y4tA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXHWnUDX+2eMnO8pZzr4mQSaS+D2fZ4T2Rz2tYGzpQtl4DUxkZQcuv6ftGx/FfMFzHAsTUxDmuiMyjg4wrpdstMxdRapX8DAyM0vV28KC/u
-X-Gm-Message-State: AOJu0Yz2m4MG/gsBZtKwcp/Bsjt78R+JEiTH1mdIhTwDCQcSlw3BHf3x
- lRghXhQ1uU3Ix7OETJ6zCZHZmKZmJa5bXxcZCVfx4zH+0tIGQ2/Ht7C+GpwKrtA=
-X-Google-Smtp-Source: AGHT+IELsBUFTt89Rl6aCgmDvE1rDPoDRef2/QnX3YE3iz/r1xX3fuzWCyC4/yxgvATcurRtIU12VA==
-X-Received: by 2002:ac2:4a6a:0:b0:52c:820e:a7e7 with SMTP id
- 2adb3069b0e04-52ccaa54ba4mr1671197e87.50.1718808402870; 
- Wed, 19 Jun 2024 07:46:42 -0700 (PDT)
+ AJvYcCUWtNGIvbpa0ex+uIH2jRTGxWcZQl73CZ3Zvfp6SOOP57NSexOnjia41G3XGMXKZhoFWhcmj0dBsZCkgJbF3j8cm98POIFXXj8xwpxB2Rd3
+X-Gm-Message-State: AOJu0Yx5Sf8U/k7sit6Q85UDf0hOiej59N2lJWm9wz5mK/9k9TIwiAFJ
+ b5e7WssCBiM6HFp1L97Y1qIHWz6RyvDKQ5zl+nv3YeMsqJJIdoSPT3N+WwrbyYA=
+X-Google-Smtp-Source: AGHT+IFlaZlwOAJxvwmGRf/CHI//hdexatLRHUYloGcUFhB/gTLV0GxBWttIfjHk67IkaVFJHbCbYA==
+X-Received: by 2002:a17:906:fe44:b0:a6f:96b0:ed2 with SMTP id
+ a640c23a62f3a-a6fab61c269mr216418766b.30.1718808405661; 
+ Wed, 19 Jun 2024 07:46:45 -0700 (PDT)
 Received: from [127.0.1.1] ([93.5.22.158])
  by smtp.googlemail.com with ESMTPSA id
- a640c23a62f3a-a6f56da32c3sm679787566b.13.2024.06.19.07.46.41
+ a640c23a62f3a-a6f56da32c3sm679787566b.13.2024.06.19.07.46.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jun 2024 07:46:42 -0700 (PDT)
+ Wed, 19 Jun 2024 07:46:45 -0700 (PDT)
 From: Alexandre Mergnat <amergnat@baylibre.com>
-Subject: [PATCH v6 00/16] Add audio support for the MediaTek Genio 350-evk
- board
-Date: Wed, 19 Jun 2024 16:46:36 +0200
-Message-Id: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
+Date: Wed, 19 Jun 2024 16:46:37 +0200
+Subject: [PATCH v6 01/16] ASoC: dt-bindings: mediatek,mt8365-afe: Add audio
+ afe document
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAE3vcmYC/3XOTW7CMBAF4Ksgr2uwxz8xrHqPClVje0IsgYMci
- EAod6+TZZUs30jfe/NhA5VEAzvtPqzQmIbU5xrs146FDvOFeIo1MxCgBYDl+Iyp50kZwTVJGVE
- 4R8awCjwOxH3BHLqZ4I3KJePjMNq94yXIw2J/w5UwP++zuBdq02uZ/znX3KXh0Zf38s0o5+vq8
- Ch5XW9RBkJpbdN+e3xfky+0D/2NzU0jbGuoWgmtonYqkogrWm1rVbW03kM4NjoYs6L1ttZVCwc
- eQDobdVjRZlubqqkhMPYYW+3kPz1N0x+lq8qQ0QEAAA==
+Message-Id: <20240226-audio-i350-v6-1-f754ec1a7634@baylibre.com>
+References: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
+In-Reply-To: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Rob Herring <robh+dt@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
@@ -86,23 +83,22 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
  Alexandre Mergnat <amergnat@baylibre.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Nicolas Belin <nbelin@baylibre.com>
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6087; i=amergnat@baylibre.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4718; i=amergnat@baylibre.com; 
  h=from:subject:message-id;
- bh=qbKqZY51YB0ftXD0Nl17TEBgNm5fRtW4lNsHPkLg4qk=; 
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmcu9QKE/KLmrXEAvPk9YgTGWcMZ6XrlVEP7SJfZ3O
- jW4WEruJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZnLvUAAKCRArRkmdfjHURYeSD/
- 9C2wJ/7i6KWENomzMoCdkRLd7rj+IKvvoR4ghYC12ym6W8yW41LsBIGbgpgQESqU8DZ3cRaPIhEX/T
- MqN/PDEXbN58WXuItfNuavEj7tFFXA6JyX/WD0KhsY35mkN9eiSQDtQpsir95om7sdk92eX7j506nW
- PG+R1ZLKrofftd2Rs0d7+6lDhoeQmWV0ulZPqTyuBOwhPQCX1DmumG/TSCQtFILXcL9qFS5wERx8Ig
- 3wA5dVxVOZlKi08EYb/XcyCP6l6P1mi0ZNAp6COSbOlRDY98SrcDdLZsIIIorRnktXlGTrBdGugszX
- zrLvVfYU1y74QVrSri5MFrejcT4FpGlSi6hC9UzmoMdV6P9W5XIGesHQyCYBJxrjmUjw0e4r8n9/Dn
- t0hADgfMf6p7TdX9MUkhaK2TxBXCD3fmx79Zh8rBabXnL7vr7in0q6iMdKrIqx0XmY7Pz0k5+LoR/+
- XxckjyKDjQZq1Z0RjY3V42S0Htbk4dudN+/EoizEXXKs2qM8B8qyxS9m4qozeF15VQSO0kOJi4U626
- Dq/JTM4B4zTqvs+QcypM8PiJcdjBxBCWdw9PVnRoG9SJNyTZjt1Z4exDmOLFTqoIJstF+fCm6ORVsj
- ap/RukXPJmbbWdjmR1WGpgh3gncdBvYEygH9sXBEeWBkpQfyaV/hBAnu3gNg==
+ bh=WVoFkdQ/0FpyCHJrAYCh9k+mXMPqgGmWwmumiaugOMk=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmcu9QUHsOwR1bJHFMdLIjryojpYzpcuZSbISXYgl8
+ SYBfAZuJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZnLvUAAKCRArRkmdfjHURUrID/
+ 9nwPCJW1jcqVmPgquiw2YQ8njzzp8SPVmiUeuufiiDw/Tk8Du2byeJaJguZOdoQs60JE/Wc+/wKCe7
+ Ka1pfPUyw35OviYERPr56uYQV0lHJWNdwIDxQMw4pGOLbUdBL3T4qJYwCNSRjeISDe+u8yrdc3glAR
+ 12h7Egy/BOUvPneoXtXq340WDj2BgbkfnXldrd5xN3zkMa+TUCemQAGlzPevaNycy1c9kDqbIMIhrt
+ CWn64dc551ZO8gf1kUhD1E9+dk4kw5fbGdJz6WCIE86Qu/vkcORcgjE2gWvmRdP6UwckRbOC4VTIU4
+ JS+NokjEEgreIsDieFd1X0CAvQmgsKH0+3ZzIJZjzfs2TG40KkaBRfHiM1ypvyK+qIG/7E3JX6cKf8
+ On8iMw4sju8OjDCJrGmp7BITez5JXv6cpUThl5gjYkMcZZoOwmow8KONux3st3OkWTF2Uws0Lz7fhk
+ XWSS0560I+m1mKg/WidUn3M4b55Z9nDgyFFDD6OvG38DQ86vllhRn/EO4c2CN/s3u7CcQ2DUtzhRfg
+ WeKw6xz1COiSoAbmybWzUUCqqyxKfUdal7B6YHrjr5h1ndtrQE3Vb7PYIVt4c40kFdxNE7kiAoMfdy
+ G1aEQv2g2o316vov85eMuZR3n8CFisufslmiNRLN1OL/baggGdYVe7N4Nd+Q==
 X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
  fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,137 +116,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This serie aim to add the following audio support for the Genio 350-evk:
-- Playback
-  - 2ch Headset Jack (Earphone)
-  - 1ch Line-out Jack (Speaker)
-  - 8ch HDMI Tx
-- Capture
-  - 1ch DMIC (On-board Digital Microphone)
-  - 1ch AMIC (On-board Analogic Microphone)
-  - 1ch Headset Jack (External Analogic Microphone)
+Add MT8365 audio front-end bindings
 
-Of course, HDMI playback need the MT8365 display patches [1] and a DTS
-change documented in "mediatek,mt8365-mt6357.yaml".
-
-Applied patch:
-- mfd: mt6397-core: register mt6357 sound codec
-
-Test passed:
-- mixer-test log: [3]
-- pcm-test log: [4]
-
-[1]: https://lore.kernel.org/all/20231023-display-support-v1-0-5c860ed5c33b@baylibre.com/
-[2]: https://lore.kernel.org/all/20240313110147.1267793-1-angelogioacchino.delregno@collabora.com/
-[3]: https://pastebin.com/pc43AVrT
-[4]: https://pastebin.com/cCtGhDpg
-[5]: https://gitlab.baylibre.com/baylibre/mediatek/bsp/linux/-/commits/sound/for-next/add-i350-audio-support
-
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
-Changes in v6:
-- Remove spurious defines
-- all files: replace "Mediatek" by "MediaTek"
-- dts: replace "pins" by "clk-dat-pins"
-- dts: drive-strength: use integer instead of define
-- Link to v5: https://lore.kernel.org/r/20240226-audio-i350-v5-0-e7e2569df481@baylibre.com
+ .../bindings/sound/mediatek,mt8365-afe.yaml        | 130 +++++++++++++++++++++
+ 1 file changed, 130 insertions(+)
 
-Changes in v5:
-- Rebase to "next-20240523" branch.
-- bindings: power supply property moved to the parent node
-- Replace "SoC" by "ASoC" in the patch title (5/16)
-- Move and rename DAI I2S's defines
-- Improve code readability and cleanup
-- Link to v4: https://lore.kernel.org/r/20240226-audio-i350-v4-0-082b22186d4c@baylibre.com
+diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8365-afe.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8365-afe.yaml
+new file mode 100644
+index 000000000000..45ad56d37234
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/mediatek,mt8365-afe.yaml
+@@ -0,0 +1,130 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/mediatek,mt8365-afe.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MediaTek Audio Front End PCM controller for MT8365
++
++maintainers:
++  - Alexandre Mergnat <amergnat@baylibre.com>
++
++properties:
++  compatible:
++    const: mediatek,mt8365-afe-pcm
++
++  reg:
++    maxItems: 1
++
++  "#sound-dai-cells":
++    const: 0
++
++  clocks:
++    items:
++      - description: 26M clock
++      - description: mux for audio clock
++      - description: audio i2s0 mck
++      - description: audio i2s1 mck
++      - description: audio i2s2 mck
++      - description: audio i2s3 mck
++      - description: engen 1 clock
++      - description: engen 2 clock
++      - description: audio 1 clock
++      - description: audio 2 clock
++      - description: mux for i2s0
++      - description: mux for i2s1
++      - description: mux for i2s2
++      - description: mux for i2s3
++
++  clock-names:
++    items:
++      - const: top_clk26m_clk
++      - const: top_audio_sel
++      - const: audio_i2s0_m
++      - const: audio_i2s1_m
++      - const: audio_i2s2_m
++      - const: audio_i2s3_m
++      - const: engen1
++      - const: engen2
++      - const: aud1
++      - const: aud2
++      - const: i2s0_m_sel
++      - const: i2s1_m_sel
++      - const: i2s2_m_sel
++      - const: i2s3_m_sel
++
++  interrupts:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  mediatek,dmic-mode:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Indicates how many data pins are used to transmit two channels of PDM
++      signal. 1 means two wires, 0 means one wire. Default value is 0.
++    enum:
++      - 0 # one wire
++      - 1 # two wires
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++  - power-domains
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/mediatek,mt8365-clk.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/power/mediatek,mt8365-power.h>
++
++    soc {
++        #address-cells = <2>;
++        #size-cells = <2>;
++
++        audio-controller@11220000 {
++            compatible = "mediatek,mt8365-afe-pcm";
++            reg = <0 0x11220000 0 0x1000>;
++            #sound-dai-cells = <0>;
++            clocks = <&clk26m>,
++                     <&topckgen CLK_TOP_AUDIO_SEL>,
++                     <&topckgen CLK_TOP_AUD_I2S0_M>,
++                     <&topckgen CLK_TOP_AUD_I2S1_M>,
++                     <&topckgen CLK_TOP_AUD_I2S2_M>,
++                     <&topckgen CLK_TOP_AUD_I2S3_M>,
++                     <&topckgen CLK_TOP_AUD_ENGEN1_SEL>,
++                     <&topckgen CLK_TOP_AUD_ENGEN2_SEL>,
++                     <&topckgen CLK_TOP_AUD_1_SEL>,
++                     <&topckgen CLK_TOP_AUD_2_SEL>,
++                     <&topckgen CLK_TOP_APLL_I2S0_SEL>,
++                     <&topckgen CLK_TOP_APLL_I2S1_SEL>,
++                     <&topckgen CLK_TOP_APLL_I2S2_SEL>,
++                     <&topckgen CLK_TOP_APLL_I2S3_SEL>;
++            clock-names = "top_clk26m_clk",
++                          "top_audio_sel",
++                          "audio_i2s0_m",
++                          "audio_i2s1_m",
++                          "audio_i2s2_m",
++                          "audio_i2s3_m",
++                          "engen1",
++                          "engen2",
++                          "aud1",
++                          "aud2",
++                          "i2s0_m_sel",
++                          "i2s1_m_sel",
++                          "i2s2_m_sel",
++                          "i2s3_m_sel";
++            interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_LOW>;
++            power-domains = <&spm MT8365_POWER_DOMAIN_AUDIO>;
++            mediatek,dmic-mode = <1>;
++        };
++    };
++
++...
 
-Changes in v4:
-- Rebase to "next-20240422" branch.
-- Re-pass dt_binding_check, functionnal tests, mixer test and pcm test.
-- Remove copyright changes.
-- Move mt6357 audio codec documention from mt6357.yaml
-  to mediatek,mt6357.yaml
-- Fix broken indentation in mt8365-evk.dts
-- Remove empty node.
-- Add more dai link name according to the HW capability.
-- Remove spurious property (mediatek,topckgen)
-  from mediatek,mt8365-afe.yaml
-- Rename "afe" to "audio-controller" in the documentation.
-- Link to v3: https://lore.kernel.org/r/20240226-audio-i350-v3-0-16bb2c974c55@baylibre.com
-
-Changes in v3:
-- Re-order documentation commit to fix dt_binding_check error.
-- Remove $ref and add "mediatek," prefix to vaud28-supply property.
-- Link to v2: https://lore.kernel.org/r/20240226-audio-i350-v2-0-3043d483de0d@baylibre.com
-
-Changes in v2:
-- Documentation fixed:
-  - Remove spurious description.
-  - Change property order to fit with dts coding style rules.
-  - micbias property: use microvolt value instead of index.
-  - mediatek,i2s-shared-clock property removed.
-  - mediatek,dmic-iir-on property removed.
-  - mediatek,dmic-irr-mode property removed.
-  - Change dmic-two-wire-mode => dmic-mode to be aligned with another SoC
-  - Remove the spurious 2nd reg of the afe.
-- Manage IIR filter feature using audio controls.
-- Fix audio controls to pass mixer-test and pcm-test.
-- Refactor some const name according to feedbacks.
-- Rework the codec to remove spurious driver data.
-- Use the new common MTK probe functions for AFE PCM and sound card.
-- Rework pinctrl probe in the soundcard driver.
-- Remove spurious "const" variables in all files.
-- Link to v1: https://lore.kernel.org/r/20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com
-
----
-Alexandre Mergnat (14):
-      ASoC: dt-bindings: mediatek,mt8365-afe: Add audio afe document
-      ASoC: dt-bindings: mediatek,mt8365-mt6357: Add audio sound card document
-      dt-bindings: mfd: mediatek: Add codec property for MT6357 PMIC
-      ASoC: mediatek: mt8365: Add common header
-      ASoC: mediatek: mt8365: Add audio clock control support
-      ASoC: mediatek: mt8365: Add I2S DAI support
-      ASoC: mediatek: mt8365: Add ADDA DAI support
-      ASoC: mediatek: mt8365: Add DMIC DAI support
-      ASoC: mediatek: mt8365: Add PCM DAI support
-      ASoC: mediatek: mt8365: Add the AFE driver support
-      ASoC: mediatek: Add MT8365 support
-      arm64: defconfig: enable mt8365 sound
-      arm64: dts: mediatek: add afe support for mt8365 SoC
-      arm64: dts: mediatek: add audio support for mt8365-evk
-
-Nicolas Belin (2):
-      ASoc: mediatek: mt8365: Add a specific soundcard for EVK
-      ASoC: codecs: add MT6357 support
-
- .../devicetree/bindings/mfd/mediatek,mt6357.yaml   |   33 +
- .../bindings/sound/mediatek,mt8365-afe.yaml        |  130 ++
- .../bindings/sound/mediatek,mt8365-mt6357.yaml     |  107 +
- arch/arm64/boot/dts/mediatek/mt8365-evk.dts        |   89 +
- arch/arm64/boot/dts/mediatek/mt8365.dtsi           |   43 +-
- arch/arm64/configs/defconfig                       |    2 +
- sound/soc/codecs/Kconfig                           |    7 +
- sound/soc/codecs/Makefile                          |    2 +
- sound/soc/codecs/mt6357.c                          | 1898 ++++++++++++++++
- sound/soc/codecs/mt6357.h                          |  662 ++++++
- sound/soc/mediatek/Kconfig                         |   20 +
- sound/soc/mediatek/Makefile                        |    1 +
- sound/soc/mediatek/mt8365/Makefile                 |   15 +
- sound/soc/mediatek/mt8365/mt8365-afe-clk.c         |  421 ++++
- sound/soc/mediatek/mt8365/mt8365-afe-clk.h         |   32 +
- sound/soc/mediatek/mt8365/mt8365-afe-common.h      |  449 ++++
- sound/soc/mediatek/mt8365/mt8365-afe-pcm.c         | 2275 ++++++++++++++++++++
- sound/soc/mediatek/mt8365/mt8365-dai-adda.c        |  311 +++
- sound/soc/mediatek/mt8365/mt8365-dai-dmic.c        |  340 +++
- sound/soc/mediatek/mt8365/mt8365-dai-i2s.c         |  850 ++++++++
- sound/soc/mediatek/mt8365/mt8365-dai-pcm.c         |  293 +++
- sound/soc/mediatek/mt8365/mt8365-mt6357.c          |  345 +++
- sound/soc/mediatek/mt8365/mt8365-reg.h             |  991 +++++++++
- 23 files changed, 9314 insertions(+), 2 deletions(-)
----
-base-commit: 3689b0ef08b70e4e03b82ebd37730a03a672853a
-change-id: 20240226-audio-i350-4e11da088e55
-
-Best regards,
 -- 
-Alexandre Mergnat <amergnat@baylibre.com>
+2.25.1
 
