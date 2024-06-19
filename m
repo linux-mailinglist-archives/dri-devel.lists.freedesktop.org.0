@@ -2,76 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1043790EADD
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 14:22:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A7590EAE3
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 14:22:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B73D110EC9E;
-	Wed, 19 Jun 2024 12:21:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08BDC10EC84;
+	Wed, 19 Jun 2024 12:22:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="H5QlHj5b";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M+wsowsI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C88DE10EC86
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 12:21:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1718799717;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=FVGqOE3wiRlvOnwpW+plbu90wTtSXAmdw/o00wdPQQk=;
- b=H5QlHj5b47jmWWPmYrEyBk2CLjfodSkuNO3iFqDQL3q9TAKryupn+V75JTiH8WmGI/eIFy
- 0Zjifr0r4dCWg3FWwIzaMp3bxyNBFP/hFECEP7HFZpj/jn85MK8NLAlzARSlcjHxvvWIqv
- zj3xrSSMAXdnhmkQLs0rsmnmfWLPh7o=
-Message-ID: <15edbedcac80961ec9b7834041e54143657cd48b.camel@crapouillou.net>
-Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
-From: Paul Cercueil <paul@crapouillou.net>
-To: Markus Elfring <Markus.Elfring@web.de>, lkp@intel.com, Nuno
- =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, linux-iio@vger.kernel.org,
- dmaengine@vger.kernel.org,  linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  linaro-mm-sig@lists.linaro.org, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Jonathan Cameron
- <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
- <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>, 
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Randy Dunlap
- <rdunlap@infradead.org>
-Date: Wed, 19 Jun 2024 14:21:55 +0200
-In-Reply-To: <41fa9904-28a8-46fa-bf2a-014875409b83@web.de>
-References: <202406191014.9JAzwRV6-lkp@intel.com>
- <a4dd1d73-5af3-4d3d-8c0f-92dc439fa119@web.de>
- <d452ecc4fc703a1f98aa4f243c6ded7fbfe54b0e.camel@crapouillou.net>
- <cbcfb64a-e5c2-41a7-8847-227d4f6872de@web.de>
- <e948cd137da8e4f97bfbf7ef68a5450476aeee0c.camel@crapouillou.net>
- <41fa9904-28a8-46fa-bf2a-014875409b83@web.de>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
- LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
- FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
- z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
- +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
- 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
- 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
- 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
- dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
- 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
- rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
- lBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFC
- qaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IWYXnd
- JO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN70
- 62DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOt
- X0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEA
- AYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/
- Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmc
- Gu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2z
- McLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/
- 7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2c
- LUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E24C510EC82
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 12:22:26 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id
+ d2e1a72fcca58-705b9a89e08so5671305b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 05:22:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1718799746; x=1719404546; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=V41/rcWKltI+WknTyeXP06R8W+cGdmxAwRdLK3VXRV4=;
+ b=M+wsowsIw07yY0ZtjleJO+gP9gFW/4ja9q3DtiGsrCa6Kf/9dfYx+XP6b7GO9YsB0u
+ 3QmTBTopOIASjP2kF5NnXEEFApNTS+BpU9akuMHNk8YaZsBDvdCvHSN45LL/Na5nsPQY
+ S8Ip0605u7PDQ6fZtfIECxNnS2n7f4mleYDQ9I22WhhCTDLJPZFxd0/q6f4X7EARwEsX
+ J7nTgPhCLT6bS0jl71A9jMo8s5GVtE0GlzRbzTh0G4b1MD3Z+BH+tEYS5zDjLPFPoKDc
+ JPMHEHCzr1SxKiVbsrGfV7c73Lkzbdq6oxc+aeIBFg7L94H42z/6thDRaAZjsMuQRX/1
+ CkxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718799746; x=1719404546;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=V41/rcWKltI+WknTyeXP06R8W+cGdmxAwRdLK3VXRV4=;
+ b=M3tWmcmzcySZ/xiyr2mX4ssW88iPyXW/mJxUHbTg6oVJaUKehzBw1L2Jh5umJqHzhy
+ 6mYRKiKvv3LPCCnAXiX+7cIyWjIZ8WQquTc1XyDGpUtbsaf5Fm/wxicIwUuLvMm8jZG9
+ g9b972LQ4m9y+yCcJL6BiMllbvrgUkUKpPyrYwX5T/q9RLUZ1SFa3Q8dKKsz65cmEcX8
+ V8upnSwVBfqNxY0XaK9GLwHn53D0VF4XXSbKJY/A0cy26tPd5OsdsdN+AbQnWwiRlQBW
+ ybPxjDl1OWi2D0T9Dj9f6575HbWtrIR4qBLQWBe8becbdFY/Wk2dsa7QkSUU9dibjaLI
+ MNgA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWQ68wwIOzhDg1bWMBsMGHZqKz368OEkjO0X7DkKSpjZdKq7OxW4bbdI6FHkKcseaRkQ1BTSvQr1nipxjaDWeK/5YBdR+NWjXsY/T+w781D
+X-Gm-Message-State: AOJu0Yz2Qtl7wvoSDFP+5Fc2HPrsFYf6VTAyS4m3Yvd0muboKqOVoCpi
+ RhNif39Ya6EF+YTeYARh1+59GX93QIWa7tiReT0gVKEAZp1Yrnzv
+X-Google-Smtp-Source: AGHT+IFNxwWmh0mB5nhspfwKH+64F9TJyMuzEuB30lqUIBugcJh/Gng9OTFsOUwuNaX9+aJTaOMbww==
+X-Received: by 2002:a62:bd10:0:b0:705:cade:1f40 with SMTP id
+ d2e1a72fcca58-70629c3683emr2114067b3a.11.1718799746080; 
+ Wed, 19 Jun 2024 05:22:26 -0700 (PDT)
+Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-705cc929321sm10560319b3a.26.2024.06.19.05.22.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jun 2024 05:22:25 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+ id 015D5182522A8; Wed, 19 Jun 2024 19:22:22 +0700 (WIB)
+Date: Wed, 19 Jun 2024 19:22:22 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Paul Cercueil <paul@crapouillou.net>, Jonathan Cameron <jic23@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
+ linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v11 6/7] Documentation: iio: Document high-speed DMABUF
+ based API
+Message-ID: <ZnLNfq3QvdwlVD1t@archie.me>
+References: <20240618100302.72886-1-paul@crapouillou.net>
+ <20240618100302.72886-7-paul@crapouillou.net>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wDBpEk9k3fDiQDP8"
+Content-Disposition: inline
+In-Reply-To: <20240618100302.72886-7-paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,39 +92,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le mercredi 19 juin 2024 =C3=A0 13:56 +0200, Markus Elfring a =C3=A9crit=C2=
-=A0:
-> =E2=80=A6
-> > https://lore.kernel.org/linux-iio/219abc43b4fdd4a13b307ed2efaa0e6869e68=
-e3f.camel@gmail.com/T/#eefd360069c4261aec9621fafde30924706571c94
-> >=20
-> > (and responses below)
-> >=20
-> > It's more nuanced than I remembered.
-> =E2=80=A6
->=20
->=20
-> > > * Will the desire grow for further collateral evolution according
-> > > to
-> > > =C2=A0 affected software components?
-> >=20
-> > Not sure what you mean by that.
->=20
-> Advanced programming interfaces were added a while ago.
->=20
-> Example:
-> https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/cleanup.h=
-#L8
->=20
-> Corresponding attempts for increasing API usage need to adapt to
-> remaining change reluctance,
-> don't they?
 
-Sure, I guess.
+--wDBpEk9k3fDiQDP8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-But that does not change the fact that I cannot use cleanup.h magic in
-this patchset, yet, as the required changes would have to be done in a
-separate one.
+On Tue, Jun 18, 2024 at 12:03:01PM +0200, Paul Cercueil wrote:
+> +As part of this interface, three new IOCTLs have been added. These three
+> +IOCTLs have to be performed on the IIO buffer's file descriptor,
+> +obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
+"... which can be obtained using ..."
 
-Cheers,
--Paul
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--wDBpEk9k3fDiQDP8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZnLNfgAKCRD2uYlJVVFO
+o4y6AQDgOsdarQ8+Hpt/RroNmGj88fc5ztC2ucDL+SFkBMD3egEA/jAq/vCNnHLV
+PeVNFq70Fcg7IPBxIcAc0QN08ILDOws=
+=7nF7
+-----END PGP SIGNATURE-----
+
+--wDBpEk9k3fDiQDP8--
