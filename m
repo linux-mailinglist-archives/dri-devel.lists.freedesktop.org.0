@@ -2,57 +2,181 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C0B90EA9E
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 14:14:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0956790EAA5
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 14:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B320010EC7C;
-	Wed, 19 Jun 2024 12:14:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB2A010EC7E;
+	Wed, 19 Jun 2024 12:16:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="fqP5RJvj";
+	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="YyccIICa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60E2F10EC7C
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 12:14:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=mOad8vIs7wVXzaImeW+huaI2QyM5MeHs3VIxV4SO8FA=; b=fqP5RJvjVBtkiDuTAKpCMz27T6
- ZiTfA8dE1GdLpCqeOlQmfN4cpGfRZIXDNrkt69oPs7/qcypFE3/V0JNa/hJGBdFXm4gSfMluXyV1N
- ADIyeoDBlxHAMnHZW8Viq2wijusNJyTCro4fIuvjkiIGyHfVdJSB4S67HW0glPeYlafiCuI+5YDbm
- nt+JQXe82sPCBQ+Sm6Gg4eHmqDD7Paut+M9pGeO9HY82eC2cuggCfOzNLm6jCRfOWUooWxDCQwNha
- ZIDDGDa0pogX6yBOqhRkDunDfy1R+kUueq2DVZwT76IxGaWZnOFjhl9p69siTaZylljtgcZWmQ4d7
- 6gPQRBIg==;
-Received: from [84.69.19.168] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sJuD1-00585D-Nm; Wed, 19 Jun 2024 14:14:39 +0200
-Message-ID: <d8f02671-67df-43c3-9f23-1904f661a590@igalia.com>
-Date: Wed, 19 Jun 2024 13:14:38 +0100
+Received: from cluster-b.mailcontrol.com (cluster-b.mailcontrol.com
+ [85.115.56.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B52A010EC7E
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 12:16:29 +0000 (UTC)
+Received: from rly03b.srv.mailcontrol.com (localhost [127.0.0.1])
+ by rly03b.srv.mailcontrol.com (MailControl) with ESMTP id 45JCGLZS019011;
+ Wed, 19 Jun 2024 13:16:21 +0100
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+ by rly03b.srv.mailcontrol.com (MailControl) id 45JCG1fE015157;
+ Wed, 19 Jun 2024 13:16:01 +0100
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com
+ (mail-db5eur02lp2105.outbound.protection.outlook.com [104.47.11.105])
+ by rly03b-eth0.srv.mailcontrol.com (envelope-sender oshpigelman@habana.ai)
+ (MIMEDefang) with ESMTP id 45JCG0Lx014323
+ (TLS bits=256 verify=OK); Wed, 19 Jun 2024 13:16:01 +0100 (BST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d/eMfq/HvGyoH/fhp6Gt2j0CA2o24U2AEl+GDlWPmR6vU4KOniIGzWlSBGS0HPJs1Q67oO3u6hmzBAhfJlpR9tHjrSt24N4H2N/Voc6Exj3+jXoJ4mdarTHNJl3wPyJ5b4m0E6pzOzKLzCF1s40LMiExJjAHBQ42f4IS7ErRPXJ3KTDOzCqYIqvGBApEy6FyUDXetrJs19seanBL4s0sN2Cm+C9E5LBl0+pis6X7RKzeZRGzY+NFqNJCPekh7sGGLs1l1vTo+Fa1lYa1TooR6XZXXoXnrniuZ3hVSMOfcjJvDkd1RkCUAKNkEBq4hwQUR3IubOnElMvU5jlSRe0R6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0NvwxH5lIROj3aoZYJ69CqdQXEOBE9EAro1Kdl60Ovo=;
+ b=eCk1oyEPFmb8FR6iOMB/+A5CiCShaS48AtEP0htBOHEZaA8TVP9UbMk88zyo9j51f+Hu8zycxNvzNqFVSvZUFh+GHySKJboaVp8e8owSKD65Ko2EOU0anL7neMMMZUIg1SKhMp7bbX4xFuSpshyR2caMcwprsCohdOVk9zNip2cST/nQKinMAovKxryu3E3Hsy8nqalISlyc3PtArkz97X71BcTUUNLbGnxFA6faJ/dgVtkpPBoODe0J1Dyo55/pQF5N8/hSyHaVCXUBdXS1W8Q/4J/Cd036BCnz/n2anMB5d2AvqqmQmqgjHWIfGoiEi3nIDt0UVM1XZvoNBsgyHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=habana.ai; dmarc=pass action=none header.from=habana.ai;
+ dkim=pass header.d=habana.ai; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=habana.ai; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0NvwxH5lIROj3aoZYJ69CqdQXEOBE9EAro1Kdl60Ovo=;
+ b=YyccIICa9F/y6mkG3b1NaDR7ftiwFMinUAv5xhFw1O41rYAhYcWQqdlABeklWOij1PXH4EKLHQswx67S2gPpbmKpaks+lwQSbzhb1K8OlP645GzIrC+LaJkxEJEXiTn5jXstdlBJPNCNae7XIJg6bHou3Qxrmo/HZfe5uz1LlMDcEMM3t9e2cyE2jWxHX7qOwjkTa97ACRWkOtYXWQhEElS8mO9AllnDxFZMfMa/jk6TN4BFZiIUSIW5XlAI8HXR2NJt8dyV7wmNpXtOOHNgpYAjtMegGnilmjwqLDhyJzfE4ydz2XIampPFje84mJC2J+ewJKKxuNvuMi7/YImJzg==
+Received: from PAWPR02MB9149.eurprd02.prod.outlook.com (2603:10a6:102:33d::18)
+ by DB4PR02MB8728.eurprd02.prod.outlook.com (2603:10a6:10:380::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.31; Wed, 19 Jun
+ 2024 12:15:58 +0000
+Received: from PAWPR02MB9149.eurprd02.prod.outlook.com
+ ([fe80::90a0:a4f0:72e9:58b9]) by PAWPR02MB9149.eurprd02.prod.outlook.com
+ ([fe80::90a0:a4f0:72e9:58b9%3]) with mapi id 15.20.7677.030; Wed, 19 Jun 2024
+ 12:15:58 +0000
+From: Omer Shpigelman <oshpigelman@habana.ai>
+To: Przemek Kitszel <przemyslaw.kitszel@intel.com>, Andrew Lunn
+ <andrew@lunn.ch>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "ogabbay@kernel.org" <ogabbay@kernel.org>,
+ Zvika Yehudai <zyehudai@habana.ai>
+Subject: Re: [PATCH 09/15] net: hbl_en: add habanalabs Ethernet driver
+Thread-Topic: [PATCH 09/15] net: hbl_en: add habanalabs Ethernet driver
+Thread-Index: AQHavWrQgrJbi1vMQEmkq/v8mH9idrHGPFGAgAbik4CAAHs1AIABHDsAgAAMiICAAEcwAA==
+Date: Wed, 19 Jun 2024 12:15:58 +0000
+Message-ID: <280848c5-6721-47f4-8b39-2ecd4851da4f@habana.ai>
+References: <20240613082208.1439968-1-oshpigelman@habana.ai>
+ <20240613082208.1439968-10-oshpigelman@habana.ai>
+ <10902044-fb02-4328-bf88-0b386ee51c78@lunn.ch>
+ <bddb69c3-511b-4385-a67d-903e910a8b51@habana.ai>
+ <621d4891-36d7-48c6-bdd8-2f3ca06a23f6@lunn.ch>
+ <45e35940-c8fc-4f6c-8429-e6681a48b889@habana.ai>
+ <95549a6e-b2db-42d9-af94-dbc5e5ddcf5d@intel.com>
+In-Reply-To: <95549a6e-b2db-42d9-af94-dbc5e5ddcf5d@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=habana.ai;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAWPR02MB9149:EE_|DB4PR02MB8728:EE_
+x-ms-office365-filtering-correlation-id: 3027ab5a-4460-42e2-b1d8-08dc905993f0
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230037|366013|41320700010|1800799021|38070700015; 
+x-microsoft-antispam-message-info: =?utf-8?B?NWdLeVRXN3d5S2NvMDBCb3B0K3lsYURnV2FTV29JdUZHUTNkdFQwcEQ4WW0x?=
+ =?utf-8?B?TkdwQnJ5SEJPTlUxTWVNUi8zdys3VGVGTmJoVXl4RDQrRFd6ZWtmWDZlUE9K?=
+ =?utf-8?B?R1lPUFkrU24rMytta3B6cTg4MTh0TnlaRXpBZ3RIR25iaDV4N1o0aHZYTnRY?=
+ =?utf-8?B?THN1NHY5R2lpNlFKbW4vcVBlK0dyQytic2JwUWQyQ1VvMlBNbWNEMHpYSlRu?=
+ =?utf-8?B?VXZGWmsvTTdlRVlEb1lkVHN0RkdIYlZ1aVpURldXQksvaWRGR3UyMGpsbmQ1?=
+ =?utf-8?B?V1hIUkRHVFBGTnp5Y0svbTJyU2FmUWtPWDc4UWs5TkVVNExPVmlJMXR1aDhL?=
+ =?utf-8?B?RjRjdVZVU3IwNXMydGRrZ21wUmRDcTM5NExEbzRMRFRCcmkzaW41UHBDQkxy?=
+ =?utf-8?B?c2VvVTFwQU1qc0MyZWJ6M3R3d1Jnc1ZxbkNWTTN5bWFzT3E0UU1YNmpIL0lI?=
+ =?utf-8?B?b0tFSWZSOXdiQ3IzbXlPQkFtWmJ6WVpuem5wWVNDTURWVU9JNk1XN1h6cTZC?=
+ =?utf-8?B?WVZkOE1VWkl5czg4TmRKenVUY0gyWWZOUDM1OEEyaE9EdDU4US9aNW9jYnJG?=
+ =?utf-8?B?eFh1d2M2WW5vc1p3aWNqSlI4VlNqeDFYaTY3MEhOemwzUkU1ZXlsOFJNYVVx?=
+ =?utf-8?B?WjhvdTV6aDJUcVhSWStHNW1Iekw1bnhUQ2IvTys5eVBFVFdnbXI0Y1h1bkxz?=
+ =?utf-8?B?ME1IQkxxR1RsR20rcE16bnE4cWNVOGhxSm5PTjloKzdMWUJRUm1vTGVmbm5U?=
+ =?utf-8?B?NjZpQitISXRaWnhYYmlXd0pvdE9pZkw0blBUZmVTWElQdUFWbEdVZExBczFJ?=
+ =?utf-8?B?eDY5bkN6SzR4RlVGbTFuSW4vOElrVUw5ZWFEaGpqVm5xOC8rZTVwUDVTcE1X?=
+ =?utf-8?B?OUFxTFJLb1RWQXNQRDQ0dDBXRURqZHZGRFBoR3NEdmRCeWZxaXFLYUgwd21D?=
+ =?utf-8?B?cjZKU0kzWjlqWHB6MENIVGxsbXV3ekFGV015c1kydGpiMXhjT2dhVVROd0Jl?=
+ =?utf-8?B?ajFYdVpFWHJsa2IrM2ZRbmxOMlZzZzRsTThya0Z4L2VFTnZoWkJDV3RmWHpF?=
+ =?utf-8?B?V29IMjU2S3QrR0p2RXhNMFpYOGt3eFFWN3ZZRjlxeHEwWUNOUmFCS2tPLzd2?=
+ =?utf-8?B?Y0RrNDYwQzYrcG81Q25ZVjhjdHBSdXpSL2VLWEFiajZGa01oaFlZUUo2Z0Jr?=
+ =?utf-8?B?MGJBRTUwUTRRaTRoRGVIZlJ3YS9wbG9yZVgvOThCMit5RFZhalRsZmVyYWdU?=
+ =?utf-8?B?MmhhOUhBS29SVkF3QzFCRmFiZ0JVbnZMdDRSZUUzRDB2Ujl3Zlk1MzNHTDVX?=
+ =?utf-8?B?RHVrZndNZlFvOE9PNlFQck00U0VCaFExTEE3Wmd2WGM3WjMwU29sb3pjRFBa?=
+ =?utf-8?B?cFZ3RTFOaFR5T0RxUGtPTG50aXJyaHQ5ZFJrMVlFZHBHZS84UHIycTM1NHY2?=
+ =?utf-8?B?L0FnVndsYUkyMWVGbjR1bG0zZkJ0UGVvdVF5dHBNay9PN0lkODlVVzJNM1Nt?=
+ =?utf-8?B?aHJ1L2JSTXdGRFUydWIzTjY3djMvRk11ZVh0enlLTmk0T0FEaExWL1hOTWVR?=
+ =?utf-8?B?ajgrM0hoY1REU0c2K2wzUmtjUHF3TDZtcDVXam9BMFl1RHNtZWxXUEgwZkkw?=
+ =?utf-8?B?TTRLcVllK21CRllmT1JLcXpONVZRS0lKWmFmYmFVSmIvWFB0RGVYSGtNNm5q?=
+ =?utf-8?B?ZUdJS05wV1IzK1dPSTM0dlV0VURrZUJZc21yenoxVU9oSHJoSndwZWFvTzV5?=
+ =?utf-8?B?RnRaTWJiNmpOclhJc3hQb1pJdzYrTXZSbnBMRHlTaW0xRUY2VXhHa2dNNDJC?=
+ =?utf-8?Q?HY2fl+Q8f9fFg6nuPwKa+7m3McOgq0Dnp8hDc=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAWPR02MB9149.eurprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230037)(366013)(41320700010)(1800799021)(38070700015); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UmNqdEI1NzJMaS8yYWVQb29rYldxVy92WjgyU0wrSUtUZVEvdXZwOE52VWRZ?=
+ =?utf-8?B?RnY4OFA4WkxFNmFqMzJndFM0aVJhck1YUVFIUk8vZ0hCaXA5Mkc4UkZyMkhE?=
+ =?utf-8?B?YUFhNHQyRGlFS2dqL21ZWGt1Y2ZSY0ZKWTZRM0NKTS90UHJZT1B5SG1Zd0Y3?=
+ =?utf-8?B?eUNUT2tRUE1rcmx5Tk42Q3N5WWJpWGUzcnF3TVY3dUdzQnpiczNzWTZWZWZI?=
+ =?utf-8?B?NXkzc2hIMDVZK2k5US94V1RWWGtQTEVna1gxNCtXVHUvelVvYjhydGFoaDNJ?=
+ =?utf-8?B?QWFTMU9mNjJ0RFlSUnZEUFYzeEM0RzlLUE1kSVo0TWZTTUdRQWpjRmJZL3Mw?=
+ =?utf-8?B?NHVNaldvYzd5cDRsRU1NUlRubklIOWJVYktXRi8zYjhpZnFUZzhnODI1enI4?=
+ =?utf-8?B?d3VQNFI2REUzMkVOL05uZHRFMXFseForZGVRRmRIZGdTeTFtdG5ZcU1pbFRp?=
+ =?utf-8?B?SWJrVjBoNXc5dlhVZTY0Z1l2WFA0VWdZcmJkWWZGbGhpdlV0N25hYjMyb284?=
+ =?utf-8?B?K2RUNWtYcGg5Tm9KQy8vaDRsdWoxY2ZSMy9VczhCYkZxRUFtS2Zha2pZeDlx?=
+ =?utf-8?B?dE4rYkdNWE4xZzR4b09Ba2JuN0FmTzFMYkxZQy9ER21vODUxbWNjdHVPeit6?=
+ =?utf-8?B?YStLd05NY1lPdEY0NHBiSy9zeGVKaWdtZng5ZnRwYmp2dnhZdEMwWStMakYy?=
+ =?utf-8?B?L0FtdnNnbFgvNGFnZDlkSVJBYmh2Z014ZlJNL2l5ZGFsZGZhdlFYc1c5cHlr?=
+ =?utf-8?B?ck8vRzBab3pVQjZVZk9EbUF1WUJ5NFRQVWFUM0hHK0Z1Rmk5cWs1MUcxSHJJ?=
+ =?utf-8?B?UGxsMU02djhxT0N2bnlucCt0TTlnOXdqUDVzUG5lbVpUUXFrRFlrenhyZ2lK?=
+ =?utf-8?B?enVocEU3dE50T0s2bDRROHo4UU45cFphd2k0V1B2VEhvVEFuN1RSaVpWbWE0?=
+ =?utf-8?B?aFA2Wms1aWI1RHg5Zm5XRnZMYWZHaWxBQ1cvS1VyeFBFY0NGeXplUWE5aFRS?=
+ =?utf-8?B?eDIzaG1TbnF4QndlcWEvc21zclVvditTR0RCRHNuVDhYdXRsbUZlU2N4cDdK?=
+ =?utf-8?B?N1VQM01uVTRmVFJQVVRkQkJ1d3EwTUVkVW8xNm9SM0pSMGt2VTdOSTRLbmd2?=
+ =?utf-8?B?RHlqRFo3VWZOemJ0SEgvK3ExbGh3anhFYjhpaDdJaEF6VVNoQkJFeGZJdnQ3?=
+ =?utf-8?B?a2RLTTlZNHpJNFNmem5KQTZwdC9MeXNsQk9kS1grK1VCb09QcXl3M0YySjFW?=
+ =?utf-8?B?RjFJZnRJaDhmQWIwQ2dwdVcrY0ZyQmw1SjkvcTFoaDlMTWo1dlp0WXBTai93?=
+ =?utf-8?B?aWZBWmRVZkNyQ1hXZWhsSXJIeTVjN0JyRnJOWG1SRmdROGxWamswWXpHNzQ2?=
+ =?utf-8?B?bW5aZ2hvampoWUJjbzd3MnRuSkswRWxnUklnSGc3a2w4R1BqNDBNd05GeWZz?=
+ =?utf-8?B?VGRHN25RaEJXbFZBRmNxYnFqZlFVSi9KT2MrR2xrd1Q2OVBLV1VaSHhWMFJF?=
+ =?utf-8?B?Y1QvbGxuaytwZUtuU2ZwTUZjMzZFakNiNzh1VThhNm43ZUE1ald4TkJhcVpX?=
+ =?utf-8?B?SHF4am1TM1dxMm1NSzJBKzhEZHV3dG4xdGJHQzh2V1E4N1gwMUh3WlpkdkJL?=
+ =?utf-8?B?QXJpS1BhdHR1enhHRU1GMnN2NG9UaDRUUUcrUGlSRnZKQS85elBnMCtnRTVn?=
+ =?utf-8?B?RVNLN1ZnTWRIYisxZGQzYjVUeWpCQnA4T2R6U0h2QWw1S3hOd3oweHhvQnEw?=
+ =?utf-8?B?Nk02bmxKeG5neTRmZ3NiVk9CV1RYYXo4NWc3cjkwL1lkZUlteVNrWTgvVTFH?=
+ =?utf-8?B?b1lnS2orUmtzOVlTeWpGemdacHd3bEcrWlp0aXBUWjFIT0ZZQkF1blYybmdI?=
+ =?utf-8?B?OEVzWlgwOWh1UXBnYVhHVkhxZHBXSTN6VFNBWmFhVEdZZlFTcFZSc0xrUkd5?=
+ =?utf-8?B?eWlyU2prNFVRNzVMa3FVS0RLYnFPQXVSZkZpZHd4cmwzTFNaNW9WYmhvTXoz?=
+ =?utf-8?B?c0lEeEJMVlpSN2NUNTY3ZmswTm1JVWlJaDU0RTZZWmQrQzBmWkthOTIzODJq?=
+ =?utf-8?B?UGJ2SURhTVpsNFlMUlhySHRxblFDOGZGTGlzN2h3aWJxT0Y5V3FZWE5jVUZM?=
+ =?utf-8?Q?pRdvMIacuoDLQspAF5Jq1oVEE?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <BAC8FD9FBD713D458E4197102BFAE0F9@eurprd02.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf/sw_sync: Add a reference when adding fence to
- timeline list
-Content-Language: en-GB
-To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- kernel-dev@igalia.com, Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
- Rob Clark <robdclark@chromium.org>
-References: <20240324101533.3271056-1-cascardo@igalia.com>
- <fc68dce2-88e0-4055-a074-bd45f7e68912@igalia.com>
- <ZmyFKVuYvs59Oirt@quatroqueijos.cascardo.eti.br>
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <ZmyFKVuYvs59Oirt@quatroqueijos.cascardo.eti.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: LOfLac8zN0YSBxte/Jh5stymgOOc1sTzdmPrfskgHLqxsMSOBXf2zFXTj6fAEfxxJL3cOUyuhSc6vTvqgTl8vo/MiWIL2bf6BnwUSMAkxlVW0xDcZ0sRPgRGzKR8sfgj4XCb4JryV/voE2QgHYMJ2Yq7WWFxdFcp8Fp7uNWimM/ZqGTBw1UppEfLTbcfmanyEKQHnVjxyU8x/Q+RA4IIx5Lbj7IXB8I96TXYMndomP17ncrEOhTM7G/I8wvqcTQkM9JOtieW2Wpa5XyDQOh5/xXmuQd+vrSRb7hEsf75jJNlp8JWTYr/jUA0I5opl4XjItTGKzmWwbaYwIJZ4UapHHTby2pgh07G4cRfhqhhjrfJFPQpsQs89IlIr6ESRvRLoDZJbBVJW/uMyb7Wg6glmnWAqlkliwvI6WO9g2Z2fBmGkBGKLGEyndUaVGMzqSQ3FEafc6why8EvwentUdgOKDEVvfjw142fOuuudFFa25IUx69uhjL2+QMd+EhPCREJjF+Jx7SMVXoxOqFOYsOJ6/387czvTudvehhqFHF+fcE4JvO6gAtpQOQC7JTaWUihZSczIJMAg8o1QKKsFQJubqNApmS8eHo5W2+4kHNLCx/2hz1YffhNp/iVuWrFcHNm
+X-OriginatorOrg: habana.ai
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAWPR02MB9149.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3027ab5a-4460-42e2-b1d8-08dc905993f0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2024 12:15:58.8225 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d4d4539-213c-4ed8-a251-dc9766ba127a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Qe6eNdrt8yHcmiIUzJJcxLZwbzmviGTAcb8Y3tvLXbJ17tF+xkHNYE3oRI6TQFXQ+yZ61s+vpoDJIhhKxPDewA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR02MB8728
+X-MailControlDKIMCheck: cGFzcyBoYWJhbmEuYWkgW3Bhc3Nd
+X-MailControl-OutInfo: MTcxODc5OTM4MjpGUEtleTEucHJpdjohRtvqwcNrdXHFChU2vDtnsDh5lWyIrFbt7xbbKcRETiZktGc7gDp9D+z2bI+cAsA+FxM/HIK9HC/avN35Q+nMv4kcyUdyO+lvnsXbNErlgHBzNMDL1+Kjpa68yfcy0O7VShZXJa+DktKuBy74BEUYDsbEwfHOq3q35vJzeKHwyJre50wQtQ+Q/junFMN77AEOUiZlE5sUSARILLE+YKNCuqS7ovYGmXAyak10Oshrq85CUYdL3JgkH66vYlwLGGW4dVKRkqA4Km2+xMPaWcveH1P5rF4Cz1E6NIJIgFR0StJG9BpGjxtzgLgtQIsLFrU86IPBMw0lf/ltua9cler9
+X-Scanned-By: MailControl 44278.2145 (www.mailcontrol.com) on 10.66.1.113
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,312 +192,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 14/06/2024 19:00, Thadeu Lima de Souza Cascardo wrote:
-> On Fri, Jun 14, 2024 at 11:52:03AM +0100, Tvrtko Ursulin wrote:
->>
->> On 24/03/2024 10:15, Thadeu Lima de Souza Cascardo wrote:
->>> commit e531fdb5cd5e ("dma-buf/sw_sync: Avoid recursive lock during fence
->>> signal") fixed a recursive locking when a signal callback released a fence.
->>> It did it by taking an extra reference while traversing it on the list and
->>> holding the timeline lock.
->>>
->>> However, this is racy and may end up adding to a kref that is 0, triggering
->>> a well deserved warning, as later that reference would be put again.
->>>
->>> CPU 0					CPU 1
->>> sync_file_release			sync_timeline_signal
->>>     dma_fence_put
->>>       timeline_fence_release
->>> 					  spin_lock_irq(&obj->lock)
->>> 					  dma_fence_get(&pt->base)
->>>       spin_lock_irqsave(fence->lock, flags)
->>>
->>> As shown above, it is possible for the last reference to be dropped, but
->>> sync_timeline_signal take the lock before timeline_fence_release, which
->>> will lead to a 0->1 kref transition, which is not allowed.
->>>
->>> This is because there is still a pointer to the fence object in the list,
->>> which should be accounted as a reference.
->>>
->>> In previous discussions about this [3], it was called out that keeping such
->>> a reference was not a good idea because the fence also holds a reference to
->>> the timeline, hence leading to a loop. However, accounting for that
->>> reference doesn't change that the loop already exists. And userspace holds
->>> references in the form of file descriptors, so it is still possible to
->>> avoid potential memory leaks.
->>>
->>> This fix also avoids other issues. The nested locking is still possible to
->>> trigger when closing the timeline, as sw_sync_debugfs_release also calls
->>> dma_fence_signal_locked while holding the lock. By holding a reference and
->>> releasing it only after doing the signal, that nested locking is avoided.
->>>
->>> There are a few quirks about the reference counting here, though.
->>>
->>> In the simple case when sync_pt_create adds a new fence to the list, it
->>> returns with 2 references instead of 1. That is dealt with as
->>> sw_sync_ioctl_create_fence always puts a reference after calling
->>> sync_file_create. That is necessary for multiple reasons.
->>>
->>> One is that it takes care of the error case when sync_file_create fails.
->>>
->>> The extra reference is put, while the fence is still held on the list, so
->>> its last reference will be put when it is removed from the list either in
->>> sync_timeline_signal or sw_sync_debugfs_release.
->>
->> So any fences where sync_file_create failed linger around until
->> sw_sync_debugfs_release? Okay-ish I guess since it is a pathological case.
->>
-> 
-> The challenge here is to determine which one of the multiple cases we are
-> dealing with. Since we don't hold the lock while sync_file_create is
-> called, we are left with this situation. An alternative would be to fold
-> sync_pt_create into sw_sync_ioctl_create_fence, so at least we can
-> determine which case is which. That would also fix the case where we handle
-> userspace a file descriptor with a fence that is not even on the list.
-
-Since sync_pt_create is local and has only this single caller it could 
-be worth exploring this option to see if it could simplify things and 
-get rid of this lingering objects corner case.
-
->>> It also avoids the race when a signal may come in between sync_pt_create
->>> and sync_file_create as the lock is dropped. If that happens, the fence
->>> will be removed from the list, but a reference will still be kept as
->>> sync_file_create takes a reference.
->>>
->>> Then, there is the case when a fence with the given seqno already exists.
->>> sync_pt_create returns with an extra reference to it, that we later put.
->>> Similar reasoning can be applied here. That one extra reference is
->>> necessary to avoid a race with signaling (and release), and we later put
->>> that extra reference.
->>>
->>> Finally, there is the case when the fence is already signaled and not added
->>> to the list. In such case, sync_pt_create must return with a single
->>> reference as this fence has not been added to the timeline list. It will
->>> either be freed in case sync_file_create fails or the file will keep its
->>> reference, which is later put when the file is released.
->>>
->>> This is based on Chris Wilson attempt [2] to fix recursive locking during
->>> timeline signal. Hence, their signoff.
->>>
->>> Link: https://lore.kernel.org/all/20200714154102.450826-1-bas@basnieuwenhuizen.nl/ [1]
->>> Link: https://lore.kernel.org/all/20200715100432.13928-2-chris@chris-wilson.co.uk/ [2]
->>> Link: https://lore.kernel.org/all/20230817213729.110087-1-robdclark@gmail.com/T/ [3]
->>> Fixes: e531fdb5cd5e ("dma-buf/sw_sync: Avoid recursive lock during fence signal")
->>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
->>> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
->>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
->>> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
->>> Cc: Rob Clark <robdclark@chromium.org>
->>> ---
->>>    drivers/dma-buf/sw_sync.c | 42 ++++++++++++++++-----------------------
->>>    1 file changed, 17 insertions(+), 25 deletions(-)
->>>
->>> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
->>> index c353029789cf..83b624ac4faa 100644
->>> --- a/drivers/dma-buf/sw_sync.c
->>> +++ b/drivers/dma-buf/sw_sync.c
->>> @@ -151,16 +151,7 @@ static const char *timeline_fence_get_timeline_name(struct dma_fence *fence)
->>>    static void timeline_fence_release(struct dma_fence *fence)
->>>    {
->>> -	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
->>>    	struct sync_timeline *parent = dma_fence_parent(fence);
->>> -	unsigned long flags;
->>> -
->>> -	spin_lock_irqsave(fence->lock, flags);
->>> -	if (!list_empty(&pt->link)) {
->>> -		list_del(&pt->link);
->>> -		rb_erase(&pt->node, &parent->pt_tree);
->>> -	}
->>> -	spin_unlock_irqrestore(fence->lock, flags);
->>>    	sync_timeline_put(parent);
->>>    	dma_fence_free(fence);
->>> @@ -229,7 +220,6 @@ static const struct dma_fence_ops timeline_fence_ops = {
->>>     */
->>>    static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
->>>    {
->>> -	LIST_HEAD(signalled);
->>>    	struct sync_pt *pt, *next;
->>>    	trace_sync_timeline(obj);
->>> @@ -242,20 +232,14 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
->>>    		if (!timeline_fence_signaled(&pt->base))
->>>    			break;
->>> -		dma_fence_get(&pt->base);
->>> -
->>> -		list_move_tail(&pt->link, &signalled);
->>> +		list_del(&pt->link);
->>>    		rb_erase(&pt->node, &obj->pt_tree);
->>>    		dma_fence_signal_locked(&pt->base);
->>> +		dma_fence_put(&pt->base);
->>>    	}
->>>    	spin_unlock_irq(&obj->lock);
->>> -
->>> -	list_for_each_entry_safe(pt, next, &signalled, link) {
->>> -		list_del_init(&pt->link);
->>> -		dma_fence_put(&pt->base);
->>> -	}
->>>    }
->>>    /**
->>> @@ -299,13 +283,11 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
->>>    			} else if (cmp < 0) {
->>>    				p = &parent->rb_left;
->>>    			} else {
->>> -				if (dma_fence_get_rcu(&other->base)) {
->>> -					sync_timeline_put(obj);
->>> -					kfree(pt);
->>> -					pt = other;
->>> -					goto unlock;
->>> -				}
->>> -				p = &parent->rb_left;
->>> +				/* This is later put in sw_sync_ioctl_create_fence. */
->>> +				dma_fence_get(&other->base);
->>> +				dma_fence_put(&pt->base);
->>
->> Couldn't this have stayed a direct kfree given pt is not exposed to anywhere
->> at this point, nor it will be? I know there would need to be an explicit
->> sync_timeline_put(obj) too, as before, but perhaps that would read more
->> obvious.
->>
-> 
-> Maybe this is a matter of opinion. I find it easier to read dma_fence_put
-> instead of doing what I just did which was checking that sync_timeline_put
-> and kfree was all left to do. And then I notice there is also tracing
-> involved in that path. Do we care about tracing such a case? Or do we want
-> it explicitly not traced? I would rather keep it as dma_fence_put.
-
-Could be a matter of opinion yeah.
-
->>> +				pt = other;
->>> +				goto unlock;
->>>    			}
->>>    		}
->>>    		rb_link_node(&pt->node, parent, p);
->>> @@ -314,6 +296,8 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
->>>    		parent = rb_next(&pt->node);
->>>    		list_add_tail(&pt->link,
->>>    			      parent ? &rb_entry(parent, typeof(*pt), node)->link : &obj->pt_list);
->>> +		/* Adding to the list requires a reference. */
->>> +		dma_fence_get(&pt->base);
->>>    	}
->>>    unlock:
->>>    	spin_unlock_irq(&obj->lock);
->>> @@ -354,6 +338,7 @@ static int sw_sync_debugfs_release(struct inode *inode, struct file *file)
->>>    	list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
->>>    		dma_fence_set_error(&pt->base, -ENOENT);
->>>    		dma_fence_signal_locked(&pt->base);
->>> +		dma_fence_put(&pt->base);
->>
->> Can't this be dropping one reference too many?
->>
->> There is one reference for being on the list, and one for the owning file.
->> Or there is another one?
->>
->> If there isn't, dma_fence_signal_locked will drop the one for being on the
->> list, and then we drop one more here. Is it the last one? Shouldn't
->> sync_file_release still own one?
-> 
-> Does dma_fence_signal_locked drop a reference? A callback may drop a
-
-Is this a question or a suggestive? I mean doesn't it? After this patch 
-sync_timeline_signal() becomes:
-
-...
-	list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
-		if (!timeline_fence_signaled(&pt->base))
-			break;
-
-		list_del(&pt->link);
-  		rb_erase(&pt->node, &obj->pt_tree);
-
-  		dma_fence_signal_locked(&pt->base);
-		dma_fence_put(&pt->base); --*******--> -1
-  	}
-...
-
-So this drops the "on the list reference" and then closing of the 
-sw_sync_debugfs closes the other:
-
-sw_sync_debugfs_release()
-...
-
-     	list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
-     		dma_fence_set_error(&pt->base, -ENOENT);
-     		dma_fence_signal_locked(&pt->base);
-  		dma_fence_put(&pt->base); ---*******--> -2
-
-At which point two references are dropped. What becomes of the reference 
-which is associated with the sync fence fd itself? I mean when userspace 
-closes that fd and sync_file_release runs, will the dma_fence_put in 
-there be one too many?
-
-I am easily missing something is my disclaimer. It should be easily 
-testable from an IGT and remove any doubt. Create some fences, close the 
-sw_sync timeline, then close individual fences. Kref debug aids should 
-tell us if there was one reference dropped too many.
-
-> reference because it was necessarily taken, but then it is an extra
-> reference. We are dropping this one here because we are done with the list.
-> We are not actually removing things from the list because it cannot be
-> referenced anymore, sw_sync is being released.
-> 
-> Now, I may not remember some of the details, and this might be related to
-> the circular references that is discussed in the commit message, but let's
-> assume that we still have an opened fd sync_file reference to this fence.
-> The only thing touching the list left is sync_timeline_signal, which is
-> called by an ioctl on the timeline fd which is not available anymore. We
-> can explicitly remove things from the list here and be on the safer side.
-> The issue exists already, it is just not possible to trigger it with the
-> current code.
-> 
-> I am not sure how easy it is to provide a different version that fixes both
-> the "useless fence on pt_list to which userspace has no fd" and "fence fd
-> that can never be signaled as it is not on the list because it was already
-> signaled". Perhaps this last one can be "fixed" with setting the signaled
-> bit on the fence, but I have the impression this is already done. So,
-> perhaps, not much worth doing it?
-> 
-> Thanks a lot.
-> Cascardo.
-> 
-> PS:
-> 
-> After a quick revisit here, we can easily fix the case when the fence is
-> not added to the list: return NULL (or rather, change it to an ERR_PTR)
-> when the fence is already signaled. Any preference for an error code here?
-> -EEXIST, perhaps?
-
-I'll postpone thinking about this until I understand the main question 
-from above.
-
-Regards,
-
-Tvrtko
-
-> As for the case where sync_file_create or copy_to_user fails and the fence
-> is left on the list, this wouldn't be different from creating the fence and
-> closing the file descriptor. The fence would still be left there until it
-> is either signaled or the timeline is released.
-> 
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>>    	}
->>>    	spin_unlock_irq(&obj->lock);
->>> @@ -386,7 +371,14 @@ static long sw_sync_ioctl_create_fence(struct sync_timeline *obj,
->>>    	}
->>>    	sync_file = sync_file_create(&pt->base);
->>> +
->>> +	/*
->>> +	 * Puts the extra reference returned by sync_pt_create. This is necessary
->>> +	 * to avoid a race where the fence is signaled, removed from the list and
->>> +	 * released right after sync_pt_create releases the lock and returns.
->>> +	 */
->>>    	dma_fence_put(&pt->base);
->>> +
->>>    	if (!sync_file) {
->>>    		err = -ENOMEM;
->>>    		goto err;
-> 
+T24gNi8xOS8yNCAxMTowMSwgUHJ6ZW1layBLaXRzemVsIHdyb3RlOg0KPiBPbiA2LzE5LzI0IDA5
+OjE2LCBPbWVyIFNocGlnZWxtYW4gd3JvdGU6DQo+PiBPbiA2LzE4LzI0IDE3OjE5LCBBbmRyZXcg
+THVubiB3cm90ZToNCj4gDQo+IFsuLi5dDQo+IA0KPj4+Pj4+ICttb2R1bGVfcGFyYW0ocG9sbF9l
+bmFibGUsIGJvb2wsIDA0NDQpOw0KPj4+Pj4+ICtNT0RVTEVfUEFSTV9ERVNDKHBvbGxfZW5hYmxl
+LA0KPj4+Pj4+ICsgICAgICAgICAgICAgICJFbmFibGUgUnggcG9sbGluZyByYXRoZXIgdGhhbiBJ
+UlEgKyBOQVBJICgwID0gbm8sIDEgPSB5ZXMsIGRlZmF1bHQ6IG5vKSIpOw0KPj4+Pj4NCj4+Pj4+
+IE1vZHVsZSBwYXJhbWV0ZXJzIGFyZSBub3QgbGlrZWQuIFRoaXMgcHJvYmFibHkgbmVlZHMgdG8g
+Z28gYXdheS4NCj4+Pj4+DQo+Pj4+DQo+Pj4+IEkgc2VlIHRoYXQgdmFyaW91cyB2ZW5kb3JzIHVu
+ZGVyIG5ldC9ldGhlcm5ldC8qIHVzZSBtb2R1bGUgcGFyYW1ldGVycy4NCj4+Pj4gQ2FuJ3Qgd2Ug
+YWRkIGFub3RoZXIgb25lPw0KPj4+DQo+Pj4gTG9vayBhdCB0aGUgaGlzdG9yeSBvZiB0aG9zZSBt
+b2R1bGUgcGFyYW1ldGVycy4gRG8geW91IHNlZSBtYW55IGFkZGVkDQo+Pj4gaW4gdGhlIGxhc3Qg
+eWVhcj8gNSB5ZWFycz8NCj4+Pg0KPj4NCj4+IEkgZGlkbid0IGNoZWNrIHRoYXQgcHJpb3IgdG8g
+bXkgc3VibWl0LiBSZWdhcmRpbmcgdGhpcyAibm8gbmV3IG1vZHVsZQ0KPj4gcGFyYW1ldGVycyBh
+bGxvd2VkIiBydWxlLCBpcyB0aGF0IGRvY3VtZW50ZWQgYW55d2hlcmU/IGlmIG5vdCwgaXMgdGhh
+dCB0aGUNCj4+IGNvbW1vbiBwcmFjdGljZT8gbm90IHRvIHRyeSB0byBkbyBzb21ldGhpbmcgdGhh
+dCB3YXMgbm90IGRvbmUgcmVjZW50bHk/DQo+PiBob3cgInJlY2VudGx5IiBpcyBkZWZpbmVkPw0K
+Pj4gSSBqdXN0IHdhbnQgdG8gY2xhcmlmeSB0aGlzIGJlY2F1c2UgaXQncyBoYXJkIHRvIGhhbmRs
+ZSB0aGVzZSBzdWJtaXNzaW9ucw0KPj4gd2hlbiB3ZSB3cml0ZSBzb21lIGNvZGUgYmFzZWQgb24g
+ZXhpc3RpbmcgZXhhbXBsZXMgYnV0IHRoZW4gd2UgYXJlDQo+PiByZWplY3RlZCBiZWNhdXNlICJ3
+ZSBkb24ndCBkbyB0aGF0IGhlcmUgYW55bW9yZSIuDQo+PiBJIHdhbnQgdG8gYXZvaWQgZnV0dXJl
+IGNhc2VzIG9mIHRoaXMgbWlzbWF0Y2guDQo+Pg0KPiANCj4gYmVzdCB3YXkgaXMgdG8gcmVhZCBu
+ZXRkZXYgTUwsIHRoYXQgd2F5IHlvdSB3aWxsIGxlYXJuIHdoYXQgaW50ZXJmYWNlcw0KPiBhcmUg
+ZnJvd25lZCB1cG9uIGFuZCB3aGljaCBhcmUgb3V0cmlnaHQgYmFubmVkLCBzb21ldGltZXMgeW91
+IGNvdWxkDQo+IGp1ZGdlIHlvdXJzZWxmIGtub3dpbmcgd2hpY2ggaW50ZXJmYWNlcyBhcmUgbW9z
+dCBkZXZlbG9wZWQgcmVjZW50bHkNCj4gDQo+IGluIHRoaXMgbW9kdWxlIHBhcmFtcyBleGFtcGxl
+IC0gdGhleSB3ZXJlIGludHJvZHVjZWQgdG8gYWxsb3cgaW5pdCBwaGFzZQ0KPiBjb25maWd1cmF0
+aW9uIG9mIHRoZSBkZXZpY2UsIHRoYXQgY291bGQgbm90IGJlIHBvc3Rwb25lZCwgd2hhdCBpbiB0
+aGUNCj4gZ2VuZXJhbCBjYXNlIHNvdW5kcyBsaWtlIGEgd29ya2Fyb3VuZDsgaGFyZGVzdCBjYXNl
+cyBpbmNsdWRlIGh1Z2Ugc3dhdGhzDQo+IG9mIChwaHlzaWNhbCBjb250aW51b3VzKSBtZW1vcnkg
+dG8gYmUgYWxsb2NhdGVkLCBidXQgZm9yIHRoYXQgdGhlcmUgYXJlDQo+IG5vdyBkZXZpY2UgdHJl
+ZSBiaW5kaW5nIHNvbHV0aW9uczsgbW9yZSB0eXBpY2FsIGNhc2VzIGZvciBuZXR3b3JraW5nIGFy
+ZQ0KPiByZXNvbHZlZCB2aWEgZGV2bGluayByZWxvYWQNCj4gDQo+IGRldmxpbmsgcGFybXMgYXJl
+IGFsc28gdGhlIHRoaW5nIHRoYXQgc2hvdWxkIGJlIHVzZWQgYXMgYSBkZWZhdWx0IGZvcg0KPiBu
+ZXcgcGFyYW1ldGVycywgdGhlIGJlc3QgaWYgZ2l2ZW4gcGFyYW1ldGVyIGlzIG5vdCBkcml2ZXIg
+c3BlY2lmaWMgcXVpcmsNCj4gDQo+IHBvbGxfZW5hYmxlIHNvdW5kcyBsaWtlIHNvbWV0aGluZyB0
+aGF0IHNob3VsZCBiZSBhIGNvbW1vbiBwYXJhbSwNCj4gYnV0IHlvdSBoYXZlIHRvIGJldHRlciBk
+ZXNjcmliZSB3aGF0IHlvdSBtZWFuIHRoZXJlDQo+IChzZWUgbmFwaV9wb2xsKCksICJFbmFibGUg
+UnggcG9sbGluZyIgd291bGQgbWVhbiB0byB1c2UgdGhhdCBhcyBkZWZhdWx0LA0KPiBkbyB5b3Ug
+bWVhbiBidXN5IHBvbGxpbmcgb3Igd2hhdD8pDQoNClllcywgYnVzeSBwb2xsaW5nLg0KQnV0IG5l
+dmVyIG1pbmQsIEkgd2FzIGluZm9ybWVkIHRoYXQgTkFQSSBtdXN0IGJlIHVzZWQgc28gYXBwYXJl
+bnRseSBJJ2xsDQpuZWVkIHRvIGFueXdheSByZW1vdmUgdGhpcyBwb2xsaW5nIG1vZGUgYW5kIGl0
+cyBtb2R1bGUgcGFyYW1ldGVyLg0K
