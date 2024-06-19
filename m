@@ -2,89 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203AC90E18A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 04:11:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76B090E1E2
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 05:16:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D00810E19E;
-	Wed, 19 Jun 2024 02:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8912710F5B8;
+	Wed, 19 Jun 2024 03:16:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Pmd03ZGt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BoisZpzM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77C6B10E823
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 02:11:09 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45ILa2D2014475;
- Wed, 19 Jun 2024 02:11:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- KeuoxgDDAALmmdSqLWiT617mXh7+XeqPTu6aoDZgU3M=; b=Pmd03ZGtH81W2QSb
- M+Y7jqH/fNFGqgJjAcZv16DbdMoT9C8moxg1kfKy1GPRgWMbLDUqbtim9YI6lhoi
- mkhBy2hX9ujIDCH7/WUOEwIktoAPaQEVkRwgCLUcX0oIT9fasnxFuk1mX/DV+GSG
- NRhXfDiMvZEM1JXRSdmxhQlaxU3dzzzs6ua+NMOh/aqlEUgeCj5l9TmbG6TdefLe
- XdFcTivki12Pg5Rvc9kzGd6EfNhXXeyAhsiVVWy6bXNtZoUltdOLPIJqLRi0FbMZ
- AfGOw9DJ2XWPWys2RuCfevm3mT/M9EVKKzdlrcr15nOLOm81qqX3YuOAoutdB+ax
- /L1sCQ==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yuj9x0dn1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Jun 2024 02:11:00 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45J2AxpP018934
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Jun 2024 02:10:59 GMT
-Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 18 Jun
- 2024 19:10:59 -0700
-Message-ID: <0ace8b23-6686-65ae-9923-85de6fc806ee@quicinc.com>
-Date: Tue, 18 Jun 2024 19:10:58 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E7B010F5E5
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 03:16:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718767003; x=1750303003;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=evre/A62rleMBzK6LSljo40VULixCUjb6n/TUkE6G4s=;
+ b=BoisZpzMQ7ZhpnSdyLD+G2HK+j3FKu+l/m04HkCbFsZyJSZYtFhPH+wN
+ W80EDbEqBmz9SJBkyu6wocxkXefufED05h0kwvTKZZt7/UwQPiO0HjqjG
+ dnbDxaPq7IPE0hPvwUmI4v9XwiMpocpbKGbOsX53g0OpS1Ury6KXqRPPa
+ w6rDZHnhdyg2DjgDiBnOHsXJsUFdERKAAy6nNOX23Lomr/T6lvIMoXqcI
+ C5nk0+DxA62Xt/aDkSvqUVA6KNfgXUG4+m9rNpSASu0cas8IdCPbH5aJo
+ G/55xaH6YNO77yyBipir76oTUzC97AIbyKQxvHCsZ349s7VQXFsB2A5FN g==;
+X-CSE-ConnectionGUID: HkQZp1dfSu64kDIxh79aUQ==
+X-CSE-MsgGUID: EVnIcVukQE+PG/KxqKQPXg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="26363853"
+X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; d="scan'208";a="26363853"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2024 20:16:43 -0700
+X-CSE-ConnectionGUID: fhao++heQveyGaZRRaQIKA==
+X-CSE-MsgGUID: jTxQrE6WQRe3T6I1xWYmlA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; d="scan'208";a="46893909"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+ by orviesa004.jf.intel.com with ESMTP; 18 Jun 2024 20:16:39 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sJloK-0006Dd-1P;
+ Wed, 19 Jun 2024 03:16:36 +0000
+Date: Wed, 19 Jun 2024 11:15:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paul Cercueil <paul@crapouillou.net>, Jonathan Cameron <jic23@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+ Nuno Sa <nuno.sa@analog.com>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v11 3/7] iio: core: Add new DMABUF interface infrastructure
+Message-ID: <202406191014.9JAzwRV6-lkp@intel.com>
+References: <20240618100302.72886-4-paul@crapouillou.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: Correct sequencing of usage of DRM writeback connector
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>
-CC: Brian Starkey <brian.starkey@arm.com>, "Hoosier, Matt"
- <Matt.Hoosier@garmin.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, Pekka Paalanen
- <pekka.paalanen@collabora.com>, <nd@arm.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>
-References: <DM6PR04MB5178398F885B5AD82430B8ECECCD2@DM6PR04MB5178.namprd04.prod.outlook.com>
- <ZnBTVCHneR6DQPxX@phenom.ffwll.local>
- <cph4jfd7dy5mxfmnp5iaacxen7zszeiudvpyq4tebgp7fukzzc@xx5m65uwwp6n>
- <5e17dea9-e430-51f5-83f9-ce02241438f8@quicinc.com>
- <cnbiivlsrutjbxw7jeetuyrnm3luvepstlwqxxrzsfhyzlgukk@3jx64owwkv2h>
- <ZnFUg91URIHn_SbR@phenom.ffwll.local>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <ZnFUg91URIHn_SbR@phenom.ffwll.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 1a21X5XAmV7PI-EuTwBFGZx1QzaCmGxe
-X-Proofpoint-GUID: 1a21X5XAmV7PI-EuTwBFGZx1QzaCmGxe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-18_08,2024-06-17_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- impostorscore=0 priorityscore=1501 suspectscore=0 mlxscore=0 adultscore=0
- lowpriorityscore=0 spamscore=0 malwarescore=0 bulkscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
- definitions=main-2406190016
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240618100302.72886-4-paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,155 +77,241 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Paul,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on vkoul-dmaengine/next linus/master v6.10-rc4 next-20240618]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/dmaengine-Add-API-function-dmaengine_prep_peripheral_dma_vec/20240618-180602
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20240618100302.72886-4-paul%40crapouillou.net
+patch subject: [PATCH v11 3/7] iio: core: Add new DMABUF interface infrastructure
+config: x86_64-randconfig-161-20240619 (https://download.01.org/0day-ci/archive/20240619/202406191014.9JAzwRV6-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240619/202406191014.9JAzwRV6-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406191014.9JAzwRV6-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/iio/industrialio-buffer.c:1715:3: error: cannot jump from this goto statement to its label
+    1715 |                 goto err_dmabuf_unmap_attachment;
+         |                 ^
+   drivers/iio/industrialio-buffer.c:1720:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    1720 |         guard(mutex)(&buffer->dmabufs_mutex);
+         |         ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:126:1: note: expanded from here
+     126 | __UNIQUE_ID_guard696
+         | ^
+   drivers/iio/industrialio-buffer.c:1704:3: error: cannot jump from this goto statement to its label
+    1704 |                 goto err_resv_unlock;
+         |                 ^
+   drivers/iio/industrialio-buffer.c:1720:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    1720 |         guard(mutex)(&buffer->dmabufs_mutex);
+         |         ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:126:1: note: expanded from here
+     126 | __UNIQUE_ID_guard696
+         | ^
+   drivers/iio/industrialio-buffer.c:1695:3: error: cannot jump from this goto statement to its label
+    1695 |                 goto err_dmabuf_detach;
+         |                 ^
+   drivers/iio/industrialio-buffer.c:1720:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    1720 |         guard(mutex)(&buffer->dmabufs_mutex);
+         |         ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:126:1: note: expanded from here
+     126 | __UNIQUE_ID_guard696
+         | ^
+   drivers/iio/industrialio-buffer.c:1690:3: error: cannot jump from this goto statement to its label
+    1690 |                 goto err_dmabuf_put;
+         |                 ^
+   drivers/iio/industrialio-buffer.c:1720:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    1720 |         guard(mutex)(&buffer->dmabufs_mutex);
+         |         ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:126:1: note: expanded from here
+     126 | __UNIQUE_ID_guard696
+         | ^
+   drivers/iio/industrialio-buffer.c:1684:3: error: cannot jump from this goto statement to its label
+    1684 |                 goto err_free_priv;
+         |                 ^
+   drivers/iio/industrialio-buffer.c:1720:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    1720 |         guard(mutex)(&buffer->dmabufs_mutex);
+         |         ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
 
 
-On 6/18/2024 2:33 AM, Daniel Vetter wrote:
-> On Mon, Jun 17, 2024 at 10:52:27PM +0300, Dmitry Baryshkov wrote:
->> On Mon, Jun 17, 2024 at 11:28:35AM GMT, Abhinav Kumar wrote:
->>> Hi
->>>
->>> On 6/17/2024 9:54 AM, Brian Starkey wrote:
->>>> Hi,
->>>>
->>>> On Mon, Jun 17, 2024 at 05:16:36PM +0200, Daniel Vetter wrote:
->>>>> On Mon, Jun 17, 2024 at 01:41:59PM +0000, Hoosier, Matt wrote:
->>>>>> Hi,
->>>>>>
->>>>>> There is a discussion ongoing over in the compositor world about the implication of this cautionary wording found in the documentation for the DRM_MODE_CONNECTOR_WRITEBACK connectors:
->>>>>>
->>>>>>>    *  "WRITEBACK_OUT_FENCE_PTR":
->>>>>>>    *	Userspace can use this property to provide a pointer for the kernel to
->>>>>>>    *	fill with a sync_file file descriptor, which will signal once the
->>>>>>>    *	writeback is finished. The value should be the address of a 32-bit
->>>>>>>    *	signed integer, cast to a u64.
->>>>>>>    *	Userspace should wait for this fence to signal before making another
->>>>>>>    *	commit affecting any of the same CRTCs, Planes or Connectors.
->>>>>>>    *	**Failure to do so will result in undefined behaviour.**
->>>>>>>    *	For this reason it is strongly recommended that all userspace
->>>>>>>    *	applications making use of writeback connectors *always* retrieve an
->>>>>>>    *	out-fence for the commit and use it appropriately.
->>>>>>>    *	From userspace, this property will always read as zero.
->>>>>>
->>>>>> The question is whether it's realistic to hope that a DRM writeback
->>>>>> connector can produce results on every frame, and do so without dragging
->>>>>> down the frame-rate for the connector.
->>>>>>
->>>>>> The wording in the documentation above suggests that it is very likely
->>>>>> the fence fd won't signal userspace until after the vblank following the
->>>>>> scanout during which the writeback was applied (call that frame N). This
->>>>>> would mean that the compositor driving the connector would typically be
->>>>>> unable to legally queue a page flip for frame N+1.
->>>>>>
->>>>>> Is this the right interpretation? Is the writeback hardware typically
->>>>>> even designed with a streaming use-case in mind? Maybe it's just
->>>>>> intended for occasional static screenshots.
->>>>>
->>>>> So typically writeback hardware needs its separate crtc (at least the
->>>>> examples I know of) and doesn't make a lot of guarantees that it's fast
->>>>> enough for real time use. Since it's a separate crtc it shouldn't hold up
->>>>> the main composition loop, and so this should be all fine.
->>>>
->>>> On Mali-DP and Komeda at least, you can use writeback on the same CRTC
->>>> that is driving a "real" display, and it should generally work. If the
->>>> writeback doesn't keep up then the HW will signal an error, but it was
->>>> designed to work in-sync with real scanout, on the same pipe.
->>>>
->>>
->>> Same with MSM hardware. You can use writeback with same CRTC that is driving
->>> a "real" display and yes we call it concurrent writeback. So I think it is
->>> correct in the documentation to expect to wait till this is signaled if the
->>> same CRTC is being used.
-> 
-> TIL
-> 
->>>>> If/when we have hardware and driver support where you can use the
->>>>> writeback connector as a real-time streamout kind of thing, then we need
->>>>> to change all this, because with the current implementation, there's
->>>>> indeed the possibility that funny things can happen if you ignore the
->>>>> notice (funny as in data corruption, not funny as the kernel crashes of
->>>>> course).
->>>>
->>>> Indeed, the wording was added (from what I remember from so long
->>>> ago...) because it sounded like different HW made very different
->>>> guarantees/non-guarantees about what data would be written when, so
->>>> perhaps you'd end up with some pixels from the next frame in your
->>>> buffer or something.
->>>>
->>>> Taking Mali-DP/Komeda again, the writeback configuration is latched
->>>> along with everything else, and writeback throughput permitting, it
->>>> should "just work" if you submit a new writeback every frame. It
->>>> drains out the last of the data during vblank, before starting on the
->>>> next frame. That doesn't help the "general case" though.
->>>>
->>>
->>> Would it be fair to summarize it like below:
->>>
->>> 1) If the same CRTC is shared with the real time display, then the hardware
->>> is expected to fire this every frame so userspace should wait till this is
->>> signaled.
->>
->> As I wrote in response to another email in this thread, IMO existing
->> uAPI doesn't fully allow this. There is no way to enforce 'vblank'
->> handling onto the userspace. So userspace should be able to supply at
->> least two buffers and then after the vblank it should be able to enqueue
->> the next buffer, while the filled buffer is automatically dequeued by
->> the driver and is not used for further image output.
-> 
+vim +1715 drivers/iio/industrialio-buffer.c
 
-Sorry for the late response. What I meant was, if we are using 
-concurrent writeback with the real time display, it should be capable of 
-running at the same speed as the real time display. I do not have the 
-numbers to share but atleast that's the expectation.
+  1655	
+  1656	static int iio_buffer_attach_dmabuf(struct iio_dev_buffer_pair *ib,
+  1657					    int __user *user_fd, bool nonblock)
+  1658	{
+  1659		struct iio_dev *indio_dev = ib->indio_dev;
+  1660		struct iio_buffer *buffer = ib->buffer;
+  1661		struct dma_buf_attachment *attach;
+  1662		struct iio_dmabuf_priv *priv, *each;
+  1663		struct dma_buf *dmabuf;
+  1664		int err, fd;
+  1665	
+  1666		if (!buffer->access->attach_dmabuf
+  1667		    || !buffer->access->detach_dmabuf
+  1668		    || !buffer->access->enqueue_dmabuf)
+  1669			return -EPERM;
+  1670	
+  1671		if (copy_from_user(&fd, user_fd, sizeof(fd)))
+  1672			return -EFAULT;
+  1673	
+  1674		priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+  1675		if (!priv)
+  1676			return -ENOMEM;
+  1677	
+  1678		spin_lock_init(&priv->lock);
+  1679		priv->context = dma_fence_context_alloc(1);
+  1680	
+  1681		dmabuf = dma_buf_get(fd);
+  1682		if (IS_ERR(dmabuf)) {
+  1683			err = PTR_ERR(dmabuf);
+  1684			goto err_free_priv;
+  1685		}
+  1686	
+  1687		attach = dma_buf_attach(dmabuf, indio_dev->dev.parent);
+  1688		if (IS_ERR(attach)) {
+  1689			err = PTR_ERR(attach);
+  1690			goto err_dmabuf_put;
+  1691		}
+  1692	
+  1693		err = iio_dma_resv_lock(dmabuf, nonblock);
+  1694		if (err)
+  1695			goto err_dmabuf_detach;
+  1696	
+  1697		priv->dir = buffer->direction == IIO_BUFFER_DIRECTION_IN
+  1698			? DMA_FROM_DEVICE : DMA_TO_DEVICE;
+  1699	
+  1700		priv->sgt = dma_buf_map_attachment(attach, priv->dir);
+  1701		if (IS_ERR(priv->sgt)) {
+  1702			err = PTR_ERR(priv->sgt);
+  1703			dev_err(&indio_dev->dev, "Unable to map attachment: %d\n", err);
+  1704			goto err_resv_unlock;
+  1705		}
+  1706	
+  1707		kref_init(&priv->ref);
+  1708		priv->buffer = buffer;
+  1709		priv->attach = attach;
+  1710		attach->importer_priv = priv;
+  1711	
+  1712		priv->block = buffer->access->attach_dmabuf(buffer, attach);
+  1713		if (IS_ERR(priv->block)) {
+  1714			err = PTR_ERR(priv->block);
+> 1715			goto err_dmabuf_unmap_attachment;
+  1716		}
+  1717	
+  1718		dma_resv_unlock(dmabuf->resv);
+  1719	
+  1720		guard(mutex)(&buffer->dmabufs_mutex);
+  1721	
+  1722		/*
+  1723		 * Check whether we already have an attachment for this driver/DMABUF
+  1724		 * combo. If we do, refuse to attach.
+  1725		 */
+  1726		list_for_each_entry(each, &buffer->dmabufs, entry) {
+  1727			if (each->attach->dev == indio_dev->dev.parent
+  1728			    && each->attach->dmabuf == dmabuf) {
+  1729				/*
+  1730				 * We unlocked the reservation object, so going through
+  1731				 * the cleanup code would mean re-locking it first.
+  1732				 * At this stage it is simpler to free the attachment
+  1733				 * using iio_buffer_dma_put().
+  1734				 */
+  1735				iio_buffer_dmabuf_put(attach);
+  1736				return -EBUSY;
+  1737			}
+  1738		}
+  1739	
+  1740		/* Otherwise, add the new attachment to our dmabufs list. */
+  1741		list_add(&priv->entry, &buffer->dmabufs);
+  1742	
+  1743		return 0;
+  1744	
+  1745	err_dmabuf_unmap_attachment:
+  1746		dma_buf_unmap_attachment(attach, priv->sgt, priv->dir);
+  1747	err_resv_unlock:
+  1748		dma_resv_unlock(dmabuf->resv);
+  1749	err_dmabuf_detach:
+  1750		dma_buf_detach(dmabuf, attach);
+  1751	err_dmabuf_put:
+  1752		dma_buf_put(dmabuf);
+  1753	err_free_priv:
+  1754		kfree(priv);
+  1755	
+  1756		return err;
+  1757	}
+  1758	
 
-But, yes I do admit that current UAPI does not fully allow having a 
-queue depth for WB FBs. And having it will help us.
-
-> Yeah if you want streaming writeback we need a queue depth of at least 2
-> in the kms api. Will help a lot on all hardware, but on some it's required
-> because the time when the writeback buffer is fully flushed is after the
-> point of no return for the next frame (which is when the vblank event is
-> supposed to go out).
-> 
-> I think over the years we've slowly inched forward to make at least the
-> drm code safe for a queue depth of 2 in the atomic machinery, but the
-> writeback and driver code probably needs a bunch of work.
-> -Sima
-> 
->>
->>>
->>> 2) If a different CRTC is used for the writeback, then the composition loop
->>> for the real time display should not block on this unless its a mirroring
->>> use-case, then we will be throttled by the lowest refresh rate anyway.
->>
->> what is mirroring in this case? You have specified that a different CRTC
->> is being used.
->>
-
-Definition of mirroring could be thought of in two ways:
-
-1) in clone mode, the WB is running at the same rate as the real time 
-display and hence if we are mirroring the content this way there is same 
-CRTC.
-
-2) lets say I want to mirror my content using wifi display but the 
-end-monitor is running on a different resolution and fps, then I cannot 
-use clone mode in this case right because the CRTC which the writeback 
-is using will be programmed for a different mode than the real time display.
-
-For the second case, it is still mirroring the content but with a 
-different CRTC so will be slowed down by the slowest display otherwise 
-the displays will go out of sync. This is what I meant in this use-case.
-
->>>
->>>>>
->>>>> If we already have devices where you can use writeback together with real
->>>>> outputs, then I guess that counts as an oopsie :-/
->>>>
->>>> Well "works fine" fits into the "undefined behaviour" bucket, just as
->>>> well as "corrupts your fb" does :-)
->>
->>
->> -- 
->> With best wishes
->> Dmitry
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
