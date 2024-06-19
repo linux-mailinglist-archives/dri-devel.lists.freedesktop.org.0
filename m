@@ -2,77 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2783F90EE70
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 15:29:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE3690EF5D
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 15:50:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64ABF10ECA5;
-	Wed, 19 Jun 2024 13:29:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48BAB10E735;
+	Wed, 19 Jun 2024 13:50:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="ZcRSyda3";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Np+IrezL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DA5E10ECA5
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 13:29:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1718803725; x=1719408525; i=markus.elfring@web.de;
- bh=Cqv24v/8lPgdG+NBHkh3HOkG7c3WtsIJpUILM4XYcKM=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=ZcRSyda3HljeeSrPJsg9pt/SRxpkFHlcTRi7289KIbREzjXnwYJjEL1b4ikYNyW0
- cwW2t0z/i+PgBzGJZiJi0DglhseueROUNz0HG4pwc3qldtuJ5jRI7MgUspvcwEA3Q
- MEaj14Balwr38BcHKbT0+yUpLht6u+kQ+r4IDeFaZXNtOO0AQXYYbfNxM1qdX061D
- 1CZw7uJVV1rqnUvKEzkbkzyPiVj9foILjLYAyrYxm1dD0qgfhIop+nwagQxHXKbps
- T51aMnsKpdNl7/gt5I2+nGV4TaZbgsg3SrNmjqkGylvMem0EgtWxIruVS6lNFpi8U
- 4NS5T70OYGbFOvl1NQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MUl9H-1rtlXw0E0f-00K0rd; Wed, 19
- Jun 2024 15:28:45 +0200
-Message-ID: <d8d4cca1-031f-4ea7-89da-573e0863c3ec@web.de>
-Date: Wed, 19 Jun 2024 15:28:43 +0200
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A86CC10E735;
+ Wed, 19 Jun 2024 13:50:18 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id
+ 98e67ed59e1d1-2c31144881eso5366313a91.1; 
+ Wed, 19 Jun 2024 06:50:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1718805018; x=1719409818; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2ZTQnv09PBqGC+05GHEbv1DDrULxaj/6Q8hEp1369So=;
+ b=Np+IrezLtiEf/h43Fynf6qDMO3Z9caqw7o8c8mVnlMy6PeL7UDFePTjPFZCO2h640i
+ NydIzXvgSD1QWVe2RqRjgaUKUDCWbhh7IgTSkxuN6yOQwYGbsCCNiQ6ZUlTyB//unFh4
+ Cjb1p71pLDeyGtdYBoX8hRV5lB1Mrn3ETY28YckPlyQ+/j1ppsOyd6IoNBGA/EQUIS7S
+ kqT7gv0EuT1nJFIs3dRVZDzdEyt8rMzGo/1y7Lcd1YSjGC2IEZrVtwIqg5KFqV8huJT/
+ mCrmtEOAwF6D+q+OdpR8cCpH+BduMlNL0RfpP47MPgiI5AoRYxGKmRqnvAa92D6wBHsI
+ UC6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718805018; x=1719409818;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2ZTQnv09PBqGC+05GHEbv1DDrULxaj/6Q8hEp1369So=;
+ b=KCHti9H8eDZjMEwHtkifCVC3836cqhTM+nDhFzF3kMGnTX8JsHeW9TD0fWqoXfPdFL
+ znpyhtsPl3ReGckoo3TYBNxsOoFPDIuVXkeF4s8x20pvwxkvZq9IWjyNK0uLybVWtugd
+ +2hPu5ajFuxkmZGlLNMJ0vyrzJercqgbnzDjZXxKeqRar8UXGAK1hq+PqHU8C1OiNDX9
+ XdQYyJW9N6lSipx8l5WVc4AXifxkAARaVQedwmnOk7O5yp6KOaRWH8OFNkUtDXje78ai
+ ODEOYg3TXAvIG9+VRwKBcZblj3oJkydr/1FrDUScqr3PAyw2GVRpT9SIor256mzdMW/i
+ V7xw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWaQOl60x39xzYbM4ndaZNtouHlKiSYu9ByzfQz0jy7wWB0W13a0jGcIFjNvJwV9ybUWvlNsWjSXZa2zO5R4G6YLqKxVXljiS7VW7jgyQ==
+X-Gm-Message-State: AOJu0YxPU2xwI86ERETH9k0KLR6EUo3H0QQAnB66/3mVIzCu6YBYFKU2
+ vS0pFt9+TJEGKIL00pEWa6T/xWi62pmSG6EPUXr2CgfssXpPsIEEmBWsVLHULmuK1HfzFsdxXma
+ kyFhWcgc7bIimgitFxhI7UaQuCa0=
+X-Google-Smtp-Source: AGHT+IG+EvjSwtHF5waL+ZwqlIuQEUJpqivfp1yeEtKYVKZW125eUYnfAcDvUfWdFV1Joj5SA9tawyCp/iqpv6kF8T0=
+X-Received: by 2002:a17:90a:c70e:b0:2c3:1234:8bbb with SMTP id
+ 98e67ed59e1d1-2c7b5d7bfaamr2652814a91.38.1718805017816; Wed, 19 Jun 2024
+ 06:50:17 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 3/7] iio: core: Add new DMABUF interface infrastructure
-To: Paul Cercueil <paul@crapouillou.net>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
- <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
-References: <20240618100302.72886-4-paul@crapouillou.net>
- <fc3045c5-d542-4a6c-906d-84f72e776e9c@web.de>
- <8d536bb864c145340a15f496ad3b89e08a847718.camel@crapouillou.net>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <8d536bb864c145340a15f496ad3b89e08a847718.camel@crapouillou.net>
-Content-Type: text/plain; charset=UTF-8
+References: <20240612222435.3188234-1-dianders@chromium.org>
+ <20240612152752.v2.8.I27914059cc822b52db9bf72b4013b525b60e06fd@changeid>
+ <CADnq5_PbqE0E2pP26mGD94cdc=tLZZsF10e7ZZWeC5AU-LS8vw@mail.gmail.com>
+ <CAD=FV=XJAiVGFn_Tqs_JNo1fQKFys3m=hH9MwmMot93gkdg=Qw@mail.gmail.com>
+ <CADnq5_M+H_h1Me_O3u=R3q52PgYcCwwY9Mr8_R1eX0G7HvBp2w@mail.gmail.com>
+ <CAD=FV=X=9PV+zbmd2S-TBBxq+yQZ2D+-cCHjFX-gm-f+DyXXiQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=X=9PV+zbmd2S-TBBxq+yQZ2D+-cCHjFX-gm-f+DyXXiQ@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 19 Jun 2024 09:50:05 -0400
+Message-ID: <CADnq5_OXUKj=bfK0NOAhOzmhYCSnQXbxHbwLOaBQ6wFX033Wgw@mail.gmail.com>
+Subject: Re: [PATCH v2 8/8] drm/amdgpu: Call drm_atomic_helper_shutdown() at
+ shutdown time
+To: Doug Anderson <dianders@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Candice Li <candice.li@amd.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Le Ma <le.ma@amd.com>, 
+ Lijo Lazar <lijo.lazar@amd.com>, Ma Jun <Jun.Ma2@amd.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Shashank Sharma <shashank.sharma@amd.com>, 
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Victor Lu <victorchengchi.lu@amd.com>, amd-gfx@lists.freedesktop.org, 
+ chenxuebing <chenxb_99091@126.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:MrJKaxOVCei/mZBzi2PVNabKJ6tVMvGyFZ5xYhMj5+zLLOoWPW9
- RP1yEleiWkMbS2BUGrEkH6qWN74vGTCeozUL9FB2tABigS/1SKC/gRb6PjhqDjkxi8TvibN
- DirViL6WNMQC8mFjztRZzggJYPP4XdQPTe30mSzWbulcYWwh8hlHd6aXs+ESjHDzKU9+Y0k
- FHer/BM6ZfIttjr8bzCaQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:l/XCafQtm8M=;bwyV0boUcJejmr0awi4VkGYb3GT
- 8KvUhYW4dlBpvKPcQb+UN/Q6hCIjR0DKLLpUkvsRqwzuV/on4SZSWw+QLa+duVi1FfiJlqb4C
- 4Baj1bsgCB6QeLRkJHaYQPVlgPWz+mC9yWM3C1TR10W3ERu+mGsut1HSrqDA+zVsmR+nMgaWB
- 4nmIhoyOe1U2LhuNyCgfpx0Q5q6DF9SPHNghAdilUKEQXIE7kfG3QlBNcBOZNuGo5hxDArrBq
- wRPnl2z2PbR47TkcBmRlcdomU92Z2m26JLjSPGFyUniY2OhmqMwvCbI1e+9GtlIal/IP/HbHV
- LasZf5HRKoj7imJCZzUoiUsVIsA9RE6g2LZE3ouH8fPLRKUYFbW2raRX+HXia/M0HfNJxbyk8
- +wgDRNi1Fx6i2L97JYOtjcRybz8qDuCv7X+im9g5L635DLibimhTJlvF9dfFVF/PTmkPbptkO
- yAwbbKSw9Z/IfYCZ6d7+lh2vLZt5VLbngU1JZJ/Pz+qj6o8xaCthpCzf6FilfNut0xIxKNYY6
- 9IqKEL5scAjXRhIDv5ieh2WZNLMFvT5iIi37u3lXrnp1N995MVRm5rBraB4wQU/CqLh7HeOQL
- mQ+HezzE1Qcv6bfS44m7WB7ZkXiefpwrcEpcieQI54mwmNl4+wUlhCWa7+WVnM9AbGUTad4c8
- 4Uymo0kUl6sV4dIsl4YxsR1+5XDMEFvyOk4fxvHjKUarsn1dkXHKmqy90J/ujrKCnfI/6DsVk
- WgZBx38VO5Exv1Urg8H4ZBlAYDVCJA1aWy4kKNi2t1+wRAxKNCU3EE//+oEbjR4qmFP3MLGtN
- SoQmH7zNnqvoZRGShO1xA+cixFbbN9Nst1Yo9Qg2EQWSbULpnDszsWJ1lusLMDb2Dz
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,24 +99,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->> =E2=80=A6
->>> +++ b/drivers/iio/industrialio-buffer.c
->> =E2=80=A6
->>> +static void iio_buffer_dmabuf_release(struct kref *ref)
->>> +{
->> =E2=80=A6
->>> +	dma_resv_lock(dmabuf->resv, NULL);
->>> +	dma_buf_unmap_attachment(attach, priv->sgt, priv->dir);
->>> +	dma_resv_unlock(dmabuf->resv);
->> =E2=80=A6
->>
->> Under which circumstances will another lock guard become applicable?
->> https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/cleanup=
-.h#L179
+On Tue, Jun 18, 2024 at 7:53=E2=80=AFPM Doug Anderson <dianders@chromium.or=
+g> wrote:
 >
-> As soon as "struct dma_resv" gets a DEFINE_GUARD().
+> Hi,
+>
+> On Tue, Jun 18, 2024 at 3:00=E2=80=AFPM Alex Deucher <alexdeucher@gmail.c=
+om> wrote:
+> >
+> > On Tue, Jun 18, 2024 at 5:40=E2=80=AFPM Doug Anderson <dianders@chromiu=
+m.org> wrote:
+> > >
+> > > Hi,
+> > >
+> > >
+> > > On Mon, Jun 17, 2024 at 8:01=E2=80=AFAM Alex Deucher <alexdeucher@gma=
+il.com> wrote:
+> > > >
+> > > > On Wed, Jun 12, 2024 at 6:37=E2=80=AFPM Douglas Anderson <dianders@=
+chromium.org> wrote:
+> > > > >
+> > > > > Based on grepping through the source code this driver appears to =
+be
+> > > > > missing a call to drm_atomic_helper_shutdown() at system shutdown
+> > > > > time. Among other things, this means that if a panel is in use th=
+at it
+> > > > > won't be cleanly powered off at system shutdown time.
+> > > > >
+> > > > > The fact that we should call drm_atomic_helper_shutdown() in the =
+case
+> > > > > of OS shutdown/restart comes straight out of the kernel doc "driv=
+er
+> > > > > instance overview" in drm_drv.c.
+> > > > >
+> > > > > Suggested-by: Maxime Ripard <mripard@kernel.org>
+> > > > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > > Cc: Xinhui Pan <Xinhui.Pan@amd.com>
+> > > > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > > > > ---
+> > > > > This commit is only compile-time tested.
+> > > > >
+> > > > > ...and further, I'd say that this patch is more of a plea for hel=
+p
+> > > > > than a patch I think is actually right. I'm _fairly_ certain that
+> > > > > drm/amdgpu needs this call at shutdown time but the logic is a bi=
+t
+> > > > > hard for me to follow. I'd appreciate if anyone who actually know=
+s
+> > > > > what this should look like could illuminate me, or perhaps even j=
+ust
+> > > > > post a patch themselves!
+> > > >
+> > > > I'm not sure this patch makes sense or not.  The driver doesn't rea=
+lly
+> > > > do a formal tear down in its shutdown routine, it just quiesces the
+> > > > hardware.  What are the actual requirements of the shutdown functio=
+n?
+> > > > In the past when we did a full driver tear down in shutdown, it
+> > > > delayed the shutdown sequence and users complained.
+> > >
+> > > The "inspiration" for this patch is to handle panels properly.
+> > > Specifically, panels often have several power/enable signals going to
+> > > them and often have requirements that these signals are powered off i=
+n
+> > > the proper order with the proper delays between them. While we can't
+> > > always do so when the system crashes / reboots in an uncontrolled way=
+,
+> > > panel manufacturers / HW Engineers get upset if we don't power things
+> > > off properly during an orderly shutdown/reboot. When panels are
+> > > powered off badly it can cause garbage on the screen and, so I've bee=
+n
+> > > told, can even cause long term damage to the panels over time.
+> > >
+> > > In Linux, some panel drivers have tried to ensure a proper poweroff o=
+f
+> > > the panel by handling the shutdown() call themselves. However, this i=
+s
+> > > ugly and panel maintainers want panel drivers to stop doing it. We
+> > > have removed the code doing this from most panels now [1]. Instead th=
+e
+> > > assumption is that the DRM modeset drivers should be calling
+> > > drm_atomic_helper_shutdown() which will make sure panels get an
+> > > orderly shutdown.
+> > >
+> > > For a lot more details, see the cover letter [2] which then contains
+> > > links to even more discussions about the topic.
+> > >
+> > > [1] https://lore.kernel.org/r/20240605002401.2848541-1-dianders@chrom=
+ium.org
+> > > [2] https://lore.kernel.org/r/20240612222435.3188234-1-dianders@chrom=
+ium.org
+> >
+> > I don't think it's an issue.  We quiesce the hardware as if we were
+> > about to suspend the system (e.g., S3).  For the display hardware we
+> > call drm_atomic_helper_suspend() as part of that sequence.
+>
+> OK. It's no skin off my teeth and we can drop this patch if you're
+> convinced it's not needed. From the point of view of someone who has
+> no experience with this driver it seems weird to me that it would use
+> drm_atomic_helper_suspend() at shutdown time instead of the documented
+> drm_atomic_helper_shutdown(), but if it works for everyone then I'm
+> not gonna complain.
 
-Would any contributor like to add a macro call accordingly?
+I think the problem is that it is not clear exactly what the
+expectations are around the PCI shutdown callback.  The documentation
+says:
 
-Regards,
-Markus
+"Hook into reboot_notifier_list (kernel/sys.c). Intended to stop any
+idling DMA operations. Useful for enabling wake-on-lan (NIC) or
+changing the power state of a device before reboot. e.g.
+drivers/net/e100.c."
+
+We tried a full driver teardown in the shutdown callback and it added
+a lot of latency that really wasn't needed since the system was just
+going into a reboot or power down.  The best middle ground was to just
+leverage our hw level suspend code to quiesce the hardware.  Adding
+complexity to call drm_atomic_helper_suspend() vs
+drm_atomic_helper_shutdown() doesn't seem worth it since the functions
+do pretty much the same thing (both call
+drm_atomic_helper_disable_all()).  Maybe it's better to update the
+documentation to recommend drm_atomic_helper_suspend() if drivers want
+to leverage their suspend code?
+
+Alex
