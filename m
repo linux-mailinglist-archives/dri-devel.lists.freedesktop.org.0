@@ -2,84 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87CBA90F410
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 18:33:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9557090F435
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 18:39:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C15510ED24;
-	Wed, 19 Jun 2024 16:33:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E386310ED35;
+	Wed, 19 Jun 2024 16:39:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="YSzGg+Hx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E/5JCVZ3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
- [209.85.219.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9A810ED25
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 16:33:10 +0000 (UTC)
-Received: by mail-qv1-f49.google.com with SMTP id
- 6a1803df08f44-6b4fec3a1a7so121066d6.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 09:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1718814789; x=1719419589; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=UxqMh14wh6rgt2Gb04HuzckvnrRRbYR5Yps3CaoDEDg=;
- b=YSzGg+HxtTVPHjnBLGEeYvSBxFWk7Y40mM8yrUy9oWdS1EiZ2y0yepuFkQhp6+XjED
- WGH+gqKzeU7n/Kl6uG0MTsPau4oxSJMtlPSlif0RQxE9SqFXgmQ5tz0QoamAL+YNYfPX
- OnvMoNYDgFYlLOez9tAg/MUszxiRGZRqQECsI6+4bJ6j0vk5/X/pya22t1Ud/O4B/xPJ
- 4jS/bwSBHoq9COzAE1oPXBip2RWWRq5yQE/+uKG0SBd6Zqie0X+6ycJyflEJBj/oocgC
- ikenEvkZsUtqoIzT3WG2750xaIl9JvRNhTgk+ENwx2UiOcLFcDH4lM2TXlUU0rcoGhcV
- +zQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718814789; x=1719419589;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UxqMh14wh6rgt2Gb04HuzckvnrRRbYR5Yps3CaoDEDg=;
- b=MCzavR2i7me89RPWSiz8KxDWXxi+0sk1Tw76+6aqMmaaCB2vpsR/EO7axiihHP1Joc
- cGm0F01NyoIpJrILOZ3/3+0jL3R96yRFk7rUNiNo0Go5lPtkyl8TVolemupoLwu0qwmB
- xqMCuMZJh2WNxsTbeLEhQFzteo6+R39qzSrk+SlKrJvZ2yhFnaPL1P7sG8alRO6w5hik
- qtpWw5FwZCZFI0q6aHja8sHy8K7BWeFjLeWCg1CiQmN3UIGffTWIZduEzw5wsGYmHy1q
- 33dHksVAdJCWN8EtxJvFYpjgA/75REpeMGajksnmYrWPE6eGI7lk/WImeIp52ONFkGgG
- GO+Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU7nvBWf2Ye6e30Xe8GQ9pzUMsxJ4Q7I+HhUZbwzsNp39tmJaMX2y7uKFvF2lCHp3VB8z6Z42d5U4n8wDagE8CTQB/M+B3P/AvcpXAtrwHx
-X-Gm-Message-State: AOJu0YzkZ8YQMSiQSPOYBQSyrRMERJ96TEUYHdKPDsJEcVB6fqt9QEEZ
- QqrAu0AxnWmu5DJZfS8ZmDrodg3JXRDm+9+A8K4AijgoeiwUDqFLS7tjLaHhElA=
-X-Google-Smtp-Source: AGHT+IEi+7foZgh/9Z0anYpjxAAXArw1uJUHOfsFSQr7PUdyfMayYNr0/bYNAmiUhoW9f3jLzo/I0A==
-X-Received: by 2002:ad4:55e3:0:b0:6b2:1094:83bf with SMTP id
- 6a1803df08f44-6b501df81a9mr31902396d6.4.1718814788824; 
- Wed, 19 Jun 2024 09:33:08 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.80.239]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b2a5eb4cf9sm78898276d6.97.2024.06.19.09.33.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jun 2024 09:33:07 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
- (envelope-from <jgg@ziepe.ca>) id 1sJyF9-005AMj-BB;
- Wed, 19 Jun 2024 13:33:07 -0300
-Date: Wed, 19 Jun 2024 13:33:07 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Rob Clark <robdclark@gmail.com>, Will Deacon <will@kernel.org>,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Rob Clark <robdclark@chromium.org>, Joerg Roedel <joro@8bytes.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Kevin Tian <kevin.tian@intel.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
- "open list:IOMMU SUBSYSTEM" <iommu@lists.linux.dev>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 1/2] iommu/io-pgtable-arm: Add way to debug pgtable walk
-Message-ID: <20240619163307.GL791043@ziepe.ca>
-References: <20240523175227.117984-1-robdclark@gmail.com>
- <20240523175227.117984-2-robdclark@gmail.com>
- <85f5250f-0d50-4aa3-93c9-2008c6ccb8fb@arm.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 908C510ED2F
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 16:38:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id A24F9CE2069;
+ Wed, 19 Jun 2024 16:38:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CB0AFC2BBFC;
+ Wed, 19 Jun 2024 16:38:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718815124;
+ bh=1/Deizd7VSTe2iJzo6qC6np7IrGYcl14e1WZr+sIbJg=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=E/5JCVZ3BXVCdiSjx9yM6gRmqvoaNrjaDAZ9UzqD54YJWOUxOuEK6HIVRNA3cb3Zq
+ 4WHOG1iCPEAQBJAoRLgnEX7YzNacY9eYqfb0xbvDWPhwFcrxdcYcOG3xSz3lKKNgaa
+ BVzDrrkH7rehZdbmFjN6PTL1aXaUA2adXUnyrjWp0TZgF4+XMZNUQSyBaamh+F8uVU
+ DWE5gKDxVSeCsT7DKH1Hg3e5+0DjDY+qvr3WtBH0o5UiLAH4O1ZMhQLoea8vKyCHvC
+ OHpxkPm8+8atc0MSJoscKEDVwAeHSp2c24AFEcQqlZEP7JVaJxobdPQMiZtZ6hx39J
+ rk6Pd6JT0/tkw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id AE18CC27C53;
+ Wed, 19 Jun 2024 16:38:44 +0000 (UTC)
+From: Hsiao Chien Sung via B4 Relay
+ <devnull+shawn.sung.mediatek.com@kernel.org>
+Subject: [PATCH v3 00/14] This series fixes the errors of MediaTek display
+ driver found by IGT.
+Date: Thu, 20 Jun 2024 00:38:40 +0800
+Message-Id: <20240620-igt-v3-0-a9d62d2e2c7e@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <85f5250f-0d50-4aa3-93c9-2008c6ccb8fb@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJEJc2YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDM0NL3cz0El0TS0NL01QjQxMDkxQloMqCotS0zAqwKdGxtbUATts7MVU
+ AAAA=
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ CK Hu <ck.hu@mediatek.com>, Bibby Hsieh <bibby.hsieh@mediatek.com>, 
+ Daniel Kurtz <djkurtz@chromium.org>, Mao Huang <littlecvr@chromium.org>, 
+ "Nancy.Lin" <nancy.lin@mediatek.com>
+Cc: YT Shen <yt.shen@mediatek.com>, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ Hsiao Chien Sung <shawn.sung@mediatek.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718815123; l=3450;
+ i=shawn.sung@mediatek.com; s=20240616; h=from:subject:message-id;
+ bh=1/Deizd7VSTe2iJzo6qC6np7IrGYcl14e1WZr+sIbJg=;
+ b=jSxUNwpSULh9lrpbHUH8cTlzzmFaSiiiXN/JGo95ZbDBiwweC8/NdnathsAnu4DUUsl0rdBqS
+ W1fy/hLtNqyAnnI5vunPJ8Dp2Lr+D0ZUFHe+rnoexYNx/E+2jypPD2x
+X-Developer-Key: i=shawn.sung@mediatek.com; a=ed25519;
+ pk=lq1w8BuWDINX+4JHjGHhhbAU5ICP+cL9VCj7wn+cEDA=
+X-Endpoint-Received: by B4 Relay for shawn.sung@mediatek.com/20240616 with
+ auth_id=172
+X-Original-From: Hsiao Chien Sung <shawn.sung@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,22 +80,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: shawn.sung@mediatek.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 17, 2024 at 04:13:41PM +0100, Robin Murphy wrote:
-> On 23/05/2024 6:52 pm, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> > 
-> > Add an io-pgtable method to walk the pgtable returning the raw PTEs that
-> > would be traversed for a given iova access.
-> 
-> Have to say I'm a little torn here - with my iommu-dma hat on I'm not super
-> enthusiastic about adding any more overhead to iova_to_phys, but in terms of
-> maintaining io-pgtable I do like the overall shape of the implementation...
+Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
+---
+Changes in v3:
+- Modify the commit message
+- Add a patch to fix destination alpha error in OVL
+- Link to v2: https://lore.kernel.org/all/20240619-mediatek-drm-next-v2-0-abf68f46f8d2@mediatek.com
 
-If you mark arm_lpae_pgtable_walk() and the callbacks as
-__always_inline then the compiler should generate the same code as
-today for arm_lpae_iova_to_phys().
+---
+Changes in v2:
+- Seperate the changes that belong to another repo (driver/soc/mediatek)
+- Move the fix patches to the front of the series
+- Link to v1: https://lore.kernel.org/r/20240616-mediatek-drm-next-v1-0-7e8f9cf785d8@mediatek.com
 
-Jason
+---
+Hsiao Chien Sung (14):
+      drm/mediatek: Add missing plane settings when async update
+      drm/mediatek: Disable 9-bit alpha in ETHDR
+      drm/mediatek: Fix XRGB setting error in OVL
+      drm/mediatek: Fix XRGB setting error in Mixer
+      drm/mediatek: Turn off the layers with zero width or height
+      drm/mediatek: Add OVL compatible name for MT8195
+      drm/mediatek: Add DRM_MODE_ROTATE_0 to rotation property
+      drm/mediatek: Add new color format MACROs in OVL
+      drm/mediatek: Set DRM mode configs accordingly
+      drm/mediatek: Support more 10bit formats in OVL
+      drm/mediatek: Support RGBA8888 and RGBX8888 in OVL on MT8195
+      drm/mediatek: Support DRM plane alpha in OVL
+      drm/mediatek: Support DRM plane alpha in Mixer
+      drm/mediatek: Fix XRGB setting error in OVL
+
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.h         |  6 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c         | 93 ++++++++++++++++++-------
+ drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c |  2 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c          | 24 +++++++
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h          |  4 ++
+ drivers/gpu/drm/mediatek/mtk_ethdr.c            | 27 +++++--
+ drivers/gpu/drm/mediatek/mtk_plane.c            |  4 +-
+ 7 files changed, 126 insertions(+), 34 deletions(-)
+---
+base-commit: 62fe4b067581d480e863191305f108bebffbc0e9
+change-id: 20240615-mediatek-drm-next-ad601b349f23
+
+Best regards,
+
+---
+Hsiao Chien Sung (14):
+      drm/mediatek: Add missing plane settings when async update
+      drm/mediatek: Use 8-bit alpha in ETHDR
+      drm/mediatek: Fix XRGB setting error in OVL
+      drm/mediatek: Fix XRGB setting error in Mixer
+      drm/mediatek: Fix destination alpha error in OVL
+      drm/mediatek: Turn off the layers with zero width or height
+      drm/mediatek: Add OVL compatible name for MT8195
+      drm/mediatek: Add DRM_MODE_ROTATE_0 to rotation property
+      drm/mediatek: Add new color format MACROs in OVL
+      drm/mediatek: Set DRM mode configs accordingly
+      drm/mediatek: Support more 10bit formats in OVL
+      drm/mediatek: Support RGBA8888 and RGBX8888 in OVL on MT8195
+      drm/mediatek: Support DRM plane alpha in OVL
+      drm/mediatek: Support DRM plane alpha in Mixer
+
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.h         |  6 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c         | 95 ++++++++++++++++++-------
+ drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c |  2 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c          | 24 +++++++
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h          |  4 ++
+ drivers/gpu/drm/mediatek/mtk_ethdr.c            | 27 +++++--
+ drivers/gpu/drm/mediatek/mtk_plane.c            |  4 +-
+ 7 files changed, 127 insertions(+), 35 deletions(-)
+---
+base-commit: 62fe4b067581d480e863191305f108bebffbc0e9
+change-id: 20240619-igt-49195e21404d
+
+Best regards,
+-- 
+Hsiao Chien Sung <shawn.sung@mediatek.com>
+
+
