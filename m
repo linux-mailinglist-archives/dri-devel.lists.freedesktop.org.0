@@ -2,71 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB5D90F318
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 17:52:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D877590F31F
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 17:52:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B23F10E244;
-	Wed, 19 Jun 2024 15:52:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E51110ED14;
+	Wed, 19 Jun 2024 15:52:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IylMLhlN";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="b94z7dI3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1E7B10E244
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 15:52:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E7DE561E71;
- Wed, 19 Jun 2024 15:52:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87025C2BBFC;
- Wed, 19 Jun 2024 15:52:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718812334;
- bh=B/QDewZ8f8pxC39ZfdvW4tjMlJycPZjA3D7QbLHaMqM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IylMLhlNZi/cBkkmZVPI7bXXgrSd1kDiDEp6eLLOo2nGFroQz5C5LHISQRpu8OsT1
- ZebKIkh/37BE+tCC0dPbTunx+Jf7mW8Lc/X9ck1GnvrdFV8SeypZlwHN5y4jU0KjX4
- /Om4T7tnb4jG4zTwBY1QpJBsKP21M1OBf8KPqReV2NUXM/7Ia9OgMKi5a9I82MS75F
- fwMjiOFF79nRb6ImdtvUJ9f9VwuKSH9ux6kPUoE0ufCRYD2awuICQff7QG5YsKlyVv
- axYsRc5alGXsGKOx+fl5Ye2CssDPfd7Be2SuLIfb099sEGElhi8KhOh1MpHQddk4Be
- A4y3g2uw6MFjg==
-Date: Wed, 19 Jun 2024 16:52:04 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Pavel Machek <pavel@ucw.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Chanwoo Choi <cw00.choi@samsung.com>, phone-devel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v3 18/23] regulator: add s2dos05 regulator support
-Message-ID: <c17669b2-5fa0-40d4-b88d-8dee6a264321@sirena.org.uk>
-References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-18-e3f6662017ac@gmail.com>
- <4eab619f-6da9-4aff-b956-69d8e2ecd47f@sirena.org.uk>
- <CABTCjFDUKgeYWuwo8eLt+5WD=4O+kLbFwMRxsTufGnqK0Ecpvg@mail.gmail.com>
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA10810ED14
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 15:52:37 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-52bc29c79fdso8917146e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 08:52:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1718812355; x=1719417155;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=B8s71NdX52Gwd8z+763rRphKSP2eeZm9/nzW3853+Qw=;
+ b=b94z7dI32dyNGBfD2eibOSboWkeYynttTxtIob8YxYuDE4u1IjYgmKRSSLcLw5b74o
+ Z2gkdl2DXsh7ofWNqm8YMCDIhyldNYe9sXcp0ETwz73yZnJM6jXTX+Prx8BOEjGccJ+1
+ kiq1ZFmOHgrV/1ekgij3iOxqAGq6eNqB46rGQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718812355; x=1719417155;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=B8s71NdX52Gwd8z+763rRphKSP2eeZm9/nzW3853+Qw=;
+ b=KI3rIxNWfGpQ7fDW9BGFpfc8JvLl0qRYg+tKkF/cI5ED0mfnYY9MlV/4x3cgF0kHoQ
+ 0RhllfcD/e0jDAnXPBG5mJfjDXUh4Xq/pxQeOVPOQZv94BHoSLhzGZbUArhjPknj325U
+ TIGaCzeJn3sNmX3v88RZAy02TFlvNO74IFt26anRML+AtVjmDCA1c83x1FZ6MRdbwva7
+ tZGBG4hvExVLScXVfBercZx5L2kH0PqPz1uUwNXgIIwkD7/JKp9uBnmUXekf6m5K1scA
+ WOaUMC5UKUFHCdl63gqCCjKgNYG47h3jhCcaQ6g9e8GhDRY9tTMEgXX7Hg9S7Fziu+zd
+ J52g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW2p3UqWyo0oMtDhR3cIuOAzE7LsKS9y3/wlvu7a4GfacWGOWGKUlZn1l/BwojwaBfmJmCLpdhHrXsIeAD6w5OJOgXiGQPVwJ/YL7rUFIJE
+X-Gm-Message-State: AOJu0Yw47wsQKp8ijb02Jek2kmwi3YR+aoRJr22hs5XNmjgk4O9tB48D
+ emdIPI0R9CiP13EgZ8yIZEBe5AU34GXcP1Xg7TlpREodKVCHzkwHy383NEFaI/koXDx8cSrFndC
+ n9tGT6Q==
+X-Google-Smtp-Source: AGHT+IFVIjRFUhUtP7K5W69yAC0lDm4EqOhQ+ff84Jry2sUlHq+o6xb1ldHAvxVzm8DdFErM3wrA7A==
+X-Received: by 2002:a19:f010:0:b0:52c:9055:b257 with SMTP id
+ 2adb3069b0e04-52ccaa52515mr2005955e87.44.1718812355436; 
+ Wed, 19 Jun 2024 08:52:35 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com.
+ [209.85.167.45]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52ca287ae9asm1801241e87.211.2024.06.19.08.52.34
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Jun 2024 08:52:34 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-52c9034860dso8520750e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 08:52:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW06x+iExnjl5aqq00T2wEPtAtOAnBOhQwAOlrc+FXSdl/87fp2qR5K980pOYLbNvEFAAxu4sKc3obxQtb+KjtFVM2EW+2Zvx/X4q5GcBJj
+X-Received: by 2002:ac2:5466:0:b0:52c:8075:4f3 with SMTP id
+ 2adb3069b0e04-52ccaa36996mr1970072e87.36.1718812354107; Wed, 19 Jun 2024
+ 08:52:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="sNyOiMkks8z+Tn4L"
-Content-Disposition: inline
-In-Reply-To: <CABTCjFDUKgeYWuwo8eLt+5WD=4O+kLbFwMRxsTufGnqK0Ecpvg@mail.gmail.com>
-X-Cookie: Don't I know you?
+References: <CAHk-=wjQv_CSPzhjOMoOjGO3FmuHe5hzm6Ds69zZSFPa4PeuCA@mail.gmail.com>
+ <ZmrTZozoi0t/tuva@duo.ucw.cz>
+ <CAHk-=wjqHL7KjOWYBVKFewcKPWL7CJxddWfJnvL3AfOqfR8vMg@mail.gmail.com>
+ <ZmwHGviv/6J6FQLf@duo.ucw.cz>
+ <CAHk-=wigB-wVK+4=NuYJxoKLnoUXB52J5WU2hpKj2de6vGuY7g@mail.gmail.com>
+ <CAHk-=wjcdUUip96PnfC+iRjAwPHn3XKsgcohk1ad5VcckCFVKA@mail.gmail.com>
+ <ZnABbKrIzmmEoFEV@duo.ucw.cz> <ZnK2bmDFuwX8E5rY@duo.ucw.cz>
+In-Reply-To: <ZnK2bmDFuwX8E5rY@duo.ucw.cz>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 19 Jun 2024 08:52:17 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgnwBE=n_K9q7x6R-bzQ-vRiLeYUciWTJtMokLC_1a7gw@mail.gmail.com>
+Message-ID: <CAHk-=wgnwBE=n_K9q7x6R-bzQ-vRiLeYUciWTJtMokLC_1a7gw@mail.gmail.com>
+Subject: Re: Linux 6.10-rc1
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Dave Airlie <airlied@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Rafael Wysocki <rafael@kernel.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,44 +99,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 19 Jun 2024 at 03:44, Pavel Machek <pavel@ucw.cz> wrote:
+>
+> Ok, so machine is ready to be thrown out of window, again. Trying to
+> play 29C3 video should not make machine completely unusable ... as in
+> keyboard looses keystrokes in terminal.
 
---sNyOiMkks8z+Tn4L
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Well, that at least sounds like you can bisect it with a very clear test-case?
 
-On Wed, Jun 19, 2024 at 06:49:06PM +0300, Dzmitry Sankouski wrote:
-> =D0=B2=D1=82, 18 =D0=B8=D1=8E=D0=BD. 2024=E2=80=AF=D0=B3. =D0=B2 17:08, M=
-ark Brown <broonie@kernel.org>:
-> > On Tue, Jun 18, 2024 at 04:59:52PM +0300, Dzmitry Sankouski wrote:
+Even if you don't bisect all the way, just doing a handful of
+bisections tends to narrow things down enough that we can at least
+guess at what general kind of area it is...
 
-> > > +// SPDX-License-Identifier: GPL-2.0+
-> > > +/*
-> > > + * s2dos05.c - Regulator driver for the Samsung s2dos05
-> > > + *
-
-> > Please make the entire comment a C++ one so things look more
-> > intentional.
-
-> Do you mean enclosing the first line (license identifier) in /* */
-> style comment?
-
-No, that would be a C comment.  Please use C++ style for the rest of the
-header as well as the first line.
-
---sNyOiMkks8z+Tn4L
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZy/qMACgkQJNaLcl1U
-h9DGWQgAgOa8X/ixdsOMeRWsYHbb7eeKRUufmB/VZK2WyLNILPGYtncD6cuJ+cLr
-AvUANsF0WqGXnetxElS8Y2jV21tcbGNT1eGe64GUPss6hdDebteb63GcRbB8N0Fd
-3L+HI4CWnr1oqwLzGGmVRLifr3h/4alGz6R+jy9O5drxEHxalZPdRFVdjbZ8jyr/
-3jg43CkWP2vdnZz08OObTm8jI197PhpxgFleekSlSmPqIqtMV/a3krF5CCSh4M8V
-n1CJGe6mr4M9lSZ3UpDJQCzWW7EfTmM1iu8RW6IpF5T6JZFtj+cwfS9Ba6kIK4+E
-zrmidAhG51b6MN5sNypIpxv0bh1Jxw==
-=zdP0
------END PGP SIGNATURE-----
-
---sNyOiMkks8z+Tn4L--
+                Linus
