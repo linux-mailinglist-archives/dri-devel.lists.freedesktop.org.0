@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8201B90F5F2
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 20:22:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA39E90F5F9
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 20:22:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEAA310ED73;
-	Wed, 19 Jun 2024 18:22:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E081410ED6C;
+	Wed, 19 Jun 2024 18:22:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D93C010ED6C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC35310ED6D
  for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 18:22:13 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1sJzwX-00049e-K3; Wed, 19 Jun 2024 20:22:01 +0200
+ id 1sJzwX-00049f-KA; Wed, 19 Jun 2024 20:22:01 +0200
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <l.stach@pengutronix.de>)
- id 1sJzwW-003WTo-Oe; Wed, 19 Jun 2024 20:22:00 +0200
+ id 1sJzwW-003WTo-Rr; Wed, 19 Jun 2024 20:22:00 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Robert Foss <rfoss@kernel.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
@@ -31,10 +31,10 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
  patchwork-lst@pengutronix.de, kernel@pengutronix.de
-Subject: [PATCH v2 07/14] drm/bridge: analogix_dp: move platform and PHY power
- handling into runtime PM
-Date: Wed, 19 Jun 2024 20:21:53 +0200
-Message-Id: <20240619182200.3752465-7-l.stach@pengutronix.de>
+Subject: [PATCH v2 08/14] drm/bridge: analogix_dp: move basic controller init
+ into runtime PM
+Date: Wed, 19 Jun 2024 20:21:54 +0200
+Message-Id: <20240619182200.3752465-8-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240619182200.3752465-1-l.stach@pengutronix.de>
 References: <20240619182200.3752465-1-l.stach@pengutronix.de>
@@ -60,77 +60,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Platform and PHY power isn't only required when the actual display data
-stream is active, but may be required earlier to support AUX channel
-transactions. Move them into the runtime PM calls, so they are properly
-managed whenever various other parts of the driver need them to be active.
+Make sure the controller is in a basic working state after runtime
+resume. Keep the analog function enable in the mode set path as this
+enables parts of the PHY that are only required to be powered when
+there is a data stream being sent out.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 Reviewed-by: Robert Foss <rfoss@kernel.org>
 Tested-by: Heiko Stuebner <heiko@sntech.de> (rk3288-veyron and rk3399-gru)
 ---
- .../drm/bridge/analogix/analogix_dp_core.c    | 23 ++++++++-----------
- 1 file changed, 10 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index d8c0751ab5c0..d2b6d5a87188 100644
+index d2b6d5a87188..c852d9517c27 100644
 --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
 +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -1251,11 +1251,6 @@ static int analogix_dp_set_bridge(struct analogix_dp_device *dp)
+@@ -41,10 +41,8 @@ struct bridge_init {
+ 	struct device_node *node;
+ };
+ 
+-static int analogix_dp_init_dp(struct analogix_dp_device *dp)
++static void analogix_dp_init_dp(struct analogix_dp_device *dp)
+ {
+-	int ret;
+-
+ 	analogix_dp_reset(dp);
+ 
+ 	analogix_dp_swreset(dp);
+@@ -56,13 +54,9 @@ static int analogix_dp_init_dp(struct analogix_dp_device *dp)
+ 	analogix_dp_enable_sw_function(dp);
+ 
+ 	analogix_dp_config_interrupt(dp);
+-	ret = analogix_dp_init_analog_func(dp);
+-	if (ret)
+-		return ret;
+ 
+ 	analogix_dp_init_hpd(dp);
+ 	analogix_dp_init_aux(dp);
+-	return 0;
+ }
+ 
+ static int analogix_dp_detect_hpd(struct analogix_dp_device *dp)
+@@ -1251,9 +1245,9 @@ static int analogix_dp_set_bridge(struct analogix_dp_device *dp)
  
  	pm_runtime_get_sync(dp->dev);
  
--	if (dp->plat_data->power_on)
--		dp->plat_data->power_on(dp->plat_data);
--
--	phy_power_on(dp->phy);
--
- 	ret = analogix_dp_init_dp(dp);
+-	ret = analogix_dp_init_dp(dp);
++	ret = analogix_dp_init_analog_func(dp);
  	if (ret)
- 		goto out_dp_init;
-@@ -1281,10 +1276,6 @@ static int analogix_dp_set_bridge(struct analogix_dp_device *dp)
- 	return 0;
+-		goto out_dp_init;
++		return ret;
  
- out_dp_init:
--	phy_power_off(dp->phy);
--	if (dp->plat_data->power_off)
--		dp->plat_data->power_off(dp->plat_data);
--
- 	pm_runtime_put_sync(dp->dev);
+ 	/*
+ 	 * According to DP spec v1.3 chap 3.5.1.2 Link Training,
+@@ -1718,6 +1712,8 @@ int analogix_dp_resume(struct analogix_dp_device *dp)
  
- 	return ret;
-@@ -1347,11 +1338,7 @@ static void analogix_dp_bridge_disable(struct drm_bridge *bridge)
+ 	phy_power_on(dp->phy);
  
- 	disable_irq(dp->irq);
- 
--	if (dp->plat_data->power_off)
--		dp->plat_data->power_off(dp->plat_data);
--
- 	analogix_dp_set_analog_power_down(dp, POWER_ALL, 1);
--	phy_power_off(dp->phy);
- 
- 	pm_runtime_put_sync(dp->dev);
- 
-@@ -1705,6 +1692,11 @@ EXPORT_SYMBOL_GPL(analogix_dp_probe);
- 
- int analogix_dp_suspend(struct analogix_dp_device *dp)
- {
-+	phy_power_off(dp->phy);
-+
-+	if (dp->plat_data->power_off)
-+		dp->plat_data->power_off(dp->plat_data);
-+
- 	clk_disable_unprepare(dp->clock);
- 
- 	return 0;
-@@ -1721,6 +1713,11 @@ int analogix_dp_resume(struct analogix_dp_device *dp)
- 		return ret;
- 	}
- 
-+	if (dp->plat_data->power_on)
-+		dp->plat_data->power_on(dp->plat_data);
-+
-+	phy_power_on(dp->phy);
++	analogix_dp_init_dp(dp);
 +
  	return 0;
  }
