@@ -2,132 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0563790EF5F
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 15:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D84C890EF72
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 15:53:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D31710ECB5;
-	Wed, 19 Jun 2024 13:50:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC6710E26E;
+	Wed, 19 Jun 2024 13:53:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="EjVXrLHJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pTDRpNWk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EjVXrLHJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pTDRpNWk";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KkL9ObhB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2532910ECAF
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 13:50:21 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4D66C21A93;
- Wed, 19 Jun 2024 13:50:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1718805019; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zQ+OBn57CPZJmGd6RJb/IYuN8RRFV+sKSgsGIpxVhek=;
- b=EjVXrLHJPWCPaFLQlq8dSOc9HvSzFf/3vCd31dBVb1BiI3AINmH687vid2YF97ltsYIk8Y
- qR0VO4iS41p6cAdFU3hYqvYfwm/T/7nvfvMmT77ks0iFGLTh70pYdOvQ72dnGJ6DNkUhuq
- aKcJ86xLy3GmlPxwDSPj5NcrkgXropk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1718805019;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zQ+OBn57CPZJmGd6RJb/IYuN8RRFV+sKSgsGIpxVhek=;
- b=pTDRpNWkHeTNEvwudcHShn2amRv4Lsi7n+oClIZZWsXwQitquOBH3TJDhRxyXB0snxQ1cr
- MhUdZBkF1k7yTUBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1718805019; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zQ+OBn57CPZJmGd6RJb/IYuN8RRFV+sKSgsGIpxVhek=;
- b=EjVXrLHJPWCPaFLQlq8dSOc9HvSzFf/3vCd31dBVb1BiI3AINmH687vid2YF97ltsYIk8Y
- qR0VO4iS41p6cAdFU3hYqvYfwm/T/7nvfvMmT77ks0iFGLTh70pYdOvQ72dnGJ6DNkUhuq
- aKcJ86xLy3GmlPxwDSPj5NcrkgXropk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1718805019;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zQ+OBn57CPZJmGd6RJb/IYuN8RRFV+sKSgsGIpxVhek=;
- b=pTDRpNWkHeTNEvwudcHShn2amRv4Lsi7n+oClIZZWsXwQitquOBH3TJDhRxyXB0snxQ1cr
- MhUdZBkF1k7yTUBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0A93B13ABD;
- Wed, 19 Jun 2024 13:50:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id wSjDABvicmYOAwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 19 Jun 2024 13:50:19 +0000
-Message-ID: <5f4c828c-8564-4e4e-a418-3250fadb660a@suse.de>
-Date: Wed, 19 Jun 2024 15:50:18 +0200
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F5DF10E252;
+ Wed, 19 Jun 2024 13:53:24 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id
+ d2e1a72fcca58-70109d34a16so5836133b3a.2; 
+ Wed, 19 Jun 2024 06:53:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1718805204; x=1719410004; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=raeXeI6lwsevNLvXbd1wYh1qsMJosT/xi6mC5/F+he0=;
+ b=KkL9ObhBoJHJIuNhP6wzfWuxCTN0phh4VUiYKPGXYhp14G/KIYYU5LWwZYYEL4oTbK
+ CfbHlCvve/vkagwBAsPYUenxocIITkZMkvl1nl1KyIBR4xUBzVxroxdWo+yYs/6uzeAm
+ qCm81GFd5aMEMmAQafMY7OPvvD3XrOX6ZgL7KUS6luMDzoOTxCNJBTV9lQwv8i/ua9Gh
+ DLHSwIAeN9xWedZfFNJAMzxKGK+MZCbDjjbbNJ2mDfl/3Gvmyw3gyQBylBWPlrYfEV+c
+ ygRW+36Uy9QkviHc+Cm1JjXCJq0ONdZKAWAnYWlNYoM0FqHNSnZvaoVFcX+/8muFhqB7
+ jecQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718805204; x=1719410004;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=raeXeI6lwsevNLvXbd1wYh1qsMJosT/xi6mC5/F+he0=;
+ b=FT36JwsgTLnjD6yDIxLhrdIzlX6IK13jrl5va5SuCPBDkOVsfLjIjTaRLTq5kb0K6V
+ mKlK3Bt81+/ankhy56iCj183ZId7iRAoneYJUEkhCQ2dtJjQv0JzlA/KX0TXWpyI/zsI
+ OZf3wD6A9ZgXTIVJCBcgmWcVD6t+tFx2p0uojH/sFjsT9ZJLbD02JttOXAaoakTQL5Od
+ 2AOzivmY32TVNgl61va2ELaSv4K9dpd+jzkNmtj1F3opIJsniflayEomVN0hH16WiP2m
+ k3XsmIzTzXsih1to0/b+Wy7lec5mc+Be2cjBPqWAvipvlErIVA194M2X7XTp9s5030Q0
+ BAvA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXTnqk643fw8iCKYnrq2pIn0lKacw98UVn/G+WIO/k0TQz0zAuu46O+qwjBOF1HgqS0925wuLEFDdemc9TEYWxeBJUcAx+A0WblDhMlQg==
+X-Gm-Message-State: AOJu0Yx6vFx9RHxnGNUXc2z1uHLxXRQm6WReBKEjp8QRJ4DHAqMPUx5w
+ dNiDOe2t5JqBmbVr/GpKsIOrvpChLA6RVIX+L53Ot8ak3IMumwtPJ9enkNBxPwxDRM4BKTB8trN
+ g/WlrXyP9JRs2xDQFQ3Jt+gbUKDA=
+X-Google-Smtp-Source: AGHT+IGfmLwqL/WkyQUnXfiuN9AiOOQ44qs6v6SXVcDXsEMS0iiTxBl8WlPuS7Nozytf9SFo6IkiWknJVQCz/uGDszY=
+X-Received: by 2002:a05:6a20:9313:b0:1b8:5c3c:794f with SMTP id
+ adf61e73a8af0-1bcbb3a0026mr2432960637.10.1718805203901; Wed, 19 Jun 2024
+ 06:53:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: "firmware/sysfb: Set firmware-framebuffer parent device" breaks
- lightdm on Ubuntu 22.04 using amdgpu
-To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>, javierm@redhat.com,
- pjones@redhat.com, deller@gmx.de, ardb@kernel.org,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-fbdev@vger.kernel.org,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <CAAxE2A7qK1-b5g1RR-GJ+QTLEr_OxEr9vcZGEOkZY9yLOFLb5w@mail.gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAAxE2A7qK1-b5g1RR-GJ+QTLEr_OxEr9vcZGEOkZY9yLOFLb5w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; RCPT_COUNT_SEVEN(0.00)[9];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_TO(0.00)[gmail.com,redhat.com,gmx.de,kernel.org,lists.freedesktop.org,vger.kernel.org,amd.com];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCVD_TLS_ALL(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_DN_SOME(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -4.29
-X-Spam-Level: 
+References: <20240612222435.3188234-1-dianders@chromium.org>
+ <20240612152752.v2.8.I27914059cc822b52db9bf72b4013b525b60e06fd@changeid>
+ <CADnq5_PbqE0E2pP26mGD94cdc=tLZZsF10e7ZZWeC5AU-LS8vw@mail.gmail.com>
+ <CAD=FV=XJAiVGFn_Tqs_JNo1fQKFys3m=hH9MwmMot93gkdg=Qw@mail.gmail.com>
+ <CADnq5_M+H_h1Me_O3u=R3q52PgYcCwwY9Mr8_R1eX0G7HvBp2w@mail.gmail.com>
+ <CAD=FV=X=9PV+zbmd2S-TBBxq+yQZ2D+-cCHjFX-gm-f+DyXXiQ@mail.gmail.com>
+ <CADnq5_OXUKj=bfK0NOAhOzmhYCSnQXbxHbwLOaBQ6wFX033Wgw@mail.gmail.com>
+In-Reply-To: <CADnq5_OXUKj=bfK0NOAhOzmhYCSnQXbxHbwLOaBQ6wFX033Wgw@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 19 Jun 2024 09:53:12 -0400
+Message-ID: <CADnq5_O1EGj-_xx7LuiXSVY7MSmfS7_1-hqShFk6Deu1wsBwOA@mail.gmail.com>
+Subject: Re: [PATCH v2 8/8] drm/amdgpu: Call drm_atomic_helper_shutdown() at
+ shutdown time
+To: Doug Anderson <dianders@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Candice Li <candice.li@amd.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Le Ma <le.ma@amd.com>, 
+ Lijo Lazar <lijo.lazar@amd.com>, Ma Jun <Jun.Ma2@amd.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Shashank Sharma <shashank.sharma@amd.com>, 
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Victor Lu <victorchengchi.lu@amd.com>, amd-gfx@lists.freedesktop.org, 
+ chenxuebing <chenxb_99091@126.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,41 +100,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 13.06.24 um 07:59 schrieb Marek Olšák:
-> Hi Thomas,
+On Wed, Jun 19, 2024 at 9:50=E2=80=AFAM Alex Deucher <alexdeucher@gmail.com=
+> wrote:
 >
-> Commit 9eac534db0013aff9b9124985dab114600df9081 as per the title
-> breaks (crashes?) lightdm (login screen) such that all I get is the
-> terminal. It's also reproducible with tag v6.9 where the commit is
-> present.
+> On Tue, Jun 18, 2024 at 7:53=E2=80=AFPM Doug Anderson <dianders@chromium.=
+org> wrote:
+> >
+> > Hi,
+> >
+> > On Tue, Jun 18, 2024 at 3:00=E2=80=AFPM Alex Deucher <alexdeucher@gmail=
+.com> wrote:
+> > >
+> > > On Tue, Jun 18, 2024 at 5:40=E2=80=AFPM Doug Anderson <dianders@chrom=
+ium.org> wrote:
+> > > >
+> > > > Hi,
+> > > >
+> > > >
+> > > > On Mon, Jun 17, 2024 at 8:01=E2=80=AFAM Alex Deucher <alexdeucher@g=
+mail.com> wrote:
+> > > > >
+> > > > > On Wed, Jun 12, 2024 at 6:37=E2=80=AFPM Douglas Anderson <diander=
+s@chromium.org> wrote:
+> > > > > >
+> > > > > > Based on grepping through the source code this driver appears t=
+o be
+> > > > > > missing a call to drm_atomic_helper_shutdown() at system shutdo=
+wn
+> > > > > > time. Among other things, this means that if a panel is in use =
+that it
+> > > > > > won't be cleanly powered off at system shutdown time.
+> > > > > >
+> > > > > > The fact that we should call drm_atomic_helper_shutdown() in th=
+e case
+> > > > > > of OS shutdown/restart comes straight out of the kernel doc "dr=
+iver
+> > > > > > instance overview" in drm_drv.c.
+> > > > > >
+> > > > > > Suggested-by: Maxime Ripard <mripard@kernel.org>
+> > > > > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > > > Cc: Xinhui Pan <Xinhui.Pan@amd.com>
+> > > > > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > > > > > ---
+> > > > > > This commit is only compile-time tested.
+> > > > > >
+> > > > > > ...and further, I'd say that this patch is more of a plea for h=
+elp
+> > > > > > than a patch I think is actually right. I'm _fairly_ certain th=
+at
+> > > > > > drm/amdgpu needs this call at shutdown time but the logic is a =
+bit
+> > > > > > hard for me to follow. I'd appreciate if anyone who actually kn=
+ows
+> > > > > > what this should look like could illuminate me, or perhaps even=
+ just
+> > > > > > post a patch themselves!
+> > > > >
+> > > > > I'm not sure this patch makes sense or not.  The driver doesn't r=
+eally
+> > > > > do a formal tear down in its shutdown routine, it just quiesces t=
+he
+> > > > > hardware.  What are the actual requirements of the shutdown funct=
+ion?
+> > > > > In the past when we did a full driver tear down in shutdown, it
+> > > > > delayed the shutdown sequence and users complained.
+> > > >
+> > > > The "inspiration" for this patch is to handle panels properly.
+> > > > Specifically, panels often have several power/enable signals going =
+to
+> > > > them and often have requirements that these signals are powered off=
+ in
+> > > > the proper order with the proper delays between them. While we can'=
+t
+> > > > always do so when the system crashes / reboots in an uncontrolled w=
+ay,
+> > > > panel manufacturers / HW Engineers get upset if we don't power thin=
+gs
+> > > > off properly during an orderly shutdown/reboot. When panels are
+> > > > powered off badly it can cause garbage on the screen and, so I've b=
+een
+> > > > told, can even cause long term damage to the panels over time.
+> > > >
+> > > > In Linux, some panel drivers have tried to ensure a proper poweroff=
+ of
+> > > > the panel by handling the shutdown() call themselves. However, this=
+ is
+> > > > ugly and panel maintainers want panel drivers to stop doing it. We
+> > > > have removed the code doing this from most panels now [1]. Instead =
+the
+> > > > assumption is that the DRM modeset drivers should be calling
+> > > > drm_atomic_helper_shutdown() which will make sure panels get an
+> > > > orderly shutdown.
+> > > >
+> > > > For a lot more details, see the cover letter [2] which then contain=
+s
+> > > > links to even more discussions about the topic.
+> > > >
+> > > > [1] https://lore.kernel.org/r/20240605002401.2848541-1-dianders@chr=
+omium.org
+> > > > [2] https://lore.kernel.org/r/20240612222435.3188234-1-dianders@chr=
+omium.org
+> > >
+> > > I don't think it's an issue.  We quiesce the hardware as if we were
+> > > about to suspend the system (e.g., S3).  For the display hardware we
+> > > call drm_atomic_helper_suspend() as part of that sequence.
+> >
+> > OK. It's no skin off my teeth and we can drop this patch if you're
+> > convinced it's not needed. From the point of view of someone who has
+> > no experience with this driver it seems weird to me that it would use
+> > drm_atomic_helper_suspend() at shutdown time instead of the documented
+> > drm_atomic_helper_shutdown(), but if it works for everyone then I'm
+> > not gonna complain.
+>
+> I think the problem is that it is not clear exactly what the
+> expectations are around the PCI shutdown callback.  The documentation
+> says:
+>
+> "Hook into reboot_notifier_list (kernel/sys.c). Intended to stop any
+> idling DMA operations. Useful for enabling wake-on-lan (NIC) or
+> changing the power state of a device before reboot. e.g.
+> drivers/net/e100.c."
 
-I was able to reproduce the problem with Ubutu 22.04 and later under 
-qemu plus qxl, sort of. I login via gdm3 and then the quest machine 
-switches off entirely.
+Arguably, there is no requirement to even touch the display hardware
+at all.  In theory you could just leave the display hardware as is in
+the current state.  The system will either be rebooting or powering
+down anyway.
+
+Alex
 
 >
-> Reverting the commit fixes lightdm. A workaround is to bypass lightdm
-> by triggering auto-login. This is a bug report.
-
-The problem is that reverting the commit doesn't fix the issue for me. 
-I'll try to do my own bisecting.
-
-Best regards
-Thomas
-
+> We tried a full driver teardown in the shutdown callback and it added
+> a lot of latency that really wasn't needed since the system was just
+> going into a reboot or power down.  The best middle ground was to just
+> leverage our hw level suspend code to quiesce the hardware.  Adding
+> complexity to call drm_atomic_helper_suspend() vs
+> drm_atomic_helper_shutdown() doesn't seem worth it since the functions
+> do pretty much the same thing (both call
+> drm_atomic_helper_disable_all()).  Maybe it's better to update the
+> documentation to recommend drm_atomic_helper_suspend() if drivers want
+> to leverage their suspend code?
 >
-> (For AMD folks: It's also reproducible with amd-staging-drm-next.)
->
-> Marek
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+> Alex
