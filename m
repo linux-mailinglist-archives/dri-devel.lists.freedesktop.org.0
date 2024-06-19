@@ -2,70 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159C990F630
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 20:41:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B87A90F65F
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 20:47:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A4BA10ED82;
-	Wed, 19 Jun 2024 18:41:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9412310ED8B;
+	Wed, 19 Jun 2024 18:47:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ic2fOF60";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Hiv6LYVe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E47310ED82
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 18:41:27 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-a6fb341a7f2so9600166b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 11:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718822485; x=1719427285; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=dSqD4s0oKeS160Bk5oAmxRvLIpuOHndQWJncNmEnmSY=;
- b=ic2fOF60Xa5slnzsZjjOF3z9FRaDGfeOfuWxCCZujUdHG3B6V6nQG3OseLYDydfKBl
- SorfQitAgnqnYY+Kt3Xy35avYjf8pd6nghklyRYb75L/lWBU1rYai2qPTmoJ3cq4OVNr
- lEgV41F4X+FwWKRBU5+cPMp04wqSqYZs3LGNc4+vzQ5rcP+vkLpNP7MN6AZE2sFTD+ph
- 5sWFksMcocBIwB6Yj0AoEg3A64N4a99URQeHKnZw1oyYXsOHFZtM2hy20mpyDREZezWb
- MdPO8oJPJROlQ11dBmqFgw8LRVz/BUZZzzuHp62y/oEB6FarspiFaqqp7gGgJteYTtjf
- D/GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718822485; x=1719427285;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dSqD4s0oKeS160Bk5oAmxRvLIpuOHndQWJncNmEnmSY=;
- b=qytG2iVbuIyXO3dgD/y+hYGCS0HR0zYQTNjY+c1t4FRWHvxdGCzkbdr3530FvPYaqN
- idwGG/oo8CEJ327aCCBmUGKzM9MO2UyQxaIFyVvi8Q/8y9T6h9DGKR51KusA+J+1kUd1
- FRPizZ48UPhx/o4h5epXf200fOkNuktvb2kgBFVFvlDqMBdqiZ1w/57O5wNkQtstDTdi
- EYl05iEkrkdUSpIpByQhdIBkdFrAw4GEh/HHTk7dTlh4TaMQErQ2wtJ289SyC1GbGITh
- gPNf06E5CYj0wwzGPR4JSlSUG+2OxcspF/k7EiZN8psQOz8PRCqylckmAE+jdj+6cXxL
- HSGQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVXmLt2Nnu7wobiE5jM01F8vn3Ma1dmN1jjylaqPnMl3zHltQU8yYnaQHimaIQ/c7bJPpFeu3d5pXQcUEVr6qHuSR44+g40x77/do3ZHM4d
-X-Gm-Message-State: AOJu0YxQ8sLyeHexWXULkE72SzqCtUA/Iyg9bQZ09RQbZNBVxUY6e0JD
- ySZZv0iJPDKCFAJT+/Q/wmmq//RYEj4T+1wY5nHT3vb4KQxud/rHtGXXzBpNF0Ngn99rdgjx9hJ
- NZmsNYAIM5dJrvcVh/X0ke/R7RRU=
-X-Google-Smtp-Source: AGHT+IGxO9CcjOfxtNixmB++0l1KwFT74GK/qY1IZm5VAKPDnaWQBLsd55e7+N+oK0E+RUmrqUFKJ6fvwlcQ57zpjsU=
-X-Received: by 2002:a17:906:5814:b0:a6e:d339:c09c with SMTP id
- a640c23a62f3a-a6fab7790f1mr196534866b.48.1718822485211; Wed, 19 Jun 2024
- 11:41:25 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C453E10ED8C;
+ Wed, 19 Jun 2024 18:47:10 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45JA255K006449;
+ Wed, 19 Jun 2024 18:47:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 9+8ww9UBmkK+tSL+a3Cn0Y5mzIcOuu632V2sXl+vpZE=; b=Hiv6LYVeM53u27Td
+ N8yeaizjsvhyoxjui9lzen8TulagqyVXNpeLjQraHQpXI1IN9ZrOkMl4WqysF44x
+ CY9dtKZgtdOYznGaDXmwq5Vc2pgrIEmexMEbWBQNMbDLWZFgEwG8+3SX+01AweP5
+ XbT8NJTKh1bNaS8DLO50xLskN0gMqsHKgkPMRqANWCCcePO6X/2HcILrRGBstEuK
+ fgph8Qbrji5fj6mxGq4LW7Xiy5cIGSpTgCzWIBv+ua4PW1GmAMAEV1UmrAUDNByA
+ /eEhN5MvH0NZDt1W92E9SCW8dKB1jl142eQVdWLr66dJqoQto7o+j2o/B4PscCqG
+ tJExwQ==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yuj9u2jkj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Jun 2024 18:47:08 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45JIl7kp031202
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Jun 2024 18:47:07 GMT
+Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 19 Jun
+ 2024 11:47:06 -0700
+Message-ID: <92b6cc8e-4e16-4b5c-a0b7-b14fd6a8627c@quicinc.com>
+Date: Wed, 19 Jun 2024 11:47:05 -0700
 MIME-Version: 1.0
-References: <CAAxE2A7qK1-b5g1RR-GJ+QTLEr_OxEr9vcZGEOkZY9yLOFLb5w@mail.gmail.com>
- <5f4c828c-8564-4e4e-a418-3250fadb660a@suse.de>
-In-Reply-To: <5f4c828c-8564-4e4e-a418-3250fadb660a@suse.de>
-From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Date: Wed, 19 Jun 2024 14:40:48 -0400
-Message-ID: <CAAxE2A4QBteFPpYgd9N+D+TPdjvHDmtLBf5YsaNw9xB09CtAYQ@mail.gmail.com>
-Subject: Re: "firmware/sysfb: Set firmware-framebuffer parent device" breaks
- lightdm on Ubuntu 22.04 using amdgpu
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: javierm@redhat.com, pjones@redhat.com, deller@gmx.de, ardb@kernel.org, 
- dri-devel <dri-devel@lists.freedesktop.org>, linux-fbdev@vger.kernel.org, 
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: multipart/mixed; boundary="000000000000a9e7ef061b428b82"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 12/14] drm/msm/hdmi: drop hpd-gpios support
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul
+ <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
+ Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20240522-fd-hdmi-hpd-v2-0-c30bdb7c5c7e@linaro.org>
+ <20240522-fd-hdmi-hpd-v2-12-c30bdb7c5c7e@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20240522-fd-hdmi-hpd-v2-12-c30bdb7c5c7e@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: xg2zPiFqpIBo8IgcSJyQypXEdEiwIYG4
+X-Proofpoint-ORIG-GUID: xg2zPiFqpIBo8IgcSJyQypXEdEiwIYG4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-19_02,2024-06-19_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ adultscore=0 mlxlogscore=999 clxscore=1015 mlxscore=0 phishscore=0
+ bulkscore=0 impostorscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406190141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,148 +94,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000a9e7ef061b428b82
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Attached is the revert commit that works for me. Tested with Radeon
-6800 and Radeon 7900XTX.
-
-Marek
 
 
-Marek
+On 5/22/2024 3:51 AM, Dmitry Baryshkov wrote:
+> Supporting simultaneous check of native HPD and the external GPIO proved
+> to be less stable than just native HPD. Drop the hpd-gpios support,
+> leaving just the native HPD support. In case the native HPD doesn't work
+> the user is urged to switch to specifying the HPD property to the
+> hdmi-connector device.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-On Wed, Jun 19, 2024 at 9:50=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
->
-> Hi
->
-> Am 13.06.24 um 07:59 schrieb Marek Ol=C5=A1=C3=A1k:
-> > Hi Thomas,
-> >
-> > Commit 9eac534db0013aff9b9124985dab114600df9081 as per the title
-> > breaks (crashes?) lightdm (login screen) such that all I get is the
-> > terminal. It's also reproducible with tag v6.9 where the commit is
-> > present.
->
-> I was able to reproduce the problem with Ubutu 22.04 and later under
-> qemu plus qxl, sort of. I login via gdm3 and then the quest machine
-> switches off entirely.
->
-> >
-> > Reverting the commit fixes lightdm. A workaround is to bypass lightdm
-> > by triggering auto-login. This is a bug report.
->
-> The problem is that reverting the commit doesn't fix the issue for me.
-> I'll try to do my own bisecting.
->
-> Best regards
-> Thomas
->
-> >
-> > (For AMD folks: It's also reproducible with amd-staging-drm-next.)
-> >
-> > Marek
->
-> --
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
->
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 
---000000000000a9e7ef061b428b82
-Content-Type: application/x-patch; 
-	name="0001-Revert-firmware-sysfb-Set-firmware-framebuffer-paren.patch"
-Content-Disposition: attachment; 
-	filename="0001-Revert-firmware-sysfb-Set-firmware-framebuffer-paren.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lxm6gbhu0>
-X-Attachment-Id: f_lxm6gbhu0
-
-RnJvbSAyNDMxOTc4YmViMDRlYTRmM2JlZmU4ZDZlMGFhODllNzIwN2YxYjVjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiA9P1VURi04P3E/TWFyZWs9MjBPbD1DNT1BMT1DMz1BMWs/PSA8
-bWFyZWsub2xzYWtAYW1kLmNvbT4KRGF0ZTogVGh1LCAxMyBKdW4gMjAyNCAwMTozMjozNSAtMDQw
-MApTdWJqZWN0OiBbUEFUQ0hdIFJldmVydCAiZmlybXdhcmUvc3lzZmI6IFNldCBmaXJtd2FyZS1m
-cmFtZWJ1ZmZlciBwYXJlbnQKIGRldmljZSIKTUlNRS1WZXJzaW9uOiAxLjAKQ29udGVudC1UeXBl
-OiB0ZXh0L3BsYWluOyBjaGFyc2V0PVVURi04CkNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IDhi
-aXQKClRoaXMgcmV2ZXJ0cyBjb21taXQgOWVhYzUzNGRiMDAxM2FmZjliOTEyNDk4NWRhYjExNDYw
-MGRmOTA4MS4KClNpZ25lZC1vZmYtYnk6IE1hcmVrIE9sxaHDoWsgPG1hcmVrLm9sc2FrQGFtZC5j
-b20+Ci0tLQogZHJpdmVycy9maXJtd2FyZS9zeXNmYi5jICAgICAgICAgIHwgNTEgKy0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogZHJpdmVycy9maXJtd2FyZS9zeXNmYl9zaW1wbGVmYi5j
-IHwgIDUgKy0tCiBpbmNsdWRlL2xpbnV4L3N5c2ZiLmggICAgICAgICAgICAgfCAgNiArKy0tCiAz
-IGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNTggZGVsZXRpb25zKC0pCgpkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9maXJtd2FyZS9zeXNmYi5jIGIvZHJpdmVycy9maXJtd2FyZS9zeXNmYi5j
-CmluZGV4IDg4MGZmY2I1MDA4OC4uZGVmZDdhMzZjYjA4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2Zp
-cm13YXJlL3N5c2ZiLmMKKysrIGIvZHJpdmVycy9maXJtd2FyZS9zeXNmYi5jCkBAIC0yOSw3ICsy
-OSw2IEBACiAjaW5jbHVkZSA8bGludXgvaW5pdC5oPgogI2luY2x1ZGUgPGxpbnV4L2tlcm5lbC5o
-PgogI2luY2x1ZGUgPGxpbnV4L21tLmg+Ci0jaW5jbHVkZSA8bGludXgvcGNpLmg+CiAjaW5jbHVk
-ZSA8bGludXgvcGxhdGZvcm1fZGF0YS9zaW1wbGVmYi5oPgogI2luY2x1ZGUgPGxpbnV4L3BsYXRm
-b3JtX2RldmljZS5oPgogI2luY2x1ZGUgPGxpbnV4L3NjcmVlbl9pbmZvLmg+CkBAIC03MCw0OSAr
-NjksOSBAQCB2b2lkIHN5c2ZiX2Rpc2FibGUodm9pZCkKIH0KIEVYUE9SVF9TWU1CT0xfR1BMKHN5
-c2ZiX2Rpc2FibGUpOwogCi0jaWYgZGVmaW5lZChDT05GSUdfUENJKQotc3RhdGljIF9faW5pdCBi
-b29sIHN5c2ZiX3BjaV9kZXZfaXNfZW5hYmxlZChzdHJ1Y3QgcGNpX2RldiAqcGRldikKLXsKLQkv
-KgotCSAqIFRPRE86IFRyeSB0byBpbnRlZ3JhdGUgdGhpcyBjb2RlIGludG8gdGhlIFBDSSBzdWJz
-eXN0ZW0KLQkgKi8KLQlpbnQgcmV0OwotCXUxNiBjb21tYW5kOwotCi0JcmV0ID0gcGNpX3JlYWRf
-Y29uZmlnX3dvcmQocGRldiwgUENJX0NPTU1BTkQsICZjb21tYW5kKTsKLQlpZiAocmV0ICE9IFBD
-SUJJT1NfU1VDQ0VTU0ZVTCkKLQkJcmV0dXJuIGZhbHNlOwotCWlmICghKGNvbW1hbmQgJiBQQ0lf
-Q09NTUFORF9NRU1PUlkpKQotCQlyZXR1cm4gZmFsc2U7Ci0JcmV0dXJuIHRydWU7Ci19Ci0jZWxz
-ZQotc3RhdGljIF9faW5pdCBib29sIHN5c2ZiX3BjaV9kZXZfaXNfZW5hYmxlZChzdHJ1Y3QgcGNp
-X2RldiAqcGRldikKLXsKLQlyZXR1cm4gZmFsc2U7Ci19Ci0jZW5kaWYKLQotc3RhdGljIF9faW5p
-dCBzdHJ1Y3QgZGV2aWNlICpzeXNmYl9wYXJlbnRfZGV2KGNvbnN0IHN0cnVjdCBzY3JlZW5faW5m
-byAqc2kpCi17Ci0Jc3RydWN0IHBjaV9kZXYgKnBkZXY7Ci0KLQlwZGV2ID0gc2NyZWVuX2luZm9f
-cGNpX2RldihzaSk7Ci0JaWYgKElTX0VSUihwZGV2KSkgewotCQlyZXR1cm4gRVJSX0NBU1QocGRl
-dik7Ci0JfSBlbHNlIGlmIChwZGV2KSB7Ci0JCWlmICghc3lzZmJfcGNpX2Rldl9pc19lbmFibGVk
-KHBkZXYpKQotCQkJcmV0dXJuIEVSUl9QVFIoLUVOT0RFVik7Ci0JCXJldHVybiAmcGRldi0+ZGV2
-OwotCX0KLQotCXJldHVybiBOVUxMOwotfQotCiBzdGF0aWMgX19pbml0IGludCBzeXNmYl9pbml0
-KHZvaWQpCiB7CiAJc3RydWN0IHNjcmVlbl9pbmZvICpzaSA9ICZzY3JlZW5faW5mbzsKLQlzdHJ1
-Y3QgZGV2aWNlICpwYXJlbnQ7CiAJc3RydWN0IHNpbXBsZWZiX3BsYXRmb3JtX2RhdGEgbW9kZTsK
-IAljb25zdCBjaGFyICpuYW1lOwogCWJvb2wgY29tcGF0aWJsZTsKQEAgLTEyNiwxNiArODUsMTAg
-QEAgc3RhdGljIF9faW5pdCBpbnQgc3lzZmJfaW5pdCh2b2lkKQogCiAJc3lzZmJfYXBwbHlfZWZp
-X3F1aXJrcygpOwogCi0JcGFyZW50ID0gc3lzZmJfcGFyZW50X2RldihzaSk7Ci0JaWYgKElTX0VS
-UihwYXJlbnQpKSB7Ci0JCXJldCA9IFBUUl9FUlIocGFyZW50KTsKLQkJZ290byB1bmxvY2tfbXV0
-ZXg7Ci0JfQotCiAJLyogdHJ5IHRvIGNyZWF0ZSBhIHNpbXBsZS1mcmFtZWJ1ZmZlciBkZXZpY2Ug
-Ki8KIAljb21wYXRpYmxlID0gc3lzZmJfcGFyc2VfbW9kZShzaSwgJm1vZGUpOwogCWlmIChjb21w
-YXRpYmxlKSB7Ci0JCXBkID0gc3lzZmJfY3JlYXRlX3NpbXBsZWZiKHNpLCAmbW9kZSwgcGFyZW50
-KTsKKwkJcGQgPSBzeXNmYl9jcmVhdGVfc2ltcGxlZmIoc2ksICZtb2RlKTsKIAkJaWYgKCFJU19F
-UlIocGQpKQogCQkJZ290byB1bmxvY2tfbXV0ZXg7CiAJfQpAQCAtMTU4LDggKzExMSw2IEBAIHN0
-YXRpYyBfX2luaXQgaW50IHN5c2ZiX2luaXQodm9pZCkKIAkJZ290byB1bmxvY2tfbXV0ZXg7CiAJ
-fQogCi0JcGQtPmRldi5wYXJlbnQgPSBwYXJlbnQ7Ci0KIAlzeXNmYl9zZXRfZWZpZmJfZndub2Rl
-KHBkKTsKIAogCXJldCA9IHBsYXRmb3JtX2RldmljZV9hZGRfZGF0YShwZCwgc2ksIHNpemVvZigq
-c2kpKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZmlybXdhcmUvc3lzZmJfc2ltcGxlZmIuYyBiL2Ry
-aXZlcnMvZmlybXdhcmUvc3lzZmJfc2ltcGxlZmIuYwppbmRleCA3NWExODZiZjhmOGUuLjc0MzYz
-ZWQ3NTAxZiAxMDA2NDQKLS0tIGEvZHJpdmVycy9maXJtd2FyZS9zeXNmYl9zaW1wbGVmYi5jCisr
-KyBiL2RyaXZlcnMvZmlybXdhcmUvc3lzZmJfc2ltcGxlZmIuYwpAQCAtOTEsOCArOTEsNyBAQCBf
-X2luaXQgYm9vbCBzeXNmYl9wYXJzZV9tb2RlKGNvbnN0IHN0cnVjdCBzY3JlZW5faW5mbyAqc2ks
-CiB9CiAKIF9faW5pdCBzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpzeXNmYl9jcmVhdGVfc2ltcGxl
-ZmIoY29uc3Qgc3RydWN0IHNjcmVlbl9pbmZvICpzaSwKLQkJCQkJCSAgICAgY29uc3Qgc3RydWN0
-IHNpbXBsZWZiX3BsYXRmb3JtX2RhdGEgKm1vZGUsCi0JCQkJCQkgICAgIHN0cnVjdCBkZXZpY2Ug
-KnBhcmVudCkKKwkJCQkJCSAgICAgY29uc3Qgc3RydWN0IHNpbXBsZWZiX3BsYXRmb3JtX2RhdGEg
-Km1vZGUpCiB7CiAJc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGQ7CiAJc3RydWN0IHJlc291cmNl
-IHJlczsKQEAgLTE0NCw4ICsxNDMsNiBAQCBfX2luaXQgc3RydWN0IHBsYXRmb3JtX2RldmljZSAq
-c3lzZmJfY3JlYXRlX3NpbXBsZWZiKGNvbnN0IHN0cnVjdCBzY3JlZW5faW5mbyAqcwogCWlmICgh
-cGQpCiAJCXJldHVybiBFUlJfUFRSKC1FTk9NRU0pOwogCi0JcGQtPmRldi5wYXJlbnQgPSBwYXJl
-bnQ7Ci0KIAlzeXNmYl9zZXRfZWZpZmJfZndub2RlKHBkKTsKIAogCXJldCA9IHBsYXRmb3JtX2Rl
-dmljZV9hZGRfcmVzb3VyY2VzKHBkLCAmcmVzLCAxKTsKZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGlu
-dXgvc3lzZmIuaCBiL2luY2x1ZGUvbGludXgvc3lzZmIuaAppbmRleCBjOWNiNjU3ZGFkMDguLjE5
-Y2I4MDNkZDVlYyAxMDA2NDQKLS0tIGEvaW5jbHVkZS9saW51eC9zeXNmYi5oCisrKyBiL2luY2x1
-ZGUvbGludXgvc3lzZmIuaApAQCAtOTEsOCArOTEsNyBAQCBzdGF0aWMgaW5saW5lIHZvaWQgc3lz
-ZmJfc2V0X2VmaWZiX2Z3bm9kZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZCkKIGJvb2wgc3lz
-ZmJfcGFyc2VfbW9kZShjb25zdCBzdHJ1Y3Qgc2NyZWVuX2luZm8gKnNpLAogCQkgICAgICBzdHJ1
-Y3Qgc2ltcGxlZmJfcGxhdGZvcm1fZGF0YSAqbW9kZSk7CiBzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNl
-ICpzeXNmYl9jcmVhdGVfc2ltcGxlZmIoY29uc3Qgc3RydWN0IHNjcmVlbl9pbmZvICpzaSwKLQkJ
-CQkJICAgICAgY29uc3Qgc3RydWN0IHNpbXBsZWZiX3BsYXRmb3JtX2RhdGEgKm1vZGUsCi0JCQkJ
-CSAgICAgIHN0cnVjdCBkZXZpY2UgKnBhcmVudCk7CisJCQkJCSAgICAgIGNvbnN0IHN0cnVjdCBz
-aW1wbGVmYl9wbGF0Zm9ybV9kYXRhICptb2RlKTsKIAogI2Vsc2UgLyogQ09ORklHX1NZU0ZCX1NJ
-TVBMRSAqLwogCkBAIC0xMDMsOCArMTAyLDcgQEAgc3RhdGljIGlubGluZSBib29sIHN5c2ZiX3Bh
-cnNlX21vZGUoY29uc3Qgc3RydWN0IHNjcmVlbl9pbmZvICpzaSwKIH0KIAogc3RhdGljIGlubGlu
-ZSBzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpzeXNmYl9jcmVhdGVfc2ltcGxlZmIoY29uc3Qgc3Ry
-dWN0IHNjcmVlbl9pbmZvICpzaSwKLQkJCQkJCQkgICAgY29uc3Qgc3RydWN0IHNpbXBsZWZiX3Bs
-YXRmb3JtX2RhdGEgKm1vZGUsCi0JCQkJCQkJICAgIHN0cnVjdCBkZXZpY2UgKnBhcmVudCkKKwkJ
-CQkJCQkgICAgY29uc3Qgc3RydWN0IHNpbXBsZWZiX3BsYXRmb3JtX2RhdGEgKm1vZGUpCiB7CiAJ
-cmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7CiB9Ci0tIAoyLjM0LjEKCg==
---000000000000a9e7ef061b428b82--
+> ---
+>   drivers/gpu/drm/msm/hdmi/hdmi.c     | 14 +++-------
+>   drivers/gpu/drm/msm/hdmi/hdmi.h     |  2 --
+>   drivers/gpu/drm/msm/hdmi/hdmi_hpd.c | 53 +++----------------------------------
+>   3 files changed, 7 insertions(+), 62 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> index e160a23e962e..a9437054c015 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> @@ -468,17 +468,9 @@ static int msm_hdmi_dev_probe(struct platform_device *pdev)
+>   		return dev_err_probe(dev, PTR_ERR(hdmi->extp_clk),
+>   				     "failed to get extp clock\n");
+>   
+> -	hdmi->hpd_gpiod = devm_gpiod_get_optional(&pdev->dev, "hpd", GPIOD_IN);
+> -	/* This will catch e.g. -EPROBE_DEFER */
+> -	if (IS_ERR(hdmi->hpd_gpiod))
+> -		return dev_err_probe(dev, PTR_ERR(hdmi->hpd_gpiod),
+> -				     "failed to get hpd gpio\n");
+> -
+> -	if (!hdmi->hpd_gpiod)
+> -		DBG("failed to get HPD gpio");
+> -
+> -	if (hdmi->hpd_gpiod)
+> -		gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
+> +	if (of_find_property(dev->of_node, "hpd-gpios", NULL) ||
+> +	    of_find_property(dev->of_node, "hpd-gpio", NULL))
+> +		dev_warn(dev, "hpd-gpios is not supported anymore, please migrate to the hdmi-connector\n");
+>   
+>   	ret = msm_hdmi_get_phy(hdmi);
+>   	if (ret) {
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
+> index 2a98efa8b6bd..268ff8604423 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi.h
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
+> @@ -52,8 +52,6 @@ struct hdmi {
+>   	struct clk_bulk_data *pwr_clks;
+>   	struct clk *extp_clk;
+>   
+> -	struct gpio_desc *hpd_gpiod;
+> -
+>   	struct hdmi_phy *phy;
+>   	struct device *phy_dev;
+>   
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
+> index 32e447267e3b..d3353c6148ed 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
+> @@ -69,9 +69,6 @@ int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
+>   	int ret;
+>   	unsigned long flags;
+>   
+> -	if (hdmi->hpd_gpiod)
+> -		gpiod_set_value_cansleep(hdmi->hpd_gpiod, 1);
+> -
+>   	ret = pm_runtime_resume_and_get(dev);
+>   	if (ret)
+>   		return ret;
+> @@ -144,8 +141,11 @@ void msm_hdmi_hpd_irq(struct drm_bridge *bridge)
+>   	}
+>   }
+>   
+> -static enum drm_connector_status detect_reg(struct hdmi *hdmi)
+> +enum drm_connector_status msm_hdmi_bridge_detect(
+> +		struct drm_bridge *bridge)
+>   {
+> +	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
+> +	struct hdmi *hdmi = hdmi_bridge->hdmi;
+>   	uint32_t hpd_int_status = 0;
+>   	int ret;
+>   
+> @@ -161,48 +161,3 @@ static enum drm_connector_status detect_reg(struct hdmi *hdmi)
+>   	return (hpd_int_status & HDMI_HPD_INT_STATUS_CABLE_DETECTED) ?
+>   			connector_status_connected : connector_status_disconnected;
+>   }
+> -
+> -#define HPD_GPIO_INDEX	2
+> -static enum drm_connector_status detect_gpio(struct hdmi *hdmi)
+> -{
+> -	return gpiod_get_value(hdmi->hpd_gpiod) ?
+> -			connector_status_connected :
+> -			connector_status_disconnected;
+> -}
+> -
+> -enum drm_connector_status msm_hdmi_bridge_detect(
+> -		struct drm_bridge *bridge)
+> -{
+> -	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
+> -	struct hdmi *hdmi = hdmi_bridge->hdmi;
+> -	enum drm_connector_status stat_gpio, stat_reg;
+> -	int retry = 20;
+> -
+> -	/*
+> -	 * some platforms may not have hpd gpio. Rely only on the status
+> -	 * provided by REG_HDMI_HPD_INT_STATUS in this case.
+> -	 */
+> -	if (!hdmi->hpd_gpiod)
+> -		return detect_reg(hdmi);
+> -
+> -	do {
+> -		stat_gpio = detect_gpio(hdmi);
+> -		stat_reg  = detect_reg(hdmi);
+> -
+> -		if (stat_gpio == stat_reg)
+> -			break;
+> -
+> -		mdelay(10);
+> -	} while (--retry);
+> -
+> -	/* the status we get from reading gpio seems to be more reliable,
+> -	 * so trust that one the most if we didn't manage to get hdmi and
+> -	 * gpio status to agree:
+> -	 */
+> -	if (stat_gpio != stat_reg) {
+> -		DBG("HDMI_HPD_INT_STATUS tells us: %d", stat_reg);
+> -		DBG("hpd gpio tells us: %d", stat_gpio);
+> -	}
+> -
+> -	return stat_gpio;
+> -}
+> 
+> -- 
+> 2.39.2
+> 
