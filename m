@@ -2,90 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674C990F09A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 16:32:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE01D90F0D5
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 16:37:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 554EE10ECC9;
-	Wed, 19 Jun 2024 14:32:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD9510ECDD;
+	Wed, 19 Jun 2024 14:37:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="LZt+yiRj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fIHMhKvk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
- [209.85.219.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BF5910ECC9
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 14:32:06 +0000 (UTC)
-Received: by mail-qv1-f54.google.com with SMTP id
- 6a1803df08f44-6b505f11973so5033676d6.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 07:32:06 -0700 (PDT)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AF9610ECDD
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 14:37:52 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-57d106e69a2so538540a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 07:37:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1718807525; x=1719412325; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=3LZUM5jfj4JrQADb+518kXqO9JR2q1Dki1G0Ben/yk4=;
- b=LZt+yiRjOSj5ap7TOzJjqD2LP5CP5L2u2fwNzpe/C+LVdWGHRqmEkn1qwrKMlPinl0
- H5dV5zGLmy10pB5IacJSEYooywHfk0DfpYRmMFdfd0Pq+lmhDkM+8zZcstd4vybC7KGz
- UPVBwNKtEQ7VrvYj9FU1uSpM45PDFUfBJfWEttS2eKdpGOxrRVrSw2TlPVucFM8DH6DW
- 1zn/ZDf7ctI8NogstWvWcJQRg5j3WH70eNcHW2bjWN1TCn9tCPrwlX23cH/bnOZGR3ga
- IfJ5/p/wY4eZr5R45LtXFDLVL104VD61Emzc+BgO6Cw8vRYQyOfxH6k3dpgvxd6szMws
- Rqxg==
+ d=linaro.org; s=google; t=1718807870; x=1719412670; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=mW6qIwgaMhv1Ukx6IUSceUqe9uJpeRHrbJHiEQy9EwE=;
+ b=fIHMhKvkkQicC7ryLkrL7q0tH1wyF/By85AHAYTXDj4TuKZHl3GY4suOsu1DKT8J/8
+ Tu92l1dUQBHn5auw+PLwuBrIwGEZGHfAIyIJQeiWMgO035kYQnGQaJu5EVQhnGS2AEyd
+ N8mnm9pzsEmcH+s+blpiuEzN4Tt7XfwhZwjWhHulT562rYiDlgefvBa/6UMk21/oD/Cs
+ LQQpBlPMST8VMZL+0jRxq56AGfHptz6ST8GErv5J52QFRi/nYai4mgM8Rmlk6D6HviQz
+ jk8+YYyzdObhD1DbLHPs3FmoLi8Rj0Jf5MxGBPqwjgKWOwtXRW2xJwuiBKPlYfjcLTnN
+ FR6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718807525; x=1719412325;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3LZUM5jfj4JrQADb+518kXqO9JR2q1Dki1G0Ben/yk4=;
- b=dPkZ0VyzSFeSKXdc3ET5rGJ1pf3YGU0drOfhkxQ26AZtCZzy5K96KexsHcPbQY81FN
- Z4PkFMIzWVEHv3kiaaPCG/kH3dsn/jqm75OwbLj4RoL0cqbP3dG6V/HD+37Zjq+m0Ci8
- gjq/GTWX6SjtJClwHNRMsjoZUF/Qyem4iqZQs66q2/UjystbiOoHY25/s3wis4teVdAN
- 8J6iNQp84KG39Pj1QskjAuRu4+kt4lkQ+OClxZkpQxSIRiwrmtHQxt9G+gvyAmOR6MmW
- +5XE+zacQVMVL4AzqhCZUqWtMkhe12J6EgZlLRdzLD3Czf7p5bV0tRgEvZNwefb85KvI
- g/Ww==
+ d=1e100.net; s=20230601; t=1718807870; x=1719412670;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mW6qIwgaMhv1Ukx6IUSceUqe9uJpeRHrbJHiEQy9EwE=;
+ b=dLNwhWofvCF5iwHIgZernh1eCQESxRUKtdGYQX7jMhdJN3Y/v0QOrjNS5HlxbGiYvm
+ asIKpQQnJdwFyDGrM+a2A2AL4MkTGKnKG+BK6UoMUlwbsEfqzuX0lw8ivJVjgOgzrlt4
+ qbFdESg2bff+6QjgyCmaQ8NFoxSk9kjceQ6/4U/rXAdOtZFsKnA7c8A+5WhKuSB1f5cu
+ AFmBEgMLuV5DZ0V2ptDcrx8b4TThQe++ZdjlIMV0HUI7b42pzp1HqSh5sEskd2Ekz0vS
+ Il0jqUhjJ8F5k7XW+iH634FEud/2457g4fasaZEkPlQpqNiR4zPjov+93FQWWx5jL1cR
+ eTOw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUK3YFmqE+a/8OTLhhDUO683CGbrJ0TwU/U9x/ZoJqxrpLBJ5esxcIw8mcwh8KU0xCiKAOOcIW6UWLAmN//RE4QXIMm0p7qERIlFa3tcF+u
-X-Gm-Message-State: AOJu0YzLLzGVkOxc33ONnV09IWNrW3H7SjIC0X4WPvnFjfsX/GOUDqHX
- tiWgLnRTl4N/cUP9Ikxw7D6PH8hY6H9n2bdi5zDe5jHM6S2bDB+c6EmSmHVgfXk=
-X-Google-Smtp-Source: AGHT+IGuQBogl5nnCa0xO+oPgBraH+EqrP6Ubhg3FSeuAcnXv1sZiKKYgQ7jm2DbFVYX9xP9hURczQ==
-X-Received: by 2002:ad4:5f8b:0:b0:6b0:72ac:b306 with SMTP id
- 6a1803df08f44-6b2e22d60bdmr86925786d6.1.1718807525299; 
- Wed, 19 Jun 2024 07:32:05 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.80.239]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b2a5eb498bsm77913746d6.76.2024.06.19.07.32.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jun 2024 07:32:04 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
- (envelope-from <jgg@ziepe.ca>) id 1sJwM0-004bip-ET;
- Wed, 19 Jun 2024 11:32:04 -0300
-Date: Wed, 19 Jun 2024 11:32:04 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Kevin Tian <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Kalle Valo <kvalo@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>, mst@redhat.com,
- Jason Wang <jasowang@redhat.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jeff Johnson <quic_jjohnson@quicinc.com>,
- ath10k@lists.infradead.org, ath11k@lists.infradead.org,
- iommu@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 09/21] media: venus: firmware: Use
- iommu_paging_domain_alloc()
-Message-ID: <20240619143204.GD1091770@ziepe.ca>
-References: <20240610085555.88197-1-baolu.lu@linux.intel.com>
- <20240610085555.88197-10-baolu.lu@linux.intel.com>
+ AJvYcCVXonzDVtjHRk7K5+V7bRhOJKLz6AA4x0A+g2TUpYwDTGEUOB4WKvE6vqRLtY1in8str44f7FPJfZJguv9i4aF6eD5tvH56cqqVklSKQ0j7
+X-Gm-Message-State: AOJu0YyT1O5kKnwPlsohtNw2ACwy53aB7HSn4HAn88nph5a6wY8XWOaA
+ CLZN3TUVJLJJwW2Jlxh8fQCEO5MaiMPXffJoPlLza1CRQkZoseJkOpmByuGEj2Tx4RlhQU6+ZoJ
+ NmRxzx5lvaCnCeY1QCchRFcjWys5nQkl/5Q/uWQ==
+X-Google-Smtp-Source: AGHT+IHuis2PWxnbeePb9S0U1LQ2x2sGfOwuZsNdXB0g7qlMm761qcR5dMpoqfdYtNv6UIguJ9ZLskZKA13dNPaiPkc=
+X-Received: by 2002:a50:d4da:0:b0:57c:b82e:884b with SMTP id
+ 4fb4d7f45d1cf-57d06ade10bmr1620556a12.19.1718807870558; Wed, 19 Jun 2024
+ 07:37:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240610085555.88197-10-baolu.lu@linux.intel.com>
+References: <20240606020213.49854-1-21cnbao@gmail.com>
+ <ZmctTwAuzkObaXLi@google.com>
+In-Reply-To: <ZmctTwAuzkObaXLi@google.com>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Wed, 19 Jun 2024 20:07:38 +0530
+Message-ID: <CAO_48GE_YHFFjKBb6hhZQ4--3j3H3+AUTaPkZWfHTGgBa=b78Q@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf/heaps: Correct the types of fd_flags and
+ heap_flags
+To: Carlos Llamas <cmllamas@google.com>
+Cc: Barry Song <21cnbao@gmail.com>, linaro-mm-sig@lists.linaro.org, 
+ linux-media@vger.kernel.org, Brian.Starkey@arm.com, 
+ benjamin.gaignard@collabora.com, christian.koenig@amd.com, 
+ dri-devel@lists.freedesktop.org, jstultz@google.com, 
+ linux-kernel@vger.kernel.org, tjmercier@google.com, v-songbaohua@oppo.com, 
+ hailong.liu@oppo.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,16 +83,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 10, 2024 at 04:55:43PM +0800, Lu Baolu wrote:
-> An iommu domain is allocated in venus_firmware_init() and is attached to
-> core->fw.dev in the same function. Use iommu_paging_domain_alloc() to
-> make it explicit.
-> 
-> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
-> ---
->  drivers/media/platform/qcom/venus/firmware.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+Hi Barry,
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+On Mon, 10 Jun 2024 at 22:14, Carlos Llamas <cmllamas@google.com> wrote:
+>
+> On Thu, Jun 06, 2024 at 02:02:13PM +1200, Barry Song wrote:
+> > From: Barry Song <v-songbaohua@oppo.com>
+> >
+> > dma_heap_allocation_data defines the UAPI as follows:
+> >
+> >  struct dma_heap_allocation_data {
+> >         __u64 len;
+> >         __u32 fd;
+> >         __u32 fd_flags;
+> >         __u64 heap_flags;
+> >  };
+> >
+> > But dma heaps are casting both fd_flags and heap_flags into
+> > unsigned long. This patch makes dma heaps - cma heap and
+> > system heap have consistent types with UAPI.
+> >
+> > Signed-off-by: Barry Song <v-songbaohua@oppo.com>
 
-Jason
+Thanks for this cleanup; pushed to drm-misc-next.
+
+> > ---
+>
+> Looks good to me, thanks!
+>
+> Reviewed-by: Carlos Llamas <cmllamas@google.com>
+
+
+Best,
+Sumit.
