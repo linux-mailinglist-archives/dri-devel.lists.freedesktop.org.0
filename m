@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E1090F43E
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 18:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E72690F42E
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 18:38:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7B910ED44;
-	Wed, 19 Jun 2024 16:39:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B33B10ED25;
+	Wed, 19 Jun 2024 16:38:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bl3G9snK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o9I6UWAR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D059210ED31
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 16:38:47 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3681710ED25
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 16:38:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id BE9F8CE206A;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8E3F361EAA;
  Wed, 19 Jun 2024 16:38:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 00FACC4AF08;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0BB96C4AF0B;
  Wed, 19 Jun 2024 16:38:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1718815125;
- bh=xSG4ggt1RhnwKCcON3d27r3nTFdYl7HIbvQnOx2vw8k=;
+ bh=GMUTsruzzAYn0n7hmwAGt8zwytpi3KhL2H6cMAMOTwM=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=bl3G9snKqjqTGeG9FX/zecd2iI9EyKYX2189ZAAKN+rF0rfyO5lArarEjXZmAPA8C
- BKU8oU4S+pWCXQtB0MWJ4W30/Uxvfs4rpH1f+PTytAUZDtQQqN3JUXQH+7grXVc6Cl
- vrZGNata8beMjsT16beARoNhjTAcT4V2nSFkm3DtNJYovS+Va0qcs3Sa6hUFmzwR86
- z3gBwqiZ96qUH2VCzT15engblRFcUcxiSmX8uebE2R18HOamxd8oaY22uRAS/lQmmr
- wxf2fJvpM5kLZmPcIi4PU+YEcJrQhkf+VRL5u/uVg+cmZkL9pGRkC3vpY2L4MAzOE8
- GiTvdNGsP8TcQ==
+ b=o9I6UWARKhdQAarnE3m6YUch84ybDp4BeEm27PI45HX+rqb3jBMMzIH8Jhmb/9N40
+ TMn9s/1qGLUVAT2iJqPDthvSqAWKpL/bwDsWlEIiz4GYSo7bzxbaCpx9FTwJfmbznI
+ RXOdGE/jQhdQ4etIjuATVNnA/8hpz4Z9ca0sAwgXm009zp8i7VQLoXM19wJSwR+RmE
+ 4p0gfvPmsYDh1VrFvf4uEqtjIqYjlE1n7HRzl4ck0cuhEGSzHr4qfhz1K35ANGe9jr
+ aW+Ub066hVO1sz8xnZbtX6awgpNObVsowN9+Hc5Uvo4Y9uyG1UkUH14xeV4dM68pCP
+ L4gFKOOVOTApw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id E3EACC27C79;
- Wed, 19 Jun 2024 16:38:44 +0000 (UTC)
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 01532C27C53;
+ Wed, 19 Jun 2024 16:38:45 +0000 (UTC)
 From: Hsiao Chien Sung via B4 Relay
  <devnull+shawn.sung.mediatek.com@kernel.org>
-Date: Thu, 20 Jun 2024 00:38:43 +0800
-Subject: [PATCH v3 03/14] drm/mediatek: Fix XRGB setting error in OVL
+Date: Thu, 20 Jun 2024 00:38:44 +0800
+Subject: [PATCH v3 04/14] drm/mediatek: Fix XRGB setting error in Mixer
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240620-igt-v3-3-a9d62d2e2c7e@mediatek.com>
+Message-Id: <20240620-igt-v3-4-a9d62d2e2c7e@mediatek.com>
 References: <20240620-igt-v3-0-a9d62d2e2c7e@mediatek.com>
 In-Reply-To: <20240620-igt-v3-0-a9d62d2e2c7e@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
@@ -56,11 +56,11 @@ Cc: YT Shen <yt.shen@mediatek.com>, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, 
  Hsiao Chien Sung <shawn.sung@mediatek.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718815123; l=2960;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718815123; l=1806;
  i=shawn.sung@mediatek.com; s=20240616; h=from:subject:message-id;
- bh=tCYJPhSGMKi5TJvgnmhbxfJqIw69++3CeCs9woVV0N0=;
- b=Rs83718Z3zztNmQ9WkKuT6TY6jbpWGPvBjC7/cPk3tDc7CIrec9Wdz4JY6hXerbH/+gbiTJvf
- JK5pXgL8la1B8ik7mEasC4pAfDedsHLR1ioJYc7zSoxax5tcUDwGHb1
+ bh=iVCN8PnNVHs904I6AJ55kOr+V0K7XkkYFUBoVjBPemw=;
+ b=YGUI6RWS0nP5fpjX4gax+ewcdTiGdFlfVwGr3KMmRMoWefuqd/Ov64zpSE37WmTC6fSVlfMee
+ Ual5RWvPhOuAj9ENdQSkMcZOMniEGfqK685rChC26tStrwq1vx0UuNA
 X-Developer-Key: i=shawn.sung@mediatek.com; a=ed25519;
  pk=lq1w8BuWDINX+4JHjGHhhbAU5ICP+cL9VCj7wn+cEDA=
 X-Endpoint-Received: by B4 Relay for shawn.sung@mediatek.com/20240616 with
@@ -84,64 +84,47 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Hsiao Chien Sung <shawn.sung@mediatek.com>
 
-CONST_BLD must be enabled for XRGB formats although the alpha channel
-can be ignored, or OVL will still read the value from memory.
-This error only affects CRC generation.
+Although the alpha channel in XRGB formats can be ignored, ALPHA_CON
+must be configured accordingly when using XRGB formats or it will still
+affects CRC generation.
 
-Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC MT8173.")
+Fixes: d886c0009bd0 ("drm/mediatek: Add ETHDR support for MT8195")
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_ethdr.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index b552a02d7eae..bd00e5e85deb 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -38,6 +38,7 @@
- #define DISP_REG_OVL_PITCH_MSB(n)		(0x0040 + 0x20 * (n))
- #define OVL_PITCH_MSB_2ND_SUBBUF			BIT(16)
- #define DISP_REG_OVL_PITCH(n)			(0x0044 + 0x20 * (n))
-+#define OVL_CONST_BLEND					BIT(28)
- #define DISP_REG_OVL_RDMA_CTRL(n)		(0x00c0 + 0x20 * (n))
- #define DISP_REG_OVL_RDMA_GMC(n)		(0x00c8 + 0x20 * (n))
- #define DISP_REG_OVL_ADDR_MT2701		0x0040
-@@ -407,6 +408,7 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
- 	unsigned int fmt = pending->format;
- 	unsigned int offset = (pending->y << 16) | pending->x;
- 	unsigned int src_size = (pending->height << 16) | pending->width;
-+	unsigned int ignore_pixel_alpha = 0;
- 	unsigned int con;
- 	bool is_afbc = pending->modifier != DRM_FORMAT_MOD_LINEAR;
- 	union overlay_pitch {
-@@ -428,6 +430,14 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
+diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.c b/drivers/gpu/drm/mediatek/mtk_ethdr.c
+index d7d16482c947..5c52e514ae30 100644
+--- a/drivers/gpu/drm/mediatek/mtk_ethdr.c
++++ b/drivers/gpu/drm/mediatek/mtk_ethdr.c
+@@ -153,6 +153,7 @@ void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
+ 	unsigned int offset = (pending->x & 1) << 31 | pending->y << 16 | pending->x;
+ 	unsigned int align_width = ALIGN_DOWN(pending->width, 2);
+ 	unsigned int alpha_con = 0;
++	bool replace_src_a = false;
+ 
+ 	dev_dbg(dev, "%s+ idx:%d", __func__, idx);
+ 
+@@ -167,7 +168,15 @@ void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
  	if (state->base.fb && state->base.fb->format->has_alpha)
- 		con |= OVL_CON_AEN | OVL_CON_ALPHA;
+ 		alpha_con = MIXER_ALPHA_AEN | MIXER_ALPHA;
  
-+	/* CONST_BLD must be enabled for XRGB formats although the alpha channel
-+	 * can be ignored, or OVL will still read the value from memory.
-+	 * For RGB888 related formats, whether CONST_BLD is enabled or not won't
-+	 * affect the result. Therefore we use !has_alpha as the condition.
-+	 */
-+	if (state->base.fb && !state->base.fb->format->has_alpha)
-+		ignore_pixel_alpha = OVL_CONST_BLEND;
+-	mtk_mmsys_mixer_in_config(priv->mmsys_dev, idx + 1, alpha_con ? false : true,
++	if (state->base.fb && !state->base.fb->format->has_alpha) {
++		/*
++		 * Mixer doesn't support CONST_BLD mode,
++		 * use a trick to make the output equivalent
++		 */
++		replace_src_a = true;
++	}
 +
- 	if (pending->rotation & DRM_MODE_REFLECT_Y) {
- 		con |= OVL_CON_VIRT_FLIP;
- 		addr += (pending->height - 1) * pending->pitch;
-@@ -443,8 +453,8 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
- 
- 	mtk_ddp_write_relaxed(cmdq_pkt, con, &ovl->cmdq_reg, ovl->regs,
- 			      DISP_REG_OVL_CON(idx));
--	mtk_ddp_write_relaxed(cmdq_pkt, overlay_pitch.split_pitch.lsb, &ovl->cmdq_reg, ovl->regs,
--			      DISP_REG_OVL_PITCH(idx));
-+	mtk_ddp_write_relaxed(cmdq_pkt, overlay_pitch.split_pitch.lsb | ignore_pixel_alpha,
-+			      &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_PITCH(idx));
- 	mtk_ddp_write_relaxed(cmdq_pkt, src_size, &ovl->cmdq_reg, ovl->regs,
- 			      DISP_REG_OVL_SRC_SIZE(idx));
- 	mtk_ddp_write_relaxed(cmdq_pkt, offset, &ovl->cmdq_reg, ovl->regs,
++	mtk_mmsys_mixer_in_config(priv->mmsys_dev, idx + 1, replace_src_a,
+ 				  MIXER_ALPHA,
+ 				  pending->x & 1 ? MIXER_INX_MODE_EVEN_EXTEND :
+ 				  MIXER_INX_MODE_BYPASS, align_width / 2 - 1, cmdq_pkt);
 
 -- 
 Git-146)
