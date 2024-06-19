@@ -2,81 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C737490E71C
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 11:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6126A90E6E5
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 11:24:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72C0810E267;
-	Wed, 19 Jun 2024 09:32:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B6A510E1F1;
+	Wed, 19 Jun 2024 09:24:40 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Qn/DeSoe";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 905 seconds by postgrey-1.36 at gabe;
- Wed, 19 Jun 2024 09:32:03 UTC
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 452E210E267
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 09:32:03 +0000 (UTC)
-Received: from [192.168.1.105] (31.173.87.162) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 19 Jun
- 2024 12:16:47 +0300
-Subject: Re: [PATCH] drm: Remove unused function rcar_cmm_write
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- <laurent.pinchart@ideasonboard.com>
-CC: <kieran.bingham+renesas@ideasonboard.com>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
- <linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Abaci
- Robot <abaci@linux.alibaba.com>
-References: <20240619075436.86407-1-jiapeng.chong@linux.alibaba.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <bd98f345-5c71-188a-b3af-a8ef9d205ce6@omp.ru>
-Date: Wed, 19 Jun 2024 12:16:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <20240619075436.86407-1-jiapeng.chong@linux.alibaba.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC1B110EBE5
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 09:24:38 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93C5BF89;
+ Wed, 19 Jun 2024 11:24:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1718789059;
+ bh=h/iCqsrqGKzzT1b99RkG5kUY08OuMh64fA4WZzWOod0=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=Qn/DeSoe8PsmDvbpU16McoVFN+Hmt76a9BbHc07g1dpyThhFbWcY3vKKxlP3Nj1o+
+ 0OrmOGOw8IL5GcTHudXKgMFY741K3xoWjRHmxKMBnJWZQhfMW3vjxE143v7GNnQRFz
+ bPJbPvOVGAGoD+4BuYU4yh6A5OhHhapjZDjsBDPg=
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [31.173.87.162]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 06/19/2024 08:59:50
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 186000 [Jun 19 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.4
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 20 0.3.20
- 743589a8af6ec90b529f2124c2bbfc3ce1d2f20f
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.162 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.162 in (user) dbl.spamhaus.org}
-X-KSE-AntiSpam-Info: bugzilla.openanolis.cn:7.1.1;
- d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; 127.0.0.199:7.1.2; omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.87.162
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 06/19/2024 09:04:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 6/19/2024 6:00:00 AM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240619075436.86407-1-jiapeng.chong@linux.alibaba.com>
+References: <20240619075436.86407-1-jiapeng.chong@linux.alibaba.com>
+Subject: Re: [PATCH] drm: Remove unused function rcar_cmm_write
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ Abaci Robot <abaci@linux.alibaba.com>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ laurent.pinchart@ideasonboard.com
+Date: Wed, 19 Jun 2024 10:24:34 +0100
+Message-ID: <171878907461.2248009.5135990660675548248@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,22 +58,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/19/24 10:54 AM, Jiapeng Chong wrote:
-
+Quoting Jiapeng Chong (2024-06-19 08:54:36)
 > The function are defined in the rcar_cmm.c file, but not called
-
-   s/are/is/.
-
 > elsewhere, so delete the unused function.
+>=20
+> drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c:35:19: warning: unused functio=
+n 'rcar_cmm_read'.
 
-   Anywhere, maybe?
+Indeed it's unused.
 
-> drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c:35:19: warning: unused function 'rcar_cmm_read'.
-> 
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
 > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9364
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D9364
 > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-
-[...]
-
-MBR, Sergey
+> ---
+>  drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c | 5 -----
+>  1 file changed, 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c b/drivers/gpu/drm=
+/renesas/rcar-du/rcar_cmm.c
+> index 26a2f5ad8ee5..883b960e9acc 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
+> @@ -32,11 +32,6 @@ struct rcar_cmm {
+>         } lut;
+>  };
+> =20
+> -static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
+> -{
+> -       return ioread32(rcmm->base + reg);
+> -}
+> -
+>  static inline void rcar_cmm_write(struct rcar_cmm *rcmm, u32 reg, u32 da=
+ta)
+>  {
+>         iowrite32(data, rcmm->base + reg);
+> --=20
+> 2.20.1.7.g153144c
+>
