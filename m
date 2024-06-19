@@ -2,66 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 174B390E683
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 11:08:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C737490E71C
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 11:32:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CF3C10E229;
-	Wed, 19 Jun 2024 09:08:00 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rPx8xbJD";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72C0810E267;
+	Wed, 19 Jun 2024 09:32:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9B3710E249
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 09:07:58 +0000 (UTC)
-Received: from [127.0.1.1] (91-158-144-210.elisa-laajakaista.fi
- [91.158.144.210])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4568CF89;
- Wed, 19 Jun 2024 11:07:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1718788058;
- bh=DZhGeqFehRS7W14jzlLqUVoPGWyetiJb3GGjiXiR5Lk=;
- h=From:Date:Subject:To:Cc:From;
- b=rPx8xbJDyJDluUsi6i9lTa7Qd6dpYjHVR8QfHr7eVmnfLB3ShOUdiohhsOj7jcC3S
- DSMFr6YPFL7ypQIKrDD1QQHXvHIlNUm0FHfulLbM8ke57rmil3bPIEjC7cd05WDggz
- T87G01MGfjre9z0A8PII51hr8nZGrQPyaO2ugcWg=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 19 Jun 2024 12:07:48 +0300
-Subject: [PATCH] drm/mipi-dsi: Fix devm unregister & detach
+X-Greylist: delayed 905 seconds by postgrey-1.36 at gabe;
+ Wed, 19 Jun 2024 09:32:03 UTC
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 452E210E267
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 09:32:03 +0000 (UTC)
+Received: from [192.168.1.105] (31.173.87.162) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 19 Jun
+ 2024 12:16:47 +0300
+Subject: Re: [PATCH] drm: Remove unused function rcar_cmm_write
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ <laurent.pinchart@ideasonboard.com>
+CC: <kieran.bingham+renesas@ideasonboard.com>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Abaci
+ Robot <abaci@linux.alibaba.com>
+References: <20240619075436.86407-1-jiapeng.chong@linux.alibaba.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <bd98f345-5c71-188a-b3af-a8ef9d205ce6@omp.ru>
+Date: Wed, 19 Jun 2024 12:16:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <20240619075436.86407-1-jiapeng.chong@linux.alibaba.com>
 Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240619-dsi-devres-fix-v1-1-a5c59310a52e@ideasonboard.com>
-X-B4-Tracking: v=1; b=H4sIAOOfcmYC/x2MQQqAMAwEvyI5G6jFSvUr4kFN1FxUGiiC9O8Gj
- 7PDzgvKSVhhqF5InEXlOg2auoL1mM+dUcgYvPOt65oeSQWJc2LFTR6MFEIMfjE5g53uxDb/wXE
- q5QMzc/lGYAAAAA==
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5011;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=croLJFrL+09XNJbTz1h3x2gBIcPMTrAYTd1stVs7jVw=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmcp/oCFOuu7JqH7XsYqGpp9gqBMcwfBrQ2ohRp
- WyyIJwwe6CJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZnKf6AAKCRD6PaqMvJYe
- 9QT6D/0WdVkJhk/x2oO6mP/eZCws9uZ8Y88WiZ0T9HO0/LvpRfhaXqZNiXapc/YuVK5n98EfeWA
- I9jI755sMky+4GUgA+bwbVd0IZHtCdVw+4s/SEKRC6frNiZX5VRO9k0KNVg70jFndI6guWF/Tk3
- 80p/2HXWgAsBIASd/95eJ9PEhE5bPe+Lxk5+P0ddPaY1of5BZ9Wyld6Vcqcgae2y+K+R0q0sd1g
- 47SlkldRSB/PLM/b9HcUpw+MZI5+ZBLlm8kbylJt1oyG/tbOX91x+Z7dEytIuGueVZRiGZVKlMm
- mg8jhMMy13tOufld8s7akHBsg+7t1SltPCPaU2kMg8Pj4Rqyyyq/5ZsdpNz6g1b3xHg81Os3go7
- 4eJCvOPvm2UrfNwdFnZ1whs93shs4gFNB4LYC4xkg0uaPlALAj3Jn35k81Yq1lUVsc51ADvOnfK
- 0vovjRWnwGd89nLSAuOG0pu5ZFad40nCYoosHHMfa8dju36PiPxrrh4Sx7SvTvHqzGI1oJjwhRO
- GEimYIIEnAE79/ZKkOGNGIc3I13c0X1jKYkTN2uiXudVUlx0JmJlOa275wj/gaJ5t56vff6JQSc
- PclpmGi3ulhp121fSZ4lYPfQGFlinktq01/2/BH/ojW61mST/sWLVVMrCrPDNMCXDJNQ2APR63y
- QhEYdg+fWkc1RAg==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+X-Originating-IP: [31.173.87.162]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 06/19/2024 08:59:50
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 186000 [Jun 19 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.4
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 20 0.3.20
+ 743589a8af6ec90b529f2124c2bbfc3ce1d2f20f
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.162 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.162 in (user) dbl.spamhaus.org}
+X-KSE-AntiSpam-Info: bugzilla.openanolis.cn:7.1.1;
+ d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; 127.0.0.199:7.1.2; omp.ru:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.87.162
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 06/19/2024 09:04:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 6/19/2024 6:00:00 AM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,167 +92,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+On 6/19/24 10:54 AM, Jiapeng Chong wrote:
 
-When a bridge driver uses devm_mipi_dsi_device_register_full() or
-devm_mipi_dsi_attach(), the resource management is moved to devres,
-which releases the resource automatically when the bridge driver is
-unbound.
+> The function are defined in the rcar_cmm.c file, but not called
 
-However, if the DSI host goes away first, the host unregistration code
-will automatically detach and unregister any DSI peripherals, without
-notifying the devres about it. So when the bridge driver later is
-unbound, the resources are released a second time, leading to crash.
+   s/are/is/.
 
-Fix this by recording the device that was used when calling the above
-mentioned functions into the struct mipi_dsi_device, and when the
-unregister or detach is called, remove the devres action if needed.
+> elsewhere, so delete the unused function.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
----
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/gpu/drm/drm_mipi_dsi.c | 44 ++++++++++++++++++++++++++++++++----------
- include/drm/drm_mipi_dsi.h     |  6 ++++++
- 2 files changed, 40 insertions(+), 10 deletions(-)
+   Anywhere, maybe?
 
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index 795001bb7ff1..a78c4b6cae70 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -237,13 +237,15 @@ mipi_dsi_device_register_full(struct mipi_dsi_host *host,
- }
- EXPORT_SYMBOL(mipi_dsi_device_register_full);
- 
-+static void mipi_dsi_do_device_unregister(struct mipi_dsi_device *dsi, bool devres);
-+
- /**
-  * mipi_dsi_device_unregister - unregister MIPI DSI device
-  * @dsi: DSI peripheral device
-  */
- void mipi_dsi_device_unregister(struct mipi_dsi_device *dsi)
- {
--	device_unregister(&dsi->dev);
-+	mipi_dsi_do_device_unregister(dsi, false);
- }
- EXPORT_SYMBOL(mipi_dsi_device_unregister);
- 
-@@ -251,7 +253,15 @@ static void devm_mipi_dsi_device_unregister(void *arg)
- {
- 	struct mipi_dsi_device *dsi = arg;
- 
--	mipi_dsi_device_unregister(dsi);
-+	mipi_dsi_do_device_unregister(dsi, true);
-+}
-+
-+static void mipi_dsi_do_device_unregister(struct mipi_dsi_device *dsi, bool devres)
-+{
-+	if (!devres && dsi->devres_register_dev)
-+		devm_remove_action(dsi->devres_register_dev, devm_mipi_dsi_device_unregister, dsi);
-+
-+	device_unregister(&dsi->dev);
- }
- 
- /**
-@@ -289,6 +299,8 @@ devm_mipi_dsi_device_register_full(struct device *dev,
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-+	dsi->devres_register_dev = dev;
-+
- 	return dsi;
- }
- EXPORT_SYMBOL_GPL(devm_mipi_dsi_device_register_full);
-@@ -386,17 +398,35 @@ int mipi_dsi_attach(struct mipi_dsi_device *dsi)
- }
- EXPORT_SYMBOL(mipi_dsi_attach);
- 
-+static int mipi_dsi_do_detach(struct mipi_dsi_device *dsi, bool devres);
-+
- /**
-  * mipi_dsi_detach - detach a DSI device from its DSI host
-  * @dsi: DSI peripheral
-  */
- int mipi_dsi_detach(struct mipi_dsi_device *dsi)
-+{
-+	return mipi_dsi_do_detach(dsi, false);
-+}
-+EXPORT_SYMBOL(mipi_dsi_detach);
-+
-+static void devm_mipi_dsi_detach(void *arg)
-+{
-+	struct mipi_dsi_device *dsi = arg;
-+
-+	mipi_dsi_do_detach(dsi, true);
-+}
-+
-+static int mipi_dsi_do_detach(struct mipi_dsi_device *dsi, bool devres)
- {
- 	const struct mipi_dsi_host_ops *ops = dsi->host->ops;
- 
- 	if (WARN_ON(!dsi->attached))
- 		return -EINVAL;
- 
-+	if (!devres && dsi->devres_attach_dev)
-+		devm_remove_action(dsi->devres_attach_dev, devm_mipi_dsi_detach, dsi);
-+
- 	if (!ops || !ops->detach)
- 		return -ENOSYS;
- 
-@@ -404,14 +434,6 @@ int mipi_dsi_detach(struct mipi_dsi_device *dsi)
- 
- 	return ops->detach(dsi->host, dsi);
- }
--EXPORT_SYMBOL(mipi_dsi_detach);
--
--static void devm_mipi_dsi_detach(void *arg)
--{
--	struct mipi_dsi_device *dsi = arg;
--
--	mipi_dsi_detach(dsi);
--}
- 
- /**
-  * devm_mipi_dsi_attach - Attach a MIPI-DSI device to its DSI Host
-@@ -437,6 +459,8 @@ int devm_mipi_dsi_attach(struct device *dev,
- 	if (ret)
- 		return ret;
- 
-+	dsi->devres_attach_dev = dev;
-+
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(devm_mipi_dsi_attach);
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index 82b1cc434ea3..f68aee6813db 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -181,6 +181,9 @@ struct mipi_dsi_device_info {
-  * be set to the real limits of the hardware, zero is only accepted for
-  * legacy drivers
-  * @dsc: panel/bridge DSC pps payload to be sent
-+ * devres_register_dev: device that was used with
-+ *			devm_mipi_dsi_device_register_full() or NULL
-+ * devres_attach_dev: device that was used with devm_mipi_dsi_attach() or NULL
-  */
- struct mipi_dsi_device {
- 	struct mipi_dsi_host *host;
-@@ -195,6 +198,9 @@ struct mipi_dsi_device {
- 	unsigned long hs_rate;
- 	unsigned long lp_rate;
- 	struct drm_dsc_config *dsc;
-+
-+	struct device *devres_register_dev;
-+	struct device *devres_attach_dev;
- };
- 
- #define MIPI_DSI_MODULE_PREFIX "mipi-dsi:"
+> drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c:35:19: warning: unused function 'rcar_cmm_read'.
+> 
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9364
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 
----
-base-commit: 6ba59ff4227927d3a8530fc2973b80e94b54d58f
-change-id: 20240619-dsi-devres-fix-8d55852b406a
+[...]
 
-Best regards,
--- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-
+MBR, Sergey
