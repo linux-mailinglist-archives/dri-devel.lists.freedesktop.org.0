@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D9D90E775
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 11:55:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5463F90E772
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 11:55:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 768AB10EBD5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 199B010EBB2;
 	Wed, 19 Jun 2024 09:55:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OmjRzAxW";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="4U1iitXc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E8EC10EBB2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 09:55:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D318C10EBB2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 09:55:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1718790937;
- bh=k5zFRwWLqHmR3Bl9MBcDfo6tNRRQ8+Rc5ZUSSaZAaVs=;
+ s=mail; t=1718790939;
+ bh=8QGSAxGqICnLWou/+L9cSLfTKbqC10cxA2/R2kml4NY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=OmjRzAxWaDVNOprhuzlY+xdhrt6tm3WxAPVAdp6Si4kMylbX283Lb3exN1kNK4Qgy
- /JRytY2OFABlBWew4u+HxUOmzKOiRf/8ErAS9WtxPIM6oFYxeko1v0DE5O/28lHgW+
- C/xP+zZFPxuadRnrpoVjIOFjbE+7rBcC/bA6NahUAwS+uHYgo4mq+vlSbepbERXw4u
- xKrSXuRUJ0s9UIoH5v6N3mDyo7Tq4HM6FV7wlvg5dNe0cwse5Oxus1rAwIWnjLElXb
- EhjFQKeUoOMGN3Qe2QuS44HwIAHbtYANa8pOUYCvspfGj66ql3ypCnepP77lolatFA
- 4ZqO7q2uMEXkg==
+ b=4U1iitXcT54VVgOPURfpPAJlRUnl+Mu0calqzUgSc4HAoH0DDYbQWWumz20KyvBON
+ WrVA0o6Jt+J/nRBEN5/4UrG4GVE+58+GN26GVI+sSbuHb3plsz2KbRGu3XDPHkmk4d
+ 9qjKMbQLinGy1pj9vByeTkdTGC3htSHi0b6G0voDtArQJBE932rF0dsJvrajvAe9YK
+ f6v9dDNhpWoIUWSlrJVzTrxupXi5pCp7aLKPMqlaZ3YGcN8VnzGTi6Mx/UJAKnkv4a
+ wXhK1QFxT4hMR3ac8i1u09mcBizCCq+5TGVaupwQId2CDlFJWWWH3yshdZ0JH1p3OR
+ nELPCN848J/kA==
 Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 555FE37821C3;
- Wed, 19 Jun 2024 09:55:36 +0000 (UTC)
-Message-ID: <c6bbdd70-334b-429a-aa99-1df142550826@collabora.com>
-Date: Wed, 19 Jun 2024 11:55:34 +0200
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1CD9537821C7;
+ Wed, 19 Jun 2024 09:55:38 +0000 (UTC)
+Message-ID: <cef36b0a-eb50-43c2-9a28-252502fba99a@collabora.com>
+Date: Wed, 19 Jun 2024 11:55:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v5 06/16] ASoC: mediatek: mt8365: Add I2S DAI
- support
+Subject: Re: [PATCH RESEND v5 05/16] ASoC: mediatek: mt8365: Add audio clock
+ control support
 To: Alexandre Mergnat <amergnat@baylibre.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
@@ -54,10 +54,10 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 References: <20240226-audio-i350-v5-0-54827318b453@baylibre.com>
- <20240226-audio-i350-v5-6-54827318b453@baylibre.com>
+ <20240226-audio-i350-v5-5-54827318b453@baylibre.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20240226-audio-i350-v5-6-54827318b453@baylibre.com>
+In-Reply-To: <20240226-audio-i350-v5-5-54827318b453@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,7 +76,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 14/06/24 09:27, Alexandre Mergnat ha scritto:
-> Add I2S Device Audio Interface support for MT8365 SoC.
+> Add audio clock wrapper and audio tuner control.
 > 
 > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 
