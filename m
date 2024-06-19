@@ -2,45 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B22590EAA0
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 14:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1043790EADD
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 14:22:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99A6110EC7D;
-	Wed, 19 Jun 2024 12:16:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B73D110EC9E;
+	Wed, 19 Jun 2024 12:21:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="hM0Ql3ON";
+	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="H5QlHj5b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D1B010EC7D
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 12:16:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C88DE10EC86
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 12:21:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1718799368;
+ s=mail; t=1718799717;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tTFt4SyFkUl5kwC5+SYzC9ZviZKxrb5Ez1o1J2dq9wo=;
- b=hM0Ql3ONtfmO/COEkbO+8st7xAbaQK46Hai4ZerRynzZOlo/sQmHozGF9x8b8zdn2mpUa/
- vCzfhQDqZFyIh/ozwqLf0LiFtWj9pU8PTLAl80+GTIoq5TkOrg5gjXWNXKyymgpFDUNg0D
- mHDUssO8qePsFHYSj668VVppKoGbeIU=
-Message-ID: <8d536bb864c145340a15f496ad3b89e08a847718.camel@crapouillou.net>
-Subject: Re: [PATCH v11 3/7] iio: core: Add new DMABUF interface infrastructure
+ bh=FVGqOE3wiRlvOnwpW+plbu90wTtSXAmdw/o00wdPQQk=;
+ b=H5QlHj5b47jmWWPmYrEyBk2CLjfodSkuNO3iFqDQL3q9TAKryupn+V75JTiH8WmGI/eIFy
+ 0Zjifr0r4dCWg3FWwIzaMp3bxyNBFP/hFECEP7HFZpj/jn85MK8NLAlzARSlcjHxvvWIqv
+ zj3xrSSMAXdnhmkQLs0rsmnmfWLPh7o=
+Message-ID: <15edbedcac80961ec9b7834041e54143657cd48b.camel@crapouillou.net>
+Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
 From: Paul Cercueil <paul@crapouillou.net>
-To: Markus Elfring <Markus.Elfring@web.de>, Nuno =?ISO-8859-1?Q?S=E1?=
- <nuno.sa@analog.com>, linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Jonathan Cameron <jic23@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Sumit Semwal <sumit.semwal@linaro.org>, Vinod
- Koul <vkoul@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, Jonathan
- Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
-Date: Wed, 19 Jun 2024 14:16:05 +0200
-In-Reply-To: <fc3045c5-d542-4a6c-906d-84f72e776e9c@web.de>
-References: <20240618100302.72886-4-paul@crapouillou.net>
- <fc3045c5-d542-4a6c-906d-84f72e776e9c@web.de>
+To: Markus Elfring <Markus.Elfring@web.de>, lkp@intel.com, Nuno
+ =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, linux-iio@vger.kernel.org,
+ dmaengine@vger.kernel.org,  linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  linaro-mm-sig@lists.linaro.org, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Jonathan Cameron
+ <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>, 
+ linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Randy Dunlap
+ <rdunlap@infradead.org>
+Date: Wed, 19 Jun 2024 14:21:55 +0200
+In-Reply-To: <41fa9904-28a8-46fa-bf2a-014875409b83@web.de>
+References: <202406191014.9JAzwRV6-lkp@intel.com>
+ <a4dd1d73-5af3-4d3d-8c0f-92dc439fa119@web.de>
+ <d452ecc4fc703a1f98aa4f243c6ded7fbfe54b0e.camel@crapouillou.net>
+ <cbcfb64a-e5c2-41a7-8847-227d4f6872de@web.de>
+ <e948cd137da8e4f97bfbf7ef68a5450476aeee0c.camel@crapouillou.net>
+ <41fa9904-28a8-46fa-bf2a-014875409b83@web.de>
 Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
  keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
  LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
@@ -82,23 +87,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le mercredi 19 juin 2024 =C3=A0 13:43 +0200, Markus Elfring a =C3=A9crit=C2=
+Le mercredi 19 juin 2024 =C3=A0 13:56 +0200, Markus Elfring a =C3=A9crit=C2=
 =A0:
 > =E2=80=A6
-> > +++ b/drivers/iio/industrialio-buffer.c
-> =E2=80=A6
-> > +static void iio_buffer_dmabuf_release(struct kref *ref)
-> > +{
-> =E2=80=A6
-> > +	dma_resv_lock(dmabuf->resv, NULL);
-> > +	dma_buf_unmap_attachment(attach, priv->sgt, priv->dir);
-> > +	dma_resv_unlock(dmabuf->resv);
+> > https://lore.kernel.org/linux-iio/219abc43b4fdd4a13b307ed2efaa0e6869e68=
+e3f.camel@gmail.com/T/#eefd360069c4261aec9621fafde30924706571c94
+> >=20
+> > (and responses below)
+> >=20
+> > It's more nuanced than I remembered.
 > =E2=80=A6
 >=20
-> Under which circumstances will another lock guard become applicable?
+>=20
+> > > * Will the desire grow for further collateral evolution according
+> > > to
+> > > =C2=A0 affected software components?
+> >=20
+> > Not sure what you mean by that.
+>=20
+> Advanced programming interfaces were added a while ago.
+>=20
+> Example:
 > https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/cleanup.h=
-#L179
+#L8
+>=20
+> Corresponding attempts for increasing API usage need to adapt to
+> remaining change reluctance,
+> don't they?
 
-As soon as "struct dma_resv" gets a DEFINE_GUARD().
+Sure, I guess.
 
+But that does not change the fact that I cannot use cleanup.h magic in
+this patchset, yet, as the required changes would have to be done in a
+separate one.
+
+Cheers,
 -Paul
