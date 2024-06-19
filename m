@@ -2,169 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39B1690F84C
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 23:13:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910FA90F852
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 23:13:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1A2310E0D9;
-	Wed, 19 Jun 2024 21:13:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26D9510E239;
+	Wed, 19 Jun 2024 21:13:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=marvell.com header.i=@marvell.com header.b="LGHau+Zn";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="qlnbKnhX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 995 seconds by postgrey-1.36 at gabe;
- Wed, 19 Jun 2024 18:57:45 UTC
-Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com
- [67.231.156.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31B4810ED94
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 18:57:45 +0000 (UTC)
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
- by mx0b-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45J7SIuB023060;
- Wed, 19 Jun 2024 11:41:02 -0700
-Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
- by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3yutyc20ag-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Jun 2024 11:41:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eMIeW6XsO1nM+BvMar0kY1Vk1fvUVcZHdRBpmNPwk4KOXS4qY8AsaraXMThczYGaatImcJdpHGMc6u0UGHEJkt+Tqn4KOXRGqV2c2OEoBJIqpnFbpYNe4y3HgubJ3fU1MEpFJfSt26xK6tSuVl1lulsMFj74D6fPjeuh+n1qgh+yjzJ9+d3R+kObQ/19TPOJXXOiW6VB3IkK82FasmLih0r9Z2mGzDgqT1gj1nY1baaeCHTNUpVAdr4WXFpuo26MyGz7VnmAvp80V+xclOBhqXIT0iodpyd2dk29xRpR2Pm5SOK2M7/OInpKKXY+is6aG3QkV0ZWweDu43tlnWxB3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R+f4V2sDIpziBhA6WhjqTRQrlcZqe0P/HU8IUPkmHpI=;
- b=S8rdQH7QTC/5EJHB16NmbU3Mfvdj/5Ba7WyiDF4pSAlQx98981bMN7TwZ5gOCxt/vNtNBLbpVXoK+dMmV8bOxe0hrC18I24B5RSvBkdsiPXpzGEF9MJ0ko8N7gGbV/UIyZQ68dD6SS1Vjy980aWDgBY7EYriSGaX9/O11hrVfQSkArxnNELkspS5k0o/uY/n8ntC//nvMCEr0X8QSYILyY+ThTFoiu6c+TiIXJkomgDaRKq91SxLH5WCJGbjJGx78T8lvaVtEQanHq4bNzJBfeEaOFKTMQG83Vy8JkIETfaeZ+rXUf60KkOB0ytuW1R5NoP/Xvpjmxjw2DpMUoT30w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R+f4V2sDIpziBhA6WhjqTRQrlcZqe0P/HU8IUPkmHpI=;
- b=LGHau+ZnygMdkVQJycdazQiWb7auzwtYwDmxxtsa1yXLdsP6yLqqOyU3SMe6dsr2zLI0imtNunhflEABlvTl4GyY/TSuI5G+XyFm0TRfOVTgHPcK3Kv77hYJKsQ5T1ChRnlHS4K6hmWH0rw5vtbSVxV6223KDJNlz72MhsmDHgM=
-Received: from BY3PR18MB4737.namprd18.prod.outlook.com (2603:10b6:a03:3c8::7)
- by CO6PR18MB3906.namprd18.prod.outlook.com (2603:10b6:5:34c::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.19; Wed, 19 Jun
- 2024 18:41:00 +0000
-Received: from BY3PR18MB4737.namprd18.prod.outlook.com
- ([fe80::1598:abb8:3973:da4e]) by BY3PR18MB4737.namprd18.prod.outlook.com
- ([fe80::1598:abb8:3973:da4e%5]) with mapi id 15.20.7677.030; Wed, 19 Jun 2024
- 18:41:00 +0000
-From: Sunil Kovvuri Goutham <sgoutham@marvell.com>
-To: Omer Shpigelman <oshpigelman@habana.ai>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-rdma@vger.kernel.org"
- <linux-rdma@vger.kernel.org>, "netdev@vger.kernel.org"
- <netdev@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-CC: "ogabbay@kernel.org" <ogabbay@kernel.org>, "zyehudai@habana.ai"
- <zyehudai@habana.ai>
-Subject: RE: [PATCH 13/15] accel/habanalabs: network scaling support
-Thread-Topic: [PATCH 13/15] accel/habanalabs: network scaling support
-Thread-Index: AQHawng6BvachsQnLk27jcqmgFU76w==
-Date: Wed, 19 Jun 2024 18:41:00 +0000
-Message-ID: <BY3PR18MB4737D95E4D629E5B388BEB86C6CF2@BY3PR18MB4737.namprd18.prod.outlook.com>
-References: <20240613082208.1439968-1-oshpigelman@habana.ai>
- <20240613082208.1439968-14-oshpigelman@habana.ai>
-In-Reply-To: <20240613082208.1439968-14-oshpigelman@habana.ai>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY3PR18MB4737:EE_|CO6PR18MB3906:EE_
-x-ms-office365-filtering-correlation-id: 847b807e-c1e1-40ef-6df7-08dc908f5d82
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230037|1800799021|376011|366013|38070700015;
-x-microsoft-antispam-message-info: =?utf-8?B?WG9uc1lJNFZkWCtpaXNraEtqZDhtVytrUUNWZWg4aXgxZkRtVGFTQjdmYVBj?=
- =?utf-8?B?U0lzTUkxLzlWcWNibTVwK2ppcG9jQjJrZWtFNXN6NUxNR3pOdURHYjlVRWFr?=
- =?utf-8?B?WmZuU1QyUEs1ZUxIV0o2REVrL3d2ck43NUk0a3lnOXNidDRYSjg4YWdqQXFu?=
- =?utf-8?B?ZnkyUmsreng1ZytRRUVrcFlFOEF2THZhSzloVDJVKzhlbzNhTi9hVEVqbmRx?=
- =?utf-8?B?T1VLQ2pTcjVXSDBlbDIwUGdFRXczWEQ1Nys5Y1lSdjR3NlFkbHZOOEYrZ3pF?=
- =?utf-8?B?TnM3alhacndzbmF6c3hCZktMc0dLb1p6MmpXdENhK0F6Q3NXL3ZLRWxjYWw1?=
- =?utf-8?B?S09jZFE0cEpKb2FrTzNNTVI4eElKVEQ5YTFraTBBQWVEMFJTcTR1TWNHczNJ?=
- =?utf-8?B?dEhHTmNJeFZ5TnYwZWNQK1d1VUdhcGVrMlk2L2lzdjYxOVg5aHRsVlREYzhx?=
- =?utf-8?B?d2lWZzczcDFqUDRnMElXWDNFZyswWXI2MXpuQ294ZjU3U0t6QVl3Qk55YnN3?=
- =?utf-8?B?Tk14OGZxU1l5dWg4VWk4elZTMW1tbXRkbzlmZ0szeUE2SVJLQWdWNW9Obm1a?=
- =?utf-8?B?cVNwaEF0NkU1VGlUNXlaK0N2d3ovdTk0SXJ1NE9vZ1A3dzAzd3EzQVk4WnEx?=
- =?utf-8?B?R1h3Nk1RSlBWVVJLWXRSYThtZjVoaVpTUWlySjJwaWx6blMrMlVSWVRZbHpl?=
- =?utf-8?B?VHVDQUU0Zml2L0NzaTdqMHVOK1NOZTY5VlpWV3hiUkVvbzZZdnA0SjVKRFE5?=
- =?utf-8?B?SWp1c3dLRFFlUHRoY1Q5VG5PekFFSVYzMURCcWJNcUZaN3NnNFRjck50ZUhw?=
- =?utf-8?B?ZWh5VXVNWXZzT05La0tVV2IzNVlJTG1KaFlmbnVMYjduTGVLSzJzb3dIbnIy?=
- =?utf-8?B?TVBtdVlLUGt5QjJmK205U3hlbTlQN1ZEMFJYS1hRQ0pveHRJajkvZUNHeDhp?=
- =?utf-8?B?dlFpSVdhb2JDRkNvbWpkckQxOWVZUk1DcVNKT1FUTHplMjZsbk1ub1c2NWwx?=
- =?utf-8?B?a285dFRlc01OYmhNa1o4RFNWL1hLaE5sYWFVcktldU1HbVlxdHJDL2RXZURt?=
- =?utf-8?B?UXdJODMzRmtsamIwbzNpaURWb21sa201SlZURkFSeUplNjV2aUJPSU9ldVlw?=
- =?utf-8?B?aGdkeTltVXZrRkJ0dkpMYit6ejJQK3JBVFBxYzMvd0xoN29ubVVma2YrRExk?=
- =?utf-8?B?VDh5SW93cGlVSWp5NWV2WjQyeEphbzhMK0lJMytkdzc0L2VTRHJ6alQ0LzNz?=
- =?utf-8?B?RUt1aXhPUlJ6SkFybHFqSlM4SFdjS01uRDZNeW14Q2VOVzVSSU9GZzl1L3l3?=
- =?utf-8?B?WTdWZXRNL0V2d3dZQ2ZONktqNkxaMHdodGpqUlpvTkZtaTladDEvcnBycFRw?=
- =?utf-8?B?a0lJM1ZubXZpQVUyWTlzcDJFclltYWUyWEpOSFZtdzdYT1hGN2dTLzkzSW92?=
- =?utf-8?B?NkYxWm1qWmVZeTNQcW9nSUJ3M1M5RC95NGNDbU8yVkhTSjFlZERTZEd0bDRG?=
- =?utf-8?B?VjhpZnIvNkFxK0lQQkIvMWVva2VodFp5dytNZW9jaU8yd2crcVc4bVJ5SkdV?=
- =?utf-8?B?WG8yUEtsRXRYRU5MNUVrMVp4aE1iVk1IbzJuelZYZE1KdjJ4cG4rUzcyRHZv?=
- =?utf-8?B?aUhFeFNpbGVGL3VlaGorRkhqZmlpWWN5ZFZwK1oralhvUU9VY2IrU1RwZzhq?=
- =?utf-8?B?dXRUNVNjMndCcmlPQTg0cmJJbU44TlNOeXB3L24ybXAzMW9ka0YySGg0TFo1?=
- =?utf-8?B?OFpmbWlrL0dZK1NwdHFrU0ZTV2NtcG9vcWg1ZkpjcldMMU53SVJMRzJxNWwv?=
- =?utf-8?Q?T7YBNqloMnC34e4YKVvZ4RLpRrfXPLsRTClD0=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY3PR18MB4737.namprd18.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230037)(1800799021)(376011)(366013)(38070700015); DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R2N1Tys3cG51Y3R3Z3d3ZWxKQ0xYSWFhbVpKejlHQmNxYXVabXl4MlVUSFRT?=
- =?utf-8?B?d2xsZjF2STFMWTlQZjZBRlI1L09PeXBZb0lhOGQvQllVM0pOY3dKNnZlNTNF?=
- =?utf-8?B?ODQvbU9DZU1GMFdQcHVRb0psK2tNTVFKZHlBcDBhbVRlNkRucmlwcHN0K05V?=
- =?utf-8?B?dmpQQUZucHA4Vm1xSTc1T2VjWHhNYnMzUFFnYjlBYjFIS25vSjJFN21sUFVM?=
- =?utf-8?B?VE16cnZ4QU1JWStFQXBCVi9lYlpmMDhEeG1mdFFGS2luRHVLS3RJT2tqK1pL?=
- =?utf-8?B?MGxJZ2FhWldKdnVLOUd1RlFmMDc2OVBEM0E3L1NlTHMyOGhmaC8yYnVaNy9a?=
- =?utf-8?B?eDVFMVE2ZWwzYUJ3TjZzck5KZkVWcmFWRWYxSWd2S212Z1hNRE1jTm9zdVdr?=
- =?utf-8?B?aTlhVmhrUWZKZ2U4WHdyU3JKOUNDc0FodjdsblZGS2JEdi8xMDBBbk5zZ1N5?=
- =?utf-8?B?dFBZSG5EaXpEVHhKR1RDSy9zY0luYjdRV1BBaGJoRjh2QXkwbXVxNEY3Ynp0?=
- =?utf-8?B?OEw0UW5VVjdHcnpVVWpQL2ZXTG5CRnpHRk5OaWZuOTQ5NllZeFNLVnZQZVMz?=
- =?utf-8?B?cUdsV3lxS0VmWFNtQUo1SGV6U1I4eXFCOHgyWnVmeENGSUNYdDlSWEJWODhw?=
- =?utf-8?B?YlpFRTNEdThxU083Ni9SSU9ycnNDUVZraFl2QmFpbmxQczVoNEFWaVppZ25i?=
- =?utf-8?B?OFFhekkxUGFZTmM0bU1qLzgwMzV5elMxcTNZOEJONDZZcElpTUZiK1U2M2Vq?=
- =?utf-8?B?TmMrZk9oYU8wOVphclNJcVBHUlhFWFB2T1FiUEdRQ2d1ZmUrdkxPTm82MHla?=
- =?utf-8?B?eEg3bXI2NmovWmNZbzBTMXpCLzYrZXJXVmxneGt4S2hxVXorQ1Ric0ZFU1ZQ?=
- =?utf-8?B?Mm5XczQ3RENxVkNMREVRZWwya0dJbDhIcU5WMGoyNCtFYkFpWk1jY01Ba1Vu?=
- =?utf-8?B?R2Q4RjhjWWsySGNEeStjeXBlMUJadWViOEFpS0VJSmhJbDgzNitXb2ZudzFu?=
- =?utf-8?B?WG11WmVFOHpTamM3eVFrZUhSUTM1STk0S1ZtVjJmZG96TnpBVXRFdDlJZFZN?=
- =?utf-8?B?WXQzV3BPRzZtdmFCVmZYVDRraHJETVB1dEM1WTRncE9CVm1vZnZhZ0VFNEpD?=
- =?utf-8?B?VHROelBwUXl5bG1DQmJMcGdFU09kSCtRMHdsRTZ3ZkJySHhQMk9Yb1F5dDc4?=
- =?utf-8?B?RU84dFFCRllkU2NDYjN0NXdXSk0ycDVFU090L3ZXb1oveTZ6OGRlN1JSbjZt?=
- =?utf-8?B?NkJJdzFWYXpoMlBlTjllQ1RVcmk3NzZLenFidWRVbUR2Q1o4VTgzSUtzMCt3?=
- =?utf-8?B?c2pCYTFJNHlXTnlHajRCb0d0aUFuVGFpdWdWNUM4N3hZSjdyamdPMXZPZFVY?=
- =?utf-8?B?QzI1aG1aUzRET0F5YUduTCt6bzhvM1M2S0JrYWdyaTl0L0hRRWZYRXAxU1RY?=
- =?utf-8?B?dGNTUTkzRm1Ec2Vxa0FJNjNBbTVqY2h3VkdXcDJWcVZWeVBWbmswaGhQbDRZ?=
- =?utf-8?B?bGpxbnNVeG1LQmxlZkU3NWRNeXdnc0tSTWFpeU14NzhoVU8wc29NVTlHR0RD?=
- =?utf-8?B?MGdVVWJhdnJ3L1pZZzV0QTNWMFh1V1M5VVh6eU9yN09VTmVGcVMycTFxWkZT?=
- =?utf-8?B?L21McmNsVVpiREVLTGUxbGVtdkprZE1DOFdRQVdwNFcwd1JaMk1OVWlPMWZ3?=
- =?utf-8?B?S1FBV1hsdGREYWMwVURtT2lrMTV0UjZnYVRlWFVBZFpLSUYxd293WXpQR2dV?=
- =?utf-8?B?Nmh2bXkyV0VudDlGMjQ1aE9OdGtpZHZzTjZySWxCMU9NcEVQVUxNNG1sNkxU?=
- =?utf-8?B?SjMvYjdvWDFJZlQ4OEsxS3R4ajYwWGd5amI4empVQzRWMkdMbUZVSUZwZGRx?=
- =?utf-8?B?RlFpcFdWRVNqeTNycmwwZWlUNisvTUE1citqczBOSWpGcDA3eDZrWTBuVkNO?=
- =?utf-8?B?UDY5SFdNVWo4dHZWT0lKQVRzR29zZnV4VnBMWFJqVU5UOEpWbTBZMUxzeVpp?=
- =?utf-8?B?SWhVVXRFNTVkVXBnd0FYK2tHV3MrQXVhKzZHT2J3WnQyaGl6SVhDVmx6OWtM?=
- =?utf-8?B?ZDNLOFVqUXVkTnpSRmlvZEdjWmEvY0dxeWNPNUtFQWVpMk41YVMyMysxVWFO?=
- =?utf-8?Q?8L0y5531nYaj/PDyFi2vcY21m?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A68E10EDA5
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 19:36:10 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a6f7b785a01so11906966b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 12:36:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718825768; x=1719430568;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=vnLZjzsiZJ7wwEMZFq71NfmdNt4xwTT/ZS6jS7RPwME=;
+ b=qlnbKnhXhEYz+gwWhlree5P4PFss49xzA1SB/isIs6guIAzEnGEd3j1jGuxh2vXLT5
+ vjFrOlkFG60Z6RZaHbX1L7AIg5loY5SKOy46YXq1AQngIMI3+2LUWJ0V6koIhC5RAXtj
+ zN0vREDqez34Bh5vlgRxSaqy75FBvl8Qo6/FXevXLPLlmPtwwyN5BK6Y5kKb8G+W9NZA
+ VwyNfV5e8LrRffJ+UN7S6K8BvCfgG3RmYrAjF78ypNLuGL+qlNCJ4mJ3izPGhOfWXh4k
+ SjRBbnyjMRe7ytVqaWNV4Lb7iF9ysViGb4lL3H7CtZKSV8zQv5G26t8p1Nz/IzsU4u+Q
+ 7nWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718825768; x=1719430568;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vnLZjzsiZJ7wwEMZFq71NfmdNt4xwTT/ZS6jS7RPwME=;
+ b=b0KJfyty1safZ/CrFwW7J9o+a+Un10birB3JK1GdpKjArSxJ2fVqWLUyuEDy4PmQnW
+ a4jRurQlB0QMco65yGiE+OEyLlEzRFNexoeZUH8eLDAPRjXgaG7sPgq5fzKfOwrr0xJX
+ mYLq2NZU6+/EJdwuKP8L6vlHOD9AvL9FZfhDbz12qjuTGlTN8zzm2yKTZdTWxeDmad9L
+ DGay312p41VFvkGKirrGyu3hzLjHBlXommiyAaJ0YR5eHWSEzUjcHCm2/5YXiyh7MF8i
+ qPtjmsjq8iOrGFQjeafWfOXcT9kIijjIml9jAvOU9aWtf+V7SYuBYD/NwO3P1yn70wWI
+ aGoQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV+SOg4YpMbw2ZGFqBhQ/QX+G2lNlc0plB5eHeKX9tFR4BRF6G7HgwCeSv3EzDd3B69MjwGHnXNB8y2bCCA4N/T492E/U+LqerGbUjzsslg
+X-Gm-Message-State: AOJu0YySd2LgNQOrLfsx+ce+x+VKFJd7OyxtFG4i9iO2FxxMXrRIV+up
+ dNiDoqRM65fXrd2gSItMFIK5357A3pocPmLK7DUm6aDyz6zd7tkJhB7IwPKbGOo=
+X-Google-Smtp-Source: AGHT+IGIHtLyHv1BeR7I51HKBBQr1rPaFSrD0CBlXThWh80UhE0jre2aByQrY4pyvX81yH54k+ylqw==
+X-Received: by 2002:a17:907:175e:b0:a6f:1166:fb7a with SMTP id
+ a640c23a62f3a-a6fab614d2cmr160009166b.32.1718825768582; 
+ Wed, 19 Jun 2024 12:36:08 -0700 (PDT)
+Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a6f56ecdd79sm697709866b.132.2024.06.19.12.36.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jun 2024 12:36:08 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>
+Cc: Helge Deller <deller@gmx.de>, Jianhua Lu <lujianhua000@gmail.com>,
+ Flavio Suligoi <f.suligoi@asem.it>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Subject: [PATCH] backlight: Drop explicit initialization of struct
+ i2c_device_id::driver_data to 0
+Date: Wed, 19 Jun 2024 21:35:57 +0200
+Message-ID: <20240619193558.2543645-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-OriginatorOrg: marvell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY3PR18MB4737.namprd18.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 847b807e-c1e1-40ef-6df7-08dc908f5d82
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2024 18:41:00.2983 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: AJe6Nk2K3fHaweAV5QIBuMf9G00Ct9xI6Iu4qn3wDyeeWhZ0ssdKsvLe3XkGsdRpsTtsTPUBJ5hpjhFVyUgzSQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR18MB3906
-X-Proofpoint-ORIG-GUID: Qe3Qgcq75TQbTkdYFeUmUppYclueODFD
-X-Proofpoint-GUID: Qe3Qgcq75TQbTkdYFeUmUppYclueODFD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-19_02,2024-06-19_01,2024-05-17_01
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4552;
+ i=u.kleine-koenig@baylibre.com; h=from:subject;
+ bh=b6KdZZ9MVHXlW6Kzlm1yP66Bz8tcUOfRhuVRKx4scF4=;
+ b=owGbwMvMwMXY3/A7olbonx/jabUkhrRiYznNlJmzDTYGHym8Y3STZYvRHxGeSCG2q8r2N2TnW
+ j6aHfyyk9GYhYGRi0FWTJHFvnFNplWVXGTn2n+XYQaxMoFMYeDiFICJ7PrFwTDJupbj79UPj/V4
+ H01h0JPJ8tXuuF/9Nv7Dlusr1Fd+l4oUn6fB96JT2aRduDpkzd43zxe1hVz5qlzzR1kh+X2D0sY
+ tNRc+rL85Uaixg1Vdpk/3/6S1M3Umhmd/q26c/ElBtKYn5XStUpZm45V5t56yHS3+H8SucjiZY8
+ eCvb6vXfVzeQI9VmX+7Dis5xe1y8TYt8KBIXD1tTsfU5gmni07oa0SJ76tROuDSe6qfvGfdcIzd
+ NSlL66fzcO+XInBzTHshED9w9r9Cq/mOYlHR3hxs8w13ntM9vVyEaUn8184bnu3QX6a7fuYY5cW
+ q8dcs9vwPMFLT91NMCHgtlGF0SQug6r88J6efuHj+lu8AA==
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 19 Jun 2024 21:13:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -181,9 +98,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pg0KPkFkZCBjb21tb24gc3VwcG9ydCBmb3IgQUkgc2NhbGluZyBvdmVyIHRoZSBuZXR3b3JrLiBJ
-bml0aWFsaXplIHRoZSBoYmxfY24gZHJpdmVyIHZpYQ0KPmF1eGlsaWFyeSBidXMgYW5kIHNlcnZl
-IGFzIGl0cyBhZGFwdGVyIGZvciBhY2Nlc3NpbmcgdGhlIGRldmljZS4gDQoNCkEgMTIwMCBsaW5l
-IHBhdGNoIGRlc2VydmVzIGEgYml0IG1vcmUgb2YgaW5mbyBpbiB0aGUgY29tbWl0IG1zZy4NCkNh
-biB5b3UgcGxlYXNlIGVsYWJvcmF0ZSB3aGF0IG5ldHdvcmsgc2NhbGluZyBzdXBwb3J0IGlzIGJl
-aW5nIGFkZGVkIGluIHRoaXMgcGF0Y2guDQoNClRoYW5rcywNClN1bmlsLg0KDQo=
+These drivers don't use the driver_data member of struct i2c_device_id,
+so don't explicitly initialize this member.
+
+This prepares putting driver_data in an anonymous union which requires
+either no initialization or named designators. But it's also a nice
+cleanup on its own.
+
+While add it, also remove commas after the sentinel entries.
+
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+---
+ drivers/video/backlight/adp8870_bl.c | 2 +-
+ drivers/video/backlight/bd6107.c     | 2 +-
+ drivers/video/backlight/ktz8866.c    | 4 ++--
+ drivers/video/backlight/lm3509_bl.c  | 5 ++++-
+ drivers/video/backlight/lm3630a_bl.c | 2 +-
+ drivers/video/backlight/lm3639_bl.c  | 2 +-
+ drivers/video/backlight/lv5207lp.c   | 2 +-
+ drivers/video/backlight/mp3309c.c    | 2 +-
+ 8 files changed, 12 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/video/backlight/adp8870_bl.c b/drivers/video/backlight/adp8870_bl.c
+index 6bb18dc970e9..ad4bd4c8f441 100644
+--- a/drivers/video/backlight/adp8870_bl.c
++++ b/drivers/video/backlight/adp8870_bl.c
+@@ -963,7 +963,7 @@ static SIMPLE_DEV_PM_OPS(adp8870_i2c_pm_ops, adp8870_i2c_suspend,
+ 			adp8870_i2c_resume);
+ 
+ static const struct i2c_device_id adp8870_id[] = {
+-	{ "adp8870", 0 },
++	{ "adp8870" },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, adp8870_id);
+diff --git a/drivers/video/backlight/bd6107.c b/drivers/video/backlight/bd6107.c
+index 6be2c67ba85c..90764f83d2f1 100644
+--- a/drivers/video/backlight/bd6107.c
++++ b/drivers/video/backlight/bd6107.c
+@@ -180,7 +180,7 @@ static void bd6107_remove(struct i2c_client *client)
+ }
+ 
+ static const struct i2c_device_id bd6107_ids[] = {
+-	{ "bd6107", 0 },
++	{ "bd6107" },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, bd6107_ids);
+diff --git a/drivers/video/backlight/ktz8866.c b/drivers/video/backlight/ktz8866.c
+index 014877b5a984..2e508741c0af 100644
+--- a/drivers/video/backlight/ktz8866.c
++++ b/drivers/video/backlight/ktz8866.c
+@@ -179,8 +179,8 @@ static void ktz8866_remove(struct i2c_client *client)
+ }
+ 
+ static const struct i2c_device_id ktz8866_ids[] = {
+-	{ "ktz8866", 0 },
+-	{},
++	{ "ktz8866" },
++	{}
+ };
+ MODULE_DEVICE_TABLE(i2c, ktz8866_ids);
+ 
+diff --git a/drivers/video/backlight/lm3509_bl.c b/drivers/video/backlight/lm3509_bl.c
+index c93cdedff5ad..11b8e1824e07 100644
+--- a/drivers/video/backlight/lm3509_bl.c
++++ b/drivers/video/backlight/lm3509_bl.c
+@@ -311,7 +311,10 @@ static void lm3509_remove(struct i2c_client *client)
+ 	regmap_write(data->regmap, REG_GP, 0x00);
+ }
+ 
+-static const struct i2c_device_id lm3509_id[] = { { LM3509_NAME, 0 }, {} };
++static const struct i2c_device_id lm3509_id[] = {
++	{ LM3509_NAME },
++	{}
++};
+ 
+ MODULE_DEVICE_TABLE(i2c, lm3509_id);
+ 
+diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
+index 76d47e2e8242..37651c2b9393 100644
+--- a/drivers/video/backlight/lm3630a_bl.c
++++ b/drivers/video/backlight/lm3630a_bl.c
+@@ -596,7 +596,7 @@ static void lm3630a_remove(struct i2c_client *client)
+ }
+ 
+ static const struct i2c_device_id lm3630a_id[] = {
+-	{LM3630A_NAME, 0},
++	{ LM3630A_NAME },
+ 	{}
+ };
+ 
+diff --git a/drivers/video/backlight/lm3639_bl.c b/drivers/video/backlight/lm3639_bl.c
+index 564f62acd721..37ccc631c498 100644
+--- a/drivers/video/backlight/lm3639_bl.c
++++ b/drivers/video/backlight/lm3639_bl.c
+@@ -403,7 +403,7 @@ static void lm3639_remove(struct i2c_client *client)
+ }
+ 
+ static const struct i2c_device_id lm3639_id[] = {
+-	{LM3639_NAME, 0},
++	{ LM3639_NAME },
+ 	{}
+ };
+ 
+diff --git a/drivers/video/backlight/lv5207lp.c b/drivers/video/backlight/lv5207lp.c
+index 0cf00fee0f60..5f60989fa70f 100644
+--- a/drivers/video/backlight/lv5207lp.c
++++ b/drivers/video/backlight/lv5207lp.c
+@@ -132,7 +132,7 @@ static void lv5207lp_remove(struct i2c_client *client)
+ }
+ 
+ static const struct i2c_device_id lv5207lp_ids[] = {
+-	{ "lv5207lp", 0 },
++	{ "lv5207lp" },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, lv5207lp_ids);
+diff --git a/drivers/video/backlight/mp3309c.c b/drivers/video/backlight/mp3309c.c
+index a28036c964af..2bdb20129c81 100644
+--- a/drivers/video/backlight/mp3309c.c
++++ b/drivers/video/backlight/mp3309c.c
+@@ -400,7 +400,7 @@ static const struct of_device_id mp3309c_match_table[] = {
+ MODULE_DEVICE_TABLE(of, mp3309c_match_table);
+ 
+ static const struct i2c_device_id mp3309c_id[] = {
+-	{ "mp3309c", 0 },
++	{ "mp3309c" },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, mp3309c_id);
+
+base-commit: 2102cb0d050d34d50b9642a3a50861787527e922
+-- 
+2.43.0
+
