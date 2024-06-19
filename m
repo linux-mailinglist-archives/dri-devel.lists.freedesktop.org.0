@@ -2,79 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD7BC90EA29
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 13:56:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E41B90EA30
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 13:57:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E14C710EC8A;
-	Wed, 19 Jun 2024 11:56:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDCA110EC89;
+	Wed, 19 Jun 2024 11:57:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="k0W+7as6";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="hDMCyS9P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6381410EC6B
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 11:56:50 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45JBuO7Y107694;
- Wed, 19 Jun 2024 06:56:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1718798184;
- bh=kYaOKx8VKBp41d22VvJ3euzGXc/iy+xf/Q65ZhDlRzQ=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=k0W+7as6Ecnd5mBxgOAMAxpvnO3nYNg1eWjUoDg/qml7jrS0Ikd9DpqTcQYItCHin
- YQwsI/fNY5XgJMJVlfjVGm7ku3Bl1W9eFxOs0fTAC10Lp4BVzNTzouLVND7DkHuFTI
- BetYrUEsgzuYJQfpvruyYoLwgK2GmlDzMgMz/TRs=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45JBuOgF117398
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 19 Jun 2024 06:56:24 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 19
- Jun 2024 06:56:24 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 19 Jun 2024 06:56:24 -0500
-Received: from [172.24.227.31] (uda0496377.dhcp.ti.com [172.24.227.31])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45JBuGat014422;
- Wed, 19 Jun 2024 06:56:17 -0500
-Message-ID: <cfd32e8a-8dcf-43a8-9a1f-38b291fe7a75@ti.com>
-Date: Wed, 19 Jun 2024 17:26:16 +0530
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3828F10EC73
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 11:57:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1718798204; x=1719403004; i=markus.elfring@web.de;
+ bh=XT72b7itPnzm1V+2+Xgf1kA9L0kMIcyaM91Blh2TMYE=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=hDMCyS9PZcFIrqVgq01L8paMukJhaLbCZcezdnHssdReyhafT702yO/Y4f9OzL18
+ 1kxe/Wt2yCzYwSqIoPRHh0etdDBcuF9HsWSaNKxX59+MMLh05rTDJbaRBnbgdnCjQ
+ uEKugkgEa8nQ59I/3ZnTGJeuKOqhLUOBaptl3c8+lR1C6Yz1zF1YBo2bKBD8x4OJR
+ ob9JN10T2hRaSXpCVc+HMGpFRyR+MPpdilnGvPWTZ8REaSzrJ291VwcG7i7tq/2tX
+ fGG7cFKFD0wFlgr5iPWSuP32+Wwv8WuO4i60LJ0B3mYUupO5LOqW1e+oGroqO193R
+ D7773Gt2hnEg7ad/oA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MkVwi-1smwsM2Wsg-00b84i; Wed, 19
+ Jun 2024 13:56:44 +0200
+Message-ID: <41fa9904-28a8-46fa-bf2a-014875409b83@web.de>
+Date: Wed, 19 Jun 2024 13:56:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/10] drm/bridge: cdns-dsi: Fix the phy_initialized
- variable
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
- Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- DRI Development List <dri-devel@lists.freedesktop.org>, Linux Kernel List
- <linux-kernel@vger.kernel.org>, Dominik Haller <d.haller@phytec.de>, Sam
- Ravnborg <sam@ravnborg.org>, Thierry Reding <treding@nvidia.com>, Kieran
- Bingham <kieran.bingham+renesas@ideasonboard.com>, Nishanth Menon
- <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Praneeth Bajjuri
- <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>, Devarsh Thakkar
- <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra
- <j-luthra@ti.com>
-References: <20240617105311.1587489-1-a-bhatia1@ti.com>
- <20240617105311.1587489-3-a-bhatia1@ti.com>
- <fyxer3rl54uq7qemgjx7htykgsnwgg5ywda2d5f4fhzd6ksjfg@blvkbzdy6op5>
- <41fd6509-33fd-4e7f-9889-e7e9acd928d8@ti.com>
- <CAA8EJpqt5FVjP+MP6kf6KaMi_OtEXQ2FgoqVfJCxRuLGfMOkFg@mail.gmail.com>
-Content-Language: en-US
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <CAA8EJpqt5FVjP+MP6kf6KaMi_OtEXQ2FgoqVfJCxRuLGfMOkFg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
+To: Paul Cercueil <paul@crapouillou.net>, lkp@intel.com,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, linux-iio@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+ linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <202406191014.9JAzwRV6-lkp@intel.com>
+ <a4dd1d73-5af3-4d3d-8c0f-92dc439fa119@web.de>
+ <d452ecc4fc703a1f98aa4f243c6ded7fbfe54b0e.camel@crapouillou.net>
+ <cbcfb64a-e5c2-41a7-8847-227d4f6872de@web.de>
+ <e948cd137da8e4f97bfbf7ef68a5450476aeee0c.camel@crapouillou.net>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <e948cd137da8e4f97bfbf7ef68a5450476aeee0c.camel@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:JznLXOOrjHHjdQ/DvgHNKMl+mHWbtfwr9nCttlec4A/5RKvIavt
+ 4n+CE8KRkg6ci+QqCtvyC6RYUk6aA6oxPkC51HrYbG2i41cMc//MGMP93+LzHxzocW10T6R
+ +q1l/LN6bOPS4GMjyPPdFTpiCGel16Vcc7CBoHmM1GJxdWloElqFWhG5diwkrkSKHv8N3zV
+ nOLsUHkwsQ9Yvs577/4Ww==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:yBz4OltUnbo=;2fpQBJSqjGM3IDnFAq+/OFA4RM2
+ J9CSQLZFJGJBDaOD5fJv7Avj6U8Spt/xBDJi83VrQdfXzlW7DSFQeSpYxEqfvw/XAb+1hDiUl
+ hlogL2PmlaL67u8rLXsumRtBqAEbw0T2emQg54nyM9GEiGmASg93tktB7toBenwdSHfAaBTbh
+ jsFDGrwz5CNCF8WwKm7h/MD63ksX0NABFwTxObOiCv7qjNSukCouQMafmFF902eHiK61mG9dG
+ WNGjzNnW/m/DXQEJiUkCKRoAP4Li+d/piFODeFuK2ZlFt1pnmKXmLDGa23AfdHS/NOG8Jf2d+
+ IKEE2XgxjYjX5HmMkWRNNMqCR5rxaJE+eLIxmh9a3ENh/zO+70eiGqMf9hPZuSQImkShl5376
+ ntEVQbhchDZE1+AHjaAVvDmiRC9a7LecXsbCdPBNWg29fVEt2QtD03Zh/TLgpSDUG8leMxLtC
+ 0IAl6q+YRkfMRhRn9qVngBVTS6HDqurQlZaEiCmOZU5eIS1Xf5uKeVZ4yQxjqgrwast2yN3zX
+ a3Cd4DL1dZSNNmWJFtrInA92d92kERWL9IndYa66N3dtdWVEcBd6WxTDE0RfiP2NKOJKlhMHQ
+ IWkdfXR1PZQ8e/pYMNPDBW/QqhvPCVdy/AJhh6cPXzB9pjFS8sBz0iDHYPN9TNMtoFafjmZsC
+ hhcugnYorWHfU3fcPmZPpNchV56arlpeEKKTweaS+BqamnBf07A1kvXFmiuO7esD8HVI6urzx
+ IOdoOGqe5ao9xlzwisIidNYIA1o7F4692zJsoUIYdgQP+8cd+n/cnrKstOkObFliuzuQ//nrJ
+ QyA2XXTSee9Dy1EbWpi9if9GejQRO5Y4RTou9Ysp1wrqd3SfH/pzJD8c8rgCdtSP+7
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,69 +91,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+=E2=80=A6
+> https://lore.kernel.org/linux-iio/219abc43b4fdd4a13b307ed2efaa0e6869e68e=
+3f.camel@gmail.com/T/#eefd360069c4261aec9621fafde30924706571c94
+>
+> (and responses below)
+>
+> It's more nuanced than I remembered.
+=E2=80=A6
 
 
-On 18/06/24 01:04, Dmitry Baryshkov wrote:
-> On Mon, 17 Jun 2024 at 17:16, Aradhya Bhatia <a-bhatia1@ti.com> wrote:
->>
->> Hi Dmitry,
->>
->> Thanks for reviewing the patches!
->>
->> On 17/06/24 17:29, Dmitry Baryshkov wrote:
->>> On Mon, Jun 17, 2024 at 04:23:03PM GMT, Aradhya Bhatia wrote:
->>>> Update the Phy initialized state to "not initialized" when the driver
->>>> (and the hardware by extension) gets suspended. This will allow the Phy
->>>> to get initialized again after resume.
->>>>
->>>> Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
->>>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->>>> ---
->>>>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 1 +
->>>>  1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
->>>> index b016f2ba06bb..42565e253b2d 100644
->>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
->>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
->>>> @@ -1153,6 +1153,7 @@ static int __maybe_unused cdns_dsi_suspend(struct device *dev)
->>>>      clk_disable_unprepare(dsi->dsi_p_clk);
->>>>      reset_control_assert(dsi->dsi_p_rst);
->>>>      dsi->link_initialized = false;
->>>
->>> Most likely you should also call phy_exit() here. And in _remove() too.
->>
->> I agree that phy_exit should be called here. But why in _remove()?
->> Wouldn't having phy_exit in 2 places mess up the internal ref count?
-> 
-> If suspend() is going to be called in the teardown path, then it's
-> fine to have just one call here. Otherwise you might add one guarded
-> with if (phy_initialized) to _remove() too.
+>> * Will the desire grow for further collateral evolution according to
+>> =C2=A0 affected software components?
+>
+> Not sure what you mean by that.
 
-Since the _suspend() and _resume() hooks are registered for both, system
-sleep PM and runtime PM, the _suspend() hook does get called when I
-remove the cdns_dsi module using modprobe. Tested that on my setup.
+Advanced programming interfaces were added a while ago.
 
-I believe having phy_exit() only in  _suspend() would suffice for now.
+Example:
+https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/cleanup.h#=
+L8
 
-> 
->>
->>>
->>>> +    dsi->phy_initialized = false;
->>>>      return 0;
->>>>  }
->>>>
->>>> --
->>>> 2.34.1
->>>>
->>>
->> --
->> Regards
->> Aradhya
-> 
-> 
-> 
+Corresponding attempts for increasing API usage need to adapt to remaining=
+ change reluctance,
+don't they?
 
---
-Regards
-Aradhya
+Regards,
+Markus
