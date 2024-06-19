@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04CF590EC83
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 15:08:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC4690EDE9
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 15:23:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF67F10E24C;
-	Wed, 19 Jun 2024 13:08:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4158E10E083;
+	Wed, 19 Jun 2024 13:23:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QfIG7Zen";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fuR9pA8T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3573810E24C
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 13:08:21 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5660910E083
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 13:23:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6711B61E26;
- Wed, 19 Jun 2024 13:08:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A4F4C2BBFC;
- Wed, 19 Jun 2024 13:08:19 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 447BECE1EA6;
+ Wed, 19 Jun 2024 13:23:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F349CC2BBFC;
+ Wed, 19 Jun 2024 13:23:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1718802500;
- bh=RrxeNDELkhqSka3IaZHvkjYL/q9BXL5K3qpWnghvISA=;
+ s=korg; t=1718803406;
+ bh=ycFEkXDl6y1C0l2RytQLpK194U5NA3UpzsP2SnMdgTY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QfIG7ZennfX1HlzujttDRfNmBZxBQ8Hd1z7mlIpJU921pB0/czlrOE2zlPaPx1JPe
- lAHKSxvISgozY69RlPY/ZAToW6MFm+MdfvQqmmgHnL5GIBGMkPWYuepbpKcPNIbpDL
- ttCYKtEwg+THbxK+uyDJjMHdKLglzDkrmlmJjgaU=
+ b=fuR9pA8TgkV6QKeH9vkmyg3X+RZR47rIxhm8AxCrnuQat+ONQcP9kDML4MiaSmH8f
+ 98pBn4Kj6UXcSHpicqAEQXBdKOrLTWcjUNHvFBTtJ6OxThH0bHG2ATaLtHGm01qbsW
+ dsCw/3hQowCLEQqyOZTXPZc5yREAJDDQ47OzZMko=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -41,13 +41,13 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Wachowski, Karol" <karol.wachowski@intel.com>,
 	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
 	Daniel Vetter <daniel.vetter@ffwll.ch>, Wachowski@freedesktop.org
-Subject: [PATCH 6.6 216/267] drm/shmem-helper: Fix BUG_ON() on mmap(PROT_WRITE,
+Subject: [PATCH 6.9 257/281] drm/shmem-helper: Fix BUG_ON() on mmap(PROT_WRITE,
  MAP_PRIVATE)
-Date: Wed, 19 Jun 2024 14:56:07 +0200
-Message-ID: <20240619125614.617693962@linuxfoundation.org>
+Date: Wed, 19 Jun 2024 14:56:56 +0200
+Message-ID: <20240619125619.869018718@linuxfoundation.org>
 X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240619125606.345939659@linuxfoundation.org>
-References: <20240619125606.345939659@linuxfoundation.org>
+In-Reply-To: <20240619125609.836313103@linuxfoundation.org>
+References: <20240619125609.836313103@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -69,7 +69,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+6.9-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
