@@ -2,83 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B87A90F65F
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 20:47:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A66BE90F66F
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 20:48:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9412310ED8B;
-	Wed, 19 Jun 2024 18:47:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0D4910ED8C;
+	Wed, 19 Jun 2024 18:48:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Hiv6LYVe";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="WGq0SehK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C453E10ED8C;
- Wed, 19 Jun 2024 18:47:10 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45JA255K006449;
- Wed, 19 Jun 2024 18:47:08 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C29D210ED8D;
+ Wed, 19 Jun 2024 18:48:20 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45J94T8s028107;
+ Wed, 19 Jun 2024 18:48:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 9+8ww9UBmkK+tSL+a3Cn0Y5mzIcOuu632V2sXl+vpZE=; b=Hiv6LYVeM53u27Td
- N8yeaizjsvhyoxjui9lzen8TulagqyVXNpeLjQraHQpXI1IN9ZrOkMl4WqysF44x
- CY9dtKZgtdOYznGaDXmwq5Vc2pgrIEmexMEbWBQNMbDLWZFgEwG8+3SX+01AweP5
- XbT8NJTKh1bNaS8DLO50xLskN0gMqsHKgkPMRqANWCCcePO6X/2HcILrRGBstEuK
- fgph8Qbrji5fj6mxGq4LW7Xiy5cIGSpTgCzWIBv+ua4PW1GmAMAEV1UmrAUDNByA
- /eEhN5MvH0NZDt1W92E9SCW8dKB1jl142eQVdWLr66dJqoQto7o+j2o/B4PscCqG
- tJExwQ==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yuj9u2jkj-1
+ NPqpxJL5tq6TkrWcnq4DHCSTL9FtWGZrMIwo+LesLGs=; b=WGq0SehKmE4YRR+e
+ lzAFGHCkUJx7n8lVjWmyZNi/VRWPRYhO7BZunOZ6izC9pj7A5gJOQZfnWeM5jbtX
+ QO6mL8GE/5ZSSr1cyiha440GaGsxLFrnn6SaQU1NsmODV5bGyG8q2X5IBe2qIiJn
+ XsypXF+NMm773zhCg17tG4ZfKDkKpG4E8zoZBBz1OH7iN6PUdPY4Wa3s+ZQMo3SU
+ 8DWR//NfPWaSvjtPGhN1O/rre1nvCe7pSEOkaFxzElSiJdfdOlU526jL/oUVKRZ3
+ L9hGudYxR1LAJPGNVAOSSMxqI3qold1IOBXIBv+VNMLmiCKyLCOHV6/k0ayxF2GB
+ zIxv5A==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yujc4jgcj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Jun 2024 18:47:08 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45JIl7kp031202
+ Wed, 19 Jun 2024 18:48:12 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45JImBQ3019655
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Jun 2024 18:47:07 GMT
-Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ Wed, 19 Jun 2024 18:48:11 GMT
+Received: from [10.71.110.249] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 19 Jun
- 2024 11:47:06 -0700
-Message-ID: <92b6cc8e-4e16-4b5c-a0b7-b14fd6a8627c@quicinc.com>
-Date: Wed, 19 Jun 2024 11:47:05 -0700
+ 2024 11:48:00 -0700
+Message-ID: <1cd25478-1e17-044e-6148-ca67a0e808e1@quicinc.com>
+Date: Wed, 19 Jun 2024 11:47:58 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 12/14] drm/msm/hdmi: drop hpd-gpios support
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 1/8] dt-bindings: display/msm/dsi: allow specifying TE
+ source
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
- Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>
 CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240522-fd-hdmi-hpd-v2-0-c30bdb7c5c7e@linaro.org>
- <20240522-fd-hdmi-hpd-v2-12-c30bdb7c5c7e@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20240522-fd-hdmi-hpd-v2-12-c30bdb7c5c7e@linaro.org>
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski@linaro.org>
+References: <20240613-dpu-handle-te-signal-v2-0-67a0116b5366@linaro.org>
+ <20240613-dpu-handle-te-signal-v2-1-67a0116b5366@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240613-dpu-handle-te-signal-v2-1-67a0116b5366@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: xg2zPiFqpIBo8IgcSJyQypXEdEiwIYG4
-X-Proofpoint-ORIG-GUID: xg2zPiFqpIBo8IgcSJyQypXEdEiwIYG4
+X-Proofpoint-ORIG-GUID: 0m7HuE6dPUxu35rqRB6GYf5hZYMlTMqv
+X-Proofpoint-GUID: 0m7HuE6dPUxu35rqRB6GYf5hZYMlTMqv
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-06-19_02,2024-06-19_01,2024-05-17_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 mlxlogscore=999 clxscore=1015 mlxscore=0 phishscore=0
- bulkscore=0 impostorscore=0 spamscore=0 suspectscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406190141
+ adultscore=0 clxscore=1011
+ priorityscore=1501 mlxlogscore=999 malwarescore=0 lowpriorityscore=0
+ mlxscore=0 bulkscore=0 impostorscore=0 spamscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406190142
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,138 +104,19 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 5/22/2024 3:51 AM, Dmitry Baryshkov wrote:
-> Supporting simultaneous check of native HPD and the external GPIO proved
-> to be less stable than just native HPD. Drop the hpd-gpios support,
-> leaving just the native HPD support. In case the native HPD doesn't work
-> the user is urged to switch to specifying the HPD property to the
-> hdmi-connector device.
+On 6/13/2024 10:05 AM, Dmitry Baryshkov wrote:
+> Command mode panels provide TE signal back to the DSI host to signal
+> that the frame display has completed and update of the image will not
+> cause tearing. Usually it is connected to the first GPIO with the
+> mdp_vsync function, which is the default. In such case the property can
+> be skipped.
 > 
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-
 > ---
->   drivers/gpu/drm/msm/hdmi/hdmi.c     | 14 +++-------
->   drivers/gpu/drm/msm/hdmi/hdmi.h     |  2 --
->   drivers/gpu/drm/msm/hdmi/hdmi_hpd.c | 53 +++----------------------------------
->   3 files changed, 7 insertions(+), 62 deletions(-)
+>   .../bindings/display/msm/dsi-controller-main.yaml       | 17 +++++++++++++++++
+>   1 file changed, 17 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> index e160a23e962e..a9437054c015 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> @@ -468,17 +468,9 @@ static int msm_hdmi_dev_probe(struct platform_device *pdev)
->   		return dev_err_probe(dev, PTR_ERR(hdmi->extp_clk),
->   				     "failed to get extp clock\n");
->   
-> -	hdmi->hpd_gpiod = devm_gpiod_get_optional(&pdev->dev, "hpd", GPIOD_IN);
-> -	/* This will catch e.g. -EPROBE_DEFER */
-> -	if (IS_ERR(hdmi->hpd_gpiod))
-> -		return dev_err_probe(dev, PTR_ERR(hdmi->hpd_gpiod),
-> -				     "failed to get hpd gpio\n");
-> -
-> -	if (!hdmi->hpd_gpiod)
-> -		DBG("failed to get HPD gpio");
-> -
-> -	if (hdmi->hpd_gpiod)
-> -		gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
-> +	if (of_find_property(dev->of_node, "hpd-gpios", NULL) ||
-> +	    of_find_property(dev->of_node, "hpd-gpio", NULL))
-> +		dev_warn(dev, "hpd-gpios is not supported anymore, please migrate to the hdmi-connector\n");
->   
->   	ret = msm_hdmi_get_phy(hdmi);
->   	if (ret) {
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
-> index 2a98efa8b6bd..268ff8604423 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.h
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
-> @@ -52,8 +52,6 @@ struct hdmi {
->   	struct clk_bulk_data *pwr_clks;
->   	struct clk *extp_clk;
->   
-> -	struct gpio_desc *hpd_gpiod;
-> -
->   	struct hdmi_phy *phy;
->   	struct device *phy_dev;
->   
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-> index 32e447267e3b..d3353c6148ed 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-> @@ -69,9 +69,6 @@ int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
->   	int ret;
->   	unsigned long flags;
->   
-> -	if (hdmi->hpd_gpiod)
-> -		gpiod_set_value_cansleep(hdmi->hpd_gpiod, 1);
-> -
->   	ret = pm_runtime_resume_and_get(dev);
->   	if (ret)
->   		return ret;
-> @@ -144,8 +141,11 @@ void msm_hdmi_hpd_irq(struct drm_bridge *bridge)
->   	}
->   }
->   
-> -static enum drm_connector_status detect_reg(struct hdmi *hdmi)
-> +enum drm_connector_status msm_hdmi_bridge_detect(
-> +		struct drm_bridge *bridge)
->   {
-> +	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
-> +	struct hdmi *hdmi = hdmi_bridge->hdmi;
->   	uint32_t hpd_int_status = 0;
->   	int ret;
->   
-> @@ -161,48 +161,3 @@ static enum drm_connector_status detect_reg(struct hdmi *hdmi)
->   	return (hpd_int_status & HDMI_HPD_INT_STATUS_CABLE_DETECTED) ?
->   			connector_status_connected : connector_status_disconnected;
->   }
-> -
-> -#define HPD_GPIO_INDEX	2
-> -static enum drm_connector_status detect_gpio(struct hdmi *hdmi)
-> -{
-> -	return gpiod_get_value(hdmi->hpd_gpiod) ?
-> -			connector_status_connected :
-> -			connector_status_disconnected;
-> -}
-> -
-> -enum drm_connector_status msm_hdmi_bridge_detect(
-> -		struct drm_bridge *bridge)
-> -{
-> -	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
-> -	struct hdmi *hdmi = hdmi_bridge->hdmi;
-> -	enum drm_connector_status stat_gpio, stat_reg;
-> -	int retry = 20;
-> -
-> -	/*
-> -	 * some platforms may not have hpd gpio. Rely only on the status
-> -	 * provided by REG_HDMI_HPD_INT_STATUS in this case.
-> -	 */
-> -	if (!hdmi->hpd_gpiod)
-> -		return detect_reg(hdmi);
-> -
-> -	do {
-> -		stat_gpio = detect_gpio(hdmi);
-> -		stat_reg  = detect_reg(hdmi);
-> -
-> -		if (stat_gpio == stat_reg)
-> -			break;
-> -
-> -		mdelay(10);
-> -	} while (--retry);
-> -
-> -	/* the status we get from reading gpio seems to be more reliable,
-> -	 * so trust that one the most if we didn't manage to get hdmi and
-> -	 * gpio status to agree:
-> -	 */
-> -	if (stat_gpio != stat_reg) {
-> -		DBG("HDMI_HPD_INT_STATUS tells us: %d", stat_reg);
-> -		DBG("hpd gpio tells us: %d", stat_gpio);
-> -	}
-> -
-> -	return stat_gpio;
-> -}
-> 
-> -- 
-> 2.39.2
-> 
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
