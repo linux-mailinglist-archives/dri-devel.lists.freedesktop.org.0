@@ -2,46 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C001990E83F
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 12:22:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E078090E88F
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 12:44:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A33F10EC17;
-	Wed, 19 Jun 2024 10:22:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C85510EC25;
+	Wed, 19 Jun 2024 10:44:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JXNDgq6H";
+	dkim=pass (1024-bit key; unprotected) header.d=ucw.cz header.i=@ucw.cz header.b="PgZ2z4/6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F91010E068
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 10:22:42 +0000 (UTC)
-Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it
- [93.61.96.190])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D6B8F1207;
- Wed, 19 Jun 2024 12:22:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1718792543;
- bh=xJi0mpw5h2Tl1pzyNtLKb/aNVp40jhtNs1qUQWZHnZw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JXNDgq6HzrxvZxLA9AcvgRN9kJoCjvFQIx9on7K60TVgDVEdq0n2H2mEtzg54UDC/
- pGR9eheXydcXVUHy2cfIdo01UbiReTweiaOxWJOu+FnbXroXXHkWg3WPRvoZRPETmm
- N7VJ8gBFDK9n3j1aDgclZHobvCmTgEq8Rhzyi+GY=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR RENESAS R-CAR),
- linux-renesas-soc@vger.kernel.org (open list:DRM DRIVERS FOR RENESAS R-CAR)
-Subject: [PATCH 4/4] drm: rcar-du: Add support for R8A779H0
-Date: Wed, 19 Jun 2024 12:22:18 +0200
-Message-ID: <20240619102219.138927-5-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240619102219.138927-1-jacopo.mondi@ideasonboard.com>
-References: <20240619102219.138927-1-jacopo.mondi@ideasonboard.com>
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C53C510EC22;
+ Wed, 19 Jun 2024 10:44:01 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id E13451C009C; Wed, 19 Jun 2024 12:43:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+ t=1718793838;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vo9RiiSSC/ZbBTBqmG8HeRvLXY/RIIoNbA30ISvJUoQ=;
+ b=PgZ2z4/6URfgbVQwjQo/bCy4eqsH/PuYqqNqksu3WkoxLbe9FKm+mxAyyuektKRQgzU5IH
+ twT4V37ySrBgxua1Xrn6YhX2zCHPLivEFh2DequUF+ABhr24XHJZzh+lpAh7DlhMQCoOrR
+ abkcaW2qjg4lQucbCD6qANdupRGZ9F8=
+Date: Wed, 19 Jun 2024 12:43:58 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Dave Airlie <airlied@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Rafael Wysocki <rafael@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Re: Linux 6.10-rc1
+Message-ID: <ZnK2bmDFuwX8E5rY@duo.ucw.cz>
+References: <CAHk-=wjQv_CSPzhjOMoOjGO3FmuHe5hzm6Ds69zZSFPa4PeuCA@mail.gmail.com>
+ <ZmrTZozoi0t/tuva@duo.ucw.cz>
+ <CAHk-=wjqHL7KjOWYBVKFewcKPWL7CJxddWfJnvL3AfOqfR8vMg@mail.gmail.com>
+ <ZmwHGviv/6J6FQLf@duo.ucw.cz>
+ <CAHk-=wigB-wVK+4=NuYJxoKLnoUXB52J5WU2hpKj2de6vGuY7g@mail.gmail.com>
+ <CAHk-=wjcdUUip96PnfC+iRjAwPHn3XKsgcohk1ad5VcckCFVKA@mail.gmail.com>
+ <ZnABbKrIzmmEoFEV@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="piExBvh6QckgN0jN"
+Content-Disposition: inline
+In-Reply-To: <ZnABbKrIzmmEoFEV@duo.ucw.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,105 +63,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for R-Car R8A779H0 V4M which has similar characteristics
-as the already supported R-Car V4H R8A779G0, but with a single output
-channel.
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+--piExBvh6QckgN0jN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
----
-BSP patch
-https://github.com/renesas-rcar/linux-bsp/commit/f2fc3314dab2052240653c1a31ba3d7c7190038e
----
----
- .../bindings/display/renesas,du.yaml           |  1 +
- drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c  | 18 ++++++++++++++++++
- .../gpu/drm/renesas/rcar-du/rcar_du_group.c    | 17 ++++++++++++-----
- 3 files changed, 31 insertions(+), 5 deletions(-)
+Hi!
 
-diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-index c5b9e6812bce..d369953f16f7 100644
---- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-+++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-@@ -41,6 +41,7 @@ properties:
-       - renesas,du-r8a77995 # for R-Car D3 compatible DU
-       - renesas,du-r8a779a0 # for R-Car V3U compatible DU
-       - renesas,du-r8a779g0 # for R-Car V4H compatible DU
-+      - renesas,du-r8a779h0 # for R-Car V4M compatible DU
- 
-   reg:
-     maxItems: 1
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-index dee530e4c8b2..a1d174b0b00b 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-@@ -545,6 +545,23 @@ static const struct rcar_du_device_info rcar_du_r8a779g0_info = {
- 	.dsi_clk_mask =  BIT(1) | BIT(0),
- };
- 
-+static const struct rcar_du_device_info rcar_du_r8a779h0_info = {
-+	.gen = 4,
-+	.features = RCAR_DU_FEATURE_CRTC_IRQ
-+		  | RCAR_DU_FEATURE_VSP1_SOURCE
-+		  | RCAR_DU_FEATURE_NO_BLENDING,
-+	.channels_mask = BIT(0),
-+	.routes = {
-+		/* R8A779H0 has a single MIPI DSI output. */
-+		[RCAR_DU_OUTPUT_DSI0] = {
-+			.possible_crtcs = BIT(0),
-+			.port = 0,
-+		},
-+	},
-+	.num_rpf = 5,
-+	.dsi_clk_mask = BIT(0),
-+};
-+
- static const struct of_device_id rcar_du_of_table[] = {
- 	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
- 	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
-@@ -571,6 +588,7 @@ static const struct of_device_id rcar_du_of_table[] = {
- 	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
- 	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
- 	{ .compatible = "renesas,du-r8a779g0", .data = &rcar_du_r8a779g0_info },
-+	{ .compatible = "renesas,du-r8a779h0", .data = &rcar_du_r8a779h0_info },
- 	{ }
- };
- 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-index 2ccd2581f544..361e1d01b817 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-@@ -111,6 +111,8 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
- 		/*
- 		 * On Gen3 dot clocks are setup through per-group registers,
- 		 * only available when the group has two channels.
-+		 *
-+		 * R-Car V4M (R8A779H0) has only one channel, index is == 0.
- 		 */
- 		rcrtc = &rcdu->crtcs[rgrp->index * 2];
- 		num_crtcs = rgrp->num_crtcs;
-@@ -185,11 +187,16 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
- 		dorcr |= DORCR_PG1T | DORCR_DK1S | DORCR_PG1D_DS1;
- 	rcar_du_group_write(rgrp, DORCR, dorcr);
- 
--	/* Apply planes to CRTCs association. */
--	mutex_lock(&rgrp->lock);
--	rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
--			    rgrp->dptsr_planes);
--	mutex_unlock(&rgrp->lock);
-+	/*
-+	 * Apply planes to CRTCs association, skip for V4M which has a single
-+	 * channel.
-+	 */
-+	if (rcdu->info->gen < 4 || rgrp->num_crtcs > 1) {
-+		mutex_lock(&rgrp->lock);
-+		rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
-+				    rgrp->dptsr_planes);
-+		mutex_unlock(&rgrp->lock);
-+	}
- }
- 
- /*
--- 
-2.45.2
+> > > Let's bring in the actual gpu people.. Dave/Jani/others - does any of
+> > > this sound familiar? Pavel says things have gotten much slower in
+> > > 6.10: "something was very wrong with the performance, likely to do
+> > > with graphics"
+> >=20
+> > Actually, maybe it's not graphics at all. Rafael just sent me a pull
+> > request that fixes a "turbo is disabled at boot, but magically enabled
+> > at runtime by firmware" issue.
+> >=20
+> > The 6.10-rc1 kernel would notice that turbo was disabled, and stopped
+> > noticing that it magically got re-enabled.
+> >=20
+> > Pavel, that was with a very different laptop, but who knows... That
+> > would match the "laptop is much slower" thing.
+> >=20
+> > So current -git might be worth checking.
+>=20
+> So... I went to (then) current -git and I don't want to replace my
+> machine any more. So the problem should not exist in current mainline.
+>=20
+> (I did not have good objective data, so I'm not 100% sure problem was
+> real in the first place. More like 90% sure.)
 
+Ok, so machine is ready to be thrown out of window, again. Trying to
+play 29C3 video should not make machine completely unusable ... as in
+keyboard looses keystrokes in terminal.
+
+https://media.ccc.de/v/29c3-5333-en-gsm_cell_phone_network_review_h264#t=3D=
+340
+
+dmesg is kind-of unhappy:
+
+[130729.891961] usb 2-1.2.3: reset low-speed USB device number 13 using ehc=
+i-pci
+[130733.311644] usb 2-1.2.3: reset low-speed USB device number 13 using ehc=
+i-pci
+[130736.534601] i915 0000:00:02.0: [drm] *ERROR* Atomic update failure on p=
+ipe A (start=3D617818 end=3D617819) time 159 us, min 1017, max 1023, scanli=
+ne start 1012, end 1024
+[130738.625131] usb 2-1.2.3: reset low-speed USB device number 13 using ehc=
+i-pci
+[130745.451785] usb 2-1.2.3: reset low-speed USB device number 13 using ehc=
+i-pci
+=2E..
+[131631.941091] usb 2-1.2.3: reset low-speed USB device number 13 using ehc=
+i-pci
+[131634.817628] usb 2-1.2.3: reset low-speed USB device number 13 using ehc=
+i-pci
+[131639.536918] usb 2-1.2.3: reset low-speed USB device number 13 using ehc=
+i-pci
+[131790.153952] i915 0000:00:02.0: [drm] GPU HANG: ecode 6:1:95ffffbc, in X=
+org [3043]
+[131790.154245] i915 0000:00:02.0: [drm] GT0: Resetting chip for stopped he=
+artbeat on rcs0
+[131790.255994] i915 0000:00:02.0: [drm] Xorg[3043] context reset due to GP=
+U hang
+
+Wifi is a bit too active, even on fairly idle system:
+
+    430 root     -51   0       0      0      0 S   0.3   0.0   8:48.74 irq/=
+17-iwlwifi                                 =20
+Ideas welcome, especially some way to see what graphics is doing.
+
+Best regards,
+								Pavel
+
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--piExBvh6QckgN0jN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZnK2bgAKCRAw5/Bqldv6
+8vkSAKCYZujnIFEfpnaKXQ736XmOoaRtZACeIxVRbAkJLd/Pnd3AN4nAg9UzEiY=
+=Jm95
+-----END PGP SIGNATURE-----
+
+--piExBvh6QckgN0jN--
