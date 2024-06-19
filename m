@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE60490F502
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 19:27:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC5190F509
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 19:27:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7462510E238;
-	Wed, 19 Jun 2024 17:27:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 313D110ED5B;
+	Wed, 19 Jun 2024 17:27:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E2/PTasX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ins7qqBt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5601B10ED53
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D4C610ED54
  for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 17:27:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8CF3061F13;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9330261E9C;
  Wed, 19 Jun 2024 17:27:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 33453C4AF07;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 446FEC4AF09;
  Wed, 19 Jun 2024 17:27:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1718818032;
- bh=ETsnlL8B7SX5GDU+JpS9dzXyLldBHM/ahdNPF8Smk6o=;
+ bh=T183k9By1cvXGXNo8Ecq6kS7PKcoWpDlkYqloTYrQ3w=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=E2/PTasXCBWk9IAIfsSs/M2PYBon5dLDwCeslZDAyfVnt+g2aKt9xRS9haB20xnEQ
- azRyjtdZ5SURnoDWtyVmRgAHKI+bDYVi2IFHLO+EIEi8qYm6towYYnUaztlCDMRB+8
- GaCNU9luqtNusqMs8bL17hAXsSCjwnOSXgpN26SdjdqD7bNtkLM/tuhty14vszZ7so
- D3Ukmz8eskxHe2IlJ8568H5JHn8yyDdVHCb7ubzHkeuDjlMZjopM7ISbyqo510rcD2
- Ps2LN3COcdgy0+L5cyzd6xrlV3I/loDkWxRnmvmWqK1SyjKAUfAYaNiegOXXBVn8W7
- XiH5M65MIi/Sg==
+ b=Ins7qqBt/DF7pMus+7lz95yNRa9Nm7P93w9+CbiItBQGGzokNtqy3edzb4jv6fWod
+ /n3sv0Dc8ShZTypIwOrdbkIkWPlxCIr06WbB375XSPoDwcjIuLDxBYjLPBPBXzPVpo
+ HwWLjDSCVRUwQlsphYsA/9QK+uhgJW3Omfwo15Rf9fsu47QzNd/WngzRREi6EPH6AQ
+ KOq/AN4pTiYefvnTD4DNT/TpQawqy7aHHoU3LuWw49S/3/ibh4KfL+PUa+L1gW8pvN
+ hOn/XqMgRklWWbtVcgM0sLYqU2A9XB0eT+8Kw3GuDMocn3qajH77nQf0+Pt4aEj7GY
+ OULTfRadlLwvQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 1E41AC2BB85;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 2ED40C2BD05;
  Wed, 19 Jun 2024 17:27:12 +0000 (UTC)
 From: Hsiao Chien Sung via B4 Relay
  <devnull+shawn.sung.mediatek.com@kernel.org>
-Date: Thu, 20 Jun 2024 01:27:06 +0800
-Subject: [PATCH 1/5] drm/mediatek: Support "None" blending in OVL
+Date: Thu, 20 Jun 2024 01:27:07 +0800
+Subject: [PATCH 2/5] drm/mediatek: Support "None" blending in Mixer
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240620-blend-v1-1-72670072ca20@mediatek.com>
+Message-Id: <20240620-blend-v1-2-72670072ca20@mediatek.com>
 References: <20240620-blend-v1-0-72670072ca20@mediatek.com>
 In-Reply-To: <20240620-blend-v1-0-72670072ca20@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
@@ -50,13 +50,13 @@ To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Hsiao Chien Sung <shawn.sung@mediatek.com>, CK Hu <ck.hu@mediatek.com>
+ Hsiao Chien Sung <shawn.sung@mediatek.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718818030; l=1454;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718818030; l=2177;
  i=shawn.sung@mediatek.com; s=20240616; h=from:subject:message-id;
- bh=rtWSUov4PpFb4hd8Tt3oJveJfjjyY029CEOcPjNOX6c=;
- b=KpJUZeS7WEff+MEihA4MdIy0tY9hjb36UjuTGYAVOGH4tGwjeZ7PvX9T2RQh9WvxFAcPEPxOE
- 4ztaAk9cHA2AwkAaKKCB54EtlLjv9UUQ3Whapw0cgfuK2rSBXYHc9Bl
+ bh=Qozngh9H3WmkloftvXdtunQipRtPsqe5newy6O92Wn0=;
+ b=onITXPFDRbXvFOUQC6q/s0ZYmrTMNr/VTBfUMFTM8PVjvt3LEXLMJVJ1tQvXAYnnrP614Ft2U
+ SW7HRNJeZHSBskThxsR8JQiuhTvHA/Oib/BjprnnG6EPZq3+7D8XJlz
 X-Developer-Key: i=shawn.sung@mediatek.com; a=ed25519;
  pk=lq1w8BuWDINX+4JHjGHhhbAU5ICP+cL9VCj7wn+cEDA=
 X-Endpoint-Received: by B4 Relay for shawn.sung@mediatek.com/20240616 with
@@ -82,34 +82,56 @@ From: Hsiao Chien Sung <shawn.sung@mediatek.com>
 
 Support "None" alpha blending mode on MediaTek's chips.
 
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_ethdr.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index 4b370bc0746d..ad9228fc4dd9 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -439,6 +439,7 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
- 	unsigned int fmt = pending->format;
- 	unsigned int offset = (pending->y << 16) | pending->x;
- 	unsigned int src_size = (pending->height << 16) | pending->width;
-+	unsigned int blend_mode = state->base.pixel_blend_mode;
- 	unsigned int ignore_pixel_alpha = 0;
- 	unsigned int con;
- 	bool is_afbc = pending->modifier != DRM_FORMAT_MOD_LINEAR;
-@@ -468,7 +469,8 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
- 	 * For RGB888 related formats, whether CONST_BLD is enabled or not won't
- 	 * affect the result. Therefore we use !has_alpha as the condition.
- 	 */
--	if (state->base.fb && !state->base.fb->format->has_alpha)
-+	if ((state->base.fb && !state->base.fb->format->has_alpha) ||
-+	    blend_mode == DRM_MODE_BLEND_PIXEL_NONE)
- 		ignore_pixel_alpha = OVL_CONST_BLEND;
+diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.c b/drivers/gpu/drm/mediatek/mtk_ethdr.c
+index 36021cb8df62..48b714994492 100644
+--- a/drivers/gpu/drm/mediatek/mtk_ethdr.c
++++ b/drivers/gpu/drm/mediatek/mtk_ethdr.c
+@@ -3,6 +3,7 @@
+  * Copyright (c) 2021 MediaTek Inc.
+  */
  
- 	if (pending->rotation & DRM_MODE_REFLECT_Y) {
++#include <drm/drm_blend.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_framebuffer.h>
+ #include <linux/clk.h>
+@@ -35,6 +36,7 @@
+ #define MIX_SRC_L0_EN				BIT(0)
+ #define MIX_L_SRC_CON(n)		(0x28 + 0x18 * (n))
+ #define NON_PREMULTI_SOURCE			(2 << 12)
++#define PREMULTI_SOURCE				(3 << 12)
+ #define MIX_L_SRC_SIZE(n)		(0x30 + 0x18 * (n))
+ #define MIX_L_SRC_OFFSET(n)		(0x34 + 0x18 * (n))
+ #define MIX_FUNC_DCM0			0x120
+@@ -175,7 +177,13 @@ void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
+ 		alpha_con |= state->base.alpha & MIXER_ALPHA;
+ 	}
+ 
+-	if (state->base.fb && !state->base.fb->format->has_alpha) {
++	if (state->base.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE)
++		alpha_con |= PREMULTI_SOURCE;
++	else
++		alpha_con |= NON_PREMULTI_SOURCE;
++
++	if ((state->base.fb && !state->base.fb->format->has_alpha) ||
++	    state->base.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE) {
+ 		/*
+ 		 * Mixer doesn't support CONST_BLD mode,
+ 		 * use a trick to make the output equivalent
+@@ -191,8 +199,7 @@ void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
+ 	mtk_ddp_write(cmdq_pkt, pending->height << 16 | align_width, &mixer->cmdq_base,
+ 		      mixer->regs, MIX_L_SRC_SIZE(idx));
+ 	mtk_ddp_write(cmdq_pkt, offset, &mixer->cmdq_base, mixer->regs, MIX_L_SRC_OFFSET(idx));
+-	mtk_ddp_write_mask(cmdq_pkt, alpha_con, &mixer->cmdq_base, mixer->regs, MIX_L_SRC_CON(idx),
+-			   0x1ff);
++	mtk_ddp_write(cmdq_pkt, alpha_con, &mixer->cmdq_base, mixer->regs, MIX_L_SRC_CON(idx));
+ 	mtk_ddp_write_mask(cmdq_pkt, BIT(idx), &mixer->cmdq_base, mixer->regs, MIX_SRC_CON,
+ 			   BIT(idx));
+ }
 
 -- 
 Git-146)
