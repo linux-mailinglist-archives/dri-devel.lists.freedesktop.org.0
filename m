@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 267CD90E77B
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 11:55:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1C4190E77A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 11:55:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC5110EBEE;
-	Wed, 19 Jun 2024 09:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E68A410EBED;
+	Wed, 19 Jun 2024 09:55:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RBCHa7Vh";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="NqEf3yl5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBBC710EBED
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 09:55:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD55210EBED
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 09:55:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1718790945;
- bh=ccqhkRQ+dQDXGIwdq7jXyziveJY0PrkdcAxZPvyIbTo=;
+ s=mail; t=1718790943;
+ bh=8Fb5oLq+wj7onkMLOYYldQHhtPuVpDgA5L+9vUTFoUc=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=RBCHa7VhJYw8kadFFaI+Ln3q8ur+ATI4w25Yt2Gbdae+K2y3x4GuxKnx8rBmN1+v4
- dyxQASh9VmMXW6DpeFmKCkFEWGhLDQGGTPzpz0QYWVICqC5x8kc95koTD9690ZbCQP
- 9KVKaH4Rj5zWmt5frlNGuEeZjzEgItA2O9ZXjeukYEKFwTP/XcspByJjeqmKPIzIct
- XAmfSS3NxCo2zFKtDo498Mco2RjrVDwEAknkzNiXug63KHFbWBSgORG57oGd44cboC
- r2OEVNEXL5A2HNNSVynqLImvhUt7aNzgUjvEvKXTO8nkt7iRuMRKADokA0a/Q3t0BI
- gDvZDSIQjSBYA==
+ b=NqEf3yl5Mez/C70kftx/epL79UnYIMK1Sorzh+2wYsAOzJT73u+d4gL443z4PN+hH
+ 69TRr5FYO1lJ01RL021soEJQJM0CH1LI2j/xwZAPmEEtPF3xdOiCb/NCaL15guWLtv
+ K4e1cpESaw87RbulnDMyue+D75P2NqZzpKwd00o/h9POlLdS9IkB0N0ptLxTLJ4qBF
+ hksf+ALzOiMVsrGNqeLsWZ00hqkuemZV0uK+A3pgV4mpf/X/ny+cQ3H6TWT3OxLUzL
+ dggsQ3PFTAcHaoDVb/i33HPpadNWuc81jRxfpaAmk19FwItHMRcPnzS4YimGgzb9Ts
+ jibMHxsUirvCw==
 Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id DB8F537821CD;
- Wed, 19 Jun 2024 09:55:43 +0000 (UTC)
-Message-ID: <c5f7cd1f-e2a2-4055-8d0a-9da320ff591f@collabora.com>
-Date: Wed, 19 Jun 2024 11:55:39 +0200
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0EB5937821D1;
+ Wed, 19 Jun 2024 09:55:42 +0000 (UTC)
+Message-ID: <584857e3-a1b9-4dd2-9d3b-f4d76ccf1cbd@collabora.com>
+Date: Wed, 19 Jun 2024 11:55:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v5 02/16] ASoC: dt-bindings:
- mediatek,mt8365-mt6357: Add audio sound card document
+Subject: Re: [PATCH RESEND v5 01/16] ASoC: dt-bindings: mediatek,mt8365-afe:
+ Add audio afe document
 To: Alexandre Mergnat <amergnat@baylibre.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
@@ -55,10 +55,10 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 References: <20240226-audio-i350-v5-0-54827318b453@baylibre.com>
- <20240226-audio-i350-v5-2-54827318b453@baylibre.com>
+ <20240226-audio-i350-v5-1-54827318b453@baylibre.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20240226-audio-i350-v5-2-54827318b453@baylibre.com>
+In-Reply-To: <20240226-audio-i350-v5-1-54827318b453@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,11 +77,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 14/06/24 09:27, Alexandre Mergnat ha scritto:
-> Add soundcard bindings for the MT8365 SoC with the MT6357 audio codec.
+> Add MT8365 audio front-end bindings
 > 
 > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
 
