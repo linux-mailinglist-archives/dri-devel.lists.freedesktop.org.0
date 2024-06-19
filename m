@@ -2,58 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 945B790E8A6
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 12:52:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7526A90E8BC
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2024 12:55:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2966410EC10;
-	Wed, 19 Jun 2024 10:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8989510EC2B;
+	Wed, 19 Jun 2024 10:55:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CtDpb8Q5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nwPq4oBP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33B6D10EC10
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 10:52:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 083B2CE1B5E;
- Wed, 19 Jun 2024 10:52:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74E1DC2BBFC;
- Wed, 19 Jun 2024 10:52:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718794345;
- bh=vSTwOnkpOhjoLPdYXhsbyxycs4+sgyR1OWKUT+yuANg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CtDpb8Q5lHuHaZ7f9f8roz12g1h3DQNFWWqxZGyjAAf4b9z6g7zLjhIPXuLxXWU3m
- IW5VTcS8iESaT0h8QBsq59Lq2yHtioePjg7bFGuw+TLiCeJrGNf3MBzizu6shUm6Xe
- hrlFioBpc9T7JD/DH3AxNa5eogB0KF7lztKKZJWTWxfc2ZQCzXfaXa9wQ9uOVccnDf
- QGJomdvHrpGizBCOy/itPCvicbmfp9GNrnoxAJf5SDwAfmVZjefznHDICaL3klChWa
- oCcE9PH8NF/cVIknlJl3unJT97G6Ezf/7oVoUAxYOjeNDLNckWXEPzLflVu45vHs0/
- nkZovwRM6i6jQ==
-Date: Wed, 19 Jun 2024 13:52:19 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Omer Shpigelman <oshpigelman@habana.ai>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "ogabbay@kernel.org" <ogabbay@kernel.org>,
- Zvika Yehudai <zyehudai@habana.ai>
-Subject: Re: [PATCH 11/15] RDMA/hbl: add habanalabs RDMA driver
-Message-ID: <20240619105219.GO4025@unreal>
-References: <20240613082208.1439968-1-oshpigelman@habana.ai>
- <20240613082208.1439968-12-oshpigelman@habana.ai>
- <20240613191828.GJ4966@unreal>
- <fbb34afa-8a38-4124-9384-9b858ce2c4e5@habana.ai>
- <20240617190429.GB4025@unreal>
- <461bf44e-fd2f-4c8b-bc41-48d48e5a7fcb@habana.ai>
- <20240618125842.GG4025@unreal>
- <b4bda963-7026-4037-83e6-de74728569bd@habana.ai>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B939110EC21;
+ Wed, 19 Jun 2024 10:55:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718794506; x=1750330506;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=jzUKKVM4ZxA5Rkz3Pk5ZXdcTi61bWtOuTwMeIRAbEkI=;
+ b=nwPq4oBPwdJEA2savZTanz22ZMO7/kQlbNHw+KltHBnazArB3PoQUXGd
+ 64ec/gWvmaBMhwrK6FfmOrjGuVnCUuGSxZOVlL4i5CJYspp5woKm0FaO/
+ 3JrN43fPQ8TIK5Cg8u3+BZnRdUxthCWPfwcGFEQWk2PCFyvQg+6XHkwzS
+ 4i21TFsUGBMvsDZqfTaSildYn/c512H1qjE9G494hwfapmgDHphknpZ7p
+ rOv1WTUSgmvCjym6iyv8wYGlznV8X/EhWbbUp+rz9mcBfq/MOP4dWj98q
+ 4T0XTbQuR47trRymsMdR12KYDQhjskZ8fF/S8/j8PnPfuZZlkzK+MWD4D Q==;
+X-CSE-ConnectionGUID: BXVDG4X1TZq2S7vUoJtJBw==
+X-CSE-MsgGUID: StPulHEyQ0uRHKfCnvENFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="41130126"
+X-IronPort-AV: E=Sophos;i="6.08,250,1712646000"; d="scan'208";a="41130126"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2024 03:55:06 -0700
+X-CSE-ConnectionGUID: yqx+LOBIRVi1PaWPSOiwcw==
+X-CSE-MsgGUID: FrBb6NmNTBOeLJatdwwIhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,250,1712646000"; d="scan'208";a="46797141"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.22])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2024 03:55:02 -0700
+Date: Wed, 19 Jun 2024 12:54:59 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>
+Subject: Re: [PATCH] drm/i915/gt: Fix potential UAF by revoke of fence
+ registers
+Message-ID: <ZnK5A_J1g-Y2maq3@ashyti-mobl2.lan>
+References: <20240603195446.297690-2-janusz.krzysztofik@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b4bda963-7026-4037-83e6-de74728569bd@habana.ai>
+In-Reply-To: <20240603195446.297690-2-janusz.krzysztofik@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,338 +77,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 19, 2024 at 09:27:54AM +0000, Omer Shpigelman wrote:
-> On 6/18/24 15:58, Leon Romanovsky wrote:
-> > On Tue, Jun 18, 2024 at 11:08:34AM +0000, Omer Shpigelman wrote:
-> >> On 6/17/24 22:04, Leon Romanovsky wrote:
-> >>> [Some people who received this message don't often get email from leon@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> >>>
-> >>> On Mon, Jun 17, 2024 at 05:43:49PM +0000, Omer Shpigelman wrote:
-> >>>> On 6/13/24 22:18, Leon Romanovsky wrote:
-> >>>>> [Some people who received this message don't often get email from leon@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> >>>>>
-> >>>>> On Thu, Jun 13, 2024 at 11:22:04AM +0300, Omer Shpigelman wrote:
-> >>>>>> Add an RDMA driver of Gaudi ASICs family for AI scaling.
-> >>>>>> The driver itself is agnostic to the ASIC in action, it operates according
-> >>>>>> to the capabilities that were passed on device initialization.
-> >>>>>> The device is initialized by the hbl_cn driver via auxiliary bus.
-> >>>>>> The driver also supports QP resource tracking and port/device HW counters.
-> >>>>>>
-> >>>>>> Signed-off-by: Omer Shpigelman <oshpigelman@habana.ai>
-> >>>>>> Co-developed-by: Abhilash K V <kvabhilash@habana.ai>
-> >>>>>> Signed-off-by: Abhilash K V <kvabhilash@habana.ai>
-> >>>>>> Co-developed-by: Andrey Agranovich <aagranovich@habana.ai>
-> >>>>>> Signed-off-by: Andrey Agranovich <aagranovich@habana.ai>
-> >>>>>> Co-developed-by: Bharat Jauhari <bjauhari@habana.ai>
-> >>>>>> Signed-off-by: Bharat Jauhari <bjauhari@habana.ai>
-> >>>>>> Co-developed-by: David Meriin <dmeriin@habana.ai>
-> >>>>>> Signed-off-by: David Meriin <dmeriin@habana.ai>
-> >>>>>> Co-developed-by: Sagiv Ozeri <sozeri@habana.ai>
-> >>>>>> Signed-off-by: Sagiv Ozeri <sozeri@habana.ai>
-> >>>>>> Co-developed-by: Zvika Yehudai <zyehudai@habana.ai>
-> >>>>>> Signed-off-by: Zvika Yehudai <zyehudai@habana.ai>
-> >>>>>
-> >>>>> I afraid that you misinterpreted the "Co-developed-by" tag. All these
-> >>>>> people are probably touch the code and not actually sit together at
-> >>>>> the same room and write the code together. So, please remove the
-> >>>>> extensive "Co-developed-by" tags.
-> >>>>>
-> >>>>> It is not full review yet, but simple pass-by-comments.
-> >>>>>
-> >>>>
-> >>>> Actually except of two, all of the mentioned persons sat in the same room
-> >>>> and developed the code together.
-> >>>> The remaining two are located on a different site (but also together).
-> >>>> Isn't that what "Co-developed-by" tag for?
-> >>>> I wanted to give them credit for writing the code but I can remove if it's
-> >>>> not common.
-> >>>
-> >>> Signed-off-by will be enough to give them credit.
-> >>>
-> >>
-> >> Ok, good enough.
-> >>
-> >>>>
-> >>>>>> ---
-> >>>>>>  MAINTAINERS                              |   10 +
-> >>>>>>  drivers/infiniband/Kconfig               |    1 +
-> >>>>>>  drivers/infiniband/hw/Makefile           |    1 +
-> >>>>>>  drivers/infiniband/hw/hbl/Kconfig        |   17 +
-> >>>>>>  drivers/infiniband/hw/hbl/Makefile       |    8 +
-> >>>>>>  drivers/infiniband/hw/hbl/hbl.h          |  326 +++
-> >>>>>>  drivers/infiniband/hw/hbl/hbl_main.c     |  478 ++++
-> >>>>>>  drivers/infiniband/hw/hbl/hbl_verbs.c    | 2686 ++++++++++++++++++++++
-> >>>>>>  include/uapi/rdma/hbl-abi.h              |  204 ++
-> >>>>>>  include/uapi/rdma/hbl_user_ioctl_cmds.h  |   66 +
-> >>>>>>  include/uapi/rdma/hbl_user_ioctl_verbs.h |  106 +
-> >>>>>>  include/uapi/rdma/ib_user_ioctl_verbs.h  |    1 +
-> >>>>>>  12 files changed, 3904 insertions(+)
-> >>>>>>  create mode 100644 drivers/infiniband/hw/hbl/Kconfig
-> >>>>>>  create mode 100644 drivers/infiniband/hw/hbl/Makefile
-> >>>>>>  create mode 100644 drivers/infiniband/hw/hbl/hbl.h
-> >>>>>>  create mode 100644 drivers/infiniband/hw/hbl/hbl_main.c
-> >>>>>>  create mode 100644 drivers/infiniband/hw/hbl/hbl_verbs.c
-> >>>>>>  create mode 100644 include/uapi/rdma/hbl-abi.h
-> >>>>>>  create mode 100644 include/uapi/rdma/hbl_user_ioctl_cmds.h
-> >>>>>>  create mode 100644 include/uapi/rdma/hbl_user_ioctl_verbs.h
-> >>>>>
-> >>>>> <...>
-> >>>>>
-> >>>>>> +#define hbl_ibdev_emerg(ibdev, format, ...)  ibdev_emerg(ibdev, format, ##__VA_ARGS__)
-> >>>>>> +#define hbl_ibdev_alert(ibdev, format, ...)  ibdev_alert(ibdev, format, ##__VA_ARGS__)
-> >>>>>> +#define hbl_ibdev_crit(ibdev, format, ...)   ibdev_crit(ibdev, format, ##__VA_ARGS__)
-> >>>>>> +#define hbl_ibdev_err(ibdev, format, ...)    ibdev_err(ibdev, format, ##__VA_ARGS__)
-> >>>>>> +#define hbl_ibdev_warn(ibdev, format, ...)   ibdev_warn(ibdev, format, ##__VA_ARGS__)
-> >>>>>> +#define hbl_ibdev_notice(ibdev, format, ...) ibdev_notice(ibdev, format, ##__VA_ARGS__)
-> >>>>>> +#define hbl_ibdev_info(ibdev, format, ...)   ibdev_info(ibdev, format, ##__VA_ARGS__)
-> >>>>>> +#define hbl_ibdev_dbg(ibdev, format, ...)    ibdev_dbg(ibdev, format, ##__VA_ARGS__)
-> >>>>>> +
-> >>>>>> +#define hbl_ibdev_emerg_ratelimited(ibdev, fmt, ...)         \
-> >>>>>> +     ibdev_emerg_ratelimited(ibdev, fmt, ##__VA_ARGS__)
-> >>>>>> +#define hbl_ibdev_alert_ratelimited(ibdev, fmt, ...)         \
-> >>>>>> +     ibdev_alert_ratelimited(ibdev, fmt, ##__VA_ARGS__)
-> >>>>>> +#define hbl_ibdev_crit_ratelimited(ibdev, fmt, ...)          \
-> >>>>>> +     ibdev_crit_ratelimited(ibdev, fmt, ##__VA_ARGS__)
-> >>>>>> +#define hbl_ibdev_err_ratelimited(ibdev, fmt, ...)           \
-> >>>>>> +     ibdev_err_ratelimited(ibdev, fmt, ##__VA_ARGS__)
-> >>>>>> +#define hbl_ibdev_warn_ratelimited(ibdev, fmt, ...)          \
-> >>>>>> +     ibdev_warn_ratelimited(ibdev, fmt, ##__VA_ARGS__)
-> >>>>>> +#define hbl_ibdev_notice_ratelimited(ibdev, fmt, ...)                \
-> >>>>>> +     ibdev_notice_ratelimited(ibdev, fmt, ##__VA_ARGS__)
-> >>>>>> +#define hbl_ibdev_info_ratelimited(ibdev, fmt, ...)          \
-> >>>>>> +     ibdev_info_ratelimited(ibdev, fmt, ##__VA_ARGS__)
-> >>>>>> +#define hbl_ibdev_dbg_ratelimited(ibdev, fmt, ...)           \
-> >>>>>> +     ibdev_dbg_ratelimited(ibdev, fmt, ##__VA_ARGS__)
-> >>>>>> +
-> >>>>>
-> >>>>> Please don't redefine the existing macros. Just use the existing ones.
-> >>>>>
-> >>>>>
-> >>>>> <...>
-> >>>>>
-> >>>>
-> >>>> That's a leftover from some debug code. I'll remove.
-> >>>>
-> >>>>>> +     if (hbl_ib_match_netdev(ibdev, netdev))
-> >>>>>> +             ib_port = hbl_to_ib_port_num(hdev, netdev->dev_port);
-> >>>>>> +     else
-> >>>>>> +             return NOTIFY_DONE;
-> >>>>>
-> >>>>> It is not kernel coding style. Please write:
-> >>>>> if (!hbl_ib_match_netdev(ibdev, netdev))
-> >>>>>     return NOTIFY_DONE;
-> >>>>>
-> >>>>> ib_port = hbl_to_ib_port_num(hdev, netdev->dev_port);
-> >>>>>
-> >>>>
-> >>>> I'll fix the code, thanks.
-> >>>>
-> >>>>>> +
-> >>>>>
-> >>>>> <...>
-> >>>>>
-> >>>>>> +static int hbl_ib_probe(struct auxiliary_device *adev, const struct auxiliary_device_id *id)
-> >>>>>> +{
-> >>>>>> +     struct hbl_aux_dev *aux_dev = container_of(adev, struct hbl_aux_dev, adev);
-> >>>>>> +     struct hbl_ib_aux_ops *aux_ops = aux_dev->aux_ops;
-> >>>>>> +     struct hbl_ib_device *hdev;
-> >>>>>> +     ktime_t timeout;
-> >>>>>> +     int rc;
-> >>>>>> +
-> >>>>>> +     rc = hdev_init(aux_dev);
-> >>>>>> +     if (rc) {
-> >>>>>> +             dev_err(&aux_dev->adev.dev, "Failed to init hdev\n");
-> >>>>>> +             return -EIO;
-> >>>>>> +     }
-> >>>>>> +
-> >>>>>> +     hdev = aux_dev->priv;
-> >>>>>> +
-> >>>>>> +     /* don't allow module unloading while it is attached */
-> >>>>>> +     if (!try_module_get(THIS_MODULE)) {
-> >>>>>
-> >>>>> This part makes wonder, what are you trying to do here? What doesn't work for you
-> >>>>> in standard driver core and module load mechanism?
-> >>>>>
-> >>>>
-> >>>> Before auxiliary bus was introduced, we used EXPORT_SYMBOLs for inter
-> >>>> driver communication. That incremented the refcount of the used module so
-> >>>> it couldn't be removed while it is in use.
-> >>>> Auxiliary bus usage doesn't increment the used module refcount and hence
-> >>>> the used module can be removed while it is in use and that's something
-> >>>> we don't want to allow.
-> >>>> We could solve it by some global locking or in_use atomic but the most
-> >>>> simple and clean way is just to increment the used module refcount on
-> >>>> auxiliary device probe and decrement it on auxiliary device removal.
-> >>>
-> >>> No, you was supposed to continue to use EXPORT_SYMBOLs and don't
-> >>> invent auxiliary ops structure (this is why you lost module
-> >>> reference counting).
-> >>>
-> >>
-> >> Sorry, but according to the auxiliary bus doc, a domain-specific ops
-> >> structure can be used.
-> >> We followed the usage example described at drivers/base/auxiliary.c.
-> >> What am I missing? 
-> > 
-> > Being the one who implemented auxiliary bus in the kernel and converted
-> > number of drivers to use it, I strongly recommend do NOT follow the example
-> > provided there.
-> > 
-> > So you are missing "best practice", and "best practice" is to use
-> > EXPORT_SYMBOLs and rely on module reference counting.
-> >
+Hi Janusz,
+
+On Mon, Jun 03, 2024 at 09:54:45PM +0200, Janusz Krzysztofik wrote:
+> CI has been sporadically reporting the following issue triggered by
+> igt@i915_selftest@live@hangcheck on ADL-P and similar machines:
 > 
-> It is not just the usage example but also the general feature doc before
-> it:
-> "The generic behavior can be extended and specialized as needed by
-> encapsulating an auxiliary_device within other domain-specific structures
-> and the use of .ops callbacks."
-> It is also mentioned there that the ops structure are used for specific
-> auxiliary device operations while EXPORT_SYMBOLs should be used for common
-> infrastrucure the parent driver exposes:
-> "Note that ops are intended as a way to augment instance behavior within a
-> class of auxiliary devices, it is not the mechanism for exporting common
-> infrastructure from the parent."
-> All of our ops callbacks are meant to provide functionality related to the
-> auxiliary device, they are not just general/common infrastructure.
-
-Of course they are common, otherwise why did you put them in common code?
-For example, you have callbacks to lock and unlock internal HW access,
-how is it not common?
-
+> <6> [414.049203] i915: Running intel_hangcheck_live_selftests/igt_reset_evict_fence
+> ...
+> <6> [414.068804] i915 0000:00:02.0: [drm] GT0: GUC: submission enabled
+> <6> [414.068812] i915 0000:00:02.0: [drm] GT0: GUC: SLPC enabled
+> <3> [414.070354] Unable to pin Y-tiled fence; err:-4
+> <3> [414.071282] i915_vma_revoke_fence:301 GEM_BUG_ON(!i915_active_is_idle(&fence->active))
+> ...
+> <4>[  609.603992] ------------[ cut here ]------------
+> <2>[  609.603995] kernel BUG at drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c:301!
+> <4>[  609.604003] invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+> <4>[  609.604006] CPU: 0 PID: 268 Comm: kworker/u64:3 Tainted: G     U  W          6.9.0-CI_DRM_14785-g1ba62f8cea9c+ #1
+> <4>[  609.604008] Hardware name: Intel Corporation Alder Lake Client Platform/AlderLake-P DDR4 RVP, BIOS RPLPFWI1.R00.4035.A00.2301200723 01/20/2023
+> <4>[  609.604010] Workqueue: i915 __i915_gem_free_work [i915]
+> <4>[  609.604149] RIP: 0010:i915_vma_revoke_fence+0x187/0x1f0 [i915]
+> ...
+> <4>[  609.604271] Call Trace:
+> <4>[  609.604273]  <TASK>
+> ...
+> <4>[  609.604716]  __i915_vma_evict+0x2e9/0x550 [i915]
+> <4>[  609.604852]  __i915_vma_unbind+0x7c/0x160 [i915]
+> <4>[  609.604977]  force_unbind+0x24/0xa0 [i915]
+> <4>[  609.605098]  i915_vma_destroy+0x2f/0xa0 [i915]
+> <4>[  609.605210]  __i915_gem_object_pages_fini+0x51/0x2f0 [i915]
+> <4>[  609.605330]  __i915_gem_free_objects.isra.0+0x6a/0xc0 [i915]
+> <4>[  609.605440]  process_scheduled_works+0x351/0x690
+> ...
 > 
-> Why do we have this doc if we should ignore it? why wasn't the doc
-> modified according to the "best practice" you described? the doc is
-> misleading.
-
-Because this is how upstream kernel development works. We are trying to
-come to the agreement and get the best solution for the problem. Sometimes,
-the outcome of the discussion is not "the best solution", but "good
-enough". This doc can be served as an example. Everyone involved in the
-development of auxbus and later usage of it, were focused on implementation,
-documentation was good enough as it didn't limit anyone who actually
-used it.
-
+> In the past, there were similar failures reported by CI from other IGT
+> tests, observed on other platforms.
 > 
-> Adding gregkh here as he requested the auxiliary bus feature IIRC.
-> Greg - isn't the doc legit? should EXPORT_SYMBOLs necessarily be used
-> together with auxiliary bus rather than ops structure?
-
-This is not what you are doing here. You completely ditched EXPORT_SYMBOLs
-and reinvented module reference counting which overcomplicated the code
-just to avoid using standard kernel mechanism.
-
-> As we saw it, auxiliary bus gives us the flexibility to choose which
-> modules will be loaded while EXPORT_SYMBOLs enforces the dependencies
-> which might not be needed in some cases.
->  
-> >> Moreover, we'd like to support the mode where the IB or the ETH driver is
-> >> not loaded at all. But this cannot be achieved if we use EXPORT_SYMBOLs
-> >> exclusively for inter driver communication.
-> > 
-> > It is not true and not how the kernel works. You can perfectly load core
-> > driver without IB and ETH, at some extent this is how mlx5 driver works.
-> > 
+> Before commit 63baf4f3d587 ("drm/i915/gt: Only wait for GPU activity
+> before unbinding a GGTT fence"), i915_vma_revoke_fence() was waiting for
+> idleness of vma->active via fence_update().   That commit introduced
+> vma->fence->active in order for the fence_update() to be able to wait
+> selectively on that one instead of vma->active since only idleness of
+> fence registers was needed.  But then, another commit 0d86ee35097a
+> ("drm/i915/gt: Make fence revocation unequivocal") replaced the call to
+> fence_update() in i915_vma_revoke_fence() with only fence_write(), and
+> also added that GEM_BUG_ON(!i915_active_is_idle(&fence->active)) in front.
+> No justification was provided on why we might then expect idleness of
+> vma->fence->active without first waiting on it.
 > 
-> mlx5 IB driver doesn't export any symbol that is used by the core driver,
-> that's why the core driver can be loaded without the IB driver (althought
-> you'll get circular dependency if you would export).
-
-Yes, IB and ETH drivers are "users" of core driver. As RDMA maintainer,
-I'm reluctant to accept code that exports symbols from IB drivers to
-other subsystems. We have drivers/infiniband/core/ for that.
-
-> If relying on exported symbols only, then our IB and ETH drivers will need
-> to export symbols too because the core driver accesses them post probing.
-
-So you should fix your core driver. This is exactly what auxbus model
-proposes.
-
-> Hence we won't be able to load the core driver without both of them (or
-> loading anything due to circular dependency).
-> Unless we'll use dynamic symbol lookup and I don't think that's your
-> intention.
-
-No it is not.
-
+> The issue can be potentially caused by a race among revocation of fence
+> registers on one side and sequential execution of signal callbacks invoked
+> on completion of a request that was using them on the other, still
+> processed in parallel to revocation of those fence registers.  Fix it by
+> waiting for idleness of vma->fence->active in i915_vma_revoke_fence().
 > 
-> >>
-> >>>>
-> >>>>>> +             dev_err(hdev->dev, "Failed to increment %s module refcount\n",
-> >>>>>> +                     module_name(THIS_MODULE));
-> >>>>>> +             rc = -EIO;
-> >>>>>> +             goto module_get_err;
-> >>>>>> +     }
-> >>>>>> +
-> >>>>>> +     timeout = ktime_add_ms(ktime_get(), hdev->pending_reset_long_timeout * MSEC_PER_SEC);
-> >>>>>> +     while (1) {
-> >>>>>> +             aux_ops->hw_access_lock(aux_dev);
-> >>>>>> +
-> >>>>>> +             /* if the device is operational, proceed to actual init while holding the lock in
-> >>>>>> +              * order to prevent concurrent hard reset
-> >>>>>> +              */
-> >>>>>> +             if (aux_ops->device_operational(aux_dev))
-> >>>>>> +                     break;
-> >>>>>> +
-> >>>>>> +             aux_ops->hw_access_unlock(aux_dev);
-> >>>>>> +
-> >>>>>> +             if (ktime_compare(ktime_get(), timeout) > 0) {
-> >>>>>> +                     dev_err(hdev->dev, "Timeout while waiting for hard reset to finish\n");
-> >>>>>> +                     rc = -EBUSY;
-> >>>>>> +                     goto timeout_err;
-> >>>>>> +             }
-> >>>>>> +
-> >>>>>> +             dev_notice_once(hdev->dev, "Waiting for hard reset to finish before probing IB\n");
-> >>>>>> +
-> >>>>>> +             msleep_interruptible(MSEC_PER_SEC);
-> >>>>>> +     }
-> >>>>>
-> >>>>> The code above is unexpected.
-> >>>>>
-> >>>>
-> >>>> We have no control on when the user insmod the IB driver.
-> >>>
-> >>> It is not true, this is controlled through module dependencies
-> >>> mechanism.
-> >>>
-> >>
-> >> Yeah, if we would use EXPORT_SYMBOLs for inter driver communication but
-> >> we don't.
-> > 
-> > So please use it and don't add complexity where it is not needed.
-> > 
-> >>
-> >>>> As a result it is possible that the IB auxiliary device will be probed
-> >>>> while the compute device is under reset (due to some HW error).
-> >>>
-> >>> No, it is not possible. If you structure your driver right.
-> >>>
-> >>
-> >> Again, it is not possible if we would use EXPORT_SYMBOLs.
-> >> Please let me know if we misunderstood something because AFAIU we followed
-> >> the auxiliary bus doc usage example.
-> > 
-> > It is better to follow actual drivers that use auxiliary bus and see how
-> > they implemented it and not rely on examples in the documentation.
-> > 
-> 
-> But isn't that what the doc for? to explain the guidelines? and it's not
-> that there is a big red note there of "this example should not be taken as
-> is, please look at your subsystem guidelines".
+> Fixes: 0d86ee35097a ("drm/i915/gt: Make fence revocation unequivocal")
+> Closes: https://gitlab.freedesktop.org/drm/intel/issues/10021
+> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> Cc: stable@vger.kernel.org # v5.8+
 
-At the beginning that doc was located in Documentation/ folder and no one
-really cared about it. After moving from Documentation/ to drivers/base/auxiliary.c,
-it became more visible, but still no one relied on it. You are first one
-who read.
+merged in drm-intel-gt-next.
 
-There is no subsystem rules here. Everyone relied on EXPORT_SYMBOLs and didn't
-use ops structure. Kernel is evolving project, there is no need to find a rule
-for everything.
-
-Thanks
-
-> 
-> > Thanks
-> > 
-> >>
-> >>> Thanks
+Thanks,
+Andi
