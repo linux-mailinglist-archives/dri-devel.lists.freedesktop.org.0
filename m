@@ -2,58 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4885910A98
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:48:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A553E910AA2
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:49:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A102A10EAB4;
-	Thu, 20 Jun 2024 15:48:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46FAA10EAD7;
+	Thu, 20 Jun 2024 15:49:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WKsMBpoY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rT95XSzp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD04B10EAB4
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:48:24 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7817410EAC3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:49:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1BE18621C9;
- Thu, 20 Jun 2024 15:48:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F870C2BD10;
- Thu, 20 Jun 2024 15:48:23 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 2BA78CE270A;
+ Thu, 20 Jun 2024 15:49:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2382AC2BD10;
+ Thu, 20 Jun 2024 15:49:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718898503;
- bh=ERDzmEKBIwJPWXFItLB7ZAVRuz4nYQB2+DCaWb+Lv9Q=;
- h=From:Date:Subject:To:Cc:From;
- b=WKsMBpoY25Fs48ZgJylb7NIQRdeMPAvjI62ChRSmww8tNYdAIeLgzcY5UObWfT+nn
- +jl073Ax5gqXQeZri6KaB65QlosptQnixQSi1L/A1BDY0PA5LpQpGCA7ewDs0eeRVp
- mM+PV3u5vjii+vACk2nvyMgJ/3ScRxGGzmNemNY72lU/lkau96l11p7HrD7RmWiSdu
- nell6aahNS8XKn09eiHQR/38hZ61l/5G9EL3yeQR3V1/XgES75zbTozXqDc2gi3zqv
- 3gb2x/KQjEmiXhRpScfdZ/jvNKsNehfY+UDUXYZTIDz0uc9rBF298oVO9XM794HzCD
- xZdKyJf0KFzmg==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Thu, 20 Jun 2024 08:48:16 -0700
-Subject: [PATCH] drm/omap: Restrict compile testing to PAGE_SIZE less than 64KB
+ s=k20201202; t=1718898573;
+ bh=tTH91Ol2qrcRPF+hBHeris2IBIbzltAttAKgyCzHlNE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=rT95XSzpiw0iTq1SC4d314WJI719/pgcBGQ8TG0b5sJP7jhfnZYmwLiSFGNgiI50g
+ yryztLdk+BGBLhg9/v2I5sEBhYTPQQlVY61NJP+d6ev4btDxhQeHiPPavmgGgxmtW1
+ U2XhOZSbU2vDiCKrH5/lmYXgO/FrT+k61q3x5i3DkKM6/GzLl/Hb83h57pKoEzuy2z
+ XULPFDQ2bG4Wm9cFMPUFo79R+q9sz7AFJdh0BhHYfRzeMJ9TM9G4eoyr4E43TcJ/jN
+ f1TczZX+vIWOo2F62osR2oFIj1S5MMLAsHba72EJhLYupfzqSpF9qRzjJ4wwfNB8/l
+ 5Fw6fO53Cy8Gw==
+Message-ID: <dc0ff313-ba10-4a79-8cc5-9fe75279f8ec@kernel.org>
+Date: Thu, 20 Jun 2024 17:49:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 09/23] dt-bindings: mfd: add samsung,s2dos05
+To: Dzmitry Sankouski <dsankouski@gmail.com>,
+ Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>, phone-devel@vger.kernel.org
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
+ <20240618-starqltechn_integration_upstream-v3-9-e3f6662017ac@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240618-starqltechn_integration_upstream-v3-9-e3f6662017ac@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240620-omapdrm-restrict-compile-test-to-sub-64kb-page-size-v1-1-5e56de71ffca@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAD9PdGYC/x2NywrCMBBFf6XM2oGYllr8FXGRx6iDpgkzqUhL/
- 73B5blw7tlASZgUrt0GQl9WznOD86mD8HLzk5BjY7DGDma0BnNyJUpCIa3CoWLIqfCHsLYBa0Z
- dPI7D22NxzVZeCU2YYn+hfjLeQ3suQg/+/au3+74frQTP6oUAAAA=
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- dri-devel@lists.freedesktop.org, llvm@lists.linux.dev, 
- patches@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2819; i=nathan@kernel.org;
- h=from:subject:message-id; bh=ERDzmEKBIwJPWXFItLB7ZAVRuz4nYQB2+DCaWb+Lv9Q=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDGkl/u6f7Ddf0HkjaeG9JMPjU2dy7+n/twUuT3h24Cyn5
- 9uZzSs9OkpZGMS4GGTFFFmqH6seNzScc5bxxqlJMHNYmUCGMHBxCsBEokMY/hldl9tQxFR4qojv
- /7EnzKlSUUZe6lM09e90doYIbhbc1cLwvzB1XtEjhQ9P5G0MGNLO313TLe2/eELdtI17sud8NmJ
- Q5wYA
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,59 +120,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prior to commit dc6fcaaba5a5 ("drm/omap: Allow build with
-COMPILE_TEST=y"), it was only possible to build the omapdrm driver with
-a 4KB page size. After that change, when the PAGE_SIZE is 64KB or
-larger, clang points out that the driver has some assumptions around the
-page size implicitly by passing PAGE_SIZE to a parameter with a type of
-u16:
+On 18/06/2024 15:59, Dzmitry Sankouski wrote:
+> add samsung,s2dos05 core MFD module binding
+> 
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> ---
+>  .../devicetree/bindings/mfd/samsung,s2dos05.yaml   | 89 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  1 +
+>  2 files changed, 90 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/samsung,s2dos05.yaml b/Documentation/devicetree/bindings/mfd/samsung,s2dos05.yaml
+> new file mode 100644
+> index 000000000000..f2ef5171cc40
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/samsung,s2dos05.yaml
+> @@ -0,0 +1,89 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/samsung,s2dos05.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Samsung S2DOS05 Power Management IC
+> +
+> +maintainers:
+> +  - Dzmitry Sankouski <dsankouski@gmail.com>
+> +
+> +description:
+> +  This is a part of device tree bindings for S2M and S5M family of Power
+> +  Management IC (PMIC).
 
-  drivers/gpu/drm/omapdrm/omap_gem.c:758:7: error: implicit conversion from 'unsigned long' to 'u16' (aka 'unsigned short') changes value from 65536 to 0 [-Werror,-Wconstant-conversion]
-    757 |                 block = tiler_reserve_2d(fmt, omap_obj->width, omap_obj->height,
-        |                         ~~~~~~~~~~~~~~~~
-    758 |                                          PAGE_SIZE);
-        |                                          ^~~~~~~~~
-  arch/powerpc/include/asm/page.h:25:34: note: expanded from macro 'PAGE_SIZE'
-     25 | #define PAGE_SIZE               (ASM_CONST(1) << PAGE_SHIFT)
-        |                                  ~~~~~~~~~~~~~^~~~~~~~~~~~~
-  drivers/gpu/drm/omapdrm/omap_gem.c:1504:44: error: implicit conversion from 'unsigned long' to 'u16' (aka 'unsigned short') changes value from 65536 to 0 [-Werror,-Wconstant-conversion]
-   1504 |                         block = tiler_reserve_2d(fmts[i], w, h, PAGE_SIZE);
-        |                                 ~~~~~~~~~~~~~~~~                ^~~~~~~~~
-  arch/powerpc/include/asm/page.h:25:34: note: expanded from macro 'PAGE_SIZE'
-     25 | #define PAGE_SIZE               (ASM_CONST(1) << PAGE_SHIFT)
-        |                                  ~~~~~~~~~~~~~^~~~~~~~~~~~~
-  2 errors generated.
+No, it is not.
 
-As there is a lot of use of a u16 type throughout this driver and it
-will only ever be run on hardware that has a 4KB page size, just
-restrict compile testing to when the page size is less than 64KB (as no
-other issues have been discussed and it keeps compile testing relatively
-more available).
+> +
+> +  The S2DOS05 is a companion power management IC for the panel and touchscreen
+> +  in smart phones. Provides voltage and current regulators and adc for power/current
+> +  measurements.
+> +
+> +properties:
+> +  compatible:
+> +    const: samsung,s2dos05-pmic
 
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- drivers/gpu/drm/omapdrm/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+s2dos05 cannot be anything else than pmic. Drop the suffix.
 
-diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
-index 85ed92042b74..3f7139e211d2 100644
---- a/drivers/gpu/drm/omapdrm/Kconfig
-+++ b/drivers/gpu/drm/omapdrm/Kconfig
-@@ -2,7 +2,7 @@
- config DRM_OMAP
- 	tristate "OMAP DRM"
- 	depends on DRM && OF
--	depends on ARCH_OMAP2PLUS || COMPILE_TEST
-+	depends on ARCH_OMAP2PLUS || (COMPILE_TEST && PAGE_SIZE_LESS_THAN_64KB)
- 	select DRM_KMS_HELPER
- 	select FB_DMAMEM_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
- 	select VIDEOMODE_HELPERS
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  regulators:
+> +    $ref: /schemas/regulator/samsung,s2dos05.yaml
+> +    description: List of regulators and its properties
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - regulators
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      pmic@60 {
+> +      	compatible = "samsung,s2dos05";
+> +      	reg = <0x60>;
+> +
+> +      	regulators {
 
----
-base-commit: c62b4fc4b9b86ab35e5c4236f2053ce21ee81ebc
-change-id: 20240620-omapdrm-restrict-compile-test-to-sub-64kb-page-size-0c8d37e380bb
+Messed indentation. Everywhere, each of your patch.
+
+> +      		s2dos05_ldo1: s2dos05-ldo1 {
+
+Just "ldo1" and drop unused labels.
+
 
 Best regards,
--- 
-Nathan Chancellor <nathan@kernel.org>
+Krzysztof
 
