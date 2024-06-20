@@ -2,109 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA9B910A53
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:46:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B807F910A5A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:46:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FF2510EA71;
-	Thu, 20 Jun 2024 15:46:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCBEB10EA72;
+	Thu, 20 Jun 2024 15:46:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RJPoJQnT";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Ex2LFyf+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F71B10EA71
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:46:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 38858CE21B9;
- Thu, 20 Jun 2024 15:46:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3F20C4AF08;
- Thu, 20 Jun 2024 15:45:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718898359;
- bh=iDtyYM5l+koUw3HZY0hhLpeAIfDRM2XNnvLWh3MtEJA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=RJPoJQnTV5atULIzNJC3yZhph4GSueyXzhEuMFejaawSci6iaMbviBkI6FNx0t/Rz
- fOc7xb8iVP5Lc8rmi2/EsM46xxrOME0wXJCKiSmaR6PfPVzLcdMKrA2BBUsRmJcw8n
- be69d+KzpTTwpG34avRpH7eZPeqpsWX5BZqoBVv+6vaunBA99svyrj8rF4olvC9/w1
- qtxHbacCHkBlTGapziv9A2TvBGPKixjrFNVVGxpOpzfUjx/a1S8o0waJ19CoI13PHz
- IjpEz9MzGMLo1ajBaT+JKbxSiLaOjXdEatFiGyZ1WECrX51CrYbcsMkkMi/W9+iOxl
- eB7WtP83nIT3g==
-Message-ID: <13a650f4-7ca7-4c95-b536-9814a22f00ff@kernel.org>
-Date: Thu, 20 Jun 2024 17:45:47 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 04/23] dt-bindings: mfd: add maxim,max77705
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
- Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+Received: from mail-wr1-f99.google.com (mail-wr1-f99.google.com
+ [209.85.221.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79A8B10EA72
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:46:39 +0000 (UTC)
+Received: by mail-wr1-f99.google.com with SMTP id
+ ffacd0b85a97d-3629c517da9so1123461f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:46:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google; t=1718898397; x=1719503197;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=fGvSt3PVAS7R9sc2kvDRJZa8xpDab+w0kC7hnmuCL+A=;
+ b=Ex2LFyf+zEuSHzAG3vAVK2AFN3GSjg06Nf4VvB4LoQg1pyYqanCz9NbIW9hcd6j2Ic
+ AXKCHrTzFguAqxI8UhjZWzUo89J/cSkqNEV3/86ad2TcQehl6HWTJ9aLH8KRkh0xkOgI
+ 6nk8l9l0ywid1yed+0k9npIMAjVtH3a8gji9eeIWhRBcg0qI10kxh89H4JRlbySFy8oA
+ AdE597Ef9+GFgpDXSbP5+8rpGicbb8o3KVCj/m/HRQ63p7LEB+l1xZybR78k4vZG03gY
+ gLi7II1vy8mAdsP8AwQTIOxovB8mcIrXQTMr4IWMFSN4yywhCRnI2g+m3ejpPqaPSDxa
+ NJyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718898397; x=1719503197;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fGvSt3PVAS7R9sc2kvDRJZa8xpDab+w0kC7hnmuCL+A=;
+ b=EWnLhY61+Zcn61ULm1sJq82cT+0cGS+l/W+TsuvitIoCjT+ltQ6xw5Rfm3Tf0t9jBi
+ /d13kh9bSC3X5zJub+OY3I2QYPYh6dU2sySdyWYaODH4gczEhGPnUF3XPvjP+5GM1d4X
+ Ao9ptK6LXmoT+bDNiNkyLm+agk1aPLDWB3v0R9eIttjEuwUM1Mwzi7Kd/GpzwtXX3q+w
+ siRINn+EhrihUIU45FG6ON6wzvC2csfMf9/DmVteJXtob0xBLfLtljFlbuvMuGhnsfit
+ F/4C2d1TMpqYlG76Gk92cW9zb/B94Xnab79YXIRIkwggJtoTbEjXzdE8+uDvlIovpaDk
+ erdg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXguKn8qlGvQT2MYKBAxBbHiJt8FcugpCsZQrxuNvWt03o1fLsC2x/cjvUu+wW4eCpKcGIjYEHttkTEu2nK2epzk6mwKtZubxHKZ00f/gW4
+X-Gm-Message-State: AOJu0YzweC3Py0S0dLqY2hNsHYuLaYzSXRhh0hWO8Q12AQ7MPoFQQpOX
+ shqO72Z8jdL29dU/RB0Iuh7JuqSoh00NsMJe6guZDa3sWK98xIyGjFNegEQbgnJiDJ+3dBfmJS6
+ n8rZ+u/zXG73Y9OamlFc8wiyYeRt7B6ZU
+X-Google-Smtp-Source: AGHT+IFzpCy2t/hUXQ8iksCRTN7W27oIwLfsD54dJvA+UelDcUjVVCy5dKV3/+09+Yd+x7+ESbzZ7lZIUO3D
+X-Received: by 2002:adf:e411:0:b0:35f:c82:e7b5 with SMTP id
+ ffacd0b85a97d-36317c7eb64mr4353287f8f.42.1718898397531; 
+ Thu, 20 Jun 2024 08:46:37 -0700 (PDT)
+Received: from raspberrypi.com ([188.39.149.98])
+ by smtp-relay.gmail.com with ESMTPS id
+ 5b1f17b1804b1-4247d0b507bsm3189385e9.9.2024.06.20.08.46.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jun 2024 08:46:37 -0700 (PDT)
+X-Relaying-Domain: raspberrypi.com
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Chanwoo Choi <cw00.choi@samsung.com>, phone-devel@vger.kernel.org
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-4-e3f6662017ac@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240618-starqltechn_integration_upstream-v3-4-e3f6662017ac@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [PATCH 00/31] Preparatory patches for BCM2712 (Pi5) support
+Date: Thu, 20 Jun 2024 16:46:01 +0100
+Message-Id: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,105 +85,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/06/2024 15:59, Dzmitry Sankouski wrote:
-> maxim,max77705 is MAX77705 pmic binding part
-> 
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> ---
->  .../devicetree/bindings/mfd/maxim,max77705.yaml    | 112 +++++++++++++++++++++
+Hi
 
-Your patch order is totally messed. Not tested by automation. Only
-limited review follows.
+This set is a number of minor fixes that we've had downstream for a while,
+and then lays down the some infrastructure changes to facilitate adding support
+of BCM2712. I'm just finalising those patches so they should follow on fairly
+soon.
 
+Thanks
+  Dave
 
->  MAINTAINERS                                        |   1 +
->  2 files changed, 113 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml b/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml
-> new file mode 100644
-> index 000000000000..b54408e3d792
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml
-> @@ -0,0 +1,112 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/maxim,max77705.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Maxim MAX77705 Companion Power Management IC and USB Type-C interface IC
-> +
-> +maintainers:
-> +  - Dzmitry Sankouski <dsankouski@gmail.com>
-> +
-> +description: |
-> +  This is a part of device tree bindings for Maxim MAX77705 multi functional device.
-> +
-> +  The Maxim MAX77705 is a Companion Power Management and Type-C interface IC which
-> +  includes charger, fuelgauge, LED, haptic motor driver and Type-C management IC.
-> +
-> +properties:
-> +  compatible:
-> +    const: maxim,max77705
-> +
-> +  reg:
-> +    description:
-> +      I2C device address.
+Dave Stevenson (8):
+  drm/vc4: Force trigger of dlist update on margins change
+  drm/vc4: Set AXI panic modes for the HVS
+  drm/vc4: Limit max_bpc to 8 on Pi0-3
+  drm/vc4: Don't write gamma luts on 2711
+  drm/vc4: UV planes vertical scaling must always be enabled
+  drm/vc4: Fix dlist debug not resetting the next entry pointer
+  drm/vc4: Remove incorrect limit from hvs_dlist debugfs function
+  drm/vc4: Move the buffer offset out of the vc4_plane_state
 
-Drop description, obvious.
+Dom Cobley (7):
+  drm/vc4: vc4_plane: Keep fractional source coords inside state
+  drm/vc4: Handle fractional coordinates using the phase field
+  drm/vc4: hdmi: Avoid log spam for audio start failure
+  drm/vc4_plane: Add support for YUV444 formats
+  drm/vc4: hdmi: Increase audio MAI fifo dreq threshold
+  drm/vc4: hdmi: Avoid hang with debug registers when suspended
+  drm/vc4: hvs: Remove ABORT_ON_EMPTY flag
 
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  interrupt-names:
-> +    description:
-> +      MAX77705 shared irq.
-> +    items:
-> +      - const: max77705_irq
+Maxime Ripard (15):
+  drm/vc4: hdmi: Warn if writing to an unknown HDMI register
+  drm/vc4: hvs: More logging for dlist generation
+  drm/vc4: hvs: Print error if we fail an allocation
+  drm/vc4: plane: Add more debugging for LBM allocation
+  drm/vc4: plane: Use return variable in atomic_check
+  drm/vc4: crtc: Move assigned_channel to a variable
+  drm/vc4: Introduce generation number enum
+  drm/vc4: Make v3d paths unavailable on any generation newer than vc4
+  drm/vc4: hvs: Use switch statement to simplify
+    vc4_hvs_get_fifo_from_output
+  drm/vc4: hvs: Create hw_init function
+  drm/vc4: hvs: Create cob_init function
+  drm/vc4: hvs: Rename hvs_regs list
+  drm/vc4: plane: Change ptr0_offset to an array
+  drm/vc4: hvs: Rework LBM alignment
+  drm/vc4: hvs: Change prototype of __vc4_hvs_alloc to pass registers
 
-Drop entire property, not really useful.
+Tim Gover (1):
+  drm/vc4: Enable SCALER_CONTROL early in HVS init
 
-> +
-> +  charger:
-> +    $ref: /schemas/power/supply/maxim,max77705-charger.yaml
-> +
-> +  fuelgauge:
-> +    $ref: /schemas/power/supply/maxim,max77705-fg.yaml
-> +
-> +  haptic:
-> +    $ref: /schemas/input/maxim,max77705.yaml
-> +
-> +  leds:
-> +    $ref: /schemas/leds/maxim,max77705.yaml
-> +
-> +
-> +required:
-> +  - compatible
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    i2c14 {
+ drivers/gpu/drm/vc4/tests/vc4_mock.c       |  14 +-
+ drivers/gpu/drm/vc4/vc4_bo.c               |  28 +-
+ drivers/gpu/drm/vc4/vc4_crtc.c             |  35 ++-
+ drivers/gpu/drm/vc4/vc4_drv.c              |  22 +-
+ drivers/gpu/drm/vc4/vc4_drv.h              |  29 +-
+ drivers/gpu/drm/vc4/vc4_gem.c              |  24 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c             |  30 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h        |   5 +-
+ drivers/gpu/drm/vc4/vc4_hvs.c              | 343 +++++++++++++--------
+ drivers/gpu/drm/vc4/vc4_irq.c              |  10 +-
+ drivers/gpu/drm/vc4/vc4_kms.c              |  14 +-
+ drivers/gpu/drm/vc4/vc4_perfmon.c          |  20 +-
+ drivers/gpu/drm/vc4/vc4_plane.c            | 281 +++++++++++------
+ drivers/gpu/drm/vc4/vc4_regs.h             |   1 +
+ drivers/gpu/drm/vc4/vc4_render_cl.c        |   2 +-
+ drivers/gpu/drm/vc4/vc4_v3d.c              |  10 +-
+ drivers/gpu/drm/vc4/vc4_validate.c         |   8 +-
+ drivers/gpu/drm/vc4/vc4_validate_shaders.c |   2 +-
+ 18 files changed, 540 insertions(+), 338 deletions(-)
 
-i2c
-
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +    	pmic@66 {
-> +    		compatible = "maxim,max77705";
-> +    		reg = <0x66>;
-
-Totally messed indentation. Fix your code.
-
-
-
-Best regards,
-Krzysztof
+-- 
+2.34.1
 
