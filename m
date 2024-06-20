@@ -2,71 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A1C90FE42
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 10:05:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F05C290FE59
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 10:09:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EF4B10E856;
-	Thu, 20 Jun 2024 08:05:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 292EC10E2E9;
+	Thu, 20 Jun 2024 08:09:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="cnCtailE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rYE2yPy1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com
- [209.85.160.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86FEC10E84B
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:05:50 +0000 (UTC)
-Received: by mail-oa1-f48.google.com with SMTP id
- 586e51a60fabf-25c4d8ae511so326681fac.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 01:05:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1718870749; x=1719475549; darn=lists.freedesktop.org; 
- h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
- :cc:subject:date:message-id:reply-to;
- bh=AMOoGP2LakwJmw2FH71ZMogJWrdUzY8/qHEtPyyBbV4=;
- b=cnCtailEqC7NN7Rj2Jc9ETu833R5cQY6n6SfYH/FBORXDhsjBmoXbMa9shKT8uZatg
- kz1rlGkEvJBLvV7E+TD+25x64lo7yZ0ozwQki3ufXbUc2/c/vQDZguMYZNmpjCDF5WVA
- cZts38Beatq022pQ56vBX6KPzf9EAitFVLqM2l0J9RqEf4RxlrDrn/S/jvw4wOAq9qxW
- +6kOcY5wT4p4/WodJBjTqHr/dk72eacsb/ET1sWnQUcRWOJhjBfrfeb0dvr6afa1NUUK
- yhKP9DKXUvGZoW7qmNaehgP37vkIE5H0s/608EjcpvhlUuF1XH9EkH/FvaX4PEKZ7REW
- GEwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718870749; x=1719475549;
- h=references:in-reply-to:message-id:date:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AMOoGP2LakwJmw2FH71ZMogJWrdUzY8/qHEtPyyBbV4=;
- b=a3DY1OWiTW24/UAsW6NxhqKiYNuxnXzCWjPg/9zudV0PdT1IdzvqM0yqRYOxM0aGGd
- 7s1Vhw1/jQnYCH5+TuqPVBFv/KBNcVBeAQUmLbG3Gxqqiqm1mZAiE1tgAIxAkKUI2xio
- vpXwon7zAS8o0tAU6rrye5qZzWqpJV4sRLjOLivl93uaiS2VLSYd+cSEJqAsmagbTHET
- lgEa8hk/Qgq5AkVu/haYxAr011ZpO3jUHchMAsnEbXIUlbmrVRPQpzalGu5VCanurAx/
- ZsLiy0Cl1RvHI6sCMx2jZuUKmfhcGsOV2jvQOjTeTJkJHfRo4YNNLhd6fdWivHiTwQ0m
- d/mA==
-X-Gm-Message-State: AOJu0YzbkZY+dqkBDzlgbCYLgCpzIvmNdhw77DpRQQrC8r85e+Z29K/O
- GhqCbOP5T24/VVQ/QtF+B7dNaYzQxuZowoQQkpbCQ0SdKc1jR4h3a9pr6pcwo6Y=
-X-Google-Smtp-Source: AGHT+IEbQAMEJgVsRzS0P1rsWA85d/j/lSoDKbJ+GhYfS/LOyoubfsealP8TGQ73YDuxPIYvuL2izg==
-X-Received: by 2002:a05:6870:b50f:b0:255:1819:b458 with SMTP id
- 586e51a60fabf-25c948f70cfmr4660143fac.8.1718870749476; 
- Thu, 20 Jun 2024 01:05:49 -0700 (PDT)
-Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-705cc96c8c5sm11805889b3a.58.2024.06.20.01.05.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jun 2024 01:05:49 -0700 (PDT)
-From: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-To: dmitry.torokhov@gmail.com, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org,
- benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Subject: [PATCH v4 4/4] drm/panel: jd9365da: Add the function of adjusting
- orientation
-Date: Thu, 20 Jun 2024 16:05:09 +0800
-Message-Id: <20240620080509.18504-5-lvzhaoxiong@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240620080509.18504-1-lvzhaoxiong@huaqin.corp-partner.google.com>
-References: <20240620080509.18504-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 000FB10E2E9
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:09:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5663E61DEF;
+ Thu, 20 Jun 2024 08:09:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA670C2BD10;
+ Thu, 20 Jun 2024 08:09:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718870988;
+ bh=jrrSqU84/DPW3glgOS9SXkJoeE3n1m5khf/oFlnH6I8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rYE2yPy1EOjHxTIrWKC5MlwHfKPJ4803tannNALmHpOWwgN/1E5oN8D/9FnEJXYzp
+ /+qXgtmpPciznka1W8uLOBQ7lx2AojZ71BNPeLqoIj2nO8B1HXWdK/wKSQEfCCHBh2
+ R33lgru+G7NfKGZoeOcZgiEhv7QADDmDDkrjwy4xjxe0mUP4AwbiMuvaw/MPcruBy3
+ 922SnrPdoEVOunHPA8VYIQJwOV4KFZ+Y0WbYdMj9vAO8T3+IF+OryleEqSNbk+B7Py
+ kD3i6gUjX6JjHy/vcalCE81as176gnQ3m9fKparaHCnCZnyAdP+SS0fTbAFPqtocOr
+ f4pTGiE10RhkA==
+Date: Thu, 20 Jun 2024 10:09:45 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 1/3] drm/tests: Add tests for the new Monochrome value
+ of tv_mode
+Message-ID: <20240620-excellent-white-dingo-eabd6f@houat>
+References: <20240619153913.2804051-1-dave.stevenson@raspberrypi.com>
+ <20240619153913.2804051-2-dave.stevenson@raspberrypi.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="lv4tznhgurzs5l7x"
+Content-Disposition: inline
+In-Reply-To: <20240619153913.2804051-2-dave.stevenson@raspberrypi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,66 +61,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This driver does not have the function to adjust the orientation,
-so this function is added.
 
-Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
----
+--lv4tznhgurzs5l7x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Changes between V4 and V3:
-- No changes.
+Hi,
 
----
- drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+Thanks for working on the tests
 
-diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-index 632bffa035ee..2545e22a5c85 100644
---- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-+++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-@@ -46,7 +46,7 @@ struct jadard {
- 	struct drm_panel panel;
- 	struct mipi_dsi_device *dsi;
- 	const struct jadard_panel_desc *desc;
--
-+	enum drm_panel_orientation orientation;
- 	struct regulator *vdd;
- 	struct regulator *vccio;
- 	struct gpio_desc *reset;
-@@ -203,12 +203,20 @@ static int jadard_get_modes(struct drm_panel *panel,
- 	return 1;
- }
- 
-+static enum drm_panel_orientation jadard_panel_get_orientation(struct drm_panel *panel)
-+{
-+	struct jadard *jadard = panel_to_jadard(panel);
-+
-+	return jadard->orientation;
-+}
-+
- static const struct drm_panel_funcs jadard_funcs = {
- 	.disable = jadard_disable,
- 	.unprepare = jadard_unprepare,
- 	.prepare = jadard_prepare,
- 	.enable = jadard_enable,
- 	.get_modes = jadard_get_modes,
-+	.get_orientation = jadard_panel_get_orientation,
- };
- 
- static const struct jadard_init_cmd radxa_display_8hd_ad002_init_cmds[] = {
-@@ -893,6 +901,12 @@ static int jadard_dsi_probe(struct mipi_dsi_device *dsi)
- 	drm_panel_init(&jadard->panel, dev, &jadard_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
- 
-+	ret = of_drm_get_panel_orientation(dev->of_node, &jadard->orientation);
-+	if (ret < 0) {
-+		dev_err(dev, "%pOF: failed to get orientation %d\n", dev->of_node, ret);
-+		return ret;
-+	}
-+
- 	ret = drm_panel_of_backlight(&jadard->panel);
- 	if (ret)
- 		return ret;
--- 
-2.17.1
+On Wed, Jun 19, 2024 at 04:39:11PM GMT, Dave Stevenson wrote:
+> Adds test for the cmdline parser, connector property, and
+> drm_analog_tv_mode to ensure the behaviour of the new value is
+> correct.
+>=20
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> ---
+>  .../gpu/drm/tests/drm_cmdline_parser_test.c   | 20 ++++++------
+>  drivers/gpu/drm/tests/drm_connector_test.c    |  1 +
+>  drivers/gpu/drm/tests/drm_modes_test.c        | 31 +++++++++++++++++++
+>  3 files changed, 43 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/tests/drm_cmdline_parser_test.c b/drivers/gp=
+u/drm/tests/drm_cmdline_parser_test.c
+> index 6f1457bd21d9..95fb379c69eb 100644
+> --- a/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
+> +++ b/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
+> @@ -976,22 +976,24 @@ static void drm_test_cmdline_tv_options(struct kuni=
+t *test)
+>  	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
+>  }
+> =20
+> -#define TV_OPT_TEST(_opt, _cmdline, _mode_fn)		\
+> +#define TV_OPT_TEST(_opt, _cmdline, _mode_fn, _tvmode)		\
+>  	{						\
+>  		.name =3D #_opt,				\
+>  		.cmdline =3D _cmdline,			\
+>  		.mode_fn =3D _mode_fn,			\
+> -		.tv_mode =3D DRM_MODE_TV_MODE_ ## _opt,	\
+> +		.tv_mode =3D DRM_MODE_TV_MODE_ ## _tvmode,	\
+>  	}
+> =20
+>  static const struct drm_cmdline_tv_option_test drm_cmdline_tv_option_tes=
+ts[] =3D {
+> -	TV_OPT_TEST(NTSC, "720x480i,tv_mode=3DNTSC", drm_mode_analog_ntsc_480i),
+> -	TV_OPT_TEST(NTSC_443, "720x480i,tv_mode=3DNTSC-443", drm_mode_analog_nt=
+sc_480i),
+> -	TV_OPT_TEST(NTSC_J, "720x480i,tv_mode=3DNTSC-J", drm_mode_analog_ntsc_4=
+80i),
+> -	TV_OPT_TEST(PAL, "720x576i,tv_mode=3DPAL", drm_mode_analog_pal_576i),
+> -	TV_OPT_TEST(PAL_M, "720x480i,tv_mode=3DPAL-M", drm_mode_analog_ntsc_480=
+i),
+> -	TV_OPT_TEST(PAL_N, "720x576i,tv_mode=3DPAL-N", drm_mode_analog_pal_576i=
+),
+> -	TV_OPT_TEST(SECAM, "720x576i,tv_mode=3DSECAM", drm_mode_analog_pal_576i=
+),
+> +	TV_OPT_TEST(NTSC, "720x480i,tv_mode=3DNTSC", drm_mode_analog_ntsc_480i,=
+ NTSC),
+> +	TV_OPT_TEST(NTSC_443, "720x480i,tv_mode=3DNTSC-443", drm_mode_analog_nt=
+sc_480i, NTSC_443),
+> +	TV_OPT_TEST(NTSC_J, "720x480i,tv_mode=3DNTSC-J", drm_mode_analog_ntsc_4=
+80i, NTSC_J),
+> +	TV_OPT_TEST(PAL, "720x576i,tv_mode=3DPAL", drm_mode_analog_pal_576i, PA=
+L),
+> +	TV_OPT_TEST(PAL_M, "720x480i,tv_mode=3DPAL-M", drm_mode_analog_ntsc_480=
+i, PAL_M),
+> +	TV_OPT_TEST(PAL_N, "720x576i,tv_mode=3DPAL-N", drm_mode_analog_pal_576i=
+, PAL_N),
+> +	TV_OPT_TEST(SECAM, "720x576i,tv_mode=3DSECAM", drm_mode_analog_pal_576i=
+, SECAM),
+> +	TV_OPT_TEST(MONO_525, "720x480i,tv_mode=3DMono", drm_mode_analog_ntsc_4=
+80i, MONOCHROME),
+> +	TV_OPT_TEST(MONO_625, "720x576i,tv_mode=3DMono", drm_mode_analog_pal_57=
+6i, MONOCHROME),
+>  };
 
+I assume you did that because, otherwise, the name for both mono
+variants would have been the same and the test generation wouldn't work
+anymore?
+
+If so, I think I'd prefer to not use the macro in this case but define
+the struct by hand. It keeps the general case clean, while allowing to
+deal with our odd case still.
+
+Maxime
+
+--lv4tznhgurzs5l7x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZnPjyAAKCRDj7w1vZxhR
+xS8bAQCqhb4VSkyyySgHKeezopgaUMbd1fQ0XgcHj0uG0t3hVwEA62EHUXpIlV+w
+wOhozqWHvAvJZZQLx58YxKDJoWZ8zA8=
+=kOJT
+-----END PGP SIGNATURE-----
+
+--lv4tznhgurzs5l7x--
