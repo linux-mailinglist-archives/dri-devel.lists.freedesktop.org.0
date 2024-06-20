@@ -2,77 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E546391132D
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 22:29:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62FB8911342
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 22:32:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FB2810E882;
-	Thu, 20 Jun 2024 20:29:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98BD510E2E0;
+	Thu, 20 Jun 2024 20:32:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ThxxCYCK";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Z2hKFZ5W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A2CE10E861
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 20:29:43 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-2ebeefb9a6eso12821551fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 13:29:43 -0700 (PDT)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B18CE10E181
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 20:32:52 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-2ec17eb4493so19452601fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 13:32:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718915381; x=1719520181; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1718915571; x=1719520371; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Uhu391MowIkohLMR2Orb/FA0XCbrdTT+Z4gHfZRY9w4=;
- b=ThxxCYCKnU+0DcrVUILSBAsw35tg9J8Bj6Nr3GNjmE0aXiZbOF5B3jUJguOXZ9tHuG
- dZNG1sWulhzGCa+De144qnnPO+17UU6sIxKcufKNrm6lqPrIxugZAUzY0WaqyL4Xg/OF
- W3v3MGhpl5/n2ceXn045s6Tu5h5IEM3OiUbjVp54IfnWQMDzQyt7hLSWuVo3B3b5UDtZ
- t3oHZstd0zmSuNepYxgezL5aZOdaSKxAvnVbwfLPGlIcY93CnmErM/P+KfnpURh3B+Ak
- 5nNb41eRuKWmffwnLNnWK5vWUbW8jo1s26VjACyuAPOIM49YgFnZMleXTajHklX/ptAO
- 7gLQ==
+ bh=Yq0nWUsKxD4rK/v2NoFPmPbkAY476HU9+6IpUl30jWE=;
+ b=Z2hKFZ5W4V5CHDRuHDpYLL5QM5TnYkeMzPZB21eFCkObOqRZYG5bIVtnE9DsITBFzI
+ zvp8cO09dOFtJAw9K8b6q+8J55Dr0p/1ViXYpMcw1f0Fst+PF0DZ9wgrSUNIRzIvbq4P
+ 9UJB10o+zXUgLeEvs1g/KDIVANArSfKBNuX2IF7y8nVE68T2pZ1ovM8EiRv4v+uZA6is
+ sJDbOvSK/QOwY4KdUs8ylhxyQyLFklhu7XwrLQ4lXLC6hEHUvT/RhLCsldCkNnsvVYLE
+ fN5pT8uw2HhhqEBQpsyZ1qJ4tMVAV3oCDg9aeHn9GgdJtaqkIyrZf3vjg0bwrRhyMgAN
+ Ie6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718915381; x=1719520181;
+ d=1e100.net; s=20230601; t=1718915571; x=1719520371;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Uhu391MowIkohLMR2Orb/FA0XCbrdTT+Z4gHfZRY9w4=;
- b=l0D1uOl5W6AZnZY0EQPzSfeeic3Giih4UxBsr+XYeON5BU/1XHoPbcshmy+jdsFH6k
- S3s/JGh3eJ0zDeXKP6V26WUlxIkv6bsbuv04kwPW3kHlJ8r2Lio3atGorjG95M8ISfSK
- m9sbeO7ezZrBWLnYMcQ6mMY+sE84hLRidVHRL9HfultdDdPtVmSGZD4NDgtd6mcanjON
- VCfKc6CdN76EOEVEAQ6ZAw0XeKDaP1lijXMDvu2EnG/4G3zcSy1XXfRO7Pvhf8xgvnhU
- A+ufV4VrkN6dFppJgzE+TCkBGULrox1a4vEQrkVr/ijJgWnYSZTRz+FfLpDERCQ6QJzs
- kZsw==
+ bh=Yq0nWUsKxD4rK/v2NoFPmPbkAY476HU9+6IpUl30jWE=;
+ b=ch0Jke9xYGF6gDWbSNSDOzgjUyb6xgSEC2V7iJ4Kk6FDGFDfKFFDzN50VyM/qKs3Z+
+ cm6x9+QOsn+IO1sKCmFvo/5DlYDvYkJBN5X7XR8eLMS+JPuoBrmsVDHERZcUzlcA0MW0
+ gjV7qTxrkxDlsNCko0Pmljx3OmF2wMwWxD31drzA4s35SoVIJnWw2Fofx66xbr5O3wF7
+ /jDL9i8lyUGolDFRod+zrMiktUMU01RI4Ry2uK0SAl66Y0dR1R7LNvCny5wVMS8x9vFp
+ 4tfUQ1Hrcht85gZjb8lrR189++0KAtDiL++paUqaXBCRsQAdfIDAyLONTScOm0+nqYyI
+ qBiw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXV2tPz/dcoFIGUvBGk1HmA2pqnDinVU4SgUJTvzV3TkQb7LnyMrQA7BXQy3phUpq5/tw8fq/cU3u04gdlFhCFDP94dAjMxu5/lu3nVaVOZ
-X-Gm-Message-State: AOJu0Yx5yjVM04loCayUTdKjZdLtZ4PfKXPvmFTQNlJZdBT2lGps/zbE
- x7N42GIpegT4azk1U/4MObb99Py9DKaeB7su2N28WHGYbWyqBN8Rr5NbE4jo9Tw=
-X-Google-Smtp-Source: AGHT+IHhWAWQPYglGVh5M4MGrcnUTyn3QOb5ZXLF90xiDtTOHmqPUQLBGCOcZAhbEpoE8PLlZ1sMXw==
-X-Received: by 2002:a2e:8817:0:b0:2eb:ec28:62f2 with SMTP id
- 38308e7fff4ca-2ec3cec5f83mr37406201fa.28.1718915381341; 
- Thu, 20 Jun 2024 13:29:41 -0700 (PDT)
+ AJvYcCWojW6YALVNccSBgvfWGWvHQS0EeyQ51e8DcPuo6EdD/a0u4I6saKL18OQYGZ3Qrnyfm5x6Tnt1922RLacIITG1CL+NBjH1BCDP37Qy5gda
+X-Gm-Message-State: AOJu0YxmgPRB2TTCI68X4lV6B2eXNz7ozDWcGIKQSB1yDi7f1oKQKTFk
+ 1LEdHb1fCwTpzaNxNjL2QyTwJCsvOsTxK3hZ80yMyrHkMe9E6Qdxpj0HwN8o6ns=
+X-Google-Smtp-Source: AGHT+IHMpcwkT02hJ8steyoLT0MHFupFKcYGAIgPIehNeuT8A2kH+0oB8/Gv4eoKPRkoRs+Es9bF5Q==
+X-Received: by 2002:ac2:4568:0:b0:52c:c9e4:3291 with SMTP id
+ 2adb3069b0e04-52ccaa5958bmr4931076e87.60.1718915570794; 
+ Thu, 20 Jun 2024 13:32:50 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec4d59a82dsm160121fa.0.2024.06.20.13.29.40
+ 2adb3069b0e04-52ca287b245sm2162968e87.205.2024.06.20.13.32.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jun 2024 13:29:40 -0700 (PDT)
-Date: Thu, 20 Jun 2024 23:29:39 +0300
+ Thu, 20 Jun 2024 13:32:50 -0700 (PDT)
+Date: Thu, 20 Jun 2024 23:32:48 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- quic_jesszhan@quicinc.com, dan.carpenter@linaro.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] drm/msm/dpu: drop validity checks for
- clear_pending_flush() ctl op
-Message-ID: <izksgfpdypauaa5jn2nd4an4rausjn7hjwpzu5rmkrix3bbrr7@df37xcxj5vtg>
-References: <20240620201731.3694593-1-quic_abhinavk@quicinc.com>
+ Rob Clark <robdclark@gmail.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 5/9] drm/msm/hdmi: turn mode_set into atomic_enable
+Message-ID: <xymopystyfjj3hpqes3uiw2g3dqynxzvz23snrbfzf2judgxnt@j4nmpcbuy7a4>
+References: <20240607-bridge-hdmi-connector-v5-0-ab384e6021af@linaro.org>
+ <20240607-bridge-hdmi-connector-v5-5-ab384e6021af@linaro.org>
+ <f34c4210-fd59-9d27-0987-3345631c9e35@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240620201731.3694593-1-quic_abhinavk@quicinc.com>
+In-Reply-To: <f34c4210-fd59-9d27-0987-3345631c9e35@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,37 +95,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 20, 2024 at 01:17:30PM GMT, Abhinav Kumar wrote:
-> clear_pending_flush() ctl op is always assigned irrespective of the DPU
-> hardware revision. Hence there is no needed to check whether the op has
-> been assigned before calling it.
+On Thu, Jun 20, 2024 at 01:27:15PM GMT, Abhinav Kumar wrote:
 > 
-> Drop the checks across the driver for clear_pending_flush() and also
-> update its documentation that it is always expected to be assigned.
 > 
-> changes in v2:
-> 	- instead of adding more validity checks just drop the one for clear_pending_flush
-> 	- update the documentation for clear_pending_flush() ctl op
-> 	- update the commit text reflecting these changes
+> On 6/7/2024 6:23 AM, Dmitry Baryshkov wrote:
+> > The mode_set callback is deprecated, it doesn't get the
+> > drm_bridge_state, just mode-related argumetns. Turn it into the
+> > atomic_enable callback as suggested by the documentation.
+> > 
 > 
-> changes in v3:
-> 	- simplify the documentation of clear_pending_flush
-> 
-> Fixes: d7d0e73f7de3 ("drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback")
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/all/464fbd84-0d1c-43c3-a40b-31656ac06456@moroto.mountain/T/
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c         | 3 +--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 3 +--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h          | 3 ++-
->  3 files changed, 4 insertions(+), 5 deletions(-)
-> 
+> mode_set is deprecated but atomic_mode_set is not.
 
-Thank you!
+There is no atomic_mode_set() in drm_bridge_funcs. Also:
 
-Rob, do you plan to send another -fixes pull request? If no, I'll
-include this into -next.
+* This is deprecated, do not use!
+* New drivers shall set their mode in the
+* &drm_bridge_funcs.atomic_enable operation.
+
+> 
+> I would rather use atomic_mode_set because moving to atomic_enable() would
+> be incorrect.
+> 
+> That would be called after encoder's enable and hence changes the sequence.
+> That was not the intention of this patch.
+> 
+> NAK.
+> 
+> > Acked-by: Maxime Ripard <mripard@kernel.org>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 33 ++++++++++++++++++++++++++-------
+> >   1 file changed, 26 insertions(+), 7 deletions(-)
+
 
 -- 
 With best wishes
