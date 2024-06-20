@@ -2,48 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318DA91062C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 15:35:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FE6910733
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 16:02:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D6D610E9E3;
-	Thu, 20 Jun 2024 13:35:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C4E410EA0B;
+	Thu, 20 Jun 2024 14:02:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s0QPHnFs";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HnNif9xc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BEA610E9E3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 13:35:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 39AA7CE2647;
- Thu, 20 Jun 2024 13:35:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AD8DC2BD10;
- Thu, 20 Jun 2024 13:35:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718890540;
- bh=TcCdFXNutd9vkhZivMLUt3IerlG76eCFBxi4Ss2LB/k=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=s0QPHnFs4+6HMUO/Uo1yZ9tZxMr6n9iZyoUwI70++eCYUpildMPNuWExEAFoAPKSg
- 7Uu8ZV1APaIYLHdcivEzue5p/+p6tiisYbzfUf2F/AC46MH3CHroObeUcxbOl5cwsr
- Ka67P15Wu/oJWxkgdgQfnYORURs3VJzXnE6BkAng3y6Uup8CjQNCTQAm6RFVBmpf9I
- yyKoQ+C+RfU6FoxsMZJK6Zrc19OaP8oSaFL5hYatywitCuCB0LxCN3sFmWO0Nbi3Av
- qPqIu0Vqox5pBYVUGeMKV7ZqB3xjvZ+ODA43W15hL1ZdiqytrYoLZqX07gcXRrIQer
- QniA2f0m2vV0A==
-From: Maxime Ripard <mripard@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 106D310EA1E;
+ Thu, 20 Jun 2024 14:02:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718892121; x=1750428121;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=g4oe8TLRgM/ZOHROorBtmguw2K/iW4w4CSTV4T64RC0=;
+ b=HnNif9xc/sfP67s4Tdbe5Z/9MMKdbvRGN0yEa5ANe37al9l1zBJIBS/i
+ ZOHviHNjUZi/c3ZdCn9pIN3wafsii88p/oPxJ0QwZJy2FXrseVtzCmktY
+ Tpt1UgqS6GyosIV7592jC7iN41oeEC80KXUM6ElPQy43h8Kf3RSVcHBWy
+ mAC2FlJEwGL1lAR8jA7Y84/WSMRVUKTNWlCcvxVo2x2nZAByBL3Ke4lyo
+ biBlzVvKP0QmcAVq+zBXfZGCf6FBlGe/0yPKWZEvqMs9C7lb11CrOT8nG
+ 2hZj1E7xC7Dk9a8TSbMcmgAKbD1qpHzORWonNrcn8P/81szDo3OQryxFw A==;
+X-CSE-ConnectionGUID: 0YaedzNgQpm+VBvUsXzVDw==
+X-CSE-MsgGUID: qDFjO0W8Sl688MX6+VXa4Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="16010273"
+X-IronPort-AV: E=Sophos;i="6.08,252,1712646000"; d="scan'208";a="16010273"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2024 07:02:01 -0700
+X-CSE-ConnectionGUID: CrKTDnr1TRaEydsKEBdbMg==
+X-CSE-MsgGUID: Rbc5wRN7Se+Z7OtiEs2Zhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,252,1712646000"; d="scan'208";a="42147645"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2024 07:01:59 -0700
+From: Nirmoy Das <nirmoy.das@intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>
-Subject: [PATCH v2 3/3] drm/todo: Add TODO entry for "lints"
-Date: Thu, 20 Jun 2024 15:35:31 +0200
-Message-ID: <20240620133531.3954622-3-mripard@kernel.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240620133531.3954622-1-mripard@kernel.org>
-References: <20240620133531.3954622-1-mripard@kernel.org>
+Cc: intel-xe@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>
+Subject: [RFC PATCH 0/2] Clear system pages with GPU
+Date: Thu, 20 Jun 2024 15:46:50 +0200
+Message-ID: <20240620134656.14380-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany, Commercial Register: Amtsgericht Muenchen HRB 186928
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,70 +71,182 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Having lints would prove beneficial to prevent the same dark patterns
-from reoccuring over and over again in drivers.
+TTM does clear on free for pooled pages and clear on alloc for
+non pooled pages using CPU this can have large latency for large
+buffer objects.                                                            =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                         GPU can clear page=
+s much faster but mostly for larger buffers as gpu
+clearing requires a gpu job submission which can make latency worse.       =
+                                                                           =
+                                                                           =
+                                                                  XE driver=
+ on device with flat CCS clears CCS meta data with a clear                 =
+                                                                           =
+                                                                           =
+                                                         job submission for=
+ all buffers. This series extend that clear job to
+also clear system pages using GPU to improve job submission latency.       =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                         To test the series=
+ I created a small test that tries to submit a job                         =
+                                                                           =
+                                                                           =
+                                                after binding various sizes=
+ of buffer.                                                                =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                              Without the series:                          =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+            sudo  ~/igt-gpu-tools/build/tests/xe_exec_store --run basic-sto=
+re-benchmark
+IGT-Version: 1.28-g2ed908c0b (x86_64) (Linux: 6.9.0-xe+ x86_64)
+Using IGT_SRANDOM=3D1718889799 for randomisation
+Opened device: /dev/dri/card0
+Starting subtest: basic-store-benchmark
+Starting dynamic subtest: WC
+Dynamic subtest WC: SUCCESS (0.000s)
+Time taken for size SZ_4K: 4882 us
+Time taken for size SZ_2M: 3679 us
+Time taken for size SZ_64M: 13367 us
+Time taken for size SZ_128M: 21034 us
+Time taken for size SZ_256M: 32940 us
+Time taken for size SZ_1G: 116261 us
+Starting dynamic subtest: WB
+Dynamic subtest WB: SUCCESS (0.000s)
+Time taken for size SZ_4K: 5417 us
+Time taken for size SZ_2M: 5711 us
+Time taken for size SZ_64M: 15718 us
+Time taken for size SZ_128M: 26170 us
+Time taken for size SZ_256M: 50529 us
+Time taken for size SZ_1G: 177933 us
+Subtest basic-store-benchmark: SUCCESS (0.504s)
 
-Add a TODO entry for that.
+With the series:                                                           =
+                                                                           =
+                                                                           =
+                                                                  ~/igt-gpu=
+-tools/build/tests/xe_exec_store --run basic-store-benchmark               =
+                                                                           =
+                                                                           =
+                                                         IGT-Version: 1.28-=
+g2ed908c0b (x86_64) (Linux: 6.9.0-xe+ x86_64)                              =
+                                                                           =
+                                                                           =
+                                                Using IGT_SRANDOM=3D1718889=
+593 for randomisation                                                      =
+                                                                           =
+                                                                           =
+                                         Opened device: /dev/dri/card0     =
+                                                                           =
+                                                                           =
+                                                                           =
+                                Starting subtest: basic-store-benchmark    =
+                                                                           =
+                                                                           =
+                                                                           =
+                       Starting dynamic subtest: WC                        =
+                                                                           =
+                                                                           =
+                                                                           =
+              Dynamic subtest WC: SUCCESS (0.000s)                         =
+                                                                           =
+                                                                           =
+                                                                           =
+     Time taken for size SZ_4K: 4479 us                                    =
+                                                                           =
+                                                                           =
+                                                                       Time=
+ taken for size SZ_2M: 3291 us                                             =
+                                                                           =
+                                                                           =
+                                                              Time taken fo=
+r size SZ_64M: 6595 us                                                     =
+                                                                           =
+                                                                           =
+                                                     Time taken for size SZ=
+_128M: 9069 us                                                             =
+                                                                           =
+                                                                           =
+                                            Time taken for size SZ_256M: 12=
+681 us                                                                     =
+                                                                           =
+                                                                           =
+                                   Time taken for size SZ_1G: 41806 us     =
+                                                                           =
+                                                                           =
+                                                                           =
+                          Starting dynamic subtest: WB                     =
+                                                                           =
+                                                                           =
+                                                                           =
+                 Dynamic subtest WB: SUCCESS (0.000s)                      =
+                                                                           =
+                                                                           =
+                                                                           =
+        Time taken for size SZ_4K: 3317 us                                 =
+                                                                           =
+                                                                           =
+                                                                          T=
+ime taken for size SZ_2M: 6458 us                                          =
+                                                                           =
+                                                                           =
+                                                                 Time taken=
+ for size SZ_64M: 12802 us                                                 =
+                                                                           =
+                                                                           =
+                                                        Time taken for size=
+ SZ_128M: 19579 us                                                         =
+                                                                           =
+                                                                           =
+                                               Time taken for size SZ_256M:=
+ 38768 us                                                                  =
+                                                                           =
+                                                                           =
+                                      Time taken for size SZ_1G: 143250 us =
+                                                                           =
+                                                                           =
+                                                                           =
+                             Subtest basic-store-benchmark: SUCCESS (0.328s)
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
 
----
+Nirmoy Das (2):
+  drm/ttm/pool: Introduce a way to skip clear on free
+  drm/xe/lnl: Offload system clear page activity to GPU
 
-Changes from v1:
- - Add allow_modeset and cec phys address handling
----
- Documentation/gpu/todo.rst | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ drivers/gpu/drm/ttm/ttm_device.c     | 42 +++++++++++++++++++++---
+ drivers/gpu/drm/ttm/ttm_pool.c       | 49 +++++++++++++++++++++-------
+ drivers/gpu/drm/xe/xe_bo.c           |  4 +++
+ drivers/gpu/drm/xe/xe_device.c       | 38 ++++++++++++++++-----
+ drivers/gpu/drm/xe/xe_device_types.h |  2 ++
+ drivers/gpu/drm/xe/xe_migrate.c      |  6 ++--
+ include/drm/ttm/ttm_device.h         |  8 +++++
+ include/drm/ttm/ttm_pool.h           | 11 +++++++
+ 8 files changed, 133 insertions(+), 27 deletions(-)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 030ef6bec82a..9e0e2df3a59a 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -724,10 +724,44 @@ doesn't or document it if it does would be of great help.
- 
- Contact: Maxime Ripard <mripard@kernel.org>
- 
- Level: Intermediate
- 
-+Create lints for KMS drivers
-+----------------------------
-+
-+Over time, we've accumulated a list of dark patterns in KMS drivers that
-+should be avoided. However, none of them are published anywhere, and not
-+all reviewers are aware of them. It creates a situation where we have
-+more drivers with problematic / deprecated code, even though we know
-+that they shouldn't.
-+
-+We should create a set of coccinelle scripts that match these patterns,
-+and make new drivers run that list. And possibly integrate them in CI.
-+
-+These patterns include:
-+
-+  - Drivers using kzalloc() or devm_kzalloc() to allocate their memory,
-+    instead of drmm_kzalloc().
-+
-+  - Drivers not protecting their device resources (MMIO, clocks,
-+    regulators, etc.) by drm_dev_enter() and drm_dev_exit().
-+
-+  - Drivers using drm_dev_unregister() instead of drm_dev_unplug().
-+
-+  - Drivers not calling drm_atomic_helper_shutdown() at shutdown
-+
-+  - Drivers using drm_dp_cec_set_edid(), cec_get_edid_phys_addr(), or
-+    cec_s_phys_addr_from_edid() instead of drm_dp_cec_attach() or
-+    cec_s_phys_addr().
-+
-+  - Drivers setting drm_atomic_state->allow_modeset manually.
-+
-+Contact: Maxime Ripard <mripard@kernel.org>
-+
-+Level: Intermediate
-+
- Enable trinity for DRM
- ----------------------
- 
- And fix up the fallout. Should be really interesting ...
- 
--- 
-2.45.2
+--=20
+2.42.0
 
