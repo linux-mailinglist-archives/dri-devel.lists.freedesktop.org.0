@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7379F90FE5E
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 10:11:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C830C90FEFC
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 10:35:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ACC410E866;
-	Thu, 20 Jun 2024 08:11:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A95CC10E0BE;
+	Thu, 20 Jun 2024 08:35:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="GFVwhq9v";
+	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="dIx1Nx95";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-100.freemail.mail.aliyun.com
- (out30-100.freemail.mail.aliyun.com [115.124.30.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D345B10E84E;
- Thu, 20 Jun 2024 08:11:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux.alibaba.com; s=default;
- t=1718871066; h=From:To:Subject:Date:Message-Id:MIME-Version;
- bh=gLiv3pyD1fElUB0wAQIjj/qFPDkPz4q0no5seMRSoi8=;
- b=GFVwhq9v8AwXDI8sGyvgk9tgICkaugROqblE1QHhymgASGU9fn6sa9B8wKZqryYPEcCoGX8NcS5vaLx0RrW5of5JXZQ2c94yWPVQjEsAhsqz5svAqN+Odcpq3IyPkTUBh4p0A8L7MxXLyMq5gkLKUXSKfDi8O4pqpMlCmB43z3g=
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R101e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=maildocker-contentspam033032014031;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=13; SR=0;
- TI=SMTPD_---0W8qf3Sp_1718871054; 
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0W8qf3Sp_1718871054) by smtp.aliyun-inc.com;
- Thu, 20 Jun 2024 16:11:05 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: harry.wentland@amd.com
-Cc: sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH] drm/amd/display: Remove redundant code and semicolons
-Date: Thu, 20 Jun 2024 16:10:52 +0800
-Message-Id: <20240620081052.56439-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+Received: from mail02.habana.ai (habanamailrelay.habana.ai [213.57.90.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA50B10E0BE
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:35:53 +0000 (UTC)
+Received: internal info suppressed
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=habana.ai; s=default;
+ t=1718872560; bh=hux7GUTuAiUg4uHgNeO6Xy3XdXf0ker+7b7tRkvmEac=;
+ h=Date:From:To:Cc:Subject:From;
+ b=dIx1Nx955z6MdhJNYkMUohlMyi78AOhG76RSmCz05wRUUDBM+x+Yyex+QPJrGTeoP
+ 5AEl5oQ7yakqF7IwdNEX5smNYE6CO9Dnap4mM/nmnL+RDMTqDTOAUTeHpS1Wczs1Ve
+ r8Q3rZ9cHK4vZq6y9NlJdToJRS3afe2IiAy1u+VsHfJ0ub/8KfQvF1xdHfIaIHt5o0
+ XE8OLmETB48+rj1A3JfVNjHnm6Ib0fmUnKVpCpwFqeTPmAHRASTQIB8xmz2nvfyP7x
+ FmLDhOlTqF+QvZ5yZj2A+oP1YphvP0dcWBXichIzyp161mR+yFQT3ju1bTCY+fgvRk
+ HOxktxk3ANCXg==
+Received: from obitton-vm-u22.habana-labs.com (localhost [127.0.0.1])
+ by obitton-vm-u22.habana-labs.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTPS
+ id 45K8Zegn1749731
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+ Thu, 20 Jun 2024 11:35:40 +0300
+Received: (from obitton@localhost)
+ by obitton-vm-u22.habana-labs.com (8.15.2/8.15.2/Submit) id 45K8ZdLw1749715;
+ Thu, 20 Jun 2024 11:35:39 +0300
+Date: Thu, 20 Jun 2024 11:35:39 +0300
+From: Ofir Bitton <obitton@habana.ai>
+To: airlied@gmail.com, daniel.vetter@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+Subject: [git pull] habanalabs for drm-next-6.11
+Message-ID: <ZnPp234qedszPhzT@obitton-vm-u22.habana-labs.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,109 +57,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No functional modification involved.
+Hi Dave, Sima.
 
-./drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c:3171:2-3: Unneeded semicolon.
-./drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c:3185:2-3: Unneeded semicolon.
-./drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c:3200:2-3: Unneeded semicolon.
+Habanalabs pull request for 6.11.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9365
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- .../dml21/src/dml2_core/dml2_core_shared.c    | 46 +++++++++----------
- 1 file changed, 23 insertions(+), 23 deletions(-)
+Adding support for Gaudi2-D product, minor debugfs uapi changes this time.
+Just minor features, improvements, code cleanups and bug fixes.
+In addition the maintainer change is included.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
-index cfa4c4475821..1a9895b1833f 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
-@@ -3142,62 +3142,62 @@ static unsigned int dml_get_tile_block_size_bytes(enum dml2_swizzle_mode sw_mode
- {
- 	switch (sw_mode) {
- 	case (dml2_sw_linear):
--		return 256; break;
-+		return 256;
- 	case (dml2_sw_256b_2d):
--		return 256; break;
-+		return 256;
- 	case (dml2_sw_4kb_2d):
--		return 4096; break;
-+		return 4096;
- 	case (dml2_sw_64kb_2d):
--		return 65536; break;
-+		return 65536;
- 	case (dml2_sw_256kb_2d):
--		return 262144; break;
-+		return 262144;
- 	case (dml2_gfx11_sw_linear):
--		return 256; break;
-+		return 256;
- 	case (dml2_gfx11_sw_64kb_d):
--		return 65536; break;
-+		return 65536;
- 	case (dml2_gfx11_sw_64kb_d_t):
--		return 65536; break;
-+		return 65536;
- 	case (dml2_gfx11_sw_64kb_d_x):
--		return 65536; break;
-+		return 65536;
- 	case (dml2_gfx11_sw_64kb_r_x):
--		return 65536; break;
-+		return 65536;
- 	case (dml2_gfx11_sw_256kb_d_x):
--		return 262144; break;
-+		return 262144;
- 	case (dml2_gfx11_sw_256kb_r_x):
--		return 262144; break;
-+		return 262144;
- 	default:
- 		DML2_ASSERT(0);
- 		return 256;
--	};
-+	}
- }
- 
- const char *dml2_core_internal_bw_type_str(enum dml2_core_internal_bw_type bw_type)
- {
- 	switch (bw_type) {
- 	case (dml2_core_internal_bw_sdp):
--		return("dml2_core_internal_bw_sdp"); break;
-+		return("dml2_core_internal_bw_sdp");
- 	case (dml2_core_internal_bw_dram):
--		return("dml2_core_internal_bw_dram"); break;
-+		return("dml2_core_internal_bw_dram");
- 	case (dml2_core_internal_bw_max):
--		return("dml2_core_internal_bw_max"); break;
-+		return("dml2_core_internal_bw_max");
- 	default:
--		return("dml2_core_internal_bw_unknown"); break;
--	};
-+		return("dml2_core_internal_bw_unknown");
-+	}
- }
- 
- const char *dml2_core_internal_soc_state_type_str(enum dml2_core_internal_soc_state_type dml2_core_internal_soc_state_type)
- {
- 	switch (dml2_core_internal_soc_state_type) {
- 	case (dml2_core_internal_soc_state_sys_idle):
--		return("dml2_core_internal_soc_state_sys_idle"); break;
-+		return("dml2_core_internal_soc_state_sys_idle");
- 	case (dml2_core_internal_soc_state_sys_active):
--		return("dml2_core_internal_soc_state_sys_active"); break;
-+		return("dml2_core_internal_soc_state_sys_active");
- 	case (dml2_core_internal_soc_state_svp_prefetch):
--		return("dml2_core_internal_soc_state_svp_prefetch"); break;
-+		return("dml2_core_internal_soc_state_svp_prefetch");
- 	case dml2_core_internal_soc_state_max:
- 	default:
--		return("dml2_core_internal_soc_state_unknown"); break;
--	};
-+		return("dml2_core_internal_soc_state_unknown");
-+	}
- }
- 
- static bool dml_is_vertical_rotation(enum dml2_rotation_angle Scan)
--- 
-2.20.1.7.g153144c
+Full details are in the signed tag.
 
+Thanks,
+Ofir
+
+The following changes since commit 1ddaaa244021aba8496536a6627b4ad2bc0f936a:
+
+  Merge tag 'amd-drm-next-6.11-2024-06-07' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2024-06-11 14:01:55 +1000)
+
+are available in the Git repository at:
+
+  https://github.com/HabanaAI/drivers.accel.habanalabs.kernel.git tags/drm-habanalabs-next-2024-06-20
+
+for you to fetch changes up to 824a450c0d90a9922321842155f563087f8c30f7:
+
+  accel/habanalabs: gradual sleep in polling memory macro (2024-06-19 09:49:11 +0300)
+
+----------------------------------------------------------------
+This tag contains habanalabs driver changes for v6.11.
+
+The notable changes are:
+
+- uAPI changes:
+  - Use device-name directory in debugfs-driver-habanalabs.
+  - Expose server type in debugfs.
+
+- New features and improvements:
+  - Gradual sleep in polling memory macro.
+  - Reduce Gaudi2 MSI-X interrupt count to 128.
+  - Add Gaudi2-D revision support.
+
+- Firmware related changes:
+  - Add timestamp to CPLD info.
+  - Gaudi2: Assume hard-reset by firmware upon MC SEI severe error.
+  - Align Gaudi2 interrupt names.
+  - Check for errors after preboot is ready.
+
+- Bug fixes and code cleanups:
+  - Move heartbeat work initialization to early init.
+  - Fix a race when receiving events during reset.
+  - Change the heartbeat scheduling point.
+
+- Maintainers:
+  - Change habanalabs maintainer and git repo path.
+
+----------------------------------------------------------------
+Ariel Suller (1):
+      accel/habanalabs/gaudi2: align interrupt names to table
+
+Dani Liberman (2):
+      accel/habanalabs: add device name to error print
+      accel/habanalabs: separate nonce from max_size in cpucp_packet struct
+
+Didi Freiman (1):
+      accel/habanalabs: gradual sleep in polling memory macro
+
+Farah Kassabri (6):
+      accel/habanalabs/gaudi2: update interrupts related headers
+      accel/habanalabs: add heartbeat debug info
+      accel/habanalabs: check for errors after preboot is ready
+      accel/habanalabs/gaudi2: add GAUDI2D revision support
+      accel/habanalabs: change the heartbeat scheduling point
+      accel/habanalabs: add more info upon cpu pkt timeout
+
+Igal Zeltser (1):
+      accel/habanalabs: use msg_header instead of desc_header
+
+Ilia Levi (1):
+      accel/habanalabs: additional print in device-in-use info
+
+Oded Gabbay (1):
+      MAINTAINERS: Change habanalabs maintainer and git repo path
+
+Ofir Bitton (3):
+      accel/habanalabs/gaudi2: align embedded specs headers
+      accel/habanalabs: remove timestamp registration debug prints
+      accel/habanalbs/gaudi2: reduce interrupt count to 128
+
+Ohad Sharabi (4):
+      accel/habanalabs/gaudi2: use single function to compare FW versions
+      accel/habanalabs: restructure function that checks heartbeat received
+      accel/habanalabs: no CPUCP prints on heartbeat failure
+      accel/habanalabs: add device name to invalidation failure msg
+
+Rakesh Ughreja (1):
+      accel/habanalabs/gaudi2: unsecure edma max outstanding register
+
+Tal Cohen (1):
+      accel/habanalabs: disable EQ interrupt after disabling pci
+
+Tal Risin (1):
+      accel/habanalabs: expose server type in debugfs
+
+Tomer Tayar (11):
+      accel/habanalabs: use parent device for trace events
+      accel/habanalabs/gaudi2: revise return value handling in gaudi2_hbm_sei_handle_read_err()
+      accel/habanalabs/gaudi2: assume hard-reset by FW upon MC SEI severe error
+      accel/habanalabs: add an EQ size ASIC property
+      accel/habanalabs: move hl_eq_heartbeat_event_handle() to common code
+      accel/habanalabs: use device-name directory in debugfs-driver-habanalabs
+      accel/habanalabs: add a common handler for clock change events
+      accel/habanalabs: revise print on EQ heartbeat failure
+      accel/habanalabs: dump the EQ entries headers on EQ heartbeat failure
+      accel/habanalabs: print timestamp of last PQ heartbeat on EQ heartbeat failure
+      accel/habanalabs: move heartbeat work initialization to early init
+
+Vitaly Margolin (1):
+      accel/habanalabs: add cpld ts cpld_timestamp cpucp
+
+ .../ABI/testing/debugfs-driver-habanalabs          |  12 +-
+ MAINTAINERS                                        |   4 +-
+ .../accel/habanalabs/common/command_submission.c   |  13 --
+ drivers/accel/habanalabs/common/debugfs.c          |  22 +-
+ drivers/accel/habanalabs/common/device.c           | 240 +++++++++++++++-----
+ drivers/accel/habanalabs/common/firmware_if.c      | 229 ++++++++++++-------
+ drivers/accel/habanalabs/common/habanalabs.h       |  76 +++++--
+ drivers/accel/habanalabs/common/habanalabs_drv.c   |   5 +-
+ drivers/accel/habanalabs/common/hwmon.c            |  60 ++---
+ drivers/accel/habanalabs/common/irq.c              |  33 ++-
+ drivers/accel/habanalabs/common/memory_mgr.c       |  37 +++-
+ drivers/accel/habanalabs/common/mmu/mmu.c          |  14 +-
+ drivers/accel/habanalabs/common/pci/pci.c          |   4 +-
+ drivers/accel/habanalabs/common/sysfs.c            |   8 +-
+ drivers/accel/habanalabs/gaudi/gaudi.c             |  12 +-
+ drivers/accel/habanalabs/gaudi2/gaudi2.c           |  88 ++------
+ drivers/accel/habanalabs/gaudi2/gaudi2P.h          |   8 +-
+ drivers/accel/habanalabs/gaudi2/gaudi2_security.c  |   1 +
+ drivers/accel/habanalabs/goya/goya.c               |  13 +-
+ drivers/accel/habanalabs/include/gaudi2/gaudi2.h   |   4 +-
+ .../include/gaudi2/gaudi2_async_ids_map_extended.h | 244 ++++++++++-----------
+ .../accel/habanalabs/include/gaudi2/gaudi2_fw_if.h |  27 +--
+ .../habanalabs/include/gaudi2/gaudi2_reg_map.h     |   8 +
+ .../habanalabs/include/hw_ip/pci/pci_general.h     |   3 +-
+ include/linux/habanalabs/cpucp_if.h                |  20 +-
+ include/linux/habanalabs/hl_boot_if.h              |  29 ++-
+ 26 files changed, 725 insertions(+), 489 deletions(-)
