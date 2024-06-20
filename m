@@ -2,90 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 539E991131D
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 22:27:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E546391132D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 22:29:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C661710E1DC;
-	Thu, 20 Jun 2024 20:27:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FB2810E882;
+	Thu, 20 Jun 2024 20:29:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="O8o84KHH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ThxxCYCK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 020E210E190;
- Thu, 20 Jun 2024 20:27:44 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45KHBdIP017939;
- Thu, 20 Jun 2024 20:27:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- PPaPB05HLWMKsCPYWmyIbSGuP55gTQawsDAD7m5/uv0=; b=O8o84KHHOK/KG+nU
- YC7mvqPrZn8v/2WEdE6SYBgVJ136n+L83/0SaEoY8SBOnRNyEDgbUwkI4PBCuQMV
- pjGSnQBE7qVMLiBC6BUW0HP834b/H5ZtzNARm+HBElhHpxSPTkob4orTas7Y2GFf
- Dd0/2JPvtZbanH0XUzJNxLgy26pc5ktObqG+lMzgjCLPFeUQFIEgUKB3rzQhlg0U
- ikCI0anVAVArMMEzUqngALbUyUZs14WhCXP2+ekQPO4lRVIDmvlUUk15cA/MRYTK
- FuNsZiOdnYs+7a5ZTtDf9oJMfAHbAD6owFFSz50EHlDpNiLog+JUpNQpnKLBLSe2
- AbKKEg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yvrm08g10-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Jun 2024 20:27:25 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45KKRNSr021753
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Jun 2024 20:27:23 GMT
-Received: from [10.110.82.141] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 20 Jun
- 2024 13:27:17 -0700
-Message-ID: <f34c4210-fd59-9d27-0987-3345631c9e35@quicinc.com>
-Date: Thu, 20 Jun 2024 13:27:15 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v5 5/9] drm/msm/hdmi: turn mode_set into atomic_enable
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A2CE10E861
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 20:29:43 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-2ebeefb9a6eso12821551fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 13:29:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1718915381; x=1719520181; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Uhu391MowIkohLMR2Orb/FA0XCbrdTT+Z4gHfZRY9w4=;
+ b=ThxxCYCKnU+0DcrVUILSBAsw35tg9J8Bj6Nr3GNjmE0aXiZbOF5B3jUJguOXZ9tHuG
+ dZNG1sWulhzGCa+De144qnnPO+17UU6sIxKcufKNrm6lqPrIxugZAUzY0WaqyL4Xg/OF
+ W3v3MGhpl5/n2ceXn045s6Tu5h5IEM3OiUbjVp54IfnWQMDzQyt7hLSWuVo3B3b5UDtZ
+ t3oHZstd0zmSuNepYxgezL5aZOdaSKxAvnVbwfLPGlIcY93CnmErM/P+KfnpURh3B+Ak
+ 5nNb41eRuKWmffwnLNnWK5vWUbW8jo1s26VjACyuAPOIM49YgFnZMleXTajHklX/ptAO
+ 7gLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718915381; x=1719520181;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Uhu391MowIkohLMR2Orb/FA0XCbrdTT+Z4gHfZRY9w4=;
+ b=l0D1uOl5W6AZnZY0EQPzSfeeic3Giih4UxBsr+XYeON5BU/1XHoPbcshmy+jdsFH6k
+ S3s/JGh3eJ0zDeXKP6V26WUlxIkv6bsbuv04kwPW3kHlJ8r2Lio3atGorjG95M8ISfSK
+ m9sbeO7ezZrBWLnYMcQ6mMY+sE84hLRidVHRL9HfultdDdPtVmSGZD4NDgtd6mcanjON
+ VCfKc6CdN76EOEVEAQ6ZAw0XeKDaP1lijXMDvu2EnG/4G3zcSy1XXfRO7Pvhf8xgvnhU
+ A+ufV4VrkN6dFppJgzE+TCkBGULrox1a4vEQrkVr/ijJgWnYSZTRz+FfLpDERCQ6QJzs
+ kZsw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXV2tPz/dcoFIGUvBGk1HmA2pqnDinVU4SgUJTvzV3TkQb7LnyMrQA7BXQy3phUpq5/tw8fq/cU3u04gdlFhCFDP94dAjMxu5/lu3nVaVOZ
+X-Gm-Message-State: AOJu0Yx5yjVM04loCayUTdKjZdLtZ4PfKXPvmFTQNlJZdBT2lGps/zbE
+ x7N42GIpegT4azk1U/4MObb99Py9DKaeB7su2N28WHGYbWyqBN8Rr5NbE4jo9Tw=
+X-Google-Smtp-Source: AGHT+IHhWAWQPYglGVh5M4MGrcnUTyn3QOb5ZXLF90xiDtTOHmqPUQLBGCOcZAhbEpoE8PLlZ1sMXw==
+X-Received: by 2002:a2e:8817:0:b0:2eb:ec28:62f2 with SMTP id
+ 38308e7fff4ca-2ec3cec5f83mr37406201fa.28.1718915381341; 
+ Thu, 20 Jun 2024 13:29:41 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2ec4d59a82dsm160121fa.0.2024.06.20.13.29.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jun 2024 13:29:40 -0700 (PDT)
+Date: Thu, 20 Jun 2024 23:29:39 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>
-CC: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240607-bridge-hdmi-connector-v5-0-ab384e6021af@linaro.org>
- <20240607-bridge-hdmi-connector-v5-5-ab384e6021af@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240607-bridge-hdmi-connector-v5-5-ab384e6021af@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: cneJARBo0b7n6cXXWZNOdwcqOuhQsZay
-X-Proofpoint-GUID: cneJARBo0b7n6cXXWZNOdwcqOuhQsZay
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-20_08,2024-06-20_04,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=999 adultscore=0 impostorscore=0 clxscore=1015
- lowpriorityscore=0 malwarescore=0 spamscore=0 phishscore=0 mlxscore=0
- bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2406200149
+ dri-devel@lists.freedesktop.org, 
+ quic_jesszhan@quicinc.com, dan.carpenter@linaro.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] drm/msm/dpu: drop validity checks for
+ clear_pending_flush() ctl op
+Message-ID: <izksgfpdypauaa5jn2nd4an4rausjn7hjwpzu5rmkrix3bbrr7@df37xcxj5vtg>
+References: <20240620201731.3694593-1-quic_abhinavk@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240620201731.3694593-1-quic_abhinavk@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,99 +88,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 6/7/2024 6:23 AM, Dmitry Baryshkov wrote:
-> The mode_set callback is deprecated, it doesn't get the
-> drm_bridge_state, just mode-related argumetns. Turn it into the
-> atomic_enable callback as suggested by the documentation.
+On Thu, Jun 20, 2024 at 01:17:30PM GMT, Abhinav Kumar wrote:
+> clear_pending_flush() ctl op is always assigned irrespective of the DPU
+> hardware revision. Hence there is no needed to check whether the op has
+> been assigned before calling it.
 > 
-
-mode_set is deprecated but atomic_mode_set is not.
-
-I would rather use atomic_mode_set because moving to atomic_enable() 
-would be incorrect.
-
-That would be called after encoder's enable and hence changes the 
-sequence. That was not the intention of this patch.
-
-NAK.
-
-> Acked-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Drop the checks across the driver for clear_pending_flush() and also
+> update its documentation that it is always expected to be assigned.
+> 
+> changes in v2:
+> 	- instead of adding more validity checks just drop the one for clear_pending_flush
+> 	- update the documentation for clear_pending_flush() ctl op
+> 	- update the commit text reflecting these changes
+> 
+> changes in v3:
+> 	- simplify the documentation of clear_pending_flush
+> 
+> Fixes: d7d0e73f7de3 ("drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback")
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/all/464fbd84-0d1c-43c3-a40b-31656ac06456@moroto.mountain/T/
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 33 ++++++++++++++++++++++++++-------
->   1 file changed, 26 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c         | 3 +--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 3 +--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h          | 3 ++-
+>  3 files changed, 4 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> index d839c71091dc..f259d6268c0f 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> @@ -129,12 +129,25 @@ static void msm_hdmi_config_avi_infoframe(struct hdmi *hdmi)
->   static void msm_hdmi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
->   					      struct drm_bridge_state *old_bridge_state)
->   {
-> +	struct drm_atomic_state *state = old_bridge_state->base.state;
->   	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
->   	struct hdmi *hdmi = hdmi_bridge->hdmi;
->   	struct hdmi_phy *phy = hdmi->phy;
-> +	struct drm_encoder *encoder = bridge->encoder;
-> +	struct drm_connector *connector;
-> +	struct drm_connector_state *conn_state;
-> +	struct drm_crtc_state *crtc_state;
-> +	const struct drm_display_mode *mode;
->   
->   	DBG("power up");
->   
-> +	connector = drm_atomic_get_new_connector_for_encoder(state, encoder);
-> +	conn_state = drm_atomic_get_new_connector_state(state, connector);
-> +	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-> +	mode = &crtc_state->adjusted_mode;
-> +
-> +	hdmi->pixclock = mode->clock * 1000;
-> +
->   	if (!hdmi->power_on) {
->   		msm_hdmi_phy_resource_enable(phy);
->   		msm_hdmi_power_on(bridge);
-> @@ -177,18 +190,24 @@ static void msm_hdmi_bridge_atomic_post_disable(struct drm_bridge *bridge,
->   	}
->   }
->   
-> -static void msm_hdmi_bridge_mode_set(struct drm_bridge *bridge,
-> -		 const struct drm_display_mode *mode,
-> -		 const struct drm_display_mode *adjusted_mode)
-> +static void msm_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
-> +					  struct drm_bridge_state *old_bridge_state)
->   {
-> +	struct drm_atomic_state *state = old_bridge_state->base.state;
->   	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
->   	struct hdmi *hdmi = hdmi_bridge->hdmi;
-> +	struct drm_encoder *encoder = bridge->encoder;
-> +	struct drm_connector *connector;
-> +	struct drm_connector_state *conn_state;
-> +	struct drm_crtc_state *crtc_state;
-> +	const struct drm_display_mode *mode;
->   	int hstart, hend, vstart, vend;
->   	uint32_t frame_ctrl;
->   
-> -	mode = adjusted_mode;
-> -
-> -	hdmi->pixclock = mode->clock * 1000;
-> +	connector = drm_atomic_get_new_connector_for_encoder(state, encoder);
-> +	conn_state = drm_atomic_get_new_connector_state(state, connector);
-> +	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-> +	mode = &crtc_state->adjusted_mode;
->   
->   	hstart = mode->htotal - mode->hsync_start;
->   	hend   = mode->htotal - mode->hsync_start + mode->hdisplay;
-> @@ -305,8 +324,8 @@ static const struct drm_bridge_funcs msm_hdmi_bridge_funcs = {
->   	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
->   	.atomic_reset = drm_atomic_helper_bridge_reset,
->   	.atomic_pre_enable = msm_hdmi_bridge_atomic_pre_enable,
-> +	.atomic_enable = msm_hdmi_bridge_atomic_enable,
->   	.atomic_post_disable = msm_hdmi_bridge_atomic_post_disable,
-> -	.mode_set = msm_hdmi_bridge_mode_set,
->   	.mode_valid = msm_hdmi_bridge_mode_valid,
->   	.edid_read = msm_hdmi_bridge_edid_read,
->   	.detect = msm_hdmi_bridge_detect,
-> 
+
+Thank you!
+
+Rob, do you plan to send another -fixes pull request? If no, I'll
+include this into -next.
+
+-- 
+With best wishes
+Dmitry
