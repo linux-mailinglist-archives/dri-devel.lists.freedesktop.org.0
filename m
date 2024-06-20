@@ -2,91 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2AB9113E9
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 22:58:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F02911454
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 23:21:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C554310E2D8;
-	Thu, 20 Jun 2024 20:58:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F36BA10E0C9;
+	Thu, 20 Jun 2024 21:21:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="QJwHIQeJ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CyJFSpW/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15DFB10E181;
- Thu, 20 Jun 2024 20:58:00 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45KHBC6t025991;
- Thu, 20 Jun 2024 20:57:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 7uinE8mNlfyxFn5pejTGcwgKDlHhRITAVURCqIbmn88=; b=QJwHIQeJFbT3+Wjk
- 6/2pfeu/+pj9MBIw+GwJjulsrNDstASGn6n1G5JRsirMzNOFh0ZvNhoNGqtirUR9
- xC3J1bl8qAJNC2mfdbm4mI8STW6DyzjW6IWGICIIO+h06/Ntfh/CHgeWzI/Yumc9
- p62KEVBLB6OFs4JBPvRA6jwOwg6vU9YAhT76ySu4AwrZN1dTMxfqYk9WMqAmLlwj
- sLfkWoBbOOPo3yIyXx4Gtt6HSB67jZ8EOOqYwb6MtXNLs5wf+zRcSEbh7smWHfTK
- ETyzZqPOXgJzUOKWiLfPOXW5cdqYFC6LtZPXW2wpk+jl0EIGAHUu6osWoV2jlZqH
- awYKuQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yvrkr0jy2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Jun 2024 20:57:49 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45KKvmXf032579
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Jun 2024 20:57:48 GMT
-Received: from [10.110.82.141] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 20 Jun
- 2024 13:57:41 -0700
-Message-ID: <5aa23f31-a4c1-6da4-9a0f-a312ec410eee@quicinc.com>
-Date: Thu, 20 Jun 2024 13:57:39 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76AC010E0C9
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 21:21:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1718918509;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=CyJFSpW/FPTC2vR/NmHhrjT67tbtBja5MnD4WtYwBeyF71hz418Tk2XJUNRAD6l3n7gAAT
+ yFWjpo+440CrloE+VjJgcGG1shX9XGGU9+RJrjdhsvja7OfoJmyMW6NzKgSlRKz2afa4mV
+ GrWysC1ErbD9PWpu3dbotCTWWE+dyuY=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-652-8nm8VfapNoGyOfjahSb6Hw-1; Thu, 20 Jun 2024 17:21:46 -0400
+X-MC-Unique: 8nm8VfapNoGyOfjahSb6Hw-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-a6f5e82440cso72747466b.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 14:21:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718918505; x=1719523305;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=FW+1aEIBQmA/T+HGiVupTSsSoovM27GMtWub1zJyovsVGIbgAOjK/6Sa41Zuzh+HBu
+ o9U8dsxvzMnnwN4W0wujIW0TJG8fnrhhQoZ+1pqt24vlhXPQH8MO5IN6TRO8vz48C7xX
+ 1qSdLU0DDVFweWfJd5odgghCL2j5PXDiJin1U+ZhquINC/8hny/ODp6J09gAdR2auOYR
+ ywG21kRBOLlazKo4EBQIcLK6BGQvb4vCVrV8wTmDSryDpUgGliuMppntOmDt3+ySf3ka
+ owBoAY4Xl7dNEy6cPjCIxg9ysih+x95+glX1iHh2bzYBaKLMCo5S2LU3vdCGmX7aOAAy
+ Mgxw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVwB7yYtsWNnJag0EvNTIJuPm6J0vI/8QJEeAvjcdWhP900kuGY/+j3l/AhUeXHYu5mcMsuX4hwLMHO/kKtIsTLNHzvktpZ42+ilGh26Y8U
+X-Gm-Message-State: AOJu0YxlsIP2JjYfYyunhVn2y5uQDgAspbnWTU8wx83RocIjrb8M/n47
+ 2Gdn1/gSVudEMAC1TwMNbOqQuc4k71eLNCbfiRBUvkIz5IWK0WY1BiFNMGYVgexBZeRxRSKe2VZ
+ cJGOCErrlk1kekfkXPFXQGcpEgyOKMO1Zp3t1OyTPvgZxmWA3SE3MVwZ4ez0Gm/zPHg==
+X-Received: by 2002:a17:906:3e8f:b0:a6f:38:6968 with SMTP id
+ a640c23a62f3a-a6fab645136mr368399766b.32.1718918505186; 
+ Thu, 20 Jun 2024 14:21:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFInMUkzUyLtNJEWjuXNVwdvaGVwPshtBGyRuzXTA788k2STLElQ5LZklyOjhCpKUl4EQXQow==
+X-Received: by 2002:a17:906:3e8f:b0:a6f:38:6968 with SMTP id
+ a640c23a62f3a-a6fab645136mr368398266b.32.1718918504774; 
+ Thu, 20 Jun 2024 14:21:44 -0700 (PDT)
+Received: from avogadro.local ([151.62.196.71])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a6fcf428b9fsm11268566b.42.2024.06.20.14.21.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jun 2024 14:21:44 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH] drm/mediatek: select DRM_GEM_DMA_HELPER if
+ DRM_FBDEV_EMULATION=y
+Date: Thu, 20 Jun 2024 23:20:52 +0200
+Message-ID: <20240620212142.461771-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240620054708.2230665-1-wenst@chromium.org>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v5 8/9] drm/msm/hdmi: update
- HDMI_GEN_PKT_CTRL_GENERIC0_UPDATE definition
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>
-CC: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240607-bridge-hdmi-connector-v5-0-ab384e6021af@linaro.org>
- <20240607-bridge-hdmi-connector-v5-8-ab384e6021af@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240607-bridge-hdmi-connector-v5-8-ab384e6021af@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 9EKDVIqvCL1um9S9-OlHj46SCl_qc9CD
-X-Proofpoint-GUID: 9EKDVIqvCL1um9S9-OlHj46SCl_qc9CD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-20_09,2024-06-20_04,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- mlxlogscore=938 mlxscore=0 clxscore=1015 phishscore=0 priorityscore=1501
- lowpriorityscore=0 suspectscore=0 spamscore=0 adultscore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2406200153
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,17 +99,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Queued, thanks.
 
+Paolo
 
-On 6/7/2024 6:23 AM, Dmitry Baryshkov wrote:
-> The GENERIC0_UPDATE field is a single bit. Redefine it as boolean to
-> simplify its usage in the driver.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/registers/display/hdmi.xml | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
