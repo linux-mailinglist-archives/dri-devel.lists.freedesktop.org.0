@@ -2,74 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38DFE910A83
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:48:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74BC2910A7A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:47:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0827710EAA3;
-	Thu, 20 Jun 2024 15:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E79D710E1F4;
+	Thu, 20 Jun 2024 15:47:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="aWLBoLPI";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="UlIjyhl9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f98.google.com (mail-lf1-f98.google.com
- [209.85.167.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40EFB10E1F4
+Received: from mail-wm1-f98.google.com (mail-wm1-f98.google.com
+ [209.85.128.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 868C010E1F4
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:47:18 +0000 (UTC)
-Received: by mail-lf1-f98.google.com with SMTP id
- 2adb3069b0e04-52bc3130ae6so1019981e87.3
+Received: by mail-wm1-f98.google.com with SMTP id
+ 5b1f17b1804b1-424720e73e0so10642175e9.0
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:47:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1718898436; x=1719503236;
+ d=raspberrypi.com; s=google; t=1718898437; x=1719503237;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ag1Gkygj9CnQzSM7zTNcU3JRjPry+I54iitUiQnXGYI=;
- b=aWLBoLPI9obykwhJH4qaZXUXt/YEb9+UZXE0mbYChV1hAwp9KObTyJ/seGU0srWdAS
- xmS8qZchjj0t63bm3f/4RWro22lB84UrmpuBtttUqeh6p6cXphKBXYH80uxwzqg6XPWf
- h1nbM+x1Q0foyQXhFSt2PTI8sqCWFRSp9wTq/QjPZNULlUSxmp//OVh3XMzRFt/6/4qn
- bviraPVrMvw5KB47BhUI4zAf6OmPAJr7PPdwEfy2bOVYim3Nz6VTXc6oHSoqtMRXTF/i
- vxD3qUyyp307JxOhjhyshro712rRgMF3daVtXguSDmrg+hONyLJFl65qNBNmIp1FbhiZ
- H+Bw==
+ bh=u4r5vzkCdgWS85bZ5yYoBEblfwPlxcJTNVQ5JHlLB9Y=;
+ b=UlIjyhl9p8auGvE/DtczNZPMUasUnGI35S8P43quHYxFfidhpr+2aVhfQI0cRWoFpf
+ pmY0AFFMqOpw/kNgHAo7rw1yhOGnjahcMoqZ2vutDb1LCwliqO+QEEgRZGWhTlwQamf+
+ XaEp3vMF0rwP6UnkznZ9tYvF4lMdxhavrdBV4D64mGWIp/pnrATGgAui/F/bHu8RIHzQ
+ 0CZnSPzKyaao+pT0UpNGw9jnnSxCAXGlhMmvE6fp2R6nD1rnXQzqFOa1gyyOlbke6Ksy
+ QB0NXbuTaDo31ZzpSAzmbjf2COoNBFkmUUEyArwH1BY0koiPpNrZRSAwGhBQLdmGer1k
+ k39g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718898436; x=1719503236;
+ d=1e100.net; s=20230601; t=1718898437; x=1719503237;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ag1Gkygj9CnQzSM7zTNcU3JRjPry+I54iitUiQnXGYI=;
- b=ilIpsBdziA/Psr4qIUnTEXmaNKZjbGW5IyQmQvtgP/gqCGK27dwEtDBHsuXKxOfxfK
- ekIa3n5QDgehhm39c4QvNAal9Q4w6Z07yxoeSXjVxLlfNTmkK8zreggwaKw1SuNEio0i
- nC2wb9TvqjBZ0OhnK95NTrjzkLc9IJSVaJefX3cv8+bJlF3obtVEv+Qru5cwZOoaC/dj
- GS0KuJWeYiWLIeqUxptIY8svsoojq8UlmYTz5aUGaQdIh1iCTdb5hH71Qw0tfDXPlWl/
- 3I7pfXeZpGh4LGVtry94BAZ4leShikEBYa47TN4y4l2/odWb6M0RJXzuLNujxlpz1dcg
- SkEA==
+ bh=u4r5vzkCdgWS85bZ5yYoBEblfwPlxcJTNVQ5JHlLB9Y=;
+ b=rYP7f1Ys6MzKMDL6gs8IbeDx4giKvthwCAEc9ceNVdO6wsmnkoqYPvaWjrviJPQAv1
+ znX0aEqE0U4wlKr0beNQBSkeWDoansn663Ofz+PDa8KDzqgI4MhR69dTyZGzm6QlnCyA
+ Hd/1ykaWsz49iWuxRGdsj7tENjv/Dm4npXyqASzGbkn0hhBuEd3U4CXSnO/EU7TUgaUb
+ BP5tc/lCqJt0WeESdgi7xNq6X0bYTBXg2U2aEGsmZmI66maGKKabWhkBHw445MBNYmld
+ nZdSgSeeVPuQauKILUkPSELUWxBLuT2DmS/l89ncIQpE6mL/o2rSWM4CCzqjKdsLBNWA
+ SoLA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXNXh7ifGsxeNP+CdkOZBd80m99kd75yMjBtP5xlrReuUrM3KtjIsmfhQ2KcwCXdbBSxB7+CZJSo5SE8bmlsqN+gGdOsfLnTP+EgCVE4Ogg
-X-Gm-Message-State: AOJu0YyEIRORiFgxToe6nRwL5Jfaka6nHUj4w1EgNcVaJvlw9aHeT+qB
- +9/nGi+AA+DgrEQmmv1f+6/iKkyrI0g+1THgugX+MY9GxDn+ObCF57zzDCJgM1h1ezqLH6O7X4r
- 51yBFroAY1hnv1UOKgdq8C9l4donkco5J
-X-Google-Smtp-Source: AGHT+IEst78xQLYCbYe5ULXTN8GHUDjFSmNI6dsOa1pHMe/xM9aJDxzG/qaU7k5VIp3X5bRA3ewcDgvx5EgC
-X-Received: by 2002:a05:6512:3c97:b0:52c:89b5:27b3 with SMTP id
- 2adb3069b0e04-52ccaa5461dmr4241306e87.42.1718898434504; 
- Thu, 20 Jun 2024 08:47:14 -0700 (PDT)
+ AJvYcCVgtAVV7EyCGmJcyKVrjl9Wk22+fTrgegQch3Uig2JsxuwyeuRPX+Mx6QiWqkk37lOXrzRlcGiAenT6YlL8n5rlu7IdInyX5cT1pQykDW1d
+X-Gm-Message-State: AOJu0YxYTjF+sd6SwI6QBGQyjqidshvhZKVQDtC5q/BWaptLcqCKjJ8d
+ LlnM8mmxAOHKPh2KhLUR88USs1s9InN/t281vVZxKN7Bb5rihyHguz8O4zTmML7wKtOWfNXrXCy
+ pcrRTWxUAQQBLnx81R8TZfC6cChlmT+2g
+X-Google-Smtp-Source: AGHT+IG7Tl5Aps7rzZ+aFWS6SOFE8C1fi93AC9Rt2FdwQYryDThmCtpzl915ehXZNxCpaaLwJb/rUyfcswFc
+X-Received: by 2002:a05:600c:2311:b0:421:f346:6b02 with SMTP id
+ 5b1f17b1804b1-424752983c8mr45878765e9.27.1718898437019; 
+ Thu, 20 Jun 2024 08:47:17 -0700 (PDT)
 Received: from raspberrypi.com ([188.39.149.98])
  by smtp-relay.gmail.com with ESMTPS id
- ffacd0b85a97d-36075123910sm838548f8f.68.2024.06.20.08.47.13
+ 5b1f17b1804b1-4247d0c0a7asm3295765e9.22.2024.06.20.08.47.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jun 2024 08:47:14 -0700 (PDT)
+ Thu, 20 Jun 2024 08:47:17 -0700 (PDT)
 X-Relaying-Domain: raspberrypi.com
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Cc: Maxime Ripard <maxime@cerno.tech>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH 29/31] drm/vc4: hvs: Change prototype of __vc4_hvs_alloc to
- pass registers
-Date: Thu, 20 Jun 2024 16:46:30 +0100
-Message-Id: <20240620154632.4125308-30-dave.stevenson@raspberrypi.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [PATCH 30/31] drm/vc4: Move the buffer offset out of the
+ vc4_plane_state
+Date: Thu, 20 Jun 2024 16:46:31 +0100
+Message-Id: <20240620154632.4125308-31-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
 References: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
@@ -90,102 +89,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maxime Ripard <maxime@cerno.tech>
+The offset fields in vc4_plane_state are described as being
+the offset for each buffer in the bo, however it is used to
+store the complete DMA address that is then written into the
+register.
 
-The BCM2712 HVS has registers to report the size of the various SRAM the
-driver uses, and their size actually differ depending on the stepping.
+The DMA address including the fb ofset  can be retrieved
+using drm_fb_dma_get_gem_addr, and the offset adjustment due to
+clipping is local to vc4_plane_mode_set.
+Drop the offset field from the state, and compute the complete
+DMA address in vc4_plane_mode_set.
 
-The initialisation of the memory pools happen in the __vc4_hvs_alloc()
-function that also allocates the main HVS structure, that will then hold
-the pointer to the memory mapping of the registers.
-
-This creates some kind of circular dependency that we can break by
-passing the mapping pointer as an argument for __vc4_hvs_alloc() to use
-to query to get the SRAM sizes and initialise the memory pools
-accordingly.
-
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/tests/vc4_mock.c |  2 +-
- drivers/gpu/drm/vc4/vc4_drv.h        |  4 +++-
- drivers/gpu/drm/vc4/vc4_hvs.c        | 16 ++++++++++------
- 3 files changed, 14 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.h   |  5 ----
+ drivers/gpu/drm/vc4/vc4_plane.c | 51 +++++++++++++--------------------
+ 2 files changed, 20 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/tests/vc4_mock.c b/drivers/gpu/drm/vc4/tests/vc4_mock.c
-index 922849dd4b47..6527fb1db71e 100644
---- a/drivers/gpu/drm/vc4/tests/vc4_mock.c
-+++ b/drivers/gpu/drm/vc4/tests/vc4_mock.c
-@@ -175,7 +175,7 @@ static struct vc4_dev *__mock_device(struct kunit *test, enum vc4_gen gen)
- 	vc4->dev = dev;
- 	vc4->gen = gen;
- 
--	vc4->hvs = __vc4_hvs_alloc(vc4, NULL);
-+	vc4->hvs = __vc4_hvs_alloc(vc4, NULL, NULL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vc4->hvs);
- 
- 	drm = &vc4->base;
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 559118824bf7..7a9faea748e6 100644
+index 7a9faea748e6..c6be1997f1c7 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.h
 +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -1004,7 +1004,9 @@ void vc4_irq_reset(struct drm_device *dev);
+@@ -421,11 +421,6 @@ struct vc4_plane_state {
+ 	bool is_unity;
+ 	bool is_yuv;
  
- /* vc4_hvs.c */
- extern struct platform_driver vc4_hvs_driver;
--struct vc4_hvs *__vc4_hvs_alloc(struct vc4_dev *vc4, struct platform_device *pdev);
-+struct vc4_hvs *__vc4_hvs_alloc(struct vc4_dev *vc4,
-+				void __iomem *regs,
-+				struct platform_device *pdev);
- void vc4_hvs_stop_channel(struct vc4_hvs *hvs, unsigned int output);
- int vc4_hvs_get_fifo_from_output(struct vc4_hvs *hvs, unsigned int output);
- u8 vc4_hvs_get_fifo_frame_count(struct vc4_hvs *hvs, unsigned int fifo);
-diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index 3f323a9d5e9a..fc147aff53c3 100644
---- a/drivers/gpu/drm/vc4/vc4_hvs.c
-+++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -811,7 +811,9 @@ int vc4_hvs_debugfs_init(struct drm_minor *minor)
- 	return 0;
- }
- 
--struct vc4_hvs *__vc4_hvs_alloc(struct vc4_dev *vc4, struct platform_device *pdev)
-+struct vc4_hvs *__vc4_hvs_alloc(struct vc4_dev *vc4,
-+				void __iomem *regs,
-+				struct platform_device *pdev)
- {
- 	struct drm_device *drm = &vc4->base;
- 	struct vc4_hvs *hvs;
-@@ -821,6 +823,7 @@ struct vc4_hvs *__vc4_hvs_alloc(struct vc4_dev *vc4, struct platform_device *pde
- 		return ERR_PTR(-ENOMEM);
- 
- 	hvs->vc4 = vc4;
-+	hvs->regs = regs;
- 	hvs->pdev = pdev;
- 
- 	spin_lock_init(&hvs->mm_lock);
-@@ -1017,16 +1020,17 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 	struct drm_device *drm = dev_get_drvdata(master);
- 	struct vc4_dev *vc4 = to_vc4_dev(drm);
- 	struct vc4_hvs *hvs = NULL;
-+	void __iomem *regs;
- 	int ret;
- 
--	hvs = __vc4_hvs_alloc(vc4, NULL);
-+	regs = vc4_ioremap_regs(pdev, 0);
-+	if (IS_ERR(regs))
-+		return PTR_ERR(regs);
-+
-+	hvs = __vc4_hvs_alloc(vc4, regs, pdev);
- 	if (IS_ERR(hvs))
- 		return PTR_ERR(hvs);
- 
--	hvs->regs = vc4_ioremap_regs(pdev, 0);
--	if (IS_ERR(hvs->regs))
--		return PTR_ERR(hvs->regs);
+-	/* Offset to start scanning out from the start of the plane's
+-	 * BO.
+-	 */
+-	u32 offsets[3];
 -
- 	hvs->regset.base = hvs->regs;
- 	hvs->regset.regs = vc4_hvs_regs;
- 	hvs->regset.nregs = ARRAY_SIZE(vc4_hvs_regs);
+ 	/* Our allocation in LBM for temporary storage during scaling. */
+ 	struct drm_mm_node lbm;
+ 
+diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+index 4c61ef4f4142..ba6e86d62a77 100644
+--- a/drivers/gpu/drm/vc4/vc4_plane.c
++++ b/drivers/gpu/drm/vc4/vc4_plane.c
+@@ -450,12 +450,11 @@ static int vc4_plane_setup_clipping_and_scaling(struct drm_plane_state *state)
+ {
+ 	struct vc4_plane_state *vc4_state = to_vc4_plane_state(state);
+ 	struct drm_framebuffer *fb = state->fb;
+-	struct drm_gem_dma_object *bo;
+ 	int num_planes = fb->format->num_planes;
+ 	struct drm_crtc_state *crtc_state;
+ 	u32 h_subsample = fb->format->hsub;
+ 	u32 v_subsample = fb->format->vsub;
+-	int i, ret;
++	int ret;
+ 
+ 	crtc_state = drm_atomic_get_existing_crtc_state(state->state,
+ 							state->crtc);
+@@ -469,11 +468,6 @@ static int vc4_plane_setup_clipping_and_scaling(struct drm_plane_state *state)
+ 	if (ret)
+ 		return ret;
+ 
+-	for (i = 0; i < num_planes; i++) {
+-		bo = drm_fb_dma_get_gem_obj(fb, i);
+-		vc4_state->offsets[i] = bo->dma_addr + fb->offsets[i];
+-	}
+-
+ 	vc4_state->src_x = state->src.x1;
+ 	vc4_state->src_y = state->src.y1;
+ 	vc4_state->src_w[0] = state->src.x2 - vc4_state->src_x;
+@@ -902,6 +896,7 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
+ 	u32 width, height;
+ 	u32 hvs_format = format->hvs;
+ 	unsigned int rotation;
++	u32 offsets[3] = { 0 };
+ 	int ret, i;
+ 
+ 	if (vc4_state->dlist_initialized)
+@@ -949,13 +944,8 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
+ 		 * out.
+ 		 */
+ 		for (i = 0; i < num_planes; i++) {
+-			vc4_state->offsets[i] += src_y /
+-						 (i ? v_subsample : 1) *
+-						 fb->pitches[i];
+-
+-			vc4_state->offsets[i] += src_x /
+-						 (i ? h_subsample : 1) *
+-						 fb->format->cpp[i];
++			offsets[i] += src_y / (i ? v_subsample : 1) * fb->pitches[i];
++			offsets[i] += src_x / (i ? h_subsample : 1) * fb->format->cpp[i];
+ 		}
+ 
+ 		break;
+@@ -1010,19 +1000,18 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
+ 			   VC4_SET_FIELD(y_off, SCALER_PITCH0_TILE_Y_OFFSET) |
+ 			   VC4_SET_FIELD(tiles_l, SCALER_PITCH0_TILE_WIDTH_L) |
+ 			   VC4_SET_FIELD(tiles_r, SCALER_PITCH0_TILE_WIDTH_R));
+-		vc4_state->offsets[0] += tiles_t * (tiles_w << tile_size_shift);
+-		vc4_state->offsets[0] += subtile_y << 8;
+-		vc4_state->offsets[0] += utile_y << 4;
++		offsets[0] += tiles_t * (tiles_w << tile_size_shift);
++		offsets[0] += subtile_y << 8;
++		offsets[0] += utile_y << 4;
+ 
+ 		/* Rows of tiles alternate left-to-right and right-to-left. */
+ 		if (tiles_t & 1) {
+ 			pitch0 |= SCALER_PITCH0_TILE_INITIAL_LINE_DIR;
+-			vc4_state->offsets[0] += (tiles_w - tiles_l) <<
+-						 tile_size_shift;
+-			vc4_state->offsets[0] -= (1 + !tile_y) << 10;
++			offsets[0] += (tiles_w - tiles_l) << tile_size_shift;
++			offsets[0] -= (1 + !tile_y) << 10;
+ 		} else {
+-			vc4_state->offsets[0] += tiles_l << tile_size_shift;
+-			vc4_state->offsets[0] += tile_y << 10;
++			offsets[0] += tiles_l << tile_size_shift;
++			offsets[0] += tile_y << 10;
+ 		}
+ 
+ 		break;
+@@ -1111,11 +1100,9 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
+ 
+ 			tile = src_x / pix_per_tile;
+ 
+-			vc4_state->offsets[i] += param * tile_w * tile;
+-			vc4_state->offsets[i] += src_y /
+-						 (i ? v_subsample : 1) *
+-						 tile_w;
+-			vc4_state->offsets[i] += x_off & ~(i ? 1 : 0);
++			offsets[i] += param * tile_w * tile;
++			offsets[i] += src_y / (i ? v_subsample : 1) * tile_w;
++			offsets[i] += x_off & ~(i ? 1 : 0);
+ 		}
+ 
+ 		pitch0 = VC4_SET_FIELD(param, SCALER_TILE_HEIGHT);
+@@ -1261,8 +1248,12 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
+ 	 * The pointers may be any byte address.
+ 	 */
+ 	vc4_state->ptr0_offset[0] = vc4_state->dlist_count;
+-	for (i = 0; i < num_planes; i++)
+-		vc4_dlist_write(vc4_state, vc4_state->offsets[i]);
++
++	for (i = 0; i < num_planes; i++) {
++		struct drm_gem_dma_object *bo = drm_fb_dma_get_gem_obj(fb, i);
++
++		vc4_dlist_write(vc4_state, bo->dma_addr + fb->offsets[i] + offsets[i]);
++	}
+ 
+ 	/* Pointer Context Word 0/1/2: Written by the HVS */
+ 	for (i = 0; i < num_planes; i++)
+@@ -1525,8 +1516,6 @@ static void vc4_plane_atomic_async_update(struct drm_plane *plane,
+ 	       sizeof(vc4_state->y_scaling));
+ 	vc4_state->is_unity = new_vc4_state->is_unity;
+ 	vc4_state->is_yuv = new_vc4_state->is_yuv;
+-	memcpy(vc4_state->offsets, new_vc4_state->offsets,
+-	       sizeof(vc4_state->offsets));
+ 	vc4_state->needs_bg_fill = new_vc4_state->needs_bg_fill;
+ 
+ 	/* Update the current vc4_state pos0, pos2 and ptr0 dlist entries. */
 -- 
 2.34.1
 
