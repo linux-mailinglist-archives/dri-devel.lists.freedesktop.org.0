@@ -2,87 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354F3910DA7
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 18:54:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 566A8910DBC
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 18:56:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 910C510EB46;
-	Thu, 20 Jun 2024 16:54:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 982AB10EB66;
+	Thu, 20 Jun 2024 16:55:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="c6+1Sb2Y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Bm9r+DOm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C43910EB46;
- Thu, 20 Jun 2024 16:54:23 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45K9v9ku002533;
- Thu, 20 Jun 2024 16:54:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- v+yEuDylbLxT0gUrqRYwbUC3arI+5fFPpiDRHx6W3gg=; b=c6+1Sb2YfEC0h+0Y
- DbjpdGBSucR5+0DJN5hWuUY1muXN/pIqy1Hj0UQx7ZLmy9ln+esNXics8rz/4BBj
- P2v8JIXT5xJ5LEZ0ovPAhsFP16Eruln49qQibvRcYENORKHA/nDLyAa18JljhIXR
- /KUm3SLCq/khsuT4QJ705m/s5a14LVCnDxe6g/QbFb1lxl3gImhHkHZmT/B/+sXC
- moV7yZ+sv8aD7MHz0CBrAVJ3VLFkBVrx3cbbtk61SzZmQqKzobL6uRYQqd2gI36c
- 2NSURaQpcTyHgG9YUZ+oe1ZpfAATtB7NNc7Z4MOMsbY9tyK1yne31k8e1NgKJyOc
- FeTgkQ==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yvaqbt061-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Jun 2024 16:54:19 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45KGsITP015234
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Jun 2024 16:54:18 GMT
-Received: from [10.110.82.141] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 20 Jun
- 2024 09:54:15 -0700
-Message-ID: <51832bc1-19ad-2865-2257-97eeeb8b44ee@quicinc.com>
-Date: Thu, 20 Jun 2024 09:54:12 -0700
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A85210EB66
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 16:55:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id F2CCACE2426;
+ Thu, 20 Jun 2024 16:55:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2819EC2BD10;
+ Thu, 20 Jun 2024 16:55:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718902550;
+ bh=A1JugA1kRbqTImg1GS9MvseGGROAflYsVVNFO9Eymkg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Bm9r+DOm3vNepyZmG6ENkJXODJ4erYYCurb/sueiOicXug5YBaF/ZvsWc1kuf2Bcx
+ 84y2DMPf20XLlr9NkTnq01iTYH1oalYb+0VTdEwIUt594ddvmUTF/fxe5JoXObxsVJ
+ d7cMvBf8j/iSaw3cX0DcJ0fNU2V1UZpXbRisL6NxpjIwFUcebeVUmn49MjtOvoU1Sw
+ uZjN7cj1B6rpKCAajFXds+/ZDgPokPiCJfAnV2BD57EBsEdORYnqCwmtfJ3f+TPNr/
+ z0vae4nXfKteATQ3j7XBGOFASQy28ozvvsOGctSX3IJ0p5avNpqkSYg0K3y2JRkDFJ
+ uRs1NWFNQVb7A==
+Date: Thu, 20 Jun 2024 17:55:43 +0100
+From: Lee Jones <lee@kernel.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: lkp@intel.com, Paul Cercueil <paul@crapouillou.net>,
+ Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+ linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, oe-kbuild-all@lists.linux.dev,
+ LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Julia Lawall <julia.lawall@inria.fr>,
+ Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v12 3/7] iio: core: Add new DMABUF interface infrastructure
+Message-ID: <20240620165543.GR3029315@google.com>
+References: <20240620122726.41232-4-paul@crapouillou.net>
+ <ca3efef9-9720-46be-a59d-a9a4c5873ea2@web.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/msm/dpu: protect ctl ops calls with validity checks
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>
-CC: <freedreno@lists.freedesktop.org>, Sean Paul <sean@poorly.run>, "Marijn
- Suijten" <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <quic_jesszhan@quicinc.com>,
- <dan.carpenter@linaro.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20240619212743.3193985-1-quic_abhinavk@quicinc.com>
- <CAA8EJpowTONWNQH+Sqe1w1eL85Ty4tw8_Qkc1yToQu9s17Tokw@mail.gmail.com>
- <CAF6AEGsQLqf96g9iaUqB1D6zcay8csvUH7oyirTd04x+bUzvYA@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAF6AEGsQLqf96g9iaUqB1D6zcay8csvUH7oyirTd04x+bUzvYA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: _zisnYxbYC3c_8ke1MS7UfwmuEPJZfLp
-X-Proofpoint-ORIG-GUID: _zisnYxbYC3c_8ke1MS7UfwmuEPJZfLp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-20_08,2024-06-20_04,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015
- lowpriorityscore=0 bulkscore=0 phishscore=0 mlxlogscore=999
- priorityscore=1501 malwarescore=0 mlxscore=0 adultscore=0 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406200122
+In-Reply-To: <ca3efef9-9720-46be-a59d-a9a4c5873ea2@web.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,77 +69,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 20 Jun 2024, Markus Elfring wrote:
 
-
-On 6/20/2024 9:41 AM, Rob Clark wrote:
-> On Thu, Jun 20, 2024 at 6:08 AM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
->>
->> On Thu, 20 Jun 2024 at 00:27, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>
->>> dpu_encoder_helper_phys_cleanup() calls the ctl ops without checking if
->>> the ops are assigned causing discrepancy between its callers where the
->>> checks are performed and the API itself which does not.
->>>
->>> Two approaches can be taken: either drop the checks even in the caller
->>> OR add the checks even in dpu_encoder_helper_phys_cleanup().
->>>
->>> Adopt the latter approach as ctl ops are assigned revision based so may not
->>> be always assigned.
->>
->> NAK, these calls are always assigned. Please make sure that they are
->> documented as required and drop offending checks.
+> …
+> > v11:
+> …
+> >     - Use guard(mutex)
+> >
+> > v12:
+> >     - Revert to mutex_lock/mutex_unlock in iio_buffer_attach_dmabuf(),
+> >       as it uses cleanup GOTOs
+> …
 > 
-> agreed, I'd rather see the obvious crash if somehow a required
-> callback didn't get set up, than a subtle/silent problem.  It is
-> easier to debug that way.
+> I would find it nice if better design options could gain acceptance.
+> Will the chances grow to adjust scopes another bit for involved variables
+> in such function implementations?
 > 
-> BR,
-> -R
-
-Thank you both for the review.
-
-Yes, as I wrote in the commit text, there were two ways to go about it.
-And looks like the consensus is to go with the other way (drop the checks).
-
-I will update the v2 that way and I also update the documentation of the 
-ctl op of interest to this patch that it is always expected to be assigned.
-
+> A) Enclosing a source code part with extra curly brackets?
 > 
->>>
->>> Fixes: d7d0e73f7de3 ("drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback")
->>> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
->>> Closes: https://lore.kernel.org/all/464fbd84-0d1c-43c3-a40b-31656ac06456@moroto.mountain/T/
->>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>> ---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 9 ++++++---
->>>   1 file changed, 6 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> index 708657598cce..7f7e6d4e974b 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> @@ -2180,9 +2180,12 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
->>>          if (ctl->ops.reset_intf_cfg)
->>>                  ctl->ops.reset_intf_cfg(ctl, &intf_cfg);
->>>
->>> -       ctl->ops.trigger_flush(ctl);
->>> -       ctl->ops.trigger_start(ctl);
->>> -       ctl->ops.clear_pending_flush(ctl);
->>> +       if (ctl->ops.trigger_flush)
->>> +               ctl->ops.trigger_flush(ctl);
->>> +       if (ctl->ops.trigger_start)
->>> +               ctl->ops.trigger_start(ctl);
->>> +       if (ctl->ops.clear_pending_flush)
->>> +               ctl->ops.clear_pending_flush(ctl);
->>>   }
->>>
->>>   void dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc,
->>> --
->>> 2.44.0
->>>
->>
->>
->> --
->> With best wishes
->> Dmitry
+> B) scoped_guard()?
+>    https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/cleanup.h#L137
+> 
+> C) Moving a locked source code part into a separate function implementation?
+
+I think it would help your cause if you quoted the exact piece of code
+you're referring to.  Then tone down the language a bit - keep it as
+simple and natural as you can.
+
+Ex 1: Please place curly brackets around this section to aid with <reason>
+
+Ex 2: To save N lines of clean-up, please use scoped_guard()
+
+Ex 3: Moving out this chunk to another function would help with <reason>
+
+Etc.
+
+-- 
+Lee Jones [李琼斯]
