@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B7F91129F
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 21:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC10D9112AF
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 22:00:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2E4310EB6C;
-	Thu, 20 Jun 2024 19:56:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 343CE10EBBA;
+	Thu, 20 Jun 2024 20:00:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="S8Tvt0Wp";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="upBpxnym";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF0610E14C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 19:56:56 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2eaa89464a3so15714001fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 12:56:55 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B7EA10E14C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 20:00:01 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-52cc14815c3so1333489e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 13:00:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718913414; x=1719518214; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1718913600; x=1719518400; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=j+KYydD7nko1FrffBssKIhFciA1unGFTs1mnRoxyK9M=;
- b=S8Tvt0Wp+MsgK7ZqnUXhd9KZhaOgUJadkq2JJNk1VcgArtd3Rjd/wlBMknZqhXMwW9
- So94wMXlbtrc6AvEzc4bxL8hFQQVbOtGuRDaFamxejJUACMicXUtEHV9PXEsvypD7Bx/
- lPUBfMHvsXS6DKOpQthnLBtgLLqT5AopRM/Gawn2E00FNFvczt3ZERE/ulLCutBeuruH
- tJClwQ4GWYCVGl3otrQmqbIqz46AB8uG5yFslYvA8a+G6ubmpbRZteCCUdurrxi/muQc
- NfeoW6Em59wHTWqNjn0f7Qw5trAKn57FFvXdsWbLVRQ6/0LIsYvCvZ3a971jHsDDNpx+
- hg7A==
+ bh=gMilNXtwVzUh+PE2x1zMrBwSzBscyeknBF0WgBRu6Ys=;
+ b=upBpxnymb2fHzHQ552DRZPTSOwaShylXFwTrLmKPMQpus293OrpcNicSvAIOnx++IP
+ eV0b3LDyyn1SWv64sBZ8c6sbWnNpDTMTzBCF4gAju59nmKrbAY0cxUNNi6FTXT/5gzeW
+ zgUJugWRyHy7OkRIK0PzYUCa5AuhtbKSJ9X3nT5BmV1oxGY1Au9WV1EvgkcQp2GOvFq8
+ Nnijcg0dKCVJjjLM3Ov9n4wKFrH5vAc+mD5RgqF7hCTtTP7phM6kKww2T/I4icJwxPdx
+ TTrdnchElDTTNqML1kB4GiBnAMXH8rgYNsb0ZMiRxiXjKtBmIaVRLaWHWqUK0+O7jLzH
+ bGrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718913414; x=1719518214;
+ d=1e100.net; s=20230601; t=1718913600; x=1719518400;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=j+KYydD7nko1FrffBssKIhFciA1unGFTs1mnRoxyK9M=;
- b=dom31ioiRtO6pDHXr8lHWtaAz9igQ3P79V13UGgKNd1qTX3YrtOzyZC4X95FPdK8ix
- h2FVcydbHQxHh+zjxeFOayKmLgpCX9KJ7jFAR9a9gV8kPXcZxm8HTjYtx3WEMKiLYYET
- Ump7Ht0jt8ASzJh+ZT+nHLru8GrdMHGCV76RfCV4nHF5+OfuPJfUGn1s57+jksLXcd9A
- cLgZMcB7Y5C5d8zn99nPMknTSEoezcvv2PfqdxiWmq2iFfhWITerKanYu4yoX/ZYJi7s
- 2q76C4rgSSk/wOrSOIM1cjCyQMuWjuoNm2E3TH7s13zOXhNfHNUYZNXqHPAlBsEvglDy
- tp9Q==
+ bh=gMilNXtwVzUh+PE2x1zMrBwSzBscyeknBF0WgBRu6Ys=;
+ b=tZ4TuW2qbA4UIPZBnxrQasu6AYOBG6Xxcg3/1OnYy/NQGCAhaGTrHpE/kSh35Ku/oz
+ axrA3t/cgE+8MI+PIYFF/KXXBE4pYM3f2dOSJU2xNLbXWvnY7kAHkfR1mY87+ktJRDpq
+ +k8I9rvqX0uAG6NS3XMtI74h9blg+wTnCrkj2FPntq0k+fp44zF+3ZnJ+zl5eoiFeWUu
+ WJUwnpf4AfAUcOqWso2jKOmeFrmsk2ANqO5TJ79royIEH5CLpNhggG5phz1kzB2WfwNW
+ Uj7ZeXSmLFDQ8QT1NA7UujoyLOzk1MuC2oYTmza1CwXIaj4lKr7sOWWit90eD2N1Tfij
+ ZmDA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUmPynurKt+DlunfHGLrXLWkbGV+VAOw3uvM0S7qvFD3DTD+gtiY47VsJdnzkEiiJfK796mI0WbK2FDp+oqHvzUVYJZLnoJz67jSvOZutti
-X-Gm-Message-State: AOJu0YxFQFy7OpTvPt6nbx6lQar6nhWzbK5olULL7PxbkImX0BVj6z8r
- tRw+40PX6ALEsBTsEd31xn2tUie79rbcmEmxzUY12baaF9hy0uyKWCKeGQ2hIm8=
-X-Google-Smtp-Source: AGHT+IHBAKdt7nCo4Li66Yi4OSvpW1dRF0oRpX6m7JKc3NlOt2u5cVk5oKGqB8kBFo+abyfpX1GfYg==
-X-Received: by 2002:a2e:9699:0:b0:2ec:4399:9bff with SMTP id
- 38308e7fff4ca-2ec4399a3c8mr24955371fa.42.1718913413901; 
- Thu, 20 Jun 2024 12:56:53 -0700 (PDT)
+ AJvYcCVm0iGgr2gCBA7Ja/p91JwXAIPCkBj+NwIvyPTfbMFYLu0ATSUU3O9EC/nQhv+tF7wNi88DQ38JTgLhPzcSvjRmInOi77KZ9/OwjG7BtnHN
+X-Gm-Message-State: AOJu0Yw68149v2CanSyzentmIYSNtfk5sgs69R4Ol3eCqrjEGMCKpVAd
+ 32Ck9lvpTeE/ZRrQ00WW+O1jBI5+7rhB1s8Ox1djV0skw5kx+WRNBOtIrsYQ2tE=
+X-Google-Smtp-Source: AGHT+IHdCVdixc3RWfaztM0Yax6GeQG03rZH2fQxNQj3MXGnPGiL+pdPpHyRVEOOF2kRgRIM885D1Q==
+X-Received: by 2002:a05:6512:ac4:b0:52c:cb56:8e8d with SMTP id
+ 2adb3069b0e04-52ccb568fc9mr4688542e87.37.1718913600095; 
+ Thu, 20 Jun 2024 13:00:00 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec4d600022sm75651fa.29.2024.06.20.12.56.53
+ 2adb3069b0e04-52cae91a0ccsm1763627e87.97.2024.06.20.12.59.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jun 2024 12:56:53 -0700 (PDT)
-Date: Thu, 20 Jun 2024 22:56:52 +0300
+ Thu, 20 Jun 2024 12:59:59 -0700 (PDT)
+Date: Thu, 20 Jun 2024 22:59:58 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org, 
- benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] drm/panel: starry-er88577: add new panel driver
-Message-ID: <bmmng663zqsc4xolkh6jdbu6yj637f3k6qbclxgi6fcmm4hv7z@i7ycd36flcha>
-References: <20240620115245.31540-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240620115245.31540-3-lvzhaoxiong@huaqin.corp-partner.google.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ quic_jesszhan@quicinc.com, dan.carpenter@linaro.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/msm/dpu: drop validity checks for
+ clear_pending_flush() ctl op
+Message-ID: <2fwo2pbplaxkkviln7m6jgidlspnur25qrth42s6jozksb22w6@qkyt2og57baj>
+References: <20240620191228.3673550-1-quic_abhinavk@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240620115245.31540-3-lvzhaoxiong@huaqin.corp-partner.google.com>
+In-Reply-To: <20240620191228.3673550-1-quic_abhinavk@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,177 +88,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 20, 2024 at 07:52:45PM GMT, Zhaoxiong Lv wrote:
-> The bias IC of this starry-er88577 panel is placed
-> on the panel side, so when the panel is powered on,
-> there is no need to control AVDD and AVEE in the driver,
-> only 3.3v and reset are needed.
+On Thu, Jun 20, 2024 at 12:12:27PM GMT, Abhinav Kumar wrote:
+> clear_pending_flush() ctl op is always assigned irrespective of the DPU
+> hardware revision. Hence there is no needed to check whether the op has
+> been assigned before calling it.
 > 
-> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+> Drop the checks across the driver for clear_pending_flush() and also
+> update its documentation that it is always expected to be assigned.
+> 
+> changes in v2:
+> 	- instead of adding more validity checks just drop the one for clear_pending_flush
+> 	- update the documentation for clear_pending_flush() ctl op
+> 	- update the commit text reflecting these changes
+> 
+> Fixes: d7d0e73f7de3 ("drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback")
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/all/464fbd84-0d1c-43c3-a40b-31656ac06456@moroto.mountain/T/
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
-> Chage since V3:
-> -  1. Adjust the ".clock" assignment format.
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c         | 3 +--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 3 +--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h          | 4 +++-
+>  3 files changed, 5 insertions(+), 5 deletions(-)
 > 
-> v3: https://lore.kernel.org/all/20240614145609.25432-3-lvzhaoxiong@huaqin.corp-partner.google.com/
-> 
-> Chage since V3:
-> -  Separate Starry-er88577 from the panel-kingdisplay-kd101ne3 driver.
-> -  Use mipi_dsi_dcs_set_display_on_multi().
-> -  Use mipi_dsi_dcs_exit_sleep_mode_multi() and mipi_dsi_msleep().
-> 
-> v2: https://lore.kernel.org/all/20240601084528.22502-5-lvzhaoxiong@huaqin.corp-partner.google.com/
-> 
-> Chage since V2:
-> -  Add compatible for Starry er88577 in panel-kingdisplay-kd101ne3 drivers.
-> 
-> ---
->  drivers/gpu/drm/panel/Kconfig                |   9 +
->  drivers/gpu/drm/panel/Makefile               |   1 +
->  drivers/gpu/drm/panel/panel-starry-er88577.c | 343 +++++++++++++++++++
->  3 files changed, 353 insertions(+)
->  create mode 100644 drivers/gpu/drm/panel/panel-starry-er88577.c
-> 
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index e54f6f5604ed..a52aa2552ab8 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -781,6 +781,15 @@ config DRM_PANEL_SITRONIX_ST7789V
->  	  Say Y here if you want to enable support for the Sitronix
->  	  ST7789V controller for 240x320 LCD panels
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> index ef56280bea93..6f8c7ffa2d27 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> @@ -83,7 +83,9 @@ struct dpu_hw_ctl_ops {
 >  
-> +config DRM_PANEL_STARRY_ER88577
-> +	tristate "Starry er88577 panel"
-> +	depends on OF
-> +	depends on DRM_MIPI_DSI
-> +	depends on BACKLIGHT_CLASS_DEVICE
-> +	help
-> +	  Say Y if you want to enable support for panels based on the
-> +	  Starry er88577 controller.
-> +
->  config DRM_PANEL_SONY_ACX565AKM
->  	tristate "Sony ACX565AKM panel"
->  	depends on GPIOLIB && OF && SPI
-> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-> index f0203f6e02f4..ecd843a6dc6e 100644
-> --- a/drivers/gpu/drm/panel/Makefile
-> +++ b/drivers/gpu/drm/panel/Makefile
-> @@ -81,6 +81,7 @@ obj-$(CONFIG_DRM_PANEL_SHARP_LS060T1SX01) += panel-sharp-ls060t1sx01.o
->  obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7701) += panel-sitronix-st7701.o
->  obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7703) += panel-sitronix-st7703.o
->  obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) += panel-sitronix-st7789v.o
-> +obj-$(CONFIG_DRM_PANEL_STARRY_ER88577) += panel-starry-er88577.o
->  obj-$(CONFIG_DRM_PANEL_SYNAPTICS_R63353) += panel-synaptics-r63353.o
->  obj-$(CONFIG_DRM_PANEL_SONY_ACX565AKM) += panel-sony-acx565akm.o
->  obj-$(CONFIG_DRM_PANEL_SONY_TD4353_JDI) += panel-sony-td4353-jdi.o
-> diff --git a/drivers/gpu/drm/panel/panel-starry-er88577.c b/drivers/gpu/drm/panel/panel-starry-er88577.c
-> new file mode 100644
-> index 000000000000..e6088262ee69
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panel/panel-starry-er88577.c
-> @@ -0,0 +1,343 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* Panels based on the ER88577 display controller.
-> + * Author: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/regulator/consumer.h>
-> +
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_crtc.h>
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_panel.h>
-> +
-> +#include <video/mipi_display.h>
-> +#include <drm/drm_probe_helper.h>
-> +
-> +struct starry_panel;
-> +
-> +struct panel_desc {
-> +	const struct drm_display_mode *modes;
-> +	unsigned int bpc;
-> +	unsigned long mode_flags;
-> +	enum mipi_dsi_pixel_format format;
-> +	const struct panel_init_cmd *init_cmds;
-> +	int (*init)(struct starry_panel *starry);
-> +	unsigned int lanes;
-> +	bool discharge_on_disable;
-> +	bool lp11_before_reset;
-> +	unsigned int power_off_delay_ms;
-> +};
-> +
-> +struct starry_panel {
-> +	struct drm_panel base;
-> +	struct mipi_dsi_device *dsi;
-> +
-> +	const struct panel_desc *desc;
-> +
-> +	enum drm_panel_orientation orientation;
-> +	struct regulator *vccio;
-> +	struct gpio_desc *reset;
-> +};
-> +
-> +static int starry_er88577_init(struct starry_panel *starry)
-> +{
-> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = starry->dsi };
-> +
-> +	/* T5:HWreset to init_code >= 120ms */
-> +	mipi_dsi_msleep(dsi_ctx, 120);
-> +
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0xab, 0xba);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe1, 0xba, 0xab);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb1, 0x10, 0x01, 0x47, 0xff);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2, 0x0c, 0x14, 0x04, 0x50, 0x50, 0x14);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb3, 0x56, 0x53, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb4, 0x33, 0x30, 0x04);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0xb0, 0x00, 0x00, 0x10, 0x00, 0x10, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb8, 0x05, 0x12, 0x29, 0x49, 0x40);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb9, 0x7c, 0x61, 0x4f, 0x42, 0x3e, 0x2d, 0x31,
-> +				     0x1a, 0x33, 0x33, 0x33, 0x52, 0x40, 0x47, 0x38, 0x34, 0x26,
-> +				     0x0e, 0x06, 0x7c, 0x61, 0x4f, 0x42, 0x3e, 0x2d, 0x31, 0x1a,
-> +				     0x33, 0x33, 0x33, 0x52, 0x40, 0x47, 0x38, 0x34, 0x26, 0x0e,
-> +				     0x06);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc0, 0xcc, 0x76, 0x12, 0x34, 0x44, 0x44, 0x44,
-> +				     0x44, 0x98, 0x04, 0x98, 0x04, 0x0f, 0x00, 0x00, 0xc1);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc1, 0x54, 0x94, 0x02, 0x85, 0x9f, 0x00, 0x6f,
-> +				     0x00, 0x54, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc2, 0x17, 0x09, 0x08, 0x89, 0x08, 0x11, 0x22,
-> +				     0x20, 0x44, 0xff, 0x18, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc3, 0x87, 0x47, 0x05, 0x05, 0x1c, 0x1c, 0x1d,
-> +				     0x1d, 0x02, 0x1e, 0x1e, 0x1f, 0x1f, 0x0f, 0x0f, 0x0d, 0x0d,
-> +				     0x13, 0x13, 0x11, 0x11, 0x24);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc4, 0x06, 0x06, 0x04, 0x04, 0x1c, 0x1c, 0x1d,
-> +				     0x1d, 0x02, 0x1e, 0x1e, 0x1f, 0x1f, 0x0e, 0x0e, 0x0c, 0x0c,
-> +				     0x12, 0x12, 0x10, 0x10, 0x24);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc8, 0x21, 0x00, 0x31, 0x42, 0x34, 0x16);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xca, 0xcb, 0x43);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcd, 0x0e, 0x4b, 0x4b, 0x20, 0x19, 0x6b, 0x06,
-> +				     0xb3);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd2, 0xe3, 0x2b, 0x38, 0x08);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd4, 0x00, 0x01, 0x00, 0x0e, 0x04, 0x44, 0x08,
-> +				     0x10, 0x00, 0x00, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe6, 0x80, 0x09, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +				     0xff);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x12, 0x03, 0x20, 0x00, 0xff);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf3, 0x00);
+>  	/**
+>  	 * Clear the value of the cached pending_flush_mask
+> -	 * No effect on hardware
+> +	 * No effect on hardware. This ctl op is always assigned
+> +	 * irrespective of hw version and hence no check is needed
+> +	 * for the callers to check its availability before calling it.
 
-NAK.
+A simple 'Required to be imlemented' or just 'Required' should be enough.
 
-This sequence looks _exactly_ like the sequence in
-panel-boe-th101mb31ig002-28a.c.
-
-> +
-> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-> +
-> +	mipi_dsi_msleep(dsi_ctx, 120);
-> +
-> +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-> +	mipi_dsi_msleep(dsi_ctx, 20);
-> +
-> +	return dsi_ctx.accum_err;
+>  	 * @ctx       : ctl path ctx pointer
+>  	 */
+>  	void (*clear_pending_flush)(struct dpu_hw_ctl *ctx);
+> -- 
+> 2.44.0
+> 
 
 -- 
 With best wishes
