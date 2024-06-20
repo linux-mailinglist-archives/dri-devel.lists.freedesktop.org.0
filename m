@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6DC910A86
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:48:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3571E910A6E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:47:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF6D810EAB0;
-	Thu, 20 Jun 2024 15:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3AED10EAAC;
+	Thu, 20 Jun 2024 15:47:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="F0iavYbT";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Wc0fNXS9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f100.google.com (mail-ej1-f100.google.com
- [209.85.218.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A847310EAA1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:46:52 +0000 (UTC)
-Received: by mail-ej1-f100.google.com with SMTP id
- a640c23a62f3a-a6f176c5c10so124111966b.2
+Received: from mail-wr1-f100.google.com (mail-wr1-f100.google.com
+ [209.85.221.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06EA910EAA1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:46:53 +0000 (UTC)
+Received: by mail-wr1-f100.google.com with SMTP id
+ ffacd0b85a97d-35f090093d8so772533f8f.0
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:46:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google; t=1718898411; x=1719503211;
@@ -25,37 +25,37 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fEZOg49GL3FF3QmzlOFkIEj8om0DVPg2ZCP26GJJ2yI=;
- b=F0iavYbTkgDk3yI29ryb2OL46fyZ7PbCOr/AhmCJkHInliFlMiVZBOD4LWeJnELIak
- To1moEWieCRWZXaZRiv0F6dHDAop8vullUtozbGI3vFt5HI9assKVGLLLpY9i8txkoAf
- R1NqX3BkfwoQzRG8I7s3gwmbQoUIUiN5FeYJ8eUifzjF6wm4t/+BVmXOYQ/GPAHMmXYo
- cVx6yxHGNvQf+NR/G2jjQ9p16clHAkBIsnuu3FWYzzMmie76tyzp5OJQI2awO4RtbEeI
- jhaez6nKLG13ptsbiSHxCqpEMolVtr227bHbZDk3DqnE9gJ4F7Zric4NjZpIMDbo2jvz
- mcsw==
+ bh=troBauGruOiqXAMgk/gylKtSi6BtH+WWrxM6H29u8b0=;
+ b=Wc0fNXS9DHFUNt+mkbnMe2yEBedV603hyTKcv44A4VHNeupbCdEy7H0ElD/LazHx27
+ h5lhkSsssML4JZv8GuOELY6B7m50tK7wHBwsmCWPpLYCkYRrhzZKLI3ESR7qBlQpJOfP
+ KD3kts0F+iC+qXDjYdW90O10WpdQ2/Qu9gMnpyPpNcUrrjhdnHMrShAw0lbQJnvn+CXn
+ u/LgI2FW0Y7wyE8GvQlTidhQYSCtlGg0JC8wXO2Rx5wa5LjIa9kkGjBF+qq087OAbQfE
+ uldKxEn9Ym5E95xy5mwtjpEAqMZQeovc/UqXjoULAFKVbOW8xbTvY/42LjzKWh0Ui704
+ tpQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1718898411; x=1719503211;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fEZOg49GL3FF3QmzlOFkIEj8om0DVPg2ZCP26GJJ2yI=;
- b=IoS2bR+ydTjl1zHiMWFnOlEUThlLqRqTbLHCB4l9RY9TmPNMBOL7CZP/jtz//nqkVC
- PLLq3X7djtRZeZQHL2x10ZNk0L79Kn+qvKm7oz6hkV7SRi/45W7H8E2uUdR577joI18X
- ZS2MNgBYQEat7VOBhJSAFLCkWIRZUBT3x4yI680xGryozuelIEKx/CjQC4Kbqu/F5CZr
- 1KOPvlYplwuewJXbGKPdHYgHiZZ/EtNTwXMdawctDjOorD8dMY7gKMMmxHtRsSZ6r6zD
- ssLLjkoerCQ0q2Nvdah2p9WR+15foED2HRd8bwvjxTlVphelon+v7pg0FC0yBY4bxNcs
- gvZg==
+ bh=troBauGruOiqXAMgk/gylKtSi6BtH+WWrxM6H29u8b0=;
+ b=g8btc76szsOI5sQniKKIiptIHaOlp5mz7ZXLbevVkY1DDBtjRy5b3l5kUBfROVpzE/
+ p0LaaD+osAWWZQ5Ig2RLUp1SvCjAveWiCSD/DplAXyTZCa8rerK8Xxq119oxKJjQAo+L
+ L1l6r65K6iks0sLKShQXt0gON/CDRiF2noTuori+yISRBaq34scFbtd6z2drEpyg1jh2
+ 1rny7HoSkMQvwlLbBchNx2AEMLmQJEn8Xdmcwmv+928RbiWpMK1GGwaHuN4a9IpWLDEm
+ Zxm/uHIDO2KVAeF7YEYsEZtG9p0z5HkgrHX1Au6NliUtbmopEx5waG8s7C2kwXxmPXON
+ c7Fg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVB8jkk/0y+6mOipbjLBbi6o9WGmQI8Ss6/8NBMOTl64jEqTqH13vRQu9bve9ph29El26Om1sFhxPyG/RK37Du+BGxFcarTPv9+8oWxxGRE
-X-Gm-Message-State: AOJu0YyUkYKoqIxKwHtGvLaa0pY0hBj/EP0lBW6GKAAQj+Kfg7LdUL8h
- TeErXdEQnpkO4DdBcvUUg7bSl0TgR9k4HuD0y1i9YD/LYQe+Q/feU3v6rOy8XKMygnyfVU+CYcr
- ZDIFRLiZqKCIUU1TwowIKghw8eXQlW2Ng
-X-Google-Smtp-Source: AGHT+IGBrcJZYoP7fH5ml/AuoDoR3wlkBpSblj4N1KiMMjBJgFIR93aSaFLqICUWQgH/NldOf5fbTOySmYNK
-X-Received: by 2002:a17:906:f902:b0:a6e:feb5:148e with SMTP id
- a640c23a62f3a-a6fab6171f0mr351108466b.27.1718898411082; 
+ AJvYcCUUbe10sDzQcEJMAtEW9znvaAHGSof4OSjhwC+7kbWgf9igyFaP37YGtV5bh/OIG+sBBi2PcChrzTCvkmX01SG3FScXfkLEyRVTWKsw/gHJ
+X-Gm-Message-State: AOJu0YwZ1lhvbuu+nBwE0pBu1DxH2s5f4TcKZVkceRWGyW5MqnwuGYVw
+ JceaEpmYqBtj+e2hlyU5RWFsc7oR1GDktBmHu8IgGiPbtlv1TMtnBoVhSAsWHLXVmyPvGMerMNo
+ K3DYZ5AHn+512Uhegf6piC8oSL0XNtvrA
+X-Google-Smtp-Source: AGHT+IFdXboUyzvcjBfEU/duQGFhGUNUjFqTJN9PpIKRfrFwbkfOY9T4de8QxCXX5UCW4mA5gEOVKibACGiP
+X-Received: by 2002:adf:fd0e:0:b0:362:8201:fa3 with SMTP id
+ ffacd0b85a97d-36317b79325mr4586536f8f.34.1718898411556; 
  Thu, 20 Jun 2024 08:46:51 -0700 (PDT)
 Received: from raspberrypi.com ([188.39.149.98])
  by smtp-relay.gmail.com with ESMTPS id
- a640c23a62f3a-a6f900cba4fsm17716766b.91.2024.06.20.08.46.50
+ ffacd0b85a97d-360750b75d0sm821550f8f.5.2024.06.20.08.46.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 20 Jun 2024 08:46:51 -0700 (PDT)
 X-Relaying-Domain: raspberrypi.com
@@ -64,11 +64,12 @@ To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH 16/31] drm/vc4: UV planes vertical scaling must always be
- enabled
-Date: Thu, 20 Jun 2024 16:46:17 +0100
-Message-Id: <20240620154632.4125308-17-dave.stevenson@raspberrypi.com>
+Cc: Dom Cobley <popcornmix@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [PATCH 17/31] drm/vc4: hdmi: Avoid hang with debug registers when
+ suspended
+Date: Thu, 20 Jun 2024 16:46:18 +0100
+Message-Id: <20240620154632.4125308-18-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
 References: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
@@ -89,33 +90,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It has been observed that a YUV422 unity scaled plane isn't displayed.
-Enabling vertical scaling on the UV planes solves this. There is
-already a similar clause to always enable horizontal scaling on the
-UV planes.
+From: Dom Cobley <popcornmix@gmail.com>
 
+Trying to read /sys/kernel/debug/dri/1/hdmi1_regs
+when the hdmi is disconnected results in a fatal system hang.
+
+This is due to the pm suspend code disabling the dvp clock.
+That is just a gate of the 108MHz clock in DVP_HT_RPI_MISC_CONFIG,
+which results in accesses hanging AXI bus.
+
+Protect against this.
+
+Signed-off-by: Dom Cobley <popcornmix@gmail.com>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/vc4_plane.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index d078a2d21eea..4cd1721d2389 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -517,6 +517,12 @@ static int vc4_plane_setup_clipping_and_scaling(struct drm_plane_state *state)
- 		 */
- 		if (vc4_state->x_scaling[1] == VC4_SCALING_NONE)
- 			vc4_state->x_scaling[1] = VC4_SCALING_PPF;
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 21046056f63d..372ac2140001 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -147,6 +147,8 @@ static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
+ 	if (!drm_dev_enter(drm, &idx))
+ 		return -ENODEV;
+ 
++	WARN_ON(pm_runtime_resume_and_get(&vc4_hdmi->pdev->dev));
 +
-+		/* Similarly UV needs vertical scaling to be enabled.
-+		 * Without this a 1:1 scaled YUV422 plane isn't rendered.
-+		 */
-+		if (vc4_state->y_scaling[1] == VC4_SCALING_NONE)
-+			vc4_state->y_scaling[1] = VC4_SCALING_PPF;
- 	} else {
- 		vc4_state->is_yuv = false;
- 		vc4_state->x_scaling[1] = VC4_SCALING_NONE;
+ 	drm_print_regset32(&p, &vc4_hdmi->hdmi_regset);
+ 	drm_print_regset32(&p, &vc4_hdmi->hd_regset);
+ 	drm_print_regset32(&p, &vc4_hdmi->cec_regset);
+@@ -156,6 +158,8 @@ static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
+ 	drm_print_regset32(&p, &vc4_hdmi->ram_regset);
+ 	drm_print_regset32(&p, &vc4_hdmi->rm_regset);
+ 
++	pm_runtime_put(&vc4_hdmi->pdev->dev);
++
+ 	drm_dev_exit(idx);
+ 
+ 	return 0;
 -- 
 2.34.1
 
