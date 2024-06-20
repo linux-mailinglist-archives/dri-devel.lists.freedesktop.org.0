@@ -2,50 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0EE90FE5B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 10:10:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7379F90FE5E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 10:11:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBADE10E84B;
-	Thu, 20 Jun 2024 08:10:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ACC410E866;
+	Thu, 20 Jun 2024 08:11:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kh6ft39J";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="GFVwhq9v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A30FF10E87A
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:10:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 23A28CE206C;
- Thu, 20 Jun 2024 08:10:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 054DEC2BD10;
- Thu, 20 Jun 2024 08:10:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718871030;
- bh=CQO1ZBCY35dlIP9EFLK4duHPiQg8itojF2iQa8PXx64=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kh6ft39JpcBsdpZO0QMSFCDeFsuCKzbFwMn93a0DLuPj+dgILod/fjgwr5WUqu/fA
- DsdFZzgCVl9BCLCYPaQw6gzHZiXNVJbfFgAqlYdXTrOFqflIspGj8AUy02bovNrSH/
- UNSqLjbrWBRvcwQ7/YpeMo2jrqzwYA+kf0R64qbwBo7u0U33bwM5deVtdbG4OwnpSX
- 77tVWOdf+AzKQDNPrCtvmKdNJ2w6wiNlRIDIg8QxGAZ+FGFluDgEGR5aaBThMAnJIC
- OrANFHGy1IZ8e0g1jEwMQTP8u1dnvSaSNpMiQdlKXotUAMusbr/1LjjzcJbfrcySKm
- lwtQNMJaK5giQ==
-Date: Thu, 20 Jun 2024 10:10:27 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 1/3] drm/tests: Add tests for the new Monochrome value
- of tv_mode
-Message-ID: <20240620-expert-coucal-from-shambhala-9f55b7@houat>
-References: <20240619153913.2804051-1-dave.stevenson@raspberrypi.com>
- <20240619153913.2804051-2-dave.stevenson@raspberrypi.com>
+Received: from out30-100.freemail.mail.aliyun.com
+ (out30-100.freemail.mail.aliyun.com [115.124.30.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D345B10E84E;
+ Thu, 20 Jun 2024 08:11:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux.alibaba.com; s=default;
+ t=1718871066; h=From:To:Subject:Date:Message-Id:MIME-Version;
+ bh=gLiv3pyD1fElUB0wAQIjj/qFPDkPz4q0no5seMRSoi8=;
+ b=GFVwhq9v8AwXDI8sGyvgk9tgICkaugROqblE1QHhymgASGU9fn6sa9B8wKZqryYPEcCoGX8NcS5vaLx0RrW5of5JXZQ2c94yWPVQjEsAhsqz5svAqN+Odcpq3IyPkTUBh4p0A8L7MxXLyMq5gkLKUXSKfDi8O4pqpMlCmB43z3g=
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R101e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=maildocker-contentspam033032014031;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=13; SR=0;
+ TI=SMTPD_---0W8qf3Sp_1718871054; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0W8qf3Sp_1718871054) by smtp.aliyun-inc.com;
+ Thu, 20 Jun 2024 16:11:05 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: harry.wentland@amd.com
+Cc: sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH] drm/amd/display: Remove redundant code and semicolons
+Date: Thu, 20 Jun 2024 16:10:52 +0800
+Message-Id: <20240620081052.56439-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="sjc64ugblgiodzuk"
-Content-Disposition: inline
-In-Reply-To: <20240619153913.2804051-2-dave.stevenson@raspberrypi.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,33 +57,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+No functional modification involved.
 
---sjc64ugblgiodzuk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+./drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c:3171:2-3: Unneeded semicolon.
+./drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c:3185:2-3: Unneeded semicolon.
+./drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c:3200:2-3: Unneeded semicolon.
 
-On Wed, Jun 19, 2024 at 04:39:11PM GMT, Dave Stevenson wrote:
->  static struct kunit_case drm_modes_analog_tv_tests[] = {
->  	KUNIT_CASE(drm_test_modes_analog_tv_ntsc_480i),
->  	KUNIT_CASE(drm_test_modes_analog_tv_ntsc_480i_inlined),
->  	KUNIT_CASE(drm_test_modes_analog_tv_pal_576i),
->  	KUNIT_CASE(drm_test_modes_analog_tv_pal_576i_inlined),
-> +	KUNIT_CASE(drm_test_modes_analog_tv_mono_576i),
->  	{ }
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9365
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ .../dml21/src/dml2_core/dml2_core_shared.c    | 46 +++++++++----------
+ 1 file changed, 23 insertions(+), 23 deletions(-)
 
-Also, the tests should be sorted by alphabetical order
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
+index cfa4c4475821..1a9895b1833f 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c
+@@ -3142,62 +3142,62 @@ static unsigned int dml_get_tile_block_size_bytes(enum dml2_swizzle_mode sw_mode
+ {
+ 	switch (sw_mode) {
+ 	case (dml2_sw_linear):
+-		return 256; break;
++		return 256;
+ 	case (dml2_sw_256b_2d):
+-		return 256; break;
++		return 256;
+ 	case (dml2_sw_4kb_2d):
+-		return 4096; break;
++		return 4096;
+ 	case (dml2_sw_64kb_2d):
+-		return 65536; break;
++		return 65536;
+ 	case (dml2_sw_256kb_2d):
+-		return 262144; break;
++		return 262144;
+ 	case (dml2_gfx11_sw_linear):
+-		return 256; break;
++		return 256;
+ 	case (dml2_gfx11_sw_64kb_d):
+-		return 65536; break;
++		return 65536;
+ 	case (dml2_gfx11_sw_64kb_d_t):
+-		return 65536; break;
++		return 65536;
+ 	case (dml2_gfx11_sw_64kb_d_x):
+-		return 65536; break;
++		return 65536;
+ 	case (dml2_gfx11_sw_64kb_r_x):
+-		return 65536; break;
++		return 65536;
+ 	case (dml2_gfx11_sw_256kb_d_x):
+-		return 262144; break;
++		return 262144;
+ 	case (dml2_gfx11_sw_256kb_r_x):
+-		return 262144; break;
++		return 262144;
+ 	default:
+ 		DML2_ASSERT(0);
+ 		return 256;
+-	};
++	}
+ }
+ 
+ const char *dml2_core_internal_bw_type_str(enum dml2_core_internal_bw_type bw_type)
+ {
+ 	switch (bw_type) {
+ 	case (dml2_core_internal_bw_sdp):
+-		return("dml2_core_internal_bw_sdp"); break;
++		return("dml2_core_internal_bw_sdp");
+ 	case (dml2_core_internal_bw_dram):
+-		return("dml2_core_internal_bw_dram"); break;
++		return("dml2_core_internal_bw_dram");
+ 	case (dml2_core_internal_bw_max):
+-		return("dml2_core_internal_bw_max"); break;
++		return("dml2_core_internal_bw_max");
+ 	default:
+-		return("dml2_core_internal_bw_unknown"); break;
+-	};
++		return("dml2_core_internal_bw_unknown");
++	}
+ }
+ 
+ const char *dml2_core_internal_soc_state_type_str(enum dml2_core_internal_soc_state_type dml2_core_internal_soc_state_type)
+ {
+ 	switch (dml2_core_internal_soc_state_type) {
+ 	case (dml2_core_internal_soc_state_sys_idle):
+-		return("dml2_core_internal_soc_state_sys_idle"); break;
++		return("dml2_core_internal_soc_state_sys_idle");
+ 	case (dml2_core_internal_soc_state_sys_active):
+-		return("dml2_core_internal_soc_state_sys_active"); break;
++		return("dml2_core_internal_soc_state_sys_active");
+ 	case (dml2_core_internal_soc_state_svp_prefetch):
+-		return("dml2_core_internal_soc_state_svp_prefetch"); break;
++		return("dml2_core_internal_soc_state_svp_prefetch");
+ 	case dml2_core_internal_soc_state_max:
+ 	default:
+-		return("dml2_core_internal_soc_state_unknown"); break;
+-	};
++		return("dml2_core_internal_soc_state_unknown");
++	}
+ }
+ 
+ static bool dml_is_vertical_rotation(enum dml2_rotation_angle Scan)
+-- 
+2.20.1.7.g153144c
 
-Maxime
-
---sjc64ugblgiodzuk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZnPj8wAKCRDj7w1vZxhR
-xTSlAQDmbAbsN3ET1P0m003ND7fzu8vtOOUZyNOL7MUDfn94gQEA7jzDXL8J+XiV
-wMt7wd2FPFzm7ZI501XOzW3B2/nmMgc=
-=T0r4
------END PGP SIGNATURE-----
-
---sjc64ugblgiodzuk--
