@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79CB29103FB
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 14:28:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA32910400
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 14:28:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 418ED10E97B;
-	Thu, 20 Jun 2024 12:28:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 357D510E96F;
+	Thu, 20 Jun 2024 12:28:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="znSCvmuP";
+	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="M26+S+ZB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CDDD10E987
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 12:28:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D196D10E95E
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 12:28:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1718886468;
+ s=mail; t=1718886469;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YPXLYwFrzAGA+us0gwq37ouAxM3z0rx257cuQIJnO9o=;
- b=znSCvmuPMmiK7HgZiS1dnXrJAn9HqOcXWwuDKsJyRdUHB7KlbdZnL4AqUFXZnRSheuMl2f
- x0POCTZ7av9s88TkeiMvXSysbDavv5TYO2WizXfmpqNroXkGKfwysl+I6BqK+k4chBj/WM
- kxaiN8kWUwAWNHDzBzO/jS1LImtxYLE=
+ bh=3ohuxApLNdhOX7LZ/v+Xu3NNVbPIJcpf85Dd0wZ/o3s=;
+ b=M26+S+ZB7da4Tf54WshO20DXN4NdDv+ZKNPYgCJbP05fpECQBaQS+sxffHumo5a5Xd9qMC
+ G9142wxy8t61XicEf4R3sQHKLHGiLjHDjMniZjQLfiiAlQ1OUy5Uf6ay2EA46BBPV8ZUXi
+ zzC1qP6ig5jK22F+tbIrOI4l/Si+H8I=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
  Vinod Koul <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
@@ -33,11 +33,11 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
  linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v12 6/7] Documentation: iio: Document high-speed DMABUF based
- API
-Date: Thu, 20 Jun 2024 14:27:25 +0200
-Message-ID: <20240620122726.41232-7-paul@crapouillou.net>
+ linaro-mm-sig@lists.linaro.org, Paul Cercueil <paul@crapouillou.net>,
+ Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH v12 7/7] Documentation: dmaengine: Document new dma_vec API
+Date: Thu, 20 Jun 2024 14:27:26 +0200
+Message-ID: <20240620122726.41232-8-paul@crapouillou.net>
 In-Reply-To: <20240620122726.41232-1-paul@crapouillou.net>
 References: <20240620122726.41232-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -57,112 +57,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document the new DMABUF based API.
+Document the dmaengine_prep_peripheral_dma_vec() API function, the
+device_prep_peripheral_dma_vec() backend function, and the dma_vec
+struct.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Co-developed-by: Nuno Sa <nuno.sa@analog.com>
-Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 ---
-v2: - Explicitly state that the new interface is optional and is
-      not implemented by all drivers.
-    - The IOCTLs can now only be called on the buffer FD returned by
-      IIO_BUFFER_GET_FD_IOCTL.
-    - Move the page up a bit in the index since it is core stuff and not
-      driver-specific.
-
-v3: Update the documentation to reflect the new API.
-
-v5: Use description lists for the documentation of the three new IOCTLs
-    instead of abusing subsections.
-
-v8: Renamed dmabuf_api.rst -> iio_dmabuf_api.rst, and updated index.rst
-    whose format changed in iio/togreg.
-
-v11:
-- "a IIO buffer" -> "an IIO buffer"
-- Add variable name in IOCTL calls
-
-v12:
-- "obtained using..." -> "which can be obtained using..."
+v11: New patch
 ---
- Documentation/iio/iio_dmabuf_api.rst | 54 ++++++++++++++++++++++++++++
- Documentation/iio/index.rst          |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 Documentation/iio/iio_dmabuf_api.rst
+ Documentation/driver-api/dmaengine/client.rst   |  9 +++++++++
+ Documentation/driver-api/dmaengine/provider.rst | 10 ++++++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/Documentation/iio/iio_dmabuf_api.rst b/Documentation/iio/iio_dmabuf_api.rst
-new file mode 100644
-index 000000000000..2836cadbd495
---- /dev/null
-+++ b/Documentation/iio/iio_dmabuf_api.rst
-@@ -0,0 +1,54 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================================
-+High-speed DMABUF interface for IIO
-+===================================
-+
-+1. Overview
-+===========
-+
-+The Industrial I/O subsystem supports access to buffers through a
-+file-based interface, with read() and write() access calls through the
-+IIO device's dev node.
-+
-+It additionally supports a DMABUF based interface, where the userspace
-+can attach DMABUF objects (externally created) to an IIO buffer, and
-+subsequently use them for data transfers.
-+
-+A userspace application can then use this interface to share DMABUF
-+objects between several interfaces, allowing it to transfer data in a
-+zero-copy fashion, for instance between IIO and the USB stack.
-+
-+The userspace application can also memory-map the DMABUF objects, and
-+access the sample data directly. The advantage of doing this vs. the
-+read() interface is that it avoids an extra copy of the data between the
-+kernel and userspace. This is particularly useful for high-speed devices
-+which produce several megabytes or even gigabytes of data per second.
-+It does however increase the userspace-kernelspace synchronization
-+overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs have to
-+be used for data integrity.
-+
-+2. User API
-+===========
-+
-+As part of this interface, three new IOCTLs have been added. These three
-+IOCTLs have to be performed on the IIO buffer's file descriptor, which
-+can be obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
-+
-+  ``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int fd)``
-+    Attach the DMABUF object, identified by its file descriptor, to the
-+    IIO buffer. Returns zero on success, and a negative errno value on
-+    error.
-+
-+  ``IIO_BUFFER_DMABUF_DETACH_IOCTL(int fd)``
-+    Detach the given DMABUF object, identified by its file descriptor,
-+    from the IIO buffer. Returns zero on success, and a negative errno
-+    value on error.
-+
-+    Note that closing the IIO buffer's file descriptor will
-+    automatically detach all previously attached DMABUF objects.
-+
-+  ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *iio_dmabuf)``
-+    Enqueue a previously attached DMABUF object to the buffer queue.
-+    Enqueued DMABUFs will be read from (if output buffer) or written to
-+    (if input buffer) as long as the buffer is enabled.
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index 4c13bfa2865c..9cb4c50cb20d 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -9,6 +9,7 @@ Industrial I/O
+diff --git a/Documentation/driver-api/dmaengine/client.rst b/Documentation/driver-api/dmaengine/client.rst
+index ecf139f73da4..d491e385d61a 100644
+--- a/Documentation/driver-api/dmaengine/client.rst
++++ b/Documentation/driver-api/dmaengine/client.rst
+@@ -80,6 +80,10 @@ The details of these operations are:
  
-    iio_configfs
-    iio_devbuf
-+   iio_dmabuf_api
-    iio_tools
+   - slave_sg: DMA a list of scatter gather buffers from/to a peripheral
  
- Industrial I/O Kernel Drivers
++  - peripheral_dma_vec: DMA an array of scatter gather buffers from/to a
++    peripheral. Similar to slave_sg, but uses an array of dma_vec
++    structures instead of a scatterlist.
++
+   - dma_cyclic: Perform a cyclic DMA operation from/to a peripheral till the
+     operation is explicitly stopped.
+ 
+@@ -102,6 +106,11 @@ The details of these operations are:
+ 		unsigned int sg_len, enum dma_data_direction direction,
+ 		unsigned long flags);
+ 
++     struct dma_async_tx_descriptor *dmaengine_prep_peripheral_dma_vec(
++		struct dma_chan *chan, const struct dma_vec *vecs,
++		size_t nents, enum dma_data_direction direction,
++		unsigned long flags);
++
+      struct dma_async_tx_descriptor *dmaengine_prep_dma_cyclic(
+ 		struct dma_chan *chan, dma_addr_t buf_addr, size_t buf_len,
+ 		size_t period_len, enum dma_data_direction direction);
+diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
+index ceac2a300e32..3085f8b460fa 100644
+--- a/Documentation/driver-api/dmaengine/provider.rst
++++ b/Documentation/driver-api/dmaengine/provider.rst
+@@ -433,6 +433,12 @@ supported.
+     - residue: Provides the residue bytes of the transfer for those that
+       support residue.
+ 
++- ``device_prep_peripheral_dma_vec``
++
++  - Similar to ``device_prep_slave_sg``, but it takes a pointer to a
++    array of ``dma_vec`` structures, which (in the long run) will replace
++    scatterlists.
++
+ - ``device_issue_pending``
+ 
+   - Takes the first transaction descriptor in the pending queue,
+@@ -544,6 +550,10 @@ dma_cookie_t
+ - Not really relevant any more since the introduction of ``virt-dma``
+   that abstracts it away.
+ 
++dma_vec
++
++- A small structure that contains a DMA address and length.
++
+ DMA_CTRL_ACK
+ 
+ - If clear, the descriptor cannot be reused by provider until the
 -- 
 2.43.0
 
