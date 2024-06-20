@@ -2,74 +2,184 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3973690FFEE
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 11:08:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6FC890FFF2
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 11:08:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 138CB10E07C;
-	Thu, 20 Jun 2024 09:08:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF91010E87C;
+	Thu, 20 Jun 2024 09:08:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Gbr0Xij1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fP5Dscio";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B585B10E07C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 09:08:24 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-57d0f929f79so501244a12.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 02:08:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1718874503; x=1719479303;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/HqSY3GOs/15VIJ9Rt+TiaY5fHiC8UUyqPG+GopX0FQ=;
- b=Gbr0Xij1DxcLB3b2azRIR6bvcwgKcUjBtgaKOdkWu70gOn3yUENW2qZKYNCVRA5/uY
- nzjOqXERdxDoK/44B/7UFC0ghfn1Q3cZHzRff4sXnTGDBv5+pYBiMuPKVAgQsoC2wY6F
- y8WZc6hHuu3x5UT7Mw0lkgXs8bJZCt7bTienqnTpQfJ+hB3q3++lSghGk7yITAvdqXwB
- Nukn/rPMiBL3BOrtMofV/Lmv2HwYCz8oWuJaHH8ovpTp7Bb2ASs1i3z03+reTmYtk6VR
- Kv7aYeRRyWt1T61VifGre/kCuSTcoJW8l/b944DgiBuzYs0dvWD9qBxQySitDKlH0yNR
- GeMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718874503; x=1719479303;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/HqSY3GOs/15VIJ9Rt+TiaY5fHiC8UUyqPG+GopX0FQ=;
- b=D9WEbAOlUuSJGL3DGqQfGx6Sajaqqv/3puaFNfIJMAnNwFYVZtefDML7I+Zp+j6OzZ
- GVY9EoBPdwcoW4Oq9FG7CZ4ha2To3+QtbxYEzCdZpbLSbmZ319VKilDEV8RI4xXtCuSo
- o901flxln8YVeT3BbX2cxuoaPNl8r9ddIGPs8oAzlYcU4A+6llKRDwr8bikWAEQdXwNH
- twjjwrz9ORi4B7ZCtY6C8UoVpw5pQpYTNSejDs5zVFe4iaKIenvXc2jOl8Hz0UnZplSw
- S9xCvjlR1HPFxY0gAwvs4wMSuXStA57EzWm17WfFYo6p0gjbk0lHEGCkm7IYfPGOTZja
- BfZQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX27lhzexcUSfg0EUx2bHbH/v3PweLWEgwP8IwQBCwhkXVpNI1ko9INkFPasBlbzs1+8rSDdNgbgh1nWpWbPgIi6hZEWrWMFxpqdtqYxKAS
-X-Gm-Message-State: AOJu0Ywnq+uAdVCVDs8M0VVfyNz00651jLMmkJ/kDZ9VFU3UCc493+s3
- tkbOU7wn1xOi2vnZ3ipEpQ2Aq6ZOJnaGXTpW+PnxYkIX8KW/ghfr4N9HQqtTXhUuo9MlncRfzdC
- 49qVLwj/pRvakcNj9O1Kr6/P0SojhrSdXmgd5xQ==
-X-Google-Smtp-Source: AGHT+IHO5sP2gbpxBB+AMGd4wNamE9Q721oKfWv/dUroSShvJU+KFMT4kGHIsnxr8NwAqlWGAJQN7rLag50g2h0cmh4=
-X-Received: by 2002:a50:ee92:0:b0:57c:765b:83a3 with SMTP id
- 4fb4d7f45d1cf-57d0bff1a13mr2919665a12.25.1718874502424; Thu, 20 Jun 2024
- 02:08:22 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AD9310E87C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 09:08:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718874516; x=1750410516;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=7Qax08djbmx+BPQlm2ugvEvwDP6SaRpVUlb3JDyfrCU=;
+ b=fP5DscioNpMAXGRTcZ1VK9e7upuin5ZfBa9mknlZMF5Gw9/0iBPm2iDk
+ gSB3bdXOU5QnUQMkGUKgx/bdeUwt1FL4vOrW5LCYrvEm6e8ud4c++WOGF
+ l5Dz4tEp5yWZAfVkHDmCdItqJTZPWsM1Dy7TJgdFXtuW6s9sXAfVoMPn8
+ Hapj2QLRzodn8mTcrd7W1LPc0Ie0F2w2NOMLh5vYpJiJH0yOFBu5l43P1
+ 2lmNOe/EijKHHgQY2S30CCu8zUnMDBO7AWAbvjlBXTyp7ZGpyvYOjOwYi
+ bmExBmP3pSvp9cGhmY0DSZ+zOZp9uK0OUlKQmnw5y2oPOYO5deqJauwl8 w==;
+X-CSE-ConnectionGUID: mEw1m06gTj6KDB0M/pgX+g==
+X-CSE-MsgGUID: ep6VsjcaRNijDjYhRi/7Eg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15958415"
+X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; d="scan'208";a="15958415"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2024 02:08:35 -0700
+X-CSE-ConnectionGUID: luTirqOAScWzhY9uHiuyaA==
+X-CSE-MsgGUID: uMcLghzDQq+UkSFUkeHQAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; d="scan'208";a="42054994"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 20 Jun 2024 02:08:35 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 20 Jun 2024 02:08:34 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 20 Jun 2024 02:08:34 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 20 Jun 2024 02:08:34 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Bf+tkhyGLSV1rW5M/Utz0/pHYxNqxDtmX8Gow1653IW/LhvlKnQ3OZG3BNeqGJ+sud7jdhJoQHu8qpZ8kXZawI3xHHsLK+op8t4QvC0EH/SJW58TRJrVe5pnhTtOD4RtIT1FL3EDOeCcvHz3ovIk/t4xRo4zUSNtE9pogYM6emq7IwRnmy6dVq1yeDWjsHtQqBcTqJ80RP9sPrA2bWq7XPIv4BU1Hj0SOfLpbTqkt2zQNQLEQqi8UBMvdmXS4cXhOQBuCHPn4dMtPycMf9VS6S2MxTnJR26kjS4UPoJK4CIj5+pVanwOlMAVP1QNABrutqpXvKWTzDz8uFy6HLme4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vDPq2JNsnx7jpxzp9sJX0E5sapC8urmIdyyP7gtPdp8=;
+ b=Jk+UPXubAzq6FspG6ftSdC27YQbjHZgoBCVu3AFatHsiMXL84by3cc33orhxOEBQhu+/OL8vitMsXiyLbuvQmIMZA9Pt00MDkHEBBRa5eqn1SIpeWwq6LtU6IdezAHjzeCOnejHOKqGdiPCQy2hIOLNWFZAsZgeWA0HPqRcrzQUJBNy3JAQxM7JSGN/Rx68DDYl2Bpwb78ZAT3zX3IGt4qyu63EaSOZA/+Yx8aZ3jB8vj7LY+EAsvSEJMBpbkLGbMSwIFHImf7/p+PogAuKe6GxDdfLIh8gUPqWs3bpdgj+huvcyCv7ORI8SEVsTsDRrtVhQHSme4aR9IliFS+jjww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from IA1PR11MB7388.namprd11.prod.outlook.com (2603:10b6:208:420::8)
+ by PH0PR11MB4999.namprd11.prod.outlook.com (2603:10b6:510:37::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.27; Thu, 20 Jun
+ 2024 09:08:32 +0000
+Received: from IA1PR11MB7388.namprd11.prod.outlook.com
+ ([fe80::12e2:8615:27f6:95f5]) by IA1PR11MB7388.namprd11.prod.outlook.com
+ ([fe80::12e2:8615:27f6:95f5%6]) with mapi id 15.20.7698.020; Thu, 20 Jun 2024
+ 09:08:32 +0000
+Message-ID: <462151b9-be3a-4a77-8455-c879623ee1ab@intel.com>
+Date: Thu, 20 Jun 2024 11:08:30 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 00/12] Improve test coverage of TTM
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Amaranath
+ Somalapuram" <asomalap@amd.com>
+CC: <dri-devel@lists.freedesktop.org>, Matthew Auld <matthew.auld@intel.com>, 
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+References: <cover.1718192625.git.karolina.stolarek@intel.com>
+Content-Language: en-US
+From: Karolina Stolarek <karolina.stolarek@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <cover.1718192625.git.karolina.stolarek@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DB9PR02CA0013.eurprd02.prod.outlook.com
+ (2603:10a6:10:1d9::18) To IA1PR11MB7388.namprd11.prod.outlook.com
+ (2603:10b6:208:420::8)
 MIME-Version: 1.0
-References: <20240614145609.25432-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240614145609.25432-3-lvzhaoxiong@huaqin.corp-partner.google.com>
- <xiv3rvzpx7l2esosggybp6pheoa4zg3ew6vnhjxewnmvkdy73o@jflkmq77lxxn>
-In-Reply-To: <xiv3rvzpx7l2esosggybp6pheoa4zg3ew6vnhjxewnmvkdy73o@jflkmq77lxxn>
-From: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Date: Thu, 20 Jun 2024 17:08:11 +0800
-Message-ID: <CA+6=WdQpLMQBti_1WBQ9h09fRSf74o0m4YrJqDOqzDAYJ0EyOA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/panel: starry-er88577: add new panel driver
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org, 
- benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR11MB7388:EE_|PH0PR11MB4999:EE_
+X-MS-Office365-Filtering-Correlation-Id: 97928d70-1a17-467c-acf6-08dc91088edb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230037|1800799021|376011|366013;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SDdNcmRpUERzb0gxY3lCa3pVTDFINjBUQ3l3MUZZc05SeWVjTlREanVBRTRM?=
+ =?utf-8?B?VU52SFF5TUZsQ2s2QzVKL2pxNzhjNTVVUDBHUmpLamlQQnlBcXMvaWtNMS9Y?=
+ =?utf-8?B?cjhDNGZrZndQVThKYnlxUGlRMDFyQm8yQVkwd29vWXFQYW9uTFlSQnl1bG9t?=
+ =?utf-8?B?cjZUazFqZXlTekU2WFJRRUhDRzRtV2Z2M0xDNzF0SGZDZGZKVTIvMDQySlhF?=
+ =?utf-8?B?c09yT0lwYzd5TzVKUVpZK3lTamhITjBybnR3aEpqREdQRG1YOCs2NnVkR2w3?=
+ =?utf-8?B?YkFVNHJOSno5eDUwR2N3cWY5ejgxN3M2QzhoNEt1UzZvT3MvMkJLQnpZR2tj?=
+ =?utf-8?B?cGcwaU0wbVc1dVFnTm5Zelo3Wm9OcjcwQVdoUEJJOXlBU2M3SE4zUWNjZ29D?=
+ =?utf-8?B?YjF1YWFSdWliYTlUbHA5cGVLcGFXVE40d3FYWTd1L1kzUHBadVB1dGVTSEc2?=
+ =?utf-8?B?RWVERGcxQk1xOHJlZGtnK3dqZzJJbFQ2WDdRS3VtNnFwbEkwTXBaNGVidVlp?=
+ =?utf-8?B?VFRMRXFBUlIxa2VIWUljV3JXOXdsbHNyMzN2NHhveVZoNG1sOWp4cmNYSFEw?=
+ =?utf-8?B?cUFPNXo0RnpvNXJpS0VZWVZ3L2tnUW5GaXFFUDFFS1AzM2JUbWh2c0tsbTNH?=
+ =?utf-8?B?L3NDSVNEZE4vQnppZHVGWHpTWjR6dkRXMlBLZHppWDdBcC9uQmlzbUhNZklk?=
+ =?utf-8?B?VFZ4ZUhIYXBGU0szUTNLYjFJZVo4czdwZ1JFek0yREs4djdOVmFtL2g1QUtH?=
+ =?utf-8?B?cVNlOWVtaHNQbWYzeVhGWHNnaDhXTFYzbkE5bVFnUlAxNjVGWWJScnBvRU1L?=
+ =?utf-8?B?N0QvVFpWWEpTU3NpV3dyQ2gwSVBLaHlibnBiTW9YZk9WZGRzMzlaS1J3YlJ0?=
+ =?utf-8?B?ODdmdndLaEpxOVZtdEMvSm5OelYrR3I1dmxFdFhyRTVVdEF3QS9SbUdnV1Iy?=
+ =?utf-8?B?YnQ2ZFljbjYrWTBQeTNWY2NVS2ROK04rck9PMVRyL1cxSWxjc1dBK3lHdEs1?=
+ =?utf-8?B?UEl2eG5hZnZGQ2NTUThDdTE0NHRnRG9GN3ZCZkp0SzdiVlB5VVhjRXl5QnFw?=
+ =?utf-8?B?ZjRMWk9aZmJLdDRkdlFtUEhKamJtZnpZeXdnTVJKc3dROHVmUmkveHVsOElM?=
+ =?utf-8?B?Z2lQZkp0L2RnODJvcGpaQjFrWDlQYXlYb3MvdVhNUmd4WTZ4TjUzS0ZLOVRV?=
+ =?utf-8?B?a01oUHZKR0dwbU1iRWhPSVhobEh4Q2lFTFpoUnhvVWRiTFVudU1XMk5KdGFM?=
+ =?utf-8?B?TkpYT2k4dkFtNEdDVGQzeVRCMGtmL0d5M0FaMEZTVkRnY3ZWUW0xWDEwckp5?=
+ =?utf-8?B?dFF5d21TanE5bjM4dnh6SEhQM2pWZjB5WFNNZnI4MHlPekFQVGRtU3N0dUpa?=
+ =?utf-8?B?OEpleHBuUmFNZXhrdFMwR2IxVTVWanlnTTQvbmd3bEx1V3dFQW5vd1hKcEg4?=
+ =?utf-8?B?N253NlJYNHRtdUg0RzI2MnNIQVlVWFFleFFVS3J1aGRhSmxzNUtpYTVaUU5W?=
+ =?utf-8?B?SVFuUVB2ajNoVmVzRkFQVTFMbDMrRHpOOWg0T212RGNmelVER3VJdUZER1lR?=
+ =?utf-8?B?RzFQWW54a0c4YzhHdU5IZWJhb1dSeEVPTVlWaWZaMnpiY1dVSFhmLzVaeXEx?=
+ =?utf-8?B?L1hWeEtCMjE4NTBDNHF4UmlWcUVpQUJqWDA5dys4cjZZTStiZnJjZitoY3VJ?=
+ =?utf-8?Q?e1J0dXCKAR7VoaUbdg+J?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA1PR11MB7388.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230037)(1800799021)(376011)(366013); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ODR4QXAwMDBQWnBiMDBsc0JlNzA2NnA1Q0RvYmFzdGgrZjJHeXR6MmdCZHZ4?=
+ =?utf-8?B?WVhaR0c3T3RtNG9zM1VLblUveUdvNFIzRlZrdFNOditxRnQyb2tqcE5TSkxD?=
+ =?utf-8?B?bjE5SENSZi96WjgyWlYrVE82WDcvVzdTQ3ZnSERraC80MjNSV2pyZFZaQVJE?=
+ =?utf-8?B?bXJGUlc1ZnhacnlkWXV2alJFSmFMZm9ITG1mYVpRYko5ZENjODIwNGhLMHdt?=
+ =?utf-8?B?eURycnRWUVdKQStqcVI2Z1BGNzV2QkJNVzVWRENWRWdzOS9Cb3ZkOVpJdzBp?=
+ =?utf-8?B?cW9vTzNlVUdTUld6bHJGWnVmVkwrTVRMRk1rbUJEVUhoaTlSOHZKRjJReHRk?=
+ =?utf-8?B?TTE0b3pZUkZWTzB0S2tiRFdBWFJSODIxZm42OWlRKzVyUWF0Q2pIRlhyQThG?=
+ =?utf-8?B?WnJObURuQkFZR3dYYUV2OFVCY0toSGhBS2NPeXNMYmIwTXUvWDZlVHYxYWVi?=
+ =?utf-8?B?U1I4bm9OZ3ZzbCtsdEZWWFBCT2JUR0lYbE1rRnhiQk12T3ZyK0tERjFqbExz?=
+ =?utf-8?B?cGJyVWZieWp4QmdkNktWQXpoZlVuRld0M0lBRkNCdVlBeFgvOS9IRFNXbG9m?=
+ =?utf-8?B?aVpYVVk2dEd1Mkd1Z1BVQ2JPSUh6NmVrRnpwQWtoczdBNFAvcXZaK2hxTm53?=
+ =?utf-8?B?WW85UVhKUlpUZXQvWk03RmswV25ZVk5NMm5Yek42cWloV2ZTelFrOFBURlNj?=
+ =?utf-8?B?MWtKSDArcVRYQkVlemlSeHR4WHFhRWxOMUd1K3I1STZYK21BSXMzR3IySnlv?=
+ =?utf-8?B?bTMzNUk5eGR6VnBZYUMwTTZnSVNuaWVoQStsWXhlSDJDeHhTYUcvc3ptcCt4?=
+ =?utf-8?B?OWswZVdsdmJBWHpQa3lPckEyK1NaemdxSkdGL0FPQ2haMXZMcTZJaUt6WExO?=
+ =?utf-8?B?MFpLMktyS1lSTTZrakhIWS91M2JWZ1paQmNMd1c4cWRXZEF1RHcvendVRjBM?=
+ =?utf-8?B?MUN6aEpuVlBIM0xlUmVydWwxanJhK3Rma2Rla3phWXIzaVZuRzJrU1VkWjZy?=
+ =?utf-8?B?NmhEcmZBZm9tNjBubkRTRHQrVm5EdTBMVEZnSDNzQ0s2U1hGNG91cG1YK01r?=
+ =?utf-8?B?TUJIQjBOeEtndGpzekZ3enczQmpCUTJaOE9Dd05CaDRKUkVGNTY3T2grYlhV?=
+ =?utf-8?B?S3FtajF1cUN6MUl4VEgvR1F5RnIvTmkrUXJXalpsQVl1cUd6cUREcHgwcFdw?=
+ =?utf-8?B?MTVmOFpsWThpMFdaeEZFNUpyK1ZVdDRFN3I5b3dSZkhqc21Tc0xIZFZRSXA4?=
+ =?utf-8?B?K2h4QjNRQTR4N3hQSVV0YzFzRHJMdG04Z2tNeGloK2d6RmZxazRYMUtMNXhV?=
+ =?utf-8?B?ZGVoczZIM2NVWnIxSE1rVGdkWlplRnhFQTY0ZThSK1F6cDBZcTdLaGJMaXRJ?=
+ =?utf-8?B?TWwwbGdtazk3ODVFNzljUk93eDJ4NEMyNnpaUnU3R0srdlBYZ0UyZGxmdmtr?=
+ =?utf-8?B?ajltclJRTVErTDlINnRUSjg0QnBaNXpRVm5kR1R2VzArOWFuZnY0SytNSVMx?=
+ =?utf-8?B?SS95SWRLUzRBKzBSc2Rhek1FN2FyZGg0dS9aN21XTG1VaEozOWJCTjh1WDB2?=
+ =?utf-8?B?NytQa29UUTJvRk1mZ1RRdThKdU1kNStObG9oV2hDTHp5eS94QWpNcWlSUHRl?=
+ =?utf-8?B?enlnZWs3cVZOUlk4WDNGenJLc3Z5ZmlJOUtNdlhubTBGZy9zQ1ZOSEpLWm9l?=
+ =?utf-8?B?djUyNzBrY1Z4U2h6OTljSmo5empFSVVyNllMWmV2R1g4d09pZ1FrblAzdStI?=
+ =?utf-8?B?ZUhtLzV2QWNoSjdZN2xraGVDWFA2Umo4U3BPc2xGZ1RTZmlzNW5NMXZGTTla?=
+ =?utf-8?B?ODVrM0xXZU5uUGt6enR1Wm5mVkRvT0ZZdFVNbTVpTFVuYU82SVQ4M3ZEYnVl?=
+ =?utf-8?B?cW04NThSSExjRWI1YXVMNHN2T2RyWE1ORUp6NkVaT2RIQWI4cEJjMjNjaXhM?=
+ =?utf-8?B?Y21nWVVlb3FGbUMyQytFczB4dWJNb2ViWXg1VGxxZ2tXNVMrMDZNaFdraDBt?=
+ =?utf-8?B?cG85bkJubktBTjNQRjZJaDd5TmNuMTF5TU5JZDdXcXVLejUvaE02TUdHVVYx?=
+ =?utf-8?B?eWtlTmQ5MW9rQStma0dNc05Xb3hITGdmNDdwb05ndU5VTTNQRGRNa1RBcVBN?=
+ =?utf-8?B?MjJuenYrZitDMGZGcU53SlVWRkV3dnVZOVN3UDdYMEd5Ymg1aENIcXh5WG16?=
+ =?utf-8?B?aVE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97928d70-1a17-467c-acf6-08dc91088edb
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB7388.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2024 09:08:32.3353 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MLAN6clIR1Xf11syPrnsy8/wAf+WeK4cLqsQyTp6Y1hmuh08afDE53zvee92qW9GYwFiaxyMiXwK/xUDn97Etxkd8gKegsJ0EUDqR+L4VYs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4999
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,207 +195,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-hi Dmitry
+Hi Christian and Amaranath,
 
-We checked the panel-boe-th101mb31ig002-28a.c driver. Although the
-init_code is similar, the IC does not seem to be the same from the
-name, and our panel and timing are also different.
+On 12.06.2024 14:02, Karolina Stolarek wrote:
+> Introduce tests for ttm_bo_validate()/ttm_bo_init_validate() that exercise
+> simple BO placement as well as eviction (including the case where the evict
+> domain also requires eviction to fit the incoming buffer). Prepare KUnit
+> helpers to handle such scenarios and add a mock VRAM manager. This series also
+> includes some updates to the helpers and more definitions used to define
+> "special" memory domains (e.g., one that can't allocate resources or is busy),
+> as well as drive-by fixes for the tests.
+> 
+> There are a couple of areas in which this test suite can be improved.
+> Suggestions for future work can be found in the TODO file.
+> 
+> Use kunit_tool script to manually run all the tests:
+> 
+> $ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/ttm/tests
 
-On Sat, Jun 15, 2024 at 1:25=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Fri, Jun 14, 2024 at 10:56:09PM GMT, Zhaoxiong Lv wrote:
-> > The bias IC of this starry-er88577 panel is placed
-> > on the panel side, so when the panel is powered on,
-> > there is no need to control AVDD and AVEE in the driver,
-> > only 3.3v and reset are needed.
-> >
-> > Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com=
->
-> >
-> > ---
-> >
-> > Chage since V3:
-> >
-> > -  Separate Starry-er88577 from the panel-kingdisplay-kd101ne3 driver.
-> > -  Use mipi_dsi_dcs_set_display_on_multi().
-> > -  Use mipi_dsi_dcs_exit_sleep_mode_multi() and mipi_dsi_msleep().
-> >
-> > v2: https://lore.kernel.org/all/20240601084528.22502-5-lvzhaoxiong@huaq=
-in.corp-partner.google.com/
-> >
-> > Chage since V2:
-> >
-> > -  Add compatible for Starry er88577 in panel-kingdisplay-kd101ne3 driv=
-ers.
-> > ---
-> >  drivers/gpu/drm/panel/Kconfig                |   9 +
-> >  drivers/gpu/drm/panel/Makefile               |   1 +
-> >  drivers/gpu/drm/panel/panel-starry-er88577.c | 343 +++++++++++++++++++
-> >  3 files changed, 353 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/panel/panel-starry-er88577.c
-> >
-> > diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kcon=
-fig
-> > index e54f6f5604ed..a52aa2552ab8 100644
-> > --- a/drivers/gpu/drm/panel/Kconfig
-> > +++ b/drivers/gpu/drm/panel/Kconfig
-> > @@ -781,6 +781,15 @@ config DRM_PANEL_SITRONIX_ST7789V
-> >         Say Y here if you want to enable support for the Sitronix
-> >         ST7789V controller for 240x320 LCD panels
-> >
-> > +config DRM_PANEL_STARRY_ER88577
-> > +     tristate "Starry er88577 panel"
-> > +     depends on OF
-> > +     depends on DRM_MIPI_DSI
-> > +     depends on BACKLIGHT_CLASS_DEVICE
-> > +     help
-> > +       Say Y if you want to enable support for panels based on the
-> > +       Starry er88577 controller.
-> > +
-> >  config DRM_PANEL_SONY_ACX565AKM
-> >       tristate "Sony ACX565AKM panel"
-> >       depends on GPIOLIB && OF && SPI
-> > diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Mak=
-efile
-> > index f0203f6e02f4..ecd843a6dc6e 100644
-> > --- a/drivers/gpu/drm/panel/Makefile
-> > +++ b/drivers/gpu/drm/panel/Makefile
-> > @@ -81,6 +81,7 @@ obj-$(CONFIG_DRM_PANEL_SHARP_LS060T1SX01) +=3D panel-=
-sharp-ls060t1sx01.o
-> >  obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7701) +=3D panel-sitronix-st7701.o
-> >  obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7703) +=3D panel-sitronix-st7703.o
-> >  obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) +=3D panel-sitronix-st7789v.o
-> > +obj-$(CONFIG_DRM_PANEL_STARRY_ER88577) +=3D panel-starry-er88577.o
-> >  obj-$(CONFIG_DRM_PANEL_SYNAPTICS_R63353) +=3D panel-synaptics-r63353.o
-> >  obj-$(CONFIG_DRM_PANEL_SONY_ACX565AKM) +=3D panel-sony-acx565akm.o
-> >  obj-$(CONFIG_DRM_PANEL_SONY_TD4353_JDI) +=3D panel-sony-td4353-jdi.o
-> > diff --git a/drivers/gpu/drm/panel/panel-starry-er88577.c b/drivers/gpu=
-/drm/panel/panel-starry-er88577.c
-> > new file mode 100644
-> > index 000000000000..a8250a464883
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/panel/panel-starry-er88577.c
-> > @@ -0,0 +1,343 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/* Panels based on the JD9365DA display controller.
-> > + * Author: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-> > + */
-> > +
-> > +#include <linux/delay.h>
-> > +#include <linux/gpio/consumer.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of.h>
-> > +#include <linux/regulator/consumer.h>
-> > +
-> > +#include <drm/drm_connector.h>
-> > +#include <drm/drm_crtc.h>
-> > +#include <drm/drm_mipi_dsi.h>
-> > +#include <drm/drm_panel.h>
-> > +
-> > +#include <video/mipi_display.h>
-> > +#include <drm/drm_probe_helper.h>
-> > +
-> > +struct starry_panel;
-> > +
-> > +struct panel_desc {
-> > +     const struct drm_display_mode *modes;
-> > +     unsigned int bpc;
-> > +     unsigned long mode_flags;
-> > +     enum mipi_dsi_pixel_format format;
-> > +     const struct panel_init_cmd *init_cmds;
-> > +     int (*init)(struct starry_panel *starry);
-> > +     unsigned int lanes;
-> > +     bool discharge_on_disable;
-> > +     bool lp11_before_reset;
-> > +     unsigned int power_off_delay_ms;
-> > +};
-> > +
-> > +struct starry_panel {
-> > +     struct drm_panel base;
-> > +     struct mipi_dsi_device *dsi;
-> > +
-> > +     const struct panel_desc *desc;
-> > +
-> > +     enum drm_panel_orientation orientation;
-> > +     struct regulator *vccio;
-> > +     struct gpio_desc *reset;
-> > +};
-> > +
-> > +static int starry_er88577_init(struct starry_panel *starry)
-> > +{
-> > +     struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D starry->dsi =
-};
-> > +
-> > +     /* T5:HWreset to init_code >=3D 120ms */
-> > +     mipi_dsi_msleep(dsi_ctx, 120);
-> > +
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0xab, 0xba);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe1, 0xba, 0xab);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb1, 0x10, 0x01, 0x47, 0x=
-ff);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2, 0x0c, 0x14, 0x04, 0x=
-50, 0x50, 0x14);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb3, 0x56, 0x53, 0x00);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb4, 0x33, 0x30, 0x04);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0xb0, 0x00, 0x00, 0x=
-10, 0x00, 0x10, 0x00);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb8, 0x05, 0x12, 0x29, 0x=
-49, 0x40);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb9, 0x7c, 0x61, 0x4f, 0x=
-42, 0x3e, 0x2d, 0x31,
-> > +                                  0x1a, 0x33, 0x33, 0x33, 0x52, 0x40, =
-0x47, 0x38, 0x34, 0x26,
-> > +                                  0x0e, 0x06, 0x7c, 0x61, 0x4f, 0x42, =
-0x3e, 0x2d, 0x31, 0x1a,
-> > +                                  0x33, 0x33, 0x33, 0x52, 0x40, 0x47, =
-0x38, 0x34, 0x26, 0x0e,
-> > +                                  0x06);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc0, 0xcc, 0x76, 0x12, 0x=
-34, 0x44, 0x44, 0x44,
-> > +                                  0x44, 0x98, 0x04, 0x98, 0x04, 0x0f, =
-0x00, 0x00, 0xc1);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc1, 0x54, 0x94, 0x02, 0x=
-85, 0x9f, 0x00, 0x6f,
-> > +                                  0x00, 0x54, 0x00);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc2, 0x17, 0x09, 0x08, 0x=
-89, 0x08, 0x11, 0x22,
-> > +                                  0x20, 0x44, 0xff, 0x18, 0x00);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc3, 0x87, 0x47, 0x05, 0x=
-05, 0x1c, 0x1c, 0x1d,
-> > +                                  0x1d, 0x02, 0x1e, 0x1e, 0x1f, 0x1f, =
-0x0f, 0x0f, 0x0d, 0x0d,
-> > +                                  0x13, 0x13, 0x11, 0x11, 0x24);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc4, 0x06, 0x06, 0x04, 0x=
-04, 0x1c, 0x1c, 0x1d,
-> > +                                  0x1d, 0x02, 0x1e, 0x1e, 0x1f, 0x1f, =
-0x0e, 0x0e, 0x0c, 0x0c,
-> > +                                  0x12, 0x12, 0x10, 0x10, 0x24);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc8, 0x21, 0x00, 0x31, 0x=
-42, 0x34, 0x16);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xca, 0xcb, 0x43);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcd, 0x0e, 0x4b, 0x4b, 0x=
-20, 0x19, 0x6b, 0x06,
-> > +                                  0xb3);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd2, 0xe3, 0x2b, 0x38, 0x=
-08);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd4, 0x00, 0x01, 0x00, 0x=
-0e, 0x04, 0x44, 0x08,
-> > +                                  0x10, 0x00, 0x00, 0x00);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe6, 0x80, 0x09, 0xff, 0x=
-ff, 0xff, 0xff, 0xff,
-> > +                                  0xff);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x12, 0x03, 0x20, 0x=
-00, 0xff);
-> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf3, 0x00);
->
-> This looks pretty close to panel-boe-th101mb31ig002-28a.c
->
-> > +
-> > +     mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-> > +
->
->
-> --
-> With best wishes
-> Dmitry
+I collected r-bs for all patches in the series, they apply cleanly on 
+the top of drm-misc and drm-tip and all the tests pass[1]. Would it be 
+possible to merge them?
+
+In other news, we enabled TTM KUnit tests in CI for Xe driver, the 
+results can be seen on patchwork. For example:
+
+https://patchwork.freedesktop.org/series/134956/
+
+(see CI.KUnit step)
+
+All the best,
+Karolina
+
+--------------------------------------------------------------
+[1]:
+$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/ttm/tests
+[10:49:50] Configuring KUnit Kernel ...
+[10:49:50] Building KUnit Kernel ...
+Populating config with:
+$ make ARCH=um O=.kunit olddefconfig
+Building with:
+$ make ARCH=um O=.kunit --jobs=8
+[10:49:53] Starting KUnit Kernel (1/1)...
+[10:49:53] ============================================================
+Running tests with:
+$ .kunit/linux kunit.enable=1 mem=1G console=tty kunit_shutdown=halt
+[10:49:53] ================= ttm_device (5 subtests) ==================
+[10:49:53] [PASSED] ttm_device_init_basic
+[10:49:53] [PASSED] ttm_device_init_multiple
+[10:49:53] [PASSED] ttm_device_fini_basic
+[10:49:53] [PASSED] ttm_device_init_no_vma_man
+[10:49:53] ================== ttm_device_init_pools  ==================
+[10:49:53] [PASSED] No DMA allocations, no DMA32 required
+[10:49:53] [PASSED] DMA allocations, DMA32 required
+[10:49:53] [PASSED] No DMA allocations, DMA32 required
+[10:49:53] [PASSED] DMA allocations, no DMA32 required
+[10:49:53] ============== [PASSED] ttm_device_init_pools ==============
+[10:49:53] =================== [PASSED] ttm_device ====================
+[10:49:53] ================== ttm_pool (8 subtests) ===================
+[10:49:53] ================== ttm_pool_alloc_basic  ===================
+[10:49:53] [PASSED] One page
+[10:49:53] [PASSED] More than one page
+[10:49:53] [PASSED] Above the allocation limit
+[10:49:53] [PASSED] One page, with coherent DMA mappings enabled
+[10:49:53] [PASSED] Above the allocation limit, with coherent DMA 
+mappings enabled
+[10:49:53] ============== [PASSED] ttm_pool_alloc_basic ===============
+[10:49:53] ============== ttm_pool_alloc_basic_dma_addr  ==============
+[10:49:53] [PASSED] One page
+[10:49:53] [PASSED] More than one page
+[10:49:53] [PASSED] Above the allocation limit
+[10:49:53] [PASSED] One page, with coherent DMA mappings enabled
+[10:49:53] [PASSED] Above the allocation limit, with coherent DMA 
+mappings enabled
+[10:49:53] ========== [PASSED] ttm_pool_alloc_basic_dma_addr ==========
+[10:49:53] [PASSED] ttm_pool_alloc_order_caching_match
+[10:49:53] [PASSED] ttm_pool_alloc_caching_mismatch
+[10:49:53] [PASSED] ttm_pool_alloc_order_mismatch
+[10:49:53] [PASSED] ttm_pool_free_dma_alloc
+[10:49:53] [PASSED] ttm_pool_free_no_dma_alloc
+[10:49:53] [PASSED] ttm_pool_fini_basic
+[10:49:53] ==================== [PASSED] ttm_pool =====================
+[10:49:53] ================ ttm_resource (8 subtests) =================
+[10:49:53] ================= ttm_resource_init_basic  =================
+[10:49:53] [PASSED] Init resource in TTM_PL_SYSTEM
+[10:49:53] [PASSED] Init resource in TTM_PL_VRAM
+[10:49:53] [PASSED] Init resource in a private placement
+[10:49:53] [PASSED] Init resource in TTM_PL_SYSTEM, set placement flags
+[10:49:53] ============= [PASSED] ttm_resource_init_basic =============
+[10:49:53] [PASSED] ttm_resource_init_pinned
+[10:49:53] [PASSED] ttm_resource_fini_basic
+[10:49:53] [PASSED] ttm_resource_manager_init_basic
+[10:49:53] [PASSED] ttm_resource_manager_usage_basic
+[10:49:53] [PASSED] ttm_resource_manager_set_used_basic
+[10:49:53] [PASSED] ttm_sys_man_alloc_basic
+[10:49:53] [PASSED] ttm_sys_man_free_basic
+[10:49:53] ================== [PASSED] ttm_resource ===================
+[10:49:53] =================== ttm_tt (15 subtests) ===================
+[10:49:53] ==================== ttm_tt_init_basic  ====================
+[10:49:53] [PASSED] Page-aligned size
+[10:49:53] [PASSED] Extra pages requested
+[10:49:53] ================ [PASSED] ttm_tt_init_basic ================
+[10:49:53] [PASSED] ttm_tt_init_misaligned
+[10:49:53] [PASSED] ttm_tt_fini_basic
+[10:49:53] [PASSED] ttm_tt_fini_sg
+[10:49:53] [PASSED] ttm_tt_fini_shmem
+[10:49:53] [PASSED] ttm_tt_create_basic
+[10:49:53] [PASSED] ttm_tt_create_invalid_bo_type
+[10:49:53] [PASSED] ttm_tt_create_ttm_exists
+[10:49:53] [PASSED] ttm_tt_create_failed
+[10:49:53] [PASSED] ttm_tt_destroy_basic
+[10:49:53] [PASSED] ttm_tt_populate_null_ttm
+[10:49:53] [PASSED] ttm_tt_populate_populated_ttm
+[10:49:53] [PASSED] ttm_tt_unpopulate_basic
+[10:49:53] [PASSED] ttm_tt_unpopulate_empty_ttm
+[10:49:53] [PASSED] ttm_tt_swapin_basic
+[10:49:53] ===================== [PASSED] ttm_tt ======================
+[10:49:53] =================== ttm_bo (14 subtests) ===================
+[10:49:53] =========== ttm_bo_reserve_optimistic_no_ticket  ===========
+[10:49:53] [PASSED] Cannot be interrupted and sleeps
+[10:49:53] [PASSED] Cannot be interrupted, locks straight away
+[10:49:53] [PASSED] Can be interrupted, sleeps
+[10:49:53] ======= [PASSED] ttm_bo_reserve_optimistic_no_ticket =======
+[10:49:53] [PASSED] ttm_bo_reserve_locked_no_sleep
+[10:49:53] [PASSED] ttm_bo_reserve_no_wait_ticket
+[10:49:53] [PASSED] ttm_bo_reserve_double_resv
+[10:49:53] [PASSED] ttm_bo_reserve_interrupted
+[10:49:53] [PASSED] ttm_bo_reserve_deadlock
+[10:49:53] [PASSED] ttm_bo_unreserve_basic
+[10:49:53] [PASSED] ttm_bo_unreserve_pinned
+[10:49:53] [PASSED] ttm_bo_unreserve_bulk
+[10:49:53] [PASSED] ttm_bo_put_basic
+[10:49:53] [PASSED] ttm_bo_put_shared_resv
+[10:49:53] [PASSED] ttm_bo_pin_basic
+[10:49:53] [PASSED] ttm_bo_pin_unpin_resource
+[10:49:53] [PASSED] ttm_bo_multiple_pin_one_unpin
+[10:49:53] ===================== [PASSED] ttm_bo ======================
+[10:49:53] ============== ttm_bo_validate (22 subtests) ===============
+[10:49:53] ============== ttm_bo_init_reserved_sys_man  ===============
+[10:49:53] [PASSED] Buffer object for userspace
+[10:49:53] [PASSED] Kernel buffer object
+[10:49:53] [PASSED] Shared buffer object
+[10:49:53] ========== [PASSED] ttm_bo_init_reserved_sys_man ===========
+[10:49:53] ============== ttm_bo_init_reserved_mock_man  ==============
+[10:49:53] [PASSED] Buffer object for userspace
+[10:49:53] [PASSED] Kernel buffer object
+[10:49:53] [PASSED] Shared buffer object
+[10:49:53] ========== [PASSED] ttm_bo_init_reserved_mock_man ==========
+[10:49:53] [PASSED] ttm_bo_init_reserved_resv
+[10:49:53] ================== ttm_bo_validate_basic  ==================
+[10:49:53] [PASSED] Buffer object for userspace
+[10:49:53] [PASSED] Kernel buffer object
+[10:49:53] [PASSED] Shared buffer object
+[10:49:53] ============== [PASSED] ttm_bo_validate_basic ==============
+[10:49:53] [PASSED] ttm_bo_validate_invalid_placement
+[10:49:53] ============= ttm_bo_validate_same_placement  ==============
+[10:49:53] [PASSED] System manager
+[10:49:53] [PASSED] VRAM manager
+[10:49:53] ========= [PASSED] ttm_bo_validate_same_placement ==========
+[10:49:53] [PASSED] ttm_bo_validate_failed_alloc
+[10:49:53] [PASSED] ttm_bo_validate_pinned
+[10:49:53] [PASSED] ttm_bo_validate_busy_placement
+[10:49:53] ================ ttm_bo_validate_multihop  =================
+[10:49:53] [PASSED] Buffer object for userspace
+[10:49:53] [PASSED] Kernel buffer object
+[10:49:53] [PASSED] Shared buffer object
+[10:49:53] ============ [PASSED] ttm_bo_validate_multihop =============
+[10:49:53] ========== ttm_bo_validate_no_placement_signaled  ==========
+[10:49:53] [PASSED] Buffer object in system domain, no page vector
+[10:49:53] [PASSED] Buffer object in system domain with an existing page 
+vector
+[10:49:53] ====== [PASSED] ttm_bo_validate_no_placement_signaled ======
+[10:49:53] ======== ttm_bo_validate_no_placement_not_signaled  ========
+[10:49:53] [PASSED] Buffer object for userspace
+[10:49:53] [PASSED] Kernel buffer object
+[10:49:53] [PASSED] Shared buffer object
+[10:49:53] ==== [PASSED] ttm_bo_validate_no_placement_not_signaled ====
+[10:49:53] [PASSED] ttm_bo_validate_move_fence_signaled
+[10:49:53] ========= ttm_bo_validate_move_fence_not_signaled  =========
+[10:49:53] [PASSED] Waits for GPU
+[10:49:53] [PASSED] Tries to lock straight away
+[10:49:53] ===== [PASSED] ttm_bo_validate_move_fence_not_signaled =====
+[10:49:53] [PASSED] ttm_bo_validate_swapout
+[10:49:53] [PASSED] ttm_bo_validate_happy_evict
+[10:49:53] [PASSED] ttm_bo_validate_all_pinned_evict
+[10:49:53] [PASSED] ttm_bo_validate_allowed_only_evict
+[10:49:53] [PASSED] ttm_bo_validate_deleted_evict
+[10:49:53] [PASSED] ttm_bo_validate_busy_domain_evict
+[10:49:53] [PASSED] ttm_bo_validate_evict_gutting
+[10:49:53] [PASSED] ttm_bo_validate_recrusive_evict
+[10:49:53] ================= [PASSED] ttm_bo_validate =================
+[10:49:53] ============================================================
+[10:49:53] Testing complete. Ran 102 tests: passed: 102
+[10:49:53] Elapsed time: 3.305s total, 0.002s configuring, 2.635s 
+building, 0.572s running
