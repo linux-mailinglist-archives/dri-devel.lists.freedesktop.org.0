@@ -2,61 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B19910530
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 15:04:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C4F2910568
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 15:09:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4965A10E99B;
-	Thu, 20 Jun 2024 13:04:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B262410E9D2;
+	Thu, 20 Jun 2024 13:09:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Rn01+XQV";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ge6vd5Nl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F6F410E99B;
- Thu, 20 Jun 2024 13:04:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B484A621A5;
- Thu, 20 Jun 2024 13:04:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F552C4AF10;
- Thu, 20 Jun 2024 13:04:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718888648;
- bh=KxrT3UVj8PRk2cbBOHYEf2xQYsyGdNtZoNIhfJxp/rE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Rn01+XQVZHQZwEkjljYELTuenWlJ7KE+DLaXzEKjZrzl2j9RVj5K1tbz4KIUQZFN/
- qA/zNpgPMziNEdluQINMzb1MSjyXWKsDor72iEFynciUZdPHzhkxQGLCno0ICkHPZw
- 74KCvUGv5tmdcu8Pg2YkVPaTvRLxV6/uys5hIHfTtQdzwEgyQMGBntjS6BvX3HhfkQ
- 5ZWLM2AZvwLuCwtav4LW8pSicJfmTxiBPzlZcWrizCMa5nMh2WKQe81TdOnogwiOm/
- 64bADmj2RmdJBz1gsWLOALcDVAku4SnxVksjyv99H8ohswnbMq4N7HEDxJSO/Oh5u7
- FzFSf+bpRxZAQ==
-Date: Thu, 20 Jun 2024 14:04:01 +0100
-From: Will Deacon <will@kernel.org>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Andrew Halaney <ahalaney@redhat.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/adreno: De-spaghettify the use of memory barriers
-Message-ID: <20240620130400.GA4750@willie-the-truck>
-References: <20240508-topic-adreno-v1-1-1babd05c119d@linaro.org>
- <20240514183849.6lpyplifero5u35r@hu-akhilpo-hyd.qualcomm.com>
- <ae4a77wt3kc73ejshptldqx6ugzrqguyq7etbbu54y4avhbdlt@qyt4r6gma7ev>
- <20240516145005.gdksmvxp35m45ifh@hu-akhilpo-hyd.qualcomm.com>
- <5vyrmxvkurdstqfiatxfqcqljwyiswda2vpkea27ighb2eqbav@n24yzdykbc23>
- <20240604144055.GE20384@willie-the-truck>
- <20240618161158.qpqbv77tqveo5g6l@hu-akhilpo-hyd.qualcomm.com>
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com
+ [209.85.161.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06A7E10E9D9
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 13:08:58 +0000 (UTC)
+Received: by mail-oo1-f53.google.com with SMTP id
+ 006d021491bc7-5b53bb4bebaso432150eaf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 06:08:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1718888938; x=1719493738; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=3rkNtw9YPMCGiaNrE2wpOjWh2PZ5/d2L88aMo+GCsZk=;
+ b=ge6vd5NlhFkaBiAQAlsvFqlXRb7Lp5b5DkCiUTNPElkKu+LaLW1f5ecPoGHaJ/4dHc
+ 0+9pWQ+TMwsHm+XZOf/wjoVitBkKmxoEsrcJjW5zrB/9fXut36PJBJCUcLn3i7E1m6rl
+ rHhpIfTzM9NB9mpmpISSdC++jc2BCEGTuz0AbqBHSSsEUHeOY4nUWw3/0zR1/z0bEoBW
+ +h4lqt3/mA+wNEbIjF3IdWKUmIvsCwU2+nNG9BPxTtU7Chxpf0S+EVRLUFGTiM1O9hvT
+ fsJ/eej2jAqp+tSIt1qZ+TPt/44ir1cvYu9Eeok0SSg+sIP/z5XmPqLAxhks6YBMIBzR
+ ueOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718888938; x=1719493738;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3rkNtw9YPMCGiaNrE2wpOjWh2PZ5/d2L88aMo+GCsZk=;
+ b=IfB5SV7ZPgAte31iCbvzbEA1HXzbVFpaRwD3+RHqeXNJuDBaLRridnqWt6vxrwb1v/
+ UOkEh8dDuOyu3PtsL6uMap5ODFQOtJPxT/wAX4pCEbEV475QaAmk194sbHPNhiMWHDHC
+ QLTM17SrOu7+S1SlszRfNPjB6FFv4Y1mT75NgPk+RKhvn13N5y7V6dj0FQepLSuMhYW5
+ fGAD+nj+Z8wuMuEE67EOvGIGiZa2kPLRWX89C5diNkzpXBXPaChjnbuhuuRuaIbYtXrn
+ 3NcTz6DwlsMwFT8cCEsaxc2u99W2WLKzblaOhMY0T/oEi0mIItZ7Vw+N99959FUH1VX0
+ ZM0Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXNflK5m9cu8m2tPyPV9r6KETAdDWW08/OgRe4GwvwdrFEqYNqoF1qwJ0JSVKxhfoW/OCS4S9vplniC2ZOHfNZAf8/AfSg2bXqj+OwBoQre
+X-Gm-Message-State: AOJu0YyBw7WSKVNnFvE9kO8J7J/ok9zv/S2fXH9PycR6XhWYhRBC+ItR
+ acgRzxI2q4HAW8QTJyUiepwQ9I3ESWHslIqkiGE46hJt97hFQpVyCfA+RCFTuxKxNO3vUw9c78r
+ zNyzVoO53OLAXmcrJ27yTBjqj8ndiKpo2rhmPgQ==
+X-Google-Smtp-Source: AGHT+IF/yD+0GZN6cAxps+FA6XiCIOAiMvgRzsPW3OFiThohVo42Hf9KaLzzZhArPsljy8CiIl3TpYiqk9Wxxenp9Vg=
+X-Received: by 2002:a05:6358:8096:b0:199:432b:821b with SMTP id
+ e5c5f4694b2df-1a1fd49a301mr606688455d.17.1718888935830; Thu, 20 Jun 2024
+ 06:08:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240618161158.qpqbv77tqveo5g6l@hu-akhilpo-hyd.qualcomm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20240619212743.3193985-1-quic_abhinavk@quicinc.com>
+In-Reply-To: <20240619212743.3193985-1-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 20 Jun 2024 16:08:44 +0300
+Message-ID: <CAA8EJpowTONWNQH+Sqe1w1eL85Ty4tw8_Qkc1yToQu9s17Tokw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dpu: protect ctl ops calls with validity checks
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ quic_jesszhan@quicinc.com, dan.carpenter@linaro.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,69 +81,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 18, 2024 at 09:41:58PM +0530, Akhil P Oommen wrote:
-> On Tue, Jun 04, 2024 at 03:40:56PM +0100, Will Deacon wrote:
-> > On Thu, May 16, 2024 at 01:55:26PM -0500, Andrew Halaney wrote:
-> > > On Thu, May 16, 2024 at 08:20:05PM GMT, Akhil P Oommen wrote:
-> > > > On Thu, May 16, 2024 at 08:15:34AM -0500, Andrew Halaney wrote:
-> > > > > If I understand correctly, you don't need any memory barrier.
-> > > > > writel()/readl()'s are ordered to the same endpoint. That goes for all
-> > > > > the reordering/barrier comments mentioned below too.
-> > > > > 
-> > > > > device-io.rst:
-> > > > > 
-> > > > >     The read and write functions are defined to be ordered. That is the
-> > > > >     compiler is not permitted to reorder the I/O sequence. When the ordering
-> > > > >     can be compiler optimised, you can use __readb() and friends to
-> > > > >     indicate the relaxed ordering. Use this with care.
-> > > > > 
-> > > > > memory-barriers.txt:
-> > > > > 
-> > > > >      (*) readX(), writeX():
-> > > > > 
-> > > > > 	    The readX() and writeX() MMIO accessors take a pointer to the
-> > > > > 	    peripheral being accessed as an __iomem * parameter. For pointers
-> > > > > 	    mapped with the default I/O attributes (e.g. those returned by
-> > > > > 	    ioremap()), the ordering guarantees are as follows:
-> > > > > 
-> > > > > 	    1. All readX() and writeX() accesses to the same peripheral are ordered
-> > > > > 	       with respect to each other. This ensures that MMIO register accesses
-> > > > > 	       by the same CPU thread to a particular device will arrive in program
-> > > > > 	       order.
-> > > > > 
-> > > > 
-> > > > In arm64, a writel followed by readl translates to roughly the following
-> > > > sequence: dmb_wmb(), __raw_writel(), __raw_readl(), dmb_rmb(). I am not
-> > > > sure what is stopping compiler from reordering  __raw_writel() and __raw_readl()
-> > > > above? I am assuming iomem cookie is ignored during compilation.
-> > > 
-> > > It seems to me that is due to some usage of volatile there in
-> > > __raw_writel() etc, but to be honest after reading about volatile and
-> > > some threads from gcc mailing lists, I don't have a confident answer :)
-> > > 
-> > > > 
-> > > > Added Will to this thread if he can throw some light on this.
-> > > 
-> > > Hopefully Will can school us.
-> > 
-> > The ordering in this case is ensured by the memory attributes used for
-> > ioremap(). When an MMIO region is mapped using Device-nGnRE attributes
-> > (as it the case for ioremap()), the "nR" part means "no reordering", so
-> > readX() and writeX() to that region are ordered wrt each other.
-> 
-> But that avoids only HW reordering, doesn't it? What about *compiler reordering* in the
-> case of a writel following by a readl which translates to:
-> 	1: dmb_wmb()
-> 	2: __raw_writel() -> roughly "asm volatile('str')
-> 	3: __raw_readl() -> roughly "asm volatile('ldr')
-> 	4: dmb_rmb()
-> 
-> Is the 'volatile' keyword sufficient to avoid reordering between (2) and (3)? Or
-> do we need a "memory" clobber to inhibit reordering?
-> 
-> This is still not clear to me even after going through some compiler documentions.
+On Thu, 20 Jun 2024 at 00:27, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+> dpu_encoder_helper_phys_cleanup() calls the ctl ops without checking if
+> the ops are assigned causing discrepancy between its callers where the
+> checks are performed and the API itself which does not.
+>
+> Two approaches can be taken: either drop the checks even in the caller
+> OR add the checks even in dpu_encoder_helper_phys_cleanup().
+>
+> Adopt the latter approach as ctl ops are assigned revision based so may not
+> be always assigned.
 
-I don't think the compiler should reorder volatile asm blocks wrt each
-other.
+NAK, these calls are always assigned. Please make sure that they are
+documented as required and drop offending checks.
 
-Will
+>
+> Fixes: d7d0e73f7de3 ("drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback")
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/all/464fbd84-0d1c-43c3-a40b-31656ac06456@moroto.mountain/T/
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 708657598cce..7f7e6d4e974b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -2180,9 +2180,12 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
+>         if (ctl->ops.reset_intf_cfg)
+>                 ctl->ops.reset_intf_cfg(ctl, &intf_cfg);
+>
+> -       ctl->ops.trigger_flush(ctl);
+> -       ctl->ops.trigger_start(ctl);
+> -       ctl->ops.clear_pending_flush(ctl);
+> +       if (ctl->ops.trigger_flush)
+> +               ctl->ops.trigger_flush(ctl);
+> +       if (ctl->ops.trigger_start)
+> +               ctl->ops.trigger_start(ctl);
+> +       if (ctl->ops.clear_pending_flush)
+> +               ctl->ops.clear_pending_flush(ctl);
+>  }
+>
+>  void dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc,
+> --
+> 2.44.0
+>
+
+
+-- 
+With best wishes
+Dmitry
