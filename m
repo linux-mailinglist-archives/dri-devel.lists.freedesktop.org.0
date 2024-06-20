@@ -2,73 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 038B690FC45
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 07:47:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA8190FCAD
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 08:29:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7449910E2BA;
-	Thu, 20 Jun 2024 05:47:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6273310E30B;
+	Thu, 20 Jun 2024 06:29:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="HALEckDE";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="W+wzj8Qw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16D2C10E2BA
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 05:47:15 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id
- d2e1a72fcca58-7062c11d0d1so483456b3a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2024 22:47:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1718862435; x=1719467235;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=iNzrUnoT89Wnha0OC6N//7pV9rXMk5Grem520gIyQxs=;
- b=HALEckDEiMze97lE7NeTo/4r7OMHOQck/+vTNA2TWshNNWk8g8T9Lbs9y7UWK/gBGC
- Yy8aEwzuonYSOSkC/vR9HZ3IJDvwiksGfDJAIIc4vOazrkkkjU2Ckjts5ECTSBoxFYW9
- fMp/vajHsPJ594hRO5Ukd5FLJ6H/rV9EIaouA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718862435; x=1719467235;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=iNzrUnoT89Wnha0OC6N//7pV9rXMk5Grem520gIyQxs=;
- b=LZ+/75AARJIXHUPhzpm4cIDg0ugt4lzbeqDJmB7I0RKhUAqMCPCmf2YhLRMxWVmFgN
- v5TH8xcnV95nFkCBEZO9bmffjB+yo56BWUDsDGqp9tUe+NTm6rH4/lO9aRGR/qlM/OdC
- gHbLx0W3cxeNu7BQgvMKvUHztrtDtzyRwtHh0HmBvKmz9jwf5uYKZHYrsgjCSLz5TpoP
- jQ72GC5LBrNiSunXBmuOpHAnVQdD2oh4nIZJrQMUEVUcWwwRi61wyF6lE1eJtRsIicz7
- HdLHClIuLe0VVBk+LIPB3h36Y4wtqHt8JbN2I8LPXOeV9YsG7vxwG7OohhDqFCSUu1wR
- y57w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUoAK7KZQ3QqDuoVUnAZ3CdkTwB2klp9Tbbr/5IpWVcPli+VL6pVK7cbrXC2+3L55BHfY1F7Y4hkLCjyduLORGoSEUHYQlR8EayjjA2J9BE
-X-Gm-Message-State: AOJu0YyPMkG9UfpEma5rIid+A62jRAbvJ29uR1PGMYbYXq8v7aVdV7hP
- K6T/AyoqvhwnJJ8XODCum41Rb7eiQFXDRubh2s/uvNGQvN+B4R1F/8BAbybIHw==
-X-Google-Smtp-Source: AGHT+IE2FF/BSNYYoA5CyxWSZxhSRVn0heb6yaE7ZZyCHXnLwSE/RVFQurgMXOXNAI+BaOP6s+Xb6w==
-X-Received: by 2002:a05:6a20:4aa8:b0:1b2:b104:594 with SMTP id
- adf61e73a8af0-1bcbb40df3fmr3758328637.21.1718862435071; 
- Wed, 19 Jun 2024 22:47:15 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com
- ([2401:fa00:1:10:c53a:5326:7f72:759f])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f855ee805asm127339535ad.128.2024.06.19.22.47.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jun 2024 22:47:14 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH] drm/mediatek: select DRM_GEM_DMA_HELPER if
- DRM_FBDEV_EMULATION=y
-Date: Thu, 20 Jun 2024 13:47:07 +0800
-Message-ID: <20240620054708.2230665-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.45.2.741.gdbec12cfda-goog
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B274410E30B
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 06:29:13 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45K1NcKF024459;
+ Thu, 20 Jun 2024 06:29:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=+iJ+ZcNNMMRRyKHxGbCQrp
+ ouL0wP99StKm757wGOd9o=; b=W+wzj8QwzY3J/GDwd0vsGFgW4scH805NqRnJSB
+ MsmUkG83WXzVzdP7nbtRtp5Lg+et3hgdYiUZuOsC2XkVfs7QO/snt5BaC1X00Thd
+ 5uGjI7HAnqNotM1GDqoCs62YLqexpOF1YmOZu03qdec+LwU1IkYNTphl7YblNV+k
+ JQhG/GA8WZ8IIwNmrpf34rSOZ9r2L5pdaeUEEW56IjW+7heuFwmbgUAIWV1RGN/g
+ Fvp3uzpFrW8JlvdnakDzrc/fDwTUSfJqkswl3dkcxi5POihq/xLwHClA3EibSjAD
+ nurLevnkk0AKDhwKkNYikEHPlrhhYNPbilpQu1BGpE1Pq9Hg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yvaqbrhee-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Jun 2024 06:29:05 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45K6T4Um007576
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Jun 2024 06:29:04 GMT
+Received: from [169.254.0.1] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 19 Jun
+ 2024 23:29:03 -0700
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Date: Wed, 19 Jun 2024 23:29:02 -0700
+Subject: [PATCH] drm/tests: add drm_hdmi_state_helper_test MODULE_DESCRIPTION()
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240619-md-drm-tests-drm_hdmi_state_helper_test-v1-1-41c5fe2fdb4a@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAC3Mc2YC/x2NUQrDIBAFrxL2uwvRlqT2KqWIiWsVGhN2pQRC7
+ l7t3xsezBwgxIkEHt0BTN8kac0V1KWDObr8Jky+Muhe3/pBGVw8el6wkBRpy0a/JCvFFbKRPhu
+ xbR+OehxIm3C/KgPVtjGFtP9Lz1flyQnhxC7PsfmbM6yMmfYC5/kDtF1hyZgAAAA=
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <kernel-janitors@vger.kernel.org>, Jeff Johnson <quic_jjohnson@quicinc.com>
+X-Mailer: b4 0.14.0
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: gx46bUwopQ1zNNN4zwehclrcZ-GSZXR_
+X-Proofpoint-ORIG-GUID: gx46bUwopQ1zNNN4zwehclrcZ-GSZXR_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-20_04,2024-06-19_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1011
+ lowpriorityscore=0 bulkscore=0 phishscore=0 mlxlogscore=999
+ priorityscore=1501 malwarescore=0 mlxscore=0 adultscore=0 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406200045
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,35 +93,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With the recent switch from fbdev-generic to fbdev-dma, the driver now
-requires the DRM GEM DMA helpers. This dependency is missing, and will
-cause a link failure if fbdev emulation is enabled.
+make allmodconfig && make W=1 C=1 reports:
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_hdmi_state_helper_test.o
 
-Add the missing dependency.
+Add the missing invocation of the MODULE_DESCRIPTION() macro.
 
-Fixes: 0992284b4fe4 ("drm/mediatek: Use fbdev-dma")
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+Fixes: eb66d34d793e ("drm/tests: Add output bpc tests")
+Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 ---
-The commit this patch fixes is in drm-misc-next. Ideally this patch
-should be applied on top of it directly.
-
-CK, could you give your ack for it?
-
- drivers/gpu/drm/mediatek/Kconfig | 1 +
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediatek/Kconfig
-index 96cbe020f493..d6449ebae838 100644
---- a/drivers/gpu/drm/mediatek/Kconfig
-+++ b/drivers/gpu/drm/mediatek/Kconfig
-@@ -7,6 +7,7 @@ config DRM_MEDIATEK
- 	depends on HAVE_ARM_SMCCC
- 	depends on OF
- 	depends on MTK_MMSYS
-+	select DRM_GEM_DMA_HELPER if DRM_FBDEV_EMULATION
- 	select DRM_KMS_HELPER
- 	select DRM_MIPI_DSI
- 	select DRM_PANEL
--- 
-2.45.2.741.gdbec12cfda-goog
+diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+index 2d3abc71dc16..34ee95d41f29 100644
+--- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+@@ -1740,4 +1740,5 @@ kunit_test_suites(
+ );
+ 
+ MODULE_AUTHOR("Maxime Ripard <mripard@kernel.org>");
++MODULE_DESCRIPTION("Kunit test for drm_hdmi_state_helper functions");
+ MODULE_LICENSE("GPL");
+
+---
+base-commit: b9578c49456340ca4d3c7ddbaca054ffc2b51bc1
+change-id: 20240619-md-drm-tests-drm_hdmi_state_helper_test-7276e29f8319
 
