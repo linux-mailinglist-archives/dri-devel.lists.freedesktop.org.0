@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DEF9910A64
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:47:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE97910A5E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:46:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2B8210EA7B;
-	Thu, 20 Jun 2024 15:46:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEF1F10EA88;
+	Thu, 20 Jun 2024 15:46:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="IWO3d5JT";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="O8PE/VG8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f100.google.com (mail-wm1-f100.google.com
- [209.85.128.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DCDF10EA82
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:46:45 +0000 (UTC)
-Received: by mail-wm1-f100.google.com with SMTP id
- 5b1f17b1804b1-4217d451f69so9505925e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:46:45 -0700 (PDT)
+Received: from mail-lf1-f99.google.com (mail-lf1-f99.google.com
+ [209.85.167.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F06210EA82
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:46:46 +0000 (UTC)
+Received: by mail-lf1-f99.google.com with SMTP id
+ 2adb3069b0e04-52c89d6b4adso997072e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:46:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google; t=1718898404; x=1719503204;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zk1KYP1kQCc4BbpEkWcdsHf4wCBFSdrzFBih3Vj76ZQ=;
- b=IWO3d5JTIhIVdOmFcqmxuPo+SHS1Tvj6AgvCODw5WXaBycDVOeMRXB9xvk60wu/Rfd
- DCct1Xj+QPCUmm26e9lrmS+U60Y/p+dVpjofmL6EwepA7/9ZnL/RQ38DqkYSZTMlf+P/
- vAhFssFpU1+QPRl+OUZSQmJEwltT8cqsPfhldf8Kdd0PQz/AQyU9Oe1NjO990BzXg6RG
- 5tl1r3ttN6/7e5RAiTGLKWCeztjgevQmfpPmFQYO+qKHjfLEg7B/02sA8xaO3YTrJTDm
- k4HpAMzyZmGB2EqmgiW4Xyw6KB4wI93kHjbVFq466XMd8d4CgeIuzbqRM3EBGtLDbObK
- ctxw==
+ bh=SKete66q0aQ8ctxPqks3yVwM2OF75cFeF/3LngKskhw=;
+ b=O8PE/VG8rtQACQrDwoJHH7/VEdULz3JP4lZztAwgpxMCQbadlkTbDgOfpG/JvhOIJi
+ QNAWLW++SXyj2gPCZN9Ak8FQbOMFJ9fjgmh9TzJlvD452o7TQyD2G+OL1FqcEjeMe7aJ
+ CD6kR5rn85RqBPPR1nibdypR6C1MpWqCJ+GjHdC+AN6BFM7cOmz2oBl+neVpq8j/TFTd
+ 8qeSss9AgpaSZgRrSicowTZdFL8jO5j3hkZVNNNfJ3vdFzGuqlG9gUeK+SBJHXtozJ6L
+ WesHFqLcNPzhX8Gh6R3+C4Ry/AiGnkajPSd8J5ZzCeRqeg90kPaoKoSR4MMn5VBr3Mb4
+ 2khg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1718898404; x=1719503204;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zk1KYP1kQCc4BbpEkWcdsHf4wCBFSdrzFBih3Vj76ZQ=;
- b=DIUAeE8TRh2+gGrSP9mhXIgwvzvcvDqojihHwZ6Bp3fc90+FRvxKGKjdf8a7+3zMQJ
- J7yn5vNKKku1zuv7XqervpOWOVy952BWJ5RVDgXRPfACaiLMglwLDtd0rL6+JNyrwh2r
- dR1pTAA0RfByn+ZuMX+ujlwllrJxyu/nsZawwJ4TwHk10dprm4LWhGF/wANd2oTQh0zo
- Qf797ViDuy5+ndy3TeZ9nJwAYxWsHWzTNdPCqPDDk/E1xV+PAmJmVfqptWF8hA35RUWM
- 79zu5ZvL7sH/0WuTpfuMk+1DsRFuPz9K+V34+W4ub0Gn5ulePI3tls1gyrLSPS82RhK1
- 6F5Q==
+ bh=SKete66q0aQ8ctxPqks3yVwM2OF75cFeF/3LngKskhw=;
+ b=KMW8WzjvYv3c337nF7y5VK6ydu3tYsRsuHb0UqSrWT8RxZQBdJwgpDP2HS2pIqxki1
+ mjt1e2RceC8IgqbZF5FIWwFOW7PWcZjIGBEr9d6WuYgsFYn+lxihCoSO2AN3ifcMUjfS
+ 9WlZtW9Mot/JYwGp1WcXQS+hb/PHEvIOx0zalAK8i9RQfw0YXQoAJbnZaSeqrWAUc+2/
+ 9fTVV/ngydKtoF8mbhoNAx/CRghwYq/WkEigU7R1MXFSe0KFOpGYzt0no9o8cA29WlVi
+ VA76X0O+Esfb2j9niVLrHAeqNhCpChoCge88H+ZPULarc+teYvBgSASTtZloUz3U26j9
+ 53Nw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWXvc7Y3AQxp4iYzMIHnfyaE+bk6sKK/UZxyQidsqcGkYA6ZmfsbQfq+2vn14/DEuc62lP1RmrCCUdYMNoj7L4/AcFXAHVgMPJxQl3pw1tQ
-X-Gm-Message-State: AOJu0YzISCA4g3iKJrfFvpr5jmQwxsAlGzxuqPti5WmBdUI6xtKhX0Tq
- MPJ57jK6gfIpEubekDT9mRsEYzhGQsIAyiBp7AK91EZ3bO7Wa4wt6KxM5ihJg+pZIpHGQtmw1Jf
- 5AhRRTCuDJbIDlpaWGQ4taRq+GM5Bf/cU
-X-Google-Smtp-Source: AGHT+IHo2oOtHXr+XOxwt6fHBqSiV8xbhPfPknxNJCeWJk1Bo+/Q0V9c8O0LwU4eQgced3Z9493dJxCyvOKN
-X-Received: by 2002:a05:600c:3b98:b0:424:7490:23f0 with SMTP id
- 5b1f17b1804b1-4247529b358mr42171695e9.38.1718898403899; 
- Thu, 20 Jun 2024 08:46:43 -0700 (PDT)
+ AJvYcCX5eHtqSBtHqd3SETH4EL6oEfsHGfBHrsvtcuOTI1G3xnh+odjXbsJRSsGVLISCj0De3gexXLJmGbLv7Ax0Vz3AcbRDDgqlC84+4CibCHMr
+X-Gm-Message-State: AOJu0YyvsAVSxR8SjBOVdbw+nbJTzHXSz/hMyzXjuw1Fd1HAPus9x8ZT
+ Rg7APfS2xI+WL9ByRdMPI/p+rgvzlU1AHsFc6RDJGGOWEWhX4VpiptHNWBnQfx8t6zyZcjldxMR
+ gFdbOe4e8t26QWKPXE7PLy2SxKPTs0C5/
+X-Google-Smtp-Source: AGHT+IGX6g5c4eHzHqJhYuybUZFSkVnIe3EZSUxt5m/kNBxg9v9zZRpyDTWMbjwzfxrkCKx8l4hN9bUuoV97
+X-Received: by 2002:a05:6512:208a:b0:52c:b606:2b2 with SMTP id
+ 2adb3069b0e04-52ccaa97148mr2882021e87.46.1718898404384; 
+ Thu, 20 Jun 2024 08:46:44 -0700 (PDT)
 Received: from raspberrypi.com ([188.39.149.98])
  by smtp-relay.gmail.com with ESMTPS id
- ffacd0b85a97d-364066d31c5sm255293f8f.6.2024.06.20.08.46.43
+ 5b1f17b1804b1-4247d0c090esm3214475e9.20.2024.06.20.08.46.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jun 2024 08:46:43 -0700 (PDT)
+ Thu, 20 Jun 2024 08:46:44 -0700 (PDT)
 X-Relaying-Domain: raspberrypi.com
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>,
@@ -66,10 +66,9 @@ To: Maxime Ripard <mripard@kernel.org>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
 Cc: Maxime Ripard <maxime@cerno.tech>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH 09/31] drm/vc4: hdmi: Warn if writing to an unknown HDMI
- register
-Date: Thu, 20 Jun 2024 16:46:10 +0100
-Message-Id: <20240620154632.4125308-10-dave.stevenson@raspberrypi.com>
+Subject: [PATCH 10/31] drm/vc4: hvs: More logging for dlist generation
+Date: Thu, 20 Jun 2024 16:46:11 +0100
+Message-Id: <20240620154632.4125308-11-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
 References: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
@@ -92,35 +91,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maxime Ripard <maxime@cerno.tech>
 
-The VC4 HDMI driver has a bunch of accessors to read from a register.
-The read accessor was warning when accessing an unknown register, but
-the write one was just returning silently.
-
-Let's make sure we warn also when writing to an unknown register.
+DLIST generation can get pretty tricky and there's not a lot of debug in
+the driver to help. Let's add a few more to track the generated DLIST
+size.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi_regs.h | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_hvs.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-index b04b2fc8d831..68455ce513e7 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-@@ -498,8 +498,11 @@ static inline void vc4_hdmi_write(struct vc4_hdmi *hdmi,
+diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+index 267c9fde7362..189d00fcf4c2 100644
+--- a/drivers/gpu/drm/vc4/vc4_hvs.c
++++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+@@ -456,11 +456,21 @@ int vc4_hvs_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ 	if (hweight32(crtc_state->connector_mask) > 1)
+ 		return -EINVAL;
  
- 	field = &variant->registers[reg];
- 	base = __vc4_hdmi_get_field_base(hdmi, field->reg);
--	if (!base)
-+	if (!base) {
-+		dev_warn(&hdmi->pdev->dev,
-+			 "Unknown register ID %u\n", reg);
- 		return;
+-	drm_atomic_crtc_state_for_each_plane_state(plane, plane_state, crtc_state)
+-		dlist_count += vc4_plane_dlist_size(plane_state);
++	drm_atomic_crtc_state_for_each_plane_state(plane, plane_state, crtc_state) {
++		u32 plane_dlist_count = vc4_plane_dlist_size(plane_state);
++
++		drm_dbg_driver(dev, "[CRTC:%d:%s] Found [PLANE:%d:%s] with DLIST size: %u\n",
++			       crtc->base.id, crtc->name,
++			       plane->base.id, plane->name,
++			       plane_dlist_count);
++
++		dlist_count += plane_dlist_count;
 +	}
  
- 	writel(value, base + field->offset);
- }
+ 	dlist_count++; /* Account for SCALER_CTL0_END. */
+ 
++	drm_dbg_driver(dev, "[CRTC:%d:%s] Allocating DLIST block with size: %u\n",
++		       crtc->base.id, crtc->name, dlist_count);
+ 	spin_lock_irqsave(&vc4->hvs->mm_lock, flags);
+ 	ret = drm_mm_insert_node(&vc4->hvs->dlist_mm, &vc4_state->mm,
+ 				 dlist_count);
 -- 
 2.34.1
 
