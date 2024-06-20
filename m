@@ -2,50 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CBFC9101A1
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 12:42:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A59D9101B3
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 12:46:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B07C10E8A6;
-	Thu, 20 Jun 2024 10:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B38810E8C4;
+	Thu, 20 Jun 2024 10:46:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Kl8sV+ju";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="ELOL7gKQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 548E710E8B5
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 10:42:34 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E8DC66F;
- Thu, 20 Jun 2024 12:42:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1718880133;
- bh=ti8bxCNiWoqLj57KYwDqhNvEAh/oPERI35OrXACSuro=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Kl8sV+jutpc7/1rMKSuIsrNDmmORcwUa8Or9bzo/2tHa66VmlpjIS2vqoRj6zdO0B
- I6bsUE+TzhkE3k6iyDCXtMflS38ws49jFcMcHZw/NcCgze9c9sgaTjguWAoSd1l89i
- 7lTnvnE4XU7hYrV37s230lxdIP6mZeW6mkiNo99U=
-Date: Thu, 20 Jun 2024 13:42:10 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- "open list:DRM DRIVERS FOR RENESAS R-CAR" <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR RENESAS R-CAR" <linux-renesas-soc@vger.kernel.org>, 
- Phong Hoang <phong.hoang.wz@renesas.com>
-Subject: Re: [PATCH 2/4] drm: ti-sn65dsi86: Check bridge connection failure
-Message-ID: <20240620104210.GB27999@pendragon.ideasonboard.com>
-References: <20240619102219.138927-1-jacopo.mondi@ideasonboard.com>
- <20240619102219.138927-3-jacopo.mondi@ideasonboard.com>
- <20240619193258.GC31507@pendragon.ideasonboard.com>
- <404691d2-b013-4bcc-b7e4-bcc809e4bfbb@ideasonboard.com>
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 614E610E8BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 10:45:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1718880331; x=1719485131; i=markus.elfring@web.de;
+ bh=Li8eiNsap0bizfOQ9HPDPrawZQbmEHLbqYMyIF+i22w=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=ELOL7gKQIory3FK6VEcJNutrH5YQatKgd7IOgi4QjpkjDHPWbcvc8mTZxbyuitLV
+ VRi6VIbr1f5UFmvi+RVRuW+ASXMM0uDkM7KnfBNKZMNVS+1dS8aPaC4Ib1Xn68zn6
+ rHGn+ISLojVl/UkCSLlDGgT8HDmZwAiAfW1SNXXNRFG/nrrumlUTHCHIUDTKKQeG3
+ piyzDRs1t6hx+x7K0Ef2zgjVUYi0lykbOHnRX1aDC8HUeFuNHSLL1ET7KfvqZPdcS
+ AUynwekgohExYbMLi1a+R7zBNmQC1whsMtj9k2uGvTvLLS9ml0eoLo3Sm7/cPC1Jp
+ ctnWvyyXTIuIUVfJkw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MeUc2-1ssUBS3U8q-00lcXl; Thu, 20
+ Jun 2024 12:45:30 +0200
+Message-ID: <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de>
+Date: Thu, 20 Jun 2024 12:45:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <404691d2-b013-4bcc-b7e4-bcc809e4bfbb@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+To: lkp@intel.com, Paul Cercueil <paul@crapouillou.net>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, linux-iio@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+ linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Julia Lawall <julia.lawall@inria.fr>, Lee Jones <lee@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <202406191014.9JAzwRV6-lkp@intel.com>
+Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <202406191014.9JAzwRV6-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:NTRxLCtqL0ApiDn3i1UPRK0ESzMnPEcNQTBlesEZBU9CEYqPi1f
+ AGUE0Iqpc83BxVHUG3k89Q5F/8z3etbqR3DfEvcjeL6Lx3pae77qYOIXUgtST37Ab8Do7k/
+ wU+c7CnLhk3+TYr1zOspLJGta6mikzAbopzkKmb71FDA4NI3466ErYGosxNpmnHTc9l4MJl
+ +CGi0hB0G1QMCNRUrV1Uw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:CgG6g3IuUkA=;GjeLuLN4k0zR5HkEhPPDnj3RINq
+ /CkwuYA+LrI5aUWTIamlyDVGI2+yh3QArzyJ1np2UYSYrgxICqa8foIibHUj53F84/MrMcLgN
+ GFrlIyXRWVkXW9fbV75qNQJodpMS9f6kv/bJ1NGIei4S3ewSiKcHU1jPpTzxbjNQjGBBEumPe
+ qAfjWGQherZuLeRpGpQjN/Kgpk+Cr00WMTLsBj7wWqRRR86NsVtzsuvgHSl5brUDWNVp3qGkW
+ 79/2lncKNGLQ/RXgQTGya5dwEulbNeslrEdSt6qMQMb+Nv9rIR4FWhp0ZGSVNytzEF3wam0sB
+ 3dVQZsO6RihZ04m5LerPVT+np3V6RDup5Kvm4wcP4Ti6xvI0dtVafefyZELYAcfYD9mdVE8fN
+ iqI8Ujalah+CZN5KCorrwfn01U/QdcOsZjQKG5mNVHRJTo6WhLHPap6R1OtSuCQxr7SiHQCHO
+ dSoY1BmUgMPnfnglAhaA0xtqFIG1eWrzf0k4Po2ej4e5fTe2J7E3JUVkoUYDNSkfyr2cZAlMk
+ LfrwOZ7p3YCbmeCJDEdYAWCwS8Uzd2uasIh+RKhUKsyjiKpt7uAibE4HFl2zl34J71qplTItr
+ zw9C2y2fYmdsJShro/sGE4I1fXYUvHpLm2N9g1FUvaxLvECa96Z3wlbFhlDOPcWLUSMYMO1CP
+ gngHha2pIf1xmH7Gt3mu1eickL+qEJ3tHc/ZL96Dpm7U4MuTo9Hm5oVgSi8h3ewr3hy1VNBI3
+ HJUY4BmHs48k0qNMZ4H8hT34jR1O7Al23WHZaxCNv7QjCPVS/TJY+qfpNBUITcG4Zft10nQJo
+ M/UF/zY1FmHRWGS8h3/KE5FpFUG8vYIGB57PgcfYuB3pLVgAGs7J9TIa/s1dsmlMUS
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,60 +87,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 20, 2024 at 09:43:05AM +0300, Tomi Valkeinen wrote:
-> On 19/06/2024 22:32, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Wed, Jun 19, 2024 at 12:22:16PM +0200, Jacopo Mondi wrote:
-> >> From: Phong Hoang <phong.hoang.wz@renesas.com>
-> >>
-> >> Add a check to the register access function when attaching a bridge
-> >> device.
-> 
-> I think the desc is missing the "why". I'm guessing it's the first 
-> register access to the IC, and thus verifies that it is accessible.
+=E2=80=A6
+> All errors (new ones prefixed by >>):
+>
+>>> drivers/iio/industrialio-buffer.c:1715:3: error: cannot jump from this=
+ goto statement to its label
+>     1715 |                 goto err_dmabuf_unmap_attachment;
+=E2=80=A6
 
-Isn't it a good idea in general to always check if I2C reads succeeded ?
+Which software design options would you like to try out next
+so that such a questionable compilation error message will be avoided fina=
+lly?
 
-> >>
-> >> Signed-off-by: Phong Hoang <phong.hoang.wz@renesas.com>
-> >> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > 
-> >> ---
-> >>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 6 +++++-
-> >>   1 file changed, 5 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> >> index 84698a0b27a8..b7df53577987 100644
-> >> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> >> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> >> @@ -696,6 +696,7 @@ static struct ti_sn65dsi86 *bridge_to_ti_sn65dsi86(struct drm_bridge *bridge)
-> >>   
-> >>   static int ti_sn_attach_host(struct auxiliary_device *adev, struct ti_sn65dsi86 *pdata)
-> >>   {
-> >> +	int ret;
-> >>   	int val;
-> >>   	struct mipi_dsi_host *host;
-> >>   	struct mipi_dsi_device *dsi;
-> >> @@ -720,8 +721,11 @@ static int ti_sn_attach_host(struct auxiliary_device *adev, struct ti_sn65dsi86
-> >>   
-> >>   	/* check if continuous dsi clock is required or not */
-> >>   	pm_runtime_get_sync(dev);
-> >> -	regmap_read(pdata->regmap, SN_DPPLL_SRC_REG, &val);
-> >> +	ret = regmap_read(pdata->regmap, SN_DPPLL_SRC_REG, &val);
-> >>   	pm_runtime_put_autosuspend(dev);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >>   	if (!(val & DPPLL_CLK_SRC_DSICLK))
-> >>   		dsi->mode_flags |= MIPI_DSI_CLOCK_NON_CONTINUOUS;
-> >>   
-
--- 
 Regards,
-
-Laurent Pinchart
+Markus
