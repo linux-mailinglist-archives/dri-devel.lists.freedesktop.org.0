@@ -2,66 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49DC490FF61
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 10:50:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38EE690FF86
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 10:53:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C7D310E86C;
-	Thu, 20 Jun 2024 08:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3A3E10E2EC;
+	Thu, 20 Jun 2024 08:53:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cvD99CZP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oXVBFWFk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B431110E86C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:50:12 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id
- 4fb4d7f45d1cf-57d21b1c8efso454541a12.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 01:50:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718873411; x=1719478211; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5WAhrMdqS2Jwg1E9qom8Kx0gdr3lJ2Qitazm85klo2E=;
- b=cvD99CZPVUbxF/DOAExNHoM6Q115JvnoIUUH+DlMKbE9NloLU9l3I0j6s4vMh+T6vs
- AbqnuQp0IxyG7QSLr90oSWhwlq+K1CVhbitzzWY6BrjBjAPLgtXu7u1bgL4AO2b1i7DQ
- CEQ6jIe6Jz83iLRZxMr9WDSxrBAaXwWMw7baLbTstcBB0RJrSV0KrywpfUpR3QaOR8bo
- gUF+Z7C/+vZi8MR/F1LEA7LB2B+sp+yFi0Hnnke/Kl+jwQyDuDegrZpi5vip/UelJjWF
- eGzXYnYV8P8KEsJXr70p9HbW7CymT8b4LulA9UYwQmqCX3GvMRVr8sM55Hf+IXDW9Pld
- V40A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718873411; x=1719478211;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5WAhrMdqS2Jwg1E9qom8Kx0gdr3lJ2Qitazm85klo2E=;
- b=WztK+VL45Ef6IX6/44MK/fLO8JOqWsQ2ACvjdGCTfGzGyYpOVKvVp65khn9C1Y/7TN
- gQfwqxHmfku/7XKAGvpt0ShWp39Rv9p6O6etPIkntQhHdLTFjvrc8wTMU3NN+GYv7V50
- 8YJNEV9OnJnobv03qo7OFtjdk540TcRW+Vy8c0qRGrZCr3B71ZF6amoVdLyWsZ0dLpGZ
- TPrmp2/7TkPlMXy3HGUDS+5597hHtKqqK3RApX7vM0T3kstoQIEz0Aj2SmTZbG9IgMWt
- CEKDAahPbrJnTAUInBHDThvfyofdbYx4hESupc7VXFMSBQhYio6xp7PIfE7zOrIO+EXw
- ubEQ==
-X-Gm-Message-State: AOJu0YwJoptOJWgIuJlb5Gn1wHYTUpPW9quDCv7Upv7LBNTUthDUAst5
- KGiauyqDS95D+zhXKP8N1dLV5xfE9Ogk+4qsYwdEBS3ltarZExg5lj6eOoGoR5HxiadwKrUpChn
- o
-X-Google-Smtp-Source: AGHT+IEz/RDP8U/nkoxVnrU3JBDU7Mcmme3IjMW1USD5UNzE1QDj+so/9YOae16O54n+4v1PfqFC7g==
-X-Received: by 2002:a50:d74f:0:b0:57c:677a:a941 with SMTP id
- 4fb4d7f45d1cf-57d07ebf13bmr2657630a12.40.1718873410688; 
- Thu, 20 Jun 2024 01:50:10 -0700 (PDT)
-Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-57cb9b7c1d8sm9165087a12.53.2024.06.20.01.50.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jun 2024 01:50:10 -0700 (PDT)
-Date: Thu, 20 Jun 2024 11:50:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Manikandan Muralidharan <manikandan.m@microchip.com>
-Cc: dri-devel@lists.freedesktop.org
-Subject: [bug report] drm: atmel-hlcdc: add driver ops to differentiate HLCDC
- and XLCDC IP
-Message-ID: <8d3717ec-76d1-4f62-a1ca-043d9a6d2c56@moroto.mountain>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEE9510E2EC
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:53:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id CDF0ECE233E;
+ Thu, 20 Jun 2024 08:53:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 750ACC2BD10;
+ Thu, 20 Jun 2024 08:53:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718873594;
+ bh=hRpD2oSJk3bfMnna+VloVB0FekUlFFz8OfKZw12xrRU=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=oXVBFWFkXYMboO01m5otd0aUgNt+XduBzRcoZwzQzUUsguH91kQLxHK72/Di9yUu2
+ NtML8B0Lo01QCAElbiyt3DmLcvo4Nr2sWqA866m/A/OY4cYOHyNTIJsFtFpPVngQzF
+ IfWECGvvHGJJbsJ3PYv1V9X63T6Jv/E6nYWS7nd/fPBZCf8gaOIrE4KfrJTZu1ulFh
+ DPk9GkKoVJFfnhPDDpS+sB/CjLtXtlNPHpfheZ4bGvmAW7BHniyk9avJ3wdw74C8hX
+ 3ePOuNj2TdTfmh5jHKBJQf13CbmIdRWk28jS5gZBZJF6W9l6YNzh1Bvhyb6Rmh6ByU
+ PfD5IXSeGkpAg==
+From: Maxime Ripard <mripard@kernel.org>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Amaranath Somalapuram <Amaranath.Somalapuram@amd.com>, 
+ Andi Shyti <andi.shyti@linux.intel.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Boqun Feng <boqun.feng@gmail.com>, 
+ Christian Koenig <christian.koenig@amd.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Huang Rui <ray.huang@amd.com>, Ingo Molnar <mingo@redhat.com>, 
+ Karolina Stolarek <karolina.stolarek@intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Waiman Long <longman@redhat.com>, 
+ Will Deacon <will@kernel.org>
+In-Reply-To: <20240619144630.4DliKOmr@linutronix.de>
+References: <20240619144630.4DliKOmr@linutronix.de>
+Subject: Re: (subset) [PATCH REPOST^2] drm/ttm/tests: Let ttm_bo_test
+ consider different ww_mutex implementation.
+Message-Id: <171887359115.3857922.3484081720728678081.b4-ty@kernel.org>
+Date: Thu, 20 Jun 2024 10:53:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,52 +71,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Manikandan Muralidharan,
+On Wed, 19 Jun 2024 16:46:30 +0200, Sebastian Andrzej Siewior wrote:
+> PREEMPT_RT has a different locking implementation for ww_mutex. The
+> base mutex of struct ww_mutex is declared as struct WW_MUTEX_BASE. The
+> latter is defined as `mutex' for non-PREEMPT_RT builds and `rt_mutex'
+> for PREEMPT_RT builds.
+> 
+> Using mutex_lock() directly on the base mutex in
+> ttm_bo_reserve_deadlock() leads to compile error on PREEMPT_RT.
+> 
+> [...]
 
-Commit aa71584b323a ("drm: atmel-hlcdc: add driver ops to
-differentiate HLCDC and XLCDC IP") from Apr 24, 2024 (linux-next),
-leads to the following Smatch static checker warning:
+Applied to misc/kernel.git (drm-misc-next).
 
-	drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c:573 atmel_hlcdc_plane_update_buffers()
-	error: uninitialized symbol 'sr'.
+Thanks!
+Maxime
 
-drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-    556 static void atmel_hlcdc_plane_update_buffers(struct atmel_hlcdc_plane *plane,
-    557                                              struct atmel_hlcdc_plane_state *state)
-    558 {
-    559         const struct atmel_hlcdc_layer_desc *desc = plane->layer.desc;
-    560         struct atmel_hlcdc_dc *dc = plane->base.dev->dev_private;
-    561         struct drm_framebuffer *fb = state->base.fb;
-    562         u32 sr;
-    563         int i;
-    564 
-    565         if (!dc->desc->is_xlcdc)
-    566                 sr = atmel_hlcdc_layer_read_reg(&plane->layer, ATMEL_HLCDC_LAYER_CHSR);
-
-sr is uninitialized on else path.
-
-    567 
-    568         for (i = 0; i < state->nplanes; i++) {
-    569                 struct drm_gem_dma_object *gem = drm_fb_dma_get_gem_obj(fb, i);
-    570 
-    571                 state->dscrs[i]->addr = gem->dma_addr + state->offsets[i];
-    572 
---> 573                 dc->desc->ops->lcdc_update_buffers(plane, state, sr, i);
-                                                                         ^^
-Uninitialized.
-
-    574 
-    575                 if (desc->layout.xstride[i])
-    576                         atmel_hlcdc_layer_write_cfg(&plane->layer,
-    577                                                     desc->layout.xstride[i],
-    578                                                     state->xstride[i]);
-    579 
-    580                 if (desc->layout.pstride[i])
-    581                         atmel_hlcdc_layer_write_cfg(&plane->layer,
-    582                                                     desc->layout.pstride[i],
-    583                                                     state->pstride[i]);
-    584         }
-    585 }
-
-regards,
-dan carpenter
