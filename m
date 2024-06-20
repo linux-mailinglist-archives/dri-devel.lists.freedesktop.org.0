@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D872910A5F
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:46:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A97A7910A63
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:46:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B03510EA89;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E7AE10EA9E;
 	Thu, 20 Jun 2024 15:46:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="XPXonM5H";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="jvWIW/+F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f100.google.com (mail-wr1-f100.google.com
- [209.85.221.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEF2C10EA82
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:46:43 +0000 (UTC)
-Received: by mail-wr1-f100.google.com with SMTP id
- ffacd0b85a97d-363826fbcdeso830634f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:46:43 -0700 (PDT)
+Received: from mail-ej1-f98.google.com (mail-ej1-f98.google.com
+ [209.85.218.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CBFE10EA82
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:46:44 +0000 (UTC)
+Received: by mail-ej1-f98.google.com with SMTP id
+ a640c23a62f3a-a6f11a2d18aso118726166b.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:46:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google; t=1718898402; x=1719503202;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4AjgM1lONumiIAH3nlA15QCd+ve3cOFFHpjhMZ1Fplo=;
- b=XPXonM5HyL6pMBhmjuEE8pjD6yxjx8D0A5nytLWN+27o9dD11HH/QlBXZEHT9oXXp5
- UFIjqUEsIW4hmzWh2JBzt6joFwvY4M9VCK8HtE1Qdwlxmyo1v3P4X/RQB3KgpdqscczU
- efJlSmp/jE8Yaj5iCefrK2iy6YFOeo9lSTQIU1icXEyoxZwlpm4Qyw135BwV2nVGKbNU
- 1CAvQ1WkNbJ1XuZCi67ykc1UOyfGu7oIItQZKjtkQDtTmY0TE7C49TirWO2ZAY8xw5G/
- e6a7LKRE18F56wQMs8JkyKacZ3PYH5L1Z2QLLfEVuCC+m+6BSfXNGifdpmrOKIgRNZyd
- qB8g==
+ bh=CTZUqjSk/X3bmEMr9JFBTlenY3fg9WCYw7DD7LJyoXY=;
+ b=jvWIW/+FTn45qhZv8z8+UfGwfRxYJnK11uQBmlE74L7S72bmpz8aVY8f+C5mQ9iVO+
+ VRtpfl4q8CM2PJKtcW/MdlWKeqDKq/nEFPV4Onig/pqZWwMsHRop34tyX1OVjy+Yj80l
+ iDbYs3A8wmMOLJGSqP9VEq7pQybyM9YeKWgdgxEgAMXfWRhtuB7WIdJAoNGNhhkW+sT7
+ OF/Ti7v5bUQQueZ1eoYoSnB9WyAW4ZIAoVvcZvpn1DSJIc11Ua4u2X9Bfv5Q5cAIBDpZ
+ DULxN+1oXrWyKwzp/05uGgHdmuLpKH8D5l08Ovp4Ea/TrPL1IokH3+EsdvURithz3wNy
+ SfXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1718898402; x=1719503202;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4AjgM1lONumiIAH3nlA15QCd+ve3cOFFHpjhMZ1Fplo=;
- b=rbNKRTw72nwPYU1fxYZWKrYyRWc0BdHlX85eLbPAIg/ovAwtzh1rLMafP+e6C03Pdc
- 79s+IC+SJSsYsAxFTtfE+ddJ8CzhwCtgx1kO6k6ZVlLBHgtv+hSqmXgkW1KHD5IcnPVX
- mOWg/bN4iGITvwbSQoi5cYPC4WRZBo3gcjNby67lHu6SgGL0e2CTPek+0QNd3wu17S6C
- AMpVSnmO7p/tXC+ziPGYNM7YOJsLfMxGlbJo7vYKAftNcey3elTWGC9XbqDseaFLlEVZ
- lAqxtSAg21oINSR+5lqP4957WW6KEGsGuYbPps8ddSyRjnx/ZdSSHGWJdsdqsMZhwexU
- UWUQ==
+ bh=CTZUqjSk/X3bmEMr9JFBTlenY3fg9WCYw7DD7LJyoXY=;
+ b=IKg75Hj/cH92nNDE42QMcTiEQTUXLuNOyexJiYuuaataL4u0Wsma8YJsy+MnIQgPc0
+ hIkBZyYFAdvD4yjpEBI3DDHkCS2Zv5At+7POPpP3xUSr54yr4Eo5PFHWJEpQrab+dSh0
+ edNPBnvTzB9rHuFvFThREoQHuy7RPcVhsF8s0rHGab9ADKGa6kBleqakRnv8nRK88yIx
+ xZrrf/5YMbMxREvGFikheP+Nxa2PaNdZ/LYWfCgofQAm16q3LH5z6fL/b2F94DnbInfk
+ ibrSk7rD58UQhpnR38B6ZUafEcVGMsVhSm6IG2CYU8wZyw/MZbKc6bbn6iPEdkSQt9DA
+ fB2Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUs+hd+/ngTt2quLm4/FOtaac2BTrCzDRoTnekmnE86drgc/+A0ZwWZ+JQ8J7ZCGCAuAsiFG7Lg+bBXn2f806l1cD/Uglc0BDOGUrO181Ou
-X-Gm-Message-State: AOJu0Yx6hqaAFAlkZlWAIMPb5daZvkYarZig9nlAngo42r1A9qZn4CsI
- oPeQClzcgK2/q9mEVqxf7pD+8hPgRC4ZOkuAUn/+BBq/MR6NsJivnZwdCr+UG5spukXfzgDXFFa
- hHtKjlNc6MER9D3cEwBF28nF2gUPfBoZA
-X-Google-Smtp-Source: AGHT+IEHBz/ums/0ewMJU/bFWShLAHuz8MX5XM3NcMHKojCTjWA7ncIaEMn7botiVJhYYKEkIX25AwbhwLDu
-X-Received: by 2002:a05:6000:1088:b0:360:9708:6820 with SMTP id
- ffacd0b85a97d-363170ec7f4mr4579894f8f.7.1718898401957; 
- Thu, 20 Jun 2024 08:46:41 -0700 (PDT)
+ AJvYcCVIvnAUd0eWjwGhCYncBE5gY5P5OuOc2x68waIwPgBpcmORKZXSWDvjT+fjR+sKFbPLZXIXwSHM6fkNUIgErJmZi0lHNuTRHnAm8Qb4QD3X
+X-Gm-Message-State: AOJu0Yyf/xOb8IUYWclX0zrrg6zrY0B9Q/tUFVJZdGecDHAT8pE5NU9V
+ Pl35qRhjoaRqJVD0kLux4AoR+lCFQnMxFPTj7gvojV+inUaLQCFq8QC8hQArdvc5ydCuOyOmQ3r
+ gum5XDIs5muJd4h5lpuB7QkjkFbXiBAjW
+X-Google-Smtp-Source: AGHT+IEJ8+wSIXeNlzEsUEU53e5fi/Kjf3EBMnWXbez2tntP+060uiVuj9F4M6sPbCYDrgh+mx3xpf4H+9Gg
+X-Received: by 2002:a17:907:c283:b0:a6f:57f1:cebb with SMTP id
+ a640c23a62f3a-a6fab772482mr314550666b.50.1718898402556; 
+ Thu, 20 Jun 2024 08:46:42 -0700 (PDT)
 Received: from raspberrypi.com ([188.39.149.98])
  by smtp-relay.gmail.com with ESMTPS id
- ffacd0b85a97d-3607bd986a3sm755992f8f.104.2024.06.20.08.46.41
+ a640c23a62f3a-a6f7ea1ec0esm20448866b.92.2024.06.20.08.46.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jun 2024 08:46:41 -0700 (PDT)
+ Thu, 20 Jun 2024 08:46:42 -0700 (PDT)
 X-Relaying-Domain: raspberrypi.com
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>,
@@ -65,9 +65,9 @@ To: Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
 Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH 06/31] drm/vc4: Set AXI panic modes for the HVS
-Date: Thu, 20 Jun 2024 16:46:07 +0100
-Message-Id: <20240620154632.4125308-7-dave.stevenson@raspberrypi.com>
+Subject: [PATCH 07/31] drm/vc4: Limit max_bpc to 8 on Pi0-3
+Date: Thu, 20 Jun 2024 16:46:08 +0100
+Message-Id: <20240620154632.4125308-8-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
 References: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
@@ -88,42 +88,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The HVS can change AXI request mode based on how full the COB
-FIFOs are.
-Until now the vc4 driver has been relying on the firmware to
-have set these to sensible values.
+Pi 0-3 have no deep colour support and only 24bpp output,
+so max_bpc should remain as 8, and no HDR metadata property
+should be registered.
 
-With HVS channel 2 now being used for live video, change the
-panic mode for all channels to be explicitly set by the driver,
-and the same for all channels.
-
+Fixes: ba8c0faebbb0 ("drm/vc4: hdmi: Enable 10/12 bpc output")
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/vc4_hvs.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index 04af672caacb..267c9fde7362 100644
---- a/drivers/gpu/drm/vc4/vc4_hvs.c
-+++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -951,6 +951,17 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 			      SCALER_DISPCTRL_SCLEIRQ);
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 04d32dc3e98c..afeeff660fa5 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -630,6 +630,11 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
+ 	if (ret)
+ 		return ret;
  
- 
-+	/* Set AXI panic mode.
-+	 * VC4 panics when < 2 lines in FIFO.
-+	 * VC5 panics when less than 1 line in the FIFO.
-+	 */
-+	dispctrl &= ~(SCALER_DISPCTRL_PANIC0_MASK |
-+		      SCALER_DISPCTRL_PANIC1_MASK |
-+		      SCALER_DISPCTRL_PANIC2_MASK);
-+	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC0);
-+	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC1);
-+	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC2);
++	if (vc4_hdmi->variant->supports_hdr)
++		drm_connector_attach_max_bpc_property(connector, 8, 12);
++	else
++		drm_connector_attach_max_bpc_property(connector, 8, 8);
 +
- 	/* Set AXI panic mode.
- 	 * VC4 panics when < 2 lines in FIFO.
- 	 * VC5 panics when less than 1 line in the FIFO.
+ 	drm_connector_attach_encoder(connector, encoder);
+ 
+ 	return 0;
 -- 
 2.34.1
 
