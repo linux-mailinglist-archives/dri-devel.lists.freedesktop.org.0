@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34EF910A42
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:44:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA9B910A53
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:46:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E32A810EA5F;
-	Thu, 20 Jun 2024 15:44:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FF2510EA71;
+	Thu, 20 Jun 2024 15:46:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SCGhAfXB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RJPoJQnT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72AA910EA5F
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:44:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F71B10EA71
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:46:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 78D38CE26FB;
- Thu, 20 Jun 2024 15:44:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C4C6C2BD10;
- Thu, 20 Jun 2024 15:44:14 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 38858CE21B9;
+ Thu, 20 Jun 2024 15:46:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3F20C4AF08;
+ Thu, 20 Jun 2024 15:45:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718898264;
- bh=NDXoArYoOi42/owc5Xd/tf23JKVgVR3hxxrlHPGBiaQ=;
+ s=k20201202; t=1718898359;
+ bh=iDtyYM5l+koUw3HZY0hhLpeAIfDRM2XNnvLWh3MtEJA=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SCGhAfXB6TvNGpmFq4tkdAMjT0BGXqUhPg0hCTxr4beUuDJ7W29IQNBlij8Cf97ul
- tMAx8kSFiZsGyzK+EgtVuGcVinfB1I5FxjCd9puEHkPe/IwygmoKhclQPxjek8s+9F
- NFGGcW/AKfDQAnIzbFrpKn/wXoT0A1L9DmQX9o/HtHSo9mCs3xypVAjykhijQM218T
- PgvBX+5tM24zkzmwOofxt0PICy2ZsV/tAvomvknU3jOd7PvTJ2KOn5eoARpX/scLHo
- T++IMGjqjR3IGx+v2EdrMge7LGse2qKcePLOIz1LkXT6OAYWH46HsykEJ+j6PnoAm5
- aqzl4xqMU9vMw==
-Message-ID: <5e263066-5d05-4645-a695-0e7e62562666@kernel.org>
-Date: Thu, 20 Jun 2024 17:44:12 +0200
+ b=RJPoJQnTV5atULIzNJC3yZhph4GSueyXzhEuMFejaawSci6iaMbviBkI6FNx0t/Rz
+ fOc7xb8iVP5Lc8rmi2/EsM46xxrOME0wXJCKiSmaR6PfPVzLcdMKrA2BBUsRmJcw8n
+ be69d+KzpTTwpG34avRpH7eZPeqpsWX5BZqoBVv+6vaunBA99svyrj8rF4olvC9/w1
+ qtxHbacCHkBlTGapziv9A2TvBGPKixjrFNVVGxpOpzfUjx/a1S8o0waJ19CoI13PHz
+ IjpEz9MzGMLo1ajBaT+JKbxSiLaOjXdEatFiGyZ1WECrX51CrYbcsMkkMi/W9+iOxl
+ eB7WtP83nIT3g==
+Message-ID: <13a650f4-7ca7-4c95-b536-9814a22f00ff@kernel.org>
+Date: Thu, 20 Jun 2024 17:45:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 03/23] dt-bindings: panel: add Samsung s6e3ha8
+Subject: Re: [PATCH v3 04/23] dt-bindings: mfd: add maxim,max77705
 To: Dzmitry Sankouski <dsankouski@gmail.com>,
  Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
@@ -56,7 +56,7 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
  linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
 References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-3-e3f6662017ac@gmail.com>
+ <20240618-starqltechn_integration_upstream-v3-4-e3f6662017ac@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,7 +102,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240618-starqltechn_integration_upstream-v3-3-e3f6662017ac@gmail.com>
+In-Reply-To: <20240618-starqltechn_integration_upstream-v3-4-e3f6662017ac@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -121,84 +121,101 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 18/06/2024 15:59, Dzmitry Sankouski wrote:
-> Add binding for the Samsung s6e3ha8 panel found in the Samsung S9.
+> maxim,max77705 is MAX77705 pmic binding part
 > 
 > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
 > ---
->  .../bindings/display/panel/samsung,s6e3ha8.yaml    | 76 ++++++++++++++++++++++
->  MAINTAINERS                                        |  5 ++
->  2 files changed, 81 insertions(+)
+>  .../devicetree/bindings/mfd/maxim,max77705.yaml    | 112 +++++++++++++++++++++
+
+Your patch order is totally messed. Not tested by automation. Only
+limited review follows.
+
+
+>  MAINTAINERS                                        |   1 +
+>  2 files changed, 113 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml
+> diff --git a/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml b/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml
 > new file mode 100644
-> index 000000000000..9d7d747264dd
+> index 000000000000..b54408e3d792
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml
-> @@ -0,0 +1,76 @@
+> +++ b/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml
+> @@ -0,0 +1,112 @@
 > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/display/panel/samsung,s6e3ha8.yaml#
+> +$id: http://devicetree.org/schemas/mfd/maxim,max77705.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Samsung s6e3ha8 AMOLED DSI panel
-> +
-> +description: The s6e3ha8 is a 1440x2960 DPI display panel from Samsung Mobile
-> +  Displays (SMD).
+> +title: Maxim MAX77705 Companion Power Management IC and USB Type-C interface IC
 > +
 > +maintainers:
 > +  - Dzmitry Sankouski <dsankouski@gmail.com>
 > +
-> +allOf:
-> +  - $ref: panel-common.yaml#
+> +description: |
+> +  This is a part of device tree bindings for Maxim MAX77705 multi functional device.
+> +
+> +  The Maxim MAX77705 is a Companion Power Management and Type-C interface IC which
+> +  includes charger, fuelgauge, LED, haptic motor driver and Type-C management IC.
 > +
 > +properties:
 > +  compatible:
-> +    const: samsung,s6e3ha8
+> +    const: maxim,max77705
 > +
 > +  reg:
+> +    description:
+> +      I2C device address.
+
+Drop description, obvious.
+
 > +    maxItems: 1
 > +
-> +  reset-gpios:
-> +    description: reset gpio
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  interrupt-names:
+> +    description:
+> +      MAX77705 shared irq.
+> +    items:
+> +      - const: max77705_irq
 
-Pointless description. I think this can be reset-gpios: true, because
-gpio-consumer-common provides constrain.
+Drop entire property, not really useful.
 
 > +
-> +  port: true
+> +  charger:
+> +    $ref: /schemas/power/supply/maxim,max77705-charger.yaml
 > +
-> +  vdd3-supply:
-> +    description: VDD regulator
+> +  fuelgauge:
+> +    $ref: /schemas/power/supply/maxim,max77705-fg.yaml
 > +
-> +  vci-supply:
-> +    description: VCI regulator
+> +  haptic:
+> +    $ref: /schemas/input/maxim,max77705.yaml
 > +
-> +  vddr-supply:
-> +    description: VDDR regulator
+> +  leds:
+> +    $ref: /schemas/leds/maxim,max77705.yaml
+> +
 > +
 > +required:
 > +  - compatible
-> +  - reset-gpios
-> +  - vdd3-supply
-> +  - vddr-supply
-> +  - vci-supply
 > +
-> +unevaluatedProperties: false
+> +additionalProperties: false
 > +
 > +examples:
 > +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/leds/common.h>
 > +
-> +    dsi {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      panel@0 {
-> +      	compatible = "samsung,s6e3ha8";
-> +      	reg = <0>;
+> +    i2c14 {
 
-Messed indentation. Keep consistent one.
+i2c
+
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +    	pmic@66 {
+> +    		compatible = "maxim,max77705";
+> +    		reg = <0x66>;
+
+Totally messed indentation. Fix your code.
 
 
 
