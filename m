@@ -2,69 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E0E690FF5C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 10:49:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F3A90FF5D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 10:49:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5551810E875;
-	Thu, 20 Jun 2024 08:49:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23BF910E868;
+	Thu, 20 Jun 2024 08:49:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NkOm0QuC";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NzemIdTj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9C6B10E878
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:49:36 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-a6fbe639a76so103019466b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 01:49:36 -0700 (PDT)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC07610E868
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:49:49 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id
+ 4fb4d7f45d1cf-57d07464aa9so523139a12.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 01:49:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718873375; x=1719478175; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1718873388; x=1719478188; darn=lists.freedesktop.org;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=vplqWI8cKIJ52zF1aYYCsDVAV72MV1EuoajGM0seqQU=;
- b=NkOm0QuCRuRMMB6lbJfZrW6V+962D/6Ti6j64r3VQmJzV0CR/PiLjAC0MksfTaOdSs
- qRruB98Jp0Vje2iNTZFbsrMDJF0SKcjHHKthk+qvz17xjHcdcSFRl2G+TFmbsBUMjoKa
- q+3ot4bKn658/tw5lcrAmTj5DP9y/2Dh3p8Nkvynea6nqTnst9+D1/+uRY+UVZFXNoK9
- iXlEwwAiZQf76RMC9fOCN2vShVaKvuqOj19naqoUAcV4tl6PYvXC4+e0M7yTG+UyNdHI
- vEwJIhoh8d7GkubnJ2BrQPSI93cnMsgo9M++SPhV0pa8pwODEsTuNlAWKyxMFHKWbIY7
- LMXQ==
+ bh=FCmULs7Ip+T4HEzPRhfMxVMy8WCUz+1jGV/C4njJqXM=;
+ b=NzemIdTjIjLaNUZ0BR2Og7t7k5isij+kzg2hrSkIYQ5GKbhPGsTaB4eX0hen1lOQ9g
+ 3NxANAOCVmRCV3p61mYw/mTKMDGaN72cbOA0CBauHeSZRDGMlC/zvSmN1uNiBPyVXOoS
+ wG6R5em3EctNxojpuwj9AY8jgbIsUrxhjA++TF8+OhuI0gA3kIng01Ay4cyXyjrOEMCT
+ 64dEe4l/QXq2jmpitCxD7xZKCBr5wiXTqVUWwl/vYoA+0YWjjXvKoKEkqRro5RPQvc8q
+ qub9EstmHBt4MQb52kP4QcA5MZxasyCboR03xNpseTyxqGM8YjYx+vlWBCmhra6pm7RT
+ tSmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718873375; x=1719478175;
+ d=1e100.net; s=20230601; t=1718873388; x=1719478188;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vplqWI8cKIJ52zF1aYYCsDVAV72MV1EuoajGM0seqQU=;
- b=oRZ9HPzG/mffnp3uVHqFP104yjFxedkqVgxtEJr9DV7SM9+R4pzSMQxOV0YfXXLiGM
- bgRj1dsSDQ7rVmUKfaho8tRY0MjmAubKbTT1BAmZIVP9H8SXP/FqYaPqAwxfSkpP1nKF
- jI10zFvXHeEoLDXW1TzufpZWhdZPGTd6B6h2PFvg+g+M4ka7FKWBc2VPFa6q5824XkQu
- LbYqnw+/P29OpxyPva5VbT1zD3zGFrc+IeAoIqfybd8p12S0vIt4cna7OShKKXBA/6e6
- a+KDBJ7H87Cr8pzLtwQhqESX/C79cyZHKDichTBWdoCqfdOBMsZ8+vSKJGhu4lLoGZVB
- 6KCQ==
+ bh=FCmULs7Ip+T4HEzPRhfMxVMy8WCUz+1jGV/C4njJqXM=;
+ b=OFkZK2XE9ApSVjdwVonRJ4NFKoF+COqEB44fuDRNPDYjT+NdXQzBa1dbk4VKJsFgNU
+ jufUfvDUMtVBf5jlpLX0Ftq5eStkQrfK10MC5X7vNJOBr6SP0HKg6HbU27TsP8Pn8VXn
+ wsJPZXivEGtzqU/f7lJoO84RV0n0HKYfmE4UcykQ3qMAL0NteoyKASUwgdDzDug6FT1+
+ suRUDF+4afEBoOxA7S3nOsubMJrso2uT8EvmlRTrw74zayFlRJBsf7IykJsoi2mUoMfU
+ kmFsqosI3JodjddeG4s5QKFRKxpQaEvapzzElDRHU5kI9t85VWWPpIkx9WCixkDELuEI
+ N/VQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVhGZVnr2tqa2WPoMEjfXnG9iKO5ukKZZ6XYM6nHeQyH+wDXr2Uqu4CkyNpKwIphtdVITlc9tR+buPd4+a6tH4PXHuCDJVXku9HrUXRZXfD
-X-Gm-Message-State: AOJu0YwaY5Dtq+y3ELMI0nd2uumTL8+EICIujkyEbGr+/95QRAp8h4FT
- WcDPPbnzQzOCQGfS/Vsrztu0RhayKRpTmbJtd++x5Vghads4ZB0FS27bEaTBc4s=
-X-Google-Smtp-Source: AGHT+IF0HJWu5+9qrzpdj+2IohqmI65R3iM9YQiZqQ/II9cNRx507OWzSUKesTfdkh9pqQPDzJtJrg==
-X-Received: by 2002:a17:906:3643:b0:a6f:6bad:b5a9 with SMTP id
- a640c23a62f3a-a6f94c047c4mr519564166b.7.1718873374898; 
- Thu, 20 Jun 2024 01:49:34 -0700 (PDT)
+ AJvYcCXM2ekwBd9Fpg83EjHXPGBP/kHWGSmdhn6kSQ98lrBm/VIRStJ7wfrkQlxNDcSYAU/eVU+eLrL8WfsNUKmxNB7YBIgEPI1I8MAN/2dhsYoJ
+X-Gm-Message-State: AOJu0YzjpjvW4IQRw/cjmaNUnVwZEMx2agSxoM+IlfIvawu4pkDowz2N
+ D52Rmz3W9up4NXLw3Xe0hl1YMex0JLxLKRTQiMLOMvui7WtJFIIm+GB00YDyH0Y=
+X-Google-Smtp-Source: AGHT+IFjPo1mca3mlAO70SZGhud7FBjXkR91J2Bn4a2E6P7EwodOEE/C2Tdp9I1x/bZPTaMnkVihqQ==
+X-Received: by 2002:a50:9fe1:0:b0:578:67db:7529 with SMTP id
+ 4fb4d7f45d1cf-57d07e190c7mr2545052a12.4.1718873387774; 
+ Thu, 20 Jun 2024 01:49:47 -0700 (PDT)
 Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a6f56ed0ea4sm741387066b.116.2024.06.20.01.49.33
+ 4fb4d7f45d1cf-57cb72da371sm9318328a12.24.2024.06.20.01.49.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jun 2024 01:49:34 -0700 (PDT)
-Date: Thu, 20 Jun 2024 11:49:30 +0300
+ Thu, 20 Jun 2024 01:49:47 -0700 (PDT)
+Date: Thu, 20 Jun 2024 11:49:43 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Yunxiang Li <Yunxiang.Li@amd.com>
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>,
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  "Pan, Xinhui" <Xinhui.Pan@amd.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] drm/amdgpu/kfd: Add unlock() on error path to add_queue_mes()
-Message-ID: <10510733-a59a-4419-afb5-e75fdd802794@moroto.mountain>
+ Alex Hung <alex.hung@amd.com>, Wayne Lin <wayne.lin@amd.com>,
+ Fangzhi Zuo <jerry.zuo@amd.com>,
+ Agustin Gutierrez <agustin.gutierrez@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Hersen Wu <hersenxs.wu@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: [PATCH] drm/amd/display: Clean up indenting in
+ dm_dp_mst_is_port_support_mode()
+Message-ID: <a57a9d8f-40bb-4cfa-9dad-4f93a1f33303@moroto.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -84,27 +90,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We recently added locking to add_queue_mes() but this error path was
-overlooked.  Add an unlock to the error path.
+This code works, but it's not aligned correctly.  Add a couple missing
+tabs.
 
-Fixes: 1802b042a343 ("drm/amdgpu/kfd: remove is_hws_hang and is_resetting")
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-index d2fceb6f9802..4f48507418d2 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-@@ -230,6 +230,7 @@ static int add_queue_mes(struct device_queue_manager *dqm, struct queue *q,
- 	if (queue_type < 0) {
- 		dev_err(adev->dev, "Queue type not supported with MES, queue:%d\n",
- 			q->properties.type);
-+		up_read(&adev->reset_domain->sem);
- 		return -EINVAL;
- 	}
- 	queue_input.queue_type = (uint32_t)queue_type;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+index 48118447c8d9..5d4f831b1e55 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+@@ -1691,7 +1691,7 @@ enum dc_status dm_dp_mst_is_port_support_mode(
+ 		if (aconnector->mst_output_port->passthrough_aux) {
+ 			if (bw_range.min_kbps > end_to_end_bw_in_kbps) {
+ 				DRM_DEBUG_DRIVER("DSC passthrough. Max dsc compression can't fit into end-to-end bw\n");
+-			return DC_FAIL_BANDWIDTH_VALIDATE;
++				return DC_FAIL_BANDWIDTH_VALIDATE;
+ 			}
+ 		} else {
+ 			/*dsc bitstream decoded at the dp last link*/
+@@ -1756,7 +1756,7 @@ enum dc_status dm_dp_mst_is_port_support_mode(
+ 		if (branch_max_throughput_mps != 0 &&
+ 			((stream->timing.pix_clk_100hz / 10) >  branch_max_throughput_mps * 1000)) {
+ 			DRM_DEBUG_DRIVER("DSC is required but max throughput mps fails");
+-		return DC_FAIL_BANDWIDTH_VALIDATE;
++			return DC_FAIL_BANDWIDTH_VALIDATE;
+ 		}
+ 	} else {
+ 		DRM_DEBUG_DRIVER("DSC is required but can't find common dsc config.");
 -- 
 2.43.0
 
