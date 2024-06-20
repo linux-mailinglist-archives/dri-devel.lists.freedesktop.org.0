@@ -2,66 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8AA690FFD9
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 11:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3973690FFEE
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 11:08:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C947810E85E;
-	Thu, 20 Jun 2024 09:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 138CB10E07C;
+	Thu, 20 Jun 2024 09:08:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hDtN4akG";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Gbr0Xij1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05B7710E0C0;
- Thu, 20 Jun 2024 09:03:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1718874198; x=1750410198;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=JBJ0kif22VOua/vcGMoja/RHLHRSb1837rekyymq218=;
- b=hDtN4akGy0Uy6xqHG/5gg6sNFBKEdBuY3TzEfXlnrNbDqrxH/X+KUcSf
- UdssCotjNVZI8kySKJVkhLmkxsjWFK/N+OxLvzCMvRb13Nj1Y7Ayf4cNb
- yraBYScPbV6NeO7fuwhAZb9hqj+/2Sbk0wzQHlxo1auJokrlFbnnvaFLn
- 2XALeqsgeRECqMNGSy11OsMCoTJ55fIqtDHQem3KDLZWOmcv4KUgkBedR
- 24VMAArjMwrkUEh0JBfKq0nkSxuaAZS0IsG0OAZz2tJQFPxQs5tr9l/IJ
- PmyfjRCl4/XfwhB85RTeq16qcYY4RZx3Uu62HNeKz0i0UgAKNDZLNly8/ A==;
-X-CSE-ConnectionGUID: szLP4qHETlG3fDkmCfapPg==
-X-CSE-MsgGUID: 0fWGgM6/SNOBRe22eb3z8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15667861"
-X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; d="scan'208";a="15667861"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2024 02:03:18 -0700
-X-CSE-ConnectionGUID: RVA/Jx1ISrehm74wFhpZMw==
-X-CSE-MsgGUID: WIefCMAZQseGNa70An1YDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; d="scan'208";a="47332163"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.245.229])
- ([10.245.245.229])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2024 02:03:15 -0700
-Message-ID: <f9b59d8b-edea-453e-a8be-ef0caba9237a@intel.com>
-Date: Thu, 20 Jun 2024 10:03:12 +0100
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B585B10E07C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 09:08:24 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id
+ 4fb4d7f45d1cf-57d0f929f79so501244a12.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 02:08:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1718874503; x=1719479303;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/HqSY3GOs/15VIJ9Rt+TiaY5fHiC8UUyqPG+GopX0FQ=;
+ b=Gbr0Xij1DxcLB3b2azRIR6bvcwgKcUjBtgaKOdkWu70gOn3yUENW2qZKYNCVRA5/uY
+ nzjOqXERdxDoK/44B/7UFC0ghfn1Q3cZHzRff4sXnTGDBv5+pYBiMuPKVAgQsoC2wY6F
+ y8WZc6hHuu3x5UT7Mw0lkgXs8bJZCt7bTienqnTpQfJ+hB3q3++lSghGk7yITAvdqXwB
+ Nukn/rPMiBL3BOrtMofV/Lmv2HwYCz8oWuJaHH8ovpTp7Bb2ASs1i3z03+reTmYtk6VR
+ Kv7aYeRRyWt1T61VifGre/kCuSTcoJW8l/b944DgiBuzYs0dvWD9qBxQySitDKlH0yNR
+ GeMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718874503; x=1719479303;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/HqSY3GOs/15VIJ9Rt+TiaY5fHiC8UUyqPG+GopX0FQ=;
+ b=D9WEbAOlUuSJGL3DGqQfGx6Sajaqqv/3puaFNfIJMAnNwFYVZtefDML7I+Zp+j6OzZ
+ GVY9EoBPdwcoW4Oq9FG7CZ4ha2To3+QtbxYEzCdZpbLSbmZ319VKilDEV8RI4xXtCuSo
+ o901flxln8YVeT3BbX2cxuoaPNl8r9ddIGPs8oAzlYcU4A+6llKRDwr8bikWAEQdXwNH
+ twjjwrz9ORi4B7ZCtY6C8UoVpw5pQpYTNSejDs5zVFe4iaKIenvXc2jOl8Hz0UnZplSw
+ S9xCvjlR1HPFxY0gAwvs4wMSuXStA57EzWm17WfFYo6p0gjbk0lHEGCkm7IYfPGOTZja
+ BfZQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX27lhzexcUSfg0EUx2bHbH/v3PweLWEgwP8IwQBCwhkXVpNI1ko9INkFPasBlbzs1+8rSDdNgbgh1nWpWbPgIi6hZEWrWMFxpqdtqYxKAS
+X-Gm-Message-State: AOJu0Ywnq+uAdVCVDs8M0VVfyNz00651jLMmkJ/kDZ9VFU3UCc493+s3
+ tkbOU7wn1xOi2vnZ3ipEpQ2Aq6ZOJnaGXTpW+PnxYkIX8KW/ghfr4N9HQqtTXhUuo9MlncRfzdC
+ 49qVLwj/pRvakcNj9O1Kr6/P0SojhrSdXmgd5xQ==
+X-Google-Smtp-Source: AGHT+IHO5sP2gbpxBB+AMGd4wNamE9Q721oKfWv/dUroSShvJU+KFMT4kGHIsnxr8NwAqlWGAJQN7rLag50g2h0cmh4=
+X-Received: by 2002:a50:ee92:0:b0:57c:765b:83a3 with SMTP id
+ 4fb4d7f45d1cf-57d0bff1a13mr2919665a12.25.1718874502424; Thu, 20 Jun 2024
+ 02:08:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/xe: Use write-back caching mode for system memory on
- DGFX
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org
-Cc: Pallavi Mishra <pallavi.mishra@intel.com>, dri-devel@lists.freedesktop.org,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Effie Yu <effie.yu@intel.com>, Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jose Souza <jose.souza@intel.com>, Michal Mrozek <michal.mrozek@intel.com>,
- stable@vger.kernel.org
-References: <20240619163904.2935-1-thomas.hellstrom@linux.intel.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20240619163904.2935-1-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240614145609.25432-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240614145609.25432-3-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <xiv3rvzpx7l2esosggybp6pheoa4zg3ew6vnhjxewnmvkdy73o@jflkmq77lxxn>
+In-Reply-To: <xiv3rvzpx7l2esosggybp6pheoa4zg3ew6vnhjxewnmvkdy73o@jflkmq77lxxn>
+From: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Date: Thu, 20 Jun 2024 17:08:11 +0800
+Message-ID: <CA+6=WdQpLMQBti_1WBQ9h09fRSf74o0m4YrJqDOqzDAYJ0EyOA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/panel: starry-er88577: add new panel driver
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org, 
+ benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,140 +85,207 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/06/2024 17:39, Thomas Hellström wrote:
-> The caching mode for buffer objects with VRAM as a possible
-> placement was forced to write-combined, regardless of placement.
-> 
-> However, write-combined system memory is expensive to allocate and
-> even though it is pooled, the pool is expensive to shrink, since
-> it involves global CPU TLB flushes.
-> 
-> Moreover write-combined system memory from TTM is only reliably
-> available on x86 and DGFX doesn't have an x86 restriction.
-> 
-> So regardless of the cpu caching mode selected for a bo,
-> internally use write-back caching mode for system memory on DGFX.
-> 
-> Coherency is maintained, but user-space clients may perceive a
-> difference in cpu access speeds.
-> 
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Fixes: 622f709ca629 ("drm/xe/uapi: Add support for CPU caching mode")
-> Cc: Pallavi Mishra <pallavi.mishra@intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Effie Yu <effie.yu@intel.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Jose Souza <jose.souza@intel.com>
-> Cc: Michal Mrozek <michal.mrozek@intel.com>
-> Cc: <stable@vger.kernel.org> # v6.8+
-Acked-by: Matthew Auld <matthew.auld@intel.com>
+hi Dmitry
 
-> ---
->   drivers/gpu/drm/xe/xe_bo.c       | 47 +++++++++++++++++++-------------
->   drivers/gpu/drm/xe/xe_bo_types.h |  3 +-
->   include/uapi/drm/xe_drm.h        |  8 +++++-
->   3 files changed, 37 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-> index 65c696966e96..31192d983d9e 100644
-> --- a/drivers/gpu/drm/xe/xe_bo.c
-> +++ b/drivers/gpu/drm/xe/xe_bo.c
-> @@ -343,7 +343,7 @@ static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
->   	struct xe_device *xe = xe_bo_device(bo);
->   	struct xe_ttm_tt *tt;
->   	unsigned long extra_pages;
-> -	enum ttm_caching caching;
-> +	enum ttm_caching caching = ttm_cached;
->   	int err;
->   
->   	tt = kzalloc(sizeof(*tt), GFP_KERNEL);
-> @@ -357,26 +357,35 @@ static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
->   		extra_pages = DIV_ROUND_UP(xe_device_ccs_bytes(xe, bo->size),
->   					   PAGE_SIZE);
->   
-> -	switch (bo->cpu_caching) {
-> -	case DRM_XE_GEM_CPU_CACHING_WC:
-> -		caching = ttm_write_combined;
-> -		break;
-> -	default:
-> -		caching = ttm_cached;
-> -		break;
-> -	}
-> -
-> -	WARN_ON((bo->flags & XE_BO_FLAG_USER) && !bo->cpu_caching);
-> -
->   	/*
-> -	 * Display scanout is always non-coherent with the CPU cache.
-> -	 *
-> -	 * For Xe_LPG and beyond, PPGTT PTE lookups are also non-coherent and
-> -	 * require a CPU:WC mapping.
-> +	 * DGFX system memory is always WB / ttm_cached, since
-> +	 * other caching modes are only supported on x86. DGFX
-> +	 * GPU system memory accesses are always coherent with the
-> +	 * CPU.
->   	 */
-> -	if ((!bo->cpu_caching && bo->flags & XE_BO_FLAG_SCANOUT) ||
-> -	    (xe->info.graphics_verx100 >= 1270 && bo->flags & XE_BO_FLAG_PAGETABLE))
-> -		caching = ttm_write_combined;
-> +	if (!IS_DGFX(xe)) {
-> +		switch (bo->cpu_caching) {
-> +		case DRM_XE_GEM_CPU_CACHING_WC:
-> +			caching = ttm_write_combined;
-> +			break;
-> +		default:
-> +			caching = ttm_cached;
-> +			break;
-> +		}
-> +
-> +		WARN_ON((bo->flags & XE_BO_FLAG_USER) && !bo->cpu_caching);
-> +
-> +		/*
-> +		 * Display scanout is always non-coherent with the CPU cache.
-> +		 *
-> +		 * For Xe_LPG and beyond, PPGTT PTE lookups are also
-> +		 * non-coherent and require a CPU:WC mapping.
-> +		 */
-> +		if ((!bo->cpu_caching && bo->flags & XE_BO_FLAG_SCANOUT) ||
-> +		    (xe->info.graphics_verx100 >= 1270 &&
-> +		     bo->flags & XE_BO_FLAG_PAGETABLE))
-> +			caching = ttm_write_combined;
-> +	}
->   
->   	if (bo->flags & XE_BO_FLAG_NEEDS_UC) {
->   		/*
-> diff --git a/drivers/gpu/drm/xe/xe_bo_types.h b/drivers/gpu/drm/xe/xe_bo_types.h
-> index 86422e113d39..10450f1fbbde 100644
-> --- a/drivers/gpu/drm/xe/xe_bo_types.h
-> +++ b/drivers/gpu/drm/xe/xe_bo_types.h
-> @@ -66,7 +66,8 @@ struct xe_bo {
->   
->   	/**
->   	 * @cpu_caching: CPU caching mode. Currently only used for userspace
-> -	 * objects.
-> +	 * objects. Exceptions are system memory on DGFX, which is always
-> +	 * WB.
->   	 */
->   	u16 cpu_caching;
->   
-> diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-> index 93e00be44b2d..1189b3044723 100644
-> --- a/include/uapi/drm/xe_drm.h
-> +++ b/include/uapi/drm/xe_drm.h
-> @@ -783,7 +783,13 @@ struct drm_xe_gem_create {
->   #define DRM_XE_GEM_CPU_CACHING_WC                      2
->   	/**
->   	 * @cpu_caching: The CPU caching mode to select for this object. If
-> -	 * mmaping the object the mode selected here will also be used.
-> +	 * mmaping the object the mode selected here will also be used. The
-> +	 * exception is when mapping system memory (including evicted
-> +	 * system memory) on discrete GPUs. The caching mode selected will
-> +	 * then be overridden to DRM_XE_GEM_CPU_CACHING_WB, and coherency
-> +	 * between GPU- and CPU is guaranteed. The caching mode of
-> +	 * existing CPU-mappings will be updated transparently to
-> +	 * user-space clients.
->   	 */
->   	__u16 cpu_caching;
->   	/** @pad: MBZ */
+We checked the panel-boe-th101mb31ig002-28a.c driver. Although the
+init_code is similar, the IC does not seem to be the same from the
+name, and our panel and timing are also different.
+
+On Sat, Jun 15, 2024 at 1:25=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Fri, Jun 14, 2024 at 10:56:09PM GMT, Zhaoxiong Lv wrote:
+> > The bias IC of this starry-er88577 panel is placed
+> > on the panel side, so when the panel is powered on,
+> > there is no need to control AVDD and AVEE in the driver,
+> > only 3.3v and reset are needed.
+> >
+> > Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com=
+>
+> >
+> > ---
+> >
+> > Chage since V3:
+> >
+> > -  Separate Starry-er88577 from the panel-kingdisplay-kd101ne3 driver.
+> > -  Use mipi_dsi_dcs_set_display_on_multi().
+> > -  Use mipi_dsi_dcs_exit_sleep_mode_multi() and mipi_dsi_msleep().
+> >
+> > v2: https://lore.kernel.org/all/20240601084528.22502-5-lvzhaoxiong@huaq=
+in.corp-partner.google.com/
+> >
+> > Chage since V2:
+> >
+> > -  Add compatible for Starry er88577 in panel-kingdisplay-kd101ne3 driv=
+ers.
+> > ---
+> >  drivers/gpu/drm/panel/Kconfig                |   9 +
+> >  drivers/gpu/drm/panel/Makefile               |   1 +
+> >  drivers/gpu/drm/panel/panel-starry-er88577.c | 343 +++++++++++++++++++
+> >  3 files changed, 353 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/panel/panel-starry-er88577.c
+> >
+> > diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kcon=
+fig
+> > index e54f6f5604ed..a52aa2552ab8 100644
+> > --- a/drivers/gpu/drm/panel/Kconfig
+> > +++ b/drivers/gpu/drm/panel/Kconfig
+> > @@ -781,6 +781,15 @@ config DRM_PANEL_SITRONIX_ST7789V
+> >         Say Y here if you want to enable support for the Sitronix
+> >         ST7789V controller for 240x320 LCD panels
+> >
+> > +config DRM_PANEL_STARRY_ER88577
+> > +     tristate "Starry er88577 panel"
+> > +     depends on OF
+> > +     depends on DRM_MIPI_DSI
+> > +     depends on BACKLIGHT_CLASS_DEVICE
+> > +     help
+> > +       Say Y if you want to enable support for panels based on the
+> > +       Starry er88577 controller.
+> > +
+> >  config DRM_PANEL_SONY_ACX565AKM
+> >       tristate "Sony ACX565AKM panel"
+> >       depends on GPIOLIB && OF && SPI
+> > diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Mak=
+efile
+> > index f0203f6e02f4..ecd843a6dc6e 100644
+> > --- a/drivers/gpu/drm/panel/Makefile
+> > +++ b/drivers/gpu/drm/panel/Makefile
+> > @@ -81,6 +81,7 @@ obj-$(CONFIG_DRM_PANEL_SHARP_LS060T1SX01) +=3D panel-=
+sharp-ls060t1sx01.o
+> >  obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7701) +=3D panel-sitronix-st7701.o
+> >  obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7703) +=3D panel-sitronix-st7703.o
+> >  obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) +=3D panel-sitronix-st7789v.o
+> > +obj-$(CONFIG_DRM_PANEL_STARRY_ER88577) +=3D panel-starry-er88577.o
+> >  obj-$(CONFIG_DRM_PANEL_SYNAPTICS_R63353) +=3D panel-synaptics-r63353.o
+> >  obj-$(CONFIG_DRM_PANEL_SONY_ACX565AKM) +=3D panel-sony-acx565akm.o
+> >  obj-$(CONFIG_DRM_PANEL_SONY_TD4353_JDI) +=3D panel-sony-td4353-jdi.o
+> > diff --git a/drivers/gpu/drm/panel/panel-starry-er88577.c b/drivers/gpu=
+/drm/panel/panel-starry-er88577.c
+> > new file mode 100644
+> > index 000000000000..a8250a464883
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/panel/panel-starry-er88577.c
+> > @@ -0,0 +1,343 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/* Panels based on the JD9365DA display controller.
+> > + * Author: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+> > + */
+> > +
+> > +#include <linux/delay.h>
+> > +#include <linux/gpio/consumer.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of.h>
+> > +#include <linux/regulator/consumer.h>
+> > +
+> > +#include <drm/drm_connector.h>
+> > +#include <drm/drm_crtc.h>
+> > +#include <drm/drm_mipi_dsi.h>
+> > +#include <drm/drm_panel.h>
+> > +
+> > +#include <video/mipi_display.h>
+> > +#include <drm/drm_probe_helper.h>
+> > +
+> > +struct starry_panel;
+> > +
+> > +struct panel_desc {
+> > +     const struct drm_display_mode *modes;
+> > +     unsigned int bpc;
+> > +     unsigned long mode_flags;
+> > +     enum mipi_dsi_pixel_format format;
+> > +     const struct panel_init_cmd *init_cmds;
+> > +     int (*init)(struct starry_panel *starry);
+> > +     unsigned int lanes;
+> > +     bool discharge_on_disable;
+> > +     bool lp11_before_reset;
+> > +     unsigned int power_off_delay_ms;
+> > +};
+> > +
+> > +struct starry_panel {
+> > +     struct drm_panel base;
+> > +     struct mipi_dsi_device *dsi;
+> > +
+> > +     const struct panel_desc *desc;
+> > +
+> > +     enum drm_panel_orientation orientation;
+> > +     struct regulator *vccio;
+> > +     struct gpio_desc *reset;
+> > +};
+> > +
+> > +static int starry_er88577_init(struct starry_panel *starry)
+> > +{
+> > +     struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D starry->dsi =
+};
+> > +
+> > +     /* T5:HWreset to init_code >=3D 120ms */
+> > +     mipi_dsi_msleep(dsi_ctx, 120);
+> > +
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe0, 0xab, 0xba);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe1, 0xba, 0xab);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb1, 0x10, 0x01, 0x47, 0x=
+ff);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2, 0x0c, 0x14, 0x04, 0x=
+50, 0x50, 0x14);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb3, 0x56, 0x53, 0x00);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb4, 0x33, 0x30, 0x04);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0xb0, 0x00, 0x00, 0x=
+10, 0x00, 0x10, 0x00);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb8, 0x05, 0x12, 0x29, 0x=
+49, 0x40);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb9, 0x7c, 0x61, 0x4f, 0x=
+42, 0x3e, 0x2d, 0x31,
+> > +                                  0x1a, 0x33, 0x33, 0x33, 0x52, 0x40, =
+0x47, 0x38, 0x34, 0x26,
+> > +                                  0x0e, 0x06, 0x7c, 0x61, 0x4f, 0x42, =
+0x3e, 0x2d, 0x31, 0x1a,
+> > +                                  0x33, 0x33, 0x33, 0x52, 0x40, 0x47, =
+0x38, 0x34, 0x26, 0x0e,
+> > +                                  0x06);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc0, 0xcc, 0x76, 0x12, 0x=
+34, 0x44, 0x44, 0x44,
+> > +                                  0x44, 0x98, 0x04, 0x98, 0x04, 0x0f, =
+0x00, 0x00, 0xc1);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc1, 0x54, 0x94, 0x02, 0x=
+85, 0x9f, 0x00, 0x6f,
+> > +                                  0x00, 0x54, 0x00);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc2, 0x17, 0x09, 0x08, 0x=
+89, 0x08, 0x11, 0x22,
+> > +                                  0x20, 0x44, 0xff, 0x18, 0x00);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc3, 0x87, 0x47, 0x05, 0x=
+05, 0x1c, 0x1c, 0x1d,
+> > +                                  0x1d, 0x02, 0x1e, 0x1e, 0x1f, 0x1f, =
+0x0f, 0x0f, 0x0d, 0x0d,
+> > +                                  0x13, 0x13, 0x11, 0x11, 0x24);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc4, 0x06, 0x06, 0x04, 0x=
+04, 0x1c, 0x1c, 0x1d,
+> > +                                  0x1d, 0x02, 0x1e, 0x1e, 0x1f, 0x1f, =
+0x0e, 0x0e, 0x0c, 0x0c,
+> > +                                  0x12, 0x12, 0x10, 0x10, 0x24);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc8, 0x21, 0x00, 0x31, 0x=
+42, 0x34, 0x16);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xca, 0xcb, 0x43);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcd, 0x0e, 0x4b, 0x4b, 0x=
+20, 0x19, 0x6b, 0x06,
+> > +                                  0xb3);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd2, 0xe3, 0x2b, 0x38, 0x=
+08);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd4, 0x00, 0x01, 0x00, 0x=
+0e, 0x04, 0x44, 0x08,
+> > +                                  0x10, 0x00, 0x00, 0x00);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe6, 0x80, 0x09, 0xff, 0x=
+ff, 0xff, 0xff, 0xff,
+> > +                                  0xff);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x12, 0x03, 0x20, 0x=
+00, 0xff);
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf3, 0x00);
+>
+> This looks pretty close to panel-boe-th101mb31ig002-28a.c
+>
+> > +
+> > +     mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+> > +
+>
+>
+> --
+> With best wishes
+> Dmitry
