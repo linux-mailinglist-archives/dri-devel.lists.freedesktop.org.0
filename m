@@ -2,73 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F4E90FF60
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 10:50:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DC490FF61
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 10:50:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C68B810E86D;
-	Thu, 20 Jun 2024 08:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C7D310E86C;
+	Thu, 20 Jun 2024 08:50:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="nUKl65O5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cvD99CZP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 135B210E86C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:50:11 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-2ebe3bac6c6so7102281fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 01:50:10 -0700 (PDT)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B431110E86C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:50:12 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-57d21b1c8efso454541a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 01:50:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1718873409; x=1719478209;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0oRTqaQV+LstrjwZixpKFYUALXmKtaF0Ow0RUXHlll0=;
- b=nUKl65O59grxGrx+iWzBMDC6V3xy1vvAVQ0SQm33CRWd099iPh7/v1E9pEcHh1g1Lm
- j0omQX069C7n37GCLFbfPEkC9zvM9SPMaWYUUd6afR0rMa0DwSs40s8PPc5SBPC0Fw6a
- 6QJzNdMl5hVSMl9dJEeOGdlb4p1lCLkFRnUTA=
+ d=linaro.org; s=google; t=1718873411; x=1719478211; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5WAhrMdqS2Jwg1E9qom8Kx0gdr3lJ2Qitazm85klo2E=;
+ b=cvD99CZPVUbxF/DOAExNHoM6Q115JvnoIUUH+DlMKbE9NloLU9l3I0j6s4vMh+T6vs
+ AbqnuQp0IxyG7QSLr90oSWhwlq+K1CVhbitzzWY6BrjBjAPLgtXu7u1bgL4AO2b1i7DQ
+ CEQ6jIe6Jz83iLRZxMr9WDSxrBAaXwWMw7baLbTstcBB0RJrSV0KrywpfUpR3QaOR8bo
+ gUF+Z7C/+vZi8MR/F1LEA7LB2B+sp+yFi0Hnnke/Kl+jwQyDuDegrZpi5vip/UelJjWF
+ eGzXYnYV8P8KEsJXr70p9HbW7CymT8b4LulA9UYwQmqCX3GvMRVr8sM55Hf+IXDW9Pld
+ V40A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718873409; x=1719478209;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0oRTqaQV+LstrjwZixpKFYUALXmKtaF0Ow0RUXHlll0=;
- b=kSgQ9H87bU6JBjTZmC+0ao7Sr9CQeoopaxuaRZZzGmQw1BJLBeR51ZM3DDpEXCWbG3
- 8ZbBuyuMF2aZmDj5jr/RX5dN8yCR/k+/2TpcNN22cAY+epZi4EdUemObZ+hWtApX/KnI
- /4Uqk9LB+BGM387ykk6dR+yyNtitFxaQbCZOmb/wd8EXBumXMYoXYY6H4aJukzfzMcGt
- G040NT5YwP7e/STuMEKhOQvBnGZH+g6sW16cDtHExbHffPOIpPRDiF0SqecI0neLszRk
- JmpHQGo4fLukbzyYNczqJJC8FgTrDKY6mMWDxdVk0MVJ+1jOvzhlgBDkxiGsEi11xwiz
- Lh0w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXX3H/F6MmkLvda+h+xyVckuVZQUDKlcvxRIu/yyR5J7JYbE2IPJJ+E3I8STew6CTjkvVzPIavWhdvovJCNEnQqu9d0i/Xugc8J3ojeN8F2
-X-Gm-Message-State: AOJu0YwK/zwS0xRPQ3Q6RDQedPyFfEJ3zhSGhY+uPsZ1vsXYU6mJ9TBd
- zrypliK9+a/ybrGkol98ra9hefl6R/dqpQ+taGBm0EMe7fjB5DdSR2lZnUigaYV0htBitdErYfR
- Y6gacb7lGtLocy+953rIi1ysajSU0xWCaokr0
-X-Google-Smtp-Source: AGHT+IHcXpqJLWmBKdXeI91LoMKrVXewns1BNu07e4js70I9FeW6r0+Qp26QuOLQHYvE8hHnxAzWJBo7v4Fc1y9Nr0o=
-X-Received: by 2002:a2e:2416:0:b0:2eb:e137:6584 with SMTP id
- 38308e7fff4ca-2ec3ce940bamr36303391fa.20.1718873408841; Thu, 20 Jun 2024
- 01:50:08 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1718873411; x=1719478211;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5WAhrMdqS2Jwg1E9qom8Kx0gdr3lJ2Qitazm85klo2E=;
+ b=WztK+VL45Ef6IX6/44MK/fLO8JOqWsQ2ACvjdGCTfGzGyYpOVKvVp65khn9C1Y/7TN
+ gQfwqxHmfku/7XKAGvpt0ShWp39Rv9p6O6etPIkntQhHdLTFjvrc8wTMU3NN+GYv7V50
+ 8YJNEV9OnJnobv03qo7OFtjdk540TcRW+Vy8c0qRGrZCr3B71ZF6amoVdLyWsZ0dLpGZ
+ TPrmp2/7TkPlMXy3HGUDS+5597hHtKqqK3RApX7vM0T3kstoQIEz0Aj2SmTZbG9IgMWt
+ CEKDAahPbrJnTAUInBHDThvfyofdbYx4hESupc7VXFMSBQhYio6xp7PIfE7zOrIO+EXw
+ ubEQ==
+X-Gm-Message-State: AOJu0YwJoptOJWgIuJlb5Gn1wHYTUpPW9quDCv7Upv7LBNTUthDUAst5
+ KGiauyqDS95D+zhXKP8N1dLV5xfE9Ogk+4qsYwdEBS3ltarZExg5lj6eOoGoR5HxiadwKrUpChn
+ o
+X-Google-Smtp-Source: AGHT+IEz/RDP8U/nkoxVnrU3JBDU7Mcmme3IjMW1USD5UNzE1QDj+so/9YOae16O54n+4v1PfqFC7g==
+X-Received: by 2002:a50:d74f:0:b0:57c:677a:a941 with SMTP id
+ 4fb4d7f45d1cf-57d07ebf13bmr2657630a12.40.1718873410688; 
+ Thu, 20 Jun 2024 01:50:10 -0700 (PDT)
+Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-57cb9b7c1d8sm9165087a12.53.2024.06.20.01.50.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jun 2024 01:50:10 -0700 (PDT)
+Date: Thu, 20 Jun 2024 11:50:07 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Manikandan Muralidharan <manikandan.m@microchip.com>
+Cc: dri-devel@lists.freedesktop.org
+Subject: [bug report] drm: atmel-hlcdc: add driver ops to differentiate HLCDC
+ and XLCDC IP
+Message-ID: <8d3717ec-76d1-4f62-a1ca-043d9a6d2c56@moroto.mountain>
 MIME-Version: 1.0
-References: <20240620054708.2230665-1-wenst@chromium.org>
- <743577a0-ef60-4731-8901-daf1ae4f7f7f@suse.de>
-In-Reply-To: <743577a0-ef60-4731-8901-daf1ae4f7f7f@suse.de>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 20 Jun 2024 16:49:57 +0800
-Message-ID: <CAGXv+5G8sC0JAWg_1k-x6+XeqMSMHQDuHfhOJkJYe1OzHkdH-g@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: select DRM_GEM_DMA_HELPER if
- DRM_FBDEV_EMULATION=y
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,66 +77,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 20, 2024 at 2:37=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
->
-> Hi
->
-> Am 20.06.24 um 07:47 schrieb Chen-Yu Tsai:
-> > With the recent switch from fbdev-generic to fbdev-dma, the driver now
-> > requires the DRM GEM DMA helpers. This dependency is missing, and will
-> > cause a link failure if fbdev emulation is enabled.
-> >
-> > Add the missing dependency.
-> >
-> > Fixes: 0992284b4fe4 ("drm/mediatek: Use fbdev-dma")
-> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
->
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->
-> Apart from this problem, would it make sense to convert the driver's
-> management to GEM's DMA helpers? It appears there's some code
-> duplication in mtk_gem.c and these helpers.
+Hello Manikandan Muralidharan,
 
-It seems at least import_sg_table could be converted. I don't have
-the bandwidth to do a more in-depth review though.
+Commit aa71584b323a ("drm: atmel-hlcdc: add driver ops to
+differentiate HLCDC and XLCDC IP") from Apr 24, 2024 (linux-next),
+leads to the following Smatch static checker warning:
 
-Thanks
-ChenYu
+	drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c:573 atmel_hlcdc_plane_update_buffers()
+	error: uninitialized symbol 'sr'.
 
+drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+    556 static void atmel_hlcdc_plane_update_buffers(struct atmel_hlcdc_plane *plane,
+    557                                              struct atmel_hlcdc_plane_state *state)
+    558 {
+    559         const struct atmel_hlcdc_layer_desc *desc = plane->layer.desc;
+    560         struct atmel_hlcdc_dc *dc = plane->base.dev->dev_private;
+    561         struct drm_framebuffer *fb = state->base.fb;
+    562         u32 sr;
+    563         int i;
+    564 
+    565         if (!dc->desc->is_xlcdc)
+    566                 sr = atmel_hlcdc_layer_read_reg(&plane->layer, ATMEL_HLCDC_LAYER_CHSR);
 
-> Best regards
-> Thomas
->
-> > ---
-> > The commit this patch fixes is in drm-misc-next. Ideally this patch
-> > should be applied on top of it directly.
-> >
-> > CK, could you give your ack for it?
-> >
-> >   drivers/gpu/drm/mediatek/Kconfig | 1 +
-> >   1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediate=
-k/Kconfig
-> > index 96cbe020f493..d6449ebae838 100644
-> > --- a/drivers/gpu/drm/mediatek/Kconfig
-> > +++ b/drivers/gpu/drm/mediatek/Kconfig
-> > @@ -7,6 +7,7 @@ config DRM_MEDIATEK
-> >       depends on HAVE_ARM_SMCCC
-> >       depends on OF
-> >       depends on MTK_MMSYS
-> > +     select DRM_GEM_DMA_HELPER if DRM_FBDEV_EMULATION
-> >       select DRM_KMS_HELPER
-> >       select DRM_MIPI_DSI
-> >       select DRM_PANEL
->
-> --
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
->
+sr is uninitialized on else path.
+
+    567 
+    568         for (i = 0; i < state->nplanes; i++) {
+    569                 struct drm_gem_dma_object *gem = drm_fb_dma_get_gem_obj(fb, i);
+    570 
+    571                 state->dscrs[i]->addr = gem->dma_addr + state->offsets[i];
+    572 
+--> 573                 dc->desc->ops->lcdc_update_buffers(plane, state, sr, i);
+                                                                         ^^
+Uninitialized.
+
+    574 
+    575                 if (desc->layout.xstride[i])
+    576                         atmel_hlcdc_layer_write_cfg(&plane->layer,
+    577                                                     desc->layout.xstride[i],
+    578                                                     state->xstride[i]);
+    579 
+    580                 if (desc->layout.pstride[i])
+    581                         atmel_hlcdc_layer_write_cfg(&plane->layer,
+    582                                                     desc->layout.pstride[i],
+    583                                                     state->pstride[i]);
+    584         }
+    585 }
+
+regards,
+dan carpenter
