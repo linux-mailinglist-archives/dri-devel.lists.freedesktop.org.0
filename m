@@ -2,73 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CB891105A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 20:12:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 809E9911152
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 20:51:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12B0510E07A;
-	Thu, 20 Jun 2024 18:12:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4884210E1F8;
+	Thu, 20 Jun 2024 18:51:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m0WJtkni";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="aMq43eqK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CD0910EBDB
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 18:12:25 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-1f992388bbbso10731145ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 11:12:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718907145; x=1719511945; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=r2HzAIPRZdkW+tj9ANIWovc+pu+HPRBNk4X+XXrJl3g=;
- b=m0WJtkniWuaKTDaxZ+nE9pq0640Nq7zrtuMQXYtnv63sqyEC09/qa2s7VFiUkJ7DLr
- Wgrc4ubYmldqEUlLrd2rTn3m4SRJrFVz5zRZwiUVBlqBlgWkMJyCTu/EavE/hixwdYb1
- oUy20Yk7nV9QQPpZq2NNgYKSp7djvf8JNneOAPm9iiXHkEXppSAudwe+WAxNPN5HlqIJ
- hFr17fcdOPETbiPfxhBzV/I7wOjjbH+jHVHPHSreWe1UB9u+Q6CCRtO1upONUMEhkikJ
- vQr9oahn9Y3jkmwiFNSgdkVmiznpc4EcuYrbX3HBlyEWqVBBP2bhyMBTPFE2xLdQNO+V
- 6d3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718907145; x=1719511945;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=r2HzAIPRZdkW+tj9ANIWovc+pu+HPRBNk4X+XXrJl3g=;
- b=mjbJSCkHFQfiejRKgK/ybWkhu4sJHCQMe5bmEkANcOSBggEjWpYlrTejfugkuilPXM
- FtqDTIl1QBN/mE5L1oX/Ha1bG8+nFVz6p9CMUi3krS3KqhHYdQe+ZfDG7/6i6B8xfDl0
- N4teY51ZPflraKz/Vua2/98yz+uurQF0yt9p0N9hx0sBuIVoKT/0gIdKQnSRH134FtKe
- /t48OhXApR7JsqiisczPoD+DVgzwJfeNFHqksCGwEFh577yxO8XQ6XlLjCFvwPt5dkDw
- PQt98dpy+3eBGYVWkCvwBuGKXBgOXo1qOLIqo1O3tLkmsAKksJWyCW8YjrkX+sygM1Hx
- ChAg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV+LtPSEZWbIIbKI5BO/wRiPeyMKDtQ5e68ThrqpP9vh2bGbUhvzLXxe8pw/lTWXLfTDZzqGQZjzkoHQj2Xb1XPcFTC9+waOhhbCmYF6fBn
-X-Gm-Message-State: AOJu0YzRqwc4bA9NMU4ufcb/nRVmo/RRg7U0yn8vs5y1GdQ4iOeZmVTc
- 5E0UTNCsNq+dkJp/yZjMhByvbWANdoDIee5Y9ntPVyeFvhH4POYW
-X-Google-Smtp-Source: AGHT+IGgJzwQnUgC2K3ytXxUiEyV+EGacfXYG59zNba1MzMuaxu2FlEmjfeH9HgVlPLqJgvR9z5Agw==
-X-Received: by 2002:a17:903:1cf:b0:1f7:42ba:5b1e with SMTP id
- d9443c01a7336-1f9aa412090mr63353065ad.17.1718907144898; 
- Thu, 20 Jun 2024 11:12:24 -0700 (PDT)
-Received: from distilledx.localdomain ([122.172.85.149])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f9cd18cde5sm17240035ad.66.2024.06.20.11.12.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jun 2024 11:12:24 -0700 (PDT)
-From: Tejas Vipin <tejasvipin76@gmail.com>
-To: neil.armstrong@linaro.org,
-	quic_jesszhan@quicinc.com
-Cc: Tejas Vipin <tejasvipin76@gmail.com>, dianders@chromium.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm/panel: raydium-rm692e5: transition to mipi_dsi wrapped
- functions
-Date: Thu, 20 Jun 2024 23:40:49 +0530
-Message-ID: <20240620181051.102173-1-tejasvipin76@gmail.com>
-X-Mailer: git-send-email 2.45.2
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D17C210E1F8
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 18:51:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=MU27GOzofHBzoS9hK/8L/jeMMjyo3rBAQPotylssncU=; b=aMq43eqKJIPsW7w7r8ZFyWcIZn
+ X/aeIQU2dxXsxDW36/2Pz1CK0a+TGfqsgMfO2+GFLYCVrot5AlDJIfpbv6cdl/4uYBnqg5abHewpA
+ 4xjVxIxytCr7ndJV8sBvdmSeLaygK8uSvEoj0pTIk4lZvCAjMmQnwK2dpmnCvDqW0NLq5eIZkTHvb
+ CJBmQPzowG5M/ufD1IeVBn7c9YqaTr45OmlPIcpx9kDaI5wSRhX81TgzcqkXPTKy2n5TRN0i19bqi
+ MSEn037M2f6RhTh5Ze7NHHJWLLNAHOqXAvy0EpewW2t2Rt6jRjnDXaexANWTgJaWs9UuQjvMhe/+i
+ ZpAD2Iug==;
+Received: from 179-125-75-233-dinamico.pombonet.net.br ([179.125.75.233]
+ helo=quatroqueijos.cascardo.eti.br)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1sKMsF-005aFQ-5L; Thu, 20 Jun 2024 20:51:07 +0200
+Date: Thu, 20 Jun 2024 15:50:58 -0300
+From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ kernel-dev@igalia.com, Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+ Rob Clark <robdclark@chromium.org>
+Subject: Re: [PATCH] dma-buf/sw_sync: Add a reference when adding fence to
+ timeline list
+Message-ID: <ZnR6EmzUy2bCKHHI@quatroqueijos.cascardo.eti.br>
+References: <20240324101533.3271056-1-cascardo@igalia.com>
+ <fc68dce2-88e0-4055-a074-bd45f7e68912@igalia.com>
+ <ZmyFKVuYvs59Oirt@quatroqueijos.cascardo.eti.br>
+ <d8f02671-67df-43c3-9f23-1904f661a590@igalia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d8f02671-67df-43c3-9f23-1904f661a590@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,316 +68,353 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use functions introduced in commit 966e397e4f60 ("drm/mipi-dsi:
-Introduce mipi_dsi_*_write_seq_multi()") and commit f79d6d28d8fe
-("drm/mipi-dsi: wrap more functions for streamline handling") for the
-raydium-rm692e5 panel.
+On Wed, Jun 19, 2024 at 01:14:38PM +0100, Tvrtko Ursulin wrote:
+> 
+> On 14/06/2024 19:00, Thadeu Lima de Souza Cascardo wrote:
+> > On Fri, Jun 14, 2024 at 11:52:03AM +0100, Tvrtko Ursulin wrote:
+> > > 
+> > > On 24/03/2024 10:15, Thadeu Lima de Souza Cascardo wrote:
+> > > > commit e531fdb5cd5e ("dma-buf/sw_sync: Avoid recursive lock during fence
+> > > > signal") fixed a recursive locking when a signal callback released a fence.
+> > > > It did it by taking an extra reference while traversing it on the list and
+> > > > holding the timeline lock.
+> > > > 
+> > > > However, this is racy and may end up adding to a kref that is 0, triggering
+> > > > a well deserved warning, as later that reference would be put again.
+> > > > 
+> > > > CPU 0					CPU 1
+> > > > sync_file_release			sync_timeline_signal
+> > > >     dma_fence_put
+> > > >       timeline_fence_release
+> > > > 					  spin_lock_irq(&obj->lock)
+> > > > 					  dma_fence_get(&pt->base)
+> > > >       spin_lock_irqsave(fence->lock, flags)
+> > > > 
+> > > > As shown above, it is possible for the last reference to be dropped, but
+> > > > sync_timeline_signal take the lock before timeline_fence_release, which
+> > > > will lead to a 0->1 kref transition, which is not allowed.
+> > > > 
+> > > > This is because there is still a pointer to the fence object in the list,
+> > > > which should be accounted as a reference.
+> > > > 
+> > > > In previous discussions about this [3], it was called out that keeping such
+> > > > a reference was not a good idea because the fence also holds a reference to
+> > > > the timeline, hence leading to a loop. However, accounting for that
+> > > > reference doesn't change that the loop already exists. And userspace holds
+> > > > references in the form of file descriptors, so it is still possible to
+> > > > avoid potential memory leaks.
+> > > > 
+> > > > This fix also avoids other issues. The nested locking is still possible to
+> > > > trigger when closing the timeline, as sw_sync_debugfs_release also calls
+> > > > dma_fence_signal_locked while holding the lock. By holding a reference and
+> > > > releasing it only after doing the signal, that nested locking is avoided.
+> > > > 
+> > > > There are a few quirks about the reference counting here, though.
+> > > > 
+> > > > In the simple case when sync_pt_create adds a new fence to the list, it
+> > > > returns with 2 references instead of 1. That is dealt with as
+> > > > sw_sync_ioctl_create_fence always puts a reference after calling
+> > > > sync_file_create. That is necessary for multiple reasons.
+> > > > 
+> > > > One is that it takes care of the error case when sync_file_create fails.
+> > > > 
+> > > > The extra reference is put, while the fence is still held on the list, so
+> > > > its last reference will be put when it is removed from the list either in
+> > > > sync_timeline_signal or sw_sync_debugfs_release.
+> > > 
+> > > So any fences where sync_file_create failed linger around until
+> > > sw_sync_debugfs_release? Okay-ish I guess since it is a pathological case.
+> > > 
+> > 
+> > The challenge here is to determine which one of the multiple cases we are
+> > dealing with. Since we don't hold the lock while sync_file_create is
+> > called, we are left with this situation. An alternative would be to fold
+> > sync_pt_create into sw_sync_ioctl_create_fence, so at least we can
+> > determine which case is which. That would also fix the case where we handle
+> > userspace a file descriptor with a fence that is not even on the list.
+> 
+> Since sync_pt_create is local and has only this single caller it could be
+> worth exploring this option to see if it could simplify things and get rid
+> of this lingering objects corner case.
+> 
 
-Additionally, the error handling in rm692e5_prepare() is changed to
-properly power the panel off in the case of a wider range of
-initialization commands failing than before. 
+So when I went back looking into this, I actually needed to make
+sw_sync_ioctl_create_fence be able to allocate the sync_file without
+assigning a fence. That's when I realized it wouldn't buy us much as we
+could check for the signaled case and return NULL. Let me look at this
+again and get back to you.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
----
-Changes in v3:
-    - Remove extra blank line
-    - Expanded on error handling functionality in patch notes
+> > > > It also avoids the race when a signal may come in between sync_pt_create
+> > > > and sync_file_create as the lock is dropped. If that happens, the fence
+> > > > will be removed from the list, but a reference will still be kept as
+> > > > sync_file_create takes a reference.
+> > > > 
+> > > > Then, there is the case when a fence with the given seqno already exists.
+> > > > sync_pt_create returns with an extra reference to it, that we later put.
+> > > > Similar reasoning can be applied here. That one extra reference is
+> > > > necessary to avoid a race with signaling (and release), and we later put
+> > > > that extra reference.
+> > > > 
+> > > > Finally, there is the case when the fence is already signaled and not added
+> > > > to the list. In such case, sync_pt_create must return with a single
+> > > > reference as this fence has not been added to the timeline list. It will
+> > > > either be freed in case sync_file_create fails or the file will keep its
+> > > > reference, which is later put when the file is released.
+> > > > 
+> > > > This is based on Chris Wilson attempt [2] to fix recursive locking during
+> > > > timeline signal. Hence, their signoff.
+> > > > 
+> > > > Link: https://lore.kernel.org/all/20200714154102.450826-1-bas@basnieuwenhuizen.nl/ [1]
+> > > > Link: https://lore.kernel.org/all/20200715100432.13928-2-chris@chris-wilson.co.uk/ [2]
+> > > > Link: https://lore.kernel.org/all/20230817213729.110087-1-robdclark@gmail.com/T/ [3]
+> > > > Fixes: e531fdb5cd5e ("dma-buf/sw_sync: Avoid recursive lock during fence signal")
+> > > > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> > > > Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+> > > > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > > > Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> > > > Cc: Rob Clark <robdclark@chromium.org>
+> > > > ---
+> > > >    drivers/dma-buf/sw_sync.c | 42 ++++++++++++++++-----------------------
+> > > >    1 file changed, 17 insertions(+), 25 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+> > > > index c353029789cf..83b624ac4faa 100644
+> > > > --- a/drivers/dma-buf/sw_sync.c
+> > > > +++ b/drivers/dma-buf/sw_sync.c
+> > > > @@ -151,16 +151,7 @@ static const char *timeline_fence_get_timeline_name(struct dma_fence *fence)
+> > > >    static void timeline_fence_release(struct dma_fence *fence)
+> > > >    {
+> > > > -	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
+> > > >    	struct sync_timeline *parent = dma_fence_parent(fence);
+> > > > -	unsigned long flags;
+> > > > -
+> > > > -	spin_lock_irqsave(fence->lock, flags);
+> > > > -	if (!list_empty(&pt->link)) {
+> > > > -		list_del(&pt->link);
+> > > > -		rb_erase(&pt->node, &parent->pt_tree);
+> > > > -	}
+> > > > -	spin_unlock_irqrestore(fence->lock, flags);
+> > > >    	sync_timeline_put(parent);
+> > > >    	dma_fence_free(fence);
+> > > > @@ -229,7 +220,6 @@ static const struct dma_fence_ops timeline_fence_ops = {
+> > > >     */
+> > > >    static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
+> > > >    {
+> > > > -	LIST_HEAD(signalled);
+> > > >    	struct sync_pt *pt, *next;
+> > > >    	trace_sync_timeline(obj);
+> > > > @@ -242,20 +232,14 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
+> > > >    		if (!timeline_fence_signaled(&pt->base))
+> > > >    			break;
+> > > > -		dma_fence_get(&pt->base);
+> > > > -
+> > > > -		list_move_tail(&pt->link, &signalled);
+> > > > +		list_del(&pt->link);
+> > > >    		rb_erase(&pt->node, &obj->pt_tree);
+> > > >    		dma_fence_signal_locked(&pt->base);
+> > > > +		dma_fence_put(&pt->base);
+> > > >    	}
+> > > >    	spin_unlock_irq(&obj->lock);
+> > > > -
+> > > > -	list_for_each_entry_safe(pt, next, &signalled, link) {
+> > > > -		list_del_init(&pt->link);
+> > > > -		dma_fence_put(&pt->base);
+> > > > -	}
+> > > >    }
+> > > >    /**
+> > > > @@ -299,13 +283,11 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
+> > > >    			} else if (cmp < 0) {
+> > > >    				p = &parent->rb_left;
+> > > >    			} else {
+> > > > -				if (dma_fence_get_rcu(&other->base)) {
+> > > > -					sync_timeline_put(obj);
+> > > > -					kfree(pt);
+> > > > -					pt = other;
+> > > > -					goto unlock;
+> > > > -				}
+> > > > -				p = &parent->rb_left;
+> > > > +				/* This is later put in sw_sync_ioctl_create_fence. */
+> > > > +				dma_fence_get(&other->base);
+> > > > +				dma_fence_put(&pt->base);
+> > > 
+> > > Couldn't this have stayed a direct kfree given pt is not exposed to anywhere
+> > > at this point, nor it will be? I know there would need to be an explicit
+> > > sync_timeline_put(obj) too, as before, but perhaps that would read more
+> > > obvious.
+> > > 
+> > 
+> > Maybe this is a matter of opinion. I find it easier to read dma_fence_put
+> > instead of doing what I just did which was checking that sync_timeline_put
+> > and kfree was all left to do. And then I notice there is also tracing
+> > involved in that path. Do we care about tracing such a case? Or do we want
+> > it explicitly not traced? I would rather keep it as dma_fence_put.
+> 
+> Could be a matter of opinion yeah.
+> 
 
-Changes in v2:
-    - Change rm692e5_on to return void and take mipi_dsi_multi_context
-      as an argument.
-    - Remove unnecessary warnings.
-    - More efficient error handling in rm692e5_prepare
+So, dma_fence_put has the advantage of being safer in the long term as
+freeing the fence becomes more than what it is right now. And as I
+mentioned, it adds tracing to the mix. dma_fence_init was called and that
+called trace_dma_fence_init. It is fair that a call to
+trace_dma_fence_destroy is seen when this fence is gone, even if it's not
+even added to the list.
 
-v1: https://lore.kernel.org/all/20240615093758.65431-1-tejasvipin76@gmail.com/
+The advantage from doing the kfree instead is that it shows that this is
+putting the single/last reference. We could add a comment there to make it
+more explicit.
 
-v2: https://lore.kernel.org/all/20240619033351.230929-1-tejasvipin76@gmail.com/
----
- drivers/gpu/drm/panel/panel-raydium-rm692e5.c | 238 ++++++++----------
- 1 file changed, 99 insertions(+), 139 deletions(-)
+> > > > +				pt = other;
+> > > > +				goto unlock;
+> > > >    			}
+> > > >    		}
+> > > >    		rb_link_node(&pt->node, parent, p);
+> > > > @@ -314,6 +296,8 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
+> > > >    		parent = rb_next(&pt->node);
+> > > >    		list_add_tail(&pt->link,
+> > > >    			      parent ? &rb_entry(parent, typeof(*pt), node)->link : &obj->pt_list);
+> > > > +		/* Adding to the list requires a reference. */
+> > > > +		dma_fence_get(&pt->base);
+> > > >    	}
+> > > >    unlock:
+> > > >    	spin_unlock_irq(&obj->lock);
+> > > > @@ -354,6 +338,7 @@ static int sw_sync_debugfs_release(struct inode *inode, struct file *file)
+> > > >    	list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
+> > > >    		dma_fence_set_error(&pt->base, -ENOENT);
+> > > >    		dma_fence_signal_locked(&pt->base);
+> > > > +		dma_fence_put(&pt->base);
+> > > 
+> > > Can't this be dropping one reference too many?
+> > > 
+> > > There is one reference for being on the list, and one for the owning file.
+> > > Or there is another one?
+> > > 
+> > > If there isn't, dma_fence_signal_locked will drop the one for being on the
+> > > list, and then we drop one more here. Is it the last one? Shouldn't
+> > > sync_file_release still own one?
+> > 
+> > Does dma_fence_signal_locked drop a reference? A callback may drop a
+> 
+> Is this a question or a suggestive? I mean doesn't it? After this patch
+> sync_timeline_signal() becomes:
+> 
 
-diff --git a/drivers/gpu/drm/panel/panel-raydium-rm692e5.c b/drivers/gpu/drm/panel/panel-raydium-rm692e5.c
-index 21d97f6b8a2f..ea1b728e85a2 100644
---- a/drivers/gpu/drm/panel/panel-raydium-rm692e5.c
-+++ b/drivers/gpu/drm/panel/panel-raydium-rm692e5.c
-@@ -40,176 +40,136 @@ static void rm692e5_reset(struct rm692e5_panel *ctx)
- 	usleep_range(10000, 11000);
- }
- 
--static int rm692e5_on(struct rm692e5_panel *ctx)
-+static void rm692e5_on(struct mipi_dsi_multi_context *dsi_ctx)
- {
--	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
--
--	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
--
--	mipi_dsi_generic_write_seq(dsi, 0xfe, 0x41);
--	mipi_dsi_generic_write_seq(dsi, 0xd6, 0x00);
--	mipi_dsi_generic_write_seq(dsi, 0xfe, 0x16);
--	mipi_dsi_generic_write_seq(dsi, 0x8a, 0x87);
--	mipi_dsi_generic_write_seq(dsi, 0xfe, 0x71);
--	mipi_dsi_generic_write_seq(dsi, 0x82, 0x01);
--	mipi_dsi_generic_write_seq(dsi, 0xc6, 0x00);
--	mipi_dsi_generic_write_seq(dsi, 0xc7, 0x2c);
--	mipi_dsi_generic_write_seq(dsi, 0xc8, 0x64);
--	mipi_dsi_generic_write_seq(dsi, 0xc9, 0x3c);
--	mipi_dsi_generic_write_seq(dsi, 0xca, 0x80);
--	mipi_dsi_generic_write_seq(dsi, 0xcb, 0x02);
--	mipi_dsi_generic_write_seq(dsi, 0xcc, 0x02);
--	mipi_dsi_generic_write_seq(dsi, 0xfe, 0x38);
--	mipi_dsi_generic_write_seq(dsi, 0x18, 0x13);
--	mipi_dsi_generic_write_seq(dsi, 0xfe, 0xf4);
--	mipi_dsi_generic_write_seq(dsi, 0x00, 0xff);
--	mipi_dsi_generic_write_seq(dsi, 0x01, 0xff);
--	mipi_dsi_generic_write_seq(dsi, 0x02, 0xcf);
--	mipi_dsi_generic_write_seq(dsi, 0x03, 0xbc);
--	mipi_dsi_generic_write_seq(dsi, 0x04, 0xb9);
--	mipi_dsi_generic_write_seq(dsi, 0x05, 0x99);
--	mipi_dsi_generic_write_seq(dsi, 0x06, 0x02);
--	mipi_dsi_generic_write_seq(dsi, 0x07, 0x0a);
--	mipi_dsi_generic_write_seq(dsi, 0x08, 0xe0);
--	mipi_dsi_generic_write_seq(dsi, 0x09, 0x4c);
--	mipi_dsi_generic_write_seq(dsi, 0x0a, 0xeb);
--	mipi_dsi_generic_write_seq(dsi, 0x0b, 0xe8);
--	mipi_dsi_generic_write_seq(dsi, 0x0c, 0x32);
--	mipi_dsi_generic_write_seq(dsi, 0x0d, 0x07);
--	mipi_dsi_generic_write_seq(dsi, 0xfe, 0xf4);
--	mipi_dsi_generic_write_seq(dsi, 0x0d, 0xc0);
--	mipi_dsi_generic_write_seq(dsi, 0x0e, 0xff);
--	mipi_dsi_generic_write_seq(dsi, 0x0f, 0xff);
--	mipi_dsi_generic_write_seq(dsi, 0x10, 0x33);
--	mipi_dsi_generic_write_seq(dsi, 0x11, 0x6f);
--	mipi_dsi_generic_write_seq(dsi, 0x12, 0x6e);
--	mipi_dsi_generic_write_seq(dsi, 0x13, 0xa6);
--	mipi_dsi_generic_write_seq(dsi, 0x14, 0x80);
--	mipi_dsi_generic_write_seq(dsi, 0x15, 0x02);
--	mipi_dsi_generic_write_seq(dsi, 0x16, 0x38);
--	mipi_dsi_generic_write_seq(dsi, 0x17, 0xd3);
--	mipi_dsi_generic_write_seq(dsi, 0x18, 0x3a);
--	mipi_dsi_generic_write_seq(dsi, 0x19, 0xba);
--	mipi_dsi_generic_write_seq(dsi, 0x1a, 0xcc);
--	mipi_dsi_generic_write_seq(dsi, 0x1b, 0x01);
--
--	ret = mipi_dsi_dcs_nop(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to nop: %d\n", ret);
--		return ret;
--	}
--	msleep(32);
--
--	mipi_dsi_generic_write_seq(dsi, 0xfe, 0x38);
--	mipi_dsi_generic_write_seq(dsi, 0x18, 0x13);
--	mipi_dsi_generic_write_seq(dsi, 0xfe, 0xd1);
--	mipi_dsi_generic_write_seq(dsi, 0xd3, 0x00);
--	mipi_dsi_generic_write_seq(dsi, 0xd0, 0x00);
--	mipi_dsi_generic_write_seq(dsi, 0xd2, 0x00);
--	mipi_dsi_generic_write_seq(dsi, 0xd4, 0x00);
--	mipi_dsi_generic_write_seq(dsi, 0xb4, 0x01);
--	mipi_dsi_generic_write_seq(dsi, 0xfe, 0xf9);
--	mipi_dsi_generic_write_seq(dsi, 0x00, 0xaf);
--	mipi_dsi_generic_write_seq(dsi, 0x1d, 0x37);
--	mipi_dsi_generic_write_seq(dsi, 0x44, 0x0a, 0x7b);
--	mipi_dsi_generic_write_seq(dsi, 0xfe, 0x00);
--	mipi_dsi_generic_write_seq(dsi, 0xfa, 0x01);
--	mipi_dsi_generic_write_seq(dsi, 0xc2, 0x08);
--	mipi_dsi_generic_write_seq(dsi, 0x35, 0x00);
--	mipi_dsi_generic_write_seq(dsi, 0x51, 0x05, 0x42);
--
--	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
--		return ret;
--	}
--	msleep(100);
--
--	ret = mipi_dsi_dcs_set_display_on(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display on: %d\n", ret);
--		return ret;
--	}
--
--	return 0;
-+	dsi_ctx->dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xfe, 0x41);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xd6, 0x00);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xfe, 0x16);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x8a, 0x87);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xfe, 0x71);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x82, 0x01);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xc6, 0x00);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xc7, 0x2c);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xc8, 0x64);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xc9, 0x3c);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xca, 0x80);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xcb, 0x02);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xcc, 0x02);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xfe, 0x38);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x18, 0x13);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xfe, 0xf4);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x00, 0xff);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x01, 0xff);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x02, 0xcf);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x03, 0xbc);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x04, 0xb9);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x05, 0x99);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x06, 0x02);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x07, 0x0a);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x08, 0xe0);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x09, 0x4c);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x0a, 0xeb);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x0b, 0xe8);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x0c, 0x32);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x0d, 0x07);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xfe, 0xf4);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x0d, 0xc0);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x0e, 0xff);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x0f, 0xff);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x10, 0x33);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x11, 0x6f);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x12, 0x6e);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x13, 0xa6);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x14, 0x80);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x15, 0x02);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x16, 0x38);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x17, 0xd3);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x18, 0x3a);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x19, 0xba);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x1a, 0xcc);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x1b, 0x01);
-+
-+	mipi_dsi_dcs_nop_multi(dsi_ctx);
-+
-+	mipi_dsi_msleep(dsi_ctx, 32);
-+
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xfe, 0x38);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x18, 0x13);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xfe, 0xd1);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xd3, 0x00);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xd0, 0x00);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xd2, 0x00);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xd4, 0x00);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xb4, 0x01);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xfe, 0xf9);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x00, 0xaf);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x1d, 0x37);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x44, 0x0a, 0x7b);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xfe, 0x00);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xfa, 0x01);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0xc2, 0x08);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x35, 0x00);
-+	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x51, 0x05, 0x42);
-+
-+	mipi_dsi_dcs_exit_sleep_mode_multi(dsi_ctx);
-+	mipi_dsi_msleep(dsi_ctx, 100);
-+	mipi_dsi_dcs_set_display_on_multi(dsi_ctx);
- }
- 
- static int rm692e5_disable(struct drm_panel *panel)
- {
- 	struct rm692e5_panel *ctx = to_rm692e5_panel(panel);
- 	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
- 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
- 
--	mipi_dsi_generic_write_seq(dsi, 0xfe, 0x00);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xfe, 0x00);
- 
--	ret = mipi_dsi_dcs_set_display_off(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display off: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
- 
--	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
--		return ret;
--	}
--	msleep(100);
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
- 
--	return 0;
-+	mipi_dsi_msleep(&dsi_ctx, 100);
-+
-+	return dsi_ctx.accum_err;
- }
- 
- static int rm692e5_prepare(struct drm_panel *panel)
- {
- 	struct rm692e5_panel *ctx = to_rm692e5_panel(panel);
- 	struct drm_dsc_picture_parameter_set pps;
--	struct device *dev = &ctx->dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
- 
--	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enable regulators: %d\n", ret);
--		return ret;
--	}
-+	dsi_ctx.accum_err = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+	if (dsi_ctx.accum_err)
-+		return dsi_ctx.accum_err;
- 
- 	rm692e5_reset(ctx);
- 
--	ret = rm692e5_on(ctx);
--	if (ret < 0) {
--		dev_err(dev, "Failed to initialize panel: %d\n", ret);
--		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
--		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
--		return ret;
--	}
-+	rm692e5_on(&dsi_ctx);
- 
- 	drm_dsc_pps_payload_pack(&pps, &ctx->dsc);
- 
--	ret = mipi_dsi_picture_parameter_set(ctx->dsi, &pps);
--	if (ret < 0) {
--		dev_err(panel->dev, "failed to transmit PPS: %d\n", ret);
--		return ret;
--	}
--
--	ret = mipi_dsi_compression_mode(ctx->dsi, true);
--	if (ret < 0) {
--		dev_err(dev, "failed to enable compression mode: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_picture_parameter_set_multi(&dsi_ctx, &pps);
-+	mipi_dsi_compression_mode_ext_multi(&dsi_ctx, true, MIPI_DSI_COMPRESSION_DSC, 0);
-+	mipi_dsi_msleep(&dsi_ctx, 28);
- 
--	msleep(28);
--
--	mipi_dsi_generic_write_seq(ctx->dsi, 0xfe, 0x40);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xfe, 0x40);
- 
- 	/* 0x05 -> 90Hz, 0x00 -> 60Hz */
--	mipi_dsi_generic_write_seq(ctx->dsi, 0xbd, 0x05);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xbd, 0x05);
- 
--	mipi_dsi_generic_write_seq(ctx->dsi, 0xfe, 0x00);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xfe, 0x00);
- 
--	return 0;
-+	if (dsi_ctx.accum_err) {
-+		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+	}
-+
-+	return dsi_ctx.accum_err;
- }
- 
- static int rm692e5_unprepare(struct drm_panel *panel)
--- 
-2.45.2
+Well, it was a honest question as you suggested that it does.
+sync_timeline_signal is not called by dma_fence_signal_locked. It is called
+as a result of an IOCTL on the timeline/sw_sync fd. And as can be seen
+below, it removes the fence from the list. So when sw_sync_debugfs_release
+is called later, it won't find that same fence on the list anymore. The
+reference to it has been removed, hence why the reference is put.
 
+So, basically: to add a reference to the list, you need to get. When
+removing from the list, you need to put.
+
+> ...
+> 	list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
+> 		if (!timeline_fence_signaled(&pt->base))
+> 			break;
+> 
+> 		list_del(&pt->link);
+>  		rb_erase(&pt->node, &obj->pt_tree);
+> 
+>  		dma_fence_signal_locked(&pt->base);
+> 		dma_fence_put(&pt->base); --*******--> -1
+>  	}
+> ...
+> 
+> So this drops the "on the list reference" and then closing of the
+> sw_sync_debugfs closes the other:
+> 
+> sw_sync_debugfs_release()
+> ...
+> 
+>     	list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
+>     		dma_fence_set_error(&pt->base, -ENOENT);
+>     		dma_fence_signal_locked(&pt->base);
+>  		dma_fence_put(&pt->base); ---*******--> -2
+> 
+> At which point two references are dropped. What becomes of the reference
+> which is associated with the sync fence fd itself? I mean when userspace
+> closes that fd and sync_file_release runs, will the dma_fence_put in there
+> be one too many?
+> 
+> I am easily missing something is my disclaimer. It should be easily testable
+> from an IGT and remove any doubt. Create some fences, close the sw_sync
+> timeline, then close individual fences. Kref debug aids should tell us if
+> there was one reference dropped too many.
+
+I will see if I can work out some extra testing with IGT. I have done a lot
+of ad-hoc testing as I needed to test for the multiple other issues this is
+fixing: under some race conditions, a use-after-free, a memory leak, a
+potential deadlock (or lockdep warning).
+
+Thanks again for the feedback.
+Cascardo.
+
+> 
+> > reference because it was necessarily taken, but then it is an extra
+> > reference. We are dropping this one here because we are done with the list.
+> > We are not actually removing things from the list because it cannot be
+> > referenced anymore, sw_sync is being released.
+> > 
+> > Now, I may not remember some of the details, and this might be related to
+> > the circular references that is discussed in the commit message, but let's
+> > assume that we still have an opened fd sync_file reference to this fence.
+> > The only thing touching the list left is sync_timeline_signal, which is
+> > called by an ioctl on the timeline fd which is not available anymore. We
+> > can explicitly remove things from the list here and be on the safer side.
+> > The issue exists already, it is just not possible to trigger it with the
+> > current code.
+> > 
+> > I am not sure how easy it is to provide a different version that fixes both
+> > the "useless fence on pt_list to which userspace has no fd" and "fence fd
+> > that can never be signaled as it is not on the list because it was already
+> > signaled". Perhaps this last one can be "fixed" with setting the signaled
+> > bit on the fence, but I have the impression this is already done. So,
+> > perhaps, not much worth doing it?
+> > 
+> > Thanks a lot.
+> > Cascardo.
+> > 
+> > PS:
+> > 
+> > After a quick revisit here, we can easily fix the case when the fence is
+> > not added to the list: return NULL (or rather, change it to an ERR_PTR)
+> > when the fence is already signaled. Any preference for an error code here?
+> > -EEXIST, perhaps?
+> 
+> I'll postpone thinking about this until I understand the main question from
+> above.
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+> > As for the case where sync_file_create or copy_to_user fails and the fence
+> > is left on the list, this wouldn't be different from creating the fence and
+> > closing the file descriptor. The fence would still be left there until it
+> > is either signaled or the timeline is released.
+> > 
+> > 
+> > > 
+> > > Regards,
+> > > 
+> > > Tvrtko
+> > > 
+> > > >    	}
+> > > >    	spin_unlock_irq(&obj->lock);
+> > > > @@ -386,7 +371,14 @@ static long sw_sync_ioctl_create_fence(struct sync_timeline *obj,
+> > > >    	}
+> > > >    	sync_file = sync_file_create(&pt->base);
+> > > > +
+> > > > +	/*
+> > > > +	 * Puts the extra reference returned by sync_pt_create. This is necessary
+> > > > +	 * to avoid a race where the fence is signaled, removed from the list and
+> > > > +	 * released right after sync_pt_create releases the lock and returns.
+> > > > +	 */
+> > > >    	dma_fence_put(&pt->base);
+> > > > +
+> > > >    	if (!sync_file) {
+> > > >    		err = -ENOMEM;
+> > > >    		goto err;
+> > 
+> 
