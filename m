@@ -2,94 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C65159102D7
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 13:34:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9093191036E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 13:53:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF16010E94C;
-	Thu, 20 Jun 2024 11:34:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2496410E047;
+	Thu, 20 Jun 2024 11:53:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="XM0T6gzJ";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Yb4SgqKj";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="wiMAT9ui";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh3-smtp.messagingengine.com
- (fhigh3-smtp.messagingengine.com [103.168.172.154])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABCE710E942
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 11:34:19 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailfhigh.nyi.internal (Postfix) with ESMTP id 1A75D1140275;
- Thu, 20 Jun 2024 07:34:19 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 20 Jun 2024 07:34:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm2; t=1718883259; x=
- 1718969659; bh=dh4jgHU7dqTQKxlK6pguYFC4g/IfdITeRgccK+k+z4w=; b=X
- M0T6gzJAjOZS+ly6RX0EYwLbM+lIGoHLGgwVcod0EUvH9byAgaQdpYZJjTJOY1L1
- HjOEQSw8aYCUOL7SXfUhEm8hZBIvtDY0EgnTDCQbZFKv8xiLbX+3ie7+BkCkKiBf
- ibCBIB7tdgqKqcjFkBuHgnAGRt0CZa9dOMZ1UMIUp1wcbxsAHpdlKZyEGZEu5xy7
- X9E7SdVogavgyK7JUWawJxyGj1APFoE/AMUVdXpMlDyBYEIdSKq1iogZfqjmD4Hg
- aCo2wxIft2edhZQEaXrg8erUXUpgEOvLqLxtFCrhrXOiuC2rhrSsnutlOM8fcl6e
- LM3ft6x8je8HkiYdEQBAA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1718883259; x=
- 1718969659; bh=dh4jgHU7dqTQKxlK6pguYFC4g/IfdITeRgccK+k+z4w=; b=Y
- b4SgqKjXIKxoskE5+U1YNH8iuYyQ5ba7BgDC2YgQ/YZln9ytGYNITeOgFTmytfKf
- ZNficNeVfKa5QjPcN5t3QyoZfR4ZjJ6AygIBqiCVcSUlDGLTAeDbwL9Zlt1mGvNp
- ojAbY1XPWMv2Rrw8KtHJSRtEsTjbXQ7emhP6CouH/3aBagogixB0WqshajgsMtqx
- qkOgA8iPa2IE61J2wMzJ9X6tgIpDubluDvmQhyl0JWo8UNy84NC2QP5IXpam4sV3
- 9aFUUU0fRpet9omLZtREwUXR8lZH0ZXJMoroyMWRRuzbFxduX2qLNbtA1kVWoQC7
- 0Wmbxwb0ZtpfL42T5Y0Xg==
-X-ME-Sender: <xms:uhN0Znuz1t-oldgPeekF2dYeRjMC4WCgkm6Hot88qdaamhzlEU0o8A>
- <xme:uhN0ZocJBZv8jfWulIYL6WpbcTmZph2ZxNehDKZ4TIX-W3bfR_4rF0g0MljyVvgS0
- a33kmgaPOJBIaE0Ng>
-X-ME-Received: <xmr:uhN0ZqywiFmvod5I2-OeLjiYON4sDnmV5C5DxGA4Cv838_d7GmTgPuQGVCINcklNKgu93dYNgw76dDSozenCEFGdKDcAMf5Q9wmYVjRme27-FlYT>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeefvddggeefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomheptfihrghn
- ucghrghlkhhlihhnuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenucggtffrrg
- htthgvrhhnpeffheeiffegtdfgffejteevgeefkeelieelkeevueetffetteduffevgeei
- ieehteenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hrhigrnhesthgvshhtthhorghsthdrtghomh
-X-ME-Proxy: <xmx:uhN0ZmMtYTkH5Mh6kt2MNI7RH8zJXVJ2AgsbUhykp2BOHbd1IXqgFw>
- <xmx:uhN0Zn8Jr6pm8bcV-_ZWF3gnVBuz3bd9AxeaaQPcqKJ5WUpiaj8_wg>
- <xmx:uhN0ZmXBCVMn-rORaoSA7myuQIYX-ZzYKXOSytqtEfzfsbHtn8Txvg>
- <xmx:uhN0ZoenoXBp80EY18SM9u5klEoe6Wd88vd38WRN7WpYoBU7KZrceQ>
- <xmx:uxN0ZjsnClRnVDlwivVduUeYMpY1uh58Z8VgZgAykJdgm9u7pDchfzbG>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 20 Jun 2024 07:34:13 -0400 (EDT)
-From: Ryan Walklin <ryan@testtoast.com>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>,
- Chris Morgan <macroalpha82@gmail.com>, John Watts <contact@jookia.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH 23/23] drm: sun4i: de33: csc: add Display Engine 3.3 (DE33)
- support
-Date: Thu, 20 Jun 2024 23:30:01 +1200
-Message-ID: <20240620113150.83466-24-ryan@testtoast.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240620113150.83466-1-ryan@testtoast.com>
-References: <20240620113150.83466-1-ryan@testtoast.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F72B10E047
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 11:52:58 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-7046211e455so552151b3a.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 04:52:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1718884378; x=1719489178; darn=lists.freedesktop.org; 
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cxshfbiYtk1odTxX03f+kq7uhvGyIninyQ/wy7iz3xQ=;
+ b=wiMAT9uiwu2zQmq6DVyD7Tb2gWBNs2pUiH0OCMv/jg53NHTM6wSdqYFrapYL+tt0Hu
+ EcorsdgqWcEPII7KE88ta0DnUJIk1MbeLsWO+5hVyWkv0FOB6FhWl6YdZj6hkUZqNqCb
+ /3Q+nKVNMqfxunU8lrs663l7U0cVQAGNTM6ir+sAYi3BcIeemJz8dk1YeGqke02GlEnK
+ 2A2OEUIBXrQl1mfIqYeQcV1xppd04xJ4Seoo/jN8N3YD8bcseGSh2tX2Y2RurBRecJfq
+ 2wYZTvDYVl4RsLGHEFxzxgZmUIK0/YnWxGUtjoHaa2/RAzivu3SOuAeHBkjIkG2qo/Ct
+ OXrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718884378; x=1719489178;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cxshfbiYtk1odTxX03f+kq7uhvGyIninyQ/wy7iz3xQ=;
+ b=ZNE8ewF5kozcinmOr3ZmPlMERnaZ0TiUaCyh9M0qL0sTeHR4WU16NGN2hFLgyZm8mR
+ dKjGv70TGMPb6wDjUhysJLMl0DRXAco5yTRfuBLzl0x3MIhKNxsNtTV8Jn4dWnoTwrWc
+ +rxGbpMprEyZtzAt6seQa/l9ePMCvu7yKDg6nXDC/HG2oplfhnY/HCNG16yMid4/5ySv
+ D8qgdmlQFpM/ERfpMCPIltAd/7Ksd5Hem1vPdWO/PBlB/uvkogLbNDwphQ5nJv8QLxQU
+ aYe1EDofiEHoYbsGkhYTziyfdjVaoXOdhnMQUbAFeSs/819Iz2RHmC2ID9GfFltfdvHV
+ HrpQ==
+X-Gm-Message-State: AOJu0YxmtCGSdMmb4OXtV5jbTB39RyFbsAlznKRU99l6Gg7W09zKczZi
+ AqR9uEW8xpMMWpyq6CrzeYTLgT8ykepa1VToex+fnOpDVxW0zy8pPaDv37595cs=
+X-Google-Smtp-Source: AGHT+IHWVuA9ptbleuNtiiQwSC0s7v5qEfJr+4Yzd7+QkHCwMzolv8Kc1rfPAEj837awwHSzsEBFXQ==
+X-Received: by 2002:a05:6a20:1b18:b0:1b7:1ede:ce57 with SMTP id
+ adf61e73a8af0-1bcbb626642mr4846670637.59.1718884377880; 
+ Thu, 20 Jun 2024 04:52:57 -0700 (PDT)
+Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2c7e64a1da9sm1486316a91.53.2024.06.20.04.52.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jun 2024 04:52:57 -0700 (PDT)
+From: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+To: dmitry.torokhov@gmail.com, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org,
+ benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: [PATCH v4 0/2] Support Starry er88577 MIPI-DSI panel
+Date: Thu, 20 Jun 2024 19:52:43 +0800
+Message-Id: <20240620115245.31540-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,156 +79,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
+The Starry is a 10.1" WXGA TFT LCD panel with er88577 controller
+Because Starry-er88577 and kingdisplay-kd101ne3 are not the same IC, 
+separate Starry-er88577 from the panel-kingdisplay-kd101ne3 driver.
 
-Like earlier DE versions, the DE33 has a CSC (Color Space Correction)
-module. which provides color space conversion between BT2020/BT709, and
-dynamic range conversion between SDR/ST2084/HLG.
+Changes between V4 and V3:
+- PATCH 1/2: Move positions to keep the list sorted.
+- PATCH 2/2: Adjust the ".clock" assignment format.
+- Link to v3: https://lore.kernel.org/all/20240614145609.25432-1-lvzhaoxiong@huaqin.corp-partner.google.com/
 
-Add support for the DE33.
+Changes between V3 and V2:
+- PATCH 1/2: This add the bindings to panel-simple-dsi.
+- PATCH 2/2: Add a separate driver for Starry-er88577, and Use the new mipi_dsi_dcs_write_seq_multi() function.
+- Link to v2: https://lore.kernel.org/all/20240601084528.22502-1-lvzhaoxiong@huaqin.corp-partner.google.com/
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Ryan Walklin <ryan@testtoast.com>
----
- drivers/gpu/drm/sun4i/sun8i_csc.c | 96 +++++++++++++++++++++++++++++++
- drivers/gpu/drm/sun4i/sun8i_csc.h |  3 +
- 2 files changed, 99 insertions(+)
+Changes between V2 and V1:
+- PATCH 1/4: Delete some unnecessary information.
+- PATCH 2/4: Use the new mipi_dsi_dcs_write_seq_multi() function, deleted some unnecessary functions.
+- PATCH 3/4: Add compatible for Starry-er88577.
+- PATCH 4/4: Add starry panel configuration in panel-kingdisplay-kd101ne3 driver.
+- Link to v1: https://lore.kernel.org/all/20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com/
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.c b/drivers/gpu/drm/sun4i/sun8i_csc.c
-index 2d5a2cf7cba24..45bd1ca06400e 100644
---- a/drivers/gpu/drm/sun4i/sun8i_csc.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_csc.c
-@@ -238,6 +238,14 @@ static const u32 yuv2yuv_de3[2][3][3][12] = {
- 	},
- };
- 
-+static u32 sun8i_csc_base(struct sun8i_mixer *mixer, int layer)
-+{
-+	if (mixer->cfg->de_type == sun8i_mixer_de33)
-+		return sun8i_channel_base(mixer, layer) - 0x800;
-+	else
-+		return ccsc_base[mixer->cfg->ccsc][layer];
-+}
-+
- static void sun8i_csc_setup(struct regmap *map, u32 base,
- 			    enum format_type fmt_type,
- 			    enum drm_color_encoding encoding,
-@@ -358,6 +366,90 @@ static void sun8i_de3_ccsc_setup(struct sunxi_engine *engine, int layer,
- 			   mask, val);
- }
- 
-+/* extract constant from high word and invert sign if necessary */
-+static u32 sun8i_de33_ccsc_get_constant(u32 value)
-+{
-+	value >>= 16;
-+
-+	if (value & BIT(15))
-+		return 0x400 - (value & 0x3ff);
-+
-+	return value;
-+}
-+
-+static void sun8i_de33_convert_table(const u32 *src, u32 *dst)
-+{
-+	dst[0] = sun8i_de33_ccsc_get_constant(src[3]);
-+	dst[1] = sun8i_de33_ccsc_get_constant(src[7]);
-+	dst[2] = sun8i_de33_ccsc_get_constant(src[11]);
-+	memcpy(&dst[3], src, sizeof(u32) * 12);
-+	dst[6] &= 0xffff;
-+	dst[10] &= 0xffff;
-+	dst[14] &= 0xffff;
-+}
-+
-+static void sun8i_de33_ccsc_setup(struct sun8i_mixer *mixer, int layer,
-+				  enum format_type fmt_type,
-+				  enum drm_color_encoding encoding,
-+				  enum drm_color_range range)
-+{
-+	u32 addr, val = 0, base, csc[15];
-+	struct sunxi_engine *engine;
-+	struct regmap *map;
-+	const u32 *table;
-+	int i;
-+
-+	table = yuv2rgb_de3[range][encoding];
-+	base = sun8i_csc_base(mixer, layer);
-+	engine = &mixer->engine;
-+	map = engine->regs;
-+
-+	switch (fmt_type) {
-+	case FORMAT_TYPE_RGB:
-+		if (engine->format == MEDIA_BUS_FMT_RGB888_1X24)
-+			break;
-+		val = SUN8I_CSC_CTRL_EN;
-+		sun8i_de33_convert_table(rgb2yuv_de3[engine->encoding], csc);
-+		regmap_bulk_write(map, SUN50I_CSC_COEFF(base, 0), csc, 15);
-+		break;
-+	case FORMAT_TYPE_YUV:
-+		table = sun8i_csc_get_de3_yuv_table(encoding, range,
-+						    engine->format,
-+						    engine->encoding);
-+		if (!table)
-+			break;
-+		val = SUN8I_CSC_CTRL_EN;
-+		sun8i_de33_convert_table(table, csc);
-+		regmap_bulk_write(map, SUN50I_CSC_COEFF(base, 0), csc, 15);
-+		break;
-+	case FORMAT_TYPE_YVU:
-+		table = sun8i_csc_get_de3_yuv_table(encoding, range,
-+						    engine->format,
-+						    engine->encoding);
-+		if (!table)
-+			table = yuv2yuv_de3[range][encoding][encoding];
-+		val = SUN8I_CSC_CTRL_EN;
-+		sun8i_de33_convert_table(table, csc);
-+		for (i = 0; i < 15; i++) {
-+			addr = SUN50I_CSC_COEFF(base, i);
-+			if (i > 3) {
-+				if (((i - 3) & 3) == 1)
-+					addr = SUN50I_CSC_COEFF(base, i + 1);
-+				else if (((i - 3) & 3) == 2)
-+					addr = SUN50I_CSC_COEFF(base, i - 1);
-+			}
-+			regmap_write(map, addr, csc[i]);
-+		}
-+		break;
-+	default:
-+		val = 0;
-+		DRM_WARN("Wrong CSC mode specified.\n");
-+		return;
-+	}
-+
-+	regmap_write(map, SUN8I_CSC_CTRL(base), val);
-+}
-+
- void sun8i_csc_set_ccsc(struct sun8i_mixer *mixer, int layer,
- 			enum format_type fmt_type,
- 			enum drm_color_encoding encoding,
-@@ -369,6 +461,10 @@ void sun8i_csc_set_ccsc(struct sun8i_mixer *mixer, int layer,
- 		sun8i_de3_ccsc_setup(&mixer->engine, layer,
- 				     fmt_type, encoding, range);
- 		return;
-+	} else if (mixer->cfg->de_type == sun8i_mixer_de33) {
-+		sun8i_de33_ccsc_setup(mixer, layer, fmt_type,
-+				      encoding, range);
-+		return;
- 	}
- 
- 	if (layer < mixer->cfg->vi_num) {
-diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.h b/drivers/gpu/drm/sun4i/sun8i_csc.h
-index b7546e06e315c..2b762cb79f02c 100644
---- a/drivers/gpu/drm/sun4i/sun8i_csc.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_csc.h
-@@ -20,6 +20,9 @@ struct sun8i_mixer;
- #define SUN8I_CSC_CTRL(base)		((base) + 0x0)
- #define SUN8I_CSC_COEFF(base, i)	((base) + 0x10 + 4 * (i))
- 
-+#define SUN50I_CSC_COEFF(base, i)	((base) + 0x04 + 4 * (i))
-+#define SUN50I_CSC_ALPHA(base)		((base) + 0x40)
-+
- #define SUN8I_CSC_CTRL_EN		BIT(0)
- 
- enum format_type {
+Zhaoxiong Lv (2):
+  dt-bindings: display: panel-simple-dsi: add Starry-er88577 DSI panel
+    bindings
+  drm/panel: starry-er88577: add new panel driver
+
+ .../display/panel/panel-simple-dsi.yaml       |   2 +
+ drivers/gpu/drm/panel/Kconfig                 |   9 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-starry-er88577.c  | 343 ++++++++++++++++++
+ 4 files changed, 355 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-starry-er88577.c
+
 -- 
-2.45.2
+2.17.1
 
