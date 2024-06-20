@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A3B910A88
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:48:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06C14910A7F
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:47:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A38710EAB8;
-	Thu, 20 Jun 2024 15:48:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A000010EAAA;
+	Thu, 20 Jun 2024 15:47:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="GIxYXVyo";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="pz+CzTLT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f99.google.com (mail-wm1-f99.google.com
- [209.85.128.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 272A210EAA3
+Received: from mail-lj1-f226.google.com (mail-lj1-f226.google.com
+ [209.85.208.226])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EE9810EAA3
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:47:13 +0000 (UTC)
-Received: by mail-wm1-f99.google.com with SMTP id
- 5b1f17b1804b1-42121d27861so10626855e9.0
+Received: by mail-lj1-f226.google.com with SMTP id
+ 38308e7fff4ca-2ebeefb9a6eso10201371fa.1
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:47:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1718898431; x=1719503231;
+ d=raspberrypi.com; s=google; t=1718898432; x=1719503232;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7urb17iy0Oa1QIy7z8g2YF2+t4Is90IdqFJjMBXqckw=;
- b=GIxYXVyok7x39brmzlGpFswYqFhIsQ3C9H2P+yjt9ZkrG+CNNMiUz50lr8LuVXXVR8
- qSBf51A4YWbHayR0sZNHtSBRxs+zkKrq710RJLmtgXIgVZdQ1EshL3VFpVcTvH1I+PNy
- Al3vh7dhDmYyjFDNV8sTWPmYyFlBAWzCY1IPXqlMKcKraudU9eCes0XFBOSt+uMMO/J0
- Byb/Ahx9yRBf5nYeMjjU3qjvr7xSvZe+mNLz7hAHlrqPfBJt2J5BSVsBp8ldCzmOJYaQ
- FRud+s8GB5/UBDPIFRhzloHdU/9hVdcHNY/LQStztBevnN3i7ycIocBqYbWu5hI1/Ti8
- z4/A==
+ bh=14qTmjFLbA1GByRd1yyIdhNyl0ie+fffDIM9t1m1Sjs=;
+ b=pz+CzTLTVUGkdsJSrcKw0zG87q2WE5B3a+sG0TUfXsZfgeIChmYuQYFiM/uflNrWSp
+ GA02XLHnwAoNfGIvQosQeLCdEI1hAbvnx+gfJCIcKV8tBhhbDm5zMqn87clY/bjeCqRZ
+ bA/SLrXWmDuETnV0WlyBfZUBFZZM5N8i1XAtBHUmPJrjUGARcScihH92sCAyrRfCvu3S
+ QuOdQFNF5XDk+Xco5VhHp4vxTxjcmMDUGcLyGoA5Hnny26UqMQgHF1+QnRBF5N1zLpdl
+ 6Y4c97LALvZA+ujh83S/krvPU1DDgy0r1ecl0VnlQmdYQTAJNYPryKpeNK7hf5HtX4/N
+ IC8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718898431; x=1719503231;
+ d=1e100.net; s=20230601; t=1718898432; x=1719503232;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7urb17iy0Oa1QIy7z8g2YF2+t4Is90IdqFJjMBXqckw=;
- b=KtkY8hWBBIJQUkxV6lHSH+dxW/jdUlcXsUu9bY8BVdpLEhjbrdONV+a/e4CziHms3e
- IAZbbsP+T4GXX59YIoSTqUXlFLkMyHLtunfO9qYu6OrMJcCp4SUCMsXK+/RTa048Cg2s
- jsglfuWWN8P4c8XbH1up9JA6xR9U6+4ycmwV5ciTUyWv7d84wP9sRCEs5IxqaDbPCz/V
- MQwhVzbhuQswnlcTRwjC/Vr3bGutg0eACfFN/bASrPnFcM4BV63zxr6m9nUiIMqFtrg7
- C5PZtDyuBCScKxLrl2sP1kN4RIFf4Abwqx+Kzk+LmISFVGF93cNqvxSwQF+xT3JlZg51
- 9B0g==
+ bh=14qTmjFLbA1GByRd1yyIdhNyl0ie+fffDIM9t1m1Sjs=;
+ b=I7JbYMiqqdgrON6iU24zC9BmovMSzK3B3TtY/Ya4fii8p8FwSHTNjW4+PUhV9j2kgU
+ XrwtzXpTBP4nGXm0HbTal7OySAmOHcJmOQx0uMkJ3axrX3JMy00wGYIUhqKYMhGOGGFP
+ Au/A9jeaOqxuhnLXolpvvpJFFrHEgsCXX3z4b3K+ANVzRO+spbdk+2dEOWDXCvo9nvP0
+ HelFHls0lHjh0h1oVRoZfuAZW+QgfzOK03h/Yb6o3FombObWRwCZ+V9IGMe0+RXk9esK
+ kDleQDwUhYVE+JBskN4a1iz7kpXl2kufO7xCBgPVg3Y1OezC1z7V4Y9o5XXf4CxcDqnZ
+ UbhQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV2snvBWC28AF6u+qiVP7EmFexvPj0j1o7XVbvDiK0FZRNgEzhqhMjxbM0Hm+RRhYfSaGVaxGaUJxb99yNW3gyhJskIQtC054mV6g1jngHj
-X-Gm-Message-State: AOJu0Ywp86/IMSKSFXzmetVtzAhQYBbEHDQd/fxSNxg5tKOYfb6crwpp
- w+yN/V/SawvpF+2ulJRT07hcfNiVJQpMkxohWRS2WJvuCMz+0o6/pI2rxZS4IPoyVeUbada9G29
- CfVmrcbMeEAd0/eA8Y7ZRWC3xAj2jN/U/
-X-Google-Smtp-Source: AGHT+IFba/60VscSC0yytJpABpzs1R/VPgpMBgS2wngpqqCc5j9vgFwVo0CpLl1z0ItN6Vb1Bq5A5JhsA2Ob
-X-Received: by 2002:a05:600c:4f16:b0:418:c2af:ab83 with SMTP id
- 5b1f17b1804b1-4247529a9b6mr45706585e9.36.1718898431661; 
- Thu, 20 Jun 2024 08:47:11 -0700 (PDT)
+ AJvYcCXJOxM36gA31h0z7ywzG/dse6JcrAMFx20FOn3e8M0qrOcO+npGoGLHHdnho91Odg4qGvSJdLSCnHkf/tqJL4Za8KAKmE2r43rgCN0vHeNf
+X-Gm-Message-State: AOJu0YzE0vtXj3sBus5ylUG1Q+auTEsdHcG66D65k6avjJ870qM/+vf7
+ BKDMk2+T4DPwk5G5tQ5od165eoLbRjLB5Gnyl3gc2vbOygs8L1xXisL9Ba2SWfMZDL+FdZ7o0Da
+ LOwWDXOEFw79QVJFyVLobWHaB4rCsiWL3
+X-Google-Smtp-Source: AGHT+IHz9bZDGGT3q67psTYWRgknH3sAJk+ZoW30J+9RGiFtAaD+169YJ2p51cQfyaYFp7/U0EUk9brVAjUy
+X-Received: by 2002:a2e:9b0a:0:b0:2ec:2583:2ba5 with SMTP id
+ 38308e7fff4ca-2ec3cfe8b1dmr36924861fa.36.1718898432075; 
+ Thu, 20 Jun 2024 08:47:12 -0700 (PDT)
 Received: from raspberrypi.com ([188.39.149.98])
  by smtp-relay.gmail.com with ESMTPS id
- 5b1f17b1804b1-4247d208dc3sm3211975e9.40.2024.06.20.08.47.11
+ 5b1f17b1804b1-4247d1e1b35sm3312695e9.43.2024.06.20.08.47.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jun 2024 08:47:11 -0700 (PDT)
+ Thu, 20 Jun 2024 08:47:12 -0700 (PDT)
 X-Relaying-Domain: raspberrypi.com
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>,
@@ -66,9 +66,9 @@ To: Maxime Ripard <mripard@kernel.org>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
 Cc: Maxime Ripard <maxime@cerno.tech>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH 24/31] drm/vc4: hvs: Create hw_init function
-Date: Thu, 20 Jun 2024 16:46:25 +0100
-Message-Id: <20240620154632.4125308-25-dave.stevenson@raspberrypi.com>
+Subject: [PATCH 25/31] drm/vc4: hvs: Create cob_init function
+Date: Thu, 20 Jun 2024 16:46:26 +0100
+Message-Id: <20240620154632.4125308-26-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
 References: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
@@ -91,192 +91,171 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maxime Ripard <maxime@cerno.tech>
 
-Since the BCM2712 will feature a significantly different HVS, let's move
-the hardware initialisation part of our bind function into a separate
-function.
+Just like the HVS itself, the COB parameters will be fairly different in
+the BCM2712.
 
-That way, it will be easier to extend in the future.
+Let's move the COB parameters computation and its initialisation to a
+separate function that will be easier to extend in the future.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/vc4_hvs.c | 155 ++++++++++++++++++----------------
- 1 file changed, 83 insertions(+), 72 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hvs.c | 128 ++++++++++++++++++++--------------
+ 1 file changed, 74 insertions(+), 54 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index 922e5f73f5d9..bab15827fce0 100644
+index bab15827fce0..bd9ae25dbdcf 100644
 --- a/drivers/gpu/drm/vc4/vc4_hvs.c
 +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -852,79 +852,10 @@ struct vc4_hvs *__vc4_hvs_alloc(struct vc4_dev *vc4, struct platform_device *pde
- 	return hvs;
+@@ -940,6 +940,77 @@ static int vc4_hvs_hw_init(struct vc4_hvs *hvs)
+ 	return 0;
  }
  
--static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
-+static int vc4_hvs_hw_init(struct vc4_hvs *hvs)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct drm_device *drm = dev_get_drvdata(master);
--	struct vc4_dev *vc4 = to_vc4_dev(drm);
--	struct vc4_hvs *hvs = NULL;
--	int ret;
--	u32 dispctrl;
--	u32 reg, top;
--
--	hvs = __vc4_hvs_alloc(vc4, NULL);
--	if (IS_ERR(hvs))
--		return PTR_ERR(hvs);
--
--	hvs->regs = vc4_ioremap_regs(pdev, 0);
--	if (IS_ERR(hvs->regs))
--		return PTR_ERR(hvs->regs);
--
--	hvs->regset.base = hvs->regs;
--	hvs->regset.regs = hvs_regs;
--	hvs->regset.nregs = ARRAY_SIZE(hvs_regs);
--
--	if (vc4->gen == VC4_GEN_5) {
--		struct rpi_firmware *firmware;
--		struct device_node *node;
--		unsigned int max_rate;
--
--		node = rpi_firmware_find_node();
--		if (!node)
--			return -EINVAL;
--
--		firmware = rpi_firmware_get(node);
--		of_node_put(node);
--		if (!firmware)
--			return -EPROBE_DEFER;
--
--		hvs->core_clk = devm_clk_get(&pdev->dev, NULL);
--		if (IS_ERR(hvs->core_clk)) {
--			dev_err(&pdev->dev, "Couldn't get core clock\n");
--			return PTR_ERR(hvs->core_clk);
--		}
--
--		max_rate = rpi_firmware_clk_get_max_rate(firmware,
--							 RPI_FIRMWARE_CORE_CLK_ID);
--		rpi_firmware_put(firmware);
--		if (max_rate >= 550000000)
--			hvs->vc5_hdmi_enable_hdmi_20 = true;
--
--		if (max_rate >= 600000000)
--			hvs->vc5_hdmi_enable_4096by2160 = true;
--
--		hvs->max_core_rate = max_rate;
--
--		ret = clk_prepare_enable(hvs->core_clk);
--		if (ret) {
--			dev_err(&pdev->dev, "Couldn't enable the core clock\n");
--			return ret;
--		}
--	}
--
--	if (vc4->gen == VC4_GEN_4)
--		hvs->dlist = hvs->regs + SCALER_DLIST_START;
--	else
--		hvs->dlist = hvs->regs + SCALER5_DLIST_START;
--
--	/* Upload filter kernels.  We only have the one for now, so we
--	 * keep it around for the lifetime of the driver.
--	 */
--	ret = vc4_hvs_upload_linear_kernel(hvs,
--					   &hvs->mitchell_netravali_filter,
--					   mitchell_netravali_1_3_1_3_kernel);
--	if (ret)
--		return ret;
++static int vc4_hvs_cob_init(struct vc4_hvs *hvs)
++{
 +	struct vc4_dev *vc4 = hvs->vc4;
-+	u32 dispctrl, reg;
- 
- 	reg = HVS_READ(SCALER_DISPECTRL);
- 	reg &= ~SCALER_DISPECTRL_DSP2_MUX_MASK;
-@@ -1006,6 +937,86 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 
- 	HVS_WRITE(SCALER_DISPCTRL, dispctrl);
- 
++	u32 reg, top;
++
++	/*
++	 * Recompute Composite Output Buffer (COB) allocations for the
++	 * displays
++	 */
++	switch (vc4->gen) {
++	case VC4_GEN_4:
++		/* The COB is 20736 pixels, or just over 10 lines at 2048 wide.
++		 * The bottom 2048 pixels are full 32bpp RGBA (intended for the
++		 * TXP composing RGBA to memory), whilst the remainder are only
++		 * 24bpp RGB.
++		 *
++		 * Assign 3 lines to channels 1 & 2, and just over 4 lines to
++		 * channel 0.
++		 */
++		#define VC4_COB_SIZE		20736
++		#define VC4_COB_LINE_WIDTH	2048
++		#define VC4_COB_NUM_LINES	3
++		reg = 0;
++		top = VC4_COB_LINE_WIDTH * VC4_COB_NUM_LINES;
++		reg |= (top - 1) << 16;
++		HVS_WRITE(SCALER_DISPBASE2, reg);
++		reg = top;
++		top += VC4_COB_LINE_WIDTH * VC4_COB_NUM_LINES;
++		reg |= (top - 1) << 16;
++		HVS_WRITE(SCALER_DISPBASE1, reg);
++		reg = top;
++		top = VC4_COB_SIZE;
++		reg |= (top - 1) << 16;
++		HVS_WRITE(SCALER_DISPBASE0, reg);
++		break;
++
++	case VC4_GEN_5:
++		/* The COB is 44416 pixels, or 10.8 lines at 4096 wide.
++		 * The bottom 4096 pixels are full RGBA (intended for the TXP
++		 * composing RGBA to memory), whilst the remainder are only
++		 * RGB. Addressing is always pixel wide.
++		 *
++		 * Assign 3 lines of 4096 to channels 1 & 2, and just over 4
++		 * lines. to channel 0.
++		 */
++		#define VC5_COB_SIZE		44416
++		#define VC5_COB_LINE_WIDTH	4096
++		#define VC5_COB_NUM_LINES	3
++		reg = 0;
++		top = VC5_COB_LINE_WIDTH * VC5_COB_NUM_LINES;
++		reg |= top << 16;
++		HVS_WRITE(SCALER_DISPBASE2, reg);
++		top += 16;
++		reg = top;
++		top += VC5_COB_LINE_WIDTH * VC5_COB_NUM_LINES;
++		reg |= top << 16;
++		HVS_WRITE(SCALER_DISPBASE1, reg);
++		top += 16;
++		reg = top;
++		top = VC5_COB_SIZE;
++		reg |= top << 16;
++		HVS_WRITE(SCALER_DISPBASE0, reg);
++		break;
++
++	default:
++		return -EINVAL;
++	}
++
 +	return 0;
 +}
 +
-+static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct drm_device *drm = dev_get_drvdata(master);
-+	struct vc4_dev *vc4 = to_vc4_dev(drm);
-+	struct vc4_hvs *hvs = NULL;
-+	int ret;
-+	u32 reg, top;
-+
-+	hvs = __vc4_hvs_alloc(vc4, NULL);
-+	if (IS_ERR(hvs))
-+		return PTR_ERR(hvs);
-+
-+	hvs->regs = vc4_ioremap_regs(pdev, 0);
-+	if (IS_ERR(hvs->regs))
-+		return PTR_ERR(hvs->regs);
-+
-+	hvs->regset.base = hvs->regs;
-+	hvs->regset.regs = hvs_regs;
-+	hvs->regset.nregs = ARRAY_SIZE(hvs_regs);
-+
-+	if (vc4->gen == VC4_GEN_5) {
-+		struct rpi_firmware *firmware;
-+		struct device_node *node;
-+		unsigned int max_rate;
-+
-+		node = rpi_firmware_find_node();
-+		if (!node)
-+			return -EINVAL;
-+
-+		firmware = rpi_firmware_get(node);
-+		of_node_put(node);
-+		if (!firmware)
-+			return -EPROBE_DEFER;
-+
-+		hvs->core_clk = devm_clk_get(&pdev->dev, NULL);
-+		if (IS_ERR(hvs->core_clk)) {
-+			dev_err(&pdev->dev, "Couldn't get core clock\n");
-+			return PTR_ERR(hvs->core_clk);
-+		}
-+
-+		max_rate = rpi_firmware_clk_get_max_rate(firmware,
-+							 RPI_FIRMWARE_CORE_CLK_ID);
-+		rpi_firmware_put(firmware);
-+		if (max_rate >= 550000000)
-+			hvs->vc5_hdmi_enable_hdmi_20 = true;
-+
-+		if (max_rate >= 600000000)
-+			hvs->vc5_hdmi_enable_4096by2160 = true;
-+
-+		hvs->max_core_rate = max_rate;
-+
-+		ret = clk_prepare_enable(hvs->core_clk);
-+		if (ret) {
-+			dev_err(&pdev->dev, "Couldn't enable the core clock\n");
-+			return ret;
-+		}
-+	}
-+
-+	if (vc4->gen == VC4_GEN_4)
-+		hvs->dlist = hvs->regs + SCALER_DLIST_START;
-+	else
-+		hvs->dlist = hvs->regs + SCALER5_DLIST_START;
-+
-+	/* Upload filter kernels.  We only have the one for now, so we
-+	 * keep it around for the lifetime of the driver.
-+	 */
-+	ret = vc4_hvs_upload_linear_kernel(hvs,
-+					   &hvs->mitchell_netravali_filter,
-+					   mitchell_netravali_1_3_1_3_kernel);
+ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+@@ -947,7 +1018,6 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+ 	struct vc4_dev *vc4 = to_vc4_dev(drm);
+ 	struct vc4_hvs *hvs = NULL;
+ 	int ret;
+-	u32 reg, top;
+ 
+ 	hvs = __vc4_hvs_alloc(vc4, NULL);
+ 	if (IS_ERR(hvs))
+@@ -1017,59 +1087,9 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+ 	if (ret)
+ 		return ret;
+ 
+-	/* Recompute Composite Output Buffer (COB) allocations for the displays
+-	 */
+-	if (vc4->gen == VC4_GEN_4) {
+-		/* The COB is 20736 pixels, or just over 10 lines at 2048 wide.
+-		 * The bottom 2048 pixels are full 32bpp RGBA (intended for the
+-		 * TXP composing RGBA to memory), whilst the remainder are only
+-		 * 24bpp RGB.
+-		 *
+-		 * Assign 3 lines to channels 1 & 2, and just over 4 lines to
+-		 * channel 0.
+-		 */
+-		#define VC4_COB_SIZE		20736
+-		#define VC4_COB_LINE_WIDTH	2048
+-		#define VC4_COB_NUM_LINES	3
+-		reg = 0;
+-		top = VC4_COB_LINE_WIDTH * VC4_COB_NUM_LINES;
+-		reg |= (top - 1) << 16;
+-		HVS_WRITE(SCALER_DISPBASE2, reg);
+-		reg = top;
+-		top += VC4_COB_LINE_WIDTH * VC4_COB_NUM_LINES;
+-		reg |= (top - 1) << 16;
+-		HVS_WRITE(SCALER_DISPBASE1, reg);
+-		reg = top;
+-		top = VC4_COB_SIZE;
+-		reg |= (top - 1) << 16;
+-		HVS_WRITE(SCALER_DISPBASE0, reg);
+-	} else {
+-		/* The COB is 44416 pixels, or 10.8 lines at 4096 wide.
+-		 * The bottom 4096 pixels are full RGBA (intended for the TXP
+-		 * composing RGBA to memory), whilst the remainder are only
+-		 * RGB. Addressing is always pixel wide.
+-		 *
+-		 * Assign 3 lines of 4096 to channels 1 & 2, and just over 4
+-		 * lines. to channel 0.
+-		 */
+-		#define VC5_COB_SIZE		44416
+-		#define VC5_COB_LINE_WIDTH	4096
+-		#define VC5_COB_NUM_LINES	3
+-		reg = 0;
+-		top = VC5_COB_LINE_WIDTH * VC5_COB_NUM_LINES;
+-		reg |= top << 16;
+-		HVS_WRITE(SCALER_DISPBASE2, reg);
+-		top += 16;
+-		reg = top;
+-		top += VC5_COB_LINE_WIDTH * VC5_COB_NUM_LINES;
+-		reg |= top << 16;
+-		HVS_WRITE(SCALER_DISPBASE1, reg);
+-		top += 16;
+-		reg = top;
+-		top = VC5_COB_SIZE;
+-		reg |= top << 16;
+-		HVS_WRITE(SCALER_DISPBASE0, reg);
+-	}
++	ret = vc4_hvs_cob_init(hvs);
 +	if (ret)
 +		return ret;
-+
-+	ret = vc4_hvs_hw_init(hvs);
-+	if (ret)
-+		return ret;
-+
- 	/* Recompute Composite Output Buffer (COB) allocations for the displays
- 	 */
- 	if (vc4->gen == VC4_GEN_4) {
+ 
+ 	ret = devm_request_irq(dev, platform_get_irq(pdev, 0),
+ 			       vc4_hvs_irq_handler, 0, "vc4 hvs", drm);
 -- 
 2.34.1
 
