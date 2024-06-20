@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE4B910DFE
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 19:05:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B4E910E66
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 19:25:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CBDB10E2B0;
-	Thu, 20 Jun 2024 17:05:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AD8E10EB83;
+	Thu, 20 Jun 2024 17:24:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sxwbJctm";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="D/oFQvgh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F59210E2B0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 17:05:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 72D67621FB;
- Thu, 20 Jun 2024 17:05:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84F37C32786;
- Thu, 20 Jun 2024 17:05:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718903129;
- bh=dEOA48ijsQW6/PEVP2tDx2FHmbFwZ3VWxLbybt5q2Gc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sxwbJctmVpQc2cHDrejJwmRLLgiN4/IqvoqHWnjbNTTcfGeWUf120kJOYRM0+b/D8
- aYzVnvBpcjwsiNJV4vwKU9T8UzfZJ5xbjZkFWtqqapxNJUmbfPiX+lLvLBZWNM/XR4
- snmtxbaocXFVtbJ+wNaqTSF5Sdyz3Md94Atsi2ClD2lTyWs9feke0eA4lFS2aI3HdU
- mx7y84Itr0OR06oAcI9xOGeb4MvgRsYtuib57M/REcT0vztdoLGGSnXGUb2oXg7yXP
- DhTbM1NgGaHRgGhJpo+O1EJWqrwL1HsY60AQWEPtbJk1br8M75OGeFegWRgan6dRgg
- l+/18t4+nEiew==
-Date: Thu, 20 Jun 2024 18:05:22 +0100
-From: Lee Jones <lee@kernel.org>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Markus Elfring <Markus.Elfring@web.de>, lkp@intel.com,
- Paul Cercueil <paul@crapouillou.net>,
- Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
- linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Julia Lawall <julia.lawall@inria.fr>, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
-Message-ID: <20240620170522.GU3029315@google.com>
-References: <202406191014.9JAzwRV6-lkp@intel.com>
- <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de>
- <ZnRUSaHJhz7XLcKa@matsya>
+Received: from smtp.smtpout.orange.fr (smtp-15.smtpout.orange.fr
+ [80.12.242.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE74F10EB83
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 17:24:54 +0000 (UTC)
+Received: from [192.168.1.37] ([86.243.222.230]) by smtp.orange.fr with ESMTPA
+ id KLVhsuPMas2bgKLVhsCVx9; Thu, 20 Jun 2024 19:23:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1718904230;
+ bh=ihK0V93i0kUYjZJxFoTyf13pwL1rOBXEjTiHXm80Fik=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=D/oFQvghy7dXACkonDzJ57U3Epo2n6WVhLieiPe9y3fSV68U10gAFME9D7t/0TeUO
+ wBVSB9uIYJhcm69wRDDAKdL4rXf2SaJQ1gAhAf/WuVS+gxO9gsXG1fV2E1Sf8/Y9a3
+ krapwyI4WZePfaU22OKhI7WnBUrBHnVsfbi0buPp5ftaN4KFxU3tjvgSbYxmcQNFaw
+ wxRVloasWSC19zZVF0tKggy3Quldcw+HoxelGs3SuoeYuR0e5e9vhuYmdKZYats7Mq
+ /rfo2+4tTm/TwSOWphDXLaDho3V+wSbosIuiYLoiNs6oOra8HX0Lj4xY4K1S8Kk1GE
+ hoNxUrLVYtXRQ==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 20 Jun 2024 19:23:50 +0200
+X-ME-IP: 86.243.222.230
+Message-ID: <464e68fd-7175-4de1-b037-3a40c1e134c5@wanadoo.fr>
+Date: Thu, 20 Jun 2024 19:23:45 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/panel: ltk050h3146w: add check for
+ mipi_dsi_dcs_enter_sleep_mode
+To: Chen Ni <nichen@iscas.ac.cn>, neil.armstrong@linaro.org,
+ quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240620074720.852495-1-nichen@iscas.ac.cn>
+Content-Language: en-MW
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20240620074720.852495-1-nichen@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZnRUSaHJhz7XLcKa@matsya>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,24 +63,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 Jun 2024, Vinod Koul wrote:
-
-> On 20-06-24, 12:45, Markus Elfring wrote:
-> > …
-> > > All errors (new ones prefixed by >>):
-> > >
-> > >>> drivers/iio/industrialio-buffer.c:1715:3: error: cannot jump from this goto statement to its label
-> > >     1715 |                 goto err_dmabuf_unmap_attachment;
-> > …
-> > 
-> > Which software design options would you like to try out next
-> > so that such a questionable compilation error message will be avoided finally?
+Le 20/06/2024 à 09:47, Chen Ni a écrit :
+> Add check for the return value of mipi_dsi_dcs_enter_sleep_mode() and
+> return the error if it fails in order to catch the error.
 > 
-> The one where all emails from Markus go to dev/null
+> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+> ---
+>   drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c b/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
+> index 292aa26a456d..24bf05d0589f 100644
+> --- a/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
+> +++ b/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
+> @@ -526,7 +526,7 @@ static int ltk050h3146w_unprepare(struct drm_panel *panel)
+>   		return ret;
+>   	}
+>   
+> -	mipi_dsi_dcs_enter_sleep_mode(dsi);
+> +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+>   	if (ret < 0) {
+>   		dev_err(ctx->dev, "failed to enter sleep mode: %d\n", ret);
+>   		return ret;
 
-Play nice please.
+Reviewed-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-  Documentation/process/code-of-conduct.rst
 
--- 
-Lee Jones [李琼斯]
+See: 
+https://lore.kernel.org/all/588e8b4519487f6d33419c4b0fa7f8ea1b26cb58.1619869792.git.christophe.jaillet@wanadoo.fr/
+which never got any feedback.
+
+CJ
