@@ -2,60 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D93910111
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 12:05:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CBFC9101A1
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 12:42:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B06CF10E2EA;
-	Thu, 20 Jun 2024 10:05:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B07C10E8A6;
+	Thu, 20 Jun 2024 10:42:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="cOEsY973";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Kl8sV+ju";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Thu, 20 Jun 2024 10:05:39 UTC
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E37E10E2EA
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 10:05:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1718877939; x=1750413939;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=JsDkBa8BIU8kt1tFosPylwKEidocTtesbost8Ep5hjU=;
- b=cOEsY973Uw9M5QFGNQ6HLIO78j47xvWZt70zktUzVupBOpXFXLbBd4Sw
- FwlEfwYiucDGscbDvvFhu802Oue+gTND1TeRZxrDmdyothXZQtwae7J1X
- 0I9hM2JUPE3un3+kPhy1iGoIdiQgXcnRTRRCUPo+Tg/oP4td61LPCezfQ
- E8ukVL0nw9YI+/CEaV/f/rvhzqEp/oxOWK22HIzw+YLakRIn9hMlXWzuO
- mvOoPFYelO1I2s+a3/SIbsVrANPA7BG57dQaFHcdyv5zTK3Zcym8uEJSr
- wAkc7BL7MTCn5gPxesS9KlxTN7g8y3wq3Gp/Q3Z6G+AhzHLt+dveREj10 g==;
-X-CSE-ConnectionGUID: xMJ21LrvTXOs5KEZiuh2KA==
-X-CSE-MsgGUID: 9oDDM3BQRcSi06Ooessizw==
-X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; d="scan'208";a="259152117"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 20 Jun 2024 02:58:31 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 20 Jun 2024 02:58:18 -0700
-Received: from che-lt-i67131.microchip.com (10.10.85.11) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Thu, 20 Jun 2024 02:58:15 -0700
-From: Manikandan Muralidharan <manikandan.m@microchip.com>
-To: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-CC: <Hari.PrasathGE@microchip.com>, <Dharma.B@microchip.com>,
- <sam@ravnborg.org>, <bbrezillon@kernel.org>, <nicolas.ferre@microchip.com>,
- Manikandan Muralidharan <manikandan.m@microchip.com>
-Subject: [PATCH] MAINTAINERS: update Microchip's Atmel-HLCDC driver maintainers
-Date: Thu, 20 Jun 2024 15:28:56 +0530
-Message-ID: <20240620095856.777390-1-manikandan.m@microchip.com>
-X-Mailer: git-send-email 2.25.1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 548E710E8B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 10:42:34 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E8DC66F;
+ Thu, 20 Jun 2024 12:42:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1718880133;
+ bh=ti8bxCNiWoqLj57KYwDqhNvEAh/oPERI35OrXACSuro=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Kl8sV+jutpc7/1rMKSuIsrNDmmORcwUa8Or9bzo/2tHa66VmlpjIS2vqoRj6zdO0B
+ I6bsUE+TzhkE3k6iyDCXtMflS38ws49jFcMcHZw/NcCgze9c9sgaTjguWAoSd1l89i
+ 7lTnvnE4XU7hYrV37s230lxdIP6mZeW6mkiNo99U=
+Date: Thu, 20 Jun 2024 13:42:10 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "open list:DRM DRIVERS FOR RENESAS R-CAR" <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVERS FOR RENESAS R-CAR" <linux-renesas-soc@vger.kernel.org>, 
+ Phong Hoang <phong.hoang.wz@renesas.com>
+Subject: Re: [PATCH 2/4] drm: ti-sn65dsi86: Check bridge connection failure
+Message-ID: <20240620104210.GB27999@pendragon.ideasonboard.com>
+References: <20240619102219.138927-1-jacopo.mondi@ideasonboard.com>
+ <20240619102219.138927-3-jacopo.mondi@ideasonboard.com>
+ <20240619193258.GC31507@pendragon.ideasonboard.com>
+ <404691d2-b013-4bcc-b7e4-bcc809e4bfbb@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <404691d2-b013-4bcc-b7e4-bcc809e4bfbb@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,31 +61,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop Sam Ravnborg and Boris Brezillon as they are no longer interested in
-maintaining the drivers. Add myself and Dharma Balasubiramani as the
-Maintainer and co-maintainer for Microchip's Atmel-HLCDC driver.
-Thanks for their work.
+On Thu, Jun 20, 2024 at 09:43:05AM +0300, Tomi Valkeinen wrote:
+> On 19/06/2024 22:32, Laurent Pinchart wrote:
+> > Hi Jacopo,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Wed, Jun 19, 2024 at 12:22:16PM +0200, Jacopo Mondi wrote:
+> >> From: Phong Hoang <phong.hoang.wz@renesas.com>
+> >>
+> >> Add a check to the register access function when attaching a bridge
+> >> device.
+> 
+> I think the desc is missing the "why". I'm guessing it's the first 
+> register access to the IC, and thus verifies that it is accessible.
 
-Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
----
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Isn't it a good idea in general to always check if I2C reads succeeded ?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d1566c647a50..8f2a40285544 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7290,8 +7290,8 @@ F:	drivers/gpu/drm/ci/xfails/meson*
- F:	drivers/gpu/drm/meson/
- 
- DRM DRIVERS FOR ATMEL HLCDC
--M:	Sam Ravnborg <sam@ravnborg.org>
--M:	Boris Brezillon <bbrezillon@kernel.org>
-+M:	Manikandan Muralidharan <manikandan.m@microchip.com>
-+M:	Dharma Balasubiramani <dharma.b@microchip.com>
- L:	dri-devel@lists.freedesktop.org
- S:	Supported
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> >>
+> >> Signed-off-by: Phong Hoang <phong.hoang.wz@renesas.com>
+> >> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > 
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > 
+> >> ---
+> >>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 6 +++++-
+> >>   1 file changed, 5 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> >> index 84698a0b27a8..b7df53577987 100644
+> >> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> >> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> >> @@ -696,6 +696,7 @@ static struct ti_sn65dsi86 *bridge_to_ti_sn65dsi86(struct drm_bridge *bridge)
+> >>   
+> >>   static int ti_sn_attach_host(struct auxiliary_device *adev, struct ti_sn65dsi86 *pdata)
+> >>   {
+> >> +	int ret;
+> >>   	int val;
+> >>   	struct mipi_dsi_host *host;
+> >>   	struct mipi_dsi_device *dsi;
+> >> @@ -720,8 +721,11 @@ static int ti_sn_attach_host(struct auxiliary_device *adev, struct ti_sn65dsi86
+> >>   
+> >>   	/* check if continuous dsi clock is required or not */
+> >>   	pm_runtime_get_sync(dev);
+> >> -	regmap_read(pdata->regmap, SN_DPPLL_SRC_REG, &val);
+> >> +	ret = regmap_read(pdata->regmap, SN_DPPLL_SRC_REG, &val);
+> >>   	pm_runtime_put_autosuspend(dev);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >>   	if (!(val & DPPLL_CLK_SRC_DSICLK))
+> >>   		dsi->mode_flags |= MIPI_DSI_CLOCK_NON_CONTINUOUS;
+> >>   
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
