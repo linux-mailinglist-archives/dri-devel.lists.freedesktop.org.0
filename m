@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07323910A61
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:46:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D872910A5F
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:46:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63A7B10EA99;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B03510EA89;
 	Thu, 20 Jun 2024 15:46:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="LGdK4NWu";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="XPXonM5H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f100.google.com (mail-ej1-f100.google.com
- [209.85.218.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4792510EA82
+Received: from mail-wr1-f100.google.com (mail-wr1-f100.google.com
+ [209.85.221.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEF2C10EA82
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:46:43 +0000 (UTC)
-Received: by mail-ej1-f100.google.com with SMTP id
- a640c23a62f3a-a6f177b78dcso112857066b.1
+Received: by mail-wr1-f100.google.com with SMTP id
+ ffacd0b85a97d-363826fbcdeso830634f8f.0
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:46:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1718898401; x=1719503201;
+ d=raspberrypi.com; s=google; t=1718898402; x=1719503202;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HasaC/0G/3uLI5emduahJoqcP3q+0fLWQRsxww8xIH0=;
- b=LGdK4NWuLLEWlrJ2LgBD9At59DCsx9mjYxFav0BfdE47GcjG6XSVPMpshuDpFA5J2D
- +v6M79BWDCxH4fzaVjaMM3aPHYyxNvqdWe/loLbKLu228BU7b5q6uGu4xWl/G2xEPUkp
- gj9PW8PAUqi6Ju6MgdF7r+Gs8D/L+TlbayxtswMgEcq4LRSARGsulgm9M+6BK3OujTbd
- 0l0jvgQlADOpUPZFRzytWc+gOTiMUqn9uchWTkRBJifi0aWPIB/B2+JJebIJIlPGGykn
- tw6cnK++q7ucIApLSYLUQewpQlJkBOeU1wktuphN0LnVA+UJlnruPiXaw551Oz2UFSK3
- zhlg==
+ bh=4AjgM1lONumiIAH3nlA15QCd+ve3cOFFHpjhMZ1Fplo=;
+ b=XPXonM5HyL6pMBhmjuEE8pjD6yxjx8D0A5nytLWN+27o9dD11HH/QlBXZEHT9oXXp5
+ UFIjqUEsIW4hmzWh2JBzt6joFwvY4M9VCK8HtE1Qdwlxmyo1v3P4X/RQB3KgpdqscczU
+ efJlSmp/jE8Yaj5iCefrK2iy6YFOeo9lSTQIU1icXEyoxZwlpm4Qyw135BwV2nVGKbNU
+ 1CAvQ1WkNbJ1XuZCi67ykc1UOyfGu7oIItQZKjtkQDtTmY0TE7C49TirWO2ZAY8xw5G/
+ e6a7LKRE18F56wQMs8JkyKacZ3PYH5L1Z2QLLfEVuCC+m+6BSfXNGifdpmrOKIgRNZyd
+ qB8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718898401; x=1719503201;
+ d=1e100.net; s=20230601; t=1718898402; x=1719503202;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HasaC/0G/3uLI5emduahJoqcP3q+0fLWQRsxww8xIH0=;
- b=bUaJ1YY1ElzuVkFvPICG8IBgz8EpH6blw3kupMFCf58P7naBUQfiLW15c6zJUFB0Kf
- kKgXBlZULzGLF6ANM7yLF2HNGXjdkURQDMTj5EuZUYk2NXvIddds2Y0P4iyj04iWd+YQ
- PpnzHjD9o9OOOPmco5s3U0lEltwvBbUluiFX5tGP0/Vad5hQFVUezhMAYLV9f//Yw0PE
- VuCrhGaLxsm3WBgvNf6WqdnSHrkedQATogQQnKliNTaEL0NND9HpF41Y1/aKyZeTWnDH
- YdfbvphUAbIohZ0TmiDehvBaXok3618jhUmiiKAl9LBbmWLTMPQQ/oMyHizMaomGCxFY
- K6Ww==
+ bh=4AjgM1lONumiIAH3nlA15QCd+ve3cOFFHpjhMZ1Fplo=;
+ b=rbNKRTw72nwPYU1fxYZWKrYyRWc0BdHlX85eLbPAIg/ovAwtzh1rLMafP+e6C03Pdc
+ 79s+IC+SJSsYsAxFTtfE+ddJ8CzhwCtgx1kO6k6ZVlLBHgtv+hSqmXgkW1KHD5IcnPVX
+ mOWg/bN4iGITvwbSQoi5cYPC4WRZBo3gcjNby67lHu6SgGL0e2CTPek+0QNd3wu17S6C
+ AMpVSnmO7p/tXC+ziPGYNM7YOJsLfMxGlbJo7vYKAftNcey3elTWGC9XbqDseaFLlEVZ
+ lAqxtSAg21oINSR+5lqP4957WW6KEGsGuYbPps8ddSyRjnx/ZdSSHGWJdsdqsMZhwexU
+ UWUQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWNaZHH/NEN1AaP0PEW1CwsOzwOK74wUgKhkXmF5DzZVWbk+OFLrBZBgKuUdGgtezyeN49NVNXaQrTh0daoGBq2cCBoBlEBWeWAtNTt1yFM
-X-Gm-Message-State: AOJu0YxlfCgfqaKKSbdfUnc4+4Ymquh/j93skYv36iV5vyzBwpTdn2O6
- 0tYcUFZK+ohoLVM/ZjIjvdXjXKLb0HFm241mNGwmvuAzZ838mFwa5lppSCSuAwvN/XqDsJPhL82
- 2+VpxyUv3eNEMX13nQ0jnmC9FJsG3I9Kp
-X-Google-Smtp-Source: AGHT+IEGssnQmawfTua+rldGeHELCFpg0mL5gQcBBTj1NRN+fhrrkrZijukLDUIKtpE/+lHU2DXL3W4q0oh6
-X-Received: by 2002:a17:907:c001:b0:a6f:b08b:86ca with SMTP id
- a640c23a62f3a-a6fb08b8d77mr305826866b.75.1718898401405; 
+ AJvYcCUs+hd+/ngTt2quLm4/FOtaac2BTrCzDRoTnekmnE86drgc/+A0ZwWZ+JQ8J7ZCGCAuAsiFG7Lg+bBXn2f806l1cD/Uglc0BDOGUrO181Ou
+X-Gm-Message-State: AOJu0Yx6hqaAFAlkZlWAIMPb5daZvkYarZig9nlAngo42r1A9qZn4CsI
+ oPeQClzcgK2/q9mEVqxf7pD+8hPgRC4ZOkuAUn/+BBq/MR6NsJivnZwdCr+UG5spukXfzgDXFFa
+ hHtKjlNc6MER9D3cEwBF28nF2gUPfBoZA
+X-Google-Smtp-Source: AGHT+IEHBz/ums/0ewMJU/bFWShLAHuz8MX5XM3NcMHKojCTjWA7ncIaEMn7botiVJhYYKEkIX25AwbhwLDu
+X-Received: by 2002:a05:6000:1088:b0:360:9708:6820 with SMTP id
+ ffacd0b85a97d-363170ec7f4mr4579894f8f.7.1718898401957; 
  Thu, 20 Jun 2024 08:46:41 -0700 (PDT)
 Received: from raspberrypi.com ([188.39.149.98])
  by smtp-relay.gmail.com with ESMTPS id
- a640c23a62f3a-a6f56f20ab0sm29242166b.272.2024.06.20.08.46.41
+ ffacd0b85a97d-3607bd986a3sm755992f8f.104.2024.06.20.08.46.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 20 Jun 2024 08:46:41 -0700 (PDT)
 X-Relaying-Domain: raspberrypi.com
@@ -64,10 +64,10 @@ To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Cc: Dom Cobley <popcornmix@gmail.com>
-Subject: [PATCH 05/31] drm/vc4_plane: Add support for YUV444 formats
-Date: Thu, 20 Jun 2024 16:46:06 +0100
-Message-Id: <20240620154632.4125308-6-dave.stevenson@raspberrypi.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [PATCH 06/31] drm/vc4: Set AXI panic modes for the HVS
+Date: Thu, 20 Jun 2024 16:46:07 +0100
+Message-Id: <20240620154632.4125308-7-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
 References: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
@@ -88,60 +88,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dom Cobley <popcornmix@gmail.com>
+The HVS can change AXI request mode based on how full the COB
+FIFOs are.
+Until now the vc4 driver has been relying on the firmware to
+have set these to sensible values.
 
-Support displaying DRM_FORMAT_YUV444 and DRM_FORMAT_YVU444 formats.
-Tested with kmstest and kodi. e.g.
+With HVS channel 2 now being used for live video, change the
+panic mode for all channels to be explicitly set by the driver,
+and the same for all channels.
 
-kmstest -r 1920x1080@60 -f 400x300-YU24
-
-Note: without the shift of width, only half the chroma is fetched,
-resulting in correct left half of image and corrupt colours on right half.
-
-The increase in width shouldn't affect fetching of Y data,
-as the hardware will clamp at dest width.
-
-Signed-off-by: Dom Cobley <popcornmix@gmail.com>
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/vc4_plane.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hvs.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index b8c68d4688c8..978433554f3d 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -109,6 +109,18 @@ static const struct hvs_format {
- 		.pixel_order = HVS_PIXEL_ORDER_XYCRCB,
- 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCRCB,
- 	},
-+	{
-+		.drm = DRM_FORMAT_YUV444,
-+		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV422_3PLANE,
-+		.pixel_order = HVS_PIXEL_ORDER_XYCBCR,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
-+	},
-+	{
-+		.drm = DRM_FORMAT_YVU444,
-+		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV422_3PLANE,
-+		.pixel_order = HVS_PIXEL_ORDER_XYCRCB,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCRCB,
-+	},
- 	{
- 		.drm = DRM_FORMAT_YUV420,
- 		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_3PLANE,
-@@ -1117,6 +1129,12 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
- 	    vc4_state->src_y + vc4_state->src_h[0] < (state->fb->height << 16))
- 		height++;
+diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+index 04af672caacb..267c9fde7362 100644
+--- a/drivers/gpu/drm/vc4/vc4_hvs.c
++++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+@@ -951,6 +951,17 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+ 			      SCALER_DISPCTRL_SCLEIRQ);
  
-+	/* For YUV444 the hardware wants double the width, otherwise it doesn't
-+	 * fetch full width of chroma
+ 
++	/* Set AXI panic mode.
++	 * VC4 panics when < 2 lines in FIFO.
++	 * VC5 panics when less than 1 line in the FIFO.
 +	 */
-+	if (format->drm == DRM_FORMAT_YUV444 || format->drm == DRM_FORMAT_YVU444)
-+		width <<= 1;
++	dispctrl &= ~(SCALER_DISPCTRL_PANIC0_MASK |
++		      SCALER_DISPCTRL_PANIC1_MASK |
++		      SCALER_DISPCTRL_PANIC2_MASK);
++	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC0);
++	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC1);
++	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC2);
 +
- 	/* Don't waste cycles mixing with plane alpha if the set alpha
- 	 * is opaque or there is no per-pixel alpha information.
- 	 * In any case we use the alpha property value as the fixed alpha.
+ 	/* Set AXI panic mode.
+ 	 * VC4 panics when < 2 lines in FIFO.
+ 	 * VC5 panics when less than 1 line in the FIFO.
 -- 
 2.34.1
 
