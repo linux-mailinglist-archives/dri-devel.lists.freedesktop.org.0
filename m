@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D2B8910A79
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:47:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6342910A87
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:48:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C435E10E1A1;
-	Thu, 20 Jun 2024 15:47:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 123D410EAB9;
+	Thu, 20 Jun 2024 15:48:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Sfn5yzZG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OjYzZhJB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08D1210E1F4
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:47:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DA0F10EAB7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:47:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 05AB5621C9;
- Thu, 20 Jun 2024 15:47:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C07C3C32786;
- Thu, 20 Jun 2024 15:47:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 91BC661ECC;
+ Thu, 20 Jun 2024 15:47:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71CC8C32786;
+ Thu, 20 Jun 2024 15:47:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718898442;
- bh=JUgVrLZya9tGplzbGst8Monj0IIE+1T54xT5fKorBlQ=;
+ s=k20201202; t=1718898475;
+ bh=OZfi+hDc0CC+30ZKwuSV2Z2N+albFN0Wfv5xyTkQ4xo=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Sfn5yzZGKUVfEoqZedb/DCcMoPNrajFOpiyOe7M4hoYfqEkU6nmfEW8CBEIJyhTju
- WHVrpH97fGOgCtKX/vv+pshLFSw2KJm6x2OUQxMGzlMtMaOhxeooFAMW0L7q2FpP8V
- YZaXlmhH3WnYXEf4ojRaZScjiIwgUExo+CLnkS1PkqjC17A0kBj6qYWQSC7rJ7RecT
- J3mxwaNuFEbcbIhpXWr9zgmusf3umJHJUZpvgKZ+T+svghgmAk9YXdMoPptV9+6hrJ
- DFG9787kLpntdN1a1wopMLm/XaPkEy1zTQgCcgM2CPEsprtr6RWiL9FhVwM2xHiT4C
- 2Auo4eQSAwWbQ==
-Message-ID: <95113743-b9a7-419d-8d57-6be5c6db5f58@kernel.org>
-Date: Thu, 20 Jun 2024 17:47:09 +0200
+ b=OjYzZhJBUZmdH+cgVPHvaFSJ0rY7ESZmTq70MY663oyaqb36GZlvKov3+5TpRQgpz
+ 3qIBtxiumbvwnPDz6GL+l1PPnaplNOzPyv9afai+mtN8HkfjF0supFLvUT4Qcn/wPj
+ O0qZhlHGwN/DEiLmL55ZHWI4vwF724HLz2INSgChrDOo8HzPbhBb9kwXYooS1erdDg
+ WS4z6ZJ6Ms1I88CbnHE+s9hRqzMcc/sQOd5qd+jiZGskTgzaIWna2tlAL4gLmNbwxg
+ 0b1sXzGqjLRdM13KO1A9OrG/nou7tWvylQ22O8NXo1U5McWFQa+3M7Smm6ljVsfcUR
+ X5rZaS+DRlZww==
+Message-ID: <7353ad33-f26c-49de-9565-36e76d9b6e53@kernel.org>
+Date: Thu, 20 Jun 2024 17:47:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/23] dt-bindings: input: add maxim,max77705-haptic
+Subject: Re: [PATCH v3 06/23] dt-bindings: power: supply: add maxim,max77705
+ charger
 To: Dzmitry Sankouski <dsankouski@gmail.com>,
  Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
@@ -56,7 +57,7 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
  linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
 References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-5-e3f6662017ac@gmail.com>
+ <20240618-starqltechn_integration_upstream-v3-6-e3f6662017ac@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,7 +103,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240618-starqltechn_integration_upstream-v3-5-e3f6662017ac@gmail.com>
+In-Reply-To: <20240618-starqltechn_integration_upstream-v3-6-e3f6662017ac@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -121,33 +122,48 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 18/06/2024 15:59, Dzmitry Sankouski wrote:
-> maxim,max77705-haptic is MAX77705 pmic binding part
+> add maxim,max77705 charger binding part
+
+Make it a proper sentence.
+
 > 
-
-
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> ---
+>  .../power/supply/maxim,max77705-charger.yaml       | 30 ++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/power/supply/maxim,max77705-charger.yaml b/Documentation/devicetree/bindings/power/supply/maxim,max77705-charger.yaml
+> new file mode 100644
+> index 000000000000..2b805da2a328
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/power/supply/maxim,max77705-charger.yaml
+> @@ -0,0 +1,30 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/power/supply/maxim,max77705-charger.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Maxim MAX77705 and Companion Power Management IC charger
 > +
 > +maintainers:
 > +  - Dzmitry Sankouski <dsankouski@gmail.com>
 > +
 > +description: |
 > +  This is a part of device tree bindings for Maxim MAX77705 multi functional device.
-
-Wrap according to Linux coding style, so at 80. All your bindings have
-the same issue.
-
 > +
 > +  See also Documentation/devicetree/bindings/mfd/maxim,max77705.yaml for
 > +  additional information and example.
 > +
+> +allOf:
+> +  - $ref: power-supply.yaml#
+> +
 > +properties:
 > +  compatible:
-> +    const: maxim,max77705-haptic
-> +
-> +  haptic-supply: true
-> +
-> +  pwms: true
+> +    const: maxim,max77705-charger
 
-maxItems
+Looks pointless. Merge it to parent node.
+
 
 
 Best regards,
