@@ -2,88 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27FF591157D
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 00:17:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451639115A1
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 00:22:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C52F610E134;
-	Thu, 20 Jun 2024 22:17:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF88710E8A3;
+	Thu, 20 Jun 2024 22:22:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dUdcTQ4q";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Q/GGr8D0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3826710E28C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 22:17:05 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-2ec4e565d2eso299951fa.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:17:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718921823; x=1719526623; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=UgRdH6j7DUCb+zgLlAkqo1mbZKrdFkN7NmGemmI69Mo=;
- b=dUdcTQ4q35B7MYrw5Whspqmw2HOn/ZqEfw8hxVXJw+eADTM6XqmMDxFaFBWNuZPH+R
- nIb5mfsGXw47godyMMgKr77JN2DESiFCzxAtzUZdufPLRf7TiubeevQKCzPZNLe83waI
- 3Zgjxxr9MWxWxtZ8pfM9zo0kQQ+e3JzLVectkBA0wicaPRqCK/EdOBdjVzH2l1eFmw9I
- Dfy2CECu1YP1rGsNKrXexU+SxEQ/hj1sY3QIz+MKq69XSQMsFvzpRE1K299I9Pe4tDOe
- /y489eXPkDixSCRFj+wR8SecZyNBDJjwwesa+mHjo6Q4du/vjEjllLqkEVzRJsJqRGYQ
- 6BdQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 559C710E8A7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 22:22:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1718922158;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tUSKu5yoE2oDKyklqI6xQEXezvoLd1vxGEsotZZ2hLI=;
+ b=Q/GGr8D0VPksSaZXyujI+tzFDZBVJ0AjhqExqA/zFgfLid59I9FLXbye5PT6QNeqR0WYY2
+ upqp56Isl5YjOKrLqOTz/xVd4TIHrLrg6LTs37rBmFdpFF0vWsDQsBMb4JIRdsWAZPnFX7
+ pHiIQPYtZsnIf0XCDTSXIdkgfKqsdck=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-221--XIpfEORMn2rko7Dj60UeQ-1; Thu, 20 Jun 2024 18:22:37 -0400
+X-MC-Unique: -XIpfEORMn2rko7Dj60UeQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-362c8b9a09cso756771f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:22:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718921823; x=1719526623;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UgRdH6j7DUCb+zgLlAkqo1mbZKrdFkN7NmGemmI69Mo=;
- b=Quz9wi7/1+fGYYcQ8H9KxCNjCByiChTXs4Xzz8myxhugYEn4YkRGR5OVdQp8H2GpvC
- azmg31n4Z0nH50WjG5Ehc1sSXrJ7kmvnwIOQuJx30eRG/qGysm0FR0RaFHShwdMbX7Pe
- F4udh/zGQLZ12b/B/5uP53wxhAw+j0mb7qthCXyoDXf9MlC39TxQvVvGsT3fGpwI4Pqw
- N4woanj1acwgGi3+a1YQ03Fb0TtyJV3sRblnqdN/1s297wnKqNpM1RUgPW/F37/YyD2G
- KpsSHXJlbgkYo/PGqhz6/hdFxLDvh8ptaYRsEWjwErnIoBwNHmyxkRK4u4H83hoDcuqZ
- LmzA==
+ d=1e100.net; s=20230601; t=1718922156; x=1719526956;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tUSKu5yoE2oDKyklqI6xQEXezvoLd1vxGEsotZZ2hLI=;
+ b=MT4yasrCdb21yYeNRMagfBJAMNgMnQ3JLvYk6ilQvuSkS5O5ybaH11yCws+4wk4dHX
+ U3+yeOCWkav5fHLAvQhuHSqbN+tCvfgu4P+Clz77ycQT2vQIf3Isy5mp3Y34yzrj9eu1
+ ABByTfCvrpre9pKUjeXsWHFbe/AwZkY4JPAzmAxAi4nmD1rsnnseFe4zV2qR0w65f35p
+ P5wfxVGLUk+QrDgkiEViw84L/wHg62R6P+xjIRUMWcj+3JBFTn0hpNQuJUw4lTAb7x/C
+ 3CKnwRsgRXnxYcqMeAbZEKR+1nMAwYAHQUgziRarzkUc+8vBgtWy5EQDPjxOg0hjIRuM
+ yiXQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXLjcqpguZCorXVzx8AYQeepxEs5U5YaBIItVjbaKvwOY0fEIEG4G4t6ffSW6s3x8dYA8PlKzBwW3e0o4iwYI9oCeZplFOrwuqC9HDAoBTG
-X-Gm-Message-State: AOJu0YzaN6yAw4NARgiMKMd7+kzHgR67B8UT+Pm+NckaFomGYzFaDRUf
- qVncpk/bCu1shJFjORFSYhFdGRtG9hwquRSJJSyjEws8b1GH3XhawfiiVO8Ftf4=
-X-Google-Smtp-Source: AGHT+IE93loPZY8t+qpr1EOLX6L8UuNIadiY+NRCLEISi9+lkOYFgSNULvv5TbnvPEp081aaMmtqTg==
-X-Received: by 2002:a2e:b0f6:0:b0:2ec:1f9f:a879 with SMTP id
- 38308e7fff4ca-2ec3cecae0fmr43261131fa.31.1718921823111; 
- Thu, 20 Jun 2024 15:17:03 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec4d708862sm409371fa.35.2024.06.20.15.17.02
+ AJvYcCUKBr9f3UDSLL3iAodoqBz60DJUC2hoCxo/4kCtovRj+8XPd9YET55bFu+g64tRkSM+1kpPETv5ppZG6gmPz0WOKbLqvxLaqrp+2kS2jDQD
+X-Gm-Message-State: AOJu0YyqRSCLIaAeTtNdL6PdACQAfLj37YIyvt0tnI5Mh1FS0oKkz0g5
+ ymaCmqSt5XUcrSW75Si4nBRawIo6KSH35BEbbOXN3fas/V3ZyceSw/yZA9LMW2Wmj3+mo8Ad2mc
+ cTngQWfz9aYgqCafjioz92cOHZqgGTLsC1lGOrmTC6sTXgvUYPpt3C9RtlrGo4JWfpqsQLCaORA
+ ==
+X-Received: by 2002:a05:6000:1108:b0:360:9c4f:1fe with SMTP id
+ ffacd0b85a97d-363193c6376mr4975806f8f.43.1718922155840; 
+ Thu, 20 Jun 2024 15:22:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGcr7BSscA9WVORAeOG6Ti0XGGWuSfyV7L9iwJsVVVKPQm49qFce+vH/jcri9ZqNmEamqB97w==
+X-Received: by 2002:a05:6000:1108:b0:360:9c4f:1fe with SMTP id
+ ffacd0b85a97d-363193c6376mr4975790f8f.43.1718922155343; 
+ Thu, 20 Jun 2024 15:22:35 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4247d0be818sm41577315e9.15.2024.06.20.15.22.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jun 2024 15:17:02 -0700 (PDT)
-Date: Fri, 21 Jun 2024 01:17:01 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 5/9] drm/msm/hdmi: turn mode_set into atomic_enable
-Message-ID: <hj5xktzlbcrrbqsz2l3men5gmawzeszusixryhjbhm4g7gej7q@tcqvslat4wy4>
-References: <20240607-bridge-hdmi-connector-v5-0-ab384e6021af@linaro.org>
- <20240607-bridge-hdmi-connector-v5-5-ab384e6021af@linaro.org>
- <f34c4210-fd59-9d27-0987-3345631c9e35@quicinc.com>
- <xymopystyfjj3hpqes3uiw2g3dqynxzvz23snrbfzf2judgxnt@j4nmpcbuy7a4>
- <6d416e1a-1069-8355-e9f3-d2732df081a3@quicinc.com>
- <il2bg6bsu4nu4lpztzwo2rfonttiy64grxcsn7n4uybn3eui77@jxyzd744ksva>
- <8dd4a43e-d83c-1f36-21ff-61e13ff751e7@quicinc.com>
+ Thu, 20 Jun 2024 15:22:34 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>, Jocelyn Falempe <jfalempe@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ssd130x: Add drm_panic support
+Date: Fri, 21 Jun 2024 00:22:16 +0200
+Message-ID: <20240620222222.155933-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8dd4a43e-d83c-1f36-21ff-61e13ff751e7@quicinc.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,123 +94,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 20, 2024 at 03:05:16PM GMT, Abhinav Kumar wrote:
-> 
-> 
-> On 6/20/2024 2:24 PM, Dmitry Baryshkov wrote:
-> > On Thu, Jun 20, 2024 at 01:49:33PM GMT, Abhinav Kumar wrote:
-> > > 
-> > > 
-> > > On 6/20/2024 1:32 PM, Dmitry Baryshkov wrote:
-> > > > On Thu, Jun 20, 2024 at 01:27:15PM GMT, Abhinav Kumar wrote:
-> > > > > 
-> > > > > 
-> > > > > On 6/7/2024 6:23 AM, Dmitry Baryshkov wrote:
-> > > > > > The mode_set callback is deprecated, it doesn't get the
-> > > > > > drm_bridge_state, just mode-related argumetns. Turn it into the
-> > > > > > atomic_enable callback as suggested by the documentation.
-> > > > > > 
-> > > > > 
-> > > > > mode_set is deprecated but atomic_mode_set is not.
-> > > > 
-> > > > There is no atomic_mode_set() in drm_bridge_funcs. Also:
-> > > > 
-> > > 
-> > > Please excuse me. I thought since encoder has atomic_mode_set(), bridge has
-> > > one too.
-> > > 
-> > > > * This is deprecated, do not use!
-> > > > * New drivers shall set their mode in the
-> > > > * &drm_bridge_funcs.atomic_enable operation.
-> > > > 
-> > > 
-> > > Yes I saw this note but it also says "new drivers" and not really enforcing
-> > > migrating existing ones which are using modeset to atomic_enable.
-> > 
-> > Well, deprecated functions are supposed to be migrated.
-> > 
-> 
-> Along with rest of the pieces of the driver :)
+Add support for the drm_panic infrastructure, which allows to display
+a user friendly message on the screen when a Linux kernel panic occurs.
 
-Step by step :-)
+The display controller doesn't scanout the framebuffer, but instead the
+pixels are sent to the device using a transport bus. For this reason, a
+.panic_flush handler is needed to flush the panic image to the display.
 
-> 
-> > > My concern is that today the timing engine setup happens in encoder's
-> > > enable() and the hdmi's timing is programmed in mode_set().
-> > > 
-> > > Ideally, we should program hdmi's timing registers first before the
-> > > encoder's timing.
-> > > 
-> > > Although timing engine is not enabled yet, till post_kickoff, this is
-> > > changing the sequence.
-> > > 
-> > > If this really required for rest of this series?
-> > 
-> > No, it was just worth doing it as I was doing conversion to atomic_*
-> > anyway. I can delay this patch for now.
-> > 
-> > Two questions:
-> > 
-> > 1) Are you sure regarding the HDMI timing registers vs INTF order? I
-> > observe the underrun issues while changing modes on db820c.
-> > 
-> 
-> Yes this is the order I see in the docs:
-> 
-> 1) setup HDMI PHY and PLL
-> 2) setup HDMI video path correctly (HDMI timing registers)
-> 3) setup timing generator to match the HDMI video in (2)
-> 4) Enable timing engine
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-Thanks!
+ drivers/gpu/drm/solomon/ssd130x.c | 64 +++++++++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
 
-> 
-> This change is mixing up the order of (2) and (3).
-> 
-> > 2) What should be the order between programming of the HDMI timing
-> > engine and HDMI PHY?
-> > 
-> 
-> Mentioned above.
-> 
-> > What would be your opinion on moving HDMI timing programming to
-> > atomic_pre_enable? (the exact place depends on the answer on the second
-> > question).
-> > 
-> 
-> So
-> 
-> -> bridge->pre_enable() : Do HDMI timing programming
-> -> encoder->atomic_enable() : Do timing engine programming
-> -> post_kickoff() does timing engine enable
-> 
-> This matches the steps I wrote above.
-> 
-> Hence this is fine from my PoV.
-
-Ack, I'll skip this patch for now and repost it separately (moving the
-code to pre_enable function).
-
-> 
-> > > 
-> > > > > 
-> > > > > I would rather use atomic_mode_set because moving to atomic_enable() would
-> > > > > be incorrect.
-> > > > > 
-> > > > > That would be called after encoder's enable and hence changes the sequence.
-> > > > > That was not the intention of this patch.
-> > > > > 
-> > > > > NAK.
-> > > > > 
-> > > > > > Acked-by: Maxime Ripard <mripard@kernel.org>
-> > > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > > > ---
-> > > > > >     drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 33 ++++++++++++++++++++++++++-------
-> > > > > >     1 file changed, 26 insertions(+), 7 deletions(-)
-> > > > 
-> > > > 
-> > 
-
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index 6f51bcf774e2..0bac97bd39b9 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -32,6 +32,7 @@
+ #include <drm/drm_managed.h>
+ #include <drm/drm_modes.h>
+ #include <drm/drm_rect.h>
++#include <drm/drm_panic.h>
+ #include <drm/drm_probe_helper.h>
+ 
+ #include "ssd130x.h"
+@@ -1386,6 +1387,63 @@ static void ssd133x_primary_plane_atomic_disable(struct drm_plane *plane,
+ 	drm_dev_exit(idx);
+ }
+ 
++static int ssd130x_primary_plane_helper_get_scanout_buffer(struct drm_plane *plane,
++							   struct drm_scanout_buffer *sb)
++{
++	struct drm_plane_state *plane_state = plane->state;
++	struct drm_shadow_plane_state *shadow_plane_state;
++
++	if (!plane_state || !plane_state->fb || !plane_state->crtc)
++		return -EINVAL;
++
++	shadow_plane_state = to_drm_shadow_plane_state(plane_state);
++
++	sb->format = plane->state->fb->format;
++	sb->width = plane->state->fb->width;
++	sb->height = plane->state->fb->height;
++	sb->pitch[0] = plane->state->fb->pitches[0];
++	sb->map[0] = shadow_plane_state->data[0];
++
++	return 0;
++}
++
++static void ssd130x_primary_plane_helper_panic_flush(struct drm_plane *plane)
++{
++	struct drm_plane_state *plane_state = plane->state;
++	struct ssd130x_plane_state *ssd130x_plane_state = to_ssd130x_plane_state(plane_state);
++	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
++	struct drm_crtc *crtc = plane_state->crtc;
++	struct ssd130x_crtc_state *ssd130x_crtc_state = to_ssd130x_crtc_state(crtc->state);
++
++	ssd130x_fb_blit_rect(plane_state->fb, &shadow_plane_state->data[0], &plane_state->dst,
++			     ssd130x_plane_state->buffer, ssd130x_crtc_state->data_array,
++			     &shadow_plane_state->fmtcnv_state);
++}
++
++static void ssd132x_primary_plane_helper_panic_flush(struct drm_plane *plane)
++{
++	struct drm_plane_state *plane_state = plane->state;
++	struct ssd130x_plane_state *ssd130x_plane_state = to_ssd130x_plane_state(plane_state);
++	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
++	struct drm_crtc *crtc = plane_state->crtc;
++	struct ssd130x_crtc_state *ssd130x_crtc_state = to_ssd130x_crtc_state(crtc->state);
++
++	ssd132x_fb_blit_rect(plane_state->fb, &shadow_plane_state->data[0], &plane_state->dst,
++			     ssd130x_plane_state->buffer, ssd130x_crtc_state->data_array,
++			     &shadow_plane_state->fmtcnv_state);
++}
++
++static void ssd133x_primary_plane_helper_panic_flush(struct drm_plane *plane)
++{
++	struct drm_plane_state *plane_state = plane->state;
++	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
++	struct drm_crtc *crtc = plane_state->crtc;
++	struct ssd130x_crtc_state *ssd130x_crtc_state = to_ssd130x_crtc_state(crtc->state);
++
++	ssd133x_fb_blit_rect(plane_state->fb, &shadow_plane_state->data[0], &plane_state->dst,
++			     ssd130x_crtc_state->data_array, &shadow_plane_state->fmtcnv_state);
++}
++
+ /* Called during init to allocate the plane's atomic state. */
+ static void ssd130x_primary_plane_reset(struct drm_plane *plane)
+ {
+@@ -1442,18 +1500,24 @@ static const struct drm_plane_helper_funcs ssd130x_primary_plane_helper_funcs[]
+ 		.atomic_check = ssd130x_primary_plane_atomic_check,
+ 		.atomic_update = ssd130x_primary_plane_atomic_update,
+ 		.atomic_disable = ssd130x_primary_plane_atomic_disable,
++		.get_scanout_buffer = ssd130x_primary_plane_helper_get_scanout_buffer,
++		.panic_flush = ssd130x_primary_plane_helper_panic_flush,
+ 	},
+ 	[SSD132X_FAMILY] = {
+ 		DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+ 		.atomic_check = ssd132x_primary_plane_atomic_check,
+ 		.atomic_update = ssd132x_primary_plane_atomic_update,
+ 		.atomic_disable = ssd132x_primary_plane_atomic_disable,
++		.get_scanout_buffer = ssd130x_primary_plane_helper_get_scanout_buffer,
++		.panic_flush = ssd132x_primary_plane_helper_panic_flush,
+ 	},
+ 	[SSD133X_FAMILY] = {
+ 		DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+ 		.atomic_check = ssd133x_primary_plane_atomic_check,
+ 		.atomic_update = ssd133x_primary_plane_atomic_update,
+ 		.atomic_disable = ssd133x_primary_plane_atomic_disable,
++		.get_scanout_buffer = ssd130x_primary_plane_helper_get_scanout_buffer,
++		.panic_flush = ssd133x_primary_plane_helper_panic_flush,
+ 	}
+ };
+ 
 -- 
-With best wishes
-Dmitry
+2.45.1
+
