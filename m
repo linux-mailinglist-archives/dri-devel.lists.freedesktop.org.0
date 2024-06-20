@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3A2991062B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 15:35:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 318DA91062C
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 15:35:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC75810E9E2;
-	Thu, 20 Jun 2024 13:35:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D6D610E9E3;
+	Thu, 20 Jun 2024 13:35:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="V/7JrKn3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s0QPHnFs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 697AD10E9E2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 13:35:38 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BEA610E9E3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 13:35:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E0C4162158;
- Thu, 20 Jun 2024 13:35:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FEFFC32786;
- Thu, 20 Jun 2024 13:35:37 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 39AA7CE2647;
+ Thu, 20 Jun 2024 13:35:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AD8DC2BD10;
+ Thu, 20 Jun 2024 13:35:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718890537;
- bh=+UjIaT0G77GuW93//+8Wq+imdQChxkcK9dBuNQJjFB8=;
+ s=k20201202; t=1718890540;
+ bh=TcCdFXNutd9vkhZivMLUt3IerlG76eCFBxi4Ss2LB/k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=V/7JrKn3fuCIe+/ukc1k6Wu4v9cD6YBUqkU6ce+PD7TQxh9aAtBERAqrO5V7rB2+r
- EPPcJrS0Gt0orp2Mr0VX77wmg++j7ZV9NqagVmIUImiBki0jR5QhzOnCWHlu0ywNZU
- Cmz5BYUsH/usonN1KxRhgPQ66UP5u6jLMkh8GtYvumfUGi6sJPZIEQx1IHjVDdjJ7D
- AoI0JZaMUDZvOft2ltm6WsBvD763Q3mYWtxIWzzH7coH080WL6zAEsxN4x2j1KQRij
- t4jqKddN6ugCD59Eag9CnXK5kCfCBVZMOMqXihnzvnqTUV+b3RnUA+ZyM8z1IHgnXH
- 4kzGDpc9aneVA==
+ b=s0QPHnFs4+6HMUO/Uo1yZ9tZxMr6n9iZyoUwI70++eCYUpildMPNuWExEAFoAPKSg
+ 7Uu8ZV1APaIYLHdcivEzue5p/+p6tiisYbzfUf2F/AC46MH3CHroObeUcxbOl5cwsr
+ Ka67P15Wu/oJWxkgdgQfnYORURs3VJzXnE6BkAng3y6Uup8CjQNCTQAm6RFVBmpf9I
+ yyKoQ+C+RfU6FoxsMZJK6Zrc19OaP8oSaFL5hYatywitCuCB0LxCN3sFmWO0Nbi3Av
+ qPqIu0Vqox5pBYVUGeMKV7ZqB3xjvZ+ODA43W15hL1ZdiqytrYoLZqX07gcXRrIQer
+ QniA2f0m2vV0A==
 From: Maxime Ripard <mripard@kernel.org>
 To: dri-devel@lists.freedesktop.org
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Maxime Ripard <mripard@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v2 2/3] drm/todo: Create a TODO item for MIPI-DSI rework
-Date: Thu, 20 Jun 2024 15:35:30 +0200
-Message-ID: <20240620133531.3954622-2-mripard@kernel.org>
+ Javier Martinez Canillas <javierm@redhat.com>
+Subject: [PATCH v2 3/3] drm/todo: Add TODO entry for "lints"
+Date: Thu, 20 Jun 2024 15:35:31 +0200
+Message-ID: <20240620133531.3954622-3-mripard@kernel.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240620133531.3954622-1-mripard@kernel.org>
 References: <20240620133531.3954622-1-mripard@kernel.org>
@@ -60,52 +59,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MIPI-DSI infrastructure and setup we have so far is limited and
-doesn't provide a good way to address some corner-cases.
+Having lints would prove beneficial to prevent the same dark patterns
+from reoccuring over and over again in drivers.
 
-Add a TODO entry to document what is needed.
+Add a TODO entry for that.
 
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
+
 ---
- Documentation/gpu/todo.rst | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+
+Changes from v1:
+ - Add allow_modeset and cec phys address handling
+---
+ Documentation/gpu/todo.rst | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
 diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 3104ffbd6295..030ef6bec82a 100644
+index 030ef6bec82a..9e0e2df3a59a 100644
 --- a/Documentation/gpu/todo.rst
 +++ b/Documentation/gpu/todo.rst
-@@ -633,10 +633,30 @@ long as that supports DMA. Otherwise importing can still needlessly fail.
+@@ -724,10 +724,44 @@ doesn't or document it if it does would be of great help.
  
- Contact: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter
+ Contact: Maxime Ripard <mripard@kernel.org>
  
- Level: Advanced
+ Level: Intermediate
  
-+Improve MIPI-DSI infrastructure
-+-------------------------------
++Create lints for KMS drivers
++----------------------------
 +
-+The MIPI-DSI infrastructure in KMS supports MIPI-DSI devices in part
-+through a dedicated bus (`drm_mipi_dsi.c`) and in part through ad-hoc
-+calls in drivers, especially to handle the power state of the bus.
++Over time, we've accumulated a list of dark patterns in KMS drivers that
++should be avoided. However, none of them are published anywhere, and not
++all reviewers are aware of them. It creates a situation where we have
++more drivers with problematic / deprecated code, even though we know
++that they shouldn't.
 +
-+This is an oddity as far as the device model is concerned, but is also
-+an issue when multiple devices are chained (like bridges) and have
-+different requirements.
++We should create a set of coccinelle scripts that match these patterns,
++and make new drivers run that list. And possibly integrate them in CI.
 +
-+It would be a good idea to move all the power state handling out of KMS
-+and into the bus support itself.
++These patterns include:
 +
-+See `[RFC PATCH 03/10] drm/mipi-dsi: add API for manual control over the DSI link power state <https://lore.kernel.org/dri-devel/20231016165355.1327217-4-dmitry.baryshkov@linaro.org/>`_
++  - Drivers using kzalloc() or devm_kzalloc() to allocate their memory,
++    instead of drmm_kzalloc().
 +
-+Contact: Maxime Ripard <mripard@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
++  - Drivers not protecting their device resources (MMIO, clocks,
++    regulators, etc.) by drm_dev_enter() and drm_dev_exit().
 +
-+Level: Advanced
++  - Drivers using drm_dev_unregister() instead of drm_dev_unplug().
 +
- Improve HDMI Infrastructure
- ---------------------------
++  - Drivers not calling drm_atomic_helper_shutdown() at shutdown
++
++  - Drivers using drm_dp_cec_set_edid(), cec_get_edid_phys_addr(), or
++    cec_s_phys_addr_from_edid() instead of drm_dp_cec_attach() or
++    cec_s_phys_addr().
++
++  - Drivers setting drm_atomic_state->allow_modeset manually.
++
++Contact: Maxime Ripard <mripard@kernel.org>
++
++Level: Intermediate
++
+ Enable trinity for DRM
+ ----------------------
  
- We have a bunch of helpers to handle HDMI and reduce the boilerplate in
- drivers. Support so far includes HDMI 1.4 support, but we need to extend
+ And fix up the fallout. Should be really interesting ...
+ 
 -- 
 2.45.2
 
