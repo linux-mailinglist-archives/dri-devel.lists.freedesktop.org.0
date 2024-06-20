@@ -2,45 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1336590FD15
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 08:52:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B5190FD4E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 09:10:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38C0810E2C7;
-	Thu, 20 Jun 2024 06:52:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6D510E6D8;
+	Thu, 20 Jun 2024 07:10:16 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rNWMyGMa";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62E8210E2C7
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 06:52:03 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B41FA10E2D2;
+ Thu, 20 Jun 2024 07:10:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 35FE262103;
- Thu, 20 Jun 2024 06:52:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C47BC2BD10;
- Thu, 20 Jun 2024 06:51:57 +0000 (UTC)
-Message-ID: <443d109f-c817-4f47-9368-ff8b09a9a49e@xs4all.nl>
-Date: Thu, 20 Jun 2024 08:51:56 +0200
+ by sin.source.kernel.org (Postfix) with ESMTP id 1CA31CE1BD9;
+ Thu, 20 Jun 2024 07:10:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEAA1C2BD10;
+ Thu, 20 Jun 2024 07:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718867410;
+ bh=2Ff/LkmSQ5tLozU97TSef5Klt3x3WrXJR+SGqQA5zC0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rNWMyGMaUX0LeFyi3egq2gghepLADg/33Nlb6Po3Q/IC0y90S/4ZdgGJ1N8b2nAHO
+ UIvjVnJQrVgOFdxzNWAsKyAsGOrTsEZWyyidX3Daj/ZFnPoNbbyAxoEEaqUrcvNJ+/
+ 5xIvYTkpsT3IbdZROimHBR5qvurnp9+12Vrq0213ZS3s0VEtm+TIVTBfDd5L1mOQkB
+ 2OrbOMERXW2MynuX3tQA/AFelp4jnbbrRz82ttnWdS16QP+18j0EiZVLo0Qs3ajcwy
+ dkD9WmwDSwSOQEogUXxpTIJQQn9uYospmsJ3s8kwPVIof7LKHY1iRuOcUtyp6ZGmWM
+ 3RqpHjx3JHL0A==
+Date: Thu, 20 Jun 2024 09:10:07 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: Doug Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>,
+ =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>, 
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Candice Li <candice.li@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@gmail.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>, 
+ Hawking Zhang <Hawking.Zhang@amd.com>, Le Ma <le.ma@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, 
+ Ma Jun <Jun.Ma2@amd.com>, Mario Limonciello <mario.limonciello@amd.com>, 
+ Shashank Sharma <shashank.sharma@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Victor Lu <victorchengchi.lu@amd.com>,
+ amd-gfx@lists.freedesktop.org, chenxuebing <chenxb_99091@126.com>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 8/8] drm/amdgpu: Call drm_atomic_helper_shutdown() at
+ shutdown time
+Message-ID: <20240620-puzzling-hopping-griffin-e43ba6@houat>
+References: <20240612222435.3188234-1-dianders@chromium.org>
+ <20240612152752.v2.8.I27914059cc822b52db9bf72b4013b525b60e06fd@changeid>
+ <CADnq5_PbqE0E2pP26mGD94cdc=tLZZsF10e7ZZWeC5AU-LS8vw@mail.gmail.com>
+ <CAD=FV=XJAiVGFn_Tqs_JNo1fQKFys3m=hH9MwmMot93gkdg=Qw@mail.gmail.com>
+ <CADnq5_M+H_h1Me_O3u=R3q52PgYcCwwY9Mr8_R1eX0G7HvBp2w@mail.gmail.com>
+ <CAD=FV=X=9PV+zbmd2S-TBBxq+yQZ2D+-cCHjFX-gm-f+DyXXiQ@mail.gmail.com>
+ <CADnq5_OXUKj=bfK0NOAhOzmhYCSnQXbxHbwLOaBQ6wFX033Wgw@mail.gmail.com>
+ <CADnq5_O1EGj-_xx7LuiXSVY7MSmfS7_1-hqShFk6Deu1wsBwOA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: videobuf2: sync caches for dmabuf memory
-To: Tomasz Figa <tfiga@chromium.org>, Nicolas Dufresne
- <nicolas@ndufresne.ca>, m.szyprowski@samsung.com
-Cc: TaoJiang <tao.jiang_2@nxp.com>, mchehab@kernel.org, shawnguo@kernel.org,
- robh+dt@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, linux-imx@nxp.com, xiahong.bao@nxp.com,
- eagle.zhou@nxp.com, ming.qian@oss.nxp.com, imx@lists.linux.dev,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Ming Qian <ming.qian@nxp.com>
-References: <20240618073004.3420436-1-tao.jiang_2@nxp.com>
- <CAAFQd5B_RTHsMwMdD59RAAyFne_0Ok_A4ExdkVOgi=G6-UGfRQ@mail.gmail.com>
- <036bf0d7f657cae444d20ea6d279b47e3bf0164e.camel@ndufresne.ca>
- <CAAFQd5DfbqOkZzPfCNRMGeMgv2NfM6WENWXeLUNsuMgkzeBQKw@mail.gmail.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CAAFQd5DfbqOkZzPfCNRMGeMgv2NfM6WENWXeLUNsuMgkzeBQKw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="5zm3i7b3ypywjs3y"
+Content-Disposition: inline
+In-Reply-To: <CADnq5_O1EGj-_xx7LuiXSVY7MSmfS7_1-hqShFk6Deu1wsBwOA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,210 +80,165 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/06/2024 06:19, Tomasz Figa wrote:
-> On Wed, Jun 19, 2024 at 1:24 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
->>
->> Le mardi 18 juin 2024 à 16:47 +0900, Tomasz Figa a écrit :
->>> Hi TaoJiang,
->>>
->>> On Tue, Jun 18, 2024 at 4:30 PM TaoJiang <tao.jiang_2@nxp.com> wrote:
->>>>
->>>> From: Ming Qian <ming.qian@nxp.com>
->>>>
->>>> When the memory type is VB2_MEMORY_DMABUF, the v4l2 device can't know
->>>> whether the dma buffer is coherent or synchronized.
->>>>
->>>> The videobuf2-core will skip cache syncs as it think the DMA exporter
->>>> should take care of cache syncs
->>>>
->>>> But in fact it's likely that the client doesn't
->>>> synchronize the dma buf before qbuf() or after dqbuf(). and it's
->>>> difficult to find this type of error directly.
->>>>
->>>> I think it's helpful that videobuf2-core can call
->>>> dma_buf_end_cpu_access() and dma_buf_begin_cpu_access() to handle the
->>>> cache syncs.
->>>>
->>>> Signed-off-by: Ming Qian <ming.qian@nxp.com>
->>>> Signed-off-by: TaoJiang <tao.jiang_2@nxp.com>
->>>> ---
->>>>  .../media/common/videobuf2/videobuf2-core.c   | 22 +++++++++++++++++++
->>>>  1 file changed, 22 insertions(+)
->>>>
->>>
->>> Sorry, that patch is incorrect. I believe you're misunderstanding the
->>> way DMA-buf buffers should be managed in the userspace. It's the
->>> userspace responsibility to call the DMA_BUF_IOCTL_SYNC ioctl [1] to
->>> signal start and end of CPU access to the kernel and imply necessary
->>> cache synchronization.
->>>
->>> [1] https://docs.kernel.org/driver-api/dma-buf.html#dma-buffer-ioctls
->>>
->>> So, really sorry, but it's a NAK.
->>
->>
->>
->> This patch *could* make sense if it was inside UVC Driver as an example, as this
->> driver can import dmabuf, to CPU memcpy, and does omits the required sync calls
->> (unless that got added recently, I can easily have missed it).
-> 
-> Yeah, currently V4L2 drivers don't call the in-kernel
-> dma_buf_{begin,end}_cpu_access() when they need to access the buffers
-> from the CPU, while my quick grep [1] reveals that we have 68 files
-> retrieving plane vaddr by calling vb2_plane_vaddr() (not necessarily a
-> 100% guarantee of CPU access being done, but rather likely so).
-> 
-> I also repeated the same thing with VB2_DMABUF [2] and tried to
-> attribute both lists to specific drivers (by retaining the path until
-> the first - or _ [3]; which seemed to be relatively accurate), leading
-> to the following drivers that claim support for DMABUF while also
-> retrieving plane vaddr (without proper synchronization - no drivers
-> currently call any begin/end CPU access):
-> 
->  i2c/video
->  pci/bt8xx/bttv
->  pci/cobalt/cobalt
->  pci/cx18/cx18
->  pci/tw5864/tw5864
->  pci/tw686x/tw686x
->  platform/allegro
->  platform/amphion/vpu
->  platform/chips
->  platform/intel/pxa
->  platform/marvell/mcam
->  platform/mediatek/jpeg/mtk
->  platform/mediatek/vcodec/decoder/mtk
->  platform/mediatek/vcodec/encoder/mtk
->  platform/nuvoton/npcm
->  platform/nvidia/tegra
->  platform/nxp/imx
->  platform/renesas/rcar
->  platform/renesas/vsp1/vsp1
->  platform/rockchip/rkisp1/rkisp1
->  platform/samsung/exynos4
->  platform/samsung/s5p
->  platform/st/sti/delta/delta
->  platform/st/sti/hva/hva
->  platform/verisilicon/hantro
->  usb/au0828/au0828
->  usb/cx231xx/cx231xx
->  usb/dvb
->  usb/em28xx/em28xx
->  usb/gspca/gspca.c
->  usb/hackrf/hackrf.c
->  usb/stk1160/stk1160
->  usb/uvc/uvc
-> 
-> which means we potentially have ~30 drivers which likely don't handle
-> imported DMABUFs correctly (there is still a chance that DMABUF is
-> advertised for one queue, while vaddr is used for another).
-> 
-> I think we have two options:
-> 1) add vb2_{begin/end}_cpu_access() helpers, carefully audit each
-> driver and add calls to those
 
-I actually started on that 9 (!) years ago:
+--5zm3i7b3ypywjs3y
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=vb2-cpu-access
+Hi,
 
-If memory serves, the main problem was that there were some drivers where
-it wasn't clear what should be done. In the end I never continued this
-work since nobody complained about it.
+On Wed, Jun 19, 2024 at 09:53:12AM GMT, Alex Deucher wrote:
+> On Wed, Jun 19, 2024 at 9:50=E2=80=AFAM Alex Deucher <alexdeucher@gmail.c=
+om> wrote:
+> >
+> > On Tue, Jun 18, 2024 at 7:53=E2=80=AFPM Doug Anderson <dianders@chromiu=
+m.org> wrote:
+> > >
+> > > Hi,
+> > >
+> > > On Tue, Jun 18, 2024 at 3:00=E2=80=AFPM Alex Deucher <alexdeucher@gma=
+il.com> wrote:
+> > > >
+> > > > On Tue, Jun 18, 2024 at 5:40=E2=80=AFPM Doug Anderson <dianders@chr=
+omium.org> wrote:
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > >
+> > > > > On Mon, Jun 17, 2024 at 8:01=E2=80=AFAM Alex Deucher <alexdeucher=
+@gmail.com> wrote:
+> > > > > >
+> > > > > > On Wed, Jun 12, 2024 at 6:37=E2=80=AFPM Douglas Anderson <diand=
+ers@chromium.org> wrote:
+> > > > > > >
+> > > > > > > Based on grepping through the source code this driver appears=
+ to be
+> > > > > > > missing a call to drm_atomic_helper_shutdown() at system shut=
+down
+> > > > > > > time. Among other things, this means that if a panel is in us=
+e that it
+> > > > > > > won't be cleanly powered off at system shutdown time.
+> > > > > > >
+> > > > > > > The fact that we should call drm_atomic_helper_shutdown() in =
+the case
+> > > > > > > of OS shutdown/restart comes straight out of the kernel doc "=
+driver
+> > > > > > > instance overview" in drm_drv.c.
+> > > > > > >
+> > > > > > > Suggested-by: Maxime Ripard <mripard@kernel.org>
+> > > > > > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > > > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > > > > Cc: Xinhui Pan <Xinhui.Pan@amd.com>
+> > > > > > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > > > > > > ---
+> > > > > > > This commit is only compile-time tested.
+> > > > > > >
+> > > > > > > ...and further, I'd say that this patch is more of a plea for=
+ help
+> > > > > > > than a patch I think is actually right. I'm _fairly_ certain =
+that
+> > > > > > > drm/amdgpu needs this call at shutdown time but the logic is =
+a bit
+> > > > > > > hard for me to follow. I'd appreciate if anyone who actually =
+knows
+> > > > > > > what this should look like could illuminate me, or perhaps ev=
+en just
+> > > > > > > post a patch themselves!
+> > > > > >
+> > > > > > I'm not sure this patch makes sense or not.  The driver doesn't=
+ really
+> > > > > > do a formal tear down in its shutdown routine, it just quiesces=
+ the
+> > > > > > hardware.  What are the actual requirements of the shutdown fun=
+ction?
+> > > > > > In the past when we did a full driver tear down in shutdown, it
+> > > > > > delayed the shutdown sequence and users complained.
+> > > > >
+> > > > > The "inspiration" for this patch is to handle panels properly.
+> > > > > Specifically, panels often have several power/enable signals goin=
+g to
+> > > > > them and often have requirements that these signals are powered o=
+ff in
+> > > > > the proper order with the proper delays between them. While we ca=
+n't
+> > > > > always do so when the system crashes / reboots in an uncontrolled=
+ way,
+> > > > > panel manufacturers / HW Engineers get upset if we don't power th=
+ings
+> > > > > off properly during an orderly shutdown/reboot. When panels are
+> > > > > powered off badly it can cause garbage on the screen and, so I've=
+ been
+> > > > > told, can even cause long term damage to the panels over time.
+> > > > >
+> > > > > In Linux, some panel drivers have tried to ensure a proper powero=
+ff of
+> > > > > the panel by handling the shutdown() call themselves. However, th=
+is is
+> > > > > ugly and panel maintainers want panel drivers to stop doing it. We
+> > > > > have removed the code doing this from most panels now [1]. Instea=
+d the
+> > > > > assumption is that the DRM modeset drivers should be calling
+> > > > > drm_atomic_helper_shutdown() which will make sure panels get an
+> > > > > orderly shutdown.
+> > > > >
+> > > > > For a lot more details, see the cover letter [2] which then conta=
+ins
+> > > > > links to even more discussions about the topic.
+> > > > >
+> > > > > [1] https://lore.kernel.org/r/20240605002401.2848541-1-dianders@c=
+hromium.org
+> > > > > [2] https://lore.kernel.org/r/20240612222435.3188234-1-dianders@c=
+hromium.org
+> > > >
+> > > > I don't think it's an issue.  We quiesce the hardware as if we were
+> > > > about to suspend the system (e.g., S3).  For the display hardware we
+> > > > call drm_atomic_helper_suspend() as part of that sequence.
+> > >
+> > > OK. It's no skin off my teeth and we can drop this patch if you're
+> > > convinced it's not needed. From the point of view of someone who has
+> > > no experience with this driver it seems weird to me that it would use
+> > > drm_atomic_helper_suspend() at shutdown time instead of the documented
+> > > drm_atomic_helper_shutdown(), but if it works for everyone then I'm
+> > > not gonna complain.
+> >
+> > I think the problem is that it is not clear exactly what the
+> > expectations are around the PCI shutdown callback.  The documentation
+> > says:
+> >
+> > "Hook into reboot_notifier_list (kernel/sys.c). Intended to stop any
+> > idling DMA operations. Useful for enabling wake-on-lan (NIC) or
+> > changing the power state of a device before reboot. e.g.
+> > drivers/net/e100.c."
+>=20
+> Arguably, there is no requirement to even touch the display hardware
+> at all.  In theory you could just leave the display hardware as is in
+> the current state.  The system will either be rebooting or powering
+> down anyway.
 
-This patch series adds vb2_plane_begin/end_cpu_access() functions,
-replaces all calls to vb2_plane_vaddr() in drivers to the new functions,
-and at the end removes vb2_plane_vaddr() altogether.
+I think it mostly boils down to a cultural mismatch :)
 
-> 2) take a heavy gun approach and just call vb2_begin_cpu_access()
-> whenever vb2_plane_vaddr() is called and then vb2_end_cpu_access()
-> whenever vb2_buffer_done() is called (if begin was called before).
-> 
-> The latter has the disadvantage of drivers not having control over the
-> timing of the cache sync, so could end up with less than optimal
-> performance. Also there could be some more complex cases, where the
-> driver needs to mix DMA and CPU accesses to the buffer, so the fixed
-> sequence just wouldn't work for them. (But then they just wouldn't
-> work today either.)
-> 
-> Hans, Marek, do you have any thoughts? (I'd personally just go with 2
-> and if any driver in the future needs something else, they could call
-> begin/end CPU access manually.)
+Doug works on panel for ARM systems, where devices need (and need to
+handle) much more resources than what's typical on a system with an AMD
+GPU.
 
-I prefer 1. If nothing else, that makes it easy to identify drivers
-that do such things.
+So, for the kind of hardware Doug usually deals with, we definitely need
+the shutdown hook to make sure the regulators, GPIOs, etc. supplying the
+panel are properly shutdown.
 
-But perhaps a mix is possible: if a VB2 flag is set by the driver, then
-approach 2 is used. That might help with the drivers where it isn't clear
-what they should do. Although perhaps this can all be done in the driver
-itself: instead of vb2_plane_vaddr they call vb2_begin_cpu_access for the
-whole buffer, and at buffer_done time they call vb2_end_cpu_access. Should
-work just as well for the very few drivers that need this.
+And panels usually tied to AMD GPUs probably don't need any of that.
 
-Regards,
+Maxime
 
-	Hans
+--5zm3i7b3ypywjs3y
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> [1] git grep vb2_plane_vaddr | cut -d":" -f 1 | sort | uniq
-> [2] git grep VB2_DMABUF | cut -d":" -f 1 | sort | uniq
-> [3] by running [1] and [2] through | cut -d"-" -f 1 | cut -d"_" -f 1 | uniq
-> 
-> Best,
-> Tomasz
-> 
->>
->> But generally speaking, bracketing all driver with CPU access synchronization
->> does not make sense indeed, so I second the rejection.
->>
->> Nicolas
->>
->>>
->>> Best regards,
->>> Tomasz
->>>
->>>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->>>> index 358f1fe42975..4734ff9cf3ce 100644
->>>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->>>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->>>> @@ -340,6 +340,17 @@ static void __vb2_buf_mem_prepare(struct vb2_buffer *vb)
->>>>         vb->synced = 1;
->>>>         for (plane = 0; plane < vb->num_planes; ++plane)
->>>>                 call_void_memop(vb, prepare, vb->planes[plane].mem_priv);
->>>> +
->>>> +       if (vb->memory != VB2_MEMORY_DMABUF)
->>>> +               return;
->>>> +       for (plane = 0; plane < vb->num_planes; ++plane) {
->>>> +               struct dma_buf *dbuf = vb->planes[plane].dbuf;
->>>> +
->>>> +               if (!dbuf)
->>>> +                       continue;
->>>> +
->>>> +               dma_buf_end_cpu_access(dbuf, vb->vb2_queue->dma_dir);
->>>> +       }
->>>>  }
->>>>
->>>>  /*
->>>> @@ -356,6 +367,17 @@ static void __vb2_buf_mem_finish(struct vb2_buffer *vb)
->>>>         vb->synced = 0;
->>>>         for (plane = 0; plane < vb->num_planes; ++plane)
->>>>                 call_void_memop(vb, finish, vb->planes[plane].mem_priv);
->>>> +
->>>> +       if (vb->memory != VB2_MEMORY_DMABUF)
->>>> +               return;
->>>> +       for (plane = 0; plane < vb->num_planes; ++plane) {
->>>> +               struct dma_buf *dbuf = vb->planes[plane].dbuf;
->>>> +
->>>> +               if (!dbuf)
->>>> +                       continue;
->>>> +
->>>> +               dma_buf_begin_cpu_access(dbuf, vb->vb2_queue->dma_dir);
->>>> +       }
->>>>  }
->>>>
->>>>  /*
->>>> --
->>>> 2.43.0-rc1
->>>>
->>
-> 
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZnPVzgAKCRDj7w1vZxhR
+xatmAQCxIuSyfE/6gCBy03ufm42cua6jpAe7fceE+XP+nm37xgD/ScbAgBJv1X6N
+OAWdu910OMi2rUYbSfex6EB62dbo4ws=
+=uVU2
+-----END PGP SIGNATURE-----
+
+--5zm3i7b3ypywjs3y--
