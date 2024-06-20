@@ -2,46 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA32910400
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 14:28:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4E791047A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 14:49:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 357D510E96F;
-	Thu, 20 Jun 2024 12:28:30 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="M26+S+ZB";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE03010E162;
+	Thu, 20 Jun 2024 12:49:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D196D10E95E
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 12:28:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1718886469;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3ohuxApLNdhOX7LZ/v+Xu3NNVbPIJcpf85Dd0wZ/o3s=;
- b=M26+S+ZB7da4Tf54WshO20DXN4NdDv+ZKNPYgCJbP05fpECQBaQS+sxffHumo5a5Xd9qMC
- G9142wxy8t61XicEf4R3sQHKLHGiLjHDjMniZjQLfiiAlQ1OUy5Uf6ay2EA46BBPV8ZUXi
- zzC1qP6ig5jK22F+tbIrOI4l/Si+H8I=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Vinod Koul <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
- linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Paul Cercueil <paul@crapouillou.net>,
- Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v12 7/7] Documentation: dmaengine: Document new dma_vec API
-Date: Thu, 20 Jun 2024 14:27:26 +0200
-Message-ID: <20240620122726.41232-8-paul@crapouillou.net>
-In-Reply-To: <20240620122726.41232-1-paul@crapouillou.net>
-References: <20240620122726.41232-1-paul@crapouillou.net>
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
+ [209.85.219.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8B5210E162
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 12:49:02 +0000 (UTC)
+Received: by mail-yb1-f175.google.com with SMTP id
+ 3f1490d57ef6-dff02b8a956so824746276.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 05:49:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718887741; x=1719492541;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dwTZvjStxcy8ANXhG9XqkhF8JycY3RLrE4qtHFN4Aik=;
+ b=klvOk71FycSXB8E8Dvw9yJflOnoUETvjYTCRAz26RLxkwzAHxUjFT6PExDK8Ov105h
+ gjDaUWBTl/wl+iF+PO06/DUXy8PGh1Kk2P5sU7tX9QOtcdmM3FY4F7mxdOgPxVaM5us9
+ 5qn6ukdPwOl4y2OtjjXQYHr0UTyB2mxmvWj3QnWfwfD1y0Mp8MzgJ6pwbKB+X8IGXM+n
+ xR+B4j+F6pZc9rqfShZoRw+9WkkXya8perEKyZyGcuBN97R4H6wBnkoK2k1swEcDqXFJ
+ 3w9O0t5bb02NbkIlgDJHu8uw/ieXvWwMVdvwOkFJoGxgCKv90wNGRGz2uRPhR8sWg7gq
+ xHzQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX5wPgpzXFgD0YCC0qpJT6Q2352WrfmYYg5S4qmMdLOiStO7iLNdIxBjVrUkL+gRw7xB+1yy26le4q1QfKKSeNx1r9TYGtESpL/IRpNKlim
+X-Gm-Message-State: AOJu0Yy+ociQ1wJpOHkDXdebNBAXvA9a802t3JFW0blRWqa2fmSDQPaz
+ pt/jLkco39CWqxG0IeOjj6J7aAU0HkHKyGlOKz1SyVyYbzUBLaqPW5khSWfZ
+X-Google-Smtp-Source: AGHT+IH7XscTLWKYIwrJTvk3Dgj6j2HnQ8UglhT9YwQ9vVqxS/iJuqakkG1/22javcGFNm/mEPCs2w==
+X-Received: by 2002:a25:bfc9:0:b0:df7:7096:88f2 with SMTP id
+ 3f1490d57ef6-e02be226ff7mr5356694276.55.1718887741201; 
+ Thu, 20 Jun 2024 05:49:01 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com.
+ [209.85.128.181]) by smtp.gmail.com with ESMTPSA id
+ 3f1490d57ef6-dff04a4d8absm3676553276.51.2024.06.20.05.49.01
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Jun 2024 05:49:01 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-632843cff4fso7870747b3.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 05:49:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUIcmv+pXDXqEy9onptVx9JeohiHyD9nTCeykx3NZUMKF55BnxooN3y3pEf/ecvQ7KS4OU9qETecUpPbHOfco/VkSJInW1cTAcvMp5rL4MG
+X-Received: by 2002:a81:9254:0:b0:618:2f6d:ca80 with SMTP id
+ 00721157ae682-63a8dfed4admr59007547b3.12.1718887740827; Thu, 20 Jun 2024
+ 05:49:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240619102219.138927-1-jacopo.mondi@ideasonboard.com>
+ <20240619102219.138927-5-jacopo.mondi@ideasonboard.com>
+ <20240619194414.GD31507@pendragon.ideasonboard.com>
+In-Reply-To: <20240619194414.GD31507@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 20 Jun 2024 14:48:49 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXxf4oePnyLvp84OhSa+wdehCNJBXnhjYO7-1VxpBJ7eQ@mail.gmail.com>
+Message-ID: <CAMuHMdXxf4oePnyLvp84OhSa+wdehCNJBXnhjYO7-1VxpBJ7eQ@mail.gmail.com>
+Subject: Re: [PATCH 4/4] drm: rcar-du: Add support for R8A779H0
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ "open list:DRM DRIVERS FOR RENESAS R-CAR" <dri-devel@lists.freedesktop.org>, 
+ "open list:DRM DRIVERS FOR RENESAS R-CAR" <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,75 +83,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document the dmaengine_prep_peripheral_dma_vec() API function, the
-device_prep_peripheral_dma_vec() backend function, and the dma_vec
-struct.
+Hi Laurent, Jacopo,
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+On Wed, Jun 19, 2024 at 9:46=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Wed, Jun 19, 2024 at 12:22:18PM +0200, Jacopo Mondi wrote:
+> > Add support for R-Car R8A779H0 V4M which has similar characteristics
+> > as the already supported R-Car V4H R8A779G0, but with a single output
+> > channel.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
----
-v11: New patch
----
- Documentation/driver-api/dmaengine/client.rst   |  9 +++++++++
- Documentation/driver-api/dmaengine/provider.rst | 10 ++++++++++
- 2 files changed, 19 insertions(+)
+> > --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+> > +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+> > @@ -185,11 +187,16 @@ static void rcar_du_group_setup(struct rcar_du_gr=
+oup *rgrp)
+> >               dorcr |=3D DORCR_PG1T | DORCR_DK1S | DORCR_PG1D_DS1;
+> >       rcar_du_group_write(rgrp, DORCR, dorcr);
+> >
+> > -     /* Apply planes to CRTCs association. */
+> > -     mutex_lock(&rgrp->lock);
+> > -     rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
+> > -                         rgrp->dptsr_planes);
+> > -     mutex_unlock(&rgrp->lock);
+> > +     /*
+> > +      * Apply planes to CRTCs association, skip for V4M which has a si=
+ngle
+> > +      * channel.
+>
+> " and doesn't implement the DPTSR register."
+>
+> I'm pretty sure writing it is still harmless, but...
+>
+> > +      */
+> > +     if (rcdu->info->gen < 4 || rgrp->num_crtcs > 1) {
 
-diff --git a/Documentation/driver-api/dmaengine/client.rst b/Documentation/driver-api/dmaengine/client.rst
-index ecf139f73da4..d491e385d61a 100644
---- a/Documentation/driver-api/dmaengine/client.rst
-+++ b/Documentation/driver-api/dmaengine/client.rst
-@@ -80,6 +80,10 @@ The details of these operations are:
- 
-   - slave_sg: DMA a list of scatter gather buffers from/to a peripheral
- 
-+  - peripheral_dma_vec: DMA an array of scatter gather buffers from/to a
-+    peripheral. Similar to slave_sg, but uses an array of dma_vec
-+    structures instead of a scatterlist.
-+
-   - dma_cyclic: Perform a cyclic DMA operation from/to a peripheral till the
-     operation is explicitly stopped.
- 
-@@ -102,6 +106,11 @@ The details of these operations are:
- 		unsigned int sg_len, enum dma_data_direction direction,
- 		unsigned long flags);
- 
-+     struct dma_async_tx_descriptor *dmaengine_prep_peripheral_dma_vec(
-+		struct dma_chan *chan, const struct dma_vec *vecs,
-+		size_t nents, enum dma_data_direction direction,
-+		unsigned long flags);
-+
-      struct dma_async_tx_descriptor *dmaengine_prep_dma_cyclic(
- 		struct dma_chan *chan, dma_addr_t buf_addr, size_t buf_len,
- 		size_t period_len, enum dma_data_direction direction);
-diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
-index ceac2a300e32..3085f8b460fa 100644
---- a/Documentation/driver-api/dmaengine/provider.rst
-+++ b/Documentation/driver-api/dmaengine/provider.rst
-@@ -433,6 +433,12 @@ supported.
-     - residue: Provides the residue bytes of the transfer for those that
-       support residue.
- 
-+- ``device_prep_peripheral_dma_vec``
-+
-+  - Similar to ``device_prep_slave_sg``, but it takes a pointer to a
-+    array of ``dma_vec`` structures, which (in the long run) will replace
-+    scatterlists.
-+
- - ``device_issue_pending``
- 
-   - Takes the first transaction descriptor in the pending queue,
-@@ -544,6 +550,10 @@ dma_cookie_t
- - Not really relevant any more since the introduction of ``virt-dma``
-   that abstracts it away.
- 
-+dma_vec
-+
-+- A small structure that contains a DMA address and length.
-+
- DMA_CTRL_ACK
- 
- - If clear, the descriptor cannot be reused by provider until the
--- 
-2.43.0
+Looking at the R-Car Gen3 docs, this check seems to be wrong, and the
+lack of a check might have been an issue before?
 
+Seems like the register (per pair) is only present if the second CRTC
+of a CRTC pair is present, so R-Car V3M and V3H (single CRTC) do not
+have DPTSR at all, and M3-W (triple CRTC) does not have it on the
+second pair.  M3-N does have both, as it lacks the first CRTC of
+second pair, but does have the second CRTC of the second pair.
+
+> > +             mutex_lock(&rgrp->lock);
+> > +             rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 1=
+6) |
+> > +                                 rgrp->dptsr_planes);
+> > +             mutex_unlock(&rgrp->lock);
+> > +     }
+> >  }
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
