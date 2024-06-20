@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A2E910A67
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:47:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04622910A8A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 17:48:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB5D589CC1;
-	Thu, 20 Jun 2024 15:47:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C09810EAA7;
+	Thu, 20 Jun 2024 15:48:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="KOqL2DJZ";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="KwUviox+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f100.google.com (mail-wm1-f100.google.com
- [209.85.128.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E928D10EA9A
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:46:53 +0000 (UTC)
-Received: by mail-wm1-f100.google.com with SMTP id
- 5b1f17b1804b1-42172ed3597so6703075e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:46:53 -0700 (PDT)
+Received: from mail-ej1-f99.google.com (mail-ej1-f99.google.com
+ [209.85.218.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90ACF10EAA3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 15:47:11 +0000 (UTC)
+Received: by mail-ej1-f99.google.com with SMTP id
+ a640c23a62f3a-a6f85f82ffeso127657466b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 08:47:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1718898412; x=1719503212;
+ d=raspberrypi.com; s=google; t=1718898430; x=1719503230;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DPTCPOzTx0DeaHi6HiuwY5/K7xdIGnW/BJUGF4vDZG4=;
- b=KOqL2DJZ1eEIF3aSwuhVWei6OWFGd/cTqpRKT41OIBVQzsae94m0Ekyl+Im9yQsnHc
- Lcfo2pZtYfzH41fx7dO/i5z/Eu2716ePqwInG6YwNhqASwW5jo/9phN/+ogTXZKhLB7k
- dR9XPrbJ7v9ouHiimRhUiZ7Qm7zv8hWI6MDFtP7PFpfLkLojd5/zu8xMHjYs79U+o0Iq
- hNV3x0IjlgHJaAhNLXrfQ716QBKc0BH8yfkAO16OBosPsUVW1Kd70oW5DbuB+v+exrqE
- NfGsZIETYs6tMhSp5wtyCAhznWmL4l8FSz81w779pOvP2i5gccFOqT9ZXvzhJ+ktY2/E
- DRWA==
+ bh=boqszy1jK4/uc5AQ3R0CPUIduydtyOsEKWamiLMHkq4=;
+ b=KwUviox+ScMhjBVAb8Xhy772ERdOWd3cn6ZE+Fw/NPpxhbSvCAfcPcKWs/UEBHvZJy
+ FJau69zpRJRqNHGFyyMKtOrZwGDzzlfxc/EN3ZyqjEuoUzgpwIX0jgBbfta+Nn1va39K
+ PSEky6/G6dlc2f5YIbW+x9ZfvnxDCSeNaYK4kBzaFwgRM4IMajpTJeIpl+k+Z8R/0YYH
+ BgKRCD9n+cN5uRfL3ZX3HvvARbynuyx/yeLM49cBs61gc/VCttQGPP+Enw9k8cby6mbd
+ 6l6CfmYU2y4I8YQt3GXpmq9P/HsyzgwIMG1IWxif9fMFoOAvo7k9Uk7Bxi4NDtvAXip4
+ /6gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718898412; x=1719503212;
+ d=1e100.net; s=20230601; t=1718898430; x=1719503230;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DPTCPOzTx0DeaHi6HiuwY5/K7xdIGnW/BJUGF4vDZG4=;
- b=mYlA4uLt2MX64d+lKWKEl/K/SZ7nAXeX1MKmAMRtewDUdmP4x1TwMxMF620fDz4gJ+
- 8lleiHmjdXsgb2iUiHfl8CudNMLaXeyf1BHodPJmuB3oBpmyT7cds6Gcyk0yzEkyATDW
- Xy1QALcp7XuoT0hBeCTSfJ6of06jsqfxgQsQQTDiiNYVTtzRvIv/m30EAVwsrPWxotHD
- YrL26WBjxGi023Ikp2hgMkMjBRge/DsxyN4dVDrb+wzKks8GLebcaCZ19tGVkFQtduAR
- KEwVoYj7LAfK5WryOMOgMF8EtKr7Gt7pkbn2ZgQPMRJsA9taOK1B6YLkdrH8HNfS6iIf
- GPxg==
+ bh=boqszy1jK4/uc5AQ3R0CPUIduydtyOsEKWamiLMHkq4=;
+ b=AtyQMB3o57AaK2hKHrYFXMHOjnz7G9xiYvTBIrQ4aDJkh6VVzywSXAuTAQF1Aix2/h
+ +IinkZbO0PfoFDrSPtt6CkN/9Z4mbgg5v8zSg8IdZmmT0Kp3H8ivyl8k4WsRd4Vkvxax
+ mfziu0YGkxJ9oom+x2Wt/EUTNoldIRb3yPwAts9y3LoVg+WFWwo4vClxaHX7ObC+C1kj
+ R3YZGuVVjaklTqIbx/zPEHzNVraJCRAyvcBpnIYqPm2kELo1KitAUMvzHiObWp5WNaJt
+ mAOn73VbMMzxWIAEU2m3YwEjssThJc/i9+Is/xO8bBhsaQk3x0QNVY9c6o0L3pscuTbD
+ 6QEg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUJwEPYzwNcNkhQPK1NigyQNr0btBJOhoBsrttuwOBkAOF2i4zmK6uTh5nNGytxFG1Jvbz8km1FNhvVpi799b3gEtRwA9JGvvw3y5PPVA3c
-X-Gm-Message-State: AOJu0YxW+x4h8NACZ5cbX3cw11/5uRFjqggownuBa+nm4TAYxcRK0fww
- y5EoyNmLrH8eTYoUDlVBP4sw4re8QBtgSDYAd371+7Xk9eyx6NsqOwlgXwjU4YZkWrmUE3zqhl9
- /lKI0F2sUUfPVj4yx+OaMY8wmWc3HSeN0
-X-Google-Smtp-Source: AGHT+IGWK/CO5eOSnUfKZPlA56YLXW9bxmR3azHT/+58zcCOin3DYfM5nZ6GufMWRi6/RjZ37xUSP7w4JYYq
-X-Received: by 2002:a05:600c:314a:b0:421:811b:b83e with SMTP id
- 5b1f17b1804b1-4246f5cfa54mr89638545e9.13.1718898412500; 
+ AJvYcCV61Opb5M5GdJUGp0Dv/CJu8wKDa19lnE4Kb5o2jIp5DrODXEJSGThRxIicr5rWgyHH/yZZMx60XxxBakVM+1Oaq4Cf8FMBHhOfOnjQu7xY
+X-Gm-Message-State: AOJu0YxpJBWbO3kvfn8tx/kEnq+rrMkQwq2f7/QadQzPYqB4ej0J794v
+ Kxv7bVYkf/2bxqKLr/bNfBzN/o/Mx+OmslcgP2+rrvKZm0hIcZBk9TVR/ZAStxlmjzQmF+BMLUE
+ mg888pVFl1rvSXvagVq135ChOJ5FPPv7H
+X-Google-Smtp-Source: AGHT+IFi8TmyBBqmaUaz3fwPWcmAnLHlPiyqLcQtBUnx82Hsv330urEQGSAfesGnrx9spzgBfxBFPbNYtw3C
+X-Received: by 2002:a17:906:1611:b0:a6f:5318:b8f0 with SMTP id
+ a640c23a62f3a-a6fab64598fmr322304466b.37.1718898412998; 
  Thu, 20 Jun 2024 08:46:52 -0700 (PDT)
 Received: from raspberrypi.com ([188.39.149.98])
  by smtp-relay.gmail.com with ESMTPS id
- 5b1f17b1804b1-4247d1e0679sm3229405e9.36.2024.06.20.08.46.52
+ a640c23a62f3a-a6f56e4e692sm27361766b.134.2024.06.20.08.46.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 20 Jun 2024 08:46:52 -0700 (PDT)
 X-Relaying-Domain: raspberrypi.com
@@ -64,11 +64,11 @@ To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH 19/31] drm/vc4: Remove incorrect limit from hvs_dlist debugfs
- function
-Date: Thu, 20 Jun 2024 16:46:20 +0100
-Message-Id: <20240620154632.4125308-20-dave.stevenson@raspberrypi.com>
+Cc: Dom Cobley <popcornmix@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [PATCH 20/31] drm/vc4: hvs: Remove ABORT_ON_EMPTY flag
+Date: Thu, 20 Jun 2024 16:46:21 +0100
+Message-Id: <20240620154632.4125308-21-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
 References: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
@@ -89,64 +89,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The debugfs function to dump dlists aborted at 256 bytes,
-when actually the dlist memory is generally significantly
-larger but varies based on SoC.
+From: Dom Cobley <popcornmix@gmail.com>
 
-We already have the correct limit in __vc4_hvs_alloc, so
-store it for use in the debugfs dlist function.
+ABORT_ON_EMPTY chooses whether the HVS abandons the current frame
+when it experiences an underflow, or attempts to continue.
 
+In theory the frame should be black from the point of underflow,
+compared to a shift of sebsequent pixels to the left.
+
+Unfortunately it seems to put the HVS is a bad state where it is not
+possible to recover simply. This typically requires a reboot
+following the 'flip done timed out message'.
+
+Discussion with Broadcom has suggested we don't use this flag.
+All their testing is done with it disabled.
+
+Additionally setting BLANK_INSERT_EN causes the HDMI to output
+blank pixels on an underflow which avoids it losing sync.
+
+After this change a 'flip done timed out' due to sdram bandwidth
+starvation or too low a clock is recoverable once the situation improves.
+
+Signed-off-by: Dom Cobley <popcornmix@gmail.com>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/vc4_drv.h | 1 +
- drivers/gpu/drm/vc4/vc4_hvs.c | 6 ++++--
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 1 +
+ drivers/gpu/drm/vc4/vc4_regs.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 717fd1140561..6908b36d5953 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -315,6 +315,7 @@ struct vc4_hvs {
- 	struct platform_device *pdev;
- 	void __iomem *regs;
- 	u32 __iomem *dlist;
-+	unsigned int dlist_mem_size;
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 372ac2140001..6b41153cc0f7 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1597,6 +1597,7 @@ static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder,
+ 		   VC4_HD_VID_CTL_CLRRGB |
+ 		   VC4_HD_VID_CTL_UNDERFLOW_ENABLE |
+ 		   VC4_HD_VID_CTL_FRAME_COUNTER_RESET |
++		   VC4_HD_VID_CTL_BLANK_INSERT_EN |
+ 		   (vsync_pos ? 0 : VC4_HD_VID_CTL_VSYNC_LOW) |
+ 		   (hsync_pos ? 0 : VC4_HD_VID_CTL_HSYNC_LOW));
  
- 	struct clk *core_clk;
+diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
+index 8ac9515554f8..c55dec383929 100644
+--- a/drivers/gpu/drm/vc4/vc4_regs.h
++++ b/drivers/gpu/drm/vc4/vc4_regs.h
+@@ -777,6 +777,7 @@ enum {
+ # define VC4_HD_VID_CTL_CLRSYNC			BIT(24)
+ # define VC4_HD_VID_CTL_CLRRGB			BIT(23)
+ # define VC4_HD_VID_CTL_BLANKPIX		BIT(18)
++# define VC4_HD_VID_CTL_BLANK_INSERT_EN		BIT(16)
  
-diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index 5dbc48d690e8..933177cb8d66 100644
---- a/drivers/gpu/drm/vc4/vc4_hvs.c
-+++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -110,6 +110,7 @@ static int vc4_hvs_debugfs_dlist(struct seq_file *m, void *data)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_hvs *hvs = vc4->hvs;
- 	struct drm_printer p = drm_seq_file_printer(m);
-+	unsigned int dlist_mem_size = hvs->dlist_mem_size;
- 	unsigned int next_entry_start;
- 	unsigned int i, j;
- 	u32 dlist_word, dispstat;
-@@ -126,7 +127,7 @@ static int vc4_hvs_debugfs_dlist(struct seq_file *m, void *data)
- 		drm_printf(&p, "HVS chan %u:\n", i);
- 		next_entry_start = 0;
- 
--		for (j = HVS_READ(SCALER_DISPLISTX(i)); j < 256; j++) {
-+		for (j = HVS_READ(SCALER_DISPLISTX(i)); j < dlist_mem_size; j++) {
- 			dlist_word = readl((u32 __iomem *)vc4->hvs->dlist + j);
- 			drm_printf(&p, "dlist: %02d: 0x%08x\n", j,
- 				   dlist_word);
-@@ -816,9 +817,10 @@ struct vc4_hvs *__vc4_hvs_alloc(struct vc4_dev *vc4, struct platform_device *pde
- 	 * our 16K), since we don't want to scramble the screen when
- 	 * transitioning from the firmware's boot setup to runtime.
- 	 */
-+	hvs->dlist_mem_size = (SCALER_DLIST_SIZE >> 2) - HVS_BOOTLOADER_DLIST_END;
- 	drm_mm_init(&hvs->dlist_mm,
- 		    HVS_BOOTLOADER_DLIST_END,
--		    (SCALER_DLIST_SIZE >> 2) - HVS_BOOTLOADER_DLIST_END);
-+		    hvs->dlist_mem_size);
- 
- 	/* Set up the HVS LBM memory manager.  We could have some more
- 	 * complicated data structure that allowed reuse of LBM areas
+ # define VC4_HD_CSC_CTL_ORDER_MASK		VC4_MASK(7, 5)
+ # define VC4_HD_CSC_CTL_ORDER_SHIFT		5
 -- 
 2.34.1
 
