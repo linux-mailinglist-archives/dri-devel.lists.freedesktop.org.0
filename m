@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7B79103F3
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 14:28:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5F39103F7
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 14:28:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 782F510E96D;
-	Thu, 20 Jun 2024 12:28:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6461910E97C;
+	Thu, 20 Jun 2024 12:28:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="NrdX+KZu";
+	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="Sv5wT4DB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 964F610E96D
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 12:28:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5401F10E96F
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 12:28:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1718886465;
+ s=mail; t=1718886466;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lQye3Pc5cpvCbDEraoHhr5nZGFDkgRrotoK1LXbGJPs=;
- b=NrdX+KZuUve97lipPmzt24zKSmWWwq6xqpMZ2UPCX/sM6PkNJ9Ni2gwKFfC794tisIcz52
- Akzfr/peflrdggHOoCAsjUIPN7GUAnlhCeMiSlban2u8XZUwz/XJR4eDjUBK1u3rxn46IY
- oMqNtShNjWCLVBiUw10S2PRRNrRa+vA=
+ bh=IJGLLTUoKxRUUmCuADS9MQUDO1mER8ltDHfR++/AYpU=;
+ b=Sv5wT4DBjXVp0rzIgUUmi9dT53xZpxMKRu4oDY7NC2C0Vd149v2WsRuP186VZbzCT3xkfy
+ cbQToYE30ZYhPOY3tprXxL+4tYfp6Tb36Pc5xW3SbZbMgV7N8D+0dIWXU/91oclQN4/Ye+
+ JwHPYXa43UVTbSsWKEpnpFfVbrduXkM=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
  Vinod Koul <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
@@ -34,9 +34,9 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
  linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v12 3/7] iio: core: Add new DMABUF interface infrastructure
-Date: Thu, 20 Jun 2024 14:27:22 +0200
-Message-ID: <20240620122726.41232-4-paul@crapouillou.net>
+Subject: [PATCH v12 4/7] iio: buffer-dma: Enable support for DMABUFs
+Date: Thu, 20 Jun 2024 14:27:23 +0200
+Message-ID: <20240620122726.41232-5-paul@crapouillou.net>
 In-Reply-To: <20240620122726.41232-1-paul@crapouillou.net>
 References: <20240620122726.41232-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -56,762 +56,442 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the necessary infrastructure to the IIO core to support a new
-optional DMABUF based interface.
-
-With this new interface, DMABUF objects (externally created) can be
-attached to a IIO buffer, and subsequently used for data transfer.
-
-A userspace application can then use this interface to share DMABUF
-objects between several interfaces, allowing it to transfer data in a
-zero-copy fashion, for instance between IIO and the USB stack.
-
-The userspace application can also memory-map the DMABUF objects, and
-access the sample data directly. The advantage of doing this vs. the
-read() interface is that it avoids an extra copy of the data between the
-kernel and userspace. This is particularly userful for high-speed
-devices which produce several megabytes or even gigabytes of data per
-second.
-
-As part of the interface, 3 new IOCTLs have been added:
-
-IIO_BUFFER_DMABUF_ATTACH_IOCTL(int fd):
- Attach the DMABUF object identified by the given file descriptor to the
- buffer.
-
-IIO_BUFFER_DMABUF_DETACH_IOCTL(int fd):
- Detach the DMABUF object identified by the given file descriptor from
- the buffer. Note that closing the IIO buffer's file descriptor will
- automatically detach all previously attached DMABUF objects.
-
-IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *):
- Request a data transfer to/from the given DMABUF object. Its file
- descriptor, as well as the transfer size and flags are provided in the
- "iio_dmabuf" structure.
-
-These three IOCTLs have to be performed on the IIO buffer's file
-descriptor, obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
+Implement iio_dma_buffer_attach_dmabuf(), iio_dma_buffer_detach_dmabuf()
+and iio_dma_buffer_transfer_dmabuf(), which can then be used by the IIO
+DMA buffer implementations.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 Co-developed-by: Nuno Sa <nuno.sa@analog.com>
 Signed-off-by: Nuno Sa <nuno.sa@analog.com>
 
 ---
-v2: Only allow the new IOCTLs on the buffer FD created with
-    IIO_BUFFER_GET_FD_IOCTL().
+v3: Update code to provide the functions that will be used as callbacks
+    for the new IOCTLs.
 
-v3: - Get rid of the old IOCTLs. The IIO subsystem does not create or
-    manage DMABUFs anymore, and only attaches/detaches externally
-    created DMABUFs.
-    - Add IIO_BUFFER_DMABUF_CYCLIC to the supported flags.
-
-v5: - Use dev_err() instead of pr_err()
-    - Inline to_iio_dma_fence()
-    - Add comment to explain why we unref twice when detaching dmabuf
-    - Remove TODO comment. It is actually safe to free the file's
-      private data even when transfers are still pending because it
-      won't be accessed.
-    - Fix documentation of new fields in struct iio_buffer_access_funcs
-    - iio_dma_resv_lock() does not need to be exported, make it static
-
-v6: - Remove dead code in iio_dma_resv_lock()
-    - Fix non-block actually blocking
-    - Cache dma_buf_attachment instead of mapping/unmapping it for every
-      transfer
-    - Return -EINVAL instead of IIO_IOCTL_UNHANDLED for unknown ioctl
-    - Make .block_enqueue() callback take a dma_fence pointer, which
-      will be passed to iio_buffer_signal_dmabuf_done() instead of the
-      dma_buf_attachment; and remove the backpointer from the priv
-      structure to the dma_fence.
+v6: - Update iio_dma_buffer_enqueue_dmabuf() to take a dma_fence pointer
+    - Pass that dma_fence pointer along to
+      iio_buffer_signal_dmabuf_done()
+    - Add iio_dma_buffer_lock_queue() / iio_dma_buffer_unlock_queue()
+    - Do not lock the queue in iio_dma_buffer_enqueue_dmabuf().
+      The caller will ensure that it has been locked already.
+    - Replace "int += bool;" by "if (bool) int++;"
     - Use dma_fence_begin/end_signalling in the dma_fence critical
       sections
-    - Unref dma_fence and dma_buf_attachment in worker, because they
-      might try to lock the dma_resv, which would deadlock.
-    - Add buffer ops to lock/unlock the queue. This is motivated by the
-      fact that once the dma_fence has been installed, we cannot lock
-      anything anymore - so the queue must be locked before the
-      dma_fence is installed.
-    - Use 'long retl' variable to handle the return value of
-      dma_resv_wait_timeout()
-    - Protect dmabufs list access with a mutex
-    - Rework iio_buffer_find_attachment() to use the internal dmabufs
-      list, instead of messing with dmabufs private data.
-    - Add an atomically-increasing sequence number for fences
-
-v8  - Fix swapped fence direction
-    - Simplify fence wait mechanism
-    - Remove "Buffer closed with active transfers" print, as it was dead
-      code
-    - Un-export iio_buffer_dmabuf_{get,put}. They are not used anywhere
-      else so they can even be static.
-    - Prevent attaching already-attached DMABUFs
-
-v9: - Select DMA_SHARED_BUFFER in Kconfig
-    - Remove useless forward declaration of 'iio_dma_fence'
-    - Import DMA-BUF namespace
-    - Add missing __user tag to iio_buffer_detach_dmabuf() argument
+    - Use one "num_dmabufs" fields instead of one "num_blocks" and one
+      "num_fileio_blocks". Make it an atomic_t, which makes it possible
+      to decrement it atomically in iio_buffer_block_release() without
+      having to lock the queue mutex; and in turn, it means that we
+      don't need to use iio_buffer_block_put_atomic() everywhere to
+      avoid locking the queue mutex twice.
+    - Use cleanup.h guard(mutex) when possible
+    - Explicitely list all states in the switch in
+      iio_dma_can_enqueue_block()
+    - Rename iio_dma_buffer_fileio_mode() to
+      iio_dma_buffer_can_use_fileio(), and add a comment explaining why
+      it cannot race vs. DMABUF.
 
 v11:
-    - Document .lock_queue / .unlock_queue buffer callbacks
-    - Add small comment to explain what the spinlock protects
-    - Use guard(mutex)
-
-v12:
-    - Revert to mutex_lock/mutex_unlock in iio_buffer_attach_dmabuf(),
-      as it uses cleanup GOTOs
+    - Remove useless field "attach" in struct iio_dma_buffer_block
+    - Document "sg_table" and "fence" fields in struct iio_block_state
 ---
- drivers/iio/Kconfig               |   1 +
- drivers/iio/industrialio-buffer.c | 459 ++++++++++++++++++++++++++++++
- include/linux/iio/buffer_impl.h   |  33 +++
- include/uapi/linux/iio/buffer.h   |  22 ++
- 4 files changed, 515 insertions(+)
+ drivers/iio/buffer/industrialio-buffer-dma.c | 178 +++++++++++++++++--
+ include/linux/iio/buffer-dma.h               |  31 ++++
+ 2 files changed, 198 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/iio/Kconfig b/drivers/iio/Kconfig
-index 9c351ffc7bed..661127aed2f9 100644
---- a/drivers/iio/Kconfig
-+++ b/drivers/iio/Kconfig
-@@ -14,6 +14,7 @@ if IIO
- 
- config IIO_BUFFER
- 	bool "Enable buffer support within IIO"
-+	select DMA_SHARED_BUFFER
- 	help
- 	  Provide core support for various buffer based data
- 	  acquisition methods.
-diff --git a/drivers/iio/industrialio-buffer.c b/drivers/iio/industrialio-buffer.c
-index 0138b21b244f..d6fe105d2f40 100644
---- a/drivers/iio/industrialio-buffer.c
-+++ b/drivers/iio/industrialio-buffer.c
-@@ -9,15 +9,20 @@
-  * - Better memory allocation techniques?
-  * - Alternative access techniques?
+diff --git a/drivers/iio/buffer/industrialio-buffer-dma.c b/drivers/iio/buffer/industrialio-buffer-dma.c
+index 13b1a858969e..647f417a045e 100644
+--- a/drivers/iio/buffer/industrialio-buffer-dma.c
++++ b/drivers/iio/buffer/industrialio-buffer-dma.c
+@@ -4,6 +4,8 @@
+  *  Author: Lars-Peter Clausen <lars@metafoo.de>
   */
+ 
 +#include <linux/atomic.h>
- #include <linux/anon_inodes.h>
- #include <linux/cleanup.h>
++#include <linux/cleanup.h>
+ #include <linux/slab.h>
  #include <linux/kernel.h>
- #include <linux/export.h>
- #include <linux/device.h>
+ #include <linux/module.h>
+@@ -14,6 +16,8 @@
+ #include <linux/poll.h>
+ #include <linux/iio/buffer_impl.h>
+ #include <linux/iio/buffer-dma.h>
 +#include <linux/dma-buf.h>
 +#include <linux/dma-fence.h>
-+#include <linux/dma-resv.h>
- #include <linux/file.h>
- #include <linux/fs.h>
- #include <linux/cdev.h>
- #include <linux/slab.h>
-+#include <linux/mm.h>
- #include <linux/poll.h>
- #include <linux/sched/signal.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/sizes.h>
  
-@@ -29,6 +34,34 @@
- #include <linux/iio/buffer.h>
- #include <linux/iio/buffer_impl.h>
+@@ -94,13 +98,18 @@ static void iio_buffer_block_release(struct kref *kref)
+ {
+ 	struct iio_dma_buffer_block *block = container_of(kref,
+ 		struct iio_dma_buffer_block, kref);
++	struct iio_dma_buffer_queue *queue = block->queue;
  
-+#define DMABUF_ENQUEUE_TIMEOUT_MS 5000
+-	WARN_ON(block->state != IIO_BLOCK_STATE_DEAD);
++	WARN_ON(block->fileio && block->state != IIO_BLOCK_STATE_DEAD);
+ 
+-	dma_free_coherent(block->queue->dev, PAGE_ALIGN(block->size),
+-					block->vaddr, block->phys_addr);
++	if (block->fileio) {
++		dma_free_coherent(queue->dev, PAGE_ALIGN(block->size),
++				  block->vaddr, block->phys_addr);
++	} else {
++		atomic_dec(&queue->num_dmabufs);
++	}
+ 
+-	iio_buffer_put(&block->queue->buffer);
++	iio_buffer_put(&queue->buffer);
+ 	kfree(block);
+ }
+ 
+@@ -163,7 +172,7 @@ static struct iio_dma_buffer_queue *iio_buffer_to_queue(struct iio_buffer *buf)
+ }
+ 
+ static struct iio_dma_buffer_block *iio_dma_buffer_alloc_block(
+-	struct iio_dma_buffer_queue *queue, size_t size)
++	struct iio_dma_buffer_queue *queue, size_t size, bool fileio)
+ {
+ 	struct iio_dma_buffer_block *block;
+ 
+@@ -171,13 +180,16 @@ static struct iio_dma_buffer_block *iio_dma_buffer_alloc_block(
+ 	if (!block)
+ 		return NULL;
+ 
+-	block->vaddr = dma_alloc_coherent(queue->dev, PAGE_ALIGN(size),
+-		&block->phys_addr, GFP_KERNEL);
+-	if (!block->vaddr) {
+-		kfree(block);
+-		return NULL;
++	if (fileio) {
++		block->vaddr = dma_alloc_coherent(queue->dev, PAGE_ALIGN(size),
++						  &block->phys_addr, GFP_KERNEL);
++		if (!block->vaddr) {
++			kfree(block);
++			return NULL;
++		}
+ 	}
+ 
++	block->fileio = fileio;
+ 	block->size = size;
+ 	block->state = IIO_BLOCK_STATE_DONE;
+ 	block->queue = queue;
+@@ -186,6 +198,9 @@ static struct iio_dma_buffer_block *iio_dma_buffer_alloc_block(
+ 
+ 	iio_buffer_get(&queue->buffer);
+ 
++	if (!fileio)
++		atomic_inc(&queue->num_dmabufs);
 +
-+MODULE_IMPORT_NS(DMA_BUF);
+ 	return block;
+ }
+ 
+@@ -218,13 +233,20 @@ void iio_dma_buffer_block_done(struct iio_dma_buffer_block *block)
+ {
+ 	struct iio_dma_buffer_queue *queue = block->queue;
+ 	unsigned long flags;
++	bool cookie;
 +
-+struct iio_dmabuf_priv {
-+	struct list_head entry;
-+	struct kref ref;
++	cookie = dma_fence_begin_signalling();
+ 
+ 	spin_lock_irqsave(&queue->list_lock, flags);
+ 	_iio_dma_buffer_block_done(block);
+ 	spin_unlock_irqrestore(&queue->list_lock, flags);
+ 
++	if (!block->fileio)
++		iio_buffer_signal_dmabuf_done(block->fence, 0);
 +
-+	struct iio_buffer *buffer;
+ 	iio_buffer_block_put_atomic(block);
+ 	iio_dma_buffer_queue_wake(queue);
++	dma_fence_end_signalling(cookie);
+ }
+ EXPORT_SYMBOL_GPL(iio_dma_buffer_block_done);
+ 
+@@ -243,17 +265,27 @@ void iio_dma_buffer_block_list_abort(struct iio_dma_buffer_queue *queue,
+ {
+ 	struct iio_dma_buffer_block *block, *_block;
+ 	unsigned long flags;
++	bool cookie;
++
++	cookie = dma_fence_begin_signalling();
+ 
+ 	spin_lock_irqsave(&queue->list_lock, flags);
+ 	list_for_each_entry_safe(block, _block, list, head) {
+ 		list_del(&block->head);
+ 		block->bytes_used = 0;
+ 		_iio_dma_buffer_block_done(block);
++
++		if (!block->fileio)
++			iio_buffer_signal_dmabuf_done(block->fence, -EINTR);
+ 		iio_buffer_block_put_atomic(block);
+ 	}
+ 	spin_unlock_irqrestore(&queue->list_lock, flags);
+ 
++	if (queue->fileio.enabled)
++		queue->fileio.enabled = false;
++
+ 	iio_dma_buffer_queue_wake(queue);
++	dma_fence_end_signalling(cookie);
+ }
+ EXPORT_SYMBOL_GPL(iio_dma_buffer_block_list_abort);
+ 
+@@ -273,6 +305,16 @@ static bool iio_dma_block_reusable(struct iio_dma_buffer_block *block)
+ 	}
+ }
+ 
++static bool iio_dma_buffer_can_use_fileio(struct iio_dma_buffer_queue *queue)
++{
++	/*
++	 * Note that queue->num_dmabufs cannot increase while the queue is
++	 * locked, it can only decrease, so it does not race against
++	 * iio_dma_buffer_alloc_block().
++	 */
++	return queue->fileio.enabled || !atomic_read(&queue->num_dmabufs);
++}
++
+ /**
+  * iio_dma_buffer_request_update() - DMA buffer request_update callback
+  * @buffer: The buffer which to request an update
+@@ -299,6 +341,12 @@ int iio_dma_buffer_request_update(struct iio_buffer *buffer)
+ 
+ 	mutex_lock(&queue->lock);
+ 
++	queue->fileio.enabled = iio_dma_buffer_can_use_fileio(queue);
++
++	/* If DMABUFs were created, disable fileio interface */
++	if (!queue->fileio.enabled)
++		goto out_unlock;
++
+ 	/* Allocations are page aligned */
+ 	if (PAGE_ALIGN(queue->fileio.block_size) == PAGE_ALIGN(size))
+ 		try_reuse = true;
+@@ -339,7 +387,7 @@ int iio_dma_buffer_request_update(struct iio_buffer *buffer)
+ 		}
+ 
+ 		if (!block) {
+-			block = iio_dma_buffer_alloc_block(queue, size);
++			block = iio_dma_buffer_alloc_block(queue, size, true);
+ 			if (!block) {
+ 				ret = -ENOMEM;
+ 				goto out_unlock;
+@@ -412,8 +460,12 @@ static void iio_dma_buffer_submit_block(struct iio_dma_buffer_queue *queue,
+ 
+ 	block->state = IIO_BLOCK_STATE_ACTIVE;
+ 	iio_buffer_block_get(block);
++
+ 	ret = queue->ops->submit(queue, block);
+ 	if (ret) {
++		if (!block->fileio)
++			iio_buffer_signal_dmabuf_done(block->fence, ret);
++
+ 		/*
+ 		 * This is a bit of a problem and there is not much we can do
+ 		 * other then wait for the buffer to be disabled and re-enabled
+@@ -646,6 +698,110 @@ size_t iio_dma_buffer_usage(struct iio_buffer *buf)
+ }
+ EXPORT_SYMBOL_GPL(iio_dma_buffer_usage);
+ 
++struct iio_dma_buffer_block *
++iio_dma_buffer_attach_dmabuf(struct iio_buffer *buffer,
++			     struct dma_buf_attachment *attach)
++{
++	struct iio_dma_buffer_queue *queue = iio_buffer_to_queue(buffer);
 +	struct iio_dma_buffer_block *block;
 +
-+	u64 context;
++	guard(mutex)(&queue->lock);
 +
-+	/* Spinlock used for locking the dma_fence */
-+	spinlock_t lock;
++	/*
++	 * If the buffer is enabled and in fileio mode new blocks can't be
++	 * allocated.
++	 */
++	if (queue->fileio.enabled)
++		return ERR_PTR(-EBUSY);
 +
-+	struct dma_buf_attachment *attach;
-+	struct sg_table *sgt;
-+	enum dma_data_direction dir;
-+	atomic_t seqno;
-+};
++	block = iio_dma_buffer_alloc_block(queue, attach->dmabuf->size, false);
++	if (!block)
++		return ERR_PTR(-ENOMEM);
 +
-+struct iio_dma_fence {
-+	struct dma_fence base;
-+	struct iio_dmabuf_priv *priv;
-+	struct work_struct work;
-+};
++	/* Free memory that might be in use for fileio mode */
++	iio_dma_buffer_fileio_free(queue);
 +
- static const char * const iio_endian_prefix[] = {
- 	[IIO_BE] = "be",
- 	[IIO_LE] = "le",
-@@ -333,6 +366,8 @@ void iio_buffer_init(struct iio_buffer *buffer)
- {
- 	INIT_LIST_HEAD(&buffer->demux_list);
- 	INIT_LIST_HEAD(&buffer->buffer_list);
-+	INIT_LIST_HEAD(&buffer->dmabufs);
-+	mutex_init(&buffer->dmabufs_mutex);
- 	init_waitqueue_head(&buffer->pollq);
- 	kref_init(&buffer->ref);
- 	if (!buffer->watermark)
-@@ -1526,14 +1561,55 @@ static void iio_buffer_unregister_legacy_sysfs_groups(struct iio_dev *indio_dev)
- 	kfree(iio_dev_opaque->legacy_scan_el_group.attrs);
- }
- 
-+static void iio_buffer_dmabuf_release(struct kref *ref)
-+{
-+	struct iio_dmabuf_priv *priv = container_of(ref, struct iio_dmabuf_priv, ref);
-+	struct dma_buf_attachment *attach = priv->attach;
-+	struct iio_buffer *buffer = priv->buffer;
-+	struct dma_buf *dmabuf = attach->dmabuf;
-+
-+	dma_resv_lock(dmabuf->resv, NULL);
-+	dma_buf_unmap_attachment(attach, priv->sgt, priv->dir);
-+	dma_resv_unlock(dmabuf->resv);
-+
-+	buffer->access->detach_dmabuf(buffer, priv->block);
-+
-+	dma_buf_detach(attach->dmabuf, attach);
-+	dma_buf_put(dmabuf);
-+	kfree(priv);
++	return block;
 +}
++EXPORT_SYMBOL_GPL(iio_dma_buffer_attach_dmabuf);
 +
-+static void iio_buffer_dmabuf_get(struct dma_buf_attachment *attach)
++void iio_dma_buffer_detach_dmabuf(struct iio_buffer *buffer,
++				  struct iio_dma_buffer_block *block)
 +{
-+	struct iio_dmabuf_priv *priv = attach->importer_priv;
-+
-+	kref_get(&priv->ref);
++	block->state = IIO_BLOCK_STATE_DEAD;
++	iio_buffer_block_put_atomic(block);
 +}
++EXPORT_SYMBOL_GPL(iio_dma_buffer_detach_dmabuf);
 +
-+static void iio_buffer_dmabuf_put(struct dma_buf_attachment *attach)
++static int iio_dma_can_enqueue_block(struct iio_dma_buffer_block *block)
 +{
-+	struct iio_dmabuf_priv *priv = attach->importer_priv;
++	struct iio_dma_buffer_queue *queue = block->queue;
 +
-+	kref_put(&priv->ref, iio_buffer_dmabuf_release);
-+}
-+
- static int iio_buffer_chrdev_release(struct inode *inode, struct file *filep)
- {
- 	struct iio_dev_buffer_pair *ib = filep->private_data;
- 	struct iio_dev *indio_dev = ib->indio_dev;
- 	struct iio_buffer *buffer = ib->buffer;
-+	struct iio_dmabuf_priv *priv, *tmp;
- 
- 	wake_up(&buffer->pollq);
- 
-+	guard(mutex)(&buffer->dmabufs_mutex);
-+
-+	/* Close all attached DMABUFs */
-+	list_for_each_entry_safe(priv, tmp, &buffer->dmabufs, entry) {
-+		list_del_init(&priv->entry);
-+		iio_buffer_dmabuf_put(priv->attach);
-+	}
-+
- 	kfree(ib);
- 	clear_bit(IIO_BUSY_BIT_POS, &buffer->flags);
- 	iio_device_put(indio_dev);
-@@ -1541,11 +1617,393 @@ static int iio_buffer_chrdev_release(struct inode *inode, struct file *filep)
- 	return 0;
- }
- 
-+static int iio_dma_resv_lock(struct dma_buf *dmabuf, bool nonblock)
-+{
-+	if (!nonblock)
-+		return dma_resv_lock_interruptible(dmabuf->resv, NULL);
-+
-+	if (!dma_resv_trylock(dmabuf->resv))
++	/* If in fileio mode buffers can't be enqueued. */
++	if (queue->fileio.enabled)
 +		return -EBUSY;
 +
-+	return 0;
-+}
-+
-+static struct dma_buf_attachment *
-+iio_buffer_find_attachment(struct iio_dev_buffer_pair *ib,
-+			   struct dma_buf *dmabuf, bool nonblock)
-+{
-+	struct device *dev = ib->indio_dev->dev.parent;
-+	struct iio_buffer *buffer = ib->buffer;
-+	struct dma_buf_attachment *attach = NULL;
-+	struct iio_dmabuf_priv *priv;
-+
-+	guard(mutex)(&buffer->dmabufs_mutex);
-+
-+	list_for_each_entry(priv, &buffer->dmabufs, entry) {
-+		if (priv->attach->dev == dev
-+		    && priv->attach->dmabuf == dmabuf) {
-+			attach = priv->attach;
-+			break;
-+		}
-+	}
-+
-+	if (attach)
-+		iio_buffer_dmabuf_get(attach);
-+
-+	return attach ?: ERR_PTR(-EPERM);
-+}
-+
-+static int iio_buffer_attach_dmabuf(struct iio_dev_buffer_pair *ib,
-+				    int __user *user_fd, bool nonblock)
-+{
-+	struct iio_dev *indio_dev = ib->indio_dev;
-+	struct iio_buffer *buffer = ib->buffer;
-+	struct dma_buf_attachment *attach;
-+	struct iio_dmabuf_priv *priv, *each;
-+	struct dma_buf *dmabuf;
-+	int err, fd;
-+
-+	if (!buffer->access->attach_dmabuf
-+	    || !buffer->access->detach_dmabuf
-+	    || !buffer->access->enqueue_dmabuf)
++	switch (block->state) {
++	case IIO_BLOCK_STATE_QUEUED:
 +		return -EPERM;
-+
-+	if (copy_from_user(&fd, user_fd, sizeof(fd)))
-+		return -EFAULT;
-+
-+	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	spin_lock_init(&priv->lock);
-+	priv->context = dma_fence_context_alloc(1);
-+
-+	dmabuf = dma_buf_get(fd);
-+	if (IS_ERR(dmabuf)) {
-+		err = PTR_ERR(dmabuf);
-+		goto err_free_priv;
++	case IIO_BLOCK_STATE_ACTIVE:
++	case IIO_BLOCK_STATE_DEAD:
++		return -EBUSY;
++	case IIO_BLOCK_STATE_DONE:
++		break;
 +	}
-+
-+	attach = dma_buf_attach(dmabuf, indio_dev->dev.parent);
-+	if (IS_ERR(attach)) {
-+		err = PTR_ERR(attach);
-+		goto err_dmabuf_put;
-+	}
-+
-+	err = iio_dma_resv_lock(dmabuf, nonblock);
-+	if (err)
-+		goto err_dmabuf_detach;
-+
-+	priv->dir = buffer->direction == IIO_BUFFER_DIRECTION_IN
-+		? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-+
-+	priv->sgt = dma_buf_map_attachment(attach, priv->dir);
-+	if (IS_ERR(priv->sgt)) {
-+		err = PTR_ERR(priv->sgt);
-+		dev_err(&indio_dev->dev, "Unable to map attachment: %d\n", err);
-+		goto err_resv_unlock;
-+	}
-+
-+	kref_init(&priv->ref);
-+	priv->buffer = buffer;
-+	priv->attach = attach;
-+	attach->importer_priv = priv;
-+
-+	priv->block = buffer->access->attach_dmabuf(buffer, attach);
-+	if (IS_ERR(priv->block)) {
-+		err = PTR_ERR(priv->block);
-+		goto err_dmabuf_unmap_attachment;
-+	}
-+
-+	dma_resv_unlock(dmabuf->resv);
-+
-+	mutex_lock(&buffer->dmabufs_mutex);
-+
-+	/*
-+	 * Check whether we already have an attachment for this driver/DMABUF
-+	 * combo. If we do, refuse to attach.
-+	 */
-+	list_for_each_entry(each, &buffer->dmabufs, entry) {
-+		if (each->attach->dev == indio_dev->dev.parent
-+		    && each->attach->dmabuf == dmabuf) {
-+			/*
-+			 * We unlocked the reservation object, so going through
-+			 * the cleanup code would mean re-locking it first.
-+			 * At this stage it is simpler to free the attachment
-+			 * using iio_buffer_dma_put().
-+			 */
-+			mutex_unlock(&buffer->dmabufs_mutex);
-+			iio_buffer_dmabuf_put(attach);
-+			return -EBUSY;
-+		}
-+	}
-+
-+	/* Otherwise, add the new attachment to our dmabufs list. */
-+	list_add(&priv->entry, &buffer->dmabufs);
-+	mutex_unlock(&buffer->dmabufs_mutex);
 +
 +	return 0;
-+
-+err_dmabuf_unmap_attachment:
-+	dma_buf_unmap_attachment(attach, priv->sgt, priv->dir);
-+err_resv_unlock:
-+	dma_resv_unlock(dmabuf->resv);
-+err_dmabuf_detach:
-+	dma_buf_detach(dmabuf, attach);
-+err_dmabuf_put:
-+	dma_buf_put(dmabuf);
-+err_free_priv:
-+	kfree(priv);
-+
-+	return err;
 +}
 +
-+static int iio_buffer_detach_dmabuf(struct iio_dev_buffer_pair *ib,
-+				    int __user *user_req, bool nonblock)
++int iio_dma_buffer_enqueue_dmabuf(struct iio_buffer *buffer,
++				  struct iio_dma_buffer_block *block,
++				  struct dma_fence *fence,
++				  struct sg_table *sgt,
++				  size_t size, bool cyclic)
 +{
-+	struct iio_buffer *buffer = ib->buffer;
-+	struct iio_dev *indio_dev = ib->indio_dev;
-+	struct iio_dmabuf_priv *priv;
-+	struct dma_buf *dmabuf;
-+	int dmabuf_fd, ret = -EPERM;
-+
-+	if (copy_from_user(&dmabuf_fd, user_req, sizeof(dmabuf_fd)))
-+		return -EFAULT;
-+
-+	dmabuf = dma_buf_get(dmabuf_fd);
-+	if (IS_ERR(dmabuf))
-+		return PTR_ERR(dmabuf);
-+
-+	guard(mutex)(&buffer->dmabufs_mutex);
-+
-+	list_for_each_entry(priv, &buffer->dmabufs, entry) {
-+		if (priv->attach->dev == indio_dev->dev.parent
-+		    && priv->attach->dmabuf == dmabuf) {
-+			list_del(&priv->entry);
-+
-+			/* Unref the reference from iio_buffer_attach_dmabuf() */
-+			iio_buffer_dmabuf_put(priv->attach);
-+			ret = 0;
-+			break;
-+		}
-+	}
-+
-+	dma_buf_put(dmabuf);
-+
-+	return ret;
-+}
-+
-+static const char *
-+iio_buffer_dma_fence_get_driver_name(struct dma_fence *fence)
-+{
-+	return "iio";
-+}
-+
-+static void iio_buffer_dma_fence_release(struct dma_fence *fence)
-+{
-+	struct iio_dma_fence *iio_fence =
-+		container_of(fence, struct iio_dma_fence, base);
-+
-+	kfree(iio_fence);
-+}
-+
-+static const struct dma_fence_ops iio_buffer_dma_fence_ops = {
-+	.get_driver_name	= iio_buffer_dma_fence_get_driver_name,
-+	.get_timeline_name	= iio_buffer_dma_fence_get_driver_name,
-+	.release		= iio_buffer_dma_fence_release,
-+};
-+
-+static int iio_buffer_enqueue_dmabuf(struct iio_dev_buffer_pair *ib,
-+				     struct iio_dmabuf __user *iio_dmabuf_req,
-+				     bool nonblock)
-+{
-+	struct iio_buffer *buffer = ib->buffer;
-+	struct iio_dmabuf iio_dmabuf;
-+	struct dma_buf_attachment *attach;
-+	struct iio_dmabuf_priv *priv;
-+	struct iio_dma_fence *fence;
-+	struct dma_buf *dmabuf;
-+	unsigned long timeout;
-+	bool cookie, cyclic, dma_to_ram;
-+	long retl;
-+	u32 seqno;
++	struct iio_dma_buffer_queue *queue = iio_buffer_to_queue(buffer);
++	bool cookie;
 +	int ret;
 +
-+	if (copy_from_user(&iio_dmabuf, iio_dmabuf_req, sizeof(iio_dmabuf)))
-+		return -EFAULT;
-+
-+	if (iio_dmabuf.flags & ~IIO_BUFFER_DMABUF_SUPPORTED_FLAGS)
-+		return -EINVAL;
-+
-+	cyclic = iio_dmabuf.flags & IIO_BUFFER_DMABUF_CYCLIC;
-+
-+	/* Cyclic flag is only supported on output buffers */
-+	if (cyclic && buffer->direction != IIO_BUFFER_DIRECTION_OUT)
-+		return -EINVAL;
-+
-+	dmabuf = dma_buf_get(iio_dmabuf.fd);
-+	if (IS_ERR(dmabuf))
-+		return PTR_ERR(dmabuf);
-+
-+	if (!iio_dmabuf.bytes_used || iio_dmabuf.bytes_used > dmabuf->size) {
-+		ret = -EINVAL;
-+		goto err_dmabuf_put;
-+	}
-+
-+	attach = iio_buffer_find_attachment(ib, dmabuf, nonblock);
-+	if (IS_ERR(attach)) {
-+		ret = PTR_ERR(attach);
-+		goto err_dmabuf_put;
-+	}
-+
-+	priv = attach->importer_priv;
-+
-+	fence = kmalloc(sizeof(*fence), GFP_KERNEL);
-+	if (!fence) {
-+		ret = -ENOMEM;
-+		goto err_attachment_put;
-+	}
-+
-+	fence->priv = priv;
-+
-+	seqno = atomic_add_return(1, &priv->seqno);
-+
-+	/*
-+	 * The transfers are guaranteed to be processed in the order they are
-+	 * enqueued, so we can use a simple incrementing sequence number for
-+	 * the dma_fence.
-+	 */
-+	dma_fence_init(&fence->base, &iio_buffer_dma_fence_ops,
-+		       &priv->lock, priv->context, seqno);
-+
-+	ret = iio_dma_resv_lock(dmabuf, nonblock);
-+	if (ret)
-+		goto err_fence_put;
-+
-+	timeout = nonblock ? 0 : msecs_to_jiffies(DMABUF_ENQUEUE_TIMEOUT_MS);
-+	dma_to_ram = buffer->direction == IIO_BUFFER_DIRECTION_IN;
-+
-+	/* Make sure we don't have writers */
-+	retl = dma_resv_wait_timeout(dmabuf->resv,
-+				     dma_resv_usage_rw(dma_to_ram),
-+				     true, timeout);
-+	if (retl == 0)
-+		retl = -EBUSY;
-+	if (retl < 0) {
-+		ret = (int)retl;
-+		goto err_resv_unlock;
-+	}
-+
-+	if (buffer->access->lock_queue)
-+		buffer->access->lock_queue(buffer);
-+
-+	ret = dma_resv_reserve_fences(dmabuf->resv, 1);
-+	if (ret)
-+		goto err_queue_unlock;
-+
-+	dma_resv_add_fence(dmabuf->resv, &fence->base,
-+			   dma_to_ram ? DMA_RESV_USAGE_WRITE : DMA_RESV_USAGE_READ);
-+	dma_resv_unlock(dmabuf->resv);
++	WARN_ON(!mutex_is_locked(&queue->lock));
 +
 +	cookie = dma_fence_begin_signalling();
 +
-+	ret = buffer->access->enqueue_dmabuf(buffer, priv->block, &fence->base,
-+					     priv->sgt, iio_dmabuf.bytes_used,
-+					     cyclic);
-+	if (ret) {
-+		/*
-+		 * DMABUF enqueue failed, but we already added the fence.
-+		 * Signal the error through the fence completion mechanism.
-+		 */
-+		iio_buffer_signal_dmabuf_done(&fence->base, ret);
-+	}
++	ret = iio_dma_can_enqueue_block(block);
++	if (ret < 0)
++		goto out_end_signalling;
 +
-+	if (buffer->access->unlock_queue)
-+		buffer->access->unlock_queue(buffer);
++	block->bytes_used = size;
++	block->cyclic = cyclic;
++	block->sg_table = sgt;
++	block->fence = fence;
 +
++	iio_dma_buffer_enqueue(queue, block);
++
++out_end_signalling:
 +	dma_fence_end_signalling(cookie);
-+	dma_buf_put(dmabuf);
-+
-+	return ret;
-+
-+err_queue_unlock:
-+	if (buffer->access->unlock_queue)
-+		buffer->access->unlock_queue(buffer);
-+err_resv_unlock:
-+	dma_resv_unlock(dmabuf->resv);
-+err_fence_put:
-+	dma_fence_put(&fence->base);
-+err_attachment_put:
-+	iio_buffer_dmabuf_put(attach);
-+err_dmabuf_put:
-+	dma_buf_put(dmabuf);
 +
 +	return ret;
 +}
++EXPORT_SYMBOL_GPL(iio_dma_buffer_enqueue_dmabuf);
 +
-+static void iio_buffer_cleanup(struct work_struct *work)
++void iio_dma_buffer_lock_queue(struct iio_buffer *buffer)
 +{
-+	struct iio_dma_fence *fence =
-+		container_of(work, struct iio_dma_fence, work);
-+	struct iio_dmabuf_priv *priv = fence->priv;
-+	struct dma_buf_attachment *attach = priv->attach;
++	struct iio_dma_buffer_queue *queue = iio_buffer_to_queue(buffer);
 +
-+	dma_fence_put(&fence->base);
-+	iio_buffer_dmabuf_put(attach);
++	mutex_lock(&queue->lock);
 +}
++EXPORT_SYMBOL_GPL(iio_dma_buffer_lock_queue);
 +
-+void iio_buffer_signal_dmabuf_done(struct dma_fence *fence, int ret)
++void iio_dma_buffer_unlock_queue(struct iio_buffer *buffer)
 +{
-+	struct iio_dma_fence *iio_fence =
-+		container_of(fence, struct iio_dma_fence, base);
-+	bool cookie = dma_fence_begin_signalling();
++	struct iio_dma_buffer_queue *queue = iio_buffer_to_queue(buffer);
 +
-+	/*
-+	 * Get a reference to the fence, so that it's not freed as soon as
-+	 * it's signaled.
-+	 */
-+	dma_fence_get(fence);
-+
-+	fence->error = ret;
-+	dma_fence_signal(fence);
-+	dma_fence_end_signalling(cookie);
-+
-+	/*
-+	 * The fence will be unref'd in iio_buffer_cleanup.
-+	 * It can't be done here, as the unref functions might try to lock the
-+	 * resv object, which can deadlock.
-+	 */
-+	INIT_WORK(&iio_fence->work, iio_buffer_cleanup);
-+	schedule_work(&iio_fence->work);
++	mutex_unlock(&queue->lock);
 +}
-+EXPORT_SYMBOL_GPL(iio_buffer_signal_dmabuf_done);
++EXPORT_SYMBOL_GPL(iio_dma_buffer_unlock_queue);
 +
-+static long iio_buffer_chrdev_ioctl(struct file *filp,
-+				    unsigned int cmd, unsigned long arg)
-+{
-+	struct iio_dev_buffer_pair *ib = filp->private_data;
-+	void __user *_arg = (void __user *)arg;
-+	bool nonblock = filp->f_flags & O_NONBLOCK;
-+
-+	switch (cmd) {
-+	case IIO_BUFFER_DMABUF_ATTACH_IOCTL:
-+		return iio_buffer_attach_dmabuf(ib, _arg, nonblock);
-+	case IIO_BUFFER_DMABUF_DETACH_IOCTL:
-+		return iio_buffer_detach_dmabuf(ib, _arg, nonblock);
-+	case IIO_BUFFER_DMABUF_ENQUEUE_IOCTL:
-+		return iio_buffer_enqueue_dmabuf(ib, _arg, nonblock);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
- static const struct file_operations iio_buffer_chrdev_fileops = {
- 	.owner = THIS_MODULE,
- 	.llseek = noop_llseek,
- 	.read = iio_buffer_read,
- 	.write = iio_buffer_write,
-+	.unlocked_ioctl = iio_buffer_chrdev_ioctl,
-+	.compat_ioctl = compat_ptr_ioctl,
- 	.poll = iio_buffer_poll,
- 	.release = iio_buffer_chrdev_release,
- };
-@@ -1994,6 +2452,7 @@ static void iio_buffer_release(struct kref *ref)
- {
- 	struct iio_buffer *buffer = container_of(ref, struct iio_buffer, ref);
+ /**
+  * iio_dma_buffer_set_bytes_per_datum() - DMA buffer set_bytes_per_datum callback
+  * @buffer: Buffer to set the bytes-per-datum for
+diff --git a/include/linux/iio/buffer-dma.h b/include/linux/iio/buffer-dma.h
+index 6e27e47077d5..5eb66a399002 100644
+--- a/include/linux/iio/buffer-dma.h
++++ b/include/linux/iio/buffer-dma.h
+@@ -7,6 +7,7 @@
+ #ifndef __INDUSTRIALIO_DMA_BUFFER_H__
+ #define __INDUSTRIALIO_DMA_BUFFER_H__
  
-+	mutex_destroy(&buffer->dmabufs_mutex);
- 	buffer->access->release(buffer);
- }
- 
-diff --git a/include/linux/iio/buffer_impl.h b/include/linux/iio/buffer_impl.h
-index 89c3fd7c29ca..e72552e026f3 100644
---- a/include/linux/iio/buffer_impl.h
-+++ b/include/linux/iio/buffer_impl.h
-@@ -9,8 +9,12 @@
- #include <uapi/linux/iio/buffer.h>
- #include <linux/iio/buffer.h>
- 
++#include <linux/atomic.h>
+ #include <linux/list.h>
+ #include <linux/kref.h>
+ #include <linux/spinlock.h>
+@@ -16,6 +17,9 @@
+ struct iio_dma_buffer_queue;
+ struct iio_dma_buffer_ops;
+ struct device;
 +struct dma_buf_attachment;
 +struct dma_fence;
- struct iio_dev;
-+struct iio_dma_buffer_block;
- struct iio_buffer;
 +struct sg_table;
  
  /**
-  * INDIO_BUFFER_FLAG_FIXED_WATERMARK - Watermark level of the buffer can not be
-@@ -39,6 +43,16 @@ struct iio_buffer;
-  *                      device stops sampling. Calles are balanced with @enable.
-  * @release:		called when the last reference to the buffer is dropped,
-  *			should free all resources allocated by the buffer.
-+ * @attach_dmabuf:	called from userspace via ioctl to attach one external
-+ *			DMABUF.
-+ * @detach_dmabuf:	called from userspace via ioctl to detach one previously
-+ *			attached DMABUF.
-+ * @enqueue_dmabuf:	called from userspace via ioctl to queue this DMABUF
-+ *			object to this buffer. Requires a valid DMABUF fd, that
-+ *			was previouly attached to this buffer.
-+ * @lock_queue:		called when the core needs to lock the buffer queue;
-+ *                      it is used when enqueueing DMABUF objects.
-+ * @unlock_queue:       used to unlock a previously locked buffer queue
-  * @modes:		Supported operating modes by this buffer type
-  * @flags:		A bitmask combination of INDIO_BUFFER_FLAG_*
-  *
-@@ -68,6 +82,17 @@ struct iio_buffer_access_funcs {
- 
- 	void (*release)(struct iio_buffer *buffer);
- 
-+	struct iio_dma_buffer_block * (*attach_dmabuf)(struct iio_buffer *buffer,
-+						       struct dma_buf_attachment *attach);
-+	void (*detach_dmabuf)(struct iio_buffer *buffer,
-+			      struct iio_dma_buffer_block *block);
-+	int (*enqueue_dmabuf)(struct iio_buffer *buffer,
-+			      struct iio_dma_buffer_block *block,
-+			      struct dma_fence *fence, struct sg_table *sgt,
-+			      size_t size, bool cyclic);
-+	void (*lock_queue)(struct iio_buffer *buffer);
-+	void (*unlock_queue)(struct iio_buffer *buffer);
+  * enum iio_block_state - State of a struct iio_dma_buffer_block
+@@ -41,6 +45,10 @@ enum iio_block_state {
+  * @queue: Parent DMA buffer queue
+  * @kref: kref used to manage the lifetime of block
+  * @state: Current state of the block
++ * @cyclic: True if this is a cyclic buffer
++ * @fileio: True if this buffer is used for fileio mode
++ * @sg_table: DMA table for the transfer when transferring a DMABUF
++ * @fence: DMA fence to be signaled when a DMABUF transfer is complete
+  */
+ struct iio_dma_buffer_block {
+ 	/* May only be accessed by the owner of the block */
+@@ -63,6 +71,12 @@ struct iio_dma_buffer_block {
+ 	 * queue->list_lock if the block is not owned by the core.
+ 	 */
+ 	enum iio_block_state state;
 +
- 	unsigned int modes;
- 	unsigned int flags;
- };
-@@ -136,6 +161,12 @@ struct iio_buffer {
- 
- 	/* @ref: Reference count of the buffer. */
- 	struct kref ref;
++	bool cyclic;
++	bool fileio;
 +
-+	/* @dmabufs: List of DMABUF attachments */
-+	struct list_head dmabufs; /* P: dmabufs_mutex */
-+
-+	/* @dmabufs_mutex: Protects dmabufs */
-+	struct mutex dmabufs_mutex;
++	struct sg_table *sg_table;
++	struct dma_fence *fence;
  };
  
  /**
-@@ -159,6 +190,8 @@ void iio_buffer_init(struct iio_buffer *buffer);
- struct iio_buffer *iio_buffer_get(struct iio_buffer *buffer);
- void iio_buffer_put(struct iio_buffer *buffer);
+@@ -72,6 +86,7 @@ struct iio_dma_buffer_block {
+  * @pos: Read offset in the active block
+  * @block_size: Size of each block
+  * @next_dequeue: index of next block that will be dequeued
++ * @enabled: Whether the buffer is operating in fileio mode
+  */
+ struct iio_dma_buffer_queue_fileio {
+ 	struct iio_dma_buffer_block *blocks[2];
+@@ -80,6 +95,7 @@ struct iio_dma_buffer_queue_fileio {
+ 	size_t block_size;
  
-+void iio_buffer_signal_dmabuf_done(struct dma_fence *fence, int ret);
-+
- #else /* CONFIG_IIO_BUFFER */
+ 	unsigned int next_dequeue;
++	bool enabled;
+ };
  
- static inline void iio_buffer_get(struct iio_buffer *buffer) {}
-diff --git a/include/uapi/linux/iio/buffer.h b/include/uapi/linux/iio/buffer.h
-index 13939032b3f6..c666aa95e532 100644
---- a/include/uapi/linux/iio/buffer.h
-+++ b/include/uapi/linux/iio/buffer.h
-@@ -5,6 +5,28 @@
- #ifndef _UAPI_IIO_BUFFER_H_
- #define _UAPI_IIO_BUFFER_H_
+ /**
+@@ -95,6 +111,7 @@ struct iio_dma_buffer_queue_fileio {
+  *   the DMA controller
+  * @incoming: List of buffers on the incoming queue
+  * @active: Whether the buffer is currently active
++ * @num_dmabufs: Total number of DMABUFs attached to this queue
+  * @fileio: FileIO state
+  */
+ struct iio_dma_buffer_queue {
+@@ -107,6 +124,7 @@ struct iio_dma_buffer_queue {
+ 	struct list_head incoming;
  
-+#include <linux/types.h>
-+
-+/* Flags for iio_dmabuf.flags */
-+#define IIO_BUFFER_DMABUF_CYCLIC		(1 << 0)
-+#define IIO_BUFFER_DMABUF_SUPPORTED_FLAGS	0x00000001
-+
-+/**
-+ * struct iio_dmabuf - Descriptor for a single IIO DMABUF object
-+ * @fd:		file descriptor of the DMABUF object
-+ * @flags:	one or more IIO_BUFFER_DMABUF_* flags
-+ * @bytes_used:	number of bytes used in this DMABUF for the data transfer.
-+ *		Should generally be set to the DMABUF's size.
-+ */
-+struct iio_dmabuf {
-+	__u32 fd;
-+	__u32 flags;
-+	__u64 bytes_used;
-+};
-+
- #define IIO_BUFFER_GET_FD_IOCTL			_IOWR('i', 0x91, int)
-+#define IIO_BUFFER_DMABUF_ATTACH_IOCTL		_IOW('i', 0x92, int)
-+#define IIO_BUFFER_DMABUF_DETACH_IOCTL		_IOW('i', 0x93, int)
-+#define IIO_BUFFER_DMABUF_ENQUEUE_IOCTL		_IOW('i', 0x94, struct iio_dmabuf)
+ 	bool active;
++	atomic_t num_dmabufs;
  
- #endif /* _UAPI_IIO_BUFFER_H_ */
+ 	struct iio_dma_buffer_queue_fileio fileio;
+ };
+@@ -144,4 +162,17 @@ int iio_dma_buffer_init(struct iio_dma_buffer_queue *queue,
+ void iio_dma_buffer_exit(struct iio_dma_buffer_queue *queue);
+ void iio_dma_buffer_release(struct iio_dma_buffer_queue *queue);
+ 
++struct iio_dma_buffer_block *
++iio_dma_buffer_attach_dmabuf(struct iio_buffer *buffer,
++			     struct dma_buf_attachment *attach);
++void iio_dma_buffer_detach_dmabuf(struct iio_buffer *buffer,
++				  struct iio_dma_buffer_block *block);
++int iio_dma_buffer_enqueue_dmabuf(struct iio_buffer *buffer,
++				  struct iio_dma_buffer_block *block,
++				  struct dma_fence *fence,
++				  struct sg_table *sgt,
++				  size_t size, bool cyclic);
++void iio_dma_buffer_lock_queue(struct iio_buffer *buffer);
++void iio_dma_buffer_unlock_queue(struct iio_buffer *buffer);
++
+ #endif
 -- 
 2.43.0
 
