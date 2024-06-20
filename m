@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A90910B0D
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 18:05:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F9B910B2A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 18:06:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1A0110EAC8;
-	Thu, 20 Jun 2024 16:05:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 154B110EACA;
+	Thu, 20 Jun 2024 16:06:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uyuA3tv9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ftbq6QfJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48ED610EAC9
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 16:05:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C333810EAC9
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 16:06:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 44791CE21BC;
- Thu, 20 Jun 2024 16:05:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 815E2C2BD10;
- Thu, 20 Jun 2024 16:04:59 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id CC3C5CE1C95;
+ Thu, 20 Jun 2024 16:06:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CF3FC2BD10;
+ Thu, 20 Jun 2024 16:06:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718899511;
- bh=VxwxD9NlRx02IyNbc/jHsn3Pas/lBfmDoifITi881bg=;
+ s=k20201202; t=1718899599;
+ bh=1UW2AwnpxgMhuZWy/PHLfmiMeCIH8N6saFGF89GT93A=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=uyuA3tv9HEGJ0cbi+XB62kPlv8bBvRWLA1xMi447pWjJl+MwiU9oRbgaGaqbAjiJm
- 0uaW8CxfqAw5ujZj+iLTxPMLxjqoVI14D4KLfAGDCjfnGPDjKnKULYfREWZu6L13qh
- uoxKbtqfUE6NxpenmMBzvHw5P82UTD72luGvTOa1LBXGJo2VjX+8lxdnaFSgbxQUTo
- MIcU7Vxgo+h79ekBibAC/3Z2kPXJDwOkoYOM9vIz+6a/PoLRpoZa2RYLD3QsfTxhAi
- XECwf0XuI67epGZOHyA/sRtACxfM3MU1AWzpMB1p8raEkr3fh937YuY6+mcCCcx0C0
- +JI+q1MIvIkfQ==
-Message-ID: <da34df13-bc57-4142-b558-88a6628d8b81@kernel.org>
-Date: Thu, 20 Jun 2024 18:04:57 +0200
+ b=ftbq6QfJQUWuEEFxKjIVnotzsMEjc1X2W6l/9ChLsF9nE1+gidCKOgPP+wabDsMGz
+ 3oCKOigEyMVqWyfsF72G0gABpAA2Quq9xi6yqU5Sacqm5OaRAXUm2OvqRSxLIyVfY9
+ kPZ30yx01mbyj1RZjtLuP7cxB3vPX5OBe9s47bqiW6Wl5fZdpvtKrGhR30JWw1OR6P
+ sIWaP4Xs5qyenGXSW1bvtclxjqGc1oKN+CHX4SL3snkwc1OcIpvRt/NxxhSKmGjIHV
+ uLMK0jrwqplfS4g/blXNek5HjtINJdv+Lhzgbxqj/4VpapmFzICpxmZ4aivfA/nDsM
+ 9Cr/fkUYjLM8Q==
+Message-ID: <ca2d3145-668f-4f3b-840d-0bc10f962440@kernel.org>
+Date: Thu, 20 Jun 2024 18:06:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 13/23] input: add max77705 haptic driver
+Subject: Re: [PATCH v3 14/23] power: supply: max77705: Add charger driver for
+ Maxim 77705
 To: Dzmitry Sankouski <dsankouski@gmail.com>,
  Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
@@ -56,7 +57,7 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
  linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
 References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-13-e3f6662017ac@gmail.com>
+ <20240618-starqltechn_integration_upstream-v3-14-e3f6662017ac@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,7 +103,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240618-starqltechn_integration_upstream-v3-13-e3f6662017ac@gmail.com>
+In-Reply-To: <20240618-starqltechn_integration_upstream-v3-14-e3f6662017ac@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -121,176 +122,34 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 18/06/2024 15:59, Dzmitry Sankouski wrote:
-> Add support for haptic controller on MAX77705 Multifunction
-> device.
+> Add driver for Maxim 77705 switch-mode charger (part of max77705
+> MFD driver) providing power supply class information to userspace.
 > 
-> This driver supports external pwm and LRA (Linear Resonant Actuator) motor.
-> User can control the haptic device via force feedback framework.
+> The driver is configured through DTS (battery and system related
+> settings). Also, POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE property
+> is writable, which allows to configure charge end at less than 100%
 > 
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> ---
 
-> +static int max77705_haptic_bias(struct max77705_haptic *haptic, bool on)
-> +{
-> +	int error;
-> +
-> +	error = regmap_update_bits(haptic->regmap_haptic,
-> +							   MAX77705_PMIC_REG_MAINCTRL1,
-> +							   MAX77705_MAINCTRL1_BIASEN_MASK,
-> +							   on << MAX77705_MAINCTRL1_BIASEN_SHIFT);
-> +
-> +	if (error) {
-> +		dev_err(haptic->dev, "failed to %s bias: %d\n",
-> +			on ? "enable" : "disable", error);
-> +		return error;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int max77705_haptic_configure(struct max77705_haptic *haptic,
-> +				     bool enable)
-> +{
-> +	unsigned int value, config_reg;
-> +	int error;
-> +
-> +	value = ((haptic->type << MAX77705_CONFIG2_MODE_SHIFT) |
-> +		(enable << MAX77705_CONFIG2_MEN_SHIFT) |
-> +		(haptic->mode << MAX77705_CONFIG2_HTYP_SHIFT) |
-> +		MAX77705_HAPTIC_PWM_DIVISOR_128);
-> +	config_reg = MAX77705_PMIC_REG_MCONFIG;
-> +
-> +	error = regmap_write(haptic->regmap_haptic,
-> +			     config_reg, value);
-> +	if (error) {
-> +		dev_err(haptic->dev,
-> +			"failed to update haptic config: %d\n", error);
-> +		return error;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void max77705_haptic_enable(struct max77705_haptic *haptic)
-> +{
-> +	int error;
-> +
-> +	if (haptic->enabled)
-> +		return;
-> +
-> +	error = pwm_enable(haptic->pwm_dev);
-> +	if (error) {
-> +		dev_err(haptic->dev,
-> +			"failed to enable haptic pwm device: %d\n", error);
-> +		return;
-> +	}
-> +
-> +	error = max77705_haptic_configure(haptic, true);
-> +	if (error)
-> +		goto err_enable_config;
-> +
-> +	haptic->enabled = true;
-> +
-> +	return;
-> +
-> +err_enable_config:
-> +	pwm_disable(haptic->pwm_dev);
-> +}
-> +
-> +static void max77705_haptic_disable(struct max77705_haptic *haptic)
-> +{
-> +	int error;
-> +
-> +	if (!haptic->enabled)
-> +		return;
-> +
-> +	error = max77705_haptic_configure(haptic, false);
-> +	if (error)
-> +		return;
-> +
-> +	pwm_disable(haptic->pwm_dev);
-> +	haptic->enabled = false;
-> +}
-> +
-> +static void max77705_haptic_play_work(struct work_struct *work)
-> +{
-> +	struct max77705_haptic *haptic =
-> +			container_of(work, struct max77705_haptic, work);
-> +	int error;
-> +
-> +	error = max77705_haptic_set_duty_cycle(haptic);
-> +	if (error) {
-> +		dev_err(haptic->dev, "failed to set duty cycle: %d\n", error);
-> +		return;
-> +	}
-> +
-> +	if (haptic->magnitude)
-> +		max77705_haptic_enable(haptic);
-> +	else
-> +		max77705_haptic_disable(haptic);
-> +}
-> +
-> +static int max77705_haptic_play_effect(struct input_dev *dev, void *data,
-> +				       struct ff_effect *effect)
-> +{
-> +	struct max77705_haptic *haptic = input_get_drvdata(dev);
-> +	struct pwm_args pargs;
-> +	u64 period_mag_multi;
-> +
-> +	haptic->magnitude = effect->u.rumble.strong_magnitude;
-> +	if (!haptic->magnitude)
-> +		haptic->magnitude = effect->u.rumble.weak_magnitude;
-> +
-> +	/*
-> +	 * The magnitude comes from force-feedback interface.
-> +	 * The formula to convert magnitude to pwm_duty as follows:
-> +	 * - pwm_duty = (magnitude * pwm_period) / MAX_MAGNITUDE(0xFFFF)
-> +	 */
-> +	pr_info("magnitude: %d(%x)", haptic->magnitude, haptic->magnitude);
+...
 
-Do not use pr_xxx in your drivers. That's a generic comment so please
-apply it everywhere. Anyway driver should be silent.
+> + *
+> + * Copyright (C) 2015 Samsung Electronics, Inc.
+> + *
+> + *
+> + * This software is licensed under the terms of the GNU General Public
+> + * License version 2, as published by the Free Software Foundation, and
+> + * may be copied, distributed, and modified under those terms.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
 
+Yeah, please do not upstream 2015 Samsung code. Instead, take a new,
+clean, decent driver and use it as template.
 
-> +	pwm_get_args(haptic->pwm_dev, &pargs);
-> +	period_mag_multi = (u64)pargs.period * haptic->magnitude;
-> +	haptic->pwm_duty = (unsigned int)(period_mag_multi >>
-> +						MAX_MAGNITUDE_SHIFT);
-> +
-> +	schedule_work(&haptic->work);
-> +
-> +	return 0;
-> +}
-
-
-> +
-> +static DEFINE_SIMPLE_DEV_PM_OPS(max77705_haptic_pm_ops,
-> +				max77705_haptic_suspend,
-> +				max77705_haptic_resume);
-> +
-> +static const struct of_device_id of_max77705_haptic_dt_match[] = {
-> +	{ .compatible = "maxim,max77705-haptic", },
-> +	{ /* sentinel */ },
-> +};
-> +MODULE_DEVICE_TABLE(of, of_max77705_haptic_dt_match);
-> +
-> +static struct platform_driver max77705_haptic_driver = {
-> +	.driver		= {
-> +		.name	= "max77705-haptic",
-> +		.pm	= pm_sleep_ptr(&max77705_haptic_pm_ops),
-> +		.of_match_table = of_max77705_haptic_dt_match,
-> +	},
-> +	.probe		= max77705_haptic_probe,
-> +	.remove_new	= max77705_haptic_remove,
-> +};
-> +module_platform_driver(max77705_haptic_driver);
-> +
-> +MODULE_AUTHOR("Dzmitry Sankouski <dsankouski@gmail.com>");
-> +MODULE_AUTHOR("Jaewon Kim <jaewon02.kim@samsung.com>");
-> +MODULE_AUTHOR("Krzysztof Kozlowski <krzk@kernel.org>");
-
-I doubt that this driver is needed. Everything is copy of max777693.
-
+Otherwise you ask us to do exactly the same review we already gave last
+10 years. Or review on issues we fixed last 10 years.
 
 Best regards,
 Krzysztof
