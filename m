@@ -2,88 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F02911454
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 23:21:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF9A911471
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 23:24:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F36BA10E0C9;
-	Thu, 20 Jun 2024 21:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 833D110E157;
+	Thu, 20 Jun 2024 21:24:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CyJFSpW/";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="D/YD5GBu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76AC010E0C9
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 21:21:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1718918509;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=CyJFSpW/FPTC2vR/NmHhrjT67tbtBja5MnD4WtYwBeyF71hz418Tk2XJUNRAD6l3n7gAAT
- yFWjpo+440CrloE+VjJgcGG1shX9XGGU9+RJrjdhsvja7OfoJmyMW6NzKgSlRKz2afa4mV
- GrWysC1ErbD9PWpu3dbotCTWWE+dyuY=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-652-8nm8VfapNoGyOfjahSb6Hw-1; Thu, 20 Jun 2024 17:21:46 -0400
-X-MC-Unique: 8nm8VfapNoGyOfjahSb6Hw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-a6f5e82440cso72747466b.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 14:21:46 -0700 (PDT)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E23910E157
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 21:24:23 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-2ebeefb9a7fso15396831fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 14:24:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1718918662; x=1719523462; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=mFyki6Li5WwqMNFDu+p0N+C8j4Ogo1hQX4orW8yQhio=;
+ b=D/YD5GBugEMmaYZYvDq9st9B0Z5elRm6mM+KQUJp+Bu0Z9HaZJOYbpIAoqqlXACHWX
+ hOZkdhvPbMFFSLhd9M3ZoqTOnZfQu5WHKIVl9HGJi+3tdWrApMAHSXKoMHvXSFONyxwb
+ FD8MxQggN2GQXgOMHzUpuPfwwTnYWxeS0jBHcylODogZQlbBvhhffWmFuRRMECMTDnV/
+ 6h5diqFMb+/kCIjkX31KeFvA25zr11NOKOp6W8cYLEr7mG5bcZjzqOGW+ZVlzxKJLsX/
+ LzKe7t0VGHXZvO8INo8q5v5b69PFm5oHUX7KiQab87mdfikKo7R96RCb2384EtmM8ncW
+ nsDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718918505; x=1719523305;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=FW+1aEIBQmA/T+HGiVupTSsSoovM27GMtWub1zJyovsVGIbgAOjK/6Sa41Zuzh+HBu
- o9U8dsxvzMnnwN4W0wujIW0TJG8fnrhhQoZ+1pqt24vlhXPQH8MO5IN6TRO8vz48C7xX
- 1qSdLU0DDVFweWfJd5odgghCL2j5PXDiJin1U+ZhquINC/8hny/ODp6J09gAdR2auOYR
- ywG21kRBOLlazKo4EBQIcLK6BGQvb4vCVrV8wTmDSryDpUgGliuMppntOmDt3+ySf3ka
- owBoAY4Xl7dNEy6cPjCIxg9ysih+x95+glX1iHh2bzYBaKLMCo5S2LU3vdCGmX7aOAAy
- Mgxw==
+ d=1e100.net; s=20230601; t=1718918662; x=1719523462;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mFyki6Li5WwqMNFDu+p0N+C8j4Ogo1hQX4orW8yQhio=;
+ b=uuzAdQbnnSfPYcwUXuev989LLBiqkI8yJuu3SPfAzx7GWEGfRbH/u6mW61ucrsemX2
+ JO0iDNvfCx2Cua4MYtl3RA+7LhddanQ0Z8OQSsi5rx84aIJIWVbC7U2EVVsqPkmul2Ru
+ g2tD4NbgJKfWNYwT5Q3gyi9m3kqDa/vsoZ2eAOx/eRSTRP0I+J/W96HLQZs84+GGDXw7
+ YaNqoGqDxpqle59qXptEQ+O6d8HDVB93xYwQX4V/GPKeVDfKYX8/IzGpDuXWDMQ+0JFI
+ jHpEw+eVFq4bVen68guN7DpZeNtJMXok4ZL5BM7c3iMYe6Opn6PuEPcEH1Zm/8kKm0Ya
+ S3Ww==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVwB7yYtsWNnJag0EvNTIJuPm6J0vI/8QJEeAvjcdWhP900kuGY/+j3l/AhUeXHYu5mcMsuX4hwLMHO/kKtIsTLNHzvktpZ42+ilGh26Y8U
-X-Gm-Message-State: AOJu0YxlsIP2JjYfYyunhVn2y5uQDgAspbnWTU8wx83RocIjrb8M/n47
- 2Gdn1/gSVudEMAC1TwMNbOqQuc4k71eLNCbfiRBUvkIz5IWK0WY1BiFNMGYVgexBZeRxRSKe2VZ
- cJGOCErrlk1kekfkXPFXQGcpEgyOKMO1Zp3t1OyTPvgZxmWA3SE3MVwZ4ez0Gm/zPHg==
-X-Received: by 2002:a17:906:3e8f:b0:a6f:38:6968 with SMTP id
- a640c23a62f3a-a6fab645136mr368399766b.32.1718918505186; 
- Thu, 20 Jun 2024 14:21:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFInMUkzUyLtNJEWjuXNVwdvaGVwPshtBGyRuzXTA788k2STLElQ5LZklyOjhCpKUl4EQXQow==
-X-Received: by 2002:a17:906:3e8f:b0:a6f:38:6968 with SMTP id
- a640c23a62f3a-a6fab645136mr368398266b.32.1718918504774; 
- Thu, 20 Jun 2024 14:21:44 -0700 (PDT)
-Received: from avogadro.local ([151.62.196.71])
+ AJvYcCWxj3GCzxFKWWv1pKxyktrK0lxBagNP6CYKOyjpGsRLY3O+mBBFMcXcdE6hmMPE2uXRg0lP930VE6eZcdu3+Mj3vduXUzVUZTSQQRQCS/4c
+X-Gm-Message-State: AOJu0YzVs3dI8+yfs/2lOwfLhn23jQ8C8mFBHcYAMtGyIbgrrZ/bPK0m
+ ht/exvOskXMq1bW6BOymS+poeQyA3zkmo+HXSCbi7sejjhQBfTc1dWt1I1EZj6c=
+X-Google-Smtp-Source: AGHT+IGdvA2DIoY5t70jMsOWedO2yArpk+phlv8FZmQtgjRbT12WJ2FeYFzLVCDHpnmOy3D7V2RrEw==
+X-Received: by 2002:a2e:97d1:0:b0:2ec:4890:3750 with SMTP id
+ 38308e7fff4ca-2ec4890390emr18300431fa.39.1718918661577; 
+ Thu, 20 Jun 2024 14:24:21 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a6fcf428b9fsm11268566b.42.2024.06.20.14.21.43
+ 38308e7fff4ca-2ec4d758170sm271791fa.89.2024.06.20.14.24.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jun 2024 14:21:44 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH] drm/mediatek: select DRM_GEM_DMA_HELPER if
- DRM_FBDEV_EMULATION=y
-Date: Thu, 20 Jun 2024 23:20:52 +0200
-Message-ID: <20240620212142.461771-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240620054708.2230665-1-wenst@chromium.org>
-References: 
+ Thu, 20 Jun 2024 14:24:21 -0700 (PDT)
+Date: Fri, 21 Jun 2024 00:24:19 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 5/9] drm/msm/hdmi: turn mode_set into atomic_enable
+Message-ID: <il2bg6bsu4nu4lpztzwo2rfonttiy64grxcsn7n4uybn3eui77@jxyzd744ksva>
+References: <20240607-bridge-hdmi-connector-v5-0-ab384e6021af@linaro.org>
+ <20240607-bridge-hdmi-connector-v5-5-ab384e6021af@linaro.org>
+ <f34c4210-fd59-9d27-0987-3345631c9e35@quicinc.com>
+ <xymopystyfjj3hpqes3uiw2g3dqynxzvz23snrbfzf2judgxnt@j4nmpcbuy7a4>
+ <6d416e1a-1069-8355-e9f3-d2732df081a3@quicinc.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6d416e1a-1069-8355-e9f3-d2732df081a3@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,7 +97,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Queued, thanks.
+On Thu, Jun 20, 2024 at 01:49:33PM GMT, Abhinav Kumar wrote:
+> 
+> 
+> On 6/20/2024 1:32 PM, Dmitry Baryshkov wrote:
+> > On Thu, Jun 20, 2024 at 01:27:15PM GMT, Abhinav Kumar wrote:
+> > > 
+> > > 
+> > > On 6/7/2024 6:23 AM, Dmitry Baryshkov wrote:
+> > > > The mode_set callback is deprecated, it doesn't get the
+> > > > drm_bridge_state, just mode-related argumetns. Turn it into the
+> > > > atomic_enable callback as suggested by the documentation.
+> > > > 
+> > > 
+> > > mode_set is deprecated but atomic_mode_set is not.
+> > 
+> > There is no atomic_mode_set() in drm_bridge_funcs. Also:
+> > 
+> 
+> Please excuse me. I thought since encoder has atomic_mode_set(), bridge has
+> one too.
+> 
+> > * This is deprecated, do not use!
+> > * New drivers shall set their mode in the
+> > * &drm_bridge_funcs.atomic_enable operation.
+> > 
+> 
+> Yes I saw this note but it also says "new drivers" and not really enforcing
+> migrating existing ones which are using modeset to atomic_enable.
 
-Paolo
+Well, deprecated functions are supposed to be migrated.
 
+> My concern is that today the timing engine setup happens in encoder's
+> enable() and the hdmi's timing is programmed in mode_set().
+> 
+> Ideally, we should program hdmi's timing registers first before the
+> encoder's timing.
+> 
+> Although timing engine is not enabled yet, till post_kickoff, this is
+> changing the sequence.
+> 
+> If this really required for rest of this series?
+
+No, it was just worth doing it as I was doing conversion to atomic_*
+anyway. I can delay this patch for now.
+
+Two questions:
+
+1) Are you sure regarding the HDMI timing registers vs INTF order? I
+observe the underrun issues while changing modes on db820c.
+
+2) What should be the order between programming of the HDMI timing
+engine and HDMI PHY?
+
+What would be your opinion on moving HDMI timing programming to
+atomic_pre_enable? (the exact place depends on the answer on the second
+question).
+
+> 
+> > > 
+> > > I would rather use atomic_mode_set because moving to atomic_enable() would
+> > > be incorrect.
+> > > 
+> > > That would be called after encoder's enable and hence changes the sequence.
+> > > That was not the intention of this patch.
+> > > 
+> > > NAK.
+> > > 
+> > > > Acked-by: Maxime Ripard <mripard@kernel.org>
+> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > ---
+> > > >    drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 33 ++++++++++++++++++++++++++-------
+> > > >    1 file changed, 26 insertions(+), 7 deletions(-)
+> > 
+> > 
+
+-- 
+With best wishes
+Dmitry
