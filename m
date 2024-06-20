@@ -2,91 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602B590FCD3
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 08:38:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC1A90FCD6
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 08:40:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03D9410E49F;
-	Thu, 20 Jun 2024 06:37:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9684510E4BF;
+	Thu, 20 Jun 2024 06:40:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="zfkbO/bA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Kx9CHdLf";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="efM2zed1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="E1WooP+v";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="fV6QC1Ce";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0tVsN7dp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fV6QC1Ce";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0tVsN7dp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D014A10E49F
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 06:37:55 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47F7E10E4BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 06:40:07 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A86A321A80;
- Thu, 20 Jun 2024 06:37:52 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1B7691F795;
+ Thu, 20 Jun 2024 06:40:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1718865474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1718865605; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=QVH3AYyzjCE71luft19to40d2L40K3M9Tv9E1KhGFHw=;
- b=zfkbO/bAubrhbJb46TM9Z8S6ml4+gMnhi7SGyvghXIOwa4I8FHaibS3eyCNOmXeML+ezxA
- Nlnqw4HeRRJX2ls7CfxeYp6vrY9Q8XDUa321ZsqackGJ2IIpSTo6NdDgXbtebwVQqKciMS
- 71Wu9pNpjDhalvBGkHVS42zPEpAcGZM=
+ bh=UH1n0fI6xXK4E7uTAmr/28rp7by9nn20YzAJ8qbVhK8=;
+ b=fV6QC1CeF7UbqAzubGDeEXlUXsbp+3g/ZnRwSMVdjIohKL1Zn61GeJpurDF+EPNe+H9E2A
+ m3mxOX4FATu5l6YzM7/vF2VVfLal3aOvo8iesvgEpoFU9RqlrpkCOEyIc+Bhu2YV7u1nP8
+ hysnRxugkJpjx56sj+olLLcFDKkp/XY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1718865474;
+ s=susede2_ed25519; t=1718865605;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=QVH3AYyzjCE71luft19to40d2L40K3M9Tv9E1KhGFHw=;
- b=Kx9CHdLfso4HgVqcAtQD0LM4u/ohOYc6vVabjPrJ0dPwTYabgN8q9eFTkpvz4a5IxqflFT
- AFbILQLL9k0xqlAw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=efM2zed1;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=E1WooP+v
+ bh=UH1n0fI6xXK4E7uTAmr/28rp7by9nn20YzAJ8qbVhK8=;
+ b=0tVsN7dpjh5fnAOd7T/z9I47GkTnatN/vINiWzsWNGjlW4RXmAAw2KO/LTs3/yYzXJJMUs
+ qulX5yIirp0UHJDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1718865472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1718865605; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=QVH3AYyzjCE71luft19to40d2L40K3M9Tv9E1KhGFHw=;
- b=efM2zed112fiKhqj8InOuO/bYzjUla0T9LTz2+z7x2hZ1E+BbypUJ/zAXL0J0VDXmCYCs5
- u08PFXadS/oLTSXdi3pv3U20P+sTlCg3vdgI/w1pJf3lJPNDT/ahv455btxViVCbrp5J9s
- WLbK22LW9VqFSKdD78AKG655oqRHDbw=
+ bh=UH1n0fI6xXK4E7uTAmr/28rp7by9nn20YzAJ8qbVhK8=;
+ b=fV6QC1CeF7UbqAzubGDeEXlUXsbp+3g/ZnRwSMVdjIohKL1Zn61GeJpurDF+EPNe+H9E2A
+ m3mxOX4FATu5l6YzM7/vF2VVfLal3aOvo8iesvgEpoFU9RqlrpkCOEyIc+Bhu2YV7u1nP8
+ hysnRxugkJpjx56sj+olLLcFDKkp/XY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1718865472;
+ s=susede2_ed25519; t=1718865605;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=QVH3AYyzjCE71luft19to40d2L40K3M9Tv9E1KhGFHw=;
- b=E1WooP+vNn75+to41+rkFQUaoLWaV6Mq/HtLp4EoyAVPJgXVi6q4jfS1TdJTyo/Jw4y0PC
- 3oUF6isWQoMGS3AA==
+ bh=UH1n0fI6xXK4E7uTAmr/28rp7by9nn20YzAJ8qbVhK8=;
+ b=0tVsN7dpjh5fnAOd7T/z9I47GkTnatN/vINiWzsWNGjlW4RXmAAw2KO/LTs3/yYzXJJMUs
+ qulX5yIirp0UHJDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5C3011369F;
- Thu, 20 Jun 2024 06:37:52 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CCD3F1369F;
+ Thu, 20 Jun 2024 06:40:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id hc40FUDOc2akPgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 20 Jun 2024 06:37:52 +0000
-Message-ID: <743577a0-ef60-4731-8901-daf1ae4f7f7f@suse.de>
-Date: Thu, 20 Jun 2024 08:37:51 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id Fc0pMMTOc2ZQPwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 20 Jun 2024 06:40:04 +0000
+Message-ID: <8cab29df-6490-4a5e-999f-0e734e396303@suse.de>
+Date: Thu, 20 Jun 2024 08:40:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mediatek: select DRM_GEM_DMA_HELPER if
- DRM_FBDEV_EMULATION=y
-To: Chen-Yu Tsai <wenst@chromium.org>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <20240620054708.2230665-1-wenst@chromium.org>
+Subject: Re: "firmware/sysfb: Set firmware-framebuffer parent device" breaks
+ lightdm on Ubuntu 22.04 using amdgpu
+To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Cc: javierm@redhat.com, pjones@redhat.com, deller@gmx.de, ardb@kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-fbdev@vger.kernel.org,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <CAAxE2A7qK1-b5g1RR-GJ+QTLEr_OxEr9vcZGEOkZY9yLOFLb5w@mail.gmail.com>
+ <5f4c828c-8564-4e4e-a418-3250fadb660a@suse.de>
+ <CAAxE2A4QBteFPpYgd9N+D+TPdjvHDmtLBf5YsaNw9xB09CtAYQ@mail.gmail.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -113,30 +111,27 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240620054708.2230665-1-wenst@chromium.org>
+In-Reply-To: <CAAxE2A4QBteFPpYgd9N+D+TPdjvHDmtLBf5YsaNw9xB09CtAYQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-6.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[9]; MIME_TRACE(0.00)[0:+];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,chromium.org:email];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: A86A321A80
-X-Spam-Flag: NO
-X-Spam-Score: -6.50
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.29
 X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; TO_DN_SOME(0.00)[];
+ FREEMAIL_TO(0.00)[gmail.com]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[9];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[redhat.com,gmx.de,kernel.org,lists.freedesktop.org,vger.kernel.org,amd.com];
+ MID_RHS_MATCH_FROM(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,46 +149,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 20.06.24 um 07:47 schrieb Chen-Yu Tsai:
-> With the recent switch from fbdev-generic to fbdev-dma, the driver now
-> requires the DRM GEM DMA helpers. This dependency is missing, and will
-> cause a link failure if fbdev emulation is enabled.
->
-> Add the missing dependency.
->
-> Fixes: 0992284b4fe4 ("drm/mediatek: Use fbdev-dma")
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+Am 19.06.24 um 20:40 schrieb Marek Olšák:
+> Attached is the revert commit that works for me. Tested with Radeon
+> 6800 and Radeon 7900XTX.
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Apart from this problem, would it make sense to convert the driver's 
-management to GEM's DMA helpers? It appears there's some code 
-duplication in mtk_gem.c and these helpers.
+Thanks. That's the same revert that I did. Let's see if my bisecting 
+turns up something.
 
 Best regards
 Thomas
 
-> ---
-> The commit this patch fixes is in drm-misc-next. Ideally this patch
-> should be applied on top of it directly.
 >
-> CK, could you give your ack for it?
+> Marek
 >
->   drivers/gpu/drm/mediatek/Kconfig | 1 +
->   1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediatek/Kconfig
-> index 96cbe020f493..d6449ebae838 100644
-> --- a/drivers/gpu/drm/mediatek/Kconfig
-> +++ b/drivers/gpu/drm/mediatek/Kconfig
-> @@ -7,6 +7,7 @@ config DRM_MEDIATEK
->   	depends on HAVE_ARM_SMCCC
->   	depends on OF
->   	depends on MTK_MMSYS
-> +	select DRM_GEM_DMA_HELPER if DRM_FBDEV_EMULATION
->   	select DRM_KMS_HELPER
->   	select DRM_MIPI_DSI
->   	select DRM_PANEL
+> Marek
+>
+> On Wed, Jun 19, 2024 at 9:50 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> Hi
+>>
+>> Am 13.06.24 um 07:59 schrieb Marek Olšák:
+>>> Hi Thomas,
+>>>
+>>> Commit 9eac534db0013aff9b9124985dab114600df9081 as per the title
+>>> breaks (crashes?) lightdm (login screen) such that all I get is the
+>>> terminal. It's also reproducible with tag v6.9 where the commit is
+>>> present.
+>> I was able to reproduce the problem with Ubutu 22.04 and later under
+>> qemu plus qxl, sort of. I login via gdm3 and then the quest machine
+>> switches off entirely.
+>>
+>>> Reverting the commit fixes lightdm. A workaround is to bypass lightdm
+>>> by triggering auto-login. This is a bug report.
+>> The problem is that reverting the commit doesn't fix the issue for me.
+>> I'll try to do my own bisecting.
+>>
+>> Best regards
+>> Thomas
+>>
+>>> (For AMD folks: It's also reproducible with amd-staging-drm-next.)
+>>>
+>>> Marek
+>> --
+>> --
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Frankenstrasse 146, 90461 Nuernberg, Germany
+>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+>> HRB 36809 (AG Nuernberg)
+>>
 
 -- 
 --
