@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CD59103FA
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 14:28:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79CB29103FB
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 14:28:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB65610E995;
-	Thu, 20 Jun 2024 12:28:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 418ED10E97B;
+	Thu, 20 Jun 2024 12:28:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="y/QRkIPc";
+	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="znSCvmuP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 634BC10E987
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 12:28:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CDDD10E987
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 12:28:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1718886467;
+ s=mail; t=1718886468;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9HdP73lD+hFGyCnDoiLYzWmkwAFo8c/CN4zvOA6YpR4=;
- b=y/QRkIPc8b9hwHGDKgSN1Umiu3QovDqB+L794AHgaqqV4LhmCch3NoSDTGkgzwDJFYuttR
- 4J78Qh1ccl0wQ68m/drhEAQxJTWBWKoRUfeX/gZQQbkPZB4wpQ4+Q54mmaT52CfqwQz4By
- 7jNKnkYw4YSjpp2xCFF+9K8C6enpwUE=
+ bh=YPXLYwFrzAGA+us0gwq37ouAxM3z0rx257cuQIJnO9o=;
+ b=znSCvmuPMmiK7HgZiS1dnXrJAn9HqOcXWwuDKsJyRdUHB7KlbdZnL4AqUFXZnRSheuMl2f
+ x0POCTZ7av9s88TkeiMvXSysbDavv5TYO2WizXfmpqNroXkGKfwysl+I6BqK+k4chBj/WM
+ kxaiN8kWUwAWNHDzBzO/jS1LImtxYLE=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
  Vinod Koul <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
@@ -34,10 +34,10 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
  linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v12 5/7] iio: buffer-dmaengine: Support new DMABUF based
- userspace API
-Date: Thu, 20 Jun 2024 14:27:24 +0200
-Message-ID: <20240620122726.41232-6-paul@crapouillou.net>
+Subject: [PATCH v12 6/7] Documentation: iio: Document high-speed DMABUF based
+ API
+Date: Thu, 20 Jun 2024 14:27:25 +0200
+Message-ID: <20240620122726.41232-7-paul@crapouillou.net>
 In-Reply-To: <20240620122726.41232-1-paul@crapouillou.net>
 References: <20240620122726.41232-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -57,130 +57,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the functions provided by the buffer-dma core to implement the
-DMABUF userspace API in the buffer-dmaengine IIO buffer implementation.
-
-Since we want to be able to transfer an arbitrary number of bytes and
-not necesarily the full DMABUF, the associated scatterlist is converted
-to an array of DMA addresses + lengths, which is then passed to
-dmaengine_prep_slave_dma_array().
+Document the new DMABUF based API.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 Co-developed-by: Nuno Sa <nuno.sa@analog.com>
 Signed-off-by: Nuno Sa <nuno.sa@analog.com>
 
 ---
-v3: Use the new dmaengine_prep_slave_dma_array(), and adapt the code to
-    work with the new functions introduced in industrialio-buffer-dma.c.
+v2: - Explicitly state that the new interface is optional and is
+      not implemented by all drivers.
+    - The IOCTLs can now only be called on the buffer FD returned by
+      IIO_BUFFER_GET_FD_IOCTL.
+    - Move the page up a bit in the index since it is core stuff and not
+      driver-specific.
 
-v5: - Use the new dmaengine_prep_slave_dma_vec().
-    - Restrict to input buffers, since output buffers are not yet
-      supported by IIO buffers.
+v3: Update the documentation to reflect the new API.
 
-v6: - Populate .lock_queue / .unlock_queue callbacks
-    - Switch to atomic memory allocations in .submit_queue, because of
-      the dma_fence critical section
-    - Make sure that the size of the scatterlist is enough
+v5: Use description lists for the documentation of the three new IOCTLs
+    instead of abusing subsections.
 
-v7: Adapted patch for the changes made in patch 1.
+v8: Renamed dmabuf_api.rst -> iio_dmabuf_api.rst, and updated index.rst
+    whose format changed in iio/togreg.
 
-v10:
-  - Remove extra flags parameter to dmaengine_prep_peripheral_dma_vec()
-  - Add support for TX transfers
+v11:
+- "a IIO buffer" -> "an IIO buffer"
+- Add variable name in IOCTL calls
+
+v12:
+- "obtained using..." -> "which can be obtained using..."
 ---
- .../buffer/industrialio-buffer-dmaengine.c    | 62 ++++++++++++++++---
- 1 file changed, 53 insertions(+), 9 deletions(-)
+ Documentation/iio/iio_dmabuf_api.rst | 54 ++++++++++++++++++++++++++++
+ Documentation/iio/index.rst          |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 Documentation/iio/iio_dmabuf_api.rst
 
-diff --git a/drivers/iio/buffer/industrialio-buffer-dmaengine.c b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
-index 918f6f8d65b6..12aa1412dfa0 100644
---- a/drivers/iio/buffer/industrialio-buffer-dmaengine.c
-+++ b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
-@@ -65,25 +65,62 @@ static int iio_dmaengine_buffer_submit_block(struct iio_dma_buffer_queue *queue,
- 		iio_buffer_to_dmaengine_buffer(&queue->buffer);
- 	struct dma_async_tx_descriptor *desc;
- 	enum dma_transfer_direction dma_dir;
-+	struct scatterlist *sgl;
-+	struct dma_vec *vecs;
- 	size_t max_size;
- 	dma_cookie_t cookie;
-+	size_t len_total;
-+	unsigned int i;
-+	int nents;
+diff --git a/Documentation/iio/iio_dmabuf_api.rst b/Documentation/iio/iio_dmabuf_api.rst
+new file mode 100644
+index 000000000000..2836cadbd495
+--- /dev/null
++++ b/Documentation/iio/iio_dmabuf_api.rst
+@@ -0,0 +1,54 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===================================
++High-speed DMABUF interface for IIO
++===================================
++
++1. Overview
++===========
++
++The Industrial I/O subsystem supports access to buffers through a
++file-based interface, with read() and write() access calls through the
++IIO device's dev node.
++
++It additionally supports a DMABUF based interface, where the userspace
++can attach DMABUF objects (externally created) to an IIO buffer, and
++subsequently use them for data transfers.
++
++A userspace application can then use this interface to share DMABUF
++objects between several interfaces, allowing it to transfer data in a
++zero-copy fashion, for instance between IIO and the USB stack.
++
++The userspace application can also memory-map the DMABUF objects, and
++access the sample data directly. The advantage of doing this vs. the
++read() interface is that it avoids an extra copy of the data between the
++kernel and userspace. This is particularly useful for high-speed devices
++which produce several megabytes or even gigabytes of data per second.
++It does however increase the userspace-kernelspace synchronization
++overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs have to
++be used for data integrity.
++
++2. User API
++===========
++
++As part of this interface, three new IOCTLs have been added. These three
++IOCTLs have to be performed on the IIO buffer's file descriptor, which
++can be obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
++
++  ``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int fd)``
++    Attach the DMABUF object, identified by its file descriptor, to the
++    IIO buffer. Returns zero on success, and a negative errno value on
++    error.
++
++  ``IIO_BUFFER_DMABUF_DETACH_IOCTL(int fd)``
++    Detach the given DMABUF object, identified by its file descriptor,
++    from the IIO buffer. Returns zero on success, and a negative errno
++    value on error.
++
++    Note that closing the IIO buffer's file descriptor will
++    automatically detach all previously attached DMABUF objects.
++
++  ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *iio_dmabuf)``
++    Enqueue a previously attached DMABUF object to the buffer queue.
++    Enqueued DMABUFs will be read from (if output buffer) or written to
++    (if input buffer) as long as the buffer is enabled.
+diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
+index 4c13bfa2865c..9cb4c50cb20d 100644
+--- a/Documentation/iio/index.rst
++++ b/Documentation/iio/index.rst
+@@ -9,6 +9,7 @@ Industrial I/O
  
- 	max_size = min(block->size, dmaengine_buffer->max_size);
- 	max_size = round_down(max_size, dmaengine_buffer->align);
+    iio_configfs
+    iio_devbuf
++   iio_dmabuf_api
+    iio_tools
  
--	if (queue->buffer.direction == IIO_BUFFER_DIRECTION_IN) {
--		block->bytes_used = max_size;
-+	if (queue->buffer.direction == IIO_BUFFER_DIRECTION_IN)
- 		dma_dir = DMA_DEV_TO_MEM;
--	} else {
-+	else
- 		dma_dir = DMA_MEM_TO_DEV;
--	}
- 
--	if (!block->bytes_used || block->bytes_used > max_size)
--		return -EINVAL;
-+	if (block->sg_table) {
-+		sgl = block->sg_table->sgl;
-+		nents = sg_nents_for_len(sgl, block->bytes_used);
-+		if (nents < 0)
-+			return nents;
-+
-+		vecs = kmalloc_array(nents, sizeof(*vecs), GFP_ATOMIC);
-+		if (!vecs)
-+			return -ENOMEM;
-+
-+		len_total = block->bytes_used;
-+
-+		for (i = 0; i < nents; i++) {
-+			vecs[i].addr = sg_dma_address(sgl);
-+			vecs[i].len = min(sg_dma_len(sgl), len_total);
-+			len_total -= vecs[i].len;
-+
-+			sgl = sg_next(sgl);
-+		}
- 
--	desc = dmaengine_prep_slave_single(dmaengine_buffer->chan,
--		block->phys_addr, block->bytes_used, dma_dir,
--		DMA_PREP_INTERRUPT);
-+		desc = dmaengine_prep_peripheral_dma_vec(dmaengine_buffer->chan,
-+							 vecs, nents, dma_dir,
-+							 DMA_PREP_INTERRUPT);
-+		kfree(vecs);
-+	} else {
-+		max_size = min(block->size, dmaengine_buffer->max_size);
-+		max_size = round_down(max_size, dmaengine_buffer->align);
-+
-+		if (queue->buffer.direction == IIO_BUFFER_DIRECTION_IN)
-+			block->bytes_used = max_size;
-+
-+		if (!block->bytes_used || block->bytes_used > max_size)
-+			return -EINVAL;
-+
-+		desc = dmaengine_prep_slave_single(dmaengine_buffer->chan,
-+						   block->phys_addr,
-+						   block->bytes_used,
-+						   dma_dir,
-+						   DMA_PREP_INTERRUPT);
-+	}
- 	if (!desc)
- 		return -ENOMEM;
- 
-@@ -133,6 +170,13 @@ static const struct iio_buffer_access_funcs iio_dmaengine_buffer_ops = {
- 	.space_available = iio_dma_buffer_usage,
- 	.release = iio_dmaengine_buffer_release,
- 
-+	.enqueue_dmabuf = iio_dma_buffer_enqueue_dmabuf,
-+	.attach_dmabuf = iio_dma_buffer_attach_dmabuf,
-+	.detach_dmabuf = iio_dma_buffer_detach_dmabuf,
-+
-+	.lock_queue = iio_dma_buffer_lock_queue,
-+	.unlock_queue = iio_dma_buffer_unlock_queue,
-+
- 	.modes = INDIO_BUFFER_HARDWARE,
- 	.flags = INDIO_BUFFER_FLAG_FIXED_WATERMARK,
- };
+ Industrial I/O Kernel Drivers
 -- 
 2.43.0
 
