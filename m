@@ -2,68 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A199A910292
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 13:32:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53785910294
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2024 13:32:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D064610E023;
-	Thu, 20 Jun 2024 11:32:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4627510E915;
+	Thu, 20 Jun 2024 11:32:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="Q78gDxjh";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="v4pRQbql";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="Vc2mTBre";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="LzEhMBns";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh3-smtp.messagingengine.com
- (fhigh3-smtp.messagingengine.com [103.168.172.154])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C29110E023
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 11:32:10 +0000 (UTC)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
- by mailfhigh.nyi.internal (Postfix) with ESMTP id 33B5E1140247;
- Thu, 20 Jun 2024 07:32:09 -0400 (EDT)
+Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com
+ [103.168.172.149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77DCA10E042
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 11:32:15 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailfout.nyi.internal (Postfix) with ESMTP id C331513804D3;
+ Thu, 20 Jun 2024 07:32:14 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Thu, 20 Jun 2024 07:32:09 -0400
+ by compute5.internal (MEProxy); Thu, 20 Jun 2024 07:32:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
  h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:message-id:mime-version:reply-to:subject
- :subject:to:to; s=fm2; t=1718883129; x=1718969529; bh=xftjvbVHEL
- bS1mvI3KHwTqZbDPrekInEZ6exVgGS7EM=; b=Q78gDxjhvqgoNzFtbHx0aRKNyr
- ja7fO3GnF7sn5ijjEjmKL2wXLmL9JLVEpMmnGebXzV/LWsGPPrTxZlyNAX3Ee06D
- D3hmIhq+Ac/uxflOU2Swz1GtK3hYysWhrd2DOWsGvVoR9iJWrthjBzY6RFj9VTlo
- gUeyJHpSwHzx4v3cg42PcBaG7I//C6ct+0xOS+L3AtzjvPJGzWnLPc05YvGdjZCb
- Qb6mB2cL4KtpCGNk23vpigSPP6VCj19XdSTuAx5fyOCsItX06qOOBAIWWXxPuhZY
- hbmYnCiRDqNGpxWZlCe5iGO/Lx2zO32gXUt6VjYsGy6/eWme2Ju6A5LTALtA==
+ :from:in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:subject:subject:to:to; s=fm2; t=1718883134; x=
+ 1718969534; bh=4u4ck4og4C3G/sLyJhCTBCqGfu2N4ZjKc7rXSqAYYDs=; b=V
+ c2mTBreVgaS6cDXCagBmFW979Ah73rkfbSvF3DLk4H1CfBdI6/QlJ2UOED9GXff8
+ D2zBAaEfxiZ2NggQtYdehoBTPXN8XWoWTQlPhY0NdniM8tvAtPOTkYp+RzWPJpDE
+ 2vq8t0P0s1gRpcIfd9aHhYr+d/j9Z9kL/hKvuc6Kzie5LU6rbkPDSVnPNet+bcuz
+ NpaEg+sFH1ZvGZcJpCj0OJsJ382R6jlZ7RBsb8XRCWY1s6UnVLNL+1gRyALcq3Zq
+ Dg7vl1o87o3uoQVsTbVTywu6/sNOexkYVYXazSebWBoHxAU3cbIGeMYz3yR1l0qc
+ +r6reBthc7fU9KWe0TlWg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1718883129; x=1718969529; bh=xftjvbVHELbS1mvI3KHwTqZbDPre
- kInEZ6exVgGS7EM=; b=v4pRQbqlQHkDBOo8iTivQs/UrI6ZHT81lVCNmczZgUN6
- dbYykVsBGCbkDZqSrCj2kx+EdifBFILZgg1djtVxY/FTKZvz1/AX/3/AKz78hjSx
- opNtkIw2r11C2JaJMl/ouMZxktz3JuVZ38bQ0luxQK/aLiKyHM3YtPQ1wYHxueC9
- 0/SUogJ7HNgUjjnpyX9/M3DKHFjmnS3Bo6ucgBunVkfGYgER3QyLNwC66StWGuVx
- a6WLGz79eLU/kEYxWDAk0LDsxcd+MGyiAEfOYPV+nlb2MSNtVy00Y1980FhoeOAx
- Opk5t3NS5pnfz+Wf7UG86XJewBdzQrJ6nhIbRyr0Pg==
-X-ME-Sender: <xms:OBN0ZkMcIHcjUY7qLwgzXuicCfDl5fMKteZNHiuRkgbyDNoYpg5HXw>
- <xme:OBN0Zq9WygHmSJBrozy-lOlCqrb0OMMsoz1y4rAauD1vRtt5u9muG10DXJA_lwkjX
- Y0Hz_ho7fvE8DsQBg>
-X-ME-Received: <xmr:OBN0ZrR6vC8XNmk3NY3pln48Af1jUNLALbSnaPl0nNI43pHz2xSjU0V8fEdp_mlSbVUFurCEApkwqqVGcXCwAYpYOsPCEvfs-fF6zYTjx3JxW9j6>
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1718883134; x=
+ 1718969534; bh=4u4ck4og4C3G/sLyJhCTBCqGfu2N4ZjKc7rXSqAYYDs=; b=L
+ zEhMBnshvQh1j2EqiSB3C1ryrTZyXkEf6bDPH3XC+64pS3XALmuE+5+WbJPXu2on
+ PHjZeQ0qf3qpQWImfEvcx15NOudLAX6btkAoHXkxl67am9UgCcfE5dPRAN1aM9fW
+ AIGjA6zHUDoLOTNOfW22PLoIC0fKyj7UQcKQzWM6TShc/mIc3DCW8SMELFPML7AH
+ 25+jbamjNARU44IDJYxk5KV/kHNKSki8QvDSQK8MKxdrZb3q3H8YqT94fmUfnRRH
+ qPsQKlenGw2XP3OPmnJsd7GUls8amNygClYnJl+xaJReUf4QnxM3W05+cI9XrZk7
+ /cSpgNLRJQGr0vDCCubQA==
+X-ME-Sender: <xms:PhN0ZveuDjGyayk1z4FxR6Wr3A_sMC9ZCO5GMUeuxA35XBVJPFv3lg>
+ <xme:PhN0ZlOFHNqL85rI-Yo33UtrRSoIy5FyjcZqmA4pkb9eeJEgK1Mb75t6FD5iTXXh_
+ ryXSI6wmBi3XLZN-g>
+X-ME-Received: <xmr:PhN0Zoiu0Vdm1dP70WTT1gDt_KglE8M6mpXgY3E5MgqXj6yxgzFLGdOjhjVhBxkZaPsHNQ16dO5ZY9ZXc7H-5quYCx0L_Spq8fU95ioagfUAjgtI>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeefvddggedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomheptfihrghnucgh
- rghlkhhlihhnuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenucggtffrrghtth
- gvrhhnpeduvdeuudeugedtueffteevveegheehvdfhfeduudevkefggfeftdehgeethffh
- ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrhi
- grnhesthgvshhtthhorghsthdrtghomh
-X-ME-Proxy: <xmx:OBN0ZstiUSQihTkZT6MWbnjw91ejni_zcuBhIHBTgG8nsyPB66U5kA>
- <xmx:OBN0Zsc20e4sMqVUI7rZppyb4EVsnhG-25iQPh-W75oepUnq67-oUQ>
- <xmx:OBN0Zg25pTgtVioEb0x2sngWUzXycGh4GgQeBYLHXMIxmkF5XJBC5w>
- <xmx:OBN0Zg8Ka1OVpsvZnWXJ1Na3zYpwQvyZAtojAaAY9Ivyq0zb9q7WDw>
- <xmx:ORN0ZgOUXx0h3xbRkRfSyKgmY2wyjVaQhIixgh40_rY-9EzAxXKxC5Ci>
+ cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomheptfihrghn
+ ucghrghlkhhlihhnuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenucggtffrrg
+ htthgvrhhnpeffheeiffegtdfgffejteevgeefkeelieelkeevueetffetteduffevgeei
+ ieehteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hrhigrnhesthgvshhtthhorghsthdrtghomh
+X-ME-Proxy: <xmx:PhN0Zg_sWOEP_NI77dNm0PhuIAgGEbu0egGB97qGY67yAzzlc3ZrcQ>
+ <xmx:PhN0ZrvACbPJpiHnfi7_vvoqyQ3vkPo46ooggTWKImWh-M5GtZIyOg>
+ <xmx:PhN0ZvGtmVWwyFUEiZp7tPR7Lc6alth4FQxfXQ4GqQPmyT5lckSIYA>
+ <xmx:PhN0ZiMnf09G7Vs7oBZifl5Ir6ltSOzPrQRI66XXXTNVHTo8ceR-Eg>
+ <xmx:PhN0ZreQsUqHcuZDMHl7Zo8wea1PcGOSlylnuKbhRtbWcgBM5AhtiLvA>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 20 Jun 2024 07:32:02 -0400 (EDT)
+ 20 Jun 2024 07:32:09 -0400 (EDT)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -79,10 +81,12 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
  linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH 00/23] drm: sun4i: add Display Engine 3.3 (DE33) support
-Date: Thu, 20 Jun 2024 23:29:38 +1200
-Message-ID: <20240620113150.83466-1-ryan@testtoast.com>
+Subject: [PATCH 01/23] drm: sun4i: de2/de3: Change CSC argument
+Date: Thu, 20 Jun 2024 23:29:39 +1200
+Message-ID: <20240620113150.83466-2-ryan@testtoast.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240620113150.83466-1-ryan@testtoast.com>
+References: <20240620113150.83466-1-ryan@testtoast.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,79 +104,177 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-There is existing mainline support for the DE2 and DE3 AllWinner display pipeline IP blocks, used in the A64 and H6 among others, however the H700 (as well as the H616/H618 and the T507 automotive SoC) have a newer version of the Display Engine (v3.3/DE33) which adds additional high-resolution support as well as YUV colour formats and AFBC compression support.
+Currently, CSC module takes care only for converting YUV to RGB.
+However, DE3 is more suited to work in YUV color space. Change CSC mode
+argument to format type to be more neutral. New argument only tells
+layer format type and doesn't imply output type.
 
-This patch set adds DE33 support, following up from the previous RFC [1], with significant rework to break down the previous relatively complex set into more logical steps, detailed below.
+This commit doesn't make any functional change.
 
-1. Refactor the existing DE2/DE3 code in readiness to support YUV colour formats in the DE3 engine (patches 1-4).
-2. Add YUV420 colour format support in the DE3 driver (patches 5-12).
-3. Replace the is_de3 mixer flag with an enum to support multiple DE versions (patch 13).
-4. Refactor the mixer, vi_scaler and some register code to merge common init code and more easily support multiple DE versions (patches 14-16).
-5. Add Arm Frame Buffer Compression (AFBC) compressed buffer support to the DE3 driver. This is currently only supported for VI layers (for HW-decoded video output) but is well integrated into these changes and a subsequent patchset to enable the Video Engine is planned. (patch 17).
-6. Add DT bindings for the DE33 engine. (patch 18).
-7. Extend the DE2/3 driver for the DE33, comprising clock, mixer, vi_scaler, fmt and csc module support (patches 19-23).
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+---
+ drivers/gpu/drm/sun4i/sun8i_csc.c      | 22 +++++++++++-----------
+ drivers/gpu/drm/sun4i/sun8i_csc.h      | 10 +++++-----
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 16 ++++++++--------
+ 3 files changed, 24 insertions(+), 24 deletions(-)
 
-Further patchsets are planned to support HDMI and the LCD timing controller present in these SoCs.
-
-Regards,
-
-Ryan
-
-Jernej Skrabec (21):
-  drm: sun4i: de2/de3: Change CSC argument
-  drm: sun4i: de2/de3: Merge CSC functions into one
-  drm: sun4i: de2/de3: call csc setup also for UI layer
-  drm: sun4i: de2: Initialize layer fields earlier
-  drm: sun4i: de3: Add YUV formatter module
-  drm: sun4i: de3: add format enumeration function to engine
-  drm: sun4i: de3: add formatter flag to mixer config
-  drm: sun4i: de3: add YUV support to the DE3 mixer
-  drm: sun4i: de3: pass engine reference to ccsc setup function
-  drm: sun4i: de3: add YUV support to the color space correction module
-  drm: sun4i: de3: add YUV support to the TCON
-  drm: sun4i: support YUV formats in VI scaler
-  drm: sun4i: de2/de3: add mixer version enum
-  drm: sun4i: de2/de3: refactor mixer initialisation
-  drm: sun4i: vi_scaler refactor vi_scaler enablement
-  drm: sun4i: de2/de3: make blender register references generic
-  drm: sun4i: de3: Implement AFBC support
-  drm: sun4i: de33: mixer: add Display Engine 3.3 (DE33) support
-  drm: sun4i: de33: vi_scaler: add Display Engine 3.3 (DE33) support
-  drm: sun4i: de33: fmt: add Display Engine 3.3 (DE33) support
-  drm: sun4i: de33: csc: add Display Engine 3.3 (DE33) support
-
-Ryan Walklin (2):
-  dt-bindings: allwinner: add H616 DE33 bus, clock and display bindings
-  clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33) support
-
- .../bus/allwinner,sun50i-a64-de2.yaml         |   7 +-
- .../clock/allwinner,sun8i-a83t-de2-clk.yaml   |   1 +
- .../allwinner,sun8i-a83t-de2-mixer.yaml       |   1 +
- drivers/clk/sunxi-ng/ccu-sun8i-de2.c          |  25 ++
- drivers/gpu/drm/sun4i/Makefile                |   3 +-
- drivers/gpu/drm/sun4i/sun4i_tcon.c            |  26 +-
- drivers/gpu/drm/sun4i/sun50i_afbc.c           | 250 +++++++++++++
- drivers/gpu/drm/sun4i/sun50i_afbc.h           |  87 +++++
- drivers/gpu/drm/sun4i/sun50i_fmt.c            |  99 +++++
- drivers/gpu/drm/sun4i/sun50i_fmt.h            |  33 ++
- drivers/gpu/drm/sun4i/sun8i_csc.c             | 341 +++++++++++++++---
- drivers/gpu/drm/sun4i/sun8i_csc.h             |  20 +-
- drivers/gpu/drm/sun4i/sun8i_mixer.c           | 228 +++++++++---
- drivers/gpu/drm/sun4i/sun8i_mixer.h           |  31 +-
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c        |  49 ++-
- drivers/gpu/drm/sun4i/sun8i_ui_scaler.c       |   2 +-
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c        | 141 +++++---
- drivers/gpu/drm/sun4i/sun8i_vi_scaler.c       | 115 ++++--
- drivers/gpu/drm/sun4i/sun8i_vi_scaler.h       |   2 +-
- drivers/gpu/drm/sun4i/sunxi_engine.h          |  34 ++
- 20 files changed, 1283 insertions(+), 212 deletions(-)
- create mode 100644 drivers/gpu/drm/sun4i/sun50i_afbc.c
- create mode 100644 drivers/gpu/drm/sun4i/sun50i_afbc.h
- create mode 100644 drivers/gpu/drm/sun4i/sun50i_fmt.c
- create mode 100644 drivers/gpu/drm/sun4i/sun50i_fmt.h
-
+diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.c b/drivers/gpu/drm/sun4i/sun8i_csc.c
+index 58480d8e4f704..6ebd1c3aa3ab5 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_csc.c
++++ b/drivers/gpu/drm/sun4i/sun8i_csc.c
+@@ -108,7 +108,7 @@ static const u32 yuv2rgb_de3[2][3][12] = {
+ };
+ 
+ static void sun8i_csc_set_coefficients(struct regmap *map, u32 base,
+-				       enum sun8i_csc_mode mode,
++				       enum format_type fmt_type,
+ 				       enum drm_color_encoding encoding,
+ 				       enum drm_color_range range)
+ {
+@@ -118,12 +118,12 @@ static void sun8i_csc_set_coefficients(struct regmap *map, u32 base,
+ 
+ 	table = yuv2rgb[range][encoding];
+ 
+-	switch (mode) {
+-	case SUN8I_CSC_MODE_YUV2RGB:
++	switch (fmt_type) {
++	case FORMAT_TYPE_YUV:
+ 		base_reg = SUN8I_CSC_COEFF(base, 0);
+ 		regmap_bulk_write(map, base_reg, table, 12);
+ 		break;
+-	case SUN8I_CSC_MODE_YVU2RGB:
++	case FORMAT_TYPE_YVU:
+ 		for (i = 0; i < 12; i++) {
+ 			if ((i & 3) == 1)
+ 				base_reg = SUN8I_CSC_COEFF(base, i + 1);
+@@ -141,7 +141,7 @@ static void sun8i_csc_set_coefficients(struct regmap *map, u32 base,
+ }
+ 
+ static void sun8i_de3_ccsc_set_coefficients(struct regmap *map, int layer,
+-					    enum sun8i_csc_mode mode,
++					    enum format_type fmt_type,
+ 					    enum drm_color_encoding encoding,
+ 					    enum drm_color_range range)
+ {
+@@ -151,12 +151,12 @@ static void sun8i_de3_ccsc_set_coefficients(struct regmap *map, int layer,
+ 
+ 	table = yuv2rgb_de3[range][encoding];
+ 
+-	switch (mode) {
+-	case SUN8I_CSC_MODE_YUV2RGB:
++	switch (fmt_type) {
++	case FORMAT_TYPE_YUV:
+ 		addr = SUN50I_MIXER_BLEND_CSC_COEFF(DE3_BLD_BASE, layer, 0);
+ 		regmap_bulk_write(map, addr, table, 12);
+ 		break;
+-	case SUN8I_CSC_MODE_YVU2RGB:
++	case FORMAT_TYPE_YVU:
+ 		for (i = 0; i < 12; i++) {
+ 			if ((i & 3) == 1)
+ 				addr = SUN50I_MIXER_BLEND_CSC_COEFF(DE3_BLD_BASE,
+@@ -206,7 +206,7 @@ static void sun8i_de3_ccsc_enable(struct regmap *map, int layer, bool enable)
+ }
+ 
+ void sun8i_csc_set_ccsc_coefficients(struct sun8i_mixer *mixer, int layer,
+-				     enum sun8i_csc_mode mode,
++				     enum format_type fmt_type,
+ 				     enum drm_color_encoding encoding,
+ 				     enum drm_color_range range)
+ {
+@@ -214,14 +214,14 @@ void sun8i_csc_set_ccsc_coefficients(struct sun8i_mixer *mixer, int layer,
+ 
+ 	if (mixer->cfg->is_de3) {
+ 		sun8i_de3_ccsc_set_coefficients(mixer->engine.regs, layer,
+-						mode, encoding, range);
++						fmt_type, encoding, range);
+ 		return;
+ 	}
+ 
+ 	base = ccsc_base[mixer->cfg->ccsc][layer];
+ 
+ 	sun8i_csc_set_coefficients(mixer->engine.regs, base,
+-				   mode, encoding, range);
++				   fmt_type, encoding, range);
+ }
+ 
+ void sun8i_csc_enable_ccsc(struct sun8i_mixer *mixer, int layer, bool enable)
+diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.h b/drivers/gpu/drm/sun4i/sun8i_csc.h
+index 828b86fd0cabb..7322770f39f03 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_csc.h
++++ b/drivers/gpu/drm/sun4i/sun8i_csc.h
+@@ -22,14 +22,14 @@ struct sun8i_mixer;
+ 
+ #define SUN8I_CSC_CTRL_EN		BIT(0)
+ 
+-enum sun8i_csc_mode {
+-	SUN8I_CSC_MODE_OFF,
+-	SUN8I_CSC_MODE_YUV2RGB,
+-	SUN8I_CSC_MODE_YVU2RGB,
++enum format_type {
++	FORMAT_TYPE_RGB,
++	FORMAT_TYPE_YUV,
++	FORMAT_TYPE_YVU,
+ };
+ 
+ void sun8i_csc_set_ccsc_coefficients(struct sun8i_mixer *mixer, int layer,
+-				     enum sun8i_csc_mode mode,
++				     enum format_type fmt_type,
+ 				     enum drm_color_encoding encoding,
+ 				     enum drm_color_range range);
+ void sun8i_csc_enable_ccsc(struct sun8i_mixer *mixer, int layer, bool enable);
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+index f9c0a56d3a148..76e2d3ec0a78c 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+@@ -242,19 +242,19 @@ static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+ 	return 0;
+ }
+ 
+-static u32 sun8i_vi_layer_get_csc_mode(const struct drm_format_info *format)
++static u32 sun8i_vi_layer_get_format_type(const struct drm_format_info *format)
+ {
+ 	if (!format->is_yuv)
+-		return SUN8I_CSC_MODE_OFF;
++		return FORMAT_TYPE_RGB;
+ 
+ 	switch (format->format) {
+ 	case DRM_FORMAT_YVU411:
+ 	case DRM_FORMAT_YVU420:
+ 	case DRM_FORMAT_YVU422:
+ 	case DRM_FORMAT_YVU444:
+-		return SUN8I_CSC_MODE_YVU2RGB;
++		return FORMAT_TYPE_YVU;
+ 	default:
+-		return SUN8I_CSC_MODE_YUV2RGB;
++		return FORMAT_TYPE_YUV;
+ 	}
+ }
+ 
+@@ -262,7 +262,7 @@ static int sun8i_vi_layer_update_formats(struct sun8i_mixer *mixer, int channel,
+ 					 int overlay, struct drm_plane *plane)
+ {
+ 	struct drm_plane_state *state = plane->state;
+-	u32 val, ch_base, csc_mode, hw_fmt;
++	u32 val, ch_base, fmt_type, hw_fmt;
+ 	const struct drm_format_info *fmt;
+ 	int ret;
+ 
+@@ -280,9 +280,9 @@ static int sun8i_vi_layer_update_formats(struct sun8i_mixer *mixer, int channel,
+ 			   SUN8I_MIXER_CHAN_VI_LAYER_ATTR(ch_base, overlay),
+ 			   SUN8I_MIXER_CHAN_VI_LAYER_ATTR_FBFMT_MASK, val);
+ 
+-	csc_mode = sun8i_vi_layer_get_csc_mode(fmt);
+-	if (csc_mode != SUN8I_CSC_MODE_OFF) {
+-		sun8i_csc_set_ccsc_coefficients(mixer, channel, csc_mode,
++	fmt_type = sun8i_vi_layer_get_format_type(fmt);
++	if (fmt_type != FORMAT_TYPE_RGB) {
++		sun8i_csc_set_ccsc_coefficients(mixer, channel, fmt_type,
+ 						state->color_encoding,
+ 						state->color_range);
+ 		sun8i_csc_enable_ccsc(mixer, channel, true);
 -- 
 2.45.2
 
