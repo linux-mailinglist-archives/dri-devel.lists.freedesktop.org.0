@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4777F911D51
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 09:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24FC1911D77
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 09:56:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC57A10EE14;
-	Fri, 21 Jun 2024 07:51:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 509DE10EE57;
+	Fri, 21 Jun 2024 07:56:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c1hdrIkF";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.b="v4izR6Vw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEA3E10EE14
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 07:51:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C2BFB6248D;
- Fri, 21 Jun 2024 07:51:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDC14C2BBFC;
- Fri, 21 Jun 2024 07:51:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718956289;
- bh=1HCwf6TJ72c4wbSMsx0ToW1GLnhJDNJ8Afp1KOu+icw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=c1hdrIkFymyDz2jm9julINVwJdVh0apoGK/wOJgAfzgQciUyMpXO11gJeobnhyj/O
- HN7aNcc5+7PxztjUyqA062UCdYMiPoQvViog8Xrv0y9bIxvqxsagAzJMmuVrgQIUup
- I/cVid0PV0daHpnlqjFuqXeIQ2YCGm/gHAcyVU/o1rfRtE7Ii0RAwhucR+x/mYN8TM
- XMF4h1coHHcuTt0dpExaF0Yl8kWq7sY0nbsfmm++caCX3/fl21wh20/1GCKj4vllQa
- xuvf8a9Q3PYkXssVcn5yqcT7rOChpgLgCUWb09KCofzKUmVkGhexjOXcqgDrZIGyxv
- 1zwNw8HQda1fg==
-Date: Fri, 21 Jun 2024 08:51:23 +0100
-From: Lee Jones <lee@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Vinod Koul <vkoul@kernel.org>, lkp@intel.com, linux-iio@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Paul Cercueil <paul@crapouillou.net>,
- Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Julia Lawall <julia.lawall@inria.fr>, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
-Message-ID: <20240621075123.GG1318296@google.com>
-References: <202406191014.9JAzwRV6-lkp@intel.com>
- <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de>
- <ZnRUSaHJhz7XLcKa@matsya> <20240620170522.GU3029315@google.com>
- <ZnUnFeum1Z2ahm9M@matsya>
- <ebddd644-b9b1-4a87-a2e7-dcf255f4184d@web.de>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C13BE10EE57;
+ Fri, 21 Jun 2024 07:56:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+ Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+ In-Reply-To:References; bh=EGT5e8L1pNhD0BVhYlvh53zXiul0Yh6rVbmqVvfwN2M=;
+ t=1718956584; x=1719388584; b=v4izR6VwdX7WcFq0sBqNkoLtZFS2vmsbmxz3RjZWAietfwr
+ pkiTPCgQJKkVTpys8gY26mKRuCwnp8utRgm14uY06DUDDM3nO1Xy5TTbMSdmtGvLREPSAavxdR3nr
+ ySvYggBZzZzrOu3wjHL8BsWCF2HMz+g8vWQE5d0gQbFn6xzsTsABeIsl59TQ9RdRRSFzGFX079cm5
+ C3sj21Rw5CStBLBwWTenelB6/3U98Jp8nZ6XybXA+7QYsPbL70o5ZKF/4chKihMH3M11qT6c0Gcrn
+ k87cl+zStGf2DmKw/dtQ6q+xQOTCFiAVpJIGMCza+e5hga6Kyo9AexrtCC9PVa0Q==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1sKZ8A-0007Fh-7F; Fri, 21 Jun 2024 09:56:22 +0200
+Message-ID: <b6c440ca-e63e-429b-af41-5f27d4b8b2a2@leemhuis.info>
+Date: Fri, 21 Jun 2024 09:56:21 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: 6.10/bisected/regression - commits bc87d666c05 and 6d4279cb99ac
+ cause appearing green flashing bar on top of screen on Radeon 6900XT and
+ 120Hz
+To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+ Alex Deucher <alexdeucher@gmail.com>
+Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>, Rodrigo.Siqueira@amd.com,
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+ Linux regressions mailing list <regressions@lists.linux.dev>
+References: <CABXGCsNptxsQO=5=qi-JYiFX=rX8Ok5inK80Gn0qrUFWbtBGng@mail.gmail.com>
+ <CADnq5_PDxJ8O1JUQ9RBYRFB9G1WZJos05ZAM4jUKuPBwPxjNkA@mail.gmail.com>
+ <CABXGCsNN9LwHc2x2AAEH=5UNwpvkWkBqRYz3OP8MZ6Woy+HDXA@mail.gmail.com>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Content-Language: en-US, de-DE
+In-Reply-To: <CABXGCsNN9LwHc2x2AAEH=5UNwpvkWkBqRYz3OP8MZ6Woy+HDXA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ebddd644-b9b1-4a87-a2e7-dcf255f4184d@web.de>
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1718956584;
+ 5e20c670; 
+X-HE-SMSGID: 1sKZ8A-0007Fh-7F
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,31 +70,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 21 Jun 2024, Markus Elfring wrote:
-
-> > Sadly, I am yet to see a constructive approach or even better a helpful
-> > patch which improve something, rather than vague suggestions on the list
+On 09.06.24 23:19, Mikhail Gavrilov wrote:
+> On Fri, Jun 7, 2024 at 6:39 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+>>
+>> --- a/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
+>> +++ b/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
+>> @@ -944,7 +944,7 @@ void optc1_set_drr(
+>>                                 OTG_V_TOTAL_MAX_SEL, 1,
+>>                                 OTG_FORCE_LOCK_ON_EVENT, 0,
+>>                                 OTG_SET_V_TOTAL_MIN_MASK_EN, 0,
+>> -                               OTG_SET_V_TOTAL_MIN_MASK, 0);
+>> +                               OTG_SET_V_TOTAL_MIN_MASK, (1 << 1)); /* TRIGA */
+>>
+>>                 // Setup manual flow control for EOF via TRIG_A
+>>                 optc->funcs->setup_manual_trigger(optc);
 > 
-> Can you get any more constructive impressions from another data representation?
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/?qt=author&q=Elfring
-> 
-> Are you aware how many change suggestions (also from my selection) are still
-> in various waiting queues?
+> Thanks, Alex.
+> I applied this patch on top of 771ed66105de and unfortunately the
+> issue is not fixed.
+> I saw a green flashing bar on top of the screen again.
 
-No one is doubting your overall contributions Markus.
+Hmmm, I might have missed something, but it looks like nothing happened
+here since then. What's the status? Is the issue still happening? Any
+solution in sight?
 
-The issue is one of communication and the way reviews are conducted.
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
 
-Reviewing other people's work is challenging and requires a certain
-skill-set, of which _excellent_ communication skills are non-negotiable.
+#regzbot poke
 
-Why not concentrate on more complex submissions for a while and grow
-your repertoire of common review points, rather than repeating the same
-few over and over?  Reading other, more experienced maintainer's reviews
-would also be a good use of your time.
-
--- 
-Lee Jones [李琼斯]
