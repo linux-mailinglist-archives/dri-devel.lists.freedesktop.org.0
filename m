@@ -2,49 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82B84912688
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 15:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC469126BB
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 15:33:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EB1E10F188;
-	Fri, 21 Jun 2024 13:21:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99BA010F18C;
+	Fri, 21 Jun 2024 13:33:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JqVRAuVn";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="joQzu6Pf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57C6410F188
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 13:21:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A387D626B6;
- Fri, 21 Jun 2024 13:21:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8955CC2BBFC;
- Fri, 21 Jun 2024 13:21:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718976079;
- bh=eEBjK7L9zo7dYznjm4ZoCU0EEdJVjmtajHqCxc1dnhI=;
- h=Date:From:To:Cc:Subject:From;
- b=JqVRAuVnTHIw6D5/uqDKXXNm7JNokOfiLq8/btn0kxMfp1kd2uq1YrOaR0i2I9naV
- VcMeTW3EPsY69Hy87DN1ljANH5fesyYF+U/K9VlG4yqb0QcA903TyXcg2EwxCaIimy
- aZBdng5s5nySzZbIIxumy9Eq3qSkSGI9SflGzObEdz8F61YrGom6eaFDIwiAex84HH
- z43lJtMcpBYMRRSBarhkSHh3FfRk8nR3tfR+iSuX6uzSLA5OcleTC7af19fP4zsRIx
- YtftL3nqhr6BiHku+Pj3q+pyr+RI1cGTXSr7Tj7Tjr6Q7edwErule1YwdWjuYIuaUt
- OClFU/D2DXZEw==
-Date: Fri, 21 Jun 2024 14:21:14 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Dillon Varone <dillon.varone@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Michael Strauss <michael.strauss@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Subject: linux-next: manual merge of the drm tree with the drm-fixes tree
-Message-ID: <ZnV-SlwKvgfpYYK9@sirena.org.uk>
+X-Greylist: delayed 2509 seconds by postgrey-1.36 at gabe;
+ Fri, 21 Jun 2024 13:33:49 UTC
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6B3810F18C
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 13:33:49 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45LB3BRq021260;
+ Fri, 21 Jun 2024 15:33:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ 7V0RclItNFdKo29WOSpHddexvDxa6KYtY5l56bgncyo=; b=joQzu6Pf829wWuft
+ mvJv87vpSqWVXiOZWA+bAqqmzslUFyEAvPJuzYRN+lI0yNlCl+M+uPn7exIwGDkQ
+ bgxV/lz9d1yWH5QkfCyCpH73vz2G5cz+njQMV5CYx7tTwE8xXfrP9nB9aVJfVkpp
+ EITOg+lucS4jbqqjnAJt5Z+10Kzc0PPv5OH8jI4NZ7LRy/hxO5AkiyvogIdd7piN
+ m+hb+DtY9tk7heqkHsTK4wdwsCc7KLL5dPXMSZcD0JUs4xCU4wJ/IrE20E61zs6X
+ 8O7lpsr99DGIRiBaRACWH45Isxcv2y5dgyJFWpN4wKqg9RL3Md/iLtW0ak9DPDba
+ ShZsZA==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3yvrkbkvv3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Jun 2024 15:33:42 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id B679B40044;
+ Fri, 21 Jun 2024 15:33:35 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C2B4D221942;
+ Fri, 21 Jun 2024 15:32:54 +0200 (CEST)
+Received: from [10.48.87.177] (10.48.87.177) by SHFDAG1NODE3.st.com
+ (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 21 Jun
+ 2024 15:32:54 +0200
+Message-ID: <902e6037-9ba9-41ab-bfd0-a25fe2c26bce@foss.st.com>
+Date: Fri, 21 Jun 2024 15:32:53 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="6v7f5m3wwL3qaoRy"
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: TR: [PATCH v4] drm/stm: Avoid use-after-free issues with crtc and
+ plane
+To: Katya Orlova <e.orlova@ispras.ru>
+References: <20240216125040.8968-1-e.orlova@ispras.ru>
+ <0b91cb58-b9ca-4c67-b15a-77c60bc2ee18@foss.st.com>
+ <ef635048bc7b4521be09ca06c66b57a5@foss.st.com>
+Content-Language: en-US
+CC: Philippe Cornu <philippe.cornu@foss.st.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, <dri-devel@lists.freedesktop.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <lvc-project@linuxtesting.org>, Raphael Gallais-Pou
+ <raphael.gallais-pou@foss.st.com>
+From: Yannick FERTRE <yannick.fertre@foss.st.com>
+In-Reply-To: <ef635048bc7b4521be09ca06c66b57a5@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.48.87.177]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE3.st.com
+ (10.75.129.71)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-21_05,2024-06-21_01,2024-05-17_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,71 +90,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Katya,
 
---6v7f5m3wwL3qaoRy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+thanks for the patch.
 
-Hi all,
+Tested-by: Yannick Fertre <yannick.fertre@foss.st.com>
 
-Today's linux-next merge of the drm tree got a conflict in:
+BR
 
-  drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_init.c
-
-between commit:
-
-  c03d770c0b014 ("drm/amd/display: Attempt to avoid empty TUs when endpoint=
- is DPIA")
-
-=66rom the drm-fixes tree and commits:
-
-  47745acc5e8dd ("drm/amd/display: Add trigger FIFO resync path for DCN35")
-  0127f0445f7c1 ("drm/amd/display: Refactor input mode programming for DIG =
-FIFO")
-
-=66rom the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_init.c b/drive=
-rs/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_init.c
-index 199781233fd5f..30e6a63988391 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_init.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_init.c
-@@ -157,8 +160,8 @@ static const struct hwseq_private_funcs dcn35_private_f=
-uncs =3D {
- 	.set_mcm_luts =3D dcn32_set_mcm_luts,
- 	.setup_hpo_hw_control =3D dcn35_setup_hpo_hw_control,
- 	.calculate_dccg_k1_k2_values =3D dcn32_calculate_dccg_k1_k2_values,
--	.set_pixels_per_cycle =3D dcn32_set_pixels_per_cycle,
--	.is_dp_dig_pixel_rate_div_policy =3D dcn35_is_dp_dig_pixel_rate_div_polic=
-y,
-+	.resync_fifo_dccg_dio =3D dcn314_resync_fifo_dccg_dio,
-+	.is_dp_dig_pixel_rate_div_policy =3D dcn32_is_dp_dig_pixel_rate_div_polic=
-y,
- 	.dsc_pg_control =3D dcn35_dsc_pg_control,
- 	.dsc_pg_status =3D dcn32_dsc_pg_status,
- 	.enable_plane =3D dcn35_enable_plane,
-
---6v7f5m3wwL3qaoRy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ1fkkACgkQJNaLcl1U
-h9AyjQf+NYcwSmnP3xpW16rF7WaCcqQmKBlzH6VMIQFcNdUDyyfKEifrumflFV7G
-p0DY+ttTzgrKcKh5TNxzgxFK/Zrc9RCzhnqZpsbCz5dfr9YSuUGoK9tcnoMfUgXL
-Cii+JhXyM+t18tu53iT6XlOLGl1GzrC2fMT2N4R5AeIvhL25my7PErl92VchvncQ
-IkN0EiS6KHH0PwSt7omzgnpq3ovdZYXE8F7+HmJyVLTYFoXCOkeYYDLK0fv/3Auh
-llfyOYxdp8BWXPDH11D1bkkcw72FZpAI4NXX/lmVMWQ1qkCa3l11marLj3R6QhbE
-txUFOeftL7zzc6HHDW3RwR799O4V1Q==
-=Pcbk
------END PGP SIGNATURE-----
-
---6v7f5m3wwL3qaoRy--
+Le 19/03/2024 à 14:47, Philippe CORNU - foss a écrit :
+> zut, déjà un acked-by de RGA...
+> tu confirmes que je prends?
+> Philippe
+> ________________________________________
+> De : Raphael GALLAIS-POU - foss
+> Envoyé : lundi 26 février 2024 14:50
+> À : Katya Orlova
+> Cc : Yannick FERTRE - foss; Philippe CORNU - foss; David Airlie; Daniel Vetter; Maxime Coquelin; Alexandre TORGUE - foss; Philipp Zabel; dri-devel@lists.freedesktop.org; linux-stm32@st-md-mailman.stormreply.com; linux-arm-kernel@lists.infradead.org; linux-kernel@vger.kernel.org; lvc-project@linuxtesting.org
+> Objet : Re: [PATCH v4] drm/stm: Avoid use-after-free issues with crtc and plane
+>
+> On 2/16/24 13:50, Katya Orlova wrote:
+>> ltdc_load() calls functions drm_crtc_init_with_planes(),
+>> drm_universal_plane_init() and drm_encoder_init(). These functions
+>> should not be called with parameters allocated with devm_kzalloc()
+>> to avoid use-after-free issues [1].
+>>
+>> Use allocations managed by the DRM framework.
+>>
+>> Found by Linux Verification Center (linuxtesting.org).
+>>
+>> [1]
+>> https://lore.kernel.org/lkml/u366i76e3qhh3ra5oxrtngjtm2u5lterkekcz6y2jkndhuxzli@diujon4h7qwb/
+>>
+>> Signed-off-by: Katya Orlova <e.orlova@ispras.ru>
+> Hi Katya,
+>
+>
+> Thanks for this submission.
+>
+> Acked-by: Raphaël Gallais-Pou <raphael.gallais-pou@foss.st.com>
+>
+>
+> Regards,
+> Raphaël
+>
