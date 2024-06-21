@@ -2,101 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8614E912946
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 17:18:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46681912956
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 17:21:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B52E10F1E4;
-	Fri, 21 Jun 2024 15:18:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5227110F1E2;
+	Fri, 21 Jun 2024 15:21:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UByxV7t0";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="YPhEtZJz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 517C910F1E2
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 15:17:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 18B9CCE2EDB;
- Fri, 21 Jun 2024 15:17:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72A26C2BBFC;
- Fri, 21 Jun 2024 15:17:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1718983069;
- bh=T4+TI+8ndBdHiFbq61X7WaaGwYLRFKgaWSWHvteO3J0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UByxV7t0eq8J0Qw7PACb4hbk2DnhiRy8zVF4eLQHFo/aC1LZniQEOMioSZbMHRxSR
- oq96gBrVYbppoWkEYMptNWEQSNWa44ERIuQ8pH5I1YjDCvjzx4+iRH90PFeNrLHeId
- Wm6GAURJ/fAcNhkin8QuCuxjO7cTGF4N5k0c0aVhbQcp4EWttBWQnNFQ67LvylPKrq
- mdvRJEkX2n99ntQ+R/VOvy2I6P/YvLWzztckT5ivL24ln7EZJ1OexkPJr8UNcjrPXp
- DP1r+3se4mL2r26c1cEaXoFfvAvBeMEn7Snuh6bqyEC+pSmb5wOEvTnmpccGhfznIi
- 677YuWSHl+4Fg==
-Message-ID: <49f4c98b-88eb-404b-ba77-e892309725db@kernel.org>
-Date: Fri, 21 Jun 2024 17:17:42 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/3] dt-bindings: display: st7701: Add Anbernic RG28XX
- panel
-To: Hironori KIKUCHI <kikuchan98@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Jagan Teki <jagan@amarulasolutions.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+Received: from mail-ed1-f99.google.com (mail-ed1-f99.google.com
+ [209.85.208.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B1B810F1E3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 15:21:32 +0000 (UTC)
+Received: by mail-ed1-f99.google.com with SMTP id
+ 4fb4d7f45d1cf-57cfe600cbeso2562582a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 08:21:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google; t=1718983290; x=1719588090;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=gXSIdZv0D0mNb/eb7+9Hk9KrKi7NwEu+jEPVy55LLuA=;
+ b=YPhEtZJz9Ach8YVLfCs8jeeB/zkKN9MITTHLIDn78SbFAuAzW/e3kr6fQiaScoG27+
+ ZkfgWJBZV/KamrV85gjsQDupQhz5ym00fb4nGpsdUOhwS5v5cHo+v6UK/9pVXjSwLeg8
+ 96C3zZ2tACtEbSrjwTQTpCiE91UCT9zwZ1+lIIzikquUPCAwSvILpe/fXQNmrK7BvF37
+ UadZxi9aoK/i4xgXolXuAZ9PEAADkunfFasl7bEUPtErcCZdGp7Cb3q4+RIZSdCgJSTk
+ pwwBx0X+HdgAyYeykcMURpOT18BsJ56Xo9Nn12T/yzwyZMnABtk5eG4CRQSwQlyezCu7
+ 24PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718983290; x=1719588090;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gXSIdZv0D0mNb/eb7+9Hk9KrKi7NwEu+jEPVy55LLuA=;
+ b=YXGaVMHlkgh11TdTEEKP6TLUBoxqlxC9XyJl5jF3yy4zEllwx72FQ1c/tsWNECgVmV
+ Id5yv55TSiGfxJRfnitwstsgw1Kyv7rfMvVU8Oqw6ISNa7OlTo6RGqi/lYXa6CfM5AyL
+ NRoUc3ECKLm2QMxMQGcFnaY/24d8phTvCTkj4C7pSgJLoB2NQevgu5xj5grpVP6evZeJ
+ Z/JhoeKekrw59w8/39Q1+sMKabV5dis78/GusZrj89uUD4GJyaFLygdKhWLjo0U/YRJS
+ mGSj9lqan8mCz9LXdQZPwY8gTHc2NiSPS9cqaZiXotpVis0cb1IT/AosDLtDMcrrL/Bc
+ wedg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV0/Rq3j44tvAd5yg+kDC4FQqD0ZayayjtBHIX/uayvjYMGMLM4Kr8qtDMoXn8Kj5Rg4/YFs7DQcP5CCHmeN1yef3EDTNsI2Do7Cuh5iEpT
+X-Gm-Message-State: AOJu0Yx4ToxCfGcco67XfoUdOAeKK6RTI2rqofx5HURxwFSTjg4OMtdJ
+ CTqrUqvh0k8lKLgqxDjGXyOmGZWsfZzviwCmXiXBuWPOIyxvdMADAmC93KHaEq+atgapWC/3Y2c
+ kdR6Z6yju/ECT9jAnJTex3ULVigrtDatS
+X-Google-Smtp-Source: AGHT+IFKy7VmOT8K3yxAHMNb+50wk08RrEx/3pcae9tNhGOsjVGCppGQrQnGSgqvx7SqmDfHZj6Jij46TwhL
+X-Received: by 2002:a50:c35e:0:b0:57c:74fb:6e31 with SMTP id
+ 4fb4d7f45d1cf-57d07ee71dcmr5083790a12.35.1718983290325; 
+ Fri, 21 Jun 2024 08:21:30 -0700 (PDT)
+Received: from raspberrypi.com ([188.39.149.98])
+ by smtp-relay.gmail.com with ESMTPS id
+ 4fb4d7f45d1cf-57d305f0781sm33171a12.24.2024.06.21.08.21.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Jun 2024 08:21:30 -0700 (PDT)
+X-Relaying-Domain: raspberrypi.com
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+To: Maxime Ripard <mripard@kernel.org>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-References: <20240618081515.1215552-1-kikuchan98@gmail.com>
- <20240618081515.1215552-2-kikuchan98@gmail.com>
- <0455975b-837b-4a1c-8ea3-e9a504db53d0@kernel.org>
- <CAG40kxHaAwGowQ0dRoEkGSiAUJA5SyKw3SSECUmBApKaAjcHKw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <CAG40kxHaAwGowQ0dRoEkGSiAUJA5SyKw3SSECUmBApKaAjcHKw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [PATCH v2 00/31] Preparatory patches for BCM2712 (Pi5) support
+Date: Fri, 21 Jun 2024 16:20:24 +0100
+Message-Id: <20240621152055.4180873-1-dave.stevenson@raspberrypi.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -113,142 +86,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/06/2024 12:59, Hironori KIKUCHI wrote:
-> Hello Krzysztof,
-> 
-> Thank you for your reply!
-> 
-> On Tue, Jun 18, 2024 at 6:17 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>
->> On 18/06/2024 10:15, Hironori KIKUCHI wrote:
->>> The RG28XX panel is a panel specific to the Anbernic RG28XX.
->>> It is 2.8 inches in size (diagonally) with a resolution of 480x640.
->>>
->>> Signed-off-by: Hironori KIKUCHI <kikuchan98@gmail.com>
->>> ---
->>>  .../display/panel/sitronix,st7701.yaml        | 36 +++++++++++++++++--
->>>  1 file changed, 34 insertions(+), 2 deletions(-)
->>
->> Nothing explains in the commit msg why rg28xx is actually st7701.
->> Changing interface to SPI suggests it is not.
-> 
-> Thanks, I'll explain like this;
-> ---
-> dt-bindings: display: st7701: Add Anbernic RG28XX panel
-> 
-> The RG28XX panel is a panel specific to the Anbernic RG28XX
-> handheld device. It is 2.8 inches in size (diagonally) with a
-> resolution of 480x640.
-> 
-> This panel is driven by a variant of ST7701 driver IC internally,
-> confirmed by dumping and analyzing its BSP initialization sequence
-> by using a logic analyzer. It is very similar to the existing
-> densitron,dmt028vghmcmi-1a panel, but differs in some unknown
-> register values, so add a new entry for the panel to distinguish them.
-> 
-> Additionally, it is connected over SPI, instead of MIPI DSI. So
-> add and modify for SPI as well.
-> ---
+Hi
 
-OK.
+This set is a number of minor fixes that we've had downstream for a while,
+and then lays down the some infrastructure changes to facilitate adding support
+of BCM2712. I'm just finalising those patches so they should follow on fairly
+soon.
 
-> 
->>
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
->>> index b348f5bf0a9..04f6751ccca 100644
->>> --- a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
->>> +++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
->>> @@ -22,19 +22,21 @@ description: |
->>>
->>>  allOf:
->>>    - $ref: panel-common.yaml#
->>> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
->>>
->>>  properties:
->>>    compatible:
->>>      items:
->>>        - enum:
->>>            - anbernic,rg-arc-panel
->>> +          - anbernic,rg28xx-panel
->>
->> What is xx? Wildcards are not allowed, in general.
->>
->> Can it be anything else than panel? If not, then drop "-panel".
-> 
-> It's supprising but it actually is a product name of the handheld device...
-> The panel comes with the device, and part# is completely unknown.
+Thanks
+  Dave
 
-OK
+---
+v1 -> v2
 
-> 
->>
->>
->>>            - densitron,dmt028vghmcmi-1a
->>>            - elida,kd50t048a
->>>            - techstar,ts8550b
->>>        - const: sitronix,st7701
->>>
->>>    reg:
->>> -    description: DSI virtual channel used by that screen
->>> +    description: DSI / SPI channel used by that screen
->>>      maxItems: 1
->>>
->>>    VCC-supply:
->>> @@ -43,6 +45,13 @@ properties:
->>>    IOVCC-supply:
->>>      description: I/O system regulator
->>>
->>> +  dc-gpios:
->>> +    maxItems: 1
->>> +    description: |
->>
->> Do not need '|' unless you need to preserve formatting.
-> 
-> Thanks, I'll remove it.
-> 
->>
->>> +      Controller data/command selection (D/CX) in 4-line SPI mode.
->>> +      If not set, the controller is in 3-line SPI mode.
->>> +      No effect for DSI.
->>
->> Which devices can be connected over SPI? It seems not all, so this
->> should be disallowed (": false" in allOf:if:then:; move the allOf to
->> bottom like in example-schema) for them.
-> 
-> Hmm... That's a difficult question...
-> 
-> There are 3 types of connection that trying to support:
-> DSI, SPI with D/CX pin, and SPI without D/CX pin.
-> 
-> The dc-gpios is required for SPI with D/CX pin, but not for others.
-> 
-> DSI:
-> - anbernic,rg-arc-panel
-> - densitron,dmt028vghmcmi-1a
-> - elida,kd50t048a
-> - techstar,ts8550b
-> 
-> SPI without D/CX pin:
-> - anbernic,rg28xx-panel
-> 
-> But, there are no panels with D/CX pin so far.
-> How should I deal with this? just disallow all, perhaps?
+- Sorted Maxime's email address (git log hid the old address due to mailmap)
+- Added my missed SoB to Dom's patch
+- Extended commit subjects to standardise and include what part of vc4 was being
+  updated.
+- Added Fixes tags to all appropriate patches
+- Dropped "Limit max_bpc to 8 on Pi0-3" as that is already fixed by b47a72f30768f
+- Added "drm/vc4: hvs: Correct logic on stopping an HVS channel" as it is a
+  pre-2712 fix that I found as I was then adding the 2712 stuff on top.
 
-You can disallow for all existing panels, if you are unsure.
+Dave Stevenson (8):
+  drm/vc4: crtc: Force trigger of dlist update on margins change
+  drm/vc4: hvs: Set AXI panic modes for the HVS
+  drm/vc4: hvs: Don't write gamma luts on 2711
+  drm/vc4: plane: YUV planes require vertical scaling to always be
+    enabled
+  drm/vc4: hvs: Fix dlist debug not resetting the next entry pointer
+  drm/vc4: hvs: Remove incorrect limit from hvs_dlist debugfs function
+  drm/vc4: plane: Move the buffer offset out of the vc4_plane_state
+  drm/vc4: hvs: Correct logic on stopping an HVS channel
 
-> 
-> 
-> BTW, does panel's compatible string consider to include it's interface?
+Dom Cobley (7):
+  drm/vc4: plane: Keep fractional source coords inside state
+  drm/vc4: plane: Handle fractional coordinates using the phase field
+  drm/vc4: hdmi: Avoid log spam for audio start failure
+  drm/vc4: plane: Add support for YUV444 formats
+  drm/vc4: hdmi: Increase audio MAI fifo dreq threshold
+  drm/vc4: hdmi: Avoid hang with debug registers when suspended
+  drm/vc4: hvs: Remove ABORT_ON_EMPTY flag
 
-No, the compatible defines the device, not its wiring (bus). The parent
-node defines which bus is needed.
+Maxime Ripard (15):
+  drm/vc4: hdmi: Warn if writing to an unknown HDMI register
+  drm/vc4: hvs: More logging for dlist generation
+  drm/vc4: hvs: Print error if we fail an allocation
+  drm/vc4: plane: Add more debugging for LBM allocation
+  drm/vc4: plane: Use return variable in atomic_check
+  drm/vc4: crtc: Move assigned_channel to a variable
+  drm/vc4: Introduce generation number enum
+  drm/vc4: Make v3d paths unavailable on any generation newer than vc4
+  drm/vc4: hvs: Use switch statement to simplify
+    vc4_hvs_get_fifo_from_output
+  drm/vc4: hvs: Create hw_init function
+  drm/vc4: hvs: Create cob_init function
+  drm/vc4: hvs: Rename hvs_regs list
+  drm/vc4: plane: Change ptr0_offset to an array
+  drm/vc4: hvs: Rework LBM alignment
+  drm/vc4: hvs: Change prototype of __vc4_hvs_alloc to pass registers
 
-> ie, what if two panels use the exact same commands and timings, but
-> over different interface,
-> ... are they "compatible" or not?
+Tim Gover (1):
+  drm/vc4: hvs: Enable SCALER_CONTROL early in HVS init
 
+ drivers/gpu/drm/vc4/tests/vc4_mock.c       |  14 +-
+ drivers/gpu/drm/vc4/vc4_bo.c               |  28 +-
+ drivers/gpu/drm/vc4/vc4_crtc.c             |  35 +-
+ drivers/gpu/drm/vc4/vc4_drv.c              |  22 +-
+ drivers/gpu/drm/vc4/vc4_drv.h              |  29 +-
+ drivers/gpu/drm/vc4/vc4_gem.c              |  24 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c             |  25 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h        |   5 +-
+ drivers/gpu/drm/vc4/vc4_hvs.c              | 351 +++++++++++++--------
+ drivers/gpu/drm/vc4/vc4_irq.c              |  10 +-
+ drivers/gpu/drm/vc4/vc4_kms.c              |  14 +-
+ drivers/gpu/drm/vc4/vc4_perfmon.c          |  20 +-
+ drivers/gpu/drm/vc4/vc4_plane.c            | 281 +++++++++++------
+ drivers/gpu/drm/vc4/vc4_regs.h             |   1 +
+ drivers/gpu/drm/vc4/vc4_render_cl.c        |   2 +-
+ drivers/gpu/drm/vc4/vc4_v3d.c              |  10 +-
+ drivers/gpu/drm/vc4/vc4_validate.c         |   8 +-
+ drivers/gpu/drm/vc4/vc4_validate_shaders.c |   2 +-
+ 18 files changed, 538 insertions(+), 343 deletions(-)
 
-Best regards,
-Krzysztof
+-- 
+2.34.1
 
