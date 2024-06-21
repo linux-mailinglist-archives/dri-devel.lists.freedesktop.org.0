@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D794391188E
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 04:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1044F911892
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 04:31:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2838410E308;
-	Fri, 21 Jun 2024 02:31:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3082910E879;
+	Fri, 21 Jun 2024 02:31:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="T5RAIRyf";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dFQGGlNO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
- [209.85.167.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD99710E308
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 02:31:30 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id
- 5614622812f47-3c9cc681e4fso781498b6e.0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 19:31:30 -0700 (PDT)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 614E010E879
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 02:31:41 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-7041ed475acso1455859b3a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 19:31:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718937090; x=1719541890; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1718937101; x=1719541901; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1K+hSkFBa/z9wm4YENh0APfdLPb/9OfvoDMj7Q9JegI=;
- b=T5RAIRyfkx8n0nORGieyo/9nndgesadXsc/p1sWRrFk4HBlwEMDUskjxL1sAPYruLf
- GGaI+slsCoMcD08DMfRDXSGBbYJh5Kjx5CEzpxfec+jt72hZgsxE83xZSk/C1rZltthg
- MkZ9SpPVaKO37XcNPanKUM5NPgjVQ4I6SGzefqzh8kffEFQyr8Fk33nxtwPe72stLuxM
- JdSZib5VNUpOqS7atMFo2jlgvBQX8uT32hIN6bcG8uYmxZsQ0K73LAu/nFua8vombFY8
- lTecycIBM3MKeqf3H2toR40KaoOdidWqxEIFei7vgXL+3yos18Fm39IjD4Wdj9tT+A0g
- O4rw==
+ bh=gIxIpX3fSDij30wx/6pUEm1wGM6JrlT5xZ3d0lBG2nM=;
+ b=dFQGGlNObsylBcm/kYiOeyEHczbvQCShmAK7ZMqTBWk++3CvKBrvk4S47339aV4h8m
+ lZ6KQuuLovPjL6bZ24IY6yugEhCF+dB5INFr0WO17uGl9u4TM3F2AkTX1vKJzdE0fIxN
+ QyXrHYJtkHdYsv6mS4HglDRYg2B25/SnZBP6kKioDQ0QPAOAJGsobK7DEUwB2iXcWjic
+ nnwfiXdsamUqvasaP4zErxyb+gXpcs8Yugbw9mUFy+dbcF/3P9NETarogNDUvqLW390F
+ fsHA93lz12p5wc0OvGRHmdWklvB3TfRzJlZrS6edlRRLtDY3p5P68zU1jHefJ0ZIeuXy
+ 1e+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718937090; x=1719541890;
+ d=1e100.net; s=20230601; t=1718937101; x=1719541901;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1K+hSkFBa/z9wm4YENh0APfdLPb/9OfvoDMj7Q9JegI=;
- b=PEa9/0Zo65E1/FLRYW6aw0Pkni2E48FJk8GcadDMNrvPDHeKkJ849CTe+NEhvVvvno
- GqPTPRwHtcnC/7TZ0UprIQ9b6LA+rLoQwxZnre2/3pff3CNs5FfbgZtIgH71GT26nLoL
- l+JbyQhB0E/LI+CrvCtbnp/eiugRnSPU8zGOmu/jOuY4uL8a17AwzEtWtjFKRNkBfJC/
- AQcVI4m2R1q27NsKN4E2l+87GJwkfVv23lD4Z+iu6/y+eg0KWQX7wa4feEAIFmFH160f
- siFOElVxogsl45w7ADZbFvqwEBkA/kENDiQXSA0ZTbRnod+RaxXWrh8LkcVmwitUDgFU
- GaHA==
+ bh=gIxIpX3fSDij30wx/6pUEm1wGM6JrlT5xZ3d0lBG2nM=;
+ b=f7BUCXuY2oWRmSF4ZpQZrvDsxEjEr0I5JcRW1dMsj/dlRjIe5pZPDvYmKxBwdK4esU
+ aHqJizoRxLbYC+Ps0q+RoVE9JqJF5gpXF37/BVd4IjtJqCP4FnEpEG1WBBDVTP7h31i7
+ zmSLXJVo5Hr93MOYr2OExYO+URaba60N2mwsX0rLkEbJ5t2DQeMP0dLY7P55vUhVXcAU
+ n1BV1jjHUCTNEBX/NI3mt94cJIyYeyHyuV+SZpYDZ6UQt0gXUjuixVDIhIw5an/ncPJu
+ 2yMiZciiKgCpaLxfQX3H6yko77A2Mt0Z8wZ/eevvy6nws7yhmr4NOOwcrarUlnLroVe7
+ 53Vg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUevManvm+qvoc25+UDRCxUyun5tJjauy5jatpnk4qZ3Q1jOZ5znQeyIgfVTaK4a6cCDQHPsPBkawvhrrvGR9jC6QmH8N2XzSJ3sdNRFwum
-X-Gm-Message-State: AOJu0YxciyDLfYjXzVlQTi4Yptc+2Biv4G6rvJiG+tGYABpY1HMSXcac
- 4BNj4xlbgCjSh+h5InI1ytvCMbfSx3+We0vlhh1O5I7Q4D4wVF6z
-X-Google-Smtp-Source: AGHT+IGPBhm+odN2LJAX3QWj+Jlu2WkC5FUNop9iFT0Xeg6XFGC2MN7wYjSEAKCdXzo9nJ50WQHXKg==
-X-Received: by 2002:a05:6808:1789:b0:3d2:19da:9573 with SMTP id
- 5614622812f47-3d51b97ee20mr8962729b6e.15.1718937089513; 
- Thu, 20 Jun 2024 19:31:29 -0700 (PDT)
+ AJvYcCWnx2nJi4CxTGKnY+K+6K1iYOJ9uxKER+9ZoX9S/CdTnt12zg1HxuvMrDSVNZtoe77ugswnEDXGPRe7wEV8WoELXIFLeu0ZC8AoceGJpJI+
+X-Gm-Message-State: AOJu0YxrxRjHB37rrhK9laBOFrGf0SaHqGfTtoE2KNJvf1gYL3MvaTmc
+ qlok4NC8gWB/eRgPZYe5amPQI/rHFGW/Og+pHs6olPN3ZUdb/95T
+X-Google-Smtp-Source: AGHT+IGYNoV/DB/o6zRof24rJ6xmZEwxYI9LpBEDyg5OiYjfuVgaYmaCgemL5OUn4y/KnIdaoKGjig==
+X-Received: by 2002:a05:6a00:2f43:b0:704:2d64:747 with SMTP id
+ d2e1a72fcca58-70629c1dcdbmr6929306b3a.7.1718937100840; 
+ Thu, 20 Jun 2024 19:31:40 -0700 (PDT)
 Received: from localhost.localdomain ([39.144.105.24])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-706511944d2sm332488b3a.70.2024.06.20.19.31.19
+ d2e1a72fcca58-706511944d2sm332488b3a.70.2024.06.20.19.31.30
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Jun 2024 19:31:29 -0700 (PDT)
+ Thu, 20 Jun 2024 19:31:40 -0700 (PDT)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: torvalds@linux-foundation.org
 Cc: ebiederm@xmission.com, alexei.starovoitov@gmail.com, rostedt@goodmis.org,
@@ -65,9 +65,10 @@ Cc: ebiederm@xmission.com, alexei.starovoitov@gmail.com, rostedt@goodmis.org,
  audit@vger.kernel.org, linux-security-module@vger.kernel.org,
  selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>
-Subject: [PATCH v3 05/11] mm/util: Fix possible race condition in kstrdup()
-Date: Fri, 21 Jun 2024 10:29:53 +0800
-Message-Id: <20240621022959.9124-6-laoar.shao@gmail.com>
+Subject: [PATCH v3 06/11] mm/util: Deduplicate code in {kstrdup, kstrndup,
+ kmemdup_nul}
+Date: Fri, 21 Jun 2024 10:29:54 +0800
+Message-Id: <20240621022959.9124-7-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20240621022959.9124-1-laoar.shao@gmail.com>
 References: <20240621022959.9124-1-laoar.shao@gmail.com>
@@ -88,55 +89,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In kstrdup(), it is critical to ensure that the dest string is always
-NUL-terminated. However, potential race condidtion can occur between a
-writer and a reader.
+These three functions follow the same pattern. To deduplicate the code,
+let's introduce a common help __kstrndup().
 
-Consider the following scenario involving task->comm:
-
-    reader                    writer
-
-  len = strlen(s) + 1;
-                             strlcpy(tsk->comm, buf, sizeof(tsk->comm));
-  memcpy(buf, s, len);
-
-In this case, there is a race condition between the reader and the
-writer. The reader calculate the length of the string `s` based on the
-old value of task->comm. However, during the memcpy(), the string `s`
-might be updated by the writer to a new value of task->comm.
-
-If the new task->comm is larger than the old one, the `buf` might not be
-NUL-terminated. This can lead to undefined behavior and potential
-security vulnerabilities.
-
-Let's fix it by explicitly adding a NUL-terminator.
-
+Suggested-by: Andrew Morton <akpm@linux-foundation.org>
 Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
 ---
- mm/util.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ mm/internal.h | 24 ++++++++++++++++++++++++
+ mm/util.c     | 27 ++++-----------------------
+ 2 files changed, 28 insertions(+), 23 deletions(-)
 
+diff --git a/mm/internal.h b/mm/internal.h
+index b2c75b12014e..fd87f685739b 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -1521,4 +1521,28 @@ static inline void shrinker_debugfs_remove(struct dentry *debugfs_entry,
+ void workingset_update_node(struct xa_node *node);
+ extern struct list_lru shadow_nodes;
+ 
++/**
++ * __kstrndup - Create a NUL-terminated string from @s, which might be unterminated.
++ * @s: The data to stringify
++ * @len: The size of the data, including the null terminator
++ * @gfp: the GFP mask used in the kmalloc() call when allocating memory
++ *
++ * Return: newly allocated copy of @s with NUL-termination or %NULL in
++ * case of error
++ */
++static __always_inline char *__kstrndup(const char *s, size_t len, gfp_t gfp)
++{
++	char *buf;
++
++	buf = kmalloc_track_caller(len, gfp);
++	if (!buf)
++		return NULL;
++
++	memcpy(buf, s, len);
++	/* Ensure the buf is always NUL-terminated, regardless of @s. */
++	buf[len - 1] = '\0';
++	return buf;
++}
++
++
+ #endif	/* __MM_INTERNAL_H */
 diff --git a/mm/util.c b/mm/util.c
-index c9e519e6811f..41c7875572ed 100644
+index 41c7875572ed..d9135c5fdf7f 100644
 --- a/mm/util.c
 +++ b/mm/util.c
-@@ -60,8 +60,14 @@ char *kstrdup(const char *s, gfp_t gfp)
+@@ -58,17 +58,8 @@ char *kstrdup(const char *s, gfp_t gfp)
+ 	if (!s)
+ 		return NULL;
  
- 	len = strlen(s) + 1;
- 	buf = kmalloc_track_caller(len, gfp);
--	if (buf)
-+	if (buf) {
- 		memcpy(buf, s, len);
-+		/* During memcpy(), the string might be updated to a new value,
-+		 * which could be longer than the string when strlen() is
-+		 * called. Therefore, we need to add a null termimator.
-+		 */
-+		buf[len - 1] = '\0';
-+	}
- 	return buf;
+-	len = strlen(s) + 1;
+-	buf = kmalloc_track_caller(len, gfp);
+-	if (buf) {
+-		memcpy(buf, s, len);
+-		/* During memcpy(), the string might be updated to a new value,
+-		 * which could be longer than the string when strlen() is
+-		 * called. Therefore, we need to add a null termimator.
+-		 */
+-		buf[len - 1] = '\0';
+-	}
+-	return buf;
++	len = strlen(s);
++	return __kstrndup(s, len + 1, gfp);
  }
  EXPORT_SYMBOL(kstrdup);
+ 
+@@ -111,12 +102,7 @@ char *kstrndup(const char *s, size_t max, gfp_t gfp)
+ 		return NULL;
+ 
+ 	len = strnlen(s, max);
+-	buf = kmalloc_track_caller(len+1, gfp);
+-	if (buf) {
+-		memcpy(buf, s, len);
+-		buf[len] = '\0';
+-	}
+-	return buf;
++	return __kstrndup(s, len + 1, gfp);
+ }
+ EXPORT_SYMBOL(kstrndup);
+ 
+@@ -195,12 +181,7 @@ char *kmemdup_nul(const char *s, size_t len, gfp_t gfp)
+ 	if (!s)
+ 		return NULL;
+ 
+-	buf = kmalloc_track_caller(len + 1, gfp);
+-	if (buf) {
+-		memcpy(buf, s, len);
+-		buf[len] = '\0';
+-	}
+-	return buf;
++	return __kstrndup(s, len + 1, gfp);
+ }
+ EXPORT_SYMBOL(kmemdup_nul);
+ 
 -- 
 2.39.1
 
