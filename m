@@ -2,89 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F8F4912AA6
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 17:52:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E04D912AAD
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 17:53:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3749310F2F0;
-	Fri, 21 Jun 2024 15:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B41110F2FB;
+	Fri, 21 Jun 2024 15:53:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Yr1RGoGI";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="p1leuw7M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65B1E10F2F0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 15:52:37 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-4247102da30so2653165e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 08:52:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1718985155; x=1719589955; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Vd3HeTeZMYz+szCMLjJ+nPKJvussyehfNdDyWJdflY8=;
- b=Yr1RGoGIHnJQkSz6Ry0I/SVARho0d0uaZ5YA3HxTTgU7rcOcAR8WVW45mTMpRWXYA/
- c3pDDBXtlFwXy4jcpLREA8chRsNqo4kOILM91HpZAzio4o5rxgl7QmEDmGjr8FkMONQ9
- Bd3HY88shDsZSje2nRQHKrjdLnhitlLHp/6Hg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718985155; x=1719589955;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Vd3HeTeZMYz+szCMLjJ+nPKJvussyehfNdDyWJdflY8=;
- b=dgdsBh9jGOL8RefI8sKchy9U2rMB1jyyVIwxT7A+rPwXYEbMBkFQfD922fXaZq9xLR
- YPahcG/JuB31IPy8Tm2iSD1HzBPQBoKQK5r3KVuB4091QJGSBBxbsLIjtMT76SkI0Yyv
- GeCBE6ouibqbWHlwEXriIalT+b/yCp8uSv3AyPXv3TL1g/FZkD+nKdpb6DYYFEZaJrDt
- 7j+UhN01G4wEVBxo/pX22zTHEbY8ryi8HMxjaUmcG/V0pR1ewsTvgTZPgux9q+iYg/cX
- sWKBYh92ENvVuOf/p6QtjYq1YPni0Dw6OTqRipBdfOzRGcZn3AJ4yVG+AWgQDBIyMfgd
- ZxVA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVXvoRXYHgUbxCUDMAih3U/vJb9+QCVzkpDmAm+w0asw0D3ulvLJNo84K5/Lye/1FijE02hk5AwinOFBSeA/l5oooLpHIdZWlMCKaIgidcw
-X-Gm-Message-State: AOJu0YxZGI+3CaTEUjg8kz/+W3IcA2MN/n0IHPfm844H+arIVR9r/WUk
- hYHcfBRECQb/rXtnEO01vuKBs/TOdq/WwFwJFDnBogmyWZ96JSvR4iWdgBqp0oQ=
-X-Google-Smtp-Source: AGHT+IHTT6f9c44NGR6g+VcrdzZyAm7iHTscK4tEiWZvq36vM9pBm1QlBHsawMSX9ZVQwhSsjv6Cbg==
-X-Received: by 2002:a7b:c5ca:0:b0:424:7876:b6ca with SMTP id
- 5b1f17b1804b1-4247876b78bmr54773525e9.1.1718985155185; 
- Fri, 21 Jun 2024 08:52:35 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4247101a955sm102812785e9.0.2024.06.21.08.52.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jun 2024 08:52:34 -0700 (PDT)
-Date: Fri, 21 Jun 2024 17:52:32 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Ekansh Gupta <quic_ekangupt@quicinc.com>,
- Oded Gabbay <ogabbay@kernel.org>, srinivas.kandagatla@linaro.org,
- linux-arm-msm@vger.kernel.org, gregkh@linuxfoundation.org,
- quic_bkumar@quicinc.com, linux-kernel@vger.kernel.org,
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-Subject: Re: [PATCH v1] misc: fastrpc: Move fastrpc driver to misc/fastrpc/
-Message-ID: <ZnWhwJtTXS32UI9H@phenom.ffwll.local>
-Mail-Followup-To: Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Ekansh Gupta <quic_ekangupt@quicinc.com>,
- Oded Gabbay <ogabbay@kernel.org>, srinivas.kandagatla@linaro.org,
- linux-arm-msm@vger.kernel.org, gregkh@linuxfoundation.org,
- quic_bkumar@quicinc.com, linux-kernel@vger.kernel.org,
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
- Dave Airlie <airlied@gmail.com>
-References: <20240612064731.25651-1-quic_ekangupt@quicinc.com>
- <zbpia232dh4ojfsvhcqxrp6cwfygaalu5cycdrs47pqmnrisvk@dq24nww26gkm>
- <z6g5ool5vomkudiroyaxh532rhlfu5x4i3l5xoqrsho2sxv4im@v5ghemjkpc3v>
- <CAA8EJprgCJKOnZo7Q31KZV3SA3NqWxcMmoUxuqnVF+8cQW5ucg@mail.gmail.com>
- <6f59552d-d7a3-5e05-3465-e707c1b7eaf2@quicinc.com>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7E5910F2FB
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 15:53:40 +0000 (UTC)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id DDCC3831A1;
+ Fri, 21 Jun 2024 17:53:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1718985219;
+ bh=iBQHAoFpCJHlYYMix74dbaZHeeAJYclukYLO5AKTIBQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=p1leuw7MNLXI1aQdxDlnY5LMyVdFwRWrsBafDrBdQdEV8HbHuWnGrhzwI8AcQIsj6
+ foE6f4vfbxJ7JXoxoRUqQ+OPRSstJo6a6kiwYg1CdHpsay7PfVCrY25flQIbx3Z4o4
+ wFVEdmn0bTXc4hJiydSeWqQDd3SV8NVLRUgs4zyBdYplUXMbOLB0ChJIgpYIcaKioL
+ H6TfzAdZf0jiqYt9/w2swD6HPLsEdzmmT3aikPDGDmycnIJbdGLosViB9kqSjiH0ag
+ qNR91pfZjP2ri3y9Gf8lQ1/EeHQ7jaCrODSr78SdrM+zfbLiFcBWh2qKJVhInegX3K
+ pDRnyFIqvEo2A==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
+Subject: [PATCH v2 1/6] drm/bridge: tc358767: Split tc_pxl_pll_en() into
+ parameter calculation and enablement
+Date: Fri, 21 Jun 2024 17:52:49 +0200
+Message-ID: <20240621155320.92864-1-marex@denx.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f59552d-d7a3-5e05-3465-e707c1b7eaf2@quicinc.com>
-X-Operating-System: Linux phenom 6.8.9-amd64 
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,87 +66,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 21, 2024 at 09:40:09AM -0600, Jeffrey Hugo wrote:
-> On 6/21/2024 5:19 AM, Dmitry Baryshkov wrote:
-> > On Fri, 21 Jun 2024 at 09:19, Bjorn Andersson <andersson@kernel.org> wrote:
-> > > 
-> > > On Wed, Jun 12, 2024 at 09:28:39PM GMT, Dmitry Baryshkov wrote:
-> > > > On Wed, Jun 12, 2024 at 12:17:28PM +0530, Ekansh Gupta wrote:
-> > > > > Move fastrpc.c from misc/ to misc/fastrpc/. New C files are planned
-> > > > > to be added for PD notifications and other missing features. Adding
-> > > > > and maintaining new files from within fastrpc directory would be easy.
-> > > > > 
-> > > > > Example of feature that is being planned to be introduced in a new C
-> > > > > file:
-> > > > > https://lore.kernel.org/all/20240606165939.12950-6-quic_ekangupt@quicinc.com/
-> > > > > 
-> > > > > Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
-> > > > > ---
-> > > > >   MAINTAINERS                          |  2 +-
-> > > > >   drivers/misc/Kconfig                 | 13 +------------
-> > > > >   drivers/misc/Makefile                |  2 +-
-> > > > >   drivers/misc/fastrpc/Kconfig         | 16 ++++++++++++++++
-> > > > >   drivers/misc/fastrpc/Makefile        |  2 ++
-> > > > >   drivers/misc/{ => fastrpc}/fastrpc.c |  0
-> > > > >   6 files changed, 21 insertions(+), 14 deletions(-)
-> > > > >   create mode 100644 drivers/misc/fastrpc/Kconfig
-> > > > >   create mode 100644 drivers/misc/fastrpc/Makefile
-> > > > >   rename drivers/misc/{ => fastrpc}/fastrpc.c (100%)
-> > > > 
-> > > > Please consider whether it makes sense to move to drivers/accel instead
-> > > > (and possibly writing a better Kconfig entry, specifying that the driver
-> > > > is to be used to offload execution to the DSP).
-> > > > 
-> > > 
-> > > Wouldn't this come with the expectation of following the ABIs of
-> > > drivers/accel and thereby breaking userspace?
-> > 
-> > As I wrote earlier, that depends on the accel/ maintainers decision,
-> > whether it's acceptable to have non-DRM_ACCEL code underneath.
-> > But at least I'd try doing that on the grounds of keeping the code at
-> > the proper place in the drivers/ tree, raising awareness of the
-> > FastRPC, etc.
-> > For example current fastrpc driver bypasses dri-devel reviews, while
-> > if I remember correctly, at some point it was suggested that all
-> > dma-buf-handling drivers should also notify the dri-devel ML.
-> > 
-> > Also having the driver under drivers/accels makes it possible and
-> > logical to  implement DRM_ACCEL uAPI at some point. In the ideal world
-> > we should be able to declare existing FastRPC uAPI as legacy /
-> > deprecated / backwards compatibility only and migrate to the
-> > recommended uAPI approach, which is DRM_ACCEL.
-> > 
-> 
-> I suspect Vetter/Airlie need to be involved in this.
-> 
-> Its my understanding that accelerator drivers are able to reside in misc as
-> long as there is no use of dma-buf.  Use of dma-buf means they need to be in
-> drm/accel.
-> 
-> There is precedent for moving a driver from misc to accel (HabanaLabs).
-> 
-> Right now, I'm not aware that fastRPC meets the requirements for drm/accel.
-> There is an open source userspace driver, but I'm not aware of an open
-> source compiler.  From what I know of the architecture, it should be
-> possible to utilize upstream LLVM to produce one.
+Split tc_pxl_pll_en() into tc_pxl_pll_calc() which does only Pixel PLL
+parameter calculation and tc_pxl_pll_en() which calls tc_pxl_pll_calc()
+and then configures the Pixel PLL register.
 
-Yeah so fastrpc is one of the reasons why I've added a dma_buf regex match
-to MAINTAINERS, and given this move has shown up here on dri-devel that
-seems to work.
+This is a preparatory patch for further rework, where tc_pxl_pll_calc()
+will also be used to find out the exact clock frequency generated by the
+Pixel PLL. This frequency will be used as adjusted_mode clock frequency
+and passed down the display pipeline to obtain exactly this frequency
+on input into this bridge.
 
-But also, it slipped through, can't break uapi, so I just pretend it's not
-really there :-)
+The precise input frequency that matches the Pixel PLL frequency is
+important for this bridge, as if the frequencies do not match, the
+bridge does suffer VFIFO overruns or underruns.
 
-That aside, going forward it might make sense to look into drivers/accel,
-and also going forward new dma_buf uapi will be reviewed to fairly
-stringent standards. We're not going to impose the dri-devel userspace
-rules on everyone, each subsystem tends to know what's best in their
-ecosystem. But if something just ends up in misc so it can avoid the drm
-or accel rules (and I think media is also pretty much on the same page
-nowadays), then expect some serious heat ...
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
+Cc: kernel@dh-electronics.com
+---
+V2: No change
+---
+ drivers/gpu/drm/bridge/tc358767.c | 37 +++++++++++++++++++++----------
+ 1 file changed, 25 insertions(+), 12 deletions(-)
 
-Cheers, Sima
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index 8b84ff77cfe7f..45af31414ce48 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -580,14 +580,9 @@ static int tc_pllupdate(struct tc_data *tc, unsigned int pllctrl)
+ 	return 0;
+ }
+ 
+-static u32 div64_round_up(u64 v, u32 d)
++static int tc_pxl_pll_calc(struct tc_data *tc, u32 refclk, u32 pixelclock,
++			   int *out_best_pixelclock, u32 *out_pxl_pllparam)
+ {
+-	return div_u64(v + d - 1, d);
+-}
+-
+-static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
+-{
+-	int ret;
+ 	int i_pre, best_pre = 1;
+ 	int i_post, best_post = 1;
+ 	int div, best_div = 1;
+@@ -683,11 +678,6 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
+ 	if (best_mul == 128)
+ 		best_mul = 0;
+ 
+-	/* Power up PLL and switch to bypass */
+-	ret = regmap_write(tc->regmap, PXL_PLLCTRL, PLLBYP | PLLEN);
+-	if (ret)
+-		return ret;
+-
+ 	pxl_pllparam  = vco_hi << 24; /* For PLL VCO >= 300 MHz = 1 */
+ 	pxl_pllparam |= ext_div[best_pre] << 20; /* External Pre-divider */
+ 	pxl_pllparam |= ext_div[best_post] << 16; /* External Post-divider */
+@@ -695,6 +685,29 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
+ 	pxl_pllparam |= best_div << 8; /* Divider for PLL RefClk */
+ 	pxl_pllparam |= best_mul; /* Multiplier for PLL */
+ 
++	if (out_best_pixelclock)
++		*out_best_pixelclock = best_pixelclock;
++
++	if (out_pxl_pllparam)
++		*out_pxl_pllparam = pxl_pllparam;
++
++	return 0;
++}
++
++static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
++{
++	u32 pxl_pllparam = 0;
++	int ret;
++
++	ret = tc_pxl_pll_calc(tc, refclk, pixelclock, NULL, &pxl_pllparam);
++	if (ret)
++		return ret;
++
++	/* Power up PLL and switch to bypass */
++	ret = regmap_write(tc->regmap, PXL_PLLCTRL, PLLBYP | PLLEN);
++	if (ret)
++		return ret;
++
+ 	ret = regmap_write(tc->regmap, PXL_PLLPARAM, pxl_pllparam);
+ 	if (ret)
+ 		return ret;
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.43.0
+
