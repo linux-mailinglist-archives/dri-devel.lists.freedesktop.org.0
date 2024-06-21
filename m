@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F82E912962
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 17:22:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BF85912965
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 17:22:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D354810F1EA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8BF810F1EE;
 	Fri, 21 Jun 2024 15:22:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="rUlDr/Si";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="k1FkpU0q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f100.google.com (mail-lf1-f100.google.com
- [209.85.167.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A13FF10F1EB
+Received: from mail-lj1-f228.google.com (mail-lj1-f228.google.com
+ [209.85.208.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDDF510F1EB
  for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 15:21:44 +0000 (UTC)
-Received: by mail-lf1-f100.google.com with SMTP id
- 2adb3069b0e04-52cc14815c3so2258809e87.0
+Received: by mail-lj1-f228.google.com with SMTP id
+ 38308e7fff4ca-2ec50d4e46aso5785631fa.1
  for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 08:21:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1718983302; x=1719588102;
+ d=raspberrypi.com; s=google; t=1718983303; x=1719588103;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ifrtgi/rAs32ASws1Tj02OEDUvZ98LBcpRbhN9UefZk=;
- b=rUlDr/Si09z/9JozqH6HcMnLW066e9AQdZfZWLqZXiwoUKmjmdZkv4ztkXbKvRobR6
- 0Qkt6X98zHJ+m/VvTQwQtVP2OzC8ygWlLs3C0GkoQS2zWby44B/nkR0z3JC73itVZTDN
- kYlb7xf5jhfX0+z4420tPEaQP1TuzCy7NR52KGQZ+eJsfCeFq1g/1YseKygV5ClIKYOr
- TkmC3iXhEx/Dccr5cm1gorqHXMLZhWqpR2mhvBkoeefoYJFmU9oXRwC6dJOxUA+YOUs+
- qSKENyfHaR/ALqbOnAe8Jr5QoPAinrUWWb9P/HPEAfIuCyIFcJAdc/5NgC5aRvYM3mtM
- Wf2A==
+ bh=Vah5T3STMeYAsZCPoSKiEHrhTnJBqttm9TdoY8rEf0E=;
+ b=k1FkpU0qx1enmGEG9tQseWYY4nKkRpk+pUtsA1D0C613UBpAtPUUpNul1BCjckBvqa
+ PtPGAdzPcTRSDmuDP/i2m6wws5DPpN35VXL5ICkEQeFckq5rKiW3gNG+1cGABEHF06XF
+ ZoqVfyKbkgmy3/xUU0Ytjni0SCynGEKdyxn6VW9T7ay+0/X/FqwOb2/0ocxS/sk/UIUg
+ RWNY5+mdA6b8v8nUNBZrWw7l7r4H9yVZHepX+qpW9MUhRf00w6A7S+d5PKGXReZ52RDD
+ Ymg7U7F8dsfhFjkV6jK3pY2Ulu5kT+bCqvTMbRxaHAP9s1fcszc3M5qhidFaYYVOGbdf
+ ClyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718983302; x=1719588102;
+ d=1e100.net; s=20230601; t=1718983303; x=1719588103;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ifrtgi/rAs32ASws1Tj02OEDUvZ98LBcpRbhN9UefZk=;
- b=t0TRZ9dKhWK+fftTAaxuMKeUq/64PjrytQAJqhzcJc2QdWhnVqezVJB2fNy0afC2rJ
- o9UkYgaHY8RHzKRMY5Qb/BG7uy4roz2Fc5Ws0qhazcalMZULgWTUbyRn87TsRHTXoL/Z
- jNTvJ8E7MhPSao/T7clwihrngyo2T+vdMfKlsQKXu9qKCoDLOITp+nm2Ab8lEIZjnxjQ
- JJL0mUTvX/Qmz++06YellOvpRsv3PW269U84EKByUXIor8RXXMnY/jC8oRgSHsA+ST/+
- 72A6SpAxq2qLswiMEYCwUx7TJkG6aueuKpm7iVHagqZQlGaVfhdhZlLpUVsVHy8d7kqm
- S8XA==
+ bh=Vah5T3STMeYAsZCPoSKiEHrhTnJBqttm9TdoY8rEf0E=;
+ b=THjlW6+dGcnX3XmplvyjARMqTmvlN3hRTo0iSuw6dSs+keIgZzgBVZKuD+LF8ftVDu
+ /jUsgF2ZYjihpPO6o00rtHWKgLUWsFO1y5deDaZx38hzboUEK7X68yrDToFfjJuxSmSH
+ ympA51ZrWoEuVXHdPcyk3AtuznzxZwofcO6h0SJmzaEplYS4/9wgxKMM5vJvVl6Tl2eo
+ abnucpkS5dLZMiHSQZf9kA4N0XyM0EHSAmS5mfCvC3Qaq0k8qnkzr5j39FwJ9ziRiKj/
+ RJhTENYgj4XftBWg5/xe7LPQ54uQBQ0x3LhSHUOK3H+UrdLQopOjT+sbsrSqVBOu0MEV
+ 9Srg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVhdh0ywG3SiL+otrF07TJhwJgx6rHZej4A8BRjYq5atT1yOsXRL3wkbUnx6F1vV+pgvZG8DOUIyFGEjFnqmIeo0ErMEt8IMP3rDStxlXqP
-X-Gm-Message-State: AOJu0YwFI/7D3s4Q7CAJLbDMbTaLtKPFtv7fHMNtYvQkmD6ghAiGuFv+
- 5lU5G1CbDdc/vlY6jxl+xoJdhb9ONap8WXyh3V6bibZu+3DM6Irpr+9Lp6/Scb/YWVqBZd+cpZT
- 6KezDjoNx8hb2Nzl3Pz2MOmbD22bW2kXY
-X-Google-Smtp-Source: AGHT+IGRNPdjgLoW8k3G12joXdUzr8NAAg3UQ+tjmDezDiz0yteYcmVctdBPesrTotv61xz/aecKnpM7izz5
-X-Received: by 2002:a05:6512:3b90:b0:52c:cb77:2b8 with SMTP id
- 2adb3069b0e04-52ccb7702eamr5877813e87.5.1718983302442; 
- Fri, 21 Jun 2024 08:21:42 -0700 (PDT)
+ AJvYcCVX9I2t2AHKP3f0Tx/yjgSQFzwFBG/6Qi+JrADVxe+oTEDMc6GFQz+yNOfV2UTqyES/hOekq7jA1tGmDTl0y3hfOnJHvtSny1be57jFydhG
+X-Gm-Message-State: AOJu0YxB4u23USOP1ioi6TOtSYGlcoPyANy9FnIYxbd7s2n64FcjFFiu
+ OVl5QP6D7gJlglgJrGN41IjJuMkZL3nwLohpRfuvoMv2yf9tGNhdAUUqBuIsUaF2s5HaKmbMqAX
+ A5IQZURzWviZnUcpcHhjlGQAAmCuels5r
+X-Google-Smtp-Source: AGHT+IFXOgnW7qhKAHy+W4pCm4vmr7jdOaylIYaerGl2u1MIOHdO9HyKHDp61HrETIPjAM0hvAwqDIDSrBUD
+X-Received: by 2002:a2e:9e14:0:b0:2eb:efff:771e with SMTP id
+ 38308e7fff4ca-2ec3cea1b23mr57968311fa.29.1718983303035; 
+ Fri, 21 Jun 2024 08:21:43 -0700 (PDT)
 Received: from raspberrypi.com ([188.39.149.98])
  by smtp-relay.gmail.com with ESMTPS id
- 5b1f17b1804b1-42481910d7fsm1112135e9.48.2024.06.21.08.21.42
+ 5b1f17b1804b1-424817a9eadsm1079885e9.28.2024.06.21.08.21.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jun 2024 08:21:42 -0700 (PDT)
+ Fri, 21 Jun 2024 08:21:43 -0700 (PDT)
 X-Relaying-Domain: raspberrypi.com
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>,
@@ -66,10 +66,10 @@ To: Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
 Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH v2 21/31] drm/vc4: Make v3d paths unavailable on any
- generation newer than vc4
-Date: Fri, 21 Jun 2024 16:20:45 +0100
-Message-Id: <20240621152055.4180873-22-dave.stevenson@raspberrypi.com>
+Subject: [PATCH v2 22/31] drm/vc4: hvs: Use switch statement to simplify
+ vc4_hvs_get_fifo_from_output
+Date: Fri, 21 Jun 2024 16:20:46 +0100
+Message-Id: <20240621152055.4180873-23-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240621152055.4180873-1-dave.stevenson@raspberrypi.com>
 References: <20240621152055.4180873-1-dave.stevenson@raspberrypi.com>
@@ -92,600 +92,115 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maxime Ripard <mripard@kernel.org>
 
-The V3D IP has been separate since BCM2711, so let's make sure we issue
-a WARN if we're running not only on BCM2711, but also anything newer.
+Since we'll support BCM2712 soon, let's move the logic behind
+vc4_hvs_get_fifo_from_output() to a switch to extend it more easily.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/vc4_bo.c               | 28 +++++++++++-----------
- drivers/gpu/drm/vc4/vc4_crtc.c             |  4 ++--
- drivers/gpu/drm/vc4/vc4_drv.c              |  8 +++----
- drivers/gpu/drm/vc4/vc4_gem.c              | 24 +++++++++----------
- drivers/gpu/drm/vc4/vc4_irq.c              | 10 ++++----
- drivers/gpu/drm/vc4/vc4_kms.c              |  2 +-
- drivers/gpu/drm/vc4/vc4_perfmon.c          | 20 ++++++++--------
- drivers/gpu/drm/vc4/vc4_render_cl.c        |  2 +-
- drivers/gpu/drm/vc4/vc4_v3d.c              | 10 ++++----
- drivers/gpu/drm/vc4/vc4_validate.c         |  8 +++----
- drivers/gpu/drm/vc4/vc4_validate_shaders.c |  2 +-
- 11 files changed, 59 insertions(+), 59 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hvs.c | 77 +++++++++++++++++++----------------
+ 1 file changed, 42 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-index 89e427c9ed32..06c791ace2d8 100644
---- a/drivers/gpu/drm/vc4/vc4_bo.c
-+++ b/drivers/gpu/drm/vc4/vc4_bo.c
-@@ -251,7 +251,7 @@ void vc4_bo_add_to_purgeable_pool(struct vc4_bo *bo)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(bo->base.base.dev);
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	mutex_lock(&vc4->purgeable.lock);
-@@ -265,7 +265,7 @@ static void vc4_bo_remove_from_purgeable_pool_locked(struct vc4_bo *bo)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(bo->base.base.dev);
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	/* list_del_init() is used here because the caller might release
-@@ -396,7 +396,7 @@ struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_bo *bo;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return ERR_PTR(-ENODEV);
- 
- 	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
-@@ -427,7 +427,7 @@ struct vc4_bo *vc4_bo_create(struct drm_device *dev, size_t unaligned_size,
- 	struct drm_gem_dma_object *dma_obj;
- 	struct vc4_bo *bo;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return ERR_PTR(-ENODEV);
- 
- 	if (size == 0)
-@@ -496,7 +496,7 @@ int vc4_bo_dumb_create(struct drm_file *file_priv,
- 	struct vc4_bo *bo = NULL;
+diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+index 7380a02a69a2..922e5f73f5d9 100644
+--- a/drivers/gpu/drm/vc4/vc4_hvs.c
++++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+@@ -296,53 +296,60 @@ int vc4_hvs_get_fifo_from_output(struct vc4_hvs *hvs, unsigned int output)
+ 	u32 reg;
  	int ret;
  
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	ret = vc4_dumb_fixup_args(args);
-@@ -622,7 +622,7 @@ int vc4_bo_inc_usecnt(struct vc4_bo *bo)
- 	struct vc4_dev *vc4 = to_vc4_dev(bo->base.base.dev);
- 	int ret;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	/* Fast path: if the BO is already retained by someone, no need to
-@@ -661,7 +661,7 @@ void vc4_bo_dec_usecnt(struct vc4_bo *bo)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(bo->base.base.dev);
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	/* Fast path: if the BO is still retained by someone, no need to test
-@@ -783,7 +783,7 @@ int vc4_create_bo_ioctl(struct drm_device *dev, void *data,
- 	struct vc4_bo *bo = NULL;
- 	int ret;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	ret = vc4_grab_bin_bo(vc4, vc4file);
-@@ -813,7 +813,7 @@ int vc4_mmap_bo_ioctl(struct drm_device *dev, void *data,
- 	struct drm_vc4_mmap_bo *args = data;
- 	struct drm_gem_object *gem_obj;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	gem_obj = drm_gem_object_lookup(file_priv, args->handle);
-@@ -839,7 +839,7 @@ vc4_create_shader_bo_ioctl(struct drm_device *dev, void *data,
- 	struct vc4_bo *bo = NULL;
- 	int ret;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	if (args->size == 0)
-@@ -918,7 +918,7 @@ int vc4_set_tiling_ioctl(struct drm_device *dev, void *data,
- 	struct vc4_bo *bo;
- 	bool t_format;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	if (args->flags != 0)
-@@ -964,7 +964,7 @@ int vc4_get_tiling_ioctl(struct drm_device *dev, void *data,
- 	struct drm_gem_object *gem_obj;
- 	struct vc4_bo *bo;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	if (args->flags != 0 || args->modifier != 0)
-@@ -1007,7 +1007,7 @@ int vc4_bo_cache_init(struct drm_device *dev)
- 	int ret;
- 	int i;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	/* Create the initial set of BO labels that the kernel will
-@@ -1071,7 +1071,7 @@ int vc4_label_bo_ioctl(struct drm_device *dev, void *data,
- 	struct drm_gem_object *gem_obj;
- 	int ret = 0, label;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	if (!args->len)
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 7220c4a62e12..575900ee67a5 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -1008,7 +1008,7 @@ static int vc4_async_page_flip(struct drm_crtc *crtc,
- 	struct vc4_bo *bo = to_vc4_bo(&dma_bo->base);
- 	int ret;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	/*
-@@ -1051,7 +1051,7 @@ int vc4_page_flip(struct drm_crtc *crtc,
- 		struct drm_device *dev = crtc->dev;
- 		struct vc4_dev *vc4 = to_vc4_dev(dev);
- 
--		if (vc4->gen == VC4_GEN_5)
-+		if (vc4->gen > VC4_GEN_4)
- 			return vc5_async_page_flip(crtc, fb, event, flags);
- 		else
- 			return vc4_async_page_flip(crtc, fb, event, flags);
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index 550324819f37..8c104ace3dc6 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -98,7 +98,7 @@ static int vc4_get_param_ioctl(struct drm_device *dev, void *data,
- 	if (args->pad != 0)
- 		return -EINVAL;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	if (!vc4->v3d)
-@@ -147,7 +147,7 @@ static int vc4_open(struct drm_device *dev, struct drm_file *file)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_file *vc4file;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	vc4file = kzalloc(sizeof(*vc4file), GFP_KERNEL);
-@@ -165,7 +165,7 @@ static void vc4_close(struct drm_device *dev, struct drm_file *file)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_file *vc4file = file->driver_priv;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	if (vc4file->bin_bo_used)
-@@ -301,7 +301,7 @@ static int vc4_drm_bind(struct device *dev)
- 	else
- 		gen = VC4_GEN_4;
- 
--	if (gen == VC4_GEN_5)
-+	if (gen > VC4_GEN_4)
- 		driver = &vc5_drm_driver;
- 	else
- 		driver = &vc4_drm_driver;
-diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
-index b4f72f2aaf1b..0d94165d4b6b 100644
---- a/drivers/gpu/drm/vc4/vc4_gem.c
-+++ b/drivers/gpu/drm/vc4/vc4_gem.c
-@@ -76,7 +76,7 @@ vc4_get_hang_state_ioctl(struct drm_device *dev, void *data,
- 	u32 i;
- 	int ret = 0;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	if (!vc4->v3d) {
-@@ -389,7 +389,7 @@ vc4_wait_for_seqno(struct drm_device *dev, uint64_t seqno, uint64_t timeout_ns,
- 	unsigned long timeout_expire;
- 	DEFINE_WAIT(wait);
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	if (vc4->finished_seqno >= seqno)
-@@ -474,7 +474,7 @@ vc4_submit_next_bin_job(struct drm_device *dev)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_exec_info *exec;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- again:
-@@ -522,7 +522,7 @@ vc4_submit_next_render_job(struct drm_device *dev)
- 	if (!exec)
- 		return;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	/* A previous RCL may have written to one of our textures, and
-@@ -543,7 +543,7 @@ vc4_move_job_to_render(struct drm_device *dev, struct vc4_exec_info *exec)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	bool was_empty = list_empty(&vc4->render_job_list);
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	list_move_tail(&exec->head, &vc4->render_job_list);
-@@ -970,7 +970,7 @@ vc4_job_handle_completed(struct vc4_dev *vc4)
- 	unsigned long irqflags;
- 	struct vc4_seqno_cb *cb, *cb_temp;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	spin_lock_irqsave(&vc4->job_lock, irqflags);
-@@ -1009,7 +1009,7 @@ int vc4_queue_seqno_cb(struct drm_device *dev,
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	unsigned long irqflags;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	cb->func = func;
-@@ -1065,7 +1065,7 @@ vc4_wait_seqno_ioctl(struct drm_device *dev, void *data,
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct drm_vc4_wait_seqno *args = data;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	return vc4_wait_for_seqno_ioctl_helper(dev, args->seqno,
-@@ -1082,7 +1082,7 @@ vc4_wait_bo_ioctl(struct drm_device *dev, void *data,
- 	struct drm_gem_object *gem_obj;
- 	struct vc4_bo *bo;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	if (args->pad != 0)
-@@ -1131,7 +1131,7 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
- 				  args->shader_rec_size,
- 				  args->bo_handle_count);
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	if (!vc4->v3d) {
-@@ -1268,7 +1268,7 @@ int vc4_gem_init(struct drm_device *dev)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	int ret;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	vc4->dma_fence_context = dma_fence_context_alloc(1);
-@@ -1327,7 +1327,7 @@ int vc4_gem_madvise_ioctl(struct drm_device *dev, void *data,
- 	struct vc4_bo *bo;
- 	int ret;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	switch (args->madv) {
-diff --git a/drivers/gpu/drm/vc4/vc4_irq.c b/drivers/gpu/drm/vc4/vc4_irq.c
-index c006d20b5a78..8581cc212a12 100644
---- a/drivers/gpu/drm/vc4/vc4_irq.c
-+++ b/drivers/gpu/drm/vc4/vc4_irq.c
-@@ -263,7 +263,7 @@ vc4_irq_enable(struct drm_device *dev)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	if (!vc4->v3d)
-@@ -280,7 +280,7 @@ vc4_irq_disable(struct drm_device *dev)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	if (!vc4->v3d)
-@@ -303,7 +303,7 @@ int vc4_irq_install(struct drm_device *dev, int irq)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	int ret;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	if (irq == IRQ_NOTCONNECTED)
-@@ -324,7 +324,7 @@ void vc4_irq_uninstall(struct drm_device *dev)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	vc4_irq_disable(dev);
-@@ -337,7 +337,7 @@ void vc4_irq_reset(struct drm_device *dev)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	unsigned long irqflags;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	/* Acknowledge any stale IRQs. */
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index bddfcad10950..58bbb9efc2df 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -461,7 +461,7 @@ static struct drm_framebuffer *vc4_fb_create(struct drm_device *dev,
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct drm_mode_fb_cmd2 mode_cmd_local;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return ERR_PTR(-ENODEV);
- 
- 	/* If the user didn't specify a modifier, use the
-diff --git a/drivers/gpu/drm/vc4/vc4_perfmon.c b/drivers/gpu/drm/vc4/vc4_perfmon.c
-index 31ee7ef80274..4cd3643c3ba7 100644
---- a/drivers/gpu/drm/vc4/vc4_perfmon.c
-+++ b/drivers/gpu/drm/vc4/vc4_perfmon.c
-@@ -23,7 +23,7 @@ void vc4_perfmon_get(struct vc4_perfmon *perfmon)
- 		return;
- 
- 	vc4 = perfmon->dev;
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	refcount_inc(&perfmon->refcnt);
-@@ -37,7 +37,7 @@ void vc4_perfmon_put(struct vc4_perfmon *perfmon)
- 		return;
- 
- 	vc4 = perfmon->dev;
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	if (refcount_dec_and_test(&perfmon->refcnt))
-@@ -49,7 +49,7 @@ void vc4_perfmon_start(struct vc4_dev *vc4, struct vc4_perfmon *perfmon)
- 	unsigned int i;
- 	u32 mask;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	if (WARN_ON_ONCE(!perfmon || vc4->active_perfmon))
-@@ -69,7 +69,7 @@ void vc4_perfmon_stop(struct vc4_dev *vc4, struct vc4_perfmon *perfmon,
- {
- 	unsigned int i;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	if (WARN_ON_ONCE(!vc4->active_perfmon ||
-@@ -90,7 +90,7 @@ struct vc4_perfmon *vc4_perfmon_find(struct vc4_file *vc4file, int id)
- 	struct vc4_dev *vc4 = vc4file->dev;
- 	struct vc4_perfmon *perfmon;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return NULL;
- 
- 	mutex_lock(&vc4file->perfmon.lock);
-@@ -105,7 +105,7 @@ void vc4_perfmon_open_file(struct vc4_file *vc4file)
- {
- 	struct vc4_dev *vc4 = vc4file->dev;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	mutex_init(&vc4file->perfmon.lock);
-@@ -126,7 +126,7 @@ void vc4_perfmon_close_file(struct vc4_file *vc4file)
- {
- 	struct vc4_dev *vc4 = vc4file->dev;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	mutex_lock(&vc4file->perfmon.lock);
-@@ -146,7 +146,7 @@ int vc4_perfmon_create_ioctl(struct drm_device *dev, void *data,
- 	unsigned int i;
- 	int ret;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	if (!vc4->v3d) {
-@@ -200,7 +200,7 @@ int vc4_perfmon_destroy_ioctl(struct drm_device *dev, void *data,
- 	struct drm_vc4_perfmon_destroy *req = data;
- 	struct vc4_perfmon *perfmon;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	if (!vc4->v3d) {
-@@ -228,7 +228,7 @@ int vc4_perfmon_get_values_ioctl(struct drm_device *dev, void *data,
- 	struct vc4_perfmon *perfmon;
- 	int ret;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	if (!vc4->v3d) {
-diff --git a/drivers/gpu/drm/vc4/vc4_render_cl.c b/drivers/gpu/drm/vc4/vc4_render_cl.c
-index ae4ad956f04f..14079853338e 100644
---- a/drivers/gpu/drm/vc4/vc4_render_cl.c
-+++ b/drivers/gpu/drm/vc4/vc4_render_cl.c
-@@ -599,7 +599,7 @@ int vc4_get_rcl(struct drm_device *dev, struct vc4_exec_info *exec)
- 	bool has_bin = args->bin_cl_size != 0;
- 	int ret;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	if (args->min_x_tile > args->max_x_tile ||
-diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-index f703e6e9ace8..14d268f80fa5 100644
---- a/drivers/gpu/drm/vc4/vc4_v3d.c
-+++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-@@ -127,7 +127,7 @@ static int vc4_v3d_debugfs_ident(struct seq_file *m, void *unused)
- int
- vc4_v3d_pm_get(struct vc4_dev *vc4)
- {
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	mutex_lock(&vc4->power_lock);
-@@ -148,7 +148,7 @@ vc4_v3d_pm_get(struct vc4_dev *vc4)
- void
- vc4_v3d_pm_put(struct vc4_dev *vc4)
- {
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	mutex_lock(&vc4->power_lock);
-@@ -178,7 +178,7 @@ int vc4_v3d_get_bin_slot(struct vc4_dev *vc4)
- 	uint64_t seqno = 0;
- 	struct vc4_exec_info *exec;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- try_again:
-@@ -325,7 +325,7 @@ int vc4_v3d_bin_bo_get(struct vc4_dev *vc4, bool *used)
- {
- 	int ret = 0;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	mutex_lock(&vc4->bin_bo_lock);
-@@ -360,7 +360,7 @@ static void bin_bo_release(struct kref *ref)
- 
- void vc4_v3d_bin_bo_put(struct vc4_dev *vc4)
- {
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
- 	mutex_lock(&vc4->bin_bo_lock);
-diff --git a/drivers/gpu/drm/vc4/vc4_validate.c b/drivers/gpu/drm/vc4/vc4_validate.c
-index 4f14cba6b46f..722c0f8909d2 100644
---- a/drivers/gpu/drm/vc4/vc4_validate.c
-+++ b/drivers/gpu/drm/vc4/vc4_validate.c
-@@ -109,7 +109,7 @@ vc4_use_bo(struct vc4_exec_info *exec, uint32_t hindex)
- 	struct drm_gem_dma_object *obj;
- 	struct vc4_bo *bo;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return NULL;
- 
- 	if (hindex >= exec->bo_count) {
-@@ -169,7 +169,7 @@ vc4_check_tex_size(struct vc4_exec_info *exec, struct drm_gem_dma_object *fbo,
- 	uint32_t utile_w = utile_width(cpp);
- 	uint32_t utile_h = utile_height(cpp);
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return false;
- 
- 	/* The shaded vertex format stores signed 12.4 fixed point
-@@ -495,7 +495,7 @@ vc4_validate_bin_cl(struct drm_device *dev,
- 	uint32_t dst_offset = 0;
- 	uint32_t src_offset = 0;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	while (src_offset < len) {
-@@ -942,7 +942,7 @@ vc4_validate_shader_recs(struct drm_device *dev,
- 	uint32_t i;
- 	int ret = 0;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
- 	for (i = 0; i < exec->shader_state_count; i++) {
-diff --git a/drivers/gpu/drm/vc4/vc4_validate_shaders.c b/drivers/gpu/drm/vc4/vc4_validate_shaders.c
-index afb1a4d82684..2d74e786914c 100644
---- a/drivers/gpu/drm/vc4/vc4_validate_shaders.c
-+++ b/drivers/gpu/drm/vc4/vc4_validate_shaders.c
-@@ -786,7 +786,7 @@ vc4_validate_shader(struct drm_gem_dma_object *shader_obj)
- 	struct vc4_validated_shader_info *validated_shader = NULL;
- 	struct vc4_shader_validation_state validation_state;
- 
--	if (WARN_ON_ONCE(vc4->gen == VC4_GEN_5))
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return NULL;
- 
- 	memset(&validation_state, 0, sizeof(validation_state));
+-	if (vc4->gen == VC4_GEN_4)
++	switch (vc4->gen) {
++	case VC4_GEN_4:
+ 		return output;
+ 
+-	/*
+-	 * NOTE: We should probably use drm_dev_enter()/drm_dev_exit()
+-	 * here, but this function is only used during the DRM device
+-	 * initialization, so we should be fine.
+-	 */
++	case VC4_GEN_5:
++		/*
++		 * NOTE: We should probably use
++		 * drm_dev_enter()/drm_dev_exit() here, but this
++		 * function is only used during the DRM device
++		 * initialization, so we should be fine.
++		 */
+ 
+-	switch (output) {
+-	case 0:
+-		return 0;
++		switch (output) {
++		case 0:
++			return 0;
+ 
+-	case 1:
+-		return 1;
++		case 1:
++			return 1;
+ 
+-	case 2:
+-		reg = HVS_READ(SCALER_DISPECTRL);
+-		ret = FIELD_GET(SCALER_DISPECTRL_DSP2_MUX_MASK, reg);
+-		if (ret == 0)
+-			return 2;
++		case 2:
++			reg = HVS_READ(SCALER_DISPECTRL);
++			ret = FIELD_GET(SCALER_DISPECTRL_DSP2_MUX_MASK, reg);
++			if (ret == 0)
++				return 2;
+ 
+-		return 0;
++			return 0;
+ 
+-	case 3:
+-		reg = HVS_READ(SCALER_DISPCTRL);
+-		ret = FIELD_GET(SCALER_DISPCTRL_DSP3_MUX_MASK, reg);
+-		if (ret == 3)
+-			return -EPIPE;
++		case 3:
++			reg = HVS_READ(SCALER_DISPCTRL);
++			ret = FIELD_GET(SCALER_DISPCTRL_DSP3_MUX_MASK, reg);
++			if (ret == 3)
++				return -EPIPE;
+ 
+-		return ret;
++			return ret;
+ 
+-	case 4:
+-		reg = HVS_READ(SCALER_DISPEOLN);
+-		ret = FIELD_GET(SCALER_DISPEOLN_DSP4_MUX_MASK, reg);
+-		if (ret == 3)
+-			return -EPIPE;
++		case 4:
++			reg = HVS_READ(SCALER_DISPEOLN);
++			ret = FIELD_GET(SCALER_DISPEOLN_DSP4_MUX_MASK, reg);
++			if (ret == 3)
++				return -EPIPE;
+ 
+-		return ret;
++			return ret;
+ 
+-	case 5:
+-		reg = HVS_READ(SCALER_DISPDITHER);
+-		ret = FIELD_GET(SCALER_DISPDITHER_DSP5_MUX_MASK, reg);
+-		if (ret == 3)
+-			return -EPIPE;
++		case 5:
++			reg = HVS_READ(SCALER_DISPDITHER);
++			ret = FIELD_GET(SCALER_DISPDITHER_DSP5_MUX_MASK, reg);
++			if (ret == 3)
++				return -EPIPE;
+ 
+-		return ret;
++			return ret;
++
++		default:
++			return -EPIPE;
++		}
+ 
+ 	default:
+ 		return -EPIPE;
 -- 
 2.34.1
 
