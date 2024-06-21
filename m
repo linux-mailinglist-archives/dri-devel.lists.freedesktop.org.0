@@ -2,112 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10F4912E81
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 22:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66AB5912E82
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 22:31:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7915D10E02D;
-	Fri, 21 Jun 2024 20:31:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 770F410E0B1;
+	Fri, 21 Jun 2024 20:31:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="NPOpUh8S";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="OjQZIpXf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE7C510E02D
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 20:31:45 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id
- a640c23a62f3a-a6f176c5c10so296672766b.2
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 13:31:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1719001904; x=1719606704;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CnCN0NXOSNtwy42IdVdysfTTD5ti/ff9XMDOhhfiLx4=;
- b=NPOpUh8Saey9lspQCvBakyaeXLAKs/LCszqXwGw7R66UJOZ0PBJYryuHixjydUk0R+
- 8cwb8nQwpzWVIkwEiM9lYKd2dL3TIJTvb/JH8F0E8CNGEg+6Vb9t6DMmuWa2LlrSdS7R
- AngtsZZ7Z/6ZSILWmEZezDl8Hi+bKcXYudrUTo48SFoYO/6f/jRGAaJpiTGb9/cJlaM0
- WPrIiElh3VXjZvjx+Bm3UsIOFa3C9HyVJ/3711RGRkYnxNOZHFe0kAHI9tNETHnS5rlj
- MPGXL8fd1y9h1pm89EVvJOmNLxJR+WRjRb6LJCLf7Hi6kxiQUUJMYAA/7VA+qyzsqz92
- N/ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719001904; x=1719606704;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CnCN0NXOSNtwy42IdVdysfTTD5ti/ff9XMDOhhfiLx4=;
- b=PYNb4PDP90gQP4HUlD3q0Ayp5LmfIuWo/qhxDw17dNEsbmQ64gV7L5wkFrJ9t4rNwk
- Ln/v6etwQnG/Mg8jlsGrY8V9sFXFDPdQ15t/nrZ9+XXFM7s/HkrzDdJ9yOo5cdfhnpZX
- euMZ4LXhvBfFEg7CNMxWNimN2IwwoMvx4pu/a0ul7f/wi78wa7WgibPlvxkmLRTpG9y4
- FFb8mJ8JHJr4JnJEhkBeYKaHpgdbAehiHP85xdKOTgZS9ejx/4o42sOtsLlEA9cxxE7A
- AqmlGLMZoYTIf0RhKZMVl7xlQq1VHaxiuV59ZPKS/HQQEG1reTOgCpVd4vS+hXD86Sx8
- WyyA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWxrGLVI6L9mBZQziUPyxm2eJnDrtG6byWGPwPW2ABEVm07XZVUCO1DPWvmOwu9m61/DrlZFzFbuzOP+i2x3zu840Z8aoqRgGSt/j/DkJR4
-X-Gm-Message-State: AOJu0YwQ2xaAVecrbOowHkR0VV1P5jEgqWDdByOF2RqPqGzlS50TypHf
- 6ecgZQpozdZ726Bi1EP5iAtVRHQ7Hg+TCNRWIYZHL8XjizKXfU/Ac7t8GQbg5skIOCe0w7rZKKs
- an087GwthkIILHvxdPmdhYFq0nwpqwfPA/xoz
-X-Google-Smtp-Source: AGHT+IH800HqMIWMw3Gfm64r6WN21nh+bezjnNGagk7G9R1DzDSpY7p4WYQEQWPwKzYCAyy4hb9MTRJUxXOTUM+VMbg=
-X-Received: by 2002:a17:906:f349:b0:a6f:49eb:31a5 with SMTP id
- a640c23a62f3a-a6fab7d0b64mr465681666b.77.1719001903259; Fri, 21 Jun 2024
- 13:31:43 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82EA710E0B1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 20:31:53 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45LFkfbl003773;
+ Fri, 21 Jun 2024 20:31:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ RUxcYEGWuMv1jftc+KPnyPT+gkqd+V6Adm2hkxphGqs=; b=OjQZIpXfFIPtXrWj
+ n7gjBAZ81jcZolKCcd4MHJ76TrGZ7sfnr8JjReSt1r9RN/4Bxy0KhZS+5+B0+bt2
+ FW+vxGDMyH4ULjTlNw52cJWuqz1wV0OQEJlv+gLv1A/3NE+rolgNIUJtGpxOZw3F
+ REuJoN+hzknY+euCLEg//2B/nsq8h+6emWTrKDlKbWfh7pHQ5GGd0TmWz8SHRlKe
+ isSm6cFgDAMCET9SYDtxZtlaqGntcdwcEU8qzAukezSbFqM/S5OkfD45pqhFJot5
+ q2Pjmg9gzKYT837nBYI/D33G1pr7YzmXse+cp/ZvJ8TinYHlaEq6bq0e2ai1M5s2
+ K9/b0A==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yw49esxtd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Jun 2024 20:31:43 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45LKVgoN029400
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Jun 2024 20:31:42 GMT
+Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 21 Jun
+ 2024 13:31:41 -0700
+Message-ID: <de5e45eb-4885-4c4b-ab49-f350d82537f3@quicinc.com>
+Date: Fri, 21 Jun 2024 13:31:41 -0700
 MIME-Version: 1.0
-References: <20240613013557.1169171-1-almasrymina@google.com>
- <20240613013557.1169171-11-almasrymina@google.com>
- <20a6a727-d9f2-495c-bf75-72c27740dd82@gmail.com>
-In-Reply-To: <20a6a727-d9f2-495c-bf75-72c27740dd82@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 21 Jun 2024 13:31:29 -0700
-Message-ID: <CAHS8izMce36FwLhFB0znHQYmxpe5hmTSXtZA7+b5VsmSJUfhRw@mail.gmail.com>
-Subject: Re: [PATCH net-next v12 10/13] tcp: RX path for devmem TCP
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, 
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
- Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
- Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, 
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>, 
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 2/3] drm/panel: st7701: Add support for SPI for
+ configuration
+To: Hironori KIKUCHI <kikuchan98@gmail.com>, <linux-kernel@vger.kernel.org>
+CC: Jagan Teki <jagan@amarulasolutions.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>
+References: <20240618081515.1215552-1-kikuchan98@gmail.com>
+ <20240618081515.1215552-3-kikuchan98@gmail.com>
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20240618081515.1215552-3-kikuchan98@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: X8u3Mir84WleVdcmOsCKhDTTW0waZvPE
+X-Proofpoint-GUID: X8u3Mir84WleVdcmOsCKhDTTW0waZvPE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-21_12,2024-06-21_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 lowpriorityscore=0 mlxlogscore=999
+ impostorscore=0 bulkscore=0 clxscore=1011 priorityscore=1501 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2406210148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,148 +98,384 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 17, 2024 at 9:36=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.=
-com> wrote:
->
-> On 6/13/24 02:35, Mina Almasry wrote:
-> >
-> > The pages awaiting freeing are stored in the newly added
-> > sk->sk_user_frags, and each page passed to userspace is get_page()'d.
-> > This reference is dropped once the userspace indicates that it is
-> > done reading this page.  All pages are released when the socket is
-> > destroyed.
->
-> One small concern is that if the pool gets destroyed (i.e.
-> page_pool_destroy) before sockets holding netiov, page pool will
-> semi-busily poll until the sockets die or such and will spam with
-> pr_warn(). E.g. when a user drops the nl but leaks data sockets
-> and continues with its userspace business. You can probably do
-> it in a loop and create dozens of such pending
-> page_pool_release_retry().
->
-
-Yes, true, but this is not really an issue with netiovs per se, it's a
-quirk with the page_pool in general. If a non-devmem page_pool is
-destroyed while there are pages waiting in the receive queues to be
-recvmsg'd, the behavior you described happens anyway AFAIU.
-
-Jakub did some work to improve this. IIRC he disabled the regular
-warning and he reparents the orphan page_pools so they appear in the
-stats of his netlink API.
-
-Since this is behavior already applying to pages, I did not seek to
-improve it as I add devmem support, I just retain it. We could improve
-it in a separate patchset, but I do not see this behavior as a
-critical issue really, especially since the alarming pr_warn has been
-removed.
-
-> > +static int tcp_xa_pool_refill(struct sock *sk, struct tcp_xa_pool *p,
-> > +                           unsigned int max_frags)
-> > +{
-> > +     int err, k;
-> > +
-> > +     if (p->idx < p->max)
-> > +             return 0;
-> > +
-> > +     xa_lock_bh(&sk->sk_user_frags);
-> > +
-> > +     tcp_xa_pool_commit_locked(sk, p);
-> > +
-> > +     for (k =3D 0; k < max_frags; k++) {
-> > +             err =3D __xa_alloc(&sk->sk_user_frags, &p->tokens[k],
-> > +                              XA_ZERO_ENTRY, xa_limit_31b, GFP_KERNEL)=
-;
-> > +             if (err)
-> > +                     break;
-> > +     }
-> > +
-> > +     xa_unlock_bh(&sk->sk_user_frags);
-> > +
-> > +     p->max =3D k;
-> > +     p->idx =3D 0;
-> > +     return k ? 0 : err;
-> > +}
->
-> Personally, I'd prefer this optimisation to be in a separate patch,
-> especially since there is some degree of hackiness to it.
->
->
-
-To be honest this optimization is very necessary from my POV. We ran
-into real production problems due to the excessive locking when we use
-regular xa_alloc(), and Eric implemented this optimization to resolve
-that. I simply squashed the optimization for this upstream series.
-
-If absolutely necessary I can refactor it into a separate patch or
-carry the optimization locally, but this seems like a problem everyone
-looking to use devmem TCP will re-discover, so probably worth just
-having here?
-
-> > +             /* if remaining_len is not satisfied yet, we need to go t=
-o the
-> > +              * next frag in the frag_list to satisfy remaining_len.
-> > +              */
-> > +             skb =3D skb_shinfo(skb)->frag_list ?: skb->next;
-> > +
-> > +             offset =3D offset - start;
->
-> It's an offset into the current skb, isn't it? Wouldn't
-> offset =3D 0; be less confusing?
->
-
-Seems so, AFAICT. Let me try to apply this and see if it trips up any tests=
-.
-
-> > +     } while (skb);
-> > +
-> > +     if (remaining_len) {
-> > +             err =3D -EFAULT;
-> > +             goto out;
-> > +     }
->
-> Having data left is not a fault,
-
-I think it is. The caller of tcp_recvmsg_dmabuf() expects all of
-remaining_len to be used up, otherwise it messes up with the math in
-the caller. __skb_datagram_iter(), which is the equivalent to this one
-for pages, regards having left over data as a fault and also returns
--EFAULT, AFAICT.
-
-> and to get here you
-> need to get an skb with no data left, which shouldn't
-> happen. Seems like everything you need is covered by
-> the "!sent" check below.
->
-
-I think we can get here if we run out of skbs with data, no?
-
-> > @@ -2503,6 +2504,15 @@ static void tcp_md5sig_info_free_rcu(struct rcu_=
-head *head)
-> >   void tcp_v4_destroy_sock(struct sock *sk)
-> >   {
-> >       struct tcp_sock *tp =3D tcp_sk(sk);
-> > +     __maybe_unused unsigned long index;
-> > +     __maybe_unused void *netmem;
->
-> How about adding a function to get rid of __maybe_unused?.
->
-> static void sock_release_devmem_frags() {
-> #ifdef PP
->         unsigned index;
->         ...
-> #endif PP
-> }
->
-
-Will do.
-
-> Also, even though you wire it up for TCP, since ->sk_user_frags
-> is in struct sock I'd expect the release to be somewhere in the
-> generic sock path like __sk_destruct(), and same for init.
-> Perhpas, it's better to leave it for later.
->
 
 
---=20
+On 6/18/2024 1:15 AM, Hironori KIKUCHI wrote:
+> The ST7701 supports not only MIPI DSI, but also SPI as an interface
+> for configuration. To support a panel connected via RGB parallel
+> interface, add support for SPI using MIPI DBI helpers.
+> 
+> Signed-off-by: Hironori KIKUCHI <kikuchan98@gmail.com>
+> ---
+>   drivers/gpu/drm/panel/Kconfig                 |   2 +
+>   drivers/gpu/drm/panel/panel-sitronix-st7701.c | 211 ++++++++++++++----
+>   2 files changed, 172 insertions(+), 41 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 2ae0eb0638f..1831544400d 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -755,7 +755,9 @@ config DRM_PANEL_SHARP_LS060T1SX01
+>   config DRM_PANEL_SITRONIX_ST7701
+>   	tristate "Sitronix ST7701 panel driver"
+>   	depends on OF
+> +	depends on SPI
+>   	depends on DRM_MIPI_DSI
+> +	select DRM_MIPI_DBI
+>   	depends on BACKLIGHT_CLASS_DEVICE
+>   	help
+>   	  Say Y here if you want to enable support for the Sitronix
+> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7701.c b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
+> index 421eb4592b6..3c4a66f2fc7 100644
+> --- a/drivers/gpu/drm/panel/panel-sitronix-st7701.c
+> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
+> @@ -4,6 +4,7 @@
+>    * Author: Jagan Teki <jagan@amarulasolutions.com>
+>    */
+>   
+> +#include <drm/drm_mipi_dbi.h>
+>   #include <drm/drm_mipi_dsi.h>
+>   #include <drm/drm_modes.h>
+>   #include <drm/drm_panel.h>
+> @@ -14,6 +15,7 @@
+>   #include <linux/module.h>
+>   #include <linux/of.h>
+>   #include <linux/regulator/consumer.h>
+> +#include <linux/spi/spi.h>
+>   
+>   #include <video/mipi_display.h>
+>   
+> @@ -130,12 +132,16 @@ struct st7701_panel_desc {
+>   struct st7701 {
+>   	struct drm_panel panel;
+>   	struct mipi_dsi_device *dsi;
+> +	struct mipi_dbi dbi;
+>   	const struct st7701_panel_desc *desc;
+>   
+>   	struct regulator_bulk_data supplies[2];
+>   	struct gpio_desc *reset;
+>   	unsigned int sleep_delay;
+>   	enum drm_panel_orientation orientation;
+> +
+> +	int (*write_command)(struct st7701 *st7701, u8 cmd, const u8 *seq,
+> +			     size_t len);
+>   };
+>   
+>   static inline struct st7701 *panel_to_st7701(struct drm_panel *panel)
+> @@ -143,16 +149,22 @@ static inline struct st7701 *panel_to_st7701(struct drm_panel *panel)
+>   	return container_of(panel, struct st7701, panel);
+>   }
+>   
+> -static inline int st7701_dsi_write(struct st7701 *st7701, const void *seq,
+> -				   size_t len)
+> +static int st7701_dsi_write(struct st7701 *st7701, u8 cmd, const u8 *seq,
+> +			    size_t len)
+>   {
+> -	return mipi_dsi_dcs_write_buffer(st7701->dsi, seq, len);
+> +	return mipi_dsi_dcs_write(st7701->dsi, cmd, seq, len);
+>   }
+>   
+> -#define ST7701_DSI(st7701, seq...)				\
+> -	{							\
+> -		const u8 d[] = { seq };				\
+> -		st7701_dsi_write(st7701, d, ARRAY_SIZE(d));	\
+> +static int st7701_dbi_write(struct st7701 *st7701, u8 cmd, const u8 *seq,
+> +			    size_t len)
+> +{
+> +	return mipi_dbi_command_stackbuf(&st7701->dbi, cmd, seq, len);
+> +}
+> +
+> +#define ST7701_DSI(st7701, cmd, seq...)	
+
+Hi Hironori,
+
+Is it really correct to keep this as *_DSI? Since the macro can 
+theoretically support either DBI or DSI write commands, maybe this 
+should be renamed to something more generic.
+
+				\
+> +	{								\
+> +		const u8 d[] = { seq };					\
+> +		st7701->write_command(st7701, cmd, d, ARRAY_SIZE(d));	\
+>   	}
+>   
+>   static u8 st7701_vgls_map(struct st7701 *st7701)
+> @@ -211,10 +223,10 @@ static void st7701_init_sequence(struct st7701 *st7701)
+>   	/* Command2, BK0 */
+>   	st7701_switch_cmd_bkx(st7701, true, 0);
+>   
+> -	mipi_dsi_dcs_write(st7701->dsi, DSI_CMD2_BK0_PVGAMCTRL,
+> -			   desc->pv_gamma, ARRAY_SIZE(desc->pv_gamma));
+> -	mipi_dsi_dcs_write(st7701->dsi, DSI_CMD2_BK0_NVGAMCTRL,
+> -			   desc->nv_gamma, ARRAY_SIZE(desc->nv_gamma));
+> +	st7701->write_command(st7701, DSI_CMD2_BK0_PVGAMCTRL, desc->pv_gamma,
+
+Same here for the DSI_CMD2_* macros.
+
+> +			      ARRAY_SIZE(desc->pv_gamma));
+> +	st7701->write_command(st7701, DSI_CMD2_BK0_NVGAMCTRL, desc->nv_gamma,
+> +			      ARRAY_SIZE(desc->nv_gamma));
+>   	/*
+>   	 * Vertical line count configuration:
+>   	 * Line[6:0]: select number of vertical lines of the TFT matrix in
+> @@ -974,42 +986,47 @@ static const struct st7701_panel_desc rg_arc_desc = {
+>   	.gip_sequence = rg_arc_gip_sequence,
+>   };
+>   
+> -static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
+> +static void st7701_cleanup(void *data)
+> +{
+> +	struct st7701 *st7701 = (struct st7701 *)data;
+> +
+> +	drm_panel_remove(&st7701->panel);
+> +}
+> +
+> +static int st7701_probe(struct device *dev, int connector_type)
+>   {
+>   	const struct st7701_panel_desc *desc;
+>   	struct st7701 *st7701;
+>   	int ret;
+>   
+> -	st7701 = devm_kzalloc(&dsi->dev, sizeof(*st7701), GFP_KERNEL);
+> +	desc = of_device_get_match_data(dev);
+> +	if (!desc)
+> +		return -ENODEV;
+> +
+> +	st7701 = devm_kzalloc(dev, sizeof(*st7701), GFP_KERNEL);
+>   	if (!st7701)
+>   		return -ENOMEM;
+>   
+> -	desc = of_device_get_match_data(&dsi->dev);
+> -	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> -			  MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
+> -	dsi->format = desc->format;
+> -	dsi->lanes = desc->lanes;
+> -
+> +	st7701->desc = desc;
+>   	st7701->supplies[0].supply = "VCC";
+>   	st7701->supplies[1].supply = "IOVCC";
+>   
+> -	ret = devm_regulator_bulk_get(&dsi->dev, ARRAY_SIZE(st7701->supplies),
+> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(st7701->supplies),
+>   				      st7701->supplies);
+>   	if (ret < 0)
+>   		return ret;
+>   
+> -	st7701->reset = devm_gpiod_get(&dsi->dev, "reset", GPIOD_OUT_LOW);
+> +	st7701->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+>   	if (IS_ERR(st7701->reset)) {
+> -		dev_err(&dsi->dev, "Couldn't get our reset GPIO\n");
+> +		dev_err(dev, "Couldn't get our reset GPIO\n");
+>   		return PTR_ERR(st7701->reset);
+>   	}
+>   
+> -	ret = of_drm_get_panel_orientation(dsi->dev.of_node, &st7701->orientation);
+> +	ret = of_drm_get_panel_orientation(dev->of_node, &st7701->orientation);
+>   	if (ret < 0)
+> -		return dev_err_probe(&dsi->dev, ret, "Failed to get orientation\n");
+> +		return dev_err_probe(dev, ret, "Failed to get orientation\n");
+>   
+> -	drm_panel_init(&st7701->panel, &dsi->dev, &st7701_funcs,
+> -		       DRM_MODE_CONNECTOR_DSI);
+> +	drm_panel_init(&st7701->panel, dev, &st7701_funcs, connector_type);
+>   
+>   	/**
+>   	 * Once sleep out has been issued, ST7701 IC required to wait 120ms
+> @@ -1026,21 +1043,77 @@ static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
+>   	if (ret)
+>   		return ret;
+>   
+> +	dev_set_drvdata(dev, st7701);
+> +
+>   	drm_panel_add(&st7701->panel);
+>   
+> -	mipi_dsi_set_drvdata(dsi, st7701);
+> -	st7701->dsi = dsi;
+> -	st7701->desc = desc;
+> -
+> -	ret = mipi_dsi_attach(dsi);
+> +	ret = devm_add_action_or_reset(dev, st7701_cleanup, st7701);
+
+Is the intention here to move to using the devm framework? Also, just 
+wondering, what advantages does this implementation have over the 
+original implementation?
+
+>   	if (ret)
+> -		goto err_attach;
+> +		return ret;
+
+If you're removing the `goto` here, you could probably drop this entire 
+check and just `return ret` at the end of the function.
+
+>   
+>   	return 0;
+> +}
+>   
+> -err_attach:
+> -	drm_panel_remove(&st7701->panel);
+> -	return ret;
+> +static void st7701_remove(struct st7701 *st7701)
+> +{
+> +	st7701_cleanup(st7701);
+
+Why add an extra helper that's essentially just a wrapper for another 
+helper? Why can't we directly call st7701_cleanup()?
+
 Thanks,
-Mina
+
+Jessica Zhang
+
+> +}
+> +
+> +static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct st7701 *st7701;
+> +	int err;
+> +
+> +	err = st7701_probe(&dsi->dev, DRM_MODE_CONNECTOR_DSI);
+> +	if (err)
+> +		return err;
+> +
+> +	st7701 = dev_get_drvdata(&dsi->dev);
+> +	st7701->dsi = dsi;
+> +	st7701->write_command = st7701_dsi_write;
+> +
+> +	if (!st7701->desc->lanes)
+> +		return dev_err_probe(&dsi->dev, err, "This panel is not for MIPI DSI\n");
+> +
+> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> +			  MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
+> +	dsi->format = st7701->desc->format;
+> +	dsi->lanes = st7701->desc->lanes;
+> +
+> +	mipi_dsi_set_drvdata(dsi, st7701);
+> +
+> +	err = mipi_dsi_attach(dsi);
+> +	if (err)
+> +		return dev_err_probe(&dsi->dev, err, "Failed to init MIPI DSI\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static int st7701_spi_probe(struct spi_device *spi)
+> +{
+> +	struct st7701 *st7701;
+> +	struct gpio_desc *dc;
+> +	int err;
+> +
+> +	err = st7701_probe(&spi->dev, DRM_MODE_CONNECTOR_DPI);
+> +	if (err)
+> +		return err;
+> +
+> +	st7701 = dev_get_drvdata(&spi->dev);
+> +	st7701->write_command = st7701_dbi_write;
+> +
+> +	dc = devm_gpiod_get_optional(&spi->dev, "dc", GPIOD_OUT_LOW | GPIOD_FLAGS_BIT_NONEXCLUSIVE);
+> +	if (IS_ERR(dc))
+> +		return dev_err_probe(&spi->dev, PTR_ERR(dc), "Failed to get GPIO for D/CX\n");
+> +
+> +	spi_set_drvdata(spi, st7701);
+> +
+> +	err = mipi_dbi_spi_init(spi, &st7701->dbi, dc);
+> +	if (err)
+> +		return dev_err_probe(&spi->dev, err, "Failed to init MIPI DBI\n");
+> +	st7701->dbi.read_commands = NULL;
+> +
+> +	return 0;
+>   }
+>   
+>   static void st7701_dsi_remove(struct mipi_dsi_device *dsi)
+> @@ -1048,28 +1121,84 @@ static void st7701_dsi_remove(struct mipi_dsi_device *dsi)
+>   	struct st7701 *st7701 = mipi_dsi_get_drvdata(dsi);
+>   
+>   	mipi_dsi_detach(dsi);
+> -	drm_panel_remove(&st7701->panel);
+> +	st7701_remove(st7701);
+>   }
+>   
+> -static const struct of_device_id st7701_of_match[] = {
+> +static void st7701_spi_remove(struct spi_device *spi)
+> +{
+> +	struct st7701 *st7701 = spi_get_drvdata(spi);
+> +
+> +	st7701_remove(st7701);
+> +}
+> +
+> +static const struct of_device_id st7701_dsi_of_match[] = {
+>   	{ .compatible = "anbernic,rg-arc-panel", .data = &rg_arc_desc },
+>   	{ .compatible = "densitron,dmt028vghmcmi-1a", .data = &dmt028vghmcmi_1a_desc },
+>   	{ .compatible = "elida,kd50t048a", .data = &kd50t048a_desc },
+>   	{ .compatible = "techstar,ts8550b", .data = &ts8550b_desc },
+> -	{ }
+> +	{ /* sentinel */ }
+>   };
+> -MODULE_DEVICE_TABLE(of, st7701_of_match);
+> +MODULE_DEVICE_TABLE(of, st7701_dsi_of_match);
+> +
+> +static const struct of_device_id st7701_spi_of_match[] = {
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, st7701_spi_of_match);
+> +
+> +static const struct spi_device_id st7701_spi_ids[] = {
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(spi, st7701_spi_ids);
+>   
+>   static struct mipi_dsi_driver st7701_dsi_driver = {
+>   	.probe		= st7701_dsi_probe,
+>   	.remove		= st7701_dsi_remove,
+>   	.driver = {
+>   		.name		= "st7701",
+> -		.of_match_table	= st7701_of_match,
+> +		.of_match_table	= st7701_dsi_of_match,
+>   	},
+>   };
+> -module_mipi_dsi_driver(st7701_dsi_driver);
+> +
+> +static struct spi_driver st7701_spi_driver = {
+> +	.probe		= st7701_spi_probe,
+> +	.remove		= st7701_spi_remove,
+> +	.id_table	= st7701_spi_ids,
+> +	.driver = {
+> +		.name		= "st7701",
+> +		.of_match_table	= st7701_spi_of_match,
+> +	},
+> +};
+> +
+> +static int __init st7701_driver_init(void)
+> +{
+> +	int err;
+> +
+> +	err = spi_register_driver(&st7701_spi_driver);
+> +	if (err)
+> +		return err;
+> +
+> +	if (IS_ENABLED(CONFIG_DRM_MIPI_DSI)) {
+> +		err = mipi_dsi_driver_register(&st7701_dsi_driver);
+> +		if (err) {
+> +			spi_unregister_driver(&st7701_spi_driver);
+> +			return err;
+> +		}
+> +
+> +		return 0;
+> +	}
+> +}
+> +module_init(st7701_driver_init);
+> +
+> +static void __exit st7701_driver_exit(void)
+> +{
+> +	if (IS_ENABLED(CONFIG_DRM_MIPI_DSI))
+> +		mipi_dsi_driver_unregister(&st7701_dsi_driver);
+> +
+> +	spi_unregister_driver(&st7701_spi_driver);
+> +}
+> +module_exit(st7701_driver_exit);
+>   
+>   MODULE_AUTHOR("Jagan Teki <jagan@amarulasolutions.com>");
+> +MODULE_AUTHOR("Hironori KIKUCHI <kikuchan98@gmail.com>");
+>   MODULE_DESCRIPTION("Sitronix ST7701 LCD Panel Driver");
+>   MODULE_LICENSE("GPL");
+> -- 
+> 2.45.2
+> 
