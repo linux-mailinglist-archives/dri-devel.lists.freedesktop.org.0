@@ -2,88 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98B5E912A77
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 17:40:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0967D912A84
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 17:43:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 537AC10F216;
-	Fri, 21 Jun 2024 15:40:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8320A10EFD5;
+	Fri, 21 Jun 2024 15:43:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="jdR3/hBf";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="EeWo22ks";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92A5D10F216
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 15:40:18 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45LDeY8X011782;
- Fri, 21 Jun 2024 15:40:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- YBk4CF4UPEXWbB98EgNPocGwgxm/YWpqMdILVUQfhUg=; b=jdR3/hBfUiNJnXJx
- I38h2ZAsHWdFhRhgagKMnPRSFJqc9TLZ2U0dnJIxYYFNnnsatkFph16PdhZ3ECaI
- EAeWSeGZWN8F1rzjeP0hJSEOzd38l5EiziKEe21vmbENa9A5q+DfyauvRFTWoUxY
- aIEla9pTkLYFdm7auWla0DCfloFBLHkml/ZgQMRENUrBpyrrw7aquotLTX7T83Xy
- w/JEqNPsUskwrBqsojj0/PNHKWd+PS/iRWByc12Bx47er0cW03eGDX0pCxPdm7x6
- +STuJyVoKTMefNSJ64nJz377CZcN/HRLRfkPuQeYF3JI9K/XFqXWFhNsZgJz0h5J
- l+Rdow==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yvrrcaxr0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Jun 2024 15:40:12 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45LFeAcO028417
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Jun 2024 15:40:10 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 21 Jun
- 2024 08:40:09 -0700
-Message-ID: <6f59552d-d7a3-5e05-3465-e707c1b7eaf2@quicinc.com>
-Date: Fri, 21 Jun 2024 09:40:09 -0600
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 200FA10EFD6
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 15:43:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1718984578;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8padAC2vgZoYm5gMWgM5Jxwrly13NFf+7Nho49URbpE=;
+ b=EeWo22ksrY0Kr4l7bU0s0MyBhylNxIdimT17s2Z9gZSzjND/RQsJ0v1HOyq4M+SR8Cr41Q
+ kBMOND6iRhx9AiKmyOZGeNlIUzgnfmlrxVkGj3vlYTW10tiDfIBqtoE+SKwxYWJobtld8c
+ JUDNYmIczRxm9Optej07oA1LdfC8Emw=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-584-3kol43H3NiiFQv_dbwjlsw-1; Fri, 21 Jun 2024 11:42:56 -0400
+X-MC-Unique: 3kol43H3NiiFQv_dbwjlsw-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ 38308e7fff4ca-2ebd982d244so15454241fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 08:42:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718984575; x=1719589375;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8padAC2vgZoYm5gMWgM5Jxwrly13NFf+7Nho49URbpE=;
+ b=ReFh/ThBaLH1bzi1sAGrydMH+tSZg48ZxOuU9hI+eSJ/e9GEZXhqof082Uzuvq9rxE
+ i71ZzVacHJp+ifXUsOrJ+7TMPRr8lDlOOV6uYvziXUfx4G3/9Q79Pos+7pSSUyRL0C0M
+ hJ8aAo+D8ehbBTXwY52NbvX07Pmbqd5d43faMCaHlOH9c3mCWlhMpBdJuW0tE2G1kOEC
+ lHuUWGpjJqdR2REfp/ElHMeQXOsX2DeTeTHxtL6PadN+DZKtDCfaxktvUA+xYasEpmiR
+ hWFM2+AoF2d3Xtr95x6uhfZNX+BmZLRaRKbFomG0MVuFXSdpHgfNtvdz5Ht42fBLEQ3S
+ kzog==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWdQXs57XSSBnUYXV0wnIfZxKzQ44fZKCM0j9eLeNtOApy6s3qvSg+pOPGzhe/Kbm2cQHeVNd0I21K8jws9sSfIYnx1sG0A1ClJdYA0GEIO
+X-Gm-Message-State: AOJu0YwIDXEW9owJwZdfHxQQ3V1lojyaDWKqCwdCpPnfs//emihB6Gpx
+ ekzsc2rOQyl3Qwv89MBEmsUAogboIVwhRZQaMn8yxpeseDX8j+Fd2gFOe8ACv5j/nqlShbvoQP/
+ WzJWhQqhbKlcFVFPvgCMSark0hWm/uGqVRI8WvdIbokz0eYaGSle53ZLX8ZCp6//i9g==
+X-Received: by 2002:a2e:87c2:0:b0:2ec:50dc:af8d with SMTP id
+ 38308e7fff4ca-2ec50dcb1c0mr10844031fa.12.1718984575414; 
+ Fri, 21 Jun 2024 08:42:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEcL/uAmvTw3Xz4SGTKYWK4KNhLBx9ctCWYZtT7LlItr1HRHTMUIIoIfC6SGU42CcZuFEWfeQ==
+X-Received: by 2002:a2e:87c2:0:b0:2ec:50dc:af8d with SMTP id
+ 38308e7fff4ca-2ec50dcb1c0mr10843901fa.12.1718984574941; 
+ Fri, 21 Jun 2024 08:42:54 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-424817a9f11sm31899275e9.18.2024.06.21.08.42.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Jun 2024 08:42:54 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, linux-kernel@vger.kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/ssd130x: Add drm_panic support
+In-Reply-To: <87h6dmjry6.fsf@minerva.mail-host-address-is-not-set>
+References: <20240620222222.155933-1-javierm@redhat.com>
+ <24205cdf-a3c6-475e-ba8a-a52d039a402d@redhat.com>
+ <87h6dmjry6.fsf@minerva.mail-host-address-is-not-set>
+Date: Fri, 21 Jun 2024 17:42:53 +0200
+Message-ID: <87ed8qjo8y.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v1] misc: fastrpc: Move fastrpc driver to misc/fastrpc/
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
- <andersson@kernel.org>
-CC: Ekansh Gupta <quic_ekangupt@quicinc.com>, Oded Gabbay
- <ogabbay@kernel.org>, <srinivas.kandagatla@linaro.org>,
- <linux-arm-msm@vger.kernel.org>, <gregkh@linuxfoundation.org>,
- <quic_bkumar@quicinc.com>, <linux-kernel@vger.kernel.org>,
- <quic_chennak@quicinc.com>, <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-References: <20240612064731.25651-1-quic_ekangupt@quicinc.com>
- <zbpia232dh4ojfsvhcqxrp6cwfygaalu5cycdrs47pqmnrisvk@dq24nww26gkm>
- <z6g5ool5vomkudiroyaxh532rhlfu5x4i3l5xoqrsho2sxv4im@v5ghemjkpc3v>
- <CAA8EJprgCJKOnZo7Q31KZV3SA3NqWxcMmoUxuqnVF+8cQW5ucg@mail.gmail.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <CAA8EJprgCJKOnZo7Q31KZV3SA3NqWxcMmoUxuqnVF+8cQW5ucg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: d1R3fDJ_FJG53irXbXHK7jysFboLvO4o
-X-Proofpoint-ORIG-GUID: d1R3fDJ_FJG53irXbXHK7jysFboLvO4o
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-21_07,2024-06-21_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 mlxlogscore=999 spamscore=0 lowpriorityscore=0
- phishscore=0 bulkscore=0 adultscore=0 mlxscore=0 suspectscore=0
- malwarescore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2406140001 definitions=main-2406210114
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,67 +93,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/21/2024 5:19 AM, Dmitry Baryshkov wrote:
-> On Fri, 21 Jun 2024 at 09:19, Bjorn Andersson <andersson@kernel.org> wrote:
+Javier Martinez Canillas <javierm@redhat.com> writes:
+
+> Jocelyn Falempe <jfalempe@redhat.com> writes:
+>
+> Hello Jocelyn, thanks for your feedback!
+>
+>> On 21/06/2024 00:22, Javier Martinez Canillas wrote:
+>>> Add support for the drm_panic infrastructure, which allows to display
+>>> a user friendly message on the screen when a Linux kernel panic occurs.
+>>> 
+>>> The display controller doesn't scanout the framebuffer, but instead the
+>>> pixels are sent to the device using a transport bus. For this reason, a
+>>> .panic_flush handler is needed to flush the panic image to the display.
 >>
->> On Wed, Jun 12, 2024 at 09:28:39PM GMT, Dmitry Baryshkov wrote:
->>> On Wed, Jun 12, 2024 at 12:17:28PM +0530, Ekansh Gupta wrote:
->>>> Move fastrpc.c from misc/ to misc/fastrpc/. New C files are planned
->>>> to be added for PD notifications and other missing features. Adding
->>>> and maintaining new files from within fastrpc directory would be easy.
->>>>
->>>> Example of feature that is being planned to be introduced in a new C
->>>> file:
->>>> https://lore.kernel.org/all/20240606165939.12950-6-quic_ekangupt@quicinc.com/
->>>>
->>>> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
->>>> ---
->>>>   MAINTAINERS                          |  2 +-
->>>>   drivers/misc/Kconfig                 | 13 +------------
->>>>   drivers/misc/Makefile                |  2 +-
->>>>   drivers/misc/fastrpc/Kconfig         | 16 ++++++++++++++++
->>>>   drivers/misc/fastrpc/Makefile        |  2 ++
->>>>   drivers/misc/{ => fastrpc}/fastrpc.c |  0
->>>>   6 files changed, 21 insertions(+), 14 deletions(-)
->>>>   create mode 100644 drivers/misc/fastrpc/Kconfig
->>>>   create mode 100644 drivers/misc/fastrpc/Makefile
->>>>   rename drivers/misc/{ => fastrpc}/fastrpc.c (100%)
->>>
->>> Please consider whether it makes sense to move to drivers/accel instead
->>> (and possibly writing a better Kconfig entry, specifying that the driver
->>> is to be used to offload execution to the DSP).
->>>
+>> Thanks for this patch, that's really cool that drm_panic can work on 
+>> this device too.
 >>
->> Wouldn't this come with the expectation of following the ABIs of
->> drivers/accel and thereby breaking userspace?
-> 
-> As I wrote earlier, that depends on the accel/ maintainers decision,
-> whether it's acceptable to have non-DRM_ACCEL code underneath.
-> But at least I'd try doing that on the grounds of keeping the code at
-> the proper place in the drivers/ tree, raising awareness of the
-> FastRPC, etc.
-> For example current fastrpc driver bypasses dri-devel reviews, while
-> if I remember correctly, at some point it was suggested that all
-> dma-buf-handling drivers should also notify the dri-devel ML.
-> 
-> Also having the driver under drivers/accels makes it possible and
-> logical to  implement DRM_ACCEL uAPI at some point. In the ideal world
-> we should be able to declare existing FastRPC uAPI as legacy /
-> deprecated / backwards compatibility only and migrate to the
-> recommended uAPI approach, which is DRM_ACCEL.
-> 
+>
+> Indeed, that's why I did it. Just to see if it could work :)
+>
+> [...]
+>
+>>> +static void ssd130x_primary_plane_helper_panic_flush(struct drm_plane *plane)
+>>> +{
+>>> +	struct drm_plane_state *plane_state = plane->state;
+>>> +	struct ssd130x_plane_state *ssd130x_plane_state = to_ssd130x_plane_state(plane_state);
+>>> +	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+>>> +	struct drm_crtc *crtc = plane_state->crtc;
+>>> +	struct ssd130x_crtc_state *ssd130x_crtc_state = to_ssd130x_crtc_state(crtc->state);
+>>> +
+>>> +	ssd130x_fb_blit_rect(plane_state->fb, &shadow_plane_state->data[0], &plane_state->dst,
+>>> +			     ssd130x_plane_state->buffer, ssd130x_crtc_state->data_array,
+>>> +			     &shadow_plane_state->fmtcnv_state);
+>>
+>> ssd130x_fb_blit_rect() will call regmap->write(), which involve mutex 
+>> and might sleep. And if the mutex is taken when the panic occurs, it 
+>> might deadlock the panic handling.
+>
+> That's a good point and I something haven't considered...
+>
+>> One solution would be to configure the regmap with config->fast_io and 
+>> config->use_raw_spinlock, and check that the lock is available with 
+>> try_lock(map->raw_spin_lock)
+>> But that means it will waste cpu cycle with busy waiting for normal 
+>> operation, which is not good.
+>>
+>
+> Yeah, I would prefer to not change the driver for normal operation.
+>
 
-I suspect Vetter/Airlie need to be involved in this.
+Another option, that I believe makes more sense, is to just disable the
+regmap locking (using struct regmap_config.disable_locking field [0]).
 
-Its my understanding that accelerator drivers are able to reside in misc 
-as long as there is no use of dma-buf.  Use of dma-buf means they need 
-to be in drm/accel.
+Since this regmap is not shared with other drivers and so any concurrent
+access should already be prevented by the DRM core locking scheme.
 
-There is precedent for moving a driver from misc to accel (HabanaLabs).
+Is my understanding correct?
 
-Right now, I'm not aware that fastRPC meets the requirements for 
-drm/accel.  There is an open source userspace driver, but I'm not aware 
-of an open source compiler.  From what I know of the architecture, it 
-should be possible to utilize upstream LLVM to produce one.
+[0]: https://elixir.bootlin.com/linux/v6.10-rc1/source/include/linux/regmap.h#L326
 
--Jeff
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
