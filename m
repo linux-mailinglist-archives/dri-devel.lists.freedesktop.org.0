@@ -2,64 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E06D7912EAB
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 22:41:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35294912EC5
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 22:45:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78B3E10E1A3;
-	Fri, 21 Jun 2024 20:41:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB01910E1E3;
+	Fri, 21 Jun 2024 20:45:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bjyv1cLB";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="m7UrdR11";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37B1710E1A3
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 20:41:29 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-42278f3aea4so22322745e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 13:41:29 -0700 (PDT)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ACE410E268
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 20:45:28 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-1f4a0050b9aso20018035ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 13:45:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719002487; x=1719607287; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=st2T2bvKPqL7KgdIH6KuergYO7qJ2AF6CEAr7toPRDc=;
- b=bjyv1cLBfwP2s/63JRaQWUz4IdnyHyfDNMySiKdX6S8tBWzAK8stsZ2ckMZOiLrhN7
- mr2U+lXVT6I0Hc3AwaFWLoG9Yt23+4A2zYE+NJfALoTU4kT/bjHqCs3wrJp29ArgVgS9
- UneuxvC742GUQj+sqpWv+XkMdrBKxBIo9TjJwbIuyqERiMdZuYusEX2nmlZ9KduPdytI
- OLARy8rBogb/4htT5lDiuk87u01uxlhg2ci/ik7zOJIIHQllPGipga2YeBolxGFcSHHm
- 2Pz4pt20aLhMr+GFZiZIkuINkVtZ1z2lsaIp79PF6UNo1sJRuD5qklT6rGEl7rVooync
- o0zQ==
+ d=chromium.org; s=google; t=1719002726; x=1719607526;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=iVIU6GRHS/gZCTZAeludJKE1JPkgTaxBngcKV21xUpY=;
+ b=m7UrdR11azW0w13J3pOoNlCViIHIlXMGoaGeBICCxuM7V3hmGdeOloHti6xnd0BoqN
+ X+YSRBtaXRbdJ2AmZNTfTG4lTP4GtM4vP93GKlQZZ/xE6tqjGtXRKr8xQJaiaZtlqg8J
+ h6D7IMOY6EI+M9pc9U3WPdalBW9We+nxIeSVM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719002487; x=1719607287;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1719002726; x=1719607526;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=st2T2bvKPqL7KgdIH6KuergYO7qJ2AF6CEAr7toPRDc=;
- b=L3Er3FwUXRhHbZXo5fp9U0RDDka6Hhe3Mxv96+0mS5xrTaH/z/BI0CT1YM7vIMpHoy
- oMNb6fIMGT2Opk1tX46kxDBTiB7ME3ibuiHZUv0HTSekI38NkybubKvo+acY4UQW0+kb
- 8Eds4l9/TxQyI5x9ArjIhFuWLQPSNRAhx6fVkevP1vqlZK8qgprPZtK/FhgDFEn5gHLU
- vaSg1UbMgq44frTbLl94mAmPRGGSH3ZE1ETBRDiOQ1vP8cxU8AuzegVLVXOw1UXAYCtP
- niT5MAMG5pkMXTzrOX3RqmiBL0OLgrD1zksEjG6fQXj1YxF8UY1JkmNPvhadTqYprJF3
- kE1w==
-X-Gm-Message-State: AOJu0Yyr+7iFTswTD277Yc59lKHeUnGeHwzuPGyVpSKv3HjClHInH3Fp
- bcVbPrpCAEBVme7SgzmlfzCxVfu5ml9PQOqxPJl6o72aqbfKLezsiicVd94MmgLdpN87jq9iN8C
- bobxWyAfOiDuL6wbTfdO5ifcCmuU=
-X-Google-Smtp-Source: AGHT+IHQuZkZM5HM+eDRCVeWgklAl25KFBbRpNSyaHjvVx2sydx9BN7BLwY8bMQZkkbrDDiWh80cvAqHEUjNwY9hGpw=
-X-Received: by 2002:a05:600c:22c3:b0:424:7615:ecc0 with SMTP id
- 5b1f17b1804b1-4247615eed9mr65575685e9.6.1719002486940; Fri, 21 Jun 2024
- 13:41:26 -0700 (PDT)
+ bh=iVIU6GRHS/gZCTZAeludJKE1JPkgTaxBngcKV21xUpY=;
+ b=HHCMIAaE2V3DaMiushzgFTNjozPg3QohbErgkbrzDV9GHkaIJZEsJzVxC5w64LtCJb
+ uqBGF+6BMjGCHEG02rN86zvX2Bx+p1fW0qTou3X031GjFO21Lm4HvSJuYQT2pVfdvHos
+ ElVHrtApW70OFBQ6TgyOj1/toG/JDDEb90aZvGLZ2a8/4Pmg/31qj1QJS9WjCJbWVgJW
+ tkCBDcDb33X5I3jMD5+r2wwC9HZotyv7XgcfmyXhJREOXjOChl5per/dQpRt2Xx7EofK
+ gZrSNmQm7Mm0OCtvDNcVuae7dDjVkYxHUw+2sC9PxmfkTBZIhonYJEBLP9xv+5AL+Cgw
+ fRZg==
+X-Gm-Message-State: AOJu0YzarqpLxDa5F7Jpqc5Jds0WGFWLeGVxTRbk9F4vTt0cDe+w8KLP
+ wZrqEXSA3EMtAridslZHcupCwEcpIn8yi+lQD2bQaDOfycDKtu54btUMJkA8YfOLt07AMF8Z290
+ =
+X-Google-Smtp-Source: AGHT+IGc5lFqy825QUrUnhdu5/F6soEBlI4c8S4/mkbvE8LxAatpYoO1AAaeGDcuQqq7HtpQ9m5vcg==
+X-Received: by 2002:a17:902:ec83:b0:1f6:fcca:12dc with SMTP id
+ d9443c01a7336-1f9aa3e893cmr115474975ad.28.1719002726284; 
+ Fri, 21 Jun 2024 13:45:26 -0700 (PDT)
+Received: from dianders.sjc.corp.google.com
+ ([2620:15c:9d:2:7abd:666f:1067:fa35])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f9eb2f271esm18746215ad.38.2024.06.21.13.45.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Jun 2024 13:45:25 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+ Chris Morgan <macromorgan@hotmail.com>,
+ Yuran Pereira <yuran.pereira@hotmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>, David Airlie <airlied@gmail.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/panel: Avoid warnings w/ panel-simple/panel-edp at
+ shutdown
+Date: Fri, 21 Jun 2024 13:44:29 -0700
+Message-ID: <20240621134427.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
+X-Mailer: git-send-email 2.45.2.741.gdbec12cfda-goog
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 22 Jun 2024 06:41:13 +1000
-Message-ID: <CAPM=9tyhLY-=pyy=RU0kyTQmV=_cFujRQ0Z=KY+o8V6KxcA7Ew@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.10-rc5
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,143 +89,205 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Linus,
+At shutdown if you've got a _properly_ coded DRM modeset driver then
+you'll get these two warnings at shutdown time:
 
-Still pretty quiet, two weeks worth of amdgpu fixes, with one i915 and
-one xe. I didn't get the drm-misc-fixes tree PR this week, but there
-was only one fix queued and I think it can way another week, so seems
-pretty normal.
+  Skipping disable of already disabled panel
+  Skipping unprepare of already unprepared panel
 
-Dave.
+These warnings are ugly and sound concerning, but they're actually a
+sign of a properly working system. That's not great.
 
-drm-fixes-2024-06-22:
-drm fixes for 6.10-rc5
+We're not ready to get rid of the calls to drm_panel_disable() and
+drm_panel_unprepare() because we're not 100% convinced that all DRM
+modeset drivers are properly calling drm_atomic_helper_shutdown() or
+drm_helper_force_disable_all() at the right times. However, having the
+warning show up for correctly working systems is bad.
 
-xe:
-- Fix for invalid register access
+As a bit of a workaround, add some "if" tests to try to avoid the
+warning on correctly working systems. Also add some comments and
+update the TODO items in the hopes that future developers won't be too
+confused by what's going on here.
 
-i915:
-- Fix conditions for joiner usage, it's not possible with eDP MSO
+Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+This patch came out of discussion on dri-devel on 2024-06-21
+[1]. NOTE: I have put all changes into one patch since it didn't seem
+to add anything to break up the updating of the TODO or the comments
+in the core into separate patches since the patch is all about one
+topic and all code is expected to land in the same tree.
 
-amdgpu:
-- Fix display idle optimization race
-- Fix GPUVM TLB flush locking scope
-- IPS fix
-- GFX 9.4.3 harvesting fix
-- Runtime pm fix for shared buffers
-- DCN 3.5.x fixes
-- USB4 fix
-- RISC-V clang fix
-- Silence UBSAN warnings
-- MES11 fix
-- PSP 14.0.x fix
-The following changes since commit 6ba59ff4227927d3a8530fc2973b80e94b54d58f=
-:
+Previous versions:
+v0: https://lore.kernel.org/r/20240604172305.v3.24.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid/
+v1: https://lore.kernel.org/r/20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid
 
-  Linux 6.10-rc4 (2024-06-16 13:40:16 -0700)
+[1] https://people.freedesktop.org/~cbrill/dri-log/?channel=dri-devel&date=2024-06-21
 
-are available in the Git repository at:
+ Documentation/gpu/todo.rst           | 35 +++++++++++++---------------
+ drivers/gpu/drm/drm_panel.c          | 18 ++++++++++++++
+ drivers/gpu/drm/panel/panel-edp.c    | 26 ++++++++++++++-------
+ drivers/gpu/drm/panel/panel-simple.c | 26 ++++++++++++++-------
+ 4 files changed, 68 insertions(+), 37 deletions(-)
 
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-06-22
-
-for you to fetch changes up to d1913b86f7351238106068785e9adc63d76d8790:
-
-  Merge tag 'drm-xe-fixes-2024-06-20' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-(2024-06-21 11:59:31 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.10-rc5
-
-xe:
-- Fix for invalid register access
-
-i915:
-- Fix conditions for joiner usage, it's not possible with eDP MSO
-
-amdgpu:
-- Fix display idle optimization race
-- Fix GPUVM TLB flush locking scope
-- IPS fix
-- GFX 9.4.3 harvesting fix
-- Runtime pm fix for shared buffers
-- DCN 3.5.x fixes
-- USB4 fix
-- RISC-V clang fix
-- Silence UBSAN warnings
-- MES11 fix
-- PSP 14.0.x fix
-
-----------------------------------------------------------------
-Alex Deucher (2):
-      drm/radeon: fix UBSAN warning in kv_dpm.c
-      drm/amdgpu: fix UBSAN warning in kv_dpm.c
-
-Christian K=C3=B6nig (2):
-      drm/amdgpu: revert "take runtime pm reference when we attach a buffer=
-" v2
-      drm/amdgpu: cleanup MES11 command submission
-
-Daniel Miess (1):
-      drm/amd/display: Change dram_clock_latency to 34us for dcn351
-
-Dave Airlie (3):
-      Merge tag 'drm-intel-fixes-2024-06-19' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
-      Merge tag 'amd-drm-fixes-6.10-2024-06-19' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-xe-fixes-2024-06-20' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-
-Hamza Mahfooz (1):
-      drm/amd/display: prevent register access while in IPS
-
-Harish Kasiviswanathan (1):
-      drm/amdgpu: Indicate CU havest info to CP
-
-Jani Nikula (1):
-      drm/i915/mso: using joiner is not possible with eDP MSO
-
-Likun Gao (1):
-      drm/amdgpu: init TA fw for psp v14
-
-Michael Strauss (1):
-      drm/amd/display: Attempt to avoid empty TUs when endpoint is DPIA
-
-Michal Wajdeczko (1):
-      drm/xe/vf: Don't touch GuC irq registers if using memory irqs
-
-Nathan Chancellor (1):
-      drm/amd/display: Disable CONFIG_DRM_AMD_DC_FP for RISC-V with clang
-
-Paul Hsieh (1):
-      drm/amd/display: change dram_clock_latency to 34us for dcn35
-
-Roman Li (1):
-      drm/amd/display: Remove redundant idle optimization check
-
-Yunxiang Li (1):
-      drm/amdgpu: fix locking scope when flushing tlb
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        | 34 ----------
- drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c          |  2 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            | 66 ++++++++++--------=
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 2ea6ffc9b22b..96c453980ab6 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -475,25 +475,22 @@ Remove disable/unprepare in remove/shutdown in panel-simple and panel-edp
+ As of commit d2aacaf07395 ("drm/panel: Check for already prepared/enabled in
+ drm_panel"), we have a check in the drm_panel core to make sure nobody
+ double-calls prepare/enable/disable/unprepare. Eventually that should probably
+-be turned into a WARN_ON() or somehow made louder, but right now we actually
+-expect it to trigger and so we don't want it to be too loud.
 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h          | 15 -----
- drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c            | 15 ++++-
- drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             | 76 ++++++++++++++----=
-----
- drivers/gpu/drm/amd/amdgpu/psp_v14_0.c             |  5 ++
- drivers/gpu/drm/amd/display/Kconfig                |  2 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 13 +++-
- .../gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c   |  2 +-
- .../gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c |  2 +-
- .../drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c    | 72 ++++++++++++++++++=
-++
- .../drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.h    |  2 +
- .../gpu/drm/amd/display/dc/hwss/dcn35/dcn35_init.c |  2 +-
- drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c         |  2 +
- drivers/gpu/drm/i915/display/intel_dp.c            |  4 ++
- drivers/gpu/drm/radeon/sumo_dpm.c                  |  2 +
- drivers/gpu/drm/xe/xe_guc.c                        |  4 +-
- 18 files changed, 198 insertions(+), 122 deletions(-)
+-Specifically, that warning will trigger for panel-edp and panel-simple at
+-shutdown time because those panels hardcode a call to drm_panel_disable()
+-and drm_panel_unprepare() at shutdown and remove time that they call regardless
+-of panel state. On systems with a properly coded DRM modeset driver that
+-calls drm_atomic_helper_shutdown() this is pretty much guaranteed to cause
+-the warning to fire.
+-
+-Unfortunately we can't safely remove the calls in panel-edp and panel-simple
+-until we're sure that all DRM modeset drivers that are used with those panels
+-properly call drm_atomic_helper_shutdown(). This TODO item is to validate
+-that all DRM modeset drivers used with panel-edp and panel-simple properly
+-call drm_atomic_helper_shutdown() and then remove the calls to
+-disable/unprepare from those panels. Alternatively, this TODO item could be
+-removed by convincing stakeholders that those calls are fine and downgrading
+-the error message in drm_panel_disable() / drm_panel_unprepare() to a
+-debug-level message.
++be turned into a WARN_ON() or somehow made louder.
++
++At the moment, we expect that we may still encounter the warnings in the
++drm_panel core when using panel-simple and panel-edp. Since those panel
++drivers are used with a lot of different DRM modeset drivers they still
++make an extra effort to disable/unprepare the panel themsevles at shutdown
++time. Specifically we could still encounter those warnings if the panel
++driver gets shutdown() _before_ the DRM modeset driver and the DRM modeset
++driver properly calls drm_atomic_helper_shutdown() in its own shutdown()
++callback. Warnings could be avoided in such a case by using something like
++device links to ensure that the panel gets shutdown() after the DRM modeset
++driver.
++
++Once all DRM modeset drivers are known to shutdown properly, the extra
++calls to disable/unprepare in remove/shutdown in panel-simple and panel-edp
++should be removed and this TODO item marked complete.
+ 
+ Contact: Douglas Anderson <dianders@chromium.org>
+ 
+diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+index cfbe020de54e..19ab0a794add 100644
+--- a/drivers/gpu/drm/drm_panel.c
++++ b/drivers/gpu/drm/drm_panel.c
+@@ -161,6 +161,15 @@ int drm_panel_unprepare(struct drm_panel *panel)
+ 	if (!panel)
+ 		return -EINVAL;
+ 
++	/*
++	 * If you are seeing the warning below it likely means one of two things:
++	 * - Your panel driver incorrectly calls drm_panel_unprepare() in its
++	 *   shutdown routine. You should delete this.
++	 * - You are using panel-edp or panel-simple and your DRM modeset
++	 *   driver's shutdown() callback happened after the panel's shutdown().
++	 *   In this case the warning is harmless though ideally you should
++	 *   figure out how to reverse the order of the shutdown() callbacks.
++	 */
+ 	if (!panel->prepared) {
+ 		dev_warn(panel->dev, "Skipping unprepare of already unprepared panel\n");
+ 		return 0;
+@@ -245,6 +254,15 @@ int drm_panel_disable(struct drm_panel *panel)
+ 	if (!panel)
+ 		return -EINVAL;
+ 
++	/*
++	 * If you are seeing the warning below it likely means one of two things:
++	 * - Your panel driver incorrectly calls drm_panel_disable() in its
++	 *   shutdown routine. You should delete this.
++	 * - You are using panel-edp or panel-simple and your DRM modeset
++	 *   driver's shutdown() callback happened after the panel's shutdown().
++	 *   In this case the warning is harmless though ideally you should
++	 *   figure out how to reverse the order of the shutdown() callbacks.
++	 */
+ 	if (!panel->enabled) {
+ 		dev_warn(panel->dev, "Skipping disable of already disabled panel\n");
+ 		return 0;
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 3a574a9b46e7..8723cd190913 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -954,16 +954,24 @@ static void panel_edp_shutdown(struct device *dev)
+ 	 * drm_atomic_helper_shutdown() at shutdown time and that should
+ 	 * cause the panel to be disabled / unprepared if needed. For now,
+ 	 * however, we'll keep these calls due to the sheer number of
+-	 * different DRM modeset drivers used with panel-edp. The fact that
+-	 * we're calling these and _also_ the drm_atomic_helper_shutdown()
+-	 * will try to disable/unprepare means that we can get a warning about
+-	 * trying to disable/unprepare an already disabled/unprepared panel,
+-	 * but that's something we'll have to live with until we've confirmed
+-	 * that all DRM modeset drivers are properly calling
+-	 * drm_atomic_helper_shutdown().
++	 * different DRM modeset drivers used with panel-edp. Once we've
++	 * confirmed that all DRM modeset drivers using this panel properly
++	 * call drm_atomic_helper_shutdown() we can simply delete the two
++	 * calls below.
++	 *
++	 * TO BE EXPLICIT: THE CALLS BELOW SHOULDN'T BE COPIED TO ANY NEW
++	 * PANEL DRIVERS.
++	 *
++	 * FIXME: If we're still haven't figured out if all DRM modeset
++	 * drivers properly call drm_atomic_helper_shutdown() but we _have_
++	 * managed to make sure that DRM modeset drivers get their shutdown()
++	 * callback before the panel's shutdown() callback (perhaps using
++	 * device link), we could add a WARN_ON here to help move forward.
+ 	 */
+-	drm_panel_disable(&panel->base);
+-	drm_panel_unprepare(&panel->base);
++	if (panel->base.enabled)
++		drm_panel_disable(&panel->base);
++	if (panel->base.prepared)
++		drm_panel_unprepare(&panel->base);
+ }
+ 
+ static void panel_edp_remove(struct device *dev)
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 8345ed891f5a..022ffab2324a 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -726,16 +726,24 @@ static void panel_simple_shutdown(struct device *dev)
+ 	 * drm_atomic_helper_shutdown() at shutdown time and that should
+ 	 * cause the panel to be disabled / unprepared if needed. For now,
+ 	 * however, we'll keep these calls due to the sheer number of
+-	 * different DRM modeset drivers used with panel-simple. The fact that
+-	 * we're calling these and _also_ the drm_atomic_helper_shutdown()
+-	 * will try to disable/unprepare means that we can get a warning about
+-	 * trying to disable/unprepare an already disabled/unprepared panel,
+-	 * but that's something we'll have to live with until we've confirmed
+-	 * that all DRM modeset drivers are properly calling
+-	 * drm_atomic_helper_shutdown().
++	 * different DRM modeset drivers used with panel-simple. Once we've
++	 * confirmed that all DRM modeset drivers using this panel properly
++	 * call drm_atomic_helper_shutdown() we can simply delete the two
++	 * calls below.
++	 *
++	 * TO BE EXPLICIT: THE CALLS BELOW SHOULDN'T BE COPIED TO ANY NEW
++	 * PANEL DRIVERS.
++	 *
++	 * FIXME: If we're still haven't figured out if all DRM modeset
++	 * drivers properly call drm_atomic_helper_shutdown() but we _have_
++	 * managed to make sure that DRM modeset drivers get their shutdown()
++	 * callback before the panel's shutdown() callback (perhaps using
++	 * device link), we could add a WARN_ON here to help move forward.
+ 	 */
+-	drm_panel_disable(&panel->base);
+-	drm_panel_unprepare(&panel->base);
++	if (panel->base.enabled)
++		drm_panel_disable(&panel->base);
++	if (panel->base.prepared)
++		drm_panel_unprepare(&panel->base);
+ }
+ 
+ static void panel_simple_remove(struct device *dev)
+-- 
+2.45.2.741.gdbec12cfda-goog
+
