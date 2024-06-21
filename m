@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD7619118A5
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 04:32:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F989118AA
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 04:32:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D46DA10E902;
-	Fri, 21 Jun 2024 02:32:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA0D610E907;
+	Fri, 21 Jun 2024 02:32:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YWX+Oc1/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aEgDnr9r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
- [209.85.210.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70E6110E902
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 02:32:38 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id
- d2e1a72fcca58-704090c11easo1257625b3a.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 19:32:38 -0700 (PDT)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F4D910E907
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 02:32:50 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-70436048c25so1558806b3a.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2024 19:32:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718937158; x=1719541958; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1718937170; x=1719541970; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mM/1S9T2tBYoZCgE31Q/lEbGdBggp1bwKT3yTD3UzMc=;
- b=YWX+Oc1/1ig+bgb1GJd4zVQcl8nnaqEg0qWWyl8TpXc206zELwVgboetpQQzWMPyGV
- glDO5dJ8fdG1+pMw/9hqLIEpL3kBb3uJW92EVdEGu50ZT5EcCBgQMxhOCXWeQAWPSg1k
- gi9cWFy55ZpVXqgiDlAiVjW9PbuJx8FbrHJPIjOkjuPdeWH5FrZ4BBWXYV4ETy1po3uC
- xtymNnM+ZVweYVy0T8wlO4RZKkQo9MJyvCs3FDxVtGBah/YMM6fQ+5E9NuJp4aIsNJ5i
- 2u5rccl0L/HPlKX/6ek7e7TrHctWdP14YaJj9E0iSj5HHJe+yIqHABKi0D2FhAHyVWFd
- RvBQ==
+ bh=ByPZqEdQZBBtzQ6Ut5Ro8SR1Vw4SYts83oZvgSR+UR8=;
+ b=aEgDnr9rD7rxr857OChC+Yq2QTkH86d4cze3ZAFAoARN1EPrMDvzLgvzPkQ77bdQ9W
+ z7QPAV3/Aesn2iRn3Ey4CHmwqoAy/BrrvylEI3h/nnos4WrI0T6MIltWHdJUCJuTsEjw
+ CzdR3C8RP3z+vUsdViXOV/qRUU7sGdWmjkosRPZMqU40nzs6qT5V+m4aOeAwe1fvkQ0H
+ IRa0147Vp08i43ZbOXNUlAAQeUvu4p03MkQylX8Hus1QpKo1Rd9PBGCJQmSwe3oKmaT5
+ pPrK0xWp4OccENDgwpGK53Jl7ljYsWpjGBAUYgLZSX6FFFWBOHjD4ZdtLNCNkLwkjzMN
+ 1Xtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718937158; x=1719541958;
+ d=1e100.net; s=20230601; t=1718937170; x=1719541970;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=mM/1S9T2tBYoZCgE31Q/lEbGdBggp1bwKT3yTD3UzMc=;
- b=nlAFXGKiHo6rPGAz4rI9weID8WNIw/BZsQ0teF7q1mIf6P9Uy7nhnzC9Vx/+SgvpT0
- Lx8mySHPyPI7FDkDf2TY8PJV/6ZJ/swSSxdbjTBhd0Zl0fbGqQ8/I90zQQYiFokqUOWp
- 1usePoPRvnNlcq1RYptJX/WQ1Z/0U8MksOocJ8aA5H4NZteh1QNZGqMSaol8A8K2Wjxb
- y8JhAhYKT9SrW3rUzr9+HOyn/6f7LW3AQ0JC8Y/Tx//jX3GPxkxa5iIYBzBiKYsSd7xI
- JkcOAUJ881ykfDIThKE49X0S54POQtQBv2zzcb2PtlrQ6PAWxbgXNBJnjgV59WHzhIlz
- 4gvQ==
+ bh=ByPZqEdQZBBtzQ6Ut5Ro8SR1Vw4SYts83oZvgSR+UR8=;
+ b=cvigDscPLp//W2ItbSr0r7uPaHF2mUHJPhuYF/jDxoIleTbvLmDc9RAQjKcLDdo8Fn
+ 10LM+D8QAZNlV8fRkHIgrZXGRHngjRKY2E3IPo3wPOU4G7DpYv72f7dnCrymVm0fPmTH
+ sB4NR6mhx3/t5xryTKNaT/QsALPtMt7QDqKcZeTtvFfotRE73YAkmf850hCY/up7Tqwi
+ 1NRkvk4x4ruPZyGi7SVU5P3qicR12hhgloiZIf6SVsgbyPTwPnd6sxMLdpfJpk8CZK5n
+ 5bX4Swa1AqiC3z4pTb0tQFG5ZFPKHyOnNXv1Rd9qWijLtn2zzBP3WIEGaCPbEYh41/Ic
+ sUBg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWz/TK7T161fq5L/Ku0HVh/6dudnLwMA9JYjN3WT2trCrjc+eP7wyPbI0XHiWnaKe+K+WTXTk5Z2dGnAJ1KgILzNVHGeVARQNawEZlvG7V4
-X-Gm-Message-State: AOJu0YygZIQBKcFZ6xEGi5Hx7/MbB7Y3qVifEr1SrbsIb+6COHXv+snZ
- 3vhhFhEZ69CUaLA89gkxfQBGb0w0o6uKhhcx2Umu5y4snmbjufH6
-X-Google-Smtp-Source: AGHT+IHxOQrDg8mR1N6VheTp8u8eV+XoRh0OG7Yl/1zkogSK0YkzXLknkEls7rTyfvffHbYdw2ahAQ==
-X-Received: by 2002:a05:6a00:9289:b0:705:9992:d8ad with SMTP id
- d2e1a72fcca58-70629c6de86mr9102308b3a.19.1718937157754; 
- Thu, 20 Jun 2024 19:32:37 -0700 (PDT)
+ AJvYcCXRDyrKrVbLXQ4PdYI7N9bP/kxwSIqB6KxJwfScy053WF7i5Gwe+R1ch6XRERt/xbJ+klK4fBF6cNZWJre8q4YjdRv8Ut+joMs9tjdxK5ep
+X-Gm-Message-State: AOJu0YxHX9+EEPehrKC1WgMz/Ao66E5dC4rYxWJlnMYRZH5ZVoiHe21P
+ ue2upL3d274suc/ciZm8of+2U5MDdA6R0Xg2JOTq3F891xiqAu8+InkWKA7B
+X-Google-Smtp-Source: AGHT+IHwLzKazOZk9J+TnuaENF2GrO7T5JApXVTdzZDurk6fW60Sg+sw/brS6M3qBlKISuVvI9yc+A==
+X-Received: by 2002:a05:6a00:4d91:b0:6e7:20a7:9fc0 with SMTP id
+ d2e1a72fcca58-70629d0d58cmr6849890b3a.34.1718937169948; 
+ Thu, 20 Jun 2024 19:32:49 -0700 (PDT)
 Received: from localhost.localdomain ([39.144.105.24])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-706511944d2sm332488b3a.70.2024.06.20.19.32.25
+ d2e1a72fcca58-706511944d2sm332488b3a.70.2024.06.20.19.32.38
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Jun 2024 19:32:37 -0700 (PDT)
+ Thu, 20 Jun 2024 19:32:49 -0700 (PDT)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: torvalds@linux-foundation.org
 Cc: ebiederm@xmission.com, alexei.starovoitov@gmail.com, rostedt@goodmis.org,
@@ -65,12 +65,13 @@ Cc: ebiederm@xmission.com, alexei.starovoitov@gmail.com, rostedt@goodmis.org,
  audit@vger.kernel.org, linux-security-module@vger.kernel.org,
  selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, David Ahern <dsahern@kernel.org>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>
-Subject: [PATCH v3 10/11] net: Replace strcpy() with __get_task_comm()
-Date: Fri, 21 Jun 2024 10:29:58 +0800
-Message-Id: <20240621022959.9124-11-laoar.shao@gmail.com>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v3 11/11] drm: Replace strcpy() with __get_task_comm()
+Date: Fri, 21 Jun 2024 10:29:59 +0800
+Message-Id: <20240621022959.9124-12-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20240621022959.9124-1-laoar.shao@gmail.com>
 References: <20240621022959.9124-1-laoar.shao@gmail.com>
@@ -91,33 +92,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To prevent errors from occurring when the src string is longer than the dst
-string in strcpy(), we should use __get_task_comm() instead. This approach
-also facilitates future extensions to the task comm.
+To prevent erros from occurring when the src string is longer than the
+dst string in strcpy(), we should use __get_task_comm() instead. This
+approach also facilitates future extensions to the task comm.
 
 Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: David Ahern <dsahern@kernel.org>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- net/ipv6/ndisc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_framebuffer.c     | 2 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
-index 254b192c5705..10d8e8c6ca02 100644
---- a/net/ipv6/ndisc.c
-+++ b/net/ipv6/ndisc.c
-@@ -1942,7 +1942,7 @@ static void ndisc_warn_deprecated_sysctl(const struct ctl_table *ctl,
- 	static char warncomm[TASK_COMM_LEN];
- 	static int warned;
- 	if (strcmp(warncomm, current->comm) && warned < 5) {
--		strcpy(warncomm, current->comm);
-+		__get_task_comm(warncomm, TASK_COMM_LEN, current);
- 		pr_warn("process `%s' is using deprecated sysctl (%s) net.ipv6.neigh.%s.%s - use net.ipv6.neigh.%s.%s_ms instead\n",
- 			warncomm, func,
- 			dev_name, ctl->procname,
+diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+index 888aadb6a4ac..25262b07ffaf 100644
+--- a/drivers/gpu/drm/drm_framebuffer.c
++++ b/drivers/gpu/drm/drm_framebuffer.c
+@@ -868,7 +868,7 @@ int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
+ 	INIT_LIST_HEAD(&fb->filp_head);
+ 
+ 	fb->funcs = funcs;
+-	strcpy(fb->comm, current->comm);
++	__get_task_comm(fb->comm, sizeof(fb->comm), current);
+ 
+ 	ret = __drm_mode_object_add(dev, &fb->base, DRM_MODE_OBJECT_FB,
+ 				    false, drm_framebuffer_free);
+diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+index 625b3c024540..b2c16a53bd24 100644
+--- a/drivers/gpu/drm/i915/i915_gpu_error.c
++++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+@@ -1411,7 +1411,7 @@ static bool record_context(struct i915_gem_context_coredump *e,
+ 	rcu_read_lock();
+ 	task = pid_task(ctx->pid, PIDTYPE_PID);
+ 	if (task) {
+-		strcpy(e->comm, task->comm);
++		__get_task_comm(e->comm, sizeof(e->comm), task);
+ 		e->pid = task->pid;
+ 	}
+ 	rcu_read_unlock();
 -- 
 2.39.1
 
