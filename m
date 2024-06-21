@@ -2,74 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCE9912DE6
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 21:34:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE40912DE8
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 21:34:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C70FF10E071;
-	Fri, 21 Jun 2024 19:34:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0EBC10E065;
+	Fri, 21 Jun 2024 19:34:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="bq2XdQse";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ifraVQh4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
- [209.85.160.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15F1210E0D6
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 19:34:02 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-443586c2091so589651cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 12:34:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1718998442; x=1719603242;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TcjyGl0poFmJvaQIN/Tb4xXEEBm1p2om5dg/4ZRBoHA=;
- b=bq2XdQse0P0G/i0Njo+03T/uH0mqTNkFDfY4GTzph/re+Ykse7yp0DRVRLGUqvT72k
- 6P+KAvpPr7Gcio2Y/F8HL5e+t6hDC1zIsmRo81bZ5yt+++qIJqRg/Xx3JYMWpzMkJ7jM
- /7699QouZHkmOTupGyYPDGwFlQPZZpGT+IEA/pTmjoMf6+fZnM8o57JM95FBVptQvwcP
- oXkKoSw5pFDn0p8lifE4q2PmsIfttxZMlkRyVU7+I+5AmybiGPBpdimbuRJbZ3Y3Ozsv
- tWgnwFm89Wt6dNOBsboULHaC5XekH6TDdtEN/BVLQpYD+JkFjFULKPZFL1ayCK0z+KmI
- 8jCw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E70610E07E
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 19:34:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1718998445;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iP+mWh+oai2lKyD3HjCZKvKZXTzmQCGTy8Y+p6hNoq4=;
+ b=ifraVQh4utRcpHPRh6wvr1tBw3OyVrJHyjzdytPr1WJmgonxFc33jsrWnTeXY7ef8T04Xx
+ 2PWEbPcNSzUh8Pods4R4CjTxnfeNdQpR9g9PS3C2Vk/YRc+VlUB9rrYg5g7ppQf6jKG+8m
+ mkOZcwm1SoY6Hi9381Z9nrweTHmBrrA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-48-K5Oq5BibO6qKNOdY7VuNxQ-1; Fri, 21 Jun 2024 15:34:03 -0400
+X-MC-Unique: K5Oq5BibO6qKNOdY7VuNxQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-421bb51d73cso12626215e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 12:34:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1718998442; x=1719603242;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TcjyGl0poFmJvaQIN/Tb4xXEEBm1p2om5dg/4ZRBoHA=;
- b=ETVXwDEEXBO2pyq6RFWCaB1Td5GziH4Luojht2ixaf3klK4vyWHzfEO6/wEsCJNAyf
- sOw8N05E/k/ULzivSkcyChGmcWkSb3TSnojGMA0qpyfP1+AjYqUOtDQPbQciDTlNzLVV
- WjcYek3PjKpxejEaxrfVXckz3r+zk4xfgIJTQlqz/nYK5XL8Ds2DRqaq3YDxC6esxV9l
- VLqAgU61j9cXfp7hhuUsCb+JmW1idzxyT36PTfa+QbbX6KZSu+OX/+hPPSfpBTCc+y2B
- QBN3o7fsJuIdOVQKMf8NxsshazBSdBq5/IupKt4lZpVPiMYwXKd9dbt2F94vfM9G3BcF
- x5yA==
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=iP+mWh+oai2lKyD3HjCZKvKZXTzmQCGTy8Y+p6hNoq4=;
+ b=rs+e+s/Ot9EyLRKS3fDPqXI5Gbz7IlKqMRCuCdFXTj+DwMu6x97p7W3QuQfDEO4hMO
+ KTv6rAZevcCuVu2hM3bGpGYtiz17xmRSfQk0oRqhFG5zxISqa2vT3rumSOfxjFb/c4xu
+ 1lx9RE4Dt3c7FgYHGTDeac2B1LvmpKxeYHG3wyjCkQZgkR/WvEYvLHQ7EusCjDV228BX
+ TZ1u3VtGxNItIOchGhJXBkULNpGYgR1fNKnRQ14p/GvH2/CIqDmkAUKHIQl5Nm7n5rk0
+ 8lCxmCNLOewUeR+a2FuZGZR/AIqkRaVjf0MhgWmygqxhT7aJ0X+mbmBvLnrcP6t4E6EZ
+ hNcA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWSRgz0UtYZKc1dDzSBxvLz05Z6SPoDdZD2DtYRBES7pabOxJiRinPOrceEaW81D1MYczxCO3bfeO3bwWKdf4PErmW4dpu67FhBV49ntjTj
-X-Gm-Message-State: AOJu0Yzy8qFiBz0L5OC5muCkNV3KUJTywwy9KGIzAZOApBbFOIYbWlvK
- HwIQGwg+j7KUquLVngyg3ymPWu3Qhn+Sqxx61dO99mTCfWZfgU/ZQ1F+aBSrFMcATjKQICsIfaf
- aHnDHekKgVONi1Erqw1qD4Ng/X1N7SvD/tsyp
-X-Google-Smtp-Source: AGHT+IHOnCXVNj6jxV8LpXQHq3BlC9ork7/0wY+nUji69T+kI2ZaEuQxzQC3D1JRanjzh53xix7c9zbM8luwO4E45L8=
-X-Received: by 2002:ac8:5748:0:b0:444:cdc4:fef5 with SMTP id
- d75a77b69052e-444ce38fbebmr159621cf.27.1718998441772; Fri, 21 Jun 2024
- 12:34:01 -0700 (PDT)
+ AJvYcCX1iSpmKIQwdyaBI6qQkkrIxZdiMs4Y9sESSqLGhNo1i7KCVewPZQlV8sLvn8dFZykZXFfwLJmhE+zrBRqMes4uRjU6Dno7nuT0nugkIuJG
+X-Gm-Message-State: AOJu0YzrnUCInaQ6eeURiZHnuypgfaWYvXHZA7B9hYpCPtW0nPL8IXuJ
+ ysjWP3m73bUrYF0/Tw17l1xpiWAp5ivN02kSBpq4CxKfrTyvD4WN/8HeTixNb+/xeT2p+l4SMWI
+ cMrZgE2vWLk/2Wyf7kNXnyjUxne9wZEIOevTEDRolTA+qOuD2sz+JnVn/BIKPQd4Q/Q==
+X-Received: by 2002:a05:600c:181c:b0:421:f346:6b06 with SMTP id
+ 5b1f17b1804b1-42475298e68mr68730485e9.28.1718998442301; 
+ Fri, 21 Jun 2024 12:34:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGUgi1RJw4/XDIAAjAQl+jUyCuY5PEjY+CKK/rd+iuv279adLiMlR3MbhNJooFF7lsCy198mg==
+X-Received: by 2002:a05:600c:181c:b0:421:f346:6b06 with SMTP id
+ 5b1f17b1804b1-42475298e68mr68730275e9.28.1718998441707; 
+ Fri, 21 Jun 2024 12:34:01 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4247d0beb08sm83051605e9.17.2024.06.21.12.34.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Jun 2024 12:34:01 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David
+ Airlie <airlied@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/ssd130x: Add drm_panic support
+In-Reply-To: <ZnWsQ36q44l4CmOJ@phenom.ffwll.local>
+References: <20240620222222.155933-1-javierm@redhat.com>
+ <24205cdf-a3c6-475e-ba8a-a52d039a402d@redhat.com>
+ <87h6dmjry6.fsf@minerva.mail-host-address-is-not-set>
+ <87ed8qjo8y.fsf@minerva.mail-host-address-is-not-set>
+ <ZnWsQ36q44l4CmOJ@phenom.ffwll.local>
+Date: Fri, 21 Jun 2024 21:34:00 +0200
+Message-ID: <87bk3ujdjr.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20240620080509.18504-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240620080509.18504-5-lvzhaoxiong@huaqin.corp-partner.google.com>
-In-Reply-To: <20240620080509.18504-5-lvzhaoxiong@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@google.com>
-Date: Fri, 21 Jun 2024 12:33:49 -0700
-Message-ID: <CAD=FV=UjFvi53W2gkfhJTz10ALSsR=E+9ZLCH_8KCr9h5bHSaQ@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] drm/panel: jd9365da: Add the function of adjusting
- orientation
-To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org, 
- benjamin.tissoires@redhat.co, hsinyi@google.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,25 +96,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Daniel Vetter <daniel@ffwll.ch> writes:
 
-On Thu, Jun 20, 2024 at 1:05=E2=80=AFAM Zhaoxiong Lv
-<lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
+Hello Sima,
+
+Thanks for your comment and explanations.
+
+> On Fri, Jun 21, 2024 at 05:42:53PM +0200, Javier Martinez Canillas wrote:
+>> Javier Martinez Canillas <javierm@redhat.com> writes:
+>> 
+>> > Jocelyn Falempe <jfalempe@redhat.com> writes:
+>> >
+>> > Hello Jocelyn, thanks for your feedback!
+>> >
+>> >> On 21/06/2024 00:22, Javier Martinez Canillas wrote:
+>> >>> Add support for the drm_panic infrastructure, which allows to display
+>> >>> a user friendly message on the screen when a Linux kernel panic occurs.
+>> >>> 
+>> >>> The display controller doesn't scanout the framebuffer, but instead the
+>> >>> pixels are sent to the device using a transport bus. For this reason, a
+>> >>> .panic_flush handler is needed to flush the panic image to the display.
+>> >>
+>> >> Thanks for this patch, that's really cool that drm_panic can work on 
+>> >> this device too.
+>> >>
+>> >
+>> > Indeed, that's why I did it. Just to see if it could work :)
+>> >
+>> > [...]
+>> >
+>> >>> +static void ssd130x_primary_plane_helper_panic_flush(struct drm_plane *plane)
+>> >>> +{
+>> >>> +	struct drm_plane_state *plane_state = plane->state;
+>> >>> +	struct ssd130x_plane_state *ssd130x_plane_state = to_ssd130x_plane_state(plane_state);
+>> >>> +	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+>> >>> +	struct drm_crtc *crtc = plane_state->crtc;
+>> >>> +	struct ssd130x_crtc_state *ssd130x_crtc_state = to_ssd130x_crtc_state(crtc->state);
+>> >>> +
+>> >>> +	ssd130x_fb_blit_rect(plane_state->fb, &shadow_plane_state->data[0], &plane_state->dst,
+>> >>> +			     ssd130x_plane_state->buffer, ssd130x_crtc_state->data_array,
+>> >>> +			     &shadow_plane_state->fmtcnv_state);
+>> >>
+>> >> ssd130x_fb_blit_rect() will call regmap->write(), which involve mutex 
+>> >> and might sleep. And if the mutex is taken when the panic occurs, it 
+>> >> might deadlock the panic handling.
+>> >
+>> > That's a good point and I something haven't considered...
+>> >
+>> >> One solution would be to configure the regmap with config->fast_io and 
+>> >> config->use_raw_spinlock, and check that the lock is available with 
+>> >> try_lock(map->raw_spin_lock)
+>> >> But that means it will waste cpu cycle with busy waiting for normal 
+>> >> operation, which is not good.
+>> >>
+>> >
+>> > Yeah, I would prefer to not change the driver for normal operation.
+>> >
+>> 
+>> Another option, that I believe makes more sense, is to just disable the
+>> regmap locking (using struct regmap_config.disable_locking field [0]).
+>> 
+>> Since this regmap is not shared with other drivers and so any concurrent
+>> access should already be prevented by the DRM core locking scheme.
+>> 
+>> Is my understanding correct?
 >
-> @@ -893,6 +901,12 @@ static int jadard_dsi_probe(struct mipi_dsi_device *=
-dsi)
->         drm_panel_init(&jadard->panel, dev, &jadard_funcs,
->                        DRM_MODE_CONNECTOR_DSI);
+> Quick irc discussion summary: Since these are panels that sit on i2c/spi
+> buses, you need to put the raw spinlock panic locking into these
+> subsystems. Which is going to be extreme amounts of fun, becuase:
 >
-> +       ret =3D of_drm_get_panel_orientation(dev->of_node, &jadard->orien=
-tation);
-> +       if (ret < 0) {
-> +               dev_err(dev, "%pOF: failed to get orientation %d\n", dev-=
->of_node, ret);
-> +               return ret;
-> +       }
+> - You need to protect innermost register access with a raw spinlock, but
+>   enough so that every access is still consistent.
+>
+> - You need separate panic paths which avoid all the existing subsystem
+>   locking (i2c/spi have userspace apis, so they need mutexes) and only
+>   rely on the caller having done the raw spinlock trylocking.
+>
+> - Bonus points: Who even owns that raw spinlock ...
+>
+> I'm afraid, this is going to be a tough nut to crack :-/
+>
 
-nit: use dev_err_probe(). Also no need to include a %pOF, AKA:
+Yeah, not worth the effort then. I'll just drop this patch.
 
-if (ret < 0)
-  return dev_err_probe(dev, ret, "Failed to get orientation\n");
+> Cheers, Sima
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
