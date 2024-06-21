@@ -2,72 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8E09126CC
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 15:40:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92301912700
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 15:51:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE32E10E6D7;
-	Fri, 21 Jun 2024 13:40:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E146610F197;
+	Fri, 21 Jun 2024 13:51:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b="bRKoVOtO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UsGyxC89";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
- [209.85.210.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5172B10E6D7
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 13:40:04 +0000 (UTC)
-Received: by mail-ot1-f52.google.com with SMTP id
- 46e09a7af769-6fa11ac8695so1164884a34.3
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 06:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1718977203; x=1719582003;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Ere1lwWxpHnhEsQv1+nI645ZaQSfuhySCfH81OCdqI8=;
- b=bRKoVOtOjJwHh/0ozq0YQPAHNT3e3ta2E+CZEiBi+MKcVnmqVIlrtc+XTxNMKyvkz0
- gEBULQmVImQ8p/e0R30H+WMg+SKK7M8B/1A/T+TWJQYHpdRa8Ezl5hOtnvapNmPZMWp1
- H0kXznrYLY5gLvi3B0HcOxOShZY07rbGq5qtz9AU6HYseexbeok+YkvS7Em5myFICGVo
- 6vKLcHOb+PqitoIUfO1xsuSlFQtwJhv0Rxyv4CXlWrNRE6L5nZ6/VwHf6M1FT+plRDX7
- g7xwpxM2T6a1xVZjieU180XGwqNaHMlcSaP0f95NZ4HzE5TBvH7VM1piQYe2XSxZ+IVw
- ZkSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718977203; x=1719582003;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Ere1lwWxpHnhEsQv1+nI645ZaQSfuhySCfH81OCdqI8=;
- b=T8fe7Bz8gox6qZh/pG44+mr0W/5FTcPVUCkpJGCZE2zpwMFFTNVfgOBrFU5YMUgyQ+
- clgljbFeOJ5zYGIkiQnbImRtz095EZpPblnzyna9+Rc5mKbxN/5/lSps/ylOPeKoTmfD
- CXYe4aQDnN6vUR4bEfJKSVaxJd+CjfVnFItK+gr1p7TyI47hfIqr6ruKC0zH8EdLeHt+
- OEQDcNDgNSn3JAPST6UBUhJTevbU6bCBx7YMfWUdMQoktJwrcJnFWt3yj6ag6We8ZfYt
- EP2TATyG8heJjgzo09z/kVRpQU/E+OxZhz4+qB2SO+Onh0l/PYhTzbhEPE/1GrqmRYPt
- 3Qxg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVNb5wZwhmVILCkc2V1jXsu0uA3udGbX4PJ1/6Z0eV2hM4CLBIjShP+2dsiRAfc8pPWePQd1JF+ywT8R35OOXqxv/2ln6TyR/7Im+Yl3RAY
-X-Gm-Message-State: AOJu0Yyi7+65cry2JUghTCaEi5kZ11B2SyvltjS/LCH3WT2KMEba3xXi
- QViUCQWo3pd7ZDEJpdaZYVrzmKAo1r4Q8q56MwsVvr1npDMhw1v6mV5UfJSyCQsKagWZGUVBE3a
- K5goqg/ozhaNEH0gVh6xFotDsu2JTM3cq2CyA2Q==
-X-Google-Smtp-Source: AGHT+IHNSvkive/L0tVLG0oV13zogBCO+6olLWgA1mQ/9kJKAK+336sy9TtUrgTi1RgDuWzriflW55CV7g4gRc9Dkqc=
-X-Received: by 2002:a05:6830:1347:b0:6f9:5bfc:81f0 with SMTP id
- 46e09a7af769-70075a76e1emr9246260a34.31.1718977203186; Fri, 21 Jun 2024
- 06:40:03 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96DD310F197
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 13:51:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id BE542626A9;
+ Fri, 21 Jun 2024 13:51:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 550E9C2BBFC;
+ Fri, 21 Jun 2024 13:51:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1718977907;
+ bh=8ElvnQPorg4Uy8imgywI1nXgKQs3ZmLKdexYoFKBvac=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UsGyxC89mordI9Vx2/gblUM+5Ftjcp3r6aWKgvC7AgxfbKbF3tjOKH0Oc8+4xZ7ka
+ 53imU3u4kl0xmHWBQeUrPXwpUd4HV0CgvxjAnuDWJ+ESadO9DPtFhcHEFsx5/l50Bz
+ PqCADX8QGP+tUecordMNnCcTvHzzeLNDNuubgkM1ZH0YhaycbAUJQX5AgoxWKcT6ec
+ LoK6DITeynsMoscskznn7E6zxgUT2BnmrOQrutlHoqdl3OFBWB1zfStM0zrLF8lSLa
+ q/3x7IxAscJ0MKpSbvImWfCwO2VqiKdnJI4j+sBQLyP7fynER53ZfDDEcEKKBhm0gu
+ ID9btTmN8DF3w==
+Date: Fri, 21 Jun 2024 14:51:42 +0100
+From: Simon Horman <horms@kernel.org>
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: torvalds@linux-foundation.org, ebiederm@xmission.com,
+ alexei.starovoitov@gmail.com, rostedt@goodmis.org,
+ catalin.marinas@arm.com, akpm@linux-foundation.org,
+ penguin-kernel@i-love.sakura.ne.jp, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ audit@vger.kernel.org, linux-security-module@vger.kernel.org,
+ selinux@vger.kernel.org, bpf@vger.kernel.org,
+ netdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 06/11] mm/util: Deduplicate code in
+ {kstrdup,kstrndup,kmemdup_nul}
+Message-ID: <20240621135142.GF1098275@kernel.org>
+References: <20240621022959.9124-1-laoar.shao@gmail.com>
+ <20240621022959.9124-7-laoar.shao@gmail.com>
 MIME-Version: 1.0
-References: <20240621131926.3133484-1-dave.stevenson@raspberrypi.com>
-In-Reply-To: <20240621131926.3133484-1-dave.stevenson@raspberrypi.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Fri, 21 Jun 2024 14:39:51 +0100
-Message-ID: <CAPj87rMPJvjw368_bW81p2kr=1Pj1Rq0gZeMRZOh+5X-fyHA2g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] MAINTAINERS: drm: vc4: Add Raspberry Pi as
- maintainers
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maxime Ripard <mripard@kernel.org>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240621022959.9124-7-laoar.shao@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,15 +65,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+On Fri, Jun 21, 2024 at 10:29:54AM +0800, Yafang Shao wrote:
+> These three functions follow the same pattern. To deduplicate the code,
+> let's introduce a common help __kstrndup().
+> 
+> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
 
-On Fri, 21 Jun 2024 at 14:19, Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
-> Add myself as maintainer for VC4 alongside Maxime, and
-> our internal review list as reviewer.
+Hi Yafang Shao,
 
-Both patches are:
-Acked-by: Daniel Stone <daniels@collabora.com>
+Some minor nits from my side.
 
-Cheers,
-Daniel
+> ---
+>  mm/internal.h | 24 ++++++++++++++++++++++++
+>  mm/util.c     | 27 ++++-----------------------
+>  2 files changed, 28 insertions(+), 23 deletions(-)
+> 
+> diff --git a/mm/internal.h b/mm/internal.h
+> index b2c75b12014e..fd87f685739b 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -1521,4 +1521,28 @@ static inline void shrinker_debugfs_remove(struct dentry *debugfs_entry,
+>  void workingset_update_node(struct xa_node *node);
+>  extern struct list_lru shadow_nodes;
+>  
+> +/**
+> + * __kstrndup - Create a NUL-terminated string from @s, which might be unterminated.
+> + * @s: The data to stringify
+> + * @len: The size of the data, including the null terminator
+> + * @gfp: the GFP mask used in the kmalloc() call when allocating memory
+> + *
+> + * Return: newly allocated copy of @s with NUL-termination or %NULL in
+> + * case of error
+> + */
+> +static __always_inline char *__kstrndup(const char *s, size_t len, gfp_t gfp)
+> +{
+> +	char *buf;
+> +
+> +	buf = kmalloc_track_caller(len, gfp);
+> +	if (!buf)
+> +		return NULL;
+> +
+> +	memcpy(buf, s, len);
+> +	/* Ensure the buf is always NUL-terminated, regardless of @s. */
+> +	buf[len - 1] = '\0';
+> +	return buf;
+> +}
+> +
+> +
+
+nit: One blank line is enough.
+
+>  #endif	/* __MM_INTERNAL_H */
+> diff --git a/mm/util.c b/mm/util.c
+> index 41c7875572ed..d9135c5fdf7f 100644
+> --- a/mm/util.c
+> +++ b/mm/util.c
+> @@ -58,17 +58,8 @@ char *kstrdup(const char *s, gfp_t gfp)
+>  	if (!s)
+>  		return NULL;
+>  
+> -	len = strlen(s) + 1;
+> -	buf = kmalloc_track_caller(len, gfp);
+> -	if (buf) {
+> -		memcpy(buf, s, len);
+> -		/* During memcpy(), the string might be updated to a new value,
+> -		 * which could be longer than the string when strlen() is
+> -		 * called. Therefore, we need to add a null termimator.
+> -		 */
+> -		buf[len - 1] = '\0';
+> -	}
+> -	return buf;
+
+nit: The local variable buf is now unused, and should be removed from kstrdup().
+     Likewise for kstrndup() and kmemdup_nul()
+
+     Flagged by W=1 builds with gcc-13 and clang-18, and Smatch.
+
+> +	len = strlen(s);
+> +	return __kstrndup(s, len + 1, gfp);
+>  }
+>  EXPORT_SYMBOL(kstrdup);
+>  
+> @@ -111,12 +102,7 @@ char *kstrndup(const char *s, size_t max, gfp_t gfp)
+>  		return NULL;
+>  
+>  	len = strnlen(s, max);
+> -	buf = kmalloc_track_caller(len+1, gfp);
+> -	if (buf) {
+> -		memcpy(buf, s, len);
+> -		buf[len] = '\0';
+> -	}
+> -	return buf;
+> +	return __kstrndup(s, len + 1, gfp);
+>  }
+>  EXPORT_SYMBOL(kstrndup);
+>  
+> @@ -195,12 +181,7 @@ char *kmemdup_nul(const char *s, size_t len, gfp_t gfp)
+>  	if (!s)
+>  		return NULL;
+>  
+> -	buf = kmalloc_track_caller(len + 1, gfp);
+> -	if (buf) {
+> -		memcpy(buf, s, len);
+> -		buf[len] = '\0';
+> -	}
+> -	return buf;
+> +	return __kstrndup(s, len + 1, gfp);
+>  }
+>  EXPORT_SYMBOL(kmemdup_nul);
+>  
+> -- 
+> 2.39.1
+> 
+> 
