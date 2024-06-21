@@ -2,62 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24FC1911D77
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 09:56:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D33911E0F
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 10:11:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 509DE10EE57;
-	Fri, 21 Jun 2024 07:56:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD50610EF42;
+	Fri, 21 Jun 2024 08:11:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.b="v4izR6Vw";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="Q7o1YAFJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C13BE10EE57;
- Fri, 21 Jun 2024 07:56:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
- Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
- In-Reply-To:References; bh=EGT5e8L1pNhD0BVhYlvh53zXiul0Yh6rVbmqVvfwN2M=;
- t=1718956584; x=1719388584; b=v4izR6VwdX7WcFq0sBqNkoLtZFS2vmsbmxz3RjZWAietfwr
- pkiTPCgQJKkVTpys8gY26mKRuCwnp8utRgm14uY06DUDDM3nO1Xy5TTbMSdmtGvLREPSAavxdR3nr
- ySvYggBZzZzrOu3wjHL8BsWCF2HMz+g8vWQE5d0gQbFn6xzsTsABeIsl59TQ9RdRRSFzGFX079cm5
- C3sj21Rw5CStBLBwWTenelB6/3U98Jp8nZ6XybXA+7QYsPbL70o5ZKF/4chKihMH3M11qT6c0Gcrn
- k87cl+zStGf2DmKw/dtQ6q+xQOTCFiAVpJIGMCza+e5hga6Kyo9AexrtCC9PVa0Q==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1sKZ8A-0007Fh-7F; Fri, 21 Jun 2024 09:56:22 +0200
-Message-ID: <b6c440ca-e63e-429b-af41-5f27d4b8b2a2@leemhuis.info>
-Date: Fri, 21 Jun 2024 09:56:21 +0200
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74C5E10EF42
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 08:10:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1718957433; x=1719562233; i=markus.elfring@web.de;
+ bh=tw9Hq07gA2b1Rquog4nhGifnXcTRzaS5xtVu7HsdB4A=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=Q7o1YAFJNcGyxjEQn1AFW1H6JlsKS1YZxYyeUV3di1tL3d1IIQSN7SYr7X5QuVXM
+ 1+F5Ezg3aJSRCEFVmtdNwUAXoVADWRKWqqxhy7r8w+RZrb7//u79RYiqzIsfTCNcZ
+ 2/mAG8moFCw0BOCafcZOnMuquC/6rGwZUcU37eChyZQMg32Naxp3VEcBEKS7eaLIY
+ wbsFYQf4J93BMFSIcfFfXzn8N9DeDZk4z4kCvByOntN4IQZnY8XiKZCBbl4jZWpLA
+ J1KyHFrkuQWNlFa94f+RoA6dxunh92bO7T5fn2iFF55RLsf5D7xIsSYZE36I7aDNq
+ 4LMmTvhdX9qLFA6C+Q==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MzTLI-1sXxQv0YLo-017BdG; Fri, 21
+ Jun 2024 10:10:33 +0200
+Message-ID: <302ce128-a0ef-41b4-9808-210a83bc6a48@web.de>
+Date: Fri, 21 Jun 2024 10:10:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: 6.10/bisected/regression - commits bc87d666c05 and 6d4279cb99ac
- cause appearing green flashing bar on top of screen on Radeon 6900XT and
- 120Hz
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
- Alex Deucher <alexdeucher@gmail.com>
-Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>, Rodrigo.Siqueira@amd.com,
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
- Linux regressions mailing list <regressions@lists.linux.dev>
-References: <CABXGCsNptxsQO=5=qi-JYiFX=rX8Ok5inK80Gn0qrUFWbtBGng@mail.gmail.com>
- <CADnq5_PDxJ8O1JUQ9RBYRFB9G1WZJos05ZAM4jUKuPBwPxjNkA@mail.gmail.com>
- <CABXGCsNN9LwHc2x2AAEH=5UNwpvkWkBqRYz3OP8MZ6Woy+HDXA@mail.gmail.com>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Content-Language: en-US, de-DE
-In-Reply-To: <CABXGCsNN9LwHc2x2AAEH=5UNwpvkWkBqRYz3OP8MZ6Woy+HDXA@mail.gmail.com>
+Subject: Re: [RFC] Patch review challenges
+To: Lee Jones <lee@kernel.org>, lkp@intel.com, linux-iio@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Cc: Vinod Koul <vkoul@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>, oe-kbuild-all@lists.linux.dev,
+ LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Julia Lawall <julia.lawall@inria.fr>,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <202406191014.9JAzwRV6-lkp@intel.com>
+ <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de> <ZnRUSaHJhz7XLcKa@matsya>
+ <20240620170522.GU3029315@google.com> <ZnUnFeum1Z2ahm9M@matsya>
+ <ebddd644-b9b1-4a87-a2e7-dcf255f4184d@web.de>
+ <20240621075123.GG1318296@google.com>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240621075123.GG1318296@google.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1718956584;
- 5e20c670; 
-X-HE-SMSGID: 1sKZ8A-0007Fh-7F
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:nVOg+KeLl2N2fq/s0Ntj00wEVMmsfslYtciYpHyTe1/l2inQk/m
+ WhJy/k0th8SnjtkGT3mY/stpMLVVX5brl4hVD6aV6JfozNCx+Edw9BY4QKhB751Buia3WeY
+ WnELOdc2qE2T/SLclfYbdLxkWppv47XuhajfIUhpsbTRjFIWSqkorXBLupOF6bLWoZLH/yK
+ TEiDwPBXPJjDX82KuPAyA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:wqB3HsVqvPU=;8MOxyZOZkIMm6tGRBtxnuI4cxWM
+ C2MH9F78tjLMgO6do7scFkqbR4KU6Jok6Ci5kNtCab5kNp2GKptQW07ctOCsAUccyCDBXjLeF
+ gpDax1qUTepmbIEP4VjLz1LHGgYKvSC/jtZ0DCBKVS5Oexx0QvLjAwde48cXYcTObya/yEEH7
+ eAkyrC55rXP5s+IDasphuWOpyT9isIS/Z0LFL4b+iQXpz/xEZjUqraiLqTZ8itaLXufVSt1hz
+ V06L8WgXSerY5SZeXVjuNiEJdIIfcbFlFEih0VokjSRU3JjRc5VVfnsiE/H/X34RMwf3uuNvE
+ J3BbQN7NnXbNa5TlO4Y1tyl6rCnEqxW5Etu8Cph7dPrQaez2J9m4n6YLZ/UOwk8rHsofdVxj5
+ Ln2z9dJs83Qm5Co7um6reNtDHG103cnGOBoFacb+JpXYjxwvSPUg+NbsEFUqcVvMa3H0CMARJ
+ sD99oPWaok/1HHSxxivsizHgiAn7wdlwREFe/O1UaLxv6CQnqSSnamsM821PzSgABOX6/5Iwh
+ QCou1JsC/dKFXE7pj/BP6Ntf9Idn4u+A5dG9sYHZiZUO3CGGmlUTsy7pOeZqGsmOkRE7NoLaw
+ /4nd2tmNSLnP5Cn//Bc26WwTGsVQtOPRzs/j3kfBtApe+yhSsKUvZ6QdJBE7A/N5lxyq7ExTQ
+ ycRAjQUyFIwpeXpYbeNoDCLLMjVpPtcg8AZDxIx2FRYdviSUM6Wfzbz7nsIn8DFrKeR++mhBs
+ GokAydPsde3/+knQ8w2J8nkUA2b72Hgy4EfUtL8Vs7nncRGMDivv4iwpK4erFGcM0zbhppa9f
+ JMmNtgz/O8TPPKhKVXZb4hQWKwWCwg2cylRlwaysmztkg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,39 +89,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09.06.24 23:19, Mikhail Gavrilov wrote:
-> On Fri, Jun 7, 2024 at 6:39 PM Alex Deucher <alexdeucher@gmail.com> wrote:
->>
->> --- a/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
->> +++ b/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
->> @@ -944,7 +944,7 @@ void optc1_set_drr(
->>                                 OTG_V_TOTAL_MAX_SEL, 1,
->>                                 OTG_FORCE_LOCK_ON_EVENT, 0,
->>                                 OTG_SET_V_TOTAL_MIN_MASK_EN, 0,
->> -                               OTG_SET_V_TOTAL_MIN_MASK, 0);
->> +                               OTG_SET_V_TOTAL_MIN_MASK, (1 << 1)); /* TRIGA */
->>
->>                 // Setup manual flow control for EOF via TRIG_A
->>                 optc->funcs->setup_manual_trigger(optc);
-> 
-> Thanks, Alex.
-> I applied this patch on top of 771ed66105de and unfortunately the
-> issue is not fixed.
-> I saw a green flashing bar on top of the screen again.
+> The issue is one of communication and the way reviews are conducted.
+>
+> Reviewing other people's work is challenging and requires a certain
+> skill-set, of which _excellent_ communication skills are non-negotiable.
 
-Hmmm, I might have missed something, but it looks like nothing happened
-here since then. What's the status? Is the issue still happening? Any
-solution in sight?
+Patch feedback and change tolerance can vary also according to involved co=
+mmunities.
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
 
-#regzbot poke
+> Why not concentrate on more complex submissions for a while and grow
+> your repertoire of common review points,
 
+Further collateral evolution can be considered there depending on
+corresponding development resources.
+
+
+> rather than repeating the same few over and over?
+
+Some factors are probably known also according to corresponding statistics=
+.
+Several contributors are stumbling on recurring improvement possibilities
+in published information.
+
+
+> Reading other, more experienced maintainer's reviews would also be a goo=
+d use
+> of your time.
+
+I am trying to influence adjustments in desirable directions for a while.
+
+Regards,
+Markus
