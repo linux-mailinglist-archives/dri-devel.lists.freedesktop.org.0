@@ -2,97 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D124912AD0
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 18:04:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4A0912ADA
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 18:06:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD71910F26A;
-	Fri, 21 Jun 2024 16:04:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE00110F2A2;
+	Fri, 21 Jun 2024 16:06:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="WrDRF78g";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OtiqxUr5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0404C10F269
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 16:04:06 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-4217ee64ac1so2751405e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 09:04:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1718985845; x=1719590645; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=vN260L65NdwhhzFhGRzhHpkMdYHsvIyA4ZNIAeJjPbg=;
- b=WrDRF78gnhbIei8Ee72/IohSYRDAcc9DuCOgrgYN0VZoeQH6hsAujR793jI5jPaDw/
- TOE699LaVRUevwgStSAZ2bpeP4p3b2XHrFncOY/owPIkk5Bg9ba8rww7IDYtweCzAPJh
- cWWmCJVHXAZL9VJTKLbnaVbhN1/ctGKcZzv1U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718985845; x=1719590645;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vN260L65NdwhhzFhGRzhHpkMdYHsvIyA4ZNIAeJjPbg=;
- b=JpV8o2XegP5yBkzzBJq+l97a6VkmiFM5LgM7PECSJISN8wqI6wkqUr3TYtiaWNq0UF
- t72U/PcLSgqLYEJyN4NuHt2TG7H7kn/6pGOrqfw8cZUIb+NtBh2iYJljxZTrE6ZOLYnc
- TxBsfdLRyj3wkNL89qNaNjwXr0m6pzuclPA7IyRNaO9CDc+uS9RFzun/qXU5e3mXnBmj
- YC5VKLsmfaAtEm5X/TYn5rrYGB/Iu/ECB7PPDFMOcwZY4tuwDuaa23cVTazuzo2/6v4M
- TCNbzoQBBWBi6vknqlX6JBvJTOJ24g0OihWxrphYC9aDRvp6xdQcEqpkzdTvzZMN6wxx
- jJJQ==
-X-Gm-Message-State: AOJu0YwRgSXY1QSLCX5AXEKNQICVpY5kZf4nFlNLVRdTijnKCX4f8LRC
- T5KBPW27BiK0lTC6QbFMsY0fk+dzJKhFT+usoobEjQjxhgtbFJsPAqSemiUlfOE=
-X-Google-Smtp-Source: AGHT+IFVeU3xce+k26r2+DnW8GeU78oyhJggZBPOJmXKmQ3sZUYdc630B9SNBh7u3If+X/hS+ML+Pg==
-X-Received: by 2002:a05:6000:1f86:b0:360:8490:74d with SMTP id
- ffacd0b85a97d-36319990f76mr6226350f8f.5.1718985845005; 
- Fri, 21 Jun 2024 09:04:05 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-366383f6d16sm2172707f8f.3.2024.06.21.09.04.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jun 2024 09:04:04 -0700 (PDT)
-Date: Fri, 21 Jun 2024 18:04:02 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Doug Anderson <dianders@chromium.org>
-Cc: dri-devel@lists.freedesktop.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Maxime Ripard <mripard@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Yuran Pereira <yuran.pereira@hotmail.com>,
- Chris Morgan <macromorgan@hotmail.com>, David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/panel: Avoid warnings w/ panel-simple/panel-edp at
- shutdown
-Message-ID: <ZnWkcodVWXe7gPVa@phenom.ffwll.local>
-Mail-Followup-To: Doug Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Maxime Ripard <mripard@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Yuran Pereira <yuran.pereira@hotmail.com>,
- Chris Morgan <macromorgan@hotmail.com>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
-References: <20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
- <ZmljNHteJ9L5EdE9@phenom.ffwll.local>
- <CAD=FV=V4C1AYVqG4gig+SiQr4n_mAPVASxneDDZT1a=7AY3Hzw@mail.gmail.com>
- <Zmm6i6iQOdP613w3@phenom.ffwll.local>
- <CAD=FV=WBVfBZrgGay=XY2Usq3FA3m9i6y0cU4=b=w7qO6gRBFQ@mail.gmail.com>
- <ZnBFgDO37xhMfvzV@phenom.ffwll.local>
- <CAD=FV=UindNjK4rWMvsMybgp_bPULbNz2A-u8x60MD4scrnHSQ@mail.gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4002010F2A1;
+ Fri, 21 Jun 2024 16:06:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718985995; x=1750521995;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=lhVLrxV8fqEKBguecDtyTVRfIS4719nPBQuhGAfIh3g=;
+ b=OtiqxUr5QMFSt1dVYXlnSG+YmqAxgFXadcQvAo23psuepnJRI9+JrExz
+ OFITJRFE7FH9dNS9p/N6MkoCr+/Zy2f2ZDqoF9OQeTPtq2LY3MN6tODIC
+ gNwb+xIsa5DWXCxX7RyWMRuINTthCYL1Xc3Owcwo9FINPCvnz/PSUX871
+ thFJgNQHnAc886l/i1mPavaTaCjuZ63wYONZR2yPo0RWIF6MiMFCYaQlg
+ BMxyLXTXVQ2CordAxaANPiK49bNeiysgwOj/hwxO95XaDe8eYSR336Js6
+ FPkSzMMR7foXiW1Afp6nRkv8DH0PrNZkWE6ARVACmqhcVNTCmygStleVh Q==;
+X-CSE-ConnectionGUID: C8D6glxzS3+vRLSfShnaWA==
+X-CSE-MsgGUID: 2n0k0rEvT9OOmw5rxWRDGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="15903499"
+X-IronPort-AV: E=Sophos;i="6.08,255,1712646000"; d="scan'208";a="15903499"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jun 2024 09:06:35 -0700
+X-CSE-ConnectionGUID: YYZtwhz0QjSKXbQOPh44Aw==
+X-CSE-MsgGUID: xpUIo+dbS2m3gNXXXVZN1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,255,1712646000"; d="scan'208";a="47079352"
+Received: from johunt-mobl9.ger.corp.intel.com (HELO [10.245.244.53])
+ ([10.245.244.53])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jun 2024 09:06:33 -0700
+Message-ID: <124e374f-7e98-428b-8ad6-f9a038840cb7@intel.com>
+Date: Fri, 21 Jun 2024 17:06:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=UindNjK4rWMvsMybgp_bPULbNz2A-u8x60MD4scrnHSQ@mail.gmail.com>
-X-Operating-System: Linux phenom 6.8.9-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/buddy: Add start address support to trim function
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: christian.koenig@amd.com, alexander.deucher@amd.com, frank.min@amd.com
+References: <20240621052909.450539-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20240621052909.450539-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,103 +71,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 18, 2024 at 04:49:22PM -0700, Doug Anderson wrote:
-> Hi,
+Hi,
+
+On 21/06/2024 06:29, Arunpravin Paneer Selvam wrote:
+> - Add a new start parameter in trim function to specify exact
+>    address from where to start the trimming. This would help us
+>    in situations like if drivers would like to do address alignment
+>    for specific requirements.
 > 
-> On Mon, Jun 17, 2024 at 7:17 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > > That all being said, I'm also totally OK with any of the following:
-> > >
-> > > 1. Dropping my patch and just accepting that we will have warnings
-> > > printed out for all DRM drivers that do things correctly and have no
-> > > warnings for broken DRM drivers.
-> >
-> > Can't we just flip the warnings around? Like make the hacky cleanup
-> > conditional on the panel not yet being disabled/cleaned up, and complain
-> > in that case only. With that:
-> > - drivers which call shutdown shouldn't get a warning anymore, and also
-> >   not a surplus call to drm_panel_disable/unprepare
-> > - drivers which are broken still get the cleanup calls
-> > - downside: we can't enforce this, because it's not yet enforced through
-> >   device_link ordering
+> - Add a new flag DRM_BUDDY_TRIM_DISABLE. Drivers can use this
+>    flag to disable the allocator trimming part. This patch enables
+>    the drivers control trimming and they can do it themselves
+>    based on the application requirements.
 > 
-> I feel like something is getting lost in the discussion here. I'm just
-> not sure where to put the hacky cleanup without either having a list
-> like I have or fixing the device link problem so that the DRM device
-> shutdown gets called before the panel. Specifically, right now I think
-> it's possible for the panel's shutdown() callback to happen before the
-> DRM Device's shutdown(). Thus, we have:
+> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> ---
+>   drivers/gpu/drm/drm_buddy.c          | 22 ++++++++++++++++++++--
+>   drivers/gpu/drm/xe/xe_ttm_vram_mgr.c |  2 +-
+>   include/drm/drm_buddy.h              |  2 ++
+>   3 files changed, 23 insertions(+), 3 deletions(-)
 > 
-> 1. Panel shutdown() checks and says "it's not shutdown yet so do my
-> hacky cleanup."
-> 2. DRM device shutdown() gets called and tries to cleanup again.
-> 
-> ...and thus in step #1 we can't detect a broken DRM device. What am I missing?
+> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+> index 6a8e45e9d0ec..287b6acb1637 100644
+> --- a/drivers/gpu/drm/drm_buddy.c
+> +++ b/drivers/gpu/drm/drm_buddy.c
+> @@ -851,6 +851,7 @@ static int __alloc_contig_try_harder(struct drm_buddy *mm,
+>    * drm_buddy_block_trim - free unused pages
+>    *
+>    * @mm: DRM buddy manager
+> + * @start: start address to begin the trimming.
+>    * @new_size: original size requested
+>    * @blocks: Input and output list of allocated blocks.
+>    * MUST contain single block as input to be trimmed.
+> @@ -866,11 +867,13 @@ static int __alloc_contig_try_harder(struct drm_buddy *mm,
+>    * 0 on success, error code on failure.
+>    */
+>   int drm_buddy_block_trim(struct drm_buddy *mm,
+> +			 u64 *start,
 
-The above is a broken drm driver, because shutting down something that the
-main drm driver needs _before_ it is shut down itself is broken. That's
-why we need the device link.
+I guess just wondering if this should be offset within or address. If it 
+offset then zero be the valid default giving the existing behaviour. But 
+hard to say without seeing the user for this. Are there some more 
+patches to give some context for this usecase?
 
-So if this case goes a bit wrong that's imo ok. That was my point that
-without device links, we cannot have _any_ warning at all, but we can at
-least make sure that correct drivers, meaning:
-- they make sure the panel is around for longer than the drm device
-- and they call drm atomic_helper_shutdown in the right places
+>   			 u64 new_size,
+>   			 struct list_head *blocks)
+>   {
+>   	struct drm_buddy_block *parent;
+>   	struct drm_buddy_block *block;
+> +	u64 block_start, block_end;
+>   	LIST_HEAD(dfs);
+>   	u64 new_start;
+>   	int err;
+> @@ -882,6 +885,9 @@ int drm_buddy_block_trim(struct drm_buddy *mm,
+>   				 struct drm_buddy_block,
+>   				 link);
+>   
+> +	block_start = drm_buddy_block_offset(block);
+> +	block_end = block_start + drm_buddy_block_size(mm, block) - 1;
+> +
+>   	if (WARN_ON(!drm_buddy_block_is_allocated(block)))
+>   		return -EINVAL;
+>   
+> @@ -894,6 +900,17 @@ int drm_buddy_block_trim(struct drm_buddy *mm,
+>   	if (new_size == drm_buddy_block_size(mm, block))
+>   		return 0;
+>   
+> +	new_start = block_start;
+> +	if (start) {
+> +		new_start = *start;
+> +
+> +		if (new_start < block_start)
+> +			return -EINVAL;
 
-Wont either double-shutdown the panel or get the warning.
+In addition should check that the alignment of new_start is at least 
+compatible with the min chunk_size. Otherwise I think bad stuff can happen.
 
-It's not great, but it's at least better than the current situation where
-correct drivers get a warning, and some broken drivers don't. So still an
-improvement.
+> +
+> +		if ((new_start + new_size) > block_end)
 
-That leaves us with the issue of warning for all broken drivers. We have
-two proposals for that:
+range_overflows() ?
 
-- Your explicit list, which is a pain imo, and I'm not seeing the benefit
-  of this, because it'll encourage each driver to hack around the core
-  code bug of not having the right device links.
-
-- Fixing this with a device link and adding the warning for everyone.
-
-This isn't a great situation, because it's likely going to be another few
-years without the device link situation sorted out. But that's been the
-case already for years so *shrug*.
-
-> > > 2. Someone else posting / landing a patch to remove the hacky "disable
-> > > / unprepare" for panel-simple and panel-edp and asserting that they
-> > > don't care if they break any DRM drivers that are still broken. I
-> > > don't want to be involved in authoring or landing this patch, but I
-> > > won't scream loudly if others want to do it.
-> > >
-> > > 3. Someone else taking over trying to solve this problem.
-> > >
-> > > ...mostly this work is janitorial and I'm trying to help move the DRM
-> > > framework forward and get rid of cruft, so if it's going to cause too
-> > > much conflict I'm fine just stepping back.
-> >
-> > My issue is that you're trading an ugly warning that hurts maintenance
-> > with an explicit list of working drivers, which also hurts maintenance.
-> > Does seem like forward progress to me, just pushing the issue around.
-> 
-> IMO it at least moves things forward. If we make the warning obvious
-> enough then I think we could assert that, within a few kernel
-> versions, everyone who hit the warning would have addressed it. Once
-> that happens we can fully get rid of the ugly list and just make the
-> assumption that things are good. That feels like a clear path to me...
-
-Yeah, but your warning I think just encourages more hacks in drivers that
-shouldn't be there (for the ordering issue). So I'm not sure it's strictly
-better.
-
-And we have _tons_ of drm driver api misuse that we don't catch with
-warnings and checks. Sometimes that's just not possible, because the
-situation is too messy. If we add an explicit "I'm not broken" list for
-each such case, we will have an unmaintainable mess. Sometimes a "I'm the
-last broken driver" flag makes sense, but even there I'm cautious that
-it's a bright idea.
-
-Cheers, Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> +			return -EINVAL;
+> +	}
+> +
+>   	list_del(&block->link);
+>   	mark_free(mm, block);
+>   	mm->avail += drm_buddy_block_size(mm, block);
+> @@ -904,7 +921,6 @@ int drm_buddy_block_trim(struct drm_buddy *mm,
+>   	parent = block->parent;
+>   	block->parent = NULL;
+>   
+> -	new_start = drm_buddy_block_offset(block);
+>   	list_add(&block->tmp_link, &dfs);
+>   	err =  __alloc_range(mm, &dfs, new_start, new_size, blocks, NULL);
+>   	if (err) {
+> @@ -1066,7 +1082,8 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>   	} while (1);
+>   
+>   	/* Trim the allocated block to the required size */
+> -	if (original_size != size) {
+> +	if (!(flags & DRM_BUDDY_TRIM_DISABLE) &&
+> +	    original_size != size) {
+>   		struct list_head *trim_list;
+>   		LIST_HEAD(temp);
+>   		u64 trim_size;
+> @@ -1083,6 +1100,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>   		}
+>   
+>   		drm_buddy_block_trim(mm,
+> +				     NULL,
+>   				     trim_size,
+>   				     trim_list);
+>   
+> diff --git a/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c b/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c
+> index fe3779fdba2c..423b261ea743 100644
+> --- a/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c
+> +++ b/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c
+> @@ -150,7 +150,7 @@ static int xe_ttm_vram_mgr_new(struct ttm_resource_manager *man,
+>   	} while (remaining_size);
+>   
+>   	if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
+> -		if (!drm_buddy_block_trim(mm, vres->base.size, &vres->blocks))
+> +		if (!drm_buddy_block_trim(mm, NULL, vres->base.size, &vres->blocks))
+>   			size = vres->base.size;
+>   	}
+>   
+> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+> index 2a74fa9d0ce5..9689a7c5dd36 100644
+> --- a/include/drm/drm_buddy.h
+> +++ b/include/drm/drm_buddy.h
+> @@ -27,6 +27,7 @@
+>   #define DRM_BUDDY_CONTIGUOUS_ALLOCATION		BIT(2)
+>   #define DRM_BUDDY_CLEAR_ALLOCATION		BIT(3)
+>   #define DRM_BUDDY_CLEARED			BIT(4)
+> +#define DRM_BUDDY_TRIM_DISABLE			BIT(5)
+>   
+>   struct drm_buddy_block {
+>   #define DRM_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
+> @@ -155,6 +156,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>   			   unsigned long flags);
+>   
+>   int drm_buddy_block_trim(struct drm_buddy *mm,
+> +			 u64 *start,
+>   			 u64 new_size,
+>   			 struct list_head *blocks);
+>   
