@@ -2,37 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E883912C42
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 19:11:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE868912C48
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 19:13:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C98810E061;
-	Fri, 21 Jun 2024 17:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A458510E437;
+	Fri, 21 Jun 2024 17:13:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7CF010E0B7
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 17:11:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 635BA10E437
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 17:13:09 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1sKhn2-0007Dy-67; Fri, 21 Jun 2024 19:11:08 +0200
+ id 1sKhox-0007Lf-QJ; Fri, 21 Jun 2024 19:13:07 +0200
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <l.stach@pengutronix.de>)
- id 1sKhn0-003zT1-Ot; Fri, 21 Jun 2024 19:11:06 +0200
+ id 1sKhox-003zT9-BX; Fri, 21 Jun 2024 19:13:07 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: etnaviv@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>, patchwork-lst@pengutronix.de,
- kernel@pengutronix.de
-Subject: [PATCH v2] drm/etnaviv: fix DMA direction handling for cached RW
- buffers
-Date: Fri, 21 Jun 2024 19:11:06 +0200
-Message-Id: <20240621171106.411596-1-l.stach@pengutronix.de>
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de
+Subject: [PATCH v2] drm/etnaviv: switch devcoredump allocations to GFP_NOWAIT
+Date: Fri, 21 Jun 2024 19:13:07 +0200
+Message-Id: <20240621171307.414953-1-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -56,35 +54,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dma sync operation needs to be done with DMA_BIDIRECTIONAL when
-the BO is prepared for both read and write operations.
+The etnaviv devcoredump is created in the GPU reset path, which
+must make forward progress to avoid stalling memory reclaim on
+unsignalled dma fences. The currently used __GFP_NORETRY does not
+prohibit sleeping on direct reclaim, breaking the forward progress
+guarantee. Switch to GFP_NOWAIT, which allows background reclaim
+to be triggered, but avoids any stalls waiting for direct reclaim.
 
-Fixes: a8c21a5451d8 ("drm/etnaviv: add initial etnaviv DRM driver")
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
-v2: switch conditions to be exact matches
+v2: drop __GFP_NORWARN, as it's already part of GFP_NOWAIT
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gem.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_dump.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index 71a6d2b1c80f..5c0c9d4e3be1 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -355,9 +355,11 @@ static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+index 898f84a0fc30..2cd223461eba 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+@@ -159,8 +159,7 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+ 	file_size += sizeof(*iter.hdr) * n_obj;
  
- static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
- {
--	if (op & ETNA_PREP_READ)
-+	op &= ETNA_PREP_READ | ETNA_PREP_WRITE;
-+
-+	if (op == ETNA_PREP_READ)
- 		return DMA_FROM_DEVICE;
--	else if (op & ETNA_PREP_WRITE)
-+	else if (op == ETNA_PREP_WRITE)
- 		return DMA_TO_DEVICE;
- 	else
- 		return DMA_BIDIRECTIONAL;
+ 	/* Allocate the file in vmalloc memory, it's likely to be big */
+-	iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
+-			__GFP_NORETRY);
++	iter.start = __vmalloc(file_size, GFP_NOWAIT);
+ 	if (!iter.start) {
+ 		mutex_unlock(&submit->mmu_context->lock);
+ 		dev_warn(gpu->dev, "failed to allocate devcoredump file\n");
+@@ -230,5 +229,5 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+ 
+ 	etnaviv_core_dump_header(&iter, ETDUMP_BUF_END, iter.data);
+ 
+-	dev_coredumpv(gpu->dev, iter.start, iter.data - iter.start, GFP_KERNEL);
++	dev_coredumpv(gpu->dev, iter.start, iter.data - iter.start, GFP_NOWAIT);
+ }
 -- 
 2.39.2
 
