@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C08791296F
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 17:22:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A1B591296B
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 17:22:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F07DC10F1FB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E209710F1F9;
 	Fri, 21 Jun 2024 15:22:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="UWVLzYC0";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="d6iwMmvF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f97.google.com (mail-lf1-f97.google.com
- [209.85.167.97])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD55410F1F9
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 15:21:45 +0000 (UTC)
-Received: by mail-lf1-f97.google.com with SMTP id
- 2adb3069b0e04-52cc14815c3so2258834e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 08:21:45 -0700 (PDT)
+Received: from mail-lf1-f99.google.com (mail-lf1-f99.google.com
+ [209.85.167.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8E310F1F9
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 15:21:46 +0000 (UTC)
+Received: by mail-lf1-f99.google.com with SMTP id
+ 2adb3069b0e04-52ccc40e72eso1717132e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 08:21:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google; t=1718983304; x=1719588104;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0kAJq4qACJOVIJfamZlTaAKKGGa9lEThOQv0X5bpQKU=;
- b=UWVLzYC0HWwoXV6ZGzFNZnuAP1ZrQ49aQeeWh5a4QGmm7oaPyNVsQPSeQbdDN0XzHo
- B2B4H4Me9RKuMr7fidJh0ZpXQfpEyjPxa9rPwt9gCPu1RBalF1Ww32bx/jI2wA5nDGiz
- 1JROD0ATVHqtx4PVazAWohqXXxATqUXoXJqbxSnVvzwe0ffV/sgm6KAZMH6qNSlLcbAM
- owP66MVROSlJ249XZe4dZy8GZMDp6fWMHhPt0h9ikKQkNKaswpju03RPFjDBSeQef36z
- 7e8k15jH6yUCWtkvSrC7zGMf8AO9W1nWw2hFBQvC2rHNPdW6JszORLMNCgKzndNKFs/A
- o6Jg==
+ bh=KS0ZdfQzA/iMqxdfAiA8oHNA466XESazyXLFVDOAupo=;
+ b=d6iwMmvFE/qV7LNoZe6tI7obogA781FnMvm9ADS9w4i87fzSuuNLpAOmP2hZfxYcN0
+ V1qyuRJE9rk5g0a3TW3lbEbdtQE/foBc3i35fPy8uT3+BjeCNrr2M3atSXFgZ4NxpRz+
+ C7vXcI3ZSi4P/qO3PaLxfOAEI7qjJ9pvCU4z83VOcrEO7GbzJdSfm9ULQ+cKuV67b4Kd
+ MZlH+X2m68jGvX00RIPTyrju6niiiuxwwazVAD7q5vEmy35EVO0hACYhosdCWWePP7Qj
+ fjxL0FGBObiTsgMHaDtfQkGsGZLFGPTTNkcIrxACmN/JZCb65q3IRwRUEWYOaElo1KQF
+ ovDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1718983304; x=1719588104;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0kAJq4qACJOVIJfamZlTaAKKGGa9lEThOQv0X5bpQKU=;
- b=H/s26AukWWbYK5RZYO0L6Cx3GzwOxnxTh3Ns5PgC9J/GEYFr47lghvZVm6Pn3Zeyzg
- rMqDrPDOJDZkYg+NJ7hDOm0gZWbi7z7zRrvMNMjT7y9f9u+0LIKaSHJprN189p3ylfWs
- lblA+J6gilZmEeCPvmEYBIvym5op3QICjZQV4o4ZjiwcoFDgGzPAl3rQSZ9ZnVMJeYJN
- EUUXBQUcxPx/1BlXp5dIezfKU9qNaiGo4T1ozjpcok2yfbiVs1nvaGBDo5cjikz9N+zJ
- d/Cd+Isb93VC71guCgFSpgK86fMbz/BA2U+mEIlLg3siPRQ1byKgpmSEANa7YrgvdLEZ
- p9Ug==
+ bh=KS0ZdfQzA/iMqxdfAiA8oHNA466XESazyXLFVDOAupo=;
+ b=nXm8c6rAxVKQNKisNXICb2myeMwoZXpdxTunJP/sJKGiKtreEyJKVunr7J2MpCxmHH
+ 2yYx/tvCl5LMroxFExfigzVFFkga1ljM1I3L89HkI5DXFBvd0lLunUvjNXhMyYyHHdyI
+ M6TTc6hrakkIUdbofemKcGGOvpNCaNN2lCioJ/zuHZdHHJt66ONMOX6VSQOpSqlxDBIj
+ 8wMvq6KiPYkfUaUmIXEBRWiS/vY0SC68/YeM1An7FGPKNl6xNDa89lCIz8FuOpMWUILn
+ l04uYenlChwckzU0dUEMIcWlvIvCzNdjeUCorc5LW3vUO3+2hTs0aVO9shNFFaarenpf
+ ilEw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWsJ6SBYpDnMOYUNqhppKqchycTlbP4mKlu1yYA3ZTPTRxqn8PrS+3xxzwAoOdtxvxkA4KasyAvoP5jBSe5OfN4DtGn4J2rTOBujasFphYS
-X-Gm-Message-State: AOJu0YxseV2Zf1pVIVcLJjd47qKcTXStEvwb8sN37+JaK4KmYYfolOUq
- tcew+uT+xOTvts+hjZEeO73qxtEYBMP0XcN4NbU2LwIHEj4GdFQygrlDWVHRQwyqYPD3BHKFYoY
- duUnifBXAKJsDn3jA0i5RFtNbYbAbmht9
-X-Google-Smtp-Source: AGHT+IHhVTMyVyuYoCPTKPDMoauWlcQGR+GFymaYcUaS+7LsBbNJ1aKI61ZYD4bmFYLj26A5vA/3XjHiVLoX
-X-Received: by 2002:ac2:523a:0:b0:52b:c23f:9451 with SMTP id
- 2adb3069b0e04-52ccaa373damr4484365e87.38.1718983304124; 
+ AJvYcCXeK01sFRdY8qoAbWcBfgTEIb+FL5JxeOB4vh5OQioNmbHsCODskcY/x55rW+MRviw2KAx2TSP+AFuFufHKKpTMmTGE7dogyAw4PXcnIxxu
+X-Gm-Message-State: AOJu0YzC2DLjHZbkNJA+91fYYoaQxvDfzVyjGxNR1mRdRy2js7K+Q5sj
+ ZsFmM2XM9e9m0XACteVVRiG9Mlz9i/9H8MhtPCGkO+Pbuc5ykGjotnOV9eJXsbCy3WenwcxfHRQ
+ 26NWMlgzFZqpYzj4nvXoUCgkrinFML5LO
+X-Google-Smtp-Source: AGHT+IG456hgEIdAO9+lAnIaSgpaiVHmF6W0+bSKB6OQZBgNQZnhtuzTC9a7S9nFxBlu1B28P3bOb2izgMPB
+X-Received: by 2002:ac2:4303:0:b0:52c:d7e6:8d73 with SMTP id
+ 2adb3069b0e04-52cd7e69e76mr1375206e87.18.1718983304582; 
  Fri, 21 Jun 2024 08:21:44 -0700 (PDT)
 Received: from raspberrypi.com ([188.39.149.98])
  by smtp-relay.gmail.com with ESMTPS id
- 5b1f17b1804b1-4247d0c395asm4858635e9.28.2024.06.21.08.21.43
+ 5b1f17b1804b1-4247d208d92sm4856015e9.42.2024.06.21.08.21.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 21 Jun 2024 08:21:44 -0700 (PDT)
 X-Relaying-Domain: raspberrypi.com
@@ -66,9 +66,9 @@ To: Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
 Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH v2 24/31] drm/vc4: hvs: Create cob_init function
-Date: Fri, 21 Jun 2024 16:20:48 +0100
-Message-Id: <20240621152055.4180873-25-dave.stevenson@raspberrypi.com>
+Subject: [PATCH v2 25/31] drm/vc4: hvs: Rename hvs_regs list
+Date: Fri, 21 Jun 2024 16:20:49 +0100
+Message-Id: <20240621152055.4180873-26-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240621152055.4180873-1-dave.stevenson@raspberrypi.com>
 References: <20240621152055.4180873-1-dave.stevenson@raspberrypi.com>
@@ -91,171 +91,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maxime Ripard <mripard@kernel.org>
 
-Just like the HVS itself, the COB parameters will be fairly different in
-the BCM2712.
+The HVS register set has been heavily modified in the BCM2712, and we'll
+thus need a separate debugfs_reg32 array for it.
 
-Let's move the COB parameters computation and its initialisation to a
-separate function that will be easier to extend in the future.
+The name hvs_regs is thus a bit too generic, so let's rename it to
+something more specific.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/vc4_hvs.c | 128 ++++++++++++++++++++--------------
- 1 file changed, 74 insertions(+), 54 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hvs.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index bab15827fce0..bd9ae25dbdcf 100644
+index bd9ae25dbdcf..3f323a9d5e9a 100644
 --- a/drivers/gpu/drm/vc4/vc4_hvs.c
 +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -940,6 +940,77 @@ static int vc4_hvs_hw_init(struct vc4_hvs *hvs)
- 	return 0;
- }
+@@ -33,7 +33,7 @@
+ #include "vc4_drv.h"
+ #include "vc4_regs.h"
  
-+static int vc4_hvs_cob_init(struct vc4_hvs *hvs)
-+{
-+	struct vc4_dev *vc4 = hvs->vc4;
-+	u32 reg, top;
-+
-+	/*
-+	 * Recompute Composite Output Buffer (COB) allocations for the
-+	 * displays
-+	 */
-+	switch (vc4->gen) {
-+	case VC4_GEN_4:
-+		/* The COB is 20736 pixels, or just over 10 lines at 2048 wide.
-+		 * The bottom 2048 pixels are full 32bpp RGBA (intended for the
-+		 * TXP composing RGBA to memory), whilst the remainder are only
-+		 * 24bpp RGB.
-+		 *
-+		 * Assign 3 lines to channels 1 & 2, and just over 4 lines to
-+		 * channel 0.
-+		 */
-+		#define VC4_COB_SIZE		20736
-+		#define VC4_COB_LINE_WIDTH	2048
-+		#define VC4_COB_NUM_LINES	3
-+		reg = 0;
-+		top = VC4_COB_LINE_WIDTH * VC4_COB_NUM_LINES;
-+		reg |= (top - 1) << 16;
-+		HVS_WRITE(SCALER_DISPBASE2, reg);
-+		reg = top;
-+		top += VC4_COB_LINE_WIDTH * VC4_COB_NUM_LINES;
-+		reg |= (top - 1) << 16;
-+		HVS_WRITE(SCALER_DISPBASE1, reg);
-+		reg = top;
-+		top = VC4_COB_SIZE;
-+		reg |= (top - 1) << 16;
-+		HVS_WRITE(SCALER_DISPBASE0, reg);
-+		break;
-+
-+	case VC4_GEN_5:
-+		/* The COB is 44416 pixels, or 10.8 lines at 4096 wide.
-+		 * The bottom 4096 pixels are full RGBA (intended for the TXP
-+		 * composing RGBA to memory), whilst the remainder are only
-+		 * RGB. Addressing is always pixel wide.
-+		 *
-+		 * Assign 3 lines of 4096 to channels 1 & 2, and just over 4
-+		 * lines. to channel 0.
-+		 */
-+		#define VC5_COB_SIZE		44416
-+		#define VC5_COB_LINE_WIDTH	4096
-+		#define VC5_COB_NUM_LINES	3
-+		reg = 0;
-+		top = VC5_COB_LINE_WIDTH * VC5_COB_NUM_LINES;
-+		reg |= top << 16;
-+		HVS_WRITE(SCALER_DISPBASE2, reg);
-+		top += 16;
-+		reg = top;
-+		top += VC5_COB_LINE_WIDTH * VC5_COB_NUM_LINES;
-+		reg |= top << 16;
-+		HVS_WRITE(SCALER_DISPBASE1, reg);
-+		top += 16;
-+		reg = top;
-+		top = VC5_COB_SIZE;
-+		reg |= top << 16;
-+		HVS_WRITE(SCALER_DISPBASE0, reg);
-+		break;
-+
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
-@@ -947,7 +1018,6 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 	struct vc4_dev *vc4 = to_vc4_dev(drm);
- 	struct vc4_hvs *hvs = NULL;
- 	int ret;
--	u32 reg, top;
+-static const struct debugfs_reg32 hvs_regs[] = {
++static const struct debugfs_reg32 vc4_hvs_regs[] = {
+ 	VC4_REG32(SCALER_DISPCTRL),
+ 	VC4_REG32(SCALER_DISPSTAT),
+ 	VC4_REG32(SCALER_DISPID),
+@@ -1028,8 +1028,8 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+ 		return PTR_ERR(hvs->regs);
  
- 	hvs = __vc4_hvs_alloc(vc4, NULL);
- 	if (IS_ERR(hvs))
-@@ -1017,59 +1087,9 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		return ret;
+ 	hvs->regset.base = hvs->regs;
+-	hvs->regset.regs = hvs_regs;
+-	hvs->regset.nregs = ARRAY_SIZE(hvs_regs);
++	hvs->regset.regs = vc4_hvs_regs;
++	hvs->regset.nregs = ARRAY_SIZE(vc4_hvs_regs);
  
--	/* Recompute Composite Output Buffer (COB) allocations for the displays
--	 */
--	if (vc4->gen == VC4_GEN_4) {
--		/* The COB is 20736 pixels, or just over 10 lines at 2048 wide.
--		 * The bottom 2048 pixels are full 32bpp RGBA (intended for the
--		 * TXP composing RGBA to memory), whilst the remainder are only
--		 * 24bpp RGB.
--		 *
--		 * Assign 3 lines to channels 1 & 2, and just over 4 lines to
--		 * channel 0.
--		 */
--		#define VC4_COB_SIZE		20736
--		#define VC4_COB_LINE_WIDTH	2048
--		#define VC4_COB_NUM_LINES	3
--		reg = 0;
--		top = VC4_COB_LINE_WIDTH * VC4_COB_NUM_LINES;
--		reg |= (top - 1) << 16;
--		HVS_WRITE(SCALER_DISPBASE2, reg);
--		reg = top;
--		top += VC4_COB_LINE_WIDTH * VC4_COB_NUM_LINES;
--		reg |= (top - 1) << 16;
--		HVS_WRITE(SCALER_DISPBASE1, reg);
--		reg = top;
--		top = VC4_COB_SIZE;
--		reg |= (top - 1) << 16;
--		HVS_WRITE(SCALER_DISPBASE0, reg);
--	} else {
--		/* The COB is 44416 pixels, or 10.8 lines at 4096 wide.
--		 * The bottom 4096 pixels are full RGBA (intended for the TXP
--		 * composing RGBA to memory), whilst the remainder are only
--		 * RGB. Addressing is always pixel wide.
--		 *
--		 * Assign 3 lines of 4096 to channels 1 & 2, and just over 4
--		 * lines. to channel 0.
--		 */
--		#define VC5_COB_SIZE		44416
--		#define VC5_COB_LINE_WIDTH	4096
--		#define VC5_COB_NUM_LINES	3
--		reg = 0;
--		top = VC5_COB_LINE_WIDTH * VC5_COB_NUM_LINES;
--		reg |= top << 16;
--		HVS_WRITE(SCALER_DISPBASE2, reg);
--		top += 16;
--		reg = top;
--		top += VC5_COB_LINE_WIDTH * VC5_COB_NUM_LINES;
--		reg |= top << 16;
--		HVS_WRITE(SCALER_DISPBASE1, reg);
--		top += 16;
--		reg = top;
--		top = VC5_COB_SIZE;
--		reg |= top << 16;
--		HVS_WRITE(SCALER_DISPBASE0, reg);
--	}
-+	ret = vc4_hvs_cob_init(hvs);
-+	if (ret)
-+		return ret;
- 
- 	ret = devm_request_irq(dev, platform_get_irq(pdev, 0),
- 			       vc4_hvs_irq_handler, 0, "vc4 hvs", drm);
+ 	if (vc4->gen == VC4_GEN_5) {
+ 		struct rpi_firmware *firmware;
 -- 
 2.34.1
 
