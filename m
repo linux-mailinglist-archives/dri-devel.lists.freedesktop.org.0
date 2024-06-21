@@ -2,78 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856CA912E28
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 21:58:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7752E912E2C
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 21:59:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EDF610E0D6;
-	Fri, 21 Jun 2024 19:58:41 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L6eC4bkZ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADC9F10E1A7;
+	Fri, 21 Jun 2024 19:59:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com
- [209.85.161.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A779910E0D8
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 19:58:39 +0000 (UTC)
-Received: by mail-oo1-f46.google.com with SMTP id
- 006d021491bc7-5b9778bb7c8so1182133eaf.3
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 12:58:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1718999918; x=1719604718; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=uZT85xg/u3etg74tod0wWvhARm1bf9HjZcOhri8SiLA=;
- b=L6eC4bkZJWp5Dx+rNhHrujv3V4IQ2tAviYVrScB+zCKTN6Z5jIrsGi8ewzFgpmsF05
- iGF9oGJWx69Q6+H/aG0IU8y9aT7+iW2s2H47aLbZjVAROjIlJNbjAWowNsBhzzPIiuz9
- gkc3MHfP8jxSV4Qfkocd2Munl3qA3fKDbls8bWnRR2r4eOS1v+rn4wgMu9J8feQEXphs
- QTS1S0i9iJCLvzGMPFCEOjbcMMNY0MpugRluMEOjHtLjAESqPoed2EDwsBlld2oDyIBb
- 1n0SR2Mifo0GGqcWZAsw7WnKUnM9BBW0UQ8GGNs5LsFW8b3ZiWrOmBsc236TrZFuqq69
- 3l1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718999918; x=1719604718;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uZT85xg/u3etg74tod0wWvhARm1bf9HjZcOhri8SiLA=;
- b=FN5P2MiLU9UqHpLiQzZIpDoLBi07zvjHLSGBYiKqsyXd3nIp5tVJIFDrwBTbazi/r/
- sH1FWTx1dGPLG7uHnGrGKJtZ/AIP5iBuiA1mLG/vH/FdHdXPNceUFT3WltQJhJkzO2Tc
- 0/wG+8KlCEXuOrkQliLD/ZUl6zdUgqD5mgrsPGuZUe6bPKs2wdVqR3xgxwZONhzFBK0U
- e0mw+ONCezf8g9M2HfLD3L2wH/vnvXxOPrawlI2gEaaIuhpAOEJr1WTODjCC1RkRMT72
- MWKsKSkcjdqviGpeP2OkhCHVXzCr29bBXkJJoriBFyMzgE7sm/9xTHklKShSkxTvDlAd
- qVzg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVCDRQk2YkalZvTv90iiA8XCz6TTDC3p1EpGD1UB58DphiDBD2ZSrKESjDrgS6Sibm77oe3fGg9es4KeHghZyEH9zhhno32embzEzOgRuPo
-X-Gm-Message-State: AOJu0YwfcNiegHotCKFh731t13Uksyxbc8rotMdifOlIiVnfK4bVoYji
- dFSwtacyLwa3wm3j8kLchIKMMfzECN5z5K8pa40K2lOlZxlKUdF2
-X-Google-Smtp-Source: AGHT+IFczQG/r/FziE5lHomIhZKAzT1QDlQTYWIYUS249ULPQp3760g6B/uCINnT2+aOuTODaKtM9Q==
-X-Received: by 2002:a05:6358:7e87:b0:19f:6bb4:e23b with SMTP id
- e5c5f4694b2df-1a1fd45b454mr1045049155d.18.1718999918391; 
- Fri, 21 Jun 2024 12:58:38 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:30ae:a791:227a:a35f])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-716ba6aa524sm1468593a12.63.2024.06.21.12.58.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jun 2024 12:58:37 -0700 (PDT)
-Date: Fri, 21 Jun 2024 12:58:34 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-acpi@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v3] software node: Implement device_get_match_data fwnode
- callback
-Message-ID: <ZnXbaubPVAUdDIu0@google.com>
-References: <20240427203650.582989-1-sui.jingfeng@linux.dev>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED2D10E0D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 19:59:21 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sKkPn-0006JL-TM; Fri, 21 Jun 2024 21:59:19 +0200
+Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sKkPn-0040xj-Bj; Fri, 21 Jun 2024 21:59:19 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de
+Subject: [PATCH] drm/etnaviv: don't block scheduler when GPU is still active
+Date: Fri, 21 Jun 2024 21:59:19 +0200
+Message-Id: <20240621195919.491217-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240427203650.582989-1-sui.jingfeng@linux.dev>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,70 +54,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sui,
+Since 45ecaea73883 ("drm/sched: Partial revert of 'drm/sched: Keep
+s_fence->parent pointer'") still active jobs aren't put back in the
+pending list on drm_sched_start(), as they don't have a active
+parent fence anymore, so if the GPU is still working and the timeout
+is extended, all currently active jobs will be freed.
 
-On Sun, Apr 28, 2024 at 04:36:50AM +0800, Sui Jingfeng wrote:
-> Because the software node backend of the fwnode API framework lacks an
-> implementation for the .device_get_match_data function callback. This
-> makes it difficult to use(and/or test) a few drivers that originates
-> from DT world on the non-DT platform.
-> 
-> Implement the .device_get_match_data fwnode callback, which helps to keep
-> the three backends of the fwnode API aligned as much as possible. This is
-> also a fundamental step to make a few drivers OF-independent truely
-> possible.
-> 
-> Device drivers or platform setup codes are expected to provide a software
-> node string property, named as "compatible". At this moment, the value of
-> this string property is being used to match against the compatible entries
-> in the of_device_id table. It can be extended in the future though.
+To avoid prematurely freeing jobs that are still active on the GPU,
+don't block the scheduler until we are fully committed to actually
+reset the GPU.
 
-I am sorry, but this is not really correct. Software nodes are used to
-augment missing or incomplete parameters, but are never primary objects
-in the matching process. Sometimes "compatible" property is used with
-software nodes, but it does not participate in the matching process.
+As the current job is already removed from the pending list and
+will not be put back when drm_sched_start() isn't called, we must
+make sure to put the job back on the pending list when extending
+the timeout.
 
-There are several ways for various buses to match a device and a driver,
-but none of them operate on software nodes. Consider for example how
-devices on SPI bus are matched (see
-drivers/spi/spi.c::spi_match_device()):
+Cc: stable@vger.kernel.org #6.0
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-1. OF/device tree based match. It *requires* the device to have
-dev->of_node which is coming from a DTB. It does not work on software
-nodes. In case of match the match data should come from of_device_id
-entry.
-
-2. ACPI-based match. The match is done based either on OF-compatible
-data (which includes "compatible" property) in _DSD (if driver supports
-OF-based matching), or based on HID/CID data. In the latter case the
-match data is coming from acpi_device_id entry.
-
-3. Name-based match, typically used for board-instantiated devices. In
-this case match is done by comparing device name under which it was
-instantiated against names listed in the drivers id_table. The match
-data is coming from spi_device_id entry.
-
-Similar matching processes are implemented for i2c and platform buses,
-as well as others.
-
-Your patch is effectively hijacks the #3 matching process and
-substitutes the bus-specific match data (from
-spi_device_id/i2c_device_id/etc) with OF data. This is not expected and
-while we may want this in a long term (so we can eventually remove these
-bus-specific device ids and only have ACPI/OF ones) I do not think we
-are ready for this yet. At the very least this needs to be very clearly
-documented.
-
-> 
-> Fixes: ffb42e64561e ("drm/tiny/repaper: Make driver OF-independent")
-> Fixes: 5703d6ae9573 ("drm/tiny/st7735r: Make driver OF-independent")
-
-As other people mentioned this patch does not fix the aforementioned
-commits because they are not broken. In case of non-OF match (which
-includes the case where you use software nodes) the match data is coming
-from matching spi_device_id entry in the driver.
-
-Thanks.
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index c4b04b0dee16..62dcfdc7894d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -38,9 +38,6 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 	u32 dma_addr;
+ 	int change;
+ 
+-	/* block scheduler */
+-	drm_sched_stop(&gpu->sched, sched_job);
+-
+ 	/*
+ 	 * If the GPU managed to complete this jobs fence, the timout is
+ 	 * spurious. Bail out.
+@@ -63,6 +60,9 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 		goto out_no_timeout;
+ 	}
+ 
++	/* block scheduler */
++	drm_sched_stop(&gpu->sched, sched_job);
++
+ 	if(sched_job)
+ 		drm_sched_increase_karma(sched_job);
+ 
+@@ -76,8 +76,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 	return DRM_GPU_SCHED_STAT_NOMINAL;
+ 
+ out_no_timeout:
+-	/* restart scheduler after GPU is usable again */
+-	drm_sched_start(&gpu->sched, true);
++	list_add(&sched_job->list, &sched_job->sched->pending_list);
+ 	return DRM_GPU_SCHED_STAT_NOMINAL;
+ }
+ 
 -- 
-Dmitry
+2.39.2
+
