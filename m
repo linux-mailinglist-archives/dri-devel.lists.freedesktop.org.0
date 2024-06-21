@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7752E912E2C
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 21:59:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC2F912E2F
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 22:00:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADC9F10E1A7;
-	Fri, 21 Jun 2024 19:59:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39FF610E07E;
+	Fri, 21 Jun 2024 20:00:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED2D10E0D8
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 19:59:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FBFA10E0D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 20:00:22 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1sKkPn-0006JL-TM; Fri, 21 Jun 2024 21:59:19 +0200
+ id 1sKkQm-0006WI-VN; Fri, 21 Jun 2024 22:00:20 +0200
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <l.stach@pengutronix.de>)
- id 1sKkPn-0040xj-Bj; Fri, 21 Jun 2024 21:59:19 +0200
+ id 1sKkQm-0040xr-HE; Fri, 21 Jun 2024 22:00:20 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: etnaviv@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  patchwork-lst@pengutronix.de, kernel@pengutronix.de
-Subject: [PATCH] drm/etnaviv: don't block scheduler when GPU is still active
-Date: Fri, 21 Jun 2024 21:59:19 +0200
-Message-Id: <20240621195919.491217-1-l.stach@pengutronix.de>
+Subject: [PATCH] drm/etnaviv: reduce number of ktime_get calls in IRQ handler
+Date: Fri, 21 Jun 2024 22:00:20 +0200
+Message-Id: <20240621200020.491579-1-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -54,61 +54,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since 45ecaea73883 ("drm/sched: Partial revert of 'drm/sched: Keep
-s_fence->parent pointer'") still active jobs aren't put back in the
-pending list on drm_sched_start(), as they don't have a active
-parent fence anymore, so if the GPU is still working and the timeout
-is extended, all currently active jobs will be freed.
+A single IRQ might signal the completion of multiple jobs/fences
+at once. There is no point in attaching a new timestamp to each
+fence that only differs in when exactly the IRQ handler was able
+to process this fence.
 
-To avoid prematurely freeing jobs that are still active on the GPU,
-don't block the scheduler until we are fully committed to actually
-reset the GPU.
+Get a single timestamp when the IRQ handler has determined that
+there are completed jobs and reuse this for all fences that get
+signalled by the handler.
 
-As the current job is already removed from the pending list and
-will not be put back when drm_sched_start() isn't called, we must
-make sure to put the job back on the pending list when extending
-the timeout.
-
-Cc: stable@vger.kernel.org #6.0
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_sched.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-index c4b04b0dee16..62dcfdc7894d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-@@ -38,9 +38,6 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
- 	u32 dma_addr;
- 	int change;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 7502c55199b8..7c7f97793ddd 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1548,6 +1548,7 @@ static irqreturn_t irq_handler(int irq, void *data)
+ 	u32 intr = gpu_read(gpu, VIVS_HI_INTR_ACKNOWLEDGE);
  
--	/* block scheduler */
--	drm_sched_stop(&gpu->sched, sched_job);
--
- 	/*
- 	 * If the GPU managed to complete this jobs fence, the timout is
- 	 * spurious. Bail out.
-@@ -63,6 +60,9 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
- 		goto out_no_timeout;
- 	}
+ 	if (intr != 0) {
++		ktime_t now = ktime_get();
+ 		int event;
  
-+	/* block scheduler */
-+	drm_sched_stop(&gpu->sched, sched_job);
-+
- 	if(sched_job)
- 		drm_sched_increase_karma(sched_job);
+ 		pm_runtime_mark_last_busy(gpu->dev);
+@@ -1597,7 +1598,7 @@ static irqreturn_t irq_handler(int irq, void *data)
+ 			 */
+ 			if (fence_after(fence->seqno, gpu->completed_fence))
+ 				gpu->completed_fence = fence->seqno;
+-			dma_fence_signal(fence);
++			dma_fence_signal_timestamp(fence, now);
  
-@@ -76,8 +76,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
- 	return DRM_GPU_SCHED_STAT_NOMINAL;
- 
- out_no_timeout:
--	/* restart scheduler after GPU is usable again */
--	drm_sched_start(&gpu->sched, true);
-+	list_add(&sched_job->list, &sched_job->sched->pending_list);
- 	return DRM_GPU_SCHED_STAT_NOMINAL;
- }
- 
+ 			event_free(gpu, event);
+ 		}
 -- 
 2.39.2
 
