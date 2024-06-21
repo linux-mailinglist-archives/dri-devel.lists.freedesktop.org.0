@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C17912958
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 17:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA30891295A
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 17:21:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 229F210F1E7;
-	Fri, 21 Jun 2024 15:21:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E06BC10F1F1;
+	Fri, 21 Jun 2024 15:21:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="FCMSIf3r";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="FUL4AMJL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f97.google.com (mail-ej1-f97.google.com
- [209.85.218.97])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F74610F1E3
+Received: from mail-ej1-f98.google.com (mail-ej1-f98.google.com
+ [209.85.218.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D37AF10F1E3
  for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 15:21:33 +0000 (UTC)
-Received: by mail-ej1-f97.google.com with SMTP id
- a640c23a62f3a-a63359aaaa6so305632266b.2
+Received: by mail-ej1-f98.google.com with SMTP id
+ a640c23a62f3a-a6fd513f18bso78459566b.3
  for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 08:21:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google; t=1718983292; x=1719588092;
@@ -25,39 +25,39 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GLOzuMLaXl+Uytcx8tcLjxE+cAqpQuNtsWbYYytP+IY=;
- b=FCMSIf3r6q/Fgc6DYPzDGR8niITTMJdeexQL2qOIuyFJjajKwXZF+3uyWh2Nclh1UQ
- taJIVsZV/IwGTHLJbruO75iI65bE7/tJEef/iRdERDPNBcRVOq64srs5tINVRSixJzsq
- N9UixM95LZtpvF7gXrAMY+/OMwtWWQXYZu1nGdjdwxjSfSxMN34e7j3+87op7bRDdrYE
- dcTIc4leMUgrzelXo/ws0CVNVrxRBkQ4pJBYJbxp8V9MxT3JkVNKNAHWK2VPD4MxigKt
- ZQRsN41SVdslrAiazgmnx4gNujDSf7FSnjt9/pJ8MJ1dBw6oncTaguyewxUhXc8AyT0W
- F4Zw==
+ bh=RldGIEEllNIV4EGABqgzjNJrsTpOsfjwSHsp4z2iitA=;
+ b=FUL4AMJLm0V1R8of/h0TJuSR+rnfLZcvcLzBd5QGZrkE0HZ5ItEUfCFTfHrZ/+7KUQ
+ pGTSDUFO1CwmagnKudmN7Cd9CbCv/hmfI+/1eM0q6LhV9cAwUu94Rydt9jJm3sUTzJNL
+ 5VvFyxILubv6vA/mZEdyZeJG8qdt5+J8l9ZcB/ImJZHJ+AtplKOdaScsIjXET1WqkXLC
+ xCVjkoAMGHyOWitl1KtnqCpWcL2tvn6huBnceU2yaAaBEAaZFvtDYdRp2fYsXgiMpeez
+ dkUaV0rPtxqZYQ/ufjsEZ/W09eZcH5sB3FnRTg8cDCGdC95Q2Hj1Afwbdhm+Brryuh7Q
+ v2hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1718983292; x=1719588092;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GLOzuMLaXl+Uytcx8tcLjxE+cAqpQuNtsWbYYytP+IY=;
- b=Gew4EtObnbHE025ayueo4nxRZ/YB9yS9xwMNkAZE0eLXJ6PWnbivzBmo5g7vaztfHq
- +Qypbf1iqGGij5te1I1aWiCkt+XHTTwvkW/ELe50J29Xr0PTvg96r6/1k6FbY7ENUYEG
- UELFZaDCu9V+s4x40CKJ+C5uqwPlyNF4p32trgjr5YQ0Hvhdb525F/gWtRCwBnorPiPf
- Rwsb4S3Tzj0nvgxCZf4rziw313Rcw9L9lnJIp8SAw+BG2rKB795vnYZwFjwGKxa5a+Uh
- iRR2LivoIpIb8n2kURhmiJzUikdG9chr2WdQVNkThqOfUzj/SOBLs1QkW7kxhQdS0exu
- TsFw==
+ bh=RldGIEEllNIV4EGABqgzjNJrsTpOsfjwSHsp4z2iitA=;
+ b=aLPK22hGNoaLjRdv5ky5KKHasriFPYKcQucOfGk2rGEVY3r2DFQWZtYhDoL3XP5Lj5
+ 0a5xo18wgHXY2psQEtqkHG4haRFU0X/6BTaLXtd3SVnE11nXgu/Mmu65v/PeHowBct+m
+ gJJdRdEIay2+CRvnFhIdoViWK8gqBwK42cmuUQeqgUk7WI/sr1ePphNx9upt9eARm8is
+ XaLHdmxXE9pXiCbzI9qk2OeEy3Zk7s5Ag9J5+zZAqCnrvdCujUt49kDs71aOgDM8XkQN
+ rJNjIhuuKkxs6r8ScL/Ai5L3N8mvFKeVe7ZsQVwvKfYcOs43kTNsCwTwSQZScYbywfr8
+ S/3Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXHbf1QFyb/PXMCbv/sMoY0ZMERub/NrUX1MRwKUon57h+ouPJUwEXUDVVAq7LuHWnwe6rRNCgKVhobJ1COsbFk9S2I0oaMxeuR5MPoKjN2
-X-Gm-Message-State: AOJu0YyyNOeJ6gR2QJ1r9H87HMbkZuuff2QiL5smMpOnhPWZqCOWNTSa
- CqzoftvJuX6LgUe6GOattU8b9MQOno2DoeuV0cP06LTmMtLvXoO41EL3WRojiWr66mg2V7NSiop
- r8hvzXZ8cjFycwtqxM1aiEzXI0ARxGowE
-X-Google-Smtp-Source: AGHT+IEVCaF1mMbyqVgH77sDCByw9LYEHoYHlvRjrSadcw5j5D+w/T+QMLOF1i/IuJq3+2GmoWYy1uSoJfaf
-X-Received: by 2002:a17:907:8a85:b0:a6f:acf8:2f88 with SMTP id
- a640c23a62f3a-a6facf82ff0mr558559766b.21.1718983291566; 
- Fri, 21 Jun 2024 08:21:31 -0700 (PDT)
+ AJvYcCURgc08YyQafbLZ68bI+CGtPK195gAsPaZ7Wz8kqPY/6r9UIqf/HTPHn79TkX7hQKK4bFqixZF5PQQh3CBEbqjT6rgDB64SvdTVM7/7G6YF
+X-Gm-Message-State: AOJu0YzU5nRRVO357JpSBxIPkZWGDhuL6TalNY9A+RPvCmVnH2OuOpZw
+ K0Vci8fGFWo4KrSwTod4vrO1eYMDCp6wLRvLOjOS7nQqOUucZBAQzPqHyJ0xV+qgF1xoPzNYVp1
+ K8uw1kEvlHMv/n+Bm64cuyUPfauJF2Wc3
+X-Google-Smtp-Source: AGHT+IGsMGMPsik0V1lBhNOSBj5LSmd+YiU8+QxnRRKH2Bvthg23FIDjo7uHL/16ZH61MPbYY7jJAi3Wx4Qw
+X-Received: by 2002:a17:907:1682:b0:a6f:98b6:36e with SMTP id
+ a640c23a62f3a-a6fab605048mr709466266b.11.1718983292170; 
+ Fri, 21 Jun 2024 08:21:32 -0700 (PDT)
 Received: from raspberrypi.com ([188.39.149.98])
  by smtp-relay.gmail.com with ESMTPS id
- a640c23a62f3a-a6fcf427d36sm5656466b.44.2024.06.21.08.21.31
+ a640c23a62f3a-a6fcf5602fcsm5596366b.198.2024.06.21.08.21.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jun 2024 08:21:31 -0700 (PDT)
+ Fri, 21 Jun 2024 08:21:32 -0700 (PDT)
 X-Relaying-Domain: raspberrypi.com
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>,
@@ -65,12 +65,11 @@ To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Cc: Dom Cobley <popcornmix@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH v2 02/31] drm/vc4: plane: Handle fractional coordinates using
- the phase field
-Date: Fri, 21 Jun 2024 16:20:26 +0100
-Message-Id: <20240621152055.4180873-3-dave.stevenson@raspberrypi.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [PATCH v2 03/31] drm/vc4: crtc: Force trigger of dlist update on
+ margins change
+Date: Fri, 21 Jun 2024 16:20:27 +0100
+Message-Id: <20240621152055.4180873-4-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240621152055.4180873-1-dave.stevenson@raspberrypi.com>
 References: <20240621152055.4180873-1-dave.stevenson@raspberrypi.com>
@@ -91,146 +90,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dom Cobley <popcornmix@gmail.com>
+When the margins are changed, the dlist needs to be regenerated
+with the changed updated dest regions for each of the planes.
 
-Apply fractional source co-ordinates into the scaling filters.
+Setting the zpos_changed flag is sufficient to trigger that
+without doing a full modeset, therefore set it should the
+margins be changed.
 
-Signed-off-by: Dom Cobley <popcornmix@gmail.com>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/vc4_plane.c | 87 ++++++++++++++++++++++++++++-----
- 1 file changed, 76 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 15 +++++++++++----
+ drivers/gpu/drm/vc4/vc4_drv.h  |  7 +------
+ 2 files changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index e0df210bedcb..b8c68d4688c8 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -532,14 +532,61 @@ static void vc4_write_tpz(struct vc4_plane_state *vc4_state, u32 src, u32 dst)
- 			VC4_SET_FIELD(recip, SCALER_TPZ1_RECIP));
- }
+diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+index 8b5a7e5eb146..1d54176cf811 100644
+--- a/drivers/gpu/drm/vc4/vc4_crtc.c
++++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+@@ -735,10 +735,17 @@ int vc4_crtc_atomic_check(struct drm_crtc *crtc,
+ 		if (conn_state->crtc != crtc)
+ 			continue;
  
--static void vc4_write_ppf(struct vc4_plane_state *vc4_state, u32 src, u32 dst)
-+/* phase magnitude bits */
-+#define PHASE_BITS 6
+-		vc4_state->margins.left = conn_state->tv.margins.left;
+-		vc4_state->margins.right = conn_state->tv.margins.right;
+-		vc4_state->margins.top = conn_state->tv.margins.top;
+-		vc4_state->margins.bottom = conn_state->tv.margins.bottom;
++		if (memcmp(&vc4_state->margins, &conn_state->tv.margins,
++			   sizeof(vc4_state->margins))) {
++			memcpy(&vc4_state->margins, &conn_state->tv.margins,
++			       sizeof(vc4_state->margins));
 +
-+static void vc4_write_ppf(struct vc4_plane_state *vc4_state, u32 src, u32 dst,
-+			  u32 xy, int channel)
- {
--	u32 scale = (1 << 16) * src / dst;
-+	u32 scale = src / dst;
-+	s32 offset, offset2;
-+	s32 phase;
-+
-+	/*
-+	 * Start the phase at 1/2 pixel from the 1st pixel at src_x.
-+	 * 1/4 pixel for YUV.
-+	 */
-+	if (channel) {
-+		/*
-+		 * The phase is relative to scale_src->x, so shift it for
-+		 * display list's x value
-+		 */
-+		offset = (xy & 0x1ffff) >> (16 - PHASE_BITS) >> 1;
-+		offset += -(1 << PHASE_BITS >> 2);
-+	} else {
-+		/*
-+		 * The phase is relative to scale_src->x, so shift it for
-+		 * display list's x value
-+		 */
-+		offset = (xy & 0xffff) >> (16 - PHASE_BITS);
-+		offset += -(1 << PHASE_BITS >> 1);
-+
-+		/*
-+		 * This is a kludge to make sure the scaling factors are
-+		 * consistent with YUV's luma scaling. We lose 1-bit precision
-+		 * because of this.
-+		 */
-+		scale &= ~1;
-+	}
-+
-+	/*
-+	 * There may be a also small error introduced by precision of scale.
-+	 * Add half of that as a compromise
-+	 */
-+	offset2 = src - dst * scale;
-+	offset2 >>= 16 - PHASE_BITS;
-+	phase = offset + (offset2 >> 1);
-+
-+	/* Ensure +ve values don't touch the sign bit, then truncate negative values */
-+	if (phase >= 1 << PHASE_BITS)
-+		phase = (1 << PHASE_BITS) - 1;
-+
-+	phase &= SCALER_PPF_IPHASE_MASK;
- 
- 	vc4_dlist_write(vc4_state,
- 			SCALER_PPF_AGC |
- 			VC4_SET_FIELD(scale, SCALER_PPF_SCALE) |
--			VC4_SET_FIELD(0, SCALER_PPF_IPHASE));
-+			VC4_SET_FIELD(phase, SCALER_PPF_IPHASE));
- }
- 
- static u32 vc4_lbm_size(struct drm_plane_state *state)
-@@ -597,27 +644,27 @@ static void vc4_write_scaling_parameters(struct drm_plane_state *state,
- 
- 	/* Ch0 H-PPF Word 0: Scaling Parameters */
- 	if (vc4_state->x_scaling[channel] == VC4_SCALING_PPF) {
--		vc4_write_ppf(vc4_state,
--			      vc4_state->src_w[channel], vc4_state->crtc_w);
-+		vc4_write_ppf(vc4_state, vc4_state->src_w[channel],
-+			      vc4_state->crtc_w, vc4_state->src_x, channel);
++			/*
++			 * Need to force the dlist entries for all planes to be
++			 * updated so that the dest rectangles are changed.
++			 */
++			crtc_state->zpos_changed = true;
++		}
+ 		break;
  	}
  
- 	/* Ch0 V-PPF Words 0-1: Scaling Parameters, Context */
- 	if (vc4_state->y_scaling[channel] == VC4_SCALING_PPF) {
--		vc4_write_ppf(vc4_state,
--			      vc4_state->src_h[channel], vc4_state->crtc_h);
-+		vc4_write_ppf(vc4_state, vc4_state->src_h[channel],
-+			      vc4_state->crtc_h, vc4_state->src_y, channel);
- 		vc4_dlist_write(vc4_state, 0xc0c0c0c0);
- 	}
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index 697e9b7c9d0e..717fd1140561 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -598,12 +598,7 @@ struct vc4_crtc_state {
+ 	bool txp_armed;
+ 	unsigned int assigned_channel;
  
- 	/* Ch0 H-TPZ Words 0-1: Scaling Parameters, Recip */
- 	if (vc4_state->x_scaling[channel] == VC4_SCALING_TPZ) {
--		vc4_write_tpz(vc4_state,
--			      vc4_state->src_w[channel], vc4_state->crtc_w);
-+		vc4_write_tpz(vc4_state, vc4_state->src_w[channel],
-+			      vc4_state->crtc_w);
- 	}
+-	struct {
+-		unsigned int left;
+-		unsigned int right;
+-		unsigned int top;
+-		unsigned int bottom;
+-	} margins;
++	struct drm_connector_tv_margins margins;
  
- 	/* Ch0 V-TPZ Words 0-2: Scaling Parameters, Recip, Context */
- 	if (vc4_state->y_scaling[channel] == VC4_SCALING_TPZ) {
--		vc4_write_tpz(vc4_state,
--			      vc4_state->src_h[channel], vc4_state->crtc_h);
-+		vc4_write_tpz(vc4_state, vc4_state->src_h[channel],
-+			      vc4_state->crtc_h);
- 		vc4_dlist_write(vc4_state, 0xc0c0c0c0);
- 	}
- }
-@@ -1052,6 +1099,24 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
- 		return -EINVAL;
- 	}
+ 	unsigned long hvs_load;
  
-+	/* fetch an extra pixel if we don't actually line up with the left edge. */
-+	if ((vc4_state->src_x & 0xffff) && vc4_state->src_x < (state->fb->width << 16))
-+		width++;
-+
-+	/* same for the right side */
-+	if (((vc4_state->src_x + vc4_state->src_w[0]) & 0xffff) &&
-+	    vc4_state->src_x + vc4_state->src_w[0] < (state->fb->width << 16))
-+		width++;
-+
-+	/* now for the top */
-+	if ((vc4_state->src_y & 0xffff) && vc4_state->src_y < (state->fb->height << 16))
-+		height++;
-+
-+	/* and the bottom */
-+	if (((vc4_state->src_y + vc4_state->src_h[0]) & 0xffff) &&
-+	    vc4_state->src_y + vc4_state->src_h[0] < (state->fb->height << 16))
-+		height++;
-+
- 	/* Don't waste cycles mixing with plane alpha if the set alpha
- 	 * is opaque or there is no per-pixel alpha information.
- 	 * In any case we use the alpha property value as the fixed alpha.
 -- 
 2.34.1
 
