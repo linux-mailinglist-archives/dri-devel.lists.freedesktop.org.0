@@ -2,80 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60BE6912B49
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 18:23:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2EEA912B7B
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 18:37:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC6A210EECB;
-	Fri, 21 Jun 2024 16:23:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9E5410E082;
+	Fri, 21 Jun 2024 16:37:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="I//buSj/";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="b7as3llJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CA5910EEC0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 16:23:32 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-52b96eafeeaso238463e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 09:23:32 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 608C610E082
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 16:37:27 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-42111cf1ca1so3243765e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 09:37:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1718987011; x=1719591811; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ywDtF54//AaQOS9wV4d2j+23PpzZgXN/nBRrRqGGMsA=;
- b=I//buSj/T5lnqI96DOUzO6axReJUjY8x+ToK0vwLofsPUw0R/6axOeKtHBHrAksCzo
- +mZX7JkKxKXuFK2nrR89zo/twZo/lw8ql5Cn5XA9IzwoZuQwDIQPbkY2xkJ5uZgqdmCB
- JT0AFBqEXq6ddIAgapvDRHG4bpF+uhDSXXVpM=
+ d=ffwll.ch; s=google; t=1718987845; x=1719592645; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cjchbneGrDWxr8AFTRkd9v6VKSwRAoQm1Q6qE+BStWQ=;
+ b=b7as3llJk8yVBgoboirRbGQYAJmkOTgaXGuxRXSgC6RiN3QIGjOMOlIaSPpLyhAfe6
+ jp4glIQvxrxe35mSgjER5Go5Fk5oPS+8pQaJTHSzL/5s6xOUn7fg8IisKSAlJN5RiYwj
+ 9L9mmoHMrslrzNJABizcKBGhY9DW/pOVKh7BE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718987011; x=1719591811;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ywDtF54//AaQOS9wV4d2j+23PpzZgXN/nBRrRqGGMsA=;
- b=LKG+GvVMdZKZ2kphXOkXhFr4sxdcIh+WkIP4MHrSOMx7nGX5RE447z+vFJYB1AJPUm
- Qgd34RO8SUhhw+MgtqoxxgTOcAxkNKz0iIfPnbbI56eSG4c6gz2WkLxyMCOgH3oS+jKp
- abOPnt+M5Ms/qKbibhw0zz/JUmnAZB3ZdHijTDRuH/MbQgfT7Fm2rcNYJcDrTAVdKzvB
- fQbjh0zTNXfwWH1BZEDbWGmaW5Y+Gd6BTs4Q0bEgq4LWb4QKbezO/XLVLCl3gqGt2PSK
- wAVgE4tK2h7DqxOyZxiFBO0TNuAKU8ax4bRghAtjm+GtbRUuKkje1oL/kWo9npYl9vnA
- 97tQ==
+ d=1e100.net; s=20230601; t=1718987845; x=1719592645;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cjchbneGrDWxr8AFTRkd9v6VKSwRAoQm1Q6qE+BStWQ=;
+ b=OHspZilE4DB2lxTk9a1XG65tOtC7nIEhSbQlWGZ2PLtWvZ7P5QrDlUzDy18Pz4y+79
+ sJVC2TtWcy6ecU24lhba1I7N3hjj5mpq7IWj87g7UTBCUVdgiZU+/Lsf69tZpuYWaMAF
+ xkTN+w1AURKDxSiZbzEX1jxRmgOAYiLAjjcnEGMUiMeqQR8H6liASSWnNGalHOAybqhc
+ JJl8evWj/VoVLXtTP+FWi/xntMJVYSyDtNGZjU4TXciianofGYZjJb5fNNiGW0GZu9Nv
+ i/W2fPmD/nqBAXj0VoXoQNqdycj3s40RDhQOhUdYyeHk5DLLEL68qCf780g8zp/TxP72
+ 0eVg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVNQqFOIjj/9/uUL2wmTmHDxJXYJJQfm3G/6VMPbP1QKPd8jiTyQXjqRhTivpoMLIwBUCj/xojWQ2jdfPEPf3viUaq9gf0Ltu3VXPn1ELeC
-X-Gm-Message-State: AOJu0YyyNVCPlrLamb0qUGGWuGxpYJIo3Rp6VLptOUJDbFuOlbUAGGeM
- yW04XLkIcot09ktQkvs03xgzHEfDvXMn4MqoDvSsn65gIft+4TLokWvqt2OoZWg=
-X-Google-Smtp-Source: AGHT+IH5KYMLsFcnd43nE1S7mZMKEfPKhHrKJP+kqDqjYKxF1Ai1qHA2A7CQrdlKE2qZp1MGNS+FXg==
-X-Received: by 2002:a19:f004:0:b0:52c:d805:e8c9 with SMTP id
- 2adb3069b0e04-52cd805ea84mr1161278e87.0.1718987010719; 
- Fri, 21 Jun 2024 09:23:30 -0700 (PDT)
+ AJvYcCVAnOo0lbvAkTwufK+VLCFM8zNdfkVT4XlAG0KpHKJkcVRZv0lzTBMpRdg9uR0GIJ5PovK36/VGKTMyXU16yvS44A9j1mZAvGgmPpgnE373
+X-Gm-Message-State: AOJu0YzaUP0KLZtSB9FOYTlzNZaWqrwxvaZh1BgpH5BJRDK7A39O3w8i
+ /HyI0MMVAH0XlyI4hLuKWuTHgltnDWqTGetBSpIqUSLlGdZ65niSWHtXojJxId8=
+X-Google-Smtp-Source: AGHT+IFpJZuWD6jGk2oIvCOrR61oKPuBS6Ak+YtPL+k8dN+5A9g3/L5D+hKs9iTSHX0BfMiQTWVl6w==
+X-Received: by 2002:a05:600c:3b12:b0:423:573:ab2a with SMTP id
+ 5b1f17b1804b1-424750168f1mr63047115e9.0.1718987845506; 
+ Fri, 21 Jun 2024 09:37:25 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4247d208e4dsm71194315e9.33.2024.06.21.09.23.29
+ 5b1f17b1804b1-4247d208b0esm70718525e9.38.2024.06.21.09.37.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jun 2024 09:23:30 -0700 (PDT)
-Date: Fri, 21 Jun 2024 18:23:28 +0200
+ Fri, 21 Jun 2024 09:37:25 -0700 (PDT)
+Date: Fri, 21 Jun 2024 18:37:23 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Brian Starkey <brian.starkey@arm.com>,
- "Hoosier, Matt" <Matt.Hoosier@garmin.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, nd@arm.com,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: Correct sequencing of usage of DRM writeback connector
-Message-ID: <ZnWpACS3rurOaP6T@phenom.ffwll.local>
-References: <DM6PR04MB5178398F885B5AD82430B8ECECCD2@DM6PR04MB5178.namprd04.prod.outlook.com>
- <ZnBTVCHneR6DQPxX@phenom.ffwll.local>
- <cph4jfd7dy5mxfmnp5iaacxen7zszeiudvpyq4tebgp7fukzzc@xx5m65uwwp6n>
- <5e17dea9-e430-51f5-83f9-ce02241438f8@quicinc.com>
- <cnbiivlsrutjbxw7jeetuyrnm3luvepstlwqxxrzsfhyzlgukk@3jx64owwkv2h>
- <ZnFUg91URIHn_SbR@phenom.ffwll.local>
- <0ace8b23-6686-65ae-9923-85de6fc806ee@quicinc.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/ssd130x: Add drm_panic support
+Message-ID: <ZnWsQ36q44l4CmOJ@phenom.ffwll.local>
+Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+References: <20240620222222.155933-1-javierm@redhat.com>
+ <24205cdf-a3c6-475e-ba8a-a52d039a402d@redhat.com>
+ <87h6dmjry6.fsf@minerva.mail-host-address-is-not-set>
+ <87ed8qjo8y.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0ace8b23-6686-65ae-9923-85de6fc806ee@quicinc.com>
+In-Reply-To: <87ed8qjo8y.fsf@minerva.mail-host-address-is-not-set>
 X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,180 +94,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 18, 2024 at 07:10:58PM -0700, Abhinav Kumar wrote:
+On Fri, Jun 21, 2024 at 05:42:53PM +0200, Javier Martinez Canillas wrote:
+> Javier Martinez Canillas <javierm@redhat.com> writes:
 > 
+> > Jocelyn Falempe <jfalempe@redhat.com> writes:
+> >
+> > Hello Jocelyn, thanks for your feedback!
+> >
+> >> On 21/06/2024 00:22, Javier Martinez Canillas wrote:
+> >>> Add support for the drm_panic infrastructure, which allows to display
+> >>> a user friendly message on the screen when a Linux kernel panic occurs.
+> >>> 
+> >>> The display controller doesn't scanout the framebuffer, but instead the
+> >>> pixels are sent to the device using a transport bus. For this reason, a
+> >>> .panic_flush handler is needed to flush the panic image to the display.
+> >>
+> >> Thanks for this patch, that's really cool that drm_panic can work on 
+> >> this device too.
+> >>
+> >
+> > Indeed, that's why I did it. Just to see if it could work :)
+> >
+> > [...]
+> >
+> >>> +static void ssd130x_primary_plane_helper_panic_flush(struct drm_plane *plane)
+> >>> +{
+> >>> +	struct drm_plane_state *plane_state = plane->state;
+> >>> +	struct ssd130x_plane_state *ssd130x_plane_state = to_ssd130x_plane_state(plane_state);
+> >>> +	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+> >>> +	struct drm_crtc *crtc = plane_state->crtc;
+> >>> +	struct ssd130x_crtc_state *ssd130x_crtc_state = to_ssd130x_crtc_state(crtc->state);
+> >>> +
+> >>> +	ssd130x_fb_blit_rect(plane_state->fb, &shadow_plane_state->data[0], &plane_state->dst,
+> >>> +			     ssd130x_plane_state->buffer, ssd130x_crtc_state->data_array,
+> >>> +			     &shadow_plane_state->fmtcnv_state);
+> >>
+> >> ssd130x_fb_blit_rect() will call regmap->write(), which involve mutex 
+> >> and might sleep. And if the mutex is taken when the panic occurs, it 
+> >> might deadlock the panic handling.
+> >
+> > That's a good point and I something haven't considered...
+> >
+> >> One solution would be to configure the regmap with config->fast_io and 
+> >> config->use_raw_spinlock, and check that the lock is available with 
+> >> try_lock(map->raw_spin_lock)
+> >> But that means it will waste cpu cycle with busy waiting for normal 
+> >> operation, which is not good.
+> >>
+> >
+> > Yeah, I would prefer to not change the driver for normal operation.
+> >
 > 
-> On 6/18/2024 2:33 AM, Daniel Vetter wrote:
-> > On Mon, Jun 17, 2024 at 10:52:27PM +0300, Dmitry Baryshkov wrote:
-> > > On Mon, Jun 17, 2024 at 11:28:35AM GMT, Abhinav Kumar wrote:
-> > > > Hi
-> > > > 
-> > > > On 6/17/2024 9:54 AM, Brian Starkey wrote:
-> > > > > Hi,
-> > > > > 
-> > > > > On Mon, Jun 17, 2024 at 05:16:36PM +0200, Daniel Vetter wrote:
-> > > > > > On Mon, Jun 17, 2024 at 01:41:59PM +0000, Hoosier, Matt wrote:
-> > > > > > > Hi,
-> > > > > > > 
-> > > > > > > There is a discussion ongoing over in the compositor world about the implication of this cautionary wording found in the documentation for the DRM_MODE_CONNECTOR_WRITEBACK connectors:
-> > > > > > > 
-> > > > > > > >    *  "WRITEBACK_OUT_FENCE_PTR":
-> > > > > > > >    *	Userspace can use this property to provide a pointer for the kernel to
-> > > > > > > >    *	fill with a sync_file file descriptor, which will signal once the
-> > > > > > > >    *	writeback is finished. The value should be the address of a 32-bit
-> > > > > > > >    *	signed integer, cast to a u64.
-> > > > > > > >    *	Userspace should wait for this fence to signal before making another
-> > > > > > > >    *	commit affecting any of the same CRTCs, Planes or Connectors.
-> > > > > > > >    *	**Failure to do so will result in undefined behaviour.**
-> > > > > > > >    *	For this reason it is strongly recommended that all userspace
-> > > > > > > >    *	applications making use of writeback connectors *always* retrieve an
-> > > > > > > >    *	out-fence for the commit and use it appropriately.
-> > > > > > > >    *	From userspace, this property will always read as zero.
-> > > > > > > 
-> > > > > > > The question is whether it's realistic to hope that a DRM writeback
-> > > > > > > connector can produce results on every frame, and do so without dragging
-> > > > > > > down the frame-rate for the connector.
-> > > > > > > 
-> > > > > > > The wording in the documentation above suggests that it is very likely
-> > > > > > > the fence fd won't signal userspace until after the vblank following the
-> > > > > > > scanout during which the writeback was applied (call that frame N). This
-> > > > > > > would mean that the compositor driving the connector would typically be
-> > > > > > > unable to legally queue a page flip for frame N+1.
-> > > > > > > 
-> > > > > > > Is this the right interpretation? Is the writeback hardware typically
-> > > > > > > even designed with a streaming use-case in mind? Maybe it's just
-> > > > > > > intended for occasional static screenshots.
-> > > > > > 
-> > > > > > So typically writeback hardware needs its separate crtc (at least the
-> > > > > > examples I know of) and doesn't make a lot of guarantees that it's fast
-> > > > > > enough for real time use. Since it's a separate crtc it shouldn't hold up
-> > > > > > the main composition loop, and so this should be all fine.
-> > > > > 
-> > > > > On Mali-DP and Komeda at least, you can use writeback on the same CRTC
-> > > > > that is driving a "real" display, and it should generally work. If the
-> > > > > writeback doesn't keep up then the HW will signal an error, but it was
-> > > > > designed to work in-sync with real scanout, on the same pipe.
-> > > > > 
-> > > > 
-> > > > Same with MSM hardware. You can use writeback with same CRTC that is driving
-> > > > a "real" display and yes we call it concurrent writeback. So I think it is
-> > > > correct in the documentation to expect to wait till this is signaled if the
-> > > > same CRTC is being used.
-> > 
-> > TIL
-> > 
-> > > > > > If/when we have hardware and driver support where you can use the
-> > > > > > writeback connector as a real-time streamout kind of thing, then we need
-> > > > > > to change all this, because with the current implementation, there's
-> > > > > > indeed the possibility that funny things can happen if you ignore the
-> > > > > > notice (funny as in data corruption, not funny as the kernel crashes of
-> > > > > > course).
-> > > > > 
-> > > > > Indeed, the wording was added (from what I remember from so long
-> > > > > ago...) because it sounded like different HW made very different
-> > > > > guarantees/non-guarantees about what data would be written when, so
-> > > > > perhaps you'd end up with some pixels from the next frame in your
-> > > > > buffer or something.
-> > > > > 
-> > > > > Taking Mali-DP/Komeda again, the writeback configuration is latched
-> > > > > along with everything else, and writeback throughput permitting, it
-> > > > > should "just work" if you submit a new writeback every frame. It
-> > > > > drains out the last of the data during vblank, before starting on the
-> > > > > next frame. That doesn't help the "general case" though.
-> > > > > 
-> > > > 
-> > > > Would it be fair to summarize it like below:
-> > > > 
-> > > > 1) If the same CRTC is shared with the real time display, then the hardware
-> > > > is expected to fire this every frame so userspace should wait till this is
-> > > > signaled.
-> > > 
-> > > As I wrote in response to another email in this thread, IMO existing
-> > > uAPI doesn't fully allow this. There is no way to enforce 'vblank'
-> > > handling onto the userspace. So userspace should be able to supply at
-> > > least two buffers and then after the vblank it should be able to enqueue
-> > > the next buffer, while the filled buffer is automatically dequeued by
-> > > the driver and is not used for further image output.
-> > 
+> Another option, that I believe makes more sense, is to just disable the
+> regmap locking (using struct regmap_config.disable_locking field [0]).
 > 
-> Sorry for the late response. What I meant was, if we are using concurrent
-> writeback with the real time display, it should be capable of running at the
-> same speed as the real time display. I do not have the numbers to share but
-> atleast that's the expectation.
+> Since this regmap is not shared with other drivers and so any concurrent
+> access should already be prevented by the DRM core locking scheme.
 > 
-> But, yes I do admit that current UAPI does not fully allow having a queue
-> depth for WB FBs. And having it will help us.
-> 
-> > Yeah if you want streaming writeback we need a queue depth of at least 2
-> > in the kms api. Will help a lot on all hardware, but on some it's required
-> > because the time when the writeback buffer is fully flushed is after the
-> > point of no return for the next frame (which is when the vblank event is
-> > supposed to go out).
-> > 
-> > I think over the years we've slowly inched forward to make at least the
-> > drm code safe for a queue depth of 2 in the atomic machinery, but the
-> > writeback and driver code probably needs a bunch of work.
-> > -Sima
-> > 
-> > > 
-> > > > 
-> > > > 2) If a different CRTC is used for the writeback, then the composition loop
-> > > > for the real time display should not block on this unless its a mirroring
-> > > > use-case, then we will be throttled by the lowest refresh rate anyway.
-> > > 
-> > > what is mirroring in this case? You have specified that a different CRTC
-> > > is being used.
-> > > 
-> 
-> Definition of mirroring could be thought of in two ways:
-> 
-> 1) in clone mode, the WB is running at the same rate as the real time
-> display and hence if we are mirroring the content this way there is same
-> CRTC.
-> 
-> 2) lets say I want to mirror my content using wifi display but the
-> end-monitor is running on a different resolution and fps, then I cannot use
-> clone mode in this case right because the CRTC which the writeback is using
-> will be programmed for a different mode than the real time display.
-> 
-> For the second case, it is still mirroring the content but with a different
-> CRTC so will be slowed down by the slowest display otherwise the displays
-> will go out of sync. This is what I meant in this use-case.
+> Is my understanding correct?
 
-Separate CRTC I think should work, because you can run the 2 queues in
-parallel. The issue is only with the single crtc use-case because:
+Quick irc discussion summary: Since these are panels that sit on i2c/spi
+buses, you need to put the raw spinlock panic locking into these
+subsystems. Which is going to be extreme amounts of fun, becuase:
 
-- the writeback finishes only a bit (depends upon how the hw flushes out
-  writebacks) after the next vblank period has started.
+- You need to protect innermost register access with a raw spinlock, but
+  enough so that every access is still consistent.
 
-- at least on some hardware you need to submit the next kms state _before_
-  the vblank period has started. And even on hw/drivers where this is not
-  the case, only having the vblank window to submit the next kms atomic
-  state is really a bit too small.
+- You need separate panic paths which avoid all the existing subsystem
+  locking (i2c/spi have userspace apis, so they need mutexes) and only
+  rely on the caller having done the raw spinlock trylocking.
 
-As soon as you have 2 crtc you can untangle these and drive them with 2
-loops, and still hit every frame with the writeback (since the separate
-writeback crtc can run a tiny bit behind the display one).
+- Bonus points: Who even owns that raw spinlock ...
 
-Of course if your userspace only has one redraw loop (android suffered
-from that for years, not sure it's fixed), then yes you'll slow down.
--Sima
+I'm afraid, this is going to be a tough nut to crack :-/
 
-> 
-> > > > 
-> > > > > > 
-> > > > > > If we already have devices where you can use writeback together with real
-> > > > > > outputs, then I guess that counts as an oopsie :-/
-> > > > > 
-> > > > > Well "works fine" fits into the "undefined behaviour" bucket, just as
-> > > > > well as "corrupts your fb" does :-)
-> > > 
-> > > 
-> > > -- 
-> > > With best wishes
-> > > Dmitry
-> > 
-
+Cheers, Sima
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
