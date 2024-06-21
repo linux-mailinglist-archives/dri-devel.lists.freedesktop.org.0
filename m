@@ -2,57 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D13912F49
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 23:17:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04434912FBB
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 23:44:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D23DC10E310;
-	Fri, 21 Jun 2024 21:17:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 357EB10E166;
+	Fri, 21 Jun 2024 21:44:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="O3p6wp2O";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yueXJeL/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F34910E310
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 21:17:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2A296625F1;
- Fri, 21 Jun 2024 21:17:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D3C0CC2BBFC;
- Fri, 21 Jun 2024 21:17:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719004629;
- bh=BD1C7XWZWXhO1/414bvlPN5f2q8+iAA4aSQQAnc/OfA=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=O3p6wp2OCP5li1gyDjIeQMJxcAnKy9bkapBYLck6JpfEo07ClOI4U+TrCdK6PZYdG
- obdSHg3/Szz6qg8mqgq/uBgS/lPySf+C6Ga12w4T5AfmWbfrlzG9ORvvgBie24Otkh
- rSoNLmwCGXoFyYH0vW/b2idKPDyLqsy0UE64U93BFEyO2rtiNoLEqoNGV+h6dUr8fk
- 0h391dIWTMAH9KFeUJlvABAGYzzLjOJc/Ty096bhYaOGllIuOdWoS6ARN8TWEpMXzE
- y+8hlhRiu4Dw3eRH5zfYbroYZW/L3M0EPxLoSqTN/wjZ/MViR3/cf3RhH+/6E+MA+E
- PdHMwFlNjCt5w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- C8D71C4167D; Fri, 21 Jun 2024 21:17:09 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 6.10-rc5
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tyhLY-=pyy=RU0kyTQmV=_cFujRQ0Z=KY+o8V6KxcA7Ew@mail.gmail.com>
-References: <CAPM=9tyhLY-=pyy=RU0kyTQmV=_cFujRQ0Z=KY+o8V6KxcA7Ew@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9tyhLY-=pyy=RU0kyTQmV=_cFujRQ0Z=KY+o8V6KxcA7Ew@mail.gmail.com>
-X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
- tags/drm-fixes-2024-06-22
-X-PR-Tracked-Commit-Id: d1913b86f7351238106068785e9adc63d76d8790
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: d6c941570680d4d11e5c7480c3bcbeff8d3860f9
-Message-Id: <171900462981.11487.11294674151371155855.pr-tracker-bot@kernel.org>
-Date: Fri, 21 Jun 2024 21:17:09 +0000
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3E5010E166
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 21:44:38 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-5295e488248so2905184e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 14:44:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1719006277; x=1719611077; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=3uqrF3+ai/cjb9cIpwJW8lMs7SIa0ZkESmSmmWesSvE=;
+ b=yueXJeL/jpCHyein22XcdDoPtRu2g0uWNCopQ4qYe6t1RHKGAQpj2TqaxqZAzOaCdv
+ m/4m9IHKOkVHqQni4c14TEGyz/shba0G6ndj43zdDCOg+RXfydjEJLaozMTvz5PUr5hb
+ SiJZprXYdFH1HTziopjYx1thUU3o67m0zuiPWwZZJuc5ZFy2IqVHizQh4Oq2g2Q9wAcu
+ PfVRktNgG6KeBjGItaegy+xaPSS18r2IKenFeDctGlHCtEUU+tGiDFPMb9SH9f0ipQND
+ EQwKZedJu8UejDlH0IV/ZwQukMfMufbIh61qo7tkR4Ny/ejnA/NOFMSRO56qgdofOO8D
+ 8jZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719006277; x=1719611077;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3uqrF3+ai/cjb9cIpwJW8lMs7SIa0ZkESmSmmWesSvE=;
+ b=THWnrTGzNBxJU5YQJMXXVIqNYVSkK1mP48jSG1YLYyqr4o4qF/7R+YpYfyF7gjerSS
+ 4f1VuUSDFqLBWS/t/rl3oBPw+MGGMvnuImWki0z31Lp/u/xqd8xeyXsGOPG0xbFfQELC
+ sJlc08LR9Yonx+YjBaztnIAcq5oA0zBxnTvC0KxrHIeQw33IVX06ZsTzD9ESk2Lj+t1C
+ LZ774iPY1jZ2QC8nyOL/OUWJWOqa6zNOFak7fw2jGn3/SeURGMCAkcRCchVRi5k3+Uvc
+ +Mc07ki82FmoeBBHD0ouWNKRvN5yHdlnrOZ75Gztmg1VQx9zYbsSUfsWdlOYfiJmqyHz
+ 8wQw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWd0Tvv07uoPvouTOH6vsZjK6BrYYZ8BpP77qvkj9nzyS7QyOWtP7O+Cc6h4pKav7Smvh5bCj/8rr0Z1QgbKj04gPxO9PhJGNoqZ9rT4/bc
+X-Gm-Message-State: AOJu0YzszJGxd8r6YwIunmJemUStifS1wxTTsvjh787bK6TkmGY2JCqi
+ fhaW+kyQW/VJqTfMRhEEauwz3s1mvp41ke7C+ffPOH2IyHhKsJnp12NPgfb51+Y=
+X-Google-Smtp-Source: AGHT+IFl/V3yW8CJCWsS/UIq8YVxYKhV++rCKzFxbM9PSDfSHyU9d/4C0cWaowOPOYRtgogZXIxAGQ==
+X-Received: by 2002:a05:6512:3b90:b0:52c:cb77:2b8 with SMTP id
+ 2adb3069b0e04-52ccb7702eamr6425124e87.5.1719006276605; 
+ Fri, 21 Jun 2024 14:44:36 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52cd7079478sm300520e87.153.2024.06.21.14.44.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Jun 2024 14:44:36 -0700 (PDT)
+Date: Sat, 22 Jun 2024 00:44:34 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Chen Ni <nichen@iscas.ac.cn>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, 
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] drm/panel: ltk050h3146w: add check for
+ mipi_dsi_dcs_enter_sleep_mode
+Message-ID: <znfhystpy6litynlgdgvc5h2plgbirec6ykkv64y3kb57lan4a@tuazxhuszpus>
+References: <20240620074720.852495-1-nichen@iscas.ac.cn>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240620074720.852495-1-nichen@iscas.ac.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,15 +86,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Sat, 22 Jun 2024 06:41:13 +1000:
+On Thu, Jun 20, 2024 at 03:47:20PM GMT, Chen Ni wrote:
+> Add check for the return value of mipi_dsi_dcs_enter_sleep_mode() and
+> return the error if it fails in order to catch the error.
+> 
+> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+> ---
+>  drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-06-22
+Fixes: 6ea4383b9214 ("drm/panel: add panel driver for Leadtek LTK050H3146W")
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/d6c941570680d4d11e5c7480c3bcbeff8d3860f9
 
-Thank you!
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+With best wishes
+Dmitry
