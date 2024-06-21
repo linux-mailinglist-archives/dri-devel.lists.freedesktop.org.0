@@ -2,88 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7ECD9130E2
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2024 01:35:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDCDF9130EE
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2024 01:52:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0D8210E18D;
-	Fri, 21 Jun 2024 23:35:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDC3110E114;
+	Fri, 21 Jun 2024 23:52:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="OMS2VTO3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="d4PJh7OU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6B0210E11D;
- Fri, 21 Jun 2024 23:35:43 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45LFdtQV024594;
- Fri, 21 Jun 2024 23:35:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- cCqINgIEA9bIRiKGAutcHDJ0oko6p8h3rIp1QCCI9Zs=; b=OMS2VTO321BEwqIq
- I5rvE8F5Z6rv/q6xFroIpxRRI4cZTY9Gpuea0j1pOXybHd6yc8DjVkF0lviNtvMY
- q2cgYPXxD9kYqXEMr5mwDCP1HtfmKrWjDA3voE0H8NGcplKuSPQ86bkSmnWv95ZP
- YjM3goR6CFpG+r+/NkwFI2p3Nz8DzpNUgYfz7aQDxGNH1+bXsmiap/lu/eKm41S4
- jx24rojRgbZN1jLNXp/sDKippfq9V2Uxqmn7eszkIWCEJSLc+IDF1IXiDmT0PdvC
- ZkEXm1R822oeVW5bI9cFsTAb69/gMTPum1T4q+fgfnn63biwKymUWVvPf2+pP7uK
- Ny3a9w==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywcb28uks-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Jun 2024 23:35:40 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45LNZHkW022470
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Jun 2024 23:35:17 GMT
-Received: from [10.110.82.141] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 21 Jun
- 2024 16:35:12 -0700
-Message-ID: <355e5bee-a31b-6879-06ea-cf04ba2e179f@quicinc.com>
-Date: Fri, 21 Jun 2024 16:35:10 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9667210E114
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 23:52:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1719013955; x=1750549955;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=IlwUS5voj83yrVnahkbmNFGTdQnaGbO/2+ABzc4IILs=;
+ b=d4PJh7OUCwGsefrIibbslvlvDK60B9hLDDrES4c/cNMomxi44jlJxaGX
+ kJWio6/eIk/idQfY7YoOETqVFaUWve2UZrL/Z2Tio89o/dcseoKltAsqi
+ GL91zfwz+ljdn/PG3VUIeeQ3F0k4cUmGg4PKLtLHwjBSZIYPbd4eaDPpm
+ 6tkTTdF1RP13qf/6Qz1e+SKJQzPfiIhYnWPw3+Hy2R0uvXZM+QZ+PAMhQ
+ udryJIVO5AEqXQc8jtf7nV4HYQbkSL3dA7HQjN8OWx4FMQsBWWPQX/w7B
+ wHqPPgiVM64BJQut24KziSL6S/zihPG06dIDDqk6RtDZsX9jUUoqeQviH g==;
+X-CSE-ConnectionGUID: xnSqQpAKR7aL2ziPDFcf8A==
+X-CSE-MsgGUID: FYg/j9WiSaCSIzMgRc2aAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="12187912"
+X-IronPort-AV: E=Sophos;i="6.08,256,1712646000"; d="scan'208";a="12187912"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jun 2024 16:52:34 -0700
+X-CSE-ConnectionGUID: +x18Je5kQISObAMfhdR0PQ==
+X-CSE-MsgGUID: ii9jeeHUSw+zSg9dMw+REQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,256,1712646000"; d="scan'208";a="43173490"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+ by orviesa006.jf.intel.com with ESMTP; 21 Jun 2024 16:52:27 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sKo3M-00098S-1O;
+ Fri, 21 Jun 2024 23:52:24 +0000
+Date: Sat, 22 Jun 2024 07:51:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dzmitry Sankouski <dsankouski@gmail.com>,
+ Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Pavel Machek <pavel@ucw.cz>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>, phone-devel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 12/23] mfd: Add new driver for MAX77705 PMIC
+Message-ID: <202406220754.8crTEWeR-lkp@intel.com>
+References: <20240618-starqltechn_integration_upstream-v3-12-e3f6662017ac@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RFC PATCH 1/4] drm/msm: register a fault handler for display mmu
- faults
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>, "Sean
- Paul" <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- "David Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <seanpaul@chromium.org>,
- <swboyd@chromium.org>, <dianders@chromium.org>,
- <quic_jesszhan@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20240517233801.4071868-1-quic_abhinavk@quicinc.com>
- <20240517233801.4071868-2-quic_abhinavk@quicinc.com>
- <uywsmpko7ttzqxtlw6i4n5y7zvny5xgdoxc66azbts7cx6vi5d@myrilzxtu7le>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <uywsmpko7ttzqxtlw6i4n5y7zvny5xgdoxc66azbts7cx6vi5d@myrilzxtu7le>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: B2U0h7vV6Y0lWSu5nEqM_2cilzuyTH_Q
-X-Proofpoint-ORIG-GUID: B2U0h7vV6Y0lWSu5nEqM_2cilzuyTH_Q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-21_12,2024-06-21_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxscore=0
- clxscore=1015 phishscore=0 lowpriorityscore=0 impostorscore=0
- malwarescore=0 suspectscore=0 mlxlogscore=999 priorityscore=1501
- adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2406210172
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240618-starqltechn_integration_upstream-v3-12-e3f6662017ac@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,93 +89,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dzmitry,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 6906a84c482f098d31486df8dc98cead21cce2d0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/power-supply-add-undervoltage-health-status-property/20240618-222456
+base:   6906a84c482f098d31486df8dc98cead21cce2d0
+patch link:    https://lore.kernel.org/r/20240618-starqltechn_integration_upstream-v3-12-e3f6662017ac%40gmail.com
+patch subject: [PATCH v3 12/23] mfd: Add new driver for MAX77705 PMIC
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240622/202406220754.8crTEWeR-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240622/202406220754.8crTEWeR-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406220754.8crTEWeR-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/mfd/max77705-core.c:14:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:25:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:22:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2214:
+   include/linux/vmstat.h:484:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     484 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     485 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:491:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     491 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     492 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:498:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     498 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     504 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:512:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     512 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     513 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/mfd/max77705-core.c:20:
+>> include/linux/mfd/max77705-private.h:243:19: error: use of undeclared identifier 'MAX77705_USBC_REG_END'; did you mean 'MAX77705_PMIC_REG_END'?
+     243 |         u8 reg_muic_dump[MAX77705_USBC_REG_END];
+         |                          ^~~~~~~~~~~~~~~~~~~~~
+         |                          MAX77705_PMIC_REG_END
+   include/linux/mfd/max77705-private.h:96:2: note: 'MAX77705_PMIC_REG_END' declared here
+      96 |         MAX77705_PMIC_REG_END,
+         |         ^
+   5 warnings and 1 error generated.
 
 
-On 5/19/2024 1:38 AM, Dmitry Baryshkov wrote:
-> On Fri, May 17, 2024 at 04:37:56PM -0700, Abhinav Kumar wrote:
->> In preparation to register a iommu fault handler for display
->> related modules, register a fault handler for the backing
->> mmu object of msm_kms.
->>
->> Currently, the fault handler only captures the display snapshot
->> but we can expand this later if more information needs to be
->> added to debug display mmu faults.
->>
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/msm_kms.c | 25 +++++++++++++++++++++++++
->>   1 file changed, 25 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/msm/msm_kms.c b/drivers/gpu/drm/msm/msm_kms.c
->> index af6a6fcb1173..62c8e6163e81 100644
->> --- a/drivers/gpu/drm/msm/msm_kms.c
->> +++ b/drivers/gpu/drm/msm/msm_kms.c
->> @@ -200,6 +200,28 @@ struct msm_gem_address_space *msm_kms_init_aspace(struct drm_device *dev)
->>   	return aspace;
->>   }
->>   
->> +static int msm_kms_fault_handler(void *arg, unsigned long iova, int flags, void *data)
->> +{
->> +	struct msm_kms *kms = arg;
->> +	struct msm_disp_state *state;
->> +	int ret;
->> +
->> +	ret = mutex_lock_interruptible(&kms->dump_mutex);
->> +	if (ret)
->> +		return ret;
->> +
->> +	state = msm_disp_snapshot_state_sync(kms);
->> +
->> +	mutex_unlock(&kms->dump_mutex);
->> +
->> +	if (IS_ERR(state)) {
->> +		DRM_DEV_ERROR(kms->dev->dev, "failed to capture snapshot\n");
->> +		return PTR_ERR(state);
->> +	}
->> +
->> +	return 0;
-> 
-> Hmm, after reading the rest of the code, this means that we won't get
-> the error on the console. Could you please change this to -ENOSYS?
-> 
+vim +243 include/linux/mfd/max77705-private.h
 
-I am perhaps missing something here. Are you referring to this 
-documentation?
+   216	
+   217	struct max77705_dev {
+   218		struct device *dev;
+   219		struct i2c_client *i2c; /* 0xCC; Haptic, PMIC */
+   220		struct i2c_client *charger; /* 0xD2; Charger */
+   221		struct i2c_client *fuelgauge; /* 0x6C; Fuelgauge */
+   222		struct i2c_client *muic; /* 0x4A; MUIC */
+   223		struct i2c_client *debug; /* 0xC4; Debug */
+   224		struct mutex i2c_lock;
+   225	
+   226		struct regmap *regmap;
+   227		struct regmap *regmap_fg;
+   228		struct regmap *regmap_charger;
+   229		struct regmap *regmap_leds;
+   230	
+   231		int type;
+   232	
+   233		int irq;
+   234		int irq_base;
+   235		int irq_masks_cur[MAX77705_IRQ_GROUP_NR];
+   236		int irq_masks_cache[MAX77705_IRQ_GROUP_NR];
+   237		bool wakeup;
+   238		struct mutex irqlock;
+   239	
+   240	#ifdef CONFIG_HIBERNATION
+   241		/* For hibernation */
+   242		u8 reg_pmic_dump[MAX77705_PMIC_REG_END];
+ > 243		u8 reg_muic_dump[MAX77705_USBC_REG_END];
+   244		u8 reg_led_dump[MAX77705_LED_REG_END];
+   245	#endif
+   246	
+   247		/* pmic VER/REV register */
+   248		u8 pmic_rev;	/* pmic Rev */
+   249		u8 pmic_ver;	/* pmic version */
+   250	
+   251		u8 cc_booting_complete;
+   252	
+   253		wait_queue_head_t queue_empty_wait_q;
+   254		int doing_irq;
+   255		int is_usbc_queue;
+   256	
+   257		struct max77705_platform_data *pdata;
+   258	};
+   259	
 
-  * Specifically, -ENOSYS is returned if a fault handler isn't installed
-  * (though fault handlers can also return -ENOSYS, in case they want to
-  * elicit the default behavior of the IOMMU drivers).
-  */
-int report_iommu_fault(struct iommu_domain *domain, struct device *dev,
-                        unsigned long iova, int flags)
-
-Doesnt this mean ENOSYS is when fault handler is not installed?
-
-Because the console print will come if we return 0?
-
-         if (!report_iommu_fault(ctx->domain, ctx->dev, iova, 0)) {
-                 dev_err_ratelimited(ctx->dev,
-                                     "Unhandled context fault: fsr=0x%x, "
-                                     "iova=0x%016llx, fsynr=0x%x, cb=%d\n",
-                                     fsr, iova, fsynr, ctx->asid);
-         }
-
->> +}
->> +
->>   void msm_drm_kms_uninit(struct device *dev)
->>   {
->>   	struct platform_device *pdev = to_platform_device(dev);
->> @@ -261,6 +283,9 @@ int msm_drm_kms_init(struct device *dev, const struct drm_driver *drv)
->>   		goto err_msm_uninit;
->>   	}
->>   
->> +	if (kms->aspace)
->> +		msm_mmu_set_fault_handler(kms->aspace->mmu, kms, msm_kms_fault_handler);
->> +
->>   	drm_helper_move_panel_connectors_to_head(ddev);
->>   
->>   	drm_for_each_crtc(crtc, ddev) {
->> -- 
->> 2.44.0
->>
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
