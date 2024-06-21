@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE7AF912AB0
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 17:53:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA411912AB2
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 17:54:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA3C410F303;
-	Fri, 21 Jun 2024 15:53:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE2310F306;
+	Fri, 21 Jun 2024 15:54:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="lQHPLRv5";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="nWFZYpyc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2606E10F2FB
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A70D910F2FB
  for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 15:53:42 +0000 (UTC)
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 36BED8845A;
+ by phobos.denx.de (Postfix) with ESMTPSA id CACFC8846D;
  Fri, 21 Jun 2024 17:53:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1718985220;
- bh=1DvqOIOIwCDaaSr8+U90UcADP17WhsNhd8SJhUNv1tg=;
+ s=phobos-20191101; t=1718985221;
+ bh=f9/W0jwZTGGFJdgs6uEs6EPfXmfMhLip4E4Z8d1m4t0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lQHPLRv59AicC6OmrnTI5c9ZqPopVFvB8hT1vBnxdnXf5gqzApcVVPen66szD9XwG
- Mz7Psjc6eoPn96ocEwQWs1ew+6oXbw5dV6HoGBMoY7fxyIYKTCzmfxW82jR55dbXhd
- ny75KRQp8jPF5eAytftgRb80eC9n2R7yHgMLfVFj1d9VnSRK3R85XH0p2QtdRRhhui
- BplewcU11Ihs28tOjrMNIBd7LVPVf8L23F0v+C/rrei0Q4N6dz3BUAgfbZD676kU6Z
- f7KGkhEODtKBrL4VuNbE5RjCcK17eieScUkInHPCuF4aUYJev2aghZJuYcGUCs3uxK
- DMrmQJveU/iTg==
+ b=nWFZYpycJzv9UhoP2xUY9JGWR0P2j2T7idK9+GdtguAS38jSyjA54YaEHCEMfBZt3
+ ATSYhlu3taxTHCf134z473ID9/aeIuRHCD88zBwB+c5Dj2lEtZmOaN+YPNmzQwWRH3
+ UGP9zniryb/AniiRSVUP0Mvz9w9/x8OLxyrwCZzcHkbbM5w/G7wFNSzOprRed7oxGV
+ vUcbxcwlsONdP4qkDuMAJUd6lxDAXeSTD1uF3JtCWKNOd8rp7xpeX6r7Mz4meF9QNy
+ ZhCBtIKIl9mt8xShr/eEQsloeZIq4jqgt6ZhtCpshM9kURdNRHKcmX4e4ruAHJ5t3b
+ wc9QHrI6QXnGw==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -42,9 +42,10 @@ Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
-Subject: [PATCH v2 3/6] drm/bridge: tc358767: Drop line_pixel_subtract
-Date: Fri, 21 Jun 2024 17:52:51 +0200
-Message-ID: <20240621155320.92864-3-marex@denx.de>
+Subject: [PATCH v2 4/6] drm/bridge: tc358767: Disable
+ MIPI_DSI_CLOCK_NON_CONTINUOUS
+Date: Fri, 21 Jun 2024 17:52:52 +0200
+Message-ID: <20240621155320.92864-4-marex@denx.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240621155320.92864-1-marex@denx.de>
 References: <20240621155320.92864-1-marex@denx.de>
@@ -67,15 +68,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This line_pixel_subtract is no longer needed now that the bridge can
-request and obtain specific pixel clock on input to the bridge, with
-clock frequency that matches the Pixel PLL frequency.
-
-The line_pixel_subtract is now always 0, so drop it entirely.
-
-The line_pixel_subtract was not reliable as it never worked when the
-Pixel PLL and input clock were off just so that the required amount
-of pixels to subtract would not be whole integer.
+The MIPI_DSI_CLOCK_NON_CONTINUOUS causes visible artifacts in high
+resolution modes, disable it. Namely, in DSI->DP mode 1920x1200 24
+bpp 59.95 Hz, with DSI bus at maximum 1 Gbps per lane setting, the
+image contains jittering empty lines.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
@@ -96,50 +92,22 @@ Cc: kernel@dh-electronics.com
 ---
 V2: No change
 ---
- drivers/gpu/drm/bridge/tc358767.c | 16 +---------------
- 1 file changed, 1 insertion(+), 15 deletions(-)
+ drivers/gpu/drm/bridge/tc358767.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 4f1f4383d3cf0..c4e2455ad95e4 100644
+index c4e2455ad95e4..a48454fe2f634 100644
 --- a/drivers/gpu/drm/bridge/tc358767.c
 +++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -382,9 +382,6 @@ struct tc_data {
+@@ -2303,7 +2303,7 @@ static int tc_mipi_dsi_host_attach(struct tc_data *tc)
+ 	dsi->lanes = dsi_lanes;
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+ 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+-			  MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
++			  MIPI_DSI_MODE_LPM;
  
- 	/* HPD pin number (0 or 1) or -ENODEV */
- 	int			hpd_pin;
--
--	/* Number of pixels to subtract from a line due to pixel clock delta */
--	u32			line_pixel_subtract;
- };
- 
- static inline struct tc_data *aux_to_tc(struct drm_dp_aux *a)
-@@ -661,11 +658,7 @@ static int tc_pxl_pll_calc(struct tc_data *tc, u32 refclk, u32 pixelclock,
- 		return -EINVAL;
- 	}
- 
--	tc->line_pixel_subtract = tc->mode.htotal -
--		DIV_ROUND_UP(tc->mode.htotal * (u64)best_pixelclock, (u64)pixelclock);
--
--	dev_dbg(tc->dev, "PLL: got %d, delta %d (subtract %d px)\n", best_pixelclock,
--		best_delta, tc->line_pixel_subtract);
-+	dev_dbg(tc->dev, "PLL: got %d, delta %d\n", best_pixelclock, best_delta);
- 	dev_dbg(tc->dev, "PLL: %d / %d / %d * %d / %d\n", refclk,
- 		ext_div[best_pre], best_div, best_mul, ext_div[best_post]);
- 
-@@ -909,13 +902,6 @@ static int tc_set_common_video_mode(struct tc_data *tc,
- 		upper_margin, lower_margin, vsync_len);
- 	dev_dbg(tc->dev, "total: %dx%d\n", mode->htotal, mode->vtotal);
- 
--	if (right_margin > tc->line_pixel_subtract) {
--		right_margin -= tc->line_pixel_subtract;
--	} else {
--		dev_err(tc->dev, "Bridge pixel clock too slow for mode\n");
--		right_margin = 0;
--	}
--
- 	/*
- 	 * LCD Ctl Frame Size
- 	 * datasheet is not clear of vsdelay in case of DPI
+ 	ret = devm_mipi_dsi_attach(dev, dsi);
+ 	if (ret < 0) {
 -- 
 2.43.0
 
