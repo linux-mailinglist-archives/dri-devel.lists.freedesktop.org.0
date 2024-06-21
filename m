@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EADBA912E18
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 21:48:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 856CA912E28
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2024 21:58:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 132B910E159;
-	Fri, 21 Jun 2024 19:48:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EDF610E0D6;
+	Fri, 21 Jun 2024 19:58:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="v5DpuX8P";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L6eC4bkZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
- [209.85.128.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06EF910E07E
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 19:48:39 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-63bd10df78dso22571457b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 12:48:39 -0700 (PDT)
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com
+ [209.85.161.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A779910E0D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 19:58:39 +0000 (UTC)
+Received: by mail-oo1-f46.google.com with SMTP id
+ 006d021491bc7-5b9778bb7c8so1182133eaf.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2024 12:58:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1718999319; x=1719604119; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=P/c8cghJ6uMh9jC1Qg2cHE9CahIR6DPBACZ2TcXW56A=;
- b=v5DpuX8Pf6rxexCFOXo4BAO3gHnuIeTEdVrEabfiDsN7qIoIfg5Bkhf9MBEp+przx9
- Zbx+R3Ldjn+MGI/uSB1ctm76BW+C15LK6xiBWKYKFDxOa4IJkxMXfEIt6zW3Ryz0uRFh
- hvctdXnPXxyARmmYh/oexidGEdqi4LI3n6gXybXWlFSY1yTul+nbX4vB0gZ4woR6wPUb
- PjTLuqhZeckfHQ1haUXYj4F9rYRxW6EfKAIXvFRguZJAI0cxKlXCeYF6lYFaLCkTXdgD
- AUrWrBXwElDpRkRYPbs3ZO2qt3aGsg9WbhiZ9EkASoqZBQC/urOhxy0LCX0gYT5KAFSY
- n3uw==
+ d=gmail.com; s=20230601; t=1718999918; x=1719604718; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=uZT85xg/u3etg74tod0wWvhARm1bf9HjZcOhri8SiLA=;
+ b=L6eC4bkZJWp5Dx+rNhHrujv3V4IQ2tAviYVrScB+zCKTN6Z5jIrsGi8ewzFgpmsF05
+ iGF9oGJWx69Q6+H/aG0IU8y9aT7+iW2s2H47aLbZjVAROjIlJNbjAWowNsBhzzPIiuz9
+ gkc3MHfP8jxSV4Qfkocd2Munl3qA3fKDbls8bWnRR2r4eOS1v+rn4wgMu9J8feQEXphs
+ QTS1S0i9iJCLvzGMPFCEOjbcMMNY0MpugRluMEOjHtLjAESqPoed2EDwsBlld2oDyIBb
+ 1n0SR2Mifo0GGqcWZAsw7WnKUnM9BBW0UQ8GGNs5LsFW8b3ZiWrOmBsc236TrZFuqq69
+ 3l1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1718999319; x=1719604119;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=P/c8cghJ6uMh9jC1Qg2cHE9CahIR6DPBACZ2TcXW56A=;
- b=a6Aqjld05AT5l848/vSoajB8aeMD5keyJZWlMRGMNBl0Y7dhjT4N53ZjwYJ7yayN0G
- 59YFHBHwleNy1uPvzPo0fW01r7f8SNnAv/IbD1X65nIl24/tSKD2F9he5MWgZqxonDyQ
- 1k+qFc+7j5Kdsbz3JAqp90IHqwqXeIT/PGhnd3C+NZ2JMU4/5ktZlkfnlSfTckX1EPGV
- ZefgtEOdMClRDFVaSEXTEGHZNSNTTqNBKbMl89HwO5ajJFKQfgakgOAOiMi0P6vFtgw5
- jijaXgPIArEpaPci/PP+UsT/Gv51hHg+Y/8wapPLNA5jLS/HANyY0KUt5Hquk86tO7xd
- MOOw==
+ d=1e100.net; s=20230601; t=1718999918; x=1719604718;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uZT85xg/u3etg74tod0wWvhARm1bf9HjZcOhri8SiLA=;
+ b=FN5P2MiLU9UqHpLiQzZIpDoLBi07zvjHLSGBYiKqsyXd3nIp5tVJIFDrwBTbazi/r/
+ sH1FWTx1dGPLG7uHnGrGKJtZ/AIP5iBuiA1mLG/vH/FdHdXPNceUFT3WltQJhJkzO2Tc
+ 0/wG+8KlCEXuOrkQliLD/ZUl6zdUgqD5mgrsPGuZUe6bPKs2wdVqR3xgxwZONhzFBK0U
+ e0mw+ONCezf8g9M2HfLD3L2wH/vnvXxOPrawlI2gEaaIuhpAOEJr1WTODjCC1RkRMT72
+ MWKsKSkcjdqviGpeP2OkhCHVXzCr29bBXkJJoriBFyMzgE7sm/9xTHklKShSkxTvDlAd
+ qVzg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWkirEuCMD4bnpUnvL6zFre0qQgk3Wbd//xgV/ZR3zQHTTkFOiQuFQb+nXeOTEOMr/rLg65EVVjGRy4hNflGJLDmx9gcN6pVKp5xNFbtwFF
-X-Gm-Message-State: AOJu0YysPMlsu2fBZycHj+NM89zHosZs7WN19RGy8hGuMnih10hYySRK
- Af0pZPaT18IGtY3N1dEzP9nbVz/jQUbmJ5XcUf5cWR2RvqfDCKHPfnoQlKdy99QGcyizQvWVQ7d
- l8M1NUH7Fz3SZFDwgHruyPX/DipCyCZHoDyw6RA==
-X-Google-Smtp-Source: AGHT+IFvOw/kHfTfZo+OrqgAX4CDfPljUrETGvD6Moa3aTJuLqtsXuUSv/1M4m37lNwuXK/7MTl9DPjJyvK+nqkQaqI=
-X-Received: by 2002:a0d:d48d:0:b0:622:c901:950b with SMTP id
- 00721157ae682-63a8fddc9d9mr103318627b3.43.1718999318614; Fri, 21 Jun 2024
- 12:48:38 -0700 (PDT)
+ AJvYcCVCDRQk2YkalZvTv90iiA8XCz6TTDC3p1EpGD1UB58DphiDBD2ZSrKESjDrgS6Sibm77oe3fGg9es4KeHghZyEH9zhhno32embzEzOgRuPo
+X-Gm-Message-State: AOJu0YwfcNiegHotCKFh731t13Uksyxbc8rotMdifOlIiVnfK4bVoYji
+ dFSwtacyLwa3wm3j8kLchIKMMfzECN5z5K8pa40K2lOlZxlKUdF2
+X-Google-Smtp-Source: AGHT+IFczQG/r/FziE5lHomIhZKAzT1QDlQTYWIYUS249ULPQp3760g6B/uCINnT2+aOuTODaKtM9Q==
+X-Received: by 2002:a05:6358:7e87:b0:19f:6bb4:e23b with SMTP id
+ e5c5f4694b2df-1a1fd45b454mr1045049155d.18.1718999918391; 
+ Fri, 21 Jun 2024 12:58:38 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:30ae:a791:227a:a35f])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-716ba6aa524sm1468593a12.63.2024.06.21.12.58.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Jun 2024 12:58:37 -0700 (PDT)
+Date: Fri, 21 Jun 2024 12:58:34 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-acpi@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v3] software node: Implement device_get_match_data fwnode
+ callback
+Message-ID: <ZnXbaubPVAUdDIu0@google.com>
+References: <20240427203650.582989-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
-References: <20240612064731.25651-1-quic_ekangupt@quicinc.com>
- <zbpia232dh4ojfsvhcqxrp6cwfygaalu5cycdrs47pqmnrisvk@dq24nww26gkm>
- <z6g5ool5vomkudiroyaxh532rhlfu5x4i3l5xoqrsho2sxv4im@v5ghemjkpc3v>
- <CAA8EJprgCJKOnZo7Q31KZV3SA3NqWxcMmoUxuqnVF+8cQW5ucg@mail.gmail.com>
- <6f59552d-d7a3-5e05-3465-e707c1b7eaf2@quicinc.com>
- <ZnWhwJtTXS32UI9H@phenom.ffwll.local>
-In-Reply-To: <ZnWhwJtTXS32UI9H@phenom.ffwll.local>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 21 Jun 2024 22:48:27 +0300
-Message-ID: <CAA8EJppRP0HdM6AfmL0uga2esDey12LVjuSn=wJZtV4Uz0CgZg@mail.gmail.com>
-Subject: Re: [PATCH v1] misc: fastrpc: Move fastrpc driver to misc/fastrpc/
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Bjorn Andersson <andersson@kernel.org>,
- Ekansh Gupta <quic_ekangupt@quicinc.com>, 
- Oded Gabbay <ogabbay@kernel.org>, srinivas.kandagatla@linaro.org, 
- linux-arm-msm@vger.kernel.org, gregkh@linuxfoundation.org, 
- quic_bkumar@quicinc.com, linux-kernel@vger.kernel.org, 
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, 
- Dave Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240427203650.582989-1-sui.jingfeng@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,98 +89,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 21 Jun 2024 at 18:52, Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Fri, Jun 21, 2024 at 09:40:09AM -0600, Jeffrey Hugo wrote:
-> > On 6/21/2024 5:19 AM, Dmitry Baryshkov wrote:
-> > > On Fri, 21 Jun 2024 at 09:19, Bjorn Andersson <andersson@kernel.org> wrote:
-> > > >
-> > > > On Wed, Jun 12, 2024 at 09:28:39PM GMT, Dmitry Baryshkov wrote:
-> > > > > On Wed, Jun 12, 2024 at 12:17:28PM +0530, Ekansh Gupta wrote:
-> > > > > > Move fastrpc.c from misc/ to misc/fastrpc/. New C files are planned
-> > > > > > to be added for PD notifications and other missing features. Adding
-> > > > > > and maintaining new files from within fastrpc directory would be easy.
-> > > > > >
-> > > > > > Example of feature that is being planned to be introduced in a new C
-> > > > > > file:
-> > > > > > https://lore.kernel.org/all/20240606165939.12950-6-quic_ekangupt@quicinc.com/
-> > > > > >
-> > > > > > Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
-> > > > > > ---
-> > > > > >   MAINTAINERS                          |  2 +-
-> > > > > >   drivers/misc/Kconfig                 | 13 +------------
-> > > > > >   drivers/misc/Makefile                |  2 +-
-> > > > > >   drivers/misc/fastrpc/Kconfig         | 16 ++++++++++++++++
-> > > > > >   drivers/misc/fastrpc/Makefile        |  2 ++
-> > > > > >   drivers/misc/{ => fastrpc}/fastrpc.c |  0
-> > > > > >   6 files changed, 21 insertions(+), 14 deletions(-)
-> > > > > >   create mode 100644 drivers/misc/fastrpc/Kconfig
-> > > > > >   create mode 100644 drivers/misc/fastrpc/Makefile
-> > > > > >   rename drivers/misc/{ => fastrpc}/fastrpc.c (100%)
-> > > > >
-> > > > > Please consider whether it makes sense to move to drivers/accel instead
-> > > > > (and possibly writing a better Kconfig entry, specifying that the driver
-> > > > > is to be used to offload execution to the DSP).
-> > > > >
-> > > >
-> > > > Wouldn't this come with the expectation of following the ABIs of
-> > > > drivers/accel and thereby breaking userspace?
-> > >
-> > > As I wrote earlier, that depends on the accel/ maintainers decision,
-> > > whether it's acceptable to have non-DRM_ACCEL code underneath.
-> > > But at least I'd try doing that on the grounds of keeping the code at
-> > > the proper place in the drivers/ tree, raising awareness of the
-> > > FastRPC, etc.
-> > > For example current fastrpc driver bypasses dri-devel reviews, while
-> > > if I remember correctly, at some point it was suggested that all
-> > > dma-buf-handling drivers should also notify the dri-devel ML.
-> > >
-> > > Also having the driver under drivers/accels makes it possible and
-> > > logical to  implement DRM_ACCEL uAPI at some point. In the ideal world
-> > > we should be able to declare existing FastRPC uAPI as legacy /
-> > > deprecated / backwards compatibility only and migrate to the
-> > > recommended uAPI approach, which is DRM_ACCEL.
-> > >
-> >
-> > I suspect Vetter/Airlie need to be involved in this.
-> >
-> > Its my understanding that accelerator drivers are able to reside in misc as
-> > long as there is no use of dma-buf.  Use of dma-buf means they need to be in
-> > drm/accel.
-> >
-> > There is precedent for moving a driver from misc to accel (HabanaLabs).
-> >
-> > Right now, I'm not aware that fastRPC meets the requirements for drm/accel.
-> > There is an open source userspace driver, but I'm not aware of an open
-> > source compiler.  From what I know of the architecture, it should be
-> > possible to utilize upstream LLVM to produce one.
->
-> Yeah so fastrpc is one of the reasons why I've added a dma_buf regex match
-> to MAINTAINERS, and given this move has shown up here on dri-devel that
-> seems to work.
->
-> But also, it slipped through, can't break uapi, so I just pretend it's not
-> really there :-)
->
-> That aside, going forward it might make sense to look into drivers/accel,
-> and also going forward new dma_buf uapi will be reviewed to fairly
-> stringent standards. We're not going to impose the dri-devel userspace
-> rules on everyone, each subsystem tends to know what's best in their
-> ecosystem. But if something just ends up in misc so it can avoid the drm
-> or accel rules (and I think media is also pretty much on the same page
-> nowadays), then expect some serious heat ...
+Hi Sui,
 
-After discussing this on #dri-devel, I'm going to retract my
-suggestion of moving the driver to drivers/accel/, unless there is an
-actual interest in moving to drm_accel.h style of uAPI.
+On Sun, Apr 28, 2024 at 04:36:50AM +0800, Sui Jingfeng wrote:
+> Because the software node backend of the fwnode API framework lacks an
+> implementation for the .device_get_match_data function callback. This
+> makes it difficult to use(and/or test) a few drivers that originates
+> from DT world on the non-DT platform.
+> 
+> Implement the .device_get_match_data fwnode callback, which helps to keep
+> the three backends of the fwnode API aligned as much as possible. This is
+> also a fundamental step to make a few drivers OF-independent truely
+> possible.
+> 
+> Device drivers or platform setup codes are expected to provide a software
+> node string property, named as "compatible". At this moment, the value of
+> this string property is being used to match against the compatible entries
+> in the of_device_id table. It can be extended in the future though.
 
-It should still be noted that there is a strong recommendation to
-start from scratch and to use DRM / accel uAPI, either using the
-existing driver for the legacy platforms or dropping it completely.
-When the fastrpc driver was started by Qualcomm engineers, there was
-no standard method of implementing the accel drivers. Since 1st of
-November 2022 we have drm_accel.h.
+I am sorry, but this is not really correct. Software nodes are used to
+augment missing or incomplete parameters, but are never primary objects
+in the matching process. Sometimes "compatible" property is used with
+software nodes, but it does not participate in the matching process.
+
+There are several ways for various buses to match a device and a driver,
+but none of them operate on software nodes. Consider for example how
+devices on SPI bus are matched (see
+drivers/spi/spi.c::spi_match_device()):
+
+1. OF/device tree based match. It *requires* the device to have
+dev->of_node which is coming from a DTB. It does not work on software
+nodes. In case of match the match data should come from of_device_id
+entry.
+
+2. ACPI-based match. The match is done based either on OF-compatible
+data (which includes "compatible" property) in _DSD (if driver supports
+OF-based matching), or based on HID/CID data. In the latter case the
+match data is coming from acpi_device_id entry.
+
+3. Name-based match, typically used for board-instantiated devices. In
+this case match is done by comparing device name under which it was
+instantiated against names listed in the drivers id_table. The match
+data is coming from spi_device_id entry.
+
+Similar matching processes are implemented for i2c and platform buses,
+as well as others.
+
+Your patch is effectively hijacks the #3 matching process and
+substitutes the bus-specific match data (from
+spi_device_id/i2c_device_id/etc) with OF data. This is not expected and
+while we may want this in a long term (so we can eventually remove these
+bus-specific device ids and only have ACPI/OF ones) I do not think we
+are ready for this yet. At the very least this needs to be very clearly
+documented.
+
+> 
+> Fixes: ffb42e64561e ("drm/tiny/repaper: Make driver OF-independent")
+> Fixes: 5703d6ae9573 ("drm/tiny/st7735r: Make driver OF-independent")
+
+As other people mentioned this patch does not fix the aforementioned
+commits because they are not broken. In case of non-OF match (which
+includes the case where you use software nodes) the match data is coming
+from matching spi_device_id entry in the driver.
+
+Thanks.
 
 -- 
-With best wishes
 Dmitry
