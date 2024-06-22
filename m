@@ -2,114 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356DB9132A5
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2024 09:58:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C32913330
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2024 13:10:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF09310E16E;
-	Sat, 22 Jun 2024 07:58:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF6610E1FD;
+	Sat, 22 Jun 2024 11:10:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="JEscMpFk";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="KxBDG3zO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C45210E16E
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 07:58:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1719043112; x=1719647912; i=deller@gmx.de;
- bh=dLgWteFmfrhKmfTLeLJCw6alZp9VwXP1tQjR4lYSMwo=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=JEscMpFkTEtYNsewWj9juMfE1RMonnEPnICAg/Idue1ENTIRyLvBDo1RYGRJTAvc
- /WVVvuHYFGy+pV8S9r4M2IKLf4lKyNJrPodI1GqzE+kCsLOHOeRv0dSoi0gdDyXF7
- fmxOUbiH7PlZ+/4/yBQ1fjCpNHQDtpOIZFrYX4IN7NH8Ma0uLgMh5aqnQBI5GCUCL
- BVmGZyM3zFbunB9nQni0mwNW8EdWcupxux7KdDE3Lu8wvrqI9P+IvbpBMTIgeGld/
- imdfVjOtWzSUnrm7/IpGWQQ5wSx5DR2G2Uj8SwAzyxJw7aYSahpR2A2q4xwAL+Rrm
- 6ykYwD7ahXkC88sbZg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.63.133]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N7iCW-1sOlRF3jcY-00tDqg; Sat, 22
- Jun 2024 09:58:31 +0200
-Message-ID: <0d7a6ba6-1140-4382-bea6-fd245ad8d7b5@gmx.de>
-Date: Sat, 22 Jun 2024 09:58:30 +0200
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CADAA10E1A2
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 11:10:00 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45MB9Ux0004919;
+ Sat, 22 Jun 2024 06:09:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1719054570;
+ bh=bkW25KN0IuNiP7SM5s0jML7OoSGI178ormJ7ss1pHIo=;
+ h=From:To:CC:Subject:Date;
+ b=KxBDG3zOPqmOV8uEXEE5Uj/8AOmGJVgnUDR83kGh7Zp8PNR1NLu8Ggve0urebQMnk
+ 4CA2sunDdRPCi/U31nRl2wUhwU6xaN4WvDBPyiN9k0BMMxAaMiS6FeZSZ3L7+pqmr2
+ T6nkq0LED21FifNKUMDg9N5wR47vog/VX5ospdUg=
+Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45MB9UrG112563
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Sat, 22 Jun 2024 06:09:30 -0500
+Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 22
+ Jun 2024 06:09:30 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Sat, 22 Jun 2024 06:09:30 -0500
+Received: from localhost (uda0496377.dhcp.ti.com [172.24.227.31])
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45MB9Tn1023026;
+ Sat, 22 Jun 2024 06:09:30 -0500
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>
+CC: DRI Development List <dri-devel@lists.freedesktop.org>, Linux Kernel List
+ <linux-kernel@vger.kernel.org>, Dominik Haller <d.haller@phytec.de>, Sam
+ Ravnborg <sam@ravnborg.org>, Thierry Reding <treding@nvidia.com>, Kieran
+ Bingham <kieran.bingham+renesas@ideasonboard.com>, Nishanth Menon
+ <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Praneeth Bajjuri
+ <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>, Devarsh Thakkar
+ <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra
+ <j-luthra@ti.com>, Aradhya Bhatia <a-bhatia1@ti.com>
+Subject: [PATCH v4 00/11] drm/bridge: cdns-dsi: Fix the color-shift issue
+Date: Sat, 22 Jun 2024 16:39:18 +0530
+Message-ID: <20240622110929.3115714-1-a-bhatia1@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] agp: add remaining missing MODULE_DESCRIPTION() macros
-To: Jeff Johnson <quic_jjohnson@quicinc.com>,
- David Airlie <airlied@redhat.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-parisc@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <20240621-md-i386-drivers-char-agp-v1-1-fa03ec5c86ac@quicinc.com>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20240621-md-i386-drivers-char-agp-v1-1-fa03ec5c86ac@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:+0HJdkiH3jiJ484z2CjK8Xa4TireGSzODV9QCdJj9tuameFW1BR
- G8vTIBKTufysatwTntkGcmxmMgO5b8H76RgMWt5pbQKgwfOCqwrOQqNbAANbLMUCNsi+T3L
- jrsmSW+jNyxW+nRVCH+oa6WZ9hUTDu3uQWNd6E/AG7qBN+JzHcUo2dcT/1xNaH0TRxkfFxZ
- AnIRp0kuHviqOjCT7yKjg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:7pZcWNDPI7U=;OB73/8rcte2HHmSQQfX55TgbKhS
- TdKbSXG4LDejgWwR1VJrL9TvH0pqm1CZwb78I3JrRSI5dfvSZoIcCiyCFF1pESGDtmCiefa3y
- UZCm9rKqy6P9r7LXCseMP1vlwo5an3bN3Mi7MQG8Smr31bjacP2LMbjG+Wfe18zrNfY08O/7V
- qbRn3gIut0w84kjbftWrXuPFMZigUrkZqf/VTCgnGzlRo32oB7Famrq4/tNNIGU1Yd9f3WJkH
- pzMB+lbY850TpEPMsXMatevJDQ/Nr0MJgf1Nnrk0mUq12F06Gr4yiYOJNx71ju6DUyLIcXUfk
- ec3NkdyjvySOhioGoAws9BZt+F+YnujQ9dO1ZSJG2/hTF9iHXpJCErQ/SeNFGYLg42upwcAvp
- mlSFn/FeYADVwPMFn0Jc5Idhkal7p8fccs14no+O13blfa+Kc4udLOxBkEw1Ya6LQlqAN7+Mj
- GrINeqx9GhGk+cjVuUJ8vm8oo9ziuF7OVkhdMWVrF8lhqD+YcUyONzMuSGJMxluHzNUJbQ2At
- kbJhJGYS/wdJmUqtnVbkBajOSIY1qYwynKYyEU7HURy5FJj8dXySSQbELjhM0kD/wN1JYF5nV
- QJOBSQTgNU8mHmstrPxv8BucOI5Yee3337Ybf8tSV7AOQZh4GCKN+2gwaEzcIAWM7BMrwS3/I
- tLGpDSOxLa/dFCVik2ZI7DHkW5/hz/n2tF+fDV53nY5FiwFXRJqWxOrgDQwhczQMPOnm6j3fz
- 4aRI7nK2w9bI5ttC6r4jd4QHSxck4RJiyfERPh9dk+orYH9frGZJIJVbQWvvh+DUPjjAfpJh8
- S0f7MWLhegwsLJ9gWQ5qKkqa3pIcUzmE89zLxarLEZC6M=
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,42 +81,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/22/24 07:14, Jeff Johnson wrote:
-> With ARCH=3Di386, make allmodconfig && make W=3D1 C=3D1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/ali-a=
-gp.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/ati-a=
-gp.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/amd-k=
-7-agp.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/effic=
-eon-agp.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/nvidi=
-a-agp.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/swork=
-s-agp.o
->
-> Add the missing invocation of the MODULE_DESCRIPTION() macro to all
-> files which have a MODULE_LICENSE().
->
-> This includes alpha-agp.c and parisc-agp.c which, although they did
-> not produce a warning with the i386 allmodconfig configuration, may
-> cause this warning with other configurations.
->
-> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+Hello all,
 
-applied to fbdev git tree.
-Thanks!
-Helge
+This series provides some crucial fixes and improvements for the Cadence's DSI
+TX (cdns-dsi) controller found commonly in Texas Instruments' J7 family of SoCs
+as well as in AM62P.
 
-> ---
->   drivers/char/agp/ali-agp.c      | 1 +
->   drivers/char/agp/alpha-agp.c    | 1 +
->   drivers/char/agp/amd-k7-agp.c   | 1 +
->   drivers/char/agp/ati-agp.c      | 1 +
->   drivers/char/agp/efficeon-agp.c | 1 +
->   drivers/char/agp/nvidia-agp.c   | 1 +
->   drivers/char/agp/parisc-agp.c   | 1 +
->   drivers/char/agp/sworks-agp.c   | 1 +
->   8 files changed, 8 insertions(+)
+Along with that, this series aims to fix the color-shift issue that has been
+going on with the DSI controller. This controller requires to be enabled before
+the previous entity enables its stream[0]. It's a strict requirement which, if
+not followed, causes the colors to "shift" on the display. The fix happens in
+2 steps.
+
+    1. The bridge pre_enable calls have been shifted before the crtc_enable and
+       the bridge post_disable calls have been shifted after the crtc_disable.
+       This has been done as per the definition of bridge pre_enable.
+
+       "The display pipe (i.e. clocks and timing signals) feeding this bridge
+       will not yet be running when this callback is called".
+
+       Since CRTC is also a source feeding the bridge, it should not be enabled
+       before the bridges in the pipeline are pre_enabled.
+
+       The sequence of enable after this patch will look like:
+
+	        bridge[n]_pre_enable
+	        ...
+	        bridge[1]_pre_enable
+
+	        crtc_enable
+	        encoder_enable
+
+	        bridge[1]_enable
+	        ...
+	        bridge[n]_enable
+
+       and vice-versa for the bridge chain disable sequence.
+
+
+    2. The cdns-dsi enable / disable sequences have now been moved to pre_enable
+       and post_disable sequences. This is the only way to have cdns-dsi drivers
+       be up and ready before the previous entity is enables its streaming.
+
+The DSI also spec requires the Clock and Data Lanes be ready before the DSI TX
+enables its stream[0]. A patch has been added to make the code wait for that to
+happen. Going ahead with further DSI (and DSS configuration), while the lanes
+are not ready, has been found to be another reason for shift in colors.
+
+These patches have been tested with J721E based BeagleboneAI64 along with a
+RaspberryPi 7" DSI panel. The extra patches can be found in the
+"next_dsi-v4-tests" branch of my github fork[1] for anyone who would like to
+test them.
+
+Thanks,
+Aradhya
+
+
+[0]: Section 12.6.5.7.3: "Start-up Procedure" [For DSI TX controller]
+     in TDA4VM Technical Reference Manual https://www.ti.com/lit/zip/spruil1
+
+[1]: https://github.com/aradhya07/linux-ab/tree/next_dsi-v4-tests
+
+Change Log:
+
+  - Changes in v4:
+    - Add new patch, "drm/bridge: cdns-dsi: Move to devm_drm_of_get_bridge()",
+      to update to an auto-managed way of finding next bridge in the chain.
+    - Drop patch "drm/bridge: cdns-dsi: Fix the phy_initialized variable" and
+      add "drm/bridge: cdns-dsi: Fix Phy _init() and _exit()" that properly
+      de-initializes the Phy and maintains the initialization state.
+    - Reword patch "drm/bridge: cdns-dsi: Reset the DCS write FIFO" to explain
+      the HW concerns better.
+    - Add R-b tag from Dmitry Baryshkov for patches 1/11 and 8/11.
+
+  - Changes in v3:
+    - Reword the commit message for patch "drm/bridge: cdns-dsi: Fix OF node
+      pointer".
+    - Add a new helper API to figure out DSI host input pixel format
+      in patch "drm/mipi-dsi: Add helper to find input format".
+    - Use a common function for bridge pre-enable and enable, and bridge disable
+      and post-disable, to avoid code duplication.
+    - Add T-b tag from Dominik Haller in patch 5/10. (Missed to add it in v2).
+    - Add R-b tag from Dmitry Baryshkov for patch 8/10.
+
+  - Changes in v2:
+    - Drop patch "drm/tidss: Add CRTC mode_fixup"
+    - Split patch "drm/bridge: cdns-dsi: Fix minor bugs" into 4 separate ones
+    - Drop support for early_enable/late_disable APIs and instead re-order the
+      pre_enable / post_disable APIs to be called before / after crtc_enable /
+      crtc_disable.
+    - Drop support for early_enable/late_disable in cdns-dsi and use
+      pre_enable/post_disable APIs instead to do bridge enable/disable.
+
+
+Previous versions:
+
+v1: https://lore.kernel.org/all/20240511153051.1355825-1-a-bhatia1@ti.com/
+v2: https://lore.kernel.org/all/20240530093621.1925863-1-a-bhatia1@ti.com/
+v3: https://lore.kernel.org/all/20240617105311.1587489-1-a-bhatia1@ti.com/
+
+Aradhya Bhatia (11):
+  drm/bridge: cdns-dsi: Fix OF node pointer
+  drm/bridge: cdns-dsi: Move to devm_drm_of_get_bridge()
+  drm/bridge: cdns-dsi: Fix Phy _init() and _exit()
+  drm/bridge: cdns-dsi: Fix the link and phy init order
+  drm/bridge: cdns-dsi: Fix the clock variable for mode_valid()
+  drm/bridge: cdns-dsi: Wait for Clk and Data Lanes to be ready
+  drm/bridge: cdns-dsi: Reset the DCS write FIFO
+  drm/mipi-dsi: Add helper to find input format
+  drm/bridge: cdns-dsi: Support atomic bridge APIs
+  drm/atomic-helper: Re-order bridge chain pre-enable and post-disable
+  drm/bridge: cdns-dsi: Use pre_enable/post_disable to enable/disable
+
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 105 ++++++-----
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.h    |   2 -
+ drivers/gpu/drm/drm_atomic_helper.c           | 165 ++++++++++++------
+ drivers/gpu/drm/drm_mipi_dsi.c                |  37 ++++
+ include/drm/drm_atomic_helper.h               |   7 +
+ include/drm/drm_mipi_dsi.h                    |   1 +
+ 6 files changed, 209 insertions(+), 108 deletions(-)
+
+
+base-commit: b992b79ca8bc336fa8e2c80990b5af80ed8f36fd
+-- 
+2.34.1
 
