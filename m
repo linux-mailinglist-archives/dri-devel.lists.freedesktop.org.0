@@ -2,77 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E239191337E
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2024 13:47:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85009913390
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2024 13:50:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D12A710E219;
-	Sat, 22 Jun 2024 11:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA0910E228;
+	Sat, 22 Jun 2024 11:50:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="H3KsNqXw";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Wvegpf+B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C98B10E219
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 11:47:23 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45MBl6HV016063;
- Sat, 22 Jun 2024 06:47:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1719056827;
- bh=j4OrdUKtJX/7en/BuYO+MHA6aUkbfOxmzOwAqmp5pT0=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=H3KsNqXwO/dLY/aCjOEILTrM0Z4Yx715Up3ToB4teSZlmlHI9pgV/kjUWN/UAg/rV
- Ed9o0riOJJGdILb9WxxTSTyDPSd7QP9oTdtxB5FO8StSFLf83kaK6CneNYkJ0A7HAv
- iANUXqMxQFBy0MOb2SD7+2kEhGJQY7iKmFsDk0JQ=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45MBl6Ki028337
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sat, 22 Jun 2024 06:47:06 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 22
- Jun 2024 06:47:06 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sat, 22 Jun 2024 06:47:06 -0500
-Received: from [10.249.129.248] ([10.249.129.248])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45MBkxte067399;
- Sat, 22 Jun 2024 06:47:00 -0500
-Message-ID: <71e809fa-b471-4bb3-8f7d-e497397c0de4@ti.com>
-Date: Sat, 22 Jun 2024 17:16:58 +0530
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C54910E227
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 11:50:27 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a63359aaaa6so404531166b.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 04:50:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1719057026; x=1719661826; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :references:cc:to:from:subject:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=KzdEHh0dB/nV7vgLtfc8+hl5vcizG4wktTh23yM32QI=;
+ b=Wvegpf+BcBz1WE7fdBpebMa6OoYI5gAUJKl+AI/EDKuUmhgooplJseknngvo221rDZ
+ pRN5cmujLOB9pAuIiTSru7p1oX9Hy0cwaOsq8m3uZt7S8JIKFbPTauuUrFDGmXRJQK90
+ v4htBPNPMuCzOtcuuy69jvoc0L/qdG6krqlY+Pt3t1oB6s+g5HqtRPKkyv17rlmTJfz5
+ tM3x7/xLx0IVgqpjFlBZS1WnL5yfoj3m9g2Q2lrhBMyyNU68eg9yYXLPF6CSGiY+Uvrd
+ fXQVZkX3qfsfRstg6To7RvIhephhmBFEPFF+puA5Bgbs/m/hn9y1tPVK7+lbnSa2bBU2
+ N4tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719057026; x=1719661826;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :references:cc:to:from:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KzdEHh0dB/nV7vgLtfc8+hl5vcizG4wktTh23yM32QI=;
+ b=gOKQCX1rvC5fKMWEOEschuHncEuU+XWsYjy3OJL3bA7o9plcU270/+0GsD4L3TEwas
+ CaqlFvASB68w6SN8ofTQ4LAqENpZVDCj6wIL5pcirxDBVfsGlq54Dno1YcvVSmEUs/W3
+ lgp7NQSUhhjxdqo0+qXnrVgTdlHzul+0N9V+00Ac3CqZ1WE9Bw88gCt0tvsgxZbUAacZ
+ 6PVaP7nxchjQ4KhG8z/6jAKBJIQvsLzUTuGH99+uinssUW/yCOHPb/Rx/An+6akp4Bey
+ t7rUtCgUh/XO/hdgGVUkTDzTVuoLussuj4Dq545ki30cQE4OL8oOTOVAO0wyIQgSaXFL
+ +7OQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWo6u36dNYf8uFEyp4k3ri6bq28lJ783vfAQfZ+SD1YKvh3KjmDEDwYXZf7dAU/ljW9JRB0NrNDySqbc54bX4sRq7ZowH7DPf/5Fj2dtzkU
+X-Gm-Message-State: AOJu0YxKTGALsj67OErfdzsdUFUpIbnosNv3bAazmcN4wAT9BOWzCmr9
+ PuJI/f+9o/iFU0tkU5e2Ocz0PumdcpAd3geF2AusiYvpZDDlKmsAl+0mNmPcVFw=
+X-Google-Smtp-Source: AGHT+IFq2RyjewhG08NQkSNuiG4OKvvqngvXK+P4M2fWPNqP6vDMJeiI1UJQ0pAupu6eDLx/+Vvdnw==
+X-Received: by 2002:a17:907:a0d5:b0:a6f:bd27:3f13 with SMTP id
+ a640c23a62f3a-a6fbd273fccmr556874866b.34.1719057025605; 
+ Sat, 22 Jun 2024 04:50:25 -0700 (PDT)
+Received: from [192.168.128.35] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a6fcf486811sm188386366b.51.2024.06.22.04.50.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 22 Jun 2024 04:50:25 -0700 (PDT)
+Message-ID: <1ea4dd97-be3e-4331-b3a2-649f7729e461@linaro.org>
+Date: Sat, 22 Jun 2024 13:50:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] drm/bridge: tc358767: Fix
- DRM_BRIDGE_ATTACH_NO_CONNECTOR case
+Subject: Re: [PATCH v2] drm/msm/adreno: Add A306A support
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>,
+ 20240618164303.66615-1-robdclark@gmail.com
+References: <20240620-a306a-v2-1-0d388e1deebf@gmail.com>
+ <2f10d70a-aed6-4687-8e12-4d649f6a2a5e@linaro.org>
 Content-Language: en-US
-To: Alexander Stein <alexander.stein@ew.tq-group.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Jan Kiszka <jan.kiszka@siemens.com>, Marek
- Vasut <marex@denx.de>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-CC: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <20231108-tc358767-v2-0-25c5f70a2159@ideasonboard.com>
- <f6af46e0-aadb-450a-9349-eec1337ea870@ti.com>
- <2f3bb86b-6f8c-4807-985e-344a0c47864c@siemens.com>
- <3277848.aeNJFYEL58@steina-w>
- <b2052bc9-b2da-489b-9e5b-3c9b4f6c1c99@ideasonboard.com>
- <bc96c6b5-a7f8-4ef3-a89b-bf577943f11c@denx.de>
- <36ef53b6-57a3-42e4-95ef-a10eef4ca1c9@siemens.com>
- <o4bwopeuyxm6344oqqm3e7p3xcx76aw2trsiuhhfyhel2e7po7@sz2jaj6i7kqd>
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <o4bwopeuyxm6344oqqm3e7p3xcx76aw2trsiuhhfyhel2e7po7@sz2jaj6i7kqd>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <2f10d70a-aed6-4687-8e12-4d649f6a2a5e@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,43 +129,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 17-Jun-24 13:41, Dmitry Baryshkov wrote:
-> On Mon, Jun 17, 2024 at 07:40:32AM GMT, Jan Kiszka wrote:
->> On 16.02.24 15:57, Marek Vasut wrote:
->>> On 2/16/24 10:10, Tomi Valkeinen wrote:
->>>> Ok. Does anyone have a worry that these patches make the situation
->>>> worse for the DSI case than it was before? Afaics, if the DSI lanes
->>>> are not set up early enough by the DSI host, the driver would break
->>>> with and without these patches.
->>>>
->>>> These do fix the driver for DRM_BRIDGE_ATTACH_NO_CONNECTOR and DPI, so
->>>> I'd like to merge these unless these cause a regression with the DSI
->>>> case.
->>>
->>> 1/2 looks good to me, go ahead and apply .
-
-Isn't there any way for the second patch to move forward as well though?
-The bridge device (under DPI to (e)DP mode) cannot really work without
-it, and the patches have been pending idle for a long time. =)
-
+On 22.06.2024 1:36 PM, Konrad Dybcio wrote:
+> On 20.06.2024 11:52 PM, Barnabás Czémán wrote:
+>> From: Otto Pflüger <otto.pflueger@abscue.de>
 >>
->> My local patches still apply on top of 6.10-rc4, so I don't think this
->> ever happened. What's still holding up this long-pending fix (at least
->> for our devices)?
+>> Add support for Adreno 306A GPU what is found in MSM8917 SoC.
+>> This GPU marketing name is Adreno 308.
+>>
+>> Signed-off-by: Otto Pflüger <otto.pflueger@abscue.de>
+>> [use internal name of the GPU, reword the commit message]
+>> Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
+>> ---
+>> Changes in v2:
+>> - Rebase on https://patchwork.freedesktop.org/series/127393/
+>> - Link to v1: https://lore.kernel.org/r/20240528-a306a-v1-1-03a66dacd8c7@gmail.com
+>> ---
+>>  drivers/gpu/drm/msm/adreno/a3xx_catalog.c | 11 +++++++++++
+>>  drivers/gpu/drm/msm/adreno/a3xx_gpu.c     | 14 +++++++++++---
+>>  drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  6 ++++++
+>>  3 files changed, 28 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/adreno/a3xx_catalog.c b/drivers/gpu/drm/msm/adreno/a3xx_catalog.c
+>> index 0de8465b6cf0..61aeac5054a2 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a3xx_catalog.c
+>> +++ b/drivers/gpu/drm/msm/adreno/a3xx_catalog.c
+>> @@ -41,6 +41,17 @@ static const struct adreno_info a3xx_gpus[] = {
+>>  		.gmem  = SZ_128K,
+>>  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+>>  		.init  = a3xx_gpu_init,
+>> +	}, {
+>> +		.chip_ids = ADRENO_CHIP_IDS(0x03000620),
+>> +		.family = ADRENO_3XX,
+>> +		.revn  = 308,
 > 
-> Neither of the patches contains Fixes tags. If the first patch fixes an
-> issue in previous kernels, please consider following the stable process.
-> 
-> If we are unsure about the second patch, please send the first patch
-> separately, adding proper tags.
-> 
+> Double space
 
-Thanks Dmitry! I can send the patches again with the required fixes
-tags (or just patch-1 if we cannot do anything about patch-2).
+Also I suppose this could be dropped ([1])
 
+Konrad
 
--- 
-Regards
-Aradhya
+[1] https://lore.kernel.org/linux-arm-msm/CAF6AEGuHSG0t6CH=+JGzZqiZa_JsOgPkcgO_UhCbO3vAgFZK_g@mail.gmail.com/
