@@ -2,86 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF679913683
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 00:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4A819136B6
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 00:44:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C070910EDFF;
-	Sat, 22 Jun 2024 22:02:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BE7710E501;
+	Sat, 22 Jun 2024 22:44:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ko13c/N5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GRz8jImI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E91C510EDF2
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 22:02:29 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-2ebe40673e8so32636761fa.3
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 15:02:29 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74DB010E4FD
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 22:44:22 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-2eabd22d3f4so38614601fa.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 15:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719093748; x=1719698548; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=PGHdc8YiA3WTHk5P8vKAyvQjRr5JX9fvWorT4SZVW8k=;
- b=Ko13c/N5AXbhwGb8PDVKBWeIKJP1dD+OtO8X2VtoJu6oZgvHbVu4hMzy6Tb1t5Y62d
- QymzQXLtWhgJTnPoLV0Pm8L+1ZOHRg0+0yrXGhasdB/vX5VmQcR9w8IX1GXWjiSepcPC
- oNk9/vIKicYI+xcvn5WSJtp8LTVseUaAes7f6+1OwWxlqSDvzcm94pirHAm1XP3hI2aZ
- XqURty87Sm8Af2JErO/sB/uwFtBhMgzx4hqcOC7HQw4VDOzlc96Rv0UxTgxyMVWBpBuP
- WRkWoMcN8zzk8lcVQsd3qxU4MWmEd6GkpzJBMj9EBD0XyPMTXVffqs1oBwyLBn1wKbHU
- O/qQ==
+ d=linaro.org; s=google; t=1719096260; x=1719701060; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9hb4h18T1ibOKTo0yZzuu8k0jFemz2DPXX/Y7zaLl54=;
+ b=GRz8jImISG+yBqgoeK3TNvrKCiyKQ3QvAPvcA/aj9bSmdTSHkaqZb4TDP1YFF1P02x
+ I1hrM7Ls5ZXEWAEVDfQiZbxV1KQFFUfBIchxNg7BPS16bPtvbTh1jdcEQwfyFZVYMzRK
+ BfbmafD7yEG5TAZYX//5oP9NQUKJGbgS9Kd+9vP3CjuaZinLxcyqrAM0yXovsuNuJc4D
+ AtXQgigeMvwHid7XQRJe8HYIgeejvxu79veTVLzVRdYwE0UcMvSB1/1FCrRbb5+gMymw
+ f7OKRwBDpD4hsW1PWXBdoKr+tl/B3K10tbYAnv4uLAF+jBcFhTYqntzNW4HiY4D9MnsT
+ AVkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719093748; x=1719698548;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PGHdc8YiA3WTHk5P8vKAyvQjRr5JX9fvWorT4SZVW8k=;
- b=W1NCIixA9CvbKrgjid0XL6SobvOCq/64/f+5ZaByIUIIm7YAxwn/WiMB53V2uzvOsF
- Z8cHxrScRj2tsMjwNwSqoHiBUbLniF8/MNy/bg6/zE9xa28Ry1vB7DQUMG8I6Rz0vHUS
- Yvy/S6Wlcv441L3ADSiudXkB045LXROhByhmLZ7jmjk5ssRqa1WEdipBOz+oc/Vm/mb6
- pIFrF1bapmZKQoc2wGP1kU3hYS2xkAHAYKFq9SAI5k9XmyYh6XZVTJc5gD0tziYn4LC0
- z62Ydt9mTmp4AB5BciwRgL348n34RehAX+T9eblFVBKXhT21TKfEkV/GjDkjVC0hKWLa
- dBww==
+ d=1e100.net; s=20230601; t=1719096260; x=1719701060;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9hb4h18T1ibOKTo0yZzuu8k0jFemz2DPXX/Y7zaLl54=;
+ b=YIjtMQ3L7YWmN3jQZGsd8CqMzz3jjMFnJ3ZTTuEVJrJx1eEBJ2l5PE0k4ofbP6MuJs
+ Jl5f7MTtuyVZdzLloEi4MV6f4YNDE/oG3B+JDFGqPPaf7GoVfFurLHan119Yr+D/6Igj
+ xn4qOEL3GDPFsRqIycaphUs1yCBpsBism4IqkHCs8exSlDZuksfXKEA5cOglHt1W8HbF
+ ud3kaUHZEg5+16fOHeuosZSQZWmREu3HVhNZ2cyR1jlvnWmsMRy3WoOCUcI+zynNAyPd
+ Lm9SMFD0TJCRbi8Av8AGs3J0HkTMyoSqNtZkyooTJLdfwkBVDYrc6U+abHWSaq2wGhY4
+ kg5A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXxxcWRDr/4Sjzbq/AxceCs0IG6Eo+sKF1n0kFyZNgk/XBLHog9noo9wT5o/ixDZ2UE4+OmrftyIxgCbp4aVGBRqC+hxRrggMV2+JIkA2MH
-X-Gm-Message-State: AOJu0YwuoEIn1aeWk9dOo2gooXGiKx5S4B7pGb5zMBde2BlA4179LTub
- u3Mymyo9U8USVl51zSFLhN5/R8lDHn2EYrUyb74283S90uOPzvj1/687pUcgwSM=
-X-Google-Smtp-Source: AGHT+IFdNEvT/KXwtp6byJyVArrLJT0q2zVKjTyW+suLZeO+39QYIbtNWDX5qi9Reqa4HCGgijjkUg==
-X-Received: by 2002:a2e:9596:0:b0:2ec:1dfc:45bf with SMTP id
- 38308e7fff4ca-2ec5b3d496emr4164051fa.42.1719093748156; 
- Sat, 22 Jun 2024 15:02:28 -0700 (PDT)
+ AJvYcCXZx8W/U6m5515CgLSsHzpPSKEsZA5EgHIIAs2sr5XciZ3Ewm1YiSn207waqwysnczjw4nDfGAi/UrhP6g3W0RHldBDtd4HHhBDv2nyGqNT
+X-Gm-Message-State: AOJu0Yyf94Z/2jA4/RD8RQT2SR+9jxG3UBOOiqewlWwYrfy+fOFjnkrE
+ uxiWWm2JwgNv3qJnbiyO8Qp8owrFXdmRC0H2yM6B4ndQ/41Rf7jBDiEoIbZ+BVw=
+X-Google-Smtp-Source: AGHT+IHDFKpNtjP5Vc5MfkY1zgYcpOqGHEQfDcxZxuoqCTLcSIIbnEU06RZGjGI/7az/tasOewANmg==
+X-Received: by 2002:a2e:9087:0:b0:2ec:4d48:75f3 with SMTP id
+ 38308e7fff4ca-2ec5b30765emr4074481fa.45.1719096260415; 
+ Sat, 22 Jun 2024 15:44:20 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec55e56ea5sm2502051fa.112.2024.06.22.15.02.27
+ 38308e7fff4ca-2ec4d757f93sm5582431fa.78.2024.06.22.15.44.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Jun 2024 15:02:27 -0700 (PDT)
+ Sat, 22 Jun 2024 15:44:19 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 23 Jun 2024 01:02:26 +0300
-Subject: [PATCH v3 13/13] drm/msm/hdmi: wire in hpd_enable/hpd_disable
- bridge ops
+Date: Sun, 23 Jun 2024 01:44:19 +0300
+Subject: [PATCH v5] drm/display: split DSC helpers from DP helpers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240623-fd-hdmi-hpd-v3-13-8645a64cbd63@linaro.org>
-References: <20240623-fd-hdmi-hpd-v3-0-8645a64cbd63@linaro.org>
-In-Reply-To: <20240623-fd-hdmi-hpd-v3-0-8645a64cbd63@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240623-panel-sw43408-fix-v5-1-5401ab61e738@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAMJTd2YC/33NQQ6CMBCF4auQrq1pp1MEV97DuKBlqk0MkNagh
+ nB3CxsxEJf/S+abgUUKniI7ZgML1Pvo2yaF3mXM3qrmStzXqRkIQIEgeFc1dOfxiQpFwZ1/ced
+ yjaWVIA2xdNcFSvNsni+pbz4+2vCeX/RyWv9pveSCGyjAuQNoQDjdfVOFdt+GK5u4Hr6ElpsEJ
+ KKW5EpJJM2hXhFqQQBsESoReSkACl3V1ooVgUui2CIwEUoJg4CojbU/xDiOH+2U74l8AQAA
+To: Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
  Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4028;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6294;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=+t2U1RD/wb4G84+CRNoOtMFGJ3kapYkKIPOtVroW3X8=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmd0nquPw6MxmqYJ+vfPQc/Atbn/P9DAqJmmFQt
- Yr+/Lkja2qJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZndJ6gAKCRCLPIo+Aiko
- 1WRqB/0efKfu2G2+t6qny4TOcmCSPhfPu7OOFom+3b421qfQbFXUny/DZ0W1AA8kEu/gH1pBcKb
- /Gws4qXxf9719+rG6htWlLc6pDbh2X5GSLl+Gw2LdNgSGOlsBPgcb+rAULRVP0tinf9SC1kJFsF
- 238GTjIRY666bROxfOHEnjuzpRj+zLo9Wfdk48mySvgxvQuN4qBUCwFWTLAQA/a5H3UqbbeyGp6
- 04u6qOgMk1JiEGG1tlW8bE9zQ+KEku0p6WGCKqKEnt0ooO3l0WjtDshGualV6i2ay5P0U82l+Jp
- odceYaWBvcqku8OEIZPpnxkiwVAbXMF76xQQMvqutiryQ8Zo
+ bh=DMJyhKanCJP+dMIWYlrCNyg0Und4SQa32BNd1XlDk3g=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmd1PDaDbcOaO6AVtbWU5HxAGmxznblgOYlZqmu
+ ahB+KMXckCJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZndTwwAKCRCLPIo+Aiko
+ 1VDpB/4o/mUbXW19tpmrel48R/vqM1tRHBa71mqLYLVvB7jeKUyzS2yzoKpzdZ711v9CxWGh/ha
+ +vYxvkMMnmNQDqzeLbYO6H3wf37eBbFXKCTWY2/lCFeRbINxtEkTmY7eg8C4Pzd4I9wOPpjqdML
+ abHFYOs4Z+dUw09rkDo8U8mexj9u5FQ/t3kpQ8H/O33d86961velqT7cLuCw/MQA0h8A8o5vPmw
+ qs5NAY6cdoa/62+szgo4md/KDOLbHYbf6U2ay4SPmmMXs24CV3+5Iu0wh3M1LxY13VoI+Z5wG2o
+ goG2Sk8GIz8YeUNQuMFLZZKqFzqZjiRfOMaBN0zg3D8hIe3m
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,118 +109,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The HDMI driver already has msm_hdmi_hpd_enable() and
-msm_hdmi_hpd_disable() functions. Wire them into the
-msm_hdmi_bridge_funcs, so that HPD  can be enabled and disabled
-dynamically rather than always having HPD events generation enabled.
+Currently the DRM DSC functions are selected by the
+DRM_DISPLAY_DP_HELPER Kconfig symbol. This is not optimal, since the DSI
+code (both panel and host drivers) end up selecting the seemingly
+irrelevant DP helpers. Split the DSC code to be guarded by the separate
+DRM_DISPLAY_DSC_HELPER Kconfig symbol.
 
 Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/hdmi/hdmi.c        |  9 ---------
- drivers/gpu/drm/msm/hdmi/hdmi.h        |  4 ++--
- drivers/gpu/drm/msm/hdmi/hdmi_bridge.c |  4 ++++
- drivers/gpu/drm/msm/hdmi/hdmi_hpd.c    | 12 ++++++------
- 4 files changed, 12 insertions(+), 17 deletions(-)
+To: Alex Deucher <alexander.deucher@amd.com>
+To: Christian König <christian.koenig@amd.com>
+To: Pan, Xinhui <Xinhui.Pan@amd.com>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+To: Rob Clark <robdclark@gmail.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Sean Paul <sean@poorly.run>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index 9f1de4c9ffdf..7621d17b57b8 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -201,12 +201,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
- 		goto fail;
- 	}
- 
--	ret = msm_hdmi_hpd_enable(hdmi->bridge);
--	if (ret < 0) {
--		DRM_DEV_ERROR(&hdmi->pdev->dev, "failed to enable HPD: %d\n", ret);
--		goto fail;
--	}
--
- 	return 0;
- 
- fail:
-@@ -352,9 +346,6 @@ static void msm_hdmi_unbind(struct device *dev, struct device *master,
- 		if (priv->hdmi->audio_pdev)
- 			platform_device_unregister(priv->hdmi->audio_pdev);
- 
--		if (priv->hdmi->bridge)
--			msm_hdmi_hpd_disable(priv->hdmi);
--
- 		msm_hdmi_destroy(priv->hdmi);
- 		priv->hdmi = NULL;
- 	}
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
-index 9961dae9e9b3..96f2a982c766 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.h
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
-@@ -207,8 +207,8 @@ int msm_hdmi_bridge_init(struct hdmi *hdmi);
- void msm_hdmi_hpd_irq(struct drm_bridge *bridge);
- enum drm_connector_status msm_hdmi_bridge_detect(
- 		struct drm_bridge *bridge);
--int msm_hdmi_hpd_enable(struct drm_bridge *bridge);
--void msm_hdmi_hpd_disable(struct hdmi *hdmi);
-+void msm_hdmi_hpd_enable(struct drm_bridge *bridge);
-+void msm_hdmi_hpd_disable(struct drm_bridge *bridge);
- 
- /*
-  * i2c adapter for ddc:
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-index 7bf1c3b379c1..0441d728afc8 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-@@ -465,6 +465,10 @@ static const struct drm_bridge_funcs msm_hdmi_bridge_funcs = {
- 	.mode_valid = msm_hdmi_bridge_mode_valid,
- 	.edid_read = msm_hdmi_bridge_edid_read,
- 	.detect = msm_hdmi_bridge_detect,
-+
-+	.hpd_enable = msm_hdmi_hpd_enable,
-+	.hpd_disable = msm_hdmi_hpd_disable,
-+
- 	.hdmi_clear_infoframe = msm_hdmi_bridge_clear_infoframe,
- 	.hdmi_write_infoframe = msm_hdmi_bridge_write_infoframe,
- };
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-index cb89e9e2c6ea..04d00b6f36fd 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-@@ -60,7 +60,7 @@ static void msm_hdmi_phy_reset(struct hdmi *hdmi)
- 	}
- }
- 
--int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
-+void msm_hdmi_hpd_enable(struct drm_bridge *bridge)
- {
- 	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
- 	struct hdmi *hdmi = hdmi_bridge->hdmi;
-@@ -70,8 +70,8 @@ int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
- 	unsigned long flags;
- 
- 	ret = pm_runtime_resume_and_get(dev);
--	if (ret)
--		return ret;
-+	if (WARN_ON(ret))
-+		return;
- 
- 	mutex_lock(&hdmi->state_mutex);
- 	msm_hdmi_set_mode(hdmi, false);
-@@ -99,12 +99,12 @@ int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
- 	hdmi_write(hdmi, REG_HDMI_HPD_CTRL,
- 			HDMI_HPD_CTRL_ENABLE | hpd_ctrl);
- 	spin_unlock_irqrestore(&hdmi->reg_lock, flags);
--
--	return 0;
- }
- 
--void msm_hdmi_hpd_disable(struct hdmi *hdmi)
-+void msm_hdmi_hpd_disable(struct drm_bridge *bridge)
- {
-+	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
-+	struct hdmi *hdmi = hdmi_bridge->hdmi;
- 	struct device *dev = &hdmi->pdev->dev;
- 
- 	/* Disable HPD interrupt */
+Changes in v5:
+- Drop applied patches
+- Link to v4: https://lore.kernel.org/r/20240528-panel-sw43408-fix-v4-0-330b42445bcc@linaro.org
 
+Changes in v4:
+- Reoder patches so that fixes come first, to be able to land them to
+  drm-misc-fixes
+- Link to v3: https://lore.kernel.org/r/20240522-panel-sw43408-fix-v3-0-6902285adcc0@linaro.org
+
+Changes in v3:
+- Split DRM_DISPLAY_DSC_HELPER from DRM_DISPLAY_DP_HELPER
+- Added missing Fixes tags
+- Link to v2: https://lore.kernel.org/r/20240510-panel-sw43408-fix-v2-0-d1ef91ee1b7d@linaro.org
+
+Changes in v2:
+- use SELECT instead of DEPEND to follow the reverted Kconfig changes
+- Link to v1: https://lore.kernel.org/r/20240420-panel-sw43408-fix-v1-0-b282ff725242@linaro.org
+---
+ drivers/gpu/drm/amd/amdgpu/Kconfig | 1 +
+ drivers/gpu/drm/display/Kconfig    | 6 ++++++
+ drivers/gpu/drm/display/Makefile   | 3 ++-
+ drivers/gpu/drm/i915/Kconfig       | 1 +
+ drivers/gpu/drm/msm/Kconfig        | 1 +
+ drivers/gpu/drm/panel/Kconfig      | 6 +++---
+ 6 files changed, 14 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
+index 4232ab27f990..5933ca8c6b96 100644
+--- a/drivers/gpu/drm/amd/amdgpu/Kconfig
++++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
+@@ -6,6 +6,7 @@ config DRM_AMDGPU
+ 	depends on !UML
+ 	select FW_LOADER
+ 	select DRM_DISPLAY_DP_HELPER
++	select DRM_DISPLAY_DSC_HELPER
+ 	select DRM_DISPLAY_HDMI_HELPER
+ 	select DRM_DISPLAY_HDCP_HELPER
+ 	select DRM_DISPLAY_HELPER
+diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
+index 479e62690d75..a2e42014ffe0 100644
+--- a/drivers/gpu/drm/display/Kconfig
++++ b/drivers/gpu/drm/display/Kconfig
+@@ -59,6 +59,12 @@ config DRM_DISPLAY_DP_TUNNEL_STATE_DEBUG
+ 
+ 	  If in doubt, say "N".
+ 
++config DRM_DISPLAY_DSC_HELPER
++	bool
++	depends on DRM_DISPLAY_HELPER
++	help
++	  DRM display helpers for VESA DSC (used by DSI and DisplayPort).
++
+ config DRM_DISPLAY_HDCP_HELPER
+ 	bool
+ 	depends on DRM_DISPLAY_HELPER
+diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
+index 629df2f4d322..df8f22c7e916 100644
+--- a/drivers/gpu/drm/display/Makefile
++++ b/drivers/gpu/drm/display/Makefile
+@@ -6,7 +6,8 @@ drm_display_helper-y := drm_display_helper_mod.o
+ drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_HELPER) += \
+ 	drm_dp_dual_mode_helper.o \
+ 	drm_dp_helper.o \
+-	drm_dp_mst_topology.o \
++	drm_dp_mst_topology.o
++drm_display_helper-$(CONFIG_DRM_DISPLAY_DSC_HELPER) += \
+ 	drm_dsc_helper.o
+ drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_TUNNEL) += \
+ 	drm_dp_tunnel.o
+diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+index faa253b27664..db400aad88fa 100644
+--- a/drivers/gpu/drm/i915/Kconfig
++++ b/drivers/gpu/drm/i915/Kconfig
+@@ -11,6 +11,7 @@ config DRM_I915
+ 	select SHMEM
+ 	select TMPFS
+ 	select DRM_DISPLAY_DP_HELPER
++	select DRM_DISPLAY_DSC_HELPER
+ 	select DRM_DISPLAY_HDCP_HELPER
+ 	select DRM_DISPLAY_HDMI_HELPER
+ 	select DRM_DISPLAY_HELPER
+diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+index 1931ecf73e32..6dcd26180611 100644
+--- a/drivers/gpu/drm/msm/Kconfig
++++ b/drivers/gpu/drm/msm/Kconfig
+@@ -111,6 +111,7 @@ config DRM_MSM_DSI
+ 	depends on DRM_MSM
+ 	select DRM_PANEL
+ 	select DRM_MIPI_DSI
++	select DRM_DISPLAY_DSC_HELPER
+ 	default y
+ 	help
+ 	  Choose this option if you have a need for MIPI DSI connector
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index bf4eadfe21cb..afae8b130e9a 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -349,7 +349,7 @@ config DRM_PANEL_LG_SW43408
+ 	depends on OF
+ 	depends on DRM_MIPI_DSI
+ 	depends on BACKLIGHT_CLASS_DEVICE
+-	select DRM_DISPLAY_DP_HELPER
++	select DRM_DISPLAY_DSC_HELPER
+ 	select DRM_DISPLAY_HELPER
+ 	help
+ 	  Say Y here if you want to enable support for LG sw43408 panel.
+@@ -558,7 +558,7 @@ config DRM_PANEL_RAYDIUM_RM692E5
+ 	depends on OF
+ 	depends on DRM_MIPI_DSI
+ 	depends on BACKLIGHT_CLASS_DEVICE
+-	select DRM_DISPLAY_DP_HELPER
++	select DRM_DISPLAY_DSC_HELPER
+ 	select DRM_DISPLAY_HELPER
+ 	help
+ 	  Say Y here if you want to enable support for Raydium RM692E5-based
+@@ -916,7 +916,7 @@ config DRM_PANEL_VISIONOX_R66451
+ 	depends on OF
+ 	depends on DRM_MIPI_DSI
+ 	depends on BACKLIGHT_CLASS_DEVICE
+-	select DRM_DISPLAY_DP_HELPER
++	select DRM_DISPLAY_DSC_HELPER
+ 	select DRM_DISPLAY_HELPER
+ 	help
+ 	  Say Y here if you want to enable support for Visionox
+
+---
+base-commit: 2102cb0d050d34d50b9642a3a50861787527e922
+change-id: 20240420-panel-sw43408-fix-ff6549c121be
+
+Best regards,
 -- 
-2.39.2
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
