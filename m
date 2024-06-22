@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6210F913338
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2024 13:10:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A1BD91332E
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2024 13:10:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E51710E20A;
-	Sat, 22 Jun 2024 11:10:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF0A010E19C;
+	Sat, 22 Jun 2024 11:10:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="h+NIe9FB";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="FN0IysjT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55D6A10E1AE
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 11:10:02 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45MB9Xup004926;
- Sat, 22 Jun 2024 06:09:33 -0500
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A044510E19C
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 11:09:58 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45MB9Ze9033198;
+ Sat, 22 Jun 2024 06:09:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1719054573;
- bh=GEctsZEwlpy+/yLpHT9IsOxBMsbd+SrHYZnaQXFqqnY=;
+ s=ti-com-17Q1; t=1719054575;
+ bh=chZ/pwBP4y9AUyfUU+k1msFxrL2uMwswWonPTvJY9A4=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=h+NIe9FBunufFYBtZY9WHmmHVgmbJIAixRb/Bb2FgPtcguvsxMHZ+Hl8D2u1PAJeK
- Oof2xjqLGZOQGlRBB9hgeIIxw6wip6QzkXioLhqzldPF75y1IwQbpvnHpX4YnB8oU5
- 2FGV6s24pM40qcg+6gqvuju47feuR75z6dnyNNFc=
-Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45MB9XHb003558
+ b=FN0IysjTQNcMK7MwAckdNcEFUJLba6JAbgPcKfJy+zhUMh3ucOi/EtxCTMA3qX9gA
+ 3ek6Lmz9TsxFsJe0KM4V/pmco7E6wPi2MaK2vLVkVHm7Y4I1f6r5R1dmExeN4kujhQ
+ A0T031/vnI0W8t5jlpp/w4nlCa5lgOq7j6bNxkOY=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45MB9ZrA112625
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sat, 22 Jun 2024 06:09:33 -0500
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ Sat, 22 Jun 2024 06:09:35 -0500
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 22
- Jun 2024 06:09:33 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ Jun 2024 06:09:34 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sat, 22 Jun 2024 06:09:33 -0500
+ Frontend Transport; Sat, 22 Jun 2024 06:09:34 -0500
 Received: from localhost (uda0496377.dhcp.ti.com [172.24.227.31])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45MB9WXm023101;
- Sat, 22 Jun 2024 06:09:33 -0500
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45MB9YdW023126;
+ Sat, 22 Jun 2024 06:09:34 -0500
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Tomi Valkeinen
  <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -58,10 +58,9 @@ CC: DRI Development List <dri-devel@lists.freedesktop.org>, Linux Kernel List
  <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>, Devarsh Thakkar
  <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra
  <j-luthra@ti.com>, Aradhya Bhatia <a-bhatia1@ti.com>
-Subject: [PATCH v4 02/11] drm/bridge: cdns-dsi: Move to
- devm_drm_of_get_bridge()
-Date: Sat, 22 Jun 2024 16:39:20 +0530
-Message-ID: <20240622110929.3115714-3-a-bhatia1@ti.com>
+Subject: [PATCH v4 03/11] drm/bridge: cdns-dsi: Fix Phy _init() and _exit()
+Date: Sat, 22 Jun 2024 16:39:21 +0530
+Message-ID: <20240622110929.3115714-4-a-bhatia1@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240622110929.3115714-1-a-bhatia1@ti.com>
 References: <20240622110929.3115714-1-a-bhatia1@ti.com>
@@ -84,102 +83,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of manually finding the next bridge/panel, and maintaining the
-panel-bridge (in-case the next entity is a panel), switch to using the
-automatically managing devm_drm_of_get_bridge() API.
+Initialize the Phy during the cdns-dsi _resume(), and de-initialize it
+during the _suspend().
 
-Drop the drm_panel support completely from the driver while at it.
+Also power-off the Phy from bridge_disable.
 
+Fixes: fced5a364dee ("drm/bridge: cdns: Convert to phy framework")
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 ---
- .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 28 ++-----------------
- .../gpu/drm/bridge/cadence/cdns-dsi-core.h    |  2 --
- 2 files changed, 3 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index b016f2ba06bb..5159c3f0853e 100644
+index 5159c3f0853e..d89c32bae2b9 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -920,8 +920,6 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
- 	struct cdns_dsi_output *output = &dsi->output;
- 	struct cdns_dsi_input *input = &dsi->input;
- 	struct drm_bridge *bridge;
--	struct drm_panel *panel;
--	struct device_node *np;
- 	int ret;
+@@ -672,6 +672,10 @@ static void cdns_dsi_bridge_disable(struct drm_bridge *bridge)
+ 	if (dsi->platform_ops && dsi->platform_ops->disable)
+ 		dsi->platform_ops->disable(dsi);
  
- 	/*
-@@ -939,26 +937,10 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
- 	/*
- 	 * The host <-> device link might be described using an OF-graph
- 	 * representation, in this case we extract the device of_node from
--	 * this representation, otherwise we use dsidev->dev.of_node which
--	 * should have been filled by the core.
-+	 * this representation.
- 	 */
--	np = of_graph_get_remote_node(dsi->base.dev->of_node, DSI_OUTPUT_PORT,
--				      dev->channel);
--	if (!np)
--		np = of_node_get(dev->dev.of_node);
--
--	panel = of_drm_find_panel(np);
--	if (!IS_ERR(panel)) {
--		bridge = drm_panel_bridge_add_typed(panel,
--						    DRM_MODE_CONNECTOR_DSI);
--	} else {
--		bridge = of_drm_find_bridge(np);
--		if (!bridge)
--			bridge = ERR_PTR(-EINVAL);
--	}
--
--	of_node_put(np);
--
-+	bridge = devm_drm_of_get_bridge(dsi->base.dev, dsi->base.dev->of_node,
-+					DSI_OUTPUT_PORT, dev->channel);
- 	if (IS_ERR(bridge)) {
- 		ret = PTR_ERR(bridge);
- 		dev_err(host->dev, "failed to add DSI device %s (err = %d)",
-@@ -968,7 +950,6 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
++	phy_power_off(dsi->dphy);
++	dsi->link_initialized = false;
++	dsi->phy_initialized = false;
++
+ 	pm_runtime_put(dsi->base.dev);
+ }
  
- 	output->dev = dev;
- 	output->bridge = bridge;
--	output->panel = panel;
+@@ -698,7 +702,6 @@ static void cdns_dsi_hs_init(struct cdns_dsi *dsi)
+ 	       DPHY_CMN_PDN | DPHY_PLL_PDN,
+ 	       dsi->regs + MCTL_DPHY_CFG0);
  
- 	/*
- 	 * The DSI output has been properly configured, we can now safely
-@@ -984,12 +965,9 @@ static int cdns_dsi_detach(struct mipi_dsi_host *host,
- 			   struct mipi_dsi_device *dev)
- {
- 	struct cdns_dsi *dsi = to_cdns_dsi(host);
--	struct cdns_dsi_output *output = &dsi->output;
- 	struct cdns_dsi_input *input = &dsi->input;
+-	phy_init(dsi->dphy);
+ 	phy_set_mode(dsi->dphy, PHY_MODE_MIPI_DPHY);
+ 	phy_configure(dsi->dphy, &output->phy_opts);
+ 	phy_power_on(dsi->dphy);
+@@ -1120,6 +1123,8 @@ static int __maybe_unused cdns_dsi_resume(struct device *dev)
+ 	clk_prepare_enable(dsi->dsi_p_clk);
+ 	clk_prepare_enable(dsi->dsi_sys_clk);
  
- 	drm_bridge_remove(&input->bridge);
--	if (output->panel)
--		drm_panel_bridge_remove(output->bridge);
- 
++	phy_init(dsi->dphy);
++
  	return 0;
  }
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
-index ca7ea2da635c..5db5dbbbcaad 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
-@@ -10,7 +10,6 @@
  
- #include <drm/drm_bridge.h>
- #include <drm/drm_mipi_dsi.h>
--#include <drm/drm_panel.h>
+@@ -1127,10 +1132,11 @@ static int __maybe_unused cdns_dsi_suspend(struct device *dev)
+ {
+ 	struct cdns_dsi *dsi = dev_get_drvdata(dev);
  
- #include <linux/bits.h>
- #include <linux/completion.h>
-@@ -21,7 +20,6 @@ struct reset_control;
++	phy_exit(dsi->dphy);
++
+ 	clk_disable_unprepare(dsi->dsi_sys_clk);
+ 	clk_disable_unprepare(dsi->dsi_p_clk);
+ 	reset_control_assert(dsi->dsi_p_rst);
+-	dsi->link_initialized = false;
+ 	return 0;
+ }
  
- struct cdns_dsi_output {
- 	struct mipi_dsi_device *dev;
--	struct drm_panel *panel;
- 	struct drm_bridge *bridge;
- 	union phy_configure_opts phy_opts;
- };
 -- 
 2.34.1
 
