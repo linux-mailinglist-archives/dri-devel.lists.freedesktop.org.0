@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CACBC913675
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 00:02:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A043B91367E
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 00:02:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7CC010EDF5;
-	Sat, 22 Jun 2024 22:02:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A718210EDF3;
+	Sat, 22 Jun 2024 22:02:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="d3TS1nuK";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Gwq4gflC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C024210EDED
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 22:02:27 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-2ec1620a956so36086331fa.1
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 15:02:27 -0700 (PDT)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B692D10EDF2
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 22:02:28 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-2ec002caeb3so39013401fa.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 15:02:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719093746; x=1719698546; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1719093747; x=1719698547; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=hcLXGMyi48kmnj7pjstYNNfWzbNrifnXYs8snVK6Jn4=;
- b=d3TS1nuKnWlkgDyrs587qrZgU3T6NgbUDt2YhfELabWycOlyQ3Dnr/8lodqrunjtD8
- xjIqAqlFiBEBv5m8PV/mb3q/6Bn7154/xYwMTLDhl6YyeLqzQe6MUhITLyhFzYZsJosP
- x6CNvv6dAJ8opAL33OuFn3O3FKE/qmJ4ZlGtAkbBZqXxo1PQ8dTBozFsBxMtqzTz72Kl
- ogd2O7vN5W3Wtkogk0k7E0k4zVb8MdmGrpHWEMZKyPrsyZ2cOSd49UubyYomtZ0hayW3
- 0lxKR6zVDCanrHpWVw+ulDqnAMnE16MOkVIs25oJ9i/v6/j0Jt4KhNdAOD5JPBqVSUpA
- 4ylQ==
+ :reply-to; bh=slg0qL1615VPI0XhTFhgJhcThug3uChho064CYgmjts=;
+ b=Gwq4gflCiaKWqKLfJhsJeWcJ0nHxx53I/R7ktz+GRA3fLhUiJ1w/2lHHirVjmO0WiL
+ j1rya/Xm7uyQtHP4NmyUkgSHeKu5xCFQ3/boij10JjhWaAYyqJ9cPdSoR280MkyLSWy8
+ rIEbh/pNj0gp7LhZTEN/UALIx99kcgrHcF4fF8AJz8Krn2j+c2r2QtZAEBMFn6YKcCAx
+ mB78juJfrTjpX6IGJ2cUquCERba+KJ2sOGkLWjX4jk5yxzZ0uxrPU9Py3shVhAQVZhCl
+ 5CugdIXguwDYWp3iWpNnwJCprZNLR+AZnxbADbTlpw8K8pPV3eDKBph7tVL4TWcHjtNn
+ D8cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719093746; x=1719698546;
+ d=1e100.net; s=20230601; t=1719093747; x=1719698547;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hcLXGMyi48kmnj7pjstYNNfWzbNrifnXYs8snVK6Jn4=;
- b=K4OjKt2fuym0yYCZFja3rn46zof3/sEmuGr5GGCUwbR8i3Ro5g+WKyIF4WnvdnleDs
- KlqZJS7FP0DwhUZRPSd3xzx1NcYAYrO0kJWW1b19ydsRKJ0lTu9iVc+HTsgifhN6crdT
- N/Bva20JWQ2h9U7Hhs5WjMOCeZLdiWD9yvxig1rNWf9N7rYFQ+xTHvZr6JvOMQEGypEI
- +5pN2mRtMFyLh+YnHB49grjqHax9+W/G712MSeXHhg9i7vvR1/q/LOLdAYnQwlf8LYzR
- eiM+Scym0h6iiu0gKbYv4XAd55bNI1xXHxQtBZ3xa7r2afywvzGvhrYTLoL9d5pGT9od
- 37Gw==
+ bh=slg0qL1615VPI0XhTFhgJhcThug3uChho064CYgmjts=;
+ b=hsuH/qDni/f/XgpVuHiiM7m4ZypjZGeYb5VVemnwFFtf7Mhf5saFgY/NCickAMyTnB
+ N5o1kq6+EjXNUDidlK+0K2vrtTG8vpn/1bV25G00IcPKuO8tTSSHszmIlsQQF+SPd1EL
+ mUiNJXRXvWDpSD/+wRpPAkMiNe0kYvf2HEbBO10GVnjB59KDkWtogvyaI2DWC+Nr/rNy
+ bwpRawpzeRcYhKZJFrJLLgSdO2mmAgxXaUoW8UNpkja3RM9UfQ/c1cZ2EsmfaalFUO6j
+ RwYbs/umUSFWVYTq8aTvVSNswyFRsEfn4PG+CAMR2wTxOpCFBPE2oFoC2MfCiWhzZ6CW
+ 3V6Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVuk8iciT3S3fFmJur5SmTS3luYepdReRaAJEcbfw/QOL7XijVrocl8uFnr/22R7UygM1wABcD/CticbrygS4xysbbgvKke5+DIzoBMxpkh
-X-Gm-Message-State: AOJu0Yw25IfGV4gawme/ZM4XfpTt7tutUma+dugWxIcSoxJ5hSrmkHW2
- mpIKwxqBYyiS0J17R9CocmRErKhgrX+Kft2ihaMAUEDMzP59vi7NrH/r8ZMUCDc=
-X-Google-Smtp-Source: AGHT+IEosm1MB8sVMKXefmGRiaVDftf+7yDqEsDBy2wvjyJ7dnTWcgC8vmNbs+aNIEBPJzhSJChLuw==
-X-Received: by 2002:a2e:994f:0:b0:2ec:4fea:8b9e with SMTP id
- 38308e7fff4ca-2ec5b337a97mr4258801fa.15.1719093745913; 
- Sat, 22 Jun 2024 15:02:25 -0700 (PDT)
+ AJvYcCX8vQyEZG1szYTo4uKYI/agdvrhNFsyH2FUR9TWaKc+eGebmc6aNy6TbjMXog0Xs/XNDdvcb1h7bK+hIYSK7fwtP2j8xgsXtkzcvhOcmgOs
+X-Gm-Message-State: AOJu0YwC5RyBU/sVtsHapKJWm0dksB2tDxEENw6WcgMMu/4silGGdIUi
+ nMDrYT3HdUM2JWkS/EU94oq486DrRwYvIfAVpXSpBnEsW4hxdmBVbgyOFbdjbuc=
+X-Google-Smtp-Source: AGHT+IGlPIj5UFpVQffFP/O71H4/VkTdmWVZVeEYyLy33LbFBbp/GGAmyVjfwBO4mNKfN+aZKytF1w==
+X-Received: by 2002:a2e:9dd2:0:b0:2ec:1810:e50a with SMTP id
+ 38308e7fff4ca-2ec579c7736mr10820961fa.32.1719093746800; 
+ Sat, 22 Jun 2024 15:02:26 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec55e56ea5sm2502051fa.112.2024.06.22.15.02.25
+ 38308e7fff4ca-2ec55e56ea5sm2502051fa.112.2024.06.22.15.02.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Jun 2024 15:02:25 -0700 (PDT)
+ Sat, 22 Jun 2024 15:02:26 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 23 Jun 2024 01:02:23 +0300
-Subject: [PATCH v3 10/13] drm/msm/hdmi: expand the HDMI_CFG macro
+Date: Sun, 23 Jun 2024 01:02:24 +0300
+Subject: [PATCH v3 11/13] drm/msm/hdmi: drop hpd-gpios support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240623-fd-hdmi-hpd-v3-10-8645a64cbd63@linaro.org>
+Message-Id: <20240623-fd-hdmi-hpd-v3-11-8645a64cbd63@linaro.org>
 References: <20240623-fd-hdmi-hpd-v3-0-8645a64cbd63@linaro.org>
 In-Reply-To: <20240623-fd-hdmi-hpd-v3-0-8645a64cbd63@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -71,16 +71,16 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Jessica Zhang <quic_jesszhan@quicinc.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2236;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4367;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=c8linT71WnUmb2XL4MjDcI9MoIjYqa8Jfex5sF8uhhg=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmd0npxQE+1N8qoZFUtMdjZ+FEG5yO3+10/F2ly
- w+8ND4VQ7mJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZndJ6QAKCRCLPIo+Aiko
- 1VN5B/0VeC+RdpAdyBSPOw5fDyKRSeXRtfm3jDRuz2kdmzp+6j+2ra1isZBr/dsTEm6TLHuL+8i
- Vr83ibPymZn2baMMSl+jxPqbiVY/Tx2W5l3wargUjKixUCnC6ilkyQJtFcpV/f7XZ8RlSc9mn/G
- +++cAG5s7k6JVroJt70muCE2VWSCNU8SYzQ14IZDP4wP85pmG1bz0HHp4UnbhOFuTvJ0k8oo4HN
- 8LfFLuImZ5kf0WJhBk3oPvTtuGHtg9uPPIXwd3LpEUAPZmWJEyO48wHOVcOb3BiHvQKSmIamFP8
- ket0CfVSADHb1eS6IHCr9Ve6pdFyR6FY+A3/0rqrsTq8q2ci
+ bh=IKMVsya9o4vBvDRk/2sR0JSKyG59n+7WHe8B9IcbVug=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmd0npCD6Z1JlEKMd5Xt6fWP/5+MYZxbs0Pns8Z
+ tA3YnXppWKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZndJ6QAKCRCLPIo+Aiko
+ 1TrtB/4ntzjJ9mo6sr4ZpNbnT+nE7xDo1MbRSkh0RHfGqJk18duXSZbmag5HLSZQfjFdnZNmULO
+ TR0lTwPMsirdvHzUlwHY0sSl6Bz0jbVoInwVNzhQ86mo23bgr67ncHJuugx7VYbQmZZ0/nz44OY
+ +CL98Yb4ipuv82HksLGHqe01zIk/wvKjFLKuZylljbZPCpv71Nx8IxMArk1cIPqB4oe28YgDoX5
+ KdVCRO482mNPGqvuWNDNPFfgVxGbrgrcWwwGV3XqfaWxO7O2V/2WHpsUcfObIf3viYEDqDiK0YM
+ 8xRuiYfmRxEmUZvertIk8Yz9uUtb+z2qeh+4HbanVSlW+7LB
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,66 +98,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Expand the HDMI_CFG() macro in HDMI config description. It has no added
-value other than hiding some boilerplate declarations.
+Supporting simultaneous check of native HPD and the external GPIO proved
+to be less stable than just native HPD. Drop the hpd-gpios support,
+leaving just the native HPD support. In case the native HPD doesn't work
+the user is urged to switch to specifying the HPD property to the
+hdmi-connector device.
 
 Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/hdmi/hdmi.c | 16 ++++++++--------
- drivers/gpu/drm/msm/hdmi/hdmi.h |  2 +-
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/msm/hdmi/hdmi.c     | 14 +++-------
+ drivers/gpu/drm/msm/hdmi/hdmi.h     |  2 --
+ drivers/gpu/drm/msm/hdmi/hdmi_hpd.c | 53 +++----------------------------------
+ 3 files changed, 7 insertions(+), 62 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index 48dd1843ea1f..5ba9a23ef122 100644
+index 5ba9a23ef122..97faa7d26cc9 100644
 --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
 +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -222,24 +222,24 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
-  * The hdmi device:
-  */
+@@ -443,17 +443,9 @@ static int msm_hdmi_dev_probe(struct platform_device *pdev)
+ 		return dev_err_probe(dev, PTR_ERR(hdmi->extp_clk),
+ 				     "failed to get extp clock\n");
  
--#define HDMI_CFG(item, entry) \
--	.item ## _names = item ##_names_ ## entry, \
--	.item ## _cnt   = ARRAY_SIZE(item ## _names_ ## entry)
+-	hdmi->hpd_gpiod = devm_gpiod_get_optional(&pdev->dev, "hpd", GPIOD_IN);
+-	/* This will catch e.g. -EPROBE_DEFER */
+-	if (IS_ERR(hdmi->hpd_gpiod))
+-		return dev_err_probe(dev, PTR_ERR(hdmi->hpd_gpiod),
+-				     "failed to get hpd gpio\n");
 -
- static const char *pwr_reg_names_8960[] = {"core-vdda"};
- static const char *pwr_clk_names_8960[] = {"core", "master_iface", "slave_iface"};
+-	if (!hdmi->hpd_gpiod)
+-		DBG("failed to get HPD gpio");
+-
+-	if (hdmi->hpd_gpiod)
+-		gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
++	if (of_find_property(dev->of_node, "hpd-gpios", NULL) ||
++	    of_find_property(dev->of_node, "hpd-gpio", NULL))
++		dev_warn(dev, "hpd-gpios is not supported anymore, please migrate to the hdmi-connector\n");
  
- static const struct hdmi_platform_config hdmi_tx_8960_config = {
--		HDMI_CFG(pwr_reg, 8960),
--		HDMI_CFG(pwr_clk, 8960),
-+	.pwr_reg_names = pwr_reg_names_8960,
-+	.pwr_reg_cnt = ARRAY_SIZE(pwr_reg_names_8960),
-+	.pwr_clk_names = pwr_clk_names_8960,
-+	.pwr_clk_cnt = ARRAY_SIZE(pwr_clk_names_8960),
- };
- 
- static const char *pwr_reg_names_8x74[] = {"core-vdda", "core-vcc"};
- static const char *pwr_clk_names_8x74[] = {"iface", "core", "mdp_core", "alt_iface"};
- 
- static const struct hdmi_platform_config hdmi_tx_8974_config = {
--		HDMI_CFG(pwr_reg, 8x74),
--		HDMI_CFG(pwr_clk, 8x74),
-+	.pwr_reg_names = pwr_reg_names_8x74,
-+	.pwr_reg_cnt = ARRAY_SIZE(pwr_reg_names_8x74),
-+	.pwr_clk_names = pwr_clk_names_8x74,
-+	.pwr_clk_cnt = ARRAY_SIZE(pwr_clk_names_8x74),
- };
- 
- /*
+ 	ret = msm_hdmi_get_phy(hdmi);
+ 	if (ret) {
 diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
-index 9bc4bd6761de..1c2e46d38792 100644
+index 1c2e46d38792..6faf4397ed58 100644
 --- a/drivers/gpu/drm/msm/hdmi/hdmi.h
 +++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
-@@ -87,7 +87,7 @@ struct hdmi_platform_config {
- 	const char **pwr_reg_names;
- 	int pwr_reg_cnt;
+@@ -52,8 +52,6 @@ struct hdmi {
+ 	struct clk_bulk_data *pwr_clks;
+ 	struct clk *extp_clk;
  
--	/* clks that need to be on for hpd: */
-+	/* clks that need to be on: */
- 	const char **pwr_clk_names;
- 	int pwr_clk_cnt;
- };
+-	struct gpio_desc *hpd_gpiod;
+-
+ 	struct hdmi_phy *phy;
+ 	struct device *phy_dev;
+ 
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
+index 32e447267e3b..d3353c6148ed 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
+@@ -69,9 +69,6 @@ int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
+ 	int ret;
+ 	unsigned long flags;
+ 
+-	if (hdmi->hpd_gpiod)
+-		gpiod_set_value_cansleep(hdmi->hpd_gpiod, 1);
+-
+ 	ret = pm_runtime_resume_and_get(dev);
+ 	if (ret)
+ 		return ret;
+@@ -144,8 +141,11 @@ void msm_hdmi_hpd_irq(struct drm_bridge *bridge)
+ 	}
+ }
+ 
+-static enum drm_connector_status detect_reg(struct hdmi *hdmi)
++enum drm_connector_status msm_hdmi_bridge_detect(
++		struct drm_bridge *bridge)
+ {
++	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
++	struct hdmi *hdmi = hdmi_bridge->hdmi;
+ 	uint32_t hpd_int_status = 0;
+ 	int ret;
+ 
+@@ -161,48 +161,3 @@ static enum drm_connector_status detect_reg(struct hdmi *hdmi)
+ 	return (hpd_int_status & HDMI_HPD_INT_STATUS_CABLE_DETECTED) ?
+ 			connector_status_connected : connector_status_disconnected;
+ }
+-
+-#define HPD_GPIO_INDEX	2
+-static enum drm_connector_status detect_gpio(struct hdmi *hdmi)
+-{
+-	return gpiod_get_value(hdmi->hpd_gpiod) ?
+-			connector_status_connected :
+-			connector_status_disconnected;
+-}
+-
+-enum drm_connector_status msm_hdmi_bridge_detect(
+-		struct drm_bridge *bridge)
+-{
+-	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
+-	struct hdmi *hdmi = hdmi_bridge->hdmi;
+-	enum drm_connector_status stat_gpio, stat_reg;
+-	int retry = 20;
+-
+-	/*
+-	 * some platforms may not have hpd gpio. Rely only on the status
+-	 * provided by REG_HDMI_HPD_INT_STATUS in this case.
+-	 */
+-	if (!hdmi->hpd_gpiod)
+-		return detect_reg(hdmi);
+-
+-	do {
+-		stat_gpio = detect_gpio(hdmi);
+-		stat_reg  = detect_reg(hdmi);
+-
+-		if (stat_gpio == stat_reg)
+-			break;
+-
+-		mdelay(10);
+-	} while (--retry);
+-
+-	/* the status we get from reading gpio seems to be more reliable,
+-	 * so trust that one the most if we didn't manage to get hdmi and
+-	 * gpio status to agree:
+-	 */
+-	if (stat_gpio != stat_reg) {
+-		DBG("HDMI_HPD_INT_STATUS tells us: %d", stat_reg);
+-		DBG("hpd gpio tells us: %d", stat_gpio);
+-	}
+-
+-	return stat_gpio;
+-}
 
 -- 
 2.39.2
