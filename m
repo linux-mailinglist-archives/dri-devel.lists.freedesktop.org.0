@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E76913147
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2024 03:05:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9588913146
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2024 03:05:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEE0010EC5C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C82810EC3B;
 	Sat, 22 Jun 2024 01:05:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lEWzOG9W";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hxFvWMAY";
 	dkim-atps=neutral
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58FED10EC0C;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 715F910E176;
  Sat, 22 Jun 2024 01:05:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1719018338; x=1750554338;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=RQoj7RYWPQVZL7PHjbs1R6G/353gcF7rszDy/3rpYLY=;
- b=lEWzOG9WczW5UtxavDMDBg9FbI5tHHWR4DZGinuym3c/FiezDeqBwkXi
- DpywRsc07GrLS93VsN79geKOyVl3C0YNrzGFFkQd5InmukRgT8mSbeuDf
- 6dsvwjZv2Fas+dBFeOAOdYX+IsKaWA00IVkY2PlYWxhu44ka4CRqeZLZP
- oNsttC3pB+ZKB0hdkvHRi1Am1t6q1+NmF2V2FWOGyiRIZlO9AmAQvPHhL
- lcMPGHiDQqb8XC3NsMdFmlKF+Lz5g8J4l779I5Qpnrllk+tonYoznWOYO
- IopBJVByihUFCuTbu8ahYD/BsxkaQ69xbDQV/5ylzZwgb0XcyfyT5I5AF g==;
-X-CSE-ConnectionGUID: xvNNP/S9ShuDE+QToUY6tA==
-X-CSE-MsgGUID: kXqNP3wiQZe+9qEZ3jj2Cw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="15828212"
-X-IronPort-AV: E=Sophos;i="6.08,256,1712646000"; d="scan'208";a="15828212"
+ bh=X1Q4QtQGA1aO8h0WJqPC6Uz20ibMdjQRIHgw7C8U8S8=;
+ b=hxFvWMAYGwc9cuTQHBJXQnwEBLzN37wrefBwQhqdUzPHpuGbZeQ4Ligy
+ 4DVPHRN34/toc6EjE4dIBQJlkAqfv8wPLcnz4dH7v9YVdraP5P6C78WKr
+ XdEDi72LkshJNuv4AST6B/6zPLs9nsLbwNC4y/dcprVz0t/01JBjctYE/
+ PhrsYbjaGLE1kRTYrbMWoyE5iwrXSzqlJSlth+Deggo4nBwW8fVTGnI3N
+ pvqWdHW0YW83WvPIK9aMY6E1z2MUHIXs67B0vcr1CjeHLYCLesolLhOPR
+ 4r8vn6QWu0I5GFjck4L+trf3oL21ebGpd6TJ1v1c9aNNX99QCyVdzjEjj A==;
+X-CSE-ConnectionGUID: of+txjoBQcSArObxITglKg==
+X-CSE-MsgGUID: 4GBjWaElSoerpxDv2cgO5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="15828213"
+X-IronPort-AV: E=Sophos;i="6.08,256,1712646000"; d="scan'208";a="15828213"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Jun 2024 18:05:36 -0700
-X-CSE-ConnectionGUID: wq+buyelT+e5JvWjmLks9Q==
-X-CSE-MsgGUID: OUnPYFiOQnSY7k2/3Z7Z4A==
+X-CSE-ConnectionGUID: c2eGaxceSuuPhwGHqxd/qg==
+X-CSE-MsgGUID: oXNtDjxfQZKhpb8Fvu1o1g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,256,1712646000"; d="scan'208";a="47692102"
+X-IronPort-AV: E=Sophos;i="6.08,256,1712646000"; d="scan'208";a="47692105"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
  by orviesa005.jf.intel.com with ESMTP; 21 Jun 2024 18:05:35 -0700
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
 Cc: DRI-Devel@Lists.FreeDesktop.Org, John Harrison <John.C.Harrison@Intel.com>
-Subject: [PATCH 2/3] drm/i915/guc: Extend w/a 14019159160
-Date: Fri, 21 Jun 2024 18:05:33 -0700
-Message-ID: <20240622010534.665008-3-John.C.Harrison@Intel.com>
+Subject: [PATCH 3/3] drm/i915/dg2: Enable Wa_14019159160 for DG2
+Date: Fri, 21 Jun 2024 18:05:34 -0700
+Message-ID: <20240622010534.665008-4-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240622010534.665008-1-John.C.Harrison@Intel.com>
 References: <20240622010534.665008-1-John.C.Harrison@Intel.com>
@@ -70,73 +70,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-There is a new part to an existing workaround, so enable that piece as
-well.
-
-v2: Extend even further.
-v3: Drop DG2 as there are CI failures still to resolve. Also re-order
-the parameters to a function to reduce excessive line wrapping.
+The context switch hold out workaround also applies to DG2.
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 18 +++++++++---------
- 2 files changed, 10 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c     | 3 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-index 37ff539a6963d..0c709e6c15be7 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-@@ -107,6 +107,7 @@ enum {
- enum {
- 	GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE				= 0x9001,
- 	GUC_WORKAROUND_KLV_BLOCK_INTERRUPTS_WHEN_MGSR_BLOCKED		= 0x9002,
-+	GUC_WORKAROUND_KLV_AVOID_GFX_CLEAR_WHILE_ACTIVE			= 0x9006,
- };
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+index 097fc6bd1285e..2a27bc625abe1 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+@@ -296,7 +296,8 @@ static u32 guc_ctl_wa_flags(struct intel_guc *guc)
  
- #endif /* _ABI_GUC_KLVS_ABI_H */
+ 	/* Wa_16019325821 */
+ 	/* Wa_14019159160 */
+-	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 74)))
++	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 74)) ||
++	    IS_DG2(gt->i915))
+ 		flags |= GUC_WA_RCS_CCS_SWITCHOUT;
+ 
+ 	/*
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index f1fe5f9054538..46fabbfc775e0 100644
+index 46fabbfc775e0..2378e3c59def9 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -815,8 +815,7 @@ guc_capture_prep_lists(struct intel_guc *guc)
- 	return PAGE_ALIGN(total_size);
- }
- 
--static void guc_waklv_enable_simple(struct intel_guc *guc,
--				    u32 klv_id, u32 *offset, u32 *remain)
-+static void guc_waklv_enable_simple(struct intel_guc *guc, u32 *offset, u32 *remain, u32 klv_id)
- {
- 	u32 size;
- 	u32 klv_entry[] = {
-@@ -850,19 +849,20 @@ static void guc_waklv_init(struct intel_guc *guc)
+@@ -849,7 +849,8 @@ static void guc_waklv_init(struct intel_guc *guc)
  	remain = guc_ads_waklv_size(guc);
  
  	/* Wa_14019159160 */
--	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 74)))
--		guc_waklv_enable_simple(guc,
--					GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE,
--					&offset, &remain);
-+	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 74))) {
-+		guc_waklv_enable_simple(guc, &offset, &remain,
-+					GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE);
-+		guc_waklv_enable_simple(guc, &offset, &remain,
-+					GUC_WORKAROUND_KLV_AVOID_GFX_CLEAR_WHILE_ACTIVE);
-+	}
- 
- 	/* Wa_16021333562 */
- 	if ((GUC_FIRMWARE_VER(guc) >= MAKE_GUC_VER(70, 21, 1)) &&
- 	    (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 74)) ||
- 	     IS_MEDIA_GT_IP_RANGE(gt, IP_VER(13, 0), IP_VER(13, 0)) ||
- 	     IS_DG2(gt->i915)))
--		guc_waklv_enable_simple(guc,
--					GUC_WORKAROUND_KLV_BLOCK_INTERRUPTS_WHEN_MGSR_BLOCKED,
--					&offset, &remain);
-+		guc_waklv_enable_simple(guc, &offset, &remain,
-+					GUC_WORKAROUND_KLV_BLOCK_INTERRUPTS_WHEN_MGSR_BLOCKED);
- 
- 	size = guc_ads_waklv_size(guc) - remain;
- 	if (!size)
+-	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 74))) {
++	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 74)) ||
++	    IS_DG2(gt->i915)) {
+ 		guc_waklv_enable_simple(guc, &offset, &remain,
+ 					GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE);
+ 		guc_waklv_enable_simple(guc, &offset, &remain,
 -- 
 2.43.2
 
