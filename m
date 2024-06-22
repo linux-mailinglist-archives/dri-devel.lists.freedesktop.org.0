@@ -2,52 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268AF9134EA
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2024 17:43:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71199913472
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2024 16:27:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1C9010E230;
-	Sat, 22 Jun 2024 15:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35ABB10E00C;
+	Sat, 22 Jun 2024 14:27:33 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="omYtq9hd";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABF1610E197
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 08:22:42 +0000 (UTC)
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
- by APP-01 (Coremail) with SMTP id qwCowAA3PhK9iXZmIKwQDA--.10106S2;
- Sat, 22 Jun 2024 16:22:33 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, srinivasan.shanmugam@amd.com,
- aurabindo.pillai@amd.com, make24@iscas.ac.cn, guchun.chen@amd.com,
- chenjiahao16@huawei.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amdgpu: fix a possible null pointer dereference
-Date: Sat, 22 Jun 2024 16:22:19 +0800
-Message-Id: <20240622082219.1876200-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6B6710E00C
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 14:27:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1719066428; x=1719671228; i=markus.elfring@web.de;
+ bh=OU3x5Yr/XJbHSekpCJjHsOQ0enVAT5S79Ev31+LNqlc=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=omYtq9hd4Du2D3dE0n391ig+RBOnSzAX1G6h2QdmCIyoIOdmYTJmuHsMmtaw75nU
+ laIbmpDhvHCPn4xrb7uitoEKNlkGCpuWFaXV6PxjTqJMF+lHE60wlZ0GrsYMPlH+q
+ SZQddArm1M6fxFBdEk1DBN57OHhdcogk/3p/vNRaOCW41l5gcJu0n15zfv7ocdyfH
+ csU6rpciG8FUwddNCdEvJ4GTmAROFGxuOsT6LlxIsCTwN4dKRE6m2OV+i8RQLIGeI
+ vip0uBu3E1zavbvkKJwTtIBETBbXrfakbbKhNZYFA2+5dofep76SDZwu9idMuBS42
+ kyYP/VYU8LJsAqvntg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MdwNW-1ssQmY0mBS-00lnt8; Sat, 22
+ Jun 2024 16:27:08 +0200
+Message-ID: <0032d02a-b5ae-452e-b26e-14dc7f091e6b@web.de>
+Date: Sat, 22 Jun 2024 16:26:58 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAA3PhK9iXZmIKwQDA--.10106S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtw4UAFy5KF45CFykXw4fKrg_yoWfurg_CF
- WUZFZrXw43AFyFyr17Zw4Sv3sIv345Ar4ktr1Sqa9av34xXw17XryUJr1FvF1fuFWfCFnF
- q34Yg3W5A3Z7CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUba8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6r106r1rM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
- 0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
- Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJV
- W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI2
- 0VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
- Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
- x4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
- 1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_
- JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
- sGvfC2KfnxnUUI43ZEXa7VUbHa0DUUUUU==
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
-X-Mailman-Approved-At: Sat, 22 Jun 2024 15:43:41 +0000
+User-Agent: Mozilla Thunderbird
+To: Ma Ke <make24@iscas.ac.cn>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Chen Jiahao <chenjiahao16@huawei.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Guchun Chen <guchun.chen@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <20240622082219.1876200-1-make24@iscas.ac.cn>
+Subject: Re: [PATCH] drm/amdgpu: fix a possible null pointer dereference
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240622082219.1876200-1-make24@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:UEl50w9SKYfEiP4nvrpAPA/v1Qhr4FoGAsA/ycA54SOmxbzGd/H
+ axwN+KFtDoIptrKRtu76J2DyX5IDAGzPlrG89mVteXjbymSd4zMntXERGDnV4agdj3ynHeL
+ Wh0P1qvUAjv3fR3A6UMsfroWT60pkAR56evrkpxSvzRDNpQNxGMqcMuw5ixWPr0SS6+LLDh
+ ymINEHB7UHz5sEgWogZ4w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:mEgeRSeD7oM=;JwuzwH1XlfI/DqiThZ861vIU57u
+ /Tw0ZE2FHOVYj0R2f0QNYFwqeXlQN3v71UfzBEAofL2QPnq8jERFdoAXwo1Z2/jn42NxhlU3d
+ kRBmrjKsGfJ3mKPQBNO+v/iJ3c15JZ5/XqSIJ/3IW2906hRN0XaC+V9wF63vv/2ENonkWVCaL
+ U372v3r6N7vbqKwpO+RZVUeLJQi040IRZePhxiR+rk+2/L84dzrNQHw4GtaXEitHIAUYe8XmZ
+ MvJV/hLhSOEs8uTUWIQddAtW2NTu5NG6acIX7J0iJTpQM79faSEHI5ARGc2ofCXPIus5wPhhJ
+ oTN4PalqGjfTlba66wU9Q6dMEmdpiSfo1WMmAoblYd3APgRsa2E4yMsF50YLrfnGZV7Cz5VUU
+ 9N8E4K4vWSV0xoHySbp1t6HhtZ5sJaMehaPO5vu8heuRllhuIJr6nAgFHr5nHkUNPDBMMLo+n
+ /pgc7rlzJMbGkc60w1YBLye+vEfmvFwFVdE+lD2VmcLsA7MUypnWOhYE5eVlhYn0cB/bNoXYP
+ Sjt51mrG+fdJBlYpx47CyvOKiguSBSpuqeIo311LeGH+CXIQC9FpXW2Yimzre23IO3dqPFJyz
+ 6ZzQ2PSZl3L1T+d57CYUo49w65PxeETN4qa8DXSviZTO7YCQsWaSBLMZuXClAGeskCbj3lIv5
+ QDR7fiX2liuT79TceSaHbBMNbbC0+mdiqLqI36tev9ej8lE3a1otAXHV8FuJNXiUmTxv+CFf/
+ h+RFmcKme3NBdV36rRS/CXtNKDV4LTaxRVUJDE2pWEr3QYo0W9I+n3F4JdVMwWEfMBmKFcgZh
+ kwNVos00kuEgqWKNkXfNLXdJRuKQ/lTUfxhpFALEqYVYk=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,28 +86,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In amdgpu_connector_add_common_modes(), the return value of drm_cvt_mode()
-is assigned to mode, which will lead to a NULL pointer dereference on
-failure of drm_cvt_mode(). Add a check to avoid npd.
+> In amdgpu_connector_add_common_modes(), the return value of drm_cvt_mode=
+()
+> is assigned to mode, which will lead to a NULL pointer dereference on
+> failure of drm_cvt_mode(). Add a check to avoid npd.
 
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c | 2 ++
- 1 file changed, 2 insertions(+)
+Can a wording approach (like the following) be a better change description=
+?
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-index 9caba10315a8..6cf946adb6fe 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-@@ -458,6 +458,8 @@ static void amdgpu_connector_add_common_modes(struct drm_encoder *encoder,
- 			continue;
- 
- 		mode = drm_cvt_mode(dev, common_modes[i].w, common_modes[i].h, 60, false, false, false);
-+		if (!mode)
-+			continue;
- 		drm_mode_probed_add(connector, mode);
- 	}
- }
--- 
-2.25.1
+   A null pointer is stored in the local variable =E2=80=9Cmode=E2=80=9D a=
+fter a call
+   of the function =E2=80=9Cdrm_cvt_mode=E2=80=9D failed. This pointer was=
+ passed to
+   a subsequent call of the function =E2=80=9Cdrm_mode_probed_add=E2=80=9D=
+ where an undesirable
+   dereference will be performed then.
+   Thus add a corresponding return value check.
 
+
+Would you like to add any tags (like =E2=80=9CFixes=E2=80=9D) accordingly?
+
+
+How do you think about to use a summary phrase like =E2=80=9CAvoid null po=
+inter dereference
+in amdgpu_connector_add_common_modes()=E2=80=9D?
+
+Regards,
+Markus
