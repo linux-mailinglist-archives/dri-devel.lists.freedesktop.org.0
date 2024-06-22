@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F7A9132A0
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2024 09:54:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 356DB9132A5
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2024 09:58:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38E7510E044;
-	Sat, 22 Jun 2024 07:54:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF09310E16E;
+	Sat, 22 Jun 2024 07:58:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="Ro/i8Mik";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="JEscMpFk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A30E410E044
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 07:54:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C45210E16E
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 07:58:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1719042854; x=1719647654; i=deller@gmx.de;
- bh=K1RBLojDabEhnbj0us/zxlBeoNaITVfFIU0Qe0YFMx8=;
+ s=s31663417; t=1719043112; x=1719647912; i=deller@gmx.de;
+ bh=dLgWteFmfrhKmfTLeLJCw6alZp9VwXP1tQjR4lYSMwo=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=Ro/i8Mik95o4vc1p6evD2vZGVh4BjOkMd+PMpvlG7S+bT1xzkb4uSnwvF9tYPx3b
- DPZsfrVsDjQ53Guz3Y3vBOylfwzDxkjSVSr28hNVAvbKnYvIEmRx5kf77KPdxqlaE
- N4/bxfsZlnmeYuXNorJIrRYfW8CKDZZ5p6F+S7NuFFAdhF1EOod9+sjkwEsE8Dgth
- MKcjNbsvbNi1j2wmQZo28LxFxIxvT7ku6ovowFuEnZW9gMTPTSt2c6oVlUh00x9Af
- reP3vzTEpJXB8xTu4Q1JpjwdK0PuYsRlFQA9mcvFHVbjJH8nnlSIlHanwXf3LnyBf
- sUQne6+uLs1n4jYgpQ==
+ b=JEscMpFkTEtYNsewWj9juMfE1RMonnEPnICAg/Idue1ENTIRyLvBDo1RYGRJTAvc
+ /WVVvuHYFGy+pV8S9r4M2IKLf4lKyNJrPodI1GqzE+kCsLOHOeRv0dSoi0gdDyXF7
+ fmxOUbiH7PlZ+/4/yBQ1fjCpNHQDtpOIZFrYX4IN7NH8Ma0uLgMh5aqnQBI5GCUCL
+ BVmGZyM3zFbunB9nQni0mwNW8EdWcupxux7KdDE3Lu8wvrqI9P+IvbpBMTIgeGld/
+ imdfVjOtWzSUnrm7/IpGWQQ5wSx5DR2G2Uj8SwAzyxJw7aYSahpR2A2q4xwAL+Rrm
+ 6ykYwD7ahXkC88sbZg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.55] ([109.250.63.133]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MlNpH-1smbsZ1cwH-00ffvD; Sat, 22
- Jun 2024 09:54:14 +0200
-Message-ID: <e3639dd9-0a94-41a0-b9d2-93fc1c7b610e@gmx.de>
-Date: Sat, 22 Jun 2024 09:54:12 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N7iCW-1sOlRF3jcY-00tDqg; Sat, 22
+ Jun 2024 09:58:31 +0200
+Message-ID: <0d7a6ba6-1140-4382-bea6-fd245ad8d7b5@gmx.de>
+Date: Sat, 22 Jun 2024 09:58:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] tty: vt: add missing MODULE_DESCRIPTION() macros
+Subject: Re: [PATCH] agp: add remaining missing MODULE_DESCRIPTION() macros
 To: Jeff Johnson <quic_jjohnson@quicinc.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ David Airlie <airlied@redhat.com>,
  "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-References: <20240621-md-i386-drivers-video-console-v1-1-e533652b7ebb@quicinc.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-parisc@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <20240621-md-i386-drivers-char-agp-v1-1-fa03ec5c86ac@quicinc.com>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -90,27 +89,27 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20240621-md-i386-drivers-video-console-v1-1-e533652b7ebb@quicinc.com>
+In-Reply-To: <20240621-md-i386-drivers-char-agp-v1-1-fa03ec5c86ac@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ZgeHwQZeM2qB/3xMG/pvhOJpWqFsZQjLJhG2Bz364/V30+M937C
- 49sDWXEdWryFyvIqjdVL3sqRHvKuI4az5BqV0wjR7LJCNrp3aD0F/ZLPOiijVFAdciJiJQF
- CPQJ1wQYoG3GFk1QEUgvdkfCvm9szrNX1WJS7M0rJY57bejWLPvSgZnjdmSTP8KQ81WAtQp
- 3nA4fdUlI7X11I0MTcv+g==
+X-Provags-ID: V03:K1:+0HJdkiH3jiJ484z2CjK8Xa4TireGSzODV9QCdJj9tuameFW1BR
+ G8vTIBKTufysatwTntkGcmxmMgO5b8H76RgMWt5pbQKgwfOCqwrOQqNbAANbLMUCNsi+T3L
+ jrsmSW+jNyxW+nRVCH+oa6WZ9hUTDu3uQWNd6E/AG7qBN+JzHcUo2dcT/1xNaH0TRxkfFxZ
+ AnIRp0kuHviqOjCT7yKjg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:AW2mNykeSow=;3n1zN481VMjh7+6wUWBt9KM3pYF
- 2LorQ8W/iwXASvWy9GgThda2uBZwmZx7WQtzNCym/4MIazd1DfcMQ/l+cG1MQCuQYAVrdFJxq
- kUvzP85ULx/L+gnI0dRD6WMToDE7nmTiZ9HWBnegQBjE5YJtdaLinGgpXDut29V+/RND4pJyw
- IV0dm2PfBEsx7TeEFMNKmpHGZyaMItvUgcL8NvLDehY0/bBsfgNCrxO15BgxipUC9wuBXIvba
- q9PE52KxegZkKKCmX8pHd0yiT4kLPHjjLo2ZMUPOCUb2NjIMpIbd5z/74oStfOT2l/sLn1UcZ
- OjlHtGXB9lvSvtqTGGFDK2TC8V2TcAiRTSZlUxlbuDQprfDImaLDGlgsdlpEKXsQ0PBUeRN1b
- gtLNLTHAGdkBvfkm0DZTtdBob5pUGwo+qXL5FmqhlxyWboSwdE0oUIbLwE1MH3w2NUPAM0dfc
- 7zpF9SJ7P5JFz9GBJmCIPq5QL+sGp2njUpuYLdGNOheTDg4SQyF7YPjuwxxzpwAE048wISwla
- fyL5b4ZDCB1Kgiu+tO+b9fPMVUnV1hoWgj7mH+5je+Bs9EJSWDOHP6ssu1pyXZe85stVxJhBL
- ZM3OU6QxSwbA92nyhzSIae7RhYAlnYuohycIA0p1u2Gts+L4vDDLxvOdsrfxJe2gzxXSNZLp3
- t2XuQ7nGY7R3V9Dvr7Gxt1iTAbs1INAvzhPBUUgYx6/dJouM+SSDkU/Y+YIbJh+wAM7pk8eCi
- b6AoD3TbWRlaE9/EwCj1hcmeW7kLag3w67pgP5whEB9EQeHmcvBZ5d/s/P8umoXkapTZX97mW
- tbPkJZLvLiQoh6qFE75r/vmH2WsMb8akeewOW00CPXCiw=
+UI-OutboundReport: notjunk:1;M01:P0:7pZcWNDPI7U=;OB73/8rcte2HHmSQQfX55TgbKhS
+ TdKbSXG4LDejgWwR1VJrL9TvH0pqm1CZwb78I3JrRSI5dfvSZoIcCiyCFF1pESGDtmCiefa3y
+ UZCm9rKqy6P9r7LXCseMP1vlwo5an3bN3Mi7MQG8Smr31bjacP2LMbjG+Wfe18zrNfY08O/7V
+ qbRn3gIut0w84kjbftWrXuPFMZigUrkZqf/VTCgnGzlRo32oB7Famrq4/tNNIGU1Yd9f3WJkH
+ pzMB+lbY850TpEPMsXMatevJDQ/Nr0MJgf1Nnrk0mUq12F06Gr4yiYOJNx71ju6DUyLIcXUfk
+ ec3NkdyjvySOhioGoAws9BZt+F+YnujQ9dO1ZSJG2/hTF9iHXpJCErQ/SeNFGYLg42upwcAvp
+ mlSFn/FeYADVwPMFn0Jc5Idhkal7p8fccs14no+O13blfa+Kc4udLOxBkEw1Ya6LQlqAN7+Mj
+ GrINeqx9GhGk+cjVuUJ8vm8oo9ziuF7OVkhdMWVrF8lhqD+YcUyONzMuSGJMxluHzNUJbQ2At
+ kbJhJGYS/wdJmUqtnVbkBajOSIY1qYwynKYyEU7HURy5FJj8dXySSQbELjhM0kD/wN1JYF5nV
+ QJOBSQTgNU8mHmstrPxv8BucOI5Yee3337Ybf8tSV7AOQZh4GCKN+2gwaEzcIAWM7BMrwS3/I
+ tLGpDSOxLa/dFCVik2ZI7DHkW5/hz/n2tF+fDV53nY5FiwFXRJqWxOrgDQwhczQMPOnm6j3fz
+ 4aRI7nK2w9bI5ttC6r4jd4QHSxck4RJiyfERPh9dk+orYH9frGZJIJVbQWvvh+DUPjjAfpJh8
+ S0f7MWLhegwsLJ9gWQ5qKkqa3pIcUzmE89zLxarLEZC6M=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,85 +125,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/22/24 08:07, Jeff Johnson wrote:
+On 6/22/24 07:14, Jeff Johnson wrote:
 > With ARCH=3Di386, make allmodconfig && make W=3D1 C=3D1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/console/=
-mdacon.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/ali-a=
+gp.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/ati-a=
+gp.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/amd-k=
+7-agp.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/effic=
+eon-agp.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/nvidi=
+a-agp.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/swork=
+s-agp.o
 >
 > Add the missing invocation of the MODULE_DESCRIPTION() macro to all
 > files which have a MODULE_LICENSE().
 >
-> This includes three other files which, although they did not produce a
-> warning with the i386 allmodconfig configuration, may cause this
-> warning with other configurations.
+> This includes alpha-agp.c and parisc-agp.c which, although they did
+> not produce a warning with the i386 allmodconfig configuration, may
+> cause this warning with other configurations.
 >
 > Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 
-Patch title adjusted to:
-  video: console: add missing MODULE_DESCRIPTION() macros
-
-and applied to the fbdev git tree.
-
-Thanks,
+applied to fbdev git tree.
+Thanks!
 Helge
 
 > ---
->   drivers/video/console/mdacon.c      | 1 +
->   drivers/video/console/newport_con.c | 1 +
->   drivers/video/console/sticon.c      | 1 +
->   drivers/video/console/vgacon.c      | 1 +
->   4 files changed, 4 insertions(+)
->
-> diff --git a/drivers/video/console/mdacon.c b/drivers/video/console/mdac=
-on.c
-> index c0e1f4554a44..d52cd99cd18b 100644
-> --- a/drivers/video/console/mdacon.c
-> +++ b/drivers/video/console/mdacon.c
-> @@ -561,5 +561,6 @@ static void __exit mda_console_exit(void)
->   module_init(mda_console_init);
->   module_exit(mda_console_exit);
->
-> +MODULE_DESCRIPTION("MDA based console driver");
->   MODULE_LICENSE("GPL");
->
-> diff --git a/drivers/video/console/newport_con.c b/drivers/video/console=
-/newport_con.c
-> index a51cfc1d560e..242415366074 100644
-> --- a/drivers/video/console/newport_con.c
-> +++ b/drivers/video/console/newport_con.c
-> @@ -744,4 +744,5 @@ static struct gio_driver newport_driver =3D {
->   };
->   module_driver(newport_driver, gio_register_driver, gio_unregister_driv=
-er);
->
-> +MODULE_DESCRIPTION("SGI Newport console driver");
->   MODULE_LICENSE("GPL");
-> diff --git a/drivers/video/console/sticon.c b/drivers/video/console/stic=
-on.c
-> index 4c7b4959a1aa..f1f3ee8e5e8a 100644
-> --- a/drivers/video/console/sticon.c
-> +++ b/drivers/video/console/sticon.c
-> @@ -391,4 +391,5 @@ static int __init sticonsole_init(void)
->   }
->
->   module_init(sticonsole_init);
-> +MODULE_DESCRIPTION("HP STI console driver");
->   MODULE_LICENSE("GPL");
-> diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgac=
-on.c
-> index 7597f04b0dc7..37bd18730fe0 100644
-> --- a/drivers/video/console/vgacon.c
-> +++ b/drivers/video/console/vgacon.c
-> @@ -1222,4 +1222,5 @@ void vgacon_register_screen(struct screen_info *si=
-)
->   	vga_si =3D si;
->   }
->
-> +MODULE_DESCRIPTION("VGA based console driver");
->   MODULE_LICENSE("GPL");
->
-> ---
-> base-commit: 6ba59ff4227927d3a8530fc2973b80e94b54d58f
-> change-id: 20240621-md-i386-drivers-video-console-ae292c09bb67
->
+>   drivers/char/agp/ali-agp.c      | 1 +
+>   drivers/char/agp/alpha-agp.c    | 1 +
+>   drivers/char/agp/amd-k7-agp.c   | 1 +
+>   drivers/char/agp/ati-agp.c      | 1 +
+>   drivers/char/agp/efficeon-agp.c | 1 +
+>   drivers/char/agp/nvidia-agp.c   | 1 +
+>   drivers/char/agp/parisc-agp.c   | 1 +
+>   drivers/char/agp/sworks-agp.c   | 1 +
+>   8 files changed, 8 insertions(+)
 
