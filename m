@@ -2,57 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F23913E2B
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 22:40:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4126913E32
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 22:51:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D962B10E0F4;
-	Sun, 23 Jun 2024 20:40:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8B7A10E130;
+	Sun, 23 Jun 2024 20:51:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UQrA+qtI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sXHTXt4w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60ED210E0F4;
- Sun, 23 Jun 2024 20:40:12 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 77232CE0285;
- Sun, 23 Jun 2024 20:40:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0691C2BD10;
- Sun, 23 Jun 2024 20:40:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719175209;
- bh=tj/EudJXsZOT2efyTYXHY7WkzBrobh+sIFmq3i/Im6Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UQrA+qtIMxBAAwsnaggl+2jcNGdXPRXCavxFeYtsXEacUxTi3DSNWD0oBx3Li/YXY
- cCAj3YMIWrKdFFVDqFhdVAajXNjD/I/UkJS7E1IKb8mLcapqVVVnYqquWy/m030a6i
- PnhiGRlCje4E8pbha5SP7EMj/G7bajr0oIp1J9KsdVN71APP3yIIPpsQKzTvFCAJdw
- DCcLINRKXkwxcI7C4WcbGaUsOsI8DsX0i13uq+f7AkqxR9y35sqsi6Q15CPESFGsMJ
- d/nGJi+LyZK9SGdSxvfxEAiAsfudO5u9yLedLFlatIGTuHyIEfJfHjfmh1ExxLCe1p
- bnXK+9cVg3Qew==
-Date: Sun, 23 Jun 2024 15:40:06 -0500
-From: Bjorn Andersson <andersson@kernel.org>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, 
- freedreno <freedreno@lists.freedesktop.org>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, 
- Rob Clark <robdclark@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] arm64: dts: qcom: x1e80100: Add gpu support
-Message-ID: <mmqji5hcfa6eegx2kdjkcy4hsoybtp25bgjsn2ol6dcdw2cgs5@fw3i3ufjkj3z>
-References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
- <20240623110753.141400-4-quic_akhilpo@quicinc.com>
- <a458a3a7-2b6d-4032-949c-b2c021d339e8@kernel.org>
- <20240623122856.kqf4x6mft74hzk7y@hu-akhilpo-hyd.qualcomm.com>
- <7d69e98d-a870-4200-8f22-2a16fcf02794@kernel.org>
- <20240623151630.bskqwqhp25mu3yuf@hu-akhilpo-hyd.qualcomm.com>
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C63D10E130
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 20:51:22 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-52ce655ff5bso304120e87.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 13:51:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1719175880; x=1719780680; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=zrQbfjK1hK2vAutZ4L9NKgXJBoJGQBefjmL3XamYmsQ=;
+ b=sXHTXt4wvPQL0XCUZyT1eFlA7eGZRzqWxpJFQi772HV+AAeJxwAmqHqO0rcURtXMs+
+ 7ary2oCpE8AHlPuVg4xQqgf/RlQRlNqTmbmOGkXbx8SiNh1jmPkAJ1pzd9Z8vLoAMZJd
+ 0xWWPK61SaZ14DVpEgmfdiJE1MM1u6yQvZRuj8GoQ4WIqweNDFLK2q/ERo9paLBMk7uO
+ 7R6XX9vAZxsuKNz5MrTyIm157EO7b5SBYBok+4kSQs83g0gKmKdU4kXTrih5xPhvHJ6P
+ PhKlFtx/8m6B3i8YZ9IrjgSNKJaGpZPu6oGvwfTMOb6IlAptkTYJLMBKIQoMY2F9AjG6
+ M7VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719175880; x=1719780680;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zrQbfjK1hK2vAutZ4L9NKgXJBoJGQBefjmL3XamYmsQ=;
+ b=J17UZRCbMmJ/vTU81eJvhNwi3UgCkPPwffjlfKQt6rR/qPbhzS+xmqLeLRKXkZXxO/
+ TBXTgSVkgU83D1mGC5KDGI2haSIbPjltULdAduFZuz+C6a+9PRyIwvJKf91KfcB5rqxh
+ glVDUZAAeOGwaFF2OrA/GcSCC9iOjkg7WTHWGxybLtvZzH/cuNt6ujvBl967NQKQYfpJ
+ ujkXeKsbFbUjHOLM01RTRC6D9Y+9XbufRMq9oJ2P1cnt0ai9FRfEQHHVwH/0E57ynKlz
+ 6JTE6pObjM8ld+ND7f3XHP8bCcgCosFJbyLKDhwMhevH9HhPSeMUqhp7pLW3WQ5gk7e8
+ k/vQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXxqw8ZsP/gUZQu1kGN9pzzReWfVNVQzvuRbWW+LyjguorliEwIS6svKA/PVPI2HpgzGDI2oUIWMNp5lWAB6jZtn6FH7DYLd1TFTAOiZ5Pg
+X-Gm-Message-State: AOJu0YyBp+NEocqIjBVgX7+Db2yPwI7bZlxElhFMAuoGO34EqxG8xtzA
+ w5p4OAzFFAoXATMFda70JCgLND31AcVUF07vaECniRjlyUOpDp5pCNLlor1nzNo=
+X-Google-Smtp-Source: AGHT+IH7PuCWS7ZghapNrL+2urV935YiXDzkaG1/DNXXG1GrFFJu2t7xV4PtFx7LqoOLdngwLxAa3g==
+X-Received: by 2002:a19:2d18:0:b0:52c:dbc6:8eb0 with SMTP id
+ 2adb3069b0e04-52ce061a287mr2139587e87.21.1719175880336; 
+ Sun, 23 Jun 2024 13:51:20 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52cd63b47bfsm831004e87.35.2024.06.23.13.51.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 23 Jun 2024 13:51:19 -0700 (PDT)
+Date: Sun, 23 Jun 2024 23:51:18 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Keith Zhao <keith.zhao@starfivetech.com>
+Cc: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>, 
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "rfoss@kernel.org" <rfoss@kernel.org>, 
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>, 
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, 
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, 
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>, 
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh@kernel.org" <robh@kernel.org>, 
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>, 
+ "hjc@rock-chips.com" <hjc@rock-chips.com>, "heiko@sntech.de" <heiko@sntech.de>,
+ "andy.yan@rock-chips.com" <andy.yan@rock-chips.com>,
+ Xingyu Wu <xingyu.wu@starfivetech.com>, 
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ Jack Zhu <jack.zhu@starfivetech.com>, 
+ Shengyang Chen <shengyang.chen@starfivetech.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v4 04/10] drm/vs: Add hardware funcs for vs.
+Message-ID: <ogrcyxroz77zu6raq3lzmjt2k72uxxeayseyhvkivtsxn2kfix@ioupv56oa6lc>
+References: <20240521105817.3301-1-keith.zhao@starfivetech.com>
+ <20240521105817.3301-5-keith.zhao@starfivetech.com>
+ <24bxty2zmlmrjmfi2qtfolkea3acghbhmkxnkxmcroovsz57jq@q5ynybr65z7f>
+ <NTZPR01MB105049A5A7FD4ECAAECFC403EECB2@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240623151630.bskqwqhp25mu3yuf@hu-akhilpo-hyd.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <NTZPR01MB105049A5A7FD4ECAAECFC403EECB2@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,62 +109,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 23, 2024 at 08:46:30PM GMT, Akhil P Oommen wrote:
-> On Sun, Jun 23, 2024 at 02:53:17PM +0200, Krzysztof Kozlowski wrote:
-> > On 23/06/2024 14:28, Akhil P Oommen wrote:
-> > > On Sun, Jun 23, 2024 at 01:17:16PM +0200, Krzysztof Kozlowski wrote:
-> > >> On 23/06/2024 13:06, Akhil P Oommen wrote:
-> > >>> Add the necessary dt nodes for gpu support in X1E80100.
-> > >>>
-> > >>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> > >>> ---
-> > >>> +		gmu: gmu@3d6a000 {
-> > >>> +			compatible = "qcom,adreno-gmu-x185.1", "qcom,adreno-gmu";
-> > >>> +			reg = <0x0 0x03d50000 0x0 0x10000>,
-> > >>> +			      <0x0 0x03d6a000 0x0 0x35000>,
-> > >>> +			      <0x0 0x0b280000 0x0 0x10000>;
-> > >>> +			reg-names =  "rscc", "gmu", "gmu_pdc";
-> > >>
-> > >> Really, please start testing your patches. Your internal instructions
-> > >> tells you to do that, so please follow it carefully. Don't use the
-> > >> community as the tool, because you do not want to run checks and
-> > >> investigate results.
-> > > 
-> > > This was obviously tested before (and retested now) and everything works. I am
-> > > confused about what you meant. Could you please elaborate a bit? The device
-> > > and the compilation/test setup is new for me, so I am wondering if I
-> > > made any silly mistake!
+Hi Keith,
+
+On Sun, Jun 23, 2024 at 07:16:47AM GMT, Keith Zhao wrote:
+> > On Tue, May 21, 2024 at 06:58:11PM +0800, keith wrote:
+> > > +}
+> > > +
+> > > +static inline void dc_set_clear(struct dc_hw *hw, u32 reg, u32 set, u32 clear)
+> > > +{
+> > > +	u32 value = dc_read(hw, reg);
+> > > +
+> > > +	value &= ~clear;
+> > > +	value |= set;
+> > > +	dc_write(hw, reg, value);
 > > 
-> > Eh, your DTS is not correct, but this could not be pointed out by tests,
-> > because the binding does not work. :(
+> > regmap_update_bits?
 > 
-> I reordered both "reg" and "reg-names" arrays based on the address.
-
-The @3d6a000 should match the first reg entry.
-
-> Not sure if
-> that is what we are talking about here. Gpu driver uses platform_get_resource_byname()
-> to query mmio resources.
+> regmap_update_bits follows 4 steps:
 > 
-> I will retest dt-bindings and dts checks after picking the patches you
-> just posted and report back. Is the schema supposed to enforce strict
-> order?
-
-In your second hunk in patch 1, you are defining the order of reg,
-reg-names, clocks, and clock-names. This creates an ABI between DTB and
-implementation where ordering is significant - regardless of Linux using
-platform_get_resource_byname().
-
-Regards,
-Bjorn
-
+> 1、ret = _regmap_read(map, reg, &orig);
+> .........
 > 
-> -Akhil.
+> 2、tmp = orig & ~mask;
+> 3、tmp |= val & mask;
+> ......
+> 4、ret = _regmap_write(map, reg, tmp);
+> If the value out of mask range
+> It will just clear the mask bir
+> 
+> dc_set_clear will do clear and set without limit.
+> 
+> Maybe the name should be dc_clear_set
+
+This is not really better. regmap_update_bits() has clear semantics of
+updating a value in the field that is defined by a mask. You function is
+just clearing some bits and setting other bits. It's not obvious whether
+it is a mask and value, several concurrent flags or something else.
+
+Even if you are not going to switch to regmaps (you don't have to),
+please use mask & value instead.
+
+> 		}
+> > > +static void load_rgb_to_yuv(struct dc_hw *hw, u32 offset, s16 *table)
 > > 
-> > I'll fix up the binding and then please test on top of my patch (see
-> > your internal guideline about necessary tests before sending any binding
-> > or DTS patch).
+> > Is there any reason why load_rgb_to_yuv differs from two other
+> > functions?
 > > 
-> > Best regards,
-> > Krzysztof
+> load_rgb_to_yuv matches crtcs
+> 
+> load_yuv_to_rgb matches planes
+> load_rgb_to_rgb matches planes
+
+Then these functins should have that reflected in their names (and also
+documented, why). If the CSC programming interface is similar, please
+split the implementation to have common code and different data to be
+used for programming.
+
+> the coefficient(table) is diff between load_rgb_to_yuv and load_yuv_to_rgb
+
+> > > +void plane_hw_update_scale(struct vs_dc *dc, struct drm_rect *src, struct
+> > drm_rect *dst,
+> > > +			   u8 id, u8 display_id, unsigned int rotation);
+> > > +void plane_hw_update_blend(struct vs_dc *dc, u16 alpha, u16
+> > pixel_blend_mode,
+> > > +			   u8 id, u8 display_id);
 > > 
+> > Could you please settle on a single prefix for all your function names?
+> > Ideally it should be close to the driver name. It's hard to understand
+> > that the function comes from the verisilicon driver if its name starts
+> > from dc_ or especially with plane_.
+> Yes  starting with plane_ is not a good idea ,i will add vs_
+> _ , thanks  
+> > 
+> > I'd strongly suggest to stop defining anything outside of the selected
+> I don't quite understand what "the selected" means, 
+> I hope you can fill in some specific details about it
+> Thanks
+
+"the selected vs_ namespace". So prefix all function names and all
+structures with vs_
+
+
+-- 
+With best wishes
+Dmitry
