@@ -2,96 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB086913E6B
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 23:11:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84349913E6F
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 23:16:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64F2F10E31F;
-	Sun, 23 Jun 2024 21:11:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E704310E31E;
+	Sun, 23 Jun 2024 21:16:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tjZMabi9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bQdZcUZv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7020010E31C
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 21:11:14 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-2ebe0a81dc8so45959651fa.2
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 14:11:14 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0435810E31E
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 21:15:59 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-52cdf4bc083so1675640e87.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 14:15:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719177072; x=1719781872; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ByUUhCwfU2MDkfN+tsDGtjdI+tw+lqDmSUekMY87cx0=;
- b=tjZMabi9PIBLWEaDZBC+ha3gJTsge00dSsCq2f8NOt2VyXCtgywak2HJoK249u8Usw
- KnbnvZWu02+e8sSlGwb25vxOazFHcq3wLGCKn5PqS+/hLxe9QzSv7BFScuz9WU6jmjeK
- vCozUw3r0jGe2t0dEjwvhWH9GQRHs/Jec5IbwpsKgH5n8L1J0cquTOZdGQLdjScJAR71
- PaePhGiGksozbaF+eQxcmR8ltRwr0eRqyd6meOU42JWf3hgDd+2dg/i5N0M9QQvah6l6
- Dih2aWm8A4zbXhnrLdKTC0OezF1XhD1aNh9FBLQ1EEl20IkZ8hXjrV5ccfXn6dh5S2FS
- cfiA==
+ d=linaro.org; s=google; t=1719177358; x=1719782158; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=npqBqrsZNAIwVwMzRpL1TmQcfMoNbDQggbKHwWlSbcg=;
+ b=bQdZcUZvtieg/LlmGmc80vyH3bdYzG8ZKhaGIcW8Dk3S65WuRc333Yz7+LEP65IMCq
+ KFv7k6NOsDwHA4vWqjwDSVQTKaPWmpvqs0ap6QHOjyt+W67GOkaxCTbKmX6AeegSm10R
+ sRzbU5KlY2gSZBh+WasvXvZiGgh7vfKIEH9cvzj+826TIYNgYeIhonkLw6yfRszGGUB5
+ DuqN20F0GIxqHRKs3hZdKVL+/iXp7Wc0Esh344uFuq+utM1Y9wFQWEjd36ldpOT0MTDk
+ NQCe4SHZDXPPMDa0qJWFtZ8jF1jeiNY7OXx62WJcXVjqqVLzJWGP4Hv0zXMD+9sV2NPG
+ X/6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719177072; x=1719781872;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ByUUhCwfU2MDkfN+tsDGtjdI+tw+lqDmSUekMY87cx0=;
- b=cERh3y0ghkQumFxgTtR127BKE14mmkW4pRcwI6nE5rhvWw64cqcjC3M64/5Ec0h6RD
- DQxkMIDtmV13YZPllCffkmCghWctuyVtkBD1jf19PBhCSge8d7erAKtmSD11PGrH7JjX
- EePLfzuizcfPhveX6KnMOviHv0QfGWjH2oSHfb2slE8C8ldxSCzNosAzjjK16/9R1kOl
- gMFrTxUu+i6hMkcWytVfEhKTrrFJFGBGTFZXMZQyfAy072Bvkn1K5b5SeuWhJqfiHjqW
- EH5htzSmRTjwo0vorxSuk4qfppK9BqroA5rXeW5l5YsvUxvxqCcp14OOmRM+UmdJCMoy
- t0Qw==
+ d=1e100.net; s=20230601; t=1719177358; x=1719782158;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=npqBqrsZNAIwVwMzRpL1TmQcfMoNbDQggbKHwWlSbcg=;
+ b=Izr+HOpyIvMblI8neU0tBg89440hjJBcE5nKYG8hQAbzkEvuI/GhhGp12UbikzhGdX
+ TCyQELvVa4icH5i29cyzHxCz8DARsObxyYwYFHKGYWbl/HmgWJ9TekB5/YVzVAHcMU93
+ MEOXprtkJGHd+OwafeSCfLnQ0qpwREu6dKHIfMzrkDvoGerB/0DIyyUQJIxCV3qDDodq
+ xjYzKJNojOR0tVXf2M+K8enxIzzuIyQ/3hRXWrv+8uAE//MsxECSTkJdSewTlmfbFlJq
+ CV9bOMdi5jcPFip2WSYXB8P4hOYic7J6MHldXwSoNrx/pjRtuzeXRQKTCJk+Av1a52ku
+ TE/w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU+EH46pjVtQJGMoXUf5dK7iZv/3VdNNm4M3Vgf6YpEkDdzWTE7CQpRcVOyMBwoOqyNnsIjc+LoUjqnrfYGbcZ+TH5XNqHijCVIUDH289Hl
-X-Gm-Message-State: AOJu0YyzGJPsy4RtH8Sr9uYqYHkkT/vO3RpRlUxpXgWIraI8F2TEpa0s
- e48lM1YjwN4rYkilEWjjzWlr0oCHCf5OxVIJojfMyHtzkH7SupwA2UsONMT2vLA=
-X-Google-Smtp-Source: AGHT+IEaaLlfXAyaLl1Y4kuJEtYqkzCxQXOHpE49n+OtSlW6/0hqnpQnYKiS/rm6UCOFGOmz2RVcYQ==
-X-Received: by 2002:a2e:854f:0:b0:2ec:49b5:50d5 with SMTP id
- 38308e7fff4ca-2ec5b357a00mr20958641fa.41.1719177072228; 
- Sun, 23 Jun 2024 14:11:12 -0700 (PDT)
+ AJvYcCWQ9MG0ZxcZyEitKNCBJp7cUs17SCYn67d7Pb+qDVQJH6ox3m3MALBYPCz+BbDsaqbEzKGVODDSQpjIg5l9XsPCRLZTzQiO7zmN6XNS4Ndn
+X-Gm-Message-State: AOJu0YzXg2IIKpVHf6JWY3O/uiMw/FZIZdpXL3k9lC+FWShbcwTkecjn
+ /rQwCz9IwgcPdtkcT9dh+zxH7Ow1EcQqF9jd26lCwlRxxf/WYguzRMNjdccfvrg=
+X-Google-Smtp-Source: AGHT+IH5kNGocu2dFm65gFsoVZhigJ6nemG+so7J1Pq+CT/tsTHpWdQ8xhhme3ais5shulJS0U/Jrw==
+X-Received: by 2002:a05:6512:4004:b0:52c:dfe1:44ea with SMTP id
+ 2adb3069b0e04-52ce0610526mr2776983e87.6.1719177357863; 
+ Sun, 23 Jun 2024 14:15:57 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec4db2ad8bsm8094331fa.85.2024.06.23.14.11.11
+ 2adb3069b0e04-52ce98c1a27sm3079e87.253.2024.06.23.14.15.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jun 2024 14:11:11 -0700 (PDT)
-Date: Mon, 24 Jun 2024 00:11:10 +0300
+ Sun, 23 Jun 2024 14:15:57 -0700 (PDT)
+Date: Mon, 24 Jun 2024 00:15:55 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Keith Zhao <keith.zhao@starfivetech.com>
-Cc: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>, 
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "rfoss@kernel.org" <rfoss@kernel.org>, 
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>, 
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>, 
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@gmail.com" <airlied@gmail.com>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh@kernel.org" <robh@kernel.org>, 
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>, 
- "hjc@rock-chips.com" <hjc@rock-chips.com>, "heiko@sntech.de" <heiko@sntech.de>,
- "andy.yan@rock-chips.com" <andy.yan@rock-chips.com>,
- Xingyu Wu <xingyu.wu@starfivetech.com>, 
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- Jack Zhu <jack.zhu@starfivetech.com>, 
- Shengyang Chen <shengyang.chen@starfivetech.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v4 10/10] drm/vs: add simple dsi encoder
-Message-ID: <b7cgvgh3uphpa3byf3bdl5i4fr64zzuagxg5txuwx7woy56dkt@uhclfjtzejfc>
-References: <20240521105817.3301-1-keith.zhao@starfivetech.com>
- <20240521105817.3301-11-keith.zhao@starfivetech.com>
- <cej2d72e6bacbjabyjecoqhjlhz4sxx4bgn2w43rgl3cfyyuwt@jq5kq4egj2wo>
- <NTZPR01MB1050AA3ABA20F736B1756E04EECB2@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
+To: =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Daniil Titov <daniilt971@gmail.com>
+Subject: Re: [PATCH 2/4] drm/msm/mdp5: Add MDP5 configuration for MSM8937
+Message-ID: <l276ykxey3qvct7rwkngyby4ohy3bl5cl77ldvo6zqco57d6xn@4mkwdabfabtf>
+References: <20240623-dsi-v1-0-4ab560eb5bd9@gmail.com>
+ <20240623-dsi-v1-2-4ab560eb5bd9@gmail.com>
+ <hzslz54iq5sjmfhcbuj3my7cbjsu73acxeelih3jekr6rznz44@qie4c4w5lt2d>
+ <CAGsSOWUDbvUMW95Xnjrg4z7TJ9=tj7_KHyek3xTuzbDP2_VhHw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <NTZPR01MB1050AA3ABA20F736B1756E04EECB2@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGsSOWUDbvUMW95Xnjrg4z7TJ9=tj7_KHyek3xTuzbDP2_VhHw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,57 +99,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 23, 2024 at 07:17:09AM GMT, Keith Zhao wrote:
-> Hi Dmitry:
-> 
-> > On Tue, May 21, 2024 at 06:58:17PM +0800, keith wrote:
+On Sun, Jun 23, 2024 at 12:48:53PM GMT, Barnabás Czémán wrote:
+> On Sun, Jun 23, 2024 at 7:59 AM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> >
+> > On Sun, Jun 23, 2024 at 01:25:52AM GMT, Barnabás Czémán wrote:
+> > > From: Daniil Titov <daniilt971@gmail.com>
+> > >
+> > > Add the mdp5_cfg_hw entry for MDP5 version v1.14 found on msm8937.
+> > >
+> > > Signed-off-by: Daniil Titov <daniilt971@gmail.com>
+> > > Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 89 ++++++++++++++++++++++++++++++++
+> > >  1 file changed, 89 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+> > > index c5179e4c393c..6413c0d3e237 100644
+> > > --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+> > > +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+> > > @@ -1011,6 +1011,94 @@ static const struct mdp5_cfg_hw msm8917_config = {
+> > >       .max_clk = 320000000,
+> > >  };
+> > >
+> > > +static const struct mdp5_cfg_hw msm8937_config = {
+> > > +     .name = "msm8937",
+> > > +     .mdp = {
+> > > +             .count = 1,
+> > > +             .caps = MDP_CAP_CDM |
+> > > +                     MDP_CAP_SRC_SPLIT,
+> >
+> > Could you please point out the SRC_SPLIT reference?
+> Is this would be qcom,mdss-has-source-split in downstream, because if
 
-> > > +								  "starfive,syscon",
-> > > +								  2, args);
-> > > +
-> > > +	if (IS_ERR(simple->dss_regmap)) {
-> > > +		return dev_err_probe(dev, PTR_ERR(simple->dss_regmap),
-> > > +				     "getting the regmap failed\n");
-> > > +	}
-> > > +
-> > > +	simple->offset = args[0];
-> > > +	simple->mask = args[1];
-> > 
-> > Is the value that you've read platform dependent or use case dependent?
-> > What is the actual value being written? Why are you using syscon for it?
-> 
-> The syscon is used to select crtcs binded with encoder,
-> If this encoder binds to crtc0 , set the syscon reg bit0 = 1
-> If this encoder binds to crtc1 , set the syscon reg bit1 = 1 (0x2)
-> Maybe I can do this by the possible_crtc instead of using args from dts
+Yes, IIRC.
 
-If this is a constant between your platforms, it should not be a part of
-DT.
+> it is i think it is a mistake and it is wrong at msm8953 also.
 
-> 
-> 
-> > 
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static void vs_encoder_atomic_enable(struct drm_encoder *encoder,
-> > > +struct drm_atomic_state *state) {
-> > > +	struct vs_simple_encoder *simple = to_simple_encoder(encoder);
-> > > +
-> > > +	regmap_update_bits(simple->dss_regmap, simple->offset, simple->mask,
-> > > +simple->mask);
-> > 
-> > 
-> > A purist in me would ask to have separate mask and value to write.
-> Understand , will avoid this action 
-> > 
-> > > +}
-> > 
-> > Is it necessary to clear those bits when stopping the stream?
-> No need to do this , if clear those bits , the encoder will point to a unknown crtc
+Please send a fix.
 
-what are the consequences? Is it desirable or not?
+> >
+> > Other than that LGTM
+> >
+> > --
+> > With best wishes
+> > Dmitry
 
 -- 
 With best wishes
