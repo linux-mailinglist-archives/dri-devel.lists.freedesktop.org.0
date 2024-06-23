@@ -2,86 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B69391380F
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 07:59:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D00913838
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 08:01:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE70210E051;
-	Sun, 23 Jun 2024 05:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4D2910E08F;
+	Sun, 23 Jun 2024 06:01:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RpZLgZij";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lav5JD6d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE06A10E030
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 05:59:25 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-2ec4eefbaf1so19797121fa.1
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 22:59:25 -0700 (PDT)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
+ [209.85.222.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE4C010E08F
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 06:01:06 +0000 (UTC)
+Received: by mail-qk1-f169.google.com with SMTP id
+ af79cd13be357-79baa4e8531so326304085a.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 23:01:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719122364; x=1719727164; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=uV6ZdsyWs/0K8RTllxKQAwLax2534ZjABCMu7Optue0=;
- b=RpZLgZij5tqVGUPFfaUyh5xD4LSs1kzaAMyHsko7/Aj11nfYKyG6YJ2ziDZFl8IHzj
- bpWmgClTCk4njIJoar+TdW1KVc7xK0tPuFKV4AvTmtFH9f6H82vxH8u83FvaSEyztFPb
- GmuEF8TBG3EweCT3Vu0wgnT4fFBQDpfTiY1NspgFjknI6zGLXk/ijH6mMqZr1Vzvu63h
- VBXWf3PHJSPER8oqKPJtYlZJqJj36MLBhA99ovHxq3IN+HmnQOVgo9ARauEkkfjRYM4b
- tuzh6TRM6m3HFGPmRf2rH+plRlVJlf4Q4s7yS/ivU5pPGEPADNcho8Be/OgcsN5Do8I6
- Qhig==
+ d=gmail.com; s=20230601; t=1719122465; x=1719727265; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=639B1VhzkVRiQ3egX05fSRdoRLJZKUd3UI9/6wfJ8lw=;
+ b=lav5JD6d04jxlIn0p3cWTbxYLY7JdT7/fsSOJDXZRZSfmIDoYSnR8Ue0zVSOWyDvzo
+ HP3/OUpZ894qOgT/5oH9dsB2NloOpI3BBWCn7+h1AMHZ3a/MpdKib4AdvN9rRlHRVDHx
+ i78aRWVtZE0WVXF2o88FjoC+QTOZnJR9CWgVjX0cn/CQtVibsXPLjuOWRBotsBQe3svq
+ +owxmo4BtfoP1C6OZiP7EbQIHXc/cyaBkk2ngNGjk3jXe/BpxmbCSrrUpuYY3yYhxsV9
+ g/FsmKHTUWDpLhwG5qA6xr8Thb97xwAOFjQRUqfm+R22V7ArKreV2nUNnyw5kdW9F8ea
+ bHDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719122364; x=1719727164;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uV6ZdsyWs/0K8RTllxKQAwLax2534ZjABCMu7Optue0=;
- b=cmIFZkRXPZenly3osS4HSXCuf6tWJi56oNIzzO0n4Fd/6u+6Bo0Ob437lOrjp5KZs3
- W5xvTBTpI1cA/aBlZ0skMeoRkhoWG13bQiN2Od8aIDTuAmMnpsPsAqBOcnZLY19LU8g3
- B32DMGpqarxCK1ALvUi+mR5F+jzFVH0ZWm6jv1oKoU3A/YxbgKBJ9hJm67iiqnXgSCRx
- rNgNwwwdTTAO3tVWoP+35Vj7JXBZaR7r9WmbKVA+bqIj9co3BMSwVaza5lTbbB+21yfR
- aOW34TEmeJrIlfSrqtkTqMFxWDp4GoL5uI5G0b41wcjOWagBx8jDLKrF73myU0aA0n9v
- MglQ==
+ d=1e100.net; s=20230601; t=1719122465; x=1719727265;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=639B1VhzkVRiQ3egX05fSRdoRLJZKUd3UI9/6wfJ8lw=;
+ b=wz/Pq4vZ+leHs8N8pDveKXz8jp65yywsu+ZxfE7an5BZV7GgKrwWzrdhJQkvxlu6rY
+ iDr6HxLvq5w/V3TVGwFOSTBTeKbHFNUQJcxUxBvH6bYTA39CJbctNIjNqNEaEtx3qkbQ
+ PLKd3wi9dkdAVUa7Rg0O/Jc41Hqb72soF31X6z6v6QviDCqmL5gLwvizX78XpBxUZcag
+ mFVICwI10shDayVrzU+6stxW7ootUdn+KwG/TitHHr4vf4Xy05ROCJV7ffKkWB0xGw4i
+ NTmmcw7gBgt8GFt7AARv0+kR+vB0sIgTrPqJdu+WZOY5YxUoo1rw5sXdf0bpsyXRlqSZ
+ pyrw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVUY0N9XhVDWf0TysWjfTid5s+IMf114JpNv5OXxFt7gH6xGKiF5/bI9lclR4/tWh/eAvMFX+2q2CzMov0X3RdzR4+3WGkgEisDvkfrx7oO
-X-Gm-Message-State: AOJu0YwpvrX4jtAlchQHRWxuYWBgeONFHe0u6+pm5ML8YN1+OkC7V4BT
- HHwayHp/M5iy51XlhFsHZRJ+S6WMrf8QB/rVpOlG88gZWDN8+OtFmxUBSSfWuDw=
-X-Google-Smtp-Source: AGHT+IGcHezaqPv4f6l+aRS6cpymyT8QWqnho+MGi0nRzclFQouvXc2Vz5OXXDqk0xU0di91OghoDA==
-X-Received: by 2002:a2e:9f05:0:b0:2ec:fa4:e310 with SMTP id
- 38308e7fff4ca-2ec5b3d48ccmr7355091fa.34.1719122363747; 
- Sat, 22 Jun 2024 22:59:23 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec4d60130csm6301061fa.13.2024.06.22.22.59.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Jun 2024 22:59:23 -0700 (PDT)
-Date: Sun, 23 Jun 2024 08:59:21 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Daniil Titov <daniilt971@gmail.com>
-Subject: Re: [PATCH 2/4] drm/msm/mdp5: Add MDP5 configuration for MSM8937
-Message-ID: <hzslz54iq5sjmfhcbuj3my7cbjsu73acxeelih3jekr6rznz44@qie4c4w5lt2d>
-References: <20240623-dsi-v1-0-4ab560eb5bd9@gmail.com>
- <20240623-dsi-v1-2-4ab560eb5bd9@gmail.com>
+ AJvYcCXkb4jnoCxV5e/AXkrUnZMJfN1Jz5VlfrA3dgEaLLqxHo7fcdN3OzyXStodGDSgka0ifQRwL5pkGyUfhHb8jk5n+YDFH1Z55R2HYZllCdHT
+X-Gm-Message-State: AOJu0YxXOO3IuNCGr7WpGebMllq9hwcKcIG6TRkJ5MobNoCWSZuUewHr
+ r/tnJsK937iG3mAZgzi4f9d5NWVKIqrwqRgBScjmXsPq++YFTKo/DGm9IKAFmGs9x1B0T0gqrIr
+ UpDVRwb1wQonum8r0S7Vbjvrsrec=
+X-Google-Smtp-Source: AGHT+IHcXR+ehU+k0C/NmM/DLF8W1FSfgc1FOoi+9SruG7tbvTjl8bMu8+dVhBmSjLDe3SkqoqwwTUGvFNLK0f3vidI=
+X-Received: by 2002:ad4:5228:0:b0:6b4:f644:9d87 with SMTP id
+ 6a1803df08f44-6b53debf738mr17899726d6.21.1719122465581; Sat, 22 Jun 2024
+ 23:01:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240623-dsi-v1-2-4ab560eb5bd9@gmail.com>
+References: <20240621022959.9124-1-laoar.shao@gmail.com>
+ <20240621022959.9124-7-laoar.shao@gmail.com>
+ <ZnWGsw4d9aq5mY0S@casper.infradead.org>
+ <CALOAHbC0ta-g2pcWqsL6sVVigthedN04y8_tH-cS9TuDGEBsEg@mail.gmail.com>
+ <ZneSWDgijj3r0MMC@casper.infradead.org>
+In-Reply-To: <ZneSWDgijj3r0MMC@casper.infradead.org>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Sun, 23 Jun 2024 14:00:29 +0800
+Message-ID: <CALOAHbDvyBn=yUABT4G6Egne48cQqHDM7bvuBeKFmbSA5fhg4A@mail.gmail.com>
+Subject: Re: [PATCH v3 06/11] mm/util: Deduplicate code in {kstrdup, kstrndup,
+ kmemdup_nul}
+To: Matthew Wilcox <willy@infradead.org>
+Cc: torvalds@linux-foundation.org, ebiederm@xmission.com, 
+ alexei.starovoitov@gmail.com, rostedt@goodmis.org, catalin.marinas@arm.com, 
+ akpm@linux-foundation.org, penguin-kernel@i-love.sakura.ne.jp, 
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org, 
+ linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+ bpf@vger.kernel.org, netdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,36 +89,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 23, 2024 at 01:25:52AM GMT, Barnabás Czémán wrote:
-> From: Daniil Titov <daniilt971@gmail.com>
-> 
-> Add the mdp5_cfg_hw entry for MDP5 version v1.14 found on msm8937.
-> 
-> Signed-off-by: Daniil Titov <daniilt971@gmail.com>
-> Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
-> ---
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 89 ++++++++++++++++++++++++++++++++
->  1 file changed, 89 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
-> index c5179e4c393c..6413c0d3e237 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
-> @@ -1011,6 +1011,94 @@ static const struct mdp5_cfg_hw msm8917_config = {
->  	.max_clk = 320000000,
->  };
->  
-> +static const struct mdp5_cfg_hw msm8937_config = {
-> +	.name = "msm8937",
-> +	.mdp = {
-> +		.count = 1,
-> +		.caps = MDP_CAP_CDM |
-> +			MDP_CAP_SRC_SPLIT,
+On Sun, Jun 23, 2024 at 11:11=E2=80=AFAM Matthew Wilcox <willy@infradead.or=
+g> wrote:
+>
+> On Sun, Jun 23, 2024 at 10:29:30AM +0800, Yafang Shao wrote:
+> > On Fri, Jun 21, 2024 at 9:57=E2=80=AFPM Matthew Wilcox <willy@infradead=
+.org> wrote:
+> > >
+> > > On Fri, Jun 21, 2024 at 10:29:54AM +0800, Yafang Shao wrote:
+> > > > +++ b/mm/internal.h
+> > >
+> > > Why are you putting __kstrndup in a header file when it's only used
+> > > in util.c?
+> >
+> > I want to make it always inlined. However, it is not recommended to
+> > define an inline function in a .c file, right ?
+>
+> I'm not aware of any such recommendation.  Better than putting it in
+> a .h file that everybody has to look at but nobody uses.
 
-Could you please point out the SRC_SPLIT reference?
+Understood.
+Will change it.
 
-Other than that LGTM
-
--- 
-With best wishes
-Dmitry
+--=20
+Regards
+Yafang
