@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2369D9138E9
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 10:08:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE139138ED
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 10:09:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD71010E0F1;
-	Sun, 23 Jun 2024 08:08:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4315210E102;
+	Sun, 23 Jun 2024 08:09:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E7eRRjIx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZoHaplOR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEE7310E0F1;
- Sun, 23 Jun 2024 08:08:38 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 729FA10E0FE;
+ Sun, 23 Jun 2024 08:09:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 5A284CE0B2C;
- Sun, 23 Jun 2024 08:08:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9DA1C2BD10;
- Sun, 23 Jun 2024 08:08:28 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9162260AC9;
+ Sun, 23 Jun 2024 08:09:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE5CDC2BD10;
+ Sun, 23 Jun 2024 08:09:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719130115;
- bh=+pLFZBPj//YztSi5TcONh3iuWLjMYcTw1nhqxWanKBs=;
+ s=k20201202; t=1719130184;
+ bh=8G5ZgzbV0vjNrCMg3A32EmuZwZksI7exlwTcjhzWUZ8=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=E7eRRjIxkckqVPDNvXfDiCOmNFkRIyKC7Wm14jgZz+A9Kbo0Sy1uNafMXPhqmSM9V
- HPaVQVMP0w9cXGxTFdwhbOBu2gRyhywYU8JH/ck6YQ36lAJ1LI/Ct5ME575u+ammfZ
- gGYcxX3NZMRDuRIJT1A5VRAqdc3Z8yuGU/ZJzVM1KYH0C9ktQZTn/2+OTBY/YldVf6
- 3gTtj0D0jRB5ufhkFbP8aRxifmLyiKzlRmPAvsuF8NgiGv0zPpIqrN0U20MSsmbbqR
- YdlaipJ13VLAlbPqsczbJxLYvLdiW8VIOx1SDTp0YOEr1+75ios4YFvKieVg/XqfIS
- 2qJM9qdKZ2Jpw==
-Message-ID: <77987fdd-5cd5-4683-87af-18c5c31e1357@kernel.org>
-Date: Sun, 23 Jun 2024 10:08:26 +0200
+ b=ZoHaplORax60W+WkzsW2UPl643GGKfxk6QD4+9qTRurtj9WidUWjh+oFeSoq8aI72
+ e429PDQOkI+pdi5aeYpYuf5HM6omm/lEkmFoBPU8j5w3fToUz8O7Y8o1tinyTZ4kU+
+ GCLNaP++pS9mcu3cbdlheitGgKKQOpOi8tCOziE8hgGiqF6OHHpggTbjlfpHjrdZpW
+ HC70oSEUw/omaVh0MDNn/CA6FIdX4ZR9/2y9IwMTOVICvROcRRerx5nJouBYZW3soB
+ 6HqHUmTICLnZW+PhP9VIXdljE7l7wALd4NLAeRzJqIisvaDQ+hZqBSDPmm0qAYIB29
+ cb4WQMTs++GhQ==
+Message-ID: <59459f7a-846c-4988-a0f0-a64be217dbee@kernel.org>
+Date: Sun, 23 Jun 2024 10:09:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: display/msm: qcom, mdp5: Add msm8937
+Subject: Re: [PATCH 3/4] dt-bindings: msm: dsi-phy-28nm: Document msm8937
  compatible
 To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -50,7 +50,7 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org
 References: <20240623-dsi-v1-0-4ab560eb5bd9@gmail.com>
- <20240623-dsi-v1-1-4ab560eb5bd9@gmail.com>
+ <20240623-dsi-v1-3-4ab560eb5bd9@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,7 +96,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240623-dsi-v1-1-4ab560eb5bd9@gmail.com>
+In-Reply-To: <20240623-dsi-v1-3-4ab560eb5bd9@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,32 +115,14 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 23/06/2024 01:25, Barnabás Czémán wrote:
-> Add the compatible for the MDP5 found on MSM8937.
+> The MSM8937 SoC uses a slightly different 28nm dsi phy. Add a new
+> compatible for it.
 > 
 > Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
 > ---
 
+
 Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
-
-
----
-
-<form letter>
-This is an automated instruction, just in case, because many review tags
-are being ignored. If you know the process, you can skip it (please do
-not feel offended by me posting it here - no bad intentions intended).
-If you do not know the process, here is a short explanation:
-
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions, under or above your Signed-off-by tag. Tag is "received", when
-provided in a message replied to you on the mailing list. Tools like b4
-can help here. However, there's no need to repost patches *only* to add
-the tags. The upstream maintainer will do that for tags received on the
-version they apply.
-
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
-</form letter>
-
 
 Best regards,
 Krzysztof
