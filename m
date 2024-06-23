@@ -2,59 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED740913BAE
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 16:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C127C913BCB
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 16:39:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B699610E28D;
-	Sun, 23 Jun 2024 14:14:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDD7210E053;
+	Sun, 23 Jun 2024 14:39:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uuXadO7V";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="mmi5wF5J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE4FB10E224;
- Sun, 23 Jun 2024 14:14:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 76CDFCE0E64;
- Sun, 23 Jun 2024 14:14:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64689C2BD10;
- Sun, 23 Jun 2024 14:14:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719152071;
- bh=xjdka5JZvEFGgzarOm9cAQZioJh64tIoUo72je+5ot4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uuXadO7VVLHCeIENQsM2AbK2+yTyF7axfkAhTw1lyaoBlyC2FL76eniJbuEo6xphC
- 8cqnzR1x0dscspwAkeM+ZZ+VLDE50Z/+FCpzPYLvAghs5I/+ZtWBOvkUO/wM2Us2mq
- vvx+fPkfBKbg97yA2fTTwzJa7ZlWSjSeelDCzDVKGMMlnFT4YyFt+5EI7YY1JeIvNm
- g0780otXw7mA73ObVdxGISLI2APamFIH+FqP4cBDw1L+RB5/2o0fpX995azaPuILh+
- J58lgvTAVSqRGfiEGHFEccv8Brn1HPlB639mE4ZegYTIzWD6h/hzUIBaNm+vH39D3R
- Cj8gmmHE4AaRw==
-Date: Sun, 23 Jun 2024 15:14:25 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA7E899E9
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 14:39:09 +0000 (UTC)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id F16B687128;
+ Sun, 23 Jun 2024 16:39:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1719153546;
+ bh=xQV39s+N5UoDDxav56DbE28ygu9QRSLT0icPal3NREM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=mmi5wF5J+PBocCN9v40x7pG5Eh6w6P+q8C7W3JNs4On88/5EWDA6D/ALjOV/Ssju4
+ FKP09sEYUfQ8O689vrI4dGdgZHVDQxo+qnAl6SNLz2+1zYU5Zh178PTIT0zm5BvirJ
+ SwBqbzASz/6cUOeUyjIFiwO/vBc4L81ZXAyc2nNZ0lDCDAlQ13iESGskzZ3djwRqIm
+ nGaC3EcPjSA72rVkhGnC7RJPW7ERAmsKxjYyiJzSKHfdnj1dz0RiBqBraixY8FzimG
+ bGiECL4tjoJrgfEBLrdUySdt/2K95E9aHg0eudDWrwso/wnkWOLkhqnVB+jrT3Tvs5
+ shS17FVzgZZLA==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: display/msm/gpu: constrain clocks in
- top-level
-Message-ID: <20240623-visa-alkaline-7f851211c89e@spud>
-References: <20240623120026.44198-1-krzysztof.kozlowski@linaro.org>
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
+Subject: [PATCH v3 1/6] drm/bridge: tc358767: Split tc_pxl_pll_en() into
+ parameter calculation and enablement
+Date: Sun, 23 Jun 2024 16:38:33 +0200
+Message-ID: <20240623143846.12603-1-marex@denx.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="W+Y0q6x2brSSN8+B"
-Content-Disposition: inline
-In-Reply-To: <20240623120026.44198-1-krzysztof.kozlowski@linaro.org>
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,31 +66,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Split tc_pxl_pll_en() into tc_pxl_pll_calc() which does only Pixel PLL
+parameter calculation and tc_pxl_pll_en() which calls tc_pxl_pll_calc()
+and then configures the Pixel PLL register.
 
---W+Y0q6x2brSSN8+B
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is a preparatory patch for further rework, where tc_pxl_pll_calc()
+will also be used to find out the exact clock frequency generated by the
+Pixel PLL. This frequency will be used as adjusted_mode clock frequency
+and passed down the display pipeline to obtain exactly this frequency
+on input into this bridge.
 
-On Sun, Jun 23, 2024 at 02:00:24PM +0200, Krzysztof Kozlowski wrote:
-> We expect each schema with variable number of clocks, to have the widest
-> constrains in top-level "properties:".  This is more readable and also
-> makes binding stricter, if there is no "if:then:" block for given
-> variant.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+The precise input frequency that matches the Pixel PLL frequency is
+important for this bridge, as if the frequencies do not match, the
+bridge does suffer VFIFO overruns or underruns.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
+Cc: kernel@dh-electronics.com
+---
+V2: No change
+V3: No change
+---
+ drivers/gpu/drm/bridge/tc358767.c | 37 +++++++++++++++++++++----------
+ 1 file changed, 25 insertions(+), 12 deletions(-)
 
---W+Y0q6x2brSSN8+B
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index b0435c8b754b4..cbb342d811ac3 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -580,14 +580,9 @@ static int tc_pllupdate(struct tc_data *tc, unsigned int pllctrl)
+ 	return 0;
+ }
+ 
+-static u32 div64_round_up(u64 v, u32 d)
++static int tc_pxl_pll_calc(struct tc_data *tc, u32 refclk, u32 pixelclock,
++			   int *out_best_pixelclock, u32 *out_pxl_pllparam)
+ {
+-	return div_u64(v + d - 1, d);
+-}
+-
+-static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
+-{
+-	int ret;
+ 	int i_pre, best_pre = 1;
+ 	int i_post, best_post = 1;
+ 	int div, best_div = 1;
+@@ -683,11 +678,6 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
+ 	if (best_mul == 128)
+ 		best_mul = 0;
+ 
+-	/* Power up PLL and switch to bypass */
+-	ret = regmap_write(tc->regmap, PXL_PLLCTRL, PLLBYP | PLLEN);
+-	if (ret)
+-		return ret;
+-
+ 	pxl_pllparam  = vco_hi << 24; /* For PLL VCO >= 300 MHz = 1 */
+ 	pxl_pllparam |= ext_div[best_pre] << 20; /* External Pre-divider */
+ 	pxl_pllparam |= ext_div[best_post] << 16; /* External Post-divider */
+@@ -695,6 +685,29 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
+ 	pxl_pllparam |= best_div << 8; /* Divider for PLL RefClk */
+ 	pxl_pllparam |= best_mul; /* Multiplier for PLL */
+ 
++	if (out_best_pixelclock)
++		*out_best_pixelclock = best_pixelclock;
++
++	if (out_pxl_pllparam)
++		*out_pxl_pllparam = pxl_pllparam;
++
++	return 0;
++}
++
++static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
++{
++	u32 pxl_pllparam = 0;
++	int ret;
++
++	ret = tc_pxl_pll_calc(tc, refclk, pixelclock, NULL, &pxl_pllparam);
++	if (ret)
++		return ret;
++
++	/* Power up PLL and switch to bypass */
++	ret = regmap_write(tc->regmap, PXL_PLLCTRL, PLLBYP | PLLEN);
++	if (ret)
++		return ret;
++
+ 	ret = regmap_write(tc->regmap, PXL_PLLPARAM, pxl_pllparam);
+ 	if (ret)
+ 		return ret;
+-- 
+2.43.0
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZngtwQAKCRB4tDGHoIJi
-0lh+AQD/zfWFp+H2OLeAtvkMdmdDHaYkkqAlbOU1YQsaYrQrRwEA4JhzzfmNtS8K
-YeeeStRvNCLzuHfiWReqGTxHtxI85QA=
-=5T/Z
------END PGP SIGNATURE-----
-
---W+Y0q6x2brSSN8+B--
