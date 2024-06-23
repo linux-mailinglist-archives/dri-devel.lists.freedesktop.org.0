@@ -2,101 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36187913DF5
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 22:06:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B0E913E03
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 22:19:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C44610E234;
-	Sun, 23 Jun 2024 20:06:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B714810E0A8;
+	Sun, 23 Jun 2024 20:19:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Dji3KbKK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g4qedJ//";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 759CA10E217;
- Sun, 23 Jun 2024 20:06:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAB4310E0A8
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 20:19:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 5515ACE0C72;
- Sun, 23 Jun 2024 20:06:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AD48C2BD10;
- Sun, 23 Jun 2024 20:05:53 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 5158BCE069B;
+ Sun, 23 Jun 2024 20:19:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8B45C2BD10;
+ Sun, 23 Jun 2024 20:19:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719173159;
- bh=6MJaJnSFRSDD74t9l6ED+9mrDMF5zGOiZ4Ie+r+PKBY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Dji3KbKKm7bhono33iiav0GSX7+Qe0eUiyC4nmTiWfcOe79dXvXoapeQ667Dj8XaR
- qktzbA7gG63nXyBCYQr87RuRpGq6aEZp1IqYLDpnJJu7va3JHqboqTW86Nm3wUy4+T
- C21fEOj1aaZoXQkQ3ii2itiSYnmeSQIab8crXJCmFvpUmIMxfCKnWxwKthnDIS/djc
- Xif/vaH0kH22Uro1nrZEWxqpPBWLCLDdEP1vVe01f01j9v1XNiGNoaWeWt1fTp+EZn
- q+uv3d36i5/qtW5hnpiEjTeao3+voIoHF0q+Jgl2Tu8jdYwkXJVpxE1sWUQFxITX5p
- fhWwJLitWNulQ==
-Message-ID: <bbd15b19-fd16-428e-ad6d-0ba7eb00ca9f@kernel.org>
-Date: Sun, 23 Jun 2024 22:05:51 +0200
+ s=k20201202; t=1719173960;
+ bh=TayuONK4J25f6tB8Tq6Fwb2x73bI53md4ee5lvhBZec=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=g4qedJ//IAs24DDex+n3r5u8GYcROCh3z0qsFkDms3nKw/eJz0HKYOV0Kz3E2BSty
+ AIOqUh3OoBMriDBQIZ4oD7+pBL7rk8EUaVtxMmQ8+Dqj/PW1l95BPuhtfITf7+FKGp
+ LTtYhec56+r7S12Dw/lLdu8dyC6vsKQCzL/3x5BGGMPXXO6Kxa5uRsb9lZlzB7I/Ru
+ xPXn5hCpbNZHbPorOAkcVxzxN9ycscbIBD8HO45UQhkoW0fn9vv9rcQny4m0ic4cet
+ oaoW33NOaj6vDDokZw0AHJlZWABIWYPMBzKnHT7y88MuMil3GMaX8+ouTQ/doPSS+6
+ VCcrc0H5n2COg==
+Date: Sun, 23 Jun 2024 15:19:17 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Ekansh Gupta <quic_ekangupt@quicinc.com>, 
+ Oded Gabbay <ogabbay@kernel.org>, srinivas.kandagatla@linaro.org,
+ linux-arm-msm@vger.kernel.org, 
+ gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, 
+ quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
+ Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH v1] misc: fastrpc: Move fastrpc driver to misc/fastrpc/
+Message-ID: <fin5dnpf3jyo5mk4b7fktdutbds5lkpxwzojecxa4zh7gwfad2@rkryxqzt6maq>
+References: <20240612064731.25651-1-quic_ekangupt@quicinc.com>
+ <zbpia232dh4ojfsvhcqxrp6cwfygaalu5cycdrs47pqmnrisvk@dq24nww26gkm>
+ <z6g5ool5vomkudiroyaxh532rhlfu5x4i3l5xoqrsho2sxv4im@v5ghemjkpc3v>
+ <CAA8EJprgCJKOnZo7Q31KZV3SA3NqWxcMmoUxuqnVF+8cQW5ucg@mail.gmail.com>
+ <6f59552d-d7a3-5e05-3465-e707c1b7eaf2@quicinc.com>
+ <ZnWhwJtTXS32UI9H@phenom.ffwll.local>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/3] arm64: dts: qcom: x1e80100: Add gpu support
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Konrad Dybcio
- <konrad.dybcio@linaro.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
- <20240623110753.141400-4-quic_akhilpo@quicinc.com>
- <a458a3a7-2b6d-4032-949c-b2c021d339e8@kernel.org>
- <20240623122856.kqf4x6mft74hzk7y@hu-akhilpo-hyd.qualcomm.com>
- <7d69e98d-a870-4200-8f22-2a16fcf02794@kernel.org>
- <20240623151630.bskqwqhp25mu3yuf@hu-akhilpo-hyd.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240623151630.bskqwqhp25mu3yuf@hu-akhilpo-hyd.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZnWhwJtTXS32UI9H@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,45 +68,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/06/2024 17:16, Akhil P Oommen wrote:
-> On Sun, Jun 23, 2024 at 02:53:17PM +0200, Krzysztof Kozlowski wrote:
->> On 23/06/2024 14:28, Akhil P Oommen wrote:
->>> On Sun, Jun 23, 2024 at 01:17:16PM +0200, Krzysztof Kozlowski wrote:
->>>> On 23/06/2024 13:06, Akhil P Oommen wrote:
->>>>> Add the necessary dt nodes for gpu support in X1E80100.
->>>>>
->>>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>>>> ---
->>>>> +		gmu: gmu@3d6a000 {
->>>>> +			compatible = "qcom,adreno-gmu-x185.1", "qcom,adreno-gmu";
->>>>> +			reg = <0x0 0x03d50000 0x0 0x10000>,
->>>>> +			      <0x0 0x03d6a000 0x0 0x35000>,
->>>>> +			      <0x0 0x0b280000 0x0 0x10000>;
->>>>> +			reg-names =  "rscc", "gmu", "gmu_pdc";
->>>>
->>>> Really, please start testing your patches. Your internal instructions
->>>> tells you to do that, so please follow it carefully. Don't use the
->>>> community as the tool, because you do not want to run checks and
->>>> investigate results.
->>>
->>> This was obviously tested before (and retested now) and everything works. I am
->>> confused about what you meant. Could you please elaborate a bit? The device
->>> and the compilation/test setup is new for me, so I am wondering if I
->>> made any silly mistake!
->>
->> Eh, your DTS is not correct, but this could not be pointed out by tests,
->> because the binding does not work. :(
+On Fri, Jun 21, 2024 at 05:52:32PM GMT, Daniel Vetter wrote:
+> On Fri, Jun 21, 2024 at 09:40:09AM -0600, Jeffrey Hugo wrote:
+> > On 6/21/2024 5:19 AM, Dmitry Baryshkov wrote:
+> > > On Fri, 21 Jun 2024 at 09:19, Bjorn Andersson <andersson@kernel.org> wrote:
+> > > > 
+> > > > On Wed, Jun 12, 2024 at 09:28:39PM GMT, Dmitry Baryshkov wrote:
+> > > > > On Wed, Jun 12, 2024 at 12:17:28PM +0530, Ekansh Gupta wrote:
+> > > > > > Move fastrpc.c from misc/ to misc/fastrpc/. New C files are planned
+> > > > > > to be added for PD notifications and other missing features. Adding
+> > > > > > and maintaining new files from within fastrpc directory would be easy.
+> > > > > > 
+> > > > > > Example of feature that is being planned to be introduced in a new C
+> > > > > > file:
+> > > > > > https://lore.kernel.org/all/20240606165939.12950-6-quic_ekangupt@quicinc.com/
+> > > > > > 
+> > > > > > Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
+> > > > > > ---
+> > > > > >   MAINTAINERS                          |  2 +-
+> > > > > >   drivers/misc/Kconfig                 | 13 +------------
+> > > > > >   drivers/misc/Makefile                |  2 +-
+> > > > > >   drivers/misc/fastrpc/Kconfig         | 16 ++++++++++++++++
+> > > > > >   drivers/misc/fastrpc/Makefile        |  2 ++
+> > > > > >   drivers/misc/{ => fastrpc}/fastrpc.c |  0
+> > > > > >   6 files changed, 21 insertions(+), 14 deletions(-)
+> > > > > >   create mode 100644 drivers/misc/fastrpc/Kconfig
+> > > > > >   create mode 100644 drivers/misc/fastrpc/Makefile
+> > > > > >   rename drivers/misc/{ => fastrpc}/fastrpc.c (100%)
+> > > > > 
+> > > > > Please consider whether it makes sense to move to drivers/accel instead
+> > > > > (and possibly writing a better Kconfig entry, specifying that the driver
+> > > > > is to be used to offload execution to the DSP).
+> > > > > 
+> > > > 
+> > > > Wouldn't this come with the expectation of following the ABIs of
+> > > > drivers/accel and thereby breaking userspace?
+> > > 
+> > > As I wrote earlier, that depends on the accel/ maintainers decision,
+> > > whether it's acceptable to have non-DRM_ACCEL code underneath.
+> > > But at least I'd try doing that on the grounds of keeping the code at
+> > > the proper place in the drivers/ tree, raising awareness of the
+> > > FastRPC, etc.
+> > > For example current fastrpc driver bypasses dri-devel reviews, while
+> > > if I remember correctly, at some point it was suggested that all
+> > > dma-buf-handling drivers should also notify the dri-devel ML.
+
+If the agreement is that dma-buf-handling drivers must get reviews from
+dri-devel, then let's document that in MAINTAINERS and agree with the
+maintainer.
+
+There's no need to move the driver for that.
+
+> > > 
+> > > Also having the driver under drivers/accels makes it possible and
+> > > logical to  implement DRM_ACCEL uAPI at some point. In the ideal world
+> > > we should be able to declare existing FastRPC uAPI as legacy /
+> > > deprecated / backwards compatibility only and migrate to the
+> > > recommended uAPI approach, which is DRM_ACCEL.
+> > > 
+> > 
+> > I suspect Vetter/Airlie need to be involved in this.
+> > 
+> > Its my understanding that accelerator drivers are able to reside in misc as
+> > long as there is no use of dma-buf.  Use of dma-buf means they need to be in
+> > drm/accel.
+> > 
+> > There is precedent for moving a driver from misc to accel (HabanaLabs).
+> > 
+> > Right now, I'm not aware that fastRPC meets the requirements for drm/accel.
+> > There is an open source userspace driver, but I'm not aware of an open
+> > source compiler.  From what I know of the architecture, it should be
+> > possible to utilize upstream LLVM to produce one.
 > 
-> I reordered both "reg" and "reg-names" arrays based on the address. Not sure if
-> that is what we are talking about here. Gpu driver uses platform_get_resource_byname()
-> to query mmio resources.
+> Yeah so fastrpc is one of the reasons why I've added a dma_buf regex match
+> to MAINTAINERS, and given this move has shown up here on dri-devel that
+> seems to work.
 > 
-> I will retest dt-bindings and dts checks after picking the patches you
-> just posted and report back. Is the schema supposed to enforce strict
-> order?
 
-Yes, because the lists are strictly ordered (with exceptions).
+Sounds good.
 
-Best regards,
-Krzysztof
+> But also, it slipped through, can't break uapi, so I just pretend it's not
+> really there :-)
+> 
 
+There's a small, but growing userbase of the current upstream fastrpc
+uAPI. If there are benefits and a migration path, I think it's
+reasonable to explore that - at this point, but probably not much later.
+
+> That aside, going forward it might make sense to look into drivers/accel,
+> and also going forward new dma_buf uapi will be reviewed to fairly
+> stringent standards. We're not going to impose the dri-devel userspace
+> rules on everyone, each subsystem tends to know what's best in their
+> ecosystem.
+
+> But if something just ends up in misc so it can avoid the drm
+> or accel rules (and I think media is also pretty much on the same page
+> nowadays), then expect some serious heat ...
+> 
+
+Certainly sounds reasonable to avoid adding new accel-drivers in
+drivers/misc.
+
+Regards,
+Bjorn
+
+> Cheers, Sima
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
