@@ -2,84 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71CA913E1F
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 22:31:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F23913E2B
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 22:40:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD3710E316;
-	Sun, 23 Jun 2024 20:31:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D962B10E0F4;
+	Sun, 23 Jun 2024 20:40:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OUhFtakV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UQrA+qtI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB05F10E011;
- Sun, 23 Jun 2024 20:30:48 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-362f62ae4c5so2048318f8f.1; 
- Sun, 23 Jun 2024 13:30:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719174647; x=1719779447; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=5IThLSZxCkprktvpOp0R1xO5qT7TqcAXcmsbOx04wBw=;
- b=OUhFtakVuQq64xlki5bAT9HAZYAfvSjUlbnqc62YPEo7DO7au9nDfGSJjJWN7EnJa6
- uBqphvtIVsztiyeOGbmp2LZU2byLXv08Um+NZTIgUbjiwEa2foGKJCSwKCbVO+/BsD6b
- v9bGQBlT9fzGS1EqglU47NQKcbPASQrdHqyO4OYSY+/bb3MYazzHWDfd8iJLYSi9yNlC
- t2b3gzJhuHfx4NThv8u/0oszX2RkfsQiLD1bRB2NfOXF5GYV+HPfzi9TVffUAKFp/CGw
- LuNMH76PonBVhk0z1ML+qPMExRqzfa6sRzuJmRz+kLOaKXpiDzXlH7zaXxXqP8lORkQ5
- 79Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719174647; x=1719779447;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5IThLSZxCkprktvpOp0R1xO5qT7TqcAXcmsbOx04wBw=;
- b=jnxq9bL2Ddf93MNYHhcxHjQkcWQO27/DgaN/vrCSpanW7cvQcAngff7q6gt47QPUN0
- M9K+hHnnDYVJQZ7KQIlz4s82lYY2ViQREospIgUYzx4ODk4a5iYg3P4XuepmuC2AyJcR
- 1j5BdQ61Y7w0EilKw5vyVe7FesUdBsbEuKj2aXbx7cmDdC610+E0sF5f3edo0D/i0wXX
- AU/L+tQGoIc6o1kFwY/AL/Oj7hWOhFeDa3985C+6x9qHuFWNRmdOB+k9jZDG8gvmNmPd
- A3DP7pzf9pTpII3k26Ai0vXhA1GFN7SCPwaYMRj6Y8z3KqdJr2gWaddGIkCx15O0kvqJ
- CWUA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXBWJbNfFQ44Y1ZiRGJ5z3pbOhwiHL+sDj00YuCbUNZWTzjAu5xYQUV62vr77dbQTXDosGceXTd/eI1j/WwcYuaz1529rorKZhrRScBcpUK4hlC9fT7iGOb2BAR7+ssumOiCw70NCuek85uHDiIFPA0
-X-Gm-Message-State: AOJu0YyZOolQ7Xgk7V+R89cFkwjG9StWbftmmiKlp9Ew39B4tMlYwQm7
- d9zyB3Z7ASSJi3be2APffRwa3Qb0fH/zOc+agZNBmLeIIYnIKDsw4yt3kAdUMxE=
-X-Google-Smtp-Source: AGHT+IEtxSf0FqRKKf6O5su5WO1aK1An8BcYpxm9JuMgBzotWwroMshjUUv72Y3gADnWy0VLBDhhqg==
-X-Received: by 2002:adf:efcf:0:b0:360:7c76:dd5 with SMTP id
- ffacd0b85a97d-366e3677026mr3662823f8f.14.1719174647089; 
- Sun, 23 Jun 2024 13:30:47 -0700 (PDT)
-Received: from [192.168.1.130] (BC2492F3.dsl.pool.telekom.hu. [188.36.146.243])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-366389b8ad2sm8088599f8f.33.2024.06.23.13.30.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jun 2024 13:30:46 -0700 (PDT)
-From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>
-Date: Sun, 23 Jun 2024 22:30:39 +0200
-Subject: [PATCH v2 4/4] drm/msm/dsi: Add phy configuration for MSM8937
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60ED210E0F4;
+ Sun, 23 Jun 2024 20:40:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 77232CE0285;
+ Sun, 23 Jun 2024 20:40:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0691C2BD10;
+ Sun, 23 Jun 2024 20:40:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1719175209;
+ bh=tj/EudJXsZOT2efyTYXHY7WkzBrobh+sIFmq3i/Im6Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UQrA+qtIMxBAAwsnaggl+2jcNGdXPRXCavxFeYtsXEacUxTi3DSNWD0oBx3Li/YXY
+ cCAj3YMIWrKdFFVDqFhdVAajXNjD/I/UkJS7E1IKb8mLcapqVVVnYqquWy/m030a6i
+ PnhiGRlCje4E8pbha5SP7EMj/G7bajr0oIp1J9KsdVN71APP3yIIPpsQKzTvFCAJdw
+ DCcLINRKXkwxcI7C4WcbGaUsOsI8DsX0i13uq+f7AkqxR9y35sqsi6Q15CPESFGsMJ
+ d/nGJi+LyZK9SGdSxvfxEAiAsfudO5u9yLedLFlatIGTuHyIEfJfHjfmh1ExxLCe1p
+ bnXK+9cVg3Qew==
+Date: Sun, 23 Jun 2024 15:40:06 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, 
+ freedreno <freedreno@lists.freedesktop.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, 
+ Rob Clark <robdclark@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] arm64: dts: qcom: x1e80100: Add gpu support
+Message-ID: <mmqji5hcfa6eegx2kdjkcy4hsoybtp25bgjsn2ol6dcdw2cgs5@fw3i3ufjkj3z>
+References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
+ <20240623110753.141400-4-quic_akhilpo@quicinc.com>
+ <a458a3a7-2b6d-4032-949c-b2c021d339e8@kernel.org>
+ <20240623122856.kqf4x6mft74hzk7y@hu-akhilpo-hyd.qualcomm.com>
+ <7d69e98d-a870-4200-8f22-2a16fcf02794@kernel.org>
+ <20240623151630.bskqwqhp25mu3yuf@hu-akhilpo-hyd.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240623-dsi-v2-4-a0ca70fb4846@gmail.com>
-References: <20240623-dsi-v2-0-a0ca70fb4846@gmail.com>
-In-Reply-To: <20240623-dsi-v2-0-a0ca70fb4846@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Krishna Manikandan <quic_mkrishn@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, 
- =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>, 
- phone-devel@vger.kernel.org, Daniil Titov <daniilt971@gmail.com>
-X-Mailer: b4 0.14.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240623151630.bskqwqhp25mu3yuf@hu-akhilpo-hyd.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,73 +68,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniil Titov <daniilt971@gmail.com>
+On Sun, Jun 23, 2024 at 08:46:30PM GMT, Akhil P Oommen wrote:
+> On Sun, Jun 23, 2024 at 02:53:17PM +0200, Krzysztof Kozlowski wrote:
+> > On 23/06/2024 14:28, Akhil P Oommen wrote:
+> > > On Sun, Jun 23, 2024 at 01:17:16PM +0200, Krzysztof Kozlowski wrote:
+> > >> On 23/06/2024 13:06, Akhil P Oommen wrote:
+> > >>> Add the necessary dt nodes for gpu support in X1E80100.
+> > >>>
+> > >>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> > >>> ---
+> > >>> +		gmu: gmu@3d6a000 {
+> > >>> +			compatible = "qcom,adreno-gmu-x185.1", "qcom,adreno-gmu";
+> > >>> +			reg = <0x0 0x03d50000 0x0 0x10000>,
+> > >>> +			      <0x0 0x03d6a000 0x0 0x35000>,
+> > >>> +			      <0x0 0x0b280000 0x0 0x10000>;
+> > >>> +			reg-names =  "rscc", "gmu", "gmu_pdc";
+> > >>
+> > >> Really, please start testing your patches. Your internal instructions
+> > >> tells you to do that, so please follow it carefully. Don't use the
+> > >> community as the tool, because you do not want to run checks and
+> > >> investigate results.
+> > > 
+> > > This was obviously tested before (and retested now) and everything works. I am
+> > > confused about what you meant. Could you please elaborate a bit? The device
+> > > and the compilation/test setup is new for me, so I am wondering if I
+> > > made any silly mistake!
+> > 
+> > Eh, your DTS is not correct, but this could not be pointed out by tests,
+> > because the binding does not work. :(
+> 
+> I reordered both "reg" and "reg-names" arrays based on the address.
 
-Add phy configuration for 28nm dsi phy found on MSM8937 SoC. Only
-difference from existing msm8916 configuration is number of phy
-and io_start addresses.
+The @3d6a000 should match the first reg entry.
 
-Signed-off-by: Daniil Titov <daniilt971@gmail.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
----
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c      |  2 ++
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.h      |  1 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c | 18 ++++++++++++++++++
- 3 files changed, 21 insertions(+)
+> Not sure if
+> that is what we are talking about here. Gpu driver uses platform_get_resource_byname()
+> to query mmio resources.
+> 
+> I will retest dt-bindings and dts checks after picking the patches you
+> just posted and report back. Is the schema supposed to enforce strict
+> order?
 
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-index 24a347fe2998..dd58bc0a49eb 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-@@ -545,6 +545,8 @@ static const struct of_device_id dsi_phy_dt_match[] = {
- 	  .data = &dsi_phy_28nm_lp_cfgs },
- 	{ .compatible = "qcom,dsi-phy-28nm-8226",
- 	  .data = &dsi_phy_28nm_8226_cfgs },
-+	{ .compatible = "qcom,dsi-phy-28nm-8937",
-+	  .data = &dsi_phy_28nm_8937_cfgs },
- #endif
- #ifdef CONFIG_DRM_MSM_DSI_20NM_PHY
- 	{ .compatible = "qcom,dsi-phy-20nm",
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-index 5a5dc3faa971..a9b4eb2c0e8c 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-@@ -47,6 +47,7 @@ extern const struct msm_dsi_phy_cfg dsi_phy_28nm_hpm_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_28nm_hpm_famb_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_28nm_lp_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_28nm_8226_cfgs;
-+extern const struct msm_dsi_phy_cfg dsi_phy_28nm_8937_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_28nm_8960_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_20nm_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_14nm_cfgs;
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-index ceec7bb87bf1..3afc8b1c9bdf 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-@@ -917,3 +917,21 @@ const struct msm_dsi_phy_cfg dsi_phy_28nm_8226_cfgs = {
- 	.num_dsi_phy = 1,
- 	.quirks = DSI_PHY_28NM_QUIRK_PHY_8226,
- };
-+
-+const struct msm_dsi_phy_cfg dsi_phy_28nm_8937_cfgs = {
-+	.has_phy_regulator = true,
-+	.regulator_data = dsi_phy_28nm_regulators,
-+	.num_regulators = ARRAY_SIZE(dsi_phy_28nm_regulators),
-+	.ops = {
-+		.enable = dsi_28nm_phy_enable,
-+		.disable = dsi_28nm_phy_disable,
-+		.pll_init = dsi_pll_28nm_init,
-+		.save_pll_state = dsi_28nm_pll_save_state,
-+		.restore_pll_state = dsi_28nm_pll_restore_state,
-+	},
-+	.min_pll_rate = VCO_MIN_RATE,
-+	.max_pll_rate = VCO_MAX_RATE,
-+	.io_start = { 0x1a94400, 0x1a96400 },
-+	.num_dsi_phy = 2,
-+	.quirks = DSI_PHY_28NM_QUIRK_PHY_LP,
-+};
+In your second hunk in patch 1, you are defining the order of reg,
+reg-names, clocks, and clock-names. This creates an ABI between DTB and
+implementation where ordering is significant - regardless of Linux using
+platform_get_resource_byname().
 
--- 
-2.45.2
+Regards,
+Bjorn
 
+> 
+> -Akhil.
+> > 
+> > I'll fix up the binding and then please test on top of my patch (see
+> > your internal guideline about necessary tests before sending any binding
+> > or DTS patch).
+> > 
+> > Best regards,
+> > Krzysztof
+> > 
