@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 881B59139DF
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 13:12:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2499D9139E4
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 13:13:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00EDC10E1FF;
-	Sun, 23 Jun 2024 11:12:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8E8910E205;
+	Sun, 23 Jun 2024 11:13:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DkHNb8cH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nP//XyQu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFFEB10E1FF;
- Sun, 23 Jun 2024 11:12:00 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D333F10E205;
+ Sun, 23 Jun 2024 11:13:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 208C4CE0E5C;
- Sun, 23 Jun 2024 11:11:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 029DAC2BD10;
- Sun, 23 Jun 2024 11:11:50 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E7A7C61DAC;
+ Sun, 23 Jun 2024 11:13:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35C0BC2BD10;
+ Sun, 23 Jun 2024 11:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719141117;
- bh=qPHRh4yMZ/8cbJeSrJYArisc4wUo1J35/Y4h2m255rw=;
+ s=k20201202; t=1719141211;
+ bh=pb/S6Tg5OwzW1hhoo2u/dWQWRmQFLrxvO+bT2mvdqB4=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DkHNb8cHjRXLxIe2qK2ZoIz91F8AbEayWx6OEU+flIl7vQP7oFp+fFnWqKfotDwZi
- dtbKJR4J0VwMAnyJxwQbx/OW9+IbCoWlNMZ9MVvlSvMSNMjTUkTCJjS8jcK6DS907P
- fBKnool6pOC7E1LZpSalexxFub0WbsC3bSWnuzBi6aUL8R3lrNHfXwere5OIU3XzMC
- 4Tx93Cqmy/2wCn9x9PNO30xCzkTo7k7+5ZFl7dlOdqh3Ynfg2ifeW6i8DBV5ynuOd3
- tbBuxF2KaJpzYlF1k/mbcqRAomnmd7WGTtvjWS+xEfOzSG5CIS/EhQB9dbb8MOhe60
- arAzzJ1eSY7Qw==
-Message-ID: <26abe6cd-e9da-4db9-9035-76edd5dda614@kernel.org>
-Date: Sun, 23 Jun 2024 13:11:48 +0200
+ b=nP//XyQuuMFA10yJBwQFp2PwmjbWL1N1K4R+0xwI3okVJ6hoh9FNNvgKcCQQ0XALP
+ VsHvbXC5SgQqHuoerFzB0PmIfTnWV2En6rVa3OiyQiWBrRpjXRUDNkspuTI+73LzTq
+ hi64uNwjJU8ADlD1PaVpscWDVQWp3fEKH2IY5QxfcaoZYZC5gpBP0a0qEFrvfxNahl
+ 9M0IWjykBDSUVc3872nybGkuMNvpXNT46Jn1sIi9XIkEH/M5o9frinLKgwN7aVjPS0
+ bELgWrJEQb6yoFA//xGc/UIDRzpzfSvSmjlXXfGIX7GRmJWhgQl+47Kla2YcA5Dx14
+ XdEa4uQtjVmQg==
+Message-ID: <fc090682-6610-4dfd-896a-640366b5975b@kernel.org>
+Date: Sun, 23 Jun 2024 13:13:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/3] Support for Adreno X1-85 GPU
+Subject: Re: [PATCH v1 1/3] dt-bindings: display/msm/gmu: Add Adreno X185 GMU
 To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
  freedreno <freedreno@lists.freedesktop.org>,
  dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
@@ -43,7 +43,6 @@ Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@gmail.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
@@ -51,6 +50,7 @@ Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>, Thomas Zimmermann <tzimmermann@suse.de>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
+ <20240623110753.141400-2-quic_akhilpo@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,7 +96,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
+In-Reply-To: <20240623110753.141400-2-quic_akhilpo@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,31 +115,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 23/06/2024 13:06, Akhil P Oommen wrote:
-> This series adds support for the Adreno X1-85 GPU found in Qualcomm's
-> compute series chipset, Snapdragon X1 Elite (x1e80100). In this new
-> naming scheme for Adreno GPU, 'X' stands for compute series, '1' denotes
-> 1st generation and '8' & '5' denotes the tier and the SKU which it
-> belongs.
+> Document Adreno X185 GMU in the dt-binding specification.
 > 
-> X1-85 has major focus on doubling core clock frequency and bandwidth
-> throughput. It has a dedicated collapsible Graphics MX rail (gmxc) to
-> power the memories and double the number of data channels to improve
-> bandwidth to DDR.
+> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> ---
 > 
-> Mesa has the necessary bits present already to support this GPU. We are
-> able to bring up Gnome desktop by hardcoding "0xffff43050a01" as
-> chipid. Also, verified glxgears and glmark2. We have plans to add the
-> new chipid support to Mesa in next few weeks, but these patches can go in
-> right away to get included in v6.11.
-> 
-> This series is rebased on top of v6.10-rc4. P3 cherry-picks cleanly on
-> qcom/for-next.
-> 
-> P1 & P2 for Rob, P3 for Bjorn to pick up.
+>  Documentation/devicetree/bindings/display/msm/gmu.yaml | 4 ++++
 
-Which Rob?
 
-Why bindings cannot go as usual way - via the subsystem?
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
 Best regards,
 Krzysztof
