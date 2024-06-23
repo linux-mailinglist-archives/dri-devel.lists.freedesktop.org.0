@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01517913753
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 04:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8503991375A
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 04:30:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5C2E10E531;
-	Sun, 23 Jun 2024 02:26:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB50B10E533;
+	Sun, 23 Jun 2024 02:30:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SOJ9t9bO";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jXJhaaMW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
- [209.85.222.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C122C10E531
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 02:26:50 +0000 (UTC)
-Received: by mail-qk1-f175.google.com with SMTP id
- af79cd13be357-7954f8b818fso217262785a.1
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 19:26:50 -0700 (PDT)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
+ [209.85.219.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D78A10E533
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 02:30:08 +0000 (UTC)
+Received: by mail-qv1-f48.google.com with SMTP id
+ 6a1803df08f44-6b52eb2ee2eso4184086d6.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 19:30:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719109609; x=1719714409; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1719109807; x=1719714607; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=K+LPiISOoLYsJFxCwMt3f7g5PbGNmTkGzNcNw2ao++w=;
- b=SOJ9t9bOzvGS1PXuSSvDTNR/S9ahpA6NsLy62ZxJBV2hp1PL4wXk+2s1pcHScofVnI
- SZZwGh17V7ra2PckuLStZJXX3GxpW7GWgTIWwcNhqKgtl5tSiPR1sRN+5C6IgI9fKhz5
- UTJF/yx8Bb71qH80omu5f6GQqVWaWtPt5Zx9Nx8Vi/Pu7gauQpg7IWUUV5M+tKiiI36x
- 3SMlePImAx/PXYbmZHAM1tBMmrrecRfeXe2fjLta+/nASszj3TASinz0UKwPgO3T85Sg
- k9UNS3Gmp1oLHC3Z6KuvQRrV4mOA4qKCu9oslQzaspmZXzBDj/xpcFybpUBeNjYL4MuL
- VFQQ==
+ bh=WM541qVAnGiANIIksD1Xne6uz5S+eheGdJIN5eBGE8Y=;
+ b=jXJhaaMW8L0D/STRepa95GOSINvD/qbIIF/l644H1E7ehhgCPpNcu4UtudVC9FOia7
+ toPxMCkddLWcQCQ7mfkZc6GYMs/tasHlSWii4RLVxc9Ep/JWMUBYUzE+YUhfBTQ+BTLB
+ 347OORALH6REGpW2yNp/qRTzSyZbmYqskHB0ylBFlv4amC7cYI4lWXDNJYX/Tr5nm4sF
+ BAOAHJ7Knu78BnEuEuXKG/MqFzrwxqECv8n4bV3EFSyXomUu8cvoztCc7pg7yDxHZnvd
+ uNiy1K/u2S6bcNBrW51apg1mmz8pVkVGUCqSJIKcrt3NUl3zN/d8dMLDNqs8MEr1fczb
+ oRlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719109609; x=1719714409;
+ d=1e100.net; s=20230601; t=1719109807; x=1719714607;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=K+LPiISOoLYsJFxCwMt3f7g5PbGNmTkGzNcNw2ao++w=;
- b=DKpzgjOtb7dRBSQi0kMr+f15BF0b0ustnaurslP6PZpEbdgzTGKoE09RwyhNacR5OS
- 7KiMR4unKmTZM/i+TbdHjRJgN1Lk7y8Ch9vcyCtmQ4ReFjU0uwQZK1DnfhTplHPwi2D+
- Jfi8CtBCw7T2jzq2qrAz0lPgNhnJwclLWXuf2drSh6TAB4Fw5mtuGqXrAtW9+uZf8aIR
- 0OCstOuJriFazRfxC4RrtEPuYO3hMfq2W0UX4aInGFpEjzacgDySfvq5DCUcPypTOQu9
- Hk7a3osPvLE9qZ9Kv74H36qKW2KTaMyPNXHGBgrURwN+dKM30o8fs5FaRVpPLClw/Cug
- 7frA==
+ bh=WM541qVAnGiANIIksD1Xne6uz5S+eheGdJIN5eBGE8Y=;
+ b=ajKgz6imhglgG6vEwvb9Z2sPw3FcdGl5LJmBF+kTrhL+JKQ6rlcneK1VHVAOJ3SzfA
+ ByMtsm+zBDKCpUELQZjSrJ/6JI9i5voUv0719i27JeFDD2T/mg910J7att9wM/YkVbdD
+ JcI9CFl9JS0o0L5Up3hkxNCGKB+Nbl42OWIWPvgmpF5DJZrLDdsmPcy6pcjSzuTWyAsR
+ JoXVlpaH/Jhx/1RtQbLFsyCzhDftM+h5TOSeFSCP+NBUIfz3Z/axjgCdstHI5pBiAtYa
+ T9idQZPTFvFEbJzysrWGl+4EvJDATp4T5ByEcSBM+6KOVHV5b2eUYJbOcuI4YCZ5gmob
+ v0YQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWkra1b2k3aEI4rL5WJdFnM6g3FHHJXeZT3xbZEZUmSbPSwyXQRkTU9kUko2MA9GszZXIIHIuBrtlCy+XlA+DfcNf6ELQbdC0xqeiIJRyHa
-X-Gm-Message-State: AOJu0YxZsLHmsjyPVvCY6RTKt1zJaVXax0FAX3+j/JTtgwtd47QEGxGp
- i1OzeXL7IuF7zBreq92k83FEoiwaJwEsem1+vanEsKkJQXDd/QWVc6l50/yCs1r+lajFqY7h+4h
- ydjz8Zv+byLd47yTL2xQIiFzLiNY=
-X-Google-Smtp-Source: AGHT+IFY0Y/UcJS7sknileL2UagN7ReFxrAWEEHMeCw0v9alkFUCpuvgoM4QBmWhVR/dsnO/cQfpgT+sNC6/yK6yero=
-X-Received: by 2002:a05:6214:20e2:b0:6b5:24b:f430 with SMTP id
- 6a1803df08f44-6b540a91d2emr16144186d6.40.1719109609327; Sat, 22 Jun 2024
- 19:26:49 -0700 (PDT)
+ AJvYcCWORQuB34DkTISenQs1ZauZUz1IcpCzUepEbp4AHE+jjPx1tEf4HV5b+mek/tbEzLgTJDpBIkDZnNOpsGhsRG2u0cxB6tBPb3+xdDFmxwnI
+X-Gm-Message-State: AOJu0Yy9t/KMv9e7M5CLrYnjx+rKyBnFUYyOXcZsdLAdO/1Vn415KS3g
+ 799yh4UUILsPaC+0zWJib2osTDdo7Nxst94on+CS5R0taDB8M/I0w3wZ86ATmV1cOfZmvxUAvjv
+ jzppmpNiVOwi0MxxoHxSMwccyKg8=
+X-Google-Smtp-Source: AGHT+IEeabbh6/EMckVo526ehLQ90tgELbRwQuFwnoLikHZJL17E+5jYV7YmCBYvSb5so7hxOyIwV/nrsBs0ESAd1BE=
+X-Received: by 2002:a0c:e1d3:0:b0:6b4:35fa:cc17 with SMTP id
+ 6a1803df08f44-6b5409c7b57mr14480146d6.20.1719109806997; Sat, 22 Jun 2024
+ 19:30:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240621022959.9124-1-laoar.shao@gmail.com>
  <20240621022959.9124-7-laoar.shao@gmail.com>
- <20240621135142.GF1098275@kernel.org>
-In-Reply-To: <20240621135142.GF1098275@kernel.org>
+ <ZnWGsw4d9aq5mY0S@casper.infradead.org>
+In-Reply-To: <ZnWGsw4d9aq5mY0S@casper.infradead.org>
 From: Yafang Shao <laoar.shao@gmail.com>
-Date: Sun, 23 Jun 2024 10:26:13 +0800
-Message-ID: <CALOAHbARduAEv+CQnRuLokrf5NYkM5omhpOuJuDuBhf-daKgxg@mail.gmail.com>
+Date: Sun, 23 Jun 2024 10:29:30 +0800
+Message-ID: <CALOAHbC0ta-g2pcWqsL6sVVigthedN04y8_tH-cS9TuDGEBsEg@mail.gmail.com>
 Subject: Re: [PATCH v3 06/11] mm/util: Deduplicate code in {kstrdup, kstrndup,
  kmemdup_nul}
-To: Simon Horman <horms@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
 Cc: torvalds@linux-foundation.org, ebiederm@xmission.com, 
  alexei.starovoitov@gmail.com, rostedt@goodmis.org, catalin.marinas@arm.com, 
  akpm@linux-foundation.org, penguin-kernel@i-love.sakura.ne.jp, 
@@ -87,96 +87,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 21, 2024 at 9:51=E2=80=AFPM Simon Horman <horms@kernel.org> wro=
-te:
+On Fri, Jun 21, 2024 at 9:57=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
+> wrote:
 >
 > On Fri, Jun 21, 2024 at 10:29:54AM +0800, Yafang Shao wrote:
-> > These three functions follow the same pattern. To deduplicate the code,
-> > let's introduce a common help __kstrndup().
-> >
-> > Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-> > Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
->
-> Hi Yafang Shao,
->
-> Some minor nits from my side.
->
-> > ---
-> >  mm/internal.h | 24 ++++++++++++++++++++++++
-> >  mm/util.c     | 27 ++++-----------------------
-> >  2 files changed, 28 insertions(+), 23 deletions(-)
-> >
-> > diff --git a/mm/internal.h b/mm/internal.h
-> > index b2c75b12014e..fd87f685739b 100644
-> > --- a/mm/internal.h
 > > +++ b/mm/internal.h
-> > @@ -1521,4 +1521,28 @@ static inline void shrinker_debugfs_remove(struc=
-t dentry *debugfs_entry,
-> >  void workingset_update_node(struct xa_node *node);
-> >  extern struct list_lru shadow_nodes;
-> >
-> > +/**
-> > + * __kstrndup - Create a NUL-terminated string from @s, which might be=
- unterminated.
-> > + * @s: The data to stringify
-> > + * @len: The size of the data, including the null terminator
-> > + * @gfp: the GFP mask used in the kmalloc() call when allocating memor=
-y
-> > + *
-> > + * Return: newly allocated copy of @s with NUL-termination or %NULL in
-> > + * case of error
-> > + */
-> > +static __always_inline char *__kstrndup(const char *s, size_t len, gfp=
-_t gfp)
-> > +{
-> > +     char *buf;
-> > +
-> > +     buf =3D kmalloc_track_caller(len, gfp);
-> > +     if (!buf)
-> > +             return NULL;
-> > +
-> > +     memcpy(buf, s, len);
-> > +     /* Ensure the buf is always NUL-terminated, regardless of @s. */
-> > +     buf[len - 1] =3D '\0';
-> > +     return buf;
-> > +}
-> > +
-> > +
 >
-> nit: One blank line is enough.
+> Why are you putting __kstrndup in a header file when it's only used
+> in util.c?
 
-Ah, will change it.
+I want to make it always inlined. However, it is not recommended to
+define an inline function in a .c file, right ?
 
 >
-> >  #endif       /* __MM_INTERNAL_H */
-> > diff --git a/mm/util.c b/mm/util.c
-> > index 41c7875572ed..d9135c5fdf7f 100644
-> > --- a/mm/util.c
-> > +++ b/mm/util.c
-> > @@ -58,17 +58,8 @@ char *kstrdup(const char *s, gfp_t gfp)
-> >       if (!s)
-> >               return NULL;
-> >
-> > -     len =3D strlen(s) + 1;
-> > -     buf =3D kmalloc_track_caller(len, gfp);
-> > -     if (buf) {
-> > -             memcpy(buf, s, len);
-> > -             /* During memcpy(), the string might be updated to a new =
-value,
-> > -              * which could be longer than the string when strlen() is
-> > -              * called. Therefore, we need to add a null termimator.
-> > -              */
-> > -             buf[len - 1] =3D '\0';
-> > -     }
-> > -     return buf;
+> Also, I think this function is actually __kmemdup_nul(), not
+> __kstrndup().
 >
-> nit: The local variable buf is now unused, and should be removed from kst=
-rdup().
->      Likewise for kstrndup() and kmemdup_nul()
->
->      Flagged by W=3D1 builds with gcc-13 and clang-18, and Smatch.
 
-I missed that. Thanks for pointing it out.
+Good suggestion. Will use __kmemdup_nul() instead.
 
 --=20
 Regards
