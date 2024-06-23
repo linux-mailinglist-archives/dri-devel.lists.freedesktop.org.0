@@ -2,86 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A459913E89
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 23:27:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 729D5913EFD
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 00:26:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D7B810E327;
-	Sun, 23 Jun 2024 21:27:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 637DE10E15A;
+	Sun, 23 Jun 2024 22:26:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nJNjN8ui";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kbYjg6Ot";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B6D610E32A
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 21:27:35 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-2ec10324791so43332661fa.1
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 14:27:34 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B78FA10E15A;
+ Sun, 23 Jun 2024 22:26:05 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-421bb51d81aso30947035e9.3; 
+ Sun, 23 Jun 2024 15:26:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719178053; x=1719782853; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=rNE32rpEcd64zunRnTjqX7aU8YPuo7H9EUSUmHlSCLk=;
- b=nJNjN8ui9+FhJ6+zQLqQD/l/hG8jOztuvl+DzY6mN39gaXDuIDhytWStbR9Vckqlb1
- cuLCRcNQiVwtSsAsZyY5XYe5gygW5zA9odrwGdISGRZPo5PEUODDsGgmHUmbtahrLgSw
- qU2gYYzt/rx1ATqJk62YxSfABcBRl/6CUA5ah9pxFjDQz3pgDqU6nuSUYEXbiihWxleC
- F9Ncd4b8sEL1enrIDfCXRLXlBieEdPIetHbQTtYx4QcErbK3FFT7woDtF+1pa5k0gpfK
- qwPgqbt2adwZzwpny27rCuJq+6Q4dsc20+iCCbDrVFdTY1okp28jcaC575naoPCQYj6s
- W8Og==
+ d=gmail.com; s=20230601; t=1719181564; x=1719786364; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3gQk/oUu6SEUrWcMlUI7v/b2a8RoP0ZC8zDXKyAf8bM=;
+ b=kbYjg6Ot9SE8EuZr8/8nDho2FeRJGsM86wtckgJDmTm8Awps2YxglRF1QkD+6jzVVB
+ 23On9hhN1abI+8lhdh9WsaGNtzhS60mbrYSJMdMGtOvXK9Pm+siJWCPjXlvOhWs1tY3I
+ j6zfQ5FseNQTG06s4Ljt0wHpNdCVuQJl9kOapw0K+wERVPsI1UTN/4nVHQEDI/2HW9Ta
+ VJVh+nge65NhPjODkl7OpbOMIyijaz6f1uNJwCGLtvCmDEfEQbF8dL3KFBU27xlGQg52
+ K82B2p4HRir1eMoV4gKJ2/z+qaxGAG11UGOZ5qXmsz2WD9o61o2429qtYAztFfvIseLd
+ iIZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719178053; x=1719782853;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rNE32rpEcd64zunRnTjqX7aU8YPuo7H9EUSUmHlSCLk=;
- b=GWl3kw3OB3m7TlSjbFCEez+O5TnTuZ3mMOkH68MhNxoxu7gWo+f6T5IBe1HDDHfCWv
- hOWqm0i1UZOLomFAJYevgvNO5Mbe/H4xaq4ayZoDgmSOlGuN4QZ+8JmVa5Pbnq0DV18J
- EMgX+Fc5CXSvcY+ZW7AkG/nARkQzZZi8HAHskp9cGYbgzYoIbSBAA3zF86cZ71Fhdnll
- sTCxPnxCQBGzA6lNpgwo2VQNTK4RWZj2Ylv+qNW8jrAEB4YcIRq276AyDZi0ZMolYpRz
- YA2ZixjwkpMONKz1JV46t36mvv+psEUC3bAJRFGgWaQ6O1343jv9xXiYS/0DuT9Bf1YO
- v6TA==
+ d=1e100.net; s=20230601; t=1719181564; x=1719786364;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3gQk/oUu6SEUrWcMlUI7v/b2a8RoP0ZC8zDXKyAf8bM=;
+ b=C68Lcwl/bfGaeOn5E3ct0+in7+87ZIewPkGfOFi9404AzqRMuLHaNcQLC1ZlMQ3ugd
+ 48H4RXPDW61hNu8X/llBxLrYHcLK50BVBym6Ji/ZN69dsCysnGdvNAY5CpPJdWuhgzdQ
+ t3FqvxW6WAEfx9NLv6lyv61Palcg+7Nbvgzyj7kQNTRCIi4Z3zvlmRZHrT2Z1n9QG5uk
+ ayzAio45boHrcncqni/b/qRn8a/poS+346m4RjNBGKF+CSuqWo+JIlrsEatvLMfE9QqJ
+ w+R4ui25vrikYX9DXT2SHE7Quat1M2e3U1/NS590DFxGLb5Z6oQE+lV6y9+ru3e88/4D
+ gkBg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVVH+0K1v69VsYLS259CJ6JF2E45zrKzPwNt1hPWU4HVltkdqwl+cPtRLNj5aODDk7gmpg+JUMA8Th+8yVtZVfdIn1XhZ1M0xe2Tca9V7oK
-X-Gm-Message-State: AOJu0YxHa2QxYmWXshrvWPU1AmGfoZeMiLpr6yev9dSFiNkr+Btub7cd
- YYKr2yG72uVLrMRFftLkhCmzmd/Xdbop2d/MBvq1yKSKiQjRkv7L87xJW5B5V0w=
-X-Google-Smtp-Source: AGHT+IF/oAb9bDIV7Xq+wDnZQlYyl5KMqCSgJrrR6Xs0F6Q80XAOcNHdPbUBXLkjSn8CcIowI3qwNg==
-X-Received: by 2002:a2e:3a13:0:b0:2ec:57c7:c740 with SMTP id
- 38308e7fff4ca-2ec5b2dd3a3mr15689171fa.39.1719178053155; 
- Sun, 23 Jun 2024 14:27:33 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ AJvYcCVBbo/KIQzSZugCfJWYguchW+LUgMgGkaFw/JYeJviKRs9UVpnvr8Pel85glWPhsPKNYsh2QhibnGFc1CLN2gdx6/I9Up8m6+/fo3FjF3nyDp/u2BSihXzA6pE3kqS4L80QtkG2F4KjtH2BHDEQSpG+
+X-Gm-Message-State: AOJu0YxRdG8Hq1yFsUdgEscIj1cC4RKRvMGJrOUhcJFy81xGmFjk6MDd
+ poJXoFQiaPeNikpD0Njad+pW19e+nCJUNYc/OVPbOBFfpaqngT/E
+X-Google-Smtp-Source: AGHT+IFuLGS5VXiY8gWVaO57f37QjPUM9TkmU9oDjUF5Scuicyy01NZzE1pEN95APiSxY+wXB8af3w==
+X-Received: by 2002:a05:600c:5690:b0:424:7992:c21f with SMTP id
+ 5b1f17b1804b1-4248cc18c65mr20456165e9.3.1719181563531; 
+ Sun, 23 Jun 2024 15:26:03 -0700 (PDT)
+Received: from [192.168.1.130] (BC2492F3.dsl.pool.telekom.hu. [188.36.146.243])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec4d787ed2sm8287631fa.130.2024.06.23.14.27.32
+ 5b1f17b1804b1-4248179d982sm117663975e9.1.2024.06.23.15.26.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jun 2024 14:27:32 -0700 (PDT)
-Date: Mon, 24 Jun 2024 00:27:31 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- phone-devel@vger.kernel.org, Daniil Titov <daniilt971@gmail.com>
-Subject: Re: [PATCH v2 2/4] drm/msm/mdp5: Add MDP5 configuration for MSM8937
-Message-ID: <53cpusdumqfqecfcbci7kfb5fmg56gacmlu44rwpe4acdftbcy@pw4wdxrcq366>
-References: <20240623-dsi-v2-0-a0ca70fb4846@gmail.com>
- <20240623-dsi-v2-2-a0ca70fb4846@gmail.com>
+ Sun, 23 Jun 2024 15:26:03 -0700 (PDT)
+From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>
+Date: Mon, 24 Jun 2024 00:26:01 +0200
+Subject: [PATCH] drm/msm/mdp5: Remove MDP_CAP_SRC_SPLIT from msm8x53_config
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240623-dsi-v2-2-a0ca70fb4846@gmail.com>
+Message-Id: <20240624-msm8953-mdp-fix-v1-1-be4d3262ebe3@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAPigeGYC/x2MQQqAIBAAvxJ7bkHNQvtKdIhcaw+aKEQg/T3pO
+ AMzFQplpgJzVyHTzYWv2ED2HeznFg9Cdo1BCaXFpDSGEowdBwwuoecHzeY17XK0wihoVcrU9H9
+ c1vf9ACnzRGlhAAAA
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Sireesh Kodali <sireeshkodali1@gmail.com>, 
+ Vladimir Lypak <vladimir.lypak@gmail.com>
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
+ =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>
+X-Mailer: b4 0.14.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,21 +92,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 23, 2024 at 10:30:37PM GMT, Barnab·s CzÈm·n wrote:
-> From: Daniil Titov <daniilt971@gmail.com>
-> 
-> Add the mdp5_cfg_hw entry for MDP5 version v1.14 found on msm8937.
-> 
-> Signed-off-by: Daniil Titov <daniilt971@gmail.com>
-> Signed-off-by: Barnab·s CzÈm·n <trabarni@gmail.com>
-> ---
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 88 ++++++++++++++++++++++++++++++++
->  1 file changed, 88 insertions(+)
-> 
+Remove MDP_CAP_SRC_SPLIT from msm8x53_config because
+it is not referenced in downstream.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Fixes: fb25d4474fa0 ("drm/msm/mdp5: Add configuration for MDP v1.16")
+Signed-off-by: Barnab√°s Cz√©m√°n <trabarni@gmail.com>
+---
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+index c5179e4c393c..92d06b7faa0a 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+@@ -837,8 +837,7 @@ static const struct mdp5_cfg_hw msm8x53_config = {
+ 	.name = "msm8x53",
+ 	.mdp = {
+ 		.count = 1,
+-		.caps = MDP_CAP_CDM |
+-			MDP_CAP_SRC_SPLIT,
++		.caps = MDP_CAP_CDM,
+ 	},
+ 	.ctl = {
+ 		.count = 3,
 
+---
+base-commit: f76698bd9a8ca01d3581236082d786e9a6b72bb7
+change-id: 20240624-msm8953-mdp-fix-8af4ec159082
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Barnab√°s Cz√©m√°n <trabarni@gmail.com>
+
