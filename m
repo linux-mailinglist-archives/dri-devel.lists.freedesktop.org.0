@@ -2,82 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CFC29138D7
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 09:58:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2369D9138E9
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 10:08:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86F9110E0E9;
-	Sun, 23 Jun 2024 07:58:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD71010E0F1;
+	Sun, 23 Jun 2024 08:08:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Wxt19sa3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E7eRRjIx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C48F10E0FA
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 07:58:29 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-1f9cd92b146so26050695ad.3
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 00:58:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719129509; x=1719734309; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=tzKNaXqjYLYXB0OpmzE6jKXefCOFO+eG6hhbZpLsjY8=;
- b=Wxt19sa30Syh7e7ijxuCi2kkjWCzTWZSukO48gwkL1ccyfI0Az4679F1dkyiosocN/
- FY4Ys7qEKCdJkb75YeGeIxqboBad7mAdUQlKjYgCr3n1fGWqCnF+8JDBYVfLuwz9KW5N
- UtYbUSYMreazW44/8exwrqDSqDILo+RebnNb7LlqXM5eo5Gm7Iyn8c0ihJsYYFbPum8b
- gT0xGXwMtC7UEpPc7gtlRTlfgImfjnH0qnBkjVlJphxrfxnhzC0agCHMCKDnpZfA+9F7
- 8XtBh4kUPr8JSu3pPvgg2htNBizngKsstZnDIHvMPI+bdqV37CMOk6Uem2hfLFIfh9fn
- Q3eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719129509; x=1719734309;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tzKNaXqjYLYXB0OpmzE6jKXefCOFO+eG6hhbZpLsjY8=;
- b=o9IXbpEtHYjjcjxBSEupR9C9QUxNaOWBoGC1W1qQ0CENgkiNxAd8GpglJKOM+/TKOs
- epJ1nCDdp0aOjmLiLkDDjJStGRnoKkSzkgwLsnosZ6uLczbkWQR+w0YjSItehF8fOzqd
- XBLNBXXmBR9LtpR40nNDAMburZQW2PP4iB0Y+5tl9WY1rJjK8Hdf0418pRaE6+GRTGWo
- hZ/D2z2HfakpgGzmOj+KC6u4dRpETzZ6vVhs25edlFssu8IPXJg2JDCA5EiEp2T4DSGe
- d90XmbQb7mnGgymrOHL5ypgxZ0k+xLTixovgUK6pCrOJW9Q2hzgwpd+FdLk0pwrre6Wr
- WRGw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUb2kWlEIE4j5LVLPslJ5BM5NhTZz62J4OJsU1o/PBt7WWhxIZeGW/hqzaIPDKnLk10roqJhwHnYVIg7VsOPM+e39k/re+xa2CSDtQ3Alrl
-X-Gm-Message-State: AOJu0YwsWaywk06UXf7JYxgYc26GwlRuhMV1+keZPh2eBaq+mZv4jYt/
- tgZ4o4SJstRFVuqk7a03vu6dTg/UtnK4OgRLB0MnqPOOE9dUgHaV
-X-Google-Smtp-Source: AGHT+IGEpWbbny726Q3htn6XKcMmi4++Fu3v9DNQtTRzF7a9NIY1QXUPMWFlEmnWJ72ew/+300ULFA==
-X-Received: by 2002:a17:902:f648:b0:1f9:cbe1:ae9 with SMTP id
- d9443c01a7336-1fa1d66823fmr31602725ad.44.1719129508450; 
- Sun, 23 Jun 2024 00:58:28 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:c8b4:4b16:721a:ce0f])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1f9eb2f02f0sm41610825ad.7.2024.06.23.00.58.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jun 2024 00:58:28 -0700 (PDT)
-Date: Sun, 23 Jun 2024 00:58:25 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-acpi@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v3] software node: Implement device_get_match_data fwnode
- callback
-Message-ID: <ZnfVoQmCE-wJbIYU@google.com>
-References: <20240427203650.582989-1-sui.jingfeng@linux.dev>
- <ZnXbaubPVAUdDIu0@google.com>
- <7b5305b6-78b0-4add-9e70-271159cfad95@linux.dev>
- <Zncl_O-NjMRZYGeA@google.com>
- <ee4e8724-4a19-4814-9b7e-9eb6eb0ac6a3@linux.dev>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEE7310E0F1;
+ Sun, 23 Jun 2024 08:08:38 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 5A284CE0B2C;
+ Sun, 23 Jun 2024 08:08:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9DA1C2BD10;
+ Sun, 23 Jun 2024 08:08:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1719130115;
+ bh=+pLFZBPj//YztSi5TcONh3iuWLjMYcTw1nhqxWanKBs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=E7eRRjIxkckqVPDNvXfDiCOmNFkRIyKC7Wm14jgZz+A9Kbo0Sy1uNafMXPhqmSM9V
+ HPaVQVMP0w9cXGxTFdwhbOBu2gRyhywYU8JH/ck6YQ36lAJ1LI/Ct5ME575u+ammfZ
+ gGYcxX3NZMRDuRIJT1A5VRAqdc3Z8yuGU/ZJzVM1KYH0C9ktQZTn/2+OTBY/YldVf6
+ 3gTtj0D0jRB5ufhkFbP8aRxifmLyiKzlRmPAvsuF8NgiGv0zPpIqrN0U20MSsmbbqR
+ YdlaipJ13VLAlbPqsczbJxLYvLdiW8VIOx1SDTp0YOEr1+75ios4YFvKieVg/XqfIS
+ 2qJM9qdKZ2Jpw==
+Message-ID: <77987fdd-5cd5-4683-87af-18c5c31e1357@kernel.org>
+Date: Sun, 23 Jun 2024 10:08:26 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ee4e8724-4a19-4814-9b7e-9eb6eb0ac6a3@linux.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] dt-bindings: display/msm: qcom, mdp5: Add msm8937
+ compatible
+To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20240623-dsi-v1-0-4ab560eb5bd9@gmail.com>
+ <20240623-dsi-v1-1-4ab560eb5bd9@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240623-dsi-v1-1-4ab560eb5bd9@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,99 +114,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 23, 2024 at 03:38:23PM +0800, Sui Jingfeng wrote:
-> Hi,
+On 23/06/2024 01:25, Barnabás Czémán wrote:
+> Add the compatible for the MDP5 found on MSM8937.
 > 
-> On 6/23/24 03:29, Dmitry Torokhov wrote:
-> > > In case of non-OF match (which
-> > > > includes the case where you use software nodes) the match data is coming
-> > > > from matching spi_device_id entry in the driver.
-> > > 
-> > > We don't care about much how it is probed now, rather, after the driver
-> > > probed by a non-OF way, how does the additional devices properties
-> > > can be get?
-> > > 
-> > > 
-> > > Say:
-> > > 
-> > > 1) "device_property_read_u32(dev, "rotation", &rotation);" and
-> > > 2) "!device_property_read_string(dev, "pervasive,thermal-zone",
-> > > &thermal_zone))"
-> > > 
-> > > 
-> > > For those spi/i2c/platform devices, what we argues are that
-> > > those drivers really should just depend on "OF" before we have
-> > > a reliable fwnode API backend to redirect to.
-> > They are working fine without such restriction now,
-> 
-> 
-> You still *NOT* answer where the additional devices properties[1][2]
-> can be acquire.
-> 
-> [1] device_property_read_u32(dev, "rotation", &rotation)
-> 
-> [2] device_property_read_string(dev, "pervasive,thermal-zone",
-> &thermal_zone))
-> 
-> 
-> > so I see absolutely no reason imposing this restriction.
-> 
-> The reason is rigorous.
-> 
-> You are acclaiming that works by hardcode or by ignoring the flaws
-> is fine, then all driver are working fine by *your* standard.
-> 
-> Your personal standard has nothing to do with this patch.
-> 
-> > > Where the additional device_property_read_xxxx() calls redirect to?
-> > > 
-> > > What if users want to invoke more device_property_read_xxxx() function?
-> > They are being directed to first the primary FW node instance, which may
-> > be either OF, ACPI, or SW node, and then, if property is not present
-> > there, to the secondary FW node, which can be either again.
-> 
-> 
-> What I'm asking is, on the non-OF and no-ACPI cases, where's those
-> device_property_read_xxx() calls can be directed to?
-> 
-> > At no point ->device_get_match_data() callback in involved in this
-> > process.
-> > 
-> 
-> The patch is written for people who need it, not for people who don't.
-> 
-> It will be involved if the device is associated with software node.
-> Its for fwnode API user to get a consistent experience, that is
-> to get a matching data without introduce extra/duplicated match
-> mechanism.
-> 
-> The patch is focus on fixing the undefined behavior, is discussing
-> the correct way to consolidate the fwnode API. Its not going to
-> discuss how does the those *old" and/or how does those non-fwnode
-> systems works.
-> 
-> Its NOT discussing how does the driver itself can be probed, a driver
-> can be probed multiple way and is another question. Being probed and
-> extract matching data can two different thing and is perfectly valid.
-> 
-> Your problem is that you are not fully understand what other people
-> does before you rush into the discussion. You are putting restrictions
-> onto other people, while leaving the problem itself there unsolved.
-> 
-> Its not a place to express your personal value or you personal status,
-> such as, you are "ready" or "not ready" for something. Or persuading
-> somebody should get used to what or teaching people to talks with a
-> whatever tone like a God.
-> 
-> None of those junk words are technical, I can not see constructive
-> ideas.
+> Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
+> ---
 
-Yes, indeed, it appears that further discussion is pointless at this
-point.
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Andy, Heikki, Greg, and others: FWIW this is a NAK from me.
 
-Thanks.
+---
 
--- 
-Dmitry
+<form letter>
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you know the process, you can skip it (please do
+not feel offended by me posting it here - no bad intentions intended).
+If you do not know the process, here is a short explanation:
+
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions, under or above your Signed-off-by tag. Tag is "received", when
+provided in a message replied to you on the mailing list. Tools like b4
+can help here. However, there's no need to repost patches *only* to add
+the tags. The upstream maintainer will do that for tags received on the
+version they apply.
+
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+</form letter>
+
+
+Best regards,
+Krzysztof
+
