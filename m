@@ -2,81 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD2C913891
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 09:14:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D1D913896
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 09:14:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9042010E128;
-	Sun, 23 Jun 2024 07:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE00110E143;
+	Sun, 23 Jun 2024 07:14:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="v5YQBCkI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zyB0Xd6o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D68B10E0E8
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 07:14:15 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-2ebec2f11b7so35654741fa.2
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 00:14:15 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9329B10E0D1
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 07:14:16 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2eaea28868dso42859281fa.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 00:14:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719126853; x=1719731653; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1719126854; x=1719731654; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=h25hTtE3iszL243EN3L/BanznYfr4S4AGkpe+1b60ns=;
- b=v5YQBCkIoXaaxQTaeSzi5a1Hz7+PXIokrs7E2ZbC7F6YBz7RPDrEFOaIlejsNNt+f+
- i1JnCKa0IJFyoVEUg51AzSEvIPdOx2987PJJTlehqBch1Ew9IrVoYZaruc1rJQVouPsN
- dv6Swde4QItpjvnqyeqblPuh2pqfzGEGRVWsqVuE78On17/pDFeD/sRPYfX/nnF/irCx
- atjU+VWSRLCyMBO499w9EJZLOhoDRo718JRx2VMeOAXBgwIAt8hgxM9800o+lykvNPb9
- l5zIXoMxRAXiEuh8roMjKQyGwW+9W0jYSFHH7/YWhNFYSFEy/ch5PZ9YSfDDZuq6o0nD
- 4rMQ==
+ bh=Bv3RmqBzxRumknsNv7kNaxp5ef1fpM+tuKvMs4Mga4c=;
+ b=zyB0Xd6oVy15CmqBOKWN4h1opE6BEeTtb0b8x6NKXBVtxuRe02s5B+fXIyUS+OWVwY
+ 2cHJWPemDUk7D5R9iRlyVsbcZZcPvEl3wvYDifU5gaMqr9p9K/vFVP9Kqfmk4Gw+SiNQ
+ KWhs3r+LZzyyAUz0JeL6BHarxqvUpWxwHY06yL0GbM6/cZRI4SSAmnEYxVa8ppntKUW+
+ FWyj7buO57zzt66ZRyChG2qxC+U1q9cBO4VChDZvzEeHluyQW+lOpWaXNEYABcgPf2+U
+ tv/vSYTdjqYsC6yZMMbV6eGwdpkdzj8/HrivV0JWgUXnZ79fWFr13pMBhlZNw6xziKNK
+ XK4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719126853; x=1719731653;
+ d=1e100.net; s=20230601; t=1719126854; x=1719731654;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=h25hTtE3iszL243EN3L/BanznYfr4S4AGkpe+1b60ns=;
- b=SiUkS+WV4CrlzH8YX4z5Il+QUyZOpiLJ53LiLUjzVAu05HEWcoa9PWjQaKd+yLu+zM
- GLTPG5nsDl1hDNhliAaxQ/e2+CCz4m2H+IhFpIjJvOIjUz/cfHcJfAw6YOdabdHvLpZS
- aKDNJyypOyvuT4dihTZ6N9em/6AvyPG5IxSyBwWcajjCJCxMV2kiNwNj3EU6r9qnA/Pd
- 4XjwKXsJrdssbx+xB+Z9ReeuRdZV91sEiefsZwyT+bZJxj9aQh5Aze+ODbASvrBfihln
- /rgBxGA50hO2Q192ijNAtZjSQbqVXQZK2IUTGieP29Wvj72kkxbEl4F4OXIjHhPZFT66
- SDgA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXSfeROiU1Uj5Qw/c9qasZr3iSwD7Sv4odTr66CPD/mMhw545DNP5WeJJcI6EnLRIcgh7hMCZDZrgtguX1jufPzvHzFNw+eGjIrfNWTV7Gw
-X-Gm-Message-State: AOJu0Yy3oztGVmf0qeSN343rMQa92+mUU9gS/toGuJ1HF8AdngiXX7qI
- FB1RQtcejm8fIAA9O+sxDW/MnhFU9vHohp82lxFSHPzIdPWlFLuZUarDGGNk26U=
-X-Google-Smtp-Source: AGHT+IH6nBtadss1DB4DlOcUB0869LeXq6AxqTp72qo71M9rfYT2F1Fin42ZjsvT3zUahu4cHfWiGQ==
-X-Received: by 2002:a2e:b179:0:b0:2ec:5685:f068 with SMTP id
- 38308e7fff4ca-2ec5b337265mr8057591fa.17.1719126853644; 
- Sun, 23 Jun 2024 00:14:13 -0700 (PDT)
+ bh=Bv3RmqBzxRumknsNv7kNaxp5ef1fpM+tuKvMs4Mga4c=;
+ b=sN15NK96CoE4H7JqZOdGAStGKgI5wWluTBalN2RnaLwpou90cMusM8RDLxn6Hfbfcl
+ 2biqV4X7Ts5lvAqqndIoup9FGRCGvXMewwcTDcKXLIU5OCqEjZ2hYJSbI3BbAR0mWaHY
+ lY0wohmld+sHBW2Y+l9g02uZ3WJ/Wi90hn0d2sJh6o9IZLnvZODLDry8CNnu5aNwL3TW
+ TnkXEU4A4T0vTvnQnP8qGuzb4lMAENmCHWIEBhMupLI8JQ5wIiDLY/o96xTqY2XJ6R+p
+ SfUiRSJdbNpf9Iwdf8HigTFKcRj0I9kSZa8SHobcXxb85dAShyRubT5LOyhjr8nsM9g/
+ cc4A==
+X-Gm-Message-State: AOJu0YwxXtm51LRyzPn8EbLzFAYzvEp6acaDMoZdNSlSf4PLyk3rxaE/
+ ImMt3mm6naegHVSU2gonhjZmaaWXxg1hbjMDF1ySizRd6jLRtypUZadHKx6v0PA=
+X-Google-Smtp-Source: AGHT+IHVCwjM8471lU/ehMDgW/YT4M/SicFwOJ1D/s5IwFxGRJ9Q7jeIscRmJofRYLPSnsakpvTTBw==
+X-Received: by 2002:a2e:86cf:0:b0:2ec:5a6e:7771 with SMTP id
+ 38308e7fff4ca-2ec5b31d1b6mr11292671fa.37.1719126854458; 
+ Sun, 23 Jun 2024 00:14:14 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
  38308e7fff4ca-2ec5b031208sm1886861fa.26.2024.06.23.00.14.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 23 Jun 2024 00:14:13 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2 0/8] drm/msm/dpu: handle non-default TE source pins
-Date: Sun, 23 Jun 2024 10:14:05 +0300
-Message-Id: <171912674294.840248.13079605621407953516.b4-ty@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/9] drm/msm: make use of the HDMI connector
+ infrastructure
+Date: Sun, 23 Jun 2024 10:14:06 +0300
+Message-Id: <171912674295.840248.12157846241927511158.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240613-dpu-handle-te-signal-v2-0-67a0116b5366@linaro.org>
-References: <20240613-dpu-handle-te-signal-v2-0-67a0116b5366@linaro.org>
+In-Reply-To: <20240607-bridge-hdmi-connector-v5-0-ab384e6021af@linaro.org>
+References: <20240607-bridge-hdmi-connector-v5-0-ab384e6021af@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -96,34 +94,32 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 13 Jun 2024 20:05:03 +0300, Dmitry Baryshkov wrote:
-> Command-mode DSI panels need to signal the display controlller when
-> vsync happens, so that the device can start sending the next frame. Some
-> devices (Google Pixel 3) use a non-default pin, so additional
-> configuration is required. Add a way to specify this information in DT
-> and handle it in the DSI and DPU drivers.
+On Fri, 07 Jun 2024 16:22:57 +0300, Dmitry Baryshkov wrote:
+> This patchset sits on top Maxime's HDMI connector patchset ([1]).
 > 
+> Currently this is an RFC exploring the interface between HDMI bridges
+> and HDMI connector code. This has been lightly verified on the Qualcomm
+> DB820c, which has native HDMI output. If this approach is considered to
+> be acceptable, I'll finish MSM HDMI bridge conversion (reworking the
+> Audio Infoframe code). Other bridges can follow the same approach (we
+> have lt9611 / lt9611uxc / adv7511 on Qualcomm hardware).
 > 
 > [...]
 
 Applied, thanks!
 
-[1/8] dt-bindings: display/msm/dsi: allow specifying TE source
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/e0bc725bdd0f
-[2/8] drm/msm/dpu: convert vsync source defines to the enum
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/c09b19b79d27
-[3/8] drm/msm/dsi: drop unused GPIOs handling
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/149d195638c9
-[4/8] drm/msm/dpu: pull the is_cmd_mode out of _dpu_encoder_update_vsync_source()
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/1ed505b60480
-[5/8] drm/msm/dpu: rework vsync_source handling
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/cd1592c3e31d
-[6/8] drm/msm/dsi: parse vsync source from device tree
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/4404dd757c5d
-[7/8] drm/msm/dpu: support setting the TE source
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/ecfc21292865
-[8/8] drm/msm/dpu: rename dpu_hw_setup_vsync_source functions
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/b8caa9e8668b
+[4/9] drm/msm/hdmi: switch to atomic bridge callbacks
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/4fd10fa0b573
+[6/9] drm/msm/hdmi: make use of the drm_connector_hdmi framework
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/aaa38235b5fe
+[7/9] drm/msm/hdmi: get rid of hdmi_mode
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/97d6442e8f9e
+[8/9] drm/msm/hdmi: update HDMI_GEN_PKT_CTRL_GENERIC0_UPDATE definition
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/917921a20294
+[9/9] drm/msm/hdmi: also send the SPD and HDMI Vendor Specific InfoFrames
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/bf28d52a20b1
+
+Per discussion on the mailing list, 5/9 is deferred.
 
 Best regards,
 -- 
