@@ -2,78 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D00913838
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 08:01:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A213291383F
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 08:01:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4D2910E08F;
-	Sun, 23 Jun 2024 06:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAAF810E0BA;
+	Sun, 23 Jun 2024 06:01:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lav5JD6d";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uqL+ADuQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
- [209.85.222.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE4C010E08F
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 06:01:06 +0000 (UTC)
-Received: by mail-qk1-f169.google.com with SMTP id
- af79cd13be357-79baa4e8531so326304085a.2
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 23:01:06 -0700 (PDT)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9480410E0D1
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 06:01:19 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-2ec10324791so37279681fa.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 23:01:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719122465; x=1719727265; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=639B1VhzkVRiQ3egX05fSRdoRLJZKUd3UI9/6wfJ8lw=;
- b=lav5JD6d04jxlIn0p3cWTbxYLY7JdT7/fsSOJDXZRZSfmIDoYSnR8Ue0zVSOWyDvzo
- HP3/OUpZ894qOgT/5oH9dsB2NloOpI3BBWCn7+h1AMHZ3a/MpdKib4AdvN9rRlHRVDHx
- i78aRWVtZE0WVXF2o88FjoC+QTOZnJR9CWgVjX0cn/CQtVibsXPLjuOWRBotsBQe3svq
- +owxmo4BtfoP1C6OZiP7EbQIHXc/cyaBkk2ngNGjk3jXe/BpxmbCSrrUpuYY3yYhxsV9
- g/FsmKHTUWDpLhwG5qA6xr8Thb97xwAOFjQRUqfm+R22V7ArKreV2nUNnyw5kdW9F8ea
- bHDw==
+ d=linaro.org; s=google; t=1719122477; x=1719727277; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=oO/yeKrqlD6AMd5wV3WFZIiC2wA8T5SaNuGSHMCz+LM=;
+ b=uqL+ADuQLRWAW/fHn8SsMZheVrVRdZxqBZS1jLU6fuSA5acGKhweSWO/MQe70tUKz5
+ nZRbe3FfmsI9PKKrHAQUjyu2dVsZYpd5fMQ9jGnUC0YcBMEhbjmaoBliXvT/Qc3R7p3n
+ 7mAc76IC78GWcIgo/a97xuj+CYtPy8LcxbkD2AoLA6c3JY6/9KyKKkJvCD+BiHVqFmPy
+ +VDmsxrJknnatrlw+qBIyCy91JftVJ3huRv/OkybootlCGWVa5SXRQtprL1PKiLsLAJ7
+ 4Im+YsZjgXf5v9qxwxT2no+L6fN4D/m079iwkzJ1mQb7yW/Ag8uzxee5Ai8EyQ71XgQ8
+ vW2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719122465; x=1719727265;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=639B1VhzkVRiQ3egX05fSRdoRLJZKUd3UI9/6wfJ8lw=;
- b=wz/Pq4vZ+leHs8N8pDveKXz8jp65yywsu+ZxfE7an5BZV7GgKrwWzrdhJQkvxlu6rY
- iDr6HxLvq5w/V3TVGwFOSTBTeKbHFNUQJcxUxBvH6bYTA39CJbctNIjNqNEaEtx3qkbQ
- PLKd3wi9dkdAVUa7Rg0O/Jc41Hqb72soF31X6z6v6QviDCqmL5gLwvizX78XpBxUZcag
- mFVICwI10shDayVrzU+6stxW7ootUdn+KwG/TitHHr4vf4Xy05ROCJV7ffKkWB0xGw4i
- NTmmcw7gBgt8GFt7AARv0+kR+vB0sIgTrPqJdu+WZOY5YxUoo1rw5sXdf0bpsyXRlqSZ
- pyrw==
+ d=1e100.net; s=20230601; t=1719122477; x=1719727277;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oO/yeKrqlD6AMd5wV3WFZIiC2wA8T5SaNuGSHMCz+LM=;
+ b=w5lqegVCG8f/M3AQrH1C8cIiWWOcAqdU3uGK7Lu/tnVuetPnnkdbkmC9SrHRPY+yIJ
+ KhegeWBTVP56EolcuCqjHFkOYsBTDiTKRyr1YBPU7SfC8a8eH0s7OLSQjV+eIS9e5Io4
+ b1wPHxpxEIpg6tvmxQVAScRIl+vQQgWPOWWzuCSpWvWoH/KtTN4m4HmdNcMDeEJwPY8s
+ gcKOi3GBBbv/wVOvVNOhGWwut+DWFz4SKNDa9vGnTuHdzNQ1uL74XIsH/JesOVdrSdpy
+ aOX/zgK7se6pKSPlyKmt0wiFaSyQovOPNDpKvBbs8jn01QrukdojhBOy30Pi5E3z3lT9
+ 3G/A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXkb4jnoCxV5e/AXkrUnZMJfN1Jz5VlfrA3dgEaLLqxHo7fcdN3OzyXStodGDSgka0ifQRwL5pkGyUfhHb8jk5n+YDFH1Z55R2HYZllCdHT
-X-Gm-Message-State: AOJu0YxXOO3IuNCGr7WpGebMllq9hwcKcIG6TRkJ5MobNoCWSZuUewHr
- r/tnJsK937iG3mAZgzi4f9d5NWVKIqrwqRgBScjmXsPq++YFTKo/DGm9IKAFmGs9x1B0T0gqrIr
- UpDVRwb1wQonum8r0S7Vbjvrsrec=
-X-Google-Smtp-Source: AGHT+IHcXR+ehU+k0C/NmM/DLF8W1FSfgc1FOoi+9SruG7tbvTjl8bMu8+dVhBmSjLDe3SkqoqwwTUGvFNLK0f3vidI=
-X-Received: by 2002:ad4:5228:0:b0:6b4:f644:9d87 with SMTP id
- 6a1803df08f44-6b53debf738mr17899726d6.21.1719122465581; Sat, 22 Jun 2024
- 23:01:05 -0700 (PDT)
+ AJvYcCV+wFkVrJn9sNCsoKaqVlIbDMw4dnR0Koke+m9wgZaIQl9RuMAKt6FfnR8ym0dHbWGilwQiEgogYZfdByWLiilYsxqtUB0KNiMLkYpurA9p
+X-Gm-Message-State: AOJu0YwYLFF8tHcsgH0pHkNhk8nQeWlxq59OzDA7FNR9QJ+kSXFaIkyJ
+ +r41HGIjP9o72IFsTrRM473uko0vYsB61gZi3wxoo/Wi+5bQT0RenFpmVZkxj1Y=
+X-Google-Smtp-Source: AGHT+IFPlO6IKb2eGiTUnC9Nkv6WxHGRszGQWaUUwUdgPx1JDS5kmDVtdDq+1Ch5metEWw5+VYTjtw==
+X-Received: by 2002:a19:4312:0:b0:52b:e800:25d8 with SMTP id
+ 2adb3069b0e04-52ce183559fmr598972e87.25.1719122477496; 
+ Sat, 22 Jun 2024 23:01:17 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52ce17c3821sm162388e87.241.2024.06.22.23.01.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 22 Jun 2024 23:01:17 -0700 (PDT)
+Date: Sun, 23 Jun 2024 09:01:15 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Daniil Titov <daniilt971@gmail.com>
+Subject: Re: [PATCH 4/4] drm/msm/dsi: Add phy configuration for MSM8937
+Message-ID: <hmgnm7xgrf7bzae4wkfz3rvhmubprsa5qo3tydjq3vjhapj7wj@klsgm3tlkctg>
+References: <20240623-dsi-v1-0-4ab560eb5bd9@gmail.com>
+ <20240623-dsi-v1-4-4ab560eb5bd9@gmail.com>
 MIME-Version: 1.0
-References: <20240621022959.9124-1-laoar.shao@gmail.com>
- <20240621022959.9124-7-laoar.shao@gmail.com>
- <ZnWGsw4d9aq5mY0S@casper.infradead.org>
- <CALOAHbC0ta-g2pcWqsL6sVVigthedN04y8_tH-cS9TuDGEBsEg@mail.gmail.com>
- <ZneSWDgijj3r0MMC@casper.infradead.org>
-In-Reply-To: <ZneSWDgijj3r0MMC@casper.infradead.org>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Sun, 23 Jun 2024 14:00:29 +0800
-Message-ID: <CALOAHbDvyBn=yUABT4G6Egne48cQqHDM7bvuBeKFmbSA5fhg4A@mail.gmail.com>
-Subject: Re: [PATCH v3 06/11] mm/util: Deduplicate code in {kstrdup, kstrndup,
- kmemdup_nul}
-To: Matthew Wilcox <willy@infradead.org>
-Cc: torvalds@linux-foundation.org, ebiederm@xmission.com, 
- alexei.starovoitov@gmail.com, rostedt@goodmis.org, catalin.marinas@arm.com, 
- akpm@linux-foundation.org, penguin-kernel@i-love.sakura.ne.jp, 
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org, 
- linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
- bpf@vger.kernel.org, netdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240623-dsi-v1-4-4ab560eb5bd9@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,28 +97,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 23, 2024 at 11:11=E2=80=AFAM Matthew Wilcox <willy@infradead.or=
-g> wrote:
->
-> On Sun, Jun 23, 2024 at 10:29:30AM +0800, Yafang Shao wrote:
-> > On Fri, Jun 21, 2024 at 9:57=E2=80=AFPM Matthew Wilcox <willy@infradead=
-.org> wrote:
-> > >
-> > > On Fri, Jun 21, 2024 at 10:29:54AM +0800, Yafang Shao wrote:
-> > > > +++ b/mm/internal.h
-> > >
-> > > Why are you putting __kstrndup in a header file when it's only used
-> > > in util.c?
-> >
-> > I want to make it always inlined. However, it is not recommended to
-> > define an inline function in a .c file, right ?
->
-> I'm not aware of any such recommendation.  Better than putting it in
-> a .h file that everybody has to look at but nobody uses.
+On Sun, Jun 23, 2024 at 01:25:54AM GMT, Barnabás Czémán wrote:
+> From: Daniil Titov <daniilt971@gmail.com>
+> 
+> Add phy configuration for 28nm dsi phy found on MSM8937 SoC. Only
+> difference from existing msm8916 configuration is number of phy
+> and io_start addresses.
+> 
+> Signed-off-by: Daniil Titov <daniilt971@gmail.com>
+> Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
+> ---
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c      |  2 ++
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h      |  1 +
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c | 18 ++++++++++++++++++
+>  3 files changed, 21 insertions(+)
+> 
 
-Understood.
-Will change it.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
---=20
-Regards
-Yafang
+-- 
+With best wishes
+Dmitry
