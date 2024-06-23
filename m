@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01BAC913E39
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 22:52:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 825A2913E3C
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 22:54:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A78210E1E8;
-	Sun, 23 Jun 2024 20:52:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0CF710E1C6;
+	Sun, 23 Jun 2024 20:54:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="u7Lvwi0H";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TUycmvzG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D590410E1E8
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 20:52:52 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2ec59193468so7301081fa.1
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 13:52:52 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA81610E180
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 20:54:39 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-52cd9f9505cso2470985e87.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 13:54:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719175971; x=1719780771; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1719176078; x=1719780878; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=7uTo3ZPUx3K0rhi8+9SzsYcK1LXS9wxsvZyOU1ivZAE=;
- b=u7Lvwi0HpGkmc7q49kVorCg4pM3/YlS1/bq5ViZWZkhSgEUOqqbPRz6O9CS2rQJvNS
- P4M5Hhg6i3ArdHW5iInEtPkbIpWQBo2J56LhpKH9TWblvCkE0ZX8AAojn0I87d8g9SsM
- +5jtkH2DV+55//k+gvni8Uy8WqNGkEEj0V9pfdnv7U15AlTmvmGLyT8dDYctXZ/onCcC
- I78AiMYyt937prjei4ScJzOis3qpQ0UIsFNaXdy+2xjQF1YUPjYPxpyEK3EbwZ3H+8Gc
- 6/lSJTaHQF/UJGhLRLIjvCCkVQGFq17469Y4f7g+VJqz9Wrddy+2500BJaa/z60ImLnr
- kl1g==
+ bh=CQ6PtGCSFslWh1NWs4l9F/KIrbPK8P3SynMUjUqvTRk=;
+ b=TUycmvzGUZ5rzm8yNCvEJxrJ8MmbIYHz8rFNMK+9Uvj1RGLZt8aOsc6Bh9/PLiiqRE
+ ly3JBGTNc+eozEQB4f4gg743f5dyqR/Nm0YxTTtxhfWXBTPrgSvRqleb2KRul/4cfzUq
+ Zmk3SFY+kKhrb7EtG8jrzf4kpxpIIBbcMr82xCfF53UtaNQOrzilDLuNoZSdXixccNuv
+ JR+zYADyv3y1svAS8PHlzLY6RiwyJv43Imwl2B0r7ugDSL/Em8UnIy/44zT1hxU6AAFk
+ p8Yyqffxg4IdDOc0JNx68A80NCct9WAwBxcRoHmf/+dDEO7b8NWuGSuJxJvyv4IYo58E
+ jh+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719175971; x=1719780771;
+ d=1e100.net; s=20230601; t=1719176078; x=1719780878;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7uTo3ZPUx3K0rhi8+9SzsYcK1LXS9wxsvZyOU1ivZAE=;
- b=Mm3URUDz/7OAly+Sh7psb9GcqgL3SGYda9+I06Q84Om/zRH5BWXnus3+1DtDXvFemF
- Ujpqxo9iAsQ1lAEdMYFp4e1r/Oy8S2t4i4hLmJ9kgq1osCAExWaYaWxsfeK4i0980L25
- r5mobzMmnQKY0UeDtXA4XcEJbOg++qu/uky4TtGfKPUKXaElbhSQmzEa9kM+qszOcr3q
- UkqBnQnvwtJRblZdoCzHQXEsLFqWDgSt8uzWkUGCnHe9GtCqcrLjv4ATzVbbqp36N2n7
- Sswy/c76/5DsUmo7KfSDW5oAoL/zRcjo18Pgr6u62FGnwuWThExKY7+65p7263gzlf5O
- SLqg==
+ bh=CQ6PtGCSFslWh1NWs4l9F/KIrbPK8P3SynMUjUqvTRk=;
+ b=xIght/rJ1SIRwGFFlmOo851XLOnxmJnvnicR4dqtn8RrU1n2ozWxzsKEalZ9lviMxX
+ 6pkVhyQDBJBibeOgftXPFBtu0AcsOKiQEUV5hhObhD866ZqJ2W0OoNpgwuBOEimoDmXn
+ 2e2OFRM6eZL3M9Hg+Q8+E2DBmWyOHthUVTemMEPfWIJB8W3d7loAIid+roML0VuW9Uzp
+ z4oSWdN9pDlSzlHB6mX83m1VAWOfkvPsP/8yXr6lma9JUH6lS3FJ1k+vem4f2Wyz7r+o
+ bID0bsXZCIXB4XT5x/kB1PXW7+PrXe9AR6AQHyK+r6LAWh9CLPIiQFwgnxhCxY/pMTJD
+ IS+g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUSAsm+LFO+0T367eMzAYRANO9WkQd5eIonHji5DRtn66H1vOrFnrcI2ltgCohGnTrk4BsHTzkMl5zsoCmoAKrgNnGJfxx6gjoVoJ7Eh95d
-X-Gm-Message-State: AOJu0Yyh3IgKk92+LTqN4Nh4MMcH26OUUvctuYijL9LOTJ+Nfl/R+iR0
- oE9x0QC0jc4sLWMcqN4GYoRr0N6Snxu8RNeFfcNhLcrZdejnV0H+DQGtHE4ctSA=
-X-Google-Smtp-Source: AGHT+IHOdvwlm/V74XgOSUz/yzIxVY9cnm339PgJIGCdcSGcuh23BD7ELQkWwC/H5ZAyl+yMDB1o/Q==
-X-Received: by 2002:a2e:80c4:0:b0:2ec:4d82:9e96 with SMTP id
- 38308e7fff4ca-2ec56caf832mr12068771fa.23.1719175970544; 
- Sun, 23 Jun 2024 13:52:50 -0700 (PDT)
+ AJvYcCWJ39w4+ycDOMcdiivaooRhwMR+O3NSisGcANukXlz/dsJ6EWTutSr7WOJdETiIFbFESgalpU6C+C5RceBDWt9JpcAk0pGLh4TlZfrtU4mq
+X-Gm-Message-State: AOJu0Yxyp4M0mvNkeIgxJ/ycvU4QxSli4f2XvbFIU0OXcAQzW4OEDJD6
+ FItb/OlZvlarcUAvBkx51wN7HbixzoWvDsIlP1zwJnI3dXKw8ikVJbw+mU1B6aw=
+X-Google-Smtp-Source: AGHT+IHcvQBzyPAeMdz+wbElXVCVQl+gsHiPe/J7kj0/xSGAFtwHdOhJ+qHCSmuAqniUaRWk/9TkJQ==
+X-Received: by 2002:a19:f614:0:b0:52c:dbd9:45e7 with SMTP id
+ 2adb3069b0e04-52cdf826730mr2349608e87.57.1719176077718; 
+ Sun, 23 Jun 2024 13:54:37 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec4de2dbc4sm7824561fa.73.2024.06.23.13.52.49
+ 2adb3069b0e04-52cd63cb64csm845518e87.108.2024.06.23.13.54.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jun 2024 13:52:50 -0700 (PDT)
-Date: Sun, 23 Jun 2024 23:52:48 +0300
+ Sun, 23 Jun 2024 13:54:37 -0700 (PDT)
+Date: Sun, 23 Jun 2024 23:54:35 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Keith Zhao <keith.zhao@starfivetech.com>
 Cc: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>, 
@@ -82,16 +82,16 @@ Cc: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
  "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
  "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v4 05/10] drm/vs: add vs mode config init
-Message-ID: <nwyeptrjhpmpnvwrexjebkvsl3dudgao4w4lnm3srs6ahmjwjr@6mdyw6kvtbag>
+Subject: Re: [PATCH v4 06/10] drm/vs: add vs plane api
+Message-ID: <2bo3yzeogfup2qfyeqrq2ini7g3evshteqpd5lxr6l5jupfo6w@tqwg2zuhlpph>
 References: <20240521105817.3301-1-keith.zhao@starfivetech.com>
- <20240521105817.3301-6-keith.zhao@starfivetech.com>
- <ttjuehs6ui4dsnexhhodfd22okujx55mof5svxuk47gizhkv52@kdbdvwsamz6i>
- <NTZPR01MB1050281A0007497AF8606662EECB2@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
+ <20240521105817.3301-7-keith.zhao@starfivetech.com>
+ <gcwvgco3ixpwaalnaq5qzwcp3sq44dgphps7vlqm6zdozu6ci2@vfq4ovpxk25n>
+ <NTZPR01MB1050934BBB12DC9DC8BD9740EECB2@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <NTZPR01MB1050281A0007497AF8606662EECB2@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
+In-Reply-To: <NTZPR01MB1050934BBB12DC9DC8BD9740EECB2@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,14 +107,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 23, 2024 at 07:17:01AM GMT, Keith Zhao wrote:
-> Hi Dmitry:
-> 
-> > -----Original Message-----
-> > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Sun, Jun 23, 2024 at 07:17:07AM GMT, Keith Zhao wrote:
+> > 
+> > On Tue, May 21, 2024 at 06:58:13PM +0800, keith wrote:
+> > > add plane funs and helper funs
+> > > add vs drm common struct and funs
+> > >
+> > > Signed-off-by: keith <keith.zhao@starfivetech.com>
+> > > ---
+> > >  drivers/gpu/drm/verisilicon/Makefile   |   3 +-
+> > >  drivers/gpu/drm/verisilicon/vs_drv.h   |  93 +++++
+> > >  drivers/gpu/drm/verisilicon/vs_plane.c | 487
+> > > +++++++++++++++++++++++++  drivers/gpu/drm/verisilicon/vs_plane.h |
+> > > 26 ++
+> > >  4 files changed, 608 insertions(+), 1 deletion(-)  create mode 100644
+> > > drivers/gpu/drm/verisilicon/vs_drv.h
+> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.c
+> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.h
 
-Please drop such headers from your replies. A simple "On 1st of January
-John Doe wrote" is more than enough.
+> > > +
+> > > +/*@pitch_alignment: buffer pitch alignment required by sub-devices.*/
+> > 
+> > Is that all the docs you want to add?
+> It should delete the redundant parts which is unused,
+> To make this patch clearer to review 
+
+I'm sorry, I can't understand your comment.
+
+> > 
+> > > +struct vs_drm_device {
+> > > +	struct drm_device base;
+> > > +	unsigned int pitch_alignment;
+> > > +	/* clocks */
+> > > +	unsigned int clk_count;
+> > > +	struct clk_bulk_data	*clks;
+> > > +	struct reset_control	*rsts;
+> > > +	struct vs_dc dc;
+> > > +	int irq;
+> > 
+> > As usual, please drop unused fields and add them when required.
+> 
+> In principle, I try to split the patch independently according to this.
+> In fact, there is still a lot of room for optimization
+> The subsequent patches will maintain independence and remove redundant parts for decoupling
+
+Yes, please.
 
 -- 
 With best wishes
