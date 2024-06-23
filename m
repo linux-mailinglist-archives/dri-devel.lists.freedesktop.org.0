@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F35AC913E1B
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 22:31:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B71CA913E1F
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 22:31:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C839C10E011;
-	Sun, 23 Jun 2024 20:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD3710E316;
+	Sun, 23 Jun 2024 20:31:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K+qZk9yu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OUhFtakV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7179810E1C6;
- Sun, 23 Jun 2024 20:30:47 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-4218180a122so27711745e9.1; 
- Sun, 23 Jun 2024 13:30:47 -0700 (PDT)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB05F10E011;
+ Sun, 23 Jun 2024 20:30:48 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-362f62ae4c5so2048318f8f.1; 
+ Sun, 23 Jun 2024 13:30:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719174646; x=1719779446; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1719174647; x=1719779447; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=LSLZRfc59PgjAu3IAfb10/Y7qX+44+MtwIvZ2wCAgyw=;
- b=K+qZk9yu5UxfK1mjT+iVoiA3jABVhFlHZ4oJC9pJRAqStBcNT86D46dpUDZLpu9TIo
- hIQTMN6ohXCIGXFO/lLkuRh6LuEZsfucd5OBl1yyYNpCByKF4LAmO4RIGuhCi2wLVbxv
- UG42uPZ783RSE8er4MeoqcigUJ/58hZsCx/ZzaNMF1u2mLz62+f3l3oeD0ZaJHBOOvks
- tWJHGC1GdziXO32VZda82RmiKPKs4lVD0lA1TUh3yLbjpH5vm9t32abD0e1dIQQ7FMqF
- R2/DYvzzi8p6gPa+370j0RzUphn3CtsX6qGzkslil00iwVXsB0rqVfPjx5LzXzNmB/xv
- 3/zw==
+ :reply-to; bh=5IThLSZxCkprktvpOp0R1xO5qT7TqcAXcmsbOx04wBw=;
+ b=OUhFtakVuQq64xlki5bAT9HAZYAfvSjUlbnqc62YPEo7DO7au9nDfGSJjJWN7EnJa6
+ uBqphvtIVsztiyeOGbmp2LZU2byLXv08Um+NZTIgUbjiwEa2foGKJCSwKCbVO+/BsD6b
+ v9bGQBlT9fzGS1EqglU47NQKcbPASQrdHqyO4OYSY+/bb3MYazzHWDfd8iJLYSi9yNlC
+ t2b3gzJhuHfx4NThv8u/0oszX2RkfsQiLD1bRB2NfOXF5GYV+HPfzi9TVffUAKFp/CGw
+ LuNMH76PonBVhk0z1ML+qPMExRqzfa6sRzuJmRz+kLOaKXpiDzXlH7zaXxXqP8lORkQ5
+ 79Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719174646; x=1719779446;
+ d=1e100.net; s=20230601; t=1719174647; x=1719779447;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LSLZRfc59PgjAu3IAfb10/Y7qX+44+MtwIvZ2wCAgyw=;
- b=DaKcDj4ccpF8vkTQ9909yzWvuRKyxh3RtWNpY87JtDL1f0A+M3AXXyf5KH1JMeg+vT
- vez/dNWjzHl2gmn/IG8sVTvBsq8AtTlmd8QIjXrBpKS8fvCpamPTwqJmysDC0ww6lVQe
- rOjC9HPoTwtFYgX7MgocVBz+QtPDAKb1Y/cbtbTlFXoatpgmo6RvQ1+Y++7AXtpiKNXv
- fCvdk0ijtKQZZJcqEWZwtKKhK2Hmafsd0zlIhGQVjVcxzxF3bPztfnGPRj36xfLU6Z3e
- YkQGeEn7qgQe7xg4BeOXAIkdTfeUchN0YnOrJK4jibMJZUg35XIjGbaf5iHHsnDp4Mm+
- Mxcw==
+ bh=5IThLSZxCkprktvpOp0R1xO5qT7TqcAXcmsbOx04wBw=;
+ b=jnxq9bL2Ddf93MNYHhcxHjQkcWQO27/DgaN/vrCSpanW7cvQcAngff7q6gt47QPUN0
+ M9K+hHnnDYVJQZ7KQIlz4s82lYY2ViQREospIgUYzx4ODk4a5iYg3P4XuepmuC2AyJcR
+ 1j5BdQ61Y7w0EilKw5vyVe7FesUdBsbEuKj2aXbx7cmDdC610+E0sF5f3edo0D/i0wXX
+ AU/L+tQGoIc6o1kFwY/AL/Oj7hWOhFeDa3985C+6x9qHuFWNRmdOB+k9jZDG8gvmNmPd
+ A3DP7pzf9pTpII3k26Ai0vXhA1GFN7SCPwaYMRj6Y8z3KqdJr2gWaddGIkCx15O0kvqJ
+ CWUA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVcMfN1PR7n7rrw39vomo4NfQR0wpG1qOuHtk/ysj24EZPetDnGJI+HK3Rm2WDr1Hoqo5sTW5YiJRppnJeVSUyTdfanMNocowXcASl4jPH/CrNPMu1nJa9BACCDh8oVzCN7e4AUWB7H2ovsIZ06PkNk
-X-Gm-Message-State: AOJu0Yy5q3t+J/ojSRcvc5dcqPQhC6s9neGj+BT87qORa11xfXSoLm2i
- GypTmWhWctMJ0jy5Oqj+zXgIR4MJNmGockcqoUOsbHZkipKPAs0DyqQ9FcADURQ=
-X-Google-Smtp-Source: AGHT+IFQYzva89WBUwkGC27QsYMXMAq2H+qOvshVT5ndxoilTZ70p8PAYKz5+yc8iBxI+YDaJVklkA==
-X-Received: by 2002:a5d:64c4:0:b0:366:f627:37 with SMTP id
- ffacd0b85a97d-366f6270197mr171245f8f.53.1719174645659; 
- Sun, 23 Jun 2024 13:30:45 -0700 (PDT)
+ AJvYcCXBWJbNfFQ44Y1ZiRGJ5z3pbOhwiHL+sDj00YuCbUNZWTzjAu5xYQUV62vr77dbQTXDosGceXTd/eI1j/WwcYuaz1529rorKZhrRScBcpUK4hlC9fT7iGOb2BAR7+ssumOiCw70NCuek85uHDiIFPA0
+X-Gm-Message-State: AOJu0YyZOolQ7Xgk7V+R89cFkwjG9StWbftmmiKlp9Ew39B4tMlYwQm7
+ d9zyB3Z7ASSJi3be2APffRwa3Qb0fH/zOc+agZNBmLeIIYnIKDsw4yt3kAdUMxE=
+X-Google-Smtp-Source: AGHT+IEtxSf0FqRKKf6O5su5WO1aK1An8BcYpxm9JuMgBzotWwroMshjUUv72Y3gADnWy0VLBDhhqg==
+X-Received: by 2002:adf:efcf:0:b0:360:7c76:dd5 with SMTP id
+ ffacd0b85a97d-366e3677026mr3662823f8f.14.1719174647089; 
+ Sun, 23 Jun 2024 13:30:47 -0700 (PDT)
 Received: from [192.168.1.130] (BC2492F3.dsl.pool.telekom.hu. [188.36.146.243])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-366389b8ad2sm8088599f8f.33.2024.06.23.13.30.44
+ ffacd0b85a97d-366389b8ad2sm8088599f8f.33.2024.06.23.13.30.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jun 2024 13:30:45 -0700 (PDT)
+ Sun, 23 Jun 2024 13:30:46 -0700 (PDT)
 From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>
-Date: Sun, 23 Jun 2024 22:30:38 +0200
-Subject: [PATCH v2 3/4] dt-bindings: msm: dsi-phy-28nm: Document msm8937
- compatible
+Date: Sun, 23 Jun 2024 22:30:39 +0200
+Subject: [PATCH v2 4/4] drm/msm/dsi: Add phy configuration for MSM8937
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240623-dsi-v2-3-a0ca70fb4846@gmail.com>
+Message-Id: <20240623-dsi-v2-4-a0ca70fb4846@gmail.com>
 References: <20240623-dsi-v2-0-a0ca70fb4846@gmail.com>
 In-Reply-To: <20240623-dsi-v2-0-a0ca70fb4846@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -79,7 +78,7 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  devicetree@vger.kernel.org, 
  =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>, 
- phone-devel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>
+ phone-devel@vger.kernel.org, Daniil Titov <daniilt971@gmail.com>
 X-Mailer: b4 0.14.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,40 +95,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MSM8937 SoC uses a slightly different 28nm dsi phy. Add a new
-compatible for it.
+From: Daniil Titov <daniilt971@gmail.com>
 
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+Add phy configuration for 28nm dsi phy found on MSM8937 SoC. Only
+difference from existing msm8916 configuration is number of phy
+and io_start addresses.
+
+Signed-off-by: Daniil Titov <daniilt971@gmail.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
 ---
- Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml | 1 +
- Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml    | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c      |  2 ++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h      |  1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c | 18 ++++++++++++++++++
+ 3 files changed, 21 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
-index 288d8babb76a..a55c2445d189 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
-@@ -16,6 +16,7 @@ properties:
-   compatible:
-     enum:
-       - qcom,dsi-phy-28nm-8226
-+      - qcom,dsi-phy-28nm-8937
-       - qcom,dsi-phy-28nm-8960
-       - qcom,dsi-phy-28nm-hpm
-       - qcom,dsi-phy-28nm-hpm-fam-b
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
-index e4576546bf0d..7c6462caa442 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
-@@ -126,6 +126,7 @@ patternProperties:
-           - qcom,dsi-phy-14nm-8953
-           - qcom,dsi-phy-20nm
-           - qcom,dsi-phy-28nm-8226
-+          - qcom,dsi-phy-28nm-8937
-           - qcom,dsi-phy-28nm-hpm
-           - qcom,dsi-phy-28nm-hpm-fam-b
-           - qcom,dsi-phy-28nm-lp
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+index 24a347fe2998..dd58bc0a49eb 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+@@ -545,6 +545,8 @@ static const struct of_device_id dsi_phy_dt_match[] = {
+ 	  .data = &dsi_phy_28nm_lp_cfgs },
+ 	{ .compatible = "qcom,dsi-phy-28nm-8226",
+ 	  .data = &dsi_phy_28nm_8226_cfgs },
++	{ .compatible = "qcom,dsi-phy-28nm-8937",
++	  .data = &dsi_phy_28nm_8937_cfgs },
+ #endif
+ #ifdef CONFIG_DRM_MSM_DSI_20NM_PHY
+ 	{ .compatible = "qcom,dsi-phy-20nm",
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+index 5a5dc3faa971..a9b4eb2c0e8c 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+@@ -47,6 +47,7 @@ extern const struct msm_dsi_phy_cfg dsi_phy_28nm_hpm_cfgs;
+ extern const struct msm_dsi_phy_cfg dsi_phy_28nm_hpm_famb_cfgs;
+ extern const struct msm_dsi_phy_cfg dsi_phy_28nm_lp_cfgs;
+ extern const struct msm_dsi_phy_cfg dsi_phy_28nm_8226_cfgs;
++extern const struct msm_dsi_phy_cfg dsi_phy_28nm_8937_cfgs;
+ extern const struct msm_dsi_phy_cfg dsi_phy_28nm_8960_cfgs;
+ extern const struct msm_dsi_phy_cfg dsi_phy_20nm_cfgs;
+ extern const struct msm_dsi_phy_cfg dsi_phy_14nm_cfgs;
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+index ceec7bb87bf1..3afc8b1c9bdf 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+@@ -917,3 +917,21 @@ const struct msm_dsi_phy_cfg dsi_phy_28nm_8226_cfgs = {
+ 	.num_dsi_phy = 1,
+ 	.quirks = DSI_PHY_28NM_QUIRK_PHY_8226,
+ };
++
++const struct msm_dsi_phy_cfg dsi_phy_28nm_8937_cfgs = {
++	.has_phy_regulator = true,
++	.regulator_data = dsi_phy_28nm_regulators,
++	.num_regulators = ARRAY_SIZE(dsi_phy_28nm_regulators),
++	.ops = {
++		.enable = dsi_28nm_phy_enable,
++		.disable = dsi_28nm_phy_disable,
++		.pll_init = dsi_pll_28nm_init,
++		.save_pll_state = dsi_28nm_pll_save_state,
++		.restore_pll_state = dsi_28nm_pll_restore_state,
++	},
++	.min_pll_rate = VCO_MIN_RATE,
++	.max_pll_rate = VCO_MAX_RATE,
++	.io_start = { 0x1a94400, 0x1a96400 },
++	.num_dsi_phy = 2,
++	.quirks = DSI_PHY_28NM_QUIRK_PHY_LP,
++};
 
 -- 
 2.45.2
