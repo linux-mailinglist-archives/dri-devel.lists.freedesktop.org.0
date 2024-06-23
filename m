@@ -2,55 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2499D9139E4
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 13:13:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66479139ED
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 13:17:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8E8910E205;
-	Sun, 23 Jun 2024 11:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE4110E222;
+	Sun, 23 Jun 2024 11:17:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nP//XyQu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kicdWBwZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D333F10E205;
- Sun, 23 Jun 2024 11:13:32 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BAF910E21A;
+ Sun, 23 Jun 2024 11:17:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E7A7C61DAC;
- Sun, 23 Jun 2024 11:13:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35C0BC2BD10;
- Sun, 23 Jun 2024 11:13:25 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id A1632CE09B0;
+ Sun, 23 Jun 2024 11:17:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C59B1C2BD10;
+ Sun, 23 Jun 2024 11:17:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719141211;
- bh=pb/S6Tg5OwzW1hhoo2u/dWQWRmQFLrxvO+bT2mvdqB4=;
+ s=k20201202; t=1719141443;
+ bh=7PMJh1IV9P4084It6la8SIga/HlxLlyZ153yooL7pA0=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=nP//XyQuuMFA10yJBwQFp2PwmjbWL1N1K4R+0xwI3okVJ6hoh9FNNvgKcCQQ0XALP
- VsHvbXC5SgQqHuoerFzB0PmIfTnWV2En6rVa3OiyQiWBrRpjXRUDNkspuTI+73LzTq
- hi64uNwjJU8ADlD1PaVpscWDVQWp3fEKH2IY5QxfcaoZYZC5gpBP0a0qEFrvfxNahl
- 9M0IWjykBDSUVc3872nybGkuMNvpXNT46Jn1sIi9XIkEH/M5o9frinLKgwN7aVjPS0
- bELgWrJEQb6yoFA//xGc/UIDRzpzfSvSmjlXXfGIX7GRmJWhgQl+47Kla2YcA5Dx14
- XdEa4uQtjVmQg==
-Message-ID: <fc090682-6610-4dfd-896a-640366b5975b@kernel.org>
-Date: Sun, 23 Jun 2024 13:13:23 +0200
+ b=kicdWBwZpB6XBYekNsv0O/sm4JP3gnEJRMSFlp3P7/D8V/HiESyof/zXJM8wvr6CN
+ AMIsunwKMKqYnoq1086kxWNvntSP/bsDy5Isadq39XBEOnl7YmXVZIM11mv6ZBwP3+
+ 5TlrbCSGAKUwV8kQO50ojib2+yi5iaj8hJXBor3wMMZ63HUtkAsUR9FNgDcuwKa1bu
+ +ORKKv7H/G5o+mfGDWozmODbvk6yAMFpRB7AM+GH5nIwXnaaiq4hU6YjTt8NG9E+He
+ V28kFYR7PKlTYWB2Ntnv2mdjrkNC+Mppc9AqwKlDh3Qzd/YtQC4VLNtMmbwwsB4nDF
+ OiZhh2+Yd55oQ==
+Message-ID: <a458a3a7-2b6d-4032-949c-b2c021d339e8@kernel.org>
+Date: Sun, 23 Jun 2024 13:17:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/3] dt-bindings: display/msm/gmu: Add Adreno X185 GMU
+Subject: Re: [PATCH v1 3/3] arm64: dts: qcom: x1e80100: Add gpu support
 To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
  freedreno <freedreno@lists.freedesktop.org>,
  dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Rob Clark <robdclark@gmail.com>, Bjorn Andersson <andersson@kernel.org>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Sean Paul <sean@poorly.run>, Thomas Zimmermann <tzimmermann@suse.de>,
+Cc: Conor Dooley <conor+dt@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
- <20240623110753.141400-2-quic_akhilpo@quicinc.com>
+ <20240623110753.141400-4-quic_akhilpo@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,7 +90,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240623110753.141400-2-quic_akhilpo@quicinc.com>
+In-Reply-To: <20240623110753.141400-4-quic_akhilpo@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,15 +109,23 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 23/06/2024 13:06, Akhil P Oommen wrote:
-> Document Adreno X185 GMU in the dt-binding specification.
+> Add the necessary dt nodes for gpu support in X1E80100.
 > 
 > Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 > ---
-> 
->  Documentation/devicetree/bindings/display/msm/gmu.yaml | 4 ++++
+> +		gmu: gmu@3d6a000 {
+> +			compatible = "qcom,adreno-gmu-x185.1", "qcom,adreno-gmu";
+> +			reg = <0x0 0x03d50000 0x0 0x10000>,
+> +			      <0x0 0x03d6a000 0x0 0x35000>,
+> +			      <0x0 0x0b280000 0x0 0x10000>;
+> +			reg-names =  "rscc", "gmu", "gmu_pdc";
 
+Really, please start testing your patches. Your internal instructions
+tells you to do that, so please follow it carefully. Don't use the
+community as the tool, because you do not want to run checks and
+investigate results.
 
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+NAK.
 
 Best regards,
 Krzysztof
