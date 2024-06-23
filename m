@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EB2913E18
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 22:30:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43DE2913E19
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 22:31:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C97010E21F;
-	Sun, 23 Jun 2024 20:30:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7611F10E30E;
+	Sun, 23 Jun 2024 20:30:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="T9VrSqC9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="E3otxra+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A927310E110;
- Sun, 23 Jun 2024 20:30:44 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-366edce6493so351606f8f.3; 
- Sun, 23 Jun 2024 13:30:44 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD5B710E011;
+ Sun, 23 Jun 2024 20:30:45 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-35f090093d8so2541270f8f.0; 
+ Sun, 23 Jun 2024 13:30:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719174643; x=1719779443; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1719174644; x=1719779444; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=8/H5C81Y675DpCKTHyrBPsjadWIIyfe3/F8KGCSH21I=;
- b=T9VrSqC9RxpRb57k6icRgcr408hhNfPROZDJkHBkt53dtiBp1u431J4P6Ybmpq9aA0
- B+VfXcRsijBnRjXb6Aao8sN6pMBtlTCT29/cH6B9yIyfuvgb4GEOV04sdP444c/DOfok
- VYwOjYx3C7UGi9BuxqME6BwhX9RHoLJ6KjSw5GDFHKK0Qq3foqyOqZCMREG8Y8OkkxaU
- fWAnZdyChKBbn8miSwSZTj8zXv8poJulveYui+yox/UWo6YIyp1CbD6kzaOBJLHP4wjL
- bZoEU+a0YNBrXXLDQYxWkK43vksrTdBWTiXBXGA//swQ/3iQGwR40ue50a2G1PaTVP/Y
- HjuQ==
+ :reply-to; bh=WcQwj4t9zR+7uYrgBkNTvxKkblY1AhgJTZPnMnuWT20=;
+ b=E3otxra+Mo93CE3r9YZo+N8t1+F8uyrcSp/LCM9Z4Ajszo+7TY4D5O12ifcfrQ/YvT
+ jVLNs7Z7p2fAKq6Amy/0yd0ZL37cA19wo8JNXN4lsg0aD52l6wCHoTY/Kp4YGdtbM9kp
+ PJrM+jewTitiUyCkwYGV3Wcf0fJi1+Jq9GihsLLCJ9JQapoHJbT5Hppg0H8g0uCMy1Zo
+ EYCek4csLRPMVz+Y/9ilFAyox++GzgJkxYMXsIsFA6rvKNlJPXBzNS+zhtT0IUHxTwi5
+ ZG0S7cZT01hRxfjeQI5WB2yGGol872z+EvmFlzb8QUSN4Bn7LTWP66euctAmZrgMgjyP
+ /Elg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719174643; x=1719779443;
+ d=1e100.net; s=20230601; t=1719174644; x=1719779444;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8/H5C81Y675DpCKTHyrBPsjadWIIyfe3/F8KGCSH21I=;
- b=jYklhxihfG2nCw4B9XWOtfjAKNjC+bVea9Db/L7Xwibm2X/g7lhKAr6F8jxEFjYf/z
- KhHmxA4b8bmqSFCmi6oJLrRwdV57OxiOhNXMehLz/G6l8CGf0b16ltnTxvLHWklC8NOp
- SWp6N5P9hsK0k2hXQmTNMq5VZK4mxHIzMNr6hzrOA/daj7mCOa2nfsvEZbwKZIGW/gpQ
- bqOQiQ/ckS39ZmY7WSGRlpURvM5zw75w9Uyb1rZRuh0aG8eWT0IZuctePiLQqudO9ziT
- KK2gLvc+BL/CMHzjxPqeOXELfPf0P810IbsW7rjI9JPPyj1rojdXcaT9lQdS1Df70Y7r
- PO9g==
+ bh=WcQwj4t9zR+7uYrgBkNTvxKkblY1AhgJTZPnMnuWT20=;
+ b=jXsYd0Oi7lxVflSe93O6pCCJldywxBNjz0mYFBGuoiz74799AEhcY76nBMkRdVG/Eh
+ 4LB8cXI4pEk8ASuPr3IFqnUosrD/3/7ugfqNnzy5vR7Lb5PaACk9hHAio60cZYX/Q6OW
+ aVmlRLD9Vg0M2UXPJpBZQ2vWd/vUp8AGVP1XS18x68c7GTqxw+Bd4CtjRx8VgBu53o1f
+ mlxIIo1adHxNOpD1KE1B5xHdoQx7yaogmolGmilbXK3AHMaQrFut2h9FHf+BY2sbAS7u
+ AaRsMjWtEXg7kejqC7HVQnbZ484NPMA00Ty3DoqCD1c0mMzsWDpq7VRsm4+UxDZzIbR1
+ Irjg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWUcj19d7f6xfjuwmUGCk5M+rXLo0qVu5OUBUc5CS0lkpeKwpIuGz+XCzDp2BqyUejS4rGn7AV/E92E0FJrjKQET+mbOu9iDjYeo2FPQgKP7QqksB+hyFOz/pz9TIS/6GCpAhzv7snXnU/hZaMCTkC4
-X-Gm-Message-State: AOJu0YzotJRQbm2Ar5mxdkwUZnRDSNmqWVWQnqNlucyxzx7N/7E8leUv
- gbjfbTvIMuDNm3hBcCkmNUTJfzpM5FfQ1sxLKqVfmtNk4ZUNdmiCfxhq9u7zvVY=
-X-Google-Smtp-Source: AGHT+IEwjjtcQORbdGpX3Q7URvaTjVDJl8ms7m20O6UywXTO6HIij4s86Eygram2ppZwdFy1YumRoA==
-X-Received: by 2002:a5d:47ae:0:b0:366:efa2:f2f7 with SMTP id
- ffacd0b85a97d-366efa2f485mr915943f8f.1.1719174642725; 
- Sun, 23 Jun 2024 13:30:42 -0700 (PDT)
+ AJvYcCW7sNoqamcr0Qs6ZXq95sZ/jePurnIN1GCueK7QHF5OogQLC/Xz826VW4vy7GLu1cpIrqbiWSXSqeco1Ah3wAPUhi6eFYvIVaVkEKhl+EbL29Js5NRsrwnyve9BdebLq0iQtJR7Bi6ej7kO8mwLVIa8
+X-Gm-Message-State: AOJu0YzdPMF7CRHmqEpedr5ZGitSejHVx+XxUQNh6qFRencUWkKIee16
+ nMersv5WuMTW51yypt1MujudGmpAkSJC3pTpjITYORV7pNx+eWTFTg0Uw+xQav8=
+X-Google-Smtp-Source: AGHT+IGQquz5k2BVLGaucgi4cKq8o9F9G60dY1wEBUIUTqJaF6oBnYohr7FR/h/6RtTQnKBlHZ0zVA==
+X-Received: by 2002:a05:6000:1f83:b0:366:f496:c0c2 with SMTP id
+ ffacd0b85a97d-366f496c101mr220821f8f.6.1719174644185; 
+ Sun, 23 Jun 2024 13:30:44 -0700 (PDT)
 Received: from [192.168.1.130] (BC2492F3.dsl.pool.telekom.hu. [188.36.146.243])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-366389b8ad2sm8088599f8f.33.2024.06.23.13.30.41
+ ffacd0b85a97d-366389b8ad2sm8088599f8f.33.2024.06.23.13.30.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jun 2024 13:30:42 -0700 (PDT)
+ Sun, 23 Jun 2024 13:30:43 -0700 (PDT)
 From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>
-Date: Sun, 23 Jun 2024 22:30:36 +0200
-Subject: [PATCH v2 1/4] dt-bindings: display/msm: qcom, mdp5: Add msm8937
- compatible
+Date: Sun, 23 Jun 2024 22:30:37 +0200
+Subject: [PATCH v2 2/4] drm/msm/mdp5: Add MDP5 configuration for MSM8937
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240623-dsi-v2-1-a0ca70fb4846@gmail.com>
+Message-Id: <20240623-dsi-v2-2-a0ca70fb4846@gmail.com>
 References: <20240623-dsi-v2-0-a0ca70fb4846@gmail.com>
 In-Reply-To: <20240623-dsi-v2-0-a0ca70fb4846@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -79,7 +78,7 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  devicetree@vger.kernel.org, 
  =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>, 
- phone-devel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>
+ phone-devel@vger.kernel.org, Daniil Titov <daniilt971@gmail.com>
 X-Mailer: b4 0.14.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,26 +95,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the compatible for the MDP5 found on MSM8937.
+From: Daniil Titov <daniilt971@gmail.com>
 
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+Add the mdp5_cfg_hw entry for MDP5 version v1.14 found on msm8937.
+
+Signed-off-by: Daniil Titov <daniilt971@gmail.com>
 Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
 ---
- Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 88 ++++++++++++++++++++++++++++++++
+ 1 file changed, 88 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml b/Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml
-index 91c774f106ce..e153f8d26e7a 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml
-@@ -25,6 +25,7 @@ properties:
-               - qcom,msm8226-mdp5
-               - qcom,msm8916-mdp5
-               - qcom,msm8917-mdp5
-+              - qcom,msm8937-mdp5
-               - qcom,msm8953-mdp5
-               - qcom,msm8974-mdp5
-               - qcom,msm8976-mdp5
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+index c5179e4c393c..fac8e276da52 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+@@ -1011,6 +1011,93 @@ static const struct mdp5_cfg_hw msm8917_config = {
+ 	.max_clk = 320000000,
+ };
+ 
++static const struct mdp5_cfg_hw msm8937_config = {
++	.name = "msm8937",
++	.mdp = {
++		.count = 1,
++		.caps = MDP_CAP_CDM,
++	},
++	.ctl = {
++		.count = 3,
++		.base = { 0x01000, 0x01200, 0x01400 },
++		.flush_hw_mask = 0xffffffff,
++	},
++	.pipe_vig = {
++		.count = 1,
++		.base = { 0x04000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_SCALE	|
++			MDP_PIPE_CAP_CSC	|
++			MDP_PIPE_CAP_DECIMATION	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			0,
++	},
++	.pipe_rgb = {
++		.count = 2,
++		.base = { 0x14000, 0x16000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_DECIMATION	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			0,
++	},
++	.pipe_dma = {
++		.count = 1,
++		.base = { 0x24000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			0,
++	},
++	.pipe_cursor = {
++		.count = 1,
++		.base = { 0x34000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			MDP_PIPE_CAP_CURSOR	|
++			0,
++	},
++
++	.lm = {
++		.count = 2,
++		.base = { 0x44000, 0x45000 },
++		.instances = {
++				{ .id = 0, .pp = 0, .dspp = 0,
++				  .caps = MDP_LM_CAP_DISPLAY |
++					  MDP_LM_CAP_PAIR },
++				{ .id = 1, .pp = 1, .dspp = -1,
++				  .caps = MDP_LM_CAP_DISPLAY },
++			     },
++		.nb_stages = 5,
++		.max_width = 2048,
++		.max_height = 0xFFFF,
++	},
++	.dspp = {
++		.count = 1,
++		.base = { 0x54000 },
++
++	},
++	.pp = {
++		.count = 2,
++		.base = { 0x70000, 0x70800 },
++	},
++	.cdm = {
++		.count = 1,
++		.base = { 0x79200 },
++	},
++	.intf = {
++		.base = { 0x00000, 0x6a800, 0x6b000 },
++		.connect = {
++			[0] = INTF_DISABLED,
++			[1] = INTF_DSI,
++			[2] = INTF_DSI,
++		},
++	},
++	.max_clk = 320000000,
++};
++
+ static const struct mdp5_cfg_hw msm8998_config = {
+ 	.name = "msm8998",
+ 	.mdp = {
+@@ -1325,6 +1412,7 @@ static const struct mdp5_cfg_handler cfg_handlers_v1[] = {
+ 	{ .revision = 9, .config = { .hw = &msm8x94_config } },
+ 	{ .revision = 7, .config = { .hw = &msm8x96_config } },
+ 	{ .revision = 11, .config = { .hw = &msm8x76_config } },
++	{ .revision = 14, .config = { .hw = &msm8937_config } },
+ 	{ .revision = 15, .config = { .hw = &msm8917_config } },
+ 	{ .revision = 16, .config = { .hw = &msm8x53_config } },
+ };
 
 -- 
 2.45.2
