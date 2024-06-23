@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D26C4913BCD
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 16:39:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6902913BCF
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 16:39:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A059610E0AC;
-	Sun, 23 Jun 2024 14:39:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C13EB10E1A9;
+	Sun, 23 Jun 2024 14:39:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="oYIsBfSp";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="pj5fg2hv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5381A899E9
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 14:39:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A007899E9
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 14:39:13 +0000 (UTC)
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 755AB87D07;
- Sun, 23 Jun 2024 16:39:10 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 389C98823C;
+ Sun, 23 Jun 2024 16:39:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1719153551;
- bh=TwXuaofRdf0PsdYx2GusMZLiUnlN24JmwqeZ0XowvRo=;
+ bh=m71ShMi/5db6SPnSa/btSyk6u2lrrPZP7WrJ8NZfr0U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oYIsBfSpJCdajCirfl+dEMwKJvwJmjvUVO1S4FnpdZOUVOrGIlom0h7LIhiQrRKZZ
- xAE7QNSXeq1eGyDm8PQ4Jc20B3GL4CRl8gCFrl8VYguHYsNXw6k9NRtkcsV0Pr16c+
- DN8X/cvTKe6ukaVNVZ3eWbkPw3d8zvaGyq+6hG8pZEIDT8YwvwGszp2LY2uiw2EQzc
- IS5ZRkqnmFxmMBRa7r9wggh9UFW6Stt/IVZ0tk+XDBLthNMlswy8UAICXyswup/XbJ
- XVLHOLCOqYP8+CngL+9zzaVHu+bp5tzq0Uiz9A0nEcytNq4ErULR5jLFunJWYTV1zS
- zjdDdPbVjHFow==
+ b=pj5fg2hvReA4JZODY3MExv7XfKYyRcWd3ZP4LEBudwBIR4SdrXx5jD/c32h1FsAMc
+ 5qwmIRLlBKhl7dPGlgDkTwWdQTcod0k36fI5BtqGL3dxVnJMOnkf+MEnqF3r9CJIzq
+ NWrSVO49uzeHCOaZHuTZWqOe2Sw9qMVpQaCn5fqQQqZuXS9AVQD9qzDzv3RfB7hO4h
+ kSpfjls+3ULAfiUPGo+fzY25lrTgERV17GTpTlUYA8uVdenvL8yIcyrhh+Ua8vzEq0
+ tOKWr+BVjMHchIKd5EFV7Z4Yf/ppdwB8ra6VPJ3nuGGEGVgvKUZO6lt1Um3UPCfHT9
+ u8FoWUk90gF4g==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -42,9 +42,10 @@ Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
-Subject: [PATCH v3 5/6] drm/bridge: tc358767: Set LSCLK divider for SYSCLK to 1
-Date: Sun, 23 Jun 2024 16:38:37 +0200
-Message-ID: <20240623143846.12603-5-marex@denx.de>
+Subject: [PATCH v3 6/6] Revert "drm/bridge: tc358767: Set default CLRSIPO
+ count"
+Date: Sun, 23 Jun 2024 16:38:38 +0200
+Message-ID: <20240623143846.12603-6-marex@denx.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240623143846.12603-1-marex@denx.de>
 References: <20240623143846.12603-1-marex@denx.de>
@@ -67,12 +68,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The only information in the datasheet regarding this divider is a note
-in SYS_PLLPARAM register documentation which states that when LSCLK is
-270 MHz, LSCLK_DIV should be 1. What should LSCLK_DIV be set to when
-LSCLK is 162 MHz (for DP 1.62G mode) is unclear, but empirical test
-confirms using LSCLK_DIV 1 has no adverse effects either. In the worst
-case, the internal TC358767 clock would run faster.
+This reverts commit 01338bb82fed40a6a234c2b36a92367c8671adf0.
+
+With clock improvements in place, this seems to be no longer
+necessary. Set the CLRSIPO to default setting recommended by
+manufacturer.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
@@ -94,22 +94,28 @@ Cc: kernel@dh-electronics.com
 V2: No change
 V3: No change
 ---
- drivers/gpu/drm/bridge/tc358767.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/tc358767.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index a48454fe2f634..743bf1334923d 100644
+index 743bf1334923d..2b035a136a6e5 100644
 --- a/drivers/gpu/drm/bridge/tc358767.c
 +++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -738,7 +738,7 @@ static int tc_stream_clock_calc(struct tc_data *tc)
- static int tc_set_syspllparam(struct tc_data *tc)
- {
- 	unsigned long rate;
--	u32 pllparam = SYSCLK_SEL_LSCLK | LSCLK_DIV_2;
-+	u32 pllparam = SYSCLK_SEL_LSCLK | LSCLK_DIV_1;
+@@ -1356,10 +1356,10 @@ static int tc_dsi_rx_enable(struct tc_data *tc)
+ 	u32 value;
+ 	int ret;
  
- 	rate = clk_get_rate(tc->refclk);
- 	switch (rate) {
+-	regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 25);
+-	regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 25);
+-	regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 25);
+-	regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 25);
++	regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 5);
++	regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 5);
++	regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 5);
++	regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 5);
+ 	regmap_write(tc->regmap, PPI_D0S_ATMR, 0);
+ 	regmap_write(tc->regmap, PPI_D1S_ATMR, 0);
+ 	regmap_write(tc->regmap, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
 -- 
 2.43.0
 
