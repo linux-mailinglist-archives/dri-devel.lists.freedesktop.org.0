@@ -2,86 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2351F913C08
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 17:16:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B53913CCD
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 18:40:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28F1E10E032;
-	Sun, 23 Jun 2024 15:16:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5167410E059;
+	Sun, 23 Jun 2024 16:39:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="hq3MRWsL";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="tbjaibMt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3775410E032;
- Sun, 23 Jun 2024 15:16:45 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45NCra2G032082;
- Sun, 23 Jun 2024 15:16:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=UQEPgx4q8Ps5aQqYl668p4Ii
- oyWdh5cXGvkATol/Ua4=; b=hq3MRWsLLn5DybUKJgs8uKBzOK+MpQgDiTy7Mcii
- 9ihOo+YUuCndiCgqHCMeH0LfyAtUmvo/vsSmTge+Xr7JwxoYLajW3/geXyZhK7O/
- lQQEuvkbwVg3PSMCUFVO1XeOu/aDk9V7bHmN6mZe7+3wouL377jOC7so4s9CSYBY
- ORmNzJGYG8BFwTJ/+ZW9v2WVKz3sRrGAIdThtR6BvexF7lcDYMKfoF3VeaPanZVn
- /SXJcY4ssC+TR5ZHxMpcCP+cbu9rnwFcg0tvc4bNrlx0yjI7muyCXdCaoUcd8eIY
- Du4FxL9c9+jeE4vwV9JWLAZyclUfZmniCtkfp1wCtlQK8A==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywkyn20rd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 23 Jun 2024 15:16:40 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45NFGcKQ023059
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 23 Jun 2024 15:16:38 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sun, 23 Jun 2024 08:16:34 -0700
-Date: Sun, 23 Jun 2024 20:46:30 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: freedreno <freedreno@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- Rob Clark <robdclark@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>,
- Rob Herring <robh@kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1 3/3] arm64: dts: qcom: x1e80100: Add gpu support
-Message-ID: <20240623151630.bskqwqhp25mu3yuf@hu-akhilpo-hyd.qualcomm.com>
-References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
- <20240623110753.141400-4-quic_akhilpo@quicinc.com>
- <a458a3a7-2b6d-4032-949c-b2c021d339e8@kernel.org>
- <20240623122856.kqf4x6mft74hzk7y@hu-akhilpo-hyd.qualcomm.com>
- <7d69e98d-a870-4200-8f22-2a16fcf02794@kernel.org>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6C0210E059
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 16:39:55 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 2CE4F881BA;
+ Sun, 23 Jun 2024 18:39:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1719160793;
+ bh=cAJIm4iALUU+oSZhfT9gHdhAbUilwvRjrZh76MhmM1U=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=tbjaibMtjtbWGQFTF9Zwq1WglMwZ5MafULWJZNIWET8+lSMJfrrIUqJLffXnynrjy
+ A8FcO1+ReT6umgdsXPj4m+KB8dXkZlm0anjauMZ9AnhGRvNg4Bh7SbgO5vKfHq4kAc
+ ATcjxJeAGSSoU9MtWDmDlJ5jglEP5oQUgAA5ahOe0P7BVVdqEPbwG7p2B71nmFQlnR
+ U4HSUzmr8jAXiaRJA0Pzuu35j2L814qpQLp1nPgTfVOowqkfs7oVoKSMrQjiLdqxLr
+ iY35ygQZXN/FoOtyf4iOg9JzXZOMu6iwwxyiPzLP917r/UHnlD/DEowUXXCNm/BmHR
+ 3PFZ+VGtP3G3A==
+Message-ID: <8d6bc5d3-6a21-4b90-a5f2-74b5597ba3b2@denx.de>
+Date: Sun, 23 Jun 2024 16:48:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <7d69e98d-a870-4200-8f22-2a16fcf02794@kernel.org>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: VeifPqgPBpSGbWurgtZo3aWPTg6xaO9T
-X-Proofpoint-GUID: VeifPqgPBpSGbWurgtZo3aWPTg6xaO9T
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-23_07,2024-06-21_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0
- mlxscore=0 impostorscore=0 phishscore=0 lowpriorityscore=0 adultscore=0
- mlxlogscore=999 spamscore=0 clxscore=1015 suspectscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2406230122
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: bridge: tc358867: Document
+ default DP preemphasis
+To: Conor Dooley <conor@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, kernel@dh-electronics.com
+References: <20240621155430.92894-1-marex@denx.de>
+ <20240622-ruse-stock-2c2b8d0b1cfb@spud>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20240622-ruse-stock-2c2b8d0b1cfb@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,48 +73,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 23, 2024 at 02:53:17PM +0200, Krzysztof Kozlowski wrote:
-> On 23/06/2024 14:28, Akhil P Oommen wrote:
-> > On Sun, Jun 23, 2024 at 01:17:16PM +0200, Krzysztof Kozlowski wrote:
-> >> On 23/06/2024 13:06, Akhil P Oommen wrote:
-> >>> Add the necessary dt nodes for gpu support in X1E80100.
-> >>>
-> >>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> >>> ---
-> >>> +		gmu: gmu@3d6a000 {
-> >>> +			compatible = "qcom,adreno-gmu-x185.1", "qcom,adreno-gmu";
-> >>> +			reg = <0x0 0x03d50000 0x0 0x10000>,
-> >>> +			      <0x0 0x03d6a000 0x0 0x35000>,
-> >>> +			      <0x0 0x0b280000 0x0 0x10000>;
-> >>> +			reg-names =  "rscc", "gmu", "gmu_pdc";
-> >>
-> >> Really, please start testing your patches. Your internal instructions
-> >> tells you to do that, so please follow it carefully. Don't use the
-> >> community as the tool, because you do not want to run checks and
-> >> investigate results.
-> > 
-> > This was obviously tested before (and retested now) and everything works. I am
-> > confused about what you meant. Could you please elaborate a bit? The device
-> > and the compilation/test setup is new for me, so I am wondering if I
-> > made any silly mistake!
+On 6/22/24 1:56 PM, Conor Dooley wrote:
+> On Fri, Jun 21, 2024 at 05:53:53PM +0200, Marek Vasut wrote:
+>> Document default DP port preemphasis configurable via new DT property
+>> "toshiba,pre-emphasis". This is useful in case the DP link properties
+>> are known and starting link training from preemphasis setting of 0 dB
+>> is not useful. The preemphasis can be set separately for both DP lanes
+>> in range 0=0dB, 1=3.5dB, 2=6dB .
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> ---
+>> V2: - Fix the type to u8 array
+>>      - Fix the enum items to match what they represent
+>> ---
+>>   .../display/bridge/toshiba,tc358767.yaml       | 18 ++++++++++++++++++
+>>   1 file changed, 18 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+>> index 2ad0cd6dd49e0..6287eb2b40908 100644
+>> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+>> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+>> @@ -98,6 +98,24 @@ properties:
+>>               reference to a valid eDP panel input endpoint node. This port is
+>>               optional, treated as DP panel if not defined
+>>   
+>> +        properties:
+>> +          endpoint:
+>> +            $ref: /schemas/media/video-interfaces.yaml#
+>> +            unevaluatedProperties: false
+>> +
+>> +            properties:
+>> +              toshiba,pre-emphasis:
+>> +                description:
+>> +                  Display port output Pre-Emphasis settings for both ports.
 > 
-> Eh, your DTS is not correct, but this could not be pointed out by tests,
-> because the binding does not work. :(
+> Why here and not in the port nodes?
 
-I reordered both "reg" and "reg-names" arrays based on the address. Not sure if
-that is what we are talking about here. Gpu driver uses platform_get_resource_byname()
-to query mmio resources.
+There was a short discussion about that in V1:
 
-I will retest dt-bindings and dts checks after picking the patches you
-just posted and report back. Is the schema supposed to enforce strict
-order?
+https://lore.kernel.org/all/00e9ef90-3bbe-4556-8da9-462f65928781@denx.de/
 
--Akhil.
+"
+Let's keep it in the endpoint node.
+
+There is some mention in the TC9595 datasheet that the DP might operate
+in some split mode, where each DP lane is used to feed one display (?),
+so I assume in that case there might be two endpoints (?), but that is
+not supported right now.
+
+If that is ever needed, I guess this array would have minItems 1 and
+maxItems 2 and another endpoint would be added to the schema for this
+port 2.
+"
+
+>> +                $ref: /schemas/types.yaml#/definitions/uint8-array
+>> +                minItems: 2
+>> +                maxItems: 2
+>> +                items:
+>> +                  enum:
+>> +                    - 0 # No pre-emphasis
+>> +                    - 1 # 3.5dB pre-emphasis
+>> +                    - 2 # 6dB pre-emphasis
 > 
-> I'll fix up the binding and then please test on top of my patch (see
-> your internal guideline about necessary tests before sending any binding
-> or DTS patch).
-> 
-> Best regards,
-> Krzysztof
-> 
+> I'd love to say please make this -bB and put this in units, but that'd
+> require it being a string..
+
+I can do that. Do you think that's worth it ?
