@@ -2,83 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D10913A44
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 14:00:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C12913A94
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 14:29:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0547210E211;
-	Sun, 23 Jun 2024 12:00:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75AC910E096;
+	Sun, 23 Jun 2024 12:29:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nb4VXRZO";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="YLoVCq+M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72A4A10E18E
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 12:00:34 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-421b9068274so30611235e9.1
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 05:00:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719144033; x=1719748833; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ecK+toW3Ns4ZNrqgQybbNewCzjgaGGXdUaWN+FWF27c=;
- b=nb4VXRZOH79yNQkMFAz4/sC5vDesd7ZDK9y5EjWlr9ybW/Ari346D2P55FoMRJJigA
- O20aeVCMv2hrugTDQbvidMMnTgImvHcu6Y5u6soB6BzoOWRNoSnk1g5NQpdDOV8xWmcH
- nZWgwPhv0jU16fQs0ONQt+EX4qIWtnUiGP1+j0czte2PFDq3faXdw2cxOpR3QgYjr9sP
- 7HsaUCMfyFYREeIA5l/WSKEZOXQCstM7gcNDf8xY3gkGECy9vqp90jZpfnS4INPGjELg
- N/eG5lu9fuLLXguG0mYDNKLp0lE/nksnyXtn1cxeuuTGwnmBnZ2YZ7yoAfWLgcpMCq/x
- dgRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719144033; x=1719748833;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ecK+toW3Ns4ZNrqgQybbNewCzjgaGGXdUaWN+FWF27c=;
- b=LwoBBLEsMxRrKnHabnbk1IDrv7qeZ9L8o7Pf5PAFL7NLtOo3d09SpuyhW+4gEcaIq9
- dPio0ekWZvJiBesK+iXNFXQcd4RIKBMIe5m5p1piPX9AsYOsm06doWg0pGP/DmT7LyXo
- zsjNStFHyptXkkS5Rl4wbls28irNS1nFcBruoAY9RIfuVpL751kwaW5z3bbu50gMpOqh
- V7y6aUo70hPjHgIo14mcRIJ4woA2HCJH+bEjll8E6HGSUtVfaRTy5XKlnkL+Ou5B+Dbo
- 2tSHY0YH+o8yPFz/fhlkRBVXDz2m5CwEsloRthcLHeEtqKFbSHrJJBr77Cf0oWT9B6He
- NkdA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUu+YEGmUZwpcSUsxnoS7PZ7XyaolCtDK5Nwt1rePQsnrwSg5rMSFfnTF2wXCaiASGjch0yHDFnSImkFcwXkSakFENLJRZ5tx+V4eFb7ZER
-X-Gm-Message-State: AOJu0Yxenrc+oMwfRmTJKrp7a2/2EzCPfzY9PH2YVC8O5UNz1MHPNGtr
- 1YpT1Ah9QXzWJIQEpQfOBLI6HSwkUmsSxUAgStDSgnERkW2t92N65mIJTLVyavY=
-X-Google-Smtp-Source: AGHT+IGH65kKS7M6vcnw+GFLjPcYiLfNI3yhUCA7KwnzudEhnrCZRo0tzHlu9MxebLYKwwKlOaegOQ==
-X-Received: by 2002:a05:600c:3c93:b0:424:9024:d468 with SMTP id
- 5b1f17b1804b1-4249024d4e1mr4347895e9.17.1719144032825; 
- Sun, 23 Jun 2024 05:00:32 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.219.137]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4248179d3basm105465515e9.4.2024.06.23.05.00.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jun 2024 05:00:32 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 3/3] dt-bindings: display/msm/gpu: constrain reg/reg-names per
- variant
-Date: Sun, 23 Jun 2024 14:00:26 +0200
-Message-ID: <20240623120026.44198-3-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240623120026.44198-1-krzysztof.kozlowski@linaro.org>
-References: <20240623120026.44198-1-krzysztof.kozlowski@linaro.org>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7586810E096;
+ Sun, 23 Jun 2024 12:29:16 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45NCNQTY018008;
+ Sun, 23 Jun 2024 12:29:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=gcOBVNuicamzRrxkqh3J9eaD
+ ckZU8bubeR6mJxEkb8U=; b=YLoVCq+MToIZdDxGR133ksW0KGB1V3VPjpe4Ssf6
+ lXvCDL0dYMVmy3jpHfi10y/MKsey8zofgiZh0xEh+q2QAdqyzoOGQekQrJfZvFEG
+ 7UqP6Snvn+AYC+XlJpO4eKVPOWMHZEtPou/8tcexCKfJiDYlLXeeETSV1U9bT6gF
+ 5lIby9gitZIHNuEqTj+YWTj7/aIA564A3EdK3qwRSbHRyJ/dB4cjWlmueDODwD+N
+ cKXMQfMbxi+XFMZ3Do3rKIbFW5PeTdMfBFKomLzW50ituGGJRcNLr173xBlMVf7q
+ JUnzxWlJXBR+/B65n9YE982M4VvNS2sS4XUZXFDchLfULQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywkyn1v1p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 23 Jun 2024 12:29:05 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45NCT4aB002310
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 23 Jun 2024 12:29:04 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Sun, 23 Jun 2024 05:29:00 -0700
+Date: Sun, 23 Jun 2024 17:58:56 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: freedreno <freedreno@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>,
+ Rob Herring <robh@kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1 3/3] arm64: dts: qcom: x1e80100: Add gpu support
+Message-ID: <20240623122856.kqf4x6mft74hzk7y@hu-akhilpo-hyd.qualcomm.com>
+References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
+ <20240623110753.141400-4-quic_akhilpo@quicinc.com>
+ <a458a3a7-2b6d-4032-949c-b2c021d339e8@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <a458a3a7-2b6d-4032-949c-b2c021d339e8@kernel.org>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: UVPanTcHEq44dPrcdpGON_SISnjPdDus
+X-Proofpoint-GUID: UVPanTcHEq44dPrcdpGON_SISnjPdDus
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-23_04,2024-06-21_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0
+ mlxscore=0 impostorscore=0 phishscore=0 lowpriorityscore=0 adultscore=0
+ mlxlogscore=999 spamscore=0 clxscore=1011 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2406230099
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,137 +95,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MMIO address space is known per each variant of Adreno GPU, so we can
-constrain the reg/reg-names entries for each variant.  There is no DTS
-for A619, so that part is not accurate but could be corrected later.
+On Sun, Jun 23, 2024 at 01:17:16PM +0200, Krzysztof Kozlowski wrote:
+> On 23/06/2024 13:06, Akhil P Oommen wrote:
+> > Add the necessary dt nodes for gpu support in X1E80100.
+> > 
+> > Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> > ---
+> > +		gmu: gmu@3d6a000 {
+> > +			compatible = "qcom,adreno-gmu-x185.1", "qcom,adreno-gmu";
+> > +			reg = <0x0 0x03d50000 0x0 0x10000>,
+> > +			      <0x0 0x03d6a000 0x0 0x35000>,
+> > +			      <0x0 0x0b280000 0x0 0x10000>;
+> > +			reg-names =  "rscc", "gmu", "gmu_pdc";
+> 
+> Really, please start testing your patches. Your internal instructions
+> tells you to do that, so please follow it carefully. Don't use the
+> community as the tool, because you do not want to run checks and
+> investigate results.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../devicetree/bindings/display/msm/gpu.yaml  | 87 +++++++++++++++++--
- 1 file changed, 79 insertions(+), 8 deletions(-)
+This was obviously tested before (and retested now) and everything works. I am
+confused about what you meant. Could you please elaborate a bit? The device
+and the compilation/test setup is new for me, so I am wondering if I
+made any silly mistake!
 
-diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-index baea1946c65d..e83f13123fc9 100644
---- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-@@ -130,6 +130,22 @@ required:
- additionalProperties: false
- 
- allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            pattern: '^qcom,adreno-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]$'
-+    then:
-+      properties:
-+        reg:
-+          minItems: 3
-+
-+        reg-names:
-+          items:
-+            - const: kgsl_3d0_reg_memory
-+            - const: cx_mem
-+            - const: cx_dbgc
-+
-   - if:
-       properties:
-         compatible:
-@@ -164,6 +180,13 @@ allOf:
-           minItems: 2
-           maxItems: 7
- 
-+        reg:
-+          maxItems: 1
-+
-+        reg-names:
-+          items:
-+            - const: kgsl_3d0_reg_memory
-+
-       required:
-         - clocks
-         - clock-names
-@@ -196,11 +219,12 @@ allOf:
-             - const: xo
-               description: GPUCC clocksource clock
- 
-+        reg:
-+          maxItems: 1
-+
-         reg-names:
--          minItems: 1
-           items:
-             - const: kgsl_3d0_reg_memory
--            - const: cx_dbgc
- 
-       required:
-         - clocks
-@@ -217,12 +241,59 @@ allOf:
-           clocks: false
-           clock-names: false
- 
--          reg-names:
--            minItems: 1
--            items:
--              - const: kgsl_3d0_reg_memory
--              - const: cx_mem
--              - const: cx_dbgc
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - qcom,adreno-640.1
-+              - qcom,adreno-680.1
-+    then:
-+      properties:
-+        reg:
-+          maxItems: 1
-+
-+        reg-names:
-+          items:
-+            - const: kgsl_3d0_reg_memory
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - qcom,adreno-619.0
-+              - qcom,adreno-630.2
-+    then:
-+      properties:
-+        reg:
-+          minItems: 2
-+          maxItems: 2
-+
-+        reg-names:
-+          items:
-+            - const: kgsl_3d0_reg_memory
-+            - const: cx_mem
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - qcom,adreno-618.0
-+              - qcom,adreno-635.0
-+              - qcom,adreno-690.0
-+              - qcom,adreno-730.1
-+    then:
-+      properties:
-+        reg:
-+          minItems: 3
-+
-+        reg-names:
-+          items:
-+            - const: kgsl_3d0_reg_memory
-+            - const: cx_mem
-+            - const: cx_dbgc
- 
- examples:
-   - |
--- 
-2.43.0
+-Akhil.
 
+> 
+> NAK.
+> 
+> Best regards,
+> Krzysztof
+> 
