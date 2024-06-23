@@ -2,99 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283BE913AB3
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 14:53:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 672FA913AB6
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 14:59:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E891F10E0B9;
-	Sun, 23 Jun 2024 12:53:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9106810E210;
+	Sun, 23 Jun 2024 12:59:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o1VrMHeG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="g/E/FeWj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6440D10E0B9;
- Sun, 23 Jun 2024 12:53:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 0BC8DCE0D3E;
- Sun, 23 Jun 2024 12:53:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92274C2BD10;
- Sun, 23 Jun 2024 12:53:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719147204;
- bh=7psjLZBIi/OMT9tAC6CXxcU0ylmhMM6sdzBr7izDH8s=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=o1VrMHeGHRgVHtPYbdbKtWUGf9IiM+NMUVW/GNZOsZ/BV+G4cqCqwHsgMGL9GXalj
- 1liCyXdXwYfFFs2iT6zEgkFJMo2BnOirTSU4OLo1zKAkXFwbkuHxkKnyuouOhPifJ3
- yqYqgwbwG8ZYLx/SpT/od/HaEEXiXhqjNP3TmF02oJNqM60vNu0rBqMKsEBhXJ3/7v
- gXZhz1tIRnXhplHPJVjDicdocj5rYpbWotPvjhX2ftiEpNT5qmUQCjDLSCulupEORA
- xxBC+fKn3bgMNJC/dNKorjQ6U1JaVovGN7Cz0Jvf0ekA+zDVu/IEpHIVJBTr0mtkFA
- BMBVIssFuw+4Q==
-Message-ID: <7d69e98d-a870-4200-8f22-2a16fcf02794@kernel.org>
-Date: Sun, 23 Jun 2024 14:53:17 +0200
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 556FA10E123
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 12:59:37 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-364c9ec17d1so2098518f8f.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 05:59:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1719147575; x=1719752375; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ws1yhAOxT/v0xOVLwszOW0D6d4xFjidlrdHX+n3YJlI=;
+ b=g/E/FeWjX2ZW1xvHrSHvZnJMFpS9k7arldU6yP6ZBAgneBkgQ2yQSxaEd/+FtNyrJv
+ ftC8mF1eWB9zxeC1sLS+rG9jm7GOLfz7H+PB3jhjkc1lAidgAYH/4YXIVnJQB/DChTqZ
+ Y9Qa4StEba6KP0qNiz2DkNlVGjf+HAiYCLLnn6d0iulpH6H2UYTpIImudQAvsH93UfQu
+ 7woSc6cyMvTyc4KiUdA0hbfFpC+9D9YwW/iEaS/S0sWTSmechm1P8B5SedrsbZkGnncR
+ I+tcKqiYV8W9BYTNthstw7LwQRWdK4p9zzuVIoK7AFrrwNs11fNA4qOPDucgcLB96som
+ FeHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719147575; x=1719752375;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ws1yhAOxT/v0xOVLwszOW0D6d4xFjidlrdHX+n3YJlI=;
+ b=hkBjV6c5i3KCcrGkTLKjNmRZWbNP2H7B+vnCT8Xq0tKlNb/ePJ6nOcZ9MR4oOxvjni
+ f6N2bChGSDkXshuPEQTQMdo/Vq7NgGIEFJbKVx8bK+m0ybtFqKQ5D6nVysnDiI/XsKh+
+ gqu24Wte9iwOIJlfZA5fFGDTs2Z11ffBIl9uc8mjZ+A6UlA8uB0hQzUiJcj/PFRNrnuA
+ q5jmjcC1wzxb7SfLa0a19Eccd1Q3etUISixhtvssatIdBvP25tcUtubhKD8+Pf466MSH
+ 5nXWiHyxxuvaPj1QRFY3dIAsyLzSpIbZqVgc3Dcbl51dPPxIQ8BgUCMv5wL7Y/ykS0Gr
+ ppoQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXp5T/bC/zJ7Ev6tSrooHVXREKJGISkCdS9ECDXG4hJeWHVrBi9kYycx+mXV/FgZtIQpflurU5Smv7QOgbGYhwkS8reXK2eHO5msf4JW+v3
+X-Gm-Message-State: AOJu0Yyr1EZfRTvCleEm5uT4EjOkYnFBoa5767KnFjrynOPv3caY09KC
+ H8cm6oIygojG27Kxg7u5c4jMy2Fc3Hkh7gQEDM5Cpah8pghAIaqdM66YAdRKGLo=
+X-Google-Smtp-Source: AGHT+IH/FPiPO1kX2dxDboF7jruNga6O3TVW36OIWCsw7kwZBc8YPjnPRr443tH7ldk0wY395QD3/w==
+X-Received: by 2002:a5d:6d02:0:b0:366:ec30:adcf with SMTP id
+ ffacd0b85a97d-366ec30aeb4mr1166492f8f.5.1719147575020; 
+ Sun, 23 Jun 2024 05:59:35 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.219.137]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-36638d9bfe4sm7245088f8f.53.2024.06.23.05.59.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 23 Jun 2024 05:59:34 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>
+Subject: [PATCH] dt-bindings: display/msm/gmu: fix the schema being not applied
+Date: Sun, 23 Jun 2024 14:59:30 +0200
+Message-ID: <20240623125930.110741-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/3] arm64: dts: qcom: x1e80100: Add gpu support
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Konrad Dybcio
- <konrad.dybcio@linaro.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
- <20240623110753.141400-4-quic_akhilpo@quicinc.com>
- <a458a3a7-2b6d-4032-949c-b2c021d339e8@kernel.org>
- <20240623122856.kqf4x6mft74hzk7y@hu-akhilpo-hyd.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240623122856.kqf4x6mft74hzk7y@hu-akhilpo-hyd.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,37 +90,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/06/2024 14:28, Akhil P Oommen wrote:
-> On Sun, Jun 23, 2024 at 01:17:16PM +0200, Krzysztof Kozlowski wrote:
->> On 23/06/2024 13:06, Akhil P Oommen wrote:
->>> Add the necessary dt nodes for gpu support in X1E80100.
->>>
->>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>> ---
->>> +		gmu: gmu@3d6a000 {
->>> +			compatible = "qcom,adreno-gmu-x185.1", "qcom,adreno-gmu";
->>> +			reg = <0x0 0x03d50000 0x0 0x10000>,
->>> +			      <0x0 0x03d6a000 0x0 0x35000>,
->>> +			      <0x0 0x0b280000 0x0 0x10000>;
->>> +			reg-names =  "rscc", "gmu", "gmu_pdc";
->>
->> Really, please start testing your patches. Your internal instructions
->> tells you to do that, so please follow it carefully. Don't use the
->> community as the tool, because you do not want to run checks and
->> investigate results.
-> 
-> This was obviously tested before (and retested now) and everything works. I am
-> confused about what you meant. Could you please elaborate a bit? The device
-> and the compilation/test setup is new for me, so I am wondering if I
-> made any silly mistake!
+dtschema v2024.4, v2024.5 and maybe earlier do not select device nodes for
+given binding validation if the schema contains compatible list with
+pattern and a const fallback.  This leads to binding being a no-op - not
+being applied at all.  Issue should be fixed in the dtschema but for now
+add a work-around do the binding can be used against DTS validation.
 
-Eh, your DTS is not correct, but this could not be pointed out by tests,
-because the binding does not work. :(
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-I'll fix up the binding and then please test on top of my patch (see
-your internal guideline about necessary tests before sending any binding
-or DTS patch).
+---
 
-Best regards,
-Krzysztof
+Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>
+---
+ .../devicetree/bindings/display/msm/gmu.yaml         | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
+index b3837368a260..8d1b515f59ec 100644
+--- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
+@@ -17,6 +17,18 @@ description: |
+   management and support to improve power efficiency and reduce the load on
+   the CPU.
+ 
++# dtschema does not select nodes based on pattern+const, so add custom select
++# as a work-around:
++select:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - qcom,adreno-gmu
++          - qcom,adreno-gmu-wrapper
++  required:
++    - compatible
++
+ properties:
+   compatible:
+     oneOf:
+-- 
+2.43.0
 
