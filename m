@@ -2,94 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF7479137EF
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 07:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B69391380F
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 07:59:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0995610E17E;
-	Sun, 23 Jun 2024 05:40:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE70210E051;
+	Sun, 23 Jun 2024 05:59:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZAxYfscL";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RpZLgZij";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0DE210E030
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 05:40:21 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-5295eb47b48so4000804e87.1
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 22:40:21 -0700 (PDT)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE06A10E030
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 05:59:25 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-2ec4eefbaf1so19797121fa.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2024 22:59:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719121220; x=1719726020; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=hbJUOmvW24quAtGM4HEWCKTnos6XbtfhPM+nK5+e2Tw=;
- b=ZAxYfscLnp+utpqJpWCXt6Wg3ld0yk4Fg2bn+Fl01fYindYOib7hcv6mXpV8BGZOhP
- 3mgJGuBeg1XQAxv/HGmRj6/cnSXEbjtCBajSUIFqXlex1pf8HSvgYqKa+aCpbTfHQoZI
- ntnmJYbDEIAuYBPaf6+E91wQQA2pN1onLKSV3H3WXOdvh2fZbUA3NOI748Tntijpg3eb
- f1UIQ85gX6BZ+PRalZm+xeMhoYKZXBn7NO9AplFqSBS67B4dtraugSPbMAZ3L0rBUhMo
- q+C/7dzwTqjqMXqVUxqEOqSkdRElNUqD3koYIAH0ouWjV7uZj0z1AGJomwlhQ0l9guvn
- IBpQ==
+ d=linaro.org; s=google; t=1719122364; x=1719727164; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=uV6ZdsyWs/0K8RTllxKQAwLax2534ZjABCMu7Optue0=;
+ b=RpZLgZij5tqVGUPFfaUyh5xD4LSs1kzaAMyHsko7/Aj11nfYKyG6YJ2ziDZFl8IHzj
+ bpWmgClTCk4njIJoar+TdW1KVc7xK0tPuFKV4AvTmtFH9f6H82vxH8u83FvaSEyztFPb
+ GmuEF8TBG3EweCT3Vu0wgnT4fFBQDpfTiY1NspgFjknI6zGLXk/ijH6mMqZr1Vzvu63h
+ VBXWf3PHJSPER8oqKPJtYlZJqJj36MLBhA99ovHxq3IN+HmnQOVgo9ARauEkkfjRYM4b
+ tuzh6TRM6m3HFGPmRf2rH+plRlVJlf4Q4s7yS/ivU5pPGEPADNcho8Be/OgcsN5Do8I6
+ Qhig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719121220; x=1719726020;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hbJUOmvW24quAtGM4HEWCKTnos6XbtfhPM+nK5+e2Tw=;
- b=hK/uKc7FDOaKN2QtB9JQB7YYkEaiA1zmj1FPNQ4cRvv3oMGwEntNvZYyBW/2Ul8Dnu
- cvGxcYWJETCmvBCVFE/sQOWoX5lqtOjDYWRMrs9HnebF54Y714OdhyRfAhc8LW/lne/F
- tLA4tdMkhOZN4nWW2KIyNjfn3GzuWx7sph8PXIynVH9IhoVNAWy4WHn2WgnOWomGEs9p
- RjWudyrfHeb/2dVPgVKqC5PPdwj31riIGtYaLla1GgckjpXGlElimuk/jzJWyK9ghFnb
- mdKgId0Losg8x2YORwS8XqvxNJWYPx0prLnap1W6hdUo6lyCKs8kUy8nkLIj8pC37EDj
- 2llg==
+ d=1e100.net; s=20230601; t=1719122364; x=1719727164;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uV6ZdsyWs/0K8RTllxKQAwLax2534ZjABCMu7Optue0=;
+ b=cmIFZkRXPZenly3osS4HSXCuf6tWJi56oNIzzO0n4Fd/6u+6Bo0Ob437lOrjp5KZs3
+ W5xvTBTpI1cA/aBlZ0skMeoRkhoWG13bQiN2Od8aIDTuAmMnpsPsAqBOcnZLY19LU8g3
+ B32DMGpqarxCK1ALvUi+mR5F+jzFVH0ZWm6jv1oKoU3A/YxbgKBJ9hJm67iiqnXgSCRx
+ rNgNwwwdTTAO3tVWoP+35Vj7JXBZaR7r9WmbKVA+bqIj9co3BMSwVaza5lTbbB+21yfR
+ aOW34TEmeJrIlfSrqtkTqMFxWDp4GoL5uI5G0b41wcjOWagBx8jDLKrF73myU0aA0n9v
+ MglQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVCVvRDftbRhcOnTe2SgVbHwO9LNfLAITmxA7GIaYCUCfffCPg1qJ/yCep02v+Kffq9i4Vyojclqm6jo8w/i95XUSX0yoVj1cSEZuCl66a1
-X-Gm-Message-State: AOJu0Yz+igmy+6uW2B6tolXeiu6Ex5q9loAva6ZdPjnkTVtXrRoosUpT
- +qTkkib74AEbrU67tV62S1SpocyrLwfKFRSI5E7PeEEoNHS9oqjduZEk6y3/eKw=
-X-Google-Smtp-Source: AGHT+IFhjib/1suTVLnNKOG4CvpqSohWo8V1ebgg4ZYt51DXitjlM8EQ+GXNkC1wy0zWx1GrQbZ0kA==
-X-Received: by 2002:a05:6512:348c:b0:52c:86d7:fa62 with SMTP id
- 2adb3069b0e04-52ce061b1femr1263685e87.23.1719121220118; 
- Sat, 22 Jun 2024 22:40:20 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52cd63bcd32sm659696e87.65.2024.06.22.22.40.19
+ AJvYcCVUY0N9XhVDWf0TysWjfTid5s+IMf114JpNv5OXxFt7gH6xGKiF5/bI9lclR4/tWh/eAvMFX+2q2CzMov0X3RdzR4+3WGkgEisDvkfrx7oO
+X-Gm-Message-State: AOJu0YwpvrX4jtAlchQHRWxuYWBgeONFHe0u6+pm5ML8YN1+OkC7V4BT
+ HHwayHp/M5iy51XlhFsHZRJ+S6WMrf8QB/rVpOlG88gZWDN8+OtFmxUBSSfWuDw=
+X-Google-Smtp-Source: AGHT+IGcHezaqPv4f6l+aRS6cpymyT8QWqnho+MGi0nRzclFQouvXc2Vz5OXXDqk0xU0di91OghoDA==
+X-Received: by 2002:a2e:9f05:0:b0:2ec:fa4:e310 with SMTP id
+ 38308e7fff4ca-2ec5b3d48ccmr7355091fa.34.1719122363747; 
+ Sat, 22 Jun 2024 22:59:23 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2ec4d60130csm6301061fa.13.2024.06.22.22.59.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Jun 2024 22:40:19 -0700 (PDT)
+ Sat, 22 Jun 2024 22:59:23 -0700 (PDT)
+Date: Sun, 23 Jun 2024 08:59:21 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 23 Jun 2024 08:40:13 +0300
-Subject: [PATCH v2 2/2] drm/connector: automatically set immutable flag for
- max_bpc property
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240623-drm-bridge-connector-fix-hdmi-reset-v2-2-8590d44912ce@linaro.org>
-References: <20240623-drm-bridge-connector-fix-hdmi-reset-v2-0-8590d44912ce@linaro.org>
-In-Reply-To: <20240623-drm-bridge-connector-fix-hdmi-reset-v2-0-8590d44912ce@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+To: =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1164;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=Ogj1qgSBFy5LiaMGrph8HSRVcootU6FeEO747BTFj9E=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmd7VC9k3OnQtTnxxxl8WBd8EP07ZwSvEfxe83x
- 9mlVUBtvXWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZne1QgAKCRCLPIo+Aiko
- 1ZulB/9VGOjTN5uHSczSZCl5LY1tDsEZ8ElrPoAzIIMyxJpYuHzDj1DEP2L3SeTXmv3wCOuwzTc
- 6bNUkw9AdXzeLJ/IGR/Xk+V/XA9lDA5rBPuJkdSCdWaHur06DeHT8KOxFv7G0NLTl6T5MU7yptb
- wQGBL+gk8cC92DjyVWJdKinJm5xjogNa/2cR8nHAa2PjDuQVFDRfgLs9rWbq4srehFPnwVIxIUa
- oxspq1UPaQ+j1MCtZHSzIdBfaVt8ZCP+d7c8ygH59JccJ/3jw1oACd1hGJMXkpneuj7uqb5DblK
- 9wKM9mnJISq4t243XjfYVTg4SbCN4fWKN4q+6IxUytONLpQj
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Daniil Titov <daniilt971@gmail.com>
+Subject: Re: [PATCH 2/4] drm/msm/mdp5: Add MDP5 configuration for MSM8937
+Message-ID: <hzslz54iq5sjmfhcbuj3my7cbjsu73acxeelih3jekr6rznz44@qie4c4w5lt2d>
+References: <20240623-dsi-v1-0-4ab560eb5bd9@gmail.com>
+ <20240623-dsi-v1-2-4ab560eb5bd9@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240623-dsi-v1-2-4ab560eb5bd9@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,36 +97,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With the introduction of the HDMI Connector framework the driver might
-end up creating the max_bpc property with min = max = 8. IGT insists
-that such properties carry the 'immutable' flag. Automatically set the
-flag if the driver asks for the max_bpc property with min == max.
+On Sun, Jun 23, 2024 at 01:25:52AM GMT, Barnabás Czémán wrote:
+> From: Daniil Titov <daniilt971@gmail.com>
+> 
+> Add the mdp5_cfg_hw entry for MDP5 version v1.14 found on msm8937.
+> 
+> Signed-off-by: Daniil Titov <daniilt971@gmail.com>
+> Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
+> ---
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 89 ++++++++++++++++++++++++++++++++
+>  1 file changed, 89 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+> index c5179e4c393c..6413c0d3e237 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+> @@ -1011,6 +1011,94 @@ static const struct mdp5_cfg_hw msm8917_config = {
+>  	.max_clk = 320000000,
+>  };
+>  
+> +static const struct mdp5_cfg_hw msm8937_config = {
+> +	.name = "msm8937",
+> +	.mdp = {
+> +		.count = 1,
+> +		.caps = MDP_CAP_CDM |
+> +			MDP_CAP_SRC_SPLIT,
 
-Fixes: aadb3e16b8f3 ("drm/connector: hdmi: Add output BPC to the connector state")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/drm_connector.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Could you please point out the SRC_SPLIT reference?
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index ab6ab7ff7ea8..33847fd63628 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -2610,7 +2610,12 @@ int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
- 
- 	prop = connector->max_bpc_property;
- 	if (!prop) {
--		prop = drm_property_create_range(dev, 0, "max bpc", min, max);
-+		u32 flags = 0;
-+
-+		if (min == max)
-+			flags |= DRM_MODE_PROP_IMMUTABLE;
-+
-+		prop = drm_property_create_range(dev, flags, "max bpc", min, max);
- 		if (!prop)
- 			return -ENOMEM;
- 
+Other than that LGTM
 
 -- 
-2.39.2
-
+With best wishes
+Dmitry
