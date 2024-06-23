@@ -2,53 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD1C913AFA
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 15:45:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8F3913BA4
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 16:14:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B813810E271;
-	Sun, 23 Jun 2024 13:45:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62C5210E063;
+	Sun, 23 Jun 2024 14:14:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LFld02+r";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Cek9IP7X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA1F510E224
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 13:45:34 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52B5A10E053;
+ Sun, 23 Jun 2024 14:14:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3F93B6182E;
- Sun, 23 Jun 2024 13:45:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB603C4AF0A;
- Sun, 23 Jun 2024 13:45:32 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 70700CE0B3E;
+ Sun, 23 Jun 2024 14:14:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 841CBC2BD10;
+ Sun, 23 Jun 2024 14:13:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719150334;
- bh=4nkdyw11JFFQf6jwYWNjBj2N7W+HZsqxpLYv6cEgvGA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LFld02+rV6ekiOKHWWZFAnY8VlvS/CChEF2zn5h9OXfYRY7MUPM7Y3hdRMes79f3x
- M0WRVbtBqp0ACbO5iM35R5XetNwysyiFrwLWX4OlnisZlwjP/AFwN/Lyy9P+bOczd9
- K8/ZNdd/5sOBRPh0OlNDVMSMiw2oGvldR1ZP1sD3adTVy+iN/VrBaHyVh/i0Xy8Kjf
- zw3anb2y6we+Wn6gVBUz9B1NnBfSuhu7cgCJUls1rmF0BAkhoBhzNMTJ1HxDAfKK0u
- e3BiqNTnP56kimCEbIfgO4HJWhmhG52VUfXtR0YqNt8MMkagLLQMLyoiUSnnT4mWr1
- oRzeunioaS+9A==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>,
- Hans de Goede <hdegoede@redhat.com>, Sasha Levin <sashal@kernel.org>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 10/12] drm: panel-orientation-quirks: Add quirk
- for Aya Neo KUN
-Date: Sun, 23 Jun 2024 09:45:13 -0400
-Message-ID: <20240623134518.809802-10-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240623134518.809802-1-sashal@kernel.org>
-References: <20240623134518.809802-1-sashal@kernel.org>
+ s=k20201202; t=1719152039;
+ bh=vBdi7Y+JsMuywpAhKODLZF5AlDKmn0t9bNsBl3+S104=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Cek9IP7Xgn1QM9wB01Y3Yr0SqV4RbNSgLWMkpE6D17axquFUkuIkd8uSSMNXRHCHt
+ fqI87GccXTIvpidLR3Z3b3nYZHgOq1K72shetjWPlynD8slLSx/voTnuqh97/jjVu6
+ hwVO2rQC4KvOUTpAGk701A6DovOF+MobIfR7oTqNbqvL6x+PJ7meDazOrZWGkxb0ZT
+ LdBD1bQ90SQMAR9KmPrG5QFSe8ehzHVH1k+USDA7uR+6MtuFDu7W7l335mPFtvH+vD
+ E+PcJo6XpTSu3Pyd3S+RrrTj8VsJnQwJNAebpsREl5D9sXEGRVeHczW8EUkbj+Mjin
+ qyLQRVZX/WD1A==
+Date: Sun, 23 Jun 2024 15:13:53 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] dt-bindings: display/msm/gpu: constrain
+ reg/reg-names per variant
+Message-ID: <20240623-mule-plank-b63d0e3f3819@spud>
+References: <20240623120026.44198-1-krzysztof.kozlowski@linaro.org>
+ <20240623120026.44198-3-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.95
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="EJYLbj7ym6Q16epL"
+Content-Disposition: inline
+In-Reply-To: <20240623120026.44198-3-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,40 +71,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
 
-[ Upstream commit f74fb5df429ebc6a614dc5aa9e44d7194d402e5a ]
+--EJYLbj7ym6Q16epL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Similar to the other Aya Neo devices this one features
-again a portrait screen, here with a native resolution
-of 1600x2560.
+On Sun, Jun 23, 2024 at 02:00:26PM +0200, Krzysztof Kozlowski wrote:
+> MMIO address space is known per each variant of Adreno GPU, so we can
+> constrain the reg/reg-names entries for each variant.  There is no DTS
+> for A619, so that part is not accurate but could be corrected later.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../devicetree/bindings/display/msm/gpu.yaml  | 87 +++++++++++++++++--
+>  1 file changed, 79 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Doc=
+umentation/devicetree/bindings/display/msm/gpu.yaml
+> index baea1946c65d..e83f13123fc9 100644
+> --- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> @@ -130,6 +130,22 @@ required:
+>  additionalProperties: false
+> =20
+>  allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            pattern: '^qcom,adreno-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a=
+-f][0-9a-f][0-9a-f][0-9a-f]$'
 
-Signed-off-by: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240310220401.895591-1-tjakobi@math.uni-bielefeld.de
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Does the regex "^qcom,adreno-[0-9a-f]{8}$" not work in dt-schema, rather
+than this repeat-a-number-of-times-I-cannot-grok that's happening here?
+(I know you probably just copied this from above in the file...)
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index aa93129c3397e..2166208a961d6 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -202,6 +202,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_MATCH(DMI_BOARD_NAME, "NEXT"),
- 		},
- 		.driver_data = (void *)&lcd800x1280_rightside_up,
-+	}, {	/* AYA NEO KUN */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-+		  DMI_MATCH(DMI_BOARD_NAME, "KUN"),
-+		},
-+		.driver_data = (void *)&lcd1600x2560_rightside_up,
- 	}, {	/* Chuwi HiBook (CWI514) */
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
--- 
-2.43.0
+--EJYLbj7ym6Q16epL
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZngtoQAKCRB4tDGHoIJi
+0vseAP45JYysyf/QkbBti8k51VjLu7arXjS3WiUYbjteE5D4pwEA0cj4u0rfZtAB
+y43jQ3wv5a6CjHyNWibOH5MhtfHEZwU=
+=JM/k
+-----END PGP SIGNATURE-----
+
+--EJYLbj7ym6Q16epL--
