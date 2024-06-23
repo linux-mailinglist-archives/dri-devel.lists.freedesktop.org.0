@@ -2,88 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD24913E47
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 23:01:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADCED913E66
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 23:08:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D5C110E303;
-	Sun, 23 Jun 2024 21:01:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B33E10E317;
+	Sun, 23 Jun 2024 21:08:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="MeTtD/tj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="CL5lyF2m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EFF010E303;
- Sun, 23 Jun 2024 21:01:37 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45NGudij001480;
- Sun, 23 Jun 2024 21:01:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=Q7XGz76jCu2WWnnkgfEBCxSB
- RxHCD/i/sb3Z32/4624=; b=MeTtD/tjMT291VXt8SaeENGP1dzoLr46F4ReCOeF
- d1wrMt4EMlhqJvGZudP6WOn4J1KIEsGaknkNNLXDkeoXN8aoip1AEVHlKHbO6tsE
- J/LQvKQYI5AdJaiPWFenmuuyOV0e5mwkM0YUKwIZsNkj1wlz+aq8HMQiRlGtOoQK
- OLX+fOVU9rqAPqKpnj7vj+nCjGascimE622s+d6YYrzZBAnOQyb99JNOAcCkX8Vr
- u9Iz4HVqCdjHY3XZYfZ622AEpdLcl8omt1a/vQ2Ir/AR2Xf93LlEQsVWktCb/gfY
- WfZQ7gxFcQR3k8GUrlhA4aUCUFdyZV1o4pHZqAerz312Ng==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywnjrt8mf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 23 Jun 2024 21:01:32 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45NL1Vjb016151
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 23 Jun 2024 21:01:31 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sun, 23 Jun 2024 14:01:26 -0700
-Date: Mon, 24 Jun 2024 02:31:23 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Bjorn Andersson <andersson@kernel.org>, Krzysztof Kozlowski
- <krzk@kernel.org>
-CC: freedreno <freedreno@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- Rob Clark <robdclark@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob
- Herring <robh@kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1 3/3] arm64: dts: qcom: x1e80100: Add gpu support
-Message-ID: <20240623210123.khe5fhzgb7uyws4o@hu-akhilpo-hyd.qualcomm.com>
-References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
- <20240623110753.141400-4-quic_akhilpo@quicinc.com>
- <a458a3a7-2b6d-4032-949c-b2c021d339e8@kernel.org>
- <20240623122856.kqf4x6mft74hzk7y@hu-akhilpo-hyd.qualcomm.com>
- <7d69e98d-a870-4200-8f22-2a16fcf02794@kernel.org>
- <20240623151630.bskqwqhp25mu3yuf@hu-akhilpo-hyd.qualcomm.com>
- <mmqji5hcfa6eegx2kdjkcy4hsoybtp25bgjsn2ol6dcdw2cgs5@fw3i3ufjkj3z>
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B25410E317
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 21:07:58 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-2eaa89464a3so43293131fa.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 14:07:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1719176877; x=1719781677; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Bn3XVAl2b/VVj7+ANpPXLYR04bLlOpvbJszDOHEIUlk=;
+ b=CL5lyF2mC0Xc22vWeVS7FV7pMIxrgq1BKZupKVb+O7/lQQxs94aygKgdPN9UPgUet8
+ FUaK+eHmPjK4BIeBLs7y+6agaoZhdmZzX12BAOssd5BvBc+Vy+nhCcE/sCtpqE1K53gL
+ 9sdvHFrKo+p+6JlH3m/KE6z3HYfUHkt2vU6Q49/3PYGIHsoVO2br3dQhknNcQiGeeVSo
+ dfr0o6f8mAYIgMjmU4h5RE9A7zdZ2Bn7XvFBJFwbDPuXWoRcumxVnW7Mk0NUR07NGIwI
+ KqZQ2PsAF6DqMH1lZbcFulIFRpBgD/qJKESiU85UQcRybOMzr319uN9Fc9vuC9QrW97x
+ OEFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719176877; x=1719781677;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Bn3XVAl2b/VVj7+ANpPXLYR04bLlOpvbJszDOHEIUlk=;
+ b=qxtBbPetcS2yYb6sS7xzlDmmnoIBQetDyIyqHVyhUrBGqkHKuBI6MmFhb/sOOuIgPR
+ +yV2TD+2kqwuvvsOiHUWOs0Y5Kvx+hz4mYv0l6cdc/y5cM4kwEze17G5Z6xyMTU6iuUM
+ 2pPoWTO0Jh9u7qJTvU+Im0dXUPL0vDIeywdWNdK38MMEclmyJENACANEHb3OAQH7M65P
+ 8cFlGKsWSOGw2QfNn/r5eQ3f37k59wb18pP+Taj2TSKYChbOG0dCuv16v3XpTerA/hrq
+ 6//in0RB9aiavPXRdtBAAczXZx5XwJHhk4kgSuY8vVeb4roHTSA66HDorAE3zDPMg5Jn
+ Oo2A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWrKu69dam9L1Vwr3THS852RQ8qKpYneCnhx3haolJTEayXE4LeTTt06mKziydCj4D6BnDheS2truEMwLsF61sEGvrYo2grMr2ZoGDOmzK3
+X-Gm-Message-State: AOJu0YxFc5J/ADOHZdJD+orp5h0E9QR1glafzlRlsa4z5LlZ/NjF6C3h
+ NkGEXZdccBsLd+XqBWcB8NNRq/2VfIWg03GHwxiWDj2lTtXXRcF1vjnKPk60CAQ=
+X-Google-Smtp-Source: AGHT+IE/+Cm6kTTws7yRC5u/oOPZAuYzqObXzz8cbQUZVy042qI2SPItKJruChfcYCXw+MKeWMonTQ==
+X-Received: by 2002:a2e:97d8:0:b0:2eb:ef78:29c8 with SMTP id
+ 38308e7fff4ca-2ec5797a37fmr21548801fa.14.1719176876831; 
+ Sun, 23 Jun 2024 14:07:56 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2ec4d76f791sm8277271fa.118.2024.06.23.14.07.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 23 Jun 2024 14:07:56 -0700 (PDT)
+Date: Mon, 24 Jun 2024 00:07:54 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Keith Zhao <keith.zhao@starfivetech.com>
+Cc: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>, 
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "rfoss@kernel.org" <rfoss@kernel.org>, 
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>, 
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, 
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, 
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>, 
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh@kernel.org" <robh@kernel.org>, 
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>, 
+ "hjc@rock-chips.com" <hjc@rock-chips.com>, "heiko@sntech.de" <heiko@sntech.de>,
+ "andy.yan@rock-chips.com" <andy.yan@rock-chips.com>,
+ Xingyu Wu <xingyu.wu@starfivetech.com>, 
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ Jack Zhu <jack.zhu@starfivetech.com>, 
+ Shengyang Chen <shengyang.chen@starfivetech.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v4 08/10] drm/vs: add vs drm master driver
+Message-ID: <uymjzpwsvlaoenftrc6y2colqpvtoniubuoncyslfychynom4i@3qvmcudgfrql>
+References: <20240521105817.3301-1-keith.zhao@starfivetech.com>
+ <20240521105817.3301-9-keith.zhao@starfivetech.com>
+ <mbkrlg67jtggoqwecu6emymw3hgqoyf5pe55ho2fthq6pgnds2@ml7mbssrdr2x>
+ <NTZPR01MB1050CAD9457771A58217A58CEECB2@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <mmqji5hcfa6eegx2kdjkcy4hsoybtp25bgjsn2ol6dcdw2cgs5@fw3i3ufjkj3z>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: hHAdpiEbWqeyDJQWK0MiuKBTkMhdMC4m
-X-Proofpoint-ORIG-GUID: hHAdpiEbWqeyDJQWK0MiuKBTkMhdMC4m
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-23_13,2024-06-21_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- clxscore=1015 mlxscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
- impostorscore=0 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2406230172
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <NTZPR01MB1050CAD9457771A58217A58CEECB2@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,67 +109,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 23, 2024 at 03:40:06PM -0500, Bjorn Andersson wrote:
-> On Sun, Jun 23, 2024 at 08:46:30PM GMT, Akhil P Oommen wrote:
-> > On Sun, Jun 23, 2024 at 02:53:17PM +0200, Krzysztof Kozlowski wrote:
-> > > On 23/06/2024 14:28, Akhil P Oommen wrote:
-> > > > On Sun, Jun 23, 2024 at 01:17:16PM +0200, Krzysztof Kozlowski wrote:
-> > > >> On 23/06/2024 13:06, Akhil P Oommen wrote:
-> > > >>> Add the necessary dt nodes for gpu support in X1E80100.
-> > > >>>
-> > > >>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> > > >>> ---
-> > > >>> +		gmu: gmu@3d6a000 {
-> > > >>> +			compatible = "qcom,adreno-gmu-x185.1", "qcom,adreno-gmu";
-> > > >>> +			reg = <0x0 0x03d50000 0x0 0x10000>,
-> > > >>> +			      <0x0 0x03d6a000 0x0 0x35000>,
-> > > >>> +			      <0x0 0x0b280000 0x0 0x10000>;
-> > > >>> +			reg-names =  "rscc", "gmu", "gmu_pdc";
-> > > >>
-> > > >> Really, please start testing your patches. Your internal instructions
-> > > >> tells you to do that, so please follow it carefully. Don't use the
-> > > >> community as the tool, because you do not want to run checks and
-> > > >> investigate results.
-> > > > 
-> > > > This was obviously tested before (and retested now) and everything works. I am
-> > > > confused about what you meant. Could you please elaborate a bit? The device
-> > > > and the compilation/test setup is new for me, so I am wondering if I
-> > > > made any silly mistake!
-> > > 
-> > > Eh, your DTS is not correct, but this could not be pointed out by tests,
-> > > because the binding does not work. :(
-> > 
-> > I reordered both "reg" and "reg-names" arrays based on the address.
-> 
-> The @3d6a000 should match the first reg entry.
-> 
-> > Not sure if
-> > that is what we are talking about here. Gpu driver uses platform_get_resource_byname()
-> > to query mmio resources.
-> > 
-> > I will retest dt-bindings and dts checks after picking the patches you
-> > just posted and report back. Is the schema supposed to enforce strict
-> > order?
-> 
-> In your second hunk in patch 1, you are defining the order of reg,
-> reg-names, clocks, and clock-names. This creates an ABI between DTB and
-> implementation where ordering is significant - regardless of Linux using
-> platform_get_resource_byname().
+On Sun, Jun 23, 2024 at 07:16:57AM GMT, Keith Zhao wrote:
+> > On Tue, May 21, 2024 at 06:58:15PM +0800, keith wrote:
+> > > Add vs DRM master driver for JH7110 SoC ADD DMA GEM driver
+> > >
+> > > Signed-off-by: keith <keith.zhao@starfivetech.com>
+> > > ---
+> > >  drivers/gpu/drm/verisilicon/Makefile |   3 +-
+> > >  drivers/gpu/drm/verisilicon/vs_drv.c | 718
+> > > +++++++++++++++++++++++++++
+> > >  2 files changed, 720 insertions(+), 1 deletion(-)  create mode 100644
+> > > drivers/gpu/drm/verisilicon/vs_drv.c
+> > >
 
-I will revert this to the original order. Thanks for the clarification, Bjorn/Krzysztof.
-
--Akhil.
-> 
-> Regards,
-> Bjorn
-> 
+> > BIT(DRM_COLOR_YCBCR_BT2020),
+> > > +		.zpos			= 0,
 > > 
-> > -Akhil.
-> > > 
-> > > I'll fix up the binding and then please test on top of my patch (see
-> > > your internal guideline about necessary tests before sending any binding
-> > > or DTS patch).
-> > > 
-> > > Best regards,
-> > > Krzysztof
-> > > 
+> > How are these zpos related to the zpos from drm_plane_state?
+> Zpos was added to drm_plane_state by calling drm_plane_create_zpos_property funs,
+> 
+> vs_plane_primary_create 
+> ------> drm_plane_create_zpos_property(......vs_plane_primary_info-> zpos )
+
+Yes. But why do you need zpos here? Especially if it's set to 0.
+
+> > 
+> > > +
+> > > +	drm_dev->mode_config.min_width = min_width;
+> > > +	drm_dev->mode_config.min_height = min_heigth;
+> > > +	drm_dev->mode_config.max_width = max_width;
+> > > +	drm_dev->mode_config.max_height = max_height;
+> > 
+> > I thought that I saw mode_config.min/max being initialized.
+> Yes the mode_config.min/max has been initialized，
+> This place is doing an update according to detail info.
+
+Then please drop previous initialisation. While looking at the code it's
+impossible to understand which one is correct.
+
+
+> > > +
+> > > +static struct component_match *vs_add_external_components(struct
+> > > +device *dev) {
+> > > +	struct component_match *match = NULL;
+> > > +	int i;
+> > > +
+> > > +	for (i = 0; i < ARRAY_SIZE(drm_sub_drivers); ++i) {
+> > > +		struct platform_driver *drv = drm_sub_drivers[i];
+> > > +		struct device *p = NULL, *d;
+> > > +
+> > > +		while ((d = platform_find_device_by_driver(p, &drv->driver))) {
+> > > +			put_device(p);
+> > > +
+> > > +			drm_of_component_match_add(dev, &match,
+> > component_compare_of,
+> > > +						   d->of_node);
+> > > +			p = d;
+> > > +		}
+> > > +		put_device(p);
+> > 
+> > What about just going through the graph connections instead and adding them?
+> 
+> The purpose of using components is to create encoder and connector to the drm subsystem by calling component_bind_all
+> 
+> graph connection needs to be based on whether there is a bridge at present. 
+> If the bridge has been added, it can be obtained through drm_of_get_bridge 
+> Create a connector based on the obtained bridge and then attach the connector to the encoder.
+> Then do drm_dev_register.
+> 
+> I don't know if my understanding is consistent with yours. Please help confirm it.
+> Thanks
+
+Your code is looping over the subdrivers, locating devices and then
+adding them as components. Can you instead use device nodes which are
+connected to your master via the OF graph? If I understand examples in
+your DT bindings correctly, this approach should work.
+
+> > > +static void __exit vs_drm_fini(void)
+> > > +{
+> > > +	platform_driver_unregister(&vs_drm_platform_driver);
+> > > +	platform_unregister_drivers(drm_sub_drivers,
+> > > +ARRAY_SIZE(drm_sub_drivers)); }
+> > > +
+> > > +late_initcall_sync(vs_drm_init);
+> > 
+> > Why _sync?
+> 
+> late_initcall_sync will make it success ,when do devm_drm_of_get_bridge.
+> Also it can use the " EPROBE_DEFER " to avoid it,
+
+Why do you need this? It's perfectly fine to have DRM devices probe
+assynchronously.
+
+> > 
+> > > +module_exit(vs_drm_fini);
+> > > +
+> > > +MODULE_DESCRIPTION("VeriSilicon DRM Driver");
+> > MODULE_LICENSE("GPL");
+> > > --
+> > > 2.27.0
+> > >
+
+-- 
+With best wishes
+Dmitry
