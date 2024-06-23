@@ -2,96 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1DF2913E41
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 22:56:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DD24913E47
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2024 23:01:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFEA010E180;
-	Sun, 23 Jun 2024 20:56:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D5C110E303;
+	Sun, 23 Jun 2024 21:01:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YHKAftP3";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="MeTtD/tj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCEBE10E180
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 20:56:32 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-52ce674da85so351840e87.2
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 13:56:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719176191; x=1719780991; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=HMIjy1gK0TpUCo1LhjYc9489mlQhGsXBTfI3ZFcq2PQ=;
- b=YHKAftP33bJF+xrmGaUtDm0eq3Ow1ZlX4svoNEXBoPqYZ/lwD7ktBMo5Y4ofnxSiMP
- poMHiTb3EkZLPxXYI7EgdwuBDxLLqoHwjm/oHhBC4hMyyWFJXjynXoytPkA6tKaQSQ6C
- NJoDLyAPIh2WsIrKdAElTIn4TTzf7oY2CqCz0FCiv8XvZxw+K1R0SGSRdZAFMGskWakk
- URBNUqJst2MvkUntyENRkm4oScJni1pdhPO5dvNw9MOqmhrXVGMKZj766IeJs0BoQqPU
- r9tz17/5hggTay4EhUI6nRAu2llQxd8vLFnI39EAE611PVTMiTQP2M76A9SVTjWX66FL
- PNcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719176191; x=1719780991;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HMIjy1gK0TpUCo1LhjYc9489mlQhGsXBTfI3ZFcq2PQ=;
- b=vb3g15KANOpLU2E/LfN1lpLHu2kTeIabyTKvhqXXd6ECbjBNlz5cyImIRkoHZput3a
- 79Z0apB9RRG4cjV+lymbYaRKDk0WkAVjWd514Jo1md+k6jaMT7a6eKo9DfnWkwRWvKb7
- IjDZGqMK66vI9jc2Pwouyfg3YPPO6WBJD5GbExy+gEMFWvJWJe6/AeIxQAkvL7b/V10j
- /AJpLs7VKTM3/h//rLGTiHOnjm75/u0vbDzFeZj1IWLvka52uz3AYo0IDmCj2DrSvP9s
- oYFVBZO/uHUqY5yaiVzza8eNneRaZz4a6hEE3ok3VQKKMxU6HBoLKFRwUwS7PGESRjEi
- ylFA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVViChtrzWJNvg+GNJ1mBSrpbhkm25LrJ+rfI9irg/ReyVYunESb/nOCRf0CKv+/8ubVBmf2dxj67QwUtTlZiKXzPRGVo0lzr/aDdfT+nlw
-X-Gm-Message-State: AOJu0Yzx8RyeLavySwggosG2/gnrz34XW5kR3KEEo/FcOb+s88imH3hp
- lT1vhL2qidkCQTIat8R1vISxbivVqNu8BsG1EohuPKIG0T9FzijY3msho2Ad3J4=
-X-Google-Smtp-Source: AGHT+IEuXd8WWnOuecjW0sjT9QmBmiw0iQ8Vi8NvjkJfFJ74SjLxYkdIlq/BXl1u5IWs6g/xDYQryQ==
-X-Received: by 2002:ac2:5505:0:b0:52c:dee0:9f6e with SMTP id
- 2adb3069b0e04-52ce183b1f2mr1620174e87.38.1719176190747; 
- Sun, 23 Jun 2024 13:56:30 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52ce729cb07sm88694e87.234.2024.06.23.13.56.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jun 2024 13:56:30 -0700 (PDT)
-Date: Sun, 23 Jun 2024 23:56:28 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Keith Zhao <keith.zhao@starfivetech.com>
-Cc: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>, 
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "rfoss@kernel.org" <rfoss@kernel.org>, 
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>, 
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>, 
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@gmail.com" <airlied@gmail.com>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh@kernel.org" <robh@kernel.org>, 
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>, 
- "hjc@rock-chips.com" <hjc@rock-chips.com>, "heiko@sntech.de" <heiko@sntech.de>,
- "andy.yan@rock-chips.com" <andy.yan@rock-chips.com>,
- Xingyu Wu <xingyu.wu@starfivetech.com>, 
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- Jack Zhu <jack.zhu@starfivetech.com>, 
- Shengyang Chen <shengyang.chen@starfivetech.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v4 07/10] drm/vs: add ctrc fun
-Message-ID: <73pee4uoo5fq3rgqrrs77zavz7727766sw5pb7zszoqk6a6yd2@roxrcdgwxfcq>
-References: <20240521105817.3301-1-keith.zhao@starfivetech.com>
- <20240521105817.3301-8-keith.zhao@starfivetech.com>
- <zevlkgeiezpi77uiiobmtzhaps7qkm7bur2kltlrqmbucrk4ad@af6lulqqllyj>
- <NTZPR01MB1050C59A5A8D3A2F790F557CEECB2@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EFF010E303;
+ Sun, 23 Jun 2024 21:01:37 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45NGudij001480;
+ Sun, 23 Jun 2024 21:01:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=Q7XGz76jCu2WWnnkgfEBCxSB
+ RxHCD/i/sb3Z32/4624=; b=MeTtD/tjMT291VXt8SaeENGP1dzoLr46F4ReCOeF
+ d1wrMt4EMlhqJvGZudP6WOn4J1KIEsGaknkNNLXDkeoXN8aoip1AEVHlKHbO6tsE
+ J/LQvKQYI5AdJaiPWFenmuuyOV0e5mwkM0YUKwIZsNkj1wlz+aq8HMQiRlGtOoQK
+ OLX+fOVU9rqAPqKpnj7vj+nCjGascimE622s+d6YYrzZBAnOQyb99JNOAcCkX8Vr
+ u9Iz4HVqCdjHY3XZYfZ622AEpdLcl8omt1a/vQ2Ir/AR2Xf93LlEQsVWktCb/gfY
+ WfZQ7gxFcQR3k8GUrlhA4aUCUFdyZV1o4pHZqAerz312Ng==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywnjrt8mf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 23 Jun 2024 21:01:32 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45NL1Vjb016151
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 23 Jun 2024 21:01:31 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Sun, 23 Jun 2024 14:01:26 -0700
+Date: Mon, 24 Jun 2024 02:31:23 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Bjorn Andersson <andersson@kernel.org>, Krzysztof Kozlowski
+ <krzk@kernel.org>
+CC: freedreno <freedreno@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob
+ Herring <robh@kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1 3/3] arm64: dts: qcom: x1e80100: Add gpu support
+Message-ID: <20240623210123.khe5fhzgb7uyws4o@hu-akhilpo-hyd.qualcomm.com>
+References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
+ <20240623110753.141400-4-quic_akhilpo@quicinc.com>
+ <a458a3a7-2b6d-4032-949c-b2c021d339e8@kernel.org>
+ <20240623122856.kqf4x6mft74hzk7y@hu-akhilpo-hyd.qualcomm.com>
+ <7d69e98d-a870-4200-8f22-2a16fcf02794@kernel.org>
+ <20240623151630.bskqwqhp25mu3yuf@hu-akhilpo-hyd.qualcomm.com>
+ <mmqji5hcfa6eegx2kdjkcy4hsoybtp25bgjsn2ol6dcdw2cgs5@fw3i3ufjkj3z>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <NTZPR01MB1050C59A5A8D3A2F790F557CEECB2@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
+In-Reply-To: <mmqji5hcfa6eegx2kdjkcy4hsoybtp25bgjsn2ol6dcdw2cgs5@fw3i3ufjkj3z>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: hHAdpiEbWqeyDJQWK0MiuKBTkMhdMC4m
+X-Proofpoint-ORIG-GUID: hHAdpiEbWqeyDJQWK0MiuKBTkMhdMC4m
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-23_13,2024-06-21_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ clxscore=1015 mlxscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
+ impostorscore=0 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2406230172
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,72 +99,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 23, 2024 at 07:17:04AM GMT, Keith Zhao wrote:
-> > On Tue, May 21, 2024 at 06:58:14PM +0800, keith wrote:
-> > > add crtc funs and helper funs
-> > >
-> > > Signed-off-by: keith <keith.zhao@starfivetech.com>
-> > > ---
-> > >  drivers/gpu/drm/verisilicon/Makefile  |   3 +-
-> > >  drivers/gpu/drm/verisilicon/vs_crtc.c | 241
-> > > ++++++++++++++++++++++++++  drivers/gpu/drm/verisilicon/vs_crtc.h |
-> > > 17 ++
-> > >  3 files changed, 260 insertions(+), 1 deletion(-)  create mode 100644
-> > > drivers/gpu/drm/verisilicon/vs_crtc.c
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.h
-> > >
-
-> > > diff --git a/drivers/gpu/drm/verisilicon/vs_crtc.h
-> > > b/drivers/gpu/drm/verisilicon/vs_crtc.h
-> > > new file mode 100644
-> > > index 000000000000..b1e588bb780d
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/verisilicon/vs_crtc.h
-> > > @@ -0,0 +1,17 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 */
-> > > +/*
-> > > + * Copyright (C) 2023 VeriSilicon Holdings Co., Ltd.
-> > > + */
-> > > +
-> > > +#ifndef __VS_CRTC_H__
-> > > +#define __VS_CRTC_H__
-> > > +
-> > > +#include <drm/drm_crtc.h>
-> > > +#include <drm/drm_crtc_helper.h>
+On Sun, Jun 23, 2024 at 03:40:06PM -0500, Bjorn Andersson wrote:
+> On Sun, Jun 23, 2024 at 08:46:30PM GMT, Akhil P Oommen wrote:
+> > On Sun, Jun 23, 2024 at 02:53:17PM +0200, Krzysztof Kozlowski wrote:
+> > > On 23/06/2024 14:28, Akhil P Oommen wrote:
+> > > > On Sun, Jun 23, 2024 at 01:17:16PM +0200, Krzysztof Kozlowski wrote:
+> > > >> On 23/06/2024 13:06, Akhil P Oommen wrote:
+> > > >>> Add the necessary dt nodes for gpu support in X1E80100.
+> > > >>>
+> > > >>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> > > >>> ---
+> > > >>> +		gmu: gmu@3d6a000 {
+> > > >>> +			compatible = "qcom,adreno-gmu-x185.1", "qcom,adreno-gmu";
+> > > >>> +			reg = <0x0 0x03d50000 0x0 0x10000>,
+> > > >>> +			      <0x0 0x03d6a000 0x0 0x35000>,
+> > > >>> +			      <0x0 0x0b280000 0x0 0x10000>;
+> > > >>> +			reg-names =  "rscc", "gmu", "gmu_pdc";
+> > > >>
+> > > >> Really, please start testing your patches. Your internal instructions
+> > > >> tells you to do that, so please follow it carefully. Don't use the
+> > > >> community as the tool, because you do not want to run checks and
+> > > >> investigate results.
+> > > > 
+> > > > This was obviously tested before (and retested now) and everything works. I am
+> > > > confused about what you meant. Could you please elaborate a bit? The device
+> > > > and the compilation/test setup is new for me, so I am wondering if I
+> > > > made any silly mistake!
+> > > 
+> > > Eh, your DTS is not correct, but this could not be pointed out by tests,
+> > > because the binding does not work. :(
 > > 
-> > Do you really need to include them here?
-> > 
-> The location of include can be optimized
-> Delete #include <drm/drm_crtc.h>
-> Move drm_crtc_helper.h to vs_crtc.c
-
-Yes, please.
-
+> > I reordered both "reg" and "reg-names" arrays based on the address.
 > 
-> > > +
-> > > +#include "vs_drv.h"
-> > > +
-> > > +struct vs_crtc *vs_crtc_create(struct drm_device *drm_dev,
-> > > +			       struct vs_dc_info *info);
-
-This prototype needs #include <drm_device.h>, not drm_crtc*.
-Or even better drop the include completely and just formward-declare the
-structure:
-
-struct drm_device;
-struct vs_crtc *vs_crtc_create(struct drm_device *drm_dev, struct
-			       vs_dc_info *info);
-
-> > > +
-> > > +#endif /* __VS_CRTC_H__ */
-> > > --
-> > > 2.27.0
-> > >
+> The @3d6a000 should match the first reg entry.
+> 
+> > Not sure if
+> > that is what we are talking about here. Gpu driver uses platform_get_resource_byname()
+> > to query mmio resources.
 > > 
-> > --
-> > With best wishes
-> > Dmitry
+> > I will retest dt-bindings and dts checks after picking the patches you
+> > just posted and report back. Is the schema supposed to enforce strict
+> > order?
+> 
+> In your second hunk in patch 1, you are defining the order of reg,
+> reg-names, clocks, and clock-names. This creates an ABI between DTB and
+> implementation where ordering is significant - regardless of Linux using
+> platform_get_resource_byname().
 
--- 
-With best wishes
-Dmitry
+I will revert this to the original order. Thanks for the clarification, Bjorn/Krzysztof.
+
+-Akhil.
+> 
+> Regards,
+> Bjorn
+> 
+> > 
+> > -Akhil.
+> > > 
+> > > I'll fix up the binding and then please test on top of my patch (see
+> > > your internal guideline about necessary tests before sending any binding
+> > > or DTS patch).
+> > > 
+> > > Best regards,
+> > > Krzysztof
+> > > 
