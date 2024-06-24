@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A75109141E2
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 07:21:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A003E9141F5
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 07:31:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAF6A10E345;
-	Mon, 24 Jun 2024 05:21:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A91F610E346;
+	Mon, 24 Jun 2024 05:31:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="URrNFOqJ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Sd14xJTx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FA4D10E345
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 05:21:23 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-2ec1e5505abso40316231fa.1
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 22:21:22 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7841210E346
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 05:31:22 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-52ce6c8db7bso616568e87.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 22:31:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719206481; x=1719811281; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1719207080; x=1719811880; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=2MGm9hgBQiIaonwYDgBJ0aXBhWFo2f3cLhGxXka39iM=;
- b=URrNFOqJG3bKbxz2Xe4lWxkhqbrLsquSyddlQCq9T0XXuV7FEUOEWB+fPz5tkmZ6jS
- kP5WHEa4qRjPz1uS/Kaxs3IXt9Bl0QjMOVf5M9BuCXRT+pMWypvT9jED/94EtsmgXaJP
- o7lMIO1bVzhA+H2M66S9VGlaTEFVck+iXhsKlYamVKegkLWc3uvpiL+1LaIqbJ8uATRl
- ycWq0pNgSnQtkYMpDiC+U3b7LJAiU8tQ7FnhBqBIuH9EVT6ky4A93vJTTVa3IAmTtSa9
- QYPJCxwN7xY4Q42MVGvGtJqq7lQNSe6W0Xy04VkNOU0YYbeFa7kYRZIyBz++xHnS979I
- GM0Q==
+ bh=oEeMqLzWPtuHbd7DMdLxKIfGpNKakGZfL/lhpzQLB6U=;
+ b=Sd14xJTxlnYDvlJyIU3A56wIsugGFR6Hwhx4AN1I4uVZnV6EW/MRMKSERACf2nK31D
+ TyjMIC9SGsRogU+GNZAZj4e37EgI16KBQ9l44by4pBOaAFVjnEqlE4XJdKGX9U2BR42O
+ a1tTAuZ57gzI0ohO1kWeKrj13sS3FEoMMAp+PLXymm94X6A0WCYbFFaFKN6MBSj2JvgL
+ 7kaHras4PruJELAikAZFQO9u2gl1NGrryzWMdf2FCg5y2JqzpCyM3DmSoqZVVXiVUoMX
+ 9/WAcb9S1E0nmNnkUBXxSK+RqZNyUKpdSrdRudi5Q5PsCtQP/Ut7f9Y4lKvR6cbhIo+p
+ ukOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719206481; x=1719811281;
+ d=1e100.net; s=20230601; t=1719207080; x=1719811880;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2MGm9hgBQiIaonwYDgBJ0aXBhWFo2f3cLhGxXka39iM=;
- b=j1dl15t7lCspjPY51cEh6UxZ/ZHBAdKT7CwHA+2h5njhyhVMiLtUpGWZcZpfAKMkJP
- sQTyrYhVpG6Gr/umQTeTse2P4fEj8RWmDJ9Z0JhHUqToTVjPDhtU7zhm43cPg8NfXJnX
- m40cYy49UsUb3SdOFrU9HumLYAbP50BPhkjrh4jTJReyOIqL06f/LkrZo1b4d2OlT90e
- yjvtZFsDylbrNKtQoX75mVYVIUPSxTPBaE1zbGWxS4EVuCC/Jbp23ntzyCKD5zpIUd6w
- H32hnoAp7R6bfXnycrMEW/4zmwui/Q+GsKUaGfWWKRhYA4NEooU8fG4tVlaNE/N7ppRm
- FZxw==
+ bh=oEeMqLzWPtuHbd7DMdLxKIfGpNKakGZfL/lhpzQLB6U=;
+ b=D/lgztA0l5Qfbvpgyp/sDfXsBXWlWpTvZMxezcg2Gx13RcntPj2RpWbT8MvxN4gK50
+ mIbpmfxkPbif09BONxZ2H8KMTRT8B1MEQCytH9CqWX7SrVCWYkd4L+3Mk4UFNX0yu8Lg
+ m3YnwXN+6BIHLU2jUmN2ZuChouikP+YwOHpQPIvuBLEW1zIisB91dmcKCGDSSjNvIagY
+ xp2tARb1SR+fKhljvchJOIIG13FrB+A6dFjKWRkVlfhx7BS8qWWKhQ7M/VagZrT7s5ef
+ Kh5pU75lSs/hZICI0qNpBuw5sj+5rNQKJbNsWiJwDAZi2rLDMsA4hKprHXzYRv/LTTGu
+ E5HA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUkuFctD4wIDPK98Qu7pb471w3vgfX3VJlis5QVgLZ1KeoGSxaD4m1DxX+tCgAJnQ8I2ru3Cz5HclI+dgjyEXjcDTi6TGhggRySxpd4x7Ie
-X-Gm-Message-State: AOJu0YzfNIqYA4QAS/N+CX7rtI2q/N69amoUFpg60fh9aMsaGzkvvzid
- HVeD+IGY854kKmx++tND9oAQZCWEuAqpRWSsRDzriEmGeuJqtUOxOZUIplRmCZw=
-X-Google-Smtp-Source: AGHT+IH+EF6ZVxgix/33CGJs1LcRlM58jSDEP6hH4S/kepamdqtcu83VYx7sjlT8qvi+UsLClCqQ1A==
-X-Received: by 2002:a2e:9f08:0:b0:2ec:3c7e:3b3d with SMTP id
- 38308e7fff4ca-2ec56be6b08mr10787131fa.26.1719206481012; 
- Sun, 23 Jun 2024 22:21:21 -0700 (PDT)
+ AJvYcCU/A+B8PPodoA6jPV7Ev/NvFpcHOhEtv29dd43ye5I11ANMRqY26Eo7zSu0JOk4wXti1G6PBZ6uu2Dled82LccTK2akgnAniijbFy9e3pRP
+X-Gm-Message-State: AOJu0Yww33XqG9+U020N4IXH9m5h/Zd51ef67VcbpIoavZdcMbDEGOE/
+ VRqWM4VSIHrmTLbuVJNPsfesp6rTwtVjCXVBQxEiKfUg1F55r2rohwyBNW7bpa8=
+X-Google-Smtp-Source: AGHT+IGDR4WXp3BrtdW/oZ54TDqH52mJ/FrYWjDaLO9Oi22YZv6nU3DEUmhIjwPYW7xV1aybF8+z8Q==
+X-Received: by 2002:ac2:5e83:0:b0:52c:e41a:b666 with SMTP id
+ 2adb3069b0e04-52ce41ab71fmr1575041e87.7.1719207080428; 
+ Sun, 23 Jun 2024 22:31:20 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec4d7e7906sm8868841fa.121.2024.06.23.22.21.20
+ 2adb3069b0e04-52cd810d633sm864075e87.165.2024.06.23.22.31.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jun 2024 22:21:20 -0700 (PDT)
-Date: Mon, 24 Jun 2024 08:21:19 +0300
+ Sun, 23 Jun 2024 22:31:19 -0700 (PDT)
+Date: Mon, 24 Jun 2024 08:31:18 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Caleb Connolly <caleb@postmarketos.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -72,14 +72,14 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  devicetree@vger.kernel.org, 
  linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH 4/7] drm: mipi: add mipi_dsi_generic_write_multi_type()
-Message-ID: <jbxk6uo3q2ddwthtc5et6gquiofgywnwh6e5kwpqe7pvglgbfg@k3djx6owef2t>
+Subject: Re: [PATCH 5/7] drm/panel: add driver for samsung amb655x
+Message-ID: <mnxpybk4nqdyp2xo22dxbprtxt5v6spr2ax4p3vrpwafqcbonv@ga4o2xxtkkov>
 References: <20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org>
- <20240624-oneplus8-v1-4-388eecf2dff7@postmarketos.org>
+ <20240624-oneplus8-v1-5-388eecf2dff7@postmarketos.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240624-oneplus8-v1-4-388eecf2dff7@postmarketos.org>
+In-Reply-To: <20240624-oneplus8-v1-5-388eecf2dff7@postmarketos.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,124 +95,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 24, 2024 at 03:30:28AM GMT, Caleb Connolly wrote:
-> Some panels like the Samsung AMB655X use long write commands for all
-> non-standard messages and do not work when trying to use the appropriate
-> command type.
-> 
-> Support these panels by introducing a new helper to send commands of a
-> specific type, overriding the normal rules.
-> 
+On Mon, Jun 24, 2024 at 03:30:29AM GMT, Caleb Connolly wrote:
+> This is a 1080x2400 120hz panel used on the OnePlus 8T. It uses DSC but
+> uses non-standard DCS commands.
+
+Please add a note regarding the panel using long packets for all the
+commands.
+
+Also the cover letter had a mention of the panel not fully comming up
+after being reset, is that still true? If so, it should be mentioned in
+the commit message too.
+
 > Signed-off-by: Caleb Connolly <caleb@postmarketos.org>
 > ---
->  drivers/gpu/drm/drm_mipi_dsi.c | 40 ++++++++++++++++++++++++++++++++++++++++
->  include/drm/drm_mipi_dsi.h     | 16 ++++++++++++++++
->  2 files changed, 56 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-> index a471c46f5ca6..d0fee0498d91 100644
-> --- a/drivers/gpu/drm/drm_mipi_dsi.c
-> +++ b/drivers/gpu/drm/drm_mipi_dsi.c
-> @@ -819,8 +819,48 @@ void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
->  	}
->  }
->  EXPORT_SYMBOL(mipi_dsi_generic_write_multi);
->  
-> +/**
-> + * mipi_dsi_generic_write_type() - transmit data using a generic write packet of
+>  MAINTAINERS                                   |   7 +
+>  drivers/gpu/drm/panel/Kconfig                 |   9 +
+>  drivers/gpu/drm/panel/Makefile                |   1 +
+>  drivers/gpu/drm/panel/panel-samsung-amb655x.c | 420 ++++++++++++++++++++++++++
+>  4 files changed, 437 insertions(+)
 
-This doesn't match the name of the function.
 
-> + * a specific type
-> + * @dsi: DSI peripheral device
-> + * @type: data type of the packet
-> + * @payload: buffer containing the payload
-> + * @size: size of payload buffer
-> + *
-> + * This function will automatically choose the right data type depending on
-> + * the payload length.
-> + *
-> + * Return: The number of bytes transmitted on success or a negative error code
-> + * on failure.
-> + */
-> +ssize_t mipi_dsi_generic_write_multi_type(struct mipi_dsi_multi_context *ctx,
-> +					  u8 type, const void *payload, size_t size)
 
-write_type_multi. Or maybe write_raw_multi.
-
+> +static int samsung_amb655x_on(struct samsung_amb655x *amb655x)
 > +{
-> +	struct mipi_dsi_device *dsi = ctx->dsi;
-> +	struct mipi_dsi_msg msg = {
-> +		.channel = dsi->channel,
-> +		.tx_buf = payload,
-> +		.tx_len = size,
-> +		.type = type,
-> +	};
-> +	ssize_t ret;
+> +	struct drm_dsc_picture_parameter_set pps;
+> +	struct mipi_dsi_device *dsi = amb655x->dsi;
+> +	struct mipi_dsi_multi_context ctx = { .dsi = dsi };
+> +	struct device *dev = &dsi->dev;
+> +	int ret;
 > +
-> +	if (ctx->accum_err)
-> +		return 0;
+> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
 > +
-> +	ret = mipi_dsi_device_transfer(dsi, &msg);
+> +	drm_dsc_pps_payload_pack(&pps, &amb655x->dsc);
+> +
+> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0x5a, 0x5a);
+> +	mipi_dsi_dcs_write_buffer_multi(&ctx, &pps, sizeof(pps));
+> +	mipi_dsi_dcs_write_long(&ctx, 0x9d, 0x01);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0xa5, 0xa5);
+> +
+> +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+
+_multi. Shouldn't it be a long package too?
+
 > +	if (ret < 0) {
-> +		ctx->accum_err = ret;
-> +		dev_err(&dsi->dev, "sending generic data %*ph failed: %zd\n",
-> +			(int)size, payload, ret);
+> +		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+> +		return ret;
+> +	}
+> +	usleep_range(11000, 12000);
+
+mipi_dsi_msleep() or add mipi_dsi_usleep_range().
+
+> +	ret = mipi_dsi_dcs_set_column_address(dsi, 0x0000, 1080 - 1);
+
+_multi, adding the function as required
+
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to set column address: %d\n", ret);
+> +		return ret;
 > +	}
 > +
-> +	return ret;
+> +	ret = mipi_dsi_dcs_set_page_address(dsi, 0x0000, 2400 - 1);
+
+_multi
+
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to set page address: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	/* FD Setting */
+> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0x5a, 0x5a);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xd5, 0x8d);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xb0, 0x0a);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xd5, 0x05);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0xa5, 0xa5);
+> +
+> +	/* FFC Function */
+> +	mipi_dsi_dcs_write_long(&ctx, 0xfc, 0x5a, 0x5a);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xb0, 0x01);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xe4, 0xa6, 0x75, 0xa3);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xe9,
+> +			       0x11, 0x75, 0xa6, 0x75, 0xa3, 0x4b, 0x17, 0xac,
+> +			       0x4b, 0x17, 0xac, 0x00, 0x19, 0x19);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xfc, 0xa5, 0xa5);
+> +	msleep(61);
+
+mipi_dsi_msleep
+
+> +
+> +	/* Dimming Setting */
+> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0x5a, 0x5a);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xb0, 0x06);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xb7, 0x01);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xb0, 0x05);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xb7, 0x13);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xb0, 0x01);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xb7, 0x4c);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0xa5, 0xa5);
+> +
+> +	mipi_dsi_dcs_write_long(&ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
+> +
+> +	/* refresh rate Transition */
+> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0x5a, 0x5a);
+> +	/* 60 Hz */
+> +	//mipi_dsi_dcs_write_long(&ctx, 0x60, 0x00);
+> +	/* 120 Hz */
+> +	mipi_dsi_dcs_write_long(&ctx, 0x60, 0x10);
+> +
+> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0xa5, 0xa5);
+> +
+> +	/* ACL Mode */
+> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0x5a, 0x5a);
+> +	mipi_dsi_dcs_write_long(&ctx, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
+> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0xa5, 0xa5);
+> +	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
+
+_multi
+
+> +	msleep(110);
+
+mipi_dsi_msleep()
+
+> +
+> +	/* Enable backlight */
+> +	mipi_dsi_dcs_write_long(&ctx, 0x9F, 0x5A, 0x5A);
+> +	mipi_dsi_dcs_set_display_on(dsi);
+
+_multi
+
+> +	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_ENTER_NORMAL_MODE);
+
+_multi
+
+> +	mipi_dsi_dcs_write_long(&ctx, 0x9F, 0xA5, 0xA5);
+> +
+> +	return ctx.accum_err;
 > +}
-> +EXPORT_SYMBOL(mipi_dsi_generic_write_multi_type);
 > +
->  /**
->   * mipi_dsi_generic_read() - receive data using a generic read packet
->   * @dsi: DSI peripheral device
->   * @params: buffer containing the request parameters
-> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-> index 71d121aeef24..a5d949e695d4 100644
-> --- a/include/drm/drm_mipi_dsi.h
-> +++ b/include/drm/drm_mipi_dsi.h
-> @@ -287,8 +287,10 @@ ssize_t mipi_dsi_generic_write(struct mipi_dsi_device *dsi, const void *payload,
->  int mipi_dsi_generic_write_chatty(struct mipi_dsi_device *dsi,
->  				  const void *payload, size_t size);
->  void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
->  				  const void *payload, size_t size);
-> +ssize_t mipi_dsi_generic_write_multi_type(struct mipi_dsi_multi_context *ctx, u8 type,
-> +				    const void *payload, size_t size);
->  ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
->  			      size_t num_params, void *data, size_t size);
->  
->  #define mipi_dsi_msleep(ctx, delay)	\
-> @@ -432,8 +434,22 @@ void mipi_dsi_dcs_set_tear_on_multi(struct mipi_dsi_multi_context *ctx,
->  		static const u8 d[] = { cmd, seq };                     \
->  		mipi_dsi_dcs_write_buffer_multi(ctx, d, ARRAY_SIZE(d)); \
->  	} while (0)
->  
-> +/**
-> + * mipi_dsi_dcs_write_long - transmit a DCS long command with payload
-> + * @dsi: DSI peripheral device
-> + * @cmd: Commands
-> + * @seq: buffer containing data to be transmitted
-> + */
-> +#define mipi_dsi_dcs_write_long(ctx, cmd, seq...)                          \
-
-foo_multi
-
-> +	do {                                                               \
-> +		static const u8 d[] = { cmd, seq };                        \
-> +		mipi_dsi_generic_write_multi_type(ctx,                     \
-> +						  MIPI_DSI_DCS_LONG_WRITE, \
-> +						  d, ARRAY_SIZE(d));       \
-> +	} while (0)
+> +static int samsung_amb655x_off(struct samsung_amb655x *amb655x)
+> +{
+> +	struct mipi_dsi_device *dsi = amb655x->dsi;
+> +	struct mipi_dsi_multi_context ctx = { .dsi = dsi };
+> +	struct device *dev = &dsi->dev;
+> +	int ret;
 > +
->  /**
->   * struct mipi_dsi_driver - DSI driver
->   * @driver: device driver model driver
->   * @probe: callback for device binding
-> 
-> -- 
-> 2.45.0
-> 
+> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+> +
+> +	mipi_dsi_dcs_write_long(&ctx, 0x9f, 0x5a, 0x5a);
+> +
+> +	ret = mipi_dsi_dcs_set_display_on(dsi);
+
+_multi
+
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to set display on: %d\n", ret);
+> +		return ret;
+> +	}
+> +	msleep(20);
+
+mipi_dsi_msleep
+
+> +
+> +	ret = mipi_dsi_dcs_set_display_off(dsi);
+
+_multi
+
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to set display off: %d\n", ret);
+> +		return ret;
+> +	}
+> +	msleep(20);
+
+mipi_dsi_msleep
+> +
+> +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+
+_multi
+
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	mipi_dsi_dcs_write_long(&ctx, 0x9f, 0xa5, 0xa5);
+> +	msleep(150);
+> +
+> +	return ctx.accum_err;
+> +}
+> +
 
 -- 
 With best wishes
