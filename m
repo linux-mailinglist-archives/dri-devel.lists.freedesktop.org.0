@@ -2,69 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63556914E2E
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 15:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA4B914E31
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 15:17:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00AAC10E42B;
-	Mon, 24 Jun 2024 13:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C58B10E429;
+	Mon, 24 Jun 2024 13:17:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dfI5OQLQ";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0UVNZPOC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16AE610E442;
- Mon, 24 Jun 2024 13:16:55 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-2c7da220252so3439611a91.1; 
- Mon, 24 Jun 2024 06:16:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719235014; x=1719839814; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=sfbufNzdBbDxzBjkJGReG4CqSlZw8qWyj5Wd5bsu10w=;
- b=dfI5OQLQ3XhrUdQafPo0OhuRxhUcFfLfl0SGR6XzS2vA7bid3hr+r3NxeEPzQcjrcD
- Ff6P2YwlVQvk1EWxXQZtqL76Y8xvo07948jsELthXPFhZtLR9zpKkJJix1vW03md3MZZ
- yI7T7Sfhzwj2j0JKSX3+5FbtYDofFsFUrY6O45TuUJ8FHPZCzlD8kiyhlDCnAsZjip/G
- C4L1Cr9CMJlzq2r8P8ZdBpgu1nl3Jd5rSqnQxltzCbGlQT5Pw0tqs0y1ZqYGmxcWfnbM
- rfD8pLtF9pLyswWMCIoSzh3Os3JS76sVNXY7wn2dCCo0TkDxCO3dR6gNdPxDg87Cfhve
- MpFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719235014; x=1719839814;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sfbufNzdBbDxzBjkJGReG4CqSlZw8qWyj5Wd5bsu10w=;
- b=Kz8urHXAvNiVwbO7nJQXNzk+LplAjg5/+D0KR+EP2yUbn24RD9hQCFwlRwrjF8h2QK
- QZqq54aX6V4te6ME6p2vaKYu56oVoNmzSsxqsLdmjfvoNebxtaCIpZRGqTfFIfOsOyC3
- e0VJHu4zp8jz/SOeoHDjrPkcE8QExBRHjxlymYFeZMvAYNZLdfffxInGNPiE/LE7FHt0
- y7On5AjuQRqHZmsnb4X7jMZrizi4h4m6OqqUGPHoa56jmqB+/cPIeTlXfIj3TTknRPCN
- 5I83iMgVq4NT0H+RU1Q/k6OZRx2MyPB/nw0+emqRL15rIdhcf9N3OACwq87M5cFi4KhM
- sjVw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWpqkvsw3NPebinU2/7TsDR/FmXD8pc7fxfC2cwNfBG4+EOw1wbXbtImqTP0I25Jcxdk/lSTe99PfGM89+dVyG6oDA42D07rxDJ9kk0758I
-X-Gm-Message-State: AOJu0YycH9t3CWt5b2saPaZ8lR46IH5vctzODVDrE1HRCKu8AbEsGOao
- U7KZSTyjF64HXLeCP1tvkzVeEJMxjblgqyHhm3jNXQkMQd9q/e0FLGjvD5zrDbOPJ6rUAW4g5GF
- fcrGt15f+f3WRDzMIsgGQgAdtn6yIxDVd
-X-Google-Smtp-Source: AGHT+IHDCOodzO9SVlg0J+WDXeWe38j1dzh8Cd2p8eo7PnR3i4YNltS7z92yq7TX5uV8TbTpDWfVTVz4vyMO5CCX3DA=
-X-Received: by 2002:a17:90a:4bce:b0:2c8:7573:d0ba with SMTP id
- 98e67ed59e1d1-2c87573d6c7mr2777796a91.17.1719235014378; Mon, 24 Jun 2024
- 06:16:54 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 670FF10E427
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 13:16:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6096260BB9;
+ Mon, 24 Jun 2024 13:16:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD099C2BBFC;
+ Mon, 24 Jun 2024 13:16:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1719235018;
+ bh=j3tSMrNeaGr/GDA1b1OfEDf0WMzQpAsWSoGQg7nQuP8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=0UVNZPOCgNL3Z2mOu+qR47HGLZKP0+08/YM6rEFZ3lEL0EEFSSXSiOmO1UXek/4/F
+ qhC+gyxQn9Sr56P1iJ153yCcOyJSx9MRilZ5mN7bHYbzt0Psr0pG2bwhu7vV2+6qyj
+ FAphyBwKfczxSMMotk9p0+Zm4Kq/SoAt9fDW/XpU=
+Date: Mon, 24 Jun 2024 15:16:55 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Shiva Kiran K <shiva_kr@riseup.net>
+Cc: Roshan Khatri <topofeverest8848@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: Remove unnecessary parentheses
+Message-ID: <2024062443-udder-spotted-cc0d@gregkh>
+References: <20240617142746.51885-2-shiva_kr@riseup.net>
 MIME-Version: 1.0
-References: <20240621171106.411596-1-l.stach@pengutronix.de>
-In-Reply-To: <20240621171106.411596-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 24 Jun 2024 15:16:42 +0200
-Message-ID: <CAH9NwWfOJ0Bv0z1Yj9peXU_kVhsypTMnS0+6heaWsH=3CX55Bg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/etnaviv: fix DMA direction handling for cached RW
- buffers
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
- patchwork-lst@pengutronix.de, kernel@pengutronix.de
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240617142746.51885-2-shiva_kr@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,47 +55,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->
-> The dma sync operation needs to be done with DMA_BIDIRECTIONAL when
-> the BO is prepared for both read and write operations.
->
-> Fixes: a8c21a5451d8 ("drm/etnaviv: add initial etnaviv DRM driver")
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
-
+On Mon, Jun 17, 2024 at 07:57:47PM +0530, Shiva Kiran K wrote:
+> Remove unnecessary parentheses in `if` statements.
+> Reported by checkpatch.pl
+> 
+> Signed-off-by: Shiva Kiran K <shiva_kr@riseup.net>
 > ---
-> v2: switch conditions to be exact matches
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> index 71a6d2b1c80f..5c0c9d4e3be1 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> @@ -355,9 +355,11 @@ static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
->
->  static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
->  {
-> -       if (op & ETNA_PREP_READ)
-> +       op &= ETNA_PREP_READ | ETNA_PREP_WRITE;
-> +
-> +       if (op == ETNA_PREP_READ)
->                 return DMA_FROM_DEVICE;
-> -       else if (op & ETNA_PREP_WRITE)
-> +       else if (op == ETNA_PREP_WRITE)
->                 return DMA_TO_DEVICE;
->         else
->                 return DMA_BIDIRECTIONAL;
-> --
-> 2.39.2
->
+>  drivers/staging/fbtft/fb_ili9320.c | 2 +-
+>  drivers/staging/fbtft/fb_ra8875.c  | 2 +-
+>  drivers/staging/fbtft/fbtft-bus.c  | 2 +-
+>  drivers/staging/fbtft/fbtft-core.c | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/fbtft/fb_ili9320.c b/drivers/staging/fbtft/fb_ili9320.c
+> index 0be7c2d51..409b54cc5 100644
+> --- a/drivers/staging/fbtft/fb_ili9320.c
+> +++ b/drivers/staging/fbtft/fb_ili9320.c
+> @@ -37,7 +37,7 @@ static int init_display(struct fbtft_par *par)
+>  	devcode = read_devicecode(par);
+>  	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "Device code: 0x%04X\n",
+>  		      devcode);
+> -	if ((devcode != 0x0000) && (devcode != 0x9320))
+> +	if (devcode != 0x0000 && devcode != 0x9320)
+>  		dev_warn(par->info->device,
+>  			 "Unrecognized Device code: 0x%04X (expected 0x9320)\n",
+>  			devcode);
+> diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/staging/fbtft/fb_ra8875.c
+> index 398bdbf53..ce305a0be 100644
+> --- a/drivers/staging/fbtft/fb_ra8875.c
+> +++ b/drivers/staging/fbtft/fb_ra8875.c
+> @@ -50,7 +50,7 @@ static int init_display(struct fbtft_par *par)
+>  
+>  	par->fbtftops.reset(par);
+>  
+> -	if ((par->info->var.xres == 320) && (par->info->var.yres == 240)) {
+> +	if (par->info->var.xres == 320 && par->info->var.yres == 240) {
+>  		/* PLL clock frequency */
+>  		write_reg(par, 0x88, 0x0A);
+>  		write_reg(par, 0x89, 0x02);
+> diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
+> index 3d422bc11..ab903c938 100644
+> --- a/drivers/staging/fbtft/fbtft-bus.c
+> +++ b/drivers/staging/fbtft/fbtft-bus.c
+> @@ -85,7 +85,7 @@ void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+>  	if (len <= 0)
+>  		return;
+>  
+> -	if (par->spi && (par->spi->bits_per_word == 8)) {
+> +	if (par->spi && par->spi->bits_per_word == 8) {
+>  		/* we're emulating 9-bit, pad start of buffer with no-ops
+>  		 * (assuming here that zero is a no-op)
+>  		 */
+> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+> index c8d52c63d..64babfe3a 100644
+> --- a/drivers/staging/fbtft/fbtft-core.c
+> +++ b/drivers/staging/fbtft/fbtft-core.c
+> @@ -666,7 +666,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+>  		txbuflen = 0;
+>  
+>  #ifdef __LITTLE_ENDIAN
+> -	if ((!txbuflen) && (bpp > 8))
+> +	if (!txbuflen && bpp > 8)
+>  		txbuflen = PAGE_SIZE; /* need buffer for byteswapping */
+>  #endif
+>  
+> -- 
+> 2.45.2
+> 
 
+Hi,
 
--- 
-greets
---
-Christian Gmeiner, MSc
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-https://christian-gmeiner.info/privacypolicy
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You sent a patch that has been sent multiple times in the past few
+  days, and is identical to ones that has been recently rejected.
+  Please always look at the mailing list traffic to determine if you are
+  duplicating other people's work.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
