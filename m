@@ -2,108 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43FC91521D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 17:21:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E80D91523E
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 17:27:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1CE310E4CB;
-	Mon, 24 Jun 2024 15:21:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4AFD10E49E;
+	Mon, 24 Jun 2024 15:27:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="iX6YeF3X";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Eq3vzRa6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iX6YeF3X";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Eq3vzRa6";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fCUpNLUH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7020D10E4B6
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 15:20:48 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0616A21AB4;
- Mon, 24 Jun 2024 15:20:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1719242447; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8wEc5/T6q6gu4EuBZrlJYWrG3bGXxPSbfxMZQIpG9es=;
- b=iX6YeF3X3tCTkQxSW//aO+yOVyIlpOtQ0FZz77Lf2EDhVvvKkImla/qYRFNGgzm3ZEhmEi
- S9zhanQLDuc13uWXzsBSGz3o1jkmuG8154aL2bdErespPkMxo19XgtjXc2snMwXj4P3u/v
- xJ1Uu8BZQBrMocxmtQSeg3XDJj0J8G8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1719242447;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8wEc5/T6q6gu4EuBZrlJYWrG3bGXxPSbfxMZQIpG9es=;
- b=Eq3vzRa6QoUGa/W4aVWvX0ZpClc//7AIdS2D8CpDvV6SG1OUO5ebTZ7ScqhSjxfNxTLGQj
- DAQpMMR5eFRWoACA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1719242447; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8wEc5/T6q6gu4EuBZrlJYWrG3bGXxPSbfxMZQIpG9es=;
- b=iX6YeF3X3tCTkQxSW//aO+yOVyIlpOtQ0FZz77Lf2EDhVvvKkImla/qYRFNGgzm3ZEhmEi
- S9zhanQLDuc13uWXzsBSGz3o1jkmuG8154aL2bdErespPkMxo19XgtjXc2snMwXj4P3u/v
- xJ1Uu8BZQBrMocxmtQSeg3XDJj0J8G8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1719242447;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8wEc5/T6q6gu4EuBZrlJYWrG3bGXxPSbfxMZQIpG9es=;
- b=Eq3vzRa6QoUGa/W4aVWvX0ZpClc//7AIdS2D8CpDvV6SG1OUO5ebTZ7ScqhSjxfNxTLGQj
- DAQpMMR5eFRWoACA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AABBE13AA4;
- Mon, 24 Jun 2024 15:20:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id eNBhKM6OeWbqGgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 24 Jun 2024 15:20:46 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: lee@kernel.org, daniel.thompson@linaro.org, sam@ravnborg.org,
- jingoohan1@gmail.com, deller@gmx.de, linus.walleij@linaro.org,
- f.suligoi@asem.it, ukleinek@kernel.org
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-pwm@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 17/17] backlight: sky81452-backlight: Use backlight power
- constants
-Date: Mon, 24 Jun 2024 17:20:12 +0200
-Message-ID: <20240624152033.25016-18-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240624152033.25016-1-tzimmermann@suse.de>
-References: <20240624152033.25016-1-tzimmermann@suse.de>
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B07A10E49E
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 15:27:46 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-2ebe40673d8so50854601fa.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 08:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1719242864; x=1719847664; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=zknmga5PBkgGw8TgH0HGAYjZwH1IzFooajhy3i9qJ1I=;
+ b=fCUpNLUHqXXAnchZs9Et2el41j71yoVpdeNX/34L0AKc5Ydx9iajYu6RztkqSXyjMz
+ ayde3p4ZYLI4eA610O5H18F/kJP3fyC/hBT6dNLl7PgaiYlkOxoVgtx0i6XlcTHn8V5T
+ Qp5Zxesz3HACKV0uSCfVrTHW+EknuGoM/3g30pvncRn/KuG8apzbfVIXfKv55yvQawBV
+ 0Q7zvC451xQcXb5vC5Jk+0HW4nC7jbUP84Ivw/1r/8C4+Ktx7kA63MIaadiq/P03/I+H
+ KKtV5rEczxLEO6Ro2fteHMpUwO0hUrQNud9r0+5kYfEq38d3VIt/c2FC77B11jzstgfT
+ qCzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719242864; x=1719847664;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zknmga5PBkgGw8TgH0HGAYjZwH1IzFooajhy3i9qJ1I=;
+ b=XWvTWzouS4VQTv9BDK8GQHPG4P2bKaulbyIw0eogDCr8Vu/2WUZ0XYpSE+Rg8smNZh
+ riStOsdcOZ/dL4x/XbCKlU7q6gJoACPkfurUfYEBESidsBR5l3kgsVaqbkKp1+EcM7wP
+ wJ80K6Vutw6AVTrbS3aMNfgohCLPUEIWlMVyJpMyk42h9C85sFbN5UxBvCyzHo7NkZLF
+ trtZk8WM8uc77Wk05EEyO2QP9eepI5oianDJFLdZDnYE2E0Hr0vxZzkR7sMihb+XP1cQ
+ 4RzowX2xREB0HhUVTEQP49gmZQyikADtmGm2P4CkbaDx5dHv2i+w1AUgk2NqSB+M5Po6
+ 4wzg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVT8nj1eLLHioJK7LRiqNGEYPzBbB6KOJpjb7Nh2vdRg3WhRagGBOP8ABHc6pWgZuMO2/c6lcF38mnOPc4bSHa30qcCuABYu3YhKhbxZCvw
+X-Gm-Message-State: AOJu0Yw7UG6+X5dAslwpGYlFG+okaQPnPfO/nW/vSrXpbAxQ34pkIPwA
+ qWdnjfYV5ThIwqV5FP3EYlRqXOd5DrE6+ADcbEqLR+ZAkY9WzkCHwbEUWiD/owo=
+X-Google-Smtp-Source: AGHT+IHDKHZF641+eAwV/7qMCMAd3xlHkRDY+QbpVU6UAqq4KN7gdHrHBVq0n1HMXETpl9kIvQ0KeA==
+X-Received: by 2002:ac2:4882:0:b0:52c:e05f:f70c with SMTP id
+ 2adb3069b0e04-52ce1835310mr2739405e87.26.1719242864274; 
+ Mon, 24 Jun 2024 08:27:44 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52cdd9800a7sm710361e87.126.2024.06.24.08.27.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jun 2024 08:27:43 -0700 (PDT)
+Date: Mon, 24 Jun 2024 18:27:41 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org, 
+ benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com,
+ jagan@edgeble.ai, neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 3/5] drm/panel: panel-jadard-jd9365da-h3: use wrapped
+ MIPI DCS functions
+Message-ID: <zvkl2wyqp3iem4ln4qkbhgvxafsfn5wkkmqwhufabm2gqs3eqw@vmqs3lx72ekk>
+References: <20240624141926.5250-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240624141926.5250-4-lvzhaoxiong@huaqin.corp-partner.google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
- BAYES_HAM(-3.00)[100.00%]; MID_CONTAINS_FROM(1.00)[];
- NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
- RCPT_COUNT_TWELVE(0.00)[12]; MIME_TRACE(0.00)[0:+];
- TO_DN_SOME(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_TO(0.00)[kernel.org,linaro.org,ravnborg.org,gmail.com,gmx.de,asem.it];
- FROM_EQ_ENVFROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- R_RATELIMIT(0.00)[to_ip_from(RLbaz54pzrc9psah3tsaj8ddaq)];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
-X-Spam-Flag: NO
-X-Spam-Score: -6.80
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240624141926.5250-4-lvzhaoxiong@huaqin.corp-partner.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,28 +89,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace FB_BLANK_ constants with their counterparts from the
-backlight subsystem. The values are identical, so there's no
-change in functionality.
+On Mon, Jun 24, 2024 at 10:19:24PM GMT, Zhaoxiong Lv wrote:
+> Remove conditional code and always use mipi_dsi_dcs_*multi() wrappers to
+> simplify driver's init/enable/exit code.
+> 
+> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+> ---
+>  .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 793 +++++++++---------
+>  1 file changed, 390 insertions(+), 403 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+> index a9c483a7b3fa..e836260338bf 100644
+> --- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+> +++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+> @@ -19,17 +19,13 @@
+>  #include <linux/of.h>
+>  #include <linux/regulator/consumer.h>
+>  
+> -#define JD9365DA_INIT_CMD_LEN		2
+> -
+> -struct jadard_init_cmd {
+> -	u8 data[JD9365DA_INIT_CMD_LEN];
+> -};
+> +struct jadard;
+>  
+>  struct jadard_panel_desc {
+>  	const struct drm_display_mode mode;
+>  	unsigned int lanes;
+>  	enum mipi_dsi_pixel_format format;
+> -	const struct jadard_init_cmd *init_cmds;
+> +	int (*init)(struct jadard *jadard);
+>  	u32 num_init_cmds;
+>  };
+>  
+> @@ -50,46 +46,33 @@ static inline struct jadard *panel_to_jadard(struct drm_panel *panel)
+>  
+>  static int jadard_enable(struct drm_panel *panel)
+>  {
+> -	struct device *dev = panel->dev;
+>  	struct jadard *jadard = panel_to_jadard(panel);
+> -	struct mipi_dsi_device *dsi = jadard->dsi;
+> -	int err;
+> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = jadard->dsi };
+>  
+>  	msleep(120);
+>  
+> -	err = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> -	if (err < 0)
+> -		DRM_DEV_ERROR(dev, "failed to exit sleep mode ret = %d\n", err);
+> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+>  
+> -	err =  mipi_dsi_dcs_set_display_on(dsi);
+> -	if (err < 0)
+> -		DRM_DEV_ERROR(dev, "failed to set display on ret = %d\n", err);
+> +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+>  
+> -	return 0;
+> +	return dsi_ctx.accum_err;
+>  }
+>  
+>  static int jadard_disable(struct drm_panel *panel)
+>  {
+> -	struct device *dev = panel->dev;
+>  	struct jadard *jadard = panel_to_jadard(panel);
+> -	int ret;
+> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = jadard->dsi };
+>  
+> -	ret = mipi_dsi_dcs_set_display_off(jadard->dsi);
+> -	if (ret < 0)
+> -		DRM_DEV_ERROR(dev, "failed to set display off: %d\n", ret);
+> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+>  
+> -	ret = mipi_dsi_dcs_enter_sleep_mode(jadard->dsi);
+> -	if (ret < 0)
+> -		DRM_DEV_ERROR(dev, "failed to enter sleep mode: %d\n", ret);
+> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+>  
+> -	return 0;
+> +	return dsi_ctx.accum_err;
+>  }
+>  
+>  static int jadard_prepare(struct drm_panel *panel)
+>  {
+>  	struct jadard *jadard = panel_to_jadard(panel);
+> -	const struct jadard_panel_desc *desc = jadard->desc;
+> -	unsigned int i;
+>  	int ret;
+>  
+>  	ret = regulator_enable(jadard->vccio);
+> @@ -109,13 +92,9 @@ static int jadard_prepare(struct drm_panel *panel)
+>  	gpiod_set_value(jadard->reset, 1);
+>  	msleep(130);
+>  
+> -	for (i = 0; i < desc->num_init_cmds; i++) {
+> -		const struct jadard_init_cmd *cmd = &desc->init_cmds[i];
+> -
+> -		ret = mipi_dsi_dcs_write_buffer(dsi, cmd->data, JD9365DA_INIT_CMD_LEN);
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/video/backlight/sky81452-backlight.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This function usesd mipi_dsi_dcs_write_buffer()...
 
-diff --git a/drivers/video/backlight/sky81452-backlight.c b/drivers/video/backlight/sky81452-backlight.c
-index 19f9f84a9fd6..935043b67786 100644
---- a/drivers/video/backlight/sky81452-backlight.c
-+++ b/drivers/video/backlight/sky81452-backlight.c
-@@ -315,7 +315,7 @@ static void sky81452_bl_remove(struct platform_device *pdev)
- 
- 	sysfs_remove_group(&bd->dev.kobj, &sky81452_bl_attr_group);
- 
--	bd->props.power = FB_BLANK_UNBLANK;
-+	bd->props.power = BACKLIGHT_POWER_ON;
- 	bd->props.brightness = 0;
- 	backlight_update_status(bd);
- 
+> -		if (ret < 0)
+> -			return ret;
+> -	}
+> +	ret = jadard->desc->init(jadard);
+> +	if (ret)
+> +		return ret;
+>  
+>  	return 0;
+
+[...]
+
+> +static int radxa_display_8hd_ad002_init_cmds(struct jadard *jadard)
+> +{
+> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = jadard->dsi };
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE0, 0x00);
+
+... while your code uses mipi_dsi_dcs_write_seq_multi(), which
+internally calls mipi_dsi_generic_write_multi(). These two function use
+different packet types to send the payload. To be conservatite, please
+use mipi_dsi_dcs_write_buffer_multi().
+
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE1, 0x93);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE2, 0x65);
+
 -- 
-2.45.2
-
+With best wishes
+Dmitry
