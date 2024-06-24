@@ -2,84 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A003E9141F5
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 07:31:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFFD914208
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 07:34:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A91F610E346;
-	Mon, 24 Jun 2024 05:31:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA7A810E347;
+	Mon, 24 Jun 2024 05:34:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Sd14xJTx";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="a4cP8tA5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7841210E346
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 05:31:22 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-52ce6c8db7bso616568e87.1
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 22:31:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719207080; x=1719811880; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=oEeMqLzWPtuHbd7DMdLxKIfGpNKakGZfL/lhpzQLB6U=;
- b=Sd14xJTxlnYDvlJyIU3A56wIsugGFR6Hwhx4AN1I4uVZnV6EW/MRMKSERACf2nK31D
- TyjMIC9SGsRogU+GNZAZj4e37EgI16KBQ9l44by4pBOaAFVjnEqlE4XJdKGX9U2BR42O
- a1tTAuZ57gzI0ohO1kWeKrj13sS3FEoMMAp+PLXymm94X6A0WCYbFFaFKN6MBSj2JvgL
- 7kaHras4PruJELAikAZFQO9u2gl1NGrryzWMdf2FCg5y2JqzpCyM3DmSoqZVVXiVUoMX
- 9/WAcb9S1E0nmNnkUBXxSK+RqZNyUKpdSrdRudi5Q5PsCtQP/Ut7f9Y4lKvR6cbhIo+p
- ukOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719207080; x=1719811880;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oEeMqLzWPtuHbd7DMdLxKIfGpNKakGZfL/lhpzQLB6U=;
- b=D/lgztA0l5Qfbvpgyp/sDfXsBXWlWpTvZMxezcg2Gx13RcntPj2RpWbT8MvxN4gK50
- mIbpmfxkPbif09BONxZ2H8KMTRT8B1MEQCytH9CqWX7SrVCWYkd4L+3Mk4UFNX0yu8Lg
- m3YnwXN+6BIHLU2jUmN2ZuChouikP+YwOHpQPIvuBLEW1zIisB91dmcKCGDSSjNvIagY
- xp2tARb1SR+fKhljvchJOIIG13FrB+A6dFjKWRkVlfhx7BS8qWWKhQ7M/VagZrT7s5ef
- Kh5pU75lSs/hZICI0qNpBuw5sj+5rNQKJbNsWiJwDAZi2rLDMsA4hKprHXzYRv/LTTGu
- E5HA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU/A+B8PPodoA6jPV7Ev/NvFpcHOhEtv29dd43ye5I11ANMRqY26Eo7zSu0JOk4wXti1G6PBZ6uu2Dled82LccTK2akgnAniijbFy9e3pRP
-X-Gm-Message-State: AOJu0Yww33XqG9+U020N4IXH9m5h/Zd51ef67VcbpIoavZdcMbDEGOE/
- VRqWM4VSIHrmTLbuVJNPsfesp6rTwtVjCXVBQxEiKfUg1F55r2rohwyBNW7bpa8=
-X-Google-Smtp-Source: AGHT+IGDR4WXp3BrtdW/oZ54TDqH52mJ/FrYWjDaLO9Oi22YZv6nU3DEUmhIjwPYW7xV1aybF8+z8Q==
-X-Received: by 2002:ac2:5e83:0:b0:52c:e41a:b666 with SMTP id
- 2adb3069b0e04-52ce41ab71fmr1575041e87.7.1719207080428; 
- Sun, 23 Jun 2024 22:31:20 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52cd810d633sm864075e87.165.2024.06.23.22.31.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jun 2024 22:31:19 -0700 (PDT)
-Date: Mon, 24 Jun 2024 08:31:18 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Caleb Connolly <caleb@postmarketos.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Henrik Rydberg <rydberg@bitmath.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH 5/7] drm/panel: add driver for samsung amb655x
-Message-ID: <mnxpybk4nqdyp2xo22dxbprtxt5v6spr2ax4p3vrpwafqcbonv@ga4o2xxtkkov>
-References: <20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org>
- <20240624-oneplus8-v1-5-388eecf2dff7@postmarketos.org>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08F5810E347
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 05:34:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1719207265;
+ bh=uDAQz5zmfFGu24sscEM076JC2dhlA4Ny0ZDgkdcCUCU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=a4cP8tA5pgK0A5UMjMLAgsRDc7uM1VNn5ZaCipthQXAVG4p8PAbWruApAkKxXKpdt
+ mPjBkqF1Vu8rgHJi1OdRAWw2YXQKbZIAhpbJrFDcAKQYwUE8t1F7GA9k3ghEkmRJ/C
+ d8Lq7sdmjRuM/2gRu8+6ZClZBMzrDt1SPJXnPrEmgdy9SEDwSI8gSckN32ZIenIkvF
+ QtFzSfv/mgJmUfd80ib01jOecZTBDDgT6MC3/gU1zxpKdIEoTJUii02zW9rA8RGYRk
+ DSuOtVHgSUn6tsPRn1W8t8Fj9e/eFD2vpDKdl3Jq+A52aaFW1nsE4X1CWIz3V6fdCn
+ 44givByF8npXA==
+Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 573EC3780EC6;
+ Mon, 24 Jun 2024 05:34:23 +0000 (UTC)
+Message-ID: <44196cb4-bc07-4dba-bf1d-9d3d0e3bc88d@collabora.com>
+Date: Mon, 24 Jun 2024 11:04:21 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240624-oneplus8-v1-5-388eecf2dff7@postmarketos.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Time for drm-ci-next?
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Helen Koike <helen.koike@collabora.com>, Dave Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel
+ <dri-devel@lists.freedesktop.org>, Daniel Stone <daniels@collabora.com>
+References: <CAF6AEGsRLPqddgc2MKCXKD1TDFuwxRs_6Pj=oDuj4gah0D-07Q@mail.gmail.com>
+ <87a5mzrgie.fsf@intel.com>
+ <CAF6AEGt=8mz8S+nBQ1a3mCNLFhBrfcc5XfmNrTQ=62J-m+_3Jg@mail.gmail.com>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <CAF6AEGt=8mz8S+nBQ1a3mCNLFhBrfcc5XfmNrTQ=62J-m+_3Jg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,195 +64,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 24, 2024 at 03:30:29AM GMT, Caleb Connolly wrote:
-> This is a 1080x2400 120hz panel used on the OnePlus 8T. It uses DSC but
-> uses non-standard DCS commands.
+Hi,
 
-Please add a note regarding the panel using long packets for all the
-commands.
+On 15/03/24 22:50, Rob Clark wrote:
+> On Fri, Mar 15, 2024 at 2:28 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>>
+>> On Thu, 14 Mar 2024, Rob Clark <robdclark@gmail.com> wrote:
+>>> When we first merged drm/ci I was unsure if it would need it's own
+>>> -next branch.  But after using it for a couple releases, a few times
+>>> I've found myself wanting to backmerge drm/ci changes without
+>>> necessarily backmerging all of drm-misc-next.
+>>>
+>>> So, maybe it makes some sense to have a drm-ci-next branch that
+>>> driver-maintainers could back-merge as-needed?
+>>
+>> That's a crossmerge instead of a backmerge, and I feel that could get
+>> messy. What if folks crossmerge drm-ci-next but it gets rejected for
+>> drm-next? Or the baselines are different, and the crossmerge pulls in
+>> way more stuff than it should?
+> 
+> Yeah, it would defeat the point a bit of drm-ci-next was on too new of
+> a baseline, the whole point is to be able to merge CI changes without
+> pulling in unrelated changes.  So drm-ci-next would need to base on
+> something older, like the previous kernel release tag.
+> 
+>> IMO the route should be drm-ci-next -> pull request to drm-next ->
+>> backmerge drm-next to drivers and drm-misc-next.
+>>
+>> I'm not opposed to having drm-ci-next at all, mainly indifferent, but I
+>> question the merge flows. And then the question becomes, does my
+>> suggested merge flow complicate your original goal?
+>>
+> 
+> I guess we could avoid merging drm-ci-next until it had been merged
+> into drm-next?
+> 
+> Basically, I often find myself needing to merge CI patches on top of
+> msm-next in order to run CI, and then after a clean CI run, reset HEAD
+> back before the merge and force-push.  Which isn't really how things
+> should work.
 
-Also the cover letter had a mention of the panel not fully comming up
-after being reset, is that still true? If so, it should be mentioned in
-the commit message too.
+There are many CI patches merged recently to drm-misc-next.
+With the GitLab 18.0 release, CI/CD pipeline configurations must 
+transition from using the deprecated CI_JOB_JWT to the new id_tokens 
+method, as the former will be removed.
 
-> Signed-off-by: Caleb Connolly <caleb@postmarketos.org>
-> ---
->  MAINTAINERS                                   |   7 +
->  drivers/gpu/drm/panel/Kconfig                 |   9 +
->  drivers/gpu/drm/panel/Makefile                |   1 +
->  drivers/gpu/drm/panel/panel-samsung-amb655x.c | 420 ++++++++++++++++++++++++++
->  4 files changed, 437 insertions(+)
+Without the below commit kernel-build job pipelines fail in drm-ci,
+https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/cc806b74466672a9bbd4e9a04265d44eb506b686
 
+We need to cherry pick only this commit to fix this issue.
+So it would be beneficial to have a drm-ci-next branch.
 
-
-> +static int samsung_amb655x_on(struct samsung_amb655x *amb655x)
-> +{
-> +	struct drm_dsc_picture_parameter_set pps;
-> +	struct mipi_dsi_device *dsi = amb655x->dsi;
-> +	struct mipi_dsi_multi_context ctx = { .dsi = dsi };
-> +	struct device *dev = &dsi->dev;
-> +	int ret;
-> +
-> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> +
-> +	drm_dsc_pps_payload_pack(&pps, &amb655x->dsc);
-> +
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0x5a, 0x5a);
-> +	mipi_dsi_dcs_write_buffer_multi(&ctx, &pps, sizeof(pps));
-> +	mipi_dsi_dcs_write_long(&ctx, 0x9d, 0x01);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0xa5, 0xa5);
-> +
-> +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-
-_multi. Shouldn't it be a long package too?
-
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-> +		return ret;
-> +	}
-> +	usleep_range(11000, 12000);
-
-mipi_dsi_msleep() or add mipi_dsi_usleep_range().
-
-> +	ret = mipi_dsi_dcs_set_column_address(dsi, 0x0000, 1080 - 1);
-
-_multi, adding the function as required
-
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to set column address: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = mipi_dsi_dcs_set_page_address(dsi, 0x0000, 2400 - 1);
-
-_multi
-
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to set page address: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	/* FD Setting */
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0x5a, 0x5a);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xd5, 0x8d);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb0, 0x0a);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xd5, 0x05);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0xa5, 0xa5);
-> +
-> +	/* FFC Function */
-> +	mipi_dsi_dcs_write_long(&ctx, 0xfc, 0x5a, 0x5a);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb0, 0x01);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xe4, 0xa6, 0x75, 0xa3);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xe9,
-> +			       0x11, 0x75, 0xa6, 0x75, 0xa3, 0x4b, 0x17, 0xac,
-> +			       0x4b, 0x17, 0xac, 0x00, 0x19, 0x19);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xfc, 0xa5, 0xa5);
-> +	msleep(61);
-
-mipi_dsi_msleep
-
-> +
-> +	/* Dimming Setting */
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0x5a, 0x5a);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb0, 0x06);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb7, 0x01);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb0, 0x05);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb7, 0x13);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb0, 0x01);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb7, 0x4c);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0xa5, 0xa5);
-> +
-> +	mipi_dsi_dcs_write_long(&ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
-> +
-> +	/* refresh rate Transition */
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0x5a, 0x5a);
-> +	/* 60 Hz */
-> +	//mipi_dsi_dcs_write_long(&ctx, 0x60, 0x00);
-> +	/* 120 Hz */
-> +	mipi_dsi_dcs_write_long(&ctx, 0x60, 0x10);
-> +
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0xa5, 0xa5);
-> +
-> +	/* ACL Mode */
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0x5a, 0x5a);
-> +	mipi_dsi_dcs_write_long(&ctx, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0xa5, 0xa5);
-> +	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
-
-_multi
-
-> +	msleep(110);
-
-mipi_dsi_msleep()
-
-> +
-> +	/* Enable backlight */
-> +	mipi_dsi_dcs_write_long(&ctx, 0x9F, 0x5A, 0x5A);
-> +	mipi_dsi_dcs_set_display_on(dsi);
-
-_multi
-
-> +	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_ENTER_NORMAL_MODE);
-
-_multi
-
-> +	mipi_dsi_dcs_write_long(&ctx, 0x9F, 0xA5, 0xA5);
-> +
-> +	return ctx.accum_err;
-> +}
-> +
-> +static int samsung_amb655x_off(struct samsung_amb655x *amb655x)
-> +{
-> +	struct mipi_dsi_device *dsi = amb655x->dsi;
-> +	struct mipi_dsi_multi_context ctx = { .dsi = dsi };
-> +	struct device *dev = &dsi->dev;
-> +	int ret;
-> +
-> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> +
-> +	mipi_dsi_dcs_write_long(&ctx, 0x9f, 0x5a, 0x5a);
-> +
-> +	ret = mipi_dsi_dcs_set_display_on(dsi);
-
-_multi
-
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to set display on: %d\n", ret);
-> +		return ret;
-> +	}
-> +	msleep(20);
-
-mipi_dsi_msleep
-
-> +
-> +	ret = mipi_dsi_dcs_set_display_off(dsi);
-
-_multi
-
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to set display off: %d\n", ret);
-> +		return ret;
-> +	}
-> +	msleep(20);
-
-mipi_dsi_msleep
-> +
-> +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-
-_multi
-
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	mipi_dsi_dcs_write_long(&ctx, 0x9f, 0xa5, 0xa5);
-> +	msleep(150);
-> +
-> +	return ctx.accum_err;
-> +}
-> +
-
--- 
-With best wishes
-Dmitry
+Regards,
+Vignesh
