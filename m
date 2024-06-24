@@ -2,70 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3611914664
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:26:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6079D914665
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:26:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4927210E3E0;
-	Mon, 24 Jun 2024 09:26:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63AB710E3D4;
+	Mon, 24 Jun 2024 09:26:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="QVWeTiSB";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="bI+llN0c";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="CdTHxIxf";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="bDB+7oB8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3AE310E3D2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:26:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3565C10E3D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:26:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1719221195; x=1750757195;
+ t=1719221205; x=1750757205;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uXGBAwzK7yZKsZvm5VISlXsYiv850Vgj5sqYwZ2Cmo8=;
- b=QVWeTiSBC34iELm7sJOOFeoWWU4+btg2vioaZpd6CEeP2EMfTJO5Kwip
- BEnnsm+4+pem2HYn353GOa3mXSi+0e/zIA00+GCmLnmGnKhZRc7Kw3b2z
- JckPeGJfkHIxABoN+CXVCN5zUJ0aVNBG8eK+jsBPvGn26fUA2zFrMqi6I
- btqjb+2+QaB0LT18i/vCXp+49y4CxGaIJOcKuVFHeplx7LZ8JVETrFVix
- na1RSFR80I2vjb+0Q+V+W2AK0m+OMKUwaMFrOit+J8/1/FymQU6Zv0AN1
- NoFtzsBHjdN53xlG9CC1xHpKuUPpQWu8Kxg44e3X3SLew1iLezXdeIyLo Q==;
-X-CSE-ConnectionGUID: j+9ejC9wRwKqaqFfeMT4hA==
-X-CSE-MsgGUID: Zt0YUp9hRtewUAt5dI5s7g==
-X-IronPort-AV: E=Sophos;i="6.08,261,1712613600"; d="scan'208";a="37547843"
+ bh=hMqs+6F09NwaQlFvBqwTnd0kC2Pz3PgkMayL2dK0Fbw=;
+ b=CdTHxIxfUUTm66R3QmLbRyCXv9GjPFeWhMpTQJO1K+4rTn7zCgYenNKW
+ sRIbgasH+DARmVI0SL4FXo9CjSRMWAI2KsqyeifAAhOvUXAEhhNBdMmJe
+ pwz2eUANCzD53juUhgFjGlN0g+N1Mg+0kqM68AcBGlbjnev/Y+z3468cJ
+ ZHQXMA8shRcdyH2xXHA8T+DrEh57CdjsQr+6kf8IrzSbXcCTyrV2xwTkR
+ rVF8Utdtrlq1KGwcX2ChkqMwQUjlW2bMHW8Q8Vqyi5OkMda2vCO2KB894
+ mvGcbpp/a9NXPi/pJV1AfD7hGsU63zmq+FipFaQ1aRyKGjDPtOT5ECTsq A==;
+X-CSE-ConnectionGUID: HucsafNZR9Sqd2hy+J5OaQ==
+X-CSE-MsgGUID: SnENx/mYQS6Yklbug0mrkg==
+X-IronPort-AV: E=Sophos;i="6.08,261,1712613600"; d="scan'208";a="37547846"
 Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 24 Jun 2024 11:26:33 +0200
+ by mx1.tq-group.com with ESMTP; 24 Jun 2024 11:26:41 +0200
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 94C8316FCF8; Mon, 24 Jun 2024 11:26:28 +0200 (CEST)
+ with ESMTPSA id D4ECC16FCF8; Mon, 24 Jun 2024 11:26:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1719221189;
+ s=dkim; t=1719221197;
  h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=uXGBAwzK7yZKsZvm5VISlXsYiv850Vgj5sqYwZ2Cmo8=;
- b=bI+llN0cFmAnsBDk7zldG5ul2hWCgQE43GFDGGC1Q3ExXCUzS4vW0t2Bd37lDaauJY/la0
- HTZJ5hAMheWqCY5HP8sue9InAnFaGd59eis/iAlOZArEEWlnsSyQlOO1osvJkNPKlbU+Bz
- 8lq3yX6RBQmPGQZx7AkN0O/dLTpJvbKLu1hhti1PYmgEjVIlCEyIzu5SYappBRgXS9p5Iy
- P89fPIg8kUTbTZHGetMO345mYMUDL+AkdimtRIrJ+WwE8MDzpBuFKng98F4gs9Cg/E8TtP
- zquCwi7fx2utCERYcLtgfIwRP952kwt5OEpQDa2XzAb9ezkJUyadGWO99Gw7bA==
+ bh=hMqs+6F09NwaQlFvBqwTnd0kC2Pz3PgkMayL2dK0Fbw=;
+ b=bDB+7oB8xehQYQjpGGDQ7xC/5bPBeqACC2lyXfSiBzFthjWTugtLkUCvDVZqG8eXhft9+z
+ 6iUrP0o4YlZ0QU8gfajXZv8wX3cwq+HFQCjYVHW6cFhhagTTlhjnM8dOvm6gNEvQPWg6sb
+ /JtaXPkFK3tqRIXBCiWUaUo+GYfHiCUUgOMDGuUA6xdzztFO2BswwsWPGWdqToBxRwxyeN
+ YjisaLjrtUf7eDsj37b9mB6sq+KBlIFhDQL5NzwL5OpS9HSnhdqJhrHjUpCFWxsXAi29o+
+ dDl5zJt05B2DH+Xq5JnoI+yAdfH8W1EzVPzCTOtIIKBhCkisGTvZan/PxOvD0A==
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: dri-devel@lists.freedesktop.org, Marek Vasut <marex@denx.de>
-Cc: Marek Vasut <marex@denx.de>, Adam Ford <aford173@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Lucas Stach <l.stach@pengutronix.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Maxime Ripard <mripard@kernel.org>, Michael Walle <mwalle@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
-Subject: Re: [2/2] drm/bridge: tc358767: Reset chip again on attach
-Date: Mon, 24 Jun 2024 11:26:32 +0200
-Message-ID: <3633351.R56niFO833@steina-w>
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ kernel@dh-electronics.com
+Subject: Re: [PATCH 2/6] drm/bridge: tc358767: Use tc_pxl_pll_calc() to
+ correct adjusted_mode clock
+Date: Mon, 24 Jun 2024 11:26:41 +0200
+Message-ID: <3760061.MHq7AAxBmi@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <20240513021849.129136-2-marex@denx.de>
-References: <20240513021849.129136-2-marex@denx.de>
+In-Reply-To: <71f042ba-63f4-402c-8be2-3bfe6fe91a0b@denx.de>
+References: <20240531204130.277800-1-marex@denx.de>
+ <4623820.cEBGB3zze1@steina-w> <71f042ba-63f4-402c-8be2-3bfe6fe91a0b@denx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
@@ -85,135 +83,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Marek,
 
-Am Montag, 13. Mai 2024, 04:16:28 CEST schrieb Marek Vasut:
-> In case the chip is released from reset using the RESX signal while the
-> DSI lanes are in non-LP11 mode, the chip may enter some sort of debug
-> mode, where its internal clock run at 1/6th of expected clock rate. In
-> this mode, the AUX channel also operates at 1/6th of the 10 MHz mandated
-> by DP specification, which breaks DPCD communication.
+Am Freitag, 21. Juni 2024, 16:54:51 CEST schrieb Marek Vasut:
+> On 6/21/24 12:32 PM, Alexander Stein wrote:
 >=20
-> There is no known software way of bringing the chip out of this state
-> once the chip enters it, except for toggling the RESX signal and
-> performing full reset.
+> Hi,
 >=20
-> The chip may enter this mode when the chip was released from reset in
-> probe(), because at that point the DSI lane mode is undefined.
+> skipping the parts where I would simply write "OK" ...
 >=20
-> When the .attach callback is called, the DSI link is surely in LP11 mode.
-> Toggle the RESX signal here and reconfigure the AUX channel. That way,
-> the AUX channel communication from this point on does surely run at
-> 10 MHz as it should.
+> >>>> As FVUEN is cleared at the next VSYNC event I suspect the DSI timings
+> >>>> are (slightly) off, but unfortunately I don't have equipment to check
+> >>>> DSI signal quality/timings.
+> >>>
+> >>> As long as the LCDIFv3 pixel clock are equal or slightly slower than
+> >>> what the TC9595 PixelPLL generates, AND, DSIM serializer has enough
+> >>> bandwidth on the DSI bus (i.e. set the bus to 1 GHz, the TC9595 DSI RX
+> >>> cannot go any faster), you should have no issues on that end.
+> >=20
+> > I'm using samsung,burst-clock-frequency =3D <1000000000> so this should=
+ be
+> > okay. That is 1080p resolution.
 >=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
+> Yes, correct.
+>=20
+> >>> When in doubt, try and use i2ctransfer to read out register 0x300
+> >>> repeatedly, that's DSI RX error counter register. See if the DSI error
+> >>> count increments.
+> >=20
+> > If the bridge is not working the registers look like this:
+> > 300: c0800000
+> > 464: 00000001
+> >=20
+> > they are not changing and stay like that.
+> >=20
+> > If the bridge is actually running they are like
+> > 300: c08000d3
+> > 464: 00000000
+> >=20
+> > and are also not changing.
+>=20
+> Uh ... that looks like the whole chip clock tree somehow locked up .
+>=20
+> Thinking about this, I once did force the DSIM into 24 MHz mode (there=20
+> is PLL bypass setting, where the DSIM uses 24 MHz serializer clock=20
+> directly for the DSI HS clock) or something close, it was enough to=20
+> drive a low resolution panel. But the upside was, with a 200 MHz 5Gsps=20
+> scope set to AC-coupling and 10x probe, I could discern the traffic on=20
+> DSI data lane and decode it by hand. The nice thing is, you could=20
+> trigger on 1V2 LP mode, so you know where the packet starts. The=20
+> downside is, if you have multiple data lanes, the packet is spread=20
+> across them.
+>=20
+> You could also tweak tc_edp_atomic_check()/tc_edp_mode_valid() and force=
+=20
+> only low(er) resolution modes of your DP panel right from the start, so=20
+> you wouldn't need that much DSI bandwidth. Maybe you could reach some=20
+> mode where your equipment is enough to analyze the traffic by hand ?
 
-This does the trick on my hardware as well.
-Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
-> Cc: Adam Ford <aford173@gmail.com>
-> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
-> Cc: Inki Dae <inki.dae@samsung.com>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Michael Walle <mwalle@kernel.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: kernel@dh-electronics.com
-> ---
->  drivers/gpu/drm/bridge/tc358767.c | 50 +++++++++++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/t=
-c358767.c
-> index fe2b93546eaef..9b01dc885973c 100644
-> --- a/drivers/gpu/drm/bridge/tc358767.c
-> +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -1749,10 +1749,30 @@ static const struct drm_connector_funcs tc_connec=
-tor_funcs =3D {
->  	.atomic_destroy_state =3D drm_atomic_helper_connector_destroy_state,
->  };
-> =20
-> +static void tc_bridge_reset(struct tc_data *tc)
-> +{
-> +	if (!tc->reset_gpio)
-> +		return;
-> +
-> +	gpiod_set_value_cansleep(tc->reset_gpio, 0);
-> +	usleep_range(10000, 11000);
-> +	gpiod_set_value_cansleep(tc->reset_gpio, 1);
-> +	usleep_range(5000, 10000);
-> +}
-> +
->  static int tc_dpi_bridge_attach(struct drm_bridge *bridge,
->  				enum drm_bridge_attach_flags flags)
->  {
->  	struct tc_data *tc =3D bridge_to_tc(bridge);
-> +	int ret;
-> +
-> +	if (tc->reset_gpio) {
-> +		tc_bridge_reset(tc);
-> +
-> +		ret =3D tc_set_syspllparam(tc);
-> +		if (ret)
-> +			return ret;
-> +	}
-> =20
->  	if (!tc->panel_bridge)
->  		return 0;
-> @@ -1769,6 +1789,36 @@ static int tc_edp_bridge_attach(struct drm_bridge =
-*bridge,
->  	struct drm_device *drm =3D bridge->dev;
->  	int ret;
-> =20
-> +	if (tc->reset_gpio) {
-> +		/*
-> +		 * In case the chip is released from reset using the RESX
-> +		 * signal while the DSI lanes are in non-LP11 mode, the chip
-> +		 * may enter some sort of debug mode, where its internal
-> +		 * clock run at 1/6th of expected clock rate. In this mode,
-> +		 * the AUX channel also operates at 1/6th of the 10 MHz
-> +		 * mandated by DP specification, which breaks DPCD
-> +		 * communication.
-> +		 *
-> +		 * There is no known software way of bringing the chip out of
-> +		 * this state once the chip enters it, except for toggling
-> +		 * the RESX signal and performing full reset.
-> +		 *
-> +		 * The chip may enter this mode when the chip was released
-> +		 * from reset in probe(), because at that point the DSI lane
-> +		 * mode is undefined.
-> +		 *
-> +		 * At this point, the DSI link is surely in LP11 mode. Toggle
-> +		 * the RESX signal here and reconfigure the AUX channel. That
-> +		 * way, the AUX channel communication from this point on does
-> +		 * surely run at 10 MHz as it should.
-> +		 */
-> +		tc_bridge_reset(tc);
-> +
-> +		ret =3D tc_aux_link_setup(tc);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	if (tc->panel_bridge) {
->  		/* If a connector is required then this driver shall create it */
->  		ret =3D drm_bridge_attach(tc->bridge.encoder, tc->panel_bridge,
->=20
+I think I got it running now. Apparently there were different, independent
+problems which you addressed by your series. Unfortunately the patch
+'tc358767: Disable MIPI_DSI_CLOCK_NON_CONTINUOUS' introduced a new problem
+(at least for me). For the record I'm running the following patch stack bas=
+ed
+on next-20240621:
+* Add linux-next specific files for 20240621
+* arm64: dts: imx8mp: Add TC9595 DSI-DP bridge on TQMa8MPxL/MBa8MPxL
+* drm: bridge: samsung-dsim: Initialize bridge on attach
+* drm/bridge: tc358767: Reset chip again on attach
+* drm: lcdif: Use adjusted_mode .clock instead of .crtc_clock
+* drm/bridge: tc358767: Split tc_pxl_pll_en() into parameter calculation an=
+d enablement
+* drm/bridge: tc358767: Use tc_pxl_pll_calc() to correct adjusted_mode clock
+* drm/bridge: tc358767: Drop line_pixel_subtract
+* drm/bridge: tc358767: Set LSCLK divider for SYSCLK to 1
+* Revert "drm/bridge: tc358767: Set default CLRSIPO count"
 
+All of them are needed, reverting/dropping a single one results in a
+non-functioning bridge.
 
+Best regards,
+Alexander
 =2D-=20
 TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
 Amtsgericht M=FCnchen, HRB 105018
