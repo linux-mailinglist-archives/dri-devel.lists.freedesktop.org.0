@@ -2,71 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 867FC91506E
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 16:46:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C278915088
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 16:47:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A75E910E477;
-	Mon, 24 Jun 2024 14:46:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20FCC10E47F;
+	Mon, 24 Jun 2024 14:47:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="slkIqG4Y";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LGd2iJuM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
- [209.85.219.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6161710E47B
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 14:46:15 +0000 (UTC)
-Received: by mail-yb1-f179.google.com with SMTP id
- 3f1490d57ef6-dff36345041so4359046276.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 07:46:15 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F275310E47F
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 14:47:15 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-52cdfb69724so2032175e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 07:47:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1719240374; x=1719845174;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=TXzN21tnTLvS51wMQL+x2Bbwv0j7XWoQip0f8u+NUp4=;
- b=slkIqG4YxNR//X33oXxYQRaZ/KBga437apQu833oD2l0kDcmOaEOFCLxH/m0BI7K2s
- qAwt5QUPERtham7f+52yCCvT2RpZOrDa8euigzy/5xe+OE/eudTo+N+gxaqxYcNyVujY
- j6R3i2ZzCYRfb4FdjwEgRXuir5Bt/HxNFnK8iBqt3gZ0Igc61LidXUjSA/xLDcV1V9hG
- mfFdYPFHeBQjzhO+Un3275sDu72kLCwhxcofzGPhxElvx2hRMICHYI3yaXyrzavdVnoJ
- hfkelM7Sz483uUyKIn0m573nDZmNHTR3PsXtDhlwydkIRKdN0aAcrBFz0eNY3PVCZvqN
- 4XEw==
+ d=linaro.org; s=google; t=1719240434; x=1719845234; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=WfVsBcar0ui8s1zj3On5ua6XlFc0ySN4BYtQ0MvdceY=;
+ b=LGd2iJuMangss+uHjS5OulG0Yf8M91ZGxa1Lfugo4yytaCu/lDzU2ddJl/wktim8WA
+ sP3LP+6ACwU5XOOP72rDeXydD1Jtfe82uP98H+qTAzsyaOKYYkIuqNZZPXuFi8ZizBZo
+ HGVOMn4xAC8eH7OUIpAtAL89Qt0PcUIpCCEMXBRjnfKtHggiW+mr5hAxyMw6MJxg71fQ
+ wlKsFF5I5iX4T/hkzvhSH3x9f4VTe7B4K8iITtoVaO8Oi1bF+h23uedgjLKI3ydT3Dns
+ ZTNBm3qpSs69t7f3LoruAA79/T9bTY4h5d1m/PYFCuwii+OYcPuS+fvODaaxBJMt+KA/
+ 13eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719240374; x=1719845174;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1719240434; x=1719845234;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=TXzN21tnTLvS51wMQL+x2Bbwv0j7XWoQip0f8u+NUp4=;
- b=t3yQUS8Wy3hJHeyqGxVEbkSOkHdOqDL7rLWiLTRcIfGrPz04xAdWGNF2rBBHE1yeIt
- 8MVFvrj6ZYyxpdYxzg0IOJA1ZGiiQ/8IlbXjT7WZwW0ZxWWrRjjrlWtgBzMtT5P5zOoE
- cbNx5Hhx6udyS+j5bpQD1OcdMg9ydFdsPJcdqN24KUyY1LQ35GjmH0ye/BfS55yhOOXv
- PWtT2PxNToPTNHJi//9xTCe+B7dy60J1CXdhr1Ylqmv7rpiV2VxBsGK0aOB7fHxn4ylx
- 2a1pred6GxvzVwmIpbybTjluEC75JwiL93RKwZLJ7VPw8OFXEcHF0tp9F8sHDY6ZW4QR
- ETJQ==
+ bh=WfVsBcar0ui8s1zj3On5ua6XlFc0ySN4BYtQ0MvdceY=;
+ b=L+DoP/0/8guEqZKh11XhonfOnsnhXl+7K9XJYOaMBBHsY3x9NHstQ5L53wEZWPbqd7
+ xxLOXA5bid7u3XfZMkeR1QpByoWkKDdoDzbf/C6edBqFvoJtvMUNj4e4fcehPQHb7sUQ
+ Wk05vU4ZqudHxQexClblBAEmu6/BkdK5sB2mHOSxGt5tuY5nSfQI1C5HUKa+fK4PqAg1
+ YZhdjqT5QecSeFNADfA3r4TSpifABVVAXA65/MBD0L93PxyP6ZpMDKSC4kzDDEnXaDen
+ gaXiPwIJfEZHogUc25hpeFaQw8+IUkjNkouIIy15DRA1NvWaax6SIwweFr4FUgLlmGuP
+ Glxw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVkaII8QnhYD7i1DpqctziI+D4Kh7YxDmGlPcvy7+Exd3ggoLNW0oF5K71EqjeB9Af7mtmKQGcrMRStWQeoDUACorLS7KWCt3uRlY2XWmWY
-X-Gm-Message-State: AOJu0Yzl5rgOa9nAYxpj6f2DE3GYnVzvKlIK+oTVxQ9dEFRt2DNJjwY2
- GK4GFjQL2LcarAeCQ4pjFeI3LYqfPsA/S7Ep9aTWDeoPL/2Nl1DDUG4HAQTs4TJ/z8tfcenPUxC
- Dew8UwURlpVOR2B7MSzm+QAESQD8Il2MeMmYBOf6qOyg76V3s
-X-Google-Smtp-Source: AGHT+IESJkWV1RwNd1gI+o0xag959yvIJP9B+/3SBZCIoQeLDPGaAt+lYfIbYycbMNeqdMqwYkSxcGcvNNyeEV0lsrw=
-X-Received: by 2002:a25:db85:0:b0:e02:bc67:829e with SMTP id
- 3f1490d57ef6-e03040515c2mr4162178276.65.1719240374257; Mon, 24 Jun 2024
- 07:46:14 -0700 (PDT)
+ AJvYcCWuZe5Nz8sw5CxcBWWnL/Y26lD3MloVl/Ae0WznT7pc3nopcbI10WafBPf6MJGk/3lEMU714e8ekIZ9R6wie9fAQgtOURqVpvSnm1go+S0P
+X-Gm-Message-State: AOJu0YxKtPpfdqc7SlzzGLWUqJunoioWn2DNcv2YrK1zFuE90kfmSfiC
+ CWMqt/77D/NQg9X5VTPJJX/i5ajdq9QGI185t3KT8brWEE5psxFx/tRfFIHtqJo=
+X-Google-Smtp-Source: AGHT+IGmp/rHeO28Mlk8vpwsjhoJ0XTX60eguxj0boTEKdnqlgu0JH7zROQRNlRQuOV3f1r7M3hIjQ==
+X-Received: by 2002:a05:6512:1282:b0:52c:e0fb:92c0 with SMTP id
+ 2adb3069b0e04-52ce183b75bmr3255575e87.34.1719240434013; 
+ Mon, 24 Jun 2024 07:47:14 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52ce88b0119sm212699e87.222.2024.06.24.07.47.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jun 2024 07:47:13 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 00/16] drm/msm/dpu: be more friendly to X.org
+Date: Mon, 24 Jun 2024 17:47:06 +0300
+Message-Id: <20240624-dpu-mode-config-width-v4-0-1038c13da3a5@linaro.org>
 MIME-Version: 1.0
-References: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
- <20240621-determined-venomous-partridge-eddeb9@houat>
- <CAPY8ntAbaxr-SnqyVR3Drnq-v5Q7ND7tSNzB+pLFFX0wssBAxw@mail.gmail.com>
- <20240624-mighty-fantastic-swine-9c4b98@houat>
-In-Reply-To: <20240624-mighty-fantastic-swine-9c4b98@houat>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 24 Jun 2024 15:45:58 +0100
-Message-ID: <CAPY8ntDjNAvSfBALhzj67T9sHKEXiiz58jp54VEN-qUJj0hx_g@mail.gmail.com>
-Subject: Re: [PATCH 00/31] Preparatory patches for BCM2712 (Pi5) support
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOqGeWYC/3XNSw6CMBCA4auQrq3pAwp15T2Mi9IHTKKUtIgaw
+ t0tJEaNYflPZr6ZULQBbESHbELBjhDBdynyXYZ0q7rGYjCpESMsJ5xW2PQ3fPXGYu07Bw2+gxl
+ aLJgwXJfKFEyhdNsH6+Cxuqdz6hbi4MNzfTPSZfoW5YY4UkywIc6K2lW0dvR4gU4Fv/ehQQs5s
+ g8jCN9iWGKoUK5gpCgLJf4Y/sXQfIvhiWHS6rQktZT1DzPP8wsUkhBuSQEAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Abel Vesa <abel.vesa@linaro.org>, 
+ Johan Hovold <johan+linaro@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3423;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=5G5xU+usyXKQEWWHSzwZ8U+Pk+eOVAYEhr0QinbHG0A=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmeYbua5W08waM8u4q9QigIOgudWK/EEVnzTBUY
+ kyo0l2ZaM2JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZnmG7gAKCRCLPIo+Aiko
+ 1XNfB/wPIjWsRsQJ5aCndD84N32E/7XP4jop0ObPO/W2yT02ZDasGg+0xqb7GCaVctwxYEWqdY0
+ rTppRcHkFpdPfPqdVls884eB2zAuxk26PPWtc9SlvIoHhEX6NFKaMyzeHBarqiLz72wzgER0y3s
+ 9ry7voE1a7VyqAwOdtStocpP4nY7zhPDv59IlbK0JixLr7t7e/eSK0xuMt6joKrBPc+o/fukOHA
+ YeHTdsSDAs5wnehiNlc13+qAxRUoO20sre9miQcaJf5rbmufjreXykN4UkYkeQ4l4kYW5cm7cqH
+ Oo0uyY1B2v6UkAa22nmq1PmZGhCYX6ucFVsBCTMV5xsYdRQ4
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,72 +101,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 24 Jun 2024 at 15:19, Maxime Ripard <mripard@kernel.org> wrote:
->
-> Hi,
->
-> On Fri, Jun 21, 2024 at 11:16:20AM GMT, Dave Stevenson wrote:
-> > Morning Maxime
-> >
-> > On Fri, 21 Jun 2024 at 09:55, Maxime Ripard <mripard@kernel.org> wrote:
-> > >
-> > > Hi Dave,
-> > >
-> > > Thanks for taking the time to send this.
-> > >
-> > > I've gone through most of the patches and it looks pretty good already,
-> > > but I have a few general remarks:
-> > >
-> > >   - We merged in drm-misc-next the new HDMI infrastructure recently and
-> > >     it will heavily conflict with some of these patches, so you need to
-> > >     rebase against either linux-next or drm-misc-next.
-> >
-> > Unless I've really messed up, this is already against drm-misc-next -
-> > sorry for not stating that.
-> > I've just pulled and rebased again, but I believe the top commit from
-> > the tree I created the patches against was
-> > c1391205754f drm/tests: add drm_hdmi_state_helper_test MODULE_DESCRIPTION()
-> > merged yesterday. I certainly had my VEC patches in the tree.
->
-> Sorry, that must be my fault then :)
->
-> I saw some patches had what I thought was vc4 prior refactoring, but if
-> you're on top of current drm-misc-next, it's all good.
+Unlike other compositors X.org allocates a single framebuffer covering
+the whole screen space. This is not an issue with the single screens,
+but with the multi-monitor setup 5120x4096 becomes a limiting factor.
+Check the hardware-bound limitations and lift the FB max size to
+16383x16383.
 
-The tree is definitely based on drm-misc-next, and all the tests I've
-done are fine. It's still possible that there is an error due to the
-refactor, but I hope not.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes in v4:
+- Fix handling of the not visible planes with the FB being set, as
+  detected via the kms_cursor_edge_walk test.
+- Link to v3: https://lore.kernel.org/r/20240614-dpu-mode-config-width-v3-0-29ec4069c99b@linaro.org
 
-> > >   - The author and SoB fields for my patches don't match anymore,
-> > >     possibly due to mailmap doing its magic.
-> >
-> > Too much magic in git :-(
-> > I went through and updated all your SoB fields, but mailmap appears to
-> > mean that the author shown by git log is not the same as the patches
-> > created by git format-patch. Never believe what you see. (That feels
-> > like a bug in git format-patch).
->
-> The duality of a bug/feature :)
->
-> > >     You can fix this by using, for the SoB:
-> > >     git filter-branch --msg-filter 'sed -i s/maxime@cerno.tech/mripard@kernel.org/' drm-misc-next..
-> > >
-> > >     And for the authorship:
-> > >     git commit --amend --author="Maxime Ripard <mripard@kernel.org>"
-> > >     for each commit.
-> > >
-> > >   - All of the fixes need Fixes that are currently missing on most tags
-> >
-> > Just as long as no one tries pulling them all back to stable. The
-> > number of dependencies would be huge in many cases.
->
-> This will probably happen still due to AUTOSEL. Is there any fix that
-> shouldn't be backported?
+Changes in v3:
+- Reoder the functions to pull up a fix to the start of the patchset
+  (Abhinav)
+- Rename the _dpu_crtc_setup_lm_bounds() to
+  _dpu_crtc_check_and_setup_lm_bounds() (Abhinav)
+- Make dpu_crtc_mode_valid() static.
+- Link to v2: https://lore.kernel.org/r/20240603-dpu-mode-config-width-v2-0-16af520575a6@linaro.org
 
-If they backport cleanly then they should all be fine, but I fear that
-things like the HDMI infrastructure changes will mean that they won't
-(I certainly had a few conflicts in rebasing onto the latest
-drm-misc-next).
-I guess it's a case of seeing what happens.
+Changes in v2:
+- Added dpu_crtc_valid() to verify that 2*lm_width limit is enforced
+  (Abhinav)
+- Link to v1: https://lore.kernel.org/r/20240319-dpu-mode-config-width-v1-0-d0fe6bf81bf1@linaro.org
 
-  Dave
+---
+Dmitry Baryshkov (16):
+      drm/msm/dpu: cleanup FB if dpu_format_populate_layout fails
+      drm/msm/dpu: fix error condition in dpu_encoder_virt_atomic_mode_set
+      drm/msm/dpu: move CRTC resource assignment to dpu_encoder_virt_atomic_mode_set
+      drm/msm/dpu: check for overflow in _dpu_crtc_setup_lm_bounds()
+      drm/msm/dpu: drop dpu_format_check_modified_format
+      drm/msm/dpu: drop dpu_format_populate_layout from dpu_plane_sspp_atomic_update
+      drm/msm/dpu: drop extra aspace checks in dpu_formats
+      drm/msm/dpu: drop msm_format from struct dpu_hw_fmt_layout
+      drm/msm/dpu: pass drm_framebuffer to _dpu_format_get_plane_sizes()
+      drm/msm/dpu: move pitch check to _dpu_format_get_plane_sizes_linear()
+      drm/msm/dpu: split dpu_format_populate_layout
+      drm/msm/dpu: make dpu_format_populate_addrs return void
+      drm/msm/dpu: move layout setup population out of dpu_plane_prepare_fb()
+      drm/msm/dpu: check for the plane pitch overflow
+      drm/msm/dpu: merge MAX_IMG_WIDTH/HEIGHT with DPU_MAX_IMG_WIDTH/HEIGHT
+      drm/msm/dpu: sync mode_config limits to the FB limits in dpu_plane.c
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  35 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  62 ++++--
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  24 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c        | 243 +++++++--------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h        |  30 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   2 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c          |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h          |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  10 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  47 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h          |   3 +
+ drivers/gpu/drm/msm/msm_kms.h                      |   6 -
+ 14 files changed, 196 insertions(+), 279 deletions(-)
+---
+base-commit: 5c522ecead93987bcb0459f0160d8625e46d78d2
+change-id: 20240318-dpu-mode-config-width-626d3c7ad52a
+
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
