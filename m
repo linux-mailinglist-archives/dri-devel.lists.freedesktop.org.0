@@ -2,73 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2224D91503F
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 16:43:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A61491506A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 16:45:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED39A10E467;
-	Mon, 24 Jun 2024 14:43:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71B7F10E475;
+	Mon, 24 Jun 2024 14:45:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="qslt2FLe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KDB/RLEC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C43410E467
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 14:43:33 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45ODT690017080;
- Mon, 24 Jun 2024 16:43:03 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- FDQqDeGBhOzd+z+gYx2dRkj2fnt78H+rCdF+VFiaJcc=; b=qslt2FLeTkNuSTgG
- FWEK3BzU3lE/f9wYZiDR+qbKV48FdFR6ubicgIUDwYKjV9LxAsP51JAPdGKXHkcU
- W2hi8YgILi5iJTAhqrOuoU7hZ+Wps2HdRXJYQt3CwvPMXBCNE8VcF3mhGSGZolOL
- mGi49Rbw1gNwC5KvDUCndpp93daBoJWZnM0e0M1BsqI/HZjDvjS6MmanVivr3w7k
- tUwO1cL3iz9nc4zvixbC9hKng7AYlQEmxuEN2ArP089/3TwA1ZAq7ej0qoExVmV8
- pmdi8uCSPTra5gbpjAwXli3yOYrd3PF+2oWCFU0J8ps9hXk02+RqmQM/Tnz9K8hB
- dCdAFg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ywnxx7jux-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Jun 2024 16:43:03 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1FF3C40047;
- Mon, 24 Jun 2024 16:42:58 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 280FB221E8B;
- Mon, 24 Jun 2024 16:42:07 +0200 (CEST)
-Received: from [10.48.87.177] (10.48.87.177) by SHFDAG1NODE3.st.com
- (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 24 Jun
- 2024 16:42:06 +0200
-Message-ID: <c8b7d693-5008-49c4-883a-66e2f9a3c7b2@foss.st.com>
-Date: Mon, 24 Jun 2024 16:42:05 +0200
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 364BF10E473;
+ Mon, 24 Jun 2024 14:45:35 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-2c889d6995aso690179a91.3; 
+ Mon, 24 Jun 2024 07:45:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1719240334; x=1719845134; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4mDsOwzKtQuTbrnZkosOYMHtSypsAJlM4HZ6rzIl0Ik=;
+ b=KDB/RLECoBkGMW9yLnzcD9kXP5CtuZ0oFmZ3f4gsqd4wnIWQ8QximF1lFvff4Q/SSn
+ yE2kbwhfi8JH5g60YS5+U6v/qBLBKUutEfaC/ErSoq8vrn4pUMoTnUknwmgYxbC24tHp
+ V9GoztqgASE6vn6MR4w3Tw3mKBLJkFOvvY4wl/FVYO8eTpkxWclg2dkGppgfdh57Y2B2
+ 5Jk+pdEg8Pq4fxAa5FidVA996Kgq9Nc+UDXaUP/fHpf11zry9VojRsMz0n/gC1Dh1dNe
+ 6Gw23b8ZLjWXioi5E/FKvcel88KM1xGtqhjPqkCZJ1IkM9gzCPqszvRuHbY2al62P4yV
+ UaVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719240334; x=1719845134;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=4mDsOwzKtQuTbrnZkosOYMHtSypsAJlM4HZ6rzIl0Ik=;
+ b=eDIA6BRmtAd4DN5aAULwFy+MqDslGYMHMUKFPY+5SpFmVE6CnG+sUooZKOl/rajrRr
+ nFBNusSS20moVJAA9xVu4cO10JfP7avofNkdKFD/9PZ4uFpWWr8YyYHdb5fCXYIKGimU
+ ckBxpsmLtOw1P6bcDpNmian30Fzn8mNbzPSgoolpl46iCqw4Jo52INGNizXMe6+NOcc2
+ eJ3Q6W8tRPKNkDICS262rFOsgt8jBrVSJMp/iZD3rnpv+vYoM1fuoLPxUmIokZ3IPeL7
+ uFg8NjoUFwYUAYMZcXGLHIK5KWqJUsMLv56iMX9/76TPeYCnb1AYXJ3Op3C/zt5PIiB4
+ WB8g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVzkFPeVieoJTt+CdjJ0mm8LJVlq3CNFxvqIaN3hqJcNAXWzYjUN1zRLa+LIa3dx9EFjhlzuZcmhrPJqkeyjQMhwbslcJZIC4pAOkOgiNiam/J+EmTprfgNLJIDexHUSIdpBdB8Qld3Y7w88h7ftQ==
+X-Gm-Message-State: AOJu0YxqEXoY2YseUmSjMX7ZIoRZBsRxuKbDspLLBEmAAsJekSO82aBL
+ dn/CbHQ4v7Lb/JZIRiGY++YYhgSyqvcZcZBIyDFsmoZnxwUZt3O2xzdhCsaAWVfFO8AWvUCdh4P
+ F9eLcUugQc2EqOX9XNw8jguinKBY=
+X-Google-Smtp-Source: AGHT+IH3bebP0lY82vBlI8fNjwjTmbTeUHhU1OC4AzvNPEhJLF7y9pOSUVbKPACUzSAvVhS9/A0KI7pXKbrOwgq+IQA=
+X-Received: by 2002:a17:90b:1c0c:b0:2c2:e45b:ecd with SMTP id
+ 98e67ed59e1d1-2c86124b3eemr3530884a91.12.1719240334393; Mon, 24 Jun 2024
+ 07:45:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/stm: ltdc: Remove unused function plane_to_ltdc
+References: <20240624031158.98502-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20240624031158.98502-1-jiapeng.chong@linux.alibaba.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 24 Jun 2024 10:45:22 -0400
+Message-ID: <CADnq5_O5eQ5oU7+oX+Hg8jsWY-9DLiRYJA6SOfotDQupnALgYA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Use ARRAY_SIZE for array length
 To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-CC: <raphael.gallais-pou@foss.st.com>, <philippe.cornu@foss.st.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
- <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+Cc: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
+ airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Abaci Robot <abaci@linux.alibaba.com>
-References: <20240624024113.54850-1-jiapeng.chong@linux.alibaba.com>
-Content-Language: en-US
-From: Yannick FERTRE <yannick.fertre@foss.st.com>
-In-Reply-To: <20240624024113.54850-1-jiapeng.chong@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.48.87.177]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE3.st.com
- (10.75.129.71)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-24_11,2024-06-24_01,2024-05-17_01
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,41 +82,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jiapeng,
+Applied.  Thanks!
 
-Thanks for the patch.
-
-Acked-by: Yannick Fertre <yannick.fertre@foss.st.com>
-
-Best regards
-
-
-Le 24/06/2024 à 04:41, Jiapeng Chong a écrit :
-> The function are defined in the ltdc.c file, but not called
-> anywhere, so delete the unused function.
+On Sun, Jun 23, 2024 at 11:37=E2=80=AFPM Jiapeng Chong
+<jiapeng.chong@linux.alibaba.com> wrote:
 >
-> drivers/gpu/drm/stm/ltdc.c:494:35: warning: unused function 'encoder_to_ltdc'.
+> Use of macro ARRAY_SIZE to calculate array size minimizes
+> the redundant code and improves code reusability.
+>
+> ./drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c:164:45-46: WARNING:=
+ Use ARRAY_SIZE.
+> ./drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c:183:47-48: WARNING:=
+ Use ARRAY_SIZE.
+> ./drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c:237:45-46: WARNING:=
+ Use ARRAY_SIZE.
+> ./drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c:257:47-48: WARNING:=
+ Use ARRAY_SIZE.
 >
 > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9403
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D9405
 > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 > ---
->   drivers/gpu/drm/stm/ltdc.c | 5 -----
->   1 file changed, 5 deletions(-)
+>  drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-> index 5576fdae4962..3f280155e25c 100644
-> --- a/drivers/gpu/drm/stm/ltdc.c
-> +++ b/drivers/gpu/drm/stm/ltdc.c
-> @@ -491,11 +491,6 @@ static inline struct ltdc_device *plane_to_ltdc(struct drm_plane *plane)
->   	return (struct ltdc_device *)plane->dev->dev_private;
->   }
->   
-> -static inline struct ltdc_device *encoder_to_ltdc(struct drm_encoder *enc)
-> -{
-> -	return (struct ltdc_device *)enc->dev->dev_private;
-> -}
-> -
->   static inline enum ltdc_pix_fmt to_ltdc_pixelformat(u32 drm_fmt)
->   {
->   	enum ltdc_pix_fmt pf;
+> diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c b/driver=
+s/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c
+> index 1b2df97226a3..7ecf76aea950 100644
+> --- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c
+> +++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c
+> @@ -161,8 +161,7 @@ static enum mod_hdcp_status read(struct mod_hdcp *hdc=
+p,
+>                 return MOD_HDCP_STATUS_DDC_FAILURE;
+>
+>         if (is_dp_hdcp(hdcp)) {
+> -               int num_dpcd_addrs =3D sizeof(hdcp_dpcd_addrs) /
+> -                       sizeof(hdcp_dpcd_addrs[0]);
+> +               int num_dpcd_addrs =3D ARRAY_SIZE(hdcp_dpcd_addrs);
+>                 if (msg_id >=3D num_dpcd_addrs)
+>                         return MOD_HDCP_STATUS_DDC_FAILURE;
+>
+> @@ -180,8 +179,7 @@ static enum mod_hdcp_status read(struct mod_hdcp *hdc=
+p,
+>                         data_offset +=3D cur_size;
+>                 }
+>         } else {
+> -               int num_i2c_offsets =3D sizeof(hdcp_i2c_offsets) /
+> -                       sizeof(hdcp_i2c_offsets[0]);
+> +               int num_i2c_offsets =3D ARRAY_SIZE(hdcp_i2c_offsets);
+>                 if (msg_id >=3D num_i2c_offsets)
+>                         return MOD_HDCP_STATUS_DDC_FAILURE;
+>
+> @@ -234,8 +232,7 @@ static enum mod_hdcp_status write(struct mod_hdcp *hd=
+cp,
+>                 return MOD_HDCP_STATUS_DDC_FAILURE;
+>
+>         if (is_dp_hdcp(hdcp)) {
+> -               int num_dpcd_addrs =3D sizeof(hdcp_dpcd_addrs) /
+> -                       sizeof(hdcp_dpcd_addrs[0]);
+> +               int num_dpcd_addrs =3D ARRAY_SIZE(hdcp_dpcd_addrs);
+>                 if (msg_id >=3D num_dpcd_addrs)
+>                         return MOD_HDCP_STATUS_DDC_FAILURE;
+>
+> @@ -254,8 +251,7 @@ static enum mod_hdcp_status write(struct mod_hdcp *hd=
+cp,
+>                         data_offset +=3D cur_size;
+>                 }
+>         } else {
+> -               int num_i2c_offsets =3D sizeof(hdcp_i2c_offsets) /
+> -                       sizeof(hdcp_i2c_offsets[0]);
+> +               int num_i2c_offsets =3D ARRAY_SIZE(hdcp_i2c_offsets);
+>                 if (msg_id >=3D num_i2c_offsets)
+>                         return MOD_HDCP_STATUS_DDC_FAILURE;
+>
+> --
+> 2.20.1.7.g153144c
+>
