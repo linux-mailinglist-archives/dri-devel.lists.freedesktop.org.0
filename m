@@ -2,48 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F1E914092
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 04:41:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E701914097
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 04:42:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CDC610E19E;
-	Mon, 24 Jun 2024 02:41:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82AEF10E1FB;
+	Mon, 24 Jun 2024 02:42:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="QOZAyQex";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="W+bggn3J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-132.freemail.mail.aliyun.com
- (out30-132.freemail.mail.aliyun.com [115.124.30.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18F9810E19E
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 02:41:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux.alibaba.com; s=default;
- t=1719196884; h=From:To:Subject:Date:Message-Id:MIME-Version;
- bh=/xgdevl4TYnHfGR8fctsT0v4UfOOmmnya9bKIxDS7gw=;
- b=QOZAyQexw+fRX+OQOj255xEP45jcEEntFqAxUYKlt3+oL2cBy7o0ItcvjNc04HV3ery9me2ydgtSSWEU5zfhGjNfV+HrXAxXk+hwgnkmNqauNiir03oQ0usz/jbK7mgh9mQtpO7VRGt5P88TDo9eSSff9Ewocu+1MKavKAoYy1Y=
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R201e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=maildocker-contentspam033037067113;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=16; SR=0;
- TI=SMTPD_---0W90yZxq_1719196874; 
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0W90yZxq_1719196874) by smtp.aliyun-inc.com;
- Mon, 24 Jun 2024 10:41:23 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: yannick.fertre@foss.st.com
-Cc: raphael.gallais-pou@foss.st.com, philippe.cornu@foss.st.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH] drm/stm: ltdc: Remove unused function plane_to_ltdc
-Date: Mon, 24 Jun 2024 10:41:13 +0800
-Message-Id: <20240624024113.54850-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
-MIME-Version: 1.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4BB10E1FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 02:42:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1D34260AB7;
+ Mon, 24 Jun 2024 02:42:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 890DFC2BD10;
+ Mon, 24 Jun 2024 02:42:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1719196953;
+ bh=BhEPmtvoGFbzDlcg+EoT7Fa6jIBTcLhA3xu45eC5JO0=;
+ h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+ b=W+bggn3JNCC7H1mCW18DntAimW3vQ5n/EaLXYwIwl99hNjLirQexiqVf5kgrrJY2Q
+ eZhfhBAlHFGaISZ25HhtkUxN4wBjk/xrO5N2dincFhK/PDWGd1MOvBaEbkZY+QnTaD
+ MStr3I8fu6D1NL7pGRSoDMG+beqU2hK3vV5lJpR3M/k26TNpMbHA2PR/M9eYOgrnOe
+ 354LNeSqqB1f6pwQRLwrKbBfo65XjQ7NjlfK0cyNqgQRyYlIdv2T9k7Hc2pqsHQsIf
+ ueFraeJEjy3KpcX7qXpBmzg5QRFXkQfw4474vA0NR6nT698viwKvbsyT49HFrjpNSD
+ C04d8KjmEaqRA==
+Date: Sun, 23 Jun 2024 20:42:32 -0600
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Caleb Connolly <caleb@postmarketos.org>
+Cc: devicetree@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ David Airlie <airlied@gmail.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maxime Ripard <mripard@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ linux-input@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+In-Reply-To: <20240624-oneplus8-v1-2-388eecf2dff7@postmarketos.org>
+References: <20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org>
+ <20240624-oneplus8-v1-2-388eecf2dff7@postmarketos.org>
+Message-Id: <171919695228.1438647.2034109134791668408.robh@kernel.org>
+Subject: Re: [PATCH 2/7] dt-bindings: input: touchscreen: document
+ synaptics TCM oncell
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,34 +70,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function are defined in the ltdc.c file, but not called
-anywhere, so delete the unused function.
 
-drivers/gpu/drm/stm/ltdc.c:494:35: warning: unused function 'encoder_to_ltdc'.
+On Mon, 24 Jun 2024 03:30:26 +0200, Caleb Connolly wrote:
+> Document the Synaptics TCM oncell series of touchscreens, starting with
+> the s3908.
+> 
+> Signed-off-by: Caleb Connolly <caleb@postmarketos.org>
+> ---
+>  .../input/touchscreen/syna,tcm-oncell.yaml         | 66 ++++++++++++++++++++++
+>  1 file changed, 66 insertions(+)
+> 
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9403
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/gpu/drm/stm/ltdc.c | 5 -----
- 1 file changed, 5 deletions(-)
+My bot found errors running 'make dt_binding_check' on your patch:
 
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 5576fdae4962..3f280155e25c 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -491,11 +491,6 @@ static inline struct ltdc_device *plane_to_ltdc(struct drm_plane *plane)
- 	return (struct ltdc_device *)plane->dev->dev_private;
- }
- 
--static inline struct ltdc_device *encoder_to_ltdc(struct drm_encoder *enc)
--{
--	return (struct ltdc_device *)enc->dev->dev_private;
--}
--
- static inline enum ltdc_pix_fmt to_ltdc_pixelformat(u32 drm_fmt)
- {
- 	enum ltdc_pix_fmt pf;
--- 
-2.20.1.7.g153144c
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
+ 	 $id: http://devicetree.org/schemas/input/touchscreen/syna,s3908.yaml
+ 	file: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.yaml
+Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.example.dts:27.13-26: Warning (reg_format): /example-0/i2c/touchscreen@4b:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.example.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.example.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.example.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.example.dts:21.13-36.11: Warning (i2c_bus_bridge): /example-0/i2c: incorrect #address-cells for I2C bus
+Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.example.dts:21.13-36.11: Warning (i2c_bus_bridge): /example-0/i2c: incorrect #size-cells for I2C bus
+Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'i2c_bus_bridge'
+Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.example.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.example.dts:25.26-35.13: Warning (avoid_default_addr_size): /example-0/i2c/touchscreen@4b: Relying on default #address-cells value
+Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.example.dts:25.26-35.13: Warning (avoid_default_addr_size): /example-0/i2c/touchscreen@4b: Relying on default #size-cells value
+Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.example.dtb: Warning (unique_unit_address_if_enabled): Failed prerequisite 'avoid_default_addr_size'
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240624-oneplus8-v1-2-388eecf2dff7@postmarketos.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
