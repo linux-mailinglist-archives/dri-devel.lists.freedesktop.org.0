@@ -2,72 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FCA99143DE
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 09:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8E6914412
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 09:59:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AAF910E3A1;
-	Mon, 24 Jun 2024 07:45:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDEA010E39F;
+	Mon, 24 Jun 2024 07:59:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="Fln7WuY7";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="j6hx42G/";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fHI+Gg+h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B76E010E39F
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 07:45:18 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2628E10E39F
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 07:59:39 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-5295eb47b48so4731033e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 00:59:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1719215118; x=1750751118;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=/TEq/tOMH+qPmZFRmuad42oBNyqOeBWDlG7hBkvjLvI=;
- b=Fln7WuY7W9/ocAL3DQeKemrc2WJ3gKmq2rmKfN0dkgBh/NyvGULiBtID
- /gK5bZ6+n4kKKnU6KekCyEXFWo4bYlvgJCcUTOCt7V0TLAcUROdQ8+XIJ
- drkOAYS3p3baGm+If1nJnIQjlAxek5p1zX7g55lQ1RqRYIGr72/k89DE/
- JPvwGcgrGfEoOSRsE1AwTYzIL3fdG73TZDE5ZdPMJ/32+MDN3I/tffon0
- JlQu0LkAfkiH4KnpZ10T4wxwPJ/+EsZD9QWnsv+Ovp0SAjlINI5dIVwoA
- Sr7lzKqKi7MqZDIkaLQ6RUA6IpQXcooHy0WBmYSW6mQZy5fIUSmJJFJFh g==;
-X-CSE-ConnectionGUID: Wh9bgL2LQ0iv/myJ2sn1IQ==
-X-CSE-MsgGUID: z5dybkD1RxWVhbCbaTUyYQ==
-X-IronPort-AV: E=Sophos;i="6.08,261,1712613600"; d="scan'208";a="37544192"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 24 Jun 2024 09:45:16 +0200
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 293F4166FA4; Mon, 24 Jun 2024 09:45:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1719215112;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=/TEq/tOMH+qPmZFRmuad42oBNyqOeBWDlG7hBkvjLvI=;
- b=j6hx42G/sWA0r22YlJuYD3UPvJFtfFG5LIUfzu9lPxgz2FGnWw3+bWdu2kkv5QBjsFr0dx
- 8OCmpbhgZcSaw+C/g13aBQMyaGPUf/6QC/EbsGwyni3BwrxK+g1yOR6MdWhV021OBfQrjc
- 0QSaTtJ9kmEr1KmeL8C5dBHat8bpFDwKkxkQJMJDiGkQmmo4BE2AI8KQKm++oPnwONYdg0
- IB+yQJqxBZeETuyeh/5fN6jLbnAIUK4nkTl+MPZLi8QWil5wbz4A93MqTyKXwt5Tq3yEY1
- JBRFcm8q2T88lw7JcHNBZHYA9XEaxXZM3+i37Jxq2zD6vRJmCeRws1QS1eyOWA==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- kernel@dh-electronics.com, Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v3 4/6] drm/bridge: tc358767: Disable
- MIPI_DSI_CLOCK_NON_CONTINUOUS
-Date: Mon, 24 Jun 2024 09:45:13 +0200
-Message-ID: <5794906.DvuYhMxLoT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20240623143846.12603-4-marex@denx.de>
-References: <20240623143846.12603-1-marex@denx.de>
- <20240623143846.12603-4-marex@denx.de>
+ d=linaro.org; s=google; t=1719215977; x=1719820777; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=lDo6FigYFQGMZS3Mpraq4BokVAZg7iCXZo4sAcKEd/g=;
+ b=fHI+Gg+heyu8IbGywuPDIWttUqRHznb1za9b0H2o9pRhxv9gzyzihad+tccSHNXZEw
+ FR+MULJV6pS7hUOwyQs2p3K4egf/pwTLaWG+HZJJY/Ippniv4dJq0Ks3q0Qr3qzzJg83
+ InsUX8RTSiOY8aRXL9sTpBjYcpa3fKR1hbvMI1HqpvFeicIg9qj97wR0vc/0PyAQkZyJ
+ Q8YWvNCKAbucvC/R+PypMP0c0ZzI16mNviP4ZJHPOUOFg80d9i3jUtnIV/dmlPfKaJa4
+ coFfrA8lg7o+U0DrytpwfYsAzLUIhLTGCfQacM9Nq5392U2ARopghj/IhEWUE0b1D5Pd
+ UhsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719215977; x=1719820777;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lDo6FigYFQGMZS3Mpraq4BokVAZg7iCXZo4sAcKEd/g=;
+ b=NATb70NYx2pA1BA30XHjNqZAoVT4bbtX3OjSelLzBVLZVAQEr+fGPVFOAzbZZ/TZ7W
+ Nk3iGGut+Ix6VDIl9KMBawe8hfhTA/F+q4fincc4zeO1n04f7+h652j1wWnmaP++aj/6
+ TOpJq1oqWReqtVovp92VGk95/Hgq9mgTtcO1F3dmLI+tpjuGxhIcx9GJuPFF7Vtb0/2Z
+ i12cnZdbXaRv0YjBeUgKq97V+IsRf8LpV/Ma74G5g9y5179CcPEm7g71S2Oq7Emk4uK4
+ iNawuhJFm3/+FXx3SK1EtDnpdDrQxj8A8a2QPoFZE4fHHQ9GA0AX3445YNwhvmm95evk
+ fvqQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUCH1MToO0xI34nv/t+gG2IoN+Zayf91QUgU4IZZ7joW6kQ/GUiLR9tq4j6WCx654SbcS6zYB80hToKh5qlXi+TvbEsP7m28jN4v7WQn5eV
+X-Gm-Message-State: AOJu0Yxj0cqSMPrkADN90fTzHsFZQLClLT4OZUUnf+wfNRSMPmdf/G8F
+ XLcl6iyKsNY8S9y7GeVTNGQK1sGl2LgYbupDJNUUtGQiFtNQmy20VJnSmoCUhpI=
+X-Google-Smtp-Source: AGHT+IHenuOkInITr6W0VLjG1A7f0qBzFfDGHfEiH9gMy4oUCngVCqpgbvTbaQobNROLVIHjJmUdEg==
+X-Received: by 2002:a05:6512:b23:b0:52c:e383:b0d1 with SMTP id
+ 2adb3069b0e04-52ce383b18cmr3072773e87.53.1719215976959; 
+ Mon, 24 Jun 2024 00:59:36 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52cdb4a7215sm787583e87.171.2024.06.24.00.59.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jun 2024 00:59:36 -0700 (PDT)
+Date: Mon, 24 Jun 2024 10:59:35 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, 
+ Ekansh Gupta <quic_ekangupt@quicinc.com>, Oded Gabbay <ogabbay@kernel.org>,
+ srinivas.kandagatla@linaro.org, 
+ linux-arm-msm@vger.kernel.org, gregkh@linuxfoundation.org,
+ quic_bkumar@quicinc.com, 
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ dri-devel@lists.freedesktop.org, Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH v1] misc: fastrpc: Move fastrpc driver to misc/fastrpc/
+Message-ID: <jhjbx32kxywnzzin6w3tzobpu5v3zxfak4vz4q5t36v6hrbvuo@uixf3imdiefl>
+References: <20240612064731.25651-1-quic_ekangupt@quicinc.com>
+ <zbpia232dh4ojfsvhcqxrp6cwfygaalu5cycdrs47pqmnrisvk@dq24nww26gkm>
+ <z6g5ool5vomkudiroyaxh532rhlfu5x4i3l5xoqrsho2sxv4im@v5ghemjkpc3v>
+ <CAA8EJprgCJKOnZo7Q31KZV3SA3NqWxcMmoUxuqnVF+8cQW5ucg@mail.gmail.com>
+ <6f59552d-d7a3-5e05-3465-e707c1b7eaf2@quicinc.com>
+ <ZnWhwJtTXS32UI9H@phenom.ffwll.local>
+ <fin5dnpf3jyo5mk4b7fktdutbds5lkpxwzojecxa4zh7gwfad2@rkryxqzt6maq>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fin5dnpf3jyo5mk4b7fktdutbds5lkpxwzojecxa4zh7gwfad2@rkryxqzt6maq>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,63 +94,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Sun, Jun 23, 2024 at 03:19:17PM GMT, Bjorn Andersson wrote:
+> On Fri, Jun 21, 2024 at 05:52:32PM GMT, Daniel Vetter wrote:
+> > On Fri, Jun 21, 2024 at 09:40:09AM -0600, Jeffrey Hugo wrote:
+> > > On 6/21/2024 5:19 AM, Dmitry Baryshkov wrote:
+> > > > On Fri, 21 Jun 2024 at 09:19, Bjorn Andersson <andersson@kernel.org> wrote:
+> > > > > 
+> > > > > On Wed, Jun 12, 2024 at 09:28:39PM GMT, Dmitry Baryshkov wrote:
+> > > > > > On Wed, Jun 12, 2024 at 12:17:28PM +0530, Ekansh Gupta wrote:
+> > > > > > > Move fastrpc.c from misc/ to misc/fastrpc/. New C files are planned
+> > > > > > > to be added for PD notifications and other missing features. Adding
+> > > > > > > and maintaining new files from within fastrpc directory would be easy.
+> > > > > > > 
+> > > > > > > Example of feature that is being planned to be introduced in a new C
+> > > > > > > file:
+> > > > > > > https://lore.kernel.org/all/20240606165939.12950-6-quic_ekangupt@quicinc.com/
+> > > > > > > 
+> > > > > > > Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
+> > > > > > > ---
+> > > > > > >   MAINTAINERS                          |  2 +-
+> > > > > > >   drivers/misc/Kconfig                 | 13 +------------
+> > > > > > >   drivers/misc/Makefile                |  2 +-
+> > > > > > >   drivers/misc/fastrpc/Kconfig         | 16 ++++++++++++++++
+> > > > > > >   drivers/misc/fastrpc/Makefile        |  2 ++
+> > > > > > >   drivers/misc/{ => fastrpc}/fastrpc.c |  0
+> > > > > > >   6 files changed, 21 insertions(+), 14 deletions(-)
+> > > > > > >   create mode 100644 drivers/misc/fastrpc/Kconfig
+> > > > > > >   create mode 100644 drivers/misc/fastrpc/Makefile
+> > > > > > >   rename drivers/misc/{ => fastrpc}/fastrpc.c (100%)
+> > > > > > 
+> > > > > > Please consider whether it makes sense to move to drivers/accel instead
+> > > > > > (and possibly writing a better Kconfig entry, specifying that the driver
+> > > > > > is to be used to offload execution to the DSP).
+> > > > > > 
+> > > > > 
+> > > > > Wouldn't this come with the expectation of following the ABIs of
+> > > > > drivers/accel and thereby breaking userspace?
+> > > > 
+> > > > As I wrote earlier, that depends on the accel/ maintainers decision,
+> > > > whether it's acceptable to have non-DRM_ACCEL code underneath.
+> > > > But at least I'd try doing that on the grounds of keeping the code at
+> > > > the proper place in the drivers/ tree, raising awareness of the
+> > > > FastRPC, etc.
+> > > > For example current fastrpc driver bypasses dri-devel reviews, while
+> > > > if I remember correctly, at some point it was suggested that all
+> > > > dma-buf-handling drivers should also notify the dri-devel ML.
+> 
+> If the agreement is that dma-buf-handling drivers must get reviews from
+> dri-devel, then let's document that in MAINTAINERS and agree with the
+> maintainer.
 
-Am Sonntag, 23. Juni 2024, 16:38:36 CEST schrieb Marek Vasut:
-> The MIPI_DSI_CLOCK_NON_CONTINUOUS causes visible artifacts in high
-> resolution modes, disable it. Namely, in DSI->DP mode 1920x1200 24
-> bpp 59.95 Hz, with DSI bus at maximum 1 Gbps per lane setting, the
-> image contains jittering empty lines.
->=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
+Good idea.
 
-I can't see these artifacts in 1920x1200 24bpp, but still looks good to me
-Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> 
+> There's no need to move the driver for that.
 
-> ---
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: kernel@dh-electronics.com
-> ---
-> V2: No change
-> V3: No change
-> ---
->  drivers/gpu/drm/bridge/tc358767.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/t=
-c358767.c
-> index c4e2455ad95e4..a48454fe2f634 100644
-> --- a/drivers/gpu/drm/bridge/tc358767.c
-> +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -2303,7 +2303,7 @@ static int tc_mipi_dsi_host_attach(struct tc_data *=
-tc)
->  	dsi->lanes =3D dsi_lanes;
->  	dsi->format =3D MIPI_DSI_FMT_RGB888;
->  	dsi->mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> -			  MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
-> +			  MIPI_DSI_MODE_LPM;
-> =20
->  	ret =3D devm_mipi_dsi_attach(dev, dsi);
->  	if (ret < 0) {
->=20
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+-- 
+With best wishes
+Dmitry
