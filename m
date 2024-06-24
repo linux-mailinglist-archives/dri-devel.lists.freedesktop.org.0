@@ -2,105 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2593E914752
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 12:21:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4463C91478A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 12:31:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C772710E3EC;
-	Mon, 24 Jun 2024 10:21:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E894710E1EF;
+	Mon, 24 Jun 2024 10:31:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DoFBCp5i";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gaPVyeV/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8045D10E3E9;
- Mon, 24 Jun 2024 10:21:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 8F5EFCE10AB;
- Mon, 24 Jun 2024 10:21:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 440BFC2BBFC;
- Mon, 24 Jun 2024 10:21:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719224473;
- bh=d2YrsSBn2K0x3bECoxvDN/YNrSq3fNttW/m9Lsn58vw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DoFBCp5i3OM5Rbd0YGSHr8ygAjfO9fByxu/Ym0XlUjsVRltgfJNxN60IsZfOQ1/OV
- EujyVykAtlMcmNKrpGjpK+fWKtvDE2Fv+GGwGig1OR9rfEuUA2LggQPsIH4SaVBf++
- sfzWzHmVt2YIRusn52vVKY/RDUxn7W4TPUEujbJiRNaafLB/758mY0ol4rlkPaxn6T
- 5lI5o/2qlBqsLYGMyH0/gBxcP49FiLO/pn72SbzC7z3xujLLZvZPddDsmCBWfA5GAV
- R0/TURBDOKoDY7lVMCOLWoVMY6oOG2cLm3VBfBOJVAlFpo+KW9J7EI27bHzULjZ87v
- +FTCHl+WYegfA==
-Message-ID: <6c06238b-14ce-4e7d-b0fd-33749c62213c@kernel.org>
-Date: Mon, 24 Jun 2024 12:21:05 +0200
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F5C510E267
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 10:31:49 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-52cdc4d221eso2423928e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 03:31:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1719225107; x=1719829907; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y79rUxm3lgbaqaUYltDlAHQT1o1yNbGd4AJC95vHYik=;
+ b=gaPVyeV/cBnmtfkW2rWC0Ja0jGhTsRVv5ugMop0v74ZE/U8QH3oHw8q9EQYW5ycPJa
+ T37TiTiAvxTK81/KvD82FPEyBaIrh4TVk+X+GlLzh6xxKhmG9rHEpiP762RPgjEDbGYr
+ QqQY/EM7SyKDg/LFxRUObY47+QAA42pdXPUOz5MyOCWj/KKwO7pCxP4uU8212aTFkrjW
+ SbFZypCnv3uTCwEB0CHpZviAv4/dZtmRFeFoQCblXMSa0Mq4sNsaMd6TN9Qk3rJpE0Oj
+ pG3Ycmy59l7VRtQE9Ucn8ilIVvm+AknMY+iemzo25BLtO7ojeynpczRD+n6NwHcA1lhP
+ gLWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719225107; x=1719829907;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y79rUxm3lgbaqaUYltDlAHQT1o1yNbGd4AJC95vHYik=;
+ b=SY3wZNC3RlQQfNLBWivBtm1UGcDYVMNyjG+BP5IqUWt1IADjPDLkGBfGSh8sMgpOX2
+ 4z78ZeDaokhKmOWHR9hEpjup4iIhYDp1/zdOLDhabgI09Itm33VCgeFhvq5aKgWVnsQJ
+ sIh70KKRGN4WTwt8GU76FO3arU+rEBZ04X/+zxME56zsVIvmnDnhPxzefaQy/Uey2Voq
+ Vr5yPGIzpz/ZmThmhRrQ9GHklHgOBeR3Qk4xXseajvzaMqr/DMSsn0Ivb7ahZDo84jGS
+ AHpLU2Huia0mH9ZqDCdJfjgv5aYFGdv582Xojb6dlSXrMEuMEsf9IRYMRQ+wkgCz4gfZ
+ +nyA==
+X-Gm-Message-State: AOJu0YzYMaFWG7eZfwTYyJSnKeDDFmY3ElJBdOzN0k8AZqQMuTEWZg00
+ OD1oRmj1VAfhGuuo9iXl6Wlh9Lx6u2KmaF36KkdKMFH5/QUtHc02awQEXeGrnlo=
+X-Google-Smtp-Source: AGHT+IGQ8/4ij15CkMhnOaWlVH+mAJ1XYx0sN2OLk0VHtmIAIuWQqIv+pbQOI4C4fD5y7Z7z3JFAOw==
+X-Received: by 2002:a05:6512:138e:b0:52c:e08c:a0dc with SMTP id
+ 2adb3069b0e04-52ce185f753mr2722847e87.51.1719225107235; 
+ Mon, 24 Jun 2024 03:31:47 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52cd63b46ecsm953874e87.10.2024.06.24.03.31.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jun 2024 03:31:46 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 24 Jun 2024 13:31:46 +0300
+Subject: [PATCH] drm/lcdif: switch to DRM_BRIDGE_ATTACH_NO_CONNECTOR
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/3] Support for Adreno X1-85 GPU
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Conor Dooley
- <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Sean Paul <sean@poorly.run>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
- <26abe6cd-e9da-4db9-9035-76edd5dda614@kernel.org>
- <20240624062145.nkqlh2szazvjigk7@hu-akhilpo-hyd.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240624062145.nkqlh2szazvjigk7@hu-akhilpo-hyd.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20240624-mxc-lcdif-bridge-attach-v1-1-37e8c5d5d934@linaro.org>
+X-B4-Tracking: v=1; b=H4sIABFLeWYC/x2MWwqAIBAArxL73YJZ2OMq0Yfpmgu90IhAunvS5
+ zDMJIgUmCIMRYJAN0c+9gxVWYDxel8I2WYGKWQjlGxwewyuxrLDObDNXl+XNh6VqFXXiXaWrod
+ cn4EcP/95nN73A0Xa3slpAAAA
+To: Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2092;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=eCJNHKpOFyvKm0QEDNLeKYcgJDFGN4EGDIDzjHn6FlM=;
+ b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ1qlt9Ar59KYH7VRt3+sPjXB/Fev0SbNiiz7/1tLfh+y4
+ Z14d3JaJ6MxCwMjF4OsmCKLT0HL1JhNyWEfdkythxnEygQyhYGLUwAmolDP/r+g47nFmZ9R22/5
+ efi9nXuhhTE82Suct/H5aV5J9oMrpbZ7L7Waes+VrWm2tc15L9m9AncYm8PiVHtsVBXLjiTN3WE
+ lHnctvr2BX0f+9R69+eeKW9UZRKyfaqsxz37umtKgdfCFxaKe+cX5C3Ly0l8mSjyZciVaSlhVWV
+ zN5Nj2F2nHQs6I7X/5we3MsobNQW1X7I83GSV6pIvwfmVr27dlGuMdRwazhu+Pvu2r+bXI8kpjI
+ cen9qTndWkzN0S4MW3/ZTmpYp3d9X9Ts93q47wvJ1uKOSj95vyuuPZJzsYQg1ivGnmNRbr3pVfd
+ Y+LY2nzepa339YqjPd1M+3jzv8o2rO65sYglaLXs8Z/5AA==
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,38 +101,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/06/2024 08:21, Akhil P Oommen wrote:
-> On Sun, Jun 23, 2024 at 01:11:48PM +0200, Krzysztof Kozlowski wrote:
->> On 23/06/2024 13:06, Akhil P Oommen wrote:
->>> This series adds support for the Adreno X1-85 GPU found in Qualcomm's
->>> compute series chipset, Snapdragon X1 Elite (x1e80100). In this new
->>> naming scheme for Adreno GPU, 'X' stands for compute series, '1' denotes
->>> 1st generation and '8' & '5' denotes the tier and the SKU which it
->>> belongs.
->>>
->>> X1-85 has major focus on doubling core clock frequency and bandwidth
->>> throughput. It has a dedicated collapsible Graphics MX rail (gmxc) to
->>> power the memories and double the number of data channels to improve
->>> bandwidth to DDR.
->>>
->>> Mesa has the necessary bits present already to support this GPU. We are
->>> able to bring up Gnome desktop by hardcoding "0xffff43050a01" as
->>> chipid. Also, verified glxgears and glmark2. We have plans to add the
->>> new chipid support to Mesa in next few weeks, but these patches can go in
->>> right away to get included in v6.11.
->>>
->>> This series is rebased on top of v6.10-rc4. P3 cherry-picks cleanly on
->>> qcom/for-next.
->>>
->>> P1 & P2 for Rob, P3 for Bjorn to pick up.
->>
->> Which Rob?
-> 
-> Sorry for the confusion! I meant Rob Clark whom I had added in the "To:"
-> list.
+Existing in-kernel device trees use LCDIF with the dsim + adv7533, dsim
++ tc358762 or with ldb + panel_bridge. All these combinations support
+using DRM_BRIDGE_ATTACH_NO_CONNECTOR for bridge attachment.
 
-OK, thanks for confirming, it is correct.
+Change lcdif driver to use this flag when attaching the bridge and
+create drm_bridge_connector afterwards.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Note: compile-tested only.
+---
+ drivers/gpu/drm/mxsfb/lcdif_drv.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+index 0f895b8a99d6..1d5508449995 100644
+--- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
++++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+@@ -16,6 +16,7 @@
+ 
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_bridge_connector.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_encoder.h>
+ #include <drm/drm_fbdev_dma.h>
+@@ -48,6 +49,7 @@ static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
+ {
+ 	struct device *dev = lcdif->drm->dev;
+ 	struct device_node *ep;
++	struct drm_connector *connector;
+ 	struct drm_bridge *bridge;
+ 	int ret;
+ 
+@@ -96,13 +98,23 @@ static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
+ 			return ret;
+ 		}
+ 
+-		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
++		ret = drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+ 		if (ret) {
+ 			of_node_put(ep);
+ 			return dev_err_probe(dev, ret,
+ 					     "Failed to attach bridge for endpoint%u\n",
+ 					     of_ep.id);
+ 		}
++
++		connector = drm_bridge_connector_init(lcdif->drm, encoder);
++		if (IS_ERR(connector)) {
++			ret = PTR_ERR(connector);
++			of_node_put(ep);
++
++			return dev_err_probe(dev, ret,
++					     "Failed to create bridge connector for endpoint%u\n",
++					     of_ep.id);
++		}
+ 	}
+ 
+ 	return 0;
+
+---
+base-commit: f76698bd9a8ca01d3581236082d786e9a6b72bb7
+change-id: 20240624-mxc-lcdif-bridge-attach-60368807b2f9
 
 Best regards,
-Krzysztof
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
