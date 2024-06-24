@@ -2,78 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E80D91523E
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 17:27:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08805915262
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 17:30:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4AFD10E49E;
-	Mon, 24 Jun 2024 15:27:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 477E310E04A;
+	Mon, 24 Jun 2024 15:30:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fCUpNLUH";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CSvoSxhO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B07A10E49E
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 15:27:46 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2ebe40673d8so50854601fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 08:27:46 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4762D10E04A
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 15:30:54 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-3620ee2cdf7so2886222f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 08:30:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719242864; x=1719847664; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=zknmga5PBkgGw8TgH0HGAYjZwH1IzFooajhy3i9qJ1I=;
- b=fCUpNLUHqXXAnchZs9Et2el41j71yoVpdeNX/34L0AKc5Ydx9iajYu6RztkqSXyjMz
- ayde3p4ZYLI4eA610O5H18F/kJP3fyC/hBT6dNLl7PgaiYlkOxoVgtx0i6XlcTHn8V5T
- Qp5Zxesz3HACKV0uSCfVrTHW+EknuGoM/3g30pvncRn/KuG8apzbfVIXfKv55yvQawBV
- 0Q7zvC451xQcXb5vC5Jk+0HW4nC7jbUP84Ivw/1r/8C4+Ktx7kA63MIaadiq/P03/I+H
- KKtV5rEczxLEO6Ro2fteHMpUwO0hUrQNud9r0+5kYfEq38d3VIt/c2FC77B11jzstgfT
- qCzA==
+ d=gmail.com; s=20230601; t=1719243052; x=1719847852; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=5Wh7xrbjfwGsyfIEZVLHT3Izn0pKIYJ7wtYXXb68AeA=;
+ b=CSvoSxhOuSPHy+yhnsvwoDHcym6QGmEEGLEkNpM8bmukMEBCMeuZfTdZWy1lzmryv0
+ o375VE4BE9GItxcTCMhXp6RdydR3OCr47SIdGOWtEv2C78ybuNuGtfAZZZfu8TnKt6rd
+ ePe7Mq6+jrMOlQA1HV7C/KBs/FC4OwGw/Tt5wbFODAXBDpBN8G1PqxbHn2kPTJocVM3C
+ o5UGKiWtHr48PhldlB1xspQYOJaWUnLafb9UAU6UWzFvvIqc/3x+eJFaLnVV4vpVqQ0V
+ KRgOFcjcN5UKwy4cIdYQbiK51Y0ntoAJoImtN3L0NQTTuj0miQw1j4mlmvqdhLAHdoiI
+ xOzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719242864; x=1719847664;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zknmga5PBkgGw8TgH0HGAYjZwH1IzFooajhy3i9qJ1I=;
- b=XWvTWzouS4VQTv9BDK8GQHPG4P2bKaulbyIw0eogDCr8Vu/2WUZ0XYpSE+Rg8smNZh
- riStOsdcOZ/dL4x/XbCKlU7q6gJoACPkfurUfYEBESidsBR5l3kgsVaqbkKp1+EcM7wP
- wJ80K6Vutw6AVTrbS3aMNfgohCLPUEIWlMVyJpMyk42h9C85sFbN5UxBvCyzHo7NkZLF
- trtZk8WM8uc77Wk05EEyO2QP9eepI5oianDJFLdZDnYE2E0Hr0vxZzkR7sMihb+XP1cQ
- 4RzowX2xREB0HhUVTEQP49gmZQyikADtmGm2P4CkbaDx5dHv2i+w1AUgk2NqSB+M5Po6
- 4wzg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVT8nj1eLLHioJK7LRiqNGEYPzBbB6KOJpjb7Nh2vdRg3WhRagGBOP8ABHc6pWgZuMO2/c6lcF38mnOPc4bSHa30qcCuABYu3YhKhbxZCvw
-X-Gm-Message-State: AOJu0Yw7UG6+X5dAslwpGYlFG+okaQPnPfO/nW/vSrXpbAxQ34pkIPwA
- qWdnjfYV5ThIwqV5FP3EYlRqXOd5DrE6+ADcbEqLR+ZAkY9WzkCHwbEUWiD/owo=
-X-Google-Smtp-Source: AGHT+IHDKHZF641+eAwV/7qMCMAd3xlHkRDY+QbpVU6UAqq4KN7gdHrHBVq0n1HMXETpl9kIvQ0KeA==
-X-Received: by 2002:ac2:4882:0:b0:52c:e05f:f70c with SMTP id
- 2adb3069b0e04-52ce1835310mr2739405e87.26.1719242864274; 
- Mon, 24 Jun 2024 08:27:44 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52cdd9800a7sm710361e87.126.2024.06.24.08.27.43
+ d=1e100.net; s=20230601; t=1719243052; x=1719847852;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5Wh7xrbjfwGsyfIEZVLHT3Izn0pKIYJ7wtYXXb68AeA=;
+ b=A3BKXkRAj2xVBOrCGm+JIi15G4YJ1oO/nONh1+d780nVJ6J4mVvQxFDrP05gMJdIDS
+ tJILy56e39yrX96qRTsIQuz0ylTwkTok2AJ33oLUxZ+hVk6D67GFoDgMkNGcjeHPvqrj
+ BpO5/QMwtjFQufq29oV1h7W+h6Jqthh760c7yftvSRxFT4pMl1BLqCzPnwLRuBF1V165
+ jLsPFm0voF6L44kBBr3A4X+6H5Mw0GZS3bCFXWpP+FWEDU8wGzVv9HRDgWHezlULKBOJ
+ ihDYSdtb71iBkmd0Bh4SFlMAk+O3jNsf3yS3J00Nc9nHTHC4NtyYwMWPda46U/oYEST5
+ a0HA==
+X-Gm-Message-State: AOJu0YxLoIHtf3oRlN+X2Wkg0YDGnQXo8Q4UBfZUrw+xUwr3qT5J60ue
+ RAnOgigq80K5hFfvKAkmiucjIidsVInkMjNRKsue9VsBS7xsKdNg
+X-Google-Smtp-Source: AGHT+IHupmj7SCP4Ewzmje7FjrNNDa0FXZUj53f7H62eDvPdjfYU4zbcbpHiI4rU495sq99AOfQkuQ==
+X-Received: by 2002:adf:fe83:0:b0:363:341:1cf2 with SMTP id
+ ffacd0b85a97d-366e7a1bf24mr3680117f8f.22.1719243051993; 
+ Mon, 24 Jun 2024 08:30:51 -0700 (PDT)
+Received: from [127.0.1.1] (84-115-213-103.cable.dynamic.surfer.at.
+ [84.115.213.103]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-366383f65bcsm10300418f8f.13.2024.06.24.08.30.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jun 2024 08:27:43 -0700 (PDT)
-Date: Mon, 24 Jun 2024 18:27:41 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org, 
- benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com,
- jagan@edgeble.ai, neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
- dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/5] drm/panel: panel-jadard-jd9365da-h3: use wrapped
- MIPI DCS functions
-Message-ID: <zvkl2wyqp3iem4ln4qkbhgvxafsfn5wkkmqwhufabm2gqs3eqw@vmqs3lx72ekk>
-References: <20240624141926.5250-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240624141926.5250-4-lvzhaoxiong@huaqin.corp-partner.google.com>
+ Mon, 24 Jun 2024 08:30:51 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Date: Mon, 24 Jun 2024 17:30:50 +0200
+Subject: [PATCH] backlight: lm3509_bl: Fix early returns in
+ for_each_child_of_node()
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240624141926.5250-4-lvzhaoxiong@huaqin.corp-partner.google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240624-lm3509_bl_scoped-v1-1-ceba9df38f23@gmail.com>
+X-B4-Tracking: v=1; b=H4sIACmReWYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDMyMT3ZxcY1MDy/iknPji5PyC1BRdc1NLC+M0cwOjxNQUJaC2gqLUtMw
+ KsJHRsbW1AMX6te1iAAAA
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, 
+ Julia Lawall <julia.lawall@inria.fr>, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1719243050; l=1581;
+ i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
+ bh=Jkeimj0HklVuSImq8IB7VcmxLmbEpZozN1KItY60wHY=;
+ b=dLuEs9T9Fo7tpWo0a2PCCOune3MeuOXpQnuPNcFgGP/8HLubrH5V+/hb65u77OmE18D/kkEUv
+ dvDLEsZbEFgDtOpUEjJpH8cSXjKhih53IfobyhxwhHWOKeHvu0f7wWc
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,130 +93,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 24, 2024 at 10:19:24PM GMT, Zhaoxiong Lv wrote:
-> Remove conditional code and always use mipi_dsi_dcs_*multi() wrappers to
-> simplify driver's init/enable/exit code.
-> 
-> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-> ---
->  .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 793 +++++++++---------
->  1 file changed, 390 insertions(+), 403 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-> index a9c483a7b3fa..e836260338bf 100644
-> --- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-> +++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-> @@ -19,17 +19,13 @@
->  #include <linux/of.h>
->  #include <linux/regulator/consumer.h>
->  
-> -#define JD9365DA_INIT_CMD_LEN		2
-> -
-> -struct jadard_init_cmd {
-> -	u8 data[JD9365DA_INIT_CMD_LEN];
-> -};
-> +struct jadard;
->  
->  struct jadard_panel_desc {
->  	const struct drm_display_mode mode;
->  	unsigned int lanes;
->  	enum mipi_dsi_pixel_format format;
-> -	const struct jadard_init_cmd *init_cmds;
-> +	int (*init)(struct jadard *jadard);
->  	u32 num_init_cmds;
->  };
->  
-> @@ -50,46 +46,33 @@ static inline struct jadard *panel_to_jadard(struct drm_panel *panel)
->  
->  static int jadard_enable(struct drm_panel *panel)
->  {
-> -	struct device *dev = panel->dev;
->  	struct jadard *jadard = panel_to_jadard(panel);
-> -	struct mipi_dsi_device *dsi = jadard->dsi;
-> -	int err;
-> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = jadard->dsi };
->  
->  	msleep(120);
->  
-> -	err = mipi_dsi_dcs_exit_sleep_mode(dsi);
-> -	if (err < 0)
-> -		DRM_DEV_ERROR(dev, "failed to exit sleep mode ret = %d\n", err);
-> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
->  
-> -	err =  mipi_dsi_dcs_set_display_on(dsi);
-> -	if (err < 0)
-> -		DRM_DEV_ERROR(dev, "failed to set display on ret = %d\n", err);
-> +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
->  
-> -	return 0;
-> +	return dsi_ctx.accum_err;
->  }
->  
->  static int jadard_disable(struct drm_panel *panel)
->  {
-> -	struct device *dev = panel->dev;
->  	struct jadard *jadard = panel_to_jadard(panel);
-> -	int ret;
-> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = jadard->dsi };
->  
-> -	ret = mipi_dsi_dcs_set_display_off(jadard->dsi);
-> -	if (ret < 0)
-> -		DRM_DEV_ERROR(dev, "failed to set display off: %d\n", ret);
-> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
->  
-> -	ret = mipi_dsi_dcs_enter_sleep_mode(jadard->dsi);
-> -	if (ret < 0)
-> -		DRM_DEV_ERROR(dev, "failed to enter sleep mode: %d\n", ret);
-> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
->  
-> -	return 0;
-> +	return dsi_ctx.accum_err;
->  }
->  
->  static int jadard_prepare(struct drm_panel *panel)
->  {
->  	struct jadard *jadard = panel_to_jadard(panel);
-> -	const struct jadard_panel_desc *desc = jadard->desc;
-> -	unsigned int i;
->  	int ret;
->  
->  	ret = regulator_enable(jadard->vccio);
-> @@ -109,13 +92,9 @@ static int jadard_prepare(struct drm_panel *panel)
->  	gpiod_set_value(jadard->reset, 1);
->  	msleep(130);
->  
-> -	for (i = 0; i < desc->num_init_cmds; i++) {
-> -		const struct jadard_init_cmd *cmd = &desc->init_cmds[i];
-> -
-> -		ret = mipi_dsi_dcs_write_buffer(dsi, cmd->data, JD9365DA_INIT_CMD_LEN);
+The for_each_child_of_node() macro automatically decrements the child
+refcount at the end of every iteration. On early exits, of_node_put()
+must be used to manually decrement the refcount and avoid memory leaks.
 
-This function usesd mipi_dsi_dcs_write_buffer()...
+The scoped version of the macro accounts for such early breaks, fixing
+the early exits without the need for explicit calls to of_node_put().
 
-> -		if (ret < 0)
-> -			return ret;
-> -	}
-> +	ret = jadard->desc->init(jadard);
-> +	if (ret)
-> +		return ret;
->  
->  	return 0;
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@inria.fr>
+Closes: https://lore.kernel.org/r/202406172314.2vVgelaS-lkp@intel.com/
+Fixes: b72755f5b577 ("backlight: Add new lm3509 backlight driver")
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+---
+ drivers/video/backlight/lm3509_bl.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-[...]
+diff --git a/drivers/video/backlight/lm3509_bl.c b/drivers/video/backlight/lm3509_bl.c
+index c93cdedff5ad..7a36f5c08640 100644
+--- a/drivers/video/backlight/lm3509_bl.c
++++ b/drivers/video/backlight/lm3509_bl.c
+@@ -157,10 +157,9 @@ static int lm3509_parse_led_sources(struct device_node *node,
+ static int lm3509_parse_dt_node(struct device *dev,
+ 				struct lm3509_bl_led_data *led_data)
+ {
+-	struct device_node *child;
+ 	int seen_led_sources = 0;
+ 
+-	for_each_child_of_node(dev->of_node, child) {
++	for_each_child_of_node_scoped(dev->of_node, child) {
+ 		struct lm3509_bl_led_data *ld;
+ 		int ret;
+ 		u32 reg;
 
-> +static int radxa_display_8hd_ad002_init_cmds(struct jadard *jadard)
-> +{
-> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = jadard->dsi };
-> +
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE0, 0x00);
+---
+base-commit: f76698bd9a8ca01d3581236082d786e9a6b72bb7
+change-id: 20240624-lm3509_bl_scoped-75983f702aed
 
-... while your code uses mipi_dsi_dcs_write_seq_multi(), which
-internally calls mipi_dsi_generic_write_multi(). These two function use
-different packet types to send the payload. To be conservatite, please
-use mipi_dsi_dcs_write_buffer_multi().
-
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE1, 0x93);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xE2, 0x65);
-
+Best regards,
 -- 
-With best wishes
-Dmitry
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
+
