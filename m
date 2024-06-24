@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5A2914325
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 09:06:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D5D91434B
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 09:13:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BEA610E360;
-	Mon, 24 Jun 2024 07:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4F9E10E370;
+	Mon, 24 Jun 2024 07:13:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VJyJa5MV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aOig9HBT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6070F10E360
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 07:05:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9616710E04F
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 07:13:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1719212727; x=1750748727;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=mwX/Ut3liG+2eL4EiqMYYCOWpRlKdeioXbS3wyxFBs0=;
- b=VJyJa5MVnpZhsu29nt2ND2g5LH2RcIKnTlPTynBimVIpqsFr926XQene
- PRCGAdPhziR5brGblQKzab4+EMnmA86ZSVVty/21UPgOOMVtKAJ6lTV9y
- FSo2wr4NckuGuVAM4sYEyC7bCCm5SlciIFzfsIjHq7qGwnLFsbWo2QLO5
- nmkpGPW2PXENc3tElnL4WjPW3M1rHB5fLNBAVQTuP7Vta2tEzrMvY3YvR
- NLYAkMdMtYDjxf31WhXIe0KGd1vwGb+DCsGd++SFBGpztRnqAHPnc23eP
- JYYOI22kS3wJ6LXXmw/ZVtBEiQDg/kh+gVoTTtyr+IvRehea6l0NHeY4z w==;
-X-CSE-ConnectionGUID: +wVAV1CsQaaJfwwf41pOmA==
-X-CSE-MsgGUID: /oH6bDXoSkCFb3/wj8QKYg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="16134989"
-X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; d="scan'208";a="16134989"
+ t=1719213231; x=1750749231;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=I+dZWampZuXVH7B9szmu8Cai59OscXK0+5Mtan3DVJw=;
+ b=aOig9HBTWkK34UTg5Mw8TETEgPUPClgzxtsZY8rGChP3K64/0mx5v19p
+ ZxB/VR1gvkCPFX9uUHwU7YX+Chyt8NLB9+lKuzznT9NUg8yzJU5RJXm5G
+ WcEZXgYnIeqvkyjj/LXxq3lZZJIxNVGrijtfu05AVJ7+bjGdo2rNQgZ5x
+ PdzwJ3963YtmwCkh3c9EdWCgLjRfG9Me0K78wN7SrzideBox7zqt5G0lg
+ 7Abc9+XjYN/mIeoqWyBnpEYx5gDlZvyTDdOA5wwuYXIeAJ6OpR2zazQZD
+ kHlQ01VvGDzvB4LPJPtljHOenjdLi6whHBlM7CAQXen9oukqntswPSoyK g==;
+X-CSE-ConnectionGUID: 3NKTyx92S5+06NK60nb/Og==
+X-CSE-MsgGUID: smg876AgQnWWc60C123feg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="16136014"
+X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; d="scan'208";a="16136014"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2024 00:05:27 -0700
-X-CSE-ConnectionGUID: r8OaYolhSbGcZ+TgCa9tdA==
-X-CSE-MsgGUID: WyAqrCRFRzW+3jfsoMu6/A==
+ 24 Jun 2024 00:13:51 -0700
+X-CSE-ConnectionGUID: Bp2eSwmbSQC35+nAvXTy1w==
+X-CSE-MsgGUID: 9DZ/S5WUSkCTbQymB2vKwA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; d="scan'208";a="73955893"
+X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; d="scan'208";a="73960053"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2024 00:05:26 -0700
+ 24 Jun 2024 00:13:49 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>, Shuah Khan <shuah@kernel.org>,
- David Hildenbrand <david@redhat.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>,
- Peter Xu <peterx@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
+To: dri-devel@lists.freedesktop.org
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>,
- Junxiao Chang <junxiao.chang@intel.com>, linux-kselftest@vger.kernel.org,
- Mike Kravetz <mike.kravetz@oracle.com>, Dave Airlie <airlied@redhat.com>
-Subject: [PATCH v16 9/9] selftests/udmabuf: Add tests to verify data after
- page migration
-Date: Sun, 23 Jun 2024 23:36:17 -0700
-Message-ID: <20240624063952.1572359-10-vivek.kasireddy@intel.com>
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Rob Clark <robdclark@gmail.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Michael Tretter <m.tretter@pengutronix.de>
+Subject: [PATCH v1 0/5] drm/virtio: Import scanout buffers from other devices
+Date: Sun, 23 Jun 2024 23:43:29 -0700
+Message-ID: <20240624064841.1572452-1-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240624063952.1572359-1-vivek.kasireddy@intel.com>
-References: <20240624063952.1572359-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,328 +75,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the memfd pages associated with a udmabuf may be migrated
-as part of udmabuf create, we need to verify the data coherency
-after successful migration. The new tests added in this patch try
-to do just that using 4k sized pages and also 2 MB sized huge
-pages for the memfd.
+Having virtio-gpu import scanout buffers (via prime) from other
+devices means that we'd be adding a head to headless GPUs assigned
+to a Guest VM or additional heads to regular GPU devices that are
+passthrough'd to the Guest. In these cases, the Guest compositor
+can render into the scanout buffer using a primary GPU and has the
+secondary GPU (virtio-gpu) import it for display purposes.
 
-Successful completion of the tests would mean that there is no
-disconnect between the memfd pages and the ones associated with
-a udmabuf. And, these tests can also be augmented in the future
-to test newer udmabuf features (such as handling memfd hole punch).
+The main advantage with this is that the imported scanout buffer can
+either be displayed locally on the Host (e.g, using Qemu + GTK UI)
+or encoded and streamed to a remote client (e.g, Qemu + Spice UI).
+Note that since Qemu uses udmabuf driver, there would be no copies
+made of the scanout buffer as it is displayed. This should be
+possible even when it might reside in device memory such has VRAM.
 
-The idea for these tests comes from a patch by Mike Kravetz here:
-https://lists.freedesktop.org/archives/dri-devel/2023-June/410623.html
+The specific use-case that can be supported with this series is when
+running Weston or other guest compositors with "additional-devices"
+feature (./weston --drm-device=card1 --additional-devices=card0).
+More info about this feature can be found at:
+https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/736
 
-v1->v2: (suggestions from Shuah)
-- Use ksft_* functions to print and capture results of tests
-- Use appropriate KSFT_* status codes for exit()
-- Add Mike Kravetz's suggested-by tag
+In the above scenario, card1 could be a dGPU or an iGPU and card0
+would be virtio-gpu in KMS only mode. However, the case where this
+patch series could be particularly useful is when card1 is a GPU VF
+that needs to share its scanout buffer (in a zero-copy way) with the
+GPU PF on the Host. Or, it can also be useful when the scanout buffer
+needs to be shared between any two GPU devices (assuming one of them
+is assigned to a Guest VM) as long as they are P2P DMA compatible.
 
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Hugh Dickins <hughd@google.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>
+As part of the import, the virtio-gpu driver shares the dma
+addresses and lengths with Qemu which then determines whether the
+memory region they belong to is owned by a VFIO device or whether it
+is part of the Guest's system ram. If it is the former, it uses the
+VFIO_DEVICE_FEATURE_DMA_BUF feature flag while invoking the ioctl
+against the VFIO device fd and gets a dmabuf fd in return. In the
+latter case, Qemu obtains the dmabuf fd using the udmabuf driver.
+
+Note that the virtio-gpu driver registers a move_notify() callback
+to track location changes associated with the scanout buffer and
+sends attach/detach backing cmds to Qemu when appropriate. And,
+synchronization (that is, ensuring that Guest and Host are not
+using the scanout buffer at the same time) is ensured by pinning/
+unpinning the dmabuf as part of prepare/cleanup fb and using a
+fence in resource_flush cmd. 
+
+Changelog:
+
+RFC -> v1:
+- Use virtio_gpu_cleanup_object() to cleanup the imported obj
+- Do pin/unpin as part of prepare and cleanup fb for the imported
+  dmabuf obj instead doing it as part of plane update
+- Tested with gnome-shell/mutter (wayland backend)
+
+This series is available at:
+https://gitlab.freedesktop.org/Vivek/drm-tip/-/commits/virtgpu_import_v1
+
+along with additional patches for Qemu and Spice here:
+https://gitlab.freedesktop.org/Vivek/qemu/-/commits/vfio_dmabuf_2
+https://gitlab.freedesktop.org/Vivek/spice/-/commits/encode_dmabuf_v8
+
+Patchset overview:
+
+Patch 1:   Implement VIRTIO_GPU_CMD_RESOURCE_DETACH_BACKING cmd
+Patch 2-3: Helpers to initalize, import, free imported object
+Patch 4-5: Import and use buffers from other devices for scanout
+
+This series is tested using the following method:
+- Run Qemu with the following relevant options:
+  qemu-system-x86_64 -m 4096m ....
+  -device vfio-pci,host=0000:03:00.0
+  -device virtio-vga,max_outputs=1,blob=true,xres=1920,yres=1080
+  -spice port=3001,gl=on,disable-ticketing=on,preferred-codec=gstreamer:h264
+  -object memory-backend-memfd,id=mem1,size=4096M
+  -machine memory-backend=mem1 ...
+- Run upstream Weston with the following options in the Guest VM:
+  ./weston --drm-device=card1 --additional-devices=card0
+- Run gnome-shell/Mutter (wayland backend) with this additional patch:
+  https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3745
+
+where card1 is a DG2 dGPU (passthrough'd and using xe driver in Guest VM),
+card0 is virtio-gpu and the Host is using a RPL iGPU.
+
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Dongwon Kim <dongwon.kim@intel.com>
-Cc: Junxiao Chang <junxiao.chang@intel.com>
-Cc: linux-kselftest@vger.kernel.org
-Suggested-by: Mike Kravetz <mike.kravetz@oracle.com>
-Acked-by: Dave Airlie <airlied@redhat.com>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- .../selftests/drivers/dma-buf/udmabuf.c       | 214 +++++++++++++++---
- 1 file changed, 183 insertions(+), 31 deletions(-)
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Michael Tretter <m.tretter@pengutronix.de>
 
-diff --git a/tools/testing/selftests/drivers/dma-buf/udmabuf.c b/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-index c812080e304e..6062723a172e 100644
---- a/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-+++ b/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-@@ -9,52 +9,162 @@
- #include <errno.h>
- #include <fcntl.h>
- #include <malloc.h>
-+#include <stdbool.h>
- 
- #include <sys/ioctl.h>
- #include <sys/syscall.h>
-+#include <sys/mman.h>
- #include <linux/memfd.h>
- #include <linux/udmabuf.h>
-+#include "../../kselftest.h"
- 
- #define TEST_PREFIX	"drivers/dma-buf/udmabuf"
- #define NUM_PAGES       4
-+#define NUM_ENTRIES     4
-+#define MEMFD_SIZE      1024 /* in pages */
- 
--static int memfd_create(const char *name, unsigned int flags)
-+static unsigned int page_size;
-+
-+static int create_memfd_with_seals(off64_t size, bool hpage)
-+{
-+	int memfd, ret;
-+	unsigned int flags = MFD_ALLOW_SEALING;
-+
-+	if (hpage)
-+		flags |= MFD_HUGETLB;
-+
-+	memfd = memfd_create("udmabuf-test", flags);
-+	if (memfd < 0) {
-+		ksft_print_msg("%s: [skip,no-memfd]\n", TEST_PREFIX);
-+		exit(KSFT_SKIP);
-+	}
-+
-+	ret = fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK);
-+	if (ret < 0) {
-+		ksft_print_msg("%s: [skip,fcntl-add-seals]\n", TEST_PREFIX);
-+		exit(KSFT_SKIP);
-+	}
-+
-+	ret = ftruncate(memfd, size);
-+	if (ret == -1) {
-+		ksft_print_msg("%s: [FAIL,memfd-truncate]\n", TEST_PREFIX);
-+		exit(KSFT_FAIL);
-+	}
-+
-+	return memfd;
-+}
-+
-+static int create_udmabuf_list(int devfd, int memfd, off64_t memfd_size)
-+{
-+	struct udmabuf_create_list *list;
-+	int ubuf_fd, i;
-+
-+	list = malloc(sizeof(struct udmabuf_create_list) +
-+		      sizeof(struct udmabuf_create_item) * NUM_ENTRIES);
-+	if (!list) {
-+		ksft_print_msg("%s: [FAIL, udmabuf-malloc]\n", TEST_PREFIX);
-+		exit(KSFT_FAIL);
-+	}
-+
-+	for (i = 0; i < NUM_ENTRIES; i++) {
-+		list->list[i].memfd  = memfd;
-+		list->list[i].offset = i * (memfd_size / NUM_ENTRIES);
-+		list->list[i].size   = getpagesize() * NUM_PAGES;
-+	}
-+
-+	list->count = NUM_ENTRIES;
-+	list->flags = UDMABUF_FLAGS_CLOEXEC;
-+	ubuf_fd = ioctl(devfd, UDMABUF_CREATE_LIST, list);
-+	free(list);
-+	if (ubuf_fd < 0) {
-+		ksft_print_msg("%s: [FAIL, udmabuf-create]\n", TEST_PREFIX);
-+		exit(KSFT_FAIL);
-+	}
-+
-+	return ubuf_fd;
-+}
-+
-+static void write_to_memfd(void *addr, off64_t size, char chr)
-+{
-+	int i;
-+
-+	for (i = 0; i < size / page_size; i++) {
-+		*((char *)addr + (i * page_size)) = chr;
-+	}
-+}
-+
-+static void *mmap_fd(int fd, off64_t size)
- {
--	return syscall(__NR_memfd_create, name, flags);
-+	void *addr;
-+
-+	addr = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
-+	if (addr == MAP_FAILED) {
-+		ksft_print_msg("%s: ubuf_fd mmap fail\n", TEST_PREFIX);
-+		exit(KSFT_FAIL);
-+	}
-+
-+	return addr;
-+}
-+
-+static int compare_chunks(void *addr1, void *addr2, off64_t memfd_size)
-+{
-+	off64_t off;
-+	int i = 0, j, k = 0, ret = 0;
-+	char char1, char2;
-+
-+	while (i < NUM_ENTRIES) {
-+		off = i * (memfd_size / NUM_ENTRIES);
-+		for (j = 0; j < NUM_PAGES; j++, k++) {
-+			char1 = *((char *)addr1 + off + (j * getpagesize()));
-+			char2 = *((char *)addr2 + (k * getpagesize()));
-+			if (char1 != char2) {
-+				ret = -1;
-+				goto err;
-+			}
-+		}
-+		i++;
-+	}
-+err:
-+	munmap(addr1, memfd_size);
-+	munmap(addr2, NUM_ENTRIES * NUM_PAGES * getpagesize());
-+	return ret;
- }
- 
- int main(int argc, char *argv[])
- {
- 	struct udmabuf_create create;
- 	int devfd, memfd, buf, ret;
--	off_t size;
--	void *mem;
-+	off64_t size;
-+	void *addr1, *addr2;
-+
-+	ksft_print_header();
-+	ksft_set_plan(6);
- 
- 	devfd = open("/dev/udmabuf", O_RDWR);
- 	if (devfd < 0) {
--		printf("%s: [skip,no-udmabuf: Unable to access DMA buffer device file]\n",
--		       TEST_PREFIX);
--		exit(77);
-+		ksft_print_msg(
-+			"%s: [skip,no-udmabuf: Unable to access DMA buffer device file]\n",
-+			TEST_PREFIX);
-+		exit(KSFT_SKIP);
- 	}
- 
- 	memfd = memfd_create("udmabuf-test", MFD_ALLOW_SEALING);
- 	if (memfd < 0) {
--		printf("%s: [skip,no-memfd]\n", TEST_PREFIX);
--		exit(77);
-+		ksft_print_msg("%s: [skip,no-memfd]\n", TEST_PREFIX);
-+		exit(KSFT_SKIP);
- 	}
- 
- 	ret = fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK);
- 	if (ret < 0) {
--		printf("%s: [skip,fcntl-add-seals]\n", TEST_PREFIX);
--		exit(77);
-+		ksft_print_msg("%s: [skip,fcntl-add-seals]\n", TEST_PREFIX);
-+		exit(KSFT_SKIP);
- 	}
- 
--
- 	size = getpagesize() * NUM_PAGES;
- 	ret = ftruncate(memfd, size);
- 	if (ret == -1) {
--		printf("%s: [FAIL,memfd-truncate]\n", TEST_PREFIX);
--		exit(1);
-+		ksft_print_msg("%s: [FAIL,memfd-truncate]\n", TEST_PREFIX);
-+		exit(KSFT_FAIL);
- 	}
- 
- 	memset(&create, 0, sizeof(create));
-@@ -64,44 +174,86 @@ int main(int argc, char *argv[])
- 	create.offset = getpagesize()/2;
- 	create.size   = getpagesize();
- 	buf = ioctl(devfd, UDMABUF_CREATE, &create);
--	if (buf >= 0) {
--		printf("%s: [FAIL,test-1]\n", TEST_PREFIX);
--		exit(1);
--	}
-+	if (buf >= 0)
-+		ksft_test_result_fail("%s: [FAIL,test-1]\n", TEST_PREFIX);
-+	else
-+		ksft_test_result_pass("%s: [PASS,test-1]\n", TEST_PREFIX);
- 
- 	/* should fail (size not multiple of page) */
- 	create.memfd  = memfd;
- 	create.offset = 0;
- 	create.size   = getpagesize()/2;
- 	buf = ioctl(devfd, UDMABUF_CREATE, &create);
--	if (buf >= 0) {
--		printf("%s: [FAIL,test-2]\n", TEST_PREFIX);
--		exit(1);
--	}
-+	if (buf >= 0)
-+		ksft_test_result_fail("%s: [FAIL,test-2]\n", TEST_PREFIX);
-+	else
-+		ksft_test_result_pass("%s: [PASS,test-2]\n", TEST_PREFIX);
- 
- 	/* should fail (not memfd) */
- 	create.memfd  = 0; /* stdin */
- 	create.offset = 0;
- 	create.size   = size;
- 	buf = ioctl(devfd, UDMABUF_CREATE, &create);
--	if (buf >= 0) {
--		printf("%s: [FAIL,test-3]\n", TEST_PREFIX);
--		exit(1);
--	}
-+	if (buf >= 0)
-+		ksft_test_result_fail("%s: [FAIL,test-3]\n", TEST_PREFIX);
-+	else
-+		ksft_test_result_pass("%s: [PASS,test-3]\n", TEST_PREFIX);
- 
- 	/* should work */
-+	page_size = getpagesize();
-+	addr1 = mmap_fd(memfd, size);
-+	write_to_memfd(addr1, size, 'a');
- 	create.memfd  = memfd;
- 	create.offset = 0;
- 	create.size   = size;
- 	buf = ioctl(devfd, UDMABUF_CREATE, &create);
--	if (buf < 0) {
--		printf("%s: [FAIL,test-4]\n", TEST_PREFIX);
--		exit(1);
--	}
-+	if (buf < 0)
-+		ksft_test_result_fail("%s: [FAIL,test-4]\n", TEST_PREFIX);
-+	else
-+		ksft_test_result_pass("%s: [PASS,test-4]\n", TEST_PREFIX);
-+
-+	munmap(addr1, size);
-+	close(buf);
-+	close(memfd);
-+
-+	/* should work (migration of 4k size pages)*/
-+	size = MEMFD_SIZE * page_size;
-+	memfd = create_memfd_with_seals(size, false);
-+	addr1 = mmap_fd(memfd, size);
-+	write_to_memfd(addr1, size, 'a');
-+	buf = create_udmabuf_list(devfd, memfd, size);
-+	addr2 = mmap_fd(buf, NUM_PAGES * NUM_ENTRIES * getpagesize());
-+	write_to_memfd(addr1, size, 'b');
-+	ret = compare_chunks(addr1, addr2, size);
-+	if (ret < 0)
-+		ksft_test_result_fail("%s: [FAIL,test-5]\n", TEST_PREFIX);
-+	else
-+		ksft_test_result_pass("%s: [PASS,test-5]\n", TEST_PREFIX);
-+
-+	close(buf);
-+	close(memfd);
-+
-+	/* should work (migration of 2MB size huge pages)*/
-+	page_size = getpagesize() * 512; /* 2 MB */
-+	size = MEMFD_SIZE * page_size;
-+	memfd = create_memfd_with_seals(size, true);
-+	addr1 = mmap_fd(memfd, size);
-+	write_to_memfd(addr1, size, 'a');
-+	buf = create_udmabuf_list(devfd, memfd, size);
-+	addr2 = mmap_fd(buf, NUM_PAGES * NUM_ENTRIES * getpagesize());
-+	write_to_memfd(addr1, size, 'b');
-+	ret = compare_chunks(addr1, addr2, size);
-+	if (ret < 0)
-+		ksft_test_result_fail("%s: [FAIL,test-6]\n", TEST_PREFIX);
-+	else
-+		ksft_test_result_pass("%s: [PASS,test-6]\n", TEST_PREFIX);
- 
--	fprintf(stderr, "%s: ok\n", TEST_PREFIX);
- 	close(buf);
- 	close(memfd);
- 	close(devfd);
-+
-+	ksft_print_msg("%s: ok\n", TEST_PREFIX);
-+	ksft_print_cnts();
-+
- 	return 0;
- }
+Vivek Kasireddy (5):
+  drm/virtio: Implement VIRTIO_GPU_CMD_RESOURCE_DETACH_BACKING cmd
+  drm/virtio: Add a helper to map and note the dma addrs and lengths
+  drm/virtio: Add helpers to initialize and free the imported object
+  drm/virtio: Import prime buffers from other devices as guest blobs
+  drm/virtio: Add prepare and cleanup routines for imported dmabuf obj
+
+ drivers/gpu/drm/virtio/virtgpu_drv.h    |   7 +
+ drivers/gpu/drm/virtio/virtgpu_object.c |   3 +
+ drivers/gpu/drm/virtio/virtgpu_plane.c  |  71 +++++++++-
+ drivers/gpu/drm/virtio/virtgpu_prime.c  | 171 +++++++++++++++++++++++-
+ drivers/gpu/drm/virtio/virtgpu_vq.c     |  15 +++
+ 5 files changed, 265 insertions(+), 2 deletions(-)
+
 -- 
 2.45.1
 
