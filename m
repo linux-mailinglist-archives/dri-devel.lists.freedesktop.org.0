@@ -2,93 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6FBD9145EA
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:11:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 565679145FE
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:15:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B43B010E3C3;
-	Mon, 24 Jun 2024 09:11:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90CD110E3C5;
+	Mon, 24 Jun 2024 09:15:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HiQVpa3r";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="DbgeLSBC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D249910E3C3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:11:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1719220304;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ErgW8/xgdLyfmI5cJrGORyHP2zU+pAlRQp1PB0ZkxTk=;
- b=HiQVpa3rK8mqC23q+TsrjdLOOKVZzUk1Mqga6DgJsuDGv2DtjiBCuMYNW+9eZvhDTr14rM
- lUQ1B5ttiTHpaTvoyAOrWVFUv4MF5FaJhipswRj/Nk4Kn752/4j3GRug0Hohhw6gf0Fo8z
- d/PgVjJFQUmjdOxA2/D7mfYxwTD1xG0=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-479-P4EeieGjOcufdrjL44xfuQ-1; Mon, 24 Jun 2024 05:11:43 -0400
-X-MC-Unique: P4EeieGjOcufdrjL44xfuQ-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-a725c45ab1dso26869666b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 02:11:43 -0700 (PDT)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC9510E3C5
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:15:01 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-3635f991f4bso304925f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 02:15:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1719220499; x=1719825299; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=zIgCiOqDZxFI2uuCBgUiRtGa74MvVm/3sP1dkMWF9cM=;
+ b=DbgeLSBCmcTI8X/7XdAX63WmzdfsHOYUlpZIraqH3LiTg+OqbPfMppBDHpYJKH39Ur
+ FnqYbB2cvJI+psHRu2Gu6VP18P72tVhLYzw5R9ryl3OGD2Pf+aEezu2A9YIOiBlxolic
+ IR7ff/Q7sUFQ/HE224WE+MzSpiOUcHIdfzAr4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719220302; x=1719825102;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1719220499; x=1719825299;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ErgW8/xgdLyfmI5cJrGORyHP2zU+pAlRQp1PB0ZkxTk=;
- b=ejPKuGmwkdRemAk+9iXA6L8UfgU2fE558u8wyFzO9rpXiunlyUNHS0R0Mtz8GQj2PJ
- MeOssZ5aEpMPXgVNvOR/g8SjsTDrmrbyYCO/LT8TxH/VnBiJmFgOSZLdv633gQXvWJ/v
- 6e1qyTTWWOe94h6VpPs1j6clUyZDnvA4/mmv/ln/Z541B9nLsKg/GhK3HRih+PN/4eyz
- 41/w1Hm7lpjLyO2XnMqg7OaVGeWodRjYi6mXHz35Ofl9u6TVFc1P5lXABe+z2z9OKPkq
- i33Fv44qi4ssshe0aCpz/VKXhYMcHik4ZClPLxAy4b9BDRkMX+RXXcSzrEtUx0xSjnOA
- TOxA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXo50JWjopENReZTz18ilg6On4IJa2CMCF54kIePjh+lCGimaSpyd6DbClNGJRWX7M7Tz+0QfJ9MYbBkV14UI1yK+PqA3pPLEdaXIw2Pf5B
-X-Gm-Message-State: AOJu0YxNHO2bh+YNuZaWkaoA/GK6KhjdJw+mmu2LBdpkay1V7VPY1Dqv
- kBzCFk97BX5E0Cvd8mNN2/CW7p6jfzNHQLdjqDG2DJqAW1HUcFCKuTvkL7RU2ql1U15J2DmwHg2
- C0ZuXaLfjER+jVjbltuHNrz9vI21v2EU7+WA5cuwXLTZMjhzxmDq1MgUXvJNTcLdARw==
-X-Received: by 2002:a17:907:a4c7:b0:a6f:e529:adb5 with SMTP id
- a640c23a62f3a-a7242cda444mr308028466b.59.1719220302088; 
- Mon, 24 Jun 2024 02:11:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFpXhX65y/eEgnqmxmhrILCZeKBPWwjJ3mqC0cJrNbEb9IYgalqCzN12PcHySrt/9UUtCFQLQ==
-X-Received: by 2002:a17:907:a4c7:b0:a6f:e529:adb5 with SMTP id
- a640c23a62f3a-a7242cda444mr308025766b.59.1719220301659; 
- Mon, 24 Jun 2024 02:11:41 -0700 (PDT)
-Received: from [10.40.98.157] ([78.108.130.194])
+ bh=zIgCiOqDZxFI2uuCBgUiRtGa74MvVm/3sP1dkMWF9cM=;
+ b=Vmf2Mt4KXRElVLugY2Rk8KQJJzWuyrM/UNrNPl7vo+kHuKnVG3N1M1vLht3FKUEuNc
+ Xalm4Wscm3gdV7TXPCftJKhkRZGnCDiNnrQR8hseCW9qNcqqet4GrLvvPIRcEE5iRqYq
+ mSQyn3t6mh7DS+KIpk/C/o6QnJ/Tlbv5hvdxxPmjad/+BQpcbrX4sDAGZP5+H5JsavPZ
+ sw6Iq3W46HOPmy8J2YF/8lqwyORDibe+65w8U2KkkceejXLHmIcL9zqZd83Lu9fXlvQH
+ X0IT57XgoK6VNGBjuEtJvAz+V7DnA5HaMUmpczRlgiyLGuNeU622gQ4BsMPhBVk4dl+J
+ /nHg==
+X-Gm-Message-State: AOJu0Yyo0jX4ZgMYwbb3LXUXEufgPwwQFIRqIiFjIQHJnFqMFLdTxLqe
+ gxTklGnrqoGCINRFU8Q/Nv+qN1tqPZxNzqzQTwN0LDIBhtIx4UGNd2j3sFoVRpY=
+X-Google-Smtp-Source: AGHT+IFp+gzewBfv8ZGNLpZ6eWuC39255ypBFHO9aEPFtXIzE2KwI67dNJaxBx7/okIjDFlh9K0O5A==
+X-Received: by 2002:a05:6000:186e:b0:360:89ff:350f with SMTP id
+ ffacd0b85a97d-366dfa3bb87mr4226535f8f.5.1719220499230; 
+ Mon, 24 Jun 2024 02:14:59 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a7261f7ffa1sm3818666b.67.2024.06.24.02.11.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jun 2024 02:11:41 -0700 (PDT)
-Message-ID: <e61010e4-cb49-44d6-8f0d-044a193d29b2@redhat.com>
-Date: Mon, 24 Jun 2024 11:11:40 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] drm: backlight quirk infrastructure and lower
- minimum for Framework AMD 13
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ ffacd0b85a97d-3663a2f694asm9470240f8f.77.2024.06.24.02.14.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jun 2024 02:14:58 -0700 (PDT)
+Date: Mon, 24 Jun 2024 11:14:56 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Matt Hartley <matt.hartley@gmail.com>, Kieran Levin <ktl@framework.net>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>
-References: <20240623-amdgpu-min-backlight-quirk-v2-0-cecf7f49da9b@weissschuh.net>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240623-amdgpu-min-backlight-quirk-v2-0-cecf7f49da9b@weissschuh.net>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 01/11] drm/rockchip: cdn-dp: get rid of drm_edid_raw()
+Message-ID: <Znk5EHomvrTSw7Vd@phenom.ffwll.local>
+References: <cover.1715691257.git.jani.nikula@intel.com>
+ <d0807fbde7b0bd06ebfcb5df5c3b1cdad4c4ef84.1715691257.git.jani.nikula@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <d0807fbde7b0bd06ebfcb5df5c3b1cdad4c4ef84.1715691257.git.jani.nikula@intel.com>
+X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,111 +86,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
-
-On 6/23/24 10:51 AM, Thomas Weißschuh wrote:
-> The value of "min_input_signal" returned from ATIF on a Framework AMD 13
-> is "12". This leads to a fairly bright minimum display backlight.
+On Tue, May 14, 2024 at 03:55:07PM +0300, Jani Nikula wrote:
+> The dimensions are available in display info, so there's no need for raw
+> EDID access. While at it, move the debug logging to where the EDID is
+> actually read.
 > 
-> Add a generic quirk infrastructure for backlight configuration to
-> override the settings provided by the firmware.
-> Also add amdgpu as a user of that infrastructure and a quirk for the
-> Framework 13 matte panel.
-> Most likely this will also work for the glossy panel, but I can't test
-> that.
-> 
-> One solution would be a fixed firmware version, but given that the
-> problem exists since the release of the hardware, it has been known for
-> a month that the hardware can go lower and there was no acknowledgment
-> from Framework in any way, I'd like to explore this alternative
-> way forward.
-
-There are many panels where the brightness can go lower then the advertised
-minimum brightness by the firmware (e.g. VBT for i915). For most users
-the minimum brightness is fine, especially since going lower often may lead
-to an unreadable screen when indoors (not in the full sun) during daylight
-hours. And some users get confused by the unreadable screen and find it
-hard to recover things from this state.
-
-So IMHO we should not be overriding the minimum brightness from the firmware
-using quirks because:
-
-a) This is going to be an endless game of whack-a-mole
-b) The new value may be too low for certain users / use-cases
-
-With that said I realize that there are also many users who want to have
-a lower minimum brightness value for use in the evening, since they find
-the available minimum value still too bright. I know some people want this
-for e.g. various ThinkPad models too.
-
-So rather then quirking this, with the above mentioned disadvantages I believe
-that it would be better to extend the existing video=eDP-1:.... kernel
-commandline parsing to allow overriding the minimum brightness in a driver
-agnostic way.
-
-The minimum brightness override set this way will still need hooking up
-in each driver separately but by using the video=eDP-1:... mechanism
-we can document how to do this in driver independent manner. since
-I know there have been multiple requests for something like this in
-the past I believe that having a single uniform way for users to do this
-will be good.
-
-Alternatively we could have each driver have a driver specific module-
-parameter for this. Either way I think we need some way for users to
-override this as a config/setting tweak rather then use quirks for this.
-
-Regards,
-
-Hans
-
-
-
-
-
-
-> 
-> Notes:
-> 
-> * Should the quirk infrastructure be part of drm_edid.c?
-> * The current allocation of struct drm_edid in amdgpu is bad.
->   But it is done the same way in other parts of amdgpu.
->   I do have patches migrating amdgpu to proper usage of struct drm_edid [0]
-> 
-> Mario:
-> 
-> I intentionally left out the consideration of the firmware version.
-> The quirk will stay correct even if the firmware starts reporting
-> correct values.
-> If there are strong opinions it would be easy to add, though.
-> 
-> Based on amdgpu/drm-next.
-> 
-> [0] https://lore.kernel.org/lkml/20240616-amdgpu-edid-bios-v1-1-2874f212b365@weissschuh.net/
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > 
 > ---
-> Changes in v2:
-> - Introduce proper drm backlight quirk infrastructure
-> - Quirk by EDID and DMI instead of only DMI
-> - Limit quirk to only single Framework 13 matte panel
-> - Link to v1: https://lore.kernel.org/r/20240610-amdgpu-min-backlight-quirk-v1-1-8459895a5b2a@weissschuh.net
 > 
-> ---
-> Thomas Weißschuh (3):
->       drm: Add panel backlight quirks
->       drm: panel-backlight-quirks: Add Framework 13 matte panel
->       drm/amd/display: Add support backlight quirks
-> 
->  Documentation/gpu/drm-kms-helpers.rst             |  3 +
->  drivers/gpu/drm/Kconfig                           |  4 ++
->  drivers/gpu/drm/Makefile                          |  1 +
->  drivers/gpu/drm/amd/amdgpu/Kconfig                |  1 +
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 28 +++++++++
->  drivers/gpu/drm/drm_panel_backlight_quirks.c      | 76 +++++++++++++++++++++++
->  include/drm/drm_utils.h                           | 11 ++++
->  7 files changed, 124 insertions(+)
-> ---
-> base-commit: 1ecef5589320fd56af599b624d59c355d162ac7b
-> change-id: 20240610-amdgpu-min-backlight-quirk-8402fd8e736a
-> 
-> Best regards,
+> Cc: Sandy Huang <hjc@rock-chips.com>
+> Cc: "Heiko St�bner" <heiko@sntech.de>
+> Cc: Andy Yan <andy.yan@rock-chips.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-rockchip@lists.infradead.org
 
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> ---
+>  drivers/gpu/drm/rockchip/cdn-dp-core.c | 16 ++++++----------
+>  1 file changed, 6 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+> index bd7aa891b839..90913fa26aad 100644
+> --- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
+> +++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+> @@ -266,15 +266,6 @@ static int cdn_dp_connector_get_modes(struct drm_connector *connector)
+>  
+>  	mutex_lock(&dp->lock);
+>  
+> -	if (dp->drm_edid) {
+> -		/* FIXME: get rid of drm_edid_raw() */
+> -		const struct edid *edid = drm_edid_raw(dp->drm_edid);
+> -
+> -		DRM_DEV_DEBUG_KMS(dp->dev, "got edid: width[%d] x height[%d]\n",
+> -				  edid->width_cm, edid->height_cm);
+> -
+> -	}
+> -
+>  	ret = drm_edid_connector_add_modes(connector);
+>  
+>  	mutex_unlock(&dp->lock);
+> @@ -369,6 +360,7 @@ static int cdn_dp_firmware_init(struct cdn_dp_device *dp)
+>  
+>  static int cdn_dp_get_sink_capability(struct cdn_dp_device *dp)
+>  {
+> +	const struct drm_display_info *info = &dp->connector.display_info;
+>  	int ret;
+>  
+>  	if (!cdn_dp_check_sink_connection(dp))
+> @@ -386,7 +378,11 @@ static int cdn_dp_get_sink_capability(struct cdn_dp_device *dp)
+>  					    cdn_dp_get_edid_block, dp);
+>  	drm_edid_connector_update(&dp->connector, dp->drm_edid);
+>  
+> -	dp->sink_has_audio = dp->connector.display_info.has_audio;
+> +	dp->sink_has_audio = info->has_audio;
+> +
+> +	if (dp->drm_edid)
+> +		DRM_DEV_DEBUG_KMS(dp->dev, "got edid: width[%d] x height[%d]\n",
+> +				  info->width_mm / 10, info->height_mm / 10);
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.39.2
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
