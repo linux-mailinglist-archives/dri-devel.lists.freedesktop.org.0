@@ -2,65 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E6CD9145E0
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:06:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C1229145E3
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:10:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4714F10E3C1;
-	Mon, 24 Jun 2024 09:06:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 419B210E3C0;
+	Mon, 24 Jun 2024 09:10:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xp/WYfN9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XLuZubXg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 830D510E3C0;
- Mon, 24 Jun 2024 09:06:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1719219995; x=1750755995;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=UeI0V2I/4AlMgFDCbvikPtnGEyBLiuTqh4Iv0y/8qoQ=;
- b=Xp/WYfN9FOoviD91vopSCQHQ7ZWlx5mhQ//0CPzjzxUjgobUdAqjPEMl
- 0WlgWH2Di/Onk7UHygsoKBIrQoh57ym3IumfS71fHawoF/OTDn0X914e7
- xhES+6bffSUdWHf6IGQYogIiMj4YKhPhaNoy0sBrhZRCn3VKok5s4ksgV
- C1mTMU2UqIALZ9vuzzkZFjtPMIbXGq76tX07yuDxL4FOHTfvUVFyBzLSc
- TejNvi3e3GEhSm50urOX4ZQpOaV2xVi+x4PFUpy8e8OJGBQNlRmv0vh+l
- i/1qFav4HQh4fRSW7enlMUmi/SQLf0Owx4Is5Tp/Z8uNpwvNb9cJeFZB0 g==;
-X-CSE-ConnectionGUID: vFUFLLF5RY6C2BMXwcjsCg==
-X-CSE-MsgGUID: 6lg4eIRBQa6ua6CfVjKHjw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="16147500"
-X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; d="scan'208";a="16147500"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2024 02:06:34 -0700
-X-CSE-ConnectionGUID: NwgVnq+ERruKgxOc/+hwFw==
-X-CSE-MsgGUID: CIL7Nn87RdWeVf5MJpgmHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; d="scan'208";a="80764462"
-Received: from oandoniu-mobl3.ger.corp.intel.com (HELO [10.245.244.144])
- ([10.245.244.144])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2024 02:06:32 -0700
-Message-ID: <9d6ba9d54f8c941094cd7f0975d20b90ec7f58a8.camel@linux.intel.com>
-Subject: Re: [PATCH v5 07/12] drm/ttm: Use the LRU walker for eviction
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: intel-xe@lists.freedesktop.org, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Somalapuram Amaranath
- <Amaranath.Somalapuram@amd.com>, dri-devel@lists.freedesktop.org
-Date: Mon, 24 Jun 2024 11:06:29 +0200
-In-Reply-To: <ZnNhIE6IhRuls2uA@DUT025-TGLU.fm.intel.com>
-References: <20240618071820.130917-1-thomas.hellstrom@linux.intel.com>
- <20240618071820.130917-8-thomas.hellstrom@linux.intel.com>
- <ZnNhIE6IhRuls2uA@DUT025-TGLU.fm.intel.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14D0310E3C0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:10:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D77BF60AD6;
+ Mon, 24 Jun 2024 09:10:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB462C32782;
+ Mon, 24 Jun 2024 09:10:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1719220245;
+ bh=y4xUO3jxNw/ZmGe51kYBe2wyZyl1YnzEwo1P/bPyOMo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XLuZubXgXhgoaBVMtSYDYH3r2PwiWkCpjlI5gAyD32fAIItFf5RZe8bCQO3U0t/do
+ Ix8Afla9Z2OFAdoA4OpuHP2y2DzX4U7floyBjDGLOpAqoF1KBx2YB7VIkrqy1G9yDy
+ HeYeAwlG1igADzYB1Ud5XT5B1pEJxTuOfASrMsO0tGcQPZNRWImdq8Wea34nSXSTSh
+ t22sMbaq6tpqkHFbKsCRzJjAKU06/Ks8qhXQljeZ0PySy3YhJ4BV1QKF5hWptjh7aT
+ v8dD8MLI166mdWzDuctPalRCNiKC56VRlDkgqFyW33IrMvKMY3VK/Pb1AMISAI05fU
+ +fX5C/Zs1Ak4w==
+Date: Mon, 24 Jun 2024 12:10:41 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Omer Shpigelman <oshpigelman@habana.ai>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "ogabbay@kernel.org" <ogabbay@kernel.org>,
+ Zvika Yehudai <zyehudai@habana.ai>
+Subject: Re: [PATCH 11/15] RDMA/hbl: add habanalabs RDMA driver
+Message-ID: <20240624091041.GB29266@unreal>
+References: <20240613082208.1439968-1-oshpigelman@habana.ai>
+ <20240613082208.1439968-12-oshpigelman@habana.ai>
+ <20240613191828.GJ4966@unreal>
+ <fbb34afa-8a38-4124-9384-9b858ce2c4e5@habana.ai>
+ <20240617190429.GB4025@unreal>
+ <461bf44e-fd2f-4c8b-bc41-48d48e5a7fcb@habana.ai>
+ <20240618125842.GG4025@unreal>
+ <b4bda963-7026-4037-83e6-de74728569bd@habana.ai>
+ <20240619105219.GO4025@unreal>
+ <29704025-fba4-434a-9a43-ed2184a322f9@habana.ai>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <29704025-fba4-434a-9a43-ed2184a322f9@habana.ai>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,638 +71,372 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Matthew
+On Mon, Jun 24, 2024 at 08:47:41AM +0000, Omer Shpigelman wrote:
+> On 6/19/24 13:52, Leon Romanovsky wrote:
+> > On Wed, Jun 19, 2024 at 09:27:54AM +0000, Omer Shpigelman wrote:
+> >> On 6/18/24 15:58, Leon Romanovsky wrote:
+> >>> On Tue, Jun 18, 2024 at 11:08:34AM +0000, Omer Shpigelman wrote:
+> >>>> On 6/17/24 22:04, Leon Romanovsky wrote:
+> >>>>> [Some people who received this message don't often get email from leon@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> >>>>>
+> >>>>> On Mon, Jun 17, 2024 at 05:43:49PM +0000, Omer Shpigelman wrote:
+> >>>>>> On 6/13/24 22:18, Leon Romanovsky wrote:
+> >>>>>>> [Some people who received this message don't often get email from leon@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> >>>>>>>
+> >>>>>>> On Thu, Jun 13, 2024 at 11:22:04AM +0300, Omer Shpigelman wrote:
+> >>>>>>>> Add an RDMA driver of Gaudi ASICs family for AI scaling.
+> >>>>>>>> The driver itself is agnostic to the ASIC in action, it operates according
+> >>>>>>>> to the capabilities that were passed on device initialization.
+> >>>>>>>> The device is initialized by the hbl_cn driver via auxiliary bus.
+> >>>>>>>> The driver also supports QP resource tracking and port/device HW counters.
+> >>>>>>>>
+> >>>>>>>> Signed-off-by: Omer Shpigelman <oshpigelman@habana.ai>
+> >>>>>>>> Co-developed-by: Abhilash K V <kvabhilash@habana.ai>
+> >>>>>>>> Signed-off-by: Abhilash K V <kvabhilash@habana.ai>
+> >>>>>>>> Co-developed-by: Andrey Agranovich <aagranovich@habana.ai>
+> >>>>>>>> Signed-off-by: Andrey Agranovich <aagranovich@habana.ai>
+> >>>>>>>> Co-developed-by: Bharat Jauhari <bjauhari@habana.ai>
+> >>>>>>>> Signed-off-by: Bharat Jauhari <bjauhari@habana.ai>
+> >>>>>>>> Co-developed-by: David Meriin <dmeriin@habana.ai>
+> >>>>>>>> Signed-off-by: David Meriin <dmeriin@habana.ai>
+> >>>>>>>> Co-developed-by: Sagiv Ozeri <sozeri@habana.ai>
+> >>>>>>>> Signed-off-by: Sagiv Ozeri <sozeri@habana.ai>
+> >>>>>>>> Co-developed-by: Zvika Yehudai <zyehudai@habana.ai>
+> >>>>>>>> Signed-off-by: Zvika Yehudai <zyehudai@habana.ai>
+> >>>>>>>
+> >>>>>>> I afraid that you misinterpreted the "Co-developed-by" tag. All these
+> >>>>>>> people are probably touch the code and not actually sit together at
+> >>>>>>> the same room and write the code together. So, please remove the
+> >>>>>>> extensive "Co-developed-by" tags.
+> >>>>>>>
+> >>>>>>> It is not full review yet, but simple pass-by-comments.
+> >>>>>>>
+> >>>>>>
+> >>>>>> Actually except of two, all of the mentioned persons sat in the same room
+> >>>>>> and developed the code together.
+> >>>>>> The remaining two are located on a different site (but also together).
+> >>>>>> Isn't that what "Co-developed-by" tag for?
+> >>>>>> I wanted to give them credit for writing the code but I can remove if it's
+> >>>>>> not common.
+> >>>>>
+> >>>>> Signed-off-by will be enough to give them credit.
+> >>>>>
+> >>>>
+> >>>> Ok, good enough.
+> >>>>
+> >>>>>>
+> >>>>>>>> ---
+> >>>>>>>>  MAINTAINERS                              |   10 +
+> >>>>>>>>  drivers/infiniband/Kconfig               |    1 +
+> >>>>>>>>  drivers/infiniband/hw/Makefile           |    1 +
+> >>>>>>>>  drivers/infiniband/hw/hbl/Kconfig        |   17 +
+> >>>>>>>>  drivers/infiniband/hw/hbl/Makefile       |    8 +
+> >>>>>>>>  drivers/infiniband/hw/hbl/hbl.h          |  326 +++
+> >>>>>>>>  drivers/infiniband/hw/hbl/hbl_main.c     |  478 ++++
+> >>>>>>>>  drivers/infiniband/hw/hbl/hbl_verbs.c    | 2686 ++++++++++++++++++++++
+> >>>>>>>>  include/uapi/rdma/hbl-abi.h              |  204 ++
+> >>>>>>>>  include/uapi/rdma/hbl_user_ioctl_cmds.h  |   66 +
+> >>>>>>>>  include/uapi/rdma/hbl_user_ioctl_verbs.h |  106 +
+> >>>>>>>>  include/uapi/rdma/ib_user_ioctl_verbs.h  |    1 +
+> >>>>>>>>  12 files changed, 3904 insertions(+)
+> >>>>>>>>  create mode 100644 drivers/infiniband/hw/hbl/Kconfig
+> >>>>>>>>  create mode 100644 drivers/infiniband/hw/hbl/Makefile
+> >>>>>>>>  create mode 100644 drivers/infiniband/hw/hbl/hbl.h
+> >>>>>>>>  create mode 100644 drivers/infiniband/hw/hbl/hbl_main.c
+> >>>>>>>>  create mode 100644 drivers/infiniband/hw/hbl/hbl_verbs.c
+> >>>>>>>>  create mode 100644 include/uapi/rdma/hbl-abi.h
+> >>>>>>>>  create mode 100644 include/uapi/rdma/hbl_user_ioctl_cmds.h
+> >>>>>>>>  create mode 100644 include/uapi/rdma/hbl_user_ioctl_verbs.h
+> >>>>>>>
+> >>>>>>> <...>
+> >>>>>>>
+> >>>>>>>> +#define hbl_ibdev_emerg(ibdev, format, ...)  ibdev_emerg(ibdev, format, ##__VA_ARGS__)
+> >>>>>>>> +#define hbl_ibdev_alert(ibdev, format, ...)  ibdev_alert(ibdev, format, ##__VA_ARGS__)
+> >>>>>>>> +#define hbl_ibdev_crit(ibdev, format, ...)   ibdev_crit(ibdev, format, ##__VA_ARGS__)
+> >>>>>>>> +#define hbl_ibdev_err(ibdev, format, ...)    ibdev_err(ibdev, format, ##__VA_ARGS__)
+> >>>>>>>> +#define hbl_ibdev_warn(ibdev, format, ...)   ibdev_warn(ibdev, format, ##__VA_ARGS__)
+> >>>>>>>> +#define hbl_ibdev_notice(ibdev, format, ...) ibdev_notice(ibdev, format, ##__VA_ARGS__)
+> >>>>>>>> +#define hbl_ibdev_info(ibdev, format, ...)   ibdev_info(ibdev, format, ##__VA_ARGS__)
+> >>>>>>>> +#define hbl_ibdev_dbg(ibdev, format, ...)    ibdev_dbg(ibdev, format, ##__VA_ARGS__)
+> >>>>>>>> +
+> >>>>>>>> +#define hbl_ibdev_emerg_ratelimited(ibdev, fmt, ...)         \
+> >>>>>>>> +     ibdev_emerg_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> >>>>>>>> +#define hbl_ibdev_alert_ratelimited(ibdev, fmt, ...)         \
+> >>>>>>>> +     ibdev_alert_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> >>>>>>>> +#define hbl_ibdev_crit_ratelimited(ibdev, fmt, ...)          \
+> >>>>>>>> +     ibdev_crit_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> >>>>>>>> +#define hbl_ibdev_err_ratelimited(ibdev, fmt, ...)           \
+> >>>>>>>> +     ibdev_err_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> >>>>>>>> +#define hbl_ibdev_warn_ratelimited(ibdev, fmt, ...)          \
+> >>>>>>>> +     ibdev_warn_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> >>>>>>>> +#define hbl_ibdev_notice_ratelimited(ibdev, fmt, ...)                \
+> >>>>>>>> +     ibdev_notice_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> >>>>>>>> +#define hbl_ibdev_info_ratelimited(ibdev, fmt, ...)          \
+> >>>>>>>> +     ibdev_info_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> >>>>>>>> +#define hbl_ibdev_dbg_ratelimited(ibdev, fmt, ...)           \
+> >>>>>>>> +     ibdev_dbg_ratelimited(ibdev, fmt, ##__VA_ARGS__)
+> >>>>>>>> +
+> >>>>>>>
+> >>>>>>> Please don't redefine the existing macros. Just use the existing ones.
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> <...>
+> >>>>>>>
+> >>>>>>
+> >>>>>> That's a leftover from some debug code. I'll remove.
+> >>>>>>
+> >>>>>>>> +     if (hbl_ib_match_netdev(ibdev, netdev))
+> >>>>>>>> +             ib_port = hbl_to_ib_port_num(hdev, netdev->dev_port);
+> >>>>>>>> +     else
+> >>>>>>>> +             return NOTIFY_DONE;
+> >>>>>>>
+> >>>>>>> It is not kernel coding style. Please write:
+> >>>>>>> if (!hbl_ib_match_netdev(ibdev, netdev))
+> >>>>>>>     return NOTIFY_DONE;
+> >>>>>>>
+> >>>>>>> ib_port = hbl_to_ib_port_num(hdev, netdev->dev_port);
+> >>>>>>>
+> >>>>>>
+> >>>>>> I'll fix the code, thanks.
+> >>>>>>
+> >>>>>>>> +
+> >>>>>>>
+> >>>>>>> <...>
+> >>>>>>>
+> >>>>>>>> +static int hbl_ib_probe(struct auxiliary_device *adev, const struct auxiliary_device_id *id)
+> >>>>>>>> +{
+> >>>>>>>> +     struct hbl_aux_dev *aux_dev = container_of(adev, struct hbl_aux_dev, adev);
+> >>>>>>>> +     struct hbl_ib_aux_ops *aux_ops = aux_dev->aux_ops;
+> >>>>>>>> +     struct hbl_ib_device *hdev;
+> >>>>>>>> +     ktime_t timeout;
+> >>>>>>>> +     int rc;
+> >>>>>>>> +
+> >>>>>>>> +     rc = hdev_init(aux_dev);
+> >>>>>>>> +     if (rc) {
+> >>>>>>>> +             dev_err(&aux_dev->adev.dev, "Failed to init hdev\n");
+> >>>>>>>> +             return -EIO;
+> >>>>>>>> +     }
+> >>>>>>>> +
+> >>>>>>>> +     hdev = aux_dev->priv;
+> >>>>>>>> +
+> >>>>>>>> +     /* don't allow module unloading while it is attached */
+> >>>>>>>> +     if (!try_module_get(THIS_MODULE)) {
+> >>>>>>>
+> >>>>>>> This part makes wonder, what are you trying to do here? What doesn't work for you
+> >>>>>>> in standard driver core and module load mechanism?
+> >>>>>>>
+> >>>>>>
+> >>>>>> Before auxiliary bus was introduced, we used EXPORT_SYMBOLs for inter
+> >>>>>> driver communication. That incremented the refcount of the used module so
+> >>>>>> it couldn't be removed while it is in use.
+> >>>>>> Auxiliary bus usage doesn't increment the used module refcount and hence
+> >>>>>> the used module can be removed while it is in use and that's something
+> >>>>>> we don't want to allow.
+> >>>>>> We could solve it by some global locking or in_use atomic but the most
+> >>>>>> simple and clean way is just to increment the used module refcount on
+> >>>>>> auxiliary device probe and decrement it on auxiliary device removal.
+> >>>>>
+> >>>>> No, you was supposed to continue to use EXPORT_SYMBOLs and don't
+> >>>>> invent auxiliary ops structure (this is why you lost module
+> >>>>> reference counting).
+> >>>>>
+> >>>>
+> >>>> Sorry, but according to the auxiliary bus doc, a domain-specific ops
+> >>>> structure can be used.
+> >>>> We followed the usage example described at drivers/base/auxiliary.c.
+> >>>> What am I missing? 
+> >>>
+> >>> Being the one who implemented auxiliary bus in the kernel and converted
+> >>> number of drivers to use it, I strongly recommend do NOT follow the example
+> >>> provided there.
+> >>>
+> >>> So you are missing "best practice", and "best practice" is to use
+> >>> EXPORT_SYMBOLs and rely on module reference counting.
+> >>>
+> >>
+> >> It is not just the usage example but also the general feature doc before
+> >> it:
+> >> "The generic behavior can be extended and specialized as needed by
+> >> encapsulating an auxiliary_device within other domain-specific structures
+> >> and the use of .ops callbacks."
+> >> It is also mentioned there that the ops structure are used for specific
+> >> auxiliary device operations while EXPORT_SYMBOLs should be used for common
+> >> infrastrucure the parent driver exposes:
+> >> "Note that ops are intended as a way to augment instance behavior within a
+> >> class of auxiliary devices, it is not the mechanism for exporting common
+> >> infrastructure from the parent."
+> >> All of our ops callbacks are meant to provide functionality related to the
+> >> auxiliary device, they are not just general/common infrastructure.
+> > 
+> > Of course they are common, otherwise why did you put them in common code?
+> > For example, you have callbacks to lock and unlock internal HW access,
+> > how is it not common?
+> >
+> 
+> As I saw it, the "common" functions are general capabilities the parent
+> driver exposes, not necessaritly related to the auxiliary device.
+> But let me revisit this and try to restructure the code so the parent
+> driver will use EXPORT_SYMBOLs.
+>  
+> >>
+> >> Why do we have this doc if we should ignore it? why wasn't the doc
+> >> modified according to the "best practice" you described? the doc is
+> >> misleading.
+> > 
+> > Because this is how upstream kernel development works. We are trying to
+> > come to the agreement and get the best solution for the problem. Sometimes,
+> > the outcome of the discussion is not "the best solution", but "good
+> > enough". This doc can be served as an example. Everyone involved in the
+> > development of auxbus and later usage of it, were focused on implementation,
+> > documentation was good enough as it didn't limit anyone who actually
+> > used it.
+> > 
+> 
+> I get your point but still I think that the doc is misleading if it shows
+> a usage exmaple but practically no one should follow it.
+> Better to remove this usage exmaple completely IMHO.
 
-On Wed, 2024-06-19 at 22:52 +0000, Matthew Brost wrote:
-> On Tue, Jun 18, 2024 at 09:18:15AM +0200, Thomas Hellstr=C3=B6m wrote:
-> > Use the LRU walker for eviction. This helps
-> > removing a lot of code with weird locking
-> > semantics.
-> >=20
-> > The functionality is slightly changed so that
-> > when trylocked buffer objects are exhausted, we
-> > continue to interleave walks with ticket-locks while
-> > there is still progress made. The list walks are
-> > not restarted in-between evictions.
-> >=20
-> > Also provide a separate ttm_bo_evict_first()
-> > function for its single user. The context of that
-> > user allows sleeping dma_resv locks.
-> >=20
-> I'm inclined to RB this as I think I've made sense of it all but just
-> have a few questions / nits first + one small bug.
->=20
-> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
-> > Cc: Matthew Brost <matthew.brost@intel.com>
-> > Cc: <dri-devel@lists.freedesktop.org>
-> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> > ---
-> > =C2=A0drivers/gpu/drm/ttm/ttm_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-| 350 ++++++++++++-------------
-> > ----
-> > =C2=A0drivers/gpu/drm/ttm/ttm_resource.c |=C2=A0 20 +-
-> > =C2=A0include/drm/ttm/ttm_bo.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 8 +-
-> > =C2=A03 files changed, 145 insertions(+), 233 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
-> > b/drivers/gpu/drm/ttm/ttm_bo.c
-> > index 63a91b77f7da..316afe19a325 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> > @@ -224,80 +224,6 @@ static void ttm_bo_flush_all_fences(struct
-> > ttm_buffer_object *bo)
-> > =C2=A0	dma_resv_iter_end(&cursor);
-> > =C2=A0}
-> > =C2=A0
-> > -/**
-> > - * ttm_bo_cleanup_refs
-> > - * If bo idle, remove from lru lists, and unref.
-> > - * If not idle, block if possible.
-> > - *
-> > - * Must be called with lru_lock and reservation held, this
-> > function
-> > - * will drop the lru lock and optionally the reservation lock
-> > before returning.
-> > - *
-> > - * @bo:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 The buffer object to cl=
-ean-up
-> > - * @interruptible:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Any=
- sleeps should occur interruptibly.
-> > - * @no_wait_gpu:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 Never wait for gpu. Return -EBUSY
-> > instead.
-> > - * @unlock_resv:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 Unlock the reservation lock as well.
-> > - */
-> > -
-> > -static int ttm_bo_cleanup_refs(struct ttm_buffer_object *bo,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool interruptible, bool
-> > no_wait_gpu,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool unlock_resv)
-> > -{
-> > -	struct dma_resv *resv =3D &bo->base._resv;
-> > -	int ret;
-> > -
-> > -	if (dma_resv_test_signaled(resv, DMA_RESV_USAGE_BOOKKEEP))
-> > -		ret =3D 0;
-> > -	else
-> > -		ret =3D -EBUSY;
-> > -
-> > -	if (ret && !no_wait_gpu) {
-> > -		long lret;
-> > -
-> > -		if (unlock_resv)
-> > -			dma_resv_unlock(bo->base.resv);
-> > -		spin_unlock(&bo->bdev->lru_lock);
-> > -
-> > -		lret =3D dma_resv_wait_timeout(resv,
-> > DMA_RESV_USAGE_BOOKKEEP,
-> > -					=C2=A0=C2=A0=C2=A0=C2=A0 interruptible,
-> > -					=C2=A0=C2=A0=C2=A0=C2=A0 30 * HZ);
-> > -
-> > -		if (lret < 0)
-> > -			return lret;
-> > -		else if (lret =3D=3D 0)
-> > -			return -EBUSY;
-> > -
-> > -		spin_lock(&bo->bdev->lru_lock);
-> > -		if (unlock_resv && !dma_resv_trylock(bo-
-> > >base.resv)) {
-> > -			/*
-> > -			 * We raced, and lost, someone else holds
-> > the reservation now,
-> > -			 * and is probably busy in
-> > ttm_bo_cleanup_memtype_use.
-> > -			 *
-> > -			 * Even if it's not the case, because we
-> > finished waiting any
-> > -			 * delayed destruction would succeed, so
-> > just return success
-> > -			 * here.
-> > -			 */
-> > -			spin_unlock(&bo->bdev->lru_lock);
-> > -			return 0;
-> > -		}
-> > -		ret =3D 0;
-> > -	}
-> > -
-> > -	if (ret) {
-> > -		if (unlock_resv)
-> > -			dma_resv_unlock(bo->base.resv);
-> > -		spin_unlock(&bo->bdev->lru_lock);
-> > -		return ret;
-> > -	}
-> > -
-> > -	spin_unlock(&bo->bdev->lru_lock);
-> > -	ttm_bo_cleanup_memtype_use(bo);
-> > -
-> > -	if (unlock_resv)
-> > -		dma_resv_unlock(bo->base.resv);
-> > -
-> > -	return 0;
-> > -}
-> > -
-> > =C2=A0/*
-> > =C2=A0 * Block for the dma_resv object to become idle, lock the buffer
-> > and clean up
-> > =C2=A0 * the resource and tt object.
-> > @@ -505,151 +431,154 @@ bool ttm_bo_eviction_valuable(struct
-> > ttm_buffer_object *bo,
-> > =C2=A0}
-> > =C2=A0EXPORT_SYMBOL(ttm_bo_eviction_valuable);
-> > =C2=A0
-> > -/*
-> > - * Check the target bo is allowable to be evicted or swapout,
-> > including cases:
-> > - *
-> > - * a. if share same reservation object with ctx->resv, have
-> > assumption
-> > - * reservation objects should already be locked, so not lock again
-> > and
-> > - * return true directly when either the opreation
-> > allow_reserved_eviction
-> > - * or the target bo already is in delayed free list;
-> > +/**
-> > + * ttm_bo_evict_first() - Evict the first bo on the manager's LRU
-> > list.
-> > + * @bdev: The ttm device.
-> > + * @man: The manager whose bo to evict.
-> > + * @ctx: The TTM operation ctx governing the eviction.
-> > =C2=A0 *
-> > - * b. Otherwise, trylock it.
-> > + * Return: 0 if successful or the resource disappeared. Negative
-> > error code on error.
-> > =C2=A0 */
-> > -static bool ttm_bo_evict_swapout_allowable(struct
-> > ttm_buffer_object *bo,
-> > -					=C2=A0=C2=A0 struct
-> > ttm_operation_ctx *ctx,
-> > -					=C2=A0=C2=A0 const struct ttm_place
-> > *place,
-> > -					=C2=A0=C2=A0 bool *locked, bool
-> > *busy)
-> > +int ttm_bo_evict_first(struct ttm_device *bdev, struct
-> > ttm_resource_manager *man,
-> > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_operation_ctx *ctx)
-> > =C2=A0{
-> > -	bool ret =3D false;
-> > +	struct ttm_resource_cursor cursor;
-> > +	struct ttm_buffer_object *bo;
-> > +	struct ttm_resource *res;
-> > +	unsigned int mem_type;
-> > +	int ret =3D 0;
-> > =C2=A0
-> > -	if (bo->pin_count) {
-> > -		*locked =3D false;
-> > -		if (busy)
-> > -			*busy =3D false;
-> > -		return false;
-> > +	spin_lock(&bdev->lru_lock);
-> > +	res =3D ttm_resource_manager_first(man, &cursor);
-> > +	if (!res) {
-> > +		ret =3D -ENOENT;
->=20
-> Nit, this assignment is not needed a out_no_ref just returns -ENOENT.
->=20
-> > +		goto out_no_ref;
-> > =C2=A0	}
-> > +	bo =3D res->bo;
-> > +	if (!ttm_bo_get_unless_zero(bo))
-> > +		goto out_no_ref;
-> > +	mem_type =3D res->mem_type;
-> > +	spin_unlock(&bdev->lru_lock);
-> > +	ret =3D ttm_bo_reserve(bo, ctx->interruptible, ctx-
-> > >no_wait_gpu, NULL);
-> > +	if (ret)
-> > +		goto out_no_lock;
-> > +	if (bo->resource !=3D res || res->mem_type !=3D mem_type)
->=20
-> So 'bo->resource !=3D res' is checking between dropping of the LRU lock
-> and grabbing the dma-resv lock in ttm_bo_reserve, the BO's backing
-> resource has changed (i.e. someone else could've evicted to BO). Is
-> that correct? Also in this case 'res' could be stale memory and not
-> safe
-> to dereference, right?
+We (developers) didn't want that example in first place. I'm not going
+to argue again in order to attempt to remove it.
 
-Yes, that's correct. Although if bo->resource =3D=3D res, it is safe to
-dereference res.
+> 
+> >>
+> >> Adding gregkh here as he requested the auxiliary bus feature IIRC.
+> >> Greg - isn't the doc legit? should EXPORT_SYMBOLs necessarily be used
+> >> together with auxiliary bus rather than ops structure?
+> > 
+> > This is not what you are doing here. You completely ditched EXPORT_SYMBOLs
+> > and reinvented module reference counting which overcomplicated the code
+> > just to avoid using standard kernel mechanism.
+> > 
+> >> As we saw it, auxiliary bus gives us the flexibility to choose which
+> >> modules will be loaded while EXPORT_SYMBOLs enforces the dependencies
+> >> which might not be needed in some cases.
+> >>  
+> >>>> Moreover, we'd like to support the mode where the IB or the ETH driver is
+> >>>> not loaded at all. But this cannot be achieved if we use EXPORT_SYMBOLs
+> >>>> exclusively for inter driver communication.
+> >>>
+> >>> It is not true and not how the kernel works. You can perfectly load core
+> >>> driver without IB and ETH, at some extent this is how mlx5 driver works.
+> >>>
+> >>
+> >> mlx5 IB driver doesn't export any symbol that is used by the core driver,
+> >> that's why the core driver can be loaded without the IB driver (althought
+> >> you'll get circular dependency if you would export).
+> > 
+> > Yes, IB and ETH drivers are "users" of core driver. As RDMA maintainer,
+> > I'm reluctant to accept code that exports symbols from IB drivers to
+> > other subsystems. We have drivers/infiniband/core/ for that.
+> > 
+> 
+> So we'll need to restructure the code to follow this limitation. We'll
+> take care of it for the next patch set version.
+> BTW if you won't allow such driver specific EXPORT_SYMBOLs, I think it is
+> good to have it documented similarly to other "don't do" guideliens in the
+> infiniband doc.
+> That's because in the net/ethernet subsystem for exmaple it is very common
+> to add such driver specific EXPORT_SYMBOLs.
 
->=20
-> I'm confused about 'res->mem_type !=3D mem_type' though. Looking
-> through
-> the code is res->mem_type not immutable? I think I only see
-> res->mem_type assigned in ttm_resource_init.
+Yes, this is technical limitation, it is because PCI core (driver common code)
+is located in drivers/net and not because of policy to accept EXPORT_SYMBOLs
+in netdev.
 
-It's if someone freed res and then allocated a new resource that ended
-up as bo->resource, but with the same virtual address as res. Not very
-likely but definitely possible. Then if the new resource has the same
-memory type we can go ahead and evict anyway, If not, we skip eviction.
+If you put your driver common code in other place, you won't need any EXPORT_SYMBOLs
+in drivers/net.
 
->=20
-> > +		goto out_bad_res;
->=20
-> s/out_bad_res/out_bo_moved
->=20
-> Would that be more accurate?
-
-Yes, I could change that.
-
->=20
-> > =C2=A0
-> > -	if (bo->base.resv =3D=3D ctx->resv) {
-> > -		dma_resv_assert_held(bo->base.resv);
-> > -		if (ctx->allow_res_evict)
-> > -			ret =3D true;
-> > -		*locked =3D false;
-> > -		if (busy)
-> > -			*busy =3D false;
-> > +	if (bo->deleted) {
-> > +		ret =3D ttm_bo_wait_ctx(bo, ctx);
-> > +		if (ret)
->=20
-> This should be 'if (!ret)', right? We should cleanup once the BO is
-> idle.
-
-Right. Will fix.
-
->=20
-> > +			ttm_bo_cleanup_memtype_use(bo);
-> > =C2=A0	} else {
-> > -		ret =3D dma_resv_trylock(bo->base.resv);
-> > -		*locked =3D ret;
-> > -		if (busy)
-> > -			*busy =3D !ret;
-> > -	}
-> > -
-> > -	if (ret && place && (bo->resource->mem_type !=3D place-
-> > >mem_type ||
-> > -		!bo->bdev->funcs->eviction_valuable(bo, place))) {
-> > -		ret =3D false;
-> > -		if (*locked) {
-> > -			dma_resv_unlock(bo->base.resv);
-> > -			*locked =3D false;
-> > -		}
-> > +		ret =3D ttm_bo_evict(bo, ctx);
-> > =C2=A0	}
-> > -
-> > +out_bad_res:
-> > +	dma_resv_unlock(bo->base.resv);
-> > +out_no_lock:
-> > +	ttm_bo_put(bo);
-> > +	ttm_resource_cursor_fini(&cursor);
-> > =C2=A0	return ret;
-> > +
-> > +out_no_ref:
-> > +	ttm_resource_cursor_fini_locked(&cursor);
-> > +	spin_unlock(&bdev->lru_lock);
-> > +	return -ENOENT;
-> > =C2=A0}
-> > =C2=A0
-> > =C2=A0/**
-> > - * ttm_mem_evict_wait_busy - wait for a busy BO to become
-> > available
-> > - *
-> > - * @busy_bo: BO which couldn't be locked with trylock
-> > - * @ctx: operation context
-> > - * @ticket: acquire ticket
-> > - *
-> > - * Try to lock a busy buffer object to avoid failing eviction.
-> > + * struct ttm_bo_evict_walk - Parameters for the evict walk.
-> > =C2=A0 */
-> > -static int ttm_mem_evict_wait_busy(struct ttm_buffer_object
-> > *busy_bo,
-> > -				=C2=A0=C2=A0 struct ttm_operation_ctx *ctx,
-> > -				=C2=A0=C2=A0 struct ww_acquire_ctx *ticket)
-> > -{
-> > -	int r;
-> > -
-> > -	if (!busy_bo || !ticket)
-> > -		return -EBUSY;
-> > -
-> > -	if (ctx->interruptible)
-> > -		r =3D dma_resv_lock_interruptible(busy_bo-
-> > >base.resv,
-> > -							=C2=A0 ticket);
-> > -	else
-> > -		r =3D dma_resv_lock(busy_bo->base.resv, ticket);
-> > -
-> > -	/*
-> > -	 * TODO: It would be better to keep the BO locked until
-> > allocation is at
-> > -	 * least tried one more time, but that would mean a much
-> > larger rework
-> > -	 * of TTM.
-> > -	 */
-> > -	if (!r)
-> > -		dma_resv_unlock(busy_bo->base.resv);
-> > -
-> > -	return r =3D=3D -EDEADLK ? -EBUSY : r;
-> > -}
-> > +struct ttm_bo_evict_walk {
-> > +	/** @walk: The walk base parameters. */
-> > +	struct ttm_lru_walk walk;
-> > +	/** @place: The place passed to the resource allocation.
-> > */
-> > +	const struct ttm_place *place;
-> > +	/** @evictor: The buffer object we're trying to make room
-> > for. */
-> > +	struct ttm_buffer_object *evictor;
-> > +	/** @res: The allocated resource if any. */
-> > +	struct ttm_resource **res;
-> > +	/** @evicted: The number of evicted pages. */
->=20
-> s/pages/BOs or resources
->=20
-> Another option would be 'forward_progess' or something like that
-> given
-> the usage in this patch.
-
-OK, yes, will take a look and fix.
-
->=20
-> > +	unsigned long evicted;
-> > +};
-> > =C2=A0
-> > -int ttm_mem_evict_first(struct ttm_device *bdev,
-> > -			struct ttm_resource_manager *man,
-> > -			const struct ttm_place *place,
-> > -			struct ttm_operation_ctx *ctx,
-> > -			struct ww_acquire_ctx *ticket)
-> > +static long ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct
-> > ttm_buffer_object *bo)
-> > =C2=A0{
-> > -	struct ttm_buffer_object *bo =3D NULL, *busy_bo =3D NULL;
-> > -	struct ttm_resource_cursor cursor;
-> > -	struct ttm_resource *res;
-> > -	bool locked =3D false;
-> > -	int ret;
-> > +	struct ttm_bo_evict_walk *evict_walk =3D
-> > +		container_of(walk, typeof(*evict_walk), walk);
-> > +	long lret;
-> > =C2=A0
-> > -	spin_lock(&bdev->lru_lock);
-> > -	ttm_resource_manager_for_each_res(man, &cursor, res) {
-> > -		bool busy;
-> > -
-> > -		if (!ttm_bo_evict_swapout_allowable(res->bo, ctx,
-> > place,
-> > -						=C2=A0=C2=A0=C2=A0 &locked,
-> > &busy)) {
-> > -			if (busy && !busy_bo && ticket !=3D
-> > -			=C2=A0=C2=A0=C2=A0 dma_resv_locking_ctx(res->bo-
-> > >base.resv))
-> > -				busy_bo =3D res->bo;
-> > -			continue;
-> > -		}
-> > +	if (!bo->bdev->funcs->eviction_valuable(bo, evict_walk-
-> > >place))
-> > +		return 0;
-> > =C2=A0
-> > -		if (ttm_bo_get_unless_zero(res->bo)) {
-> > -			bo =3D res->bo;
-> > -			break;
-> > -		}
-> > -		if (locked)
-> > -			dma_resv_unlock(res->bo->base.resv);
-> > +	if (bo->deleted) {
-> > +		lret =3D ttm_bo_wait_ctx(bo, walk->ctx);
-> > +		if (!lret)
-> > +			ttm_bo_cleanup_memtype_use(bo);
-> > +	} else {
-> > +		lret =3D ttm_bo_evict(bo, walk->ctx);
-> > =C2=A0	}
-> > -	ttm_resource_cursor_fini_locked(&cursor);
-> > =C2=A0
-> > -	if (!bo) {
-> > -		if (busy_bo && !ttm_bo_get_unless_zero(busy_bo))
-> > -			busy_bo =3D NULL;
-> > -		spin_unlock(&bdev->lru_lock);
-> > -		ret =3D ttm_mem_evict_wait_busy(busy_bo, ctx,
-> > ticket);
-> > -		if (busy_bo)
-> > -			ttm_bo_put(busy_bo);
-> > -		return ret;
-> > -	}
-> > +	if (lret)
-> > +		goto out;
-> > =C2=A0
-> > -	if (bo->deleted) {
-> > -		ret =3D ttm_bo_cleanup_refs(bo, ctx->interruptible,
-> > -					=C2=A0 ctx->no_wait_gpu,
-> > locked);
-> > -		ttm_bo_put(bo);
-> > -		return ret;
-> > -	}
-> > +	evict_walk->evicted++;
-> > +	if (evict_walk->res)
-> > +		lret =3D ttm_resource_alloc(evict_walk->evictor,
-> > evict_walk->place,
-> > +					=C2=A0 evict_walk->res);
-> > +	if (lret =3D=3D 0)
-> > +		return 1;
-> > +out:
-> > +	/* Errors that should terminate the walk. */
-> > +	if (lret =3D=3D -ENOMEM || lret =3D=3D -EINTR || lret =3D=3D -
-> > ERESTARTSYS ||
-> > +	=C2=A0=C2=A0=C2=A0 lret =3D=3D -EAGAIN)
-> > +		return lret;
->=20
-> Same comment as the previous patch, the inverse of this might be more
-> clear. Also if the condition is the same, a helper may make sense.
-
-Will fix.
-
->=20
-> > =C2=A0
-> > -	spin_unlock(&bdev->lru_lock);
-> > +	return 0;
-> > +}
-> > =C2=A0
-> > -	ret =3D ttm_bo_evict(bo, ctx);
-> > -	if (locked)
-> > -		ttm_bo_unreserve(bo);
-> > -	else
-> > -		ttm_bo_move_to_lru_tail_unlocked(bo);
-> > +static const struct ttm_lru_walk_ops ttm_evict_walk_ops =3D {
-> > +	.process_bo =3D ttm_bo_evict_cb,
-> > +};
-> > =C2=A0
-> > -	ttm_bo_put(bo);
-> > -	return ret;
-> > +static int ttm_bo_evict_alloc(struct ttm_device *bdev,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_resource_manager *man,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct ttm_place *place,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_buffer_object *evictor,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_operation_ctx *ctx,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ww_acquire_ctx *ticket,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_resource **res)
-> > +{
-> > +	struct ttm_bo_evict_walk evict_walk =3D {
-> > +		.walk =3D {
-> > +			.ops =3D &ttm_evict_walk_ops,
-> > +			.ctx =3D ctx,
-> > +			.ticket =3D ticket,
-> > +		},
-> > +		.place =3D place,
-> > +		.evictor =3D evictor,
-> > +		.res =3D res,
-> > +	};
-> > +	long lret;
-> > +
-> > +	evict_walk.walk.trylock_only =3D true;
-> > +	lret =3D ttm_lru_walk_for_evict(&evict_walk.walk, bdev, man,
-> > 1);
-> > +	if (lret || !ticket)
-> > +		goto out;
-> > +
-> > +	/* If ticket-locking, repeat while making progress. */
-> > +	evict_walk.walk.trylock_only =3D false;
-> > +	do {
-> > +		/* The walk may clear the evict_walk.walk.ticket
-> > field */
-> > +		evict_walk.walk.ticket =3D ticket;
-> > +		evict_walk.evicted =3D 0;
-> > +		lret =3D ttm_lru_walk_for_evict(&evict_walk.walk,
-> > bdev, man, 1);
-> > +	} while (!lret && evict_walk.evicted);
-> > +out:
-> > +	if (lret < 0)
-> > +		return lret;
-> > +	if (lret =3D=3D 0)
-> > +		return -EBUSY;
-> > +	return 0;
-> > =C2=A0}
-> > =C2=A0
-> > =C2=A0/**
-> > @@ -760,6 +689,7 @@ static int ttm_bo_alloc_resource(struct
-> > ttm_buffer_object *bo,
-> > =C2=A0	for (i =3D 0; i < placement->num_placement; ++i) {
-> > =C2=A0		const struct ttm_place *place =3D &placement-
-> > >placement[i];
-> > =C2=A0		struct ttm_resource_manager *man;
-> > +		bool may_evict;
-> > =C2=A0
-> > =C2=A0		man =3D ttm_manager_type(bdev, place->mem_type);
-> > =C2=A0		if (!man || !ttm_resource_manager_used(man))
-> > @@ -769,22 +699,21 @@ static int ttm_bo_alloc_resource(struct
-> > ttm_buffer_object *bo,
-> > =C2=A0				=C2=A0=C2=A0=C2=A0 TTM_PL_FLAG_FALLBACK))
-> > =C2=A0			continue;
-> > =C2=A0
-> > -		do {
-> > -			ret =3D ttm_resource_alloc(bo, place, res);
-> > -			if (unlikely(ret && ret !=3D -ENOSPC))
-> > +		may_evict =3D (force_space && place->mem_type !=3D
-> > TTM_PL_SYSTEM);
-> > +		ret =3D ttm_resource_alloc(bo, place, res);
-> > +		if (ret) {
-> > +			if (ret !=3D -ENOSPC)
-> > =C2=A0				return ret;
-> > -			if (likely(!ret) || !force_space)
-> > -				break;
-> > -
-> > -			ret =3D ttm_mem_evict_first(bdev, man,
-> > place, ctx,
-> > -						=C2=A0 ticket);
-> > -			if (unlikely(ret =3D=3D -EBUSY))
-> > -				break;
-> > -			if (unlikely(ret))
-> > +			if (!may_evict)
-> > +				continue;
-> > +
-> > +			ret =3D ttm_bo_evict_alloc(bdev, man, place,
-> > bo, ctx,
-> > +						 ticket, res);
-> > +			if (ret =3D=3D -EBUSY)
-> > +				continue;
-> > +			if (ret)
-> > =C2=A0				return ret;
-> > -		} while (1);
-> > -		if (ret)
-> > -			continue;
-> > +		}
-> > =C2=A0
-> > =C2=A0		ret =3D ttm_bo_add_move_fence(bo, man, ctx-
-> > >no_wait_gpu);
-> > =C2=A0		if (unlikely(ret)) {
-> > @@ -796,7 +725,6 @@ static int ttm_bo_alloc_resource(struct
-> > ttm_buffer_object *bo,
-> > =C2=A0		}
-> > =C2=A0		return 0;
-> > =C2=A0	}
-> > -
->=20
-> Nit, seems unrelated.
-
-Yup. Will fix.
-
->=20
-> Matt
->=20
-> > =C2=A0	return -ENOSPC;
-> > =C2=A0}
-> > =C2=A0
-> > diff --git a/drivers/gpu/drm/ttm/ttm_resource.c
-> > b/drivers/gpu/drm/ttm/ttm_resource.c
-> > index a03090683e79..6d0c66fc36e3 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_resource.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> > @@ -508,24 +508,10 @@ int ttm_resource_manager_evict_all(struct
-> > ttm_device *bdev,
-> > =C2=A0	};
-> > =C2=A0	struct dma_fence *fence;
-> > =C2=A0	int ret;
-> > -	unsigned i;
-> > -
-> > -	/*
-> > -	 * Can't use standard list traversal since we're
-> > unlocking.
-> > -	 */
-> > =C2=A0
-> > -	spin_lock(&bdev->lru_lock);
-> > -	for (i =3D 0; i < TTM_MAX_BO_PRIORITY; ++i) {
-> > -		while (!list_empty(&man->lru[i])) {
-> > -			spin_unlock(&bdev->lru_lock);
-> > -			ret =3D ttm_mem_evict_first(bdev, man, NULL,
-> > &ctx,
-> > -						=C2=A0 NULL);
-> > -			if (ret)
-> > -				return ret;
-> > -			spin_lock(&bdev->lru_lock);
-> > -		}
-> > -	}
-> > -	spin_unlock(&bdev->lru_lock);
-> > +	do {
-> > +		ret =3D ttm_bo_evict_first(bdev, man, &ctx);
-> > +	} while (!ret);
-> > =C2=A0
-> > =C2=A0	spin_lock(&man->move_lock);
-> > =C2=A0	fence =3D dma_fence_get(man->move);
-> > diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-> > index 472a55b69afb..148f49f625e4 100644
-> > --- a/include/drm/ttm/ttm_bo.h
-> > +++ b/include/drm/ttm/ttm_bo.h
-> > @@ -415,11 +415,9 @@ long ttm_bo_swapout(struct ttm_device *bdev,
-> > struct ttm_operation_ctx *ctx,
-> > =C2=A0		=C2=A0=C2=A0=C2=A0 pgoff_t target);
-> > =C2=A0void ttm_bo_pin(struct ttm_buffer_object *bo);
-> > =C2=A0void ttm_bo_unpin(struct ttm_buffer_object *bo);
-> > -int ttm_mem_evict_firevictedst(struct ttm_device *bdev,
-> > -			struct ttm_resource_manager *man,
-> > -			const struct ttm_place *place,
-> > -			struct ttm_operation_ctx *ctx,
-> > -			struct ww_acquire_ctx *ticket);
-> > +int ttm_bo_evict_first(struct ttm_device *bdev,
-> > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_resource_manager *ma=
-n,
-> > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_operation_ctx *ctx);
-> > =C2=A0vm_fault_t ttm_bo_vm_reserve(struct ttm_buffer_object *bo,
-> > =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0 struct vm_fault *vmf);
-> > =C2=A0vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
-> > --=20
-> > 2.44.0
-> >=20
-
+> 
+> >> If relying on exported symbols only, then our IB and ETH drivers will need
+> >> to export symbols too because the core driver accesses them post probing.
+> > 
+> > So you should fix your core driver. This is exactly what auxbus model
+> > proposes.
+> > 
+> >> Hence we won't be able to load the core driver without both of them (or
+> >> loading anything due to circular dependency).
+> >> Unless we'll use dynamic symbol lookup and I don't think that's your
+> >> intention.
+> > 
+> > No it is not.
+> > 
+> >>
+> >>>>
+> >>>>>>
+> >>>>>>>> +             dev_err(hdev->dev, "Failed to increment %s module refcount\n",
+> >>>>>>>> +                     module_name(THIS_MODULE));
+> >>>>>>>> +             rc = -EIO;
+> >>>>>>>> +             goto module_get_err;
+> >>>>>>>> +     }
+> >>>>>>>> +
+> >>>>>>>> +     timeout = ktime_add_ms(ktime_get(), hdev->pending_reset_long_timeout * MSEC_PER_SEC);
+> >>>>>>>> +     while (1) {
+> >>>>>>>> +             aux_ops->hw_access_lock(aux_dev);
+> >>>>>>>> +
+> >>>>>>>> +             /* if the device is operational, proceed to actual init while holding the lock in
+> >>>>>>>> +              * order to prevent concurrent hard reset
+> >>>>>>>> +              */
+> >>>>>>>> +             if (aux_ops->device_operational(aux_dev))
+> >>>>>>>> +                     break;
+> >>>>>>>> +
+> >>>>>>>> +             aux_ops->hw_access_unlock(aux_dev);
+> >>>>>>>> +
+> >>>>>>>> +             if (ktime_compare(ktime_get(), timeout) > 0) {
+> >>>>>>>> +                     dev_err(hdev->dev, "Timeout while waiting for hard reset to finish\n");
+> >>>>>>>> +                     rc = -EBUSY;
+> >>>>>>>> +                     goto timeout_err;
+> >>>>>>>> +             }
+> >>>>>>>> +
+> >>>>>>>> +             dev_notice_once(hdev->dev, "Waiting for hard reset to finish before probing IB\n");
+> >>>>>>>> +
+> >>>>>>>> +             msleep_interruptible(MSEC_PER_SEC);
+> >>>>>>>> +     }
+> >>>>>>>
+> >>>>>>> The code above is unexpected.
+> >>>>>>>
+> >>>>>>
+> >>>>>> We have no control on when the user insmod the IB driver.
+> >>>>>
+> >>>>> It is not true, this is controlled through module dependencies
+> >>>>> mechanism.
+> >>>>>
+> >>>>
+> >>>> Yeah, if we would use EXPORT_SYMBOLs for inter driver communication but
+> >>>> we don't.
+> >>>
+> >>> So please use it and don't add complexity where it is not needed.
+> >>>
+> >>>>
+> >>>>>> As a result it is possible that the IB auxiliary device will be probed
+> >>>>>> while the compute device is under reset (due to some HW error).
+> >>>>>
+> >>>>> No, it is not possible. If you structure your driver right.
+> >>>>>
+> >>>>
+> >>>> Again, it is not possible if we would use EXPORT_SYMBOLs.
+> >>>> Please let me know if we misunderstood something because AFAIU we followed
+> >>>> the auxiliary bus doc usage example.
+> >>>
+> >>> It is better to follow actual drivers that use auxiliary bus and see how
+> >>> they implemented it and not rely on examples in the documentation.
+> >>>
+> >>
+> >> But isn't that what the doc for? to explain the guidelines? and it's not
+> >> that there is a big red note there of "this example should not be taken as
+> >> is, please look at your subsystem guidelines".
+> > 
+> > At the beginning that doc was located in Documentation/ folder and no one
+> > really cared about it. After moving from Documentation/ to drivers/base/auxiliary.c,
+> > it became more visible, but still no one relied on it. You are first one
+> > who read.
+> > 
+> > There is no subsystem rules here. Everyone relied on EXPORT_SYMBOLs and didn't
+> > use ops structure. Kernel is evolving project, there is no need to find a rule
+> > for everything.
+> > 
+> > Thanks
+> > 
+> >>
+> >>> Thanks
+> >>>
+> >>>>
+> >>>>> Thanks
