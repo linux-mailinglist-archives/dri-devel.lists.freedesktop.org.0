@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BD67914E81
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 15:29:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29625914F27
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 15:51:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF0DE10E24C;
-	Mon, 24 Jun 2024 13:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A67D10E44A;
+	Mon, 24 Jun 2024 13:51:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nvSHYiCf";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="eZY9j/30";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D3BA10E24C
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 13:29:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C161960C5C;
- Mon, 24 Jun 2024 13:29:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E997C2BBFC;
- Mon, 24 Jun 2024 13:29:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719235758;
- bh=8eQ3vjWbIPNKuR00ZsA+8U+jf29/BI77yt+GVwyLS6U=;
- h=From:To:Cc:Subject:Date:From;
- b=nvSHYiCfHEXLj4nyHmXwZT3bnft5CSmbgDuQWyL5boDFTHbKKg/JCwxGIiU8gCBO8
- uRSFZWnb204PWvsiGogWeqhfDA9gYjldF0/Gu8TsqlTn0SdXXz/0UghDH4BFiw28RI
- ZuwDJFm9fvwwumPt96Zzd4SoKh4ZHPoWjXB8e2DGTVIvV0JoQvd5qd61GWIePwcS1g
- x/s53S0KMZ7QIw6ZyDDqLWTA6IYE0LGPtoqqd+N+fe9CccUBvfGVWo1ZYes4ajDT4g
- 7/16a2WO1p4kXUV7N51OmJQGadmQuF3MD8rb1Gp1vddaVBx3EYB6w+7Kcl8AhB6sLL
- bGFttOMlrRvsg==
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Helge Deller <deller@gmx.de>
-Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] fbdev: Drop explicit initialization of struct
- i2c_device_id::driver_data to 0
-Date: Mon, 24 Jun 2024 15:29:04 +0200
-Message-ID: <20240624132905.1245221-2-ukleinek@kernel.org>
-X-Mailer: git-send-email 2.43.0
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8D0C10E44A
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 13:51:50 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 04E4588405;
+ Mon, 24 Jun 2024 15:51:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1719237108;
+ bh=VLtud6pTyV/LBm2oJMXCE9JZgDDVma/emrUfDonAicw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=eZY9j/30nf6ipDIqdRMgbFA9kyf/Dn0/PMI+vPGMcKyIxYNZd42LvOZo8Hx/iNzU3
+ h1dxOIwEFYcdBFzGFTznrYH6nFgZRilNzRWZOUdz7Tc8c2LM+um+vP7JaEnoKU3c9G
+ fh6ml+VlObwA/+jsTtxh89EyfUvwKRy/I7Q4Vrc4K+0EpMMjkEVNxYDowB29zPK1Lz
+ yr4qt+rkI6VRafeq4VpBp6Q/7yShN5nQV1wqTj4WoDwhcqpDGfK066pDXeDofkWLZm
+ 1EUmlBCGfDQYNOwWV9/390TUYKtR8lfe6g0DQu5rfObFPF/Yq2yVahIyoF4zhT7SRY
+ q/l/myxrZBSnA==
+Message-ID: <1cafb9f4-ad2d-46a5-9bf4-8f699678ee85@denx.de>
+Date: Mon, 24 Jun 2024 15:41:10 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1628; i=ukleinek@kernel.org;
- h=from:subject; bh=xekor7BpsrcZ5xz5Zo5vwbnz9/ZrRZLKRNB4Gve+3UA=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmeXShGQ6GmX9WaV1ylibHoJMCVX8p4Vcjw86+p
- XuHx2uFTUSJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZnl0oQAKCRCPgPtYfRL+
- Ts/vCACzjHkYq9eKhcW9TqLnmR1Jc+TGYte+X1GTpUKTliNQP8sAK1r7dO/5VeKOO4U/lZXQQha
- efc7SFj5jL0dinYFv4PFgV6zi6v3MeBoZ4EXpeunTsvqRi2wkcWQPm3cjCzQcsNp7Gn6ugb3S4E
- xXLpdm8dQ2pBiKJXbSghFJSKDy98X6wpF2YLzi86DLc7u2FiA/KdKOwMjVvDYzSeitp4P4gor0M
- kjoxcMs3cDaPAyltjb/a8ssmVjNTjQAfFOpsIpR0SIrCqfpwSPua+91xMfh2fhf9z58SU/diKpP
- gT9zVfi2K+dHJTUxaeOLwPlewib7tfkf8cR5Oso+Ra0ZAdGI
-X-Developer-Key: i=ukleinek@kernel.org; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [1/2] drm: bridge: samsung-dsim: Initialize bridge on attach
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org, Michael Walle <mwalle@kernel.org>
+Cc: Adam Ford <aford173@gmail.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
+References: <20240513021849.129136-1-marex@denx.de>
+ <2199187.Mh6RI2rZIc@steina-w>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <2199187.Mh6RI2rZIc@steina-w>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,55 +74,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+On 6/24/24 11:26 AM, Alexander Stein wrote:
 
-These drivers don't use the driver_data member of struct i2c_device_id,
-so don't explicitly initialize this member.
+Hello Alexander,
 
-This prepares putting driver_data in an anonymous union which requires
-either no initialization or named designators. But it's also a nice
-cleanup on its own.
+> Am Montag, 13. Mai 2024, 04:16:27 CEST schrieb Marek Vasut:
+>> Initialize the bridge on attach already, to force lanes into LP11
+>> state, since attach does trigger attach of downstream bridges which
+>> may trigger (e)DP AUX channel mode read.
+>>
+>> This fixes a corner case where DSIM with TC9595 attached to it fails
+>> to operate the DP AUX channel, because the TC9595 enters some debug
+>> mode when it is released from reset without lanes in LP11 mode. By
+>> ensuring the DSIM lanes are in LP11, the TC9595 (tc358767.c driver)
+>> can be reset in its attach callback called from DSIM attach callback,
+>> and recovered out of the debug mode just before TC9595 performs first
+>> AUX channel access later in its attach callback.
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+> 
+> This does the trick on my hardware as well.
+> Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
- drivers/video/fbdev/matrox/matroxfb_maven.c | 2 +-
- drivers/video/fbdev/ssd1307fb.c             | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+Thank you. I still have to address your previous comment on 1/2, I 
+didn't get to that one yet, sorry.
 
-diff --git a/drivers/video/fbdev/matrox/matroxfb_maven.c b/drivers/video/fbdev/matrox/matroxfb_maven.c
-index b15a8ad92ba7..dcfae770b42d 100644
---- a/drivers/video/fbdev/matrox/matroxfb_maven.c
-+++ b/drivers/video/fbdev/matrox/matroxfb_maven.c
-@@ -1282,7 +1282,7 @@ static void maven_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id maven_id[] = {
--	{ "maven", 0 },
-+	{ "maven" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, maven_id);
-diff --git a/drivers/video/fbdev/ssd1307fb.c b/drivers/video/fbdev/ssd1307fb.c
-index 3f30af3c059e..aa6cc0a8151a 100644
---- a/drivers/video/fbdev/ssd1307fb.c
-+++ b/drivers/video/fbdev/ssd1307fb.c
-@@ -782,10 +782,10 @@ static void ssd1307fb_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ssd1307fb_i2c_id[] = {
--	{ "ssd1305fb", 0 },
--	{ "ssd1306fb", 0 },
--	{ "ssd1307fb", 0 },
--	{ "ssd1309fb", 0 },
-+	{ "ssd1305fb" },
-+	{ "ssd1306fb" },
-+	{ "ssd1307fb" },
-+	{ "ssd1309fb" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ssd1307fb_i2c_id);
-
-base-commit: f76698bd9a8ca01d3581236082d786e9a6b72bb7
--- 
-2.43.0
-
+Also, I am not sure if this should be applied as-is, it is a borderline 
+workaround and there was some discussion about fixing the LP11 lane mode 
+switch properly. Michael ?
