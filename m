@@ -2,83 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330EB91548F
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 18:44:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDEC91549E
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 18:45:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18A0D10E244;
-	Mon, 24 Jun 2024 16:44:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A9E810E4EE;
+	Mon, 24 Jun 2024 16:45:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WiXjVg64";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="OyTTs5O8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 802C610E27D
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 16:44:09 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-42172ed3597so27116405e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:44:09 -0700 (PDT)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
+ [209.85.160.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A03DB10E4EE
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 16:45:52 +0000 (UTC)
+Received: by mail-qt1-f178.google.com with SMTP id
+ d75a77b69052e-443586c2091so841cf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:45:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719247448; x=1719852248; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Ved9pZHSLvDLUPYxuu5ADz4/DRMPqTel82rQmFgJsv8=;
- b=WiXjVg64pJZQhl4M0h6g0juYG72H/GLB4Ag3vHAqVHZykQgXOqFELTYoZxRaJvvkLj
- o5vuN6RGZtSib6aV3UsCvZ5QEMMIksxXKXaqnKzGtP240w95HC1qWQpFpjIkrGf25Xvg
- 8zr4aAZeOQMkowd7/6p/2+hSyZjTdwSTpSjjVb4K8ksRyYU2YSsh0bw8aqbFFuVC+2QJ
- sXLOV8/efSKeAfeE+hjBVrjaLojG6H4tw6RT4aNQIbDFgMOauadGX464u2tU26uOkqjJ
- fyULM7Fa89qk+fQLoeR5gOHpGranwCtYarp3IFlDnLydyCLXSLrN454h3ANSqht3JUIT
- 0AIw==
+ d=google.com; s=20230601; t=1719247551; x=1719852351;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=x7+3fE/z2eqo4JMbpyr9vRiW9tYZPuPhGSl35o712FI=;
+ b=OyTTs5O83Si+0W3k8TthvySMh7nfyod34EYlIXfqnYfJYSYwzLDSifYyfvp3R1Hmmc
+ 4e9TAkfe0H0iXiy/lsHkyL/1SG95dmfMX/Mwtih0+VptinSGw/FPar2slC7u4TWoDwFp
+ yHqqgQ6XDHsGppRCOPGkARV4RUXD8LzV8fLfB8kVjACmK+UiQpHIao5P5Qa+MQQQj0VC
+ MtNFIVqoy738WW/a0gPGGYMQKBU+QrimZHTHSXbJ3qbNaS8709TGLIrOkGoPVHMV87OR
+ sRkDKElI0Yg7V13b8ZDlHy9utJwOg8zbx352JIZ3V39A1Kg8mwm2zAbeCRJa3YVHvTX3
+ hwDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719247448; x=1719852248;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1719247551; x=1719852351;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Ved9pZHSLvDLUPYxuu5ADz4/DRMPqTel82rQmFgJsv8=;
- b=O1939V/chAjNBCePCbDWowjo1c1uhxnTAQy7qVY406k4CPK3bVkBMcuagsZmQhUj0W
- Bjr7QalUBYV7BpfHXLhCSDwz0oraxX91E0n7AGJiwOXAaZoiDgkLkYBHbIEAO1qB2ITn
- XCfi2oxiP6wLVAQUIBHPo/H3AyqnwW5T48ZlPWUiu00+XK7NFp2FiYIS3kn+ZyvY2d4j
- YIekLgjucfOJmIzivuvrYqEjSGhf+pJSWpomBiuph070/ESGyHYp43Xl6EFPPsObYDi1
- fIrzjWmfcc37V0yoRbxQBAEGHVJpr21+xKgLV0J2MbNy4Y3DMBMXMbxp6hgPsP0Y9I15
- no2w==
-X-Gm-Message-State: AOJu0YzBVrl2MlsMnsr/60zeHWKtQjjJYgPjLW7iPg3J9Be8Rp9gZICi
- gJX357+ohS2zHXNexZe2lUbYk2paRN8wGTEIyq31fZsjd4pzN0HD
-X-Google-Smtp-Source: AGHT+IFxufk+8bZWSFo5H95XETmbIR8xWYc74lh7Lzz8/zakL9+PW+wJ3qLYXaIxadr7Xc+Z3bl8Bg==
-X-Received: by 2002:a05:600c:138e:b0:421:805f:ab3c with SMTP id
- 5b1f17b1804b1-42489533effmr61514635e9.14.1719247447674; 
- Mon, 24 Jun 2024 09:44:07 -0700 (PDT)
-Received: from [127.0.1.1] (84-115-213-103.cable.dynamic.surfer.at.
- [84.115.213.103]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42484fc0aecsm126090365e9.12.2024.06.24.09.44.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jun 2024 09:44:07 -0700 (PDT)
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Mon, 24 Jun 2024 18:43:48 +0200
-Subject: [PATCH 3/3] drm/mediatek: ovl_adaptor: use scoped variant of
- for_each_child_of_node()
+ bh=x7+3fE/z2eqo4JMbpyr9vRiW9tYZPuPhGSl35o712FI=;
+ b=v2DlzBE0fGq0TN+f/BHiWKx6IhA1ogXDgGHsvi15TZ69iYspNVP25Pbab+e4PZ/CeY
+ eK3zthlwtwCoJikk4SjdSoNoTUPtS7Vcy74kVPeNn0jQLrTl18hWYwGLfpzEkW8SxsrK
+ KNo3nR+1ezCzRCOXFNEdMml+KeuvvxleArkWh41HqmnyptOcU9SVzqevFFaQAqypuYDV
+ fu/5WgG//heuh3vwX44Mwm3SiGSm9PgeTVBaKmtNPO66w7QDaxROdO0mZbYv6Ht67/gg
+ 1ftdcRbOrn3JQsjeEm1Uu00wRoflI1SPSnfGo7SzKI5v5+9MwrxNsPFHwKOOEHj1dkGV
+ YnCQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUbd4QQrG/55jzBBHJbLOu25cwVJTIBBOltSuyGW7UxxFGElOMRVXI3SDfqDKCr7ifoRaT7c3GVKaF/mSpvioyRrYNH8D8Xe1kugBvgnP4X
+X-Gm-Message-State: AOJu0YwKVwlhuoL/iO9wRk8h3ZPSRpzfQf8A14dpFREYD5X2jO4T/XX1
+ t2DMFNel45pZR3//kEKJLfeceXV+4nhXa80U/SuZLA9TwcURs81SG9W7agO07MPqI8NWpRGMLv6
+ XHpfs1Hr4A6MxaoKV5Fv1y8fKqAlcodobaSSw
+X-Google-Smtp-Source: AGHT+IFaxMpEm2LuOUeg0YWpZpls4eMoSSiEoi4Mw3USzXJofjJV3Rc5g2Eg/oubpc2kMeXq42i1kSjw/vsIL8qpsQs=
+X-Received: by 2002:ac8:5748:0:b0:444:cdc4:fef5 with SMTP id
+ d75a77b69052e-444ce38fbebmr6032061cf.27.1719247551241; Mon, 24 Jun 2024
+ 09:45:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240624-mtk_disp_ovl_adaptor_scoped-v1-3-9fa1e074d881@gmail.com>
-References: <20240624-mtk_disp_ovl_adaptor_scoped-v1-0-9fa1e074d881@gmail.com>
-In-Reply-To: <20240624-mtk_disp_ovl_adaptor_scoped-v1-0-9fa1e074d881@gmail.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- "Nancy.Lin" <nancy.lin@mediatek.com>
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1719247441; l=1676;
- i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=wa0T80IF/y+nnAamP5x5ocsqIEtI9E9JOf3ilDfD1yo=;
- b=M9kK0ImZkRyD1NOWZet5N+FhNkzhbstvrwy7I96XW9Qwjr5TGDy8zsCLgzUzrxPsLZTtpED/X
- cFIZmEu7appC+67/uzXN9oG5FM74e5jHbRgj7YIRdMdBI8ar0b/8ytM
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
- pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
+References: <20240624141926.5250-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240624141926.5250-5-lvzhaoxiong@huaqin.corp-partner.google.com>
+In-Reply-To: <20240624141926.5250-5-lvzhaoxiong@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@google.com>
+Date: Mon, 24 Jun 2024 09:45:39 -0700
+Message-ID: <CAD=FV=Wcn7GGhdOCS3BOZj2AX1N3SCG5psco-4X75yO83DkpRg@mail.gmail.com>
+Subject: Re: [PATCH v5 4/5] drm/panel: jd9365da: Support for kd101ne3-40ti
+ MIPI-DSI panel
+To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org, 
+ benjamin.tissoires@redhat.co, hsinyi@google.com, jagan@edgeble.ai, 
+ neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
+ dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,49 +86,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to avoid potential memory leaks if new error paths are added
-without a call to of_node_put(), use for_each_child_of_node_scoped()
-instead of for_each_child_of_node(). The former automatically decrements
-the refcount when the child goes out of scope, which removes the need
-for explicit calls to of_node_put().
+Hi,
 
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+On Mon, Jun 24, 2024 at 7:21=E2=80=AFAM Zhaoxiong Lv
+<lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
+>
+> The K&d kd101ne3-40ti is a 10.1" WXGA TFT-LCD panel, use
+> jd9365da controller,which fits in nicely with the existing
+> panel-jadard-jd9365da-h3 driver.Hence,we add a new compatible
+> with panel specific config.
+>
+> Although they have the same control IC, the two panels are different,
+> and the timing will be slightly different, so we added some variables
+> in struct jadard_panel_desc to control the timing.
+>
+> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+> ---
+> Changes between V5 and V4:
+> -  1. Add a "_ms" suffix to the variables.
+> -  2. Use more "_multi" in the enable/disable function
+> -  3. Use mipi_dsi_dcs_write_seq_multi() in the init() function.
+>
+> V4:https://lore.kernel.org/all/20240620080509.18504-4-lvzhaoxiong@huaqin.=
+corp-partner.google.com/
+>
+> Changes between V4 and V3:
+> -  1. Use mipi_dsi_msleep.
+> -  2. Adjust the ".clock" assignment format.
+> -  3. Adjust "compatible" positions to keep the list sorted.
+>
+> V3:https://lore.kernel.org/all/20240614145510.22965-4-lvzhaoxiong@huaqin.=
+corp-partner.google.com/
+>
+> Changes between V3 and V2:
+> -  1. Give up creating a new driver and re-add K&d kd101ne3-40ti
+> -     configuration to the panel-jadard-jd9365da-h3.c driver.
+>
+> V2:https://lore.kernel.org/all/20240601084528.22502-3-lvzhaoxiong@huaqin.=
+corp-partner.google.com/
+>
+> Changes between V2 and V1:
+> -  1. Use the new mipi_dsi_dcs_write_seq_multi() function.
+> -  2. Modify Move mipi_dsi_dcs_set_display_off() and mipi_dsi_dcs_enter_s=
+leep_mode() to disable(),
+> -  and drop kingdisplay_panel_enter_sleep_mode().
+> -  3. If prepare fails, disable GPIO before regulators.
+> -  4. This function drm_connector_set_panel_orientation() is no longer us=
+ed. Delete it.
+> -  5. Drop ".shutdown =3D kingdisplay_panel_shutdown".
+>
+> ---
+>  .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 277 ++++++++++++++++++
+>  1 file changed, 277 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-index 3faf26a55e77..aec927cce468 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-@@ -493,12 +493,12 @@ static int compare_of(struct device *dev, void *data)
- static int ovl_adaptor_comp_init(struct device *dev, struct component_match **match)
- {
- 	struct mtk_disp_ovl_adaptor *priv = dev_get_drvdata(dev);
--	struct device_node *node, *parent;
-+	struct device_node *parent;
- 	struct platform_device *comp_pdev;
- 
- 	parent = dev->parent->parent->of_node->parent;
- 
--	for_each_child_of_node(parent, node) {
-+	for_each_child_of_node_scoped(parent, node) {
- 		const struct of_device_id *of_id;
- 		enum mtk_ovl_adaptor_comp_type type;
- 		int id;
-@@ -522,10 +522,8 @@ static int ovl_adaptor_comp_init(struct device *dev, struct component_match **ma
- 		}
- 
- 		comp_pdev = of_find_device_by_node(node);
--		if (!comp_pdev) {
--			of_node_put(node);
-+		if (!comp_pdev)
- 			return -EPROBE_DEFER;
--		}
- 
- 		priv->ovl_adaptor_comp[id] = &comp_pdev->dev;
- 
+It still seems weird to me that the other variants of the same panel
+don't need similar delays, but the code looks fine to me now:
 
--- 
-2.40.1
-
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
