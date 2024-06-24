@@ -2,84 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575CF915589
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 19:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21BA69155B5
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 19:47:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 292E210E00F;
-	Mon, 24 Jun 2024 17:40:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54F1210E513;
+	Mon, 24 Jun 2024 17:47:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lLQMfRXA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iNaKr5M7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC7CB10E00F
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 17:40:01 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2ec5779b423so23500771fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 10:40:01 -0700 (PDT)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 483E810E51C
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 17:47:42 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id
+ 4fb4d7f45d1cf-57ccd1111aeso5506277a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 10:47:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719250800; x=1719855600; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=X4I6nP/vTxwMdJ/dV3TQHmb3v1qJ/dluw5GaWCNXlms=;
- b=lLQMfRXAXx4p9dB+zdkch4cmePa+i0bdqeBPvWCgcjaB2BOAGyCHiUZMST1MVYvQ64
- Bs5qrPoStEG/4LA5wLRJJfqjbCl/wOArlQF8QW2y71SyUP2NzQS3wzM7DCjb45AlqodV
- fYl8e2VSScNzCO1i0kQPB7pyZyZlN3t7eg/jHhWQun4N+EmsDaqaYftI7g/jGfXKokAI
- Gs2CcP5R/W9AHm5cWASu823ppUR2vfWwjyaI/5KO5G1Zp/Lx+xAIgDwxhYMzoefd9sdT
- IucyoEAtwzkDgvTATbpPHlHoEDCEHsaTOgPi6Wl6agICmcAYEHfcbvyLBx4MPsZNZ7Au
- 4ntQ==
+ d=gmail.com; s=20230601; t=1719251260; x=1719856060; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BOb9gSLJ0xlleU+rm7RlY5Hz+BM/tF+SbhCCKq8yGvQ=;
+ b=iNaKr5M7JDM1wD3MwaMQ8/iC098JVE/tfcLkvMbrMj5zYrMAdIhGgSXvMnnxzrqyUo
+ /Jo5TtsX+VERkxqmvh2sV6KX/y8QkAInq2PoXJJVh6Uwlo3yG1HUOsILUIi8VlbzVFhE
+ TCGUqjS3KpBdd6lw3xV/hX9mo3weqvEQ09IwI0aU1feu9hbI2VXhlvuCsynt271KRRmK
+ ZmwoAwA6LIWRVOPR/4CxiPpIFVdi9H2fw9vzNDrZWl1CRVjRRZc+TRRHOXJydiwIebkf
+ IB6cBKRkdNmf95jgUrWUZvfwVxebAqzpI5HYAZtMONHGynQ+5h9rZBH57wcMJQUNfU4k
+ UJvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719250800; x=1719855600;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=X4I6nP/vTxwMdJ/dV3TQHmb3v1qJ/dluw5GaWCNXlms=;
- b=Xqc+rsC/dNUQfYlIA1cw+/uvQMZoiCoDduBVgCToqSM6VAGFfKr6d/rMV+K8uJStNv
- fOe/1Z4nuEbXJyLf7H6ijoF929cka60t4+fFFYHKpFd105Gj0dlUfHxmXhI4mP2qIXOd
- vtcEftS4KbEQIlWa3UKKE946Snm+1ZCShxskDwNZUNRsSTBSJL+D9MPGIjWiAG4Tn7Uh
- 45UvPMVjS5jR9Kg72qabAFMelwmRTJYDGyIbeCKGz7bwmS/GvNZpLYw/7rxXwIs79v3d
- NRs1PyL5dD3rGmobJZTeJgcsQlAUMJTTcBA99nWW7ClIqXeyO4Iv8me6LQbe7hVuXTfv
- MFkA==
-X-Gm-Message-State: AOJu0YxVa5DYKYU7/Iz5dgJCKYYmzNxegW5Af1O5V5boQNyd4UuU7S3l
- 6rAeh/SNgocQa4VwcakPMto/diZB8NhTXyMfkxdGfuMdO19ceWRugH5VnP8SDIQ=
-X-Google-Smtp-Source: AGHT+IEh/iyrIRntkObUotPBA+wdBYxw0BsT77HvhE4PadtEX9XW7b2sxv0RwYrWpQ0mB8zBTSgWgQ==
-X-Received: by 2002:a05:651c:2119:b0:2ec:681b:5b50 with SMTP id
- 38308e7fff4ca-2ec681b5f72mr4572391fa.11.1719250799656; 
- Mon, 24 Jun 2024 10:39:59 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec5d2c3446sm5120581fa.38.2024.06.24.10.39.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jun 2024 10:39:59 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 24 Jun 2024 20:39:58 +0300
-Subject: [PATCH] drm/connector: hdmi: shorten too long function name
+ d=1e100.net; s=20230601; t=1719251260; x=1719856060;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BOb9gSLJ0xlleU+rm7RlY5Hz+BM/tF+SbhCCKq8yGvQ=;
+ b=QYYVn4/Q+7xwQyiyN1zaSkiUBm3mlcMLBaJwwKzlbcf5I1fl8+iw6zPhQ+Z484DUOI
+ UGc2QbyFcMCE7h416KB0QPleSw5lIU+E1/rAimMx9iXkq6GTYSiaCb1PIBmBgiCT3sH7
+ j5wqXNLDnmdt0q5EEnsBY7kMg9hnSHG3mPYr27nCt+fw45kau4Ji1ddE2nRtFqKBDiR2
+ L4Dt5hjTLqt0KAQz1oqX/2R9FMw04V6lgdnuDZfltxviIKeBgDQVuwzzbNn8dBPp0IOl
+ Pz0pdrSvyEyFuQnUrUaKYAfaPc5aU5nDcgIR1T7GACleuAx6aBysNqHHBX6Qekp9KrGE
+ paKQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXE/RGmF88Bjz2A3daeNRUxrBwotSVf62EbWqKK4YOtEsYt6BaFN684tvEUuvVpYYHniCErx5Yqkypjcdg0efraH4XVb0yOZQToDkfgY7/T
+X-Gm-Message-State: AOJu0Ywnpkt0fRUit0G7WYUUteD75rkiE8LyXbvyPF+D8BQX+BOPLjds
+ gUp36ysoj1cR0xTxlpI8Na453vxGrW4BG0g1D+x2M/8CkKeYGo766sFNldHTyReT+K6hhjucfbZ
+ 4jL8C3//wV1eMaO/0sjo9Uk4G7oI=
+X-Google-Smtp-Source: AGHT+IHDmLT6XkbgHSOTjmXW55Rq4W+NpYDNvMEVVZhKik2gn5XHtt5EBd2++dPx+QYdusQDPYH2YeYL/SSL9WXyWsI=
+X-Received: by 2002:a50:8e1b:0:b0:57d:22ef:d055 with SMTP id
+ 4fb4d7f45d1cf-57d7004c7f9mr317161a12.24.1719251260239; Mon, 24 Jun 2024
+ 10:47:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240624-hdmi-connector-shorten-name-v1-1-5bd3410138db@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAG2veWYC/x3MwQqDMAwA0F+RnA3UWNzYrwwPXRvXHExHKjIQ/
- 93i8V3eAZVNuMKrO8B4lypFG4a+g5iDfhklNQM58m4ijzmtgrGoctyKYc3FNlbUsDKOA1F6Ov+
- Z4gPa8DNe5H/v7/k8L1LoJTltAAAA
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+References: <20240606005416.1172431-1-adrian.larumbe@collabora.com>
+ <20240606005416.1172431-7-adrian.larumbe@collabora.com>
+ <1c40ea3a-ac58-4fa9-a7e5-3af880effb0e@ursulin.net>
+In-Reply-To: <1c40ea3a-ac58-4fa9-a7e5-3af880effb0e@ursulin.net>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 24 Jun 2024 10:47:28 -0700
+Message-ID: <CAF6AEGsrSH-M0UMEC5=CfK3MGx96q5ohSpQe1e+V_E127w_7Bw@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] drm/drm_file: add display of driver's internal
+ memory size
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>, 
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3067;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=rFspHFmOyiFGXqZvDfFVtBS2+jLZUsqxipNk0i6GmJE=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmea9uPJTjZRiOibJPcz5nFHytq9vOX0HcFPm1P
- jPg/exgeCOJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZnmvbgAKCRCLPIo+Aiko
- 1WQDB/4zH94esAY7J/6Qv7nPTGRI9qb7iXNNoQI+f3yug4LgXeV2+rvQDDc2z7dPfb1VKWNFy6Y
- Et9nvs2Xv6lQ3QHh3xl0X3l/DqhzxOtfmg8XO7LhqRqS5KhWXA95CyrGzOLwuNgxVFC7R+GxX95
- qE18uh8iTr9U4iKLZ+FliIekM+kz+hAw8KkP3B7UqBU1PnTI7ZyerW6XS3Si6C6vcodm8E8gkwb
- IVljS88TG9+eOzSfUqrjqklLZYOsfQbGMnSZkrSHrXKFIN+fyj8y5QMfuSmVAmxOF4n0guNS81d
- CN7+Om6r/u9MJplaEeaang585QgXa4+pAvjXFD96gK+TNEIN
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ kernel@collabora.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,66 +88,220 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If CONFIG_MODVERSIONS is enabled, then using the HDMI Connector
-framework can result in build failures. Rename the function to make it
-fit into the name requirements.
+On Thu, Jun 6, 2024 at 1:35=E2=80=AFAM Tvrtko Ursulin <tursulin@ursulin.net=
+> wrote:
+>
+>
+> On 06/06/2024 02:49, Adri=C3=A1n Larumbe wrote:
+>
+> > Some drivers must allocate a considerable amount of memory for bookkeep=
+ing
+> > structures and GPU's MCU-kernel shared communication regions. These are
+> > often created as a result of the invocation of the driver's ioctl()
+> > interface functions, so it is sensible to consider them as being owned =
+by
+> > the render context associated with an open drm file.
+> >
+> > However, at the moment drm_show_memory_stats only traverses the UM-expo=
+sed
+> > drm objects for which a handle exists. Private driver objects and memor=
+y
+> > regions, though connected to a render context, are unaccounted for in t=
+heir
+> > fdinfo numbers.
+> >
+> > Add a new drm_memory_stats 'internal' memory category.
+> >
+> > Because deciding what constitutes an 'internal' object and where to fin=
+d
+> > these are driver-dependent, calculation of this size must be done throu=
+gh a
+> > driver-provided function pointer, which becomes the third argument of
+> > drm_show_memory_stats. Drivers which have no interest in exposing the s=
+ize
+> > of internal memory objects can keep passing NULL for unaltered behaviou=
+r.
+> >
+> > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+>
+> Please Cc people who were previously involved in defining
+> drm-usage-stats.rst. I added Rob, but I am not sure if I forgot someone
+> from the top of my head.
+>
+> Internal as a category sounds potentially useful. One reservation I have
+> though is itdoes not necessarily fit with the others but is something
+> semantically different from them.
+>
+> In i915 I had the similar desire to account for internal objects and
+> have approached it by similarly tracking them outside the DRM idr but
+> counting them under the existing respective categories and memory
+> regions. Ie. internal objects can also be purgeable or not, etc, and can
+> be backed by either system memory or device local memory.
+>
+> Advantage is it is more accurate in those aspect and does not require
+> adding a new category.
+>
+> Downside of this is that 'internal' is bunched with the explicit
+> userspace objects so perhaps less accurate in this other aspect.
+>
+> Regards,
+>
+> Tvrtko
+>
+> > ---
+> >   Documentation/gpu/drm-usage-stats.rst   | 4 ++++
+> >   drivers/gpu/drm/drm_file.c              | 9 +++++++--
+> >   drivers/gpu/drm/msm/msm_drv.c           | 2 +-
+> >   drivers/gpu/drm/panfrost/panfrost_drv.c | 2 +-
+> >   include/drm/drm_file.h                  | 7 ++++++-
+> >   5 files changed, 19 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/=
+drm-usage-stats.rst
+> > index 6dc299343b48..0da5ebecd232 100644
+> > --- a/Documentation/gpu/drm-usage-stats.rst
+> > +++ b/Documentation/gpu/drm-usage-stats.rst
+> > @@ -157,6 +157,10 @@ The total size of buffers that are purgeable.
+> >
+> >   The total size of buffers that are active on one or more engines.
+> >
+> > +- drm-internal-<region>: <uint> [KiB|MiB]
+> > +
+> > +The total size of GEM objects that aren't exposed to user space.
+> > +
+> >   Implementation Details
+> >   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> > index 638ffa4444f5..d1c13eed8d34 100644
+> > --- a/drivers/gpu/drm/drm_file.c
+> > +++ b/drivers/gpu/drm/drm_file.c
+> > @@ -874,9 +874,10 @@ void drm_print_memory_stats(struct drm_printer *p,
+> >                           enum drm_gem_object_status supported_status,
+> >                           const char *region)
+> >   {
+> > -     print_size(p, "total", region, stats->private + stats->shared);
+> > +     print_size(p, "total", region, stats->private + stats->shared + s=
+tats->internal);
+> >       print_size(p, "shared", region, stats->shared);
+> >       print_size(p, "active", region, stats->active);
+> > +     print_size(p, "internal", region, stats->internal);
+> >
+> >       if (supported_status & DRM_GEM_OBJECT_RESIDENT)
+> >               print_size(p, "resident", region, stats->resident);
+> > @@ -890,11 +891,12 @@ EXPORT_SYMBOL(drm_print_memory_stats);
+> >    * drm_show_memory_stats - Helper to collect and show standard fdinfo=
+ memory stats
+> >    * @p: the printer to print output to
+> >    * @file: the DRM file
+> > + * @func: driver-specific function pointer to count the size of intern=
+al objects
+> >    *
+> >    * Helper to iterate over GEM objects with a handle allocated in the =
+specified
+> >    * file.
+> >    */
+> > -void drm_show_memory_stats(struct drm_printer *p, struct drm_file *fil=
+e)
+> > +void drm_show_memory_stats(struct drm_printer *p, struct drm_file *fil=
+e, internal_bos func)
+> >   {
+> >       struct drm_gem_object *obj;
+> >       struct drm_memory_stats status =3D {};
+> > @@ -940,6 +942,9 @@ void drm_show_memory_stats(struct drm_printer *p, s=
+truct drm_file *file)
+> >       }
+> >       spin_unlock(&file->table_lock);
+> >
+> > +     if (func)
+> > +             func(&status, file);
 
-ERROR: modpost: too long symbol "drm_atomic_helper_connector_hdmi_disable_audio_infoframe" [drivers/gpu/drm/msm/msm.ko]
+Seems like it would be simpler to just pass `u64 internal` to
+drm_show_memory_stats() instead of a callback.
 
-Reported-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/display/drm_hdmi_state_helper.c | 6 +++---
- include/drm/display/drm_hdmi_state_helper.h     | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+But I agree with Tvrtko's comment about being somewhat (I think?)
+orthogonal to active/resident.  I guess somewhere you have a list of
+internal BOs?
 
-diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index 2dab3ad8ce64..7854820089ec 100644
---- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-+++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -716,7 +716,7 @@ drm_atomic_helper_connector_hdmi_update_audio_infoframe(struct drm_connector *co
- EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_update_audio_infoframe);
- 
- /**
-- * drm_atomic_helper_connector_hdmi_disable_audio_infoframe - Stop sending the Audio Infoframe
-+ * drm_atomic_helper_connector_hdmi_clear_audio_infoframe - Stop sending the Audio Infoframe
-  * @connector: A pointer to the HDMI connector
-  *
-  * This function is meant for HDMI connector drivers to stop sending their
-@@ -727,7 +727,7 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_update_audio_infoframe);
-  * Zero on success, error code on failure.
-  */
- int
--drm_atomic_helper_connector_hdmi_disable_audio_infoframe(struct drm_connector *connector)
-+drm_atomic_helper_connector_hdmi_clear_audio_infoframe(struct drm_connector *connector)
- {
- 	struct drm_connector_hdmi_infoframe *infoframe =
- 		&connector->hdmi.infoframes.audio;
-@@ -749,4 +749,4 @@ drm_atomic_helper_connector_hdmi_disable_audio_infoframe(struct drm_connector *c
- 
- 	return ret;
- }
--EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_disable_audio_infoframe);
-+EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_clear_audio_infoframe);
-diff --git a/include/drm/display/drm_hdmi_state_helper.h b/include/drm/display/drm_hdmi_state_helper.h
-index 285f366cf716..2d45fcfa4619 100644
---- a/include/drm/display/drm_hdmi_state_helper.h
-+++ b/include/drm/display/drm_hdmi_state_helper.h
-@@ -16,7 +16,7 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
- 
- int drm_atomic_helper_connector_hdmi_update_audio_infoframe(struct drm_connector *connector,
- 							    struct hdmi_audio_infoframe *frame);
--int drm_atomic_helper_connector_hdmi_disable_audio_infoframe(struct drm_connector *connector);
-+int drm_atomic_helper_connector_hdmi_clear_audio_infoframe(struct drm_connector *connector);
- int drm_atomic_helper_connector_hdmi_update_infoframes(struct drm_connector *connector,
- 						       struct drm_atomic_state *state);
- 
+Perhaps another option is to pass an (optionally NULL) list of BOs to
+drm_show_memory_stats() to iterate so that they can be counted as
+active/resident/etc?  Or yet another alternative, pass an (optionally
+NULL) `struct drm_memory_stats *` to initialize status.
 
----
-base-commit: f76698bd9a8ca01d3581236082d786e9a6b72bb7
-change-id: 20240624-hdmi-connector-shorten-name-3122d804b6c7
+BR,
+-R
 
-Best regards,
--- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
+> > +
+> >       drm_print_memory_stats(p, &status, supported_status, "memory");
+> >   }
+> >   EXPORT_SYMBOL(drm_show_memory_stats);
+> > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_dr=
+v.c
+> > index 9c33f4e3f822..f97d3cdc4f50 100644
+> > --- a/drivers/gpu/drm/msm/msm_drv.c
+> > +++ b/drivers/gpu/drm/msm/msm_drv.c
+> > @@ -880,7 +880,7 @@ static void msm_show_fdinfo(struct drm_printer *p, =
+struct drm_file *file)
+> >
+> >       msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, p);
+> >
+> > -     drm_show_memory_stats(p, file);
+> > +     drm_show_memory_stats(p, file, NULL);
+> >   }
+> >
+> >   static const struct file_operations fops =3D {
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/=
+panfrost/panfrost_drv.c
+> > index ef9f6c0716d5..53640ac44e42 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > @@ -570,7 +570,7 @@ static void panfrost_show_fdinfo(struct drm_printer=
+ *p, struct drm_file *file)
+> >
+> >       panfrost_gpu_show_fdinfo(pfdev, file->driver_priv, p);
+> >
+> > -     drm_show_memory_stats(p, file);
+> > +     drm_show_memory_stats(p, file, NULL);
+> >   }
+> >
+> >   static const struct file_operations panfrost_drm_driver_fops =3D {
+> > diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> > index ab230d3af138..d71a5ac50ea9 100644
+> > --- a/include/drm/drm_file.h
+> > +++ b/include/drm/drm_file.h
+> > @@ -464,6 +464,7 @@ void drm_send_event_timestamp_locked(struct drm_dev=
+ice *dev,
+> >    * @resident: Total size of GEM objects backing pages
+> >    * @purgeable: Total size of GEM objects that can be purged (resident=
+ and not active)
+> >    * @active: Total size of GEM objects active on one or more engines
+> > + * @internal: Total size of GEM objects that aren't exposed to user sp=
+ace
+> >    *
+> >    * Used by drm_print_memory_stats()
+> >    */
+> > @@ -473,16 +474,20 @@ struct drm_memory_stats {
+> >       u64 resident;
+> >       u64 purgeable;
+> >       u64 active;
+> > +     u64 internal;
+> >   };
+> >
+> >   enum drm_gem_object_status;
+> >
+> > +typedef void (*internal_bos)(struct drm_memory_stats *status,
+> > +                          struct drm_file *file);
+> > +
+> >   void drm_print_memory_stats(struct drm_printer *p,
+> >                           const struct drm_memory_stats *stats,
+> >                           enum drm_gem_object_status supported_status,
+> >                           const char *region);
+> >
+> > -void drm_show_memory_stats(struct drm_printer *p, struct drm_file *fil=
+e);
+> > +void drm_show_memory_stats(struct drm_printer *p, struct drm_file *fil=
+e, internal_bos func);
+> >   void drm_show_fdinfo(struct seq_file *m, struct file *f);
+> >
+> >   struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int f=
+lags);
