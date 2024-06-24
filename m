@@ -2,81 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44984914732
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 12:17:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2593E914752
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 12:21:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12F8C10E3E8;
-	Mon, 24 Jun 2024 10:17:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C772710E3EC;
+	Mon, 24 Jun 2024 10:21:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SJY2ZEiH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DoFBCp5i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
- [209.85.219.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAABB10E3EC
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 10:17:38 +0000 (UTC)
-Received: by mail-yb1-f170.google.com with SMTP id
- 3f1490d57ef6-dfecd065b0aso3333096276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 03:17:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719224258; x=1719829058; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=vUnYL6350uvLvpXQOz7TGB6F6PC3tYw8CCvE8SQ6B6w=;
- b=SJY2ZEiHEmT5LiknV7BxcgiSnwCtqA1i04H1/t2CuiHB3Ma8gzIBtSkMP9EV82vcUO
- 1myVYu3xybF/Tz7JBrgaU5pZlH1n8IyhrlZ1FeZwCP8j54qkkf73YB1sQ8fJgXAgvQNh
- 0V4u+kf1xs35ed+/bZwurrM0SMVJOxVDJv5nkxMp/GUGSjXjO+/BdSm9Zwa7/NLubHi+
- RpeTWWOXgJNVSS7m9T0TNawcKckCBBDxwR2t7di83bFTZuEvKx7gTa9KxBNrCXQY5pd+
- tFFxs1kXoZkuqay1t+gq+UximplbZiqRZnYXmN5dypwmGaGKL9B+SFZph6EH04gypPG0
- YMYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719224258; x=1719829058;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vUnYL6350uvLvpXQOz7TGB6F6PC3tYw8CCvE8SQ6B6w=;
- b=llSMjA4ZP0EUAHQnsnflPNje9ISyeMBKDe7vYzvnzShq1tR8n414kJRWs545XtvQZG
- sCYkhGXGUBxMmXTQ/3e2Vz5mDdvL3gZn8BoCa8yD1h/sGZ08CVqIRf4VGH7aYkPOKnkj
- RuDfoP6lliPLVmkoSmBoT2rHdoteSyd3zXYfQKLv5TBL9D06yOk+CLZKNlFpIdCUCM2A
- PNhmdRj3gg+UHlNBdE8qBDsjDQOlc6LIdHxURbHHBM2cd5Jf/o9kltq9JKmvlB5Mwztg
- Jy3YMfNSHLSvNOcBk49cfTsOwy4Rh4tKacWEAvPhljdGj+oxA6XSSh7h8e/fRq2VwYK3
- Y2HQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX/1uqYmpsVfn5/OB4pNQQFsnbFaqo0x2633Ylg00/HENLZxJAOLnqLt062rxeMHopVKF7Fu8F6RKycvmvIb1tEtTABjskNSRnDqPVAJRp2
-X-Gm-Message-State: AOJu0YwmBmSVtTxsAQU+qALB+xc4MTRkVkOygu8+4Tfl9mmhxGtSGndu
- HR+NehW+DKcEnMuFARXYTpEC7jLGn8k67T1FG0tLboABskR4jiQwyhvKyf1a5vYYqu9yGu5JG3n
- AM++tVTqyaIUtwRNKLqETJYbjHNTmu/lnow2FsA==
-X-Google-Smtp-Source: AGHT+IGHCrsaJn4UJSwOAywZ6sIOs5EfneQ7TVv2PZFVPwWMgY8MyAP5KeyCgl4NOrBBkLjhx4ku/+cii2XWsg663dQ=
-X-Received: by 2002:a25:2104:0:b0:e02:6efa:a434 with SMTP id
- 3f1490d57ef6-e02fc34f31dmr4025494276.43.1719224257573; Mon, 24 Jun 2024
- 03:17:37 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8045D10E3E9;
+ Mon, 24 Jun 2024 10:21:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 8F5EFCE10AB;
+ Mon, 24 Jun 2024 10:21:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 440BFC2BBFC;
+ Mon, 24 Jun 2024 10:21:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1719224473;
+ bh=d2YrsSBn2K0x3bECoxvDN/YNrSq3fNttW/m9Lsn58vw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=DoFBCp5i3OM5Rbd0YGSHr8ygAjfO9fByxu/Ym0XlUjsVRltgfJNxN60IsZfOQ1/OV
+ EujyVykAtlMcmNKrpGjpK+fWKtvDE2Fv+GGwGig1OR9rfEuUA2LggQPsIH4SaVBf++
+ sfzWzHmVt2YIRusn52vVKY/RDUxn7W4TPUEujbJiRNaafLB/758mY0ol4rlkPaxn6T
+ 5lI5o/2qlBqsLYGMyH0/gBxcP49FiLO/pn72SbzC7z3xujLLZvZPddDsmCBWfA5GAV
+ R0/TURBDOKoDY7lVMCOLWoVMY6oOG2cLm3VBfBOJVAlFpo+KW9J7EI27bHzULjZ87v
+ +FTCHl+WYegfA==
+Message-ID: <6c06238b-14ce-4e7d-b0fd-33749c62213c@kernel.org>
+Date: Mon, 24 Jun 2024 12:21:05 +0200
 MIME-Version: 1.0
-References: <f6af46e0-aadb-450a-9349-eec1337ea870@ti.com>
- <b221c978-2ce0-4d31-8146-ab43a9f86a1f@ti.com>
- <st6vgd2k6dxo4vd3pmqmqlc5haofhbym2jeb2eeh2pa2n6zcca@tradpzxrzexl>
- <2469374.jE0xQCEvom@steina-w>
-In-Reply-To: <2469374.jE0xQCEvom@steina-w>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 24 Jun 2024 13:17:25 +0300
-Message-ID: <CAA8EJpraKjBZRLL5U+BVQRf98_EBa5b=nSPxZATU+yvvq9Kfmw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] drm/bridge: tc358767: Fix
- DRM_BRIDGE_ATTACH_NO_CONNECTOR case
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Aradhya Bhatia <a-bhatia1@ti.com>, dri-devel@lists.freedesktop.org, 
- Jan Kiszka <jan.kiszka@siemens.com>, Marek Vasut <marex@denx.de>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 0/3] Support for Adreno X1-85 GPU
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Conor Dooley
+ <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Sean Paul <sean@poorly.run>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
+ <26abe6cd-e9da-4db9-9035-76edd5dda614@kernel.org>
+ <20240624062145.nkqlh2szazvjigk7@hu-akhilpo-hyd.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240624062145.nkqlh2szazvjigk7@hu-akhilpo-hyd.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,86 +116,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 24 Jun 2024 at 13:07, Alexander Stein
-<alexander.stein@ew.tq-group.com> wrote:
->
-> Hi,
->
-> Am Montag, 24. Juni 2024, 11:49:04 CEST schrieb Dmitry Baryshkov:
-> > On Mon, Jun 24, 2024 at 03:07:10PM GMT, Aradhya Bhatia wrote:
-> > >
-> > >
-> > > On 22/06/24 17:49, Dmitry Baryshkov wrote:
-> > > > On Sat, Jun 22, 2024 at 05:16:58PM GMT, Aradhya Bhatia wrote:
-> > > >>
-> > > >>
-> > > >> On 17-Jun-24 13:41, Dmitry Baryshkov wrote:
-> > > >>> On Mon, Jun 17, 2024 at 07:40:32AM GMT, Jan Kiszka wrote:
-> > > >>>> On 16.02.24 15:57, Marek Vasut wrote:
-> > > >>>>> On 2/16/24 10:10, Tomi Valkeinen wrote:
-> > > >>>>>> Ok. Does anyone have a worry that these patches make the situation
-> > > >>>>>> worse for the DSI case than it was before? Afaics, if the DSI lanes
-> > > >>>>>> are not set up early enough by the DSI host, the driver would break
-> > > >>>>>> with and without these patches.
-> > > >>>>>>
-> > > >>>>>> These do fix the driver for DRM_BRIDGE_ATTACH_NO_CONNECTOR and DPI, so
-> > > >>>>>> I'd like to merge these unless these cause a regression with the DSI
-> > > >>>>>> case.
-> > > >>>>>
-> > > >>>>> 1/2 looks good to me, go ahead and apply .
-> > > >>
-> > > >> Isn't there any way for the second patch to move forward as well though?
-> > > >> The bridge device (under DPI to (e)DP mode) cannot really work without
-> > > >> it, and the patches have been pending idle for a long time. =)
-> > > >>
-> > > >>>>
-> > > >>>> My local patches still apply on top of 6.10-rc4, so I don't think this
-> > > >>>> ever happened. What's still holding up this long-pending fix (at least
-> > > >>>> for our devices)?
-> > > >>>
-> > > >>> Neither of the patches contains Fixes tags. If the first patch fixes an
-> > > >>> issue in previous kernels, please consider following the stable process.
-> > > >>>
-> > > >>> If we are unsure about the second patch, please send the first patch
-> > > >>> separately, adding proper tags.
-> > > >>>
-> > > >>
-> > > >> Thanks Dmitry! I can send the patches again with the required fixes
-> > > >> tags (or just patch-1 if we cannot do anything about patch-2).
-> > > >
-> > > > The problem with the second patch is that it get mixed reviews. I can
-> > > > ack the first patch, but for the second one I'd need a confirmation from
-> > > > somebody else. I'll go on and apply the first patch later today.
-> > > >
-> > >
-> > > Thanks Dmitry!
-> > >
-> > > However, would it be okay if I instead add another patch that makes 2
-> > > versions of the "tc_edp_bridge_funcs", say "tc_dpi_edp_bridge_funcs" and
-> > > "tc_dsi_edp_bridge_funcs", that have all the same function hooks except
-> > > for the .edid_read()?
-> > >
-> > > The dsi edid_read() will remain the same, and Tomi's patch - patch 2/2 -
-> > > will only fix the dpi version of the edid_read()?
-> > >
-> > > The bridge already has the capability to distinguish a DSI input from a
-> > > DPI input. This can be leveraged to decide which set of functions need
-> > > to be used without any major changes.
-> >
-> > I'd prefer if somebody with the DSI setup can ack / test the second
-> > patch.
-> >
-> >
->
-> Now that my DSI-DP setup works apparently without issue I could test patch 2.
-> Since my setup does not use DRM_BRIDGE_ATTACH_NO_CONNECTOR (running on
-> drivers/gpu/drm/mxsfb/lcdif_drv.c), I can only say
-> there is no regression.
+On 24/06/2024 08:21, Akhil P Oommen wrote:
+> On Sun, Jun 23, 2024 at 01:11:48PM +0200, Krzysztof Kozlowski wrote:
+>> On 23/06/2024 13:06, Akhil P Oommen wrote:
+>>> This series adds support for the Adreno X1-85 GPU found in Qualcomm's
+>>> compute series chipset, Snapdragon X1 Elite (x1e80100). In this new
+>>> naming scheme for Adreno GPU, 'X' stands for compute series, '1' denotes
+>>> 1st generation and '8' & '5' denotes the tier and the SKU which it
+>>> belongs.
+>>>
+>>> X1-85 has major focus on doubling core clock frequency and bandwidth
+>>> throughput. It has a dedicated collapsible Graphics MX rail (gmxc) to
+>>> power the memories and double the number of data channels to improve
+>>> bandwidth to DDR.
+>>>
+>>> Mesa has the necessary bits present already to support this GPU. We are
+>>> able to bring up Gnome desktop by hardcoding "0xffff43050a01" as
+>>> chipid. Also, verified glxgears and glmark2. We have plans to add the
+>>> new chipid support to Mesa in next few weeks, but these patches can go in
+>>> right away to get included in v6.11.
+>>>
+>>> This series is rebased on top of v6.10-rc4. P3 cherry-picks cleanly on
+>>> qcom/for-next.
+>>>
+>>> P1 & P2 for Rob, P3 for Bjorn to pick up.
+>>
+>> Which Rob?
+> 
+> Sorry for the confusion! I meant Rob Clark whom I had added in the "To:"
+> list.
 
-Let me send a (non-tested) patch, switching to drm_bridge_connector,
-then you can probably test both of them
+OK, thanks for confirming, it is correct.
 
+Best regards,
+Krzysztof
 
--- 
-With best wishes
-Dmitry
