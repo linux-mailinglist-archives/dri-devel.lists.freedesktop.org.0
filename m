@@ -2,88 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A68C91447E
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 10:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6CE91450A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 10:38:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE53810E3A7;
-	Mon, 24 Jun 2024 08:19:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF1C10E3AD;
+	Mon, 24 Jun 2024 08:38:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TNK/P0jw";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="gZCjficR";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="je/36g37";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78BF010E3A6
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 08:19:12 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-52cdd03d6aaso1869110e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 01:19:12 -0700 (PDT)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93F1010E3AD
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 08:38:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719217150; x=1719821950; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jwPwL72m8s93kw/p7VxOEDDmYj0qJsAuA8dl81m3PQc=;
- b=TNK/P0jwsV/rgmqPkIFAQlC3RAkX8R63iHLqehPJOV9n7Y0nl3kkCTXbVC5CweMcAm
- 60bwwX/GOIwNr25TtxneQweFFyVXYwY1Zi4K+iJ+Gj5NonN7ANWlaKMF5JQx5zhDWDAH
- 2E2oWgHJgglmy2LDfKNQ+Jm4dQMxh2HrShrbsYx0l1rMlOBkTu7X2mPwtN8QDVLKt5/a
- l34kqgFe4ICsODlDLB0tcbUyCQuZZsmD0tkGwhQJBjHVtPdWrJiInv2Hha2S3UY3Td98
- QHodNaLgyf/pYpPplFesTGS6+dzDQok60o8ToLBHC3/G7VjYI7eTwheEua64gZMHk/mF
- Xw0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719217150; x=1719821950;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jwPwL72m8s93kw/p7VxOEDDmYj0qJsAuA8dl81m3PQc=;
- b=UNgKiiqiY+xEQb+d/IbZXpHkbRtCrpU7bGx4N4oJ0e3poFT0fiMhvpr5OgfujlBF5S
- je/QEFvYZPJCkkJ4i42CxiVCtbf3vfdMhOpnlwQ1lX9AuVZyAwqXnWKBpv9VTJo79dMv
- h/MvdZr/KEdsJAfVS4MpA2BfRlD1WxaIbMz43karXr5QVQP8Her1sMB2+gpnG9xyAk+1
- n9mGpMQVO+jyO2tAwQDlryzU1aKibmsPg8uhm9C0FFHGv36pD/oqFJ1Um7JyAdg8IJYY
- NG7m1lM8dht+Wf6NRq5iCRdukLsIrYkQThFk3rU3+6WIUUvsMfF7S7355XSI0tsUgBar
- 6RoQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVXcmegTIrlZDnsM6YKPJuydQB70YnrauMx6crblKiK1NudOAl7OlRVJ0+NE/oZpNp2SQmao6ZOINEYlh5ZQqEDw/a18OjyaNyn5t9CO1Go
-X-Gm-Message-State: AOJu0YwUgFdC07Q3oCwbCqOzoej9gAp3g+aJ1C8FYC1cFOB5OQPtYT7W
- 5ZENlbXVrCSKHx7ZQ/m+FUC7/+6P9vpiA3WVVcPIiCyAxel1yf+mccTKi4/2dSQ=
-X-Google-Smtp-Source: AGHT+IHpL6UH6p0b9w60yb/Nc8u8gfZQbm7Xx++lCO0XJ1GqYWCIG1rZ3OamjznZPFHcsOt+MHvVSQ==
-X-Received: by 2002:a05:6512:78f:b0:52b:bf8e:ffea with SMTP id
- 2adb3069b0e04-52ce064f62dmr2413777e87.40.1719217150488; 
- Mon, 24 Jun 2024 01:19:10 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52cd63bcef1sm923572e87.72.2024.06.24.01.19.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jun 2024 01:19:10 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 24 Jun 2024 11:19:09 +0300
-Subject: [PATCH] MAINTAINERS: CC dri-devel list on Qualcomm FastRPC patches
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1719218295; x=1750754295;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=tYxLqKSpuLYt+pAGwIrMUzwjGihbRqiaqxOLRxTf2EM=;
+ b=gZCjficRQy84rYVPkBgWZ0CSy1+FfsA6z97vBxkJ3HQc+mxIT2sQl3k7
+ oVCsoHWd6zstMb4dgk1pZWhwWN5uGPVnotTv1G4dXh2uZEvv9roU6aEEl
+ R3ZznL7EhcnXW/9lpJhHAh/JkMp0OQB17HpoO8lFcI+Hd0CkrfAuKVrX3
+ MJBXdBCcZrQb3ggTpf+Ke0gTM6gFqa1/zTh/7FVhymzzvxCZPlkdWDv0b
+ 3Zy5rf3vNE0Db+Nfkm1wAKoDyFkZ2N+YtQg2f+v15iofgevFryi3H4nho
+ oFnu26tWt/dBvK6rNKUxVETp6TAZ35Dlb/mY+MWqj4tRYEQEWM05SkSQ4 w==;
+X-CSE-ConnectionGUID: 9a4bLTI3TLud2t07OOVF3g==
+X-CSE-MsgGUID: gmiUPi6wS5eWgbItNDhUCw==
+X-IronPort-AV: E=Sophos;i="6.08,261,1712613600"; d="scan'208";a="37546056"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 24 Jun 2024 10:38:13 +0200
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 4DA5616F8EC; Mon, 24 Jun 2024 10:38:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1719218289;
+ h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=tYxLqKSpuLYt+pAGwIrMUzwjGihbRqiaqxOLRxTf2EM=;
+ b=je/36g379btgjS7OBFwcfDaXYmrnLYzyziczkuV1cDIGceA3Qv2gn0tBgJNHlE4GRgunsc
+ ukfPLXfkS9p1PS0pqvFaRJyOQQqpRG5qr/YKfKfEBLqVd97bwWg0FjrqZRCFV2KZtDPTGY
+ bJLkXjM0r4qHhMK1LUKS1yRiptunzg8hob6i9Ie2R2n8mLSyD+0Mlc/j0YG9O5sDj/euEJ
+ gOHTJktYRVXNWvKjeF/NmzdBeioHzIZsscCKOzKsweU3qJ/hJU+H7SHErLT7BRs/c1Fzz5
+ YER68T7pHf70Y0aKO+3TDLjl03n49RIS89WLlJzo1s9JKVoB3xWxHiD8PnAeVg==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ kernel@dh-electronics.com, Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v3 6/6] Revert "drm/bridge: tc358767: Set default CLRSIPO
+ count"
+Date: Mon, 24 Jun 2024 10:38:09 +0200
+Message-ID: <4932429.31r3eYUQgx@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20240623143846.12603-6-marex@denx.de>
+References: <20240623143846.12603-1-marex@denx.de>
+ <20240623143846.12603-6-marex@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240624-fastrpc-ml-v1-1-5dad89dce78f@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAPwreWYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDMyMT3bTE4pKigmTd3BxdI5Nk8xTT5DTTVPMkJaCGgqLUtMwKsGHRsbW
- 1AHdoaQFcAAAA
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Amol Maheshwari <amahesh@qti.qualcomm.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Bjorn Andersson <andersson@kernel.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1140;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=hrcbm/Drjw9ypN+HcZfxd5WVucStMi5y/7ez75gjaJM=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmeSv9zpf8H4BgKPlJxOg47IlU6qKet0Gdiy2mb
- lK54d+wY2SJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZnkr/QAKCRCLPIo+Aiko
- 1dokB/9wFHH32XcKFs1rHJdH5p1yiMiZrguW0qbo3/I8qIMjE2YUjFNtbRxgC+rk2TUs6uP6WM6
- YEzuOuCRLhsffQOueT6cNgwHDNALL63lxA6n6sfbctfqzqNr5homT+myfqRZCGkPo1BBtGBPHKJ
- Pr0Pr5QbXvvEvbJXk4ePerGK3kvMg9RbIE05Hah/c8eYVny9s7Q2NvOfuBQhVF/d0Jl8SxM6xfa
- 5PZYnOPJPLEKZ/+O6+8y4U3QsK6aC6k0NzFUirbmtJKknqcmmLb5YiuSwbkpgMuhkwHcKwe4q3a
- l1w+2aJKlNAHjiDSOfSPwcluCidivsn5WvRA/Aa5MLxfp7GY
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,36 +83,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-FastRPC is a way to offload method invocation to the DSPs on Qualcomm
-platforms. As the driver uses dma-bufs, add dri-devel mailing list to
-the MAINTAINERS's entry, so that DRM maintainers are notified about the
-uAPI changes. This follows the usual practice established by the "DMA
-BUFFER SHARING FRAMEWORK" entry in the file.
+Am Sonntag, 23. Juni 2024, 16:38:38 CEST schrieb Marek Vasut:
+> This reverts commit 01338bb82fed40a6a234c2b36a92367c8671adf0.
+>=20
+> With clock improvements in place, this seems to be no longer
+> necessary. Set the CLRSIPO to default setting recommended by
+> manufacturer.
+>=20
+> Signed-off-by: Marek Vasut <marex@denx.de>
 
-Suggested-by: Bjorn Andersson <andersson@kernel.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+Although calculation sheet indicates this depends on DSI-Timings, this
+works as well.
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f45881e982d2..26d628c677a8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18621,6 +18621,7 @@ QUALCOMM FASTRPC DRIVER
- M:	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
- M:	Amol Maheshwari <amahesh@qti.qualcomm.com>
- L:	linux-arm-msm@vger.kernel.org
-+L:	dri-devel@lists.freedesktop.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
- F:	drivers/misc/fastrpc.c
+> ---
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: kernel@dh-electronics.com
+> ---
+> V2: No change
+> V3: No change
+> ---
+>  drivers/gpu/drm/bridge/tc358767.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/t=
+c358767.c
+> index 743bf1334923d..2b035a136a6e5 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -1356,10 +1356,10 @@ static int tc_dsi_rx_enable(struct tc_data *tc)
+>  	u32 value;
+>  	int ret;
+> =20
+> -	regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 25);
+> -	regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 25);
+> -	regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 25);
+> -	regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 25);
+> +	regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 5);
+> +	regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 5);
+> +	regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 5);
+> +	regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 5);
+>  	regmap_write(tc->regmap, PPI_D0S_ATMR, 0);
+>  	regmap_write(tc->regmap, PPI_D1S_ATMR, 0);
+>  	regmap_write(tc->regmap, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
+>=20
 
----
-base-commit: 2102cb0d050d34d50b9642a3a50861787527e922
-change-id: 20240624-fastrpc-ml-24c7d5cf5e7b
 
-Best regards,
--- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
