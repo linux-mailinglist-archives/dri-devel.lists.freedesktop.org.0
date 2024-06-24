@@ -2,56 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E31591487C
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 13:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D69699148BF
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 13:31:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3B1110E068;
-	Mon, 24 Jun 2024 11:23:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED6E910E267;
+	Mon, 24 Jun 2024 11:31:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="os61YfZp";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="iH+vbe2j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33F6710E068
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 11:23:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1719228197;
- bh=/5Al0b5HHG2oYdcS/3NQg/K9CZPaF3+bWyB10z8Iwek=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=os61YfZpYh9c1mgFqF2MLD+ZDCVjNKayjI9gQ4ggwJzA8PQbrYJoxUQcDO+EznovB
- 8elF8DxlmFqZjX68vANJ+8nty9ZGLWI3sROJmpjQmR+GOPUBbH8n/+4UMWSH3xxloC
- nmtTLX1x/9ho06OnKoXPsyDCEOH8PrwyA7QddYcDUzw9uxek0qRZHHXpEUiNdIZsQW
- hd5dQbDkPSjDrtRVLkjiyjFF3/AnvZ7c7YU8TlHR6p68/LRdff6MHcPI4no46ObTRP
- yPkpv3P2Tfu8CCIwSDGTE7b3iCw/vRQj/AKcb13Z9TGOwW6M8+wTsqxql5MrbeBwCk
- VWSssakTM/vOg==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: alarumbe)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2275E37804C6;
- Mon, 24 Jun 2024 11:23:17 +0000 (UTC)
-Date: Mon, 24 Jun 2024 12:23:16 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- kernel@collabora.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/7] Support fdinfo runtime and memory stats on Panthor
-Message-ID: <uzsqh2b3j7hp6z3zcjcsxxudt2sucgutzwof5bhsvjjaeusigy@wvfhibqtyz4y>
-References: <20240606005416.1172431-1-adrian.larumbe@collabora.com>
- <ae1ec268-fd76-48b5-94f9-761565153e12@arm.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A416B10E119
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 11:31:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1719228704;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z1Rc1emYuXh/HewWkHo067TK+khtKA7f3ilfM7ZwWq0=;
+ b=iH+vbe2jyKO6CYIICIJy+qw/3TpZ1txpQTyY8BgeZR9OOmVEaSBggqsEBa5VA7Wbs0VeMQ
+ n5nR3Ug8KleFOw3KsA/VoszOAzePYdaplZ3l0nvnihrUqpd3tDW8Owpvg0vKVYC6XH4W56
+ TVpfzTOiiPzNOORK+ZLrYinIF7NmKKA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-151-2nB62gcxNw2AeJ1h8VCpTg-1; Mon, 24 Jun 2024 07:31:43 -0400
+X-MC-Unique: 2nB62gcxNw2AeJ1h8VCpTg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3621a7854b0so2048643f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 04:31:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719228702; x=1719833502;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=z1Rc1emYuXh/HewWkHo067TK+khtKA7f3ilfM7ZwWq0=;
+ b=GSWw7ZIjAQ56OG/vbeciFysqG8xa1NaE+Poy/J9qcYEUKWxGSR9LMwGmfTmSPfBerE
+ cMPnM94XVI9vns04m2VVenWgBliSkTj0e0A8+lPCtuoibkrf46fY6ssetEghEGQEw9Mh
+ kcv6Y6I5XPR4U4h0SXmHY0LcjP7ZClR8qsM6wyvtHxW7WLavuXc0elVH7OYFdTrD7Bx4
+ h384pBHmmK7mR8iPuAxDUzRbRStFiKuwETO8q+CW4irTeRbWyn8MNEBp4IjmMe2Rn0kW
+ 1eJjs4XMalxEmh6yJer4EWwplqKw62T7TFr1pKtZ6uf7/c/H0LYe8myyT2b9xA8SuERe
+ wflQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX9CHxka8exeDBHUEOou3FBerT6nNZUWjTIMtxg6GRYstVt+mzm8Nyv9IaRbAz6mwgNxTdF5ITm5sHuvEgAEPA0QFuI4oMSB57Hh6m6JzCm
+X-Gm-Message-State: AOJu0YxhnA2JggeNtgH8s8x8uGfO6zM/2WW4FX0hdg+ZRo5gOFcE27lQ
+ 5iQdWry3IvLRMdI+UyAx5H3WqwMC+HQa41mVt2cm7IjtFrUPaiV2JJuy/v7DEL/O7sTAFGsr/a6
+ tvUwYtpqFkQA3NMhT6nWHlcpKUZVfbVB83Nt9d6fHnru85sO7Ogkbsqv5aKc7tdGpwA==
+X-Received: by 2002:a05:6000:1a8d:b0:366:f00f:8656 with SMTP id
+ ffacd0b85a97d-366f00f8687mr2489935f8f.55.1719228702102; 
+ Mon, 24 Jun 2024 04:31:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFEjXWAJo0A3ZGNhrE3FY0LNEuVP1fHqKxJAk1B5YvPPlS1HLStfakEN0O/4kfL+9PdRhZvqA==
+X-Received: by 2002:a05:6000:1a8d:b0:366:f00f:8656 with SMTP id
+ ffacd0b85a97d-366f00f8687mr2489920f8f.55.1719228701746; 
+ Mon, 24 Jun 2024 04:31:41 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
+ ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-366389b8922sm9792777f8f.28.2024.06.24.04.31.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Jun 2024 04:31:41 -0700 (PDT)
+Message-ID: <2f54c321-1832-4931-8148-5eece4ef4915@redhat.com>
+Date: Mon, 24 Jun 2024 13:31:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ae1ec268-fd76-48b5-94f9-761565153e12@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/7] drm/panic: Fixes and graphical logo
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <cover.1718305355.git.geert+renesas@glider.be>
+ <b4caed34-bed4-4b72-9bb0-353ef63fe867@redhat.com>
+In-Reply-To: <b4caed34-bed4-4b72-9bb0-353ef63fe867@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,107 +99,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Steven,
-
-On 13.06.2024 16:28, Steven Price wrote:
-> On 06/06/2024 01:49, Adrián Larumbe wrote:
-> > This patch series enables userspace utilities like gputop and nvtop to
-> > query a render context's fdinfo file and figure out rates of engine
-> > and memory utilisation.
-> > 
-> > Previous discussion can be found at
-> > https://lore.kernel.org/dri-devel/20240423213240.91412-1-adrian.larumbe@collabora.com/
-> > 
-> > Changelog:
-> > v3:
-> >  - Fixed some nits and removed useless bounds check in panthor_sched.c
-> >  - Added support for sysfs profiling knob and optional job accounting
-> >  - Added new patches for calculating size of internal BO's
-> > v2:
-> >  - Split original first patch in two, one for FW CS cycle and timestamp
-> >  calculations and job accounting memory management, and a second one
-> >  that enables fdinfo.
-> >  - Moved NUM_INSTRS_PER_SLOT to the file prelude
-> >  - Removed nelem variable from the group's struct definition.
-> >  - Precompute size of group's syncobj BO to avoid code duplication.
-> >  - Some minor nits.
-> > 
-> > 
-> > Adrián Larumbe (7):
-> >   drm/panthor: introduce job cycle and timestamp accounting
-> >   drm/panthor: add DRM fdinfo support
-> >   drm/panthor: enable fdinfo for memory stats
-> >   drm/panthor: add sysfs knob for enabling job profiling
-> >   drm/panthor: support job accounting
-> >   drm/drm_file: add display of driver's internal memory size
-> >   drm/panthor: register size of internal objects through fdinfo
+On 21/06/2024 10:55, Jocelyn Falempe wrote:
+> Hi,
 > 
-> The general shape of what you end up with looks correct, but these
-> patches are now in a bit of a mess. It's confusing to review when the
-> accounting is added unconditionally and then a sysfs knob is added which
-> changes it all to be conditional. Equally that last patch (register size
-> of internal objects through fdinfo) includes a massive amount of churn
-> moving everything into an 'fdinfo' struct which really should be in a
-> separate patch.
+> I want to push at least the first patch that is an important fix.
+> But if there are no objections, I can push the whole series except patch 
+> 5 "drm/panic: Convert to drm_fb_clip_offset()" which causes some build 
+> issue.
 
-I do agree with you in that perhaps too many things change across successive
-patches in the series. I think I can explain this because of the way the series
-has evolved thorugh successive revisions.
+I just pushed them to drm-misc-next.
+Thanks all.
 
-In the last one of them, only the first three patches were present, and both
-Liviu and Boris seemed happy with the shape they had taken, but then Boris
-suggested adding the sysfs knob and optional profiling support rather than
-submitting them as part of a different series like I had done in Panfrost. In
-that spirit, I decided to keep the first three patches intact.
-
-The last two patches are a bit more of an afterthought, and because they touch
-on the drm fdinfo core, I understood they were more likely to be rejected for
-now, at least until consensus with Tvrtko and other people involved in the
-development of fdinfo had agreed on a way to report internal bo sizes.  However,
-being also part of fdinfo, I thought this series was a good place to spark a
-debate about them, even if they don't seem as seamlessly linked with the rest
-of the work.
-
-> Ideally this needs to be reworked into a logical series of patches with
-> knowledge of what's coming next. E.g. the first patch could introduce
-> the code for cycle/timestamp accounting but leave it disabled to be then
-> enabled by the sysfs knob patch.
 > 
-> One thing I did notice though is that I wasn't seeing the GPU frequency
-> change, looking more closely at this it seems like there's something
-> dodgy going on with the devfreq code. From what I can make out I often
-> end up in a situation where all contexts are idle every time tick_work()
-> is called - I think this is simply because tick_work() is scheduled with
-> a delay and by the time the delay has hit the work is complete. Nothing
-> to do with this series, but something that needs looking into. I'm on
-> holiday for a week but I'll try to look at this when I'm back.
-
-Would you mind sharing what you do in UM to trigger this behaviour and also
-maybe the debug traces you've written into the driver to confirm this?
-
-> Steve
+> Best regards,
 > 
-> >  Documentation/gpu/drm-usage-stats.rst     |   4 +
-> >  drivers/gpu/drm/drm_file.c                |   9 +-
-> >  drivers/gpu/drm/msm/msm_drv.c             |   2 +-
-> >  drivers/gpu/drm/panfrost/panfrost_drv.c   |   2 +-
-> >  drivers/gpu/drm/panthor/panthor_devfreq.c |  10 +
-> >  drivers/gpu/drm/panthor/panthor_device.c  |   2 +
-> >  drivers/gpu/drm/panthor/panthor_device.h  |  21 ++
-> >  drivers/gpu/drm/panthor/panthor_drv.c     |  83 +++++-
-> >  drivers/gpu/drm/panthor/panthor_fw.c      |  16 +-
-> >  drivers/gpu/drm/panthor/panthor_fw.h      |   5 +-
-> >  drivers/gpu/drm/panthor/panthor_gem.c     |  67 ++++-
-> >  drivers/gpu/drm/panthor/panthor_gem.h     |  16 +-
-> >  drivers/gpu/drm/panthor/panthor_heap.c    |  23 +-
-> >  drivers/gpu/drm/panthor/panthor_heap.h    |   6 +-
-> >  drivers/gpu/drm/panthor/panthor_mmu.c     |   8 +-
-> >  drivers/gpu/drm/panthor/panthor_mmu.h     |   3 +-
-> >  drivers/gpu/drm/panthor/panthor_sched.c   | 304 +++++++++++++++++++---
-> >  include/drm/drm_file.h                    |   7 +-
-> >  18 files changed, 522 insertions(+), 66 deletions(-)
-> > 
-> > 
-> > base-commit: 310ec03841a36e3f45fb528f0dfdfe5b9e84b037
 
-Adrian Larumbe
