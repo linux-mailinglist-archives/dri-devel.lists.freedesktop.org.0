@@ -2,93 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B059145A2
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:00:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF82B9145A4
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:01:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0120610E21C;
-	Mon, 24 Jun 2024 09:00:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B6CF10E3B9;
+	Mon, 24 Jun 2024 09:01:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZFYvTTq/";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="nbZ12EAs";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="eWvknj2a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E0F310E21C
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:00:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1719219650;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qwzmRUQPsKQBeShL2OB+EDS/R27ivaae/oICxqvSPpk=;
- b=ZFYvTTq/N3ssEVmiu4Jh53DxjSIyvGPcJr2OeUlsdFdZEIzLvVL0OCDU8gO84cs0TfzDNN
- rtNUt4ENrKytqV9v/Zoit/NV7sowWwB9Vg2TgRaehfp2TzK+OBDb2C5cu39nYZAHpJVImd
- RZQ+OfemD1cfcg6wixIv6/cipOJSFz4=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-517-yCFRf2JcODayU5tw3b1OYQ-1; Mon, 24 Jun 2024 05:00:48 -0400
-X-MC-Unique: yCFRf2JcODayU5tw3b1OYQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-a717af2eb94so104628866b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 02:00:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719219647; x=1719824447;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qwzmRUQPsKQBeShL2OB+EDS/R27ivaae/oICxqvSPpk=;
- b=L0Q1q5QpRZFRdnq3/HYHvzE6NEH1UGmRAqmkilaREuOM86JXBr/vN8RBZ8DeDELHD6
- 2JgSr0ns2pr7KMX8imJE+N6kkdudS7h8e2TOMRkFHk17vA1wub+s6JrsQrEexnaVzUgN
- Il0iaW0S7lcDB93ksroTgMTDZEkmP+q6DHU49h6aFM/rUN3t7yTLoW9bJHEx6WbN9Iod
- N8/hQZ/6JjHttKy3lV9JjB/6GvWHxb9y4Klr4OGGWAgodTgrXWXI1hejqoZmKLZV9xHq
- 6jRlaPH/rFEaTiFgJuvXyMsrlYWFYrr1MeFqT7H2FCFN7XSmGAnWK9Dl8M08B5tLiP5O
- 9EbA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVppvKciY07RZJLNTNcIes3j0nunqRyu9+BGm59chFCWqclhkp5U4jzS/V/iAJfABdKcmzvSBiMzWp+CBcAOXhQ0C430QLaY6C4/Lqdh5UN
-X-Gm-Message-State: AOJu0Yw0EaECZur9k70gmYWxJx5zYRdCEUwUXiS+xN6KXBliBTqVu+cP
- 2qTLxo020J/+Vh1cHsh8QPRB0ea7cCpJNyF4PBQPRdPFGZ5pHM2gzwe94NEIf2dQJJey7E0UvRr
- tGTeD9jN8ppSoUIdFZoCNKTR1o1dxKNd5bZvtWVB2N09MxHCsCiF/p98MV3y5kKgwJQ==
-X-Received: by 2002:a17:906:150d:b0:a6f:f1bc:21ce with SMTP id
- a640c23a62f3a-a7245c4837emr240508766b.47.1719219647547; 
- Mon, 24 Jun 2024 02:00:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHuFDg4vMl4mXJj0YJkOY4Yu0h9QNLUUllyhO25TzJD0zz4pk3MzzNyFs/gus8N4uz64OpOug==
-X-Received: by 2002:a17:906:150d:b0:a6f:f1bc:21ce with SMTP id
- a640c23a62f3a-a7245c4837emr240505366b.47.1719219647050; 
- Mon, 24 Jun 2024 02:00:47 -0700 (PDT)
-Received: from [10.40.98.157] ([78.108.130.194])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a7250010f77sm125328266b.181.2024.06.24.02.00.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jun 2024 02:00:46 -0700 (PDT)
-Message-ID: <cee2effc-8295-4d96-b544-e225cd0d73fb@redhat.com>
-Date: Mon, 24 Jun 2024 11:00:45 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] drm: Add panel backlight quirks
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7E2810E3B9
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:01:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1719219667; x=1750755667;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=5x2MLDbjr/RPEmqtLCf9iT+BPMyk5xAgQh7bhsnND/U=;
+ b=nbZ12EAsHfm+BJPJTQdfDZBxtbM531ayLD2btAJOiqsUtjZcQ2R9xoBt
+ MoJT6mnx+HoTiQXRqFJ11/KLNk9JG017V2rGpAhUuQ4QF+VfpOVAwz6J8
+ EWFIjBBPfTv05FHG3aszovLid+8scnvchHfQniLtaQhgpm09vfLCY2gMy
+ R1kchEIz72JEdSBwYxfky9qTWrk0RZIP5szSqdVbEqvbNHoMpPIyl8htk
+ YkW+oQnV/Y/wiTHrrWMIhXcuAHW2Mbc0+Hxw2xeNDRCgtQgNCDDCI1Rmq
+ OT9oBptmhyP+UDo/BJqJIkFozot0U7RNnz+V74g8dYqF0OMNPJwAqJg3t g==;
+X-CSE-ConnectionGUID: VlfquXtyRHCnhupHD1Yz5Q==
+X-CSE-MsgGUID: Jy/k0qiJTEy3RNUxB4tdnQ==
+X-IronPort-AV: E=Sophos;i="6.08,261,1712613600"; d="scan'208";a="37546919"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 24 Jun 2024 11:01:06 +0200
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 7C77316699B; Mon, 24 Jun 2024 11:00:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1719219662;
+ h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=5x2MLDbjr/RPEmqtLCf9iT+BPMyk5xAgQh7bhsnND/U=;
+ b=eWvknj2akVfXG3u7NcQRx/6FTxTQtks2bp+2ulFTJIDYeF4Nxy1DvE9XTkSaKZa7rk0n/d
+ e/ZseEl6GcHz3HQ6QNyFNeEmpPjQPUcDA5cs0uVvL6NRDxRfchp+dovTda0IjY3A2BCwTi
+ GRRMSE5shuLdByJt4AzY8mhPf1vijGCFBqmyxx3Rvq+3LNA+iM3Xug1cGh1pkx/q32wbNC
+ x/ViXuTPE3x+Xe+PXVGycyHreacXGzX4UBXiOH2aX3BOGtS74p+UzD9zMOO0yMp3UNfOBA
+ YEg6yBevmlxyv4mZJuHHfH+x+csydSncbkB7BVqN7Qd7PeBLOrxqaHOZZLOHEg==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Matt Hartley <matt.hartley@gmail.com>, Kieran Levin <ktl@framework.net>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>
-References: <20240623-amdgpu-min-backlight-quirk-v2-0-cecf7f49da9b@weissschuh.net>
- <20240623-amdgpu-min-backlight-quirk-v2-1-cecf7f49da9b@weissschuh.net>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240623-amdgpu-min-backlight-quirk-v2-1-cecf7f49da9b@weissschuh.net>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ kernel@dh-electronics.com, Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v3 3/6] drm/bridge: tc358767: Drop line_pixel_subtract
+Date: Mon, 24 Jun 2024 11:00:50 +0200
+Message-ID: <10489349.nUPlyArG6x@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20240623143846.12603-3-marex@denx.de>
+References: <20240623143846.12603-1-marex@denx.de>
+ <20240623143846.12603-3-marex@denx.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,192 +82,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Am Sonntag, 23. Juni 2024, 16:38:35 CEST schrieb Marek Vasut:
+> This line_pixel_subtract is no longer needed now that the bridge can
+> request and obtain specific pixel clock on input to the bridge, with
+> clock frequency that matches the Pixel PLL frequency.
+>=20
+> The line_pixel_subtract is now always 0, so drop it entirely.
+>=20
+> The line_pixel_subtract was not reliable as it never worked when the
+> Pixel PLL and input clock were off just so that the required amount
+> of pixels to subtract would not be whole integer.
+>=20
+> Signed-off-by: Marek Vasut <marex@denx.de>
 
-On 6/23/24 10:51 AM, Thomas Weißschuh wrote:
-> Panels using a PWM-controlled backlight source without an do not have a
-> standard way to communicate their valid PWM ranges.
-> On x86 the ranges are read from ACPI through driver-specific tables.
-> The built-in ranges are not necessarily correct, or may grow stale if an
-> older device can be retrofitted with newer panels.
-> 
-> Add a quirk infrastructure with which the valid backlight ranges can be
-> maintained as part of the kernel.
-> 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+=46or me is even necessary to get the DP test mode running, using DSI as in=
+put.
+With the removal of div64_round_up() from patch 1 addeded here:
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
 > ---
->  Documentation/gpu/drm-kms-helpers.rst        |  3 ++
->  drivers/gpu/drm/Kconfig                      |  4 ++
->  drivers/gpu/drm/Makefile                     |  1 +
->  drivers/gpu/drm/drm_panel_backlight_quirks.c | 67 ++++++++++++++++++++++++++++
->  include/drm/drm_utils.h                      | 11 +++++
->  5 files changed, 86 insertions(+)
-> 
-> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-> index 59cfe8a7a8ba..1998a2675210 100644
-> --- a/Documentation/gpu/drm-kms-helpers.rst
-> +++ b/Documentation/gpu/drm-kms-helpers.rst
-> @@ -224,6 +224,9 @@ Panel Helper Reference
->  .. kernel-doc:: drivers/gpu/drm/drm_panel_orientation_quirks.c
->     :export:
->  
-> +.. kernel-doc:: drivers/gpu/drm/drm_panel_backlight_quirks.c
-> +   :export:
-> +
->  Panel Self Refresh Helper Reference
->  ===================================
->  
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 959b19a04101..50ccb43315bf 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -443,6 +443,10 @@ config DRM_EXPORT_FOR_TESTS
->  config DRM_PANEL_ORIENTATION_QUIRKS
->  	tristate
->  
-> +# Separate option as not all DRM drivers use it
-> +config DRM_PANEL_BACKLIGHT_QUIRKS
-> +	tristate
-> +
->  config DRM_LIB_RANDOM
->  	bool
->  	default n
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index f9ca4f8fa6c5..6669913b907e 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -92,6 +92,7 @@ drm-$(CONFIG_DRM_PANIC) += drm_panic.o
->  obj-$(CONFIG_DRM)	+= drm.o
->  
->  obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
-> +obj-$(CONFIG_DRM_PANEL_BACKLIGHT_QUIRKS) += drm_panel_backlight_quirks.o
->  
->  #
->  # Memory-management helpers
-> diff --git a/drivers/gpu/drm/drm_panel_backlight_quirks.c b/drivers/gpu/drm/drm_panel_backlight_quirks.c
-> new file mode 100644
-> index 000000000000..a89b5fd1940e
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_panel_backlight_quirks.c
-> @@ -0,0 +1,67 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/array_size.h>
-> +#include <linux/dmi.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_utils.h>
-> +
-> +struct drm_panel_backlight_entry {
-> +	struct {
-> +		enum dmi_field field;
-> +		const char * const value;
-> +	} dmi_match;
-
-Matching on a single DMI string is not always enough to uniquely identify
-a machine. I would change this to a dmi_system_id struct and then add
-an array with 2 dmi_system_id structs in drm_panel_backlight_entry_matches()
-and copy the struct to the first array entry + zero out the second entry
-(terminator) and then use dmi_check_system().
-
-> +	struct drm_edid_ident ident;
-
-Hmm, what about DSI panels? These do not (always) have EDID info AFAIK.
-
-drivers/gpu/drm/drm_panel_orientation_quirks.c is using a resolution match
-so as to hopefully not match external screens, but that is also so that it can
-be used from efifb / simpledrm and here you really do want to differentiate
-between different panels by panel model.
-
-So I guess that the EDId match is fine and if we ever need to match DSI panels
-without EDID we figure something out then.
-
-Thinking more about this I have a question about the approach as a whole though,
-I'll reply to the cover-letter with this.
-
-Regards,
-
-Hans
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: kernel@dh-electronics.com
+> ---
+> V2: No change
+> V3: Fix up rebase artifact
+> ---
+>  drivers/gpu/drm/bridge/tc358767.c | 16 +---------------
+>  1 file changed, 1 insertion(+), 15 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/t=
+c358767.c
+> index 20be21660ba76..c4e2455ad95e4 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -382,9 +382,6 @@ struct tc_data {
+> =20
+>  	/* HPD pin number (0 or 1) or -ENODEV */
+>  	int			hpd_pin;
+> -
+> -	/* Number of pixels to subtract from a line due to pixel clock delta */
+> -	u32			line_pixel_subtract;
+>  };
+> =20
+>  static inline struct tc_data *aux_to_tc(struct drm_dp_aux *a)
+> @@ -661,11 +658,7 @@ static int tc_pxl_pll_calc(struct tc_data *tc, u32 r=
+efclk, u32 pixelclock,
+>  		return -EINVAL;
+>  	}
+> =20
+> -	tc->line_pixel_subtract =3D tc->mode.htotal -
+> -		div64_round_up(tc->mode.htotal * (u64)best_pixelclock, pixelclock);
+> -
+> -	dev_dbg(tc->dev, "PLL: got %d, delta %d (subtract %d px)\n", best_pixel=
+clock,
+> -		best_delta, tc->line_pixel_subtract);
+> +	dev_dbg(tc->dev, "PLL: got %d, delta %d\n", best_pixelclock, best_delta=
+);
+>  	dev_dbg(tc->dev, "PLL: %d / %d / %d * %d / %d\n", refclk,
+>  		ext_div[best_pre], best_div, best_mul, ext_div[best_post]);
+> =20
+> @@ -909,13 +902,6 @@ static int tc_set_common_video_mode(struct tc_data *=
+tc,
+>  		upper_margin, lower_margin, vsync_len);
+>  	dev_dbg(tc->dev, "total: %dx%d\n", mode->htotal, mode->vtotal);
+> =20
+> -	if (right_margin > tc->line_pixel_subtract) {
+> -		right_margin -=3D tc->line_pixel_subtract;
+> -	} else {
+> -		dev_err(tc->dev, "Bridge pixel clock too slow for mode\n");
+> -		right_margin =3D 0;
+> -	}
+> -
+>  	/*
+>  	 * LCD Ctl Frame Size
+>  	 * datasheet is not clear of vsdelay in case of DPI
+>=20
 
 
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
-> +	struct drm_panel_backlight_quirk quirk;
-> +};
-> +
-> +static const struct drm_panel_backlight_entry drm_panel_backlight_entries[] = {
-> +};
-> +
-> +static bool drm_panel_backlight_entry_matches(const struct drm_panel_backlight_entry *entry,
-> +					      const struct drm_edid *edid)
-> +{
-> +	if (!dmi_match(entry->dmi_match.field, entry->dmi_match.value))
-> +		return false;
-> +
-> +	if (!drm_edid_match(edid, &entry->ident))
-> +		return false;
-> +
-> +	return true;
-> +}
-> +
-> +/**
-> + * drm_get_panel_panel_quirk - Check for panel backlight quirks
-> + * @edid: EDID of the panel to check
-> + *
-> + * This function checks for platform specific (e.g. DMI based) quirks
-> + * providing info on backlight control for systems where this cannot be
-> + * probed from the hard-/firm-ware.
-> + *
-> + * Returns:
-> + * A struct drm_panel_backlight_quirk if a quirk is found or NULL otherwise.
-> + */
-> +const struct drm_panel_backlight_quirk *drm_get_panel_backlight_quirk(const struct drm_edid *edid)
-> +{
-> +	const struct drm_panel_backlight_entry *entry;
-> +	size_t i;
-> +
-> +	if (!IS_ENABLED(CONFIG_DMI))
-> +		return NULL;
-> +
-> +	if (!edid)
-> +		return NULL;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(drm_panel_backlight_entries); i++) {
-> +		entry = &drm_panel_backlight_entries[i];
-> +
-> +		if (drm_panel_backlight_entry_matches(entry, edid))
-> +			return &entry->quirk;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +EXPORT_SYMBOL(drm_get_panel_backlight_quirk);
-> +
-> +MODULE_LICENSE("GPL");
-> diff --git a/include/drm/drm_utils.h b/include/drm/drm_utils.h
-> index 70775748d243..37cc6de1a01a 100644
-> --- a/include/drm/drm_utils.h
-> +++ b/include/drm/drm_utils.h
-> @@ -11,9 +11,20 @@
->  #define __DRM_UTILS_H__
->  
->  #include <linux/types.h>
-> +#include <drm/drm_edid.h>
-> +
-> +struct drm_panel_backlight_quirk {
-> +	struct {
-> +		bool pwm_min_brightness:1;
-> +	} overrides;
-> +
-> +	u8 pwm_min_brightness; /* min_brightness/255 of max */
-> +};
->  
->  int drm_get_panel_orientation_quirk(int width, int height);
->  
-> +const struct drm_panel_backlight_quirk *drm_get_panel_backlight_quirk(const struct drm_edid *edid);
-> +
->  signed long drm_timeout_abs_to_jiffies(int64_t timeout_nsec);
->  
->  #endif
-> 
 
