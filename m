@@ -2,63 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29625914F27
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 15:51:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A47914F33
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 15:53:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A67D10E44A;
-	Mon, 24 Jun 2024 13:51:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69E4A10E448;
+	Mon, 24 Jun 2024 13:53:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="eZY9j/30";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ceXZrCqp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8D0C10E44A
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 13:51:50 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 04E4588405;
- Mon, 24 Jun 2024 15:51:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1719237108;
- bh=VLtud6pTyV/LBm2oJMXCE9JZgDDVma/emrUfDonAicw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=eZY9j/30nf6ipDIqdRMgbFA9kyf/Dn0/PMI+vPGMcKyIxYNZd42LvOZo8Hx/iNzU3
- h1dxOIwEFYcdBFzGFTznrYH6nFgZRilNzRWZOUdz7Tc8c2LM+um+vP7JaEnoKU3c9G
- fh6ml+VlObwA/+jsTtxh89EyfUvwKRy/I7Q4Vrc4K+0EpMMjkEVNxYDowB29zPK1Lz
- yr4qt+rkI6VRafeq4VpBp6Q/7yShN5nQV1wqTj4WoDwhcqpDGfK066pDXeDofkWLZm
- 1EUmlBCGfDQYNOwWV9/390TUYKtR8lfe6g0DQu5rfObFPF/Yq2yVahIyoF4zhT7SRY
- q/l/myxrZBSnA==
-Message-ID: <1cafb9f4-ad2d-46a5-9bf4-8f699678ee85@denx.de>
-Date: Mon, 24 Jun 2024 15:41:10 +0200
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C376A10E083
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 13:53:55 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2eabd22d3f4so53837551fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 06:53:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1719237234; x=1719842034; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5S10zLLSMGCffMYd/h+/RimKZkqJmO/jBCyUz/wexOY=;
+ b=ceXZrCqpJrpBiFsKZD9K0wgjM80h4J7iAn13Uvp4UHRJjAZsRYmDjUI5sv7tqPmvdJ
+ rLcdusrqA7Rpg31Grcj4Tn3/lYC9EnIREqvr7No46qBQ5Ie+9QFkmH55l55u3lZ4SJww
+ m1OJYk0yoLd5dN+5fIWhzNnxvYC3aehlnhpwMFXQW34+yrSpKRDRKiZlG677tWNCKk8V
+ dUfrQ8kxwKfKGHYijpuqpGiHLeyoWCGZmyQ1HOD8ctd6JEDp0zfg/si3MFhIoLXNwCyh
+ 9YeBZ0A8rbce2p6FBy/nv2BLNmASgCd7ToDccVIZvgzushtF9yOjBy2chrHA03jjkR+N
+ hjrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719237234; x=1719842034;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5S10zLLSMGCffMYd/h+/RimKZkqJmO/jBCyUz/wexOY=;
+ b=c4gNtRf8kUfHjBllxuZk1mCGiwzn5QgSJlA8nW4zyuUdzAiHlEKG0twoga9LIHvhP8
+ OXv5ASyjqcDBBH03CBm85FwDZxV95c9LwizasEhLJ16C0aNKk9hiImzEZwKr9gofUx22
+ lP2x3vETYpNXUeWfLtSq08fpPzW90qi06z1qiZpr2Yp9VyUz8wZetlvmUPkBlaEZhsbv
+ 4EwxrxbufVnaCPphs/IwikXZgliNe9Wxt3SsQ0arv/6j4xGSKs8pFn/iHgdNc9wGIjMg
+ Z0Ko61K9MHkrQjMm5BK8pbosPJ+kPbO9KHJWKvzoSptl/mcrV3gzhQE0N3ebv0VPwU3V
+ SXVw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/iVGWWZzQEMFP01SBVJOZWBuzzoGB15M06ZMgqEvZuUwArCbOFg+Lw8fhBHK1K/jVx5CQRoVlH+ALFa+tNqudkXZi/cMdNPEkLmLcFcld
+X-Gm-Message-State: AOJu0Yyu2Sr0bpvVKFhbRgrljb0pdMOU9KlOvtD/Qs5rIABlq/jGBAoF
+ XCqYImi1t1BkmxjtslXqmQrLickZyQleTt5TfUenG7vID/cK49SkFre5Ark9KmY=
+X-Google-Smtp-Source: AGHT+IF7G8yRO1cSo8vqHH5UaeNqcbHw+S8TNtA0Ju96Wb3SODipWZSK3i2ngTmztbBS/byXZ+YJCA==
+X-Received: by 2002:a2e:9b55:0:b0:2ec:50dc:af8d with SMTP id
+ 38308e7fff4ca-2ec5b29fc03mr26068691fa.12.1719237233248; 
+ Mon, 24 Jun 2024 06:53:53 -0700 (PDT)
+Received: from ?IPV6:2a00:f41:c03:9198:7df:6a16:3e8e:ed7b?
+ ([2a00:f41:c03:9198:7df:6a16:3e8e:ed7b])
+ by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-57d30534e35sm4701537a12.62.2024.06.24.06.53.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Jun 2024 06:53:52 -0700 (PDT)
+Message-ID: <5947559d-30dd-4da1-93cc-a15dc65cb77d@linaro.org>
+Date: Mon, 24 Jun 2024 15:53:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [1/2] drm: bridge: samsung-dsim: Initialize bridge on attach
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org, Michael Walle <mwalle@kernel.org>
-Cc: Adam Ford <aford173@gmail.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
-References: <20240513021849.129136-1-marex@denx.de>
- <2199187.Mh6RI2rZIc@steina-w>
+Subject: Re: [PATCH v1 2/3] drm/msm/adreno: Add support for X185 GPU
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>, Bjorn Andersson <andersson@kernel.org>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, Daniel Vetter
+ <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
+References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
+ <20240623110753.141400-3-quic_akhilpo@quicinc.com>
 Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <2199187.Mh6RI2rZIc@steina-w>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20240623110753.141400-3-quic_akhilpo@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,31 +93,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/24/24 11:26 AM, Alexander Stein wrote:
 
-Hello Alexander,
 
-> Am Montag, 13. Mai 2024, 04:16:27 CEST schrieb Marek Vasut:
->> Initialize the bridge on attach already, to force lanes into LP11
->> state, since attach does trigger attach of downstream bridges which
->> may trigger (e)DP AUX channel mode read.
->>
->> This fixes a corner case where DSIM with TC9595 attached to it fails
->> to operate the DP AUX channel, because the TC9595 enters some debug
->> mode when it is released from reset without lanes in LP11 mode. By
->> ensuring the DSIM lanes are in LP11, the TC9595 (tc358767.c driver)
->> can be reset in its attach callback called from DSIM attach callback,
->> and recovered out of the debug mode just before TC9595 performs first
->> AUX channel access later in its attach callback.
->>
->> Signed-off-by: Marek Vasut <marex@denx.de>
+On 6/23/24 13:06, Akhil P Oommen wrote:
+> Add support in drm/msm driver for the Adreno X185 gpu found in
+> Snapdragon X1 Elite chipset.
 > 
-> This does the trick on my hardware as well.
-> Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> ---
+> 
+>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c      | 19 +++++++++++++++----
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c      |  6 ++----
+>   drivers/gpu/drm/msm/adreno/adreno_device.c | 14 ++++++++++++++
+>   drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++++
+>   4 files changed, 36 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index 0e3dfd4c2bc8..168a4bddfaf2 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -830,8 +830,10 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, unsigned int state)
+>   	 */
+>   	gmu_write(gmu, REG_A6XX_GMU_CM3_CFG, 0x4052);
+>   
+> +	if (adreno_is_x185(adreno_gpu)) {
+> +		chipid = 0x7050001;
 
-Thank you. I still have to address your previous comment on 1/2, I 
-didn't get to that one yet, sorry.
+What's wrong with using the logic below?
 
-Also, I am not sure if this should be applied as-is, it is a borderline 
-workaround and there was some discussion about fixing the LP11 lane mode 
-switch properly. Michael ?
+>   	/* NOTE: A730 may also fall in this if-condition with a future GMU fw update. */
+> -	if (adreno_is_a7xx(adreno_gpu) && !adreno_is_a730(adreno_gpu)) {
+> +	} else if (adreno_is_a7xx(adreno_gpu) && !adreno_is_a730(adreno_gpu)) {
+>   		/* A7xx GPUs have obfuscated chip IDs. Use constant maj = 7 */
+>   		chipid = FIELD_PREP(GENMASK(31, 24), 0x7);
+>   
+> @@ -1329,9 +1331,18 @@ static int a6xx_gmu_rpmh_arc_votes_init(struct device *dev, u32 *votes,
+>   	if (!pri_count)
+>   		return -EINVAL;
+>   
+> -	sec = cmd_db_read_aux_data("mx.lvl", &sec_count);
+> -	if (IS_ERR(sec))
+> -		return PTR_ERR(sec);
+> +	/*
+> +	 * Some targets have a separate gfx mxc rail. So try to read that first and then fall back
+> +	 * to regular mx rail if it is missing
+> +	 */
+> +	sec = cmd_db_read_aux_data("gmxc.lvl", &sec_count);
+> +	if (PTR_ERR_OR_ZERO(sec) == -EPROBE_DEFER) {
+> +		return -EPROBE_DEFER;
+> +	} else if (IS_ERR(sec)) {
+> +		sec = cmd_db_read_aux_data("mx.lvl", &sec_count);
+> +		if (IS_ERR(sec))
+> +			return PTR_ERR(sec);
+> +	}
+
+I assume GMXC would always be used if present, although please use the
+approach Dmitry suggested
+
+
+The rest looks good!
+
+Konrad
