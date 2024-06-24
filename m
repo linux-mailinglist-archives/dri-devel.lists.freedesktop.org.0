@@ -2,150 +2,189 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A6B9149B4
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 14:21:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB6C9149BF
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 14:24:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3770410E416;
-	Mon, 24 Jun 2024 12:21:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A916D10E417;
+	Mon, 24 Jun 2024 12:24:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="sAeMCZMc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lxuoAZNA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2077.outbound.protection.outlook.com [40.107.237.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC6E610E414;
- Mon, 24 Jun 2024 12:21:44 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B88510E099;
+ Mon, 24 Jun 2024 12:24:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1719231851; x=1750767851;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=uEYhFiwPQe3TWtEBqok+gGl7gSszwcw3FABMp3/eA0c=;
+ b=lxuoAZNAHxCgjjk/pzknW9TPBv2Vev/yqjaVWGj0oCkEtQdwQ5UgJGTm
+ iWOolJG8ToBwGqRyGdOTRq05KfufioO0VhEQgmFai+/9ySTW6rHYWKG8P
+ eN1tIpKWZIgH4q1xuXZvmxN5H/d3J48N7faRbEbb5QrTlJ83zgHco+Ueu
+ hsto0dsnhWu1rKAAF65LJou/WwhDOuRPSp1r1Z9/punIRk9sBCitZ39a/
+ pllDQiEqjIYb70yS3X0oiYL+hbN1MzUDULg3X4rBw0cm0vPPl0VmZiR1m
+ RIEZu2FH3ad7gzwl3TEOnWkLThz1mphoifUrmWTRVWKvm+8YBZSuIdI3H w==;
+X-CSE-ConnectionGUID: ed6KZgUrRYCmIWVDKyZl0w==
+X-CSE-MsgGUID: xLAJR1Q2RUO4KUWq5zyY/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="26788601"
+X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; d="scan'208";a="26788601"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2024 05:24:10 -0700
+X-CSE-ConnectionGUID: V8z3iUMFQsmlQ71Na2yZrw==
+X-CSE-MsgGUID: TXXVG0jmSWSqIAMeUMsqrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; d="scan'208";a="43093526"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 24 Jun 2024 05:24:09 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 24 Jun 2024 05:24:08 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 24 Jun 2024 05:24:08 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Mon, 24 Jun 2024 05:24:08 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.44) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 24 Jun 2024 05:24:07 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iRCLGGCsPqkffJkIA7h6L0nspSfPVeVTeRRcTpRVYKgb+L5rDeG6cDvo3ARWlDd5bt8X3DNpMEBg8iUzU+1jTcIP3LZrpj5GcUbRo2zVqkShjGubq7h8s1o8IpA+NeZzpfXyiKv7o3DD1hFcdzO6Br/XvOSs3ZI1iVAMid/qO2BW2Cxpq29owGoeAPVCFEi27CFh7AgilERZeVJ0IM3d21nx00qrVhV2o2XJr9QseY67lGFCUIHRh5S5eLYvVBzsTz6u4CTNQVJ0cXKqjRjDquDnybi+6zZd9eA44e1iuLcqd/+eHEPZvZbGrmIndWD2LCjOy7KGwW6l58v+vCcuSg==
+ b=d9SZbXq0C6g/vsM3WcL3HVpOP+Fw34iNzmrhLV0LFPVR+7+TNrqMHrDZiBuamiK6wX7LgkaZCjpnqiPilaMXzzLq6WWovwqapP/jHHukUPgaYFZUPUf/DIah0UX8nx/5UdnKjAbJyDQ8YTtTaMYZqDdIg2VTPGKJYLNRA6TcY3Cc1Y9FOZH//yhSUOcEooH09X0C4QogePYkOCir9MlOkdPBmgwbZWqF8ESXAgnDkCszHMNQSJtXI4Hpi0BoYexIrn+3MZzvpfHqIVKbWLZdT9HRvRWgwVFjlW0zTNOE64dbe7QAJ1tNEzDexkyYo4p+6lmWHoe/Yzl2TZp3kZo/PQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z5UK+CF8AAfH3/0/rq8TMHvCUFUQWVwfmZK1rkRoYTU=;
- b=LnxWuLxlMqlpCJOdOdcXG6D2VenBxk+6ApQIvtmmCVHYXOWgCNFHCbzF1Zo+WHldtbK2m7btqzIUmTqBUUyYApo2TF18CaHvAv+XL5u3ngUPUkxYPrgJMJ3Gnhxrgq5rqW0VG+ttIpr2GXACplVJr2jC43Oh4hV69J6YleZYf4WVPRO4psryxbfoKz4pfWhjECRYIItyAgt3tyTpPZN8MDSuft+w/1yOv5cwlJTPSgyfH0CK4fG8QY3D/Z3/ic8Sqz5Rafd6+0CBOzA7C/3UdV4EbnQFIsxeVdYn961rlb/QHByGcydHyzIaucPjwp4Qi/ZtNahw5H2yEqh73+UMBA==
+ bh=Ivr9Z4zzJJK6178db8Am+MRcM9ulAppHp+6yiJ3dBg4=;
+ b=Hfpd/nEwQ9et0mFwKujjRUpe760dzxxKL/amz2RAbXKKYkQ+TECOnzuO+jj1nbrYkUP1LcwP/6PFTbL3G+koFDcHuFduZXxtNMiTeFXVxmKYDJsmh7uo2zvGKN+XB6pidal5LkdPszbAEYoU42B86mXT/zOkIfskQwNwkmij76JdAW313R5UbcQumgtfLY5Ss3n6CN/2iBJapMwv9sbJWXK+LaRfHfhnJx0FGK0jYtT0nZ/NgLvT5m29WDL1mSuv0JwixZtI5fdvHSVbtnuUY2bGt06AEZWd+UEyNpaeM9XbJM2cRcGFlGHAtEgtndc+kiDn92at/8RBkH5RUcV8Lw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z5UK+CF8AAfH3/0/rq8TMHvCUFUQWVwfmZK1rkRoYTU=;
- b=sAeMCZMcGglDjQKo69T8v2IaHgZdu62Oy1BQ2BiGLQa1J0z0E87hwUjmCG5f4khkmIzmZR2WNAGaD3xQlHEz6iDymFENbK+JI/+p0ebrzBVVMs4kTuubY1eRvfavM85y1/feGPBn0MkiTjjbKQKSRlroALYdIj6zaW0VG8y9pMk=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MW4PR12MB7166.namprd12.prod.outlook.com (2603:10b6:303:224::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.30; Mon, 24 Jun
- 2024 12:21:38 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.7698.025; Mon, 24 Jun 2024
- 12:21:38 +0000
-Message-ID: <2f5884bb-7eca-4273-8bc6-c376341ee930@amd.com>
-Date: Mon, 24 Jun 2024 14:21:33 +0200
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB6541.namprd11.prod.outlook.com (2603:10b6:8:d3::14) by
+ LV8PR11MB8462.namprd11.prod.outlook.com (2603:10b6:408:1e8::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.38; Mon, 24 Jun
+ 2024 12:24:05 +0000
+Received: from DS0PR11MB6541.namprd11.prod.outlook.com
+ ([fe80::e268:87f2:3bd1:1347]) by DS0PR11MB6541.namprd11.prod.outlook.com
+ ([fe80::e268:87f2:3bd1:1347%5]) with mapi id 15.20.7698.025; Mon, 24 Jun 2024
+ 12:24:05 +0000
+Message-ID: <8f4e5ac2-a3cc-47ca-bf12-da96086e5862@intel.com>
+Date: Mon, 24 Jun 2024 14:24:00 +0200
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] drm/ttm: Add a flag to allow drivers to skip clear-on-free
-To: Nirmoy Das <nirmoy.das@intel.com>, dri-devel@lists.freedesktop.org
-Cc: intel-xe@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: <intel-xe@lists.freedesktop.org>, Matthew Auld <matthew.auld@intel.com>,
  =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 References: <20240624100721.24331-1-nirmoy.das@intel.com>
  <7d576b58-81f7-4f2c-8932-70b96764c634@amd.com>
  <dd330f73-d83f-4894-a48b-aa2ad004a82e@intel.com>
+ <2f5884bb-7eca-4273-8bc6-c376341ee930@amd.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <dd330f73-d83f-4894-a48b-aa2ad004a82e@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Nirmoy Das <nirmoy.das@intel.com>
+In-Reply-To: <2f5884bb-7eca-4273-8bc6-c376341ee930@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR5P281CA0060.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f0::18) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+X-ClientProxiedBy: DUZPR01CA0197.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b6::11) To DS0PR11MB6541.namprd11.prod.outlook.com
+ (2603:10b6:8:d3::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB7166:EE_
-X-MS-Office365-Filtering-Correlation-Id: cbdbf4da-5f92-4765-87d4-08dc94483235
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6541:EE_|LV8PR11MB8462:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6fa8539c-ae39-45f0-ad88-08dc94488a0b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230037|1800799021|366013|376011;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?aTZOb1FOWWlneGZtV0xqV2VnRXg5OEhOVi9NTVNsOGxWRk9vY25XMGU3WC9K?=
- =?utf-8?B?S3hvSG1sWWdVUFB3T0FoS0Nkb05jN1Z5aEVXWUlYTkJCSnhta3E5VHhWaXRi?=
- =?utf-8?B?OFFNaEpJSnNTTGlPZnNBcHhaenlIVUxmLzV2dUlwWm5KWW1wSk5ZdTJBd211?=
- =?utf-8?B?Z1dvZVpFM2l0REFNc0xTQkJqTnkrdERycGFTZ2tsQmh6aHdLdDljRDVLVGNS?=
- =?utf-8?B?N0hZcGtub2lwMnJneE1qNUNJMHpWQjVORmhtczJFUlVYNzdiWEsyTUtxS3Vt?=
- =?utf-8?B?dlBUTXhKbUhacEVmOWdVdVNuc2R0WDBTUkJUZHgwRmNQcHJXbzZhWGZQc2Jy?=
- =?utf-8?B?ODJrM0dsK3cvcVd2eXk1Y04xdXc0MmJmR1RiYXdINExZVXZKZTBCM0pOR0V6?=
- =?utf-8?B?anZJeDhWaVFncWZUbjYxV2kvbitrNm1FYW96dnVGSHFGNHlCQUxmUHRsMXUy?=
- =?utf-8?B?Q1JmejF5NHlqTlgyS29hVjZTTU81RVNHNHdJd2NpeklER21aa1I2NHI0MWV6?=
- =?utf-8?B?NUovTlVTc3RTZ2JrOXYzNllTUWYxangxeDdvVitXSXJmNGxZd0tyMUsveE1R?=
- =?utf-8?B?cXdBWDd2Ym9aQlNFWVNIQm5mbEZoNno4VWRwZWp5aEpyMEJFVkFCa2lQSDFG?=
- =?utf-8?B?bUpwL1UranlBRkdrSFF2VlhTRm5rTWw3WmNRNVlPN2pTOHNrYWhSbm4xQXNR?=
- =?utf-8?B?MlF0SGJFeCt4SEZTREQ1NU5RTDJaekRvbDV0ZEpTS0FsZFNUUi96bjV3ZDRp?=
- =?utf-8?B?REdib2JYREhNckVkcUNjNURHWlQwY3B6U2dTbVpxS3hsaXJIcis1YWQ5T2lD?=
- =?utf-8?B?V05NV1NuNzFidWlFVDN1V1pkMUF3N0haODVUS0JiRTJaSFVPUml4OUJ1a3lh?=
- =?utf-8?B?YStoSnd2MlJTQmluZmpiU29FZTFPL2djQWFpWVIyblJZTHlnSno5U2dsNWpP?=
- =?utf-8?B?TU12Z0JxY3paaFRSSEErUjFuamFVL25JYkpOOEtpR05ON1pCWDlWTWJFUndj?=
- =?utf-8?B?UnR2dEFFbk9ZK1UzbEJLaDdYcUpMSHg5SWQ2MkZkenpmWkxBVEh1bE5IYlFK?=
- =?utf-8?B?YmRqK1phL1VYY0V6dm1JVmdobjVTdUJTT1NPczFFUThGT2p6NU5BeGNrdytO?=
- =?utf-8?B?N1B4RldiYnpucUh1R3ZGT2YvdElURExPNVAvQzV4V0dDYmpVVG96T0hlZDZu?=
- =?utf-8?B?WDhzeE9HRGNkcDFoSHM4cEhtYzFJT09DRHVjU0NVNzJBNmJldjBINlFabHVi?=
- =?utf-8?B?aHdUaE9weFhLL1h0M2dsNmN0ZURndzhCOEt1R1AxYmNVVUpJTUVCUnAxbmVB?=
- =?utf-8?B?SXlSakt5blZjQjRFQndOUFU0aS8rU3ozNXd4RS9id01JKytjMDdoeEVMUlFG?=
- =?utf-8?B?TXBNbmRXVHhtakJGK2lqV2Izc2xDY3hpR2xvOGVTbklta0pUYXBySTZhdkRI?=
- =?utf-8?B?Wmk0Y3l4R3ZzL0hqMFVsbTJzbU9VdkFXN1IxY0tUVGlOY0NLTks5YjkvZGV4?=
- =?utf-8?B?VWhoOWh3bk8ybGpGb1Fsa0c1ZWFpbDhBK1oydDZtR3FicEkzKzE0aXM2VmhK?=
- =?utf-8?B?WWNmNmVOcjYvRGpYQjIxMzJMbWMzMmxGZ2ZMRkN3eDl3TWdab0xCa29EanRy?=
- =?utf-8?B?cWk4emFqa3hkN0xzU3FxU0REWGorL2ErTGVKbEV2eDlISE5uVWtiTUVXK2tl?=
- =?utf-8?B?dG5xdkdFbGtuTUUxaWVORDVTMGZUa2Q2TGMrM2ZuUzdiNEZUaUpYbUlwcVNu?=
- =?utf-8?Q?yS/KRHjG9Xja59tbz3YeLjGaRLjUdJdO/ieJ5Tg?=
+X-Microsoft-Antispam: BCL:0;ARA:13230037|366013|376011|1800799021;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WU1UOEdHcjR0SEdacndJeDVWYi9mNGlFbm50cGNPNEhkeVR4TWlLaGpBSy84?=
+ =?utf-8?B?UlRJa3FlUmpFVGFlaFlYK1dqUURFWExyeW1aN2dNRmJ3WVpiT2Qyb2Q0bmxO?=
+ =?utf-8?B?RUJ1dDhBcWVmRk8vWFF1bFpYOVlhbC9DdEY4dU1pYVlMaXJqem9Ca0JWejVo?=
+ =?utf-8?B?eVpKTFBRWFJDZTBoTER5SmtVR1ZIaFNDakRxY2wvbnoxcndoaWhSei90N1NZ?=
+ =?utf-8?B?cWxlMjNRdVQ2bzc5VnJHcWRQbXhzbnlPYkRYbzBZYTJYQWNaWDFydmdhNGM0?=
+ =?utf-8?B?MjV1VER1Z2pnY1RCZDNENitGM1NQS29RODduSHJ4K2tjTG1nRGhWaFBwLzJW?=
+ =?utf-8?B?alVKVWhUWlpOY0dEcng4RGJpNFRRL3oxUlFLb2dVYngzV0F4dTNtSERaLzc0?=
+ =?utf-8?B?TmhtZkI2SnBJOEpSbTBEYVRDUXBWbXpzd3NYZXQyeVpsdUtvUVBTdEgrd0tB?=
+ =?utf-8?B?Q3JQLytzcy9aWlhwTUI5ekhTYmF0aExQVnFtbUpqWXFsMjlOTkJjbCtCQUhM?=
+ =?utf-8?B?UVVnRkhHK3Rob3A2Z0lXNEowZEZ1cE54VkF1VDNJNVByeDNCSTVtNFovdGs0?=
+ =?utf-8?B?UG9zZXg4NzFncnNEZlZGVGZuUjF0NTUvUTlJcis4TGpWaWFBMFB5a1BIZEwv?=
+ =?utf-8?B?cElOV28vUmtnRlZQU0FNTjE1UFJyYVNUL3B4V0Z6aFJNeVZuenVXV3FaY2l5?=
+ =?utf-8?B?V3cwNWZUdElxb2cyN3VYU3ozSUtQSHFFak5pYTMvQWJ1S0JWb1lpWW9VYXlU?=
+ =?utf-8?B?MDZHa1lEOVBOTDJkQlNYR3FBZE8vOUpkT0dRZHdiQm9Gdks1R2pvOE1INnBP?=
+ =?utf-8?B?L3c3ajVraERHeFArc2pLanhiYVRWaUJxNWhLeVpEamErWXdpclBOMXBLYkZs?=
+ =?utf-8?B?aC9GckhJQ1JkNkYwdEFubWFoZitFLzZET2tMTE1iS0tLbDBFaU5INzNLcHNT?=
+ =?utf-8?B?ZUQ5V2YvemVObEM0aXVkWXNhNHRaUEJYRXBZSUFoNXJNTVZQQk9pbWFhc2xz?=
+ =?utf-8?B?a2xoemQ0ejJtcDVEUjFnN1RVNERMQ0M0NmtpTjg2TG4rYWNXdWU0NHM3Tks5?=
+ =?utf-8?B?SFh6bjdUWklnKzRlaTlPcjBEUzNUNmxYckFvQThFblBZbzUyaHI2cWozQ0t1?=
+ =?utf-8?B?Wk1Tek0veHNEbit5UkhOVTZEZUVpRElBcHplMFAvS3NtTkV1cDZEbDdxYVNO?=
+ =?utf-8?B?TDVSUE5vNDJYOGRFa3pTL3VjN3BTeTBVcEJyeW9OZ3VFaTRXYi82elpWVXJs?=
+ =?utf-8?B?dGZmWDlsbXZyVU9VQmI2WEo5bVJWaUJ0a1l1cGZIOU5MVHlSbHkySk5pVHZ3?=
+ =?utf-8?B?WTQ1Y1dhWnZaeDdXSjVhR0R5RHYvSTIzZUpxS01Nc1RGT3RudGpqT0p1aEZx?=
+ =?utf-8?B?WWJVNUZXMkp4RVh6NUYrM3JkVW9RVktiTElBTGNiZ0F4VUk5QmlvS2JNaHRN?=
+ =?utf-8?B?Z0Z2T3l5ZmtFbEl2aE9FSEl6c0JHZlUvb29neXhiNFNqaW1DNWg5cUZYUlFn?=
+ =?utf-8?B?ek1qWTZNdmFLRjhOa3pYWU9NR0I3WHBCeGd6aUQvM3AyREo4MkcrTXFpOE1R?=
+ =?utf-8?B?WmtqV2RrUU1Dc21wS2hkZnBXQ3ZoeWtWWEwyUDFzSm1IWUxFUnhGVGFGWkdV?=
+ =?utf-8?B?STc1UWF3dUhDRGtROUJxNzJvNVJoVzdSYlNyTUZKWFZPRFdOeWpFNUw1aDRy?=
+ =?utf-8?B?UzBCVGpwYmlPV2w2QTJ3M2V4OEMvUGd0cGVOTGV3OGsxcDZyMzk4ek0xMUZr?=
+ =?utf-8?Q?lTqTLzwmbvYizGbfCZ0JVpFt1J3i+cnGDWaq+lN?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230037)(1800799021)(366013)(376011); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB6541.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230037)(366013)(376011)(1800799021); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YnhOR1o0SmpBeWVmc3VjVHBJQUk3MUVQVFd0WEc4L29oRzNxVStQcWJKSVZV?=
- =?utf-8?B?UGJNYWhBWkZiN1ZTZmFVZFNDU1g3MUtuUmxPdTh4M0JGOFEzbUNvek1tQ0pU?=
- =?utf-8?B?Nmk4N1FRQnRjbVRVSW5ucjlBdENMSlozT3h1WmNpNGowUGNDRnBiZ0FpejV2?=
- =?utf-8?B?VU1sQm1WdWNEM2QxZnhsWDcyZjBvT2xEV1J3Uk0xMXU5eHhtREtKSGhWUkxl?=
- =?utf-8?B?eXJWb1NLM24zM1MrM1lMWGg3aHdheXVvN0V1N1J2aTVSbU5HUjh1SDBtTlE0?=
- =?utf-8?B?dWFYd0J5WGc1c3ZoZWdLd3hYbUZBYlVEVkNKMjdzMk5zYnN5aFRSbEhPNGsy?=
- =?utf-8?B?VzQrK3loeXZmY0dsaXBuU3Fqall1THlqWFUyK2FUVXpRcC80WVB3VVlGeS9S?=
- =?utf-8?B?MzNScUExSlFpMzdSb0xqUG9lbkRZQmE4aXB3c3hsVTdOVURFaHI3ZVRxS21K?=
- =?utf-8?B?NjAyeVU2V0I1dHdRRWFWa3M5eHRYcTUxaGtSS2hSeEhvcVpBcWp5dU4vWlJ2?=
- =?utf-8?B?c2s5SENwVmdaSmdsVk1hU29PQ1V0a0JzNnBjaVpicWhSQ2ZDSTVVdHl0dTNN?=
- =?utf-8?B?VUlMYmgraEtwSWtVc3YwbnUwOGNrc0FNdkxBQ0ZmS1V2TGhlbVU5OGJWUjll?=
- =?utf-8?B?SHp6cXdkS3ZCemZFZGJRcUlPQkl4SW9DRGdBQ1o0Sk13cng5S09EaGpVa2tC?=
- =?utf-8?B?d2JaaDk3WlFhMllCVWNqY1cwVzJ1ZHVoM2l4SWh4N3N5c1RzMVJtdmtXMG1l?=
- =?utf-8?B?bFAzd0J4UEt1VjhVY1JzK0E0VGdkQ1BmRGtVdVkxRDgyTkoyMWdkcGRuWGts?=
- =?utf-8?B?Z0VsbEg0NEZ5bHVlcEN2STEyNk9CRnV1blJ0dE9BdHFSVC83cHhJMysxZElj?=
- =?utf-8?B?azJxc0o3em83L1JFZmVFTmdKdW1hUll6RWkzQksrQkQxYkZmdFp3Q3pYWDlX?=
- =?utf-8?B?dEFqODZjTWxZd3gxOTQ4cWpmcmZJckdzSHovZFA0aXRUQnEzSDBkYUFQN1kv?=
- =?utf-8?B?Z3huSExqVEo2bFFDem55SkxCQjRjNS84T1dGaUJPVTI2Nk8vdGlxQW1VdDd1?=
- =?utf-8?B?U0RnSm00b2V5eGhkWXZDbjFta2p0dXlUU3pTUEs0QzFDVmtDeFUzK25oMXpm?=
- =?utf-8?B?a3BuM3Z0dFkzTEUrQVlscnkxQVhxbmR0U2tWQW9Hc09maXJkTVdMcDlzQjNv?=
- =?utf-8?B?SEswUjQ0VXA0bEFBMXA3Zm5IYnUvYUpySk55VTl6U2VjZy80QVVGZ05yeVU0?=
- =?utf-8?B?M3c4eUdEQXo2Z1VuY25JS3RaVGFRR0tPNGorMCs2NVZqUzQvbFlHdkFYeTR1?=
- =?utf-8?B?MlJsMkdlQkNuMU9uQkptRklaVWJoRGJvdEVwNm4raTJNZUhHR0R0ZHVSekhm?=
- =?utf-8?B?cGdpVW1JSXAyMXZXeWVsRlIwajlDQnl3OVZrNWdBTnB0a1IxOFgzV3diSnJ2?=
- =?utf-8?B?Z1g4NnUzT0NEQ0JNdWlSR2dkOWc2Yk5DWWdvZHNrVlRJSlJvVDh4NFI2T00v?=
- =?utf-8?B?VVlkTjFiRFVaV2xIbzVTZmxDaC84Tmdwa2oyNGJlMEQ4OExYaFBBMGdVRmZl?=
- =?utf-8?B?SVdxb3dod3N6ZzB0MVJXTEZ0ZjA2ZXF0TklvdjZ1aWhpVUlQaWgzYkNYWCtX?=
- =?utf-8?B?aWdJbDhOM1dBbkQzVG9LcjdlV1BZQWdXbXE2dWd3a2c4V0dTMXF6U2laUUEv?=
- =?utf-8?B?OG9VTmVSVWd5V1lEb1ZpOHJjOGdYSVJBRTRVdVVsQ3pDV2NwUFhtZlpOUk1T?=
- =?utf-8?B?cVhJdTN5NmpxK0tuMTdGWEk0UFBkanhsVnM4eGF2c3lweER3bHZxV1h1Y013?=
- =?utf-8?B?VGpvTldoT2grcHNFSTQ2SmdIaVNnME5uaXF1UjBzdzBMR2N4R1dYMGtNS2J1?=
- =?utf-8?B?bS85V3d5TzFHQzEzSEI5Q2ErZXF1ejhtdHN6ekJDZTN5dTBFeWM1Z1VtTlN0?=
- =?utf-8?B?UzVtM0g0MTJ0MzJTN2ZzV0hTTjdCd1AzTjlqMkg2aEEybFhqUlczdW9RbTVS?=
- =?utf-8?B?WkV6QnI5QWtjaE1oVnp6OG9PdC9BUEMwVURRQk9TOGJQQXRpc0JhcUp0Wjdo?=
- =?utf-8?B?dWd4M2N1em50Mno1UUpOcWJ6dFNjY2tEM0FESDZ0TTR6K0M2bitlZlpxdmNs?=
- =?utf-8?Q?8d0PJHwu9U/KKAjkqLmCBwCH0?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbdbf4da-5f92-4765-87d4-08dc94483235
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RDZtNXJkUSswYVlHMCsyVGkwM3pFL0Mwd2tnclpXdm8xMlRqNDQrL2dNNUVl?=
+ =?utf-8?B?THI0OVNRVlc3eXgvODBRYlVna2ZWNHZJanZqcTFZc3pDZHlab0dKd0treWZR?=
+ =?utf-8?B?Nld6Q1RCQXNlVkN3QlhkemwwK2NpUE5ralRnWWU3YnIrTDJTbVZtaHFia0dC?=
+ =?utf-8?B?RUszbjFtMzcwbFJHWDVFd1lvMzY4Nnc4K2hsMTFVcUhxNWxMeFFpTXphVkdP?=
+ =?utf-8?B?cW1XNWQ0Tk9Na0ZxcFlyU1lpYnpGbmFBMDQwRnNnUDlnK2VKTmhDSzdCZVNU?=
+ =?utf-8?B?R3dYdlFTWW1LbU1YN1ZkUDhHQk1Pekt4d25yeHJ6NXR4akdEYVJ5Z0NwZHh6?=
+ =?utf-8?B?Rll1bmwwODhhdGFJMG43QmZhNVVpbXJnU1ZpbUdXSEtCa0ZHaCtpVWV0M1dq?=
+ =?utf-8?B?TzBqYUNuUXNvaHM4U0MzdDFNUk1mOXFaTkFkY1JJakhPcnVtZVNkc3VSVlVX?=
+ =?utf-8?B?QytkZ0pkU1Ryb1BvRUNSbWlSc0wxbEord1B2dFl3YU9IR1VBYm9jcGE5NGJ4?=
+ =?utf-8?B?ZUNCVFd6cWFITEROZWVVOHRVVWZwUG9SeUluU2RSWVlaVGhFL29YcGx2c3BL?=
+ =?utf-8?B?S3VCQi9MbEFEaXlMWi9WalZXbzJETHlkOXNaUXlaemhCSDFBa0ZlYXN0YUJm?=
+ =?utf-8?B?SVJHSWZTaC9JZ2ViTW0vZXdrV0N2UWxMZm15bU44b0EzOE1lbUJTMjFVVHpQ?=
+ =?utf-8?B?M05lVUZBRFlrYUlVT3pFWHMyN3paaGt2QmcvRm91aCtmNnQramNkVy9jWi9G?=
+ =?utf-8?B?dU0wd202QWVwdkNlbERjZEVDZGk5ZDJELzJKcXNmMmFRYnNwaURQUVUrdVRv?=
+ =?utf-8?B?Vmc5b1E5V1YxOVhwR0R4K081STR1L2FOSUpsMElXNi9SNFQ3eStudk5zR3l5?=
+ =?utf-8?B?b3Juem9qamRjb1d2RVZPd3ViYStHWmpTZDNvOXI0Qkg1VmhwbjNHWVhjc2pa?=
+ =?utf-8?B?N0IxQmhZWFdrcTRzWnF6bCtlMGlyQXRsalFzM1NPTld1ek5XdWN5VUtDOXFa?=
+ =?utf-8?B?bHU4d25lWU03V1RqY0RSZXNsNkRaOXhzK0RuWU5tREE5SEJsTHZBWU1OcGhY?=
+ =?utf-8?B?bG83bGhhWDZWM09wclF6UGdDTmJKS3JPL2hzbC9jcG9nZEczalkvalplYzVT?=
+ =?utf-8?B?M1pvN3R4YnFMdlh0THV3cTZJdnE5bW5Kb1ZKZFdyVWYwelhtTGN1aENNT0dQ?=
+ =?utf-8?B?OEVhVnhINlR2akRMdjU4RGdlbnNoSkNDSFNWVERLYUpjdzdHV0xDUHBuM0Qr?=
+ =?utf-8?B?T2JablhDV1FoMGZJRGFWV0d4NW1zWE1pclZEcjExbnEvcndyRHlsQ0x1K2w4?=
+ =?utf-8?B?T2ZpWXJpQlFUS1FPRzVrVDRXR1lEVmMwSkJONzhHb1RBTlQ0WGhWOE9mNjBE?=
+ =?utf-8?B?K25KbXRxZ1BXcHdieTBCSUo0dGpZeUV2bHNMR05pZ0EvT3V2NlE2eTFOVmU5?=
+ =?utf-8?B?KzhINXFOaWpIQ213MFFTYTViSFZGaHorcTE0OHJwdVlveGNrNk9FNW1kV1pJ?=
+ =?utf-8?B?bVpPOFV3VVFCcnRaRmRDTHN3dHN4QW5yV0JLVEpOclNtWGpDYnZpTVQ0RHRa?=
+ =?utf-8?B?NFRFRGl6cEpjZElNNGI0MlBmWC95Q1JRSkgvbTNiNnhzMk9GRjVybnJITVlQ?=
+ =?utf-8?B?akMyNjNWZ1p6L1pxMXY3aEdWME9GdEhjeGo4amdXM1JYdWNJcVBHRmt4cGYv?=
+ =?utf-8?B?WFh4L2pKTjkxRjVubEt1ZTdXdmhJWHFSUEV1YXJtVWdFQUZJdXJBNGVGU1F5?=
+ =?utf-8?B?SmZ3Q3gwUmJLS0pWa3JNRzUrSkNvTVl3ZWd4QjVYYUJVcjhHbXpILzBOdXRM?=
+ =?utf-8?B?RnF0cU5QWGxNczhNYnlDTTQzRGxtNzhKZDNvMWN1TENPMmVnNWRjMDBoL0ty?=
+ =?utf-8?B?Skl2Z1ljTDh1MHNFd2thRU5ia1k1TGZwZlk4R0tXb3hLTGp5cjh5cE1TdWNK?=
+ =?utf-8?B?VTF4aFgxajdPSXQ4S3RJZXNMV0k1am9yenRFR0FNYUVTSEFlMHBiRnNZWUtO?=
+ =?utf-8?B?UW9lazQ5d2pqRnh0ZTg1SkVLRWhqbjVVZlM5TktrMGNwT1hXNmMybmFsQnRr?=
+ =?utf-8?B?NWJQRis0cDRoam16VGs4bUViUEJWQU5nSFgyc3lsenZzVmxFTXQxTFh5ajA1?=
+ =?utf-8?Q?1tD2/wrzegaGZZYAdOeGY8Vmx?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fa8539c-ae39-45f0-ad88-08dc94488a0b
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6541.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2024 12:21:38.2008 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2024 12:24:05.6240 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WwSDLOvn7Egz+NFQ9+0Kxxu2RIZx61oWYUQpGbopy9Hi2gRREregBUudg1CJuIYW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7166
+X-MS-Exchange-CrossTenant-UserPrincipalName: NWpoDfHXTn3w+e1Xt7oBzAsvYhuw6cxqMlSd8SG61K5lgfxDsTY/2kqxHdpCJKYfXbqKVc1xgsw+zge4pSFCYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8462
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,118 +200,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 24.06.24 um 14:19 schrieb Nirmoy Das:
-> Hi Christian,
->
-> On 6/24/2024 1:39 PM, Christian König wrote:
->> Am 24.06.24 um 12:07 schrieb Nirmoy Das:
->>> Add TTM_TT_FLAG_CLEARED_ON_FREE, which DRM drivers can set before
->>> releasing backing stores if they want to skip clear-on-free.
->>>
->>> Cc: Matthew Auld <matthew.auld@intel.com>
->>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>> Suggested-by: Christian König <christian.koenig@amd.com>
->>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+Hi Christian,
+
+On 6/24/2024 2:21 PM, Christian König wrote:
+> Am 24.06.24 um 14:19 schrieb Nirmoy Das:
+>> Hi Christian,
 >>
->> Reviewed-by: Christian König <christian.koenig@amd.com>
+>> On 6/24/2024 1:39 PM, Christian König wrote:
+>>> Am 24.06.24 um 12:07 schrieb Nirmoy Das:
+>>>> Add TTM_TT_FLAG_CLEARED_ON_FREE, which DRM drivers can set before
+>>>> releasing backing stores if they want to skip clear-on-free.
+>>>>
+>>>> Cc: Matthew Auld <matthew.auld@intel.com>
+>>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>>> Suggested-by: Christian König <christian.koenig@amd.com>
+>>>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+>>>
+>>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>>
+>> Thanks a lot. Could you also please help get this merge ?
 >
-> Thanks a lot. Could you also please help get this merge ?
+> I can push it to drm-misc-next, but for that I also need a patch 
+> actually using it.
 
-I can push it to drm-misc-next, but for that I also need a patch 
-actually using it.
+Ah okay.
 
-On the other hand feel free to merge that through the i915 or xe branch 
-as well. The patch is small enough so that it probably won't cause any 
-merge conflict.
-
-Regards,
-Christian.
 
 >
+> On the other hand feel free to merge that through the i915 or xe 
+> branch as well. The patch is small enough so that it probably won't 
+> cause any merge conflict.
+
+I need to polish the XE patch a bit. I will get that merge through xe 
+branch then.
+
+
+Thanks,
+
+Nirmoy
+
 >
 > Regards,
->
-> Nirmoy
+> Christian.
 >
 >>
->>> ---
->>>   drivers/gpu/drm/ttm/ttm_pool.c | 18 +++++++++++-------
->>>   include/drm/ttm/ttm_tt.h       |  6 +++++-
->>>   2 files changed, 16 insertions(+), 8 deletions(-)
+>>
+>> Regards,
+>>
+>> Nirmoy
+>>
 >>>
->>> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c 
->>> b/drivers/gpu/drm/ttm/ttm_pool.c
->>> index 6e1fd6985ffc..b78ee7524bcf 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_pool.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
->>> @@ -222,15 +222,18 @@ static void ttm_pool_unmap(struct ttm_pool 
->>> *pool, dma_addr_t dma_addr,
->>>   }
->>>     /* Give pages into a specific pool_type */
->>> -static void ttm_pool_type_give(struct ttm_pool_type *pt, struct 
->>> page *p)
->>> +static void ttm_pool_type_give(struct ttm_pool_type *pt, struct 
->>> page *p,
->>> +                   bool cleared)
->>>   {
->>>       unsigned int i, num_pages = 1 << pt->order;
->>>   -    for (i = 0; i < num_pages; ++i) {
->>> -        if (PageHighMem(p))
->>> -            clear_highpage(p + i);
->>> -        else
->>> -            clear_page(page_address(p + i));
->>> +    if (!cleared) {
->>> +        for (i = 0; i < num_pages; ++i) {
->>> +            if (PageHighMem(p))
->>> +                clear_highpage(p + i);
->>> +            else
->>> +                clear_page(page_address(p + i));
->>> +        }
->>>       }
->>>         spin_lock(&pt->lock);
->>> @@ -394,6 +397,7 @@ static void ttm_pool_free_range(struct ttm_pool 
->>> *pool, struct ttm_tt *tt,
->>>                   pgoff_t start_page, pgoff_t end_page)
->>>   {
->>>       struct page **pages = &tt->pages[start_page];
->>> +    bool cleared = tt->page_flags & TTM_TT_FLAG_CLEARED_ON_FREE;
->>>       unsigned int order;
->>>       pgoff_t i, nr;
->>>   @@ -407,7 +411,7 @@ static void ttm_pool_free_range(struct 
->>> ttm_pool *pool, struct ttm_tt *tt,
->>>             pt = ttm_pool_select_type(pool, caching, order);
->>>           if (pt)
->>> -            ttm_pool_type_give(pt, *pages);
->>> +            ttm_pool_type_give(pt, *pages, cleared);
->>>           else
->>>               ttm_pool_free_page(pool, caching, order, *pages);
->>>       }
->>> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
->>> index 2b9d856ff388..cfaf49de2419 100644
->>> --- a/include/drm/ttm/ttm_tt.h
->>> +++ b/include/drm/ttm/ttm_tt.h
->>> @@ -85,6 +85,9 @@ struct ttm_tt {
->>>        * fault handling abuses the DMA api a bit and dma_map_attrs 
->>> can't be
->>>        * used to assure pgprot always matches.
->>>        *
->>> +     * TTM_TT_FLAG_CLEARED_ON_FREE: Set this if a drm driver handles
->>> +     * clearing backing store
->>> +     *
->>>        * TTM_TT_FLAG_PRIV_POPULATED: TTM internal only. DO NOT USE. 
->>> This is
->>>        * set by TTM after ttm_tt_populate() has successfully 
->>> returned, and is
->>>        * then unset when TTM calls ttm_tt_unpopulate().
->>> @@ -94,8 +97,9 @@ struct ttm_tt {
->>>   #define TTM_TT_FLAG_EXTERNAL        BIT(2)
->>>   #define TTM_TT_FLAG_EXTERNAL_MAPPABLE    BIT(3)
->>>   #define TTM_TT_FLAG_DECRYPTED        BIT(4)
->>> +#define TTM_TT_FLAG_CLEARED_ON_FREE    BIT(5)
->>>   -#define TTM_TT_FLAG_PRIV_POPULATED    BIT(5)
->>> +#define TTM_TT_FLAG_PRIV_POPULATED    BIT(6)
->>>       uint32_t page_flags;
->>>       /** @num_pages: Number of pages in the page array. */
->>>       uint32_t num_pages;
->>
-
+>>>> ---
+>>>>   drivers/gpu/drm/ttm/ttm_pool.c | 18 +++++++++++-------
+>>>>   include/drm/ttm/ttm_tt.h       |  6 +++++-
+>>>>   2 files changed, 16 insertions(+), 8 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c 
+>>>> b/drivers/gpu/drm/ttm/ttm_pool.c
+>>>> index 6e1fd6985ffc..b78ee7524bcf 100644
+>>>> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+>>>> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+>>>> @@ -222,15 +222,18 @@ static void ttm_pool_unmap(struct ttm_pool 
+>>>> *pool, dma_addr_t dma_addr,
+>>>>   }
+>>>>     /* Give pages into a specific pool_type */
+>>>> -static void ttm_pool_type_give(struct ttm_pool_type *pt, struct 
+>>>> page *p)
+>>>> +static void ttm_pool_type_give(struct ttm_pool_type *pt, struct 
+>>>> page *p,
+>>>> +                   bool cleared)
+>>>>   {
+>>>>       unsigned int i, num_pages = 1 << pt->order;
+>>>>   -    for (i = 0; i < num_pages; ++i) {
+>>>> -        if (PageHighMem(p))
+>>>> -            clear_highpage(p + i);
+>>>> -        else
+>>>> -            clear_page(page_address(p + i));
+>>>> +    if (!cleared) {
+>>>> +        for (i = 0; i < num_pages; ++i) {
+>>>> +            if (PageHighMem(p))
+>>>> +                clear_highpage(p + i);
+>>>> +            else
+>>>> +                clear_page(page_address(p + i));
+>>>> +        }
+>>>>       }
+>>>>         spin_lock(&pt->lock);
+>>>> @@ -394,6 +397,7 @@ static void ttm_pool_free_range(struct ttm_pool 
+>>>> *pool, struct ttm_tt *tt,
+>>>>                   pgoff_t start_page, pgoff_t end_page)
+>>>>   {
+>>>>       struct page **pages = &tt->pages[start_page];
+>>>> +    bool cleared = tt->page_flags & TTM_TT_FLAG_CLEARED_ON_FREE;
+>>>>       unsigned int order;
+>>>>       pgoff_t i, nr;
+>>>>   @@ -407,7 +411,7 @@ static void ttm_pool_free_range(struct 
+>>>> ttm_pool *pool, struct ttm_tt *tt,
+>>>>             pt = ttm_pool_select_type(pool, caching, order);
+>>>>           if (pt)
+>>>> -            ttm_pool_type_give(pt, *pages);
+>>>> +            ttm_pool_type_give(pt, *pages, cleared);
+>>>>           else
+>>>>               ttm_pool_free_page(pool, caching, order, *pages);
+>>>>       }
+>>>> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+>>>> index 2b9d856ff388..cfaf49de2419 100644
+>>>> --- a/include/drm/ttm/ttm_tt.h
+>>>> +++ b/include/drm/ttm/ttm_tt.h
+>>>> @@ -85,6 +85,9 @@ struct ttm_tt {
+>>>>        * fault handling abuses the DMA api a bit and dma_map_attrs 
+>>>> can't be
+>>>>        * used to assure pgprot always matches.
+>>>>        *
+>>>> +     * TTM_TT_FLAG_CLEARED_ON_FREE: Set this if a drm driver handles
+>>>> +     * clearing backing store
+>>>> +     *
+>>>>        * TTM_TT_FLAG_PRIV_POPULATED: TTM internal only. DO NOT USE. 
+>>>> This is
+>>>>        * set by TTM after ttm_tt_populate() has successfully 
+>>>> returned, and is
+>>>>        * then unset when TTM calls ttm_tt_unpopulate().
+>>>> @@ -94,8 +97,9 @@ struct ttm_tt {
+>>>>   #define TTM_TT_FLAG_EXTERNAL        BIT(2)
+>>>>   #define TTM_TT_FLAG_EXTERNAL_MAPPABLE    BIT(3)
+>>>>   #define TTM_TT_FLAG_DECRYPTED        BIT(4)
+>>>> +#define TTM_TT_FLAG_CLEARED_ON_FREE    BIT(5)
+>>>>   -#define TTM_TT_FLAG_PRIV_POPULATED    BIT(5)
+>>>> +#define TTM_TT_FLAG_PRIV_POPULATED    BIT(6)
+>>>>       uint32_t page_flags;
+>>>>       /** @num_pages: Number of pages in the page array. */
+>>>>       uint32_t num_pages;
+>>>
+>
