@@ -2,50 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2895C914FBA
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 16:19:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81231914FBB
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 16:20:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7354A10E252;
-	Mon, 24 Jun 2024 14:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0B7D10E45D;
+	Mon, 24 Jun 2024 14:20:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lFAvlC5H";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="WPry1qCD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A16BF10E45D
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 14:19:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 054EBCE11BD;
- Mon, 24 Jun 2024 14:19:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80D33C2BBFC;
- Mon, 24 Jun 2024 14:19:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719238764;
- bh=8RocPs5qRQ+NJ/ne+6rxeA+5cbWW+t4MnAi3bEOK5vg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lFAvlC5HJuJMNdfjTs85rGZHOzq5L4q9zYVmyxLcMPL1GlGVaSYHFYEu0kAhZ3FrJ
- 2Ya4hg5fckHHzxUtufoCGBcwvBKVYT1YhUiSRaOyDqHQ77pcSUUgFYa1oKMNKcXegM
- 9VWszZOn9Ml+EVtpHk76THN/tkKoKw1kScH4uQngZGVn/zWFk2R/YIOX2u1cI94cBb
- 6Jy/T+wc33uEZkcLiiqgfiXs9mYq1agAs+uTyXVSD8FHbqDVLtsm/+ZUbTPjUdf7F5
- hIK6WQrbIt7Qgyx5zu5DmguEjJMCp0VuBchrI3IymwHjfvAQtHLWcdDOmFlmHE0FZC
- vj0yu8x8SJFpA==
-Date: Mon, 24 Jun 2024 16:19:21 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 00/31] Preparatory patches for BCM2712 (Pi5) support
-Message-ID: <20240624-mighty-fantastic-swine-9c4b98@houat>
-References: <20240620154632.4125308-1-dave.stevenson@raspberrypi.com>
- <20240621-determined-venomous-partridge-eddeb9@houat>
- <CAPY8ntAbaxr-SnqyVR3Drnq-v5Q7ND7tSNzB+pLFFX0wssBAxw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="aip3t2eg6qxzifew"
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntAbaxr-SnqyVR3Drnq-v5Q7ND7tSNzB+pLFFX0wssBAxw@mail.gmail.com>
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04F3E10E45D
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 14:20:31 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-1fa2ea1c443so10489845ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 07:20:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1719238831; x=1719843631; darn=lists.freedesktop.org; 
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qwg4BQF2dSjJe6bI8pPiDT6kPYePsjlkVpxfKFjF+5g=;
+ b=WPry1qCDhCJgtBUmT1rN5tgIB1nVQY6uVb918/Iz1syTCnrVN/giTCC0CABecLx7dW
+ zqcV1mYeGa7QPrNjgrt4TAg04/Nvsd8HsXzXcLRNgG1UqRmJDre4lZWAI5V4jRnTkYL4
+ 7Y+BAF0IBGmutaC7Mv+foyWu5OxJV9l9XPW8M6Y9fRYoUrWLJMWfm8hSL1zejPf1KvOy
+ V0ElGMTj+77iOscQ5fDwIhpxHY+qW4uqDDbakL9NQP8D31F1RSARBxorwM86WFJ51Pjx
+ SH3xraX0E3KFeqGC9DhMiyJJ6mXjA3/EYKoBFTbg/zr4dlrSgGxcgECuwaZEzZNlRY+J
+ v/jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719238831; x=1719843631;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qwg4BQF2dSjJe6bI8pPiDT6kPYePsjlkVpxfKFjF+5g=;
+ b=GchiqtSlRFDmC8tUKooncmfJXFa6YU1wtQZk/4YDFMtOzkh50GjPcx8plGbRmUM/c2
+ wpa2atAsviE/0f5zSRne1mCU4WiUMD/nrVTV/RBQmr0ry/V602DpiUfi2nAmmOBly1az
+ n4XwkLhBZ+BmdxFSN8HNpu4mc9xusDRLdJ4PYtJULZLyaItO1E6fdGrcqqxQXCHZJg7Q
+ Pxzqt0YPLqxIegWlCbqy35WaAzzjVvuhEGZVIj+KQe9pq2bKN9CtwZ4jVEHsEdVvj96B
+ /tZ1ljEtm92pvs490DeJBmdgWhpt/P7nECtZi3tAqdOQfqt30UUHJJ7njl8nU2hpxbh1
+ GhZA==
+X-Gm-Message-State: AOJu0YwhCg/hRwWOjC9LEdAnfoMdAf4SswYbASSOfUFDftEyuzOT+Gey
+ d+hDm1xBhb85yyK6NPjPuM4fxQO872vBroSEYzIq1JstwHg1g7YkIiIM/4Yz2fM=
+X-Google-Smtp-Source: AGHT+IGYlIr+em1HKoMDj2T2Wg7YebKnOS+eaCeriqn/VjnyS7h0Ony6B1U/lGY6dS+giJ8U7cEDnw==
+X-Received: by 2002:a17:902:ce82:b0:1f6:81f9:cf34 with SMTP id
+ d9443c01a7336-1fa23ecccebmr55180605ad.34.1719238831057; 
+ Mon, 24 Jun 2024 07:20:31 -0700 (PDT)
+Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f9eb3d5fa9sm63243855ad.206.2024.06.24.07.20.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jun 2024 07:20:30 -0700 (PDT)
+From: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+To: dmitry.torokhov@gmail.com, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org,
+ benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com,
+ jagan@edgeble.ai, neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ dmitry.baryshkov@linaro.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: [PATCH v5 0/5] Add kd101ne3-40ti configuration in driver jd9365da
+Date: Mon, 24 Jun 2024 22:19:21 +0800
+Message-Id: <20240624141926.5250-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,81 +81,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This kingdisplay panel uses the jd9365da controller, so add it to 
+panel-jadard-jd9365da-h3.c driver, but because the init_code and timing 
+are different, some variables are added in struct jadard_panel_des to 
+control it.
 
---aip3t2eg6qxzifew
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In addition, since sending init_code in the enable() function takes a long time, 
+it is moved to the prepare() function.
 
-Hi,
+Changes between V5 and V4:
+- PATCH 1/5: No changes.
+- PATCH 2/5: No changes.
+- PATCH 3/5: New Patch, Switch jd9365da to use mipi_dsi_dcs_write_seq_multi() but no
+-            functional changes.
+- PATCH 4/5: Add a "_ms" suffix to the variables.
+-            Use more "_multi" in the enable/disable function
+-            Use mipi_dsi_dcs_write_seq_multi() in the init() function.
+- PATCH 5/5: Use dev_err_probe().
+- Link to v4: https://lore.kernel.org/all/20240620080509.18504-1-lvzhaoxiong@huaqin.corp-partner.google.com/
 
-On Fri, Jun 21, 2024 at 11:16:20AM GMT, Dave Stevenson wrote:
-> Morning Maxime
->=20
-> On Fri, 21 Jun 2024 at 09:55, Maxime Ripard <mripard@kernel.org> wrote:
-> >
-> > Hi Dave,
-> >
-> > Thanks for taking the time to send this.
-> >
-> > I've gone through most of the patches and it looks pretty good already,
-> > but I have a few general remarks:
-> >
-> >   - We merged in drm-misc-next the new HDMI infrastructure recently and
-> >     it will heavily conflict with some of these patches, so you need to
-> >     rebase against either linux-next or drm-misc-next.
->=20
-> Unless I've really messed up, this is already against drm-misc-next -
-> sorry for not stating that.
-> I've just pulled and rebased again, but I believe the top commit from
-> the tree I created the patches against was
-> c1391205754f drm/tests: add drm_hdmi_state_helper_test MODULE_DESCRIPTION=
-()
-> merged yesterday. I certainly had my VEC patches in the tree.
+Changes between V4 and V3:
+- PATCH 1/4: Only move mipi_dsi_dcs_write_buffer from enable() function to prepare() function,
+-            and no longer use mipi_dsi_dcs_write_seq_multi.
+- PATCH 2/4: Move positions to keep the list sorted.
+- PATCH 3/4: Use mipi_dsi_msleep.
+-            Adjust the ".clock" assignment format.
+-            Adjust "compatible" positions to keep the list sorted.
+- PATCH 4/4: No changes.
+- Link to v3: https://lore.kernel.org/all/20240614145510.22965-1-lvzhaoxiong@huaqin.corp-partner.google.com/
 
-Sorry, that must be my fault then :)
+Changes between V3 and V2:
+- PATCH 1/4: Modify the init_code sending method
+- PATCH 2/4: Add binding for kingdisplay-kd101ne3 in jadard,jd9365da-h3.yaml
+- PATCH 3/4: Add compatibility for kingdisplay-kd101ne3 in panel-jadard-jd9365da-h3.c driver,
+-            and add some variables to control timing.
+- PATCH 4/4: Add the function of adjusting orientation.
+- Link to v2: https://lore.kernel.org/all/20240601084528.22502-1-lvzhaoxiong@huaqin.corp-partner.google.com/
 
-I saw some patches had what I thought was vc4 prior refactoring, but if
-you're on top of current drm-misc-next, it's all good.
+Changes between V2 and V1:
+- PATCH 1/4: Delete some unnecessary information.
+- PATCH 2/4: Use the new mipi_dsi_dcs_write_seq_multi() function, deleted some unnecessary functions.
+- PATCH 3/4: Add compatible for Starry-er88577.
+- PATCH 4/4: Add starry panel configuration in panel-kingdisplay-kd101ne3 driver.
+- Link to v1: https://lore.kernel.org/all/20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com/
 
-> >   - The author and SoB fields for my patches don't match anymore,
-> >     possibly due to mailmap doing its magic.
->=20
-> Too much magic in git :-(
-> I went through and updated all your SoB fields, but mailmap appears to
-> mean that the author shown by git log is not the same as the patches
-> created by git format-patch. Never believe what you see. (That feels
-> like a bug in git format-patch).
+Zhaoxiong Lv (5):
+  drm/panel: jd9365da: Modify the method of sending commands
+  dt-bindings: display: panel: Add compatible for kingdisplay-kd101ne3
+  drm/panel: panel-jadard-jd9365da-h3: use wrapped MIPI DCS functions
+  drm/panel: jd9365da: Support for kd101ne3-40ti MIPI-DSI panel
+  drm/panel: jd9365da: Add the function of adjusting orientation
 
-The duality of a bug/feature :)
+ .../display/panel/jadard,jd9365da-h3.yaml     |    1 +
+ .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 1088 +++++++++++------
+ 2 files changed, 682 insertions(+), 407 deletions(-)
 
-> >     You can fix this by using, for the SoB:
-> >     git filter-branch --msg-filter 'sed -i s/maxime@cerno.tech/mripard@=
-kernel.org/' drm-misc-next..
-> >
-> >     And for the authorship:
-> >     git commit --amend --author=3D"Maxime Ripard <mripard@kernel.org>"
-> >     for each commit.
-> >
-> >   - All of the fixes need Fixes that are currently missing on most tags
->=20
-> Just as long as no one tries pulling them all back to stable. The
-> number of dependencies would be huge in many cases.
+-- 
+2.17.1
 
-This will probably happen still due to AUTOSEL. Is there any fix that
-shouldn't be backported?
-
-Maxime
-
---aip3t2eg6qxzifew
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZnmAaAAKCRDj7w1vZxhR
-xYDgAQCvvI/nXyZ8CzRjddmg68GpUkMGYFvNpr5ZxloawShSNgEAu4oX8cMLJJat
-hdaCFkhWDu+4xtxv5LB+ZhilPGSymQA=
-=Wk7N
------END PGP SIGNATURE-----
-
---aip3t2eg6qxzifew--
