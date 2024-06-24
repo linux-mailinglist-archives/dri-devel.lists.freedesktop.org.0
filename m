@@ -2,75 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA67A9145D8
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:05:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EADF9145DB
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:06:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E197510E3BE;
-	Mon, 24 Jun 2024 09:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE46F10E3BD;
+	Mon, 24 Jun 2024 09:05:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IYq6l00l";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="GutkAypi";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="p881l5xV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4FD010E3BC
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:05:42 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-366dcd21604so1400043f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 02:05:42 -0700 (PDT)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 373A910E3BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:05:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719219941; x=1719824741; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5qDsnR1NTYULm2Qyr/0Z4JWIlfl2ul0qrSxAF9LCYgs=;
- b=IYq6l00l6VabryQhoDOnr6Y4eQfcq1hTRmaVwoMggJM30vkhRXVT5M2oG64oAhLYwb
- YE6+nIgsEjheLErlixmtyWjMqjzmE8vJqZ7OSjBPooNsROmjCeJPFEDzmypjoa//JsAi
- S9/JLt94jUpf6o5bjukQMMd+Y7uIq2cGhuRCdnLYDrfaQeIbX4GmNwstUp8AzXwnxhHz
- 9qq3QWVfjxklef3OzmcvH5QLpjxsZvmCRpUxVOJj76yQwyzylqFQU4oLM+q9PYiWclBN
- 6iLQqW7ZxCy/N6LRcVsunvn5fvL/jOLBdRAXeHt0rNUjGTa/SnMKjbp84hF7OZMZ4Mw1
- Rirw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719219941; x=1719824741;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5qDsnR1NTYULm2Qyr/0Z4JWIlfl2ul0qrSxAF9LCYgs=;
- b=mzykCmfOabeYtK3q8ULIiVcOJ/6nMl9qPXpD1SjYzihjEV5KxLr55SVXZKUMHguMUB
- kFPJkieBuVlHNNbF/SldFtaKKXJ1v3vGSq2AD5LiVndlfEdlv83tVZ6132AphZczdRjY
- 98oN+fniw5oGy7hSCLTUK0SeSuxvORfGJwzz+14NJKFq04ftDQ7eZK7JKuR8n0CEwBy4
- A5KRHUEC2kj9PwLufUnpupYbMC19cx2K6eFrLOOYguDqHNmF6E+SU3cD0YL8okww5gxb
- DUHwizfA3SYnkvbBybMHiaOM2lQQT8Nmo0DLnpc+0QSmiV6x368zYwYflYc69QNCenX3
- OLiA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV62HJXTCC/6IVZ8UPSp4d2i3la7KLdyFRSjT5mTDL2aLfy0nkN9i6E6uP/CMbBbTTVcDd4fF3LE7rotsDVpMErLcctj07667wrFymzETho
-X-Gm-Message-State: AOJu0Yxmwf0di+flEbm/cYTxY3Am58WVuo8bgVM3LOCAZv4RH6FM88Hj
- ypW+rjNB6MCv8vOxIJDEtXghpxzYU4xYhYD5VydPWWBHTVNWvPR3/giMPKYckDo=
-X-Google-Smtp-Source: AGHT+IHJ13EztZCrxyJ2oWYkDSiBq4khT95V1IBke5urv+CpUbkCFJ0o9+6cXaFY/cRJQW7JELbj9w==
-X-Received: by 2002:adf:f6d0:0:b0:35f:231e:ef87 with SMTP id
- ffacd0b85a97d-366e7a3634fmr3398119f8f.29.1719219940648; 
- Mon, 24 Jun 2024 02:05:40 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3664178f5f7sm9323088f8f.19.2024.06.24.02.05.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jun 2024 02:05:40 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: quic_jesszhan@quicinc.com, Tejas Vipin <tejasvipin76@gmail.com>
-Cc: dianders@chromium.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240620181051.102173-1-tejasvipin76@gmail.com>
-References: <20240620181051.102173-1-tejasvipin76@gmail.com>
-Subject: Re: [PATCH v3] drm/panel: raydium-rm692e5: transition to mipi_dsi
- wrapped functions
-Message-Id: <171921993991.3622623.9693135969867849523.b4-ty@linaro.org>
-Date: Mon, 24 Jun 2024 11:05:39 +0200
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1719219957; x=1750755957;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=KZDuwpd/+kE0NM9hzMxdEHKvj5hx0O/GfXR3w1mS/r0=;
+ b=GutkAypipI9V+6t8VoLCQKXng27JQUXanXzsL/Xw6VIs9VsKZIx2AsBt
+ TyYXhv6R7CvWbnElUpH3MvJPWFZKRjKJ8oVzuAsPdhiZZk4bIIK21Ndbh
+ 2dEb4tDYKvaAxhKGpHhEOmYvxA2M8fsFukxAPMTbwBQ7+Td2nh4gp5yVs
+ yOaLvmWfLG5y67VsDcUF+lqWKabPrIw3rM2vsDpw/wv4SsxaAQ4JeB97u
+ L5igqkq0kcoFoRwxKb7z3fVvxDjcPx2ls1uWbpexhOnXxUVqKbZrFRKez
+ PNUGtwu9Q/vC5wm1MNyADj2HKeKCngftgksN5LjkKiaK4z75xrbl6oeCT A==;
+X-CSE-ConnectionGUID: 1z/n5U5hQ9e2YxF+5Gh1bA==
+X-CSE-MsgGUID: CtfBfTiISHexDGbQfvQ8DQ==
+X-IronPort-AV: E=Sophos;i="6.08,261,1712613600"; d="scan'208";a="37547172"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 24 Jun 2024 11:05:55 +0200
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 3C5DB16FB42; Mon, 24 Jun 2024 11:05:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1719219951;
+ h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=KZDuwpd/+kE0NM9hzMxdEHKvj5hx0O/GfXR3w1mS/r0=;
+ b=p881l5xVI5Sr8klLFaTp51P80gr/IfMu0RssbbOSC1JaeqcLymTh+1pVK0fuOYzRvfhlWa
+ 8h4tzBPOpKa8LKSXGnGlUv781P9qdvxm4inysuoDw8LQWYTml1QSMNOtMJsvClTrMkxTcj
+ nEJeSjMqrBDTd2bwTetFa6I5NzmeUlgvQeTG+9EDH2bCMgsJfhIrXKcs0cgiS2eViOwF27
+ mQ47bEkHyeLqWshgQF1zN6ii1tOj8cbQTh2okgxYjQ7x7vBpePZfbPz2ktA+i1rFD9Gmtt
+ Nk7hhHwRIxMMdh5jJM5yVvN0mGUZKG0DWK8LECP+yqajvKiANo3ia893BriOwQ==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ kernel@dh-electronics.com, Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v3 1/6] drm/bridge: tc358767: Split tc_pxl_pll_en() into
+ parameter calculation and enablement
+Date: Mon, 24 Jun 2024 11:05:54 +0200
+Message-ID: <3573149.iIbC2pHGDl@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20240623143846.12603-1-marex@denx.de>
+References: <20240623143846.12603-1-marex@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,25 +82,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Am Sonntag, 23. Juni 2024, 16:38:33 CEST schrieb Marek Vasut:
+> Split tc_pxl_pll_en() into tc_pxl_pll_calc() which does only Pixel PLL
+> parameter calculation and tc_pxl_pll_en() which calls tc_pxl_pll_calc()
+> and then configures the Pixel PLL register.
+>=20
+> This is a preparatory patch for further rework, where tc_pxl_pll_calc()
+> will also be used to find out the exact clock frequency generated by the
+> Pixel PLL. This frequency will be used as adjusted_mode clock frequency
+> and passed down the display pipeline to obtain exactly this frequency
+> on input into this bridge.
+>=20
+> The precise input frequency that matches the Pixel PLL frequency is
+> important for this bridge, as if the frequencies do not match, the
+> bridge does suffer VFIFO overruns or underruns.
+>=20
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: kernel@dh-electronics.com
+> ---
+> V2: No change
+> V3: No change
+> ---
+>  drivers/gpu/drm/bridge/tc358767.c | 37 +++++++++++++++++++++----------
+>  1 file changed, 25 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/t=
+c358767.c
+> index b0435c8b754b4..cbb342d811ac3 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -580,14 +580,9 @@ static int tc_pllupdate(struct tc_data *tc, unsigned=
+ int pllctrl)
+>  	return 0;
+>  }
+> =20
+> -static u32 div64_round_up(u64 v, u32 d)
+> +static int tc_pxl_pll_calc(struct tc_data *tc, u32 refclk, u32 pixelcloc=
+k,
+> +			   int *out_best_pixelclock, u32 *out_pxl_pllparam)
+>  {
+> -	return div_u64(v + d - 1, d);
+> -}
 
-On Thu, 20 Jun 2024 23:40:49 +0530, Tejas Vipin wrote:
-> Use functions introduced in commit 966e397e4f60 ("drm/mipi-dsi:
-> Introduce mipi_dsi_*_write_seq_multi()") and commit f79d6d28d8fe
-> ("drm/mipi-dsi: wrap more functions for streamline handling") for the
-> raydium-rm692e5 panel.
-> 
-> Additionally, the error handling in rm692e5_prepare() is changed to
-> properly power the panel off in the case of a wider range of
-> initialization commands failing than before.
-> 
-> [...]
+There seems to be a rebase mishap. The removal of div64_round_up should be
+put into patch 3. With that fixed:
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+Best regards,
+Alexander
+> -
+> -static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
+> -{
+> -	int ret;
+>  	int i_pre, best_pre =3D 1;
+>  	int i_post, best_post =3D 1;
+>  	int div, best_div =3D 1;
+> @@ -683,11 +678,6 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 ref=
+clk, u32 pixelclock)
+>  	if (best_mul =3D=3D 128)
+>  		best_mul =3D 0;
+> =20
+> -	/* Power up PLL and switch to bypass */
+> -	ret =3D regmap_write(tc->regmap, PXL_PLLCTRL, PLLBYP | PLLEN);
+> -	if (ret)
+> -		return ret;
+> -
+>  	pxl_pllparam  =3D vco_hi << 24; /* For PLL VCO >=3D 300 MHz =3D 1 */
+>  	pxl_pllparam |=3D ext_div[best_pre] << 20; /* External Pre-divider */
+>  	pxl_pllparam |=3D ext_div[best_post] << 16; /* External Post-divider */
+> @@ -695,6 +685,29 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 ref=
+clk, u32 pixelclock)
+>  	pxl_pllparam |=3D best_div << 8; /* Divider for PLL RefClk */
+>  	pxl_pllparam |=3D best_mul; /* Multiplier for PLL */
+> =20
+> +	if (out_best_pixelclock)
+> +		*out_best_pixelclock =3D best_pixelclock;
+> +
+> +	if (out_pxl_pllparam)
+> +		*out_pxl_pllparam =3D pxl_pllparam;
+> +
+> +	return 0;
+> +}
+> +
+> +static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
+> +{
+> +	u32 pxl_pllparam =3D 0;
+> +	int ret;
+> +
+> +	ret =3D tc_pxl_pll_calc(tc, refclk, pixelclock, NULL, &pxl_pllparam);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Power up PLL and switch to bypass */
+> +	ret =3D regmap_write(tc->regmap, PXL_PLLCTRL, PLLBYP | PLLEN);
+> +	if (ret)
+> +		return ret;
+> +
+>  	ret =3D regmap_write(tc->regmap, PXL_PLLPARAM, pxl_pllparam);
+>  	if (ret)
+>  		return ret;
+>=20
 
-[1/1] drm/panel: raydium-rm692e5: transition to mipi_dsi wrapped functions
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/699f411dceb4766aabcac05cb4fbeb530e6c257b
 
--- 
-Neil
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
