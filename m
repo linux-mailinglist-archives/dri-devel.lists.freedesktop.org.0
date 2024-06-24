@@ -2,71 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A117E9148C9
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 13:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 992C59148D5
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 13:34:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E392A10E119;
-	Mon, 24 Jun 2024 11:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D40CB10E3EF;
+	Mon, 24 Jun 2024 11:34:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="jzk8zOGz";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="J/ZYT6ZZ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dfWv6Ro9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6C7B10E119
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 11:32:27 +0000 (UTC)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+ [209.85.128.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6656A10E3F7
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 11:34:07 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-6325b04c275so41484427b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 04:34:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1719228748; x=1750764748;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=HS0w/FAC4Vg1rsGlmB0DrwqRXeG8EmTG+BPwYRmz0Bo=;
- b=jzk8zOGzp6uniq/W8e9ZG4hsjdCJBPScwQ/hyhcavWOsNn28FHtORJck
- vT1hVLg+YYoz92Ulkc2zFj9zULhcj8U7X57WneeIIDAKvRqLGoAtWwhdw
- Tv4mU2zOJfTuS9wyHY+FfKy8OKnZ5d+tnd1qoHsPRIi5DfCQ4zh5pTWHP
- 4B4XK9Jt/1k+dApVNGbIYTfhpoaDNSATMnNyqxMqpaTF7t3395qHGmB3y
- 8uhPkq2UlHSwWma84w6FLkLSQ42C7BM7ChY1vQ8SmU9kHIUFpH9nIVTMP
- dKi4TzdQk57ELUkrepDZVbm2/fFaqGPeIWlkMd3KsLYlrfEHSRPrfUHss A==;
-X-CSE-ConnectionGUID: xutlt1bvR1OPgmKEzE8qrw==
-X-CSE-MsgGUID: 0ZaALeZKQNuLTK+a8XFTmg==
-X-IronPort-AV: E=Sophos;i="6.08,261,1712613600"; d="scan'208";a="37550994"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 24 Jun 2024 13:32:26 +0200
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id AA73B161461; Mon, 24 Jun 2024 13:32:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1719228742;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=HS0w/FAC4Vg1rsGlmB0DrwqRXeG8EmTG+BPwYRmz0Bo=;
- b=J/ZYT6ZZPm0j+qJ4XydMuPOr/DBjQtDvmdFLU+zCLT2h1BaF/9ZdN6AMbIEAcBFZHOufHo
- dY71HZUtLEoVzDdVUenSGEbmC9Htj7QxPLqUzfdN4VEPC6+XmzXZ/wnv3zRAO9jfin2YbP
- BTPYjfEK0tJXbllPhenw25hwg59vJ3BfVqrsD9tffJ6zY8lalYhJEWP2xkkzWNtXHr29IP
- 2omtKCwu6I5hltQ+s/T0yYI7+LslkgRXYZRal3CUsTjGdpUaDGgRs5lOzWG+54od/Pkme+
- cFyVcHhTOZmaG51c+KlgFFdeOkjT9u1kB70EsnbN1e+OV529ORP8gwloyvVoTw==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH] drm/lcdif: switch to DRM_BRIDGE_ATTACH_NO_CONNECTOR
-Date: Mon, 24 Jun 2024 13:32:20 +0200
-Message-ID: <859620673.0ifERbkFSE@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20240624-mxc-lcdif-bridge-attach-v1-1-37e8c5d5d934@linaro.org>
-References: <20240624-mxc-lcdif-bridge-attach-v1-1-37e8c5d5d934@linaro.org>
+ d=linaro.org; s=google; t=1719228846; x=1719833646; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=upAAWkKErsbFK09qz0Z6svT+EppDhxsUTeUV4G/KK1k=;
+ b=dfWv6Ro9mZRNMKfw3D2BJRSoIc21gufdsDr8fSlIivF+yebUzmSKRNXxq7WfTcjbC2
+ jYQwVNXy87Crs1ombJX92rGaTUG6htks0Lu/9KCA8JLGmyOisI7iAlJce6IVKnW/4nfj
+ YOhK4HkROgahqWH/uhXHeFMir/9+awE5HQCnK5Wt7dTfIFGfrcDXUpIsrESZ5aL7ESrc
+ fAh/O4TuTmpLBzJ00xFyoR4ccFqHki9gtNACTbO0DzKd6XOeWTrBNLuK1/GK2uKoriya
+ pX1QgJj20P5wWdA7p2MR3/XOaB/AD/o6/Ls1ix7Ds2u8/tUv8jum9MrzKpoL0wkOGrja
+ N9zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719228846; x=1719833646;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=upAAWkKErsbFK09qz0Z6svT+EppDhxsUTeUV4G/KK1k=;
+ b=iqw5bw1V7jpID1GQOw0sFS6/9Hx2BXV16FfSQM2j+4phJ65HkhJi8AYesFbOTYZ+h3
+ jEgo7QQNVF/QAP0JAjKawdWXuuy/Y3JjsQVNg7t/Ig2E+htoLTgwVGwB4sbwoz7kXLed
+ ZLrsl8JzIUXU3yChwuKYTWJR2JxCWEn9lU9/EuPPr4q0nEuZojDs466nbVciJLbTYGmE
+ IqgthxvsiE+KmzSClgZ0hzSTlQAh3TEvRxK6Lzj7+Z3E0hqoxLL+AerAI6/MAdfsM5yh
+ 0/s1W8xpqfiHdkiQ8GABTzWsqq36pG5MTB2Y4FMUpfihJzHAUFVcKAN/MRnuyHm+IZzS
+ 4/JQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXLoud/QVy0O0yrmfllNf63xbicB40jJD+xAzLv9gGyRdpxyrEJV9S2rozwvn+VM6F30/++k0W8sNGnS5V9RTaxxD2/pS2DnTFGsaEfYpzI
+X-Gm-Message-State: AOJu0YxBApmvm+9E/7xRQqM30UoU7GwJy9oZbiOJn771TBRvRsJBF9JN
+ jTNCUJJFv6dTrP3BJ3SgPnrKQDWcFwa1cffpPT8fvy5a9qMynurfcNzwOZmpuSDsTCEGGShEOnG
+ es7CqTWWCHMDMI+y9pnD+8dXrT0c9XQOvnMIKEA==
+X-Google-Smtp-Source: AGHT+IH5Z8/tuCn40/rJtcdV8GxLSpREk/lqsQMXN8cW6J/sXP4inSC19be2plWZfK17N4VZno+uTzXn3dQ/uoLjDag=
+X-Received: by 2002:a81:8387:0:b0:61a:d4ea:b856 with SMTP id
+ 00721157ae682-643ac323d0dmr37721917b3.40.1719228846022; Mon, 24 Jun 2024
+ 04:34:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org>
+ <ufc7sq5s5nymjncp5w2446dq5xcmmqbmsuubhpo2fxtsz5dpgg@xtqtmmsio6sr>
+ <722dab04-03f9-49ce-9c7c-4a3a9f898fc9@postmarketos.org>
+In-Reply-To: <722dab04-03f9-49ce-9c7c-4a3a9f898fc9@postmarketos.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 24 Jun 2024 14:33:54 +0300
+Message-ID: <CAA8EJpqVjkRKWoDfJ=Ga19=gn7i9N-bym+O-TadE819ziJXhoA@mail.gmail.com>
+Subject: Re: [PATCH 0/7] qcom: initial support for the OnePlus 8T
+To: Caleb Connolly <caleb@postmarketos.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Henrik Rydberg <rydberg@bitmath.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ ~postmarketos/upstreaming@lists.sr.ht, 
+ Frieder Hannenheim <frieder.hannenheim@proton.me>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,101 +91,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, 24 Jun 2024 at 14:33, Caleb Connolly <caleb@postmarketos.org> wrote:
+>
+>
+>
+> On 24/06/2024 07:18, Dmitry Baryshkov wrote:
+> > On Mon, Jun 24, 2024 at 03:30:24AM GMT, Caleb Connolly wrote:
+> >> Add bindings for the SM8250 OnePlus devices, a common devicetree,
+> >> touchscreen and display drivers, and a dts for the OnePlus 8T (kebab).
+> >>
+> >> The OnePlus 8 series is made up of 3 flagship smartphones from 2019,
+> >> featuring the Qualcomm X55 5G PCIe modem.
+> >>
+> >> This series introduces initial support for the 8T, adding drivers for
+> >> the 1080x2400 120Hz DSC panel and the Synaptics TCM Oncell touchscreen.
+> >>
+> >> The panel driver suffers from similar limitations to the LG SW43408
+> >> panel found on the Pixel 3, namely that after toggling the reset GPIO it
+> >> is not possible to get the panel into a working state.
+> >
+> > Just to point it out: this is no longer true for SW43408. The panel
+> > wakes up and works after toggling the reset. It seems, there is an issue
+> > with one of the regulators, but not with the reset and/or panel startup.
+>
+> Hmm ok, I've heard mixed reports then, I should try it out myself again.
 
-Am Montag, 24. Juni 2024, 12:31:46 CEST schrieb Dmitry Baryshkov:
-> Existing in-kernel device trees use LCDIF with the dsim + adv7533, dsim
-> + tc358762 or with ldb + panel_bridge. All these combinations support
-> using DRM_BRIDGE_ATTACH_NO_CONNECTOR for bridge attachment.
->=20
-> Change lcdif driver to use this flag when attaching the bridge and
-> create drm_bridge_connector afterwards.
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> Note: compile-tested only.
+During MAD24 we have seen an issue with the regulators, when the panel
+doesn't wake up. But resetting the panel works.
 
-I gave it a try, but it doesn't work. Despite DSI output it also breaks
-HDMI output, where I at least some error messages:
-[drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@32c00000=
-/hdmi@32fd8000 to encoder None-37: -22
-[drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@32c00000=
-/display-bridge@32fc4000 to encoder None-37: -22
-imx-lcdif 32fc6000.display-controller: error -EINVAL: Failed to attach brid=
-ge for endpoint0
-imx-lcdif 32fc6000.display-controller: error -EINVAL: Cannot connect bridge
-imx-lcdif 32fc6000.display-controller: probe with driver imx-lcdif failed w=
-ith error -22
-
-Best regards,
-Alexander
-
-> ---
->  drivers/gpu/drm/mxsfb/lcdif_drv.c | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lc=
-dif_drv.c
-> index 0f895b8a99d6..1d5508449995 100644
-> --- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> @@ -16,6 +16,7 @@
-> =20
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> +#include <drm/drm_bridge_connector.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_encoder.h>
->  #include <drm/drm_fbdev_dma.h>
-> @@ -48,6 +49,7 @@ static int lcdif_attach_bridge(struct lcdif_drm_private=
- *lcdif)
->  {
->  	struct device *dev =3D lcdif->drm->dev;
->  	struct device_node *ep;
-> +	struct drm_connector *connector;
->  	struct drm_bridge *bridge;
->  	int ret;
-> =20
-> @@ -96,13 +98,23 @@ static int lcdif_attach_bridge(struct lcdif_drm_priva=
-te *lcdif)
->  			return ret;
->  		}
-> =20
-> -		ret =3D drm_bridge_attach(encoder, bridge, NULL, 0);
-> +		ret =3D drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_=
-CONNECTOR);
->  		if (ret) {
->  			of_node_put(ep);
->  			return dev_err_probe(dev, ret,
->  					     "Failed to attach bridge for endpoint%u\n",
->  					     of_ep.id);
->  		}
-> +
-> +		connector =3D drm_bridge_connector_init(lcdif->drm, encoder);
-> +		if (IS_ERR(connector)) {
-> +			ret =3D PTR_ERR(connector);
-> +			of_node_put(ep);
-> +
-> +			return dev_err_probe(dev, ret,
-> +					     "Failed to create bridge connector for endpoint%u\n",
-> +					     of_ep.id);
-> +		}
->  	}
-> =20
->  	return 0;
->=20
-> ---
-> base-commit: f76698bd9a8ca01d3581236082d786e9a6b72bb7
-> change-id: 20240624-mxc-lcdif-bridge-attach-60368807b2f9
->=20
-> Best regards,
->=20
+>
+> I'll update the cover letter to reflect this. Thanks.
+> >
+> >> Given the apparent prevelance of this issue, particularly with DSC
+> >> panels, I believe this is a bug in the core DSI code, and not a device
+> >> or panel specific issue. I think it is still useful to accept these
+> >> panel drivers into upstream since, from a users perspective, the panel
+> >> is fully functional just by leaving the reset GPIO alone and keeping the
+> >> regulator on. The only (theoretical) downside is worse battery life,
+> >> which is a small price to pay for a working display.
+> >>
+> >
 
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
 
-
+-- 
+With best wishes
+Dmitry
