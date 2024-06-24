@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE42D91461F
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:20:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90848914628
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:20:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7EBB10E3C9;
-	Mon, 24 Jun 2024 09:20:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B833B10E3CA;
+	Mon, 24 Jun 2024 09:20:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="I4SIB/su";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vxBlYsPN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DBF310E3CA
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:20:02 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-36226e98370so2481310f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 02:20:02 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1A4110E3CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:20:21 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-4217c7eb6b4so33959265e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 02:20:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719220800; x=1719825600; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1719220820; x=1719825620; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=1rzhBjyz5jjvgMNRRPFm2knRSqWyQzc3/BQBCba6JkY=;
- b=I4SIB/suxVU+8tXbpA67dXjzYdpIC4m5csfwmJgAEjRZOVGR65YM8nHhqHJO1Jw92q
- Wwc5zI7ApL1AiO3My4cFwg1EDs174s/xdl/K9ao1PaWQ2HJ4f9ejcUcWLWAiyOYtNyRx
- eaqB8CztiC52pHZtapRICVFJrWoPdUJk/TZ9OBkKvsOkbUQnd/A0U7OhDV15zeuNldps
- M1RHO2NsfK/LwPr7OY60JMmtnmzgsdm/SDrm90+iL+PC2PqCw/BsiinL9cLth9grKY62
- zgCc2Iz9zYGp2a1pdn6YayHqQfxwMiUVGA5efDEDHFQPMXvZ7OscD6iBktw29coV17XV
- TTyA==
+ :reply-to; bh=KbmsdFqXhQhvnEQu5Ix9nA78YzXIrqpXyv4OIIIx9Kw=;
+ b=vxBlYsPNTvQrR30cvBOcb80XfHpbt3wcY3dKG7OCO4ht0qKyd4BSbvrTCx688O1NJ1
+ HpnMwlv6+eikvcqOYBi7ahBPFMqPgpyOSgve+7xZa39EISDr10CbzcngWmRJuIwoOU3L
+ 5OAg9JnFwFi/aeacpBOhh5mr2sG+xZKMZbLDwaMyYoal/HvFUOWZ11eLImhkMnkr+JJP
+ 96LzTfszwNhVG1E9oHz5HAl1ot63is9ZcWI8rC/iaNRu5dPBCfA0Sj+rK7CD5Y0Ne6/C
+ dkS4+HXRk6jzadqoyYE6D/NGA9TrFxsvzz4qCgASAK0apiAWzFe+W9lKjmCI2a5QLPwU
+ rWjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719220800; x=1719825600;
+ d=1e100.net; s=20230601; t=1719220820; x=1719825620;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=1rzhBjyz5jjvgMNRRPFm2knRSqWyQzc3/BQBCba6JkY=;
- b=rZzVFYNTar04nN4T9Wfg1vzkC1cPOI5c+/jUTDTZSg7UNuavkWgqI9gH02XtB3yTQj
- REbT8Eqt4pzng0f6EovqApvFgQwbbFFVfS6oQUWWD1Bo0I1ZnV4Vlxl+1OuoKaydu60u
- j5uY0DxtsGdjlGIIBe0V3drt6aCF+b1H6BSwctsPoRvUzcJlTJ4Q1EuR/TfnliFdbeKO
- iml6oB1G176Wtu4336OwQu3Hn6cgHNjdRQVA0TyB2047TPg+JAIWK46myaH3WWE/gmoE
- dVnCR5jxZ3xXd2oEcMr4t7xWNPd3ILAgtjG2Dfd0GKQzMpbI9FvHhz05JsQuTl0Exam4
- opZQ==
-X-Gm-Message-State: AOJu0YyOVu6CTYKhuLb2SzYlM7DRfBRjH+dRVg6d4rpLWc+7Kll9Hm3k
- +9Yl/ilCaXm/n8Fop0SAVMlTnvMkHEXsONcUQ1iSaaiKKeTX4IH8zJRSx8SLm0I=
-X-Google-Smtp-Source: AGHT+IHRZ1tAaFSNfK8/s7Iexd9ivbkvRD5s+vKV1yQwTPEUSZoY/5RFg7cefOTs7oZfhcoSVW3q1g==
-X-Received: by 2002:a5d:5745:0:b0:364:81e7:3917 with SMTP id
- ffacd0b85a97d-366e946480fmr3098589f8f.3.1719220800019; 
- Mon, 24 Jun 2024 02:20:00 -0700 (PDT)
+ bh=KbmsdFqXhQhvnEQu5Ix9nA78YzXIrqpXyv4OIIIx9Kw=;
+ b=rCXCIVTUmEDFPoyVL6LmeuTfvmfBu4Yfj2nZxLEa2O20k84ZmPFyqqz4+917YGfeQZ
+ ZmWkdbU7PrMVRiy0N08pc2o0JKjxKkIaeEj2pgyKyp6ikysEk/MnI40bqB28a618l4tN
+ 1PNfnGXtbf6UZHdL7FIoW2ClhTqGVYSvCKKc1OheDTdErhvvt1DqxJ7aAZw5lmQ5G8M+
+ 5XQDXqH/szgr8ZSmrGakheaXKgFbWri5WYDFui4YZh2FQTEmbTHF2VEOUrKCp7iSE6Ew
+ sAyZdx41doQLmnjmQi37xUG1iNFu6ZY18Tdlw9WB7cW2WY7DLRizSnYm6XJpg4azPQy/
+ XrCQ==
+X-Gm-Message-State: AOJu0Yznbdpps7jfrLgP3VHicaVO2z+ScJviRjZR1n625WwAxCEybMg4
+ z9p45aYLNqT0XbqIXqr13ZkGNTkS38bjNemxTV504hJe5cNmajtki+FHE+F1gVU=
+X-Google-Smtp-Source: AGHT+IFrQuBGPmb21bSe4gE+PEpAMSIhvu1ChdgH/Jh3NGW+9L0wjfpeM1gpbYLXuT+fpdI6/DoYiA==
+X-Received: by 2002:a05:600c:2152:b0:424:8838:364f with SMTP id
+ 5b1f17b1804b1-4248cc350b1mr26340595e9.22.1719220820016; 
+ Mon, 24 Jun 2024 02:20:20 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:cf01:774b:55fd:ab74?
  ([2a01:e0a:982:cbb0:cf01:774b:55fd:ab74])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3663a8c7befsm9477398f8f.95.2024.06.24.02.19.59
+ 5b1f17b1804b1-4247fe1b5desm149043575e9.4.2024.06.24.02.20.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jun 2024 02:19:59 -0700 (PDT)
-Message-ID: <a3a645a0-2d2f-4b6c-9878-f02764b686c1@linaro.org>
-Date: Mon, 24 Jun 2024 11:19:58 +0200
+ Mon, 24 Jun 2024 02:20:19 -0700 (PDT)
+Message-ID: <2bb62caa-e213-42fa-ac9c-4118f66aee9e@linaro.org>
+Date: Mon, 24 Jun 2024 11:20:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 5/8] drm: bridge: dw_hdmi: Invalidate CEC phys addr from
- connector detect
+Subject: Re: [PATCH 6/8] drm: bridge: dw_hdmi: Remove cec_notifier_mutex
 To: Jonas Karlman <jonas@kwiboo.se>, Andrzej Hajda <andrzej.hajda@intel.com>, 
  Robert Foss <rfoss@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -72,7 +71,7 @@ To: Jonas Karlman <jonas@kwiboo.se>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20240611155108.1436502-1-jonas@kwiboo.se>
- <20240611155108.1436502-6-jonas@kwiboo.se>
+ <20240611155108.1436502-7-jonas@kwiboo.se>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -99,7 +98,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240611155108.1436502-6-jonas@kwiboo.se>
+In-Reply-To: <20240611155108.1436502-7-jonas@kwiboo.se>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,49 +118,67 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/06/2024 17:50, Jonas Karlman wrote:
-> Wait until the connector detect ops is called to invalidate CEC phys
-> addr instead of doing it directly from the irq handler.
+> With CEC phys addr invalidation moved away from the irq handler there is
+> no longer a need for cec_notifier_mutex, remove it.
 > 
 > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 > ---
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 18 +++++++++++-------
->   1 file changed, 11 insertions(+), 7 deletions(-)
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 11 +----------
+>   1 file changed, 1 insertion(+), 10 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 9ecf038f551e..0814ca181f04 100644
+> index 0814ca181f04..256e00a97a9a 100644
 > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2455,7 +2455,17 @@ dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
+> @@ -189,7 +189,6 @@ struct dw_hdmi {
+>   	void (*enable_audio)(struct dw_hdmi *hdmi);
+>   	void (*disable_audio)(struct dw_hdmi *hdmi);
+>   
+> -	struct mutex cec_notifier_mutex;
+>   	struct cec_notifier *cec_notifier;
+>   
+>   	hdmi_codec_plugged_cb plugged_cb;
+> @@ -2459,11 +2458,8 @@ dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
+>   
+>   	status = dw_hdmi_detect(hdmi);
+>   
+> -	if (status == connector_status_disconnected) {
+> -		mutex_lock(&hdmi->cec_notifier_mutex);
+> +	if (status == connector_status_disconnected)
+>   		cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
+> -		mutex_unlock(&hdmi->cec_notifier_mutex);
+> -	}
+>   
+>   	return status;
+>   }
+> @@ -2577,9 +2573,7 @@ static int dw_hdmi_connector_create(struct dw_hdmi *hdmi)
+>   	if (!notifier)
+>   		return -ENOMEM;
+>   
+> -	mutex_lock(&hdmi->cec_notifier_mutex);
+>   	hdmi->cec_notifier = notifier;
+> -	mutex_unlock(&hdmi->cec_notifier_mutex);
+>   
+>   	return 0;
+>   }
+> @@ -2877,10 +2871,8 @@ static void dw_hdmi_bridge_detach(struct drm_bridge *bridge)
 >   {
->   	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
->   					     connector);
-> -	return dw_hdmi_detect(hdmi);
-> +	enum drm_connector_status status;
-> +
-> +	status = dw_hdmi_detect(hdmi);
-> +
-> +	if (status == connector_status_disconnected) {
-> +		mutex_lock(&hdmi->cec_notifier_mutex);
-> +		cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
-> +		mutex_unlock(&hdmi->cec_notifier_mutex);
-> +	}
-> +
-> +	return status;
+>   	struct dw_hdmi *hdmi = bridge->driver_private;
+>   
+> -	mutex_lock(&hdmi->cec_notifier_mutex);
+>   	cec_notifier_conn_unregister(hdmi->cec_notifier);
+>   	hdmi->cec_notifier = NULL;
+> -	mutex_unlock(&hdmi->cec_notifier_mutex);
 >   }
 >   
->   static int dw_hdmi_connector_get_modes(struct drm_connector *connector)
-> @@ -3066,12 +3076,6 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
->   				       phy_stat & HDMI_PHY_HPD,
->   				       phy_stat & HDMI_PHY_RX_SENSE);
+>   static enum drm_mode_status
+> @@ -3303,7 +3295,6 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
 >   
-> -		if ((phy_stat & (HDMI_PHY_RX_SENSE | HDMI_PHY_HPD)) == 0) {
-> -			mutex_lock(&hdmi->cec_notifier_mutex);
-> -			cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
-> -			mutex_unlock(&hdmi->cec_notifier_mutex);
-> -		}
-> -
->   		if (phy_stat & HDMI_PHY_HPD)
->   			status = connector_status_connected;
+>   	mutex_init(&hdmi->mutex);
+>   	mutex_init(&hdmi->audio_mutex);
+> -	mutex_init(&hdmi->cec_notifier_mutex);
+>   	spin_lock_init(&hdmi->audio_lock);
 >   
+>   	ret = dw_hdmi_parse_dt(hdmi);
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
