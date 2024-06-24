@@ -2,64 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2566915001
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 16:33:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2224D91503F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 16:43:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E57410E027;
-	Mon, 24 Jun 2024 14:33:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED39A10E467;
+	Mon, 24 Jun 2024 14:43:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K9CevZc3";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="qslt2FLe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC85110E027;
- Mon, 24 Jun 2024 14:33:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1719239589; x=1750775589;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=ppT9+wGworEO3wIP8mLtLpequEFQ0FX0forqxmjlkaw=;
- b=K9CevZc3uctRT/zjVugMrIFENt7WZcr6TFyoH9ZRbSVyRbAi1ssUCgIY
- KqmJ51ePlbHRfRulfhV0odlyGIUhIpf4U939dmyxHAliq1QLDe4XHQVAm
- Yizem68cYS7QCVerP34H3limZ5ASc+DbTRdnDqpmv17+7+ubRDhBL45Li
- sykphnGO7Rhj1fQU19IGOSmfz1ZZJUIjIZwh2LUWiNyptRMj81oT43NOp
- 46+B784kCU3oNTqkx0lcGrdm9NjlfTFQBEDtp7Cdi4deJYaHaTHDWrovx
- 9Ra747AnAvfBZJpDqTpy7PvuWNtom04Fn2OJ9VtmOfC/bGqZz2W/9cJul A==;
-X-CSE-ConnectionGUID: XafPsfe0QuCbiy+xAVcBlQ==
-X-CSE-MsgGUID: kG65fejURoqKQRE0a0gi+g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="16089829"
-X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; d="scan'208";a="16089829"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2024 07:33:08 -0700
-X-CSE-ConnectionGUID: CuqHG56sTKSXDXEx2VVHLg==
-X-CSE-MsgGUID: De3pq3rbQTKlmGaUIuGF2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; d="scan'208";a="43289669"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 24 Jun 2024 07:33:05 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 24 Jun 2024 17:33:04 +0300
-Date: Mon, 24 Jun 2024 17:33:04 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH v2 0/9] drm/i915: Polish plane surface alignment handling
-Message-ID: <ZnmDoHVktyz6xwUU@intel.com>
-References: <20240612204712.31404-1-ville.syrjala@linux.intel.com>
- <ZnLDKM2I8WWrWwmO@intel.com>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C43410E467
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 14:43:33 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45ODT690017080;
+ Mon, 24 Jun 2024 16:43:03 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ FDQqDeGBhOzd+z+gYx2dRkj2fnt78H+rCdF+VFiaJcc=; b=qslt2FLeTkNuSTgG
+ FWEK3BzU3lE/f9wYZiDR+qbKV48FdFR6ubicgIUDwYKjV9LxAsP51JAPdGKXHkcU
+ W2hi8YgILi5iJTAhqrOuoU7hZ+Wps2HdRXJYQt3CwvPMXBCNE8VcF3mhGSGZolOL
+ mGi49Rbw1gNwC5KvDUCndpp93daBoJWZnM0e0M1BsqI/HZjDvjS6MmanVivr3w7k
+ tUwO1cL3iz9nc4zvixbC9hKng7AYlQEmxuEN2ArP089/3TwA1ZAq7ej0qoExVmV8
+ pmdi8uCSPTra5gbpjAwXli3yOYrd3PF+2oWCFU0J8ps9hXk02+RqmQM/Tnz9K8hB
+ dCdAFg==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ywnxx7jux-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Jun 2024 16:43:03 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1FF3C40047;
+ Mon, 24 Jun 2024 16:42:58 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 280FB221E8B;
+ Mon, 24 Jun 2024 16:42:07 +0200 (CEST)
+Received: from [10.48.87.177] (10.48.87.177) by SHFDAG1NODE3.st.com
+ (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 24 Jun
+ 2024 16:42:06 +0200
+Message-ID: <c8b7d693-5008-49c4-883a-66e2f9a3c7b2@foss.st.com>
+Date: Mon, 24 Jun 2024 16:42:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/stm: ltdc: Remove unused function plane_to_ltdc
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+CC: <raphael.gallais-pou@foss.st.com>, <philippe.cornu@foss.st.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
+ <dri-devel@lists.freedesktop.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ Abaci Robot <abaci@linux.alibaba.com>
+References: <20240624024113.54850-1-jiapeng.chong@linux.alibaba.com>
+Content-Language: en-US
+From: Yannick FERTRE <yannick.fertre@foss.st.com>
+In-Reply-To: <20240624024113.54850-1-jiapeng.chong@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZnLDKM2I8WWrWwmO@intel.com>
-X-Patchwork-Hint: comment
+X-Originating-IP: [10.48.87.177]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE3.st.com
+ (10.75.129.71)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-24_11,2024-06-24_01,2024-05-17_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,68 +84,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 19, 2024 at 02:38:16PM +0300, Ville Syrjälä wrote:
-> On Wed, Jun 12, 2024 at 11:47:03PM +0300, Ville Syrjala wrote:
-> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > 
-> > intel_surf_alignment() in particular has devolved into
-> > a complete mess. Redesign the code so that we can handle
-> > alignment restrictions in a nicer. Also adjust alignment
-> > for TGL+ to actually match the hardware requirements.
-> > 
-> > v2: Drop the per-plane vma stuff as it was borked
-> >     Don't temporarily remove the 2MiB DPT alignment for UV on TGL
-> > 
-> > Ville Syrjälä (9):
-> >   drm: Rename drm_plane_check_pixel_format() to drm_plane_has_format()
-> >   drm: Export drm_plane_has_format()
-> 
-> Maarten/Maxime/Thomas, can I get an ack for merging these via
-> drm-intel please?
+Hi Jiapeng,
 
-Series pushed to drm-intel-next with Thomas's irc ack.
+Thanks for the patch.
 
-Thanks for the reviews and acks.
+Acked-by: Yannick Fertre <yannick.fertre@foss.st.com>
 
-> 
-> >   drm/i915: Introduce the plane->min_alignment() vfunc
-> >   drm/i915: Introduce fb->min_alignment
-> >   drm/i915: Split cursor alignment to per-platform vfuncs
-> >   drm/i915: Split pre-skl platforms out from intel_surf_alignment()
-> >   drm/i915: Move intel_surf_alignment() into skl_univerals_plane.c
-> >   drm/i915: Update plane alignment requirements for TGL+
-> >   drm/i915: Nuke the TGL+ chroma plane tile row alignment stuff
-> > 
-> >  drivers/gpu/drm/drm_atomic.c                  |   7 +-
-> >  drivers/gpu/drm/drm_crtc.c                    |   6 +-
-> >  drivers/gpu/drm/drm_crtc_internal.h           |   2 -
-> >  drivers/gpu/drm/drm_plane.c                   |  23 ++-
-> >  drivers/gpu/drm/i915/display/i9xx_plane.c     |  75 ++++++++-
-> >  drivers/gpu/drm/i915/display/intel_cursor.c   |  38 +++++
-> >  .../drm/i915/display/intel_display_types.h    |   5 +
-> >  drivers/gpu/drm/i915/display/intel_fb.c       | 151 ++++--------------
-> >  drivers/gpu/drm/i915/display/intel_fb.h       |   3 -
-> >  drivers/gpu/drm/i915/display/intel_fb_pin.c   |  39 +++--
-> >  drivers/gpu/drm/i915/display/intel_fb_pin.h   |   3 +-
-> >  drivers/gpu/drm/i915/display/intel_fbdev.c    |   5 +-
-> >  drivers/gpu/drm/i915/display/intel_sprite.c   |  26 +++
-> >  .../drm/i915/display/skl_universal_plane.c    |  85 +++++++++-
-> >  drivers/gpu/drm/xe/display/xe_fb_pin.c        |   3 +-
-> >  drivers/gpu/drm/xe/display/xe_plane_initial.c |   4 +-
-> 
-> Lucas, can you give me an ack for the merging the xe
-> changes via drm-intel?
-> 
-> >  include/drm/drm_plane.h                       |   2 +
-> >  17 files changed, 309 insertions(+), 168 deletions(-)
-> > 
-> > -- 
-> > 2.44.2
-> 
-> -- 
-> Ville Syrjälä
-> Intel
+Best regards
 
--- 
-Ville Syrjälä
-Intel
+
+Le 24/06/2024 Ã  04:41, Jiapeng Chong a Ã©critÂ :
+> The function are defined in the ltdc.c file, but not called
+> anywhere, so delete the unused function.
+>
+> drivers/gpu/drm/stm/ltdc.c:494:35: warning: unused function 'encoder_to_ltdc'.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9403
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>   drivers/gpu/drm/stm/ltdc.c | 5 -----
+>   1 file changed, 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+> index 5576fdae4962..3f280155e25c 100644
+> --- a/drivers/gpu/drm/stm/ltdc.c
+> +++ b/drivers/gpu/drm/stm/ltdc.c
+> @@ -491,11 +491,6 @@ static inline struct ltdc_device *plane_to_ltdc(struct drm_plane *plane)
+>   	return (struct ltdc_device *)plane->dev->dev_private;
+>   }
+>   
+> -static inline struct ltdc_device *encoder_to_ltdc(struct drm_encoder *enc)
+> -{
+> -	return (struct ltdc_device *)enc->dev->dev_private;
+> -}
+> -
+>   static inline enum ltdc_pix_fmt to_ltdc_pixelformat(u32 drm_fmt)
+>   {
+>   	enum ltdc_pix_fmt pf;
