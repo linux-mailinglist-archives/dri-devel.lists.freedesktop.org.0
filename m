@@ -2,72 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134E59145CC
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:05:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A44B49145D7
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:05:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2A4810E3BB;
-	Mon, 24 Jun 2024 09:05:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7BB910E3BC;
+	Mon, 24 Jun 2024 09:05:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="lqdhjwPP";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="iEhS3ReE";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ek9GSaUB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 367E010E3BB
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:05:13 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EFB310E3BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:05:42 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-2ec58040f39so15559161fa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 02:05:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1719219913; x=1750755913;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=VqCfgoxgOh2LjZAmQamcpHdT2Mvt8Dlz0W/VWPw3SoY=;
- b=lqdhjwPPaxQeaWWDIrMvk1/+ONNIcJBtw3nHgM3/IDqXlqmy8FjT/9od
- wvv8ECLfeAB3Bg5EOtOIvemsTQDrKSv302LuYFeFm18Za6oM0fHujVseB
- E/x2qffkoOtJP3BS8Fgy1eCR9AAIY/mUrXt+MglCUnFkuptl4zDHGgsz2
- wDQxkdK0LTbit4ggRa7Z3TlbhEEQo/cm5zMLcV7+Qotr13alisfXTbiF/
- u9eFg0+tP+N1+y0cC/a2eWTydt2uTdE/a9C1xkv2GY6byG3CfYMiSbbCo
- plmICCFbq3Qrdml/UhXoA0XpX9kEbmz0cibg/cLKJNjoSRm3O6mMMr4EK w==;
-X-CSE-ConnectionGUID: VLXWlxuLQYe9SGW2NuYrTA==
-X-CSE-MsgGUID: NMdtG+O0Q8+f/x0tMVfVxQ==
-X-IronPort-AV: E=Sophos;i="6.08,261,1712613600"; d="scan'208";a="37547142"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 24 Jun 2024 11:05:11 +0200
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 59187164F2F; Mon, 24 Jun 2024 11:05:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1719219907;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=VqCfgoxgOh2LjZAmQamcpHdT2Mvt8Dlz0W/VWPw3SoY=;
- b=iEhS3ReErpOmFtGYhB5rRsDNAQDJ5EDvtkxZOC0h5ps2zo7ddn6cCPxJOPAYrlhqYVqXjO
- /02/F+za/LBFOlGFIhjZ9m1G81iG2As5osfnyjgShlkqhA2PqxP7vHCEAf59z1Bo+mIrnG
- IIJLldB5YrfmFizTOXFZutIgmbnNfrbXvhgKBsqnxHpSm8DcEkn+2Lol9cmBRHwKHheSbW
- a9gdwbaQwAMhyTEbOcUQ7gfvOczDlSaKlhxasyu3RJvopqC1Ng9MFYoK2GcTxJKx01yOkZ
- 6Ec2nO0iNdpoKtNGISXs3A3OTMy0tYWAkgMzS2bF+47Xu8ro7dj5b4KQ7ZODcQ==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- kernel@dh-electronics.com, Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v3 2/6] drm/bridge: tc358767: Use tc_pxl_pll_calc() to
- correct adjusted_mode clock
-Date: Mon, 24 Jun 2024 11:05:08 +0200
-Message-ID: <7681391.EvYhyI6sBW@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20240623143846.12603-2-marex@denx.de>
-References: <20240623143846.12603-1-marex@denx.de>
- <20240623143846.12603-2-marex@denx.de>
+ d=linaro.org; s=google; t=1719219940; x=1719824740; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FGebS0vkuwx3hnzjLTve2Sw95b1MHPirmaMeFfxgZ6Q=;
+ b=Ek9GSaUB6e+apx87ae1HTa+Hkv0M+rceuE9J1zXOMICVvQEiG2pTSyTaHtmkvDO44O
+ 6qIMYH+mF3faE+9oTegHWKCKFKPdQCt+Qhx8mrdhoaUVhSFlWSqlezuhV2aTxgtx3qEP
+ 3TONRp0nalMJA2I7UWOJg0C31Qs4VdPuXTkuUBTTeJAdysaoVla2ZUaZA1rmgxKxoW6q
+ XmldQCtE1HAy8pFJ3M7LAYTrt24yVtVvsd/TyVs97sczxgoLCe2duDabVd1FmSZ7+QWA
+ 2uFdqLgXp3E79OgGJARXPYiKGNBk6q86VgOMM6veP0LnOg96013xCoWpMiqPM4IIcTCI
+ DKMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719219940; x=1719824740;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FGebS0vkuwx3hnzjLTve2Sw95b1MHPirmaMeFfxgZ6Q=;
+ b=hHoXuhbhcBsTkucp8bAtNN8KxV6jrEQgdc4ZZBYiMXEtY3BHZOE5l9LjTGguF80Rwx
+ MRoSKDeRL8pT30VkAeZ4n2ayB0fNoNXFLnLWftwpTpu3okYRxzZXFUqAhB6u5hv8qaS3
+ 2tWcnG5ZFxfhWx3DZwrq56sZc8WZ4BuoMOxjkwGQFFgeBizPX/mYpZu9CfgLRADeYkqs
+ k4Y5vaWwfC7POjCLSEFD8psRvgcdt8j4VSq28hqnX5Vyg7jMORzw6egpyUmnlkTunS28
+ VmhingeTP2pt8Vn9HAMQuhkczUJ/Pbb3taCiVj/X/DAZ2QkY5/ZSw4gcDWO8hf7SZxDR
+ l9mQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXVKNmBF1898wlE+JxM/vBFyghelUnr+geIVBQEzButW17znUXQeLFYoGYYuakGG5Zlou09iyoy8JiLC6HU2M7XwMaW8LSDFc7oYP14mmHY
+X-Gm-Message-State: AOJu0Yxe9wROIVQINaYpFk37yReHR8DKiVDTeJndiqcLtBLkz+GCFiVB
+ clCSbcXyxaOXMd60RUL4kTYhcqYKvqajYRmNXzzOIpsW//iPfhdalwEpK5NNkec=
+X-Google-Smtp-Source: AGHT+IG6zcGQsoxbWQCNE+7aa01TpZbpNJBjYwOYrGWeGHPkluLHLC42jKkkUz5io9dRYoS5RJ7lPA==
+X-Received: by 2002:ac2:5617:0:b0:52c:b606:2b2 with SMTP id
+ 2adb3069b0e04-52ce0673b84mr2577772e87.46.1719219939772; 
+ Mon, 24 Jun 2024 02:05:39 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3664178f5f7sm9323088f8f.19.2024.06.24.02.05.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jun 2024 02:05:39 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: quic_jesszhan@quicinc.com, Tejas Vipin <tejasvipin76@gmail.com>
+Cc: dianders@chromium.org, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240621131648.131667-1-tejasvipin76@gmail.com>
+References: <20240621131648.131667-1-tejasvipin76@gmail.com>
+Subject: Re: [PATCH] drm/panel: asus-z00t-tm5p5-n35596: transition to
+ mipi_dsi wrapped functions
+Message-Id: <171921993900.3622623.7767680483331122397.b4-ty@linaro.org>
+Date: Mon, 24 Jun 2024 11:05:39 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,100 +86,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Sonntag, 23. Juni 2024, 16:38:34 CEST schrieb Marek Vasut:
-> Use tc_pxl_pll_calc() to find out the exact clock frequency generated by =
-the
-> Pixel PLL. Use the Pixel PLL frequency as adjusted_mode clock frequency a=
-nd
-> pass it down the display pipeline to obtain exactly this frequency on inp=
-ut
-> into this bridge.
->=20
-> The precise input frequency that matches the Pixel PLL frequency is
-> important for this bridge, as if the frequencies do not match, the
-> bridge does suffer VFIFO overruns or underruns.
->=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
+Hi,
 
-This changes actually changes the media_disp1_pix clock to match the
-configured PLL rate in the bridge. 147333000 instead of 148500000.
+On Fri, 21 Jun 2024 18:46:46 +0530, Tejas Vipin wrote:
+> Use functions introduced in commit 966e397e4f60 ("drm/mipi-dsi:
+> Introduce mipi_dsi_*_write_seq_multi()") and commit f79d6d28d8fe
+> ("drm/mipi-dsi: wrap more functions for streamline handling") for the
+> asus-z00t-tm5p5-n35596 panel.
+> 
+> 
 
-Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: kernel@dh-electronics.com
-> ---
-> V2: - Use mode clock as input into tc_pxl_pll_calc() to avoid
->       accumulating rounding error
-> V3: No change
-> ---
->  drivers/gpu/drm/bridge/tc358767.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/t=
-c358767.c
-> index cbb342d811ac3..20be21660ba76 100644
-> --- a/drivers/gpu/drm/bridge/tc358767.c
-> +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -1619,6 +1619,18 @@ static int tc_dpi_atomic_check(struct drm_bridge *=
-bridge,
->  			       struct drm_crtc_state *crtc_state,
->  			       struct drm_connector_state *conn_state)
->  {
-> +	struct tc_data *tc =3D bridge_to_tc(bridge);
-> +	int adjusted_clock =3D 0;
-> +	int ret;
-> +
-> +	ret =3D tc_pxl_pll_calc(tc, clk_get_rate(tc->refclk),
-> +			      crtc_state->mode.clock * 1000,
-> +			      &adjusted_clock, NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	crtc_state->adjusted_mode.clock =3D adjusted_clock / 1000;
-> +
->  	/* DSI->DPI interface clock limitation: upto 100 MHz */
->  	if (crtc_state->adjusted_mode.clock > 100000)
->  		return -EINVAL;
-> @@ -1631,6 +1643,18 @@ static int tc_edp_atomic_check(struct drm_bridge *=
-bridge,
->  			       struct drm_crtc_state *crtc_state,
->  			       struct drm_connector_state *conn_state)
->  {
-> +	struct tc_data *tc =3D bridge_to_tc(bridge);
-> +	int adjusted_clock =3D 0;
-> +	int ret;
-> +
-> +	ret =3D tc_pxl_pll_calc(tc, clk_get_rate(tc->refclk),
-> +			      crtc_state->mode.clock * 1000,
-> +			      &adjusted_clock, NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	crtc_state->adjusted_mode.clock =3D adjusted_clock / 1000;
-> +
->  	/* DPI->(e)DP interface clock limitation: upto 154 MHz */
->  	if (crtc_state->adjusted_mode.clock > 154000)
->  		return -EINVAL;
->=20
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
+[1/1] drm/panel: asus-z00t-tm5p5-n35596: transition to mipi_dsi wrapped functions
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/47e851ec4c02e8cbee95614c3acc746ae7551dcc
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
+-- 
+Neil
 
