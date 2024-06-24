@@ -2,44 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA4B914E31
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 15:17:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F8B914E42
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 15:18:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C58B10E429;
-	Mon, 24 Jun 2024 13:17:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E185A10E427;
+	Mon, 24 Jun 2024 13:18:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0UVNZPOC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VuvwIclv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 670FF10E427
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 13:16:59 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6096260BB9;
- Mon, 24 Jun 2024 13:16:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD099C2BBFC;
- Mon, 24 Jun 2024 13:16:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1719235018;
- bh=j3tSMrNeaGr/GDA1b1OfEDf0WMzQpAsWSoGQg7nQuP8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=0UVNZPOCgNL3Z2mOu+qR47HGLZKP0+08/YM6rEFZ3lEL0EEFSSXSiOmO1UXek/4/F
- qhC+gyxQn9Sr56P1iJ153yCcOyJSx9MRilZ5mN7bHYbzt0Psr0pG2bwhu7vV2+6qyj
- FAphyBwKfczxSMMotk9p0+Zm4Kq/SoAt9fDW/XpU=
-Date: Mon, 24 Jun 2024 15:16:55 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Shiva Kiran K <shiva_kr@riseup.net>
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: Remove unnecessary parentheses
-Message-ID: <2024062443-udder-spotted-cc0d@gregkh>
-References: <20240617142746.51885-2-shiva_kr@riseup.net>
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7436A10E05E;
+ Mon, 24 Jun 2024 13:18:41 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id
+ 98e67ed59e1d1-2c80637d8adso2705468a91.0; 
+ Mon, 24 Jun 2024 06:18:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1719235121; x=1719839921; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=emeSlriRRUrdujH0mnBIpyXCrJvSxoPHIO3O65l48VE=;
+ b=VuvwIclv+Ydi3njdRvU+cqsg3SfUWkijvqagEwo3o6fAawa4rv8SBbzD6JQ+1kcGZm
+ plvLyzc6pTz+/zCpANBX5nmKFt5Fl39WBhHssyoaiFI3MJMz87GGQshSZyjnOauC/dlK
+ r+Zj1AAe9fjNO7cYPdgOsNbRRy0k69DTzDcfeMnuhf+QuC4/YxsPA+tIrwKIpGUts5jE
+ 38F28icU/NP2U/n6RXwVnmt1E/cN2/0eLwf6D9lBaABaViOCsoUcWMaUrvdylKPzpqcV
+ ZJxQkentwpnFIdxAcAHdyADBy31M53UqCTQW72nYRDF4rwqSTG8YSQttvne55jQ73o+i
+ Ftbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719235121; x=1719839921;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=emeSlriRRUrdujH0mnBIpyXCrJvSxoPHIO3O65l48VE=;
+ b=uo7DrABTrSOrJvPmLQpIApx2JmXKg3ShkaQbpB+8BXDt2QxB2Gk/mpiClSKE97Lufo
+ abgBp0mwL8Qdz2b2zeUAgqIOj5D86Q1OlNcYY/mozZI3TD8MslFLtLDXwfuNnqIFqjI2
+ WbmxzcjYYPOt0wpsVgWueVNnJEWzaHe3sCYNdD9HN6N1C9IqlizUeaNgAK6hvGUXv81e
+ tV+sm+OopUJEV24aQ6mWsR69LSnaomDad4bRekm9FEZ0WLwVarTA2V2kAnR7C5nD+G/n
+ 72jtJxCFCM/tP/VvoKeOTtFQcHFYsn8yt4Pfuzx7p+ttkU3wLbrAXV4qu20EkN9x28Dw
+ W3lw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWVb1n9Grej08598FM6FAeX5YN/8k6rLaZq86vqOk01TP187ZdroZub3KLkpgLSZUa5AkNUhYOpmjmgOrfN18GcRynzjRygmsQ8MkkwpoGD
+X-Gm-Message-State: AOJu0YzAWx1PJy90LyNnNxGwtnEnhQpHdm8gmDduKObs4VF1uCRqv4Fy
+ pToyYbZxmb2NzVTsBRgQ8Uq2VmbSOM4XRgC7oJJsf8swP2yvLLvN8zHAXLXh/YA9vVMHJKNgeEL
+ h+RqpaJwZhCEdjPp3R7XWgCNjyty+fxUt
+X-Google-Smtp-Source: AGHT+IHmP1S11AEp17y5+po5G3f7xzg1YlqziywRdUW2/0We+Ag+pjsaCLI/RdeisWEUPAZ4pa9IU3TQMa98zwJhwC0=
+X-Received: by 2002:a17:90b:4b0c:b0:2c2:f472:64b0 with SMTP id
+ 98e67ed59e1d1-2c8582e1711mr3164364a91.49.1719235120823; Mon, 24 Jun 2024
+ 06:18:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240617142746.51885-2-shiva_kr@riseup.net>
+References: <20240621195919.491217-1-l.stach@pengutronix.de>
+In-Reply-To: <20240621195919.491217-1-l.stach@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 24 Jun 2024 15:18:29 +0200
+Message-ID: <CAH9NwWfMeT0-COymDsFeGGe8F=UVMBny+2Bv9wJVUfaorU19eA@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: don't block scheduler when GPU is still
+ active
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ Russell King <linux+etnaviv@armlinux.org.uk>, patchwork-lst@pengutronix.de, 
+ kernel@pengutronix.de
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,97 +79,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 17, 2024 at 07:57:47PM +0530, Shiva Kiran K wrote:
-> Remove unnecessary parentheses in `if` statements.
-> Reported by checkpatch.pl
-> 
-> Signed-off-by: Shiva Kiran K <shiva_kr@riseup.net>
+>
+> Since 45ecaea73883 ("drm/sched: Partial revert of 'drm/sched: Keep
+> s_fence->parent pointer'") still active jobs aren't put back in the
+> pending list on drm_sched_start(), as they don't have a active
+> parent fence anymore, so if the GPU is still working and the timeout
+> is extended, all currently active jobs will be freed.
+>
+> To avoid prematurely freeing jobs that are still active on the GPU,
+> don't block the scheduler until we are fully committed to actually
+> reset the GPU.
+>
+> As the current job is already removed from the pending list and
+> will not be put back when drm_sched_start() isn't called, we must
+> make sure to put the job back on the pending list when extending
+> the timeout.
+>
+> Cc: stable@vger.kernel.org #6.0
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+
+Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+
 > ---
->  drivers/staging/fbtft/fb_ili9320.c | 2 +-
->  drivers/staging/fbtft/fb_ra8875.c  | 2 +-
->  drivers/staging/fbtft/fbtft-bus.c  | 2 +-
->  drivers/staging/fbtft/fbtft-core.c | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/fbtft/fb_ili9320.c b/drivers/staging/fbtft/fb_ili9320.c
-> index 0be7c2d51..409b54cc5 100644
-> --- a/drivers/staging/fbtft/fb_ili9320.c
-> +++ b/drivers/staging/fbtft/fb_ili9320.c
-> @@ -37,7 +37,7 @@ static int init_display(struct fbtft_par *par)
->  	devcode = read_devicecode(par);
->  	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "Device code: 0x%04X\n",
->  		      devcode);
-> -	if ((devcode != 0x0000) && (devcode != 0x9320))
-> +	if (devcode != 0x0000 && devcode != 0x9320)
->  		dev_warn(par->info->device,
->  			 "Unrecognized Device code: 0x%04X (expected 0x9320)\n",
->  			devcode);
-> diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/staging/fbtft/fb_ra8875.c
-> index 398bdbf53..ce305a0be 100644
-> --- a/drivers/staging/fbtft/fb_ra8875.c
-> +++ b/drivers/staging/fbtft/fb_ra8875.c
-> @@ -50,7 +50,7 @@ static int init_display(struct fbtft_par *par)
->  
->  	par->fbtftops.reset(par);
->  
-> -	if ((par->info->var.xres == 320) && (par->info->var.yres == 240)) {
-> +	if (par->info->var.xres == 320 && par->info->var.yres == 240) {
->  		/* PLL clock frequency */
->  		write_reg(par, 0x88, 0x0A);
->  		write_reg(par, 0x89, 0x02);
-> diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
-> index 3d422bc11..ab903c938 100644
-> --- a/drivers/staging/fbtft/fbtft-bus.c
-> +++ b/drivers/staging/fbtft/fbtft-bus.c
-> @@ -85,7 +85,7 @@ void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
->  	if (len <= 0)
->  		return;
->  
-> -	if (par->spi && (par->spi->bits_per_word == 8)) {
-> +	if (par->spi && par->spi->bits_per_word == 8) {
->  		/* we're emulating 9-bit, pad start of buffer with no-ops
->  		 * (assuming here that zero is a no-op)
->  		 */
-> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-> index c8d52c63d..64babfe3a 100644
-> --- a/drivers/staging/fbtft/fbtft-core.c
-> +++ b/drivers/staging/fbtft/fbtft-core.c
-> @@ -666,7 +666,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
->  		txbuflen = 0;
->  
->  #ifdef __LITTLE_ENDIAN
-> -	if ((!txbuflen) && (bpp > 8))
-> +	if (!txbuflen && bpp > 8)
->  		txbuflen = PAGE_SIZE; /* need buffer for byteswapping */
->  #endif
->  
-> -- 
-> 2.45.2
-> 
+>  drivers/gpu/drm/etnaviv/etnaviv_sched.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> index c4b04b0dee16..62dcfdc7894d 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> @@ -38,9 +38,6 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+>         u32 dma_addr;
+>         int change;
+>
+> -       /* block scheduler */
+> -       drm_sched_stop(&gpu->sched, sched_job);
+> -
+>         /*
+>          * If the GPU managed to complete this jobs fence, the timout is
+>          * spurious. Bail out.
+> @@ -63,6 +60,9 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+>                 goto out_no_timeout;
+>         }
+>
+> +       /* block scheduler */
+> +       drm_sched_stop(&gpu->sched, sched_job);
+> +
+>         if(sched_job)
+>                 drm_sched_increase_karma(sched_job);
+>
+> @@ -76,8 +76,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+>         return DRM_GPU_SCHED_STAT_NOMINAL;
+>
+>  out_no_timeout:
+> -       /* restart scheduler after GPU is usable again */
+> -       drm_sched_start(&gpu->sched, true);
+> +       list_add(&sched_job->list, &sched_job->sched->pending_list);
+>         return DRM_GPU_SCHED_STAT_NOMINAL;
+>  }
+>
+> --
+> 2.39.2
+>
 
-Hi,
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+-- 
+greets
+--
+Christian Gmeiner, MSc
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You sent a patch that has been sent multiple times in the past few
-  days, and is identical to ones that has been recently rejected.
-  Please always look at the mailing list traffic to determine if you are
-  duplicating other people's work.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+https://christian-gmeiner.info/privacypolicy
