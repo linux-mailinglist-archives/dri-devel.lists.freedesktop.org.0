@@ -2,53 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2EA3914395
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 09:23:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CDC89142A8
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 08:22:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E9C110E37F;
-	Mon, 24 Jun 2024 07:23:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0D7C10E248;
+	Mon, 24 Jun 2024 06:22:06 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fgtNEasX";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4375610E046;
- Mon, 24 Jun 2024 02:48:51 +0000 (UTC)
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
- by APP-03 (Coremail) with SMTP id rQCowAC31ySF3nhmBYYkEg--.51914S2;
- Mon, 24 Jun 2024 10:48:48 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, wenjing.liu@amd.com, jun.lei@amd.com,
- hamza.mahfooz@amd.com, alex.hung@amd.com, alvin.lee2@amd.com,
- george.shen@amd.com, dillon.varone@amd.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Ma Ke <make24@iscas.ac.cn>
-Subject: [PATCH] drm/amd/display: Check pipe_ctx before it is used
-Date: Mon, 24 Jun 2024 10:48:35 +0800
-Message-Id: <20240624024835.2278651-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C13F10E06F;
+ Mon, 24 Jun 2024 06:22:04 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45NMpd1K025140;
+ Mon, 24 Jun 2024 06:21:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=78BjC4ZngSF0zZa4ZxItwDC7
+ TOkUvZ5wSfalarQ23zM=; b=fgtNEasX4CeU2QVGVI0PidkxsvZTVx1bqKiNCaU3
+ /R91iNbjSiLQzvWCTNf/vtJ6XI3Kwabx03TcnTxYig9woESA8nMQZHYim/VIzLj5
+ NrAQVKesjy72FI447vVix5NzvdMiIzXHBmGtl6+Ap54DF1KnfLqM5FubtVSu0XUK
+ miqXFh4MLBR8ZTTtyKAuz/pOZU4cvpvPcRWnslGos2RSr0t3gFsJvKTZ9t6cDZ1m
+ Kv25nR3TetyaZiNjerumLIfKpJGI+rVInM2jq9ExaoEqbvANr4faIIffrCw8CLNo
+ mqFN5rsK06byKnN8SoMczeINsZiyzThB3VTD/1/yy4OKBw==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywnxgtsf0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Jun 2024 06:21:56 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45O6Lt12025514
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Jun 2024 06:21:55 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Sun, 23 Jun 2024 23:21:49 -0700
+Date: Mon, 24 Jun 2024 11:51:45 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: freedreno <freedreno@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Conor Dooley <conor+dt@kernel.org>, "Daniel Vetter" <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Maxime Ripard <mripard@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, Sean Paul <sean@poorly.run>, Thomas Zimmermann
+ <tzimmermann@suse.de>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1 0/3] Support for Adreno X1-85 GPU
+Message-ID: <20240624062145.nkqlh2szazvjigk7@hu-akhilpo-hyd.qualcomm.com>
+References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
+ <26abe6cd-e9da-4db9-9035-76edd5dda614@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowAC31ySF3nhmBYYkEg--.51914S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtry7XrWUur15AryfXryxZrb_yoWDZwb_KF
- 429r95JF47AF1DAa4jyr4ru3ySya1kurWkWasFvayS9r17Xry8Z342qrs8Wr1UZFnrJa4D
- Aa4DKFyru3sxGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUba8FF20E14v26ryj6rWUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6r106r1rM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
- 0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
- Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJV
- W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI2
- 0VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
- Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
- x4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
- 1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_
- JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
- sGvfC2KfnxnUUI43ZEXa7VUby8BUUUUUU==
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
-X-Mailman-Approved-At: Mon, 24 Jun 2024 07:22:58 +0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <26abe6cd-e9da-4db9-9035-76edd5dda614@kernel.org>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: PO8NswSRSU9dBTs6ixM3EjEKZVLtXOKQ
+X-Proofpoint-ORIG-GUID: PO8NswSRSU9dBTs6ixM3EjEKZVLtXOKQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-24_05,2024-06-21_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015
+ suspectscore=0 spamscore=0 lowpriorityscore=0 adultscore=0 mlxscore=0
+ malwarescore=0 priorityscore=1501 mlxlogscore=999 impostorscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2406240049
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,28 +99,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-resource_get_otg_master_for_stream() could return NULL, we
-should check the return value of 'otg_master' before it is
-used in resource_log_pipe_for_stream().
+On Sun, Jun 23, 2024 at 01:11:48PM +0200, Krzysztof Kozlowski wrote:
+> On 23/06/2024 13:06, Akhil P Oommen wrote:
+> > This series adds support for the Adreno X1-85 GPU found in Qualcomm's
+> > compute series chipset, Snapdragon X1 Elite (x1e80100). In this new
+> > naming scheme for Adreno GPU, 'X' stands for compute series, '1' denotes
+> > 1st generation and '8' & '5' denotes the tier and the SKU which it
+> > belongs.
+> > 
+> > X1-85 has major focus on doubling core clock frequency and bandwidth
+> > throughput. It has a dedicated collapsible Graphics MX rail (gmxc) to
+> > power the memories and double the number of data channels to improve
+> > bandwidth to DDR.
+> > 
+> > Mesa has the necessary bits present already to support this GPU. We are
+> > able to bring up Gnome desktop by hardcoding "0xffff43050a01" as
+> > chipid. Also, verified glxgears and glmark2. We have plans to add the
+> > new chipid support to Mesa in next few weeks, but these patches can go in
+> > right away to get included in v6.11.
+> > 
+> > This series is rebased on top of v6.10-rc4. P3 cherry-picks cleanly on
+> > qcom/for-next.
+> > 
+> > P1 & P2 for Rob, P3 for Bjorn to pick up.
+> 
+> Which Rob?
 
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
----
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 2 ++
- 1 file changed, 2 insertions(+)
+Sorry for the confusion! I meant Rob Clark whom I had added in the "To:"
+list.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index 15819416a2f3..597ca9f369c6 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-@@ -2279,6 +2279,8 @@ void resource_log_pipe_topology_update(struct dc *dc, struct dc_state *state)
- 					state->stream_status[stream_idx].mall_stream_config.paired_stream);
- 			otg_master = resource_get_otg_master_for_stream(
- 					&state->res_ctx, state->streams[phantom_stream_idx]);
-+			if (!otg_master)
-+				continue;
- 			resource_log_pipe_for_stream(dc, state, otg_master, stream_idx);
- 		}
- 	}
--- 
-2.25.1
+-Akhil
 
+> 
+> Why bindings cannot go as usual way - via the subsystem?
+> 
+> Best regards,
+> Krzysztof
+> 
+> 
