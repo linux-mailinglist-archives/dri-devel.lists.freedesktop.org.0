@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E2F9141DA
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 07:18:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A75109141E2
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 07:21:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A0ED10E343;
-	Mon, 24 Jun 2024 05:18:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF6A10E345;
+	Mon, 24 Jun 2024 05:21:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nI1mLmtU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="URrNFOqJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
- [209.85.208.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36ECB10E343
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 05:18:44 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-2ec58040f39so13546341fa.2
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 22:18:44 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FA4D10E345
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 05:21:23 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-2ec1e5505abso40316231fa.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 22:21:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719206322; x=1719811122; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1719206481; x=1719811281; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=IuyadEulFu3FDpPhLLNT9X9XFnfp6SMEqQX7h8wDmlY=;
- b=nI1mLmtU5O2gTZrWvPooBQASmtXHbVoB6XqoBezukaISegY5SfvC9AwWBV7A0I/HVK
- kfY6MSkLosw6s0a8H2IjVuUzG4sJ2XfNUG0FrHbKXhjWuPPEwEcP7n4ppGlm3zsUqCER
- dexB1Ww0W8dhM51Bfqj+9mS1jbhm6insGx0e8xu5FBkpg/A11r00XXcubfsXF714Xiet
- fq1VBCgyDYYxHNGxzuVhw4HTOCwU3O+RPjAQugR9q2k4BAYEnc3nerlTvdrl41K3bSUD
- W8efve9G1fszrhuFZCTqDC65aoa//SZsR8kTTQGeDXmX3lLq0KY9S5XcGgAHAxgszdKP
- mGqQ==
+ bh=2MGm9hgBQiIaonwYDgBJ0aXBhWFo2f3cLhGxXka39iM=;
+ b=URrNFOqJG3bKbxz2Xe4lWxkhqbrLsquSyddlQCq9T0XXuV7FEUOEWB+fPz5tkmZ6jS
+ kP5WHEa4qRjPz1uS/Kaxs3IXt9Bl0QjMOVf5M9BuCXRT+pMWypvT9jED/94EtsmgXaJP
+ o7lMIO1bVzhA+H2M66S9VGlaTEFVck+iXhsKlYamVKegkLWc3uvpiL+1LaIqbJ8uATRl
+ ycWq0pNgSnQtkYMpDiC+U3b7LJAiU8tQ7FnhBqBIuH9EVT6ky4A93vJTTVa3IAmTtSa9
+ QYPJCxwN7xY4Q42MVGvGtJqq7lQNSe6W0Xy04VkNOU0YYbeFa7kYRZIyBz++xHnS979I
+ GM0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719206322; x=1719811122;
+ d=1e100.net; s=20230601; t=1719206481; x=1719811281;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IuyadEulFu3FDpPhLLNT9X9XFnfp6SMEqQX7h8wDmlY=;
- b=bHFlA/L375nKZuZdnV01LOl6ivV4tPWLpX4V4s++JjcgRuhVh3i/xrgvIRBTLj7mzK
- AbNC1GHUvBYrkF/f8lTcukBDn6MocRLagNSGgqYS22AacXZ+5mbosjMUELiUPVecIyk2
- 8Co3N0j5Pr7xpynrpF+jabMMwRj4HxGIJsxr5r48ihXVkF6FvDHSPd6xcfVanwhYSh5t
- 2afUreYk/ukqxvq1k4TBUXWYh/0mJTvTAznkxnMBVtMfDiR1XTHNcpu9dbJfmtERnXxf
- GRus/QPj97cfKpGPp3xKy7drZv8hEb75ixemt6SKgjuUhQA5Q6dxkI3m5NJVLJzr6VrI
- tkTQ==
+ bh=2MGm9hgBQiIaonwYDgBJ0aXBhWFo2f3cLhGxXka39iM=;
+ b=j1dl15t7lCspjPY51cEh6UxZ/ZHBAdKT7CwHA+2h5njhyhVMiLtUpGWZcZpfAKMkJP
+ sQTyrYhVpG6Gr/umQTeTse2P4fEj8RWmDJ9Z0JhHUqToTVjPDhtU7zhm43cPg8NfXJnX
+ m40cYy49UsUb3SdOFrU9HumLYAbP50BPhkjrh4jTJReyOIqL06f/LkrZo1b4d2OlT90e
+ yjvtZFsDylbrNKtQoX75mVYVIUPSxTPBaE1zbGWxS4EVuCC/Jbp23ntzyCKD5zpIUd6w
+ H32hnoAp7R6bfXnycrMEW/4zmwui/Q+GsKUaGfWWKRhYA4NEooU8fG4tVlaNE/N7ppRm
+ FZxw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX1r6bew6gaECXY/LpLSSWAQUJuZfUz1OYFXO6mfp+d995MryQ5q10KNRcR60n7Fnf2AhqeUv+7ieYcgOyYOl3TRhPL2/DEuMCZrVA6vExu
-X-Gm-Message-State: AOJu0YwH65vjhMw2QwUpBX+ZNN2aeGdSGTWOfuV9UxANRs8QsYzzGO9b
- Y+YaGU0RQ9z8FLdAOo1rmoyjSDkrqCHAU43DigER2sPq7xBbt88E2CWIzfj/zag=
-X-Google-Smtp-Source: AGHT+IFayfixZjNle/0sDVRFWDTPCafxBUrwkkSut5g+TSdNaooCLZ1a3RRLfxCfWY7qdQrrOhDqyw==
-X-Received: by 2002:a2e:9dd8:0:b0:2ec:4fc3:a8c8 with SMTP id
- 38308e7fff4ca-2ec59312e0fmr26152271fa.0.1719206322244; 
- Sun, 23 Jun 2024 22:18:42 -0700 (PDT)
+ AJvYcCUkuFctD4wIDPK98Qu7pb471w3vgfX3VJlis5QVgLZ1KeoGSxaD4m1DxX+tCgAJnQ8I2ru3Cz5HclI+dgjyEXjcDTi6TGhggRySxpd4x7Ie
+X-Gm-Message-State: AOJu0YzfNIqYA4QAS/N+CX7rtI2q/N69amoUFpg60fh9aMsaGzkvvzid
+ HVeD+IGY854kKmx++tND9oAQZCWEuAqpRWSsRDzriEmGeuJqtUOxOZUIplRmCZw=
+X-Google-Smtp-Source: AGHT+IH+EF6ZVxgix/33CGJs1LcRlM58jSDEP6hH4S/kepamdqtcu83VYx7sjlT8qvi+UsLClCqQ1A==
+X-Received: by 2002:a2e:9f08:0:b0:2ec:3c7e:3b3d with SMTP id
+ 38308e7fff4ca-2ec56be6b08mr10787131fa.26.1719206481012; 
+ Sun, 23 Jun 2024 22:21:21 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec5ed4f89bsm3258471fa.32.2024.06.23.22.18.41
+ 38308e7fff4ca-2ec4d7e7906sm8868841fa.121.2024.06.23.22.21.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jun 2024 22:18:41 -0700 (PDT)
-Date: Mon, 24 Jun 2024 08:18:40 +0300
+ Sun, 23 Jun 2024 22:21:20 -0700 (PDT)
+Date: Mon, 24 Jun 2024 08:21:19 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Caleb Connolly <caleb@postmarketos.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -71,15 +71,15 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Henrik Rydberg <rydberg@bitmath.org>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, 
  linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- ~postmarketos/upstreaming@lists.sr.ht,
- Frieder Hannenheim <frieder.hannenheim@proton.me>
-Subject: Re: [PATCH 0/7] qcom: initial support for the OnePlus 8T
-Message-ID: <ufc7sq5s5nymjncp5w2446dq5xcmmqbmsuubhpo2fxtsz5dpgg@xtqtmmsio6sr>
+ ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH 4/7] drm: mipi: add mipi_dsi_generic_write_multi_type()
+Message-ID: <jbxk6uo3q2ddwthtc5et6gquiofgywnwh6e5kwpqe7pvglgbfg@k3djx6owef2t>
 References: <20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org>
+ <20240624-oneplus8-v1-4-388eecf2dff7@postmarketos.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org>
+In-Reply-To: <20240624-oneplus8-v1-4-388eecf2dff7@postmarketos.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,31 +95,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 24, 2024 at 03:30:24AM GMT, Caleb Connolly wrote:
-> Add bindings for the SM8250 OnePlus devices, a common devicetree,
-> touchscreen and display drivers, and a dts for the OnePlus 8T (kebab).
+On Mon, Jun 24, 2024 at 03:30:28AM GMT, Caleb Connolly wrote:
+> Some panels like the Samsung AMB655X use long write commands for all
+> non-standard messages and do not work when trying to use the appropriate
+> command type.
 > 
-> The OnePlus 8 series is made up of 3 flagship smartphones from 2019,
-> featuring the Qualcomm X55 5G PCIe modem.
+> Support these panels by introducing a new helper to send commands of a
+> specific type, overriding the normal rules.
 > 
-> This series introduces initial support for the 8T, adding drivers for
-> the 1080x2400 120Hz DSC panel and the Synaptics TCM Oncell touchscreen.
+> Signed-off-by: Caleb Connolly <caleb@postmarketos.org>
+> ---
+>  drivers/gpu/drm/drm_mipi_dsi.c | 40 ++++++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_mipi_dsi.h     | 16 ++++++++++++++++
+>  2 files changed, 56 insertions(+)
 > 
-> The panel driver suffers from similar limitations to the LG SW43408
-> panel found on the Pixel 3, namely that after toggling the reset GPIO it
-> is not possible to get the panel into a working state.
+> diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+> index a471c46f5ca6..d0fee0498d91 100644
+> --- a/drivers/gpu/drm/drm_mipi_dsi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dsi.c
+> @@ -819,8 +819,48 @@ void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
+>  	}
+>  }
+>  EXPORT_SYMBOL(mipi_dsi_generic_write_multi);
+>  
+> +/**
+> + * mipi_dsi_generic_write_type() - transmit data using a generic write packet of
 
-Just to point it out: this is no longer true for SW43408. The panel
-wakes up and works after toggling the reset. It seems, there is an issue
-with one of the regulators, but not with the reset and/or panel startup.
+This doesn't match the name of the function.
 
-> Given the apparent prevelance of this issue, particularly with DSC
-> panels, I believe this is a bug in the core DSI code, and not a device
-> or panel specific issue. I think it is still useful to accept these
-> panel drivers into upstream since, from a users perspective, the panel
-> is fully functional just by leaving the reset GPIO alone and keeping the
-> regulator on. The only (theoretical) downside is worse battery life,
-> which is a small price to pay for a working display.
+> + * a specific type
+> + * @dsi: DSI peripheral device
+> + * @type: data type of the packet
+> + * @payload: buffer containing the payload
+> + * @size: size of payload buffer
+> + *
+> + * This function will automatically choose the right data type depending on
+> + * the payload length.
+> + *
+> + * Return: The number of bytes transmitted on success or a negative error code
+> + * on failure.
+> + */
+> +ssize_t mipi_dsi_generic_write_multi_type(struct mipi_dsi_multi_context *ctx,
+> +					  u8 type, const void *payload, size_t size)
+
+write_type_multi. Or maybe write_raw_multi.
+
+> +{
+> +	struct mipi_dsi_device *dsi = ctx->dsi;
+> +	struct mipi_dsi_msg msg = {
+> +		.channel = dsi->channel,
+> +		.tx_buf = payload,
+> +		.tx_len = size,
+> +		.type = type,
+> +	};
+> +	ssize_t ret;
+> +
+> +	if (ctx->accum_err)
+> +		return 0;
+> +
+> +	ret = mipi_dsi_device_transfer(dsi, &msg);
+> +	if (ret < 0) {
+> +		ctx->accum_err = ret;
+> +		dev_err(&dsi->dev, "sending generic data %*ph failed: %zd\n",
+> +			(int)size, payload, ret);
+> +	}
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(mipi_dsi_generic_write_multi_type);
+> +
+>  /**
+>   * mipi_dsi_generic_read() - receive data using a generic read packet
+>   * @dsi: DSI peripheral device
+>   * @params: buffer containing the request parameters
+> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+> index 71d121aeef24..a5d949e695d4 100644
+> --- a/include/drm/drm_mipi_dsi.h
+> +++ b/include/drm/drm_mipi_dsi.h
+> @@ -287,8 +287,10 @@ ssize_t mipi_dsi_generic_write(struct mipi_dsi_device *dsi, const void *payload,
+>  int mipi_dsi_generic_write_chatty(struct mipi_dsi_device *dsi,
+>  				  const void *payload, size_t size);
+>  void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
+>  				  const void *payload, size_t size);
+> +ssize_t mipi_dsi_generic_write_multi_type(struct mipi_dsi_multi_context *ctx, u8 type,
+> +				    const void *payload, size_t size);
+>  ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
+>  			      size_t num_params, void *data, size_t size);
+>  
+>  #define mipi_dsi_msleep(ctx, delay)	\
+> @@ -432,8 +434,22 @@ void mipi_dsi_dcs_set_tear_on_multi(struct mipi_dsi_multi_context *ctx,
+>  		static const u8 d[] = { cmd, seq };                     \
+>  		mipi_dsi_dcs_write_buffer_multi(ctx, d, ARRAY_SIZE(d)); \
+>  	} while (0)
+>  
+> +/**
+> + * mipi_dsi_dcs_write_long - transmit a DCS long command with payload
+> + * @dsi: DSI peripheral device
+> + * @cmd: Commands
+> + * @seq: buffer containing data to be transmitted
+> + */
+> +#define mipi_dsi_dcs_write_long(ctx, cmd, seq...)                          \
+
+foo_multi
+
+> +	do {                                                               \
+> +		static const u8 d[] = { cmd, seq };                        \
+> +		mipi_dsi_generic_write_multi_type(ctx,                     \
+> +						  MIPI_DSI_DCS_LONG_WRITE, \
+> +						  d, ARRAY_SIZE(d));       \
+> +	} while (0)
+> +
+>  /**
+>   * struct mipi_dsi_driver - DSI driver
+>   * @driver: device driver model driver
+>   * @probe: callback for device binding
+> 
+> -- 
+> 2.45.0
 > 
 
 -- 
