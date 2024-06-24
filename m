@@ -2,77 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDB53914FE3
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 16:28:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2566915001
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 16:33:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E63710E46E;
-	Mon, 24 Jun 2024 14:28:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E57410E027;
+	Mon, 24 Jun 2024 14:33:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Rq3k4dnd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K9CevZc3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FFD610E46E;
- Mon, 24 Jun 2024 14:28:20 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-a725041ad74so64923566b.3; 
- Mon, 24 Jun 2024 07:28:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719239298; x=1719844098; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yqKLNgTuFKM0ZCtxXKtMgTqLY0aOhJLT00CcJPHXIww=;
- b=Rq3k4dnd+3JnanosKnApDFpQmvDWpiqX2XXGVRK3fyz29ToL6hekKkgiSIbHBi9lU1
- L3fPvAUa0HAyCxW8nS0sSiHBu82Uv1mEJmH5EnPXlscG25TkxprUmQhFNOFICyU0/Tu3
- tDairsWipbdTuDdQrJpMciU3Az8L9uculiWJyLhUZbznRicS4wMEKEvyAzBilPIakpLn
- Ud+WlQysuYmlSxTtw0X7neZ1dIioV1ADRqi2rs3zN4/JKDMfU0TFJtIlfsEd9q0Zl8PV
- A+2vY37cXP89Zi5jb5DT26mFeEjMYZ5GjAUDitlVHbkUlCvJo5YxNlgMWUK9gMm9a+fu
- w3sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719239298; x=1719844098;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yqKLNgTuFKM0ZCtxXKtMgTqLY0aOhJLT00CcJPHXIww=;
- b=MGh3J2Aqta2YBPEsjeV5TaRKlATap9z1mJyTKeU9lTRxVXRMT62wSbWIq+PCecNMPx
- ZlLVT9TltjVkjVeIGBJHJhkQlxm3BRPnagF2GbDXZ5rB1NxWtwHI9WynIUvV7dJfHi/g
- vAjvkIeMdaSn1VeY0pHcnzSWGwCuI7kaJD00vw9ClsgcDJSk+TTwzut0ivm4mSQIRuez
- tC8pbwGjb3KUcBJ1qG+/J647SN1nttjtoaAbQY1o2q6BTEJCN0WeVuUK4x4dQUGXUtCF
- hcQ9+SLPIg/1OfNeW/H1MHsp0p0Eo3LgY29DwXp/fGxGuohRo7WWUAT6/BkPqBTRtWKK
- W0dw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX52O91VTx8179USHvBpRtvhCLb/u9DHS99Ou6uLK8fujuaTSXC/+gD0iClfQcSmQsQdlBZODvr8xRrrdsH2VcW7xMlHuFuGKMxC9HWQQ8w
-X-Gm-Message-State: AOJu0YxbioYEJjoIYSyQIERJOawYg6fDXZUiuTzO9+PVGqu3DQpowlmp
- Pq83YTHAtRxJFa9Iycfk1tUnheISV6Tl6PuiVOC/RP1zERzE++k6gdSAgq5K5j1M7rVzJRhsQjA
- TqsPTpuGbeP4YqgsBdTSrIwMH5h0=
-X-Google-Smtp-Source: AGHT+IFwOxUB2g0LO6vpR019qwMsG9+gEf3VPde7nLgxFLGZ7hxLAghHqprjYJFoum0OHF6FJg2/THwzvXC6WnTCdRQ=
-X-Received: by 2002:a50:9f6d:0:b0:57c:671d:8455 with SMTP id
- 4fb4d7f45d1cf-57d4bd728c8mr3451952a12.14.1719239298308; Mon, 24 Jun 2024
- 07:28:18 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC85110E027;
+ Mon, 24 Jun 2024 14:33:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1719239589; x=1750775589;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=ppT9+wGworEO3wIP8mLtLpequEFQ0FX0forqxmjlkaw=;
+ b=K9CevZc3uctRT/zjVugMrIFENt7WZcr6TFyoH9ZRbSVyRbAi1ssUCgIY
+ KqmJ51ePlbHRfRulfhV0odlyGIUhIpf4U939dmyxHAliq1QLDe4XHQVAm
+ Yizem68cYS7QCVerP34H3limZ5ASc+DbTRdnDqpmv17+7+ubRDhBL45Li
+ sykphnGO7Rhj1fQU19IGOSmfz1ZZJUIjIZwh2LUWiNyptRMj81oT43NOp
+ 46+B784kCU3oNTqkx0lcGrdm9NjlfTFQBEDtp7Cdi4deJYaHaTHDWrovx
+ 9Ra747AnAvfBZJpDqTpy7PvuWNtom04Fn2OJ9VtmOfC/bGqZz2W/9cJul A==;
+X-CSE-ConnectionGUID: XafPsfe0QuCbiy+xAVcBlQ==
+X-CSE-MsgGUID: kG65fejURoqKQRE0a0gi+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="16089829"
+X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; d="scan'208";a="16089829"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2024 07:33:08 -0700
+X-CSE-ConnectionGUID: CuqHG56sTKSXDXEx2VVHLg==
+X-CSE-MsgGUID: De3pq3rbQTKlmGaUIuGF2g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; d="scan'208";a="43289669"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 24 Jun 2024 07:33:05 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 24 Jun 2024 17:33:04 +0300
+Date: Mon, 24 Jun 2024 17:33:04 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [PATCH v2 0/9] drm/i915: Polish plane surface alignment handling
+Message-ID: <ZnmDoHVktyz6xwUU@intel.com>
+References: <20240612204712.31404-1-ville.syrjala@linux.intel.com>
+ <ZnLDKM2I8WWrWwmO@intel.com>
 MIME-Version: 1.0
-References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
- <20240623110753.141400-3-quic_akhilpo@quicinc.com>
- <CAF6AEGti-Qibmb0YCgWypx7S1sVmtu3287a1reMnUgYqMzTKsw@mail.gmail.com>
-In-Reply-To: <CAF6AEGti-Qibmb0YCgWypx7S1sVmtu3287a1reMnUgYqMzTKsw@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 24 Jun 2024 07:28:06 -0700
-Message-ID: <CAF6AEGvWFUOk-N8oRxZZYm-EWGV61yiLfjZAUSjHdmy9RhDiAA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] drm/msm/adreno: Add support for X185 GPU
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZnLDKM2I8WWrWwmO@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,160 +75,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 24, 2024 at 7:25=E2=80=AFAM Rob Clark <robdclark@gmail.com> wro=
-te:
->
-> On Sun, Jun 23, 2024 at 4:08=E2=80=AFAM Akhil P Oommen <quic_akhilpo@quic=
-inc.com> wrote:
-> >
-> > Add support in drm/msm driver for the Adreno X185 gpu found in
-> > Snapdragon X1 Elite chipset.
-> >
-> > Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> > ---
-> >
-> >  drivers/gpu/drm/msm/adreno/a6xx_gmu.c      | 19 +++++++++++++++----
-> >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c      |  6 ++----
-> >  drivers/gpu/drm/msm/adreno/adreno_device.c | 14 ++++++++++++++
-> >  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++++
-> >  4 files changed, 36 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/ms=
-m/adreno/a6xx_gmu.c
-> > index 0e3dfd4c2bc8..168a4bddfaf2 100644
-> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > @@ -830,8 +830,10 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu,=
- unsigned int state)
-> >          */
-> >         gmu_write(gmu, REG_A6XX_GMU_CM3_CFG, 0x4052);
-> >
-> > +       if (adreno_is_x185(adreno_gpu)) {
-> > +               chipid =3D 0x7050001;
-> >         /* NOTE: A730 may also fall in this if-condition with a future =
-GMU fw update. */
-> > -       if (adreno_is_a7xx(adreno_gpu) && !adreno_is_a730(adreno_gpu)) =
-{
-> > +       } else if (adreno_is_a7xx(adreno_gpu) && !adreno_is_a730(adreno=
-_gpu)) {
-> >                 /* A7xx GPUs have obfuscated chip IDs. Use constant maj=
- =3D 7 */
-> >                 chipid =3D FIELD_PREP(GENMASK(31, 24), 0x7);
-> >
-> > @@ -1329,9 +1331,18 @@ static int a6xx_gmu_rpmh_arc_votes_init(struct d=
-evice *dev, u32 *votes,
-> >         if (!pri_count)
-> >                 return -EINVAL;
-> >
-> > -       sec =3D cmd_db_read_aux_data("mx.lvl", &sec_count);
-> > -       if (IS_ERR(sec))
-> > -               return PTR_ERR(sec);
-> > +       /*
-> > +        * Some targets have a separate gfx mxc rail. So try to read th=
-at first and then fall back
-> > +        * to regular mx rail if it is missing
-> > +        */
-> > +       sec =3D cmd_db_read_aux_data("gmxc.lvl", &sec_count);
-> > +       if (PTR_ERR_OR_ZERO(sec) =3D=3D -EPROBE_DEFER) {
-> > +               return -EPROBE_DEFER;
-> > +       } else if (IS_ERR(sec)) {
-> > +               sec =3D cmd_db_read_aux_data("mx.lvl", &sec_count);
-> > +               if (IS_ERR(sec))
-> > +                       return PTR_ERR(sec);
-> > +       }
-> >
-> >         sec_count >>=3D 1;
-> >         if (!sec_count)
-> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/ms=
-m/adreno/a6xx_gpu.c
-> > index 973872ad0474..97837f7f2a40 100644
-> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > @@ -1319,9 +1319,7 @@ static void a6xx_set_cp_protect(struct msm_gpu *g=
-pu)
-> >                 count =3D ARRAY_SIZE(a660_protect);
-> >                 count_max =3D 48;
-> >                 BUILD_BUG_ON(ARRAY_SIZE(a660_protect) > 48);
-> > -       } else if (adreno_is_a730(adreno_gpu) ||
-> > -                  adreno_is_a740(adreno_gpu) ||
-> > -                  adreno_is_a750(adreno_gpu)) {
-> > +       } else if (adreno_is_a7xx(adreno_gpu)) {
-> >                 regs =3D a730_protect;
-> >                 count =3D ARRAY_SIZE(a730_protect);
-> >                 count_max =3D 48;
-> > @@ -1891,7 +1889,7 @@ static int hw_init(struct msm_gpu *gpu)
-> >         gpu_write(gpu, REG_A6XX_UCHE_CLIENT_PF, BIT(7) | 0x1);
-> >
-> >         /* Set weights for bicubic filtering */
-> > -       if (adreno_is_a650_family(adreno_gpu)) {
-> > +       if (adreno_is_a650_family(adreno_gpu) || adreno_is_x185(adreno_=
-gpu)) {
-> >                 gpu_write(gpu, REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_0, 0=
-);
-> >                 gpu_write(gpu, REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_1,
-> >                         0x3fe05ff4);
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/d=
-rm/msm/adreno/adreno_device.c
-> > index c3703a51287b..139c7d828749 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > @@ -568,6 +568,20 @@ static const struct adreno_info gpulist[] =3D {
-> >                 .zapfw =3D "a740_zap.mdt",
-> >                 .hwcg =3D a740_hwcg,
-> >                 .address_space_size =3D SZ_16G,
-> > +       }, {
-> > +               .chip_ids =3D ADRENO_CHIP_IDS(0x43050c01), /* "C512v2" =
-*/
-> > +               .family =3D ADRENO_7XX_GEN2,
-> > +               .fw =3D {
-> > +                       [ADRENO_FW_SQE] =3D "gen70500_sqe.fw",
-> > +                       [ADRENO_FW_GMU] =3D "gen70500_gmu.bin",
-> > +               },
-> > +               .gmem =3D 3 * SZ_1M,
-> > +               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > +               .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> > +                         ADRENO_QUIRK_HAS_HW_APRIV,
-> > +               .init =3D a6xx_gpu_init,
-> > +               .hwcg =3D a740_hwcg,
-> > +               .address_space_size =3D SZ_16G,
->
-> I'm kinda thinking we should drop the address_space_size and add
-> instead ADRENO_QUIRK_4G or something along those lines, since there
-> are devices with 32 or 64G
+On Wed, Jun 19, 2024 at 02:38:16PM +0300, Ville Syrjälä wrote:
+> On Wed, Jun 12, 2024 at 11:47:03PM +0300, Ville Syrjala wrote:
+> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > 
+> > intel_surf_alignment() in particular has devolved into
+> > a complete mess. Redesign the code so that we can handle
+> > alignment restrictions in a nicer. Also adjust alignment
+> > for TGL+ to actually match the hardware requirements.
+> > 
+> > v2: Drop the per-plane vma stuff as it was borked
+> >     Don't temporarily remove the 2MiB DPT alignment for UV on TGL
+> > 
+> > Ville Syrjälä (9):
+> >   drm: Rename drm_plane_check_pixel_format() to drm_plane_has_format()
+> >   drm: Export drm_plane_has_format()
+> 
+> Maarten/Maxime/Thomas, can I get an ack for merging these via
+> drm-intel please?
 
-or alternatively put in a correct address_space_size (I guess 2^^48 or 2^^5=
-6 ?)
+Series pushed to drm-intel-next with Thomas's irc ack.
 
-BR,
--R
+Thanks for the reviews and acks.
 
-> (a690 is incorrect in this way too)
->
-> BR,
-> -R
->
-> >         }, {
-> >                 .chip_ids =3D ADRENO_CHIP_IDS(0x43051401), /* "C520v2" =
-*/
-> >                 .family =3D ADRENO_7XX_GEN3,
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/=
-msm/adreno/adreno_gpu.h
-> > index 77526892eb8c..d9ea8e0f6ad5 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > @@ -448,6 +448,11 @@ static inline int adreno_is_a750(struct adreno_gpu=
- *gpu)
-> >         return gpu->info->chip_ids[0] =3D=3D 0x43051401;
-> >  }
-> >
-> > +static inline int adreno_is_x185(struct adreno_gpu *gpu)
-> > +{
-> > +       return gpu->info->chip_ids[0] =3D=3D 0x43050c01;
-> > +}
-> > +
-> >  static inline int adreno_is_a740_family(struct adreno_gpu *gpu)
-> >  {
-> >         if (WARN_ON_ONCE(!gpu->info))
-> > --
-> > 2.45.1
-> >
+> 
+> >   drm/i915: Introduce the plane->min_alignment() vfunc
+> >   drm/i915: Introduce fb->min_alignment
+> >   drm/i915: Split cursor alignment to per-platform vfuncs
+> >   drm/i915: Split pre-skl platforms out from intel_surf_alignment()
+> >   drm/i915: Move intel_surf_alignment() into skl_univerals_plane.c
+> >   drm/i915: Update plane alignment requirements for TGL+
+> >   drm/i915: Nuke the TGL+ chroma plane tile row alignment stuff
+> > 
+> >  drivers/gpu/drm/drm_atomic.c                  |   7 +-
+> >  drivers/gpu/drm/drm_crtc.c                    |   6 +-
+> >  drivers/gpu/drm/drm_crtc_internal.h           |   2 -
+> >  drivers/gpu/drm/drm_plane.c                   |  23 ++-
+> >  drivers/gpu/drm/i915/display/i9xx_plane.c     |  75 ++++++++-
+> >  drivers/gpu/drm/i915/display/intel_cursor.c   |  38 +++++
+> >  .../drm/i915/display/intel_display_types.h    |   5 +
+> >  drivers/gpu/drm/i915/display/intel_fb.c       | 151 ++++--------------
+> >  drivers/gpu/drm/i915/display/intel_fb.h       |   3 -
+> >  drivers/gpu/drm/i915/display/intel_fb_pin.c   |  39 +++--
+> >  drivers/gpu/drm/i915/display/intel_fb_pin.h   |   3 +-
+> >  drivers/gpu/drm/i915/display/intel_fbdev.c    |   5 +-
+> >  drivers/gpu/drm/i915/display/intel_sprite.c   |  26 +++
+> >  .../drm/i915/display/skl_universal_plane.c    |  85 +++++++++-
+> >  drivers/gpu/drm/xe/display/xe_fb_pin.c        |   3 +-
+> >  drivers/gpu/drm/xe/display/xe_plane_initial.c |   4 +-
+> 
+> Lucas, can you give me an ack for the merging the xe
+> changes via drm-intel?
+> 
+> >  include/drm/drm_plane.h                       |   2 +
+> >  17 files changed, 309 insertions(+), 168 deletions(-)
+> > 
+> > -- 
+> > 2.44.2
+> 
+> -- 
+> Ville Syrjälä
+> Intel
+
+-- 
+Ville Syrjälä
+Intel
