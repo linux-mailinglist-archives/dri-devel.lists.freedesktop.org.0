@@ -2,88 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D69699148BF
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 13:31:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A117E9148C9
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 13:32:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED6E910E267;
-	Mon, 24 Jun 2024 11:31:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E392A10E119;
+	Mon, 24 Jun 2024 11:32:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="iH+vbe2j";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="jzk8zOGz";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="J/ZYT6ZZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A416B10E119
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 11:31:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1719228704;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z1Rc1emYuXh/HewWkHo067TK+khtKA7f3ilfM7ZwWq0=;
- b=iH+vbe2jyKO6CYIICIJy+qw/3TpZ1txpQTyY8BgeZR9OOmVEaSBggqsEBa5VA7Wbs0VeMQ
- n5nR3Ug8KleFOw3KsA/VoszOAzePYdaplZ3l0nvnihrUqpd3tDW8Owpvg0vKVYC6XH4W56
- TVpfzTOiiPzNOORK+ZLrYinIF7NmKKA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-151-2nB62gcxNw2AeJ1h8VCpTg-1; Mon, 24 Jun 2024 07:31:43 -0400
-X-MC-Unique: 2nB62gcxNw2AeJ1h8VCpTg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3621a7854b0so2048643f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 04:31:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719228702; x=1719833502;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=z1Rc1emYuXh/HewWkHo067TK+khtKA7f3ilfM7ZwWq0=;
- b=GSWw7ZIjAQ56OG/vbeciFysqG8xa1NaE+Poy/J9qcYEUKWxGSR9LMwGmfTmSPfBerE
- cMPnM94XVI9vns04m2VVenWgBliSkTj0e0A8+lPCtuoibkrf46fY6ssetEghEGQEw9Mh
- kcv6Y6I5XPR4U4h0SXmHY0LcjP7ZClR8qsM6wyvtHxW7WLavuXc0elVH7OYFdTrD7Bx4
- h384pBHmmK7mR8iPuAxDUzRbRStFiKuwETO8q+CW4irTeRbWyn8MNEBp4IjmMe2Rn0kW
- 1eJjs4XMalxEmh6yJer4EWwplqKw62T7TFr1pKtZ6uf7/c/H0LYe8myyT2b9xA8SuERe
- wflQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX9CHxka8exeDBHUEOou3FBerT6nNZUWjTIMtxg6GRYstVt+mzm8Nyv9IaRbAz6mwgNxTdF5ITm5sHuvEgAEPA0QFuI4oMSB57Hh6m6JzCm
-X-Gm-Message-State: AOJu0YxhnA2JggeNtgH8s8x8uGfO6zM/2WW4FX0hdg+ZRo5gOFcE27lQ
- 5iQdWry3IvLRMdI+UyAx5H3WqwMC+HQa41mVt2cm7IjtFrUPaiV2JJuy/v7DEL/O7sTAFGsr/a6
- tvUwYtpqFkQA3NMhT6nWHlcpKUZVfbVB83Nt9d6fHnru85sO7Ogkbsqv5aKc7tdGpwA==
-X-Received: by 2002:a05:6000:1a8d:b0:366:f00f:8656 with SMTP id
- ffacd0b85a97d-366f00f8687mr2489935f8f.55.1719228702102; 
- Mon, 24 Jun 2024 04:31:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFEjXWAJo0A3ZGNhrE3FY0LNEuVP1fHqKxJAk1B5YvPPlS1HLStfakEN0O/4kfL+9PdRhZvqA==
-X-Received: by 2002:a05:6000:1a8d:b0:366:f00f:8656 with SMTP id
- ffacd0b85a97d-366f00f8687mr2489920f8f.55.1719228701746; 
- Mon, 24 Jun 2024 04:31:41 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
- ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-366389b8922sm9792777f8f.28.2024.06.24.04.31.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jun 2024 04:31:41 -0700 (PDT)
-Message-ID: <2f54c321-1832-4931-8148-5eece4ef4915@redhat.com>
-Date: Mon, 24 Jun 2024 13:31:40 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/7] drm/panic: Fixes and graphical logo
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6C7B10E119
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 11:32:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1719228748; x=1750764748;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=HS0w/FAC4Vg1rsGlmB0DrwqRXeG8EmTG+BPwYRmz0Bo=;
+ b=jzk8zOGzp6uniq/W8e9ZG4hsjdCJBPScwQ/hyhcavWOsNn28FHtORJck
+ vT1hVLg+YYoz92Ulkc2zFj9zULhcj8U7X57WneeIIDAKvRqLGoAtWwhdw
+ Tv4mU2zOJfTuS9wyHY+FfKy8OKnZ5d+tnd1qoHsPRIi5DfCQ4zh5pTWHP
+ 4B4XK9Jt/1k+dApVNGbIYTfhpoaDNSATMnNyqxMqpaTF7t3395qHGmB3y
+ 8uhPkq2UlHSwWma84w6FLkLSQ42C7BM7ChY1vQ8SmU9kHIUFpH9nIVTMP
+ dKi4TzdQk57ELUkrepDZVbm2/fFaqGPeIWlkMd3KsLYlrfEHSRPrfUHss A==;
+X-CSE-ConnectionGUID: xutlt1bvR1OPgmKEzE8qrw==
+X-CSE-MsgGUID: 0ZaALeZKQNuLTK+a8XFTmg==
+X-IronPort-AV: E=Sophos;i="6.08,261,1712613600"; d="scan'208";a="37550994"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 24 Jun 2024 13:32:26 +0200
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id AA73B161461; Mon, 24 Jun 2024 13:32:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1719228742;
+ h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=HS0w/FAC4Vg1rsGlmB0DrwqRXeG8EmTG+BPwYRmz0Bo=;
+ b=J/ZYT6ZZPm0j+qJ4XydMuPOr/DBjQtDvmdFLU+zCLT2h1BaF/9ZdN6AMbIEAcBFZHOufHo
+ dY71HZUtLEoVzDdVUenSGEbmC9Htj7QxPLqUzfdN4VEPC6+XmzXZ/wnv3zRAO9jfin2YbP
+ BTPYjfEK0tJXbllPhenw25hwg59vJ3BfVqrsD9tffJ6zY8lalYhJEWP2xkkzWNtXHr29IP
+ 2omtKCwu6I5hltQ+s/T0yYI7+LslkgRXYZRal3CUsTjGdpUaDGgRs5lOzWG+54od/Pkme+
+ cFyVcHhTOZmaG51c+KlgFFdeOkjT9u1kB70EsnbN1e+OV529ORP8gwloyvVoTw==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <cover.1718305355.git.geert+renesas@glider.be>
- <b4caed34-bed4-4b72-9bb0-353ef63fe867@redhat.com>
-In-Reply-To: <b4caed34-bed4-4b72-9bb0-353ef63fe867@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH] drm/lcdif: switch to DRM_BRIDGE_ATTACH_NO_CONNECTOR
+Date: Mon, 24 Jun 2024 13:32:20 +0200
+Message-ID: <859620673.0ifERbkFSE@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20240624-mxc-lcdif-bridge-attach-v1-1-37e8c5d5d934@linaro.org>
+References: <20240624-mxc-lcdif-bridge-attach-v1-1-37e8c5d5d934@linaro.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,18 +82,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/06/2024 10:55, Jocelyn Falempe wrote:
-> Hi,
-> 
-> I want to push at least the first patch that is an important fix.
-> But if there are no objections, I can push the whole series except patch 
-> 5 "drm/panic: Convert to drm_fb_clip_offset()" which causes some build 
-> issue.
+Hi,
 
-I just pushed them to drm-misc-next.
-Thanks all.
+Am Montag, 24. Juni 2024, 12:31:46 CEST schrieb Dmitry Baryshkov:
+> Existing in-kernel device trees use LCDIF with the dsim + adv7533, dsim
+> + tc358762 or with ldb + panel_bridge. All these combinations support
+> using DRM_BRIDGE_ATTACH_NO_CONNECTOR for bridge attachment.
+>=20
+> Change lcdif driver to use this flag when attaching the bridge and
+> create drm_bridge_connector afterwards.
+>=20
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+> Note: compile-tested only.
 
-> 
+I gave it a try, but it doesn't work. Despite DSI output it also breaks
+HDMI output, where I at least some error messages:
+[drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@32c00000=
+/hdmi@32fd8000 to encoder None-37: -22
+[drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@32c00000=
+/display-bridge@32fc4000 to encoder None-37: -22
+imx-lcdif 32fc6000.display-controller: error -EINVAL: Failed to attach brid=
+ge for endpoint0
+imx-lcdif 32fc6000.display-controller: error -EINVAL: Cannot connect bridge
+imx-lcdif 32fc6000.display-controller: probe with driver imx-lcdif failed w=
+ith error -22
+
+Best regards,
+Alexander
+
+> ---
+>  drivers/gpu/drm/mxsfb/lcdif_drv.c | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lc=
+dif_drv.c
+> index 0f895b8a99d6..1d5508449995 100644
+> --- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> @@ -16,6 +16,7 @@
+> =20
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+> +#include <drm/drm_bridge_connector.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_encoder.h>
+>  #include <drm/drm_fbdev_dma.h>
+> @@ -48,6 +49,7 @@ static int lcdif_attach_bridge(struct lcdif_drm_private=
+ *lcdif)
+>  {
+>  	struct device *dev =3D lcdif->drm->dev;
+>  	struct device_node *ep;
+> +	struct drm_connector *connector;
+>  	struct drm_bridge *bridge;
+>  	int ret;
+> =20
+> @@ -96,13 +98,23 @@ static int lcdif_attach_bridge(struct lcdif_drm_priva=
+te *lcdif)
+>  			return ret;
+>  		}
+> =20
+> -		ret =3D drm_bridge_attach(encoder, bridge, NULL, 0);
+> +		ret =3D drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_=
+CONNECTOR);
+>  		if (ret) {
+>  			of_node_put(ep);
+>  			return dev_err_probe(dev, ret,
+>  					     "Failed to attach bridge for endpoint%u\n",
+>  					     of_ep.id);
+>  		}
+> +
+> +		connector =3D drm_bridge_connector_init(lcdif->drm, encoder);
+> +		if (IS_ERR(connector)) {
+> +			ret =3D PTR_ERR(connector);
+> +			of_node_put(ep);
+> +
+> +			return dev_err_probe(dev, ret,
+> +					     "Failed to create bridge connector for endpoint%u\n",
+> +					     of_ep.id);
+> +		}
+>  	}
+> =20
+>  	return 0;
+>=20
+> ---
+> base-commit: f76698bd9a8ca01d3581236082d786e9a6b72bb7
+> change-id: 20240624-mxc-lcdif-bridge-attach-60368807b2f9
+>=20
 > Best regards,
-> 
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
