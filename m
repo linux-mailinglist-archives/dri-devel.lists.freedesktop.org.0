@@ -2,69 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EDD5914639
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:22:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BB8891463E
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 11:23:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 925A910E3D0;
-	Mon, 24 Jun 2024 09:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3060F10E3D1;
+	Mon, 24 Jun 2024 09:23:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="I3caW1oP";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PGrDW4hW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E74D810E3CF
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:22:23 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-4218e647d62so3624605e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 02:22:23 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE3710E3D1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 09:23:07 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-364cdfdaf91so3024357f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 02:23:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1719220942; x=1719825742; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Et+d0MzdKGzP2qwlgOja2wouceOR8AhOlBHu8kBvdu4=;
- b=I3caW1oP0i98EPxerYlwB7+7vKgscToCtnur/hklJlRTCHYqtFmxzMC+h1hFKrv9Tj
- lnknPTNZXNDBvyLNXGCpo+sQYph9wIYVmIRrzGXIasXwYLedNW+3zmo8ClAka6NIVYqE
- vVVpPSWf8ixpvpbtTPjQIBxy7IUeYo+yRAiCE=
+ d=linaro.org; s=google; t=1719220986; x=1719825786; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=9P217sn9M/MJa4bSxNl7YInysiYF0hUm16+UxY3/mRM=;
+ b=PGrDW4hW2pwM8EiatEX466GaQrMsEzxiaHikRRk2I1nF+EjNSsv2uFHh8yXjoFQrAe
+ eYWzZ501W3WuNFAJVdxFqQSwEmhquZib0q8KP/LEAM+fROIPDu5ZjibQbKOtqphcODk1
+ pxtKbcrxNaaX5GjhzCKTA/U3NR3HcdVo6dMZjqiva4i3x+DdQQ1JtUBwTjrehXMfEzsT
+ b87XMM0s6WGhZnD5ecuBezN5hrPhGnw7bJaSdWn6Z9LWW9dv468emgQfXaVdIv6A+db8
+ O8JP7cVSkZ1jdruqh9wXi+aVWgmcliK1FELFH8UAVrKunFdMiLKQt9trE99a6cFxK5vw
+ cQsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719220942; x=1719825742;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Et+d0MzdKGzP2qwlgOja2wouceOR8AhOlBHu8kBvdu4=;
- b=eqWxrxfP1xH5u2r2MXEZTGkB2Ovdl7eEczOrteYjOvqN/jwDcHl4a5VYd/ch+4cVsv
- Opj0MSEWdSglmha2xakAYrR5CITZtEOxHGe5D97uzuwCRmEQaStgDzzOO5sHnAr+1xxp
- ftYIYoVu+cCf+yC7MlicOHypfLBx/Os30SkvQGEEGVQ8QRHBN2Df+iKe91Vamm+BfMqh
- TrSTarZlGoZwK+2W3ICAsbiFkNTI//MjMpXEd1r43zUMPZk32t9K/ML+6Rq/TXGd+bUP
- x4b2S1NCyPKlElmsZNpNKJ6/shgbNISRI7E3pnP7K26eZ76wvktw3CDZXtFDFgw3e+Xy
- B3SA==
-X-Gm-Message-State: AOJu0YwDzA1AsJgEAYkY4ywj01ADz5qvMonxO5iHgeUdPhThvXBPPOnL
- n/r1bIyQRkhZpv0h6XDTBqhKpFyRbzuHSxGT2DmjXMeWfjUlau3XXFuFCn1cUi8=
-X-Google-Smtp-Source: AGHT+IEHp+5NPv+1A7RzjGn132tVAWhgg0PbURlFYjxAl2b3SYYpLfK2F25Lc1LQWgurb0KZxaZn3A==
-X-Received: by 2002:a05:600c:3b88:b0:424:8c1b:f873 with SMTP id
- 5b1f17b1804b1-4248e3fe70emr25216995e9.4.1719220942079; 
- Mon, 24 Jun 2024 02:22:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ d=1e100.net; s=20230601; t=1719220986; x=1719825786;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=9P217sn9M/MJa4bSxNl7YInysiYF0hUm16+UxY3/mRM=;
+ b=ErJYn8CQLEtrJSdtrer8EEsa5/kvw1ZhaYBW2yhpnVZGsYCPrimbX/xk0S1WNOzZjS
+ rpv+zHJXHbDa92JDzklc6xXw7W3D/cKPhQN7DjhdTQOyCERPc1IZZtRd8p00fG79PvL7
+ aWxshy5A2whTHzZmIDT/4O+ji17FPlMRPOse0daFARMgYjDcd8x4vECmFM5JS6jgKoXu
+ jvO1+b9PMf/allKwLPPv2pEyDX4m09/TBaWDDtw32H4iQA1LUUaSf9ibtBZEQ9lnDtft
+ 3U7YrgMNHy8z+pGUXsVwTmIMpILfoFx5AETSwtk7UrpDi5LtFx1I1b80lxc5FX78cGod
+ nC8A==
+X-Gm-Message-State: AOJu0YyG6PoVBfCZR1rrEI3svQ+kHU5yv08mLnsvkJ3GPAehN3g1UFM8
+ jvq4nQXVyysW20POGoP1LlJiwxS/W/NuRfvaM7sCf+KmQbB9Dw5pgxE0h8+M+M4=
+X-Google-Smtp-Source: AGHT+IH3/ALEXbfYlT2sTHs08MgJbhu0VXcoE0ZN53qFZcym9IwtEXwpeKiTUO0P3AYufoyP3blVSg==
+X-Received: by 2002:adf:f3cd:0:b0:364:e963:bd1a with SMTP id
+ ffacd0b85a97d-366e96c0d75mr2373056f8f.65.1719220985494; 
+ Mon, 24 Jun 2024 02:23:05 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:cf01:774b:55fd:ab74?
+ ([2a01:e0a:982:cbb0:cf01:774b:55fd:ab74])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3663a8c9818sm9454225f8f.107.2024.06.24.02.22.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jun 2024 02:22:21 -0700 (PDT)
-Date: Mon, 24 Jun 2024 11:22:19 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, Alain Volmat <alain.volmat@foss.st.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 02/11] drm/sti/sti_hdmi: convert to struct drm_edid
-Message-ID: <Znk6y4_attY361en@phenom.ffwll.local>
-References: <cover.1715691257.git.jani.nikula@intel.com>
- <dd1c232cb85d5e0815af73c918953fa3b852baa2.1715691257.git.jani.nikula@intel.com>
+ 5b1f17b1804b1-424817a99fbsm125020125e9.16.2024.06.24.02.23.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Jun 2024 02:23:05 -0700 (PDT)
+Message-ID: <dd6f7a67-e338-4c08-8520-8e85a953834b@linaro.org>
+Date: Mon, 24 Jun 2024 11:23:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dd1c232cb85d5e0815af73c918953fa3b852baa2.1715691257.git.jani.nikula@intel.com>
-X-Operating-System: Linux phenom 6.8.9-amd64 
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 1/8] drm: bridge: dw_hdmi: Call poweron/poweroff from
+ atomic enable/disable
+To: Jonas Karlman <jonas@kwiboo.se>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240611155108.1436502-1-jonas@kwiboo.se>
+ <20240611155108.1436502-2-jonas@kwiboo.se>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20240611155108.1436502-2-jonas@kwiboo.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,94 +114,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 14, 2024 at 03:55:08PM +0300, Jani Nikula wrote:
-> Prefer the struct drm_edid based functions for reading the EDID and
-> updating the connector.
+On 11/06/2024 17:50, Jonas Karlman wrote:
+> Change to only call poweron/poweroff from atomic_enable/atomic_disable
+> ops instead of trying to keep a bridge_is_on state and poweron/off in
+> the hotplug irq handler.
 > 
-> The functional change is that the CEC physical address gets invalidated
-> when the EDID could not be read.
+> A benefit of this is that drm mode_config mutex is always held at
+> poweron/off, something that may reduce the need for our own mutex.
 > 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> 
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 > ---
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 33 ++---------------------
+>   1 file changed, 2 insertions(+), 31 deletions(-)
 > 
-> Cc: Alain Volmat <alain.volmat@foss.st.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/sti/sti_hdmi.c | 24 ++++++++++++++----------
->  1 file changed, 14 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-> index 500936d5743c..3b62ec2d742f 100644
-> --- a/drivers/gpu/drm/sti/sti_hdmi.c
-> +++ b/drivers/gpu/drm/sti/sti_hdmi.c
-> @@ -974,28 +974,32 @@ static const struct drm_bridge_funcs sti_hdmi_bridge_funcs = {
->  
->  static int sti_hdmi_connector_get_modes(struct drm_connector *connector)
->  {
-> +	const struct drm_display_info *info = &connector->display_info;
->  	struct sti_hdmi_connector *hdmi_connector
->  		= to_sti_hdmi_connector(connector);
->  	struct sti_hdmi *hdmi = hdmi_connector->hdmi;
-> -	struct edid *edid;
-> +	const struct drm_edid *drm_edid;
->  	int count;
->  
->  	DRM_DEBUG_DRIVER("\n");
->  
-> -	edid = drm_get_edid(connector, hdmi->ddc_adapt);
-> -	if (!edid)
-> -		goto fail;
-> +	drm_edid = drm_edid_read_ddc(connector, hdmi->ddc_adapt);
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 9f2bc932c371..34bc6f4754b8 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -172,7 +172,6 @@ struct dw_hdmi {
+>   	enum drm_connector_force force;	/* mutex-protected force state */
+>   	struct drm_connector *curr_conn;/* current connector (only valid when !disabled) */
+>   	bool disabled;			/* DRM has disabled our bridge */
+> -	bool bridge_is_on;		/* indicates the bridge is on */
+>   	bool rxsense;			/* rxsense state */
+>   	u8 phy_mask;			/* desired phy int mask settings */
+>   	u8 mc_clkdis;			/* clock disable register */
+> @@ -2383,8 +2382,6 @@ static void initialize_hdmi_ih_mutes(struct dw_hdmi *hdmi)
+>   
+>   static void dw_hdmi_poweron(struct dw_hdmi *hdmi)
+>   {
+> -	hdmi->bridge_is_on = true;
+> -
+>   	/*
+>   	 * The curr_conn field is guaranteed to be valid here, as this function
+>   	 * is only be called when !hdmi->disabled.
+> @@ -2398,30 +2395,6 @@ static void dw_hdmi_poweroff(struct dw_hdmi *hdmi)
+>   		hdmi->phy.ops->disable(hdmi, hdmi->phy.data);
+>   		hdmi->phy.enabled = false;
+>   	}
+> -
+> -	hdmi->bridge_is_on = false;
+> -}
+> -
+> -static void dw_hdmi_update_power(struct dw_hdmi *hdmi)
+> -{
+> -	int force = hdmi->force;
+> -
+> -	if (hdmi->disabled) {
+> -		force = DRM_FORCE_OFF;
+> -	} else if (force == DRM_FORCE_UNSPECIFIED) {
+> -		if (hdmi->rxsense)
+> -			force = DRM_FORCE_ON;
+> -		else
+> -			force = DRM_FORCE_OFF;
+> -	}
 
-I think you can use drm_edid_read here since the ddc is correctly set up
-with drm_connector_init_with_ddc()
+This means we always poweron the bridge even if rxsense is false ?
 
-> +
-> +	drm_edid_connector_update(connector, drm_edid);
->  
-> -	cec_notifier_set_phys_addr_from_edid(hdmi->notifier, edid);
-> +	cec_notifier_set_phys_addr(hdmi->notifier,
-> +				   connector->display_info.source_physical_address);
-> +
-> +	if (!drm_edid)
-> +		goto fail;
+Neil
 
-Unless I missed something, all the functions can cope with a NULL edid,
-but this jump means in the failure case you'll return stack garbage in
-count. Just drop this check?
+> -
+> -	if (force == DRM_FORCE_OFF) {
+> -		if (hdmi->bridge_is_on)
+> -			dw_hdmi_poweroff(hdmi);
+> -	} else {
+> -		if (!hdmi->bridge_is_on)
+> -			dw_hdmi_poweron(hdmi);
+> -	}
+>   }
+>   
+>   /*
+> @@ -2546,7 +2519,6 @@ static void dw_hdmi_connector_force(struct drm_connector *connector)
+>   
+>   	mutex_lock(&hdmi->mutex);
+>   	hdmi->force = connector->force;
+> -	dw_hdmi_update_power(hdmi);
+>   	dw_hdmi_update_phy_mask(hdmi);
+>   	mutex_unlock(&hdmi->mutex);
+>   }
+> @@ -2955,7 +2927,7 @@ static void dw_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
+>   	mutex_lock(&hdmi->mutex);
+>   	hdmi->disabled = true;
+>   	hdmi->curr_conn = NULL;
+> -	dw_hdmi_update_power(hdmi);
+> +	dw_hdmi_poweroff(hdmi);
+>   	dw_hdmi_update_phy_mask(hdmi);
+>   	handle_plugged_change(hdmi, false);
+>   	mutex_unlock(&hdmi->mutex);
+> @@ -2974,7 +2946,7 @@ static void dw_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
+>   	mutex_lock(&hdmi->mutex);
+>   	hdmi->disabled = false;
+>   	hdmi->curr_conn = connector;
+> -	dw_hdmi_update_power(hdmi);
+> +	dw_hdmi_poweron(hdmi);
+>   	dw_hdmi_update_phy_mask(hdmi);
+>   	handle_plugged_change(hdmi, true);
+>   	mutex_unlock(&hdmi->mutex);
+> @@ -3073,7 +3045,6 @@ void dw_hdmi_setup_rx_sense(struct dw_hdmi *hdmi, bool hpd, bool rx_sense)
+>   		if (hpd)
+>   			hdmi->rxsense = true;
+>   
+> -		dw_hdmi_update_power(hdmi);
+>   		dw_hdmi_update_phy_mask(hdmi);
+>   	}
+>   	mutex_unlock(&hdmi->mutex);
 
->  
-> -	count = drm_add_edid_modes(connector, edid);
-> -	drm_connector_update_edid_property(connector, edid);
-> +	count = drm_edid_connector_add_modes(connector);
->  
->  	DRM_DEBUG_KMS("%s : %dx%d cm\n",
-> -		      (connector->display_info.is_hdmi ? "hdmi monitor" : "dvi monitor"),
-> -		      edid->width_cm, edid->height_cm);
-> +		      info->is_hdmi ? "hdmi monitor" : "dvi monitor",
-> +		      info->width_mm / 10, info->height_mm / 10);
->  
-> -	kfree(edid);
-> +	drm_edid_free(drm_edid);
->  	return count;
-
-With the two items addressed:
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
->  
->  fail:
-> -- 
-> 2.39.2
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
