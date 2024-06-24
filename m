@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C3A4913F5C
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 02:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 334A9913F6C
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 02:13:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A112D10E0F8;
-	Mon, 24 Jun 2024 00:12:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 239E110E15C;
+	Mon, 24 Jun 2024 00:13:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TOKGkXqZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M/wL8P0t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3556110E062
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 00:12:47 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-a6fdd947967so144961666b.2
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 17:12:47 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCA3410E02A
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 00:13:42 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-52cdfb69724so1265131e87.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jun 2024 17:13:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719187965; x=1719792765; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1719188020; x=1719792820; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=VvaQpB4RyD6IuxTPoGyM/+nSxIU6CnaaMjIhdH54n8k=;
- b=TOKGkXqZqjCVjzBPxsuUzvuPe+uRP6KgHX0agPFie/e1WygpnBEjslV/QumjGMj9Lm
- 6eNuyRh5VYcO8yaGSAoezvEZXuVPJrmszdA3U9w0T6CBDgMNEKH3PVnWCf4zNkaYPWit
- 2U0MCetNtJPxbbA9vfOdyg8SZCTdk6TNhVMz6vrT01MFN7FS57vhAmAutu9fh5pnDokn
- hSSmQQvRCNwq+ohYrvbpX3eOz01SeqWYAedD4/1IvMa+XIVmVmPplMUt/wLcmeq7v16Y
- US+UyJJRMwnou4jBy3/gcrPalv6ljWU0VQhnG8cvO1ZQkA9zKj437g21ymYOh6FZdjVv
- 1DQw==
+ bh=GK3XqR+PJ1d4Fz6hBIhYUON//yKPUubXeIxccDTP36Q=;
+ b=M/wL8P0tMeV3Mykdd/d/zJrU7KVDjB6lCyZlt+T3c48DOrqv88PWqK3uCraxWH9ZyK
+ DLgX5n5SDh8uBmUnNE2mJC9k3PTkW+RbRZyuchrrqGG6qtZA99gNOkB3DSYWM7gu7yC+
+ R2zVJBStkEBk4KiInwiPuPMw900LaKTLp81gvKqmdxieOTPlmBbfkO+pdPxNSBiDhxup
+ ZXvOl1lE6jdMmdF5IjGoPwb7zia83ZA+fv2eGqcGjNcUW8uLuK1u6vM9bSXppng46pzP
+ k4JH36ptquUVAeLYovq79I7AD+43OZ6ps+yapOZZQcom3XkvXCrUwTKAqiohb4TW8quj
+ twCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719187965; x=1719792765;
+ d=1e100.net; s=20230601; t=1719188020; x=1719792820;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VvaQpB4RyD6IuxTPoGyM/+nSxIU6CnaaMjIhdH54n8k=;
- b=ODBZzUgyz8DL8QGrwryN0r49PQCeY6S6ikAN62G+PABmUMmPcQt8/oLRal5s4LcYqe
- E1obxcoLGiBOzgaoj+7EjR81806itwmrHzHTQDWUT1ewGe7NKGXpVKDhmEV1pH2BaauU
- ogPmvqu+pz5fNRaoz3kBtBPyuMyeMkbF6c4PFKHkZxOUwsPKY1P8YIZM6IbufaQQ5QpK
- BZ4mqQPaThCTB0iLjfHje4s0qQoFoszPQT5rJEuEmHRb79fBV3LKKvcG+Sr3OK/exgCz
- DH5+p+nrsXbHBCF5CQiwOji8fjuDJRF9mPL6glGvijykCvzTWUUPewnfYjisoQrl97JD
- y/1w==
+ bh=GK3XqR+PJ1d4Fz6hBIhYUON//yKPUubXeIxccDTP36Q=;
+ b=sJAQOnUfYEmGPfslR/LGPSzPp2ge6/wLkmAcSPnhdgenS+EV9R+Yh36DH3xzQfrr93
+ o9a0YPyT1aZgvUVlmE6b3xExm2bDMnvHHHBqxFFcYUDCsA634vlEg9lAoIeKWSKqw7mJ
+ yGSq3dUx/ydCvP05Ybmpg1A2E/Tj0ecq2wHplIKMewtIhYQqGhzWN0gBD55+b39XBbnH
+ xWqihazrzKFwdX8DKa/mcQX/zfmCRkZr38xBq4AbL5GJRgexO5UHhv0dHnVda8KgWy9B
+ ulcu7bmSTBvxftNaiVK8oBWIxwKIKVcK19DfZt942vEC+m/lpdJVUBbS6wcd7s5i5Hc0
+ Z0OA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXlae4TSoe0z7+P6wYyv3yYP79AD+l/idlv7P2SKaTb4zJYTR3rnXjOg4dtHkK+pautODa5YkehuIUE1xqiUrQI9BwMfryXaUQAW6pEIOa6
-X-Gm-Message-State: AOJu0YyGkfIClELwjedN8nuOorjs3z2mEyHnawwaPnFydahWVwEF8lqE
- 7oFgFzeSxgepDuIqwwn3nBCA1aJKtUvJO8GL33p0BUkGUwwmXKrl
-X-Google-Smtp-Source: AGHT+IGgM4Pak9lc8GEauUfyhm0F0Xk1SzKJKpjX/HE+7j2CHx6ksKDfL8SEj9rmyvNGMfWyx9JATg==
-X-Received: by 2002:a17:906:2657:b0:a6f:2e80:6e04 with SMTP id
- a640c23a62f3a-a7245ba3902mr238843866b.19.1719187964975; 
- Sun, 23 Jun 2024 17:12:44 -0700 (PDT)
+ AJvYcCWcSQnmkpXgjgpZ15C6NZTPPGqgByndUK5D0kYWKnbqlUxUQEaXqQvtcdHK+gcGpz9aTMXVWV0B5/1x5OWaPk6F/5Hzmo1Kny8KHJeJILHp
+X-Gm-Message-State: AOJu0YxhCT6gk4eanQvrcggCp+e03f2teMbaVnKCsAb4+QsQl13A0YXW
+ BrVg61hA1cx+i6ijZEF4HRLM6KvM4Qbus5JfD9Py7k6lpAvkqgsL
+X-Google-Smtp-Source: AGHT+IF2Bfeow77JRmsfl+qYe07q4SCYIXRmBXwU95g0HYBerXLLikzR2pgaDVKgp0/53mQUmpDsKw==
+X-Received: by 2002:ac2:4437:0:b0:52c:c9d1:ad32 with SMTP id
+ 2adb3069b0e04-52ce1835a80mr1726400e87.22.1719188020234; 
+ Sun, 23 Jun 2024 17:13:40 -0700 (PDT)
 Received: from [192.168.8.113] ([148.252.133.212])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a72479f360bsm142254266b.173.2024.06.23.17.12.41
+ a640c23a62f3a-a725060340csm88197066b.22.2024.06.23.17.13.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 23 Jun 2024 17:12:44 -0700 (PDT)
-Message-ID: <c9333388-6906-4df9-92b4-ecfd324f5891@gmail.com>
-Date: Mon, 24 Jun 2024 01:12:46 +0100
+ Sun, 23 Jun 2024 17:13:39 -0700 (PDT)
+Message-ID: <ae0d02f0-b304-4847-a88a-cd5bd4b9bc76@gmail.com>
+Date: Mon, 24 Jun 2024 01:13:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v12 06/13] page_pool: devmem support
+Subject: Re: [PATCH net-next v12 10/13] tcp: RX path for devmem TCP
 To: Mina Almasry <almasrymina@google.com>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
@@ -101,14 +101,14 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Harshitha Ramamurthy <hramamurthy@google.com>,
  Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
  <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
 References: <20240613013557.1169171-1-almasrymina@google.com>
- <20240613013557.1169171-7-almasrymina@google.com>
- <439590d4-0f05-4f5e-80ec-e7fdf214e307@gmail.com>
- <CAHS8izNr4x6SW0oY_VJDPZOsrBQEAyJO1qVJQbu8VNJQMtX9Sg@mail.gmail.com>
+ <20240613013557.1169171-11-almasrymina@google.com>
+ <20a6a727-d9f2-495c-bf75-72c27740dd82@gmail.com>
+ <CAHS8izMce36FwLhFB0znHQYmxpe5hmTSXtZA7+b5VsmSJUfhRw@mail.gmail.com>
 Content-Language: en-US
 From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <CAHS8izNr4x6SW0oY_VJDPZOsrBQEAyJO1qVJQbu8VNJQMtX9Sg@mail.gmail.com>
+In-Reply-To: <CAHS8izMce36FwLhFB0znHQYmxpe5hmTSXtZA7+b5VsmSJUfhRw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,59 +126,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/21/24 19:48, Mina Almasry wrote:
-> On Mon, Jun 17, 2024 at 7:17 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
-...
->>>    static inline unsigned long netmem_to_pfn(netmem_ref netmem)
->>>    {
->>> +     if (netmem_is_net_iov(netmem))
+On 6/21/24 21:31, Mina Almasry wrote:
+> On Mon, Jun 17, 2024 at 9:36 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>>
+>> On 6/13/24 02:35, Mina Almasry wrote:
+>>>
+>>> The pages awaiting freeing are stored in the newly added
+>>> sk->sk_user_frags, and each page passed to userspace is get_page()'d.
+>>> This reference is dropped once the userspace indicates that it is
+>>> done reading this page.  All pages are released when the socket is
+>>> destroyed.
+>>
+>> One small concern is that if the pool gets destroyed (i.e.
+>> page_pool_destroy) before sockets holding netiov, page pool will
+>> semi-busily poll until the sockets die or such and will spam with
+>> pr_warn(). E.g. when a user drops the nl but leaks data sockets
+>> and continues with its userspace business. You can probably do
+>> it in a loop and create dozens of such pending
+>> page_pool_release_retry().
+>>
+> 
+> Yes, true, but this is not really an issue with netiovs per se, it's a
+> quirk with the page_pool in general. If a non-devmem page_pool is
+
+True, devmem is just a new convenient way of doing that ...
+
+> destroyed while there are pages waiting in the receive queues to be
+> recvmsg'd, the behavior you described happens anyway AFAIU.
+> 
+> Jakub did some work to improve this. IIRC he disabled the regular
+> warning and he reparents the orphan page_pools so they appear in the
+> stats of his netlink API.
+> 
+> Since this is behavior already applying to pages, I did not seek to
+> improve it as I add devmem support, I just retain it. We could improve
+> it in a separate patchset, but I do not see this behavior as a
+> critical issue really, especially since the alarming pr_warn has been
+> removed.
+
+... fair enough. I haven't noticed it being removed, but was
+thinking to suggest to conver to ratelimited.
+
+>>> +static int tcp_xa_pool_refill(struct sock *sk, struct tcp_xa_pool *p,
+>>> +                           unsigned int max_frags)
+>>> +{
+>>> +     int err, k;
+>>> +
+>>> +     if (p->idx < p->max)
 >>> +             return 0;
->>
->> IIRC 0 is a valid pfn. Not much of a concern since it's
->> used only for tracing, but might make sense to pass some
->> invalid pfn if there is one
->>
-> 
-> AFAIU all non-negative pfns are technically valid pfns if the machine
-> is big enough.
-> 
-> I could have this function return long long instead of unsigned long
-> so I can return a negative number for errors, and then cast to
-> unsigned long when I figure out it's actually a pfn. Seemed like such
-> a hassle especially since the call site is just tracing that I figured
-> it's not that worth it.
-
-Yeah, sounds like an overkill for tracing
-
-> 
 >>> +
->>>        return page_to_pfn(netmem_to_page(netmem));
->>>    }
->>>
->> ...
->>>    static inline netmem_ref netmem_compound_head(netmem_ref netmem)
+>>> +     xa_lock_bh(&sk->sk_user_frags);
+>>> +
+>>> +     tcp_xa_pool_commit_locked(sk, p);
+>>> +
+>>> +     for (k = 0; k < max_frags; k++) {
+>>> +             err = __xa_alloc(&sk->sk_user_frags, &p->tokens[k],
+>>> +                              XA_ZERO_ENTRY, xa_limit_31b, GFP_KERNEL);
+>>> +             if (err)
+>>> +                     break;
+>>> +     }
+>>> +
+>>> +     xa_unlock_bh(&sk->sk_user_frags);
+>>> +
+>>> +     p->max = k;
+>>> +     p->idx = 0;
+>>> +     return k ? 0 : err;
+>>> +}
+>>
+>> Personally, I'd prefer this optimisation to be in a separate patch,
+>> especially since there is some degree of hackiness to it.
+>>
+>>
+> 
+> To be honest this optimization is very necessary from my POV. We ran
+> into real production problems due to the excessive locking when we use
+> regular xa_alloc(), and Eric implemented this optimization to resolve
+> that. I simply squashed the optimization for this upstream series.
+> 
+> If absolutely necessary I can refactor it into a separate patch or
+> carry the optimization locally, but this seems like a problem everyone
+> looking to use devmem TCP will re-discover, so probably worth just
+> having here?
+
+I specifically mean how it's split into patches within the set. It'd
+have been easier to review, understand for people looking it up in
+history and so on. However, not insisting on changing it now, might
+be safer to leave it alone
+
+>>> +             /* if remaining_len is not satisfied yet, we need to go to the
+>>> +              * next frag in the frag_list to satisfy remaining_len.
+>>> +              */
+>>> +             skb = skb_shinfo(skb)->frag_list ?: skb->next;
+>>> +
+>>> +             offset = offset - start;
+>>
+>> It's an offset into the current skb, isn't it? Wouldn't
+>> offset = 0; be less confusing?
+>>
+> 
+> Seems so, AFAICT. Let me try to apply this and see if it trips up any tests.
+> 
+>>> +     } while (skb);
+>>> +
+>>> +     if (remaining_len) {
+>>> +             err = -EFAULT;
+>>> +             goto out;
+>>> +     }
+>>
+>> Having data left is not a fault,
+> 
+> I think it is. The caller of tcp_recvmsg_dmabuf() expects all of
+> remaining_len to be used up, otherwise it messes up with the math in
+> the caller. __skb_datagram_iter(), which is the equivalent to this one
+> for pages, regards having left over data as a fault and also returns
+> -EFAULT, AFAICT.
+
+I mean "Having data left is not a fault, not receiving
+anything is", and you correctly return a partial result
+if that was the case.
+
+>> and to get here you
+>> need to get an skb with no data left, which shouldn't
+>> happen. Seems like everything you need is covered by
+>> the "!sent" check below.
+>>
+> 
+> I think we can get here if we run out of skbs with data, no?
+
+IIRC the caller clamps it so that it's within the skb with
+its frags. Well, safer to have the check, I agree. It's just
+looked a bit odd since the value is complementary to @sent,
+but I guess it's just a way to propagate -EFAULT.
+
+>>> @@ -2503,6 +2504,15 @@ static void tcp_md5sig_info_free_rcu(struct rcu_head *head)
+>>>    void tcp_v4_destroy_sock(struct sock *sk)
 >>>    {
->>> +     /* niov are never compounded */
->>> +     if (netmem_is_net_iov(netmem))
->>> +             return netmem;
->>> +
->>>        return page_to_netmem(compound_head(netmem_to_page(netmem)));
->>>    }
->>>
->>> +static inline void *netmem_address(netmem_ref netmem)
+>>>        struct tcp_sock *tp = tcp_sk(sk);
+>>> +     __maybe_unused unsigned long index;
+>>> +     __maybe_unused void *netmem;
 >>
->> I don't think it's used anywhere, do I miss it?
+>> How about adding a function to get rid of __maybe_unused?.
+>>
+>> static void sock_release_devmem_frags() {
+>> #ifdef PP
+>>          unsigned index;
+>>          ...
+>> #endif PP
+>> }
 >>
 > 
-> Ah, It's used by the GVE devmem implementation:
-> https://github.com/mina/linux/commit/da89baa81873d457cbf7b49ee6b4f0d66855b205
+> Will do.
 > 
-> I could leave it out of this patch, then add it with the follow up GVE
-> devmem implementation, but I figured almost for sure drivers are going
-> to need this eventually, and it's small, so just put it here.
-
-Either way is fine by me, checking the function is not leftovers
-
+>> Also, even though you wire it up for TCP, since ->sk_user_frags
+>> is in struct sock I'd expect the release to be somewhere in the
+>> generic sock path like __sk_destruct(), and same for init.
+>> Perhpas, it's better to leave it for later.
 
 -- 
 Pavel Begunkov
