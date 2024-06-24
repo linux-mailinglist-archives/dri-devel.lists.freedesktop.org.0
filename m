@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29EB391438D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 09:23:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB3E91439C
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 09:23:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA5F110E1EA;
-	Mon, 24 Jun 2024 07:22:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 517CA10E38D;
+	Mon, 24 Jun 2024 07:23:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=postmarketos.org header.i=@postmarketos.org header.b="MzbWX5RW";
+	dkim=pass (2048-bit key; unprotected) header.d=postmarketos.org header.i=@postmarketos.org header.b="e8YCdGDZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com
- [95.215.58.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABF7810E178
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com
+ [95.215.58.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75FC210E13B
  for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 01:37:31 +0000 (UTC)
 X-Envelope-To: dmitry.torokhov@gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=postmarketos.org;
- s=key1; t=1719192639;
+ s=key1; t=1719192641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vSIdYkvNGFlVlsQy9M50XkydHh2OwcYsy8NxF0doad4=;
- b=MzbWX5RW5j6CKndPqvrMh98kjYayvn+fUOLaGW7KwmfZKhCyKxSaQSe9ZddyUG5AtdQ6Qg
- vTJxt2mH/2mO5cj/PvsLezFCDyPe6gdBwl9k2N1cWBPo/BXl8+amrpH5+5MRUVCbOuHh4k
- P70aBdfepSZNjLFoSsqO5pTnndnac7BiyGywSSCgUeRgnocLI3a7cWT/cjPDoHHHAHodUn
- c8MNYG6Dh8AtR2d8IVqlvs8K9WJ9EaGM9NTMXjYI4+BsFpZ3/88UZreOo9EVpq+iJHJak2
- UGjP2XJimhIiU43EGz+Y2MFTb3Fh+OruBA7i84Iq+ZHKPdmpItZR7ym4VqH3uA==
+ bh=7PpRdaHq1JaE7u5F5bx43UDOXFu9OjUugTskbkF5xEU=;
+ b=e8YCdGDZvsnhygJXihTsD/iUoUW8ZRgoMskrgsBjOvIe+CAa2FTZvl64tZEMa1QBS0wML1
+ 1QrmdygVyKC97LMKQ8pf8OH17FeOANYXbw6g4n0Ib+Tog1S4hC4SpF4qi3BUQDx2Li/WU4
+ 44vs0dS7wsSigJuejvx559B4K7ZXi+RxT4O+LSxNf4EUiXkpqI61tm/NFfxgL0GEDCsa0o
+ 1q6UT4vk7O/Nx89WEyv7fwrOAi8k7H67/tx0Mfd5fPgZx5K8a3RwFUjeVb3A9XzzYaJdmK
+ hSheSl3cjviujhagG4kOQeTxzOpgzgPZwTzHrsri0SAtfXzJkc2AAec/Xje4fQ==
 X-Envelope-To: dri-devel@lists.freedesktop.org
 X-Envelope-To: quic_jesszhan@quicinc.com
 X-Envelope-To: linux-input@vger.kernel.org
@@ -51,12 +51,13 @@ X-Envelope-To: neil.armstrong@linaro.org
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Caleb Connolly <caleb@postmarketos.org>
-Date: Mon, 24 Jun 2024 03:30:25 +0200
-Subject: [PATCH 1/7] dt-bindings: panel: document Samsung AMB655X
+Date: Mon, 24 Jun 2024 03:30:26 +0200
+Subject: [PATCH 2/7] dt-bindings: input: touchscreen: document synaptics
+ TCM oncell
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240624-oneplus8-v1-1-388eecf2dff7@postmarketos.org>
+Message-Id: <20240624-oneplus8-v1-2-388eecf2dff7@postmarketos.org>
 References: <20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org>
 In-Reply-To: <20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org>
 To: Caleb Connolly <caleb@postmarketos.org>, 
@@ -74,21 +75,21 @@ To: Caleb Connolly <caleb@postmarketos.org>,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  ~postmarketos/upstreaming@lists.sr.ht
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1867;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2037;
  i=caleb@postmarketos.org; h=from:subject:message-id;
- bh=3wuuyZRn04C2HmOsJ2tCtoWRp50+LXh8JBT0OpCN7Zg=;
- b=owEBbQKS/ZANAwAIAQWDMSsZX2S2AcsmYgBmeMw7FEWLxM509rVGpvrS5mGgN0xetJGbNC5Jj
- BKW2FZy5pGJAjMEAAEIAB0WIQS2UaFGPGq+0GkMVc0FgzErGV9ktgUCZnjMOwAKCRAFgzErGV9k
- tlu2EACg1fWl6ROkJUe1T1OBQQaGU0Sz0jMounze9Gtzs+weigxjs1pNrT0zVn+E5hn4cybm/RV
- RMp0CBCTMR3XiJvwL8KMPEwr5l80aAL/lXnMTMiFbN6h7QWV6eT9muXJlhUbHMNMwIT1l9m18NB
- aqBW/1y6Mowyw9+vIGDAUfyAwzuDuVPkZKnJmhRfJLdT8pWt+9sGWv7fFY9LCGZPFKjKVaqTqf3
- i3lmGZFa8xmFd2PFlSbEGNGLa6HwKDdiJd52fTieHeyR8eXKyyptbDghZi1J7qYU34+j7wpZ8NU
- qvMnndnqBubCoCna6e9otVHCJGn4XeNre7/rwIKNDP8Hv9X/SDKQE3f49etJJmm328nLw2mgBfE
- fktB0LtMwWuq+Ymk+vBxdxTOt8x6jSzeTlfVMbNfLSLEG9tZTL052VtwLwXNS09oF+WPU0hhKMt
- /AvSpOSpwS+CEE1mYJKAMgpBJ8f825AAGmEPIiOA5a88EY9UiViFtQ1Ymu7dVQO3IQAE/+dCVL5
- 06YO6+PDJfA5coLfXxKU1xRsdQyOn0YXFCZWR1L4bhGQzqqNULpnJvGMy/uM4sJfb10l202T9NP
- 0EDyrjigzWJpwhUrlTvUFGiJNCQg0K3KGTW3S0/F40QlA8ptmogVqGTcsPF2N70J0iXS2VlKJkd
- SMDswny1nRl1YTg==
+ bh=FOWrKXtrZ1kpy4dz7GX61K2da254/sYIEufoJ0WQJ9I=;
+ b=owEBbQKS/ZANAwAIAQWDMSsZX2S2AcsmYgBmeMw7/gCGNKCconD+Ch/eeHk9U7YKZTIuov9P0
+ IenYfS5YsmJAjMEAAEIAB0WIQS2UaFGPGq+0GkMVc0FgzErGV9ktgUCZnjMOwAKCRAFgzErGV9k
+ toXGD/oD7VBrteDb1LgNTTNj3MaUNDoalxsYU5g92Dzsky2EPzTJMVcC5MH0mACHnX8R9wBa9aS
+ kD3dhj+RSeiPAm0sutRUfUMyTvz+pD5YVG3ivBG8kJjb1T+sDG8TkW9yhITM1H1HblN3bJiaEI6
+ +NsX1w3amZEz+9vc+6CrEUugsEzPiEhyOjDtku6eIy4RufFj8Q+y5VX8Rxi2YkgVskr1hOHtB0/
+ HN8TwF87h48xqzDDIToxSQ9t6jCefLi8dttk3pA8NyAxa+U3TQMx7Dq6A4UuDxJOJFEaOr66Y+t
+ FRsTOEzXUCJ48HP9Ask33KP2OZQV2czshsxTufClb/Uxgn3zq1Vq4mGJe7ezOtoviGLQ9IlWh+m
+ oLJQd7pvf8R30pJ7ejWgERnGqQ7EtCgx0lNWUlgqtov1cZVDZVy4wv3SOx6Ln+gX2jUlhLrXsAD
+ Ck+aGAIbv64xo7kKV74F2YnWFWRGdwFTQaxKlH0foj1p7n57Tu8KLB5o/A2+vQoMr/57gpyuiZm
+ Z48LNN7OC+SGJxfcWhrx/BI8ASxw23RhXKeQh/wOkAtE3updx6vHA9URsgXL7vTUp64SY7ncIef
+ IRygDB3Csc1EweC6hOfyhvh98ZQPc9lKqxQB92r4KUGAa/jG/XQxYQ7xH3xA2cT6AmgesLdUMw+
+ Rm8zra31dFsqeww==
 X-Developer-Key: i=caleb@postmarketos.org; a=openpgp;
  fpr=83B24DA7FE145076BC38BB250CD904EB673A7C47
 X-Migadu-Flow: FLOW_OUT
@@ -108,78 +109,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Describe the Samsung AMB655X panel. It has three supplies.
+Document the Synaptics TCM oncell series of touchscreens, starting with
+the s3908.
 
 Signed-off-by: Caleb Connolly <caleb@postmarketos.org>
 ---
- .../bindings/display/panel/samsung,amb655x.yaml    | 59 ++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
+ .../input/touchscreen/syna,tcm-oncell.yaml         | 66 ++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/samsung,amb655x.yaml b/Documentation/devicetree/bindings/display/panel/samsung,amb655x.yaml
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.yaml b/Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.yaml
 new file mode 100644
-index 000000000000..eb987d022a0d
+index 000000000000..1795df584987
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/samsung,amb655x.yaml
-@@ -0,0 +1,59 @@
++++ b/Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.yaml
+@@ -0,0 +1,66 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/panel/samsung,amb655x.yaml#
++$id: http://devicetree.org/schemas/input/touchscreen/syna,s3908.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Samsung AMB655X 1080x2400 120hz AMOLED panel
++title: Synaptics TCM Oncell i2c touchscreen
 +
 +maintainers:
 +  - Caleb Connolly <caleb@postmarketos.org>
 +
 +allOf:
-+  - $ref: panel-common.yaml#
++  - $ref: touchscreen.yaml#
 +
 +properties:
 +  compatible:
-+    const: samsung,amb655x
++    enum:
++      - syna,s3908
 +
 +  reg:
 +    maxItems: 1
 +
++  interrupts-extended:
++    maxItems: 1
++
 +  reset-gpios:
-+    description: reset gpio, must be GPIO_ACTIVE_LOW
-+  vddio-supply: true
-+  vdd-supply: true
-+  avdd-supply: true
-+  enable-gpios: true
-+  port: true
++    maxItems: 1
++    description: Reset GPIO the chip is connected to.
++
++  vdd-supply:
++    description: a phandle for the regulator supplying 3V power.
++
++  vcc-supply:
++    description: a phandle for the regulator supplying IO power.
++
++additionalProperties: false
 +
 +required:
 +  - compatible
 +  - reg
++  - interrupts-extended
++  - reset-gpios
 +  - vdd-supply
-+  - avdd-supply
-+  - vddio-supply
-+
-+additionalProperties: false
++  - vcc-supply
 +
 +examples:
 +  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
 +    #include <dt-bindings/gpio/gpio.h>
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        panel@0 {
-+            compatible = "samsung,ams495qa01";
-+            reg = <0>;
-+            reset-gpios = <&gpio4 0 GPIO_ACTIVE_LOW>;
-+            vdd-supply = <&vcc_3v3>;
 +
-+            port {
-+                mipi_in_panel: endpoint {
-+                  remote-endpoint = <&mipi_out_panel>;
-+                };
-+            };
-+        };
++    i2c {
++      clock-frequency = <400000>;
++      status = "okay";
++
++      touchscreen@4b {
++        compatible = "syna,s3908";
++        reg = <0x4B>;
++
++        interrupts-extended = <&tlmm 39 0x2008>;
++
++        reset-gpios = <&tlmm 38 GPIO_ACTIVE_HIGH>;
++
++        vdd-supply = <&vreg_l13a_ts_3p0>;
++        vcc-supply = <&vreg_l1c_1p8>;
++      };
 +    };
-+
-+...
 
 -- 
 2.45.0
