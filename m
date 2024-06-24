@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF499151AE
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 17:13:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 118049151B3
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 17:13:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 981AB10E2DE;
-	Mon, 24 Jun 2024 15:13:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D2C510E4AC;
+	Mon, 24 Jun 2024 15:13:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ixsOEK67";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bqqkwBNs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
- [209.85.222.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04A6910E49C;
- Mon, 24 Jun 2024 15:13:03 +0000 (UTC)
-Received: by mail-qk1-f172.google.com with SMTP id
- af79cd13be357-795524bb6d9so283843985a.0; 
- Mon, 24 Jun 2024 08:13:03 -0700 (PDT)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
+ [209.85.219.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 552E210E4AC;
+ Mon, 24 Jun 2024 15:13:13 +0000 (UTC)
+Received: by mail-qv1-f46.google.com with SMTP id
+ 6a1803df08f44-6b505f11973so38720056d6.1; 
+ Mon, 24 Jun 2024 08:13:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719241983; x=1719846783; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1719241992; x=1719846792; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UMpMM3VMXw3Pt2FtK4Aaxt1tlk2OfNvq+GBMyg4jRHU=;
- b=ixsOEK67XijY1AZbHq8GTT1GaPdvU5zONNOii0O+uedJRgzmxhjaEcARaBlJaIAjp5
- LXQoTXZt9qrHYWqE14o7p6mQPxGXAtsTeWKf0LWaSLlKNCUWMv98FD6eG+hTmJanvqVO
- La1JlWzTSB1TyRiyxSJh/h99Op2iPu3rGrZr/QdcAa0gckx3Oe3YdTDkDXpQEQ+fATQU
- mmDqmP77KJO+D31m1FjaBiW+KSE8pj40QzJCma480Qk+ptywBetd61gnWz5CdR+0vPbk
- Npvfy6w1GZGcE+7Xp+etDECaap8XeW/l4gg/oqEN1kHaM6uf2DpcMBOChgjOfd3sQfjI
- 4wDQ==
+ bh=9nYYzlPy5SI7PVhpCb/BENiLzYELRokf+ehigNOLV50=;
+ b=bqqkwBNswBGidL4Sit1Hry5xjuY1h0H4fSur7g4k7O7ocaHam1SZkfLZ8ZipLH+ot/
+ n3Hg0gagydMveScHm6n5+Cl4wXX/O5YflmfB7/EVJnb83VUwEQj0Cml9BjpOiLDCGdpI
+ 3Xzsa7nX8x69S0Av9Y22dCuoeoCewJzHIaUsQvVBbQG91pdVpPn+RO4q7/2mS9+LqmMo
+ RdLouO5XbKFvJpufris9/jU76FptCi5qGzNNTsEbCu0RnuZo0TL5kz+eI72ueayGrzS4
+ KR7Wgs/2dMHXNAalYg8kjzTXAnFBy0OiCmHhyHE0rFimeTkVm+ydQRlyxsTTvTp9kmWP
+ FnOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719241983; x=1719846783;
+ d=1e100.net; s=20230601; t=1719241992; x=1719846792;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UMpMM3VMXw3Pt2FtK4Aaxt1tlk2OfNvq+GBMyg4jRHU=;
- b=U+UH3gxCatJsMjDA9s6FRPMqB21a1xwxhgD8uUwhskB+ddt4cc/BUdNUQ7dwatZwIc
- mnVhlZrf+1AfM/MMAvxkKAhJ3kAEWVkAz0VCi/5nsYEvkHV1Sn31IivhzjO51dnyi6K/
- XO2ECXzvcO0TCJZd3u0qLrsrX95NLg6WTyWORJse/vgBE4tvtA+zh2+I0XMFB53Tn6tn
- ujLARMB0fdZpAP7D/6XY2HfvhyV94NAfstCd63W7dlG9dF+AQukQZAsTelzlk7Dp+ecf
- 9G2wsF56nmciH3eotOTsjcxHbAxaYDzTx336EJERrDoWZTRpH35SuwBNmfR9Px/puFGl
- 9OMw==
+ bh=9nYYzlPy5SI7PVhpCb/BENiLzYELRokf+ehigNOLV50=;
+ b=EyuFjnwbppmB81SUzyDqaS+TYIqPY52T2M0PQ7Ia028cXPkdukV/CTuZ3wSTyQDRrH
+ YjDQHSh+5XAxZmwOoyft7cC0Eg3dZaVC/cbdbssOqB0QeeK0IwjCfpq++J96zj7ex8dr
+ B0vFET4uAc4JHGLv7X/RlYnZ3W+TuKtY0SRlG0ESM7eXC98ECtHSTJB4AQPa1Qp+Evpj
+ KjndtNBeAfwcDKtYzU7Auh6i2i3Q+kx63caIE7arHYHURwsuDiNJASO3jtJTHAHZrg1W
+ vMTHCy+M0FS+xeIy6lk+mvyH4iuxbmUOuTlRpcUKLHdB3jmkrDDqnpMUJ8sYIsa8J6Hm
+ UPgg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVX0ZQ+alF/RE7gI+Wowdd7dPmLP+wQRmkfrdD++DjfSV17n+xuHxMYvueOkTtf8LB/GLA1lziga/8dTz6Eic275HRAyyvzdmakGZ4Y+kPyRAnUJPezErI+0ihbSa9LXJm16JjNLgVFrrfya2gaLw==
-X-Gm-Message-State: AOJu0Yxp37WaQG6CDAKQsBJKWfL0oZvAMNkI5CpdtU0+/hK6mzRk+slk
- hdXb/ZAG9KrLoFnXiJwJkdFO14oFZeOFnmAOrBy5KNgTCbvFLhRu
-X-Google-Smtp-Source: AGHT+IFMVmdeX14jN4dWDHaBXFZ14U2ROwwMKJgHg1KAQgkmU+44jh2hW2HjmSWq5/Aio0upbqp3qg==
-X-Received: by 2002:a0c:f013:0:b0:6b5:4fbc:4c4a with SMTP id
- 6a1803df08f44-6b54fbc4edfmr32286396d6.2.1719241982809; 
- Mon, 24 Jun 2024 08:13:02 -0700 (PDT)
+ AJvYcCXAwlTVtnqb+04MlyLtYsQiD0q7lQrt3Md1Bat95tAruoiXjPMZkQognXVY7I4KZLpwG0uvxvomPCEIg5qnAYJyHRKU3YVnR4aBlnemRBCO/2STTjBqUmG/XyWGtyd6w1kklgR4Z0I5+iQItta49g==
+X-Gm-Message-State: AOJu0Yx+eURlji0EuonsasTrA/b9LlyPyk4Sy+77H/7bKB8mgwpKFhKL
+ RQTziG1CeJT7nR/enileeUX118TZssmFX79KljaAz2PvNKx/rCPm
+X-Google-Smtp-Source: AGHT+IEprwN5h8WZ1/wkonQOxrwmg5w7UCx+KUVlukokHQdSgRbfniLRd92MnIdCJU/0QhN19UEuEg==
+X-Received: by 2002:ad4:5f8a:0:b0:6b5:5687:8f7a with SMTP id
+ 6a1803df08f44-6b55687df85mr31921576d6.21.1719241992057; 
+ Mon, 24 Jun 2024 08:13:12 -0700 (PDT)
 Received: from localhost.localdomain ([142.198.217.108])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6b529eb3decsm27243976d6.12.2024.06.24.08.13.00
+ 6a1803df08f44-6b529eb3decsm27243976d6.12.2024.06.24.08.13.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jun 2024 08:13:02 -0700 (PDT)
+ Mon, 24 Jun 2024 08:13:10 -0700 (PDT)
 From: Wu Hoi Pok <wuhoipok@gmail.com>
 To: 
 Cc: Thomas Zimmermann <tzimmermann@suse.de>, Wu Hoi Pok <wuhoipok@gmail.com>,
@@ -64,9 +64,9 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, Wu Hoi Pok <wuhoipok@gmail.com>,
  "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 4/7] drm/radeon: rdev->ddev to rdev_to_drm(rdev) 3
-Date: Mon, 24 Jun 2024 11:10:48 -0400
-Message-ID: <20240624151122.23724-5-wuhoipok@gmail.com>
+Subject: [PATCH v3 5/7] drm/radeon: rdev->ddev to rdev_to_drm(rdev) 4
+Date: Mon, 24 Jun 2024 11:10:49 -0400
+Message-ID: <20240624151122.23724-6-wuhoipok@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240624151122.23724-1-wuhoipok@gmail.com>
 References: <20240624151122.23724-1-wuhoipok@gmail.com>
@@ -91,162 +91,474 @@ Please refer to patch 1.
 
 Signed-off-by: Wu Hoi Pok <wuhoipok@gmail.com>
 ---
- drivers/gpu/drm/radeon/r600_hdmi.c       |  2 +-
- drivers/gpu/drm/radeon/radeon_acpi.c     | 10 +++++-----
- drivers/gpu/drm/radeon/radeon_agp.c      |  2 +-
- drivers/gpu/drm/radeon/radeon_atombios.c |  2 +-
- drivers/gpu/drm/radeon/radeon_audio.c    |  4 ++--
- drivers/gpu/drm/radeon/radeon_combios.c  | 12 ++++++------
- 6 files changed, 16 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/radeon/radeon_device.c  | 19 +++----
+ drivers/gpu/drm/radeon/radeon_display.c | 74 ++++++++++++-------------
+ drivers/gpu/drm/radeon/radeon_fbdev.c   | 26 ++++-----
+ drivers/gpu/drm/radeon/radeon_fence.c   |  8 +--
+ drivers/gpu/drm/radeon/radeon_gem.c     |  2 +-
+ drivers/gpu/drm/radeon/radeon_i2c.c     |  2 +-
+ 6 files changed, 63 insertions(+), 68 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/r600_hdmi.c b/drivers/gpu/drm/radeon/r600_hdmi.c
-index f3551ebaa2f0..661f374f5f27 100644
---- a/drivers/gpu/drm/radeon/r600_hdmi.c
-+++ b/drivers/gpu/drm/radeon/r600_hdmi.c
-@@ -116,7 +116,7 @@ void r600_audio_update_hdmi(struct work_struct *work)
+diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
+index afbb3a80c0c6..127d8fd7f7cd 100644
+--- a/drivers/gpu/drm/radeon/radeon_device.c
++++ b/drivers/gpu/drm/radeon/radeon_device.c
+@@ -760,7 +760,7 @@ bool radeon_boot_test_post_card(struct radeon_device *rdev)
+ 		if (rdev->is_atom_bios)
+ 			atom_asic_init(rdev->mode_info.atom_context);
+ 		else
+-			radeon_combios_asic_init(rdev->ddev);
++			radeon_combios_asic_init(rdev_to_drm(rdev));
+ 		return true;
+ 	} else {
+ 		dev_err(rdev->dev, "Card not posted and no BIOS - ignoring\n");
+@@ -980,7 +980,7 @@ int radeon_atombios_init(struct radeon_device *rdev)
+ 		return -ENOMEM;
+ 
+ 	rdev->mode_info.atom_card_info = atom_card_info;
+-	atom_card_info->dev = rdev->ddev;
++	atom_card_info->dev = rdev_to_drm(rdev);
+ 	atom_card_info->reg_read = cail_reg_read;
+ 	atom_card_info->reg_write = cail_reg_write;
+ 	/* needed for iio ops */
+@@ -1005,7 +1005,7 @@ int radeon_atombios_init(struct radeon_device *rdev)
+ 
+ 	mutex_init(&rdev->mode_info.atom_context->mutex);
+ 	mutex_init(&rdev->mode_info.atom_context->scratch_mutex);
+-	radeon_atom_initialize_bios_scratch_regs(rdev->ddev);
++	radeon_atom_initialize_bios_scratch_regs(rdev_to_drm(rdev));
+ 	atom_allocate_fb_scratch(rdev->mode_info.atom_context);
+ 	return 0;
+ }
+@@ -1049,7 +1049,7 @@ void radeon_atombios_fini(struct radeon_device *rdev)
+  */
+ int radeon_combios_init(struct radeon_device *rdev)
  {
- 	struct radeon_device *rdev = container_of(work, struct radeon_device,
- 						  audio_work);
--	struct drm_device *dev = rdev->ddev;
-+	struct drm_device *dev = rdev_to_drm(rdev);
- 	struct r600_audio_pin audio_status = r600_audio_status(rdev);
- 	struct drm_encoder *encoder;
- 	bool changed = false;
-diff --git a/drivers/gpu/drm/radeon/radeon_acpi.c b/drivers/gpu/drm/radeon/radeon_acpi.c
-index 603a78e41ba5..22ce61bdfc06 100644
---- a/drivers/gpu/drm/radeon/radeon_acpi.c
-+++ b/drivers/gpu/drm/radeon/radeon_acpi.c
-@@ -405,11 +405,11 @@ static int radeon_atif_handler(struct radeon_device *rdev,
- 	if (req.pending & ATIF_DGPU_DISPLAY_EVENT) {
- 		if ((rdev->flags & RADEON_IS_PX) &&
- 		    radeon_atpx_dgpu_req_power_for_displays()) {
--			pm_runtime_get_sync(rdev->ddev->dev);
-+			pm_runtime_get_sync(rdev_to_drm(rdev)->dev);
- 			/* Just fire off a uevent and let userspace tell us what to do */
--			drm_helper_hpd_irq_event(rdev->ddev);
--			pm_runtime_mark_last_busy(rdev->ddev->dev);
--			pm_runtime_put_autosuspend(rdev->ddev->dev);
-+			drm_helper_hpd_irq_event(rdev_to_drm(rdev));
-+			pm_runtime_mark_last_busy(rdev_to_drm(rdev)->dev);
-+			pm_runtime_put_autosuspend(rdev_to_drm(rdev)->dev);
- 		}
- 	}
- 	/* TODO: check other events */
-@@ -736,7 +736,7 @@ int radeon_acpi_init(struct radeon_device *rdev)
- 		struct radeon_encoder *target = NULL;
+-	radeon_combios_initialize_bios_scratch_regs(rdev->ddev);
++	radeon_combios_initialize_bios_scratch_regs(rdev_to_drm(rdev));
+ 	return 0;
+ }
  
- 		/* Find the encoder controlling the brightness */
--		list_for_each_entry(tmp, &rdev->ddev->mode_config.encoder_list,
-+		list_for_each_entry(tmp, &rdev_to_drm(rdev)->mode_config.encoder_list,
- 				head) {
- 			struct radeon_encoder *enc = to_radeon_encoder(tmp);
- 
-diff --git a/drivers/gpu/drm/radeon/radeon_agp.c b/drivers/gpu/drm/radeon/radeon_agp.c
-index a3d749e350f9..89d7b0e9e79f 100644
---- a/drivers/gpu/drm/radeon/radeon_agp.c
-+++ b/drivers/gpu/drm/radeon/radeon_agp.c
-@@ -161,7 +161,7 @@ struct radeon_agp_head *radeon_agp_head_init(struct drm_device *dev)
- 
- static int radeon_agp_head_acquire(struct radeon_device *rdev)
+@@ -1267,8 +1267,6 @@ static const struct vga_switcheroo_client_ops radeon_switcheroo_ops = {
+  * radeon_device_init - initialize the driver
+  *
+  * @rdev: radeon_device pointer
+- * @ddev: drm dev pointer
+- * @pdev: pci dev pointer
+  * @flags: driver flags
+  *
+  * Initializes the driver info and hw (all asics).
+@@ -1276,18 +1274,15 @@ static const struct vga_switcheroo_client_ops radeon_switcheroo_ops = {
+  * Called at driver startup.
+  */
+ int radeon_device_init(struct radeon_device *rdev,
+-		       struct drm_device *ddev,
+-		       struct pci_dev *pdev,
+ 		       uint32_t flags)
  {
--	struct drm_device *dev = rdev->ddev;
-+	struct drm_device *dev = rdev_to_drm(rdev);
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
++	struct pci_dev *pdev = rdev->pdev;
++	struct drm_device *ddev = rdev_to_drm(rdev);
+ 	int r, i;
+ 	int dma_bits;
+ 	bool runtime = false;
  
- 	if (!rdev->agp)
-diff --git a/drivers/gpu/drm/radeon/radeon_atombios.c b/drivers/gpu/drm/radeon/radeon_atombios.c
-index 10793a433bf5..97c4e10d0550 100644
---- a/drivers/gpu/drm/radeon/radeon_atombios.c
-+++ b/drivers/gpu/drm/radeon/radeon_atombios.c
-@@ -187,7 +187,7 @@ void radeon_atombios_i2c_init(struct radeon_device *rdev)
+ 	rdev->shutdown = false;
+-	rdev->dev = &pdev->dev;
+-	rdev->ddev = ddev;
+-	rdev->pdev = pdev;
+ 	rdev->flags = flags;
+ 	rdev->family = flags & RADEON_FAMILY_MASK;
+ 	rdev->is_atom_bios = false;
+@@ -1847,7 +1842,7 @@ int radeon_gpu_reset(struct radeon_device *rdev)
  
- 			if (i2c.valid) {
- 				sprintf(stmp, "0x%x", i2c.i2c_id);
--				rdev->i2c_bus[i] = radeon_i2c_create(rdev->ddev, &i2c, stmp);
-+				rdev->i2c_bus[i] = radeon_i2c_create(rdev_to_drm(rdev), &i2c, stmp);
- 			}
- 			gpio = (ATOM_GPIO_I2C_ASSIGMENT *)
- 				((u8 *)gpio + sizeof(ATOM_GPIO_I2C_ASSIGMENT));
-diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/radeon/radeon_audio.c
-index 0bcd767b9f47..47aa06a9a942 100644
---- a/drivers/gpu/drm/radeon/radeon_audio.c
-+++ b/drivers/gpu/drm/radeon/radeon_audio.c
-@@ -196,7 +196,7 @@ static void radeon_audio_enable(struct radeon_device *rdev,
+ 	downgrade_write(&rdev->exclusive_lock);
+ 
+-	drm_helper_resume_force_mode(rdev->ddev);
++	drm_helper_resume_force_mode(rdev_to_drm(rdev));
+ 
+ 	/* set the power state here in case we are a PX system or headless */
+ 	if ((rdev->pm.pm_method == PM_METHOD_DPM) && rdev->pm.dpm_enabled)
+diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
+index 843383f7237f..10fd58f400bc 100644
+--- a/drivers/gpu/drm/radeon/radeon_display.c
++++ b/drivers/gpu/drm/radeon/radeon_display.c
+@@ -302,13 +302,13 @@ void radeon_crtc_handle_vblank(struct radeon_device *rdev, int crtc_id)
+ 	if ((radeon_use_pflipirq == 2) && ASIC_IS_DCE4(rdev))
  		return;
  
+-	spin_lock_irqsave(&rdev->ddev->event_lock, flags);
++	spin_lock_irqsave(&rdev_to_drm(rdev)->event_lock, flags);
+ 	if (radeon_crtc->flip_status != RADEON_FLIP_SUBMITTED) {
+ 		DRM_DEBUG_DRIVER("radeon_crtc->flip_status = %d != "
+ 				 "RADEON_FLIP_SUBMITTED(%d)\n",
+ 				 radeon_crtc->flip_status,
+ 				 RADEON_FLIP_SUBMITTED);
+-		spin_unlock_irqrestore(&rdev->ddev->event_lock, flags);
++		spin_unlock_irqrestore(&rdev_to_drm(rdev)->event_lock, flags);
+ 		return;
+ 	}
+ 
+@@ -334,7 +334,7 @@ void radeon_crtc_handle_vblank(struct radeon_device *rdev, int crtc_id)
+ 	 */
+ 	if (update_pending &&
+ 	    (DRM_SCANOUTPOS_VALID &
+-	     radeon_get_crtc_scanoutpos(rdev->ddev, crtc_id,
++	     radeon_get_crtc_scanoutpos(rdev_to_drm(rdev), crtc_id,
+ 					GET_DISTANCE_TO_VBLANKSTART,
+ 					&vpos, &hpos, NULL, NULL,
+ 					&rdev->mode_info.crtcs[crtc_id]->base.hwmode)) &&
+@@ -347,7 +347,7 @@ void radeon_crtc_handle_vblank(struct radeon_device *rdev, int crtc_id)
+ 		 */
+ 		update_pending = 0;
+ 	}
+-	spin_unlock_irqrestore(&rdev->ddev->event_lock, flags);
++	spin_unlock_irqrestore(&rdev_to_drm(rdev)->event_lock, flags);
+ 	if (!update_pending)
+ 		radeon_crtc_handle_flip(rdev, crtc_id);
+ }
+@@ -370,14 +370,14 @@ void radeon_crtc_handle_flip(struct radeon_device *rdev, int crtc_id)
+ 	if (radeon_crtc == NULL)
+ 		return;
+ 
+-	spin_lock_irqsave(&rdev->ddev->event_lock, flags);
++	spin_lock_irqsave(&rdev_to_drm(rdev)->event_lock, flags);
+ 	work = radeon_crtc->flip_work;
+ 	if (radeon_crtc->flip_status != RADEON_FLIP_SUBMITTED) {
+ 		DRM_DEBUG_DRIVER("radeon_crtc->flip_status = %d != "
+ 				 "RADEON_FLIP_SUBMITTED(%d)\n",
+ 				 radeon_crtc->flip_status,
+ 				 RADEON_FLIP_SUBMITTED);
+-		spin_unlock_irqrestore(&rdev->ddev->event_lock, flags);
++		spin_unlock_irqrestore(&rdev_to_drm(rdev)->event_lock, flags);
+ 		return;
+ 	}
+ 
+@@ -389,7 +389,7 @@ void radeon_crtc_handle_flip(struct radeon_device *rdev, int crtc_id)
+ 	if (work->event)
+ 		drm_crtc_send_vblank_event(&radeon_crtc->base, work->event);
+ 
+-	spin_unlock_irqrestore(&rdev->ddev->event_lock, flags);
++	spin_unlock_irqrestore(&rdev_to_drm(rdev)->event_lock, flags);
+ 
+ 	drm_crtc_vblank_put(&radeon_crtc->base);
+ 	radeon_irq_kms_pflip_irq_put(rdev, work->crtc_id);
+@@ -408,7 +408,7 @@ static void radeon_flip_work_func(struct work_struct *__work)
+ 	struct radeon_flip_work *work =
+ 		container_of(__work, struct radeon_flip_work, flip_work);
+ 	struct radeon_device *rdev = work->rdev;
+-	struct drm_device *dev = rdev->ddev;
++	struct drm_device *dev = rdev_to_drm(rdev);
+ 	struct radeon_crtc *radeon_crtc = rdev->mode_info.crtcs[work->crtc_id];
+ 
+ 	struct drm_crtc *crtc = &radeon_crtc->base;
+@@ -1401,7 +1401,7 @@ static int radeon_modeset_create_props(struct radeon_device *rdev)
+ 
+ 	if (rdev->is_atom_bios) {
+ 		rdev->mode_info.coherent_mode_property =
+-			drm_property_create_range(rdev->ddev, 0 , "coherent", 0, 1);
++			drm_property_create_range(rdev_to_drm(rdev), 0, "coherent", 0, 1);
+ 		if (!rdev->mode_info.coherent_mode_property)
+ 			return -ENOMEM;
+ 	}
+@@ -1409,57 +1409,57 @@ static int radeon_modeset_create_props(struct radeon_device *rdev)
+ 	if (!ASIC_IS_AVIVO(rdev)) {
+ 		sz = ARRAY_SIZE(radeon_tmds_pll_enum_list);
+ 		rdev->mode_info.tmds_pll_property =
+-			drm_property_create_enum(rdev->ddev, 0,
++			drm_property_create_enum(rdev_to_drm(rdev), 0,
+ 					    "tmds_pll",
+ 					    radeon_tmds_pll_enum_list, sz);
+ 	}
+ 
+ 	rdev->mode_info.load_detect_property =
+-		drm_property_create_range(rdev->ddev, 0, "load detection", 0, 1);
++		drm_property_create_range(rdev_to_drm(rdev), 0, "load detection", 0, 1);
+ 	if (!rdev->mode_info.load_detect_property)
+ 		return -ENOMEM;
+ 
+-	drm_mode_create_scaling_mode_property(rdev->ddev);
++	drm_mode_create_scaling_mode_property(rdev_to_drm(rdev));
+ 
+ 	sz = ARRAY_SIZE(radeon_tv_std_enum_list);
+ 	rdev->mode_info.tv_std_property =
+-		drm_property_create_enum(rdev->ddev, 0,
++		drm_property_create_enum(rdev_to_drm(rdev), 0,
+ 				    "tv standard",
+ 				    radeon_tv_std_enum_list, sz);
+ 
+ 	sz = ARRAY_SIZE(radeon_underscan_enum_list);
+ 	rdev->mode_info.underscan_property =
+-		drm_property_create_enum(rdev->ddev, 0,
++		drm_property_create_enum(rdev_to_drm(rdev), 0,
+ 				    "underscan",
+ 				    radeon_underscan_enum_list, sz);
+ 
+ 	rdev->mode_info.underscan_hborder_property =
+-		drm_property_create_range(rdev->ddev, 0,
++		drm_property_create_range(rdev_to_drm(rdev), 0,
+ 					"underscan hborder", 0, 128);
+ 	if (!rdev->mode_info.underscan_hborder_property)
+ 		return -ENOMEM;
+ 
+ 	rdev->mode_info.underscan_vborder_property =
+-		drm_property_create_range(rdev->ddev, 0,
++		drm_property_create_range(rdev_to_drm(rdev), 0,
+ 					"underscan vborder", 0, 128);
+ 	if (!rdev->mode_info.underscan_vborder_property)
+ 		return -ENOMEM;
+ 
+ 	sz = ARRAY_SIZE(radeon_audio_enum_list);
+ 	rdev->mode_info.audio_property =
+-		drm_property_create_enum(rdev->ddev, 0,
++		drm_property_create_enum(rdev_to_drm(rdev), 0,
+ 					 "audio",
+ 					 radeon_audio_enum_list, sz);
+ 
+ 	sz = ARRAY_SIZE(radeon_dither_enum_list);
+ 	rdev->mode_info.dither_property =
+-		drm_property_create_enum(rdev->ddev, 0,
++		drm_property_create_enum(rdev_to_drm(rdev), 0,
+ 					 "dither",
+ 					 radeon_dither_enum_list, sz);
+ 
+ 	sz = ARRAY_SIZE(radeon_output_csc_enum_list);
+ 	rdev->mode_info.output_csc_property =
+-		drm_property_create_enum(rdev->ddev, 0,
++		drm_property_create_enum(rdev_to_drm(rdev), 0,
+ 					 "output_csc",
+ 					 radeon_output_csc_enum_list, sz);
+ 
+@@ -1578,29 +1578,29 @@ int radeon_modeset_init(struct radeon_device *rdev)
+ 	int i;
+ 	int ret;
+ 
+-	drm_mode_config_init(rdev->ddev);
++	drm_mode_config_init(rdev_to_drm(rdev));
+ 	rdev->mode_info.mode_config_initialized = true;
+ 
+-	rdev->ddev->mode_config.funcs = &radeon_mode_funcs;
++	rdev_to_drm(rdev)->mode_config.funcs = &radeon_mode_funcs;
+ 
+ 	if (radeon_use_pflipirq == 2 && rdev->family >= CHIP_R600)
+-		rdev->ddev->mode_config.async_page_flip = true;
++		rdev_to_drm(rdev)->mode_config.async_page_flip = true;
+ 
+ 	if (ASIC_IS_DCE5(rdev)) {
+-		rdev->ddev->mode_config.max_width = 16384;
+-		rdev->ddev->mode_config.max_height = 16384;
++		rdev_to_drm(rdev)->mode_config.max_width = 16384;
++		rdev_to_drm(rdev)->mode_config.max_height = 16384;
+ 	} else if (ASIC_IS_AVIVO(rdev)) {
+-		rdev->ddev->mode_config.max_width = 8192;
+-		rdev->ddev->mode_config.max_height = 8192;
++		rdev_to_drm(rdev)->mode_config.max_width = 8192;
++		rdev_to_drm(rdev)->mode_config.max_height = 8192;
+ 	} else {
+-		rdev->ddev->mode_config.max_width = 4096;
+-		rdev->ddev->mode_config.max_height = 4096;
++		rdev_to_drm(rdev)->mode_config.max_width = 4096;
++		rdev_to_drm(rdev)->mode_config.max_height = 4096;
+ 	}
+ 
+-	rdev->ddev->mode_config.preferred_depth = 24;
+-	rdev->ddev->mode_config.prefer_shadow = 1;
++	rdev_to_drm(rdev)->mode_config.preferred_depth = 24;
++	rdev_to_drm(rdev)->mode_config.prefer_shadow = 1;
+ 
+-	rdev->ddev->mode_config.fb_modifiers_not_supported = true;
++	rdev_to_drm(rdev)->mode_config.fb_modifiers_not_supported = true;
+ 
+ 	ret = radeon_modeset_create_props(rdev);
+ 	if (ret) {
+@@ -1618,11 +1618,11 @@ int radeon_modeset_init(struct radeon_device *rdev)
+ 
+ 	/* allocate crtcs */
+ 	for (i = 0; i < rdev->num_crtc; i++) {
+-		radeon_crtc_init(rdev->ddev, i);
++		radeon_crtc_init(rdev_to_drm(rdev), i);
+ 	}
+ 
+ 	/* okay we should have all the bios connectors */
+-	ret = radeon_setup_enc_conn(rdev->ddev);
++	ret = radeon_setup_enc_conn(rdev_to_drm(rdev));
+ 	if (!ret) {
+ 		return ret;
+ 	}
+@@ -1639,7 +1639,7 @@ int radeon_modeset_init(struct radeon_device *rdev)
+ 	/* setup afmt */
+ 	radeon_afmt_init(rdev);
+ 
+-	drm_kms_helper_poll_init(rdev->ddev);
++	drm_kms_helper_poll_init(rdev_to_drm(rdev));
+ 
+ 	/* do pm late init */
+ 	ret = radeon_pm_late_init(rdev);
+@@ -1650,11 +1650,11 @@ int radeon_modeset_init(struct radeon_device *rdev)
+ void radeon_modeset_fini(struct radeon_device *rdev)
+ {
  	if (rdev->mode_info.mode_config_initialized) {
--		list_for_each_entry(encoder, &rdev->ddev->mode_config.encoder_list, head) {
-+		list_for_each_entry(encoder, &rdev_to_drm(rdev)->mode_config.encoder_list, head) {
- 			if (radeon_encoder_is_digital(encoder)) {
- 				radeon_encoder = to_radeon_encoder(encoder);
- 				dig = radeon_encoder->enc_priv;
-@@ -760,7 +760,7 @@ static int radeon_audio_component_get_eld(struct device *kdev, int port,
- 	if (!rdev->audio.enabled || !rdev->mode_info.mode_config_initialized)
- 		return 0;
+-		drm_kms_helper_poll_fini(rdev->ddev);
++		drm_kms_helper_poll_fini(rdev_to_drm(rdev));
+ 		radeon_hpd_fini(rdev);
+-		drm_helper_force_disable_all(rdev->ddev);
++		drm_helper_force_disable_all(rdev_to_drm(rdev));
+ 		radeon_afmt_fini(rdev);
+-		drm_mode_config_cleanup(rdev->ddev);
++		drm_mode_config_cleanup(rdev_to_drm(rdev));
+ 		rdev->mode_info.mode_config_initialized = false;
+ 	}
  
--	list_for_each_entry(encoder, &rdev->ddev->mode_config.encoder_list, head) {
-+	list_for_each_entry(encoder, &rdev_to_drm(rdev)->mode_config.encoder_list, head) {
- 		if (!radeon_encoder_is_digital(encoder))
+diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
+index 02bf25759059..fb70de29545c 100644
+--- a/drivers/gpu/drm/radeon/radeon_fbdev.c
++++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
+@@ -67,7 +67,7 @@ static int radeon_fbdev_create_pinned_object(struct drm_fb_helper *fb_helper,
+ 	int height = mode_cmd->height;
+ 	u32 cpp;
+ 
+-	info = drm_get_format_info(rdev->ddev, mode_cmd);
++	info = drm_get_format_info(rdev_to_drm(rdev), mode_cmd);
+ 	cpp = info->cpp[0];
+ 
+ 	/* need to align pitch with crtc limits */
+@@ -148,15 +148,15 @@ static int radeon_fbdev_fb_open(struct fb_info *info, int user)
+ 	struct radeon_device *rdev = fb_helper->dev->dev_private;
+ 	int ret;
+ 
+-	ret = pm_runtime_get_sync(rdev->ddev->dev);
++	ret = pm_runtime_get_sync(rdev_to_drm(rdev)->dev);
+ 	if (ret < 0 && ret != -EACCES)
+ 		goto err_pm_runtime_mark_last_busy;
+ 
+ 	return 0;
+ 
+ err_pm_runtime_mark_last_busy:
+-	pm_runtime_mark_last_busy(rdev->ddev->dev);
+-	pm_runtime_put_autosuspend(rdev->ddev->dev);
++	pm_runtime_mark_last_busy(rdev_to_drm(rdev)->dev);
++	pm_runtime_put_autosuspend(rdev_to_drm(rdev)->dev);
+ 	return ret;
+ }
+ 
+@@ -165,8 +165,8 @@ static int radeon_fbdev_fb_release(struct fb_info *info, int user)
+ 	struct drm_fb_helper *fb_helper = info->par;
+ 	struct radeon_device *rdev = fb_helper->dev->dev_private;
+ 
+-	pm_runtime_mark_last_busy(rdev->ddev->dev);
+-	pm_runtime_put_autosuspend(rdev->ddev->dev);
++	pm_runtime_mark_last_busy(rdev_to_drm(rdev)->dev);
++	pm_runtime_put_autosuspend(rdev_to_drm(rdev)->dev);
+ 
+ 	return 0;
+ }
+@@ -236,7 +236,7 @@ static int radeon_fbdev_fb_helper_fb_probe(struct drm_fb_helper *fb_helper,
+ 		ret = -ENOMEM;
+ 		goto err_radeon_fbdev_destroy_pinned_object;
+ 	}
+-	ret = radeon_framebuffer_init(rdev->ddev, fb, &mode_cmd, gobj);
++	ret = radeon_framebuffer_init(rdev_to_drm(rdev), fb, &mode_cmd, gobj);
+ 	if (ret) {
+ 		DRM_ERROR("failed to initialize framebuffer %d\n", ret);
+ 		goto err_kfree;
+@@ -374,12 +374,12 @@ void radeon_fbdev_setup(struct radeon_device *rdev)
+ 	fb_helper = kzalloc(sizeof(*fb_helper), GFP_KERNEL);
+ 	if (!fb_helper)
+ 		return;
+-	drm_fb_helper_prepare(rdev->ddev, fb_helper, bpp_sel, &radeon_fbdev_fb_helper_funcs);
++	drm_fb_helper_prepare(rdev_to_drm(rdev), fb_helper, bpp_sel, &radeon_fbdev_fb_helper_funcs);
+ 
+-	ret = drm_client_init(rdev->ddev, &fb_helper->client, "radeon-fbdev",
++	ret = drm_client_init(rdev_to_drm(rdev), &fb_helper->client, "radeon-fbdev",
+ 			      &radeon_fbdev_client_funcs);
+ 	if (ret) {
+-		drm_err(rdev->ddev, "Failed to register client: %d\n", ret);
++		drm_err(rdev_to_drm(rdev), "Failed to register client: %d\n", ret);
+ 		goto err_drm_client_init;
+ 	}
+ 
+@@ -394,13 +394,13 @@ void radeon_fbdev_setup(struct radeon_device *rdev)
+ 
+ void radeon_fbdev_set_suspend(struct radeon_device *rdev, int state)
+ {
+-	if (rdev->ddev->fb_helper)
+-		drm_fb_helper_set_suspend(rdev->ddev->fb_helper, state);
++	if (rdev_to_drm(rdev)->fb_helper)
++		drm_fb_helper_set_suspend(rdev_to_drm(rdev)->fb_helper, state);
+ }
+ 
+ bool radeon_fbdev_robj_is_fb(struct radeon_device *rdev, struct radeon_bo *robj)
+ {
+-	struct drm_fb_helper *fb_helper = rdev->ddev->fb_helper;
++	struct drm_fb_helper *fb_helper = rdev_to_drm(rdev)->fb_helper;
+ 	struct drm_gem_object *gobj;
+ 
+ 	if (!fb_helper)
+diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
+index 4fb780d96f32..daff61586be5 100644
+--- a/drivers/gpu/drm/radeon/radeon_fence.c
++++ b/drivers/gpu/drm/radeon/radeon_fence.c
+@@ -150,7 +150,7 @@ int radeon_fence_emit(struct radeon_device *rdev,
+ 		       rdev->fence_context + ring,
+ 		       seq);
+ 	radeon_fence_ring_emit(rdev, ring, *fence);
+-	trace_radeon_fence_emit(rdev->ddev, ring, (*fence)->seq);
++	trace_radeon_fence_emit(rdev_to_drm(rdev), ring, (*fence)->seq);
+ 	radeon_fence_schedule_check(rdev, ring);
+ 	return 0;
+ }
+@@ -489,7 +489,7 @@ static long radeon_fence_wait_seq_timeout(struct radeon_device *rdev,
+ 		if (!target_seq[i])
  			continue;
- 		radeon_encoder = to_radeon_encoder(encoder);
-diff --git a/drivers/gpu/drm/radeon/radeon_combios.c b/drivers/gpu/drm/radeon/radeon_combios.c
-index 6952b1273b0f..41ddc576f8f8 100644
---- a/drivers/gpu/drm/radeon/radeon_combios.c
-+++ b/drivers/gpu/drm/radeon/radeon_combios.c
-@@ -372,7 +372,7 @@ bool radeon_combios_check_hardcoded_edid(struct radeon_device *rdev)
- 	int edid_info, size;
- 	struct edid *edid;
- 	unsigned char *raw;
--	edid_info = combios_get_table_offset(rdev->ddev, COMBIOS_HARDCODED_EDID_TABLE);
-+	edid_info = combios_get_table_offset(rdev_to_drm(rdev), COMBIOS_HARDCODED_EDID_TABLE);
- 	if (!edid_info)
- 		return false;
  
-@@ -642,7 +642,7 @@ static struct radeon_i2c_bus_rec combios_setup_i2c_bus(struct radeon_device *rde
+-		trace_radeon_fence_wait_begin(rdev->ddev, i, target_seq[i]);
++		trace_radeon_fence_wait_begin(rdev_to_drm(rdev), i, target_seq[i]);
+ 		radeon_irq_kms_sw_irq_get(rdev, i);
+ 	}
  
- static struct radeon_i2c_bus_rec radeon_combios_get_i2c_info_from_table(struct radeon_device *rdev)
+@@ -511,7 +511,7 @@ static long radeon_fence_wait_seq_timeout(struct radeon_device *rdev,
+ 			continue;
+ 
+ 		radeon_irq_kms_sw_irq_put(rdev, i);
+-		trace_radeon_fence_wait_end(rdev->ddev, i, target_seq[i]);
++		trace_radeon_fence_wait_end(rdev_to_drm(rdev), i, target_seq[i]);
+ 	}
+ 
+ 	return r;
+@@ -995,7 +995,7 @@ DEFINE_DEBUGFS_ATTRIBUTE(radeon_debugfs_gpu_reset_fops,
+ void radeon_debugfs_fence_init(struct radeon_device *rdev)
+ {
+ #if defined(CONFIG_DEBUG_FS)
+-	struct dentry *root = rdev->ddev->primary->debugfs_root;
++	struct dentry *root = rdev_to_drm(rdev)->primary->debugfs_root;
+ 
+ 	debugfs_create_file("radeon_gpu_reset", 0444, root, rdev,
+ 			    &radeon_debugfs_gpu_reset_fops);
+diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+index 2ef201a072f1..9dd4ff09d562 100644
+--- a/drivers/gpu/drm/radeon/radeon_gem.c
++++ b/drivers/gpu/drm/radeon/radeon_gem.c
+@@ -899,7 +899,7 @@ DEFINE_SHOW_ATTRIBUTE(radeon_debugfs_gem_info);
+ void radeon_gem_debugfs_init(struct radeon_device *rdev)
+ {
+ #if defined(CONFIG_DEBUG_FS)
+-	struct dentry *root = rdev->ddev->primary->debugfs_root;
++	struct dentry *root = rdev_to_drm(rdev)->primary->debugfs_root;
+ 
+ 	debugfs_create_file("radeon_gem_info", 0444, root, rdev,
+ 			    &radeon_debugfs_gem_info_fops);
+diff --git a/drivers/gpu/drm/radeon/radeon_i2c.c b/drivers/gpu/drm/radeon/radeon_i2c.c
+index 3d174390a8af..1f16619ed06e 100644
+--- a/drivers/gpu/drm/radeon/radeon_i2c.c
++++ b/drivers/gpu/drm/radeon/radeon_i2c.c
+@@ -1011,7 +1011,7 @@ void radeon_i2c_add(struct radeon_device *rdev,
+ 		    struct radeon_i2c_bus_rec *rec,
+ 		    const char *name)
  {
 -	struct drm_device *dev = rdev->ddev;
 +	struct drm_device *dev = rdev_to_drm(rdev);
- 	struct radeon_i2c_bus_rec i2c;
- 	u16 offset;
- 	u8 id, blocks, clk, data;
-@@ -670,7 +670,7 @@ static struct radeon_i2c_bus_rec radeon_combios_get_i2c_info_from_table(struct r
+ 	int i;
  
- void radeon_combios_i2c_init(struct radeon_device *rdev)
- {
--	struct drm_device *dev = rdev->ddev;
-+	struct drm_device *dev = rdev_to_drm(rdev);
- 	struct radeon_i2c_bus_rec i2c;
- 
- 	/* actual hw pads
-@@ -812,7 +812,7 @@ bool radeon_combios_get_clock_info(struct drm_device *dev)
- 
- bool radeon_combios_sideport_present(struct radeon_device *rdev)
- {
--	struct drm_device *dev = rdev->ddev;
-+	struct drm_device *dev = rdev_to_drm(rdev);
- 	u16 igp_info;
- 
- 	/* sideport is AMD only */
-@@ -915,7 +915,7 @@ struct radeon_encoder_primary_dac *radeon_combios_get_primary_dac_info(struct
- enum radeon_tv_std
- radeon_combios_get_tv_info(struct radeon_device *rdev)
- {
--	struct drm_device *dev = rdev->ddev;
-+	struct drm_device *dev = rdev_to_drm(rdev);
- 	uint16_t tv_info;
- 	enum radeon_tv_std tv_std = TV_STD_NTSC;
- 
-@@ -2637,7 +2637,7 @@ static const char *thermal_controller_names[] = {
- 
- void radeon_combios_get_power_modes(struct radeon_device *rdev)
- {
--	struct drm_device *dev = rdev->ddev;
-+	struct drm_device *dev = rdev_to_drm(rdev);
- 	u16 offset, misc, misc2 = 0;
- 	u8 rev, tmp;
- 	int state_index = 0;
+ 	for (i = 0; i < RADEON_MAX_I2C_BUS; i++) {
 -- 
 2.45.2
 
