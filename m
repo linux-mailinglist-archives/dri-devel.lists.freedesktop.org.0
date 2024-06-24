@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BA291438E
+	by mail.lfdr.de (Postfix) with ESMTPS id DA05C914390
 	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 09:23:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32EF810E380;
-	Mon, 24 Jun 2024 07:23:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08D8E10E384;
+	Mon, 24 Jun 2024 07:23:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=synaptics.com header.i=@synaptics.com header.b="Er09ZNeF";
+	dkim=pass (1024-bit key; unprotected) header.d=synaptics.com header.i=@synaptics.com header.b="sEztR52A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM12-BN8-obe.outbound.protection.outlook.com
  (mail-bn8nam12on2109.outbound.protection.outlook.com [40.107.237.109])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FBEF10E370
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 07:11:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26D6A10E373
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 07:11:25 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W9xil4iKrk1r8eOc7bvr7gH7Tvm3Lvg8cyWK8D3Qt7QU7RMcZAkk70wEKCpk2niIccIVZjpTTo8eqHKIz60P3tGChlsBQxwI5V9nAK81UHkcdABcrvIsisey1qsWDEwgi8GtfCRkcCo1C2DNRrNGGmQtsivz2PiON6vb2R863ZF5RVvqrAo76fM94IfPe3cFqM9NFzTabNmPyb1We6UmhDgb1QkMpmQVragZmqTW6vq5AssHv9j8DxTulD18GsMKadmUOWdVRASdaFq5DgTTUiV0LxtRvB1JtWNprpfYXSgmoz+PcYdS5PefzG1BXGzByCYH/NnEsDPdS3f2xT0xcA==
+ b=dFDebIR4cVl34e90GrDLQ1PfQ/ZKJVYHItb68RhJi3gBtalNH+g+plEWFN4cWtFSw46m5N8gn1+E2yNVFlsB3lbtLXWp2ss9YQFPjJZOuubgvdMfwlQ+qHxPaImt6hyimQsA0UV5cFM3UdBm4nUTBcX7xMDS7pBeNB6fJtKnlKgEkTsQHMj4R7lS8aWTR1kqcG9saZAlrQLqAGUDbVX3XQFgDpOXFCJlAbGpT1q6BZOlGW/cKIBBUTGsLEg/U+hPoDs7oGqKT8e0phkiIhc0zFwq1i1DKwhxLh6+wJyDawoLG0HatsegAZT3LA4g7sh44Ku9iMH3L57Q8x7uyqFEEA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P1qsqQxyeIkVl4m1ralVr8fCs/KQZ0LDaQY4i3NVcAw=;
- b=e9VTI5M17o1YxTnoVKlCmf2uiI+gDA85XOAWVtJJRkYeUGZ5jZFfM4S2zPbRtLzqpUdqsBc79j8TGE+Qt/r4APmz9wPGMMDjp6B9CPR1R1cPMPNq7U9F4Ez7SYrZCdGSkEmdrapflMoeBVb4CLPIA+JFrM5NLwQ+XQwwZZ+SnGSg6ErkDkwgxdF+UxNpu9RtDoginFLoq74YRXjYPhRO+6iipUbtaom/0bcY0O0GWdONLP8/EtlgfysquUxHvK/88IbjS0rL19d0tyDQM/AdFG0XVp7j/0lG3nQh5lJftu6iW83FdWdrjbn+XVwmRa/Stc1adVAa74qb5FI//V17Pg==
+ bh=onylsF04H65p4cNS9Gq/jVFb4QEKUi6xIP+DEei472c=;
+ b=I3fAVAeX+iN/e/QSR2mLvTe2rJbMt8QHgl1INAzgiK/gEygZ5QkEKQ5NZB+I00WjEAU5mGVMfGfW4zzV3hwkrKOc+iu8YoxLTsJx9TCUjoyaSVUaHwl6l/ANxPKK+c1QYYX5jgOXOvbHooxRI8LEdfNwrU9Mks+WBGxNIhf/BLfILxcmVgsWS8UUPUZUnE9+PI6QQOMxqxNR3266TAWzm0gIXdHTfWoHMHr4jUnYS/mxjwQhTl144GR0YSFhzAn0OSrVI/bAGpXniQLKNxnGNvhZj1/4Kzf1FG1U5BRlcDBcE1xpn94eo82BQ/D9fC0dXoACAthmLFa8JLa86yu8BQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=synaptics.com; dmarc=pass action=none
  header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synaptics.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P1qsqQxyeIkVl4m1ralVr8fCs/KQZ0LDaQY4i3NVcAw=;
- b=Er09ZNeFJ4MfvB0dW1mHTDpPRVVBH9cQIl8pEJDtPCJEloPxaqS4G3wAREy0DIGV2xnOsKcHUZLczmNSRMFgto0m1HI3mm/9oSSgcHnRxkqb954AruFeO96e9iER2D0J9u24jzGi3wvpZcS3FpGrhSQvdl2Kx9SrwgBwdXurj20=
+ bh=onylsF04H65p4cNS9Gq/jVFb4QEKUi6xIP+DEei472c=;
+ b=sEztR52AkMRWkB+s+gku2Q51RBxti5n6NEbny3MT4dCq1qn95KHmHNRwmoJ2uTRhGNru1ObAPrvaHYGPF2IxxH4S4Q7PpnHKMmP5Mif2soePdc+vYKrId+Ge4YTkPSZuXvGEewsSPX1IS6cp+etUQ6JEjOSirW2MHsqOOYCFoLg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=synaptics.com;
 Received: from BN9PR03MB6188.namprd03.prod.outlook.com (2603:10b6:408:101::18)
  by BY5PR03MB5063.namprd03.prod.outlook.com (2603:10b6:a03:1e4::8)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.29; Mon, 24 Jun
- 2024 07:11:22 +0000
+ 2024 07:11:23 +0000
 Received: from BN9PR03MB6188.namprd03.prod.outlook.com
  ([fe80::7b19:7f50:4645:3990]) by BN9PR03MB6188.namprd03.prod.outlook.com
  ([fe80::7b19:7f50:4645:3990%4]) with mapi id 15.20.7698.025; Mon, 24 Jun 2024
- 07:11:22 +0000
+ 07:11:23 +0000
 From: lukasz.spintzyk@synaptics.com
 To: dri-devel@lists.freedesktop.org
 Cc: Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  =?UTF-8?q?=C5=81ukasz=20Spintzyk?= <Lukasz.Spintzyk@synaptics.com>
-Subject: [PATCH 2/4] drm/udl: Add cursor drm_plane support
-Date: Mon, 24 Jun 2024 09:10:39 +0200
-Message-Id: <20240624071041.5087-3-lukasz.spintzyk@synaptics.com>
+Subject: [PATCH 3/4] drm/udl: Allow smaller plane sizes to allow cursor plane
+Date: Mon, 24 Jun 2024 09:10:40 +0200
+Message-Id: <20240624071041.5087-4-lukasz.spintzyk@synaptics.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240624071041.5087-1-lukasz.spintzyk@synaptics.com>
 References: <20240624071041.5087-1-lukasz.spintzyk@synaptics.com>
@@ -61,91 +61,92 @@ X-ClientProxiedBy: LO4P265CA0209.GBRP265.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BN9PR03MB6188:EE_|BY5PR03MB5063:EE_
-X-MS-Office365-Filtering-Correlation-Id: 60bd867f-f574-4986-d535-08dc941cda2a
+X-MS-Office365-Filtering-Correlation-Id: 4a8bdbc5-98a8-4faf-5557-08dc941cdb1a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230037|376011|1800799021|52116011|366013|38350700011; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MlpzMjVraytDKzZPY1ZsZnZkcXRydmNTZnp0ZXdzMG0yUU1PWlZvbFFmWFhE?=
- =?utf-8?B?cFRhR0UwbUJtZUhmcXZaS1dqWnRROFRjaXk5OWtxdlR2RmYzZDJIYVp0ZFhw?=
- =?utf-8?B?WDdHUnJWeTF1TnFqUGVucFdtRldaY09IWWd3elhoOEJtakhJS21TN1o0Nk1F?=
- =?utf-8?B?OVQrSFo3MXhiSGVKN2RkRnYxMXZmczBUaGZIcGRIQzUvT0dpb2U5UjFTNzdO?=
- =?utf-8?B?S3lXaXZrbCtndG5mdjI0cVUzeVFpZjM5KzJRTlgvSzdTZUxJai9yQ2tBMmMz?=
- =?utf-8?B?RlNDTWh0VzB1dlpwZzhUVGhHQmd2Rm5tWHhWRjlqVzZhTURVTWU2V0pTZ2JR?=
- =?utf-8?B?REVKb0RuamRCK0tKWFB0L2w1QlB1Z2FXM2NtelZaY3RJVEpnUW5Mckh0bnRX?=
- =?utf-8?B?QUNDME1kMStiMkFwUXd4VmJac1dZN05OUDNyanZWVVp0N2RhbVVGazZONWFL?=
- =?utf-8?B?c3RGZXJOdzEzdFhtcEtZUXYyTFZFUlhJaFYzZjZySUlQdlg5QjEvbnBVb3BU?=
- =?utf-8?B?YWRPeXhFUkJEeGlOaEpyVnVUNnd0Vm5qT0EvOHBVSmJjMDR2aGs0MXZobnlD?=
- =?utf-8?B?cXk5MmErMWZ0eGtueC81anVnMVpOMDRvWWxZT2FRcnZzekh0VHVxZzVNOXhE?=
- =?utf-8?B?WGJoWndJeU9CN3ZxWXpUSkNHNVdGMjlyRTdQcXlIWjhheFJKcU51SHVrc3Z1?=
- =?utf-8?B?cUx1UGVzcUVCWGZWOFJnVERORkhBL1lkekZxZ3lSN3BvNFdodkJUbExLc1M2?=
- =?utf-8?B?bHIvRVg3UmpuMVVMaFkzWlpRNUVDamJLWlRnZktXYWtIZGhXUVJBUzZBZ2JB?=
- =?utf-8?B?eHN0aUx1TmNhYU9OY1VkRkpVeERQS05Cdmw4N0pGTzl4ZjY1RDk5Nis5SHA5?=
- =?utf-8?B?aVlabGxxb09tUFVubTlMQ1MrMUwvSVM2THc1eDZUTStNWWp5UEVzU2ZqcjJ4?=
- =?utf-8?B?aUgvMDc0V084VWFiVTZBVzJLOWIzUlVEcmFjUG93cDJjeE5RQXh4TndzRXlm?=
- =?utf-8?B?U0tkelptVkJTVXRweXkwVGtMK2x4NDNsdHJ1cHZiMUduQlJid3VCbVVOd21h?=
- =?utf-8?B?WEtpQmx5OVNzWGNRK3FlcnYvMGx3Y0pncGx4M3NVbUNNS2xzRS9wdjBZSTRW?=
- =?utf-8?B?NTFuNG1TZVdXbFdPLzljRWpXcVFscE1pb0JjckxENmFkS083QXNJNy9yR0pJ?=
- =?utf-8?B?YStQZUpVNEE3M1JTNWRuN3VjK1Q4enZzTXJkR09lUEJTRHBVVkdKdDFtV3g2?=
- =?utf-8?B?QVAxRXNtYis0UFEydHFmbHZWcng3U3Z6bGNVeStHN3JMVTNQSG1EWWRNREtN?=
- =?utf-8?B?WEZYY1d6d2hzc0VSMit0RVVIUmZ4eUpZWktjMjlIU2hlanpOeE0xMUVmVlNt?=
- =?utf-8?B?aC9lWlJodWpjRTdSdUt1MFBITUVvS3VTc3ZRMVgrbjBNcVFZZmJMTDVTTVFE?=
- =?utf-8?B?M1NHMm1pdncyaVYvYkFqUGVCb1p1TFlQUTMrdThSLzJtZlB2M2lGUGt0S053?=
- =?utf-8?B?UDNQMjRxWkd3Rm1TN2QrSktGWjlUUCtGb3U5WU9mdVJoM1U5VUM3UE1NZDRB?=
- =?utf-8?B?TDRJaE13OU5XU0FScGlWWENkWk45NHZEbW1jd1ZGSVc3Tm5iMHVEaFRwQ3hx?=
- =?utf-8?B?MXltdnhQYSs3TFl4d3IzS2grRmllR2hSRjNTREF2dmJrS1doRDdXSXphU2xU?=
- =?utf-8?B?RkxaM3Y2RmpVU0JtcUt4aG5oUUJVMkRHY2Fla0ZhMHBwQXI0bUtLM2FVZ1pX?=
- =?utf-8?Q?LoRJlwThr68AMMsaEMPpWxW8BHs6CMgnWmjnIae?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cmwySlpDVnE1bzF0d3hCdmd0ak10bG9HakQ2WDF3emV0M3VwV2hyQ1dMUlRm?=
+ =?utf-8?B?aGtrY2plRFZENlYvRVY2eEc2R0ErRXFMMFh6cHJPT1k2cHBjRjkzYnpJb2Ny?=
+ =?utf-8?B?b2ZMMXQrS2h5aFl2bXVxVDFBdHQwbDZNa1ZvZXJzQktob2h3eVEzd2ZHM1Fv?=
+ =?utf-8?B?SEIyUXQxQnh1b3NVSS91VXFDZFpoSExMaWtaSWp5TjI3Z1dWZWQrUFJyalFP?=
+ =?utf-8?B?a2h1bm9oNmpGaW03T0RMYktYc01GcmxCY1ljSytUWnE0WWhNejBPcUI2NG1a?=
+ =?utf-8?B?RC9EdmtQU0trUEhkWjZ0N3pHaklGb3FSaWZ1T05CaVhhQ1BzY2dWa3dZZmpa?=
+ =?utf-8?B?cUpkeER4N1MrOVJ3cGphQ0VZQlRUTHFjVmNkYVk5TjN5TFJrUmc1V2lCWHdu?=
+ =?utf-8?B?elN0cVpLZW1jRnZoaEJGZjErVm4vbXRtOTg5eDMwZFZKQ01qZXhOTjVEVThs?=
+ =?utf-8?B?UDdHbjcySVdkWW5DVk5FRHZxOWRVY3hsa3MzU1lBZTFjbmgrUm1ybjhwb0tt?=
+ =?utf-8?B?QnpIY3VaMWE1dXdGaGJ6WFBVdktYVnBNQ3BhWU1CNis2ZEJNekZzTHBkWEYz?=
+ =?utf-8?B?eTR1QjhaY0xJWUVWUlg1T1ZRc1RNc211dG1wMmNjdHoxejUrWlJRSlNBSlNx?=
+ =?utf-8?B?VEhOMVBjVkJWb0NlaFBGbmFuZzlyY2VmR2pxcCtTRFBKN1NqUFBUcHNzN0xn?=
+ =?utf-8?B?ZkhNMkIrN2pGT0t0aVVJclNJcVNFS3NhM0RldUZMVmxaczFZeWY2Q280b2ZK?=
+ =?utf-8?B?WC92M2xrVE81cUFFRjgxczRtWUc4aGl3eVZGN1hpZktzWjQwTDQyanlYYVZn?=
+ =?utf-8?B?OGhKT2U0aVBhTnVnQXhNNGFrUkhHdUVtdC9RaXh0QkQ4SGo0WVFMbEUvMFhH?=
+ =?utf-8?B?NWdPU3VYd3JocyttRlN3Tlc1Zk1rU1FZWEFka1VSbDZkbGJ5RGgxV0o0cUpw?=
+ =?utf-8?B?QjZRU2RzblA1elJVZkpYQ0MxcE1PeHdheXVPeVZtVFZRN3BaOEI0ZnZmZDVU?=
+ =?utf-8?B?SjhpTE9OZEpFc0RLYzVBSmE0VVNKZFkrWitoeXA5eCt6RzdtYnlVNU03YzBt?=
+ =?utf-8?B?blAxOU9rUFlHYm5FV3kzditNQVd6dlF5Mlc3Y0lqMklweXBEMzJ2NEpCSFkr?=
+ =?utf-8?B?RWRLWURtRjJ1OW81aE9laHNoVGE0aEV4NGt4YXk1RHY4NUtqcTFDUDFLaTlH?=
+ =?utf-8?B?MzlhR0ZoekhTaS9TT3llNlFkVElqTW9jT3ZsRmVpVi83d2hESEFVcEtkdGpE?=
+ =?utf-8?B?WUJCMkRaMkl1WHdxem5yamNMS0J4K014RUhRbzJyYWt1UVpCTkRTUHNDZ1po?=
+ =?utf-8?B?VFFSVFlwcE1hbUNocURTaGZ6SWJleEJhbXRtVDBIUmkzbXdZYy9wMEtHaFF2?=
+ =?utf-8?B?b1R0VWloWFl3UG1uWGN0TkJsVlhyRW82b0RBekdiZ3Y0ZTU2UWVNaWxEK2g0?=
+ =?utf-8?B?a21IY1A5azhNV1NKMEdlN1BlL0ttdUwwRWtYUEh4KzlsdGZubW94RG5nb3NQ?=
+ =?utf-8?B?U3E2bFFUWDFKdDU0NmpackNVQkJPcmVERVdEWlArZFR1eWNvMUI3WXdBNW9j?=
+ =?utf-8?B?bEhvOEhIVnQ0bVluelBVK3J4YWtzd2syNFlMUXdFV3J1eW5FQ2pCVXFlRUQw?=
+ =?utf-8?B?aXhzaDQrSFAwYjBFSytvbnBFVnc0RHFteTdJYm9jTTljWjNxUVgrR0hCSTJD?=
+ =?utf-8?B?bytEV2xETXdhdzYremxDRWxBUVJDb1Nzc0pDYm5HeEtua2tlMHJtbEJaQ2U0?=
+ =?utf-8?B?YVNnWnI2UmZUZ0VpQlpocU9SS3dackVlZkk1UlppVG1mSk9UaHhJdDE1a01r?=
+ =?utf-8?Q?Z3Rk2x5NzkWXEtEXS5rNSliixsUXZ0szYfqKs=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN9PR03MB6188.namprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230037)(376011)(1800799021)(52116011)(366013)(38350700011); DIR:OUT;
  SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d0VWTnNCcGwzQW9nKzg3dzVoM0V0K3hkQm9tMnBZQTAwd1FmckYyWERrTFFI?=
- =?utf-8?B?SXRTVG53a2x3U2NPUkt4NHNSd2NNYm4zeHZmLysweG9IdGZNOEFPMFV2VlNJ?=
- =?utf-8?B?MUJnMSt0WHFNNlFSOTZjZzNlbHdodzNhY0RJcUVvcHk0cXpvdHRDbmRWUktR?=
- =?utf-8?B?WmRrR2I3dWpoUUxVSmhjL1VsTEtBUVBFNm1RM1RDS0lRS3Jnb1BCOFlrYkVX?=
- =?utf-8?B?cGFnZk1US3YwY2dQbThDSmlPK2VreDhFTlZ5LzZYYnVRdnlobjlrb3pDMEFt?=
- =?utf-8?B?ODk5ZlBvSU4yVGVxWnJOY0ZaZlNUekQ4RU1lN3pGM3h6cjFieStnS1YzSXBY?=
- =?utf-8?B?TFkzZVRYSklyQjdRRGRZbEhYdjlFUFpPVmhIQmY2L25OaUlXSkE0U3ZqMkNX?=
- =?utf-8?B?aXA0SGN2NHJzcnhzV0dJNm9SRWpzMWVDTkhGaFlEOUdHRFRUWTR4SHhoNll1?=
- =?utf-8?B?bk5sbjdFTGxOTTBaNFQ0d0FFdkF0ek02dDJ2bTlNTE02Y2tvdVJiMnAzS0gx?=
- =?utf-8?B?aVdnU2tUYldUb1lobDdORDNWYUx4T3pqcWEreTgzRS9qaXFESmlsMnE2UG01?=
- =?utf-8?B?dUlITU95QXF6bWJ0cnhRUmRYUENkKzR0ejdnZDFMQ0VSeU1vYi9uSHlDWHFS?=
- =?utf-8?B?UHdCdVF1cmZJYkcrcTlTL2VQa1FFemxIUEh0NWRFSmgyWWtrOGZMeGFmMzlk?=
- =?utf-8?B?NUo5NE81eExER1VPZm1XTFQvT0IvNDVXQ0cxMGd5TFBLMUdiK3dvNkpMNmVv?=
- =?utf-8?B?K3plSTRvUEYwRm85ZFlmcU40QU52R3ducWZwZDZCNVl6UlRkTmpPbXlsZGVM?=
- =?utf-8?B?ZkVuemJRUkZ5anlsUnpNQzkyeTNBRHZhWlJhUDdHS0R1dkJvMW12Y2xJekN5?=
- =?utf-8?B?TmwrWnQwODg1MUZuSEo3S01ZNExrYXV0OVVVYUY5RFhlb055VllpOEc3aHcx?=
- =?utf-8?B?cU8xc2lDa2dZMUhZSmk1UHhKTSs5RHhxWFk2ckVGZ08wL21wVGlVeU5HVFdE?=
- =?utf-8?B?cG5aenRiV1dCaE1lWlVvbDBiOU5TblBLdWt6YTBtNzZLb1lnSHIwMlA5SUlQ?=
- =?utf-8?B?WThkQk9ZRmdnb1laSXE3c3ZJenFoZTBiV1orcy8xblNnQm5IZnJ1M2F4Tmxw?=
- =?utf-8?B?MWNKekhwbUtKRDlmTXdnMlNVaG9Lc0pXZm1JZ2lWNStuMXhPVzR0cXR3SGlZ?=
- =?utf-8?B?N2NaMXE2K2k2ZGZaVzZzU212eTdJRG5KRHVGMWdrbkNZSFZUdS9RYXB3QUVq?=
- =?utf-8?B?VENndHQ1emwxN2pCTnU5SGNrQUs0R3FVUzAxSitrMkxuWnE4c3krZFBmNzY3?=
- =?utf-8?B?bjlKYkZNdjZCL2pMVEVyeW9ERG9RQWZjM2lBN2pib3Y1U2tic202MXl4VmVI?=
- =?utf-8?B?SDV4NlRWWU9KWVhsOXF6NVNuaUhoUmlSZHVESDdhbnJZS2tNTmtVOW9xb3VP?=
- =?utf-8?B?WVdBeGJXbkY2cm9pSGo1WEliTmdEZVpOQStRb0JPcHNmcHZ1NXJ3Zmx4TjRZ?=
- =?utf-8?B?ekVadFpjSWJjRGNyTzcyelg3T3Z0Y3ZqTDMzeG0rbUpOb2phY0FWSE5lQjR5?=
- =?utf-8?B?SnlHNkxPK1p0ZFBUa0YxODNiM2dRT1YwRVVhaUdlREtUYk9qUTlSeFJJcHpa?=
- =?utf-8?B?MHNJVVgyenRnNm9zSEdsOE8vSjl1b3R6SW5BUkI5NUY4ZjI0VFkvcUY4czdv?=
- =?utf-8?B?TGs2S2xTTXRuczA3d0Q4U3Z2TlhuT2p3dWxYdlhMMkZGUjd2VFhjTTFEdTQ5?=
- =?utf-8?B?b0RzTnN2V1Y0Wm5SSlFjQTZ5ckg0dktCczZSTnFuVk0wQUxRclorY2lwVjB6?=
- =?utf-8?B?WVIrREo5cnpVRGJleXFQK3lwcUd0RE8wcG8zMW1QNGE2alpPZC82V2ZnQm9O?=
- =?utf-8?B?RDVYUWZUQTkwQnpZUHdVWjFBMndXN0haSlh2U2pYY25FSmFYUUU2OFl4a0F5?=
- =?utf-8?B?Yno4bEZXY2NUOUVzeFNIdjBoZVRPZVJ4bXlFcVp5amdyTWJvVUhHQkdNbGVV?=
- =?utf-8?B?ZVNjVHdRM3pMSEF3dm5RYm5ucEVuQUVGN0J0TzJibHdQbUgrWENLSk0xRzdk?=
- =?utf-8?B?aUhFTi9kOGJHL2lxbWdISkZkSkN5V3RqeGNUdXJzY25MaHNKWldvVlp2TkZI?=
- =?utf-8?Q?gus6rRVQw7N87n1ExReB82vys?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bUFpSlhqckpQalZCVkVjUFFpdXJoU21MVnlLZFFQQjdQM1VIWERsUy96RjJY?=
+ =?utf-8?B?RllmcHBLL0xuQWtpNlJPeU9YRkdGM2RvbVpZNTA3SW1rc0dpTFpKRWpLVmlh?=
+ =?utf-8?B?WGF4WUhMZFNoZURySU5LanA3V0t1K0pMcXVvOW1LOG9QeWRHN2JKWUtDOTdo?=
+ =?utf-8?B?Y2E1aU5jTW4vbVVON0tRSGxMTmN3ZUtBeFJ0WmhBbC8xa0JZNlg5ZHliMEgv?=
+ =?utf-8?B?UTJTaHc5eXlQa00wbDBldjNacXFLdlk1KzVuUzFuSjdWWm9OZU94UHZzQUd4?=
+ =?utf-8?B?WUt5ZVpvSFdBTEN5NmJsZEYvUjQzZUJ1SmxOZXZiMVh4S1VVcllXNVJGQ2Rn?=
+ =?utf-8?B?MjBxUERRbHl3QXJSMkxlbWRNV3pkc1NYM2JkL0ExclNXRGd2NnZNanl4ODhP?=
+ =?utf-8?B?bWpOcDNZa3A1aVdOZG5kVzhtK3R3NklEMUIvazIwVVh5RlFLWlNkVWViUzFu?=
+ =?utf-8?B?cTh4bmVpeTlKUFFXcGNsM3E3am9ROFAzMHA2WWlsQXNUL216TjFpU3hDSWIx?=
+ =?utf-8?B?Z1dIbE8rd2VrZ1p1OERjbXlESVprL3JhWTVIN1FNbXVaaHVLMlFkZ1NjanAz?=
+ =?utf-8?B?SmMyall1S3Z0M0VVTjh1bFJJei9EVG9tbkg0cEdqYUFvdjhQcjRpRTA2TnJZ?=
+ =?utf-8?B?SnFwTkJrMjFhSHhydUhVWk9aQjhDL3UwdUlhYjliSUw4cEs5akxGbGl3Q0lB?=
+ =?utf-8?B?b1h6b2QxbDk2LzR0amwxRmhLS2g0VWY1QThQWXNwL1BTMEcxVzIvM05DbkNL?=
+ =?utf-8?B?QlpTaW13elRTZ3M5UVlZUW01cVpNeDFhVjNFcWFjRFdOMkNMSWF5VWZwR3VU?=
+ =?utf-8?B?N3N1NXo5NjUzU2Z2cWVZYlJkVGF4MEc1VktLN2hvWGE0K3prdFNKOThGR3Z4?=
+ =?utf-8?B?WUh5bUh3WUtMeUpXcHZOTmlZN0dBVzRUVDlwR1hCeTYyTGdRaVUvbldvV2ly?=
+ =?utf-8?B?WElOK3NJSS94cGRrQjQ1WnRqR2lPZ25DMHRjVmFvNHYzNGQ1MjdrOVF1amo1?=
+ =?utf-8?B?UFhVYldaR3RGdE0rVEMxb3BGNHlSdGR5U25SUjRqL01NMllxVHZVdXdUNGh0?=
+ =?utf-8?B?cEZLbU9zOUR2UUl0d1NselRkQ3JjU0hFYlA1Q2FNM1c4TW9TVmpEa1B3RVJo?=
+ =?utf-8?B?SHJYYjBmNWkzRy9wZHd0K0xaQ1BWNlZXUkpwQXJuTmhXQlA5SjlYRHRnc0tR?=
+ =?utf-8?B?QlBUK3ZleXNGVVhKU3I1KzZJUllQVWNTTFNGenIxUXFNMiszRXlVTlhyWVJp?=
+ =?utf-8?B?M21BZkYrMUR4KzFnay9ITlVtVmY3aTA2ZSs1NDNaZEFTWjVrSVNMdCs3UTRa?=
+ =?utf-8?B?bDc2VC9kenFORkhRaFpCNjNXeklPQ1A2QVYzK2hnMEpscG5vaVc5c3VJVDJ0?=
+ =?utf-8?B?UUVoKzdJZ2dDakJWYXVBZjlMVG13Q2NVVXczSHRzYnUxUllVZ2RoRTNGU0lH?=
+ =?utf-8?B?M3lhRDAvd3duc0t4d0J4azQ0QWN2VXFTVFArM3JzajZ1K1kxQTZxOVdXdCt5?=
+ =?utf-8?B?NmRTNUZISTIyRzMwb2xUbmxtelRLU3ZJb08rSXkvUTArMXlkUzNHc015Tm11?=
+ =?utf-8?B?azZkazV2MjFKZERnWUFVUUhydjlQNm5Fd2VxQXlMUFNrZnlmMnhSWEJvUUhK?=
+ =?utf-8?B?NldFMFk2TEVJd2plNS9SQ01xUUVvT05MdlpBdGxUbEQ4cWtMcjYrbUxxYWRx?=
+ =?utf-8?B?cFVtQ0NiMzVvUmF5RWc5aWNycWhseEpPK0w0NVBpL2c5azZ2NEVPVlArSm8y?=
+ =?utf-8?B?Sjd4UGYzMk9BdHlYeDhVZjFqaFRFK3ZtTlVGNTNaUytZbFpySVlFTW8yZzNO?=
+ =?utf-8?B?MVlZdDlyczFtOWllRWFZa256OEEwbkxaUVg1THFpRUhmekFmUjY5Qy9LdlJk?=
+ =?utf-8?B?Z3JnVnQxTmhGdFhiRXloTzJ2L0xUdDI1K0xTMFZyZ0dOWjExQVdSNi9SNS9T?=
+ =?utf-8?B?YUZ3ZEk0RU85cUM4cmFDYVVNOS9HYWlWdUNZaW83SjJwU0Q1QWI2cnlNZUlR?=
+ =?utf-8?B?eGM3WCtOTDFmZHNJckFaVVpScTRzOERrLzl4NmVIL09jMi8wL2s2bUI2NlJp?=
+ =?utf-8?B?M1U3RHFZMDdNK3lHWUFXSUZjWTQzYk9sQWxnMVluQWFmekZzTVA0eTk4dk1k?=
+ =?utf-8?Q?KWHW98QfdX0fOwUnJjs6dsYBY?=
 X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60bd867f-f574-4986-d535-08dc941cda2a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a8bdbc5-98a8-4faf-5557-08dc941cdb1a
 X-MS-Exchange-CrossTenant-AuthSource: BN9PR03MB6188.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2024 07:11:22.2126 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2024 07:11:23.7828 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jtNcinXNI6q1LV3Rx7Z0UST7sNYWGbqhFqedb0GPN1RZds64Qj8gfmngLCYxsgLoCAsWBcfHYaW2RJQZA44Mag==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1zP0iJK5ddmtJO6APPScMukhc9qNtJo7gvIEHdwKc0yinZ5wfpG9qr4YOGl/kg7FanKGtj+Kx3YGl4jTbQz+Uw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR03MB5063
 X-Mailman-Approved-At: Mon, 24 Jun 2024 07:22:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -165,346 +166,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Łukasz Spintzyk <Lukasz.Spintzyk@synaptics.com>
 
-Atomic support for cursor plane was inspired by evdi drm driver that is maintained on github.com/displaylink/evdi.
-Also added ARGB8888 plane format as it is used by cursor plane.
-
 Signed-off-by: Łukasz Spintzyk <Lukasz.Spintzyk@synaptics.com>
 ---
- drivers/gpu/drm/udl/udl_cursor.c  |  32 +++++++-
- drivers/gpu/drm/udl/udl_cursor.h  |   8 ++
- drivers/gpu/drm/udl/udl_drv.h     |   1 +
- drivers/gpu/drm/udl/udl_modeset.c | 129 +++++++++++++++++++++++++-----
- 4 files changed, 150 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/udl/udl_modeset.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/udl/udl_cursor.c b/drivers/gpu/drm/udl/udl_cursor.c
-index 594bb3b6b056..d60eccb704f4 100644
---- a/drivers/gpu/drm/udl/udl_cursor.c
-+++ b/drivers/gpu/drm/udl/udl_cursor.c
-@@ -3,6 +3,7 @@
-  * udl_cursor.c
-  *
-  * Copyright (c) 2015 The Chromium OS Authors
-+ * Copyright (c) 2024 Synaptics Incorporated. All Rights Reserved.
-  *
-  * This program is free software; you can redistribute  it and/or modify it
-  * under  the terms of  the GNU General  Public License as published by the
-@@ -69,10 +70,39 @@ int udl_cursor_download(struct udl_cursor *cursor,
- 	return 0;
- }
- 
--
- int udl_cursor_move(struct udl_cursor *cursor, int x, int y)
- {
- 	cursor->x = x;
- 	cursor->y = y;
- 	return 0;
- }
-+
-+void udl_cursor_damage_clear(struct udl_cursor *cursor)
-+{
-+	cursor->damage.x1 = INT_MAX;
-+	cursor->damage.y1 = INT_MAX;
-+	cursor->damage.x2 = 0;
-+	cursor->damage.y2 = 0;
-+}
-+
-+void udl_rect_merge(struct drm_rect *rect, struct drm_rect *rect2)
-+{
-+	rect->x1 = min(rect->x1, rect2->x1);
-+	rect->y1 = min(rect->y1, rect2->y1);
-+	rect->x2 = max(rect->x2, rect2->x2);
-+	rect->y2 = max(rect->y2, rect2->y2);
-+}
-+
-+void udl_cursor_mark_damage_from_plane(struct udl_cursor *cursor, struct drm_plane_state *state)
-+{
-+	struct drm_rect rect;
-+
-+	rect.x1 = (state->crtc_x < 0) ? 0 : state->crtc_x;
-+	rect.y1 = (state->crtc_y < 0) ? 0 : state->crtc_y;
-+	rect.x2 = state->crtc_x + state->crtc_w;
-+	rect.y2 = state->crtc_y + state->crtc_h;
-+
-+	udl_rect_merge(&cursor->damage, &rect);
-+}
-+
-+
-diff --git a/drivers/gpu/drm/udl/udl_cursor.h b/drivers/gpu/drm/udl/udl_cursor.h
-index 6a848accc106..2375323bae55 100644
---- a/drivers/gpu/drm/udl/udl_cursor.h
-+++ b/drivers/gpu/drm/udl/udl_cursor.h
-@@ -3,6 +3,7 @@
-  * udl_cursor.h
-  *
-  * Copyright (c) 2015 The Chromium OS Authors
-+ * Copyright (c) 2024 Synaptics Incorporated. All Rights Reserved.
-  *
-  * This program is free software; you can redistribute  it and/or modify it
-  * under  the terms of  the GNU General  Public License as published by the
-@@ -27,12 +28,15 @@
- #define UDL_CURSOR_W 64
- #define UDL_CURSOR_H 64
- #define UDL_CURSOR_BUF (UDL_CURSOR_W * UDL_CURSOR_H)
-+
- struct udl_cursor {
- 	uint32_t buffer[UDL_CURSOR_BUF];
-+	struct drm_rect damage; // damage on primary
- 	bool enabled;
- 	int x;
- 	int y;
- };
-+
- struct udl_cursor_hline {
- 	uint32_t *buffer;
- 	int width;
-@@ -43,5 +47,9 @@ extern void udl_cursor_get_hline(struct udl_cursor *cursor, int x, int y,
- 		struct udl_cursor_hline *hline);
- extern int udl_cursor_move(struct udl_cursor *cursor, int x, int y);
- extern int udl_cursor_download(struct udl_cursor *cursor, const struct iosys_map *map);
-+void udl_cursor_damage_clear(struct udl_cursor *cursor);
-+void udl_rect_merge(struct drm_rect *rect, struct drm_rect *rect2);
-+void udl_cursor_mark_damage_from_plane(struct udl_cursor *cursor,
-+		struct drm_plane_state *state);
- 
- #endif
-diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
-index ccd813bec1a9..935bcabcd593 100644
---- a/drivers/gpu/drm/udl/udl_drv.h
-+++ b/drivers/gpu/drm/udl/udl_drv.h
-@@ -68,6 +68,7 @@ struct udl_device {
- 	struct device *dmadev;
- 
- 	struct drm_plane primary_plane;
-+	struct drm_plane cursor_plane;
- 	struct drm_crtc crtc;
- 	struct drm_encoder encoder;
- 
 diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index 21594144fec5..0bd4e2f02dcf 100644
+index 0bd4e2f02dcf..28b7c269e913 100644
 --- a/drivers/gpu/drm/udl/udl_modeset.c
 +++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -6,6 +6,7 @@
-  * Copyright (C) 2009 Roberto De Ioris <roberto@unbit.it>
-  * Copyright (C) 2009 Jaya Kumar <jayakumar.lkml@gmail.com>
-  * Copyright (C) 2009 Bernie Thompson <bernie@plugable.com>
-+ * Copyright (c) 2024 Synaptics Incorporated. All Rights Reserved.
-  */
+@@ -659,8 +659,8 @@ int udl_modeset_init(struct drm_device *dev)
+ 	if (ret)
+ 		return ret;
  
- #include <linux/bitfield.h>
-@@ -202,6 +203,23 @@ static long udl_log_cpp(unsigned int cpp)
- 	return __ffs(cpp);
- }
- 
-+static void udl_trim_rect_to_framebuffer(
-+				const struct drm_framebuffer *fb,
-+				struct drm_rect *clip)
-+{
-+	if (clip->x1 > fb->width)
-+		clip->x1 = fb->width;
-+
-+	if (clip->y1 > fb->height)
-+		clip->y1 = fb->height;
-+
-+	if (clip->x2 > fb->width)
-+		clip->x2 = fb->width;
-+
-+	if (clip->y2 > fb->height)
-+		clip->y2 = fb->height;
-+}
-+
- static int udl_handle_damage(struct drm_framebuffer *fb,
- 			     const struct iosys_map *map,
- 			     const struct drm_rect *clip)
-@@ -254,20 +272,21 @@ static int udl_handle_damage(struct drm_framebuffer *fb,
- }
- 
- /*
-- * Primary plane
-+ * Primary and cursor planes
-  */
- 
--static const uint32_t udl_primary_plane_formats[] = {
-+static const uint32_t udl_plane_formats[] = {
- 	DRM_FORMAT_RGB565,
- 	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_ARGB8888,
- };
- 
--static const uint64_t udl_primary_plane_fmtmods[] = {
-+static const uint64_t udl_plane_fmtmods[] = {
- 	DRM_FORMAT_MOD_LINEAR,
- 	DRM_FORMAT_MOD_INVALID
- };
- 
--static int udl_primary_plane_helper_atomic_check(struct drm_plane *plane,
-+static int udl_plane_helper_atomic_check(struct drm_plane *plane,
- 						 struct drm_atomic_state *state)
- {
- 	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
-@@ -280,7 +299,36 @@ static int udl_primary_plane_helper_atomic_check(struct drm_plane *plane,
- 	return drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
- 						   DRM_PLANE_NO_SCALING,
- 						   DRM_PLANE_NO_SCALING,
--						   false, false);
-+						   plane->type == DRM_PLANE_TYPE_CURSOR, false);
-+}
-+
-+static void
-+udl_cursor_plane_helper_atomic_update(struct drm_plane *plane,
-+						   struct drm_atomic_state *state)
-+{
-+	struct drm_device *dev = plane->dev;
-+	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
-+	struct drm_framebuffer *fb = plane_state->fb;
-+	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
-+	struct udl_device *udl = to_udl(dev);
-+	struct udl_cursor *cursor = &udl->cursor;
-+
-+	WARN_ON(old_plane_state->plane->type != DRM_PLANE_TYPE_CURSOR);
-+
-+	udl_cursor_move(cursor, plane_state->crtc_x, plane_state->crtc_y);
-+	cursor->enabled = fb != NULL;
-+
-+	udl_cursor_mark_damage_from_plane(&udl->cursor, old_plane_state);
-+	udl_cursor_mark_damage_from_plane(&udl->cursor, plane_state);
-+
-+	if (!fb)
-+		return;
-+
-+	if (plane_state->fb == old_plane_state->fb)
-+		return;
-+
-+	udl_cursor_download(cursor, &shadow_plane_state->data[0]);
- }
- 
- static void udl_primary_plane_helper_atomic_update(struct drm_plane *plane,
-@@ -291,6 +339,7 @@ static void udl_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
-+	struct udl_device *udl = to_udl(dev);
- 	struct drm_atomic_helper_damage_iter iter;
- 	struct drm_rect damage;
- 	int ret, idx;
-@@ -305,24 +354,39 @@ static void udl_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 	if (!drm_dev_enter(dev, &idx))
- 		goto out_drm_gem_fb_end_cpu_access;
- 
--	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
--	drm_atomic_for_each_plane_damage(&iter, &damage) {
--		udl_handle_damage(fb, &shadow_plane_state->data[0], &damage);
-+	if (plane_state->fb != old_plane_state->fb) {
-+		drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
-+		drm_atomic_for_each_plane_damage(&iter, &damage)
-+			udl_handle_damage(fb, &shadow_plane_state->data[0], &damage);
- 	}
- 
-+	udl_trim_rect_to_framebuffer(fb, &udl->cursor.damage);
-+	udl_handle_damage(fb, &shadow_plane_state->data[0], &udl->cursor.damage);
-+	udl_cursor_damage_clear(&udl->cursor);
-+
- 	drm_dev_exit(idx);
- 
- out_drm_gem_fb_end_cpu_access:
- 	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
- }
- 
--static const struct drm_plane_helper_funcs udl_primary_plane_helper_funcs = {
-+static void
-+udl_plane_helper_atomic_update(struct drm_plane *plane,
-+			       struct drm_atomic_state *state)
-+{
-+	if (plane->type == DRM_PLANE_TYPE_CURSOR)
-+		udl_cursor_plane_helper_atomic_update(plane, state);
-+	else
-+		udl_primary_plane_helper_atomic_update(plane, state);
-+}
-+
-+static const struct drm_plane_helper_funcs udl_plane_helper_funcs = {
- 	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
--	.atomic_check = udl_primary_plane_helper_atomic_check,
--	.atomic_update = udl_primary_plane_helper_atomic_update,
-+	.atomic_check = udl_plane_helper_atomic_check,
-+	.atomic_update = udl_plane_helper_atomic_update,
- };
- 
--static const struct drm_plane_funcs udl_primary_plane_funcs = {
-+static const struct drm_plane_funcs udl_plane_funcs = {
- 	.update_plane = drm_atomic_helper_update_plane,
- 	.disable_plane = drm_atomic_helper_disable_plane,
- 	.destroy = drm_plane_cleanup,
-@@ -393,8 +457,20 @@ static void udl_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_ato
- 	drm_dev_exit(idx);
- }
- 
-+static int udl_crtc_helper_atomic_check(struct drm_crtc *crtc,
-+	struct drm_atomic_state *state)
-+{
-+	int ret;
-+
-+	ret = drm_crtc_helper_atomic_check(crtc, state);
-+	if (ret)
-+		return ret;
-+
-+	return drm_atomic_add_affected_planes(state, crtc);
-+}
-+
- static const struct drm_crtc_helper_funcs udl_crtc_helper_funcs = {
--	.atomic_check = drm_crtc_helper_atomic_check,
-+	.atomic_check = udl_crtc_helper_atomic_check,
- 	.atomic_enable = udl_crtc_helper_atomic_enable,
- 	.atomic_disable = udl_crtc_helper_atomic_disable,
- };
-@@ -573,6 +649,7 @@ int udl_modeset_init(struct drm_device *dev)
- {
- 	struct udl_device *udl = to_udl(dev);
- 	struct drm_plane *primary_plane;
-+	struct drm_plane *cursor_plane;
- 	struct drm_crtc *crtc;
- 	struct drm_encoder *encoder;
- 	struct drm_connector *connector;
-@@ -589,20 +666,34 @@ int udl_modeset_init(struct drm_device *dev)
+-	dev->mode_config.min_width = 640;
+-	dev->mode_config.min_height = 480;
++	dev->mode_config.min_width = UDL_CURSOR_W;
++	dev->mode_config.min_height = UDL_CURSOR_H;
+ 	dev->mode_config.max_width = 2048;
+ 	dev->mode_config.max_height = 2048;
  	dev->mode_config.preferred_depth = 16;
- 	dev->mode_config.funcs = &udl_mode_config_funcs;
- 
-+	cursor_plane = &udl->cursor_plane;
-+	// Add cursor plane first as this is an order of plane atomic_update calls
-+	// That allows to gather cursor damage before primary plane update
-+	ret = drm_universal_plane_init(dev, cursor_plane, 0,
-+				       &udl_plane_funcs,
-+				       udl_plane_formats,
-+				       ARRAY_SIZE(udl_plane_formats),
-+				       udl_plane_fmtmods,
-+				       DRM_PLANE_TYPE_CURSOR, NULL);
-+	if (ret)
-+		return ret;
-+	drm_plane_helper_add(cursor_plane, &udl_plane_helper_funcs);
-+
- 	primary_plane = &udl->primary_plane;
- 	ret = drm_universal_plane_init(dev, primary_plane, 0,
--				       &udl_primary_plane_funcs,
--				       udl_primary_plane_formats,
--				       ARRAY_SIZE(udl_primary_plane_formats),
--				       udl_primary_plane_fmtmods,
-+				       &udl_plane_funcs,
-+				       udl_plane_formats,
-+				       ARRAY_SIZE(udl_plane_formats),
-+				       udl_plane_fmtmods,
- 				       DRM_PLANE_TYPE_PRIMARY, NULL);
- 	if (ret)
- 		return ret;
--	drm_plane_helper_add(primary_plane, &udl_primary_plane_helper_funcs);
-+	drm_plane_helper_add(primary_plane, &udl_plane_helper_funcs);
- 	drm_plane_enable_fb_damage_clips(primary_plane);
- 
-+
- 	crtc = &udl->crtc;
--	ret = drm_crtc_init_with_planes(dev, crtc, primary_plane, NULL,
-+	ret = drm_crtc_init_with_planes(dev, crtc, primary_plane, cursor_plane,
- 					&udl_crtc_funcs, NULL);
- 	if (ret)
- 		return ret;
 -- 
 2.34.1
 
