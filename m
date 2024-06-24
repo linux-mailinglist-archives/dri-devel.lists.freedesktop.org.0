@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893279151F4
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 17:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A179B9151FE
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2024 17:21:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C79B110E4BE;
-	Mon, 24 Jun 2024 15:20:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4E7110E4CC;
+	Mon, 24 Jun 2024 15:21:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A289710E4B7
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 15:20:42 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5A0C10E4B8
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 15:20:43 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 781A71F839;
- Mon, 24 Jun 2024 15:20:41 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9289A21A6C;
+ Mon, 24 Jun 2024 15:20:42 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A6A9613AA4;
- Mon, 24 Jun 2024 15:20:40 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7DD3F13ACD;
+ Mon, 24 Jun 2024 15:20:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id KGdYJ8iOeWbqGgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 24 Jun 2024 15:20:40 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id qPRyHcmOeWbqGgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 24 Jun 2024 15:20:41 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: lee@kernel.org, daniel.thompson@linaro.org, sam@ravnborg.org,
  jingoohan1@gmail.com, deller@gmx.de, linus.walleij@linaro.org,
  f.suligoi@asem.it, ukleinek@kernel.org
 Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-pwm@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 07/17] backlight: journada_bl: Use backlight power constants
-Date: Mon, 24 Jun 2024 17:20:02 +0200
-Message-ID: <20240624152033.25016-8-tzimmermann@suse.de>
+Subject: [PATCH v2 08/17] backlight: kb3886-bl: Use backlight power constants
+Date: Mon, 24 Jun 2024 17:20:03 +0200
+Message-ID: <20240624152033.25016-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240624152033.25016-1-tzimmermann@suse.de>
 References: <20240624152033.25016-1-tzimmermann@suse.de>
@@ -48,7 +48,7 @@ X-Rspamd-Pre-Result: action=no action; module=replies;
  Message is reply to one we originated
 X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 781A71F839
+X-Rspamd-Queue-Id: 9289A21A6C
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Pre-Result: action=no action; module=replies;
  Message is reply to one we originated
@@ -77,30 +77,33 @@ change in functionality.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/backlight/jornada720_bl.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/video/backlight/kb3886_bl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/backlight/jornada720_bl.c b/drivers/video/backlight/jornada720_bl.c
-index 066d0dc98f60..e28d2c071798 100644
---- a/drivers/video/backlight/jornada720_bl.c
-+++ b/drivers/video/backlight/jornada720_bl.c
-@@ -7,7 +7,6 @@
- 
- #include <linux/backlight.h>
- #include <linux/device.h>
--#include <linux/fb.h>
- #include <linux/kernel.h>
+diff --git a/drivers/video/backlight/kb3886_bl.c b/drivers/video/backlight/kb3886_bl.c
+index 55794b239cff..050b5c21f4a8 100644
+--- a/drivers/video/backlight/kb3886_bl.c
++++ b/drivers/video/backlight/kb3886_bl.c
+@@ -10,9 +10,9 @@
  #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
++#include <linux/io.h>
  #include <linux/platform_device.h>
-@@ -121,7 +120,7 @@ static int jornada_bl_probe(struct platform_device *pdev)
- 		return ret;
- 	}
+ #include <linux/mutex.h>
+-#include <linux/fb.h>
+ #include <linux/backlight.h>
+ #include <linux/delay.h>
+ #include <linux/dmi.h>
+@@ -151,7 +151,7 @@ static int kb3886bl_probe(struct platform_device *pdev)
  
--	bd->props.power = FB_BLANK_UNBLANK;
-+	bd->props.power = BACKLIGHT_POWER_ON;
- 	bd->props.brightness = BL_DEF_BRIGHT;
- 	/*
- 	 * note. make sure max brightness is set otherwise
+ 	platform_set_drvdata(pdev, kb3886_backlight_device);
+ 
+-	kb3886_backlight_device->props.power = FB_BLANK_UNBLANK;
++	kb3886_backlight_device->props.power = BACKLIGHT_POWER_ON;
+ 	kb3886_backlight_device->props.brightness = machinfo->default_intensity;
+ 	backlight_update_status(kb3886_backlight_device);
+ 
 -- 
 2.45.2
 
