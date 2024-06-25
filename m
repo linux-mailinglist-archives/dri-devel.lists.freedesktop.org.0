@@ -2,120 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64D71916F84
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 19:45:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A6B916F91
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 19:50:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FD4610E6F6;
-	Tue, 25 Jun 2024 17:45:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F19210E701;
+	Tue, 25 Jun 2024 17:50:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="L2KefoNZ";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="DwSelJb0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C597710E6FD
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 17:45:26 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-a724b9b34b0so329240966b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 10:45:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719337525; x=1719942325; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=NZtQ+FPCoD6gGOl3U2rq3VHnQdVXsv7N8AK93klpC3g=;
- b=L2KefoNZ12w/gc7k/hRCEy9C2748MpUumllbEv+EhPyZwP3+OgzB1lCZ2j2T8IDivC
- vu9kU2PnipUiF7S8LTmIkht/75osL4Hl4ltmqaPYXEII4llymx+U+OQb3JOXkmF4yMf3
- Q8IUTwkPddQMWCR9fqQDYkdsHgjhtJTHBKIbltioQ/9ZAizSyOyE4+DjZYR8u8QnSfU3
- d2gA0yzVSdUnCMQU9AVvtW0yuVfAOE+c276YVvoAxtFb/hPU840+lWXB5GYDYG5Ht0Xv
- JzZKDAE1Um/a8CMHl2Imb4oKQ41+wFKhbTQViyqjvCJ3Gf0A147I1eHtUV803YH8g1g0
- SzMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719337525; x=1719942325;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NZtQ+FPCoD6gGOl3U2rq3VHnQdVXsv7N8AK93klpC3g=;
- b=OZWLDRFFare3Je8b2hJhbBJnIc9XBrDGr5A0SntX91uEEqoCWUzE3iv5avI9qLdAGy
- 7Z1Jg0toRDG2OHSuwAtCYPwb9gN2Rukb+IG2ybP5K3rA9dQb+lnSvcSn1an4yJBNVVTO
- wD+yL1SbHADkDxgnQ9n4CPkrgdzYY34N/hKp1PLSXMmobbT1gq6vNEIdxCB+2FUTS4fy
- x8W4CH5lmQRIwWngHPkZ+0SU7q0Ti2x3Wr3r7q7S9kkrG9LMCsEF0qSrsypgvW0LLQ9w
- lfVfNX7ePtLHxotBYzqNgvEfmbW1wtA7dLop3p0JGW+i/OPCe0EXwAguaDCRqrKLzyQq
- VVSg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXMmUU/17HP6ravNvu9eopmNShsCo1u/bJbqJx7hHMrM211hmT6QxNpQYBDDRqTdWCIVIJ4LzqNwZlVL8nyDFHow7IxV21mtHmqLyqh4D0E
-X-Gm-Message-State: AOJu0YxUDeRpUuHMjniVS5HXHy/Xoa4KQX3rlHGUefe0P6b0ivwJ+nx2
- 53JjI8MUgtum2pIRlY6pXP4iKxxN5ShTjqUGoEzzCEVy8NiPvqGalSvV5ANi/L0=
-X-Google-Smtp-Source: AGHT+IHBZiHbATOJgOa5gf/nGJ6ih3pE8Xg9MD/ucyXaGPgPhvAdwT2toiUPIliZvaxOfY+mmItumA==
-X-Received: by 2002:a17:906:e085:b0:a6f:d990:338c with SMTP id
- a640c23a62f3a-a7245b8f33dmr528502966b.20.1719337524703; 
- Tue, 25 Jun 2024 10:45:24 -0700 (PDT)
-Received: from [192.168.215.29] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a6fcf48b24asm535271766b.57.2024.06.25.10.45.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Jun 2024 10:45:24 -0700 (PDT)
-Message-ID: <7461891d-afa6-48b7-985a-02fcecf227c9@linaro.org>
-Date: Tue, 25 Jun 2024 19:45:21 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C51310E701
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 17:50:01 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45PHS2Re029597;
+ Tue, 25 Jun 2024 17:49:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ VQQNERkNf0HLY+jMaMWeDAkHWbLSQDCSmJl9/Wcx/KU=; b=DwSelJb0pXg/yofT
+ E8nEaXYbikygMgjLxlH7btpVWaA9Aw5Vod7VOhMHu+cocdvAK58ZU4uVRSo/M5dR
+ kOkNrkBqqsbTVTkLmxlAaSE1lB7FetXqt87UlDOH1J9GOMqW+CNCxpmWiYRXT79W
+ B40IxlIg0h92rHvdeRfWe6JFoeBgIF7XnKqQlzIpPMBRGIJLI6fN5Asd+Ets0Fhc
+ iElXTU/+GLyQVPOZHBzRcW6CNFzd/XTyRnsW+uUEKFQzRVov9rfZHMHCedRenzV8
+ FqH3+b3tgqKj2Ngpsi6CtmEk8H0rnn8ILJlo7k8F1jMAqiHJGBz13EF3zAEiekYQ
+ qofERA==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywq077aq9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Jun 2024 17:49:53 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45PHnpji017991
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Jun 2024 17:49:51 GMT
+Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 25 Jun
+ 2024 10:49:51 -0700
+Message-ID: <a5734572-c822-493a-a15a-63dcf37d60cc@quicinc.com>
+Date: Tue, 25 Jun 2024 10:49:50 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/7] drm/msm/adreno: Add speedbin data for SM8550 / A740
-To: Rob Clark <robdclark@gmail.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>
-References: <20240605-topic-smem_speedbin-v2-0-8989d7e3d176@linaro.org>
- <20240605-topic-smem_speedbin-v2-4-8989d7e3d176@linaro.org>
- <CAF6AEGsqv3c8EfBK_CxP7Xgoxj5w6n+XdHcGMC8HxrC8C=D8qg@mail.gmail.com>
+Subject: Re: [PATCH v5 1/5] drm/panel: jd9365da: Modify the method of sending
+ commands
+To: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+CC: <dmitry.torokhov@gmail.com>, <robh@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+ <jikos@kernel.org>, <benjamin.tissoires@redhat.co>,
+ <dianders@google.com>, <hsinyi@google.com>, <jagan@edgeble.ai>,
+ <neil.armstrong@linaro.org>, <dmitry.baryshkov@linaro.org>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, Shuijing Li
+ <shuijing.li@mediatek.corp-partner.google.com>
+References: <20240624141926.5250-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240624141926.5250-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <de8ab492-272c-4bed-92eb-a0c3303543b2@quicinc.com>
+ <CA+6=WdSDSvcMJsmUNW6NXqNXktYjp0xdqk8Y+FakiPBYcXfgGw@mail.gmail.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <CAF6AEGsqv3c8EfBK_CxP7Xgoxj5w6n+XdHcGMC8HxrC8C=D8qg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <CA+6=WdSDSvcMJsmUNW6NXqNXktYjp0xdqk8Y+FakiPBYcXfgGw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 4WWi98j1awuvR9CY8EGO0G0fIcqMTqS8
+X-Proofpoint-GUID: 4WWi98j1awuvR9CY8EGO0G0fIcqMTqS8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-25_13,2024-06-25_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 malwarescore=0
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 phishscore=0
+ mlxscore=0 spamscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2406250131
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,38 +100,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25.06.2024 7:21 PM, Rob Clark wrote:
-> On Wed, Jun 5, 2024 at 1:10 PM Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+
+
+On 6/25/2024 5:13 AM, zhaoxiong lv wrote:
+> On Tue, Jun 25, 2024 at 7:41 AM Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
 >>
->> Add speebin data for A740, as found on SM8550 and derivative SoCs.
 >>
->> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> ---
->>  drivers/gpu/drm/msm/adreno/adreno_device.c | 4 ++++
->>  1 file changed, 4 insertions(+)
 >>
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
->> index 901ef767e491..e00eef8099ae 100644
->> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
->> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
->> @@ -570,6 +570,10 @@ static const struct adreno_info gpulist[] = {
->>                 .zapfw = "a740_zap.mdt",
->>                 .hwcg = a740_hwcg,
->>                 .address_space_size = SZ_16G,
->> +               .speedbins = ADRENO_SPEEDBINS(
->> +                       { ADRENO_SKU_ID(SOCINFO_FC_AC), 0 },
->> +                       { ADRENO_SKU_ID(SOCINFO_FC_AF), 0 },
+>> On 6/24/2024 7:19 AM, Zhaoxiong Lv wrote:
+>>> Currently, the init_code of the jd9365da driver is placed
+>>> in the enable() function and sent, but this seems to take
+>>> a long time. It takes 17ms to send each instruction (an init
+>>> code consists of about 200 instructions), so it takes
+>>> about 3.5s to send the init_code. So we moved the sending
+>>> of the inti_code to the prepare() function, and each
+>>> instruction seemed to take only 25μs.
+>>>
+>>> We checked the DSI host and found that the difference in
+>>> command sending time is caused by the different modes of
+>>> the DSI host in prepare() and enable() functions.
+>>> Our DSI Host only supports sending cmd in LP mode, The
+>>> prepare() function can directly send init_code (LP->cmd)
+>>> in LP mode, but the enable() function is in HS mode and
+>>> needs to switch to LP mode before sending init code
+>>> (HS->LP->cmd->HS). Therefore, it takes longer to send
+>>> the command.
+>>>
+>>> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+>>
+>> Hi Zhaoxiong,
+>>
+>> Just curious, if the host expects that commands are sent in LP mode, why
+>> isn't the MIPI_DSI_MODE_LPM flag set before sending the DCS commands?
+>>
+>> Thanks,
+>>
+>> Jessica Zhang
 > 
-> Did you really mean for these both to map to the same speedbin?
+> hi jessica
+> 
+> We have tried to set dsi->mode_flags to MIPI_DSI_MODE_LPM in the
+> probe() function,
+> but this seems to still happen. MTK colleagues believe that the host
+> dsi configuration is
+> still in LP mode during the prepare() function, and when in the
+> enable() function, the host
+> dsi is already in HS mode. However, since the command must be sent in
+> LP mode, it will
+> switch back and forth between HS->LP->HS.
+> 
+> Add Mediatek colleagues（shuijing.li@mediatek.corp-partner.google.com）
 
-Yes
+Got it. Even drivers that call their init commands in prepare() set the 
+LPM flag [1][2] when applicable so I was just wondering why this driver 
+doesn't seem to set LPM at all even though it is going into LP mode.
 
-There were more entries previously but the info was unclear and
-different between BSPs..
+[1] 
+https://elixir.bootlin.com/linux/v6.10-rc5/source/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c#L46
 
-For non-development SoCs it seems that "everything except FC_AC, FC_AF
-should be speedbin 1", but what the values are for said "everything" are
-not known, so that's an exercise left to the user..
+[2] 
+https://elixir.bootlin.com/linux/v6.10-rc5/source/drivers/gpu/drm/panel/panel-visionox-r66451.c#L46
 
-Konrad
+> 
+> 
+>>
+>>> ---
+>>> Changes between V5 and V4:
+>>> - 1. No changes.
+>>>
+>>> V4:https://lore.kernel.org/all/20240620080509.18504-2-lvzhaoxiong@huaqin.corp-partner.google.com/
+>>>
+>>> Changes between V4 and V3:
+>>> - 1. Only move mipi_dsi_dcs_write_buffer from enable() function to prepare() function,
+>>> -    and no longer use mipi_dsi_dcs_write_seq_multi.
+>>>
+>>> V3:https://lore.kernel.org/all/20240614145510.22965-2-lvzhaoxiong@huaqin.corp-partner.google.com/
+>>>
+>>> ---
+>>>    .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 24 +++++++++----------
+>>>    1 file changed, 11 insertions(+), 13 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+>>> index 4879835fe101..a9c483a7b3fa 100644
+>>> --- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+>>> +++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+>>> @@ -52,21 +52,9 @@ static int jadard_enable(struct drm_panel *panel)
+>>>    {
+>>>        struct device *dev = panel->dev;
+>>>        struct jadard *jadard = panel_to_jadard(panel);
+>>> -     const struct jadard_panel_desc *desc = jadard->desc;
+>>>        struct mipi_dsi_device *dsi = jadard->dsi;
+>>> -     unsigned int i;
+>>>        int err;
+>>>
+>>> -     msleep(10);
+>>> -
+>>> -     for (i = 0; i < desc->num_init_cmds; i++) {
+>>> -             const struct jadard_init_cmd *cmd = &desc->init_cmds[i];
+>>> -
+>>> -             err = mipi_dsi_dcs_write_buffer(dsi, cmd->data, JD9365DA_INIT_CMD_LEN);
+>>> -             if (err < 0)
+>>> -                     return err;
+>>> -     }
+>>> -
+>>>        msleep(120);
+>>>
+>>>        err = mipi_dsi_dcs_exit_sleep_mode(dsi);
+>>> @@ -100,6 +88,8 @@ static int jadard_disable(struct drm_panel *panel)
+>>>    static int jadard_prepare(struct drm_panel *panel)
+>>>    {
+>>>        struct jadard *jadard = panel_to_jadard(panel);
+>>> +     const struct jadard_panel_desc *desc = jadard->desc;
+>>> +     unsigned int i;
+>>>        int ret;
+>>>
+>>>        ret = regulator_enable(jadard->vccio);
+>>> @@ -117,7 +107,15 @@ static int jadard_prepare(struct drm_panel *panel)
+>>>        msleep(10);
+>>>
+>>>        gpiod_set_value(jadard->reset, 1);
+>>> -     msleep(120);
+>>> +     msleep(130);
+>>> +
+>>> +     for (i = 0; i < desc->num_init_cmds; i++) {
+>>> +             const struct jadard_init_cmd *cmd = &desc->init_cmds[i];
+>>> +
+>>> +             ret = mipi_dsi_dcs_write_buffer(dsi, cmd->data, JD9365DA_INIT_CMD_LEN);
+>>> +             if (ret < 0)
+>>> +                     return ret;
+>>> +     }
+>>>
+>>>        return 0;
+>>>    }
+>>> --
+>>> 2.17.1
+>>>
