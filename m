@@ -2,76 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D54691733B
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 23:19:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6195917351
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 23:22:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1843B10E190;
-	Tue, 25 Jun 2024 21:19:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDCE110E2C3;
+	Tue, 25 Jun 2024 21:22:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hKQbRUA5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Cj6JgXzQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com
- [209.85.167.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDF6510E190;
- Tue, 25 Jun 2024 21:19:52 +0000 (UTC)
-Received: by mail-oi1-f179.google.com with SMTP id
- 5614622812f47-3d229baccc4so3204846b6e.1; 
- Tue, 25 Jun 2024 14:19:52 -0700 (PDT)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43CB510E2C3;
+ Tue, 25 Jun 2024 21:22:29 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id
+ af79cd13be357-79c0c19ff02so74860685a.1; 
+ Tue, 25 Jun 2024 14:22:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719350392; x=1719955192; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1719350548; x=1719955348; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8pE+mGdO/b9jNU7f8ar060kbPsajGXfM93JqBNGUkgg=;
- b=hKQbRUA5D69B5p5eCuOkMIq2dJsOBSSD8RpysyAzJvRbTdkHo/KxZK409HhVxGUE9M
- Nnbu2kIA3NLIBhh/DuugL5gxQADkrmU17PCVP2Jas6GzS6Z/RN4mqWk/DonDVPREEURS
- KtY/SkzaUnaNpZicdcubIMkJBl1HNhTcT1Li9PmZEdPWP5fIbnPPZtfTBZw62eopiwax
- AYUHHkCAWnxPPiIh+9o1V3LItUnPURu3vGUftCiOgXlV6RK0QOK3nIZyXowr+AAWh8V2
- 8Lde3hQJ0WnrQmd/TRzGnuJ1J6Escbb799gbr6gkeNRbZa6oXlITOCa+z7Ch7HJGy6n1
- 0DeQ==
+ bh=Tw5CUHUm3Gpt6SSSe/xI/X8gPanBuozSYqQObhb6KGY=;
+ b=Cj6JgXzQZ+qqXnyui3ttDohPf+dqYNwanCQbeCnxCyebGsWTuo8DQOsx2xbqPD4pbp
+ 0p8TfBA55Z5wdasfy3NuiRSqnaG1yEr/pn/pZLRI387VKP3rzlUxbroIajzexxEga2by
+ VjPixTs1+1+1jGOGTULKuyp9O/rYsU18RqbfqEXvvAnnneBH6WJusC9tdmPC+xz8Bel9
+ KSo7BfIeJN8VaOziihnwKFkB63Spj1Jzp8XtLmQPEomD33yOJwmLmHC1EflPk5pqZiwp
+ BKaMIxAO0V6YDZ/isyX4nJH4BK7DUh5O4I/59xsYC1wOqPm47N30Fro/mUMPea6i2QDw
+ hSXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719350392; x=1719955192;
+ d=1e100.net; s=20230601; t=1719350548; x=1719955348;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8pE+mGdO/b9jNU7f8ar060kbPsajGXfM93JqBNGUkgg=;
- b=JduF77fhdNYGIAa4kVNkQ+zIZfi7+aM2l5cZikVPVnJIiBrEBqJfaPvJJinPITYw0P
- bnbH6kF0R1ZDEtYIjBaM0giQBiHHEkml/nTj92TMzn8L6qMbtW5fTus+AZHlVOJkhFAx
- VzZO176yQzhTw6pG/uXfgLFhjpZ+Kn38kDQ6meLgpMm4n7WU40I5LkgF7C8Q2uzE5Vyf
- Wghb8qgYqcKXVsxj2nPFSGJEcc0lhUq/3ATxPvCjvDxbNmKS96WJtUqlNRnv/QBR9WuA
- C7QdAEueYWQG0Hz2hCqRRuYnxAxtrDTXcShU5+g9rh9r2m/O0KXo8983+tOmlcvYcJBR
- FleQ==
+ bh=Tw5CUHUm3Gpt6SSSe/xI/X8gPanBuozSYqQObhb6KGY=;
+ b=v9CTt5QVvyT+CJ6Lq6dUITICIHpy1k+xgaXhGw3f9W+a7pvkhFh++Ys7qhaszyI91J
+ 2PMiKb7YItGP9gX7pmhvHnx9Ca3kHVgimYFsw+RPNF3bodihZRv8BfrFIv8tHZ8qOG53
+ goRjDv/1GrktS0wUvsIa1u8sX00xbDzIIGw8hws+9x0lRzUfIkVMdy5dUmBL5VsOxM1O
+ oANWGf7k70Q/DJqTtC9PwnHebhivyV6x9kwhNEbCVNsUiGk29f4+D+8ep7QytQLXZxe1
+ n/TmiKFThMXucy9aQxZe7Etl/2heMXb4AyARMe0iorjPvmtHfysm7kBL9L2W9PfXO2Ki
+ JDYQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV+4Zj2NLrEIln/XCMF2JtTmIT0ZTfGcYlzZSJ379OAwYRGzz8BwVoECbXTPwDSKXQT1gG9nCLNIH6fssBrFXf+N7YjlyRT5lfLEU5sC6MNWDmI7c0tbd75ONFliIa5wQStGEImIhg45riHx7qM52ev
-X-Gm-Message-State: AOJu0Yz4AWlvfkyWwV9oXA7DJ8wdZAtxG2o8BiJD8mU/Vnj7ZbCY9srQ
- ovUgjHfU37dcIKriy5hFSO2QG4EBB+MT5ohK2g8Lbe1dwMn1LRQqBjuTlogHsWLpL8lgKBQj783
- OSy5O+mMkYMncRsyBMC9UfuHimSU=
-X-Google-Smtp-Source: AGHT+IFfpS/mJqzmwoGoJ1zaWvoriUTloqnkED1TLqGgvkdc3QDnupkHUmMDbY7hT8896/uRk2P5PekLygV2OxySsj8=
-X-Received: by 2002:a05:6808:1491:b0:3d1:be9f:c9a3 with SMTP id
- 5614622812f47-3d54587950amr10755257b6e.0.1719350391814; Tue, 25 Jun 2024
- 14:19:51 -0700 (PDT)
+ AJvYcCXK/+R2DUIyoklzlGWLc7IEJcqZpYXqPsPZCl3Xr2rP1T32tskrShw28lXU9znKoalNtC6k2ecmquf3/ARVnfaAgzpPG4syF8HpQQ2YdbhiSnq9e45Sg3MaY4hlzwH50JsjlbgXduUqHwF2+/EbJgME
+X-Gm-Message-State: AOJu0YwjS/9vwCk1DuVkRyayQfPQRz4U2vQR3p+xDZSDDgP1kA0j/oIB
+ oMc2/110HL3x3PzxJ3xccyx9/Let8XDfeueRvyqPNatSk+Ixivz89XvvUuO83cu42MwUKKzjMRL
+ KDHTyb0jGx49j03mj5A0ZGM4fJ/k=
+X-Google-Smtp-Source: AGHT+IFXbQes4gdlhi490sxQ7X7y/cppE8GmTYOi2RZ9YmtK0eJYSO7nHKlB0DeYq0ofNiX6Js/r4nkF0aYqaVEkXP0=
+X-Received: by 2002:ac8:7e8f:0:b0:445:3f1:4715 with SMTP id
+ d75a77b69052e-44503f14c47mr8059651cf.36.1719350547916; Tue, 25 Jun 2024
+ 14:22:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240608-adreno-v1-1-2e470480eee7@gmail.com>
- <CAF6AEGsd6jfDqV-EOWr+oMjPpVr2S+71VYmp1JoY8xU51eeEEw@mail.gmail.com>
- <20240625175926.4xyzwjyx7oxcwnzx@hu-akhilpo-hyd.qualcomm.com>
- <CAF6AEGt5=bcni0K1ysot3-hVj9gWECJ5qP=M-sEDkRrAmEHFGg@mail.gmail.com>
- <20240625202308.prg72urp4mvtxzax@hu-akhilpo-hyd.qualcomm.com>
-In-Reply-To: <20240625202308.prg72urp4mvtxzax@hu-akhilpo-hyd.qualcomm.com>
+References: <20240625-adreno_barriers-v2-0-c01f2ef4b62a@linaro.org>
+ <20240625-adreno_barriers-v2-2-c01f2ef4b62a@linaro.org>
+ <CAA8EJpqnFEkWx4hq_UDgQ9n5qNj=WjN-Td0+ELGh8hrDpBFjGQ@mail.gmail.com>
+In-Reply-To: <CAA8EJpqnFEkWx4hq_UDgQ9n5qNj=WjN-Td0+ELGh8hrDpBFjGQ@mail.gmail.com>
 From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 25 Jun 2024 14:19:38 -0700
-Message-ID: <CAF6AEGs4i4mM9dpD3weG8GunHHfM0JESkzgX1Wd4PBDYatbQqg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/a6xx: request memory region
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Kiarash Hajian <kiarash8112hajian@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
+Date: Tue, 25 Jun 2024 14:22:15 -0700
+Message-ID: <CAF6AEGt0cjmNyp9wqMMLE9FCKP3E=eibW9q_HGpqnCZzO=sKcA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] Revert "drm/msm/a6xx: Poll for GBIF unhalt status
+ in hw_init"
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Akhil P Oommen <quic_akhilpo@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,250 +86,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 25, 2024 at 1:23=E2=80=AFPM Akhil P Oommen <quic_akhilpo@quicin=
-c.com> wrote:
+On Tue, Jun 25, 2024 at 1:18=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
 >
-> On Tue, Jun 25, 2024 at 11:03:42AM -0700, Rob Clark wrote: > On Tue, Jun =
-25, 2024 at 10:59=E2=80=AFAM Akhil P Oommen <quic_akhilpo@quicinc.com> wrot=
-e:
-> > >
-> > > On Fri, Jun 21, 2024 at 02:09:58PM -0700, Rob Clark wrote:
-> > > > On Sat, Jun 8, 2024 at 8:44=E2=80=AFAM Kiarash Hajian
-> > > > <kiarash8112hajian@gmail.com> wrote:
-> > > > >
-> > > > > The driver's memory regions are currently just ioremap()ed, but n=
-ot
-> > > > > reserved through a request. That's not a bug, but having the requ=
-est is
-> > > > > a little more robust.
-> > > > >
-> > > > > Implement the region-request through the corresponding managed
-> > > > > devres-function.
-> > > > >
-> > > > > Signed-off-by: Kiarash Hajian <kiarash8112hajian@gmail.com>
-> > > > > ---
-> > > > > Changes in v6:
-> > > > >     -Fix compile error
-> > > > >     -Link to v5: https://lore.kernel.org/all/20240607-memory-v1-1=
--8664f52fc2a1@gmail.com
-> > > > >
-> > > > > Changes in v5:
-> > > > >     - Fix error hanlding problems.
-> > > > >     - Link to v4: https://lore.kernel.org/r/20240512-msm-adreno-m=
-emory-region-v4-1-3881a64088e6@gmail.com
-> > > > >
-> > > > > Changes in v4:
-> > > > >     - Combine v3 commits into a singel commit
-> > > > >     - Link to v3: https://lore.kernel.org/r/20240512-msm-adreno-m=
-emory-region-v3-0-0a728ad45010@gmail.com
-> > > > >
-> > > > > Changes in v3:
-> > > > >     - Remove redundant devm_iounmap calls, relying on devres for =
-automatic resource cleanup.
-> > > > >
-> > > > > Changes in v2:
-> > > > >     - update the subject prefix to "drm/msm/a6xx:", to match the =
-majority of other changes to this file.
-> > > > > ---
-> > > > >  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 33 +++++++++++----------=
-------------
-> > > > >  1 file changed, 11 insertions(+), 22 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/=
-drm/msm/adreno/a6xx_gmu.c
-> > > > > index 8bea8ef26f77..d26cc6254ef9 100644
-> > > > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > > > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > > > > @@ -525,7 +525,7 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gm=
-u *gmu)
-> > > > >         bool pdc_in_aop =3D false;
-> > > > >
-> > > > >         if (IS_ERR(pdcptr))
-> > > > > -               goto err;
-> > > > > +               return;
-> > > > >
-> > > > >         if (adreno_is_a650(adreno_gpu) ||
-> > > > >             adreno_is_a660_family(adreno_gpu) ||
-> > > > > @@ -541,7 +541,7 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gm=
-u *gmu)
-> > > > >         if (!pdc_in_aop) {
-> > > > >                 seqptr =3D a6xx_gmu_get_mmio(pdev, "gmu_pdc_seq")=
-;
-> > > > >                 if (IS_ERR(seqptr))
-> > > > > -                       goto err;
-> > > > > +                       return;
-> > > > >         }
-> > > > >
-> > > > >         /* Disable SDE clock gating */
-> > > > > @@ -633,12 +633,6 @@ static void a6xx_gmu_rpmh_init(struct a6xx_g=
-mu *gmu)
-> > > > >         wmb();
-> > > > >
-> > > > >         a6xx_rpmh_stop(gmu);
-> > > > > -
-> > > > > -err:
-> > > > > -       if (!IS_ERR_OR_NULL(pdcptr))
-> > > > > -               iounmap(pdcptr);
-> > > > > -       if (!IS_ERR_OR_NULL(seqptr))
-> > > > > -               iounmap(seqptr);
-> > > > >  }
-> > > > >
-> > > > >  /*
-> > > > > @@ -1503,7 +1497,7 @@ static void __iomem *a6xx_gmu_get_mmio(stru=
-ct platform_device *pdev,
-> > > > >                 return ERR_PTR(-EINVAL);
-> > > > >         }
-> > > > >
-> > > > > -       ret =3D ioremap(res->start, resource_size(res));
-> > > > > +       ret =3D devm_ioremap_resource(&pdev->dev, res);
-> > > >
-> > > > So, this doesn't actually work, failing in __request_region_locked(=
-),
-> > > > because the gmu region partially overlaps with the gpucc region (wh=
-ich
-> > > > is busy).  I think this is intentional, since gmu is controlling th=
-e
-> > > > gpu clocks, etc.  In particular REG_A6XX_GPU_CC_GX_GDSCR is in this
-> > > > overlapping region.  Maybe Akhil knows more about GMU.
-> > >
-> > > We don't really need to map gpucc region from driver on behalf of gmu=
-.
-> > > Since we don't access any gpucc register from drm-msm driver, we can
-> > > update the range size to correct this. But due to backward compatibil=
-ity
-> > > requirement with older dt, can we still enable region locking? I pref=
-er
-> > > it if that is possible.
+> On Tue, 25 Jun 2024 at 21:54, Konrad Dybcio <konrad.dybcio@linaro.org> wr=
+ote:
 > >
-> > Actually, when I reduced the region size to not overlap with gpucc,
-> > the region is smaller than REG_A6XX_GPU_CC_GX_GDSCR * 4.
-> >
-> > So I guess that register is actually part of gpucc?
+> > Commit c9707bcbd0f3 ("drm/msm/adreno: De-spaghettify the use of memory
 >
-> Yes. It has *GPU_CC* in its name. :P
->
-> I just saw that we program this register on legacy a6xx targets to
-> ensure retention is really ON before collapsing gdsc. So we can't
-> avoid mapping gpucc region in legacy a6xx GPUs. That is unfortunate!
+> ID is not present in next
 
-I guess we could still use devm_ioremap().. idk if there is a better
-way to solve this
+it ofc wouldn't be, because it was the previous patch in this series ;-)
+
+I've fixed that up (and below) while applying the patch
 
 BR,
 -R
 
-> -Akhil.
+> > barriers") made some fixups relating to write arrival, ensuring that
+> > the GPU's memory interface has *really really really* been told to come
+> > out of reset. That in turn rendered the hacky commit being reverted no
+> > longer necessary.
+> >
+> > Get rid of it.
+> >
+> > This reverts commit b77532803d11f2b03efab2ebfd8c0061cd7f8b30.
+>
+> b77532803d11 ("drm/msm/a6xx: Poll for GBIF unhalt status in hw_init")
 >
 > >
-> > BR,
-> > -R
+> > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> > ---
+> >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 4 ----
+> >  1 file changed, 4 deletions(-)
 > >
-> > > FYI, kgsl accesses gpucc registers to ensure gdsc has collapsed. So
-> > > gpucc region has to be mapped by kgsl and that is reflected in the kg=
-sl
-> > > device tree.
-> > >
-> > > -Akhil
-> > >
-> > > >
-> > > > BR,
-> > > > -R
-> > > >
-> > > > >         if (!ret) {
-> > > > >                 DRM_DEV_ERROR(&pdev->dev, "Unable to map the %s r=
-egisters\n", name);
-> > > > >                 return ERR_PTR(-EINVAL);
-> > > > > @@ -1613,13 +1607,13 @@ int a6xx_gmu_wrapper_init(struct a6xx_gpu=
- *a6xx_gpu, struct device_node *node)
-> > > > >         gmu->mmio =3D a6xx_gmu_get_mmio(pdev, "gmu");
-> > > > >         if (IS_ERR(gmu->mmio)) {
-> > > > >                 ret =3D PTR_ERR(gmu->mmio);
-> > > > > -               goto err_mmio;
-> > > > > +               goto err_cleanup;
-> > > > >         }
-> > > > >
-> > > > >         gmu->cxpd =3D dev_pm_domain_attach_by_name(gmu->dev, "cx"=
-);
-> > > > >         if (IS_ERR(gmu->cxpd)) {
-> > > > >                 ret =3D PTR_ERR(gmu->cxpd);
-> > > > > -               goto err_mmio;
-> > > > > +               goto err_cleanup;
-> > > > >         }
-> > > > >
-> > > > >         if (!device_link_add(gmu->dev, gmu->cxpd, DL_FLAG_PM_RUNT=
-IME)) {
-> > > > > @@ -1635,7 +1629,7 @@ int a6xx_gmu_wrapper_init(struct a6xx_gpu *=
-a6xx_gpu, struct device_node *node)
-> > > > >         gmu->gxpd =3D dev_pm_domain_attach_by_name(gmu->dev, "gx"=
-);
-> > > > >         if (IS_ERR(gmu->gxpd)) {
-> > > > >                 ret =3D PTR_ERR(gmu->gxpd);
-> > > > > -               goto err_mmio;
-> > > > > +               goto err_cleanup;
-> > > > >         }
-> > > > >
-> > > > >         gmu->initialized =3D true;
-> > > > > @@ -1645,9 +1639,7 @@ int a6xx_gmu_wrapper_init(struct a6xx_gpu *=
-a6xx_gpu, struct device_node *node)
-> > > > >  detach_cxpd:
-> > > > >         dev_pm_domain_detach(gmu->cxpd, false);
-> > > > >
-> > > > > -err_mmio:
-> > > > > -       iounmap(gmu->mmio);
-> > > > > -
-> > > > > +err_cleanup:
-> > > > >         /* Drop reference taken in of_find_device_by_node */
-> > > > >         put_device(gmu->dev);
-> > > > >
-> > > > > @@ -1762,7 +1754,7 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu=
-, struct device_node *node)
-> > > > >                 gmu->rscc =3D a6xx_gmu_get_mmio(pdev, "rscc");
-> > > > >                 if (IS_ERR(gmu->rscc)) {
-> > > > >                         ret =3D -ENODEV;
-> > > > > -                       goto err_mmio;
-> > > > > +                       goto err_cleanup;
-> > > > >                 }
-> > > > >         } else {
-> > > > >                 gmu->rscc =3D gmu->mmio + 0x23000;
-> > > > > @@ -1774,13 +1766,13 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_g=
-pu, struct device_node *node)
-> > > > >
-> > > > >         if (gmu->hfi_irq < 0 || gmu->gmu_irq < 0) {
-> > > > >                 ret =3D -ENODEV;
-> > > > > -               goto err_mmio;
-> > > > > +               goto err_cleanup;
-> > > > >         }
-> > > > >
-> > > > >         gmu->cxpd =3D dev_pm_domain_attach_by_name(gmu->dev, "cx"=
-);
-> > > > >         if (IS_ERR(gmu->cxpd)) {
-> > > > >                 ret =3D PTR_ERR(gmu->cxpd);
-> > > > > -               goto err_mmio;
-> > > > > +               goto err_cleanup;
-> > > > >         }
-> > > > >
-> > > > >         link =3D device_link_add(gmu->dev, gmu->cxpd, DL_FLAG_PM_=
-RUNTIME);
-> > > > > @@ -1824,10 +1816,7 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gp=
-u, struct device_node *node)
-> > > > >  detach_cxpd:
-> > > > >         dev_pm_domain_detach(gmu->cxpd, false);
-> > > > >
-> > > > > -err_mmio:
-> > > > > -       iounmap(gmu->mmio);
-> > > > > -       if (platform_get_resource_byname(pdev, IORESOURCE_MEM, "r=
-scc"))
-> > > > > -               iounmap(gmu->rscc);
-> > > > > +err_cleanup:
-> > > > >         free_irq(gmu->gmu_irq, gmu);
-> > > > >         free_irq(gmu->hfi_irq, gmu);
-> > > > >
-> > > > >
-> > > > > ---
-> > > > > base-commit: 1b294a1f35616977caddaddf3e9d28e576a1adbc
-> > > > > change-id: 20240608-adreno-98c412bfdc03
-> > > > >
-> > > > > Best regards,
-> > > > > --
-> > > > > Kiarash Hajian <kiarash8112hajian@gmail.com>
-> > > > >
+> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/ms=
+m/adreno/a6xx_gpu.c
+> > index 4083d0cad782..03e23eef5126 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > @@ -867,10 +867,6 @@ static int hw_init(struct msm_gpu *gpu)
+> >                 gpu_read(gpu, REG_A6XX_RBBM_GBIF_HALT);
+> >         }
+> >
+> > -       /* Some GPUs are stubborn and take their sweet time to unhalt G=
+BIF! */
+> > -       if (adreno_is_a7xx(adreno_gpu) && a6xx_has_gbif(adreno_gpu))
+> > -               spin_until(!gpu_read(gpu, REG_A6XX_GBIF_HALT_ACK));
+> > -
+> >         gpu_write(gpu, REG_A6XX_RBBM_SECVID_TSB_CNTL, 0);
+> >
+> >         if (adreno_is_a619_holi(adreno_gpu))
+> >
+> > --
+> > 2.45.2
+> >
+>
+>
+> --
+> With best wishes
+> Dmitry
