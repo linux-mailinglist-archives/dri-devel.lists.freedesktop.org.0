@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C0E91687B
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 14:59:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E55479167D1
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 14:28:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C77D10E28E;
-	Tue, 25 Jun 2024 12:59:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 255B110E023;
+	Tue, 25 Jun 2024 12:28:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="AZnKK4W3";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="U7eu86eS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5393110E28E
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 12:59:38 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 340C810E023
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 12:28:53 +0000 (UTC)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 503238751B;
- Tue, 25 Jun 2024 14:59:35 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id A8E1688496;
+ Tue, 25 Jun 2024 14:28:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1719320376;
- bh=0xEbRL6F2Yq8g5C1TapxGBRi9EtqMDPCx1oQGy4gTzA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=AZnKK4W3i6jbUtgrtvZq9Xy9jqUzEMOMGnlCR35HNyanM2gPZgE6OhwMJUCUTFw9q
- Q3yhxJQJyAKPQPyvu9qVroDQ0cyb1m8ylC4Hwv6HrsJFAdg8b+17txM/pyKqBk5nEz
- UIJCOo1bywww9FO98/1fQnY8iFRRgYPlCsBLDoxveG/JtCsqWkTZpx0NVKcdNiJYFH
- jN4cZHjaxST2n6SNik5hN1iMtbhgH+gIcqgVDco72Lov0/5Rqy8TEJIVufOLWsvS17
- WcM5OsRFNzEv0RM7N0IMli+R7OKhImhUnb76ChiBpY7Ol6b6HsUBngQwO1vwAePArG
- 1th+DP6RvDyzA==
-Message-ID: <fe52138b-56ae-4f36-9e77-465986235a29@denx.de>
-Date: Tue, 25 Jun 2024 14:16:59 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] drm/bridge: tc358767: Use tc_pxl_pll_calc() to
- correct adjusted_mode clock
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>,
+ s=phobos-20191101; t=1719318531;
+ bh=erzhIB/LVVGJqDLXZPYIbOZzDujEJ6E/z8Y+IZX34c8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=U7eu86eScaxWYHe3xqsodaUyTAKT0Iw/odOdCWqwhHnZiVr9+ccII+RWDGWO+ka39
+ boiY+7HLYlEaZhemdSJZ+6f73cyQ9EHyiTwAOyOM2yVTOhwZGzxuzEbXOp6RZ4pcX8
+ oyMPMZzlldwMmw5M+g5MtYfnpQ3h2ug1L0ngTqPWQlRht0MZwCNlPvj9+/8T6Q/w/f
+ +/eWGFxyXbVoYGqbBst4pxdfoqAWHs+9DZaTB5EAVNkcSVKzEU+8pG+k6d3ZQdQS+L
+ y9GBlXuoR+96tkdg2754SBgrrhUs/IXAXrmNd/7QFtGAUi7uu/BqoovwUhe3uE+HLp
+ DwYCnOZWQ28Sw==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Adam Ford <aford173@gmail.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Lucas Stach <l.stach@pengutronix.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Maxime Ripard <mripard@kernel.org>, Michael Walle <mwalle@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
-References: <20240531204130.277800-1-marex@denx.de>
- <3760061.MHq7AAxBmi@steina-w> <3db8424d-9880-4e9f-8441-26139a44dba8@denx.de>
- <2815610.BEx9A2HvPv@steina-w>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <2815610.BEx9A2HvPv@steina-w>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH v2 1/2] drm: bridge: samsung-dsim: Initialize bridge on attach
+Date: Tue, 25 Jun 2024 14:26:10 +0200
+Message-ID: <20240625122824.148163-1-marex@denx.de>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
 X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,87 +70,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/25/24 8:11 AM, Alexander Stein wrote:
-> Hi Marek,
-> 
-> Am Dienstag, 25. Juni 2024, 02:33:53 CEST schrieb Marek Vasut:
->> On 6/24/24 11:26 AM, Alexander Stein wrote:
->>> Hi Marek,
->>
->> Hi,
->>
->>> Am Freitag, 21. Juni 2024, 16:54:51 CEST schrieb Marek Vasut:
->>>> On 6/21/24 12:32 PM, Alexander Stein wrote:
->>>>
->>>> Hi,
->>>>
->>>> skipping the parts where I would simply write "OK" ...
->>>>
->>>>>>>> As FVUEN is cleared at the next VSYNC event I suspect the DSI timings
->>>>>>>> are (slightly) off, but unfortunately I don't have equipment to check
->>>>>>>> DSI signal quality/timings.
->>>>>>>
->>>>>>> As long as the LCDIFv3 pixel clock are equal or slightly slower than
->>>>>>> what the TC9595 PixelPLL generates, AND, DSIM serializer has enough
->>>>>>> bandwidth on the DSI bus (i.e. set the bus to 1 GHz, the TC9595 DSI RX
->>>>>>> cannot go any faster), you should have no issues on that end.
->>>>>
->>>>> I'm using samsung,burst-clock-frequency = <1000000000> so this should be
->>>>> okay. That is 1080p resolution.
->>>>
->>>> Yes, correct.
->>>>
->>>>>>> When in doubt, try and use i2ctransfer to read out register 0x300
->>>>>>> repeatedly, that's DSI RX error counter register. See if the DSI error
->>>>>>> count increments.
->>>>>
->>>>> If the bridge is not working the registers look like this:
->>>>> 300: c0800000
->>>>> 464: 00000001
->>>>>
->>>>> they are not changing and stay like that.
->>>>>
->>>>> If the bridge is actually running they are like
->>>>> 300: c08000d3
->>>>> 464: 00000000
->>>>>
->>>>> and are also not changing.
->>>>
->>>> Uh ... that looks like the whole chip clock tree somehow locked up .
->>>>
->>>> Thinking about this, I once did force the DSIM into 24 MHz mode (there
->>>> is PLL bypass setting, where the DSIM uses 24 MHz serializer clock
->>>> directly for the DSI HS clock) or something close, it was enough to
->>>> drive a low resolution panel. But the upside was, with a 200 MHz 5Gsps
->>>> scope set to AC-coupling and 10x probe, I could discern the traffic on
->>>> DSI data lane and decode it by hand. The nice thing is, you could
->>>> trigger on 1V2 LP mode, so you know where the packet starts. The
->>>> downside is, if you have multiple data lanes, the packet is spread
->>>> across them.
->>>>
->>>> You could also tweak tc_edp_atomic_check()/tc_edp_mode_valid() and force
->>>> only low(er) resolution modes of your DP panel right from the start, so
->>>> you wouldn't need that much DSI bandwidth. Maybe you could reach some
->>>> mode where your equipment is enough to analyze the traffic by hand ?
->>>
->>> I think I got it running now. Apparently there were different, independent
->>> problems which you addressed by your series.
->>
->> Oh, glad I could help.
->>
->>> Unfortunately the patch
->>> 'tc358767: Disable MIPI_DSI_CLOCK_NON_CONTINUOUS' introduced a new problem
->>> (at least for me). For the record I'm running the following patch stack based
->>> on next-20240621:
->>
->> Thanks for tracking it down. I can drop that one
->> MIPI_DSI_CLOCK_NON_CONTINUOUS patch from the series and do a V4. Would
->> that work for you ? At least there would be some improvement to the
->> driver and I can analyze the MIPI_DSI_CLOCK_NON_CONTINUOUS issue in
->> detail separately.
-> 
-> Sure, thanks to your patches this bridge does its job now.
-> Sure, now that I have a reference system I can easily try a V4 without
-> the MIPI_DSI_CLOCK_NON_CONTINUOUS patch.
+Initialize the bridge on attach already, to force lanes into LP11
+state, since attach does trigger attach of downstream bridges which
+may trigger (e)DP AUX channel mode read.
 
-V4 is now out, thanks !
+This fixes a corner case where DSIM with TC9595 attached to it fails
+to operate the DP AUX channel, because the TC9595 enters some debug
+mode when it is released from reset without lanes in LP11 mode. By
+ensuring the DSIM lanes are in LP11, the TC9595 (tc358767.c driver)
+can be reset in its attach callback called from DSIM attach callback,
+and recovered out of the debug mode just before TC9595 performs first
+AUX channel access later in its attach callback.
+
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Adam Ford <aford173@gmail.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
+Cc: Inki Dae <inki.dae@samsung.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Michael Walle <mwalle@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
+Cc: kernel@dh-electronics.com
+---
+V2: Handle case where mode is not set yet
+---
+ drivers/gpu/drm/bridge/samsung-dsim.c | 32 ++++++++++++++++++++-------
+ 1 file changed, 24 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index e7e53a9e42afb..22d3bbd866d97 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -699,20 +699,24 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
+ 
+ static int samsung_dsim_enable_clock(struct samsung_dsim *dsi)
+ {
+-	unsigned long hs_clk, byte_clk, esc_clk, pix_clk;
++	unsigned long hs_clk, byte_clk, esc_clk;
+ 	unsigned long esc_div;
+ 	u32 reg;
+ 	struct drm_display_mode *m = &dsi->mode;
+ 	int bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+ 
+-	/* m->clock is in KHz */
+-	pix_clk = m->clock * 1000;
+-
+-	/* Use burst_clk_rate if available, otherwise use the pix_clk */
++	/*
++	 * Use burst_clk_rate if available, otherwise use the mode clock
++	 * if mode is already set and available, otherwise fall back to
++	 * PLL input clock and operate in 1:1 lowest frequency mode until
++	 * a mode is set.
++	 */
+ 	if (dsi->burst_clk_rate)
+ 		hs_clk = samsung_dsim_set_pll(dsi, dsi->burst_clk_rate);
++	else if (m)	/* m->clock is in KHz */
++		hs_clk = samsung_dsim_set_pll(dsi, DIV_ROUND_UP(m->clock * 1000 * bpp, dsi->lanes));
+ 	else
+-		hs_clk = samsung_dsim_set_pll(dsi, DIV_ROUND_UP(pix_clk * bpp, dsi->lanes));
++		hs_clk = dsi->pll_clk_rate;
+ 
+ 	if (!hs_clk) {
+ 		dev_err(dsi->dev, "failed to configure DSI PLL\n");
+@@ -1643,9 +1647,21 @@ static int samsung_dsim_attach(struct drm_bridge *bridge,
+ 			       enum drm_bridge_attach_flags flags)
+ {
+ 	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
++	int ret;
+ 
+-	return drm_bridge_attach(bridge->encoder, dsi->out_bridge, bridge,
+-				 flags);
++	ret = pm_runtime_resume_and_get(dsi->dev);
++	if (ret < 0)
++		return ret;
++
++	ret = samsung_dsim_init(dsi);
++	if (ret < 0)
++		goto err;
++
++	ret = drm_bridge_attach(bridge->encoder, dsi->out_bridge, bridge,
++				flags);
++err:
++	pm_runtime_put_sync(dsi->dev);
++	return ret;
+ }
+ 
+ static const struct drm_bridge_funcs samsung_dsim_bridge_funcs = {
+-- 
+2.43.0
+
