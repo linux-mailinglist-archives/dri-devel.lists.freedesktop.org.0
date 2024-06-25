@@ -2,86 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614719170A4
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 20:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62CBF9170EE
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 21:11:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D26B110E71D;
-	Tue, 25 Jun 2024 18:54:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17D8F10E07A;
+	Tue, 25 Jun 2024 19:11:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aAbVCyd1";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Z/V43lAs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 489FB10E71D
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 18:54:50 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-57d044aa5beso6817781a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 11:54:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719341688; x=1719946488; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=RslMOok7+SRb0tZIuuUneQKJy4llxQByohMGQm6a7lg=;
- b=aAbVCyd1QvPpGO0ujdxzrwWFd9p9riBZhE3UBjgPMa/OkO29Rvx9GqSGHkU/O3PIuU
- LQw/ECqCFpXceXjrMs9VVxkGjnUXkiqc9jCr9Yr6ywGQLjxZiSvSh0BErfwqHt4m+LB1
- HfGARYfkh25eqIpXD4Mi1nslukfMHAHTD4PAF2IGhMvi4UpqWkCj3DjGEL1SeFR2NDCI
- BHRbR2nIbNnodXSEhEMNaoSVNF87jIUdcLkA3kC78oH9R9zHn2lTBINiVaoquy7cwEBA
- V9G1yn00skh8GS2Nt2TqgZV/xm1TtmtnLAlTaUJUVjpFerzXMz6aCo7XFIexmCcRhVWh
- bWSA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B19D10E07A
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 19:11:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1719342678;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J6Dr7XzQihg9MSKxY6pbB34NIR1CD8eMrbVwTROvnJc=;
+ b=Z/V43lAsZ3z1c7Cjc7vwel2fJ4VviiJwUH8kjZZF7S7Cs9zhlkKkQqjz9CwjLSQHdr+bQ9
+ gIJV0vawQlmJ0NYOieMJ90HHoLNwAo/3NkTO9nJPL1i2pO1W6eWd0JefmakULssxMUCgOa
+ p1htAcWg2dL6F/9ksM0YuSNcTjQ6l+s=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-668-hWS2Bj75Pia3HS6jmhtaUA-1; Tue, 25 Jun 2024 15:11:15 -0400
+X-MC-Unique: hWS2Bj75Pia3HS6jmhtaUA-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-6b50433add5so90310426d6.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 12:11:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719341688; x=1719946488;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RslMOok7+SRb0tZIuuUneQKJy4llxQByohMGQm6a7lg=;
- b=NZnUKTNJxjVz6ist3Qtj2NcG5n1gFq2z4Z/hMEfbILL4UUXY2gJqL3qh+Wj0IxPjw9
- 41YwQpWwF4Y+dsaI7GgnKIG1YwXpjA7ixCKE6RsU5i+yQRndvYG+zXYc0SIgjuIzEOou
- e+BinH4s7UlKUFi8PW8i+2JSN0BK3rPfE/FbMt+ehxYBfUtYY8pS0hL4yKSykIkHeGiy
- aOZb6wtlmJIM1CEWZFGPhurgVWy6Dew9tAMlp3aSMFIlFyLk/XD/MX+ZLBdRLnSAEaZJ
- Hg5quM2gOxuf0Vq6CmnBvdqa+b+GppNK/agqMK5Wrkesc+k1rUe2k7pNVZe3BQpGVJ4l
- DTXg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXeiKPAKti/Y+4U++kxsYT7hc4UJ5YdussDnMlsku69hgIyaLE7ZBWrVWfVf9JkqSejWwiKcZLiuV0WiMbFz9wohfBZX/mJwPjuTRdA9cjO
-X-Gm-Message-State: AOJu0YwQU4AUhIj3SB6cxD60if8jCOz6psLi0uxB1jCqV0+f1JNxVW/3
- 8cyhtkobLVsHAisaExchxN/BSgOmbULd3OkAxaqFb4+mqBxkGen/vaEr7lTnzk8=
-X-Google-Smtp-Source: AGHT+IGgV5XNEHZlscPIUwGZlGHAvsdbFXvfBd3MkXeqG+BdMPDfhtOjj2M3SWB0pI6uYjgg1nm5bQ==
-X-Received: by 2002:a50:c343:0:b0:57c:7ce3:6cd9 with SMTP id
- 4fb4d7f45d1cf-57d4bd8173amr6264270a12.23.1719341688229; 
- Tue, 25 Jun 2024 11:54:48 -0700 (PDT)
-Received: from [192.168.215.29] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-57d30583e93sm6206332a12.96.2024.06.25.11.54.47
+ d=1e100.net; s=20230601; t=1719342675; x=1719947475;
+ h=mime-version:user-agent:content-transfer-encoding:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ifx89QbqNTvqNTqVFeOnhXLP0jmM+ngsCZbnU659x1A=;
+ b=MTo7oUYaDTOiLOd10g8S3+Zq2cRX2AXQ0cBep535WsdVDqD+SsojmRLDiJNRfpEAkv
+ wu5Jb7mmLKO9wn+YBHSYEqgxJR2EwvR0wdRb5XtwG7sTmYqpcjo7/Dd2PHkCJR7MfHdY
+ KwnWIGSwQ2PTqAGos1WkUXkvSACRFoMMtV/CbEE+Hba3YktULFonJH0qlbmp+i3e4CS3
+ 0054H3XBpLVxOmA5D7ZQe01ZiMxv5B//2op/53Xit36KWFVUcix5tEaZPmWU61lbYH8O
+ YtyaWL2ZDrPuWowOr0HefXxGMGqT3+dumamgXAX9HopehvckqfUctkeGWsblubipEBJT
+ eRNA==
+X-Gm-Message-State: AOJu0YzDFhC27it55ZJHUAUw168Ob0SWOzX/w1Wdq1p+8beTixQ/ND6V
+ ksURVXh4enzTx5zjDa+tBJ3RTJP8KYLZdo7GUCCvroS3idux1p3nxnzKJGBSsl5DbydeOFvi/XR
+ le/0rzupJ9kZkoXDExQFUDnjzCKu1qKRjkBfKo7g8OZiSo8Ose7v3+H+WDf8Kbjo45g==
+X-Received: by 2002:a0c:ac4c:0:b0:6b5:101d:201 with SMTP id
+ 6a1803df08f44-6b53bbd2640mr88923816d6.39.1719342674641; 
+ Tue, 25 Jun 2024 12:11:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH6Jt3WC0d7hZup1taiuXs6wrI0vbXesfenzHXw1GMzzA+zIlNjhXPp/ZyUSjSvtzxHI6BjjQ==
+X-Received: by 2002:a0c:ac4c:0:b0:6b5:101d:201 with SMTP id
+ 6a1803df08f44-6b53bbd2640mr88923626d6.39.1719342674299; 
+ Tue, 25 Jun 2024 12:11:14 -0700 (PDT)
+Received: from chopper.lyude.net ([2600:4040:5c4c:a000::789])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6b51ef54a9bsm47185826d6.112.2024.06.25.12.11.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jun 2024 11:54:47 -0700 (PDT)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Tue, 25 Jun 2024 20:54:42 +0200
-Subject: [PATCH v2 2/2] Revert "drm/msm/a6xx: Poll for GBIF unhalt status
- in hw_init"
+ Tue, 25 Jun 2024 12:11:13 -0700 (PDT)
+Message-ID: <2020b1333c0f0be49648b81ebc4b55f3abe0a2cd.camel@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/dispnv04: fix null pointer dereference in
+ nv17_tv_get_ld_modes
+From: Lyude Paul <lyude@redhat.com>
+To: Ma Ke <make24@iscas.ac.cn>, kherbst@redhat.com, dakr@redhat.com, 
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Date: Tue, 25 Jun 2024 15:11:12 -0400
+In-Reply-To: <20240625081828.2620794-1-make24@iscas.ac.cn>
+References: <20240625081828.2620794-1-make24@iscas.ac.cn>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240625-adreno_barriers-v2-2-c01f2ef4b62a@linaro.org>
-References: <20240625-adreno_barriers-v2-0-c01f2ef4b62a@linaro.org>
-In-Reply-To: <20240625-adreno_barriers-v2-0-c01f2ef4b62a@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Akhil P Oommen <quic_akhilpo@quicinc.com>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1719341683; l=1182;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=IqxT/XaY/qre3pbFCzxDe2dM3jXz5RZUhwZonz27NSw=;
- b=bf4fOmgiiY9wBmlPLmScoY7M3PVhXAq9z2YI3hCMleizQn83eYlbtCBhdiLjMkanneiBIOPKC
- IrQh0EQxtzKBYdtR/m9m5FMJSE+oheGuEHORh4MyKpSMMYSeCtNfD4f
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,37 +94,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit c9707bcbd0f3 ("drm/msm/adreno: De-spaghettify the use of memory
-barriers") made some fixups relating to write arrival, ensuring that
-the GPU's memory interface has *really really really* been told to come
-out of reset. That in turn rendered the hacky commit being reverted no
-longer necessary.
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-Get rid of it.
+On Tue, 2024-06-25 at 16:18 +0800, Ma Ke wrote:
+> In nv17_tv_get_ld_modes(), the return value of drm_mode_duplicate()
+> is
+> assigned to mode, which will lead to a possible NULL pointer
+> dereference
+> on failure of drm_mode_duplicate(). Add a check to avoid npd.
+>=20
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+> ---
+> =C2=A0drivers/gpu/drm/nouveau/dispnv04/tvnv17.c | 2 ++
+> =C2=A01 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> index 670c9739e5e1..4a08e61f3336 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> @@ -209,6 +209,8 @@ static int nv17_tv_get_ld_modes(struct
+> drm_encoder *encoder,
+> =C2=A0=09=09struct drm_display_mode *mode;
+> =C2=A0
+> =C2=A0=09=09mode =3D drm_mode_duplicate(encoder->dev, tv_mode);
+> +=09=09if (!mode)
+> +=09=09=09continue;
+> =C2=A0
+> =C2=A0=09=09mode->clock =3D tv_norm->tv_enc_mode.vrefresh *
+> =C2=A0=09=09=09mode->htotal / 1000 *
 
-This reverts commit b77532803d11f2b03efab2ebfd8c0061cd7f8b30.
-
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 4083d0cad782..03e23eef5126 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -867,10 +867,6 @@ static int hw_init(struct msm_gpu *gpu)
- 		gpu_read(gpu, REG_A6XX_RBBM_GBIF_HALT);
- 	}
- 
--	/* Some GPUs are stubborn and take their sweet time to unhalt GBIF! */
--	if (adreno_is_a7xx(adreno_gpu) && a6xx_has_gbif(adreno_gpu))
--		spin_until(!gpu_read(gpu, REG_A6XX_GBIF_HALT_ACK));
--
- 	gpu_write(gpu, REG_A6XX_RBBM_SECVID_TSB_CNTL, 0);
- 
- 	if (adreno_is_a619_holi(adreno_gpu))
-
--- 
-2.45.2
+--=20
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
