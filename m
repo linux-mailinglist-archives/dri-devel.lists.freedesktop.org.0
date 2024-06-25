@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0A89166E9
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 14:04:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A5CC9166EB
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 14:04:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A6FD10E631;
-	Tue, 25 Jun 2024 12:04:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F40E10E640;
+	Tue, 25 Jun 2024 12:04:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="vsoTowtD";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="tZEf98wX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BEC410E649
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 12:04:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0372410E649
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 12:04:26 +0000 (UTC)
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 670D588208;
- Tue, 25 Jun 2024 14:04:23 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 1714E88387;
+ Tue, 25 Jun 2024 14:04:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1719317064;
- bh=OWHgOyzrX6GcTTye7QhOCVj+Vwf+b1SjX7B7O5r4gmg=;
+ bh=5km6YSfM/t0wv/1qY8zkIrmrk3ekkTQxALhBCkCLtVc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vsoTowtDp3HV0LYi1ahb+kmTLOqkjJ7Ey/IkkcIheFx851dGlhs42nyL6CFLX+Cv9
- zwTJljnnEX1TWnJ4uOES5eR2xOJ+BT4zrJAhjGxjf+d857ydIQaNLqhuBIqsAv76Ns
- GDl4xsFjzwu5x0r//e8jf97MKTdldVNAOE00tTNez7qUU+rWkzEFnPviulx3lNf5ZK
- BC7tr0zfPZvImQwGk57K1h8Vht2gi2M0IWWz8swJJb2b3Xc/26wSJKoatWsMp045KS
- Pjs4pEmfbwBXM+EuxgjJHvsteb+YIpXREC9azr73BQM8X6vLMe2h9brMFVqOCdUaqa
- ifNUI0rdqmBZw==
+ b=tZEf98wXAS9HMGmOV1qEQo94SvXj4iLagKWGYiFNZipKS4IMgy03XZRs93AVQ//g9
+ ZtPWMTDR4HzmjkltCmOyTZQltWHYoRccZsOxUz5B7mLXGJxK+q8QXxdSzA4Rb8Didw
+ o35i9hAAFR9uQ930IuepjR+ViLhuei6FwYaz5uk53imsDh+82K1akrcpLwPBxdYQBR
+ 1sjmeR6iq4kbLxirS+dn1EPL3Qk+EpvySlhXzAmhBQLjGeP921704LKyvnIWAnEX5x
+ TNRvlOtjlXMWLtQJQiTh7Vnw4qUQgvhlPtKoIG/Qjb0ejPQNIX9S9yzbYGsN3/CyqE
+ WtU3ISG/uQzqw==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marex@denx.de>,
@@ -44,9 +44,10 @@ Cc: Marek Vasut <marex@denx.de>,
  Maxime Ripard <mripard@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
-Subject: [PATCH v4 4/5] drm/bridge: tc358767: Set LSCLK divider for SYSCLK to 1
-Date: Tue, 25 Jun 2024 14:02:33 +0200
-Message-ID: <20240625120334.145320-4-marex@denx.de>
+Subject: [PATCH v4 5/5] Revert "drm/bridge: tc358767: Set default CLRSIPO
+ count"
+Date: Tue, 25 Jun 2024 14:02:34 +0200
+Message-ID: <20240625120334.145320-5-marex@denx.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240625120334.145320-1-marex@denx.de>
 References: <20240625120334.145320-1-marex@denx.de>
@@ -69,12 +70,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The only information in the datasheet regarding this divider is a note
-in SYS_PLLPARAM register documentation which states that when LSCLK is
-270 MHz, LSCLK_DIV should be 1. What should LSCLK_DIV be set to when
-LSCLK is 162 MHz (for DP 1.62G mode) is unclear, but empirical test
-confirms using LSCLK_DIV 1 has no adverse effects either. In the worst
-case, the internal TC358767 clock would run faster.
+This reverts commit 01338bb82fed40a6a234c2b36a92367c8671adf0.
+
+With clock improvements in place, this seems to be no longer
+necessary. Set the CLRSIPO to default setting recommended by
+manufacturer.
 
 Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 Signed-off-by: Marek Vasut <marex@denx.de>
@@ -98,22 +98,28 @@ V2: No change
 V3: No change
 V4: - Add RB from Alexander
 ---
- drivers/gpu/drm/bridge/tc358767.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/tc358767.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 19684b8400bef..0c6912bd5ec9e 100644
+index 0c6912bd5ec9e..cc8bf9416b661 100644
 --- a/drivers/gpu/drm/bridge/tc358767.c
 +++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -738,7 +738,7 @@ static int tc_stream_clock_calc(struct tc_data *tc)
- static int tc_set_syspllparam(struct tc_data *tc)
- {
- 	unsigned long rate;
--	u32 pllparam = SYSCLK_SEL_LSCLK | LSCLK_DIV_2;
-+	u32 pllparam = SYSCLK_SEL_LSCLK | LSCLK_DIV_1;
+@@ -1356,10 +1356,10 @@ static int tc_dsi_rx_enable(struct tc_data *tc)
+ 	u32 value;
+ 	int ret;
  
- 	rate = clk_get_rate(tc->refclk);
- 	switch (rate) {
+-	regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 25);
+-	regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 25);
+-	regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 25);
+-	regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 25);
++	regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 5);
++	regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 5);
++	regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 5);
++	regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 5);
+ 	regmap_write(tc->regmap, PPI_D0S_ATMR, 0);
+ 	regmap_write(tc->regmap, PPI_D1S_ATMR, 0);
+ 	regmap_write(tc->regmap, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
 -- 
 2.43.0
 
