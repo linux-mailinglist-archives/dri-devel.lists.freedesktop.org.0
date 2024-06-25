@@ -2,84 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEEF0916984
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 15:55:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D2AC9169A4
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 15:58:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8F9C10E19D;
-	Tue, 25 Jun 2024 13:55:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7824410E659;
+	Tue, 25 Jun 2024 13:58:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="cXWoizWS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BFVo98BP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F06A710E19D
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 13:55:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1719323714;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UaeGoK0eatHetnLAWVTTK63vq8uGu/XK8LtxE4rj8O4=;
- b=cXWoizWSI3iBXu4OSu4jTqeFiWl/YkW7so2JOLtO5ww2rvKIFKPtI50tW8i8uC69mjrF6P
- CcbSTPXJ4L83QnwEQ8dJsYFnRJeJ9Y1T3EB8z/MHCaUc+z4Qw1I4itEYgFfDDN/wS/3gRQ
- BU1bvxdP7/rzVvfviz+e2gG59JcigaM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-395-VDcLGNHvPNC0euIogM1lbQ-1; Tue, 25 Jun 2024 09:55:12 -0400
-X-MC-Unique: VDcLGNHvPNC0euIogM1lbQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3625bef4461so3123253f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 06:55:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719323711; x=1719928511;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UaeGoK0eatHetnLAWVTTK63vq8uGu/XK8LtxE4rj8O4=;
- b=TjcuDdDhLDy2gPDjWEnz/yj5YmaQIgfMR8oKvxuJ+s4DN98gH+luDCctbryhWIHV52
- m/rsmlYkb24eOjuWpJ+l5aiEWSrtLq4rJeSRU7SErof2/ncknfsv1q9GLGFBMGrEuQkP
- glWEqBjoD4KrsVHWMvo4oCX1dOVbbSuGMhtLXIpc8AxnpvFclMPV50yvkWqsM6UFoY6R
- cprvaUZWEsoWkSFc2EVcbDj+hGQzH8Oxc5RmxXxnwKxGRMlBjhkvoqhNN1doU4YtG6fh
- akDc6J5PnZiA6xPPI0oGNLT2+L1JbIvC+Wv6+rTxdWnrbS3Jkh+TyRxjLqcMritgLbHD
- XdzQ==
-X-Gm-Message-State: AOJu0Ywsxkmak3ZiSD80II7lUMDN7rBCU5itlnJpwQgzfEEb/Q4BwCMV
- Vd0OTs+rPRuePVrtx055SQXvWqpwcr60vSPWxDQhrkKK7YiIV+qiRHL55Ai5fBP4opJWsyqPlnn
- bcECpdEyrCf8f+M3g3Vo5RVX3TzDZHbyVrKKFA+qWtHWLJY/oreL68/G9ycZK7AZxQCZ6qIEvBQ
- ==
-X-Received: by 2002:adf:ec03:0:b0:364:4321:271a with SMTP id
- ffacd0b85a97d-366e32f70abmr7267139f8f.25.1719323711055; 
- Tue, 25 Jun 2024 06:55:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFYDXJWmrfMPIL8aDwNbTYT9qG6cZZcFH9JaV0tKW8U0JIFETQS8cwTQ8meXDrRWbHrhNc81A==
-X-Received: by 2002:adf:ec03:0:b0:364:4321:271a with SMTP id
- ffacd0b85a97d-366e32f70abmr7267124f8f.25.1719323710641; 
- Tue, 25 Jun 2024 06:55:10 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
- ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-366ed18dfeesm6987570f8f.93.2024.06.25.06.55.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Jun 2024 06:55:09 -0700 (PDT)
-Message-ID: <85916061-256b-4268-9361-67421dcb51e8@redhat.com>
-Date: Tue, 25 Jun 2024 15:55:09 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28AC110E655;
+ Tue, 25 Jun 2024 13:58:30 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 14BF96147D;
+ Tue, 25 Jun 2024 13:58:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F6C0C32781;
+ Tue, 25 Jun 2024 13:58:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1719323908;
+ bh=z/SrKzFh8FsvTvW1LfwzGcSQlXiVohodF0eVYwHlPW0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BFVo98BP1EpOONpMW26fOQOBm4cwNPwIzH9LM1svSb4OgBjgSQwmp6/8tZtb9wyHO
+ 3AGWJAcLChikXIa9hIxaiUmhBt9h4/mtqaobnzZ69jT7iP0/lYDBT+SV0YWEeCd4+X
+ iSsTiCOzeTpniz+UG3sEkP2HU+mXi+iSN6UErJq6R5CisZsXohrQoFREAO5MoGbkad
+ lMFjuCsQJyRU7Qii7T5EXB06nR73vO/sEYZ+15We3a6Dd7emnQGGDJPnF2plMCEJxX
+ e6JvhXyitPLMXkyP4L0u7ALWPLYjpomcP0dju74JPHqomGJxsOdH0UJR72Vph3oArd
+ J1iMXM9gs3vgA==
+Date: Tue, 25 Jun 2024 15:58:25 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ "igt-dev@lists.freedesktop.org" <igt-dev@lists.freedesktop.org>, 
+ Petri Latvala <adrinael@adrinael.net>,
+ Kamil Konieczny <kamil.konieczny@linux.intel.com>, 
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] drm/connector: automatically set immutable flag
+ for max_bpc property
+Message-ID: <20240625-enlightened-optimistic-fossa-fdd128@houat>
+References: <20240623-drm-bridge-connector-fix-hdmi-reset-v2-0-8590d44912ce@linaro.org>
+ <20240623-drm-bridge-connector-fix-hdmi-reset-v2-2-8590d44912ce@linaro.org>
+ <99ff549c-f5c4-dc9c-42f3-396dc3d29d6b@quicinc.com>
+ <CAA8EJppcH-z275m6xDQaigsxmVhnfJkLVsq68GHLFoAq_p_2GA@mail.gmail.com>
+ <30fa4e53-5a03-4030-2be5-f383a1c60077@quicinc.com>
+ <CAA8EJpo_dBDqLUVH-SkufhFchu64rhC+vkhVBFdt++E4pdCrQg@mail.gmail.com>
+ <20240625-yellow-shrimp-of-genius-17c662@houat>
+ <CAA8EJpr_kn=x080KLGfwsLi3PnnNhTjJhvL=hiRNLBD=WqSuZQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ast: Inline drm_simple_encoder_init()
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-References: <20240625131815.14514-1-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20240625131815.14514-1-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="2wb3bjjqeq4p5mtd"
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpr_kn=x080KLGfwsLi3PnnNhTjJhvL=hiRNLBD=WqSuZQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,154 +81,127 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--2wb3bjjqeq4p5mtd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 25/06/2024 15:18, Thomas Zimmermann wrote:
-> The function drm_simple_encoder_init() is a trivial helper and
-> deprecated. Replace it with the regular call to drm_encoder_init().
-> Resolves the dependency on drm_simple_kms_helper.h. No functional
-> changes.
+On Tue, Jun 25, 2024 at 10:23:14AM GMT, Dmitry Baryshkov wrote:
+> On Tue, 25 Jun 2024 at 10:19, Maxime Ripard <mripard@kernel.org> wrote:
+> >
+> > Hi,
+> >
+> > On Tue, Jun 25, 2024 at 09:21:27AM GMT, Dmitry Baryshkov wrote:
+> > > On Tue, 25 Jun 2024 at 01:56, Abhinav Kumar <quic_abhinavk@quicinc.co=
+m> wrote:
+> > > >
+> > > >
+> > > >
+> > > > On 6/24/2024 3:46 PM, Dmitry Baryshkov wrote:
+> > > > > On Tue, 25 Jun 2024 at 01:39, Abhinav Kumar <quic_abhinavk@quicin=
+c.com> wrote:
+> > > > >>
+> > > > >> + IGT dev
+> > > > >>
+> > > > >> On 6/22/2024 10:40 PM, Dmitry Baryshkov wrote:
+> > > > >>> With the introduction of the HDMI Connector framework the drive=
+r might
+> > > > >>> end up creating the max_bpc property with min =3D max =3D 8. IG=
+T insists
+> > > > >>> that such properties carry the 'immutable' flag. Automatically =
+set the
+> > > > >>> flag if the driver asks for the max_bpc property with min =3D=
+=3D max.
+> > > > >>>
+> > > > >>
+> > > > >> This change does not look right to me.
+> > > > >>
+> > > > >> I wonder why we need this check because DRM_MODE_PROP_IMMUTABLE =
+means
+> > > > >> that as per the doc, userspace cannot change the property.
+> > > > >>
+> > > > >>            * DRM_MODE_PROP_IMMUTABLE
+> > > > >>            *     Set for properties whose values cannot be chang=
+ed by
+> > > > >>            *     userspace. The kernel is allowed to update the =
+value of
+> > > > >> these
+> > > > >>            *     properties. This is generally used to expose pr=
+obe state to
+> > > > >>            *     userspace, e.g. the EDID, or the connector path=
+ property
+> > > > >> on DP
+> > > > >>            *     MST sinks. Kernel can update the value of an im=
+mutable
+> > > > >> property
+> > > > >>            *     by calling drm_object_property_set_value().
+> > > > >>            */
+> > > > >>
+> > > > >> Here we are allowing userspace to change max_bpc
+> > > > >>
+> > > > >>
+> > > > >> drm_atomic_connector_set_property()
+> > > > >> {
+> > > > >>          **********
+> > > > >>
+> > > > >>           } else if (property =3D=3D connector->max_bpc_property=
+) {
+> > > > >>                   state->max_requested_bpc =3D val;
+> > > > >>
+> > > > >>          **********
+> > > > >> }
+> > > > >>
+> > > > >> I believe you are referring to this IGT check right?
+> > > > >>
+> > > > >> https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/t=
+ests/kms_properties.c#L428
+> > > > >
+> > > > > Yes
+> > > > >
+> > > > >>
+> > > > >> I think we should fix IGT in this case unless there is some reas=
+on we
+> > > > >> are missing. Because just because it has the same min and max do=
+es not
+> > > > >> mean its immutable by the doc of the IMMUTABLE flag.
+> > > > >
+> > > > > Well, having the same min and max means that it is impossible to
+> > > > > change the property. So the property is immutable, but doesn't ha=
+ve
+> > > > > the flag.
+> > > > >
+> > > >
+> > > > True, then does DRM_MODE_PROP_IMMUTABLE need a doc update too indic=
+ating
+> > > > that even if the min and max is same, property will be interpreted =
+as
+> > > > immutable.
+> > >
+> > > Granted that I'm only doing it for max_bpc property I don't think so.
+> >
+> > Yeah, I have to agree with Abhinav here, it does look fishy to me too,
+> > even more so that it's only ever "documented" through an igt routine
+> > that has never documented why we want that.
+> >
+> > I'm fine with the change if it's indeed what we expect, and it might
+> > very well be, but I'd like to clear that up and document it first.
+>=20
+> Should I also move the setting of the IMMUTABLE flag to a more generic co=
+de?
 
-Do you think it's possible to add a default to drm_encoder_init() to 
-avoid having to declare the same struct for each encoder ?
+Possibly, but I guess that will depend on the outcome of that discussion
 
-something like:
+Maxime
 
-drm_encoder_init(...)
-{
+--2wb3bjjqeq4p5mtd
+Content-Type: application/pgp-signature; name="signature.asc"
 
-if (!funcs)
-	funcs = &drm_encoder_default_funcs;
+-----BEGIN PGP SIGNATURE-----
 
-So you can call it like this to get the default funcs:
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZnrNAQAKCRDj7w1vZxhR
+xVzsAQCnu6DC0Ka/hvDQ2v8nWmyLROciJ0aE03Y99+Psr1oDQwD+JlXJWLZr4PzM
+VUzEa4rZRsI9MAKL3N5mWA5QF0rn5AY=
+=3G09
+-----END PGP SIGNATURE-----
 
-drm_encoder_init(dev, encoder, NULL, DRM_MODE_ENCODER_DAC, NULL);
-
-
-I don't see this pattern in other drm functions, so it might not fit the 
-current coding style.
-
-Best regards,
-
--- 
-
-Jocelyn
-
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/ast/ast_mode.c | 45 ++++++++++++++++++++++++++++++----
->   1 file changed, 40 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index 6695af70768f..2fd9c78eab73 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -45,7 +45,6 @@
->   #include <drm/drm_managed.h>
->   #include <drm/drm_panic.h>
->   #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_simple_kms_helper.h>
->   
->   #include "ast_ddc.h"
->   #include "ast_drv.h"
-> @@ -1358,6 +1357,14 @@ static int ast_crtc_init(struct drm_device *dev)
->   	return 0;
->   }
->   
-> +/*
-> + * VGA Encoder
-> + */
-> +
-> +static const struct drm_encoder_funcs ast_vga_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
->   /*
->    * VGA Connector
->    */
-> @@ -1411,7 +1418,8 @@ static int ast_vga_output_init(struct ast_device *ast)
->   	struct drm_connector *connector = &ast->output.vga.connector;
->   	int ret;
->   
-> -	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
-> +	ret = drm_encoder_init(dev, encoder, &ast_vga_encoder_funcs,
-> +			       DRM_MODE_ENCODER_DAC, NULL);
->   	if (ret)
->   		return ret;
->   	encoder->possible_crtcs = drm_crtc_mask(crtc);
-> @@ -1427,6 +1435,14 @@ static int ast_vga_output_init(struct ast_device *ast)
->   	return 0;
->   }
->   
-> +/*
-> + * SIL164 Encoder
-> + */
-> +
-> +static const struct drm_encoder_funcs ast_sil164_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
->   /*
->    * SIL164 Connector
->    */
-> @@ -1480,7 +1496,8 @@ static int ast_sil164_output_init(struct ast_device *ast)
->   	struct drm_connector *connector = &ast->output.sil164.connector;
->   	int ret;
->   
-> -	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
-> +	ret = drm_encoder_init(dev, encoder, &ast_sil164_encoder_funcs,
-> +			       DRM_MODE_ENCODER_TMDS, NULL);
->   	if (ret)
->   		return ret;
->   	encoder->possible_crtcs = drm_crtc_mask(crtc);
-> @@ -1496,6 +1513,14 @@ static int ast_sil164_output_init(struct ast_device *ast)
->   	return 0;
->   }
->   
-> +/*
-> + * DP501 Encoder
-> + */
-> +
-> +static const struct drm_encoder_funcs ast_dp501_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
->   /*
->    * DP501 Connector
->    */
-> @@ -1578,7 +1603,8 @@ static int ast_dp501_output_init(struct ast_device *ast)
->   	struct drm_connector *connector = &ast->output.dp501.connector;
->   	int ret;
->   
-> -	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
-> +	ret = drm_encoder_init(dev, encoder, &ast_dp501_encoder_funcs,
-> +			       DRM_MODE_ENCODER_TMDS, NULL);
->   	if (ret)
->   		return ret;
->   	encoder->possible_crtcs = drm_crtc_mask(crtc);
-> @@ -1594,6 +1620,14 @@ static int ast_dp501_output_init(struct ast_device *ast)
->   	return 0;
->   }
->   
-> +/*
-> + * ASPEED Display-Port Encoder
-> + */
-> +
-> +static const struct drm_encoder_funcs ast_astdp_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
->   /*
->    * ASPEED Display-Port Connector
->    */
-> @@ -1688,7 +1722,8 @@ static int ast_astdp_output_init(struct ast_device *ast)
->   	struct drm_connector *connector = &ast->output.astdp.connector;
->   	int ret;
->   
-> -	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
-> +	ret = drm_encoder_init(dev, encoder, &ast_astdp_encoder_funcs,
-> +			       DRM_MODE_ENCODER_TMDS, NULL);
->   	if (ret)
->   		return ret;
->   	encoder->possible_crtcs = drm_crtc_mask(crtc);
-
+--2wb3bjjqeq4p5mtd--
