@@ -2,109 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 768BE9169FC
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 16:16:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53DB0916A1A
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 16:18:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B86B810E667;
-	Tue, 25 Jun 2024 14:16:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 605F810E66A;
+	Tue, 25 Jun 2024 14:18:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cfoMPuRi";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BrBjVYx1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E408910E667
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 14:16:22 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-421cd1e5f93so42207705e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 07:16:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719324981; x=1719929781; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=/XbwCezfhWbmSEC4HDR62w3HCK7ee4grHDBBWM8UBvM=;
- b=cfoMPuRiiqhvknt3X72eqy5qW6csWPtl81LSwnbikimWcjfEekVIkci0zDWEJQytjD
- 4xLNI9k+gUEy7t5lEjfUk3OzyPWOI8jqou5wKE4OSwDQ/+5DXiT6OOFy1U8Ogd9+BHOr
- fK9fKSADIjp0qKHB1yYX4LxlMk+iTILa6LrkbY15WMVhIqEJRJkBYmKyfQQjrzVwVCI1
- KGLXNtRbV/qithl49hIYZPdDwS0sWK5INHXjCBdK4Pjvs8oIeWF+omVAQu5NfU13Sjuo
- KJyOeMc4FvLx4c4DM+I6jygDgcmGJdKWS02hJjdmzH1xpzGUF3pxYA+aPphYloN6XvB5
- H90A==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A884D10E66A
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 14:18:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1719325110;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Fb6+3hXYvaZXmUN1Sk2sdsnwB2lb4gcWlnYa3YyVPno=;
+ b=BrBjVYx1thm9jiyJVZJK+CFDFBayCHyg/5yfSXBRe7Q73hcjTeAPcQOU34zhndSwZBYO/l
+ o/fQey88U7foEogeHIyWCUdgTC8IlLoqLks0d/Q9YqYUJl04Y8z76M3tK9Sd3VZtYd9+aU
+ ah49tA9B9Ug5C+6HqrgIhrEbkNl66II=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-561-yE8o4kfjOiyc_LLoCf5icg-1; Tue, 25 Jun 2024 10:18:29 -0400
+X-MC-Unique: yE8o4kfjOiyc_LLoCf5icg-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ 38308e7fff4ca-2ec5057538aso32212951fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 07:18:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719324981; x=1719929781;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=/XbwCezfhWbmSEC4HDR62w3HCK7ee4grHDBBWM8UBvM=;
- b=elF4KhaPJkUaMi4i00HZKULCwDqz9Amc5jhIzumY1ggamB/wD1od8X52M22CTVsK3d
- sokBnDnWoNunWwupeYK+cGN81yFGLM6c4/sfBYm3m+c30cRB5hqIcALhajLZPZOFG42h
- qHX2Rxz+igb4+TEw5MnXRQEqfJymLF/e7GQJ/Cqzj6mJCiM9dWq08GAHLYv3DZVVp8q2
- vNi8+YJL/JghBaCz8FFI9eCklRefflVTnMUnQAsqRS4QdGO43MECW8Y7LyKv5VaknLal
- n1CwM5bG3LnsMH/I30ImUMvgrSExLupidd65ym5L7og15/D3uBK7RjJbZx9806im7mwE
- W/Gg==
-X-Gm-Message-State: AOJu0YxhfIifLRJ6e9DiHR+iAiwg376JbiEE3YkI69/hpBtqllB3WM83
- Tn3hzTwpvXvO0M1lqjQIFrHnEWfM3E0LIXWYfYdj9FSsOybTMHUgAUsdyBEBmgE=
-X-Google-Smtp-Source: AGHT+IEDwR3R+Yc2zndJ2m2H9HBzMvQCVx6dbHj7Y+/+ZwJjUOOAdQw1yOvr/BHHrG5A7T3tsUhPPQ==
-X-Received: by 2002:a05:600c:4658:b0:420:66e:4c31 with SMTP id
- 5b1f17b1804b1-4248cc6693fmr67042985e9.34.1719324980468; 
- Tue, 25 Jun 2024 07:16:20 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:bd71:2ff1:592d:f52a?
- ([2a01:e0a:982:cbb0:bd71:2ff1:592d:f52a])
+ d=1e100.net; s=20230601; t=1719325108; x=1719929908;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Fb6+3hXYvaZXmUN1Sk2sdsnwB2lb4gcWlnYa3YyVPno=;
+ b=qkayMalxDFsDlcZIspK+W+36XHNJN59t3Xcajwt7k3Lac15fv6MobXR4oaCKf7dDMv
+ e34PaMev6YxA+rM1dn+5vAJWMhJpP3J1b4qSnIKW3vfIwiCcKTb5nORQNGI2sRLqrw1V
+ XpHxm66naWw58BCRWRRsbyvQJ2o67sTRFS/+cJnYzIWN7GDoyG0OwRdAjKJ4814pKBjj
+ SDbTOE/8c8/pAJ3ovUspBTdrCKN9kgzr4rX9BP0o2ES5M94sRJtM6Wcn55hfFkH1Z6B/
+ ygAcCJvlrql/hK1Zb1whvuxCXEzNe4aSlUQ21nglcaU3d4nridIaMHLyR1WpykqU7nmA
+ bm+w==
+X-Gm-Message-State: AOJu0Yy/DFd9lD+vpUEH6CaiYJLnGQ9QhxRWdxRF8GuN6qZ7Jo7tdg/f
+ NUiTuddqFa3MnSWirXzIbZyEmXfbZ23FXvgtO0z3jBdXqGo5CFlkHR+g6NPBhLHEIsqkILR5vi9
+ j0Yv3uUUWoAvsFv2WgSRg8KruMuuz7C6ifMRk19plxWqlFF8Hc1uBRH5KvXlT7T+4Tg==
+X-Received: by 2002:a05:6512:205:b0:52c:cc38:5e1f with SMTP id
+ 2adb3069b0e04-52ce0641433mr5929287e87.47.1719325107766; 
+ Tue, 25 Jun 2024 07:18:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGkZo8Jfpchvj43cpJws88rwUYuN6JZUDN/srs+KD8fl07pypxFFywUCYNLsQ9LMXnMZWOc+Q==
+X-Received: by 2002:a05:6512:205:b0:52c:cc38:5e1f with SMTP id
+ 2adb3069b0e04-52ce0641433mr5929230e87.47.1719325106493; 
+ Tue, 25 Jun 2024 07:18:26 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
+ ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4247d0c54e4sm217625085e9.23.2024.06.25.07.16.19
+ ffacd0b85a97d-366383f687dsm13094661f8f.15.2024.06.25.07.18.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Jun 2024 07:16:20 -0700 (PDT)
-Message-ID: <1de36429-a27a-4244-8e39-4cb0b09b2689@linaro.org>
-Date: Tue, 25 Jun 2024 16:16:18 +0200
+ Tue, 25 Jun 2024 07:18:25 -0700 (PDT)
+Message-ID: <3909ae22-c0c0-4f0a-b3e3-b124e86512f7@redhat.com>
+Date: Tue, 25 Jun 2024 16:18:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/bridge: display-connector: Fix
- atomic_get_input_bus_fmt hook
-To: Aradhya Bhatia <a-bhatia1@ti.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>
-Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Jai Luthra <j-luthra@ti.com>
-References: <20240625095049.328461-1-a-bhatia1@ti.com>
+Subject: Re: [PATCH] drm/ast: Inline drm_simple_encoder_init()
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+References: <20240625131815.14514-1-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20240625131815.14514-1-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20240625095049.328461-1-a-bhatia1@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,135 +91,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/06/2024 11:50, Aradhya Bhatia wrote:
-> The display-connector acts as a pass-through bridge. To truly reflect
-> that, this bridge should accept the same input format, as it expects to
-> output. That in turn should be the same as what the preceding bridge has
-> to output.
+
+On 25/06/2024 15:18, Thomas Zimmermann wrote:
+> The function drm_simple_encoder_init() is a trivial helper and
+> deprecated. Replace it with the regular call to drm_encoder_init().
+> Resolves the dependency on drm_simple_kms_helper.h. No functional
+> changes.
+
+Thanks for your patch, it looks good to me.
+
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 > 
-> While the get_output_fmt hook does exactly that by calling the same hook
-> of the previous bridge, the get_input_fmt hook should simply propagate
-> the expected output format as its required input format.
-> 
-> Let's say bridge(n) converts YUV bus format to RGB before transmitting
-> the video signals. B is supposed to be RGB and A is YUV. The
-> get_input_fmt hook of bridge(n) should receive RGB as its expected
-> output format for it to select YUV as its required input format.
-> 
-> Moreover, since the display-connector is a pass-through bridge, X and Y
-> should both be RGB as well.
-> 
->      +-------------+            +-------------+
-> A   |             |   B    X   |             |   Y
-> --->|  Bridge(n)  +--->    --->| Display     +--->
->      |             |            | Connector   |
->      |             |            |             |
->      +-------------+            +-------------+
-> 
-> But that's not what's happening at the moment.
-> 
-> The core will call get_output_fmt hook of display-connector, which will
-> call the same hook of bridge(n). Y will get set to RGB because B is RGB.
-> 
-> Now the core will call get_input_fmt hook of display-connector with Y =
-> RGB as its expected output format. This hook will in turn call the
-> get_input_fmt hook of bridge(n), with expected output as RGB. This hook
-> will then return YUV as its required input format, which will set X =
-> YUV.
-> 
-> This is where things get off the track. The core will then call
-> bridge(n)'s get_input_fmt hook but this time the expected output will
-> have changed to X = YUV, instead of what ideally should have been X =
-> RGB. We don't know how bridge(n)'s input format requirement will change
-> now that its expected output format isn't RGB but YUV.
-> 
-> Ideally, formats Y, X, B need to be the same and the get_input_fmt hook
-> for bridge(n) should be called with these as its expected output format.
-> Calling that hook twice can potentially change the expected output
-> format - which can then change the required input format again, or it
-> might just throw an -ENOTSUPP error.
-> 
-> While many bridges don't utilize these APIs, or in a lot of cases A and
-> B are same anyway, it is not the biggest problem, but one that should be
-> fixed anyway.
-> 
-> Fix this.
-> 
-> Fixes: 7cd70656d128 ("drm/bridge: display-connector: implement bus fmts callbacks")
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/bridge/display-connector.c | 40 +---------------------
->   1 file changed, 1 insertion(+), 39 deletions(-)
+>   drivers/gpu/drm/ast/ast_mode.c | 45 ++++++++++++++++++++++++++++++----
+>   1 file changed, 40 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-> index ab8e00baf3f1..eebf1fbcdd23 100644
-> --- a/drivers/gpu/drm/bridge/display-connector.c
-> +++ b/drivers/gpu/drm/bridge/display-connector.c
-> @@ -131,50 +131,12 @@ static u32 *display_connector_get_output_bus_fmts(struct drm_bridge *bridge,
->   							      num_output_fmts);
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 6695af70768f..2fd9c78eab73 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -45,7 +45,6 @@
+>   #include <drm/drm_managed.h>
+>   #include <drm/drm_panic.h>
+>   #include <drm/drm_probe_helper.h>
+> -#include <drm/drm_simple_kms_helper.h>
+>   
+>   #include "ast_ddc.h"
+>   #include "ast_drv.h"
+> @@ -1358,6 +1357,14 @@ static int ast_crtc_init(struct drm_device *dev)
+>   	return 0;
 >   }
 >   
-> -/*
-> - * Since this bridge is tied to the connector, it acts like a passthrough,
-> - * so concerning the input bus formats, either pass the bus formats from the
-> - * previous bridge or MEDIA_BUS_FMT_FIXED (like select_bus_fmt_recursive())
-> - * when atomic_get_input_bus_fmts is not supported.
-> - * This supports negotiation if the bridge chain has all bits in place.
-> - */
-> -static u32 *display_connector_get_input_bus_fmts(struct drm_bridge *bridge,
-> -					struct drm_bridge_state *bridge_state,
-> -					struct drm_crtc_state *crtc_state,
-> -					struct drm_connector_state *conn_state,
-> -					u32 output_fmt,
-> -					unsigned int *num_input_fmts)
-> -{
-> -	struct drm_bridge *prev_bridge = drm_bridge_get_prev_bridge(bridge);
-> -	struct drm_bridge_state *prev_bridge_state;
-> -
-> -	if (!prev_bridge || !prev_bridge->funcs->atomic_get_input_bus_fmts) {
-> -		u32 *in_bus_fmts;
-> -
-> -		*num_input_fmts = 1;
-> -		in_bus_fmts = kmalloc(sizeof(*in_bus_fmts), GFP_KERNEL);
-> -		if (!in_bus_fmts)
-> -			return NULL;
-> -
-> -		in_bus_fmts[0] = MEDIA_BUS_FMT_FIXED;
-> -
-> -		return in_bus_fmts;
-> -	}
-> -
-> -	prev_bridge_state = drm_atomic_get_new_bridge_state(crtc_state->state,
-> -							    prev_bridge);
-> -
-> -	return prev_bridge->funcs->atomic_get_input_bus_fmts(prev_bridge, prev_bridge_state,
-> -							     crtc_state, conn_state, output_fmt,
-> -							     num_input_fmts);
-> -}
-> -
->   static const struct drm_bridge_funcs display_connector_bridge_funcs = {
->   	.attach = display_connector_attach,
->   	.detect = display_connector_detect,
->   	.edid_read = display_connector_edid_read,
->   	.atomic_get_output_bus_fmts = display_connector_get_output_bus_fmts,
-> -	.atomic_get_input_bus_fmts = display_connector_get_input_bus_fmts,
-> +	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
->   	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
->   	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
->   	.atomic_reset = drm_atomic_helper_bridge_reset,
-> 
-> base-commit: 62c97045b8f720c2eac807a5f38e26c9ed512371
-
-This will break dw-hdmi YUV output negociation because returning output_format
-it won't even try to select something else than the connector output_fmt.
-
-This is limitation of the bus_fmt negociation, it negociates in backwards, but
-if the last one uses bridge_propagate_bus_fmt, and a bridge before depends on the
-display support, it will be constrained by the first output_fmt.
-
-Neil
+> +/*
+> + * VGA Encoder
+> + */
+> +
+> +static const struct drm_encoder_funcs ast_vga_encoder_funcs = {
+> +	.destroy = drm_encoder_cleanup,
+> +};
+> +
+>   /*
+>    * VGA Connector
+>    */
+> @@ -1411,7 +1418,8 @@ static int ast_vga_output_init(struct ast_device *ast)
+>   	struct drm_connector *connector = &ast->output.vga.connector;
+>   	int ret;
+>   
+> -	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
+> +	ret = drm_encoder_init(dev, encoder, &ast_vga_encoder_funcs,
+> +			       DRM_MODE_ENCODER_DAC, NULL);
+>   	if (ret)
+>   		return ret;
+>   	encoder->possible_crtcs = drm_crtc_mask(crtc);
+> @@ -1427,6 +1435,14 @@ static int ast_vga_output_init(struct ast_device *ast)
+>   	return 0;
+>   }
+>   
+> +/*
+> + * SIL164 Encoder
+> + */
+> +
+> +static const struct drm_encoder_funcs ast_sil164_encoder_funcs = {
+> +	.destroy = drm_encoder_cleanup,
+> +};
+> +
+>   /*
+>    * SIL164 Connector
+>    */
+> @@ -1480,7 +1496,8 @@ static int ast_sil164_output_init(struct ast_device *ast)
+>   	struct drm_connector *connector = &ast->output.sil164.connector;
+>   	int ret;
+>   
+> -	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
+> +	ret = drm_encoder_init(dev, encoder, &ast_sil164_encoder_funcs,
+> +			       DRM_MODE_ENCODER_TMDS, NULL);
+>   	if (ret)
+>   		return ret;
+>   	encoder->possible_crtcs = drm_crtc_mask(crtc);
+> @@ -1496,6 +1513,14 @@ static int ast_sil164_output_init(struct ast_device *ast)
+>   	return 0;
+>   }
+>   
+> +/*
+> + * DP501 Encoder
+> + */
+> +
+> +static const struct drm_encoder_funcs ast_dp501_encoder_funcs = {
+> +	.destroy = drm_encoder_cleanup,
+> +};
+> +
+>   /*
+>    * DP501 Connector
+>    */
+> @@ -1578,7 +1603,8 @@ static int ast_dp501_output_init(struct ast_device *ast)
+>   	struct drm_connector *connector = &ast->output.dp501.connector;
+>   	int ret;
+>   
+> -	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
+> +	ret = drm_encoder_init(dev, encoder, &ast_dp501_encoder_funcs,
+> +			       DRM_MODE_ENCODER_TMDS, NULL);
+>   	if (ret)
+>   		return ret;
+>   	encoder->possible_crtcs = drm_crtc_mask(crtc);
+> @@ -1594,6 +1620,14 @@ static int ast_dp501_output_init(struct ast_device *ast)
+>   	return 0;
+>   }
+>   
+> +/*
+> + * ASPEED Display-Port Encoder
+> + */
+> +
+> +static const struct drm_encoder_funcs ast_astdp_encoder_funcs = {
+> +	.destroy = drm_encoder_cleanup,
+> +};
+> +
+>   /*
+>    * ASPEED Display-Port Connector
+>    */
+> @@ -1688,7 +1722,8 @@ static int ast_astdp_output_init(struct ast_device *ast)
+>   	struct drm_connector *connector = &ast->output.astdp.connector;
+>   	int ret;
+>   
+> -	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
+> +	ret = drm_encoder_init(dev, encoder, &ast_astdp_encoder_funcs,
+> +			       DRM_MODE_ENCODER_TMDS, NULL);
+>   	if (ret)
+>   		return ret;
+>   	encoder->possible_crtcs = drm_crtc_mask(crtc);
 
