@@ -2,32 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B42CE916E56
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 18:44:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D8C916E50
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 18:44:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDA8010E6C9;
-	Tue, 25 Jun 2024 16:44:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 941E910E1F4;
+	Tue, 25 Jun 2024 16:44:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 335 seconds by postgrey-1.36 at gabe;
+ Tue, 25 Jun 2024 16:44:11 UTC
 Received: from ns.iliad.fr (ns.iliad.fr [212.27.33.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7196710E6C0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E95410E1F4
  for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 16:44:11 +0000 (UTC)
 Received: from ns.iliad.fr (localhost [127.0.0.1])
- by ns.iliad.fr (Postfix) with ESMTP id 2178920260;
+ by ns.iliad.fr (Postfix) with ESMTP id 2BE4720787;
  Tue, 25 Jun 2024 18:38:34 +0200 (CEST)
 Received: from [127.0.1.1] (freebox.vlq16.iliad.fr [213.36.7.13])
- by ns.iliad.fr (Postfix) with ESMTP id 09CAB2014B;
+ by ns.iliad.fr (Postfix) with ESMTP id 189F3201B1;
  Tue, 25 Jun 2024 18:38:34 +0200 (CEST)
 From: Marc Gonzalez <mgonzalez@freebox.fr>
-Subject: [PATCH v2 0/2] Basic support for TI TDP158
-Date: Tue, 25 Jun 2024 18:38:11 +0200
-Message-Id: <20240625-tdp158-v2-0-a3b344707fa7@freebox.fr>
+Date: Tue, 25 Jun 2024 18:38:12 +0200
+Subject: [PATCH v2 1/2] dt-bindings: display: bridge: add TI TDP158
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAHPyemYC/2XMQQ6CMBCF4auQWVszbbBUV9zDsJDOVGYDpCUNh
- vTuVrYu/5eX74DEUTjBozkgcpYky1zDXBrw02t+sxKqDQZNi1Z3aqNV35xqtTOIZL3HEep5jRx
- kP6HnUHuStC3xc7pZ/9Y/ImuFisLdceiIvaU+ROZx2a8hwlBK+QLXARHxnQAAAA==
+Message-Id: <20240625-tdp158-v2-1-a3b344707fa7@freebox.fr>
+References: <20240625-tdp158-v2-0-a3b344707fa7@freebox.fr>
+In-Reply-To: <20240625-tdp158-v2-0-a3b344707fa7@freebox.fr>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -58,34 +59,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The TI TDP158 is an HDMI to TMDS Redriver.
 
+Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
 ---
-Changes in v2:
-- Don't overload simple-bridge, spin new minimal driver
-- New driver, new binding
-- Default device settings work fine for us, so we don't tweak registers
-- Link to v1: https://lore.kernel.org/r/20240617-tdp158-v1-0-df98ef7dec6d@freebox.fr
+ .../bindings/display/bridge/ti,tdp158.yaml         | 48 ++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
-Getting unusual message at run-time, need to check.
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml b/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml
+new file mode 100644
+index 0000000000000..b687699e2ba80
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/ti,tdp158.yaml
+@@ -0,0 +1,48 @@
++# SPDX-License-Identifier: GPL-2.0-only
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/ti,tdp158.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: TI TDP158 HDMI to TMDS Redriver
++
++maintainers:
++  - Arnaud Vrac <avrac@freebox.fr>
++
++properties:
++  compatible:
++    const: ti,tdp158
++
++  reg:
++    description: I2C address of the device
++
++  enable-gpios:
++    description: GPIO controlling bridge enable
++
++  vcc-supply:
++    description: Power supply 3.3V
++
++  vdd-supply:
++    description: Power supply 1.1V
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Bridge input
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Bridge output
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - ports
++
++additionalProperties: false
 
-[    2.389848] platform c9a0000.hdmi-tx: Fixed dependency cycle(s) with /soc@0/i2c@c1b5000/tdp158@5e
-[    2.391089] i2c 2-005e: Fixed dependency cycle(s) with /soc@0/display-subsystem@c900000/hdmi-tx@c9a0000
-
----
-Marc Gonzalez (2):
-      dt-bindings: display: bridge: add TI TDP158
-      drm/bridge: add support for TI TDP158
-
- .../bindings/display/bridge/ti,tdp158.yaml         |  48 ++++++++++
- drivers/gpu/drm/bridge/Kconfig                     |   6 ++
- drivers/gpu/drm/bridge/Makefile                    |   1 +
- drivers/gpu/drm/bridge/ti-tdp158.c                 | 103 +++++++++++++++++++++
- 4 files changed, 158 insertions(+)
----
-base-commit: d47e2c964a51cbaa14a8c0ac641f85349584fae9
-change-id: 20240617-tdp158-418200d6cc0b
-
-Best regards,
 -- 
-Marc Gonzalez <mgonzalez@freebox.fr>
+2.34.1
 
