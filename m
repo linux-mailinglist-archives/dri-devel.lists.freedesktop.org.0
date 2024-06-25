@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00034916EE1
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 19:10:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81CB9916EE2
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 19:11:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B61210E2FF;
-	Tue, 25 Jun 2024 17:10:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D457F10E6E0;
+	Tue, 25 Jun 2024 17:11:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mo3Svo18";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OOqD7szb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E5A510E6E0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 17:10:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3A0210E6E0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 17:11:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 60AE8CE1C4C
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 17:10:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 567C0C4AF0B
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 17:10:07 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id ED608CE1C52
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 17:11:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CA56CC4AF0B
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 17:11:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719335407;
- bh=Gn2GOVzmQc1eF6nLtyd0HAnhaGLhCxCMo9D3RmYr43o=;
+ s=k20201202; t=1719335470;
+ bh=H51F3GaTJPe5BGgfX2q1y7f3QGYCjyXKMq3qQnvRBt8=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=mo3Svo18msNuBX1Qq5aFYlPQlwSUsS+Iv4jv3uwHaBFqRZmduTSa6tuUyayi/BD5l
- 3A6hGG7CuQFsIElnzzE5SQPjJ4MRGob5Gw7cV3jK2fmRvc04KPCAPWLozhYrQuxCaD
- ntSdNrwEhpWMzAc8LFpwLl/ak588eZwy4hG2G80dTcTg1+bNH/NsrI9H7JDt/amRqM
- rAt2h8qaAFpzK2pKI4M+fhAU3+QiPlXODtxYpLFHtmeNVWR22ylYGmrSXeQMT4jC+b
- 3ZUTBEZ9pfwg5d1Zejm0N+QyrfQtQIJ3Y1BCEWAALkuNC+wWBlaX7yQG6dr3J3BkEK
- MKrTj1ob+X59A==
+ b=OOqD7szbESEyi37oM26izlhg/GiWjwJPWkYlTh/XG6/aOI0qf5pWwOwcf723q1v10
+ LRUZ8QlHdtzkFkiomonK/Hm/lnFYzPV0h0aqg1THrcYG2VQyn/8vrtWQRAL2s5d1Qp
+ YI0eGwhfAtPN/lJT91qHCyefCGEizfI4o6HlcSP4nTT8Wyz3WADlbV62JVZjr0dkFW
+ JLud53zzQ8eLQPwvlMV1X/MBPr/ptAvaQDZR8Nv9xPWptDikT4ZIpC3DlXGFZh1Mot
+ g71rdSzp2s5ufOMlB8Kp2fi3bCyqazSxqJw8p1d9ozvM9HajVO21vVLe+wQjAnAgZ3
+ itIYGvA6a1IGg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 4F434C53BB8; Tue, 25 Jun 2024 17:10:07 +0000 (UTC)
+ from userid 48) id C41A9C433E5; Tue, 25 Jun 2024 17:11:10 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 218900] amdgpu: Fatal error during GPU init
-Date: Tue, 25 Jun 2024 17:10:06 +0000
+Date: Tue, 25 Jun 2024 17:11:10 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -50,8 +50,8 @@ X-Bugzilla-Resolution: CODE_FIX
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-218900-2300-JWLmtRUWX2@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-218900-2300-lM2FSui0e2@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218900-2300@https.bugzilla.kernel.org/>
 References: <bug-218900-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,29 +76,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218900
 
-Jean-Denis Girard (jd.girard@sysnux.pf) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |jd.girard@sysnux.pf
-
---- Comment #17 from Jean-Denis Girard (jd.girard@sysnux.pf) ---
-I seem to have a similar problem on 6.10-rc5 after suspend. I get a black
-screen on resume.
-
-[  269.157149] amdgpu 0000:02:00.0: amdgpu: reserve 0x400000 from 0xf41f800=
-000
-for PSP TMR
-[  269.159956] iommu ivhd0: AMD-Vi: Event logged [ILLEGAL_DEV_TABLE_ENTRY
-device=3D0000:02:00.0 pasid=3D0x00000 address=3D0x131400000 flags=3D0x0180]
-[  269.159960] AMD-Vi: DTE[0]: 6190000000000003
-[  269.159962] AMD-Vi: DTE[1]: 00001001049e000b
-[  269.159963] AMD-Vi: DTE[2]: 200000013c610013
-[  269.159963] AMD-Vi: DTE[3]: 0000000000000000
-[  269.160104] amdgpu 0000:02:00.0: amdgpu: failed to load ucode SDMA0(0x1)=
-=20
-[  269.160108] amdgpu 0000:02:00.0: amdgpu: psp gfx command LOAD_IP_FW(0x6)
-failed and response status is (0xF)
+--- Comment #18 from Jean-Denis Girard (jd.girard@sysnux.pf) ---
+Created attachment 306495
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D306495&action=3Dedit
+Complete dmesg
 
 --=20
 You may reply to this email to add a comment.
