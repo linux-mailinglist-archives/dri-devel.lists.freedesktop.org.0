@@ -2,80 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FEC9916A56
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 16:30:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97116916A5C
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 16:30:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0F1F10E67A;
-	Tue, 25 Jun 2024 14:30:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA7410E67B;
+	Tue, 25 Jun 2024 14:30:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uFtuS6KG";
+	dkim=pass (2048-bit key; unprotected) header.d=kroah.com header.i=@kroah.com header.b="h/2JJ2XX";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="p16LuvBY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EA2710E67A
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 14:30:04 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-52cdd03d6aaso3470434e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 07:30:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719325802; x=1719930602; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=TIW+BEEpFZxcaSiuFdd6E7EOCLgPKt/xKVONfeyzByw=;
- b=uFtuS6KG5W4PzZAdN06ob7SxJezcx2d6OIeHBla0qrOJz6Time0kc8iwFDbHApAcDw
- TL+MQSxNvWozltkTiF8t2SxtDRlxfQ+Y9V+mTZo8Tzj8fugMYMSJY2+mlqjS0kNFLlXY
- waeSUwBxoDdQAddyFffsT+XB5uOkvmWep+4kBZAmjVET1tZxNeMDfidbTgvPCmnO0hET
- 1gxPdlhGSvcwrCYrfGWclXkObBbmI+dEmW0ccsCksKw7BtUm/8qr3r+u2+7AcAJLfAFX
- c/AcyWSw3ETHUi0k5hMf6IJlBqeg37SmCeSuts/mtjp1sIxhAHzU1zMa15MpvGMfwXWh
- 9hbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719325802; x=1719930602;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TIW+BEEpFZxcaSiuFdd6E7EOCLgPKt/xKVONfeyzByw=;
- b=tUDfyF8xjG00wwmfET/PYHzMkcg02bjE+HR2AWsQAzhegH2sG5y3ekuYA7o0zKTzKZ
- +TLpCeuOoofMyuOTN8jEmPjIqVs/T3ylgsbIYIXhmZk1CWSXnVPxRVzs0q3liUfJ2lJx
- EAWaGLmJeRjgW7bYmR2w3EhpMtgDJkPCYHaVER30qoTcDqIwdgxiD+m6OxImgRqB4vGl
- +JWVy5fc1SaQpr6fb7+AgHs+y1CSIdpTU7NwXDrZbUZp2sKcimcUZ1Zj20b/c4hsBR5e
- ya15VLc6ukONyHm6uk6dZg/aYcGSJLNjXHDePxfSsgoQerU7mPNgya8WzG3Fe2ZPLLS3
- WpLw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUKU0B55TdpkU5k1hXKEPpX++/XNMBt8hbnt9Xe1YEXCH7b7uGr6wJdih+S6QprqoKHcy5+l545UXEzBF3SXLW8+mp+YqFkxK3IrHEGE7p0
-X-Gm-Message-State: AOJu0Yx7o2hdFzElDJ3rCeVgANlRomDqXBhwWx3b/P4NFs9Fj2HC2JRz
- kbs1duQKsuyJtzXj1sZAoFugs3V9H2iiveQ9bq+bimtkAa+OrGos499aK21MZjI=
-X-Google-Smtp-Source: AGHT+IHZ8OaLyMHtv2S65EE9rCSfAJ0Z6PqtA32z4W6qeFVbOuiH5///ycCmgXTPqmIPXgTzGR093g==
-X-Received: by 2002:a19:9115:0:b0:52c:df63:bebd with SMTP id
- 2adb3069b0e04-52ce0673528mr5256172e87.49.1719325801936; 
- Tue, 25 Jun 2024 07:30:01 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52cd63bd28dsm1258950e87.92.2024.06.25.07.30.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jun 2024 07:30:01 -0700 (PDT)
-Date: Tue, 25 Jun 2024 17:29:59 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Michael Walle <mwalle@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Gunnar Dibbern <gunnar.dibbern@lht.dlh.de>
-Subject: Re: [PATCH 2/2] drm/panel: add Ilitek ILI9806E panel driver
-Message-ID: <d23fsb53p2at6rldkkolujgjfmbxpc7ulbsd5cak3pksacsvk7@b37rq4vnskjl>
-References: <20240625133317.2869038-1-mwalle@kernel.org>
- <20240625133317.2869038-3-mwalle@kernel.org>
+Received: from flow3-smtp.messagingengine.com (flow3-smtp.messagingengine.com
+ [103.168.172.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCEC510E67B
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 14:30:46 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailflow.nyi.internal (Postfix) with ESMTP id BDBD820045E;
+ Tue, 25 Jun 2024 10:30:45 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 25 Jun 2024 10:30:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1719325845;
+ x=1719333045; bh=n40rkhfGjzu8AxDo0A/VhYrpxULagui6L3eRoobEu9s=; b=
+ h/2JJ2XXSHYRlUkmpcnT1ZYxUEoM6+aze6cr1UQaAOuDFuFFq7+vZwHHjJ5+gA9e
+ taFX8BCOJfr9P/3hlGF0KCr4czzK+1CRyL6PEPuzqAQj/hsvPAUG7r9p/mtX1Xie
+ 4wnUj30g3HssVJe0R/Gt6pQUbHv8pCX+J39cJZFFf0mW0yhotgEeTvLdXVQWGSry
+ XvdNPh1t1gUkRzLlMOTOyX/crmFlxhq3xu1n5r5qFkUQx8ao8+NiTyIgmC9nt1kQ
+ Yvf8cvzLGee5cjDVEGJVnShhckvCSRwIdSTym+vzBsBnf1J9wZg0PacopLPx2yQG
+ FT8o4XUAGI8/0+btZP4cWA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1719325845; x=
+ 1719333045; bh=n40rkhfGjzu8AxDo0A/VhYrpxULagui6L3eRoobEu9s=; b=p
+ 16LuvBYPifBPtp1l8HXW0WgcAp5qGByADd/cqp/p258PeINNUDIwl64Ivtnd/6jP
+ KP2qFgL9nsOXI5jERVMjQCmcgaGb7OqEvy5gyng4MqOZbyFCuzeItKZ52RhTQ04x
+ HT+CFMINatNqgVpUGWMR/8TkA10jpY0tKJ5ekhIM5jDwJXKEtlBkV1CX5PYWto/s
+ hUq2OkPosmu+IUge0TffWt207BPm7za49vZA/ZjjKWEsaBx2CGn/8yMhBXRbxVlX
+ foasR8S9k88K50s/VK6pPcKnfQrGs2gJnk2ItaeLbf4tG4VMVLWpdRS/CwedMIy3
+ a1+bRPM/Or4YCy9tUGF1w==
+X-ME-Sender: <xms:ldR6ZgBpRWP8mS3VA2Qms6OZM9ckhp2ODlyswd4iLVJMxG4GyYBVhQ>
+ <xme:ldR6ZijR2bT4v8GuzSqLgvs_JN-mtU4fg_zEFVmVFTxaVi-xKN2ByhcgWPALxupLf
+ W0rIPje73BbIA>
+X-ME-Received: <xmr:ldR6ZjlW6CpJaTkmgHMK6qtDoy9t12v8oJoegXoTg_k_o2dozihWVxvTZa79t6Ria-rl3mmM8DVB6iPuo0DPe2x5la9fWRzcJmCfRA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrtddtgdeggecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepifhrvghg
+ ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepgfekff
+ eifeeiveekleetjedvtedvtdeludfgvdfhteejjeeiudeltdefffefvdeinecuvehluhhs
+ thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
+ hhrdgtohhm
+X-ME-Proxy: <xmx:ldR6ZmxY0zFwG6pWHsU-y6YkcmngJmKUn9oPpTIHsv4G346eRrdlnA>
+ <xmx:ldR6ZlRyQYCTt1DG04kEg57pOpQ8KoojDGl47d9FpoQ1qWgp1cZiBg>
+ <xmx:ldR6ZhbC6ybWV8DlIc4L8v9H8l8ZOOnF0r6vJpa9NY3LU5Do76bTkg>
+ <xmx:ldR6ZuT4ptUDAasIrsTeXyADiCA_LMQqFynBKgYq7xqX3qlCrbtVCA>
+ <xmx:ldR6ZnmM9XBOBtZyCNgYz6zqBuHcXPrEJjuGSn2Hkv78Acq8H7ggnLJC>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 25 Jun 2024 10:30:44 -0400 (EDT)
+Date: Tue, 25 Jun 2024 16:30:41 +0200
+From: Greg KH <greg@kroah.com>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Ma Ke <make24@iscas.ac.cn>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ Danilo Krummrich <dakr@redhat.com>,
+ David Airlie <airlied@gmail.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, stable@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/nouveau/dispnv04: fix null pointer dereference in
+ nv17_tv_get_ld_modes
+Message-ID: <2024062533-quiver-cacti-b068@gregkh>
+References: <20240625081828.2620794-1-make24@iscas.ac.cn>
+ <8517da06-3010-4356-b5df-d9a14454feec@web.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240625133317.2869038-3-mwalle@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8517da06-3010-4356-b5df-d9a14454feec@web.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,37 +100,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 25, 2024 at 03:33:17PM GMT, Michael Walle wrote:
-> The Ortustech COM35H3P70ULC panel is based on the ILI9806E DSI display
-> controller.
+On Tue, Jun 25, 2024 at 03:43:37PM +0200, Markus Elfring wrote:
+> > In nv17_tv_get_ld_modes(), the return value of drm_mode_duplicate() is
+> > assigned to mode, which will lead to a possible NULL pointer dereference
+> > on failure of drm_mode_duplicate(). Add a check to avoid npd.
 > 
+> Can a wording approach (like the following) be a better change description?
+> 
+>   A null pointer is stored in the local variable “mode” after a call
+>   of the function “drm_mode_duplicate” failed. This pointer was used
+>   in a subsequent statement where an undesirable dereference will
+>   be performed then.
+>   Thus add a corresponding return value check.
+> 
+> 
+> > Cc: stable@vger.kernel.org
+> 
+> Would you like to add the tag “Fixes” accordingly?
+> 
+> 
+> How do you think about to use a summary phrase like
+> “Prevent null pointer dereference in nv17_tv_get_ld_modes()”?
+> 
+> 
+> Regards,
+> Markus
+> 
+Hi,
 
-[...]
+This is the semi-friendly patch-bot of Greg Kroah-Hartman.
 
-> +static int ili9806e_get_modes(struct drm_panel *panel,
-> +			      struct drm_connector *connector)
-> +{
-> +	struct ili9806e_panel *ctx = to_ili9806e_panel(panel);
-> +	struct drm_display_mode *mode;
-> +
-> +	mode = drm_mode_duplicate(connector->dev, ctx->desc->display_mode);
-> +	if (!mode)
-> +		return -ENOMEM;
-> +
-> +	drm_mode_set_name(mode);
-> +
-> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> +	connector->display_info.width_mm = mode->width_mm;
-> +	connector->display_info.height_mm = mode->height_mm;
-> +	drm_mode_probed_add(connector, mode);
+Markus, you seem to have sent a nonsensical or otherwise pointless
+review comment to a patch submission on a Linux kernel developer mailing
+list.  I strongly suggest that you not do this anymore.  Please do not
+bother developers who are actively working to produce patches and
+features with comments that, in the end, are a waste of time.
 
-drm_connector_helper_get_modes_fixed(), please.
+Patch submitter, please ignore Markus's suggestion; you do not need to
+follow it at all.  The person/bot/AI that sent it is being ignored by
+almost all Linux kernel maintainers for having a persistent pattern of
+behavior of producing distracting and pointless commentary, and
+inability to adapt to feedback.  Please feel free to also ignore emails
+from them.
 
-> +
-> +	return 1;
-> +}
-> +
+thanks,
 
--- 
-With best wishes
-Dmitry
+greg k-h's patch email bot
