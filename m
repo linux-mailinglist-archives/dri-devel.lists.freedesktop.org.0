@@ -2,80 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE59916AFB
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 16:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3997A916B36
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 16:56:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0740F10E69B;
-	Tue, 25 Jun 2024 14:50:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3AED10E69F;
+	Tue, 25 Jun 2024 14:56:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="lujlk8Zp";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fAjyyQPt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11FBD10E69B
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 14:50:35 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-57ccd1111aeso6919366a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 07:50:35 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77A8710E69D
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 14:56:42 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-52cdfb69724so3404783e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 07:56:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719327034; x=1719931834;
- darn=lists.freedesktop.org; 
+ d=linaro.org; s=google; t=1719327400; x=1719932200; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XNAdTcacMLHiwcp3rwtVy5TsM3diOedzVRX0xlC3b4s=;
- b=lujlk8Zpk7ufSM+/tGTQa2+qiOeMgSES+oM6dF3Tr5mjsV6n2U2ThMitPXmhrBfzQY
- MNeYrO/PEqF7z3fsSteh09fYnOkdWQZTrJ9OEKL3WVy2iso9jhR6homVjT6uUrw8hD9O
- F/jRYBH8dC/HEnS+32vZEMxkRmqU4X7LsKDthLRhXhz3ryFlmIs0vE6aW3zTAlRpklbl
- ThkI/JhZJLwr5YNarEyVbGAMraAwvDJ5qv6PmizwdKbVSalRypzZFnpI7hxcEsNySbW0
- rovVMo++EDkHYy8PsI49jlPwD6XTLsv3eUin+x+Q5R5drGUD3WRzWKTpVuVl9ozsSWJR
- ofsA==
+ bh=RJLpd9x26v7wF/fApEc7Qe5167IuLVph4X9sxGmlGGA=;
+ b=fAjyyQPtNKpEvDNBEZrWiaj9Az6Rqn+YyFwrqg4T5YcCOPcpeXQ9YLAO1QkSVDNT6k
+ 8H2HJd0ZtgQeTOzAgkPJnD4g60FDuLRpS6bg1dQlhnLKc4Oc7Rcxy/LqSpdtt1voLer5
+ ssoZ5R6wrkirksCnRmZW+LBgToobzA4tLxk4FnV25chl1npTvKGfRjAA0Ew2qrrSLgSL
+ 1DYWLwY2N1WqJGeIuG5xvsy6zEGilYOO3VnsOF8UKGEEU3o2moswIy6cKgiotisH/hMr
+ WvVT70aiBr4L5+wjWss4xhTqQ8o5L7ymHj3cIUu6Wzu4gjGX2Et0Cg7iHr0WtzyYEbqc
+ iVVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719327034; x=1719931834;
+ d=1e100.net; s=20230601; t=1719327400; x=1719932200;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XNAdTcacMLHiwcp3rwtVy5TsM3diOedzVRX0xlC3b4s=;
- b=S8xtMR0P43mDDKi4jFCiPYcVepXPOLL1z8YYqIBHnkH5gLTC0U8lKRMjfiSbiKC9k7
- 9YA3tndvtDhcQOIRNwJBbEFoRT3qKaiM5mmf/rmyhtjWawF6igPKauMCsoaGBO/z6imy
- PfEKIUjcsdef1HqGjSqAHgpwa+TY06vHZTwXfmgYyPmzN7ZTuP2TkNwFJjCxdP/XQXzR
- eRv63vlIiLz/a0Sh7sNPuf08vcpwyomLT8kQvnfuAPMRw6jbwlxx2pvnreaOBq6QxscP
- 6mI9RLrZ+K8s8DafKLS5/caoKOiS8lLWxFLM60SurDbwXOPuMaLjRZ/slFnbFQktwK+i
- zKzw==
+ bh=RJLpd9x26v7wF/fApEc7Qe5167IuLVph4X9sxGmlGGA=;
+ b=O9tv0acsYsfbVkB2nBk3jUEg1M43Y3irSCoNOAzFeMrPLr9NhD0Kl0/ZxT+tDw5y0Y
+ blz3zRgAAEsSDrNaouBTqzP+7EwN+kgwbF5l7bWed1UL3AS4Scrr153yKXKS9C3li1mS
+ M6+MmcM3lcQ4mhY5ynPlR/BSjqnNd17qNadmzf/S8jMdRryCJU1Lee72nwZjhSGU3lcR
+ I9nNN0FAVTrAqwB3dBGJsjOldY8BUZDssuI1WT8m13CiRtziRZGnW50Ue8J9GFitv6TL
+ mipPX8mZrB48UpIu7rGeKXR7zQlGWjmol7sppcbUXQdzAgm1G2c+Zf7vQTUjP2WzBTdZ
+ KTKw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWPikabuGW3qFjvm0YzHH5+G5gXhawLsL1N2voCq4+pYnr7jnyDwSBNBhsm8ibV1dhxMC8czroPjBp0w6r8utWYP05AOOb/73VT0Y+iUPbf
-X-Gm-Message-State: AOJu0YzjDxx25GvMv3wXtKe10dBQlfLxLoYJ/bj29eAK8C4nCrpL9W9H
- wG7+FHQdQqnu6oS27E4yCVSSeC/4WZQVeQEzbmyS8o4d5EA4rUewB0yYLWixrr8=
-X-Google-Smtp-Source: AGHT+IEAx+7PNBsfh1PecChpyxyxGCwBCHXZraE/xlVLiq1yJ87mv2cTQeKVv1iemDFLo464qB8MVw==
-X-Received: by 2002:a17:907:a649:b0:a72:8135:2d4f with SMTP id
- a640c23a62f3a-a7281352e3cmr12762066b.48.1719327034140; 
- Tue, 25 Jun 2024 07:50:34 -0700 (PDT)
-Received: from toaster.lan ([2a01:e0a:3c5:5fb1:b30c:4c5e:f49e:ab33])
- by smtp.googlemail.com with ESMTPSA id
- a640c23a62f3a-a724162f037sm355945066b.194.2024.06.25.07.50.33
+ AJvYcCVYqSWqVmqhNvAJT3a3zR/e4vriH01dsPq1XK7wzHGh6YuhbNNSV9lr9cbh1lSa4/5h5NhCgM3CBzUIA9aquAE2/eZZaHVopXs+Y3BFH5CD
+X-Gm-Message-State: AOJu0YyJHssrGMl0XzkrWn3Z+7qkpRPGu3/MIjcKMBZuY9Tb3VFvPBrr
+ ngyrafxLUAL4e8Mdq61cNCMoD+nCIkB3u9JZ55zsC6+BstoJEvyoK9Zf3QL5d3c=
+X-Google-Smtp-Source: AGHT+IHmVvpHX9CK7J8+9e6YEWwkWkypw8ccedGQLbNwsWmOitv3YpuJqwgIOFdVLVSEwdlgCNL28w==
+X-Received: by 2002:ac2:58cb:0:b0:52c:8596:5976 with SMTP id
+ 2adb3069b0e04-52ce185e9c2mr3983923e87.55.1719327400338; 
+ Tue, 25 Jun 2024 07:56:40 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52cd641f655sm1257321e87.162.2024.06.25.07.56.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jun 2024 07:50:33 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>,
- linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] arm64: dts: amlogic: add power domain to hdmitx
-Date: Tue, 25 Jun 2024 16:50:15 +0200
-Message-ID: <20240625145017.1003346-3-jbrunet@baylibre.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240625145017.1003346-1-jbrunet@baylibre.com>
-References: <20240625145017.1003346-1-jbrunet@baylibre.com>
+ Tue, 25 Jun 2024 07:56:39 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] drm/msm/dpu: remove CRTC frame event callback
+ registration
+Date: Tue, 25 Jun 2024 17:56:37 +0300
+Message-Id: <171932736810.1437673.14531545327158209638.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240625-dpu-no-crtc-register-v3-1-1b161df13776@linaro.org>
+References: <20240625-dpu-no-crtc-register-v3-1-1b161df13776@linaro.org>
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,77 +89,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HDMI Tx needs HDMI Tx memory power domain turned on. This power domain is
-handled under the VPU power domain.
 
-The HDMI Tx currently works because it is enabling the PD by directly
-poking the power controller register. It is should not do that but properly
-use the power domain controller.
+On Tue, 25 Jun 2024 01:38:25 +0300, Dmitry Baryshkov wrote:
+> The frame event callback is always set to dpu_crtc_frame_event_cb() (or
+> to NULL) and the data is always either the CRTC itself or NULL
+> (correpondingly). Thus drop the event callback registration, call the
+> dpu_crtc_frame_event_cb() directly and gate on the dpu_enc->crtc
+> assigned using dpu_encoder_assign_crtc().
+> 
+> 
+> [...]
 
-Fix this by adding the power domain to HDMI Tx.
+Applied, thanks!
 
-Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
----
- arch/arm64/boot/dts/amlogic/meson-g12.dtsi  | 4 ++++
- arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi | 1 +
- arch/arm64/boot/dts/amlogic/meson-gxl.dtsi  | 1 +
- arch/arm64/boot/dts/amlogic/meson-sm1.dtsi  | 4 ++++
- 4 files changed, 10 insertions(+)
+[1/1] drm/msm/dpu: remove CRTC frame event callback registration
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/5b90752f9619
 
-diff --git a/arch/arm64/boot/dts/amlogic/meson-g12.dtsi b/arch/arm64/boot/dts/amlogic/meson-g12.dtsi
-index e732df3f3114..664912d1beaa 100644
---- a/arch/arm64/boot/dts/amlogic/meson-g12.dtsi
-+++ b/arch/arm64/boot/dts/amlogic/meson-g12.dtsi
-@@ -363,6 +363,10 @@ &ethmac {
- 	power-domains = <&pwrc PWRC_G12A_ETH_ID>;
- };
- 
-+&hdmi_tx {
-+	power-domains = <&pwrc PWRC_G12A_VPU_ID>;
-+};
-+
- &vpu {
- 	power-domains = <&pwrc PWRC_G12A_VPU_ID>;
- };
-diff --git a/arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi b/arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi
-index 12ef6e81c8bd..d8a386c31914 100644
---- a/arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi
-+++ b/arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi
-@@ -315,6 +315,7 @@ &hdmi_tx {
- 		 <&clkc CLKID_CLK81>,
- 		 <&clkc CLKID_GCLK_VENCI_INT0>;
- 	clock-names = "isfr", "iahb", "venci";
-+	power-domains = <&pwrc PWRC_GXBB_VPU_ID>;
- };
- 
- &sysctrl {
-diff --git a/arch/arm64/boot/dts/amlogic/meson-gxl.dtsi b/arch/arm64/boot/dts/amlogic/meson-gxl.dtsi
-index 17bcfa4702e1..82386feb5177 100644
---- a/arch/arm64/boot/dts/amlogic/meson-gxl.dtsi
-+++ b/arch/arm64/boot/dts/amlogic/meson-gxl.dtsi
-@@ -327,6 +327,7 @@ &hdmi_tx {
- 		 <&clkc CLKID_CLK81>,
- 		 <&clkc CLKID_GCLK_VENCI_INT0>;
- 	clock-names = "isfr", "iahb", "venci";
-+	power-domains = <&pwrc PWRC_GXBB_VPU_ID>;
- };
- 
- &sysctrl {
-diff --git a/arch/arm64/boot/dts/amlogic/meson-sm1.dtsi b/arch/arm64/boot/dts/amlogic/meson-sm1.dtsi
-index cd0046c0fe72..c76dcb0158a7 100644
---- a/arch/arm64/boot/dts/amlogic/meson-sm1.dtsi
-+++ b/arch/arm64/boot/dts/amlogic/meson-sm1.dtsi
-@@ -514,6 +514,10 @@ &gpio_intc {
- 		     "amlogic,meson-gpio-intc";
- };
- 
-+&hdmi_tx {
-+	power-domains = <&pwrc PWRC_SM1_VPU_ID>;
-+};
-+
- &pcie {
- 	power-domains = <&pwrc PWRC_SM1_PCIE_ID>;
- };
+Best regards,
 -- 
-2.43.0
-
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
