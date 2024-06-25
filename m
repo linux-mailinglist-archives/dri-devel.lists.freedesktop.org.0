@@ -2,43 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3FF9166CD
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 14:01:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 475EB9166E8
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 14:04:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08DD410E62E;
-	Tue, 25 Jun 2024 12:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F7CF10E64D;
+	Tue, 25 Jun 2024 12:04:26 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="B5WEZOgK";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1D6310E62E
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 12:01:24 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1sM4rA-00087x-AW; Tue, 25 Jun 2024 14:01:04 +0200
-Message-ID: <2e7a6d8defc84073a204a2071d834d87012a0f7d.camel@pengutronix.de>
-Subject: Re: [etnaviv-next v14 0/8] drm/etnaviv: Add driver wrapper for
- vivante GPUs attached on PCI(e) device
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Icenowy Zheng <uwu@icenowy.me>, Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>, linux-kernel@vger.kernel.org, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Date: Tue, 25 Jun 2024 14:01:02 +0200
-In-Reply-To: <19acb7b11ed22a0a87694b2e74807b82e3b5450e.camel@icenowy.me>
-References: <20240519165321.2123356-1-sui.jingfeng@linux.dev>
- <19acb7b11ed22a0a87694b2e74807b82e3b5450e.camel@icenowy.me>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F2A910E631
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 12:04:23 +0000 (UTC)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 50D8C88496;
+ Tue, 25 Jun 2024 14:04:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1719317062;
+ bh=EDLmJKk43y5NH/bEn2xvrqerRWxPa0W/dGLQvcEQWu0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=B5WEZOgKuDRSyMu4kw+ENledJIipqX1p3c9VBlSPP6RW7nmv7nZp+VLDXfksS6RWr
+ hmsI3PI3/x8G4DO/OqlI05egOfGBLhK+xuJB7exiAY8ODldtf4fbX4pYPKmeCnQTNl
+ 5G+2VbNU6oGjM5SWKkVShdJ9Ip/RAVxHeQmhCX7GP7UL/ie3WeI8MnYk8uz1iUxVMr
+ R9bUsPxKJbs4je4GkyFMtTXf/PVlwCffiBsVoBdddCRRcTieylb7seZx1AzellaJe1
+ AXciIs1zI1WoyDc91krh6M99Hf2PCbrMVlL76MlCM80fd3GwQuDzndQ8PQURjSyFAT
+ 8UoaaXRWmw0Eg==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
+Subject: [PATCH v4 1/5] drm/bridge: tc358767: Split tc_pxl_pll_en() into
+ parameter calculation and enablement
+Date: Tue, 25 Jun 2024 14:02:30 +0200
+Message-ID: <20240625120334.145320-1-marex@denx.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,161 +68,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Dienstag, dem 25.06.2024 um 11:18 +0800 schrieb Icenowy Zheng:
-> =E5=9C=A8 2024-05-20=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 00:53 +0800=EF=
-=BC=8CSui Jingfeng=E5=86=99=E9=81=93=EF=BC=9A
-> > drm/etnaviv use the component framework to bind multiple GPU cores to
-> > a
-> > virtual master, the virtual master is manually create during driver
-> > load
-> > time. This works well for various SoCs, yet there are some PCIe card
-> > has
-> > the vivante GPU cores integrated. The driver lacks the support for
-> > PCIe
-> > devices currently.
-> >=20
-> > Adds PCIe driver wrapper on the top of what drm/etnaviv already has,
-> > the
-> > component framework is still being used to bind subdevices, even
-> > though
-> > there is only one GPU core. But the process is going to be reversed,
-> > we
-> > create virtual platform device for each of the vivante GPU IP core
-> > shipped
-> > by the PCIe master. The PCIe master is real, bind all the virtual
-> > child
-> > to the master with component framework.
-> >=20
-> >=20
-> > v6:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Fix build issue on sy=
-stem without CONFIG_PCI enabled
-> > v7:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add a separate patch =
-for the platform driver rearrangement
-> > (Bjorn)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Switch to runtime che=
-ck if the GPU is dma coherent or not
-> > (Lucas)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add ETNAVIV_PARAM_GPU=
-_COHERENT to allow userspace to query
-> > (Lucas)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Remove etnaviv_gpu.no=
-_clk member (Lucas)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Fix Various typos and=
- coding style fixed (Bjorn)
-> > v8:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Fix typos and remove =
-unnecessary header included (Bjorn).
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add a dedicated funct=
-ion to create the virtual master
-> > platform
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 device.
-> > v9:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Use PCI_VDEVICE() mac=
-ro (Bjorn)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add trivial stubs for=
- the PCI driver (Bjorn)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Remove a redundant de=
-v_err() usage (Bjorn)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Clean up etnaviv_pdev=
-_probe() with
-> > etnaviv_of_first_available_node()
-> > v10:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add one more cleanup =
-patch
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Resolve the conflict =
-with a patch from Rob
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Make the dummy PCI st=
-ub inlined
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Print only if the pla=
-tform is dma-coherrent
-> > V11:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Drop unnecessary chan=
-ges (Lucas)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Tweak according to ot=
-her reviews of v10.
-> >=20
-> > V12:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Create a virtual plat=
-form device for the subcomponent GPU
-> > cores
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Bind all subordinate =
-GPU cores to the real PCI master via
-> > component.
-> >=20
-> > V13:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Drop the non-componen=
-t code path, always use the component
-> > framework
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 to bind subcompo=
-nent GPU core. Even though there is only
-> > one core.
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Defer the irq handler=
- register.
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Rebase and improve th=
-e commit message
-> >=20
-> > V14:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Rebase onto etnaviv-n=
-ext and improve commit message.
-> >=20
-> > Tested with JD9230P GPU and LingJiu GP102 GPU.
->=20
-> BTW how should VRAM and displayed related parts be handled on these
-> dGPUs?
->=20
-The only way to handle VRAM properly would be to rewrite our GEM
-internals using TTM.
+Split tc_pxl_pll_en() into tc_pxl_pll_calc() which does only Pixel PLL
+parameter calculation and tc_pxl_pll_en() which calls tc_pxl_pll_calc()
+and then configures the Pixel PLL register.
 
-Regards,
-Lucas
+This is a preparatory patch for further rework, where tc_pxl_pll_calc()
+will also be used to find out the exact clock frequency generated by the
+Pixel PLL. This frequency will be used as adjusted_mode clock frequency
+and passed down the display pipeline to obtain exactly this frequency
+on input into this bridge.
 
-> >=20
-> > Sui Jingfeng (8):
-> > =C2=A0 drm/etnaviv: Add a dedicated helper function to get various cloc=
-ks
-> > =C2=A0 drm/etnaviv: Add constructor and destructor for the
-> > =C2=A0=C2=A0=C2=A0 etnaviv_drm_private structure
-> > =C2=A0 drm/etnaviv: Embed struct drm_device into struct
-> > etnaviv_drm_private
-> > =C2=A0 drm/etnaviv: Fix wrong cache property being used for vmap()
-> > =C2=A0 drm/etnaviv: Add support for cached coherent caching mode
-> > =C2=A0 drm/etnaviv: Replace the '&pdev->dev' with 'dev'
-> > =C2=A0 drm/etnaviv: Allow creating subdevices and pass platform specifi=
-c
-> > data
-> > =C2=A0 drm/etnaviv: Add support for vivante GPU cores attached via PCIe
-> > =C2=A0=C2=A0=C2=A0 device
-> >=20
-> > =C2=A0drivers/gpu/drm/etnaviv/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 8 +
-> > =C2=A0drivers/gpu/drm/etnaviv/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 159 ++++++++++------
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 27 +++
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 22 ++-
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |=C2=A0=C2=A0 2 +-
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gpu.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 144 +++++++++-----
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gpu.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_mmu.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c=C2=A0=C2=A0=C2=A0 | 187
-> > +++++++++++++++++++
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 18 ++
-> > =C2=A0include/uapi/drm/etnaviv_drm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> > =C2=A012 files changed, 468 insertions(+), 110 deletions(-)
-> > =C2=A0create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
-> > =C2=A0create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
-> >=20
-> >=20
-> > base-commit: 52272bfff15ee70c7bd5be9368f175948fb8ecfd
->=20
+The precise input frequency that matches the Pixel PLL frequency is
+important for this bridge, as if the frequencies do not match, the
+bridge does suffer VFIFO overruns or underruns.
+
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
+Cc: kernel@dh-electronics.com
+---
+V2: No change
+V3: No change
+V4: - Fix another rebase mishap
+    - Add RB from Alexander
+---
+ drivers/gpu/drm/bridge/tc358767.c | 32 ++++++++++++++++++++++++-------
+ 1 file changed, 25 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index 3a2a93cfc17da..b2f0175d95420 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -585,9 +585,9 @@ static u32 div64_round_up(u64 v, u32 d)
+ 	return div_u64(v + d - 1, d);
+ }
+ 
+-static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
++static int tc_pxl_pll_calc(struct tc_data *tc, u32 refclk, u32 pixelclock,
++			   int *out_best_pixelclock, u32 *out_pxl_pllparam)
+ {
+-	int ret;
+ 	int i_pre, best_pre = 1;
+ 	int i_post, best_post = 1;
+ 	int div, best_div = 1;
+@@ -683,11 +683,6 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
+ 	if (best_mul == 128)
+ 		best_mul = 0;
+ 
+-	/* Power up PLL and switch to bypass */
+-	ret = regmap_write(tc->regmap, PXL_PLLCTRL, PLLBYP | PLLEN);
+-	if (ret)
+-		return ret;
+-
+ 	pxl_pllparam  = vco_hi << 24; /* For PLL VCO >= 300 MHz = 1 */
+ 	pxl_pllparam |= ext_div[best_pre] << 20; /* External Pre-divider */
+ 	pxl_pllparam |= ext_div[best_post] << 16; /* External Post-divider */
+@@ -695,6 +690,29 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
+ 	pxl_pllparam |= best_div << 8; /* Divider for PLL RefClk */
+ 	pxl_pllparam |= best_mul; /* Multiplier for PLL */
+ 
++	if (out_best_pixelclock)
++		*out_best_pixelclock = best_pixelclock;
++
++	if (out_pxl_pllparam)
++		*out_pxl_pllparam = pxl_pllparam;
++
++	return 0;
++}
++
++static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
++{
++	u32 pxl_pllparam = 0;
++	int ret;
++
++	ret = tc_pxl_pll_calc(tc, refclk, pixelclock, NULL, &pxl_pllparam);
++	if (ret)
++		return ret;
++
++	/* Power up PLL and switch to bypass */
++	ret = regmap_write(tc->regmap, PXL_PLLCTRL, PLLBYP | PLLEN);
++	if (ret)
++		return ret;
++
+ 	ret = regmap_write(tc->regmap, PXL_PLLPARAM, pxl_pllparam);
+ 	if (ret)
+ 		return ret;
+-- 
+2.43.0
 
