@@ -2,71 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FBE7916A83
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 16:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15616916AA4
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 16:37:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB57010E31D;
-	Tue, 25 Jun 2024 14:34:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEB9B10E685;
+	Tue, 25 Jun 2024 14:37:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="u7Fr9UsU";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="gYX6KWFm";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="nf0uRRPP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A609910E31D;
- Tue, 25 Jun 2024 14:34:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1719326060; x=1719930860; i=markus.elfring@web.de;
- bh=4hqmfo5ctGH968xUb+z+rr8LiHMCJOdB3zcu6j3LRIo=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=u7Fr9UsU3M+6VBd5zDYTpRGJhqFvgvzY4YrzX23C5I6Lgp0KbH8vx9cc2MKyZNCp
- dkzT37MWVnNmUEpcdL076Ok7w7LDZVochztC4Ty3iBgmpD70AP8+ZXC9RpH6uPqu+
- D+6Yk7PbqPZQPeUtuCCRyq7FJDub299czeluVijqPMelRaeXRE+zYx0obeXQiPA9B
- G6Pz5Xb1GnoHDYG71clPNaeyEb/HfpC8u8yaGsv20FSeyqlEVKg+E49m7YzwEuSBJ
- N3N4vo+0W6jFwDHR07KswcvJrxnwHdRHEkOiRn2s8TWg6NC3gw8SYEIjmcviicgh1
- 1JHYofBhbeDOo8I7bQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mkmzl-1sl2f63wn1-00fa6K; Tue, 25
- Jun 2024 16:34:20 +0200
-Message-ID: <c7969a4e-61aa-479f-89c8-0373e84c43be@web.de>
-Date: Tue, 25 Jun 2024 16:34:17 +0200
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FCC410E685
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 14:37:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1719326250; x=1750862250;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=h9QXEIs80JLdAh0MuK57o74l8znAW/Qz+lmxC832vU4=;
+ b=gYX6KWFmYNjGJCR7pKgc2ruPWLfLr5gYHZzPvAHB4CZiRn38rJ4Pqgu9
+ U+EN9W7QcGaPCjCfb0kKQlmrIwG/Zep3x0CmVKhO9Jf0Gr6D1diZ52lvw
+ 0GJd0VdFNyTHWdCAFZn/DISqZkhHcYZodFNCmrZL0oRXUP8zrrKz7K8cf
+ DpIhgvtGcEXae5HhyEZRVr85sG7kw1aBnkO2xK87dWED+KGL/DZv2vjyd
+ CB6wELVBNCHL6l/Y/GVxNRXRPKb4qf2+JS+myVDFHcFwlf1NtuLyWvRzU
+ WrfQ5q36ZIchDq8qswtcNhM9NR6kKHQcdUaTMKKXEgn7bLbbiE4jGqR+1 g==;
+X-CSE-ConnectionGUID: ZYO2YF0KT0+lAit++AXnUQ==
+X-CSE-MsgGUID: H0DlMMinTO6v5RqJ7HaAYQ==
+X-IronPort-AV: E=Sophos;i="6.08,264,1712613600"; d="scan'208";a="37579993"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 25 Jun 2024 16:37:27 +0200
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id AFEFF16381B; Tue, 25 Jun 2024 16:37:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1719326243;
+ h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=h9QXEIs80JLdAh0MuK57o74l8znAW/Qz+lmxC832vU4=;
+ b=nf0uRRPPZqcmB80993TeadtdRsagX6D4UwiddR+/wpANyRr6Bcj9bmqqAWplGaiebeN8d1
+ gKlVrlbu3kj/gR/AThvUuRUvRbKXEqLw7Zk0zAI5DcGjLIFhYAB4FsTnBuvMszD/nxEJct
+ JlqhGljlPTCpd/GIpB7cSM/23hnWqnegsSgZWnc/2GwYx0f1nxpx9zL9AoLrcNCD0E/BJi
+ P1c4SbN3sAFzIvjdRJpIwOqS+YQw/fjYCELEhgyzEAVNbhBCpzS16prDL6qYIyalEEFg4L
+ sOA7MoBbCNIk5iqwrZZO8rqkMWnOSuV0PgaX9w1oZOjNSVS2OZIqhjpw+ry/bg==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: dri-devel@lists.freedesktop.org, Marek Vasut <marex@denx.de>
+Cc: Marek Vasut <marex@denx.de>, Adam Ford <aford173@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Maxime Ripard <mripard@kernel.org>, Michael Walle <mwalle@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
+Subject: Re: [PATCH v2 1/2] drm: bridge: samsung-dsim: Initialize bridge on
+ attach
+Date: Tue, 25 Jun 2024 16:37:22 +0200
+Message-ID: <4603431.cEBGB3zze1@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20240625122824.148163-1-marex@denx.de>
+References: <20240625122824.148163-1-marex@denx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Ma Ke <make24@iscas.ac.cn>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>
-Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-References: <20240625081029.2619437-1-make24@iscas.ac.cn>
-Subject: Re: [PATCH] drm/nouveau/dispnv04: fix null pointer dereference in
- nv17_tv_get_hd_modes
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240625081029.2619437-1-make24@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:w+lKWxONvobVkG1JBjQ5wfxpvmogK7zfC3one7JxNJttL0yxtRT
- 2X3FNzQnbkxaLdb0QHQefzMbPsBUfPIZBpc17M3CtJkoxYSpCVRop7sRcgsds0cCrzG16JL
- 45sBtaD4ZQLCbci57s7tU6j4/EnczQZ9ldF89yqCNo7uLR/WEgR67k03y/u/VqbI+aIUgaR
- XzVzJnh9Z66x/b49M7tAg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:trJvbE4vUhE=;eCQIKaNK/fS/KPnXOL1hOZwQ4wD
- 515WonsX5Vk7h9q7pmgwOtGWyFaCet7T6v+AZVm5PSUfqS7y6d3fAHfcUS7T4r0spc4lKcpPk
- wP2fRFk2qJIOfx3XYpHaUj1Un55DWZNBHbFcly+meblXwapr4wX2U2JdVDWOmlLIXIg7Wuwcu
- OWcjYmRKmZMrwUadiNtgncjLPE7cGJxQYexPcACsLCFeHoOnwcji81IVi6rKJ5DrMXlWMrKJU
- /tby3YQp5CgALY1vqtPIALu/vMtiLKVLsAJAVFHTpvBby15EaKO8hMCjtrMdnu9v8dBVIIizZ
- iVLSmdGiqTL6p36JQCxIw8O837C5lxTeIBeE09mAt/dZEuQvBC67JVyvS4z2IBozGt4Az9wIT
- 96RnxFazx5gaUlwa18DAS5UzJHqyrJxO7b867L3j5ysvCwFR9e10MIZemuHeYXwqUKoEj4K/f
- qP2DZhspPlq+Fs2CM+SG18tOdJdJ2vFnbXgDKguPRZUfVCT0C1wHmQi+iBO6k0uEUWOuPo7/v
- OLezWGdUCdUoebLnlGPp3DIORuJvVtYwnDzZe/lQGxOepiZvVSwTRsf2DC7Cm0QtlMcp7l+4X
- 8ofuF+uAqVlGK6h+HP3vXCxbBk1QB6lPnnRNeJbxSRXvQUCvfv3BJLmLzvHkVIiqZEowcJL29
- b8ER3rE931Lxr9INbkCj/QBJnDKCzqjiNS283Sq3pQRYCkTY1kWUbNYH1EDY4gGOGK7d6mmd5
- eSJ5B++ussY1vK6rfYjT4/El97/sTzSyq0aoJozgYil1SzQyTSgSj77jBEaWoRrHf9pl+nNuO
- CiRyhbn/PlOyELAV9EH2hhAa999Bw4yCLh6PEAK5a/8no=
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,31 +86,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> In nv17_tv_get_hd_modes(), the return value of drm_mode_duplicate() is
-> assigned to mode, which will lead to a possible NULL pointer dereference
-> on failure of drm_mode_duplicate(). The same applies to drm_cvt_mode().
-> Add a check to avoid null pointer dereference.
+Hi Marek,
 
-Can a wording approach (like the following) be a better change description=
-?
+Am Dienstag, 25. Juni 2024, 14:26:10 CEST schrieb Marek Vasut:
+> Initialize the bridge on attach already, to force lanes into LP11
+> state, since attach does trigger attach of downstream bridges which
+> may trigger (e)DP AUX channel mode read.
+>=20
+> This fixes a corner case where DSIM with TC9595 attached to it fails
+> to operate the DP AUX channel, because the TC9595 enters some debug
+> mode when it is released from reset without lanes in LP11 mode. By
+> ensuring the DSIM lanes are in LP11, the TC9595 (tc358767.c driver)
+> can be reset in its attach callback called from DSIM attach callback,
+> and recovered out of the debug mode just before TC9595 performs first
+> AUX channel access later in its attach callback.
+>=20
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Adam Ford <aford173@gmail.com>
+> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
+> Cc: Inki Dae <inki.dae@samsung.com>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Michael Walle <mwalle@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: kernel@dh-electronics.com
+> ---
+> V2: Handle case where mode is not set yet
+> ---
+>  drivers/gpu/drm/bridge/samsung-dsim.c | 32 ++++++++++++++++++++-------
+>  1 file changed, 24 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/brid=
+ge/samsung-dsim.c
+> index e7e53a9e42afb..22d3bbd866d97 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -699,20 +699,24 @@ static unsigned long samsung_dsim_set_pll(struct sa=
+msung_dsim *dsi,
+> =20
+>  static int samsung_dsim_enable_clock(struct samsung_dsim *dsi)
+>  {
+> -	unsigned long hs_clk, byte_clk, esc_clk, pix_clk;
+> +	unsigned long hs_clk, byte_clk, esc_clk;
+>  	unsigned long esc_div;
+>  	u32 reg;
+>  	struct drm_display_mode *m =3D &dsi->mode;
+>  	int bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
+> =20
+> -	/* m->clock is in KHz */
+> -	pix_clk =3D m->clock * 1000;
+> -
+> -	/* Use burst_clk_rate if available, otherwise use the pix_clk */
+> +	/*
+> +	 * Use burst_clk_rate if available, otherwise use the mode clock
+> +	 * if mode is already set and available, otherwise fall back to
+> +	 * PLL input clock and operate in 1:1 lowest frequency mode until
+> +	 * a mode is set.
+> +	 */
+>  	if (dsi->burst_clk_rate)
+>  		hs_clk =3D samsung_dsim_set_pll(dsi, dsi->burst_clk_rate);
+> +	else if (m)	/* m->clock is in KHz */
+> +		hs_clk =3D samsung_dsim_set_pll(dsi, DIV_ROUND_UP(m->clock * 1000 * bp=
+p, dsi->lanes));
+>  	else
+> -		hs_clk =3D samsung_dsim_set_pll(dsi, DIV_ROUND_UP(pix_clk * bpp, dsi->=
+lanes));
+> +		hs_clk =3D dsi->pll_clk_rate;
+> =20
 
-  A null pointer is stored in the local variable =E2=80=9Cmode=E2=80=9D af=
-ter a call
-  of the function =E2=80=9Cdrm_cvt_mode=E2=80=9D or =E2=80=9Cdrm_mode_dupl=
-icate=E2=80=9D failed.
-  This pointer was used in subsequent statements where an undesirable
-  dereference will be performed then.
-  Thus add corresponding return value checks.
+I can't reproduce that mentioned corner case and presumably this problem
+does not exist otherwise. If samsung,burst-clock-frequency is unset I get
+a sluggish image on the monitor.
+
+It seems the calculation is using a adjusted clock frequency:
+samsung-dsim 32e60000.dsi: Using pixel clock for HS clock frequency
+samsung-dsim 32e60000.dsi: [drm:samsung_dsim_host_attach [samsung_dsim]] At=
+tached tc358767 device (lanes:4 bpp:24 mode-flags:0xc03)
+samsung-dsim 32e60000.dsi: PLL ref clock freq 24000000
+samsung-dsim 32e60000.dsi: failed to find PLL PMS for requested frequency
+samsung-dsim 32e60000.dsi: failed to configure DSI PLL
+samsung-dsim 32e60000.dsi: PLL ref clock freq 24000000
+samsung-dsim 32e60000.dsi: PLL freq 883636363, (p 11, m 810, s 1)
+samsung-dsim 32e60000.dsi: hs_clk =3D 883636363, byte_clk =3D 110454545, es=
+c_clk =3D 9204545
+samsung-dsim 32e60000.dsi: calculated hfp: 60, hbp: 105, hsa: 27
+samsung-dsim 32e60000.dsi: LCD size =3D 1920x1080
+
+891 MHz is the nominal one for 148.5 MHz pixelclock. But even setting
+samsung,burst-clock-frequency to 891 MHz results in a sluggish image.
+Maybe this usecase is nothing I need to consider while using DSI-DP
+with EDID timings available.
+
+As the burst clock needs to provide more bandwidth than actually needed,
+I consider this a different usecase not providing
+samsung,burst-clock-frequency for DSI->DP usage.
+
+But the initialization upon attach is working intended, so:
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
+>  	if (!hs_clk) {
+>  		dev_err(dsi->dev, "failed to configure DSI PLL\n");
+> @@ -1643,9 +1647,21 @@ static int samsung_dsim_attach(struct drm_bridge *=
+bridge,
+>  			       enum drm_bridge_attach_flags flags)
+>  {
+>  	struct samsung_dsim *dsi =3D bridge_to_dsi(bridge);
+> +	int ret;
+> =20
+> -	return drm_bridge_attach(bridge->encoder, dsi->out_bridge, bridge,
+> -				 flags);
+> +	ret =3D pm_runtime_resume_and_get(dsi->dev);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret =3D samsung_dsim_init(dsi);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	ret =3D drm_bridge_attach(bridge->encoder, dsi->out_bridge, bridge,
+> +				flags);
+> +err:
+> +	pm_runtime_put_sync(dsi->dev);
+> +	return ret;
+>  }
+> =20
+>  static const struct drm_bridge_funcs samsung_dsim_bridge_funcs =3D {
+>=20
 
 
-> Cc: stable@vger.kernel.org
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
-Would you like to add the tag =E2=80=9CFixes=E2=80=9D accordingly?
 
-
-How do you think about to use a summary phrase like
-=E2=80=9CPrevent null pointer dereferences in nv17_tv_get_hd_modes()=E2=80=
-=9D?
-
-Regards,
-Markus
