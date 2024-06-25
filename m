@@ -2,77 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E65D91671C
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 14:13:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C0E91687B
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 14:59:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 741A610E047;
-	Tue, 25 Jun 2024 12:13:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C77D10E28E;
+	Tue, 25 Jun 2024 12:59:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="G0w6FfIa";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="AZnKK4W3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91A6E10E047
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 12:13:52 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id
- a640c23a62f3a-a72517e6225so294963566b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 05:13:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1719317631; x=1719922431;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4aqlN25UlqZjEdbsm+c0y2Igx5fr3O3fLmRuZB5TvsM=;
- b=G0w6FfIa4HQMlWFojgNI0KAWYRlxfxOC5KfK3MwDOdaHwMlMXXNLBPD05exD2a8EWL
- FzgBDKNouRN4QFGCmPvpubS+Jx0f81XXReZppqg7M+Tg6WJquMpnm5wVRnIGFZBLT9oB
- xZqZXxqzMPqnx6y3c3g16kdstZcK/erRWOBIcBgqeLCcH0qCgMspAUfjWNAy8hdOrxH+
- m9I9RnTW7uVlfY6aiytc7vJpjIiempnrtqCi+iFIYCeVVpZbMQUm5ZaYSQFMXY/hzO+Y
- MlZqPx3lNYessFVwnJOMagu+yfy30nsWVgswkkfPOwWSHRYxNntENsrPd+n9fnCmh/aL
- R9lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719317631; x=1719922431;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4aqlN25UlqZjEdbsm+c0y2Igx5fr3O3fLmRuZB5TvsM=;
- b=u60Q4gezyeFkqyvmKptMhuRV4QexW+3bNusGwPy8PlCeCDY53PCO1C0jnfpS4SRPyf
- 47hZJa5Xbag6OiXRn1kuytY2lhoxlOXOORh6ACQXPrS2vLiCJNXPEDJEjcuDi4tOGaim
- 0WbjWGMXg2GFNP9l630oYxxAJFrOAIcK0gSFKI/XrGW2lib/sah6Xa/vhjcrjS2ht1Iv
- XnIEFSawpfpdDgEg8Az4D0UNPGmzuAH2vOsIo0FRdL3uniIxY1la/pHFd182q2qzoXIJ
- tttCWCkwykhyjZZlcwUmvWrLRohhuf640QyFka4WDl5qcnwerNhnRJ4MMM1J/1VvAAs+
- pnlA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUp1DipAI/lHCy/EvEcb6UOzc6TsfaGFz3K3mWMBFzBiLHm4YrGelIvo9J+J1+dRWzbZjcl0HwaFYzDgGomOI/CU4OY2tMiOF0tYuoHhwXC
-X-Gm-Message-State: AOJu0YxubBlkFUenHVzfRyuu0YqdCNOGTqVOqceWm2roPCIanSVLfhc4
- w7/TcV/65+P78Qy/k4KWLtsqfOwMIMkMEUoNqKB6DylM7oL5asaqA1EOc4QE2j9jVwa8eSp/GCv
- L593MpPz6R7plnH/wixSVD+eAdRbSwWW5WKL+4Q==
-X-Google-Smtp-Source: AGHT+IHnx3byeR6SWSyo0RC+TkodiX814p8nMvNg+URFKCyjYQAqtSA26OzrFjigEwWHlCmMsfRBmsFbEJ+5T61424E=
-X-Received: by 2002:a17:906:230d:b0:a6f:50ae:e0a with SMTP id
- a640c23a62f3a-a715f978a7amr456836266b.37.1719317630566; Tue, 25 Jun 2024
- 05:13:50 -0700 (PDT)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5393110E28E
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 12:59:38 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 503238751B;
+ Tue, 25 Jun 2024 14:59:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1719320376;
+ bh=0xEbRL6F2Yq8g5C1TapxGBRi9EtqMDPCx1oQGy4gTzA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=AZnKK4W3i6jbUtgrtvZq9Xy9jqUzEMOMGnlCR35HNyanM2gPZgE6OhwMJUCUTFw9q
+ Q3yhxJQJyAKPQPyvu9qVroDQ0cyb1m8ylC4Hwv6HrsJFAdg8b+17txM/pyKqBk5nEz
+ UIJCOo1bywww9FO98/1fQnY8iFRRgYPlCsBLDoxveG/JtCsqWkTZpx0NVKcdNiJYFH
+ jN4cZHjaxST2n6SNik5hN1iMtbhgH+gIcqgVDco72Lov0/5Rqy8TEJIVufOLWsvS17
+ WcM5OsRFNzEv0RM7N0IMli+R7OKhImhUnb76ChiBpY7Ol6b6HsUBngQwO1vwAePArG
+ 1th+DP6RvDyzA==
+Message-ID: <fe52138b-56ae-4f36-9e77-465986235a29@denx.de>
+Date: Tue, 25 Jun 2024 14:16:59 +0200
 MIME-Version: 1.0
-References: <20240624141926.5250-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240624141926.5250-2-lvzhaoxiong@huaqin.corp-partner.google.com>
- <de8ab492-272c-4bed-92eb-a0c3303543b2@quicinc.com>
-In-Reply-To: <de8ab492-272c-4bed-92eb-a0c3303543b2@quicinc.com>
-From: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Date: Tue, 25 Jun 2024 20:13:39 +0800
-Message-ID: <CA+6=WdSDSvcMJsmUNW6NXqNXktYjp0xdqk8Y+FakiPBYcXfgGw@mail.gmail.com>
-Subject: Re: [PATCH v5 1/5] drm/panel: jd9365da: Modify the method of sending
- commands
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org, 
- benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com, 
- jagan@edgeble.ai, neil.armstrong@linaro.org, dmitry.baryshkov@linaro.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Shuijing Li <shuijing.li@mediatek.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/6] drm/bridge: tc358767: Use tc_pxl_pll_calc() to
+ correct adjusted_mode clock
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
+References: <20240531204130.277800-1-marex@denx.de>
+ <3760061.MHq7AAxBmi@steina-w> <3db8424d-9880-4e9f-8441-26139a44dba8@denx.de>
+ <2815610.BEx9A2HvPv@steina-w>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <2815610.BEx9A2HvPv@steina-w>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,136 +73,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 25, 2024 at 7:41=E2=80=AFAM Jessica Zhang <quic_jesszhan@quicin=
-c.com> wrote:
->
->
->
-> On 6/24/2024 7:19 AM, Zhaoxiong Lv wrote:
-> > Currently, the init_code of the jd9365da driver is placed
-> > in the enable() function and sent, but this seems to take
-> > a long time. It takes 17ms to send each instruction (an init
-> > code consists of about 200 instructions), so it takes
-> > about 3.5s to send the init_code. So we moved the sending
-> > of the inti_code to the prepare() function, and each
-> > instruction seemed to take only 25=CE=BCs.
-> >
-> > We checked the DSI host and found that the difference in
-> > command sending time is caused by the different modes of
-> > the DSI host in prepare() and enable() functions.
-> > Our DSI Host only supports sending cmd in LP mode, The
-> > prepare() function can directly send init_code (LP->cmd)
-> > in LP mode, but the enable() function is in HS mode and
-> > needs to switch to LP mode before sending init code
-> > (HS->LP->cmd->HS). Therefore, it takes longer to send
-> > the command.
-> >
-> > Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com=
->
->
-> Hi Zhaoxiong,
->
-> Just curious, if the host expects that commands are sent in LP mode, why
-> isn't the MIPI_DSI_MODE_LPM flag set before sending the DCS commands?
->
-> Thanks,
->
-> Jessica Zhang
+On 6/25/24 8:11 AM, Alexander Stein wrote:
+> Hi Marek,
+> 
+> Am Dienstag, 25. Juni 2024, 02:33:53 CEST schrieb Marek Vasut:
+>> On 6/24/24 11:26 AM, Alexander Stein wrote:
+>>> Hi Marek,
+>>
+>> Hi,
+>>
+>>> Am Freitag, 21. Juni 2024, 16:54:51 CEST schrieb Marek Vasut:
+>>>> On 6/21/24 12:32 PM, Alexander Stein wrote:
+>>>>
+>>>> Hi,
+>>>>
+>>>> skipping the parts where I would simply write "OK" ...
+>>>>
+>>>>>>>> As FVUEN is cleared at the next VSYNC event I suspect the DSI timings
+>>>>>>>> are (slightly) off, but unfortunately I don't have equipment to check
+>>>>>>>> DSI signal quality/timings.
+>>>>>>>
+>>>>>>> As long as the LCDIFv3 pixel clock are equal or slightly slower than
+>>>>>>> what the TC9595 PixelPLL generates, AND, DSIM serializer has enough
+>>>>>>> bandwidth on the DSI bus (i.e. set the bus to 1 GHz, the TC9595 DSI RX
+>>>>>>> cannot go any faster), you should have no issues on that end.
+>>>>>
+>>>>> I'm using samsung,burst-clock-frequency = <1000000000> so this should be
+>>>>> okay. That is 1080p resolution.
+>>>>
+>>>> Yes, correct.
+>>>>
+>>>>>>> When in doubt, try and use i2ctransfer to read out register 0x300
+>>>>>>> repeatedly, that's DSI RX error counter register. See if the DSI error
+>>>>>>> count increments.
+>>>>>
+>>>>> If the bridge is not working the registers look like this:
+>>>>> 300: c0800000
+>>>>> 464: 00000001
+>>>>>
+>>>>> they are not changing and stay like that.
+>>>>>
+>>>>> If the bridge is actually running they are like
+>>>>> 300: c08000d3
+>>>>> 464: 00000000
+>>>>>
+>>>>> and are also not changing.
+>>>>
+>>>> Uh ... that looks like the whole chip clock tree somehow locked up .
+>>>>
+>>>> Thinking about this, I once did force the DSIM into 24 MHz mode (there
+>>>> is PLL bypass setting, where the DSIM uses 24 MHz serializer clock
+>>>> directly for the DSI HS clock) or something close, it was enough to
+>>>> drive a low resolution panel. But the upside was, with a 200 MHz 5Gsps
+>>>> scope set to AC-coupling and 10x probe, I could discern the traffic on
+>>>> DSI data lane and decode it by hand. The nice thing is, you could
+>>>> trigger on 1V2 LP mode, so you know where the packet starts. The
+>>>> downside is, if you have multiple data lanes, the packet is spread
+>>>> across them.
+>>>>
+>>>> You could also tweak tc_edp_atomic_check()/tc_edp_mode_valid() and force
+>>>> only low(er) resolution modes of your DP panel right from the start, so
+>>>> you wouldn't need that much DSI bandwidth. Maybe you could reach some
+>>>> mode where your equipment is enough to analyze the traffic by hand ?
+>>>
+>>> I think I got it running now. Apparently there were different, independent
+>>> problems which you addressed by your series.
+>>
+>> Oh, glad I could help.
+>>
+>>> Unfortunately the patch
+>>> 'tc358767: Disable MIPI_DSI_CLOCK_NON_CONTINUOUS' introduced a new problem
+>>> (at least for me). For the record I'm running the following patch stack based
+>>> on next-20240621:
+>>
+>> Thanks for tracking it down. I can drop that one
+>> MIPI_DSI_CLOCK_NON_CONTINUOUS patch from the series and do a V4. Would
+>> that work for you ? At least there would be some improvement to the
+>> driver and I can analyze the MIPI_DSI_CLOCK_NON_CONTINUOUS issue in
+>> detail separately.
+> 
+> Sure, thanks to your patches this bridge does its job now.
+> Sure, now that I have a reference system I can easily try a V4 without
+> the MIPI_DSI_CLOCK_NON_CONTINUOUS patch.
 
-hi jessica
-
-We have tried to set dsi->mode_flags to MIPI_DSI_MODE_LPM in the
-probe() function,
-but this seems to still happen. MTK colleagues believe that the host
-dsi configuration is
-still in LP mode during the prepare() function, and when in the
-enable() function, the host
-dsi is already in HS mode. However, since the command must be sent in
-LP mode, it will
-switch back and forth between HS->LP->HS.
-
-Add Mediatek colleagues=EF=BC=88shuijing.li@mediatek.corp-partner.google.co=
-m=EF=BC=89
-
-
->
-> > ---
-> > Changes between V5 and V4:
-> > - 1. No changes.
-> >
-> > V4:https://lore.kernel.org/all/20240620080509.18504-2-lvzhaoxiong@huaqi=
-n.corp-partner.google.com/
-> >
-> > Changes between V4 and V3:
-> > - 1. Only move mipi_dsi_dcs_write_buffer from enable() function to prep=
-are() function,
-> > -    and no longer use mipi_dsi_dcs_write_seq_multi.
-> >
-> > V3:https://lore.kernel.org/all/20240614145510.22965-2-lvzhaoxiong@huaqi=
-n.corp-partner.google.com/
-> >
-> > ---
-> >   .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 24 +++++++++---------=
--
-> >   1 file changed, 11 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers=
-/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-> > index 4879835fe101..a9c483a7b3fa 100644
-> > --- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-> > +++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-> > @@ -52,21 +52,9 @@ static int jadard_enable(struct drm_panel *panel)
-> >   {
-> >       struct device *dev =3D panel->dev;
-> >       struct jadard *jadard =3D panel_to_jadard(panel);
-> > -     const struct jadard_panel_desc *desc =3D jadard->desc;
-> >       struct mipi_dsi_device *dsi =3D jadard->dsi;
-> > -     unsigned int i;
-> >       int err;
-> >
-> > -     msleep(10);
-> > -
-> > -     for (i =3D 0; i < desc->num_init_cmds; i++) {
-> > -             const struct jadard_init_cmd *cmd =3D &desc->init_cmds[i]=
-;
-> > -
-> > -             err =3D mipi_dsi_dcs_write_buffer(dsi, cmd->data, JD9365D=
-A_INIT_CMD_LEN);
-> > -             if (err < 0)
-> > -                     return err;
-> > -     }
-> > -
-> >       msleep(120);
-> >
-> >       err =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
-> > @@ -100,6 +88,8 @@ static int jadard_disable(struct drm_panel *panel)
-> >   static int jadard_prepare(struct drm_panel *panel)
-> >   {
-> >       struct jadard *jadard =3D panel_to_jadard(panel);
-> > +     const struct jadard_panel_desc *desc =3D jadard->desc;
-> > +     unsigned int i;
-> >       int ret;
-> >
-> >       ret =3D regulator_enable(jadard->vccio);
-> > @@ -117,7 +107,15 @@ static int jadard_prepare(struct drm_panel *panel)
-> >       msleep(10);
-> >
-> >       gpiod_set_value(jadard->reset, 1);
-> > -     msleep(120);
-> > +     msleep(130);
-> > +
-> > +     for (i =3D 0; i < desc->num_init_cmds; i++) {
-> > +             const struct jadard_init_cmd *cmd =3D &desc->init_cmds[i]=
-;
-> > +
-> > +             ret =3D mipi_dsi_dcs_write_buffer(dsi, cmd->data, JD9365D=
-A_INIT_CMD_LEN);
-> > +             if (ret < 0)
-> > +                     return ret;
-> > +     }
-> >
-> >       return 0;
-> >   }
-> > --
-> > 2.17.1
-> >
+V4 is now out, thanks !
