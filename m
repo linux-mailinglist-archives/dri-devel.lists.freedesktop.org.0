@@ -2,57 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A34D916E07
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 18:25:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B42CE916E56
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 18:44:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7782810E6BB;
-	Tue, 25 Jun 2024 16:25:41 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eLbi8gAp";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDA8010E6C9;
+	Tue, 25 Jun 2024 16:44:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E085F10E6BB
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 16:25:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id AD7B3CE1C1F;
- Tue, 25 Jun 2024 16:25:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14DC4C32781;
- Tue, 25 Jun 2024 16:25:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719332737;
- bh=11jynk5a/49/ElTJ9oo1LXDPA26BwDFO65Ty9CP0sI4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eLbi8gApgYzOooqbHt3pXRvY/aqVqEuWUIGT0CsiZR3e9y+8WYghRJFNfRMK8jBMh
- /LGtBdrfjEGpPQgIylcsJZi+/luO8Z0LUb0fp4ZAMXrqNv0gVf9Hyk/gyG82eabeN8
- vM8gQIggsa4uvJ75C1+HVIROSOgZ2j5rdBVDhyWBTJgJwFbWBcxraSp+M4j8j0+OGF
- Tk/p7n3J+NhBOh/ShrnjhzoySQsmwsN+I1P5byXlzlKFdDATn3fpjkyAuW0DkafKM3
- 0Djwr+gyV7iVX5jsJhHb7MomXSaSN+TIAgkmoCwbvKu9F6d8PcNRouVXpM8KGtUcfG
- muzOE8EiR0UJA==
-Date: Tue, 25 Jun 2024 17:25:31 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Michael Walle <mwalle@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Gunnar Dibbern <gunnar.dibbern@lht.dlh.de>
-Subject: Re: [PATCH 1/2] dt-bindings: display: panel: add Ilitek ili9806e
- panel controller
-Message-ID: <20240625-rage-quarrel-a11f952c335b@spud>
-References: <20240625133317.2869038-1-mwalle@kernel.org>
- <20240625133317.2869038-2-mwalle@kernel.org>
+Received: from ns.iliad.fr (ns.iliad.fr [212.27.33.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7196710E6C0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 16:44:11 +0000 (UTC)
+Received: from ns.iliad.fr (localhost [127.0.0.1])
+ by ns.iliad.fr (Postfix) with ESMTP id 2178920260;
+ Tue, 25 Jun 2024 18:38:34 +0200 (CEST)
+Received: from [127.0.1.1] (freebox.vlq16.iliad.fr [213.36.7.13])
+ by ns.iliad.fr (Postfix) with ESMTP id 09CAB2014B;
+ Tue, 25 Jun 2024 18:38:34 +0200 (CEST)
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+Subject: [PATCH v2 0/2] Basic support for TI TDP158
+Date: Tue, 25 Jun 2024 18:38:11 +0200
+Message-Id: <20240625-tdp158-v2-0-a3b344707fa7@freebox.fr>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wAaoyByR7rwocqHF"
-Content-Disposition: inline
-In-Reply-To: <20240625133317.2869038-2-mwalle@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHPyemYC/2XMQQ6CMBCF4auQWVszbbBUV9zDsJDOVGYDpCUNh
+ vTuVrYu/5eX74DEUTjBozkgcpYky1zDXBrw02t+sxKqDQZNi1Z3aqNV35xqtTOIZL3HEep5jRx
+ kP6HnUHuStC3xc7pZ/9Y/ImuFisLdceiIvaU+ROZx2a8hwlBK+QLXARHxnQAAAA==
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marc Gonzalez <mgonzalez@freebox.fr>
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,30 +59,33 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---wAaoyByR7rwocqHF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+---
+Changes in v2:
+- Don't overload simple-bridge, spin new minimal driver
+- New driver, new binding
+- Default device settings work fine for us, so we don't tweak registers
+- Link to v1: https://lore.kernel.org/r/20240617-tdp158-v1-0-df98ef7dec6d@freebox.fr
 
-On Tue, Jun 25, 2024 at 03:33:16PM +0200, Michael Walle wrote:
-> Add the device tree binding for the Ilitek ILI9806E controller which can
-> be found on the Ortustech COME35H3P70ULC DSI display panel.
->=20
-> There are no peculiarities except for two different power signals.
->=20
-> Signed-off-by: Michael Walle <mwalle@kernel.org>
+Getting unusual message at run-time, need to check.
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+[    2.389848] platform c9a0000.hdmi-tx: Fixed dependency cycle(s) with /soc@0/i2c@c1b5000/tdp158@5e
+[    2.391089] i2c 2-005e: Fixed dependency cycle(s) with /soc@0/display-subsystem@c900000/hdmi-tx@c9a0000
 
---wAaoyByR7rwocqHF
-Content-Type: application/pgp-signature; name="signature.asc"
+---
+Marc Gonzalez (2):
+      dt-bindings: display: bridge: add TI TDP158
+      drm/bridge: add support for TI TDP158
 
------BEGIN PGP SIGNATURE-----
+ .../bindings/display/bridge/ti,tdp158.yaml         |  48 ++++++++++
+ drivers/gpu/drm/bridge/Kconfig                     |   6 ++
+ drivers/gpu/drm/bridge/Makefile                    |   1 +
+ drivers/gpu/drm/bridge/ti-tdp158.c                 | 103 +++++++++++++++++++++
+ 4 files changed, 158 insertions(+)
+---
+base-commit: d47e2c964a51cbaa14a8c0ac641f85349584fae9
+change-id: 20240617-tdp158-418200d6cc0b
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnrvewAKCRB4tDGHoIJi
-0g9nAQC2COqHdQsCfqnwo+sayhzov4sVoNF8rbDAdYwfX1Pf1AD/Rc5AvjVuPaED
-vu0KoJdqYy8bZZT59CZas5Y1in7tXwM=
-=MVgJ
------END PGP SIGNATURE-----
+Best regards,
+-- 
+Marc Gonzalez <mgonzalez@freebox.fr>
 
---wAaoyByR7rwocqHF--
