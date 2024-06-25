@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 275279165BE
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 13:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C36C916629
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 13:27:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4312810E05A;
-	Tue, 25 Jun 2024 11:06:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 107CD10E626;
+	Tue, 25 Jun 2024 11:27:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="fANV+9tf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vLSaoF5j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com
- [91.218.175.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51B0510E05A
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 11:06:28 +0000 (UTC)
-X-Envelope-To: uwu@icenowy.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1719313585;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y4QIrkEOg0q3Qdp/6/fgIyt5BuEczwkBWFON7bt0o2s=;
- b=fANV+9tffaUMKGqnfXF5a2oYI7nJ0P1GXcKgbIPZQ/eXD1L6zb0XSRxVeRNbzG4x+4gvqQ
- YWOQ1kF8w0GbzsDf+0sixem4KRy1WWcdxXNp2GyQL1DN1jYwG937SkBj/Q9qXWgRtZPLk6
- ZOMU3qCbWehW+uS3TcxEkTbdVtbL7i4=
-X-Envelope-To: l.stach@pengutronix.de
-X-Envelope-To: linux+etnaviv@armlinux.org.uk
-X-Envelope-To: christian.gmeiner@gmail.com
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: etnaviv@lists.freedesktop.org
-X-Envelope-To: dri-devel@lists.freedesktop.org
-Message-ID: <21696f2b-9321-4992-8a05-a4d8bf998e5b@linux.dev>
-Date: Tue, 25 Jun 2024 19:06:17 +0800
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5457310E62C;
+ Tue, 25 Jun 2024 11:27:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id B421ECE175D;
+ Tue, 25 Jun 2024 11:27:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8153FC32781;
+ Tue, 25 Jun 2024 11:27:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1719314830;
+ bh=zzrLgFHfkFUFx4FQA7l293B59+LWvaKIkSGrLRG/HoQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vLSaoF5j3kRrpHLLGQOBjKAy8fabqTMjHscooWo+Cf0qVlm97HWZ4lcUHD2ltKPKr
+ kVuMSIOGw7aaRJiXZG4t++d6Lz5tkAkMhuwK1MvbhK5yryIewBLyc2YJiwGWNnMol+
+ K0cnvR7u7zNUhuTLY8P7SLGHuq13WRfUCGJyymzVdHfN+0s9MllWZ2HDBmYI/ARd2n
+ AV2qttBwbzZGzK5Pl39knyr0JpHaASLq9cOF1NuSWNGwwzNQQWdeowXbIEE7cc0ENz
+ q0Jh+K1YcITaJ5Yg3cfKWHqbKIlM+CZ0Yacw8HhAz0aTucwFaE8AoF5RMLSCOUMlHf
+ OaNOFFDWlcy5g==
+Date: Tue, 25 Jun 2024 12:27:04 +0100
+From: Will Deacon <will@kernel.org>
+To: Rob Clark <robdclark@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
+ "open list:IOMMU SUBSYSTEM" <iommu@lists.linux.dev>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 1/2] iommu/io-pgtable-arm: Add way to debug pgtable walk
+Message-ID: <20240625112703.GA10175@willie-the-truck>
+References: <20240523175227.117984-1-robdclark@gmail.com>
+ <20240523175227.117984-2-robdclark@gmail.com>
+ <20240624151401.GB8706@willie-the-truck>
+ <CAF6AEGttkHPOsO+NSHZeRXiZBxU_26HZyGMjOZ3-Y8NZUgz0gA@mail.gmail.com>
 MIME-Version: 1.0
-Subject: Re: [etnaviv-next v14 0/8] drm/etnaviv: Add driver wrapper for
- vivante GPUs attached on PCI(e) device
-To: Icenowy Zheng <uwu@icenowy.me>, Lucas Stach <l.stach@pengutronix.de>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20240519165321.2123356-1-sui.jingfeng@linux.dev>
- <19acb7b11ed22a0a87694b2e74807b82e3b5450e.camel@icenowy.me>
-Content-Language: en-US, en-AU
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <19acb7b11ed22a0a87694b2e74807b82e3b5450e.camel@icenowy.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <CAF6AEGttkHPOsO+NSHZeRXiZBxU_26HZyGMjOZ3-Y8NZUgz0gA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,104 +70,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 6/25/24 11:18, Icenowy Zheng wrote:
-> 在 2024-05-20星期一的 00:53 +0800，Sui Jingfeng写道：
->> drm/etnaviv use the component framework to bind multiple GPU cores to
->> a
->> virtual master, the virtual master is manually create during driver
->> load
->> time. This works well for various SoCs, yet there are some PCIe card
->> has
->> the vivante GPU cores integrated. The driver lacks the support for
->> PCIe
->> devices currently.
->>
->> Adds PCIe driver wrapper on the top of what drm/etnaviv already has,
->> the
->> component framework is still being used to bind subdevices, even
->> though
->> there is only one GPU core. But the process is going to be reversed,
->> we
->> create virtual platform device for each of the vivante GPU IP core
->> shipped
->> by the PCIe master. The PCIe master is real, bind all the virtual
->> child
->> to the master with component framework.
->>
->>
->> v6:
->>          * Fix build issue on system without CONFIG_PCI enabled
->> v7:
->>          * Add a separate patch for the platform driver rearrangement
->> (Bjorn)
->>          * Switch to runtime check if the GPU is dma coherent or not
->> (Lucas)
->>          * Add ETNAVIV_PARAM_GPU_COHERENT to allow userspace to query
->> (Lucas)
->>          * Remove etnaviv_gpu.no_clk member (Lucas)
->>          * Fix Various typos and coding style fixed (Bjorn)
->> v8:
->>          * Fix typos and remove unnecessary header included (Bjorn).
->>          * Add a dedicated function to create the virtual master
->> platform
->>            device.
->> v9:
->>          * Use PCI_VDEVICE() macro (Bjorn)
->>          * Add trivial stubs for the PCI driver (Bjorn)
->>          * Remove a redundant dev_err() usage (Bjorn)
->>          * Clean up etnaviv_pdev_probe() with
->> etnaviv_of_first_available_node()
->> v10:
->>          * Add one more cleanup patch
->>          * Resolve the conflict with a patch from Rob
->>          * Make the dummy PCI stub inlined
->>          * Print only if the platform is dma-coherrent
->> V11:
->>          * Drop unnecessary changes (Lucas)
->>          * Tweak according to other reviews of v10.
->>
->> V12:
->>          * Create a virtual platform device for the subcomponent GPU
->> cores
->>          * Bind all subordinate GPU cores to the real PCI master via
->> component.
->>
->> V13:
->>          * Drop the non-component code path, always use the component
->> framework
->>            to bind subcomponent GPU core. Even though there is only
->> one core.
->>          * Defer the irq handler register.
->>          * Rebase and improve the commit message
->>
->> V14:
->>          * Rebase onto etnaviv-next and improve commit message.
->>
->> Tested with JD9230P GPU and LingJiu GP102 GPU.
+On Mon, Jun 24, 2024 at 08:37:26AM -0700, Rob Clark wrote:
+> On Mon, Jun 24, 2024 at 8:14 AM Will Deacon <will@kernel.org> wrote:
+> >
+> > On Thu, May 23, 2024 at 10:52:21AM -0700, Rob Clark wrote:
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > Add an io-pgtable method to walk the pgtable returning the raw PTEs that
+> > > would be traversed for a given iova access.
+> > >
+> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > ---
+> > >  drivers/iommu/io-pgtable-arm.c | 51 ++++++++++++++++++++++++++++------
+> > >  include/linux/io-pgtable.h     |  4 +++
+> > >  2 files changed, 46 insertions(+), 9 deletions(-)
+> > >
+> > > diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+> > > index f7828a7aad41..f47a0e64bb35 100644
+> > > --- a/drivers/iommu/io-pgtable-arm.c
+> > > +++ b/drivers/iommu/io-pgtable-arm.c
+> > > @@ -693,17 +693,19 @@ static size_t arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iov
+> > >                               data->start_level, ptep);
+> > >  }
+> > >
+> > > -static phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
+> > > -                                      unsigned long iova)
+> > > +static int arm_lpae_pgtable_walk(struct io_pgtable_ops *ops, unsigned long iova,
+> > > +                     int (*cb)(void *cb_data, void *pte, int level),
+> > > +                     void *cb_data)
+> > >  {
+> > >       struct arm_lpae_io_pgtable *data = io_pgtable_ops_to_data(ops);
+> > >       arm_lpae_iopte pte, *ptep = data->pgd;
+> > >       int lvl = data->start_level;
+> > > +     int ret;
+> > >
+> > >       do {
+> > >               /* Valid IOPTE pointer? */
+> > >               if (!ptep)
+> > > -                     return 0;
+> > > +                     return -EFAULT;
+> >
+> > nit: -ENOENT might be a little better, as we're only checking against a
+> > NULL entry rather than strictly any faulting entry.
+> >
+> > >               /* Grab the IOPTE we're interested in */
+> > >               ptep += ARM_LPAE_LVL_IDX(iova, lvl, data);
+> > > @@ -711,22 +713,52 @@ static phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
+> > >
+> > >               /* Valid entry? */
+> > >               if (!pte)
+> > > -                     return 0;
+> > > +                     return -EFAULT;
+> >
+> > Same here (and at the end of the function).
+> >
+> > > +
+> > > +             ret = cb(cb_data, &pte, lvl);
+> >
+> > Since pte is on the stack, rather than pointing into the actual pgtable,
+> > I think it would be clearer to pass it by value to the callback.
 > 
-> BTW how should VRAM and displayed related parts be handled on these
-> dGPUs?
+> fwiw, I passed it as a void* to avoid the pte size.. although I guess
+> it could be a union of all the possible pte types
 
-Emm, I can only say I have no ideas.
+Can you just get away with a u64?
 
-Thanks for Christian's tested-by, but I'm a bit worry about if etnaviv
-folks really like(or need) this. In the past, we started to contribute
-before we know the policy/framework very well. I have to managed to
-make things work before knowing the full picture. We developing drivers
-in a rather rapid way and rather wild. Sometime, we do it just for fun. 
-As the card don't has a usable driver, we want do something and we do
-have already learned the framework and knowledge.
-
-But now as we know a bit more, I actually don't intend to brings
-concerns to other people. So only first 6 patch (or only part of them)
-are requested to be merged, patch 0007 or patch 0008 can just leave it
-there to be reviewed a bit longer if something is unsure.
-
-Its totally up to etnaviv folks, I don't mind. Thanks for the nice
-project.
-
--- 
-Best regards
-Sui
+Will
