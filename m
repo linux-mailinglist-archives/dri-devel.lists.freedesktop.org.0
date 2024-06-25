@@ -2,87 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC635917276
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 22:23:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA09E91727E
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 22:25:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CCD410E2F5;
-	Tue, 25 Jun 2024 20:23:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 409FA10E73A;
+	Tue, 25 Jun 2024 20:25:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="aNwYAEfh";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="a+jIuFtU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93A4110E2F5;
- Tue, 25 Jun 2024 20:23:22 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45PG5o75001863;
- Tue, 25 Jun 2024 20:23:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- RR0nR3fGXANSId5+wd9tV3LhFo6Rl/lTKjG9tuD6D4M=; b=aNwYAEfhY9B6UtCI
- 8K0i6Lt/JKznOD8IDaHV6TGXkE8RhDueldpmN9jRJjkDd7axPvT6alGT33pIgw7S
- CVeCXY1gJcHHq+v04KZ9iPyyhi459FixR55SQBwU2YTeskhAVzb4UVkNtiL7yJMd
- zbT/gAP9oVHzLYc4LigHL7XPVSAdcPKFizex5CaMar2u4WxL00NvPyUv0VxK5p7X
- zyIhty+u9XxAA8xPBORpcMgMYDf1i/KLeeTYhNrj+bxLuHqeJcXF6DGDIS39FMiW
- +9sPAMLsG4qe+ZGz7UNCF6qyxSpFBVU9Tl9rh82tJrSgTlJW665kJnE4FxGxWn/m
- FBIT8w==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywmaf00q6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Jun 2024 20:23:17 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
- 45PKNGG9000301
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Jun 2024 20:23:16 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 25 Jun 2024 13:23:12 -0700
-Date: Wed, 26 Jun 2024 01:53:08 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>
-CC: Kiarash Hajian <kiarash8112hajian@gmail.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/msm/a6xx: request memory region
-Message-ID: <20240625202308.prg72urp4mvtxzax@hu-akhilpo-hyd.qualcomm.com>
-References: <20240608-adreno-v1-1-2e470480eee7@gmail.com>
- <CAF6AEGsd6jfDqV-EOWr+oMjPpVr2S+71VYmp1JoY8xU51eeEEw@mail.gmail.com>
- <20240625175926.4xyzwjyx7oxcwnzx@hu-akhilpo-hyd.qualcomm.com>
- <CAF6AEGt5=bcni0K1ysot3-hVj9gWECJ5qP=M-sEDkRrAmEHFGg@mail.gmail.com>
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3275610E737
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 20:25:03 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-52cdb9526e2so3641338e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 13:25:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1719347100; x=1719951900; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=EGSrExRHaYAC12I3fY4kfdCfI8K5ixp22xz8c3OXhqc=;
+ b=a+jIuFtUdo7K59SCMzrNkLUF8JkGrKXvidlVM0dXmwcys/bxz/NoKQUKHRLdd7XtLj
+ ciLCj1DpTbZDN3V2UaAOeHVAv/sLpCZUvZ3BKCvn2CDyw30MJX8jTGVApPEh42VLbWNX
+ lwPFFoVfkNhBxYfsGxMfHNx91ZHyZBuQ7XwB76Qo/rMluOMlT7/WqgUBXd256R8Nh1Vu
+ HHJISHhd99ZOuEuKYvu82jRFFxxJd76D+VYJ9SMr2oIwJJ7b2HQGEVTRqTz8Wb4GxudK
+ hwI8XaNthm4ZKBzdHvmG46a1G/p1XsRX2/+QdQxkNqbSt24naQEIbZQBAok5WBnCQwTq
+ +bSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719347100; x=1719951900;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EGSrExRHaYAC12I3fY4kfdCfI8K5ixp22xz8c3OXhqc=;
+ b=DVDmvt8DtXUrY6cwmr6jFndP2HgRTer1AbBff74q2XA7KVfM3jTKGD5ub0aCrUo0k3
+ Z/r3KhNb8BwxryRL4RhnpO4hdLvqW7U/Wca3C8ByBga06gxNy3/RLLjSHokxk3axkT2w
+ YVmQyF4emhvx9st1qlnJyy18xBxEZ9LVJnk6vjnW91IoIWN0ZyegO8ZsFtuPgMkeyN/1
+ OufihH1Y0ZHCnCsJZ9YpBWMdbjBd2dL+8o6VCWgYOaoj43g6j+CvlKWIBeZTFgnGNyNw
+ CU62P0lZUpBmqqxy5JxjteAlF1FB00Tqp6yt8TsCY54pLF8KfTV4fFO61NU3X4jQGSyJ
+ rv3A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWtouZHI44USVq4WrLy4s50S2Sl33r15+HEns1q8iQr6myTGfbYHDfXgQPX8qnJ0+x1I3bKXUomHOEOyi/NgxaddppwcypdubELXRRtI1mj
+X-Gm-Message-State: AOJu0Ywnh8hlwtVdkpprzzqw4Gfjf2oI/e2Jgpccsow60cPWXX+8/6gn
+ M0h5Da2p0+gY02XLXZO5osXDpLTQ0DeOq5cX0RKgrMWwW3PMAqE1o8yPQVXfyLIa6LyLKPnmuu+
+ m7JQ=
+X-Google-Smtp-Source: AGHT+IGvZKN0bua6TVN/7VXdsjrb+MYYawhQuZHbwn7dzTE3zJ8f7WalpmdFudMnw2ffUpwm9BDvUQ==
+X-Received: by 2002:a05:6512:33cc:b0:52c:ebf6:9a7f with SMTP id
+ 2adb3069b0e04-52cebf69b22mr1746440e87.11.1719347100412; 
+ Tue, 25 Jun 2024 13:25:00 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52cf4c4aef0sm133983e87.279.2024.06.25.13.24.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Jun 2024 13:24:59 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 25 Jun 2024 23:24:58 +0300
+Subject: [PATCH RFC v3] drm/msm/dpu: Configure DP INTF/PHY selector
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGt5=bcni0K1ysot3-hVj9gWECJ5qP=M-sEDkRrAmEHFGg@mail.gmail.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: gUgsjlBsDwD87U-_WVik-Ch2gIldnmcs
-X-Proofpoint-GUID: gUgsjlBsDwD87U-_WVik-Ch2gIldnmcs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-25_15,2024-06-25_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 spamscore=0 bulkscore=0 phishscore=0 malwarescore=0
- clxscore=1015 mlxscore=0 lowpriorityscore=0 priorityscore=1501
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2406140001 definitions=main-2406250150
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240625-dp-phy-sel-v3-1-c77c7066c454@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAJkne2YC/2WOSwrCMBBAryKzNiWf0o+rguAB3IpImox2RJOaa
+ LGU3t1YcOXyzfDezAQRA2GEzWqCgANF8i6BWq/AdNpdkJFNDJLLnBdCMduzvhtZxBsTLS+sySu
+ 0pYIk9AHP9F5iB9jvtnBMw47i04dxOTCIZZVaKrWklILnZSaqqih5zQR7vMic2qsP2llsvkTOZ
+ Mbfl9Igf/bfJ4NMdl3rs8orU7camxs5HXzmwwWO8zx/AG5ArCroAAAA
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8174;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=jd9TJprlmcMJiSuEHm0k/6OujE/VuztR4MVhGAt8TOc=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmeyebRP/+uVJ+TBNUVJswAgrltR6mnO8c2gyvl
+ HXXnwRyvSCJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZnsnmwAKCRCLPIo+Aiko
+ 1QClB/4400kWq+L2Gj1ozzKn23iBw+KPOoF/FxSZIGUL02ipGLdsL5Rkv83RHgy0gv9WFmI3zB+
+ lBHlb7eV6lFFPHYJBBGhD73aYTpeac2tpXIa112VWuOzWiUmEkyDiWf96G8GwTmbT1+sQSoh0bW
+ 13grvdJggo+cywubJvoJfUW1Fa0k/sL+9skLNN578RdoKMrpd7K0FKqfxgQW7g4CN/vBm1mzjBC
+ Qtf/PBCmQxzwDXlLY+5vdBAdRMgdJTN7arH4TIRp/MSsOK/JpnftDCOWhw3camJTUXKYcLlUcIe
+ w5NWk3JXE2/b0AmdZIldTBk9zyBRjGhkAUcQkhWDzO1zJHm3
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,205 +101,223 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 25, 2024 at 11:03:42AM -0700, Rob Clark wrote: > On Tue, Jun 25, 2024 at 10:59 AM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
-> >
-> > On Fri, Jun 21, 2024 at 02:09:58PM -0700, Rob Clark wrote:
-> > > On Sat, Jun 8, 2024 at 8:44 AM Kiarash Hajian
-> > > <kiarash8112hajian@gmail.com> wrote:
-> > > >
-> > > > The driver's memory regions are currently just ioremap()ed, but not
-> > > > reserved through a request. That's not a bug, but having the request is
-> > > > a little more robust.
-> > > >
-> > > > Implement the region-request through the corresponding managed
-> > > > devres-function.
-> > > >
-> > > > Signed-off-by: Kiarash Hajian <kiarash8112hajian@gmail.com>
-> > > > ---
-> > > > Changes in v6:
-> > > >     -Fix compile error
-> > > >     -Link to v5: https://lore.kernel.org/all/20240607-memory-v1-1-8664f52fc2a1@gmail.com
-> > > >
-> > > > Changes in v5:
-> > > >     - Fix error hanlding problems.
-> > > >     - Link to v4: https://lore.kernel.org/r/20240512-msm-adreno-memory-region-v4-1-3881a64088e6@gmail.com
-> > > >
-> > > > Changes in v4:
-> > > >     - Combine v3 commits into a singel commit
-> > > >     - Link to v3: https://lore.kernel.org/r/20240512-msm-adreno-memory-region-v3-0-0a728ad45010@gmail.com
-> > > >
-> > > > Changes in v3:
-> > > >     - Remove redundant devm_iounmap calls, relying on devres for automatic resource cleanup.
-> > > >
-> > > > Changes in v2:
-> > > >     - update the subject prefix to "drm/msm/a6xx:", to match the majority of other changes to this file.
-> > > > ---
-> > > >  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 33 +++++++++++----------------------
-> > > >  1 file changed, 11 insertions(+), 22 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > > > index 8bea8ef26f77..d26cc6254ef9 100644
-> > > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > > > @@ -525,7 +525,7 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
-> > > >         bool pdc_in_aop = false;
-> > > >
-> > > >         if (IS_ERR(pdcptr))
-> > > > -               goto err;
-> > > > +               return;
-> > > >
-> > > >         if (adreno_is_a650(adreno_gpu) ||
-> > > >             adreno_is_a660_family(adreno_gpu) ||
-> > > > @@ -541,7 +541,7 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
-> > > >         if (!pdc_in_aop) {
-> > > >                 seqptr = a6xx_gmu_get_mmio(pdev, "gmu_pdc_seq");
-> > > >                 if (IS_ERR(seqptr))
-> > > > -                       goto err;
-> > > > +                       return;
-> > > >         }
-> > > >
-> > > >         /* Disable SDE clock gating */
-> > > > @@ -633,12 +633,6 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
-> > > >         wmb();
-> > > >
-> > > >         a6xx_rpmh_stop(gmu);
-> > > > -
-> > > > -err:
-> > > > -       if (!IS_ERR_OR_NULL(pdcptr))
-> > > > -               iounmap(pdcptr);
-> > > > -       if (!IS_ERR_OR_NULL(seqptr))
-> > > > -               iounmap(seqptr);
-> > > >  }
-> > > >
-> > > >  /*
-> > > > @@ -1503,7 +1497,7 @@ static void __iomem *a6xx_gmu_get_mmio(struct platform_device *pdev,
-> > > >                 return ERR_PTR(-EINVAL);
-> > > >         }
-> > > >
-> > > > -       ret = ioremap(res->start, resource_size(res));
-> > > > +       ret = devm_ioremap_resource(&pdev->dev, res);
-> > >
-> > > So, this doesn't actually work, failing in __request_region_locked(),
-> > > because the gmu region partially overlaps with the gpucc region (which
-> > > is busy).  I think this is intentional, since gmu is controlling the
-> > > gpu clocks, etc.  In particular REG_A6XX_GPU_CC_GX_GDSCR is in this
-> > > overlapping region.  Maybe Akhil knows more about GMU.
-> >
-> > We don't really need to map gpucc region from driver on behalf of gmu.
-> > Since we don't access any gpucc register from drm-msm driver, we can
-> > update the range size to correct this. But due to backward compatibility
-> > requirement with older dt, can we still enable region locking? I prefer
-> > it if that is possible.
-> 
-> Actually, when I reduced the region size to not overlap with gpucc,
-> the region is smaller than REG_A6XX_GPU_CC_GX_GDSCR * 4.
-> 
-> So I guess that register is actually part of gpucc?
+From: Bjorn Andersson <andersson@kernel.org>
 
-Yes. It has *GPU_CC* in its name. :P
+Some platforms provides a mechanism for configuring the mapping between
+(one or two) DisplayPort intfs and their PHYs.
 
-I just saw that we program this register on legacy a6xx targets to
-ensure retention is really ON before collapsing gdsc. So we can't
-avoid mapping gpucc region in legacy a6xx GPUs. That is unfortunate! 
+In particular SC8180X requires this to be configured, since on this
+platform there are fewer controllers than PHYs.
 
--Akhil.
+The change implements the logic for optionally configuring which PHY
+each of the DP INTFs should be connected to and marks the SC8180X DPU to
+program 2 entries.
 
-> 
-> BR,
-> -R
-> 
-> > FYI, kgsl accesses gpucc registers to ensure gdsc has collapsed. So
-> > gpucc region has to be mapped by kgsl and that is reflected in the kgsl
-> > device tree.
-> >
-> > -Akhil
-> >
-> > >
-> > > BR,
-> > > -R
-> > >
-> > > >         if (!ret) {
-> > > >                 DRM_DEV_ERROR(&pdev->dev, "Unable to map the %s registers\n", name);
-> > > >                 return ERR_PTR(-EINVAL);
-> > > > @@ -1613,13 +1607,13 @@ int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
-> > > >         gmu->mmio = a6xx_gmu_get_mmio(pdev, "gmu");
-> > > >         if (IS_ERR(gmu->mmio)) {
-> > > >                 ret = PTR_ERR(gmu->mmio);
-> > > > -               goto err_mmio;
-> > > > +               goto err_cleanup;
-> > > >         }
-> > > >
-> > > >         gmu->cxpd = dev_pm_domain_attach_by_name(gmu->dev, "cx");
-> > > >         if (IS_ERR(gmu->cxpd)) {
-> > > >                 ret = PTR_ERR(gmu->cxpd);
-> > > > -               goto err_mmio;
-> > > > +               goto err_cleanup;
-> > > >         }
-> > > >
-> > > >         if (!device_link_add(gmu->dev, gmu->cxpd, DL_FLAG_PM_RUNTIME)) {
-> > > > @@ -1635,7 +1629,7 @@ int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
-> > > >         gmu->gxpd = dev_pm_domain_attach_by_name(gmu->dev, "gx");
-> > > >         if (IS_ERR(gmu->gxpd)) {
-> > > >                 ret = PTR_ERR(gmu->gxpd);
-> > > > -               goto err_mmio;
-> > > > +               goto err_cleanup;
-> > > >         }
-> > > >
-> > > >         gmu->initialized = true;
-> > > > @@ -1645,9 +1639,7 @@ int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
-> > > >  detach_cxpd:
-> > > >         dev_pm_domain_detach(gmu->cxpd, false);
-> > > >
-> > > > -err_mmio:
-> > > > -       iounmap(gmu->mmio);
-> > > > -
-> > > > +err_cleanup:
-> > > >         /* Drop reference taken in of_find_device_by_node */
-> > > >         put_device(gmu->dev);
-> > > >
-> > > > @@ -1762,7 +1754,7 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
-> > > >                 gmu->rscc = a6xx_gmu_get_mmio(pdev, "rscc");
-> > > >                 if (IS_ERR(gmu->rscc)) {
-> > > >                         ret = -ENODEV;
-> > > > -                       goto err_mmio;
-> > > > +                       goto err_cleanup;
-> > > >                 }
-> > > >         } else {
-> > > >                 gmu->rscc = gmu->mmio + 0x23000;
-> > > > @@ -1774,13 +1766,13 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
-> > > >
-> > > >         if (gmu->hfi_irq < 0 || gmu->gmu_irq < 0) {
-> > > >                 ret = -ENODEV;
-> > > > -               goto err_mmio;
-> > > > +               goto err_cleanup;
-> > > >         }
-> > > >
-> > > >         gmu->cxpd = dev_pm_domain_attach_by_name(gmu->dev, "cx");
-> > > >         if (IS_ERR(gmu->cxpd)) {
-> > > >                 ret = PTR_ERR(gmu->cxpd);
-> > > > -               goto err_mmio;
-> > > > +               goto err_cleanup;
-> > > >         }
-> > > >
-> > > >         link = device_link_add(gmu->dev, gmu->cxpd, DL_FLAG_PM_RUNTIME);
-> > > > @@ -1824,10 +1816,7 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
-> > > >  detach_cxpd:
-> > > >         dev_pm_domain_detach(gmu->cxpd, false);
-> > > >
-> > > > -err_mmio:
-> > > > -       iounmap(gmu->mmio);
-> > > > -       if (platform_get_resource_byname(pdev, IORESOURCE_MEM, "rscc"))
-> > > > -               iounmap(gmu->rscc);
-> > > > +err_cleanup:
-> > > >         free_irq(gmu->gmu_irq, gmu);
-> > > >         free_irq(gmu->hfi_irq, gmu);
-> > > >
-> > > >
-> > > > ---
-> > > > base-commit: 1b294a1f35616977caddaddf3e9d28e576a1adbc
-> > > > change-id: 20240608-adreno-98c412bfdc03
-> > > >
-> > > > Best regards,
-> > > > --
-> > > > Kiarash Hajian <kiarash8112hajian@gmail.com>
-> > > >
+For now the request is simply to program the mapping 1:1, any support
+for alternative mappings is left until the use case arrise.
+
+Note that e.g. msm-4.14 unconditionally maps INTF 0 to PHY 0 on all
+platforms, so perhaps this is needed in order to get DisplayPort working
+on some other platforms as well.
+
+Signed-off-by: Bjorn Andersson <andersson@kernel.org>
+Co-developed-by: Bjorn Andersson <andersson@kernel.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes in v3:
+- Expanded the commit message and in-code comment based on feedback from
+  Abhinav
+- Fixed field masks for the affected register (Abhinav)
+- Link to v2: https://lore.kernel.org/r/20240613-dp-phy-sel-v2-1-99af348c9bae@linaro.org
+
+Changes in v2:
+- Removed entry from the catalog.
+- Reworked the interface of dpu_hw_dp_phy_intf_sel(). Pass two entries
+  for the PHYs instead of three entries.
+- It seems the register isn't present on sdm845, enabled the callback
+  only for DPU >= 5.x
+- Added a comment regarding the data being platform-specific.
+- Link to v1: https://lore.kernel.org/r/20230612221047.1886709-1-quic_bjorande@quicinc.com
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c | 39 +++++++++++++++++++++++++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h | 18 ++++++++++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h   |  7 ++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c    | 12 ++++++++-
+ 4 files changed, 70 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+index 05e48cf4ec1d..a11fdbefc8d2 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+@@ -231,8 +231,38 @@ static void dpu_hw_intf_audio_select(struct dpu_hw_mdp *mdp)
+ 	DPU_REG_WRITE(c, HDMI_DP_CORE_SELECT, 0x1);
+ }
+ 
++static void dpu_hw_dp_phy_intf_sel(struct dpu_hw_mdp *mdp,
++				   enum dpu_dp_phy_sel phys[2])
++{
++	struct dpu_hw_blk_reg_map *c = &mdp->hw;
++	unsigned int intf;
++	u32 sel = 0;
++
++	sel |= FIELD_PREP(MDP_DP_PHY_INTF_SEL_INTF0, phys[0]);
++	sel |= FIELD_PREP(MDP_DP_PHY_INTF_SEL_INTF1, phys[1]);
++
++	for (intf = 0; intf < 2; intf++) {
++		switch (phys[intf]) {
++		case DPU_DP_PHY_0:
++			sel |= FIELD_PREP(MDP_DP_PHY_INTF_SEL_PHY0, intf + 1);
++			break;
++		case DPU_DP_PHY_1:
++			sel |= FIELD_PREP(MDP_DP_PHY_INTF_SEL_PHY1, intf + 1);
++			break;
++		case DPU_DP_PHY_2:
++			sel |= FIELD_PREP(MDP_DP_PHY_INTF_SEL_PHY2, intf + 1);
++			break;
++		default:
++			/* ignore */
++			break;
++		}
++	}
++
++	DPU_REG_WRITE(c, MDP_DP_PHY_INTF_SEL, sel);
++}
++
+ static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
+-		unsigned long cap)
++		unsigned long cap, const struct dpu_mdss_version *mdss_rev)
+ {
+ 	ops->setup_split_pipe = dpu_hw_setup_split_pipe;
+ 	ops->setup_clk_force_ctrl = dpu_hw_setup_clk_force_ctrl;
+@@ -245,6 +275,9 @@ static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
+ 
+ 	ops->get_safe_status = dpu_hw_get_safe_status;
+ 
++	if (mdss_rev->core_major_ver >= 5)
++		ops->dp_phy_intf_sel = dpu_hw_dp_phy_intf_sel;
++
+ 	if (cap & BIT(DPU_MDP_AUDIO_SELECT))
+ 		ops->intf_audio_select = dpu_hw_intf_audio_select;
+ }
+@@ -252,7 +285,7 @@ static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
+ struct dpu_hw_mdp *dpu_hw_mdptop_init(struct drm_device *dev,
+ 				      const struct dpu_mdp_cfg *cfg,
+ 				      void __iomem *addr,
+-				      const struct dpu_mdss_cfg *m)
++				      const struct dpu_mdss_version *mdss_rev)
+ {
+ 	struct dpu_hw_mdp *mdp;
+ 
+@@ -270,7 +303,7 @@ struct dpu_hw_mdp *dpu_hw_mdptop_init(struct drm_device *dev,
+ 	 * Assign ops
+ 	 */
+ 	mdp->caps = cfg;
+-	_setup_mdp_ops(&mdp->ops, mdp->caps->features);
++	_setup_mdp_ops(&mdp->ops, mdp->caps->features, mdss_rev);
+ 
+ 	return mdp;
+ }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+index 6f3dc98087df..3a17e63b851c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+@@ -67,6 +67,13 @@ struct dpu_vsync_source_cfg {
+ 	u32 vsync_source;
+ };
+ 
++enum dpu_dp_phy_sel {
++	DPU_DP_PHY_NONE,
++	DPU_DP_PHY_0,
++	DPU_DP_PHY_1,
++	DPU_DP_PHY_2,
++};
++
+ /**
+  * struct dpu_hw_mdp_ops - interface to the MDP TOP Hw driver functions
+  * Assumption is these functions will be called after clocks are enabled.
+@@ -125,6 +132,13 @@ struct dpu_hw_mdp_ops {
+ 	void (*get_safe_status)(struct dpu_hw_mdp *mdp,
+ 			struct dpu_danger_safe_status *status);
+ 
++	/**
++	 * dp_phy_intf_sel - configure intf to phy mapping
++	 * @mdp: mdp top context driver
++	 * @phys: list of phys the DP interfaces should be connected to. 0 disables the INTF.
++	 */
++	void (*dp_phy_intf_sel)(struct dpu_hw_mdp *mdp, enum dpu_dp_phy_sel phys[2]);
++
+ 	/**
+ 	 * intf_audio_select - select the external interface for audio
+ 	 * @mdp: mdp top context driver
+@@ -148,12 +162,12 @@ struct dpu_hw_mdp {
+  * @dev:  Corresponding device for devres management
+  * @cfg:  MDP TOP configuration from catalog
+  * @addr: Mapped register io address of MDP
+- * @m:    Pointer to mdss catalog data
++ * @mdss_rev: dpu core's major and minor versions
+  */
+ struct dpu_hw_mdp *dpu_hw_mdptop_init(struct drm_device *dev,
+ 				      const struct dpu_mdp_cfg *cfg,
+ 				      void __iomem *addr,
+-				      const struct dpu_mdss_cfg *m);
++				      const struct dpu_mdss_version *mdss_rev);
+ 
+ void dpu_hw_mdp_destroy(struct dpu_hw_mdp *mdp);
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h
+index 5acd5683d25a..054fe097ebf8 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h
+@@ -60,6 +60,13 @@
+ #define MDP_WD_TIMER_4_LOAD_VALUE       0x448
+ #define DCE_SEL                         0x450
+ 
++#define MDP_DP_PHY_INTF_SEL             0x460
++#define MDP_DP_PHY_INTF_SEL_INTF0		GENMASK(2, 0)
++#define MDP_DP_PHY_INTF_SEL_INTF1		GENMASK(5, 3)
++#define MDP_DP_PHY_INTF_SEL_PHY0		GENMASK(8, 6)
++#define MDP_DP_PHY_INTF_SEL_PHY1		GENMASK(11, 9)
++#define MDP_DP_PHY_INTF_SEL_PHY2		GENMASK(14, 12)
++
+ #define MDP_PERIPH_TOP0			MDP_WD_TIMER_0_CTL
+ #define MDP_PERIPH_TOP0_END		CLK_CTRL3
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 1955848b1b78..cc350deaa140 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1102,7 +1102,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+ 	dpu_kms->hw_mdp = dpu_hw_mdptop_init(dev,
+ 					     dpu_kms->catalog->mdp,
+ 					     dpu_kms->mmio,
+-					     dpu_kms->catalog);
++					     dpu_kms->catalog->mdss_ver);
+ 	if (IS_ERR(dpu_kms->hw_mdp)) {
+ 		rc = PTR_ERR(dpu_kms->hw_mdp);
+ 		DPU_ERROR("failed to get hw_mdp: %d\n", rc);
+@@ -1137,6 +1137,16 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+ 		goto err_pm_put;
+ 	}
+ 
++	/*
++	 * We need to program DP <-> PHY relationship only for SC8180X since it
++	 * has fewer DP controllers than DP PHYs.
++	 * If any other platform requires the same kind of programming, or if
++	 * the INTF <->DP relationship isn't static anymore, this needs to be
++	 * configured through the DT.
++	 */
++	if (of_device_is_compatible(dpu_kms->pdev->dev.of_node, "qcom,sc8180x-dpu"))
++		dpu_kms->hw_mdp->ops.dp_phy_intf_sel(dpu_kms->hw_mdp, (unsigned int[]){ 1, 2, });
++
+ 	dpu_kms->hw_intr = dpu_hw_intr_init(dev, dpu_kms->mmio, dpu_kms->catalog);
+ 	if (IS_ERR(dpu_kms->hw_intr)) {
+ 		rc = PTR_ERR(dpu_kms->hw_intr);
+
+---
+base-commit: 62c97045b8f720c2eac807a5f38e26c9ed512371
+change-id: 20240613-dp-phy-sel-1b06dc48ed73
+
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
