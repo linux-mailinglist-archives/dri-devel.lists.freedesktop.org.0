@@ -2,64 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE320916204
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 11:10:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 049A491623F
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 11:23:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A83D310E301;
-	Tue, 25 Jun 2024 09:10:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0582110E0C0;
+	Tue, 25 Jun 2024 09:23:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="pFAA3FYt";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="AXOZy/6Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC6A610E301
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 09:10:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1719306622; x=1750842622;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=7d67MtNzgki1K1l7k4JkBWIBosjUeC2yFKZQLmUzIg8=;
- b=pFAA3FYtVRo95IkN58MiXcnzCvcrIE6JZZe+Bdi8tlRee0Z6I9bxN2jE
- mkYarzUaE4XGB0/bf7hUcICkHZEFCXHGdHVHErE/zHtFcc1wAqVIZs6QH
- 0qbSiE4SEy0LyIhauojOD2PSuYX/p2hqWtSFRG4UDVSl95h1lXjH1tAO9
- lkSNs89jABQSA2tVInyyDhmdYpk7ypJchrVYdX2+hEL/ESJfJV63F4Ii9
- l7ncROlGXH1WBlsHhIG2ex2dj7SWswVR+rzCx5JyV95ukJcaADtr8ofqp
- WUPuyY0EzgwMUd4bVK8AbNdRvrsEcGehH2OkKkDh/WY4QwwUdI8TyQS1i A==;
-X-CSE-ConnectionGUID: 0ilkPG6JRCK6A+/+T6Es+w==
-X-CSE-MsgGUID: 4Nt9WlNlTpiT/o/EZ49O9w==
-X-IronPort-AV: E=Sophos;i="6.08,263,1712646000"; d="scan'208";a="195857230"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 25 Jun 2024 02:10:21 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 25 Jun 2024 02:09:31 -0700
-Received: from che-lt-i67131.microchip.com (10.10.85.11) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Tue, 25 Jun 2024 02:09:25 -0700
-From: Manikandan Muralidharan <manikandan.m@microchip.com>
-To: <megi@xff.cz>, <javierm@redhat.com>, <neil.armstrong@linaro.org>,
- <quic_jesszhan@quicinc.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <robh@kernel.org>, <krzk+dt@kernel.org>,
- <conor+dt@kernel.org>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: <manikandan.m@microchip.com>
-Subject: [PATCH 4/4] drm/panel: himax-hx8394: Add Support for Microchip
- AC40T08A MIPI Display Panel
-Date: Tue, 25 Jun 2024 14:38:53 +0530
-Message-ID: <20240625090853.343176-5-manikandan.m@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240625090853.343176-1-manikandan.m@microchip.com>
-References: <20240625090853.343176-1-manikandan.m@microchip.com>
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 917EF10E245
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 09:23:07 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-2eabd22d3f4so64586231fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 02:23:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719307385; x=1719912185;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=LlRhdkp6kAFepHjID66aLvJv1DZVnaI5n6pLIDvUVYM=;
+ b=AXOZy/6Q5OKyC7yS5/rJbKNuXCZ/EVNKwXbFpTSZpGojUpcXiJtLL7l9gUzgH6jaSA
+ w01bgtRxyezx+qzzoNMaPKGXPobmaw3WgPylOLnLEn1L/Qbi6Zum+dWEhYfFvyH6Qh68
+ rsRerOdqtzlCgJCoVbi4GEtnL2nj9Q3EN8eFJvl62wHSH8sdVfkm0VsVgbNJYwEtj5s6
+ 46GUYuqTe0aYEcxbEzPD9NHjP0B2BRNbSVwekIBnDFKBPrGHXL25NCpQ9O3jHAQ2Or/T
+ 6/FccB53lvd0UUqj5dofPb5JwgnvWWRFjzNdNNYN3261NF5EngYX0w2MSbhNT7h66/os
+ JFpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719307385; x=1719912185;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:from:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LlRhdkp6kAFepHjID66aLvJv1DZVnaI5n6pLIDvUVYM=;
+ b=e7zmJhxI6PnvKzdc2MAQiVOvQbOQWKulwsul/jU9O7zAbxoxCSMIJqBRaFACu2glbf
+ DaVCdQ4CUTFt4TcNORtTLMgfHZDoQ85tWWR+XZ4gyI9W2pYlpezVtYZ1VidFQ+SWyVSA
+ swDlQL+lr7xzB0EKoTu5v77rmmAp2qwKdKzviq0o4GrXHifcEQVaCpL+Jj//T4Hg6gX3
+ AZzqIT6nYEibfUfLDTtCD763Z8isQS4kZZOJll7KKAgZSXlRDe9VD7hT/zH1WxV+Z/vF
+ G2mgc4uY7y2S8nlrIQxxPjKZWibvlOyGObwi7pvwixZDdshUPq1dOFAiQ+ox1bJBUwq9
+ Cz3g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWe0B8lKJgXJ37A2C4JqxVVkZkqaWintaRDeAlPVoIm2l7et+gvN+mbVy+ibghNeEyhPlzXVSf+mXAOKsd8ZF/VCG+BlygWGQNwSDShS1Kt
+X-Gm-Message-State: AOJu0YyNamohFeKXMbFpf6ntlQ0YT/KTLNL8TGmqrv5jBr2nNere9Z7w
+ BarZ/C8cEjzC1ODhf9UjLrx/K0KTn+/7o9cOTWeDnbfg9yzbdgL0jOIY8IpFtmg=
+X-Google-Smtp-Source: AGHT+IETSGc5PC+/KSXGB7oMPpuYoRZNE+bp/p6Mqr9WgOryoy8prGpDjhg+IZxxEgRRH3Pn20MxJA==
+X-Received: by 2002:a05:6512:3e24:b0:52c:dff5:8087 with SMTP id
+ 2adb3069b0e04-52ce185f998mr5011614e87.51.1719307384919; 
+ Tue, 25 Jun 2024 02:23:04 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-366f624cdacsm4476317f8f.70.2024.06.25.02.23.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Jun 2024 02:23:04 -0700 (PDT)
+Message-ID: <95bab90f-b196-4e79-bb88-7fd534cca721@baylibre.com>
+Date: Tue, 25 Jun 2024 11:23:02 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+From: Alexandre Mergnat <amergnat@baylibre.com>
+Subject: Re: [PATCH v6 03/16] dt-bindings: mfd: mediatek: Add codec property
+ for MT6357 PMIC
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
+ <20240226-audio-i350-v6-3-f754ec1a7634@baylibre.com>
+ <cd190d35-1658-43d8-9606-5e73257bbf3a@linaro.org>
+Content-Language: en-US
+In-Reply-To: <cd190d35-1658-43d8-9606-5e73257bbf3a@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,185 +103,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the Microchip AC40T08A MIPI Display panel. This panel uses
-a Himax HX8394 display controller and requires a vendor provided init
-sequence. The display resolution is 720x1280@60Hz with width and height
-of 76mm and 132mm respectively.
 
-Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
----
- drivers/gpu/drm/panel/panel-himax-hx8394.c | 151 +++++++++++++++++++++
- 1 file changed, 151 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-himax-hx8394.c b/drivers/gpu/drm/panel/panel-himax-hx8394.c
-index 3be461fc5615..92b03a2f65a3 100644
---- a/drivers/gpu/drm/panel/panel-himax-hx8394.c
-+++ b/drivers/gpu/drm/panel/panel-himax-hx8394.c
-@@ -339,6 +339,156 @@ static const struct hx8394_panel_desc powkiddy_x55_desc = {
- 	.init_sequence = powkiddy_x55_init_sequence,
- };
- 
-+static int mchp_ac40t08a_init_sequence(struct hx8394 *ctx)
-+{
-+	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-+
-+	/* DCS commands do not seem to be sent correclty without this delay */
-+	msleep(20);
-+
-+	/* 5.19.8 SETEXTC: Set extension command (B9h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETEXTC,
-+			       0xff, 0x83, 0x94);
-+
-+	/* 5.19.9 SETMIPI: Set MIPI control (BAh) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETMIPI,
-+			       0x63, 0x03, 0x68, 0x6b, 0xb2, 0xc0);
-+
-+	/* 5.19.2 SETPOWER: Set power (B1h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
-+			       0x48, 0x12, 0x72, 0x09, 0x32, 0x54,
-+			       0x71, 0x71, 0x57, 0x47);
-+
-+	/* 5.19.3 SETDISP: Set display related register (B2h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETDISP,
-+			       0x00, 0x80, 0x64, 0x0c, 0x0d, 0x2f);
-+
-+	/* 5.19.4 SETCYC: Set display waveform cycles (B4h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETCYC,
-+			       0x73, 0x74, 0x73, 0x74, 0x73, 0x74,
-+			       0x01, 0x0c, 0x86, 0x75, 0x00, 0x3f,
-+			       0x73, 0x74, 0x73, 0x74, 0x73, 0x74,
-+			       0x01, 0x0c, 0x86);
-+
-+	/* 5.19.5 SETVCOM: Set VCOM voltage (B6h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETVCOM,
-+			       0x6e, 0x6e);
-+
-+	/* 5.19.19 SETGIP0: Set GIP Option0 (D3h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP0,
-+			       0x00, 0x00, 0x07, 0x07, 0x40, 0x07,
-+			       0x0c, 0x00, 0x08, 0x10, 0x08, 0x00,
-+			       0x08, 0x54, 0x15, 0x0a, 0x05, 0x0a,
-+			       0x02, 0x15, 0x06, 0x05, 0x06, 0x47,
-+			       0x44, 0x0a, 0x0a, 0x4b, 0x10, 0x07,
-+			       0x07, 0x0c, 0x40);
-+
-+	/* 5.19.20 Set GIP Option1 (D5h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP1,
-+			       0x1c, 0x1c, 0x1d, 0x1d, 0x00, 0x01,
-+			       0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-+			       0x08, 0x09, 0x0a, 0x0b, 0x24, 0x25,
-+			       0x18, 0x18, 0x26, 0x27, 0x18, 0x18,
-+			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-+			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-+			       0x18, 0x18, 0x20, 0x21, 0x18, 0x18,
-+			       0x18, 0x18);
-+
-+	/* 5.19.21 Set GIP Option2 (D6h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP2,
-+			       0x1c, 0x1c, 0x1d, 0x1d, 0x07, 0x06,
-+			       0x05, 0x04, 0x03, 0x02, 0x01, 0x00,
-+			       0x0b, 0x0a, 0x09, 0x08, 0x21, 0x20,
-+			       0x18, 0x18, 0x27, 0x26, 0x18, 0x18,
-+			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-+			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-+			       0x18, 0x18, 0x25, 0x24, 0x18, 0x18,
-+			       0x18, 0x18);
-+
-+	/* 5.19.25 SETGAMMA: Set gamma curve related setting (E0h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGAMMA,
-+			       0x00, 0x0a, 0x15, 0x1b, 0x1e, 0x21,
-+			       0x24, 0x22, 0x47, 0x56, 0x65, 0x66,
-+			       0x6e, 0x82, 0x88, 0x8b, 0x9a, 0x9d,
-+			       0x98, 0xa8, 0xb9, 0x5d, 0x5c, 0x61,
-+			       0x66, 0x6a, 0x6f, 0x7f, 0x7f, 0x00,
-+			       0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24,
-+			       0x22, 0x47, 0x56, 0x65, 0x65, 0x6e,
-+			       0x81, 0x87, 0x8b, 0x98, 0x9d, 0x99,
-+			       0xa8, 0xba, 0x5d, 0x5d, 0x62, 0x67,
-+			       0x6b, 0x72, 0x7f, 0x7f);
-+
-+	/* Unknown command, not listed in the HX8394-F datasheet (C0H) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN1,
-+			       0x1f, 0x73);
-+
-+	/* Set CABC control (C9h)*/
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETCABC,
-+			       0x76, 0x00, 0x30);
-+
-+	/* 5.19.17 SETPANEL (CCh) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPANEL,
-+			       0x0b);
-+
-+	/* Unknown command, not listed in the HX8394-F datasheet (D4h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN3,
-+			       0x02);
-+
-+	/* 5.19.11 Set register bank (BDh) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
-+			       0x02);
-+
-+	/* 5.19.11 Set register bank (D8h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN4,
-+			       0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+			       0xff, 0xff, 0xff, 0xff, 0xff, 0xff);
-+
-+	/* 5.19.11 Set register bank (BDh) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
-+			       0x00);
-+
-+	/* 5.19.11 Set register bank (BDh) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
-+			       0x01);
-+
-+	/* 5.19.2 SETPOWER: Set power (B1h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
-+			       0x00);
-+
-+	/* 5.19.11 Set register bank (BDh) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
-+			       0x00);
-+
-+	/* Unknown command, not listed in the HX8394-F datasheet (C6h) */
-+	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN2,
-+			       0xed);
-+
-+	return 0;
-+}
-+
-+static const struct drm_display_mode mchp_ac40t08a_mode = {
-+	.hdisplay    = 720,
-+	.hsync_start = 720 + 12,
-+	.hsync_end   = 720 + 12 + 24,
-+	.htotal	     = 720 + 12 + 12 + 24,
-+	.vdisplay    = 1280,
-+	.vsync_start = 1280 + 13,
-+	.vsync_end   = 1280 + 14,
-+	.vtotal	     = 1280 + 14 + 13,
-+	.clock	     = 60226,
-+	.flags	     = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+	.width_mm    = 76,
-+	.height_mm   = 132,
-+};
-+
-+static const struct hx8394_panel_desc mchp_ac40t08a_desc = {
-+	.mode = &mchp_ac40t08a_mode,
-+	.lanes = 4,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST,
-+	.format = MIPI_DSI_FMT_RGB888,
-+	.init_sequence = mchp_ac40t08a_init_sequence,
-+};
-+
- static int hx8394_enable(struct drm_panel *panel)
- {
- 	struct hx8394 *ctx = panel_to_hx8394(panel);
-@@ -555,6 +705,7 @@ static void hx8394_remove(struct mipi_dsi_device *dsi)
- static const struct of_device_id hx8394_of_match[] = {
- 	{ .compatible = "hannstar,hsd060bhw4", .data = &hsd060bhw4_desc },
- 	{ .compatible = "powkiddy,x55-panel", .data = &powkiddy_x55_desc },
-+	{ .compatible = "microchip,ac40t08a-mipi-panel", .data = &mchp_ac40t08a_desc },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, hx8394_of_match);
+On 21/06/2024 17:00, Krzysztof Kozlowski wrote:
+> On 19/06/2024 16:46, Alexandre Mergnat wrote:
+>> Add the audio codec sub-device. This sub-device is used to set the
+>> optional voltage values according to the hardware.
+>> The properties are:
+>>    - Setup of microphone bias voltage.
+>>    - Setup of the speaker pin pull-down.
+>>
+>> Also, add the audio power supply property which is dedicated for
+>> the audio codec sub-device.
+>>
+>> Signed-off-by: Alexandre Mergnat<amergnat@baylibre.com>
+>> ---
+>>   .../devicetree/bindings/mfd/mediatek,mt6357.yaml   | 33 ++++++++++++++++++++++
+>>   1 file changed, 33 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+>> index 37423c2e0fdf..d95307393e75 100644
+>> --- a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+>> +++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+>> @@ -37,6 +37,32 @@ properties:
+>>     "#interrupt-cells":
+>>       const: 2
+>>   
+>> +  vaud28-supply:
+>> +    description: 2.8 volt supply phandle for the audio codec
+>> +
+>> +  audio-codec:
+>> +    type: object
+> Still not much improved. You do not have any resources there, so these
+> should go to the parent node.
+
+Hi Krzysztof,
+
+vaud28-supply seems to be a mistake that I forward port.
+In the V4, AFAII, your feedback [1] suggested me to move the vaud28-supply from the "audio-codec" 
+sub-node to the parent node, which for me is the "pmic" (mfd), because the property is considered as 
+power-supply.
+
+     pwrap {
+         pmic {
+             ...
+             audio-codec {
+                 ...
+
+Hardware side, vaud28-supply is the output of PMIC-regulator subsystem, and AVDD28 is the input of 
+PMIC-audio-codec subsystem. Then:
+- The property name is wrong and must be change to AVDD28, which is a consumer (power input), not a 
+power-supply. => description: 2.8 volt power input for microphones (AU_VIN0, AU_VIN1, AU_VIN2)
+- IMHO, move this property to the next parent (pwrap) isn't consistent. It should be moved back to 
+Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml (Done in the V4) into audio-codec 
+substystem, beside mediatek,micbias0-microvolt
+
+Does this sound good to you ?
+
 -- 
-2.25.1
-
+Regards,
+Alexandre
