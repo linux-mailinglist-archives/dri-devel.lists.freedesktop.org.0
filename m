@@ -2,85 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC2A915ED2
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 08:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 287E8915F73
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 09:07:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D5AC10E2B7;
-	Tue, 25 Jun 2024 06:21:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3054010E483;
+	Tue, 25 Jun 2024 07:07:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HBmvyyzK";
+	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="HD10R5U/";
+	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="ONpvQvFJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
- [209.85.128.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43AF910E2B7
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 06:21:39 +0000 (UTC)
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-6454660553eso16641797b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2024 23:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719296498; x=1719901298; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=E8h+QAt+AnCIi8f4bWuVBQN+cusYRxI2Lf5DdexkiOQ=;
- b=HBmvyyzK4s2wYREQk8ztuuVWDhj2lve8IxcxL4A+nQ8ZRlTXbnU+Rta6F1r18uHn+N
- aRVRr8uaZLoM0AtpMGfgm/FIJjPBMTdqyKxa8WCumRJRQkMaolRNX8T1NzjRKFQ0UY6T
- 4sv+XYJ1Q9AZEk1daZAyyKPd4SRjye6z1V/9gC7BIDUDsYR3TIgwYpoJ7cjKeld4kK5J
- t2MsFndhyIqnFhnhz0shjfw5OGqbPqQqnKAdJ9lbAJS7ysDLljy4DQgXGIsixor22ghY
- G5nthRhNlY5B4SBOCduvQbw9gxgLvntsIPZyyeWPdrd8BhvHxdWr5HPDeu7FiNSW63Jv
- W2lQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719296498; x=1719901298;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=E8h+QAt+AnCIi8f4bWuVBQN+cusYRxI2Lf5DdexkiOQ=;
- b=q+VSe5ymCE35Odn93f8HxCRF36mZekmFZNrVubLjMb4RXuAAYEfnyf4Nhzm7TpXSFi
- 5h8Ub3YtJ7rgCxEA6/yXj4x9CreJrqYiSZ7yphXDAggL1FJtH9Bx0wMAACSj8qCZzBnp
- fc7vUNk+hu5UA3IQ54nkc5CEwk7EDBQyx+8DstZyEa5Z/XzcTlDoOYRMbfpQf+GbAzUY
- 8OfBvIJXMvbrq/+qGfQ59f9VbuDWP5B3kfDIstnLCazJFSkcSxopnIL7BBYtdnCMymOd
- 3BQ7u3fqZr6rS78nSMube8Jm2DDjn9meuKHIwSrZnMcMrP9vXIKyAb5B0KNo1n4ylGcq
- sdwg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWA7ZFxVHx5leFHpF5pRvP9sFW79Y+id+k8Ri+6x4Y9/olAXsPKE7depWlmk5W+BtT2WOy5cZ+hfviPgEbsG7/NsYiEgiSSMomNwbvZrk86
-X-Gm-Message-State: AOJu0YwrJD3Gi13cruXzpweEtJBCjbwSeh1fFA+VA+l8ZD/KxE7f7AOe
- 8f/Fi2DaO67mEtZ4dvMBd65SMNnTzyffx+fkFTNmfdLx4D1Zv8bEKsJJ6D/eQwLBLpd6HafMTO/
- Pbb7RBsujyE+jAF0tT6Z5pxq0obMRisUj4/rkpQ==
-X-Google-Smtp-Source: AGHT+IE+hPsnqRrxvUEK/lDnk62xZtQsZKqDpaowdgDDlT6ocbFhNfJnHF1nQyY0YgiVL/7XWxu0RPc4/5enaupC53s=
-X-Received: by 2002:a81:8547:0:b0:631:8274:1611 with SMTP id
- 00721157ae682-6433dd74338mr64895967b3.20.1719296498073; Mon, 24 Jun 2024
- 23:21:38 -0700 (PDT)
+Received: from bunu.damsy.net (bunu.damsy.net [51.159.160.159])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D194B10E43E;
+ Tue, 25 Jun 2024 07:07:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202404r; d=damsy.net; c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1719299233;
+ bh=q2vLeUkveR0tnb+z7Vog04U
+ kSwvNv7OGBJH/W+R2mXc=; b=HD10R5U/wSV2pF8ydlVGW6O/qlw2lDWHyHGEYD9/Pvrvxj0nzI
+ nZOEE3vfVOwv1pVR/oDo3h81U9wNEx2F+gDlClLO98km0l72aBrTnCt+tS1xjzp+55YeSiho003
+ tP7RxGcGch4xz/OsREI9M7tu4mzR2/IgIydl2ne0waVYgE+L90L5Yhu8GMnk26nsSShB77voD00
+ cfvMx0JfFeiHro6Z29NatIPqiauXkEBV5F+ECdYO/BAAT5JbpxNo6pHJuIv+FENGhhGUgbqBm7a
+ IHdpoNYuYg5K9ch1BL6mWbt/PBnH9shnL3Pai9dQukg4GrRGbMUG9O0xaHQztUfi75w==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202404e; d=damsy.net;
+ c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1719299233; bh=q2vLeUkveR0tnb+z7Vog04U
+ kSwvNv7OGBJH/W+R2mXc=; b=ONpvQvFJljRA3VDJ7/ib4hwus24oi5p1JCWorlgbTQrE+T7Dk+
+ 7/v57mMlxtAT3PPhkZoGkDXZYOqBPy+AOzCw==;
+Message-ID: <188b82b3-c600-4920-84c7-ceb072b8e9d6@damsy.net>
+Date: Tue, 25 Jun 2024 09:07:12 +0200
 MIME-Version: 1.0
-References: <20240623-drm-bridge-connector-fix-hdmi-reset-v2-0-8590d44912ce@linaro.org>
- <20240623-drm-bridge-connector-fix-hdmi-reset-v2-2-8590d44912ce@linaro.org>
- <99ff549c-f5c4-dc9c-42f3-396dc3d29d6b@quicinc.com>
- <CAA8EJppcH-z275m6xDQaigsxmVhnfJkLVsq68GHLFoAq_p_2GA@mail.gmail.com>
- <30fa4e53-5a03-4030-2be5-f383a1c60077@quicinc.com>
-In-Reply-To: <30fa4e53-5a03-4030-2be5-f383a1c60077@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 25 Jun 2024 09:21:27 +0300
-Message-ID: <CAA8EJpo_dBDqLUVH-SkufhFchu64rhC+vkhVBFdt++E4pdCrQg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/connector: automatically set immutable flag
- for max_bpc property
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- "igt-dev@lists.freedesktop.org" <igt-dev@lists.freedesktop.org>,
- Petri Latvala <adrinael@adrinael.net>, 
- Kamil Konieczny <kamil.konieczny@linux.intel.com>, 
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] drm/amdgpu: allow ioctls to opt-out of runtime pm
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>
+References: <20240618153003.146168-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240618153003.146168-2-pierre-eric.pelloux-prayer@amd.com>
+ <c45283a1-98d2-43a2-a73c-71896464c7f9@amd.com>
+ <d2eefecf-656e-4c9c-96b3-717756581cc1@damsy.net>
+ <bcca41dc-8f75-4ca0-a843-62fa63636262@amd.com>
+Content-Language: en-US
+From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
+In-Reply-To: <bcca41dc-8f75-4ca0-a843-62fa63636262@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,88 +63,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 25 Jun 2024 at 01:56, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 6/24/2024 3:46 PM, Dmitry Baryshkov wrote:
-> > On Tue, 25 Jun 2024 at 01:39, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>
-> >> + IGT dev
-> >>
-> >> On 6/22/2024 10:40 PM, Dmitry Baryshkov wrote:
-> >>> With the introduction of the HDMI Connector framework the driver might
-> >>> end up creating the max_bpc property with min = max = 8. IGT insists
-> >>> that such properties carry the 'immutable' flag. Automatically set the
-> >>> flag if the driver asks for the max_bpc property with min == max.
-> >>>
-> >>
-> >> This change does not look right to me.
-> >>
-> >> I wonder why we need this check because DRM_MODE_PROP_IMMUTABLE means
-> >> that as per the doc, userspace cannot change the property.
-> >>
-> >>            * DRM_MODE_PROP_IMMUTABLE
-> >>            *     Set for properties whose values cannot be changed by
-> >>            *     userspace. The kernel is allowed to update the value of
-> >> these
-> >>            *     properties. This is generally used to expose probe state to
-> >>            *     userspace, e.g. the EDID, or the connector path property
-> >> on DP
-> >>            *     MST sinks. Kernel can update the value of an immutable
-> >> property
-> >>            *     by calling drm_object_property_set_value().
-> >>            */
-> >>
-> >> Here we are allowing userspace to change max_bpc
-> >>
-> >>
-> >> drm_atomic_connector_set_property()
-> >> {
-> >>          **********
-> >>
-> >>           } else if (property == connector->max_bpc_property) {
-> >>                   state->max_requested_bpc = val;
-> >>
-> >>          **********
-> >> }
-> >>
-> >> I believe you are referring to this IGT check right?
-> >>
-> >> https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/tests/kms_properties.c#L428
-> >
-> > Yes
-> >
-> >>
-> >> I think we should fix IGT in this case unless there is some reason we
-> >> are missing. Because just because it has the same min and max does not
-> >> mean its immutable by the doc of the IMMUTABLE flag.
-> >
-> > Well, having the same min and max means that it is impossible to
-> > change the property. So the property is immutable, but doesn't have
-> > the flag.
-> >
->
-> True, then does DRM_MODE_PROP_IMMUTABLE need a doc update too indicating
-> that even if the min and max is same, property will be interpreted as
-> immutable.
 
-Granted that I'm only doing it for max_bpc property I don't think so.
+Le 20/06/2024 à 15:36, Christian König a écrit :
+> Am 20.06.24 um 15:06 schrieb Pierre-Eric Pelloux-Prayer:
+>> Le 19/06/2024 à 11:26, Christian König a écrit :
+>>> Am 18.06.24 um 17:23 schrieb Pierre-Eric Pelloux-Prayer:
+>>>> Waking up a device can take multiple seconds, so if it's not
+>>>> going to be used we might as well not resume it.
+>>>>
+>>>> The safest default behavior for all ioctls is to resume the GPU,
+>>>> so this change allows specific ioctls to opt-out of generic
+>>>> runtime pm.
+>>>
+>>> I'm really wondering if we shouldn't put that into the IOCTL 
+>>> description.
+>>>
+>>> See amdgpu_ioctls_kms and DRM_IOCTL_DEF_DRV() for what I mean.
+>>
+>> Are you suggesting to add a new entry in enum drm_ioctl_flags to 
+>> indicate ioctls which need the device to be awake?
+>>
+>> Something like: "DRM_NO_DEVICE = BIT(6)" and then use it for both
+>> core and amdgpu ioctls?
+> 
+> Yeah something like that. Maybe name that DRM_SW_ONLY or something like 
+> that.
 
->
-> >>
-> >>
-> >>> Fixes: aadb3e16b8f3 ("drm/connector: hdmi: Add output BPC to the connector state")
-> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >>> ---
-> >>>    drivers/gpu/drm/drm_connector.c | 7 ++++++-
-> >>>    1 file changed, 6 insertions(+), 1 deletion(-)
-> >
-> > With best wishes
-> > Dmitry
++ dri-devel to gauge interest in adding such a flag in shared code.
+
+Pierre-Eric
 
 
 
--- 
-With best wishes
-Dmitry
+> 
+> Christian.
+> 
+>>
+>> Pierre-Eric
+>>
+>>
+>>
+>>
+>>>
+>>> Regards,
+>>> Christian.
+>>>
+>>>>
+>>>> Signed-off-by: Pierre-Eric Pelloux-Prayer 
+>>>> <pierre-eric.pelloux-prayer@amd.com>
+>>>> ---
+>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 25 
+>>>> ++++++++++++++++++++-----
+>>>>   1 file changed, 20 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c 
+>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>>>> index 60d5758939ae..a9831b243bfc 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>>>> @@ -2855,18 +2855,33 @@ long amdgpu_drm_ioctl(struct file *filp,
+>>>>   {
+>>>>       struct drm_file *file_priv = filp->private_data;
+>>>>       struct drm_device *dev;
+>>>> +    bool needs_device;
+>>>>       long ret;
+>>>>       dev = file_priv->minor->dev;
+>>>> -    ret = pm_runtime_get_sync(dev->dev);
+>>>> -    if (ret < 0)
+>>>> -        goto out;
+>>>> +
+>>>> +    /* Some ioctl can opt-out of powermanagement handling
+>>>> +     * if they don't require the device to be resumed.
+>>>> +     */
+>>>> +    switch (cmd) {
+>>>> +    default:
+>>>> +        needs_device = true;
+>>>> +    }
+>>>> +
+>>>> +    if (needs_device) {
+>>>> +        ret = pm_runtime_get_sync(dev->dev);
+>>>> +        if (ret < 0)
+>>>> +            goto out;
+>>>> +    }
+>>>>       ret = drm_ioctl(filp, cmd, arg);
+>>>> -    pm_runtime_mark_last_busy(dev->dev);
+>>>>   out:
+>>>> -    pm_runtime_put_autosuspend(dev->dev);
+>>>> +    if (needs_device) {
+>>>> +        pm_runtime_mark_last_busy(dev->dev);
+>>>> +        pm_runtime_put_autosuspend(dev->dev);
+>>>> +    }
+>>>> +
+>>>>       return ret;
+>>>>   }
