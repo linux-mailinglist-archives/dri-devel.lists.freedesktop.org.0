@@ -2,58 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D3B91614C
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 10:32:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8579F916151
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 10:33:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25AC710E2E5;
-	Tue, 25 Jun 2024 08:32:39 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="Kmy5xsch";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7161D10E2DB;
+	Tue, 25 Jun 2024 08:32:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 462 seconds by postgrey-1.36 at gabe;
- Tue, 25 Jun 2024 08:32:37 UTC
-Received: from mail-m15591.qiye.163.com (mail-m15591.qiye.163.com
- [101.71.155.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5014310E2E5
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 08:32:37 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256;
- b=Kmy5xschk5yXJVLgeFwcvg103S7XPqqmok5x2LJYSD/g93F7vQCPiE/4RqPXn2HP/8VoPM2WGXdwt6Z7G6aA9NPuneR/Tfjtpb7Cntb32bEQIuB3c/BwQtArgvBVLvTdfywbeca33Zi1ZQr8bciOXPwzVC7w9SRNwb6wLxVVM0Y=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=hG6Od9aiQ2pdvPcJ6FovDbwSaQp0tXwskc0osRppuoo=;
- h=date:mime-version:subject:message-id:from;
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTPA id 67B1D841025;
- Tue, 25 Jun 2024 16:24:42 +0800 (CST)
-Message-ID: <d6b8b45b-b30b-4357-8d24-b23be32148f9@rock-chips.com>
-Date: Tue, 25 Jun 2024 16:24:31 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 14/16] drm/rockchip: vop2: Add debugfs support
-To: Andy Yan <andyshrk@163.com>, heiko@sntech.de
-Cc: hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
- devicetree@vger.kernel.org, sebastian.reichel@collabora.com,
- kever.yang@rock-chips.com, chris.obbard@collabora.com,
- Sascha Hauer <s.hauer@pengutronix.de>
-References: <20231211115547.1784587-1-andyshrk@163.com>
- <20231211115943.1785556-1-andyshrk@163.com>
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn
+ (mail-sh0chn02on2131.outbound.protection.partner.outlook.cn
+ [139.219.146.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1105910E2DB
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 08:32:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dipOAadrQ3X84u4d2LQiov0OunnqiGApz92nCM7VpzpvRdfzS8kHDIS8Weih4Xy26RVFphx1rnXb2jHrnSi7zjcGS0pxW+PhL3y96+QE4KQ5ijwRXgMc2dk1w6qB80rjSlMoPC8SLOMNFkyq8uK1SlZTwYnA9qJofeDOdJbgzj1fmNxkNpLbQoS+fFTd0S9ertFSjbewWJtUoU6vxngvYkihkCAZtfybRvyZxMBUseAfo7xZbBcIXyj05DTZTk74/pqU3/JgArbydG0Bh0hsepu9z0xXFW28tOc4GlGQ+gHK5nJxw4EyATY3dghoyJPeUFNwChsTY3h/DsjPa0u0vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B0BS3+NgjhwRO9sW2/vXlQRPjWokhtoEnZ0cTgY3YSw=;
+ b=FWqwPx15mRdLgP1Sb9lxMkXeXF7S6sd3gk2Rd36SG6YjZAmGbQJLDV745b7BO2RMUZ1WtzQNwHuRhy7xxbFxgtqJzBP6p3Onu85+YDYTXXOyO35sGlauww5RwLFu7IF6wvsFyDR10TZ7kqUpKNJC1V+CJ48SCYqUxxdem4JPWyZgYVxRRDjrOxRKvwtgrxvFk/S2w7mXO/OeoG4+barobe7tdnPpRPoGnpiCbai6D9/9A33qcbCys4UgiPDAO1EimSL/QGmI7jeqD/tKr19VuhuXOq0b0Phlg+47G5/n2eXJEY0/mTFvO7OqkQW1DcPhTtva/rfDEO51Wh3voN10hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Received: from NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:1::6) by NTZPR01MB1020.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:8::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.37; Tue, 25 Jun
+ 2024 08:32:49 +0000
+Received: from NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn
+ ([fe80::47b8:45b2:ce25:9c34]) by
+ NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn ([fe80::47b8:45b2:ce25:9c34%3])
+ with mapi id 15.20.7698.025; Tue, 25 Jun 2024 08:32:49 +0000
+From: Keith Zhao <keith.zhao@starfivetech.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>, "rfoss@kernel.org"
+ <rfoss@kernel.org>, "Laurent.pinchart@ideasonboard.com"
+ <Laurent.pinchart@ideasonboard.com>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+ <tzimmermann@suse.de>, "airlied@gmail.com" <airlied@gmail.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh@kernel.org" <robh@kernel.org>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org"
+ <conor+dt@kernel.org>, "hjc@rock-chips.com" <hjc@rock-chips.com>,
+ "heiko@sntech.de" <heiko@sntech.de>, "andy.yan@rock-chips.com"
+ <andy.yan@rock-chips.com>, Xingyu Wu <xingyu.wu@starfivetech.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, Jack Zhu
+ <jack.zhu@starfivetech.com>, Shengyang Chen
+ <shengyang.chen@starfivetech.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>
+Subject: RE: [PATCH v4 04/10] drm/vs: Add hardware funcs for vs.
+Thread-Topic: [PATCH v4 04/10] drm/vs: Add hardware funcs for vs.
+Thread-Index: AQHaqyrCpZvO4/uSGEiTh57WFeY1YLGiKtEAgCsaiBCACMKCAIACUqHw
+Date: Tue, 25 Jun 2024 08:32:49 +0000
+Message-ID: <NTZPR01MB1050031B004FD13D167DE3C4EED52@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
+References: <20240521105817.3301-1-keith.zhao@starfivetech.com>
+ <20240521105817.3301-5-keith.zhao@starfivetech.com>
+ <24bxty2zmlmrjmfi2qtfolkea3acghbhmkxnkxmcroovsz57jq@q5ynybr65z7f>
+ <NTZPR01MB105049A5A7FD4ECAAECFC403EECB2@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
+ <ogrcyxroz77zu6raq3lzmjt2k72uxxeayseyhvkivtsxn2kfix@ioupv56oa6lc>
+In-Reply-To: <ogrcyxroz77zu6raq3lzmjt2k72uxxeayseyhvkivtsxn2kfix@ioupv56oa6lc>
+Accept-Language: en-US
 Content-Language: en-US
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20231211115943.1785556-1-andyshrk@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGhpNQ1YYThkeHU5OTkgaShlWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhCSE
- NVSktLVUpCS0tZBg++
-X-HM-Tid: 0a904e7f497a03a4kunm67b1d841025
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MyI6Chw4KzNOLzdLNhEJLjUz
- ATwaCS9VSlVKTEpCSEtIQ0NIQ0NKVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSUpJS0k3Bg++
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: NTZPR01MB1050:EE_|NTZPR01MB1020:EE_
+x-ms-office365-filtering-correlation-id: d7d57373-d7c5-4f93-38ac-08dc94f1659a
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+ ARA:13230037|1800799021|366013|41320700010|7416011|38070700015; 
+x-microsoft-antispam-message-info: n0jBUFoRc1y6gluUAEf+IPPcO+dnbXypMCrTQ+3JlgFrpu+eCgkX60w2+vurUYEup8d2N/Epwbc/6RIdIFAgYgk9BlKT7QIz02h12xkG3LU/kg7zm9PX+wWNglTIFy8GxwMdmELAL8wpaj3jNCBXmPZT33Qf1Ks7o/9B/ockk3fHf10PvSwIY1tZoU/a326v+KLeENfgEjg8o949ku+MEWySw5H5Jzyge7Sa3j7q4hEFeS+/M2nApvCWbea0xoMocRvwEHNuf0/z9rH1HU9JUovQGphqfK0hx8wB+Qe7qtNntte1rme4hBHbrj72MO7qIodLev1txBKc4ToPw+UR8MK1FVE45y/Utnd2RILcaorkyQxDKsyQbBd/w1gLtS/4stbTs76coSOwVncVxFKsUR1vqCSINkIGHWRHcOWXL9JojrhecedEibznhn/JbkkmG2qPmLj5L75khAbyOxdqyOPsUwxlW9YC7ToofL0gA3lR1S/HYmN+xyBNYFCK1VTsLb1vP5thm7wIO6sZpSkeyOhMyfiylYeZEhiD141epI7XVWduj/+PCIomWsemWMp8P85QNNCCNhWaupFaeF8T1bPka/Y3HIlQZT6ot1qSLAjI0prM3090D2sKhhqLNSTY
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn; PTR:;
+ CAT:NONE;
+ SFS:(13230037)(1800799021)(366013)(41320700010)(7416011)(38070700015); DIR:OUT;
+ SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: WH4+4KhWKhLcW84fRe65EMFmgp6gZFXkzMULPQGb6XNO/LK9xAbRLxqNr8mQ3QGbvgc9LHlw0RspwmkPbTcVvEycopJPAxprIfTKk8gD8Kl9FoHZ9TAXOhxekKv0ByPJdhAgCv9NI7mZk9d1VFfuj83yrdTgc1iCspR6aEaBMUW+Ts7GpJ9EIg3bBbzNuCPJ8Au9kp5XaCog+CLyrMwbzKsYfBjHeCQng+wC0JkAjv7HhadNVJJmTQDyM8ixNW7G59okf+U9is4NIJQg/rFkCPcXxQ7fO2uJlI8Itj1mL1nbzdwNP1rsKv0sp7PX1kSH2J5IrpNnjDFqS3mvi3YFVuVtotNCbFjRwx/J9WO95sXEbirURc8cBJsOzLiuLCzpi4ayzTVwqreW2tE0G8PMmxio+3ZHRIvKASCCe09Qlgg=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7d57373-d7c5-4f93-38ac-08dc94f1659a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jun 2024 08:32:49.2215 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WW5F/nEmbQqa/7r4Vtr6aKtXtq+ZJuHP6day9lLWMBS7MvUCa4HSwnN7pAqzPFa8sQjAoRp5+CCyqOlCrTo6NRnABeND4XqtiI8oNPBnlbE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: NTZPR01MB1020
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,601 +114,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Heiko,
-Gentle ping for this.
-Please let me know if something nees to improve to get this patch to be merged.
-
-On 12/11/23 19:59, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
-> 
-> /sys/kernel/debug/dri/vop2/summary:  dump vop display state
-> /sys/kernel/debug/dri/vop2/regs: dump whole vop registers
-> /sys/kernel/debug/dri/vop2/active_regs: only dump the registers of
-> activated modules
-> 
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
-> 
-> ---
-> 
-> (no changes since v4)
-> 
-> Changes in v4:
-> - check NULL pointer at right place
-> - fix the index of fb->obj
-> - drop explicitly cast of void pointer
-> - make the register dump code as a common function.
-> 
-> Changes in v3:
-> - put regs dump info in vop2_data
-> 
->   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 256 +++++++++++++++++++
->   drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  11 +
->   drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 191 ++++++++++++++
->   3 files changed, 458 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> index 2b996f1a25ad..1cd86b3bde7e 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> @@ -27,6 +27,7 @@
->   #include <drm/drm_debugfs.h>
->   #include <drm/drm_flip_work.h>
->   #include <drm/drm_framebuffer.h>
-> +#include <drm/drm_gem_framebuffer_helper.h>
->   #include <drm/drm_probe_helper.h>
->   #include <drm/drm_vblank.h>
->   
-> @@ -187,6 +188,7 @@ struct vop2 {
->   	 */
->   	u32 registered_num_wins;
->   
-> +	struct resource *res;
->   	void __iomem *regs;
->   	struct regmap *map;
->   
-> @@ -238,6 +240,37 @@ struct vop2 {
->   
->   #define vop2_output_if_is_dpi(x)	((x) == ROCKCHIP_VOP2_EP_RGB0)
->   
-> +
-> +/*
-> + * bus-format types.
-> + */
-> +struct drm_bus_format_enum_list {
-> +	int type;
-> +	const char *name;
-> +};
-> +
-> +static const struct drm_bus_format_enum_list drm_bus_format_enum_list[] = {
-> +	{ DRM_MODE_CONNECTOR_Unknown, "Unknown" },
-> +	{ MEDIA_BUS_FMT_RGB565_1X16, "RGB565_1X16" },
-> +	{ MEDIA_BUS_FMT_RGB666_1X18, "RGB666_1X18" },
-> +	{ MEDIA_BUS_FMT_RGB666_1X24_CPADHI, "RGB666_1X24_CPADHI" },
-> +	{ MEDIA_BUS_FMT_RGB666_1X7X3_SPWG, "RGB666_1X7X3_SPWG" },
-> +	{ MEDIA_BUS_FMT_YUV8_1X24, "YUV8_1X24" },
-> +	{ MEDIA_BUS_FMT_UYYVYY8_0_5X24, "UYYVYY8_0_5X24" },
-> +	{ MEDIA_BUS_FMT_YUV10_1X30, "YUV10_1X30" },
-> +	{ MEDIA_BUS_FMT_UYYVYY10_0_5X30, "UYYVYY10_0_5X30" },
-> +	{ MEDIA_BUS_FMT_RGB888_3X8, "RGB888_3X8" },
-> +	{ MEDIA_BUS_FMT_RGB888_1X24, "RGB888_1X24" },
-> +	{ MEDIA_BUS_FMT_RGB888_1X7X4_SPWG, "RGB888_1X7X4_SPWG" },
-> +	{ MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA, "RGB888_1X7X4_JEIDA" },
-> +	{ MEDIA_BUS_FMT_UYVY8_2X8, "UYVY8_2X8" },
-> +	{ MEDIA_BUS_FMT_YUYV8_1X16, "YUYV8_1X16" },
-> +	{ MEDIA_BUS_FMT_UYVY8_1X16, "UYVY8_1X16" },
-> +	{ MEDIA_BUS_FMT_RGB101010_1X30, "RGB101010_1X30" },
-> +	{ MEDIA_BUS_FMT_YUYV10_1X20, "YUYV10_1X20" },
-> +};
-> +static DRM_ENUM_NAME_FN(drm_get_bus_format_name, drm_bus_format_enum_list)
-> +
->   static const struct regmap_config vop2_regmap_config;
->   
->   static struct vop2_video_port *to_vop2_video_port(struct drm_crtc *crtc)
-> @@ -2516,6 +2549,227 @@ static const struct drm_crtc_helper_funcs vop2_crtc_helper_funcs = {
->   	.atomic_disable = vop2_crtc_atomic_disable,
->   };
->   
-> +static void vop2_dump_connector_on_crtc(struct drm_crtc *crtc, struct seq_file *s)
-> +{
-> +	struct drm_connector_list_iter conn_iter;
-> +	struct drm_connector *connector;
-> +
-> +	drm_connector_list_iter_begin(crtc->dev, &conn_iter);
-> +	drm_for_each_connector_iter(connector, &conn_iter) {
-> +		if (crtc->state->connector_mask & drm_connector_mask(connector))
-> +			seq_printf(s, "    Connector: %s\n", connector->name);
-> +
-> +	}
-> +	drm_connector_list_iter_end(&conn_iter);
-> +}
-> +
-> +static int vop2_plane_state_dump(struct seq_file *s, struct drm_plane *plane)
-> +{
-> +	struct vop2_win *win = to_vop2_win(plane);
-> +	struct drm_plane_state *pstate = plane->state;
-> +	struct drm_rect *src, *dst;
-> +	struct drm_framebuffer *fb;
-> +	struct drm_gem_object *obj;
-> +	struct rockchip_gem_object *rk_obj;
-> +	bool xmirror;
-> +	bool ymirror;
-> +	bool rotate_270;
-> +	bool rotate_90;
-> +	dma_addr_t fb_addr;
-> +	int i;
-> +
-> +	seq_printf(s, "    %s: %s\n", win->data->name, !pstate ?
-> +		   "DISABLED" : pstate->crtc ? "ACTIVE" : "DISABLED");
-> +
-> +	if (!pstate || !pstate->fb)
-> +		return 0;
-> +
-> +	fb = pstate->fb;
-> +	src = &pstate->src;
-> +	dst = &pstate->dst;
-> +	xmirror = pstate->rotation & DRM_MODE_REFLECT_X ? true : false;
-> +	ymirror = pstate->rotation & DRM_MODE_REFLECT_Y ? true : false;
-> +	rotate_270 = pstate->rotation & DRM_MODE_ROTATE_270;
-> +	rotate_90 = pstate->rotation & DRM_MODE_ROTATE_90;
-> +
-> +	seq_printf(s, "\twin_id: %d\n", win->win_id);
-> +
-> +	seq_printf(s, "\tformat: %p4cc%s glb_alpha[0x%x]\n",
-> +		   &fb->format->format,
-> +		   drm_is_afbc(fb->modifier) ? "[AFBC]" : "",
-> +		   pstate->alpha >> 8);
-> +	seq_printf(s, "\trotate: xmirror: %d ymirror: %d rotate_90: %d rotate_270: %d\n",
-> +		   xmirror, ymirror, rotate_90, rotate_270);
-> +	seq_printf(s, "\tzpos: %d\n", pstate->normalized_zpos);
-> +	seq_printf(s, "\tsrc: pos[%d, %d] rect[%d x %d]\n", src->x1 >> 16,
-> +		   src->y1 >> 16, drm_rect_width(src) >> 16,
-> +		   drm_rect_height(src) >> 16);
-> +	seq_printf(s, "\tdst: pos[%d, %d] rect[%d x %d]\n", dst->x1, dst->y1,
-> +		   drm_rect_width(dst), drm_rect_height(dst));
-> +
-> +	for (i = 0; i < fb->format->num_planes; i++) {
-> +		obj = fb->obj[i];
-> +		rk_obj = to_rockchip_obj(obj);
-> +		fb_addr = rk_obj->dma_addr + fb->offsets[i];
-> +
-> +		seq_printf(s, "\tbuf[%d]: addr: %pad pitch: %d offset: %d\n",
-> +			   i, &fb_addr, fb->pitches[i], fb->offsets[i]);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int vop2_crtc_state_dump(struct drm_crtc *crtc, struct seq_file *s)
-> +{
-> +	struct vop2_video_port *vp = to_vop2_video_port(crtc);
-> +	struct drm_crtc_state *cstate = crtc->state;
-> +	struct rockchip_crtc_state *vcstate;
-> +	struct drm_display_mode *mode;
-> +	struct drm_plane *plane;
-> +	bool interlaced;
-> +
-> +	seq_printf(s, "Video Port%d: %s\n", vp->id, !cstate ?
-> +		   "DISABLED" : cstate->active ? "ACTIVE" : "DISABLED");
-> +
-> +	if (!cstate || !cstate->active)
-> +		return 0;
-> +
-> +	mode = &crtc->state->adjusted_mode;
-> +	vcstate = to_rockchip_crtc_state(cstate);
-> +	interlaced = !!(mode->flags & DRM_MODE_FLAG_INTERLACE);
-> +
-> +	vop2_dump_connector_on_crtc(crtc, s);
-> +	seq_printf(s, "\tbus_format[%x]: %s\n", vcstate->bus_format,
-> +		    drm_get_bus_format_name(vcstate->bus_format));
-> +	seq_printf(s, "\toutput_mode[%x]", vcstate->output_mode);
-> +	seq_printf(s, " color_space[%d]\n", vcstate->color_space);
-> +	seq_printf(s, "    Display mode: %dx%d%s%d\n",
-> +		    mode->hdisplay, mode->vdisplay, interlaced ? "i" : "p",
-> +		    drm_mode_vrefresh(mode));
-> +	seq_printf(s, "\tclk[%d] real_clk[%d] type[%x] flag[%x]\n",
-> +		    mode->clock, mode->crtc_clock, mode->type, mode->flags);
-> +	seq_printf(s, "\tH: %d %d %d %d\n", mode->hdisplay, mode->hsync_start,
-> +		    mode->hsync_end, mode->htotal);
-> +	seq_printf(s, "\tV: %d %d %d %d\n", mode->vdisplay, mode->vsync_start,
-> +		    mode->vsync_end, mode->vtotal);
-> +
-> +	drm_atomic_crtc_for_each_plane(plane, crtc) {
-> +		vop2_plane_state_dump(s, plane);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int vop2_summary_show(struct seq_file *s, void *data)
-> +{
-> +	struct drm_info_node *node = s->private;
-> +	struct drm_minor *minor = node->minor;
-> +	struct drm_device *drm_dev = minor->dev;
-> +	struct drm_crtc *crtc;
-> +
-> +	drm_modeset_lock_all(drm_dev);
-> +	drm_for_each_crtc(crtc, drm_dev) {
-> +		vop2_crtc_state_dump(crtc, s);
-> +	}
-> +	drm_modeset_unlock_all(drm_dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static void vop2_regs_print(struct vop2 *vop2, struct seq_file *s,
-> +			    const struct vop2_regs_dump *dump, bool active_only)
-> +{
-> +	resource_size_t start;
-> +	u32 val;
-> +	int i;
-> +
-> +	if (dump->en_mask && active_only) {
-> +		val = vop2_readl(vop2, dump->base + dump->en_reg);
-> +		if ((val & dump->en_mask) != dump->en_val)
-> +			return;
-> +	}
-> +
-> +	seq_printf(s, "\n%s:\n", dump->name);
-> +
-> +	start = vop2->res->start + dump->base;
-> +	for (i = 0; i < dump->size >> 2; i += 4) {
-> +		seq_printf(s, "%08x:  %08x %08x %08x %08x\n", (u32)start + i * 4,
-> +			   vop2_readl(vop2, dump->base + (4 * i)),
-> +			   vop2_readl(vop2, dump->base + (4 * (i + 1))),
-> +			   vop2_readl(vop2, dump->base + (4 * (i + 2))),
-> +			   vop2_readl(vop2, dump->base + (4 * (i + 3))));
-> +	}
-> +}
-> +
-> +static void __vop2_regs_dump(struct seq_file *s, bool active_only)
-> +{
-> +	struct drm_info_node *node = s->private;
-> +	struct vop2 *vop2 = node->info_ent->data;
-> +	struct drm_minor *minor = node->minor;
-> +	struct drm_device *drm_dev = minor->dev;
-> +	const struct vop2_regs_dump *dump;
-> +	unsigned int i;
-> +
-> +	drm_modeset_lock_all(drm_dev);
-> +	if (vop2->enable_count) {
-> +		for (i = 0; i < vop2->data->regs_dump_size; i++) {
-> +			dump = &vop2->data->regs_dump[i];
-> +			vop2_regs_print(vop2, s, dump, active_only);
-> +		}
-> +	} else {
-> +		seq_printf(s, "VOP disabled\n");
-> +	}
-> +	drm_modeset_unlock_all(drm_dev);
-> +
-> +}
-> +
-> +static int vop2_regs_show(struct seq_file *s, void *arg)
-> +{
-> +	__vop2_regs_dump(s, false);
-> +
-> +	return 0;
-> +}
-> +
-> +static int vop2_active_regs_show(struct seq_file *s, void *data)
-> +{
-> +	__vop2_regs_dump(s, true);
-> +
-> +	return 0;
-> +}
-> +
-> +static struct drm_info_list vop2_debugfs_list[] = {
-> +	{ "summary", vop2_summary_show, 0, NULL },
-> +	{ "active_regs", vop2_active_regs_show,   0, NULL },
-> +	{ "regs", vop2_regs_show,   0, NULL },
-> +};
-> +
-> +static void vop2_debugfs_init(struct vop2 *vop2, struct drm_minor *minor)
-> +{
-> +	struct dentry *root;
-> +	unsigned int i;
-> +
-> +	root = debugfs_create_dir("vop2", minor->debugfs_root);
-> +	if (!IS_ERR(root)) {
-> +		for (i = 0; i < ARRAY_SIZE(vop2_debugfs_list); i++)
-> +			vop2_debugfs_list[i].data = vop2;
-> +
-> +		drm_debugfs_create_files(vop2_debugfs_list,
-> +					 ARRAY_SIZE(vop2_debugfs_list),
-> +					 root, minor);
-> +	}
-> +}
-> +
-> +static int vop2_crtc_late_register(struct drm_crtc *crtc)
-> +{
-> +	struct vop2_video_port *vp = to_vop2_video_port(crtc);
-> +	struct vop2 *vop2 = vp->vop2;
-> +
-> +	if (drm_crtc_index(crtc) == 0)
-> +		vop2_debugfs_init(vop2, crtc->dev->primary);
-> +
-> +	return 0;
-> +}
-> +
->   static struct drm_crtc_state *vop2_crtc_duplicate_state(struct drm_crtc *crtc)
->   {
->   	struct rockchip_crtc_state *vcstate;
-> @@ -2565,6 +2819,7 @@ static const struct drm_crtc_funcs vop2_crtc_funcs = {
->   	.atomic_destroy_state = vop2_crtc_destroy_state,
->   	.enable_vblank = vop2_crtc_enable_vblank,
->   	.disable_vblank = vop2_crtc_disable_vblank,
-> +	.late_register = vop2_crtc_late_register,
->   };
->   
->   static irqreturn_t vop2_isr(int irq, void *data)
-> @@ -3109,6 +3364,7 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
->   		return -EINVAL;
->   	}
->   
-> +	vop2->res = res;
->   	vop2->regs = devm_ioremap_resource(dev, res);
->   	if (IS_ERR(vop2->regs))
->   		return PTR_ERR(vop2->regs);
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> index 615a16196aff..59cd6b933bfb 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> @@ -122,6 +122,15 @@ enum vop2_win_regs {
->   	VOP2_WIN_MAX_REG,
->   };
->   
-> +struct vop2_regs_dump {
-> +	const char *name;
-> +	u32 base;
-> +	u32 size;
-> +	u32 en_reg;
-> +	u32 en_val;
-> +	u32 en_mask;
-> +};
-> +
->   struct vop2_win_data {
->   	const char *name;
->   	unsigned int phys_id;
-> @@ -160,10 +169,12 @@ struct vop2_data {
->   	u64 feature;
->   	const struct vop2_win_data *win;
->   	const struct vop2_video_port_data *vp;
-> +	const struct vop2_regs_dump *regs_dump;
->   	struct vop_rect max_input;
->   	struct vop_rect max_output;
->   
->   	unsigned int win_size;
-> +	unsigned int regs_dump_size;
->   	unsigned int soc_id;
->   };
->   
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-> index 48170694ac6b..6fc119034a0e 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-> @@ -260,6 +260,88 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
->   	},
->   };
->   
-> +static const struct vop2_regs_dump rk3568_regs_dump[] = {
-> +	{
-> +		.name = "SYS",
-> +		.base = RK3568_REG_CFG_DONE,
-> +		.size = 0x100,
-> +		.en_reg  = 0,
-> +		.en_val = 0,
-> +		.en_mask = 0
-> +	}, {
-> +		.name = "OVL",
-> +		.base = RK3568_OVL_CTRL,
-> +		.size = 0x100,
-> +		.en_reg = 0,
-> +		.en_val = 0,
-> +		.en_mask = 0,
-> +	}, {
-> +		.name = "VP0",
-> +		.base = RK3568_VP0_CTRL_BASE,
-> +		.size = 0x100,
-> +		.en_reg = RK3568_VP_DSP_CTRL,
-> +		.en_val = 0,
-> +		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
-> +	}, {
-> +		.name = "VP1",
-> +		.base = RK3568_VP1_CTRL_BASE,
-> +		.size = 0x100,
-> +		.en_reg = RK3568_VP_DSP_CTRL,
-> +		.en_val = 0,
-> +		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
-> +	}, {
-> +		.name = "VP2",
-> +		.base = RK3568_VP2_CTRL_BASE,
-> +		.size = 0x100,
-> +		.en_reg = RK3568_VP_DSP_CTRL,
-> +		.en_val = 0,
-> +		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
-> +
-> +	}, {
-> +		.name = "Cluster0",
-> +		.base = RK3568_CLUSTER0_CTRL_BASE,
-> +		.size = 0x110,
-> +		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
-> +		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-> +		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-> +	}, {
-> +		.name = "Cluster1",
-> +		.base = RK3568_CLUSTER1_CTRL_BASE,
-> +		.size = 0x110,
-> +		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
-> +		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-> +		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-> +	}, {
-> +		.name = "Esmart0",
-> +		.base = RK3568_ESMART0_CTRL_BASE,
-> +		.size = 0xf0,
-> +		.en_reg = RK3568_SMART_REGION0_CTRL,
-> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +	}, {
-> +		.name = "Esmart1",
-> +		.base = RK3568_ESMART1_CTRL_BASE,
-> +		.size = 0xf0,
-> +		.en_reg = RK3568_SMART_REGION0_CTRL,
-> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +	}, {
-> +		.name = "Smart0",
-> +		.base = RK3568_SMART0_CTRL_BASE,
-> +		.size = 0xf0,
-> +		.en_reg = RK3568_SMART_REGION0_CTRL,
-> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +	}, {
-> +		.name = "Smart1",
-> +		.base = RK3568_SMART1_CTRL_BASE,
-> +		.size = 0xf0,
-> +		.en_reg = RK3568_SMART_REGION0_CTRL,
-> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +	},
-> +};
-> +
->   static const struct vop2_video_port_data rk3588_vop_video_ports[] = {
->   	{
->   		.id = 0,
-> @@ -440,6 +522,109 @@ static const struct vop2_win_data rk3588_vop_win_data[] = {
->   	},
->   };
->   
-> +static const struct vop2_regs_dump rk3588_regs_dump[] = {
-> +	{
-> +		.name = "SYS",
-> +		.base = RK3568_REG_CFG_DONE,
-> +		.size = 0x100,
-> +		.en_reg  = 0,
-> +		.en_val = 0,
-> +		.en_mask = 0
-> +	}, {
-> +		.name = "OVL",
-> +		.base = RK3568_OVL_CTRL,
-> +		.size = 0x100,
-> +		.en_reg = 0,
-> +		.en_val = 0,
-> +		.en_mask = 0,
-> +	}, {
-> +		.name = "VP0",
-> +		.base = RK3568_VP0_CTRL_BASE,
-> +		.size = 0x100,
-> +		.en_reg = RK3568_VP_DSP_CTRL,
-> +		.en_val = 0,
-> +		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
-> +	}, {
-> +		.name = "VP1",
-> +		.base = RK3568_VP1_CTRL_BASE,
-> +		.size = 0x100,
-> +		.en_reg = RK3568_VP_DSP_CTRL,
-> +		.en_val = 0,
-> +		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
-> +	}, {
-> +		.name = "VP2",
-> +		.base = RK3568_VP2_CTRL_BASE,
-> +		.size = 0x100,
-> +		.en_reg = RK3568_VP_DSP_CTRL,
-> +		.en_val = 0,
-> +		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
-> +
-> +	}, {
-> +		.name = "VP3",
-> +		.base = RK3588_VP3_CTRL_BASE,
-> +		.size = 0x100,
-> +		.en_reg = RK3568_VP_DSP_CTRL,
-> +		.en_val = 0,
-> +		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
-> +	}, {
-> +		.name = "Cluster0",
-> +		.base = RK3568_CLUSTER0_CTRL_BASE,
-> +		.size = 0x110,
-> +		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
-> +		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-> +		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-> +	}, {
-> +		.name = "Cluster1",
-> +		.base = RK3568_CLUSTER1_CTRL_BASE,
-> +		.size = 0x110,
-> +		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
-> +		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-> +		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-> +	}, {
-> +		.name = "Cluster2",
-> +		.base = RK3588_CLUSTER2_CTRL_BASE,
-> +		.size = 0x110,
-> +		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
-> +		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-> +		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-> +	}, {
-> +		.name = "Cluster3",
-> +		.base = RK3588_CLUSTER3_CTRL_BASE,
-> +		.size = 0x110,
-> +		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
-> +		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-> +		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-> +	}, {
-> +		.name = "Esmart0",
-> +		.base = RK3568_ESMART0_CTRL_BASE,
-> +		.size = 0xf0,
-> +		.en_reg = RK3568_SMART_REGION0_CTRL,
-> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +	}, {
-> +		.name = "Esmart1",
-> +		.base = RK3568_ESMART1_CTRL_BASE,
-> +		.size = 0xf0,
-> +		.en_reg = RK3568_SMART_REGION0_CTRL,
-> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +	}, {
-> +		.name = "Esmart2",
-> +		.base = RK3588_ESMART2_CTRL_BASE,
-> +		.size = 0xf0,
-> +		.en_reg = RK3568_SMART_REGION0_CTRL,
-> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +	}, {
-> +		.name = "Esmart3",
-> +		.base = RK3588_ESMART3_CTRL_BASE,
-> +		.size = 0xf0,
-> +		.en_reg = RK3568_SMART_REGION0_CTRL,
-> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-> +	},
-> +};
-> +
->   static const struct vop2_data rk3566_vop = {
->   	.feature = VOP2_FEATURE_HAS_SYS_GRF,
->   	.nr_vps = 3,
-> @@ -448,6 +633,8 @@ static const struct vop2_data rk3566_vop = {
->   	.vp = rk3568_vop_video_ports,
->   	.win = rk3568_vop_win_data,
->   	.win_size = ARRAY_SIZE(rk3568_vop_win_data),
-> +	.regs_dump = rk3568_regs_dump,
-> +	.regs_dump_size = ARRAY_SIZE(rk3568_regs_dump),
->   	.soc_id = 3566,
->   };
->   
-> @@ -459,6 +646,8 @@ static const struct vop2_data rk3568_vop = {
->   	.vp = rk3568_vop_video_ports,
->   	.win = rk3568_vop_win_data,
->   	.win_size = ARRAY_SIZE(rk3568_vop_win_data),
-> +	.regs_dump = rk3568_regs_dump,
-> +	.regs_dump_size = ARRAY_SIZE(rk3568_regs_dump),
->   	.soc_id = 3568,
->   };
->   
-> @@ -471,6 +660,8 @@ static const struct vop2_data rk3588_vop = {
->   	.vp = rk3588_vop_video_ports,
->   	.win = rk3588_vop_win_data,
->   	.win_size = ARRAY_SIZE(rk3588_vop_win_data),
-> +	.regs_dump = rk3588_regs_dump,
-> +	.regs_dump_size = ARRAY_SIZE(rk3588_regs_dump),
->   	.soc_id = 3588,
->   };
->   
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogRG1pdHJ5IEJhcnlzaGtv
+diA8ZG1pdHJ5LmJhcnlzaGtvdkBsaW5hcm8ub3JnPg0KPiBTZW50OiAyMDI05bm0NuaciDI05pel
+IDQ6NTENCj4gVG86IEtlaXRoIFpoYW8gPGtlaXRoLnpoYW9Ac3RhcmZpdmV0ZWNoLmNvbT4NCj4g
+Q2M6IGFuZHJ6ZWouaGFqZGFAaW50ZWwuY29tOyBuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnOyBy
+Zm9zc0BrZXJuZWwub3JnOw0KPiBMYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb207IGpv
+bmFzQGt3aWJvby5zZTsNCj4gamVybmVqLnNrcmFiZWNAZ21haWwuY29tOyBtYWFydGVuLmxhbmto
+b3JzdEBsaW51eC5pbnRlbC5jb207DQo+IG1yaXBhcmRAa2VybmVsLm9yZzsgdHppbW1lcm1hbm5A
+c3VzZS5kZTsgYWlybGllZEBnbWFpbC5jb207DQo+IGRhbmllbEBmZndsbC5jaDsgcm9iaEBrZXJu
+ZWwub3JnOyBrcnprK2R0QGtlcm5lbC5vcmc7IGNvbm9yK2R0QGtlcm5lbC5vcmc7DQo+IGhqY0By
+b2NrLWNoaXBzLmNvbTsgaGVpa29Ac250ZWNoLmRlOyBhbmR5LnlhbkByb2NrLWNoaXBzLmNvbTsg
+WGluZ3l1IFd1DQo+IDx4aW5neXUud3VAc3RhcmZpdmV0ZWNoLmNvbT47IHAuemFiZWxAcGVuZ3V0
+cm9uaXguZGU7IEphY2sgWmh1DQo+IDxqYWNrLnpodUBzdGFyZml2ZXRlY2guY29tPjsgU2hlbmd5
+YW5nIENoZW4NCj4gPHNoZW5neWFuZy5jaGVuQHN0YXJmaXZldGVjaC5jb20+OyBkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnOw0KPiBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZzsgbGlu
+dXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsNCj4gbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZy
+YWRlYWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjQgMDQvMTBdIGRybS92czogQWRkIGhh
+cmR3YXJlIGZ1bmNzIGZvciB2cy4NCj4gDQo+IEhpIEtlaXRoLA0KPiANCj4gT24gU3VuLCBKdW4g
+MjMsIDIwMjQgYXQgMDc6MTY6NDdBTSBHTVQsIEtlaXRoIFpoYW8gd3JvdGU6DQo+ID4gPiBPbiBU
+dWUsIE1heSAyMSwgMjAyNCBhdCAwNjo1ODoxMVBNICswODAwLCBrZWl0aCB3cm90ZToNCj4gPiA+
+ID4gK30NCj4gPiA+ID4gKw0KPiA+ID4gPiArc3RhdGljIGlubGluZSB2b2lkIGRjX3NldF9jbGVh
+cihzdHJ1Y3QgZGNfaHcgKmh3LCB1MzIgcmVnLCB1MzINCj4gPiA+ID4gK3NldCwgdTMyIGNsZWFy
+KSB7DQo+ID4gPiA+ICsJdTMyIHZhbHVlID0gZGNfcmVhZChodywgcmVnKTsNCj4gPiA+ID4gKw0K
+PiA+ID4gPiArCXZhbHVlICY9IH5jbGVhcjsNCj4gPiA+ID4gKwl2YWx1ZSB8PSBzZXQ7DQo+ID4g
+PiA+ICsJZGNfd3JpdGUoaHcsIHJlZywgdmFsdWUpOw0KPiA+ID4NCj4gPiA+IHJlZ21hcF91cGRh
+dGVfYml0cz8NCj4gPg0KPiA+IHJlZ21hcF91cGRhdGVfYml0cyBmb2xsb3dzIDQgc3RlcHM6DQo+
+ID4NCj4gPiAx44CBcmV0ID0gX3JlZ21hcF9yZWFkKG1hcCwgcmVnLCAmb3JpZyk7IC4uLi4uLi4u
+Lg0KPiA+DQo+ID4gMuOAgXRtcCA9IG9yaWcgJiB+bWFzazsNCj4gPiAz44CBdG1wIHw9IHZhbCAm
+IG1hc2s7DQo+ID4gLi4uLi4uDQo+ID4gNOOAgXJldCA9IF9yZWdtYXBfd3JpdGUobWFwLCByZWcs
+IHRtcCk7DQo+ID4gSWYgdGhlIHZhbHVlIG91dCBvZiBtYXNrIHJhbmdlDQo+ID4gSXQgd2lsbCBq
+dXN0IGNsZWFyIHRoZSBtYXNrIGJpcg0KPiA+DQo+ID4gZGNfc2V0X2NsZWFyIHdpbGwgZG8gY2xl
+YXIgYW5kIHNldCB3aXRob3V0IGxpbWl0Lg0KPiA+DQo+ID4gTWF5YmUgdGhlIG5hbWUgc2hvdWxk
+IGJlIGRjX2NsZWFyX3NldA0KPiANCj4gVGhpcyBpcyBub3QgcmVhbGx5IGJldHRlci4gcmVnbWFw
+X3VwZGF0ZV9iaXRzKCkgaGFzIGNsZWFyIHNlbWFudGljcyBvZiB1cGRhdGluZyBhDQo+IHZhbHVl
+IGluIHRoZSBmaWVsZCB0aGF0IGlzIGRlZmluZWQgYnkgYSBtYXNrLiBZb3UgZnVuY3Rpb24gaXMg
+anVzdCBjbGVhcmluZyBzb21lIGJpdHMNCj4gYW5kIHNldHRpbmcgb3RoZXIgYml0cy4gSXQncyBu
+b3Qgb2J2aW91cyB3aGV0aGVyIGl0IGlzIGEgbWFzayBhbmQgdmFsdWUsIHNldmVyYWwNCj4gY29u
+Y3VycmVudCBmbGFncyBvciBzb21ldGhpbmcgZWxzZS4NCj4gDQo+IEV2ZW4gaWYgeW91IGFyZSBu
+b3QgZ29pbmcgdG8gc3dpdGNoIHRvIHJlZ21hcHMgKHlvdSBkb24ndCBoYXZlIHRvKSwgcGxlYXNl
+IHVzZQ0KPiBtYXNrICYgdmFsdWUgaW5zdGVhZC4NCj4gDQpPayBnb3QgaXQNCj4gPiAJCX0NCj4g
+PiA+ID4gK3N0YXRpYyB2b2lkIGxvYWRfcmdiX3RvX3l1dihzdHJ1Y3QgZGNfaHcgKmh3LCB1MzIg
+b2Zmc2V0LCBzMTYNCj4gPiA+ID4gKyp0YWJsZSkNCj4gPiA+DQo+ID4gPiBJcyB0aGVyZSBhbnkg
+cmVhc29uIHdoeSBsb2FkX3JnYl90b195dXYgZGlmZmVycyBmcm9tIHR3byBvdGhlcg0KPiA+ID4g
+ZnVuY3Rpb25zPw0KPiA+ID4NCj4gPiBsb2FkX3JnYl90b195dXYgbWF0Y2hlcyBjcnRjcw0KPiA+
+DQo+ID4gbG9hZF95dXZfdG9fcmdiIG1hdGNoZXMgcGxhbmVzDQo+ID4gbG9hZF9yZ2JfdG9fcmdi
+IG1hdGNoZXMgcGxhbmVzDQo+IA0KPiBUaGVuIHRoZXNlIGZ1bmN0aW5zIHNob3VsZCBoYXZlIHRo
+YXQgcmVmbGVjdGVkIGluIHRoZWlyIG5hbWVzIChhbmQgYWxzbw0KPiBkb2N1bWVudGVkLCB3aHkp
+LiBJZiB0aGUgQ1NDIHByb2dyYW1taW5nIGludGVyZmFjZSBpcyBzaW1pbGFyLCBwbGVhc2Ugc3Bs
+aXQgdGhlDQo+IGltcGxlbWVudGF0aW9uIHRvIGhhdmUgY29tbW9uIGNvZGUgYW5kIGRpZmZlcmVu
+dCBkYXRhIHRvIGJlIHVzZWQgZm9yDQo+IHByb2dyYW1taW5nLg0KPiANCk9rIGdvdCBpdA0KDQo+
+ID4gdGhlIGNvZWZmaWNpZW50KHRhYmxlKSBpcyBkaWZmIGJldHdlZW4gbG9hZF9yZ2JfdG9feXV2
+IGFuZA0KPiA+IGxvYWRfeXV2X3RvX3JnYg0KPiANCj4gPiA+ID4gK3ZvaWQgcGxhbmVfaHdfdXBk
+YXRlX3NjYWxlKHN0cnVjdCB2c19kYyAqZGMsIHN0cnVjdCBkcm1fcmVjdA0KPiA+ID4gPiArKnNy
+Yywgc3RydWN0DQo+ID4gPiBkcm1fcmVjdCAqZHN0LA0KPiA+ID4gPiArCQkJICAgdTggaWQsIHU4
+IGRpc3BsYXlfaWQsIHVuc2lnbmVkIGludCByb3RhdGlvbik7IHZvaWQNCj4gPiA+ID4gK3BsYW5l
+X2h3X3VwZGF0ZV9ibGVuZChzdHJ1Y3QgdnNfZGMgKmRjLCB1MTYgYWxwaGEsIHUxNg0KPiA+ID4g
+cGl4ZWxfYmxlbmRfbW9kZSwNCj4gPiA+ID4gKwkJCSAgIHU4IGlkLCB1OCBkaXNwbGF5X2lkKTsN
+Cj4gPiA+DQo+ID4gPiBDb3VsZCB5b3UgcGxlYXNlIHNldHRsZSBvbiBhIHNpbmdsZSBwcmVmaXgg
+Zm9yIGFsbCB5b3VyIGZ1bmN0aW9uIG5hbWVzPw0KPiA+ID4gSWRlYWxseSBpdCBzaG91bGQgYmUg
+Y2xvc2UgdG8gdGhlIGRyaXZlciBuYW1lLiBJdCdzIGhhcmQgdG8NCj4gPiA+IHVuZGVyc3RhbmQg
+dGhhdCB0aGUgZnVuY3Rpb24gY29tZXMgZnJvbSB0aGUgdmVyaXNpbGljb24gZHJpdmVyIGlmDQo+
+ID4gPiBpdHMgbmFtZSBzdGFydHMgZnJvbSBkY18gb3IgZXNwZWNpYWxseSB3aXRoIHBsYW5lXy4N
+Cj4gPiBZZXMgIHN0YXJ0aW5nIHdpdGggcGxhbmVfIGlzIG5vdCBhIGdvb2QgaWRlYSAsaSB3aWxs
+IGFkZCB2c18gXyAsDQo+ID4gdGhhbmtzDQo+ID4gPg0KPiA+ID4gSSdkIHN0cm9uZ2x5IHN1Z2dl
+c3QgdG8gc3RvcCBkZWZpbmluZyBhbnl0aGluZyBvdXRzaWRlIG9mIHRoZQ0KPiA+ID4gc2VsZWN0
+ZWQNCj4gPiBJIGRvbid0IHF1aXRlIHVuZGVyc3RhbmQgd2hhdCAidGhlIHNlbGVjdGVkIiBtZWFu
+cywgSSBob3BlIHlvdSBjYW4NCj4gPiBmaWxsIGluIHNvbWUgc3BlY2lmaWMgZGV0YWlscyBhYm91
+dCBpdCBUaGFua3MNCj4gDQo+ICJ0aGUgc2VsZWN0ZWQgdnNfIG5hbWVzcGFjZSIuIFNvIHByZWZp
+eCBhbGwgZnVuY3Rpb24gbmFtZXMgYW5kIGFsbCBzdHJ1Y3R1cmVzDQo+IHdpdGggdnNfDQpPaywg
+Z290IGl0Lg0KPiANCj4gDQo+IC0tDQo+IFdpdGggYmVzdCB3aXNoZXMNCj4gRG1pdHJ5DQo=
