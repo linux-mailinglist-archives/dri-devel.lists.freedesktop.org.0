@@ -2,74 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0849F9163A5
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 11:49:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A039163D9
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2024 11:51:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B939210E05E;
-	Tue, 25 Jun 2024 09:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 235D210E125;
+	Tue, 25 Jun 2024 09:51:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="n9FZVDdi";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="yneEkd9N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE10D10E05E
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 09:49:05 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-4248ff53f04so14523965e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 02:49:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719308944; x=1719913744; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bJpTx18M/ty64g67woNbXjQvBnNl49GFFpng+yfXaok=;
- b=n9FZVDdiuoDVrYsWmCPugL3kxkSr4CoQXRlUMM8SWS/PPSaN7zUViW+GnsJnx3o+Pj
- GxuSIxK1RxGInjo2eL+KhFFzfPndu9jpvHsKEbUyZiD7fSKOsK72SLluo+mWZWnPI8sM
- iOq/Aey4kDbfBZabTdFMDpjRbtkDmS4B52PfM6hpjNI1bhFMe3ZV7K8QKNxJAlINNV4m
- PZBZ7i28wTABIkazVV54PNPp/B1haLY/i7WC2AX2dE6CZg014NLbNKcOjjmT7JQsCLQi
- 6vCVuT3lfdrkPk8zIshN1CZj7a7Us1KHmk20XfisftFY5GbtX1GC/Dhta6NIwcHfv5io
- rTAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719308944; x=1719913744;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bJpTx18M/ty64g67woNbXjQvBnNl49GFFpng+yfXaok=;
- b=cZUyoKTUWrNji3l74pKZHT13fK6OdfAaw7DBhD7/iZjAIyZ1kieeCQX93F3ugHFFfF
- /6BotOTSJosg3MdyXDCzsM6+VWwJslGm+HfncU2Wz491p4hhcYtk5zkiLOCRsYOA3R1c
- xPtnhVTwScQQWaXuCPezfG/YYjAJ9sFSYsbMIcJ47rgj94LM9MpUuROAxkzmKNbgFOVg
- Grj0U0c86MrWaOIpESzxzr14930kdqDMR6jp3ATlZXF7yggNH6evAJCnd1hIOTA9sDUH
- deQBbyflD+dRkD29v9F0GFqc37Yu3L4jGwwYLH0juY1a+6fMH2F3jhGjBv4VcqM5gZnU
- fJgA==
-X-Gm-Message-State: AOJu0Yy6kKsPFSn8uDqZw8X9X1sBRSFEvhsFDyRLiWE3SAxZh61P1nwJ
- /I+P2bA5y5Ir6gl7f/Iz1l7csNW8pNc2fgPzqEQoq0YjnukYtxUhjg0C75e4iok=
-X-Google-Smtp-Source: AGHT+IGZFy25ev3nUeuvrjQIowttwOuo93D7i0Ci98/mU5zOORqhKQlmx0xUKbo8Q47Lb7IM95F94g==
-X-Received: by 2002:a05:6000:18a1:b0:366:ee9b:847 with SMTP id
- ffacd0b85a97d-366ee9b09a1mr5482044f8f.14.1719308943620; 
- Tue, 25 Jun 2024 02:49:03 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-366388c40c3sm12452424f8f.30.2024.06.25.02.49.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jun 2024 02:49:03 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Liu Ying <victor.liu@nxp.com>
-Cc: quic_jesszhan@quicinc.com, sam@ravnborg.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, emil.l.velikov@gmail.com
-In-Reply-To: <20240624015612.341983-1-victor.liu@nxp.com>
-References: <20240624015612.341983-1-victor.liu@nxp.com>
-Subject: Re: [PATCH RESEND] drm/panel: simple: Add missing display timing
- flags for KOE TX26D202VM0BWA
-Message-Id: <171930894282.652957.8854208216460459572.b4-ty@linaro.org>
-Date: Tue, 25 Jun 2024 11:49:02 +0200
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6531210E1B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 09:51:11 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45P9opYp100324;
+ Tue, 25 Jun 2024 04:50:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1719309051;
+ bh=GpCCOPLHRWQFDvg6W/jqIEVVoGNYbgT+7gouRoV8IG8=;
+ h=From:To:CC:Subject:Date;
+ b=yneEkd9NEdZVD54gHUSsK94f21pp+h37tlEhkr6emxByq5/tkL2e1q9m4lw/ORlgM
+ aUI5GefF2tQxwB5sloUPac3ytu74AX81QGiKnOheesaGequPgbuz5Ak2Wa7ug3L+dO
+ upzk4/2m89Beu+dci4LXJz1P3DhwfDvoZnNBXgBo=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45P9opq7029790
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 25 Jun 2024 04:50:51 -0500
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 25
+ Jun 2024 04:50:51 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 25 Jun 2024 04:50:51 -0500
+Received: from localhost (uda0496377.dhcp.ti.com [172.24.227.31])
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45P9ooV3083186;
+ Tue, 25 Jun 2024 04:50:50 -0500
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg
+ <sam@ravnborg.org>
+CC: DRI Development List <dri-devel@lists.freedesktop.org>, Linux Kernel List
+ <linux-kernel@vger.kernel.org>, Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh
+ Thakkar <devarsht@ti.com>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>
+Subject: [PATCH] drm/bridge: display-connector: Fix atomic_get_input_bus_fmt
+ hook
+Date: Tue, 25 Jun 2024 15:20:49 +0530
+Message-ID: <20240625095049.328461-1-a-bhatia1@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,20 +78,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The display-connector acts as a pass-through bridge. To truly reflect
+that, this bridge should accept the same input format, as it expects to
+output. That in turn should be the same as what the preceding bridge has
+to output.
 
-On Mon, 24 Jun 2024 09:56:12 +0800, Liu Ying wrote:
-> KOE TX26D202VM0BWA panel spec indicates the DE signal is active high in
-> timing chart, so add DISPLAY_FLAGS_DE_HIGH flag in display timing flags.
-> This aligns display_timing with panel_desc.
-> 
-> 
+While the get_output_fmt hook does exactly that by calling the same hook
+of the previous bridge, the get_input_fmt hook should simply propagate
+the expected output format as its required input format.
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
+Let's say bridge(n) converts YUV bus format to RGB before transmitting
+the video signals. B is supposed to be RGB and A is YUV. The
+get_input_fmt hook of bridge(n) should receive RGB as its expected
+output format for it to select YUV as its required input format.
 
-[1/1] drm/panel: simple: Add missing display timing flags for KOE TX26D202VM0BWA
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/37ce99b77762256ec9fda58d58fd613230151456
+Moreover, since the display-connector is a pass-through bridge, X and Y
+should both be RGB as well.
 
+    +-------------+            +-------------+
+A   |             |   B    X   |             |   Y
+--->|  Bridge(n)  +--->    --->| Display     +--->
+    |             |            | Connector   |
+    |             |            |             |
+    +-------------+            +-------------+
+
+But that's not what's happening at the moment.
+
+The core will call get_output_fmt hook of display-connector, which will
+call the same hook of bridge(n). Y will get set to RGB because B is RGB.
+
+Now the core will call get_input_fmt hook of display-connector with Y =
+RGB as its expected output format. This hook will in turn call the
+get_input_fmt hook of bridge(n), with expected output as RGB. This hook
+will then return YUV as its required input format, which will set X =
+YUV.
+
+This is where things get off the track. The core will then call
+bridge(n)'s get_input_fmt hook but this time the expected output will
+have changed to X = YUV, instead of what ideally should have been X =
+RGB. We don't know how bridge(n)'s input format requirement will change
+now that its expected output format isn't RGB but YUV.
+
+Ideally, formats Y, X, B need to be the same and the get_input_fmt hook
+for bridge(n) should be called with these as its expected output format.
+Calling that hook twice can potentially change the expected output
+format - which can then change the required input format again, or it
+might just throw an -ENOTSUPP error.
+
+While many bridges don't utilize these APIs, or in a lot of cases A and
+B are same anyway, it is not the biggest problem, but one that should be
+fixed anyway.
+
+Fix this.
+
+Fixes: 7cd70656d128 ("drm/bridge: display-connector: implement bus fmts callbacks")
+Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+---
+ drivers/gpu/drm/bridge/display-connector.c | 40 +---------------------
+ 1 file changed, 1 insertion(+), 39 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
+index ab8e00baf3f1..eebf1fbcdd23 100644
+--- a/drivers/gpu/drm/bridge/display-connector.c
++++ b/drivers/gpu/drm/bridge/display-connector.c
+@@ -131,50 +131,12 @@ static u32 *display_connector_get_output_bus_fmts(struct drm_bridge *bridge,
+ 							      num_output_fmts);
+ }
+ 
+-/*
+- * Since this bridge is tied to the connector, it acts like a passthrough,
+- * so concerning the input bus formats, either pass the bus formats from the
+- * previous bridge or MEDIA_BUS_FMT_FIXED (like select_bus_fmt_recursive())
+- * when atomic_get_input_bus_fmts is not supported.
+- * This supports negotiation if the bridge chain has all bits in place.
+- */
+-static u32 *display_connector_get_input_bus_fmts(struct drm_bridge *bridge,
+-					struct drm_bridge_state *bridge_state,
+-					struct drm_crtc_state *crtc_state,
+-					struct drm_connector_state *conn_state,
+-					u32 output_fmt,
+-					unsigned int *num_input_fmts)
+-{
+-	struct drm_bridge *prev_bridge = drm_bridge_get_prev_bridge(bridge);
+-	struct drm_bridge_state *prev_bridge_state;
+-
+-	if (!prev_bridge || !prev_bridge->funcs->atomic_get_input_bus_fmts) {
+-		u32 *in_bus_fmts;
+-
+-		*num_input_fmts = 1;
+-		in_bus_fmts = kmalloc(sizeof(*in_bus_fmts), GFP_KERNEL);
+-		if (!in_bus_fmts)
+-			return NULL;
+-
+-		in_bus_fmts[0] = MEDIA_BUS_FMT_FIXED;
+-
+-		return in_bus_fmts;
+-	}
+-
+-	prev_bridge_state = drm_atomic_get_new_bridge_state(crtc_state->state,
+-							    prev_bridge);
+-
+-	return prev_bridge->funcs->atomic_get_input_bus_fmts(prev_bridge, prev_bridge_state,
+-							     crtc_state, conn_state, output_fmt,
+-							     num_input_fmts);
+-}
+-
+ static const struct drm_bridge_funcs display_connector_bridge_funcs = {
+ 	.attach = display_connector_attach,
+ 	.detect = display_connector_detect,
+ 	.edid_read = display_connector_edid_read,
+ 	.atomic_get_output_bus_fmts = display_connector_get_output_bus_fmts,
+-	.atomic_get_input_bus_fmts = display_connector_get_input_bus_fmts,
++	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
+
+base-commit: 62c97045b8f720c2eac807a5f38e26c9ed512371
 -- 
-Neil
+2.34.1
 
