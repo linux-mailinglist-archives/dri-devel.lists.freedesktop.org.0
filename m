@@ -2,103 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E336F917F13
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 13:01:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60693917F1C
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 13:03:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 490F910E835;
-	Wed, 26 Jun 2024 11:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E70A89EAE;
+	Wed, 26 Jun 2024 11:03:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="y+hbQi6f";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="bTj1t/Rl";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sQHageCT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout7-smtp.messagingengine.com (fout7-smtp.messagingengine.com
- [103.168.172.150])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 183DC10E835
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 11:01:18 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailfout.nyi.internal (Postfix) with ESMTP id C36871380616;
- Wed, 26 Jun 2024 07:01:16 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
- by compute5.internal (MEProxy); Wed, 26 Jun 2024 07:01:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
- h=cc:cc:content-type:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm2; t=1719399676; x=
- 1719486076; bh=7LLzzLKumALaPFP/IGgEr7VN/xdA8f8Ws+em32VpKG0=; b=y
- +hbQi6fy20SLHZLMqmFxy02tmoERLXEwCsNehwfEA4r7UpBzqp0jDn3mARwYsFoF
- XB6jGt0g1O0Q9CGTdYLIl5b6nsn35V9DFZ/JG/pFjNmOE9PAItdTn45kBTawWR38
- t/LRN47/xSlRzscP5rkt02KYhuO0AWBAPLWXQ90k1xvE+VQQ/qCDI8gZIPQf2w16
- yOZvYTSbyRZObUsKitQSUJ1WK6pW5tYIH7ABnDMgNCautf++dGMHeaAMOGFFR14L
- rKZ7lbFagaWf0hRdeNMaR+7iIof29B6lpbl+cm2htRVVwOyyNmxduUO2pJW4jxpv
- 1y48vMEYocxslHCI0vFCw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1719399676; x=1719486076; bh=7LLzzLKumALaPFP/IGgEr7VN/xdA
- 8f8Ws+em32VpKG0=; b=bTj1t/RlO6BrH5+pHDkSk4EVacpvGe15LaWuovt//DnH
- JXVy+KtF0Yo6DpxYGgyBgaQVFlEaameJ3FLD0HJhlhRilIkgcSEF8xQIPnKTLSVx
- t34iDPj3+ftIWqsx0GTbsFoZxxZXlnJbZo4YkzwHGa1teyungXH4spih4etnPgyp
- X3zw7jeWbKeGbcRrwCl3FcNoFqI72zdM6Ndx72QOUUtd7QvvLldNxTUvuPePLybe
- 7DLVzhohMO4h5VEATyND2zo7aOygux7SenC8k3NKBnCMP0GnyGn/+ffTyrKjpRA5
- j7OhlZsMylNwlC7q1/Z5y2gaDhey6znMT48uyyUePA==
-X-ME-Sender: <xms:-_R7ZpXsNBq6g0bVBgnU4dlNz7QWTy9KEQQ4jPeS5QbovCVpdwLDdA>
- <xme:-_R7Zpm1aEwZzHPuRhb2NaMOOBUISA4zwlQL60ZfVB4CTFqGYPtQ-QDwf_JhIPq6Y
- RWmIs0VNtoqVL1oKQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrtddvgdefhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfthigr
- nhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenucggtf
- frrghtthgvrhhnpeejvddugeeijeehtedujeekffeiieeghfevieetkeejkefgveekvdei
- tdetvdetudenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgrshht
- rdgtohhm
-X-ME-Proxy: <xmx:-_R7ZlYgKapHe2zoCY-7vhmsA1yhxlQW2bw3ZPk0MmxIFQOJDwKl8w>
- <xmx:-_R7ZsV0uw7PYzicxOibg0yGUFG0quaGkibUyPNUhKPCEem3jv8OBQ>
- <xmx:-_R7Zjl6mWgMOj0zjX1vHXupoaNCdAEzv4KddXI5ACQ9X4OhyViozw>
- <xmx:-_R7ZpfcmgiGRUvRth2J1x-yKsUDHYoQ9xAcKPt-d8RkGT4b6Fxd9g>
- <xmx:_PR7Zmr9a66z9LYgEz8mvfS3TebovftlffJVmSj5vQdeEb8Ar0LwiaN->
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 7B2A4A6007A; Wed, 26 Jun 2024 07:01:15 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-538-g1508afaa2-fm-20240616.001-g1508afaa
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5013C89EAE
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 11:03:07 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi
+ [91.158.144.210])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6518B73E;
+ Wed, 26 Jun 2024 13:02:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1719399762;
+ bh=gERsFsx3DJe83rNhhgOflhiyJKqXYtpDKlgawOY9RbU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=sQHageCTN2xmcHbf6GAEwH76sr8ygHpPPR7qCMditF8fabynud86CT8pAb3dbgCsS
+ n9PUAw5zGxnZKojpQuI3HZCcFXUZAfpkWBNJhSg2fPs5tUkZclpyB/uGp5qy/+bhau
+ WGP+nFaKC8EkkP4N/dyJYnfxpE1T9Vg0L8Q6m54Q=
+Message-ID: <11bf22b8-4a5a-4c9b-8c78-0454165ae711@ideasonboard.com>
+Date: Wed, 26 Jun 2024 14:03:01 +0300
 MIME-Version: 1.0
-Message-Id: <e1f21076-4562-42db-a621-e81ab309a52e@app.fastmail.com>
-In-Reply-To: <0c03b9ff-a1e7-495e-a294-198d9a6878ca@linaro.org>
-References: <20240530211415.44201-1-ryan@testtoast.com>
- <20240530211415.44201-3-ryan@testtoast.com>
- <20240606-intelligent-aromatic-magpie-80a7a4@houat>
- <2dc1fdec-7673-4462-abe1-fecf8e3e826b@linaro.org>
- <20240606-refreshing-cinnamon-ibex-a0fe73@houat>
- <20240606-authentic-mongoose-9485904a91a1@spud>
- <20240618-silky-holistic-oyster-bf59fe@houat>
- <20240618-reverse-kinship-7f8df8c8e111@wendy>
- <eb50b8d3-b56d-42b2-a277-02a255b2d6c0@linaro.org>
- <20240626-agate-ibex-of-effort-c72ebc@houat>
- <5f989c7d-fb70-4e13-a1e9-86fc6326d633@app.fastmail.com>
- <0c03b9ff-a1e7-495e-a294-198d9a6878ca@linaro.org>
-Date: Wed, 26 Jun 2024 23:00:55 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Maxime Ripard" <mripard@kernel.org>
-Cc: "Conor Dooley" <conor.dooley@microchip.com>,
- "Conor Dooley" <conor@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, "Jessica Zhang" <quic_jesszhan@quicinc.com>,
- "Sam Ravnborg" <sam@ravnborg.org>, "David Airlie" <airlied@gmail.com>,
- "Daniel Vetter" <daniel@ffwll.ch>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Hironori KIKUCHI" <kikuchan98@gmail.com>,
- "Chris Morgan" <macroalpha82@gmail.com>,
- "Andre Przywara" <andre.przywara@arm.com>, "John Watts" <contact@jookia.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: panel: Add WL-355608-A8 panel
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 07/11] drm/bridge: cdns-dsi: Reset the DCS write FIFO
+To: Aradhya Bhatia <a-bhatia1@ti.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Dominik Haller <d.haller@phytec.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Thierry Reding <treding@nvidia.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ Jai Luthra <j-luthra@ti.com>
+References: <20240622110929.3115714-1-a-bhatia1@ti.com>
+ <20240622110929.3115714-8-a-bhatia1@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240622110929.3115714-8-a-bhatia1@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,19 +116,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Jun 2024, at 9:16 PM, Neil Armstrong wrote:
-> Well anbernic is not the wl-355608-a8 panel manufaturer, so as Maxime 
-> is suggesting to use the
-> name of the device where the panel is found like 
-> anbernic,rg353v-panel-v2 as submitted
-> in 
-> https://lore.kernel.org/all/20230426143213.4178586-2-macroalpha82@gmail.com/
-Show quoted text
+On 22/06/2024 14:09, Aradhya Bhatia wrote:
+> If any normal DCS write command has already been transmitted prior to
+> transmitting any Zero-Parameter DCS command, then it is necessary to
+> clear the TX FIFO by resetting it. Otherwise, the FIFO points to another
+> location, and the DCS command transmits unnecessary data causing the
+> panel to not work[0].
+> 
+> Allow the DCS Write FIFO in the cdns-dsi controller to reset as a rule,
+> before any DCS packet is transmitted to the DSI peripheral.
+> 
+> [0]: Section 12.6.5.7.5.2: "Command Mode Settings" in TDA4VM Technical
+>       Reference Manual: https://www.ti.com/lit/zip/spruil1
 
-Understood thanks. I have no strong feelings either, using the device name is sensible. Will prepare a patch.
+Hmm so if I read the doc right, it says: if sending zero-parameter dcs 
+command, clear the FIFO and write zero to direct_cmd_wrdat.
 
-Regards,
+Your patch seems to always clear the FIFO, not only for zero-parameter 
+commands. Is that a problem (I don't think so, but...)?
 
-Ryan 
+Also, is the direct_cmd_wrdat written at all when sending zero-parameter 
+dcs command?
 
-(apologies, replying-all this time)
+  Tomi
+
+> 
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> ---
+>   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> index 126e4bccd868..cad0c1478ef0 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> @@ -1018,6 +1018,9 @@ static ssize_t cdns_dsi_transfer(struct mipi_dsi_host *host,
+>   
+>   	cdns_dsi_init_link(dsi);
+>   
+> +	/* Reset the DCS Write FIFO */
+> +	writel(0x00, dsi->regs + DIRECT_CMD_FIFO_RST);
+> +
+>   	ret = mipi_dsi_create_packet(&packet, msg);
+>   	if (ret)
+>   		goto out;
+
