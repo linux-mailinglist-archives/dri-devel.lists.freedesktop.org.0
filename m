@@ -2,36 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45407917D44
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 12:06:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83DF8917D57
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 12:10:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D005510E81D;
-	Wed, 26 Jun 2024 10:06:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C062710E829;
+	Wed, 26 Jun 2024 10:10:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lPdISokD";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UD/2tKea";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32EC510E81D
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 10:06:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E63110E829
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 10:10:44 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi
  [91.158.144.210])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 963882C5;
- Wed, 26 Jun 2024 12:06:11 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 78BF82C5;
+ Wed, 26 Jun 2024 12:10:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1719396372;
- bh=DJ2QP0BaVusK1ZEM98l1QNG5qOn3csmrosSZGE+PPr8=;
+ s=mail; t=1719396620;
+ bh=QH8ed0HJ09rIkerYVawoksMef/aqK3FmuRkiurAYgNI=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lPdISokDpNVRl5+YV68dIQbOZNjTXHlF4StquoOHvZ8DEzxobbYoqAetIgGOHtUqa
- Bza7A/qVWYNM9a8J+ERQ7WVeWe+Eu5gpPxToe3jnpear/jPMs5JS5ZkWMnSd2yH+dO
- RU39NwbeuV/yjNUBbfwezoIx4bqer/9850SBuXG4=
-Message-ID: <5b52e560-1fca-4824-9f80-91526bf25062@ideasonboard.com>
-Date: Wed, 26 Jun 2024 13:06:31 +0300
+ b=UD/2tKeazJRFCKDVAMWMfkAYs5/ZBeYWYsUM+e8FDHl1Te3Dk0Vh8WglO/N55Xbx0
+ XGZOpdBhwZfhUR2lEVjIrT+S9leL4vrajUMsABAVMO/CnH7vwFXicsTqr4Lw9l6CQQ
+ ibbKIm8ukyeDCxIGacasoTwGiqWT+JyZKbD+KcoM=
+Message-ID: <676e4acc-3999-4042-bace-2ba1ab1c3943@ideasonboard.com>
+Date: Wed, 26 Jun 2024 13:10:39 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 01/11] drm/bridge: cdns-dsi: Fix OF node pointer
+Subject: Re: [PATCH v4 02/11] drm/bridge: cdns-dsi: Move to
+ devm_drm_of_get_bridge()
 To: Aradhya Bhatia <a-bhatia1@ti.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -52,7 +53,7 @@ Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
  Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
  Jai Luthra <j-luthra@ti.com>
 References: <20240622110929.3115714-1-a-bhatia1@ti.com>
- <20240622110929.3115714-2-a-bhatia1@ti.com>
+ <20240622110929.3115714-3-a-bhatia1@ti.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -98,7 +99,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240622110929.3115714-2-a-bhatia1@ti.com>
+In-Reply-To: <20240622110929.3115714-3-a-bhatia1@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,47 +117,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
 On 22/06/2024 14:09, Aradhya Bhatia wrote:
-> Fix the OF node pointer passed to the of_drm_find_bridge() call to find
-> the next bridge in the display chain.
+> Instead of manually finding the next bridge/panel, and maintaining the
+> panel-bridge (in-case the next entity is a panel), switch to using the
+> automatically managing devm_drm_of_get_bridge() API.
 > 
-> To find the next bridge in the pipeline, we need to pass "np" - the OF
-> node pointer of the next entity in the devicetree chain. Passing
-> "of_node" to of_drm_find_bridge will make the function try to fetch the
-> bridge for the cdns-dsi which is not what's required.
+> Drop the drm_panel support completely from the driver while at it.
 > 
-> Fix that.
-
-The code looks fine, but I'd write the subject and desc from a different 
-perspective. The subject could be something like "Fix connecting to a 
-sink bridge", and the desc could first say that connecting the sink to a 
-DSI panel works, but connecting to a bridge fails, as wrong OF node is 
-passed to of_drm_find_bridge().
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
 
-> Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 > ---
->   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 28 ++-----------------
+>   .../gpu/drm/bridge/cadence/cdns-dsi-core.h    |  2 --
+>   2 files changed, 3 insertions(+), 27 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> index 7457d38622b0..b016f2ba06bb 100644
+> index b016f2ba06bb..5159c3f0853e 100644
 > --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 > +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> @@ -952,7 +952,7 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
->   		bridge = drm_panel_bridge_add_typed(panel,
->   						    DRM_MODE_CONNECTOR_DSI);
->   	} else {
-> -		bridge = of_drm_find_bridge(dev->dev.of_node);
-> +		bridge = of_drm_find_bridge(np);
->   		if (!bridge)
->   			bridge = ERR_PTR(-EINVAL);
->   	}
+> @@ -920,8 +920,6 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
+>   	struct cdns_dsi_output *output = &dsi->output;
+>   	struct cdns_dsi_input *input = &dsi->input;
+>   	struct drm_bridge *bridge;
+> -	struct drm_panel *panel;
+> -	struct device_node *np;
+>   	int ret;
+>   
+>   	/*
+> @@ -939,26 +937,10 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
+>   	/*
+>   	 * The host <-> device link might be described using an OF-graph
+>   	 * representation, in this case we extract the device of_node from
+> -	 * this representation, otherwise we use dsidev->dev.of_node which
+> -	 * should have been filled by the core.
+> +	 * this representation.
+>   	 */
+> -	np = of_graph_get_remote_node(dsi->base.dev->of_node, DSI_OUTPUT_PORT,
+> -				      dev->channel);
+> -	if (!np)
+> -		np = of_node_get(dev->dev.of_node);
+> -
+> -	panel = of_drm_find_panel(np);
+> -	if (!IS_ERR(panel)) {
+> -		bridge = drm_panel_bridge_add_typed(panel,
+> -						    DRM_MODE_CONNECTOR_DSI);
+> -	} else {
+> -		bridge = of_drm_find_bridge(np);
+> -		if (!bridge)
+> -			bridge = ERR_PTR(-EINVAL);
+> -	}
+> -
+> -	of_node_put(np);
+> -
+> +	bridge = devm_drm_of_get_bridge(dsi->base.dev, dsi->base.dev->of_node,
+> +					DSI_OUTPUT_PORT, dev->channel);
+>   	if (IS_ERR(bridge)) {
+>   		ret = PTR_ERR(bridge);
+>   		dev_err(host->dev, "failed to add DSI device %s (err = %d)",
+> @@ -968,7 +950,6 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
+>   
+>   	output->dev = dev;
+>   	output->bridge = bridge;
+> -	output->panel = panel;
+>   
+>   	/*
+>   	 * The DSI output has been properly configured, we can now safely
+> @@ -984,12 +965,9 @@ static int cdns_dsi_detach(struct mipi_dsi_host *host,
+>   			   struct mipi_dsi_device *dev)
+>   {
+>   	struct cdns_dsi *dsi = to_cdns_dsi(host);
+> -	struct cdns_dsi_output *output = &dsi->output;
+>   	struct cdns_dsi_input *input = &dsi->input;
+>   
+>   	drm_bridge_remove(&input->bridge);
+> -	if (output->panel)
+> -		drm_panel_bridge_remove(output->bridge);
+>   
+>   	return 0;
+>   }
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+> index ca7ea2da635c..5db5dbbbcaad 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+> @@ -10,7 +10,6 @@
+>   
+>   #include <drm/drm_bridge.h>
+>   #include <drm/drm_mipi_dsi.h>
+> -#include <drm/drm_panel.h>
+>   
+>   #include <linux/bits.h>
+>   #include <linux/completion.h>
+> @@ -21,7 +20,6 @@ struct reset_control;
+>   
+>   struct cdns_dsi_output {
+>   	struct mipi_dsi_device *dev;
+> -	struct drm_panel *panel;
+>   	struct drm_bridge *bridge;
+>   	union phy_configure_opts phy_opts;
+>   };
 
