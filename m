@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C14791778B
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 06:43:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42139917719
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 06:05:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED71D10E2DF;
-	Wed, 26 Jun 2024 04:43:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B4010E0DB;
+	Wed, 26 Jun 2024 04:05:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="bHmy4ck3";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="q1Nm6DTx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 627DF10E308
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 04:43:55 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id E2C6588216;
- Wed, 26 Jun 2024 06:43:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1719377033;
- bh=wHsCJ7cXXMGa53gYSWW0zqOnC+G2BYCtot9U3pF7cT8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=bHmy4ck3zc/2UlTKIGzenh88GD81bpiDUp4bFkMUGQK9Vgdt1M0IEb0mPSQtQNPxn
- qIDt5Cxgpqi8yMZJI9mcgBAMN7PK/9/JRQlGcULqDkNuyeLQHHoKhtw6ctDMvsbBIX
- bvTeAFkkdVOz4hAUawo/86tGQTpUaI/Ideo0icTsLgAEVNQc65t5CKHf2dGx1CF9aH
- H1XZF6C9Vj011I4I8ia39TxF/YNcHQXpkTE38jcfs4InGMg8NePzQ4fe3PBv6Z4Fni
- zAteAzxCjE1/sMmUp35A2FYEYm8V4/os1tEHaHQjcxA8ek33etgcywCJ4HLn6QgfdM
- lmu3yHgFkgLFA==
-Message-ID: <f90aa303-f18b-4cca-bb7a-f94f74dfee36@denx.de>
-Date: Wed, 26 Jun 2024 05:21:39 +0200
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
+ [136.143.188.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E42A10E0DB;
+ Wed, 26 Jun 2024 04:05:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1719374714; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=CAPa6Aj2Y2HL8mzZc5fV6ECiVYcsMgX66jazEIYBV/U0ZJVgH5HhrsMjUldKgJm21nhShjfxMkUiAFhqU99d/9AOCRAboVDwgVhiIDmG0AFbmqUpF00G8CnL9JTOMr7+KjUXXT8gTE0LAOGfYez0Vb7+UwhAmDxn+nHJEr5Ez0E=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1719374714;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=hhGijfId24GEBbrm7ReBatnnsh5MHanQyyCxdVZJ9dk=; 
+ b=ET+Xy4rjWl8lIgVMo1YpFVOc73DNVF/bXgNRjtVR4X/JHvcVfL15PnUWajHIgQs9z9LB+uri2vC8mpGbZl0TWiijr8Yh+Rq6PydP0bzFKySdvuTYjHT85IVVut6aeJe7T0UScwa2XYk4PKezoiVGS3WlZLkWRFhiWP8WK98GMgw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1719374714; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=hhGijfId24GEBbrm7ReBatnnsh5MHanQyyCxdVZJ9dk=;
+ b=q1Nm6DTxMt9IMOw5XHuS3wiQ4Y1E0zWjGVEhCb8WlRbdHtoyUwDuh8y/I+jKz5o0
+ 4ZLEnzc5C3FBLRjJxQm9iNwALdvgWqmZR8UMr6qttW5coeXx8ADw23DxMGp/6M1fEAZ
+ xVo/zdj4YiXfPENUXeBnEV7ZbKtHB+3aSA8VZxf6dKMialiur8WebXS49N5HeaX7BW6
+ zonSs57cDlAZPJhE1zX8sGq4pJMGQJ5XNmv5O8U3DK5RwTOsIWTOsRdPbCilH37lnFQ
+ 7d9lj/BbEGe9WCizjRQYTwVX24SyzlyhhvA9Zjr0N5X1fkxZTXKmNT84LHZqpUhTmLo
+ 6rsMXNXlrA==
+Received: by mx.zohomail.com with SMTPS id 1719374711329932.3771169735762;
+ Tue, 25 Jun 2024 21:05:11 -0700 (PDT)
+Message-ID: <a2c38e7479610ea9a325be3b08897dbe5e18887d.camel@icenowy.me>
+Subject: Re: [etnaviv-next v14 0/8] drm/etnaviv: Add driver wrapper for
+ vivante GPUs attached on PCI(e) device
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>, linux-kernel@vger.kernel.org, 
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Date: Wed, 26 Jun 2024 12:05:07 +0800
+In-Reply-To: <2e7a6d8defc84073a204a2071d834d87012a0f7d.camel@pengutronix.de>
+References: <20240519165321.2123356-1-sui.jingfeng@linux.dev>
+ <19acb7b11ed22a0a87694b2e74807b82e3b5450e.camel@icenowy.me>
+ <2e7a6d8defc84073a204a2071d834d87012a0f7d.camel@pengutronix.de>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] drm: bridge: samsung-dsim: Initialize bridge on
- attach
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org
-Cc: Adam Ford <aford173@gmail.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Maxime Ripard <mripard@kernel.org>, Michael Walle <mwalle@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
-References: <20240625122824.148163-1-marex@denx.de>
- <4603431.cEBGB3zze1@steina-w>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <4603431.cEBGB3zze1@steina-w>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,115 +74,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/25/24 4:37 PM, Alexander Stein wrote:
-> Hi Marek,
+=E5=9C=A8 2024-06-25=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 14:01 +0200=EF=BC=
+=8CLucas Stach=E5=86=99=E9=81=93=EF=BC=9A
+> Am Dienstag, dem 25.06.2024 um 11:18 +0800 schrieb Icenowy Zheng:
+> > =E5=9C=A8 2024-05-20=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 00:53 +0800=EF=
+=BC=8CSui Jingfeng=E5=86=99=E9=81=93=EF=BC=9A
+> > > drm/etnaviv use the component framework to bind multiple GPU
+> > > cores to
+> > > a
+> > > virtual master, the virtual master is manually create during
+> > > driver
+> > > load
+> > > time. This works well for various SoCs, yet there are some PCIe
+> > > card
+> > > has
+> > > the vivante GPU cores integrated. The driver lacks the support
+> > > for
+> > > PCIe
+> > > devices currently.
+> > >=20
+> > > Adds PCIe driver wrapper on the top of what drm/etnaviv already
+> > > has,
+> > > the
+> > > component framework is still being used to bind subdevices, even
+> > > though
+> > > there is only one GPU core. But the process is going to be
+> > > reversed,
+> > > we
+> > > create virtual platform device for each of the vivante GPU IP
+> > > core
+> > > shipped
+> > > by the PCIe master. The PCIe master is real, bind all the virtual
+> > > child
+> > > to the master with component framework.
+> > >=20
+> > >=20
+> > > v6:
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Fix build issue on =
+system without CONFIG_PCI enabled
+> > > v7:
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add a separate patc=
+h for the platform driver
+> > > rearrangement
+> > > (Bjorn)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Switch to runtime c=
+heck if the GPU is dma coherent or
+> > > not
+> > > (Lucas)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add ETNAVIV_PARAM_G=
+PU_COHERENT to allow userspace to
+> > > query
+> > > (Lucas)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Remove etnaviv_gpu.=
+no_clk member (Lucas)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Fix Various typos a=
+nd coding style fixed (Bjorn)
+> > > v8:
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Fix typos and remov=
+e unnecessary header included
+> > > (Bjorn).
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add a dedicated fun=
+ction to create the virtual master
+> > > platform
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 device.
+> > > v9:
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Use PCI_VDEVICE() m=
+acro (Bjorn)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add trivial stubs f=
+or the PCI driver (Bjorn)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Remove a redundant =
+dev_err() usage (Bjorn)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Clean up etnaviv_pd=
+ev_probe() with
+> > > etnaviv_of_first_available_node()
+> > > v10:
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add one more cleanu=
+p patch
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Resolve the conflic=
+t with a patch from Rob
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Make the dummy PCI =
+stub inlined
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Print only if the p=
+latform is dma-coherrent
+> > > V11:
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Drop unnecessary ch=
+anges (Lucas)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Tweak according to =
+other reviews of v10.
+> > >=20
+> > > V12:
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Create a virtual pl=
+atform device for the subcomponent
+> > > GPU
+> > > cores
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Bind all subordinat=
+e GPU cores to the real PCI master
+> > > via
+> > > component.
+> > >=20
+> > > V13:
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Drop the non-compon=
+ent code path, always use the
+> > > component
+> > > framework
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 to bind subcom=
+ponent GPU core. Even though there is
+> > > only
+> > > one core.
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Defer the irq handl=
+er register.
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Rebase and improve =
+the commit message
+> > >=20
+> > > V14:
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Rebase onto etnaviv=
+-next and improve commit message.
+> > >=20
+> > > Tested with JD9230P GPU and LingJiu GP102 GPU.
+> >=20
+> > BTW how should VRAM and displayed related parts be handled on these
+> > dGPUs?
+> >=20
+> The only way to handle VRAM properly would be to rewrite our GEM
+> internals using TTM.
 
-Hi,
+I suggest for these kind of dGPU to create a brand new driver instead.
 
-> Am Dienstag, 25. Juni 2024, 14:26:10 CEST schrieb Marek Vasut:
->> Initialize the bridge on attach already, to force lanes into LP11
->> state, since attach does trigger attach of downstream bridges which
->> may trigger (e)DP AUX channel mode read.
->>
->> This fixes a corner case where DSIM with TC9595 attached to it fails
->> to operate the DP AUX channel, because the TC9595 enters some debug
->> mode when it is released from reset without lanes in LP11 mode. By
->> ensuring the DSIM lanes are in LP11, the TC9595 (tc358767.c driver)
->> can be reset in its attach callback called from DSIM attach callback,
->> and recovered out of the debug mode just before TC9595 performs first
->> AUX channel access later in its attach callback.
->>
->> Signed-off-by: Marek Vasut <marex@denx.de>
->> ---
->> Cc: Adam Ford <aford173@gmail.com>
->> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
->> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
->> Cc: Inki Dae <inki.dae@samsung.com>
->> Cc: Jagan Teki <jagan@amarulasolutions.com>
->> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
->> Cc: Jonas Karlman <jonas@kwiboo.se>
->> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
->> Cc: Lucas Stach <l.stach@pengutronix.de>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Michael Walle <mwalle@kernel.org>
->> Cc: Neil Armstrong <neil.armstrong@linaro.org>
->> Cc: Robert Foss <rfoss@kernel.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: kernel@dh-electronics.com
->> ---
->> V2: Handle case where mode is not set yet
->> ---
->>   drivers/gpu/drm/bridge/samsung-dsim.c | 32 ++++++++++++++++++++-------
->>   1 file changed, 24 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
->> index e7e53a9e42afb..22d3bbd866d97 100644
->> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
->> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
->> @@ -699,20 +699,24 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
->>   
->>   static int samsung_dsim_enable_clock(struct samsung_dsim *dsi)
->>   {
->> -	unsigned long hs_clk, byte_clk, esc_clk, pix_clk;
->> +	unsigned long hs_clk, byte_clk, esc_clk;
->>   	unsigned long esc_div;
->>   	u32 reg;
->>   	struct drm_display_mode *m = &dsi->mode;
->>   	int bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
->>   
->> -	/* m->clock is in KHz */
->> -	pix_clk = m->clock * 1000;
->> -
->> -	/* Use burst_clk_rate if available, otherwise use the pix_clk */
->> +	/*
->> +	 * Use burst_clk_rate if available, otherwise use the mode clock
->> +	 * if mode is already set and available, otherwise fall back to
->> +	 * PLL input clock and operate in 1:1 lowest frequency mode until
->> +	 * a mode is set.
->> +	 */
->>   	if (dsi->burst_clk_rate)
->>   		hs_clk = samsung_dsim_set_pll(dsi, dsi->burst_clk_rate);
->> +	else if (m)	/* m->clock is in KHz */
->> +		hs_clk = samsung_dsim_set_pll(dsi, DIV_ROUND_UP(m->clock * 1000 * bpp, dsi->lanes));
->>   	else
->> -		hs_clk = samsung_dsim_set_pll(dsi, DIV_ROUND_UP(pix_clk * bpp, dsi->lanes));
->> +		hs_clk = dsi->pll_clk_rate;
->>   
-> 
-> I can't reproduce that mentioned corner case and presumably this problem
-> does not exist otherwise. If samsung,burst-clock-frequency is unset I get
-> a sluggish image on the monitor.
-> 
-> It seems the calculation is using a adjusted clock frequency:
-> samsung-dsim 32e60000.dsi: Using pixel clock for HS clock frequency
-> samsung-dsim 32e60000.dsi: [drm:samsung_dsim_host_attach [samsung_dsim]] Attached tc358767 device (lanes:4 bpp:24 mode-flags:0xc03)
-> samsung-dsim 32e60000.dsi: PLL ref clock freq 24000000
-> samsung-dsim 32e60000.dsi: failed to find PLL PMS for requested frequency
-> samsung-dsim 32e60000.dsi: failed to configure DSI PLL
-> samsung-dsim 32e60000.dsi: PLL ref clock freq 24000000
-> samsung-dsim 32e60000.dsi: PLL freq 883636363, (p 11, m 810, s 1)
-> samsung-dsim 32e60000.dsi: hs_clk = 883636363, byte_clk = 110454545, esc_clk = 9204545
-> samsung-dsim 32e60000.dsi: calculated hfp: 60, hbp: 105, hsa: 27
-> samsung-dsim 32e60000.dsi: LCD size = 1920x1080
-> 
-> 891 MHz is the nominal one for 148.5 MHz pixelclock. But even setting
-> samsung,burst-clock-frequency to 891 MHz results in a sluggish image.
-> Maybe this usecase is nothing I need to consider while using DSI-DP
-> with EDID timings available.
-> 
-> As the burst clock needs to provide more bandwidth than actually needed,
-> I consider this a different usecase not providing
-> samsung,burst-clock-frequency for DSI->DP usage.
-> 
-> But the initialization upon attach is working intended, so:
-> Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+BTW, Jingfeng, what's the situation of the Loongson 7A1000 GPU? Do it
+share the same address space with the CPU?
 
-Thank you for testing and keeping up with this. I will wait for more 
-feedback if there is any (Frieder? Lucas? Michael?). If there are no 
-objections, then I can merge it in a week or two ?
+(The display of 7A is another virtual PCI device that is already
+handled in loongson-drm driver and don't need to be worried)
+
+>=20
+> Regards,
+> Lucas
+>=20
+> > >=20
+> > > Sui Jingfeng (8):
+> > > =C2=A0 drm/etnaviv: Add a dedicated helper function to get various
+> > > clocks
+> > > =C2=A0 drm/etnaviv: Add constructor and destructor for the
+> > > =C2=A0=C2=A0=C2=A0 etnaviv_drm_private structure
+> > > =C2=A0 drm/etnaviv: Embed struct drm_device into struct
+> > > etnaviv_drm_private
+> > > =C2=A0 drm/etnaviv: Fix wrong cache property being used for vmap()
+> > > =C2=A0 drm/etnaviv: Add support for cached coherent caching mode
+> > > =C2=A0 drm/etnaviv: Replace the '&pdev->dev' with 'dev'
+> > > =C2=A0 drm/etnaviv: Allow creating subdevices and pass platform
+> > > specific
+> > > data
+> > > =C2=A0 drm/etnaviv: Add support for vivante GPU cores attached via
+> > > PCIe
+> > > =C2=A0=C2=A0=C2=A0 device
+> > >=20
+> > > =C2=A0drivers/gpu/drm/etnaviv/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 8 +
+> > > =C2=A0drivers/gpu/drm/etnaviv/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 159 ++++++++++---
+> > > ---
+> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 27 +++
+> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 22 ++-
+> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |=C2=A0=C2=A0 2 +-
+> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gpu.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 144 +++++++++----
+> > > -
+> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gpu.h=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +
+> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_mmu.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
+> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c=C2=A0=C2=A0=C2=A0 | 1=
+87
+> > > +++++++++++++++++++
+> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 18 ++
+> > > =C2=A0include/uapi/drm/etnaviv_drm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > > =C2=A012 files changed, 468 insertions(+), 110 deletions(-)
+> > > =C2=A0create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
+> > > =C2=A0create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
+> > >=20
+> > >=20
+> > > base-commit: 52272bfff15ee70c7bd5be9368f175948fb8ecfd
+> >=20
+>=20
+
