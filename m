@@ -2,132 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369B2917B9B
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 11:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1303F917BA2
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 11:02:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC73110E7C7;
-	Wed, 26 Jun 2024 09:01:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4275710E7E1;
+	Wed, 26 Jun 2024 09:02:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="jd7kPMre";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3o4Y+Slo";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jd7kPMre";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3o4Y+Slo";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="k7LQ+avH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8682110E7C7
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 09:01:15 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 21BEE1FB47;
- Wed, 26 Jun 2024 09:01:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1719392472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HVj31ckt8JnhJ7GiAe4Udx+6fMLl11E+t6SLxmvmQrw=;
- b=jd7kPMreCOU3s1CxJ/ouaUtGS1Y3C4f7KOCSqPy6EQqfo4Dsyh11CxiO/pvLWRkcPgayyn
- aIE6YSHidVmm2u/qw2hzxhIvXyh0dAusQWXOnPTabpdliK8rX/XCZ/+N03G06l9Mx7VQHA
- pQfkVEL4BrEHf9qZWQ47f3XMEPzmkag=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1719392472;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HVj31ckt8JnhJ7GiAe4Udx+6fMLl11E+t6SLxmvmQrw=;
- b=3o4Y+Slop+k5+0zS6wzDgSukyYcAo6NPnfAoejylfFF9ZiWNj/lRA/s6AipLPVUT1LOvj6
- wT4mwDdr8YelYoBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1719392472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HVj31ckt8JnhJ7GiAe4Udx+6fMLl11E+t6SLxmvmQrw=;
- b=jd7kPMreCOU3s1CxJ/ouaUtGS1Y3C4f7KOCSqPy6EQqfo4Dsyh11CxiO/pvLWRkcPgayyn
- aIE6YSHidVmm2u/qw2hzxhIvXyh0dAusQWXOnPTabpdliK8rX/XCZ/+N03G06l9Mx7VQHA
- pQfkVEL4BrEHf9qZWQ47f3XMEPzmkag=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1719392472;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HVj31ckt8JnhJ7GiAe4Udx+6fMLl11E+t6SLxmvmQrw=;
- b=3o4Y+Slop+k5+0zS6wzDgSukyYcAo6NPnfAoejylfFF9ZiWNj/lRA/s6AipLPVUT1LOvj6
- wT4mwDdr8YelYoBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DA67A139C2;
- Wed, 26 Jun 2024 09:01:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id pD8QNNfYe2ZkaQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 26 Jun 2024 09:01:11 +0000
-Message-ID: <e4fe3aab-0b3f-42dd-916c-db15dd6b7646@suse.de>
-Date: Wed, 26 Jun 2024 11:01:11 +0200
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C946B10E7E5
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 09:02:38 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45Q92NJl080522;
+ Wed, 26 Jun 2024 04:02:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1719392543;
+ bh=54wAaIiD4m/ykE4XdWH2yMXSOmQcPrBTGoqUxFBoCqE=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=k7LQ+avHqscHnVOc0VdiAtB7B/JKvP5Qa3kwTIP7QuD2pscjy+QFvtvfkb31fzPdN
+ nFCmjNFTAhM1LKXywlGyn8qj3ytYVn0w4y0VUrxGKxHHPCNwPU/h4mhWBTcK96bYI/
+ UYPkAnRBhXxeQMVVsa3/7ON6xvoxGjA2PodelLtw=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45Q92NYJ086438
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 26 Jun 2024 04:02:23 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 26
+ Jun 2024 04:02:22 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 26 Jun 2024 04:02:22 -0500
+Received: from [172.24.227.31] (uda0496377.dhcp.ti.com [172.24.227.31])
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45Q92Gk9119268;
+ Wed, 26 Jun 2024 04:02:17 -0500
+Message-ID: <fb95b645-acf7-49a1-b938-a749b20003d4@ti.com>
+Date: Wed, 26 Jun 2024 14:32:16 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ast: Inline drm_simple_encoder_init()
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: airlied@redhat.com, jfalempe@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-References: <20240625131815.14514-1-tzimmermann@suse.de>
- <n22c255ozkpnbvt45ugfgpqyjmebmgsjblduwurf6yr7ralffd@yvbrl4rsabea>
+Subject: Re: [PATCH] drm/bridge: display-connector: Fix
+ atomic_get_input_bus_fmt hook
+To: <neil.armstrong@linaro.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sam Ravnborg <sam@ravnborg.org>
+CC: DRI Development List <dri-devel@lists.freedesktop.org>, Linux Kernel List
+ <linux-kernel@vger.kernel.org>, Devarsh Thakkar <devarsht@ti.com>, Jayesh
+ Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>
+References: <20240625095049.328461-1-a-bhatia1@ti.com>
+ <1de36429-a27a-4244-8e39-4cb0b09b2689@linaro.org>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <n22c255ozkpnbvt45ugfgpqyjmebmgsjblduwurf6yr7ralffd@yvbrl4rsabea>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.24 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.15)[-0.760]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_CC(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org];
- RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCPT_COUNT_SEVEN(0.00)[8]; MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Score: -4.24
-X-Spam-Level: 
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+In-Reply-To: <1de36429-a27a-4244-8e39-4cb0b09b2689@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,74 +82,165 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 26.06.24 um 06:34 schrieb Dmitry Baryshkov:
-> On Tue, Jun 25, 2024 at 03:18:09PM GMT, Thomas Zimmermann wrote:
->> The function drm_simple_encoder_init() is a trivial helper and
->> deprecated. Replace it with the regular call to drm_encoder_init().
->> Resolves the dependency on drm_simple_kms_helper.h. No functional
->> changes.
+
+On 25/06/24 19:46, Neil Armstrong wrote:
+> On 25/06/2024 11:50, Aradhya Bhatia wrote:
+>> The display-connector acts as a pass-through bridge. To truly reflect
+>> that, this bridge should accept the same input format, as it expects to
+>> output. That in turn should be the same as what the preceding bridge has
+>> to output.
 >>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> While the get_output_fmt hook does exactly that by calling the same hook
+>> of the previous bridge, the get_input_fmt hook should simply propagate
+>> the expected output format as its required input format.
+>>
+>> Let's say bridge(n) converts YUV bus format to RGB before transmitting
+>> the video signals. B is supposed to be RGB and A is YUV. The
+>> get_input_fmt hook of bridge(n) should receive RGB as its expected
+>> output format for it to select YUV as its required input format.
+>>
+>> Moreover, since the display-connector is a pass-through bridge, X and Y
+>> should both be RGB as well.
+>>
+>>      +-------------+            +-------------+
+>> A   |             |   B    X   |             |   Y
+>> --->|  Bridge(n)  +--->    --->| Display     +--->
+>>      |             |            | Connector   |
+>>      |             |            |             |
+>>      +-------------+            +-------------+
+>>
+>> But that's not what's happening at the moment.
+>>
+>> The core will call get_output_fmt hook of display-connector, which will
+>> call the same hook of bridge(n). Y will get set to RGB because B is RGB.
+>>
+>> Now the core will call get_input_fmt hook of display-connector with Y =
+>> RGB as its expected output format. This hook will in turn call the
+>> get_input_fmt hook of bridge(n), with expected output as RGB. This hook
+>> will then return YUV as its required input format, which will set X =
+>> YUV.
+>>
+>> This is where things get off the track. The core will then call
+>> bridge(n)'s get_input_fmt hook but this time the expected output will
+>> have changed to X = YUV, instead of what ideally should have been X =
+>> RGB. We don't know how bridge(n)'s input format requirement will change
+>> now that its expected output format isn't RGB but YUV.
+>>
+>> Ideally, formats Y, X, B need to be the same and the get_input_fmt hook
+>> for bridge(n) should be called with these as its expected output format.
+>> Calling that hook twice can potentially change the expected output
+>> format - which can then change the required input format again, or it
+>> might just throw an -ENOTSUPP error.
+>>
+>> While many bridges don't utilize these APIs, or in a lot of cases A and
+>> B are same anyway, it is not the biggest problem, but one that should be
+>> fixed anyway.
+>>
+>> Fix this.
+>>
+>> Fixes: 7cd70656d128 ("drm/bridge: display-connector: implement bus
+>> fmts callbacks")
+>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 >> ---
->>   drivers/gpu/drm/ast/ast_mode.c | 45 ++++++++++++++++++++++++++++++----
->>   1 file changed, 40 insertions(+), 5 deletions(-)
+>>   drivers/gpu/drm/bridge/display-connector.c | 40 +---------------------
+>>   1 file changed, 1 insertion(+), 39 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
->> index 6695af70768f..2fd9c78eab73 100644
->> --- a/drivers/gpu/drm/ast/ast_mode.c
->> +++ b/drivers/gpu/drm/ast/ast_mode.c
->> @@ -45,7 +45,6 @@
->>   #include <drm/drm_managed.h>
->>   #include <drm/drm_panic.h>
->>   #include <drm/drm_probe_helper.h>
->> -#include <drm/drm_simple_kms_helper.h>
->>   
->>   #include "ast_ddc.h"
->>   #include "ast_drv.h"
->> @@ -1358,6 +1357,14 @@ static int ast_crtc_init(struct drm_device *dev)
->>   	return 0;
->>   }
->>   
->> +/*
->> + * VGA Encoder
->> + */
->> +
->> +static const struct drm_encoder_funcs ast_vga_encoder_funcs = {
->> +	.destroy = drm_encoder_cleanup,
->> +};
->> +
->>   /*
->>    * VGA Connector
->>    */
->> @@ -1411,7 +1418,8 @@ static int ast_vga_output_init(struct ast_device *ast)
->>   	struct drm_connector *connector = &ast->output.vga.connector;
->>   	int ret;
->>   
->> -	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
->> +	ret = drm_encoder_init(dev, encoder, &ast_vga_encoder_funcs,
->> +			       DRM_MODE_ENCODER_DAC, NULL);
-> What about using drmm_encoder_init() instead? It will call
-> drm_encoder_cleanup automatically.
+>> diff --git a/drivers/gpu/drm/bridge/display-connector.c
+>> b/drivers/gpu/drm/bridge/display-connector.c
+>> index ab8e00baf3f1..eebf1fbcdd23 100644
+>> --- a/drivers/gpu/drm/bridge/display-connector.c
+>> +++ b/drivers/gpu/drm/bridge/display-connector.c
+>> @@ -131,50 +131,12 @@ static u32
+>> *display_connector_get_output_bus_fmts(struct drm_bridge *bridge,
+>>                                     num_output_fmts);
+>>   }
+>>   -/*
+>> - * Since this bridge is tied to the connector, it acts like a
+>> passthrough,
+>> - * so concerning the input bus formats, either pass the bus formats
+>> from the
+>> - * previous bridge or MEDIA_BUS_FMT_FIXED (like
+>> select_bus_fmt_recursive())
+>> - * when atomic_get_input_bus_fmts is not supported.
+>> - * This supports negotiation if the bridge chain has all bits in place.
+>> - */
+>> -static u32 *display_connector_get_input_bus_fmts(struct drm_bridge
+>> *bridge,
+>> -                    struct drm_bridge_state *bridge_state,
+>> -                    struct drm_crtc_state *crtc_state,
+>> -                    struct drm_connector_state *conn_state,
+>> -                    u32 output_fmt,
+>> -                    unsigned int *num_input_fmts)
+>> -{
+>> -    struct drm_bridge *prev_bridge = drm_bridge_get_prev_bridge(bridge);
+>> -    struct drm_bridge_state *prev_bridge_state;
+>> -
+>> -    if (!prev_bridge ||
+>> !prev_bridge->funcs->atomic_get_input_bus_fmts) {
+>> -        u32 *in_bus_fmts;
+>> -
+>> -        *num_input_fmts = 1;
+>> -        in_bus_fmts = kmalloc(sizeof(*in_bus_fmts), GFP_KERNEL);
+>> -        if (!in_bus_fmts)
+>> -            return NULL;
+>> -
+>> -        in_bus_fmts[0] = MEDIA_BUS_FMT_FIXED;
+>> -
+>> -        return in_bus_fmts;
+>> -    }
+>> -
+>> -    prev_bridge_state =
+>> drm_atomic_get_new_bridge_state(crtc_state->state,
+>> -                                prev_bridge);
+>> -
+>> -    return prev_bridge->funcs->atomic_get_input_bus_fmts(prev_bridge,
+>> prev_bridge_state,
+>> -                                 crtc_state, conn_state, output_fmt,
+>> -                                 num_input_fmts);
+>> -}
+>> -
+>>   static const struct drm_bridge_funcs display_connector_bridge_funcs = {
+>>       .attach = display_connector_attach,
+>>       .detect = display_connector_detect,
+>>       .edid_read = display_connector_edid_read,
+>>       .atomic_get_output_bus_fmts =
+>> display_connector_get_output_bus_fmts,
+>> -    .atomic_get_input_bus_fmts = display_connector_get_input_bus_fmts,
+>> +    .atomic_get_input_bus_fmts =
+>> drm_atomic_helper_bridge_propagate_bus_fmt,
+>>       .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+>>       .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+>>       .atomic_reset = drm_atomic_helper_bridge_reset,
+>>
+>> base-commit: 62c97045b8f720c2eac807a5f38e26c9ed512371
+> 
+> This will break dw-hdmi YUV output negociation because returning
+> output_format
+> it won't even try to select something else than the connector output_fmt.
+> 
+> This is limitation of the bus_fmt negociation, it negociates in
+> backwards, but
+> if the last one uses bridge_propagate_bus_fmt, and a bridge before
+> depends on the
+> display support, it will be constrained by the first output_fmt.
+> 
 
-IIRC the original use case for the drmm_encoder_*() funcs was to solve 
-problems with the clean-up order if the encoder was added dynamically. 
-The hardware for ast is entirely static and ast uses 
-drmm_mode_config_init() for auto-cleaning up the modesetting pipeline. 
-Using drmm_encoder_init() seems like a bit of wasted resources for no gain.
+Thanks Neil!
 
-Best regards
-Thomas
+I haven't been able to completely understand your concern above, but
+here is what I was able to catch. Let me know if I missed something.
 
->
+Are you concerned that since dw-hdmi (drm/bridge/synopsis/dw-hdmi.c) has
+10+ output formats to offer, all of them won't be negotiated against the
+dw-hdmi's get_input_fmt(), but just the first output_fmt?
+Because the propagate_bus_fmt() API can only pass one format at a time?
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
 
+> a bridge before depends on the display support,
+
+Also, could you help me with what you mean here by 'display support'?
+
+
+Regards
+Aradhya
