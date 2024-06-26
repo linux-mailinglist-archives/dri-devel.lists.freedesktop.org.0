@@ -2,91 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69E01918B6D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 19:52:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B968D918DA8
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 19:56:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBB9410E97E;
-	Wed, 26 Jun 2024 17:52:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E908D10E982;
+	Wed, 26 Jun 2024 17:56:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="ioW4T2fz";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="QCflwIAS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D045710E978
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 17:52:30 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-367339ddcdeso37699f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 10:52:30 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CDC310E982
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 17:56:49 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-2ec5f72f073so3811061fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 10:56:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1719424349; x=1720029149; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=t8h+d1YS2lRYJVmm9UX7UTK0tKF7jVIiE4l199Xa8oo=;
- b=ioW4T2fzr/rw78aXmawB9t3M+BR4+hATJV2kdptGJk4UBkoroIpiycVF7mtbgX9Zhj
- x5MMPxQ8aQt7UVOJXWh2sd7ImeKJ9T2X6KR1J4kLgdDGn+gI1P6xKaLFsv4n7hENIP5H
- BVvWAV44Bk47IBXkx7xA3F7q6D0zfNpnNfA9g=
+ d=ffwll.ch; s=google; t=1719424607; x=1720029407; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=9ZM4co7+zgQAd1qBwWCVAAvV8TVVgRW2ezKZ6IWngwg=;
+ b=QCflwIASqAjCDWFEO1o0qKcG4TlNtSv+MtG3+QY7UVuG2yE0E9TSggkzcfQ6M+pjyD
+ w8jKsOYfqkmSneCOnkNZMksw5zlhekTe83vpCzNrujQ3pAjLQMVci4Fqyq4xolcby/tc
+ lAXIjC9B27PE93HN3sRqE3BrrUGhDEtaScVLk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719424349; x=1720029149;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=t8h+d1YS2lRYJVmm9UX7UTK0tKF7jVIiE4l199Xa8oo=;
- b=semLUatxFEOjPMOG5WH8wts8BLDus1YhVmZl1w3xVdz1j5lU6QekEw+CPOmxgvt7G2
- k29HZUb7/vOSsiwp+HoVM/ytrexfUifPv/bIAqDpZJSz6dQxJZfAHPPqm1e2nlSM6hHA
- 7fk/V0ewA5qAj4BRINSqlq+mKhLhCBuRTYOY8ORW+Q4UCB4yI733FbViRnAzF+BH7CRj
- rNx7kcsGgpeIj0wiMT6k1+pw3hNYvbFMSdiKXh4M/rqdyrOInTOKdwmCPhwXXGaXHw8m
- J03nfEml5HiUD5JnrfY8zzce/kAyxShK1Cso3bT3rxFB0yoGiOvUu6mM1HstkPJm8SUz
- ZsmA==
+ d=1e100.net; s=20230601; t=1719424607; x=1720029407;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9ZM4co7+zgQAd1qBwWCVAAvV8TVVgRW2ezKZ6IWngwg=;
+ b=N//p8WvNdHLtcryAExn4E7x914jHnqmvibcYQMHHxfDwpftLxLHIB+JLPtedH0bAoZ
+ 41ycR/gWIw06ipBNb1Gc+ZTeiAAV1aneARU8yPdJsCjyh3/lU423P9GN6clWbV7CYMdN
+ 7xdyNxAT8FvsPX4qjRljBexO2+xprF0lv9V+/n+IalzUHEQRmFA7qAG/2H470TJ10+ih
+ NE6ayg4Po6oop0w8eMCGb2yxWlnaNrG5adXO2wYje8gBUExkn/+9VJZTvsqNCiUI1odV
+ aJtTL9WdLIlGK/ldCzvnJo+E94totzCtkA/V0jZzmOkWJ0fYLObjccig2y8IGUg+SuVX
+ A4rw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVtK35gathbO9KTcoIGu26WgnZcVNb5mHYQTAimTmBMsfplloErwZXw2OzTOfmcKTmKe5rCn4pvwpGgovJM2Eq6CJBl3szqja4H8sJRJXSX
-X-Gm-Message-State: AOJu0Yzk+eizZA6c1WX3nWKfC06xCHYlSRXzTSozWcd/W+RhPi5pFfhC
- o9SponCBUZDXLKG4kgalPcorCit6Do3ufHO3DQ4G3PB6e8RqIBLqJ+2WERf1OWQ=
-X-Google-Smtp-Source: AGHT+IHziMriFU1IvsOiXYNLoJqYCMel+vAaYctnt6KK80gYjPlmHIUg0ZT4GOMRpR+pse+fG/yFGw==
-X-Received: by 2002:a05:600c:470f:b0:422:78c:82f6 with SMTP id
- 5b1f17b1804b1-42487ef1ef5mr100585725e9.3.1719424348980; 
- Wed, 26 Jun 2024 10:52:28 -0700 (PDT)
+ AJvYcCW2H1at3agQ7GgAmr6QWUfa1BIzNJvjQUZvhP9H5tgolpC9u8E8aucKaITDyZVMLHqyWcQRYjcbpa5+QGY5w0MhJOaaM99dGRyIK8ylbKsY
+X-Gm-Message-State: AOJu0YweTIjR9VdtVSWEa0VLu596I+S/ctr3uQPE//RmneyGFNjUUV4Z
+ jNdNcHYp4zmHRH2iaqAmhignJZIEA2eec6UHlpHIGaycRtKCtahdIAE0mMtuHYE=
+X-Google-Smtp-Source: AGHT+IHpT050wLlCJMuYquS/RZZlwvPNrgj194MZbf2u4dKv3AnFWfObCpyKJAMPQnTOJYHQGnJJZA==
+X-Received: by 2002:a2e:9903:0:b0:2ec:4176:dcaf with SMTP id
+ 38308e7fff4ca-2ec54ce1c2bmr76783881fa.3.1719424605371; 
+ Wed, 26 Jun 2024 10:56:45 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3670c4c1fb4sm3988958f8f.76.2024.06.26.10.52.28
+ 5b1f17b1804b1-424c84245f0sm34437855e9.33.2024.06.26.10.56.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jun 2024 10:52:28 -0700 (PDT)
-Date: Wed, 26 Jun 2024 19:52:26 +0200
+ Wed, 26 Jun 2024 10:56:44 -0700 (PDT)
+Date: Wed, 26 Jun 2024 19:56:42 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: Lucas Stach <l.stach@pengutronix.de>, Daniel Vetter <daniel@ffwll.ch>,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>, linux-kernel@vger.kernel.org,
- Oded Gabbay <ogabbay@kernel.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Daniel Stone <daniels@collabora.com>
-Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
-Message-ID: <ZnxVWrFJKbVO8PZ0@phenom.ffwll.local>
-Mail-Followup-To: Daniel Stone <daniel@fooishbar.org>,
- Lucas Stach <l.stach@pengutronix.de>,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>, linux-kernel@vger.kernel.org,
- Oded Gabbay <ogabbay@kernel.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Daniel Stone <daniels@collabora.com>
-References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
- <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
- <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
- <CAPj87rO7zyDsqUWnkF0pZeNFnNK2UnAVJy4RmB3jmPkKQ+zbEw@mail.gmail.com>
- <CAAObsKBm3D_3ctFyK-rfpM-PU6ox1yoaMA1EES9yR-nRmU4rYw@mail.gmail.com>
- <CAAObsKAt563VNzDcF4rGkWPcxBPzKcq=Hj5RY6K20FWR43nvUQ@mail.gmail.com>
- <ZnvDJVeT3rz-hnv9@phenom.ffwll.local>
- <7cee6b78bc2375d9b014f9671b0d72ae65eba73c.camel@pengutronix.de>
- <CAPj87rPB=N2vJ-5C7xXORYstK3=TpX+jZ7mCr7oxY2wpXeaTTQ@mail.gmail.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Jason-JH Lin =?utf-8?B?KOael+edv+elpSk=?= <Jason-JH.Lin@mediatek.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ Yong Wu =?utf-8?B?KOWQtOWLhyk=?= <Yong.Wu@mediatek.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "jstultz@google.com" <jstultz@google.com>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Jianjiao Zeng =?utf-8?B?KOabvuWBpeWnoyk=?= <Jianjiao.Zeng@mediatek.com>,
+ "willy@infradead.org" <willy@infradead.org>,
+ Kuohong Wang =?utf-8?B?KOeOi+Wci+m0uyk=?= <kuohong.wang@mediatek.com>,
+ "quic_vjitta@quicinc.com" <quic_vjitta@quicinc.com>,
+ "pavel@ucw.cz" <pavel@ucw.cz>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ "contact@emersion.fr" <contact@emersion.fr>,
+ "logang@deltatee.com" <logang@deltatee.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "jkardatzke@google.com" <jkardatzke@google.com>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+ "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+ "tjmercier@google.com" <tjmercier@google.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "joakim.bech@linaro.org" <joakim.bech@linaro.org>,
+ "ppaalanen@gmail.com" <ppaalanen@gmail.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>, 
+ Youlin Pei =?utf-8?B?KOijtOWPi+aelyk=?= <youlin.pei@mediatek.com>
+Subject: Re: [PATCH v5 2/9] scatterlist: Add a flag for the restricted memory
+Message-ID: <ZnxWWtdShekGSUif@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, 
+ Jason-JH Lin =?utf-8?B?KOael+edv+elpSk=?= <Jason-JH.Lin@mediatek.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ Yong Wu =?utf-8?B?KOWQtOWLhyk=?= <Yong.Wu@mediatek.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "jstultz@google.com" <jstultz@google.com>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Jianjiao Zeng =?utf-8?B?KOabvuWBpeWnoyk=?= <Jianjiao.Zeng@mediatek.com>,
+ "willy@infradead.org" <willy@infradead.org>,
+ Kuohong Wang =?utf-8?B?KOeOi+Wci+m0uyk=?= <kuohong.wang@mediatek.com>,
+ "quic_vjitta@quicinc.com" <quic_vjitta@quicinc.com>,
+ "pavel@ucw.cz" <pavel@ucw.cz>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ "contact@emersion.fr" <contact@emersion.fr>,
+ "logang@deltatee.com" <logang@deltatee.com>,
+ "jkardatzke@google.com" <jkardatzke@google.com>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+ "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+ "tjmercier@google.com" <tjmercier@google.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "joakim.bech@linaro.org" <joakim.bech@linaro.org>,
+ "ppaalanen@gmail.com" <ppaalanen@gmail.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>, 
+ Youlin Pei =?utf-8?B?KOijtOWPi+aelyk=?= <youlin.pei@mediatek.com>
+References: <20240515112308.10171-1-yong.wu@mediatek.com>
+ <20240515112308.10171-3-yong.wu@mediatek.com>
+ <98721904-003d-4d0d-8cfe-1cecdd59ce01@amd.com>
+ <779ce30a657754ff945ebd32b66e1c644635e84d.camel@mediatek.com>
+ <cef8f87d-edab-41d8-8b95-f3fc39ad7f74@amd.com>
+ <1050c44512374031d1349b5dced228d0efc3fbde.camel@mediatek.com>
+ <3104b765-5666-44e4-8788-f1b1b296fe17@amd.com>
+ <98c11bad7f40bcc79ed7a2039ddb3a46f99908f5.camel@mediatek.com>
+ <75dc1136-7751-4772-9fa7-dd9124684cd2@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAPj87rPB=N2vJ-5C7xXORYstK3=TpX+jZ7mCr7oxY2wpXeaTTQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <75dc1136-7751-4772-9fa7-dd9124684cd2@amd.com>
 X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -103,41 +160,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 26, 2024 at 11:39:01AM +0100, Daniel Stone wrote:
-> Hi,
+On Wed, Jun 26, 2024 at 12:49:02PM +0200, Christian König wrote:
+> Am 26.06.24 um 10:05 schrieb Jason-JH Lin (林睿祥):
+> > > > I think I have the same problem as the ECC_FLAG mention in:
+> > > > > > https://lore.kernel.org/linux-media/20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org/
+> > > > > > I think it would be better to have the user configurable private
+> > > > information in dma-buf, so all the drivers who have the same
+> > > > requirement can get their private information from dma-buf directly
+> > > > and
+> > > > no need to change or add the interface.
+> > > > > > What's your opinion in this point?
+> > >  > Well of hand I don't see the need for that.
+> > > > What happens if you get a non-secure buffer imported in your secure
+> > > device?
+> > 
+> > We use the same mediatek-drm driver for secure and non-secure buffer.
+> > If non-secure buffer imported to mediatek-drm driver, it's go to the
+> > normal flow with normal hardware settings.
+> > 
+> > We use different configurations to make hardware have different
+> > permission to access the buffer it should access.
+> > 
+> > So if we can't get the information of "the buffer is allocated from
+> > restricted_mtk_cma" when importing the buffer into the driver, we won't
+> > be able to configure the hardware correctly.
 > 
-> On Wed, 26 Jun 2024 at 09:28, Lucas Stach <l.stach@pengutronix.de> wrote:
-> > Mesa doesn't cope right now. Mostly because of the renderonly thing
-> > where we magically need to match render devices to otherwise render
-> > incapable KMS devices. The way this matching works is that the
-> > renderonly code tries to open a screen on a rendernode and if that
-> > succeeds we treat it as the matching render device.
-> >
-> > The core of the issue is that we have no way of specifying which kind
-> > of screen we need at that point, i.e. if the screen should have 3D
-> > render capabilities or if compute-only or even NN-accel-only would be
-> > okay. So we can't fail screen creation if there is no 3D engine, as
-> > this would break the teflon case, which needs a screen for the NN
-> > accel, but once we successfully create a screen reanderonly might treat
-> > the thing as a rendering device.
-> > So we are kind of stuck here between breaking one or the other use-
-> > case. I'm leaning heavily into the direction of just fixing Mesa, so we
-> > can specify the type of screen we need at creation time to avoid the
-> > renderonly issue, porting this change as far back as reasonably
-> > possible and file old userspace into shit-happens.
-> 
-> Yeah, honestly this sounds like the best solution to me too.
+> Why can't you get this information from userspace?
 
-Yeah mesa sounds kinda broken here ...
+Same reason amd and i915/xe also pass this around internally in the
+kernel, it's just that for those gpus the render and kms node are the same
+driver so this is easy.
 
-What might work in the kernel is if you publish a fake 3d engine that's
-too new for broken mesa, if that's enough to make it fail to bind? And if
-mesa still happily binds against that, then yeah it's probably too broken
-and we need etnaviv-v2 (as a drm driver uapi name, I think that's what
-mesa filters?) for anything new (including the NN-only ones).
+But on arm you have split designs everywhere and dma-buf import/export, so
+something else is needed. And neither current kms uapi nor
+protocols/extensions have provisions for this (afaik) because it works on
+the big gpus, and on android it's just hacked up with backchannels.
 
-I would still try to avoid that, but just in case someone screams about
-regressions.
+So yeah essentially I think we probably need something like this, as much
+as it sucks. I see it somewhat similar to handling pcip2pdma limitations
+in the kernel too.
+
+Not sure where/how it should be handled though, and maybe I've missed
+something around protocols, in which case I guess we should add some
+secure buffer flags to the ADDFB2 ioctl.
 -Sima
 -- 
 Daniel Vetter
