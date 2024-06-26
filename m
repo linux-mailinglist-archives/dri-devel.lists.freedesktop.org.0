@@ -2,103 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D675A917F3C
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 13:09:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71401917F4A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 13:14:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC6EA10E846;
-	Wed, 26 Jun 2024 11:09:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 096FC10E859;
+	Wed, 26 Jun 2024 11:14:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dCWAU9Xc";
+	dkim=pass (2048-bit key; unprotected) header.d=blackwall-org.20230601.gappssmtp.com header.i=@blackwall-org.20230601.gappssmtp.com header.b="Mh61quaN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53A6610E841
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 11:09:27 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi
- [91.158.144.210])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C119CFD6;
- Wed, 26 Jun 2024 13:09:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1719400143;
- bh=hUDZyxr8E0VhpPuOMhpLErVrjQ/SFZ7QlGb6et9BwuE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=dCWAU9XcLhm5CEipAGWVQfywI9aIHkN4VDyS+xuk8QN27A1MRIkXdMs/79hRMmrq1
- YImTMqaYC0fsE+onx6aflsejpgde4F/NvKV85ncskJmzpsTWtkzvHrQEQF+7oai9sF
- B7yqyfeLHq8Dz5chtLp0IfS8Fvs8b9y0VVo8ZRII=
-Message-ID: <73e4d081-f5f4-4e6f-988c-43bbc312632a@ideasonboard.com>
-Date: Wed, 26 Jun 2024 14:09:22 +0300
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0ECD10E841
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 11:14:35 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-57d4ee2aaabso114655a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 04:14:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=blackwall-org.20230601.gappssmtp.com; s=20230601; t=1719400474; x=1720005274;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=EtgNgXw4xx+u3otM9wLzx6tVvs8OZ+sqt5uPSGOj0/8=;
+ b=Mh61quaNuWEvLqHalaH+Ts8oW8/lJmSOpE5P8FIODPc4xDnD7giR2BpXsr+nq0jlch
+ jnCLBG8e2Y05Q+28DJJukxSChcA0wC72riLBTMUbEongAN/uh7gTMWMBXnVSaqTtdQRz
+ Ywct67YMSH8ES8kOTr6ZJgNosdmhcqK7S2gzQRQn3wc9pA/i4j7rfNR0B+8wU1U+6JQc
+ BeZGHtK5nA9n6pi0GmXCwxC/gXUURwvcsy27IPcG6NJnILkOyiJGYQgwp1+FhHzwkk6G
+ DjZNE3hVongpsti0ttGmnfT5os4kwVUID8AVb9xdnhssguENz9zb+d1xHKKnfOQWy79A
+ KPhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719400474; x=1720005274;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=EtgNgXw4xx+u3otM9wLzx6tVvs8OZ+sqt5uPSGOj0/8=;
+ b=if4oXFt/+uvhPKXkc5yfDp4Bb2vTjTpPXcVodHKJg/TdyEOotrdjDeeHlswTZmF5vB
+ Ob1o8PXUcqVgmUDl69DepUVnj3PpO/uB5UO33/A8RC1QcCL7PzZ9KnmKs2K4xr4g01JX
+ hp5NdJwy/QXQehchdqLYHmj4wm7aQYRNNvvfk4sp5ze9XVnl9p9FZg9t5K4FYjtyTftN
+ Bd2N7NWMoFXSg+njpCTjZzdeUPwDbRxIxMNpW7/BOstK4zBQaGUhzP11yvCGOGshlvDt
+ LASO6+6si19rvBRj7D6JkdoA7K7juLW9bYQJZuzqMadQDxyiBvnbbILcky43YEL32Q1w
+ riJA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUbWUTs7AUK9rSwcPMHv7jsY7pLQX/AqgEJS9eJVdofG8gkyTHfM9iBKkNXtlBF0TksPEmS8nyfmy7NkDXUNtGd1OKux2fnWyHtU4u8iqRG
+X-Gm-Message-State: AOJu0YxKM0/kbpSzq1LLi471EPKszDKA7GYKSOC4BYx0UofRFLeQudoE
+ rBcCzldLuiZiDZFp1qT/bTAekG7Dmqyt8YcqKh/xNbXPajDnYGMZWEMqc5nTRSk=
+X-Google-Smtp-Source: AGHT+IGayyA9DDFhDYoFM+ga8k4lnKPETjVZJrjYalViZSne124FOI0Yd/seFB4YsVb6tDnNMrZMyg==
+X-Received: by 2002:a50:d79e:0:b0:57d:101f:ae9f with SMTP id
+ 4fb4d7f45d1cf-57d4bdc76c9mr6673624a12.33.1719400473452; 
+ Wed, 26 Jun 2024 04:14:33 -0700 (PDT)
+Received: from [192.168.51.243] ([78.128.78.220])
+ by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-57d303d7b26sm7088836a12.3.2024.06.26.04.14.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Jun 2024 04:14:33 -0700 (PDT)
+Message-ID: <1d0483b9-13bc-426e-a57a-69044d5098c1@blackwall.org>
+Date: Wed, 26 Jun 2024 14:14:23 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 09/11] drm/bridge: cdns-dsi: Support atomic bridge APIs
-To: Aradhya Bhatia <a-bhatia1@ti.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Dominik Haller <d.haller@phytec.de>, Sam Ravnborg <sam@ravnborg.org>,
- Thierry Reding <treding@nvidia.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Jai Luthra <j-luthra@ti.com>
-References: <20240622110929.3115714-1-a-bhatia1@ti.com>
- <20240622110929.3115714-10-a-bhatia1@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH net-next v14 11/13] net: add SO_DEVMEM_DONTNEED setsockopt
+ to release RX frags
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
+ <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240625195407.1922912-1-almasrymina@google.com>
+ <20240625195407.1922912-12-almasrymina@google.com>
 Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240622110929.3115714-10-a-bhatia1@ti.com>
+From: Nikolay Aleksandrov <razor@blackwall.org>
+In-Reply-To: <20240625195407.1922912-12-almasrymina@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,117 +126,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/06/2024 14:09, Aradhya Bhatia wrote:
-> Change the existing (and deprecated) bridge hooks, to the bridge
-> atomic APIs.
+On 25/06/2024 22:53, Mina Almasry wrote:
+> Add an interface for the user to notify the kernel that it is done
+> reading the devmem dmabuf frags returned as cmsg. The kernel will
+> drop the reference on the frags to make them available for reuse.
 > 
-> Add drm helpers for duplicate_state, destroy_state, and bridge_reset
-> bridge hooks.
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
 > 
-> Further add support for the input format negotiation hook.
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-
-  Tomi
-
 > ---
->   .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 51 ++++++++++++++++---
->   1 file changed, 43 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> index cad0c1478ef0..c9697818308e 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> @@ -655,7 +655,8 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge *bridge,
->   	return MODE_OK;
->   }
->   
-> -static void cdns_dsi_bridge_disable(struct drm_bridge *bridge)
-> +static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
-> +					   struct drm_bridge_state *old_bridge_state)
->   {
->   	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
->   	struct cdns_dsi *dsi = input_to_dsi(input);
-> @@ -679,7 +680,8 @@ static void cdns_dsi_bridge_disable(struct drm_bridge *bridge)
->   	pm_runtime_put(dsi->base.dev);
->   }
->   
-> -static void cdns_dsi_bridge_post_disable(struct drm_bridge *bridge)
-> +static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
-> +						struct drm_bridge_state *old_bridge_state)
->   {
->   	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
->   	struct cdns_dsi *dsi = input_to_dsi(input);
-> @@ -755,7 +757,8 @@ static void cdns_dsi_init_link(struct cdns_dsi *dsi)
->   	dsi->link_initialized = true;
->   }
->   
-> -static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
-> +static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
-> +					  struct drm_bridge_state *old_bridge_state)
->   {
->   	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
->   	struct cdns_dsi *dsi = input_to_dsi(input);
-> @@ -906,7 +909,8 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
->   	writel(tmp, dsi->regs + MCTL_MAIN_EN);
->   }
->   
-> -static void cdns_dsi_bridge_pre_enable(struct drm_bridge *bridge)
-> +static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-> +					      struct drm_bridge_state *old_bridge_state)
->   {
->   	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
->   	struct cdns_dsi *dsi = input_to_dsi(input);
-> @@ -918,13 +922,44 @@ static void cdns_dsi_bridge_pre_enable(struct drm_bridge *bridge)
->   	cdns_dsi_hs_init(dsi);
->   }
->   
-> +static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
-> +					       struct drm_bridge_state *bridge_state,
-> +					       struct drm_crtc_state *crtc_state,
-> +					       struct drm_connector_state *conn_state,
-> +					       u32 output_fmt,
-> +					       unsigned int *num_input_fmts)
-> +{
-> +	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
-> +	struct cdns_dsi *dsi = input_to_dsi(input);
-> +	struct cdns_dsi_output *output = &dsi->output;
-> +	u32 *input_fmts;
-> +
-> +	*num_input_fmts = 0;
-> +
-> +	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
-> +	if (!input_fmts)
-> +		return NULL;
-> +
-> +	input_fmts[0] = drm_mipi_dsi_get_input_bus_fmt(output->dev->format);
-> +	if (!input_fmts[0])
-> +		return NULL;
-> +
-> +	*num_input_fmts = 1;
-> +
-> +	return input_fmts;
-> +}
-> +
->   static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
->   	.attach = cdns_dsi_bridge_attach,
->   	.mode_valid = cdns_dsi_bridge_mode_valid,
-> -	.disable = cdns_dsi_bridge_disable,
-> -	.pre_enable = cdns_dsi_bridge_pre_enable,
-> -	.enable = cdns_dsi_bridge_enable,
-> -	.post_disable = cdns_dsi_bridge_post_disable,
-> +	.atomic_disable = cdns_dsi_bridge_atomic_disable,
-> +	.atomic_pre_enable = cdns_dsi_bridge_atomic_pre_enable,
-> +	.atomic_enable = cdns_dsi_bridge_atomic_enable,
-> +	.atomic_post_disable = cdns_dsi_bridge_atomic_post_disable,
-> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_reset = drm_atomic_helper_bridge_reset,
-> +	.atomic_get_input_bus_fmts = cdns_dsi_bridge_get_input_bus_fmts,
->   };
->   
->   static int cdns_dsi_attach(struct mipi_dsi_host *host,
+> v10:
+> - Fix leak of tokens (Nikolay).
+> 
+> v7:
+> - Updated SO_DEVMEM_* uapi to use the next available entry (Arnd).
+> 
+> v6:
+> - Squash in locking optimizations from edumazet@google.com. With his
+>    changes we lock the xarray once per sock_devmem_dontneed operation
+>    rather than once per frag.
+> 
+> Changes in v1:
+> - devmemtoken -> dmabuf_token (David).
+> - Use napi_pp_put_page() for refcounting (Yunsheng).
+> - Fix build error with missing socket options on other asms.
+> 
+> ---
+>   arch/alpha/include/uapi/asm/socket.h  |  1 +
+>   arch/mips/include/uapi/asm/socket.h   |  1 +
+>   arch/parisc/include/uapi/asm/socket.h |  1 +
+>   arch/sparc/include/uapi/asm/socket.h  |  1 +
+>   include/uapi/asm-generic/socket.h     |  1 +
+>   include/uapi/linux/uio.h              |  4 ++
+>   net/core/sock.c                       | 61 +++++++++++++++++++++++++++
+>   7 files changed, 70 insertions(+)
+> 
+
+FWIW,
+Reviewed-by: Nikolay Aleksandrov <razor@blackwall.org>
+
 
