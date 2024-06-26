@@ -2,78 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 153D69179C6
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 09:32:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF359179CE
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 09:36:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00F1110E7A1;
-	Wed, 26 Jun 2024 07:32:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58EAE10E79F;
+	Wed, 26 Jun 2024 07:36:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="XrFVhHcn";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="aGYMLsTv";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="UEnA1V5c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6374F10E79F
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 07:32:48 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-3672ab915bdso24645f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 00:32:48 -0700 (PDT)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 306F210E79F
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 07:36:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1719387167; x=1719991967; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=9/0LrueOLT9PACfMvTHobpXZcLo+P6QTn/E1HNalgYg=;
- b=XrFVhHcn/ADMstEx19DrKtoEpxT9xw7THa3BlQSK67VgoknPAl8ZMN7ACd0Ne95H3y
- ffd3+Xj0GMvBgXjI5Ic7m4wngv9YyDOF4nrvh72r/dpq6JUidhYNUaiDBbPXwM8nNF5w
- cNdaJ3lwFU0cVmLTtjac0JKIoJL+XWQeQ44OE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719387167; x=1719991967;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9/0LrueOLT9PACfMvTHobpXZcLo+P6QTn/E1HNalgYg=;
- b=gCcIChX3M0fbN7xDTGHRZwgPDvtv065Rwv7bcGtC9hTRstJlqlCUxkm9whqywLEyzq
- 2+jl2kASZ22nyJlYZg24R4ZTCIw5qArk0YAhtu970V4iuyMjxL2M1LWoBzjy0lJn/PH9
- PEdL5dGdFc8RNYAMhC3oT1BOjTRyiFq8+wMSI//+UNnwjUh2vsG/oF6PVnYnhvgDDe07
- pyPCVy2h7QEyv2x4kUZUfQOh7P6DVs3OvOoCZH/0h2ueOJH+1Lgf0FkRP3nq9VbfJjXo
- 3w/VEjaVSKVBBdIi9fsJFcO6y+XnVGi9GLGCFMN4odvNcUs32d6sN6acRKVUobKio1yv
- sBwg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVsjLgKTi5e95KTq3Y5yZ4ARlL8TrPyP/PhGjjVbaGKOrze5F1RHVIRbRou252U+p2gRv/luvJsZPKsD+TdNpe9HJj9ZAt/ROe07Sj2qw8/
-X-Gm-Message-State: AOJu0YwPTXjb2QuGLJ4qlWuzn1Bqhie6ESLEipBSYIj43AKWzEGz6Qpm
- D9kCSsioEgKNKuHbQL3+/XRBXxmYWkxz1D/nSs15F1KrVXXjF8Dt78argLvd1zw=
-X-Google-Smtp-Source: AGHT+IEjm27eE56RraAC2vbxAwlvJ+iVa1opSPFPO+Hding4xdknehogFzyefdqgrVC0LHVy91IRjg==
-X-Received: by 2002:a05:6000:1fa9:b0:365:ca95:b6cd with SMTP id
- ffacd0b85a97d-366e2aa64ddmr7463827f8f.7.1719387166664; 
- Wed, 26 Jun 2024 00:32:46 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3663a2f6977sm15020476f8f.80.2024.06.26.00.32.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jun 2024 00:32:46 -0700 (PDT)
-Date: Wed, 26 Jun 2024 09:32:44 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Helen Koike <helen.koike@collabora.com>
-Cc: Vignesh Raman <vignesh.raman@collabora.com>,
- Rob Clark <robdclark@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Stone <daniels@collabora.com>
-Subject: Re: Time for drm-ci-next?
-Message-ID: <ZnvEHEIEJIYcsQgN@phenom.ffwll.local>
-References: <CAF6AEGsRLPqddgc2MKCXKD1TDFuwxRs_6Pj=oDuj4gah0D-07Q@mail.gmail.com>
- <87a5mzrgie.fsf@intel.com>
- <CAF6AEGt=8mz8S+nBQ1a3mCNLFhBrfcc5XfmNrTQ=62J-m+_3Jg@mail.gmail.com>
- <44196cb4-bc07-4dba-bf1d-9d3d0e3bc88d@collabora.com>
- <f20f80a7-c905-4a9e-8fa6-985d6b3b1662@collabora.com>
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1719387371; x=1750923371;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=w8ZWPITAV4BVFXhLX83ZUdLQbrWkmuEHynQtO0CvwUE=;
+ b=aGYMLsTvPgABCRIb5S8EIimXo+wi9F4wDm9qeRQxZIHtCu4bZoBSm1xl
+ ChToYGXmVCMkYNc0jeeEdTDy36aBNa0Lfu+DRvIJfq2DuxeE6EN8DPq27
+ UH+22nWzxg7Cr9GiUTZV6gDoYSdSKN/SOOUqiM50mKInKqZ7AFchgYUpp
+ HY6aUBRt9IHaq1SpoDVtLRsaMPwayVZjnAnmucW3P5gE5qB/dxA/n7Qzm
+ gpzDEZxM4qcd5Essu9vNqvvlbYjzJmXBKWnl0+jd+xboXVAP04IZInIdf
+ ZUeK6u0yp+P3fKA3WRrl8m2bjc86IGlZA/tmMuRM7MUHOVisDuLR3oX8g A==;
+X-CSE-ConnectionGUID: T3ef1K60TsmKdKCtk2/4pg==
+X-CSE-MsgGUID: wX6UFoD3TOqNEsW+E5RIgw==
+X-IronPort-AV: E=Sophos;i="6.08,266,1712613600"; d="scan'208";a="37591305"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 26 Jun 2024 09:36:09 +0200
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id CEF0516361F; Wed, 26 Jun 2024 09:36:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1719387364;
+ h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=w8ZWPITAV4BVFXhLX83ZUdLQbrWkmuEHynQtO0CvwUE=;
+ b=UEnA1V5cm9unZEOZ67we5C2V0xRBushkfydC8VQcA+rfxT6FsxRJKYI8X2qCFu+1ZVj4hR
+ E/SXZL4jYkmg2PYvHifwN8JONRArq065VsQqCI+9hPuGRlfMjO6QxF0/WRm5oclKBc8aSu
+ ZUylOVNwCO0rv96JA925lPXou4ziOWUvKK2iY6sWUOdvDDlGX8Tlszsk6o67+7GskwQLE7
+ XswzRt+ZRCrqhYwrn41TaoQBOhcVKLAmVi+/33PKDKri5FQI5jaDklvvtgqu1/YunhpO6W
+ 89+SiLcxSJf3FnKoozDcZly7kfa6KtqP6+gINJs8NHo2G4dP82FjDh4DrxnwLA==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Herring <robh@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ kernel@dh-electronics.com, Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v3 2/2] drm/bridge: tc358767: Add configurable default
+ preemphasis
+Date: Wed, 26 Jun 2024 09:36:03 +0200
+Message-ID: <3293850.oiGErgHkdL@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20240625120552.145389-2-marex@denx.de>
+References: <20240625120552.145389-1-marex@denx.de>
+ <20240625120552.145389-2-marex@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f20f80a7-c905-4a9e-8fa6-985d6b3b1662@collabora.com>
-X-Operating-System: Linux phenom 6.8.9-amd64 
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,85 +85,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 24, 2024 at 10:25:25AM -0300, Helen Koike wrote:
-> 
-> 
-> On 24/06/2024 02:34, Vignesh Raman wrote:
-> > Hi,
-> > 
-> > On 15/03/24 22:50, Rob Clark wrote:
-> > > On Fri, Mar 15, 2024 at 2:28 AM Jani Nikula
-> > > <jani.nikula@linux.intel.com> wrote:
-> > > > 
-> > > > On Thu, 14 Mar 2024, Rob Clark <robdclark@gmail.com> wrote:
-> > > > > When we first merged drm/ci I was unsure if it would need it's own
-> > > > > -next branch.  But after using it for a couple releases, a few times
-> > > > > I've found myself wanting to backmerge drm/ci changes without
-> > > > > necessarily backmerging all of drm-misc-next.
-> > > > > 
-> > > > > So, maybe it makes some sense to have a drm-ci-next branch that
-> > > > > driver-maintainers could back-merge as-needed?
-> > > > 
-> > > > That's a crossmerge instead of a backmerge, and I feel that could get
-> > > > messy. What if folks crossmerge drm-ci-next but it gets rejected for
-> > > > drm-next? Or the baselines are different, and the crossmerge pulls in
-> > > > way more stuff than it should?
-> > > 
-> > > Yeah, it would defeat the point a bit of drm-ci-next was on too new of
-> > > a baseline, the whole point is to be able to merge CI changes without
-> > > pulling in unrelated changes.  So drm-ci-next would need to base on
-> > > something older, like the previous kernel release tag.
-> > > 
-> > > > IMO the route should be drm-ci-next -> pull request to drm-next ->
-> > > > backmerge drm-next to drivers and drm-misc-next.
-> > > > 
-> > > > I'm not opposed to having drm-ci-next at all, mainly indifferent, but I
-> > > > question the merge flows. And then the question becomes, does my
-> > > > suggested merge flow complicate your original goal?
-> > > > 
-> > > 
-> > > I guess we could avoid merging drm-ci-next until it had been merged
-> > > into drm-next?
+Hi Marek,
 
-Yes, either dedicated topic branch or only backmerging drm-next please,
-that's how we're handling the flow for all other subtrees too.
+thanks for patch.
 
-> > > Basically, I often find myself needing to merge CI patches on top of
-> > > msm-next in order to run CI, and then after a clean CI run, reset HEAD
-> > > back before the merge and force-push.  Which isn't really how things
-> > > should work.
+Am Dienstag, 25. Juni 2024, 14:05:15 CEST schrieb Marek Vasut:
+> Make the default DP port preemphasis configurable via new DT property
+> "toshiba,pre-emphasis". This is useful in case the DP link properties
+> are known and starting link training from preemphasis setting of 0 dB
+> is not useful. The preemphasis can be set separately for both DP lanes
+> in range 0=3D0dB, 1=3D3.5dB, 2=3D6dB .
+>=20
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: kernel@dh-electronics.com
+> ---
+> V2: - Parse toshiba,pre-emphasis property out of an endpoint of port 2 (t=
+he DP port)
+> V3: - No change
+> ---
+>  drivers/gpu/drm/bridge/tc358767.c | 45 ++++++++++++++++++++++++++-----
+>  1 file changed, 38 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/t=
+c358767.c
+> index dde1b2734c98a..257fe15080099 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -241,6 +241,10 @@
+> =20
+>  /* Link Training */
+>  #define DP0_SRCCTRL		0x06a0
+> +#define DP0_SRCCTRL_PRE1		GENMASK(29, 28)
+> +#define DP0_SRCCTRL_SWG1		GENMASK(25, 24)
+> +#define DP0_SRCCTRL_PRE0		GENMASK(21, 20)
+> +#define DP0_SRCCTRL_SWG0		GENMASK(17, 16)
+>  #define DP0_SRCCTRL_SCRMBLDIS		BIT(13)
+>  #define DP0_SRCCTRL_EN810B		BIT(12)
+>  #define DP0_SRCCTRL_NOTP		(0 << 8)
+> @@ -278,6 +282,8 @@
+>  #define AUDIFDATA6		0x0720	/* DP0 Audio Info Frame Bytes 27 to 24 */
+> =20
+>  #define DP1_SRCCTRL		0x07a0	/* DP1 Control Register */
+> +#define DP1_SRCCTRL_PRE			GENMASK(21, 20)
+> +#define DP1_SRCCTRL_SWG			GENMASK(17, 16)
+> =20
+>  /* PHY */
+>  #define DP_PHY_CTRL		0x0800
+> @@ -369,6 +375,7 @@ struct tc_data {
+> =20
+>  	u32			rev;
+>  	u8			assr;
+> +	u8			pre_emphasis[2];
+> =20
+>  	struct gpio_desc	*sd_gpio;
+>  	struct gpio_desc	*reset_gpio;
+> @@ -1090,13 +1097,17 @@ static int tc_main_link_enable(struct tc_data *tc)
+>  			return ret;
+>  	}
+> =20
+> -	ret =3D regmap_write(tc->regmap, DP0_SRCCTRL, tc_srcctrl(tc));
+> +	ret =3D regmap_write(tc->regmap, DP0_SRCCTRL,
+> +			   tc_srcctrl(tc) |
+> +			   FIELD_PREP(DP0_SRCCTRL_PRE0, tc->pre_emphasis[0]) |
+> +			   FIELD_PREP(DP0_SRCCTRL_PRE1, tc->pre_emphasis[1]));
+>  	if (ret)
+>  		return ret;
+>  	/* SSCG and BW27 on DP1 must be set to the same as on DP0 */
+>  	ret =3D regmap_write(tc->regmap, DP1_SRCCTRL,
+>  		 (tc->link.spread ? DP0_SRCCTRL_SSCG : 0) |
+> -		 ((tc->link.rate !=3D 162000) ? DP0_SRCCTRL_BW27 : 0));
+> +		 ((tc->link.rate !=3D 162000) ? DP0_SRCCTRL_BW27 : 0) |
+> +		 FIELD_PREP(DP1_SRCCTRL_PRE, tc->pre_emphasis[1]));
+>  	if (ret)
+>  		return ret;
+> =20
+> @@ -1188,8 +1199,10 @@ static int tc_main_link_enable(struct tc_data *tc)
+>  		goto err_dpcd_write;
+> =20
+>  	/* Reset voltage-swing & pre-emphasis */
+> -	tmp[0] =3D tmp[1] =3D DP_TRAIN_VOLTAGE_SWING_LEVEL_0 |
+> -			  DP_TRAIN_PRE_EMPH_LEVEL_0;
+> +	tmp[0] =3D DP_TRAIN_VOLTAGE_SWING_LEVEL_0 |
+> +		 FIELD_PREP(DP_TRAIN_PRE_EMPHASIS_MASK, tc->pre_emphasis[0]);
+> +	tmp[1] =3D DP_TRAIN_VOLTAGE_SWING_LEVEL_0 |
+> +		 FIELD_PREP(DP_TRAIN_PRE_EMPHASIS_MASK, tc->pre_emphasis[1]);
+>  	ret =3D drm_dp_dpcd_write(aux, DP_TRAINING_LANE0_SET, tmp, 2);
+>  	if (ret < 0)
+>  		goto err_dpcd_write;
+> @@ -1213,7 +1226,9 @@ static int tc_main_link_enable(struct tc_data *tc)
+>  	ret =3D regmap_write(tc->regmap, DP0_SRCCTRL,
+>  			   tc_srcctrl(tc) | DP0_SRCCTRL_SCRMBLDIS |
+>  			   DP0_SRCCTRL_AUTOCORRECT |
+> -			   DP0_SRCCTRL_TP1);
+> +			   DP0_SRCCTRL_TP1 |
+> +			   FIELD_PREP(DP0_SRCCTRL_PRE0, tc->pre_emphasis[0]) |
+> +			   FIELD_PREP(DP0_SRCCTRL_PRE1, tc->pre_emphasis[1]));
+>  	if (ret)
+>  		return ret;
+> =20
+> @@ -1248,7 +1263,9 @@ static int tc_main_link_enable(struct tc_data *tc)
+>  	ret =3D regmap_write(tc->regmap, DP0_SRCCTRL,
+>  			   tc_srcctrl(tc) | DP0_SRCCTRL_SCRMBLDIS |
+>  			   DP0_SRCCTRL_AUTOCORRECT |
+> -			   DP0_SRCCTRL_TP2);
+> +			   DP0_SRCCTRL_TP2 |
+> +			   FIELD_PREP(DP0_SRCCTRL_PRE0, tc->pre_emphasis[0]) |
+> +			   FIELD_PREP(DP0_SRCCTRL_PRE1, tc->pre_emphasis[1]));
+>  	if (ret)
+>  		return ret;
+> =20
+> @@ -1274,7 +1291,9 @@ static int tc_main_link_enable(struct tc_data *tc)
+> =20
+>  	/* Clear Training Pattern, set AutoCorrect Mode =3D 1 */
+>  	ret =3D regmap_write(tc->regmap, DP0_SRCCTRL, tc_srcctrl(tc) |
+> -			   DP0_SRCCTRL_AUTOCORRECT);
+> +			   DP0_SRCCTRL_AUTOCORRECT |
+> +			   FIELD_PREP(DP0_SRCCTRL_PRE0, tc->pre_emphasis[0]) |
+> +			   FIELD_PREP(DP0_SRCCTRL_PRE1, tc->pre_emphasis[1]));
+>  	if (ret)
+>  		return ret;
+> =20
+> @@ -2435,6 +2454,18 @@ static int tc_probe_bridge_endpoint(struct tc_data=
+ *tc)
+>  			return -EINVAL;
+>  		}
+>  		mode |=3D BIT(endpoint.port);
+> +		if (endpoint.port !=3D 2)
+> +			continue;
+> +
 
-This sounds more like you want an integration tree like drm-tip. Get msm
-branches integrated there, done. Backmerges just for integration testing
-are not a good idea indeed.
+Mh, I know currently there are not other port-specific properties. But
+maybe it's easier to read if 'if (endpoint.port =3D=3D 2) {' is used.
 
-> > There are many CI patches merged recently to drm-misc-next.
-> > With the GitLab 18.0 release, CI/CD pipeline configurations must
-> > transition from using the deprecated CI_JOB_JWT to the new id_tokens
-> > method, as the former will be removed.
-> > 
-> > Without the below commit kernel-build job pipelines fail in drm-ci,
-> > https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/cc806b74466672a9bbd4e9a04265d44eb506b686
-> > 
-> > We need to cherry pick only this commit to fix this issue.
-> > So it would be beneficial to have a drm-ci-next branch.
-> > 
-> > Regards,
-> > Vignesh
-> 
-> 
-> I don't mind using a drm-ci-next branch if it is created.
+But either way, this looks good.
+Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-What exactly is the issue in backmerging drm-misc-next (well through
-drm-next really)?
+> +		of_property_read_u8_array(node, "toshiba,pre-emphasis",
+> +					  tc->pre_emphasis,
+> +					  ARRAY_SIZE(tc->pre_emphasis));
+> +
+> +		if (tc->pre_emphasis[0] < 0 || tc->pre_emphasis[0] > 2 ||
+> +		    tc->pre_emphasis[1] < 0 || tc->pre_emphasis[1] > 2) {
+> +			dev_err(dev, "Incorrect Pre-Emphasis setting, use either 0=3D0dB 1=3D=
+3.5dB 2=3D6dB\n");
+> +			return -EINVAL;
+> +		}
+>  	}
+> =20
+>  	if (mode =3D=3D mode_dpi_to_edp || mode =3D=3D mode_dpi_to_dp) {
+>=20
 
-Also if there is an issue, generally we do ad-hoc topic branches.
 
-I'm very very skeptical of boutique trees with tiny focus, we've had that
-before drm-misc, it's a mess. Definitely no enthusiasm for getting back
-to that kind of world.
--Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+
