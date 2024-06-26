@@ -2,87 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D26917A49
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 09:59:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69CA2917A53
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 10:00:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B486A10E7B0;
-	Wed, 26 Jun 2024 07:59:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CECE10E14B;
+	Wed, 26 Jun 2024 08:00:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="g4DFzsiM";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="UdHbLUbJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6BC810E7B0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 07:59:43 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-424ab8c2d95so1254235e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 00:59:43 -0700 (PDT)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+ [209.85.208.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 895C810E14B
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 08:00:48 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id
+ 38308e7fff4ca-2ec58040f39so39324351fa.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 01:00:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1719388782; x=1719993582; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YKC9JWwz9mDZFJPWKIzZ35FYqwpsv8ltyyUAlB5rNg4=;
- b=g4DFzsiMe/vMIZl/Sgiaw8xXC7us+klkuVXn3+wXZ9IacDKzy8z5ww92YSksAMSbgR
- kjS1Wztdq6ScJqCUVF2VFozRD1lkQEVA/SA9lopJpKadE2QYVbF/0MYfqiiousNQHGTn
- Hbi+ACCa9NKfEJxmuI0ZlT4/l/PYB09kKE5As=
+ d=suse.com; s=google; t=1719388846; x=1719993646; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=whiJiQULxxjVU5JYMGY4dR9TuAgnrWcS7amyjh3Lhhk=;
+ b=UdHbLUbJ5ktcTyry3OD/9QI8vpEF5QrH7tbAQgFTkygHvK3k5TUALvApreNdfMNzEn
+ XLbQHD16a/IoLrzsruadN1X0aopJ2TzQY38LaGI9IvZuPYbuWTOYvsgD5mBaettvi3QD
+ Nf+iPtDBs+HHUxp+brEumtszenJpf76PlatJkJP3UdaTCtju5Y4ITYa1+sYTshieAOHB
+ HQxMnDHzLHQMAYt1n/RdWEcnwqKV//Vg4Qpw0f8pvfsQFsHj/Y7t/Xv6E/9StMcH8G/w
+ m0budqiFJRKMWC4sCKeriHc7aOHtP2BH1rpoI3tyUKEmHBBm0a09YScHu7FfaQXtSds6
+ FNeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719388782; x=1719993582;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YKC9JWwz9mDZFJPWKIzZ35FYqwpsv8ltyyUAlB5rNg4=;
- b=DbDpx7SPq06m1XeWkiXqgJ3IP8CsxZigYzfD06pOdM0NHWmlmlQpcDS2fJQpXO5ZPJ
- 0Zo8pDi4CGJFkB0X85fu84vX9WR+socA4dBU49krRIywstPyiE/2dYX2HnpnVm7LdAJq
- +4YdHKt5OewowYkkAPNkeZpw1I3ASjYsyz5P4N1Q0NYUufXc8w/CXAoKbOlYviyKjumb
- ATIvtwjcGedTfyV9C8gAyM1i4eSiKYHAFRrbOqS/tBr2Mwr3feiijUIT3BEX22gZD1T1
- Ylf/y1aLg4v+EYdFt9PL3wrxoSlUBB24zlKb5MNaW7zCWox09BW+r9QFpQBHPvXc1bPm
- TcHA==
+ d=1e100.net; s=20230601; t=1719388846; x=1719993646;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=whiJiQULxxjVU5JYMGY4dR9TuAgnrWcS7amyjh3Lhhk=;
+ b=Nm1q1S+3T5Itu5zKgu9J9uEjfiT4a+pYSFpd8AUJpqeHDeuFbq86YuAIzr2abt9cAk
+ UaYUh3crkNAczLYZwyPjbzKPxd3sHVoeceXha3UZnCwZXiB9CHvc7smAVPSHvXFS0QJp
+ jlMrs4X56HPCvq8IPECwTcXd6+k1mqQnozuS5mGiSG15qZ0eo8kk32R4IoBTJjbSjWil
+ 3XA80pJCfO4ipC0uTGYtPcL33CHHdoNgXjykang6CPSJr6dR2MdN3zBnMwSsqj6ApxZq
+ NGkNiPRbuxM4Qvq7SIU7fdpCyVLXy5H2yEEigETUN+eSzDy7FsbAfEeu9oVxPIhXd8kP
+ qIRg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUGz73Ax9tckQVk0E0BGhixdrgSh7q+b/PVALdaU6dWXvIv2xUl3YbNU9PSqTk5fvlviTHaQImf7q70/lDXKHeO7dIcKjQffyZEswfJ0dKU
-X-Gm-Message-State: AOJu0Yy7YSKKrjPzn3/IMv9sOH1/YL+khPP1bm9pw7T9fTXtQiYr+vV3
- 6ZEu4KriuEZTRgoqC2GXvNTiVdAjOM1b6GpU0HiGq1ClB5cXqNrbtU7JTKiR1lw=
-X-Google-Smtp-Source: AGHT+IG4EVOkrn1Y0XT/ql2oK40G3v2KP3e4L4gODD12bYa8V2Qg23ovSXufw0iA+4BOJcA67yWlig==
-X-Received: by 2002:a5d:6d8f:0:b0:366:eb60:bcf2 with SMTP id
- ffacd0b85a97d-366eb60bd9amr6081538f8f.4.1719388781876; 
- Wed, 26 Jun 2024 00:59:41 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ AJvYcCXsCA/9XWXtXZbtcIsNVGHEteFJAupXGKdiwl9lKbqgqiCpXloSt6/ON+i5ZQYzmYKdQXpbwCk+Zvge4C6TuO8xV5xh35SgsOFG+sH9dN8p
+X-Gm-Message-State: AOJu0YyeScksRfYPbupTmQHb6GYrqFtbOa30unk3gXLQRdAxEcVTgHsA
+ 5PgJFvddRT1pd6Xphorp+G1DcaOxBzOCEBdmA4ArPuPDghsV7vmRhkv62IsO4nw=
+X-Google-Smtp-Source: AGHT+IFNePKBHG9JpceEuNMrhp5ms+q4nwziDYVudYAAE2EIYWBHCuZo7vzBBRTi5aESxDL6rd8szA==
+X-Received: by 2002:a2e:3a13:0:b0:2ec:5019:bec3 with SMTP id
+ 38308e7fff4ca-2ec593e0cd9mr61741411fa.21.1719388846249; 
+ Wed, 26 Jun 2024 01:00:46 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.50])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-36638d9c158sm15120701f8f.56.2024.06.26.00.59.41
+ d2e1a72fcca58-70676a2113csm6032019b3a.214.2024.06.26.01.00.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jun 2024 00:59:41 -0700 (PDT)
-Date: Wed, 26 Jun 2024 09:59:39 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Wed, 26 Jun 2024 01:00:45 -0700 (PDT)
+Date: Wed, 26 Jun 2024 10:00:23 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Akhil P Oommen <quic_akhilpo@quicinc.com>
-Subject: Re: [PATCH v2 1/2] drm/msm/adreno: De-spaghettify the use of memory
- barriers
-Message-ID: <ZnvKa29EceUyZ62U@phenom.ffwll.local>
-Mail-Followup-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- David Airlie <airlied@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Akhil P Oommen <quic_akhilpo@quicinc.com>
-References: <20240625-adreno_barriers-v2-0-c01f2ef4b62a@linaro.org>
- <20240625-adreno_barriers-v2-1-c01f2ef4b62a@linaro.org>
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>,
+ Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Kees Cook <kees@kernel.org>,
+ Tony Luck <tony.luck@intel.com>,
+ "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ John Ogness <john.ogness@linutronix.de>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Uros Bizjak <ubizjak@gmail.com>, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-hyperv@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] printk: Add a short description string to kmsg_dump()
+Message-ID: <ZnvKcnC9ruaIHYij@pathway.suse.cz>
+References: <20240625123954.211184-1-jfalempe@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240625-adreno_barriers-v2-1-c01f2ef4b62a@linaro.org>
-X-Operating-System: Linux phenom 6.8.9-amd64 
+In-Reply-To: <20240625123954.211184-1-jfalempe@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,78 +107,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 25, 2024 at 08:54:41PM +0200, Konrad Dybcio wrote:
-> Memory barriers help ensure instruction ordering, NOT time and order
-> of actual write arrival at other observers (e.g. memory-mapped IP).
-> On architectures employing weak memory ordering, the latter can be a
-> giant pain point, and it has been as part of this driver.
+On Tue 2024-06-25 14:39:29, Jocelyn Falempe wrote:
+> kmsg_dump doesn't forward the panic reason string to the kmsg_dumper
+> callback.
+> This patch adds a new parameter "const char *desc" to the kmsg_dumper
+> dump() callback, and update all drivers that are using it.
 > 
-> Moreover, the gpu_/gmu_ accessors already use non-relaxed versions of
-> readl/writel, which include r/w (respectively) barriers.
+> To avoid updating all kmsg_dump() call, it adds a kmsg_dump_desc()
+> function and a macro for backward compatibility.
 > 
-> Replace the barriers with a readback (or drop altogether where possible)
-> that ensures the previous writes have exited the write buffer (as the CPU
-> must flush the write to the register it's trying to read back).
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-
-Some in pci these readbacks are actually part of the spec and called
-posting reads. I'd very much recommend drivers create a small wrapper
-function for these cases with a void return value, because it makes the
-code so much more legible and easier to understand.
--Sima
-
+> I've written this for drm_panic, but it can be useful for other
+> kmsg_dumper.
+> It allows to see the panic reason, like "sysrq triggered crash"
+> or "VFS: Unable to mount root fs on xxxx" on the drm panic screen.
+>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 > ---
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  4 +---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 10 ++++++----
->  2 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> index 0e3dfd4c2bc8..09d640165b18 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> @@ -466,9 +466,7 @@ static int a6xx_rpmh_start(struct a6xx_gmu *gmu)
->  	int ret;
->  	u32 val;
->  
-> -	gmu_write(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ, 1 << 1);
-> -	/* Wait for the register to finish posting */
-> -	wmb();
-> +	gmu_write(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ, BIT(1));
->  
->  	ret = gmu_poll_timeout(gmu, REG_A6XX_GMU_RSCC_CONTROL_ACK, val,
->  		val & (1 << 1), 100, 10000);
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index c98cdb1e9326..4083d0cad782 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -855,14 +855,16 @@ static int hw_init(struct msm_gpu *gpu)
->  	/* Clear GBIF halt in case GX domain was not collapsed */
->  	if (adreno_is_a619_holi(adreno_gpu)) {
->  		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
-> +		gpu_read(gpu, REG_A6XX_GBIF_HALT);
-> +
->  		gpu_write(gpu, REG_A6XX_RBBM_GPR0_CNTL, 0);
-> -		/* Let's make extra sure that the GPU can access the memory.. */
-> -		mb();
-> +		gpu_read(gpu, REG_A6XX_RBBM_GPR0_CNTL);
->  	} else if (a6xx_has_gbif(adreno_gpu)) {
->  		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
-> +		gpu_read(gpu, REG_A6XX_GBIF_HALT);
-> +
->  		gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, 0);
-> -		/* Let's make extra sure that the GPU can access the memory.. */
-> -		mb();
-> +		gpu_read(gpu, REG_A6XX_RBBM_GBIF_HALT);
->  	}
->  
->  	/* Some GPUs are stubborn and take their sweet time to unhalt GBIF! */
-> 
-> -- 
-> 2.45.2
-> 
+>  arch/powerpc/kernel/nvram_64.c             |  3 ++-
+>  arch/powerpc/platforms/powernv/opal-kmsg.c |  3 ++-
+>  drivers/gpu/drm/drm_panic.c                |  3 ++-
+>  drivers/hv/hv_common.c                     |  3 ++-
+>  drivers/mtd/mtdoops.c                      |  3 ++-
+>  fs/pstore/platform.c                       |  3 ++-
+>  include/linux/kmsg_dump.h                  | 13 ++++++++++---
+>  kernel/panic.c                             |  2 +-
+>  kernel/printk/printk.c                     |  8 +++++---
+>  9 files changed, 28 insertions(+), 13 deletions(-)
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+The parameter is added into all dumpers. I guess that it would be
+used only drm_panic() because it is graphics and might be "fancy".
+The others simply dump the log buffer and the reason is in
+the dumped log as well.
+
+Anyway, the passed buffer is static. Alternative solution would
+be to make it global and export it like, for example, panic_cpu.
+
+Best Regards,
+Petr
