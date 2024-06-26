@@ -2,88 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F6B9199FE
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 23:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86611919A20
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 23:52:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFD2010E9DB;
-	Wed, 26 Jun 2024 21:46:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DB5110E1CC;
+	Wed, 26 Jun 2024 21:52:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IzGyX4dA";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="gPa83Fiu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBFBB10E9D1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 21:46:16 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2ec1ac1aed2so86388781fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 14:46:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719438375; x=1720043175; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=s1yr/14qrVQ/kYRjN6UH7sAJcJ6ZPXNM+nWCpzFkpGA=;
- b=IzGyX4dAlDZ/qAsD45xqsi0U0zh0tG9XQu7bD813IuU3N6F3/2yntW8D5VrcVY5EWE
- swRw+Ddb11HCYyqG0WYTqPg/Y2+MUtfSpHOra4nZX48evJiK2Q+kT2JAOMSBy7LmpTyj
- BOUQQLPCfjTWnlD6PvIw5oPyostvNlBMWcy1iO7aBzQ27hzrWwPEQ2obzX/dOjnI7WOE
- j06syHOCDPj1MJ3pkwv9PAYLoioWq8eytHaU7pTiuJE68m/kjTW60BNkp/zjImAVFa6s
- /kH40Ac6NLHxA0s8AXQed9swx/o6klGmSGN9OTD5MmEgEvNBczdTseUPBdvDhEH95gG/
- +zJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719438375; x=1720043175;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=s1yr/14qrVQ/kYRjN6UH7sAJcJ6ZPXNM+nWCpzFkpGA=;
- b=uN8XtwstmcBbxQcG0M7WXfWLCokca92L8TG0esH2gSmJURUpkQJHX3l0JTFDMSUz5C
- iIv89wY5JbIhI+hw+JS0jcNz6kv1lEjUaNbqr+Z+i0plHl+ACtL5xpbTIroXpfXTnJcG
- MxshKGliz7vIeQirvVYBeeUkmo3+JSMlNl/kmOA1CsEQLGfoOmtJHi7T6pYdCSrDj7lN
- jcRQOg54Gj0XXz5ST7PxKTCTfMBC9mhq2y9rty6XbAlCMXXcW4qcqt7plCL25by5hBcY
- f7mMaEZl8Nj4omjSnTV2fiu4Ts0cfcrbEjPFzvZG/LRHntwexSj8RisN+cvEjkxj10TD
- smfA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU4TRZAhKFBwqse+b2sIRR3ezLhN58MLZIH6R/6+Nm9P9nNGc31HH1hlNvoYTLs5vHw0+WaxrFvuaBTLBJaj5+zk/RHEKqjG7+fmur83ydJ
-X-Gm-Message-State: AOJu0YxS+nmcUsg1i0w+xc4jWhBmgekcaAeCIaL62WZWc8WUuanzKdr2
- UQC9n1rH1+XSCQxc1Vbr+cUIW99IvL2wPpsu5e6WFYqUQpj+9MQGGTZlY0ClHxc=
-X-Google-Smtp-Source: AGHT+IEjuMjBrK+rXfyXxF8hbNJfQANvpjcRm271/Z+9lFiuoS/ksY9Q8TulAVC4m5zzVOlPgVgzaQ==
-X-Received: by 2002:a2e:321a:0:b0:2eb:f472:e7d3 with SMTP id
- 38308e7fff4ca-2ec5b2840fdmr67894431fa.6.1719438375097; 
- Wed, 26 Jun 2024 14:46:15 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ee4a350d96sm23201fa.49.2024.06.26.14.46.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jun 2024 14:46:14 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 27 Jun 2024 00:46:06 +0300
-Subject: [PATCH v5 12/12] drm/msm/dpu: include SSPP allocation state into
- the dumped state
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E960710E165;
+ Wed, 26 Jun 2024 21:52:29 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45QAfUup022696;
+ Wed, 26 Jun 2024 21:52:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=qIwvRHU1HPsS7DudEDwvKVGI
+ UGLiVRN2T5iRCevDCoY=; b=gPa83Fiu0P/zuPWJefsmy+XuGboc0ZvleC/eQMpg
+ eDI5Fd/20xvQImg92bABhV0oDwFIo+Vtt05E82KphYWAWImTYzuF8Bw/UN+r2y9t
+ f7tZHwMYN77qGrqWzVKtVWGLJ8Av71Lp0XsIrb80ZOaVPtg7K5DBtvhJfgNu8Bgv
+ 7MvTZobbqyA3SDi6+SFTfThYNRxuAIhJhAz0GduKKtlASYDHvWlVNtu0t6st0e5M
+ U8f9hfhVokVX67WHSESRSyiV34YItv6DjPN7be06C7Er5/xq4sdJDkX9tI+klAO+
+ nvp4tzFLsrDBfSiYVfZJM4bEet7XpTiniZBqCNVp/i+dZQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywqw9j7v9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Jun 2024 21:52:27 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id
+ 45QLqQ21006025
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Jun 2024 21:52:26 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 26 Jun 2024 14:52:22 -0700
+Date: Thu, 27 Jun 2024 03:22:18 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Rob Clark <robdclark@gmail.com>
+CC: Kiarash Hajian <kiarash8112hajian@gmail.com>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/msm/a6xx: request memory region
+Message-ID: <20240626215218.pnbzy25c74c7a22a@hu-akhilpo-hyd.qualcomm.com>
+References: <20240608-adreno-v1-1-2e470480eee7@gmail.com>
+ <CAF6AEGsd6jfDqV-EOWr+oMjPpVr2S+71VYmp1JoY8xU51eeEEw@mail.gmail.com>
+ <20240625175926.4xyzwjyx7oxcwnzx@hu-akhilpo-hyd.qualcomm.com>
+ <CAF6AEGt5=bcni0K1ysot3-hVj9gWECJ5qP=M-sEDkRrAmEHFGg@mail.gmail.com>
+ <20240625202308.prg72urp4mvtxzax@hu-akhilpo-hyd.qualcomm.com>
+ <CAF6AEGs4i4mM9dpD3weG8GunHHfM0JESkzgX1Wd4PBDYatbQqg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240627-dpu-virtual-wide-v5-12-5efb90cbb8be@linaro.org>
-References: <20240627-dpu-virtual-wide-v5-0-5efb90cbb8be@linaro.org>
-In-Reply-To: <20240627-dpu-virtual-wide-v5-0-5efb90cbb8be@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1010;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=eEJvD1LxPrQrE2+bV2Gb2aZ/2mj6knY0BTuucbpbbko=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmfIwZkyt5CzRwY3hfsGPrmhjoZC7H00MHWqkks
- GnB6wan0WSJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZnyMGQAKCRCLPIo+Aiko
- 1XUsCACGQ+zsNDJAcL2Bw2/6RRgLe/mxiy/25t541pd6McAGXfdLlKyKlvpgn/FvjEdp1kRVZoE
- Vgx89cQD8WzLjs30HcTBToiSa/zZ+FpJOOk9CN00h+ttZrS41M3chOqvuvWLFGehdUDKud4lup7
- tf33yO0k7VszARMOwQ3sWgNDHL/kiySr5oIsskVLvTyV2iz6t7s1tgbs2k1GKowVTWn6o7oUSGx
- qM/p8o5TW+rU+Yu2vdrkH6nFU6LzV7tCdH0tllE49FDUNMAhPpzHG3H2qM7YJcJanHUg04qCsz2
- ObPQOKuwU9MBta3iru/e5vM43Un2xj1W6U0sRoMmSfc8GStG
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAF6AEGs4i4mM9dpD3weG8GunHHfM0JESkzgX1Wd4PBDYatbQqg@mail.gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 7ZxKhyL2RdKhbIx27bF2rkglQuR3c--L
+X-Proofpoint-GUID: 7ZxKhyL2RdKhbIx27bF2rkglQuR3c--L
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-26_14,2024-06-25_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0
+ priorityscore=1501 clxscore=1015 impostorscore=0 mlxscore=0
+ lowpriorityscore=0 malwarescore=0 mlxlogscore=832 phishscore=0 bulkscore=0
+ adultscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2406140001 definitions=main-2406260160
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,31 +98,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make dpu_rm_print_state() also output the SSPP allocation state.
+<< snip >>
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+> > > > > > @@ -1503,7 +1497,7 @@ static void __iomem *a6xx_gmu_get_mmio(struct platform_device *pdev,
+> > > > > >                 return ERR_PTR(-EINVAL);
+> > > > > >         }
+> > > > > >
+> > > > > > -       ret = ioremap(res->start, resource_size(res));
+> > > > > > +       ret = devm_ioremap_resource(&pdev->dev, res);
+> > > > >
+> > > > > So, this doesn't actually work, failing in __request_region_locked(),
+> > > > > because the gmu region partially overlaps with the gpucc region (which
+> > > > > is busy).  I think this is intentional, since gmu is controlling the
+> > > > > gpu clocks, etc.  In particular REG_A6XX_GPU_CC_GX_GDSCR is in this
+> > > > > overlapping region.  Maybe Akhil knows more about GMU.
+> > > >
+> > > > We don't really need to map gpucc region from driver on behalf of gmu.
+> > > > Since we don't access any gpucc register from drm-msm driver, we can
+> > > > update the range size to correct this. But due to backward compatibility
+> > > > requirement with older dt, can we still enable region locking? I prefer
+> > > > it if that is possible.
+> > >
+> > > Actually, when I reduced the region size to not overlap with gpucc,
+> > > the region is smaller than REG_A6XX_GPU_CC_GX_GDSCR * 4.
+> > >
+> > > So I guess that register is actually part of gpucc?
+> >
+> > Yes. It has *GPU_CC* in its name. :P
+> >
+> > I just saw that we program this register on legacy a6xx targets to
+> > ensure retention is really ON before collapsing gdsc. So we can't
+> > avoid mapping gpucc region in legacy a6xx GPUs. That is unfortunate!
+> 
+> I guess we could still use devm_ioremap().. idk if there is a better
+> way to solve this
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index dbf1f7229e45..3e3b6b8daa5c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -890,4 +890,11 @@ void dpu_rm_print_state(struct drm_printer *p,
- 	dpu_rm_print_state_helper(p, rm->cdm_blk,
- 				  global_state->cdm_to_enc_id);
- 	drm_puts(p, "\n");
-+
-+	drm_puts(p, "\tsspp=");
-+	/* skip SSPP_NONE and start from the next index */
-+	for (i = SSPP_NONE + 1; i < ARRAY_SIZE(global_state->sspp_to_crtc_id); i++)
-+		dpu_rm_print_state_helper(p, rm->hw_sspp[i] ? &rm->hw_sspp[i]->base : NULL,
-+					  global_state->sspp_to_crtc_id[i]);
-+	drm_puts(p, "\n");
- }
+Can we do it without breaking backward compatibility with dt?
 
--- 
-2.39.2
+-Akhil
 
+> 
+> BR,
+> -R
+> 
+> > -Akhil.
+> >
+> > >
+> > > BR,
+> > > -R
