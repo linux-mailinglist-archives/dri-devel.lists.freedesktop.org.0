@@ -2,87 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A469183C9
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 16:20:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A7559183DD
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 16:22:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD4D10E8DB;
-	Wed, 26 Jun 2024 14:20:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60A4310E8D9;
+	Wed, 26 Jun 2024 14:22:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VRpt5OwN";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="zuFq3Q+B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2BE310E8D5
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 14:20:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1719411651;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/dkiH8oB1Lq06BrQXA4EiojnJ36I3m0baKMRCHVxUGM=;
- b=VRpt5OwNQNPjnmwI0ulJFEFZCDvleV5WnCpHZRwWjPaYM76OFi1U/7NPeHdd37Q04AQKDQ
- Vou9KB89WbGfItjXEvUbQA37FiHUu5+4hZrYiSl8oHs9hiN2GYksC7K7OCRCL1LS7YoPnC
- jLWT1svPHPSqwx37CqdW1CAhcqgToW8=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-156-l-vOR4NZO_Gdwn_PeawYUg-1; Wed, 26 Jun 2024 10:20:50 -0400
-X-MC-Unique: l-vOR4NZO_Gdwn_PeawYUg-1
-Received: by mail-lj1-f199.google.com with SMTP id
- 38308e7fff4ca-2ec6276b28bso26264381fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 07:20:50 -0700 (PDT)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01C5F10E8D4
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 14:22:32 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-2ebec2f11b7so75346561fa.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 07:22:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719411750; x=1720016550;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=W7iH3JSmiJaSnX32RaYcorOWmDrnkufENWf0l16tdfQ=;
+ b=zuFq3Q+BPMNz9PRkZMKpLrfEnHHo/4R2SPlzmkqGhwJV42EU3txyVt/EgvaOHBQl5Y
+ 7BpG2ejIX4hHVHLfGpfVrHVFNclQk+M09SgR0zKHk8jn67z0oj4g+gVHyeTYDfTC6TRC
+ Sth5Vmw4eSwIucj6+8s6H+wtex1ndsRlRg1pXQvtp64F1pXlZgexLzJ9AF4bCknt3Tgt
+ n3A1b0I6OiKrnD0raSUCc54+i3FhGBdp1TQkKTieAVy68Ipqf3wQghZL0mbuSKsOdAMu
+ F4hZcM0DC4EjIEqqn803P/TiSbkVSHb+WUOm3arDkkQ+A0fj2ZqUQnhnvHA92kqxM9rD
+ mUmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719411649; x=1720016449;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/dkiH8oB1Lq06BrQXA4EiojnJ36I3m0baKMRCHVxUGM=;
- b=GLpWlJ6q2hFJ0KKZeW2o8D8kZEf/l3DLYeb4qoGq+oBJqLQRrQZbh8gDCB73hVy58j
- 3oCSE566B0jSVCxNuAVsK4jGzf+NSqMc7UYghwNt2LXdOmQ1YQ0M/tV/Bi0gZdYJoAAq
- WwT+CXLDWG+w+IZlxyT3wrjbxU0tWY/2MALSL0G5puPFMmFUVSQYU72HnAUxfVSrru9k
- ag4ywLftJa/uAx+4ISE6O/S9iUq1FQb3BT9xDFLJkUrbi3F9EbcEhd/zVtlfBMPwyaHe
- Y3t9r4PiwWk/N7pvLnlyqIb4yxPT1ynD23KhkQc7r5GHGkRpSv1w8K/tSl9oD6YcaPXm
- wVZg==
-X-Gm-Message-State: AOJu0YxGbM3rhdor89KKzx+IN1ejA3hLKn9iZZldiIjaCSr9X2RqqHPU
- t8+hWKFjSgYaLmEqai1GqRPv9HxzqMW6wi2XyhH6CSYU1IbqEpywm8BwKHKkUPQw1I1WU+gpe7X
- UhQ9QJqo9LWHyUKblb/OfcFlwBisOv3dIjxBz9w+0NP4DPeeqwqHTWDx7JxqrKlauDw==
-X-Received: by 2002:a2e:8297:0:b0:2ec:174b:75bb with SMTP id
- 38308e7fff4ca-2ec5b38ad36mr60758631fa.28.1719411648861; 
- Wed, 26 Jun 2024 07:20:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGbJrtCfsDdRjevLVF2jDTZKd/+U7FelbsHUMDDFMFSBrVQopsqeDt+kK0Oh5JvZq3Uufc/4g==
-X-Received: by 2002:a2e:8297:0:b0:2ec:174b:75bb with SMTP id
- 38308e7fff4ca-2ec5b38ad36mr60758471fa.28.1719411648462; 
- Wed, 26 Jun 2024 07:20:48 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
- ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-424c8285f5csm26987465e9.25.2024.06.26.07.20.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jun 2024 07:20:48 -0700 (PDT)
-Message-ID: <70f5f582-f20d-4102-a6e6-7d5927edbb56@redhat.com>
-Date: Wed, 26 Jun 2024 16:20:47 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/panic: Restrict graphical logo handling to
- built-in
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ d=1e100.net; s=20230601; t=1719411750; x=1720016550;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=W7iH3JSmiJaSnX32RaYcorOWmDrnkufENWf0l16tdfQ=;
+ b=smkG9d1byAP50FZ7z5miKADbHlF6WehSnyRtjEEdTMG+VpaoO6Nh21U6h9gI0FEmgx
+ CEApfM+OZy8ZadVxIsyeg63nSHswOdHMiOS6dhJyJcNBckYbUjAskRuV3pybBamAzBFT
+ HpO8kdEcLn5Ep9S6pPiGzvCZT15ZThisveac4gKR/NVGVptd4EeTzXjZg0DL5opqf2x2
+ jzZDGUjOkWw5kyY4g7nG4jJ8/EE79lPkAgqAJWYFostCY06WuDToPB722mx6HDuU2wNp
+ LyLTbdIiw0E7WXS2ezyWwu98Oqw4lfkxCjTbyiyUkNjGq/0l38OZrSPxkczQueJIkOiu
+ Pk2Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXf+VqKFyTwDhCiiWiKaZrRn68JlCj/N6Z7nHKTgUUU3rqNwyEx2VjwKLpaB5qhaBqAK0oSMv5n8m3b4k1okEk3VNROEDikvi3lpoEPDb+2
+X-Gm-Message-State: AOJu0Yynv1grWmV/IdgAOVPLgBYJmNazZWNZM0gpBJW6p1twBJGI1/Dp
+ bmGY6+Y4rSSMRkyFPFobzFVfJ4BXTDUVUdhmuBERvEky/DktgB0VG43aGy2KMoM=
+X-Google-Smtp-Source: AGHT+IHetDfsyqoRDtAkMQd5EyaDyXrcIZOcAmh59cPqxsnGl3jMLCu9/rXhsZFogKqN/Bv732PNYg==
+X-Received: by 2002:a2e:8416:0:b0:2ea:8308:841e with SMTP id
+ 38308e7fff4ca-2ec5b345df8mr57301091fa.24.1719411750430; 
+ Wed, 26 Jun 2024 07:22:30 -0700 (PDT)
+Received: from toaster.lan ([2a01:e0a:3c5:5fb1:7be7:aef1:af9e:fff6])
+ by smtp.googlemail.com with ESMTPSA id
+ 5b1f17b1804b1-424c823c28asm27141105e9.5.2024.06.26.07.22.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Jun 2024 07:22:30 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel test robot <lkp@intel.com>
-References: <cover.1719391132.git.geert+renesas@glider.be>
- <4009fca99a7c05f617cc9899c6d0a5748415595d.1719391132.git.geert+renesas@glider.be>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <4009fca99a7c05f617cc9899c6d0a5748415595d.1719391132.git.geert+renesas@glider.be>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 0/3] drm: panel: add support lincolntech LCD197 panel
+Date: Wed, 26 Jun 2024 16:22:06 +0200
+Message-ID: <20240626142212.1341556-1-jbrunet@baylibre.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,43 +90,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patchset adds support for the Lincolntech LCD197 1080x1920 DSI panel.
 
+Changes since v1 [1]:
+ * Rebased on drm-misc-next
+ * Drop vendor prefix change (lincolntech recently added)
+ * Use mipi_dsi_dcs_*multi()
+ * Drop the shutdown callback
+ * Insert mipi_dsi_usleep_range() for _multi usage as suggested.
+ * Downcase hexadecimal values
 
-On 26/06/2024 10:41, Geert Uytterhoeven wrote:
-> When CONFIG_DRM_PANIC=y, but CONFIG_DRM=m:
-> 
->      ld: drivers/gpu/drm/drm_panic.o: in function `drm_panic_setup_logo':
->      drivers/gpu/drm/drm_panic.c:99: multiple definition of `init_module'; drivers/gpu/drm/drm_drv.o:drivers/gpu/drm/drm_drv.c:1079: first defined here
-> 
-> Fix this by restricting the graphical logo handling and its
-> device_initcall() to the built-in case.  Logos are freed during late
-> kernel initialization, so they are no longer available at module load
-> time anyway.
+[1]: https://lore.kernel.org/lkml/20240625142552.1000988-1-jbrunet@baylibre.com
 
-Thanks a lot for this fix.
+Jerome Brunet (3):
+  dt-bindings: panel-simple-dsi: add lincoln LCD197 panel bindings
+  drm/mipi-dsi: add mipi_dsi_usleep_range helper
+  drm/panel: add lincolntech lcd197 support
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+ .../display/panel/panel-simple-dsi.yaml       |   2 +
+ drivers/gpu/drm/panel/Kconfig                 |  11 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-lincolntech-lcd197.c  | 262 ++++++++++++++++++
+ include/drm/drm_mipi_dsi.h                    |   7 +
+ 5 files changed, 283 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-lincolntech-lcd197.c
 
-> 
-> Fixes: 294bbd1f2697ff28 ("drm/panic: Add support for drawing a monochrome graphical logo")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202406261341.GYsbLpN1-lkp@intel.com/
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->   drivers/gpu/drm/drm_panic.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> index 67f78b5a76b61e3d..948aed00595eb6dd 100644
-> --- a/drivers/gpu/drm/drm_panic.c
-> +++ b/drivers/gpu/drm/drm_panic.c
-> @@ -91,7 +91,7 @@ static const struct drm_panic_line logo_ascii[] = {
->   	PANIC_LINE(" \\___)=(___/"),
->   };
->   
-> -#ifdef CONFIG_LOGO
-> +#if defined(CONFIG_LOGO) && !defined(MODULE)
->   static const struct linux_logo *logo_mono;
->   
->   static int drm_panic_setup_logo(void)
+-- 
+2.43.0
 
