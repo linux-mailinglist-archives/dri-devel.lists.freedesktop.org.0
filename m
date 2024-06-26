@@ -2,83 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC8CA917753
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 06:31:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D660917772
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 06:34:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2CBF10E24B;
-	Wed, 26 Jun 2024 04:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11F0910E275;
+	Wed, 26 Jun 2024 04:34:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="p1yU7Uxg";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="h3iZtvYR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0FB110E072
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 04:31:29 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-2ec61eeed8eso32798881fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 21:31:29 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BA7C10E275
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 04:34:51 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-2ec6ddf701cso1221871fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2024 21:34:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719376288; x=1719981088; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1719376489; x=1719981289; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=qDMOY6eglp03mIp9Xp9m5yyz1aKQNtppCZRvZo0tS5E=;
- b=p1yU7Uxg7TtIkMYf4OtFV/Tqjna22bp5dMKP8db7zVnCBVhNXAfZ9so+lH1oiarHhE
- 4CIDl92nAE86h2aMbXKTErCJDQUZAXtsQKc4i5nVjiGPhl5Zuj8fZZr6RLIThf+P0787
- KxaE/Kix322Wr++eQs5jpWsQM0IHxcTay5la1RWHd5ngoT3AxC77pnlFxWYZSSfsonry
- 5++CTpGoFXQyv3eGfbPu8lZGEO23bTlhPRIkWBifN9r9KqCvFBNApN4d+4OcFG2hMfSh
- 7iiSFUKSrzQv/YiD7zqzns4CInV5DbpnDYAz+yIcus+h4mduYLgOlxvHcLK+4HZNqu59
- Q15A==
+ bh=eMIepVS1eSxsW7V7EoimYfkb4vzWqTie8Ye58Dr6OVY=;
+ b=h3iZtvYRrrTV1LLyoYiQYZ5qcRBpvVha8XhbUJ5XlYDKMtF+/kZygQ3A9n7Y4oUgmt
+ mLlp1rkyVnje3GMsLxIhcLvfLpRK9oS9/0ymeaSPbnrzmfGbM2e3m0LBuHK7uj1/4Czm
+ QL8Qr2Hfb1WNImrPjgN90X2q58g6nqHTVxNEcPbKFkFpFBJyu0UJJCIZiZ6IGuDSC0+b
+ Q2sYn9tIQDnC75QBF7BGLx/wbTYN4MGiemVXSmhYCgHMWMX4yAfbuMhw9FhMXx5bkSLe
+ XRqKcrn7b6PdK2rcBCOxAPt+UDmhuzCy7gyx14YJ7PyPpIdnhqezmwT08ylMK4B9hfux
+ FSNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719376288; x=1719981088;
+ d=1e100.net; s=20230601; t=1719376489; x=1719981289;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qDMOY6eglp03mIp9Xp9m5yyz1aKQNtppCZRvZo0tS5E=;
- b=Jk7DnozEN6+H9pAHKlglqB583t2p1dGZVILNAvAM20as7HGfByEdDli76weEl84T4k
- H8X9nji1KCGgImbQ7GOsWOAAVkFK5C6DPV4QA2ZJa5m3fLy8a/4A5NBrQ4NtBITH96DW
- 8RoUC7AbHOXD3mVHW8vRCOhfAcFs/e9UKsDl8P7HjYkEBnw+GpysfLAsjRWGfoq+AoVT
- QkKdv4CzjD+EM+fGMjHTT4OTNuwIwHHHeLHQYu6vQDbpgQRzh1dwMQYv7bCzxKxW638u
- r7AiE9A+XS7HjyRlcCPh35NrpAOdjeN1ma8G+H42UWlCbqLACZRR5Yyl0sl02k67Gew6
- jxHg==
+ bh=eMIepVS1eSxsW7V7EoimYfkb4vzWqTie8Ye58Dr6OVY=;
+ b=akBAJiJFbH1XTMMOLgm2Iqk8Alco3uOjJkYnY0hJzvAaaKRddHFNWyHRjPuAb7c+Si
+ R16yTwD03eVQl0G6XBfSJedrExZQLywyhfS1JsFkNrEINhZ3mn5v7RLQPJ8ACNKmCzwa
+ sxY4neNipWeHIWztwUz+OGZlsc2sV7NO8ZqAE59jvhF50YliXlkMUXiMdJSQerGLvKMz
+ Pcaz2mFZmmvki0KVSv8gJGhPx0xA9ecA/A+8TcX37617BsVj0JSopjqBUNzTn5+4Fqmr
+ nSLklygsCxTNZJ2FH861FUe5ouX/FAlG3OIIOSOoN4XjddW0cF6q5ngbVFiAN38hzLEg
+ zHGA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW84XtkXVeTTpY8jS856Kp2x9k3u3vAwuOhTWJnkBaUccjcBeL+ROdAoNFOsUsq1+tNowCFJ7XrClD4wbjl1sxcLn6nCiS4Lm2l15XTysxB
-X-Gm-Message-State: AOJu0Yw86+w+RbppvBSGe9/bdhspeLRdDd33G5mrYWb4DUxGPAxC0vxu
- muxiH00UHgBh2GOwYk1s6f2sZnO7dcnLcyrDK+W5aKGwnSYtQGQl+OZTe+0knlg=
-X-Google-Smtp-Source: AGHT+IEJDJbJ0nmjp0FdUDEdV4/Bu3Xu/XaM3QtCeSYzxL+1CRkCFEiMq1C2y/BjX9CIR2z91E+1Wg==
-X-Received: by 2002:a2e:9684:0:b0:2ec:53a8:4b3e with SMTP id
- 38308e7fff4ca-2ec5b387fcamr53011001fa.38.1719376287461; 
- Tue, 25 Jun 2024 21:31:27 -0700 (PDT)
+ AJvYcCXJgR71v7k6SKdV5vOx317Psx6y3m/BWtMGE8jU2Vda/ikoJOdYkzq0GOqcriAHxhHGKbP05Epa4eOZ5EoZiO3X90zq9rxQ1t8lbheq9Siu
+X-Gm-Message-State: AOJu0Yxz0kSC7Io9C/J6tBXLZ5ksbMgwLrc5rrazmWJ9Jn2ZifDFCZGb
+ 9vAjOyj9R55vQPEJ2wL1BvJobWopxxz5YuMngZ1qYOeKfyelf9H6EcWnBLeELjQ=
+X-Google-Smtp-Source: AGHT+IFoiipSbH2UcN2H0t6KyrVhkb9qT8QxkmMpRcQeNkCtjWTOrBPsljvQtVIFtv7+XA09K9WYvg==
+X-Received: by 2002:a2e:be28:0:b0:2ec:72d0:42c0 with SMTP id
+ 38308e7fff4ca-2ec72d0440cmr8424131fa.16.1719376489104; 
+ Tue, 25 Jun 2024 21:34:49 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ec67316e57sm4088891fa.103.2024.06.25.21.31.26
+ 38308e7fff4ca-2ec4fec8a35sm12664621fa.43.2024.06.25.21.34.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jun 2024 21:31:27 -0700 (PDT)
-Date: Wed, 26 Jun 2024 07:31:25 +0300
+ Tue, 25 Jun 2024 21:34:48 -0700 (PDT)
+Date: Wed, 26 Jun 2024 07:34:47 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>
-Subject: Re: [PATCH] dt-bindings: display/msm/gmu: fix the schema being not
- applied
-Message-ID: <vuzzs5xd2zacpamln7apyhnxebg3xadkagzheg5cz2fnuj2ggc@lancgcviktpy>
-References: <20240623125930.110741-1-krzysztof.kozlowski@linaro.org>
- <20240625225127.GA361957-robh@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: airlied@redhat.com, jfalempe@redhat.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/ast: Inline drm_simple_encoder_init()
+Message-ID: <n22c255ozkpnbvt45ugfgpqyjmebmgsjblduwurf6yr7ralffd@yvbrl4rsabea>
+References: <20240625131815.14514-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240625225127.GA361957-robh@kernel.org>
+In-Reply-To: <20240625131815.14514-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,62 +84,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 25, 2024 at 04:51:27PM GMT, Rob Herring wrote:
-> On Sun, Jun 23, 2024 at 02:59:30PM +0200, Krzysztof Kozlowski wrote:
-> > dtschema v2024.4, v2024.5 and maybe earlier do not select device nodes for
+On Tue, Jun 25, 2024 at 03:18:09PM GMT, Thomas Zimmermann wrote:
+> The function drm_simple_encoder_init() is a trivial helper and
+> deprecated. Replace it with the regular call to drm_encoder_init().
+> Resolves the dependency on drm_simple_kms_helper.h. No functional
+> changes.
 > 
-> That should be just since db9c05a08709 ("validator: Rework selecting 
-> schemas for validation") AKA the 6x speed up in v2024.04.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/ast/ast_mode.c | 45 ++++++++++++++++++++++++++++++----
+>  1 file changed, 40 insertions(+), 5 deletions(-)
 > 
-> > given binding validation if the schema contains compatible list with
-> > pattern and a const fallback.  This leads to binding being a no-op - not
-> > being applied at all.  Issue should be fixed in the dtschema but for now
-> > add a work-around do the binding can be used against DTS validation.
-> 
-> The issue is we only look at the first compatible. I'm testing out a fix 
-> and will apply it tomorrow assuming no issues. With that, I don't think 
-> we should apply this patch.
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 6695af70768f..2fd9c78eab73 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -45,7 +45,6 @@
+>  #include <drm/drm_managed.h>
+>  #include <drm/drm_panic.h>
+>  #include <drm/drm_probe_helper.h>
+> -#include <drm/drm_simple_kms_helper.h>
+>  
+>  #include "ast_ddc.h"
+>  #include "ast_drv.h"
+> @@ -1358,6 +1357,14 @@ static int ast_crtc_init(struct drm_device *dev)
+>  	return 0;
+>  }
+>  
+> +/*
+> + * VGA Encoder
+> + */
+> +
+> +static const struct drm_encoder_funcs ast_vga_encoder_funcs = {
+> +	.destroy = drm_encoder_cleanup,
+> +};
+> +
+>  /*
+>   * VGA Connector
+>   */
+> @@ -1411,7 +1418,8 @@ static int ast_vga_output_init(struct ast_device *ast)
+>  	struct drm_connector *connector = &ast->output.vga.connector;
+>  	int ret;
+>  
+> -	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
+> +	ret = drm_encoder_init(dev, encoder, &ast_vga_encoder_funcs,
+> +			       DRM_MODE_ENCODER_DAC, NULL);
 
-I think we ended up picking up the next iteration of the patch, but we
-can probably land a revert later.
-
-> 
-> > 
-> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > 
-> > ---
-> > 
-> > Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> > ---
-> >  .../devicetree/bindings/display/msm/gmu.yaml         | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> > index b3837368a260..8d1b515f59ec 100644
-> > --- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> > +++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> > @@ -17,6 +17,18 @@ description: |
-> >    management and support to improve power efficiency and reduce the load on
-> >    the CPU.
-> >  
-> > +# dtschema does not select nodes based on pattern+const, so add custom select
-> > +# as a work-around:
-> > +select:
-> > +  properties:
-> > +    compatible:
-> > +      contains:
-> > +        enum:
-> > +          - qcom,adreno-gmu
-> > +          - qcom,adreno-gmu-wrapper
-> > +  required:
-> > +    - compatible
-> > +
-> >  properties:
-> >    compatible:
-> >      oneOf:
-> > -- 
-> > 2.43.0
-> > 
+What about using drmm_encoder_init() instead? It will call
+drm_encoder_cleanup automatically.
 
 -- 
 With best wishes
