@@ -2,36 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A4BA917DBF
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 12:25:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D662917DD4
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 12:28:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0900B10E82E;
-	Wed, 26 Jun 2024 10:25:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C298610E0A5;
+	Wed, 26 Jun 2024 10:28:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HXO4rl9s";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MlUzY1d2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5B1010E82E
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 10:25:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F93410E0A5
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 10:28:16 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi
  [91.158.144.210])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6EB162C5;
- Wed, 26 Jun 2024 12:24:55 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E92152C5;
+ Wed, 26 Jun 2024 12:27:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1719397496;
- bh=fm00PkARB5AL2bGmF9EOi9Wo9IuJzJD9VX6QAJzzT3o=;
+ s=mail; t=1719397672;
+ bh=4utsmcNSL79n4TbI1mKr3zoEV7tqKldysQtdjN2wbis=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=HXO4rl9sVF6ovuwnxFt729XSOzX3IFCCJ8nzJeAzJ0f4Y/Rf/1UxSiTKlU13iijOO
- ppNtonLVS485tWgtV+PUQSNHNdLxjjvRPhBk/B/TvFosOaqT+s9GoumhV7eTcbxRQV
- w1eaU6Z07QWRCimXf/s4TITMIl+OBRLLW5rsV2sA=
-Message-ID: <8fcbc541-d7a3-4d0d-ab0f-74d7f1cd63b5@ideasonboard.com>
-Date: Wed, 26 Jun 2024 13:25:15 +0300
+ b=MlUzY1d2UDfNYnp4hA9j1zuXzdGQVgichrx2/tPw26uVzHtUpmNkWowEbeWA44fV6
+ PMOpwbbboeF6vPto4u3oZNd7FdRBk98Kuv75vb97ivA+yBVydoY1ANtahgD8mfTPH+
+ vpOWjGGM6hlzZV9AV5dqay/6HGN3qrOmAjV2ExlE=
+Message-ID: <476eab03-09b6-4a38-85e3-0ff61a7d7a56@ideasonboard.com>
+Date: Wed, 26 Jun 2024 13:28:10 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 03/11] drm/bridge: cdns-dsi: Fix Phy _init() and _exit()
+Subject: Re: [PATCH v4 04/11] drm/bridge: cdns-dsi: Fix the link and phy init
+ order
 To: Aradhya Bhatia <a-bhatia1@ti.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -52,9 +53,9 @@ Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
  Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
  Jai Luthra <j-luthra@ti.com>
 References: <20240622110929.3115714-1-a-bhatia1@ti.com>
- <20240622110929.3115714-4-a-bhatia1@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ <20240622110929.3115714-5-a-bhatia1@ti.com>
 Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
  wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
@@ -98,7 +99,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240622110929.3115714-4-a-bhatia1@ti.com>
+In-Reply-To: <20240622110929.3115714-5-a-bhatia1@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,78 +117,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
 On 22/06/2024 14:09, Aradhya Bhatia wrote:
-> Initialize the Phy during the cdns-dsi _resume(), and de-initialize it
-> during the _suspend().
+> The order of init of DSI link and DSI phy is wrong. The DSI link needs
+> to be configured before the DSI phy is getting configured. Otherwise,
+> the D-Phy is unable to lock in on the incoming PLL Reference clock[0].
 > 
-> Also power-off the Phy from bridge_disable.
+> Fix the order of inits.
+> 
+> [0]: See section 12.6.5.7.3 "Start-up Procedure" in J721E SoC TRM
+>       TRM Link: http://www.ti.com/lit/pdf/spruil1
 > 
 > Fixes: fced5a364dee ("drm/bridge: cdns: Convert to phy framework")
 > Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 > ---
->   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 10 ++++++++--
->   1 file changed, 8 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> index 5159c3f0853e..d89c32bae2b9 100644
+> index d89c32bae2b9..03a5af52ec0b 100644
 > --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 > +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> @@ -672,6 +672,10 @@ static void cdns_dsi_bridge_disable(struct drm_bridge *bridge)
->   	if (dsi->platform_ops && dsi->platform_ops->disable)
->   		dsi->platform_ops->disable(dsi);
+> @@ -778,8 +778,8 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
 >   
-> +	phy_power_off(dsi->dphy);
-> +	dsi->link_initialized = false;
-> +	dsi->phy_initialized = false;
-> +
->   	pm_runtime_put(dsi->base.dev);
->   }
+>   	WARN_ON_ONCE(cdns_dsi_check_conf(dsi, mode, &dsi_cfg, false));
 >   
-> @@ -698,7 +702,6 @@ static void cdns_dsi_hs_init(struct cdns_dsi *dsi)
->   	       DPHY_CMN_PDN | DPHY_PLL_PDN,
->   	       dsi->regs + MCTL_DPHY_CFG0);
+> -	cdns_dsi_hs_init(dsi);
+>   	cdns_dsi_init_link(dsi);
+> +	cdns_dsi_hs_init(dsi);
 >   
-> -	phy_init(dsi->dphy);
->   	phy_set_mode(dsi->dphy, PHY_MODE_MIPI_DPHY);
->   	phy_configure(dsi->dphy, &output->phy_opts);
->   	phy_power_on(dsi->dphy);
-> @@ -1120,6 +1123,8 @@ static int __maybe_unused cdns_dsi_resume(struct device *dev)
->   	clk_prepare_enable(dsi->dsi_p_clk);
->   	clk_prepare_enable(dsi->dsi_sys_clk);
->   
-> +	phy_init(dsi->dphy);
-> +
->   	return 0;
->   }
->   
-> @@ -1127,10 +1132,11 @@ static int __maybe_unused cdns_dsi_suspend(struct device *dev)
->   {
->   	struct cdns_dsi *dsi = dev_get_drvdata(dev);
->   
-> +	phy_exit(dsi->dphy);
-> +
->   	clk_disable_unprepare(dsi->dsi_sys_clk);
->   	clk_disable_unprepare(dsi->dsi_p_clk);
->   	reset_control_assert(dsi->dsi_p_rst);
-> -	dsi->link_initialized = false;
->   	return 0;
->   }
->   
+>   	writel(HBP_LEN(dsi_cfg.hbp) | HSA_LEN(dsi_cfg.hsa),
+>   	       dsi->regs + VID_HSIZE1);
 
-So with this patch, phy_init/exit will be called in the resume/suspend 
-functions. That looks fine.
-
-But the phy_power_on/phy_power_off looks odd to me. Here you add 
-phy_power_off() to cdns_dsi_bridge_disable(), which sounds fine. But 
-phy_power_on() is called in cdns_dsi_hs_init(), and that is called in 
-cdns_dsi_bridge_enable() (which sounds fine), but also in 
-cdns_dsi_bridge_pre_enable().
-
-So doesn't that mean cdns_dsi_hs_init() call in cdns_dsi_bridge_enable() 
-is extra, as it effectively does nothing (it exists right away if 
-dsi->phy_initialized == true)?
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
 
