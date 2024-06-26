@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78875917990
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 09:23:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DED21917992
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 09:23:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17E6810E791;
-	Wed, 26 Jun 2024 07:22:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52C1610E797;
+	Wed, 26 Jun 2024 07:23:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="AAs4Yfa3";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="rdDcWB8l";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="QJ03VIWa";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="HATLGglR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
- Wed, 26 Jun 2024 04:57:20 UTC
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CBF410E759
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 04:57:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99FF710E759
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 04:58:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1719377840; x=1750913840;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=PyotQWY+vhDeX6zc3eagaZBEBtHJTWwRgB86lW0uB1w=;
- b=AAs4Yfa3zpg+/QHcZ7eEGdEVc6ukFVgCj51/WBcEZb7lmbymkOkxvOcd
- 4dEpVZWM8uxhuN1ws5gSWr88ja+lrwIS2xxFFTxM9Nb0TUXQBPb7p8jWl
- e4Jg0cw9Aay+ld9VsNo5OmDAvtRgE03jkQ+Hse7pqd6nbCpmWrUOWg1SB
- J5C/TmK16cT7fHYlLNa+9qOS9xnM6WaqPe30pu9r+KwgbTgv56MZnSmN5
- fM0K4rqEiJdp8uf6SU46zRxWWMb9/o63Pp7hRtSYJndJ9AKMpMoyyZcSE
- 642ZKxg+u5ZXDQR25Rn4ZiNIw9p1xTEYO9L3Hgr9uaWrlBMz7KnXZRLw8 Q==;
-X-CSE-ConnectionGUID: DLYO0bOJRn2SOU8zwygVtg==
-X-CSE-MsgGUID: T0XYMbzOSD+5UwkLbT618Q==
-X-IronPort-AV: E=Sophos;i="6.08,265,1712613600"; d="scan'208";a="37587111"
+ t=1719377918; x=1750913918;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=vG2Rc4xkGFImIioZv6ZRCJMBuYbFRtMECaHSkdBskOE=;
+ b=QJ03VIWaNN1juQdRszA9BalHxivIz5MGQxvu+CXYT3yOFeC4pFTK6+GN
+ 1+Qslm5W7F/hjUfk/sBOFo+Okm3royS7Y4Tnqumm8IMiEzR2cqih1Ba6Z
+ pmZOi3WvKy4XNhPMsi4rracYCOEbP0P+CMvm4bgwjpryUnITs9kUmNZWW
+ 9qcCb31/LddljM0k4YE5ds5c1QliNOpG35TSCLUvKyZ3Y+5a2ajle+yl5
+ 9/P2hsVhsCrj1wwNVwjjDhB5nijCTTwZwYsHeE6dJyZir9bETkdCJjAMh
+ lFdQusQBp5tsgkcbrjH1GSN2Ju/uelwh0PgAsZ4KvKSCJZfXEjJwMifz2 g==;
+X-CSE-ConnectionGUID: 7E+dOCUBTiS18j49G/35uQ==
+X-CSE-MsgGUID: xt2H0tgQQHiCJZdsUyj98A==
+X-IronPort-AV: E=Sophos;i="6.08,265,1712613600"; d="scan'208";a="37587119"
 Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 26 Jun 2024 06:50:08 +0200
+ by mx1.tq-group.com with ESMTP; 26 Jun 2024 06:51:27 +0200
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id E05AA160B1D; Wed, 26 Jun 2024 06:50:01 +0200 (CEST)
+ with ESMTPSA id CB1781639F7; Wed, 26 Jun 2024 06:51:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1719377404; h=from:subject:date:message-id:to:cc:mime-version:
- content-transfer-encoding; bh=PyotQWY+vhDeX6zc3eagaZBEBtHJTWwRgB86lW0uB1w=;
- b=rdDcWB8lWIRAgWyjinUmEWXwvz9SmJcSwajwy05Ce7f9lnN/rqniTBbeombDvIYH6V8Gxc
- JImMfVAnEtyoI6yTyrpO9F+nh1XATBvEBC0osYqXqtcln7+4d4hygY14t31F1Xgv5bqBsQ
- 0DnZQbxSIQ+BH7i9aAGupoS8zZT12FuvoWWEigRD+//j4s/rsWdLThLP6yWAg34urpcAvd
- BNoahIUjyAz9pRX7TVfnXT+dQoGpPcafV+pVXq7LPRdSkFrTn3f7rOsI9dUtC2k2OBZwhk
- /aBka9jlMkGmeyuXXUzGYBJOoehgghp+OzfwVY+6urL2GwnUjv79D834IY9vYA==
+ s=dkim; t=1719377483; h=from:subject:date:message-id:to:cc:mime-version:
+ content-transfer-encoding:in-reply-to:references;
+ bh=vG2Rc4xkGFImIioZv6ZRCJMBuYbFRtMECaHSkdBskOE=;
+ b=HATLGglRbaAsM8WFN40WYfLHukhc5KL6OXmy7n5yO/quND9gKiD3nT55P51mvfqCzh4YrT
+ 6vHnPBQWKI3ZZAAbpus8PK+oPjCVTe/QlWvjWPUHCzGkZ49fafNCHN+KfTxzrSJzUpkuVF
+ I1exw/VWEU++748D202jtaqKy7alrmLojhHwCdGhrlsI0DYwAyFit2RnIpClo67X/2dQTf
+ goAXwAcDdNKreA4aBRehAauezj9W9Oh6qersDCL8ODyzLupLsbRMKYXLxmEew42W26DcoY
+ t1RqAXJXUo+yhirXnS/TTPN+eDBJyc/0elrQvO9nZzTkNCW5R3V4CXdSsO2/Vg==
 From: Paul Gerber <paul.gerber@ew.tq-group.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
@@ -57,10 +56,12 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Thierry Reding <thierry.reding@gmail.com>
 Cc: Paul Gerber <paul.gerber@ew.tq-group.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] dt-bindings: display: simple: Add AUO G104STN01 panel
-Date: Wed, 26 Jun 2024 06:36:27 +0200
-Message-ID: <20240626044727.2330191-1-paul.gerber@ew.tq-group.com>
+Subject: [PATCH 2/2] drm/panel: simple: Add AUO G104STN01 panel entry
+Date: Wed, 26 Jun 2024 06:36:29 +0200
+Message-ID: <20240626044727.2330191-3-paul.gerber@ew.tq-group.com>
 X-Mailer: git-send-email 2.44.1
+In-Reply-To: <20240626044727.2330191-1-paul.gerber@ew.tq-group.com>
+References: <20240626044727.2330191-1-paul.gerber@ew.tq-group.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -80,29 +81,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add AUO G104STN01 10.4" LCD-TFT LVDS panel compatible string.
+Add support for the AUO G104STN01 10.4" (800x600) LCD-TFT panel.
 
 Signed-off-by: Paul Gerber <paul.gerber@ew.tq-group.com>
 ---
-
 Tested on TQ MBa8MPxL with TQMa8MPxL.
 
- .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 5067f5c0a272..8d75284845db 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -64,6 +64,8 @@ properties:
-         # AU Optronics Corporation 10.4" (800x600) color TFT LCD panel
-       - auo,g104sn02
-         # AU Optronics Corporation 12.1" (1280x800) TFT LCD panel
-+      - auo,g104stn01
-+        # AU Optronics Corporation 10.4" (800x600) color TFT LCD panel
-       - auo,g121ean01
-         # AU Optronics Corporation 15.6" (1366x768) TFT LCD panel
-       - auo,g156xtn01
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index dcb6d0b6ced0..5eacd2085a53 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -1081,6 +1081,30 @@ static const struct panel_desc auo_g104sn02 = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
++static const struct drm_display_mode auo_g104stn01_mode = {
++	.clock = 40000,
++	.hdisplay = 800,
++	.hsync_start = 800 + 40,
++	.hsync_end = 800 + 40 + 88,
++	.htotal = 800 + 40 + 88 + 128,
++	.vdisplay = 600,
++	.vsync_start = 600 + 1,
++	.vsync_end = 600 + 1 + 23,
++	.vtotal = 600 + 1 + 23 + 4,
++};
++
++static const struct panel_desc auo_g104stn01 = {
++	.modes = &auo_g104stn01_mode,
++	.num_modes = 1,
++	.bpc = 8,
++	.size = {
++		.width = 211,
++		.height = 158,
++	},
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
++	.connector_type = DRM_MODE_CONNECTOR_LVDS,
++};
++
+ static const struct display_timing auo_g121ean01_timing = {
+ 	.pixelclock = { 60000000, 74400000, 90000000 },
+ 	.hactive = { 1280, 1280, 1280 },
+@@ -4434,6 +4458,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "auo,g104sn02",
+ 		.data = &auo_g104sn02,
++	}, {
++		.compatible = "auo,g104stn01",
++		.data = &auo_g104stn01,
+ 	}, {
+ 		.compatible = "auo,g121ean01",
+ 		.data = &auo_g121ean01,
 -- 
 2.44.1
 
