@@ -2,101 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FCD9917BFC
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 11:11:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4A7917C0A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 11:12:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E66E10E7E8;
-	Wed, 26 Jun 2024 09:11:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0164410E7F6;
+	Wed, 26 Jun 2024 09:12:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="iUYE8TQE";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="TMI/WBn7";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rPOhQh7G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh2-smtp.messagingengine.com
- (fhigh2-smtp.messagingengine.com [103.168.172.153])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3BCA10E7F0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 09:11:17 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailfhigh.nyi.internal (Postfix) with ESMTP id C2DE811401A5;
- Wed, 26 Jun 2024 05:11:16 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
- by compute5.internal (MEProxy); Wed, 26 Jun 2024 05:11:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
- h=cc:cc:content-type:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm2; t=1719393076; x=
- 1719479476; bh=1XgaL0ZJjZT740Vm65mI9H/lF8S7J1Gz9fJ+DAnK54M=; b=i
- UYE8TQE5etrwl1wQxvS6nkf76603/PVQ2aXBHyhSpyArSRRI/xLLdGD25gbLEErS
- Bp7m4M4RO8D8dSRh0BUgmCdoceU7ysTIquuZYYVXcnzSZKEAdi1UmD+J+3z7QqRi
- 01+qLqmTRj6dUAyxyYxoQ19UL/uY3dlA/RPJZP2kR9nnCfEso2igyWiEYKyb5eiU
- AERa7+cAk7ZXLD9NVaIz2SUnS+vehtSbmZi4TTG+w3CiFGM7Vd6rNWTbLQ/S1AFm
- 0MMyNZJk6rqyY6EtGCGN6lHMf70iMzavI75Stgaig7FxW7jKjZQJX1206EGOjle3
- WaRaETVZvIIPj5X3LXT7g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1719393076; x=1719479476; bh=1XgaL0ZJjZT740Vm65mI9H/lF8S7
- J1Gz9fJ+DAnK54M=; b=TMI/WBn7XtwV9EoqGrq5pdd3N00Fbk41ufBsSDqGaWoC
- bpuePGYcQvFENfqdh8LqpmLHj4EZUP5l90OlUnfYV0e7laV5uWmHKtWE3dJ9uLf3
- x3qP0//OqMofAX9TJKvNXIA+FF+i3xFPW342kJYYSwaz1O+XyfKIXFCsnB9gxyTJ
- K/USSo+sfQH2dyjVz2hPhjisKHK0Mzvxo3a5ozUVkuotpWYIJRPl1e/xuFkiMHQy
- xxmXKBOfC3fm9jXASToyxjpglgg5lJ8xcjprI5qAn0h51RycVkj7SJB4rgVaatSf
- gvT+rmee/+TfD0ZHMD8uh0UZzC5upyaDff9wtE/Efw==
-X-ME-Sender: <xms:NNt7Zo_DMSJnB4_j_5hkfwZzs9Cm0Ty_kdO3CSPdp_CD7stZwxyqbg>
- <xme:NNt7ZgvarNYEpDiwZMHQpLC4hYFOf7FfKcbH5_gD7jeO2ZOej1h39XI_ryj5gOu-B
- cMi_smoxTKsbQhnWg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrtddvgdduvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfthigr
- nhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenucggtf
- frrghtthgvrhhnpeehvdevieegudejueefgeffhefhffevudfhieejgfdtffetlefgteeu
- veeiudeijeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpehrhigrnhesthgvshhtthhorghsthdrtghomh
-X-ME-Proxy: <xmx:NNt7ZuAQAzeu2LG8mSLaTXD1QiMdksbhysiLJnbUSr3K7Pcq6BHzzw>
- <xmx:NNt7Zofb2kCrX66WcQo-53DFII9MEhttOaovItlUxFBRsGWze_vxUQ>
- <xmx:NNt7ZtOGIu1bXp21_dRV1g6o3pIjx-Z9YHWm0YGABypS3B0xsvWDVQ>
- <xmx:NNt7ZimWP8IN2Pze7HBpEpof_uowdDks6wzb2GWyQ2PaNWMh5yQf0Q>
- <xmx:NNt7ZoGgpXBR5Cd7meVQZODGTmeLyrFjChaw0lAdduNRQfIkMZl5TaBH>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id EE254A6007A; Wed, 26 Jun 2024 05:11:15 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-538-g1508afaa2-fm-20240616.001-g1508afaa
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88DDB10E7E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 09:12:27 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-361785bfa71so4930944f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 02:12:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1719393146; x=1719997946; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=rJIDdwVD2k5g4CopGwX8Y+QYYGOC76Pl/4BHACHUhIw=;
+ b=rPOhQh7G0LdJGxlMJCglnhGvLmAKlwyIFGjc0iANVl0myXtkQqVRjZAb/07y4itr54
+ DSyv6db+gNt32+OQOmCuiwe4KFnAMRzhRhkEYW6JuamT5IERX7uX0s950aoVww2+T5mz
+ UkAGnULaFSAP1LC1REh46k9TSLNc3Vx62Z0X/o73leLYEIR6Lp2p1NxhY+QgCi7PJrWH
+ uv41isJso6qT3MtyN1Vmi5CYfX7HRSfuswe67myTL67vXHPlNuOST2fjxDmyDsqVmHAl
+ ZLV1shMEGhcZRlbcy9NJRlDuOaKluBSIxg2GVeJKB2GtQ38UkZf+atGEGWqCuqlJ2ekA
+ Hvsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719393146; x=1719997946;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=rJIDdwVD2k5g4CopGwX8Y+QYYGOC76Pl/4BHACHUhIw=;
+ b=IigZ+EW3VyziXvbwvnl3ebuuwFlDPa5vM+xkJqXC2xUJ386ody9yAz2uUYD/H/ZkdW
+ HQO2KKD2+yCr7YGI/DffpA+ak7Ea2aJYC0jPC+J2ueDJcMdoxFKoAXNnIkDgsoUFKfuV
+ rKBGVS9G/5qCgsdmCdGTLdziZ2ZyVxNTHKifjhMHZ0xSMJsZ/1x00MLFRzBrulEn5zr0
+ ygNMQlT3hxVUEE6zAAigpa14HpLPvykJhoToOCmQzmQ3XFe/ep6sqD/3wQ3jb7hqs1Kt
+ hMoX0mnzmqkljZkrQoJRYWqWyNyg3kpWXPxV2l6BanpffXFcBXhBgPi4wCoJ8XATYNCC
+ XQ6g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXo5FNYlFYhpnx1H3HL1rfiwIXfS1wkSU/zVLRfZuUm2f7mOUi/wGv9jBNx9JNE9NwAjNwBmSyIClKt4qkBsyr5DzuqEeOApkxMgxAmS9rO
+X-Gm-Message-State: AOJu0Yz+6Rt3OY5HoZDxyJjthUNdHxfW+jac9U7D9aWPTCjMSwFUg3tG
+ jU1JN7fI/uTroG5i4iNA5D6n5jO3cmPmWarVuRoOVPxZoOSN3ENzrm4uXFihqiA=
+X-Google-Smtp-Source: AGHT+IGZiUiseO18+zxNZHL14SXXILWN1LiGMQkTEVTh7yA2B9xxXApJEzmPP2KVy/ZU3/5CveX2tw==
+X-Received: by 2002:a5d:6551:0:b0:35f:20eb:cae3 with SMTP id
+ ffacd0b85a97d-366e7a51ea9mr7327647f8f.67.1719393145291; 
+ Wed, 26 Jun 2024 02:12:25 -0700 (PDT)
+Received: from ?IPV6:2a01:cb1c:fcf:4600:a281:d23c:1a8b:ab6?
+ ([2a01:cb1c:fcf:4600:a281:d23c:1a8b:ab6])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-366666ff3f0sm14872928f8f.68.2024.06.26.02.12.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Jun 2024 02:12:24 -0700 (PDT)
+Message-ID: <bb73744f-9b04-410b-b4ec-1c5071016d28@linaro.org>
+Date: Wed, 26 Jun 2024 11:12:22 +0200
 MIME-Version: 1.0
-Message-Id: <5f989c7d-fb70-4e13-a1e9-86fc6326d633@app.fastmail.com>
-In-Reply-To: <20240626-agate-ibex-of-effort-c72ebc@houat>
-References: <20240530211415.44201-1-ryan@testtoast.com>
- <20240530211415.44201-3-ryan@testtoast.com>
- <20240606-intelligent-aromatic-magpie-80a7a4@houat>
- <2dc1fdec-7673-4462-abe1-fecf8e3e826b@linaro.org>
- <20240606-refreshing-cinnamon-ibex-a0fe73@houat>
- <20240606-authentic-mongoose-9485904a91a1@spud>
- <20240618-silky-holistic-oyster-bf59fe@houat>
- <20240618-reverse-kinship-7f8df8c8e111@wendy>
- <eb50b8d3-b56d-42b2-a277-02a255b2d6c0@linaro.org>
- <20240626-agate-ibex-of-effort-c72ebc@houat>
-Date: Wed, 26 Jun 2024 21:10:54 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Maxime Ripard" <mripard@kernel.org>,
- "Neil Armstrong" <neil.armstrong@linaro.org>
-Cc: "Conor Dooley" <conor.dooley@microchip.com>,
- "Conor Dooley" <conor@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, "Jessica Zhang" <quic_jesszhan@quicinc.com>,
- "Sam Ravnborg" <sam@ravnborg.org>, "David Airlie" <airlied@gmail.com>,
- "Daniel Vetter" <daniel@ffwll.ch>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Hironori KIKUCHI" <kikuchan98@gmail.com>,
- "Chris Morgan" <macroalpha82@gmail.com>,
- "Andre Przywara" <andre.przywara@arm.com>, "John Watts" <contact@jookia.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: panel: Add WL-355608-A8 panel
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 3/3] drm/panel: add lincoln lcd197 support
+To: Jerome Brunet <jbrunet@baylibre.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg
+ <sam@ravnborg.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org
+References: <20240625142552.1000988-1-jbrunet@baylibre.com>
+ <20240625142552.1000988-4-jbrunet@baylibre.com>
+ <irzer3be5fj2rg2bmc2oqxqtaw6jybbdkgv3jgxpyhdvojwv24@e4i2v6d454nz>
+ <1jmsn8gjq6.fsf@starbuckisacylon.baylibre.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <1jmsn8gjq6.fsf@starbuckisacylon.baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,18 +118,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+On 26/06/2024 11:02, Jerome Brunet wrote:
+> On Wed 26 Jun 2024 at 07:41, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> 
+>> On Tue, Jun 25, 2024 at 04:25:50PM GMT, Jerome Brunet wrote:
+>>> Add support for the Lincoln LCD197 1080x1920 DSI panel.
+>>>
+>>> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+>>> ---
+>>>   drivers/gpu/drm/panel/Kconfig                |  11 +
+>>>   drivers/gpu/drm/panel/Makefile               |   1 +
+>>>   drivers/gpu/drm/panel/panel-lincoln-lcd197.c | 333 +++++++++++++++++++
+>>>   3 files changed, 345 insertions(+)
+>>>   create mode 100644 drivers/gpu/drm/panel/panel-lincoln-lcd197.c
+>>>
+>>
+>> [...]
+>>
+>>> +
+>>> +	mipi_dsi_dcs_write_seq(lcd->dsi, 0xB9, 0xFF, 0x83, 0x99);
+>>
+>> - Please use lowercase hex instead
+>> - Please consider switching to _multi() functions.
+> 
+> Could you be a bit more specific about these '_multi' function ?
+> I've looked at 'drm_mipi_dsi.h' and can't really make what you mean.
+> 
+> Maybe I'm not looking in the right place.
+> 
+>>
+>>
+>>> +	usleep_range(200, 300);
+>>
+>> This will require new helper msm_dsi_usleep_range(ctx, 200, 300);
+> 
+> I don't really understand why I would need something else to just sleep
+> ? Could you add some context please ?
+> 
+> Isn't 'msm_' usually something Qcom specific ?
+> 
+>>
+>>> +	mipi_dsi_dcs_write_seq(lcd->dsi, 0xB6, 0x92, 0x92);
+>>> +	mipi_dsi_dcs_write_seq(lcd->dsi, 0xCC, 0x00);
+>>> +	mipi_dsi_dcs_write_seq(lcd->dsi, 0xBF, 0x40, 0x41, 0x50, 0x49);
+>>> +	mipi_dsi_dcs_write_seq(lcd->dsi, 0xC6, 0xFF, 0xF9);
+>>> +	mipi_dsi_dcs_write_seq(lcd->dsi, 0xC0, 0x25, 0x5A);
+>>> +	mipi_dsi_dcs_write_seq(lcd->dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x02);
+>>> +
+>>> +	err = mipi_dsi_dcs_exit_sleep_mode(lcd->dsi);
+>>> +	if (err < 0) {
+>>> +		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
+>>> +		goto poweroff;
+>>> +	}
+>>> +	msleep(120);
+>>> +
+>>> +	err = mipi_dsi_dcs_read(lcd->dsi, MIPI_DCS_GET_DISPLAY_ID, display_id, 3);
+>>
+>> This probably needs new _multi helper too.
+>>
+>>> +	if (err < 0) {
+>>> +		dev_err(panel->dev, "Failed to read display id: %d\n", err);
+>>> +	} else {
+>>> +		dev_dbg(panel->dev, "Display id: 0x%02x-0x%02x-0x%02x\n",
+>>> +			display_id[0], display_id[1], display_id[2]);
+>>> +	}
+>>> +
+>>> +	lcd->prepared = true;
+>>
+>> Should not be required anymore.
+> 
+> The whole driver is heavily inspired by what is already in
+> drivers/gpu/drm/panel/ and a lot are doing something similar.
+> 
+> Maybe there has been a change since then and the existing have been
+> reworked yet. Would you mind pointing me that change if that is
+> the case ?
+> 
+>>
+>>> +
+>>> +	return 0;
+>>> +
+>>> +poweroff:
+>>> +	gpiod_set_value_cansleep(lcd->enable_gpio, 0);
+>>> +	gpiod_set_value_cansleep(lcd->reset_gpio, 1);
+>>> +	regulator_disable(lcd->supply);
+>>> +
+>>> +	return err;
+>>> +}
+>>> +
+>>
+>>> +
+>>> +static const struct drm_display_mode default_mode = {
+>>> +	.clock = 154002,
+>>> +	.hdisplay = 1080,
+>>> +	.hsync_start = 1080 + 20,
+>>> +	.hsync_end = 1080 + 20 + 6,
+>>> +	.htotal = 1080 + 204,
+>>> +	.vdisplay = 1920,
+>>> +	.vsync_start = 1920 + 4,
+>>> +	.vsync_end = 1920 + 4 + 4,
+>>> +	.vtotal = 1920 + 79,
+>>> +	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+>>> +};
+>>> +
+>>> +static int lincoln_lcd197_panel_get_modes(struct drm_panel *panel,
+>>> +					  struct drm_connector *connector)
+>>> +{
+>>> +	struct drm_display_mode *mode;
+>>> +
+>>> +	mode = drm_mode_duplicate(connector->dev, &default_mode);
+>>> +	if (!mode) {
+>>> +		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
+>>> +			default_mode.hdisplay, default_mode.vdisplay,
+>>> +			drm_mode_vrefresh(&default_mode));
+>>> +		return -ENOMEM;
+>>> +	}
+>>> +
+>>> +	drm_mode_set_name(mode);
+>>> +	drm_mode_probed_add(connector, mode);
+>>> +	connector->display_info.width_mm = 79;
+>>> +	connector->display_info.height_mm = 125;
+>>
+>> drm_connector_helper_get_modes_fixed()
+> 
+> Thanks for the hint
+> 
+>>
+>>> +
+>>> +	return 1;
+>>> +}
+>>> +
+>>
+>>
+>>> +
+>>> +static void lincoln_lcd197_panel_shutdown(struct mipi_dsi_device *dsi)
+>>> +{
+>>> +	struct lincoln_lcd197_panel *lcd = mipi_dsi_get_drvdata(dsi);
+>>> +
+>>> +	drm_panel_disable(&lcd->panel);
+>>> +	drm_panel_unprepare(&lcd->panel);
+>>> +}
+>>
+>> I think the agreement was that there should be no need for the panel's
+>> shutdown, the DRM driver should shutdown the panel.
+> 
+> I'm happy to drop that if there is such agreement. Again, most panel
+> drivers do implement that callback so I just did the same.
+> 
+> Could you point me to this 'agreement' please, so I can get a better
+> understanding of it ?
+> 
 
-On Wed, 26 Jun 2024, at 8:56 PM, Maxime Ripard wrote:
+please rebase on linux-next or drm-misc-next and use the new introduced macros
+dmitry pointed out.
 
-> We're getting fairly late into the release cycle and I'd like to get it
-> fixed before the release. Can you send a patch to address it please?
-
-Sure, happy to. So to confirm add 'anbernic' to the vendor binding list and 'anbernic,wl-355608-a8' as the panel compatible?
-
-Regards,
-
-Ryan
+Neil
