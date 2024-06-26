@@ -2,221 +2,169 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B50917A6D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 10:05:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA565917A7F
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 10:10:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDC6410E7A6;
-	Wed, 26 Jun 2024 08:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF41110E7B3;
+	Wed, 26 Jun 2024 08:10:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="Wsz8CjBQ";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="X4/j638b";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Oc+XDmUO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1122510E7B3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 08:05:34 +0000 (UTC)
-X-UUID: d9c3764e339211ef99dc3f8fac2c3230-20240626
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=I2s5KVTyJY2oqW1kaKhIGDSi/QOXBEI/ZAy3B6o4tbY=; 
- b=Wsz8CjBQmgOAaqiAfum85+ABb/n76C8pxNHf8I1IgIBMAt2x8n571cIwwFWF7uH1D3ETcJ/D/SPhvABBONMd3N/jcrF59BTRi7WVMxslZwEvjfzTFCSdIz4PM2+h6NkgtCpkt4yoK69eMM9PQNiHo4d+Q9YhD24gxuIS0/PUc6g=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.39, REQID:8be59a8e-696d-4562-8b5e-857139ef3564, IP:0,
- U
- RL:0,TC:0,Content:2,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:2
-X-CID-META: VersionHash:393d96e, CLOUDID:fa1f7494-e2c0-40b0-a8fe-7c7e47299109,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:817|102,TC:nil,Content:4|-5,EDM:-3,I
- P:nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
- ,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 1,FCT|NGT
-X-CID-BAS: 1,FCT|NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: d9c3764e339211ef99dc3f8fac2c3230-20240626
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 289731924; Wed, 26 Jun 2024 16:05:28 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 26 Jun 2024 16:05:27 +0800
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP
- Server id
- 15.2.1118.26 via Frontend Transport; Wed, 26 Jun 2024 16:05:27 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Dq78svDDm/scUgDQBsowmirmYnqHFead8fwtFCZDhBmKewtpon7OL81so7Ji/2Llk5x/b/E+qsnSGohCxnUIOXWbQREChSVy+LhIUxf2DJc0OudZfZpprDCvmVU/3MwH6G2aaHgez9YZcLmQ8q/CUjhehKSOJRtyYblwHNgr+LA7gvHh3xyZLadC0Z11eWEFeIWcgCPqWRF0c7tqPkw+hrVeCW3eDar1i2pTbLnrOyHEnfamEBpiM6XkISb67z4ULYxKtRKE/wTWf0vmV41cwLezy7ViaFTbpORQslFm/2hYSAt4k81GaX6pqfIsEPVM/W31DviuR26Vx3WMMc2alA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mSZ3aiyvU9URbYkuKaCePBI86kegDlWHFkPcThXmOic=;
- b=F7zioNdhICj68fgCCkP0Z9qzDI5rXDpFrKsioi6aAQGrYR+oG2G7saCsN3Zv2QGFlh0tIpT5DorsnwDNbv3kfAeFhIPWNGT7ysLs122oyvI2JO+eXDHi+jIw6EkcelARVq5A9UFqjQFfI0w7aEJwU4qvR5V9m75vItVOgBLZ0wbpQw52wq2S+F6QS/d7ALKzYY8u6VYBJzh9e7O93xdD65Cf3+BpJGbR/QUT4sxlUhWVhLKtZVJNxHsfTb5onAuNVmDBrNr5k+OQ3zlSctPj6UZ4QXUkNrX47nz8WDPSqC4Rsrj8xnjB+Co9y8sD98lslkj0zL+rCfDiKBCoOJjF0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E70D010E7B3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 08:10:43 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-4247102da30so7375705e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 01:10:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mSZ3aiyvU9URbYkuKaCePBI86kegDlWHFkPcThXmOic=;
- b=X4/j638b/aTFe3hX3RLQb9EHayp0uX0N+ZwG6I9H8cMBKiejZGn9jv0/7k491osA1XkXQDvizmsKZvHga3iConk6ucB4u6PPDY1y22H3nt4C7VPCI+Tb+TUyaTUwaGZ719Ht2ldsZ0qD6AvSV8zves4+qQrnmND2N21n1ySyR0Y=
-Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
- by SEYPR03MB8204.apcprd03.prod.outlook.com (2603:1096:101:1aa::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.32; Wed, 26 Jun
- 2024 08:05:22 +0000
-Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
- ([fe80::c6cc:cbf7:59cf:62b6]) by SEYPR03MB7682.apcprd03.prod.outlook.com
- ([fe80::c6cc:cbf7:59cf:62b6%5]) with mapi id 15.20.7698.025; Wed, 26 Jun 2024
- 08:05:21 +0000
-From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
-To: "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- =?utf-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, "robh+dt@kernel.org"
- <robh+dt@kernel.org>, "akpm@linux-foundation.org"
- <akpm@linux-foundation.org>, "mripard@kernel.org" <mripard@kernel.org>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "jstultz@google.com" <jstultz@google.com>, "linaro-mm-sig@lists.linaro.org"
- <linaro-mm-sig@lists.linaro.org>, "linux-media@vger.kernel.org"
- <linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>,
- =?utf-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?=
- <Jianjiao.Zeng@mediatek.com>, "willy@infradead.org" <willy@infradead.org>,
- =?utf-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= <kuohong.wang@mediatek.com>,
- "quic_vjitta@quicinc.com" <quic_vjitta@quicinc.com>, "pavel@ucw.cz"
- <pavel@ucw.cz>, "robin.murphy@arm.com" <robin.murphy@arm.com>,
- "contact@emersion.fr" <contact@emersion.fr>, "logang@deltatee.com"
- <logang@deltatee.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "jkardatzke@google.com" <jkardatzke@google.com>, "conor+dt@kernel.org"
- <conor+dt@kernel.org>, "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- "tjmercier@google.com" <tjmercier@google.com>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "joakim.bech@linaro.org"
- <joakim.bech@linaro.org>, "ppaalanen@gmail.com" <ppaalanen@gmail.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>,
- =?utf-8?B?WW91bGluIFBlaSAo6KO05Y+L5p6XKQ==?= <youlin.pei@mediatek.com>
-Subject: Re: [PATCH v5 2/9] scatterlist: Add a flag for the restricted memory
-Thread-Topic: [PATCH v5 2/9] scatterlist: Add a flag for the restricted memory
-Thread-Index: AQHaxufGtXYlJ2nIzkCmfICpDUjhvbHYUI0AgAAN6YCAAVLnAA==
-Date: Wed, 26 Jun 2024 08:05:21 +0000
-Message-ID: <98c11bad7f40bcc79ed7a2039ddb3a46f99908f5.camel@mediatek.com>
-References: <20240515112308.10171-1-yong.wu@mediatek.com>
- <20240515112308.10171-3-yong.wu@mediatek.com>
- <98721904-003d-4d0d-8cfe-1cecdd59ce01@amd.com>
- <779ce30a657754ff945ebd32b66e1c644635e84d.camel@mediatek.com>
- <cef8f87d-edab-41d8-8b95-f3fc39ad7f74@amd.com>
- <1050c44512374031d1349b5dced228d0efc3fbde.camel@mediatek.com>
- <3104b765-5666-44e4-8788-f1b1b296fe17@amd.com>
-In-Reply-To: <3104b765-5666-44e4-8788-f1b1b296fe17@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|SEYPR03MB8204:EE_
-x-ms-office365-filtering-correlation-id: 14ad0ee5-ae28-4014-457f-08dc95b6ba13
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230038|366014|376012|7416012|1800799022|38070700016; 
-x-microsoft-antispam-message-info: =?utf-8?B?V0ZNTmhOcjM1UEoyNU83WDVQTzhGYlY1czA5WEdUK2VQODFHU2VLVUJYUGxR?=
- =?utf-8?B?NGJnakt1R0J6a3lLRGRYS3B2UGNpZ1R4K0I0L0g5Z2RQaWVHMk5PWjRFVWZu?=
- =?utf-8?B?WjNndnRNSlg5Mk9Ccmg4Y2ZEcGxmb0lOdmMxeUx1V0U5aEhsbzRldTZ2NVZo?=
- =?utf-8?B?VGhsT05qbmZtUmtpa09jbVRmZVpoc01neTV1V3FFSnFESFBmS0ViZnhqMFE2?=
- =?utf-8?B?M0ZDeUxUQkNQUFQwaWdlNUMxNXZCeVpETkIvK2ZXOGxCRkJ4SG5wUmoxZVRG?=
- =?utf-8?B?aEl3Z2daRHpDdVg3RWkrVmFsYTdudm5yOG9RUTlSQXlScnVjV2MvbEsraHlY?=
- =?utf-8?B?T1FmNDRncU4yMy81N0RpNHMvMXBmbHV1UjZPWTZPK0FPNEFsTEs4YytHdFhS?=
- =?utf-8?B?ejg5MU5rZkRDQko1VUZZd25rbnVCNk4xRjBFd3lmS2t4MnEycWZwWGMxVStJ?=
- =?utf-8?B?Y1VVbXQvSjEwZ1BRMnc3NlN6djhKdTNEaDE2eXMvMkJwOG9tMDJCRUhTTmhp?=
- =?utf-8?B?c2l3Ty9URGdIUFVzb2hjSitWayt3d21WUkNzblBqd0RneENqRjlCazdqeGJH?=
- =?utf-8?B?aE1XVDhzTS94T0doTTdPcmFoWW1CRFFhSElEWGJLUEl1Tm1lcFdhUDRVNXh5?=
- =?utf-8?B?L1kvWXhnaGJBem8vRlZnYk1VNmlqQ2NpeFRzeFdSTjFnRGNONWU3YTBTUGJS?=
- =?utf-8?B?WGMxTmxHWTNnSlZSNzF3MkI1WlBkUG1UdjVVRmZmNlh4bnYybk44YitTampm?=
- =?utf-8?B?SG9VeEpyVGFnenFNY3FKSzNVaWNuT2pwTVVUQ2hzZGZPMHhqV1lKT2loL0gv?=
- =?utf-8?B?aUlXY3ozWmQ5MVRwd0hRMGJDSVJiUmdCYnZoVGFCUmc1Rm1aSnlSU2V5UlM3?=
- =?utf-8?B?YmhEM1pxRndBc05PRHBHcGpOVWJtMktZUXk4RTVybWNENlVHejFjVVEvcUhK?=
- =?utf-8?B?KzhhK0ZNczF2UURtUno3S0FJTmc4SlVaL1hjdmgvZzNtRjNQMXR2c2JSWmdN?=
- =?utf-8?B?RERmekhzU3FqZ0hDVmwzVVlvV3o0RFROeURqZXNTSk1BUVNUNG1sTGhPbHB6?=
- =?utf-8?B?YWVZUkpObThQUkk3Y1VvZ3NIYldDeitsTFQ0UXNIbWJUVlBFRWdaM3lTMkdG?=
- =?utf-8?B?L0JDOE95Y3FrYVZHbHNpOTAraUF6bkN2KzBDaXFzNHZtNXgzZlJIZ3RNR01U?=
- =?utf-8?B?SkNqb3lvNERMejB0QzZ5dzhwVFhDU0tqOC9YUCtOYW1NckdPUmwwKy9LU2lq?=
- =?utf-8?B?NmZiS2JpQzczOHJYdjZEN1BmV091dGwxcENaa1JudE5uMVRuamE3NkdOTllt?=
- =?utf-8?B?eXF4aHRwbmpycUY4TXZVWmM0bjFudHgwQU1IOHNpZURseHVicVlNUVNYV3VF?=
- =?utf-8?B?S0kxOW5BaFpweGhQMkVMTGlXQ3VjRktNcTJhcE1TYjkxVW9NU3ByR1NDZGRy?=
- =?utf-8?B?QXBkM0lLem9sVmh0VTMweTllVTlBaWt6bVA2aXpQRXNBaU4rT0U2ZTdMdFlP?=
- =?utf-8?B?Q1Nxb1VoTVF6Uk1JbWY4UlA5cDJtUVFxYjVib3lQZURJZzNnQzBvaFQ0VmJE?=
- =?utf-8?B?T3N0Z3dSMkJ2T3JsT2hTSkRyaTIxcWw0NU1aY1VHL3FydUpiYS9JK2RUR25P?=
- =?utf-8?B?NldIcG0vZEJzV0w5QjRHbW9CNWRxNVJxVk85eEI2S2JpRVN5RmpONE9iYzhW?=
- =?utf-8?B?SmFmYmEvZHlCZlA3cmxXcmxkQ2c3S3kvZ3E1Z2lQVXh5anBCaTh2ZzlCQThL?=
- =?utf-8?B?S3ZLaXFUTjJzYXZOdHUwUitPWXVWeDFCcm1MOTVEa3RJUmR2V1JCWHptd2Uz?=
- =?utf-8?Q?/gXKNY/X8rDsxwJKXjl1tQLxx4zxfcnOlKTlA=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SEYPR03MB7682.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230038)(366014)(376012)(7416012)(1800799022)(38070700016); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QmFwZzUvdWRyTkJvTkJiK2VCeW1WQjNzZzJvS2Q0a1BGMFhrTm04czJkL0VI?=
- =?utf-8?B?L2tQMCtKa2s1Vmp3ZmJQU2pSN0RuUEs2aTJLcGUyMmt3UXR4ZjVoRDc4Q3Qv?=
- =?utf-8?B?MnlEek9GNUxlUUJGZE5CMzZtaWRXY3hrbXJlZTd1QjJwRVVWRStHbGtEUm9S?=
- =?utf-8?B?VkJBUTI4eWtzamZ0MVg1N0N0NDJEOVJvM01vaWN3SUVoVTlUTzdoaWlGL0lp?=
- =?utf-8?B?S3ZkQWdOaE5iSE1SenJwcHJrMk9xT1lWOHFETEg0amdpdTBsU2lDT213L3JY?=
- =?utf-8?B?YTBHSUd6RzNZcFdLRUQ3M2dza05XRFlraWdGb21oSVVPcjhVZ2Y5a0UxOWxM?=
- =?utf-8?B?UTQzT0hSWlZOYXMwQ2VHVEtGbi9Qdm96alZxREFvNW9lVTR1dDRxRUZVN284?=
- =?utf-8?B?amRuS0J6bzMxWDdSYlpLNlZmbnBXeXVKOUZOczNja0ttRGVTc2pJVkhkU3V6?=
- =?utf-8?B?MEM0WE5GRlN1b2I2dHFsaU9tQXY2YkNuL0FScE9UTmVXd2N6SkcwSEUrcXZI?=
- =?utf-8?B?T1BuS0dMVngvZ0M5cXlrM3VNcTJRanZYenBhWEx3MFdDZXN6L3VQcWp4eHlw?=
- =?utf-8?B?TGk3bWJ6cmRwK3pqQmQ3N2FVb1c5M0RUYks5QTdwVTFTTkZhN2QwT3VBTXV1?=
- =?utf-8?B?Wll1OWRJaStYRkNMb0JweisreFIxR05qUVBhb2R1Um1DQkgwSXd0OHltRkNT?=
- =?utf-8?B?SitPbkRWOENxQklaWFY3K0h5bVJmZ0ZORXJYWlZxQS90QlI4MTRFb2p6bGxT?=
- =?utf-8?B?djA5WGVwSGYzRzJlZElPTFp0QVBJTHRmZVpYRjNkTWJQWXB3OUJQVmF0bXJN?=
- =?utf-8?B?UDIrLzJLOE0zL0ZDajQzNjRiNldIREZtY2VMeHpBUm5oQjc1N1UzbGRLUzhR?=
- =?utf-8?B?cUhjUjJ6dWljbDhuTkIvRlU0UWZrNnlROWJwcURoWnZlaTF1b1Z5VkYybEhr?=
- =?utf-8?B?dGpoVXdEbkJYemV0WVlGT1pzTWI0b0ZMbGR1alRVRnBpSDBFekpYdm43cFpv?=
- =?utf-8?B?STE3d2NYUXRseXUyb2JFME1QakViZ0luWFNoZHhSbExtSnphdnZid1lvNWZt?=
- =?utf-8?B?Ri9OK3daWHNQaVVqLzJvdnFMTERxT1hEeFVnT2NsQ01ySFR1THdjQ2Q4aU9B?=
- =?utf-8?B?ZjU0b1ZSWDkwNGNyWmIyUGthOW15QXdCU3NpVGs4M0MzR2xrT29vOGFnQlg1?=
- =?utf-8?B?U0tuTzVNYVdPY3JBYS9yWVcrTjFvUWU3NFFybFNxdXgyWEZEaVdITkdlQnZW?=
- =?utf-8?B?ZUFXdkliRGV3YkFhSFZRZ3Z2M1VPcWtBek1xR0MwNXpURExFRHhSNzliTURw?=
- =?utf-8?B?enA0OE5sN1hvbzYxMXYzc08vY3JUc3VTd2g3Y0I1V3ZhSnYzcmV1cnlKV3Av?=
- =?utf-8?B?VVlGTFFCR053bVgzUStrQ3g1MUVrMlNIRWw2ZWJadjJxMm1MYjFWVjNHUXVR?=
- =?utf-8?B?RlUrMEFsZFRiem53NjhaeVFabElycGJQOXA4aEd2dUNjbkpxc2NnakNFV3N5?=
- =?utf-8?B?elEzYWRuYXRab3ZueVJoVmhnQ3JNZW5UbDIwVDVDeE9TZFA5Q1VFZ1NsVUUz?=
- =?utf-8?B?dXY5amE1STZzTHJOZzUwK2RxWWlXREFOZmV4OTdvTFRzcy9NVTZtRUltMjND?=
- =?utf-8?B?b2VZN0J4dlRzMmkrb2wyaWJ3WkZ0OXovTWZNdDR0SkFDQldBaWprTnh1Znlh?=
- =?utf-8?B?NlFiMmZLRnZ5VTRxZkdKRFpEMTVlb3lNVDJZMVZQTTZqMEdreXBUczd5Q1ZJ?=
- =?utf-8?B?d1lXRVgwVnV3YnUxbWRlQTJtM0dnR2pVS1JFNm41c0JLVklEV2pYTjBzQW8r?=
- =?utf-8?B?eWVXa3FTWnJGdU4zU25MWUtadlhuQ3dEQ3dVY1lKOVF1bkRrMFRpclhDRW1u?=
- =?utf-8?B?bU1VendMUDZNM0dueHh3U3VHTXozTXMyWVBJekFONTNtaEVQYmNZZnJRZUUr?=
- =?utf-8?B?ajZCOTB4NkRDTi9LTU5ZbkhnTlZBNUhKK2ZPRC80UVJCTjZhNFRmRE1rOHRC?=
- =?utf-8?B?eTZjQ0U2VTFZb2xvaTNaNHFIcjZ4OXdvdlFvT3JYSWZUQWtpczZrQ2twTjQw?=
- =?utf-8?B?cU42bEl3Kzg4MTFnbGJYZDFrY3Q0bFhnSHVMOVBUNlZuYWZFT0Z1MWFnL2xC?=
- =?utf-8?B?VU9OMlB2dTRGQ2g1RklZL1ZYazNyV0g3eXhBZlEzUFZydWttd0p5Y2c1dlBl?=
- =?utf-8?B?QkE9PQ==?=
-Content-ID: <F54BFC1ADEFD4A4CAC3545C32B431D12@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ d=ffwll.ch; s=google; t=1719389442; x=1719994242; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eTze6uQglfoQ7bd5HZF1X+Dq8LqYd9uXy2OEoqYCa+c=;
+ b=Oc+XDmUOrNMVPDk40QtbgVxvDaPWBacxKAnAsSsTt2Tom/C2Aj++1SQDwk6SZGPK2L
+ hTFzjLjFgXVzfdenx1S/UVYP7YfJp436n9E/WAUMq1hhvKIvEiYRNYG7HhANj45bnU6q
+ mkbZV958c7sN7PPgZrHYDiDEJBt+CcE1ANGUM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719389442; x=1719994242;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eTze6uQglfoQ7bd5HZF1X+Dq8LqYd9uXy2OEoqYCa+c=;
+ b=aB3S87B5WU9b8Xe52B2CQIUphs/vTQEY5n5JTskLvdP99EeJy+wy1q5wL1HrIWKMhv
+ 7BNQo1hdH0xNyfrjkzarXu8abNsCFFE96iPARSrr0EhMLiewWzP+0Tjd/FFbK3fqMv0j
+ N6WzSVaXXwBiEtJYYYKyTQDsJOJbZjkyzyNEDdkQ9Afzo/5Je6JZ5i8sf8qYWmPrUdwO
+ WEbmm1ncl/7i0fc4WDARkpoC/dm7tMHbD9LDALpUOBC6gChuIab4CAn1n33U0q1ZAnGa
+ 1FOODECXSb8SUFth9LBDhpGi6Z7kwGjP1kWS3PxI4VuHpBeRc2tSHMcLFYdz23+HkDBp
+ N/YQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUIIzOrtKv14LPaUa3pkafzKnjhJP2aPcXgKK7aq0zWrMYQUbittXKnnS8bLKutxJSfWZ94Th87GPgpOSs0VGt058SYqrSC/OErrLIXPakB
+X-Gm-Message-State: AOJu0Yzdu7UAj+aRE5Q3/AEt1/Ef+05F5Ed4R4KrNu0ZzlVtREwlwUTy
+ P5h8eyR2kUg8BVcR1mch5gvLxajP86XTK3Ife3SncxS9FqDlkCxpGh7R5wnczjA=
+X-Google-Smtp-Source: AGHT+IG3VeRlU8nnyJudUn6Rkwkpw0MnXZ9IP0oTHce01stCgWbRGgfj/gvI1PaoMxMMBkcSEPpkSA==
+X-Received: by 2002:a05:600c:1c0f:b0:424:a74b:32d3 with SMTP id
+ 5b1f17b1804b1-424a74b3420mr22644585e9.0.1719389441916; 
+ Wed, 26 Jun 2024 01:10:41 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-424c8468613sm15560755e9.39.2024.06.26.01.10.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Jun 2024 01:10:41 -0700 (PDT)
+Date: Wed, 26 Jun 2024 10:10:38 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>,
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>,
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v14 03/13] netdev: support binding dma-buf to
+ netdevice
+Message-ID: <ZnvM_gtscO7q9P2Y@phenom.ffwll.local>
+Mail-Followup-To: Mina Almasry <almasrymina@google.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Donald Hunter <donald.hunter@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>,
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>,
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240625195407.1922912-1-almasrymina@google.com>
+ <20240625195407.1922912-4-almasrymina@google.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14ad0ee5-ae28-4014-457f-08dc95b6ba13
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2024 08:05:21.7557 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rzpX9QZ9WJ0DlHWf7ZzpapWXah9JGTC7JxRArS2DqZcw0mSLgXCplr0i0QndjgRA30PksCeX13theg9xbzsdvPJZyhJxE7H5wYcRM4F8zbY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR03MB8204
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_005_924094288.2110995859"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240625195407.1922912-4-almasrymina@google.com>
+X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -232,262 +180,779 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_005_924094288.2110995859
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+On Tue, Jun 25, 2024 at 07:53:51PM +0000, Mina Almasry wrote:
+> Add a netdev_dmabuf_binding struct which represents the
+> dma-buf-to-netdevice binding. The netlink API will bind the dma-buf to
+> rx queues on the netdevice. On the binding, the dma_buf_attach
+> & dma_buf_map_attachment will occur. The entries in the sg_table from
+> mapping will be inserted into a genpool to make it ready
+> for allocation.
+> 
+> The chunks in the genpool are owned by a dmabuf_chunk_owner struct which
+> holds the dma-buf offset of the base of the chunk and the dma_addr of
+> the chunk. Both are needed to use allocations that come from this chunk.
+> 
+> We create a new type that represents an allocation from the genpool:
+> net_iov. We setup the net_iov allocation size in the
+> genpool to PAGE_SIZE for simplicity: to match the PAGE_SIZE normally
+> allocated by the page pool and given to the drivers.
+> 
+> The user can unbind the dmabuf from the netdevice by closing the netlink
+> socket that established the binding. We do this so that the binding is
+> automatically unbound even if the userspace process crashes.
+> 
+> The binding and unbinding leaves an indicator in struct netdev_rx_queue
+> that the given queue is bound, but the binding doesn't take effect until
+> the driver actually reconfigures its queues, and re-initializes its page
+> pool.
+> 
+> The netdev_dmabuf_binding struct is refcounted, and releases its
+> resources only when all the refs are released.
+> 
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> Reviewed-by: Pavel Begunkov <asml.silence@gmail.com> # excluding netlink
 
-PiA+IA0KPiA+IEhlcmUgaXMgdGhlIGV4cGVjdGVkIHByb3RlY3RlZCBjb250ZW50IGJ1ZmZlciBm
-bG93IGluIERSTToNCj4gPiAxKSB1c2Vyc3BhY2UgYWxsb2NhdGVzIGEgZG1hLWJ1ZiBGRCBmcm9t
-IHRoZSAicmVzdHJpY3RlZF9tdGtfY21hIg0KPiA+ICBieQ0KPiA+IERNQV9IRUFQX0lPQ1RMX0FM
-TE9DLg0KPiA+IDIpIHVzZXJzcGFjZSBpbXBvcnRzIHRoYXQgZG1hLWJ1ZiBpbnRvIHRoZSBkZXZp
-Y2UgdXNpbmcgcHJpbWUgZm9yDQo+ID4gdGhlDQo+ID4gZHJtX2ZpbGUuDQo+ID4gMykgdXNlcnNw
-YWNlIHVzZXMgdGhlIGFscmVhZHkgaW1wbGVtZW50ZWQgZHJpdmVyIGltcG9ydCBjb2RlIGZvcg0K
-PiA+IHRoZQ0KPiA+IHNwZWNpYWwgY2FzZXMgb2YgcHJvdGVjdGVkIGNvbnRlbnQgYnVmZmVyLg0K
-PiAgDQo+IFdoYXQgaXMgc28gc3BlY2lhbCBvbiB0aGF0IGNhc2U/DQoNClRoZSBzcGVjaWFsIGNh
-c2Ugc2ltcGx5IG1lYW5zIHRoZSB0aGUgcHJvdGVjdGVkIGNvbnRlbnQgYnVmZmVyLg0KDQo+IA0K
-PiA+IEluIHRoZSBzdGVwIDMpLCB3ZSBuZWVkIHRvIHZlcmlmeSB0aGUgZG1hLWJ1ZiBpcyBhbGxv
-Y2F0ZWQgZnJvbQ0KPiA+ICJyZXN0cmljdGVkX210a19jbWEiLCBidXQgdGhlcmUgaXMgbm8gd2F5
-IHRvIHBhc3MgdGhlIHNlY3VyZSBmbGFnDQo+ID4gIG9yDQo+ID4gcHJpdmF0ZSBkYXRhIGZyb20g
-dXNlcnNwYWNlIHRvIHRoZSBpbXBvcnQgaW50ZXJmYWNlIGluIERSTSBkcml2ZXIuDQo+ICANCj4g
-V2h5IGRvIHlvdSBuZWVkIHRvIHZlcmlmeSB0aGF0Pw0KDQpJIG5lZWQgdG8ga25vdyB0aGUgaW1w
-b3J0ZWQgYnVmZmVyIGlzIGFsbG9jYXRlZCBmcm9tIHJlc3RyaWN0ZWQgY21hIGFuZA0KbWFyayBp
-dCBhcyBhIHNlY3VyZSBidWZmZXIgaW4gbWVkaWF0ZWstZHJtIGRyaXZlci4gVGhlbiwgSSB3aWxs
-IGFkZA0Kc29tZSBjb25maWd1cmF0aW9uIHRvIHRoZSBoYXJkd2FyZSBpZiB0aGUgYnVmZmVyIGlz
-IHNlY3VyZSBidWZmZXIsIHNvDQp0aGF0IGl0IGNhbiBnZXQgdGhlIHBlcm1pc3Npb24gdG8gYWNj
-ZXNzIHRoZSBzZWN1cmUgYnVmZmVyLg0KDQo+IA0KPiA+IFNvIEkgY2FuIG9ubHkgdmVyaWZ5IGl0
-IGxpa2UgdGhpcyBub3c6DQo+ID4gc3RydWN0IGRybV9nZW1fb2JqZWN0ICptdGtfZ2VtX3ByaW1l
-X2ltcG9ydF9zZ190YWJsZShzdHJ1Y3QNCj4gPiBkcm1fZGV2aWNlDQo+ID4gKmRldiwgc3RydWN0
-IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNoLCBzdHJ1Y3Qgc2dfdGFibGUgKnNnKQ0KPiA+IHsN
-Cj4gPiAgICAgc3RydWN0IG10a19nZW1fb2JqICptdGtfZ2VtOw0KPiA+IA0KPiA+ICAgICAvKiBj
-aGVjayBpZiB0aGUgZW50cmllcyBpbiB0aGUgc2dfdGFibGUgYXJlIGNvbnRpZ3VvdXMgKi8NCj4g
-PiAgICAgaWYgKGRybV9wcmltZV9nZXRfY29udGlndW91c19zaXplKHNnKSA8IGF0dGFjaC0+ZG1h
-YnVmLT5zaXplKSB7DQo+ID4gICAgICAgICBEUk1fRVJST1IoInNnX3RhYmxlIGlzIG5vdCBjb250
-aWd1b3VzIik7DQo+ID4gICAgICAgICByZXR1cm4gRVJSX1BUUigtRUlOVkFMKTsNCj4gPiAgICAg
-fQ0KPiA+ICAgICBtdGtfZ2VtID0gbXRrX2dlbV9pbml0KGRldiwgYXR0YWNoLT5kbWFidWYtPnNp
-emUpOw0KPiA+ICAgICBpZiAoSVNfRVJSKG10a19nZW0pKQ0KPiA+ICAgICAgICAgcmV0dXJuIEVS
-Ul9DQVNUKG10a19nZW0pOw0KPiA+IA0KPiA+ICsgICBtdGtfZ2VtLT5zZWN1cmUgPSAoIXN0cm5j
-bXAoYXR0YWNoLT5kbWFidWYtPmV4cF9uYW1lLA0KPiA+ICAicmVzdHJpY3RlZCIsDQo+ID4gMTAp
-KTsNCj4gPiAgICAgbXRrX2dlbS0+ZG1hX2FkZHIgPSBzZ19kbWFfYWRkcmVzcyhzZy0+c2dsKTsN
-Cj4gPiAgICAgbXRrX2dlbS0+c2l6ZSA9IGF0dGFjaC0+ZG1hYnVmLT5zaXplOw0KPiA+ICAgICBt
-dGtfZ2VtLT5zZyA9IHNnOw0KPiA+IA0KPiA+ICAgICByZXR1cm4gJm10a19nZW0tPmJhc2U7DQo+
-ID4gfQ0KPiAgDQo+IENvbXBsZXRlIE5BSyBmcm9tIG15IHNpZGUgdG8gdGhhdCBhcHByb2FjaC4g
-SW1wb3J0aW5nIG9mIGEgRE1BLWJ1Zg0KPiBzaG91bGQgYmUgaW5kZXBlbmRlbnQgb2YgdGhlIGV4
-cG9ydGVyLg0KPiANCj4gV2hhdCB5b3UgY291bGQgZG8gaXMgdG8gcHJvdmlkZSB0aGUgc2VjdXJl
-IGJ1ZmZlciBmcm9tIGEgZGV2aWNlIGFuZA0KPiBub3QgYSBkZXZpY2UgaGVhcC4NCj4gDQoNCllv
-dSBtZWFuIEkgc2hvdWxkIGFsbG9jYXRlIGJ1ZmZlciBpbiBtZWRpYXRlLWRybSBkcml2ZXIgbm90
-IHVzZXJzcGFjZT8NCkkganVzdCBoYXZlIG1vZGlmaWVkIHRoaXMgdG8gdXNlcnNwYWNlIGJ5IHRo
-ZSBjb21tZW50IGhlcmU6DQoNCmh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9s
-aW51eC1tZWRpYXRlay9wYXRjaC8yMDI0MDQwMzEwMjcwMS4zNjktMy1zaGF3bi5zdW5nQG1lZGlh
-dGVrLmNvbS8jMjU4MDY3NjYNCg0KPiA+IEkgdGhpbmsgSSBoYXZlIHRoZSBzYW1lIHByb2JsZW0g
-YXMgdGhlIEVDQ19GTEFHIG1lbnRpb24gaW46DQo+ID4gDQo+ID4gDQpodHRwczovL2xvcmUua2Vy
-bmVsLm9yZy9saW51eC1tZWRpYS8yMDI0MDUxNS1kbWEtYnVmLWVjYy1oZWFwLXYxLTAtNTRjYmJk
-MDQ5NTExQGtlcm5lbC5vcmcvDQo+ID4gDQo+ID4gSSB0aGluayBpdCB3b3VsZCBiZSBiZXR0ZXIg
-dG8gaGF2ZSB0aGUgdXNlciBjb25maWd1cmFibGUgcHJpdmF0ZQ0KPiA+IGluZm9ybWF0aW9uIGlu
-IGRtYS1idWYsIHNvIGFsbCB0aGUgZHJpdmVycyB3aG8gaGF2ZSB0aGUgc2FtZQ0KPiA+IHJlcXVp
-cmVtZW50IGNhbiBnZXQgdGhlaXIgcHJpdmF0ZSBpbmZvcm1hdGlvbiBmcm9tIGRtYS1idWYgZGly
-ZWN0bHkNCj4gPiBhbmQNCj4gPiBubyBuZWVkIHRvIGNoYW5nZSBvciBhZGQgdGhlIGludGVyZmFj
-ZS4NCj4gPiANCj4gPiBXaGF0J3MgeW91ciBvcGluaW9uIGluIHRoaXMgcG9pbnQ/DQo+ICANCj4g
-V2VsbCBvZiBoYW5kIEkgZG9uJ3Qgc2VlIHRoZSBuZWVkIGZvciB0aGF0Lg0KPiANCj4gV2hhdCBo
-YXBwZW5zIGlmIHlvdSBnZXQgYSBub24tc2VjdXJlIGJ1ZmZlciBpbXBvcnRlZCBpbiB5b3VyIHNl
-Y3VyZQ0KPiBkZXZpY2U/DQoNCldlIHVzZSB0aGUgc2FtZSBtZWRpYXRlay1kcm0gZHJpdmVyIGZv
-ciBzZWN1cmUgYW5kIG5vbi1zZWN1cmUgYnVmZmVyLg0KSWYgbm9uLXNlY3VyZSBidWZmZXIgaW1w
-b3J0ZWQgdG8gbWVkaWF0ZWstZHJtIGRyaXZlciwgaXQncyBnbyB0byB0aGUNCm5vcm1hbCBmbG93
-IHdpdGggbm9ybWFsIGhhcmR3YXJlIHNldHRpbmdzLg0KDQpXZSB1c2UgZGlmZmVyZW50IGNvbmZp
-Z3VyYXRpb25zIHRvIG1ha2UgaGFyZHdhcmUgaGF2ZSBkaWZmZXJlbnQNCnBlcm1pc3Npb24gdG8g
-YWNjZXNzIHRoZSBidWZmZXIgaXQgc2hvdWxkIGFjY2Vzcy4NCg0KU28gaWYgd2UgY2FuJ3QgZ2V0
-IHRoZSBpbmZvcm1hdGlvbiBvZiAidGhlIGJ1ZmZlciBpcyBhbGxvY2F0ZWQgZnJvbQ0KcmVzdHJp
-Y3RlZF9tdGtfY21hIiB3aGVuIGltcG9ydGluZyB0aGUgYnVmZmVyIGludG8gdGhlIGRyaXZlciwg
-d2Ugd29uJ3QNCmJlIGFibGUgdG8gY29uZmlndXJlIHRoZSBoYXJkd2FyZSBjb3JyZWN0bHkuDQoN
-ClJlZ2FyZHMsDQpKYXNvbi1KSC5MaW4NCg0KPiANCj4gUmVnYXJkcywNCj4gQ2hyaXN0aWFuLg0K
-PiANCj4gPiBSZWdhcmRzLA0KPiA+IEphc29uLUpILkxpbg0KPiA+IA0KPiA+ID4gUmVnYXJkcywN
-Cj4gPiA+IENocmlzdGlhbi4NCj4gPiANCj4gPiAqKioqKioqKioqKioqIE1FRElBVEVLIENvbmZp
-ZGVudGlhbGl0eSBOb3RpY2UNCj4gPiAgKioqKioqKioqKioqKioqKioqKioNCj4gPiBUaGUgaW5m
-b3JtYXRpb24gY29udGFpbmVkIGluIHRoaXMgZS1tYWlsIG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkg
-DQo+ID4gYXR0YWNobWVudHMpIG1heSBiZSBjb25maWRlbnRpYWwsIHByb3ByaWV0YXJ5LCBwcml2
-aWxlZ2VkLCBvcg0KPiA+IG90aGVyd2lzZQ0KPiA+IGV4ZW1wdCBmcm9tIGRpc2Nsb3N1cmUgdW5k
-ZXIgYXBwbGljYWJsZSBsYXdzLiBJdCBpcyBpbnRlbmRlZCB0byBiZSANCj4gPiBjb252ZXllZCBv
-bmx5IHRvIHRoZSBkZXNpZ25hdGVkIHJlY2lwaWVudChzKS4gQW55IHVzZSwNCj4gPiBkaXNzZW1p
-bmF0aW9uLCANCj4gPiBkaXN0cmlidXRpb24sIHByaW50aW5nLCByZXRhaW5pbmcgb3IgY29weWlu
-ZyBvZiB0aGlzIGUtbWFpbA0KPiA+IChpbmNsdWRpbmcgaXRzIA0KPiA+IGF0dGFjaG1lbnRzKSBi
-eSB1bmludGVuZGVkIHJlY2lwaWVudChzKSBpcyBzdHJpY3RseSBwcm9oaWJpdGVkIGFuZA0KPiA+
-IG1heSANCj4gPiBiZSB1bmxhd2Z1bC4gSWYgeW91IGFyZSBub3QgYW4gaW50ZW5kZWQgcmVjaXBp
-ZW50IG9mIHRoaXMgZS1tYWlsLA0KPiA+IG9yIGJlbGlldmUNCj4gPiAgDQo+ID4gdGhhdCB5b3Ug
-aGF2ZSByZWNlaXZlZCB0aGlzIGUtbWFpbCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUNCj4g
-PiBzZW5kZXIgDQo+ID4gaW1tZWRpYXRlbHkgKGJ5IHJlcGx5aW5nIHRvIHRoaXMgZS1tYWlsKSwg
-ZGVsZXRlIGFueSBhbmQgYWxsIGNvcGllcw0KPiA+IG9mIA0KPiA+IHRoaXMgZS1tYWlsIChpbmNs
-dWRpbmcgYW55IGF0dGFjaG1lbnRzKSBmcm9tIHlvdXIgc3lzdGVtLCBhbmQgZG8NCj4gPiBub3QN
-Cj4gPiBkaXNjbG9zZSB0aGUgY29udGVudCBvZiB0aGlzIGUtbWFpbCB0byBhbnkgb3RoZXIgcGVy
-c29uLiBUaGFuayB5b3UhDQo+ICANCg==
+Absolutely no idea on the netdev side of things, and I'll leave the entire
+"how much userspace do you want" up to netdev folks too. But the dma_buf
+side looks fine, so for that:
 
---__=_Part_Boundary_005_924094288.2110995859
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7
-JiMzMjtIZXJlJiMzMjtpcyYjMzI7dGhlJiMzMjtleHBlY3RlZCYjMzI7cHJvdGVjdGVkJiMzMjtj
-b250ZW50JiMzMjtidWZmZXImIzMyO2Zsb3cmIzMyO2luJiMzMjtEUk06DQomZ3Q7JiMzMjsmZ3Q7
-JiMzMjsxKSYjMzI7dXNlcnNwYWNlJiMzMjthbGxvY2F0ZXMmIzMyO2EmIzMyO2RtYS1idWYmIzMy
-O0ZEJiMzMjtmcm9tJiMzMjt0aGUmIzMyOyZxdW90O3Jlc3RyaWN0ZWRfbXRrX2NtYSZxdW90Ow0K
-Jmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjtieQ0KJmd0OyYjMzI7Jmd0OyYjMzI7RE1BX0hFQVBfSU9D
-VExfQUxMT0MuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsyKSYjMzI7dXNlcnNwYWNlJiMzMjtpbXBvcnRz
-JiMzMjt0aGF0JiMzMjtkbWEtYnVmJiMzMjtpbnRvJiMzMjt0aGUmIzMyO2RldmljZSYjMzI7dXNp
-bmcmIzMyO3ByaW1lJiMzMjtmb3INCiZndDsmIzMyOyZndDsmIzMyO3RoZQ0KJmd0OyYjMzI7Jmd0
-OyYjMzI7ZHJtX2ZpbGUuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjszKSYjMzI7dXNlcnNwYWNlJiMzMjt1
-c2VzJiMzMjt0aGUmIzMyO2FscmVhZHkmIzMyO2ltcGxlbWVudGVkJiMzMjtkcml2ZXImIzMyO2lt
-cG9ydCYjMzI7Y29kZSYjMzI7Zm9yDQomZ3Q7JiMzMjsmZ3Q7JiMzMjt0aGUNCiZndDsmIzMyOyZn
-dDsmIzMyO3NwZWNpYWwmIzMyO2Nhc2VzJiMzMjtvZiYjMzI7cHJvdGVjdGVkJiMzMjtjb250ZW50
-JiMzMjtidWZmZXIuDQomZ3Q7JiMzMjsmIzMyOw0KJmd0OyYjMzI7V2hhdCYjMzI7aXMmIzMyO3Nv
-JiMzMjtzcGVjaWFsJiMzMjtvbiYjMzI7dGhhdCYjMzI7Y2FzZSYjNjM7DQoNClRoZSYjMzI7c3Bl
-Y2lhbCYjMzI7Y2FzZSYjMzI7c2ltcGx5JiMzMjttZWFucyYjMzI7dGhlJiMzMjt0aGUmIzMyO3By
-b3RlY3RlZCYjMzI7Y29udGVudCYjMzI7YnVmZmVyLg0KDQomZ3Q7JiMzMjsNCiZndDsmIzMyOyZn
-dDsmIzMyO0luJiMzMjt0aGUmIzMyO3N0ZXAmIzMyOzMpLCYjMzI7d2UmIzMyO25lZWQmIzMyO3Rv
-JiMzMjt2ZXJpZnkmIzMyO3RoZSYjMzI7ZG1hLWJ1ZiYjMzI7aXMmIzMyO2FsbG9jYXRlZCYjMzI7
-ZnJvbQ0KJmd0OyYjMzI7Jmd0OyYjMzI7JnF1b3Q7cmVzdHJpY3RlZF9tdGtfY21hJnF1b3Q7LCYj
-MzI7YnV0JiMzMjt0aGVyZSYjMzI7aXMmIzMyO25vJiMzMjt3YXkmIzMyO3RvJiMzMjtwYXNzJiMz
-Mjt0aGUmIzMyO3NlY3VyZSYjMzI7ZmxhZw0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjtvcg0KJmd0
-OyYjMzI7Jmd0OyYjMzI7cHJpdmF0ZSYjMzI7ZGF0YSYjMzI7ZnJvbSYjMzI7dXNlcnNwYWNlJiMz
-Mjt0byYjMzI7dGhlJiMzMjtpbXBvcnQmIzMyO2ludGVyZmFjZSYjMzI7aW4mIzMyO0RSTSYjMzI7
-ZHJpdmVyLg0KJmd0OyYjMzI7JiMzMjsNCiZndDsmIzMyO1doeSYjMzI7ZG8mIzMyO3lvdSYjMzI7
-bmVlZCYjMzI7dG8mIzMyO3ZlcmlmeSYjMzI7dGhhdCYjNjM7DQoNCkkmIzMyO25lZWQmIzMyO3Rv
-JiMzMjtrbm93JiMzMjt0aGUmIzMyO2ltcG9ydGVkJiMzMjtidWZmZXImIzMyO2lzJiMzMjthbGxv
-Y2F0ZWQmIzMyO2Zyb20mIzMyO3Jlc3RyaWN0ZWQmIzMyO2NtYSYjMzI7YW5kDQptYXJrJiMzMjtp
-dCYjMzI7YXMmIzMyO2EmIzMyO3NlY3VyZSYjMzI7YnVmZmVyJiMzMjtpbiYjMzI7bWVkaWF0ZWst
-ZHJtJiMzMjtkcml2ZXIuJiMzMjtUaGVuLCYjMzI7SSYjMzI7d2lsbCYjMzI7YWRkDQpzb21lJiMz
-Mjtjb25maWd1cmF0aW9uJiMzMjt0byYjMzI7dGhlJiMzMjtoYXJkd2FyZSYjMzI7aWYmIzMyO3Ro
-ZSYjMzI7YnVmZmVyJiMzMjtpcyYjMzI7c2VjdXJlJiMzMjtidWZmZXIsJiMzMjtzbw0KdGhhdCYj
-MzI7aXQmIzMyO2NhbiYjMzI7Z2V0JiMzMjt0aGUmIzMyO3Blcm1pc3Npb24mIzMyO3RvJiMzMjth
-Y2Nlc3MmIzMyO3RoZSYjMzI7c2VjdXJlJiMzMjtidWZmZXIuDQoNCiZndDsmIzMyOw0KJmd0OyYj
-MzI7Jmd0OyYjMzI7U28mIzMyO0kmIzMyO2NhbiYjMzI7b25seSYjMzI7dmVyaWZ5JiMzMjtpdCYj
-MzI7bGlrZSYjMzI7dGhpcyYjMzI7bm93Og0KJmd0OyYjMzI7Jmd0OyYjMzI7c3RydWN0JiMzMjtk
-cm1fZ2VtX29iamVjdCYjMzI7Km10a19nZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlKHN0cnVjdA0K
-Jmd0OyYjMzI7Jmd0OyYjMzI7ZHJtX2RldmljZQ0KJmd0OyYjMzI7Jmd0OyYjMzI7KmRldiwmIzMy
-O3N0cnVjdCYjMzI7ZG1hX2J1Zl9hdHRhY2htZW50JiMzMjsqYXR0YWNoLCYjMzI7c3RydWN0JiMz
-MjtzZ190YWJsZSYjMzI7KnNnKQ0KJmd0OyYjMzI7Jmd0OyYjMzI7ew0KJmd0OyYjMzI7Jmd0OyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtzdHJ1Y3QmIzMyO210a19nZW1fb2JqJiMzMjsqbXRrX2dl
-bTsNCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsvKiYjMzI7Y2hlY2smIzMyO2lmJiMzMjt0aGUmIzMyO2VudHJpZXMmIzMyO2luJiMzMjt0
-aGUmIzMyO3NnX3RhYmxlJiMzMjthcmUmIzMyO2NvbnRpZ3VvdXMmIzMyOyovDQomZ3Q7JiMzMjsm
-Z3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO2lmJiMzMjsoZHJtX3ByaW1lX2dldF9jb250aWd1
-b3VzX3NpemUoc2cpJiMzMjsmbHQ7JiMzMjthdHRhY2gtJmd0O2RtYWJ1Zi0mZ3Q7c2l6ZSkmIzMy
-O3sNCiZndDsmIzMyOyZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjtEUk1fRVJST1IoJnF1b3Q7c2dfdGFibGUmIzMyO2lzJiMzMjtub3QmIzMyO2NvbnRpZ3Vv
-dXMmcXVvdDspOw0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyO3JldHVybiYjMzI7RVJSX1BUUigtRUlOVkFMKTsNCiZndDsmIzMyOyZndDsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7fQ0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjttdGtfZ2VtJiMzMjs9JiMzMjttdGtfZ2VtX2luaXQoZGV2LCYjMzI7YXR0YWNoLSZn
-dDtkbWFidWYtJmd0O3NpemUpOw0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjtpZiYjMzI7KElTX0VSUihtdGtfZ2VtKSkNCiZndDsmIzMyOyZndDsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtyZXR1cm4mIzMyO0VSUl9DQVNUKG10a19nZW0p
-Ow0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7
-bXRrX2dlbS0mZ3Q7c2VjdXJlJiMzMjs9JiMzMjsoIXN0cm5jbXAoYXR0YWNoLSZndDtkbWFidWYt
-Jmd0O2V4cF9uYW1lLA0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjsmcXVvdDtyZXN0cmljdGVkJnF1
-b3Q7LA0KJmd0OyYjMzI7Jmd0OyYjMzI7MTApKTsNCiZndDsmIzMyOyZndDsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7bXRrX2dlbS0mZ3Q7ZG1hX2FkZHImIzMyOz0mIzMyO3NnX2RtYV9hZGRyZXNz
-KHNnLSZndDtzZ2wpOw0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjttdGtf
-Z2VtLSZndDtzaXplJiMzMjs9JiMzMjthdHRhY2gtJmd0O2RtYWJ1Zi0mZ3Q7c2l6ZTsNCiZndDsm
-IzMyOyZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7bXRrX2dlbS0mZ3Q7c2cmIzMyOz0mIzMy
-O3NnOw0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyO3JldHVybiYjMzI7JmFtcDttdGtfZ2VtLSZndDtiYXNlOw0KJmd0OyYjMzI7Jmd0OyYj
-MzI7fQ0KJmd0OyYjMzI7JiMzMjsNCiZndDsmIzMyO0NvbXBsZXRlJiMzMjtOQUsmIzMyO2Zyb20m
-IzMyO215JiMzMjtzaWRlJiMzMjt0byYjMzI7dGhhdCYjMzI7YXBwcm9hY2guJiMzMjtJbXBvcnRp
-bmcmIzMyO29mJiMzMjthJiMzMjtETUEtYnVmDQomZ3Q7JiMzMjtzaG91bGQmIzMyO2JlJiMzMjtp
-bmRlcGVuZGVudCYjMzI7b2YmIzMyO3RoZSYjMzI7ZXhwb3J0ZXIuDQomZ3Q7JiMzMjsNCiZndDsm
-IzMyO1doYXQmIzMyO3lvdSYjMzI7Y291bGQmIzMyO2RvJiMzMjtpcyYjMzI7dG8mIzMyO3Byb3Zp
-ZGUmIzMyO3RoZSYjMzI7c2VjdXJlJiMzMjtidWZmZXImIzMyO2Zyb20mIzMyO2EmIzMyO2Rldmlj
-ZSYjMzI7YW5kDQomZ3Q7JiMzMjtub3QmIzMyO2EmIzMyO2RldmljZSYjMzI7aGVhcC4NCiZndDsm
-IzMyOw0KDQpZb3UmIzMyO21lYW4mIzMyO0kmIzMyO3Nob3VsZCYjMzI7YWxsb2NhdGUmIzMyO2J1
-ZmZlciYjMzI7aW4mIzMyO21lZGlhdGUtZHJtJiMzMjtkcml2ZXImIzMyO25vdCYjMzI7dXNlcnNw
-YWNlJiM2MzsNCkkmIzMyO2p1c3QmIzMyO2hhdmUmIzMyO21vZGlmaWVkJiMzMjt0aGlzJiMzMjt0
-byYjMzI7dXNlcnNwYWNlJiMzMjtieSYjMzI7dGhlJiMzMjtjb21tZW50JiMzMjtoZXJlOg0KDQpo
-dHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3Byb2plY3QvbGludXgtbWVkaWF0ZWsvcGF0Y2gv
-MjAyNDA0MDMxMDI3MDEuMzY5LTMtc2hhd24uc3VuZ0BtZWRpYXRlay5jb20vIzI1ODA2NzY2DQoN
-CiZndDsmIzMyOyZndDsmIzMyO0kmIzMyO3RoaW5rJiMzMjtJJiMzMjtoYXZlJiMzMjt0aGUmIzMy
-O3NhbWUmIzMyO3Byb2JsZW0mIzMyO2FzJiMzMjt0aGUmIzMyO0VDQ19GTEFHJiMzMjttZW50aW9u
-JiMzMjtpbjoNCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7DQpodHRwczov
-L2xvcmUua2VybmVsLm9yZy9saW51eC1tZWRpYS8yMDI0MDUxNS1kbWEtYnVmLWVjYy1oZWFwLXYx
-LTAtNTRjYmJkMDQ5NTExQGtlcm5lbC5vcmcvDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMy
-OyZndDsmIzMyO0kmIzMyO3RoaW5rJiMzMjtpdCYjMzI7d291bGQmIzMyO2JlJiMzMjtiZXR0ZXIm
-IzMyO3RvJiMzMjtoYXZlJiMzMjt0aGUmIzMyO3VzZXImIzMyO2NvbmZpZ3VyYWJsZSYjMzI7cHJp
-dmF0ZQ0KJmd0OyYjMzI7Jmd0OyYjMzI7aW5mb3JtYXRpb24mIzMyO2luJiMzMjtkbWEtYnVmLCYj
-MzI7c28mIzMyO2FsbCYjMzI7dGhlJiMzMjtkcml2ZXJzJiMzMjt3aG8mIzMyO2hhdmUmIzMyO3Ro
-ZSYjMzI7c2FtZQ0KJmd0OyYjMzI7Jmd0OyYjMzI7cmVxdWlyZW1lbnQmIzMyO2NhbiYjMzI7Z2V0
-JiMzMjt0aGVpciYjMzI7cHJpdmF0ZSYjMzI7aW5mb3JtYXRpb24mIzMyO2Zyb20mIzMyO2RtYS1i
-dWYmIzMyO2RpcmVjdGx5DQomZ3Q7JiMzMjsmZ3Q7JiMzMjthbmQNCiZndDsmIzMyOyZndDsmIzMy
-O25vJiMzMjtuZWVkJiMzMjt0byYjMzI7Y2hhbmdlJiMzMjtvciYjMzI7YWRkJiMzMjt0aGUmIzMy
-O2ludGVyZmFjZS4NCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7V2hhdCYj
-Mzk7cyYjMzI7eW91ciYjMzI7b3BpbmlvbiYjMzI7aW4mIzMyO3RoaXMmIzMyO3BvaW50JiM2MzsN
-CiZndDsmIzMyOyYjMzI7DQomZ3Q7JiMzMjtXZWxsJiMzMjtvZiYjMzI7aGFuZCYjMzI7SSYjMzI7
-ZG9uJiMzOTt0JiMzMjtzZWUmIzMyO3RoZSYjMzI7bmVlZCYjMzI7Zm9yJiMzMjt0aGF0Lg0KJmd0
-OyYjMzI7DQomZ3Q7JiMzMjtXaGF0JiMzMjtoYXBwZW5zJiMzMjtpZiYjMzI7eW91JiMzMjtnZXQm
-IzMyO2EmIzMyO25vbi1zZWN1cmUmIzMyO2J1ZmZlciYjMzI7aW1wb3J0ZWQmIzMyO2luJiMzMjt5
-b3VyJiMzMjtzZWN1cmUNCiZndDsmIzMyO2RldmljZSYjNjM7DQoNCldlJiMzMjt1c2UmIzMyO3Ro
-ZSYjMzI7c2FtZSYjMzI7bWVkaWF0ZWstZHJtJiMzMjtkcml2ZXImIzMyO2ZvciYjMzI7c2VjdXJl
-JiMzMjthbmQmIzMyO25vbi1zZWN1cmUmIzMyO2J1ZmZlci4NCklmJiMzMjtub24tc2VjdXJlJiMz
-MjtidWZmZXImIzMyO2ltcG9ydGVkJiMzMjt0byYjMzI7bWVkaWF0ZWstZHJtJiMzMjtkcml2ZXIs
-JiMzMjtpdCYjMzk7cyYjMzI7Z28mIzMyO3RvJiMzMjt0aGUNCm5vcm1hbCYjMzI7ZmxvdyYjMzI7
-d2l0aCYjMzI7bm9ybWFsJiMzMjtoYXJkd2FyZSYjMzI7c2V0dGluZ3MuDQoNCldlJiMzMjt1c2Um
-IzMyO2RpZmZlcmVudCYjMzI7Y29uZmlndXJhdGlvbnMmIzMyO3RvJiMzMjttYWtlJiMzMjtoYXJk
-d2FyZSYjMzI7aGF2ZSYjMzI7ZGlmZmVyZW50DQpwZXJtaXNzaW9uJiMzMjt0byYjMzI7YWNjZXNz
-JiMzMjt0aGUmIzMyO2J1ZmZlciYjMzI7aXQmIzMyO3Nob3VsZCYjMzI7YWNjZXNzLg0KDQpTbyYj
-MzI7aWYmIzMyO3dlJiMzMjtjYW4mIzM5O3QmIzMyO2dldCYjMzI7dGhlJiMzMjtpbmZvcm1hdGlv
-biYjMzI7b2YmIzMyOyZxdW90O3RoZSYjMzI7YnVmZmVyJiMzMjtpcyYjMzI7YWxsb2NhdGVkJiMz
-Mjtmcm9tDQpyZXN0cmljdGVkX210a19jbWEmcXVvdDsmIzMyO3doZW4mIzMyO2ltcG9ydGluZyYj
-MzI7dGhlJiMzMjtidWZmZXImIzMyO2ludG8mIzMyO3RoZSYjMzI7ZHJpdmVyLCYjMzI7d2UmIzMy
-O3dvbiYjMzk7dA0KYmUmIzMyO2FibGUmIzMyO3RvJiMzMjtjb25maWd1cmUmIzMyO3RoZSYjMzI7
-aGFyZHdhcmUmIzMyO2NvcnJlY3RseS4NCg0KUmVnYXJkcywNCkphc29uLUpILkxpbg0KDQomZ3Q7
-JiMzMjsNCiZndDsmIzMyO1JlZ2FyZHMsDQomZ3Q7JiMzMjtDaHJpc3RpYW4uDQomZ3Q7JiMzMjsN
-CiZndDsmIzMyOyZndDsmIzMyO1JlZ2FyZHMsDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtKYXNvbi1KSC5M
-aW4NCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7UmVnYXJk
-cywNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO0NocmlzdGlhbi4NCiZndDsmIzMyOyZndDsm
-IzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7KioqKioqKioqKioqKiYjMzI7TUVESUFURUsmIzMyO0Nv
-bmZpZGVudGlhbGl0eSYjMzI7Tm90aWNlDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOyoqKioqKioq
-KioqKioqKioqKioqDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtUaGUmIzMyO2luZm9ybWF0aW9uJiMzMjtj
-b250YWluZWQmIzMyO2luJiMzMjt0aGlzJiMzMjtlLW1haWwmIzMyO21lc3NhZ2UmIzMyOyhpbmNs
-dWRpbmcmIzMyO2FueSYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjthdHRhY2htZW50cykmIzMyO21h
-eSYjMzI7YmUmIzMyO2NvbmZpZGVudGlhbCwmIzMyO3Byb3ByaWV0YXJ5LCYjMzI7cHJpdmlsZWdl
-ZCwmIzMyO29yDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtvdGhlcndpc2UNCiZndDsmIzMyOyZndDsmIzMy
-O2V4ZW1wdCYjMzI7ZnJvbSYjMzI7ZGlzY2xvc3VyZSYjMzI7dW5kZXImIzMyO2FwcGxpY2FibGUm
-IzMyO2xhd3MuJiMzMjtJdCYjMzI7aXMmIzMyO2ludGVuZGVkJiMzMjt0byYjMzI7YmUmIzMyOw0K
-Jmd0OyYjMzI7Jmd0OyYjMzI7Y29udmV5ZWQmIzMyO29ubHkmIzMyO3RvJiMzMjt0aGUmIzMyO2Rl
-c2lnbmF0ZWQmIzMyO3JlY2lwaWVudChzKS4mIzMyO0FueSYjMzI7dXNlLA0KJmd0OyYjMzI7Jmd0
-OyYjMzI7ZGlzc2VtaW5hdGlvbiwmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7ZGlzdHJpYnV0aW9u
-LCYjMzI7cHJpbnRpbmcsJiMzMjtyZXRhaW5pbmcmIzMyO29yJiMzMjtjb3B5aW5nJiMzMjtvZiYj
-MzI7dGhpcyYjMzI7ZS1tYWlsDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsoaW5jbHVkaW5nJiMzMjtpdHMm
-IzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7YXR0YWNobWVudHMpJiMzMjtieSYjMzI7dW5pbnRlbmRl
-ZCYjMzI7cmVjaXBpZW50KHMpJiMzMjtpcyYjMzI7c3RyaWN0bHkmIzMyO3Byb2hpYml0ZWQmIzMy
-O2FuZA0KJmd0OyYjMzI7Jmd0OyYjMzI7bWF5JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyO2JlJiMz
-Mjt1bmxhd2Z1bC4mIzMyO0lmJiMzMjt5b3UmIzMyO2FyZSYjMzI7bm90JiMzMjthbiYjMzI7aW50
-ZW5kZWQmIzMyO3JlY2lwaWVudCYjMzI7b2YmIzMyO3RoaXMmIzMyO2UtbWFpbCwNCiZndDsmIzMy
-OyZndDsmIzMyO29yJiMzMjtiZWxpZXZlDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOw0KJmd0OyYj
-MzI7Jmd0OyYjMzI7dGhhdCYjMzI7eW91JiMzMjtoYXZlJiMzMjtyZWNlaXZlZCYjMzI7dGhpcyYj
-MzI7ZS1tYWlsJiMzMjtpbiYjMzI7ZXJyb3IsJiMzMjtwbGVhc2UmIzMyO25vdGlmeSYjMzI7dGhl
-DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtzZW5kZXImIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7aW1tZWRp
-YXRlbHkmIzMyOyhieSYjMzI7cmVwbHlpbmcmIzMyO3RvJiMzMjt0aGlzJiMzMjtlLW1haWwpLCYj
-MzI7ZGVsZXRlJiMzMjthbnkmIzMyO2FuZCYjMzI7YWxsJiMzMjtjb3BpZXMNCiZndDsmIzMyOyZn
-dDsmIzMyO29mJiMzMjsNCiZndDsmIzMyOyZndDsmIzMyO3RoaXMmIzMyO2UtbWFpbCYjMzI7KGlu
-Y2x1ZGluZyYjMzI7YW55JiMzMjthdHRhY2htZW50cykmIzMyO2Zyb20mIzMyO3lvdXImIzMyO3N5
-c3RlbSwmIzMyO2FuZCYjMzI7ZG8NCiZndDsmIzMyOyZndDsmIzMyO25vdA0KJmd0OyYjMzI7Jmd0
-OyYjMzI7ZGlzY2xvc2UmIzMyO3RoZSYjMzI7Y29udGVudCYjMzI7b2YmIzMyO3RoaXMmIzMyO2Ut
-bWFpbCYjMzI7dG8mIzMyO2FueSYjMzI7b3RoZXImIzMyO3BlcnNvbi4mIzMyO1RoYW5rJiMzMjt5
-b3UhDQomZ3Q7JiMzMjsmIzMyOw0KDQo8L3ByZT4NCjwvcD48L2JvZHk+PC9odG1sPjwhLS10eXBl
-OnRleHQtLT48IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxp
-dHkgTm90aWNlDQogKioqKioqKioqKioqKioqKioqKioNClRoZSBpbmZvcm1hdGlvbiBjb250YWlu
-ZWQgaW4gdGhpcyBlLW1haWwgbWVzc2FnZSAoaW5jbHVkaW5nIGFueSANCmF0dGFjaG1lbnRzKSBt
-YXkgYmUgY29uZmlkZW50aWFsLCBwcm9wcmlldGFyeSwgcHJpdmlsZWdlZCwgb3Igb3RoZXJ3aXNl
-DQpleGVtcHQgZnJvbSBkaXNjbG9zdXJlIHVuZGVyIGFwcGxpY2FibGUgbGF3cy4gSXQgaXMgaW50
-ZW5kZWQgdG8gYmUgDQpjb252ZXllZCBvbmx5IHRvIHRoZSBkZXNpZ25hdGVkIHJlY2lwaWVudChz
-KS4gQW55IHVzZSwgZGlzc2VtaW5hdGlvbiwgDQpkaXN0cmlidXRpb24sIHByaW50aW5nLCByZXRh
-aW5pbmcgb3IgY29weWluZyBvZiB0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGl0cyANCmF0dGFjaG1l
-bnRzKSBieSB1bmludGVuZGVkIHJlY2lwaWVudChzKSBpcyBzdHJpY3RseSBwcm9oaWJpdGVkIGFu
-ZCBtYXkgDQpiZSB1bmxhd2Z1bC4gSWYgeW91IGFyZSBub3QgYW4gaW50ZW5kZWQgcmVjaXBpZW50
-IG9mIHRoaXMgZS1tYWlsLCBvciBiZWxpZXZlDQogDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRo
-aXMgZS1tYWlsIGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVs
-eSAoYnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1haWwpLCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVz
-IG9mIA0KdGhpcyBlLW1haWwgKGluY2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZyb20geW91ciBz
-eXN0ZW0sIGFuZCBkbyBub3QNCmRpc2Nsb3NlIHRoZSBjb250ZW50IG9mIHRoaXMgZS1tYWlsIHRv
-IGFueSBvdGhlciBwZXJzb24uIFRoYW5rIHlvdSENCjwvcHJlPjwhLS19LS0+
+Cheers, Sima
+> 
+> ---
+> 
+> v13:
+> - Fixed a couple of places that still listed DMA_BIDIRECTIONAL (Pavel).
+> - Added reviewed-by from Pavel.
+> 
+> v11:
+> - Fix build error with CONFIG_DMA_SHARED_BUFFER &&
+>   !CONFIG_GENERIC_ALLOCATOR
+> - Rebased on top of no memory provider ops.
+> 
+> v10:
+> - Moved net_iov_dma_addr() to devmem.h and made it devmem specific
+>   helper (David).
+> 
+> v9: https://lore.kernel.org/all/20240403002053.2376017-5-almasrymina@google.com/
+> - Removed net_devmem_restart_rx_queues and put it in its own patch
+>   (David).
+> 
+> v8:
+> - move dmabuf_devmem_ops usage to later patch to avoid patch-by-patch
+>   build error.
+> 
+> v7:
+> - Use IS_ERR() instead of IS_ERR_OR_NULL() for the dma_buf_get() return
+>   value.
+> - Changes netdev_* naming in devmem.c to net_devmem_* (Yunsheng).
+> - DMA_BIDIRECTIONAL -> DMA_FROM_DEVICE (Yunsheng).
+> - Added a comment around recovering of the old rx queue in
+>   net_devmem_restart_rx_queue(), and added freeing of old_mem if the
+>   restart of the old queue fails. (Yunsheng).
+> - Use kernel-family sock-priv (Jakub).
+> - Put pp_memory_provider_params in netdev_rx_queue instead of the
+>   dma-buf specific binding (Pavel & David).
+> - Move queue management ops to queue_mgmt_ops instead of netdev_ops
+>   (Jakub).
+> - Remove excess whitespaces (Jakub).
+> - Use genlmsg_iput (Jakub).
+> 
+> v6:
+> - Validate rx queue index
+> - Refactor new functions into devmem.c (Pavel)
+> 
+> v5:
+> - Renamed page_pool_iov to net_iov, and moved that support to devmem.h
+>   or netmem.h.
+> 
+> v1:
+> - Introduce devmem.h instead of bloating netdevice.h (Jakub)
+> - ENOTSUPP -> EOPNOTSUPP (checkpatch.pl I think)
+> - Remove unneeded rcu protection for binding->list (rtnl protected)
+> - Removed extraneous err_binding_put: label.
+> - Removed dma_addr += len (Paolo).
+> - Don't override err on netdev_bind_dmabuf_to_queue failure.
+> - Rename devmem -> dmabuf (David).
+> - Add id to dmabuf binding (David/Stan).
+> - Fix missing xa_destroy bound_rq_list.
+> - Use queue api to reset bound RX queues (Jakub).
+> - Update netlink API for rx-queue type (tx/re) (Jakub).
+> 
+> RFC v3:
+> - Support multi rx-queue binding
+> 
+> ---
+>  Documentation/netlink/specs/netdev.yaml |   4 +
+>  include/net/devmem.h                    | 111 +++++++++++
+>  include/net/netdev_rx_queue.h           |   2 +
+>  include/net/netmem.h                    |  10 +
+>  include/net/page_pool/types.h           |   6 +
+>  net/core/Makefile                       |   2 +-
+>  net/core/dev.c                          |   3 +
+>  net/core/devmem.c                       | 252 ++++++++++++++++++++++++
+>  net/core/netdev-genl-gen.c              |   4 +
+>  net/core/netdev-genl-gen.h              |   4 +
+>  net/core/netdev-genl.c                  | 101 +++++++++-
+>  11 files changed, 496 insertions(+), 3 deletions(-)
+>  create mode 100644 include/net/devmem.h
+>  create mode 100644 net/core/devmem.c
+> 
+> diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
+> index 899ac0882a098..d6d7cb01c145c 100644
+> --- a/Documentation/netlink/specs/netdev.yaml
+> +++ b/Documentation/netlink/specs/netdev.yaml
+> @@ -673,6 +673,10 @@ operations:
+>              - tx-packets
+>              - tx-bytes
+>  
+> +kernel-family:
+> +  headers: [ "linux/list.h"]
+> +  sock-priv: struct list_head
+> +
+>  mcast-groups:
+>    list:
+>      -
+> diff --git a/include/net/devmem.h b/include/net/devmem.h
+> new file mode 100644
+> index 0000000000000..eaf3fd965d7a8
+> --- /dev/null
+> +++ b/include/net/devmem.h
+> @@ -0,0 +1,111 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Device memory TCP support
+> + *
+> + * Authors:	Mina Almasry <almasrymina@google.com>
+> + *		Willem de Bruijn <willemb@google.com>
+> + *		Kaiyuan Zhang <kaiyuanz@google.com>
+> + *
+> + */
+> +#ifndef _NET_DEVMEM_H
+> +#define _NET_DEVMEM_H
+> +
+> +struct net_devmem_dmabuf_binding {
+> +	struct dma_buf *dmabuf;
+> +	struct dma_buf_attachment *attachment;
+> +	struct sg_table *sgt;
+> +	struct net_device *dev;
+> +	struct gen_pool *chunk_pool;
+> +
+> +	/* The user holds a ref (via the netlink API) for as long as they want
+> +	 * the binding to remain alive. Each page pool using this binding holds
+> +	 * a ref to keep the binding alive. Each allocated net_iov holds a
+> +	 * ref.
+> +	 *
+> +	 * The binding undos itself and unmaps the underlying dmabuf once all
+> +	 * those refs are dropped and the binding is no longer desired or in
+> +	 * use.
+> +	 */
+> +	refcount_t ref;
+> +
+> +	/* The list of bindings currently active. Used for netlink to notify us
+> +	 * of the user dropping the bind.
+> +	 */
+> +	struct list_head list;
+> +
+> +	/* rxq's this binding is active on. */
+> +	struct xarray bound_rxq_list;
+> +
+> +	/* ID of this binding. Globally unique to all bindings currently
+> +	 * active.
+> +	 */
+> +	u32 id;
+> +};
+> +
+> +/* Owner of the dma-buf chunks inserted into the gen pool. Each scatterlist
+> + * entry from the dmabuf is inserted into the genpool as a chunk, and needs
+> + * this owner struct to keep track of some metadata necessary to create
+> + * allocations from this chunk.
+> + */
+> +struct dmabuf_genpool_chunk_owner {
+> +	/* Offset into the dma-buf where this chunk starts.  */
+> +	unsigned long base_virtual;
+> +
+> +	/* dma_addr of the start of the chunk.  */
+> +	dma_addr_t base_dma_addr;
+> +
+> +	/* Array of net_iovs for this chunk. */
+> +	struct net_iov *niovs;
+> +	size_t num_niovs;
+> +
+> +	struct net_devmem_dmabuf_binding *binding;
+> +};
+> +
+> +#if defined(CONFIG_DMA_SHARED_BUFFER) && defined(CONFIG_GENERIC_ALLOCATOR)
+> +void __net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding);
+> +int net_devmem_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_fd,
+> +			   struct net_devmem_dmabuf_binding **out);
+> +void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding);
+> +int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
+> +				    struct net_devmem_dmabuf_binding *binding);
+> +#else
+> +static inline void
+> +__net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding)
+> +{
+> +}
+> +
+> +static inline int net_devmem_bind_dmabuf(struct net_device *dev,
+> +					 unsigned int dmabuf_fd,
+> +					 struct net_devmem_dmabuf_binding **out)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +static inline void
+> +net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
+> +{
+> +}
+> +
+> +static inline int
+> +net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
+> +				struct net_devmem_dmabuf_binding *binding)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +#endif
+> +
+> +static inline void
+> +net_devmem_dmabuf_binding_get(struct net_devmem_dmabuf_binding *binding)
+> +{
+> +	refcount_inc(&binding->ref);
+> +}
+> +
+> +static inline void
+> +net_devmem_dmabuf_binding_put(struct net_devmem_dmabuf_binding *binding)
+> +{
+> +	if (!refcount_dec_and_test(&binding->ref))
+> +		return;
+> +
+> +	__net_devmem_dmabuf_binding_free(binding);
+> +}
+> +
+> +#endif /* _NET_DEVMEM_H */
+> diff --git a/include/net/netdev_rx_queue.h b/include/net/netdev_rx_queue.h
+> index e78ca52d67fbf..ac34f5fb4f71d 100644
+> --- a/include/net/netdev_rx_queue.h
+> +++ b/include/net/netdev_rx_queue.h
+> @@ -6,6 +6,7 @@
+>  #include <linux/netdevice.h>
+>  #include <linux/sysfs.h>
+>  #include <net/xdp.h>
+> +#include <net/page_pool/types.h>
+>  
+>  /* This structure contains an instance of an RX queue. */
+>  struct netdev_rx_queue {
+> @@ -25,6 +26,7 @@ struct netdev_rx_queue {
+>  	 * Readers and writers must hold RTNL
+>  	 */
+>  	struct napi_struct		*napi;
+> +	struct pp_memory_provider_params mp_params;
+>  } ____cacheline_aligned_in_smp;
+>  
+>  /*
+> diff --git a/include/net/netmem.h b/include/net/netmem.h
+> index d8b810245c1da..72e932a1a9489 100644
+> --- a/include/net/netmem.h
+> +++ b/include/net/netmem.h
+> @@ -8,6 +8,16 @@
+>  #ifndef _NET_NETMEM_H
+>  #define _NET_NETMEM_H
+>  
+> +#include <net/devmem.h>
+> +
+> +/* net_iov */
+> +
+> +struct net_iov {
+> +	struct dmabuf_genpool_chunk_owner *owner;
+> +};
+> +
+> +/* netmem */
+> +
+>  /**
+>   * typedef netmem_ref - a nonexistent type marking a reference to generic
+>   * network memory.
+> diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.h
+> index 7e8477057f3d1..9f3c3ee2ee755 100644
+> --- a/include/net/page_pool/types.h
+> +++ b/include/net/page_pool/types.h
+> @@ -128,6 +128,10 @@ struct page_pool_stats {
+>  };
+>  #endif
+>  
+> +struct pp_memory_provider_params {
+> +	void *mp_priv;
+> +};
+> +
+>  struct page_pool {
+>  	struct page_pool_params_fast p;
+>  
+> @@ -194,6 +198,8 @@ struct page_pool {
+>  	 */
+>  	struct ptr_ring ring;
+>  
+> +	void *mp_priv;
+> +
+>  #ifdef CONFIG_PAGE_POOL_STATS
+>  	/* recycle stats are per-cpu to avoid locking */
+>  	struct page_pool_recycle_stats __percpu *recycle_stats;
+> diff --git a/net/core/Makefile b/net/core/Makefile
+> index f82232b358a2c..6b43611fb4a43 100644
+> --- a/net/core/Makefile
+> +++ b/net/core/Makefile
+> @@ -13,7 +13,7 @@ obj-y		     += dev.o dev_addr_lists.o dst.o netevent.o \
+>  			neighbour.o rtnetlink.o utils.o link_watch.o filter.o \
+>  			sock_diag.o dev_ioctl.o tso.o sock_reuseport.o \
+>  			fib_notifier.o xdp.o flow_offload.o gro.o \
+> -			netdev-genl.o netdev-genl-gen.o gso.o
+> +			netdev-genl.o netdev-genl-gen.o gso.o devmem.o
+>  
+>  obj-$(CONFIG_NETDEV_ADDR_LIST_TEST) += dev_addr_lists_test.o
+>  
+> diff --git a/net/core/dev.c b/net/core/dev.c
+> index b94fb4e63a289..85255b8e34a45 100644
+> --- a/net/core/dev.c
+> +++ b/net/core/dev.c
+> @@ -158,6 +158,9 @@
+>  #include <net/page_pool/types.h>
+>  #include <net/page_pool/helpers.h>
+>  #include <net/rps.h>
+> +#include <linux/genalloc.h>
+> +#include <linux/dma-buf.h>
+> +#include <net/devmem.h>
+>  
+>  #include "dev.h"
+>  #include "net-sysfs.h"
+> diff --git a/net/core/devmem.c b/net/core/devmem.c
+> new file mode 100644
+> index 0000000000000..cfb5a2f69dcd2
+> --- /dev/null
+> +++ b/net/core/devmem.c
+> @@ -0,0 +1,252 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + *      Devmem TCP
+> + *
+> + *      Authors:	Mina Almasry <almasrymina@google.com>
+> + *			Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+> + *			Kaiyuan Zhang <kaiyuanz@google.com
+> + */
+> +
+> +#include <linux/types.h>
+> +#include <linux/mm.h>
+> +#include <linux/netdevice.h>
+> +#include <trace/events/page_pool.h>
+> +#include <net/netdev_rx_queue.h>
+> +#include <net/page_pool/types.h>
+> +#include <net/page_pool/helpers.h>
+> +#include <linux/genalloc.h>
+> +#include <linux/dma-buf.h>
+> +#include <net/devmem.h>
+> +#include <net/netdev_queues.h>
+> +
+> +/* Device memory support */
+> +
+> +#if defined(CONFIG_DMA_SHARED_BUFFER) && defined(CONFIG_GENERIC_ALLOCATOR)
+> +static void net_devmem_dmabuf_free_chunk_owner(struct gen_pool *genpool,
+> +					       struct gen_pool_chunk *chunk,
+> +					       void *not_used)
+> +{
+> +	struct dmabuf_genpool_chunk_owner *owner = chunk->owner;
+> +
+> +	kvfree(owner->niovs);
+> +	kfree(owner);
+> +}
+> +
+> +void __net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding)
+> +{
+> +	size_t size, avail;
+> +
+> +	gen_pool_for_each_chunk(binding->chunk_pool,
+> +				net_devmem_dmabuf_free_chunk_owner, NULL);
+> +
+> +	size = gen_pool_size(binding->chunk_pool);
+> +	avail = gen_pool_avail(binding->chunk_pool);
+> +
+> +	if (!WARN(size != avail, "can't destroy genpool. size=%zu, avail=%zu",
+> +		  size, avail))
+> +		gen_pool_destroy(binding->chunk_pool);
+> +
+> +	dma_buf_unmap_attachment(binding->attachment, binding->sgt,
+> +				 DMA_FROM_DEVICE);
+> +	dma_buf_detach(binding->dmabuf, binding->attachment);
+> +	dma_buf_put(binding->dmabuf);
+> +	xa_destroy(&binding->bound_rxq_list);
+> +	kfree(binding);
+> +}
+> +
+> +/* Protected by rtnl_lock() */
+> +static DEFINE_XARRAY_FLAGS(net_devmem_dmabuf_bindings, XA_FLAGS_ALLOC1);
+> +
+> +void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
+> +{
+> +	struct netdev_rx_queue *rxq;
+> +	unsigned long xa_idx;
+> +	unsigned int rxq_idx;
+> +
+> +	if (!binding)
+> +		return;
+> +
+> +	if (binding->list.next)
+> +		list_del(&binding->list);
+> +
+> +	xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
+> +		if (rxq->mp_params.mp_priv == binding) {
+> +			/* We hold the rtnl_lock while binding/unbinding
+> +			 * dma-buf, so we can't race with another thread that
+> +			 * is also modifying this value. However, the page_pool
+> +			 * may read this config while it's creating its
+> +			 * rx-queues. WRITE_ONCE() here to match the
+> +			 * READ_ONCE() in the page_pool.
+> +			 */
+> +			WRITE_ONCE(rxq->mp_params.mp_priv, NULL);
+> +
+> +			rxq_idx = get_netdev_rx_queue_index(rxq);
+> +
+> +			netdev_rx_queue_restart(binding->dev, rxq_idx);
+> +		}
+> +	}
+> +
+> +	xa_erase(&net_devmem_dmabuf_bindings, binding->id);
+> +
+> +	net_devmem_dmabuf_binding_put(binding);
+> +}
+> +
+> +int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
+> +				    struct net_devmem_dmabuf_binding *binding)
+> +{
+> +	struct netdev_rx_queue *rxq;
+> +	u32 xa_idx;
+> +	int err;
+> +
+> +	if (rxq_idx >= dev->num_rx_queues)
+> +		return -ERANGE;
+> +
+> +	rxq = __netif_get_rx_queue(dev, rxq_idx);
+> +	if (rxq->mp_params.mp_priv)
+> +		return -EEXIST;
+> +
+> +	err = xa_alloc(&binding->bound_rxq_list, &xa_idx, rxq, xa_limit_32b,
+> +		       GFP_KERNEL);
+> +	if (err)
+> +		return err;
+> +
+> +	/* We hold the rtnl_lock while binding/unbinding dma-buf, so we can't
+> +	 * race with another thread that is also modifying this value. However,
+> +	 * the driver may read this config while it's creating its * rx-queues.
+> +	 * WRITE_ONCE() here to match the READ_ONCE() in the driver.
+> +	 */
+> +	WRITE_ONCE(rxq->mp_params.mp_priv, binding);
+> +
+> +	err = netdev_rx_queue_restart(dev, rxq_idx);
+> +	if (err)
+> +		goto err_xa_erase;
+> +
+> +	return 0;
+> +
+> +err_xa_erase:
+> +	WRITE_ONCE(rxq->mp_params.mp_priv, NULL);
+> +	xa_erase(&binding->bound_rxq_list, xa_idx);
+> +
+> +	return err;
+> +}
+> +
+> +int net_devmem_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_fd,
+> +			   struct net_devmem_dmabuf_binding **out)
+> +{
+> +	struct net_devmem_dmabuf_binding *binding;
+> +	static u32 id_alloc_next;
+> +	struct scatterlist *sg;
+> +	struct dma_buf *dmabuf;
+> +	unsigned int sg_idx, i;
+> +	unsigned long virtual;
+> +	int err;
+> +
+> +	dmabuf = dma_buf_get(dmabuf_fd);
+> +	if (IS_ERR(dmabuf))
+> +		return -EBADFD;
+> +
+> +	binding = kzalloc_node(sizeof(*binding), GFP_KERNEL,
+> +			       dev_to_node(&dev->dev));
+> +	if (!binding) {
+> +		err = -ENOMEM;
+> +		goto err_put_dmabuf;
+> +	}
+> +
+> +	binding->dev = dev;
+> +
+> +	err = xa_alloc_cyclic(&net_devmem_dmabuf_bindings, &binding->id,
+> +			      binding, xa_limit_32b, &id_alloc_next,
+> +			      GFP_KERNEL);
+> +	if (err < 0)
+> +		goto err_free_binding;
+> +
+> +	xa_init_flags(&binding->bound_rxq_list, XA_FLAGS_ALLOC);
+> +
+> +	refcount_set(&binding->ref, 1);
+> +
+> +	binding->dmabuf = dmabuf;
+> +
+> +	binding->attachment = dma_buf_attach(binding->dmabuf, dev->dev.parent);
+> +	if (IS_ERR(binding->attachment)) {
+> +		err = PTR_ERR(binding->attachment);
+> +		goto err_free_id;
+> +	}
+> +
+> +	binding->sgt =
+> +		dma_buf_map_attachment(binding->attachment, DMA_FROM_DEVICE);
+> +	if (IS_ERR(binding->sgt)) {
+> +		err = PTR_ERR(binding->sgt);
+> +		goto err_detach;
+> +	}
+> +
+> +	/* For simplicity we expect to make PAGE_SIZE allocations, but the
+> +	 * binding can be much more flexible than that. We may be able to
+> +	 * allocate MTU sized chunks here. Leave that for future work...
+> +	 */
+> +	binding->chunk_pool =
+> +		gen_pool_create(PAGE_SHIFT, dev_to_node(&dev->dev));
+> +	if (!binding->chunk_pool) {
+> +		err = -ENOMEM;
+> +		goto err_unmap;
+> +	}
+> +
+> +	virtual = 0;
+> +	for_each_sgtable_dma_sg(binding->sgt, sg, sg_idx) {
+> +		dma_addr_t dma_addr = sg_dma_address(sg);
+> +		struct dmabuf_genpool_chunk_owner *owner;
+> +		size_t len = sg_dma_len(sg);
+> +		struct net_iov *niov;
+> +
+> +		owner = kzalloc_node(sizeof(*owner), GFP_KERNEL,
+> +				     dev_to_node(&dev->dev));
+> +		owner->base_virtual = virtual;
+> +		owner->base_dma_addr = dma_addr;
+> +		owner->num_niovs = len / PAGE_SIZE;
+> +		owner->binding = binding;
+> +
+> +		err = gen_pool_add_owner(binding->chunk_pool, dma_addr,
+> +					 dma_addr, len, dev_to_node(&dev->dev),
+> +					 owner);
+> +		if (err) {
+> +			err = -EINVAL;
+> +			goto err_free_chunks;
+> +		}
+> +
+> +		owner->niovs = kvmalloc_array(owner->num_niovs,
+> +					      sizeof(*owner->niovs),
+> +					      GFP_KERNEL);
+> +		if (!owner->niovs) {
+> +			err = -ENOMEM;
+> +			goto err_free_chunks;
+> +		}
+> +
+> +		for (i = 0; i < owner->num_niovs; i++) {
+> +			niov = &owner->niovs[i];
+> +			niov->owner = owner;
+> +		}
+> +
+> +		virtual += len;
+> +	}
+> +
+> +	*out = binding;
+> +
+> +	return 0;
+> +
+> +err_free_chunks:
+> +	gen_pool_for_each_chunk(binding->chunk_pool,
+> +				net_devmem_dmabuf_free_chunk_owner, NULL);
+> +	gen_pool_destroy(binding->chunk_pool);
+> +err_unmap:
+> +	dma_buf_unmap_attachment(binding->attachment, binding->sgt,
+> +				 DMA_FROM_DEVICE);
+> +err_detach:
+> +	dma_buf_detach(dmabuf, binding->attachment);
+> +err_free_id:
+> +	xa_erase(&net_devmem_dmabuf_bindings, binding->id);
+> +err_free_binding:
+> +	kfree(binding);
+> +err_put_dmabuf:
+> +	dma_buf_put(dmabuf);
+> +	return err;
+> +}
+> +#endif
+> diff --git a/net/core/netdev-genl-gen.c b/net/core/netdev-genl-gen.c
+> index 9acd0d893765a..3dcd25049e593 100644
+> --- a/net/core/netdev-genl-gen.c
+> +++ b/net/core/netdev-genl-gen.c
+> @@ -9,6 +9,7 @@
+>  #include "netdev-genl-gen.h"
+>  
+>  #include <uapi/linux/netdev.h>
+> +#include <linux/list.h>
+>  
+>  /* Integer value ranges */
+>  static const struct netlink_range_validation netdev_a_page_pool_id_range = {
+> @@ -187,4 +188,7 @@ struct genl_family netdev_nl_family __ro_after_init = {
+>  	.n_split_ops	= ARRAY_SIZE(netdev_nl_ops),
+>  	.mcgrps		= netdev_nl_mcgrps,
+>  	.n_mcgrps	= ARRAY_SIZE(netdev_nl_mcgrps),
+> +	.sock_priv_size	= sizeof(struct list_head),
+> +	.sock_priv_init	= (void *)netdev_nl_sock_priv_init,
+> +	.sock_priv_destroy = (void *)netdev_nl_sock_priv_destroy,
+>  };
+> diff --git a/net/core/netdev-genl-gen.h b/net/core/netdev-genl-gen.h
+> index ca5a0983f2834..2c431b7dcbc84 100644
+> --- a/net/core/netdev-genl-gen.h
+> +++ b/net/core/netdev-genl-gen.h
+> @@ -10,6 +10,7 @@
+>  #include <net/genetlink.h>
+>  
+>  #include <uapi/linux/netdev.h>
+> +#include <linux/list.h>
+>  
+>  /* Common nested types */
+>  extern const struct nla_policy netdev_page_pool_info_nl_policy[NETDEV_A_PAGE_POOL_IFINDEX + 1];
+> @@ -40,4 +41,7 @@ enum {
+>  
+>  extern struct genl_family netdev_nl_family;
+>  
+> +void netdev_nl_sock_priv_init(struct list_head *priv);
+> +void netdev_nl_sock_priv_destroy(struct list_head *priv);
+> +
+>  #endif /* _LINUX_NETDEV_GEN_H */
+> diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
+> index 2d726e65211dd..133884eb13349 100644
+> --- a/net/core/netdev-genl.c
+> +++ b/net/core/netdev-genl.c
+> @@ -10,6 +10,7 @@
+>  #include <net/netdev_rx_queue.h>
+>  #include <net/netdev_queues.h>
+>  #include <net/busy_poll.h>
+> +#include <net/devmem.h>
+>  
+>  #include "netdev-genl-gen.h"
+>  #include "dev.h"
+> @@ -721,10 +722,92 @@ int netdev_nl_qstats_get_dumpit(struct sk_buff *skb,
+>  	return err;
+>  }
+>  
+> -/* Stub */
+>  int netdev_nl_bind_rx_doit(struct sk_buff *skb, struct genl_info *info)
+>  {
+> -	return 0;
+> +	struct nlattr *tb[ARRAY_SIZE(netdev_queue_dmabuf_nl_policy)];
+> +	struct net_devmem_dmabuf_binding *out_binding;
+> +	struct list_head *sock_binding_list;
+> +	u32 ifindex, dmabuf_fd, rxq_idx;
+> +	struct net_device *netdev;
+> +	struct sk_buff *rsp;
+> +	struct nlattr *attr;
+> +	int rem, err = 0;
+> +	void *hdr;
+> +
+> +	if (GENL_REQ_ATTR_CHECK(info, NETDEV_A_DEV_IFINDEX) ||
+> +	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_BIND_DMABUF_DMABUF_FD) ||
+> +	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_BIND_DMABUF_QUEUES))
+> +		return -EINVAL;
+> +
+> +	ifindex = nla_get_u32(info->attrs[NETDEV_A_DEV_IFINDEX]);
+> +	dmabuf_fd = nla_get_u32(info->attrs[NETDEV_A_BIND_DMABUF_DMABUF_FD]);
+> +
+> +	rtnl_lock();
+> +
+> +	netdev = __dev_get_by_index(genl_info_net(info), ifindex);
+> +	if (!netdev) {
+> +		err = -ENODEV;
+> +		goto err_unlock;
+> +	}
+> +
+> +	err = net_devmem_bind_dmabuf(netdev, dmabuf_fd, &out_binding);
+> +	if (err)
+> +		goto err_unlock;
+> +
+> +	nla_for_each_attr(attr, genlmsg_data(info->genlhdr),
+> +			  genlmsg_len(info->genlhdr), rem) {
+> +		if (nla_type(attr) != NETDEV_A_BIND_DMABUF_QUEUES)
+> +			continue;
+> +
+> +		err = nla_parse_nested(
+> +			tb, ARRAY_SIZE(netdev_queue_dmabuf_nl_policy) - 1, attr,
+> +			netdev_queue_dmabuf_nl_policy, info->extack);
+> +		if (err < 0)
+> +			goto err_unbind;
+> +
+> +		rxq_idx = nla_get_u32(tb[NETDEV_A_QUEUE_DMABUF_IDX]);
+> +
+> +		err = net_devmem_bind_dmabuf_to_queue(netdev, rxq_idx,
+> +						      out_binding);
+> +		if (err)
+> +			goto err_unbind;
+> +	}
+> +
+> +	sock_binding_list = genl_sk_priv_get(&netdev_nl_family,
+> +					     NETLINK_CB(skb).sk);
+> +	if (IS_ERR(sock_binding_list)) {
+> +		err = PTR_ERR(sock_binding_list);
+> +		goto err_unbind;
+> +	}
+> +
+> +	list_add(&out_binding->list, sock_binding_list);
+> +
+> +	rsp = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
+> +	if (!rsp) {
+> +		err = -ENOMEM;
+> +		goto err_unbind;
+> +	}
+> +
+> +	hdr = genlmsg_iput(rsp, info);
+> +	if (!hdr) {
+> +		err = -EMSGSIZE;
+> +		goto err_genlmsg_free;
+> +	}
+> +
+> +	nla_put_u32(rsp, NETDEV_A_BIND_DMABUF_DMABUF_ID, out_binding->id);
+> +	genlmsg_end(rsp, hdr);
+> +
+> +	rtnl_unlock();
+> +
+> +	return genlmsg_reply(rsp, info);
+> +
+> +err_genlmsg_free:
+> +	nlmsg_free(rsp);
+> +err_unbind:
+> +	net_devmem_unbind_dmabuf(out_binding);
+> +err_unlock:
+> +	rtnl_unlock();
+> +	return err;
+>  }
+>  
+>  static int netdev_genl_netdevice_event(struct notifier_block *nb,
+> @@ -771,3 +854,17 @@ static int __init netdev_genl_init(void)
+>  }
+>  
+>  subsys_initcall(netdev_genl_init);
+> +
+> +void netdev_nl_sock_priv_init(struct list_head *priv)
+> +{
+> +	INIT_LIST_HEAD(priv);
+> +}
+> +
+> +void netdev_nl_sock_priv_destroy(struct list_head *priv)
+> +{
+> +	struct net_devmem_dmabuf_binding *binding;
+> +	struct net_devmem_dmabuf_binding *temp;
+> +
+> +	list_for_each_entry_safe(binding, temp, priv, list)
+> +		net_devmem_unbind_dmabuf(binding);
+> +}
+> -- 
+> 2.45.2.741.gdbec12cfda-goog
+> 
 
---__=_Part_Boundary_005_924094288.2110995859--
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
