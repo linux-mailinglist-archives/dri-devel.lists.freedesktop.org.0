@@ -2,72 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D10C918067
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 14:00:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F40691807A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 14:04:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1D8310E889;
-	Wed, 26 Jun 2024 12:00:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7477110E85B;
+	Wed, 26 Jun 2024 12:04:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="c68jgGf3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HZkBVsqG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1FAC10E87F;
- Wed, 26 Jun 2024 12:00:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1719403226; x=1720008026; i=markus.elfring@web.de;
- bh=IQxnmOTy/nTJbMuTK9u/hbf4ySukoqQ03dXl38g0l4o=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=c68jgGf3jmL4lYVK64HR+FKFqnwWPRyThQ8eYdVdMjSpy8e0dr38Q7SqKY0jH69k
- PDE2upMUoWO6YmzKsxhOb1zCFSZZa1VbplZu8/KqRyBduo2O/ZTUTSmtlYsXqrgEs
- HN/vDwstWEHIb1B+2v7YgplgC7zB12e1xA7f5L0e3WMI/POFZMdtXVqlF3DFynXtP
- EAgZR9APZew9sVdEWkYi6YJ5IgvZ8hRB3GmMDB5lYeepQ/7ynzGIWqYjTMAwxSTHh
- Qdl4yPDSjBBApBG2dHGngBHQ/13XdLTsgDfj7/y981sRKvMJnPxnM4ahIHwHsH1qA
- iNvQlD10v0gs2/bPIQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.91.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MyvB8-1saPQu0zis-016ckv; Wed, 26
- Jun 2024 14:00:26 +0200
-Message-ID: <e241961e-d065-4fff-a5dd-4c1570ac538f@web.de>
-Date: Wed, 26 Jun 2024 14:00:24 +0200
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 049FD10E881
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 12:04:24 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-363826fbcdeso4835679f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 05:04:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1719403463; x=1720008263; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=S5OkAuV6GjNT0GJiinYK+CAJG5PBDmAjbuPgVCrya8A=;
+ b=HZkBVsqGj0QgVl13rGKNR4hlfrkzuoO9+aCGaLav7cYBJ4hJA/UdFguFymEIH4uXI5
+ PfG3uoHwwvZjN5SIuIW9GNONhm1NdOMTrgZNszuYwAto+CslFO1ItHM59aAGGq4YvFkF
+ QJlHKECKYWTLznBPL/cq9i3O+/X4RHaYTtPAnhWUbeaMP0KRLWVGZPvL+nUgk3ReEkC7
+ Ggt4IhVNRDq1QTiksDqUi93eLOc3Vnt52u+SMAsn1IHw3p5US71m3EwfLk+SADTRgJK+
+ FCi31jyDxbSpZCXJjuSOTbnmENp+cYop9FNW7kuqqqelDWxI3pT+zGtKkf+m3Wb53Z5A
+ is1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719403463; x=1720008263;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=S5OkAuV6GjNT0GJiinYK+CAJG5PBDmAjbuPgVCrya8A=;
+ b=Kz8QX0LXa6A0V9UdBgVDEYgtp1sdrj75/wBeo+zTT+J3nCt887WrBAAW5lXrZAon/8
+ mB6fr8ENgQvEmaz90nJbuTQi0af3h1bryjaldgcgFgCtFHn84PVUJtd+EJNKOlIFn2wL
+ V02Sd0QcWCl1xTQn9JHSCs0Q5DVwooVMKJODmxIbb9rZsnjaGwpiL/lXtjtvG04DhlnQ
+ QtLharRcYpPs6NE+FnDp2TmNr3k6shOJBJ94yk9+QLuQuDP04UHVDQqy31qejX4oyx6E
+ j5VZADQU5AkKqicD2JGxmHpH98V71M/a4GVsbQ3fkL+lIgpuxGi1MyRGqolF/ppwdwmo
+ a4HA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUURGLJT8lrzSNfIkceGmr4qMVqZ3EOlk79yGOLs+6vtPuqudA+Mf1/60d6JY552dk+ajrVg81ozbGGFmgqh3Pvj7Eqr0PYLRhgwzaaUxZc
+X-Gm-Message-State: AOJu0YyWqL669xIaW5AYsNbndTNwhJ6Gnarh6/DSw0KDo3xyl/L81oTM
+ 52p+ZRU8X9w9iH3+8pz39Kd4cItUQe3A4d1HRbUG5z8YKNrcPR43AvskfS11y1Y=
+X-Google-Smtp-Source: AGHT+IFofuWPHs71z2hIu/xW4I5gmoosBF5u/UMGizJGu3JczUVUDZ4AZKljl7/y0pKzCMg/Fc27TA==
+X-Received: by 2002:a5d:4bd0:0:b0:366:57cf:9aef with SMTP id
+ ffacd0b85a97d-366e79fdfe0mr6947404f8f.16.1719403462703; 
+ Wed, 26 Jun 2024 05:04:22 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-366383f65bcsm15501250f8f.13.2024.06.26.05.04.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Jun 2024 05:04:22 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Date: Wed, 26 Jun 2024 14:04:21 +0200
+Subject: [PATCH] drm/msm/adreno: fix a743 and a740 cx mem init
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Ma Ke <make24@iscas.ac.cn>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20240626025640.2779322-1-make24@iscas.ac.cn>
-Subject: Re: [PATCH] drm/radeon: fix null pointer dereference in
- radeon_add_common_modes
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240626025640.2779322-1-make24@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:6GshtGLYBX5UFr3ooZaB3TwOYGhS7UXL9dmwVi9q3J1zg09LBe+
- XPIYwfSQUVl/hlaExdQ7j6NJ63Otr/S3KN74iqVW8YORp8bsifm5EuY0+NF1x/ZD9wtzC3t
- 6l8pmstN/gLudXEjWpE5EH7UzvThjgTnjbJRdhLRx1SSy3wZiylhYKyPzSYB4wxPZMdh9Qb
- h0mrP1gT019Nzi8yXhw4g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:4+b9D9ng5kU=;m8gR0bZ0O4ljQYg7ynaCHOuEqdS
- W2hJCu4zFCU3kihLaGX6Mcisqd7CHkm4jO+wUhKlKgnJSbrV5ag5LFeCi1jJHaOr2LVm7/S6W
- zUKo4PCTBBbfdTF7cLAsvO8low9U1DrEp6bObwi7zyrQYnyEkbdcHGTx6vl81YeVDxMHnZeaL
- X3Lwg117HiGbaxR86hpRbI22TZ2wvI7f3sPsPsdWK1E3wXnL70x0bRThw56Wu+1nRdfIg/XwA
- jlg3hS+hdNXQEVUAKJa9BIy4iayHE8o5BTNr4VhETPqimVG/fHW+Mf+6j+t8MJPQ4yCIKumN5
- JVZKQ3D5apfIkeQBEjZWGaJ3hSjf3CXz5hWTj0pkwSsK2865h8nQEm3GzHNqsjd1H8CJ3OXiz
- CJYctOOnUXQ5h5ZKPjtnW2eO0sDWveHyLNm0GJayRCref7eaH8x3Za/MYk6NGcFEZktT6fuxJ
- WUF8tdAjvC+PPaKbcznrhy/CP95rVAmZYPVlocNEBUFKVonUtxvPek6gtuEOhjOK/1yofV7UX
- 0dvDpGAmKROwzn4vGGR3TvLXltJjW4+vwfdeIPJgQy/XBxAVbSwfz5B4ItN+C7EiruBCcY2D4
- RVimx4lGVXWr0L7zsMs9llpsnepQe0ZpH2L1CDkIECy6ZXUxZCnnsihSSdBY484y4XLn7uJL0
- k7JsrXdPS1bxd7kFwxWdtqgGlKKCjkIrcR72l1JD/dvY3wYuSngduNMpzF0P94/YadzSIJqXv
- RxIMDKlMO5qNingLy+gGdxVoYGYWJ3OUJeJEaWKkeP6CNvcnt48u0V6Vt+ctddQE0w7LOAgFP
- eWN4UHkimzCltdxZT+nMcgTbK/45eJ2RWlBO+MIM4CXb8=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240626-topic-sm8x50-upstream-fix-a730-a730-gpu-raytracing-init-v1-1-fd7e94694ab9@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAMQDfGYC/yWNSwrDMAwFrxK0rsB1XPdzldCFsJVUizhGdkpKy
+ N1r2s3ALOa9HQqrcIFHt4PyW4osqcn51EF4UZoYJTYHa6wz3nqsS5aAZb5tF4NrLlWZZhxlQ7r
+ 25o8pr6j0qUpB0oSSpKLzFPrRhRjtHdp6Vm7R73l4HscXaFm+ZIkAAAA=
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Connor Abbott <cwabbott0@gmail.com>
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1862;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=NShwTxi1NizSB5J2lYMbBw9A3FYxZdZB1fFQd1dnqHI=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBmfAPF/USzqFEUMCTCOPVaQ2FIK5s9t5J44UA/tkG+
+ 9QLDwb6JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZnwDxQAKCRB33NvayMhJ0YN+D/
+ 4i+u5rkLI0HH83ShHvENG+dAJ9T8e49pHYbkQ0TNiEYOc61sjxW7cbPcRcNVTOxf2n6FqJ1do34V8e
+ trKBX76SLTaEmLsNUUO3ybGQQsiM2QTsNIZWmttWLm1wUy4kJvsmhZFM6NUs63ZjSqgL4z00mXUUMc
+ jNW9RWStIOOxpTqI5frp/LPAMIieWWymwrc2eUYf2HIk2g24zB8OOnDj61bU54U9+dnh6WBA13rdQz
+ VR8HxXZDjzx0vR68J3q7RfrU31ugtizduL1qgITP7khSu/LGu/bZKVB9ZyCYiC35Seww+6l+1OfxN+
+ 6gZHXECKhmz47lgBIV5M0Hih0aLuyZGfzgxCjOpOPxfkw8C0n+Q9kCAWbGwGeDRzzlj9g7Yb8Nd54Z
+ Ppl0nluf6k1WR4dMe+1T4ZXxMLBGDFInhJhx2oVsAn7YDmdtxlzaKsckpnKw+cTk0riphqYLCccnqh
+ kJOE1ZXI6ILZ0s5RLq1Ux4fiiIJ9rqyB9Q1/NANCgaSUervRLv1OpqDtk0idcHdE5X8tkaq5RzOnfE
+ 11GDDflsQzPP1sbynPADXGbK6mVzxpR3dn2IQEqmUbnrF54HvMFFR92rnXR2DLy0D3np2aX/lwwcHR
+ MLNrGgOSQ0Cjq2XnQLG15pjtjJTodefru5tJ/l+S7KOvOLqFPrREY7+oA65Q==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,30 +107,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> In radeon_add_common_modes(), the return value of drm_cvt_mode() is
-> assigned to mode, which will lead to a possible NULL pointer dereference
-> on failure of drm_cvt_mode(). Add a check to avoid npd.
+Disable the call to qcom_scm_gpu_init_regs() for a730 and a740
+after init failures on the HDK8550 and HDK8450 platforms:
+msm_dpu ae01000.display-controller: failed to load adreno gpu
+msm_dpu ae01000.display-controller: failed to bind 3d00000.gpu (ops a3xx_ops [msm]): -5
+msm_dpu ae01000.display-controller: adev bind failed: -5
 
-1. Can a wording approach (like the following) be a better change descript=
-ion?
+While debugging, it happens the call to:
+qcom_scm_gpu_init_regs(QCOM_SCM_GPU_ALWAYS_EN_REQ)
+returns -5 and makes the gpu fail to initialize.
 
-   A null pointer is stored in the local variable =E2=80=9Cmode=E2=80=9D a=
-fter a call
-   of the function =E2=80=9Cdrm_cvt_mode=E2=80=9D failed. This pointer was=
- passed to
-   a subsequent call of the function =E2=80=9Cdrm_mode_probed_add=E2=80=9D=
- where an undesirable
-   dereference will be performed then.
-   Thus add a corresponding return value check.
+Remove the scm call since it's not done downstream either and
+works fine without.
 
+Fixes: 14b27d5df3ea ("drm/msm/a7xx: Initialize a750 "software fuse"")
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-2. Would you like to add any tags (like =E2=80=9CFixes=E2=80=9D and =E2=80=
-=9CCc=E2=80=9D) accordingly?
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index c98cdb1e9326..3ba45b804983 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1741,14 +1741,9 @@ static int a7xx_cx_mem_init(struct a6xx_gpu *a6xx_gpu)
+ 					 REG_A7XX_CX_MISC_SW_FUSE_VALUE);
+ 		adreno_gpu->has_ray_tracing =
+ 			!!(fuse_val & A7XX_CX_MISC_SW_FUSE_VALUE_RAYTRACING);
+-	} else {
+-		if (adreno_is_a740(adreno_gpu)) {
+-			/* Raytracing is always enabled on a740 */
+-			adreno_gpu->has_ray_tracing = true;
+-		}
+-
+-		if (qcom_scm_is_available())
+-			return qcom_scm_gpu_init_regs(QCOM_SCM_GPU_ALWAYS_EN_REQ);
++	} else if (adreno_is_a740(adreno_gpu)) {
++		/* Raytracing is always enabled on a740 */
++		adreno_gpu->has_ray_tracing = true;
+ 	}
+ 
+ 	return 0;
 
+---
+base-commit: 62c97045b8f720c2eac807a5f38e26c9ed512371
+change-id: 20240626-topic-sm8x50-upstream-fix-a730-a730-gpu-raytracing-init-46ac3f4cdd29
 
-3. How do you think about to append parentheses to the function name
-   in the summary phrase?
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
 
-
-Regards,
-Markus
