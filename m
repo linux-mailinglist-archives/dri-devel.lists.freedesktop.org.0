@@ -2,74 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2830D918DB3
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 20:00:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5BFD918EB9
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 20:43:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3BCE10E98A;
-	Wed, 26 Jun 2024 17:59:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A068810E0BD;
+	Wed, 26 Jun 2024 18:43:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="YXv4mA6h";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="md9Wnl1S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A89B10E98A
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 17:59:57 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-2ec4e9075e0so5613481fa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 10:59:56 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAEF910E0BD;
+ Wed, 26 Jun 2024 18:43:23 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-2ec10324791so85152101fa.1; 
+ Wed, 26 Jun 2024 11:43:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1719424795; x=1720029595; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=l1gR9k87cpjprKUd6S1b4h8CdiA2ZPeoW8a6vndP2xg=;
- b=YXv4mA6h6jg4jBdmgnsPOi02uwrg7T/3uhGus3oCvK3XvM+wXdEDDqy2veVeJVbdZv
- rgnb0PN5a0uEZhLnmv+Ue6nQUBFHzzpY6BdBuKINzYRhNtaKT+mnPuKtX5KcOnHMJRHR
- lLx46q7CzwkOE7G10oLaSHgBbrnCRR9rgcek4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719424795; x=1720029595;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1719427402; x=1720032202; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=l1gR9k87cpjprKUd6S1b4h8CdiA2ZPeoW8a6vndP2xg=;
- b=LyPXNiLWjzLvs3aLhx5Qeq/ylzPPX/GsIXez0OZw04BzpslP8kWTHwEbTKERuERiGz
- b9Z1qZENu5kr44MkT0xrdSghF1pydHis0vt4Ykj90SDUm12HHXqE/449Cp0p0Sl4TamO
- KtDk+UNoVmQ/C/DsEZ8hai7AP7uBTNCncddLJ2f5g38XROsI4OZW0xhWHpxY+czrUUa/
- x9aXPqhscyCqymaWaz8rMF5S8O8LjlbZlkgzJuSJvD6/SlEfe2f9aSEKELmAV9IsasBQ
- d3KBlwbwaFUxEBUeJjSPTF+4cYynsnycb1EJffXCto3SFal5Fos7u7eSN0LJDye7eQSy
- czPg==
+ bh=UR9Qp1fTrxNM5LeM1DAR7Mfemmm10TsjmtqQdGlQAqQ=;
+ b=md9Wnl1SsKvIU2VfuipqAJJfShcy21A6ooP+Z72F2HNOAFfqkZHDKoE/re2IZt/1Pu
+ qU8GifSweIKq6PgLe8R2+VfN3WXcplqVIGL4Lud9ZwRT3Fgkl6+DAWoeSkuNaaGUoi2F
+ 6APE2srRdXnBZU4ajc74RCKABZA66F35oQu6JbgmqtUw/NnlsN6WmJFCeRD+vyOH6M6T
+ RDYepwbsUZwEV2uIUhwYZSfnHytthbmxJvOXbPhy5JuFg+IAuC/XdrlwnK5pZeviwQTK
+ Weda2uIjrxR++76sD1rAFeldiabGls0czPLZZh1shXWtuGITQGz/3q8YA6N2RXHRAxBP
+ DgqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719427402; x=1720032202;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UR9Qp1fTrxNM5LeM1DAR7Mfemmm10TsjmtqQdGlQAqQ=;
+ b=MtHjkBh25C6h2L6DJETy3/xQO43Nc4kL4iLOuf55P18ZWX8ZSSeihsOxrTE/AZDzTZ
+ gLCK64ND3hvPIsXXKjSmdoT2ERSnuajDu2SNp4hKmdTL0QMPgH5AANKIgHfTXJLBAR8m
+ wcKaU6P2WidCif1mqooAuWI3rnRXOKBRyMFEmsub+KvlrIaePIQgAQuCIGDXREr915OH
+ xcc1z7EHMv1WntqNkiTBGpuAHCDjU7TxtPP/6rivvYn13IKm9nNkrywZbTBrtf3HKwfq
+ lvSRIJzA7nOMzOXe5zfw6aYDMyoWKXksjQWfZuXUG59clFcY7+ooaY085fUqdkD4dNor
+ csRA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXhkuYduicDDiDiB5r4JrtGS0YjlX5d//TjOuq0mWi3MR8Xxh/ymtk5piGgC+WkvAhfVspT9L3uQ5ShgyHwbOgwHK+hpaReSIu52AVqMlBK
-X-Gm-Message-State: AOJu0YzdOorOpq/9rLe7SD4J49EDrv+n4gKmC/ceS7l4dvg5g+MwfIu+
- H8j/LbbuQ+OHj+sLgXaY2pz/uHVyJimg4ehhT/zr2rqdEwlkVTncg3zPTlbI1AFw+PCAFzIAatG
- 9NM4=
-X-Google-Smtp-Source: AGHT+IFCArjHAro6TT8r4NRHepiKXhu63M9wehq5ZaXVnRg6uKCf4zjbayJRCgy7ddeplsnYLPvJWw==
-X-Received: by 2002:a05:651c:b0a:b0:2ec:5258:e89b with SMTP id
- 38308e7fff4ca-2ec561af089mr102605911fa.3.1719424795025; 
- Wed, 26 Jun 2024 10:59:55 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-424a2ad794fsm39909285e9.1.2024.06.26.10.59.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jun 2024 10:59:54 -0700 (PDT)
-Date: Wed, 26 Jun 2024 19:59:52 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, airlied@redhat.com,
- jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/ast: Inline drm_simple_encoder_init()
-Message-ID: <ZnxXGKXbVHUyXB3u@phenom.ffwll.local>
-References: <20240625131815.14514-1-tzimmermann@suse.de>
- <n22c255ozkpnbvt45ugfgpqyjmebmgsjblduwurf6yr7ralffd@yvbrl4rsabea>
- <e4fe3aab-0b3f-42dd-916c-db15dd6b7646@suse.de>
+ AJvYcCUHwcbZZdwR7xewb9bNpVBF5kDj9tzv31e5XlFqMV6rkHXkYi+HvBq/SH05BhYKOZzDdQJEEya9ruzlCyZOLRG/UfUdNFQgCGAO5av5Xz3RrDrz3RF1iQIglGeK1nbWqZYo7a++W0iql0A8ALN6XGRj
+X-Gm-Message-State: AOJu0YzP4ofOGY9l1ef3O4LTarw0wAxdLzJYtX/FbJQT52UGU2jOdAAT
+ n1VvvIwYgOFBo9GTqJFM+tojzRcq2GzOkvVDorRNsYfxttVYG2XN64eXCxpxIqknaJU2eDOLSO8
+ 3aHw542omgtBoc8k7tNUwlW8LdmM=
+X-Google-Smtp-Source: AGHT+IHcVoQPlUh58ZF730tguw7awKEfLSWtoXlp6zbrPUNXFzV92ij1Ty9lCtgGGz5ceWeK1xuzEN4UQOUqo7+eyi4=
+X-Received: by 2002:a2e:8242:0:b0:2ec:50ed:b59f with SMTP id
+ 38308e7fff4ca-2ec5b2dd950mr64610811fa.34.1719427401351; Wed, 26 Jun 2024
+ 11:43:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e4fe3aab-0b3f-42dd-916c-db15dd6b7646@suse.de>
-X-Operating-System: Linux phenom 6.8.9-amd64 
+References: <20240623110753.141400-1-quic_akhilpo@quicinc.com>
+ <20240623110753.141400-3-quic_akhilpo@quicinc.com>
+ <5947559d-30dd-4da1-93cc-a15dc65cb77d@linaro.org>
+ <20240626082422.zcsari27yoskayuo@hu-akhilpo-hyd.qualcomm.com>
+In-Reply-To: <20240626082422.zcsari27yoskayuo@hu-akhilpo-hyd.qualcomm.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 26 Jun 2024 11:43:08 -0700
+Message-ID: <CAF6AEGvCaGq8ukxra_bzc=4pUf8y5NndKRagQspD0=uCZdBfoA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] drm/msm/adreno: Add support for X185 GPU
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>, 
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,73 +89,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 26, 2024 at 11:01:11AM +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 26.06.24 um 06:34 schrieb Dmitry Baryshkov:
-> > On Tue, Jun 25, 2024 at 03:18:09PM GMT, Thomas Zimmermann wrote:
-> > > The function drm_simple_encoder_init() is a trivial helper and
-> > > deprecated. Replace it with the regular call to drm_encoder_init().
-> > > Resolves the dependency on drm_simple_kms_helper.h. No functional
-> > > changes.
-> > > 
-> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On Wed, Jun 26, 2024 at 1:24=E2=80=AFAM Akhil P Oommen <quic_akhilpo@quicin=
+c.com> wrote:
+>
+> On Mon, Jun 24, 2024 at 03:53:48PM +0200, Konrad Dybcio wrote:
+> >
+> >
+> > On 6/23/24 13:06, Akhil P Oommen wrote:
+> > > Add support in drm/msm driver for the Adreno X185 gpu found in
+> > > Snapdragon X1 Elite chipset.
+> > >
+> > > Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 > > > ---
-> > >   drivers/gpu/drm/ast/ast_mode.c | 45 ++++++++++++++++++++++++++++++----
-> > >   1 file changed, 40 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> > > index 6695af70768f..2fd9c78eab73 100644
-> > > --- a/drivers/gpu/drm/ast/ast_mode.c
-> > > +++ b/drivers/gpu/drm/ast/ast_mode.c
-> > > @@ -45,7 +45,6 @@
-> > >   #include <drm/drm_managed.h>
-> > >   #include <drm/drm_panic.h>
-> > >   #include <drm/drm_probe_helper.h>
-> > > -#include <drm/drm_simple_kms_helper.h>
-> > >   #include "ast_ddc.h"
-> > >   #include "ast_drv.h"
-> > > @@ -1358,6 +1357,14 @@ static int ast_crtc_init(struct drm_device *dev)
-> > >   	return 0;
-> > >   }
-> > > +/*
-> > > + * VGA Encoder
-> > > + */
-> > > +
-> > > +static const struct drm_encoder_funcs ast_vga_encoder_funcs = {
-> > > +	.destroy = drm_encoder_cleanup,
-> > > +};
-> > > +
-> > >   /*
-> > >    * VGA Connector
-> > >    */
-> > > @@ -1411,7 +1418,8 @@ static int ast_vga_output_init(struct ast_device *ast)
-> > >   	struct drm_connector *connector = &ast->output.vga.connector;
-> > >   	int ret;
-> > > -	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
-> > > +	ret = drm_encoder_init(dev, encoder, &ast_vga_encoder_funcs,
-> > > +			       DRM_MODE_ENCODER_DAC, NULL);
-> > What about using drmm_encoder_init() instead? It will call
-> > drm_encoder_cleanup automatically.
-> 
-> IIRC the original use case for the drmm_encoder_*() funcs was to solve
-> problems with the clean-up order if the encoder was added dynamically. The
-> hardware for ast is entirely static and ast uses drmm_mode_config_init() for
-> auto-cleaning up the modesetting pipeline. Using drmm_encoder_init() seems
-> like a bit of wasted resources for no gain.
+> > >
+> > >   drivers/gpu/drm/msm/adreno/a6xx_gmu.c      | 19 +++++++++++++++----
+> > >   drivers/gpu/drm/msm/adreno/a6xx_gpu.c      |  6 ++----
+> > >   drivers/gpu/drm/msm/adreno/adreno_device.c | 14 ++++++++++++++
+> > >   drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++++
+> > >   4 files changed, 36 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/=
+msm/adreno/a6xx_gmu.c
+> > > index 0e3dfd4c2bc8..168a4bddfaf2 100644
+> > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> > > @@ -830,8 +830,10 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gm=
+u, unsigned int state)
+> > >      */
+> > >     gmu_write(gmu, REG_A6XX_GMU_CM3_CFG, 0x4052);
+> > > +   if (adreno_is_x185(adreno_gpu)) {
+> > > +           chipid =3D 0x7050001;
+> >
+> > What's wrong with using the logic below?
+>
+> patchid is BITS(7, 0), not (15, 8) in the case of x185. Due to the
+> changes in the chipid scheme within the a7x family, this is a bit
+> confusing. I will try to improve here in another series.
 
-The idea of drmm_ is that you use them all. That the managed version of
-drm_mode_config_init also happens to still work with the unmanaged
-encoder/connector/crtc/plane cleanup is just to facilitate gradual
-conversions.
+I'm thinking we should just add gmu_chipid to struct a6xx_info, tbh
 
-And see my other reply, for drmm_encoder_init supporting the NULL funcs
-case actually makes full sense.
+Maybe to start with, we can fall back to the existing logic if
+a6xx_info::gmu_chipid is zero so we don't have to add it for _every_
+a6xx/a7xx
 
-Also, any driver can be hotunbound through sysfs, no hotunplug of the hw
-needed at all.
--Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+BR,
+-R
+
+> >
+> > >     /* NOTE: A730 may also fall in this if-condition with a future GM=
+U fw update. */
+> > > -   if (adreno_is_a7xx(adreno_gpu) && !adreno_is_a730(adreno_gpu)) {
+> > > +   } else if (adreno_is_a7xx(adreno_gpu) && !adreno_is_a730(adreno_g=
+pu)) {
+> > >             /* A7xx GPUs have obfuscated chip IDs. Use constant maj =
+=3D 7 */
+> > >             chipid =3D FIELD_PREP(GENMASK(31, 24), 0x7);
+> > > @@ -1329,9 +1331,18 @@ static int a6xx_gmu_rpmh_arc_votes_init(struct=
+ device *dev, u32 *votes,
+> > >     if (!pri_count)
+> > >             return -EINVAL;
+> > > -   sec =3D cmd_db_read_aux_data("mx.lvl", &sec_count);
+> > > -   if (IS_ERR(sec))
+> > > -           return PTR_ERR(sec);
+> > > +   /*
+> > > +    * Some targets have a separate gfx mxc rail. So try to read that=
+ first and then fall back
+> > > +    * to regular mx rail if it is missing
+> > > +    */
+> > > +   sec =3D cmd_db_read_aux_data("gmxc.lvl", &sec_count);
+> > > +   if (PTR_ERR_OR_ZERO(sec) =3D=3D -EPROBE_DEFER) {
+> > > +           return -EPROBE_DEFER;
+> > > +   } else if (IS_ERR(sec)) {
+> > > +           sec =3D cmd_db_read_aux_data("mx.lvl", &sec_count);
+> > > +           if (IS_ERR(sec))
+> > > +                   return PTR_ERR(sec);
+> > > +   }
+> >
+> > I assume GMXC would always be used if present, although please use the
+> > approach Dmitry suggested
+>
+> Correct.
+>
+> -Akhil
+> >
+> >
+> > The rest looks good!
+> >
+> > Konrad
