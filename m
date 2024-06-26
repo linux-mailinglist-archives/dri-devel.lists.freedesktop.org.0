@@ -2,75 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BF6917BF6
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 11:10:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FCD9917BFC
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 11:11:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 370B010E7E7;
-	Wed, 26 Jun 2024 09:10:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E66E10E7E8;
+	Wed, 26 Jun 2024 09:11:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="S5zwQjgF";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="iUYE8TQE";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="TMI/WBn7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB28A10E7E7
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 09:10:46 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-52cdebf9f53so3872514e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 02:10:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719393045; x=1719997845; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=K9DxdgeKMMft6xMjBxtEtJeBs1IRRZ+tM3VA4YjpJIQ=;
- b=S5zwQjgFkrWo1jbXYRRxjqp5GEvMW/fz46HZWVGYN6EZtT0DIFiwQJFmbY4QyA7Hh5
- LNOkeBaq56oXimSyECbdFwD6BgZEB9/7Jd0TUzWRCpLdGxhbUKpuIBwkC3dPmf+9NENZ
- GPWkZl2+7wihIaBDvQTEHAJV0kjwpfiuxAxTlPpiTfiqhdlYVPoGNS2UwJi9Wqg3DmaV
- SWxAQjHyeM0Ftv4UrRrAHl1Esd8xVQegzvNBJsrOMb/s4xPhySeatC5d5rVKO8y3Gn3z
- Q+BjErMEI4U16nfRTq9Cq9y/hyFvUgWQnkya9jv3wZIN3OORhte9IqWOpFE0FchZ62il
- H/Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719393045; x=1719997845;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=K9DxdgeKMMft6xMjBxtEtJeBs1IRRZ+tM3VA4YjpJIQ=;
- b=xFF+Xx5y/fmCuEbb2cOZXZTWvwZ9Z6Jc8pRNPs9ivinUhCCFF0ip6sefJfc0+paawl
- I9pRvuszaNsi0ijm7GHjJ19gwnPTyXKQa4Cb+VIoWtmh8R6zsvE0lqWaqfztFURrjqtJ
- yFnLw2q15D+AfKno00RVnNVq9XTH519/IT088kWYE/6aLNzzUHP7vFB5hRXvMcbMYPaC
- 5E+kt/WobBIU1AXuaSJpJWEP9n1srpK0zWxqRZHhDy39rQoBu14kypp+bm/yvBI/wOuk
- RxyI3WMEsg85F34SnoWbZneztjf0gGj0lEH4quhCOERWk7O+rKIgjN7stgJtcwtGfwNz
- IYYw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWxxbOiBpIBmLCCBpsCUwFWfZK+v5w6hc2lf9gbGPrBtyC6wCRP3tGD0pth0cX8Acu9KNRdsmozbWgiJMr/cV4yp4Bnz4WTMcRvXuQq1oVW
-X-Gm-Message-State: AOJu0YxhI0PblJin8ajoN0mvXrIOko0bR5cjkQ5voFUrJz6SPt01RO0i
- tHB+Dn7xMyeCrVvWzt8h/0ak5Omp44kzlfP4v9RGJxtVu1gnkRg+9rZbYR7m1GU=
-X-Google-Smtp-Source: AGHT+IFvrbmku8++KEgdhPN6vMMbENH5sTMYShPkgpp/P2CeiZpWl1jaG6IAS5BzaorZcPBCCmiE4A==
-X-Received: by 2002:ac2:4258:0:b0:52c:dac0:7993 with SMTP id
- 2adb3069b0e04-52ce063e74cmr6594046e87.8.1719393044774; 
- Wed, 26 Jun 2024 02:10:44 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52cd63b49f2sm1493661e87.56.2024.06.26.02.10.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jun 2024 02:10:44 -0700 (PDT)
-Date: Wed, 26 Jun 2024 12:10:42 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: airlied@redhat.com, jfalempe@redhat.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/ast: Inline drm_simple_encoder_init()
-Message-ID: <cq7xbwehvdyopndjjmxl2ekq2v7gpynxrhzh5yqkt5etao6hee@ifxdrp4gmtmb>
-References: <20240625131815.14514-1-tzimmermann@suse.de>
- <n22c255ozkpnbvt45ugfgpqyjmebmgsjblduwurf6yr7ralffd@yvbrl4rsabea>
- <e4fe3aab-0b3f-42dd-916c-db15dd6b7646@suse.de>
+Received: from fhigh2-smtp.messagingengine.com
+ (fhigh2-smtp.messagingengine.com [103.168.172.153])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3BCA10E7F0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 09:11:17 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailfhigh.nyi.internal (Postfix) with ESMTP id C2DE811401A5;
+ Wed, 26 Jun 2024 05:11:16 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+ by compute5.internal (MEProxy); Wed, 26 Jun 2024 05:11:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+ h=cc:cc:content-type:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:subject:subject:to:to; s=fm2; t=1719393076; x=
+ 1719479476; bh=1XgaL0ZJjZT740Vm65mI9H/lF8S7J1Gz9fJ+DAnK54M=; b=i
+ UYE8TQE5etrwl1wQxvS6nkf76603/PVQ2aXBHyhSpyArSRRI/xLLdGD25gbLEErS
+ Bp7m4M4RO8D8dSRh0BUgmCdoceU7ysTIquuZYYVXcnzSZKEAdi1UmD+J+3z7QqRi
+ 01+qLqmTRj6dUAyxyYxoQ19UL/uY3dlA/RPJZP2kR9nnCfEso2igyWiEYKyb5eiU
+ AERa7+cAk7ZXLD9NVaIz2SUnS+vehtSbmZi4TTG+w3CiFGM7Vd6rNWTbLQ/S1AFm
+ 0MMyNZJk6rqyY6EtGCGN6lHMf70iMzavI75Stgaig7FxW7jKjZQJX1206EGOjle3
+ WaRaETVZvIIPj5X3LXT7g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1719393076; x=1719479476; bh=1XgaL0ZJjZT740Vm65mI9H/lF8S7
+ J1Gz9fJ+DAnK54M=; b=TMI/WBn7XtwV9EoqGrq5pdd3N00Fbk41ufBsSDqGaWoC
+ bpuePGYcQvFENfqdh8LqpmLHj4EZUP5l90OlUnfYV0e7laV5uWmHKtWE3dJ9uLf3
+ x3qP0//OqMofAX9TJKvNXIA+FF+i3xFPW342kJYYSwaz1O+XyfKIXFCsnB9gxyTJ
+ K/USSo+sfQH2dyjVz2hPhjisKHK0Mzvxo3a5ozUVkuotpWYIJRPl1e/xuFkiMHQy
+ xxmXKBOfC3fm9jXASToyxjpglgg5lJ8xcjprI5qAn0h51RycVkj7SJB4rgVaatSf
+ gvT+rmee/+TfD0ZHMD8uh0UZzC5upyaDff9wtE/Efw==
+X-ME-Sender: <xms:NNt7Zo_DMSJnB4_j_5hkfwZzs9Cm0Ty_kdO3CSPdp_CD7stZwxyqbg>
+ <xme:NNt7ZgvarNYEpDiwZMHQpLC4hYFOf7FfKcbH5_gD7jeO2ZOej1h39XI_ryj5gOu-B
+ cMi_smoxTKsbQhnWg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrtddvgdduvdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfthigr
+ nhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenucggtf
+ frrghtthgvrhhnpeehvdevieegudejueefgeffhefhffevudfhieejgfdtffetlefgteeu
+ veeiudeijeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpehrhigrnhesthgvshhtthhorghsthdrtghomh
+X-ME-Proxy: <xmx:NNt7ZuAQAzeu2LG8mSLaTXD1QiMdksbhysiLJnbUSr3K7Pcq6BHzzw>
+ <xmx:NNt7Zofb2kCrX66WcQo-53DFII9MEhttOaovItlUxFBRsGWze_vxUQ>
+ <xmx:NNt7ZtOGIu1bXp21_dRV1g6o3pIjx-Z9YHWm0YGABypS3B0xsvWDVQ>
+ <xmx:NNt7ZimWP8IN2Pze7HBpEpof_uowdDks6wzb2GWyQ2PaNWMh5yQf0Q>
+ <xmx:NNt7ZoGgpXBR5Cd7meVQZODGTmeLyrFjChaw0lAdduNRQfIkMZl5TaBH>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id EE254A6007A; Wed, 26 Jun 2024 05:11:15 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-538-g1508afaa2-fm-20240616.001-g1508afaa
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e4fe3aab-0b3f-42dd-916c-db15dd6b7646@suse.de>
+Message-Id: <5f989c7d-fb70-4e13-a1e9-86fc6326d633@app.fastmail.com>
+In-Reply-To: <20240626-agate-ibex-of-effort-c72ebc@houat>
+References: <20240530211415.44201-1-ryan@testtoast.com>
+ <20240530211415.44201-3-ryan@testtoast.com>
+ <20240606-intelligent-aromatic-magpie-80a7a4@houat>
+ <2dc1fdec-7673-4462-abe1-fecf8e3e826b@linaro.org>
+ <20240606-refreshing-cinnamon-ibex-a0fe73@houat>
+ <20240606-authentic-mongoose-9485904a91a1@spud>
+ <20240618-silky-holistic-oyster-bf59fe@houat>
+ <20240618-reverse-kinship-7f8df8c8e111@wendy>
+ <eb50b8d3-b56d-42b2-a277-02a255b2d6c0@linaro.org>
+ <20240626-agate-ibex-of-effort-c72ebc@houat>
+Date: Wed, 26 Jun 2024 21:10:54 +1200
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Maxime Ripard" <mripard@kernel.org>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>
+Cc: "Conor Dooley" <conor.dooley@microchip.com>,
+ "Conor Dooley" <conor@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, "Jessica Zhang" <quic_jesszhan@quicinc.com>,
+ "Sam Ravnborg" <sam@ravnborg.org>, "David Airlie" <airlied@gmail.com>,
+ "Daniel Vetter" <daniel@ffwll.ch>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Hironori KIKUCHI" <kikuchan98@gmail.com>,
+ "Chris Morgan" <macroalpha82@gmail.com>,
+ "Andre Przywara" <andre.przywara@arm.com>, "John Watts" <contact@jookia.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: display: panel: Add WL-355608-A8 panel
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,64 +112,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 26, 2024 at 11:01:11AM GMT, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 26.06.24 um 06:34 schrieb Dmitry Baryshkov:
-> > On Tue, Jun 25, 2024 at 03:18:09PM GMT, Thomas Zimmermann wrote:
-> > > The function drm_simple_encoder_init() is a trivial helper and
-> > > deprecated. Replace it with the regular call to drm_encoder_init().
-> > > Resolves the dependency on drm_simple_kms_helper.h. No functional
-> > > changes.
-> > > 
-> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > > ---
-> > >   drivers/gpu/drm/ast/ast_mode.c | 45 ++++++++++++++++++++++++++++++----
-> > >   1 file changed, 40 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> > > index 6695af70768f..2fd9c78eab73 100644
-> > > --- a/drivers/gpu/drm/ast/ast_mode.c
-> > > +++ b/drivers/gpu/drm/ast/ast_mode.c
-> > > @@ -45,7 +45,6 @@
-> > >   #include <drm/drm_managed.h>
-> > >   #include <drm/drm_panic.h>
-> > >   #include <drm/drm_probe_helper.h>
-> > > -#include <drm/drm_simple_kms_helper.h>
-> > >   #include "ast_ddc.h"
-> > >   #include "ast_drv.h"
-> > > @@ -1358,6 +1357,14 @@ static int ast_crtc_init(struct drm_device *dev)
-> > >   	return 0;
-> > >   }
-> > > +/*
-> > > + * VGA Encoder
-> > > + */
-> > > +
-> > > +static const struct drm_encoder_funcs ast_vga_encoder_funcs = {
-> > > +	.destroy = drm_encoder_cleanup,
-> > > +};
-> > > +
-> > >   /*
-> > >    * VGA Connector
-> > >    */
-> > > @@ -1411,7 +1418,8 @@ static int ast_vga_output_init(struct ast_device *ast)
-> > >   	struct drm_connector *connector = &ast->output.vga.connector;
-> > >   	int ret;
-> > > -	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
-> > > +	ret = drm_encoder_init(dev, encoder, &ast_vga_encoder_funcs,
-> > > +			       DRM_MODE_ENCODER_DAC, NULL);
-> > What about using drmm_encoder_init() instead? It will call
-> > drm_encoder_cleanup automatically.
-> 
-> IIRC the original use case for the drmm_encoder_*() funcs was to solve
-> problems with the clean-up order if the encoder was added dynamically. The
-> hardware for ast is entirely static and ast uses drmm_mode_config_init() for
-> auto-cleaning up the modesetting pipeline. Using drmm_encoder_init() seems
-> like a bit of wasted resources for no gain.
+Hi Maxime,
 
-I'd say it's qui pro quo. We are wasting resources on drmm handling, but
-then keep it by dropping all drm_encoder_funcs instances.
+On Wed, 26 Jun 2024, at 8:56 PM, Maxime Ripard wrote:
 
--- 
-With best wishes
-Dmitry
+> We're getting fairly late into the release cycle and I'd like to get it
+> fixed before the release. Can you send a patch to address it please?
+
+Sure, happy to. So to confirm add 'anbernic' to the vendor binding list and 'anbernic,wl-355608-a8' as the panel compatible?
+
+Regards,
+
+Ryan
