@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5783918038
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 13:52:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4BC91803B
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 13:52:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 907F110E860;
-	Wed, 26 Jun 2024 11:51:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57E4E10E861;
+	Wed, 26 Jun 2024 11:52:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZBbM96sN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wcq7DIs2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BAA610E861
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 11:51:56 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-52bbf73f334so5262846e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 04:51:56 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F68F10E861
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 11:52:19 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-52cdcd26d61so4777984e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 04:52:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719402714; x=1720007514; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1719402737; x=1720007537; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
  bh=xpjrjZmRsZz45Y4K6cy5Tahj6SJPohhDcpzY7RpiacU=;
- b=ZBbM96sNDW/iPpIFR5FBPDJAWUJH+9b19JhEpMbi+M4YXcsaIXdyZs9el64S6V/6Eh
- zf4nKLzjw76fOyf72RR9akS0ZqQF/oTrrU03OGZCRAS1Mz3pMnz/wYEOUHrd+4SAmwCh
- MvoOpa2Pn4RokpLuK0gJZ7zwMHDwMH/Vfgl9lgJ0c80Zw1TeGHFj83CCWLsVmfZAfaBq
- Gf6hPTCF+DK1xrKzRlkR4vOWb/2EpSnxHbeKlSOXMkUvBoaS3bknLnKzabTxLqx3hor6
- EhsBe+rnDJFDSr2i4zGAix5/1el9dCZlBsz5NihLb3TrYg7ScBliFQd3mXmH3AZVl1M9
- 0DmQ==
+ b=wcq7DIs2+CpW+kg96iiB9v3RdyxYjBpV70OcRzEVEsERGUt6ySRZr6nnCJr1odPT3L
+ gJOa0wI5I8eMbdB1YIPUQEFaEvwGaYfk88hhwqvBMg0uFbSnT1gRZU9jZXQg9Px0b+OD
+ UwqCjfhrR+RRkCV5V9eHTGrKjEWApO8Fx3t+sbVXgaAqrYHPsh++BfL07sUihG2qOW1I
+ 1dSNkJ26sVW+nPk62hEvtHDcfSMMkGGi6COW/gX573ujYykr95pXSyMSsaJ0OEx47cUF
+ ReR/Y163vWOby6WH/WU2B1AKaC7/7m5HQH6hebmBA+Fse8Js4x7ysFOdi5MpumcOzMDo
+ zNBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719402714; x=1720007514;
+ d=1e100.net; s=20230601; t=1719402737; x=1720007537;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
  bh=xpjrjZmRsZz45Y4K6cy5Tahj6SJPohhDcpzY7RpiacU=;
- b=mhX9QcVkse5tqk0jcMI8n4O6qbyS4ZBkNsrCgkF4U3ZnrWd1JcTwHJLbbPvgvXIcbd
- oYDGkv/5E4PgyeYRaDevTv0wl4LZx15Y3zZeuqF4xAqcMKFa7rkWOFWS3uRLaVSXx0c/
- a0lU6KmbAIocRXu5pvjtt2z5QsrMxA9P2k0AIwdL4ehfzl9Bt5zBOch6APc8mMjNp0rc
- eQu2ZjH8GrKqrTUlUB188OHAWqTgxA1G5R/vsAhN06MGkoMGuDt8r+CqCJ9CfRMXjcg8
- 7HDgcZt6gJYxmJbrQtCEpYnHlqurknK2MuNSLx2JAO7sKDTI0yvCzLHp2EGqjtGdGbp0
- X0SA==
+ b=aBXaGiRNN8A4LodFxkzJf4/+5/yvmxy5GP8A58EuGfC/t/NKmaJ9jEYDyWs5Fy6xdf
+ meITMM41Du05OIbB6pQ/AezVx0TQMBy6f1oQpekvmbhO5LMcUZakC0WIxuT6C6wyatE8
+ kpJzux8z0EmgBtrthm6K/swTR6tAwEe8ETuIF+PvqCTIYwPxQBEe2iDCum76Ik/c3wo2
+ HOzYUT69ZQigmCfdfB/gKdofy3t11dcJ6NYsFZUHNsoLbeTbB5etngKT9BOI3XP0E9FI
+ WZbcCHsaDedZ5fnIujop+3Q9kh493sN5rxvnhWs7h68EbPWtH4czrLTecPIH/Ix89dTI
+ a62w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX3wJuFzBx6OuRZGkNgz4yWOgYPibKLPN6zLGGPgvt92fOjwX92Y4Zv1e7n+ljxI6gkPIPN65UO5dNb6ChKURs3O3QhSpTIzJ5g5x3mPwYW
-X-Gm-Message-State: AOJu0YzmLztv97oXNvcIqZAHzqAqFveVInrPnOh92PEZfVOazpy0TDyK
- q3zs9QpojVhLjx7GDaoA/Eq6fwTP5FYmTJ++wfqiKGovvU113q/ccr/eGikxbNvJYvqraIxnBnJ
- gD2GNWL+Jr4iNpM1+3/VQLns4lgEqffNVrbb+Dg==
-X-Google-Smtp-Source: AGHT+IGn/BLs09UZTXijTnoE40QKwlRJA0amamIYfiwwfiDRAcDmK1jL7i2Ig/go5BAD0nIbt9Kry0L/xhH0oehqM5s=
-X-Received: by 2002:ac2:4d01:0:b0:52c:a483:4cc6 with SMTP id
- 2adb3069b0e04-52cdf7f6665mr7139770e87.36.1719402714424; Wed, 26 Jun 2024
- 04:51:54 -0700 (PDT)
+ AJvYcCWzyiQKVP/yPzaN2voQosY6ynvJXpL2z59QB70X0kVINC0vDWDQQu8Myg1Y+ntkOmYWVj68ntkuYbTIyaDqcmI50R7Xlg7QC5KHuH7uPw8Z
+X-Gm-Message-State: AOJu0YzlDVmNSMKwSOBnrukfGVorwERMyQla9DNgtcpB9wb20+2IWOLx
+ WMMZN/gsArFjUufeUhLNwUTEmYBJzeD5RrE5WTIPzKLWShwzAFrJ9I38iy5eYoU9M722zq4vZTs
+ bW9BymLPojMC5KDthyNfAxhBqiyxXqH+OyUye0A==
+X-Google-Smtp-Source: AGHT+IFt5Y6rNkv7qP0DY/jJs8uCxG3fud41/0H3+Siz9GLV1bZC8qZKtVnvB2O2VW30MKoOlKv1yDATTfc64MFALP0=
+X-Received: by 2002:ac2:4e09:0:b0:52c:d80e:55a5 with SMTP id
+ 2adb3069b0e04-52ce183aa97mr7510215e87.41.1719402737078; Wed, 26 Jun 2024
+ 04:52:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240624152033.25016-1-tzimmermann@suse.de>
- <20240624152033.25016-7-tzimmermann@suse.de>
-In-Reply-To: <20240624152033.25016-7-tzimmermann@suse.de>
+ <20240624152033.25016-6-tzimmermann@suse.de>
+In-Reply-To: <20240624152033.25016-6-tzimmermann@suse.de>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 26 Jun 2024 13:51:43 +0200
-Message-ID: <CACRpkdaYzWkBR=m=sokfXJHvWwdkDXb2r=te0i2J3WMwmFeVWA@mail.gmail.com>
-Subject: Re: [PATCH v2 06/17] backlight: ipaq-micro-backlight: Use backlight
- power constants
+Date: Wed, 26 Jun 2024 13:52:05 +0200
+Message-ID: <CACRpkdb9CNMw1z8q6gQb0Pi6fZhOfXCoiM1s5QdszRqgbxa+Lw@mail.gmail.com>
+Subject: Re: [PATCH v2 05/17] backlight: gpio-backlight: Use backlight power
+ constants
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: lee@kernel.org, daniel.thompson@linaro.org, sam@ravnborg.org, 
  jingoohan1@gmail.com, deller@gmx.de, f.suligoi@asem.it, ukleinek@kernel.org, 
