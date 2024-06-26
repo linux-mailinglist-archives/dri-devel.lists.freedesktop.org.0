@@ -2,58 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C26917929
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 08:49:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 152439179A6
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 09:26:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FCF210E783;
-	Wed, 26 Jun 2024 06:49:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12FD010E79C;
+	Wed, 26 Jun 2024 07:26:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="flalXVv5";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="aL2sIfD/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1884B10E783;
- Wed, 26 Jun 2024 06:49:12 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8339F10E79A
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 07:26:45 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-366dd7b269cso201032f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 00:26:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1719386803; x=1719991603; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=CMADylHdd12eheZDYxCQcaXIZ7L3W07jFpRH04vs5ZQ=;
+ b=aL2sIfD/ztu9z8fvVXwvT6DPjtupNrcSQdGXznRGlWh2eC/QNW122Z5fGmPUD3irwL
+ F97aMoTqyAyYRfBne3Ntb+alPg+iQnCnifLn1iUrIzjebBxO3OlYm7JFqMermZloSIdG
+ Q4LJKTpUVak5dqAh4mX2O0l/lhYD74hudj5VQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719386803; x=1719991603;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=CMADylHdd12eheZDYxCQcaXIZ7L3W07jFpRH04vs5ZQ=;
+ b=bAokHAlfeyz5iNO9R4v2hTmJQV7du3vFQbGGhw5zgbUOlPTvazGdmleQ1b2k/BrMi0
+ 8brs0yv9I0SKghCkFZaARmAmTwHmp5uU2fIVvJHgy6SHwLn0yXt3id9WmZ8nWmahtwjV
+ ox+JVyUqYpwQK2aDaunaRwg2oQz/imzt5jUbKG8aFcK9pjGKJDKJ1xra13U8ZAQuiyX7
+ 3GwsnkAhITm1U7G1rv/1lnjll/Z9U1EDLeWWrPCw12zWCYHOKkP9xpe9RT+2zo1dSmuS
+ bBR+pZxpfhK2DPwa7MZ1Opbwf/BsFMvDCO9PSuWVn5tlzP5J1HVrJ6gU5f0mM6umdWm4
+ l9VQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW0IgvwOnvJHD4OmEzHZPx9LSdda+bG+Ow99g0QTVaynjx+RtDcy9jos1iSfZXXdToiE/AAXlfezYDM2Hh8mro1WhOG5T3a8Pwd3iMRn4N5
+X-Gm-Message-State: AOJu0YyLgSH8LLdt4M+B4wG1BwT9CYeoD5eeBLUqvmAtuPenBeKXfDDE
+ zyL0VV1bpGA+92w/uw5Ofg7s3NvO7CPjDHhugNr8yuPacHessH/cvPLWkIaghzo=
+X-Google-Smtp-Source: AGHT+IHeQqyDxVRd9QAvvWNFl7K8NBdMF289e85FjexEmWnGMrmTe32t1vKI5rWbeEJPDYl7vHlqfQ==
+X-Received: by 2002:a05:6000:18ae:b0:35f:2929:846e with SMTP id
+ ffacd0b85a97d-366e2a0a8eemr7752228f8f.1.1719386803205; 
+ Wed, 26 Jun 2024 00:26:43 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-366389b8597sm14875130f8f.36.2024.06.26.00.26.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Jun 2024 00:26:42 -0700 (PDT)
+Date: Wed, 26 Jun 2024 09:26:40 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Oded Gabbay <ogabbay@kernel.org>
+Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
+Message-ID: <ZnvCsJfdZdLvw1ZN@phenom.ffwll.local>
+Mail-Followup-To: Oded Gabbay <ogabbay@kernel.org>,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
+ <8c55dba5-6308-685e-13da-e728197d8101@quicinc.com>
+ <CAAObsKD4-k7Ya4Mi=vEPaC9DucbnVGDO5SaEUt-_o2_Bg+_FgA@mail.gmail.com>
+ <CAAObsKCm49y-nUph=m9c+-eG37SaGKG93-1etwOQab4f5MXxOg@mail.gmail.com>
+ <20240509144118.baib2pftmpk5nikr@GABBAY.>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1719384551;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3EUy8ZqVg1I+dfYk8clcNPqBEg+z81Pl82YdSn3QsHY=;
- b=flalXVv5TjKTXtzblY1sXqL600OglvFnNH6rPY7PA8Y4xq3XyESFI2EqKeIaBSjlV0/RwC
- l2HbYfUjwWtnBlpp4MX7Ca+4KrD3i2oK5Crm0VkoiPXb36uBkL32FheSm9tss2hP3+Kx1b
- kH9N5PByLsIm9YwCZW65l93mwSf4koSoRTaXKiTgEgovZ5GRdOT3UUeByAzDMobPMIw99I
- BNKnofU2wzizYJLyQ7Wsltar/uxrjg23ML/cEVg28ZQjjbkECgqsw1YSnlkb7Wkn2/FYLw
- VMVJNRzMJl9MWz3+pPEMqTiWU3PsHzLrj3NVTOmK1WBeEVQahl+OsO7/9lh9dg==
-Date: Wed, 26 Jun 2024 08:49:09 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Qiang Yu <yuq825@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- lima@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- linux-kernel@vger.kernel.org, Philip Muller <philm@manjaro.org>, Oliver
- Smith <ollieparanoid@postmarketos.org>, Daniel Smith <danct12@disroot.org>,
- stable@vger.kernel.org
-Subject: Re: [PATCH] drm/lima: Mark simple_ondemand governor as softdep
-In-Reply-To: <CAKGbVbsGm7emEPzGuf0Xn5k22Pbjfg9J9ykJHtvDF3SacfDg6A@mail.gmail.com>
-References: <fdaf2e41bb6a0c5118ff9cc21f4f62583208d885.1718655070.git.dsimic@manjaro.org>
- <CAKGbVbs8VmCXVOHbhkCYEHNJiKWwy10p0SV9J09h2h7xjs7hUg@mail.gmail.com>
- <CAKGbVbsM4rCprWdp+aGXE-pvCkb6N7weUyG2z4nXqFpv+y=LrA@mail.gmail.com>
- <20240618-great-hissing-skink-b7950e@houat>
- <4813a6885648e5368028cd822e8b2381@manjaro.org>
- <457ae7654dba38fcd8b50e38a1275461@manjaro.org>
- <2c072cc4bc800a0c52518fa2476ef9dd@manjaro.org>
- <CAKGbVbsGm7emEPzGuf0Xn5k22Pbjfg9J9ykJHtvDF3SacfDg6A@mail.gmail.com>
-Message-ID: <74c69c3bb4498099a195ec890e1a7896@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
- auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+In-Reply-To: <20240509144118.baib2pftmpk5nikr@GABBAY.>
+X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,100 +100,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Qiang,
+On Thu, May 09, 2024 at 05:41:18PM +0300, Oded Gabbay wrote:
+> On Thu, May 09, 2024 at 03:53:01PM +0200, Tomeu Vizoso wrote:
+> > Oded, Dave,
+> > 
+> > Do you have an opinion on this?
+> > 
+> > Thanks,
+> > 
+> > Tomeu
+> Hi Tomeu,
+> 
+> Sorry for not replying earlier, I was down with Covid (again...).
+> 
+> To your question, I don't have an objection to what you are
+> suggesting. My personal view of accel is that it is an integral part of 
+> DRM and therefore, if there is an *existing* drm driver that wants to 
+> create an accel node, I'm not against it. 
 
-On 2024-06-26 03:11, Qiang Yu wrote:
-> On Wed, Jun 26, 2024 at 2:15 AM Dragan Simic <dsimic@manjaro.org> 
-> wrote:
->> 
->> Hello everyone,
->> 
->> Just checking, any further thoughts about this patch?
->> 
-> I'm OK with this as a temp workaround because it's simple and do no 
-> harm
-> even it's not perfect. If no other better suggestion for short term, 
-> I'll submit
-> this at weekend.
+Yeah, there's a continum from "clearly 3d gpu" to "compute AI
+accelerator", with everything possible in-between shipping somewhere.
+Collaboration is the important part, hair-splitting on where exactly the
+driver should be is kinda secondary. I mean beyond "don't put a pure 3d
+driver into accel or vice versa" of course :-)
 
-Thanks.  Just as you described it, it's far from perfect, but it's still
-fine until there's a better solution, such as harddeps.  I'll continue 
-my
-research about the possibility for adding harddeps, which would 
-hopefully
-replace quite a few instances of the softdep (ab)use.
+> There is the question of why you want to expose an accel node, and
+> here I would like to hear Dave's and Sima's opinion on your suggested
+> solution as it may affect the direction of other drm drivers.
 
->> On 2024-06-18 21:22, Dragan Simic wrote:
->> > On 2024-06-18 12:33, Dragan Simic wrote:
->> >> On 2024-06-18 10:13, Maxime Ripard wrote:
->> >>> On Tue, Jun 18, 2024 at 04:01:26PM GMT, Qiang Yu wrote:
->> >>>> On Tue, Jun 18, 2024 at 12:33 PM Qiang Yu <yuq825@gmail.com> wrote:
->> >>>> >
->> >>>> > I see the problem that initramfs need to build a module dependency chain,
->> >>>> > but lima does not call any symbol from simpleondemand governor module.
->> >>>> > softdep module seems to be optional while our dependency is hard one,
->> >>>> > can we just add MODULE_INFO(depends, _depends), or create a new
->> >>>> > macro called MODULE_DEPENDS()?
->> >>
->> >> I had the same thoughts, because softdeps are for optional module
->> >> dependencies, while in this case it's a hard dependency.  Though,
->> >> I went with adding a softdep, simply because I saw no better option
->> >> available.
->> >>
->> >>>> This doesn't work on my side because depmod generates modules.dep
->> >>>> by symbol lookup instead of modinfo section. So softdep may be our
->> >>>> only
->> >>>> choice to add module dependency manually. I can accept the softdep
->> >>>> first, then make PM optional later.
->> >>
->> >> I also thought about making devfreq optional in the Lima driver,
->> >> which would make this additional softdep much more appropriate.
->> >> Though, I'm not really sure that's a good approach, because not
->> >> having working devfreq for Lima might actually cause issues on
->> >> some devices, such as increased power consumption.
->> >>
->> >> In other words, it might be better to have Lima probing fail if
->> >> devfreq can't be initialized, rather than having probing succeed
->> >> with no working devfreq.  Basically, failed probing is obvious,
->> >> while a warning in the kernel log about no devfreq might easily
->> >> be overlooked, causing regressions on some devices.
->> >>
->> >>> It's still super fragile, and depends on the user not changing the
->> >>> policy. It should be solved in some other, more robust way.
->> >>
->> >> I see, but I'm not really sure how to make it more robust?  In
->> >> the end, some user can blacklist the simple_ondemand governor
->> >> module, and we can't do much about it.
->> >>
->> >> Introducing harddeps alongside softdeps would make sense from
->> >> the design standpoint, but the amount of required changes wouldn't
->> >> be trivial at all, on various levels.
->> >
->> > After further investigation, it seems that the softdeps have
->> > already seen a fair amount of abuse for what they actually aren't
->> > intended, i.e. resolving hard dependencies.  For example, have
->> > a look at the commit d5178578bcd4 (btrfs: directly call into
->> > crypto framework for checksumming) [1] and the lines containing
->> > MODULE_SOFTDEP() at the very end of fs/btrfs/super.c. [2]
->> >
->> > If a filesystem driver can rely on the abuse of softdeps, which
->> > admittedly are a bit fragile, I think we can follow the same
->> > approach, at least for now.
->> >
->> > With all that in mind, I think that accepting this patch, as well
->> > as the related Panfrost patch, [3] should be warranted.  I'd keep
->> > investigating the possibility of introducing harddeps in form
->> > of MODULE_HARDDEP() and the related support in kmod project,
->> > similar to the already existing softdep support, [4] but that
->> > will inevitably take a lot of time, both for implementing it
->> > and for reaching various Linux distributions, which is another
->> > reason why accepting these patches seems reasonable.
->> >
->> > [1]
->> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d5178578bcd4
->> > [2]
->> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/super.c#n2593
->> > [3]
->> > https://lore.kernel.org/dri-devel/4e1e00422a14db4e2a80870afb704405da16fd1b.1718655077.git.dsimic@manjaro.org/
->> > [4]
->> > https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git/commit/?id=49d8e0b59052999de577ab732b719cfbeb89504d
+So existing userspace that blindly assumes that any render node will give
+it useful 3d acceleration, then that's broken already.
+
+- kernel with new driver support but old mesa without that driver already
+  gives you that, even for a pure 3d chip.
+
+- intel (and I think also amd) have pure compute chips without 3d, so this
+  issue already exists
+
+Same for the other directions, 3d gpus have variable amounts of compute
+chips nowadays.
+
+That leaves imo just the pragmatic choice, and if we need to complicate
+the init flow of the kernel driver just for a different charnode major,
+then I don't really see the point.
+
+And if we do see the point in this, I think the right approach would be if
+we split the init flow further into allocating the drm_device, and then in
+a 2nd step either allocate the accel or render uapi stuff as needed. The
+DRIVER_FOO flags just aren't super flexible for this kinda of stuff and
+have a bit a midlayer taste to them.
+
+Cheers, Sima
+
+> 
+> Thanks,
+> Oded.
+> 
+> p.s.
+> Please only use bottom-posting when replying, thanks :)
+> 
+> > 
+> > On Fri, Apr 26, 2024 at 8:10 AM Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
+> > >
+> > > On Thu, Apr 25, 2024 at 8:59 PM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
+> > > >
+> > > > On 4/24/2024 12:37 AM, Tomeu Vizoso wrote:
+> > > > > If we expose a render node for NPUs without rendering capabilities, the
+> > > > > userspace stack will offer it to compositors and applications for
+> > > > > rendering, which of course won't work.
+> > > > >
+> > > > > Userspace is probably right in not questioning whether a render node
+> > > > > might not be capable of supporting rendering, so change it in the kernel
+> > > > > instead by exposing a /dev/accel node.
+> > > > >
+> > > > > Before we bring the device up we don't know whether it is capable of
+> > > > > rendering or not (depends on the features of its blocks), so first try
+> > > > > to probe a rendering node, and if we find out that there is no rendering
+> > > > > hardware, abort and retry with an accel node.
+> > > > >
+> > > > > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> > > > > Cc: Oded Gabbay <ogabbay@kernel.org>
+> > > >
+> > > > I hope Oded chimes in as Accel maintainer.  I think Airlie/Vetter had
+> > > > also previously mentioned they'd have opinions on what is Accel vs DRM.
+> > > >
+> > > > This gets a nack from me in its current state.  This is not a strong
+> > > > nack, and I don't want to discourage you.  I think there is a path forward.
+> > > >
+> > > > The Accel subsystem documentation says that accel drivers will reside in
+> > > > drivers/accel/ but this does not.
+> > >
+> > > Indeed, there is that code organization aspect.
+> > >
+> > > > Also, the commit text for "accel: add dedicated minor for accelerator
+> > > > devices" mentions -
+> > > >
+> > > > "for drivers that
+> > > > declare they handle compute accelerator, using a new driver feature
+> > > > flag called DRIVER_COMPUTE_ACCEL. It is important to note that this
+> > > > driver feature is mutually exclusive with DRIVER_RENDER. Devices that
+> > > > want to expose both graphics and compute device char files should be
+> > > > handled by two drivers that are connected using the auxiliary bus
+> > > > framework."
+> > > >
+> > > > I don't see any of that happening here (two drivers connected by aux
+> > > > bus, one in drivers/accel).
+> > >
+> > > Well, the text refers to devices, not drivers. The case we are talking
+> > > about is a driver that wants to sometimes expose an accel node, and
+> > > sometimes a render node, depending on the hardware it is dealing with.
+> > > So there would either be a device exposing a single render node, or a
+> > > device exposing a single accel node.
+> > >
+> > > Though by using the auxiliary bus we could in theory solve the code
+> > > organization problem mentioned above, I'm not quite seeing how to do
+> > > this in a clean way. The driver in /drivers/gpu/drm would have to be a
+> > > DRM driver that doesn't register a DRM device, but registers a device
+> > > in the auxiliary bus for the driver in /drivers/accel to bind to? Or
+> > > are you seeing some possibility that would fit better in the current
+> > > DRM framework?
+> > >
+> > > > I think this is the first case we've had of a combo DRM/Accel usecase,
+> > > > and so there isn't an existing example to refer you to on how to
+> > > > structure things.  I think you are going to be the first example where
+> > > > we figure all of this out.
+> > >
+> > > Yep, I will be grateful for any ideas on how to structure this.
+> > >
+> > > > On a more implementation note, ioctls for Accel devices should not be
+> > > > marked DRM_RENDER_ALLOW.  Seems like your attempt to reuse as much of
+> > > > the code as possible trips over this.
+> > >
+> > > Indeed, thanks.
+> > >
+> > > Cheers,
+> > >
+> > > Tomeu
+> > >
+> > > > -Jeff
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
