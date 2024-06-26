@@ -2,73 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D35F917DA3
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 12:18:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4BA917DBF
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 12:25:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3196C10E82A;
-	Wed, 26 Jun 2024 10:18:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0900B10E82E;
+	Wed, 26 Jun 2024 10:25:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="u8Mx57jx";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HXO4rl9s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B77310E82A
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 10:18:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1719397090; x=1720001890; i=markus.elfring@web.de;
- bh=GDfZxGNUScq9YaFwJpm3DeNY9vXyehcx9Z/G4rNFFu8=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=u8Mx57jxnQA2HGD/gqjBu6F8uG5HKfa2F+2OBaRwkr+20LWk4RYqw447eO6jBvn8
- X7Mcesplc1Yl1OZoJp2nRkOfxRC+p4MyzDaU884Kc2nOs2bOZKMcshkWyzAQRJ6jK
- OHjgYBnCvFSgm451jc43H/jLjN+4IsmYw8fgSOR9hom1SB9yscjI5n2gng9BGKamS
- TWUBM3eKePNFEcPLox/5lyhan7VWMKgmwGWs4HcuVsQHIX+/n4QOIJiSOaUI1+Cfg
- C2VLkVnl6ZF/2niC0x77oaau7l3YPTS7lF8MDtEHv/Mph5e3uAjp2QS2q1H0CoFp6
- ILRzqZ1A9A3unx0vuA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.91.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1M7elj-1sGeZb1TB7-00EUgG; Wed, 26
- Jun 2024 12:18:10 +0200
-Message-ID: <84c7c61a-9de2-47d7-8420-87a2b389e684@web.de>
-Date: Wed, 26 Jun 2024 12:18:08 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5B1010E82E
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 10:25:20 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi
+ [91.158.144.210])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6EB162C5;
+ Wed, 26 Jun 2024 12:24:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1719397496;
+ bh=fm00PkARB5AL2bGmF9EOi9Wo9IuJzJD9VX6QAJzzT3o=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=HXO4rl9sVF6ovuwnxFt729XSOzX3IFCCJ8nzJeAzJ0f4Y/Rf/1UxSiTKlU13iijOO
+ ppNtonLVS485tWgtV+PUQSNHNdLxjjvRPhBk/B/TvFosOaqT+s9GoumhV7eTcbxRQV
+ w1eaU6Z07QWRCimXf/s4TITMIl+OBRLLW5rsV2sA=
+Message-ID: <8fcbc541-d7a3-4d0d-ab0f-74d7f1cd63b5@ideasonboard.com>
+Date: Wed, 26 Jun 2024 13:25:15 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Ma Ke <make24@iscas.ac.cn>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+Subject: Re: [PATCH v4 03/11] drm/bridge: cdns-dsi: Fix Phy _init() and _exit()
+To: Aradhya Bhatia <a-bhatia1@ti.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20240626011656.2763368-1-make24@iscas.ac.cn>
-Subject: Re: [PATCH] drm/gma500: fix null pointer dereference in
- psb_intel_lvds_get_modes
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240626011656.2763368-1-make24@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:01rFRwMVi3531kRlSNqKJqy4VVaSc7+o4NHk0MEHOFFnMzxhibA
- OivBn4+Jls90kxeCzxTEwynhxV0OwQNDGRzP4wVoPgwaVfgWvb/PoSayUoqslQu9/Z7Y9zQ
- 4d285myX/qYl+Aa+0vSnFYUU554DZdMMHnkwQpYDvrWQae1VihS6vbtWKxpYmS+nKkR2iV6
- ldUqX3PD7wEBblXES11lw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:/inCr0aeIyA=;nhO+xV00Cmbe7kK9azANZthrrjl
- PBrZsmpM0GtlAby7gaDXVpqMPIXRglE3SBCutqGW5fJHCG7RqgbPfDxb4k7rbMBsUKOgNJJpx
- j7wS/agVibvRNb90iGvtO2xKjnYy5CHBg9JV0xtch4paWLQFy7pbFaNOsuO8Nr9RJW0G+4qHu
- mexbUT9rnWQAdTUz1rLOJbaU60QF/qlVITn4uPN5pbLNlSsYVKNFU+5Cvm7RNTrgpIaJu+EWv
- 8R3mqfpDsyTQm9pZa/OEVaI9lIkqN4MwaifT1aMTClWs1FzALN7L1qJg8dP0MoiXUk1WYeWYh
- 5z7dYWGwA0wEvaPlgNZhKCBryhrPHMrQuzHA8vZVSR8TclHpWlvuffqVipnuHHwrREJW/3nx3
- ojhdX5N3Fo48hMJkF6Vvb+UCrHQ/9biZ171+bXiqEtn+l0+XlpFdwb1vwrLOdMHcm+8lViNTr
- Wan7w8dZUkkvJeWZ7cDOc+dDDrdryk2SaDyIWvpG2mv9J6U/WL2AaKh3g3tLVnKeij4S8R5zo
- 50wag07jxlQv7FHdFSKKWrhgtvcfXZRW9kfhGA/IWDSeZOLCejZupPSWPLF+/tZEBb9rlDPfl
- dvoaCV+sBtBeU0tcE72DohGfKkpPfVxj1UMkoWc6Lk0G852MAUaT8lht2lNIiGuz/I1+i3i02
- N/px5BICmuIdqET1HOAkIdEK8QcIzoZJDu6jgi0zozqBr1tNyxh8MSKr0T3PnqWoFOuZNtGBY
- wcyoryzCv6M0u3VGX3oiu39xRcQEmYuEHfZ8C1spLSOQikSAl5VKrFXTZZdXGoesdlPJhsYnI
- 5gg0I/Z2+rnCr24QYTFiBy/HQWRYOlioF0xWWMdzJsK7o=
+ Maxime Ripard <mripard@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Dominik Haller <d.haller@phytec.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Thierry Reding <treding@nvidia.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ Jai Luthra <j-luthra@ti.com>
+References: <20240622110929.3115714-1-a-bhatia1@ti.com>
+ <20240622110929.3115714-4-a-bhatia1@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240622110929.3115714-4-a-bhatia1@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,35 +116,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> In psb_intel_lvds_get_modes(), the return value of drm_mode_duplicate() =
-is
-> assigned to mode, which will lead to a possible NULL pointer dereference
-> on failure of drm_mode_duplicate(). Add a check to avoid npd.
+Hi,
 
-1. Can a wording approach (like the following) be a better change descript=
-ion?
+On 22/06/2024 14:09, Aradhya Bhatia wrote:
+> Initialize the Phy during the cdns-dsi _resume(), and de-initialize it
+> during the _suspend().
+> 
+> Also power-off the Phy from bridge_disable.
+> 
+> Fixes: fced5a364dee ("drm/bridge: cdns: Convert to phy framework")
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> ---
+>   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 10 ++++++++--
+>   1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> index 5159c3f0853e..d89c32bae2b9 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> @@ -672,6 +672,10 @@ static void cdns_dsi_bridge_disable(struct drm_bridge *bridge)
+>   	if (dsi->platform_ops && dsi->platform_ops->disable)
+>   		dsi->platform_ops->disable(dsi);
+>   
+> +	phy_power_off(dsi->dphy);
+> +	dsi->link_initialized = false;
+> +	dsi->phy_initialized = false;
+> +
+>   	pm_runtime_put(dsi->base.dev);
+>   }
+>   
+> @@ -698,7 +702,6 @@ static void cdns_dsi_hs_init(struct cdns_dsi *dsi)
+>   	       DPHY_CMN_PDN | DPHY_PLL_PDN,
+>   	       dsi->regs + MCTL_DPHY_CFG0);
+>   
+> -	phy_init(dsi->dphy);
+>   	phy_set_mode(dsi->dphy, PHY_MODE_MIPI_DPHY);
+>   	phy_configure(dsi->dphy, &output->phy_opts);
+>   	phy_power_on(dsi->dphy);
+> @@ -1120,6 +1123,8 @@ static int __maybe_unused cdns_dsi_resume(struct device *dev)
+>   	clk_prepare_enable(dsi->dsi_p_clk);
+>   	clk_prepare_enable(dsi->dsi_sys_clk);
+>   
+> +	phy_init(dsi->dphy);
+> +
+>   	return 0;
+>   }
+>   
+> @@ -1127,10 +1132,11 @@ static int __maybe_unused cdns_dsi_suspend(struct device *dev)
+>   {
+>   	struct cdns_dsi *dsi = dev_get_drvdata(dev);
+>   
+> +	phy_exit(dsi->dphy);
+> +
+>   	clk_disable_unprepare(dsi->dsi_sys_clk);
+>   	clk_disable_unprepare(dsi->dsi_p_clk);
+>   	reset_control_assert(dsi->dsi_p_rst);
+> -	dsi->link_initialized = false;
+>   	return 0;
+>   }
+>   
 
-   A null pointer is stored in the local variable =E2=80=9Cmode=E2=80=9D a=
-fter a call
-   of the function =E2=80=9Cdrm_mode_duplicate=E2=80=9D failed. This point=
-er was passed to
-   a subsequent call of the function =E2=80=9Cdrm_mode_probed_add=E2=80=9D=
- where an undesirable
-   dereference will be performed then.
-   Thus add a corresponding return value check.
+So with this patch, phy_init/exit will be called in the resume/suspend 
+functions. That looks fine.
 
+But the phy_power_on/phy_power_off looks odd to me. Here you add 
+phy_power_off() to cdns_dsi_bridge_disable(), which sounds fine. But 
+phy_power_on() is called in cdns_dsi_hs_init(), and that is called in 
+cdns_dsi_bridge_enable() (which sounds fine), but also in 
+cdns_dsi_bridge_pre_enable().
 
-2. Would you like to add any tags (like =E2=80=9CFixes=E2=80=9D and =E2=80=
-=9CCc=E2=80=9D) accordingly?
+So doesn't that mean cdns_dsi_hs_init() call in cdns_dsi_bridge_enable() 
+is extra, as it effectively does nothing (it exists right away if 
+dsi->phy_initialized == true)?
 
+  Tomi
 
-3. How do you think about to append parentheses to the function name
-   in the summary phrase?
-
-
-4. How do you think about to put similar results from static source code
-   analyses into corresponding patch series?
-
-
-Regards,
-Markus
