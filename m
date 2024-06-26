@@ -2,80 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52608918A51
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 19:47:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1F7918A56
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 19:49:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4157010E973;
-	Wed, 26 Jun 2024 17:47:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B18B10E97A;
+	Wed, 26 Jun 2024 17:49:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="hREe+Mn0";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="dNjg84e2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDC6010E973
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 17:47:47 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-367339ddcdeso36909f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 10:47:47 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F40C10E978
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 17:49:23 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-42560ef9bcbso750435e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 10:49:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1719424066; x=1720028866; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=ddXUxy4REUncSbZcZ+HhAM7a7+RgpKmEeD0uJPEI2ls=;
- b=hREe+Mn0ByJDb4KzhBy2qX/pxBGHdmX+XehZ12BUsdJUWRHU1M5n/JcGzaFfcKJywh
- magFok8b67kjAiDR6osb/PpwWD7Sac3wxpx2Zc72Xde7lDwE2Qxrew7sI0IImRuV0eCl
- Xq1W/vyZJh6ImrbJRw49vWFa2NmqtiLTssaLM=
+ d=ffwll.ch; s=google; t=1719424161; x=1720028961; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sX7Zj9l5V8x3qQly+roBBZUclWmvPtx7Y0rt4ZV8Wcw=;
+ b=dNjg84e2/6bnyNeYIPfRRcy3v1XPi0p5HQ1yPT47mp8Z3EzA79gQgcbKBGRN/8Wrsk
+ nuP8lRABsIfavzh3tmO0v8FSlDE+fuSez4qNsZU60hZhFbDJxHauaKlPZzawpQwreXtc
+ YNVGkdxhJzto3fDJvJDJe465YoNahJaekrhA0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719424066; x=1720028866;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1719424161; x=1720028961;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ddXUxy4REUncSbZcZ+HhAM7a7+RgpKmEeD0uJPEI2ls=;
- b=EWHh7i1zQ4s8T5oimP6br5VEKTu/OcAkqMDT/dQHn1mYn4FdIZH5U5QJPyYWN8pnq1
- AHP33rvKgtIPY0thBDfo3KqcG4t4IB7qyscOjNjRG73e+SljhllbbfF14X7RB75gO7tE
- r8/1k4cb9vJHsp7x511rgWLxEEQ/3aRIWUKV6/EopDa8rLNUTt2/5PlHLdFSKPtTJOSw
- +p0zh9ZBh8AlDccFIFQdfSPuQTnoIz7lImfdr/DTYCjijtPO+sdZIxpNJv3sobd4IJMe
- R/mAoFprXYYVhEM6OEQPuiAqYUxTFy+kX4HBjomX5/JnrG1LQE6H5eshgODIGidAF7yr
- KLrQ==
+ bh=sX7Zj9l5V8x3qQly+roBBZUclWmvPtx7Y0rt4ZV8Wcw=;
+ b=dvV5APyT3wghhLgkCBJTvV2cIqLeIr+GJ4tS8/KhkB/MDl6QHgXllCA4FHoBpOmGrs
+ Fz8UHhryt2+qm7UvdkMYT8aZcsxziASBrYQWd9C8kHygAjXRnKe6yRhJhLHiWnOnVN4O
+ /5Jc23TOGWvWZXacooSdpSnDH045+0o7wKPLhrObQ5I2AjLK4fsg4pWJVGE1b5o6Nh0i
+ f+ISXPqqdFM3tUmR47eEDtwKoEcBR4bI7oCHy4HVs5TTy5kL+wVtMj9K1xTR4Dt/11Vf
+ KDFAR8WmvLMdahCuKsXfQytLpP/H0raniIL92vDgcbk60fMivRsmerFyWaRZ4msU/2NU
+ L46g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXGeuJpN1rluimJkIVd+fC+iRciJcOBRTTPP13c0O1COolpo/0FoZEaVTkzhRUf8MpRS0YYG+QpvH6Mu14tsGmJdEc0RCfX/lx0nq02m06j
-X-Gm-Message-State: AOJu0Yx7K1QZDiBNW16nR3aIldJ4EzNBcwW0Fai/DOZI14GDRNWWRIma
- kklyoK85N/J5pHVLJMv9d7vJvLNkFw8PiX+wMtQ5TuWaZdATaCWdNvvOrauj5mo=
-X-Google-Smtp-Source: AGHT+IF/wKiHR161UYeJktSy9Ahq63JfgB1EGVRfwzIooZsfyVytj7qudDCF9nl08Hsv8XMJswGF/A==
-X-Received: by 2002:a05:600c:1d02:b0:422:70d4:7e72 with SMTP id
- 5b1f17b1804b1-42487eebcdfmr100575355e9.2.1719424065832; 
- Wed, 26 Jun 2024 10:47:45 -0700 (PDT)
+ AJvYcCX/bpZKTRojavI3sop0idaDA4X5PkZZbPe9rQu9kiKIdCW/PpPPmwkbKmfNMxqK2KfP16QDXaSRiiHwuWWMRhnaq0lLBP8eKtRVGE+fm584
+X-Gm-Message-State: AOJu0Yy2EUaGiXiKLku4CYl73vzvxLnPa8morlagictXWpu/6e11ISy7
+ t2SK+1c1jaBy9ZPS77pAvBMvuBDhg9xsEBeNYPb7H7almRCJeBi3dPa7QapIdaK3qmKiKRsuya3
+ BrAg=
+X-Google-Smtp-Source: AGHT+IFr3ZABZiy03lqUeRPhYzyS7ggrE9v3MW97jwVlfg/GFjNRcktMFhWpPbw+eCxkNBqIbjZUYA==
+X-Received: by 2002:a5d:457a:0:b0:366:e496:1caa with SMTP id
+ ffacd0b85a97d-366e4961e22mr6278822f8f.5.1719424161485; 
+ Wed, 26 Jun 2024 10:49:21 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-424c8246297sm34558715e9.8.2024.06.26.10.47.44
+ ffacd0b85a97d-3663a2f8268sm16355746f8f.79.2024.06.26.10.49.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jun 2024 10:47:45 -0700 (PDT)
-Date: Wed, 26 Jun 2024 19:47:43 +0200
+ Wed, 26 Jun 2024 10:49:21 -0700 (PDT)
+Date: Wed, 26 Jun 2024 19:49:19 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Helen Koike <helen.koike@collabora.com>,
- Vignesh Raman <vignesh.raman@collabora.com>,
- Rob Clark <robdclark@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Dave Airlie <airlied@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Stone <daniels@collabora.com>
-Subject: Re: Time for drm-ci-next?
-Message-ID: <ZnxUP8H5oATEYNBt@phenom.ffwll.local>
-References: <CAF6AEGsRLPqddgc2MKCXKD1TDFuwxRs_6Pj=oDuj4gah0D-07Q@mail.gmail.com>
- <87a5mzrgie.fsf@intel.com>
- <CAF6AEGt=8mz8S+nBQ1a3mCNLFhBrfcc5XfmNrTQ=62J-m+_3Jg@mail.gmail.com>
- <44196cb4-bc07-4dba-bf1d-9d3d0e3bc88d@collabora.com>
- <f20f80a7-c905-4a9e-8fa6-985d6b3b1662@collabora.com>
- <ZnvEHEIEJIYcsQgN@phenom.ffwll.local>
- <f6kf3smgaza7r7zif4frz6ugrdzcl4u3xqidgwgvuffydhjfzp@66afcetzo3uw>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
+Message-ID: <ZnxUn312E5c79jKh@phenom.ffwll.local>
+Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
+ <8c55dba5-6308-685e-13da-e728197d8101@quicinc.com>
+ <CAAObsKD4-k7Ya4Mi=vEPaC9DucbnVGDO5SaEUt-_o2_Bg+_FgA@mail.gmail.com>
+ <CAAObsKCm49y-nUph=m9c+-eG37SaGKG93-1etwOQab4f5MXxOg@mail.gmail.com>
+ <20240509144118.baib2pftmpk5nikr@GABBAY.>
+ <ZnvCsJfdZdLvw1ZN@phenom.ffwll.local>
+ <kzk46s2hqrbipehnqhcx47q5mtkdjc3oeeobr2jwinw2ch3pra@37xuwtyakeus>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f6kf3smgaza7r7zif4frz6ugrdzcl4u3xqidgwgvuffydhjfzp@66afcetzo3uw>
+In-Reply-To: <kzk46s2hqrbipehnqhcx47q5mtkdjc3oeeobr2jwinw2ch3pra@37xuwtyakeus>
 X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,64 +102,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 26, 2024 at 11:38:30AM +0300, Dmitry Baryshkov wrote:
-> On Wed, Jun 26, 2024 at 09:32:44AM GMT, Daniel Vetter wrote:
-> > On Mon, Jun 24, 2024 at 10:25:25AM -0300, Helen Koike wrote:
-> > > 
-> > > 
-> > > On 24/06/2024 02:34, Vignesh Raman wrote:
-> > > > Hi,
+On Wed, Jun 26, 2024 at 11:42:24AM +0300, Dmitry Baryshkov wrote:
+> On Wed, Jun 26, 2024 at 09:26:40AM GMT, Daniel Vetter wrote:
+> > On Thu, May 09, 2024 at 05:41:18PM +0300, Oded Gabbay wrote:
+> > > On Thu, May 09, 2024 at 03:53:01PM +0200, Tomeu Vizoso wrote:
+> > > > Oded, Dave,
 > > > > 
-> > > > On 15/03/24 22:50, Rob Clark wrote:
-> > > > > Basically, I often find myself needing to merge CI patches on top of
-> > > > > msm-next in order to run CI, and then after a clean CI run, reset HEAD
-> > > > > back before the merge and force-push.  Which isn't really how things
-> > > > > should work.
+> > > > Do you have an opinion on this?
+> > > > 
+> > > > Thanks,
+> > > > 
+> > > > Tomeu
+> > > Hi Tomeu,
+> > > 
+> > > Sorry for not replying earlier, I was down with Covid (again...).
+> > > 
+> > > To your question, I don't have an objection to what you are
+> > > suggesting. My personal view of accel is that it is an integral part of 
+> > > DRM and therefore, if there is an *existing* drm driver that wants to 
+> > > create an accel node, I'm not against it. 
 > > 
-> > This sounds more like you want an integration tree like drm-tip. Get msm
-> > branches integrated there, done. Backmerges just for integration testing
-> > are not a good idea indeed.
-> 
-> Is it fine to get drm/msm{-fixes,-next} into drm-tip?
-
-Should be.
-
-> > What exactly is the issue in backmerging drm-misc-next (well through
-> > drm-next really)?
-> 
-> drm-misc-next is its own tree with separate cadence, its own bugs and
-> misfeatures. But probably just picking up drm-next for the tests should
-> be fine.
-
-Well, more CI should make the situation better for everyone. And I don't
-think you can avoid issues with topic branches, since usually there's
-enough stuff going on that you still often need parts of drm-next. The
-clean topic branches only tend to happen with other subsystems, where the
-interactions are much less.
-
-I think aim for more integration testing first with something like
-drm-tip, one-off topic branches if really needed for e.g. the gitlab
-version upgrade (but still prefer backmerges if that's enough) and see
-where it goes?
-
-If other trees introduce bugs it's imo much better to hit them early than
-in the middle of the next merge window, which is what you'd get with
-maximum amount of topic branches and tree separation. And the merge window
-is already really wobbly, we need to make that better.
-
-Cheers, Sima
-
-> > Also if there is an issue, generally we do ad-hoc topic branches.
+> > Yeah, there's a continum from "clearly 3d gpu" to "compute AI
+> > accelerator", with everything possible in-between shipping somewhere.
+> > Collaboration is the important part, hair-splitting on where exactly the
+> > driver should be is kinda secondary. I mean beyond "don't put a pure 3d
+> > driver into accel or vice versa" of course :-)
 > > 
-> > I'm very very skeptical of boutique trees with tiny focus, we've had that
-> > before drm-misc, it's a mess. Definitely no enthusiasm for getting back
-> > to that kind of world.
-> > -Sima
+> > > There is the question of why you want to expose an accel node, and
+> > > here I would like to hear Dave's and Sima's opinion on your suggested
+> > > solution as it may affect the direction of other drm drivers.
+> > 
+> > So existing userspace that blindly assumes that any render node will give
+> > it useful 3d acceleration, then that's broken already.
+> > 
+> > - kernel with new driver support but old mesa without that driver already
+> >   gives you that, even for a pure 3d chip.
+> > 
+> > - intel (and I think also amd) have pure compute chips without 3d, so this
+> >   issue already exists
+> > 
+> > Same for the other directions, 3d gpus have variable amounts of compute
+> > chips nowadays.
+> > 
+> > That leaves imo just the pragmatic choice, and if we need to complicate
+> > the init flow of the kernel driver just for a different charnode major,
+> > then I don't really see the point.
+> > 
+> > And if we do see the point in this, I think the right approach would be if
+> > we split the init flow further into allocating the drm_device, and then in
+> > a 2nd step either allocate the accel or render uapi stuff as needed. The
+> > DRIVER_FOO flags just aren't super flexible for this kinda of stuff and
+> > have a bit a midlayer taste to them.
 > 
-> -- 
-> With best wishes
-> Dmitry
+> Being able to defer render allocation would be extremely useful for MSM
+> too as it's not currently possible to mask the driver_features during
+> drm_dev_init()
 
+Eh I think less driver_features and more explicit (like
+drm_mode_config_init() instead of also having to set DRIVER_MODESET) stuff
+would be better in general. But they keep popping up, because it's an easy
+hack to get things going. Over the years I've managed to remove a lot of
+them tough.
+-Sima
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
