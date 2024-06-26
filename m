@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FC5917F29
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 13:06:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D675A917F3C
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 13:09:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9829210E840;
-	Wed, 26 Jun 2024 11:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC6EA10E846;
+	Wed, 26 Jun 2024 11:09:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mEIvUoql";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dCWAU9Xc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EF5410E840
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 11:06:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53A6610E841
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 11:09:27 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi
  [91.158.144.210])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA1F573E;
- Wed, 26 Jun 2024 13:06:06 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C119CFD6;
+ Wed, 26 Jun 2024 13:09:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1719399968;
- bh=aR64yKmX6ej7/3TEqCa62+SKj8bUSCcKQ5XwFb4GIpI=;
+ s=mail; t=1719400143;
+ bh=hUDZyxr8E0VhpPuOMhpLErVrjQ/SFZ7QlGb6et9BwuE=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=mEIvUoql/xEeswtnnTQde9c30qV5pm5AGbEwtAzSWNjvkKgqMRjPR/Uzgb84Ymn1d
- DUO3uT1KlTvH0WREvVL5oRqv81y2Csm7est5X7bIVxPzAqQQfeSzVemgelO8H/2KC6
- jQp9YyIIiqpVSfl0k5d3sjXz43qUublBAfkCdzFE=
-Message-ID: <f1bb0de3-5cfc-4388-ba81-fde19885a39e@ideasonboard.com>
-Date: Wed, 26 Jun 2024 14:06:27 +0300
+ b=dCWAU9XcLhm5CEipAGWVQfywI9aIHkN4VDyS+xuk8QN27A1MRIkXdMs/79hRMmrq1
+ YImTMqaYC0fsE+onx6aflsejpgde4F/NvKV85ncskJmzpsTWtkzvHrQEQF+7oai9sF
+ B7yqyfeLHq8Dz5chtLp0IfS8Fvs8b9y0VVo8ZRII=
+Message-ID: <73e4d081-f5f4-4e6f-988c-43bbc312632a@ideasonboard.com>
+Date: Wed, 26 Jun 2024 14:09:22 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/11] drm/mipi-dsi: Add helper to find input format
+Subject: Re: [PATCH v4 09/11] drm/bridge: cdns-dsi: Support atomic bridge APIs
 To: Aradhya Bhatia <a-bhatia1@ti.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -52,9 +52,9 @@ Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
  Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
  Jai Luthra <j-luthra@ti.com>
 References: <20240622110929.3115714-1-a-bhatia1@ti.com>
- <20240622110929.3115714-9-a-bhatia1@ti.com>
-Content-Language: en-US
+ <20240622110929.3115714-10-a-bhatia1@ti.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
  wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
@@ -98,7 +98,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240622110929.3115714-9-a-bhatia1@ti.com>
+In-Reply-To: <20240622110929.3115714-10-a-bhatia1@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,85 +117,116 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 22/06/2024 14:09, Aradhya Bhatia wrote:
-> Add a helper API that can be used by the DSI hosts to find the required
-> input bus format for the given output dsi pixel format.
+> Change the existing (and deprecated) bridge hooks, to the bridge
+> atomic APIs.
+> 
+> Add drm helpers for duplicate_state, destroy_state, and bridge_reset
+> bridge hooks.
+> 
+> Further add support for the input format negotiation hook.
 > 
 > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> ---
->   drivers/gpu/drm/drm_mipi_dsi.c | 37 ++++++++++++++++++++++++++++++++++
->   include/drm/drm_mipi_dsi.h     |  1 +
->   2 files changed, 38 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-> index a471c46f5ca6..937aa16dfcf6 100644
-> --- a/drivers/gpu/drm/drm_mipi_dsi.c
-> +++ b/drivers/gpu/drm/drm_mipi_dsi.c
-> @@ -36,6 +36,8 @@
->   #include <drm/drm_mipi_dsi.h>
->   #include <drm/drm_print.h>
->   
-> +#include <linux/media-bus-format.h>
-> +
->   #include <video/mipi_display.h>
->   
->   /**
-> @@ -866,6 +868,41 @@ ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
->   }
->   EXPORT_SYMBOL(mipi_dsi_generic_read);
->   
-> +/**
-> + * drm_mipi_dsi_get_input_bus_fmt() - Get the required MEDIA_BUS_FMT_* based
-> + *				      input pixel format for a given DSI output
-> + *				      pixel format
-> + * @dsi_format: pixel format that a DSI host needs to output
-> + *
-> + * Various DSI hosts can use this function during their
-> + * &drm_bridge_funcs.atomic_get_input_bus_fmts operation to ascertain
-> + * the MEDIA_BUS_FMT_* pixel format required as input.
-> + *
-> + * RETURNS:
-> + * a 32-bit MEDIA_BUS_FMT_* value on success or 0 in case of failure.
-> + */
-> +u32 drm_mipi_dsi_get_input_bus_fmt(enum mipi_dsi_pixel_format dsi_format)
-> +{
-> +	switch (dsi_format) {
-> +	case MIPI_DSI_FMT_RGB888:
-> +		return MEDIA_BUS_FMT_RGB888_1X24;
-> +
-> +	case MIPI_DSI_FMT_RGB666:
-> +		return MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
-> +
-> +	case MIPI_DSI_FMT_RGB666_PACKED:
-> +		return MEDIA_BUS_FMT_RGB666_1X18;
-> +
-> +	case MIPI_DSI_FMT_RGB565:
-> +		return MEDIA_BUS_FMT_RGB565_1X16;
-> +
-> +	default:
-> +		/* Unsupported DSI Format */
-> +		return 0;
-> +	}
-> +}
-> +EXPORT_SYMBOL(drm_mipi_dsi_get_input_bus_fmt);
-> +
->   /**
->    * mipi_dsi_dcs_write_buffer() - transmit a DCS command with payload
->    * @dsi: DSI peripheral device
-> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-> index 71d121aeef24..78a2c7d9eefb 100644
-> --- a/include/drm/drm_mipi_dsi.h
-> +++ b/include/drm/drm_mipi_dsi.h
-> @@ -290,6 +290,7 @@ void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
->   				  const void *payload, size_t size);
->   ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
->   			      size_t num_params, void *data, size_t size);
-> +u32 drm_mipi_dsi_get_input_bus_fmt(enum mipi_dsi_pixel_format dsi_format);
->   
->   #define mipi_dsi_msleep(ctx, delay)	\
->   	do {				\
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
+
+> ---
+>   .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 51 ++++++++++++++++---
+>   1 file changed, 43 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> index cad0c1478ef0..c9697818308e 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> @@ -655,7 +655,8 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge *bridge,
+>   	return MODE_OK;
+>   }
+>   
+> -static void cdns_dsi_bridge_disable(struct drm_bridge *bridge)
+> +static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
+> +					   struct drm_bridge_state *old_bridge_state)
+>   {
+>   	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+>   	struct cdns_dsi *dsi = input_to_dsi(input);
+> @@ -679,7 +680,8 @@ static void cdns_dsi_bridge_disable(struct drm_bridge *bridge)
+>   	pm_runtime_put(dsi->base.dev);
+>   }
+>   
+> -static void cdns_dsi_bridge_post_disable(struct drm_bridge *bridge)
+> +static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
+> +						struct drm_bridge_state *old_bridge_state)
+>   {
+>   	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+>   	struct cdns_dsi *dsi = input_to_dsi(input);
+> @@ -755,7 +757,8 @@ static void cdns_dsi_init_link(struct cdns_dsi *dsi)
+>   	dsi->link_initialized = true;
+>   }
+>   
+> -static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
+> +static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+> +					  struct drm_bridge_state *old_bridge_state)
+>   {
+>   	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+>   	struct cdns_dsi *dsi = input_to_dsi(input);
+> @@ -906,7 +909,8 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
+>   	writel(tmp, dsi->regs + MCTL_MAIN_EN);
+>   }
+>   
+> -static void cdns_dsi_bridge_pre_enable(struct drm_bridge *bridge)
+> +static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+> +					      struct drm_bridge_state *old_bridge_state)
+>   {
+>   	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+>   	struct cdns_dsi *dsi = input_to_dsi(input);
+> @@ -918,13 +922,44 @@ static void cdns_dsi_bridge_pre_enable(struct drm_bridge *bridge)
+>   	cdns_dsi_hs_init(dsi);
+>   }
+>   
+> +static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
+> +					       struct drm_bridge_state *bridge_state,
+> +					       struct drm_crtc_state *crtc_state,
+> +					       struct drm_connector_state *conn_state,
+> +					       u32 output_fmt,
+> +					       unsigned int *num_input_fmts)
+> +{
+> +	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+> +	struct cdns_dsi *dsi = input_to_dsi(input);
+> +	struct cdns_dsi_output *output = &dsi->output;
+> +	u32 *input_fmts;
+> +
+> +	*num_input_fmts = 0;
+> +
+> +	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
+> +	if (!input_fmts)
+> +		return NULL;
+> +
+> +	input_fmts[0] = drm_mipi_dsi_get_input_bus_fmt(output->dev->format);
+> +	if (!input_fmts[0])
+> +		return NULL;
+> +
+> +	*num_input_fmts = 1;
+> +
+> +	return input_fmts;
+> +}
+> +
+>   static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
+>   	.attach = cdns_dsi_bridge_attach,
+>   	.mode_valid = cdns_dsi_bridge_mode_valid,
+> -	.disable = cdns_dsi_bridge_disable,
+> -	.pre_enable = cdns_dsi_bridge_pre_enable,
+> -	.enable = cdns_dsi_bridge_enable,
+> -	.post_disable = cdns_dsi_bridge_post_disable,
+> +	.atomic_disable = cdns_dsi_bridge_atomic_disable,
+> +	.atomic_pre_enable = cdns_dsi_bridge_atomic_pre_enable,
+> +	.atomic_enable = cdns_dsi_bridge_atomic_enable,
+> +	.atomic_post_disable = cdns_dsi_bridge_atomic_post_disable,
+> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> +	.atomic_reset = drm_atomic_helper_bridge_reset,
+> +	.atomic_get_input_bus_fmts = cdns_dsi_bridge_get_input_bus_fmts,
+>   };
+>   
+>   static int cdns_dsi_attach(struct mipi_dsi_host *host,
 
