@@ -2,88 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C5819184ED
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 16:54:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45100918531
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 17:04:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F325A10E900;
-	Wed, 26 Jun 2024 14:54:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C5F410E909;
+	Wed, 26 Jun 2024 15:04:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Y1HVVBad";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bNPnBeeE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBDEE10E8FE
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 14:54:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1719413645;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C/ZNn5yWtbUQ7xxPt2ILvYmVBMyK/NlRkJHOBkDnNyA=;
- b=Y1HVVBad1gV9htBv0YQ8MyrYuo505nvcPViZOyJzn6AMHsdnHoK/wVs5Kb1gv/wWnP0it8
- Tv213B/hBIrIlad9HpNOWslh8DSwcDiWjoI7WgVdv8XCVRyEU4ZMWoH5bndME6uJZF8XNZ
- LDCel5dXfEEuwDRw0a1hIsc4PU3B1DA=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-340-4L0bEZRTP8C5O0-tamQOTA-1; Wed, 26 Jun 2024 10:54:03 -0400
-X-MC-Unique: 4L0bEZRTP8C5O0-tamQOTA-1
-Received: by mail-lj1-f200.google.com with SMTP id
- 38308e7fff4ca-2ec59184e87so32323061fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 07:54:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719413641; x=1720018441;
- h=content-transfer-encoding:in-reply-to:organization:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=C/ZNn5yWtbUQ7xxPt2ILvYmVBMyK/NlRkJHOBkDnNyA=;
- b=hEEYPa87h7ylVsYkgMoW97rTwaTAYTCFvZs3gzvO4+ivGpAiEqe6f2n7YS1id0xonx
- zQwA3LJvpzNdIQDUylEZe+PSls77pO3cBOw4/UmwwTsI5NId+OowRQyiSXOmZjMgNuew
- R0Wr177Tb6fi7oVpY2XsBEuiVtwG5waydJLDHoFpXL41W4chQk2/Z+msVqxESMqO+NCe
- Md0a/A8DsO5HMnPykSrCpojli/xm+a1NAG5FrLHVmC07yVnv/+ayCcm5VriheNkG1sOL
- KQaR7RBrkX/hCc3334J65rXpijoSOLfIlqC2jJ4RI9p+qKHGvFapa0i6Y59t+S/U6lAm
- utNg==
-X-Gm-Message-State: AOJu0YzfOY84LL6cOxs2l9RIPspUaiBa/KIpHeYd0zNC15x2rPl9E0yh
- d010ETRvYNPxEMTBqP87qILWSykogIcjrr+GWMV17O4vb0QZ1nEtumQs1zjsUC2VbsX7RaHIW9j
- z6YBVQwaMGzK4xPEL8dZrP5HF+7TVXbOyjJnfu3ikbDlJ1eCKYaUhOTu3A9ATZ24q9Q==
-X-Received: by 2002:a05:651c:2119:b0:2ec:681b:5b50 with SMTP id
- 38308e7fff4ca-2ec681b5f72mr56159591fa.11.1719413641715; 
- Wed, 26 Jun 2024 07:54:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGwj4p2whlwOd1A2Ym7AthhJqROwdpeA7StJlDLOTOhCEfD6pTFqmDk3RIfx3XbeFg0xm84ow==
-X-Received: by 2002:a05:651c:2119:b0:2ec:681b:5b50 with SMTP id
- 38308e7fff4ca-2ec681b5f72mr56159341fa.11.1719413641324; 
- Wed, 26 Jun 2024 07:54:01 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-424c82519bdsm29460335e9.13.2024.06.26.07.54.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jun 2024 07:54:00 -0700 (PDT)
-Message-ID: <0119ce0b-d0e1-48fb-a2e2-2643472bf434@redhat.com>
-Date: Wed, 26 Jun 2024 16:53:59 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2938610E901
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 15:04:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6449B619B5;
+ Wed, 26 Jun 2024 15:04:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91E50C116B1;
+ Wed, 26 Jun 2024 15:04:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1719414262;
+ bh=F+OX7nwgZv+3Cbs88EmNsVb+Kjr0FQe87JnPvA5YTv4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bNPnBeeEv6UawQvlEeAVrQBlj+WgNi1Vm+KfPuLyREROT7eIhUBOttxsvWJAWVh6i
+ 2bO2kBo3cujXXCudxpRXSpEgpBB9BzaSYjGVZJd+43D/lct8OLQpHLctrfkOtovajx
+ JaNaLkQuV2JUYsy/zz+YQBN+A8RdAeNNYn+/BoW1BdTYpmqQz3rV4En5zTsLqaalhS
+ giLSrqIDKzvwqlpuTHxJrVxtImp5Dia4J3ivJ8T5yaH8xr6U0eKDTrPGnpfQw+TRHg
+ ZbzQ5qUVlNP/+o2ql/newyDpnQ3XkOCo53Be5pU7a0xPJLZuvs7tQftl84mcSVmGE3
+ zd3gwMtF+JUfw==
+Date: Wed, 26 Jun 2024 17:04:19 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Ryan Walklin <ryan@testtoast.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Hironori KIKUCHI <kikuchan98@gmail.com>, Chris Morgan <macroalpha82@gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: display: panel: Rename WL-355608-A8 panel
+Message-ID: <20240626-loyal-squirrel-of-charisma-4e784f@houat>
+References: <20240626112005.248576-1-ryan@testtoast.com>
+ <20240626112005.248576-2-ryan@testtoast.com>
+ <a4d33da3-2a2a-48ce-874d-95a5889f2f1f@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/nouveau: fix null pointer dereference in
- nouveau_connector_get_modes
-To: Ma Ke <make24@iscas.ac.cn>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- lyude@redhat.com, linux-kernel@vger.kernel.org, daniel@ffwll.ch,
- airlied@gmail.com, kherbst@redhat.com,
- Jani Nikula <jani.nikula@linux.intel.com>
-References: <20240626013013.2765395-1-make24@iscas.ac.cn>
- <875xtwdone.fsf@intel.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <875xtwdone.fsf@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="t4mtuqwwn5yvkujw"
+Content-Disposition: inline
+In-Reply-To: <a4d33da3-2a2a-48ce-874d-95a5889f2f1f@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,43 +66,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/26/24 11:44, Jani Nikula wrote:
-> On Wed, 26 Jun 2024, Ma Ke <make24@iscas.ac.cn> wrote:
->> In nouveau_connector_get_modes(), the return value of drm_mode_duplicate()
->> is assigned to mode, which will lead to a possible NULL pointer
->> dereference on failure of drm_mode_duplicate(). Add a check to avoid npd.
->>
 
-Please add a "Fixes" tag (also for your previous commits) and CC stable.
+--t4mtuqwwn5yvkujw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
->> ---
->>   drivers/gpu/drm/nouveau/nouveau_connector.c | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
->> index 856b3ef5edb8..010eed56b14d 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
->> @@ -1001,6 +1001,8 @@ nouveau_connector_get_modes(struct drm_connector *connector)
->>   		struct drm_display_mode *mode;
->>   
->>   		mode = drm_mode_duplicate(dev, nv_connector->native_mode);
->> +		if (!mode)
->> +			return -ENOMEM;
-> 
-> Do not return negative values from .get_modes().
+On Wed, Jun 26, 2024 at 02:25:54PM GMT, Neil Armstrong wrote:
+> On 26/06/2024 13:17, Ryan Walklin wrote:
+> > The WL-355608-A8 is a 3.5" 640x480@60Hz RGB LCD display from an unknown
+> > OEM used in a number of handheld gaming devices made by Anbernic.
+> > Previously committed using the OEM serial without a vendor prefix,
+> > however the preference is to use the integrating device vendor and name
+> > where the OEM is unknown.
+> >=20
+> > Alter the filename and compatible string to reflect the convention.
+> >=20
+> > Fixes: f08aac40639c ("drm: panel: nv3052c: Add WL-355608-A8 panel")
+> > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> > ---
+> >   .../{wl-355608-a8.yaml =3D> anbernic,rg35xx-panel.yaml}     | 8 ++++-=
+---
+> >   1 file changed, 4 insertions(+), 4 deletions(-)
+> >   rename Documentation/devicetree/bindings/display/panel/{wl-355608-a8.=
+yaml =3D> anbernic,rg35xx-panel.yaml} (81%)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/display/panel/wl-355608-=
+a8.yaml b/Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-p=
+anel.yaml
+> > similarity index 81%
+> > rename from Documentation/devicetree/bindings/display/panel/wl-355608-a=
+8.yaml
+> > rename to Documentation/devicetree/bindings/display/panel/anbernic,rg35=
+xx-panel.yaml
+> > index 397c26be9bda5..a7d5ad0f29389 100644
+> > --- a/Documentation/devicetree/bindings/display/panel/wl-355608-a8.yaml
+> > +++ b/Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-p=
+anel.yaml
+> > @@ -1,10 +1,10 @@
+> >   # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >   %YAML 1.2
+> >   ---
+> > -$id: http://devicetree.org/schemas/display/panel/wl-355608-a8.yaml#
+> > +$id: http://devicetree.org/schemas/display/panel/anbernic,rg35xx-panel=
+=2Eyaml#
+> >   $schema: http://devicetree.org/meta-schemas/core.yaml#
+> > -title: WL-355608-A8 3.5" (640x480 pixels) 24-bit IPS LCD panel
+> > +title: Anbernic RG35XX (WL-355608-A8) 3.5" 640x480 24-bit IPS LCD panel
+> >   maintainers:
+> >     - Ryan Walklin <ryan@testtoast.com>
+> > @@ -15,7 +15,7 @@ allOf:
+> >   properties:
+> >     compatible:
+> > -    const: wl-355608-a8
+> > +    const: anbernic,rg35xx-panel
+> >     reg:
+> >       maxItems: 1
+> > @@ -41,7 +41,7 @@ examples:
+> >           #size-cells =3D <0>;
+> >           panel@0 {
+> > -            compatible =3D "wl-355608-a8";
+> > +            compatible =3D "anbernic,rg35xx-panel";
+>=20
+> Can it be more specific ? because there's a lot of rg35xx defined in bind=
+ings:
+>  anbernic,rg351m
+>  anbernic,rg351v
+>  anbernic,rg353p
+>  anbernic,rg353ps
+>  anbernic,rg353v
+>  anbernic,rg353vs
+>  anbernic,rg35xx-2024
+>  anbernic,rg35xx-plus
+>  anbernic,rg35xx-h
 
-+1
+Yeah, if we have an identified model name, we should probably use that,
+with a comment that we couldn't figure out what the vendor was and thus
+went for anbernic.
 
-https://elixir.bootlin.com/linux/latest/source/include/drm/drm_modeset_helper_vtables.h#L899
+Maxime
 
-> 
-> BR,
-> Jani.
-> 
->>   		drm_mode_probed_add(connector, mode);
->>   		ret = 1;
->>   	}
-> 
+--t4mtuqwwn5yvkujw
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZnwt8gAKCRDj7w1vZxhR
+xRDnAQCMx43OxkqwG3/vkdOb81oKGeBhGroIw3cdcOsszTTWEQD+PMzSpXjljuse
+4bnwlOEKGpK3uQFvafaN29bhrcRUoQE=
+=1Wid
+-----END PGP SIGNATURE-----
+
+--t4mtuqwwn5yvkujw--
