@@ -2,54 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898599184B5
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 16:45:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA4E09184BC
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2024 16:45:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44B7010E8E1;
-	Wed, 26 Jun 2024 14:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D25E810E8F6;
+	Wed, 26 Jun 2024 14:45:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="upwn2SCQ";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="2KKjN3V7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JKAtOpjr";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2KKjN3V7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JKAtOpjr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F18510E8ED
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2024 14:45:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 07293CE221C;
- Wed, 26 Jun 2024 14:44:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32D8BC116B1;
- Wed, 26 Jun 2024 14:44:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1719413096;
- bh=CzoOpL5mtlI7yXIbI7438/1gR7GoDL3tWXn3Po6a/Kc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=upwn2SCQ/C3Qg03e6ZzsC4IlS2G6usCC46Wlc+0RpRGmgrQkU+vU5+Blcg5oTtiPk
- vZMPpv4veVpaP9obn/fTPgRu7aYRSrkToaQfIRFB6S0FdWZBWuC7HHsXT14NViWp9G
- 8ACi+ntZJJAr3GaPFJZnbxwalpbjGWgMyRSHjsr5wIHFWkRRMltFoSOlu6KfdvSv4g
- tUffYDnJb6KPGzGeOY0/SU1UksfjmiGpBi91X1BGpoWcWKFtKUTlo8Ppv7uyU+R+I0
- mILjKylxLPmzP0IXN68B1tsMXAqOEqYxuBvnof123lKLc5z/K8sagzqiYezmOJFQnp
- mbp3EO/ny4jzQ==
-From: Michael Walle <mwalle@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Michael Walle <mwalle@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Gunnar Dibbern <gunnar.dibbern@lht.dlh.de>
-Subject: [PATCH v2 2/2] drm/panel: add Ilitek ILI9806E panel driver
-Date: Wed, 26 Jun 2024 16:44:33 +0200
-Message-Id: <20240626144433.3097793-3-mwalle@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240626144433.3097793-1-mwalle@kernel.org>
-References: <20240626144433.3097793-1-mwalle@kernel.org>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA6E910E8F6;
+ Wed, 26 Jun 2024 14:45:44 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 187701FB57;
+ Wed, 26 Jun 2024 14:45:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1719413143; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OcWujkPoCob+1bpQdKUYlH6gppmc+0nz4OvCsAtTE6U=;
+ b=2KKjN3V7XGbzFvynQcWjeSxJfAUACJ7gMc9Q/LpttIgYfxGSP9qFhm2Od79Aafh9GSjt+/
+ Ic+blWT3zEC4eAYIQ+VDsKpVpiv/VYo/bXREAjma3vPYJ8j2FACBLiXkcV27mtpsqHJgWy
+ 28voG1tFSdMoUxD4f/0ySiLVH550e24=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1719413143;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OcWujkPoCob+1bpQdKUYlH6gppmc+0nz4OvCsAtTE6U=;
+ b=JKAtOpjrrs9MpzH6PvL+mgRYa3OvNtfJOZZIhaXeBqf28JSy3Z0P6mh4xIc5JTZTYrN97d
+ pwnRFEqfnkJ7EuDQ==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2KKjN3V7;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=JKAtOpjr
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1719413143; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OcWujkPoCob+1bpQdKUYlH6gppmc+0nz4OvCsAtTE6U=;
+ b=2KKjN3V7XGbzFvynQcWjeSxJfAUACJ7gMc9Q/LpttIgYfxGSP9qFhm2Od79Aafh9GSjt+/
+ Ic+blWT3zEC4eAYIQ+VDsKpVpiv/VYo/bXREAjma3vPYJ8j2FACBLiXkcV27mtpsqHJgWy
+ 28voG1tFSdMoUxD4f/0ySiLVH550e24=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1719413143;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OcWujkPoCob+1bpQdKUYlH6gppmc+0nz4OvCsAtTE6U=;
+ b=JKAtOpjrrs9MpzH6PvL+mgRYa3OvNtfJOZZIhaXeBqf28JSy3Z0P6mh4xIc5JTZTYrN97d
+ pwnRFEqfnkJ7EuDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C3152139C2;
+ Wed, 26 Jun 2024 14:45:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id pPtALpYpfGb3WgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 26 Jun 2024 14:45:42 +0000
+Message-ID: <c549235c-2542-454f-b0ae-1ce6ea884f5c@suse.de>
+Date: Wed, 26 Jun 2024 16:45:42 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/7] drm/radeon: rdev->ddev to rdev_to_drm(rdev) 1
+To: Wu Hoi Pok <wuhoipok@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240624151122.23724-1-wuhoipok@gmail.com>
+ <20240624151122.23724-3-wuhoipok@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240624151122.23724-3-wuhoipok@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 187701FB57
+X-Spam-Score: -4.50
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ FREEMAIL_TO(0.00)[gmail.com]; TO_DN_SOME(0.00)[];
+ MIME_TRACE(0.00)[0:+]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+ RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[9]; DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.de:dkim]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,476 +154,313 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Ortustech COM35H3P70ULC panel is based on the ILI9806E DSI display
-controller.
+Hi
 
-Co-developed-by: Gunnar Dibbern <gunnar.dibbern@lht.dlh.de>
-Signed-off-by: Gunnar Dibbern <gunnar.dibbern@lht.dlh.de>
-Signed-off-by: Michael Walle <mwalle@kernel.org>
----
- MAINTAINERS                                   |   5 +
- drivers/gpu/drm/panel/Kconfig                 |   9 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-ilitek-ili9806e.c | 402 ++++++++++++++++++
- 4 files changed, 417 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9806e.c
+please squash patches 2 to 7 into a single patch that goes first.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e2d8fdda1737..61352f26f2d9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7003,6 +7003,11 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/display/panel/ilitek,ili9805.yaml
- F:	drivers/gpu/drm/panel/panel-ilitek-ili9805.c
- 
-+DRM DRIVER FOR ILITEK ILI9806E PANELS
-+M:	Michael Walle <mwalle@kernel.org>
-+S:	Maintained
-+F:	drivers/gpu/drm/panel/panel-ilitek-ili9806e.c
-+
- DRM DRIVER FOR JADARD JD9365DA-H3 MIPI-DSI LCD PANELS
- M:	Jagan Teki <jagan@edgeble.ai>
- S:	Maintained
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index bf4eadfe21cb..904a928bc60e 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -205,6 +205,15 @@ config DRM_PANEL_ILITEK_ILI9805
- 	  Say Y if you want to enable support for panels based on the
- 	  Ilitek ILI9805 controller.
- 
-+config DRM_PANEL_ILITEK_ILI9806E
-+	tristate "Ilitek ILI9806E-based panels"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y if you want to enable support for panels based on the
-+	  Ilitek ILI9806E controller.
-+
- config DRM_PANEL_ILITEK_ILI9881C
- 	tristate "Ilitek ILI9881C-based panels"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index 051b75b3df7b..12ce91416849 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -21,6 +21,7 @@ obj-$(CONFIG_DRM_PANEL_HIMAX_HX8394) += panel-himax-hx8394.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_IL9322) += panel-ilitek-ili9322.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9341) += panel-ilitek-ili9341.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9805) += panel-ilitek-ili9805.o
-+obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9806E) += panel-ilitek-ili9806e.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9881C) += panel-ilitek-ili9881c.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9882T) += panel-ilitek-ili9882t.o
- obj-$(CONFIG_DRM_PANEL_INNOLUX_EJ030NA) += panel-innolux-ej030na.o
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9806e.c b/drivers/gpu/drm/panel/panel-ilitek-ili9806e.c
-new file mode 100644
-index 000000000000..e4a44cd26c4d
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9806e.c
-@@ -0,0 +1,402 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/err.h>
-+#include <linux/errno.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/kernel.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/property.h>
-+#include <linux/regulator/consumer.h>
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_probe_helper.h>
-+
-+#include <video/mipi_display.h>
-+
-+struct panel_desc {
-+	const struct drm_display_mode *display_mode;
-+	unsigned long mode_flags;
-+	enum mipi_dsi_pixel_format format;
-+	unsigned int lanes;
-+	void (*init_sequence)(struct mipi_dsi_multi_context *ctx);
-+};
-+
-+struct ili9806e_panel {
-+	struct drm_panel panel;
-+	struct mipi_dsi_device *dsi;
-+	struct gpio_desc *reset_gpio;
-+	struct regulator_bulk_data supplies[2];
-+	const struct panel_desc *desc;
-+	enum drm_panel_orientation orientation;
-+};
-+
-+static const char * const regulator_names[] = {
-+	"vdd",
-+	"vccio",
-+};
-+
-+static inline struct ili9806e_panel *to_ili9806e_panel(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct ili9806e_panel, panel);
-+}
-+
-+static int ili9806e_power_on(struct ili9806e_panel *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	int ret;
-+
-+	gpiod_set_value(ctx->reset_gpio, 1);
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+	if (ret < 0) {
-+		dev_err(&dsi->dev, "regulator bulk enable failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	usleep_range(10000, 20000);
-+	gpiod_set_value(ctx->reset_gpio, 0);
-+	usleep_range(10000, 20000);
-+
-+	return 0;
-+}
-+
-+static int ili9806e_power_off(struct ili9806e_panel *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	int ret;
-+
-+	gpiod_set_value(ctx->reset_gpio, 1);
-+
-+	ret = regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+	if (ret)
-+		dev_err(&dsi->dev, "regulator bulk disable failed: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static int ili9806e_on(struct ili9806e_panel *ili9806e)
-+{
-+	struct mipi_dsi_multi_context ctx = { .dsi = ili9806e->dsi };
-+
-+	if (ili9806e->desc->init_sequence)
-+		ili9806e->desc->init_sequence(&ctx);
-+
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&ctx);
-+	mipi_dsi_msleep(&ctx, 120);
-+	mipi_dsi_dcs_set_display_on_multi(&ctx);
-+
-+	return ctx.accum_err;
-+}
-+
-+static int ili9806e_off(struct ili9806e_panel *panel)
-+{
-+	struct mipi_dsi_multi_context ctx = { .dsi = panel->dsi };
-+
-+	mipi_dsi_dcs_set_display_off_multi(&ctx);
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&ctx);
-+	mipi_dsi_msleep(&ctx, 120);
-+
-+	return ctx.accum_err;
-+}
-+
-+static int ili9806e_prepare(struct drm_panel *panel)
-+{
-+	struct ili9806e_panel *ctx = to_ili9806e_panel(panel);
-+	int ret;
-+
-+	ret = ili9806e_power_on(ctx);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = ili9806e_on(ctx);
-+	if (ret < 0) {
-+		ili9806e_power_off(ctx);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ili9806e_unprepare(struct drm_panel *panel)
-+{
-+	struct ili9806e_panel *ctx = to_ili9806e_panel(panel);
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	int ret;
-+
-+	ili9806e_off(ctx);
-+
-+	ret = ili9806e_power_off(ctx);
-+	if (ret < 0)
-+		dev_err(&dsi->dev, "power off failed: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static int ili9806e_get_modes(struct drm_panel *panel,
-+			      struct drm_connector *connector)
-+{
-+	struct ili9806e_panel *ctx = to_ili9806e_panel(panel);
-+	const struct drm_display_mode *mode = ctx->desc->display_mode;
-+
-+	return drm_connector_helper_get_modes_fixed(connector, mode);
-+}
-+
-+static enum drm_panel_orientation ili9806e_get_orientation(struct drm_panel *panel)
-+{
-+	struct ili9806e_panel *ctx = to_ili9806e_panel(panel);
-+
-+	return ctx->orientation;
-+}
-+
-+static const struct drm_panel_funcs ili9806e_funcs = {
-+	.prepare = ili9806e_prepare,
-+	.unprepare = ili9806e_unprepare,
-+	.get_modes = ili9806e_get_modes,
-+	.get_orientation = ili9806e_get_orientation,
-+};
-+
-+static int ili9806e_dsi_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	struct ili9806e_panel *ctx;
-+	int i, ret;
-+
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ctx->desc = device_get_match_data(dev);
-+
-+	for (i = 0; i < ARRAY_SIZE(ctx->supplies); i++)
-+		ctx->supplies[i].supply = regulator_names[i];
-+
-+	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
-+				      ctx->supplies);
-+	if (ret < 0)
-+		return ret;
-+
-+	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(ctx->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-+				     "Failed to get reset-gpios\n");
-+
-+	mipi_dsi_set_drvdata(dsi, ctx);
-+	ctx->dsi = dsi;
-+
-+	dsi->mode_flags = ctx->desc->mode_flags;
-+	dsi->format = ctx->desc->format;
-+	dsi->lanes = ctx->desc->lanes;
-+
-+	drm_panel_init(&ctx->panel, dev, &ili9806e_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+
-+	ret = of_drm_get_panel_orientation(dev->of_node, &ctx->orientation);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to get orientation\n");
-+
-+	ret = drm_panel_of_backlight(&ctx->panel);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to get backlight\n");
-+
-+	ctx->panel.prepare_prev_first = true;
-+	drm_panel_add(&ctx->panel);
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
-+		drm_panel_remove(&ctx->panel);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void ili9806e_dsi_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct ili9806e_panel *ctx = mipi_dsi_get_drvdata(dsi);
-+
-+	mipi_dsi_detach(dsi);
-+	drm_panel_remove(&ctx->panel);
-+}
-+
-+static void com35h3p70ulc_init(struct mipi_dsi_multi_context *ctx)
-+{
-+	/* Switch to page 1 */
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0xff, 0x98, 0x06, 0x04, 0x01);
-+	/* Interface Settings */
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x08, 0x18);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x21, 0x01);
-+	/* Panel Settings */
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x30, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x31, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x60, 0x0d);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x61, 0x08);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x62, 0x08);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x63, 0x09);
-+	/* Power Control */
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x40, 0x30);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x41, 0x44);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x42, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x43, 0x89);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x44, 0x8e);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x45, 0xd9);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x46, 0x33);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x47, 0x33);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x50, 0x90);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x51, 0x90);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x56, 0x00);
-+	/* Gamma Settings */
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xa0, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xa1, 0x0c);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xa2, 0x13);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xa3, 0x0f);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xa4, 0x0a);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xa5, 0x0d);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xa6, 0x0c);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xa7, 0x0b);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xa8, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xa9, 0x06);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xaa, 0x15);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xab, 0x07);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xac, 0x12);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xad, 0x28);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xae, 0x20);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xaf, 0x14);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xc0, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xc1, 0x0c);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xc2, 0x13);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xc3, 0x0f);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xc4, 0x09);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xc5, 0x0d);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xc6, 0x0c);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xc7, 0x0b);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xc8, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xc9, 0x06);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xca, 0x14);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xcb, 0x07);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xcc, 0x0f);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xcd, 0x21);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xce, 0x17);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xcf, 0x0a);
-+
-+	/* Switch to page 7 */
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0xff, 0x98, 0x06, 0x04, 0x07);
-+	/* Power Control */
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x06, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x18, 0x1d);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x17, 0x32);
-+
-+	/* Switch to page 6 */
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0xff, 0x98, 0x06, 0x04, 0x06);
-+	/* GIP settings */
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x00, 0x20);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x01, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x02, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x03, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x04, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x05, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x06, 0x88);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x07, 0x04);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x08, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x09, 0x80);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x0a, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x0b, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x0c, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x0d, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x0e, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x0f, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x10, 0x55);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x11, 0x50);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x12, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x13, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x14, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x15, 0x43);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x16, 0x0b);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x17, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x18, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x19, 0x10);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x1a, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x1b, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x1c, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x1d, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x20, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x21, 0x23);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x22, 0x45);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x23, 0x67);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x24, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x25, 0x23);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x26, 0x45);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x27, 0x67);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x30, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x31, 0x22);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x32, 0x22);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x33, 0x88);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x34, 0xaa);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x35, 0xbb);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x36, 0x66);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x37, 0x22);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x38, 0x22);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x39, 0x22);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x3a, 0x22);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x3b, 0x22);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x3c, 0x22);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x3d, 0x22);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x3e, 0x22);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x3f, 0x22);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x40, 0x22);
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x53, 0x12);
-+
-+	/* Switch to page 0 */
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0xff, 0xff, 0x98, 0x06, 0x04, 0x00);
-+	/* Interface Pixel format */
-+	mipi_dsi_dcs_write_seq_multi(ctx, 0x3a, 0x60);
-+};
-+
-+static const struct drm_display_mode com35h3p70ulc_default_mode = {
-+	.clock = 22400,
-+	.hdisplay = 480,
-+	.hsync_start = 480 + 16,
-+	.hsync_end = 480 + 16 + 16,
-+	.htotal = 480 + 16 + 16 + 16,
-+	.vdisplay = 640,
-+	.vsync_start = 640 + 52,
-+	.vsync_end = 640 + 52 + 4,
-+	.vtotal = 640 + 52 + 4 + 16,
-+	.width_mm = 53,
-+	.height_mm = 71,
-+};
-+
-+static const struct panel_desc com35h3p70ulc_desc = {
-+	.init_sequence = com35h3p70ulc_init,
-+	.display_mode = &com35h3p70ulc_default_mode,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+		      MIPI_DSI_MODE_LPM,
-+	.format = MIPI_DSI_FMT_RGB888,
-+	.lanes = 2,
-+};
-+
-+static const struct of_device_id ili9806e_of_match[] = {
-+	{ .compatible = "ortustech,com35h3p70ulc", .data = &com35h3p70ulc_desc },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ili9806e_of_match);
-+
-+static struct mipi_dsi_driver ili9806e_dsi_driver = {
-+	.driver = {
-+		.name = "ili9806e-dsi",
-+		.of_match_table = ili9806e_of_match,
-+	},
-+	.probe = ili9806e_dsi_probe,
-+	.remove = ili9806e_dsi_remove,
-+};
-+module_mipi_dsi_driver(ili9806e_dsi_driver);
-+
-+MODULE_AUTHOR("Gunnar Dibbern <gunnar.dibbern@lht.dlh.de>");
-+MODULE_AUTHOR("Michael Walle <mwalle@kernel.org>");
-+MODULE_DESCRIPTION("Ilitek ILI9806E Controller Driver");
-+MODULE_LICENSE("GPL");
+Am 24.06.24 um 17:10 schrieb Wu Hoi Pok:
+> Please refer to patch 1.
+
+That's not a commit message. Once a patchset landed, no one will know 
+what patch 1 was.
+
+Best regards
+Thomas
+
+>
+> Signed-off-by: Wu Hoi Pok <wuhoipok@gmail.com>
+> ---
+>   drivers/gpu/drm/radeon/atombios_encoders.c |  2 +-
+>   drivers/gpu/drm/radeon/cik.c               | 14 ++++++-------
+>   drivers/gpu/drm/radeon/dce6_afmt.c         |  2 +-
+>   drivers/gpu/drm/radeon/evergreen.c         | 12 +++++------
+>   drivers/gpu/drm/radeon/ni.c                |  2 +-
+>   drivers/gpu/drm/radeon/r100.c              | 24 +++++++++++-----------
+>   6 files changed, 28 insertions(+), 28 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/atombios_encoders.c b/drivers/gpu/drm/radeon/atombios_encoders.c
+> index 03e6871b3065..c82e0fbc49b4 100644
+> --- a/drivers/gpu/drm/radeon/atombios_encoders.c
+> +++ b/drivers/gpu/drm/radeon/atombios_encoders.c
+> @@ -2179,7 +2179,7 @@ int radeon_atom_pick_dig_encoder(struct drm_encoder *encoder, int fe_idx)
+>   void
+>   radeon_atom_encoder_init(struct radeon_device *rdev)
+>   {
+> -	struct drm_device *dev = rdev->ddev;
+> +	struct drm_device *dev = rdev_to_drm(rdev);
+>   	struct drm_encoder *encoder;
+>   
+>   	list_for_each_entry(encoder, &dev->mode_config.encoder_list, head) {
+> diff --git a/drivers/gpu/drm/radeon/cik.c b/drivers/gpu/drm/radeon/cik.c
+> index b5e96a8fc2c1..11a492f21157 100644
+> --- a/drivers/gpu/drm/radeon/cik.c
+> +++ b/drivers/gpu/drm/radeon/cik.c
+> @@ -7585,7 +7585,7 @@ int cik_irq_process(struct radeon_device *rdev)
+>   					DRM_DEBUG("IH: IH event w/o asserted irq bit?\n");
+>   
+>   				if (rdev->irq.crtc_vblank_int[0]) {
+> -					drm_handle_vblank(rdev->ddev, 0);
+> +					drm_handle_vblank(rdev_to_drm(rdev), 0);
+>   					rdev->pm.vblank_sync = true;
+>   					wake_up(&rdev->irq.vblank_queue);
+>   				}
+> @@ -7615,7 +7615,7 @@ int cik_irq_process(struct radeon_device *rdev)
+>   					DRM_DEBUG("IH: IH event w/o asserted irq bit?\n");
+>   
+>   				if (rdev->irq.crtc_vblank_int[1]) {
+> -					drm_handle_vblank(rdev->ddev, 1);
+> +					drm_handle_vblank(rdev_to_drm(rdev), 1);
+>   					rdev->pm.vblank_sync = true;
+>   					wake_up(&rdev->irq.vblank_queue);
+>   				}
+> @@ -7645,7 +7645,7 @@ int cik_irq_process(struct radeon_device *rdev)
+>   					DRM_DEBUG("IH: IH event w/o asserted irq bit?\n");
+>   
+>   				if (rdev->irq.crtc_vblank_int[2]) {
+> -					drm_handle_vblank(rdev->ddev, 2);
+> +					drm_handle_vblank(rdev_to_drm(rdev), 2);
+>   					rdev->pm.vblank_sync = true;
+>   					wake_up(&rdev->irq.vblank_queue);
+>   				}
+> @@ -7675,7 +7675,7 @@ int cik_irq_process(struct radeon_device *rdev)
+>   					DRM_DEBUG("IH: IH event w/o asserted irq bit?\n");
+>   
+>   				if (rdev->irq.crtc_vblank_int[3]) {
+> -					drm_handle_vblank(rdev->ddev, 3);
+> +					drm_handle_vblank(rdev_to_drm(rdev), 3);
+>   					rdev->pm.vblank_sync = true;
+>   					wake_up(&rdev->irq.vblank_queue);
+>   				}
+> @@ -7705,7 +7705,7 @@ int cik_irq_process(struct radeon_device *rdev)
+>   					DRM_DEBUG("IH: IH event w/o asserted irq bit?\n");
+>   
+>   				if (rdev->irq.crtc_vblank_int[4]) {
+> -					drm_handle_vblank(rdev->ddev, 4);
+> +					drm_handle_vblank(rdev_to_drm(rdev), 4);
+>   					rdev->pm.vblank_sync = true;
+>   					wake_up(&rdev->irq.vblank_queue);
+>   				}
+> @@ -7735,7 +7735,7 @@ int cik_irq_process(struct radeon_device *rdev)
+>   					DRM_DEBUG("IH: IH event w/o asserted irq bit?\n");
+>   
+>   				if (rdev->irq.crtc_vblank_int[5]) {
+> -					drm_handle_vblank(rdev->ddev, 5);
+> +					drm_handle_vblank(rdev_to_drm(rdev), 5);
+>   					rdev->pm.vblank_sync = true;
+>   					wake_up(&rdev->irq.vblank_queue);
+>   				}
+> @@ -8581,7 +8581,7 @@ int cik_init(struct radeon_device *rdev)
+>   	/* Initialize surface registers */
+>   	radeon_surface_init(rdev);
+>   	/* Initialize clocks */
+> -	radeon_get_clock_info(rdev->ddev);
+> +	radeon_get_clock_info(rdev_to_drm(rdev));
+>   
+>   	/* Fence driver */
+>   	radeon_fence_driver_init(rdev);
+> diff --git a/drivers/gpu/drm/radeon/dce6_afmt.c b/drivers/gpu/drm/radeon/dce6_afmt.c
+> index 4c06f47453fd..d6ab93ed9ec4 100644
+> --- a/drivers/gpu/drm/radeon/dce6_afmt.c
+> +++ b/drivers/gpu/drm/radeon/dce6_afmt.c
+> @@ -91,7 +91,7 @@ struct r600_audio_pin *dce6_audio_get_pin(struct radeon_device *rdev)
+>   			pin = &rdev->audio.pin[i];
+>   			pin_count = 0;
+>   
+> -			list_for_each_entry(encoder, &rdev->ddev->mode_config.encoder_list, head) {
+> +			list_for_each_entry(encoder, &rdev_to_drm(rdev)->mode_config.encoder_list, head) {
+>   				if (radeon_encoder_is_digital(encoder)) {
+>   					radeon_encoder = to_radeon_encoder(encoder);
+>   					dig = radeon_encoder->enc_priv;
+> diff --git a/drivers/gpu/drm/radeon/evergreen.c b/drivers/gpu/drm/radeon/evergreen.c
+> index c634dc28e6c3..bc4ab71613a5 100644
+> --- a/drivers/gpu/drm/radeon/evergreen.c
+> +++ b/drivers/gpu/drm/radeon/evergreen.c
+> @@ -1673,7 +1673,7 @@ void evergreen_pm_misc(struct radeon_device *rdev)
+>    */
+>   void evergreen_pm_prepare(struct radeon_device *rdev)
+>   {
+> -	struct drm_device *ddev = rdev->ddev;
+> +	struct drm_device *ddev = rdev_to_drm(rdev);
+>   	struct drm_crtc *crtc;
+>   	struct radeon_crtc *radeon_crtc;
+>   	u32 tmp;
+> @@ -1698,7 +1698,7 @@ void evergreen_pm_prepare(struct radeon_device *rdev)
+>    */
+>   void evergreen_pm_finish(struct radeon_device *rdev)
+>   {
+> -	struct drm_device *ddev = rdev->ddev;
+> +	struct drm_device *ddev = rdev_to_drm(rdev);
+>   	struct drm_crtc *crtc;
+>   	struct radeon_crtc *radeon_crtc;
+>   	u32 tmp;
+> @@ -1763,7 +1763,7 @@ void evergreen_hpd_set_polarity(struct radeon_device *rdev,
+>    */
+>   void evergreen_hpd_init(struct radeon_device *rdev)
+>   {
+> -	struct drm_device *dev = rdev->ddev;
+> +	struct drm_device *dev = rdev_to_drm(rdev);
+>   	struct drm_connector *connector;
+>   	unsigned enabled = 0;
+>   	u32 tmp = DC_HPDx_CONNECTION_TIMER(0x9c4) |
+> @@ -1804,7 +1804,7 @@ void evergreen_hpd_init(struct radeon_device *rdev)
+>    */
+>   void evergreen_hpd_fini(struct radeon_device *rdev)
+>   {
+> -	struct drm_device *dev = rdev->ddev;
+> +	struct drm_device *dev = rdev_to_drm(rdev);
+>   	struct drm_connector *connector;
+>   	unsigned disabled = 0;
+>   
+> @@ -4753,7 +4753,7 @@ int evergreen_irq_process(struct radeon_device *rdev)
+>   				event_name = "vblank";
+>   
+>   				if (rdev->irq.crtc_vblank_int[crtc_idx]) {
+> -					drm_handle_vblank(rdev->ddev, crtc_idx);
+> +					drm_handle_vblank(rdev_to_drm(rdev), crtc_idx);
+>   					rdev->pm.vblank_sync = true;
+>   					wake_up(&rdev->irq.vblank_queue);
+>   				}
+> @@ -5211,7 +5211,7 @@ int evergreen_init(struct radeon_device *rdev)
+>   	/* Initialize surface registers */
+>   	radeon_surface_init(rdev);
+>   	/* Initialize clocks */
+> -	radeon_get_clock_info(rdev->ddev);
+> +	radeon_get_clock_info(rdev_to_drm(rdev));
+>   	/* Fence driver */
+>   	radeon_fence_driver_init(rdev);
+>   	/* initialize AGP */
+> diff --git a/drivers/gpu/drm/radeon/ni.c b/drivers/gpu/drm/radeon/ni.c
+> index 77aee99e473a..3890911fe693 100644
+> --- a/drivers/gpu/drm/radeon/ni.c
+> +++ b/drivers/gpu/drm/radeon/ni.c
+> @@ -2360,7 +2360,7 @@ int cayman_init(struct radeon_device *rdev)
+>   	/* Initialize surface registers */
+>   	radeon_surface_init(rdev);
+>   	/* Initialize clocks */
+> -	radeon_get_clock_info(rdev->ddev);
+> +	radeon_get_clock_info(rdev_to_drm(rdev));
+>   	/* Fence driver */
+>   	radeon_fence_driver_init(rdev);
+>   	/* initialize memory controller */
+> diff --git a/drivers/gpu/drm/radeon/r100.c b/drivers/gpu/drm/radeon/r100.c
+> index 0b1e19345f43..d7d7d23bf9a1 100644
+> --- a/drivers/gpu/drm/radeon/r100.c
+> +++ b/drivers/gpu/drm/radeon/r100.c
+> @@ -459,7 +459,7 @@ void r100_pm_misc(struct radeon_device *rdev)
+>    */
+>   void r100_pm_prepare(struct radeon_device *rdev)
+>   {
+> -	struct drm_device *ddev = rdev->ddev;
+> +	struct drm_device *ddev = rdev_to_drm(rdev);
+>   	struct drm_crtc *crtc;
+>   	struct radeon_crtc *radeon_crtc;
+>   	u32 tmp;
+> @@ -490,7 +490,7 @@ void r100_pm_prepare(struct radeon_device *rdev)
+>    */
+>   void r100_pm_finish(struct radeon_device *rdev)
+>   {
+> -	struct drm_device *ddev = rdev->ddev;
+> +	struct drm_device *ddev = rdev_to_drm(rdev);
+>   	struct drm_crtc *crtc;
+>   	struct radeon_crtc *radeon_crtc;
+>   	u32 tmp;
+> @@ -603,7 +603,7 @@ void r100_hpd_set_polarity(struct radeon_device *rdev,
+>    */
+>   void r100_hpd_init(struct radeon_device *rdev)
+>   {
+> -	struct drm_device *dev = rdev->ddev;
+> +	struct drm_device *dev = rdev_to_drm(rdev);
+>   	struct drm_connector *connector;
+>   	unsigned enable = 0;
+>   
+> @@ -626,7 +626,7 @@ void r100_hpd_init(struct radeon_device *rdev)
+>    */
+>   void r100_hpd_fini(struct radeon_device *rdev)
+>   {
+> -	struct drm_device *dev = rdev->ddev;
+> +	struct drm_device *dev = rdev_to_drm(rdev);
+>   	struct drm_connector *connector;
+>   	unsigned disable = 0;
+>   
+> @@ -798,7 +798,7 @@ int r100_irq_process(struct radeon_device *rdev)
+>   		/* Vertical blank interrupts */
+>   		if (status & RADEON_CRTC_VBLANK_STAT) {
+>   			if (rdev->irq.crtc_vblank_int[0]) {
+> -				drm_handle_vblank(rdev->ddev, 0);
+> +				drm_handle_vblank(rdev_to_drm(rdev), 0);
+>   				rdev->pm.vblank_sync = true;
+>   				wake_up(&rdev->irq.vblank_queue);
+>   			}
+> @@ -807,7 +807,7 @@ int r100_irq_process(struct radeon_device *rdev)
+>   		}
+>   		if (status & RADEON_CRTC2_VBLANK_STAT) {
+>   			if (rdev->irq.crtc_vblank_int[1]) {
+> -				drm_handle_vblank(rdev->ddev, 1);
+> +				drm_handle_vblank(rdev_to_drm(rdev), 1);
+>   				rdev->pm.vblank_sync = true;
+>   				wake_up(&rdev->irq.vblank_queue);
+>   			}
+> @@ -1471,7 +1471,7 @@ int r100_cs_packet_parse_vline(struct radeon_cs_parser *p)
+>   	header = radeon_get_ib_value(p, h_idx);
+>   	crtc_id = radeon_get_ib_value(p, h_idx + 5);
+>   	reg = R100_CP_PACKET0_GET_REG(header);
+> -	crtc = drm_crtc_find(p->rdev->ddev, p->filp, crtc_id);
+> +	crtc = drm_crtc_find(rdev_to_drm(p->rdev), p->filp, crtc_id);
+>   	if (!crtc) {
+>   		DRM_ERROR("cannot find crtc %d\n", crtc_id);
+>   		return -ENOENT;
+> @@ -3059,7 +3059,7 @@ DEFINE_SHOW_ATTRIBUTE(r100_debugfs_mc_info);
+>   void  r100_debugfs_rbbm_init(struct radeon_device *rdev)
+>   {
+>   #if defined(CONFIG_DEBUG_FS)
+> -	struct dentry *root = rdev->ddev->primary->debugfs_root;
+> +	struct dentry *root = rdev_to_drm(rdev)->primary->debugfs_root;
+>   
+>   	debugfs_create_file("r100_rbbm_info", 0444, root, rdev,
+>   			    &r100_debugfs_rbbm_info_fops);
+> @@ -3069,7 +3069,7 @@ void  r100_debugfs_rbbm_init(struct radeon_device *rdev)
+>   void r100_debugfs_cp_init(struct radeon_device *rdev)
+>   {
+>   #if defined(CONFIG_DEBUG_FS)
+> -	struct dentry *root = rdev->ddev->primary->debugfs_root;
+> +	struct dentry *root = rdev_to_drm(rdev)->primary->debugfs_root;
+>   
+>   	debugfs_create_file("r100_cp_ring_info", 0444, root, rdev,
+>   			    &r100_debugfs_cp_ring_info_fops);
+> @@ -3081,7 +3081,7 @@ void r100_debugfs_cp_init(struct radeon_device *rdev)
+>   void  r100_debugfs_mc_info_init(struct radeon_device *rdev)
+>   {
+>   #if defined(CONFIG_DEBUG_FS)
+> -	struct dentry *root = rdev->ddev->primary->debugfs_root;
+> +	struct dentry *root = rdev_to_drm(rdev)->primary->debugfs_root;
+>   
+>   	debugfs_create_file("r100_mc_info", 0444, root, rdev,
+>   			    &r100_debugfs_mc_info_fops);
+> @@ -3947,7 +3947,7 @@ int r100_resume(struct radeon_device *rdev)
+>   			RREG32(R_0007C0_CP_STAT));
+>   	}
+>   	/* post */
+> -	radeon_combios_asic_init(rdev->ddev);
+> +	radeon_combios_asic_init(rdev_to_drm(rdev));
+>   	/* Resume clock after posting */
+>   	r100_clock_startup(rdev);
+>   	/* Initialize surface registers */
+> @@ -4056,7 +4056,7 @@ int r100_init(struct radeon_device *rdev)
+>   	/* Set asic errata */
+>   	r100_errata(rdev);
+>   	/* Initialize clocks */
+> -	radeon_get_clock_info(rdev->ddev);
+> +	radeon_get_clock_info(rdev_to_drm(rdev));
+>   	/* initialize AGP */
+>   	if (rdev->flags & RADEON_IS_AGP) {
+>   		r = radeon_agp_init(rdev);
+
 -- 
-2.39.2
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
